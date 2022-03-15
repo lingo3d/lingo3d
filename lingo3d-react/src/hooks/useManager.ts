@@ -12,6 +12,8 @@ export const ParentContext = React.createContext<ObjectManager | undefined>(unde
 
 const handleStore = new WeakMap<SimpleObjectManager, Map<string, Cancellable>>()
 
+const makeHandleMap = () => new Map<string, Cancellable>()
+
 export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, ManagerClass: any) => {
     const { children, ...props } = p
 
@@ -26,7 +28,7 @@ export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, M
 
     const changed = useDiffProps(props)
     for (const [key, value] of changed) {
-        const handleMap = forceGet(handleStore, manager, () => new Map<string, Cancellable>())
+        const handleMap = forceGet(handleStore, manager, makeHandleMap)
         handleMap.get(key)?.cancel()
 
         if (isGlobalState<number>(value)) {

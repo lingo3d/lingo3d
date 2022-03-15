@@ -4,6 +4,8 @@ import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
 import { SetupNode } from "lingo3d/lib/display/utils/deserialize/types"
 import Setup from "./logical/Setup"
+import { useMemoOnce } from "@lincode/hooks"
+import scene from "lingo3d/lib/engine/scene"
 
 preventTreeShake(index)
 outline.style.display = "none"
@@ -16,6 +18,11 @@ type WorldProps = Partial<SetupNode> & {
 
 const World: React.FC<WorldProps> = ({ style, className, position, children, ...rest }) => {
     const divRef = useRef<HTMLDivElement>(null)
+
+    useMemoOnce(() => {
+        for (const child of [...scene.children])
+            child.userData.manager && scene.remove(child)
+    })
 
     useLayoutEffect(() => {
         const el = divRef.current

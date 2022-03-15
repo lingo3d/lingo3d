@@ -1,6 +1,7 @@
 import { TextureLoader, Texture, RepeatWrapping } from "three"
 import { forceGet } from "@lincode/utils"
 import { increaseLoadingCount, decreaseLoadingCount } from "../../../states/useLoadingCount"
+import { handleProgress } from "./bytesLoaded"
 
 const cache = new Map<string, Promise<Texture>>()
 const loader = new TextureLoader()
@@ -14,7 +15,7 @@ export default (url: string) => forceGet(cache, url, () => {
                 decreaseLoadingCount()
                 resolve(texture)
             },
-            undefined,
+            handleProgress,
             () => decreaseLoadingCount()
         )
     })

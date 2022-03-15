@@ -3,6 +3,7 @@ import { Group, LinearEncoding } from "three"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { decreaseLoadingCount, increaseLoadingCount } from "../../../states/useLoadingCount"
+import { handleProgress } from "./bytesLoaded"
 
 const cache = new Map<string, Promise<Group>>()
 const loader = new FBXLoader()
@@ -19,7 +20,7 @@ export default async (url: string) => {
             })
             resolve(group)
         },
-        undefined,
+        handleProgress,
         () => {
             decreaseLoadingCount()
             reject()

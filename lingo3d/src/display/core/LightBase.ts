@@ -4,12 +4,13 @@ import { Color, Light, Object3D } from "three"
 import Point3d from "../../api/Point3d"
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
+import ILightBase from "../../interface/ILightBase"
 import { getCamera } from "../../states/useCamera"
 import { getLightHelper } from "../../states/useLightHelper"
 import ObjectManager from "./ObjectManager"
 import SimpleObjectManager from "./SimpleObjectManager"
 
-export default abstract class LightBase<T extends Light> extends ObjectManager<T> {
+export default abstract class LightBase<T extends Light> extends ObjectManager<T> implements ILightBase {
     public constructor(light: T, Helper?: Class<Object3D & { dispose: () => void }>) {
         super(light)
 

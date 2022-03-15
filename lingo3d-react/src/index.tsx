@@ -46,6 +46,7 @@ export { default as useValue } from "./hooks/useValue"
 export { default as useLoop } from "./hooks/useLoop"
 export { default as useMouse } from "./hooks/useMouse"
 export { default as useKeyboard } from "./hooks/useKeyboard"
+export { default as usePreload } from "./hooks/usePreload"
 
 export { default as Reticle } from "@lincode/react-reticle"
 export { default as Joystick } from "@lincode/react-joystick"

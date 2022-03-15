@@ -8,6 +8,7 @@ import groundSrc from "../assets-local/ground.jpeg"
 import type * as Lingo from "lingo3d"
 //@ts-ignore
 import skyboxSrc from "../assets-local/skybox.jpg"
+import usePreload from "./hooks/usePreload"
 
 const Controls: React.FC<{ camera: Lingo.Camera, onClick: () => void }> = ({ camera, onClick }) => {
   return <>
@@ -76,4 +77,4 @@ const App2 = () => {
   )
 }
 
-ReactDOM.render(<App2 />, document.querySelector("#app"))
+ReactDOM.render(<App />, document.querySelector("#app"))

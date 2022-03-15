@@ -39,13 +39,13 @@ import sphereShape from "./physics/shapes/sphereShape"
 import torusShape from "./physics/shapes/torusShape"
 import pillShape from "./physics/shapes/pillShape"
 
-import defaultCamera from "./api/defaultCamera"
 import keyboard, { Keyboard } from "./api/keyboard"
 import mouse, { Mouse } from "./api/mouse"
 import gamepad from "./api/gamepad"
 import background from "./api/background"
 import rendering from "./api/rendering"
 import settings from "./api/settings"
+import preload from "./api/preload"
 // import HandTracker from "./api/HandTracker"
 import Point3d from "./api/Point3d"
 
@@ -95,7 +95,6 @@ export {
     torusShape,
     pillShape,
 
-    defaultCamera,
     Keyboard,
     keyboard,
     Mouse,
@@ -104,6 +103,7 @@ export {
     background,
     rendering,
     settings,
+    preload,
     
     // HandTracker,
     Point3d,

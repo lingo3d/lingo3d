@@ -5,6 +5,7 @@ import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { decreaseLoadingCount, increaseLoadingCount } from "../../../states/useLoadingCount"
 import { settings } from "../../.."
+import { handleProgress } from "./bytesLoaded"
 
 const cache = new Map<string, Promise<GLTF>>()
 const loader = new GLTFLoader()
@@ -27,7 +28,7 @@ export default async (url: string) => {
                 })
             resolve(gltf)
         },
-        undefined,
+        handleProgress,
         () => {
             decreaseLoadingCount()
             reject()
