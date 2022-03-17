@@ -1,7 +1,7 @@
 import { CylinderBufferGeometry } from "three"
 import { diameterScaled, radiusScaled } from "../../engine/constants"
 import Primitive from "../core/Primitive"
-import cylinderShape from "../../physics/shapes/cylinderShape"
+import cylinderShape from "../core/SimpleObjectManager/PhysicsItem/cannon/shapes/cylinderShape"
 
 const geometry = new CylinderBufferGeometry(radiusScaled, radiusScaled, diameterScaled, 16)
 

@@ -12,7 +12,7 @@ import Point3d from "../../../api/Point3d"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import ISimpleObjectManager from "../../../interface/ISimpleObjectManager"
 import PhysicsItem from "./PhysicsItem"
-import { physicsContactBodies, physicsContactMap } from "../../../physics/physicsLoop"
+import { cannonContactBodies, cannonContactMap } from "./PhysicsItem/cannon/cannonLoop"
 import { MouseInteractionPayload } from "../../../interface/IMouse"
 import { addSSR, deleteSSR } from "../../../engine/render/effectComposer/ssrPass"
 
@@ -243,12 +243,12 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         if (target.done) return false
         if (this === target) return false
 
-        if (this.physicsBody && target.physicsBody) {
-            physicsContactBodies.add(this.physicsBody)
-            physicsContactBodies.add(target.physicsBody)
+        if (this.cannonBody && target.cannonBody) {
+            cannonContactBodies.add(this.cannonBody)
+            cannonContactBodies.add(target.cannonBody)
             return (
-                physicsContactMap.get(this.physicsBody)?.has(target.physicsBody) ||
-                physicsContactMap.get(target.physicsBody)?.has(this.physicsBody) || false
+                cannonContactMap.get(this.cannonBody)?.has(target.cannonBody) ||
+                cannonContactMap.get(target.cannonBody)?.has(this.cannonBody) || false
             )
         }
 
@@ -332,7 +332,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set x(val: number) {
         this.outerObject3d.position.x = val * scaleDown
-        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).x = true)
+        this.cannonUpdate && ((this.cannonUpdate.position ??= {}).x = true)
     }
 
     public get y() {
@@ -340,7 +340,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set y(val: number) {
         this.outerObject3d.position.y = val * scaleDown
-        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).y = true)
+        this.cannonUpdate && ((this.cannonUpdate.position ??= {}).y = true)
     }
 
     public get z() {
@@ -348,7 +348,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set z(val: number) {
         this.outerObject3d.position.z = val * scaleDown
-        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).z = true)
+        this.cannonUpdate && ((this.cannonUpdate.position ??= {}).z = true)
     }
 
     public get scaleX() {
@@ -386,7 +386,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set rotationX(val: number) {
         this.outerObject3d.rotation.x = val * deg2Rad
-        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).x = true)
+        this.cannonUpdate && ((this.cannonUpdate.rotation ??= {}).x = true)
     }
 
     public get rotationY() {
@@ -394,7 +394,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set rotationY(val: number) {
         this.outerObject3d.rotation.y = val * deg2Rad
-        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).y = true)
+        this.cannonUpdate && ((this.cannonUpdate.rotation ??= {}).y = true)
     }
 
     public get rotationZ() {
@@ -402,7 +402,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set rotationZ(val: number) {
         this.outerObject3d.rotation.z = val * deg2Rad
-        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).z = true)
+        this.cannonUpdate && ((this.cannonUpdate.rotation ??= {}).z = true)
     }
 
     public get rotation() {
@@ -439,39 +439,39 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         else
             this.outerObject3d.lookAt(point2Vec(target))
 
-        this.physicsUpdateRotation()
+        this.cannonRotate()
     }
 
     public translateX(val: number) {
         this.outerObject3d.translateX(val * scaleDown)
-        this.physicsUpdatePosition()
+        this.cannonMove()
     }
 
     public translateY(val: number) {
         this.outerObject3d.translateY(val * scaleDown)
-        this.physicsUpdatePosition()
+        this.cannonMove()
     }
 
     public translateZ(val: number) {
         this.outerObject3d.translateZ(val * scaleDown)
-        this.physicsUpdatePosition()
+        this.cannonMove()
     }
 
     public rotateX(val: number) {
         this.outerObject3d.rotateX(val * deg2Rad)
 
-        this.physicsUpdateRotation()
+        this.cannonRotate()
     }
 
     public rotateY(val: number) {
         this.outerObject3d.rotateY(val * deg2Rad)
 
-        this.physicsUpdateRotation()
+        this.cannonRotate()
     }
 
     public rotateZ(val: number) {
         this.outerObject3d.rotateZ(val * deg2Rad)
-        this.physicsUpdateRotation()
+        this.cannonRotate()
     }
 
     public placeAt(object: SimpleObjectManager | Point3d) {
@@ -481,8 +481,8 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         }
         else this.outerObject3d.position.copy(point2Vec(object))
 
-        this.physicsUpdatePosition()
-        this.physicsUpdateRotation()
+        this.cannonMove()
+        this.cannonRotate()
     }
 
     public moveForward(distance: number) {
@@ -492,7 +492,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
 		vector3.crossVectors(this.outerObject3d.up, vector3)
 		this.outerObject3d.position.addScaledVector(vector3, distance * scaleDown)
 
-        this.physicsUpdatePositionXZ()
+        this.cannonMoveXZ()
 	}
 
     public moveRight(distance: number) {
@@ -501,6 +501,6 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
 		vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
 		this.outerObject3d.position.addScaledVector(vector3, distance * scaleDown)
 
-        this.physicsUpdatePositionXZ()
+        this.cannonMoveXZ()
 	}
 }

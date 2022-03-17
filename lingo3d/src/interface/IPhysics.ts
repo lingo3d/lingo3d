@@ -3,7 +3,7 @@ import IAnimation from "./IAnimation"
 
 export type PhysicsGroupIndex = 0 | 1 | 2 | 3 | 4 | 5
 export type PhysicsOptions = boolean | "2d" | "map" | "map-debug" | "character"
-export type PhysicsShape = (target: PhysicsItem) => Promise<void>
+export type PhysicsShape = (this: PhysicsItem) => Promise<void>
 
 export default interface IPhysics extends IAnimation {
     maxAngularVelocityX: number

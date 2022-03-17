@@ -35,11 +35,11 @@ export default async () => {
         // const collider = new Mesh(mergedGeometry, wireframeMaterial)
 		// scene.add(collider)
 
-        const trimeshShape = async (target: PhysicsItem) => {
+        const trimeshShape = async function (this: PhysicsItem) {
             for (const geom of geometries) {
                 const mesh = new Mesh(geom, wireframeMaterial)
                 const result = threeToCannon(mesh as any, { type: ShapeType.MESH })
-                target.physicsBody!.addShape(result!.shape)
+                this.cannonBody!.addShape(result!.shape)
                 scene.add(mesh)
             }
         }

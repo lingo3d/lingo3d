@@ -1,5 +1,5 @@
 import AnimationItem from "../AnimationItem"
-import cubeShape from "../../../../physics/shapes/cubeShape"
+import cubeShape from "./cannon/shapes/cubeShape"
 import { Point3d } from "@lincode/math"
 import { Object3D, Vector3 } from "three"
 import IPhysics, { PhysicsGroupIndex, PhysicsOptions, PhysicsShape } from "../../../../interface/IPhysics"
@@ -34,7 +34,7 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
         this.getMAV().z = val
     }
 
-    private _mV?: Point3d
+    protected _mV?: Point3d
     private getMV() {
         return this._mV ??= new Point3d(Infinity, Infinity, Infinity)
     }
@@ -57,59 +57,59 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
         this.getMV().z = val
     }
     
-    public physicsUpdate?: {
+    protected cannonUpdate?: {
         position?: { x?: boolean, y?: boolean, z?: boolean }
         rotation?: { x?: boolean, y?: boolean, z?: boolean }
     }
-    protected physicsUpdateRotation() {
-        if (!this.physicsUpdate) return
-        const rotation = this.physicsUpdate.rotation ??= {}
+    protected cannonRotate() {
+        if (!this.cannonUpdate) return
+        const rotation = this.cannonUpdate.rotation ??= {}
         rotation.x = true
         rotation.y = true
         rotation.z = true
     }
-    protected physicsUpdatePosition() {
-        if (!this.physicsUpdate) return
-        const position = this.physicsUpdate.position ??= {}
+    protected cannonMove() {
+        if (!this.cannonUpdate) return
+        const position = this.cannonUpdate.position ??= {}
         position.x = true
         position.y = true
         position.z = true
     }
-    protected physicsUpdatePositionXZ() {
-        if (!this.physicsUpdate) return
-        const position = this.physicsUpdate.position ??= {}
+    protected cannonMoveXZ() {
+        if (!this.cannonUpdate) return
+        const position = this.cannonUpdate.position ??= {}
         position.x = true
         position.z = true
     }
     
-    public physicsBody?: Body
+    protected cannonBody?: Body
 
     public applyForce(x: number, y: number, z: number) {
-        setTimeout(() => this.physicsBody?.applyForce({ x, y, z } as any))
+        setTimeout(() => this.cannonBody?.applyForce({ x, y, z } as any))
     }
 
     public applyImpulse(x: number, y: number, z: number) {
-        setTimeout(() => this.physicsBody?.applyImpulse({ x, y, z } as any))
+        setTimeout(() => this.cannonBody?.applyImpulse({ x, y, z } as any))
     }
 
     public applyLocalForce(x: number, y: number, z: number) {
-        setTimeout(() => this.physicsBody?.applyLocalForce({ x, y, z } as any))
+        setTimeout(() => this.cannonBody?.applyLocalForce({ x, y, z } as any))
     }
 
     public applyLocalImpulse(x: number, y: number, z: number) {
-        setTimeout(() => this.physicsBody?.applyLocalImpulse({ x, y, z } as any))
+        setTimeout(() => this.cannonBody?.applyLocalImpulse({ x, y, z } as any))
     }
 
     public applyTorque(x: number, y: number, z: number) {
-        setTimeout(() => this.physicsBody?.applyTorque({ x, y, z } as any))
+        setTimeout(() => this.cannonBody?.applyTorque({ x, y, z } as any))
     }
 
     public get velocity(): Point3d {
         if (this.bvhVelocity)
             return this.bvhVelocity
 
-        if (this.physicsBody)
-            return this.physicsBody.velocity
+        if (this.cannonBody)
+            return this.cannonBody.velocity
 
         return new Point3d(0, 0, 0)
     }
@@ -117,12 +117,12 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
     public set velocity(val: Point3d) {
         if (this.bvhVelocity)
             Object.assign(this.bvhVelocity, val)
-        else if (this.physicsBody)
-            Object.assign(this.physicsBody.velocity, val)
+        else if (this.cannonBody)
+            Object.assign(this.cannonBody.velocity, val)
     }
 
     private refreshCannon() {
-        this.physicsUpdate && (this.physics = this._physics ?? false)
+        this.cannonUpdate && (this.physics = this._physics ?? false)
     }
 
     protected _noTumble?: boolean
@@ -180,6 +180,8 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
     }
     
     protected bvhVelocity?: Vector3
+    protected bvhOnGround?: boolean
+    protected bvhRadius?: number
 
     protected initPhysics(val: PhysicsOptions, handle: Cancellable) {
         if (!val) return
@@ -194,14 +196,14 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
                 break
 
             case "map":
-                import("./enableBVH").then(result => {
+                import("./enableBVHMap").then(result => {
                     scene.attach(this.outerObject3d)
                     result.default.call(this, handle, false)
                 })
                 break
 
             case "map-debug":
-                import("./enableBVH").then(result => {
+                import("./enableBVHMap").then(result => {
                     scene.attach(this.outerObject3d)
                     result.default.call(this, handle, true)
                 })

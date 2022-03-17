@@ -14,7 +14,7 @@ export default {}
 settings.defaultOrbitControls = true
 settings.fillWindow = true
 
-preload([keannuSrc, fairySrc], "40.3mb", console.log).then(() => {
+// preload([keannuSrc, fairySrc], "40.3mb", console.log).then(() => {
     const player = new Model()
     player.src = keannuSrc
     player.width = 20
@@ -40,4 +40,4 @@ preload([keannuSrc, fairySrc], "40.3mb", console.log).then(() => {
     map.src = fairySrc
     map.scale = 20
     map.physics = "map"
-})
+// })

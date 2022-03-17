@@ -1,7 +1,7 @@
 import { Cancellable } from "@lincode/promiselikes"
 import PhysicsItem from "."
-import loadCannon from "../../../../physics/loadCannon"
-import { physicsSet } from "../../../../physics/physicsLoop"
+import loadCannon from "./cannon/loadCannon"
+import { cannonSet } from "./cannon/cannonLoop"
 
 const physicsGroups = <const>[1, 2, 4, 8, 16, 32]
 const physicsGroupIndexes = <const>[0, 1, 2, 3, 4, 5]
@@ -11,7 +11,7 @@ export default async function (this: PhysicsItem, handle: Cancellable) {
 
     if (handle.done) return
 
-    const body = this.physicsBody = new Body({
+    const body = this.cannonBody = new Body({
         mass: this._mass ?? 1,
         material: this._slippery ? slipperyMaterial : defaultMaterial,
         collisionFilterGroup: physicsGroups[this._physicsGroup ?? 0],
@@ -21,7 +21,7 @@ export default async function (this: PhysicsItem, handle: Cancellable) {
                 .map(index => physicsGroups[index])
                 .reduce((acc, curr) => acc + curr, 0)
     })
-    await this._physicsShape(this)
+    await this._physicsShape()
 
     if (handle.done) return
 
@@ -35,14 +35,14 @@ export default async function (this: PhysicsItem, handle: Cancellable) {
     body.position.copy(this.outerObject3d.position as any)
     body.quaternion.copy(this.outerObject3d.quaternion as any)
 
-    this.physicsUpdate = {}
+    this.cannonUpdate = {}
     world.addBody(body)
-    physicsSet.add(this)
+    cannonSet.add(this)
 
     handle.then(() => {
         world.removeBody(body)
-        physicsSet.delete(this)
-        this.physicsBody = undefined
-        this.physicsUpdate = undefined
+        cannonSet.delete(this)
+        this.cannonBody = undefined
+        this.cannonUpdate = undefined
     })
 }

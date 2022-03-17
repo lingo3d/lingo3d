@@ -1,29 +1,28 @@
 import { createEffect } from "@lincode/reactivity"
 import type { Body } from "cannon-es"
-import { loop } from "../engine/eventLoop"
-import PhysicsItem from "../display/core/SimpleObjectManager/PhysicsItem"
+import { loop } from "../../../../../engine/eventLoop"
+import PhysicsItem from ".."
 import { forceGet } from "@lincode/utils"
-import { getPhysicsWorld } from "../states/usePhysicsWorld"
+import { getPhysicsWorld } from "../../../../../states/usePhysicsWorld"
 
-export const physicsSet = new Set<PhysicsItem>()
-export const physicsContactMap = new Map<Body, WeakSet<Body>>()
-export const physicsContactBodies = new WeakSet<Body>()
+export const cannonSet = new Set<PhysicsItem>()
+export const cannonContactMap = new Map<Body, WeakSet<Body>>()
+export const cannonContactBodies = new WeakSet<Body>()
 
 const makeWeakSet = () => new WeakSet()
 
 const dt = 1/60
 
-createEffect(() => {
+createEffect(function (this: PhysicsItem) {
     const world = getPhysicsWorld()
     if (!world) return
 
     const handle = loop(() => {
-        for (const item of physicsSet) {
-            const body = item.physicsBody!
+        for (const item of cannonSet) {
+            const body = item.cannonBody!
 
             if ("_mAV" in item) {
-                //@ts-ignore
-                const { x, y, z } = item._mAV
+                const { x, y, z } = item._mAV!
                 const { angularVelocity } = body
 
                 if (angularVelocity.x > x)
@@ -43,8 +42,7 @@ createEffect(() => {
             }
 
             if ("_mV" in item) {
-                //@ts-ignore
-                const { x, y, z } = item._mV
+                const { x, y, z } = item._mV!
                 const { velocity } = body
 
                 if (velocity.x > x)
@@ -63,8 +61,8 @@ createEffect(() => {
                     velocity.z = -z
             }
 
-            const { position, rotation } = item.physicsUpdate!
-            item.physicsUpdate = {}
+            const { position, rotation } = item.cannonUpdate!
+            item.cannonUpdate = {}
 
             if (position) {
                 if (position.x) {
@@ -104,9 +102,9 @@ createEffect(() => {
         }
         world.step(dt)
 
-        physicsContactMap.clear()
+        cannonContactMap.clear()
         for (const contact of world.contacts)
-            forceGet(physicsContactMap, contact.bi, makeWeakSet).add(contact.bj)
+            forceGet(cannonContactMap, contact.bi, makeWeakSet).add(contact.bj)
     })
     return () => {
         handle.cancel()

@@ -10,7 +10,7 @@ import Point3d from "../../api/Point3d"
 import { scaleUp, scaleDown } from "../../engine/constants"
 import { ray, vector3_, vector3, euler } from "../utils/reusables"
 import store, { createEffect } from "@lincode/reactivity"
-import pillShape from "../../physics/shapes/pillShape"
+import pillShape from "./SimpleObjectManager/PhysicsItem/cannon/shapes/pillShape"
 import ICameraBase, { MouseControlMode } from "../../interface/ICameraBase"
 import { Cancellable } from "@lincode/promiselikes"
 import isMobile from "../../api/utils/isMobile"
@@ -104,7 +104,7 @@ abstract class CameraBase<T extends Camera> extends ObjectManager<Group> impleme
         euler.x = Math.max(PI_2 - this._maxPolarAngle, Math.min(PI_2 - this._minPolarAngle, euler.x))
 
         manager.quaternion.setFromEuler(euler)
-        !inner && this.physicsUpdateRotation()
+        !inner && this.cannonRotate()
     }
 
     public mouseControlMode?: MouseControlMode

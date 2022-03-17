@@ -1,6 +1,6 @@
 {
 	"name": "lingo3d-react",
-	"version": "1.1.13",
+	"version": "1.1.14",
 	"description": "Lingo3D is a web-first 3d game development library with React integration",
 	"homepage": "https://github.com/lingo3d/lingo3d",
 	"author": "Lingo3D",
@@ -18,7 +18,7 @@
 		"@lincode/react-reticle": "*",
 		"@lincode/reactivity": "*",
 		"@lincode/utils": "*",
-		"lingo3d": "1.9.12",
+		"lingo3d": "1.9.13",
 		"nanoid": "3",
 		"popmotion": "11"
 	},
