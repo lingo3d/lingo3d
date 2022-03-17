@@ -5,6 +5,8 @@ import PointLightMixin from "../core/mixins/PointLightMixin"
 import ISpotLight from "../../interface/ISpotLight"
 
 class SpotLight extends LightBase<ThreeSpotLight> implements ISpotLight {
+    public static componentName = "spotLight"
+
     public constructor() {
         super(new ThreeSpotLight(), SpotLightHelper)
     }

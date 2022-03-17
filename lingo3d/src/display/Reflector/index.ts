@@ -16,6 +16,8 @@ const lazyThreeNodes = lazy(() => import("./threeNodes"))
 const lazyReflectorRTT = lazy(() => import("three/examples/jsm/objects/ReflectorRTT"))
 
 export default class Reflector extends ObjectManager<Group> implements IReflector {
+    public static componentName = "reflector"
+
     public constructor() {
         super(new Group())
         this.object3d.scale.z = flatGeomScaleZ

@@ -35,7 +35,7 @@ export default async function (this: PhysicsItem, handle: Cancellable) {
     body.position.copy(this.outerObject3d.position as any)
     body.quaternion.copy(this.outerObject3d.quaternion as any)
 
-    this.cannonUpdate = {}
+    this.physicsUpdate = {}
     world.addBody(body)
     cannonSet.add(this)
 
@@ -43,6 +43,6 @@ export default async function (this: PhysicsItem, handle: Cancellable) {
         world.removeBody(body)
         cannonSet.delete(this)
         this.cannonBody = undefined
-        this.cannonUpdate = undefined
+        this.physicsUpdate = undefined
     })
 }

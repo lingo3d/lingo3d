@@ -6,6 +6,8 @@ import torusShape from "../core/SimpleObjectManager/PhysicsItem/cannon/shapes/to
 const geometry = new TorusBufferGeometry(40 * scaleDown, 10 * scaleDown, 8, 16)
 
 export default class Torus extends Primitive {
+    public static componentName = "torus"
+
     protected override _physicsShape = torusShape
     
     public constructor() {

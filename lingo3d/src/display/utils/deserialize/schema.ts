@@ -17,7 +17,7 @@ import ITexturedStandard from "../../../interface/ITexturedStandard"
 
 type Omitted = "name" | "animations" | "physics" | "physicsShape" | "maxAngularVelocityX" | "maxAngularVelocityY" | "maxAngularVelocityZ" | "maxVelocityX" | "maxVelocityY" | "maxVelocityZ"
 
-const objectManagerProps: Omit<IObjectManager, Omitted> = {
+export const objectManagerProps: Omit<IObjectManager, Omitted> = {
     x: 0,
     y: 0,
     z: 0,
@@ -44,52 +44,53 @@ const objectManagerProps: Omit<IObjectManager, Omitted> = {
     visible: true
 }
 
-const loadedProps: Omit<ILoaded, Omitted> = {
+export const loadedProps: Omit<ILoaded, Omitted> = {
     ...objectManagerProps,
     src: "",
     boxVisible: false
 }
 
-const texturedBasicProps: ITexturedBasic = {
-    color: "",
-    vertexColors: true,
+export const texturedBasicProps: ITexturedBasic = {
+    color: "white",
+    vertexColors: false,
     fog: true,
-    opacity: 0,
+    opacity: 1,
     texture: "",
-    alphaMap: ""
+    alphaMap: "",
+    textureRepeat: 0
 }
 
-const texturedStandardProps: ITexturedStandard = {
-    color: "",
-    flatShading: true,
-    wireframe: true,
+export const texturedStandardProps: ITexturedStandard = {
+    color: "white",
+    flatShading: false,
+    wireframe: false,
     envMap: "",
     aoMap: "",
-    aoMapIntensity: 0,
+    aoMapIntensity: 1,
     bumpMap: "",
-    bumpScale: 0,
+    bumpScale: 1,
     displacementMap: "",
-    displacementScale: 0,
+    displacementScale: 1,
     displacementBias: 0,
-    emissiveColor: "",
+    emissiveColor: "black",
     emissiveMap: "",
-    emissiveIntensity: 0,
+    emissiveIntensity: 1,
     lightMap: "",
-    lightMapIntensity: 0,
+    lightMapIntensity: 1,
     metalnessMap: "",
     metalness: 0,
     roughnessMap: "",
-    roughness: 0,
+    roughness: 1,
     normalMap: "",
-    normalScale: 0,
+    normalScale: 1,
     normalMapType: "objectSpace",
-    refractionRatio: 0
+    refractionRatio: 0.98
 }
 
-const lightProps: Omit<ILight, Omitted> = {
+export const lightProps: Omit<ILight, Omitted> = {
     ...objectManagerProps,
-    color: "",
-    intensity: 0
+    color: "white",
+    intensity: 1
 }
 
 const primitiveProps: Omit<IPrimitive, Omitted> = {
@@ -100,7 +101,7 @@ const primitiveProps: Omit<IPrimitive, Omitted> = {
 
 const group: Omit<IObjectManager, Omitted> = objectManagerProps
 
-const model: Omit<IModel, Omitted> = {
+export const model: Omit<IModel, Omitted> = {
     ...loadedProps,
     loadedScale: 1,
     loadedX: 0,
@@ -128,39 +129,39 @@ const scene: Omit<IScene, Omitted> = loadedProps
 
 const ambientLight: Omit<ILight, Omitted> = lightProps
 
-const areaLight: Omit<IAreaLight, Omitted> = {
+export const areaLight: Omit<IAreaLight, Omitted> = {
     ...lightProps,
-    power: 0
+    power: 10 * Math.PI
 }
 
 const directionalLight: Omit<ILight, Omitted> = lightProps
 
-const skyLight: Omit<ISkyLight, Omitted> = {
+export const skyLight: Omit<ISkyLight, Omitted> = {
     ...lightProps,
-    groundColor: ""
+    groundColor: "white"
 }
 
-const pointLight: Omit<IPointLight, Omitted> = {
+export const pointLight: Omit<IPointLight, Omitted> = {
     ...lightProps,
-    decay: 0,
+    decay: 1,
     distance: 0,
-    power: 0
+    power: 12.566
 }
 
-const spotLight: Omit<ISpotLight, Omitted> = {
+export const spotLight: Omit<ISpotLight, Omitted> = {
     ...pointLight,
-    angle: 0,
+    angle: 1,
     penumbra: 0
 }
 
-const camera: Omit<ICamera, Omitted | "minPolarAngle" | "maxPolarAngle" | "mouseControl" | "active"> = {
+export const camera: Omit<ICamera, Omitted | "minPolarAngle" | "maxPolarAngle" | "mouseControl" | "active"> = {
     ...objectManagerProps,
-    fov: 0,
-    zoom: 0,
-    bokeh: true,
-    bokehFocus: 0,
-    bokehMaxBlur: 0,
-    bokehAperture: 0
+    fov: 75,
+    zoom: 1,
+    bokeh: false,
+    bokehFocus: 1,
+    bokehMaxBlur: 0.01,
+    bokehAperture: 0.025
 }
 
 const circle = primitiveProps

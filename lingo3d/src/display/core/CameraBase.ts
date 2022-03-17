@@ -104,7 +104,7 @@ abstract class CameraBase<T extends Camera> extends ObjectManager<Group> impleme
         euler.x = Math.max(PI_2 - this._maxPolarAngle, Math.min(PI_2 - this._minPolarAngle, euler.x))
 
         manager.quaternion.setFromEuler(euler)
-        !inner && this.cannonRotate()
+        !inner && this.physicsRotate()
     }
 
     public mouseControlMode?: MouseControlMode

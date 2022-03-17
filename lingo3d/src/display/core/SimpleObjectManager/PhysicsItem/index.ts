@@ -57,27 +57,27 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
         this.getMV().z = val
     }
     
-    protected cannonUpdate?: {
+    protected physicsUpdate?: {
         position?: { x?: boolean, y?: boolean, z?: boolean }
         rotation?: { x?: boolean, y?: boolean, z?: boolean }
     }
-    protected cannonRotate() {
-        if (!this.cannonUpdate) return
-        const rotation = this.cannonUpdate.rotation ??= {}
+    protected physicsRotate() {
+        if (!this.physicsUpdate) return
+        const rotation = this.physicsUpdate.rotation ??= {}
         rotation.x = true
         rotation.y = true
         rotation.z = true
     }
-    protected cannonMove() {
-        if (!this.cannonUpdate) return
-        const position = this.cannonUpdate.position ??= {}
+    protected physicsMove() {
+        if (!this.physicsUpdate) return
+        const position = this.physicsUpdate.position ??= {}
         position.x = true
         position.y = true
         position.z = true
     }
-    protected cannonMoveXZ() {
-        if (!this.cannonUpdate) return
-        const position = this.cannonUpdate.position ??= {}
+    protected physicsMoveXZ() {
+        if (!this.physicsUpdate) return
+        const position = this.physicsUpdate.position ??= {}
         position.x = true
         position.z = true
     }
@@ -122,7 +122,7 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
     }
 
     private refreshCannon() {
-        this.cannonUpdate && (this.physics = this._physics ?? false)
+        this.physicsUpdate && (this.physics = this._physics ?? false)
     }
 
     protected _noTumble?: boolean
@@ -184,7 +184,7 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
     protected bvhRadius?: number
 
     protected initPhysics(val: PhysicsOptions, handle: Cancellable) {
-        if (!val) return
+        if (!val || handle.done) return
 
         switch (val) {
             case true:
@@ -226,7 +226,12 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
         return this._physics ?? false
     }
     public set physics(val: PhysicsOptions) {
+        if (this._physics === val) return
+        this._physics = val
+
         this.physicsHandle?.cancel()
-        this.initPhysics(this._physics = val, this.physicsHandle = this.watch(new Cancellable()))
+        const handle = this.physicsHandle = this.watch(new Cancellable())
+        
+        this.initPhysics(val, handle)
     }
 }

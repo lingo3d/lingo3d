@@ -11,6 +11,8 @@ const lazyLoadFBX = lazy(() => import("./utils/loaders/loadFBX"))
 const lazyLoadGLTF = lazy(() => import("./utils/loaders/loadGLTF"))
 
 export default class Model extends Loaded<Group> implements IModel {
+    public static componentName = "model"
+
     public loadAnimation(url: string, name = url) {
         (this.animationPromises ??= []).push(new Promise(async resolve => {
             const data = await this.load(url)

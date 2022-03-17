@@ -32,7 +32,6 @@ export const timer: Timer = (...args: Array<any>): Cancellable => {
 
 let timeOld = -1
 const fpsSamples: Array<number> = []
-let fpsReady = false
 let fpsRatio = Infinity
 
 const getFPSLoop = (time: number) => {
@@ -40,7 +39,6 @@ const getFPSLoop = (time: number) => {
         fpsSamples.sort((a, b) => a - b)
         const fps = fpsSamples[Math.round(fpsSamples.length / 2)]
         fpsRatio = Math.round(fps / 60)
-        fpsReady = true
         return
     }
 

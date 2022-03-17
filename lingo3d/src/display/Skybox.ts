@@ -4,6 +4,8 @@ import ISkybox from "../interface/ISkybox"
 import EventLoopItem from "../api/core/EventLoopItem"
 
 export default class Skybox extends EventLoopItem implements ISkybox {
+    public static componentName = "skybox"
+
     public outerObject3d = new Group()
 
     public constructor() {

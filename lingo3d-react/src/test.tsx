@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react"
 import ReactDOM from "react-dom"
-import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Setup, useMouse, useKeyboard } from "."
+import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Editor } from "."
 //@ts-ignore
 import gunSrc from "../assets-local/gun.glb"
 //@ts-ignore
@@ -8,7 +8,7 @@ import groundSrc from "../assets-local/ground.jpeg"
 import type * as Lingo from "lingo3d"
 //@ts-ignore
 import skyboxSrc from "../assets-local/skybox.jpg"
-import usePreload from "./hooks/usePreload"
+import ThirdPersonCamera from "./components/display/cameras/ThirdPersonCamera"
 
 const Controls: React.FC<{ camera: Lingo.Camera, onClick: () => void }> = ({ camera, onClick }) => {
   return <>
@@ -64,17 +64,14 @@ const App = () => {
 }
 
 const App2 = () => {
-  const { x, y } = useMouse()
-  
-  const key = useKeyboard()
-
-  console.log(key)
-
-  return (
+  return (<>
     <World>
-      <Cube x={x} y={y} />
+      <ThirdPersonCamera active>
+        <Cube />
+      </ThirdPersonCamera>
     </World>
-  )
+    <Editor />
+  </>)
 }
 
-ReactDOM.render(<App />, document.querySelector("#app"))
+ReactDOM.render(<App2 />, document.querySelector("#app"))

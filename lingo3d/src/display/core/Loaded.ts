@@ -126,9 +126,13 @@ export default abstract class Loaded<T> extends ObjectManager<Mesh> implements I
         return this._physics ?? false
     }
     public override set physics(val: PhysicsOptions) {
+        if (this._physics === val) return
+        this._physics = val
+
         this.physicsHandle?.cancel()
         const handle = this.physicsHandle = this.watch(new Cancellable())
-        this.loadedResolvable.then(() => this.initPhysics(this._physics = val, handle))
+        
+        this.loadedResolvable.then(() => this.initPhysics(val, handle))
     }
 
     private _boxVisible?: boolean

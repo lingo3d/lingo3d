@@ -61,8 +61,8 @@ createEffect(function (this: PhysicsItem) {
                     velocity.z = -z
             }
 
-            const { position, rotation } = item.cannonUpdate!
-            item.cannonUpdate = {}
+            const { position, rotation } = item.physicsUpdate!
+            item.physicsUpdate = {}
 
             if (position) {
                 if (position.x) {

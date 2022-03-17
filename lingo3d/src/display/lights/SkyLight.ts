@@ -3,6 +3,8 @@ import LightBase from "../core/LightBase"
 import ISkyLight from "../../interface/ISkyLight"
 
 export default class extends LightBase<HemisphereLight> implements ISkyLight {
+    public static componentName = "skyLight"
+
     public constructor() {
         super(new HemisphereLight(), HemisphereLightHelper)
     }

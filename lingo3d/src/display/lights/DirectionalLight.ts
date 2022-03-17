@@ -3,6 +3,8 @@ import ILight from "../../interface/ILight"
 import LightBase from "../core/LightBase"
 
 export default class extends LightBase<DirectionalLight> implements ILight {
+    public static componentName = "directionalLight"
+
     public constructor() {
         super(new DirectionalLight(), DirectionalLightHelper)
     }

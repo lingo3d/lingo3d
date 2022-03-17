@@ -332,7 +332,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set x(val: number) {
         this.outerObject3d.position.x = val * scaleDown
-        this.cannonUpdate && ((this.cannonUpdate.position ??= {}).x = true)
+        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).x = true)
     }
 
     public get y() {
@@ -340,7 +340,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set y(val: number) {
         this.outerObject3d.position.y = val * scaleDown
-        this.cannonUpdate && ((this.cannonUpdate.position ??= {}).y = true)
+        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).y = true)
     }
 
     public get z() {
@@ -348,7 +348,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set z(val: number) {
         this.outerObject3d.position.z = val * scaleDown
-        this.cannonUpdate && ((this.cannonUpdate.position ??= {}).z = true)
+        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).z = true)
     }
 
     public get scaleX() {
@@ -386,7 +386,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set rotationX(val: number) {
         this.outerObject3d.rotation.x = val * deg2Rad
-        this.cannonUpdate && ((this.cannonUpdate.rotation ??= {}).x = true)
+        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).x = true)
     }
 
     public get rotationY() {
@@ -394,7 +394,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set rotationY(val: number) {
         this.outerObject3d.rotation.y = val * deg2Rad
-        this.cannonUpdate && ((this.cannonUpdate.rotation ??= {}).y = true)
+        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).y = true)
     }
 
     public get rotationZ() {
@@ -402,7 +402,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set rotationZ(val: number) {
         this.outerObject3d.rotation.z = val * deg2Rad
-        this.cannonUpdate && ((this.cannonUpdate.rotation ??= {}).z = true)
+        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).z = true)
     }
 
     public get rotation() {
@@ -439,39 +439,39 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         else
             this.outerObject3d.lookAt(point2Vec(target))
 
-        this.cannonRotate()
+        this.physicsRotate()
     }
 
     public translateX(val: number) {
         this.outerObject3d.translateX(val * scaleDown)
-        this.cannonMove()
+        this.physicsMove()
     }
 
     public translateY(val: number) {
         this.outerObject3d.translateY(val * scaleDown)
-        this.cannonMove()
+        this.physicsMove()
     }
 
     public translateZ(val: number) {
         this.outerObject3d.translateZ(val * scaleDown)
-        this.cannonMove()
+        this.physicsMove()
     }
 
     public rotateX(val: number) {
         this.outerObject3d.rotateX(val * deg2Rad)
 
-        this.cannonRotate()
+        this.physicsRotate()
     }
 
     public rotateY(val: number) {
         this.outerObject3d.rotateY(val * deg2Rad)
 
-        this.cannonRotate()
+        this.physicsRotate()
     }
 
     public rotateZ(val: number) {
         this.outerObject3d.rotateZ(val * deg2Rad)
-        this.cannonRotate()
+        this.physicsRotate()
     }
 
     public placeAt(object: SimpleObjectManager | Point3d) {
@@ -481,8 +481,8 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         }
         else this.outerObject3d.position.copy(point2Vec(object))
 
-        this.cannonMove()
-        this.cannonRotate()
+        this.physicsMove()
+        this.physicsRotate()
     }
 
     public moveForward(distance: number) {
@@ -492,7 +492,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
 		vector3.crossVectors(this.outerObject3d.up, vector3)
 		this.outerObject3d.position.addScaledVector(vector3, distance * scaleDown)
 
-        this.cannonMoveXZ()
+        this.physicsMoveXZ()
 	}
 
     public moveRight(distance: number) {
@@ -501,6 +501,6 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
 		vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
 		this.outerObject3d.position.addScaledVector(vector3, distance * scaleDown)
 
-        this.cannonMoveXZ()
+        this.physicsMoveXZ()
 	}
 }

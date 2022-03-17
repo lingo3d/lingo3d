@@ -4,6 +4,8 @@ import ICamera from "../../interface/ICamera"
 import CameraBase from "../core/CameraBase"
 
 export default class Camera extends CameraBase<PerspectiveCamera> implements ICamera {
+    public static componentName = "camera"
+
     public constructor(camera = new PerspectiveCamera(75, 1, camNear, camFar)) {
         super(camera)
     }

@@ -6,6 +6,8 @@ import circleShape from "../core/SimpleObjectManager/PhysicsItem/cannon/shapes/c
 export const circleGeometry = new CircleBufferGeometry(radiusScaled, 32)
 
 export default class Circle extends Primitive {
+    public static componentName = "circle"
+
     protected override _physicsShape = circleShape
 
     public constructor() {

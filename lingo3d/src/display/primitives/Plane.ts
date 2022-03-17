@@ -5,6 +5,8 @@ import Primitive from "../core/Primitive"
 export const planeGeometry = new PlaneBufferGeometry(diameterScaled, diameterScaled, 1, 1)
 
 export default class Plane extends Primitive {
+    public static componentName = "plane"
+
     public constructor() {
         super(planeGeometry, true)
         this.object3d.scale.z = flatGeomScaleZ

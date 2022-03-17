@@ -3,6 +3,8 @@ import ObjectManager from "./core/ObjectManager"
 import fitContent from "./utils/fitContent"
 
 export default class Group extends ObjectManager<ThreeGroup> {
+    public static componentName = "group"
+
     public constructor() {
         super(new ThreeGroup())
     }

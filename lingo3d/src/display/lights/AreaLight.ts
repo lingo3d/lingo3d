@@ -5,6 +5,8 @@ import IAreaLight from "../../interface/IAreaLight"
 import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib.js"
 
 export default class extends LightBase<RectAreaLight> implements IAreaLight {
+    public static componentName = "areaLight"
+
     public constructor() {
         super(new RectAreaLight(), RectAreaLightHelper)
         RectAreaLightUniformsLib.init()

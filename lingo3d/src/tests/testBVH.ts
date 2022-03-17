@@ -5,39 +5,36 @@ import Model from "../display/Model"
 import fairySrc from "../../assets-local/fairy.glb"
 //@ts-ignore
 import keannuSrc from "../../assets-local/keannu.glb"
-import FirstPersonCamera from "../display/cameras/FirstPersonCamera"
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
-import preload from "../api/preload"
+import { setSelection } from "../states/useSelection"
 
 export default {}
 
 settings.defaultOrbitControls = true
 settings.fillWindow = true
 
-// preload([keannuSrc, fairySrc], "40.3mb", console.log).then(() => {
-    const player = new Model()
-    player.src = keannuSrc
-    player.width = 20
-    player.depth = 20
-    player.z = -100
-    player.y = 500
-    player.physics = "character"
+const player = new Model()
+player.src = keannuSrc
+player.width = 20
+player.depth = 20
+player.z = -100
+player.y = 500
+player.physics = "character"
 
-    keyboard.onKeyPress = (k) => {
-        if (k === "w") player.moveForward(-10)
-        if (k === "s") player.moveForward(10)
-        if (k === "a") player.moveRight(10)
-        if (k === "d") player.moveRight(-10)
-        if (k === " ") player.velocity.y = 10
-    }
+keyboard.onKeyPress = (k) => {
+    if (k === "w") player.moveForward(-10)
+    if (k === "s") player.moveForward(10)
+    if (k === "a") player.moveRight(10)
+    if (k === "d") player.moveRight(-10)
+    if (k === " ") player.velocity.y = 10
+}
 
-    const cam = new ThirdPersonCamera()
-    cam.target = player
-    cam.active = true
-    cam.mouseControl = true
+const cam = new ThirdPersonCamera()
+cam.target = player
+cam.mouseControl = true
+cam.active = true
 
-    const map = new Model()
-    map.src = fairySrc
-    map.scale = 20
-    map.physics = "map"
-// })
+const map = new Model()
+map.src = fairySrc
+map.scale = 20
+map.physics = "map"

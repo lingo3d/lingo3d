@@ -6,6 +6,8 @@ import cylinderShape from "../core/SimpleObjectManager/PhysicsItem/cannon/shapes
 const geometry = new CylinderBufferGeometry(radiusScaled, radiusScaled, diameterScaled, 16)
 
 export default class Cylinder extends Primitive {
+    public static componentName = "cylinder"
+
     protected override _physicsShape = cylinderShape
 
     public constructor() {

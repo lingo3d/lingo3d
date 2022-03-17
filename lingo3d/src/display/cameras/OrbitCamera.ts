@@ -13,6 +13,8 @@ import IOrbitCamera from "../../interface/IOrbitCamera"
 import { loop } from "../../engine/eventLoop"
 
 class OrbitCamera extends EventLoopItem implements IOrbitCamera {
+    public static componentName = "orbitCamera"
+
     protected camera = new PerspectiveCamera(75, 1, camNear, camFar)
     public outerObject3d = this.camera
     private controls = new OrbitControls(this.camera, container)

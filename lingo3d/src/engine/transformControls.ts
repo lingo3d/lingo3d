@@ -32,15 +32,19 @@ createEffect(() => {
     transformControls.setScaleSnap(snap)
     transformControls.setRotationSnap(snap)
     transformControls.setTranslationSnap(snap)
-    
+
     scene.add(transformControls)
     transformControls.attach(target.outerObject3d)
     transformControls.enabled = true
+
+    const { physics } = target
+    target.physics = false
     
     return () => {
         scene.remove(transformControls)
         transformControls.detach()
         transformControls.enabled = false
+        target.physics = physics
     }
 }, [getSelectionTarget, getTransformControlsMode, getTransformControlsSpace, getTransformControlsSnap, getCamera])
 

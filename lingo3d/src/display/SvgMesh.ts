@@ -13,6 +13,8 @@ const lazyLoadSVG = lazy(() => import("./utils/loaders/loadSVG"))
 const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeBufferGeometry>>()
 
 class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
+    public static componentName = "svgMesh"
+
     protected material = new MeshStandardMaterial()
 
     public override dispose() {

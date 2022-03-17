@@ -9,6 +9,8 @@ import { Resolvable } from "@lincode/promiselikes"
 import IScene from "../interface/IScene"
 
 export default class Scene extends Loaded<Record<string, any> | Array<any>> implements IScene {
+    public static componentName = "scene"
+
     protected load = loadJSON
 
     private setupNode?: SetupNode

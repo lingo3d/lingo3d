@@ -1124,6 +1124,13 @@
   dependencies:
     "@lincode/utils" "*"
 
+"@lincode/react-global-state@*":
+  version "1.1.45"
+  resolved "https://registry.yarnpkg.com/@lincode/react-global-state/-/react-global-state-1.1.45.tgz#f4bff399ed2d8cde318a4ac7232a8a871fcc109a"
+  integrity sha512-7x6Sf8AexcwS+Me2tfCokbU8hhURG7CvuFqT4XCpI9VyvaQLgyLjRj25wkhxUcd9AgHdEhW+LLhlwBq4PtYNAA==
+  dependencies:
+    "@lincode/reactivity" "*"
+
 "@lincode/react-joystick@*":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@lincode/react-joystick/-/react-joystick-1.0.1.tgz#bc3b2c863234c313ba50d974db074ce314a47d74"
@@ -1197,6 +1204,11 @@
     "@lincode/reactivity" "*"
     "@lincode/utils" "*"
     "@pinyinma/guid" "*"
+
+"@tweakpane/core@1":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@tweakpane/core/-/core-1.0.8.tgz#428246eae841bbf32bed2f27e54311849fdd8501"
+  integrity sha512-q7BQrqM4NYiaSoErRgRY0EBxxC8AzsZJoz52K8SNJ/IfYu9lTzfFTwW7ouYqgElSOx+3ybXBcMlkCPZdOBZg6Q==
 
 "@types/body-parser@*":
   version "1.19.2"
@@ -3076,10 +3088,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingo3d@1.9.13:
-  version "1.9.13"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.9.13.tgz#b3ea2d8a85ff643d42236d896545dca89ec98ccc"
-  integrity sha512-cF607geeJFlBXDkzBc29vy+WjlsKXtXylNzzBe6E6FKvkz002lucGcGQaEoZiFu0aZ1mzF+JFyh2fdOn6YE0cA==
+lingo3d@1.9.20:
+  version "1.9.20"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.9.20.tgz#7db574f1da627e0e7261de6047a0f4ada368e188"
+  integrity sha512-WhZP+SSmM7L3AkFVugpw5nQPkHzy+ylNOHOMdcOkOPy00PQNf11An9oxQBDzrtIwouMDZ/Th0NO/s9zuN/aZkw==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
@@ -4277,6 +4289,11 @@ tslib@^2.0.3, tslib@^2.1.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
+
+tweakpane@3:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/tweakpane/-/tweakpane-3.0.7.tgz#a514a08aa4fafb542923d83e4be6915887dac7e5"
+  integrity sha512-rgxqoo6T10atYoKHVif6aYlAMIAlHJ84hi5LXqi6ZgVEPcmnzPI34C88y6HquarBY0ZKE/ZCXVaZm8NibhQRtA==
 
 type-is@~1.6.18:
   version "1.6.18"

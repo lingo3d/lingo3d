@@ -26,6 +26,16 @@ createEffect(function (this: PhysicsItem) {
             const capsuleRadius = item.bvhRadius!
 
             playerVelocity.y += item.bvhOnGround ? 0 : delta * -GRAVITY
+
+            const { position } = item.physicsUpdate!
+            item.physicsUpdate = {}
+
+            if (position) {
+                position.x && (playerVelocity.x = 0)
+                position.y && (playerVelocity.y = 0)
+                position.z && (playerVelocity.z = 0)
+            }
+
             player.position.addScaledVector(playerVelocity, delta)
 
             player.updateMatrixWorld()
@@ -79,7 +89,7 @@ createEffect(function (this: PhysicsItem) {
 
             if (!item.bvhOnGround) {
                 deltaVector.normalize()
-                playerVelocity.addScaledVector(deltaVector, - deltaVector.dot(playerVelocity))
+                playerVelocity.addScaledVector(deltaVector, -deltaVector.dot(playerVelocity))
             }
             else playerVelocity.set(0, 0, 0)
         }

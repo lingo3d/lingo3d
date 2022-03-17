@@ -5,6 +5,8 @@ import TexturedBasicMixin from "./core/mixins/TexturedBasicMixin"
 import ISprite from "../interface/ISprite"
 
 class Sprite extends ObjectManager<ThreeSprite> implements ISprite {
+    public static componentName = "sprite"
+
     protected material: SpriteMaterial
 
     public constructor() {

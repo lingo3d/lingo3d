@@ -13,6 +13,7 @@ import { emitSelectionTarget, onSelectionTarget } from "../../../events/onSelect
 import { MouseInteractionPayload } from "../../../interface/IMouse"
 import Point3d from "../../../api/Point3d"
 import { scaleUp } from "../../../engine/constants"
+import { Cancellable } from "@lincode/promiselikes"
 
 const raycaster = new Raycaster()
 
@@ -30,7 +31,7 @@ const raycast = (x: number, y: number, objectSet: Set<Object3D>) => {
     return raycaster.intersectObjects([...objectSet])[0]
 }
 
-type Then = (obj: SimpleObjectManager | undefined, e: MouseInteractionPayload) => void
+type Then = (obj: SimpleObjectManager, e: MouseInteractionPayload) => void
 
 const pickable = (name: MouseEventName, objectSet: Set<Object3D>, then: Then) => (
     mouseEvents.on(name, e => {
@@ -63,90 +64,86 @@ createEffect(() => {
         !multipleSelection && (firstMultipleSelection.current = true)
     }, [multipleSelection])
 
-    if (selection) {
-        if (selectionEnabled) {
-            const handle0 = pickable("click", getSelectionCandidates(), target => {
-                const parent = target?.outerObject3d.parent
-                const parentInstance = parent?.userData.manager
-                emitSelectionTarget(parentInstance ?? target)
-            })
-            const handle1 = onSelectionTarget(target => {
-                if (multipleSelection) {
-                    if (target) {
-                        if (firstMultipleSelection.current) {
-                            const currentTarget = getSelectionTarget()
-                            currentTarget && pushMultipleSelectionTargets(currentTarget)
-                        }
-                        firstMultipleSelection.current = false
+    if (selection && selectionEnabled) {
+        const handle = new Cancellable()
 
-                        if (getMultipleSelectionTargets().includes(target))
-                            pullMultipleSelectionTargets(target)
-                        else
-                            pushMultipleSelectionTargets(target)
+        handle.watch(mouseEvents.on("click", () => {
+            emitSelectionTarget(undefined)
+        }))
+        handle.watch(pickable("click", getSelectionCandidates(), target => {
+            const parent = target.outerObject3d.parent
+            const parentInstance = parent?.userData.manager
+            emitSelectionTarget(parentInstance ?? target)
+        }))
+        handle.watch(onSelectionTarget(target => {
+            if (multipleSelection) {
+                if (target) {
+                    if (firstMultipleSelection.current) {
+                        const currentTarget = getSelectionTarget()
+                        currentTarget && pushMultipleSelectionTargets(currentTarget)
                     }
+                    firstMultipleSelection.current = false
+
+                    if (getMultipleSelectionTargets().includes(target))
+                        pullMultipleSelectionTargets(target)
+                    else
+                        pushMultipleSelectionTargets(target)
                 }
-                else {
-                    resetMultipleSelectionTargets()
-                    setSelectionTarget(target)
-                }
-            })
-            return () => {
-                handle0.cancel()
-                handle1.cancel()
             }
+            else {
+                resetMultipleSelectionTargets()
+                setSelectionTarget(target)
+            }
+        }))
+        return () => {
+            handle.cancel()
         }
     }
-    else {
-        resetMultipleSelectionTargets()
-        setSelectionTarget(undefined)
+    
+    if (selection) return
 
-        const clickHandle = pickable("click", clickSet, (obj, e) => obj?.onClick?.(e))
-        const downHandle = pickable("down", mouseDownSet, (obj, e) => obj?.onMouseDown?.(e))
-        const upHandle = pickable("up", mouseUpSet, (obj, e) => obj?.onMouseUp?.(e))
+    resetMultipleSelectionTargets()
+    setSelectionTarget(undefined)
 
-        let moveSet = new Set<SimpleObjectManager>()
-        let moveSetOld = new Set<SimpleObjectManager>()
+    const handle = new Cancellable()
 
-        const overHandle = pickable("move", mouseOverSet, (obj, e) => {
-            if (!obj) return
-            moveSet.add(obj)
-            obj.outerObject3d.userData.eMove = e
-        })
-        const outHandle = pickable("move", mouseOutSet, (obj, e) => {
-            if (!obj) return
-            moveSet.add(obj)
-            obj.outerObject3d.userData.eMove = e
-        })
-        const moveHandle = pickable("move", mouseMoveSet, (obj, e) => {
-            if (!obj) return
-            moveSet.add(obj)
-            obj.outerObject3d.userData.eMove = e
-        })
-        
-        const mouseMoveHandle = mouseEvents.on("move", () => {
-            for (const obj of moveSet) {
-                if (!moveSetOld.has(obj))
-                    obj.onMouseOver?.(obj.outerObject3d.userData.eMove)
+    handle.watch(pickable("click", clickSet, (obj, e) => obj.onClick?.(e)))
+    handle.watch(pickable("down", mouseDownSet, (obj, e) => obj.onMouseDown?.(e)))
+    handle.watch(pickable("up", mouseUpSet, (obj, e) => obj.onMouseUp?.(e)))
 
-                obj.onMouseMove?.(obj.outerObject3d.userData.eMove)
-            }
+    let moveSet = new Set<SimpleObjectManager>()
+    let moveSetOld = new Set<SimpleObjectManager>()
 
-            for (const obj of moveSetOld)
-                if (!moveSet.has(obj))
-                    obj.onMouseOut?.(obj.outerObject3d.userData.eMove)
+    handle.watch(pickable("move", mouseOverSet, (obj, e) => {
+        moveSet.add(obj)
+        obj.outerObject3d.userData.eMove = e
+    }))
+    handle.watch(pickable("move", mouseOutSet, (obj, e) => {
+        moveSet.add(obj)
+        obj.outerObject3d.userData.eMove = e
+    }))
+    handle.watch(pickable("move", mouseMoveSet, (obj, e) => {
+        moveSet.add(obj)
+        obj.outerObject3d.userData.eMove = e
+    }))
+    
+    handle.watch(mouseEvents.on("move", () => {
+        for (const obj of moveSet) {
+            if (!moveSetOld.has(obj))
+                obj.onMouseOver?.(obj.outerObject3d.userData.eMove)
 
-            moveSetOld = moveSet
-            moveSet = new Set()
-        })
-
-        return () => {
-            clickHandle.cancel()
-            downHandle.cancel()
-            upHandle.cancel()
-            overHandle.cancel()
-            outHandle.cancel()
-            moveHandle.cancel()
-            mouseMoveHandle.cancel()
+            obj.onMouseMove?.(obj.outerObject3d.userData.eMove)
         }
+
+        for (const obj of moveSetOld)
+            if (!moveSet.has(obj))
+                obj.onMouseOut?.(obj.outerObject3d.userData.eMove)
+
+        moveSetOld = moveSet
+        moveSet = new Set()
+    }))
+
+    return () => {
+        handle.cancel()
     }
 }, [getSelection, getSelectionEnabled, getMultipleSelection])

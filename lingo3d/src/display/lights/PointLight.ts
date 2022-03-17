@@ -5,6 +5,8 @@ import LightBase from "../core/LightBase"
 import PointLightMixin from "../core/mixins/PointLightMixin"
 
 class PointLight extends LightBase<ThreePointLight> implements ILight {
+    public static componentName = "pointLight"
+
     public constructor() {
         super(new ThreePointLight(), PointLightHelper)
     }

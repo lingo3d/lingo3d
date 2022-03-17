@@ -6,6 +6,8 @@ import sphereShape from "../core/SimpleObjectManager/PhysicsItem/cannon/shapes/s
 const geometry = new SphereBufferGeometry(radiusScaled, 16, 16)
 
 export default class Sphere extends Primitive {
+    public static componentName = "sphere"
+
     protected override _physicsShape = sphereShape
 
     public constructor() {

@@ -12,6 +12,8 @@ import { circleGeometry } from "./primitives/Circle"
 const lazyReflectorForSSRPass = lazy(() => import("three/examples/jsm/objects/ReflectorForSSRPass"))
 
 export default class GroundReflector extends ObjectManager<Group> {
+    public static componentName = "groundReflector"
+
     public constructor() {
         super(new Group())
         this.object3d.scale.z = flatGeomScaleZ

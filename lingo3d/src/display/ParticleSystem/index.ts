@@ -11,6 +11,8 @@ const flareTexture = textureLoader.load(flareData)
 const randomRange = (val: number, range: number) => random(val - range, val + range)
 
 export default class ParticleSystem extends Cube {
+    public static override componentName = "particleSystem"
+
     public speed = 0.0
     public speedRange = 0.5
 

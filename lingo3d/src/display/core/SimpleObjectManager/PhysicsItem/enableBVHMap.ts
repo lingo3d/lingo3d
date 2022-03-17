@@ -22,9 +22,8 @@ export default function (this: PhysicsItem, handle: Cancellable, debug: boolean)
         pushBVHMap(geom.boundsTree = new MeshBVH(geom))
 
     handle.then(() => {
-        for (const geom of geometries) {
+        for (const geom of geometries)
             pullBVHMap(geom.boundsTree!)
-        }
     })
 
     if (debug)
