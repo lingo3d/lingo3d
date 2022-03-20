@@ -1,16 +1,18 @@
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import { createEffect } from "@lincode/reactivity"
 import { applyMixins } from "@lincode/utils"
-import { PerspectiveCamera } from "three"
+import { PerspectiveCamera, Vector3 } from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { camFar, camNear, scaleDown, scaleUp } from "../../engine/constants"
 import { container } from "../../engine/render/renderer"
 import { getCamera } from "../../states/useCamera"
-import { getCameraDistance } from "../../states/useCameraDistance"
 import EventLoopItem from "../../api/core/EventLoopItem"
 import CameraMixin from "../core/mixins/CameraMixin"
 import IOrbitCamera from "../../interface/IOrbitCamera"
 import { loop } from "../../engine/eventLoop"
+import ObjectManager from "../core/ObjectManager"
+import { orbitControlsBlockSelection } from "../../engine/mainOrbitControls"
+import { getOrbitControlsEnabled } from "../../states/useOrbitControlsEnabled"
 
 class OrbitCamera extends EventLoopItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -25,22 +27,23 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
 
         this.initCamera()
 
-        this.camera.position.z = getCameraDistance()
+        this.camera.position.z = 5
         this.controls.update()
 
         this.watch(createEffect(() => {
-            const enabled = this.controls.enabled = getCamera() === this.camera
+            const enabled = this.controls.enabled = getOrbitControlsEnabled() && getCamera() === this.camera
             if (!enabled) return
 
             const handle = loop(() => this.controls.update())
             return () => {
                 handle.cancel()
             }
-        }, [getCamera]))
+        }, [getCamera, getOrbitControlsEnabled]))
 
         this.controls.enablePan = false
         this.controls.enableZoom = false
 
+        orbitControlsBlockSelection(this.controls)
         this.then(() => this.controls.dispose())
     }
 
@@ -69,6 +72,24 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
     public set targetZ(val: number) {
         this._targetZ = val
         this.controls.target.z = val * scaleDown
+    }
+
+    protected _target: ObjectManager | undefined
+    public get target() {
+        return this._target
+    }
+    public set target(target: ObjectManager | undefined) {
+        this._target = target
+        this.controls.target = target?.outerObject3d.position ?? new Vector3()
+    }
+
+    public override append(object: ObjectManager) {
+        if (this._target) {
+            super.append(object)
+            return
+        }
+        this.outerObject3d.parent?.add(object.outerObject3d)
+        this.target = object
     }
 
     public get x() {

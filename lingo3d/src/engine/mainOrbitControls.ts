@@ -49,12 +49,10 @@ const setDistance = (val: number) => {
 }
 
 createEffect(() => {
-    const orbitControls = getOrbitControls()
-    const orbitControlsEnabled = getOrbitControlsEnabled()
-    const camera = getCamera()
+    const enabled = getOrbitControls() && getOrbitControlsEnabled() && getCamera() === mainCamera
     
-    mainOrbitControls.enabled = orbitControls && orbitControlsEnabled && camera === mainCamera
-    container.style.cursor = mainOrbitControls.enabled ? "grab" : "auto"
+    mainOrbitControls.enabled = enabled
+    container.style.cursor = enabled ? "grab" : "auto"
 
 }, [getOrbitControls, getOrbitControlsEnabled, getCamera])
 
@@ -62,11 +60,11 @@ createEffect(() => {
     const orbitControls = getOrbitControls()
     if (!orbitControls) return
 
-    let signal = true
-    queueMicrotask(() => signal && setRotationX(-30))
+    let proceed = true
+    queueMicrotask(() => proceed && setRotationX(-30))
 
     return () => {
-        signal = false
+        proceed = false
         mainOrbitControls.reset()
         setRotationX(0)
         setRotationY(0)
@@ -74,36 +72,40 @@ createEffect(() => {
     }
 }, [getOrbitControls])
 
-let azimuthStart = 0
-let polarStart = 0
-let targetStart = vector3
-let started = false
+export const orbitControlsBlockSelection = (controls: OrbitControls, isMainCamera?: boolean) => {
+    let azimuthStart = 0
+    let polarStart = 0
+    let targetStart = vector3
+    let started = false
 
-mainOrbitControls.addEventListener("start", () => {
-    started = true
-    azimuthStart = mainOrbitControls.getAzimuthalAngle() * rad2Deg
-    polarStart = mainOrbitControls.getPolarAngle() * rad2Deg
-    targetStart = mainOrbitControls.target.clone()
-    emitOrbitControls("start")
-})
+    controls.addEventListener("start", () => {
+        started = true
+        azimuthStart = controls.getAzimuthalAngle() * rad2Deg
+        polarStart = controls.getPolarAngle() * rad2Deg
+        targetStart = controls.target.clone()
+        isMainCamera && emitOrbitControls("start")
+    })
 
-mainOrbitControls.addEventListener("change", () => {
-    if (!started) return
-    const azimuthDiff = Math.abs(mainOrbitControls.getAzimuthalAngle() * rad2Deg - azimuthStart)
-    const polarDiff = Math.abs(mainOrbitControls.getPolarAngle() * rad2Deg - polarStart)
+    controls.addEventListener("change", () => {
+        if (!started) return
+        const azimuthDiff = Math.abs(controls.getAzimuthalAngle() * rad2Deg - azimuthStart)
+        const polarDiff = Math.abs(controls.getPolarAngle() * rad2Deg - polarStart)
+    
+        const { x, y, z } = controls.target
+        const { x: x0, y: y0, z: z0 } = targetStart
+        const targetDiff = Math.max(Math.abs(x0 - x), Math.abs(y0 - y), Math.abs(z0 - z))
+    
+        if (azimuthDiff > 2 || polarDiff > 2 || targetDiff > 0.02) {
+            setSelectionEnabled(false)
+            isMainCamera && emitOrbitControls("move")
+        }
+    })
+    
+    controls.addEventListener("end", () => {
+        started = false
+        setSelectionEnabled(true)
+        isMainCamera && emitOrbitControls("stop")
+    })
+}
 
-    const { x, y, z } = mainOrbitControls.target
-    const { x: x0, y: y0, z: z0 } = targetStart
-    const targetDiff = Math.max(Math.abs(x0 - x), Math.abs(y0 - y), Math.abs(z0 - z))
-
-    if (azimuthDiff > 2 || polarDiff > 2 || targetDiff > 0.02) {
-        setSelectionEnabled(false)
-        emitOrbitControls("move")
-    }
-})
-
-mainOrbitControls.addEventListener("end", () => {
-    started = false
-    setSelectionEnabled(true)
-    emitOrbitControls("stop")
-})
+orbitControlsBlockSelection(mainOrbitControls, true)

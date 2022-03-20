@@ -426,11 +426,20 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         val ? addBloom(this.outerObject3d) : deleteBloom(this.outerObject3d)
     }
 
+    private _visible?: boolean
     public get visible() {
-        return this.outerObject3d.visible
+        return !!this._visible
     }
     public set visible(val: boolean) {
+        this._visible = val
         this.outerObject3d.visible = val
+    }
+
+    public get innerVisible() {
+        return this.object3d.visible
+    }
+    public set innerVisible(val: boolean) {
+        this.object3d.visible = val
     }
 
     public lookAt(target: SimpleObjectManager | Point3d) {

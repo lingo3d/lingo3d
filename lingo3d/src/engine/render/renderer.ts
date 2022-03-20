@@ -19,7 +19,7 @@ export const containerBounds = [container.getBoundingClientRect()]
 const resizeObserver = new ResizeObserver(() => containerBounds[0] = container.getBoundingClientRect())
 resizeObserver.observe(container)
 
-export const renderer = new WebGLRenderer({ powerPreference: "high-performance", alpha: true })
+export const renderer = new WebGLRenderer({ powerPreference: "high-performance", alpha: true, logarithmicDepthBuffer: true })
 export const canvas = renderer.domElement
 
 getResolution(([w, h]) => {

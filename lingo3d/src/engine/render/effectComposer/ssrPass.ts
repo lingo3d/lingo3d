@@ -25,7 +25,7 @@ export const deleteSSR = (target: Object3D) => {
     pull(ssrSelects, target as Mesh)
 }
 
-const ssrPass = new SSRPass( {
+const ssrPass = new SSRPass({
     renderer,
     scene,
     camera: getCamera(),

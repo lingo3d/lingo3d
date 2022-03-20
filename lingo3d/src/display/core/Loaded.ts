@@ -122,6 +122,13 @@ export default abstract class Loaded<T> extends ObjectManager<Mesh> implements I
         this.loadedGroup.position.z = this.object3d.position.z
     }
 
+    public override get innerVisible() {
+        return this.loadedGroup.visible
+    }
+    public override set innerVisible(val: boolean) {
+        this.loadedGroup.visible = val
+    }
+
     public override get physics() {
         return this._physics ?? false
     }

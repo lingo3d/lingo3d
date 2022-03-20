@@ -41,9 +41,9 @@ export default async (urls: Array<string>, total: number | string, onProgress?: 
     else {
         total = total.toLowerCase()
         if (total.endsWith("mb"))
-            totalBytes = parseFloat(total) * 1024 * 1024 * 192
+            totalBytes = parseFloat(total) * 1024 * 1024 * 256
         else if (total.endsWith("gb"))
-            totalBytes = parseFloat(total) * 1024 * 1024 * 1024 * 192
+            totalBytes = parseFloat(total) * 1024 * 1024 * 1024 * 256
         else
             throw new Error("invalid preload total value: " + total)
     }

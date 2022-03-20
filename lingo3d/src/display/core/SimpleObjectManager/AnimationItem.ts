@@ -4,8 +4,9 @@ import { AnimationData } from "../../utils/deserialize/types"
 import guid from "@pinyinma/guid"
 import IAnimation, { AnimationValue } from "../../../interface/IAnimation"
 import { debounce } from "@lincode/utils"
+import { Resolvable } from "@lincode/promiselikes"
 
-const buildAnimationTracks = (val: AnimationValue) => {
+const buildAnimationTracks = debounce((val: AnimationValue) => {
     const entries = Object.entries(val)
     let maxLength = 0
     for (const [, { length }] of entries)
@@ -19,7 +20,8 @@ const buildAnimationTracks = (val: AnimationValue) => {
         result[name] = Object.fromEntries(values.map((v, i) => [(i * timeStep).toFixed(2), v]))
 
     return result
-}
+
+}, 0, "trailingPromise")
 
 export default abstract class AnimationItem extends EventLoopItem implements IAnimation {
     protected animationManagers?: Record<string, AnimationManager>
@@ -31,7 +33,7 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
         this.animationManagers = val
     }
 
-    public createAnimation(name: string): AnimationManager {
+    private createAnimation(name: string): AnimationManager {
         if (name in this.animations) {
             const animation = this.animations[name]
             if (typeof animation !== "string")
@@ -43,11 +45,37 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
         return animation
     }
 
-    protected animationPromises?: Array<Promise<void>>
+    private buildAnimation(val: AnimationValue) {
+        buildAnimationTracks(val).then(tracks => {
+            const name = guid + "animation"
+            this.createAnimation(name).setTracks(tracks)
+            this.playAnimation(name)
+        })
+    }
+
+    private makeAnimationProxy(source: AnimationValue) {
+        return new Proxy(source, {
+            get: (anim, prop: string) => {
+                return anim[prop]
+            },
+            set: (anim, prop: string, value) => {
+                anim[prop] = value
+                this.buildAnimation(anim)
+                return true
+            }
+        })
+    }
+
+    protected loadingAnims?: Array<Resolvable>
     private animationManager?: AnimationManager
 
     public async playAnimation(name?: string, o?: PlayOptions) {
-        this.animationPromises && await Promise.all(this.animationPromises)
+        await Promise.resolve()
+
+        if (this.loadingAnims) {
+            await Promise.all(this.loadingAnims)
+            this.loadingAnims = undefined
+        }
 
         this.animationManager = name
             ? this.animations[name]
@@ -61,27 +89,8 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
     }
 
     private _animation?: AnimationValue
-    private _animationProxy?: AnimationValue
     public get animation(): AnimationValue {
-        this._animation ??= {}
-
-        const buildAnimationTracksDebounced = debounce(buildAnimationTracks, 0, "trailingPromise")
-
-        return this._animationProxy ??= new Proxy({}, {
-            get: (_, prop: string) => {
-                return this._animation![prop]
-            },
-            set: (_, prop: string, value) => {
-                this._animation![prop] = value
-
-                buildAnimationTracksDebounced(this._animation!).then(tracks => {
-                    const name = guid + "animation"
-                    this.createAnimation(name).setTracks(tracks)
-                    this.playAnimation(name)
-                })
-                return true
-            }
-        })
+        return this._animation ??= this.makeAnimationProxy({})
     }
     public set animation(val: string | AnimationValue | undefined) {
         if (typeof val === "string") {
@@ -95,9 +104,7 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
             this.stopAnimation()
             return
         }
-        const tracks = buildAnimationTracks(val)
-        const name = guid + "animation"
-        this.createAnimation(name).setTracks(tracks)
-        this.playAnimation(name)
+        this._animation = this.makeAnimationProxy(val)
+        this.buildAnimation(val)
     }
 }

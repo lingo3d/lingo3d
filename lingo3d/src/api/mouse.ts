@@ -12,16 +12,13 @@ import isMobile from "./utils/isMobile"
 export type MouseEventName = "click" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
 
-let [clientXOld, clientYOld] = [0, 0]
-
 const computeMouse = throttle((ev: MouseEvent | TouchEvent) => {
-    const pos = ev instanceof MouseEvent ? ev : ev.targetTouches[0]
+    const pos = "targetTouches" in ev ? ev.targetTouches[0] : ev
     const rect = containerBounds[0]
-    const clientX = (pos?.clientX ?? clientXOld) - rect.x
-    const clientY = (pos?.clientY ?? clientYOld) - rect.y
-    pos && ([clientXOld, clientYOld] = [pos.clientX, pos.clientY])
+    const clientX = pos.clientX - rect.x
+    const clientY = pos.clientY - rect.y
 
-    if (getCamera().userData.mouseControl)
+    if (getCamera().userData.mouseControl && !getSelection())
         return { x: 0, y: 0, clientX, clientY, xNorm: 0, yNorm: 0 }
 
     const [x, y] = clientToWorld(clientX, clientY)

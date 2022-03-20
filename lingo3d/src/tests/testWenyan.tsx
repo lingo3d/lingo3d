@@ -124,7 +124,7 @@ reflector.physics = true
 reflector.mass = 0
 
 const cam = new ThirdPersonCamera()
-cam.enableMouseControl()
+cam.mouseControl = true
 cam.activate()
 cam.innerX = 20
 cam.minPolarAngle = 70

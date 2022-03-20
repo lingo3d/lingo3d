@@ -28,7 +28,7 @@ characterModel.physics = true
 const cam = new ThirdPersonCamera()
 cam.target = characterModel
 cam.activate()
-cam.enableMouseControl()
+cam.mouseControl = true
 cam.innerX = 20
 
 mouse.onMouseDown = () => {

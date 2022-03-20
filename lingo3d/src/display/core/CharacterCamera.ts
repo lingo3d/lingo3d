@@ -2,7 +2,20 @@ import { Cancellable } from "@lincode/promiselikes"
 import ICharacterCamera from "../../interface/ICharacterCamera"
 import Camera from "../cameras/Camera"
 import { euler } from "../utils/reusables"
+import Loaded from "./Loaded"
 import ObjectManager from "./ObjectManager"
+
+const uncull = (target: ObjectManager) => {
+    target.outerObject3d.traverse(child => child.frustumCulled = false)
+}
+
+const setUncull = (target: ObjectManager) => {
+    if (target instanceof Loaded)
+            //@ts-ignore
+            target.loadedResolvable.then(() => uncull(target))
+        else
+            uncull(target)
+}
 
 export default class CharacterCamera extends Camera implements ICharacterCamera {
     public constructor() {
@@ -15,8 +28,10 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
         return this._target
     }
     public set target(target: ObjectManager | undefined) {
+        if (target === this._target) return
+        this._target = target
+
         this.targetHandle?.cancel()
-        
         if (!target) return
 
         this.targetHandle = this.loop(() => {
@@ -29,10 +44,18 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
 
             target.outerObject3d.quaternion.setFromEuler(euler)
         })
+
+        setUncull(target)
     }
 
     public override append(object: ObjectManager) {
+        if (this._target) {
+            super.append(object)
+            return
+        }
         this.outerObject3d.parent?.add(object.outerObject3d)
         this.target = object
+
+        setUncull(object)
     }
 }

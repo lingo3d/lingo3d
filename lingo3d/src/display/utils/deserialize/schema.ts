@@ -1,3 +1,4 @@
+import { camFar, camNear } from "../../../engine/constants"
 import IAreaLight from "../../../interface/IAreaLight"
 import ICamera from "../../../interface/ICamera"
 import ILight from "../../../interface/ILight"
@@ -41,7 +42,8 @@ export const objectManagerProps: Omit<IObjectManager, Omitted> = {
     innerRotationZ: 0,
     bloom: false,
     reflection: false,
-    visible: true
+    visible: true,
+    innerVisible: true
 }
 
 export const loadedProps: Omit<ILoaded, Omitted> = {
@@ -83,8 +85,7 @@ export const texturedStandardProps: ITexturedStandard = {
     roughness: 1,
     normalMap: "",
     normalScale: 1,
-    normalMapType: "objectSpace",
-    refractionRatio: 0.98
+    normalMapType: "objectSpace"
 }
 
 export const lightProps: Omit<ILight, Omitted> = {
@@ -158,6 +159,8 @@ export const camera: Omit<ICamera, Omitted | "minPolarAngle" | "maxPolarAngle" |
     ...objectManagerProps,
     fov: 75,
     zoom: 1,
+    near: camNear,
+    far: camFar,
     bokeh: false,
     bokehFocus: 1,
     bokehMaxBlur: 0.01,

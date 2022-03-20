@@ -206,11 +206,4 @@ export default abstract class TexturedStandardMixin implements ITexturedStandard
         this._normalMapType = val
         this.material.normalMapType = val === "objectSpace" ? ObjectSpaceNormalMap : TangentSpaceNormalMap
     }
-
-    public get refractionRatio() {
-        return this.material.refractionRatio
-    }
-    public set refractionRatio(val: number) {
-        this.material.refractionRatio = val
-    }
 }

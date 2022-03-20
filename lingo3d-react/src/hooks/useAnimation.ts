@@ -1,5 +1,6 @@
+import { usePrevious } from "@lincode/hooks"
 import { animate, AnimationOptions } from "popmotion"
-import { useLayoutEffect } from "react"
+import { useLayoutEffect, useState } from "react"
 import useValue from "./useValue"
 
 type Options = AnimationOptions<number> & {
@@ -11,16 +12,20 @@ type Options = AnimationOptions<number> & {
 }
 
 export default ({ from, to, duration = 1000, stopped, step, ...options }: Options): any => {
-    const [getValue, setValue] = useValue({ from, step })
+    const reactive = useValue({ from, step })
+    const [r, render] = useState({})
+    const rOld = usePrevious(r)
+    reactive.restart = () => render({})
 
     useLayoutEffect(() => {
         if (stopped) return
-        const anim = animate({ from: getValue(), to, duration, ...options, onUpdate: setValue })
-
+        const anim = animate({
+            from: rOld === r ? reactive.get() : from, to, duration, ...options, onUpdate: reactive.set
+        })
         return () => {
             anim.stop()
         }
-    }, [to, stopped])
+    }, [to, stopped, r])
 
-    return getValue
+    return reactive
 }

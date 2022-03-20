@@ -36,4 +36,5 @@ export default interface ISimpleObjectManager extends IPhysics {
     bloom: boolean
     reflection: boolean
     visible: boolean
+    innerVisible: boolean
 }

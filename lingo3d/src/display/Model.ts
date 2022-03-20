@@ -6,6 +6,7 @@ import AnimationManager from "./core/SimpleObjectManager/AnimationManager"
 import { scaleDown } from "../engine/constants"
 import IModel from "../interface/IModel"
 import { objectURLMapperPtr } from "./utils/loaders/setObjectURLMapper"
+import { Resolvable } from "@lincode/promiselikes"
 
 const lazyLoadFBX = lazy(() => import("./utils/loaders/loadFBX"))
 const lazyLoadGLTF = lazy(() => import("./utils/loaders/loadGLTF"))
@@ -13,15 +14,17 @@ const lazyLoadGLTF = lazy(() => import("./utils/loaders/loadGLTF"))
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
 
-    public loadAnimation(url: string, name = url) {
-        (this.animationPromises ??= []).push(new Promise(async resolve => {
-            const data = await this.load(url)
-            const loadedObject3d = await this.loadedResolvable
+    public async loadAnimation(url: string, name = url) {
+        const resolvable = new Resolvable()
+        ;(this.loadingAnims ??= []).push(resolvable)
 
-            const clip = data.animations[0]
-            clip && (this.animations[name] = this.watch(new AnimationManager(clip, loadedObject3d)))
-            resolve()
-        }))
+        const data = await this.load(url)
+        const loadedObject3d = await this.loadedResolvable
+
+        const clip = data.animations[0]
+        clip && (this.animations[name] = this.watch(new AnimationManager(clip, loadedObject3d)))
+
+        resolvable.resolve()
     }
 
     public override get animations(): Record<string, AnimationManager> {
@@ -35,11 +38,18 @@ export default class Model extends Loaded<Group> implements IModel {
                 this.animations[key] = value
     }
 
-    protected load(url: string) {
-        if (objectURLMapperPtr[0](url).endsWith(".fbx"))
-            return lazyLoadFBX().then(loader => loader.default(url))
+    protected async load(url: string) {
+        const resolvable = new Resolvable()
+        ;(this.loadingAnims ??= []).push(resolvable)
 
-        return lazyLoadGLTF().then(loader => loader.default(url))
+        let result: Group
+        if (objectURLMapperPtr[0](url).endsWith(".fbx"))
+            result = await (await lazyLoadFBX()).default(url)
+        else
+            result = await (await lazyLoadGLTF()).default(url)
+
+        resolvable.resolve()
+        return result
     }
 
     private _loadedScale?: number

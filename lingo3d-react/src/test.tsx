@@ -25,7 +25,7 @@ const Controls: React.FC<{ camera: Lingo.Camera, onClick: () => void }> = ({ cam
       }}
       onKeyDown={key => {
       if (key === " ") {
-        camera.applyImpulse(0, 10, 0)
+        camera.velocity.y = 10
       }
       }}
     />
@@ -41,12 +41,12 @@ const App = () => {
 
   const [scale, setScale] = useState(1)
   const scaleSpring = useSpring(scale)
-  const rotationKeyframes = useAnimation({ from: 0, to: 360, repeat: Infinity, duration: 5000 })
+  const rotationKeyframes = useAnimation({ from: 0, to: 360, duration: 5000 })
 
   return (
     <>
     <World bloom bloomStrength={0.5} bloomThreshold={0.9}>
-      <Camera active mouseControl physics noTumble height={180} ref={setCamera}>
+      <Camera active mouseControl="drag" physics noTumble height={180} ref={setCamera}>
         <Model src={gunSrc} z={-50} x={25} scale={0.2} innerRotationY={-90}>
           {bulletFactory(bullet => (
             <Cube key={bullet.id} scale={0.5} physics ref={fire} />
@@ -59,6 +59,7 @@ const App = () => {
       <Skybox texture={skyboxSrc} />
     </World>
     <Reticle />
+    <Editor />
     </>
   )
 }
@@ -74,4 +75,4 @@ const App2 = () => {
   </>)
 }
 
-ReactDOM.render(<App2 />, document.querySelector("#app"))
+ReactDOM.render(<App />, document.querySelector("#app"))

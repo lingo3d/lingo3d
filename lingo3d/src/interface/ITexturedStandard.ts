@@ -26,6 +26,5 @@ export default interface ITexturedStandard {
     normalMap?: string
     normalScale: Vector2 | number
     normalMapType?: NormalMapType
-    refractionRatio: number
     textureRepeat?: Vector2 | number
 }

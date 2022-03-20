@@ -21,21 +21,21 @@ const getSelectionCandidates = (): Set<Object3D> => {
     const result = new Set<Object3D>()
     scene.traverse(c => {
         const { manager } = c.userData
-        manager && result.add(manager.object3d)
+        manager && result.add(manager.object3d ?? c)
     })
     return result
 }
 
-const raycast = (x: number, y: number, objectSet: Set<Object3D>) => {
+const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     raycaster.setFromCamera({ x, y }, getCamera())
-    return raycaster.intersectObjects([...objectSet])[0]
+    return raycaster.intersectObjects([...candidates])[0]
 }
 
 type Then = (obj: SimpleObjectManager, e: MouseInteractionPayload) => void
 
-const pickable = (name: MouseEventName, objectSet: Set<Object3D>, then: Then) => (
+const pickable = (name: MouseEventName, candidates: Set<Object3D>, then: Then) => (
     mouseEvents.on(name, e => {
-        const result = raycast(e.xNorm, e.yNorm, objectSet)
+        const result = raycast(e.xNorm, e.yNorm, candidates)
         if (!result) return
 
         const { x, y, z } = result.point
@@ -71,29 +71,27 @@ createEffect(() => {
             emitSelectionTarget(undefined)
         }))
         handle.watch(pickable("click", getSelectionCandidates(), target => {
-            const parent = target.outerObject3d.parent
-            const parentInstance = parent?.userData.manager
-            emitSelectionTarget(parentInstance ?? target)
+            emitSelectionTarget(target)
         }))
         handle.watch(onSelectionTarget(target => {
             if (multipleSelection) {
-                if (target) {
-                    if (firstMultipleSelection.current) {
-                        const currentTarget = getSelectionTarget()
-                        currentTarget && pushMultipleSelectionTargets(currentTarget)
-                    }
-                    firstMultipleSelection.current = false
+                if (!target) return
 
-                    if (getMultipleSelectionTargets().includes(target))
-                        pullMultipleSelectionTargets(target)
-                    else
-                        pushMultipleSelectionTargets(target)
+                if (firstMultipleSelection.current) {
+                    const currentTarget = getSelectionTarget()
+                    currentTarget && pushMultipleSelectionTargets(currentTarget)
                 }
+                firstMultipleSelection.current = false
+
+                if (getMultipleSelectionTargets().includes(target))
+                    pullMultipleSelectionTargets(target)
+                else
+                    pushMultipleSelectionTargets(target)
+                    
+                return
             }
-            else {
-                resetMultipleSelectionTargets()
-                setSelectionTarget(target)
-            }
+            resetMultipleSelectionTargets()
+            setSelectionTarget(target)
         }))
         return () => {
             handle.cancel()

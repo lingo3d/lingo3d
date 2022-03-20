@@ -1,6 +1,7 @@
 import { useMemoOnce } from "@lincode/hooks"
-import store, { GetGlobalState } from "@lincode/reactivity"
+import { GetGlobalState } from "@lincode/reactivity"
 import { useLayoutEffect } from "react"
+import AnimReactive from "./utils/AnimReactive"
 
 type Options = {
     from?: number | GetGlobalState<number>
@@ -9,9 +10,9 @@ type Options = {
 }
 
 export default (o?: Options) => {
-    const [setValue, getValue] = useMemoOnce(() => {
+    const reactive = useMemoOnce(() => {
         const value = typeof o?.from === "function" ? o.from() : o?.from ?? 0
-        return store(o?.map?.(value) ?? value)
+        return new AnimReactive(o?.map?.(value) ?? value)
     })
 
     useLayoutEffect(() => {
@@ -19,13 +20,13 @@ export default (o?: Options) => {
 
         const { map } = o
         if (map) {
-            const handle = o.from(v => setValue(map(v)))
+            const handle = o.from(v => reactive.set(map(v)))
 
             return () => {
                 handle.cancel()
             }
         }
-        const handle = o.from(setValue)
+        const handle = o.from(reactive.set)
 
         return () => {
             handle.cancel()
@@ -36,12 +37,12 @@ export default (o?: Options) => {
         const step = o?.step
         if (!step) return
 
-        const handle = getValue(step)
+        const handle = reactive.get(step)
 
         return () => {
             handle.cancel()
         }
     }, [])
 
-    return <const>[getValue as any, setValue]
+    return reactive
 }

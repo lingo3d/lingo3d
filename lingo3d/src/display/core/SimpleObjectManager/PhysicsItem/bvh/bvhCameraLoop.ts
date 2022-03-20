@@ -1,45 +1,34 @@
+import { event } from "@lincode/events"
 import { createEffect } from "@lincode/reactivity"
+import { Object3D } from "three"
 import PhysicsItem from ".."
 import { loop } from "../../../../../engine/eventLoop"
-import { GRAVITY } from "../../../../../globals"
 import { getBVHMap } from "../../../../../states/useBVHMap"
-import { box3, line3, line3_0, vector3, vector3_ } from "../../../../utils/reusables"
+import { box3, line3, line3_0, vector3, vector3_, vector3__ } from "../../../../utils/reusables"
 
-export const bvhCharacterSet = new Set<PhysicsItem>()
+export const bvhCameraSet = new Set<Object3D>()
+export const [emitBeforeCameraLoop, onBeforeCameraLoop] = event()
 
 createEffect(function (this: PhysicsItem) {
     const bvhArray = getBVHMap()
     if (!bvhArray.length) return
 
-    const delta = 0.02
-
     const handle = loop(() => {
-        for (const item of bvhCharacterSet) {
-            const playerVelocity = item.bvhVelocity!
-            const player = item.outerObject3d
-            const capsuleRadius = item.bvhRadius!
+        emitBeforeCameraLoop()
 
-            playerVelocity.y += item.bvhOnGround ? 0 : delta * -GRAVITY
+        for (const cam of bvhCameraSet) {
+            const capsuleRadius = 0.5
 
-            const { position } = item.physicsUpdate!
-            item.physicsUpdate = {}
-
-            if (position) {
-                position.x && (playerVelocity.x = 0)
-                position.y && (playerVelocity.y = 0)
-                position.z && (playerVelocity.z = 0)
-            }
-
-            player.position.addScaledVector(playerVelocity, delta)
-            player.updateMatrixWorld()
+            cam.updateMatrixWorld()
+            const direction = cam.getWorldDirection(vector3__)
 
             // adjust player position based on collisions
             box3.makeEmpty()
             line3.copy(line3_0)
 
             // get the position of the capsule
-            line3.start.applyMatrix4(player.matrixWorld)
-            line3.end.applyMatrix4(player.matrixWorld)
+            line3.start.applyMatrix4(cam.matrixWorld)
+            line3.end.applyMatrix4(cam.matrixWorld)
 
             // get the axis aligned bounding box of the capsule
             box3.expandByPoint(line3.start)
@@ -62,29 +51,19 @@ createEffect(function (this: PhysicsItem) {
                         const distance = tri.closestPointToSegment(line3, triPoint, capsulePoint)
                         if (distance < capsuleRadius) {
                             const depth = capsuleRadius - distance
-                            const direction = capsulePoint.sub(triPoint).normalize()
                             line3.start.addScaledVector(direction, depth)
                             line3.end.addScaledVector(direction, depth)
                         }
                     }
                 })
             // check how much the capsule was moved
-            const deltaVector = line3.start.sub(player.position)
-
-            // if the player was primarily adjusted vertically we assume it's on something we should consider ground
-            item.bvhOnGround = deltaVector.y > Math.abs(delta * playerVelocity.y * 0.25)
+            const deltaVector = line3.start.sub(cam.position)
 
             const offset = Math.max(0.0, deltaVector.length() - 1e-5)
             deltaVector.normalize().multiplyScalar(offset)
 
             // adjust the player model
-            player.position.add(deltaVector)
-
-            if (!item.bvhOnGround) {
-                deltaVector.normalize()
-                playerVelocity.addScaledVector(deltaVector, -deltaVector.dot(playerVelocity))
-            }
-            else playerVelocity.set(0, 0, 0)
+            cam.position.add(deltaVector)
         }
     })
     return () => {

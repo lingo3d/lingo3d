@@ -189,30 +189,30 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
         switch (val) {
             case true:
             case "2d":
-                import("./enableCannon").then(result => {
+                import("./enableCannon").then(module => {
                     scene.attach(this.outerObject3d)
-                    result.default.call(this, handle)
+                    module.default.call(this, handle)
                 })
                 break
 
             case "map":
-                import("./enableBVHMap").then(result => {
+                import("./enableBVHMap").then(module => {
                     scene.attach(this.outerObject3d)
-                    result.default.call(this, handle, false)
+                    module.default.call(this, handle, false)
                 })
                 break
 
             case "map-debug":
-                import("./enableBVHMap").then(result => {
+                import("./enableBVHMap").then(module => {
                     scene.attach(this.outerObject3d)
-                    result.default.call(this, handle, true)
+                    module.default.call(this, handle, true)
                 })
                 break
 
             case "character":
-                import("./enableBVHCharacter").then(result => {
+                import("./enableBVHCharacter").then(module => {
                     scene.attach(this.outerObject3d)
-                    result.default.call(this, handle)
+                    module.default.call(this, handle)
                 })
                 break
 

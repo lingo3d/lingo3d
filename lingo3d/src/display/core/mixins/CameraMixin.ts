@@ -41,7 +41,7 @@ export default abstract class CameraMixin<T extends Camera> implements ICameraMi
         //@ts-ignore
         this.camera.fov = val
         //@ts-ignore
-        "updateProjectionMatrix" in this.camera && this.camera.updateProjectionMatrix()
+        this.camera.updateProjectionMatrix?.()
     }
 
     public get zoom() {
@@ -52,7 +52,29 @@ export default abstract class CameraMixin<T extends Camera> implements ICameraMi
         //@ts-ignore
         this.camera.zoom = val
         //@ts-ignore
-        "updateProjectionMatrix" in this.camera && this.camera.updateProjectionMatrix()
+        this.camera.updateProjectionMatrix?.()
+    }
+
+    public get near() {
+        //@ts-ignore
+        return this.camera.near
+    }
+    public set near(val: number) {
+        //@ts-ignore
+        this.camera.near = val
+        //@ts-ignore
+        this.camera.updateProjectionMatrix?.()
+    }
+
+    public get far() {
+        //@ts-ignore
+        return this.camera.far
+    }
+    public set far(val: number) {
+        //@ts-ignore
+        this.camera.far = val
+        //@ts-ignore
+        this.camera.updateProjectionMatrix?.()
     }
 
     public activate() {

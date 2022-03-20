@@ -5,7 +5,7 @@ import { useMemoOnce } from "@lincode/hooks"
 import SimpleObjectManager from "lingo3d/lib/display/core/SimpleObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
 import { forceGet } from "@lincode/utils"
-import { isGlobalState } from "@lincode/reactivity"
+import { Reactive } from "@lincode/reactivity"
 import { SceneContext } from "../components/display/Scene"
 
 export const ParentContext = React.createContext<ObjectManager | undefined>(undefined)
@@ -31,8 +31,8 @@ export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, M
         const handleMap = forceGet(handleStore, manager, makeHandleMap)
         handleMap.get(key)?.cancel()
 
-        if (isGlobalState<number>(value)) {
-            handleMap.set(key, value(v => manager[key] = v))
+        if (value instanceof Reactive) {
+            handleMap.set(key, value.get(v => manager[key] = v))
             continue
         }
         else if (key === "physics" && scene) {

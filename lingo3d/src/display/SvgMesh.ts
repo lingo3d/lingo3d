@@ -25,7 +25,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     }
 
     protected load(url: string) {
-        return lazyLoadSVG().then(loader => loader.default(url))
+        return lazyLoadSVG().then(module => module.default(url))
     }
 
     protected resolveLoaded(svgData: SVGResult) {

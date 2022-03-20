@@ -1,5 +1,4 @@
 import { createEffect } from "@lincode/reactivity"
-import { TransformControls } from "three/examples/jsm/controls/TransformControls"
 import { emitTransformControls } from "../events/onTransformControls"
 import { getCamera } from "../states/useCamera"
 import { setOrbitControlsEnabled } from "../states/useOrbitControlsEnabled"
@@ -8,53 +7,70 @@ import { getSelectionTarget } from "../states/useSelectionTarget"
 import { getTransformControlsMode } from "../states/useTransformControlsMode"
 import { getTransformControlsSpace } from "../states/useTransformControlsSpace"
 import { getTransformControlsSnap } from "../states/useTransformControlsSnap"
-import mainCamera from "./mainCamera"
 import { container } from "./render/renderer"
 import scene from "./scene"
+import { lazy } from "@lincode/utils"
+import { Cancellable } from "@lincode/promiselikes"
 
 export default {}
 
-const transformControls = new TransformControls(getCamera(), container)
-getCamera(camera => transformControls.camera = camera)
-transformControls.enabled = false
+const lazyTransformControls = lazy(async () => {
+    const { TransformControls } = await import("three/examples/jsm/controls/TransformControls")
+
+    const transformControls = new TransformControls(getCamera(), container)
+    getCamera(camera => transformControls.camera = camera)
+    transformControls.enabled = false
+
+    let dragging = false
+
+    transformControls.addEventListener("dragging-changed", ({ value }) => {
+        dragging = value
+        setOrbitControlsEnabled(!dragging)
+        setSelectionEnabled(!dragging)
+        emitTransformControls(dragging ? "start" : "stop")
+    })
+
+    transformControls.addEventListener("change", () => dragging && emitTransformControls("move"))
+    
+    return transformControls
+})
 
 createEffect(() => {
     const target = getSelectionTarget()
     const mode = getTransformControlsMode()
     const space = getTransformControlsSpace()
     const snap = getTransformControlsSnap()
-    const camera = getCamera()
 
-    if (!target || camera !== mainCamera) return
-
-    transformControls.setMode(mode)
-    transformControls.setSpace(space)
-    transformControls.setScaleSnap(snap)
-    transformControls.setRotationSnap(snap)
-    transformControls.setTranslationSnap(snap)
-
-    scene.add(transformControls)
-    transformControls.attach(target.outerObject3d)
-    transformControls.enabled = true
+    if (!target) return
 
     const { physics } = target
-    target.physics = false
-    
-    return () => {
-        scene.remove(transformControls)
-        transformControls.detach()
-        transformControls.enabled = false
-        target.physics = physics
+    let restorePhysics = false
+    if (target.mass !== 0 && physics !== "map" && physics !== "map-debug") {
+        target.physics = false
+        restorePhysics = true
     }
-}, [getSelectionTarget, getTransformControlsMode, getTransformControlsSpace, getTransformControlsSnap, getCamera])
 
-let dragging = false
+    const handle = new Cancellable()
 
-transformControls.addEventListener("dragging-changed", ({ value }) => {
-    dragging = value
-    setOrbitControlsEnabled(!dragging)
-    setSelectionEnabled(!dragging)
-    emitTransformControls(dragging ? "start" : "stop")
-})
+    lazyTransformControls().then(transformControls => {
+        transformControls.setMode(mode)
+        transformControls.setSpace(space)
+        transformControls.setScaleSnap(snap)
+        transformControls.setRotationSnap(snap)
+        transformControls.setTranslationSnap(snap)
 
-transformControls.addEventListener("change", () => dragging && emitTransformControls("move"))
+        scene.add(transformControls)
+        transformControls.attach(target.outerObject3d)
+        transformControls.enabled = true
+
+        handle.then(() => {
+            scene.remove(transformControls)
+            transformControls.detach()
+            transformControls.enabled = false
+        })
+    })
+    return () => {
+        handle.cancel()
+        restorePhysics && (target.physics = physics)
+    }
+}, [getSelectionTarget, getTransformControlsMode, getTransformControlsSpace, getTransformControlsSnap])

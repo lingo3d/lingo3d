@@ -58,7 +58,7 @@ reflector.mass = 0
 const cam = new ThirdPersonCamera()
 cam.y = 100
 cam.rotationY = 180
-cam.enableMouseControl()
+cam.mouseControl = true
 cam.activate()
 cam.innerX = 20
 cam.target = model
