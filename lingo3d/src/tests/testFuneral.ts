@@ -65,5 +65,6 @@ camera.setRotationY(235)
 camera.setRotationX(-20)
 camera.setDistance(100)
 camera.enableDamping = true
-camera.autoRotate = true
 camera.bokeh = true
+camera.enableZoom = true
+camera.enablePan = true

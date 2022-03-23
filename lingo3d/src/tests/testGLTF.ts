@@ -5,6 +5,7 @@ import parrotSrc from "../../assets-local/parrot.glb"
 //@ts-ignore
 import shipSrc from "../../assets-local/ship1.glb"
 import settings from "../api/settings"
+import OrbitCamera from "../display/cameras/OrbitCamera"
 import Model from "../display/Model"
 import { setSelection } from "../states/useSelection"
 
@@ -22,7 +23,11 @@ model2.playAnimation()
 model2.x = 100
 
 setSelection(true)
-settings.defaultOrbitControls = true
+// settings.defaultOrbitControls = true
+
+const cam = new OrbitCamera()
+cam.active = true
+
 
 // const makefire = function () {
 //     const fire = new ParticleSystem()

@@ -15,8 +15,9 @@ export default (props: Record<string, any>) => {
         }
         else changes.push([key, value])
     }
+    for (const key of Object.keys(propsOld))
+        !(key in props) && changes.push([key, undefined])
 
     propsOldRef.current = props
-
     return changes
 }

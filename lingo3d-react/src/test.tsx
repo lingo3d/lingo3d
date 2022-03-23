@@ -58,8 +58,8 @@ const App = () => {
       <Cube y={500} z={-300} physics color="red" rotationY={rotationKeyframes} onMouseOver={() => setScale(2)} onMouseOut={() => setScale(1)} scale={scaleSpring} />
       <Skybox texture={skyboxSrc} />
     </World>
-    <Reticle />
     <Editor />
+    <Reticle />
     </>
   )
 }
@@ -71,8 +71,7 @@ const App2 = () => {
         <Cube />
       </ThirdPersonCamera>
     </World>
-    <Editor />
   </>)
 }
 
-ReactDOM.render(<App />, document.querySelector("#app"))
+ReactDOM.render(<App2 />, document.querySelector("#app"))

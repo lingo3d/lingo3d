@@ -18,11 +18,18 @@ export default class Model extends Loaded<Group> implements IModel {
         const resolvable = new Resolvable()
         ;(this.loadingAnims ??= []).push(resolvable)
 
-        const data = await this.load(url)
-        const loadedObject3d = await this.loadedResolvable
+        let data: Group | undefined
+
+        try {
+            data = await this.load(url)
+        }
+        catch {
+            resolvable.resolve()
+            return
+        }
 
         const clip = data.animations[0]
-        clip && (this.animations[name] = this.watch(new AnimationManager(clip, loadedObject3d)))
+        clip && (this.animations[name] = this.watch(new AnimationManager(clip, await this.loadedResolvable)))
 
         resolvable.resolve()
     }
@@ -42,11 +49,17 @@ export default class Model extends Loaded<Group> implements IModel {
         const resolvable = new Resolvable()
         ;(this.loadingAnims ??= []).push(resolvable)
 
-        let result: Group
-        if (objectURLMapperPtr[0](url).endsWith(".fbx"))
-            result = await (await lazyLoadFBX()).default(url)
-        else
-            result = await (await lazyLoadGLTF()).default(url)
+        let result: Group | undefined
+        try {
+            if (objectURLMapperPtr[0](url).endsWith(".fbx"))
+                result = await (await lazyLoadFBX()).default(url)
+            else
+                result = await (await lazyLoadGLTF()).default(url)
+        }
+        catch {
+            resolvable.resolve()
+            return new Group()
+        }
 
         resolvable.resolve()
         return result

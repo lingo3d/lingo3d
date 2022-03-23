@@ -1,6 +1,6 @@
 import { deg2Rad, rad2Deg } from "@lincode/math"
-import { createEffect } from "@lincode/reactivity"
-import { applyMixins } from "@lincode/utils"
+import { createEffect, Reactive } from "@lincode/reactivity"
+import { applyMixins, debounce } from "@lincode/utils"
 import { PerspectiveCamera, Vector3 } from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { camFar, camNear, scaleDown, scaleUp } from "../../engine/constants"
@@ -11,40 +11,103 @@ import CameraMixin from "../core/mixins/CameraMixin"
 import IOrbitCamera from "../../interface/IOrbitCamera"
 import { loop } from "../../engine/eventLoop"
 import ObjectManager from "../core/ObjectManager"
-import { orbitControlsBlockSelection } from "../../engine/mainOrbitControls"
 import { getOrbitControlsEnabled } from "../../states/useOrbitControlsEnabled"
+import { vector3 } from "../utils/reusables"
+import { emitOrbitControls } from "../../events/onOrbitControls"
+import { setSelectionEnabled } from "../../states/useSelectionEnabled"
+import mainCamera from "../../engine/mainCamera"
 
 class OrbitCamera extends EventLoopItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
 
-    protected camera = new PerspectiveCamera(75, 1, camNear, camFar)
-    public outerObject3d = this.camera
-    private controls = new OrbitControls(this.camera, container)
+    public outerObject3d: PerspectiveCamera
+    private controls: OrbitControls
 
-    public constructor() {
+    private updateDebounced = debounce(() => this.controls.update(), 0, "trailing")
+
+    public constructor(
+        protected camera = new PerspectiveCamera(75, 1, camNear, camFar)
+    ) {
         super()
-        this.initOuterObject3d()
+        this.outerObject3d = camera
+        const controls = this.controls = new OrbitControls(camera, container)
 
+        controls.enabled = false
+        controls.enablePan = false
+        controls.enableZoom = false
+
+        this.initOuterObject3d()
         this.initCamera()
 
-        this.camera.position.z = 5
-        this.controls.update()
+        camera.position.z = 5
+        this.updateDebounced()
 
         this.watch(createEffect(() => {
-            const enabled = this.controls.enabled = getOrbitControlsEnabled() && getCamera() === this.camera
-            if (!enabled) return
+            if (!getOrbitControlsEnabled() || getCamera() !== camera || !this.enabledState.get()) return
 
-            const handle = loop(() => this.controls.update())
+            controls.enabled = true
+            const handle = loop(this.updateDebounced)
+
+            if (this.enableZoomState.get()) {
+                const cb = (e: WheelEvent) => {
+                    e.preventDefault()
+
+                    const direction = camera.getWorldDirection(vector3)
+                    let pt = camera.position.clone().add(direction.clone().multiplyScalar(-e.deltaY * scaleDown))
+
+                    const localPt = camera.worldToLocal(pt.clone())
+                    const localTarget = camera.worldToLocal(controls.target.clone())
+                    
+                    if (localPt.z - localTarget.z <= 0)
+                        pt = controls.target.clone().add(direction.multiplyScalar(-Number.EPSILON))
+
+                    camera.position.copy(pt)
+                    this.updateDebounced()
+                }
+                container.addEventListener("wheel", cb)
+                handle.then(() => container.removeEventListener("wheel", cb))
+            }
             return () => {
+                controls.enabled = false
                 handle.cancel()
             }
-        }, [getCamera, getOrbitControlsEnabled]))
+        }, [getCamera, getOrbitControlsEnabled, this.enableZoomState.get, this.enabledState.get]))
 
-        this.controls.enablePan = false
-        this.controls.enableZoom = false
+        let azimuthStart = 0
+        let polarStart = 0
+        let targetStart = vector3
+        let started = false
 
-        orbitControlsBlockSelection(this.controls)
-        this.then(() => this.controls.dispose())
+        controls.addEventListener("start", () => {
+            started = true
+            azimuthStart = controls.getAzimuthalAngle() * rad2Deg
+            polarStart = controls.getPolarAngle() * rad2Deg
+            targetStart = controls.target.clone()
+            camera === mainCamera && emitOrbitControls("start")
+        })
+
+        controls.addEventListener("change", () => {
+            if (!started) return
+            const azimuthDiff = Math.abs(controls.getAzimuthalAngle() * rad2Deg - azimuthStart)
+            const polarDiff = Math.abs(controls.getPolarAngle() * rad2Deg - polarStart)
+        
+            const { x, y, z } = controls.target
+            const { x: x0, y: y0, z: z0 } = targetStart
+            const targetDiff = Math.max(Math.abs(x0 - x), Math.abs(y0 - y), Math.abs(z0 - z))
+        
+            if (azimuthDiff > 2 || polarDiff > 2 || targetDiff > 0.02) {
+                setSelectionEnabled(false)
+                camera === mainCamera && emitOrbitControls("move")
+            }
+        })
+        
+        controls.addEventListener("end", () => {
+            started = false
+            setSelectionEnabled(true)
+            camera === mainCamera && emitOrbitControls("stop")
+        })
+
+        this.then(() => controls.dispose())
     }
 
     private _targetX?: number
@@ -139,11 +202,20 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         this.controls.enablePan = val
     }
 
+    private enableZoomState = new Reactive(false)
     public get enableZoom() {
-        return this.controls.enableZoom
+        return this.enableZoomState.get()
     }
     public set enableZoom(val: boolean) {
-        this.controls.enableZoom = val
+        this.enableZoomState.set(val)
+    }
+
+    private enabledState = new Reactive(true)
+    public get enabled() {
+        return this.enabledState.get()
+    }
+    public set enabled(val: boolean) {
+        this.enabledState.set(val)
     }
 
     public get autoRotate() {
@@ -170,7 +242,6 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
             this.controls.minAzimuthAngle = -Infinity
             this.controls.maxAzimuthAngle = Infinity
         })
-        
     }
 
     public setRotationX(val: number, lock?: boolean) {
@@ -190,7 +261,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         this.controls.update()
 
         if (lock) {
-            this.controls.enableZoom = false
+            this.enableZoom = false
             return
         }
 

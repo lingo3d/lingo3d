@@ -1087,7 +1087,7 @@
   dependencies:
     "@lincode/utils" "*"
 
-"@lincode/hooks@*":
+"@lincode/hooks@^1.0.26", "@lincode/hooks@^1.0.35":
   version "1.0.35"
   resolved "https://registry.yarnpkg.com/@lincode/hooks/-/hooks-1.0.35.tgz#d9ee4aca06dbea39bccab1a8f625d317f5cbc24a"
   integrity sha512-W6vhLWByWa+Ytrk7q69DS/BTYkyNQue1DpNF3ldeAAYo5bf1Zz4PFEcPfI6FmOYXIwcH4lMGT0vN13KfxWE91A==
@@ -1097,41 +1097,26 @@
     intersection-observer "*"
     resize-observer-polyfill "*"
 
-"@lincode/hooks@^1.0.26":
-  version "1.0.30"
-  resolved "https://registry.yarnpkg.com/@lincode/hooks/-/hooks-1.0.30.tgz#ed0c742effca91251c4654e8e946e7a9351ace6f"
-  integrity sha512-ojkDn+YXIV17UINzPrrq4fsRlAHpkSja4zbPpLlzJpb1ajnrUJ8L3/5RAYHdDMnFILZEIUwpbFAE9yD6K00dyQ==
-  dependencies:
-    "@lincode/promiselikes" "*"
-    "@lincode/utils" "*"
-    intersection-observer "*"
-    resize-observer-polyfill "*"
-
-"@lincode/math@*":
+"@lincode/math@*", "@lincode/math@^1.0.6":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@lincode/math/-/math-1.0.8.tgz#ed8ae14638b7e4d3834868ac4efc9bdb1e18bee6"
   integrity sha512-lgjk6Wv3YdVTsLQD1wSj8w6xyGYR66Dvg/Nu1wQUYWicYKijuDZC4UMaYjY7jb1Zf2Iwi6RVdP4iFkrdPztsBw==
 
-"@lincode/math@^1.0.6":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@lincode/math/-/math-1.0.7.tgz#e61ea19adbd79c9f18d4d392ad6fe68b97944cdc"
-  integrity sha512-TDcBnLNAWSPjkWsHbV9gQCcm2Shnzmw4vDNl5DIKAGvRmyTusgJKXZP7+c4vlDS+EYU2nGTs5Vgfj9eToN0LXw==
-
-"@lincode/promiselikes@*":
+"@lincode/promiselikes@*", "@lincode/promiselikes@^1.0.19":
   version "1.0.19"
   resolved "https://registry.yarnpkg.com/@lincode/promiselikes/-/promiselikes-1.0.19.tgz#e47564b9830316fbe85e8ce6a3e3e4fe1f2b6915"
   integrity sha512-lLT+6IfCgo7ByvE9trgi3g3l/ol4sneXCNOrySYvkkFeqxJWhwb/fR24EKEpPb/CPREJolgutcMkuN7PExnaCA==
   dependencies:
     "@lincode/utils" "*"
 
-"@lincode/react-global-state@*":
+"@lincode/react-global-state@^1.1.45":
   version "1.1.45"
   resolved "https://registry.yarnpkg.com/@lincode/react-global-state/-/react-global-state-1.1.45.tgz#f4bff399ed2d8cde318a4ac7232a8a871fcc109a"
   integrity sha512-7x6Sf8AexcwS+Me2tfCokbU8hhURG7CvuFqT4XCpI9VyvaQLgyLjRj25wkhxUcd9AgHdEhW+LLhlwBq4PtYNAA==
   dependencies:
     "@lincode/reactivity" "*"
 
-"@lincode/react-joystick@*":
+"@lincode/react-joystick@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@lincode/react-joystick/-/react-joystick-1.0.1.tgz#bc3b2c863234c313ba50d974db074ce314a47d74"
   integrity sha512-+/ykFJmmXIZRO2Ylmt/qGmKJ4Kz9qN91DmHf6/Wu7kBEvnn5sUdeMaQYluzfqoYnnNw8gVeZXvxbP6UZnH4HKQ==
@@ -1141,12 +1126,12 @@
     "@pinyinma/standardlib" "^1.0.75"
     react-device-detect "^2.1.2"
 
-"@lincode/react-reticle@*":
+"@lincode/react-reticle@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@lincode/react-reticle/-/react-reticle-1.1.0.tgz#f100eb8fea2a9db733ded46f203010aca93f502c"
   integrity sha512-G68dl19XeHMR+sLw42xW7zSxsFSG8dcl1OYGP10REesFUwQ5/RbMvfJ5CJPYERmitc8EyV9BUuppixZJtC5WwQ==
 
-"@lincode/reactivity@*":
+"@lincode/reactivity@*", "@lincode/reactivity@^1.0.52":
   version "1.0.52"
   resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.52.tgz#1b98ed047a2b1dfcfbdf42c922393793d945d9b2"
   integrity sha512-3DOq2o3UApvRlQkZLm4rbBWW5E8zJ96EyvtBOcVT3+3GAEjUnGa/8vVghWBRR8tL52Hzmc4zj9f1JXso1PMbnQ==
@@ -3095,10 +3080,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingo3d@1.9.33:
-  version "1.9.33"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.9.33.tgz#a6468805bcce9bf23eda76c45c164aca298963e0"
-  integrity sha512-r6MoQqOEqjNidYD2kk+xEfVI1ixyh2QK6kDhA0YJ8pBzLBaT+bgzOzcmDQHbSIncHbOIj+nM0wxAUNuhVwJ+Bw==
+lingo3d@1.9.41:
+  version "1.9.41"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.9.41.tgz#6acccbc587867147ccf6b30a5344a65e8b0d2420"
+  integrity sha512-JA1NSacpHOtFqCcxg7VKZSBrKRkPO9MntODmI8pyIzlP5DLPb2vvmniK1RtOfnIvMjrWVZo8uvPGT85vC7l8Nw==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"

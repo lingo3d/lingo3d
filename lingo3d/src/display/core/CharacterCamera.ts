@@ -51,6 +51,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
     public override append(object: ObjectManager) {
         if (this._target) {
             super.append(object)
+            object.z = -100
             return
         }
         this.outerObject3d.parent?.add(object.outerObject3d)
