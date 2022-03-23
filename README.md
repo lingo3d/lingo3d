@@ -13,21 +13,21 @@
 Lingo3D is a web-first 3d game development library with React integration.
 ## Product Examples
 <div style="display: flex; flex-wrap: nowrap">
-  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/applewatch.gif"
-  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/macbook.gif">
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/applewatch.gif" height="270px">
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/macbook.gif" height="270px">
 </div>
 
 ## Scenes Examples 
 <div style="display: flex; flex-wrap: nowrap">
-  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/pingpong.gif">
-  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/fairytale.gif">
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/pingpong.gif" height="240px">
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/fairytale.gif" height="240px">
 </div>
 
 ## Game Examples
 <div style="display: flex; flex-wrap: nowrap">
-  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/universe.gif">
-  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/shotting.gif">
-  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/gun.gif">
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/universe.gif" height="270px">
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/shotting.gif" height="270px">
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/gun.gif" height="270px">
 </div>
 
 
