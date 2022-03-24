@@ -12,26 +12,22 @@
 ## What is Lingo3D?
 Lingo3D is a web-first 3d game development library with React integration.
 ## Product Examples
-<div style="position: relative; display: flex; flex-wrap: nowrap">
-  <div style="position: relative; width: 60%">
-    <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/applewatch.gif" height="100%">
-  </div>
-  <div style="position: relative; width: 40%">
-    <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/macbook.gif" height="100%">
-  </div>
+<div style="display: flex">
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/applewatch.gif" width="40%" />
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/macbook.gif" width="54.5%" />
 </div>
 
 ## Scenes Examples 
-<div style="display: flex; flex-wrap: nowrap">
-  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/pingpong.gif" height="240px">
-  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/fairytale.gif" height="240px">
+<div style="display: flex">
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/pingpong.gif" width="59%" />
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/fairytale.gif" width="36%" />
 </div>
 
 ## Game Examples
-<div style="display: flex; flex-wrap: nowrap">
-  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/universe.gif" height="270px">
-  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/shotting.gif" height="270px">
-  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/gun.gif" height="270px">
+<div style="display: flex">
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/universe.gif" width="31.5%" />
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/shotting.gif" width="31.5%" />
+  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/gun.gif" width="31.5%" />
 </div>
 
 
