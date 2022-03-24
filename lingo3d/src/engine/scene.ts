@@ -9,7 +9,6 @@ import { getBackgroundImage } from "../states/useBackgroundImage"
 import { getBackgroundSkybox } from "../states/useBackgroundSkybox"
 import { getDefaultFog } from "../states/useDefaultFog"
 import { getDefaultLight } from "../states/useDefaultLight"
-import { camFar, camNear } from "./constants"
 import { renderer } from "./render/renderer"
 
 const scene = new Scene()
@@ -50,7 +49,29 @@ createEffect(() => {
 }, [getBackgroundColor, getBackgroundImage, getBackgroundSkybox])
 
 createEffect(() => {
-    if (!getDefaultLight()) return
+    const defaultLight = getDefaultLight()
+
+    if (!defaultLight) return
+
+    if (defaultLight === "studio") {
+        const handle = new Cancellable()
+        
+        ;(async () => {
+            const AreaLight = (await import("../display/lights/AreaLight")).default
+            if (handle.done) return
+            
+            handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, intensity: 3 }))
+            handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationX: 90, intensity: 3 }))
+            handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationX: -90, intensity: 3 }))
+            handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationZ: 90, intensity: 3 }))
+            handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationZ: -90, intensity: 3 }))
+        })()
+        
+
+        return () => {
+            handle.cancel()
+        }
+    }
 
     const skylight = new HemisphereLight(0xffffff, 0x666666, 1)
     scene.add(skylight)

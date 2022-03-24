@@ -1,11 +1,10 @@
-import { createEffect } from "@lincode/reactivity"
 import { Camera, CameraHelper } from "three"
 import mainCamera from "../../../engine/mainCamera"
 import scene from "../../../engine/scene"
-import { getBokeh, setBokeh } from "../../../states/useBokeh"
-import { getBokehAperture, setBokehAperture } from "../../../states/useBokehAperture"
-import { getBokehFocus, setBokehFocus } from "../../../states/useBokehFocus"
-import { getBokehMaxBlur, setBokehMaxBlur } from "../../../states/useBokehMaxBlur"
+import { bokehDefault, setBokeh } from "../../../states/useBokeh"
+import { bokehApertureDefault, setBokehAperture } from "../../../states/useBokehAperture"
+import { bokehFocusDefault, setBokehFocus } from "../../../states/useBokehFocus"
+import { bokehMaxBlurDefault, setBokehMaxBlur } from "../../../states/useBokehMaxBlur"
 import { getCamera, setCamera } from "../../../states/useCamera"
 import { getCameraHelper } from "../../../states/useCameraHelper"
 import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
@@ -19,7 +18,8 @@ export default abstract class CameraMixin<T extends Camera> implements ICameraMi
         pushCameraList(this.camera)
         this.then(() => pullCameraList(this.camera))
 
-        this.watch(createEffect(() => {
+        //@ts-ignore
+        this.createEffect(() => {
             if (!getCameraHelper() || getCamera() !== mainCamera || getCamera() === this.camera)
                 return
 
@@ -30,7 +30,7 @@ export default abstract class CameraMixin<T extends Camera> implements ICameraMi
                 helper.dispose()
                 scene.remove(helper)
             }
-        }, [getCamera, getCameraHelper]))
+        }, [getCamera, getCameraHelper])
     }
 
     public get fov() {
@@ -89,7 +89,7 @@ export default abstract class CameraMixin<T extends Camera> implements ICameraMi
     }
 
     public get bokeh() {
-        return getBokeh()
+        return this.camera.userData.bokeh ?? bokehDefault
     }
     public set bokeh(val: boolean) {
         getCamera() === this.camera && setBokeh(val)
@@ -97,7 +97,7 @@ export default abstract class CameraMixin<T extends Camera> implements ICameraMi
     }
     
     public get bokehFocus() {
-        return getBokehFocus()
+        return this.camera.userData.bokehFocus ?? bokehFocusDefault
     }
     public set bokehFocus(val: number) {
         getCamera() === this.camera && setBokehFocus(val)
@@ -105,7 +105,7 @@ export default abstract class CameraMixin<T extends Camera> implements ICameraMi
     }
 
     public get bokehMaxBlur() {
-        return getBokehMaxBlur()
+        return this.camera.userData.bokehMaxBlur ?? bokehMaxBlurDefault
     }
     public set bokehMaxBlur(val: number) {
         getCamera() === this.camera && setBokehMaxBlur(val)
@@ -113,7 +113,7 @@ export default abstract class CameraMixin<T extends Camera> implements ICameraMi
     }
 
     public get bokehAperture() {
-        return getBokehAperture()
+        return this.camera.userData.bokehAperture ?? bokehApertureDefault
     }
     public set bokehAperture(val: number) {
         getCamera() === this.camera && setBokehAperture(val)

@@ -1,3 +1,4 @@
+import { DefaultLight } from "../../../states/useDefaultLight"
 import { PerformanceValue } from "../../../states/usePerformance"
 import schema from "./schema"
 
@@ -28,7 +29,7 @@ export type SetupNode = {
     cameraHelper?: boolean
     lightHelper?: boolean
     defaultFog?: boolean
-    defaultLight?: boolean
+    defaultLight?: DefaultLight
     defaultOrbitControls?: boolean
     toneMapping?: boolean
     exposure?: number

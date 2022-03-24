@@ -3,55 +3,40 @@ import settings from "../api/settings"
 import Model from "../display/Model"
 //@ts-ignore
 import fairySrc from "../../assets-local/fairy.glb"
-//@ts-ignore
-import personSrc from "../../assets-local/person.glb"
-//@ts-ignore
-import runningSrc from "../../assets-local/running 2.fbx"
-//@ts-ignore
-import idleSrc from "../../assets-local/idle 2.fbx"
-
-import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
-import { setSelection } from "../states/useSelection"
 import Sky from "../display/Sky"
+import Cube from "../display/primitives/Cube"
+import FirstPersonCamera from "../display/cameras/FirstPersonCamera"
 
 export default {}
 
 settings.defaultOrbitControls = true
 settings.fillWindow = true
 
-const player = new Model()
-player.src = personSrc
+const player = new Cube()
 player.width = 20
 player.depth = 20
 player.z = -100
 player.y = 500
 player.physics = "character"
-player.animations = { running: runningSrc, idle: idleSrc }
-player.animation = "idle"
 
 keyboard.onKeyPress = (k) => {
-    if (k === "w") {
-        player.moveForward(-10)
-        player.animation = "running"
-    }
+    if (k === "w") player.moveForward(-10)
     if (k === "s") player.moveForward(10)
     if (k === "a") player.moveRight(10)
     if (k === "d") player.moveRight(-10)
     if (k === " ") player.velocity.y = 10
 }
 
-keyboard.onKeyUp = () => {
-    player.animation = "idle"
-}
-
-const cam = new ThirdPersonCamera()
+const cam = new FirstPersonCamera()
 cam.target = player
-cam.mouseControl = true
+cam.mouseControl = "drag"
 cam.active = true
 
 const map = new Model()
 map.src = fairySrc
 map.scale = 20
 map.physics = "map"
+
+player.visible = false
 
 const sky = new Sky()

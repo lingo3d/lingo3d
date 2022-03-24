@@ -1,3 +1,5 @@
 import store from "@lincode/reactivity"
 
-export const [setDefaultLight, getDefaultLight] = store(true)
+export type DefaultLight = boolean | "studio"
+
+export const [setDefaultLight, getDefaultLight] = store<DefaultLight>(true)

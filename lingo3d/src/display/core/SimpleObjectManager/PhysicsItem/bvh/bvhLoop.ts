@@ -58,9 +58,9 @@ createEffect(function (this: PhysicsItem) {
                         // capsule position if it is.
                         const triPoint = vector3
                         const capsulePoint = vector3_
-                        //@ts-ignore
                         const distance = tri.closestPointToSegment(line3, triPoint, capsulePoint)
                         if (distance < capsuleRadius) {
+                            //@ts-ignore
                             const depth = capsuleRadius - distance
                             const direction = capsulePoint.sub(triPoint).normalize()
                             line3.start.addScaledVector(direction, depth)

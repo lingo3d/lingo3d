@@ -1,6 +1,8 @@
 import store from "@lincode/reactivity"
 import { getCamera } from "./useCamera"
 
-export const [setBokehAperture, getBokehAperture] = store(0.025)
+export const bokehApertureDefault = 0.025
 
-getCamera(cam => setBokehAperture(cam.userData.bokehAperture ?? 0.025))
+export const [setBokehAperture, getBokehAperture] = store(bokehApertureDefault)
+
+getCamera(cam => setBokehAperture(cam.userData.bokehAperture ?? bokehApertureDefault))

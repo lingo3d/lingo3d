@@ -10,6 +10,7 @@ import { setContainerZoom } from "../../states/useContainerZoom"
 import { getViewportSize } from "../../states/useViewportSize"
 import mainCamera from "../mainCamera"
 import { outline, container } from "./renderer"
+import { getVR } from "../../states/useVR"
 
 export default {}
 
@@ -22,7 +23,7 @@ createEffect(() => {
 
     const aspect = containerWidth / containerHeight
 
-    if (camera instanceof PerspectiveCamera) {
+    if (camera instanceof PerspectiveCamera && !getVR()) {
         camera.aspect = aspect
         camera.updateProjectionMatrix()
     }
@@ -58,4 +59,4 @@ createEffect(() => {
 
     Object.assign(container.style, { width: containerWidth + "px", height: containerHeight + "px" })
 
-}, [getContainerSize, getViewportSize, getCamera])
+}, [getContainerSize, getViewportSize, getCamera, getVR])

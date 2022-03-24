@@ -4,7 +4,7 @@ import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { getResolutionScale, setResolutionScale } from "../states/useResolutionScale"
 import { getViewportSize, setViewportSize } from "../states/useViewportSize"
 import { getDefaultFog, setDefaultFog } from "../states/useDefaultFog"
-import { getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
+import { DefaultLight, getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
 import { getGridHelper, setGridHelper } from "../states/useGridHelper"
 import { getCameraHelper, setCameraHelper } from "../states/useCameraHelper"
 import { getLightHelper, setLightHelper } from "../states/useLightHelper"
@@ -97,7 +97,7 @@ export default {
     get defaultLight() {
         return getDefaultLight()
     },
-    set defaultLight(value: boolean) {
+    set defaultLight(value: DefaultLight) {
         setDefaultLight(value)
     },
 

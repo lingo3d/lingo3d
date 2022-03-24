@@ -1,11 +1,11 @@
 import CameraBase from "."
 import isMobile from "../../../api/utils/isMobile"
-import store, { createEffect } from "@lincode/reactivity"
 import { getCamera } from "../../../states/useCamera"
 import { container } from "../../../engine/render/renderer"
 import { Camera } from "three"
 import { Cancellable } from "@lincode/promiselikes"
 import { setSelectionEnabled } from "../../../states/useSelectionEnabled"
+import { getPointerLockCamera, setPointerLockCamera } from "../../../states/usePointLockCamera"
 
 export default function (this: CameraBase<Camera>, handle: Cancellable) {
     if (isMobile || this.mouseControl === "drag") {
@@ -48,7 +48,7 @@ export default function (this: CameraBase<Camera>, handle: Cancellable) {
             setSelectionEnabled(true)
         }
 
-        if (this.mouseControl === "drag") {
+        if (this.mouseControl === "drag" && !isMobile) {
             container.addEventListener("mousedown", onTouchStart)
             container.addEventListener("mousemove", onTouchMove)
             container.addEventListener("mouseup", onTouchEnd)
@@ -75,11 +75,9 @@ export default function (this: CameraBase<Camera>, handle: Cancellable) {
         })
         return
     }
-    
-    const [setLocked, getLocked] = store(false)
 
-    handle.watch(createEffect(() => {
-        if (!getLocked()) return
+    this.createEffect(() => {
+        if (getPointerLockCamera() !== this.camera) return
         
         const onMouseMove = ({ movementX, movementY }: MouseEvent) => {
             if (this.mouseControlMode === "orbit")
@@ -94,18 +92,28 @@ export default function (this: CameraBase<Camera>, handle: Cancellable) {
         return () => {
             document.removeEventListener("mousemove", onMouseMove)
         }
-    }, [getLocked]))
+    }, [getPointerLockCamera])
 
-    const onClick = () => getCamera() === this.camera && container.requestPointerLock()
-    container.addEventListener("click", onClick)
-    
-    const onPointerLockChange = () => setLocked(document.pointerLockElement === container)
-    document.addEventListener("pointerlockchange", onPointerLockChange)
+    this.createEffect(() => {
+        const camera = getCamera()
+        if (camera !== this.camera) return
 
-    handle.then(() => {
-        container.removeEventListener("click", onClick)
-        document.removeEventListener("pointerlockchange", onPointerLockChange)
-        document.exitPointerLock()
-        setLocked(false)
-    })   
+        const onClick = () => container.requestPointerLock()
+        container.addEventListener("click", onClick)
+
+        const onPointerLockChange = () => {
+            if (document.pointerLockElement === container)
+                setPointerLockCamera(camera)
+            else
+                setPointerLockCamera(undefined)
+        }
+        document.addEventListener("pointerlockchange", onPointerLockChange)
+
+        return () => {
+            container.removeEventListener("click", onClick)
+            document.removeEventListener("pointerlockchange", onPointerLockChange)
+            document.exitPointerLock()
+            setPointerLockCamera(undefined)
+        }
+    }, [getCamera])
 }

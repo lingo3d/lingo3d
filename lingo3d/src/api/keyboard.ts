@@ -8,17 +8,23 @@ const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
 const [emitPress, onPress] = event()
 
-const isPressed = new Set<string>()
+export const isPressed = new Set<string>()
 loop(() => isPressed.size > 0 && emitPress())
 
+const processKey = (str: string) => {
+    str = str.length === 1 ? str.toLowerCase() : str
+    if (str === " ") str = "Space"
+    return str
+}
+
 document.addEventListener("keydown", e => {
-    const key = e.key.length === 1 ? e.key.toLowerCase() : e.key
+    const key = processKey(e.key)
     isPressed.add(key)
     emitDown(key)
 })
 
 document.addEventListener("keyup", e => {
-    const key = e.key.length === 1 ? e.key.toLowerCase() : e.key
+    const key = processKey(e.key)
     isPressed.delete(key)
     emitUp(key)
 })

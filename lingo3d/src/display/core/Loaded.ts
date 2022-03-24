@@ -28,7 +28,14 @@ export default abstract class Loaded<T> extends ObjectManager<Mesh> implements I
         if (this._src === src) return
         this._src = src
 
-        src && this.load(src).then(loaded => {
+        if (!src) return
+
+        if (this.loadedResolvable.done) {
+            this.loadedResolvable = new Resolvable()
+            this.loadedGroup.clear()
+        }
+
+        this.load(src).then(loaded => {
             if (this.done || this._src !== src) return
 
             this.object3d.visible = !!this._boxVisible
@@ -137,7 +144,7 @@ export default abstract class Loaded<T> extends ObjectManager<Mesh> implements I
         this._physics = val
 
         this.physicsHandle?.cancel()
-        const handle = this.physicsHandle = this.watch(new Cancellable())
+        const handle = this.physicsHandle = this.cancellable()
         
         this.loadedResolvable.then(() => this.initPhysics(val, handle))
     }

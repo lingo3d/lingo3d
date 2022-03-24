@@ -99,18 +99,19 @@ abstract class CameraBase<T extends Camera> extends ObjectManager<Group> impleme
     public mouseControlMode?: MouseControlMode
 
     private mouseControlHandle: Cancellable | undefined
+    private _mouseControl?: MouseControl
 
     public get mouseControl() {
-        return this.camera.userData.mouseControl
+        return this._mouseControl
     }
     public set mouseControl(val: MouseControl | undefined) {
-        if (this.camera.userData.mouseControl === val) return
-        this.camera.userData.mouseControl = val
+        if (this._mouseControl === val) return
+        this._mouseControl = val
         
         this.mouseControlHandle?.cancel()
         if (!val) return
 
-        const handle = this.mouseControlHandle = new Cancellable()
+        const handle = this.mouseControlHandle = this.cancellable()
         import("./enableMouseControl").then(module => module.default.call(this, handle))
     }
 }

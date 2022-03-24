@@ -15,6 +15,10 @@ import ISprite from "../../../interface/ISprite"
 import ISvgMesh from "../../../interface/ISvgMesh"
 import ITexturedBasic from "../../../interface/ITexturedBasic"
 import ITexturedStandard from "../../../interface/ITexturedStandard"
+import { bokehDefault } from "../../../states/useBokeh"
+import { bokehApertureDefault } from "../../../states/useBokehAperture"
+import { bokehFocusDefault } from "../../../states/useBokehFocus"
+import { bokehMaxBlurDefault } from "../../../states/useBokehMaxBlur"
 
 type Omitted = "name" | "animations" | "physics" | "physicsShape" | "maxAngularVelocityX" | "maxAngularVelocityY" | "maxAngularVelocityZ" | "maxVelocityX" | "maxVelocityY" | "maxVelocityZ"
 
@@ -161,10 +165,10 @@ export const camera: Omit<ICamera, Omitted | "minPolarAngle" | "maxPolarAngle" |
     zoom: 1,
     near: camNear,
     far: camFar,
-    bokeh: false,
-    bokehFocus: 1,
-    bokehMaxBlur: 0.01,
-    bokehAperture: 0.025
+    bokeh: bokehDefault,
+    bokehFocus: bokehFocusDefault,
+    bokehMaxBlur: bokehMaxBlurDefault,
+    bokehAperture: bokehApertureDefault
 }
 
 const circle = primitiveProps

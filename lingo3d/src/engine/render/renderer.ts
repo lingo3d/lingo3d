@@ -5,6 +5,9 @@ import { getResolution } from "../../states/useResolution"
 import { getToneMapping } from "../../states/useToneMapping"
 import { getPerformance } from "../../states/usePerformance"
 import { getPixelRatio } from "../../states/usePixelRatio"
+import { VRButton } from "three/examples/jsm/webxr/VRButton"
+import { createEffect } from "@lincode/reactivity"
+import { getVR } from "../../states/useVR"
 
 export const container = document.createElement("div")
 // document.body.appendChild(container)
@@ -19,7 +22,12 @@ export const containerBounds = [container.getBoundingClientRect()]
 const resizeObserver = new ResizeObserver(() => containerBounds[0] = container.getBoundingClientRect())
 resizeObserver.observe(container)
 
-export const renderer = new WebGLRenderer({ powerPreference: "high-performance", alpha: true, logarithmicDepthBuffer: true })
+export const renderer = new WebGLRenderer({
+    powerPreference: "high-performance",
+    alpha: true,
+    logarithmicDepthBuffer: true,
+    antialias: true
+})
 export const canvas = renderer.domElement
 
 getResolution(([w, h]) => {
@@ -51,3 +59,19 @@ Object.assign(outline.style, {
     top: "50%",
     transform: "translateX(-50%) translateY(-50%)"
 })
+
+createEffect(() => {
+    if (getVR() !== "webxr") return
+
+    renderer.xr.enabled = true
+    const button = VRButton.createButton(renderer)
+    container.appendChild(button)
+
+    //@ts-ignore
+    button.ontouchstart = () => button.onclick?.()
+
+    return () => {
+        renderer.xr.enabled = false
+        container.removeChild(button)
+    }
+}, [getVR])

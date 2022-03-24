@@ -5,20 +5,23 @@ import clientToWorld from "../display/utils/clientToWorld"
 import { Group } from "three"
 import IMouse, { MouseEventPayload } from "../interface/IMouse"
 import EventLoopItem from "./core/EventLoopItem"
-import { getCamera } from "../states/useCamera"
 import { throttle } from "@lincode/utils"
 import isMobile from "./utils/isMobile"
+import { getPointerLockCamera } from "../states/usePointLockCamera"
 
 export type MouseEventName = "click" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
 
 const computeMouse = throttle((ev: MouseEvent | TouchEvent) => {
     const pos = "targetTouches" in ev ? ev.targetTouches[0] : ev
+    if (!pos)
+        return { x: 0, y: 0, clientX: 0, clientY: 0, xNorm: 0, yNorm: 0 }
+
     const rect = containerBounds[0]
     const clientX = pos.clientX - rect.x
     const clientY = pos.clientY - rect.y
 
-    if (getCamera().userData.mouseControl && !getSelection())
+    if (getPointerLockCamera())
         return { x: 0, y: 0, clientX, clientY, xNorm: 0, yNorm: 0 }
 
     const [x, y] = clientToWorld(clientX, clientY)

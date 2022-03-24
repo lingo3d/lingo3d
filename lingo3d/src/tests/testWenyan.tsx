@@ -22,7 +22,6 @@ import mouse from "../api/mouse"
 import store, { createEffect } from "@lincode/reactivity"
 import Octahedron from "../display/primitives/Octahedron"
 import Cube from "../display/primitives/Cube"
-import text2ImageData from "../display/utils/text2ImageData"
 import randomColor from "randomcolor"
 import DirectionalLight from "../display/lights/DirectionalLight"
 import { settings } from ".."
@@ -30,6 +29,20 @@ import Point3d from "../api/Point3d"
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 
 export default {}
+
+const canvas = document.createElement("canvas")
+canvas.width = 200
+canvas.height = 256
+
+const context = canvas.getContext("2d")!
+context.font = "bold 200px Arial"
+context.fillStyle = "white"
+
+export const text2ImageData = (text: string) => {
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    context.fillText(text, 0, 200)
+    return canvas.toDataURL("image/png")
+}
 
 settings.containerWidth = settings.width = window.innerWidth
 settings.containerHeight = settings.height = window.innerHeight

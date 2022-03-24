@@ -2,14 +2,23 @@ import { RectAreaLight } from "three"
 import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper"
 import LightBase from "../core/LightBase"
 import IAreaLight from "../../interface/IAreaLight"
-import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib.js"
+import { lazy } from "@lincode/utils"
+import { setAreaLight } from "../../states/useAreaLight"
+import { setAreaLightInitialized } from "../../states/useAreaLightInitialized"
+
+const lazyInit = lazy(async () => {
+    const { RectAreaLightUniformsLib } = await import("three/examples/jsm/lights/RectAreaLightUniformsLib.js")
+    RectAreaLightUniformsLib.init()
+    setAreaLightInitialized(true)
+})
 
 export default class extends LightBase<RectAreaLight> implements IAreaLight {
     public static componentName = "areaLight"
 
     public constructor() {
         super(new RectAreaLight(), RectAreaLightHelper)
-        RectAreaLightUniformsLib.init()
+        setAreaLight(true)
+        lazyInit()
     }
 
     public get power() {

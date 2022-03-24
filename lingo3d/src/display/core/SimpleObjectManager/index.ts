@@ -79,7 +79,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         if (!cb) return
         
         clickSet.add(this.object3d)
-        this.clickHandle = this.watch(new Cancellable(() => clickSet.delete(this.object3d)))
+        this.clickHandle = this.cancellable(() => clickSet.delete(this.object3d))
     }
 
     private mouseDownHandle: Cancellable | undefined
@@ -94,7 +94,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         if (!cb) return
         
         mouseDownSet.add(this.object3d)
-        this.mouseDownHandle = this.watch(new Cancellable(() => mouseDownSet.delete(this.object3d)))
+        this.mouseDownHandle = this.cancellable(() => mouseDownSet.delete(this.object3d))
     }
 
     private mouseUpHandle: Cancellable | undefined
@@ -109,7 +109,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         if (!cb) return
         
         mouseUpSet.add(this.object3d)
-        this.mouseUpHandle = this.watch(new Cancellable(() => mouseUpSet.delete(this.object3d)))
+        this.mouseUpHandle = this.cancellable(() => mouseUpSet.delete(this.object3d))
     }
 
     private mouseOverHandle: Cancellable | undefined
@@ -124,7 +124,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         if (!cb) return
         
         mouseOverSet.add(this.object3d)
-        this.mouseOverHandle = this.watch(new Cancellable(() => mouseOverSet.delete(this.object3d)))
+        this.mouseOverHandle = this.cancellable(() => mouseOverSet.delete(this.object3d))
     }
 
     private mouseOutHandle: Cancellable | undefined
@@ -139,7 +139,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         if (!cb) return
         
         mouseOutSet.add(this.object3d)
-        this.mouseOutHandle = this.watch(new Cancellable(() => mouseOutSet.delete(this.object3d)))
+        this.mouseOutHandle = this.cancellable(() => mouseOutSet.delete(this.object3d))
     }
 
     private mouseMoveHandle: Cancellable | undefined
@@ -154,7 +154,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         if (!cb) return
         
         mouseMoveSet.add(this.object3d)
-        this.mouseMoveHandle = this.watch(new Cancellable(() => mouseOutSet.delete(this.object3d)))
+        this.mouseMoveHandle = this.cancellable(() => mouseOutSet.delete(this.object3d))
     }
 
     public get name() {

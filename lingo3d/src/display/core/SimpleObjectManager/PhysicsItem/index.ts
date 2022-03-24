@@ -230,7 +230,7 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
         this._physics = val
 
         this.physicsHandle?.cancel()
-        const handle = this.physicsHandle = this.watch(new Cancellable())
+        const handle = this.physicsHandle = this.cancellable()
         
         this.initPhysics(val, handle)
     }

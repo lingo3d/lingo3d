@@ -1,4 +1,3 @@
-import { createEffect } from "@lincode/reactivity"
 import { Class } from "@lincode/utils"
 import { Color, Light, Object3D } from "three"
 import Point3d from "../../api/Point3d"
@@ -14,7 +13,7 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
     public constructor(light: T, Helper?: Class<Object3D & { dispose: () => void }>) {
         super(light)
 
-        Helper && this.watch(createEffect(() => {
+        Helper && this.createEffect(() => {
             if (!getLightHelper() || getCamera() !== mainCamera)
                 return
 
@@ -25,7 +24,14 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
                 helper.dispose()
                 scene.remove(helper)
             }
-        }, [getCamera, getLightHelper]))
+        }, [getCamera, getLightHelper])
+    }
+
+    public override dispose() {
+        if (this.done) return this
+        super.dispose()
+        this.object3d.dispose()
+        return this
     }
 
     public override lookAt(target: SimpleObjectManager | Point3d) {

@@ -40,7 +40,9 @@ export default async (urls: Array<string>, total: number | string, onProgress?: 
         totalBytes = total
     else {
         total = total.toLowerCase()
-        if (total.endsWith("mb"))
+        if (total.endsWith("kb"))
+            totalBytes = parseFloat(total) * 1024 * 256
+        else if (total.endsWith("mb"))
             totalBytes = parseFloat(total) * 1024 * 1024 * 256
         else if (total.endsWith("gb"))
             totalBytes = parseFloat(total) * 1024 * 1024 * 1024 * 256

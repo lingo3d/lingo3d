@@ -59,7 +59,8 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
                 const materials = url.map(src => new MeshBasicMaterial({ map: loadTexture(src) }))
                 //@ts-ignore
                 this.object3d.material = materials
-                this.materialHandle = new Cancellable(() => {
+                //@ts-ignore
+                this.materialHandle = this.cancellable(() => {
                     //@ts-ignore
                     this.object3d.material = this.material
                     for (const material of materials)
@@ -77,7 +78,8 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
                 const videoTexture = new VideoTexture(video)
                 this.material.map = videoTexture
 
-                this.materialHandle = new Cancellable(() => {
+                //@ts-ignore
+                this.materialHandle = this.cancellable(() => {
                     videoTexture.dispose()
                     video.pause()
                 })

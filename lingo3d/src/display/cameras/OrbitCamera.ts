@@ -1,5 +1,5 @@
 import { deg2Rad, rad2Deg } from "@lincode/math"
-import { createEffect, Reactive } from "@lincode/reactivity"
+import { Reactive } from "@lincode/reactivity"
 import { applyMixins, debounce } from "@lincode/utils"
 import { PerspectiveCamera, Vector3 } from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
@@ -42,7 +42,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         camera.position.z = 5
         this.updateDebounced()
 
-        this.watch(createEffect(() => {
+        this.createEffect(() => {
             if (!getOrbitControlsEnabled() || getCamera() !== camera || !this.enabledState.get()) return
 
             controls.enabled = true
@@ -59,7 +59,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
                     const localTarget = camera.worldToLocal(controls.target.clone())
                     
                     if (localPt.z - localTarget.z <= 0)
-                        pt = controls.target.clone().add(direction.multiplyScalar(-Number.EPSILON))
+                        pt = controls.target.clone().add(direction.multiplyScalar(-0.001))
 
                     camera.position.copy(pt)
                     this.updateDebounced()
@@ -71,7 +71,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
                 controls.enabled = false
                 handle.cancel()
             }
-        }, [getCamera, getOrbitControlsEnabled, this.enableZoomState.get, this.enabledState.get]))
+        }, [getCamera, getOrbitControlsEnabled, this.enableZoomState.get, this.enabledState.get])
 
         let azimuthStart = 0
         let polarStart = 0

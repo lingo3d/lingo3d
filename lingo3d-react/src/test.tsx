@@ -9,6 +9,7 @@ import type * as Lingo from "lingo3d"
 //@ts-ignore
 import skyboxSrc from "../assets-local/skybox.jpg"
 import ThirdPersonCamera from "./components/display/cameras/ThirdPersonCamera"
+import useKeyboard from "./hooks/useKeyboard"
 
 const Controls: React.FC<{ camera: Lingo.Camera, onClick: () => void }> = ({ camera, onClick }) => {
   return <>

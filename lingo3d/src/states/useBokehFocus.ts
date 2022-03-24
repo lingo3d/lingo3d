@@ -1,6 +1,8 @@
 import store from "@lincode/reactivity"
 import { getCamera } from "./useCamera"
 
-export const [setBokehFocus, getBokehFocus] = store(1)
+export const bokehFocusDefault = 1
 
-getCamera(cam => setBokehFocus(cam.userData.bokehFocus ?? 1))
+export const [setBokehFocus, getBokehFocus] = store(bokehFocusDefault)
+
+getCamera(cam => setBokehFocus(cam.userData.bokehFocus ?? bokehFocusDefault))
