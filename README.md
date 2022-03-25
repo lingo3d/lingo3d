@@ -11,6 +11,19 @@
 
 ## What is Lingo3D?
 Lingo3D is a web-first 3d game development library with React integration.
+
+## Playable Examples
+<div style="display: flex">
+  <div>
+    <img src="https://github.com/lingo3d/example-react-pubg/blob/main/screenshot.jpg" width="320px" />
+    <div>
+      <a href="https://www.lingo3d.com/shooter">play</a>
+      <a href="https://github.com/lingo3d/example-react-pubg">github</a>
+      <a href="https://codesandbox.io/s/lingo3d-example-react-pubg-kdl8r6">codesandbox</a>
+    </div>
+  </div>
+</div>
+
 ## Product Examples
 <div style="display: flex">
   <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/applewatch.gif" width="40%" />
