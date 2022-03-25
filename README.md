@@ -13,31 +13,39 @@
 Lingo3D is a web-first 3d game development library with React integration.
 
 ## Playable Examples
-<div style="display: flex">
-  <div>
-    <img src="https://github.com/lingo3d/example-react-pubg/blob/main/screenshot.jpg" width="320px" />
-    <div>
-      <a href="https://www.lingo3d.com/shooter">play</a>
-      <a href="https://github.com/lingo3d/example-react-pubg">github</a>
-      <a href="https://codesandbox.io/s/lingo3d-example-react-pubg-kdl8r6">codesandbox</a>
-    </div>
-  </div>
-</div>
+<table>
+  <td>
+    <img src="https://github.com/lingo3d/example-react-pubg/blob/main/screenshot.jpg" />
+    <table>
+      <td><a href="https://www.lingo3d.com/shooter">play</a></td>
+      <td><a href="https://github.com/lingo3d/example-react-pubg">github</a></td>
+      <td><a href="https://codesandbox.io/s/lingo3d-example-react-pubg-kdl8r6">codesandbox</a></td>
+    </table>
+  </td>
+  <td>
+    <img src="https://github.com/lingo3d/example-react-fairytale/blob/main/screenshot.jpg" />
+    <table>
+      <td><a href="https://www.lingo3d.com/fairy-tale">play</a></td>
+      <td><a href="https://github.com/lingo3d/example-react-fairytale">github</a></td>
+      <td><a href="https://codesandbox.io/s/lingo3d-example-react-fairytale-4b0wzv">codesandbox</a></td>
+    </table>
+  </td>
+</table>
 
 ## Product Examples
-<div style="display: flex">
+<div>
   <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/applewatch.gif" width="40%" />
   <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/macbook.gif" width="54.5%" />
 </div>
 
 ## Scene Examples
-<div style="display: flex">
+<div>
   <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/pingpong.gif" width="59%" />
   <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/fairytale.gif" width="36%" />
 </div>
 
 ## Game Examples
-<div style="display: flex">
+<div>
   <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/universe.gif" width="31.5%" />
   <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/shotting.gif" width="31.5%" />
   <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/gun.gif" width="31.5%" />
