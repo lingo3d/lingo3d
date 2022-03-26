@@ -16,7 +16,9 @@ Lingo3D is a web-first 3d game development library with React integration.
 <table>
 <tr>
   <td>
-    <img src="https://github.com/lingo3d/example-react-pubg/blob/main/screenshot.jpg" />
+    <a href="https://www.lingo3d.com/shooter">
+      <img src="https://github.com/lingo3d/example-react-pubg/blob/main/screenshot.jpg" />
+    </a>
     <table>
       <td><a href="https://www.lingo3d.com/shooter">play</a></td>
       <td><a href="https://github.com/lingo3d/example-react-pubg">github</a></td>
@@ -24,7 +26,9 @@ Lingo3D is a web-first 3d game development library with React integration.
     </table>
   </td>
   <td>
-    <img src="https://github.com/lingo3d/example-react-fairytale/blob/main/screenshot.jpg" />
+    <a href="https://www.lingo3d.com/fairy-tale">
+      <img src="https://github.com/lingo3d/example-react-fairytale/blob/main/screenshot.jpg" />
+    </a>
     <table>
       <td><a href="https://www.lingo3d.com/fairy-tale">play</a></td>
       <td><a href="https://github.com/lingo3d/example-react-fairytale">github</a></td>
@@ -34,7 +38,9 @@ Lingo3D is a web-first 3d game development library with React integration.
 </tr>
 <tr>
   <td>
-    <img src="https://github.com/lingo3d/example-react-applewatch/blob/main/screenshot.jpg" />
+    <a href="https://www.lingo3d.com/apple-watch">
+      <img src="https://github.com/lingo3d/example-react-applewatch/blob/main/screenshot.jpg" />
+    </a>
     <table>
       <td><a href="https://www.lingo3d.com/apple-watch">play</a></td>
       <td><a href="https://github.com/lingo3d/example-react-applewatch">github</a></td>
@@ -42,7 +48,9 @@ Lingo3D is a web-first 3d game development library with React integration.
     </table>
   </td>
   <td>
-    <img src="https://github.com/lingo3d/example-react-macbook/blob/main/screenshot.jpg" />
+    <a href="https://www.lingo3d.com/macbook">
+      <img src="https://github.com/lingo3d/example-react-macbook/blob/main/screenshot.jpg" />
+    </a>
     <table>
       <td><a href="https://www.lingo3d.com/macbook">play</a></td>
       <td><a href="https://github.com/lingo3d/example-react-macbook">github</a></td>
