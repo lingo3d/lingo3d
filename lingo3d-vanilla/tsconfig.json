@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"module": "esnext",
+		"moduleResolution": "node",
+		"strict": true,
+		"noImplicitOverride": true,
+		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
+		"experimentalDecorators": true,
+		"target": "es2015",
+		"outDir": "temp"
+	},
+	"include": [
+		"src"
+	]
+}

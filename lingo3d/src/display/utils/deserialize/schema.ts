@@ -47,7 +47,8 @@ export const objectManagerProps: Omit<IObjectManager, Omitted> = {
     bloom: false,
     reflection: false,
     visible: true,
-    innerVisible: true
+    innerVisible: true,
+    frustumCulled: true
 }
 
 export const loadedProps: Omit<ILoaded, Omitted> = {

@@ -23,8 +23,9 @@ const resizeObserver = new ResizeObserver(() => containerBounds[0] = container.g
 resizeObserver.observe(container)
 
 queueMicrotask(() => {
-    settings.autoMout && !container.parentElement && document.body.appendChild(container)
-    containerBounds[0] = container.getBoundingClientRect()
+    if (!settings.autoMout || container.parentElement) return
+    document.body.appendChild(container)
+    settings.fillWindow = true
 })
 
 export const renderer = new WebGLRenderer({

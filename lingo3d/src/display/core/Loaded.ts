@@ -136,6 +136,16 @@ export default abstract class Loaded<T> extends ObjectManager<Mesh> implements I
         this.loadedGroup.visible = val
     }
 
+    public override get frustumCulled() {
+        return this.outerObject3d.frustumCulled
+    }
+    public override set frustumCulled(val: boolean) {
+        if (this.outerObject3d.frustumCulled === val) return
+        this.outerObject3d.frustumCulled = val
+        
+        this.loadedResolvable.then(() => super.frustumCulled = val)
+    }
+
     public override get physics() {
         return this._physics ?? false
     }

@@ -1,0 +1,39 @@
+{
+	"name": "lingo3d-vanilla",
+	"version": "1.0.2",
+	"description": "Lingo3D is a web-first 3d game development library with React integration",
+	"author": "Lingo3D",
+	"license": "MIT",
+	"keywords": [
+		"lingo3d",
+		"3d",
+		"game",
+		"react"
+	],
+	"dependencies": {
+		"lingo3d": "1.9.67"
+	},
+	"peerDependencies": {},
+	"devDependencies": {
+		"@babel/cli": "7",
+		"@babel/core": "7",
+		"@babel/preset-env": "7",
+		"@babel/preset-typescript": "7",
+		"@babel/runtime": "7",
+		"babel-loader": "8",
+		"core-js": "3",
+		"fork-ts-checker-webpack-plugin": "7",
+		"html-webpack-plugin": "5",
+		"typescript": "*",
+		"webpack": "5",
+		"webpack-cli": "4",
+		"webpack-dev-server": "4",
+		"webpack-notifier": "1"
+	},
+	"scripts": {
+		"build": "ambients clean && yarn webpack --mode production",
+		"start": "yarn webpack-dev-server",
+		"dev": "yarn start"
+	},
+	"private": false
+}

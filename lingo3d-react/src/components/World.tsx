@@ -9,6 +9,7 @@ import scene from "lingo3d/lib/engine/scene"
 
 preventTreeShake(index)
 outline.style.display = "none"
+settings.autoMout = false
 
 type WorldProps = Partial<SetupNode> & {
     style?: React.CSSProperties

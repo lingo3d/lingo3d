@@ -4,20 +4,7 @@ import { Quaternion } from "three"
 import ICharacterCamera from "../../interface/ICharacterCamera"
 import Camera from "../cameras/Camera"
 import { euler, quaternion, quaternion_ } from "../utils/reusables"
-import Loaded from "./Loaded"
 import ObjectManager from "./ObjectManager"
-
-const uncull = (target: ObjectManager) => {
-    target.outerObject3d.traverse(child => child.frustumCulled = false)
-}
-
-const setUncull = (target: ObjectManager) => {
-    if (target instanceof Loaded)
-        //@ts-ignore
-        target.loadedResolvable.then(() => uncull(target))
-    else
-        uncull(target)
-}
 
 export default class CharacterCamera extends Camera implements ICharacterCamera {
     private targetHandle: Cancellable | undefined
@@ -45,7 +32,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             target.outerObject3d.quaternion.setFromEuler(euler)
         })
 
-        setUncull(target)
+        target.frustumCulled = false
     }
 
     public override append(object: ObjectManager) {
@@ -57,7 +44,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
         this.outerObject3d.parent?.add(object.outerObject3d)
         this.target = object
 
-        setUncull(object)
+        object.frustumCulled = false
     }
     
     private gyroControlHandle?: Cancellable

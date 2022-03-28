@@ -442,6 +442,13 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this.object3d.visible = val
     }
 
+    public get frustumCulled() {
+        return this.outerObject3d.frustumCulled
+    }
+    public set frustumCulled(val: boolean) {
+        this.outerObject3d.traverse(child => child.frustumCulled = val)
+    }
+
     public lookAt(target: SimpleObjectManager | Point3d) {
         if ("object3d" in target)
             this.outerObject3d.lookAt(target.object3d.getWorldPosition(vector3))
