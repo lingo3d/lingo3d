@@ -8,6 +8,7 @@ import { setSSRGroundReflector } from "../states/useSSRGroundReflector"
 import { lazy } from "@lincode/utils"
 import { ReflectorShape } from "../interface/IReflector"
 import { circleGeometry } from "./primitives/Circle"
+import { getPixelRatio } from "../states/usePixelRatio"
 
 const lazyReflectorForSSRPass = lazy(() => import("three/examples/jsm/objects/ReflectorForSSRPass"))
 
@@ -33,7 +34,13 @@ export default class GroundReflector extends ObjectManager<Group> {
                 color: 0x888888,
                 useDepthTexture: true
             })
-            this.watch(getResolution(([w, h]) => groundReflector.getRenderTarget().setSize(w, h)))
+            this.createEffect(() => {
+                const renderTarget = groundReflector.getRenderTarget()
+                const [w, h] = getResolution()
+                renderTarget.setSize(w, h)
+                renderTarget.setPixelRatio(getPixelRatio())
+
+            }, [getResolution, getPixelRatio])
 
             groundReflector.material.depthWrite = false
             groundReflector.visible = false

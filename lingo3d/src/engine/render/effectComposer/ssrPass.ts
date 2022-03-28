@@ -6,7 +6,6 @@ import { Mesh, Object3D } from "three"
 import { pull } from "@lincode/utils"
 import { getSSRGroundReflector } from "../../../states/useSSRGroundReflector"
 import { HEIGHT, WIDTH } from "../../../globals"
-import { getResolution } from "../../../states/useResolution"
 
 export const ssrPtr = [false]
 
@@ -41,4 +40,3 @@ getSSRGroundReflector(reflector => {
     ssrPass.groundReflector = reflector
     reflector && (ssrPtr[0] = true)
 })
-getResolution(([w, h]) => ssrPass.setSize(w, h))

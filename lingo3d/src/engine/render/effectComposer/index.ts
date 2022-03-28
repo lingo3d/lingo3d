@@ -5,7 +5,6 @@ import { getBokeh } from "../../../states/useBokeh"
 import { getAmbientOcclusion } from "../../../states/useAmbientOcclusion"
 import { getResolution } from "../../../states/useResolution"
 import { getSelectiveBloom } from "../../../states/useSelectiveBloom"
-import { renderer } from "../renderer"
 import bloomPass from "./bloomPass"
 import bokehPass from "./bokehPass"
 import fxaaPass from "./fxaaPass"
@@ -14,10 +13,21 @@ import selectiveBloomPass from "./selectiveBloomPass"
 import saoPass from "./saoPass"
 import ssrPass from "./ssrPass"
 import { getSSR } from "../../../states/useSSR"
+import { getRenderer } from "../../../states/useRenderer"
+import { getPixelRatio } from "../../../states/usePixelRatio"
 
-const effectComposer = new EffectComposer(renderer)
-getResolution(([w, h]) => effectComposer.setSize(w, h))
+const effectComposer = new EffectComposer(getRenderer())
 export default effectComposer
+
+createEffect(() => {
+    //mark
+    effectComposer.renderer = getRenderer()
+    const [w, h] = getResolution()
+    effectComposer.setSize(w, h)
+    effectComposer.setPixelRatio(getPixelRatio())
+
+}, [getRenderer, getResolution, getPixelRatio])
+
 
 createEffect(() => {
     const passes: Array<Pass> = [renderPass]

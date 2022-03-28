@@ -59,17 +59,17 @@ createEffect(() => {
 
     const [w, h] = getResolution()
     renderer.setSize(w, h)
+    renderer.setPixelRatio(getPixelRatio())
     
     renderer.toneMapping = getToneMapping() ? ACESFilmicToneMapping : NoToneMapping
     renderer.toneMappingExposure = getExposure()
     renderer.shadowMap.enabled = getPerformance() !== "speed"
-    renderer.setPixelRatio(getPixelRatio())
 
     // renderer.physicallyCorrectLights = true
     // renderer.outputEncoding = sRGBEncoding
     // renderer.shadowMap.type = PCFSoftShadowMap
 
-}, [getRenderer, getResolution, getToneMapping, getExposure, getPerformance, getPixelRatio])
+}, [getRenderer, getResolution, getPixelRatio, getToneMapping, getExposure, getPerformance])
 
 createEffect(() => {
     if (getVR() !== "webxr") return

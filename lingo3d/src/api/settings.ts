@@ -1,7 +1,6 @@
 import { getFillWindow, setFillWindow } from "../states/useFillWindow"
 import { getContainerSize, setContainerSize } from "../states/useContainerSize"
 import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
-import { getResolutionScale, setResolutionScale } from "../states/useResolutionScale"
 import { getViewportSize, setViewportSize } from "../states/useViewportSize"
 import { getDefaultFog, setDefaultFog } from "../states/useDefaultFog"
 import { DefaultLight, getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
@@ -50,13 +49,6 @@ export default {
     },
     set pixelRatio(value: number) {
         setPixelRatio(value)
-    },
-    
-    get resolutionScale() {
-        return getResolutionScale()
-    },
-    set resolutionScale(value: number) {
-        setResolutionScale(value)
     },
     
     get performance() {
