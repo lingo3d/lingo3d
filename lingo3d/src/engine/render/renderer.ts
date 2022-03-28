@@ -31,7 +31,7 @@ queueMicrotask(() => {
 export const renderer = new WebGLRenderer({
     powerPreference: "high-performance",
     alpha: true,
-    logarithmicDepthBuffer: true,
+    logarithmicDepthBuffer: false,
     antialias: true
 })
 export const canvas = renderer.domElement
