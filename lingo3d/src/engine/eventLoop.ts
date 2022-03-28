@@ -30,13 +30,23 @@ export const timer: Timer = (...args: Array<any>): Cancellable => {
 
 let timeOld = -1
 const fpsSamples: Array<number> = []
-let fpsTick = Infinity
+
+const targetFPSRates = [1, 2]
+let fpsRate = Infinity
 
 const getFPSLoop = (time: number) => {
-    if (fpsSamples.length === 60) {
+    if (fpsSamples.length === 120) {
         fpsSamples.sort((a, b) => a - b)
         const fps = fpsSamples[Math.round(fpsSamples.length * 0.5)]
-        fpsTick = Math.round(fps / 60)
+        const estimatedRate = fps / 60
+
+        let diffMin = Infinity
+        for (const rate of targetFPSRates) {
+            const diff = Math.abs(estimatedRate - rate)
+            if (diff > diffMin) continue
+            diffMin = diff
+            fpsRate = rate
+        }
         return
     }
 
@@ -51,7 +61,7 @@ let counter = 0
 
 getRenderer(renderer => {
     renderer.setAnimationLoop(() => {
-        if (++counter < fpsTick) return
+        if (++counter < fpsRate) return
         counter = 0
 
         if (getPaused()) return
