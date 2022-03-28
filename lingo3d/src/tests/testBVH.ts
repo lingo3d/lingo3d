@@ -4,6 +4,8 @@ import Model from "../display/Model"
 //@ts-ignore
 import fairySrc from "../../assets-local/fairy.glb"
 //@ts-ignore
+import bgSrc from "../../assets-local/brick_diffuse.jpg"
+//@ts-ignore
 import personSrc from "../../assets-local/person.glb"
 //@ts-ignore
 import runningSrc from "../../assets-local/running 2.fbx"
@@ -14,6 +16,7 @@ import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import { setSelection } from "../states/useSelection"
 import Sky from "../display/Sky"
 import rendering from "../api/rendering"
+import Skybox from "../display/Skybox"
 
 export default {}
 
@@ -57,4 +60,7 @@ map.src = fairySrc
 map.scale = 20
 map.physics = "map"
 
-const sky = new Sky()
+const sky = new Skybox()
+sky.texture = bgSrc
+
+setTimeout(() => rendering.logarithmicDepth = true, 1000)

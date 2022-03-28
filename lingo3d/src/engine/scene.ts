@@ -1,6 +1,7 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
-import { Color, DirectionalLight, Fog, HemisphereLight, Scene, WebGLCubeRenderTarget } from "three"
+import { forceGet } from "@lincode/utils"
+import { Color, DirectionalLight, Fog, HemisphereLight, Scene, Texture, WebGLCubeRenderTarget } from "three"
 import loadCubeTexture from "../display/utils/loaders/loadCubeTexture"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import loadTextureAsync from "../display/utils/loaders/loadTextureAsync"
@@ -14,6 +15,8 @@ import { getRenderer } from "../states/useRenderer"
 const scene = new Scene()
 export default scene
 
+const textureCubeRenderTargetMap = new WeakMap<Texture, WebGLCubeRenderTarget>()
+
 createEffect(() => {
     const image = getBackgroundImage()
     const color = getBackgroundColor()
@@ -24,16 +27,17 @@ createEffect(() => {
         if (Array.isArray(skybox))
             scene.background = loadCubeTexture(skybox)
         else {
-            const handle = new Cancellable()
+            let done = false
             loadTextureAsync(skybox).then(texture => {
-                if (handle.done) return
-                const renderTarget = new WebGLCubeRenderTarget(texture.image.height)
+                if (done) return
+                const renderTarget = forceGet(textureCubeRenderTargetMap, texture, () => (
+                    new WebGLCubeRenderTarget(texture.image.height)
+                ))
                 renderTarget.fromEquirectangularTexture(renderer, texture)
                 scene.background = renderTarget.texture
-                handle.then(() => renderTarget.dispose())
             })
             return () => {
-                handle.cancel()
+                done = true
             }
         }
     }

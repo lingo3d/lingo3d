@@ -40,6 +40,7 @@ export default debounce((node: Partial<SetupNode>) => {
     settings.defaultLight = node.defaultLight ?? defaults.defaultLight
     settings.defaultOrbitControls = node.defaultOrbitControls ?? defaults.defaultOrbitControls
 
+    rendering.logarithmicDepth = node.logarithmicDepth ?? defaults.logarithmicDepth
     rendering.toneMapping = node.toneMapping ?? defaults.toneMapping
     rendering.exposure = node.exposure ?? defaults.exposure
     rendering.bloom = node.bloom ?? defaults.bloom

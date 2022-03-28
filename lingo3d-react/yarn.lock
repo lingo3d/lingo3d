@@ -3083,10 +3083,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingo3d@1.9.69-alpha.0:
-  version "1.9.69-alpha.0"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.9.69-alpha.0.tgz#b06fe17f0753c0982423a3684320855dd64fd8b9"
-  integrity sha512-DMKAjTzRnoizCSHCuF50/ryHoBikXZuxuXXHPAFXJxXPJg5M5P9T4dvnmkD3u04PBxKzl1eoIv1TO+FknM7XaA==
+lingo3d@1.9.69-alpha.5:
+  version "1.9.69-alpha.5"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.9.69-alpha.5.tgz#fbf50c793bf00ca894114aeee63db4e39d458647"
+  integrity sha512-GZa6iCnIH/HkjBTUSon3lM95MgunPw6T2YK40LAY7Tx45fatNp5FHZDeE88bFwrVFaAQ7HtgSS0cHk5Q49phlA==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
@@ -3099,7 +3099,7 @@ lingo3d@1.9.69-alpha.0:
     cannon-es "0.19.0"
     resize-observer-polyfill "1"
     three "0.139.0"
-    three-mesh-bvh "0.5.7"
+    three-mesh-bvh "0.5.8"
 
 loader-runner@^4.2.0:
   version "4.2.0"
@@ -4240,10 +4240,10 @@ terser@^5.7.2:
     source-map "~0.7.2"
     source-map-support "~0.5.20"
 
-three-mesh-bvh@0.5.7:
-  version "0.5.7"
-  resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.5.7.tgz#bb5620dc4cf213f0ea29c8638347312c81dbfb2b"
-  integrity sha512-CASFj3/3WKQ68S6E3vUNVTPyz9qHPJIDYvO4pEYMTUY0NOGCunz/mMnn71S3TKlDKamYPZO4PMv9SDN8SVBIEA==
+three-mesh-bvh@0.5.8:
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.5.8.tgz#d8882625c0d5b07e86e0c2ad3cff2091e3650af8"
+  integrity sha512-aw1hGGKP91WC98vDh+M7yGczwnmmtbcCwDjsh7hls076S91GuSfWbCoym3GK64uR0BhySlV5mEitCKQu3o7srg==
 
 three@0.139.0:
   version "0.139.0"
