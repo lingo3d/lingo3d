@@ -11,6 +11,10 @@ export default abstract class EventLoopItem extends Appendable implements IEvent
         return this.watch(timer(...args))
     }
 
+    public queueMicrotask(cb: () => void) {
+        queueMicrotask(() => !this.done && cb())
+    }
+
     public loop(cb: () => void) {
         return this.watch(loop(cb))
     }

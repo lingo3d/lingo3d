@@ -4,14 +4,14 @@ import { applySetup } from "lingo3d"
 import React, { useLayoutEffect } from "react"
 import { Pane } from "tweakpane"
 import makeValue from "./makeValue"
-import { Camera as GameCamera } from "lingo3d"
+import type { Camera as ThreeCamera } from "three"
 import addCameraInput from "./addCameraInput"
 
 type Config = Record<string, readonly [any, Record<string, any>?]>
 
 export default (
-    cam: GameCamera,
-    camList: Array<GameCamera>,
+    cam: ThreeCamera,
+    camList: Array<ThreeCamera>,
     divRef: React.MutableRefObject<HTMLDivElement | null>,
     enabled: boolean
 ) => {

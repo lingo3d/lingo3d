@@ -35,7 +35,7 @@ let fpsTick = Infinity
 const getFPSLoop = (time: number) => {
     if (fpsSamples.length === 60) {
         fpsSamples.sort((a, b) => a - b)
-        const fps = fpsSamples[Math.round(fpsSamples.length / 2)]
+        const fps = fpsSamples[Math.round(fpsSamples.length * 0.5)]
         fpsTick = Math.round(fps / 60)
         return
     }

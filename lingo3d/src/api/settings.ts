@@ -108,5 +108,7 @@ export default {
         setOrbitControls(value)
     },
 
-    wasmPath: "https://www.lingo3d.com/wasm/"
+    wasmPath: "https://www.lingo3d.com/wasm/",
+
+    autoMout: true
 }

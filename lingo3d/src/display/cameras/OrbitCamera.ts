@@ -238,7 +238,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
 
         if (lock) return
 
-        queueMicrotask(() => {
+        this.queueMicrotask(() => {
             this.controls.minAzimuthAngle = -Infinity
             this.controls.maxAzimuthAngle = Infinity
         })
@@ -250,7 +250,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
 
         if (lock) return
 
-        queueMicrotask(() => {
+        this.queueMicrotask(() => {
             this.controls.minPolarAngle = -Infinity
             this.controls.maxPolarAngle = Infinity
         })
@@ -265,7 +265,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
             return
         }
 
-        queueMicrotask(() => {
+        this.queueMicrotask(() => {
             this.controls.minDistance = -Infinity
             this.controls.maxDistance = Infinity
         })

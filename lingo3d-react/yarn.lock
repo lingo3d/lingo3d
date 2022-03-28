@@ -1330,9 +1330,9 @@
     "@types/react" "*"
 
 "@types/react@*":
-  version "17.0.42"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.42.tgz#8242b9219bf8a911c47f248e327206fea3f4ee5a"
-  integrity sha512-nuab3x3CpJ7VFeNA+3HTUuEkvClYHXqWtWd7Ud6AZYW7Z3NH9WKtgU+tFB0ZLcHq+niB/HnzLcaZPqMJ95+k5Q==
+  version "17.0.43"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.43.tgz#4adc142887dd4a2601ce730bc56c3436fdb07a55"
+  integrity sha512-8Q+LNpdxf057brvPu1lMtC5Vn7J119xrP1aq4qiaefNioQUYANF/CYeK4NsKorSZyUGJ66g0IM+4bbjwx45o2A==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -1369,6 +1369,11 @@
   integrity sha512-f0KEEe05NvUnat+boPTZ0dgaLZ4SfSouXUgv5noUiefG2ajgKjmETo9ZJyuqsl7dfl2aHlLJUiki6B4ZYldiiw==
   dependencies:
     "@types/node" "*"
+
+"@types/three@0.139.0":
+  version "0.139.0"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.139.0.tgz#69af1f0c52f8eea390f513e05478af1dd7f49e6f"
+  integrity sha512-4V/jZhyq7Mv05coUzxL3bz8AuBOSi/1F0RY7ujisHTV0Amy/fnYJ+s7TSJ1/hXjZukSkpuFRgV+wvWUEMbsMbQ==
 
 "@types/ws@^8.2.2":
   version "8.2.2"
@@ -3078,10 +3083,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingo3d@1.9.56:
-  version "1.9.56"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.9.56.tgz#0a645cf62143de59b05c71c56d221b04a56548d2"
-  integrity sha512-t1Z6Xq5sGNBdZo7FNLBPyWXkx5JcZIp7YeES0RVkqyLjVGfJRJUGM6ETrmZjumpO/nJwZ3xy2JIMbHZW7l1U4A==
+lingo3d@1.9.65:
+  version "1.9.65"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.9.65.tgz#41c22641bec242dd09e6fe111e76a3252d68bac3"
+  integrity sha512-nND1xEPcb265EPlx7zu7EoU/nYhvakD9yEJOHuk/+1IoBbFE13w87RSBY48JghfuWrMSEfpKjb+pzJZCnhXYQA==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
@@ -3090,6 +3095,7 @@ lingo3d@1.9.56:
     "@lincode/reactivity" "*"
     "@lincode/utils" "*"
     "@pinyinma/guid" "*"
+    "@types/three" "0.139.0"
     cannon-es "0.19.0"
     resize-observer-polyfill "1"
     three "0.139.0"
@@ -4285,9 +4291,9 @@ type-is@~1.6.18:
     mime-types "~2.1.24"
 
 typescript@*:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.2.tgz#fe12d2727b708f4eef40f51598b3398baa9611d4"
-  integrity sha512-HM/hFigTBHZhLXshn9sN37H085+hQGeJHJ/X7LpBWLID/fbc2acUMfU+lGD98X81sKP+pFa9f0DZmCwB9GnbAg==
+  version "4.6.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.3.tgz#eefeafa6afdd31d725584c67a0eaba80f6fc6c6c"
+  integrity sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==
 
 ua-parser-js@^0.7.30:
   version "0.7.31"

@@ -8,9 +8,9 @@ import { getPixelRatio } from "../../states/usePixelRatio"
 import { VRButton } from "three/examples/jsm/webxr/VRButton"
 import { createEffect } from "@lincode/reactivity"
 import { getVR } from "../../states/useVR"
+import settings from "../../api/settings"
 
 export const container = document.createElement("div")
-// document.body.appendChild(container)
 Object.assign(container.style, {
     position: "absolute",
     left: "0px",
@@ -21,6 +21,11 @@ Object.assign(container.style, {
 export const containerBounds = [container.getBoundingClientRect()]
 const resizeObserver = new ResizeObserver(() => containerBounds[0] = container.getBoundingClientRect())
 resizeObserver.observe(container)
+
+queueMicrotask(() => {
+    settings.autoMout && !container.parentElement && document.body.appendChild(container)
+    containerBounds[0] = container.getBoundingClientRect()
+})
 
 export const renderer = new WebGLRenderer({
     powerPreference: "high-performance",

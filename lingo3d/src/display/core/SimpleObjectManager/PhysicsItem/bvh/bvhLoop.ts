@@ -1,9 +1,10 @@
 import { createEffect } from "@lincode/reactivity"
+import { Vector3 } from "three"
 import PhysicsItem from ".."
 import { loop } from "../../../../../engine/eventLoop"
 import { GRAVITY } from "../../../../../globals"
 import { getBVHMap } from "../../../../../states/useBVHMap"
-import { box3, line3, line3_0, vector3, vector3_ } from "../../../../utils/reusables"
+import { box3, line3, vector3, vector3_, vector3__ } from "../../../../utils/reusables"
 
 export const bvhCharacterSet = new Set<PhysicsItem>()
 
@@ -17,7 +18,9 @@ createEffect(function (this: PhysicsItem) {
         for (const item of bvhCharacterSet) {
             const playerVelocity = item.bvhVelocity!
             const player = item.outerObject3d
+            const capsuleHeight = item.bvhHeight!
             const capsuleRadius = item.bvhRadius!
+            const coeff = item.bvhCoeff!
 
             playerVelocity.y += item.bvhOnGround ? 0 : delta * -GRAVITY
 
@@ -33,20 +36,18 @@ createEffect(function (this: PhysicsItem) {
             player.position.addScaledVector(playerVelocity, delta)
             player.updateMatrixWorld()
 
-            // adjust player position based on collisions
-            box3.makeEmpty()
-            line3.copy(line3_0)
+            const { start, end } = line3
+            end.copy(start.copy(player.position))
+            end.y += capsuleHeight * coeff
+            start.y -= capsuleHeight * coeff
+            
+            const startOld = start.clone()
 
-            // get the position of the capsule
-            line3.start.applyMatrix4(player.matrixWorld)
-            line3.end.applyMatrix4(player.matrixWorld)
-
-            // get the axis aligned bounding box of the capsule
-            box3.expandByPoint(line3.start)
-            box3.expandByPoint(line3.end)
-
-            box3.min.addScalar(-capsuleRadius)
-            box3.max.addScalar(capsuleRadius)
+            box3.setFromCenterAndSize(player.position, vector3__.set(capsuleRadius * 2, capsuleHeight * 2, capsuleRadius * 2))
+            const triPoint = vector3
+            const capsulePoint = vector3_
+            let distance = 0
+            let direction: Vector3 | undefined
 
             for (const boundsTree of bvhArray)
                 boundsTree.shapecast({
@@ -54,22 +55,15 @@ createEffect(function (this: PhysicsItem) {
                     intersectsBounds: box => box.intersectsBox(box3),
                     //@ts-ignore
                     intersectsTriangle: tri => {
-                        // check if the triangle is intersecting the capsule and adjust the
-                        // capsule position if it is.
-                        const triPoint = vector3
-                        const capsulePoint = vector3_
-                        const distance = tri.closestPointToSegment(line3, triPoint, capsulePoint)
+                        distance = tri.closestPointToSegment(line3, triPoint, capsulePoint) as number
                         if (distance < capsuleRadius) {
-                            //@ts-ignore
-                            const depth = capsuleRadius - distance
-                            const direction = capsulePoint.sub(triPoint).normalize()
-                            line3.start.addScaledVector(direction, depth)
-                            line3.end.addScaledVector(direction, depth)
+                            direction = capsulePoint.sub(triPoint).normalize().multiplyScalar(capsuleRadius - distance)
+                            start.add(direction)
+                            end.add(direction)
                         }
                     }
                 })
-            // check how much the capsule was moved
-            const deltaVector = line3.start.sub(player.position)
+            const deltaVector = start.sub(startOld)
 
             // if the player was primarily adjusted vertically we assume it's on something we should consider ground
             item.bvhOnGround = deltaVector.y > Math.abs(delta * playerVelocity.y * 0.25)

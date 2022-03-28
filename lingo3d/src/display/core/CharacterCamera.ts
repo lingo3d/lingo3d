@@ -32,6 +32,8 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
         this.targetHandle?.cancel()
         if (!target) return
 
+        this.queueMicrotask(() => this.outerObject3d.quaternion.copy(target.outerObject3d.quaternion))
+
         this.targetHandle = this.loop(() => {
             this.outerObject3d.position.copy(target.outerObject3d.position)
 
@@ -83,7 +85,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
 
             this.object3d.quaternion.multiply(deviceQuaternion.setFromEuler(deviceEuler))
 
-            const minusHalfAngle = -orient / 2
+            const minusHalfAngle = -orient * 0.5
             screenTransform.set(0, Math.sin(minusHalfAngle), 0, Math.cos(minusHalfAngle))
 
             this.object3d.quaternion.multiply(screenTransform)

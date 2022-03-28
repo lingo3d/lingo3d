@@ -19,6 +19,5 @@ export const ray = new Ray()
 export const euler = new Euler(0, 0, 0, "YXZ")
 
 export const line3 = new Line3()
-export const line3_0 = new Line3()
 
 export const wireframeMaterial = new MeshBasicMaterial({ wireframe: true })

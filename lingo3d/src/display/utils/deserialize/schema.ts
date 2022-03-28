@@ -136,6 +136,10 @@ const ambientLight: Omit<ILight, Omitted> = lightProps
 
 export const areaLight: Omit<IAreaLight, Omitted> = {
     ...lightProps,
+    width: 1000,
+    height: 1000,
+    depth: 0,
+    scaleZ: 0,
     power: 10 * Math.PI
 }
 

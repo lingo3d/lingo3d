@@ -66,6 +66,10 @@ const App = () => {
 }
 
 const App2 = () => {
+  const key = useKeyboard()
+  
+  console.log(key)
+
   return (<>
     <World>
       <ThirdPersonCamera active>

@@ -13,8 +13,8 @@ settings.defaultOrbitControls = true
 settings.fillWindow = true
 
 const player = new Cube()
-player.width = 20
-player.depth = 20
+player.width = 50
+player.depth = 50
 player.z = -100
 player.y = 500
 player.physics = "character"
