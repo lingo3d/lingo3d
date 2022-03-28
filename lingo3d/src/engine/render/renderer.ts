@@ -1,4 +1,4 @@
-import { ACESFilmicToneMapping, NoToneMapping, PCFSoftShadowMap, WebGLRenderer } from "three"
+import { ACESFilmicToneMapping, NoToneMapping, PCFSoftShadowMap } from "three"
 import { getExposure } from "../../states/useExposure"
 import ResizeObserver from "resize-observer-polyfill"
 import { getResolution } from "../../states/useResolution"
@@ -9,6 +9,7 @@ import { VRButton } from "three/examples/jsm/webxr/VRButton"
 import { createEffect } from "@lincode/reactivity"
 import { getVR } from "../../states/useVR"
 import settings from "../../api/settings"
+import { getRenderer } from "../../states/useRenderer"
 
 export const container = document.createElement("div")
 Object.assign(container.style, {
@@ -28,36 +29,7 @@ queueMicrotask(() => {
     settings.fillWindow = true
 })
 
-export const renderer = new WebGLRenderer({
-    powerPreference: "high-performance",
-    alpha: true,
-    logarithmicDepthBuffer: false,
-    antialias: true
-})
-export const canvas = renderer.domElement
-
-getResolution(([w, h]) => {
-    renderer.setSize(w, h)
-    Object.assign(canvas.style, { width: "100%", height: "100%" })
-})
-getToneMapping(val => renderer.toneMapping = val ? ACESFilmicToneMapping : NoToneMapping)
-getExposure(val => renderer.toneMappingExposure = val)
-getPerformance(val => renderer.shadowMap.enabled = val !== "speed")
-getPixelRatio(val => renderer.setPixelRatio(val))
-
-// renderer.physicallyCorrectLights = true
-// renderer.outputEncoding = sRGBEncoding
-// renderer.shadowMap.type = PCFSoftShadowMap
-
-container.appendChild(canvas)
-Object.assign(canvas.style, {
-    position: "absolute",
-    left: "0px",
-    top: "0px"
-})
-
 export const outline = document.createElement("div")
-container.appendChild(outline)
 Object.assign(outline.style, {
     border: "1px solid blue",
     position: "absolute",
@@ -67,17 +39,51 @@ Object.assign(outline.style, {
 })
 
 createEffect(() => {
+    const canvas = getRenderer().domElement
+    container.appendChild(canvas)
+    container.appendChild(outline)
+    Object.assign(canvas.style, {
+        position: "absolute",
+        left: "0px",
+        top: "0px",
+        width: "100%",
+        height: "100%"
+    })
+    return () => {
+        container.removeChild(canvas)
+    }
+}, [getRenderer])
+
+createEffect(() => {
+    const renderer = getRenderer()
+
+    const [w, h] = getResolution()
+    renderer.setSize(w, h)
+    
+    renderer.toneMapping = getToneMapping() ? ACESFilmicToneMapping : NoToneMapping
+    renderer.toneMappingExposure = getExposure()
+    renderer.shadowMap.enabled = getPerformance() !== "speed"
+    renderer.setPixelRatio(getPixelRatio())
+
+    // renderer.physicallyCorrectLights = true
+    // renderer.outputEncoding = sRGBEncoding
+    // renderer.shadowMap.type = PCFSoftShadowMap
+
+}, [getRenderer, getResolution, getToneMapping, getExposure, getPerformance, getPixelRatio])
+
+createEffect(() => {
     if (getVR() !== "webxr") return
 
+    const renderer = getRenderer()
     renderer.xr.enabled = true
+    
     const button = VRButton.createButton(renderer)
     container.appendChild(button)
 
-    //@ts-ignore
-    button.ontouchstart = () => button.onclick?.()
+    button.ontouchstart = () => button.onclick?.(new MouseEvent("click"))
 
     return () => {
         renderer.xr.enabled = false
         container.removeChild(button)
     }
-}, [getVR])
+}, [getVR, getRenderer])

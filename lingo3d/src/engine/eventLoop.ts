@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { getPaused } from "../states/usePaused"
-import { renderer } from "./render/renderer"
+import { getRenderer } from "../states/useRenderer"
 
 const interval = (time: number, repeat: number, cb: () => void) => {
     let count = 0
@@ -49,7 +49,8 @@ requestAnimationFrame(getFPSLoop)
 const callbacks = new Set<() => void>()
 let counter = 0
 
-renderer.setAnimationLoop(() => {
+//mark
+getRenderer().setAnimationLoop(() => {
     if (++counter < fpsTick) return
     counter = 0
 

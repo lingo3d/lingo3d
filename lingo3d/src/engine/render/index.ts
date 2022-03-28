@@ -7,6 +7,7 @@ import { vector3 } from "../../display/utils/reusables"
 import { getCamera } from "../../states/useCamera"
 import { getContainerSize } from "../../states/useContainerSize"
 import { getPerformance } from "../../states/usePerformance"
+import { getRenderer } from "../../states/useRenderer"
 import { setSelectiveBloom } from "../../states/useSelectiveBloom"
 import { setSSR } from "../../states/useSSR"
 import { getVR } from "../../states/useVR"
@@ -15,7 +16,6 @@ import scene from "../scene"
 import effectComposer from "./effectComposer"
 import renderSelectiveBloom, { bloomPtr } from "./effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import { ssrPtr } from "./effectComposer/ssrPass"
-import { renderer } from "./renderer"
 import resize from "./resize"
 
 preventTreeShake(resize)
@@ -30,12 +30,13 @@ const handleBlob = () => {
     if (!getBlob) return
     const getBlobCopy = getBlob
     getBlob = undefined
-    renderer.domElement.toBlob(blob => blob && getBlobCopy(blob))
+    getRenderer().domElement.toBlob(blob => blob && getBlobCopy(blob))
 }
 
 createEffect(() => {
     const vr = getVR()
     const camera = getCamera()
+    const renderer = getRenderer()
 
     if (getPerformance() === "speed" || vr === "webxr") {
         const handle = loop(() => {
@@ -131,4 +132,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getPerformance, getVR, getCamera, getContainerSize])
+}, [getPerformance, getVR, getCamera, getContainerSize, getRenderer])

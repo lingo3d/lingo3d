@@ -9,7 +9,7 @@ import { getBackgroundImage } from "../states/useBackgroundImage"
 import { getBackgroundSkybox } from "../states/useBackgroundSkybox"
 import { getDefaultFog } from "../states/useDefaultFog"
 import { getDefaultLight } from "../states/useDefaultLight"
-import { renderer } from "./render/renderer"
+import { getRenderer } from "../states/useRenderer"
 
 const scene = new Scene()
 export default scene
@@ -18,6 +18,7 @@ createEffect(() => {
     const image = getBackgroundImage()
     const color = getBackgroundColor()
     const skybox = getBackgroundSkybox()
+    const renderer = getRenderer()
 
     if (skybox) {
         if (Array.isArray(skybox))
@@ -39,23 +40,21 @@ createEffect(() => {
     else if (image)
         scene.background = loadTexture(image)
     else if (color) {
-        if (color === "transparent" || color === "none")
+        if (color === "transparent")
             scene.background = null
         else
             scene.background = new Color(color)
     }
     else scene.background = new Color("black")
 
-}, [getBackgroundColor, getBackgroundImage, getBackgroundSkybox])
+}, [getBackgroundColor, getBackgroundImage, getBackgroundSkybox, getRenderer])
 
 createEffect(() => {
     const defaultLight = getDefaultLight()
-
     if (!defaultLight) return
 
     if (defaultLight === "studio") {
         const handle = new Cancellable()
-        
         ;(async () => {
             const AreaLight = (await import("../display/lights/AreaLight")).default
             if (handle.done) return
@@ -66,8 +65,6 @@ createEffect(() => {
             handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationZ: 90, intensity: 3 }))
             handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationZ: -90, intensity: 3 }))
         })()
-        
-
         return () => {
             handle.cancel()
         }
