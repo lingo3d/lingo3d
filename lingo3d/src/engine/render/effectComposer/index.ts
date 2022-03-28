@@ -20,7 +20,6 @@ const effectComposer = new EffectComposer(getRenderer())
 export default effectComposer
 
 createEffect(() => {
-    //mark
     effectComposer.renderer = getRenderer()
     const [w, h] = getResolution()
     effectComposer.setSize(w, h)

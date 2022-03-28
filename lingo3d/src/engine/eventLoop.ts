@@ -49,15 +49,16 @@ requestAnimationFrame(getFPSLoop)
 const callbacks = new Set<() => void>()
 let counter = 0
 
-//mark
-getRenderer().setAnimationLoop(() => {
-    if (++counter < fpsTick) return
-    counter = 0
+getRenderer(renderer => {
+    renderer.setAnimationLoop(() => {
+        if (++counter < fpsTick) return
+        counter = 0
 
-    if (getPaused()) return
+        if (getPaused()) return
 
-    for (const cb of callbacks)
-        cb()
+        for (const cb of callbacks)
+            cb()
+    })  
 })
 
 export const loop = (cb: () => void) => {

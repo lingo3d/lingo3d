@@ -31,6 +31,7 @@ export type SetupNode = {
     defaultFog?: boolean
     defaultLight?: DefaultLight
     defaultOrbitControls?: boolean
+    logarithmicDepth?: boolean
     toneMapping?: boolean
     exposure?: number
     bloom?: boolean

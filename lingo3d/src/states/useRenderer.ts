@@ -1,12 +1,12 @@
 import store, { createEffect } from "@lincode/reactivity"
 import { WebGLRenderer } from "three"
 import { getBackgroundColor } from "./useBackgroundColor"
-import { getLogarithmicDepthBuffer } from "./useLogarithmicDepthBuffer"
+import { getLogarithmicDepth } from "./useLogarithmicDepth"
 
 const makeRenderer = () => new WebGLRenderer({
     powerPreference: "high-performance",
     alpha: getBackgroundColor() === "transparent",
-    logarithmicDepthBuffer: getLogarithmicDepthBuffer(),
+    logarithmicDepthBuffer: getLogarithmicDepth(),
     antialias: true
 })
 
@@ -17,4 +17,4 @@ createEffect(() => {
     getRenderer().dispose()
     setRenderer(makeRenderer())
 
-}, [getBackgroundColor, getLogarithmicDepthBuffer])
+}, [getBackgroundColor, getLogarithmicDepth])

@@ -11,7 +11,6 @@ selectiveBloomComposer.renderToScreen = false
 export default selectiveBloomComposer
 
 createEffect(() => {
-    //mark
     selectiveBloomComposer.renderer = getRenderer()
     const [w, h] = getResolution()
     selectiveBloomComposer.setSize(w, h)

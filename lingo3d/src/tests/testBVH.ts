@@ -13,6 +13,7 @@ import idleSrc from "../../assets-local/idle 2.fbx"
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import { setSelection } from "../states/useSelection"
 import Sky from "../display/Sky"
+import rendering from "../api/rendering"
 
 export default {}
 

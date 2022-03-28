@@ -9,8 +9,16 @@ import { getBokehFocus, setBokehFocus } from "../states/useBokehFocus"
 import { getBokehMaxBlur, setBokehMaxBlur } from "../states/useBokehMaxBlur"
 import { getExposure, setExposure } from "../states/useExposure"
 import { getToneMapping, setToneMapping } from "../states/useToneMapping"
+import { getLogarithmicDepth, setLogarithmicDepth } from "../states/useLogarithmicDepth"
 
 export default {
+    get logarithmicDepth() {
+        return getLogarithmicDepth()
+    },
+    set logarithmicDepth(value: boolean) {
+        setLogarithmicDepth(value)
+    },    
+
     get toneMapping() {
         return getToneMapping()
     },
