@@ -2,7 +2,7 @@ import { Point } from "@lincode/math"
 import { Object3D } from "three"
 import Point3d from "../../api/Point3d"
 import { scaleDown } from "../../engine/constants"
-import { outline } from "../../engine/render/renderer"
+import { outline } from "../../engine/render/renderSetup"
 import { getCamera } from "../../states/useCamera"
 import { vector3 } from "./reusables"
 

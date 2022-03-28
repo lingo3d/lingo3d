@@ -1,7 +1,7 @@
 import CameraBase from "."
 import isMobile from "../../../api/utils/isMobile"
 import { getCamera } from "../../../states/useCamera"
-import { container } from "../../../engine/render/renderer"
+import { container } from "../../../engine/render/renderSetup"
 import { Camera } from "three"
 import { Cancellable } from "@lincode/promiselikes"
 import { setSelectionEnabled } from "../../../states/useSelectionEnabled"

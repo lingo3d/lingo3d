@@ -110,7 +110,6 @@ createEffect(() => {
         }
     }
 
-
     let selectiveBloomInitialized = false
     let ssrInitialized = false
 

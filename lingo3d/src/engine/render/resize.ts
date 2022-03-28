@@ -9,7 +9,7 @@ import { getContainerSize } from "../../states/useContainerSize"
 import { setContainerZoom } from "../../states/useContainerZoom"
 import { getViewportSize } from "../../states/useViewportSize"
 import mainCamera from "../mainCamera"
-import { outline, container } from "./renderer"
+import { outline, container } from "./renderSetup"
 import { getVR } from "../../states/useVR"
 
 export default {}

@@ -1,5 +1,5 @@
 import Events from "@lincode/events"
-import { container, containerBounds } from "../engine/render/renderer"
+import { container, containerBounds } from "../engine/render/renderSetup"
 import { getSelection } from "../states/useSelection"
 import clientToWorld from "../display/utils/clientToWorld"
 import { Group } from "three"

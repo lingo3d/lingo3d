@@ -1,4 +1,4 @@
-import { containerBounds } from "../../engine/render/renderer"
+import { containerBounds } from "../../engine/render/renderSetup"
 import { getContainerZoom } from "../../states/useContainerZoom"
 
 export default (clientX: number, clientY: number) => {

@@ -1,11 +1,11 @@
 import { SSRPass } from "three/examples/jsm/postprocessing/SSRPass"
-import { renderer } from "../renderer"
 import scene from "../../scene"
 import { getCamera } from "../../../states/useCamera"
 import { Mesh, Object3D } from "three"
 import { pull } from "@lincode/utils"
 import { getSSRGroundReflector } from "../../../states/useSSRGroundReflector"
 import { HEIGHT, WIDTH } from "../../../globals"
+import { getRenderer } from "../../../states/useRenderer"
 
 export const ssrPtr = [false]
 
@@ -25,7 +25,7 @@ export const deleteSSR = (target: Object3D) => {
 }
 
 const ssrPass = new SSRPass({
-    renderer,
+    renderer: getRenderer(),
     scene,
     camera: getCamera(),
     width: WIDTH,
@@ -35,6 +35,7 @@ const ssrPass = new SSRPass({
 })
 export default ssrPass
 
+getRenderer(renderer => ssrPass.renderer = renderer)
 getCamera(camera => ssrPass.camera = camera)
 getSSRGroundReflector(reflector => {
     ssrPass.groundReflector = reflector
