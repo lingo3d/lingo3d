@@ -18,17 +18,11 @@ export default {
         setFillWindow(value)
     },
 
-    get width() {
-        return getViewportSize()[0]
+    get viewportSize() {
+        return getViewportSize()
     },
-    set width(val: number) {
-        setViewportSize([val, getViewportSize()[1]])
-    },
-    get height() {
-        return getViewportSize()[1]
-    },
-    set height(val: number) {
-        setViewportSize([getViewportSize()[0], val])
+    set viewportSize(val: [number, number]) {
+        setViewportSize(val)
     },
 
     get resolution() {

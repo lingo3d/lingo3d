@@ -31,15 +31,13 @@ const World: React.FC<WorldProps> = ({ style, className, position, children, ...
 
         el.appendChild(container)
 
-        const cb = () => {
-            settings.containerWidth = settings.width = el.clientWidth
-            settings.containerHeight = settings.height = el.clientHeight
-        }
-        cb()
-        window.addEventListener("resize", cb)
+        const resizeObserver = new ResizeObserver(() => {
+            settings.resolution = settings.viewportSize = [el.clientWidth, el.clientHeight]
+        })
+        resizeObserver.observe(el)
 
         return () => {
-            window.removeEventListener("resize", cb)
+            resizeObserver.disconnect()
         }
     }, [])
 
