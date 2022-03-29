@@ -10,12 +10,15 @@ import { getBokehMaxBlur, setBokehMaxBlur } from "../states/useBokehMaxBlur"
 import { getExposure, setExposure } from "../states/useExposure"
 import { getToneMapping, setToneMapping } from "../states/useToneMapping"
 import { getLogarithmicDepth, setLogarithmicDepth } from "../states/useLogarithmicDepth"
+import isMobile from "./utils/isMobile"
+import isChromium from "./utils/isChromium"
 
 export default {
     get logarithmicDepth() {
         return getLogarithmicDepth()
     },
     set logarithmicDepth(value: boolean) {
+        if (isMobile || !isChromium) return
         setLogarithmicDepth(value)
     },    
 
