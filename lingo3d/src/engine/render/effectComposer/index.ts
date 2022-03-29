@@ -31,8 +31,6 @@ createEffect(() => {
 createEffect(() => {
     const passes: Array<Pass> = [renderPass]
 
-    passes.push(fxaaPass)
-
     if (getSSR())
         passes.push(ssrPass)
 
@@ -47,6 +45,8 @@ createEffect(() => {
 
     if (getBokeh())
         passes.push(bokehPass)
+
+    passes.push(fxaaPass)
 
     for (const pass of passes)
         effectComposer.addPass(pass)
