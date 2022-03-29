@@ -5,9 +5,9 @@ import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import Cube from "../../display/primitives/Cube"
 import { vector3 } from "../../display/utils/reusables"
 import { getCamera } from "../../states/useCamera"
-import { getContainerSize } from "../../states/useContainerSize"
 import { getPerformance } from "../../states/usePerformance"
 import { getRenderer } from "../../states/useRenderer"
+import { getResolution } from "../../states/useResolution"
 import { setSelectiveBloom } from "../../states/useSelectiveBloom"
 import { setSSR } from "../../states/useSSR"
 import { getVR } from "../../states/useVR"
@@ -55,9 +55,9 @@ createEffect(() => {
         const focalDistannce = 1000
         const parallax = -focalDistannce * 0.5
 
-        const [windowWidth, windowHeight] = getContainerSize()
-        const width = windowWidth * 0.5
-        const height = windowHeight * 1
+        const [resX, resY] = getResolution()
+        const width = resX * 0.5
+        const height = resY * 1
 
         camera.aspect = width / height
         camera.updateProjectionMatrix()
@@ -104,8 +104,8 @@ createEffect(() => {
             focus.dispose()
             handle.cancel()
 
-            renderer.setViewport(0, 0, windowWidth, windowHeight)
-            renderer.setScissor(0, 0, windowWidth, windowHeight)
+            renderer.setViewport(0, 0, resX, resY)
+            renderer.setScissor(0, 0, resX, resY)
             renderer.setScissorTest(false)
         }
     }
@@ -131,4 +131,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getPerformance, getVR, getCamera, getContainerSize, getRenderer])
+}, [getPerformance, getVR, getCamera, getResolution, getRenderer])

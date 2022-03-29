@@ -1,5 +1,4 @@
 import store from "@lincode/reactivity"
-import { getContainerSize } from "./useContainerSize"
+import { HEIGHT, WIDTH } from "../globals"
 
-export const [setResolution, getResolution] = store(getContainerSize())
-getContainerSize(setResolution)
+export const [setResolution, getResolution] = store<[number, number]>([WIDTH, HEIGHT])

@@ -1,5 +1,5 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { setContainerSize } from "./useContainerSize"
+import { setResolution } from "./useResolution"
 import { setViewportSize } from "./useViewportSize"
 
 export const [setFillWindow, getFillWindow] = store(false)
@@ -9,7 +9,7 @@ createEffect(() => {
 
     const cb = () => {
         setViewportSize([window.innerWidth, window.innerHeight])
-        setContainerSize([window.innerWidth, window.innerHeight])
+        setResolution([window.innerWidth, window.innerHeight])
     }
     cb()
     window.addEventListener("resize", cb)

@@ -5,8 +5,7 @@ import makeCharacter from "./utils/makeCharacter"
 
 export default {}
 
-settings.containerWidth = settings.width = window.innerWidth
-settings.containerHeight = settings.height = window.innerHeight
+settings.fillWindow = true
 rendering.bloom = true
 rendering.bloomStrength = 0.5
 settings.gridHelper = true

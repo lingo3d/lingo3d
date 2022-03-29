@@ -1,8 +1,7 @@
-import { DirectionalLight, PointLight, SkyLight, settings, Sky, rendering, Cube, Reflector, GroundReflector } from ".."
+import { PointLight, SkyLight, settings, Sky, rendering, GroundReflector } from ".."
 //@ts-ignore
 import faceSrc from "../../assets-local/face.glb"
 import Model from "../display/Model"
-import { setOrbitControls } from "../states/useOrbitControls"
 
 export default {}
 
@@ -30,8 +29,7 @@ light3.innerZ = 500
 light3.rotationY = 45
 light3.intensity = 0.5
 
-settings.containerWidth = window.innerWidth
-settings.containerHeight = window.innerHeight
+settings.fillWindow = true
 
 const sky = new Sky()
 

@@ -25,7 +25,6 @@ import Cube from "../display/primitives/Cube"
 import randomColor from "randomcolor"
 import DirectionalLight from "../display/lights/DirectionalLight"
 import { settings } from ".."
-import Point3d from "../api/Point3d"
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 
 export default {}
@@ -44,13 +43,7 @@ export const text2ImageData = (text: string) => {
     return canvas.toDataURL("image/png")
 }
 
-settings.containerWidth = settings.width = window.innerWidth
-settings.containerHeight = settings.height = window.innerHeight
-
-window.addEventListener("resize", () => {
-    settings.containerWidth = settings.width = window.innerWidth
-    settings.containerHeight = settings.height = window.innerHeight
-})
+settings.fillWindow = true
 
 const model = new Model()
 model.src = botSrc

@@ -5,23 +5,23 @@ import { scaleDown } from "../constants"
 import { frustum } from "../../display/cameras/OrthographicCamera"
 import { getCamera } from "../../states/useCamera"
 import { setCameraDistance } from "../../states/useCameraDistance"
-import { getContainerSize } from "../../states/useContainerSize"
 import { setContainerZoom } from "../../states/useContainerZoom"
 import { getViewportSize } from "../../states/useViewportSize"
 import mainCamera from "../mainCamera"
 import { outline, container } from "./renderSetup"
 import { getVR } from "../../states/useVR"
+import { getResolution } from "../../states/useResolution"
 
 export default {}
 
 const getZ = (height: number, camera: PerspectiveCamera) => Math.abs((height * 0.5) / Math.cos(camera.fov * 0.6 * deg2Rad))
 
 createEffect(() => {
-    const [containerWidth, containerHeight] = getContainerSize()
+    const [resX, resY] = getResolution()
     const [viewportWidth, viewportHeight] = getViewportSize()
     const camera = getCamera()
 
-    const aspect = containerWidth / containerHeight
+    const aspect = resX / resY
 
     if (camera instanceof PerspectiveCamera && !getVR()) {
         camera.aspect = aspect
@@ -35,16 +35,16 @@ createEffect(() => {
     }
 
     const size0 = {
-        width: containerWidth,
-        height: viewportHeight - ((viewportWidth - containerWidth) * viewportHeight / viewportWidth)
+        width: resX,
+        height: viewportHeight - ((viewportWidth - resX) * viewportHeight / viewportWidth)
     }
     const size1 = {
-        width: viewportWidth - ((viewportHeight - containerHeight) * viewportWidth / viewportHeight),
-        height: containerHeight
+        width: viewportWidth - ((viewportHeight - resY) * viewportWidth / viewportHeight),
+        height: resY
     }
 
-    const val0 = Math.min(containerWidth - size0.width, containerHeight - size0.height)
-    const val1 = Math.min(containerWidth - size1.width, containerHeight - size1.height)
+    const val0 = Math.min(resX - size0.width, resY - size0.height)
+    const val1 = Math.min(resX - size1.width, resY - size1.height)
 
     if (val0 > val1) {
         camera === mainCamera && setCameraDistance(getZ(viewportWidth / aspect, mainCamera) * scaleDown)
@@ -57,6 +57,6 @@ createEffect(() => {
         setContainerZoom(size1.width / viewportWidth)
     }
 
-    Object.assign(container.style, { width: containerWidth + "px", height: containerHeight + "px" })
+    Object.assign(container.style, { width: resX + "px", height: resY + "px" })
 
-}, [getContainerSize, getViewportSize, getCamera, getVR])
+}, [getResolution, getViewportSize, getCamera, getVR])

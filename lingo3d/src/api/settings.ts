@@ -1,5 +1,4 @@
 import { getFillWindow, setFillWindow } from "../states/useFillWindow"
-import { getContainerSize, setContainerSize } from "../states/useContainerSize"
 import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { getViewportSize, setViewportSize } from "../states/useViewportSize"
 import { getDefaultFog, setDefaultFog } from "../states/useDefaultFog"
@@ -9,6 +8,7 @@ import { getCameraHelper, setCameraHelper } from "../states/useCameraHelper"
 import { getLightHelper, setLightHelper } from "../states/useLightHelper"
 import { getPerformance, PerformanceValue, setPerformance } from "../states/usePerformance"
 import { getOrbitControls, setOrbitControls } from "../states/useOrbitControls"
+import { getResolution, setResolution } from "../states/useResolution"
 
 export default {
     get fillWindow() {
@@ -31,17 +31,11 @@ export default {
         setViewportSize([getViewportSize()[0], val])
     },
 
-    get containerWidth() {
-        return getContainerSize()[0]
+    get resolution() {
+        return getResolution()
     },
-    set containerWidth(val: number) {
-        setContainerSize([val, getContainerSize()[1]])
-    },
-    get containerHeight() {
-        return getContainerSize()[1]
-    },
-    set containerHeight(val: number) {
-        setContainerSize([getContainerSize()[0], val])
+    set resolution(val: [number, number]) {
+        setResolution(val)
     },
 
     get pixelRatio() {

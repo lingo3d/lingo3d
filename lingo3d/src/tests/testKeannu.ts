@@ -1,4 +1,4 @@
-import { DirectionalLight, PointLight, SkyLight, settings } from ".."
+import { PointLight, SkyLight, settings } from ".."
 //@ts-ignore
 import parrotSrc from "../../assets-local/keannu.glb"
 import Model from "../display/Model"
@@ -18,5 +18,4 @@ light.z = 500
 const light2 = new PointLight()
 light2.z = -500
 
-settings.containerWidth = window.innerWidth
-settings.containerHeight = window.innerHeight
+settings.fillWindow = true

@@ -1,5 +1,4 @@
 import Cube from "../display/primitives/Cube";
-import { setContainerSize } from "../states/useContainerSize";
 
 let box = new Cube()
 
