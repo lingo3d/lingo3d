@@ -20,7 +20,7 @@
 		"@lincode/reactivity": "latest",
 		"@lincode/utils": "latest",
 		"@tweakpane/core": "1",
-		"lingo3d": "1.9.76",
+		"lingo3d": "1.9.79",
 		"nanoid": "3",
 		"popmotion": "11",
 		"tweakpane": "3"
