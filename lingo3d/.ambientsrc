@@ -1,5 +1,5 @@
 {
-	"name": "@pinyinma/gamelib",
+	"name": "lingo3d",
 	"strict": true,
 	"esnext": true,
 	"es2015": false,

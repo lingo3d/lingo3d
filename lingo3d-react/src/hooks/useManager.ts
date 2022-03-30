@@ -24,6 +24,14 @@ export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, M
         const manager = new ManagerClass()
         parent?.append(manager)
         return manager
+        
+    }, manager => {
+        const handleMap = handleStore.get(manager)
+        if (handleMap)
+            for (const handle of handleMap.values())
+                handle.cancel()
+
+        manager.dispose()
     })
 
     const changed = useDiffProps(props)
@@ -42,17 +50,6 @@ export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, M
         }
         manager[key] = value
     }
-
-    useLayoutEffect(() => {
-        return () => {
-            const handleMap = handleStore.get(manager)
-            if (handleMap)
-                for (const handle of handleMap.values())
-                    handle.cancel()
-
-            manager.dispose()
-        }
-    }, [])
 
     useLayoutEffect(() => {
         if (!ref) return
