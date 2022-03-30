@@ -6,7 +6,6 @@ import IPhysics, { PhysicsGroupIndex, PhysicsOptions, PhysicsShape } from "../..
 import type { Body } from "cannon-es"
 import { Cancellable } from "@lincode/promiselikes"
 import { assertExhaustive } from "@lincode/utils"
-import scene from "../../../../engine/scene"
 
 export default abstract class PhysicsItem extends AnimationItem implements IPhysics {
     public abstract object3d: Object3D
@@ -191,31 +190,19 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
         switch (val) {
             case true:
             case "2d":
-                import("./enableCannon").then(module => {
-                    scene.attach(this.outerObject3d)
-                    module.default.call(this, handle)
-                })
+                import("./enableCannon").then(module => module.default.call(this, handle))
                 break
 
             case "map":
-                import("./enableBVHMap").then(module => {
-                    scene.attach(this.outerObject3d)
-                    module.default.call(this, handle, false)
-                })
+                import("./enableBVHMap").then(module => module.default.call(this, handle, false))
                 break
 
             case "map-debug":
-                import("./enableBVHMap").then(module => {
-                    scene.attach(this.outerObject3d)
-                    module.default.call(this, handle, true)
-                })
+                import("./enableBVHMap").then(module => module.default.call(this, handle, true))
                 break
 
             case "character":
-                import("./enableBVHCharacter").then(module => {
-                    scene.attach(this.outerObject3d)
-                    module.default.call(this, handle)
-                })
+                import("./enableBVHCharacter").then(module => module.default.call(this, handle))
                 break
 
             default:

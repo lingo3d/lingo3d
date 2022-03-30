@@ -1027,10 +1027,20 @@
   dependencies:
     "@lincode/utils" "*"
 
-"@lincode/hooks@^1.0.26", "@lincode/hooks@^1.0.35":
+"@lincode/hooks@^1.0.26":
   version "1.0.35"
   resolved "https://registry.yarnpkg.com/@lincode/hooks/-/hooks-1.0.35.tgz#d9ee4aca06dbea39bccab1a8f625d317f5cbc24a"
   integrity sha512-W6vhLWByWa+Ytrk7q69DS/BTYkyNQue1DpNF3ldeAAYo5bf1Zz4PFEcPfI6FmOYXIwcH4lMGT0vN13KfxWE91A==
+  dependencies:
+    "@lincode/promiselikes" "*"
+    "@lincode/utils" "*"
+    intersection-observer "*"
+    resize-observer-polyfill "*"
+
+"@lincode/hooks@^1.0.35":
+  version "1.0.36"
+  resolved "https://registry.yarnpkg.com/@lincode/hooks/-/hooks-1.0.36.tgz#96e5e3c14d03b7c60db0a0887a8f6a017ebb6029"
+  integrity sha512-kIqaB8UtdbYd7D3KaJ+3vis8ZZzkSF07hTK+VDu/4PcSIqluY+p7pSexP4UZT5rIBsG5uokSGlVx43RvhdMtRQ==
   dependencies:
     "@lincode/promiselikes" "*"
     "@lincode/utils" "*"
@@ -1071,10 +1081,19 @@
   resolved "https://registry.yarnpkg.com/@lincode/react-reticle/-/react-reticle-1.1.0.tgz#f100eb8fea2a9db733ded46f203010aca93f502c"
   integrity sha512-G68dl19XeHMR+sLw42xW7zSxsFSG8dcl1OYGP10REesFUwQ5/RbMvfJ5CJPYERmitc8EyV9BUuppixZJtC5WwQ==
 
-"@lincode/reactivity@*", "@lincode/reactivity@^1.0.52":
+"@lincode/reactivity@*":
   version "1.0.52"
   resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.52.tgz#1b98ed047a2b1dfcfbdf42c922393793d945d9b2"
   integrity sha512-3DOq2o3UApvRlQkZLm4rbBWW5E8zJ96EyvtBOcVT3+3GAEjUnGa/8vVghWBRR8tL52Hzmc4zj9f1JXso1PMbnQ==
+  dependencies:
+    "@lincode/events" "*"
+    "@lincode/promiselikes" "*"
+    "@lincode/utils" "*"
+
+"@lincode/reactivity@^1.0.53":
+  version "1.0.53"
+  resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.53.tgz#21e26e43019501cbb0de82ce1950e586507cf491"
+  integrity sha512-X4bLMOgEKNcsEB346HGKwCU/NzH1ZNTq8xT9SqR8nQS1R3XHO53/3nufcux6E8u14BfRpllYlsb2bekgRiPn1g==
   dependencies:
     "@lincode/events" "*"
     "@lincode/promiselikes" "*"
@@ -2988,10 +3007,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingo3d@1.9.73:
-  version "1.9.73"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.9.73.tgz#e68b875c1cfd7045641085ab03353282cbdc0b57"
-  integrity sha512-GJAHlJ2/pxlWxU22etOsb9m00TOpIeGXbyDjuezPi5mnrhdjuBDyJoKnIBP+VbaYHSUELCm2CV+CwhUJAlRp6g==
+lingo3d@1.9.74:
+  version "1.9.74"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.9.74.tgz#b806a1fe98a4935e8360e6e4c8f25f2c663cc18c"
+  integrity sha512-cC123prj8nV7THS/7guaGIx6A+2vREKnWIRDaWSLdEk/9JiaHscYoNrJ2GDmTVJ/6v95MVqN+LbULzSF4rgeSw==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
@@ -3255,11 +3274,6 @@ nth-check@^2.0.1:
   integrity sha512-it1vE95zF6dTT9lBsYbxvqh0Soy4SPowchj0UBGj/V6cTPnXXtQOPUbhZ6CmGzAD/rW22LQK6E96pcdJXk4A4w==
   dependencies:
     boolbase "^1.0.0"
-
-object-assign@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
-  integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
 
 object-is@^1.0.1:
   version "1.1.5"
@@ -3591,22 +3605,20 @@ react-device-detect@^2.1.2:
   dependencies:
     ua-parser-js "^0.7.30"
 
-react-dom@17:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
-  integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
+react-dom@18:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.0.0.tgz#26b88534f8f1dbb80853e1eabe752f24100d8023"
+  integrity sha512-XqX7uzmFo0pUceWFCt7Gff6IyIMzFUn7QMZrbrQfGxtaxXZIcGQzoNpRLE3fQLnS4XzLLPMZX2T9TRcSrasicw==
   dependencies:
     loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    scheduler "^0.20.2"
+    scheduler "^0.21.0"
 
-react@17:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
-  integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
+react@18:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.0.0.tgz#b468736d1f4a5891f38585ba8e8fb29f91c3cb96"
+  integrity sha512-x+VL6wbT4JRVPm7EGxXhZ8w8LTROaxPXOqhlGyVSrv0sB1jkyFGgXxJ8LVoPRLvPR6/CIZGFmfzqUa2NYeMr2A==
   dependencies:
     loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 readable-stream@^2.0.1:
   version "2.3.7"
@@ -3796,13 +3808,12 @@ safe-buffer@5.2.1, safe-buffer@>=5.1.0, safe-buffer@^5.0.1, safe-buffer@^5.1.0, 
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-scheduler@^0.20.2:
-  version "0.20.2"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.20.2.tgz#4baee39436e34aa93b4874bddcbf0fe8b8b50e91"
-  integrity sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==
+scheduler@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.21.0.tgz#6fd2532ff5a6d877b6edb12f00d8ab7e8f308820"
+  integrity sha512-1r87x5fz9MXqswA2ERLo0EbOAU74DpIUO090gIasYTqlVoJeMcl+Z1Rg7WHz+qtPujhS/hGIt9kxZOYBV3faRQ==
   dependencies:
     loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 schema-utils@4.0.0, schema-utils@^4.0.0:
   version "4.0.0"

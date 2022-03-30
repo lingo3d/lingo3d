@@ -35,6 +35,9 @@ export default class Scene extends Loaded<Record<string, any> | Array<any>> impl
         this.loadedGroup.add(loadedObject3d)
         fitContent(this)
 
-        Promise.all(loadedResolvables).then(() => this.loadedResolvable.resolve(loadedObject3d))
+        Promise.all(loadedResolvables).then(() => {
+            if (this.done) return
+            this.loadedResolvable.resolve(loadedObject3d)
+        })
     }
 }

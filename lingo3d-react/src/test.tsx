@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react"
-import ReactDOM from "react-dom"
 import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Editor } from "."
 //@ts-ignore
 import gunSrc from "../assets-local/gun.glb"
@@ -10,6 +9,9 @@ import type * as Lingo from "lingo3d"
 import skyboxSrc from "../assets-local/skybox.jpg"
 import ThirdPersonCamera from "./components/display/cameras/ThirdPersonCamera"
 import useKeyboard from "./hooks/useKeyboard"
+import { createRoot } from "react-dom/client"
+import ReactDOM from "react-dom"
+import useTimer from "./hooks/useTimer"
 
 const Controls: React.FC<{ camera: Lingo.Camera, onClick: () => void }> = ({ camera, onClick }) => {
   return <>
@@ -66,17 +68,15 @@ const App = () => {
 }
 
 const App2 = () => {
-  const key = useKeyboard()
-  
-  console.log(key)
-
   return (<>
     <World>
-      <ThirdPersonCamera active>
-        <Cube />
-      </ThirdPersonCamera>
+        <Cube physics />
     </World>
+    <Editor />
   </>)
 }
 
-ReactDOM.render(<App2 />, document.querySelector("#app"))
+const root = createRoot(document.getElementById('app'));
+root.render(<React.StrictMode><App2 /></React.StrictMode>);
+
+// ReactDOM.render(<React.StrictMode><App2 /></React.StrictMode>, document.querySelector("#app"))

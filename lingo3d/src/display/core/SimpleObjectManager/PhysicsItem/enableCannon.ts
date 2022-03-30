@@ -2,11 +2,16 @@ import { Cancellable } from "@lincode/promiselikes"
 import PhysicsItem from "."
 import loadCannon from "./cannon/loadCannon"
 import { cannonSet } from "./cannon/cannonLoop"
+import scene from "../../../../engine/scene"
 
 const physicsGroups = <const>[1, 2, 4, 8, 16, 32]
 const physicsGroupIndexes = <const>[0, 1, 2, 3, 4, 5]
 
 export default async function (this: PhysicsItem, handle: Cancellable) {
+    if (handle.done) return
+
+    scene.attach(this.outerObject3d)
+
     const { slipperyMaterial, defaultMaterial, world, Body, Vec3 } = await loadCannon()
 
     if (handle.done) return

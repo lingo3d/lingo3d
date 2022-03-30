@@ -77,6 +77,8 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
             this.loadingAnims = undefined
         }
 
+        if (this.done) return
+
         this.animationManager = name
             ? this.animations[name]
             : Object.values(this.animations)[0]

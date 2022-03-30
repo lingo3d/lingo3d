@@ -16,7 +16,10 @@ export default abstract class CameraMixin<T extends Camera> implements ICameraMi
 
     protected initCamera(this: EventLoopItem & CameraMixin<T>) {
         pushCameraList(this.camera)
-        this.then(() => pullCameraList(this.camera))
+        this.then(() => {
+            this.active && setCamera(mainCamera)
+            pullCameraList(this.camera)
+        })
 
         //@ts-ignore
         this.createEffect(() => {

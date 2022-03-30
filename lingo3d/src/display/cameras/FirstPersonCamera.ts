@@ -13,9 +13,7 @@ export default class FirstPersonCamera extends CharacterCamera {
         const cam = this.camera
 
         scene.attach(cam)
-        this.then(() => {
-            scene.remove(cam)
-        })
+        this.then(() => scene.remove(cam))
 
         this.loop(() => {
             cam.position.copy(this.object3d.getWorldPosition(vector3))

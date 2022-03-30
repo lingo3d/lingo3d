@@ -7,6 +7,10 @@ import { Cancellable } from "@lincode/promiselikes"
 import PhysicsItem from "."
 
 export default function (this: PhysicsItem, handle: Cancellable, debug: boolean) {
+    if (handle.done) return
+    
+    scene.attach(this.outerObject3d)
+
     const geometries: Array<BufferGeometry> = []
     this.outerObject3d.updateMatrixWorld(true)
 
@@ -30,9 +34,6 @@ export default function (this: PhysicsItem, handle: Cancellable, debug: boolean)
         for (const geom of geometries) {
             const visualizer = new MeshBVHVisualizer(new Mesh(geom, wireframeMaterial), 20)
             scene.add(visualizer)
-
-            handle.then(() => {
-                scene.remove(visualizer)
-            })
+            handle.then(() => scene.remove(visualizer))
         }
 }

@@ -6,8 +6,11 @@ import { Camera } from "three"
 import { Cancellable } from "@lincode/promiselikes"
 import { setSelectionEnabled } from "../../../states/useSelectionEnabled"
 import { getPointerLockCamera, setPointerLockCamera } from "../../../states/usePointLockCamera"
+import { createEffect } from "@lincode/reactivity"
 
 export default function (this: CameraBase<Camera>, handle: Cancellable) {
+    if (handle.done) return
+
     if (isMobile || this.mouseControl === "drag") {
         let xTouch = 0
         let yTouch = 0
@@ -76,7 +79,7 @@ export default function (this: CameraBase<Camera>, handle: Cancellable) {
         return
     }
 
-    this.createEffect(() => {
+    handle.watch(createEffect(() => {
         if (getPointerLockCamera() !== this.camera) return
         
         const onMouseMove = ({ movementX, movementY }: MouseEvent) => {
@@ -92,9 +95,9 @@ export default function (this: CameraBase<Camera>, handle: Cancellable) {
         return () => {
             document.removeEventListener("mousemove", onMouseMove)
         }
-    }, [getPointerLockCamera])
+    }, [getPointerLockCamera]))
 
-    this.createEffect(() => {
+    handle.watch(createEffect(() => {
         const camera = getCamera()
         if (camera !== this.camera) return
 
@@ -115,5 +118,5 @@ export default function (this: CameraBase<Camera>, handle: Cancellable) {
             document.exitPointerLock()
             setPointerLockCamera(undefined)
         }
-    }, [getCamera])
+    }, [getCamera]))
 }
