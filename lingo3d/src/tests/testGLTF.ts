@@ -1,32 +1,28 @@
-import { random } from "@lincode/utils"
-import { ParticleSystem, timer } from ".."
 //@ts-ignore
 import parrotSrc from "../../assets-local/parrot.glb"
 //@ts-ignore
+import machineSrc from "../../assets-local/machine.glb"
+//@ts-ignore
 import shipSrc from "../../assets-local/ship1.glb"
-import settings from "../api/settings"
-import OrbitCamera from "../display/cameras/OrbitCamera"
-import AreaLight from "../display/lights/AreaLight"
 import Model from "../display/Model"
-import { setSelection } from "../states/useSelection"
+import OrbitCamera from "../display/cameras/OrbitCamera"
+import settings from "../api/settings"
+import rendering from "../api/rendering"
 
 export default {}
 
 const model = new Model()
-model.src = parrotSrc
+model.src = machineSrc
 model.scale = 3
-model.animation = ""
+model.animation = true
 
-const model2 = new Model()
-model2.src = parrotSrc
-model2.scale = 3
-model2.playAnimation()
-model2.x = 100
+const cam = new OrbitCamera()
+cam.active = true
+cam.enableZoom = true
+cam.enablePan = true
 
-setSelection(true)
-settings.defaultOrbitControls = true
-
-const light = new AreaLight()
+settings.performance = "quality"
+rendering.ambientOcclusion = "light"
 
 // const makefire = function () {
 //     const fire = new ParticleSystem()

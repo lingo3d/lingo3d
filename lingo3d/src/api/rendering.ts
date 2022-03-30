@@ -1,5 +1,5 @@
 import { getBloom, setBloom } from "../states/useBloom"
-import { getAmbientOcclusion, setAmbientOcclusion } from "../states/useAmbientOcclusion"
+import { AmbientOcclusion, getAmbientOcclusion, setAmbientOcclusion } from "../states/useAmbientOcclusion"
 import { getBloomRadius, setBloomRadius } from "../states/useBloomRadius"
 import { getBloomStrength, setBloomStrength } from "../states/useBloomStrength"
 import { getBloomThreshold, setBloomThreshold } from "../states/useBloomThreshold"
@@ -95,7 +95,7 @@ export default {
     get ambientOcclusion() {
         return getAmbientOcclusion()
     },
-    set ambientOcclusion(value: boolean) {
+    set ambientOcclusion(value: AmbientOcclusion) {
         setAmbientOcclusion(value)
     }
 }

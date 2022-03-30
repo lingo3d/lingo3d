@@ -2,7 +2,7 @@ import EventLoopItem from "../../../api/core/EventLoopItem"
 import AnimationManager, { PlayOptions } from "./AnimationManager"
 import { AnimationData } from "../../utils/deserialize/types"
 import guid from "@pinyinma/guid"
-import IAnimation, { AnimationValue } from "../../../interface/IAnimation"
+import IAnimation, { Animation, AnimationValue } from "../../../interface/IAnimation"
 import { debounce } from "@lincode/utils"
 import { Resolvable } from "@lincode/promiselikes"
 
@@ -94,9 +94,14 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
     public get animation(): AnimationValue {
         return this._animation ??= this.makeAnimationProxy({})
     }
-    public set animation(val: string | AnimationValue | undefined) {
+    public set animation(val: Animation | undefined) {
         if (typeof val === "string") {
             this.playAnimation(val)
+            this._animation = undefined
+            return
+        }
+        if (typeof val === "boolean") {
+            val ? this.playAnimation() : this.stopAnimation()
             this._animation = undefined
             return
         }

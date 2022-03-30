@@ -1,3 +1,4 @@
+import { AmbientOcclusion } from "../../../states/useAmbientOcclusion"
 import { DefaultLight } from "../../../states/useDefaultLight"
 import { PerformanceValue } from "../../../states/usePerformance"
 import schema from "./schema"
@@ -42,7 +43,7 @@ export type SetupNode = {
     bokehFocus?: number
     bokehMaxBlur?: number
     bokehAperture?: number
-    ambientOcclusion?: boolean
+    ambientOcclusion?: AmbientOcclusion
     texture?: string
     skybox?: string
     color?: string
