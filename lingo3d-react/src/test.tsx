@@ -70,13 +70,15 @@ const App = () => {
 const App2 = () => {
   return (<>
     <World>
-        <Cube physics />
+      <ThirdPersonCamera active mouseControl>
+        <Cube />
+      </ThirdPersonCamera>
     </World>
     <Editor />
   </>)
 }
 
 const root = createRoot(document.getElementById('app'));
-root.render(<React.StrictMode><App2 /></React.StrictMode>);
+root.render(<React.StrictMode><App /></React.StrictMode>);
 
 // ReactDOM.render(<React.StrictMode><App2 /></React.StrictMode>, document.querySelector("#app"))

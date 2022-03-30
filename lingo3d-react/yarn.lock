@@ -1012,7 +1012,7 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@lincode/events@*":
+"@lincode/events@*", "@lincode/events@latest":
   version "1.0.23"
   resolved "https://registry.yarnpkg.com/@lincode/events/-/events-1.0.23.tgz#dcce13faafde2ce898deb17fc4762313118755f6"
   integrity sha512-6gzpHV0p8gXhbLvlE5ggj76H2AKZpAWOZBTsQWmeGCXbHlV5SQs2eHbrsZ2/fHJLQDHK1E6KfP4R81YIBQI2sA==
@@ -1020,24 +1020,14 @@
     "@lincode/promiselikes" "*"
     "@lincode/utils" "*"
 
-"@lincode/filetypes@*":
+"@lincode/filetypes@latest":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@lincode/filetypes/-/filetypes-1.0.0.tgz#9acd1b1460ce538cfca53671d5b5c50efdfe8279"
   integrity sha512-IBTlWnfWrCzTGXumg4HwYCQLnrPXGHYYJzUy4bmyc44OJ3BSEEMBVZPwlYPg3uy2GsK7uz833PESe3a70QajhA==
   dependencies:
     "@lincode/utils" "*"
 
-"@lincode/hooks@^1.0.26":
-  version "1.0.35"
-  resolved "https://registry.yarnpkg.com/@lincode/hooks/-/hooks-1.0.35.tgz#d9ee4aca06dbea39bccab1a8f625d317f5cbc24a"
-  integrity sha512-W6vhLWByWa+Ytrk7q69DS/BTYkyNQue1DpNF3ldeAAYo5bf1Zz4PFEcPfI6FmOYXIwcH4lMGT0vN13KfxWE91A==
-  dependencies:
-    "@lincode/promiselikes" "*"
-    "@lincode/utils" "*"
-    intersection-observer "*"
-    resize-observer-polyfill "*"
-
-"@lincode/hooks@^1.0.35":
+"@lincode/hooks@^1.0.26", "@lincode/hooks@latest":
   version "1.0.36"
   resolved "https://registry.yarnpkg.com/@lincode/hooks/-/hooks-1.0.36.tgz#96e5e3c14d03b7c60db0a0887a8f6a017ebb6029"
   integrity sha512-kIqaB8UtdbYd7D3KaJ+3vis8ZZzkSF07hTK+VDu/4PcSIqluY+p7pSexP4UZT5rIBsG5uokSGlVx43RvhdMtRQ==
@@ -1047,26 +1037,26 @@
     intersection-observer "*"
     resize-observer-polyfill "*"
 
-"@lincode/math@*", "@lincode/math@^1.0.6":
+"@lincode/math@^1.0.6", "@lincode/math@latest":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@lincode/math/-/math-1.0.8.tgz#ed8ae14638b7e4d3834868ac4efc9bdb1e18bee6"
   integrity sha512-lgjk6Wv3YdVTsLQD1wSj8w6xyGYR66Dvg/Nu1wQUYWicYKijuDZC4UMaYjY7jb1Zf2Iwi6RVdP4iFkrdPztsBw==
 
-"@lincode/promiselikes@*", "@lincode/promiselikes@^1.0.19":
+"@lincode/promiselikes@*", "@lincode/promiselikes@latest":
   version "1.0.19"
   resolved "https://registry.yarnpkg.com/@lincode/promiselikes/-/promiselikes-1.0.19.tgz#e47564b9830316fbe85e8ce6a3e3e4fe1f2b6915"
   integrity sha512-lLT+6IfCgo7ByvE9trgi3g3l/ol4sneXCNOrySYvkkFeqxJWhwb/fR24EKEpPb/CPREJolgutcMkuN7PExnaCA==
   dependencies:
     "@lincode/utils" "*"
 
-"@lincode/react-global-state@^1.1.45":
+"@lincode/react-global-state@latest":
   version "1.1.45"
   resolved "https://registry.yarnpkg.com/@lincode/react-global-state/-/react-global-state-1.1.45.tgz#f4bff399ed2d8cde318a4ac7232a8a871fcc109a"
   integrity sha512-7x6Sf8AexcwS+Me2tfCokbU8hhURG7CvuFqT4XCpI9VyvaQLgyLjRj25wkhxUcd9AgHdEhW+LLhlwBq4PtYNAA==
   dependencies:
     "@lincode/reactivity" "*"
 
-"@lincode/react-joystick@^1.0.1":
+"@lincode/react-joystick@latest":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@lincode/react-joystick/-/react-joystick-1.0.3.tgz#25ce693ddf05439e66fd0e7d3b8fdb6302d32f9c"
   integrity sha512-7jGHULmPQlJn4KscWEg01ivnIQmIqMPWnPImxt4+xzwSfidagWd8Pr11Af12SZUjeZpSqgOgpgs25zsKfWWo/g==
@@ -1076,21 +1066,12 @@
     "@pinyinma/standardlib" "^1.0.75"
     react-device-detect "^2.1.2"
 
-"@lincode/react-reticle@^1.1.0":
+"@lincode/react-reticle@latest":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@lincode/react-reticle/-/react-reticle-1.1.0.tgz#f100eb8fea2a9db733ded46f203010aca93f502c"
   integrity sha512-G68dl19XeHMR+sLw42xW7zSxsFSG8dcl1OYGP10REesFUwQ5/RbMvfJ5CJPYERmitc8EyV9BUuppixZJtC5WwQ==
 
-"@lincode/reactivity@*":
-  version "1.0.52"
-  resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.52.tgz#1b98ed047a2b1dfcfbdf42c922393793d945d9b2"
-  integrity sha512-3DOq2o3UApvRlQkZLm4rbBWW5E8zJ96EyvtBOcVT3+3GAEjUnGa/8vVghWBRR8tL52Hzmc4zj9f1JXso1PMbnQ==
-  dependencies:
-    "@lincode/events" "*"
-    "@lincode/promiselikes" "*"
-    "@lincode/utils" "*"
-
-"@lincode/reactivity@^1.0.53":
+"@lincode/reactivity@*", "@lincode/reactivity@latest":
   version "1.0.53"
   resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.53.tgz#21e26e43019501cbb0de82ce1950e586507cf491"
   integrity sha512-X4bLMOgEKNcsEB346HGKwCU/NzH1ZNTq8xT9SqR8nQS1R3XHO53/3nufcux6E8u14BfRpllYlsb2bekgRiPn1g==
@@ -1099,7 +1080,7 @@
     "@lincode/promiselikes" "*"
     "@lincode/utils" "*"
 
-"@lincode/utils@*":
+"@lincode/utils@*", "@lincode/utils@latest":
   version "1.2.44"
   resolved "https://registry.yarnpkg.com/@lincode/utils/-/utils-1.2.44.tgz#009518a543a9ab7de1c7c91d34a834bbca94e9b3"
   integrity sha512-RyYJbym+x8arnwkIMRX1PzrCbKcMt32/zfk7XC3v+YFj+ebWou3+LfvEL7+NPTZvYym97UjVDVoi8xgJFAig5g==
@@ -1133,7 +1114,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pinyinma/guid@*":
+"@pinyinma/guid@*", "@pinyinma/guid@latest":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@pinyinma/guid/-/guid-1.0.1.tgz#0142625510164dd3852775a3cd98d29e1c6aa39d"
   integrity sha512-U8rv4xNplWfdGTUoFp8/hpEOgmeD9nM3qODmPk4fpNy6+nkncj6TYY70ZM7icjVlN82Lh3hFnuPC8sjlHz7Sxw==
@@ -1242,9 +1223,9 @@
   integrity sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==
 
 "@types/lodash@4":
-  version "4.14.180"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.180.tgz#4ab7c9ddfc92ec4a887886483bc14c79fb380670"
-  integrity sha512-XOKXa1KIxtNXgASAnwj7cnttJxS4fksBRywK/9LzRV5YxrF80BXZIGeQSuoESQ/VkUj30Ae0+YcuHc15wJCB2g==
+  version "4.14.181"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.181.tgz#d1d3740c379fda17ab175165ba04e2d03389385d"
+  integrity sha512-n3tyKthHJbkiWhDZs3DkhkCzt2MexYHXlX0td5iMplyfwketaOeKboEVBqzceH7juqvEg3q5oUoBFxSLu7zFag==
 
 "@types/mime@^1":
   version "1.3.2"
@@ -2211,9 +2192,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.4.84:
-  version "1.4.97"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.97.tgz#36578e57a6ae4f50d2ce5790380616567c40c911"
-  integrity sha512-vqSu7Qn6o5E1uAJQxmq2U69aBhBTxUAXMuT5Sm3jj8kEJciuUcKciktLuTPFSRlwSdNyeu9qah8Nzy9JyxefCw==
+  version "1.4.101"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.101.tgz#71f3a10065146d7445ba5d4c06ba2cc063b0817a"
+  integrity sha512-XJH+XmJjACx1S7ASl/b//KePcda5ocPnFH2jErztXcIS8LpP0SE6rX8ZxiY5/RaDPnaF1rj0fPaHfppzb0e2Aw==
 
 emojis-list@^3.0.0:
   version "3.0.0"
@@ -3007,18 +2988,18 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingo3d@1.9.74:
-  version "1.9.74"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.9.74.tgz#b806a1fe98a4935e8360e6e4c8f25f2c663cc18c"
-  integrity sha512-cC123prj8nV7THS/7guaGIx6A+2vREKnWIRDaWSLdEk/9JiaHscYoNrJ2GDmTVJ/6v95MVqN+LbULzSF4rgeSw==
+lingo3d@1.9.76:
+  version "1.9.76"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.9.76.tgz#394abe5591c11d06b239c4a3350d209654a222d5"
+  integrity sha512-bvgfepbIPSvowWSfIwb8GpLMS7osRU2cdpjrH1ylrN1N2Y5/GSmy5dgm01yE4jv4YZpXcKJV9fgnrG6sUBRIXA==
   dependencies:
-    "@lincode/events" "*"
-    "@lincode/filetypes" "*"
-    "@lincode/math" "*"
-    "@lincode/promiselikes" "*"
-    "@lincode/reactivity" "*"
-    "@lincode/utils" "*"
-    "@pinyinma/guid" "*"
+    "@lincode/events" latest
+    "@lincode/filetypes" latest
+    "@lincode/math" latest
+    "@lincode/promiselikes" latest
+    "@lincode/reactivity" latest
+    "@lincode/utils" latest
+    "@pinyinma/guid" latest
     "@types/three" "0.139.0"
     cannon-es "0.19.0"
     resize-observer-polyfill "1"
@@ -3230,9 +3211,9 @@ no-case@^3.0.4:
     tslib "^2.0.3"
 
 node-forge@^1:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-1.3.0.tgz#37a874ea723855f37db091e6c186e5b67a01d4b2"
-  integrity sha512-08ARB91bUi6zNKzVmaj3QO7cr397uiDT2nJ63cHjyNtCTWIgvS47j3eT0WfzUwS9+6Z5YshRaoasFkXCKrIYbA==
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-1.3.1.tgz#be8da2af243b2417d5f646a770663a92b7e9ded3"
+  integrity sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA==
 
 node-notifier@^9.0.0:
   version "9.0.1"

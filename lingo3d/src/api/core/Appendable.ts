@@ -1,5 +1,4 @@
-import { Cancellable, Disposable } from "@lincode/promiselikes"
-import { createEffect, GetGlobalState } from "@lincode/reactivity"
+import { Disposable } from "@lincode/promiselikes"
 import { Object3D } from "three"
 
 export default abstract class Appendable extends Disposable {
@@ -27,13 +26,5 @@ export default abstract class Appendable extends Disposable {
             child.userData.manager?.dispose()
 
         return this
-    }
-
-    protected cancellable(cb?: () => void) {
-        return this.watch(new Cancellable(cb))
-    }
-
-    protected createEffect(cb: () => (() => void) | Promise<void> | void, getStates: Array<GetGlobalState<any> | any>) {
-        return this.watch(createEffect(cb, getStates))
     }
 }

@@ -12,15 +12,15 @@
 		"react"
 	],
 	"dependencies": {
-		"@lincode/hooks": "^1.0.35",
-		"@lincode/promiselikes": "^1.0.19",
-		"@lincode/react-global-state": "^1.1.45",
-		"@lincode/react-joystick": "^1.0.1",
-		"@lincode/react-reticle": "^1.1.0",
-		"@lincode/reactivity": "^1.0.53",
-		"@lincode/utils": "*",
+		"@lincode/hooks": "latest",
+		"@lincode/promiselikes": "latest",
+		"@lincode/react-global-state": "latest",
+		"@lincode/react-joystick": "latest",
+		"@lincode/react-reticle": "latest",
+		"@lincode/reactivity": "latest",
+		"@lincode/utils": "latest",
 		"@tweakpane/core": "1",
-		"lingo3d": "1.9.74",
+		"lingo3d": "1.9.76",
 		"nanoid": "3",
 		"popmotion": "11",
 		"tweakpane": "3"
