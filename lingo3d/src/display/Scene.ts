@@ -6,10 +6,11 @@ import loadJSON from "./utils/loaders/loadJSON"
 import { Group } from "three"
 import applySetup from "./utils/deserialize/applySetup"
 import { Resolvable } from "@lincode/promiselikes"
-import IScene from "../interface/IScene"
+import IScene, { sceneDefaults } from "../interface/IScene"
 
 export default class Scene extends Loaded<Record<string, any> | Array<any>> implements IScene {
     public static componentName = "scene"
+    public static defaults = sceneDefaults
 
     protected load = loadJSON
 

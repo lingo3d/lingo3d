@@ -3,9 +3,11 @@ import CharacterCamera from "../core/CharacterCamera"
 import { scaleUp, scaleDown } from "../../engine/constants"
 import scene from "../../engine/scene"
 import { quaternion, vector3 } from "../utils/reusables"
+import { characterCameraDefaults } from "../../interface/ICharacterCamera"
 
 export default class FirstPersonCamera extends CharacterCamera {
     public static override componentName = "firstPersonCamera"
+    public static override defaults = characterCameraDefaults
 
     public constructor() {
         super()

@@ -9,11 +9,13 @@ import { lazy } from "@lincode/utils"
 import { ReflectorShape } from "../interface/IReflector"
 import { circleGeometry } from "./primitives/Circle"
 import { getPixelRatio } from "../states/usePixelRatio"
+import IGroundReflector, { groundReflectorDefaults } from "../interface/IGroundReflector"
 
 const lazyReflectorForSSRPass = lazy(() => import("three/examples/jsm/objects/ReflectorForSSRPass"))
 
-export default class GroundReflector extends ObjectManager<Group> {
+export default class GroundReflector extends ObjectManager<Group> implements IGroundReflector {
     public static componentName = "groundReflector"
+    public static defaults = groundReflectorDefaults
 
     public constructor() {
         super(new Group())

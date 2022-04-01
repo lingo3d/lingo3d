@@ -2,10 +2,11 @@ import { applyMixins } from "@lincode/utils"
 import { Sprite as ThreeSprite, SpriteMaterial } from "three"
 import ObjectManager from "./core/ObjectManager"
 import TexturedBasicMixin from "./core/mixins/TexturedBasicMixin"
-import ISprite from "../interface/ISprite"
+import ISprite, { spriteDefaults } from "../interface/ISprite"
 
 class Sprite extends ObjectManager<ThreeSprite> implements ISprite {
     public static componentName = "sprite"
+    public static defaults = spriteDefaults
 
     protected material: SpriteMaterial
 

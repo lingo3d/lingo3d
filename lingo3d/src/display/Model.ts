@@ -4,7 +4,7 @@ import Loaded from "./core/Loaded"
 import { lazy } from "@lincode/utils"
 import AnimationManager from "./core/SimpleObjectManager/AnimationManager"
 import { scaleDown } from "../engine/constants"
-import IModel from "../interface/IModel"
+import IModel, { modelDefaults } from "../interface/IModel"
 import { objectURLMapperPtr } from "./utils/loaders/setObjectURLMapper"
 import { Resolvable } from "@lincode/promiselikes"
 
@@ -13,6 +13,7 @@ const lazyLoadGLTF = lazy(() => import("./utils/loaders/loadGLTF"))
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
+    public static defaults = modelDefaults
 
     public async loadAnimation(url: string, name = url) {
         const resolvable = new Resolvable()

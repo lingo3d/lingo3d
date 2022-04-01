@@ -1,12 +1,13 @@
 import { Group } from "three"
 import { setBackgroundSkybox } from "../states/useBackgroundSkybox"
-import ISkybox from "../interface/ISkybox"
+import ISkybox, { skyboxDefaults } from "../interface/ISkybox"
 import EventLoopItem from "../api/core/EventLoopItem"
 
 let activeSkybox: Skybox | undefined
 
 export default class Skybox extends EventLoopItem implements ISkybox {
     public static componentName = "skybox"
+    public static defaults = skyboxDefaults
 
     public outerObject3d = new Group()
 

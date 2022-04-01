@@ -8,7 +8,7 @@ import { container } from "../../engine/render/renderSetup"
 import { getCamera } from "../../states/useCamera"
 import EventLoopItem from "../../api/core/EventLoopItem"
 import CameraMixin from "../core/mixins/CameraMixin"
-import IOrbitCamera from "../../interface/IOrbitCamera"
+import IOrbitCamera, { orbitCameraDefaults } from "../../interface/IOrbitCamera"
 import { loop } from "../../engine/eventLoop"
 import ObjectManager from "../core/ObjectManager"
 import { getOrbitControlsEnabled } from "../../states/useOrbitControlsEnabled"
@@ -19,6 +19,7 @@ import mainCamera from "../../engine/mainCamera"
 
 class OrbitCamera extends EventLoopItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
+    public static defaults = orbitCameraDefaults
 
     public outerObject3d: PerspectiveCamera
     private controls: OrbitControls

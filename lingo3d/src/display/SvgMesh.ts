@@ -6,7 +6,7 @@ import TexturedBasicMixin from "./core/mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./core/mixins/TexturedStandardMixin"
 import fit from "./utils/fit"
 import measure from "./utils/measure"
-import ISvgMesh from "../interface/ISvgMesh"
+import ISvgMesh, { svgMeshDefaults } from "../interface/ISvgMesh"
 
 const lazyLoadSVG = lazy(() => import("./utils/loaders/loadSVG"))
 
@@ -14,6 +14,7 @@ const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeBufferGeometry>>()
 
 class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     public static componentName = "svgMesh"
+    public static defaults = svgMeshDefaults
 
     protected material = new MeshStandardMaterial()
 

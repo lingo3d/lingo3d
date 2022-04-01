@@ -18,6 +18,7 @@ const lazyInit = lazy(async () => {
 
 export default class extends ObjectManager<Group> implements IAreaLight {
     public static componentName = "areaLight"
+    public static defaults = areaLightDefaults
 
     private light?: RectAreaLight
 
