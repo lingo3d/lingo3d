@@ -6,5 +6,9 @@ export default interface IAreaLight extends ILightBase {
 
 export const areaLightDefaults: IAreaLight = {
     ...lightBaseDefaults,
-    power: Math.PI * 10
+    width: 1000,
+    height: 1000,
+    depth: 0,
+    scaleZ: 0,
+    power: 10 * Math.PI
 }

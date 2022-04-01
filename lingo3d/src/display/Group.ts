@@ -1,8 +1,9 @@
 import { Group as ThreeGroup } from "three"
+import IGroup from "../interface/IGroup"
 import ObjectManager from "./core/ObjectManager"
 import fitContent from "./utils/fitContent"
 
-export default class Group extends ObjectManager<ThreeGroup> {
+export default class Group extends ObjectManager<ThreeGroup> implements IGroup {
     public static componentName = "group"
 
     public constructor() {

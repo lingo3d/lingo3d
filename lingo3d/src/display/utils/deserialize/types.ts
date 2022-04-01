@@ -1,7 +1,45 @@
+import { groupDefaults } from "../../../interface/IGroup"
+import { modelDefaults } from "../../../interface/IModel"
+import { reflectorDefaults } from "../../../interface/IReflector"
+import { sceneDefaults } from "../../../interface/IScene"
+import { spriteDefaults } from "../../../interface/ISprite"
+import { svgMeshDefaults } from "../../../interface/ISvgMesh"
+import { ambientLightDefaults } from "../../../interface/IAmbientLight"
 import { AmbientOcclusion } from "../../../states/useAmbientOcclusion"
 import { DefaultLight } from "../../../states/useDefaultLight"
 import { PerformanceValue } from "../../../states/usePerformance"
-import schema from "./schema"
+import { areaLightDefaults } from "../../../interface/IAreaLight"
+import { directionalLightDefaults } from "../../../interface/IDirectionalLight"
+import { skyLightDefaults } from "../../../interface/ISkyLight"
+import { pointLightDefaults } from "../../../interface/IPointLight"
+import { spotLightDefaults } from "../../../interface/ISpotLight"
+import { cameraDefaults } from "../../../interface/ICamera"
+import { primitiveDefaults } from "../../../interface/IPrimitive"
+
+const schema = {
+    group: groupDefaults,
+    model: modelDefaults,
+    svgMesh: svgMeshDefaults,
+    sprite: spriteDefaults,
+    reflector: reflectorDefaults,
+    scene: sceneDefaults,
+    ambientLight: ambientLightDefaults,
+    areaLight: areaLightDefaults,
+    directionalLight: directionalLightDefaults,
+    skyLight: skyLightDefaults,
+    pointLight: pointLightDefaults,
+    spotLight: spotLightDefaults,
+    camera: cameraDefaults,
+    circle: primitiveDefaults,
+    cone: primitiveDefaults,
+    cube: primitiveDefaults,
+    cylinder: primitiveDefaults,
+    octahedron: primitiveDefaults,
+    plane: primitiveDefaults,
+    sphere: primitiveDefaults,
+    tetrahedron: primitiveDefaults,
+    torus: primitiveDefaults
+}
 
 export type GameObjectType = keyof typeof schema
 

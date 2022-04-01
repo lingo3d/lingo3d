@@ -1,8 +1,8 @@
 import { AmbientLight } from "three"
 import LightBase from "../core/LightBase"
-import ILight from "../../interface/ILight"
+import IAmbientLight from "../../interface/IAmbientLight"
 
-export default class extends LightBase<AmbientLight> implements ILight {
+export default class extends LightBase<AmbientLight> implements IAmbientLight {
     public static componentName = "ambientLight"
 
     public constructor() {

@@ -1,8 +1,8 @@
 import { DirectionalLightHelper, DirectionalLight } from "three"
-import ILight from "../../interface/ILight"
+import IDirectionalLight from "../../interface/IDirectionalLight"
 import LightBase from "../core/LightBase"
 
-export default class extends LightBase<DirectionalLight> implements ILight {
+export default class extends LightBase<DirectionalLight> implements IDirectionalLight {
     public static componentName = "directionalLight"
 
     public constructor() {

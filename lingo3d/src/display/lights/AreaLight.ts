@@ -1,6 +1,6 @@
 import { Color, Group, RectAreaLight } from "three"
 import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper"
-import IAreaLight from "../../interface/IAreaLight"
+import IAreaLight, { areaLightDefaults } from "../../interface/IAreaLight"
 import { lazy } from "@lincode/utils"
 import ObjectManager from "../core/ObjectManager"
 import { getCamera } from "../../states/useCamera"
@@ -9,7 +9,6 @@ import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import SimpleObjectManager from "../core/SimpleObjectManager"
 import Point3d from "../../api/Point3d"
-import { areaLight } from "../utils/deserialize/schema"
 import { scaleDown } from "../../engine/constants"
 
 const lazyInit = lazy(async () => {
@@ -63,7 +62,7 @@ export default class extends ObjectManager<Group> implements IAreaLight {
 
     private _color?: string
     public get color() {
-        return this._color ?? areaLight.color
+        return this._color ?? areaLightDefaults.color
     }
     public set color(val: string) {
         this._color = val
@@ -72,7 +71,7 @@ export default class extends ObjectManager<Group> implements IAreaLight {
 
     private _intensity?: number
     public get intensity() {
-        return this._intensity ?? areaLight.intensity
+        return this._intensity ?? areaLightDefaults.intensity
     }
     public set intensity(val: number) {
         this._intensity = val
@@ -81,7 +80,7 @@ export default class extends ObjectManager<Group> implements IAreaLight {
 
     private _power?: number
     public get power() {
-        return this._power ?? areaLight.power
+        return this._power ?? areaLightDefaults.power
     }
     public set power(val: number) {
         this._power = val
@@ -90,7 +89,7 @@ export default class extends ObjectManager<Group> implements IAreaLight {
 
     private _width?: number
     public override get width() {
-        return this._width ?? areaLight.width
+        return this._width ?? areaLightDefaults.width
     }
     public override set width(val: number) {
         this._width = val
@@ -99,7 +98,7 @@ export default class extends ObjectManager<Group> implements IAreaLight {
 
     private _height?: number
     public override get height() {
-        return this._height ?? areaLight.height
+        return this._height ?? areaLightDefaults.height
     }
     public override set height(val: number) {
         this._height = val
@@ -107,14 +106,14 @@ export default class extends ObjectManager<Group> implements IAreaLight {
     }
 
     public override get depth() {
-        return areaLight.depth
+        return areaLightDefaults.depth
     }
     public override set depth(val: number) {
     }
 
     private _scaleX?: number
     public override get scaleX() {
-        return this._scaleX ?? areaLight.scaleX
+        return this._scaleX ?? areaLightDefaults.scaleX
     }
     public override set scaleX(val: number) {
         this._scaleX = val
@@ -123,7 +122,7 @@ export default class extends ObjectManager<Group> implements IAreaLight {
 
     private _scaleY?: number
     public override get scaleY() {
-        return this._scaleY ?? areaLight.scaleY
+        return this._scaleY ?? areaLightDefaults.scaleY
     }
     public override set scaleY(val: number) {
         this._scaleY = val
@@ -131,7 +130,7 @@ export default class extends ObjectManager<Group> implements IAreaLight {
     }
 
     public override get scaleZ() {
-        return areaLight.scaleZ
+        return areaLightDefaults.scaleZ
     }
     public override set scaleZ(val: number) {
     }
