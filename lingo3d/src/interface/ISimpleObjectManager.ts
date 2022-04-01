@@ -1,6 +1,6 @@
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import { MouseInteractionPayload } from "./IMouse"
-import IPhysics from "./IPhysics"
+import IPhysics, { physicsDefaults } from "./IPhysics"
 
 export default interface ISimpleObjectManager extends IPhysics {
     onClick?: (e: MouseInteractionPayload) => void
@@ -38,4 +38,34 @@ export default interface ISimpleObjectManager extends IPhysics {
     visible: boolean
     innerVisible: boolean
     frustumCulled: boolean
+}
+
+export const simpleObjectManagerDefaults: ISimpleObjectManager = {
+    ...physicsDefaults,
+
+    name: "",
+
+    width: 100,
+    height: 100,
+    depth: 100,
+
+    x: 0,
+    y: 0,
+    z: 0,
+
+    scaleX: 1,
+    scaleY: 1,
+    scaleZ: 1,
+    scale: 1,
+
+    rotationX: 0,
+    rotationY: 0,
+    rotationZ: 0,
+    rotation: 0,
+
+    bloom: false,
+    reflection: false,
+    visible: true,
+    innerVisible: true,
+    frustumCulled: true
 }

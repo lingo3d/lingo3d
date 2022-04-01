@@ -44,6 +44,7 @@ export const objectManagerProps: Omit<IObjectManager, Omitted> = {
     innerRotationX: 0,
     innerRotationY: 0,
     innerRotationZ: 0,
+    velocity: { x: 0, y: 0, z: 0 },
     bloom: false,
     reflection: false,
     visible: true,

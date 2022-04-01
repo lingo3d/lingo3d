@@ -9,3 +9,10 @@ export default interface ITexturedBasic {
     alphaMap?: string
     textureRepeat?: Vector2 | number
 }
+
+export const texturedBasicDefaults: ITexturedBasic = {
+    color: "#ffffff",
+    vertexColors: false,
+    fog: true,
+    opacity: 1
+}

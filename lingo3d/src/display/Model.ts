@@ -67,36 +67,36 @@ export default class Model extends Loaded<Group> implements IModel {
 
     private _loadedScale?: number
     public get loadedScale() {
-        return this._loadedScale ?? 1
+        return this._loadedScale
     }
-    public set loadedScale(val: number) {
+    public set loadedScale(val: number | undefined) {
         this._loadedScale = val
     }
 
     private _loadedPos?: boolean
     private _loadedX?: number
     public get loadedX() {
-        return this._loadedX ?? 0
+        return this._loadedX
     }
-    public set loadedX(val: number) {
+    public set loadedX(val: number | undefined) {
         this._loadedX = val
         this._loadedPos = true
     }
 
     private _loadedY?: number
     public get loadedY() {
-        return this._loadedY ?? 0
+        return this._loadedY
     }
-    public set loadedY(val: number) {
+    public set loadedY(val: number | undefined) {
         this._loadedY = val
         this._loadedPos = true
     }
 
     private _loadedZ?: number
     public get loadedZ() {
-        return this._loadedZ ?? 0
+        return this._loadedZ
     }
-    public set loadedZ(val: number) {
+    public set loadedZ(val: number | undefined) {
         this._loadedZ = val
         this._loadedPos = true
     }
@@ -106,7 +106,7 @@ export default class Model extends Loaded<Group> implements IModel {
             this.animations[clip.name] = this.watch(new AnimationManager(clip, loadedObject3d))
 
         if (this._loadedScale)
-            loadedObject3d.scale.multiplyScalar(this.loadedScale)
+            loadedObject3d.scale.multiplyScalar(this._loadedScale)
         else {
             const size = fit(loadedObject3d, this._src!)
             !this.widthSet && (this.object3d.scale.x = size.x)

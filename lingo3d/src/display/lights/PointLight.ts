@@ -1,10 +1,10 @@
 import { applyMixins } from "@lincode/utils"
 import { PointLight as ThreePointLight, PointLightHelper } from "three"
-import ILight from "../../interface/ILight"
+import IPointLight from "../../interface/IPointLight"
 import LightBase from "../core/LightBase"
 import PointLightMixin from "../core/mixins/PointLightMixin"
 
-class PointLight extends LightBase<ThreePointLight> implements ILight {
+class PointLight extends LightBase<ThreePointLight> implements IPointLight {
     public static componentName = "pointLight"
 
     public constructor() {

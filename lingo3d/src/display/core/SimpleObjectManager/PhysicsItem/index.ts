@@ -112,7 +112,6 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
 
         return new Point3d(0, 0, 0)
     }
-
     public set velocity(val: Point3d) {
         if (this.bvhVelocity)
             Object.assign(this.bvhVelocity, val)
