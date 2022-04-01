@@ -1650,9 +1650,9 @@ camel-case@^4.1.2:
     tslib "^2.0.3"
 
 caniuse-lite@^1.0.30001317:
-  version "1.0.30001322"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001322.tgz#2e4c09d11e1e8f852767dab287069a8d0c29d623"
-  integrity sha512-neRmrmIrCGuMnxGSoh+x7zYtQFFgnSY2jaomjU56sCkTA6JINqQrxutF459JpWcWRajvoyn95sOXq4Pqrnyjew==
+  version "1.0.30001323"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001323.tgz#a451ff80dec7033016843f532efda18f02eec011"
+  integrity sha512-e4BF2RlCVELKx8+RmklSEIVub1TWrmdhvA5kEUueummz1XyySW0DVk+3x9HyhU9MuWTa2BhqLgEuEmUwASAdCA==
 
 cannon-es@0.19.0:
   version "0.19.0"
@@ -2053,9 +2053,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.4.84:
-  version "1.4.101"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.101.tgz#71f3a10065146d7445ba5d4c06ba2cc063b0817a"
-  integrity sha512-XJH+XmJjACx1S7ASl/b//KePcda5ocPnFH2jErztXcIS8LpP0SE6rX8ZxiY5/RaDPnaF1rj0fPaHfppzb0e2Aw==
+  version "1.4.103"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.103.tgz#abfe376a4d70fa1e1b4b353b95df5d6dfd05da3a"
+  integrity sha512-c/uKWR1Z/W30Wy/sx3dkZoj4BijbXX85QKWu9jJfjho3LBAXNEGAEW3oWiGb+dotA6C6BzCTxL2/aLes7jlUeg==
 
 emojis-list@^3.0.0:
   version "3.0.0"
@@ -3833,10 +3833,10 @@ three-mesh-bvh@0.5.8:
   resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.5.8.tgz#d8882625c0d5b07e86e0c2ad3cff2091e3650af8"
   integrity sha512-aw1hGGKP91WC98vDh+M7yGczwnmmtbcCwDjsh7hls076S91GuSfWbCoym3GK64uR0BhySlV5mEitCKQu3o7srg==
 
-three@0.139.0:
-  version "0.139.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.139.0.tgz#4805eeb4cde85d8a82b6048088230f8ce5b75375"
-  integrity sha512-hZ4LkCjgoEM82WLaOVptDKGpB3SkEyuJP2OHe36AFO8hS2I6CrEiNanXj7wwR3wIPT7V5wi5Y5pFnncS5SVHgQ==
+three@0.139.2:
+  version "0.139.2"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.139.2.tgz#b110799a15736df673b9293e31653a4ac73648dd"
+  integrity sha512-gV7q7QY8rogu7HLFZR9cWnOQAUedUhu2WXAnpr2kdXZP9YDKsG/0ychwQvWkZN5PlNw9mv5MoCTin6zNTXoONg==
 
 thunky@^1.0.2:
   version "1.1.0"
@@ -4065,9 +4065,9 @@ webpack-sources@^3.2.3:
   integrity sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==
 
 webpack@5:
-  version "5.70.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.70.0.tgz#3461e6287a72b5e6e2f4872700bc8de0d7500e6d"
-  integrity sha512-ZMWWy8CeuTTjCxbeaQI21xSswseF2oNOwc70QSKNePvmxE7XW36i7vpBMYZFAUHPwQiEbNGCEYIOOlyRbdGmxw==
+  version "5.71.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.71.0.tgz#b01fcf379570b8c5ee06ca06c829ca168c951884"
+  integrity sha512-g4dFT7CFG8LY0iU5G8nBL6VlkT21Z7dcYDpJAEJV5Q1WLb9UwnFbrem1k7K52ILqEmomN7pnzWFxxE6SlDY56A==
   dependencies:
     "@types/eslint-scope" "^3.7.3"
     "@types/estree" "^0.0.51"

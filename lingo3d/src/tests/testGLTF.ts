@@ -21,9 +21,6 @@ cam.active = true
 cam.enableZoom = true
 cam.enablePan = true
 
-settings.performance = "quality"
-rendering.ambientOcclusion = "light"
-
 // const makefire = function () {
 //     const fire = new ParticleSystem()
 //     fire.size = 20

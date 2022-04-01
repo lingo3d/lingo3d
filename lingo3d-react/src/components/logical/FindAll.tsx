@@ -31,6 +31,10 @@ const FindAll = React.forwardRef<GameGroup, ManagerProps>((props, ref) => {
         for (const [key, value] of changed)
             for (const child of f)
                 (child as any)[key] = value
+
+        for (const key of removed)
+            for (const child of f)
+                (child as any)[key] = (child as any).constructor.defaults?.[key]
     })
     
     return null

@@ -1,5 +1,4 @@
 import { forceGet } from "@lincode/utils"
-import schema, { objectManagerProps, texturedBasicProps, texturedStandardProps, model, skyLight, areaLight, spotLight, pointLight, camera } from "lingo3d/lib/display/utils/deserialize/schema"
 import { onTransformControls } from "lingo3d/lib/events/onTransformControls"
 import React, { useLayoutEffect } from "react"
 import { Pane } from "tweakpane"
@@ -7,6 +6,15 @@ import makeValue from "./makeValue"
 import makeVectorValue, { programmaticChangePtr } from "./makeVectorValue"
 import type { Camera as ThreeCamera } from "three"
 import addCameraInput from "./addCameraInput"
+import { objectManagerDefaults } from "lingo3d/lib/interface/IObjectManager"
+import { texturedBasicDefaults } from "lingo3d/lib/interface/ITexturedBasic"
+import { texturedStandardDefaults } from "lingo3d/lib/interface/ITexturedStandard"
+import { modelDefaults } from "lingo3d/lib/interface/IModel"
+import { skyLightDefaults } from "lingo3d/lib/interface/ISkyLight"
+import { areaLightDefaults } from "lingo3d/lib/interface/IAreaLight"
+import { spotLightDefaults } from "lingo3d/lib/interface/ISpotLight"
+import { pointLightDefaults } from "lingo3d/lib/interface/IPointLight"
+import { cameraDefaults } from "lingo3d/lib/interface/ICamera"
 
 type Config = Record<string, readonly [any, Record<string, any>?]>
 
@@ -37,22 +45,29 @@ export default (
             "reflection": makeValue(t, "reflection", false, "display"),
             "visible": makeValue(t, "visible", true, "display"),
         }
-        //@ts-ignore
-        const props = schema[t.constructor.componentName]
+
+        const props = t.constructor.defaults
+        const lightDefaults = {
+            ...skyLightDefaults,
+            ...areaLightDefaults,
+            ...spotLightDefaults,
+            ...pointLightDefaults
+        }
+
         if (props)
             for (const [name, value] of Object.entries(props)) {
-                if (name in objectManagerProps) continue
+                if (name in objectManagerDefaults) continue
                 let folder = "misc"
 
-                if (name in texturedBasicProps)
+                if (name in texturedBasicDefaults)
                     folder = "basic texture"
-                else if (name in texturedStandardProps)
+                else if (name in texturedStandardDefaults)
                     folder = "standard texture"
-                else if (name in model)
+                else if (name in modelDefaults)
                     folder = "loaded"
-                else if (name in skyLight || name in areaLight || name in spotLight || name in pointLight)
+                else if (name in lightDefaults)
                     folder = "light"
-                else if (name in camera)
+                else if (name in cameraDefaults)
                     folder = "camera"
 
                 conf[name] = makeValue(t, name, value, folder)
