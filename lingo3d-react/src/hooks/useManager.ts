@@ -11,8 +11,10 @@ import { SceneContext } from "../components/display/Scene"
 export const ParentContext = React.createContext<ObjectManager | undefined>(undefined)
 
 const handleStore = new WeakMap<SimpleObjectManager, Map<string, Cancellable>>()
+const defaultValueStore = new WeakMap<SimpleObjectManager, Map<string, any>>()
 
 const makeHandleMap = () => new Map<string, Cancellable>()
+const makeDefaultValueMap = () => new Map<string, any>()
 
 export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, ManagerClass: any) => {
     const { children, ...props } = p
@@ -34,10 +36,13 @@ export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, M
         manager.dispose()
     })
 
-    const changed = useDiffProps(props)
+    const [changed, removed] = useDiffProps(props)
+    const handleMap = forceGet(handleStore, manager, makeHandleMap)
+    const defaultValueMap = forceGet(defaultValueStore, manager, makeDefaultValueMap)
+
     for (const [key, value] of changed) {
-        const handleMap = forceGet(handleStore, manager, makeHandleMap)
         handleMap.get(key)?.cancel()
+        !defaultValueMap.has(key) && defaultValueMap.set(key, manager[key])
 
         if (value instanceof Reactive) {
             handleMap.set(key, value.get(v => manager[key] = v))
@@ -50,6 +55,8 @@ export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, M
         }
         manager[key] = value
     }
+    for (const key of removed)
+        manager[key] = defaultValueMap.get(key)
 
     useLayoutEffect(() => {
         if (!ref) return

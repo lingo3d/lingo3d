@@ -4,7 +4,6 @@ export default (props: Record<string, any>) => {
     const propsOldRef = useRef<any>({})
     const propsOld = propsOldRef.current
     const changes: Array<[string, any]> = []
-
     for (const [key, value] of Object.entries(props)) {
         const valueOld = propsOld[key]
         if (valueOld === value) continue
@@ -15,9 +14,11 @@ export default (props: Record<string, any>) => {
         }
         else changes.push([key, value])
     }
+
+    const removed: Array<string> = []
     for (const key of Object.keys(propsOld))
-        !(key in props) && changes.push([key, undefined])
+        !(key in props) && removed.push(key)
 
     propsOldRef.current = props
-    return changes
+    return <const>[changes, removed]
 }

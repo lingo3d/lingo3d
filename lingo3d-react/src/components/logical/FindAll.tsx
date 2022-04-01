@@ -26,7 +26,7 @@ const FindAll = React.forwardRef<GameGroup, ManagerProps>((props, ref) => {
         found.resolve(parent.findAll(props.name))
     }, [])
 
-    const changed = useDiffProps(props)
+    const [changed, removed] = useDiffProps(props)
     found.then(f => {
         for (const [key, value] of changed)
             for (const child of f)
