@@ -11,7 +11,12 @@ export const [emitBeforeCameraLoop, onBeforeCameraLoop] = event()
 
 createEffect(function (this: PhysicsItem) {
     const bvhArray = getBVHMap()
-    if (!bvhArray.length) return
+    if (!bvhArray.length) {
+        const handle = loop(emitBeforeCameraLoop)
+        return () => {
+            handle.cancel()
+        }
+    }
 
     const handle = loop(() => {
         emitBeforeCameraLoop()

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react"
-import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Editor } from "."
+import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Editor, Sphere } from "."
 //@ts-ignore
 import gunSrc from "../assets-local/gun.glb"
 //@ts-ignore
@@ -13,7 +13,9 @@ import { createRoot } from "react-dom/client"
 import ReactDOM from "react-dom"
 import useTimer from "./hooks/useTimer"
 
-const Controls: React.FC<{ camera: Lingo.Camera, onClick: () => void }> = ({ camera, onClick }) => {
+const Controls: React.FC<{ camera?: Lingo.Camera, onClick: () => void }> = ({ camera, onClick }) => {
+  if (!camera) return null
+
   return <>
     <Keyboard
       onKeyPress={key => {
@@ -38,9 +40,9 @@ const Controls: React.FC<{ camera: Lingo.Camera, onClick: () => void }> = ({ cam
 
 const App = () => {
   const [camera, setCamera] = useState<Lingo.Camera>()
-  const [bulletFactory, spawnBullet] = useSpawn({ lifetime: 1000 })
+  const [bullets, spawnBullet] = useSpawn({ lifetime: 1000 })
 
-  const fire = useCallback((bullet: Lingo.Cube) => bullet.applyLocalImpulse(0, 0, -100), [])
+  const fire = useCallback((bullet: Lingo.Cube) => bullet.applyLocalImpulse(0, 0, -1), [])
 
   const [scale, setScale] = useState(1)
   const scaleSpring = useSpring(scale)
@@ -51,8 +53,8 @@ const App = () => {
     <World bloom bloomStrength={0.5} bloomThreshold={0.9}>
       <Camera active mouseControl="drag" physics noTumble height={180} ref={setCamera}>
         <Model src={gunSrc} z={-50} x={25} scale={0.2} innerRotationY={-90}>
-          {bulletFactory(bullet => (
-            <Cube key={bullet.id} scale={0.5} physics ref={fire} />
+          {bullets.map(bullet => (
+            <Sphere key={bullet.id} scale={0.5} physics ref={fire} color="red" />
           ))}
         </Model>
         <Controls camera={camera} onClick={spawnBullet} />
@@ -61,7 +63,6 @@ const App = () => {
       <Cube y={500} z={-300} physics color="red" rotationY={rotationKeyframes} onMouseOver={() => setScale(2)} onMouseOut={() => setScale(1)} scale={scaleSpring} />
       <Skybox texture={skyboxSrc} />
     </World>
-    <Editor />
     <Reticle />
     </>
   )
@@ -70,15 +71,12 @@ const App = () => {
 const App2 = () => {
   return (<>
     <World>
-      <ThirdPersonCamera active mouseControl>
         <Cube />
-      </ThirdPersonCamera>
     </World>
-    <Editor />
   </>)
 }
 
 const root = createRoot(document.getElementById('app'));
-root.render(<React.StrictMode><App /></React.StrictMode>);
+root.render(<><App /></>);
 
 // ReactDOM.render(<React.StrictMode><App /></React.StrictMode>, document.querySelector("#app"))

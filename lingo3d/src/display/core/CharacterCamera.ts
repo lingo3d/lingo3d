@@ -1,5 +1,6 @@
 import { deg2Rad } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
+import { debounce } from "@lincode/utils"
 import { Quaternion } from "three"
 import ICharacterCamera from "../../interface/ICharacterCamera"
 import Camera from "../cameras/Camera"
@@ -35,16 +36,25 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
         target.frustumCulled = false
     }
 
-    public override append(object: ObjectManager) {
-        if (this._target) {
-            super.append(object)
-            object.z = -100
-            return
-        }
-        this.outerObject3d.parent?.add(object.outerObject3d)
-        this.target = object
+    private setTarget = debounce(() => {
+        let i = 0
+        for (const child of [this._target?.outerObject3d, ...this.camera.children]) {
+            const object = child?.userData.manager
+            if (!object || object.done) continue
 
-        object.frustumCulled = false
+            if (++i === 1) {
+                this.outerObject3d.parent?.add(object.outerObject3d)
+                this.target = object        
+            }
+            else object.z = -100
+        }
+        i === 0 && (this.target = undefined)
+
+    }, 0, "trailing")
+
+    public override append(object: ObjectManager) {
+        super.append(object)
+        this.setTarget()
     }
     
     private gyroControlHandle?: Cancellable

@@ -12,21 +12,21 @@
 		"react"
 	],
 	"dependencies": {
-		"@lincode/hooks": "latest",
-		"@lincode/promiselikes": "latest",
-		"@lincode/react-global-state": "latest",
-		"@lincode/react-joystick": "latest",
-		"@lincode/react-reticle": "latest",
-		"@lincode/reactivity": "latest",
-		"@lincode/utils": "latest",
+		"@lincode/hooks": "*",
+		"@lincode/promiselikes": "*",
+		"@lincode/react-global-state": "*",
+		"@lincode/react-joystick": "*",
+		"@lincode/react-reticle": "*",
+		"@lincode/reactivity": "*",
+		"@lincode/utils": "*",
 		"@tweakpane/core": "1",
-		"lingo3d": "1.9.81",
+		"lingo3d": "1.9.82",
 		"nanoid": "3",
 		"popmotion": "11",
 		"tweakpane": "3"
 	},
 	"peerDependencies": {
-		"react": "17"
+		"react": "18"
 	},
 	"devDependencies": {
 		"@babel/cli": "7",
@@ -45,8 +45,8 @@
 		"fork-ts-checker-webpack-plugin": "7",
 		"html-webpack-plugin": "5",
 		"postcss-loader": "6",
-		"react": "17",
-		"react-dom": "17",
+		"react": "18",
+		"react-dom": "18",
 		"style-loader": "3",
 		"typescript": "*",
 		"url-loader": "*",

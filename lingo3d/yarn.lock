@@ -960,7 +960,7 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@lincode/events@*", "@lincode/events@latest":
+"@lincode/events@*":
   version "1.0.23"
   resolved "https://registry.yarnpkg.com/@lincode/events/-/events-1.0.23.tgz#dcce13faafde2ce898deb17fc4762313118755f6"
   integrity sha512-6gzpHV0p8gXhbLvlE5ggj76H2AKZpAWOZBTsQWmeGCXbHlV5SQs2eHbrsZ2/fHJLQDHK1E6KfP4R81YIBQI2sA==
@@ -968,26 +968,26 @@
     "@lincode/promiselikes" "*"
     "@lincode/utils" "*"
 
-"@lincode/filetypes@latest":
+"@lincode/filetypes@*":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@lincode/filetypes/-/filetypes-1.0.0.tgz#9acd1b1460ce538cfca53671d5b5c50efdfe8279"
   integrity sha512-IBTlWnfWrCzTGXumg4HwYCQLnrPXGHYYJzUy4bmyc44OJ3BSEEMBVZPwlYPg3uy2GsK7uz833PESe3a70QajhA==
   dependencies:
     "@lincode/utils" "*"
 
-"@lincode/math@latest":
+"@lincode/math@*":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@lincode/math/-/math-1.0.8.tgz#ed8ae14638b7e4d3834868ac4efc9bdb1e18bee6"
   integrity sha512-lgjk6Wv3YdVTsLQD1wSj8w6xyGYR66Dvg/Nu1wQUYWicYKijuDZC4UMaYjY7jb1Zf2Iwi6RVdP4iFkrdPztsBw==
 
-"@lincode/promiselikes@*", "@lincode/promiselikes@latest":
+"@lincode/promiselikes@*":
   version "1.0.19"
   resolved "https://registry.yarnpkg.com/@lincode/promiselikes/-/promiselikes-1.0.19.tgz#e47564b9830316fbe85e8ce6a3e3e4fe1f2b6915"
   integrity sha512-lLT+6IfCgo7ByvE9trgi3g3l/ol4sneXCNOrySYvkkFeqxJWhwb/fR24EKEpPb/CPREJolgutcMkuN7PExnaCA==
   dependencies:
     "@lincode/utils" "*"
 
-"@lincode/reactivity@latest":
+"@lincode/reactivity@*":
   version "1.0.53"
   resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.53.tgz#21e26e43019501cbb0de82ce1950e586507cf491"
   integrity sha512-X4bLMOgEKNcsEB346HGKwCU/NzH1ZNTq8xT9SqR8nQS1R3XHO53/3nufcux6E8u14BfRpllYlsb2bekgRiPn1g==
@@ -996,7 +996,7 @@
     "@lincode/promiselikes" "*"
     "@lincode/utils" "*"
 
-"@lincode/utils@*", "@lincode/utils@latest":
+"@lincode/utils@*":
   version "1.2.44"
   resolved "https://registry.yarnpkg.com/@lincode/utils/-/utils-1.2.44.tgz#009518a543a9ab7de1c7c91d34a834bbca94e9b3"
   integrity sha512-RyYJbym+x8arnwkIMRX1PzrCbKcMt32/zfk7XC3v+YFj+ebWou3+LfvEL7+NPTZvYym97UjVDVoi8xgJFAig5g==
@@ -1040,7 +1040,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pinyinma/guid@latest":
+"@pinyinma/guid@*":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@pinyinma/guid/-/guid-1.0.1.tgz#0142625510164dd3852775a3cd98d29e1c6aa39d"
   integrity sha512-U8rv4xNplWfdGTUoFp8/hpEOgmeD9nM3qODmPk4fpNy6+nkncj6TYY70ZM7icjVlN82Lh3hFnuPC8sjlHz7Sxw==
