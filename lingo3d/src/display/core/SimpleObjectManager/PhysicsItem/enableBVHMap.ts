@@ -5,6 +5,7 @@ import { BufferGeometry, Mesh } from "three"
 import scene from "../../../../engine/scene"
 import { Cancellable } from "@lincode/promiselikes"
 import PhysicsItem from "."
+import Primitive from "../../Primitive"
 // import { GenerateMeshBVHWorker } from "./bvh/GenerateMeshBVHWorker"
 
 // const bvhWorker = new GenerateMeshBVHWorker()
@@ -18,7 +19,9 @@ export default async function (this: PhysicsItem, handle: Cancellable, debug: bo
     this.outerObject3d.updateMatrixWorld(true)
 
     this.outerObject3d.traverse((c: any) => {
-        if (!c.geometry || c === this.object3d) return
+        if (!c.geometry || (c === this.object3d && !(this instanceof Primitive)))
+            return
+            
         const geom = c.geometry.clone()
         geom.applyMatrix4(c.matrixWorld)
         geometries.push(geom)

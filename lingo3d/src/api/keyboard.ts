@@ -21,6 +21,8 @@ document.addEventListener("keydown", e => {
     const key = processKey(e.key)
     isPressed.add(key)
     emitDown(key)
+    if (isPressed.has("Meta") && isPressed.has("Shift"))
+        clear()
 })
 
 document.addEventListener("keyup", e => {
@@ -28,6 +30,17 @@ document.addEventListener("keyup", e => {
     isPressed.delete(key)
     emitUp(key)
 })
+
+const clear = () => {
+    if (!isPressed.size) return
+    const pressed = [...isPressed]
+    isPressed.clear()
+    for (const key of pressed)
+        emitUp(key)
+}
+window.addEventListener("blur", clear)
+window.addEventListener("focus", clear)
+document.addEventListener("visibilitychange", clear)
 
 export class Keyboard extends EventLoopItem implements IKeyboard {
     public outerObject3d = new Group()
