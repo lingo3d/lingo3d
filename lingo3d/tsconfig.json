@@ -9,7 +9,8 @@
 		"experimentalDecorators": true,
 		"target": "es2019",
 		"declaration": true,
-		"outDir": "lib"
+		"outDir": "lib",
+		"allowJs": true
 	},
 	"include": [
 		"src"

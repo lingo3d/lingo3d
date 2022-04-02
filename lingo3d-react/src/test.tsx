@@ -71,12 +71,13 @@ const App = () => {
 const App2 = () => {
   return (<>
     <World>
-        <Cube />
+        <Cube physics="character" />
+        <Cube y={-200} width={999} depth={999} color="blue" physics="map" />
     </World>
   </>)
 }
 
 const root = createRoot(document.getElementById('app'));
-root.render(<><App /></>);
+root.render(<React.StrictMode><App /></React.StrictMode>);
 
 // ReactDOM.render(<React.StrictMode><App /></React.StrictMode>, document.querySelector("#app"))

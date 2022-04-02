@@ -1,6 +1,7 @@
 import { BufferGeometry, BufferAttribute } from 'three'
 import { MeshBVH } from "three-mesh-bvh"
 
+if (typeof global === "object")
 global.onmessage = function ( { data } ) {
 
 	let prevTime = global.performance.now()

@@ -1808,6 +1808,13 @@ content-disposition@0.5.4:
   dependencies:
     safe-buffer "5.2.1"
 
+content-loader@*:
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/content-loader/-/content-loader-2.0.11.tgz#acc8dec2ba9b7889e532a8fb9c970b156b9a1187"
+  integrity sha512-O8vb1IwWzo2mQR1yq70Xsj/b8MOGbb9tmOx3dISIHuljeKJm5IPVT9RrQigx4ts52LTBqszHsfcwKjyOKxP/NA==
+  dependencies:
+    fs-extra "10"
+
 content-type@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b"
@@ -2317,7 +2324,7 @@ fresh@0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-fs-extra@^10.0.0:
+fs-extra@10, fs-extra@^10.0.0:
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-10.0.1.tgz#27de43b4320e833f6867cc044bfce29fdf0ef3b8"
   integrity sha512-NbdoVMZso2Lsrn/QwLXOy6rm0ufY2zEOKCDzJR/0kBsb0E6qed0P3iYK+Ath3BfvXEeu4JhEtXLgILx5psUfag==

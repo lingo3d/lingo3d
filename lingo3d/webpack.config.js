@@ -31,6 +31,10 @@ module.exports = (env, argv) => ({
 						]
 					},
 					{
+						"test": [/.(gltf|l3d)$/i, /loaddir.png$/i],
+						"loader": "content-loader"
+					},
+					{
 						"type": "asset/resource",
 						"exclude": [/.(js|mjs|jsx|ts|tsx)$/i, /.json$/i]
 					}

@@ -1,16 +1,13 @@
-import { Box3, BufferAttribute } from 'three'
+import { Box3, BufferAttribute, BufferGeometry } from 'three'
 import { MeshBVH } from "three-mesh-bvh"
+import "./generateAsync.worker.js"
 
 export class GenerateMeshBVHWorker {
 
-	constructor() {
+	private running = false
+	private worker = new Worker( new URL( "./generateAsync.worker.js", import.meta.url ), { type: 'module' } )
 
-		this.running = false
-		this.worker = new Worker( new URL( './generateAsync.worker.js', import.meta.url ), { type: 'module' } )
-
-	}
-
-	generate( geometry, options = {} ) {
+	generate( geometry: BufferGeometry, options: { onProgress?: (v: number) => void } = {} ): Promise<MeshBVH> {
 
 		if ( this.running ) {
 
@@ -45,6 +42,7 @@ export class GenerateMeshBVHWorker {
 
 					// we need to replace the arrays because they're neutered entirely by the
 					// webworker transfer.
+					//@ts-ignore
 					geometry.attributes.position.array = position
 					if ( geometry.index ) {
 
@@ -77,6 +75,7 @@ export class GenerateMeshBVHWorker {
 			const index = geometry.index ? geometry.index.array : null
 			const position = geometry.attributes.position.array
 
+			//@ts-ignore
 			if ( position.isInterleavedBufferAttribute || index && index.isInterleavedBufferAttribute ) {
 
 				throw new Error( 'GenerateMeshBVHWorker: InterleavedBufferAttribute are not supported for the geometry attributes.' )
@@ -101,6 +100,7 @@ export class GenerateMeshBVHWorker {
 					groups: [ ... geometry.groups ],
 				},
 
+				//@ts-ignore
 			}, transferrables.map( arr => arr.buffer ) )
 
 		} )

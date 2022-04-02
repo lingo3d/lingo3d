@@ -62,3 +62,5 @@ cam.enablePan = true
 // }
 
 // timer(1000, Infinity, makeEnemy)
+
+settings.performance = "quality"

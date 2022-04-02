@@ -10,6 +10,6 @@
 	"jsx": false,
 	"css": false,
 	"tailwind": false,
-	"contentLoader": false,
+	"contentLoader": true,
 	"urlLoader": false
 }
