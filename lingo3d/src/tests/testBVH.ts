@@ -9,10 +9,25 @@ import personSrc from "../../assets-local/person.glb"
 import runningSrc from "../../assets-local/running 2.fbx"
 //@ts-ignore
 import idleSrc from "../../assets-local/idle 2.fbx"
+//@ts-ignore
+import BackSrc from "../../assets-local/skybox/Back.png"
+//@ts-ignore
+import DownSrc from "../../assets-local/skybox/Down.png"
+//@ts-ignore
+import FrontSrc from "../../assets-local/skybox/Front.png"
+//@ts-ignore
+import LeftSrc from "../../assets-local/skybox/Left.png"
+//@ts-ignore
+import RightSrc from "../../assets-local/skybox/Right.png"
+//@ts-ignore
+import UpSrc from "../../assets-local/skybox/Up.png"
+//@ts-ignore
+import f1Src from "../../assets-local/f1.png"
 
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import Sky from "../display/Sky"
 import rendering from "../api/rendering"
+import Skybox from "../display/Skybox"
 
 export default {}
 
@@ -56,6 +71,9 @@ map.src = fairySrc
 map.scale = 20
 map.physics = "map"
 
-const sky = new Sky()
+// const sky = new Sky()
 
 rendering.ambientOcclusion = true
+
+const skybox = new Skybox()
+skybox.texture = [LeftSrc, RightSrc, UpSrc, DownSrc, FrontSrc, BackSrc]

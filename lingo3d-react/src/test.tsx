@@ -78,6 +78,6 @@ const App2 = () => {
 }
 
 const root = createRoot(document.getElementById('app'));
-root.render(<React.StrictMode><App /></React.StrictMode>);
+root.render(<React.StrictMode><App2 /></React.StrictMode>);
 
 // ReactDOM.render(<React.StrictMode><App /></React.StrictMode>, document.querySelector("#app"))
