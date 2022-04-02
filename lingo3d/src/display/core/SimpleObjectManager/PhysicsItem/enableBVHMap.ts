@@ -5,8 +5,12 @@ import { BufferGeometry, Mesh } from "three"
 import scene from "../../../../engine/scene"
 import { Cancellable } from "@lincode/promiselikes"
 import PhysicsItem from "."
+//@ts-ignore
+import { GenerateMeshBVHWorker } from "../PhysicsItem/bvh/GenerateMeshBVHWorker"
 
-export default function (this: PhysicsItem, handle: Cancellable, debug: boolean) {
+const bvhGenerationWorker = new GenerateMeshBVHWorker()
+
+export default async function (this: PhysicsItem, handle: Cancellable, debug: boolean) {
     if (handle.done) return
     
     scene.attach(this.outerObject3d)
@@ -22,12 +26,22 @@ export default function (this: PhysicsItem, handle: Cancellable, debug: boolean)
         geom.dispose()
     })
 
+    const bvhMaps: Array<MeshBVH> = []
+
     for (const geom of geometries)
-        pushBVHMap(geom.boundsTree = new MeshBVH(geom))
+        await new Promise<void>(resolve => {
+            bvhGenerationWorker.generate(geom).then((bvh: MeshBVH) => {
+                bvhMaps.push(geom.boundsTree = bvh)
+                resolve()
+            })
+        })
+
+    for (const bvhMap of bvhMaps)
+        pushBVHMap(bvhMap)
 
     handle.then(() => {
-        for (const geom of geometries)
-            pullBVHMap(geom.boundsTree!)
+        for (const bvhMap of bvhMaps)
+            pullBVHMap(bvhMap)
     })
 
     if (debug)
