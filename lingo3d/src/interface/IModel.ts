@@ -1,6 +1,7 @@
 import ILoaded, { loadedDefaults } from "./ILoaded"
+import ITexturedLoaded, { texturedLoadedDefaults } from "./ITexturedLoaded"
 
-export default interface IModel extends ILoaded {
+export default interface IModel extends ILoaded, ITexturedLoaded {
     loadedScale?: number
     loadedX?: number
     loadedY?: number
@@ -8,5 +9,6 @@ export default interface IModel extends ILoaded {
 }
 
 export const modelDefaults: IModel = {
-    ...loadedDefaults
+    ...loadedDefaults,
+    ...texturedLoadedDefaults
 }

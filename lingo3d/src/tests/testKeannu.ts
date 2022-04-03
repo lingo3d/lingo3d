@@ -8,8 +8,8 @@ export default {}
 const model = new Model()
 model.src = keanuSrc
 model.scale = 5
+model.toon = true
 
-settings.defaultLight = "studio"
 settings.defaultOrbitControls = true
 
 settings.fillWindow = true
