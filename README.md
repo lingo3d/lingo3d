@@ -40,7 +40,7 @@ Lingo3D is a web-first 3d game development library with React integration.
         <img src="https://github.com/lingo3d/example-react-keanu/blob/main/screenshot.jpg" />
       </a>
       <table>
-        <td><a href="https://github.com/lingo3d/example-react-macbook">github</a></td>
+        <td><a href="https://github.com/lingo3d/example-react-keanu">github</a></td>
         <td><a href="https://codesandbox.io/s/lingo3d-example-react-keanu-4ovxlw">codesandbox</a></td>
       </table>
     </td>
