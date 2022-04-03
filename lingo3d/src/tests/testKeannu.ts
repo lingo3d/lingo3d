@@ -1,21 +1,15 @@
 import { PointLight, SkyLight, settings } from ".."
 //@ts-ignore
-import parrotSrc from "../../assets-local/keannu.glb"
+import keanuSrc from "../../assets-local/keannu.glb"
 import Model from "../display/Model"
 
+export default {}
+
 const model = new Model()
-model.src = parrotSrc
+model.src = keanuSrc
 model.scale = 5
 
-settings.defaultLight = false
-
-const sky = new SkyLight()
-sky.intensity = 0.5
-
-const light = new PointLight()
-light.z = 500
-
-const light2 = new PointLight()
-light2.z = -500
+settings.defaultLight = "studio"
+settings.defaultOrbitControls = true
 
 settings.fillWindow = true

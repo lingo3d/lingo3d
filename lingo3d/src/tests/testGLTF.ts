@@ -12,14 +12,11 @@ import rendering from "../api/rendering"
 export default {}
 
 const model = new Model()
-model.src = machineSrc
+model.src = parrotSrc
 model.scale = 3
 model.animation = true
 
-const cam = new OrbitCamera()
-cam.active = true
-cam.enableZoom = true
-cam.enablePan = true
+settings.defaultOrbitControls = true
 
 // const makefire = function () {
 //     const fire = new ParticleSystem()
@@ -62,5 +59,3 @@ cam.enablePan = true
 // }
 
 // timer(1000, Infinity, makeEnemy)
-
-settings.performance = "quality"

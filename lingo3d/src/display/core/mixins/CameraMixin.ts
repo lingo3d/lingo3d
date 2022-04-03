@@ -11,7 +11,7 @@ import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import ICameraMixin from "../../../interface/ICameraMixin"
 
-export default abstract class CameraMixin<T extends Camera> implements ICameraMixin {
+export default abstract class CameraMixin<T extends Camera> extends EventLoopItem implements ICameraMixin {
     protected abstract camera: T
 
     protected initCamera(this: EventLoopItem & CameraMixin<T>) {
@@ -21,7 +21,6 @@ export default abstract class CameraMixin<T extends Camera> implements ICameraMi
             pullCameraList(this.camera)
         })
 
-        //@ts-ignore
         this.createEffect(() => {
             if (!getCameraHelper() || getCamera() !== mainCamera || getCamera() === this.camera)
                 return

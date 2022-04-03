@@ -1,17 +1,18 @@
 import { Group } from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
-import { lazy } from "@lincode/utils"
+import { applyMixins, lazy } from "@lincode/utils"
 import AnimationManager from "./core/SimpleObjectManager/AnimationManager"
 import { scaleDown } from "../engine/constants"
 import IModel, { modelDefaults } from "../interface/IModel"
 import { objectURLMapperPtr } from "./utils/loaders/setObjectURLMapper"
 import { Resolvable } from "@lincode/promiselikes"
+import TexturedLoadedMixin from "./core/mixins/TexturedLoadedMixin"
 
 const lazyLoadFBX = lazy(() => import("./utils/loaders/loadFBX"))
 const lazyLoadGLTF = lazy(() => import("./utils/loaders/loadGLTF"))
 
-export default class Model extends Loaded<Group> implements IModel {
+class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
     public static defaults = modelDefaults
 
@@ -127,3 +128,6 @@ export default class Model extends Loaded<Group> implements IModel {
         this.loadedResolvable.resolve(loadedObject3d)
     }
 }
+interface Model extends Loaded<Group>, TexturedLoadedMixin {}
+applyMixins(Model, [TexturedLoadedMixin])
+export default Model
