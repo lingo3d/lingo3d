@@ -69,7 +69,7 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
     protected loadingAnims?: Array<Resolvable>
     private animationManager?: AnimationManager
 
-    public async playAnimation(name?: string, o?: PlayOptions) {
+    public async playAnimation(name?: string | number, o?: PlayOptions) {
         await Promise.resolve()
 
         if (this.loadingAnims) {
@@ -79,9 +79,9 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
 
         if (this.done) return
 
-        this.animationManager = name
+        this.animationManager = typeof name === "string"
             ? this.animations[name]
-            : Object.values(this.animations)[0]
+            : Object.values(this.animations)[name ?? 0]
 
         this.animationManager?.play(o)
     }
@@ -95,7 +95,7 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
         return this._animation ??= this.makeAnimationProxy({})
     }
     public set animation(val: Animation | undefined) {
-        if (typeof val === "string") {
+        if (typeof val === "string" || typeof val === "number") {
             this.playAnimation(val)
             this._animation = undefined
             return

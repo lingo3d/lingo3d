@@ -1,8 +1,8 @@
 import { rad2Deg, deg2Rad, distance3d } from "@lincode/math"
-import { Matrix3, Object3D, Vector3 } from "three"
+import { Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, Vector3 } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
 import { quaternion, ray, vector3, vector3_, vector3_1, vector3_half } from "../../utils/reusables"
-import { forceGet } from "@lincode/utils"
+import { debounce, forceGet } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import { scaleDown, scaleUp } from "../../../engine/constants"
 import { addBloom, deleteBloom } from "../../../engine/render/effectComposer/selectiveBloomPass/renderSelectiveBloom"
@@ -15,6 +15,8 @@ import PhysicsItem from "./PhysicsItem"
 import { cannonContactBodies, cannonContactMap } from "./PhysicsItem/cannon/cannonLoop"
 import { MouseInteractionPayload } from "../../../interface/IMouse"
 import { addSSR, deleteSSR } from "../../../engine/render/effectComposer/ssrPass"
+import Loaded from "../Loaded"
+import { Group } from "../../.."
 
 const idMap = new Map<string, Set<SimpleObjectManager>>()
 const thisOBB = new OBB()
@@ -31,6 +33,57 @@ const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
     ptDistCache.set(pt, result)
     return result
 }
+
+
+
+const modelSet = new Set<SimpleObjectManager | Loaded<Group>>()
+
+const getDefault = (child: any, property: string) => (
+    child.userData[property] ??= (child.material[property] ?? 0)
+)
+const setValue = (child: any, property: string, factor: number) => {
+    child.material[property] = getDefault(child, property) * factor
+}
+
+const processChild = (child: any, _toon?: boolean, _metalnessFactor?: number, _roughnessFactor?: number) => {
+    const { material } = child
+    if (!material) return
+
+    if (_toon) {
+        if (!(material instanceof MeshToonMaterial)) {
+            child.material = new MeshToonMaterial()
+            child.material.copy(material)
+            material.dispose()
+        }
+        // (child.material as MeshToonMaterial).gradientMap = new 
+    }
+    else if (material instanceof MeshStandardMaterial) {
+        _metalnessFactor !== undefined && setValue(child, "metalness", _metalnessFactor)
+        _roughnessFactor !== undefined && setValue(child, "roughness", _roughnessFactor)
+    }
+}
+
+const applyProperties = debounce(() => {
+    for (const model of modelSet) {
+        //@ts-ignore
+        const { _toon, _metalnessFactor, _roughnessFactor } = model
+
+        if ("loadedResolvable" in model)
+            //@ts-ignore
+            model.loadedResolvable.then(loaded => {
+                loaded.traverse(child => processChild(child, _toon, _metalnessFactor, _roughnessFactor))
+            })
+        else
+            model.outerObject3d.traverse(child => processChild(child, _toon, _metalnessFactor, _roughnessFactor))
+    }
+    modelSet.clear()    
+
+}, 0, "trailing")
+
+
+
+
+
 
 export default class SimpleObjectManager<T extends Object3D = Object3D> extends PhysicsItem implements ISimpleObjectManager {
     public outerObject3d: Object3D
@@ -447,6 +500,36 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set frustumCulled(val: boolean) {
         this.outerObject3d.traverse(child => child.frustumCulled = val)
+    }
+
+    protected _metalnessFactor?: number
+    public get metalnessFactor() {
+        return this._metalnessFactor ?? 1
+    }
+    public set metalnessFactor(val: number) {
+        this._metalnessFactor = val
+        modelSet.add(this)
+        applyProperties()
+    }
+    
+    protected _roughnessFactor?: number
+    public get roughnessFactor() {
+        return this._roughnessFactor ?? 1
+    }
+    public set roughnessFactor(val: number) {
+        this._roughnessFactor = val
+        modelSet.add(this)
+        applyProperties()
+    }
+    
+    protected _toon?: boolean
+    public get toon() {
+        return this._toon ?? false
+    }
+    public set toon(val: boolean) {
+        this._toon = val
+        modelSet.add(this)
+        applyProperties()
     }
 
     public lookAt(target: SimpleObjectManager | Point3d) {

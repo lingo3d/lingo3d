@@ -38,6 +38,10 @@ export default interface ISimpleObjectManager extends IPhysics {
     visible: boolean
     innerVisible: boolean
     frustumCulled: boolean
+
+    metalnessFactor: number
+    roughnessFactor: number
+    toon: boolean
 }
 
 export const simpleObjectManagerDefaults: ISimpleObjectManager = {
@@ -67,5 +71,9 @@ export const simpleObjectManagerDefaults: ISimpleObjectManager = {
     reflection: false,
     visible: true,
     innerVisible: true,
-    frustumCulled: true
+    frustumCulled: true,
+
+    metalnessFactor: 1,
+    roughnessFactor: 1,
+    toon: false
 }
