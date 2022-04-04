@@ -1,7 +1,6 @@
 import store, { push, pull } from "@lincode/reactivity"
-import type { MeshBVH } from "three-mesh-bvh"
 
-const [setBVHMap, getBVHMap] = store<Array<MeshBVH>>([])
+const [setBVHMap, getBVHMap] = store<Array<any>>([])
 const pushBVHMap = push(setBVHMap, getBVHMap)
 const pullBVHMap = pull(setBVHMap, getBVHMap)
 

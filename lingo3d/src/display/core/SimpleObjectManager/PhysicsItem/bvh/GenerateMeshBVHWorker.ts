@@ -1,5 +1,5 @@
 import { Box3, BufferAttribute, BufferGeometry } from 'three'
-import { MeshBVH } from "three-mesh-bvh"
+import { MeshBVH } from "../../../../../engine/bvh"
 import "./generateAsync.worker.js"
 
 export class GenerateMeshBVHWorker {

@@ -12,6 +12,7 @@ import useKeyboard from "./hooks/useKeyboard"
 import { createRoot } from "react-dom/client"
 import ReactDOM from "react-dom"
 import useTimer from "./hooks/useTimer"
+import { nanoid } from "nanoid"
 
 const Controls: React.FC<{ camera?: Lingo.Camera, onClick: () => void }> = ({ camera, onClick }) => {
   if (!camera) return null
@@ -69,11 +70,32 @@ const App = () => {
 }
 
 const App2 = () => {
+  const [userData, setUserData] = useState<any>([])
+
+  const pushUserData = () => {
+    setUserData([...userData, { name: nanoid() }])
+  }
+
+  const pullUserData = () => {
+    userData.pop()
+    setUserData([...userData])
+  }
+
   return (<>
     <World>
-        <Cube physics="character" />
-        <Cube y={-200} width={999} depth={999} color="blue" physics="map" />
+        {userData.map(user => (
+          <Cube key={user.name} physics y={500} />
+        ))}
+        <Cube y={-200} width={999} depth={999} color="blue" physics mass={0} />
     </World>
+    <div style={{ position: "absolute" }}>
+      <button onClick={pushUserData}>
+        add user
+      </button>
+      <button onClick={pullUserData}>
+        remove user
+      </button>
+    </div>
   </>)
 }
 

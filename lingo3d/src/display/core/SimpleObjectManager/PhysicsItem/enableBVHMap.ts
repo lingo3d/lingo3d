@@ -1,4 +1,4 @@
-import { MeshBVH, MeshBVHVisualizer } from "three-mesh-bvh"
+import { MeshBVH, MeshBVHVisualizer } from "../../../../engine/bvh"
 import { pullBVHMap, pushBVHMap } from "../../../../states/useBVHMap"
 import { wireframeMaterial } from "../../../utils/reusables"
 import { BufferGeometry, Mesh } from "three"
@@ -30,6 +30,7 @@ export default async function (this: PhysicsItem, handle: Cancellable, debug: bo
 
     const bvhMaps: Array<MeshBVH> = []
     for (const geom of geometries) {
+        //@ts-ignore
         bvhMaps.push(geom.boundsTree = new MeshBVH(geom))
         // bvhMaps.push(geom.boundsTree = await bvhWorker.generate(geom))
     }
@@ -45,7 +46,9 @@ export default async function (this: PhysicsItem, handle: Cancellable, debug: bo
     if (debug)
         for (const geom of geometries) {
             const visualizer = new MeshBVHVisualizer(new Mesh(geom, wireframeMaterial), 20)
+            //@ts-ignore
             scene.add(visualizer)
+            //@ts-ignore
             handle.then(() => scene.remove(visualizer))
         }
 }

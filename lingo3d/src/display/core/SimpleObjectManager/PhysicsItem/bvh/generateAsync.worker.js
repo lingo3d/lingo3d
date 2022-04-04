@@ -1,5 +1,5 @@
 import { BufferGeometry, BufferAttribute } from 'three'
-import { MeshBVH } from "three-mesh-bvh"
+import { MeshBVH } from "../../../../../engine/bvh"
 
 if (typeof global === "object")
 global.onmessage = function ( { data } ) {

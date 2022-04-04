@@ -2976,10 +2976,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingo3d@1.10.11:
-  version "1.10.11"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.11.tgz#ca3f3aa15d5d4b6c81ae36c68536483d1c8e9545"
-  integrity sha512-+ezTiR7mxIwz2i1GI+ktDoqVS/8ZvZC7pVfcLyZZhKR21d1MTY/s9vtYpzVhwp/IrvJAxJu5NygbiRIZRaX7pw==
+lingo3d@1.10.12:
+  version "1.10.12"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.12.tgz#db987c46f7c9e5994d5628e2258bf4388267a4e6"
+  integrity sha512-bHHt0KNO3ajRVYdFFrsCix3HjB9kaHISeCblXKxNClv2cCz5GjO7Q0WdPd6jBMoJV4Nxt5ztlyNZlf+85y+yAw==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
@@ -2992,7 +2992,6 @@ lingo3d@1.10.11:
     cannon-es "0.19.0"
     resize-observer-polyfill "1"
     three "0.139.2"
-    three-mesh-bvh "0.5.8"
 
 loader-runner@^4.2.0:
   version "4.2.0"
@@ -4106,11 +4105,6 @@ terser@^5.10.0, terser@^5.7.2:
     commander "^2.20.0"
     source-map "~0.7.2"
     source-map-support "~0.5.20"
-
-three-mesh-bvh@0.5.8:
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.5.8.tgz#d8882625c0d5b07e86e0c2ad3cff2091e3650af8"
-  integrity sha512-aw1hGGKP91WC98vDh+M7yGczwnmmtbcCwDjsh7hls076S91GuSfWbCoym3GK64uR0BhySlV5mEitCKQu3o7srg==
 
 three@0.139.2:
   version "0.139.2"
