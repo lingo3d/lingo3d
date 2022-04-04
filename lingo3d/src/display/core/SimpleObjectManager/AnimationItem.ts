@@ -90,18 +90,14 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
         this.animationManager?.stop()
     }
 
-    private _animation?: AnimationValue
-    public get animation(): AnimationValue {
-        return this._animation ??= this.makeAnimationProxy({})
-    }
-    public set animation(val: Animation | undefined) {
+    private setAnimation(val?: string | number | boolean | AnimationValue, o?: PlayOptions) {
         if (typeof val === "string" || typeof val === "number") {
-            this.playAnimation(val)
+            this.playAnimation(val, o)
             this._animation = undefined
             return
         }
         if (typeof val === "boolean") {
-            val ? this.playAnimation() : this.stopAnimation()
+            val ? this.playAnimation(undefined, o) : this.stopAnimation()
             this._animation = undefined
             return
         }
@@ -113,5 +109,26 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
         }
         this._animation = this.makeAnimationProxy(val)
         this.buildAnimation(val)
+    }
+
+    private _animation?: AnimationValue
+    public get animation(): AnimationValue {
+        return this._animation ??= this.makeAnimationProxy({})
+    }
+    public set animation(val: Animation | undefined) {
+        if (Array.isArray(val)) {
+            let currentIndex = 0
+            const o = {
+                onFinish: () => {
+                    if (++currentIndex >= val.length) currentIndex = 0
+                    this.setAnimation(val[currentIndex], o)
+                },
+                repeat: false
+            }
+            this.setAnimation(val[0], o)
+            return
+        }
+        
+        this.setAnimation(val)
     }
 }

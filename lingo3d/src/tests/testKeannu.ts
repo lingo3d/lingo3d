@@ -1,6 +1,6 @@
 import { PointLight, SkyLight, settings } from ".."
 //@ts-ignore
-import keanuSrc from "../../assets-local/link.glb"
+import keanuSrc from "../../assets-local/keannu.glb"
 import Model from "../display/Model"
 
 export default {}
@@ -8,10 +8,10 @@ export default {}
 const model = new Model()
 model.src = keanuSrc
 model.scale = 5
-model.toon = true
-model.frustumCulled = false
-model.animation = 1
+model.metalnessFactor = 5
+model.roughnessFactor = 0.5
 
 settings.defaultOrbitControls = true
+settings.defaultLight = "studio"
 
 settings.fillWindow = true
