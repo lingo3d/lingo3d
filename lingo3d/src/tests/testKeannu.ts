@@ -1,9 +1,14 @@
 import { PointLight, SkyLight, settings } from ".."
 //@ts-ignore
 import keanuSrc from "../../assets-local/keannu.glb"
+//@ts-ignore
+import hdrSrc from "../../assets-local/studio010.hdr"
+import background from "../api/background"
 import Model from "../display/Model"
 
 export default {}
+
+settings.performance = "quality"
 
 const model = new Model()
 model.src = keanuSrc
@@ -12,6 +17,8 @@ model.metalnessFactor = 5
 model.roughnessFactor = 0.5
 
 settings.defaultOrbitControls = true
-settings.defaultLight = "studio"
+settings.defaultLight = hdrSrc
+
+background.texture = hdrSrc
 
 settings.fillWindow = true

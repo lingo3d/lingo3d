@@ -1,5 +1,5 @@
 import index, { container } from "."
-import test from "./tests/testLink"
+import test from "./tests/testKeannu"
 import { preventTreeShake } from "@lincode/utils"
 
 preventTreeShake([index, test])

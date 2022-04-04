@@ -1,8 +1,8 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { HemisphereLight, DirectionalLight } from "three"
+import loadHDR from "../../display/utils/loaders/loadHDR"
 import { getDefaultLight } from "../../states/useDefaultLight"
-import { setHDR } from "../../states/useHDR"
 import scene from "./scene"
 
 createEffect(() => {
@@ -26,9 +26,9 @@ createEffect(() => {
                 handle.cancel()
             }
         }
-        setHDR(defaultLight)
+        scene.environment = loadHDR(defaultLight)
         return () => {
-            setHDR(undefined)
+            scene.environment = null
         }
     }
 
