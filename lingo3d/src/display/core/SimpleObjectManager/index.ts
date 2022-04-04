@@ -52,7 +52,10 @@ const processChild = (child: any, _toon?: boolean, _metalnessFactor?: number, _r
     if (_toon) {
         if (!(material instanceof MeshToonMaterial)) {
             child.material = new MeshToonMaterial()
-            child.material.copy(material)
+            try {
+                child.material.copy(material)
+            }
+            catch {}
             material.dispose()
         }
         // (child.material as MeshToonMaterial).gradientMap = new 

@@ -10,6 +10,7 @@ import { getBackgroundImage } from "../states/useBackgroundImage"
 import { getBackgroundSkybox } from "../states/useBackgroundSkybox"
 import { getDefaultFog } from "../states/useDefaultFog"
 import { getDefaultLight } from "../states/useDefaultLight"
+import { setHDR } from "../states/useHDR"
 import { getRenderer } from "../states/useRenderer"
 
 const scene = new Scene()
@@ -57,20 +58,26 @@ createEffect(() => {
     const defaultLight = getDefaultLight()
     if (!defaultLight) return
 
-    if (defaultLight === "studio") {
-        const handle = new Cancellable()
-        ;(async () => {
-            const AreaLight = (await import("../display/lights/AreaLight")).default
-            if (handle.done) return
-            
-            handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, intensity: 3 }))
-            handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationX: 90, intensity: 3 }))
-            handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationX: -90, intensity: 3 }))
-            handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationZ: 90, intensity: 3 }))
-            handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationZ: -90, intensity: 3 }))
-        })()
+    if (typeof defaultLight === "string") {
+        if (defaultLight === "studio") {
+            const handle = new Cancellable()
+            ;(async () => {
+                const AreaLight = (await import("../display/lights/AreaLight")).default
+                if (handle.done) return
+                
+                handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, intensity: 3 }))
+                handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationX: 90, intensity: 3 }))
+                handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationX: -90, intensity: 3 }))
+                handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationZ: 90, intensity: 3 }))
+                handle.watch(Object.assign(new AreaLight(), { innerY: 1000, innerRotationX: -90, rotationZ: -90, intensity: 3 }))
+            })()
+            return () => {
+                handle.cancel()
+            }
+        }
+        setHDR(defaultLight)
         return () => {
-            handle.cancel()
+            setHDR(undefined)
         }
     }
 
