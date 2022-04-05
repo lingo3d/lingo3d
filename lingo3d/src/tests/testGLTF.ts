@@ -3,20 +3,26 @@ import parrotSrc from "../../assets-local/parrot.glb"
 //@ts-ignore
 import machineSrc from "../../assets-local/machine.glb"
 //@ts-ignore
+import casaSrc from "../../assets-local/casa2.glb"
+//@ts-ignore
+import hdrSrc from "../../assets-local/hdrnightvison.hdr"
+//@ts-ignore
 import shipSrc from "../../assets-local/ship1.glb"
 import Model from "../display/Model"
 import OrbitCamera from "../display/cameras/OrbitCamera"
 import settings from "../api/settings"
 import rendering from "../api/rendering"
+import background from "../api/background"
 
 export default {}
 
 const model = new Model()
-model.src = parrotSrc
+model.src = casaSrc
 model.scale = 3
-model.animation = true
 
 settings.defaultOrbitControls = true
+settings.defaultLight = hdrSrc
+background.texture = hdrSrc
 
 // const makefire = function () {
 //     const fire = new ParticleSystem()
