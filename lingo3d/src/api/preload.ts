@@ -4,7 +4,7 @@ import { assertExhaustive } from "@lincode/utils"
 import bytesLoaded from "../display/utils/loaders/bytesLoaded"
 import loadFBX from "../display/utils/loaders/loadFBX"
 import loadGLTF from "../display/utils/loaders/loadGLTF"
-import loadTextureAsync from "../display/utils/loaders/loadTextureAsync"
+import loadTexture from "../display/utils/loaders/loadTexture"
 import { getLoadingCount } from "../states/useLoadingCount"
 
 export default async (urls: Array<string>, total: number | string, onProgress?: (value: number) => void) => {
@@ -16,7 +16,7 @@ export default async (urls: Array<string>, total: number | string, onProgress?: 
 
         switch (filetype) {
             case "image":
-                promises.push(loadTextureAsync(url))
+                promises.push(new Promise<void>(resolve => loadTexture(url, resolve)))
                 break
             
             case "model":

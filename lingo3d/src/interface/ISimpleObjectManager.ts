@@ -41,6 +41,8 @@ export default interface ISimpleObjectManager extends IPhysics {
 
     metalnessFactor: number
     roughnessFactor: number
+    environmentFactor: number
+
     toon: boolean
 }
 
@@ -75,5 +77,7 @@ export const simpleObjectManagerDefaults: ISimpleObjectManager = {
 
     metalnessFactor: 1,
     roughnessFactor: 1,
+    environmentFactor: 1,
+
     toon: false
 }

@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
-import { HemisphereLight, DirectionalLight } from "three"
+import { HemisphereLight, DirectionalLight, EquirectangularReflectionMapping } from "three"
 import loadTexture from "../../display/utils/loaders/loadTexture"
 import { getDefaultLight } from "../../states/useDefaultLight"
 import scene from "./scene"
@@ -26,7 +26,9 @@ createEffect(() => {
                 handle.cancel()
             }
         }
-        scene.environment = loadTexture(defaultLight)
+        const texture = loadTexture(defaultLight)
+        texture.mapping = EquirectangularReflectionMapping
+        scene.environment = texture
         return () => {
             scene.environment = null
         }

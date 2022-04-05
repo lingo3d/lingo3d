@@ -3,7 +3,6 @@ import createObject from "./createObject"
 import { nonSerializedProperties, SceneGraphNode } from "./types"
 import applySetup from "./applySetup"
 import loadCubeTexture from "../loaders/loadCubeTexture"
-import loadTextureAsync from "../loaders/loadTextureAsync"
 import loadTexture from "../loaders/loadTexture"
 import { Resolvable } from "@lincode/promiselikes"
 
@@ -28,7 +27,7 @@ const nodeToObjectManager = (
                 if (Array.isArray(node.skybox))
                     loadCubeTexture(node.skybox)
                 else
-                    loadTextureAsync(node.skybox)
+                    loadTexture(node.skybox)
             }
             else if (node.texture)
                 loadTexture(node.texture)

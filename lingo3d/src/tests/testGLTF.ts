@@ -13,16 +13,22 @@ import OrbitCamera from "../display/cameras/OrbitCamera"
 import settings from "../api/settings"
 import rendering from "../api/rendering"
 import background from "../api/background"
+import AmbientLight from "../display/lights/AmbientLight"
+import SkyLight from "../display/lights/SkyLight"
 
 export default {}
 
 const model = new Model()
 model.src = casaSrc
 model.scale = 3
+model.environmentFactor = 5
 
 settings.defaultOrbitControls = true
 settings.defaultLight = hdrSrc
 background.texture = hdrSrc
+
+const light = new AmbientLight()
+light.intensity = 1
 
 // const makefire = function () {
 //     const fire = new ParticleSystem()

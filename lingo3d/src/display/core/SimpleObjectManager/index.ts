@@ -45,7 +45,13 @@ const setValue = (child: any, property: string, factor: number) => {
     child.material[property] = getDefault(child, property) * factor
 }
 
-const processChild = (child: any, _toon?: boolean, _metalnessFactor?: number, _roughnessFactor?: number) => {
+const processChild = (
+    child: any,
+    _toon?: boolean,
+    _metalnessFactor?: number,
+    _roughnessFactor?: number,
+    _environmentFactor?: number
+) => {
     const { material } = child
     if (!material) return
 
@@ -63,21 +69,26 @@ const processChild = (child: any, _toon?: boolean, _metalnessFactor?: number, _r
     else if (material instanceof MeshStandardMaterial) {
         _metalnessFactor !== undefined && setValue(child, "metalness", _metalnessFactor)
         _roughnessFactor !== undefined && setValue(child, "roughness", _roughnessFactor)
+        _environmentFactor !== undefined && (child.material.envMapIntensity = _environmentFactor)
     }
 }
 
 const applyProperties = debounce(() => {
     for (const model of modelSet) {
         //@ts-ignore
-        const { _toon, _metalnessFactor, _roughnessFactor } = model
+        const { _toon, _metalnessFactor, _roughnessFactor, _environmentFactor } = model
 
         if ("loadedResolvable" in model)
             //@ts-ignore
             model.loadedResolvable.then(loaded => {
-                loaded.traverse(child => processChild(child, _toon, _metalnessFactor, _roughnessFactor))
+                loaded.traverse(child => processChild(
+                    child, _toon, _metalnessFactor, _roughnessFactor, _environmentFactor
+                ))
             })
         else
-            model.outerObject3d.traverse(child => processChild(child, _toon, _metalnessFactor, _roughnessFactor))
+            model.outerObject3d.traverse(child => processChild(
+                child, _toon, _metalnessFactor, _roughnessFactor, _environmentFactor
+            ))
     }
     modelSet.clear()    
 
@@ -521,6 +532,16 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set roughnessFactor(val: number) {
         this._roughnessFactor = val
+        modelSet.add(this)
+        applyProperties()
+    }
+
+    protected _environmentFactor?: number
+    public get environmentFactor() {
+        return this._environmentFactor ?? 1
+    }
+    public set environmentFactor(val: number) {
+        this._environmentFactor = val
         modelSet.add(this)
         applyProperties()
     }
