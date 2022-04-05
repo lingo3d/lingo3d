@@ -15,6 +15,7 @@ import { pointLightDefaults } from "../../../interface/IPointLight"
 import { spotLightDefaults } from "../../../interface/ISpotLight"
 import { cameraDefaults } from "../../../interface/ICamera"
 import { primitiveDefaults } from "../../../interface/IPrimitive"
+import { Encoding } from "../../../states/useEncoding"
 
 const schema = {
     group: groupDefaults,
@@ -71,6 +72,7 @@ export type SetupNode = {
     defaultLight?: DefaultLight
     defaultOrbitControls?: boolean
     logarithmicDepth?: boolean
+    encoding?: Encoding
     toneMapping?: boolean
     exposure?: number
     bloom?: boolean

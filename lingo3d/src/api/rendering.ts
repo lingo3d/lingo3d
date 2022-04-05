@@ -12,6 +12,7 @@ import { getToneMapping, setToneMapping } from "../states/useToneMapping"
 import { getLogarithmicDepth, setLogarithmicDepth } from "../states/useLogarithmicDepth"
 import isMobile from "./utils/isMobile"
 import isChromium from "./utils/isChromium"
+import { Encoding, getEncoding, setEncoding } from "../states/useEncoding"
 
 export default {
     get logarithmicDepth() {
@@ -20,7 +21,14 @@ export default {
     set logarithmicDepth(value: boolean) {
         if (isMobile || !isChromium) return
         setLogarithmicDepth(value)
-    },    
+    },
+
+    get encoding() {
+        return getEncoding()
+    },
+    set encoding(val: Encoding) {
+        setEncoding(val)
+    },
 
     get toneMapping() {
         return getToneMapping()

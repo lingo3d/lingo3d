@@ -1,4 +1,4 @@
-import { ACESFilmicToneMapping, NoToneMapping, PCFSoftShadowMap } from "three"
+import { LinearEncoding, LinearToneMapping, NoToneMapping, PCFSoftShadowMap, sRGBEncoding } from "three"
 import { getExposure } from "../../states/useExposure"
 import ResizeObserver from "resize-observer-polyfill"
 import { getResolution } from "../../states/useResolution"
@@ -10,6 +10,7 @@ import { createEffect } from "@lincode/reactivity"
 import { getVR } from "../../states/useVR"
 import settings from "../../api/settings"
 import { getRenderer } from "../../states/useRenderer"
+import { getEncoding } from "../../states/useEncoding"
 
 export const container = document.createElement("div")
 Object.assign(container.style, {
@@ -55,15 +56,24 @@ createEffect(() => {
     renderer.setSize(w, h)
     renderer.setPixelRatio(getPixelRatio())
     
-    renderer.toneMapping = getToneMapping() ? ACESFilmicToneMapping : NoToneMapping
+    renderer.toneMapping = getToneMapping() ? LinearToneMapping : NoToneMapping
     renderer.toneMappingExposure = getExposure()
     renderer.shadowMap.enabled = getPerformance() !== "speed"
 
     // renderer.physicallyCorrectLights = true
-    // renderer.outputEncoding = sRGBEncoding
     // renderer.shadowMap.type = PCFSoftShadowMap
 
 }, [getRenderer, getResolution, getPixelRatio, getToneMapping, getExposure, getPerformance])
+
+createEffect(() => {
+    const renderer = getRenderer()
+    const encoding = getEncoding()
+
+    renderer.outputEncoding = encoding === "linear" ? LinearEncoding : sRGBEncoding
+
+    
+
+}, [getEncoding, getRenderer])
 
 createEffect(() => {
     if (getVR() !== "webxr") return

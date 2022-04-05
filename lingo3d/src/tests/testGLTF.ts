@@ -21,14 +21,18 @@ export default {}
 const model = new Model()
 model.src = casaSrc
 model.scale = 3
-model.environmentFactor = 5
+model.environmentFactor = 10
 
 settings.defaultOrbitControls = true
 settings.defaultLight = hdrSrc
 background.texture = hdrSrc
 
-const light = new AmbientLight()
-light.intensity = 1
+rendering.toneMapping = true
+rendering.exposure = 3
+
+rendering.encoding = "sRGB"
+rendering.logarithmicDepth = true
+settings.performance = "quality"
 
 // const makefire = function () {
 //     const fire = new ParticleSystem()

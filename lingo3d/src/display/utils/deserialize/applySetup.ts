@@ -15,6 +15,7 @@ export default debounce((node: Partial<SetupNode>) => {
         defaultOrbitControls: settings.defaultOrbitControls,
     
         logarithmicDepth: rendering.logarithmicDepth,
+        encoding: rendering.encoding,
         toneMapping: rendering.toneMapping,
         exposure: rendering.exposure,
         bloom: rendering.bloom,
