@@ -9,12 +9,10 @@ import hdrSrc from "../../assets-local/hdrnightvison.hdr"
 //@ts-ignore
 import shipSrc from "../../assets-local/ship1.glb"
 import Model from "../display/Model"
-import OrbitCamera from "../display/cameras/OrbitCamera"
 import settings from "../api/settings"
-import rendering from "../api/rendering"
 import background from "../api/background"
-import AmbientLight from "../display/lights/AmbientLight"
-import SkyLight from "../display/lights/SkyLight"
+import AreaLight from "../display/lights/AreaLight"
+import rendering from "../api/rendering"
 
 export default {}
 
@@ -27,12 +25,13 @@ settings.defaultOrbitControls = true
 settings.defaultLight = hdrSrc
 background.texture = hdrSrc
 
-rendering.toneMapping = true
-rendering.exposure = 3
+const rectLight = new AreaLight()
+rectLight.rotationX = -90
+rectLight.y = 1000
+rectLight.scale = 100
 
-rendering.encoding = "sRGB"
-rendering.logarithmicDepth = true
-settings.performance = "quality"
+// rendering.exposure = 3
+// rendering.encoding = "sRGB"
 
 // const makefire = function () {
 //     const fire = new ParticleSystem()

@@ -16,7 +16,6 @@ export default debounce((node: Partial<SetupNode>) => {
     
         logarithmicDepth: rendering.logarithmicDepth,
         encoding: rendering.encoding,
-        toneMapping: rendering.toneMapping,
         exposure: rendering.exposure,
         bloom: rendering.bloom,
         bloomStrength: rendering.bloomStrength,
@@ -42,7 +41,6 @@ export default debounce((node: Partial<SetupNode>) => {
     settings.defaultOrbitControls = node.defaultOrbitControls ?? defaults.defaultOrbitControls
 
     rendering.logarithmicDepth = node.logarithmicDepth ?? defaults.logarithmicDepth
-    rendering.toneMapping = node.toneMapping ?? defaults.toneMapping
     rendering.exposure = node.exposure ?? defaults.exposure
     rendering.bloom = node.bloom ?? defaults.bloom
     rendering.bloomStrength = node.bloomStrength ?? defaults.bloomStrength

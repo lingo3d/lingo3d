@@ -8,7 +8,6 @@ import { getBokehAperture, setBokehAperture } from "../states/useBokehAperture"
 import { getBokehFocus, setBokehFocus } from "../states/useBokehFocus"
 import { getBokehMaxBlur, setBokehMaxBlur } from "../states/useBokehMaxBlur"
 import { getExposure, setExposure } from "../states/useExposure"
-import { getToneMapping, setToneMapping } from "../states/useToneMapping"
 import { getLogarithmicDepth, setLogarithmicDepth } from "../states/useLogarithmicDepth"
 import isMobile from "./utils/isMobile"
 import isChromium from "./utils/isChromium"
@@ -28,13 +27,6 @@ export default {
     },
     set encoding(val: Encoding) {
         setEncoding(val)
-    },
-
-    get toneMapping() {
-        return getToneMapping()
-    },
-    set toneMapping(value: boolean) {
-        setToneMapping(value)
     },
 
     get exposure() {

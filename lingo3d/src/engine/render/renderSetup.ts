@@ -2,7 +2,6 @@ import { LinearEncoding, LinearToneMapping, NoToneMapping, PCFSoftShadowMap, sRG
 import { getExposure } from "../../states/useExposure"
 import ResizeObserver from "resize-observer-polyfill"
 import { getResolution } from "../../states/useResolution"
-import { getToneMapping } from "../../states/useToneMapping"
 import { getPerformance } from "../../states/usePerformance"
 import { getPixelRatio } from "../../states/usePixelRatio"
 import { VRButton } from "three/examples/jsm/webxr/VRButton"
@@ -55,23 +54,32 @@ createEffect(() => {
     const [w, h] = getResolution()
     renderer.setSize(w, h)
     renderer.setPixelRatio(getPixelRatio())
-    
-    renderer.toneMapping = getToneMapping() ? LinearToneMapping : NoToneMapping
-    renderer.toneMappingExposure = getExposure()
+
+}, [getRenderer, getResolution, getPixelRatio])
+
+createEffect(() => {
+    const renderer = getRenderer()
+
+    renderer.physicallyCorrectLights = true
+    renderer.shadowMap.type = PCFSoftShadowMap
     renderer.shadowMap.enabled = getPerformance() !== "speed"
 
-    // renderer.physicallyCorrectLights = true
-    // renderer.shadowMap.type = PCFSoftShadowMap
+}, [getRenderer, getPerformance])
 
-}, [getRenderer, getResolution, getPixelRatio, getToneMapping, getExposure, getPerformance])
+createEffect(() => {
+    const renderer = getRenderer()
+    const exposure = getExposure()
+
+    renderer.toneMapping = exposure !== 1 ? LinearToneMapping : NoToneMapping
+    renderer.toneMappingExposure = exposure
+
+}, [getExposure, getRenderer])
 
 createEffect(() => {
     const renderer = getRenderer()
     const encoding = getEncoding()
 
     renderer.outputEncoding = encoding === "linear" ? LinearEncoding : sRGBEncoding
-
-    
 
 }, [getEncoding, getRenderer])
 

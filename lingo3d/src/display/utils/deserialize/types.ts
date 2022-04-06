@@ -73,7 +73,6 @@ export type SetupNode = {
     defaultOrbitControls?: boolean
     logarithmicDepth?: boolean
     encoding?: Encoding
-    toneMapping?: boolean
     exposure?: number
     bloom?: boolean
     bloomStrength?: number
