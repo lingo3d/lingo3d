@@ -12,6 +12,7 @@ import { getLogarithmicDepth, setLogarithmicDepth } from "../states/useLogarithm
 import isMobile from "./utils/isMobile"
 import isChromium from "./utils/isChromium"
 import { Encoding, getEncoding, setEncoding } from "../states/useEncoding"
+import { getPBR, setPBR } from "../states/usePBR"
 
 export default {
     get logarithmicDepth() {
@@ -34,6 +35,13 @@ export default {
     },
     set exposure(value: number) {
         setExposure(value)
+    },
+
+    get pbr() {
+        return getPBR()
+    },
+    set pbr(value: boolean) {
+        setPBR(value)
     },
 
     get bloom() {

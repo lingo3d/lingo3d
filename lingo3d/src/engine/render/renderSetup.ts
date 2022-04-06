@@ -10,6 +10,7 @@ import { getVR } from "../../states/useVR"
 import settings from "../../api/settings"
 import { getRenderer } from "../../states/useRenderer"
 import { getEncoding } from "../../states/useEncoding"
+import { getPBR } from "../../states/usePBR"
 
 export const container = document.createElement("div")
 Object.assign(container.style, {
@@ -60,11 +61,16 @@ createEffect(() => {
 createEffect(() => {
     const renderer = getRenderer()
 
-    renderer.physicallyCorrectLights = true
-    renderer.shadowMap.type = PCFSoftShadowMap
+    // renderer.shadowMap.type = PCFSoftShadowMap
     renderer.shadowMap.enabled = getPerformance() !== "speed"
 
 }, [getRenderer, getPerformance])
+
+createEffect(() => {
+    const renderer = getRenderer()
+    renderer.physicallyCorrectLights = getPBR()
+
+}, [getRenderer, getPBR])
 
 createEffect(() => {
     const renderer = getRenderer()

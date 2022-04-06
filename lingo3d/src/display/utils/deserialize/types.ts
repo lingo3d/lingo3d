@@ -74,6 +74,7 @@ export type SetupNode = {
     logarithmicDepth?: boolean
     encoding?: Encoding
     exposure?: number
+    pbr?: boolean
     bloom?: boolean
     bloomStrength?: number
     bloomRadius?: number
