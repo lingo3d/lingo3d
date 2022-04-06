@@ -17,6 +17,7 @@ export default (url: string, onLoad?: () => void) => forceGet(cache, url, () => 
     return loader.load(url,
         texture => {
             texture.wrapS = texture.wrapT = RepeatWrapping
+            onLoad?.()
             decreaseLoadingCount()
         },
         handleProgress,
