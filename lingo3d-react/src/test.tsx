@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react"
-import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Editor, Sphere } from "."
+import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Editor, Sphere, HTML } from "."
 //@ts-ignore
 import gunSrc from "../assets-local/gun.glb"
 //@ts-ignore
@@ -84,7 +84,11 @@ const App2 = () => {
   return (<>
     <World>
         {userData.map(user => (
-          <Cube key={user.name} physics y={500} />
+          <Cube key={user.name} physics y={500} color="red">
+              <HTML>
+                <div style={{ color: "yellow" }}>hello world, HTML!</div> 
+              </HTML>
+          </Cube>
         ))}
         <Cube y={-200} width={999} depth={999} color="blue" physics mass={0} />
     </World>

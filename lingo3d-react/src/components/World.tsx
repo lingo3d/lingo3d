@@ -8,7 +8,9 @@ import { useMemoOnce } from "@lincode/hooks"
 import scene from "lingo3d/lib/engine/scene"
 
 preventTreeShake(index)
-outline.style.display = "none"
+outline.style.border = "none"
+outline.style.pointerEvents = "none"
+outline.style.userSelect = "none"
 settings.autoMout = false
 
 type WorldProps = Partial<SetupNode> & {

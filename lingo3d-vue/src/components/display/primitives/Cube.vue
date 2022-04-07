@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { Cube } from "lingo3d";
+import IPrimitive, { primitiveDefaults } from "lingo3d/lib/interface/IPrimitive";
 import useManager from "../../../hooks/useManager"
 
-const props = defineProps({
+const options = {
     x: {
         type: Number,
         default: 0
@@ -31,7 +32,11 @@ const props = defineProps({
         type: String,
         default: "#ffffff"
     }
-})
+}
+
+const props = defineProps<Partial<IPrimitive>>()
+
+
 
 useManager(props, Cube)
 </script>
