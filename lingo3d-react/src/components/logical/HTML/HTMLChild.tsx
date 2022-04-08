@@ -1,9 +1,5 @@
-import { hook } from "@lincode/react-global-state"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
-import { getCamera, setCamera } from "lingo3d/lib/states/useCamera"
 import React, { useLayoutEffect, useRef } from "react"
-
-const useCamera = hook(setCamera, getCamera)
 
 interface HTMLChildProps {
     el: React.ReactNode
@@ -17,16 +13,27 @@ const HTMLChild: React.FC<HTMLChildProps> = ({ el, manager }) => {
         const div = divRef.current
         if (!div) return
 
+        let frustumVisibleOld = false
+
         const handle = manager.loop(() => {
+            const { frustumVisible } = manager
+            
+            if (frustumVisible !== frustumVisibleOld)
+                div.style.display = frustumVisible ? "block" : "none"
+
+            frustumVisibleOld = frustumVisible
+
+            if (!frustumVisible) return
+            
             div.style.transform = `translateX(${manager.clientX}px) translateY(${manager.clientY}px)`
         })
         return () => {
             handle.cancel()
         }
-    })
+    }, [])
 
     return (
-        <div style={{ position: "absolute", left: 0, top: 0 }} ref={divRef}>{el}</div>
+        <div style={{ position: "absolute", left: 0, top: 0, display: "none" }} ref={divRef}>{el}</div>
     )
 }
 

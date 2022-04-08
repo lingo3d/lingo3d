@@ -46,6 +46,9 @@ block.opacity = 0.5
 block.id = "block"
 
 cam.onLoop = () => {
+    
+    console.log(block.frustumVisible)
+
     block.color = "white"
     block2.color = "white"
 
