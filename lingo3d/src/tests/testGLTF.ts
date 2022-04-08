@@ -13,6 +13,7 @@ import settings from "../api/settings"
 import background from "../api/background"
 import AreaLight from "../display/lights/AreaLight"
 import rendering from "../api/rendering"
+import OrbitCamera from "../display/cameras/OrbitCamera"
 
 export default {}
 

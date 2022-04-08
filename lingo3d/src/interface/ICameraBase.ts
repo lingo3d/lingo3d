@@ -5,8 +5,6 @@ export type MouseControlMode = "orbit" | "stationary"
 export type MouseControl = boolean | "drag"
 
 export default interface ICameraBase extends IObjectManager, ICameraMixin {
-    minPolarAngle: number
-    maxPolarAngle: number
     mouseControl?: MouseControl
     mouseControlMode?: MouseControlMode
 }
@@ -14,9 +12,6 @@ export default interface ICameraBase extends IObjectManager, ICameraMixin {
 export const cameraBaseDefaults: ICameraBase = {
     ...objectManagerDefaults,
     ...cameraMixinDefaults,
-
-    minPolarAngle: 5,
-    maxPolarAngle: 175,
     
     mouseControl: undefined,
     mouseControlMode: undefined

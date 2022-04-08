@@ -1,4 +1,5 @@
 import { camFar, camNear } from "../engine/constants"
+import { MAX_POLAR_ANGLE, MIN_POLAR_ANGLE } from "../globals"
 import { bokehDefault } from "../states/useBokeh"
 import { bokehApertureDefault } from "../states/useBokehAperture"
 import { bokehFocusDefault } from "../states/useBokehFocus"
@@ -14,6 +15,9 @@ export default interface ICameraMixin {
     bokehFocus: number
     bokehMaxBlur: number
     bokehAperture: number
+
+    minPolarAngle: number
+    maxPolarAngle: number
 }
 
 export const cameraMixinDefaults: ICameraMixin = {
@@ -25,5 +29,8 @@ export const cameraMixinDefaults: ICameraMixin = {
     bokeh: bokehDefault,
     bokehFocus: bokehFocusDefault,
     bokehMaxBlur: bokehMaxBlurDefault,
-    bokehAperture: bokehApertureDefault
+    bokehAperture: bokehApertureDefault,
+
+    minPolarAngle: MIN_POLAR_ANGLE,
+    maxPolarAngle: MAX_POLAR_ANGLE
 }

@@ -30,13 +30,13 @@ createEffect(() => {
     if (!getOrbitControls()) return
 
     let proceed = true
-    queueMicrotask(() => proceed && mainOrbitCamera.setRotationX(-30))
+    queueMicrotask(() => proceed && (mainOrbitCamera.polarAngle = 60))
 
     return () => {
         proceed = false
         mainOrbitControls.reset()
-        mainOrbitCamera.setRotationX(0)
-        mainOrbitCamera.setRotationY(0)
-        mainOrbitCamera.setDistance(getCameraDistance())
+        mainOrbitCamera.polarAngle = 90
+        mainOrbitCamera.azimuthAngle = 0
+        mainOrbitCamera.distance = getCameraDistance()
     }
 }, [getOrbitControls])

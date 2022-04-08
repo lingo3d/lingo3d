@@ -1,6 +1,5 @@
 import { Camera, Group } from "three"
 import ObjectManager from "../ObjectManager"
-import { deg2Rad, rad2Deg } from "@lincode/math"
 import CameraMixin from "../mixins/CameraMixin"
 import { applyMixins } from "@lincode/utils"
 import SimpleObjectManager from "../SimpleObjectManager"
@@ -63,23 +62,6 @@ abstract class CameraBase<T extends Camera> extends ObjectManager<Group> impleme
     public override lookAt(target: SimpleObjectManager | Point3d) {
         super.lookAt(target)
         this.rotationY += 180
-    }
-
-    private _minPolarAngle = 5 * deg2Rad
-    private _maxPolarAngle = 175 * deg2Rad
-
-    public get minPolarAngle() {
-        return this._minPolarAngle * rad2Deg
-    }
-    public set minPolarAngle(val: number) {
-        this._minPolarAngle = val * deg2Rad
-    }
-
-    public get maxPolarAngle() {
-        return this._maxPolarAngle * rad2Deg
-    }
-    public set maxPolarAngle(val: number) {
-        this._maxPolarAngle = val * deg2Rad
     }
 
     public gyrate(movementX: number, movementY: number, inner?: boolean) {

@@ -15,6 +15,10 @@ export default interface IOrbitCamera extends IEventLoop, ICameraMixin {
     enableZoom: boolean
     autoRotate: boolean
     autoRotateSpeed: number
+
+    azimuthAngle: number
+    polarAngle: number
+    distance: number
 }
 
 export const orbitCameraDefaults: IOrbitCamera = {
@@ -33,5 +37,9 @@ export const orbitCameraDefaults: IOrbitCamera = {
     enablePan: false,
     enableZoom: false,
     autoRotate: false,
-    autoRotateSpeed: 2
+    autoRotateSpeed: 2,
+
+    azimuthAngle: 0,
+    polarAngle: 0,
+    distance: 500
 }

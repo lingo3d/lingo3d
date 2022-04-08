@@ -33,12 +33,14 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         this.outerObject3d = camera
         const controls = this.controls = new OrbitControls(camera, container)
 
+        this.initOuterObject3d()
+        this.initCamera()
+
         controls.enabled = false
         controls.enablePan = false
         controls.enableZoom = false
-
-        this.initOuterObject3d()
-        this.initCamera()
+        controls.minPolarAngle = this._minPolarAngle
+        controls.maxPolarAngle = this._maxPolarAngle
 
         camera.position.z = 5
         this.updateDebounced()
@@ -232,12 +234,27 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
     public set autoRotateSpeed(val: number) {
         this.controls.autoRotateSpeed = val
     }
+    
+    public get minPolarAngle() {
+        return this._minPolarAngle * rad2Deg
+    }
+    public set minPolarAngle(val: number) {
+        this.controls.minPolarAngle = this._minPolarAngle = val * deg2Rad
+    }
 
-    public setRotationY(val: number, lock?: boolean) {
+    public get maxPolarAngle() {
+        return this._maxPolarAngle * rad2Deg
+    }
+    public set maxPolarAngle(val: number) {
+        this.controls.maxPolarAngle = this._maxPolarAngle = val * deg2Rad
+    }
+
+    public get azimuthAngle() {
+        return this.controls.getAzimuthalAngle() * rad2Deg
+    }
+    public set azimuthAngle(val: number) {
         this.controls.minAzimuthAngle = this.controls.maxAzimuthAngle = val * deg2Rad
         this.controls.update()
-
-        if (lock) return
 
         this.queueMicrotask(() => {
             this.controls.minAzimuthAngle = -Infinity
@@ -245,26 +262,25 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         })
     }
 
-    public setRotationX(val: number, lock?: boolean) {
-        this.controls.minPolarAngle = this.controls.maxPolarAngle = (val + 90) * deg2Rad
+    public get polarAngle() {
+        return this.controls.getPolarAngle() * rad2Deg
+    }
+    public set polarAngle(val: number) {
+        this.controls.minPolarAngle = this.controls.maxPolarAngle = val * deg2Rad
         this.controls.update()
-
-        if (lock) return
 
         this.queueMicrotask(() => {
-            this.controls.minPolarAngle = -Infinity
-            this.controls.maxPolarAngle = Infinity
+            this.controls.minPolarAngle = this._minPolarAngle
+            this.controls.maxPolarAngle = this._maxPolarAngle
         })
     }
-
-    public setDistance(val: number, lock?: boolean) {
+    
+    public get distance() {
+        return this.controls.getDistance() * scaleUp
+    }
+    public set distance(val: number) {
         this.controls.minDistance = this.controls.maxDistance = val * scaleDown
         this.controls.update()
-
-        if (lock) {
-            this.enableZoom = false
-            return
-        }
 
         this.queueMicrotask(() => {
             this.controls.minDistance = -Infinity
