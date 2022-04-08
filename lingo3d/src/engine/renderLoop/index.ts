@@ -1,3 +1,4 @@
+import { event } from "@lincode/events"
 import { createEffect } from "@lincode/reactivity"
 import { preventTreeShake } from "@lincode/utils"
 import { PerspectiveCamera } from "three"
@@ -33,6 +34,9 @@ const handleBlob = () => {
     getRenderer().domElement.toBlob(blob => blob && getBlobCopy(blob))
 }
 
+export const [emitBeforeRender, onBeforeRender] = event()
+export const [emitAfterRender, onAfterRender] = event()
+
 createEffect(() => {
     const vr = getVR()
     const camera = getCamera()
@@ -40,8 +44,12 @@ createEffect(() => {
 
     if (getPerformance() === "speed" || vr === "webxr") {
         const handle = loop(() => {
+            emitBeforeRender()
+
             renderer.render(scene, camera)
+            
             handleBlob()
+            emitAfterRender()
         })
         return () => {
             handle.cancel()
@@ -65,6 +73,8 @@ createEffect(() => {
         const camManager = new SimpleObjectManager(camera)
 
         const handle = loop(() => {
+            emitBeforeRender()
+
             renderer.setViewport(0, 0, width, height)
             renderer.setScissor(0, 0, width, height)
             renderer.setScissorTest(true)
@@ -99,6 +109,7 @@ createEffect(() => {
             camera.position.copy(pos)
 
             handleBlob()
+            emitAfterRender()
         })
         return () => {
             focus.dispose()
@@ -114,6 +125,8 @@ createEffect(() => {
     let ssrInitialized = false
 
     const handle = loop(() => {
+        emitBeforeRender()
+
         if (bloomPtr[0]) {
             if (!selectiveBloomInitialized) {
                 setSelectiveBloom(true)
@@ -126,7 +139,9 @@ createEffect(() => {
             ssrInitialized = true
         }
         effectComposer.render()
+
         handleBlob()
+        emitAfterRender()
     })
     return () => {
         handle.cancel()

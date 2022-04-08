@@ -13,6 +13,7 @@ import { createRoot } from "react-dom/client"
 import ReactDOM from "react-dom"
 import useTimer from "./hooks/useTimer"
 import { nanoid } from "nanoid"
+import { Stats } from "."
 
 const Controls: React.FC<{ camera?: Lingo.Camera, onClick: () => void }> = ({ camera, onClick }) => {
   if (!camera) return null
@@ -69,6 +70,7 @@ const App = () => {
       <Skybox texture={skyboxSrc} />
     </World>
     <Reticle />
+    <Stats mode="fps" />
     </>
   )
 }
@@ -96,7 +98,7 @@ const App2 = () => {
         ))}
         <Cube y={-200} width={999} depth={999} color="blue" physics mass={0} />
     </World>
-    <div style={{ position: "absolute" }}>
+    <div style={{ position: "absolute", marginTop: 100 }}>
       <button onClick={pushUserData}>
         add user
       </button>
@@ -104,10 +106,11 @@ const App2 = () => {
         remove user
       </button>
     </div>
+    <Stats mode="fps" />
   </>)
 }
 
 const root = createRoot(document.getElementById('app'));
-root.render(<React.StrictMode><App /></React.StrictMode>);
+root.render(<React.StrictMode><App2 /></React.StrictMode>);
 
 // ReactDOM.render(<React.StrictMode><App /></React.StrictMode>, document.querySelector("#app"))

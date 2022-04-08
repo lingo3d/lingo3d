@@ -3,6 +3,7 @@ export { types }
 
 export { default as World } from "./components/World"
 export { default as Editor } from "./components/Editor"
+export { default as Stats } from "./components/Stats"
 
 export { default as Keyboard } from "./components/api/Keyboard"
 export { default as Mouse } from "./components/api/Mouse"

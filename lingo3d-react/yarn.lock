@@ -1292,6 +1292,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/stats.js@^0.17.0":
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/@types/stats.js/-/stats.js-0.17.0.tgz#0ed81d48e03b590c24da85540c1d952077a9fe20"
+  integrity sha512-9w+a7bR8PeB0dCT/HBULU2fMqf6BAzvKbxFboYhmDtDkKPiyXYbjoe2auwsXlEFI7CFNMF1dCv3dFH5Poy9R1w==
+
 "@types/three@0.139.0":
   version "0.139.0"
   resolved "https://registry.yarnpkg.com/@types/three/-/three-0.139.0.tgz#69af1f0c52f8eea390f513e05478af1dd7f49e6f"
@@ -2819,10 +2824,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingo3d@1.10.23:
-  version "1.10.23"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.23.tgz#bcce0b2380fcf1aac600760771678cdcc5723b9d"
-  integrity sha512-A7jzLcsK5gXZvN8/Sh1e9hk+YgERVpn1xoh4v+TaXXLQ6nbW8XKsu0Nr/8p2l3QonIgcoeufkg35bHy4ZJNajA==
+lingo3d@1.10.24:
+  version "1.10.24"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.24.tgz#656a25d558ce6321f73ff9d0921cd6209ee7465e"
+  integrity sha512-6aEHW0JEp4b7XaS7NUgA6l7Nnoh8IlU4YZPwG//LjUTmUE5FjTRIpaXLaST841Zz8Ucgyg8SfflQWbIhht1LsA==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
