@@ -1,6 +1,6 @@
 {
 	"name": "lingo3d",
-	"version": "1.10.26",
+	"version": "1.10.27",
 	"description": "Lingo3D is a web-first 3d game development library with React integration",
 	"homepage": "https://github.com/lingo3d/lingo3d",
 	"author": "Lingo3D",
@@ -21,6 +21,7 @@
 		"@pinyinma/guid": "*",
 		"@types/three": "0.139.0",
 		"cannon-es": "0.19.0",
+		"howler": "2.2.3",
 		"resize-observer-polyfill": "1",
 		"three": "0.139.2"
 	},
@@ -37,6 +38,7 @@
 		"@babel/runtime": "7",
 		"@mediapipe/camera_utils": "^0.3.1632432234",
 		"@mediapipe/hands": "^0.4.1635986972",
+		"@types/howler": "^2.2.7",
 		"@types/randomcolor": "^0.5.6",
 		"babel-loader": "8",
 		"content-loader": "*",
