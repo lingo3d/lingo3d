@@ -1,5 +1,9 @@
+import { hook } from "@lincode/react-global-state"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
+import { getCamera, setCamera } from "lingo3d/lib/states/useCamera"
 import React, { useLayoutEffect, useRef } from "react"
+
+const useCamera = hook(setCamera, getCamera)
 
 interface HTMLChildProps {
     el: React.ReactNode

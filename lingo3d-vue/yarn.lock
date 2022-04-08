@@ -48,9 +48,9 @@
     "@lincode/utils" "*"
 
 "@lincode/filetypes@*":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@lincode/filetypes/-/filetypes-1.0.0.tgz#9acd1b1460ce538cfca53671d5b5c50efdfe8279"
-  integrity sha512-IBTlWnfWrCzTGXumg4HwYCQLnrPXGHYYJzUy4bmyc44OJ3BSEEMBVZPwlYPg3uy2GsK7uz833PESe3a70QajhA==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@lincode/filetypes/-/filetypes-1.0.1.tgz#e648e6dfb6905456543459956ba3161c5c086b8e"
+  integrity sha512-ltOOAqFCz9zRmhhis624r9ME7XNP2gYOAECa4kD5LxwEqZBto1/JK0mimDcnb6pZf4gvUjO+9tTyykQJfIcy4Q==
   dependencies:
     "@lincode/utils" "*"
 
@@ -616,9 +616,9 @@ jstransformer@1.0.0:
     promise "^7.0.1"
 
 lingo3d@^1.10.12:
-  version "1.10.12"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.12.tgz#db987c46f7c9e5994d5628e2258bf4388267a4e6"
-  integrity sha512-bHHt0KNO3ajRVYdFFrsCix3HjB9kaHISeCblXKxNClv2cCz5GjO7Q0WdPd6jBMoJV4Nxt5ztlyNZlf+85y+yAw==
+  version "1.10.21"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.21.tgz#ae03f29f3bfebec82cb1f102352a1dd33b57395c"
+  integrity sha512-LTaoZVq5tWxX5kjRFvqOwOxmspk+sqTqxUuMWTtZy4FGLn6rZ07vWKsfy8MToAmUPjcZHgo87pLQJll4/2OKLg==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"

@@ -1,48 +1,24 @@
-import { groupDefaults } from "../../../interface/IGroup"
-import { modelDefaults } from "../../../interface/IModel"
-import { reflectorDefaults } from "../../../interface/IReflector"
-import { sceneDefaults } from "../../../interface/IScene"
-import { spriteDefaults } from "../../../interface/ISprite"
-import { svgMeshDefaults } from "../../../interface/ISvgMesh"
-import { ambientLightDefaults } from "../../../interface/IAmbientLight"
 import { AmbientOcclusion } from "../../../states/useAmbientOcclusion"
 import { DefaultLight } from "../../../states/useDefaultLight"
 import { PerformanceValue } from "../../../states/usePerformance"
-import { areaLightDefaults } from "../../../interface/IAreaLight"
-import { directionalLightDefaults } from "../../../interface/IDirectionalLight"
-import { skyLightDefaults } from "../../../interface/ISkyLight"
-import { pointLightDefaults } from "../../../interface/IPointLight"
-import { spotLightDefaults } from "../../../interface/ISpotLight"
-import { cameraDefaults } from "../../../interface/ICamera"
-import { primitiveDefaults } from "../../../interface/IPrimitive"
 import { Encoding } from "../../../states/useEncoding"
+import IGroup from "../../../interface/IGroup"
+import IModel from "../../../interface/IModel"
+import ISvgMesh from "../../../interface/ISvgMesh"
+import ISprite from "../../../interface/ISprite"
+import IReflector from "../../../interface/IReflector"
+import IScene from "../../../interface/IScene"
+import ICamera from "../../../interface/ICamera"
+import IAmbientLight from "../../../interface/IAmbientLight"
+import IAreaLight from "../../../interface/IAreaLight"
+import IDirectionalLight from "../../../interface/IDirectionalLight"
+import ISkyLight from "../../../interface/ISkyLight"
+import IPointLight from "../../../interface/IPointLight"
+import ISpotLight from "../../../interface/ISpotLight"
+import IPrimitive from "../../../interface/IPrimitive"
 
-const schema = {
-    group: groupDefaults,
-    model: modelDefaults,
-    svgMesh: svgMeshDefaults,
-    sprite: spriteDefaults,
-    reflector: reflectorDefaults,
-    scene: sceneDefaults,
-    ambientLight: ambientLightDefaults,
-    areaLight: areaLightDefaults,
-    directionalLight: directionalLightDefaults,
-    skyLight: skyLightDefaults,
-    pointLight: pointLightDefaults,
-    spotLight: spotLightDefaults,
-    camera: cameraDefaults,
-    circle: primitiveDefaults,
-    cone: primitiveDefaults,
-    cube: primitiveDefaults,
-    cylinder: primitiveDefaults,
-    octahedron: primitiveDefaults,
-    plane: primitiveDefaults,
-    sphere: primitiveDefaults,
-    tetrahedron: primitiveDefaults,
-    torus: primitiveDefaults
-}
 
-export type GameObjectType = keyof typeof schema
+export type GameObjectType = "group" | "model" | "svgMesh" | "sprite" | "reflector" | "scene" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus"
 
 export type AnimationData = Record<
     string,//property name
@@ -100,49 +76,49 @@ export const nonSerializedProperties = <const>["type", "uuid", "name", "children
 
 type TypedPropsNode<Props, Type extends GameObjectType> = Partial<Props> & Node & { type: Type }
 
-export type GroupNode = TypedPropsNode<typeof schema.group, "group">
+export type GroupNode = TypedPropsNode<IGroup, "group">
 
-export type ModelNode = TypedPropsNode<typeof schema.model, "model">
+export type ModelNode = TypedPropsNode<IModel, "model">
 
-export type SvgMeshNode = TypedPropsNode<typeof schema.svgMesh, "svgMesh">
+export type SvgMeshNode = TypedPropsNode<ISvgMesh, "svgMesh">
 
-export type SpriteNode = TypedPropsNode<typeof schema.sprite, "sprite">
+export type SpriteNode = TypedPropsNode<ISprite, "sprite">
 
-export type ReflectorNode = TypedPropsNode<typeof schema.reflector, "reflector">
+export type ReflectorNode = TypedPropsNode<IReflector, "reflector">
 
-export type SceneNode = TypedPropsNode<typeof schema.scene, "scene">
+export type SceneNode = TypedPropsNode<IScene, "scene">
 
-export type CameraNode = TypedPropsNode<typeof schema.camera, "camera">
+export type CameraNode = TypedPropsNode<ICamera, "camera">
 
-export type AmbientLightNode = TypedPropsNode<typeof schema.ambientLight, "ambientLight">
+export type AmbientLightNode = TypedPropsNode<IAmbientLight, "ambientLight">
 
-export type AreaLightNode = TypedPropsNode<typeof schema.areaLight, "areaLight">
+export type AreaLightNode = TypedPropsNode<IAreaLight, "areaLight">
 
-export type DirectionalLightNode = TypedPropsNode<typeof schema.directionalLight, "directionalLight">
+export type DirectionalLightNode = TypedPropsNode<IDirectionalLight, "directionalLight">
 
-export type SkyLightNode = TypedPropsNode<typeof schema.skyLight, "skyLight">
+export type SkyLightNode = TypedPropsNode<ISkyLight, "skyLight">
 
-export type PointLightNode = TypedPropsNode<typeof schema.pointLight, "pointLight">
+export type PointLightNode = TypedPropsNode<IPointLight, "pointLight">
 
-export type SpotLightNode = TypedPropsNode<typeof schema.spotLight, "spotLight">
+export type SpotLightNode = TypedPropsNode<ISpotLight, "spotLight">
 
-export type CircleNode = TypedPropsNode<typeof schema.circle, "circle">
+export type CircleNode = TypedPropsNode<IPrimitive, "circle">
 
-export type ConeNode = TypedPropsNode<typeof schema.cone, "cone">
+export type ConeNode = TypedPropsNode<IPrimitive, "cone">
 
-export type CubeNode = TypedPropsNode<typeof schema.cube, "cube">
+export type CubeNode = TypedPropsNode<IPrimitive, "cube">
 
-export type CylinderNode = TypedPropsNode<typeof schema.cylinder, "cylinder">
+export type CylinderNode = TypedPropsNode<IPrimitive, "cylinder">
 
-export type OctahedronNode = TypedPropsNode<typeof schema.octahedron, "octahedron">
+export type OctahedronNode = TypedPropsNode<IPrimitive, "octahedron">
 
-export type PlaneNode = TypedPropsNode<typeof schema.plane, "plane">
+export type PlaneNode = TypedPropsNode<IPrimitive, "plane">
 
-export type SphereNode = TypedPropsNode<typeof schema.sphere, "sphere">
+export type SphereNode = TypedPropsNode<IPrimitive, "sphere">
 
-export type TetrahedronNode = TypedPropsNode<typeof schema.tetrahedron, "tetrahedron">
+export type TetrahedronNode = TypedPropsNode<IPrimitive, "tetrahedron">
 
-export type TorusNode = TypedPropsNode<typeof schema.torus, "torus">
+export type TorusNode = TypedPropsNode<IPrimitive, "torus">
 
 export type BaseSceneGraphNode = GroupNode | ModelNode | SvgMeshNode | SpriteNode | ReflectorNode | SceneNode | CameraNode | AmbientLightNode | AreaLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode
 

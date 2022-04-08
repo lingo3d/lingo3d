@@ -54,24 +54,24 @@ export default (
             ...pointLightDefaults
         }
 
-        if (props)
-            for (const [name, value] of Object.entries(props)) {
-                if (name in objectManagerDefaults) continue
-                let folder = "misc"
+        // if (props)
+        //     for (const [name, value] of Object.entries(props)) {
+        //         if (name in objectManagerDefaults) continue
+        //         let folder = "misc"
 
-                if (name in texturedBasicDefaults)
-                    folder = "basic texture"
-                else if (name in texturedStandardDefaults)
-                    folder = "standard texture"
-                else if (name in modelDefaults)
-                    folder = "loaded"
-                else if (name in lightDefaults)
-                    folder = "light"
-                else if (name in cameraDefaults)
-                    folder = "camera"
+        //         if (name in texturedBasicDefaults)
+        //             folder = "basic texture"
+        //         else if (name in texturedStandardDefaults)
+        //             folder = "standard texture"
+        //         else if (name in modelDefaults)
+        //             folder = "loaded"
+        //         else if (name in lightDefaults)
+        //             folder = "light"
+        //         else if (name in cameraDefaults)
+        //             folder = "camera"
 
-                conf[name] = makeValue(t, name, value, folder)
-            }
+        //         conf[name] = makeValue(t, name, value, folder)
+        //     }
 
         const params = Object.fromEntries(Object.entries(conf).map(([key, [value]]) => [key, value]))
 

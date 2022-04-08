@@ -1,4 +1,4 @@
-import { Box3, MeshBasicMaterial, Quaternion, Vector3, Ray, Euler, Line3 } from "three"
+import { Box3, MeshBasicMaterial, Quaternion, Vector3, Ray, Euler, Line3, Frustum, Matrix4 } from "three"
 import { diameterScaled, radiusScaled } from "../../engine/constants"
 
 export const vector3 = new Vector3()
@@ -21,3 +21,7 @@ export const euler = new Euler(0, 0, 0, "YXZ")
 export const line3 = new Line3()
 
 export const wireframeMaterial = new MeshBasicMaterial({ wireframe: true })
+
+export const frustum = new Frustum()
+
+export const matrix4 = new Matrix4()

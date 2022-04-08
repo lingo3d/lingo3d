@@ -52,7 +52,7 @@ const App = () => {
   return (
     <>
     <World bloom bloomStrength={0.5} bloomThreshold={0.9}>
-      <Camera active mouseControl="drag" physics noTumble height={180} ref={setCamera}>
+      <Camera active mouseControl physics noTumble height={180} ref={setCamera}>
         <Model src={gunSrc} z={-50} x={25} scale={0.2} innerRotationY={-90}>
           {bullets.map(bullet => (
             <Sphere key={bullet.id} scale={0.5} physics ref={fire} color="red" />
@@ -61,7 +61,11 @@ const App = () => {
         <Controls camera={camera} onClick={spawnBullet} />
       </Camera>
       <Cube width={9999} depth={9999} y={-180} texture={groundSrc} physics mass={0} textureRepeat={20} />
-      <Cube y={500} z={-300} physics color="red" rotationY={rotationKeyframes} onMouseOver={() => setScale(2)} onMouseOut={() => setScale(1)} scale={scaleSpring} />
+      <Cube y={500} z={-300} physics color="red" rotationY={rotationKeyframes} onMouseOver={() => setScale(2)} onMouseOut={() => setScale(1)} scale={scaleSpring}>
+        <HTML>
+          <div>hello world</div>
+        </HTML>
+      </Cube>
       <Skybox texture={skyboxSrc} />
     </World>
     <Reticle />
@@ -104,6 +108,6 @@ const App2 = () => {
 }
 
 const root = createRoot(document.getElementById('app'));
-root.render(<React.StrictMode><App2 /></React.StrictMode>);
+root.render(<React.StrictMode><App /></React.StrictMode>);
 
 // ReactDOM.render(<React.StrictMode><App /></React.StrictMode>, document.querySelector("#app"))

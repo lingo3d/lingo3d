@@ -1,4 +1,4 @@
-import { onUnmounted, watch, watchEffect } from "vue"
+import { onUnmounted, watchEffect } from "vue"
 import useDiffProps from "./useDiffProps"
 
 export default (props: Record<string, any>, ManagerClass: any) => {

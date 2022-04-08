@@ -16,6 +16,6 @@ mouse.onClick = () => {
 
 <template>
   <World>
-    <Cube :x="position.x" />
+    <Cube :x=300 />
   </World>
 </template>
