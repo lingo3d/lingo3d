@@ -2,4 +2,6 @@ export default interface IEventLoop {
     onLoop?: () => void
 }
 
-export const eventLoopDefaults: IEventLoop = {}
+export const eventLoopDefaults: IEventLoop = {
+    onLoop: undefined
+}

@@ -1,42 +1,23 @@
 <script setup lang="ts">
+import { type } from "@lincode/utils";
 import { Cube } from "lingo3d"
 import IPrimitive, { primitiveDefaults } from "lingo3d/lib/interface/IPrimitive"
+import { watchEffect } from "vue";
 import useManager from "../../../hooks/useManager"
 
-const options = {
-  x: {
-    type: Number,
-    default: 0,
-  },
-  y: {
-    type: Number,
-    default: 0,
-  },
-  z: {
-    type: Number,
-    default: 0,
-  },
-  rotationX: {
-    type: Number,
-    default: 0,
-  },
-  rotationY: {
-    type: Number,
-    default: 0,
-  },
-  rotationZ: {
-    type: Number,
-    default: 0,
-  },
-  color: {
-    type: String,
-    default: "#ffffff",
-  },
-}
 
-// const props = defineProps<Partial<IPrimitive>>()
+type Extract<Type> = {
+  [Property in keyof Type]: Type[Property] extends string ? StringConstructor : NumberConstructor
+};
 
-// useManager(props, Cube)
+
+const props = defineProps({} as Extract<IPrimitive>)
+
+watchEffect(() => {
+  console.log(props)
+})
+
+useManager(props, Cube)
 </script>
 
 <template>

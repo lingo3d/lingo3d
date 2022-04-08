@@ -6,5 +6,6 @@ export default interface ICharacterCamera extends ICamera {
 }
 
 export const characterCameraDefaults: ICharacterCamera = {
-    ...cameraDefaults
+    ...cameraDefaults,
+    target: undefined
 }

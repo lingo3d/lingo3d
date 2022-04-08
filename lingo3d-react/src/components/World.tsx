@@ -17,6 +17,7 @@ type WorldProps = Partial<SetupNode> & {
     style?: React.CSSProperties
     className?: string
     position?: "absolute" | "relative" | "fixed"
+    children?: React.ReactNode
 }
 
 const World: React.FC<WorldProps> = ({ style, className, position, children, ...rest }) => {

@@ -6,5 +6,6 @@ export default interface IGroundReflector extends IObjectManager {
 }
 
 export const groundReflectorDefaults: IGroundReflector = {
-    ...objectManagerDefaults
+    ...objectManagerDefaults,
+    shape: undefined
 }

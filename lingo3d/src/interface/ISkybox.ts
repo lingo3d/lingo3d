@@ -5,5 +5,6 @@ export default interface ISkybox extends IEventLoop {
 }
 
 export const skyboxDefaults: ISkybox = {
-    ...eventLoopDefaults
+    ...eventLoopDefaults,
+    texture: undefined
 }

@@ -1,4 +1,4 @@
-import ICameraMixin, { cameraMixinDefaults } from "./ICameraMixin";
+import ICameraMixin, { cameraMixinDefaults } from "./ICameraMixin"
 import IObjectManager, { objectManagerDefaults } from "./IObjectManager"
 
 export type MouseControlMode = "orbit" | "stationary"
@@ -14,6 +14,10 @@ export default interface ICameraBase extends IObjectManager, ICameraMixin {
 export const cameraBaseDefaults: ICameraBase = {
     ...objectManagerDefaults,
     ...cameraMixinDefaults,
+
     minPolarAngle: 5,
-    maxPolarAngle: 175
+    maxPolarAngle: 175,
+    
+    mouseControl: undefined,
+    mouseControlMode: undefined
 }

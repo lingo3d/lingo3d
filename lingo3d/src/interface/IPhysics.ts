@@ -22,6 +22,7 @@ export default interface IPhysics extends IAnimation {
     mass?: number
     physicsGroup?: PhysicsGroupIndex
     ignorePhysicsGroups?: Array<PhysicsGroupIndex>
+
     physics: PhysicsOptions
     physicsShape: PhysicsShape
 }
@@ -38,6 +39,12 @@ export const physicsDefaults: IPhysics = {
     maxVelocityZ: Infinity,
 
     velocity: { x: 0, y: 0, z: 0 },
+
+    noTumble: undefined,
+    slippery: undefined,
+    mass: undefined,
+    physicsGroup: undefined,
+    ignorePhysicsGroups: undefined,
 
     physics: false,
     physicsShape: cubeShape

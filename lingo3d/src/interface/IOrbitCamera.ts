@@ -1,4 +1,4 @@
-import ICameraMixin, { cameraMixinDefaults } from "./ICameraMixin";
+import ICameraMixin, { cameraMixinDefaults } from "./ICameraMixin"
 import IEventLoop, { eventLoopDefaults } from "./IEventLoop"
 
 export default interface IOrbitCamera extends IEventLoop, ICameraMixin {

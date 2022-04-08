@@ -14,5 +14,10 @@ export default interface IMouse extends IEventLoop {
 }
 
 export const mouseDefaults: IMouse = {
-    ...eventLoopDefaults
+    ...eventLoopDefaults,
+    onClick: undefined,
+    onMouseMove: undefined,
+    onMouseDown: undefined,
+    onMouseUp: undefined,
+    onMousePress: undefined
 }

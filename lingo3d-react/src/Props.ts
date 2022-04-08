@@ -17,8 +17,9 @@ import IReflector from "lingo3d/lib/interface/IReflector"
 import IScene from "lingo3d/lib/interface/IScene"
 import ISprite from "lingo3d/lib/interface/ISprite"
 import ISvgMesh from "lingo3d/lib/interface/ISvgMesh"
+import React from "react"
 
-type Children = JSX.Element | Array<JSX.Element>
+type Children = React.ReactNode
 
 export type ManagerProps = Partial<IObjectManager> & { children?: Children }
 export type PrimitiveProps = Partial<IPrimitive> & { children?: Children }

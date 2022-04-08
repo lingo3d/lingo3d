@@ -344,7 +344,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         })
     }
 
-    public intersectIDs?: string[] | undefined;
+    public intersectIDs?: string[]
 
     private _onIntersect?: (target: SimpleObjectManager) => void
     private _onIntersectHandles?: Array<Cancellable>

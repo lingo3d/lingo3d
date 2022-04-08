@@ -6,6 +6,9 @@ export default interface IKeyboard extends IEventLoop {
     onKeyDown?: (key: string) => void
 }
 
-export const keyboardDefaults: IKeyboard = {
-    ...eventLoopDefaults
+export const keyboardDefaults: IKeyboard ={
+    ...eventLoopDefaults,
+    onKeyPress: undefined,
+    onKeyUp: undefined,
+    onKeyDown: undefined
 }

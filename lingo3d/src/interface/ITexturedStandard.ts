@@ -26,7 +26,6 @@ export default interface ITexturedStandard {
     normalMap?: string
     normalScale: Vector2 | number
     normalMapType?: NormalMapType
-    textureRepeat?: Vector2 | number
 }
 
 export const texturedStandardDefaults: ITexturedStandard = {
@@ -34,13 +33,23 @@ export const texturedStandardDefaults: ITexturedStandard = {
     emissiveColor: "#000000",
     flatShading: false,
     wireframe: false,
+    envMap: undefined,
+    aoMap: undefined,
     aoMapIntensity: 1,
+    bumpMap: undefined,
     bumpScale: 1,
+    displacementMap: undefined,
     displacementScale: 1,
     displacementBias: 0,
+    emissiveMap: undefined,
     emissiveIntensity: 1,
+    lightMap: undefined,
     lightMapIntensity: 1,
+    metalnessMap: undefined,
     metalness: 0,
+    roughnessMap: undefined,
     roughness: 1,
-    normalScale: { x: 1, y: 1 }
+    normalMap: undefined,
+    normalScale: { x: 1, y: 1 },
+    normalMapType: undefined
 }

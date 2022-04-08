@@ -11,5 +11,6 @@ export default interface IAnimation extends IEventLoop {
 
 export const animationDefaults: IAnimation = {
     ...eventLoopDefaults,
-    animations: {}
+    animations: {},
+    animation: undefined
 }

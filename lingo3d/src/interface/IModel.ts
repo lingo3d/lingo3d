@@ -8,5 +8,9 @@ export default interface IModel extends ILoaded {
 }
 
 export const modelDefaults: IModel = {
-    ...loadedDefaults
+    ...loadedDefaults,
+    loadedScale: undefined,
+    loadedX: undefined,
+    loadedY: undefined,
+    loadedZ: undefined
 }

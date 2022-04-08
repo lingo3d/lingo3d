@@ -8,15 +8,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "lingo3d": "^1.10.12",
-    "vue": "^3.2.25",
     "@lincode/promiselikes": "*",
-		"@lincode/reactivity": "*",
-		"@lincode/utils": "*",
-		"@tweakpane/core": "1",
-		"nanoid": "3",
-		"popmotion": "11",
-		"tweakpane": "3"
+    "@lincode/reactivity": "*",
+    "@lincode/utils": "*",
+    "@tweakpane/core": "1",
+    "lingo3d": "^1.10.12",
+    "nanoid": "3",
+    "popmotion": "11",
+    "tweakpane": "3",
+    "type-fest": "^2.12.2",
+    "vue": "^3.2.25"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.0",

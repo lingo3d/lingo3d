@@ -2,7 +2,8 @@ import React from "react"
 
 interface IconButtonProps {
     onClick?: () => void
-    active?: boolean
+    active?: boolean,
+    children: React.ReactNode
 }
 
 const IconButton: React.FC<IconButtonProps> = ({ onClick, active, children }) => {

@@ -8,5 +8,7 @@ export default interface ILoaded extends IObjectManager {
 
 export const loadedDefaults: ILoaded = {
     ...objectManagerDefaults,
+    src: undefined,
+    onLoad: undefined,
     boxVisible: false
 }

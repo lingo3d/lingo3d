@@ -14,5 +14,8 @@ export const texturedBasicDefaults: ITexturedBasic = {
     color: "#ffffff",
     vertexColors: false,
     fog: true,
-    opacity: 1
+    opacity: 1,
+    texture: undefined,
+    alphaMap: undefined,
+    textureRepeat: undefined
 }

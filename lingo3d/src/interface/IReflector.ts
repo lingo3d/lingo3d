@@ -10,6 +10,7 @@ export default interface IReflector extends IObjectManager {
 
 export const reflectorDefaults: IReflector = {
     ...objectManagerDefaults,
+    shape: undefined,
     contrast: 0.5,
     blur: 2
 }

@@ -49,7 +49,17 @@ export default interface ISimpleObjectManager extends IPhysics {
 export const simpleObjectManagerDefaults: ISimpleObjectManager = {
     ...physicsDefaults,
 
+    onClick: undefined,
+    onMouseDown: undefined,
+    onMouseUp: undefined,
+    onMouseOver: undefined,
+    onMouseOut: undefined,
+    onMouseMove: undefined,
+    onIntersect: undefined,
+
     name: "",
+    id: undefined,
+    intersectIDs: undefined,
 
     width: 100,
     height: 100,

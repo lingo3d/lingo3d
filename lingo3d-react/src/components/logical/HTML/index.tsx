@@ -8,7 +8,8 @@ import HTMLChild from "./HTMLChild"
 import render from "./render17"
 
 interface HTMLProps {
-    parent?: any
+    parent?: any,
+    children: React.ReactNode
 }
 
 const elements: Array<[React.ReactNode, ObjectManager]> = []
