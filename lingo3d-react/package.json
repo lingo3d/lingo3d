@@ -23,6 +23,7 @@
 		"lingo3d": "1.10.23",
 		"nanoid": "3",
 		"popmotion": "11",
+		"stats.js": "^0.17.0",
 		"tweakpane": "3"
 	},
 	"peerDependencies": {

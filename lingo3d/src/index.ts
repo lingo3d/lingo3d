@@ -50,7 +50,7 @@ import preload from "./api/preload"
 import Point3d from "./api/Point3d"
 
 import applySetup from "./display/utils/deserialize/applySetup"
-import { container, outline } from "./engine/render/renderSetup"
+import { container, outline } from "./engine/renderLoop/renderSetup"
 import { loop, timer } from "./engine/eventLoop"
 import { preventTreeShake } from "@lincode/utils"
 

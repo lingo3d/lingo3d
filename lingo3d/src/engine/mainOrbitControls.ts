@@ -1,6 +1,6 @@
 import { getCameraDistance } from "../states/useCameraDistance"
 import { getOrbitControls } from "../states/useOrbitControls"
-import { container } from "./render/renderSetup"
+import { container } from "./renderLoop/renderSetup"
 import { createEffect } from "@lincode/reactivity"
 import mainCamera from "./mainCamera"
 import { getCamera } from "../states/useCamera"

@@ -3,7 +3,7 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { getPixelRatio } from "../../../../states/usePixelRatio"
 import { getRenderer } from "../../../../states/useRenderer"
 import { getResolution } from "../../../../states/useResolution"
-import renderPass from "../../effectComposer/renderPass"
+import renderPass from "../renderPass"
 import bloomPass from "../bloomPass"
 
 const selectiveBloomComposer = new EffectComposer(getRenderer())

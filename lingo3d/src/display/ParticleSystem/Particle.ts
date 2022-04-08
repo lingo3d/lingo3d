@@ -1,7 +1,7 @@
 import { SpriteMaterial, Sprite, Texture, Color } from "three"
 import scene from "../../engine/scene"
 import { scaleDown } from "../../engine/constants"
-import { addBloom, deleteBloom } from "../../engine/render/effectComposer/selectiveBloomPass/renderSelectiveBloom"
+import { addBloom, deleteBloom } from "../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import { loop } from "../../engine/eventLoop"
 
 const disposed: Array<Particle> = []
