@@ -16,9 +16,11 @@ export default interface IOrbitCamera extends IEventLoop, ICameraMixin {
     autoRotate: boolean
     autoRotateSpeed: number
 
+    minAzimuthAngle: number
+    maxAzimuthAngle: number
+
     azimuthAngle: number
     polarAngle: number
-    distance: number
 }
 
 export const orbitCameraDefaults: IOrbitCamera = {
@@ -39,7 +41,9 @@ export const orbitCameraDefaults: IOrbitCamera = {
     autoRotate: false,
     autoRotateSpeed: 2,
 
+    minAzimuthAngle: -Infinity,
+    maxAzimuthAngle: Infinity,
+
     azimuthAngle: 0,
-    polarAngle: 0,
-    distance: 500
+    polarAngle: 0
 }

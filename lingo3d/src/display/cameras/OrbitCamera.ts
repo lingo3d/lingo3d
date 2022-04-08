@@ -41,6 +41,8 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         controls.enableZoom = false
         controls.minPolarAngle = this._minPolarAngle
         controls.maxPolarAngle = this._maxPolarAngle
+        controls.minAzimuthAngle = this._minAzimuthAngle
+        controls.maxAzimuthAngle = this._maxAzimuthAngle
 
         camera.position.z = 5
         this.updateDebounced()
@@ -249,6 +251,22 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         this.controls.maxPolarAngle = this._maxPolarAngle = val * deg2Rad
     }
 
+    private _minAzimuthAngle = -Infinity
+    public get minAzimuthAngle() {
+        return this._minAzimuthAngle * rad2Deg
+    }
+    public set minAzimuthAngle(val: number) {
+        this.controls.minAzimuthAngle = this._minAzimuthAngle = val * deg2Rad
+    }
+
+    private _maxAzimuthAngle = Infinity
+    public get maxAzimuthAngle() {
+        return this._maxAzimuthAngle * rad2Deg
+    }
+    public set maxAzimuthAngle(val: number) {
+        this.controls.maxAzimuthAngle = this._maxAzimuthAngle = val * deg2Rad
+    }
+
     public get azimuthAngle() {
         return this.controls.getAzimuthalAngle() * rad2Deg
     }
@@ -257,8 +275,8 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         this.controls.update()
 
         this.queueMicrotask(() => {
-            this.controls.minAzimuthAngle = -Infinity
-            this.controls.maxAzimuthAngle = Infinity
+            this.controls.minAzimuthAngle = this._minAzimuthAngle
+            this.controls.maxAzimuthAngle = this._maxAzimuthAngle
         })
     }
 

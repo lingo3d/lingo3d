@@ -1,3 +1,4 @@
+import React from "react"
 import ICamera from "lingo3d/lib/interface/ICamera"
 import IKeyboard from "lingo3d/lib/interface/IKeyboard"
 import ILoaded from "lingo3d/lib/interface/ILoaded"
@@ -17,7 +18,7 @@ import IReflector from "lingo3d/lib/interface/IReflector"
 import IScene from "lingo3d/lib/interface/IScene"
 import ISprite from "lingo3d/lib/interface/ISprite"
 import ISvgMesh from "lingo3d/lib/interface/ISvgMesh"
-import React from "react"
+import ISound from "lingo3d/lib/interface/ISound"
 
 type Children = React.ReactNode
 
@@ -42,6 +43,7 @@ export type PointLightProps = Partial<IPointLight> & { children?: Children }
 export type SkyLightProps = Partial<ISkyLight> & { children?: Children }
 export type SpotLightProps = Partial<ISpotLight> & { children?: Children }
 
-export type KeyboardProps = IKeyboard
-export type MouseProps = IMouse
-export type SkyboxProps = ISkybox
+export type KeyboardProps = Partial<IKeyboard>
+export type MouseProps = Partial<IMouse>
+export type SoundProps = Partial<ISound>
+export type SkyboxProps = Partial<ISkybox>

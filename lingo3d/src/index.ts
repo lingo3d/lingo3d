@@ -48,6 +48,7 @@ import settings from "./api/settings"
 import preload from "./api/preload"
 // import HandTracker from "./api/HandTracker"
 import Point3d from "./api/Point3d"
+import { Sound } from "./api/Sound"
 
 import applySetup from "./display/utils/deserialize/applySetup"
 import { container, outline } from "./engine/renderLoop/renderSetup"
@@ -107,6 +108,7 @@ export {
     
     // HandTracker,
     Point3d,
+    Sound,
 
     applySetup,
     outline,
