@@ -4,11 +4,11 @@ import useDiffProps from "./useDiffProps"
 export default (props: Record<string, any>, ManagerClass: any) => {
     const manager = new ManagerClass()
 
-    const diff = useDiffProps(props)
+    const diff = useDiffProps(props, ManagerClass.defaults)
 
     watchEffect(() => {
         for (const [key, value] of diff.value)
-            manager[key] = value
+            manager[key] = value ?? ManagerClass.defaults[key]
     })
 
     onUnmounted(() => manager.dispose())

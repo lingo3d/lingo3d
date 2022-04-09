@@ -1,9 +1,10 @@
 import { ref, watch } from "vue"
 
-export default (props: Record<string, any>) => {
+export default (props: Record<string, any>, defaults: Record<string, any>) => {
     let propsOld: Record<string, any> = {}
 
     const changes = ref<Array<[string, any]>>([])
+    let immediate = true
 
     watch(props, () => {
         changes.value = []
@@ -13,12 +14,15 @@ export default (props: Record<string, any>) => {
             
             if (value && typeof value === "object") {
                 if (JSON.stringify(value) !== JSON.stringify(valueOld))
-                    changes.value.push([key, value])
+                    if (!immediate || value !== defaults[key])
+                        changes.value.push([key, value])
             }
-            else changes.value.push([key, value])
+            else if (!immediate || value !== defaults[key])
+                changes.value.push([key, value])
         }
         propsOld = { ...props }
-    })
+        immediate = false
+    }, { immediate: true })
 
     return changes
 }
