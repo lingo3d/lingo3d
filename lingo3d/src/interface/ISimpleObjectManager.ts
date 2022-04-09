@@ -1,6 +1,7 @@
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import { MouseInteractionPayload } from "./IMouse"
-import IPhysics, { physicsDefaults } from "./IPhysics"
+import IPhysics, { physicsDefaults, physicsSchema } from "./IPhysics"
+import { ExtractProps } from "./utils/extractProps"
 
 export default interface ISimpleObjectManager extends IPhysics {
     onClick?: (e: MouseInteractionPayload) => void
@@ -46,20 +47,56 @@ export default interface ISimpleObjectManager extends IPhysics {
     toon: boolean
 }
 
+export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManager>> = {
+    ...physicsSchema,
+
+    onClick: Function,
+    onMouseDown: Function,
+    onMouseUp: Function,
+    onMouseOver: Function,
+    onMouseOut: Function,
+    onMouseMove: Function,
+    onIntersect: Function,
+
+    name: String,
+    id: String,
+    intersectIDs: Array,
+
+    width: Number,
+    height: Number,
+    depth: Number,
+
+    x: Number,
+    y: Number,
+    z: Number,
+
+    scaleX: Number,
+    scaleY: Number,
+    scaleZ: Number,
+    scale: Number,
+
+    rotationX: Number,
+    rotationY: Number,
+    rotationZ: Number,
+    rotation: Number,
+
+    bloom: Boolean,
+    reflection: Boolean,
+    visible: Boolean,
+    innerVisible: Boolean,
+    frustumCulled: Boolean,
+
+    metalnessFactor: Number,
+    roughnessFactor: Number,
+    environmentFactor: Number,
+
+    toon: Boolean
+}
+
 export const simpleObjectManagerDefaults: ISimpleObjectManager = {
     ...physicsDefaults,
 
-    onClick: undefined,
-    onMouseDown: undefined,
-    onMouseUp: undefined,
-    onMouseOver: undefined,
-    onMouseOut: undefined,
-    onMouseMove: undefined,
-    onIntersect: undefined,
-
     name: "",
-    id: undefined,
-    intersectIDs: undefined,
 
     width: 100,
     height: 100,

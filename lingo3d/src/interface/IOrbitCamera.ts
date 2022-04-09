@@ -1,5 +1,6 @@
-import ICameraMixin, { cameraMixinDefaults } from "./ICameraMixin"
-import IEventLoop, { eventLoopDefaults } from "./IEventLoop"
+import ICameraMixin, { cameraMixinDefaults, cameraMixinSchema } from "./ICameraMixin"
+import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import { ExtractProps } from "./utils/extractProps"
 
 export default interface IOrbitCamera extends IEventLoop, ICameraMixin {
     targetX: number
@@ -21,6 +22,31 @@ export default interface IOrbitCamera extends IEventLoop, ICameraMixin {
 
     azimuthAngle: number
     polarAngle: number
+}
+
+export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
+    ...eventLoopSchema,
+    ...cameraMixinSchema,
+
+    targetX: Number,
+    targetY: Number,
+    targetZ: Number,
+
+    x: Number,
+    y: Number,
+    z: Number,
+
+    enableDamping: Boolean,
+    enablePan: Boolean,
+    enableZoom: Boolean,
+    autoRotate: Boolean,
+    autoRotateSpeed: Number,
+
+    minAzimuthAngle: Number,
+    maxAzimuthAngle: Number,
+
+    azimuthAngle: Number,
+    polarAngle: Number
 }
 
 export const orbitCameraDefaults: IOrbitCamera = {

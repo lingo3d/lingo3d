@@ -1,5 +1,6 @@
-import ICameraMixin, { cameraMixinDefaults } from "./ICameraMixin"
-import IObjectManager, { objectManagerDefaults } from "./IObjectManager"
+import ICameraMixin, { cameraMixinDefaults, cameraMixinSchema } from "./ICameraMixin"
+import IObjectManager, { objectManagerDefaults, objectManagerSchema } from "./IObjectManager"
+import { ExtractProps } from "./utils/extractProps"
 
 export type MouseControlMode = "orbit" | "stationary"
 export type MouseControl = boolean | "drag"
@@ -9,10 +10,15 @@ export default interface ICameraBase extends IObjectManager, ICameraMixin {
     mouseControlMode?: MouseControlMode
 }
 
+export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
+    ...objectManagerSchema,
+    ...cameraMixinSchema,
+
+    mouseControl: [Boolean, String] as any,
+    mouseControlMode: String
+}
+
 export const cameraBaseDefaults: ICameraBase = {
     ...objectManagerDefaults,
-    ...cameraMixinDefaults,
-    
-    mouseControl: undefined,
-    mouseControlMode: undefined
+    ...cameraMixinDefaults    
 }

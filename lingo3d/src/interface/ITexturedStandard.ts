@@ -1,3 +1,5 @@
+import { ExtractProps } from "./utils/extractProps"
+
 type Vector2 = { x: number, y: number }
 
 export type NormalMapType = "objectSpace" | "tangentSpace"
@@ -28,28 +30,44 @@ export default interface ITexturedStandard {
     normalMapType?: NormalMapType
 }
 
+export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> = {
+    color: String,
+    emissiveColor: String,
+    flatShading: Boolean,
+    wireframe: Boolean,
+    envMap: String,
+    aoMap: String,
+    aoMapIntensity: Number,
+    bumpMap: String,
+    bumpScale: Number,
+    displacementMap: String,
+    displacementScale: Number,
+    displacementBias: Number,
+    emissiveMap: String,
+    emissiveIntensity: Number,
+    lightMap: String,
+    lightMapIntensity: Number,
+    metalnessMap: String,
+    metalness: Number,
+    roughnessMap: String,
+    roughness: Number,
+    normalMap: String,
+    normalScale: [Object, Number] as any,
+    normalMapType: String
+}
+
 export const texturedStandardDefaults: ITexturedStandard = {
     color: "#ffffff",
     emissiveColor: "#000000",
     flatShading: false,
     wireframe: false,
-    envMap: undefined,
-    aoMap: undefined,
     aoMapIntensity: 1,
-    bumpMap: undefined,
     bumpScale: 1,
-    displacementMap: undefined,
     displacementScale: 1,
     displacementBias: 0,
-    emissiveMap: undefined,
     emissiveIntensity: 1,
-    lightMap: undefined,
     lightMapIntensity: 1,
-    metalnessMap: undefined,
     metalness: 0,
-    roughnessMap: undefined,
     roughness: 1,
-    normalMap: undefined,
-    normalScale: { x: 1, y: 1 },
-    normalMapType: undefined
+    normalScale: { x: 1, y: 1 }
 }

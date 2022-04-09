@@ -1,7 +1,13 @@
-import ILightBase, { lightBaseDefaults } from "./ILightBase"
+import ILightBase, { lightBaseDefaults, lightBaseSchema } from "./ILightBase"
+import { ExtractProps } from "./utils/extractProps"
 
 export default interface IAreaLight extends ILightBase {
     power: number
+}
+
+export const areaLightSchema: Required<ExtractProps<IAreaLight>> = {
+    ...lightBaseSchema,
+    power: Number
 }
 
 export const areaLightDefaults: IAreaLight = {

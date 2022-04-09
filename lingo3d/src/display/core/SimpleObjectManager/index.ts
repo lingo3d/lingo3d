@@ -56,13 +56,24 @@ const processChild = (
     const { material } = child
     if (!material) return
 
+    if (Array.isArray(material)) {
+        for (let i = 0; i < material.length; ++i) {
+            const m = material[i]
+            if (_toon) {
+                if (!(m instanceof MeshToonMaterial)) {
+                    material[i] = new MeshToonMaterial()
+                    material[i].copy(m)
+                    m.dispose()
+                }
+            }
+        }
+        return
+    }
+
     if (_toon) {
         if (!(material instanceof MeshToonMaterial)) {
             child.material = new MeshToonMaterial()
-            try {
-                child.material.copy(material)
-            }
-            catch {}
+            child.material.copy(material)
             material.dispose()
         }
         // (child.material as MeshToonMaterial).gradientMap = new 

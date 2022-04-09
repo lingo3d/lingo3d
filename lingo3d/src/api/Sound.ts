@@ -1,9 +1,6 @@
 import { Disposable, Resolvable } from "@lincode/promiselikes"
-import { lazy } from "@lincode/utils"
 import type { Howl } from "howler"
 import ISound from "../interface/ISound"
-
-const lazyHowl = lazy(async () => (await import("howler")).Howl)
 
 export class Sound extends Disposable implements ISound {
     public onPlay?: () => void
@@ -47,15 +44,16 @@ export class Sound extends Disposable implements ISound {
         this.sound = undefined
         this.soundResolvable.done && (this.soundResolvable = new Resolvable())
         
-        src && lazyHowl().then(Howl => {
+        src && import("howler").then(module => {
             if (this.done || src !== this.src) return
 
-            this.sound = new Howl({
+            this.sound = new module.default.Howl({
                 src,
                 onplay: this.onPlay,
                 onpause: this.onPause,
                 onend: this.onEnded,
                 loop: this._loop,
+                autoplay: this._autoplay,
                 mute: this._muted,
                 rate: this._playbackRate,
                 volume: this._volume,

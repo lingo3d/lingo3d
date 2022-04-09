@@ -1,3 +1,5 @@
+import { ExtractProps } from "./utils/extractProps"
+
 export default interface ISound {
     onPlay?: () => void
     onPause?: () => void
@@ -13,17 +15,21 @@ export default interface ISound {
     paused: boolean
 }
 
-export const soundDefaults: ISound = {
-    onPlay: undefined,
-    onPause: undefined,
-    onEnded: undefined,
-    stream: undefined,
-    src: undefined,
-    loop: undefined,
-    autoplay: undefined,
-    muted: undefined,
-    playbackRate: undefined,
-    volume: undefined,
+export const soundSchema: Required<ExtractProps<ISound>> = {
+    onPlay: Function,
+    onPause: Function,
+    onEnded: Function,
+    stream: Boolean,
+    src: String,
+    loop: Boolean,
+    autoplay: Boolean,
+    muted: Boolean,
+    playbackRate: Number,
+    volume: Number,
 
+    paused: Boolean
+}
+
+export const soundDefaults: ISound = {
     paused: true
 }

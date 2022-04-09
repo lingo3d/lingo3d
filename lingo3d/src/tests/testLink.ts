@@ -1,6 +1,6 @@
 import { settings } from ".."
 //@ts-ignore
-import keanuSrc from "../../assets-local/link.glb"
+import linkSrc from "../../assets-local/T-Pose.fbx"
 import Model from "../display/Model"
 //@ts-ignore
 import personSrc from "../../assets-local/person.glb"
@@ -12,16 +12,16 @@ import idleSrc from "../../assets-local/idle 2.fbx"
 export default {}
 
 const model = new Model()
-model.src = personSrc
+model.src = linkSrc
 model.scale = 5
 model.toon = true
 model.frustumCulled = false
 model.boxVisible = true
-model.animations = {
-    running: runningSrc,
-    idle: idleSrc
-}
-model.animation = ["running", "idle"]
+// model.animations = {
+//     running: runningSrc,
+//     idle: idleSrc
+// }
+// model.animation = ["running", "idle"]
 
 settings.defaultOrbitControls = true
 

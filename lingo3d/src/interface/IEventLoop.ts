@@ -1,7 +1,11 @@
+import { ExtractProps } from "./utils/extractProps"
+
 export default interface IEventLoop {
     onLoop?: () => void
 }
 
-export const eventLoopDefaults: IEventLoop = {
-    onLoop: undefined
+export const eventLoopSchema: Required<ExtractProps<IEventLoop>> = {
+    onLoop: Function
 }
+
+export const eventLoopDefaults: IEventLoop = {}

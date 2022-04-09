@@ -554,6 +554,11 @@ hey-listen@^1.0.8:
   resolved "https://registry.yarnpkg.com/hey-listen/-/hey-listen-1.0.8.tgz#8e59561ff724908de1aa924ed6ecc84a56a9aa68"
   integrity sha512-COpmrF2NOg4TBWUJ5UVyaCU2A88wEMkUPK4hNqyCkqHbxT92BbvfjoSozkAIIm6XhicGlJHhFdullInrdhwU8Q==
 
+howler@2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/howler/-/howler-2.2.3.tgz#a2eff9b08b586798e7a2ee17a602a90df28715da"
+  integrity sha512-QM0FFkw0LRX1PR8pNzJVAY25JhIWvbKMBFM4gqk+QdV+kPXOhleWGCB6AiAF/goGjIHK2e/nIElplvjQwhr0jg==
+
 htmlparser2@^7.1.2:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-7.2.0.tgz#8817cdea38bbc324392a90b1990908e81a65f5a5"
@@ -615,10 +620,10 @@ jstransformer@1.0.0:
     is-promise "^2.0.0"
     promise "^7.0.1"
 
-lingo3d@^1.10.12:
-  version "1.10.21"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.21.tgz#ae03f29f3bfebec82cb1f102352a1dd33b57395c"
-  integrity sha512-LTaoZVq5tWxX5kjRFvqOwOxmspk+sqTqxUuMWTtZy4FGLn6rZ07vWKsfy8MToAmUPjcZHgo87pLQJll4/2OKLg==
+lingo3d@1.10.35:
+  version "1.10.35"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.35.tgz#d2e0296650db89d799d05cb5cca736adee6cdbb9"
+  integrity sha512-fGVTM6+WE3N8rBUcfAf3kDFL1a20MNAiMYtF7D9oIXZzUIbfQSnvfVMzt7M3hNi+kSEDc7BhiTk8zQ8XrmNTZA==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
@@ -629,6 +634,7 @@ lingo3d@^1.10.12:
     "@pinyinma/guid" "*"
     "@types/three" "0.139.0"
     cannon-es "0.19.0"
+    howler "2.2.3"
     resize-observer-polyfill "1"
     three "0.139.2"
 

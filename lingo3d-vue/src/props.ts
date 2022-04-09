@@ -1,5 +1,5 @@
 type ExtractProps<Type> = {
-    [Property in keyof Type]: Type[Property] extends string ? StringConstructor : NumberConstructor
+    [Property in keyof Type]: Type[Property] extends string ? StringConstructor : Type[Property] extends number ? NumberConstructor : Type[Property] extends boolean ? BooleanConstructor : Type[Property] extends Function ? FunctionConstructor : Type[Property] extends Array<any> ? ArrayConstructor : Type[Property] extends Object ? ObjectConstructor : NumberConstructor
 }
   
 export const extractProps = <T>(defaults: Record<string, any>): ExtractProps<T> => {
@@ -23,6 +23,8 @@ export const extractProps = <T>(defaults: Record<string, any>): ExtractProps<T> 
             case "function":
                 typeConstructor = Function
                 break
+
+            case "object"
         
             default:
                 typeConstructor = String

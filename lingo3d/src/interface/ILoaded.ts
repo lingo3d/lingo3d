@@ -1,4 +1,5 @@
-import IObjectManager, { objectManagerDefaults } from "./IObjectManager"
+import IObjectManager, { objectManagerDefaults, objectManagerSchema } from "./IObjectManager"
+import { ExtractProps } from "./utils/extractProps"
 
 export default interface ILoaded extends IObjectManager {
     src?: string
@@ -6,9 +7,14 @@ export default interface ILoaded extends IObjectManager {
     boxVisible: boolean
 }
 
+export const loadedSchema: Required<ExtractProps<ILoaded>> = {
+    ...objectManagerSchema,
+    src: String,
+    onLoad: Function,
+    boxVisible: Boolean
+}
+
 export const loadedDefaults: ILoaded = {
     ...objectManagerDefaults,
-    src: undefined,
-    onLoad: undefined,
     boxVisible: false
 }

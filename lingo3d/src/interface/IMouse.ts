@@ -1,5 +1,6 @@
 import Point3d from "../api/Point3d"
-import IEventLoop, { eventLoopDefaults } from "./IEventLoop"
+import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import { ExtractProps } from "./utils/extractProps"
 
 export type MouseEventPayload = { x: number, y: number, clientX: number, clientY: number, xNorm: number, yNorm: number }
 
@@ -13,11 +14,15 @@ export default interface IMouse extends IEventLoop {
     onMousePress?: (e: MouseEventPayload) => void
 }
 
+export const mouseSchema: Required<ExtractProps<IMouse>> = {
+    ...eventLoopSchema,
+    onClick: Function,
+    onMouseMove: Function,
+    onMouseDown: Function,
+    onMouseUp: Function,
+    onMousePress: Function
+}
+
 export const mouseDefaults: IMouse = {
-    ...eventLoopDefaults,
-    onClick: undefined,
-    onMouseMove: undefined,
-    onMouseDown: undefined,
-    onMouseUp: undefined,
-    onMousePress: undefined
+    ...eventLoopDefaults
 }
