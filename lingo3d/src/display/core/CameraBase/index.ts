@@ -1,7 +1,7 @@
 import { Camera, Group } from "three"
 import ObjectManager from "../ObjectManager"
 import CameraMixin from "../mixins/CameraMixin"
-import { applyMixins } from "@lincode/utils"
+import { applyMixins, debounce } from "@lincode/utils"
 import SimpleObjectManager from "../SimpleObjectManager"
 import Point3d from "../../../api/Point3d"
 import { scaleUp, scaleDown } from "../../../engine/constants"
@@ -9,6 +9,8 @@ import { ray, vector3_, vector3, euler } from "../../utils/reusables"
 import pillShape from "../SimpleObjectManager/PhysicsItem/cannon/shapes/pillShape"
 import ICameraBase, { MouseControl, MouseControlMode } from "../../../interface/ICameraBase"
 import { Cancellable } from "@lincode/promiselikes"
+import { deg2Rad, rad2Deg } from "@lincode/math"
+import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
 
 const PI_2 = Math.PI * 0.5
 
@@ -64,7 +66,7 @@ abstract class CameraBase<T extends Camera> extends ObjectManager<Group> impleme
         this.rotationY += 180
     }
 
-    public gyrate(movementX: number, movementY: number, inner?: boolean) {
+    private _gyrate(movementX: number, movementY: number, inner?: boolean) {
         const manager = inner ? this.object3d : this.outerObject3d
 
         euler.setFromQuaternion(manager.quaternion)
@@ -76,6 +78,35 @@ abstract class CameraBase<T extends Camera> extends ObjectManager<Group> impleme
 
         manager.quaternion.setFromEuler(euler)
         !inner && this.physicsRotate()
+    }
+
+    public gyrate(movementX: number, movementY: number) {
+        if (this.mouseControlMode === "orbit")
+            this._gyrate(movementX, movementY)
+        else {
+            this._gyrate(movementX, 0)
+            this._gyrate(0, movementY, true)
+        }
+    }
+
+    private updatePolarAngle = debounce(() => this.gyrate(0, 0), 0, "trailing")
+
+    private _minPolarAngle = MIN_POLAR_ANGLE * deg2Rad
+    public get minPolarAngle() {
+        return this._minPolarAngle * rad2Deg
+    }
+    public set minPolarAngle(val: number) {
+        this._minPolarAngle = val * deg2Rad
+        this.updatePolarAngle()
+    }
+
+    private _maxPolarAngle = MAX_POLAR_ANGLE * deg2Rad
+    public get maxPolarAngle() {
+        return this._maxPolarAngle * rad2Deg
+    }
+    public set maxPolarAngle(val: number) {
+        this._maxPolarAngle = val * deg2Rad
+        this.updatePolarAngle()
     }
 
     public mouseControlMode?: MouseControlMode

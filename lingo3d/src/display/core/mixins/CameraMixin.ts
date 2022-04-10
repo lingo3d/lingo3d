@@ -10,16 +10,13 @@ import { getCameraHelper } from "../../../states/useCameraHelper"
 import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import ICameraMixin from "../../../interface/ICameraMixin"
-import { deg2Rad, rad2Deg } from "@lincode/math"
-import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
 
 export default abstract class CameraMixin<T extends Camera> extends EventLoopItem implements ICameraMixin {
     protected abstract camera: T
+    public abstract minPolarAngle: number
+    public abstract maxPolarAngle: number
 
     protected initCamera(this: EventLoopItem & CameraMixin<T>) {
-        this._minPolarAngle = MIN_POLAR_ANGLE * deg2Rad
-        this._maxPolarAngle = MAX_POLAR_ANGLE * deg2Rad
-
         pushCameraList(this.camera)
         this.then(() => {
             this.active && setCamera(mainCamera)
@@ -125,22 +122,5 @@ export default abstract class CameraMixin<T extends Camera> extends EventLoopIte
     public set bokehAperture(val: number) {
         getCamera() === this.camera && setBokehAperture(val)
         this.camera.userData.bokehAperture = val
-    }
-
-    protected _minPolarAngle!: number
-    protected _maxPolarAngle!: number
-
-    public get minPolarAngle() {
-        return this._minPolarAngle * rad2Deg
-    }
-    public set minPolarAngle(val: number) {
-        this._minPolarAngle = val * deg2Rad
-    }
-
-    public get maxPolarAngle() {
-        return this._maxPolarAngle * rad2Deg
-    }
-    public set maxPolarAngle(val: number) {
-        this._maxPolarAngle = val * deg2Rad
     }
 }

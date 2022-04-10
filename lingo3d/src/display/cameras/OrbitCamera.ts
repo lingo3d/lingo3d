@@ -16,6 +16,7 @@ import { vector3 } from "../utils/reusables"
 import { emitOrbitControls } from "../../events/onOrbitControls"
 import { setSelectionEnabled } from "../../states/useSelectionEnabled"
 import mainCamera from "../../engine/mainCamera"
+import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../globals"
 
 class OrbitCamera extends EventLoopItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -237,6 +238,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         this.controls.autoRotateSpeed = val
     }
     
+    private _minPolarAngle = MIN_POLAR_ANGLE * deg2Rad
     public get minPolarAngle() {
         return this._minPolarAngle * rad2Deg
     }
@@ -244,6 +246,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         this.controls.minPolarAngle = this._minPolarAngle = val * deg2Rad
     }
 
+    private _maxPolarAngle = MAX_POLAR_ANGLE * deg2Rad
     public get maxPolarAngle() {
         return this._maxPolarAngle * rad2Deg
     }

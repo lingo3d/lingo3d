@@ -35,12 +35,8 @@ export default function (this: CameraBase<Camera>, handle: Cancellable) {
             const movementY = yTouchNew - yTouch
             xTouch = xTouchNew
             yTouch = yTouchNew
-            if (this.mouseControlMode === "orbit") 
-                this.gyrate(movementX * 2, movementY * 2)
-            else {
-                this.gyrate(movementX * 2, 0)
-                this.gyrate(0, movementY * 2, true)
-            }
+
+            this.gyrate(movementX * 2, movementY * 2)
 
             if (Math.abs(xTouch - xTouchStart) > 10 || Math.abs(yTouch - yTouchStart) > 10)
                 setSelectionEnabled(false)
@@ -83,12 +79,7 @@ export default function (this: CameraBase<Camera>, handle: Cancellable) {
         if (getPointerLockCamera() !== this.camera) return
         
         const onMouseMove = ({ movementX, movementY }: MouseEvent) => {
-            if (this.mouseControlMode === "orbit")
-                this.gyrate(movementX, movementY)
-            else {
-                this.gyrate(movementX, 0)
-                this.gyrate(0, movementY, true)
-            }
+            this.gyrate(movementX, movementY)
         }
         document.addEventListener("mousemove", onMouseMove)
 

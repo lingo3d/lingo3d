@@ -63,8 +63,10 @@ keyboard.onKeyUp = () => {
 
 const cam = new ThirdPersonCamera()
 cam.target = player
-cam.mouseControl = true
+cam.mouseControl = "drag"
 cam.active = true
+cam.minPolarAngle = 135
+cam.maxPolarAngle = 135
 
 const map = new Model()
 map.src = fairySrc
