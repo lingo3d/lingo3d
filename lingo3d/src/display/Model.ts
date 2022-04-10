@@ -53,9 +53,9 @@ export default class Model extends Loaded<Group> implements IModel {
         let result: Group | undefined
         try {
             if (objectURLMapperPtr[0](url).endsWith(".fbx"))
-                result = await (await lazyLoadFBX()).default(url)
+                result = await (await lazyLoadFBX()).default(url, true)
             else
-                result = await (await lazyLoadGLTF()).default(url)
+                result = await (await lazyLoadGLTF()).default(url, true)
         }
         catch {
             resolvable.resolve()

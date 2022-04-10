@@ -15,7 +15,7 @@ const dracoLoader = new DRACOLoader()
 dracoLoader.setDecoderPath(settings.wasmPath)
 loader.setDRACOLoader(dracoLoader)
 
-export default async (url: string) => {
+export default async (url: string, clone: boolean) => {
     const gltf = await forceGet(cache, url, () => new Promise<GLTF>((resolve, reject) => {
         increaseLoadingCount()
         loader.load(url, gltf => {
@@ -41,5 +41,8 @@ export default async (url: string) => {
             reject()
         })
     }))
-    return cloneSkinnedMesh(gltf.scene, gltf.animations)
+    if (clone)
+        return cloneSkinnedMesh(gltf.scene, gltf.animations)
+
+    return gltf.scene
 }

@@ -21,9 +21,9 @@ export default async (urls: Array<string>, total: number | string, onProgress?: 
             
             case "model":
                 if (url.endsWith(".fbx"))
-                    promises.push(loadFBX(url))
+                    promises.push(loadFBX(url, false))
                 else if (url.endsWith(".gltf") || url.endsWith(".glb"))
-                    promises.push(loadGLTF(url))
+                    promises.push(loadGLTF(url, false))
                 break
             
             case "audio":

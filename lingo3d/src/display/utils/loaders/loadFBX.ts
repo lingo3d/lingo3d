@@ -9,7 +9,7 @@ import { getEncoding } from "../../../states/useEncoding"
 const cache = new Map<string, Promise<Group>>()
 const loader = new FBXLoader()
 
-export default async (url: string) => {
+export default async (url: string, clone: boolean) => {
     const group = await forceGet(cache, url, () => new Promise<Group>((resolve, reject) => {
         increaseLoadingCount()
         loader.load(url, group => {
@@ -33,5 +33,8 @@ export default async (url: string) => {
             reject()
         })
     }))
-    return cloneSkinnedMesh(group)
+    if (clone)
+        return cloneSkinnedMesh(group)
+        
+    return group
 }
