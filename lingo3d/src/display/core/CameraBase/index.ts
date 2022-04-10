@@ -89,7 +89,7 @@ abstract class CameraBase<T extends Camera> extends ObjectManager<Group> impleme
         }
     }
 
-    private updatePolarAngle = debounce(() => this.gyrate(0, 0), 0, "trailing")
+    protected updatePolarAngle = debounce(() => this.gyrate(0, 0), 0, "trailing")
 
     private _minPolarAngle = MIN_POLAR_ANGLE * deg2Rad
     public get minPolarAngle() {

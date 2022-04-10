@@ -21,6 +21,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
         if (!target) return
 
         this.queueMicrotask(() => this.outerObject3d.quaternion.copy(target.outerObject3d.quaternion))
+        this.updatePolarAngle()
 
         this.targetHandle = this.loop(() => {
             this.outerObject3d.position.copy(target.outerObject3d.position)

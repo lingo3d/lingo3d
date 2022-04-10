@@ -62,7 +62,7 @@ keyboard.onKeyUp = () => {
 }
 
 const cam = new ThirdPersonCamera()
-cam.target = player
+cam.append(player)
 cam.mouseControl = "drag"
 cam.active = true
 cam.minPolarAngle = 135
