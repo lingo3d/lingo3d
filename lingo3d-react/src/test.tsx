@@ -18,7 +18,6 @@ import { Stats } from "."
 import gunshotSrc from "../assets-local/gunshot.wav"
 //@ts-ignore
 import musicSrc from "../assets-local/music.mp3"
-import useSound from "./hooks/useSound"
 
 const Controls: React.FC<{ camera?: Lingo.Camera, onClick: () => void }> = ({ camera, onClick }) => {
   if (!camera) return null
@@ -55,8 +54,6 @@ const App = () => {
   const scaleSpring = useSpring(scale)
   const rotationKeyframes = useAnimation({ from: 0, to: 360, duration: 5000 })
 
-  const sound = useSound(gunshotSrc)
-
   return (
     <>
     <World bloom bloomStrength={0.5} bloomThreshold={0.9}>
@@ -66,7 +63,7 @@ const App = () => {
             <Sphere key={bullet.id} scale={0.5} physics ref={fire} color="red" />
           ))}
         </Model>
-        <Controls camera={camera} onClick={() => (spawnBullet(), sound.play())} />
+        <Controls camera={camera} onClick={() => spawnBullet()} />
       </Camera>
       <Cube width={9999} depth={9999} y={-180} texture={groundSrc} physics mass={0} textureRepeat={20} />
       <Cube y={500} z={-300} physics color="red" rotationY={rotationKeyframes} onMouseOver={() => setScale(2)} onMouseOut={() => setScale(1)} scale={scaleSpring}>
@@ -75,7 +72,6 @@ const App = () => {
         </HTML>
       </Cube>
       <Skybox texture={skyboxSrc} />
-      <Sound src={musicSrc} autoplay />
     </World>
     <Reticle />
     <Stats mode="fps" />

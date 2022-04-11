@@ -1,5 +1,5 @@
 import { rad2Deg, deg2Rad, distance3d } from "@lincode/math"
-import { Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, Vector3 } from "three"
+import { Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding, Vector3 } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
 import { frustum, matrix4, quaternion, ray, vector3, vector3_, vector3_1, vector3_half } from "../../utils/reusables"
 import { debounce, forceGet } from "@lincode/utils"
@@ -143,7 +143,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
 
     public find<T extends SimpleObjectManager>(name: string): T | undefined {
-        const child = this.outerObject3d.getObjectByName(name)
+        const child = this.outerObject3d.getObjectByName(PropertyBinding.sanitizeNodeName(name))
         return child && (child.userData.manager ??= new SimpleObjectManager(child))
     }
 
@@ -250,7 +250,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         return this.outerObject3d.name
     }
     public set name(val: string) {
-        this.outerObject3d.name = val
+        this.outerObject3d.name = PropertyBinding.sanitizeNodeName(val)
     }
 
     private _id?: string

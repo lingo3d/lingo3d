@@ -6,11 +6,28 @@ import SimpleObjectManager from "lingo3d/lib/display/core/SimpleObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
 import { forceGet } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"
+import Loaded from "lingo3d/lib/display/core/Loaded"
 
-export const ParentContext = React.createContext<ObjectManager | undefined>(undefined)
+export const ParentContext = React.createContext<ObjectManager | Loaded<any> | undefined>(undefined)
 
 const handleStore = new WeakMap<SimpleObjectManager, Map<string, Cancellable>>()
 const makeHandleMap = () => new Map<string, Cancellable>()
+
+export const applyChanges = (manager: any, changed: Array<[string, any]>, removed: Array<string>) => {
+    const handleMap = forceGet(handleStore, manager, makeHandleMap)
+
+    for (const [key, value] of changed) {
+        handleMap.get(key)?.cancel()
+
+        if (value instanceof Reactive) {
+            handleMap.set(key, value.get(v => manager[key] = v))
+            continue
+        }
+        manager[key] = value
+    }
+    for (const key of removed)
+        manager[key] = manager.constructor.defaults?.[key]
+}
 
 export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, ManagerClass: any) => {
     const { children, ...props } = p
@@ -32,19 +49,7 @@ export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, M
     })
 
     const [changed, removed] = useDiffProps(props)
-    const handleMap = forceGet(handleStore, manager, makeHandleMap)
-
-    for (const [key, value] of changed) {
-        handleMap.get(key)?.cancel()
-
-        if (value instanceof Reactive) {
-            handleMap.set(key, value.get(v => manager[key] = v))
-            continue
-        }
-        manager[key] = value
-    }
-    for (const key of removed)
-        manager[key] = manager.constructor.defaults?.[key]
+    applyChanges(manager, changed, removed)    
 
     useLayoutEffect(() => {
         if (!ref) return

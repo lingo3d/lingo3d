@@ -4,11 +4,11 @@ import Model from "../display/Model"
 //@ts-ignore
 import fairySrc from "../../assets-local/fairy.glb"
 //@ts-ignore
-import personSrc from "../../assets-local/person.glb"
+import personSrc from "../../assets-local/bot.fbx"
 //@ts-ignore
-import runningSrc from "../../assets-local/running 2.fbx"
+import runningSrc from "../../assets-local/running.fbx"
 //@ts-ignore
-import idleSrc from "../../assets-local/idle 2.fbx"
+import idleSrc from "../../assets-local/idle.fbx"
 //@ts-ignore
 import BackSrc from "../../assets-local/skybox/Back.png"
 //@ts-ignore
@@ -36,10 +36,9 @@ settings.fillWindow = true
 
 const player = new Model()
 player.src = personSrc
-player.width = 20
-player.depth = 20
 player.z = -100
 player.y = 500
+player.boxVisible = true
 player.physics = "character"
 player.animations = { running: runningSrc, idle: idleSrc }
 player.animation = "idle"

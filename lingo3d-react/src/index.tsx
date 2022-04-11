@@ -41,6 +41,7 @@ export { default as Torus } from "./components/display/primitives/Torus"
 
 export { default as Setup } from "./components/logical/Setup"
 export { default as HTML } from "./components/logical/HTML"
+export { default as Find } from "./components/logical/Find"
 
 export { default as useSpawn } from "./hooks/useSpawn"
 export { default as useSpring } from "./hooks/useSpring"
