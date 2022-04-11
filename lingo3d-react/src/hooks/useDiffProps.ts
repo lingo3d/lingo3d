@@ -10,6 +10,8 @@ export default (props: Record<string, any>, paused?: boolean) => {
 
     const propsOld = propsOldRef.current
     for (const [key, value] of Object.entries(props)) {
+        if (key === "children") continue
+
         const valueOld = propsOld[key]
         if (valueOld === value) continue
         

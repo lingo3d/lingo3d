@@ -29,6 +29,8 @@ export const applyChanges = (manager: any, changed: Array<[string, any]>, remove
         manager[key] = manager.constructor.defaults?.[key]
 }
 
+const appendedSet = new WeakSet<any>()
+
 export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, ManagerClass: any) => {
     const { children, ...props } = p
 
@@ -36,7 +38,10 @@ export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, M
     
     const manager = useMemoOnce(() => {
         const manager = new ManagerClass()
-        parent?.append(manager)
+        if (parent) {
+            parent.append(manager)
+            appendedSet.add(manager)
+        }
         return manager
         
     }, manager => {
@@ -47,6 +52,12 @@ export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, M
 
         manager.dispose()
     })
+
+    useLayoutEffect(() => {
+        if (!parent || appendedSet.has(manager)) return
+        parent.append(manager)
+        appendedSet.add(manager)
+    }, [parent])
 
     const [changed, removed] = useDiffProps(props)
     applyChanges(manager, changed, removed)    

@@ -34,7 +34,7 @@ const HTML: React.FC<HTMLProps> = ({ children }) => {
             pull(elements, pair)
             render(build())
         }
-    }, [])
+    }, [parent])
 
     return null
 }

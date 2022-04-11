@@ -120,7 +120,9 @@ function App3() {
   return (
     <World defaultOrbitControls defaultLight={hdrSrc} skybox={hdrSrc} ambientOcclusion bloom bloomStrength={0.2} bloomRadius={1} bloomThreshold={0.5}>
       <Model src={gallerySrc} scale={20} physics="map">
-        <Find ref={foundRef} name="a5_CRN.a5_0" onMouseOver={() => console.log("over")}></Find>
+        <Find ref={foundRef} name="a5_CRN.a5_0">
+          <Cube scale={1000} />
+        </Find>
       </Model>
       <FirstPersonCamera active mouseControl>
         <Cube

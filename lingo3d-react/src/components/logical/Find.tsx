@@ -39,7 +39,7 @@ const Find = React.forwardRef<SimpleObjectManager, ManagerProps & { onLoad?: () 
             
     }, [ref, manager])
 
-    return null
+    return <ParentContext.Provider value={manager}>{p.children}</ParentContext.Provider>
 })
 
 export default Find
