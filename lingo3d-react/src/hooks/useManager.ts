@@ -6,7 +6,6 @@ import SimpleObjectManager from "lingo3d/lib/display/core/SimpleObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
 import { forceGet } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"
-import { SceneContext } from "../components/display/Scene"
 
 export const ParentContext = React.createContext<ObjectManager | undefined>(undefined)
 
@@ -17,7 +16,6 @@ export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, M
     const { children, ...props } = p
 
     const parent = useContext(ParentContext)
-    const scene = useContext(SceneContext)
     
     const manager = useMemoOnce(() => {
         const manager = new ManagerClass()
@@ -41,11 +39,6 @@ export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, M
 
         if (value instanceof Reactive) {
             handleMap.set(key, value.get(v => manager[key] = v))
-            continue
-        }
-        else if (key === "physics" && scene) {
-            //@ts-ignore
-            handleMap.set(key, scene.loadedResolvable.then(() => manager.physics = value))
             continue
         }
         manager[key] = value

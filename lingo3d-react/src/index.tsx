@@ -39,7 +39,6 @@ export { default as Sphere } from "./components/display/primitives/Sphere"
 export { default as Tetrahedron } from "./components/display/primitives/Tetrahedron"
 export { default as Torus } from "./components/display/primitives/Torus"
 
-export { default as FindAll } from "./components/logical/FindAll"
 export { default as Setup } from "./components/logical/Setup"
 export { default as HTML } from "./components/logical/HTML"
 
