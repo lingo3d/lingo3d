@@ -7,7 +7,7 @@ export default interface ISkybox extends IEventLoop {
 
 export const skyboxSchema: Required<ExtractProps<ISkybox>> = {
     ...eventLoopSchema,
-    texture: [String, Array] as any
+    texture: [String, Array]
 }
 
 export const skyboxDefaults: ISkybox = {

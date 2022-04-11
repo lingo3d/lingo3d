@@ -14,7 +14,7 @@ export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
     ...objectManagerSchema,
     ...cameraMixinSchema,
 
-    mouseControl: [Boolean, String] as any,
+    mouseControl: [Boolean, String],
     mouseControlMode: String
 }
 

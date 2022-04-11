@@ -52,7 +52,7 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
     roughnessMap: String,
     roughness: Number,
     normalMap: String,
-    normalScale: [Object, Number] as any,
+    normalScale: [Object, Number],
     normalMapType: String
 }
 

@@ -17,9 +17,9 @@ export const texturedBasicSchema: Required<ExtractProps<ITexturedBasic>> = {
     vertexColors: Boolean,
     fog: Boolean,
     opacity: Number,
-    texture: [String, Array] as any,
+    texture: [String, Array],
     alphaMap: String,
-    textureRepeat: [Object, Number] as any
+    textureRepeat: [Object, Number]
 }
 
 export const texturedBasicDefaults: ITexturedBasic = {

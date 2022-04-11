@@ -47,7 +47,7 @@ export const physicsSchema: Required<ExtractProps<IPhysics>> = {
     physicsGroup: Number,
     ignorePhysicsGroups: Array,
 
-    physics: [String, Boolean] as any,
+    physics: [String, Boolean],
     physicsShape: Function
 }
 

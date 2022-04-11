@@ -13,7 +13,7 @@ export default interface IAnimation extends IEventLoop {
 export const animationSchema: Required<ExtractProps<IAnimation>> = {
     ...eventLoopSchema,
     animations: Object,
-    animation: [String, Number, Array, Boolean, Object] as any
+    animation: [String, Number, Array, Boolean, Object]
 }
 
 export const animationDefaults: IAnimation = {
