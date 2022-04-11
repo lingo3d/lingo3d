@@ -180,8 +180,7 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
     protected bvhVelocity?: Vector3
     protected bvhOnGround?: boolean
     protected bvhRadius?: number
-    protected bvhHeight?: number
-    protected bvhCoeff?: number
+    protected bvhHalfHeight?: number
     protected bvh?: boolean
 
     protected initPhysics(val: PhysicsOptions, handle: Cancellable) {

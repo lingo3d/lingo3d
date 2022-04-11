@@ -25,9 +25,8 @@ createEffect(function (this: PhysicsItem) {
         for (const characterManager of bvhCharacterSet) {
             const playerVelocity = characterManager.bvhVelocity!
             const player = characterManager.outerObject3d
-            const capsuleHeight = characterManager.bvhHeight!
+            const capsuleHalfHeight = characterManager.bvhHalfHeight!
             const capsuleRadius = characterManager.bvhRadius!
-            const coeff = characterManager.bvhCoeff!
 
             playerVelocity.y += characterManager.bvhOnGround ? 0 : delta * -GRAVITY
 
@@ -45,12 +44,12 @@ createEffect(function (this: PhysicsItem) {
 
             const { start, end } = line3
             end.copy(start.copy(player.position))
-            end.y += capsuleHeight * coeff
-            start.y -= capsuleHeight * coeff
+            end.y += capsuleHalfHeight - capsuleRadius
+            start.y -= capsuleHalfHeight - capsuleRadius
             
             const startOld = start.clone()
 
-            box3.setFromCenterAndSize(player.position, vector3__.set(capsuleRadius * 2, capsuleHeight * 2, capsuleRadius * 2))
+            box3.setFromCenterAndSize(player.position, vector3__.set(capsuleRadius * 2, capsuleHalfHeight * 2, capsuleRadius * 2))
             const triPoint = vector3
             const capsulePoint = vector3_
             let distance = 0
