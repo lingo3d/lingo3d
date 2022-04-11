@@ -50,6 +50,7 @@ const setValue = (child: any, property: string, factor: number) => {
 const processChild = (
     child: any,
     _toon?: boolean,
+    _pbr?: boolean,
     _metalnessFactor?: number,
     _roughnessFactor?: number,
     _environmentFactor?: number
@@ -77,30 +78,38 @@ const processChild = (
             child.material.copy(material)
             material.dispose()
         }
-        // (child.material as MeshToonMaterial).gradientMap = new 
+        // (child.material as MeshToonMaterial).gradientMap = new
+        return
     }
-    else if (material instanceof MeshStandardMaterial) {
+    
+    if (_pbr && !(material instanceof MeshStandardMaterial)) {
+        child.material = new MeshStandardMaterial()
+        child.material.copy(material)
+        child.material.envMapIntensity = 1
+        material.dispose()
+    }
+    if (_pbr || (child.material instanceof MeshStandardMaterial)) {
         _metalnessFactor !== undefined && setValue(child, "metalness", _metalnessFactor)
         _roughnessFactor !== undefined && setValue(child, "roughness", _roughnessFactor)
-        _environmentFactor !== undefined && (child.material.envMapIntensity = _environmentFactor)
+        _environmentFactor !== undefined && setValue(child, "envMapIntensity", _environmentFactor)
     }
 }
 
 const applyProperties = debounce(() => {
     for (const model of modelSet) {
         //@ts-ignore
-        const { _toon, _metalnessFactor, _roughnessFactor, _environmentFactor } = model
+        const { _toon, _pbr, _metalnessFactor, _roughnessFactor, _environmentFactor } = model
 
         if ("loadedResolvable" in model)
             //@ts-ignore
             model.loadedResolvable.then(loaded => {
                 loaded.traverse(child => processChild(
-                    child, _toon, _metalnessFactor, _roughnessFactor, _environmentFactor
+                    child, _toon, _pbr, _metalnessFactor, _roughnessFactor, _environmentFactor
                 ))
             })
         else
             model.outerObject3d.traverse(child => processChild(
-                child, _toon, _metalnessFactor, _roughnessFactor, _environmentFactor
+                child, _toon, _pbr, _metalnessFactor, _roughnessFactor, _environmentFactor
             ))
     }
     modelSet.clear()    
@@ -571,6 +580,16 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set toon(val: boolean) {
         this._toon = val
+        modelSet.add(this)
+        applyProperties()
+    }
+
+    protected _pbr?: boolean
+    public get pbr() {
+        return this._pbr ?? false
+    }
+    public set pbr(val: boolean) {
+        this._pbr = val
         modelSet.add(this)
         applyProperties()
     }

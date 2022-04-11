@@ -45,6 +45,7 @@ export default interface ISimpleObjectManager extends IPhysics {
     environmentFactor: number
 
     toon: boolean
+    pbr: boolean
 }
 
 export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManager>> = {
@@ -90,7 +91,8 @@ export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManag
     roughnessFactor: Number,
     environmentFactor: Number,
 
-    toon: Boolean
+    toon: Boolean,
+    pbr: Boolean
 }
 
 export const simpleObjectManagerDefaults: ISimpleObjectManager = {
@@ -126,5 +128,6 @@ export const simpleObjectManagerDefaults: ISimpleObjectManager = {
     roughnessFactor: 1,
     environmentFactor: 1,
 
-    toon: false
+    toon: false,
+    pbr: false
 }

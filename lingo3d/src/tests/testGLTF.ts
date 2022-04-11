@@ -20,7 +20,7 @@ export default {}
 const model = new Model()
 model.src = casaSrc
 model.scale = 3
-model.environmentFactor = 10
+model.environmentFactor = 2
 
 settings.defaultOrbitControls = true
 settings.defaultLight = hdrSrc
