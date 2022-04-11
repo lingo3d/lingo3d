@@ -43,7 +43,6 @@ player.y = 500
 player.physics = "character"
 player.animations = { running: runningSrc, idle: idleSrc }
 player.animation = "idle"
-player.boxVisible = true
 player.rotationY = 90
 
 keyboard.onKeyPress = (k) => {
@@ -63,10 +62,8 @@ keyboard.onKeyUp = () => {
 
 const cam = new ThirdPersonCamera()
 cam.append(player)
-cam.mouseControl = "drag"
+cam.mouseControl = true
 cam.active = true
-cam.minPolarAngle = 135
-cam.maxPolarAngle = 135
 
 const map = new Model()
 map.src = fairySrc

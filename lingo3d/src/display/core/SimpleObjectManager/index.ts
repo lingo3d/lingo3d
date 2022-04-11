@@ -18,6 +18,7 @@ import { addSSR, deleteSSR } from "../../../engine/renderLoop/effectComposer/ssr
 import Loaded from "../Loaded"
 import { Group } from "../../.."
 import { getCamera } from "../../../states/useCamera"
+import bvhContactMap from "./PhysicsItem/bvh/bvhContactMap"
 
 const idMap = new Map<string, Set<SimpleObjectManager>>()
 const thisOBB = new OBB()
@@ -321,6 +322,12 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         if (this.done) return false
         if (target.done) return false
         if (this === target) return false
+
+        if (this.bvh && target.bvh)
+            return (
+                bvhContactMap.get(this)?.has(target) ||
+                bvhContactMap.get(target)?.has(this) || false
+            )
 
         if (this.cannonBody && target.cannonBody) {
             cannonContactBodies.add(this.cannonBody)

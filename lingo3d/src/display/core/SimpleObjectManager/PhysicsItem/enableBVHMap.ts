@@ -10,6 +10,8 @@ import Primitive from "../../Primitive"
 
 // const bvhWorker = new GenerateMeshBVHWorker()
 
+export const bvhManagerMap = new WeakMap<any, PhysicsItem>()
+
 export default async function (this: PhysicsItem, handle: Cancellable, debug: boolean) {
     if (handle.done) return
     
@@ -31,7 +33,9 @@ export default async function (this: PhysicsItem, handle: Cancellable, debug: bo
     const bvhMaps: Array<MeshBVH> = []
     for (const geom of geometries) {
         //@ts-ignore
-        bvhMaps.push(geom.boundsTree = new MeshBVH(geom))
+        const bvh = geom.boundsTree = new MeshBVH(geom)
+        bvhMaps.push(bvh)
+        bvhManagerMap.set(bvh, this)
         // bvhMaps.push(geom.boundsTree = await bvhWorker.generate(geom))
     }
 

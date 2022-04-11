@@ -182,6 +182,7 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
     protected bvhRadius?: number
     protected bvhHeight?: number
     protected bvhCoeff?: number
+    protected bvh?: boolean
 
     protected initPhysics(val: PhysicsOptions, handle: Cancellable) {
         if (!val || handle.done) return
@@ -193,14 +194,17 @@ export default abstract class PhysicsItem extends AnimationItem implements IPhys
                 break
 
             case "map":
+                this.bvh = true
                 import("./enableBVHMap").then(module => module.default.call(this, handle, false))
                 break
 
             case "map-debug":
+                this.bvh = true
                 import("./enableBVHMap").then(module => module.default.call(this, handle, true))
                 break
 
             case "character":
+                this.bvh = true
                 import("./enableBVHCharacter").then(module => module.default.call(this, handle))
                 break
 

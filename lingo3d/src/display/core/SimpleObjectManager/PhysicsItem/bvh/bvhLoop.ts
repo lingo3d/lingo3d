@@ -1,12 +1,17 @@
 import { createEffect } from "@lincode/reactivity"
+import { forceGet } from "@lincode/utils"
 import { Vector3 } from "three"
 import PhysicsItem from ".."
 import { loop } from "../../../../../engine/eventLoop"
 import { GRAVITY } from "../../../../../globals"
 import { getBVHMap } from "../../../../../states/useBVHMap"
 import { box3, line3, vector3, vector3_, vector3__ } from "../../../../utils/reusables"
+import { bvhManagerMap } from "../enableBVHMap"
+import bvhContactMap from "./bvhContactMap"
 
 export const bvhCharacterSet = new Set<PhysicsItem>()
+
+const makeWeakSet = () => new WeakSet()
 
 createEffect(function (this: PhysicsItem) {
     const bvhArray = getBVHMap()
@@ -15,17 +20,19 @@ createEffect(function (this: PhysicsItem) {
     const delta = 0.02
 
     const handle = loop(() => {
-        for (const item of bvhCharacterSet) {
-            const playerVelocity = item.bvhVelocity!
-            const player = item.outerObject3d
-            const capsuleHeight = item.bvhHeight!
-            const capsuleRadius = item.bvhRadius!
-            const coeff = item.bvhCoeff!
+        bvhContactMap.clear()
 
-            playerVelocity.y += item.bvhOnGround ? 0 : delta * -GRAVITY
+        for (const characterManager of bvhCharacterSet) {
+            const playerVelocity = characterManager.bvhVelocity!
+            const player = characterManager.outerObject3d
+            const capsuleHeight = characterManager.bvhHeight!
+            const capsuleRadius = characterManager.bvhRadius!
+            const coeff = characterManager.bvhCoeff!
 
-            const { position } = item.physicsUpdate!
-            item.physicsUpdate = {}
+            playerVelocity.y += characterManager.bvhOnGround ? 0 : delta * -GRAVITY
+
+            const { position } = characterManager.physicsUpdate!
+            characterManager.physicsUpdate = {}
 
             if (position) {
                 position.x && (playerVelocity.x = 0)
@@ -49,7 +56,12 @@ createEffect(function (this: PhysicsItem) {
             let distance = 0
             let direction: Vector3 | undefined
 
-            for (const boundsTree of bvhArray)
+            let contact = false
+            let mapManager: PhysicsItem | undefined
+
+            for (const boundsTree of bvhArray) {
+                mapManager = bvhManagerMap.get(boundsTree)
+
                 boundsTree.shapecast({
                     //@ts-ignore
                     intersectsBounds: box => box.intersectsBox(box3),
@@ -57,16 +69,21 @@ createEffect(function (this: PhysicsItem) {
                     intersectsTriangle: tri => {
                         distance = tri.closestPointToSegment(line3, triPoint, capsulePoint) as number
                         if (distance < capsuleRadius) {
+                            contact = true
                             direction = capsulePoint.sub(triPoint).normalize().multiplyScalar(capsuleRadius - distance)
                             start.add(direction)
                             end.add(direction)
                         }
                     }
                 })
+            }
+            if (contact && mapManager)
+                forceGet(bvhContactMap, characterManager, makeWeakSet).add(mapManager)
+
             const deltaVector = start.sub(startOld)
 
             // if the player was primarily adjusted vertically we assume it's on something we should consider ground
-            item.bvhOnGround = deltaVector.y > Math.abs(delta * playerVelocity.y * 0.25)
+            characterManager.bvhOnGround = deltaVector.y > Math.abs(delta * playerVelocity.y * 0.25)
 
             const offset = Math.max(0.0, deltaVector.length() - 1e-5)
             deltaVector.normalize().multiplyScalar(offset)
@@ -74,7 +91,7 @@ createEffect(function (this: PhysicsItem) {
             // adjust the player model
             player.position.add(deltaVector)
 
-            if (!item.bvhOnGround) {
+            if (!characterManager.bvhOnGround) {
                 deltaVector.normalize()
                 playerVelocity.addScaledVector(deltaVector, -deltaVector.dot(playerVelocity))
             }
