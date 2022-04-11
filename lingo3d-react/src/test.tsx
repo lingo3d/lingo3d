@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react"
-import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Editor, Sphere, HTML, Sound } from "."
+import React, { useCallback, useRef, useState } from "react"
+import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Sphere, HTML, Find, types, FirstPersonCamera } from "."
 //@ts-ignore
 import gunSrc from "../assets-local/gun.glb"
 //@ts-ignore
@@ -8,16 +8,13 @@ import type * as Lingo from "lingo3d"
 //@ts-ignore
 import skyboxSrc from "../assets-local/skybox.jpg"
 import ThirdPersonCamera from "./components/display/cameras/ThirdPersonCamera"
-import useKeyboard from "./hooks/useKeyboard"
 import { createRoot } from "react-dom/client"
-import ReactDOM from "react-dom"
-import useTimer from "./hooks/useTimer"
 import { nanoid } from "nanoid"
 import { Stats } from "."
 //@ts-ignore
-import gunshotSrc from "../assets-local/gunshot.wav"
+import gallerySrc from "../assets-local/gallery.glb"
 //@ts-ignore
-import musicSrc from "../assets-local/music.mp3"
+import hdrSrc from "../assets-local/env.hdr"
 
 const Controls: React.FC<{ camera?: Lingo.Camera, onClick: () => void }> = ({ camera, onClick }) => {
   if (!camera) return null
@@ -114,7 +111,40 @@ const App2 = () => {
   </>)
 }
 
+
+
+function App3() {
+  const cubeRef = useRef<types.Cube>(null)
+  const foundRef = useRef<any>()
+
+  return (
+    <World defaultOrbitControls defaultLight={hdrSrc} skybox={hdrSrc} ambientOcclusion bloom bloomStrength={0.2} bloomRadius={1} bloomThreshold={0.5}>
+      <Model src={gallerySrc} scale={20} physics="map">
+        <Find ref={foundRef} name="a5_CRN.a5_0" onMouseOver={() => console.log("over")}></Find>
+      </Model>
+      <FirstPersonCamera active mouseControl>
+        <Cube
+         ref={cubeRef}
+         x={503.56}
+         y={-872.32}
+         z={-200.00}
+         physics="character"
+         height={180}
+         pbr
+        />
+      </FirstPersonCamera>
+      <Keyboard
+        onKeyPress={() => {
+          cubeRef.current?.moveForward(-5)
+        }}
+      />
+    </World>
+  )
+}
+
+
+
 const root = createRoot(document.getElementById('app'));
-root.render(<React.StrictMode><App /></React.StrictMode>);
+root.render(<React.StrictMode><App3 /></React.StrictMode>);
 
 // ReactDOM.render(<React.StrictMode><App /></React.StrictMode>, document.querySelector("#app"))

@@ -1,9 +1,14 @@
 import { useRef } from "react"
 
-export default (props: Record<string, any>) => {
+export default (props: Record<string, any>, paused?: boolean) => {
     const propsOldRef = useRef<any>({})
-    const propsOld = propsOldRef.current
+
     const changes: Array<[string, any]> = []
+    const removed: Array<string> = []
+
+    if (paused) return <const>[changes, removed]
+
+    const propsOld = propsOldRef.current
     for (const [key, value] of Object.entries(props)) {
         const valueOld = propsOld[key]
         if (valueOld === value) continue
@@ -15,7 +20,6 @@ export default (props: Record<string, any>) => {
         else changes.push([key, value])
     }
 
-    const removed: Array<string> = []
     for (const key of Object.keys(propsOld))
         !(key in props) && removed.push(key)
 

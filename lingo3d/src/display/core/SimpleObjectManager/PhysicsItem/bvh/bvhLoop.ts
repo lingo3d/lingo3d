@@ -44,8 +44,10 @@ createEffect(function (this: PhysicsItem) {
 
             const { start, end } = line3
             end.copy(start.copy(player.position))
-            end.y += capsuleHalfHeight - capsuleRadius
-            start.y -= capsuleHalfHeight - capsuleRadius
+
+            const yOffset = Math.max(capsuleHalfHeight - capsuleRadius, 0)
+            end.y += yOffset
+            start.y -= yOffset
             
             const startOld = start.clone()
 

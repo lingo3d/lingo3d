@@ -4,33 +4,30 @@ import useDiffProps from "../../hooks/useDiffProps"
 import { applyChanges, ParentContext } from "../../hooks/useManager"
 import { ManagerProps } from "../../Props"
 
-const Find = React.forwardRef<SimpleObjectManager, ManagerProps & { onLoad?: () => void }>((p, ref) => {
+const Find = React.forwardRef<SimpleObjectManager, ManagerProps & { onLoad?: () => void }>(({ name, onLoad, ...p }, ref) => {
     const parent = useContext(ParentContext)
     const [manager, setManager] = useState<any>()
 
     useLayoutEffect(() => {
-        const { name } = p
         if (!parent || !name) return
 
         if ("loadedResolvable" in parent){
             //@ts-ignore
             const handle = parent.loadedResolvable.then(() => {
                 setManager(parent.find(name))
-                p.onLoad?.()
+                onLoad?.()
             })
             return () => {
                 handle.cancel()
             }
         }
         setManager(parent.find(name))
-        p.onLoad?.()
+        onLoad?.()
 
-    }, [parent, p.name])
+    }, [parent, name])
 
-    const [changed, removed] = useDiffProps(p)
-    useLayoutEffect(() => {
-        manager && applyChanges(manager, changed, removed)
-    }, [manager, changed, removed])
+    const [changed, removed] = useDiffProps(p, !manager)
+    manager && applyChanges(manager, changed, removed)
 
     useLayoutEffect(() => {
         if (!ref || !manager) return
