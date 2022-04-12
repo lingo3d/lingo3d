@@ -13,6 +13,14 @@ import isMobile from "./utils/isMobile"
 import isChromium from "./utils/isChromium"
 import { Encoding, getEncoding, setEncoding } from "../states/useEncoding"
 import { getPBR, setPBR } from "../states/usePBR"
+import { getSelectiveBloom, setSelectiveBloom } from "../states/useSelectiveBloom"
+import { getOutline, setOutline } from "../states/useOutline"
+import { getOutlineColor, setOutlineColor } from "../states/useOutlineColor"
+import { getOutlineHiddenColor, setOutlineHiddenColor } from "../states/useOutlineHiddenColor"
+import { getOutlinePattern, setOutlinePattern } from "../states/useOutlinePattern"
+import { getOutlinePulse, setOutlinePulse } from "../states/useOutlinePulse"
+import { getOutlineStrength, setOutlineStrength } from "../states/useOutlineStrength"
+import { getOutlineThickness, setOutlineThickness } from "../states/useOutlineThickness"
 
 export default {
     get logarithmicDepth() {
@@ -42,6 +50,13 @@ export default {
     },
     set pbr(value: boolean) {
         setPBR(value)
+    },
+
+    get selectiveBloom() {
+        return getSelectiveBloom()
+    },
+    set selectiveBloom(value: boolean) {
+        setSelectiveBloom(value)
     },
 
     get bloom() {
@@ -105,5 +120,54 @@ export default {
     },
     set ambientOcclusion(value: AmbientOcclusion) {
         setAmbientOcclusion(value)
+    },
+
+    get outline() {
+        return getOutline()
+    },
+    set outline(value: boolean) {
+        setOutline(value)
+    },
+
+    get outlineColor() {
+        return getOutlineColor()
+    },
+    set outlineColor(value: string) {
+        setOutlineColor(value)
+    },
+
+    get outlineHiddenColor() {
+        return getOutlineHiddenColor()
+    },
+    set outlineHiddenColor(value: string | undefined) {
+        setOutlineHiddenColor(value)
+    },
+
+    get outlinePattern() {
+        return getOutlinePattern()
+    },
+    set outlinePattern(value: string | undefined) {
+        setOutlinePattern(value)
+    },
+
+    get outlinePulse() {
+        return getOutlinePulse()
+    },
+    set outlinePulse(value: number) {
+        setOutlinePulse(value)
+    },
+
+    get outlineStrength() {
+        return getOutlineStrength()
+    },
+    set outlineStrength(value: number) {
+        setOutlineStrength(value)
+    },
+
+    get outlineThickness() {
+        return getOutlineThickness()
+    },
+    set outlineThickness(value: number) {
+        setOutlineThickness(value)
     }
 }
