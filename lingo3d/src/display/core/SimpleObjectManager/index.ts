@@ -268,6 +268,10 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         return vec2Point(this.object3d.getWorldPosition(vector3_))
     }
 
+    public getWorldPosition2() {
+        
+    }
+
     protected getRay() {
         return ray.set(this.object3d.getWorldPosition(vector3_), this.object3d.getWorldDirection(vector3))
     }

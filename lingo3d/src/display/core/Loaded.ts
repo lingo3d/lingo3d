@@ -5,6 +5,7 @@ import { wireframeMaterial } from "../utils/reusables"
 import ObjectManager from "./ObjectManager"
 import ILoaded from "../../interface/ILoaded"
 import { PhysicsOptions } from "../../interface/IPhysics"
+import { addOutline, deleteOutline } from "../../engine/renderLoop/effectComposer/outlinePass"
 
 export default abstract class Loaded<T> extends ObjectManager<Mesh> implements ILoaded {
     protected loadedGroup = new Group()
@@ -166,5 +167,23 @@ export default abstract class Loaded<T> extends ObjectManager<Mesh> implements I
     public set boxVisible(val: boolean) {
         this._boxVisible = val
         this.object3d.visible = val
+    }
+
+    private _outline?: boolean
+    private _outlineHandle?: Cancellable
+    public override get outline() {
+        return !!this._outline
+    }
+    public override set outline(val: boolean) {
+        if (this._outline === val) return
+        this._outline = val
+
+        this._outlineHandle?.cancel()
+
+        if (!val) return
+
+        this._outlineHandle = this.loadedResolvable.then(loaded => {
+            val ? addOutline(loaded) : deleteOutline(loaded)
+        })
     }
 }

@@ -44,6 +44,7 @@ player.physics = "character"
 player.animations = { running: runningSrc, idle: idleSrc }
 player.animation = "idle"
 player.rotationY = 90
+player.outline = true
 
 keyboard.onKeyPress = (k) => {
     if (k === "w") {
