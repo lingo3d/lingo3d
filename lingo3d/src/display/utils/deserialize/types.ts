@@ -51,6 +51,7 @@ export type SetupNode = {
     encoding?: Encoding
     exposure?: number
     pbr?: boolean
+    selectiveBloom?: boolean
     bloom?: boolean
     bloomStrength?: number
     bloomRadius?: number
@@ -60,6 +61,13 @@ export type SetupNode = {
     bokehMaxBlur?: number
     bokehAperture?: number
     ambientOcclusion?: AmbientOcclusion
+    outline?: boolean
+    outlineColor?: string
+    outlineHiddenColor?: string
+    outlinePattern?: string
+    outlinePulse?: number
+    outlineStrength?: number
+    outlineThickness?: number
     texture?: string
     skybox?: string
     color?: string

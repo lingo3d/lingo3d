@@ -1,62 +1,22 @@
 import { debounce } from "@lincode/utils"
-import { background, rendering, settings } from "../../.."
+import background from "../../../api/background"
+import settings from "../../../api/settings"
+import rendering from "../../../api/rendering"
 import { SetupNode } from "./types"
 
-let defaults: Record<Exclude<keyof SetupNode, "type">, any> | undefined
+const defaults: Record<Exclude<keyof SetupNode, "type">, any> = { ...settings, ...rendering, ...background }
 
 export default debounce((node: Partial<SetupNode>) => {
-    defaults ??= {
-        performance: settings.performance,
-        gridHelper: settings.gridHelper,
-        cameraHelper: settings.cameraHelper,
-        lightHelper: settings.lightHelper,
-        defaultFog: settings.defaultFog,
-        defaultLight: settings.defaultLight,
-        defaultOrbitControls: settings.defaultOrbitControls,
-    
-        logarithmicDepth: rendering.logarithmicDepth,
-        encoding: rendering.encoding,
-        exposure: rendering.exposure,
-        pbr: rendering.pbr,
-        bloom: rendering.bloom,
-        bloomStrength: rendering.bloomStrength,
-        bloomRadius: rendering.bloomRadius,
-        bloomThreshold: rendering.bloomThreshold,
-        bokeh: rendering.bokeh,
-        bokehFocus: rendering.bokehFocus,
-        bokehMaxBlur: rendering.bokehMaxBlur,
-        bokehAperture: rendering.bokehAperture,
-        ambientOcclusion: rendering.ambientOcclusion,
-    
-        texture: background.texture,
-        skybox: background.skybox,
-        color: background.color
-    }
+    for (const key of Object.keys(settings))
+        //@ts-ignore
+        settings[key] = node[key] ?? defaults[key]
 
-    settings.performance = node.performance ?? defaults.performance
-    settings.gridHelper = node.gridHelper ?? defaults.gridHelper
-    settings.cameraHelper = node.cameraHelper ?? defaults.cameraHelper
-    settings.lightHelper = node.lightHelper ?? defaults.lightHelper
-    settings.defaultFog = node.defaultFog ?? defaults.defaultFog
-    settings.defaultLight = node.defaultLight ?? defaults.defaultLight
-    settings.defaultOrbitControls = node.defaultOrbitControls ?? defaults.defaultOrbitControls
+    for (const key of Object.keys(rendering))
+        //@ts-ignore
+        rendering[key] = node[key] ?? defaults[key]
 
-    rendering.logarithmicDepth = node.logarithmicDepth ?? defaults.logarithmicDepth
-    rendering.encoding = node.encoding ?? defaults.encoding
-    rendering.exposure = node.exposure ?? defaults.exposure
-    rendering.pbr = node.pbr ?? defaults.pbr
-    rendering.bloom = node.bloom ?? defaults.bloom
-    rendering.bloomStrength = node.bloomStrength ?? defaults.bloomStrength
-    rendering.bloomRadius = node.bloomRadius ?? defaults.bloomRadius
-    rendering.bloomThreshold = node.bloomThreshold ?? defaults.bloomThreshold
-    rendering.bokeh = node.bokeh ?? defaults.bokeh
-    rendering.bokehFocus = node.bokehFocus ?? defaults.bokehFocus
-    rendering.bokehMaxBlur = node.bokehMaxBlur ?? defaults.bokehMaxBlur
-    rendering.bokehAperture = node.bokehAperture ?? defaults.bokehAperture
-    rendering.ambientOcclusion = node.ambientOcclusion ?? defaults.ambientOcclusion
-
-    background.texture = node.texture ?? defaults.texture
-    background.skybox = node.skybox ?? defaults.skybox
-    background.color = node.color ?? defaults.color
+    for (const key of Object.keys(background))
+        //@ts-ignore
+        background[key] = node[key] ?? defaults[key]
     
 }, 0, "trailing")

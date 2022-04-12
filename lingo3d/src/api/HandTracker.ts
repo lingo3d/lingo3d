@@ -7,7 +7,7 @@ import store, { createEffect, GetGlobalState, SetGlobalState } from "@lincode/re
 import { distance, distance3d, LowPassFilter, mapRange, vertexAngle3d } from "@lincode/math"
 import Sphere from "../display/primitives/Sphere"
 import Point3d from "./Point3d"
-import { settings } from ".."
+import settings from "../api/settings"
 
 interface Options {
     width?: number

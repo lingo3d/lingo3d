@@ -16,11 +16,10 @@ import { cannonContactBodies, cannonContactMap } from "./PhysicsItem/cannon/cann
 import { MouseInteractionPayload } from "../../../interface/IMouse"
 import { addSSR, deleteSSR } from "../../../engine/renderLoop/effectComposer/ssrPass"
 import Loaded from "../Loaded"
-import { Group } from "../../.."
+import Group from "../../Group"
 import { getCamera } from "../../../states/useCamera"
 import bvhContactMap from "./PhysicsItem/bvh/bvhContactMap"
-import { pullOutlined, pushOutlined } from "../../../states/useOutlined"
-import { setOutline } from "../../../states/useOutline"
+import { addOutline, deleteOutline } from "../../../engine/renderLoop/effectComposer/outlinePass"
 
 const idMap = new Map<string, Set<SimpleObjectManager>>()
 const thisOBB = new OBB()
@@ -523,19 +522,11 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         val ? addBloom(this.outerObject3d) : deleteBloom(this.outerObject3d)
     }
 
-    private _outline?: boolean
     public get outline() {
-        return !!this._outline
+        return !!this.object3d.userData.outline
     }
     public set outline(val: boolean) {
-        if (val === this._outline) return
-        this._outline = val
-
-        if (val) {
-            setOutline(true)
-            pushOutlined(this.object3d)
-        }
-        else pullOutlined(this.object3d)
+        val ? addOutline(this.object3d) : deleteOutline(this.object3d)
     }
 
     private _visible?: boolean

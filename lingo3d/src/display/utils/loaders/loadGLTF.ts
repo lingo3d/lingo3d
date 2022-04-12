@@ -4,7 +4,7 @@ import { LinearEncoding, sRGBEncoding } from "three"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { decreaseLoadingCount, increaseLoadingCount } from "../../../states/useLoadingCount"
-import { settings } from "../../.."
+import settings from "../../../api/settings"
 import { handleProgress } from "./bytesLoaded"
 import { getEncoding } from "../../../states/useEncoding"
 

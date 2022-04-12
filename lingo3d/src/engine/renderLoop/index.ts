@@ -6,6 +6,7 @@ import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import Cube from "../../display/primitives/Cube"
 import { vector3 } from "../../display/utils/reusables"
 import { getCamera } from "../../states/useCamera"
+import { setOutline } from "../../states/useOutline"
 import { getPerformance } from "../../states/usePerformance"
 import { getRenderer } from "../../states/useRenderer"
 import { getResolution } from "../../states/useResolution"
@@ -15,6 +16,7 @@ import { getVR } from "../../states/useVR"
 import { loop } from "../eventLoop"
 import scene from "../scene"
 import effectComposer from "./effectComposer"
+import { outlinePtr } from "./effectComposer/outlinePass"
 import renderSelectiveBloom, { bloomPtr } from "./effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import { ssrPtr } from "./effectComposer/ssrPass"
 import resize from "./resize"
@@ -123,6 +125,7 @@ createEffect(() => {
 
     let selectiveBloomInitialized = false
     let ssrInitialized = false
+    let outlineInitialized = false
 
     const handle = loop(() => {
         emitBeforeRender()
@@ -137,6 +140,10 @@ createEffect(() => {
         if (ssrPtr[0] && !ssrInitialized) {
             setSSR(true)
             ssrInitialized = true
+        }
+        if (outlinePtr[0] && !outlineInitialized) {
+            setOutline(true)
+            outlineInitialized = true
         }
         effectComposer.render()
 
