@@ -20,6 +20,7 @@ import Group from "../../Group"
 import { getCamera } from "../../../states/useCamera"
 import bvhContactMap from "./PhysicsItem/bvh/bvhContactMap"
 import { addOutline, deleteOutline } from "../../../engine/renderLoop/effectComposer/outlinePass"
+import getCenter from "../../utils/getCenter"
 
 const idMap = new Map<string, Set<SimpleObjectManager>>()
 const thisOBB = new OBB()
@@ -678,6 +679,6 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
 
     public get frustumVisible() {
         updateFrustum()
-        return frustum.containsPoint(this.object3d.getWorldPosition(vector3))
+        return frustum.containsPoint(getCenter(this.object3d))
     }
 }

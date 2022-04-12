@@ -4,10 +4,22 @@ import settings from "../../../api/settings"
 import rendering from "../../../api/rendering"
 import { SetupNode } from "./types"
 
-const defaults: Record<Exclude<keyof SetupNode, "type">, any> = { ...settings, ...rendering, ...background }
+let defaults: Record<Exclude<keyof SetupNode, "type">, any> | undefined
+
+const settingsKeys = [
+    "performance",
+    "gridHelper",
+    "cameraHelper",
+    "lightHelper",
+    "defaultFog",
+    "defaultLight",
+    "defaultOrbitControls"
+]
 
 export default debounce((node: Partial<SetupNode>) => {
-    for (const key of Object.keys(settings))
+    defaults ??=  { ...settings, ...rendering, ...background }
+
+    for (const key of settingsKeys)
         //@ts-ignore
         settings[key] = node[key] ?? defaults[key]
 

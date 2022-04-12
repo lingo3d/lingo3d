@@ -4,6 +4,7 @@ import Point3d from "../../api/Point3d"
 import { scaleDown } from "../../engine/constants"
 import { outline } from "../../engine/renderLoop/renderSetup"
 import { getCamera } from "../../states/useCamera"
+import getCenter from "./getCenter"
 import { vector3 } from "./reusables"
 
 const cache = new WeakMap<Object3D | Point3d, Point>()
@@ -13,7 +14,7 @@ export default (object3d: Object3D | Point3d) => {
         return cache.get(object3d)!
 
     if ("id" in object3d)
-        object3d.getWorldPosition(vector3)
+        getCenter(object3d)
     else
         vector3.set(object3d.x * scaleDown, object3d.y * scaleDown, object3d.z * scaleDown)
     
@@ -26,7 +27,7 @@ export default (object3d: Object3D | Point3d) => {
     const result = { x, y }
 
     cache.set(object3d, result)
-    queueMicrotask(() => cache.delete(object3d))
+    setTimeout(() => cache.delete(object3d))
 
     return result
 }

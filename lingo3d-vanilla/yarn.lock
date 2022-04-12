@@ -2430,6 +2430,11 @@ he@^1.2.0:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
+howler@2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/howler/-/howler-2.2.3.tgz#a2eff9b08b586798e7a2ee17a602a90df28715da"
+  integrity sha512-QM0FFkw0LRX1PR8pNzJVAY25JhIWvbKMBFM4gqk+QdV+kPXOhleWGCB6AiAF/goGjIHK2e/nIElplvjQwhr0jg==
+
 hpack.js@^2.1.6:
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/hpack.js/-/hpack.js-2.1.6.tgz#87774c0949e513f42e84575b3c45681fade2a0b2"
@@ -2787,10 +2792,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingo3d@^1.10.12:
-  version "1.10.14"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.14.tgz#7397ccb393b448ad6b6913d76cc62a32644cfd69"
-  integrity sha512-2fa+0m6Wpr99IpBLMuEZ46Qs6KrL8UXhj3VySJM4AN/LvRK7F0yNCbCl/hBY0FOzbN81C9OqbswhNZ86c+bvKQ==
+lingo3d@^1.10.58:
+  version "1.10.58"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.58.tgz#d079a2f42d8e79f9f4fa8f4b7cb94f93adade3a4"
+  integrity sha512-NtdpYnWLAL7ws2YfVmz19uhEZtXebEBGqEUUp+hab0im/qVi7/tYCDafD1He1z0Befl3acE4SZZkRyxPOPBfGQ==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
@@ -2801,6 +2806,7 @@ lingo3d@^1.10.12:
     "@pinyinma/guid" "*"
     "@types/three" "0.139.0"
     cannon-es "0.19.0"
+    howler "2.2.3"
     resize-observer-polyfill "1"
     three "0.139.2"
 

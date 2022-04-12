@@ -11,7 +11,7 @@
 		"react"
 	],
 	"dependencies": {
-		"lingo3d": "^1.10.12"
+		"lingo3d": "^1.10.58"
 	},
 	"peerDependencies": {},
 	"devDependencies": {

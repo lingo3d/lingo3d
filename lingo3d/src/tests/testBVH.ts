@@ -54,7 +54,7 @@ keyboard.onKeyPress = (k) => {
     if (k === "s") player.moveForward(5)
     if (k === "a") player.moveRight(5)
     if (k === "d") player.moveRight(-5)
-    if (k === " ") player.velocity.y = 5
+    if (k === "Space") player.velocity.y = 5
 }
 
 keyboard.onKeyUp = () => {
