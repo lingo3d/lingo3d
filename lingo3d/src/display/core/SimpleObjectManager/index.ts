@@ -2,7 +2,7 @@ import { rad2Deg, deg2Rad, distance3d } from "@lincode/math"
 import { Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding, Vector3 } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
 import { frustum, matrix4, quaternion, ray, vector3, vector3_, vector3_1, vector3_half } from "../../utils/reusables"
-import { debounce, forceGet } from "@lincode/utils"
+import { debounce, forceGet, throttle } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import { scaleDown, scaleUp } from "../../../engine/constants"
 import { addBloom, deleteBloom } from "../../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
@@ -118,7 +118,10 @@ const applyProperties = debounce(() => {
 }, 0, "trailing")
 
 
-
+const updateFrustum = throttle(() => {
+    const camera = getCamera()
+    frustum.setFromProjectionMatrix(matrix4.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse))
+}, 200, "leading")
 
 
 
@@ -266,10 +269,6 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
 
     public getWorldPosition() {
         return vec2Point(this.object3d.getWorldPosition(vector3_))
-    }
-
-    public getWorldPosition2() {
-        
     }
 
     protected getRay() {
@@ -678,8 +677,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
 	}
 
     public get frustumVisible() {
-        const camera = getCamera()
-        frustum.setFromProjectionMatrix(matrix4.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse))
+        updateFrustum()
         return frustum.containsPoint(this.object3d.getWorldPosition(vector3))
     }
 }

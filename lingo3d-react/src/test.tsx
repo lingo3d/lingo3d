@@ -115,12 +115,16 @@ const App2 = () => {
 
 function App3() {
   const cubeRef = useRef<types.Cube>(null)
-  const foundRef = useRef<any>()
+  const foundRef = useRef<types.Object>()
 
   return (
     <World defaultOrbitControls defaultLight={hdrSrc} skybox={hdrSrc} ambientOcclusion bloom bloomStrength={0.2} bloomRadius={1} bloomThreshold={0.5}>
       <Model src={gallerySrc} scale={20} physics="map">
-        <Find ref={foundRef} name="a5_CRN.a5_0" onMouseOver={() => console.log("here")} />
+        <Find ref={foundRef} name="a5_CRN.a5_0">
+          <HTML>
+            <div>hello world</div>
+          </HTML>
+        </Find>
       </Model>
       <FirstPersonCamera active mouseControl>
         <Cube

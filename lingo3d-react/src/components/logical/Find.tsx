@@ -13,16 +13,12 @@ const Find = React.forwardRef<SimpleObjectManager, ManagerProps & { onLoad?: () 
 
         if ("loadedResolvable" in parent){
             //@ts-ignore
-            const handle = parent.loadedResolvable.then(() => {
-                setManager(parent.find(name))
-                onLoad?.()
-            })
+            const handle = parent.loadedResolvable.then(() => setManager(parent.find(name)))
             return () => {
                 handle.cancel()
             }
         }
         setManager(parent.find(name))
-        onLoad?.()
 
     }, [parent, name])
 
@@ -38,6 +34,10 @@ const Find = React.forwardRef<SimpleObjectManager, ManagerProps & { onLoad?: () 
             ref.current = manager
             
     }, [ref, manager])
+
+    useLayoutEffect(() => {
+        manager && onLoad?.()
+    }, [manager])
 
     return <ParentContext.Provider value={manager}>{p.children}</ParentContext.Provider>
 })
