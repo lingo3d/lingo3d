@@ -24,14 +24,17 @@ floor.width = floor.depth = 9999
 floor.y = -100
 floor.physics = true
 floor.mass = 0
+floor.color = "blue"
 
 torus.onMouseOver = () => {
     console.log("over")
-    torus.applyImpulse(0, 10, 0)
+    // torus.applyImpulse(0, 10, 0)
+    torus.outline = true
 }
 
 torus.onMouseOut = () => {
     console.log("out")
+    torus.outline = false
 }
 
 torus.onClick = () => {

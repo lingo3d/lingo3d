@@ -54,6 +54,7 @@ import applySetup from "./display/utils/deserialize/applySetup"
 import { container, outline } from "./engine/renderLoop/renderSetup"
 import { loop, timer } from "./engine/eventLoop"
 import { preventTreeShake } from "@lincode/utils"
+import SimpleObjectManager from "./display/core/SimpleObjectManager"
 
 export default {}
 
@@ -111,8 +112,10 @@ export {
     Sound,
 
     applySetup,
+    loop,
+    timer,
+
     outline,
     container,
-    loop,
-    timer
+    SimpleObjectManager as Object
 }

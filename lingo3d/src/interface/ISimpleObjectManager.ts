@@ -36,6 +36,8 @@ export default interface ISimpleObjectManager extends IPhysics {
 
     bloom: boolean
     reflection: boolean
+    outline: boolean
+
     visible: boolean
     innerVisible: boolean
     frustumCulled: boolean
@@ -83,6 +85,8 @@ export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManag
 
     bloom: Boolean,
     reflection: Boolean,
+    outline: Boolean,
+
     visible: Boolean,
     innerVisible: Boolean,
     frustumCulled: Boolean,
@@ -120,6 +124,8 @@ export const simpleObjectManagerDefaults: ISimpleObjectManager = {
 
     bloom: false,
     reflection: false,
+    outline: false,
+
     visible: true,
     innerVisible: true,
     frustumCulled: true,

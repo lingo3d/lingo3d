@@ -15,6 +15,8 @@ import ssrPass from "./ssrPass"
 import { getSSR } from "../../../states/useSSR"
 import { getRenderer } from "../../../states/useRenderer"
 import { getPixelRatio } from "../../../states/usePixelRatio"
+import outlinePass from "./outlinePass"
+import { getOutline } from "../../../states/useOutline"
 
 const effectComposer = new EffectComposer(getRenderer())
 export default effectComposer
@@ -46,6 +48,9 @@ createEffect(() => {
     if (getBokeh())
         passes.push(bokehPass)
 
+    if (getOutline())
+        passes.push(outlinePass)
+
     passes.push(fxaaPass)
 
     for (const pass of passes)
@@ -55,4 +60,4 @@ createEffect(() => {
         for (const pass of passes)
             effectComposer.removePass(pass)
     }
-}, [getSSR, getAmbientOcclusion, getBloom, getSelectiveBloom, getBokeh])
+}, [getSSR, getAmbientOcclusion, getBloom, getSelectiveBloom, getBokeh, getOutline])
