@@ -4,8 +4,7 @@ import useManager from "../../hooks/useManager"
 import modelProps from "../../props/modelProps"
 
 const props = defineProps(modelProps)
-
-const manager = useManager(props, Model)
+useManager(props, Model)
 </script>
 
 <template>
