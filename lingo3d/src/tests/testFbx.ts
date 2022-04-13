@@ -22,6 +22,7 @@ model.depth = 30
 model.loadAnimation(runningSrc, "running")
 model.loadAnimation(idleSrc, "idle")
 model.playAnimation("idle")
+model.pbr = true
 
 keyboard.onKeyDown = (key) => {
     if (key === "w")

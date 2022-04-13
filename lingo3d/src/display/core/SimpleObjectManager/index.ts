@@ -1,8 +1,8 @@
 import { rad2Deg, deg2Rad, distance3d } from "@lincode/math"
-import { Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding, Vector3 } from "three"
+import { Matrix3, Object3D, PropertyBinding, Vector3 } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
 import { frustum, matrix4, quaternion, ray, vector3, vector3_, vector3_1, vector3_half } from "../../utils/reusables"
-import { debounce, forceGet, throttle } from "@lincode/utils"
+import { forceGet, throttle } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import { scaleDown, scaleUp } from "../../../engine/constants"
 import { addBloom, deleteBloom } from "../../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
@@ -15,12 +15,11 @@ import PhysicsItem from "./PhysicsItem"
 import { cannonContactBodies, cannonContactMap } from "./PhysicsItem/cannon/cannonLoop"
 import { MouseInteractionPayload } from "../../../interface/IMouse"
 import { addSSR, deleteSSR } from "../../../engine/renderLoop/effectComposer/ssrPass"
-import Loaded from "../Loaded"
-import Group from "../../Group"
 import { getCamera } from "../../../states/useCamera"
 import bvhContactMap from "./PhysicsItem/bvh/bvhContactMap"
 import { addOutline, deleteOutline } from "../../../engine/renderLoop/effectComposer/outlinePass"
 import getCenter from "../../utils/getCenter"
+import applyMaterialProperties, { applySet } from "./applyMaterialProperties"
 
 const idMap = new Map<string, Set<SimpleObjectManager>>()
 const thisOBB = new OBB()
@@ -37,86 +36,6 @@ const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
     ptDistCache.set(pt, result)
     return result
 }
-
-
-
-const modelSet = new Set<SimpleObjectManager | Loaded<Group>>()
-
-const getDefault = (child: any, property: string) => (
-    child.userData[property] ??= (child.material[property] ?? 0)
-)
-const setValue = (child: any, property: string, factor: number) => {
-    child.material[property] = getDefault(child, property) * factor
-}
-
-const processChild = (
-    child: any,
-    _toon?: boolean,
-    _pbr?: boolean,
-    _metalnessFactor?: number,
-    _roughnessFactor?: number,
-    _environmentFactor?: number
-) => {
-    const { material } = child
-    if (!material) return
-
-    if (Array.isArray(material)) {
-        for (let i = 0; i < material.length; ++i) {
-            const m = material[i]
-            if (_toon) {
-                if (!(m instanceof MeshToonMaterial)) {
-                    material[i] = new MeshToonMaterial()
-                    material[i].copy(m)
-                    m.dispose()
-                }
-            }
-        }
-        return
-    }
-
-    if (_toon) {
-        if (!(material instanceof MeshToonMaterial)) {
-            child.material = new MeshToonMaterial()
-            child.material.copy(material)
-            material.dispose()
-        }
-        // (child.material as MeshToonMaterial).gradientMap = new
-        return
-    }
-    
-    if (_pbr && !(material instanceof MeshStandardMaterial)) {
-        child.material = new MeshStandardMaterial()
-        child.material.copy(material)
-        child.material.envMapIntensity = 1
-        material.dispose()
-    }
-    if (_pbr || (child.material instanceof MeshStandardMaterial)) {
-        _metalnessFactor !== undefined && setValue(child, "metalness", _metalnessFactor)
-        _roughnessFactor !== undefined && setValue(child, "roughness", _roughnessFactor)
-        _environmentFactor !== undefined && setValue(child, "envMapIntensity", _environmentFactor)
-    }
-}
-
-const applyProperties = debounce(() => {
-    for (const model of modelSet) {
-        //@ts-ignore
-        const { _toon, _pbr, _metalnessFactor, _roughnessFactor, _environmentFactor } = model
-
-        if ("loadedResolvable" in model)
-            //@ts-ignore
-            model.loadedResolvable.then(loaded => {
-                loaded.traverse(child => processChild(
-                    child, _toon, _pbr, _metalnessFactor, _roughnessFactor, _environmentFactor
-                ))
-            })
-        else
-            model.outerObject3d.traverse(child => processChild(
-                child, _toon, _pbr, _metalnessFactor, _roughnessFactor, _environmentFactor
-            ))
-    }
-    modelSet.clear()    
-
-}, 0, "trailing")
 
 
 const updateFrustum = throttle(() => {
@@ -562,8 +481,8 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set metalnessFactor(val: number) {
         this._metalnessFactor = val
-        modelSet.add(this)
-        applyProperties()
+        applySet.add(this)
+        applyMaterialProperties()
     }
     
     protected _roughnessFactor?: number
@@ -572,8 +491,8 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set roughnessFactor(val: number) {
         this._roughnessFactor = val
-        modelSet.add(this)
-        applyProperties()
+        applySet.add(this)
+        applyMaterialProperties()
     }
 
     protected _environmentFactor?: number
@@ -582,8 +501,8 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set environmentFactor(val: number) {
         this._environmentFactor = val
-        modelSet.add(this)
-        applyProperties()
+        applySet.add(this)
+        applyMaterialProperties()
     }
     
     protected _toon?: boolean
@@ -592,8 +511,8 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set toon(val: boolean) {
         this._toon = val
-        modelSet.add(this)
-        applyProperties()
+        applySet.add(this)
+        applyMaterialProperties()
     }
 
     protected _pbr?: boolean
@@ -602,8 +521,8 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     public set pbr(val: boolean) {
         this._pbr = val
-        modelSet.add(this)
-        applyProperties()
+        applySet.add(this)
+        applyMaterialProperties()
     }
 
     public lookAt(target: SimpleObjectManager | Point3d) {
