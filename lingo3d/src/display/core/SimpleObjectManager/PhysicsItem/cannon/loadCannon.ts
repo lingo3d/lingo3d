@@ -1,13 +1,13 @@
 import { lazy,  } from "@lincode/utils"
-import { GRAVITY } from "../../../../../globals"
+import { getGravity } from "../../../../../states/useGravity"
 import { setPhysicsWorld } from "../../../../../states/usePhysicsWorld"
 
 export default lazy(async () => {
     const { World, GSSolver, SplitSolver, NaiveBroadphase, Material, ContactMaterial, Body, Vec3, Box, Sphere, Cylinder } = await import("cannon-es")
 
     const world = new World()
-    world.gravity.set(0, -GRAVITY, 0)
-
+    getGravity(gravity => world.gravity.set(0, -gravity, 0))
+    
     world.quatNormalizeSkip = 0
     world.quatNormalizeFast = false
 

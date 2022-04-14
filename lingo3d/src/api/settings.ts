@@ -9,6 +9,8 @@ import { getLightHelper, setLightHelper } from "../states/useLightHelper"
 import { getPerformance, PerformanceValue, setPerformance } from "../states/usePerformance"
 import { getOrbitControls, setOrbitControls } from "../states/useOrbitControls"
 import { getResolution, setResolution } from "../states/useResolution"
+import { getGravity, setGravity } from "../states/useGravity"
+import { getMapPhysics, setMapPhysics } from "../states/useMapPhysics"
 
 export default {
     get fillWindow() {
@@ -86,6 +88,20 @@ export default {
     },
     set defaultOrbitControls(value: boolean) {
         setOrbitControls(value)
+    },
+
+    get gravity() {
+        return getGravity()
+    },
+    set gravity(value: number) {
+        setGravity(value)
+    },
+
+    get mapPhysics() {
+        return getMapPhysics()
+    },
+    set mapPhysics(value: number) {
+        setMapPhysics(value)
     },
 
     wasmPath: "https://www.lingo3d.com/wasm/",

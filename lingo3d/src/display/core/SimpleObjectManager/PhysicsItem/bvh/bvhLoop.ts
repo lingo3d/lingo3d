@@ -3,8 +3,9 @@ import { forceGet } from "@lincode/utils"
 import { Vector3 } from "three"
 import PhysicsItem from ".."
 import { loop } from "../../../../../engine/eventLoop"
-import { GRAVITY } from "../../../../../globals"
 import { getBVHMap } from "../../../../../states/useBVHMap"
+import { getGravity } from "../../../../../states/useGravity"
+import { getMapPhysics } from "../../../../../states/useMapPhysics"
 import { box3, line3, vector3, vector3_, vector3__ } from "../../../../utils/reusables"
 import { bvhManagerMap } from "../enableBVHMap"
 import bvhContactMap from "./bvhContactMap"
@@ -17,6 +18,8 @@ createEffect(function (this: PhysicsItem) {
     const bvhArray = getBVHMap()
     if (!bvhArray.length) return
 
+    const gravity = getGravity()
+    const mapPhysics = getMapPhysics()
     const delta = 0.02
 
     const handle = loop(() => {
@@ -28,7 +31,7 @@ createEffect(function (this: PhysicsItem) {
             const capsuleHalfHeight = characterManager.bvhHalfHeight!
             const capsuleRadius = characterManager.bvhRadius!
 
-            playerVelocity.y += characterManager.bvhOnGround ? 0 : delta * -GRAVITY
+            playerVelocity.y += characterManager.bvhOnGround ? 0 : delta * -gravity
 
             const { position } = characterManager.physicsUpdate!
             characterManager.physicsUpdate = {}
@@ -86,6 +89,10 @@ createEffect(function (this: PhysicsItem) {
             // if the player was primarily adjusted vertically we assume it's on something we should consider ground
             characterManager.bvhOnGround = deltaVector.y > Math.abs(delta * playerVelocity.y * 0.25)
 
+            if (mapPhysics && characterManager.bvhOnGround)
+                if (Math.abs(deltaVector.y / (deltaVector.x + deltaVector.z + Number.EPSILON)) < mapPhysics)
+                    characterManager.bvhOnGround = false
+
             const offset = Math.max(0.0, deltaVector.length() - 1e-5)
             deltaVector.normalize().multiplyScalar(offset)
 
@@ -102,4 +109,4 @@ createEffect(function (this: PhysicsItem) {
     return () => {
         handle.cancel()
     }
-}, [getBVHMap])
+}, [getBVHMap, getGravity, getMapPhysics])

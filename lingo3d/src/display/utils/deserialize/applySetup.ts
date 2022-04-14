@@ -13,7 +13,9 @@ const settingsKeys = [
     "lightHelper",
     "defaultFog",
     "defaultLight",
-    "defaultOrbitControls"
+    "defaultOrbitControls",
+    "gravity",
+    "mapPhysics"
 ]
 
 export default debounce((node: Partial<SetupNode>) => {

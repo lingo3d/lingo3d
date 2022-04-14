@@ -47,6 +47,8 @@ export type SetupNode = {
     defaultFog?: boolean
     defaultLight?: DefaultLight
     defaultOrbitControls?: boolean
+    gravity?: number
+    mapPhysics?: number
     logarithmicDepth?: boolean
     encoding?: Encoding
     exposure?: number
