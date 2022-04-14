@@ -1,6 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import { forceGet } from "@lincode/utils"
-import { Vector3 } from "three"
+import { Box3, Vector3 } from "three"
 import PhysicsItem from ".."
 import { loop } from "../../../../../engine/eventLoop"
 import { getBVHMap } from "../../../../../states/useBVHMap"
@@ -67,11 +67,9 @@ createEffect(function (this: PhysicsItem) {
                 mapManager = bvhManagerMap.get(boundsTree)
 
                 boundsTree.shapecast({
-                    //@ts-ignore
-                    intersectsBounds: box => box.intersectsBox(box3),
-                    //@ts-ignore
-                    intersectsTriangle: tri => {
-                        distance = tri.closestPointToSegment(line3, triPoint, capsulePoint) as number
+                    intersectsBounds: (box: Box3) => box.intersectsBox(box3),
+                    intersectsTriangle: (tri: any) => {
+                        distance = tri.closestPointToSegment(line3, triPoint, capsulePoint)
                         if (distance < capsuleRadius) {
                             contact = true
                             direction = capsulePoint.sub(triPoint).normalize().multiplyScalar(capsuleRadius - distance)

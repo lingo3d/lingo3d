@@ -45,9 +45,9 @@ document.addEventListener("visibilitychange", clear)
 export class Keyboard extends EventLoopItem implements IKeyboard {
     public outerObject3d = new Group()
 
-    public onKeyPress?: (key: string) => void
-    public onKeyUp?: (key: string) => void
-    public onKeyDown?: (key: string) => void
+    public onKeyPress?: (key: string, keys: Set<string>) => void
+    public onKeyUp?: (key: string, keys: Set<string>) => void
+    public onKeyDown?: (key: string, keys: Set<string>) => void
 
     public constructor() {
         super()
@@ -56,10 +56,10 @@ export class Keyboard extends EventLoopItem implements IKeyboard {
         this.watch(onPress(() => {
             if (!this.onKeyPress) return
             for (const key of isPressed)
-                this.onKeyPress(key)
+                this.onKeyPress(key, isPressed)
         }))
-        this.watch(onUp(key => this.onKeyUp?.(key)))
-        this.watch(onDown(key => this.onKeyDown?.(key)))
+        this.watch(onUp(key => this.onKeyUp?.(key, isPressed)))
+        this.watch(onDown(key => this.onKeyDown?.(key, isPressed)))
     }
 }
 
