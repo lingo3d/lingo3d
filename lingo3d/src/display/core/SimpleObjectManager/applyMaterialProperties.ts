@@ -51,6 +51,7 @@ const processChild = (
         child.material = new MeshStandardMaterial()
         child.material.copy(material)
         child.material.envMapIntensity = 1
+        child.material.roughness = 1
         material.dispose()
     }
     if (_pbr || (child.material instanceof MeshStandardMaterial)) {

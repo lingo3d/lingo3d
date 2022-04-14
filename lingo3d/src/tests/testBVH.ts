@@ -44,7 +44,7 @@ player.physics = "character"
 player.animations = { running: runningSrc, idle: idleSrc }
 player.animation = "idle"
 player.rotationY = 90
-player.outline = true
+player.boxVisible = true
 
 keyboard.onKeyPress = (k) => {
     if (k === "w") {
@@ -72,8 +72,6 @@ map.scale = 20
 map.physics = "map"
 
 // const sky = new Sky()
-
-rendering.ambientOcclusion = true
 
 const skybox = new Skybox()
 skybox.texture = [LeftSrc, RightSrc, UpSrc, DownSrc, FrontSrc, BackSrc]
