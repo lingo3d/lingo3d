@@ -3,6 +3,8 @@ import { Fog } from "three"
 import scene from "./scene"
 import { getDefaultFog } from "../../states/useDefaultFog"
 
+export default {}
+
 createEffect(() => {
     if (!getDefaultFog()) return
 

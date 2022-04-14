@@ -2806,10 +2806,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingo3d@1.10.61:
-  version "1.10.61"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.61.tgz#782c02ef7346d9bf6cc91d0a28e77a0c6f1e6949"
-  integrity sha512-QapqGE21VNd9Suo3XQFNi+Q0WkIc9CAATDQEJXWgoQzjiHqafhSlUU+Ldb7ayN3T0kQ3toWLtWpnZxbTZXskew==
+lingo3d@1.10.67:
+  version "1.10.67"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.67.tgz#85a49fe7507834d9d527f84f5964060e6a3d6bb4"
+  integrity sha512-H4hfcVRPB3w15zCMN1k4CxwpScW8p2gD/bQZWmH67WbO6ZexBeDbH3ATkAeczGCSA6ySW1l8GM3tYu1dbu2xGg==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"

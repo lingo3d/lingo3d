@@ -7,6 +7,8 @@ import { getBackgroundColor } from "../../states/useBackgroundColor"
 import { getBackgroundImage } from "../../states/useBackgroundImage"
 import { getBackgroundSkybox } from "../../states/useBackgroundSkybox"
 
+export default {}
+
 createEffect(() => {
     const image = getBackgroundImage()
     const color = getBackgroundColor()
