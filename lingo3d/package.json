@@ -1,6 +1,6 @@
 {
 	"name": "lingo3d",
-	"version": "1.10.66",
+	"version": "1.10.67",
 	"description": "Lingo3D is a web-first 3d game development library with React integration",
 	"homepage": "https://github.com/lingo3d/lingo3d",
 	"author": "Lingo3D",
@@ -60,7 +60,6 @@
 		"dev": "yarn start"
 	},
 	"private": false,
-	"sideEffects": false,
 	"module": "lib/index.js",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts"
