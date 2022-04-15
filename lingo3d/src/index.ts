@@ -56,11 +56,6 @@ import { loop, timer } from "./engine/eventLoop"
 import { preventTreeShake } from "@lincode/utils"
 import SimpleObjectManager from "./display/core/SimpleObjectManager"
 
-import Editor from "./editor"
-
-const editor = new Editor()
-document.body.append(editor)
-
 export default {}
 
 export {

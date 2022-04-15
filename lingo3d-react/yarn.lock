@@ -1062,10 +1062,10 @@
     "@lincode/math" "*"
     react-device-detect "^2.1.2"
 
-"@lincode/react-reticle@*":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@lincode/react-reticle/-/react-reticle-1.1.0.tgz#f100eb8fea2a9db733ded46f203010aca93f502c"
-  integrity sha512-G68dl19XeHMR+sLw42xW7zSxsFSG8dcl1OYGP10REesFUwQ5/RbMvfJ5CJPYERmitc8EyV9BUuppixZJtC5WwQ==
+"@lincode/react-reticle@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@lincode/react-reticle/-/react-reticle-1.1.2.tgz#a52a220874d232745ad949d06fc1a9dc622514b6"
+  integrity sha512-4R1dV4nx1w1vamwhWDqt12SojsWc8+m5tC7IgXgdMGqh3zsxyimP2P0hdrovljcfYuZxk5VN0FfzCV11A9iS1g==
 
 "@lincode/reactivity@*":
   version "1.0.54"
@@ -2824,10 +2824,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingo3d@1.10.72:
-  version "1.10.72"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.72.tgz#66e81370f693302ad46845e0f28cf94382e54eb9"
-  integrity sha512-FDI1vJfjJlrl7qO40XMxkQ9X9h5u6QnW0giAxaCzi2QWD5iOmPBBxdnRYGtFgKI3b+nr6UmMtm0H61dI+1Nktw==
+lingo3d@1.10.73:
+  version "1.10.73"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.73.tgz#518b4a97f224ca4612083df2d2871f40944bd186"
+  integrity sha512-gjhc3gWylYDBiCwPlbMAwEwc1EJbkVVpsKD0JfpaK2Dc2RrMUE+MwbGJfdO5efYcbhjU5vOCNK+Px/rUKZ2ypA==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
