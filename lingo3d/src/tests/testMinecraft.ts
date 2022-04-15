@@ -45,14 +45,21 @@ block.physics = true
 block.opacity = 0.5
 block.id = "block"
 
-cam.onLoop = () => {
-    
-    console.log(block.frustumVisible)
-
-    block.color = "white"
-    block2.color = "white"
-
-    const blocks = cam.getRayIntersections<Cube>("block")
-    if (blocks.length)
-        blocks[0].color = "red"
+block.onMouseOver = () => {
+    block.color = "red"
 }
+block.onMouseOut = () => {
+    block.color = "white"
+}
+
+// cam.onLoop = () => {
+    
+//     console.log(block.frustumVisible)
+
+//     block.color = "white"
+//     block2.color = "white"
+
+//     const blocks = cam.getRayIntersections<Cube>("block")
+//     if (blocks.length)
+//         blocks[0].color = "red"
+// }
