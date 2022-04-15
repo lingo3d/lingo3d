@@ -1,5 +1,4 @@
 import CameraBase from "."
-import isMobile from "../../../api/utils/isMobile"
 import { getCamera } from "../../../states/useCamera"
 import { container } from "../../../engine/renderLoop/renderSetup"
 import { Camera } from "three"
@@ -7,11 +6,12 @@ import { Cancellable } from "@lincode/promiselikes"
 import { setSelectionEnabled } from "../../../states/useSelectionEnabled"
 import { getPointerLockCamera, setPointerLockCamera } from "../../../states/usePointLockCamera"
 import { createEffect } from "@lincode/reactivity"
+import { getMobile } from "../../../states/useMobile"
 
 export default function (this: CameraBase<Camera>, handle: Cancellable) {
     if (handle.done) return
 
-    if (isMobile || this.mouseControl === "drag") {
+    if (getMobile() || this.mouseControl === "drag") {
         let xTouch = 0
         let yTouch = 0
         let xTouchStart = 0
@@ -47,7 +47,7 @@ export default function (this: CameraBase<Camera>, handle: Cancellable) {
             setSelectionEnabled(true)
         }
 
-        if (this.mouseControl === "drag" && !isMobile) {
+        if (this.mouseControl === "drag" && !getMobile()) {
             container.addEventListener("mousedown", onTouchStart)
             container.addEventListener("mousemove", onTouchMove)
             container.addEventListener("mouseup", onTouchEnd)

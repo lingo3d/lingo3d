@@ -6,8 +6,8 @@ import { Group } from "three"
 import IMouse, { MouseEventPayload } from "../interface/IMouse"
 import EventLoopItem from "./core/EventLoopItem"
 import { throttle } from "@lincode/utils"
-import isMobile from "./utils/isMobile"
 import { getPointerLockCamera } from "../states/usePointLockCamera"
+import { getMobile } from "../states/useMobile"
 
 export type MouseEventName = "click" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
@@ -38,7 +38,7 @@ const makeMouseEvent = (names: Array<MouseEventName>) => (ev: MouseEvent | Touch
         mouseEvents.emit(name, mouseData)
 }
 
-if (isMobile) {
+if (getMobile()) {
     document.addEventListener("touchmove", makeMouseEvent(["move"]))
     container.addEventListener("touchstart", makeMouseEvent(["click", "down", "move"]))
     container.addEventListener("touchend", makeMouseEvent(["up"]))

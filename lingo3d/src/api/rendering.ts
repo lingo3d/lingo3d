@@ -9,8 +9,6 @@ import { getBokehFocus, setBokehFocus } from "../states/useBokehFocus"
 import { getBokehMaxBlur, setBokehMaxBlur } from "../states/useBokehMaxBlur"
 import { getExposure, setExposure } from "../states/useExposure"
 import { getLogarithmicDepth, setLogarithmicDepth } from "../states/useLogarithmicDepth"
-import isMobile from "./utils/isMobile"
-import isChromium from "./utils/isChromium"
 import { Encoding, getEncoding, setEncoding } from "../states/useEncoding"
 import { getPBR, setPBR } from "../states/usePBR"
 import { getSelectiveBloom, setSelectiveBloom } from "../states/useSelectiveBloom"
@@ -27,7 +25,6 @@ export default {
         return getLogarithmicDepth()
     },
     set logarithmicDepth(value: boolean) {
-        if (isMobile || !isChromium) return
         setLogarithmicDepth(value)
     },
 
