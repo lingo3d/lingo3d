@@ -19,16 +19,14 @@
 		"@lincode/reactivity": "*",
 		"@lincode/utils": "*",
 		"@pinyinma/guid": "*",
+		"@tweakpane/core": "1",
 		"@types/three": "0.139.0",
 		"cannon-es": "0.19.0",
-		"howler": "2.2.3",
+		"howler": "2",
+		"lit": "2",
 		"resize-observer-polyfill": "1",
-		"three": "0.139.2"
-	},
-	"peerDependencies": {
-		"@mediapipe/camera_utils": "^0.3.1632432234",
-		"@mediapipe/hands": "^0.4.1635986972",
-		"xstate": "*"
+		"three": "0.139.2",
+		"tweakpane": "3"
 	},
 	"devDependencies": {
 		"@babel/cli": "7",
@@ -36,6 +34,7 @@
 		"@babel/preset-env": "7",
 		"@babel/preset-typescript": "7",
 		"@babel/runtime": "7",
+		"@babel/plugin-proposal-decorators": "7",
 		"@mediapipe/camera_utils": "^0.3.1632432234",
 		"@mediapipe/hands": "^0.4.1635986972",
 		"@types/howler": "^2.2.7",

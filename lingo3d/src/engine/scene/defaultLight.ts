@@ -7,8 +7,6 @@ import scene from "./scene"
 
 export default {}
 
-console.log("default light")
-
 createEffect(() => {
     const defaultLight = getDefaultLight()
     if (!defaultLight) return
