@@ -15,6 +15,7 @@ import { Stats } from "."
 import gallerySrc from "../assets-local/gallery.glb"
 //@ts-ignore
 import hdrSrc from "../assets-local/env.hdr"
+import Editor from "./components/Editor"
 
 const Controls: React.FC<{ camera?: Lingo.Camera, onClick: () => void }> = ({ camera, onClick }) => {
   if (!camera) return null
@@ -54,7 +55,7 @@ const App = () => {
   return (
     <>
     <World bloom bloomStrength={0.5} bloomThreshold={0.9}>
-      <Camera active mouseControl physics noTumble height={180} ref={setCamera}>
+      <Camera active mouseControl="drag" physics noTumble height={180} ref={setCamera}>
         <Model src={gunSrc} z={-50} x={25} scale={0.2} innerRotationY={-90}>
           {bullets.map(bullet => (
             <Sphere key={bullet.id} scale={0.5} physics ref={fire} color="red" />
@@ -71,7 +72,7 @@ const App = () => {
       <Skybox texture={skyboxSrc} />
     </World>
     <Reticle />
-    <Stats mode="fps" />
+    <Editor />
     </>
   )
 }
@@ -149,6 +150,6 @@ function App3() {
 
 
 const root = createRoot(document.getElementById('app'));
-root.render(<React.StrictMode><App3 /></React.StrictMode>);
+root.render(<React.StrictMode><App /></React.StrictMode>);
 
 // ReactDOM.render(<React.StrictMode><App /></React.StrictMode>, document.querySelector("#app"))

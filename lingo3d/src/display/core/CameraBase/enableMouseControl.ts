@@ -15,6 +15,8 @@ export default function (this: CameraBase<Camera>, handle: Cancellable) {
         const mobile = getMobile()
 
         if (mobile || this.mouseControl === "drag") {
+            setPointerLockCamera(getCamera())
+
             let xTouch = 0
             let yTouch = 0
             let xTouchStart = 0
@@ -57,6 +59,7 @@ export default function (this: CameraBase<Camera>, handle: Cancellable) {
                 document.addEventListener("mouseleave", onTouchEnd)
 
                 return () => {
+                    setPointerLockCamera(undefined)
                     container.removeEventListener("mousedown", onTouchStart)
                     container.removeEventListener("mousemove", onTouchMove)
                     container.removeEventListener("mouseup", onTouchEnd)
@@ -71,6 +74,7 @@ export default function (this: CameraBase<Camera>, handle: Cancellable) {
             container.addEventListener("touchcancel", onTouchEnd)
 
             return () => {
+                setPointerLockCamera(undefined)
                 container.removeEventListener("touchstart", onTouchStart)
                 container.removeEventListener("touchmove", onTouchMove)
                 container.removeEventListener("touchend", onTouchEnd)
