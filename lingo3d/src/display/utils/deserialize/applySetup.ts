@@ -15,7 +15,8 @@ const settingsKeys = [
     "defaultLight",
     "defaultOrbitControls",
     "gravity",
-    "mapPhysics"
+    "mapPhysics",
+    "wasmPath"
 ]
 
 export default debounce((node: Partial<SetupNode>) => {

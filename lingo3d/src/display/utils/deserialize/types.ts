@@ -49,6 +49,7 @@ export type SetupNode = {
     defaultOrbitControls?: boolean
     gravity?: number
     mapPhysics?: number
+    wasmPath?: string
     logarithmicDepth?: boolean
     encoding?: Encoding
     exposure?: number

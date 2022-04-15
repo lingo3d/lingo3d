@@ -15,8 +15,6 @@ export default class Editor extends LitElement {
     }
 
     protected override render() {
-        console.log("here")
-
         return html`<div ref=${this.containerRef} />`
     }
 }

@@ -2,8 +2,7 @@ import { getExtensionType } from "@lincode/filetypes"
 import { Cancellable } from "@lincode/promiselikes"
 import { assertExhaustive } from "@lincode/utils"
 import bytesLoaded from "../display/utils/loaders/bytesLoaded"
-import loadFBX from "../display/utils/loaders/loadFBX"
-import loadGLTF from "../display/utils/loaders/loadGLTF"
+import { lazyLoadFBX, lazyLoadGLTF } from "../display/utils/loaders/lazyLoad"
 import loadTexturePromise from "../display/utils/loaders/loadTexturePromise"
 import { getLoadingCount } from "../states/useLoadingCount"
 
@@ -21,9 +20,9 @@ export default async (urls: Array<string>, total: number | string, onProgress?: 
             
             case "model":
                 if (url.endsWith(".fbx"))
-                    promises.push(loadFBX(url, false))
+                    promises.push((await lazyLoadFBX()).default(url, false))
                 else if (url.endsWith(".gltf") || url.endsWith(".glb"))
-                    promises.push(loadGLTF(url, false))
+                    promises.push((await lazyLoadGLTF()).default(url, false))
                 break
             
             case "audio":
