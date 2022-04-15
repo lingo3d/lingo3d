@@ -11,103 +11,109 @@ import { getMobile } from "../../../states/useMobile"
 export default function (this: CameraBase<Camera>, handle: Cancellable) {
     if (handle.done) return
 
-    if (getMobile() || this.mouseControl === "drag") {
-        let xTouch = 0
-        let yTouch = 0
-        let xTouchStart = 0
-        let yTouchStart = 0
-        let started = false
+    handle.watch(createEffect(() => {
+        const mobile = getMobile()
 
-        const onTouchStart = (e: TouchEvent | MouseEvent) => {
-            e.preventDefault()
+        if (mobile || this.mouseControl === "drag") {
+            let xTouch = 0
+            let yTouch = 0
+            let xTouchStart = 0
+            let yTouchStart = 0
+            let started = false
+    
+            const onTouchStart = (e: TouchEvent | MouseEvent) => {
+                e.preventDefault()
+    
+                started = true
+                xTouchStart = xTouch = "targetTouches" in e ? e.targetTouches[0].clientX : e.clientX
+                yTouchStart = yTouch = "targetTouches" in e ? e.targetTouches[0].clientY : e.clientY
+            }
+    
+            const onTouchMove = (e: TouchEvent | MouseEvent) => {
+                if (!started) return
+    
+                const xTouchNew = "targetTouches" in e ? e.targetTouches[0].clientX : e.clientX
+                const yTouchNew = "targetTouches" in e ? e.targetTouches[0].clientY : e.clientY
+                const movementX = xTouchNew - xTouch
+                const movementY = yTouchNew - yTouch
+                xTouch = xTouchNew
+                yTouch = yTouchNew
+    
+                this.gyrate(movementX * 2, movementY * 2)
+    
+                if (Math.abs(xTouch - xTouchStart) > 10 || Math.abs(yTouch - yTouchStart) > 10)
+                    setSelectionEnabled(false)
+            }
+    
+            const onTouchEnd = () => {
+                started = false
+                setSelectionEnabled(true)
+            }
+    
+            if (this.mouseControl === "drag" && !mobile) {
+                container.addEventListener("mousedown", onTouchStart)
+                container.addEventListener("mousemove", onTouchMove)
+                container.addEventListener("mouseup", onTouchEnd)
+                document.addEventListener("mouseleave", onTouchEnd)
 
-            started = true
-            xTouchStart = xTouch = "targetTouches" in e ? e.targetTouches[0].clientX : e.clientX
-            yTouchStart = yTouch = "targetTouches" in e ? e.targetTouches[0].clientY : e.clientY
-        }
+                return () => {
+                    container.removeEventListener("mousedown", onTouchStart)
+                    container.removeEventListener("mousemove", onTouchMove)
+                    container.removeEventListener("mouseup", onTouchEnd)
+                    document.removeEventListener("mouseleave", onTouchEnd)
+                    onTouchEnd()
+                }
+            }
 
-        const onTouchMove = (e: TouchEvent | MouseEvent) => {
-            if (!started) return
+            container.addEventListener("touchstart", onTouchStart)
+            container.addEventListener("touchmove", onTouchMove)
+            container.addEventListener("touchend", onTouchEnd)
+            container.addEventListener("touchcancel", onTouchEnd)
 
-            const xTouchNew = "targetTouches" in e ? e.targetTouches[0].clientX : e.clientX
-            const yTouchNew = "targetTouches" in e ? e.targetTouches[0].clientY : e.clientY
-            const movementX = xTouchNew - xTouch
-            const movementY = yTouchNew - yTouch
-            xTouch = xTouchNew
-            yTouch = yTouchNew
-
-            this.gyrate(movementX * 2, movementY * 2)
-
-            if (Math.abs(xTouch - xTouchStart) > 10 || Math.abs(yTouch - yTouchStart) > 10)
-                setSelectionEnabled(false)
-        }
-
-        const onTouchEnd = () => {
-            started = false
-            setSelectionEnabled(true)
-        }
-
-        if (this.mouseControl === "drag" && !getMobile()) {
-            container.addEventListener("mousedown", onTouchStart)
-            container.addEventListener("mousemove", onTouchMove)
-            container.addEventListener("mouseup", onTouchEnd)
-            document.addEventListener("mouseleave", onTouchEnd)
-            handle.then(() => {
-                container.removeEventListener("mousedown", onTouchStart)
-                container.removeEventListener("mousemove", onTouchMove)
-                container.removeEventListener("mouseup", onTouchEnd)
-                document.removeEventListener("mouseleave", onTouchEnd)
+            return () => {
+                container.removeEventListener("touchstart", onTouchStart)
+                container.removeEventListener("touchmove", onTouchMove)
+                container.removeEventListener("touchend", onTouchEnd)
+                container.removeEventListener("touchcancel", onTouchEnd)
                 onTouchEnd()
-            })
-            return
+            }
         }
-        container.addEventListener("touchstart", onTouchStart)
-        container.addEventListener("touchmove", onTouchMove)
-        container.addEventListener("touchend", onTouchEnd)
-        container.addEventListener("touchcancel", onTouchEnd)
-        handle.then(() => {
-            container.removeEventListener("touchstart", onTouchStart)
-            container.removeEventListener("touchmove", onTouchMove)
-            container.removeEventListener("touchend", onTouchEnd)
-            container.removeEventListener("touchcancel", onTouchEnd)
-            onTouchEnd()
-        })
-        return
-    }
-
-    handle.watch(createEffect(() => {
-        if (getPointerLockCamera() !== this.camera) return
-        
-        const onMouseMove = ({ movementX, movementY }: MouseEvent) => {
-            this.gyrate(movementX, movementY)
-        }
-        document.addEventListener("mousemove", onMouseMove)
-
-        return () => {
-            document.removeEventListener("mousemove", onMouseMove)
-        }
-    }, [getPointerLockCamera]))
-
-    handle.watch(createEffect(() => {
-        const camera = getCamera()
-        if (camera !== this.camera) return
-
-        const onClick = () => container.requestPointerLock()
-        container.addEventListener("click", onClick)
-
-        const onPointerLockChange = () => {
-            if (document.pointerLockElement === container)
-                setPointerLockCamera(camera)
-            else
+    
+        createEffect(() => {
+            if (getPointerLockCamera() !== this.camera) return
+            
+            const onMouseMove = ({ movementX, movementY }: MouseEvent) => {
+                this.gyrate(movementX, movementY)
+            }
+            document.addEventListener("mousemove", onMouseMove)
+    
+            return () => {
+                document.removeEventListener("mousemove", onMouseMove)
+            }
+        }, [getPointerLockCamera])
+    
+        createEffect(() => {
+            const camera = getCamera()
+            if (camera !== this.camera) return
+    
+            const onClick = () => container.requestPointerLock()
+            container.addEventListener("click", onClick)
+    
+            const onPointerLockChange = () => {
+                if (document.pointerLockElement === container)
+                    setPointerLockCamera(camera)
+                else
+                    setPointerLockCamera(undefined)
+            }
+            document.addEventListener("pointerlockchange", onPointerLockChange)
+    
+            return () => {
+                container.removeEventListener("click", onClick)
+                document.removeEventListener("pointerlockchange", onPointerLockChange)
+                document.exitPointerLock()
                 setPointerLockCamera(undefined)
-        }
-        document.addEventListener("pointerlockchange", onPointerLockChange)
-
-        return () => {
-            container.removeEventListener("click", onClick)
-            document.removeEventListener("pointerlockchange", onPointerLockChange)
-            document.exitPointerLock()
-            setPointerLockCamera(undefined)
-        }
-    }, [getCamera]))
+            }
+        }, [getCamera])
+        
+    }, [getMobile, getCamera, getPointerLockCamera]))
 }

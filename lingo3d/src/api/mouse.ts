@@ -8,6 +8,7 @@ import EventLoopItem from "./core/EventLoopItem"
 import { throttle } from "@lincode/utils"
 import { getPointerLockCamera } from "../states/usePointLockCamera"
 import { getMobile } from "../states/useMobile"
+import { createEffect } from "@lincode/reactivity"
 
 export type MouseEventName = "click" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
@@ -38,17 +39,39 @@ const makeMouseEvent = (names: Array<MouseEventName>) => (ev: MouseEvent | Touch
         mouseEvents.emit(name, mouseData)
 }
 
-if (getMobile()) {
-    document.addEventListener("touchmove", makeMouseEvent(["move"]))
-    container.addEventListener("touchstart", makeMouseEvent(["click", "down", "move"]))
-    container.addEventListener("touchend", makeMouseEvent(["up"]))
-}
-else {
-    document.addEventListener("mousemove", makeMouseEvent(["move"]))
-    container.addEventListener("click", makeMouseEvent(["click"]))
-    container.addEventListener("mousedown", makeMouseEvent(["down"]))
-    container.addEventListener("mouseup", makeMouseEvent(["up"]))
-}
+createEffect(() => {
+    if (getMobile()) {
+        const handleTouchMove = makeMouseEvent(["move"])
+        const handleTouchStart = makeMouseEvent(["click", "down", "move"])
+        const handleTouchEnd = makeMouseEvent(["up"])
+
+        document.addEventListener("touchmove", handleTouchMove)
+        container.addEventListener("touchstart", handleTouchStart)
+        container.addEventListener("touchend", handleTouchEnd)
+
+        return () => {
+            document.removeEventListener("touchmove", handleTouchMove)
+            container.removeEventListener("touchstart", handleTouchStart)
+            container.removeEventListener("touchend", handleTouchEnd)
+        }
+    }
+    const handleMouseMove = makeMouseEvent(["move"])
+    const handleClick = makeMouseEvent(["click"])
+    const handleMouseDown = makeMouseEvent(["down"])
+    const handleMouseUp = makeMouseEvent(["up"])
+
+    document.addEventListener("mousemove", handleMouseMove)
+    container.addEventListener("click", handleClick)
+    container.addEventListener("mousedown", handleMouseDown)
+    container.addEventListener("mouseup", handleMouseUp)
+
+    return () => {
+        document.removeEventListener("mousemove", handleMouseMove)
+        container.removeEventListener("click", handleClick)
+        container.removeEventListener("mousedown", handleMouseDown)
+        container.removeEventListener("mouseup", handleMouseUp)
+    }
+}, [getMobile])
 
 export class Mouse extends EventLoopItem implements IMouse {
     public outerObject3d = new Group()

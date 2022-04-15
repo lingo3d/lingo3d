@@ -12,16 +12,16 @@ const makeRenderer = () => new WebGLRenderer({
     antialias: true
 })
 
-const defaultRenderer = makeRenderer()
-queueMicrotask(() => defaultRenderer.dispose())
+let firstRenderer: WebGLRenderer | undefined
 
-const [setRenderer, getRenderer] = store(defaultRenderer)
+const [setRenderer, getRenderer] = store(firstRenderer = makeRenderer())
 export { getRenderer }
 
 createEffect(() => {
-    const renderer = makeRenderer()
+    const renderer = firstRenderer ?? makeRenderer()
     setRenderer(renderer)
     return () => {
         renderer.dispose()
+        firstRenderer = undefined
     }
-}, [getBackgroundColor, getLogarithmicDepth])
+}, [getBackgroundColor, getLogarithmicDepth, getMobile])
