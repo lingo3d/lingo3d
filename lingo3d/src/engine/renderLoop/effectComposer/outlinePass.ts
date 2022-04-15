@@ -54,6 +54,6 @@ createEffect(() => {
     }
 }, [getOutlinePattern])
 
-getOutlinePulse(pulse => outlinePass.pulsePeriod = pulse)
+getOutlinePulse(pulse => outlinePass.pulsePeriod = pulse * 0.001)
 getOutlineStrength(strength => outlinePass.edgeStrength = strength)
 getOutlineThickness(thickness => outlinePass.edgeThickness = thickness)
