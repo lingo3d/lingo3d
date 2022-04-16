@@ -104,7 +104,7 @@ export default {
         setMapPhysics(value)
     },
 
-    wasmPath: "https://www.lingo3d.com/wasm/",
+    wasmPath: "https://unpkg.com/lingo3d-wasm@1.0.0/assets/",
 
     autoMout: true
 }

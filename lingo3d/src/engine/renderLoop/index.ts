@@ -1,10 +1,11 @@
-import { event } from "@lincode/events"
 import { createEffect } from "@lincode/reactivity"
 import { preventTreeShake } from "@lincode/utils"
 import { PerspectiveCamera } from "three"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import Cube from "../../display/primitives/Cube"
 import { vector3 } from "../../display/utils/reusables"
+import { emitAfterRender } from "../../events/onAfterRender"
+import { emitBeforeRender } from "../../events/onBeforeRender"
 import { getCamera } from "../../states/useCamera"
 import { setOutline } from "../../states/useOutline"
 import { getPerformance } from "../../states/usePerformance"
@@ -35,9 +36,6 @@ const handleBlob = () => {
     getBlob = undefined
     getRenderer().domElement.toBlob(blob => blob && getBlobCopy(blob))
 }
-
-export const [emitBeforeRender, onBeforeRender] = event()
-export const [emitAfterRender, onAfterRender] = event()
 
 createEffect(() => {
     const vr = getVR()

@@ -28,43 +28,19 @@ export const timer: Timer = (...args: Array<any>): Cancellable => {
     throw new Error("incorrect number of arguments")
 }
 
-let timeOld = -1
-const fpsSamples: Array<number> = []
-
-const targetFPSRates = [1, 2]
-let fpsRate = Infinity
-
-const getFPSLoop = (time: number) => {
-    if (fpsSamples.length === 120) {
-        fpsSamples.sort((a, b) => a - b)
-        const fps = fpsSamples[Math.round(fpsSamples.length * 0.5)]
-        const estimatedRate = fps / 60
-
-        let diffMin = Infinity
-        for (const rate of targetFPSRates) {
-            const diff = Math.abs(estimatedRate - rate)
-            if (diff > diffMin) continue
-            diffMin = diff
-            fpsRate = rate
-        }
-        return
-    }
-
-    requestAnimationFrame(getFPSLoop)
-    timeOld !== -1 && fpsSamples.push(1000 / (time - timeOld))
-    timeOld = time
-}
-requestAnimationFrame(getFPSLoop)
-
 const callbacks = new Set<() => void>()
-let counter = 0
+
+let prevTime = performance.now()
+let count = 0
 
 getRenderer(renderer => {
     renderer.setAnimationLoop(() => {
-        if (++counter < fpsRate) return
-        counter = 0
+        const time = performance.now()
+        const fps = 1000 / (time - prevTime)
+        prevTime = time
 
-        if (getPaused()) return
+        if (getPaused() || ++count < Math.round(fps / 60)) return
+        count = 0
 
         for (const cb of callbacks)
             cb()
