@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useRef } from "react"
-import { onBeforeRender, onAfterRender } from "lingo3d/lib/engine/renderLoop/index"
+import { onBeforeRender } from "lingo3d/lib/events/onBeforeRender"
+import { onAfterRender } from "lingo3d/lib/events/onAfterRender"
 import StatsJS from "stats.js"
 
 type StatsProps = {

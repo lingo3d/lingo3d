@@ -6,9 +6,9 @@ import scene from "../../../../engine/scene"
 import { Cancellable } from "@lincode/promiselikes"
 import PhysicsItem from "."
 import Primitive from "../../Primitive"
-// import { GenerateMeshBVHWorker } from "./bvh/GenerateMeshBVHWorker"
+import { GenerateMeshBVHWorker } from "./bvh/GenerateMeshBVHWorker"
 
-// const bvhWorker = new GenerateMeshBVHWorker()
+const bvhWorker = new GenerateMeshBVHWorker()
 
 export const bvhManagerMap = new WeakMap<any, PhysicsItem>()
 
@@ -33,10 +33,11 @@ export default async function (this: PhysicsItem, handle: Cancellable, debug: bo
     const bvhMaps: Array<MeshBVH> = []
     for (const geom of geometries) {
         //@ts-ignore
+        // const bvh = geom.boundsTree = await bvhWorker.generate(geom)
+        //@ts-ignore
         const bvh = geom.boundsTree = new MeshBVH(geom)
         bvhMaps.push(bvh)
         bvhManagerMap.set(bvh, this)
-        // bvhMaps.push(geom.boundsTree = await bvhWorker.generate(geom))
     }
 
     for (const bvhMap of bvhMaps)
