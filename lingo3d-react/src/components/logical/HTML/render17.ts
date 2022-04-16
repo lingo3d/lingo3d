@@ -1,6 +1,7 @@
 import { outline } from "lingo3d"
+import { build } from "./build"
+import ReactDOM from "react-dom"
 
-export default async (target: any) => {
-    const ReactDOM = (await import("react-dom")).default
-    ReactDOM.render(target, outline)
+export default () => {
+    ReactDOM.render(build(), outline)
 }

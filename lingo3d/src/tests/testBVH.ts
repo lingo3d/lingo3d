@@ -69,7 +69,7 @@ cam.active = true
 const map = new Model()
 map.src = fairySrc
 map.scale = 20
-map.physics = "map"
+map.physics = "map-debug"
 
 // const sky = new Sky()
 

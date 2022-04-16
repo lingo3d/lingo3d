@@ -1,4 +1,4 @@
-import { MeshBVH, MeshBVHVisualizer } from "./bvh/bvh"
+import { MeshBVH, MeshBVHVisualizer, acceleratedRaycast } from "./bvh/bvh"
 import { pullBVHMap, pushBVHMap } from "../../../../states/useBVHMap"
 import { wireframeMaterial } from "../../../utils/reusables"
 import { BufferGeometry, Mesh } from "three"

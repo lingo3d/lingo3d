@@ -7,7 +7,10 @@ import { SetupNode } from "lingo3d/lib/display/utils/deserialize/types"
 import scene from "lingo3d/lib/engine/scene"
 
 preventTreeShake(index)
-outline.style.display = "none"
+outline.style.border = "none"
+outline.style.pointerEvents = "none"
+outline.style.userSelect = "none"
+outline.style.overflow = "hidden"
 settings.autoMout = false
 
 for (const child of [...scene.children])

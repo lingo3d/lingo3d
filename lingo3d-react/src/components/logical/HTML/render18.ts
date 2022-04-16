@@ -1,12 +1,9 @@
-// import { lazy } from "@lincode/utils"
+// import { createRoot } from "react-dom/client"
 // import { outline } from "lingo3d"
+// import { build } from "./build"
 
-// const lazyRoot = lazy(async () => {
-//     const { createRoot } = await import("react-dom/client")
-//     return createRoot(outline)
-// })
+// const root = createRoot(outline)
 
-// export default async (target: any) => {
-//     const root = await lazyRoot()
-//     root.render(target)
+// export default async () => {
+//     root.render(build())
 // }

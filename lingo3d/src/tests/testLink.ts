@@ -8,6 +8,7 @@ import personSrc from "../../assets-local/person.glb"
 import runningSrc from "../../assets-local/running 2.fbx"
 //@ts-ignore
 import idleSrc from "../../assets-local/idle 2.fbx"
+import Cube from "../display/primitives/Cube"
 
 export default {}
 
@@ -16,7 +17,12 @@ model.src = linkSrc
 model.scale = 5
 model.toon = true
 model.frustumCulled = false
-model.boxVisible = true
+model.physics = "map-debug"
+
+model.onClick = ({ distance }) => {
+    console.log(distance)
+}
+
 // model.animations = {
 //     running: runningSrc,
 //     idle: idleSrc
