@@ -6,6 +6,7 @@ import ObjectManager from "./ObjectManager"
 import ILoaded from "../../interface/ILoaded"
 import { PhysicsOptions } from "../../interface/IPhysics"
 import { addOutline, deleteOutline } from "../../engine/renderLoop/effectComposer/outlinePass"
+import { createEffect, Reactive } from "@lincode/reactivity"
 
 export default abstract class Loaded<T> extends ObjectManager<Mesh> implements ILoaded {
     protected loadedGroup = new Group()
@@ -146,6 +147,14 @@ export default abstract class Loaded<T> extends ObjectManager<Mesh> implements I
         
         this.loadedResolvable.then(() => super.frustumCulled = val)
     }
+    
+    private raycastGeometryState?: Reactive<boolean>
+    public get raycastGeometry() {
+        return !!this.raycastGeometryState?.get()
+    }
+    public set raycastGeometry(val: boolean) {
+        (this.raycastGeometryState ??= new Reactive<boolean>(val)).set(val)
+    }
 
     public override get physics() {
         return this._physics ?? false
@@ -153,6 +162,9 @@ export default abstract class Loaded<T> extends ObjectManager<Mesh> implements I
     public override set physics(val: PhysicsOptions) {
         if (this._physics === val) return
         this._physics = val
+
+        if (val === "map" || val === "map-debug")
+            (this.raycastGeometryState ??= new Reactive<boolean>(true)).set(true)
 
         this.physicsHandle?.cancel()
         const handle = this.physicsHandle = this.cancellable()
@@ -187,13 +199,26 @@ export default abstract class Loaded<T> extends ObjectManager<Mesh> implements I
         })
     }
 
-    protected override addToRaycastSet(set: Set<Object3D>, handleName: "clickHandle" | "mouseDownHandle" | "mouseUpHandle" | "mouseOverHandle" | "mouseOutHandle" | "mouseMoveHandle") {
-        const handle = this[handleName] = this.cancellable()
-        this.loadedResolvable.then(loaded => {
-            if (handle.done) return
-            set.add(loaded)
-            loaded.traverse(child => child.userData.manager = this)
-            handle.then(() => set.delete(loaded))
-        })
+    protected override addToRaycastSet(set: Set<Object3D>, handle: Cancellable) {
+        const raycastGeometryState = this.raycastGeometryState ??= new Reactive<boolean>(false)
+
+        handle.watch(createEffect(() => {
+            const raycastGeometry = raycastGeometryState.get()
+
+            if (raycastGeometry) {
+                const loadHandle = this.loadedResolvable.then(loaded => {
+                    set.add(loaded)
+                    loaded.traverse(child => child.userData.manager = this)
+                    loadHandle.then(() => set.delete(loaded))
+                })
+                return () => {
+                    loadHandle.cancel()
+                }
+            }
+            set.add(this.object3d)
+            return () => {
+                set.delete(this.object3d)
+            }
+        }, [raycastGeometryState.get]))        
     }
 }

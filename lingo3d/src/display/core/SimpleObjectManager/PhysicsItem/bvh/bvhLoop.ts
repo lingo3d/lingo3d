@@ -7,8 +7,8 @@ import { getBVHMap } from "../../../../../states/useBVHMap"
 import { getGravity } from "../../../../../states/useGravity"
 import { getMapPhysics } from "../../../../../states/useMapPhysics"
 import { box3, line3, vector3, vector3_, vector3__ } from "../../../../utils/reusables"
-import { bvhManagerMap } from "../enableBVHMap"
 import bvhContactMap from "./bvhContactMap"
+import { bvhManagerMap } from "./computeBVH"
 
 export const bvhCharacterSet = new Set<PhysicsItem>()
 

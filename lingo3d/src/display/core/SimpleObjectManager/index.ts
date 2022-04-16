@@ -80,9 +80,9 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         return result
     }
 
-    protected addToRaycastSet(set: Set<Object3D>, handleName: "clickHandle" | "mouseDownHandle" | "mouseUpHandle" | "mouseOverHandle" | "mouseOutHandle" | "mouseMoveHandle") {
+    protected addToRaycastSet(set: Set<Object3D>, handle: Cancellable) {
         set.add(this.object3d)
-        this[handleName] = this.cancellable(() => set.delete(this.object3d))
+        handle.then(() => set.delete(this.object3d))
     }
 
     protected clickHandle: Cancellable | undefined
@@ -96,7 +96,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this._onClick = cb
         if (!cb) return
         
-        this.addToRaycastSet(clickSet, "clickHandle")
+        this.addToRaycastSet(clickSet, this.clickHandle = new Cancellable())
     }
 
     protected mouseDownHandle: Cancellable | undefined
@@ -110,7 +110,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this._onMouseDown = cb
         if (!cb) return
         
-        this.addToRaycastSet(mouseDownSet, "mouseDownHandle")
+        this.addToRaycastSet(mouseDownSet, this.mouseDownHandle = new Cancellable())
     }
 
     protected mouseUpHandle: Cancellable | undefined
@@ -124,7 +124,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this._onMouseUp = cb
         if (!cb) return
         
-        this.addToRaycastSet(mouseUpSet, "mouseUpHandle")
+        this.addToRaycastSet(mouseUpSet, this.mouseUpHandle = new Cancellable())
     }
 
     protected mouseOverHandle: Cancellable | undefined
@@ -138,7 +138,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this._onMouseOver = cb
         if (!cb) return
         
-        this.addToRaycastSet(mouseOverSet, "mouseOverHandle")
+        this.addToRaycastSet(mouseOverSet, this.mouseOverHandle = new Cancellable())
     }
 
     protected mouseOutHandle: Cancellable | undefined
@@ -152,7 +152,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this._onMouseOut = cb
         if (!cb) return
         
-        this.addToRaycastSet(mouseOutSet, "mouseOutHandle")
+        this.addToRaycastSet(mouseOutSet, this.mouseOutHandle = new Cancellable())
     }
 
     protected mouseMoveHandle: Cancellable | undefined
@@ -166,7 +166,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this._onMouseMove = cb
         if (!cb) return
         
-        this.addToRaycastSet(mouseMoveSet, "mouseMoveHandle")
+        this.addToRaycastSet(mouseMoveSet, this.mouseMoveHandle = new Cancellable())
     }
 
     public get name() {
@@ -255,7 +255,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         if (target.done) return false
         if (this === target) return false
 
-        if (this.bvh && target.bvh)
+        if ((this.bvhMap && target.bvhCharacter) || (this.bvhCharacter && target.bvhMap))
             return (
                 bvhContactMap.get(this)?.has(target) ||
                 bvhContactMap.get(target)?.has(this) || false
