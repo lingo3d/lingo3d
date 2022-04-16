@@ -17,7 +17,6 @@ model.src = linkSrc
 model.scale = 5
 model.toon = true
 model.frustumCulled = false
-model.physics = "map-debug"
 
 model.onClick = ({ distance }) => {
     console.log(distance)
