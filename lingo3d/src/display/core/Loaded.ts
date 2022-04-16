@@ -186,4 +186,14 @@ export default abstract class Loaded<T> extends ObjectManager<Mesh> implements I
             val ? addOutline(loaded) : deleteOutline(loaded)
         })
     }
+
+    protected override addToRaycastSet(set: Set<Object3D>, handleName: "clickHandle" | "mouseDownHandle" | "mouseUpHandle" | "mouseOverHandle" | "mouseOutHandle" | "mouseMoveHandle") {
+        const handle = this[handleName] = this.cancellable()
+        this.loadedResolvable.then(loaded => {
+            if (handle.done) return
+            set.add(loaded)
+            loaded.traverse(child => child.userData.manager = this)
+            handle.then(() => set.delete(loaded))
+        })
+    }
 }
