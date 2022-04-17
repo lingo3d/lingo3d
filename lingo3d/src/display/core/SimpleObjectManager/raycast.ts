@@ -11,9 +11,9 @@ import { getMultipleSelection } from "../../../states/useMultipleSelection"
 import { getMultipleSelectionTargets, pullMultipleSelectionTargets, pushMultipleSelectionTargets, resetMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
 import { emitSelectionTarget, onSelectionTarget } from "../../../events/onSelectionTarget"
 import { MouseInteractionPayload } from "../../../interface/IMouse"
-import Point3d from "../../../api/Point3d"
 import { scaleUp } from "../../../engine/constants"
 import { Cancellable } from "@lincode/promiselikes"
+import { vec2Point } from "../../utils/vec2Point"
 
 const raycaster = new Raycaster()
 
@@ -38,9 +38,7 @@ const pickable = (name: MouseEventName, candidates: Set<Object3D>, then: Then) =
         const result = raycast(e.xNorm, e.yNorm, candidates)
         if (!result) return
 
-        const { x, y, z } = result.point
-
-        const point = new Point3d(x * scaleUp, y * scaleUp, z * scaleUp)
+        const point = vec2Point(result.point)
         const distance = result.distance * scaleUp
 
         then(result.object.userData.manager, { ...e, point, distance })

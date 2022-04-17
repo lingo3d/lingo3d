@@ -3,7 +3,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import { debounce } from "@lincode/utils"
 import { Quaternion } from "three"
-import ICharacterCamera from "../../interface/ICharacterCamera"
+import ICharacterCamera, { LockTargetRotationValue } from "../../interface/ICharacterCamera"
 import Camera from "../cameras/Camera"
 import { euler, quaternion, quaternion_ } from "../utils/reusables"
 import ObjectManager from "./ObjectManager"
@@ -18,20 +18,30 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
 
             target.frustumCulled = false
 
-            this.queueMicrotask(() => this.outerObject3d.quaternion.copy(target.outerObject3d.quaternion))
+            const followTarget = () => {
+                euler.setFromQuaternion(target.outerObject3d.quaternion)
+                euler.y += Math.PI
+                this.outerObject3d.quaternion.setFromEuler(euler)
+            }
+            this.queueMicrotask(followTarget)
             this.updatePolarAngle()
 
             const handle = this.loop(() => {
                 this.outerObject3d.position.copy(target.outerObject3d.position)
+                if (!this.lockTargetRotation) return
 
-                if (this.lockTargetRotation) {
-                    euler.setFromQuaternion(this.outerObject3d.quaternion)
-                    euler.x = 0
-                    euler.z = 0
-                    euler.y += Math.PI
-
-                    target.outerObject3d.quaternion.setFromEuler(euler)
+                if (this.lockTargetRotation === "follow") {
+                    followTarget()
+                    this.gyrate(0, 0)
+                    return
                 }
+
+                euler.setFromQuaternion(this.outerObject3d.quaternion)
+                euler.x = 0
+                euler.z = 0
+                euler.y += Math.PI
+
+                target.outerObject3d.quaternion.setFromEuler(euler)
             })
 
             return () => {
@@ -40,7 +50,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
         }, [this.targetState.get])
     }
 
-    public lockTargetRotation = true
+    public lockTargetRotation: LockTargetRotationValue = true
 
     protected targetState = new Reactive<SimpleObjectManager | undefined>(undefined)
     public get target() {

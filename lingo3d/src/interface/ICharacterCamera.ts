@@ -2,15 +2,17 @@ import ICamera, { cameraDefaults, cameraSchema } from "./ICamera"
 import ISimpleObjectManager from "./ISimpleObjectManager"
 import { ExtractProps } from "./utils/extractProps"
 
+export type LockTargetRotationValue = boolean | "follow"
+
 export default interface ICharacterCamera extends ICamera {
     target?: ISimpleObjectManager
-    lockTargetRotation: boolean
+    lockTargetRotation: LockTargetRotationValue
 }
 
 export const characterCameraSchema: Required<ExtractProps<ICharacterCamera>> = {
     ...cameraSchema,
     target: Object,
-    lockTargetRotation: Boolean
+    lockTargetRotation: [Boolean, String]
 }
 
 export const characterCameraDefaults: ICharacterCamera = {

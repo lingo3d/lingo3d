@@ -533,6 +533,14 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this.physicsRotate()
     }
 
+    public angleTo(target: SimpleObjectManager | Point3d) {
+        const quat = this.outerObject3d.quaternion.clone()
+        this.lookAt(target)
+        const { rotationX, rotationY, rotationZ } = this
+        this.outerObject3d.quaternion.copy(quat)
+        return new Point3d(rotationX, rotationY, rotationZ)
+    }
+
     public translateX(val: number) {
         this.outerObject3d.translateX(val * scaleDown)
         this.physicsMove()
