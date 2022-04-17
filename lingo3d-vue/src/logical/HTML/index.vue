@@ -21,11 +21,7 @@ watchEffect(onCleanUp => {
         elements.value = [...elements.value]
     })
 })
-
-    
-
 </script>
 
 <template>
-    <slot />
 </template>

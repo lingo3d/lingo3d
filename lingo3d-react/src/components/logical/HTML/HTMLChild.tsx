@@ -6,6 +6,8 @@ interface HTMLChildProps {
     manager: ObjectManager
 }
 
+const style = { position: "absolute", left: 0, top: 0, display: "none" } as const
+
 const HTMLChild: React.FC<HTMLChildProps> = ({ el, manager }) => {
     const divRef = useRef<HTMLDivElement>(null)
 
@@ -33,7 +35,7 @@ const HTMLChild: React.FC<HTMLChildProps> = ({ el, manager }) => {
     }, [])
 
     return (
-        <div style={{ position: "absolute", left: 0, top: 0, display: "none" }} ref={divRef}>{el}</div>
+        <div style={style} ref={divRef}>{el}</div>
     )
 }
 
