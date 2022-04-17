@@ -2,17 +2,17 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 //@ts-ignore
 import * as path from "path"
+import typescript from '@rollup/plugin-typescript'
 
+//@ts-ignore
+const resolvePath = (str: string) => path.resolve(__dirname, str)
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
   build: {
     lib: {
-      //@ts-ignore
-      entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'lingo3d-vue',
-      fileName: (format) => `lingo3d-vue.${format}.js`,
+      entry: resolvePath('src/index.ts'),
       formats: ["es"]
     },
     rollupOptions: {
@@ -25,8 +25,17 @@ export default defineConfig({
         globals: {
           vue: 'Vue'
         }
-      }
+      },
+      plugins: [
+        typescript({
+          'target': 'es2020',
+          'rootDir': resolvePath('src'),
+          'declaration': true,
+          'declarationDir': resolvePath('dist'),
+          exclude: resolvePath('node_modules/**'),
+          allowSyntheticDefaultImports: true
+        })
+      ]
     }
   }
-
 })
