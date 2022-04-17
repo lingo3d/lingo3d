@@ -1,7 +1,3 @@
-import { AmbientOcclusion } from "../../../states/useAmbientOcclusion"
-import { DefaultLight } from "../../../states/useDefaultLight"
-import { PerformanceValue } from "../../../states/usePerformance"
-import { Encoding } from "../../../states/useEncoding"
 import IGroup from "../../../interface/IGroup"
 import IModel from "../../../interface/IModel"
 import ISvgMesh from "../../../interface/ISvgMesh"
@@ -16,6 +12,7 @@ import ISkyLight from "../../../interface/ISkyLight"
 import IPointLight from "../../../interface/IPointLight"
 import ISpotLight from "../../../interface/ISpotLight"
 import IPrimitive from "../../../interface/IPrimitive"
+import ISetup from "../../../interface/ISetup"
 
 
 export type GameObjectType = "group" | "model" | "svgMesh" | "sprite" | "reflector" | "scene" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus"
@@ -38,42 +35,8 @@ export type AnimationNode = {
     >
 }
 
-export type SetupNode = {
+export type SetupNode = ISetup & {
     type: "setup"
-    performance?: PerformanceValue
-    gridHelper?: boolean
-    cameraHelper?: boolean
-    lightHelper?: boolean
-    defaultFog?: boolean
-    defaultLight?: DefaultLight
-    defaultOrbitControls?: boolean
-    gravity?: number
-    mapPhysics?: number
-    wasmPath?: string
-    logarithmicDepth?: boolean
-    encoding?: Encoding
-    exposure?: number
-    pbr?: boolean
-    selectiveBloom?: boolean
-    bloom?: boolean
-    bloomStrength?: number
-    bloomRadius?: number
-    bloomThreshold?: number
-    bokeh?: boolean
-    bokehFocus?: number
-    bokehMaxBlur?: number
-    bokehAperture?: number
-    ambientOcclusion?: AmbientOcclusion
-    outline?: boolean
-    outlineColor?: string
-    outlineHiddenColor?: string
-    outlinePattern?: string
-    outlinePulse?: number
-    outlineStrength?: number
-    outlineThickness?: number
-    texture?: string
-    skybox?: string
-    color?: string
 }
 
 type Node = {

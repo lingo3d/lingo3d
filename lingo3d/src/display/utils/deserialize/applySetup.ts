@@ -2,9 +2,9 @@ import { debounce } from "@lincode/utils"
 import background from "../../../api/background"
 import settings from "../../../api/settings"
 import rendering from "../../../api/rendering"
-import { SetupNode } from "./types"
+import ISetup from "../../../interface/ISetup"
 
-let defaults: Record<Exclude<keyof SetupNode, "type">, any> | undefined
+let defaults: Record<keyof ISetup, any> | undefined
 
 const settingsKeys = [
     "performance",
@@ -19,7 +19,7 @@ const settingsKeys = [
     "wasmPath"
 ]
 
-export default debounce((node: Partial<SetupNode>) => {
+export default debounce((node: ISetup) => {
     defaults ??=  { ...settings, ...rendering, ...background }
 
     for (const key of settingsKeys)

@@ -2,10 +2,10 @@ import React, { useLayoutEffect, useRef } from "react"
 import { container, outline, settings } from "lingo3d"
 import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
-import { SetupNode } from "lingo3d/lib/display/utils/deserialize/types"
 import Setup from "./logical/Setup"
 import { useMemoOnce } from "@lincode/hooks"
 import scene from "lingo3d/lib/engine/scene"
+import ISetup from "lingo3d/lib/interface/ISetup"
 
 preventTreeShake(index)
 outline.style.border = "none"
@@ -14,7 +14,7 @@ outline.style.userSelect = "none"
 outline.style.overflow = "hidden"
 settings.autoMout = false
 
-type WorldProps = Partial<SetupNode> & {
+type WorldProps = ISetup & {
     style?: React.CSSProperties
     className?: string
     position?: "absolute" | "relative" | "fixed"

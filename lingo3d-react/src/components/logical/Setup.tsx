@@ -1,8 +1,8 @@
-import { SetupNode } from "lingo3d/lib/display/utils/deserialize/types"
 import applySetup from "lingo3d/lib/display/utils/deserialize/applySetup"
 import React, { useLayoutEffect } from "react"
+import ISetup from "lingo3d/lib/interface/ISetup"
 
-const Setup: React.FC<Partial<SetupNode>> = props => {
+const Setup: React.FC<ISetup> = props => {
     useLayoutEffect(() => {
         applySetup(props)
 
