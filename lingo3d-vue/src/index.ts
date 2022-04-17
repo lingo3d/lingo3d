@@ -39,7 +39,7 @@ export { default as Sphere } from "./components/display/primitives/Sphere.vue"
 export { default as Tetrahedron } from "./components/display/primitives/Tetrahedron.vue"
 export { default as Torus } from "./components/display/primitives/Torus.vue"
 
-// export { default as Setup } from "./components/logical/Setup.vue"
+export { default as Setup } from "./components/logical/Setup.vue"
 export { default as HTML } from "./components/logical/HTML/index.vue"
 export { default as Find } from "./components/logical/Find.vue"
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { PropType, ref, watchEffect } from "vue"
-import { container, outline, settings } from "lingo3d"
+import { applySetup, container, outline, settings } from "lingo3d"
 import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
-import { SetupNode } from "lingo3d/lib/display/utils/deserialize/types"
 import scene from "lingo3d/lib/engine/scene"
+import setupProps from "../props/setupProps"
 
 preventTreeShake(index)
 outline.style.border = "none"
@@ -17,6 +17,7 @@ for (const child of [...scene.children])
     child.userData.manager && scene.remove(child)
 
 const props = defineProps({
+    ...setupProps,
     position: String as PropType<"absolute" | "relative" | "fixed">
 })
 const style = { width: "100%", height: "100%", position: props.position ?? "absolute", top: 0, left: 0 }
@@ -36,6 +37,14 @@ watchEffect(onCleanUp => {
 
     onCleanUp(() => {
         resizeObserver.disconnect()
+    })
+})
+
+watchEffect(onCleanUp => {
+    applySetup(props as any)
+
+    onCleanUp(() => {
+        applySetup({})
     })
 })
 </script>

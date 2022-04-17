@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
-import { objectManagerDefaults } from "lingo3d/lib/interface/IObjectManager";
+import { objectManagerDefaults } from "lingo3d/lib/interface/IObjectManager"
 import { inject, ref, watchEffect, computed, Ref } from "vue"
 import useDiffProps from "../../hooks/useDiffProps"
-import managerProps from "../../props/managerProps"
+import findProps from "../../props/findProps"
 
-const props = defineProps({
-    ...managerProps,
-    onLoad: Function
-})
+const props = defineProps(findProps)
 
 const parentRef = inject<Ref<ObjectManager> | undefined>("parent", undefined)
 const managerRef = ref<ObjectManager>()
