@@ -1,12 +1,16 @@
-import { inject, onUnmounted, provide, watchEffect } from "vue"
+import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
+import { inject, onUnmounted, provide, Ref, ref, watchEffect } from "vue"
 import useDiffProps from "./useDiffProps"
 
 export default (props: Record<string, any>, ManagerClass: any) => {
     const manager = new ManagerClass()
-    provide("parent", manager)
+    const managerRef = ref(manager)
+    provide("parent", managerRef)
 
-    const parent: any = inject("parent", undefined)
-    parent?.append(manager)
+    const parentRef = inject<Ref<ObjectManager> | undefined>("parent", undefined)
+    watchEffect(() => {
+        parentRef?.value?.append(manager)
+    })
     
     const diff = useDiffProps(props, ManagerClass.defaults)
 

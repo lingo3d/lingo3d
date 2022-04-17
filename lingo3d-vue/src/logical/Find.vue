@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
 import { objectManagerDefaults } from "lingo3d/lib/interface/IObjectManager";
-import { inject, ref, watchEffect, computed } from "vue"
+import { inject, ref, watchEffect, computed, Ref } from "vue"
 import useDiffProps from "../hooks/useDiffProps"
 import managerProps from "../props/managerProps"
 
@@ -10,11 +10,12 @@ const props = defineProps({
     onLoad: Function
 })
 
-const parent: any = inject("parent", undefined)
+const parentRef = inject<Ref<ObjectManager> | undefined>("parent", undefined)
 const managerRef = ref<ObjectManager>()
 
 watchEffect(onCleanUp => {
     const { name } = props
+    const parent = parentRef?.value
     if (!parent || !name) return
     
     if ("loadedResolvable" in parent){
