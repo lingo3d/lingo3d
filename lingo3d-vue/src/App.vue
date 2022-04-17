@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import World from "./components/World.vue"
-import Model from "./components/display/Model.vue"
 import Cube from "./components/display/primitives/Cube.vue"
-import HTML from "./logical/HTML/index.vue"
+import HTML from "./components/logical/HTML/index.vue"
 import { ref } from "vue"
 import { nanoid } from "nanoid"
 

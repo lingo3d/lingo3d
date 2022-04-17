@@ -1,6 +1,15 @@
 {
   "name": "lingo3d-vue",
-  "private": true,
+  "files": ["dist"],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "private": false,
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
@@ -15,14 +24,17 @@
     "lingo3d": "1.10.74",
     "nanoid": "3",
     "popmotion": "11",
-    "tweakpane": "3",
-    "type-fest": "^2.12.2",
+    "tweakpane": "3"
+  },
+  "peerDependencies": {
     "vue": "^3.2.25"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.0",
     "typescript": "^4.5.4",
     "vite": "^2.9.0",
+    "vue": "^3.2.25",
     "vue-tsc": "^0.29.8"
-  }
+  },
+  "sideEffects": false
 }
