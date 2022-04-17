@@ -2,8 +2,7 @@
 import { pull } from "@lincode/utils"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
 import { inject, useSlots, VNode, watchEffect } from "vue"
-import { elements } from "./build"
-import render from "./render"
+import { elements } from "./render"
 
 const parent: any = inject("parent", undefined)
 const slots = useSlots()
@@ -15,13 +14,11 @@ watchEffect(onCleanUp => {
     if (!children) return
 
     const pair: [Array<VNode>, ObjectManager] = [children, parent]
-    
-    elements.push(pair)
-    render()
+    elements.value = [...elements.value, pair]
 
     onCleanUp(() => {
-        pull(elements, pair)
-        render()
+        pull(elements.value, pair)
+        elements.value = [...elements.value]
     })
 })
 

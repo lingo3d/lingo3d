@@ -11,7 +11,7 @@ import HTML from "./logical/HTML/index.vue"
     <Cube :animation="{ rotationY: [0, 360] }">
       <Cube :x="200">
         <HTML>
-          <div>hello world</div>
+          <div>this is super cool</div>
         </HTML>
       </Cube>
     </Cube>
