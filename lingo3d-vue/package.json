@@ -12,7 +12,7 @@
     }
   },
   "private": false,
-  "version": "0.0.2",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
