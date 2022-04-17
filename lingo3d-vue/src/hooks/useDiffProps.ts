@@ -1,28 +1,26 @@
-import { ref, watch } from "vue"
+import { Ref, ref, watchEffect } from "vue"
 
-export default (props: Record<string, any>, defaults: Record<string, any>) => {
-    let propsOld: Record<string, any> = {}
+export default (props: Record<string, any>, defaults: Record<string, any>, paused?: Ref<boolean>) => {
+    let propsOld: Record<string, any> = defaults
 
-    const changes = ref<Array<[string, any]>>([])
-    let immediate = true
+    const changesRef = ref<Array<[string, any]>>([])
 
-    watch(props, () => {
-        changes.value = []
+    watchEffect(() => {
+        if (paused?.value) return
+
+        const changes: Array<[string, any]> = changesRef.value = []
         for (const [key, value] of Object.entries(props)) {
             const valueOld = propsOld[key]
             if (valueOld === value) continue
             
             if (value && typeof value === "object") {
                 if (JSON.stringify(value) !== JSON.stringify(valueOld))
-                    if (!immediate || value !== defaults[key])
-                        changes.value.push([key, value])
+                    changes.push([key, value])
             }
-            else if (!immediate || value !== defaults[key])
-                changes.value.push([key, value])
+            else changes.push([key, value])
         }
-        propsOld = { ...props }
-        immediate = false
-    }, { immediate: true })
+        propsOld = props
+    })
 
-    return changes
+    return changesRef
 }
