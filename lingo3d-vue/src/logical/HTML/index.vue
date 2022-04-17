@@ -1,25 +1,24 @@
 <script setup lang="ts">
-import { pull } from "@lincode/utils"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
-import { inject, useSlots, VNode, watchEffect } from "vue"
+import { nanoid } from "nanoid"
+import { inject, onMounted, onUnmounted, useSlots, VNode } from "vue"
 import { elements } from "./render"
 
 const parent: any = inject("parent", undefined)
 const slots = useSlots()
 
-watchEffect(onCleanUp => {
-    if (!parent) return
+let pair: [Array<VNode>, ObjectManager, string] | undefined
+const id = nanoid()
 
+onMounted(() => {
     const children = slots.default?.()
-    if (!children) return
+    if (!children || !parent) return
 
-    const pair: [Array<VNode>, ObjectManager] = [children, parent]
+    pair = [children, parent, id]
     elements.value = [...elements.value, pair]
-
-    onCleanUp(() => {
-        pull(elements.value, pair)
-        elements.value = [...elements.value]
-    })
+})
+onUnmounted(() => {
+    elements.value = elements.value.filter(([, , _id]) => id !== _id)
 })
 </script>
 

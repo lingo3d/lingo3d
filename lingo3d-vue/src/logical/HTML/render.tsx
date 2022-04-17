@@ -7,7 +7,7 @@ import { nanoid } from "nanoid"
 
 preventTreeShake(h)
 
-export const elements: Ref<Array<[Array<VNode>, ObjectManager]>> = ref([])
+export const elements: Ref<Array<[Array<VNode>, ObjectManager, string]>> = ref([])
 
 const managerIdMap = new WeakMap<ObjectManager, string>()
 
