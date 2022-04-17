@@ -3,6 +3,8 @@ import { MouseInteractionPayload } from "./IMouse"
 import IPhysics, { physicsDefaults, physicsSchema } from "./IPhysics"
 import { ExtractProps } from "./utils/extractProps"
 
+export type OnIntersectValue = (target: SimpleObjectManager) => void
+
 export default interface ISimpleObjectManager extends IPhysics {
     onClick?: (e: MouseInteractionPayload) => void
     onMouseDown?: (e: MouseInteractionPayload) => void
@@ -10,7 +12,8 @@ export default interface ISimpleObjectManager extends IPhysics {
     onMouseOver?: (e: MouseInteractionPayload) => void
     onMouseOut?: (e: MouseInteractionPayload) => void
     onMouseMove?: (e: MouseInteractionPayload) => void
-    onIntersect?: (target: SimpleObjectManager) => void
+    onIntersect?: OnIntersectValue
+    onIntersectOut?: OnIntersectValue
 
     name: string
     id?: string
@@ -60,6 +63,7 @@ export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManag
     onMouseOut: Function,
     onMouseMove: Function,
     onIntersect: Function,
+    onIntersectOut: Function,
 
     name: String,
     id: String,

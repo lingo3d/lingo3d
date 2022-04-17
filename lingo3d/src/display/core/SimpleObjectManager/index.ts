@@ -10,7 +10,7 @@ import worldToClient from "../../utils/worldToClient"
 import { Cancellable } from "@lincode/promiselikes"
 import Point3d from "../../../api/Point3d"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
-import ISimpleObjectManager from "../../../interface/ISimpleObjectManager"
+import ISimpleObjectManager, { OnIntersectValue } from "../../../interface/ISimpleObjectManager"
 import PhysicsItem from "./PhysicsItem"
 import { cannonContactBodies, cannonContactMap } from "./PhysicsItem/cannon/cannonLoop"
 import { MouseInteractionPayload } from "../../../interface/IMouse"
@@ -20,6 +20,7 @@ import bvhContactMap from "./PhysicsItem/bvh/bvhContactMap"
 import { addOutline, deleteOutline } from "../../../engine/renderLoop/effectComposer/outlinePass"
 import getCenter from "../../utils/getCenter"
 import applyMaterialProperties, { applySet } from "./applyMaterialProperties"
+import { Reactive } from "@lincode/reactivity"
 
 const idMap = new Map<string, Set<SimpleObjectManager>>()
 const thisOBB = new OBB()
@@ -224,12 +225,12 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         return !!this.rayIntersectsAt(target)
     }
 
-    public getRayIntersectionsAt<T extends SimpleObjectManager>(id: string, maxDistance?: number) {
-        const result: Array<[T, Point3d]> = []
+    public getRayIntersectionsAt(id: string, maxDistance?: number) {
+        const result: Array<[SimpleObjectManager, Point3d]> = []
         for (const target of idMap.get(id) ?? []) {
             if (target === this) continue
             const pt = this.rayIntersectsAt(target, maxDistance)
-            pt && result.push([target as T, pt])
+            pt && result.push([target, pt])
         }
         this.object3d.getWorldPosition(vector3_)
         return result.sort((a, b) => {
@@ -237,15 +238,13 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         })
     }
 
-    public getRayIntersections<T extends SimpleObjectManager>(id: string, maxDistance?: number): Array<T> {
-        return this.getRayIntersectionsAt(id, maxDistance).map<T>(result => result[0] as T)
+    public getRayIntersections(id: string, maxDistance?: number) {
+        return this.getRayIntersectionsAt(id, maxDistance).map(result => result[0])
     }
 
-    public listenToRayIntersection<T extends SimpleObjectManager>(
-        id: string, cb: (target: T, pt: Point3d) => void, maxDistance?: number
-    ) {
+    public listenToRayIntersection(id: string, cb: (target: SimpleObjectManager, pt: Point3d) => void, maxDistance?: number) {
         return this.loop(() => {
-            for (const [target, pt] of this.getRayIntersectionsAt<T>(id, maxDistance))
+            for (const [target, pt] of this.getRayIntersectionsAt(id, maxDistance))
                 cb(target, pt)
         })
     }
@@ -279,41 +278,84 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         return thisOBB.intersectsOBB(targetOBB, 0)
     }
 
-    public getIntersections<T extends SimpleObjectManager>(id: string) {
-        const result: Array<T> = []
+    public getIntersections(id: string) {
+        const result: Array<SimpleObjectManager> = []
         for (const target of idMap.get(id) ?? []) {
             if (target === this) continue
-            this.intersects(target) && result.push(target as T)
+            this.intersects(target) && result.push(target)
         }
         return result
     }
 
-    public listenToIntersection<T extends SimpleObjectManager>(id: string, cb: (target: T) => void) {
+    public listenToIntersection(id: string, cb?: OnIntersectValue, cbOut?: OnIntersectValue) {
+        let intersectionsOld: Array<SimpleObjectManager> = []
+
         return this.loop(() => {
-            for (const target of this.getIntersections<T>(id))
-                cb(target)
+            const intersections = this.getIntersections(id)
+
+            if (cb)
+                for (const target of intersections)
+                    if (!intersectionsOld.includes(target))
+                        cb(target)
+
+            if (cbOut)
+                for (const target of intersectionsOld)
+                    if (!intersections.includes(target))
+                        cbOut(target)
+                    
+            intersectionsOld = intersections
         })
     }
 
-    public intersectIDs?: string[]
+    private onIntersectState?: Reactive<OnIntersectValue | undefined>
+    private onIntersectOutState?: Reactive<OnIntersectValue | undefined>
+    private intersectIDsState?: Reactive<Array<string> | undefined>
 
-    private _onIntersect?: (target: SimpleObjectManager) => void
-    private _onIntersectHandles?: Array<Cancellable>
-    public get onIntersect() {
-        return this._onIntersect
+    private initIntersect() {
+        if (this.onIntersectState) return
+
+        this.onIntersectState = new Reactive<OnIntersectValue | undefined>(undefined)
+        this.onIntersectOutState = new Reactive<OnIntersectValue | undefined>(undefined)
+        this.intersectIDsState = new Reactive<Array<string> | undefined>(undefined)
+
+        this.createEffect(() => {
+            const { onIntersect, onIntersectOut, intersectIDs } = this
+            if (!intersectIDs || (!onIntersect && !onIntersectOut)) return
+
+            const handles: Array<Cancellable> = []
+
+            for (const id of intersectIDs)
+                handles.push(this.listenToIntersection(id, onIntersect, onIntersectOut))
+
+            return () => {
+                for (const handle of handles)
+                    handle.cancel()
+            }
+        }, [this.onIntersectState.get, this.onIntersectOutState.get, this.intersectIDsState.get])
     }
-    public set onIntersect(cb: ((target: SimpleObjectManager) => void) | undefined) {
-        this._onIntersect = cb
+    
+    public get onIntersect() {
+        return this.onIntersectState?.get()
+    }
+    public set onIntersect(val: OnIntersectValue | undefined) {
+        this.initIntersect()
+        this.onIntersectState?.set(val)
+    }
 
-        if (this._onIntersectHandles)
-            for (const handle of this._onIntersectHandles)
-                handle.cancel()
+    public get onIntersectOut() {
+        return this.onIntersectOutState?.get()
+    }
+    public set onIntersectOut(val: OnIntersectValue | undefined) {
+        this.initIntersect()
+        this.onIntersectOutState?.set(val)
+    }
 
-        if (!cb || !this.intersectIDs) return
-
-        const handles: Array<Cancellable> = this._onIntersectHandles = []
-        for (const id of this.intersectIDs)
-            handles.push(this.listenToIntersection(id, cb))
+    public get intersectIDs() {
+        return this.intersectIDsState?.get()
+    }
+    public set intersectIDs(val: Array<string> | undefined) {
+        this.initIntersect()
+        this.intersectIDsState?.set(val)
     }
 
     public get clientX() {
@@ -531,14 +573,6 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
             this.outerObject3d.lookAt(point2Vec(target))
 
         this.physicsRotate()
-    }
-
-    public angleTo(target: SimpleObjectManager | Point3d) {
-        const quat = this.outerObject3d.quaternion.clone()
-        this.lookAt(target)
-        const { rotationX, rotationY, rotationZ } = this
-        this.outerObject3d.quaternion.copy(quat)
-        return new Point3d(rotationX, rotationY, rotationZ)
     }
 
     public translateX(val: number) {
