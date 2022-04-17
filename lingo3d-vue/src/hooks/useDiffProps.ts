@@ -19,7 +19,7 @@ export default (props: Record<string, any>, defaults: Record<string, any>, pause
             }
             else changes.push([key, value])
         }
-        propsOld = props
+        propsOld = { ...props }
     })
 
     return changesRef
