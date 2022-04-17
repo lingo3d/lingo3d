@@ -4,15 +4,15 @@
     "dist"
   ],
   "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "module": "./dist/lingo3d-vue.es.js",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
+      "import": "./dist/lingo3d-vue.es.js",
       "require": "./dist/index.js"
     }
   },
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
