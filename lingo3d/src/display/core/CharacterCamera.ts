@@ -1,45 +1,58 @@
 import { deg2Rad } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
+import { Reactive } from "@lincode/reactivity"
 import { debounce } from "@lincode/utils"
 import { Quaternion } from "three"
 import ICharacterCamera from "../../interface/ICharacterCamera"
 import Camera from "../cameras/Camera"
 import { euler, quaternion, quaternion_ } from "../utils/reusables"
 import ObjectManager from "./ObjectManager"
+import SimpleObjectManager from "./SimpleObjectManager"
 
 export default class CharacterCamera extends Camera implements ICharacterCamera {
-    private targetHandle: Cancellable | undefined
-    protected _target: ObjectManager | undefined
-    public get target() {
-        return this._target
+    public constructor() {
+        super()
+        this.createEffect(() => {
+            const target = this.targetState.get()
+            if (!target) return
+
+            target.frustumCulled = false
+
+            this.queueMicrotask(() => this.outerObject3d.quaternion.copy(target.outerObject3d.quaternion))
+            this.updatePolarAngle()
+
+            const handle = this.loop(() => {
+                this.outerObject3d.position.copy(target.outerObject3d.position)
+
+                if (this.lockTargetRotation) {
+                    euler.setFromQuaternion(this.outerObject3d.quaternion)
+                    euler.x = 0
+                    euler.z = 0
+                    euler.y += Math.PI
+
+                    target.outerObject3d.quaternion.setFromEuler(euler)
+                }
+            })
+
+            return () => {
+                handle.cancel()
+            }
+        }, [this.targetState.get])
     }
-    public set target(target: ObjectManager | undefined) {
-        if (target === this._target) return
-        this._target = target
 
-        this.targetHandle?.cancel()
-        if (!target) return
+    public lockTargetRotation = true
 
-        this.queueMicrotask(() => this.outerObject3d.quaternion.copy(target.outerObject3d.quaternion))
-        this.updatePolarAngle()
-
-        this.targetHandle = this.loop(() => {
-            this.outerObject3d.position.copy(target.outerObject3d.position)
-
-            euler.setFromQuaternion(this.outerObject3d.quaternion)
-            euler.x = 0
-            euler.z = 0
-            euler.y += Math.PI
-
-            target.outerObject3d.quaternion.setFromEuler(euler)
-        })
-
-        target.frustumCulled = false
+    protected targetState = new Reactive<SimpleObjectManager | undefined>(undefined)
+    public get target() {
+        return this.targetState.get()
+    }
+    public set target(target: SimpleObjectManager | undefined) {
+        this.targetState.set(target)
     }
 
     private setTarget = debounce(() => {
         let i = 0
-        for (const child of [this._target?.outerObject3d, ...this.camera.children]) {
+        for (const child of [this.target?.outerObject3d, ...this.camera.children]) {
             const object = child?.userData.manager
             if (!object || object.done) continue
 

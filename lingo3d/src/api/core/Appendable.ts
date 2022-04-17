@@ -8,10 +8,6 @@ export default abstract class Appendable extends Disposable {
         this.outerObject3d.userData.manager = this
     }
 
-    public attach(object: Appendable) {
-        this.outerObject3d.attach(object.outerObject3d)
-    }
-
     public append(object: Appendable) {
         this.outerObject3d.add(object.outerObject3d)
     }

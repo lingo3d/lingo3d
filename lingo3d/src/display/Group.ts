@@ -15,9 +15,4 @@ export default class Group extends ObjectManager<ThreeGroup> implements IGroup {
         super.append(target)
         fitContent(this)
     }
-
-    public override attach(target: ObjectManager) {
-        super.attach(target)
-        fitContent(this)
-    }
 }

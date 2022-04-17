@@ -4,9 +4,11 @@ import { vector3, vector3_, quaternion } from "../../../utils/reusables"
 import { bvhCameraSet, onBeforeCameraLoop } from "./bvh/bvhCameraLoop"
 
 function setVisible(this: ThirdPersonCamera, visible: boolean) {
+    const { target } = this
+
     //@ts-ignore
-    if (this._target && this._target._visible === undefined)
-        this._target.outerObject3d.visible = visible
+    if (target && target._visible === undefined)
+        target.outerObject3d.visible = visible
 
     for (const child of this.camera.children)
         if (child.userData.manager?._visible === undefined)

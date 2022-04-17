@@ -1,9 +1,9 @@
-import ObjectManager from "../core/ObjectManager"
 import CharacterCamera from "../core/CharacterCamera"
 import { scaleUp, scaleDown } from "../../engine/constants"
 import scene from "../../engine/scene"
 import { quaternion, vector3 } from "../utils/reusables"
 import { characterCameraDefaults } from "../../interface/ICharacterCamera"
+import SimpleObjectManager from "../core/SimpleObjectManager"
 
 export default class FirstPersonCamera extends CharacterCamera {
     public static override componentName = "firstPersonCamera"
@@ -32,9 +32,9 @@ export default class FirstPersonCamera extends CharacterCamera {
     }
 
     public override get target() {
-        return this._target
+        return this.targetState.get()
     }
-    public override set target(target: ObjectManager | undefined) {
+    public override set target(target: SimpleObjectManager | undefined) {
         target && this._innerY === undefined && (this.innerY = target.height * 0.4)
         super.target = target
     }
