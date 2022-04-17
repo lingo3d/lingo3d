@@ -4,7 +4,8 @@ import useManager from "../../../hooks/useManager"
 import pointLightProps from "../../../props/pointLightProps"
 
 const props = defineProps(pointLightProps)
-useManager(props, PointLight)
+const manager = useManager(props, PointLight)
+defineExpose(manager)
 </script>
 
 <template>

@@ -4,7 +4,8 @@ import useManager from "../../hooks/useManager"
 import skyboxProps from "../../props/skyboxProps"
 
 const props = defineProps(skyboxProps)
-useManager(props, Skybox)
+const manager = useManager(props, Skybox)
+defineExpose(manager)
 </script>
 
 <template>

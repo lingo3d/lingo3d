@@ -4,7 +4,8 @@ import useManager from "../../../hooks/useManager"
 import primitiveProps from "../../../props/primitiveProps"
 
 const props = defineProps(primitiveProps)
-useManager(props, Cylinder)
+const manager = useManager(props, Cylinder)
+defineExpose(manager)
 </script>
 
 <template>

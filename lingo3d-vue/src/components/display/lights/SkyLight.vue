@@ -4,7 +4,8 @@ import useManager from "../../../hooks/useManager"
 import skyLightProps from "../../../props/skyLightProps"
 
 const props = defineProps(skyLightProps)
-useManager(props, SkyLight)
+const manager = useManager(props, SkyLight)
+defineExpose(manager)
 </script>
 
 <template>

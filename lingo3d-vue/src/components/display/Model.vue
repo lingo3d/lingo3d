@@ -4,7 +4,8 @@ import useManager from "../../hooks/useManager"
 import modelProps from "../../props/modelProps"
 
 const props = defineProps(modelProps)
-useManager(props, Model)
+const manager = useManager(props, Model)
+defineExpose(manager)
 </script>
 
 <template>

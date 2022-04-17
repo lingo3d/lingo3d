@@ -4,7 +4,8 @@ import useManager from "../../../hooks/useManager"
 import primitiveProps from "../../../props/primitiveProps"
 
 const props = defineProps(primitiveProps)
-useManager(props, Octahedron)
+const manager = useManager(props, Octahedron)
+defineExpose(manager)
 </script>
 
 <template>

@@ -4,7 +4,8 @@ import useManager from "../../../hooks/useManager"
 import primitiveProps from "../../../props/primitiveProps"
 
 const props = defineProps(primitiveProps)
-useManager(props, Plane)
+const manager = useManager(props, Plane)
+defineExpose(manager)
 </script>
 
 <template>

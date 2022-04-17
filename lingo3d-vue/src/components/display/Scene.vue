@@ -4,7 +4,8 @@ import useManager from "../../hooks/useManager"
 import sceneProps from "../../props/sceneProps"
 
 const props = defineProps(sceneProps)
-useManager(props, Scene)
+const manager = useManager(props, Scene)
+defineExpose(manager)
 </script>
 
 <template>

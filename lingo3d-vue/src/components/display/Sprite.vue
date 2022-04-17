@@ -4,7 +4,8 @@ import useManager from "../../hooks/useManager"
 import spriteProps from "../../props/spriteProps"
 
 const props = defineProps(spriteProps)
-useManager(props, Sprite)
+const manager = useManager(props, Sprite)
+defineExpose(manager)
 </script>
 
 <template>

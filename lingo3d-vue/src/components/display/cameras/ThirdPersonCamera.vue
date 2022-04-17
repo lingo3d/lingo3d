@@ -4,7 +4,8 @@ import useManager from "../../../hooks/useManager"
 import thirdPersonCameraProps from "../../../props/thirdPersonCameraProps"
 
 const props = defineProps(thirdPersonCameraProps)
-useManager(props, ThirdPersonCamera)
+const manager = useManager(props, ThirdPersonCamera)
+defineExpose(manager)
 </script>
 
 <template>

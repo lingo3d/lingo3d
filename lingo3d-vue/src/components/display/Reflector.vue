@@ -4,7 +4,8 @@ import useManager from "../../hooks/useManager"
 import reflectorProps from "../../props/reflectorProps"
 
 const props = defineProps(reflectorProps)
-useManager(props, Reflector)
+const manager = useManager(props, Reflector)
+defineExpose(manager)
 </script>
 
 <template>

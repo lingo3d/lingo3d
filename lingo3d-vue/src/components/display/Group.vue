@@ -4,7 +4,8 @@ import useManager from "../../hooks/useManager"
 import groupProps from "../../props/groupProps"
 
 const props = defineProps(groupProps)
-useManager(props, Group)
+const manager = useManager(props, Group)
+defineExpose(manager)
 </script>
 
 <template>

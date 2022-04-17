@@ -4,7 +4,8 @@ import useManager from "../../../hooks/useManager"
 import cameraProps from "../../../props/cameraProps"
 
 const props = defineProps(cameraProps)
-useManager(props, Camera)
+const manager = useManager(props, Camera)
+defineExpose(manager)
 </script>
 
 <template>

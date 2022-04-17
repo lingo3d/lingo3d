@@ -4,7 +4,8 @@ import useManager from "../../../hooks/useManager"
 import spotLightProps from "../../../props/spotLightProps"
 
 const props = defineProps(spotLightProps)
-useManager(props, SpotLight)
+const manager = useManager(props, SpotLight)
+defineExpose(manager)
 </script>
 
 <template>

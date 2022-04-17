@@ -4,7 +4,8 @@ import useManager from "../../../hooks/useManager"
 import areaLightProps from "../../../props/areaLightProps"
 
 const props = defineProps(areaLightProps)
-useManager(props, AreaLight)
+const manager = useManager(props, AreaLight)
+defineExpose(manager)
 </script>
 
 <template>

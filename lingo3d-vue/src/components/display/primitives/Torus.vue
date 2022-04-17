@@ -4,7 +4,8 @@ import useManager from "../../../hooks/useManager"
 import primitiveProps from "../../../props/primitiveProps"
 
 const props = defineProps(primitiveProps)
-useManager(props, Torus)
+const manager = useManager(props, Torus)
+defineExpose(manager)
 </script>
 
 <template>

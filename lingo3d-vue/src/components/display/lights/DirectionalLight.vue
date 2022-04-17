@@ -4,7 +4,8 @@ import useManager from "../../../hooks/useManager"
 import directionalLightProps from "../../../props/directionalLightProps"
 
 const props = defineProps(directionalLightProps)
-useManager(props, DirectionalLight)
+const manager = useManager(props, DirectionalLight)
+defineExpose(manager)
 </script>
 
 <template>

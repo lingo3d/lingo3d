@@ -4,7 +4,8 @@ import useManager from "../../hooks/useManager"
 import svgMeshProps from "../../props/svgMeshProps"
 
 const props = defineProps(svgMeshProps)
-useManager(props, SvgMesh)
+const manager = useManager(props, SvgMesh)
+defineExpose(manager)
 </script>
 
 <template>

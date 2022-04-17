@@ -4,7 +4,8 @@ import useManager from "../../../hooks/useManager"
 import ambientLightProps from "../../../props/ambientLightProps"
 
 const props = defineProps(ambientLightProps)
-useManager(props, AmbientLight)
+const manager = useManager(props, AmbientLight)
+defineExpose(manager)
 </script>
 
 <template>

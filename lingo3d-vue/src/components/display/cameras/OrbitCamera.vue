@@ -4,7 +4,8 @@ import useManager from "../../../hooks/useManager"
 import orbitCameraProps from "../../../props/orbitCameraProps"
 
 const props = defineProps(orbitCameraProps)
-useManager(props, OrbitCamera)
+const manager = useManager(props, OrbitCamera)
+defineExpose(manager)
 </script>
 
 <template>
