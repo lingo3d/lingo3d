@@ -28,10 +28,11 @@ createEffect(() => {
                 handle.cancel()
             }
         }
-        const texture = loadTexture(defaultLight)
+        let proceed = true
+        const texture = loadTexture(defaultLight, () => proceed && (scene.environment = texture))
         texture.mapping = EquirectangularReflectionMapping
-        scene.environment = texture
         return () => {
+            proceed = false
             scene.environment = null
         }
     }

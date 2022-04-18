@@ -5,6 +5,7 @@ import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
 import scene from "lingo3d/lib/engine/scene"
 import setupProps from "../props/setupProps"
+import { computed } from "@vue/reactivity"
 
 preventTreeShake(index)
 outline.style.border = "none"
@@ -20,9 +21,9 @@ const props = defineProps({
     ...setupProps,
     position: String as PropType<"absolute" | "relative" | "fixed">
 })
-const style = { width: "100%", height: "100%", position: props.position ?? "absolute", top: 0, left: 0 }
+const style = computed(() => ({ width: "100%", height: "100%", position: props.position ?? "absolute", top: 0, left: 0 }))
 
-const divRef = ref<HTMLDivElement | undefined>(undefined)
+const divRef = ref<HTMLDivElement>()
 
 watchEffect(onCleanUp => {
     const el = divRef.value

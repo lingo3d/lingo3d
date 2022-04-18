@@ -67,9 +67,9 @@
     "@lincode/utils" "*"
 
 "@lincode/reactivity@*":
-  version "1.0.54"
-  resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.54.tgz#72b9a49076b1688ceaa8fde960ec0df8e089527c"
-  integrity sha512-QYqMO11icMzRwt6Rzc5KhQPA7s3HGOqyFht6+Cf8xiSSEASRsQp+QvdrTGV/xe8RItGZ6KOcPXN0GN25frGMSQ==
+  version "1.0.57"
+  resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.57.tgz#bd64544432429aa1735941571a8e12cb20802acd"
+  integrity sha512-POBdxFp9FYtt0j5n9e3xxdxD/CJX6u2TeaG4lr+UhSAooEc1djoyynVL642RwJ0q249tsULw1NdOKPPJac7LNw==
   dependencies:
     "@lincode/events" "*"
     "@lincode/promiselikes" "*"
@@ -657,10 +657,10 @@ jstransformer@1.0.0:
     is-promise "^2.0.0"
     promise "^7.0.1"
 
-lingo3d@1.10.83:
-  version "1.10.83"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.83.tgz#a2c7ac5f8803a145258df4005fbcf937fbbb5efe"
-  integrity sha512-nLlKbmTmzvGIZH+dLhtc6b321xiFwx8jIzp3IOlwj3lPgyhEk6aRpy0j5lbkVWTSTinVScXtCPwO0LoXF6uT6A==
+lingo3d@1.10.88:
+  version "1.10.88"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.88.tgz#46359637e2446a5189af67f1c8b3ef59e1f70969"
+  integrity sha512-k9JFM5/650qsdaZ7eMXp/+Ac5sMz1ATItrzzOFkKUaXcUmEOpnz1h0ZVFbJL43wodELtvlIUZDYcRKIE/ga00Q==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
@@ -722,9 +722,9 @@ magic-string@^0.25.7:
     sourcemap-codec "^1.4.8"
 
 nanoid@3, nanoid@^3.3.1:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.2.tgz#c89622fafb4381cd221421c69ec58547a1eec557"
-  integrity sha512-CuHBogktKwpm5g2sRgv83jEy2ijFzBwMoYA60orPDR7ynsLijJDqgsi4RDGj3OJpy3Ieb+LYwiRmIOGyytgITA==
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.3.tgz#fd8e8b7aa761fe807dba2d1b98fb7241bb724a25"
+  integrity sha512-p1sjXuopFs0xg+fPASzQ28agW1oHD7xDsd9Xkf3T15H3c/cifrFHVwrh74PdoklAPi+i7MdRsE47vm2r6JoB+w==
 
 object-assign@^4.1.1:
   version "4.1.1"

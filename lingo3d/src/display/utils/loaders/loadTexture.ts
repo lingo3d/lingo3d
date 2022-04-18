@@ -3,27 +3,33 @@ import { forceGet } from "@lincode/utils"
 import { increaseLoadingCount, decreaseLoadingCount } from "../../../states/useLoadingCount"
 import { handleProgress } from "./bytesLoaded"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
+import Events from "@lincode/events"
 
 const cache = new Map<string, Texture>()
 export const textureLoader = new TextureLoader()
 export const rgbeLoader = new RGBELoader()
+const loaded = new Events()
 
-export default (url: string, onLoad?: () => void) => forceGet(cache, url, () => {
-    increaseLoadingCount()
+export default (url: string, onLoad?: () => void) => {
+    onLoad && loaded.once(url, onLoad)
 
-    const hdr = url.endsWith(".hdr")
-    const loader = hdr ? rgbeLoader : textureLoader
+    return forceGet(cache, url, () => {
+        increaseLoadingCount()
 
-    return loader.load(url,
-        texture => {
-            texture.wrapS = texture.wrapT = RepeatWrapping
-            onLoad?.()
-            decreaseLoadingCount()
-        },
-        handleProgress,
-        () => {
-            onLoad?.()
-            decreaseLoadingCount()
-        }
-    )
-})
+        const hdr = url.endsWith(".hdr")
+        const loader = hdr ? rgbeLoader : textureLoader
+
+        return loader.load(url,
+            texture => {
+                texture.wrapS = texture.wrapT = RepeatWrapping
+                loaded.setState(url)
+                decreaseLoadingCount()
+            },
+            handleProgress,
+            () => {
+                loaded.setState(url)
+                decreaseLoadingCount()
+            }
+        )
+    })
+}

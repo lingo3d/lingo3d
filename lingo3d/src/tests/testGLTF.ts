@@ -24,7 +24,7 @@ model.environmentFactor = 2
 
 settings.defaultOrbitControls = true
 settings.defaultLight = hdrSrc
-background.texture = hdrSrc
+background.skybox = hdrSrc
 
 const rectLight = new AreaLight()
 rectLight.rotationX = -90
