@@ -11,7 +11,7 @@ export const rgbeLoader = new RGBELoader()
 const loaded = new Events()
 
 export default (url: string, onLoad?: () => void) => {
-    onLoad && loaded.once(url, onLoad)
+    onLoad && loaded.once(url, () => queueMicrotask(onLoad))
 
     return forceGet(cache, url, () => {
         increaseLoadingCount()
