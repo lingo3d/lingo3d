@@ -12,6 +12,9 @@ export default (props: Record<string, any>, ManagerClass: any) => {
         parentRef?.value?.append(manager)
     })
     
+    if (!ManagerClass.defaults)
+        console.error("ManagerClass has no defaults", ManagerClass)
+
     const diff = useDiffProps(props, ManagerClass.defaults)
 
     watchEffect(() => {

@@ -3,7 +3,7 @@ import { container, containerBounds } from "../engine/renderLoop/renderSetup"
 import { getSelection } from "../states/useSelection"
 import clientToWorld from "../display/utils/clientToWorld"
 import { Group } from "three"
-import IMouse, { MouseEventPayload } from "../interface/IMouse"
+import IMouse, { mouseDefaults, MouseEventPayload } from "../interface/IMouse"
 import EventLoopItem from "./core/EventLoopItem"
 import { throttle } from "@lincode/utils"
 import { getPointerLockCamera } from "../states/usePointLockCamera"
@@ -74,6 +74,9 @@ createEffect(() => {
 }, [getMobile])
 
 export class Mouse extends EventLoopItem implements IMouse {
+    public static componentName = "mouse"
+    public static defaults = mouseDefaults
+
     public outerObject3d = new Group()
 
     public onClick?: (e: MouseEventPayload) => void

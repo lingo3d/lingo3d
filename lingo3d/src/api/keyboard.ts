@@ -1,6 +1,6 @@
 import { event } from "@lincode/events"
 import { Group } from "three"
-import IKeyboard from "../interface/IKeyboard"
+import IKeyboard, { keyboardDefaults } from "../interface/IKeyboard"
 import { loop } from "../engine/eventLoop"
 import EventLoopItem from "./core/EventLoopItem"
 
@@ -43,6 +43,9 @@ window.addEventListener("focus", clear)
 document.addEventListener("visibilitychange", clear)
 
 export class Keyboard extends EventLoopItem implements IKeyboard {
+    public static componentName = "keyboard"
+    public static defaults = keyboardDefaults
+
     public outerObject3d = new Group()
 
     public onKeyPress?: (key: string, keys: Set<string>) => void
