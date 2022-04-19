@@ -4,7 +4,8 @@ import { spring, SpringOptions } from "popmotion"
 import { Ref, ref, watchEffect } from "vue"
 import useValue from "./useValue"
 
-type Options = SpringOptions & {
+//@ts-ignore
+interface Options extends SpringOptions {
     from?: number
     to: number | Ref<number>
     step?: (value: number) => void
@@ -12,25 +13,24 @@ type Options = SpringOptions & {
 }
 
 export default (o: Options | number | Ref<number>) => {
-    let { to, from, step, delay, ...options } = typeof o === "number" || "value" in o ? ({ to: o } as Options) : o
-    //@ts-ignore
-    from ??= typeof to === "number" ? to : to.value as number
+    const { to, from: fromRaw, step, delay, ...options } = typeof o === "number" || "value" in o ? ({ to: o } as Options) : o
+    const from = fromRaw ?? (typeof to === "number" ? to : to.value)
     const reactive = useValue({ from, step })
     const r = ref({})
-    let rOld = r
+    let rOld = r.value
     reactive.restart = () => r.value = {}
 
     watchEffect(onCleanUp => {
         const handle = new Cancellable()
-        //@ts-ignore
         const toVal = typeof to === "number" ? to : to.value
+        const notRestarted = rOld === r.value
+        rOld = r.value
 
         ;(async () => {
             await new Promise(resolve => setTimeout(resolve, delay))
             if (handle.done) return
 
-            const anim = spring({ from: rOld === r ? reactive.get() : from, to: toVal, ...options })
-            rOld = r
+            const anim = spring({ from: notRestarted ? reactive.get() : from, to: toVal, ...options })
 
             const time = Date.now()
             handle.watch(loop(() => {

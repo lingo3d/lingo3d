@@ -15,9 +15,9 @@ const camX = computed(() => mouseOver.value ? 25 : 0)
 const camY = computed(() => mouseOver.value ? 50 : 50)
 const camZ = computed(() => mouseOver.value ? 50 : 200)
 
-const xSpring = useSpring(camX)
-const ySpring = useSpring(camY)
-const zSpring = useSpring(camZ)
+const xSpring = useSpring({ to: camX, bounce: 0 })
+const ySpring = useSpring({ to: camY, bounce: 0 })
+const zSpring = useSpring({ to: camZ, bounce: 0 })
 
 const handleKeyPress = (key: string) => {
   if (key === "w") {
