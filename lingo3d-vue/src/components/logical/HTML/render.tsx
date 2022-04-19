@@ -1,5 +1,5 @@
 import { outline } from "lingo3d"
-import { Ref, ref, createApp, VNode, h, Fragment } from "vue"
+import { ref, createApp, VNode, h, Fragment } from "vue"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
 import { forceGet, preventTreeShake } from "@lincode/utils"
 import HTMLChild from "./HTMLChild"
@@ -7,20 +7,23 @@ import { nanoid } from "nanoid"
 
 preventTreeShake(h)
 
-export const elements: Ref<Array<[Array<VNode>, ObjectManager, string]>> = ref([])
+export const elements: Array<[Array<VNode>, ObjectManager, string]> = []
+export const renderRef = ref({})
 
 const managerIdMap = new WeakMap<ObjectManager, string>()
 
 createApp({
     setup() {
         return {
-            elements
+            renderRef
         }
     },
     render() {
+        this.renderRef
+
         return (
             <Fragment>
-                {this.elements.map(([el, manager]: any) => (
+                {elements.map(([el, manager]: any) => (
                     <HTMLChild key={forceGet(managerIdMap, manager, nanoid)} el={el} manager={manager} />
                 ))}
             </Fragment>
