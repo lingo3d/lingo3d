@@ -6,10 +6,20 @@ import Keyboard from "./components/api/Keyboard.vue"
 import { ref } from "vue"
 import Find from "./components/logical/Find.vue"
 import HTML from "./components/logical/HTML/index.vue"
+import { computed } from "@vue/reactivity"
+import useSpring from "./hooks/useSpring"
 
 const model = ref<types.Model>()
 const pose = ref("idle")
 const mouseOver = ref(false)
+
+const camX = computed(() => mouseOver.value ? 25 : 0)
+const camY = computed(() => mouseOver.value ? 50 : 50)
+const camZ = computed(() => mouseOver.value ? 50 : 200)
+
+const xSpring = useSpring(camX)
+const ySpring = useSpring(camY)
+const zSpring = useSpring(camZ)
 
 const handleKeyPress = (key: string) => {
   if (key === "w") {
@@ -37,7 +47,7 @@ const handleKeyUp = () => {
         </HTML>
       </Find>
     </Model>
-    <ThirdPersonCamera active mouse-control :inner-y="100">
+    <ThirdPersonCamera active mouse-control :inner-x="camX" :inner-y="camY" :inner-z="camZ">
       <Model
         src="bot.fbx"
         physics="character"
