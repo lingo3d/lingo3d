@@ -45,5 +45,5 @@ export default (o: Options | number | Ref<number>) => {
         })
     })
 
-    return reactive
+    return reactive as any
 }

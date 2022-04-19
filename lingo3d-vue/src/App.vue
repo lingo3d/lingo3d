@@ -1,15 +1,23 @@
 <script setup lang="ts">
-import { World, types } from "."
+import { World, types, useSpring } from "."
 import Model from "./components/display/Model.vue"
 import ThirdPersonCamera from "./components/display/cameras/ThirdPersonCamera.vue"
 import Keyboard from "./components/api/Keyboard.vue"
-import { ref } from "vue"
+import { computed, ref } from "vue"
 import Find from "./components/logical/Find.vue"
 import HTML from "./components/logical/HTML/index.vue"
 
 const model = ref<types.Model>()
 const pose = ref("idle")
 const mouseOver = ref(false)
+
+const camX = computed(() => mouseOver.value ? 25 : 0)
+const camY = computed(() => mouseOver.value ? 50 : 50)
+const camZ = computed(() => mouseOver.value ? 50 : 200)
+
+const xSpring = useSpring(camX)
+const ySpring = useSpring(camY)
+const zSpring = useSpring(camZ)
 
 const handleKeyPress = (key: string) => {
   if (key === "w") {
