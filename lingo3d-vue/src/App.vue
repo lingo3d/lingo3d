@@ -4,6 +4,7 @@ import Model from "./components/display/Model.vue"
 import ThirdPersonCamera from "./components/display/cameras/ThirdPersonCamera.vue"
 import Keyboard from "./components/api/Keyboard.vue"
 import { ref } from "vue"
+import Find from "./components/logical/Find.vue"
 
 const model = ref<types.Model>()
 
@@ -23,7 +24,9 @@ const handleKeyUp = () => {
 
 <template>
   <World default-light="env.hdr" skybox="env.hdr">
-    <Model src="gallery.glb" :scale="20" physics="map" />
+    <Model src="gallery.glb" :scale="20" physics="map">
+      <Find name="a6_CRN.a6_0" outline />
+    </Model>
     <ThirdPersonCamera active mouse-control>
       <Model
         src="bot.fbx"

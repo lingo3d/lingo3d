@@ -67,9 +67,9 @@
     "@lincode/utils" "*"
 
 "@lincode/reactivity@*":
-  version "1.0.57"
-  resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.57.tgz#bd64544432429aa1735941571a8e12cb20802acd"
-  integrity sha512-POBdxFp9FYtt0j5n9e3xxdxD/CJX6u2TeaG4lr+UhSAooEc1djoyynVL642RwJ0q249tsULw1NdOKPPJac7LNw==
+  version "1.0.59"
+  resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.59.tgz#36afa01d95e10c4597417063c7f4d3fc858b6564"
+  integrity sha512-maMpRBTaMiSG+lXXsXH7AAjDM2EnFx25iHc8gZEuWvwjsHaGtufoWS3vp/A6W2LukP71CUvStjz9tm2Zs7vODA==
   dependencies:
     "@lincode/events" "*"
     "@lincode/promiselikes" "*"
