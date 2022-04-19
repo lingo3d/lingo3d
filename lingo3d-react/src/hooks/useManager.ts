@@ -25,8 +25,10 @@ export const applyChanges = (manager: any, changed: Array<[string, any]>, remove
         }
         manager[key] = value
     }
-    for (const key of removed)
+    for (const key of removed) {
+        handleMap.get(key)?.cancel()
         manager[key] = manager.constructor.defaults?.[key]
+    }
 }
 
 const appendedSet = new WeakSet<any>()

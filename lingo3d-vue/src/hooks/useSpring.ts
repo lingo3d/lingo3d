@@ -2,7 +2,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import { loop } from "lingo3d"
 import { spring, SpringOptions } from "popmotion"
 import { Ref, ref, watchEffect } from "vue"
-import usePrevious from "./usePrevious"
 import useValue from "./useValue"
 
 type Options = SpringOptions & {
@@ -13,10 +12,12 @@ type Options = SpringOptions & {
 }
 
 export default (o: Options | number | Ref<number>) => {
-    const { to, from = to, step, delay, ...options } = typeof o === "number" || "value" in o ? ({ to: o } as Options) : o
+    let { to, from, step, delay, ...options } = typeof o === "number" || "value" in o ? ({ to: o } as Options) : o
+    //@ts-ignore
+    from ??= typeof to === "number" ? to : to.value as number
     const reactive = useValue({ from, step })
     const r = ref({})
-    const rOld = usePrevious(r)
+    let rOld = r
     reactive.restart = () => r.value = {}
 
     watchEffect(onCleanUp => {
@@ -29,8 +30,9 @@ export default (o: Options | number | Ref<number>) => {
             if (handle.done) return
 
             const anim = spring({ from: rOld === r ? reactive.get() : from, to: toVal, ...options })
-            const time = Date.now()
+            rOld = r
 
+            const time = Date.now()
             handle.watch(loop(() => {
                 const { value, done } = anim.next(Date.now() - time)
                 reactive.set(value)

@@ -45,7 +45,7 @@ const handleKeyUp = () => {
         </HTML>
       </Find>
     </Model>
-    <ThirdPersonCamera active mouse-control>
+    <ThirdPersonCamera active mouse-control :inner-x="xSpring" :inner-y="ySpring" :inner-z="zSpring">
       <Model
         src="bot.fbx"
         physics="character"
