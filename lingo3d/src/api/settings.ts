@@ -11,6 +11,7 @@ import { getOrbitControls, setOrbitControls } from "../states/useOrbitControls"
 import { getResolution, setResolution } from "../states/useResolution"
 import { getGravity, setGravity } from "../states/useGravity"
 import { getMapPhysics, setMapPhysics } from "../states/useMapPhysics"
+import { getDefaultLightScale, setDefaultLightScale } from "../states/useDefaultLightScale"
 
 export default {
     get fillWindow() {
@@ -81,6 +82,13 @@ export default {
     },
     set defaultLight(value: DefaultLight) {
         setDefaultLight(value)
+    },
+
+    get defaultLightScale() {
+        return getDefaultLightScale()
+    },
+    set defaultLightScale(value: number) {
+        setDefaultLightScale(value)
     },
 
     get defaultOrbitControls() {

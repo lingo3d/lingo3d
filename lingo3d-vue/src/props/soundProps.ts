@@ -1,5 +1,4 @@
 import { soundSchema, soundDefaults } from "lingo3d/lib/interface/ISound"
+import makeProps from "./utils/makeProps"
 
-export default Object.fromEntries(
-  Object.entries(soundSchema).map(([key, value]) => [key, { type: value, default: (soundDefaults as any)[key] }])
-) as any as typeof soundSchema
+export default makeProps(soundSchema, soundDefaults)

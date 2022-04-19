@@ -1,5 +1,4 @@
 import { ambientLightSchema, ambientLightDefaults } from "lingo3d/lib/interface/IAmbientLight"
+import makeProps from "./utils/makeProps"
 
-export default Object.fromEntries(
-  Object.entries(ambientLightSchema).map(([key, value]) => [key, { type: value, default: (ambientLightDefaults as any)[key] }])
-) as any as typeof ambientLightSchema
+export default makeProps(ambientLightSchema, ambientLightDefaults)

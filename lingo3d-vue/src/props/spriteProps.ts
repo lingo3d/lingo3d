@@ -1,5 +1,4 @@
 import { spriteSchema, spriteDefaults } from "lingo3d/lib/interface/ISprite"
+import makeProps from "./utils/makeProps"
 
-export default Object.fromEntries(
-  Object.entries(spriteSchema).map(([key, value]) => [key, { type: value, default: (spriteDefaults as any)[key] }])
-) as any as typeof spriteSchema
+export default makeProps(spriteSchema, spriteDefaults)

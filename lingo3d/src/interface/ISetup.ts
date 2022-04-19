@@ -11,6 +11,7 @@ export default interface ISetup {
     lightHelper?: boolean
     defaultFog?: boolean
     defaultLight?: DefaultLight
+    defaultLightScale?: number
     defaultOrbitControls?: boolean
     gravity?: number
     mapPhysics?: number
@@ -48,6 +49,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     lightHelper: Boolean,
     defaultFog: Boolean,
     defaultLight: [String, Boolean],
+    defaultLightScale: Number,
     defaultOrbitControls: Boolean,
     gravity: Number,
     mapPhysics: Number,

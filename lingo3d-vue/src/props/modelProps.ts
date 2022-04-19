@@ -1,4 +1,4 @@
 import { modelSchema, modelDefaults } from "lingo3d/lib/interface/IModel"
+import makeProps from "./utils/makeProps"
 
-export default Object.fromEntries(Object.entries(modelSchema)
-  .map(([key, value]) => [key, { type: value, default: (modelDefaults as any)[key] }])) as any as typeof modelSchema
+export default makeProps(modelSchema, modelDefaults)
