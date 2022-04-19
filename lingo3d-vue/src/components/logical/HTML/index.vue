@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
 import { nanoid } from "nanoid"
-import { inject, onMounted, onUnmounted, Ref, useSlots, VNode, watch } from "vue"
+import { inject, onUnmounted, Ref, useSlots, VNode, watch } from "vue"
 import { elements } from "./render"
 
 const parentRef = inject<Ref<ObjectManager> | undefined>("parent", undefined)

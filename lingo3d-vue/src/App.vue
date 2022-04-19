@@ -5,10 +5,11 @@ import ThirdPersonCamera from "./components/display/cameras/ThirdPersonCamera.vu
 import Keyboard from "./components/api/Keyboard.vue"
 import { ref } from "vue"
 import Find from "./components/logical/Find.vue"
+import HTML from "./components/logical/HTML/index.vue"
 
 const model = ref<types.Model>()
-
 const pose = ref("idle")
+const mouseOver = ref(false)
 
 const handleKeyPress = (key: string) => {
   if (key === "w") {
@@ -25,9 +26,18 @@ const handleKeyUp = () => {
 <template>
   <World default-light="env.hdr" skybox="env.hdr">
     <Model src="gallery.glb" :scale="20" physics="map">
-      <Find name="a6_CRN.a6_0" outline />
+      <Find
+       name="a6_CRN.a6_0"
+       @mouse-over="mouseOver = true"
+       @mouse-out="mouseOver = false"
+       :outline="mouseOver"
+      >
+        <HTML v-if="mouseOver">
+          <div style="color: white">Hello World</div>
+        </HTML>
+      </Find>
     </Model>
-    <ThirdPersonCamera active mouse-control>
+    <ThirdPersonCamera active mouse-control :inner-y="100">
       <Model
         src="bot.fbx"
         physics="character"
