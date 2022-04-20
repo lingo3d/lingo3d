@@ -7,7 +7,7 @@
   "module": "./dist/lingo3d-vue.es.js",
   "types": "./dist/index.d.ts",
   "private": false,
-  "version": "1.0.14",
+  "version": "1.0.15",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
