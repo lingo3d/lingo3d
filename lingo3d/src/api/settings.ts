@@ -113,6 +113,6 @@ export default {
     },
 
     wasmPath: "https://unpkg.com/lingo3d-wasm@1.0.0/assets/",
-
-    autoMout: false
+  
+    autoMount: false
 }
