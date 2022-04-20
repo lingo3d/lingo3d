@@ -36,8 +36,6 @@ setTimeout(() => {
   show.value = true
 }, 2000)
 
-settings.autoMout = false
-
 </script>
 
 <template>

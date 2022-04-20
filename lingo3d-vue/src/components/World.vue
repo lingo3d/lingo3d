@@ -12,7 +12,6 @@ outline.style.border = "none"
 outline.style.pointerEvents = "none"
 outline.style.userSelect = "none"
 outline.style.overflow = "hidden"
-settings.autoMout = false
 
 for (const child of [...scene.children])
     child.userData.manager && scene.remove(child)
