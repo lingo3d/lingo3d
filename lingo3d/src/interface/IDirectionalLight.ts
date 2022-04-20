@@ -3,7 +3,7 @@ import { ExtractProps } from "./utils/extractProps"
 
 export default interface IDirectionalLight extends ILight {}
 
-export const directinalLightSchema: Required<ExtractProps<IDirectionalLight>> = {
+export const directionalLightSchema: Required<ExtractProps<IDirectionalLight>> = {
     ...lightSchema
 }
 

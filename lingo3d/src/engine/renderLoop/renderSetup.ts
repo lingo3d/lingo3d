@@ -25,7 +25,7 @@ const resizeObserver = new ResizeObserver(() => containerBounds[0] = container.g
 resizeObserver.observe(container)
 
 queueMicrotask(() => {
-    if (!settings.autoMout || container.parentElement) return
+    if (!settings.autoMount || container.parentElement) return
     document.body.appendChild(container)
     settings.fillWindow = true
 })

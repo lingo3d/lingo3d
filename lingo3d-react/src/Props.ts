@@ -9,7 +9,6 @@ import IOrbitCamera from "lingo3d/lib/interface/IOrbitCamera"
 import IPrimitive from "lingo3d/lib/interface/IPrimitive"
 import ISkybox from "lingo3d/lib/interface/ISkybox"
 import ICharacterCamera from "lingo3d/lib/interface/ICharacterCamera"
-import ILight from "lingo3d/lib/interface/ILight"
 import IAreaLight from "lingo3d/lib/interface/IAreaLight"
 import IPointLight from "lingo3d/lib/interface/IPointLight"
 import ISkyLight from "lingo3d/lib/interface/ISkyLight"
@@ -19,6 +18,8 @@ import IScene from "lingo3d/lib/interface/IScene"
 import ISprite from "lingo3d/lib/interface/ISprite"
 import ISvgMesh from "lingo3d/lib/interface/ISvgMesh"
 import ISound from "lingo3d/lib/interface/ISound"
+import IAmbientLight from "lingo3d/lib/interface/IAmbientLight"
+import IDirectionalLight from "lingo3d/lib/interface/IDirectionalLight"
 
 type Children = React.ReactNode
 
@@ -36,9 +37,9 @@ export type OrbitCameraProps = Partial<IOrbitCamera> & { children?: Children }
 export type ThirdPersonCameraProps = Partial<ICharacterCamera> & { children?: Children }
 export type FirstPersonCameraProps = Partial<ICharacterCamera> & { children?: Children }
 
-export type AmbientLightProps = Partial<ILight> & { children?: Children }
+export type AmbientLightProps = Partial<IAmbientLight> & { children?: Children }
 export type AreaLightProps = Partial<IAreaLight> & { children?: Children }
-export type DirectionalLightProps = Partial<ILight> & { children?: Children }
+export type DirectionalLightProps = Partial<IDirectionalLight> & { children?: Children }
 export type PointLightProps = Partial<IPointLight> & { children?: Children }
 export type SkyLightProps = Partial<ISkyLight> & { children?: Children }
 export type SpotLightProps = Partial<ISpotLight> & { children?: Children }
