@@ -12,7 +12,7 @@
     }
   },
   "private": false,
-  "version": "1.0.5",
+  "version": "1.0.6",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -23,7 +23,7 @@
     "@lincode/reactivity": "*",
     "@lincode/utils": "*",
     "@tweakpane/core": "1",
-    "lingo3d": "1.10.89",
+    "lingo3d": "1.10.92",
     "nanoid": "3",
     "popmotion": "11",
     "tweakpane": "3"

@@ -1,5 +1,4 @@
 import { mouseSchema, mouseDefaults } from "lingo3d/lib/interface/IMouse"
+import makeProps from "./utils/makeProps"
 
-export default Object.fromEntries(
-  Object.entries(mouseSchema).map(([key, value]) => [key, { type: value, default: (mouseDefaults as any)[key] }])
-) as any as typeof mouseSchema
+export default makeProps(mouseSchema, mouseDefaults)

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
+import { pull } from "lodash";
 import { nanoid } from "nanoid"
-import { inject, onMounted, onUnmounted, Ref, useSlots, VNode, watch } from "vue"
-import { elements } from "./render"
+import { inject, onUnmounted, Ref, useSlots, VNode, watch } from "vue"
+import { elements, renderRef } from "./render"
 
 const parentRef = inject<Ref<ObjectManager> | undefined>("parent", undefined)
 const slots = useSlots()
@@ -16,12 +17,14 @@ parentRef && watch(parentRef, () => {
     if (!children || !parent || pair) return
 
     pair = [children, parent, id]
-    elements.value = [...elements.value, pair]
+    elements.push(pair)
+    renderRef.value = {}
 
 }, { immediate: true })
 
 onUnmounted(() => {
-    elements.value = elements.value.filter(([, , _id]) => id !== _id)
+    pull(elements, pair)
+    renderRef.value = {}
 })
 </script>
 

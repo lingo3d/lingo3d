@@ -5,7 +5,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import useValue from "./useValue"
 import { usePrevious } from "@lincode/hooks"
 
-type Options = SpringOptions & {
+interface Options extends SpringOptions {
     from?: number
     to: number
     step?: (value: number) => void
@@ -27,8 +27,8 @@ export default (o: Options | number): any => {
             if (handle.done) return
 
             const anim = spring({ from: rOld === r ? reactive.get() : from, to, ...options })
+            
             const time = Date.now()
-
             handle.watch(loop(() => {
                 const { value, done } = anim.next(Date.now() - time)
                 reactive.set(value)

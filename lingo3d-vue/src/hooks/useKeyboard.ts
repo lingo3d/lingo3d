@@ -24,4 +24,6 @@ export default (cb?: (key: string) => void) => {
     onUnmounted(() => {
         keyboard.dispose()
     })
+
+    return keysRef
 }

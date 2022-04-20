@@ -1,5 +1,4 @@
 import { orbitCameraSchema, orbitCameraDefaults } from "lingo3d/lib/interface/IOrbitCamera"
+import makeProps from "./utils/makeProps"
 
-export default Object.fromEntries(
-  Object.entries(orbitCameraSchema).map(([key, value]) => [key, { type: value, default: (orbitCameraDefaults as any)[key] }])
-) as any as typeof orbitCameraSchema
+export default makeProps(orbitCameraSchema, orbitCameraDefaults)

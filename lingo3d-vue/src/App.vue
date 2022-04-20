@@ -1,13 +1,24 @@
 <script setup lang="ts">
-import { World, types } from "."
+import { World, types, useSpring } from "."
 import Model from "./components/display/Model.vue"
 import ThirdPersonCamera from "./components/display/cameras/ThirdPersonCamera.vue"
 import Keyboard from "./components/api/Keyboard.vue"
-import { ref } from "vue"
+import { computed, ref } from "vue"
+import Find from "./components/logical/Find.vue"
+import HTML from "./components/logical/HTML/index.vue"
+import { mouse, settings } from "lingo3d"
 
 const model = ref<types.Model>()
-
 const pose = ref("idle")
+const mouseOver = ref(false)
+
+const camX = computed(() => mouseOver.value ? 25 : 0)
+const camY = computed(() => mouseOver.value ? 50 : 50)
+const camZ = computed(() => mouseOver.value ? 50 : 200)
+
+const xSpring = useSpring({ to: camX, bounce: 0 })
+const ySpring = useSpring({ to: camY, bounce: 0 })
+const zSpring = useSpring({ to: camZ, bounce: 0 })
 
 const handleKeyPress = (key: string) => {
   if (key === "w") {
@@ -19,12 +30,31 @@ const handleKeyUp = () => {
   pose.value = "idle"
 }
 
+const show = ref(false)
+
+setTimeout(() => {
+  show.value = true
+}, 2000)
+
+settings.autoMout = false
+
 </script>
 
 <template>
-  <World default-light="env.hdr" skybox="env.hdr">
-    <Model src="gallery.glb" :scale="20" physics="map" />
-    <ThirdPersonCamera active mouse-control>
+  <World default-light="env.hdr" skybox="env.hdr" v-if="show">
+    <Model src="gallery.glb" :scale="20" physics="map">
+      <Find
+       name="a6_CRN.a6_0"
+       @mouse-over="mouseOver = true"
+       @mouse-out="mouseOver = false"
+       :outline="mouseOver"
+      >
+        <HTML v-if="mouseOver">
+          <div style="color: white">Hello World</div>
+        </HTML>
+      </Find>
+    </Model>
+    <ThirdPersonCamera active mouse-control :inner-x="xSpring" :inner-y="ySpring" :inner-z="zSpring">
       <Model
         src="bot.fbx"
         physics="character"

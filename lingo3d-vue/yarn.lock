@@ -67,9 +67,9 @@
     "@lincode/utils" "*"
 
 "@lincode/reactivity@*":
-  version "1.0.57"
-  resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.57.tgz#bd64544432429aa1735941571a8e12cb20802acd"
-  integrity sha512-POBdxFp9FYtt0j5n9e3xxdxD/CJX6u2TeaG4lr+UhSAooEc1djoyynVL642RwJ0q249tsULw1NdOKPPJac7LNw==
+  version "1.0.59"
+  resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.59.tgz#36afa01d95e10c4597417063c7f4d3fc858b6564"
+  integrity sha512-maMpRBTaMiSG+lXXsXH7AAjDM2EnFx25iHc8gZEuWvwjsHaGtufoWS3vp/A6W2LukP71CUvStjz9tm2Zs7vODA==
   dependencies:
     "@lincode/events" "*"
     "@lincode/promiselikes" "*"
@@ -657,10 +657,10 @@ jstransformer@1.0.0:
     is-promise "^2.0.0"
     promise "^7.0.1"
 
-lingo3d@1.10.89:
-  version "1.10.89"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.89.tgz#1afa8520fbceb7beb17ca9dcf7d35f4210036596"
-  integrity sha512-4pHOdSuSAix4lb1ZfOAXChW1Mr1cGA6usgPQPdswGKP0HWfM4fyZ3bOc+82DvKu6MSbkLj3F7hyv4QMnpt2AVw==
+lingo3d@1.10.92:
+  version "1.10.92"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.92.tgz#ddf8227d4d0214d6a9c55a627a3b901303117b1f"
+  integrity sha512-qqHgNBFOafRkNGHH0n1Jz1niRWwqMViF+RAbmo7HL5yeffdJjIqk2MBS0j/PzEtRghVGa5QQGH8xyBH5HEErbQ==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"

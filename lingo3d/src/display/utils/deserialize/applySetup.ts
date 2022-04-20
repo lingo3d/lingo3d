@@ -13,6 +13,7 @@ const settingsKeys = [
     "lightHelper",
     "defaultFog",
     "defaultLight",
+    "defaultLightScale",
     "defaultOrbitControls",
     "gravity",
     "mapPhysics",
