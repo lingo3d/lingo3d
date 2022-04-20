@@ -6,6 +6,7 @@ import Keyboard from "./components/api/Keyboard.vue"
 import { computed, ref } from "vue"
 import Find from "./components/logical/Find.vue"
 import HTML from "./components/logical/HTML/index.vue"
+import { mouse, settings } from "lingo3d"
 
 const model = ref<types.Model>()
 const pose = ref("idle")
@@ -29,10 +30,18 @@ const handleKeyUp = () => {
   pose.value = "idle"
 }
 
+const show = ref(false)
+
+setTimeout(() => {
+  show.value = true
+}, 2000)
+
+settings.autoMout = false
+
 </script>
 
 <template>
-  <World default-light="env.hdr" skybox="env.hdr">
+  <World default-light="env.hdr" skybox="env.hdr" v-if="show">
     <Model src="gallery.glb" :scale="20" physics="map">
       <Find
        name="a6_CRN.a6_0"

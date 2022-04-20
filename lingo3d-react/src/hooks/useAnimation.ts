@@ -3,7 +3,8 @@ import { animate, AnimationOptions } from "popmotion"
 import { useLayoutEffect, useState } from "react"
 import useValue from "./useValue"
 
-type Options = AnimationOptions<number> & {
+//@ts-ignore
+interface Options extends AnimationOptions<number> {
     from: number
     to: number | Array<number>
     duration?: number
