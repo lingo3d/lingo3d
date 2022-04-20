@@ -4,8 +4,7 @@ import { spring, SpringOptions } from "popmotion"
 import { Ref, ref, watchEffect } from "vue"
 import useValue from "./useValue"
 
-//@ts-ignore
-interface Options extends SpringOptions {
+type Options = SpringOptions & {
     from?: number
     to: number | Ref<number>
     step?: (value: number) => void
@@ -14,6 +13,7 @@ interface Options extends SpringOptions {
 
 export default (o: Options | number | Ref<number>) => {
     const { to, from: fromRaw, step, delay, ...options } = typeof o === "number" || "value" in o ? ({ to: o } as Options) : o
+    //@ts-ignore
     const from = fromRaw ?? (typeof to === "number" ? to : to.value)
     const reactive = useValue({ from, step })
     const r = ref({})
@@ -22,6 +22,7 @@ export default (o: Options | number | Ref<number>) => {
 
     watchEffect(onCleanUp => {
         const handle = new Cancellable()
+        //@ts-ignore
         const toVal = typeof to === "number" ? to : to.value
         const notRestarted = rOld === r.value
         rOld = r.value

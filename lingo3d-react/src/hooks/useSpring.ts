@@ -5,7 +5,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import useValue from "./useValue"
 import { usePrevious } from "@lincode/hooks"
 
-interface Options extends SpringOptions {
+type Options = SpringOptions & {
     from?: number
     to: number
     step?: (value: number) => void

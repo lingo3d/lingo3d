@@ -45,7 +45,7 @@ export { default as Find } from "./components/logical/Find.vue"
 
 // export { default as useSpawn } from "./hooks/useSpawn"
 export { default as useSpring } from "./hooks/useSpring"
-// export { default as useAnimation } from "./hooks/useAnimation"
+export { default as useAnimation } from "./hooks/useAnimation"
 export { default as useValue } from "./hooks/useValue"
 export { default as useLoop } from "./hooks/useLoop"
 export { default as useMouse } from "./hooks/useMouse"
