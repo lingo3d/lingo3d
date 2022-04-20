@@ -3,16 +3,11 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/index.js",
+  "main": "./dist/lingo3d-vue.cjs.js",
   "module": "./dist/lingo3d-vue.es.js",
-  "exports": {
-    ".": {
-      "import": "./dist/lingo3d-vue.es.js",
-      "require": "./dist/index.js"
-    }
-  },
+  "types": "dist/index.d.ts",
   "private": false,
-  "version": "1.0.9",
+  "version": "1.0.11",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -38,6 +33,5 @@
     "vite": "^2.9.0",
     "vue": "^3.2.25",
     "vue-tsc": "^0.29.8"
-  },
-  "sideEffects": false
+  }
 }
