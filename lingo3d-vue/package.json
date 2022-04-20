@@ -3,11 +3,11 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "main": "./dist/lingo3d-vue.es.js",
+  "module": "./dist/lingo3d-vue.es.js",
   "types": "./dist/index.d.ts",
   "private": false,
-  "version": "1.0.12",
+  "version": "1.0.13",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
