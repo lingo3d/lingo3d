@@ -1,4 +1,4 @@
-import { Color, MeshBasicMaterial, MeshStandardMaterial, SpriteMaterial, Texture, Vector2, VideoTexture } from "three"
+import { Color, MeshBasicMaterial, MeshStandardMaterial, RepeatWrapping, SpriteMaterial, Texture, Vector2, VideoTexture } from "three"
 import loadTexture from "../../utils/loaders/loadTexture"
 import ITexturedBasic from "../../../interface/ITexturedBasic"
 import { objectURLMapperPtr } from "../../utils/loaders/setObjectURLMapper"
@@ -76,6 +76,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
                 video.playsInline = true
                 video.play()
                 const videoTexture = new VideoTexture(video)
+                videoTexture.wrapS = videoTexture.wrapT = RepeatWrapping
                 this.material.map = videoTexture
 
                 //@ts-ignore

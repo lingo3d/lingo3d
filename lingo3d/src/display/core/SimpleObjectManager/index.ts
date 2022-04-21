@@ -593,7 +593,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this.physicsRotate()
     }
 
-    public placeAt(object: SimpleObjectManager | Point3d) {
+    public placeAt(object: SimpleObjectManager | { x: number, y: number, z: number }) {
         if ("object3d" in object) {
             this.outerObject3d.position.copy(object.object3d.getWorldPosition(vector3))
             this.outerObject3d.quaternion.copy(object.outerObject3d.getWorldQuaternion(quaternion))

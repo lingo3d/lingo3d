@@ -75,7 +75,7 @@ map.physics = "map-debug"
 map.onLoad = () => {
     const found = map.find("a6_CRN.a6_0")
     if (found) {
-        found.texture = f1Src
+        found.texture = waveSrc
     }
 }
 

@@ -657,10 +657,10 @@ jstransformer@1.0.0:
     is-promise "^2.0.0"
     promise "^7.0.1"
 
-lingo3d@1.10.94:
-  version "1.10.94"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.94.tgz#1290f60c1ded6563f41844b5ace8beb405a9ce51"
-  integrity sha512-i83IYPHReHHcVib3pcAoNBGyOpQqmrpQtjI+ZL9eYQgHEetMH9/jkMvG+xDKh9+7O2xrBsOW/+r9mus41udbaA==
+lingo3d@1.10.97:
+  version "1.10.97"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.97.tgz#c79032f399be99614e44ab62e9b29535b4d40b9a"
+  integrity sha512-krRtoq01xRRjN0/NwZdkFyyIo4CjwtJM8t7OSgo7v3WGByupL+BpSscZny0glG/Ldq+Q4mrmqZZnLWjE14WLag==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
@@ -1124,11 +1124,6 @@ vue-tsc@^0.29.8:
   dependencies:
     "@volar/shared" "0.29.8"
     vscode-vue-languageservice "0.29.8"
-
-vue3-bug-example@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/vue3-bug-example/-/vue3-bug-example-1.0.0.tgz#483f251f05b35e98a4bf4a12270b2502af4a614a"
-  integrity sha512-YxOZrNVBYvzZbMJLNyblGeLxvuTYIE0p57RguTC9+g+j2IeB/C1DyJ7PVKmbHX3y+kTWgiCf/gz/2vSbB9QxzA==
 
 vue@^3.2.25:
   version "3.2.33"
