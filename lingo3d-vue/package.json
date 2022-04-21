@@ -7,7 +7,7 @@
   "module": "./dist/lingo3d-vue.es.js",
   "types": "./dist/index.d.ts",
   "private": false,
-  "version": "1.0.18",
+  "version": "1.0.19",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -18,7 +18,7 @@
     "@lincode/reactivity": "*",
     "@lincode/utils": "*",
     "@tweakpane/core": "1",
-    "lingo3d": "1.10.97",
+    "lingo3d": "1.10.100",
     "nanoid": "3",
     "popmotion": "11",
     "tweakpane": "3"
