@@ -2,7 +2,7 @@ import keyboard from "../api/keyboard"
 import settings from "../api/settings"
 import Model from "../display/Model"
 //@ts-ignore
-import fairySrc from "../../assets-local/fairy.glb"
+import fairySrc from "../../assets-local/gallery.glb"
 //@ts-ignore
 import personSrc from "../../assets-local/person.glb"
 //@ts-ignore
@@ -22,7 +22,9 @@ import RightSrc from "../../assets-local/skybox/Right.png"
 //@ts-ignore
 import UpSrc from "../../assets-local/skybox/Up.png"
 //@ts-ignore
-import f1Src from "../../assets-local/f1.png"
+import f1Src from "../../assets-local/f2.png"
+//@ts-ignore
+import waveSrc from "../../assets-local/wave1.mp4"
 
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import Sky from "../display/Sky"
@@ -70,6 +72,12 @@ const map = new Model()
 map.src = fairySrc
 map.scale = 20
 map.physics = "map-debug"
+map.onLoad = () => {
+    const found = map.find("a6_CRN.a6_0")
+    if (found) {
+        found.texture = f1Src
+    }
+}
 
 // const sky = new Sky()
 

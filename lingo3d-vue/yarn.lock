@@ -1125,6 +1125,11 @@ vue-tsc@^0.29.8:
     "@volar/shared" "0.29.8"
     vscode-vue-languageservice "0.29.8"
 
+vue3-bug-example@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vue3-bug-example/-/vue3-bug-example-1.0.0.tgz#483f251f05b35e98a4bf4a12270b2502af4a614a"
+  integrity sha512-YxOZrNVBYvzZbMJLNyblGeLxvuTYIE0p57RguTC9+g+j2IeB/C1DyJ7PVKmbHX3y+kTWgiCf/gz/2vSbB9QxzA==
+
 vue@^3.2.25:
   version "3.2.33"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.33.tgz#7867eb16a3293a28c4d190a837bc447878bd64c2"

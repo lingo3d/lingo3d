@@ -20,10 +20,12 @@ import ISvgMesh from "lingo3d/lib/interface/ISvgMesh"
 import ISound from "lingo3d/lib/interface/ISound"
 import IAmbientLight from "lingo3d/lib/interface/IAmbientLight"
 import IDirectionalLight from "lingo3d/lib/interface/IDirectionalLight"
+import IFound from "lingo3d/lib/interface/IFound"
 
 type Children = React.ReactNode
 
 export type ManagerProps = Partial<IObjectManager> & { children?: Children }
+export type FoundProps = Partial<IFound> & { children?: Children }
 export type PrimitiveProps = Partial<IPrimitive> & { children?: Children }
 export type LoadedProps = Partial<ILoaded> & { children?: Children }
 export type ModelProps = Partial<IModel> & { children?: Children }

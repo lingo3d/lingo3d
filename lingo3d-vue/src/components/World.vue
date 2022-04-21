@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { PropType, ref, watchEffect } from "vue"
+import { PropType, ref, watchEffect, computed } from "vue"
 import { applySetup, container, outline, settings } from "lingo3d"
 import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
 import scene from "lingo3d/lib/engine/scene"
 import setupProps from "../props/setupProps"
-import { computed } from "@vue/reactivity"
 
 preventTreeShake(index)
 outline.style.border = "none"

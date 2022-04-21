@@ -67,20 +67,6 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         return this
     }
 
-    public find<T extends SimpleObjectManager>(name: string): T | undefined {
-        const child = this.outerObject3d.getObjectByName(PropertyBinding.sanitizeNodeName(name))
-        return child && (child.userData.manager ??= new SimpleObjectManager(child))
-    }
-
-    public findAll<T extends SimpleObjectManager>(name: string): Array<T> {
-        const result: Array<T> = []
-
-        this.outerObject3d.traverse(child => {
-            child.name === name && result.push(child.userData.manager ??= new SimpleObjectManager(child))
-        })
-        return result
-    }
-
     protected addToRaycastSet(set: Set<Object3D>, handle: Cancellable) {
         set.add(this.object3d)
         handle.then(() => set.delete(this.object3d))

@@ -1,9 +1,10 @@
-import { Object3D, Group } from "three"
+import { Object3D, Group, PropertyBinding } from "three"
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import scene from "../../engine/scene"
 import SimpleObjectManager from "./SimpleObjectManager"
 import { scaleDown, scaleUp } from "../../engine/constants"
 import IObjectManager from "../../interface/IObjectManager"
+import FoundManager from "./FoundManager"
 
 export default abstract class ObjectManager<T extends Object3D = Object3D> extends SimpleObjectManager<T> implements IObjectManager {
     public constructor(object3d: T) {
@@ -62,5 +63,19 @@ export default abstract class ObjectManager<T extends Object3D = Object3D> exten
     }
     public set innerZ(val: number) {
         this.object3d.position.z = val * scaleDown
+    }
+
+    public find(name: string): FoundManager | undefined {
+        const child = this.outerObject3d.getObjectByName(PropertyBinding.sanitizeNodeName(name))
+        return child && (child.userData.manager ??= new FoundManager(child))
+    }
+
+    public findAll(name: string): Array<FoundManager> {
+        const result: Array<FoundManager> = []
+
+        this.outerObject3d.traverse(child => {
+            child.name === name && result.push(child.userData.manager ??= new FoundManager(child))
+        })
+        return result
     }
 }
