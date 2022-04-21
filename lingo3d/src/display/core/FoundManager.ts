@@ -6,7 +6,6 @@ import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
 import ObjectManager from "./ObjectManager"
 import scene from "../../engine/scene"
-import getCenter from "../utils/getCenter"
 
 class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
     protected material: MeshStandardMaterial
@@ -28,8 +27,11 @@ class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
     }
 
     public override append(target: ObjectManager) {
-        scene.add(target.outerObject3d)
-        target.placeAt(getCenter(this.object3d))
+        setTimeout(() => {
+            scene.add(target.outerObject3d)
+            target.placeAt(this)
+            this.then(() => target.dispose())
+        })
     }
 }
 interface FoundManager extends SimpleObjectManager<Mesh>, TexturedBasicMixin, TexturedStandardMixin {}

@@ -1,8 +1,8 @@
-import { Color, MeshBasicMaterial, MeshStandardMaterial, RepeatWrapping, SpriteMaterial, Texture, Vector2, VideoTexture } from "three"
+import { Color, MeshBasicMaterial, MeshStandardMaterial, Object3D, RepeatWrapping, SpriteMaterial, Texture, Vector2, VideoTexture } from "three"
 import loadTexture from "../../utils/loaders/loadTexture"
 import ITexturedBasic from "../../../interface/ITexturedBasic"
 import { objectURLMapperPtr } from "../../utils/loaders/setObjectURLMapper"
-import { Cancellable } from "@lincode/promiselikes"
+import { Reactive } from "@lincode/reactivity"
 
 const mapNames = <const>["map", "alphaMap"]
 
@@ -43,33 +43,31 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
         this.object3d.visible = !!val
     }
 
-    private materialHandle?: Cancellable
+    private videoTextureState?: Reactive<string | undefined>
+    private textureState?: Reactive<string | Array<string> | undefined>
 
-    private _texture?: string | Array<string>
-    public get texture() {
-        return this._texture
+    private updateMaterial() {
+        this.material.needsUpdate = true
+        this.applyTextureRepeat(this.material.map)
     }
-    public set texture(url: string | Array<string> | undefined) {
-        this._texture = url
 
-        this.materialHandle?.cancel()
+    private initTexture() {
+        if (this.textureState) return
+        
+        const videoTextureState = this.videoTextureState ??= new Reactive<string | undefined>(undefined)
+        const textureState = this.textureState ??= new Reactive<string | Array<string> | undefined>(undefined)
 
-        if (url) {
-            if (Array.isArray(url)) {
-                const materials = url.map(src => new MeshBasicMaterial({ map: loadTexture(src) }))
-                //@ts-ignore
-                this.object3d.material = materials
-                //@ts-ignore
-                this.materialHandle = this.cancellable(() => {
-                    //@ts-ignore
-                    this.object3d.material = this.material
-                    for (const material of materials)
-                        material.dispose()
-                })
-            }
-            else if (objectURLMapperPtr[0](url).endsWith(".mp4")) {
+        //@ts-ignore
+        this.createEffect(() => {
+            const url = textureState.get()
+            let videoURL = videoTextureState.get()
+
+            if (!videoURL && typeof url === "string" && objectURLMapperPtr[0](url).endsWith(".mp4"))
+                videoURL = url
+
+            if (videoURL) {
                 const video = document.createElement("video")
-                video.src = url
+                video.src = videoURL
                 video.loop = true
                 video.autoplay = true
                 video.muted = true
@@ -77,20 +75,64 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
                 video.play()
                 const videoTexture = new VideoTexture(video)
                 videoTexture.wrapS = videoTexture.wrapT = RepeatWrapping
-                this.material.map = videoTexture
 
-                //@ts-ignore
-                this.materialHandle = this.cancellable(() => {
+                const { map } = this.material
+                this.material.map = videoTexture
+                this.updateMaterial()
+
+                return () => {
                     videoTexture.dispose()
                     video.pause()
-                })
+                    this.material.map = map
+                    this.updateMaterial()
+                }
             }
-            else this.material.map = loadTexture(url)
-        }
-        else this.material.map = null
 
-        this.material.needsUpdate = true
-        this.applyTextureRepeat(this.material.map)
+            if (!url) return
+
+            if (Array.isArray(url)) {
+                const materials = url.map(src => new MeshBasicMaterial({ map: loadTexture(src) }))
+                //@ts-ignore
+                const { material } = this.object3d
+                //@ts-ignore
+                this.object3d.material = materials
+                this.updateMaterial()
+
+                return () => {
+                    for (const material of materials)
+                        material.dispose()
+
+                    //@ts-ignore
+                    this.object3d.material = material
+                    this.updateMaterial()
+                }
+            }
+
+            const { map } = this.material
+            this.material.map = loadTexture(url)
+            this.updateMaterial()
+
+            return () => {
+                this.material.map = map
+                this.updateMaterial()
+            }
+        }, [videoTextureState.get, textureState.get])
+    }
+
+    public get videoTexture() {
+        return this.videoTextureState?.get()
+    }
+    public set videoTexture(url: string | undefined) {
+        this.initTexture()
+        this.videoTextureState!.set(url)
+    }
+
+    public get texture() {
+        return this.textureState?.get()
+    }
+    public set texture(url: string | Array<string> | undefined) {
+        this.initTexture()
+        this.textureState!.set(url)
     }
 
     private _alphaMap?: string

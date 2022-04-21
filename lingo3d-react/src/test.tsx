@@ -116,7 +116,7 @@ const App2 = () => {
 
 function App3() {
   const cubeRef = useRef<types.Cube>(null)
-  const foundRef = useRef<types.Object>()
+  const foundRef = useRef<any>()
 
   return (
     <World defaultOrbitControls defaultLight={hdrSrc} skybox={hdrSrc} ambientOcclusion bloom bloomStrength={0.2} bloomRadius={1} bloomThreshold={0.5}>

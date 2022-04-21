@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import FoundManager from "lingo3d/lib/display/core/FoundManager"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
-import { FoundDefaults } from "lingo3d/lib/interface/IFound"
+import { foundDefaults } from "lingo3d/lib/interface/IFound"
 import { inject, ref, watchEffect, computed, Ref, provide } from "vue"
 import useDiffProps from "../../hooks/useDiffProps"
 import { applyChanges } from "../../hooks/useManager"
@@ -29,8 +29,8 @@ watchEffect(onCleanUp => {
 })
 
 const paused = computed(() => !managerRef.value)
-const diff = useDiffProps(props, FoundDefaults, paused)
-applyChanges(managerRef, undefined, diff, FoundDefaults)
+const diff = useDiffProps(props, foundDefaults, paused)
+applyChanges(managerRef, undefined, diff, foundDefaults)
 
 defineExpose(managerRef)
 

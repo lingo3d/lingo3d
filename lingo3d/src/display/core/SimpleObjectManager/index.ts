@@ -177,6 +177,10 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         return vec2Point(this.object3d.getWorldPosition(vector3_))
     }
 
+    public getCenter() {
+        return vec2Point(getCenter(this.object3d))
+    }
+
     protected getRay() {
         return ray.set(this.object3d.getWorldPosition(vector3_), this.object3d.getWorldDirection(vector3))
     }
@@ -595,7 +599,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
 
     public placeAt(object: SimpleObjectManager | { x: number, y: number, z: number }) {
         if ("object3d" in object) {
-            this.outerObject3d.position.copy(object.object3d.getWorldPosition(vector3))
+            this.outerObject3d.position.copy(getCenter(object.object3d))
             this.outerObject3d.quaternion.copy(object.outerObject3d.getWorldQuaternion(quaternion))
         }
         else this.outerObject3d.position.copy(point2Vec(object))
