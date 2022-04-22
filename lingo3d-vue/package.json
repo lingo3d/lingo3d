@@ -13,7 +13,7 @@
   },
   "types": "./dist/index.d.ts",
   "private": false,
-  "version": "1.0.21",
+  "version": "1.0.22",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
@@ -24,7 +24,7 @@
     "@lincode/reactivity": "*",
     "@lincode/utils": "*",
     "@tweakpane/core": "1",
-    "lingo3d": "1.10.102",
+    "lingo3d": "1.10.103",
     "nanoid": "3",
     "popmotion": "11",
     "tweakpane": "3"
