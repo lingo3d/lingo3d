@@ -4,8 +4,16 @@ import { spring, SpringOptions } from "popmotion"
 import { Ref, ref, watchEffect } from "vue"
 import useValue from "./useValue"
 
-//@ts-ignore
-interface Options extends SpringOptions {
+type Options = {
+    velocity?: number;
+    stiffness?: number;
+    damping?: number;
+    mass?: number;
+    duration?: number;
+    bounce?: number;
+    restSpeed?: number;
+    restDelta?: number;
+
     from?: number
     to: number | Ref<number>
     step?: (value: number) => void

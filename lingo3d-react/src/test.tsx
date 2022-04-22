@@ -123,8 +123,9 @@ function App3() {
       <Model src={gallerySrc} scale={20} physics="map">
         <Find ref={foundRef} name="a5_CRN.a5_0">
           <HTML>
-            <div>hello world</div>
+            <div style={{ color: "white" }}>hello world</div>
           </HTML>
+          <Cube />
         </Find>
       </Model>
       <FirstPersonCamera active mouseControl>
@@ -150,6 +151,6 @@ function App3() {
 
 
 const root = createRoot(document.getElementById('app'));
-root.render(<React.StrictMode><App2 /></React.StrictMode>);
+root.render(<React.StrictMode><App3 /></React.StrictMode>);
 
 // ReactDOM.render(<React.StrictMode><App /></React.StrictMode>, document.querySelector("#app"))

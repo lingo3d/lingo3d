@@ -67,6 +67,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
 
             if (videoURL) {
                 const video = document.createElement("video")
+                video.crossOrigin = "anonymous"
                 video.src = videoURL
                 video.loop = true
                 video.autoplay = true
@@ -76,14 +77,19 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
                 const videoTexture = new VideoTexture(video)
                 videoTexture.wrapS = videoTexture.wrapT = RepeatWrapping
 
-                const { map } = this.material
-                this.material.map = videoTexture
+                //@ts-ignore
+                const { material } = this.object3d
+                //@ts-ignore
+                this.object3d.material = new MeshStandardMaterial({ map: videoTexture })
                 this.updateMaterial()
 
                 return () => {
-                    videoTexture.dispose()
                     video.pause()
-                    this.material.map = map
+                    videoTexture.dispose()
+                    //@ts-ignore
+                    this.object3d.material.dispose()
+                    //@ts-ignore
+                    this.object3d.material = material
                     this.updateMaterial()
                 }
             }
@@ -108,12 +114,17 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
                 }
             }
 
-            const { map } = this.material
-            this.material.map = loadTexture(url)
+            //@ts-ignore
+            const { material } = this.object3d
+            //@ts-ignore
+            this.object3d.material = new MeshStandardMaterial({ map: loadTexture(url) })
             this.updateMaterial()
 
             return () => {
-                this.material.map = map
+                //@ts-ignore
+                this.object3d.material.dispose()
+                //@ts-ignore
+                this.object3d.material = material
                 this.updateMaterial()
             }
         }, [videoTextureState.get, textureState.get])

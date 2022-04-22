@@ -93,32 +93,10 @@
   resolved "https://registry.yarnpkg.com/@pinyinma/guid/-/guid-1.0.1.tgz#0142625510164dd3852775a3cd98d29e1c6aa39d"
   integrity sha512-U8rv4xNplWfdGTUoFp8/hpEOgmeD9nM3qODmPk4fpNy6+nkncj6TYY70ZM7icjVlN82Lh3hFnuPC8sjlHz7Sxw==
 
-"@rollup/plugin-typescript@^8.3.2":
-  version "8.3.2"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-typescript/-/plugin-typescript-8.3.2.tgz#e1b719e2ed3e752bbc092001656c48378f2d15f0"
-  integrity sha512-MtgyR5LNHZr3GyN0tM7gNO9D0CS+Y+vflS4v/PHmrX17JCkHUYKvQ5jN5o3cz1YKllM3duXUqu3yOHwMPUxhDg==
-  dependencies:
-    "@rollup/pluginutils" "^3.1.0"
-    resolve "^1.17.0"
-
-"@rollup/pluginutils@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-3.1.0.tgz#706b4524ee6dc8b103b3c995533e5ad680c02b9b"
-  integrity sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==
-  dependencies:
-    "@types/estree" "0.0.39"
-    estree-walker "^1.0.1"
-    picomatch "^2.2.2"
-
 "@tweakpane/core@1":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@tweakpane/core/-/core-1.0.9.tgz#4135618a75165b45e0f44a4af71b5cb337fedabd"
   integrity sha512-vvS0IGhJ9Wq37vgldgF9Ohh5BA0RKapffhzyTN84170nt/0SCreXB9zIMLlbL4ZxvCKAKJ0080wJHS5aVhf20Q==
-
-"@types/estree@0.0.39":
-  version "0.0.39"
-  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
-  integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
 
 "@types/lodash@4":
   version "4.14.181"
@@ -531,11 +509,6 @@ esbuild@^0.14.27:
     esbuild-windows-64 "0.14.36"
     esbuild-windows-arm64 "0.14.36"
 
-estree-walker@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-1.0.1.tgz#31bc5d612c96b704106b477e6dd5d8aa138cb700"
-  integrity sha512-1fMXF3YP4pZZVozF8j/ZLfvnR8NSIljt56UhbZ5PeeDmmGHpgpdwQt7ITlGvYaQukCvuBRMLEiKiYC+oeIg4cg==
-
 estree-walker@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-2.0.2.tgz#52f010178c2a4c117a7757cfe942adb7d2da4cac"
@@ -657,10 +630,10 @@ jstransformer@1.0.0:
     is-promise "^2.0.0"
     promise "^7.0.1"
 
-lingo3d@1.10.100:
-  version "1.10.100"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.100.tgz#17087a21f12e32da49da8826cf321ef43eb3fdeb"
-  integrity sha512-4kEYcJiwCqw3Soq1+8pqxXp0jPCNBZt73nrdi5L8zw2xxZy3TklVIMGM6LvMwqYqFBSDV04GANQNk6SaT24eCA==
+lingo3d@1.10.105:
+  version "1.10.105"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.105.tgz#b0638915d5808654ed08fb3a1fe627ff5a6f4be8"
+  integrity sha512-ZP/TpGtCCW/nyJs0tejddNHwDny8B5k/TApTXiitKgT0qsfQIug+vQi6Pw5i2XQ79iG2leSrLveswjGXXNv4Gg==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
@@ -740,11 +713,6 @@ picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
   integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
-
-picomatch@^2.2.2:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
-  integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
 popmotion@11:
   version "11.0.3"
@@ -885,7 +853,7 @@ resize-observer-polyfill@1:
   resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
   integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
-resolve@^1.15.1, resolve@^1.17.0, resolve@^1.22.0:
+resolve@^1.15.1, resolve@^1.22.0:
   version "1.22.0"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.22.0.tgz#5e0b8c67c15df57a89bdbabe603a002f21731198"
   integrity sha512-Hhtrw0nLeSrFQ7phPp4OOcVjLPIeMnRlr5mcnVuMe7M/7eBn98A3hmFRLoFo3DLZkivSYwhRUJTyPyWAk56WLw==

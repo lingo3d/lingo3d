@@ -2,7 +2,7 @@ import keyboard from "../api/keyboard"
 import settings from "../api/settings"
 import Model from "../display/Model"
 //@ts-ignore
-import fairySrc from "../../assets-local/gallery.glb"
+import fairySrc from "../../assets-local/fairy.glb"
 //@ts-ignore
 import personSrc from "../../assets-local/person.glb"
 //@ts-ignore
@@ -75,7 +75,7 @@ map.physics = "map-debug"
 map.onLoad = () => {
     const found = map.find("a6_CRN.a6_0")
     if (found) {
-        found.texture = waveSrc
+        found.texture = "https://wallpaperm.cmcm.com/scene/preview_video/cee07dd162e47ae0fdd86e534fac7550_preview.mp4"
     }
 }
 
