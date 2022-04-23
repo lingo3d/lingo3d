@@ -31,6 +31,9 @@ rectLight.rotationX = -90
 rectLight.y = 1000
 rectLight.scale = 100
 
+rendering.bloom = true
+rendering.bloomStrength = 0.1
+
 // rendering.exposure = 3
 // rendering.encoding = "sRGB"
 

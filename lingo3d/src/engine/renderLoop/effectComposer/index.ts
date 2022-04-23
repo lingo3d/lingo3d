@@ -7,7 +7,6 @@ import { getResolution } from "../../../states/useResolution"
 import { getSelectiveBloom } from "../../../states/useSelectiveBloom"
 import bloomPass from "./bloomPass"
 import bokehPass from "./bokehPass"
-import fxaaPass from "./fxaaPass"
 import renderPass from "./renderPass"
 import selectiveBloomPass from "./selectiveBloomPass"
 import saoPass from "./saoPass"
@@ -19,10 +18,9 @@ import outlinePass from "./outlinePass"
 import { getOutline } from "../../../states/useOutline"
 import { WebGLRenderTarget } from "three"
 import { HEIGHT, WIDTH } from "../../../globals"
-import { getFXAA } from "../../../states/useFXAA"
 
 //@ts-ignore
-const renderTarget = new WebGLRenderTarget(WIDTH, HEIGHT, { samples: 4 })
+const renderTarget = new WebGLRenderTarget(WIDTH, HEIGHT, { samples: 8 })
 getResolution(([w, h]) => renderTarget.setSize(w, h))
 
 const effectComposer = new EffectComposer(getRenderer(), renderTarget)
@@ -35,7 +33,6 @@ createEffect(() => {
     effectComposer.setPixelRatio(getPixelRatio())
 
 }, [getRenderer, getResolution, getPixelRatio])
-
 
 createEffect(() => {
     const passes: Array<Pass> = [renderPass]
@@ -58,9 +55,6 @@ createEffect(() => {
     if (getOutline())
         passes.push(outlinePass)
 
-    if (getFXAA())
-        passes.push(fxaaPass)
-
     for (const pass of passes)
         effectComposer.addPass(pass)
 
@@ -68,4 +62,4 @@ createEffect(() => {
         for (const pass of passes)
             effectComposer.removePass(pass)
     }
-}, [getSSR, getAmbientOcclusion, getBloom, getSelectiveBloom, getBokeh, getOutline, getFXAA])
+}, [getSSR, getAmbientOcclusion, getBloom, getSelectiveBloom, getBokeh, getOutline])
