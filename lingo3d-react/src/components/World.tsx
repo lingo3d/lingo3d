@@ -13,7 +13,7 @@ outline.style.pointerEvents = "none"
 outline.style.userSelect = "none"
 outline.style.overflow = "hidden"
 
-type WorldProps = ISetup & {
+type WorldProps = Partial<ISetup> & {
     style?: React.CSSProperties
     className?: string
     position?: "absolute" | "relative" | "fixed"

@@ -6,6 +6,7 @@ import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
 import ObjectManager from "./ObjectManager"
 import scene from "../../engine/scene"
+import { Cancellable } from "@lincode/promiselikes"
 
 class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
     protected material: MeshStandardMaterial
@@ -32,6 +33,16 @@ class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
             target.placeAt(this)
             this.then(() => target.dispose())
         })
+    }
+
+    private managerSet?: boolean
+    protected override addToRaycastSet(set: Set<Object3D>, handle: Cancellable) {
+        if (!this.managerSet) {
+            this.managerSet = true
+            this.object3d.traverse(child => child.userData.manager = this)
+        }
+        set.add(this.object3d)
+        handle.then(() => set.delete(this.object3d))
     }
 }
 interface FoundManager extends SimpleObjectManager<Mesh>, TexturedBasicMixin, TexturedStandardMixin {}

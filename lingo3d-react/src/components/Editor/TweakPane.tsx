@@ -17,12 +17,10 @@ const TweakPane: React.FC = () => {
     useLayoutEffect(() => {
         setSelection(true)
         settings.defaultOrbitControls = true
-        settings.gridHelper = true
 
         return () => {
             setSelection(false)
             settings.defaultOrbitControls = false
-            settings.gridHelper = false
         }
     }, [])
 
