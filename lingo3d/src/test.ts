@@ -1,4 +1,4 @@
-import index, { container } from "."
+import index from "."
 import test from "./tests/testBVH"
 import { preventTreeShake } from "@lincode/utils"
 import settings from "./api/settings"

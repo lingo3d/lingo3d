@@ -4,7 +4,6 @@ import IAreaLight, { areaLightDefaults } from "../../interface/IAreaLight"
 import { lazy } from "@lincode/utils"
 import ObjectManager from "../core/ObjectManager"
 import { getCamera } from "../../states/useCamera"
-import { getLightHelper } from "../../states/useLightHelper"
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import SimpleObjectManager from "../core/SimpleObjectManager"
@@ -42,7 +41,7 @@ export default class extends ObjectManager<Group> implements IAreaLight {
             this.then(() => light.dispose())
 
             this.createEffect(() => {
-                if (!getLightHelper() || getCamera() !== mainCamera)
+                if (getCamera() !== mainCamera)
                     return
     
                 const helper = new RectAreaLightHelper(light)
@@ -52,7 +51,7 @@ export default class extends ObjectManager<Group> implements IAreaLight {
                     helper.dispose()
                     scene.remove(helper)
                 }
-            }, [getCamera, getLightHelper])
+            }, [getCamera])
         })()
     }
 

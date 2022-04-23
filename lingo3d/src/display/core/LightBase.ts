@@ -5,7 +5,6 @@ import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import ILightBase from "../../interface/ILightBase"
 import { getCamera } from "../../states/useCamera"
-import { getLightHelper } from "../../states/useLightHelper"
 import ObjectManager from "./ObjectManager"
 import SimpleObjectManager from "./SimpleObjectManager"
 
@@ -14,7 +13,7 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
         super(light)
 
         Helper && this.createEffect(() => {
-            if (!getLightHelper() || getCamera() !== mainCamera)
+            if (getCamera() !== mainCamera)
                 return
 
             const helper = new Helper(this.object3d)
@@ -24,7 +23,7 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
                 helper.dispose()
                 scene.remove(helper)
             }
-        }, [getCamera, getLightHelper])
+        }, [getCamera])
     }
 
     public override dispose() {

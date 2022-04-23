@@ -5,9 +5,7 @@ import { Pane } from "tweakpane"
 import mainCamera from "../engine/mainCamera"
 import ISetup, { setupDefaults } from "../interface/ISetup"
 import { setCamera } from "../states/useCamera"
-import { setCameraHelper } from "../states/useCameraHelper"
 import { setGridHelper } from "../states/useGridHelper"
-import { setLightHelper } from "../states/useLightHelper"
 import { setOrbitControls } from "../states/useOrbitControls"
 import { setSelection } from "../states/useSelection"
 
@@ -35,8 +33,6 @@ export default class Editor extends LitElement {
         setOrbitControls(true)
         setSelection(true)
         setGridHelper(true)
-        setLightHelper(true)
-        setCameraHelper(true)
     }
 
     protected override createRenderRoot() {

@@ -6,7 +6,6 @@ import { bokehApertureDefault, setBokehAperture } from "../../../states/useBokeh
 import { bokehFocusDefault, setBokehFocus } from "../../../states/useBokehFocus"
 import { bokehMaxBlurDefault, setBokehMaxBlur } from "../../../states/useBokehMaxBlur"
 import { getCamera, setCamera } from "../../../states/useCamera"
-import { getCameraHelper } from "../../../states/useCameraHelper"
 import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import ICameraMixin from "../../../interface/ICameraMixin"
@@ -24,7 +23,7 @@ export default abstract class CameraMixin<T extends Camera> extends EventLoopIte
         })
 
         this.createEffect(() => {
-            if (!getCameraHelper() || getCamera() !== mainCamera || getCamera() === this.camera)
+            if (getCamera() !== mainCamera || getCamera() === this.camera)
                 return
 
             const helper = new CameraHelper(this.camera)
@@ -34,7 +33,7 @@ export default abstract class CameraMixin<T extends Camera> extends EventLoopIte
                 helper.dispose()
                 scene.remove(helper)
             }
-        }, [getCamera, getCameraHelper])
+        }, [getCamera])
     }
 
     public get fov() {
