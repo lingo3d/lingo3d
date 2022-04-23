@@ -2,6 +2,14 @@ import { html, LitElement } from "lit"
 import { customElement } from "lit/decorators.js"
 import { createRef, ref, Ref } from "lit/directives/ref.js"
 import { Pane } from "tweakpane"
+import mainCamera from "../engine/mainCamera"
+import ISetup, { setupDefaults } from "../interface/ISetup"
+import { setCamera } from "../states/useCamera"
+import { setCameraHelper } from "../states/useCameraHelper"
+import { setGridHelper } from "../states/useGridHelper"
+import { setLightHelper } from "../states/useLightHelper"
+import { setOrbitControls } from "../states/useOrbitControls"
+import { setSelection } from "../states/useSelection"
 
 @customElement("lingo3d-editor")
 export default class Editor extends LitElement {
@@ -11,20 +19,33 @@ export default class Editor extends LitElement {
         const container = this.containerRef.value
         if (!container) return
 
-        const PARAMS = {
-            factor: 123,
-            title: 'hello',
-            color: '#ff0055',
+        const PARAMS: Partial<ISetup> = {
+            defaultFog: setupDefaults.defaultFog,
+            defaultLight: "true",
+            defaultLightScale: setupDefaults.defaultLightScale,
         }
           
-        const pane = new Pane()
+        const pane = new Pane({ container })
         
-        pane.addInput(PARAMS, 'factor')
-        pane.addInput(PARAMS, 'title')
-        pane.addInput(PARAMS, 'color')
+        pane.addInput(PARAMS, "defaultFog")
+        pane.addInput(PARAMS, "defaultLight")
+        pane.addInput(PARAMS, "defaultLightScale")
+
+        setCamera(mainCamera)
+        setOrbitControls(true)
+        setSelection(true)
+        setGridHelper(true)
+        setLightHelper(true)
+        setCameraHelper(true)
+    }
+
+    protected override createRenderRoot() {
+        return this
     }
 
     protected override render() {
-        return html`<div ref=${ref(this.containerRef)} />`
+        return html`
+            <div ref=${ref(this.containerRef)} style="user-select:none; position: absolute; left: 0px; top: 0px; z-index: 10;" />
+        `
     }
 }

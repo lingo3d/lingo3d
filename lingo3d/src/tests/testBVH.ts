@@ -2,7 +2,7 @@ import keyboard from "../api/keyboard"
 import settings from "../api/settings"
 import Model from "../display/Model"
 //@ts-ignore
-import fairySrc from "../../assets-local/gallery.glb"
+import fairySrc from "../../assets-local/fairy.glb"
 //@ts-ignore
 import personSrc from "../../assets-local/person.glb"
 //@ts-ignore
@@ -32,8 +32,6 @@ import rendering from "../api/rendering"
 import Skybox from "../display/Skybox"
 
 export default {}
-
-settings.defaultOrbitControls = true
 
 const player = new Model()
 player.src = personSrc

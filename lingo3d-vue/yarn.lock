@@ -630,10 +630,10 @@ jstransformer@1.0.0:
     is-promise "^2.0.0"
     promise "^7.0.1"
 
-lingo3d@1.10.109:
-  version "1.10.109"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.109.tgz#f6c830055919ea61704567da50f273f4d2aa8d98"
-  integrity sha512-W1Xvni1IBCjthnqnN3A9Iw/0L+kVXfQQJEo+RgYYA8tCUc+nf6qg/fqAuB2+nVcUAEhg0ymFIiW3kCKg+taoKw==
+lingo3d@1.10.110:
+  version "1.10.110"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.110.tgz#1f7c4bdaf0838d384171a33ca7689a5a08df69f3"
+  integrity sha512-B+C59OHIoElpGUirlNxlHrP7sEXQNPTFQhz1vq6i/7lJsgFydlGgmSTzivttYtqXdhBNmuX4b5lqS9KRL85/pA==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
