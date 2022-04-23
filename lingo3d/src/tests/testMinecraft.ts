@@ -2,8 +2,6 @@ import { Camera, Cube, keyboard, settings, Sky } from ".."
 
 export default {}
 
-settings.fillWindow = true
-
 const sky = new Sky()
 const floor = new Cube()
 floor.width = 9999

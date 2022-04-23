@@ -20,5 +20,3 @@ settings.defaultOrbitControls = true
 settings.defaultLight = hdrSrc
 
 background.texture = hdrSrc
-
-settings.fillWindow = true

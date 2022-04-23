@@ -10,7 +10,6 @@ import FirstPersonCamera from "../display/cameras/FirstPersonCamera"
 export default {}
 
 settings.defaultOrbitControls = true
-settings.fillWindow = true
 
 const player = new Cube()
 player.width = 50

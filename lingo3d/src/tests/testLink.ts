@@ -29,5 +29,3 @@ model.onClick = ({ distance }) => {
 // model.animation = ["running", "idle"]
 
 settings.defaultOrbitControls = true
-
-settings.fillWindow = true

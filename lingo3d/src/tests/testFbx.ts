@@ -11,7 +11,6 @@ import { Camera, settings, ThirdPersonCamera } from ".."
 
 export default {}
 
-settings.fillWindow = true
 settings.defaultOrbitControls = true
 
 const model = new Model()

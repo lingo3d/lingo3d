@@ -25,6 +25,7 @@ import Octahedron from "../display/primitives/Octahedron"
 import { Cancellable } from "@lincode/promiselikes"
 import { settings } from ".."
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
+import { setGridHelper } from "../states/useGridHelper"
 
 const model = new Model()
 model.src = botSrc
@@ -195,7 +196,7 @@ mouse.onMouseUp = () => {
     setAim(false)
 }
 
-settings.gridHelper = true
+setGridHelper(true)
 
 keyboard.onKeyDown = (key) => {
     if (key === "w")

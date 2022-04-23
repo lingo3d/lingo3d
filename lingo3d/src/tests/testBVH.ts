@@ -34,7 +34,6 @@ import Skybox from "../display/Skybox"
 export default {}
 
 settings.defaultOrbitControls = true
-settings.fillWindow = true
 
 const player = new Model()
 player.src = personSrc

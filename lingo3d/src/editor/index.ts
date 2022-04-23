@@ -1,6 +1,6 @@
 import { html, LitElement } from "lit"
 import { customElement } from "lit/decorators.js"
-import { createRef, Ref } from "lit/directives/ref.js"
+import { createRef, ref, Ref } from "lit/directives/ref.js"
 import { Pane } from "tweakpane"
 
 @customElement("lingo3d-editor")
@@ -11,10 +11,20 @@ export default class Editor extends LitElement {
         const container = this.containerRef.value
         if (!container) return
 
-        console.log(container)
+        const PARAMS = {
+            factor: 123,
+            title: 'hello',
+            color: '#ff0055',
+        }
+          
+        const pane = new Pane()
+        
+        pane.addInput(PARAMS, 'factor')
+        pane.addInput(PARAMS, 'title')
+        pane.addInput(PARAMS, 'color')
     }
 
     protected override render() {
-        return html`<div ref=${this.containerRef} />`
+        return html`<div ref=${ref(this.containerRef)} />`
     }
 }

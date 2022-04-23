@@ -11,6 +11,7 @@ import settings from "../../api/settings"
 import { getRenderer } from "../../states/useRenderer"
 import { getEncoding } from "../../states/useEncoding"
 import { getPBR } from "../../states/usePBR"
+import { setFillWindow } from "../../states/useFillWindow"
 
 export const container = document.createElement("div")
 Object.assign(container.style, {
@@ -27,7 +28,7 @@ resizeObserver.observe(container)
 queueMicrotask(() => {
     if (!settings.autoMount || container.parentElement) return
     document.body.appendChild(container)
-    settings.fillWindow = true
+    setFillWindow(true)
 })
 
 export const outline = document.createElement("div")

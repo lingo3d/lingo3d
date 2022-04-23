@@ -26,6 +26,7 @@ import randomColor from "randomcolor"
 import DirectionalLight from "../display/lights/DirectionalLight"
 import { settings } from ".."
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
+import { setGridHelper } from "../states/useGridHelper"
 
 export default {}
 
@@ -42,8 +43,6 @@ export const text2ImageData = (text: string) => {
     context.fillText(text, 0, 200)
     return canvas.toDataURL("image/png")
 }
-
-settings.fillWindow = true
 
 const model = new Model()
 model.src = botSrc
@@ -239,7 +238,7 @@ mouse.onMouseUp = () => {
     setRecoil(true)
 }
 
-settings.gridHelper = true
+setGridHelper(true)
 
 keyboard.onKeyDown = (key) => {
     if (key === "w")

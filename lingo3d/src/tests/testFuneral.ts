@@ -12,8 +12,6 @@ import { settings, Sky } from ".."
 
 export default {}
 
-settings.fillWindow = true
-
 const sky = new Sky()
 
 const island = new Model()

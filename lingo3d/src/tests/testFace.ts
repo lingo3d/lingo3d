@@ -29,8 +29,6 @@ light3.innerZ = 500
 light3.rotationY = 45
 light3.intensity = 0.5
 
-settings.fillWindow = true
-
 const sky = new Sky()
 
 // settings.performance = "quality"
