@@ -2,7 +2,7 @@ import keyboard from "../api/keyboard"
 import settings from "../api/settings"
 import Model from "../display/Model"
 //@ts-ignore
-import fairySrc from "../../assets-local/fairy.glb"
+import fairySrc from "../../assets-local/gallery.glb"
 //@ts-ignore
 import personSrc from "../../assets-local/person.glb"
 //@ts-ignore

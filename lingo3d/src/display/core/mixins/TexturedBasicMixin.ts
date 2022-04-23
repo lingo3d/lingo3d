@@ -91,14 +91,14 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
                 //@ts-ignore
                 const { material } = this.object3d
                 //@ts-ignore
-                this.object3d.material = new MeshStandardMaterial({ map: videoTexture })
+                const mat = this.object3d.material = material?.clone() ?? new MeshStandardMaterial()
+                mat.map = videoTexture
                 this.updateMaterial()
 
                 return () => {
                     video.pause()
                     videoTexture.dispose()
-                    //@ts-ignore
-                    this.object3d.material.dispose()
+                    mat.dispose()
                     //@ts-ignore
                     this.object3d.material = material
                     this.updateMaterial()
@@ -128,12 +128,12 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
             //@ts-ignore
             const { material } = this.object3d
             //@ts-ignore
-            this.object3d.material = new MeshStandardMaterial({ map: loadTexture(url) })
+            const mat = this.object3d.material = material?.clone() ?? new MeshStandardMaterial()
+            mat.map = loadTexture(url as string)
             this.updateMaterial()
 
             return () => {
-                //@ts-ignore
-                this.object3d.material.dispose()
+                mat.dispose()
                 //@ts-ignore
                 this.object3d.material = material
                 this.updateMaterial()
