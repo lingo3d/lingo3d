@@ -20,10 +20,10 @@ import { WebGLRenderTarget } from "three"
 import { HEIGHT, WIDTH } from "../../../globals"
 
 //@ts-ignore
-const renderTarget = new WebGLRenderTarget(WIDTH, HEIGHT, { samples: 8 })
-getResolution(([w, h]) => renderTarget.setSize(w, h))
+const msaaRenderTarget = new WebGLRenderTarget(WIDTH, HEIGHT, { samples: 4 })
+getResolution(([w, h]) => msaaRenderTarget.setSize(w, h))
 
-const effectComposer = new EffectComposer(getRenderer(), renderTarget)
+const effectComposer = new EffectComposer(getRenderer(), msaaRenderTarget)
 export default effectComposer
 
 createEffect(() => {
