@@ -22,6 +22,34 @@ export default class Editor extends LitElement {
             defaultFog: setupDefaults.defaultFog,
             defaultLight: "true",
             defaultLightScale: setupDefaults.defaultLightScale,
+            gravity: setupDefaults.gravity,
+            mapPhysics: setupDefaults.mapPhysics,
+            wasmPath: setupDefaults.wasmPath,
+            autoMount: setupDefaults.autoMount,
+            logarithmicDepth: setupDefaults.logarithmicDepth,
+            encoding: setupDefaults.encoding,
+            exposure: setupDefaults.exposure,
+            pbr: setupDefaults.pbr,
+            selectiveBloom: setupDefaults.selectiveBloom,
+            bloom: setupDefaults.bloom,
+            bloomStrength: setupDefaults.bloomStrength,
+            bloomRadius: setupDefaults.bloomRadius,
+            bloomThreshold: setupDefaults.bloomThreshold,
+            bokeh: setupDefaults.bokeh,
+            bokehFocus: setupDefaults.bokehFocus,
+            bokehMaxBlur: setupDefaults.bokehMaxBlur,
+            bokehAperture: setupDefaults.bokehAperture,
+            ambientOcclusion: "false" as any,
+            outline: setupDefaults.outline,
+            outlineColor: setupDefaults.outlineColor,
+            outlineHiddenColor: setupDefaults.outlineHiddenColor,
+            outlinePattern: setupDefaults.outlinePattern,
+            outlinePulse: setupDefaults.outlinePulse,
+            outlineStrength: setupDefaults.outlineStrength,
+            outlineThickness: setupDefaults.outlineThickness,
+            texture: setupDefaults.texture,
+            skybox: "",
+            color: setupDefaults.color,
         }
           
         const pane = new Pane({ container })
@@ -29,6 +57,40 @@ export default class Editor extends LitElement {
         pane.addInput(PARAMS, "defaultFog")
         pane.addInput(PARAMS, "defaultLight")
         pane.addInput(PARAMS, "defaultLightScale")
+        pane.addInput(PARAMS, "defaultFog")
+        pane.addInput(PARAMS, "defaultLight")
+        pane.addInput(PARAMS, "defaultLightScale")
+        pane.addInput(PARAMS, "gravity")
+        pane.addInput(PARAMS, "mapPhysics")
+        pane.addInput(PARAMS, "wasmPath")
+        pane.addInput(PARAMS, "autoMount")
+        pane.addInput(PARAMS, "logarithmicDepth")
+        pane.addInput(PARAMS, "encoding")
+        pane.addInput(PARAMS, "exposure")
+        pane.addInput(PARAMS, "pbr")
+        pane.addInput(PARAMS, "selectiveBloom")
+        pane.addInput(PARAMS, "bloom")
+        pane.addInput(PARAMS, "bloomStrength")
+        pane.addInput(PARAMS, "bloomRadius")
+        pane.addInput(PARAMS, "bloomThreshold")
+        pane.addInput(PARAMS, "bokeh")
+        pane.addInput(PARAMS, "bokehFocus")
+        pane.addInput(PARAMS, "bokehMaxBlur")
+        pane.addInput(PARAMS, "bokehAperture")
+        pane.addInput(PARAMS, "ambientOcclusion")
+
+        // pane.addInput(PARAMS, "texture")
+        pane.addInput(PARAMS, "skybox")
+        // pane.addInput(PARAMS, "color")
+        
+        pane.addInput(PARAMS, "outline")
+        pane.addInput(PARAMS, "outlineColor")
+        // pane.addInput(PARAMS, "outlineHiddenColor")
+        // pane.addInput(PARAMS, "outlinePattern")
+        pane.addInput(PARAMS, "outlinePulse")
+        pane.addInput(PARAMS, "outlineStrength")
+        pane.addInput(PARAMS, "outlineThickness")
+        
 
         setEditor(true)
         setCamera(mainCamera)
