@@ -6,6 +6,8 @@ import Setup from "./logical/Setup"
 import { useMemoOnce } from "@lincode/hooks"
 import scene from "lingo3d/lib/engine/scene"
 import ISetup from "lingo3d/lib/interface/ISetup"
+import { setResolution } from "lingo3d/lib/states/useResolution"
+import { setViewportSize } from "lingo3d/lib/states/useViewportSize"
 
 preventTreeShake(index)
 outline.style.border = "none"
@@ -37,7 +39,9 @@ const World: React.FC<WorldProps> = ({ style, className, position, children, ...
         el.appendChild(container)
 
         const resizeObserver = new ResizeObserver(() => {
-            settings.resolution = settings.viewportSize = [el.clientWidth, el.clientHeight]
+            const res: [number, number] = [el.clientWidth, el.clientHeight]
+            setResolution(res)
+            setViewportSize(res)
         })
         resizeObserver.observe(el)
 

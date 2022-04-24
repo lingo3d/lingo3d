@@ -192,7 +192,7 @@ export default abstract class Loaded<T> extends ObjectManager<Mesh> implements I
         handle.watch(this.loadedResolvable.then(loaded => {
             if (!this.managerSet) {
                 this.managerSet = true
-                loaded.traverse(child => child.userData.manager = this)
+                loaded.traverse(child => child.userData.manager ??= this)
             }
             set.add(loaded)
             handle.then(() => set.delete(loaded))

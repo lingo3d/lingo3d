@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { PropType, ref, watchEffect, computed } from "vue"
-import { applySetup, container, outline, settings } from "lingo3d"
+import { applySetup, container, outline } from "lingo3d"
+import { setResolution } from "lingo3d/lib/states/useResolution"
+import { setViewportSize } from "lingo3d/lib/states/useViewportSize"
 import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
 import scene from "lingo3d/lib/engine/scene"
@@ -30,7 +32,9 @@ watchEffect(onCleanUp => {
     el.appendChild(container)
 
     const resizeObserver = new ResizeObserver(() => {
-        settings.resolution = settings.viewportSize = [el.clientWidth, el.clientHeight]
+        const res: [number, number] = [el.clientWidth, el.clientHeight]
+        setResolution(res)
+        setViewportSize(res)
     })
     resizeObserver.observe(el)
 

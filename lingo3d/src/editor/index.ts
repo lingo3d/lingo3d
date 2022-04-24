@@ -24,7 +24,6 @@ export default class Editor extends LitElement {
             defaultLightScale: setupDefaults.defaultLightScale,
             gravity: setupDefaults.gravity,
             mapPhysics: setupDefaults.mapPhysics,
-            wasmPath: setupDefaults.wasmPath,
             autoMount: setupDefaults.autoMount,
             logarithmicDepth: setupDefaults.logarithmicDepth,
             encoding: setupDefaults.encoding,
@@ -62,7 +61,6 @@ export default class Editor extends LitElement {
         pane.addInput(PARAMS, "defaultLightScale")
         pane.addInput(PARAMS, "gravity")
         pane.addInput(PARAMS, "mapPhysics")
-        pane.addInput(PARAMS, "wasmPath")
         pane.addInput(PARAMS, "autoMount")
         pane.addInput(PARAMS, "logarithmicDepth")
         pane.addInput(PARAMS, "encoding")
