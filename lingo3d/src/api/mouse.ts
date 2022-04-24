@@ -9,6 +9,7 @@ import { throttle } from "@lincode/utils"
 import { getPointerLockCamera } from "../states/usePointLockCamera"
 import { getMobile } from "../states/useMobile"
 import { createEffect } from "@lincode/reactivity"
+import { getEditor } from "../states/useEditor"
 
 export type MouseEventName = "click" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
@@ -40,6 +41,23 @@ const makeMouseEvent = (names: Array<MouseEventName>) => (ev: MouseEvent | Touch
 }
 
 createEffect(() => {
+    if (getEditor()) {
+        if (getMobile()) {
+            const handleTouchStart = makeMouseEvent(["click"])
+            container.addEventListener("touchstart", handleTouchStart)
+    
+            return () => {
+                container.removeEventListener("touchstart", handleTouchStart)
+            }
+        }
+        const handleClick = makeMouseEvent(["click"])
+        container.addEventListener("click", handleClick)
+    
+        return () => {
+            container.removeEventListener("click", handleClick)
+        }
+    }
+    
     if (getMobile()) {
         const handleTouchMove = makeMouseEvent(["move"])
         const handleTouchStart = makeMouseEvent(["click", "down", "move"])
@@ -71,7 +89,7 @@ createEffect(() => {
         container.removeEventListener("mousedown", handleMouseDown)
         container.removeEventListener("mouseup", handleMouseUp)
     }
-}, [getMobile])
+}, [getMobile, getEditor])
 
 export class Mouse extends EventLoopItem implements IMouse {
     public static componentName = "mouse"

@@ -4,13 +4,13 @@ import IKeyboard, { keyboardDefaults } from "../interface/IKeyboard"
 import { loop } from "../engine/eventLoop"
 import EventLoopItem from "./core/EventLoopItem"
 import { getEditor } from "../states/useEditor"
+import { createEffect } from "@lincode/reactivity"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
 const [emitPress, onPress] = event()
 
 export const isPressed = new Set<string>()
-loop(() => isPressed.size > 0 && emitPress())
 
 const processKey = (str: string) => {
     str = str.length === 1 ? str.toLowerCase() : str
@@ -18,32 +18,48 @@ const processKey = (str: string) => {
     return str
 }
 
-document.addEventListener("keydown", e => {
-    if(getEditor()) return
+createEffect(() => {
+    if (getEditor()) return
+
+    const handle = loop(() => isPressed.size > 0 && emitPress())
+
+    const handleKeyDown = (e: KeyboardEvent): void => {
+        const key = processKey(e.key)
+        isPressed.add(key)
+        emitDown(key)
+        if (isPressed.has("Meta") && isPressed.has("Shift"))
+            clear()
+    }
     
-    const key = processKey(e.key)
-    isPressed.add(key)
-    emitDown(key)
-    if (isPressed.has("Meta") && isPressed.has("Shift"))
-        clear()
-})
-
-document.addEventListener("keyup", e => {
-    const key = processKey(e.key)
-    isPressed.delete(key)
-    emitUp(key)
-})
-
-const clear = () => {
-    if (!isPressed.size) return
-    const pressed = [...isPressed]
-    isPressed.clear()
-    for (const key of pressed)
+    const handleKeyUp = (e: KeyboardEvent): void => {
+        const key = processKey(e.key)
+        isPressed.delete(key)
         emitUp(key)
-}
-window.addEventListener("blur", clear)
-window.addEventListener("focus", clear)
-document.addEventListener("visibilitychange", clear)
+    }
+    
+    const clear = () => {
+        if (!isPressed.size) return
+        const pressed = [...isPressed]
+        isPressed.clear()
+        for (const key of pressed)
+            emitUp(key)
+    }
+    
+    document.addEventListener("keydown", handleKeyDown)
+    document.addEventListener("keyup", handleKeyUp)
+    window.addEventListener("blur", clear)
+    window.addEventListener("focus", clear)
+    document.addEventListener("visibilitychange", clear)
+
+    return () => {
+        handle.cancel()
+        document.removeEventListener("keydown", handleKeyDown)
+        document.removeEventListener("keyup", handleKeyUp)
+        window.removeEventListener("blur", clear)
+        window.removeEventListener("focus", clear)
+        document.removeEventListener("visibilitychange", clear)
+    }
+}, [getEditor])
 
 export class Keyboard extends EventLoopItem implements IKeyboard {
     public static componentName = "keyboard"
