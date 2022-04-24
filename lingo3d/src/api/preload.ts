@@ -1,6 +1,6 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { Cancellable } from "@lincode/promiselikes"
-import { assertExhaustive } from "@lincode/utils"
+import { assertExhaustive, splitFileName } from "@lincode/utils"
 import bytesLoaded from "../display/utils/loaders/bytesLoaded"
 import { lazyLoadFBX, lazyLoadGLTF } from "../display/utils/loaders/lazyLoad"
 import loadTexturePromise from "../display/utils/loaders/loadTexturePromise"
@@ -19,9 +19,10 @@ export default async (urls: Array<string>, total: number | string, onProgress?: 
                 break
             
             case "model":
-                if (url.endsWith(".fbx"))
+                const extension = splitFileName(url)[1]?.toLowerCase()
+                if (extension === "fbx")
                     promises.push((await lazyLoadFBX()).default(url, false))
-                else if (url.endsWith(".gltf") || url.endsWith(".glb"))
+                else if (extension === "gltf" || extension === "glb")
                     promises.push((await lazyLoadGLTF()).default(url, false))
                 break
             

@@ -16,7 +16,7 @@ export default (url: string, onLoad?: () => void) => {
     return forceGet(cache, url, () => {
         increaseLoadingCount()
 
-        const hdr = url.endsWith(".hdr")
+        const hdr = url.toLowerCase().toLowerCase().endsWith(".hdr")
         const loader = hdr ? rgbeLoader : textureLoader
 
         return loader.load(url,

@@ -63,7 +63,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
             let videoURL = videoTextureState.get()
 
             if (!videoURL && (
-                (typeof url === "string" && objectURLMapperPtr[0](url).endsWith(".mp4")) ||
+                (typeof url === "string" && objectURLMapperPtr[0](url).toLowerCase().endsWith(".mp4")) ||
                 (url && url instanceof HTMLVideoElement)
             )) {
                 videoURL = url

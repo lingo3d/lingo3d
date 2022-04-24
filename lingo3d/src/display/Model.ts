@@ -49,7 +49,7 @@ export default class Model extends Loaded<Group> implements IModel {
 
         let result: Group | undefined
         try {
-            if (objectURLMapperPtr[0](url).endsWith(".fbx"))
+            if (objectURLMapperPtr[0](url).toLowerCase().endsWith(".fbx"))
                 result = await (await lazyLoadFBX()).default(url, true)
             else
                 result = await (await lazyLoadGLTF()).default(url, true)
