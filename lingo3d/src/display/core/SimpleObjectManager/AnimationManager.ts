@@ -73,7 +73,7 @@ export default class AnimationManager extends Disposable {
 
     public play({ crossFade = 0.25, repeat = true, onFinish }: PlayOptions = {}) {
         const [prevAction, prevRepeat] = mixerActionMap.get(this.mixer) ?? []
-        if (prevAction && this.action === prevAction) {
+        if (prevAction?.isRunning() && this.action === prevAction) {
             repeat !== prevRepeat && prevAction.setLoop(repeat ? LoopRepeat : LoopOnce, Infinity)
             return
         }

@@ -9,6 +9,9 @@ model.src = modelSrc
 model.onLoad = () => {
     const found = model.find("Hose001")
     if (found) {
-        found.animation = true
+        let anim = found.animation = true
+        found.onClick = () => {
+            found.animation = anim = !anim
+        }
     }
 }

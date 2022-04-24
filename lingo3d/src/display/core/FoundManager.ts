@@ -21,7 +21,7 @@ class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
         this.material = mesh.material ??= new MeshStandardMaterial()
 
         const { modelManager } = this.outerObject3d.userData
-        if (!modelManager) return
+        if (!modelManager?.animationManagers) return
 
         for (const animationManager of Object.values(modelManager.animationManagers) as Array<AnimationManager>)
             this.animations[animationManager.name] = this.watch(animationManager.retarget(mesh))

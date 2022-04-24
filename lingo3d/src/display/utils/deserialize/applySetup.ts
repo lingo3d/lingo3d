@@ -1,11 +1,11 @@
-import { debounce } from "@lincode/utils"
+import { debounce, omit } from "@lincode/utils"
 import background from "../../../api/background"
 import settings from "../../../api/settings"
 import rendering from "../../../api/rendering"
 import ISetup, { setupDefaults } from "../../../interface/ISetup"
 
 export default debounce((node: Partial<ISetup>) => {
-    for (const key of Object.keys(settings))
+    for (const key of Object.keys(omit(settings, ["viewportSize", "resolution"])))
         //@ts-ignore
         settings[key] = node[key] ?? setupDefaults[key]
 
