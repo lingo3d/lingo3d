@@ -3,6 +3,7 @@ import { Group } from "three"
 import IKeyboard, { keyboardDefaults } from "../interface/IKeyboard"
 import { loop } from "../engine/eventLoop"
 import EventLoopItem from "./core/EventLoopItem"
+import { getEditor } from "../states/useEditor"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
@@ -18,6 +19,8 @@ const processKey = (str: string) => {
 }
 
 document.addEventListener("keydown", e => {
+    if(getEditor()) return
+    
     const key = processKey(e.key)
     isPressed.add(key)
     emitDown(key)

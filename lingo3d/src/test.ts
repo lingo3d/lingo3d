@@ -10,5 +10,5 @@ preventTreeShake([index, test])
 settings.autoMount = true
 setFillWindow(true)
 
-const editor = new Editor()
-document.body.appendChild(editor)
+// const editor = new Editor()
+// document.body.appendChild(editor)

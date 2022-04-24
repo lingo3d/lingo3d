@@ -5,6 +5,7 @@ import { Pane } from "tweakpane"
 import mainCamera from "../engine/mainCamera"
 import ISetup, { setupDefaults } from "../interface/ISetup"
 import { setCamera } from "../states/useCamera"
+import { setEditor } from "../states/useEditor"
 import { setGridHelper } from "../states/useGridHelper"
 import { setOrbitControls } from "../states/useOrbitControls"
 import { setSelection } from "../states/useSelection"
@@ -29,10 +30,15 @@ export default class Editor extends LitElement {
         pane.addInput(PARAMS, "defaultLight")
         pane.addInput(PARAMS, "defaultLightScale")
 
+        setEditor(true)
         setCamera(mainCamera)
         setOrbitControls(true)
         setSelection(true)
         setGridHelper(true)
+    }
+    
+    public override disconnectedCallback(): void {
+        setEditor(false)
     }
 
     protected override createRenderRoot() {
