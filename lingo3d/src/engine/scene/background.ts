@@ -5,14 +5,15 @@ import loadCubeTexture from "../../display/utils/loaders/loadCubeTexture"
 import loadTexture from "../../display/utils/loaders/loadTexture"
 import { getBackgroundColor } from "../../states/useBackgroundColor"
 import { getBackgroundImage } from "../../states/useBackgroundImage"
-import { getBackgroundSkybox } from "../../states/useBackgroundSkybox"
+import { getSkyboxStack } from "../../states/useSkyboxStack"
+import { last } from "@lincode/utils"
 
 export default {}
 
 createEffect(() => {
     const image = getBackgroundImage()
     const color = getBackgroundColor()
-    const skybox = getBackgroundSkybox()
+    const skybox = last(getSkyboxStack())?.texture
 
     if (skybox) {
         if (Array.isArray(skybox))
@@ -36,4 +37,4 @@ createEffect(() => {
     }
     else scene.background = new Color("black")
 
-}, [getBackgroundColor, getBackgroundImage, getBackgroundSkybox])
+}, [getBackgroundColor, getBackgroundImage, getSkyboxStack])

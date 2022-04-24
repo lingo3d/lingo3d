@@ -1,9 +1,7 @@
 import { Group } from "three"
-import { setBackgroundSkybox } from "../states/useBackgroundSkybox"
+import { getSkyboxStack, pullSkyboxStack, pushSkyboxStack, setSkyboxStack } from "../states/useSkyboxStack"
 import ISkybox, { skyboxDefaults } from "../interface/ISkybox"
 import EventLoopItem from "../api/core/EventLoopItem"
-
-let activeSkybox: Skybox | undefined
 
 export default class Skybox extends EventLoopItem implements ISkybox {
     public static componentName = "skybox"
@@ -14,8 +12,12 @@ export default class Skybox extends EventLoopItem implements ISkybox {
     public constructor() {
         super()
         this.initOuterObject3d()
-        activeSkybox = this
-        this.then(() => activeSkybox === this && setBackgroundSkybox(undefined))
+        pushSkyboxStack(this)
+    }
+
+    public override dispose() {
+        pullSkyboxStack(this)
+        return this
     }
 
     private _texture?: string | Array<string>
@@ -24,6 +26,6 @@ export default class Skybox extends EventLoopItem implements ISkybox {
     }
     public set texture(value: string | Array<string> | undefined) {
         this._texture = value
-        activeSkybox === this && setBackgroundSkybox(value)
+        setSkyboxStack([...getSkyboxStack()])
     }
 }

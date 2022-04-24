@@ -5,7 +5,7 @@ import rendering from "../../../api/rendering"
 import ISetup, { setupDefaults } from "../../../interface/ISetup"
 
 export default debounce((node: Partial<ISetup>) => {
-    for (const key of Object.keys(omit(settings, ["viewportSize", "resolution"])))
+    for (const key of Object.keys(settings))
         //@ts-ignore
         settings[key] = node[key] ?? setupDefaults[key]
 

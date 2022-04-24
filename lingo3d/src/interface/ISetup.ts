@@ -10,8 +10,6 @@ type Background = typeof background
 export default interface ISetup extends Rendering, Settings, Background {}
 
 export const setupSchema: Required<ExtractProps<ISetup>> = {
-    viewportSize: Array,
-    resolution: Array,
     pixelRatio: Number,
     performance: String,
     defaultFog: Boolean,

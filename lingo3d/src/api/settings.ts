@@ -1,29 +1,13 @@
 import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
-import { getViewportSize, setViewportSize } from "../states/useViewportSize"
 import { getDefaultFog, setDefaultFog } from "../states/useDefaultFog"
 import { DefaultLight, getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
 import { getPerformance, PerformanceValue, setPerformance } from "../states/usePerformance"
 import { getOrbitControls, setOrbitControls } from "../states/useOrbitControls"
-import { getResolution, setResolution } from "../states/useResolution"
 import { getGravity, setGravity } from "../states/useGravity"
 import { getMapPhysics, setMapPhysics } from "../states/useMapPhysics"
 import { getDefaultLightScale, setDefaultLightScale } from "../states/useDefaultLightScale"
 
 export default {
-    get viewportSize() {
-        return getViewportSize()
-    },
-    set viewportSize(val: [number, number]) {
-        setViewportSize(val)
-    },
-
-    get resolution() {
-        return getResolution()
-    },
-    set resolution(val: [number, number]) {
-        setResolution(val)
-    },
-
     get pixelRatio() {
         return getPixelRatio()
     },

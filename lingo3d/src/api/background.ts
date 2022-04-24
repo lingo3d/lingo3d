@@ -1,6 +1,8 @@
+import Skybox from "../display/Skybox"
 import { getBackgroundColor, setBackgroundColor } from "../states/useBackgroundColor"
 import { getBackgroundImage, setBackgroundImage } from "../states/useBackgroundImage"
-import { getBackgroundSkybox, setBackgroundSkybox } from "../states/useBackgroundSkybox"
+
+const defaultSkybox = new Skybox()
 
 export default {
     get texture() {
@@ -11,10 +13,10 @@ export default {
     },
 
     get skybox() {
-        return getBackgroundSkybox()
+        return defaultSkybox.texture
     },
     set skybox(value: string | Array<string> | undefined) {
-        setBackgroundSkybox(value)
+        defaultSkybox.texture = value
     },
 
     get color() {
