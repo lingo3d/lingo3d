@@ -24,7 +24,7 @@ class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
         if (!modelManager) return
 
         for (const animationManager of Object.values(modelManager.animationManagers) as Array<AnimationManager>)
-            this.animations[animationManager.name] = this.watch(animationManager.clone(mesh))
+            this.animations[animationManager.name] = this.watch(animationManager.retarget(mesh))
     }
 
     public override dispose() {

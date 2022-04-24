@@ -38,8 +38,11 @@ export default class AnimationManager extends Disposable {
         }
     }
 
-    public clone(target: AnimationItem | Object3D) {
-        return new AnimationManager(this.clip ?? this.name, target)
+    public retarget(target: Object3D) {
+        const newClip = this.clip!.clone()
+        const targetName = target.name + "."
+        newClip.tracks = newClip.tracks.filter(track => track.name.startsWith(targetName))
+        return new AnimationManager(newClip, target)
     }
 
     public override dispose() {
