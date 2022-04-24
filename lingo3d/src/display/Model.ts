@@ -100,6 +100,8 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     protected resolveLoaded(loadedObject3d: Group) {
+        loadedObject3d.traverse(child => child.userData.modelManager = this)
+
         for (const clip of loadedObject3d.animations)
             this.animations[clip.name] = this.watch(new AnimationManager(clip, loadedObject3d))
 

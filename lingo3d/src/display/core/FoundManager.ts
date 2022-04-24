@@ -7,6 +7,7 @@ import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
 import ObjectManager from "./ObjectManager"
 import scene from "../../engine/scene"
 import { Cancellable } from "@lincode/promiselikes"
+import AnimationManager from "./SimpleObjectManager/AnimationManager"
 
 class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
     protected material: MeshStandardMaterial
@@ -18,6 +19,12 @@ class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
         super(mesh)
         //@ts-ignore
         this.material = mesh.material ??= new MeshStandardMaterial()
+
+        const { modelManager } = this.outerObject3d.userData
+        if (!modelManager) return
+
+        for (const animationManager of Object.values(modelManager.animationManagers) as Array<AnimationManager>)
+            this.animations[animationManager.name] = this.watch(animationManager.clone(mesh))
     }
 
     public override dispose() {

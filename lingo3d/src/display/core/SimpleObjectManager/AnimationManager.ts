@@ -38,6 +38,10 @@ export default class AnimationManager extends Disposable {
         }
     }
 
+    public clone(target: AnimationItem | Object3D) {
+        return new AnimationManager(this.clip ?? this.name, target)
+    }
+
     public override dispose() {
         if (this.done) return this
         super.dispose()
