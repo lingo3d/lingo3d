@@ -9,10 +9,8 @@ const capsule = ref(false)
 </script>
 
 <template>
-  <World>
-    <Model src="2.fbx">
-      <Find name="Capsule001" :animation="capsule" />
-      <Find name="Hose001" :animation="hose" />
+  <World :default-orbit-controls="true">
+    <Model src="hello.fbx" :animation="true">
     </Model>
   </World>
   <div style="position: absolute">
