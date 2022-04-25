@@ -17,11 +17,14 @@ import { vec2Point } from "../../utils/vec2Point"
 
 const raycaster = new Raycaster()
 
-const getSelectionCandidates = (): Set<Object3D> => {
+const getSelectionCandidates = (handle: Cancellable): Set<Object3D> => {
     const result = new Set<Object3D>()
     scene.traverse(c => {
         const { manager } = c.userData
-        manager && result.add(manager.object3d ?? c)
+        if (!manager) return
+
+        result.add(manager.object3d ?? c)
+        "loadedResolvable" in manager && manager.addToRaycastSet(result, handle)
     })
     return result
 }
@@ -68,7 +71,7 @@ createEffect(() => {
         handle.watch(mouseEvents.on("click", () => {
             emitSelectionTarget(undefined)
         }))
-        handle.watch(pickable("click", getSelectionCandidates(), target => {
+        handle.watch(pickable("click", getSelectionCandidates(handle), target => {
             emitSelectionTarget(target)
         }))
         handle.watch(onSelectionTarget(target => {
