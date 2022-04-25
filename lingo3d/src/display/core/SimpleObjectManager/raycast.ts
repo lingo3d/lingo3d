@@ -24,7 +24,9 @@ const getSelectionCandidates = (handle: Cancellable): Set<Object3D> => {
         if (!manager) return
 
         result.add(manager.object3d ?? c)
-        "loadedResolvable" in manager && manager.addToRaycastSet(result, handle)
+
+        if ("loadedResolvable" in manager)
+            manager.addToRaycastSet(result, handle)
     })
     return result
 }
