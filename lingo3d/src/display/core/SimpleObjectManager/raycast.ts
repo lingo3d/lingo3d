@@ -14,6 +14,7 @@ import { MouseInteractionPayload } from "../../../interface/IMouse"
 import { scaleUp } from "../../../engine/constants"
 import { Cancellable } from "@lincode/promiselikes"
 import { vec2Point } from "../../utils/vec2Point"
+import mainCamera from "../../../engine/mainCamera"
 
 const raycaster = new Raycaster()
 
@@ -59,7 +60,7 @@ export const mouseMoveSet = new Set<Object3D>()
 
 createEffect(() => {
     const selection = getSelection()
-    const selectionEnabled = getSelectionEnabled()
+    const selectionEnabled = getSelectionEnabled() && getCamera() === mainCamera
     const multipleSelection = getMultipleSelection()
     const firstMultipleSelection = createRef(true)
 
@@ -94,7 +95,7 @@ createEffect(() => {
                 return
             }
             resetMultipleSelectionTargets()
-            setSelectionTarget(target)
+            setSelectionTarget(target === getSelectionTarget() ? undefined : target)
         }))
         return () => {
             handle.cancel()
@@ -147,4 +148,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getSelection, getSelectionEnabled, getMultipleSelection])
+}, [getSelection, getSelectionEnabled, getCamera, getMultipleSelection])

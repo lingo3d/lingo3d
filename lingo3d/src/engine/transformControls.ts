@@ -11,6 +11,7 @@ import { container } from "./renderLoop/renderSetup"
 import scene from "./scene"
 import { lazy } from "@lincode/utils"
 import { Cancellable } from "@lincode/promiselikes"
+import mainCamera from "./mainCamera"
 
 export default {}
 
@@ -41,7 +42,7 @@ createEffect(() => {
     const space = getTransformControlsSpace()
     const snap = getTransformControlsSnap()
 
-    if (!target) return
+    if (!target || getCamera() !== mainCamera) return
 
     const { physics } = target
     let restorePhysics = false
@@ -73,4 +74,4 @@ createEffect(() => {
         handle.cancel()
         restorePhysics && (target.physics = physics)
     }
-}, [getSelectionTarget, getTransformControlsMode, getTransformControlsSpace, getTransformControlsSnap])
+}, [getSelectionTarget, getTransformControlsMode, getTransformControlsSpace, getTransformControlsSnap, getCamera])

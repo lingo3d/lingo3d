@@ -1,4 +1,4 @@
-import { debounce, omit } from "@lincode/utils"
+import { debounce } from "@lincode/utils"
 import background from "../../../api/background"
 import settings from "../../../api/settings"
 import rendering from "../../../api/rendering"

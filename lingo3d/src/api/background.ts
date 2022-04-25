@@ -22,7 +22,7 @@ export default {
     get color() {
         return getBackgroundColor()
     },
-    set color(value: string | undefined) {
+    set color(value: string) {
         setBackgroundColor(value)
     }
 }

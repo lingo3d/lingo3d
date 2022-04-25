@@ -5,6 +5,8 @@ import { loop } from "../engine/eventLoop"
 import EventLoopItem from "./core/EventLoopItem"
 import { getEditor } from "../states/useEditor"
 import { createEffect } from "@lincode/reactivity"
+import { getCamera } from "../states/useCamera"
+import mainCamera from "../engine/mainCamera"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
@@ -19,7 +21,7 @@ const processKey = (str: string) => {
 }
 
 createEffect(() => {
-    if (getEditor()) return
+    if (getEditor() && getCamera() === mainCamera) return
 
     const handle = loop(() => isPressed.size > 0 && emitPress())
 
@@ -59,7 +61,7 @@ createEffect(() => {
         window.removeEventListener("focus", clear)
         document.removeEventListener("visibilitychange", clear)
     }
-}, [getEditor])
+}, [getEditor, getCamera])
 
 export class Keyboard extends EventLoopItem implements IKeyboard {
     public static componentName = "keyboard"

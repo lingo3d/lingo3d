@@ -10,6 +10,8 @@ import { getPointerLockCamera } from "../states/usePointLockCamera"
 import { getMobile } from "../states/useMobile"
 import { createEffect } from "@lincode/reactivity"
 import { getEditor } from "../states/useEditor"
+import { getCamera } from "../states/useCamera"
+import mainCamera from "../engine/mainCamera"
 
 export type MouseEventName = "click" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
@@ -41,7 +43,7 @@ const makeMouseEvent = (names: Array<MouseEventName>) => (ev: MouseEvent | Touch
 }
 
 createEffect(() => {
-    if (getEditor()) {
+    if (getEditor() && getCamera() === mainCamera) {
         if (getMobile()) {
             const handleTouchStart = makeMouseEvent(["click"])
             container.addEventListener("touchstart", handleTouchStart)
@@ -89,7 +91,7 @@ createEffect(() => {
         container.removeEventListener("mousedown", handleMouseDown)
         container.removeEventListener("mouseup", handleMouseUp)
     }
-}, [getMobile, getEditor])
+}, [getMobile, getEditor, getCamera])
 
 export class Mouse extends EventLoopItem implements IMouse {
     public static componentName = "mouse"
