@@ -6,9 +6,10 @@ import { getDefaultFog } from "../../states/useDefaultFog"
 export default {}
 
 createEffect(() => {
-    if (!getDefaultFog()) return
+    const defaultFog = getDefaultFog()
+    if (!defaultFog) return
 
-    scene.fog = new Fog(0x000000, 0, 100)
+    scene.fog = new Fog(defaultFog, 0, 100)
 
     return () => {
         scene.fog = null

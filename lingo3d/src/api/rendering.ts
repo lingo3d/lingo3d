@@ -3,16 +3,10 @@ import { AmbientOcclusion, getAmbientOcclusion, setAmbientOcclusion } from "../s
 import { getBloomRadius, setBloomRadius } from "../states/useBloomRadius"
 import { getBloomStrength, setBloomStrength } from "../states/useBloomStrength"
 import { getBloomThreshold, setBloomThreshold } from "../states/useBloomThreshold"
-import { getBokeh, setBokeh } from "../states/useBokeh"
-import { getBokehAperture, setBokehAperture } from "../states/useBokehAperture"
-import { getBokehFocus, setBokehFocus } from "../states/useBokehFocus"
-import { getBokehMaxBlur, setBokehMaxBlur } from "../states/useBokehMaxBlur"
 import { getExposure, setExposure } from "../states/useExposure"
 import { getLogarithmicDepth, setLogarithmicDepth } from "../states/useLogarithmicDepth"
 import { Encoding, getEncoding, setEncoding } from "../states/useEncoding"
 import { getPBR, setPBR } from "../states/usePBR"
-import { getSelectiveBloom, setSelectiveBloom } from "../states/useSelectiveBloom"
-import { getOutline, setOutline } from "../states/useOutline"
 import { getOutlineColor, setOutlineColor } from "../states/useOutlineColor"
 import { getOutlineHiddenColor, setOutlineHiddenColor } from "../states/useOutlineHiddenColor"
 import { getOutlinePattern, setOutlinePattern } from "../states/useOutlinePattern"
@@ -49,13 +43,6 @@ export default {
         setPBR(value)
     },
 
-    get selectiveBloom() {
-        return getSelectiveBloom()
-    },
-    set selectiveBloom(value: boolean) {
-        setSelectiveBloom(value)
-    },
-
     get bloom() {
         return getBloom()
     },
@@ -84,46 +71,11 @@ export default {
         setBloomThreshold(value)
     },
 
-    get bokeh() {
-        return getBokeh()
-    },
-    set bokeh(value: boolean) {
-        setBokeh(value)
-    },
-
-    get bokehFocus() {
-        return getBokehFocus()
-    },
-    set bokehFocus(value: number) {
-        setBokehFocus(value)
-    },
-
-    get bokehMaxBlur() {
-        return getBokehMaxBlur()
-    },
-    set bokehMaxBlur(value: number) {
-        setBokehMaxBlur(value)
-    },
-
-    get bokehAperture() {
-        return getBokehAperture()
-    },
-    set bokehAperture(value: number) {
-        setBokehAperture(value)
-    },
-
     get ambientOcclusion() {
         return getAmbientOcclusion()
     },
     set ambientOcclusion(value: AmbientOcclusion) {
         setAmbientOcclusion(value)
-    },
-
-    get outline() {
-        return getOutline()
-    },
-    set outline(value: boolean) {
-        setOutline(value)
     },
 
     get outlineColor() {

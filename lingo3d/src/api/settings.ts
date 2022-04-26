@@ -25,7 +25,7 @@ export default {
     get defaultFog() {
         return getDefaultFog()
     },
-    set defaultFog(value: boolean) {
+    set defaultFog(value: string | undefined) {
         setDefaultFog(value)
     },
 

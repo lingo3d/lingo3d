@@ -1,4 +1,6 @@
+import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
+import { omit } from "@lincode/utils"
 import { html, LitElement } from "lit"
 import { customElement } from "lit/decorators.js"
 import { createRef, ref, Ref } from "lit/directives/ref.js"
@@ -29,20 +31,28 @@ export default class Editor extends LitElement {
     public constructor() {
         super()
         document.body.appendChild(this)
-        console.log(this)
     }
 
     private containerRef: Ref<HTMLInputElement> = createRef()
+    private handle?: Cancellable
 
+    public override disconnectedCallback() {
+        super.disconnectedCallback()
+        setEditor(false)
+        this.handle?.cancel()
+    }
+    
     protected override firstUpdated() {
         const container = this.containerRef.value
         if (!container) return
 
-        createEffect(() => {
-            const PARAMS = { ...settings, ...rendering, ...background }
-            PARAMS.defaultLight = "true"
-            PARAMS.ambientOcclusion = "false" as any
-
+        this.handle = createEffect(() => {
+            const PARAMS = omit({ ...settings, ...rendering, ...background }, [
+                "pixelRatio",
+                "performance",
+                "wasmPath",
+                "autoMount"
+            ])
             for (const [key, value] of Object.entries(PARAMS))
                 if (value === undefined)
                     //@ts-ignore
@@ -51,8 +61,20 @@ export default class Editor extends LitElement {
             const pane = new Pane({ container })
             addCameraInput(pane, getCameraList())
 
-            for (const key of Object.keys(PARAMS))
-                pane.addInput(PARAMS, key as any)
+            for (const key of Object.keys(PARAMS)) {
+                const input = pane.addInput(PARAMS, key as any)
+                input.on("change", e => {
+                    if (key in settings)
+                        //@ts-ignore
+                        settings[key] = e.value
+                    else if (key in rendering)
+                        //@ts-ignore
+                        rendering[key] = e.value
+                    else if (key in background)
+                        //@ts-ignore
+                        background[key] = e.value
+                })
+            }
             
             setEditor(true)
             setCamera(mainCamera)
@@ -64,10 +86,6 @@ export default class Editor extends LitElement {
                 pane.dispose()
             }
         }, [getCameraList])
-    }
-    
-    public override disconnectedCallback(): void {
-        setEditor(false)
     }
 
     protected override createRenderRoot() {
