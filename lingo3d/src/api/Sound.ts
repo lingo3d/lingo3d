@@ -1,10 +1,11 @@
 import { Disposable, Resolvable } from "@lincode/promiselikes"
 import type { Howl } from "howler"
-import ISound, { soundDefaults } from "../interface/ISound"
+import ISound, { soundDefaults, soundSchema } from "../interface/ISound"
 
 export class Sound extends Disposable implements ISound {
     public static componentName = "sound"
     public static defaults = soundDefaults
+    public static schema = soundSchema
 
     public onPlay?: () => void
 

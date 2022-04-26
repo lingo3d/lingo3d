@@ -3,7 +3,7 @@ import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import AnimationManager from "./core/SimpleObjectManager/AnimationManager"
 import { scaleDown } from "../engine/constants"
-import IModel, { modelDefaults } from "../interface/IModel"
+import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
 import { objectURLMapperPtr } from "./utils/loaders/setObjectURLMapper"
 import { Resolvable } from "@lincode/promiselikes"
 import { lazyLoadFBX, lazyLoadGLTF } from "./utils/loaders/lazyLoad"
@@ -11,6 +11,7 @@ import { lazyLoadFBX, lazyLoadGLTF } from "./utils/loaders/lazyLoad"
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
     public static defaults = modelDefaults
+    public static schema = modelSchema
 
     public async loadAnimation(url: string, name = url) {
         const resolvable = new Resolvable()

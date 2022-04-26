@@ -1,6 +1,6 @@
 import { Color, Group, RectAreaLight } from "three"
 import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper"
-import IAreaLight, { areaLightDefaults } from "../../interface/IAreaLight"
+import IAreaLight, { areaLightDefaults, areaLightSchema } from "../../interface/IAreaLight"
 import { lazy } from "@lincode/utils"
 import ObjectManager from "../core/ObjectManager"
 import { getCamera } from "../../states/useCamera"
@@ -18,6 +18,7 @@ const lazyInit = lazy(async () => {
 export default class extends ObjectManager<Group> implements IAreaLight {
     public static componentName = "areaLight"
     public static defaults = areaLightDefaults
+    public static schema = areaLightSchema
 
     private light?: RectAreaLight
 

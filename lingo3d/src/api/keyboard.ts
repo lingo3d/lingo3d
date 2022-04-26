@@ -1,6 +1,6 @@
 import { event } from "@lincode/events"
 import { Group } from "three"
-import IKeyboard, { keyboardDefaults } from "../interface/IKeyboard"
+import IKeyboard, { keyboardDefaults, keyboardSchema } from "../interface/IKeyboard"
 import { loop } from "../engine/eventLoop"
 import EventLoopItem from "./core/EventLoopItem"
 import { getEditor } from "../states/useEditor"
@@ -66,6 +66,7 @@ createEffect(() => {
 export class Keyboard extends EventLoopItem implements IKeyboard {
     public static componentName = "keyboard"
     public static defaults = keyboardDefaults
+    public static schema = keyboardSchema
 
     public outerObject3d = new Group()
 

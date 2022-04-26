@@ -3,7 +3,7 @@ import ObjectManager from "../core/ObjectManager"
 import { planeGeometry } from "../primitives/Plane"
 import { circleGeometry } from "../primitives/Circle"
 import { flatGeomScaleZ } from "../../engine/constants"
-import IReflector, { reflectorDefaults, ReflectorShape } from "../../interface/IReflector"
+import IReflector, { reflectorDefaults, reflectorSchema, ReflectorShape } from "../../interface/IReflector"
 
 const planeGeo = planeGeometry.clone()
 const circleGeo = circleGeometry.clone()
@@ -11,6 +11,7 @@ const circleGeo = circleGeometry.clone()
 export default class Reflector extends ObjectManager<Group> implements IReflector {
     public static componentName = "reflector"
     public static defaults = reflectorDefaults
+    public static schema = reflectorSchema
 
     public constructor() {
         super(new Group())

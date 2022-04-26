@@ -2,11 +2,12 @@ import { applyMixins } from "@lincode/utils"
 import { SpotLight as ThreeSpotLight, SpotLightHelper } from "three"
 import LightBase from "../core/LightBase"
 import PointLightMixin from "../core/mixins/PointLightMixin"
-import ISpotLight, { spotLightDefaults } from "../../interface/ISpotLight"
+import ISpotLight, { spotLightDefaults, spotLightSchema } from "../../interface/ISpotLight"
 
 class SpotLight extends LightBase<ThreeSpotLight> implements ISpotLight {
     public static componentName = "spotLight"
     public static defaults = spotLightDefaults
+    public static schema = spotLightSchema
 
     public constructor() {
         super(new ThreeSpotLight(), SpotLightHelper)

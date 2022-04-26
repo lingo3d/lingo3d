@@ -3,13 +3,16 @@ import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import { debounce } from "@lincode/utils"
 import { Quaternion } from "three"
-import ICharacterCamera, { LockTargetRotationValue } from "../../interface/ICharacterCamera"
+import ICharacterCamera, { characterCameraDefaults, characterCameraSchema, LockTargetRotationValue } from "../../interface/ICharacterCamera"
 import Camera from "../cameras/Camera"
 import { euler, quaternion, quaternion_ } from "../utils/reusables"
 import ObjectManager from "./ObjectManager"
 import SimpleObjectManager from "./SimpleObjectManager"
 
 export default class CharacterCamera extends Camera implements ICharacterCamera {
+    public static override defaults = characterCameraDefaults
+    public static override schema = characterCameraSchema
+
     public constructor() {
         super()
         this.createEffect(() => {

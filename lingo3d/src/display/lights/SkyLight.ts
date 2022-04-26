@@ -1,10 +1,11 @@
 import { Color, HemisphereLight, HemisphereLightHelper } from "three"
 import LightBase from "../core/LightBase"
-import ISkyLight, { skyLightDefaults } from "../../interface/ISkyLight"
+import ISkyLight, { skyLightDefaults, skyLightSchema } from "../../interface/ISkyLight"
 
 export default class extends LightBase<HemisphereLight> implements ISkyLight {
     public static componentName = "skyLight"
     public static defaults = skyLightDefaults
+    public static schema = skyLightSchema
 
     public constructor() {
         super(new HemisphereLight(), HemisphereLightHelper)

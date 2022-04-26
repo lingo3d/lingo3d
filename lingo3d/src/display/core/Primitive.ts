@@ -3,9 +3,12 @@ import { Mesh, MeshStandardMaterial, BufferGeometry } from "three"
 import ObjectManager from "./ObjectManager"
 import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
-import IPrimitive from "../../interface/IPrimitive"
+import IPrimitive, { primitiveDefaults, primitiveSchema } from "../../interface/IPrimitive"
 
 abstract class Primitive extends ObjectManager<Mesh> implements IPrimitive {
+    public static defaults = primitiveDefaults
+    public static schema = primitiveSchema
+
     protected material: MeshStandardMaterial
     protected transparent?: boolean
 
