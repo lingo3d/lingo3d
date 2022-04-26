@@ -10,6 +10,7 @@ import background from "../api/background"
 import rendering from "../api/rendering"
 import settings from "../api/settings"
 import mainCamera from "../engine/mainCamera"
+import { onTransformControls } from "../events/onTransformControls"
 import { getCamera, setCamera } from "../states/useCamera"
 import { getCameraList } from "../states/useCameraList"
 import { setEditor } from "../states/useEditor"
@@ -33,13 +34,27 @@ const addInputs = (
     pane: Pane,
     title: string,
     target: Record<string, any>,
-    params = target,
+    params = { ...target },
     vectorMap?: Record<string, Array<string>>
 ) => {
     const folder = pane.addFolder({ title })
 
     for (const [key, value] of Object.entries(params))
-        value === undefined && (params[key] = "")
+        switch (typeof value) {
+            case "undefined":
+                params[key] = ""
+                break
+        
+            case "number":
+                params[key] = toFixed(value)
+                break
+
+            case "object":
+                typeof value?.x === "number" && (value.x = toFixed(value.x))
+                typeof value?.y === "number" && (value.y = toFixed(value.y))
+                typeof value?.z === "number" && (value.z = toFixed(value.z))
+                break
+        }
 
     for (const key of Object.keys(params)) {
         const input = folder.addInput(params, key)
@@ -118,16 +133,25 @@ export default class Editor extends LitElement {
 
                 const makeVectorNames = (prop: string) => [prop + "X", prop + "Y", prop + "Z"]
 
-                addInputs(pane, "transform", target, {
+                const transformParams = {
                     "scale": defaults.scale,
                     "scale xyz": makeVectorXYZ("scale"),
                     "position": makeVector("x", "y", "z"),
                     "rotation": makeVectorXYZ("rotation")
-                }, {
+                }
+                addInputs(pane, "transform", target, transformParams, {
                     "scale xyz": makeVectorNames("scale"),
                     "position": ["x", "y", "z"],
                     "rotation": makeVectorNames("rotation")
                 })
+                handle.watch(onTransformControls(() => {
+                    Object.assign(transformParams, {
+                        "scale xyz": makeVectorXYZ("scale"),
+                        "position": makeVector("x", "y", "z"),
+                        "rotation": makeVectorXYZ("rotation"),
+                    })
+                    pane.refresh()
+                }))
 
                 addInputs(pane, "inner transform", target, {
                     "size": makeVector("width", "height", "depth"),
