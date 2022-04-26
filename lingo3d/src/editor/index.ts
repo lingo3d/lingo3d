@@ -116,25 +116,22 @@ export default class Editor extends LitElement {
             if (target) {
                 addCameraInput(pane, getCameraList())
 
-                //@ts-ignore
-                const { defaults } = target.constructor
-                
                 const makeVectorXYZ = (prop: string) => ({
-                    x: target[prop + "X"] ?? defaults[prop + "X"],
-                    y: target[prop + "Y"] ?? defaults[prop + "Y"],
-                    z: target[prop + "Z"] ?? defaults[prop + "Z"]
+                    x: target[prop + "X"],
+                    y: target[prop + "Y"],
+                    z: target[prop + "Z"]
                 })
 
                 const makeVector = (x: string, y: string, z: string) => ({
-                    x: target[x] ?? defaults[x],
-                    y: target[y] ?? defaults[y],
-                    z: target[z] ?? defaults[z]
+                    x: target[x],
+                    y: target[y],
+                    z: target[z]
                 })
 
                 const makeVectorNames = (prop: string) => [prop + "X", prop + "Y", prop + "Z"]
 
                 const transformParams = {
-                    "scale": defaults.scale,
+                    "scale": target.scale,
                     "scale xyz": makeVectorXYZ("scale"),
                     "position": makeVector("x", "y", "z"),
                     "rotation": makeVectorXYZ("rotation")
@@ -164,9 +161,20 @@ export default class Editor extends LitElement {
                 })
 
                 addInputs(pane, "display", target, {
-                    "bloom": defaults.bloom,
-                    // "reflection": defaults.reflection,
-                    "visible": defaults.visible
+                    bloom: target.bloom,
+                    reflection: target.reflection,
+                    outline: target.outline,
+
+                    visible: target.visible,
+                    innerVisible: target.innerVisible,
+                    frustumCulled: target.frustumCulled,
+
+                    metalnessFactor: target.metalnessFactor,
+                    roughnessFactor: target.roughnessFactor,
+                    environmentFactor: target.environmentFactor,
+
+                    toon: target.toon,
+                    pbr: target.pbr
                 })
 
                 return () => {

@@ -485,7 +485,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
 
     private _visible?: boolean
     public get visible() {
-        return !!this._visible
+        return this._visible !== false
     }
     public set visible(val: boolean) {
         this._visible = val

@@ -30,6 +30,7 @@ import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import Sky from "../display/Sky"
 import rendering from "../api/rendering"
 import Skybox from "../display/Skybox"
+import Cube from "../display/primitives/Cube"
 
 export default {}
 
@@ -80,3 +81,7 @@ map.onLoad = () => {
 
 const skybox = new Skybox()
 skybox.texture = [LeftSrc, RightSrc, UpSrc, DownSrc, FrontSrc, BackSrc]
+
+map.pbr = true
+
+const cube = new Cube()
