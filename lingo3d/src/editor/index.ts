@@ -11,6 +11,7 @@ import rendering from "../api/rendering"
 import settings from "../api/settings"
 import mainCamera from "../engine/mainCamera"
 import { onTransformControls } from "../events/onTransformControls"
+import { objectManagerSchema } from "../interface/IObjectManager"
 import { getCamera, setCamera } from "../states/useCamera"
 import { getCameraList } from "../states/useCameraList"
 import { setEditor } from "../states/useEditor"
@@ -176,6 +177,15 @@ export default class Editor extends LitElement {
                     toon: target.toon,
                     pbr: target.pbr
                 })
+                
+                const { schema, componentName } = target.constructor
+
+                const params: Record<string, any> = {}
+                for (const [key, value] of Object.entries(schema)) {
+                    if (key in objectManagerSchema || value === Function) continue
+                    params[key] = target[key]
+                }
+                addInputs(pane, componentName, target, params)
 
                 return () => {
                     handle.cancel()

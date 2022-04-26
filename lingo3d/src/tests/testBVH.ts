@@ -82,6 +82,4 @@ map.onLoad = () => {
 const skybox = new Skybox()
 skybox.texture = [LeftSrc, RightSrc, UpSrc, DownSrc, FrontSrc, BackSrc]
 
-map.pbr = true
-
 const cube = new Cube()

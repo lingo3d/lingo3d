@@ -1,7 +1,7 @@
 import { applyMixins } from "@lincode/utils"
 import { Mesh, MeshStandardMaterial, Object3D } from "three"
 import SimpleObjectManager from "./SimpleObjectManager"
-import IFound from "../../interface/IFound"
+import IFound, { foundDefaults, foundSchema } from "../../interface/IFound"
 import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
 import ObjectManager from "./ObjectManager"
@@ -10,6 +10,10 @@ import { Cancellable } from "@lincode/promiselikes"
 import AnimationManager from "./SimpleObjectManager/AnimationManager"
 
 class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
+    public static componentName = "found"
+    public static defaults = foundDefaults
+    public static schema = foundSchema
+
     protected material: MeshStandardMaterial
 
     public constructor(mesh: Object3D) {
