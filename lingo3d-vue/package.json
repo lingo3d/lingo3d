@@ -13,21 +13,16 @@
   },
   "types": "./dist/index.d.ts",
   "private": false,
-  "version": "1.0.35",
+  "version": "1.0.36",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lincode/promiselikes": "*",
-    "@lincode/reactivity": "*",
-    "@lincode/utils": "*",
-    "@tweakpane/core": "1",
-    "lingo3d": "1.10.117",
+    "lingo3d": "1.10.119",
     "nanoid": "3",
-    "popmotion": "11",
-    "tweakpane": "3"
+    "popmotion": "11"
   },
   "peerDependencies": {
     "vue": "^3.2.25"
