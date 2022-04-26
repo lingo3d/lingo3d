@@ -1,7 +1,6 @@
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import AnimationManager, { PlayOptions } from "./AnimationManager"
 import { AnimationData } from "../../utils/deserialize/types"
-import guid from "@pinyinma/guid"
 import IAnimation, { Animation, AnimationValue } from "../../../interface/IAnimation"
 import { debounce } from "@lincode/utils"
 import { Resolvable } from "@lincode/promiselikes"
@@ -47,7 +46,7 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
 
     private buildAnimation(val: AnimationValue) {
         buildAnimationTracks(val).then(tracks => {
-            const name = guid + "animation"
+            const name = "lingo3d-animation"
             this.createAnimation(name).setTracks(tracks)
             this.playAnimation(name)
         })
