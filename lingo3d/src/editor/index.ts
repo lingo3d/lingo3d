@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
-import { last, omit } from "@lincode/utils"
+import { omit } from "@lincode/utils"
 import { html, LitElement } from "lit"
 import { customElement } from "lit/decorators.js"
 import { createRef, ref, Ref } from "lit/directives/ref.js"
@@ -27,7 +27,15 @@ const addCameraInput = (pane: Pane, camList: Array<Camera>) => {
     cameraInput.on("change", e => setCamera(camList[e.value]))
 }
 
-const addInputs = (pane: Pane, title: string, target: Record<string, any>, params: Record<string, any>) => {
+const toFixed = (v: any) => typeof v === "number" ? Number(v.toFixed(2)) : v
+
+const addInputs = (
+    pane: Pane,
+    title: string,
+    target: Record<string, any>,
+    params = target,
+    vectorMap?: Record<string, Array<string>>
+) => {
     const folder = pane.addFolder({ title })
 
     for (const [key, value] of Object.entries(params))
@@ -35,7 +43,16 @@ const addInputs = (pane: Pane, title: string, target: Record<string, any>, param
 
     for (const key of Object.keys(params)) {
         const input = folder.addInput(params, key)
-        input.on("change", e => target[key] = e.value)
+        input.on("change", e => {
+            if (vectorMap?.[key]) {
+                const [xProp, yProp, zProp] = vectorMap[key]
+                const { x, y, z } = e.value
+                target[xProp] = toFixed(x)
+                target[yProp] = toFixed(y)
+                target[zProp] = toFixed(z)
+            }
+            else target[key] = toFixed(e.value)
+        })
     }
 }
 
@@ -68,15 +85,70 @@ export default class Editor extends LitElement {
             setSelection(true)
             setGridHelper(true)
 
-            const selectionTarget = getSelectionTarget()
+            const target: any = getSelectionTarget()
+            const pane = new Pane({ container })
 
-            if (selectionTarget) {
-                return
+            const handle = new Cancellable(() => {
+                pane.dispose()
+    
+                setEditor(false)
+                setCamera(currentCamera)
+                setOrbitControls(false)
+                setSelection(false)
+                setGridHelper(false)
+            })
+
+            if (target) {
+                //@ts-ignore
+                const { defaults } = target.constructor
+                
+                const makeVectorXYZ = (prop: string) => ({
+                    x: target[prop + "X"] ?? defaults[prop + "X"],
+                    y: target[prop + "Y"] ?? defaults[prop + "Y"],
+                    z: target[prop + "Z"] ?? defaults[prop + "Z"]
+                })
+
+                const makeVector = (x: string, y: string, z: string) => ({
+                    x: target[x] ?? defaults[x],
+                    y: target[y] ?? defaults[y],
+                    z: target[z] ?? defaults[z]
+                })
+
+                const makeVectorNames = (prop: string) => [prop + "X", prop + "Y", prop + "Z"]
+
+                addInputs(pane, "transform", target, {
+                    "scale": defaults.scale,
+                    "scale xyz": makeVectorXYZ("scale"),
+                    "position": makeVector("x", "y", "z"),
+                    "rotation": makeVectorXYZ("rotation")
+                }, {
+                    "scale xyz": makeVectorNames("scale"),
+                    "position": ["x", "y", "z"],
+                    "rotation": makeVectorNames("rotation")
+                })
+
+                addInputs(pane, "inner transform", target, {
+                    "size": makeVector("width", "height", "depth"),
+                    "inner position": makeVectorXYZ("inner"),
+                    "inner rotation": makeVectorXYZ("innerRotation")
+                }, {
+                    "size": ["width", "height", "depth"],
+                    "inner position": makeVectorNames("inner"),
+                    "inner rotation": makeVectorNames("innerRotation")
+                })
+
+                addInputs(pane, "display", target, {
+                    "bloom": defaults.bloom,
+                    // "reflection": defaults.reflection,
+                    "visible": defaults.visible
+                })
+
+                return () => {
+                    handle.cancel()
+                }
             }
 
-            const pane = new Pane({ container })
             addCameraInput(pane, getCameraList())
-
 
             addInputs(pane, "settings", settings, omit(settings, [
                 "pixelRatio",
@@ -84,17 +156,11 @@ export default class Editor extends LitElement {
                 "wasmPath",
                 "autoMount"
             ]))
-            addInputs(pane, "background", background, background)
-            addInputs(pane, "rendering", rendering, rendering)
+            addInputs(pane, "background", background)
+            addInputs(pane, "rendering", rendering)
 
             return () => {
-                pane.dispose()
-
-                setEditor(false)
-                setCamera(currentCamera)
-                setOrbitControls(false)
-                setSelection(false)
-                setGridHelper(false)
+                handle.cancel()
             }
         }, [getCameraList, getSelectionTarget])
     }
