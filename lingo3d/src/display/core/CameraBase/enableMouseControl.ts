@@ -15,7 +15,10 @@ export default function (this: CameraBase<Camera>, handle: Cancellable) {
         const mobile = getMobile()
 
         if (mobile || this.mouseControl === "drag") {
-            setPointerLockCamera(getCamera())
+            const camera = getCamera()
+            if (camera !== this.camera) return
+
+            setPointerLockCamera(camera)
 
             let xTouch = 0
             let yTouch = 0

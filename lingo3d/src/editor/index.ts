@@ -99,6 +99,8 @@ export default class Editor extends LitElement {
             })
 
             if (target) {
+                addCameraInput(pane, getCameraList())
+
                 //@ts-ignore
                 const { defaults } = target.constructor
                 

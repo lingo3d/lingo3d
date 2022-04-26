@@ -2,7 +2,7 @@ import type * as types from "lingo3d"
 export { types }
 
 export { default as World } from "./components/World.vue"
-// export { default as Editor } from "./components/Editor"
+export { default as Editor } from "./components/Editor.vue"
 // export { default as Stats } from "./components/Stats"
 
 export { default as Keyboard } from "./components/api/Keyboard.vue"
