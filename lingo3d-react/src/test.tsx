@@ -151,6 +151,6 @@ function App3() {
 
 
 const root = createRoot(document.getElementById('app'));
-root.render(<React.StrictMode><App3 /></React.StrictMode>);
+root.render(<React.StrictMode><App /></React.StrictMode>);
 
 // ReactDOM.render(<React.StrictMode><App /></React.StrictMode>, document.querySelector("#app"))

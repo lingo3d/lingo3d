@@ -19,12 +19,10 @@
 		"@lincode/react-reticle": "1.1.2",
 		"@lincode/reactivity": "*",
 		"@lincode/utils": "*",
-		"@tweakpane/core": "1",
-		"lingo3d": "1.10.114",
+		"lingo3d": "1.10.115",
 		"nanoid": "3",
 		"popmotion": "11",
-		"stats.js": "^0.17.0",
-		"tweakpane": "3"
+		"stats.js": "^0.17.0"
 	},
 	"peerDependencies": {
 		"react": "18"
