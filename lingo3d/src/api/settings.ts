@@ -4,7 +4,7 @@ import { DefaultLight, getDefaultLight, setDefaultLight } from "../states/useDef
 import { getPerformance, PerformanceValue, setPerformance } from "../states/usePerformance"
 import { getOrbitControls, setOrbitControls } from "../states/useOrbitControls"
 import { getGravity, setGravity } from "../states/useGravity"
-import { getMapPhysics, setMapPhysics } from "../states/useMapPhysics"
+import { getRepulsion, setRepulsion } from "../states/useRepulsion"
 import { getDefaultLightScale, setDefaultLightScale } from "../states/useDefaultLightScale"
 
 export default {
@@ -57,11 +57,11 @@ export default {
         setGravity(value)
     },
 
-    get mapPhysics() {
-        return getMapPhysics()
+    get repulsion() {
+        return getRepulsion()
     },
-    set mapPhysics(value: number) {
-        setMapPhysics(value)
+    set repulsion(value: number) {
+        setRepulsion(value)
     },
 
     wasmPath: "https://unpkg.com/lingo3d-wasm@1.0.0/assets/",

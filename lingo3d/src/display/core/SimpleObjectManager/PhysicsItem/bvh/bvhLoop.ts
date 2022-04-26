@@ -5,7 +5,7 @@ import PhysicsItem from ".."
 import { loop } from "../../../../../engine/eventLoop"
 import { getBVHMap } from "../../../../../states/useBVHMap"
 import { getGravity } from "../../../../../states/useGravity"
-import { getMapPhysics } from "../../../../../states/useMapPhysics"
+import { getRepulsion } from "../../../../../states/useRepulsion"
 import { box3, line3, vector3, vector3_, vector3__ } from "../../../../utils/reusables"
 import bvhContactMap from "./bvhContactMap"
 import { bvhManagerMap } from "./computeBVH"
@@ -19,7 +19,7 @@ createEffect(function (this: PhysicsItem) {
     if (!bvhArray.length) return
 
     const gravity = getGravity()
-    const mapPhysics = getMapPhysics()
+    const repulsion = getRepulsion()
     const delta = 0.02
 
     const handle = loop(() => {
@@ -87,8 +87,8 @@ createEffect(function (this: PhysicsItem) {
             // if the player was primarily adjusted vertically we assume it's on something we should consider ground
             characterManager.bvhOnGround = deltaVector.y > Math.abs(delta * playerVelocity.y * 0.25)
 
-            if (mapPhysics && characterManager.bvhOnGround)
-                if (Math.abs(deltaVector.y / (deltaVector.x + deltaVector.z + Number.EPSILON)) < mapPhysics)
+            if (repulsion && characterManager.bvhOnGround)
+                if (Math.abs(deltaVector.y / (deltaVector.x + deltaVector.z + Number.EPSILON)) < repulsion)
                     characterManager.bvhOnGround = false
 
             const offset = Math.max(0.0, deltaVector.length() - 1e-5)
@@ -107,4 +107,4 @@ createEffect(function (this: PhysicsItem) {
     return () => {
         handle.cancel()
     }
-}, [getBVHMap, getGravity, getMapPhysics])
+}, [getBVHMap, getGravity, getRepulsion])

@@ -17,7 +17,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     defaultLightScale: Number,
     defaultOrbitControls: Boolean,
     gravity: Number,
-    mapPhysics: Number,
+    repulsion: Number,
     wasmPath: String,
     autoMount: Boolean,
     logarithmicDepth: Boolean,
