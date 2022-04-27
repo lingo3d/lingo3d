@@ -4,9 +4,9 @@ import { container } from "./renderLoop/renderSetup"
 import { createEffect } from "@lincode/reactivity"
 import mainCamera from "./mainCamera"
 import { getCamera } from "../states/useCamera"
-import { getOrbitControlsEnabled } from "../states/useOrbitControlsEnabled"
 import { getOrbitControlsScreenSpacePanning } from "../states/useOrbitControlsScreenSpacePanning"
 import OrbitCamera from "../display/cameras/OrbitCamera"
+import { getTransformControlsDragging } from "../states/useTransformControlsDragging"
 
 export default {}
 
@@ -19,12 +19,12 @@ const mainOrbitControls = mainOrbitCamera.controls
 getOrbitControlsScreenSpacePanning(val => mainOrbitControls.screenSpacePanning = val)
 
 createEffect(() => {
-    const enabled = getOrbitControls() && getOrbitControlsEnabled() && getCamera() === mainCamera
+    const enabled = getOrbitControls() && !getTransformControlsDragging() && getCamera() === mainCamera
     
     mainOrbitCamera.enabled = enabled
     container.style.cursor = enabled ? "grab" : "auto"
 
-}, [getOrbitControls, getOrbitControlsEnabled, getCamera])
+}, [getOrbitControls, getTransformControlsDragging, getCamera])
 
 createEffect(() => {
     if (!getOrbitControls()) return

@@ -2,7 +2,6 @@ import CameraBase from "."
 import { getCamera } from "../../../states/useCamera"
 import { container } from "../../../engine/renderLoop/renderSetup"
 import { Camera } from "three"
-import { setSelectionEnabled } from "../../../states/useSelectionEnabled"
 import { getPointerLockCamera, setPointerLockCamera } from "../../../states/usePointLockCamera"
 import { createEffect } from "@lincode/reactivity"
 import { getMobile } from "../../../states/useMobile"
@@ -45,15 +44,9 @@ export default function (this: CameraBase<Camera>) {
                 yTouch = yTouchNew
     
                 this.gyrate(movementX * 2, movementY * 2)
-    
-                if (Math.abs(xTouch - xTouchStart) > 10 || Math.abs(yTouch - yTouchStart) > 10)
-                    setSelectionEnabled(false)
             }
     
-            const onTouchEnd = () => {
-                started = false
-                setSelectionEnabled(true)
-            }
+            const onTouchEnd = () => started = false
     
             if (mouseControl === "drag" && !mobile) {
                 container.addEventListener("mousedown", onTouchStart)

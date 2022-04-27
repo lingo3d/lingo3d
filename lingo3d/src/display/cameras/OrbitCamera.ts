@@ -11,12 +11,9 @@ import CameraMixin from "../core/mixins/CameraMixin"
 import IOrbitCamera, { orbitCameraDefaults, orbitCameraSchema } from "../../interface/IOrbitCamera"
 import { loop } from "../../engine/eventLoop"
 import ObjectManager from "../core/ObjectManager"
-import { getOrbitControlsEnabled } from "../../states/useOrbitControlsEnabled"
 import { vector3 } from "../utils/reusables"
-import { emitOrbitControls } from "../../events/onOrbitControls"
-import { setSelectionEnabled } from "../../states/useSelectionEnabled"
-import mainCamera from "../../engine/mainCamera"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../globals"
+import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 
 class OrbitCamera extends EventLoopItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -50,7 +47,8 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         this.updateDebounced()
 
         this.createEffect(() => {
-            if (!getOrbitControlsEnabled() || getCamera() !== camera || !this.enabledState.get()) return
+            if (getTransformControlsDragging() || getCamera() !== camera || !this.enabledState.get())
+                return
 
             controls.enabled = true
             const handle = loop(this.updateDebounced)
@@ -78,41 +76,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
                 controls.enabled = false
                 handle.cancel()
             }
-        }, [getCamera, getOrbitControlsEnabled, this.enableZoomState.get, this.enabledState.get])
-
-        let azimuthStart = 0
-        let polarStart = 0
-        let targetStart = vector3
-        let started = false
-
-        controls.addEventListener("start", () => {
-            started = true
-            azimuthStart = controls.getAzimuthalAngle() * rad2Deg
-            polarStart = controls.getPolarAngle() * rad2Deg
-            targetStart = controls.target.clone()
-            camera === mainCamera && emitOrbitControls("start")
-        })
-
-        controls.addEventListener("change", () => {
-            if (!started) return
-            const azimuthDiff = Math.abs(controls.getAzimuthalAngle() * rad2Deg - azimuthStart)
-            const polarDiff = Math.abs(controls.getPolarAngle() * rad2Deg - polarStart)
-        
-            const { x, y, z } = controls.target
-            const { x: x0, y: y0, z: z0 } = targetStart
-            const targetDiff = Math.max(Math.abs(x0 - x), Math.abs(y0 - y), Math.abs(z0 - z))
-        
-            if (azimuthDiff > 2 || polarDiff > 2 || targetDiff > 0.02) {
-                setSelectionEnabled(false)
-                camera === mainCamera && emitOrbitControls("move")
-            }
-        })
-        
-        controls.addEventListener("end", () => {
-            started = false
-            setSelectionEnabled(true)
-            camera === mainCamera && emitOrbitControls("stop")
-        })
+        }, [getCamera, getTransformControlsDragging, this.enableZoomState.get, this.enabledState.get])
 
         this.then(() => controls.dispose())
     }

@@ -4,7 +4,6 @@ import { createEffect, createRef } from "@lincode/reactivity"
 import { getSelection } from "../../../states/useSelection"
 import { getSelectionTarget, setSelectionTarget } from "../../../states/useSelectionTarget"
 import { getCamera } from "../../../states/useCamera"
-import { getSelectionEnabled } from "../../../states/useSelectionEnabled"
 import scene from "../../../engine/scene"
 import SimpleObjectManager from "."
 import { getMultipleSelection } from "../../../states/useMultipleSelection"
@@ -15,6 +14,7 @@ import { scaleUp } from "../../../engine/constants"
 import { Cancellable } from "@lincode/promiselikes"
 import { vec2Point } from "../../utils/vec2Point"
 import mainCamera from "../../../engine/mainCamera"
+import { getTransformControlsDragging } from "../../../states/useTransformControlsDragging"
 
 const raycaster = new Raycaster()
 
@@ -56,7 +56,7 @@ export const mouseMoveSet = new Set<Object3D>()
 
 createEffect(() => {
     const selection = getSelection()
-    const selectionEnabled = getSelectionEnabled() && getCamera() === mainCamera
+    const selectionEnabled = !getTransformControlsDragging() && getCamera() === mainCamera
     const multipleSelection = getMultipleSelection()
     const firstMultipleSelection = createRef(true)
 
@@ -144,4 +144,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getSelection, getSelectionEnabled, getCamera, getMultipleSelection])
+}, [getSelection, getTransformControlsDragging, getCamera, getMultipleSelection])

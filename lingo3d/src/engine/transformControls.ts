@@ -1,8 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import { emitTransformControls } from "../events/onTransformControls"
 import { getCamera } from "../states/useCamera"
-import { setOrbitControlsEnabled } from "../states/useOrbitControlsEnabled"
-import { setSelectionEnabled } from "../states/useSelectionEnabled"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import { getTransformControlsMode } from "../states/useTransformControlsMode"
 import { getTransformControlsSpace } from "../states/useTransformControlsSpace"
@@ -12,6 +10,7 @@ import scene from "./scene"
 import { lazy } from "@lincode/utils"
 import { Cancellable } from "@lincode/promiselikes"
 import mainCamera from "./mainCamera"
+import { setTransformControlsDragging } from "../states/useTransformControlsDragging"
 
 export default {}
 
@@ -26,8 +25,7 @@ const lazyTransformControls = lazy(async () => {
 
     transformControls.addEventListener("dragging-changed", ({ value }) => {
         dragging = value
-        setOrbitControlsEnabled(!dragging)
-        setSelectionEnabled(!dragging)
+        setTransformControlsDragging(dragging)
         emitTransformControls(dragging ? "start" : "stop")
     })
 
