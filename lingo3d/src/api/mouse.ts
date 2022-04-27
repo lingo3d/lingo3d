@@ -16,6 +16,30 @@ import mainCamera from "../engine/mainCamera"
 export type MouseEventName = "click" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
 
+let downTime = 0
+let downX = 0
+let downY = 0
+
+mouseEvents.on("down", e => {
+    downTime = Date.now()
+    downX = e.clientX
+    downY = e.clientY
+})
+mouseEvents.on("up", (e) => {
+    const upTime = Date.now()
+
+    const deltaTime = upTime - downTime
+    const deltaX = Math.abs(e.clientX - downX)
+    const deltaY = Math.abs(e.clientY - downY)
+
+    downTime = upTime
+    downX = e.clientX
+    downY = e.clientY
+
+    if (deltaTime < 300 && deltaX < 5 && deltaY < 5)
+        mouseEvents.emit("click", e)
+})
+
 const computeMouse = throttle((ev: MouseEvent | TouchEvent) => {
     const pos = "targetTouches" in ev ? ev.targetTouches[0] : ev
     if (!pos)
@@ -43,27 +67,32 @@ const makeMouseEvent = (names: Array<MouseEventName>) => (ev: MouseEvent | Touch
 }
 
 createEffect(() => {
+    const handleDown = makeMouseEvent(["down"])
+    const handleUp = makeMouseEvent(["up"])
+
     if (getEditor() && getCamera() === mainCamera) {
         if (getMobile()) {
-            const handleTouchStart = makeMouseEvent(["click"])
-            container.addEventListener("touchstart", handleTouchStart)
+            container.addEventListener("touchstart", handleDown)
+            container.addEventListener("touchend", handleUp)
     
             return () => {
-                container.removeEventListener("touchstart", handleTouchStart)
+                container.removeEventListener("touchstart", handleDown)
+                container.removeEventListener("touchend", handleUp)
             }
         }
-        const handleClick = makeMouseEvent(["click"])
-        container.addEventListener("click", handleClick)
+        container.addEventListener("mousedown", handleDown)
+        container.addEventListener("mouseup", handleUp)
     
         return () => {
-            container.removeEventListener("click", handleClick)
+            container.removeEventListener("mousedown", handleDown)
+            container.removeEventListener("mouseup", handleUp)
         }
     }
     
     if (getMobile()) {
         const handleTouchMove = makeMouseEvent(["move"])
-        const handleTouchStart = makeMouseEvent(["click", "down", "move"])
-        const handleTouchEnd = makeMouseEvent(["up"])
+        const handleTouchStart = makeMouseEvent(["down", "move"])
+        const handleTouchEnd = makeMouseEvent(["up", "move"])
 
         document.addEventListener("touchmove", handleTouchMove)
         container.addEventListener("touchstart", handleTouchStart)
@@ -76,20 +105,15 @@ createEffect(() => {
         }
     }
     const handleMouseMove = makeMouseEvent(["move"])
-    const handleClick = makeMouseEvent(["click"])
-    const handleMouseDown = makeMouseEvent(["down"])
-    const handleMouseUp = makeMouseEvent(["up"])
 
     document.addEventListener("mousemove", handleMouseMove)
-    container.addEventListener("click", handleClick)
-    container.addEventListener("mousedown", handleMouseDown)
-    container.addEventListener("mouseup", handleMouseUp)
+    container.addEventListener("mousedown", handleDown)
+    container.addEventListener("mouseup", handleUp)
 
     return () => {
         document.removeEventListener("mousemove", handleMouseMove)
-        container.removeEventListener("click", handleClick)
-        container.removeEventListener("mousedown", handleMouseDown)
-        container.removeEventListener("mouseup", handleMouseUp)
+        container.removeEventListener("mousedown", handleDown)
+        container.removeEventListener("mouseup", handleUp)
     }
 }, [getMobile, getEditor, getCamera])
 

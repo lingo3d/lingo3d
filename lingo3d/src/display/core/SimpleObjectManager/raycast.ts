@@ -1,4 +1,4 @@
-import { Group, Object3D, Raycaster } from "three"
+import { Object3D, Raycaster } from "three"
 import { MouseEventName, mouseEvents } from "../../../api/mouse"
 import { createEffect, createRef } from "@lincode/reactivity"
 import { getSelection } from "../../../states/useSelection"

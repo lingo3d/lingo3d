@@ -30,12 +30,12 @@ export const timer: Timer = (...args: Array<any>): Cancellable => {
 
 const callbacks = new Set<() => void>()
 
-let prevTime = performance.now()
+let prevTime = Date.now()
 let count = 0
 
 getRenderer(renderer => {
     renderer.setAnimationLoop(() => {
-        const time = performance.now()
+        const time = Date.now()
         const fps = 1000 / (time - prevTime)
         prevTime = time
 
