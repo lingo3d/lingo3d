@@ -8,9 +8,9 @@ import { scaleUp, scaleDown } from "../../../engine/constants"
 import { ray, vector3_, vector3, euler } from "../../utils/reusables"
 import pillShape from "../SimpleObjectManager/PhysicsItem/cannon/shapes/pillShape"
 import ICameraBase, { MouseControl, MouseControlMode } from "../../../interface/ICameraBase"
-import { Cancellable } from "@lincode/promiselikes"
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
+import { Reactive } from "@lincode/reactivity"
 
 const PI_2 = Math.PI * 0.5
 
@@ -111,21 +111,19 @@ abstract class CameraBase<T extends Camera> extends ObjectManager<Group> impleme
 
     public mouseControlMode?: MouseControlMode
 
-    private mouseControlHandle: Cancellable | undefined
-    private _mouseControl?: MouseControl
+    protected mouseControlState = new Reactive<MouseControl>(false)
+    private mouseControlInit?: boolean
 
     public get mouseControl() {
-        return this._mouseControl
+        return this.mouseControlState.get()
     }
-    public set mouseControl(val: MouseControl | undefined) {
-        if (this._mouseControl === val) return
-        this._mouseControl = val
-        
-        this.mouseControlHandle?.cancel()
-        if (!val) return
+    public set mouseControl(val: MouseControl) {
+        this.mouseControlState.set(val)
 
-        const handle = this.mouseControlHandle = this.cancellable()
-        import("./enableMouseControl").then(module => module.default.call(this, handle))
+        if (!val || this.mouseControlInit) return
+        this.mouseControlInit = true
+
+        import("./enableMouseControl").then(module => module.default.call(this))
     }
 }
 interface CameraBase<T extends Camera> extends ObjectManager<Group>, CameraMixin<T> {}

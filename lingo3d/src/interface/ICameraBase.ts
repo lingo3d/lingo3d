@@ -6,7 +6,7 @@ export type MouseControlMode = "orbit" | "stationary"
 export type MouseControl = boolean | "drag"
 
 export default interface ICameraBase extends IObjectManager, ICameraMixin {
-    mouseControl?: MouseControl
+    mouseControl: MouseControl
     mouseControlMode?: MouseControlMode
 }
 
@@ -20,5 +20,7 @@ export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
 
 export const cameraBaseDefaults: ICameraBase = {
     ...objectManagerDefaults,
-    ...cameraMixinDefaults    
+    ...cameraMixinDefaults,
+    
+    mouseControl: false
 }
