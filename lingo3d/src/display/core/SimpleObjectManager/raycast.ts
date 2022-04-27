@@ -1,4 +1,4 @@
-import { Object3D, Raycaster } from "three"
+import { Group, Object3D, Raycaster } from "three"
 import { MouseEventName, mouseEvents } from "../../../api/mouse"
 import { createEffect, createRef } from "@lincode/reactivity"
 import { getSelection } from "../../../states/useSelection"
@@ -18,16 +18,12 @@ import mainCamera from "../../../engine/mainCamera"
 
 const raycaster = new Raycaster()
 
-const getSelectionCandidates = (handle: Cancellable): Set<Object3D> => {
+const getSelectionCandidates = (): Set<Object3D> => {
     const result = new Set<Object3D>()
+
     scene.traverse(c => {
         const { manager } = c.userData
-        if (!manager) return
-
-        result.add(manager.object3d ?? c)
-
-        if ("loadedResolvable" in manager)
-            manager.addToRaycastSet(result, handle)
+        manager && result.add(manager.object3d ?? c)
     })
     return result
 }
@@ -74,7 +70,7 @@ createEffect(() => {
         handle.watch(mouseEvents.on("click", () => {
             emitSelectionTarget(undefined)
         }))
-        handle.watch(pickable("click", getSelectionCandidates(handle), target => {
+        handle.watch(pickable("click", getSelectionCandidates(), target => {
             emitSelectionTarget(target)
         }))
         handle.watch(onSelectionTarget(target => {

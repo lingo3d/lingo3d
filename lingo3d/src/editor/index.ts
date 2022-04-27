@@ -31,6 +31,8 @@ const addCameraInput = (pane: Pane, camList: Array<Camera>) => {
 
 const toFixed = (v: any) => typeof v === "number" ? Number(v.toFixed(2)) : v
 
+let programmatic = false
+
 const addInputs = (
     pane: Pane,
     title: string,
@@ -60,14 +62,31 @@ const addInputs = (
     for (const key of Object.keys(params)) {
         const input = folder.addInput(params, key)
         input.on("change", e => {
+            if (programmatic) {
+                programmatic = false
+                return
+            }
             if (vectorMap?.[key]) {
                 const [xProp, yProp, zProp] = vectorMap[key]
                 const { x, y, z } = e.value
                 target[xProp] = toFixed(x)
                 target[yProp] = toFixed(y)
                 target[zProp] = toFixed(z)
+                return
             }
-            else target[key] = toFixed(e.value)
+
+            if (typeof e.value === "string") {
+                if (e.value === "true" || e.value === "false") {
+                    target[key] = e.value === "true" ? true : false
+                    return
+                }
+                const num = parseFloat(e.value)
+                if (!Number.isNaN(num)) {
+                    target[key] = num
+                    return
+                }
+            }
+            target[key] = toFixed(e.value)
         })
     }
 }
@@ -143,6 +162,7 @@ export default class Editor extends LitElement {
                     "rotation": makeVectorNames("rotation")
                 })
                 handle.watch(onTransformControls(() => {
+                    programmatic = true
                     Object.assign(transformParams, {
                         "scale xyz": makeVectorXYZ("scale"),
                         "position": makeVector("x", "y", "z"),
