@@ -63,7 +63,7 @@ keyboard.onKeyUp = () => {
 
 const cam = new ThirdPersonCamera()
 cam.append(player)
-cam.mouseControl = true
+cam.mouseControl = "drag"
 cam.active = true
 
 const map = new Model()
