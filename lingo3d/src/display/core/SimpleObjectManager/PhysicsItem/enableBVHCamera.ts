@@ -1,4 +1,7 @@
+import mainCamera from "../../../../engine/mainCamera"
 import scene from "../../../../engine/scene"
+import { getCamera } from "../../../../states/useCamera"
+import { getSelection } from "../../../../states/useSelection"
 import ThirdPersonCamera from "../../../cameras/ThirdPersonCamera"
 import { vector3, vector3_, quaternion } from "../../../utils/reusables"
 import { bvhCameraSet, onBeforeCameraLoop } from "./bvh/bvhCameraLoop"
@@ -40,7 +43,7 @@ export default function(this: ThirdPersonCamera) {
 
         cam.quaternion.copy(this.object3d.getWorldQuaternion(quaternion))
 
-        const tooClose = ratio < 0.35
+        const tooClose = getSelection() && getCamera() === mainCamera ? false : ratio < 0.35
         tooClose !== tooCloseOld && setVisible.call(this, !tooClose)
         tooCloseOld = tooClose
     }))

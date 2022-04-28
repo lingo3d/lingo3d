@@ -39,7 +39,7 @@ player.src = personSrc
 player.width = 20
 player.depth = 20
 player.z = -100
-player.y = 500
+player.y = 210.59
 player.physics = "character"
 player.animations = { running: runningSrc, idle: idleSrc }
 player.animation = "idle"
@@ -63,7 +63,7 @@ keyboard.onKeyUp = () => {
 
 const cam = new ThirdPersonCamera()
 cam.append(player)
-cam.mouseControl = "drag"
+cam.mouseControl = true
 cam.active = true
 
 const map = new Model()

@@ -4,6 +4,9 @@ import { loop } from "../../../../../engine/eventLoop"
 import PhysicsItem from ".."
 import { forceGet } from "@lincode/utils"
 import { getPhysicsWorld } from "../../../../../states/usePhysicsWorld"
+import { getSelection } from "../../../../../states/useSelection"
+import { getCamera } from "../../../../../states/useCamera"
+import mainCamera from "../../../../../engine/mainCamera"
 
 export const cannonSet = new Set<PhysicsItem>()
 export const cannonContactMap = new Map<Body, WeakSet<Body>>()
@@ -14,6 +17,8 @@ const makeWeakSet = () => new WeakSet()
 const dt = 1/60
 
 createEffect(function (this: PhysicsItem) {
+    if (getSelection() && getCamera() === mainCamera) return
+
     const world = getPhysicsWorld()
     if (!world) return
 
@@ -109,4 +114,4 @@ createEffect(function (this: PhysicsItem) {
     return () => {
         handle.cancel()
     }
-}, [getPhysicsWorld])
+}, [getPhysicsWorld, getSelection, getCamera])

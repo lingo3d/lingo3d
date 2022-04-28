@@ -3,9 +3,12 @@ import { forceGet } from "@lincode/utils"
 import { Box3, Vector3 } from "three"
 import PhysicsItem from ".."
 import { loop } from "../../../../../engine/eventLoop"
+import mainCamera from "../../../../../engine/mainCamera"
 import { getBVHMap } from "../../../../../states/useBVHMap"
+import { getCamera } from "../../../../../states/useCamera"
 import { getGravity } from "../../../../../states/useGravity"
 import { getRepulsion } from "../../../../../states/useRepulsion"
+import { getSelection } from "../../../../../states/useSelection"
 import { box3, line3, vector3, vector3_, vector3__ } from "../../../../utils/reusables"
 import bvhContactMap from "./bvhContactMap"
 import { bvhManagerMap } from "./computeBVH"
@@ -15,6 +18,8 @@ export const bvhCharacterSet = new Set<PhysicsItem>()
 const makeWeakSet = () => new WeakSet()
 
 createEffect(function (this: PhysicsItem) {
+    if (getSelection() && getCamera() === mainCamera) return
+
     const bvhArray = getBVHMap()
     if (!bvhArray.length) return
 
@@ -107,4 +112,4 @@ createEffect(function (this: PhysicsItem) {
     return () => {
         handle.cancel()
     }
-}, [getBVHMap, getGravity, getRepulsion])
+}, [getBVHMap, getGravity, getRepulsion, getSelection, getCamera])
