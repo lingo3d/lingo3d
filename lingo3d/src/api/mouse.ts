@@ -9,9 +9,9 @@ import { throttle } from "@lincode/utils"
 import { getPointerLockCamera } from "../states/usePointLockCamera"
 import { getMobile } from "../states/useMobile"
 import { createEffect } from "@lincode/reactivity"
-import { getEditor } from "../states/useEditor"
 import { getCamera } from "../states/useCamera"
 import mainCamera from "../engine/mainCamera"
+import { loop } from "../engine/eventLoop"
 
 export type MouseEventName = "click" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
@@ -70,7 +70,7 @@ createEffect(() => {
     const handleDown = makeMouseEvent(["down"])
     const handleUp = makeMouseEvent(["up"])
 
-    if (getEditor() && getCamera() === mainCamera) {
+    if (getSelection() && getCamera() === mainCamera) {
         if (getMobile()) {
             container.addEventListener("touchstart", handleDown)
             container.addEventListener("touchend", handleUp)
@@ -115,7 +115,7 @@ createEffect(() => {
         container.removeEventListener("mousedown", handleDown)
         container.removeEventListener("mouseup", handleUp)
     }
-}, [getMobile, getEditor, getCamera])
+}, [getMobile, getSelection, getCamera])
 
 export class Mouse extends EventLoopItem implements IMouse {
     public static componentName = "mouse"
@@ -138,35 +138,47 @@ export class Mouse extends EventLoopItem implements IMouse {
         super()
         this.initOuterObject3d()
 
-        let currentPayload: MouseEventPayload = { x: 0, y: 0, clientX: 0, clientY: 0, xNorm: 0, yNorm: 0 }
+        this.createEffect(() => {
+            if (getSelection() && getCamera() === mainCamera) return
 
-        this.watch(mouseEvents.on("move", e => {
-            this.x = e.x
-            this.y = e.y
-            this.clientX = e.clientX
-            this.clientY = e.clientY
-            !getSelection() && this.onMouseMove?.(e)
-            currentPayload = e
-        }))
-        this.watch(mouseEvents.on("click", e => {
-            !getSelection() && this.onClick?.(e)
-            currentPayload = e
-        }))
-        
-        let isDown = false
-        
-        this.watch(mouseEvents.on("down", e => {
-            !getSelection() && this.onMouseDown?.(e)
-            isDown = true
-            currentPayload = e
-        }))
-        this.watch(mouseEvents.on("up", e => {
-            !getSelection() && this.onMouseUp?.(e)
-            isDown = false
-            currentPayload = e
-        }))
-        
-        this.loop(() => isDown && !getSelection() && this.onMousePress?.(currentPayload))
+            let currentPayload: MouseEventPayload = { x: 0, y: 0, clientX: 0, clientY: 0, xNorm: 0, yNorm: 0 }
+
+            const handle0 = mouseEvents.on("move", e => {
+                this.x = e.x
+                this.y = e.y
+                this.clientX = e.clientX
+                this.clientY = e.clientY
+                this.onMouseMove?.(e)
+                currentPayload = e
+            })
+            const handle1 = mouseEvents.on("click", e => {
+                this.onClick?.(e)
+                currentPayload = e
+            })
+            
+            let isDown = false
+            
+            const handle2 = mouseEvents.on("down", e => {
+                this.onMouseDown?.(e)
+                isDown = true
+                currentPayload = e
+            })
+            const handle3 = mouseEvents.on("up", e => {
+                this.onMouseUp?.(e)
+                isDown = false
+                currentPayload = e
+            })
+            
+            const handle4 = loop(() => isDown && this.onMousePress?.(currentPayload))
+
+            return () => {
+                handle0.cancel()
+                handle1.cancel()
+                handle2.cancel()
+                handle3.cancel()
+                handle4.cancel()
+            }
+        }, [getSelection, getCamera])
     }
 }
 

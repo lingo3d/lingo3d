@@ -14,7 +14,6 @@ import { onTransformControls } from "../events/onTransformControls"
 import { objectManagerSchema } from "../interface/IObjectManager"
 import { getCamera, setCamera } from "../states/useCamera"
 import { getCameraList } from "../states/useCameraList"
-import { setEditor } from "../states/useEditor"
 import { setGridHelper } from "../states/useGridHelper"
 import { setOrbitControls } from "../states/useOrbitControls"
 import { setSelection } from "../states/useSelection"
@@ -103,7 +102,6 @@ export default class Editor extends LitElement {
 
     public override disconnectedCallback() {
         super.disconnectedCallback()
-        setEditor(false)
         this.effectHandle?.cancel()
     }
     
@@ -114,7 +112,6 @@ export default class Editor extends LitElement {
         const currentCamera = getCamera()
 
         this.effectHandle = createEffect(() => {
-            setEditor(true)
             setCamera(mainCamera)
             setOrbitControls(true)
             setSelection(true)
@@ -126,7 +123,6 @@ export default class Editor extends LitElement {
             const handle = new Cancellable(() => {
                 pane.dispose()
     
-                setEditor(false)
                 setCamera(currentCamera)
                 setOrbitControls(false)
                 setSelection(false)
