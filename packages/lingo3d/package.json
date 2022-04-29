@@ -57,7 +57,6 @@
 		"start": "yarn webpack-dev-server",
 		"dev": "yarn start"
 	},
-	"private": false,
 	"module": "lib/index.js",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts"

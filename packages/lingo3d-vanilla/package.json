@@ -13,7 +13,6 @@
 	"dependencies": {
 		"lingo3d": "^1.10.58"
 	},
-	"peerDependencies": {},
 	"devDependencies": {
 		"@babel/cli": "7",
 		"@babel/core": "7",
@@ -34,6 +33,5 @@
 		"build": "ambients clean && yarn webpack --mode production",
 		"start": "yarn webpack-dev-server",
 		"dev": "yarn start"
-	},
-	"private": false
+	}
 }
