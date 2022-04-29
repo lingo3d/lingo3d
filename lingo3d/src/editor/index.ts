@@ -103,7 +103,6 @@ export default class Editor extends LitElement {
 
     public constructor() {
         super()
-        document.body.appendChild(this)
         this.blockKeyboard = true
         this.blockMouse = true
     }
@@ -249,7 +248,7 @@ export default class Editor extends LitElement {
         return html`
             <div
              ref=${ref(this.containerRef)}
-             style="user-select:none; position: absolute; left: 0px; top: 0px; width: 350px; height: 100%; overflow-x: hidden; overflow-y: scroll; z-index: 10"
+             style="user-select:none; position: absolute; left: 0px; top: 0px; width: 350px; max-height: 100%; overflow-x: hidden; overflow-y: scroll; z-index: 10"
             />
         `
     }

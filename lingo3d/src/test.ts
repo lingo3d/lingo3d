@@ -11,3 +11,4 @@ settings.autoMount = true
 setFillWindow(true)
 
 const editor = new Editor()
+document.body.appendChild(editor)
