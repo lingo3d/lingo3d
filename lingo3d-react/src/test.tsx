@@ -72,7 +72,7 @@ const App = () => {
       <Skybox texture={skyboxSrc} />
     </World>
     <Reticle />
-    <Editor />
+    <Editor blockKeyboard={false} />
     </>
   )
 }

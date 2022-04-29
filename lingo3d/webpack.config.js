@@ -23,10 +23,10 @@ module.exports = (env, argv) => ({
 												}
 											}
 										],
-										"@babel/preset-typescript"
+										["@babel/preset-typescript", { jsxPragma: "h" }]
 									],
 									"plugins": [
-										["@babel/plugin-proposal-decorators", { "legacy" : true }]
+										["@babel/plugin-transform-react-jsx", { pragma: "h" }]
 									],
 									"sourceType": "unambiguous"
 								}

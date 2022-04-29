@@ -10,7 +10,9 @@
 		"target": "es2019",
 		"declaration": true,
 		"outDir": "lib",
-		"allowJs": true
+		"allowJs": true,
+		"jsx": "react-jsx",
+    	"jsxImportSource": "preact"
 	},
 	"include": [
 		"src"

@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { World, Model, Editor } from "."
+import { World, Editor, Cube, types, Keyboard, OrbitCamera } from "."
 
-const hose = ref(false)
-const capsule = ref(false)
+const cubeRef = ref<types.Cube>()
+
+const handleKeyPress = () => {
+  cubeRef.value!.x += 1
+}
 
 </script>
 
 <template>
-  <World :default-orbit-controls="true">
-    <Model src="hello.fbx" :animation="true">
-    </Model>
-    <Editor />
+  <World>
+    <Cube ref="cubeRef" />
+    <Editor :block-keyboard="true" />
+    <Keyboard @key-press="handleKeyPress" />
+    <OrbitCamera />
   </World>
-  <div style="position: absolute">
-    <button @click="hose = !hose">play hose</button>
-    <button @click="capsule = !capsule">play capsule</button>
-  </div>
 </template>

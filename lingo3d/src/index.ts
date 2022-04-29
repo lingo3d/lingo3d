@@ -56,7 +56,6 @@ import { loop, timer } from "./engine/eventLoop"
 import { preventTreeShake } from "@lincode/utils"
 import SimpleObjectManager from "./display/core/SimpleObjectManager"
 import FoundManager from "./display/core/FoundManager"
-import Editor from "./editor"
 
 export default {}
 
@@ -120,6 +119,5 @@ export {
     outline,
     container,
     SimpleObjectManager as Object,
-    FoundManager as Find,
-    Editor
+    FoundManager as Find
 }

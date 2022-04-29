@@ -83,11 +83,6 @@
     "@types/lodash" "4"
     lodash "4"
 
-"@lit/reactive-element@^1.3.0":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@lit/reactive-element/-/reactive-element-1.3.1.tgz#3021ad0fa30a75a41212c5e7f1f169c5762ef8bb"
-  integrity sha512-nOJARIr3pReqK3hfFCSW2Zg/kFcFsSAlIE7z4a0C9D2dPrgD/YSn3ZP2ET/rxKB65SXyG7jJbkynBRm+tGlacw==
-
 "@tweakpane/core@1":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@tweakpane/core/-/core-1.0.9.tgz#4135618a75165b45e0f44a4af71b5cb337fedabd"
@@ -102,11 +97,6 @@
   version "0.139.0"
   resolved "https://registry.yarnpkg.com/@types/three/-/three-0.139.0.tgz#69af1f0c52f8eea390f513e05478af1dd7f49e6f"
   integrity sha512-4V/jZhyq7Mv05coUzxL3bz8AuBOSi/1F0RY7ujisHTV0Amy/fnYJ+s7TSJ1/hXjZukSkpuFRgV+wvWUEMbsMbQ==
-
-"@types/trusted-types@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@types/trusted-types/-/trusted-types-2.0.2.tgz#fc25ad9943bcac11cceb8168db4f275e0e72e756"
-  integrity sha512-F5DIZ36YVLE+PN+Zwws4kJogq47hNgX3Nx6WyDJ3kcplxyke3XIzB8uK5n/Lpm1HBsbGzd6nmGehL8cPekP+Tg==
 
 "@vitejs/plugin-vue@^2.3.0":
   version "2.3.1"
@@ -625,10 +615,10 @@ jstransformer@1.0.0:
     is-promise "^2.0.0"
     promise "^7.0.1"
 
-lingo3d@1.10.123:
-  version "1.10.123"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.123.tgz#579fc870708f49c72a082b6e0b1fd5553535148f"
-  integrity sha512-AXyZXEjkA7lfNOtnI4leuKyar/yPLzsVzQ7YvKLFxIJ0OezDVHwu03wTJxTenPMfLsLU63L3bQd0uYZxEIWFQQ==
+lingo3d@1.10.127:
+  version "1.10.127"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.127.tgz#0cfe887338e6d1f726ac43aa34c68eb5886bb483"
+  integrity sha512-YSBBmuCchRuzXEfe7tKLLEbOoyVwyHXj/YEExixaNHUicPAhcHGqutnBM57/8Qx64GjBxlwb3WJaPetey3IM1A==
   dependencies:
     "@lincode/events" "1.0.23"
     "@lincode/filetypes" "1.0.1"
@@ -640,34 +630,11 @@ lingo3d@1.10.123:
     "@types/three" "0.139.0"
     cannon-es "0.19.0"
     howler "2"
-    lit "2"
+    preact "10"
+    preact-custom-element "^4.2.1"
     resize-observer-polyfill "1"
     three "0.139.2"
     tweakpane "3"
-
-lit-element@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-3.2.0.tgz#9c981c55dfd9a8f124dc863edb62cc529d434db7"
-  integrity sha512-HbE7yt2SnUtg5DCrWt028oaU4D5F4k/1cntAFHTkzY8ZIa8N0Wmu92PxSxucsQSOXlODFrICkQ5x/tEshKi13g==
-  dependencies:
-    "@lit/reactive-element" "^1.3.0"
-    lit-html "^2.2.0"
-
-lit-html@^2.2.0:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-2.2.2.tgz#06ced65dd3fb2d7a214d998c65acc576ae2cb3c4"
-  integrity sha512-cJofCRXuizwyaiGt9pJjJOcauezUlSB6t87VBXsPwRhbzF29MgD8GH6fZ0BuZdXAAC02IRONZBd//VPUuU8QbQ==
-  dependencies:
-    "@types/trusted-types" "^2.0.2"
-
-lit@2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/lit/-/lit-2.2.2.tgz#b7f729d6ca7e17efbf2bf589df2d5eb04d9620ba"
-  integrity sha512-eN3+2QRHn/erxYB88AXiiRgQA6RltE9MhzySCwX+ACOxA/MLWN3VdXvcbZD9PN09zmUwlgzDvW3T84YWj2Sa0A==
-  dependencies:
-    "@lit/reactive-element" "^1.3.0"
-    lit-element "^3.2.0"
-    lit-html "^2.2.0"
 
 lodash@4:
   version "4.17.21"
@@ -726,6 +693,16 @@ postcss@^8.1.10, postcss@^8.4.12:
     nanoid "^3.3.1"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+preact-custom-element@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/preact-custom-element/-/preact-custom-element-4.2.1.tgz#a18752ef60823ea61199d9cdc1866e51139b3f46"
+  integrity sha512-/fiEEAyC+MXRlCBRmv/owoN5BLpO2nF/MF3YBHLtp4C2lNqlhV+a4he74A5DhfDoRmxDHm0sYVgQzWFEyzTDsw==
+
+preact@10:
+  version "10.7.1"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.7.1.tgz#bdd2b2dce91a5842c3b9b34dfe050e5401068c9e"
+  integrity sha512-MufnRFz39aIhs9AMFisonjzTud1PK1bY+jcJLo6m2T9Uh8AqjD77w11eAAawmjUogoGOnipECq7e/1RClIKsxg==
 
 promise@^7.0.1:
   version "7.3.1"
