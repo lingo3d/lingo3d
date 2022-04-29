@@ -1,8 +1,7 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { omit } from "@lincode/utils"
-import { html, LitElement } from "lit"
-import { customElement } from "lit/decorators.js"
+import { html, LitElement, customElement } from "lit-element"
 import { createRef, ref, Ref } from "lit/directives/ref.js"
 import { Camera } from "three"
 import { Pane } from "tweakpane"
@@ -17,6 +16,8 @@ import { getCameraList } from "../states/useCameraList"
 import { setGridHelper } from "../states/useGridHelper"
 import { setOrbitControls } from "../states/useOrbitControls"
 import { setSelection } from "../states/useSelection"
+import { setSelectionBlockKeyboard } from "../states/useSelectionBlockKeyboard"
+import { setSelectionBlockMouse } from "../states/useSelectionBlockMouse"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 
 const addCameraInput = (pane: Pane, camList: Array<Camera>) => {
@@ -92,9 +93,18 @@ const addInputs = (
 
 @customElement("lingo3d-editor")
 export default class Editor extends LitElement {
+    public static override properties = {
+        blockKeyboard: { type: Boolean },
+        blockMouse: { type: Boolean }
+    }
+    public blockKeyboard: boolean
+    public blockMouse: boolean
+
     public constructor() {
         super()
         document.body.appendChild(this)
+        this.blockKeyboard = true
+        this.blockMouse = true
     }
 
     private containerRef: Ref<HTMLInputElement> = createRef()
@@ -103,6 +113,11 @@ export default class Editor extends LitElement {
     public override disconnectedCallback() {
         super.disconnectedCallback()
         this.effectHandle?.cancel()
+    }
+
+    protected override updated() {
+        setSelectionBlockKeyboard(this.blockKeyboard)
+        setSelectionBlockMouse(this.blockMouse)
     }
     
     protected override firstUpdated() {

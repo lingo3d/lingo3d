@@ -24,16 +24,28 @@ const processChild = (
     if (!material) return
 
     if (Array.isArray(material)) {
-        for (let i = 0; i < material.length; ++i) {
-            const m = material[i]
-            if (_toon) {
+        if (_toon) {
+            for (let i = 0; i < material.length; ++i) {
+                const m = material[i]
                 if (!(m instanceof MeshToonMaterial)) {
-                    material[i] = new MeshToonMaterial()
-                    material[i].copy(m)
+                    const mat = material[i] = new MeshToonMaterial()
+                    mat.copy(m)
                     m.dispose()
                 }
             }
+            return
         }
+        if (_pbr)
+            for (let i = 0; i < material.length; ++i) {
+                const m = material[i]
+                if (!(m instanceof MeshStandardMaterial)) {
+                    const mat = material[i] = new MeshStandardMaterial()
+                    mat.copy(m)
+                    mat.envMapIntensity = 1
+                    mat.roughness = 1
+                    m.dispose()
+                }
+            }
         return
     }
 
