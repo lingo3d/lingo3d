@@ -12,6 +12,7 @@ import { createEffect } from "@lincode/reactivity"
 import { getCamera } from "../states/useCamera"
 import mainCamera from "../engine/mainCamera"
 import { loop } from "../engine/eventLoop"
+import { getSelectionBlockMouse } from "../states/useSelectionBlockMouse"
 
 export type MouseEventName = "click" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
@@ -70,7 +71,7 @@ createEffect(() => {
     const handleDown = makeMouseEvent(["down"])
     const handleUp = makeMouseEvent(["up"])
 
-    if (getSelection() && getCamera() === mainCamera) {
+    if (getSelection() && getCamera() === mainCamera && getSelectionBlockMouse()) {
         if (getMobile()) {
             container.addEventListener("touchstart", handleDown)
             container.addEventListener("touchend", handleUp)
@@ -115,7 +116,7 @@ createEffect(() => {
         container.removeEventListener("mousedown", handleDown)
         container.removeEventListener("mouseup", handleUp)
     }
-}, [getMobile, getSelection, getCamera])
+}, [getMobile, getSelection, getCamera, getSelectionBlockMouse])
 
 export class Mouse extends EventLoopItem implements IMouse {
     public static componentName = "mouse"
@@ -139,7 +140,7 @@ export class Mouse extends EventLoopItem implements IMouse {
         this.initOuterObject3d()
 
         this.createEffect(() => {
-            if (getSelection() && getCamera() === mainCamera) return
+            if (getSelection() && getCamera() === mainCamera && getSelectionBlockMouse()) return
 
             let currentPayload: MouseEventPayload = { x: 0, y: 0, clientX: 0, clientY: 0, xNorm: 0, yNorm: 0 }
 
@@ -178,7 +179,7 @@ export class Mouse extends EventLoopItem implements IMouse {
                 handle3.cancel()
                 handle4.cancel()
             }
-        }, [getSelection, getCamera])
+        }, [getSelection, getCamera, getSelectionBlockMouse])
     }
 }
 

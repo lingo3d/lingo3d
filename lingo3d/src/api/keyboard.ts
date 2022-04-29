@@ -7,6 +7,7 @@ import { createEffect } from "@lincode/reactivity"
 import { getCamera } from "../states/useCamera"
 import mainCamera from "../engine/mainCamera"
 import { getSelection } from "../states/useSelection"
+import { getSelectionBlockKeyboard } from "../states/useSelectionBlockKeyboard"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
@@ -21,7 +22,7 @@ const processKey = (str: string) => {
 }
 
 createEffect(() => {
-    if (getSelection() && getCamera() === mainCamera) return
+    if (getSelection() && getCamera() === mainCamera && getSelectionBlockKeyboard()) return
 
     const handle = loop(() => isPressed.size > 0 && emitPress())
 
@@ -61,7 +62,7 @@ createEffect(() => {
         window.removeEventListener("focus", clear)
         document.removeEventListener("visibilitychange", clear)
     }
-}, [getSelection, getCamera])
+}, [getSelection, getCamera, getSelectionBlockKeyboard])
 
 export class Keyboard extends EventLoopItem implements IKeyboard {
     public static componentName = "keyboard"

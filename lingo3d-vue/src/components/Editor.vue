@@ -1,6 +1,21 @@
 <script setup lang="ts">
-import { ref, watchEffect } from "vue"
+import { onUnmounted, ref, watchEffect } from "vue"
 import { Editor as LingoEditor } from "lingo3d"
+
+const props = defineProps({
+    blockKeyboard: { type: Boolean, default: true },
+    blockMouse: { type: Boolean, default: true }
+})
+const editor = new LingoEditor()
+
+watchEffect(() => {
+    editor.blockKeyboard = props.blockKeyboard
+    editor.blockMouse = props.blockMouse
+})
+
+onUnmounted(() => {
+    editor.remove()
+})
 
 const divRef = ref<HTMLDivElement>()
 
@@ -8,7 +23,6 @@ watchEffect(onCleanUp => {
     const el = divRef.value
     if (!el) return
 
-    const editor = new LingoEditor()
     el.appendChild(editor)
 
     onCleanUp(() => {
