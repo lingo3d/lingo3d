@@ -105,3 +105,4 @@ npm install lingo3d-react
 - [Documentation](https://www.lingo3d.com/documentation/)
 - [lingo3d](https://www.npmjs.com/package/lingo3d)
 - [lingo3d-react](https://www.npmjs.com/package/lingo3d-react)
+- [lingo3d-vue](https://www.npmjs.com/package/lingo3d-vue)
