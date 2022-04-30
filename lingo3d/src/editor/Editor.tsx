@@ -246,13 +246,14 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
          style={{
              userSelect: "none",
              width: 350,
-             maxHeight: "100%",
+             height: "100%",
              overflowX: "hidden",
              overflowY: "scroll",
-             float: "left"
+             float: "left",
+             background: "rgb(40, 41, 46)"
          }}
         />
     )
 }
 
-register(Editor, "lingo3d-editor", ["blockKeyboard", "blockMouse"]);
+register(Editor, "lingo3d-editor", ["blockKeyboard", "blockMouse"])

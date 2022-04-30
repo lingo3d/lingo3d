@@ -13,6 +13,6 @@ settings.autoMount = true
 setFillWindow(true)
 
 uiContainer.innerHTML = `
-    <lingo3d-editor></lingo3d-editor>
-    <lingo3d-scenegraph></lingo3d-scenegraph>
+<lingo3d-scenegraph></lingo3d-scenegraph>
+<lingo3d-editor></lingo3d-editor>
 `
