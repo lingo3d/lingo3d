@@ -7,11 +7,8 @@ export default class Sky extends EventLoopItem implements ISky {
     public static componentName = "sky"
     public static defaults = skyDefaults
 
-    public outerObject3d = new Group()
-
     public constructor() {
-        super()
-        this.initOuterObject3d()
+        super(new Group())
         setSkyShader(true)
     }
 }

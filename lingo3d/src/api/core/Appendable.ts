@@ -1,20 +1,34 @@
 import { Disposable } from "@lincode/promiselikes"
 import { Object3D } from "three"
 
-export default abstract class Appendable extends Disposable {
-    public abstract outerObject3d: Object3D
+export const appendableRoot = new Set<Appendable>()
 
-    protected initOuterObject3d() {
-        this.outerObject3d.userData.manager = this
+export default class Appendable extends Disposable {
+    public constructor(
+        public outerObject3d: Object3D
+    ) {
+        super()
+        outerObject3d.userData.manager = this
     }
 
-    public append(object: Appendable) {
-        this.outerObject3d.add(object.outerObject3d)
+    public parent?: Appendable
+    public children = new Set<Appendable>()
+
+    public append(child: Appendable) {
+        this.outerObject3d.add(child.outerObject3d)
+
+        child.parent && (child.parent.children.delete(child))
+        child.parent = this
+
+        this.children.add(child)
     }
 
     public override dispose() {
         if (this.done) return this
         super.dispose()
+
+        this.parent && (this.parent.children.delete(this))
+        this.parent = undefined
 
         this.outerObject3d.parent?.remove(this.outerObject3d)
 

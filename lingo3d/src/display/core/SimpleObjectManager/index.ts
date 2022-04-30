@@ -47,14 +47,10 @@ const updateFrustum = throttle(() => {
 
 
 export default class SimpleObjectManager<T extends Object3D = Object3D> extends PhysicsItem implements ISimpleObjectManager {
-    public outerObject3d: Object3D
-
     public constructor(
         public object3d: T
     ) {
-        super()
-        this.outerObject3d = object3d
-        this.initOuterObject3d()
+        super(object3d)
     }
 
     public override dispose() {

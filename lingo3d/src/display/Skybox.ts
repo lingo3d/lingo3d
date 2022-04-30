@@ -8,11 +8,8 @@ export default class Skybox extends EventLoopItem implements ISkybox {
     public static defaults = skyboxDefaults
     public static schema = skyboxSchema
 
-    public outerObject3d = new Group()
-
     public constructor() {
-        super()
-        this.initOuterObject3d()
+        super(new Group())
         pushSkyboxStack(this)
     }
 

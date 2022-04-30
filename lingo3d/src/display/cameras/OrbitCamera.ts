@@ -20,7 +20,6 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
     public static defaults = orbitCameraDefaults
     public static schema = orbitCameraSchema
 
-    public outerObject3d: PerspectiveCamera
     private controls: OrbitControls
 
     private updateDebounced = debounce(() => this.controls.update(), 0, "trailing")
@@ -28,11 +27,9 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
     public constructor(
         protected camera = new PerspectiveCamera(75, 1, camNear, camFar)
     ) {
-        super()
-        this.outerObject3d = camera
+        super(camera)
         const controls = this.controls = new OrbitControls(camera, container)
 
-        this.initOuterObject3d()
         this.initCamera()
 
         controls.enabled = false

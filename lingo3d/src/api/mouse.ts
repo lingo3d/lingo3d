@@ -123,8 +123,6 @@ export class Mouse extends EventLoopItem implements IMouse {
     public static defaults = mouseDefaults
     public static schema = mouseSchema
 
-    public outerObject3d = new Group()
-
     public onClick?: (e: MouseEventPayload) => void
     public onMouseMove?: (e: MouseEventPayload) => void
     public onMouseDown?: (e: MouseEventPayload) => void
@@ -136,8 +134,7 @@ export class Mouse extends EventLoopItem implements IMouse {
     public clientY = 0
 
     public constructor() {
-        super()
-        this.initOuterObject3d()
+        super(new Group())
 
         this.createEffect(() => {
             if (getSelection() && getCamera() === mainCamera && getSelectionBlockMouse()) return

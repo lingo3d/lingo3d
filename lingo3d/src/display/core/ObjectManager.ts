@@ -9,8 +9,9 @@ import FoundManager from "./FoundManager"
 export default abstract class ObjectManager<T extends Object3D = Object3D> extends SimpleObjectManager<T> implements IObjectManager {
     public constructor(object3d: T) {
         super(object3d)
+        
         const group = this.outerObject3d = new Group()
-        this.initOuterObject3d()
+        group.userData.manager = this
 
         scene.add(group)
         group.add(object3d)

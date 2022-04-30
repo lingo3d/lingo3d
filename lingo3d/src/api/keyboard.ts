@@ -69,15 +69,12 @@ export class Keyboard extends EventLoopItem implements IKeyboard {
     public static defaults = keyboardDefaults
     public static schema = keyboardSchema
 
-    public outerObject3d = new Group()
-
     public onKeyPress?: (key: string, keys: Set<string>) => void
     public onKeyUp?: (key: string, keys: Set<string>) => void
     public onKeyDown?: (key: string, keys: Set<string>) => void
 
     public constructor() {
-        super()
-        this.initOuterObject3d()
+        super(new Group())
 
         this.watch(onPress(() => {
             if (!this.onKeyPress) return
