@@ -1,5 +1,6 @@
 import { Disposable } from "@lincode/promiselikes"
 import { Object3D } from "three"
+import { emitSceneChange } from "../../events/onSceneChange"
 
 export const appendableRoot = new Set<Appendable>()
 
@@ -9,7 +10,9 @@ export default class Appendable extends Disposable {
     ) {
         super()
         outerObject3d.userData.manager = this
+
         appendableRoot.add(this)
+        emitSceneChange()
     }
 
     public parent?: Appendable
@@ -19,6 +22,8 @@ export default class Appendable extends Disposable {
         this.outerObject3d.add(child.outerObject3d)
 
         appendableRoot.delete(child)
+        emitSceneChange()
+
         child.parent?.children?.delete(child)
         child.parent = this
 
@@ -30,6 +35,8 @@ export default class Appendable extends Disposable {
         super.dispose()
 
         appendableRoot.delete(this)
+        emitSceneChange()
+
         this.parent?.children?.delete(this)
         this.parent = undefined
 

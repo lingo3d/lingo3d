@@ -8,6 +8,7 @@ import ObjectManager from "./ObjectManager"
 import scene from "../../engine/scene"
 import { Cancellable } from "@lincode/promiselikes"
 import AnimationManager from "./SimpleObjectManager/AnimationManager"
+import { emitSceneChange } from "../../events/onSceneChange"
 
 class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
     public static componentName = "found"
@@ -28,6 +29,7 @@ class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
 
         this.parent = modelManager
         ;(modelManager.children ??= new Set()).add(this)
+        emitSceneChange()
 
         if (!modelManager?.animationManagers) return
 
