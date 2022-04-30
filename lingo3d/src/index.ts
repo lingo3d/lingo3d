@@ -51,7 +51,7 @@ import Point3d from "./api/Point3d"
 import { Sound } from "./api/Sound"
 
 import applySetup from "./display/utils/deserialize/applySetup"
-import { container, outline } from "./engine/renderLoop/renderSetup"
+import { container, uiContainer } from "./engine/renderLoop/renderSetup"
 import { loop, timer } from "./engine/eventLoop"
 import { preventTreeShake } from "@lincode/utils"
 import SimpleObjectManager from "./display/core/SimpleObjectManager"
@@ -116,7 +116,7 @@ export {
     loop,
     timer,
 
-    outline,
+    uiContainer,
     container,
     SimpleObjectManager as Object,
     FoundManager as Find

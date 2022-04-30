@@ -8,7 +8,7 @@ import { setCameraDistance } from "../../states/useCameraDistance"
 import { setContainerZoom } from "../../states/useContainerZoom"
 import { getViewportSize } from "../../states/useViewportSize"
 import mainCamera from "../mainCamera"
-import { outline, container } from "./renderSetup"
+import { uiContainer, container } from "./renderSetup"
 import { getVR } from "../../states/useVR"
 import { getResolution } from "../../states/useResolution"
 
@@ -48,12 +48,12 @@ createEffect(() => {
 
     if (val0 > val1) {
         camera === mainCamera && setCameraDistance(getZ(viewportWidth / aspect, mainCamera) * scaleDown)
-        Object.assign(outline.style, { width: size0.width + "px", height: size0.height + "px" })
+        Object.assign(uiContainer.style, { width: size0.width + "px", height: size0.height + "px" })
         setContainerZoom(size0.width / viewportWidth)
     }
     else {
         camera === mainCamera && setCameraDistance(getZ(viewportHeight, mainCamera) * scaleDown)
-        Object.assign(outline.style, { width: size1.width + "px", height: size1.height + "px" })
+        Object.assign(uiContainer.style, { width: size1.width + "px", height: size1.height + "px" })
         setContainerZoom(size1.width / viewportWidth)
     }
 

@@ -31,8 +31,8 @@ queueMicrotask(() => {
     setFillWindow(true)
 })
 
-export const outline = document.createElement("div")
-Object.assign(outline.style, {
+export const uiContainer = document.createElement("div")
+Object.assign(uiContainer.style, {
     border: "1px solid blue",
     position: "absolute",
     left: "50%",
@@ -43,7 +43,7 @@ Object.assign(outline.style, {
 createEffect(() => {
     const canvas = getRenderer().domElement
     container.appendChild(canvas)
-    container.appendChild(outline)
+    container.appendChild(uiContainer)
     Object.assign(canvas.style, { position: "absolute", left: "0px", top: "0px" })
     return () => {
         container.removeChild(canvas)

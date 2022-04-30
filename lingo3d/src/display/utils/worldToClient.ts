@@ -2,7 +2,7 @@ import { Point } from "@lincode/math"
 import { Object3D } from "three"
 import Point3d from "../../api/Point3d"
 import { scaleDown } from "../../engine/constants"
-import { outline } from "../../engine/renderLoop/renderSetup"
+import { container } from "../../engine/renderLoop/renderSetup"
 import { getCamera } from "../../states/useCamera"
 import getCenter from "./getCenter"
 import { vector3 } from "./reusables"
@@ -21,8 +21,8 @@ export default (object3d: Object3D | Point3d) => {
     const camera = getCamera()
     vector3.project(camera)
     
-    const x = (vector3.x *  .5 + .5) * outline.clientWidth
-    const y = (vector3.y * -.5 + .5) * outline.clientHeight
+    const x = (vector3.x *  .5 + .5) * container.clientWidth
+    const y = (vector3.y * -.5 + .5) * container.clientHeight
 
     const result = { x, y }
 

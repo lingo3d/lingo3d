@@ -61,7 +61,16 @@ const computeMouse = throttle((ev: MouseEvent | TouchEvent) => {
     
 }, 0, "leading")
 
+let uiClicked = false
+
+export const triggerUIClick = () => {
+    uiClicked = true
+    setTimeout(() =>  uiClicked = false)
+}
+
 const makeMouseEvent = (names: Array<MouseEventName>) => (ev: MouseEvent | TouchEvent) => {
+    if (uiClicked) return
+    
     const mouseData = computeMouse(ev)
     for (const name of names)
         mouseEvents.emit(name, mouseData)
