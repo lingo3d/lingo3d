@@ -109,6 +109,13 @@ export default class AnimationManager extends Disposable {
         mixerHandleMap.get(this.mixer)?.cancel()
     }
 
+    public get paused() {
+        return !!this.action?.paused
+    }
+    public set paused(val: boolean) {
+        this.action && (this.action.paused = val)
+    }
+
     public update(seconds: number) {
         this.mixer.time = 0
         this.action && (this.action.time = 0)
