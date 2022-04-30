@@ -232,7 +232,14 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
     return (
         <div
          ref={containerRef}
-         style="user-select:none; position: absolute; left: 0px; top: 0px; width: 350px; max-height: 100%; overflow-x: hidden; overflow-y: scroll; z-index: 10"
+         style={{
+             userSelect: "none",
+             width: 350,
+             maxHeight: "100%",
+             overflowX: "hidden",
+             overflowY: "scroll",
+             display: "inline-block"
+         }}
         />
     )
 }
