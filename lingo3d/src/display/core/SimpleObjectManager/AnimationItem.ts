@@ -70,7 +70,6 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
 
     public async playAnimation(name?: string | number, o?: PlayOptions) {
         await Promise.resolve()
-
         if (this.loadingAnims) {
             await Promise.all(this.loadingAnims)
             this.loadingAnims = undefined
@@ -87,6 +86,21 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
 
     public stopAnimation() {
         this.animationManager?.stop()
+    }
+
+    public get animationPaused() {
+        return !!this.animationManager?.getPaused()
+    }
+    public set animationPaused(value: boolean) {
+        (async () => {
+            await Promise.resolve()
+            if (this.loadingAnims)
+                await Promise.all(this.loadingAnims)
+
+            if (this.done) return
+
+            this.animationManager?.setPaused(value)
+        })()
     }
 
     private setAnimation(val?: string | number | boolean | AnimationValue, o?: PlayOptions) {

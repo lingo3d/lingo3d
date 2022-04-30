@@ -8,17 +8,18 @@ export type Animation = string | number | Array<string | number> | boolean | Ani
 export default interface IAnimation extends IEventLoop {
     animations: Record<string, string | AnimationManager>
     animation?: Animation
-    pauseAnimation?: boolean
+    animationPaused: boolean
 }
 
 export const animationSchema: Required<ExtractProps<IAnimation>> = {
     ...eventLoopSchema,
     animations: Object,
     animation: [String, Number, Array, Boolean, Object],
-    pauseAnimation: Boolean
+    animationPaused: Boolean
 }
 
 export const animationDefaults: IAnimation = {
     ...eventLoopDefaults,
-    animations: {}
+    animations: {},
+    animationPaused: false
 }
