@@ -9,25 +9,28 @@ export default class Appendable extends Disposable {
     ) {
         super()
         outerObject3d.userData.manager = this
+        appendableRoot.add(this)
     }
 
     public parent?: Appendable
-    public children = new Set<Appendable>()
+    public children?: Set<Appendable>
 
     public append(child: Appendable) {
         this.outerObject3d.add(child.outerObject3d)
 
-        child.parent && (child.parent.children.delete(child))
+        appendableRoot.delete(child)
+        child.parent?.children?.delete(child)
         child.parent = this
 
-        this.children.add(child)
+        ;(this.children ??= new Set()).add(child)
     }
 
     public override dispose() {
         if (this.done) return this
         super.dispose()
 
-        this.parent && (this.parent.children.delete(this))
+        appendableRoot.delete(this)
+        this.parent?.children?.delete(this)
         this.parent = undefined
 
         this.outerObject3d.parent?.remove(this.outerObject3d)
