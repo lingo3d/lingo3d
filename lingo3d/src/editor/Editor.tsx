@@ -249,7 +249,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
              maxHeight: "100%",
              overflowX: "hidden",
              overflowY: "scroll",
-             display: "inline-block"
+             float: "left"
          }}
         />
     )

@@ -5,7 +5,15 @@ import register from "preact-custom-element"
 
 const SceneGraph = () => {
     return (
-        <div style="display: inline-block; user-select:none;">hello world</div>
+        <div style={{
+             userSelect: "none",
+             width: 350,
+             maxHeight: "100%",
+             overflowX: "hidden",
+             overflowY: "scroll",
+             float: "left"
+        }}>
+        </div>
     )
 }
 
