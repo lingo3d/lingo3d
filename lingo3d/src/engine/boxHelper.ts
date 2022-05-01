@@ -1,5 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import { BoxHelper } from "three"
+import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import { getCamera } from "../states/useCamera"
 import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../states/useSelectionTarget"
@@ -11,7 +12,7 @@ export default {}
 
 createEffect(() => {
     const target = getSelectionTarget()
-    if (!target || getCamera() !== mainCamera) return
+    if (!(target instanceof SimpleObjectManager) || getCamera() !== mainCamera) return
 
     const boxHelper = new BoxHelper(target.object3d)
     scene.add(boxHelper)

@@ -1,4 +1,4 @@
 import store from "@lincode/reactivity"
-import SimpleObjectManager from "../display/core/SimpleObjectManager"
+import Appendable from "../api/core/Appendable"
 
-export const [setSelectionTarget, getSelectionTarget] = store<SimpleObjectManager | undefined>(undefined)
+export const [setSelectionTarget, getSelectionTarget] = store<Appendable | undefined>(undefined)

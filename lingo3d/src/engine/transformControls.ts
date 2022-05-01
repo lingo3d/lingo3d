@@ -11,6 +11,7 @@ import { lazy } from "@lincode/utils"
 import { Cancellable } from "@lincode/promiselikes"
 import mainCamera from "./mainCamera"
 import { setTransformControlsDragging } from "../states/useTransformControlsDragging"
+import SimpleObjectManager from "../display/core/SimpleObjectManager"
 
 export default {}
 
@@ -40,7 +41,7 @@ createEffect(() => {
     const space = getTransformControlsSpace()
     const snap = getTransformControlsSnap()
 
-    if (!target || getCamera() !== mainCamera) return
+    if (!(target instanceof SimpleObjectManager) || getCamera() !== mainCamera) return
 
     const { physics } = target
     let restorePhysics = false

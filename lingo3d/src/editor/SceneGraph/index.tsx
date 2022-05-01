@@ -8,7 +8,6 @@ import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
 import { useSelectionTarget } from "../states"
-import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 
 preventTreeShake(h)
 
@@ -24,17 +23,19 @@ const TreeItem = ({ appendable, level }: TreeItemProps) => {
     const expandIconStyle = { opacity: appendableChildren?.length ? 0.5 : 0.05 }
 
     const [expanded, setExpanded] = useState(true)
-    const [target, setTarget] = useSelectionTarget()
+    const [selectionTarget, setSelectionTarget] = useSelectionTarget()
 
     return (
-        <div onClick={appendable instanceof SimpleObjectManager ? () => setTarget(appendable) : undefined} style={{
+        <div onClick={e => (e.stopPropagation(), setSelectionTarget(appendable))} style={{
             color: "rgba(255, 255, 255, 0.75)",
-            backgroundColor: target === appendable ? "rgba(255, 255, 255, 0.1)" : undefined,
             fontFamily: "arial",
             fontSize: 12,
             marginLeft: level * 18
         }}>
-            <div style={{ display: "flex" }}>
+            <div style={{
+                display: "flex",
+                backgroundColor: selectionTarget === appendable ? "rgba(255, 255, 255, 0.1)" : undefined
+            }}>
                 {expanded ? (
                     <CollapseIcon style={expandIconStyle} onClick={e => (e.stopPropagation(), setExpanded(false))} />
                 ) : (
