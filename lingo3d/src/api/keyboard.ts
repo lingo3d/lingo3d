@@ -8,6 +8,7 @@ import { getCamera } from "../states/useCamera"
 import mainCamera from "../engine/mainCamera"
 import { getSelection } from "../states/useSelection"
 import { getSelectionBlockKeyboard } from "../states/useSelectionBlockKeyboard"
+import { appendableRoot } from "./core/Appendable"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
@@ -86,4 +87,7 @@ export class Keyboard extends EventLoopItem implements IKeyboard {
     }
 }
 
-export default new Keyboard()
+const keyboard = new Keyboard()
+appendableRoot.delete(keyboard)
+
+export default keyboard

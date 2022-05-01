@@ -13,6 +13,7 @@ import { getCamera } from "../states/useCamera"
 import mainCamera from "../engine/mainCamera"
 import { loop } from "../engine/eventLoop"
 import { getSelectionBlockMouse } from "../states/useSelectionBlockMouse"
+import { appendableRoot } from "./core/Appendable"
 
 export type MouseEventName = "click" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
@@ -180,4 +181,7 @@ export class Mouse extends EventLoopItem implements IMouse {
     }
 }
 
-export default new Mouse()
+const mouse = new Mouse()
+appendableRoot.delete(mouse)
+
+export default mouse

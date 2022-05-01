@@ -230,7 +230,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
             else if (v === -Infinity)
                 v = -9999
             else if (Array.isArray(v))
-                v = ""
+                v = JSON.stringify(v)
 
             params[key] = v
         }

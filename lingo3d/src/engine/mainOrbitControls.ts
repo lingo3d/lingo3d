@@ -7,12 +7,14 @@ import { getCamera } from "../states/useCamera"
 import { getOrbitControlsScreenSpacePanning } from "../states/useOrbitControlsScreenSpacePanning"
 import OrbitCamera from "../display/cameras/OrbitCamera"
 import { getTransformControlsDragging } from "../states/useTransformControlsDragging"
+import { appendableRoot } from "../api/core/Appendable"
 
 export default {}
 
 const mainOrbitCamera = new OrbitCamera(mainCamera)
 mainOrbitCamera.enablePan = true
 mainOrbitCamera.enableZoom = true
+appendableRoot.delete(mainOrbitCamera)
 //@ts-ignore
 const mainOrbitControls = mainOrbitCamera.controls
 

@@ -1,8 +1,10 @@
 import Skybox from "../display/Skybox"
 import { getBackgroundColor, setBackgroundColor } from "../states/useBackgroundColor"
 import { getBackgroundImage, setBackgroundImage } from "../states/useBackgroundImage"
+import { appendableRoot } from "./core/Appendable"
 
 const defaultSkybox = new Skybox()
+appendableRoot.delete(defaultSkybox)
 
 export default {
     get texture() {
