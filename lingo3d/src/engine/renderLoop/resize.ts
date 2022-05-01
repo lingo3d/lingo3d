@@ -5,7 +5,6 @@ import { scaleDown } from "../constants"
 import { frustum } from "../../display/cameras/OrthographicCamera"
 import { getCamera } from "../../states/useCamera"
 import { setCameraDistance } from "../../states/useCameraDistance"
-import { setContainerZoom } from "../../states/useContainerZoom"
 import { getViewportSize } from "../../states/useViewportSize"
 import mainCamera from "../mainCamera"
 import { referenceOutline, container } from "./renderSetup"
@@ -49,12 +48,10 @@ createEffect(() => {
     if (val0 > val1) {
         camera === mainCamera && setCameraDistance(getZ(viewportWidth / aspect, mainCamera) * scaleDown)
         Object.assign(referenceOutline.style, { width: size0.width + "px", height: size0.height + "px" })
-        setContainerZoom(size0.width / viewportWidth)
     }
     else {
         camera === mainCamera && setCameraDistance(getZ(viewportHeight, mainCamera) * scaleDown)
         Object.assign(referenceOutline.style, { width: size1.width + "px", height: size1.height + "px" })
-        setContainerZoom(size1.width / viewportWidth)
     }
 
     Object.assign(container.style, { width: resX + "px", height: resY + "px" })
