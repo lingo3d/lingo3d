@@ -19,7 +19,6 @@ import { h } from "preact"
 import { useEffect, useRef } from "preact/hooks"
 import hook from "./hook"
 import register from "preact-custom-element"
-import { triggerUIClick } from "../api/mouse"
 
 preventTreeShake(h)
 
@@ -234,15 +233,6 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
     return (
         <div
          ref={containerRef}
-         onWheel={e => e.stopPropagation()}
-         onMouseDown={e => {
-             e.stopPropagation()
-             triggerUIClick()
-         }}
-         onClick={e => {
-             e.stopPropagation()
-             triggerUIClick()
-         }}
          style={{
              userSelect: "none",
              width: 350,
