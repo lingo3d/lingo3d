@@ -6,7 +6,7 @@ preventTreeShake(h)
 
 type CollapseIconProps = {
     style?: CSSProperties
-    onClick?: () => void
+    onClick?: (e: MouseEvent) => void
 }
 
 const CollapseIcon = ({ style, onClick }: CollapseIconProps) => {

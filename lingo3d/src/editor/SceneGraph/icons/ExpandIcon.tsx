@@ -6,7 +6,7 @@ preventTreeShake(h)
 
 type ExpandIconProps = {
     style?: CSSProperties
-    onClick?: () => void
+    onClick?: (e: MouseEvent) => void
 }
 
 const ExpandIcon = ({ style, onClick }: ExpandIconProps) => {

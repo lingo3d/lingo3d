@@ -7,6 +7,8 @@ import Appendable, { appendableRoot } from "../../api/core/Appendable"
 import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
+import { useSelectionTarget } from "../states"
+import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 
 preventTreeShake(h)
 
@@ -22,19 +24,21 @@ const TreeItem = ({ appendable, level }: TreeItemProps) => {
     const expandIconStyle = { opacity: appendableChildren?.length ? 0.5 : 0.05 }
 
     const [expanded, setExpanded] = useState(true)
+    const [target, setTarget] = useSelectionTarget()
 
     return (
-        <div style={{
+        <div onClick={appendable instanceof SimpleObjectManager ? () => setTarget(appendable) : undefined} style={{
             color: "rgba(255, 255, 255, 0.75)",
+            backgroundColor: target === appendable ? "rgba(255, 255, 255, 0.1)" : undefined,
             fontFamily: "arial",
             fontSize: 12,
             marginLeft: level * 18
         }}>
             <div style={{ display: "flex" }}>
                 {expanded ? (
-                    <CollapseIcon style={expandIconStyle} onClick={() => setExpanded(false)} />
+                    <CollapseIcon style={expandIconStyle} onClick={e => (e.stopPropagation(), setExpanded(false))} />
                 ) : (
-                    <ExpandIcon style={expandIconStyle} onClick={() => setExpanded(true)} />
+                    <ExpandIcon style={expandIconStyle} onClick={e => (e.stopPropagation(), setExpanded(true))} />
                 )}
                 <CubeIcon />
                 {componentName}
@@ -61,7 +65,7 @@ const SceneGraph = () => {
     return (
         <div style={{
              userSelect: "none",
-             width: 150,
+             width: 200,
              height: "100%",
              overflowX: "hidden",
              overflowY: "scroll",
@@ -70,9 +74,11 @@ const SceneGraph = () => {
              padding: 10,
              boxSizing: "border-box"
         }}>
-            {appendables.map(appendable => (
-                <TreeItem key={appendable.uuid} appendable={appendable} level={0} />
-            ))}
+            <div style={{ width: 9999 }}>
+                {appendables.map(appendable => (
+                    <TreeItem key={appendable.uuid} appendable={appendable} level={0} />
+                ))}
+            </div>
         </div>
     )
 }

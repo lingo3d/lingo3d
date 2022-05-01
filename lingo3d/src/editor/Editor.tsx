@@ -8,17 +8,15 @@ import mainCamera from "../engine/mainCamera"
 import { onTransformControls } from "../events/onTransformControls"
 import { objectManagerSchema } from "../interface/IObjectManager"
 import { getCamera, setCamera } from "../states/useCamera"
-import { getCameraList, setCameraList } from "../states/useCameraList"
 import { setGridHelper } from "../states/useGridHelper"
 import { setOrbitControls } from "../states/useOrbitControls"
 import { setSelection } from "../states/useSelection"
 import { setSelectionBlockKeyboard } from "../states/useSelectionBlockKeyboard"
 import { setSelectionBlockMouse } from "../states/useSelectionBlockMouse"
-import { getSelectionTarget, setSelectionTarget } from "../states/useSelectionTarget"
 import { h } from "preact"
 import { useEffect, useRef } from "preact/hooks"
-import hook from "./hook"
 import register from "preact-custom-element"
+import { useSelectionTarget, useCameraList } from "./states"
 
 preventTreeShake(h)
 
@@ -92,9 +90,6 @@ const addInputs = (
         })
     }
 }
-
-const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
-const useCameraList = hook(setCameraList, getCameraList)
 
 interface EditorProps {
     blockKeyboard?: string
