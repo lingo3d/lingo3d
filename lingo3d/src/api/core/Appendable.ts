@@ -22,9 +22,7 @@ export default class Appendable extends Disposable {
     public parent?: Appendable
     public children?: Set<Appendable>
 
-    public append(child: Appendable) {
-        this.outerObject3d.add(child.outerObject3d)
-
+    protected _append(child: Appendable) {
         appendableRoot.delete(child)
         emitSceneChange()
 
@@ -32,6 +30,11 @@ export default class Appendable extends Disposable {
         child.parent = this
 
         ;(this.children ??= new Set()).add(child)
+    }
+
+    public append(child: Appendable) {
+        this._append(child)
+        this.outerObject3d.add(child.outerObject3d)
     }
 
     public override dispose() {

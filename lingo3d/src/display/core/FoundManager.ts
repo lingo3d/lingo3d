@@ -44,14 +44,6 @@ class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
         return this
     }
 
-    public override append(target: ObjectManager) {
-        setTimeout(() => {
-            scene.add(target.outerObject3d)
-            target.placeAt(this)
-            this.then(() => target.dispose())
-        })
-    }
-
     private managerSet?: boolean
     protected override addToRaycastSet(set: Set<Object3D>, handle: Cancellable) {
         if (!this.managerSet) {

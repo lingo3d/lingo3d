@@ -119,6 +119,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
             super.append(object)
             return
         }
+        this._append(object)
         this.outerObject3d.parent?.add(object.outerObject3d)
         this.target = object
     }

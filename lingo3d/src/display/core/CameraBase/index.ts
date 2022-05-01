@@ -31,6 +31,7 @@ abstract class CameraBase<T extends Camera> extends ObjectManager<Group> impleme
     }
 
     public override append(object: SimpleObjectManager) {
+        this._append(object)
         this.camera.add(object.outerObject3d)
     }
 
