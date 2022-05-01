@@ -223,7 +223,16 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
         const params: Record<string, any> = {}
         for (const [key, value] of Object.entries(schema)) {
             if (key in objectManagerSchema || value === Function) continue
-            params[key] = target[key]
+
+            let v = target[key]
+            if (v === Infinity)
+                v = 9999
+            else if (v === -Infinity)
+                v = -9999
+            else if (Array.isArray(v))
+                v = ""
+
+            params[key] = v
         }
         addInputs(pane, componentName, target, params)
 
