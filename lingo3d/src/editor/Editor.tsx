@@ -17,6 +17,9 @@ import { h } from "preact"
 import { useEffect, useRef } from "preact/hooks"
 import register from "preact-custom-element"
 import { useSelectionTarget, useCameraList } from "./states"
+import SimpleObjectManager from "../display/core/SimpleObjectManager"
+import ObjectManager from "../display/core/ObjectManager"
+import { Cancellable } from "@lincode/promiselikes"
 
 preventTreeShake(h)
 
@@ -120,7 +123,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
         }
     }, [])
 
-    const [target] = useSelectionTarget() as any
+    const [selectionTarget] = useSelectionTarget()
     const [cameraList] = useCameraList()
 
     useEffect(() => {
@@ -129,7 +132,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
 
         const pane = new Pane({ container })
 
-        if (!target) {
+        if (!selectionTarget) {
             addCameraInput(pane, cameraList)
 
             addInputs(pane, "settings", settings, omit(settings, [
@@ -148,67 +151,72 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
 
         addCameraInput(pane, cameraList)
 
+        const target = selectionTarget as any
+        const handle = new Cancellable()
+
         const makeVectorXYZ = (prop: string) => ({
             x: target[prop + "X"],
             y: target[prop + "Y"],
             z: target[prop + "Z"]
         })
-
         const makeVector = (x: string, y: string, z: string) => ({
             x: target[x],
             y: target[y],
             z: target[z]
         })
-
         const makeVectorNames = (prop: string) => [prop + "X", prop + "Y", prop + "Z"]
 
-        const transformParams = {
-            "scale": target.scale,
-            "scale xyz": makeVectorXYZ("scale"),
-            "position": makeVector("x", "y", "z"),
-            "rotation": makeVectorXYZ("rotation")
-        }
-        addInputs(pane, "transform", target, transformParams, {
-            "scale xyz": makeVectorNames("scale"),
-            "position": ["x", "y", "z"],
-            "rotation": makeVectorNames("rotation")
-        })
-        const handle = onTransformControls(() => {
-            programmatic = true
-            Object.assign(transformParams, {
+        if (selectionTarget instanceof SimpleObjectManager) {
+            const transformParams = {
+                "scale": target.scale,
                 "scale xyz": makeVectorXYZ("scale"),
                 "position": makeVector("x", "y", "z"),
-                "rotation": makeVectorXYZ("rotation"),
+                "rotation": makeVectorXYZ("rotation")
+            }
+            addInputs(pane, "transform", target, transformParams, {
+                "scale xyz": makeVectorNames("scale"),
+                "position": ["x", "y", "z"],
+                "rotation": makeVectorNames("rotation")
             })
-            pane.refresh()
-        })
+            handle.watch(onTransformControls(() => {
+                programmatic = true
+                Object.assign(transformParams, {
+                    "scale xyz": makeVectorXYZ("scale"),
+                    "position": makeVector("x", "y", "z"),
+                    "rotation": makeVectorXYZ("rotation"),
+                })
+                pane.refresh()
+            }))
+        }
 
-        addInputs(pane, "inner transform", target, {
-            "size": makeVector("width", "height", "depth"),
-            "inner position": makeVectorXYZ("inner"),
-            "inner rotation": makeVectorXYZ("innerRotation")
-        }, {
-            "size": ["width", "height", "depth"],
-            "inner position": makeVectorNames("inner"),
-            "inner rotation": makeVectorNames("innerRotation")
-        })
+        if (selectionTarget instanceof ObjectManager)
+            addInputs(pane, "inner transform", target, {
+                "size": makeVector("width", "height", "depth"),
+                "inner position": makeVectorXYZ("inner"),
+                "inner rotation": makeVectorXYZ("innerRotation")
+            }, {
+                "size": ["width", "height", "depth"],
+                "inner position": makeVectorNames("inner"),
+                "inner rotation": makeVectorNames("innerRotation")
+            })
 
-        addInputs(pane, "display", target, {
-            bloom: target.bloom,
-            reflection: target.reflection,
-            outline: target.outline,
+        if (selectionTarget instanceof SimpleObjectManager)
+            addInputs(pane, "display", target, {
+                bloom: target.bloom,
+                reflection: target.reflection,
+                outline: target.outline,
 
-            visible: target.visible,
-            innerVisible: target.innerVisible,
-            frustumCulled: target.frustumCulled,
+                visible: target.visible,
+                innerVisible: target.innerVisible,
+                frustumCulled: target.frustumCulled,
 
-            metalnessFactor: target.metalnessFactor,
-            roughnessFactor: target.roughnessFactor,
-            environmentFactor: target.environmentFactor,
+                metalnessFactor: target.metalnessFactor,
+                roughnessFactor: target.roughnessFactor,
+                environmentFactor: target.environmentFactor,
 
-            toon: target.toon,
-            pbr: target.pbr
-        })
+                toon: target.toon,
+                pbr: target.pbr
+            })
         
         const { schema, componentName } = target.constructor
 
@@ -223,7 +231,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
             handle.cancel()
             pane.dispose()
         }
-    }, [target, cameraList])
+    }, [selectionTarget, cameraList])
 
     return (
         <div
