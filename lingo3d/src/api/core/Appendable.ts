@@ -15,6 +15,10 @@ export default class Appendable extends Disposable {
         emitSceneChange()
     }
 
+    public get uuid() {
+        return this.outerObject3d.uuid
+    }
+
     public parent?: Appendable
     public children?: Set<Appendable>
 

@@ -7,6 +7,25 @@ import { appendableRoot } from "../api/core/Appendable"
 
 preventTreeShake(h)
 
+type TreeItemProps = {
+    appendable: any
+}
+
+const TreeItem = ({ appendable }: TreeItemProps) => {
+    const { componentName } = appendable.constructor
+
+    return (
+        <div style={{
+            color: "white",
+            fontFamily: "arial",
+            fontSize: 12,
+            opacity: 0.75
+        }}>
+            {componentName}
+        </div>
+    )
+}
+
 const SceneGraph = () => {
     const [r, render] = useState({})
 
@@ -17,12 +36,7 @@ const SceneGraph = () => {
         }
     }, [])
 
-    const tree = useMemo(() => {
-        for (const child of appendableRoot) {
-            console.log(child)
-        }
-
-    }, [r])
+    const appendables = useMemo(() => [...appendableRoot], [r])
 
     return (
         <div style={{
@@ -34,7 +48,9 @@ const SceneGraph = () => {
              float: "left",
              background: "rgb(40, 41, 46)"
         }}>
-            
+            {appendables.map(appendable => (
+                <TreeItem appendable={appendable} key={appendable.uuid} />
+            ))}
         </div>
     )
 }
