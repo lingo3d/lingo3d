@@ -12,6 +12,7 @@ import { getRenderer } from "../../states/useRenderer"
 import { getEncoding } from "../../states/useEncoding"
 import { getPBR } from "../../states/usePBR"
 import { setFillWindow } from "../../states/useFillWindow"
+import { getViewportSize } from "../../states/useViewportSize"
 
 export const container = document.createElement("div")
 Object.assign(container.style, {
@@ -37,8 +38,16 @@ Object.assign(referenceOutline.style, {
     position: "absolute",
     left: "50%",
     top: "50%",
-    transform: "translateX(-50%) translateY(-50%)"
+    transform: "translateX(-50%) translateY(-50%)",
+    pointerEvents: "none"
 })
+
+createEffect(() => {
+    const [vw, vh] = getViewportSize()
+    const [rx, ry] = getResolution()
+    referenceOutline.style.display = rx === vw && ry === vh ? "none" : "block"
+    
+}, [getResolution, getViewportSize])
 
 createEffect(() => {
     const canvas = getRenderer().domElement
