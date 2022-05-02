@@ -16,14 +16,9 @@ import { getRenderer } from "../../../states/useRenderer"
 import { getPixelRatio } from "../../../states/usePixelRatio"
 import outlinePass from "./outlinePass"
 import { getOutline } from "../../../states/useOutline"
-import { WebGLRenderTarget } from "three"
-import { HEIGHT, WIDTH } from "../../../globals"
+import smaaPass from "./smaaPass"
 
-//@ts-ignore
-const msaaRenderTarget = new WebGLRenderTarget(WIDTH, HEIGHT, { samples: 4 })
-getResolution(([w, h]) => msaaRenderTarget.setSize(w, h))
-
-const effectComposer = new EffectComposer(getRenderer(), msaaRenderTarget)
+const effectComposer = new EffectComposer(getRenderer())
 export default effectComposer
 
 createEffect(() => {
@@ -54,6 +49,8 @@ createEffect(() => {
 
     if (getOutline())
         passes.push(outlinePass)
+
+    passes.push(smaaPass)
 
     for (const pass of passes)
         effectComposer.addPass(pass)
