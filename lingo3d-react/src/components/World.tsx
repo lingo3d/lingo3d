@@ -18,7 +18,8 @@ Object.assign(htmlContainer.style, {
     top: "0px",
     width: "100%",
     height: "100%",
-    pointerEvents: "none"
+    pointerEvents: "none",
+    userSelect: "none"
 })
 
 type WorldProps = Partial<ISetup> & {
