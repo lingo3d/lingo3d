@@ -9,6 +9,7 @@ import { getCamera, setCamera } from "../../../states/useCamera"
 import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import ICameraMixin from "../../../interface/ICameraMixin"
+import makeCameraSprite from "./makeCameraSprite"
 
 export default abstract class CameraMixin<T extends Camera> extends EventLoopItem implements ICameraMixin {
     protected abstract camera: T
@@ -28,6 +29,9 @@ export default abstract class CameraMixin<T extends Camera> extends EventLoopIte
 
             const helper = new CameraHelper(this.camera)
             scene.add(helper)
+
+            const sprite = makeCameraSprite()
+            helper.add(sprite.outerObject3d)
 
             return () => {
                 helper.dispose()

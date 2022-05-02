@@ -1021,10 +1021,10 @@
   dependencies:
     "@lincode/utils" "*"
 
-"@lincode/reactivity@1.0.59":
-  version "1.0.59"
-  resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.59.tgz#36afa01d95e10c4597417063c7f4d3fc858b6564"
-  integrity sha512-maMpRBTaMiSG+lXXsXH7AAjDM2EnFx25iHc8gZEuWvwjsHaGtufoWS3vp/A6W2LukP71CUvStjz9tm2Zs7vODA==
+"@lincode/reactivity@1.0.60":
+  version "1.0.60"
+  resolved "https://registry.yarnpkg.com/@lincode/reactivity/-/reactivity-1.0.60.tgz#62b1489c264d56562b176725150d36cd70ede886"
+  integrity sha512-Zad8l+KE0z1rzOFLJ/hc9zJkbt7Bq2iAmoZl0/3nR7VwF1YNlGhsmK8Rq66MMW1eXCiArajAVkf9fTc4WshNDA==
   dependencies:
     "@lincode/events" "*"
     "@lincode/promiselikes" "*"

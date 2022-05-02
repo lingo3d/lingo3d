@@ -24,7 +24,7 @@ export default abstract class EventLoopItem extends Appendable implements IEvent
         return this.watch(new Cancellable(cb))
     }
 
-    protected createEffect(cb: () => (() => void) | Promise<void> | void, getStates: Array<GetGlobalState<any> | any>) {
+    protected createEffect(cb: () => (() => void) | void, getStates: Array<GetGlobalState<any> | any>) {
         return this.watch(createEffect(cb, getStates))
     }
 
