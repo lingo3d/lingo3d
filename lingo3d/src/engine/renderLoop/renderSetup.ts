@@ -1,6 +1,5 @@
 import { LinearEncoding, LinearToneMapping, NoToneMapping, PCFSoftShadowMap, sRGBEncoding } from "three"
 import { getExposure } from "../../states/useExposure"
-import ResizeObserver from "resize-observer-polyfill"
 import { getResolution } from "../../states/useResolution"
 import { getPerformance } from "../../states/usePerformance"
 import { getPixelRatio } from "../../states/usePixelRatio"

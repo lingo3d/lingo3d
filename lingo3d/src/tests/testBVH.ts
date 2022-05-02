@@ -83,3 +83,6 @@ const skybox = new Skybox()
 skybox.texture = [LeftSrc, RightSrc, UpSrc, DownSrc, FrontSrc, BackSrc]
 
 const cube = new Cube()
+
+rendering.bloom = true
+rendering.bloomStrength = 0.2

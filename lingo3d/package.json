@@ -24,8 +24,7 @@
 		"howler": "2",
 		"preact": "10",
 		"preact-custom-element": "^4.2.1",
-		"resize-observer-polyfill": "1",
-		"three": "0.139.2",
+		"three": "0.140.0",
 		"tweakpane": "3"
 	},
 	"devDependencies": {
