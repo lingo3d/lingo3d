@@ -1,6 +1,6 @@
 import { Object3D, Raycaster } from "three"
 import { MouseEventName, mouseEvents } from "../../../api/mouse"
-import { createEffect, createRef } from "@lincode/reactivity"
+import { createEffect, createNestedEffect, createRef } from "@lincode/reactivity"
 import { getSelection } from "../../../states/useSelection"
 import { getSelectionTarget, setSelectionTarget } from "../../../states/useSelectionTarget"
 import { getCamera } from "../../../states/useCamera"
@@ -60,7 +60,7 @@ createEffect(() => {
     const multipleSelection = getMultipleSelection()
     const firstMultipleSelection = createRef(true)
 
-    createEffect(() => {
+    createNestedEffect(() => {
         !multipleSelection && (firstMultipleSelection.current = true)
     }, [multipleSelection])
 

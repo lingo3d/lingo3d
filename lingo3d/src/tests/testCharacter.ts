@@ -20,7 +20,7 @@ import keyboard from "../api/keyboard"
 import Sky from "../display/Sky"
 import Reflector from "../display/Reflector"
 import mouse from "../api/mouse"
-import store, { createEffect } from "@lincode/reactivity"
+import store, { createEffect, createNestedEffect } from "@lincode/reactivity"
 import Octahedron from "../display/primitives/Octahedron"
 import { Cancellable } from "@lincode/promiselikes"
 import { settings } from ".."
@@ -77,7 +77,7 @@ const [setRunning, getRunning] = store(false)
 const [setJump, getJump] = store(false)
 const [setAirborn, getAirborn] = store(false)
 
-const useFireBolt = (aim: boolean) => createEffect(() => {
+const useFireBolt = (aim: boolean) => createNestedEffect(() => {
     // if (aim)
     //     camSpring.to = 1.5
     // else
@@ -108,7 +108,7 @@ const useFireBolt = (aim: boolean) => createEffect(() => {
     }
 }, [aim])
 
-const useDetectLanding = (airborn: boolean) => createEffect(() => {
+const useDetectLanding = (airborn: boolean) => createNestedEffect(() => {
     if (!airborn) return
 
     model.playAnimation(fallingSrc)

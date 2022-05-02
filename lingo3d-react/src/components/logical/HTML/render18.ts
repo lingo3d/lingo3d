@@ -1,8 +1,8 @@
 // import { createRoot } from "react-dom/client"
-// import { outline } from "lingo3d"
+// import { htmlContainer } from "../../World"
 // import { build } from "./build"
 
-// const root = createRoot(outline)
+// const root = createRoot(htmlContainer)
 
 // export default async () => {
 //     root.render(build())

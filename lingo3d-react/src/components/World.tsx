@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useRef } from "react"
-import { container, outline, settings } from "lingo3d"
+import { container, settings } from "lingo3d"
 import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
 import Setup from "./logical/Setup"
@@ -10,10 +10,16 @@ import { setResolution } from "lingo3d/lib/states/useResolution"
 import { setViewportSize } from "lingo3d/lib/states/useViewportSize"
 
 preventTreeShake(index)
-outline.style.border = "none"
-outline.style.pointerEvents = "none"
-outline.style.userSelect = "none"
-outline.style.overflow = "hidden"
+
+export const htmlContainer = document.createElement("div")
+Object.assign(htmlContainer.style, {
+    position: "absolute",
+    left: "0px",
+    top: "0px",
+    width: "100%",
+    height: "100%",
+    pointerEvents: "none"
+})
 
 type WorldProps = Partial<ISetup> & {
     style?: React.CSSProperties
@@ -37,6 +43,7 @@ const World: React.FC<WorldProps> = ({ style, className, position, children, ...
         if (!el) return
 
         el.appendChild(container)
+        el.appendChild(htmlContainer)
 
         const resizeObserver = new ResizeObserver(() => {
             const res: [number, number] = [el.clientWidth, el.clientHeight]

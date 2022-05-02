@@ -155,14 +155,14 @@ export default class HandTracker extends Disposable {
         this.ring.color = color
         this.pinky.color = color
 
-        createEffect(() => {
+        this.watch(createEffect(() => {
             const visible = getVisualize() && getReady() && getVisible()
             for (const cube of cubes)
                 cube.visible = visible
 
             centerCube.visible = visible
 
-        }, [getVisualize, getReady, getVisible])
+        }, [getVisualize, getReady, getVisible]))
 
         getReady(ready => ready && this.onReady?.())
 

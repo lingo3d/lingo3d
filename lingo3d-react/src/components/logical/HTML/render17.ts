@@ -1,7 +1,7 @@
-import { outline } from "lingo3d"
 import { build } from "./build"
 import ReactDOM from "react-dom"
+import { htmlContainer } from "../../World"
 
 export default () => {
-    ReactDOM.render(build(), outline)
+    ReactDOM.render(build(), htmlContainer)
 }

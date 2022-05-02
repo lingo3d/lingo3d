@@ -30,8 +30,8 @@ export default abstract class CameraMixin<T extends Camera> extends EventLoopIte
             const helper = new CameraHelper(this.camera)
             scene.add(helper)
 
-            const sprite = makeCameraSprite()
-            helper.add(sprite.outerObject3d)
+            // const sprite = makeCameraSprite()
+            // helper.add(sprite.outerObject3d)
 
             return () => {
                 helper.dispose()

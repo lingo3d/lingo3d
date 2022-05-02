@@ -3,7 +3,7 @@ import { getCamera } from "../../../states/useCamera"
 import { container } from "../../../engine/renderLoop/renderSetup"
 import { Camera } from "three"
 import { getPointerLockCamera, setPointerLockCamera } from "../../../states/usePointLockCamera"
-import { createEffect } from "@lincode/reactivity"
+import { createNestedEffect } from "@lincode/reactivity"
 import { getMobile } from "../../../states/useMobile"
 
 export default function (this: CameraBase<Camera>) {
@@ -79,7 +79,7 @@ export default function (this: CameraBase<Camera>) {
             }
         }
     
-        createEffect(() => {
+        createNestedEffect(() => {
             if (getPointerLockCamera() !== this.camera) return
             
             const onMouseMove = ({ movementX, movementY }: MouseEvent) => {
@@ -92,7 +92,7 @@ export default function (this: CameraBase<Camera>) {
             }
         }, [getPointerLockCamera])
     
-        createEffect(() => {
+        createNestedEffect(() => {
             const camera = getCamera()
             if (camera !== this.camera) return
     
