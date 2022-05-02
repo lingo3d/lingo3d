@@ -3,117 +3,66 @@ import { getCamera } from "../../../states/useCamera"
 import { container } from "../../../engine/renderLoop/renderSetup"
 import { Camera } from "three"
 import { getPointerLockCamera, setPointerLockCamera } from "../../../states/usePointLockCamera"
-import { createNestedEffect } from "@lincode/reactivity"
-import { getMobile } from "../../../states/useMobile"
+import { mouseEvents } from "../../../api/mouse"
+import { setPickingMode } from "../../../states/usePickingMode"
 
 export default function (this: CameraBase<Camera>) {
     if (this.done) return
 
     this.createEffect(() => {
-        const mobile = getMobile()
-        const mouseControl = this.mouseControlState.get()
+        if (this.mouseControlState.get() !== true || getCamera() !== this.camera) return
+        setPickingMode("camera")
+        return () => {
+            setPickingMode("mouse")
+        }
+    }, [this.mouseControlState.get, getCamera])
 
-        if (mobile || mouseControl === "drag") {
-            const camera = getCamera()
-            if (camera !== this.camera) return
+    this.createEffect(() => {
+        if (getCamera() !== this.camera || !this.mouseControlState.get()) return
 
-            mouseControl !== "drag" && setPointerLockCamera(camera)
-
-            let xTouch = 0
-            let yTouch = 0
-            let xTouchStart = 0
-            let yTouchStart = 0
-            let started = false
-    
-            const onTouchStart = (e: TouchEvent | MouseEvent) => {
-                e.preventDefault()
-    
-                started = true
-                xTouchStart = xTouch = "targetTouches" in e ? e.targetTouches[0].clientX : e.clientX
-                yTouchStart = yTouch = "targetTouches" in e ? e.targetTouches[0].clientY : e.clientY
-            }
-    
-            const onTouchMove = (e: TouchEvent | MouseEvent) => {
-                if (!started) return
-    
-                const xTouchNew = "targetTouches" in e ? e.targetTouches[0].clientX : e.clientX
-                const yTouchNew = "targetTouches" in e ? e.targetTouches[0].clientY : e.clientY
-                const movementX = xTouchNew - xTouch
-                const movementY = yTouchNew - yTouch
-                xTouch = xTouchNew
-                yTouch = yTouchNew
-    
-                this.gyrate(movementX * 2, movementY * 2)
-            }
-    
-            const onTouchEnd = () => started = false
-    
-            if (mouseControl === "drag" && !mobile) {
-                container.addEventListener("mousedown", onTouchStart)
-                container.addEventListener("mousemove", onTouchMove)
-                container.addEventListener("mouseup", onTouchEnd)
-                document.addEventListener("mouseleave", onTouchEnd)
-
-                return () => {
-                    setPointerLockCamera(undefined)
-                    container.removeEventListener("mousedown", onTouchStart)
-                    container.removeEventListener("mousemove", onTouchMove)
-                    container.removeEventListener("mouseup", onTouchEnd)
-                    document.removeEventListener("mouseleave", onTouchEnd)
-                    onTouchEnd()
-                }
-            }
-
-            container.addEventListener("touchstart", onTouchStart)
-            container.addEventListener("touchmove", onTouchMove)
-            container.addEventListener("touchend", onTouchEnd)
-            container.addEventListener("touchcancel", onTouchEnd)
+        if (getPointerLockCamera() === this.camera) {
+            const handleMove = (e: MouseEvent) => this.gyrate(e.movementX, e.movementY)
+            document.addEventListener("mousemove", handleMove)
 
             return () => {
-                setPointerLockCamera(undefined)
-                container.removeEventListener("touchstart", onTouchStart)
-                container.removeEventListener("touchmove", onTouchMove)
-                container.removeEventListener("touchend", onTouchEnd)
-                container.removeEventListener("touchcancel", onTouchEnd)
-                onTouchEnd()
+                document.removeEventListener("mousemove", handleMove)
             }
         }
-    
-        createNestedEffect(() => {
-            if (getPointerLockCamera() !== this.camera) return
-            
-            const onMouseMove = ({ movementX, movementY }: MouseEvent) => {
-                this.gyrate(movementX, movementY)
-            }
-            document.addEventListener("mousemove", onMouseMove)
-    
-            return () => {
-                document.removeEventListener("mousemove", onMouseMove)
-            }
-        }, [getPointerLockCamera])
-    
-        createNestedEffect(() => {
-            const camera = getCamera()
-            if (camera !== this.camera) return
-    
-            const onClick = () => container.requestPointerLock()
-            container.addEventListener("click", onClick)
-    
-            const onPointerLockChange = () => {
-                if (document.pointerLockElement === container)
-                    setPointerLockCamera(camera)
-                else
-                    setPointerLockCamera(undefined)
-            }
-            document.addEventListener("pointerlockchange", onPointerLockChange)
-    
-            return () => {
-                container.removeEventListener("click", onClick)
-                document.removeEventListener("pointerlockchange", onPointerLockChange)
-                document.exitPointerLock()
+
+        let started = false
+        const handle0 = mouseEvents.on("down", () => started = true)
+        const handle1 = mouseEvents.on("up", () => started = false)
+
+        const handleMove = (e: PointerEvent) => started && this.gyrate(e.movementX * 2, e.movementY * 2)
+        container.addEventListener("pointermove", handleMove)
+
+        return () => {
+            handle0.cancel()
+            handle1.cancel()
+            container.removeEventListener("pointermove", handleMove)
+            started = false
+        }
+    }, [this.mouseControlState.get, getCamera, getPointerLockCamera])
+
+    this.createEffect(() => {
+        const camera = getCamera()
+        if (this.mouseControlState.get() !== true || camera !== this.camera) return
+
+        const onClick = () => container.requestPointerLock()
+        const onPointerLockChange = () => {
+            if (document.pointerLockElement === container)
+                setPointerLockCamera(camera)
+            else
                 setPointerLockCamera(undefined)
-            }
-        }, [getCamera])
-        
-    }, [getMobile, getCamera, getPointerLockCamera, this.mouseControlState.get])
+        }
+        container.addEventListener("click", onClick)
+        document.addEventListener("pointerlockchange", onPointerLockChange)
+
+        return () => {
+            container.removeEventListener("click", onClick)
+            document.removeEventListener("pointerlockchange", onPointerLockChange)
+            document.exitPointerLock()
+            setPointerLockCamera(undefined)
+        }
+    }, [this.mouseControlState.get, getCamera])
 }

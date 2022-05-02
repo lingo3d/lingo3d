@@ -6,14 +6,12 @@ import { Group } from "three"
 import IMouse, { mouseDefaults, MouseEventPayload, mouseSchema } from "../interface/IMouse"
 import EventLoopItem from "./core/EventLoopItem"
 import { throttle } from "@lincode/utils"
-import { getPointerLockCamera } from "../states/usePointLockCamera"
-import { getMobile } from "../states/useMobile"
-import { createEffect } from "@lincode/reactivity"
 import { getCamera } from "../states/useCamera"
 import mainCamera from "../engine/mainCamera"
 import { loop } from "../engine/eventLoop"
 import { getSelectionBlockMouse } from "../states/useSelectionBlockMouse"
 import { appendableRoot } from "./core/Appendable"
+import { getPickingMode } from "../states/usePickingMode"
 
 export type MouseEventName = "click" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
@@ -27,7 +25,7 @@ mouseEvents.on("down", e => {
     downX = e.clientX
     downY = e.clientY
 })
-mouseEvents.on("up", (e) => {
+mouseEvents.on("up", e => {
     const upTime = Date.now()
 
     const deltaTime = upTime - downTime
@@ -42,16 +40,12 @@ mouseEvents.on("up", (e) => {
         mouseEvents.emit("click", e)
 })
 
-const computeMouse = throttle((ev: MouseEvent | TouchEvent) => {
-    const pos = "targetTouches" in ev ? ev.targetTouches[0] : ev
-    if (!pos)
-        return { x: 0, y: 0, clientX: 0, clientY: 0, xNorm: 0, yNorm: 0 }
-
+const computeMouse = throttle((ev: PointerEvent) => {
     const rect = containerBounds[0]
-    const clientX = pos.clientX - rect.x
-    const clientY = pos.clientY - rect.y
+    const clientX = ev.clientX - rect.x
+    const clientY = ev.clientY - rect.y
 
-    if (getPointerLockCamera())
+    if (getPickingMode() === "camera")
         return { x: 0, y: 0, clientX, clientY, xNorm: 0, yNorm: 0 }
 
     const [x, y] = clientToWorld(clientX, clientY)
@@ -62,62 +56,25 @@ const computeMouse = throttle((ev: MouseEvent | TouchEvent) => {
     
 }, 0, "leading")
 
-const makeMouseEvent = (names: Array<MouseEventName>) => (ev: MouseEvent | TouchEvent) => {
-    const mouseData = computeMouse(ev)
-    for (const name of names)
-        mouseEvents.emit(name, mouseData)
+container.addEventListener("pointermove", ev => {
+    mouseEvents.emit("move", computeMouse(ev))
+})
+let down = false
+container.addEventListener("pointerdown", ev => {
+    down = true
+    ev.stopPropagation()
+    ev.preventDefault()
+    const payload = computeMouse(ev)
+    mouseEvents.emit("down", payload)
+    mouseEvents.emit("move", payload)
+})
+const handleUp = (ev: PointerEvent) => {
+    down && mouseEvents.emit("up", computeMouse(ev))
+    down = false
 }
-
-createEffect(() => {
-    const handleDown = makeMouseEvent(["down"])
-    const handleUp = makeMouseEvent(["up"])
-
-    if (getSelection() && getCamera() === mainCamera && getSelectionBlockMouse()) {
-        if (getMobile()) {
-            container.addEventListener("touchstart", handleDown)
-            container.addEventListener("touchend", handleUp)
-    
-            return () => {
-                container.removeEventListener("touchstart", handleDown)
-                container.removeEventListener("touchend", handleUp)
-            }
-        }
-        container.addEventListener("mousedown", handleDown)
-        container.addEventListener("mouseup", handleUp)
-    
-        return () => {
-            container.removeEventListener("mousedown", handleDown)
-            container.removeEventListener("mouseup", handleUp)
-        }
-    }
-    
-    if (getMobile()) {
-        const handleTouchMove = makeMouseEvent(["move"])
-        const handleTouchStart = makeMouseEvent(["down", "move"])
-        const handleTouchEnd = makeMouseEvent(["up", "move"])
-
-        document.addEventListener("touchmove", handleTouchMove)
-        container.addEventListener("touchstart", handleTouchStart)
-        container.addEventListener("touchend", handleTouchEnd)
-
-        return () => {
-            document.removeEventListener("touchmove", handleTouchMove)
-            container.removeEventListener("touchstart", handleTouchStart)
-            container.removeEventListener("touchend", handleTouchEnd)
-        }
-    }
-    const handleMouseMove = makeMouseEvent(["move"])
-
-    document.addEventListener("mousemove", handleMouseMove)
-    container.addEventListener("mousedown", handleDown)
-    container.addEventListener("mouseup", handleUp)
-
-    return () => {
-        document.removeEventListener("mousemove", handleMouseMove)
-        container.removeEventListener("mousedown", handleDown)
-        container.removeEventListener("mouseup", handleUp)
-    }
-}, [getMobile, getSelection, getCamera, getSelectionBlockMouse])
+container.addEventListener("pointerup", handleUp)
+container.addEventListener("pointercancel", handleUp)
+container.addEventListener("pointerleave", handleUp)
 
 export class Mouse extends EventLoopItem implements IMouse {
     public static componentName = "mouse"
