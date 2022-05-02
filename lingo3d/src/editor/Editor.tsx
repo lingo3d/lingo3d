@@ -252,7 +252,8 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
              overflowX: "hidden",
              overflowY: "scroll",
              float: "left",
-             background: "rgb(40, 41, 46)"
+             background: "rgb(40, 41, 46)",
+             position: "relative"
          }}
         />
     )

@@ -73,7 +73,8 @@ const SceneGraph = () => {
              float: "left",
              background: "rgb(40, 41, 46)",
              padding: 10,
-             boxSizing: "border-box"
+             boxSizing: "border-box",
+             position: "relative"
         }}>
             <div style={{ width: 9999 }}>
                 {appendables.map(appendable => (
