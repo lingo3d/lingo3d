@@ -45,7 +45,8 @@ const TreeItem = ({ appendable, level }: TreeItemProps) => {
         }}>
             <div style={{
                 display: "flex",
-                backgroundColor: selectionTarget === appendable ? "rgba(255, 255, 255, 0.1)" : undefined
+                backgroundColor: selectionTarget === appendable ? "rgba(255, 255, 255, 0.1)" : undefined,
+                cursor: "default"
             }}>
                 {expanded ? (
                     <CollapseIcon style={expandIconStyle} onClick={e => (e.stopPropagation(), setExpanded(false))} />
