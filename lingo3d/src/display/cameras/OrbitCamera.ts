@@ -60,8 +60,8 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
                     const localPt = camera.worldToLocal(pt.clone())
                     const localTarget = camera.worldToLocal(controls.target.clone())
                     
-                    if (localPt.z - localTarget.z <= 0)
-                        pt = controls.target.clone().add(direction.multiplyScalar(-0.001))
+                    if (localPt.z - localTarget.z <= 0.5)
+                        pt = controls.target.clone().add(direction.multiplyScalar(-0.5))
 
                     camera.position.copy(pt)
                     this.updateDebounced()
