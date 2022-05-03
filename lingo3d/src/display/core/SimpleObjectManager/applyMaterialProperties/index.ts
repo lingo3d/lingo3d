@@ -2,6 +2,8 @@ import { debounce } from "@lincode/utils"
 import { Group, MeshToonMaterial, MeshStandardMaterial } from "three"
 import SimpleObjectManager from ".."
 import Loaded from "../../Loaded"
+import copyStandard from "./copyStandard"
+import copyToon from "./copyToon"
 
 export const applySet = new Set<SimpleObjectManager | Loaded<Group>>()
 
@@ -29,7 +31,7 @@ const processChild = (
                 const m = material[i]
                 if (!(m instanceof MeshToonMaterial)) {
                     const mat = material[i] = new MeshToonMaterial()
-                    mat.copy(m)
+                    copyToon(m, mat)
                     m.dispose()
                 }
             }
@@ -40,7 +42,7 @@ const processChild = (
                 const m = material[i]
                 if (!(m instanceof MeshStandardMaterial)) {
                     const mat = material[i] = new MeshStandardMaterial()
-                    mat.copy(m)
+                    copyStandard(m, mat)
                     mat.envMapIntensity = 1
                     mat.roughness = 1
                     m.dispose()
@@ -52,7 +54,7 @@ const processChild = (
     if (_toon) {
         if (!(material instanceof MeshToonMaterial)) {
             child.material = new MeshToonMaterial()
-            child.material.copy(material)
+            copyToon(material, child.material)
             material.dispose()
         }
         // (child.material as MeshToonMaterial).gradientMap = new
@@ -61,7 +63,7 @@ const processChild = (
     
     if (_pbr && !(material instanceof MeshStandardMaterial)) {
         child.material = new MeshStandardMaterial()
-        child.material.copy(material)
+        copyStandard(material, child.material)
         child.material.envMapIntensity = 1
         child.material.roughness = 1
         material.dispose()
