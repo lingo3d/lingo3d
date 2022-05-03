@@ -18,15 +18,10 @@ import { getTransformControlsDragging } from "../../../states/useTransformContro
 
 const raycaster = new Raycaster()
 
-const getSelectionCandidates = (): Set<Object3D> => {
-    const result = new Set<Object3D>()
-
-    scene.traverse(c => {
-        const { manager } = c.userData
-        manager && result.add(manager.object3d ?? c)
-    })
-    return result
-}
+const getSelectionCandidates = (result: Set<Object3D>) => scene.traverse(c => {
+    const { manager } = c.userData
+    manager && result.add(manager.object3d ?? c)
+})
 
 const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     raycaster.setFromCamera({ x, y }, getCamera())
@@ -67,10 +62,13 @@ createEffect(() => {
     if (selection && selectionEnabled) {
         const handle = new Cancellable()
 
+        const candidates = new Set<Object3D>()
+        queueMicrotask(() => getSelectionCandidates(candidates))
+
         handle.watch(mouseEvents.on("click", () => {
             emitSelectionTarget(undefined)
         }))
-        handle.watch(pickable("click", getSelectionCandidates(), target => {
+        handle.watch(pickable("click", candidates, target => {
             emitSelectionTarget(target)
         }))
         handle.watch(onSelectionTarget(target => {
