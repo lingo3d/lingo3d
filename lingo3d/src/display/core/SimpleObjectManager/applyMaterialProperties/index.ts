@@ -1,7 +1,7 @@
 import { debounce } from "@lincode/utils"
 import { Group, MeshToonMaterial, MeshStandardMaterial } from "three"
-import SimpleObjectManager from "."
-import Loaded from "../Loaded"
+import SimpleObjectManager from ".."
+import Loaded from "../../Loaded"
 
 export const applySet = new Set<SimpleObjectManager | Loaded<Group>>()
 
