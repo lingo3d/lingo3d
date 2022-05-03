@@ -21,7 +21,7 @@ Object.assign(uiContainer.style, {
     zIndex: "10"
 })
 
-// uiContainer.innerHTML = `
-//     <lingo3d-scenegraph></lingo3d-scenegraph>
-//     <lingo3d-editor></lingo3d-editor>
-// `
+uiContainer.innerHTML = `
+    <lingo3d-scenegraph></lingo3d-scenegraph>
+    <lingo3d-editor></lingo3d-editor>
+`
