@@ -64,8 +64,9 @@ const SceneGraph = () => {
     const appendables = useMemo(() => [...appendableRoot], [r])
 
     return (
-        <div style={{
-             userSelect: "none",
+        <div
+         className="lingo3d-ui"
+         style={{
              width: 200,
              height: "100%",
              overflowX: "hidden",
@@ -75,7 +76,8 @@ const SceneGraph = () => {
              padding: 10,
              boxSizing: "border-box",
              position: "relative"
-        }}>
+         }}
+        >
             <div style={{ width: 9999 }}>
                 {appendables.map(appendable => (
                     <TreeItem key={appendable.uuid} appendable={appendable} level={0} />

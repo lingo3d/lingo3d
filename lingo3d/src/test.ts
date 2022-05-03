@@ -3,8 +3,7 @@ import test from "./tests/testBVH"
 import { preventTreeShake } from "@lincode/utils"
 import settings from "./api/settings"
 import { setFillWindow } from "./states/useFillWindow"
-import "./editor/Editor"
-import "./editor/SceneGraph"
+import "./editor"
 
 preventTreeShake([index, test])
 

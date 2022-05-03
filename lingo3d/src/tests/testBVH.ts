@@ -44,7 +44,6 @@ player.physics = "character"
 player.animations = { running: runningSrc, idle: idleSrc }
 player.animation = "idle"
 player.rotationY = 90
-player.boxVisible = true
 
 keyboard.onKeyPress = (k) => {
     if (k === "w") {
@@ -69,7 +68,7 @@ cam.active = true
 const map = new Model()
 map.src = fairySrc
 map.scale = 20
-map.physics = "map-debug"
+map.physics = "map"
 map.onLoad = () => {
     const found = map.find("a6_CRN.a6_0")
     if (found) {

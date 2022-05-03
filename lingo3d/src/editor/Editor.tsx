@@ -1,4 +1,4 @@
-import { omit, preventTreeShake } from "@lincode/utils"
+import { debounce, omit, preventTreeShake } from "@lincode/utils"
 import { Camera } from "three"
 import { Pane } from "tweakpane"
 import background from "../api/background"
@@ -35,6 +35,7 @@ const addCameraInput = (pane: Pane, camList: Array<Camera>) => {
 const toFixed = (v: any) => typeof v === "number" ? Number(v.toFixed(2)) : v
 
 let programmatic = false
+const disableProgrammatic = debounce(() => programmatic = false, 100, "trailing")
 
 const addInputs = (
     pane: Pane,
@@ -65,10 +66,8 @@ const addInputs = (
     for (const key of Object.keys(params)) {
         const input = folder.addInput(params, key)
         input.on("change", e => {
-            if (programmatic) {
-                programmatic = false
-                return
-            }
+            if (programmatic) return
+            
             if (vectorMap?.[key]) {
                 const [xProp, yProp, zProp] = vectorMap[key]
                 const { x, y, z } = e.value
@@ -180,6 +179,8 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
             })
             handle.watch(onTransformControls(() => {
                 programmatic = true
+                disableProgrammatic()
+
                 Object.assign(transformParams, {
                     "scale xyz": makeVectorXYZ("scale"),
                     "position": makeVector("x", "y", "z"),
@@ -245,8 +246,8 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
     return (
         <div
          ref={containerRef}
+         className="lingo3d-ui"
          style={{
-             userSelect: "none",
              width: 350,
              height: "100%",
              overflowX: "hidden",
