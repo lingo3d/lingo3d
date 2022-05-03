@@ -13,14 +13,14 @@
   },
   "types": "./dist/index.d.ts",
   "private": false,
-  "version": "1.0.43",
+  "version": "1.0.44",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
     "preview": "vite preview"
   },
   "dependencies": {
-    "lingo3d": "1.10.135",
+    "lingo3d": "1.10.136",
     "nanoid": "3",
     "popmotion": "11"
   },
