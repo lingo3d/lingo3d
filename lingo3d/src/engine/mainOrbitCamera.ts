@@ -19,9 +19,10 @@ mainOrbitCamera.enableFly = true
 appendableRoot.delete(mainOrbitCamera)
 
 onSceneGraphDoubleClick(manager => {
-    mainOrbitCamera.targetX = manager.x
-    mainOrbitCamera.targetY = manager.y
-    mainOrbitCamera.targetZ = manager.z
+    const pos = manager.getCenter()
+    mainOrbitCamera.targetX = pos.x
+    mainOrbitCamera.targetY = pos.y
+    mainOrbitCamera.targetZ = pos.z
 })
 
 //@ts-ignore

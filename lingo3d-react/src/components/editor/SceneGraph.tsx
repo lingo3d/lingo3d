@@ -1,5 +1,5 @@
 import React from "react"
-import "lingo3d/lib/editor/SceneGraph"
+import "lingo3d/lib/editor"
 
 const SceneGraph: React.FC = () => {
     return (

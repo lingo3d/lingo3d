@@ -71,7 +71,7 @@ const App = () => {
     </World>
     <Reticle />
     <SceneGraph />
-    <Editor blockKeyboard={false} />
+    <Editor />
     </>
   )
 }

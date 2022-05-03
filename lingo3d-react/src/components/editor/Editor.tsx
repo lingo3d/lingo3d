@@ -1,5 +1,5 @@
 import React from "react"
-import "lingo3d/lib/editor/Editor"
+import "lingo3d/lib/editor"
 
 interface EditorProps {
     blockKeyboard?: boolean,
