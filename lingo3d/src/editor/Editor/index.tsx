@@ -1,25 +1,26 @@
 import { debounce, omit, preventTreeShake } from "@lincode/utils"
 import { Camera } from "three"
 import { Pane } from "tweakpane"
-import background from "../api/background"
-import rendering from "../api/rendering"
-import settings from "../api/settings"
-import mainCamera from "../engine/mainCamera"
-import { onTransformControls } from "../events/onTransformControls"
-import { objectManagerSchema } from "../interface/IObjectManager"
-import { getCamera, setCamera } from "../states/useCamera"
-import { setGridHelper } from "../states/useGridHelper"
-import { setOrbitControls } from "../states/useOrbitControls"
-import { setSelection } from "../states/useSelection"
-import { setSelectionBlockKeyboard } from "../states/useSelectionBlockKeyboard"
-import { setSelectionBlockMouse } from "../states/useSelectionBlockMouse"
+import background from "../../api/background"
+import rendering from "../../api/rendering"
+import settings from "../../api/settings"
+import mainCamera from "../../engine/mainCamera"
+import { onTransformControls } from "../../events/onTransformControls"
+import { objectManagerSchema } from "../../interface/IObjectManager"
+import { getCamera, setCamera } from "../../states/useCamera"
+import { setGridHelper } from "../../states/useGridHelper"
+import { setOrbitControls } from "../../states/useOrbitControls"
+import { setSelection } from "../../states/useSelection"
+import { setSelectionBlockKeyboard } from "../../states/useSelectionBlockKeyboard"
+import { setSelectionBlockMouse } from "../../states/useSelectionBlockMouse"
 import { h } from "preact"
 import { useEffect, useRef } from "preact/hooks"
 import register from "preact-custom-element"
-import { useSelectionTarget, useCameraList } from "./states"
-import SimpleObjectManager from "../display/core/SimpleObjectManager"
-import ObjectManager from "../display/core/ObjectManager"
+import { useSelectionTarget, useCameraList } from "../states"
+import SimpleObjectManager from "../../display/core/SimpleObjectManager"
+import ObjectManager from "../../display/core/ObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
+import { setSelectionTarget } from "../../states/useSelectionTarget"
 
 preventTreeShake(h)
 
@@ -148,6 +149,14 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
             }
         }
 
+        const handleKey = (e: KeyboardEvent) => {
+            if (e.key === "Backspace") {
+                selectionTarget.dispose()
+                setSelectionTarget(undefined)
+            }
+        }
+        document.addEventListener("keyup", handleKey)
+
         addCameraInput(pane, cameraList)
 
         const target = selectionTarget as any
@@ -240,6 +249,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
         return () => {
             handle.cancel()
             pane.dispose()
+            document.removeEventListener("keyup", handleKey)
         }
     }, [selectionTarget, cameraList])
 
