@@ -31,6 +31,9 @@ import Sky from "../display/Sky"
 import rendering from "../api/rendering"
 import Skybox from "../display/Skybox"
 import Cube from "../display/primitives/Cube"
+import SkyLight from "../display/lights/SkyLight"
+import PointLight from "../display/lights/PointLight"
+import SpotLight from "../display/lights/SpotLight"
 
 export default {}
 
@@ -82,3 +85,5 @@ const skybox = new Skybox()
 skybox.texture = [LeftSrc, RightSrc, UpSrc, DownSrc, FrontSrc, BackSrc]
 
 const cube = new Cube()
+
+const light = new SpotLight()

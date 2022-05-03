@@ -15,6 +15,7 @@ import Cube from "../display/primitives/Cube"
 export default {}
 
 settings.defaultOrbitControls = true
+settings.defaultLight = "studio"
 
 const model = new Model()
 model.src = botSrc

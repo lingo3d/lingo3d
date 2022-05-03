@@ -5,8 +5,10 @@ import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import ILightBase from "../../interface/ILightBase"
 import { getCamera } from "../../states/useCamera"
+import { getSelectionTarget, setSelectionTarget } from "../../states/useSelectionTarget"
 import ObjectManager from "./ObjectManager"
 import SimpleObjectManager from "./SimpleObjectManager"
+import makeLightSprite from "./utils/makeLightSprite"
 
 export default abstract class LightBase<T extends Light> extends ObjectManager<T> implements ILightBase {
     public constructor(light: T, Helper?: Class<Object3D & { dispose: () => void }>) {
@@ -19,9 +21,17 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
             const helper = new Helper(this.object3d)
             scene.add(helper)
 
+            const sprite = makeLightSprite()
+            helper.add(sprite.outerObject3d)
+
+            const handle = getSelectionTarget(target => target === sprite && setSelectionTarget(this))
+
             return () => {
                 helper.dispose()
                 scene.remove(helper)
+
+                sprite.dispose()
+                handle.cancel()
             }
         }, [getCamera])
     }
