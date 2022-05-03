@@ -60,8 +60,8 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
                     const localPt = camera.worldToLocal(pt.clone())
                     const localTarget = camera.worldToLocal(controls.target.clone())
                     
-                    if (localPt.z - localTarget.z <= 0.5)
-                        pt = controls.target.clone().add(direction.multiplyScalar(-0.5))
+                    if (localPt.z - localTarget.z <= 1)
+                        pt = controls.target.clone().add(direction.multiplyScalar(-1))
 
                     camera.position.copy(pt)
                     this.updateDebounced()
@@ -69,11 +69,52 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
                 container.addEventListener("wheel", cb)
                 handle.then(() => container.removeEventListener("wheel", cb))
             }
+            if (this.enableFlyState.get()) {
+                const downSet = new Set<string>()
+
+                const moveForward = (distance: number) => {
+                    const direction = camera.getWorldDirection(vector3).multiplyScalar(distance * scaleDown)
+                    camera.position.add(direction)
+                    this.controls.target.add(direction)
+                    this.updateDebounced()
+                }
+                const moveRight = (distance: number) => {
+                    vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
+                    camera.position.addScaledVector(vector3, distance * scaleDown)
+                    this.controls.target.addScaledVector(vector3, distance * scaleDown)
+                    this.updateDebounced()
+                }
+                handle.watch(loop(() => {
+                    if (downSet.has("w") || downSet.has("ArrowUp"))
+                        moveForward(10)
+                    else if (downSet.has("s") || downSet.has("ArrowDown"))
+                        moveForward(-10)
+
+                    if (downSet.has("a") || downSet.has("ArrowLeft"))
+                        moveRight(-10)
+                    else if (downSet.has("d") || downSet.has("ArrowRight"))
+                        moveRight(10)
+                }))
+
+                const handleKeyDown = (e: KeyboardEvent) => {
+                    downSet.add(e.key)
+                }
+                const handleKeyUp = (e: KeyboardEvent) => {
+                    downSet.delete(e.key)
+                }
+                document.addEventListener("keydown", handleKeyDown)
+                document.addEventListener("keyup", handleKeyUp)
+
+                handle.then(() => {
+                    document.removeEventListener("keydown", handleKeyDown)
+                    document.removeEventListener("keyup", handleKeyUp)
+                })
+            }
             return () => {
                 controls.enabled = false
                 handle.cancel()
             }
-        }, [getCamera, getTransformControlsDragging, this.enableZoomState.get, this.enabledState.get])
+        }, [getCamera, getTransformControlsDragging, this.enableZoomState.get, this.enableFlyState.get, this.enabledState.get])
 
         this.then(() => controls.dispose())
     }
@@ -177,6 +218,14 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
     }
     public set enableZoom(val: boolean) {
         this.enableZoomState.set(val)
+    }
+
+    private enableFlyState = new Reactive(false)
+    public get enableFly() {
+        return this.enableFlyState.get()
+    }
+    public set enableFly(val: boolean) {
+        this.enableFlyState.set(val)
     }
 
     private enabledState = new Reactive(true)

@@ -14,6 +14,7 @@ export default {}
 const mainOrbitCamera = new OrbitCamera(mainCamera)
 mainOrbitCamera.enablePan = true
 mainOrbitCamera.enableZoom = true
+mainOrbitCamera.enableFly = true
 appendableRoot.delete(mainOrbitCamera)
 //@ts-ignore
 const mainOrbitControls = mainOrbitCamera.controls

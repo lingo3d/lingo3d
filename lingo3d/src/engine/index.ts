@@ -1,5 +1,5 @@
 import boxHelper from "./boxHelper"
-import mainOrbitControls from "./mainOrbitControls"
+import mainOrbitControls from "./mainOrbitCamera"
 import transformControls from "./transformControls"
 import gridHelper from "./gridHelper"
 import referencePlane from "./referencePlane"
