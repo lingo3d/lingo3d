@@ -8,6 +8,8 @@ import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
 import { useSelectionTarget } from "../states"
+import { emitSceneGraphDoubleClick } from "../../events/onSceneGraphDoubleClick"
+import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 
 preventTreeShake(h)
 
@@ -25,8 +27,17 @@ const TreeItem = ({ appendable, level }: TreeItemProps) => {
     const [expanded, setExpanded] = useState(true)
     const [selectionTarget, setSelectionTarget] = useSelectionTarget()
 
+    const handleMouseDown = (e: MouseEvent) => {
+        e.stopPropagation()
+        setSelectionTarget(appendable)
+    }
+    const handleDoubleClick = (e: MouseEvent) => {
+        e.stopPropagation()
+        appendable instanceof SimpleObjectManager && emitSceneGraphDoubleClick(appendable)
+    }
+
     return (
-        <div onClick={e => (e.stopPropagation(), setSelectionTarget(appendable))} style={{
+        <div onMouseDown={handleMouseDown} onDblClick={handleDoubleClick} style={{
             color: "rgba(255, 255, 255, 0.75)",
             fontFamily: "arial",
             fontSize: 12,

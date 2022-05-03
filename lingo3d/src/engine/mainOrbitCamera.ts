@@ -8,6 +8,7 @@ import { getOrbitControlsScreenSpacePanning } from "../states/useOrbitControlsSc
 import OrbitCamera from "../display/cameras/OrbitCamera"
 import { getTransformControlsDragging } from "../states/useTransformControlsDragging"
 import { appendableRoot } from "../api/core/Appendable"
+import { onSceneGraphDoubleClick } from "../events/onSceneGraphDoubleClick"
 
 export default {}
 
@@ -16,10 +17,17 @@ mainOrbitCamera.enablePan = true
 mainOrbitCamera.enableZoom = true
 mainOrbitCamera.enableFly = true
 appendableRoot.delete(mainOrbitCamera)
-//@ts-ignore
-const mainOrbitControls = mainOrbitCamera.controls
 
-getOrbitControlsScreenSpacePanning(val => mainOrbitControls.screenSpacePanning = val)
+onSceneGraphDoubleClick(manager => {
+    mainOrbitCamera.targetX = manager.x
+    mainOrbitCamera.targetY = manager.y
+    mainOrbitCamera.targetZ = manager.z
+})
+
+//@ts-ignore
+const { controls } = mainOrbitCamera
+
+getOrbitControlsScreenSpacePanning(val => controls.screenSpacePanning = val)
 
 createEffect(() => {
     const enabled = getOrbitControls() && !getTransformControlsDragging() && getCamera() === mainCamera
@@ -37,7 +45,7 @@ createEffect(() => {
 
     return () => {
         proceed = false
-        mainOrbitControls.reset()
+        controls.reset()
         mainOrbitCamera.polarAngle = 90
         mainOrbitCamera.azimuthAngle = 0
         mainOrbitCamera.distance = getCameraDistance()

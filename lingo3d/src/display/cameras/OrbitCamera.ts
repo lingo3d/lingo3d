@@ -14,6 +14,7 @@ import ObjectManager from "../core/ObjectManager"
 import { vector3 } from "../utils/reusables"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../globals"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
+import SimpleObjectManager from "../core/SimpleObjectManager"
 
 class OrbitCamera extends EventLoopItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -146,11 +147,11 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         this.controls.target.z = val * scaleDown
     }
 
-    protected _target: ObjectManager | undefined
+    protected _target: SimpleObjectManager | undefined
     public get target() {
         return this._target
     }
-    public set target(target: ObjectManager | undefined) {
+    public set target(target: SimpleObjectManager | undefined) {
         this._target = target
         this.controls.target = target?.outerObject3d.position ?? new Vector3()
     }
