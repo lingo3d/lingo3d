@@ -20,7 +20,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "lingo3d": "1.10.129",
+    "lingo3d": "1.10.135",
     "nanoid": "3",
     "popmotion": "11"
   },

@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import { PropType, ref, watchEffect, computed } from "vue"
-import { applySetup, container, outline } from "lingo3d"
+import { applySetup, container } from "lingo3d"
 import { setResolution } from "lingo3d/lib/states/useResolution"
 import { setViewportSize } from "lingo3d/lib/states/useViewportSize"
 import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
 import scene from "lingo3d/lib/engine/scene"
 import setupProps from "../props/setupProps"
+import htmlContainer from "./logical/HTML/htmlContainer"
 
 preventTreeShake(index)
-outline.style.border = "none"
-outline.style.pointerEvents = "none"
-outline.style.userSelect = "none"
-outline.style.overflow = "hidden"
 
 for (const child of [...scene.children])
     child.userData.manager && scene.remove(child)
@@ -30,6 +27,7 @@ watchEffect(onCleanUp => {
     if (!el) return
 
     el.appendChild(container)
+    el.appendChild(htmlContainer)
 
     const resizeObserver = new ResizeObserver(() => {
         const res: [number, number] = [el.clientWidth, el.clientHeight]
@@ -53,6 +51,8 @@ watchEffect(onCleanUp => {
 </script>
 
 <template>
-    <div ref="divRef" :style="style" />
-    <slot />
+    <div :style="style">
+        <div ref="divRef" style="width: 100%; height: 100%; left: 0px; top: 0px; position: absolute" />
+        <slot />
+    </div>
 </template>

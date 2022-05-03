@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import "lingo3d/lib/editor"
+import "lingo3d/lib/editor/Editor"
 
 const props = defineProps({
     blockKeyboard: { type: Boolean, default: true },

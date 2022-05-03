@@ -1,9 +1,9 @@
-import { outline } from "lingo3d"
 import { ref, createApp, VNode, h, Fragment } from "vue"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
 import { forceGet, preventTreeShake } from "@lincode/utils"
 import HTMLChild from "./HTMLChild"
 import { nanoid } from "nanoid"
+import htmlContainer from "./htmlContainer"
 
 preventTreeShake(h)
 
@@ -30,4 +30,4 @@ createApp({
         )
     }
 
-}).mount(outline)
+}).mount(htmlContainer)
