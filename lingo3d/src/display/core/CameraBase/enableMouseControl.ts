@@ -30,10 +30,21 @@ export default function (this: CameraBase<Camera>) {
         }
 
         let started = false
-        const handle0 = mouseEvents.on("down", () => started = true)
+        let [xOld, yOld] = [0, 0]
+        
+        const handle0 = mouseEvents.on("down", e => (started = true, [xOld, yOld] = [e.clientX, e.clientY]))
         const handle1 = mouseEvents.on("up", () => started = false)
 
-        const handleMove = (e: PointerEvent) => started && this.gyrate(e.movementX * 2, e.movementY * 2)
+        const handleMove = (e: PointerEvent) => {
+            //hack for ios safari 14.7.1
+            if (e.movementX === undefined) {
+                const [movementX, movementY] = [e.clientX - xOld, e.clientY - yOld]
+                ;[xOld, yOld] = [e.clientX, e.clientY]
+                started && this.gyrate(movementX * 2, movementY * 2)
+                return
+            }
+            started && this.gyrate(e.movementX * 2, e.movementY * 2)
+        }
         container.addEventListener("pointermove", handleMove)
 
         return () => {
@@ -48,7 +59,7 @@ export default function (this: CameraBase<Camera>) {
         const camera = getCamera()
         if (this.mouseControlState.get() !== true || camera !== this.camera) return
 
-        const onClick = () => container.requestPointerLock()
+        const onClick = () => container.requestPointerLock?.()
         const onPointerLockChange = () => {
             if (document.pointerLockElement === container)
                 setPointerLockCamera(camera)

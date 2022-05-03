@@ -62,8 +62,6 @@ container.addEventListener("pointermove", ev => {
 let down = false
 container.addEventListener("pointerdown", ev => {
     down = true
-    ev.stopPropagation()
-    ev.preventDefault()
     const payload = computeMouse(ev)
     mouseEvents.emit("down", payload)
     mouseEvents.emit("move", payload)
