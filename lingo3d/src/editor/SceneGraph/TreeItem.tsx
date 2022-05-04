@@ -1,6 +1,6 @@
 import { h } from "preact"
 import { useState } from "preact/hooks"
-import { preventTreeShake } from "@lincode/utils"
+import { preventTreeShake, upperFirst } from "@lincode/utils"
 import Appendable from "../../api/core/Appendable"
 import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
@@ -21,7 +21,7 @@ export type TreeItemProps = {
 
 const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     //@ts-ignore
-    const { componentName } = appendable.constructor
+    const name = appendable.name || upperFirst(appendable.constructor.componentName)
     const appendableChildren = appendable.children ? [...appendable.children] : undefined
     const expandIconStyle = { opacity: (appendableChildren?.length || children) ? 0.5 : 0.05 }
 
@@ -56,7 +56,7 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
                     <ExpandIcon style={expandIconStyle} onClick={e => (e.stopPropagation(), setExpanded(true))} />
                 )}
                 <CubeIcon />
-                {componentName}
+                {name}
             </div>
             {expanded && appendableChildren?.map(childAppendable => (
                 childAppendable instanceof Model ? (

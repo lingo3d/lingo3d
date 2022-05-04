@@ -21,6 +21,7 @@ import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import ObjectManager from "../../display/core/ObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
 import { setSelectionTarget } from "../../states/useSelectionTarget"
+import { emitSceneChange } from "../../events/onSceneChange"
 
 preventTreeShake(h)
 
@@ -64,7 +65,7 @@ const addInputs = (
                 break
         }
 
-    for (const key of Object.keys(params)) {
+    return Object.keys(params).map(key => {
         const input = folder.addInput(params, key)
         input.on("change", e => {
             if (programmatic) return
@@ -91,7 +92,8 @@ const addInputs = (
             }
             target[key] = toFixed(e.value)
         })
-    }
+        return input
+    })
 }
 
 interface EditorProps {
@@ -173,6 +175,12 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
             z: target[z]
         })
         const makeVectorNames = (prop: string) => [prop + "X", prop + "Y", prop + "Z"]
+
+        const [nameInput] = addInputs(pane, "general", target, {
+            name: target.name,
+            id: target.id
+        })
+        nameInput.on("change", () => emitSceneChange())
 
         if (selectionTarget instanceof SimpleObjectManager) {
             const transformParams = {
@@ -256,6 +264,8 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
     return (
         <div
          ref={containerRef}
+         onKeyDown={e => e.stopPropagation()}
+         onKeyUp={e => e.stopPropagation()}
          className="lingo3d-ui"
          style={{
              width: 350,

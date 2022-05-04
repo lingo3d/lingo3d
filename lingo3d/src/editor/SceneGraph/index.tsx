@@ -5,6 +5,8 @@ import { preventTreeShake } from "@lincode/utils"
 import { onSceneChange } from "../../events/onSceneChange"
 import { appendableRoot } from "../../api/core/Appendable"
 import TreeItem from "./TreeItem"
+import Model from "../../display/Model"
+import ModelTreeItem from "./ModelTreeItem"
 
 preventTreeShake(h)
 
@@ -37,7 +39,11 @@ const SceneGraph = () => {
         >
             <div style={{ width: 9999 }}>
                 {appendables.map(appendable => (
-                    <TreeItem key={appendable.uuid} appendable={appendable} level={0} />
+                    appendable instanceof Model ? (
+                        <ModelTreeItem appendable={appendable} level={0} />
+                    ) : (
+                        <TreeItem key={appendable.uuid} appendable={appendable} level={0} />
+                    )
                 ))}
             </div>
         </div>
