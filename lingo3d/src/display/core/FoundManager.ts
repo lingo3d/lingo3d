@@ -6,6 +6,7 @@ import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
 import { Cancellable } from "@lincode/promiselikes"
 import AnimationManager from "./SimpleObjectManager/AnimationManager"
+import { appendableRoot } from "../../api/core/Appendable"
 
 class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
     public static componentName = "found"
@@ -26,6 +27,7 @@ class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
 
         this.parent = modelManager
         ;(modelManager.children ??= new Set()).add(this)
+        appendableRoot.delete(this)
 
         if (!modelManager?.animationManagers) return
 

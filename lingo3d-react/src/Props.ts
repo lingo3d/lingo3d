@@ -14,7 +14,6 @@ import IPointLight from "lingo3d/lib/interface/IPointLight"
 import ISkyLight from "lingo3d/lib/interface/ISkyLight"
 import ISpotLight from "lingo3d/lib/interface/ISpotLight"
 import IReflector from "lingo3d/lib/interface/IReflector"
-import IScene from "lingo3d/lib/interface/IScene"
 import ISprite from "lingo3d/lib/interface/ISprite"
 import ISvgMesh from "lingo3d/lib/interface/ISvgMesh"
 import ISound from "lingo3d/lib/interface/ISound"
@@ -30,7 +29,6 @@ export type PrimitiveProps = Partial<IPrimitive> & { children?: Children }
 export type LoadedProps = Partial<ILoaded> & { children?: Children }
 export type ModelProps = Partial<IModel> & { children?: Children }
 export type ReflectorProps = Partial<IReflector> & { children?: Children }
-export type SceneProps = Partial<IScene> & { children?: Children }
 export type SpriteProps = Partial<ISprite> & { children?: Children }
 export type SvgMeshProps = Partial<ISvgMesh> & { children?: Children }
 

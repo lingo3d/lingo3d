@@ -93,10 +93,10 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.182.tgz#05301a4d5e62963227eaafe0ce04dd77c54ea5c2"
   integrity sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==
 
-"@types/three@0.139.0":
-  version "0.139.0"
-  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.139.0.tgz#69af1f0c52f8eea390f513e05478af1dd7f49e6f"
-  integrity sha512-4V/jZhyq7Mv05coUzxL3bz8AuBOSi/1F0RY7ujisHTV0Amy/fnYJ+s7TSJ1/hXjZukSkpuFRgV+wvWUEMbsMbQ==
+"@types/three@0.140.0":
+  version "0.140.0"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.140.0.tgz#3b74a021a69a6e2cd0e2550def15aa4c1c20e924"
+  integrity sha512-YPJLSIY6uKUOp1k6BZYDq5GtEIdhfeK04UCbc9IPAVbdn/RNjkfrbnyd7smrsNkJhc0IFASLpd3AAYgwqgXKVQ==
 
 "@vitejs/plugin-vue@^2.3.0":
   version "2.3.1"
@@ -615,10 +615,10 @@ jstransformer@1.0.0:
     is-promise "^2.0.0"
     promise "^7.0.1"
 
-lingo3d@1.10.136:
-  version "1.10.136"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.136.tgz#2ccf1f53c22cca4c5aa7ebb22dcb00a77d5776d4"
-  integrity sha512-xV70b25DA0QvjgaPzNN4zBhPl6ULXhHfxU/3riEYds7sG8JgOGFfFOGhZa71+iKQIMN+cLqPE/ADDNLVTROfow==
+lingo3d@1.10.142:
+  version "1.10.142"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.142.tgz#afe844fc37e8013fce6441d9d4061cb53d0cca60"
+  integrity sha512-0vnJhe6YLGP0xfFAn6ZsDBbcfHzVhv4OUTdDupF6alAF4Z4t2nsjgxgCHvi9Z+tDQUZHjUwm8FcVobo+yJUM6w==
   dependencies:
     "@lincode/events" "1.0.23"
     "@lincode/filetypes" "1.0.1"
@@ -627,7 +627,7 @@ lingo3d@1.10.136:
     "@lincode/reactivity" "1.0.64"
     "@lincode/utils" "1.2.50"
     "@tweakpane/core" "1"
-    "@types/three" "0.139.0"
+    "@types/three" "0.140.0"
     cannon-es "0.19.0"
     howler "2"
     preact "10"
