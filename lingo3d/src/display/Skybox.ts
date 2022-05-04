@@ -14,6 +14,8 @@ export default class Skybox extends EventLoopItem implements ISkybox {
     }
 
     public override dispose() {
+        if (this.done) return this
+        super.dispose()
         pullSkyboxStack(this)
         return this
     }
