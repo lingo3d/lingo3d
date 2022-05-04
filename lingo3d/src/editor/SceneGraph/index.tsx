@@ -3,65 +3,10 @@ import { useEffect, useMemo, useState } from "preact/hooks"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
 import { onSceneChange } from "../../events/onSceneChange"
-import Appendable, { appendableRoot } from "../../api/core/Appendable"
-import CubeIcon from "./icons/CubeIcon"
-import ExpandIcon from "./icons/ExpandIcon"
-import CollapseIcon from "./icons/CollapseIcon"
-import { useSelectionTarget } from "../states"
-import { emitSceneGraphDoubleClick } from "../../events/onSceneGraphDoubleClick"
-import SimpleObjectManager from "../../display/core/SimpleObjectManager"
+import { appendableRoot } from "../../api/core/Appendable"
+import TreeItem from "./TreeItem"
 
 preventTreeShake(h)
-
-type TreeItemProps = {
-    appendable: Appendable
-    level: number
-}
-
-const TreeItem = ({ appendable, level }: TreeItemProps) => {
-    //@ts-ignore
-    const { componentName } = appendable.constructor
-    const appendableChildren = appendable.children ? [...appendable.children] : undefined
-    const expandIconStyle = { opacity: appendableChildren?.length ? 0.5 : 0.05 }
-
-    const [expanded, setExpanded] = useState(true)
-    const [selectionTarget, setSelectionTarget] = useSelectionTarget()
-
-    const handleMouseDown = (e: MouseEvent) => {
-        e.stopPropagation()
-        setSelectionTarget(appendable)
-    }
-    const handleDoubleClick = (e: MouseEvent) => {
-        e.stopPropagation()
-        appendable instanceof SimpleObjectManager && emitSceneGraphDoubleClick(appendable)
-    }
-
-    return (
-        <div onMouseDown={handleMouseDown} onDblClick={handleDoubleClick} style={{
-            color: "rgba(255, 255, 255, 0.75)",
-            fontFamily: "arial",
-            fontSize: 12,
-            marginLeft: level * 18
-        }}>
-            <div style={{
-                display: "flex",
-                backgroundColor: selectionTarget === appendable ? "rgba(255, 255, 255, 0.1)" : undefined,
-                cursor: "default"
-            }}>
-                {expanded ? (
-                    <CollapseIcon style={expandIconStyle} onClick={e => (e.stopPropagation(), setExpanded(false))} />
-                ) : (
-                    <ExpandIcon style={expandIconStyle} onClick={e => (e.stopPropagation(), setExpanded(true))} />
-                )}
-                <CubeIcon />
-                {componentName}
-            </div>
-            {expanded && appendableChildren?.map(childAppendable => (
-                <TreeItem key={childAppendable.uuid} appendable={childAppendable} level={level + 1} />
-            ))}
-        </div>
-    )
-}
 
 const SceneGraph = () => {
     const [r, render] = useState({})
