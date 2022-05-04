@@ -17,7 +17,6 @@ import SvgMesh from "./display/SvgMesh"
 import Sprite from "./display/Sprite"
 import Reflector from "./display/Reflector"
 import GroundReflector from "./display/GroundReflector"
-import Scene from "./display/Scene"
 import Group from "./display/Group"
 import Skybox from "./display/Skybox"
 import Sky from "./display/Sky"
@@ -76,7 +75,6 @@ export {
     Sprite,
     Reflector,
     GroundReflector,
-    Scene,
     Group,
     Skybox,
     Sky,

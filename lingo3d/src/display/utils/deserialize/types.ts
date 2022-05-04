@@ -3,7 +3,6 @@ import IModel from "../../../interface/IModel"
 import ISvgMesh from "../../../interface/ISvgMesh"
 import ISprite from "../../../interface/ISprite"
 import IReflector from "../../../interface/IReflector"
-import IScene from "../../../interface/IScene"
 import ICamera from "../../../interface/ICamera"
 import IAmbientLight from "../../../interface/IAmbientLight"
 import IAreaLight from "../../../interface/IAreaLight"
@@ -15,7 +14,7 @@ import IPrimitive from "../../../interface/IPrimitive"
 import ISetup from "../../../interface/ISetup"
 
 
-export type GameObjectType = "group" | "model" | "svgMesh" | "sprite" | "reflector" | "scene" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus"
+export type GameObjectType = "group" | "model" | "svgMesh" | "sprite" | "reflector" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus"
 
 export type AnimationData = Record<
     string,//property name
@@ -60,8 +59,6 @@ export type SpriteNode = TypedPropsNode<ISprite, "sprite">
 
 export type ReflectorNode = TypedPropsNode<IReflector, "reflector">
 
-export type SceneNode = TypedPropsNode<IScene, "scene">
-
 export type CameraNode = TypedPropsNode<ICamera, "camera">
 
 export type AmbientLightNode = TypedPropsNode<IAmbientLight, "ambientLight">
@@ -94,6 +91,6 @@ export type TetrahedronNode = TypedPropsNode<IPrimitive, "tetrahedron">
 
 export type TorusNode = TypedPropsNode<IPrimitive, "torus">
 
-export type BaseSceneGraphNode = GroupNode | ModelNode | SvgMeshNode | SpriteNode | ReflectorNode | SceneNode | CameraNode | AmbientLightNode | AreaLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode
+export type BaseSceneGraphNode = GroupNode | ModelNode | SvgMeshNode | SpriteNode | ReflectorNode | CameraNode | AmbientLightNode | AreaLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode
 
 export type SceneGraphNode = BaseSceneGraphNode | AnimationNode | SetupNode

@@ -12,7 +12,6 @@ import Plane from "../../primitives/Plane"
 import Sphere from "../../primitives/Sphere"
 import Tetrahedron from "../../primitives/Tetrahedron"
 import Torus from "../../primitives/Torus"
-import Scene from "../../Scene"
 import Camera from "../../cameras/Camera"
 import AmbientLight from "../../lights/AmbientLight"
 import AreaLight from "../../lights/AreaLight"
@@ -30,7 +29,6 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     "svgMesh": () => new SvgMesh(),
     "sprite": () => new Sprite(),
     "reflector": () => new Reflector(),
-    "scene": () => new Scene(),
     "camera": () => new Camera(),
     "ambientLight": () => new AmbientLight(),
     "areaLight": () => new AreaLight(),
