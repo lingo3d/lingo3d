@@ -11,13 +11,8 @@ const Toolbar = () => {
          style={{
              width: 50,
              height: "100%",
-             overflowX: "hidden",
-             overflowY: "scroll",
-             float: "left",
              background: "rgb(40, 41, 46)",
-             padding: 10,
-             boxSizing: "border-box",
-             position: "relative"
+             padding: 10
          }}
         >
 

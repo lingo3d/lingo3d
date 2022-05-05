@@ -1,6 +1,7 @@
 import { h } from "preact"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
+import CubeIcon from "./CubeIcon"
 
 preventTreeShake(h)
 
@@ -9,18 +10,16 @@ const Library = () => {
         <div
          className="lingo3d-ui"
          style={{
-             width: 50,
+             width: 200,
              height: "100%",
-             overflowX: "hidden",
-             overflowY: "scroll",
-             float: "left",
              background: "rgb(40, 41, 46)",
-             padding: 10,
-             boxSizing: "border-box",
-             position: "relative"
+             padding: 10
          }}
         >
-            
+            <div style={{ display: "flex" }}>
+                <CubeIcon />
+                <CubeIcon />
+            </div>
         </div>
     )
 }

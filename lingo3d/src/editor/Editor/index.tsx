@@ -268,13 +268,9 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
          onKeyUp={e => e.stopPropagation()}
          className="lingo3d-ui"
          style={{
-             width: 350,
+             width: 300,
              height: "100%",
-             overflowX: "hidden",
-             overflowY: "scroll",
-             float: "left",
-             background: "rgb(40, 41, 46)",
-             position: "relative"
+             background: "rgb(40, 41, 46)"
          }}
         />
     )

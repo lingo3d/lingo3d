@@ -28,13 +28,8 @@ const SceneGraph = () => {
          style={{
              width: 200,
              height: "100%",
-             overflowX: "hidden",
-             overflowY: "scroll",
-             float: "left",
              background: "rgb(40, 41, 46)",
-             padding: 10,
-             boxSizing: "border-box",
-             position: "relative"
+             padding: 10
          }}
         >
             <div style={{ width: 9999 }}>

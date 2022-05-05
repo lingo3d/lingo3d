@@ -40,8 +40,6 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     return (
         <div onMouseDown={handleMouseDown} onDblClick={handleDoubleClick} style={{
             color: "rgba(255, 255, 255, 0.75)",
-            fontFamily: "arial",
-            fontSize: 12,
             marginLeft: 8,
             borderLeft: "1px solid rgba(255, 255, 255, 0.05)"
         }}>
