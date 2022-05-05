@@ -47,10 +47,18 @@ const Toolbar = () => {
                     <ScaleIcon />
                 </IconButton>
                 <div style={{ width: "60%", height: 2, background: "rgba(255, 255, 255, 0.1)", margin: 12 }} />
-                <IconButton active={space === "world"} onClick={() => setSpace("world")} disabled={mode === "scale"}>
+                <IconButton
+                 active={space === "world"}
+                 onClick={() => setSpace("world")}
+                 disabled={mode === "scale" || mode === "select"}
+                >
                     <AbsoluteIcon />
                 </IconButton>
-                <IconButton active={space === "local"} onClick={() => setSpace("local")}>
+                <IconButton
+                 active={space === "local"}
+                 onClick={() => setSpace("local")}
+                 disabled={mode === "select"}
+                >
                     <RelativeIcon />
                 </IconButton>
             </div>
