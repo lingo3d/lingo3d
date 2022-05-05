@@ -1,5 +1,5 @@
 import index from "."
-import test from "./tests/testMachine"
+import test from "./tests/testBVH"
 import { preventTreeShake } from "@lincode/utils"
 import settings from "./api/settings"
 import { setFillWindow } from "./states/useFillWindow"
@@ -21,6 +21,7 @@ Object.assign(uiContainer.style, {
 })
 
 uiContainer.innerHTML = `
+    <lingo3d-toolbar></lingo3d-toolbar>
     <lingo3d-scenegraph></lingo3d-scenegraph>
     <lingo3d-editor></lingo3d-editor>
 `

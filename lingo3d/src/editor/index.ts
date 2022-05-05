@@ -1,5 +1,7 @@
 import "./Editor"
 import "./SceneGraph"
+import "./Toolbar"
+import "./Library"
 
 const style = document.createElement("style")
 document.head.appendChild(style)
