@@ -13,6 +13,7 @@
   },
   "types": "./dist/index.d.ts",
   "private": false,
+  "sideEffects": false,
   "version": "1.0.46",
   "scripts": {
     "dev": "vite",
@@ -20,7 +21,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "lingo3d": "1.10.142",
+    "lingo3d": "1.10.143",
     "nanoid": "3",
     "popmotion": "11"
   },

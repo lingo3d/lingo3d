@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react"
-import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Sphere, HTML, Find, types, FirstPersonCamera, Editor, Stats } from "."
+import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Sphere, HTML, Find, types, FirstPersonCamera, Editor, SceneGraph, Toolbar, Stats } from "."
 //@ts-ignore
 import gunSrc from "../assets-local/gun.glb"
 //@ts-ignore
@@ -13,7 +13,6 @@ import { nanoid } from "nanoid"
 import gallerySrc from "../assets-local/gallery.glb"
 //@ts-ignore
 import hdrSrc from "../assets-local/env.hdr"
-import SceneGraph from "./components/editor/SceneGraph"
 
 const Controls: React.FC<{ camera?: Lingo.Camera, onClick: () => void }> = ({ camera, onClick }) => {
   if (!camera) return null
@@ -70,6 +69,7 @@ const App = () => {
       <Skybox texture={skyboxSrc} />
     </World>
     <Reticle />
+    <Toolbar />
     <SceneGraph />
     <Editor />
     </>

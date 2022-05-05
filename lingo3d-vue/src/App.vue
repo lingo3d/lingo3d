@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue"
-import { World, Editor, Cube, types, Keyboard, OrbitCamera, SceneGraph, HTML } from "."
+import { World, Editor, Cube, types, Keyboard, OrbitCamera, SceneGraph, HTML, Toolbar } from "."
 
 const cubeRef = ref<types.Cube>()
 
@@ -17,10 +17,12 @@ const handleKeyPress = () => {
         hello world
       </HTML>
     </Cube>
-    <SceneGraph />
-    <Editor :block-keyboard="true" />
     <Keyboard @key-press="handleKeyPress" />
     <OrbitCamera />
+
+    <Toolbar />
+    <SceneGraph />
+    <Editor />
   </World>
-  <SceneGraph />
+  
 </template>

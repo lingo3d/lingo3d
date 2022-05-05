@@ -3,5 +3,5 @@ import "lingo3d/lib/editor"
 </script>
 
 <template>
-    <lingo3d-scenegraph />
+    <lingo3d-toolbar />
 </template>
