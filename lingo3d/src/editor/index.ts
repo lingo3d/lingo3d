@@ -21,5 +21,4 @@ style.innerHTML =
     float: left;
     color: white;
     font-size: 12px;
-}
-`
+}`

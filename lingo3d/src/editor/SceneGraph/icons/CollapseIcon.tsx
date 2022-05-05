@@ -15,7 +15,6 @@ const CollapseIcon = ({ style, onClick }: CollapseIconProps) => {
       xmlns="http://www.w3.org/2000/svg"
       width="14"
       height="14"
-      className="icon"
       viewBox="0 0 1024 1024"
       style={{ margin: 2, ...style }}
       onClick={onClick}

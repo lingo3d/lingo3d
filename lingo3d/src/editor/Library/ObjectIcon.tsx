@@ -4,13 +4,19 @@ import IconData from "./IconData"
 
 preventTreeShake(h)
 
-const CubeIcon = () => {
+type ObjectIconProps = {
+    name: string
+}
+
+const ObjectIcon = ({ name }: ObjectIconProps) => {
     return (
         <div style={{ width: "50%", padding: 10 }}>
             <img style={{ width: "100%" }} src={IconData} />
-            <div style={{ textAlign: "center" }}>Cube</div>
+            <div style={{ textAlign: "center", marginTop: 6, opacity: 0.75 }}>
+                {name}
+            </div>
         </div>
     )
 }
 
-export default CubeIcon
+export default ObjectIcon

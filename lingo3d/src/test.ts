@@ -23,6 +23,6 @@ Object.assign(uiContainer.style, {
 uiContainer.innerHTML = `
     <lingo3d-toolbar></lingo3d-toolbar>
     <lingo3d-scenegraph></lingo3d-scenegraph>
-    <lingo3d-library></lingo3d-library>
     <lingo3d-editor></lingo3d-editor>
+    <lingo3d-library></lingo3d-library>
 `
