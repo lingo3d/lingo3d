@@ -34,8 +34,9 @@ export default abstract class CameraMixin<T extends Camera> extends EventLoopIte
             const sprite = makeCameraSprite()
             helper.add(sprite.outerObject3d)
 
-            const handle = getSelectionTarget(target => target === sprite && setSelectionTarget(this))
-
+            const handle = getSelectionTarget(target => {
+                target === sprite && this.queueMicrotask(() => setSelectionTarget(this))
+            })
             return () => {
                 helper.dispose()
                 scene.remove(helper)

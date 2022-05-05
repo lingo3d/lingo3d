@@ -24,8 +24,9 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
             const sprite = makeLightSprite()
             helper.add(sprite.outerObject3d)
 
-            const handle = getSelectionTarget(target => target === sprite && setSelectionTarget(this))
-
+            const handle = getSelectionTarget(target => {
+                target === sprite && this.queueMicrotask(() => setSelectionTarget(this))
+            })
             return () => {
                 helper.dispose()
                 scene.remove(helper)
