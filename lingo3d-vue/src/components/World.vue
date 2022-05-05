@@ -47,6 +47,19 @@ watchEffect(onCleanUp => {
         applySetup({})
     })
 })
+
+const style = document.createElement("style")
+style.innerHTML =
+`.lingo3d {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    display: flex;
+}`
+document.head.appendChild(style)
+
 </script>
 
 <template>
@@ -55,14 +68,3 @@ watchEffect(onCleanUp => {
         <div ref="divRef" style="height: 100%; flex-grow: 1; position: relative;" />
     </div>
 </template>
-
-<style scoped>
-.lingo3d {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    left: 0px;
-    display: flex;
-}
-</style>

@@ -13,7 +13,8 @@
   },
   "types": "./dist/index.d.ts",
   "private": false,
-  "version": "1.0.48",
+  "sideEffects": false,
+  "version": "1.0.49",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly --outDir dist",

@@ -60,10 +60,11 @@ const World: React.FC<WorldProps> = ({ style, className, position, children, ...
 
     return (<>
         <Setup {...rest} />
-        <div ref={divRef} style={{
-            width: "100%", height: "100%", position: position ?? "absolute", top: 0, left: 0, ...style
+        <div style={{
+            width: "100%", height: "100%", position: position ?? "absolute", top: 0, left: 0, display: "flex", ...style
         }}>
-            {children}
+            <div style={{ height: "100%" }}>{children}</div>
+            <div ref={divRef} style={{ height: "100%", flexGrow: 1, position: "relative" }} />
         </div>
     </>)
 }
