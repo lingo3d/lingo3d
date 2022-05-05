@@ -3,7 +3,7 @@ import { h } from "preact"
 
 preventTreeShake(h)
 
-const MoveIcon = () => {
+const TranslateIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,4 +19,4 @@ const MoveIcon = () => {
   );
 }
 
-export default MoveIcon;
+export default TranslateIcon;

@@ -53,6 +53,10 @@ createEffect(() => {
     const handle = new Cancellable()
 
     lazyTransformControls().then(transformControls => {
+        if (mode === "select") {
+            transformControls.enabled = false
+            return
+        }
         transformControls.setMode(mode)
         transformControls.setSpace(space)
         transformControls.setScaleSnap(snap)

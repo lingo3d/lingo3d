@@ -1,13 +1,14 @@
 import { h } from "preact"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
-import MoveIcon from "./icons/MoveIcon"
+import TranslateIcon from "./icons/TranslateIcon"
 import RotateIcon from "./icons/RotateIcon"
 import ScaleIcon from "./icons/ScaleIcon"
 import AbsoluteIcon from "./icons/AbsoluteIcon"
 import RelativeIcon from "./icons/RelativeIcon"
 import IconButton from "./IconButton"
 import { useTransformControlsMode, useTransformControlsSpace } from "../states"
+import CursorIcon from "./icons/CursorIcon"
 
 preventTreeShake(h)
 
@@ -33,8 +34,11 @@ const Toolbar = () => {
                 opacity: 0.75,
                 paddingTop: 12
             }}>
+                <IconButton active={mode === "select"} onClick={() => setMode("select")}>
+                    <CursorIcon />
+                </IconButton>
                 <IconButton active={mode === "translate"} onClick={() => setMode("translate")}>
-                    <MoveIcon />
+                    <TranslateIcon />
                 </IconButton>
                 <IconButton active={mode === "rotate"} onClick={() => setMode("rotate")}>
                     <RotateIcon />
