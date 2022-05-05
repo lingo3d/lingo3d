@@ -29,7 +29,8 @@ const SceneGraph = () => {
              width: 200,
              height: "100%",
              background: "rgb(40, 41, 46)",
-             padding: 10
+             padding: 4,
+             paddingTop: 12
          }}
         >
             <div style={{ width: 9999 }}>

@@ -1,7 +1,6 @@
 import Model from "../display/Model"
 //@ts-ignore
 import modelSrc from "../../assets-local/123.fbx"
-import Camera from "../display/cameras/Camera"
 
 export default {}
 
@@ -16,6 +15,3 @@ model.onLoad = () => {
         }
     }
 }
-model.animation = true
-
-const cam = new Camera()

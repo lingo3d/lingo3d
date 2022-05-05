@@ -3,6 +3,7 @@ export { types }
 
 export { default as World } from "./components/World.vue"
 export { default as Editor } from "./components/editor/Editor.vue"
+export { default as SceneGraph } from "./components/Editor/SceneGraph.vue"
 // export { default as Stats } from "./components/Stats"
 
 export { default as Keyboard } from "./components/api/Keyboard.vue"
