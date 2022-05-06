@@ -1,9 +1,13 @@
 import { deg2Rad } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
-import { Reactive } from "@lincode/reactivity"
+import store, { Reactive } from "@lincode/reactivity"
 import { debounce } from "@lincode/utils"
 import { Quaternion } from "three"
+import { loop } from "../../engine/eventLoop"
 import ICharacterCamera, { characterCameraDefaults, characterCameraSchema, LockTargetRotationValue } from "../../interface/ICharacterCamera"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
+import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
+import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import Camera from "../cameras/Camera"
 import { euler, quaternion, quaternion_ } from "../utils/reusables"
 import ObjectManager from "./ObjectManager"
@@ -15,42 +19,58 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
 
     public constructor() {
         super()
+
+        this.targetState.get(target => target && (target.frustumCulled = false))
+
+        const followTarget = (target: SimpleObjectManager) => {
+            euler.setFromQuaternion(target.outerObject3d.quaternion)
+            euler.y += Math.PI
+            this.outerObject3d.quaternion.setFromEuler(euler)
+            this.updatePolarAngle()
+        }
+        const [setEditorRotating, getEditorRotating] = store<boolean | undefined>(undefined)
+
         this.createEffect(() => {
             const target = this.targetState.get()
-            if (!target) return
+            if (!target || getEditorRotating()) return
 
-            target.frustumCulled = false
+            followTarget(target)
 
-            const followTarget = () => {
-                euler.setFromQuaternion(target.outerObject3d.quaternion)
-                euler.y += Math.PI
-                this.outerObject3d.quaternion.setFromEuler(euler)
-            }
-            this.queueMicrotask(followTarget)
-            this.updatePolarAngle()
-
-            const handle = this.loop(() => {
+            const handle = loop(() => {
                 this.outerObject3d.position.copy(target.outerObject3d.position)
                 if (!this.lockTargetRotation) return
 
                 if (this.lockTargetRotation === "follow") {
-                    followTarget()
-                    this.gyrate(0, 0)
+                    followTarget(target)
                     return
                 }
-
                 euler.setFromQuaternion(this.outerObject3d.quaternion)
                 euler.x = 0
                 euler.z = 0
                 euler.y += Math.PI
-
                 target.outerObject3d.quaternion.setFromEuler(euler)
             })
+            return () => {
+                handle.cancel()
+            }
+        }, [this.targetState.get, getEditorRotating])
+
+        this.createEffect(() => {
+            const target = this.targetState.get()
+            const selectionTarget = getSelectionTarget()
+            const dragging = getTransformControlsDragging()
+            const mode = getTransformControlsMode()
+
+            const rotating = target && target === selectionTarget && dragging && mode === "rotate"
+            setEditorRotating(rotating)
+            if (!rotating) return
+            
+            const handle = loop(() => followTarget(target))
 
             return () => {
                 handle.cancel()
             }
-        }, [this.targetState.get])
+        }, [this.targetState.get, getSelectionTarget, getTransformControlsDragging, getTransformControlsMode])
     }
 
     public lockTargetRotation: LockTargetRotationValue = true
