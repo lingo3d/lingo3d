@@ -1,6 +1,6 @@
 import { LinearEncoding, LinearToneMapping, NoToneMapping, PCFSoftShadowMap, sRGBEncoding } from "three"
 import { getExposure } from "../../states/useExposure"
-import { getResolution } from "../../states/useResolution"
+import { getResolution, setResolution } from "../../states/useResolution"
 import { getPerformance } from "../../states/usePerformance"
 import { getPixelRatio } from "../../states/usePixelRatio"
 import { VRButton } from "three/examples/jsm/webxr/VRButton"
@@ -10,8 +10,7 @@ import settings from "../../api/settings"
 import { getRenderer } from "../../states/useRenderer"
 import { getEncoding } from "../../states/useEncoding"
 import { getPBR } from "../../states/usePBR"
-import { setFillWindow } from "../../states/useFillWindow"
-import { getViewportSize } from "../../states/useViewportSize"
+import { getViewportSize, setViewportSize } from "../../states/useViewportSize"
 
 export const container = document.createElement("div")
 Object.assign(container.style, {
@@ -27,8 +26,27 @@ resizeObserver.observe(container)
 
 queueMicrotask(() => {
     if (!settings.autoMount || container.parentElement) return
+    
+    if (typeof settings.autoMount === "string") {
+        const el = document.querySelector(settings.autoMount)
+        if (!el) return
+
+        el.appendChild(container)
+
+        const resizeObserver = new ResizeObserver(() => {
+            const res: [number, number] = [el.clientWidth, el.clientHeight]
+            setResolution(res)
+            setViewportSize(res)
+        })
+        resizeObserver.observe(el)
+        return
+    }
+
+    window.addEventListener("resize", () => {
+        setViewportSize([window.innerWidth, window.innerHeight])
+        setResolution([window.innerWidth, window.innerHeight])
+    })
     document.body.appendChild(container)
-    setFillWindow(true)
 })
 
 export const referenceOutline = document.createElement("div")

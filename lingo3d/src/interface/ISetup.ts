@@ -19,7 +19,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     gravity: Number,
     repulsion: Number,
     wasmPath: String,
-    autoMount: Boolean,
+    autoMount: [Boolean, String],
     logarithmicDepth: Boolean,
     encoding: String,
     exposure: Number,
