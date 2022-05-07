@@ -1,5 +1,5 @@
 import Events from "@lincode/events"
-import { container, containerBounds } from "../engine/renderLoop/renderSetup"
+import { container } from "../engine/renderLoop/renderSetup"
 import { getSelection } from "../states/useSelection"
 import { Group } from "three"
 import IMouse, { mouseDefaults, MouseEventPayload, mouseSchema } from "../interface/IMouse"
@@ -10,8 +10,8 @@ import mainCamera from "../engine/mainCamera"
 import { loop } from "../engine/eventLoop"
 import { getSelectionBlockMouse } from "../states/useSelectionBlockMouse"
 import { appendableRoot } from "./core/Appendable"
-import { getPickingMode } from "../states/usePickingMode"
-import { vector3 } from "../display/utils/reusables"
+import clientToWorld from "../display/utils/clientToWorld"
+import store from "@lincode/reactivity"
 
 export type MouseEventName = "click" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
@@ -40,27 +40,7 @@ mouseEvents.on("up", e => {
         mouseEvents.emit("click", e)
 })
 
-export const computeMouseEventPayload = (ev: PointerEvent | MouseEvent) => {
-    const rect = containerBounds[0]
-    const clientX = ev.clientX - rect.x
-    const clientY = ev.clientY - rect.y
-
-    if (getPickingMode() === "camera")
-        return { x: 0, y: 0, z: 0, clientX, clientY, xNorm: 0, yNorm: 0 }
-
-    const xNorm = (clientX / rect.width) * 2 - 1
-    const yNorm = -(clientY / rect.height) * 2 + 1
-
-    const camera = getCamera()
-    vector3.set(xNorm, yNorm, 0.5)
-    vector3.unproject(camera)
-    vector3.sub(camera.position).normalize()
-    const { x, y, z } = camera.position.clone().add(vector3.multiplyScalar(-camera.position.z / vector3.z))
-
-    return { x, y, z, clientX, clientY, xNorm, yNorm }
-}
-
-const computeMouse = throttle(computeMouseEventPayload, 0, "leading")
+const computeMouse = throttle(clientToWorld, 0, "leading")
 
 container.addEventListener("pointermove", ev => {
     mouseEvents.emit("move", computeMouse(ev))
@@ -98,10 +78,22 @@ export class Mouse extends EventLoopItem implements IMouse {
     public constructor() {
         super(new Group())
 
+        let currentPayload: MouseEventPayload = { x: 0, y: 0, z: 0, clientX: 0, clientY: 0, xNorm: 0, yNorm: 0 }
+        const [setDown, getDown] = store(false)
+
+        this.createEffect(() => {
+            const cb = this.onMousePress
+            if (!getDown() || !cb) return
+
+            const handle = loop(() => cb(currentPayload))
+
+            return () => {
+                handle.cancel()
+            }
+        }, [getDown])
+
         this.createEffect(() => {
             if (getSelection() && getCamera() === mainCamera && getSelectionBlockMouse()) return
-
-            let currentPayload: MouseEventPayload = { x: 0, y: 0, z: 0, clientX: 0, clientY: 0, xNorm: 0, yNorm: 0 }
 
             const handle0 = mouseEvents.on("move", e => {
                 this.x = e.x
@@ -116,27 +108,22 @@ export class Mouse extends EventLoopItem implements IMouse {
                 currentPayload = e
             })
             
-            let isDown = false
-            
             const handle2 = mouseEvents.on("down", e => {
                 this.onMouseDown?.(e)
-                isDown = true
                 currentPayload = e
+                setDown(true)
             })
             const handle3 = mouseEvents.on("up", e => {
                 this.onMouseUp?.(e)
-                isDown = false
                 currentPayload = e
+                setDown(false)
             })
-            
-            const handle4 = loop(() => isDown && this.onMousePress?.(currentPayload))
 
             return () => {
                 handle0.cancel()
                 handle1.cancel()
                 handle2.cancel()
                 handle3.cancel()
-                handle4.cancel()
             }
         }, [getSelection, getCamera, getSelectionBlockMouse])
     }

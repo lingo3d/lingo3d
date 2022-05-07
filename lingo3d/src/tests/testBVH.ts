@@ -1,5 +1,4 @@
 import keyboard from "../api/keyboard"
-import settings from "../api/settings"
 import Model from "../display/Model"
 //@ts-ignore
 import fairySrc from "../../assets-local/fairy.glb"
@@ -21,27 +20,9 @@ import LeftSrc from "../../assets-local/skybox/Left.png"
 import RightSrc from "../../assets-local/skybox/Right.png"
 //@ts-ignore
 import UpSrc from "../../assets-local/skybox/Up.png"
-//@ts-ignore
-import f1Src from "../../assets-local/f2.png"
-//@ts-ignore
-import waveSrc from "../../assets-local/wave1.mp4"
 
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
-import Sky from "../display/Sky"
-import rendering from "../api/rendering"
 import Skybox from "../display/Skybox"
-import Cube from "../display/primitives/Cube"
-import SkyLight from "../display/lights/SkyLight"
-import PointLight from "../display/lights/PointLight"
-import SpotLight from "../display/lights/SpotLight"
-import { Sphere } from ".."
-import { createEffect } from "@lincode/reactivity"
-import { getCamera } from "../states/useCamera"
-import worldToClient from "../display/utils/worldToClient"
-import mouse, { computeMouseEventPayload, mouseEvents } from "../api/mouse"
-import { vector3, vector3_ } from "../display/utils/reusables"
-import { container, containerBounds } from "../engine/renderLoop/renderSetup"
-import { Vector3 } from "three"
 
 export default {}
 
@@ -91,12 +72,3 @@ map.onLoad = () => {
 
 const skybox = new Skybox()
 skybox.texture = [LeftSrc, RightSrc, UpSrc, DownSrc, FrontSrc, BackSrc]
-
-const ball = new Sphere()
-
-createEffect(() => {
-    mouse.onMouseMove = (e) => {
-        console.log(e)
-        // console.log(computeMouseEventPayload(e))
-    }    
-}, [getCamera])
