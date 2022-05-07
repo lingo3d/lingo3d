@@ -74,9 +74,9 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
                 const downSet = new Set<string>()
 
                 const moveForward = (distance: number) => {
-                    const direction = camera.getWorldDirection(vector3).multiplyScalar(distance * scaleDown)
-                    camera.position.add(direction)
-                    this.controls.target.add(direction)
+                    const direction = camera.getWorldDirection(vector3)
+                    camera.position.add(direction.clone().multiplyScalar(distance * scaleDown))
+                    this.controls.target.copy(camera.position).add(direction)
                     this.updateDebounced()
                 }
                 const moveRight = (distance: number) => {
