@@ -1,7 +1,7 @@
 import { h } from "preact"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
-import CubeIcon from "./ObjectIcon"
+import ObjectIcon from "./ObjectIcon"
 
 preventTreeShake(h)
 
@@ -17,23 +17,44 @@ const Library = () => {
          }}
         >
             <div style={{ display: "flex" }}>
-                <CubeIcon name="Cube" />
-                <CubeIcon name="Sphere" />
+                <ObjectIcon name="Model" />
+                <ObjectIcon name="Cube" />
             </div>
             <div style={{ display: "flex" }}>
-                <CubeIcon name="Cone" />
-                <CubeIcon name="Cylinder" />
+                <ObjectIcon name="Sphere" />
+                <ObjectIcon name="Cone" />
             </div>
             <div style={{ display: "flex" }}>
-                <CubeIcon name="Octahedron" />
-                <CubeIcon name="Tetrahedron" />
+                <ObjectIcon name="Cylinder" />
+                <ObjectIcon name="Octahedron" />
             </div>
             <div style={{ display: "flex" }}>
-                <CubeIcon name="Torus" />
-                <CubeIcon name="Plane" />
+                <ObjectIcon name="Tetrahedron" />
+                <ObjectIcon name="Torus" />
             </div>
             <div style={{ display: "flex" }}>
-                <CubeIcon name="Circle" />
+                <ObjectIcon name="Plane" />
+                <ObjectIcon name="Circle" />
+            </div>
+            <div style={{ display: "flex" }}>
+                <ObjectIcon name="AmbientLight" iconName="light" />
+                <ObjectIcon name="AreaLight" iconName="light" />
+            </div>
+            <div style={{ display: "flex" }}>
+                <ObjectIcon name="DirectionalLight" iconName="light" />
+                <ObjectIcon name="SkyLight" iconName="light" />
+            </div>
+            <div style={{ display: "flex" }}>
+                <ObjectIcon name="PointLight" iconName="light" />
+                <ObjectIcon name="SpotLight" iconName="light" />
+            </div>
+            <div style={{ display: "flex" }}>
+                <ObjectIcon name="Camera" iconName="camera" />
+                <ObjectIcon name="ThirdPersonCamera" iconName="camera" />
+            </div>
+            <div style={{ display: "flex" }}>
+                <ObjectIcon name="FirstPersonCamera" iconName="camera" />
+                <ObjectIcon name="OrbitCamera" iconName="camera" />
             </div>
         </div>
     )

@@ -20,5 +20,5 @@ style.innerHTML =
     overflow-y: scroll;
     float: left;
     color: white;
-    font-size: 12px;
+    font-size: 11px;
 }`
