@@ -15,13 +15,19 @@ import { Cancellable } from "@lincode/promiselikes"
 import { vec2Point } from "../../utils/vec2Point"
 import mainCamera from "../../../engine/mainCamera"
 import { getTransformControlsDragging } from "../../../states/useTransformControlsDragging"
+import { debounce } from "@lincode/utils"
+import { onSceneChange } from "../../../events/onSceneChange"
 
 const raycaster = new Raycaster()
 
-const getSelectionCandidates = (result: Set<Object3D>) => scene.traverse(c => {
-    const { manager } = c.userData
-    manager && result.add(manager.object3d ?? c)
-})
+export const selectionCandidates = new Set<Object3D>()
+const getSelectionCandidates = debounce(() => {
+    selectionCandidates.clear()
+    scene.traverse(c => {
+        const { manager } = c.userData
+        manager && selectionCandidates.add(manager.object3d ?? c)
+    })
+}, 0, "trailing")
 
 const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     raycaster.setFromCamera({ x, y }, getCamera())
@@ -62,13 +68,13 @@ createEffect(() => {
     if (selection && selectionEnabled) {
         const handle = new Cancellable()
 
-        const candidates = new Set<Object3D>()
-        queueMicrotask(() => getSelectionCandidates(candidates))
+        getSelectionCandidates()
+        handle.watch(onSceneChange(getSelectionCandidates))
 
         handle.watch(mouseEvents.on("click", () => {
             emitSelectionTarget(undefined)
         }))
-        handle.watch(pickable("click", candidates, target => {
+        handle.watch(pickable("click", selectionCandidates, target => {
             emitSelectionTarget(target)
         }))
         handle.watch(onSelectionTarget(target => {
