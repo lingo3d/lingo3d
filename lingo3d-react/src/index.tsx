@@ -1,7 +1,7 @@
 import type * as types from "lingo3d"
 export { types }
 
-export { screenshot } from "lingo3d"
+export { screenshot, onAfterRender } from "lingo3d"
 
 export { default as World } from "./components/World"
 export { default as Editor } from "./components/editor/Editor"
@@ -58,6 +58,7 @@ export { default as useSound } from "./hooks/useSound"
 export { default as useTimer } from "./hooks/useTimer"
 export { default as useWindowSize } from "./hooks/useWindowSize"
 export { default as useDocumentScroll } from "./hooks/useDocumentScroll"
+export { default as useRenderer } from "./hooks/useRenderer"
 
 export { default as Reticle } from "@lincode/react-reticle"
 export { default as Joystick } from "@lincode/react-joystick"

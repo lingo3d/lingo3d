@@ -3,7 +3,7 @@ import { getCamera } from "../../states/useCamera"
 import { getPickingMode } from "../../states/usePickingMode"
 import { vector3 } from "./reusables"
 
-export default (ev: PointerEvent | MouseEvent) => {
+export default (ev: { clientX: number, clientY: number }) => {
     const rect = containerBounds[0]
     const clientX = ev.clientX - rect.x
     const clientY = ev.clientY - rect.y
@@ -18,7 +18,7 @@ export default (ev: PointerEvent | MouseEvent) => {
     vector3.set(xNorm, yNorm, 0.5)
     vector3.unproject(camera)
     vector3.sub(camera.position).normalize()
-    const { x, y, z } = camera.position.clone().add(vector3.multiplyScalar(-camera.position.z / vector3.z))
+    const { x, y, z } = camera.position.clone().add(vector3.multiplyScalar(5))
 
     return { x, y, z, clientX, clientY, xNorm, yNorm }
 }

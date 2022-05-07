@@ -1,5 +1,5 @@
-import { loop } from "lingo3d";
-import { ref, watchEffect } from "vue";
+import { loop } from "lingo3d"
+import { ref, watchEffect } from "vue"
 
 export default (cb: () => void, play = ref(true)) => {
     watchEffect(onCleanUp => {

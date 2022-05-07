@@ -17,44 +17,44 @@ const Library = () => {
          }}
         >
             <div style={{ display: "flex" }}>
-                <ObjectIcon name="Model" />
-                <ObjectIcon name="Cube" />
+                <ObjectIcon name="model" />
+                <ObjectIcon name="cube" />
             </div>
             <div style={{ display: "flex" }}>
-                <ObjectIcon name="Sphere" />
-                <ObjectIcon name="Cone" />
+                <ObjectIcon name="sphere" />
+                <ObjectIcon name="cone" />
             </div>
             <div style={{ display: "flex" }}>
-                <ObjectIcon name="Cylinder" />
-                <ObjectIcon name="Octahedron" />
+                <ObjectIcon name="cylinder" />
+                <ObjectIcon name="octahedron" />
             </div>
             <div style={{ display: "flex" }}>
-                <ObjectIcon name="Tetrahedron" />
-                <ObjectIcon name="Torus" />
+                <ObjectIcon name="tetrahedron" />
+                <ObjectIcon name="torus" />
             </div>
             <div style={{ display: "flex" }}>
-                <ObjectIcon name="Plane" />
-                <ObjectIcon name="Circle" />
+                <ObjectIcon name="plane" />
+                <ObjectIcon name="circle" />
             </div>
             <div style={{ display: "flex" }}>
-                <ObjectIcon name="AmbientLight" iconName="light" />
-                <ObjectIcon name="AreaLight" iconName="light" />
+                <ObjectIcon name="ambientLight" iconName="light" />
+                <ObjectIcon name="areaLight" iconName="light" />
             </div>
             <div style={{ display: "flex" }}>
-                <ObjectIcon name="DirectionalLight" iconName="light" />
-                <ObjectIcon name="SkyLight" iconName="light" />
+                <ObjectIcon name="directionalLight" iconName="light" />
+                <ObjectIcon name="skyLight" iconName="light" />
             </div>
             <div style={{ display: "flex" }}>
-                <ObjectIcon name="PointLight" iconName="light" />
-                <ObjectIcon name="SpotLight" iconName="light" />
+                <ObjectIcon name="pointLight" iconName="light" />
+                <ObjectIcon name="spotLight" iconName="light" />
             </div>
             <div style={{ display: "flex" }}>
-                <ObjectIcon name="Camera" iconName="camera" />
-                <ObjectIcon name="ThirdPersonCamera" iconName="camera" />
+                <ObjectIcon name="camera" iconName="camera" />
+                <ObjectIcon name="thirdPersonCamera" iconName="camera" />
             </div>
             <div style={{ display: "flex" }}>
-                <ObjectIcon name="FirstPersonCamera" iconName="camera" />
-                <ObjectIcon name="OrbitCamera" iconName="camera" />
+                <ObjectIcon name="firstPersonCamera" iconName="camera" />
+                <ObjectIcon name="orbitCamera" iconName="camera" />
             </div>
         </div>
     )

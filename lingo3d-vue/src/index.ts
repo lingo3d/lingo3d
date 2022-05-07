@@ -1,7 +1,7 @@
 import type * as types from "lingo3d"
 export { types }
 
-export { screenshot } from "lingo3d"
+export { screenshot, onAfterRender } from "lingo3d"
 
 export { default as World } from "./components/World.vue"
 export { default as Editor } from "./components/editor/Editor.vue"
@@ -54,6 +54,7 @@ export { default as useLoop } from "./hooks/useLoop"
 export { default as useMouse } from "./hooks/useMouse"
 export { default as useKeyboard } from "./hooks/useKeyboard"
 export { default as usePreload } from "./hooks/usePreload"
+export { default as useRenderer } from "./hooks/useRenderer"
 // export { default as useSound } from "./hooks/useSound"
 // export { default as useTimer } from "./hooks/useTimer"
 // export { default as useWindowSize } from "./hooks/useWindowSize"

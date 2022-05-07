@@ -56,6 +56,7 @@ import { container } from "./engine/renderLoop/renderSetup"
 import { loop, timer } from "./engine/eventLoop"
 import SimpleObjectManager from "./display/core/SimpleObjectManager"
 import FoundManager from "./display/core/FoundManager"
+import { onAfterRender } from "./events/onAfterRender"
 
 export default {}
 
@@ -115,6 +116,7 @@ export {
     applySetup,
     loop,
     timer,
+    onAfterRender,
 
     container,
     SimpleObjectManager as Object,
