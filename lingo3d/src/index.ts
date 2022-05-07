@@ -1,4 +1,5 @@
 import engine from "./engine"
+import { preventTreeShake } from "@lincode/utils"
 preventTreeShake(engine)
 
 import Cube from "./display/primitives/Cube"
@@ -52,7 +53,6 @@ import { Sound } from "./api/Sound"
 import applySetup from "./display/utils/deserialize/applySetup"
 import { container } from "./engine/renderLoop/renderSetup"
 import { loop, timer } from "./engine/eventLoop"
-import { preventTreeShake } from "@lincode/utils"
 import SimpleObjectManager from "./display/core/SimpleObjectManager"
 import FoundManager from "./display/core/FoundManager"
 
