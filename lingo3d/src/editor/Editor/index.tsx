@@ -14,7 +14,7 @@ import { setSelection } from "../../states/useSelection"
 import { setSelectionBlockKeyboard } from "../../states/useSelectionBlockKeyboard"
 import { setSelectionBlockMouse } from "../../states/useSelectionBlockMouse"
 import { h } from "preact"
-import { useEffect, useRef } from "preact/hooks"
+import { useEffect, useLayoutEffect, useRef } from "preact/hooks"
 import register from "preact-custom-element"
 import { useSelectionTarget, useCameraList } from "../states"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
@@ -109,7 +109,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
         setSelectionBlockMouse(blockMouse === "false" ? false : true)
     }, [blockKeyboard, blockMouse])
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const currentCamera = getCamera()
 
         setCamera(mainCamera)

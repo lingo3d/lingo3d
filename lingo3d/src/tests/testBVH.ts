@@ -34,6 +34,14 @@ import Cube from "../display/primitives/Cube"
 import SkyLight from "../display/lights/SkyLight"
 import PointLight from "../display/lights/PointLight"
 import SpotLight from "../display/lights/SpotLight"
+import { Sphere } from ".."
+import { createEffect } from "@lincode/reactivity"
+import { getCamera } from "../states/useCamera"
+import worldToClient from "../display/utils/worldToClient"
+import mouse, { computeMouseEventPayload, mouseEvents } from "../api/mouse"
+import { vector3, vector3_ } from "../display/utils/reusables"
+import { container, containerBounds } from "../engine/renderLoop/renderSetup"
+import { Vector3 } from "three"
 
 export default {}
 
@@ -83,3 +91,12 @@ map.onLoad = () => {
 
 const skybox = new Skybox()
 skybox.texture = [LeftSrc, RightSrc, UpSrc, DownSrc, FrontSrc, BackSrc]
+
+const ball = new Sphere()
+
+createEffect(() => {
+    mouse.onMouseMove = (e) => {
+        console.log(e)
+        // console.log(computeMouseEventPayload(e))
+    }    
+}, [getCamera])

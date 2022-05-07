@@ -2,7 +2,7 @@ import Point3d from "../api/Point3d"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { ExtractProps } from "./utils/extractProps"
 
-export type MouseEventPayload = { x: number, y: number, clientX: number, clientY: number, xNorm: number, yNorm: number }
+export type MouseEventPayload = { x: number, y: number, z: number, clientX: number, clientY: number, xNorm: number, yNorm: number }
 
 export type MouseInteractionPayload = MouseEventPayload & { point: Point3d, distance: number }
 
