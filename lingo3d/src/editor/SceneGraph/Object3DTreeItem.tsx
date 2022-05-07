@@ -17,7 +17,7 @@ type Object3DTreeItemProps = TreeItemProps & {
 }
 
 const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps) => {
-    const expandIconStyle = { opacity: object3d.children.length ? 0.5 : 0.05 }
+    const expandIconStyle = { opacity: object3d.children.length ? 0.5 : 0.05, cursor: "pointer" }
 
     const [expanded, setExpanded] = useState(false)
     const [, setSelectionTarget] = useSelectionTarget()

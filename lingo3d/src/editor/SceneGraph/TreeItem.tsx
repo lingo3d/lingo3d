@@ -23,7 +23,7 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     //@ts-ignore
     const name = appendable.name || upperFirst(appendable.constructor.componentName)
     const appendableChildren = appendable.children ? [...appendable.children] : undefined
-    const expandIconStyle = { opacity: (appendableChildren?.length || children) ? 0.5 : 0.05 }
+    const expandIconStyle = { opacity: (appendableChildren?.length || children) ? 0.5 : 0.05, cursor: "pointer" }
 
     const [expanded, setExpanded] = useState(!!appendableChildren?.length)
     const [selectionTarget, setSelectionTarget] = useSelectionTarget()

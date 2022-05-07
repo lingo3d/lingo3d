@@ -9,6 +9,8 @@ import RelativeIcon from "./icons/RelativeIcon"
 import IconButton from "./IconButton"
 import { useTransformControlsMode, useTransformControlsSpace } from "../states"
 import CursorIcon from "./icons/CursorIcon"
+import Separator from "./Separator"
+import ExportIcon from "./icons/ExportIcon"
 
 preventTreeShake(h)
 
@@ -46,7 +48,9 @@ const Toolbar = () => {
                 <IconButton active={mode === "scale"} onClick={() => setMode("scale")}>
                     <ScaleIcon />
                 </IconButton>
-                <div style={{ width: "60%", height: 2, background: "rgba(255, 255, 255, 0.1)", margin: 12 }} />
+
+                <Separator />
+
                 <IconButton
                  active={space === "world"}
                  onClick={() => setSpace("world")}
@@ -60,6 +64,12 @@ const Toolbar = () => {
                  disabled={mode === "select"}
                 >
                     <RelativeIcon />
+                </IconButton>
+
+                <Separator />
+
+                <IconButton>
+                    <ExportIcon />
                 </IconButton>
             </div>
         </div>
