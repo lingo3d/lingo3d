@@ -21,4 +21,12 @@ style.innerHTML =
     float: left;
     color: white;
     font-size: 11px;
-}`
+}
+.tp-rotv {
+    box-shadow: none !important;
+    background-color: transparent !important;
+}
+.tp-brkv {
+    border-left: none !important;
+}
+`
