@@ -14,7 +14,7 @@ import IPrimitive from "../../../interface/IPrimitive"
 import ISetup from "../../../interface/ISetup"
 
 
-export type GameObjectType = "group" | "model" | "svgMesh" | "sprite" | "reflector" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus"
+export type GameObjectType = "group" | "model" | "svgMesh" | "sprite" | "reflector" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "orbitCamera" | "thirdPersonCamera" | "firstPersonCamera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus"
 
 export type AnimationData = Record<
     string,//property name

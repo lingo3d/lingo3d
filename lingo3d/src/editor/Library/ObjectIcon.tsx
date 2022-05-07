@@ -4,8 +4,7 @@ import { container } from "../.."
 import clientToWorld from "../../display/utils/clientToWorld"
 import createObject from "../../display/utils/deserialize/createObject"
 import { GameObjectType } from "../../display/utils/deserialize/types"
-import mainCamera from "../../engine/mainCamera"
-import { getCamera } from "../../states/useCamera"
+import { getSelection } from "../../states/useSelection"
 import { setSelectionTarget } from "../../states/useSelectionTarget"
 
 preventTreeShake(h)
@@ -15,9 +14,9 @@ let draggingItem: string | undefined
 container.addEventListener("dragover", e => e.preventDefault())
 container.addEventListener("dragenter", e => e.preventDefault())
 container.addEventListener("drop", e => {
-    if (!draggingItem || !getSelection() || getCamera() !== mainCamera) return
+    if (!draggingItem || !getSelection()) return
     const manager = createObject(draggingItem as GameObjectType)
-    const { x, y, z } = clientToWorld(e)
+    const { x, y, z } = clientToWorld(e, true)
     manager.outerObject3d.position.set(x, y, z)
     setSelectionTarget(manager)
 })

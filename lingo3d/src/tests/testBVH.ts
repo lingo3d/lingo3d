@@ -61,12 +61,7 @@ const map = new Model()
 map.src = fairySrc
 map.scale = 20
 map.physics = "map"
-map.onLoad = () => {
-    const found = map.find("a6_CRN.a6_0")
-    if (found) {
-        found.texture = "https://wallpaperm.cmcm.com/scene/preview_video/cee07dd162e47ae0fdd86e534fac7550_preview.mp4"
-    }
-}
+map.pbr = true
 
 // const sky = new Sky()
 

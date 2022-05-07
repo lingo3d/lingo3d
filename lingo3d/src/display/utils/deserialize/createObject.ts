@@ -22,6 +22,9 @@ import SpotLight from "../../lights/SpotLight"
 import Group from "../../Group"
 import { GameObjectType } from "./types"
 import { type } from "@lincode/utils"
+import ThirdPersonCamera from "../../cameras/ThirdPersonCamera"
+import FirstPersonCamera from "../../cameras/FirstPersonCamera"
+import OrbitCamera from "../../cameras/OrbitCamera"
 
 const record = type<Record<GameObjectType, () => ObjectManager>>({
     "group": () => new Group(),
@@ -30,6 +33,10 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     "sprite": () => new Sprite(),
     "reflector": () => new Reflector(),
     "camera": () => new Camera(),
+    "thirdPersonCamera": () => new ThirdPersonCamera(),
+    "firstPersonCamera": () => new FirstPersonCamera(),
+    //@ts-ignore
+    "orbitCamera": () => new OrbitCamera(),
     "ambientLight": () => new AmbientLight(),
     "areaLight": () => new AreaLight(),
     "directionalLight": () => new DirectionalLight(),

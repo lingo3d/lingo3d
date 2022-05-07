@@ -3,12 +3,12 @@ import { getCamera } from "../../states/useCamera"
 import { getPickingMode } from "../../states/usePickingMode"
 import { vector3 } from "./reusables"
 
-export default (ev: { clientX: number, clientY: number }) => {
+export default (ev: { clientX: number, clientY: number }, forceMouse?: boolean) => {
     const rect = containerBounds[0]
     const clientX = ev.clientX - rect.x
     const clientY = ev.clientY - rect.y
 
-    if (getPickingMode() === "camera")
+    if (getPickingMode() === "camera" && !forceMouse)
         return { x: 0, y: 0, z: 0, clientX, clientY, xNorm: 0, yNorm: 0 }
 
     const xNorm = (clientX / rect.width) * 2 - 1
