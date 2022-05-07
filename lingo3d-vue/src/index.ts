@@ -1,6 +1,8 @@
 import type * as types from "lingo3d"
 export { types }
 
+export { screenshot } from "lingo3d"
+
 export { default as World } from "./components/World.vue"
 export { default as Editor } from "./components/editor/Editor.vue"
 export { default as SceneGraph } from "./components/Editor/SceneGraph.vue"

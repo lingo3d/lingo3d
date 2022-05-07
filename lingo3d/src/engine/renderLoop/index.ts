@@ -26,17 +26,6 @@ preventTreeShake(resize)
 
 export default {}
 
-let getBlob: ((blob: Blob) => void) | undefined
-
-export const toBlob = () => new Promise<Blob>(resolve => getBlob = resolve)
-
-const handleBlob = () => {
-    if (!getBlob) return
-    const getBlobCopy = getBlob
-    getBlob = undefined
-    getRenderer().domElement.toBlob(blob => blob && getBlobCopy(blob))
-}
-
 createEffect(() => {
     const vr = getVR()
     const camera = getCamera()
@@ -45,10 +34,7 @@ createEffect(() => {
     if (getPerformance() === "speed" || vr === "webxr") {
         const handle = loop(() => {
             emitBeforeRender()
-
             renderer.render(scene, camera)
-            
-            handleBlob()
             emitAfterRender()
         })
         return () => {
@@ -108,7 +94,6 @@ createEffect(() => {
             camera.quaternion.copy(quat)
             camera.position.copy(pos)
 
-            handleBlob()
             emitAfterRender()
         })
         return () => {
@@ -145,7 +130,6 @@ createEffect(() => {
         }
         effectComposer.render()
 
-        handleBlob()
         emitAfterRender()
     })
     return () => {
