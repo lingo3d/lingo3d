@@ -12,8 +12,28 @@ import CursorIcon from "./icons/CursorIcon"
 import Separator from "./Separator"
 import ExportIcon from "./icons/ExportIcon"
 import serialize from "../../display/utils/deserialize/serialize"
+import OpenIcon from "./icons/OpenIcont"
 
 preventTreeShake(h)
+
+const save = (filename: string, data: string) => {
+    const blob = new Blob([data], {type: "text/plain"})
+    const elem = document.createElement("a")
+    const objectURL = elem.href = URL.createObjectURL(blob)
+    elem.download = filename        
+    document.body.appendChild(elem)
+    elem.click()        
+    document.body.removeChild(elem)
+    URL.revokeObjectURL(objectURL)
+}
+
+const handleSave = () => {
+    save("scene.json", JSON.stringify(serialize()))
+}
+
+const handleOpen = () => {
+
+}
 
 const Toolbar = () => {
     const [mode, setMode] = useTransformControlsMode()
@@ -69,8 +89,11 @@ const Toolbar = () => {
 
                 <Separator />
 
-                <IconButton onClick={() => serialize()}>
+                <IconButton onClick={handleSave}>
                     <ExportIcon />
+                </IconButton>
+                <IconButton onClick={handleOpen}>
+                    <OpenIcon />
                 </IconButton>
             </div>
         </div>
