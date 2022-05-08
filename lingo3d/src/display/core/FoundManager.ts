@@ -36,7 +36,6 @@ class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
     }
 
     public override dispose() {
-        if (this.done) return this
         super.dispose()
         this.material.dispose()
         return this

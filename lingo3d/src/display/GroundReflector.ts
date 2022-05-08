@@ -58,7 +58,6 @@ export default class GroundReflector extends ObjectManager<Group> implements IGr
     }
 
     public override dispose() {
-        if (this.done) return this
         super.dispose()
         setSSRGroundReflector(null)
         return this

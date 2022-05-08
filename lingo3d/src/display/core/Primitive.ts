@@ -23,7 +23,6 @@ abstract class Primitive extends ObjectManager<Mesh> implements IPrimitive {
     }
 
     public override dispose() {
-        if (this.done) return this
         super.dispose()
         this.material.dispose()
         return this

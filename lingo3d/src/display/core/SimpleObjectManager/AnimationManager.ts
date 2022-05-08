@@ -46,7 +46,6 @@ export default class AnimationManager extends Disposable {
     }
 
     public override dispose() {
-        if (this.done) return this
         super.dispose()
         this.stop()
         return this

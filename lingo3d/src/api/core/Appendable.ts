@@ -4,6 +4,16 @@ import { emitSceneChange } from "../../events/onSceneChange"
 
 export const appendableRoot = new Set<Appendable>()
 
+const traverseAppendable = (
+    cb: (child: Appendable) => void,
+    children: Array<Appendable> | Set<Appendable>
+) => {
+    for (const child of children) {
+        cb(child)
+        child.children && traverseAppendable(cb, child.children)
+    }
+}
+
 export default class Appendable extends Disposable {
     public constructor(
         public outerObject3d: Object3D
@@ -13,6 +23,10 @@ export default class Appendable extends Disposable {
 
         appendableRoot.add(this)
         emitSceneChange()
+    }
+
+    public traverse(cb: (child: Appendable) => void) {
+        this.children && traverseAppendable(cb, this.children)
     }
 
     public get uuid() {
@@ -38,7 +52,6 @@ export default class Appendable extends Disposable {
     }
 
     public override dispose() {
-        if (this.done) return this
         super.dispose()
 
         appendableRoot.delete(this)
@@ -49,8 +62,9 @@ export default class Appendable extends Disposable {
 
         this.outerObject3d.parent?.remove(this.outerObject3d)
 
-        for (const child of [...this.outerObject3d.children])
-            child.userData.manager?.dispose()
+        if (this.children)
+            for (const child of this.children)
+                child.dispose()
 
         return this
     }

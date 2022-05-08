@@ -54,12 +54,9 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
 
     public override dispose() {
-        if (this.done) return this
         super.dispose()
-
         this._id !== undefined && idMap.get(this._id)!.delete(this)
         deleteSSR(this.object3d)
-
         return this
     }
 
