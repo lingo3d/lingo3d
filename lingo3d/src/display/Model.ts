@@ -13,7 +13,11 @@ export default class Model extends Loaded<Group> implements IModel {
     public static defaults = modelDefaults
     public static schema = modelSchema
 
+    protected loadedAnims?: Record<string, string>
+
     public async loadAnimation(url: string, name = url) {
+        (this.loadedAnims ??= {})[name] = url
+
         const resolvable = new Resolvable()
         ;(this.loadingAnims ??= []).push(resolvable)
 

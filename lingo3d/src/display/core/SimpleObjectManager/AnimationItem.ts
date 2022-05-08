@@ -103,8 +103,10 @@ export default abstract class AnimationItem extends EventLoopItem implements IAn
         })()
     }
 
+    protected animationName?: string | number
     private setAnimation(val?: string | number | boolean | AnimationValue, o?: PlayOptions) {
         if (typeof val === "string" || typeof val === "number") {
+            this.animationName = val
             this.playAnimation(val, o)
             this._animation = undefined
             return

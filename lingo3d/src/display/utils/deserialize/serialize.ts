@@ -1,29 +1,34 @@
-import Appendable, { appendableRoot } from "../../../api/core/Appendable"
+import { appendableRoot } from "../../../api/core/Appendable"
 import { SceneGraphNode } from "./types"
 
-const traverseAppendable = (
-    children: Array<Appendable> | Set<Appendable>
-) => {
+const serialize = (children: Array<any> | Set<any>) => {
     const dataParent: Array<SceneGraphNode> = []
     for (const child of children) {
-        //@ts-ignore
         const { componentName, schema, defaults } = child.constructor
 
         const data: Record<string, any> = { type: componentName }
         for (const key of Object.keys(schema)) {
-            //@ts-ignore
-            let value = child[key]
+            if (key === "velocity" || key === "target") continue
+
+            let value: any
+            if (key === "animations") {
+                value = child.loadedAnims
+                if (!value) continue
+            }
+            else if (key === "animation") {
+                value = child.animationName
+                if (value === undefined) continue
+            }
+            else value = child[key]
+            
             if (value === defaults[key] || typeof value === "function") continue
             if (typeof value === "number") value = Number(value.toFixed(2))
             data[key] = value
         }
-        child.children && (data.children = traverseAppendable(child.children))
+        child.children && (data.children = serialize(child.children))
         dataParent.push(data as SceneGraphNode)
     }
     return dataParent
 }
 
-export default () => {
-    const data = traverseAppendable(appendableRoot)
-    console.log(data)
-}
+export default () => serialize(appendableRoot)
