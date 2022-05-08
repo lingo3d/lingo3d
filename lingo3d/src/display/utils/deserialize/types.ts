@@ -26,10 +26,9 @@ export type AnimationData = Record<
 
 export type AnimationNode = {
     type: "animation"
-    uuid: string
     name: string
     data: Record<
-        string,//target uuid
+        string,//target name
         AnimationData
     >
 }
@@ -40,12 +39,11 @@ export type SetupNode = ISetup & {
 
 type Node = {
     type: GameObjectType
-    uuid: string
     name?: string
     children?: Array<BaseSceneGraphNode>
 }
 
-export const nonSerializedProperties = <const>["type", "uuid", "name", "children"]
+export const nonSerializedProperties = <const>["type", "name", "children"]
 
 type TypedPropsNode<Props, Type extends GameObjectType> = Partial<Props> & Node & { type: Type }
 

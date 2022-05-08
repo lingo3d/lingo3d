@@ -11,6 +11,7 @@ import { useTransformControlsMode, useTransformControlsSpace } from "../states"
 import CursorIcon from "./icons/CursorIcon"
 import Separator from "./Separator"
 import ExportIcon from "./icons/ExportIcon"
+import serialize from "../../display/utils/deserialize/serialize"
 
 preventTreeShake(h)
 
@@ -68,7 +69,7 @@ const Toolbar = () => {
 
                 <Separator />
 
-                <IconButton>
+                <IconButton onClick={() => serialize()}>
                     <ExportIcon />
                 </IconButton>
             </div>
