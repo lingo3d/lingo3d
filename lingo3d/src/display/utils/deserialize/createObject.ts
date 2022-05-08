@@ -25,6 +25,7 @@ import { type } from "@lincode/utils"
 import ThirdPersonCamera from "../../cameras/ThirdPersonCamera"
 import FirstPersonCamera from "../../cameras/FirstPersonCamera"
 import OrbitCamera from "../../cameras/OrbitCamera"
+import Skybox from "../../Skybox"
 
 const record = type<Record<GameObjectType, () => ObjectManager>>({
     "group": () => new Group(),
@@ -35,8 +36,7 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     "camera": () => new Camera(),
     "thirdPersonCamera": () => new ThirdPersonCamera(),
     "firstPersonCamera": () => new FirstPersonCamera(),
-    //@ts-ignore
-    "orbitCamera": () => new OrbitCamera(),
+    "orbitCamera": () => new OrbitCamera() as any,
     "ambientLight": () => new AmbientLight(),
     "areaLight": () => new AreaLight(),
     "directionalLight": () => new DirectionalLight(),
@@ -51,7 +51,8 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     "plane": () => new Plane(),
     "sphere": () => new Sphere(),
     "tetrahedron": () => new Tetrahedron(),
-    "torus": () => new Torus()
+    "torus": () => new Torus(),
+    "skybox": () => new Skybox() as any
 })
 
 export default (type: GameObjectType) => record[type]()

@@ -13,11 +13,14 @@ import Separator from "./Separator"
 import ExportIcon from "./icons/ExportIcon"
 import serialize from "../../display/utils/deserialize/serialize"
 import OpenIcon from "./icons/OpenIcont"
+import { fileOpen } from "browser-fs-access"
+import deserialize from "../../display/utils/deserialize"
+import { appendableRoot } from "../../api/core/Appendable"
 
 preventTreeShake(h)
 
 const save = (filename: string, data: string) => {
-    const blob = new Blob([data], {type: "text/plain"})
+    const blob = new Blob([data], {type: "text/json"})
     const elem = document.createElement("a")
     const objectURL = elem.href = URL.createObjectURL(blob)
     elem.download = filename        
@@ -31,8 +34,19 @@ const handleSave = () => {
     save("scene.json", JSON.stringify(serialize()))
 }
 
-const handleOpen = () => {
+const handleOpen = async () => {
+    const blob = await fileOpen({
+        mimeTypes: ['text/json']
+    })
+    const text = await blob.text()
 
+    for (const child of appendableRoot)
+        child.dispose()
+
+    try {
+        deserialize(JSON.parse(text))
+    }
+    catch {}
 }
 
 const Toolbar = () => {

@@ -12,9 +12,10 @@ import IPointLight from "../../../interface/IPointLight"
 import ISpotLight from "../../../interface/ISpotLight"
 import IPrimitive from "../../../interface/IPrimitive"
 import ISetup from "../../../interface/ISetup"
+import ISkybox from "../../../interface/ISkybox"
 
 
-export type GameObjectType = "group" | "model" | "svgMesh" | "sprite" | "reflector" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "orbitCamera" | "thirdPersonCamera" | "firstPersonCamera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus"
+export type GameObjectType = "group" | "model" | "svgMesh" | "sprite" | "reflector" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "orbitCamera" | "thirdPersonCamera" | "firstPersonCamera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus" | "skybox"
 
 export type AnimationData = Record<
     string,//property name
@@ -89,6 +90,8 @@ export type TetrahedronNode = TypedPropsNode<IPrimitive, "tetrahedron">
 
 export type TorusNode = TypedPropsNode<IPrimitive, "torus">
 
-export type BaseSceneGraphNode = GroupNode | ModelNode | SvgMeshNode | SpriteNode | ReflectorNode | CameraNode | AmbientLightNode | AreaLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode
+export type SkyboxNode = TypedPropsNode<ISkybox, "skybox">
+
+export type BaseSceneGraphNode = GroupNode | ModelNode | SvgMeshNode | SpriteNode | ReflectorNode | CameraNode | AmbientLightNode | AreaLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode | SkyboxNode
 
 export type SceneGraphNode = BaseSceneGraphNode | AnimationNode | SetupNode
