@@ -109,7 +109,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
         setSelectionBlockMouse(blockMouse === "false" ? false : true)
     }, [blockKeyboard, blockMouse])
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         const currentCamera = getCamera()
 
         setCamera(mainCamera)

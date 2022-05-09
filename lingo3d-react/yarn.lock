@@ -1662,6 +1662,11 @@ braces@^3.0.2, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
+browser-fs-access@^0.29.5:
+  version "0.29.5"
+  resolved "https://registry.yarnpkg.com/browser-fs-access/-/browser-fs-access-0.29.5.tgz#e31e67f3cb45b2d3fbe34031e1b88321f143d219"
+  integrity sha512-raivG4nPY3iTxBNgt2syHFjHGwWwyTxpCGx7OTLdmprakG+yXre9f5PZgPHQQ6axTlRxllj+fcmhRiI4gXLq0A==
+
 browserslist@^4.14.5, browserslist@^4.20.2, browserslist@^4.20.3:
   version "4.20.3"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.20.3.tgz#eb7572f49ec430e054f56d52ff0ebe9be915f8bf"
@@ -2823,10 +2828,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingo3d@1.10.146:
-  version "1.10.146"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.146.tgz#836391d14848a2f46aa5747203c880cebecc2800"
-  integrity sha512-2vkAvH/fxr8vHQj6cOITgLryn2PSmDRztL8ylOaKsh/wFVw1JlbaHYRrRbRdyNPy6yiTUvAU3FXYrFAxvXy/cA==
+lingo3d@1.10.148:
+  version "1.10.148"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.148.tgz#b98a40296adb947a00418b4d77f11e44afefa0a6"
+  integrity sha512-OiHnhtn3Pnf6emTfXUNOjdyfDk7xwxiu+tJ6xvWxffxgF9eVozNlPDY3JaNJraV6ZReuoO2H9b39klN86UddBw==
   dependencies:
     "@lincode/events" "1.0.23"
     "@lincode/filetypes" "1.0.1"
@@ -2836,6 +2841,7 @@ lingo3d@1.10.146:
     "@lincode/utils" "1.2.50"
     "@tweakpane/core" "1"
     "@types/three" "0.140.0"
+    browser-fs-access "^0.29.5"
     cannon-es "0.19.0"
     howler "2"
     preact "10"

@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@types/three": "0.140.0",
-    "lingo3d": "1.10.146",
+    "lingo3d": "1.10.148",
     "nanoid": "3",
     "popmotion": "11"
   },

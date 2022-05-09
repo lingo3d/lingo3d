@@ -4,10 +4,7 @@ import { nonSerializedProperties, SceneGraphNode } from "./types"
 import applySetup from "./applySetup"
 import { Resolvable } from "@lincode/promiselikes"
 
-const nodeToObjectManager = (
-    node: SceneGraphNode,
-    loadedResolvables: Array<Resolvable> | undefined
-) => {
+const nodeToObjectManager = (node: SceneGraphNode, loadedResolvables: Array<Resolvable> | undefined) => {
     if (node.type === "setup") {
         applySetup(node)
         return

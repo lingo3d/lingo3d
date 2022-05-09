@@ -16,7 +16,7 @@
 		"@lincode/react-joystick": "1.0.6",
 		"@lincode/react-reticle": "1.1.2",
 		"@types/three": "0.140.0",
-		"lingo3d": "1.10.147",
+		"lingo3d": "1.10.148",
 		"nanoid": "3",
 		"popmotion": "11",
 		"stats.js": "^0.17.0"

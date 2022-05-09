@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react"
-import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Sphere, HTML, Find, types, FirstPersonCamera, Editor, SceneGraph, Toolbar, Stats } from "."
+import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Sphere, HTML, Find, types, FirstPersonCamera, Editor, SceneGraph, Toolbar, Stats, Library } from "."
 //@ts-ignore
 import gunSrc from "../assets-local/gun.glb"
 //@ts-ignore
@@ -70,6 +70,7 @@ const App = () => {
       <Toolbar />
       <SceneGraph />
       <Editor />
+      <Library />
     </World>
     <Reticle />
     </>

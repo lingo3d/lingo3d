@@ -282,6 +282,11 @@ babel-walk@3.0.0-canary-5:
   dependencies:
     "@babel/types" "^7.9.6"
 
+browser-fs-access@^0.29.5:
+  version "0.29.5"
+  resolved "https://registry.yarnpkg.com/browser-fs-access/-/browser-fs-access-0.29.5.tgz#e31e67f3cb45b2d3fbe34031e1b88321f143d219"
+  integrity sha512-raivG4nPY3iTxBNgt2syHFjHGwWwyTxpCGx7OTLdmprakG+yXre9f5PZgPHQQ6axTlRxllj+fcmhRiI4gXLq0A==
+
 call-bind@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/call-bind/-/call-bind-1.0.2.tgz#b1d4e89e688119c3c9a903ad30abb2f6a919be3c"
@@ -615,10 +620,10 @@ jstransformer@1.0.0:
     is-promise "^2.0.0"
     promise "^7.0.1"
 
-lingo3d@1.10.146:
-  version "1.10.146"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.146.tgz#836391d14848a2f46aa5747203c880cebecc2800"
-  integrity sha512-2vkAvH/fxr8vHQj6cOITgLryn2PSmDRztL8ylOaKsh/wFVw1JlbaHYRrRbRdyNPy6yiTUvAU3FXYrFAxvXy/cA==
+lingo3d@1.10.148:
+  version "1.10.148"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.148.tgz#b98a40296adb947a00418b4d77f11e44afefa0a6"
+  integrity sha512-OiHnhtn3Pnf6emTfXUNOjdyfDk7xwxiu+tJ6xvWxffxgF9eVozNlPDY3JaNJraV6ZReuoO2H9b39klN86UddBw==
   dependencies:
     "@lincode/events" "1.0.23"
     "@lincode/filetypes" "1.0.1"
@@ -628,6 +633,7 @@ lingo3d@1.10.146:
     "@lincode/utils" "1.2.50"
     "@tweakpane/core" "1"
     "@types/three" "0.140.0"
+    browser-fs-access "^0.29.5"
     cannon-es "0.19.0"
     howler "2"
     preact "10"
