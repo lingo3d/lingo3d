@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PropType, ref, watchEffect } from "vue"
-import { applySetup, container } from "lingo3d"
+import { applySetup, rootContainer } from "lingo3d"
 import { setResolution } from "lingo3d/lib/states/useResolution"
 import { setViewportSize } from "lingo3d/lib/states/useViewportSize"
 import index from "lingo3d"
@@ -25,7 +25,7 @@ watchEffect(onCleanUp => {
     const el = divRef.value
     if (!el) return
 
-    el.appendChild(container)
+    el.appendChild(rootContainer)
     el.appendChild(htmlContainer)
 
     const resizeObserver = new ResizeObserver(() => {

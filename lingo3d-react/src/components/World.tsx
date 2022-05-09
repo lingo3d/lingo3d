@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useRef } from "react"
-import { container, settings } from "lingo3d"
+import { rootContainer, settings } from "lingo3d"
 import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
 import Setup from "./logical/Setup"
@@ -43,7 +43,7 @@ const World: React.FC<WorldProps> = ({ style, className, position, children, ...
         const el = divRef.current
         if (!el) return
 
-        el.appendChild(container)
+        el.appendChild(rootContainer)
         el.appendChild(htmlContainer)
 
         const resizeObserver = new ResizeObserver(() => {
