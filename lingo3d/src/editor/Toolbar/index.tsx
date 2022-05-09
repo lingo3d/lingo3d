@@ -16,6 +16,8 @@ import OpenIcon from "./icons/OpenIcont"
 import { fileOpen } from "browser-fs-access"
 import deserialize from "../../display/utils/deserialize"
 import { appendableRoot } from "../../api/core/Appendable"
+import ReactIcon from "./icons/ReactIcon"
+import VueIcon from "./icons/VueIcon"
 
 preventTreeShake(h)
 
@@ -108,6 +110,15 @@ const Toolbar = () => {
                 </IconButton>
                 <IconButton onClick={handleOpen}>
                     <OpenIcon />
+                </IconButton>
+
+                <Separator />
+
+                <IconButton onClick={handleOpen}>
+                    <ReactIcon />
+                </IconButton>
+                <IconButton onClick={handleOpen}>
+                    <VueIcon />
                 </IconButton>
             </div>
         </div>
