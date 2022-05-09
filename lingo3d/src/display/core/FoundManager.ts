@@ -1,5 +1,5 @@
 import { applyMixins } from "@lincode/utils"
-import { Mesh, MeshStandardMaterial, Object3D } from "three"
+import { MeshStandardMaterial, Object3D } from "three"
 import SimpleObjectManager from "./SimpleObjectManager"
 import IFound, { foundDefaults, foundSchema } from "../../interface/IFound"
 import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
@@ -8,7 +8,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import AnimationManager from "./SimpleObjectManager/AnimationManager"
 import { appendableRoot } from "../../api/core/Appendable"
 
-class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
+class FoundManager extends SimpleObjectManager<Object3D> implements IFound {
     public static componentName = "found"
     public static defaults = foundDefaults
     public static schema = foundSchema
@@ -18,7 +18,6 @@ class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
     public constructor(mesh: Object3D) {
         // mesh.castShadow = true
         // mesh.receiveShadow = true
-        //@ts-ignore
         super(mesh)
         //@ts-ignore
         this.material = mesh.material ??= new MeshStandardMaterial()
@@ -31,7 +30,7 @@ class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
 
         if (!modelManager?.animationManagers) return
 
-        for (const animationManager of Object.values(modelManager.animationManagers) as Array<AnimationManager>)
+        for (const animationManager of Object.values<AnimationManager>(modelManager.animationManagers))
             this.animations[animationManager.name] = this.watch(animationManager.retarget(mesh))
     }
 
@@ -51,6 +50,6 @@ class FoundManager extends SimpleObjectManager<Mesh> implements IFound {
         handle.then(() => set.delete(this.object3d))
     }
 }
-interface FoundManager extends SimpleObjectManager<Mesh>, TexturedBasicMixin, TexturedStandardMixin {}
+interface FoundManager extends SimpleObjectManager<Object3D>, TexturedBasicMixin, TexturedStandardMixin {}
 applyMixins(FoundManager, [TexturedBasicMixin, TexturedStandardMixin])
 export default FoundManager
