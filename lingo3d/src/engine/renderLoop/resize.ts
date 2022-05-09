@@ -7,7 +7,7 @@ import { getCamera } from "../../states/useCamera"
 import { setCameraDistance } from "../../states/useCameraDistance"
 import { getViewportSize } from "../../states/useViewportSize"
 import mainCamera from "../mainCamera"
-import { referenceOutline, container } from "./renderSetup"
+import { referenceOutline, rootContainer } from "./renderSetup"
 import { getVR } from "../../states/useVR"
 import { getResolution } from "../../states/useResolution"
 
@@ -17,7 +17,7 @@ const getZ = (height: number, camera: PerspectiveCamera) => Math.abs((height * 0
 
 createEffect(() => {
     const [resX, resY] = getResolution()
-    const [viewportWidth, viewportHeight] = getViewportSize()
+    const [vw, vh] = getViewportSize() ?? getResolution()
     const camera: Camera = getCamera()
 
     const aspect = resX / resY
@@ -35,10 +35,10 @@ createEffect(() => {
 
     const size0 = {
         width: resX,
-        height: viewportHeight - ((viewportWidth - resX) * viewportHeight / viewportWidth)
+        height: vh - ((vw - resX) * vh / vw)
     }
     const size1 = {
-        width: viewportWidth - ((viewportHeight - resY) * viewportWidth / viewportHeight),
+        width: vw - ((vh - resY) * vw / vh),
         height: resY
     }
 
@@ -46,14 +46,14 @@ createEffect(() => {
     const val1 = Math.min(resX - size1.width, resY - size1.height)
 
     if (val0 > val1) {
-        setCameraDistance(getZ(viewportWidth / aspect, mainCamera) * scaleDown)
+        setCameraDistance(getZ(vw / aspect, mainCamera) * scaleDown)
         Object.assign(referenceOutline.style, { width: size0.width + "px", height: size0.height + "px" })
     }
     else {
-        setCameraDistance(getZ(viewportHeight, mainCamera) * scaleDown)
+        setCameraDistance(getZ(vh, mainCamera) * scaleDown)
         Object.assign(referenceOutline.style, { width: size1.width + "px", height: size1.height + "px" })
     }
 
-    Object.assign(container.style, { width: resX + "px", height: resY + "px" })
+    // Object.assign(rootContainer.style, { width: resX + "px", height: resY + "px" })
 
 }, [getResolution, getViewportSize, getCamera, getVR])

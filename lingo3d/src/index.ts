@@ -52,7 +52,7 @@ import { Sound } from "./api/Sound"
 import screenshot from "./api/screenshot"
 
 import applySetup from "./display/utils/deserialize/applySetup"
-import { container } from "./engine/renderLoop/renderSetup"
+import { rootContainer } from "./engine/renderLoop/renderSetup"
 import { loop, timer } from "./engine/eventLoop"
 import SimpleObjectManager from "./display/core/SimpleObjectManager"
 import FoundManager from "./display/core/FoundManager"
@@ -118,7 +118,7 @@ export {
     timer,
     onAfterRender,
 
-    container,
+    rootContainer,
     SimpleObjectManager as Object,
     FoundManager as Find
 }

@@ -10,7 +10,17 @@ import settings from "../../api/settings"
 import { getRenderer } from "../../states/useRenderer"
 import { getEncoding } from "../../states/useEncoding"
 import { getPBR } from "../../states/usePBR"
-import { getViewportSize, setViewportSize } from "../../states/useViewportSize"
+import { getViewportSize } from "../../states/useViewportSize"
+import { getSecondaryCamera } from "../../states/useSecondaryCamera"
+
+export const rootContainer = document.createElement("div")
+Object.assign(rootContainer.style, {
+    position: "absolute",
+    left: "0px",
+    top: "0px",
+    width: "100%",
+    height: "100%"
+})
 
 export const container = document.createElement("div")
 Object.assign(container.style, {
@@ -18,35 +28,36 @@ Object.assign(container.style, {
     left: "0px",
     top: "0px",
     width: "100%",
-    height: "100%"
+    zIndex: "10"
 })
+rootContainer.appendChild(container)
+getSecondaryCamera(cam => container.style.height = cam ? "50%" : "100%")
+
 export const containerBounds = [container.getBoundingClientRect()]
 const resizeObserver = new ResizeObserver(() => containerBounds[0] = container.getBoundingClientRect())
 resizeObserver.observe(container)
 
 queueMicrotask(() => {
-    if (!settings.autoMount || container.parentElement) return
+    if (!settings.autoMount || rootContainer.parentElement) return
     
     if (typeof settings.autoMount === "string") {
         const el = document.querySelector(settings.autoMount)
         if (!el) return
 
-        el.appendChild(container)
+        el.appendChild(rootContainer)
 
         const resizeObserver = new ResizeObserver(() => {
             const res: [number, number] = [el.clientWidth, el.clientHeight]
             setResolution(res)
-            setViewportSize(res)
         })
         resizeObserver.observe(el)
         return
     }
 
     window.addEventListener("resize", () => {
-        setViewportSize([window.innerWidth, window.innerHeight])
         setResolution([window.innerWidth, window.innerHeight])
     })
-    document.body.appendChild(container)
+    document.body.appendChild(rootContainer)
 })
 
 export const referenceOutline = document.createElement("div")
@@ -58,21 +69,21 @@ Object.assign(referenceOutline.style, {
     transform: "translateX(-50%) translateY(-50%)",
     pointerEvents: "none"
 })
+container.appendChild(referenceOutline)
 
 createEffect(() => {
-    const [vw, vh] = getViewportSize()
+    const [vw, vh] = getViewportSize() ?? getResolution()
     const [rx, ry] = getResolution()
-    referenceOutline.style.display = rx === vw && ry === vh ? "none" : "block"
+    referenceOutline.style.display = (getSecondaryCamera() || (rx === vw && ry === vh)) ? "none" : "block"
     
-}, [getResolution, getViewportSize])
+}, [getResolution, getViewportSize, getSecondaryCamera])
 
 createEffect(() => {
     const canvas = getRenderer().domElement
-    container.appendChild(canvas)
-    container.appendChild(referenceOutline)
+    rootContainer.appendChild(canvas)
     Object.assign(canvas.style, { position: "absolute", left: "0px", top: "0px" })
     return () => {
-        container.removeChild(canvas)
+        rootContainer.removeChild(canvas)
     }
 }, [getRenderer])
 

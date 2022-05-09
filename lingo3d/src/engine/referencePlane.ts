@@ -8,6 +8,7 @@ import { createEffect } from "@lincode/reactivity"
 import { getReferencePlane } from "../states/useReferencePlane"
 import { getCamera } from "../states/useCamera"
 import { onBeforeRender } from "../events/onBeforeRender"
+import { getResolution } from "../states/useResolution"
 
 const referencePlane = new Mesh(new PlaneBufferGeometry(diameterScaled, diameterScaled, 4, 4), wireframeMaterial)
 export default referencePlane
@@ -17,7 +18,7 @@ createEffect(() => {
 
     scene.add(referencePlane)
 
-    const [w, h] = getViewportSize()
+    const [w, h] = getViewportSize() ?? getResolution()
     referencePlane.scale.x = w * scaleDown
     referencePlane.scale.y = h * scaleDown
 
@@ -30,4 +31,4 @@ createEffect(() => {
         handle.cancel()
         scene.remove(referencePlane)
     }
-}, [getReferencePlane, getViewportSize, getCamera])
+}, [getReferencePlane, getViewportSize, getResolution(), getCamera])

@@ -1,9 +1,9 @@
 import { preventTreeShake, upperFirst } from "@lincode/utils"
 import { h } from "preact"
-import { container } from "../.."
 import clientToWorld from "../../display/utils/clientToWorld"
 import createObject from "../../display/utils/deserialize/createObject"
 import { GameObjectType } from "../../display/utils/deserialize/types"
+import { container } from "../../engine/renderLoop/renderSetup"
 import { getSelection } from "../../states/useSelection"
 import { setSelectionTarget } from "../../states/useSelectionTarget"
 
