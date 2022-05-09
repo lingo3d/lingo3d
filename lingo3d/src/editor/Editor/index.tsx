@@ -22,7 +22,7 @@ import ObjectManager from "../../display/core/ObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
 import { setSelectionTarget } from "../../states/useSelectionTarget"
 import { emitSceneChange } from "../../events/onSceneChange"
-import { setSecondaryCamera } from "../../states/useSecondaryCamera"
+import { getSecondaryCamera, setSecondaryCamera } from "../../states/useSecondaryCamera"
 
 preventTreeShake(h)
 
@@ -30,12 +30,20 @@ const addCameraInput = (pane: Pane, camList: Array<PerspectiveCamera>) => {
     const cameraFolder = pane.addFolder({ title: "camera" })
 
     const options = camList.reduce<Record<string, any>>((acc, _, i) => (acc["camera " + i] = i, acc), {})
-    const cameraInput = pane.addInput({ "camera": 0 }, "camera", { options })
+    const cameraInput = pane.addInput(
+        { "camera": camList.indexOf(getCamera()) },
+        "camera",
+        { options }
+    )
     cameraFolder.add(cameraInput)
     cameraInput.on("change", e => setCamera(camList[e.value]))
 
     const secondaryOptions: any = { none: 0, ...omit(options, "camera 0") }
-    const secondaryCameraInput = pane.addInput({ "secondary camera": 0 }, "secondary camera", { options: secondaryOptions })
+    const secondaryCameraInput = pane.addInput(
+        { "secondary camera": camList.indexOf(getSecondaryCamera() ?? mainCamera) },
+        "secondary camera",
+        { options: secondaryOptions }
+    )
     cameraFolder.add(secondaryCameraInput)
     secondaryCameraInput.on("change", e => setSecondaryCamera(e.value === 0 ? undefined : camList[e.value]))
 }
