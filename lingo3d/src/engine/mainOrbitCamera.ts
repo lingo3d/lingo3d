@@ -8,6 +8,7 @@ import OrbitCamera from "../display/cameras/OrbitCamera"
 import { getTransformControlsDragging } from "../states/useTransformControlsDragging"
 import { appendableRoot } from "../api/core/Appendable"
 import { onSceneGraphDoubleClick } from "../events/onSceneGraphDoubleClick"
+import { getCameraDistance } from "../states/useCameraDistance"
 
 export default {}
 
@@ -30,7 +31,8 @@ const { controls } = mainOrbitCamera
 getOrbitControlsScreenSpacePanning(val => controls.screenSpacePanning = val)
 
 createEffect(() => {
-    if (!getOrbitControls() || getCamera() !== mainCamera || getTransformControlsDragging()) return
+    if (!getOrbitControls() || getCamera() !== mainCamera || getTransformControlsDragging())
+        return
 
     mainOrbitCamera.enabled = true
     container.style.cursor = "grab"
@@ -40,3 +42,23 @@ createEffect(() => {
         container.style.cursor = "auto"
     }
 }, [getOrbitControls, getTransformControlsDragging, getCamera])
+
+createEffect(() => {
+    if (getCamera() === mainCamera && !getOrbitControls())
+        mainCamera.position.z = getCameraDistance()
+
+}, [getCameraDistance, getCamera, getOrbitControls])
+
+createEffect(() => {
+    if (!getOrbitControls()) return
+
+    let proceed = true
+    queueMicrotask(() => proceed && (mainOrbitCamera.polarAngle = 60))
+
+    return () => {
+        proceed = false
+        controls.reset()
+        mainOrbitCamera.polarAngle = 90
+        mainOrbitCamera.azimuthAngle = 0
+    }
+}, [getOrbitControls])

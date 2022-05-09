@@ -15,8 +15,7 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
         super(light)
 
         Helper && this.createEffect(() => {
-            if (getCamera() !== mainCamera)
-                return
+            if (getCamera() !== mainCamera) return
 
             const helper = new Helper(this.object3d)
             scene.add(helper)
