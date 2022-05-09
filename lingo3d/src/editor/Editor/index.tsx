@@ -14,7 +14,7 @@ import { setSelection } from "../../states/useSelection"
 import { setSelectionBlockKeyboard } from "../../states/useSelectionBlockKeyboard"
 import { setSelectionBlockMouse } from "../../states/useSelectionBlockMouse"
 import { h } from "preact"
-import { useEffect, useLayoutEffect, useRef } from "preact/hooks"
+import { useEffect, useRef } from "preact/hooks"
 import register from "preact-custom-element"
 import { useSelectionTarget, useCameraList } from "../states"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
@@ -102,7 +102,7 @@ interface EditorProps {
 }
 
 const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
-    const containerRef = useRef<HTMLDivElement>(null)
+    const elRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         setSelectionBlockKeyboard(blockKeyboard === "false" ? false : true)
@@ -129,10 +129,10 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
     const [cameraList] = useCameraList()
 
     useEffect(() => {
-        const container = containerRef.current
-        if (!container) return
+        const el = elRef.current
+        if (!el) return
 
-        const pane = new Pane({ container })
+        const pane = new Pane({ container: el })
 
         if (!selectionTarget) {
             addCameraInput(pane, cameraList)
@@ -263,7 +263,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
 
     return (
         <div
-         ref={containerRef}
+         ref={elRef}
          onKeyDown={e => e.stopPropagation()}
          onKeyUp={e => e.stopPropagation()}
          className="lingo3d-ui"
