@@ -98,10 +98,10 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
                 }))
 
                 const handleKeyDown = (e: KeyboardEvent) => {
-                    downSet.add(e.key)
+                    downSet.add(e.key.length === 1 ? e.key.toLocaleLowerCase() : e.key)
                 }
                 const handleKeyUp = (e: KeyboardEvent) => {
-                    downSet.delete(e.key)
+                    downSet.delete(e.key.length === 1 ? e.key.toLowerCase() : e.key)
                 }
                 document.addEventListener("keydown", handleKeyDown)
                 document.addEventListener("keyup", handleKeyUp)

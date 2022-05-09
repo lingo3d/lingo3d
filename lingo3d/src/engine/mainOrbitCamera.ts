@@ -9,6 +9,8 @@ import { getTransformControlsDragging } from "../states/useTransformControlsDrag
 import { appendableRoot } from "../api/core/Appendable"
 import { onSceneGraphDoubleClick } from "../events/onSceneGraphDoubleClick"
 import { getCameraDistance } from "../states/useCameraDistance"
+import SimpleObjectManager from "../display/core/SimpleObjectManager"
+import { getSelectionTarget } from "../states/useSelectionTarget"
 
 export default {}
 
@@ -18,12 +20,14 @@ mainOrbitCamera.enableZoom = true
 mainOrbitCamera.enableFly = true
 appendableRoot.delete(mainOrbitCamera)
 
-onSceneGraphDoubleClick(manager => {
+const centerManager = (manager: SimpleObjectManager) => {
     const pos = manager.getCenter()
     mainOrbitCamera.targetX = pos.x
     mainOrbitCamera.targetY = pos.y
     mainOrbitCamera.targetZ = pos.z
-})
+}
+
+onSceneGraphDoubleClick(centerManager)
 
 //@ts-ignore
 const { controls } = mainOrbitCamera
@@ -44,12 +48,6 @@ createEffect(() => {
 }, [getOrbitControls, getTransformControlsDragging, getCamera])
 
 createEffect(() => {
-    if (getCamera() === mainCamera && !getOrbitControls())
-        mainCamera.position.z = getCameraDistance()
-
-}, [getCameraDistance, getCamera, getOrbitControls])
-
-createEffect(() => {
     if (!getOrbitControls()) return
 
     let proceed = true
@@ -62,3 +60,26 @@ createEffect(() => {
         mainOrbitCamera.azimuthAngle = 0
     }
 }, [getOrbitControls])
+
+createEffect(() => {
+    if (getCamera() !== mainCamera) return
+
+    if (getOrbitControls()) {
+        const cb = (e: KeyboardEvent) => {
+            if (e.key.toLocaleLowerCase() !== "c") return
+            const target = getSelectionTarget()
+            target instanceof SimpleObjectManager && centerManager(target)
+        }
+        document.addEventListener("keydown", cb)
+
+        return () => {
+            document.removeEventListener("keydown", cb)
+        }
+    }
+
+    const handle = getCameraDistance(cameraDistance => mainCamera.position.z = cameraDistance)
+
+    return () => {
+        handle.cancel()
+    }
+}, [getCamera, getOrbitControls])
