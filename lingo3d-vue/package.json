@@ -14,7 +14,7 @@
   "types": "./dist/index.d.ts",
   "private": false,
   "sideEffects": false,
-  "version": "1.0.53",
+  "version": "1.0.54",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@types/three": "0.140.0",
-    "lingo3d": "1.10.148",
+    "lingo3d": "1.10.149",
     "nanoid": "3",
     "popmotion": "11"
   },
@@ -34,6 +34,6 @@
     "typescript": "^4.5.4",
     "vite": "^2.9.0",
     "vue": "^3.2.25",
-    "vue-tsc": "^0.29.8"
+    "vue-tsc": "0.29.8"
   }
 }
