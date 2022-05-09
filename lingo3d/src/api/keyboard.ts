@@ -4,11 +4,9 @@ import IKeyboard, { keyboardDefaults, keyboardSchema } from "../interface/IKeybo
 import { loop } from "../engine/eventLoop"
 import EventLoopItem from "./core/EventLoopItem"
 import { createEffect } from "@lincode/reactivity"
-import { getCamera } from "../states/useCamera"
-import mainCamera from "../engine/mainCamera"
-import { getSelection } from "../states/useSelection"
 import { getSelectionBlockKeyboard } from "../states/useSelectionBlockKeyboard"
 import { appendableRoot } from "./core/Appendable"
+import { getEditorActive } from "../states/useEditorActive"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
@@ -23,7 +21,7 @@ const processKey = (str: string) => {
 }
 
 createEffect(() => {
-    if (getSelection() && getCamera() === mainCamera && getSelectionBlockKeyboard()) return
+    if (getEditorActive() && getSelectionBlockKeyboard()) return
 
     const handle = loop(() => isPressed.size > 0 && emitPress())
 
@@ -63,7 +61,7 @@ createEffect(() => {
         window.removeEventListener("focus", clear)
         document.removeEventListener("visibilitychange", clear)
     }
-}, [getSelection, getCamera, getSelectionBlockKeyboard])
+}, [getEditorActive, getSelectionBlockKeyboard])
 
 export class Keyboard extends EventLoopItem implements IKeyboard {
     public static componentName = "keyboard"

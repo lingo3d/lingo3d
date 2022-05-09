@@ -1,4 +1,3 @@
-import { getCameraDistance } from "../states/useCameraDistance"
 import { getOrbitControls } from "../states/useOrbitControls"
 import { container } from "./renderLoop/renderSetup"
 import { createEffect } from "@lincode/reactivity"
@@ -31,24 +30,13 @@ const { controls } = mainOrbitCamera
 getOrbitControlsScreenSpacePanning(val => controls.screenSpacePanning = val)
 
 createEffect(() => {
-    const enabled = getOrbitControls() && !getTransformControlsDragging() && getCamera() === mainCamera
-    
-    mainOrbitCamera.enabled = enabled
-    container.style.cursor = enabled ? "grab" : "auto"
+    if (!getOrbitControls() || getCamera() !== mainCamera || getTransformControlsDragging()) return
 
-}, [getOrbitControls, getTransformControlsDragging, getCamera])
-
-createEffect(() => {
-    if (!getOrbitControls()) return
-
-    let proceed = true
-    queueMicrotask(() => proceed && (mainOrbitCamera.polarAngle = 60))
+    mainOrbitCamera.enabled = true
+    container.style.cursor = "grab"
 
     return () => {
-        proceed = false
-        controls.reset()
-        mainOrbitCamera.polarAngle = 90
-        mainOrbitCamera.azimuthAngle = 0
-        mainOrbitCamera.distance = getCameraDistance()
+        mainOrbitCamera.enabled = false
+        container.style.cursor = "auto"
     }
-}, [getOrbitControls])
+}, [getOrbitControls, getTransformControlsDragging, getCamera])

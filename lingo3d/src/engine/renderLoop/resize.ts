@@ -46,11 +46,11 @@ createEffect(() => {
     const val1 = Math.min(resX - size1.width, resY - size1.height)
 
     if (val0 > val1) {
-        camera === mainCamera && setCameraDistance(getZ(viewportWidth / aspect, mainCamera) * scaleDown)
+        setCameraDistance(getZ(viewportWidth / aspect, mainCamera) * scaleDown)
         Object.assign(referenceOutline.style, { width: size0.width + "px", height: size0.height + "px" })
     }
     else {
-        camera === mainCamera && setCameraDistance(getZ(viewportHeight, mainCamera) * scaleDown)
+        setCameraDistance(getZ(viewportHeight, mainCamera) * scaleDown)
         Object.assign(referenceOutline.style, { width: size1.width + "px", height: size1.height + "px" })
     }
 

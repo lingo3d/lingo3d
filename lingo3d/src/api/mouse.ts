@@ -1,17 +1,15 @@
 import Events from "@lincode/events"
 import { container } from "../engine/renderLoop/renderSetup"
-import { getSelection } from "../states/useSelection"
 import { Group } from "three"
 import IMouse, { mouseDefaults, MouseEventPayload, mouseSchema } from "../interface/IMouse"
 import EventLoopItem from "./core/EventLoopItem"
 import { throttle } from "@lincode/utils"
-import { getCamera } from "../states/useCamera"
-import mainCamera from "../engine/mainCamera"
 import { loop } from "../engine/eventLoop"
 import { getSelectionBlockMouse } from "../states/useSelectionBlockMouse"
 import { appendableRoot } from "./core/Appendable"
 import clientToWorld from "../display/utils/clientToWorld"
 import store from "@lincode/reactivity"
+import { getEditorActive } from "../states/useEditorActive"
 
 export type MouseEventName = "click" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
@@ -93,7 +91,7 @@ export class Mouse extends EventLoopItem implements IMouse {
         }, [getDown])
 
         this.createEffect(() => {
-            if (getSelection() && getCamera() === mainCamera && getSelectionBlockMouse()) return
+            if (getEditorActive() && getSelectionBlockMouse()) return
 
             const handle0 = mouseEvents.on("move", e => {
                 this.x = e.x
@@ -125,7 +123,7 @@ export class Mouse extends EventLoopItem implements IMouse {
                 handle2.cancel()
                 handle3.cancel()
             }
-        }, [getSelection, getCamera, getSelectionBlockMouse])
+        }, [getEditorActive, getSelectionBlockMouse])
     }
 }
 
