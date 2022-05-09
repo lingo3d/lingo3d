@@ -18,22 +18,13 @@ import deserialize from "../../display/utils/deserialize"
 import { appendableRoot } from "../../api/core/Appendable"
 import ReactIcon from "./icons/ReactIcon"
 import VueIcon from "./icons/VueIcon"
+import saveTextFile from "./saveTextFile"
+import serializeReact from "./serializeReact"
 
 preventTreeShake(h)
 
-const save = (filename: string, data: string) => {
-    const blob = new Blob([data], {type: "text/json"})
-    const elem = document.createElement("a")
-    const objectURL = elem.href = URL.createObjectURL(blob)
-    elem.download = filename        
-    document.body.appendChild(elem)
-    elem.click()        
-    document.body.removeChild(elem)
-    URL.revokeObjectURL(objectURL)
-}
-
 const handleSave = () => {
-    save("scene.json", JSON.stringify(serialize()))
+    saveTextFile("scene.json", JSON.stringify(serialize()))
 }
 
 const handleOpen = async () => {
@@ -114,7 +105,7 @@ const Toolbar = () => {
 
                 <Separator />
 
-                <IconButton onClick={handleOpen}>
+                <IconButton onClick={serializeReact}>
                     <ReactIcon />
                 </IconButton>
                 <IconButton onClick={handleOpen}>
