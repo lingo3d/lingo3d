@@ -32,7 +32,40 @@ createEffect(() => {
     const secondaryCamera = getSecondaryCamera()
     const renderer = getRenderer()
 
-    if (secondaryCamera) {}
+    if (secondaryCamera) {
+        const [resX, resY] = getResolution()
+        const width = resX * 1
+        const height = resY * 0.5
+
+        secondaryCamera.aspect = camera.aspect = width / height
+        camera.updateProjectionMatrix()
+        secondaryCamera.updateProjectionMatrix()
+
+        const handle = loop(() => {
+            emitBeforeRender()
+
+            renderer.setViewport(0, 0, width, height)
+            renderer.setScissor(0, 0, width, height)
+            renderer.setScissorTest(true)
+            renderer.render(scene, secondaryCamera)
+            
+            renderer.setViewport(0, height, width, height)
+            renderer.setScissor(0, height, width, height)
+            renderer.render(scene, camera)
+
+            emitAfterRender()
+        })
+        return () => {
+            handle.cancel()
+
+            renderer.setViewport(0, 0, resX, resY)
+            renderer.setScissor(0, 0, resX, resY)
+            renderer.setScissorTest(false)
+            
+            camera.aspect = resX / resY
+            camera.updateProjectionMatrix()
+        }
+    }
     
     if (getPerformance() === "speed" || vr === "webxr") {
         const handle = loop(() => {
@@ -44,6 +77,7 @@ createEffect(() => {
             handle.cancel()
         }
     }
+
     if (vr) {
         const focus = new Cube()
         focus.scale = 0.5
@@ -106,6 +140,9 @@ createEffect(() => {
             renderer.setViewport(0, 0, resX, resY)
             renderer.setScissor(0, 0, resX, resY)
             renderer.setScissorTest(false)
+
+            camera.aspect = resX / resY
+            camera.updateProjectionMatrix()
         }
     }
 

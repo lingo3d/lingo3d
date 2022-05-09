@@ -22,16 +22,22 @@ import ObjectManager from "../../display/core/ObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
 import { setSelectionTarget } from "../../states/useSelectionTarget"
 import { emitSceneChange } from "../../events/onSceneChange"
+import { setSecondaryCamera } from "../../states/useSecondaryCamera"
 
 preventTreeShake(h)
 
 const addCameraInput = (pane: Pane, camList: Array<PerspectiveCamera>) => {
     const cameraFolder = pane.addFolder({ title: "camera" })
-    const cameraInput = pane.addInput({ "camera": 0 }, "camera", {
-        options: camList.reduce<Record<string, any>>((acc, _, i) => (acc["camera " + i] = i, acc), {})
-    })
+
+    const options = camList.reduce<Record<string, any>>((acc, _, i) => (acc["camera " + i] = i, acc), {})
+    const cameraInput = pane.addInput({ "camera": 0 }, "camera", { options })
     cameraFolder.add(cameraInput)
     cameraInput.on("change", e => setCamera(camList[e.value]))
+
+    const secondaryOptions: any = { none: 0, ...omit(options, "camera 0") }
+    const secondaryCameraInput = pane.addInput({ "secondary camera": 0 }, "secondary camera", { options: secondaryOptions })
+    cameraFolder.add(secondaryCameraInput)
+    secondaryCameraInput.on("change", e => setSecondaryCamera(e.value === 0 ? undefined : camList[e.value]))
 }
 
 const toFixed = (v: any) => typeof v === "number" ? Number(v.toFixed(2)) : v
