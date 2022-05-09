@@ -1,4 +1,4 @@
-import { Camera, Group } from "three"
+import { Group, PerspectiveCamera } from "three"
 import ObjectManager from "../ObjectManager"
 import CameraMixin from "../mixins/CameraMixin"
 import { applyMixins, debounce } from "@lincode/utils"
@@ -14,7 +14,7 @@ import { Reactive } from "@lincode/reactivity"
 
 const PI_2 = Math.PI * 0.5
 
-abstract class CameraBase<T extends Camera> extends ObjectManager<Group> implements ICameraBase {
+abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Group> implements ICameraBase {
     protected camera: T
 
     protected override _physicsShape = pillShape
@@ -127,6 +127,6 @@ abstract class CameraBase<T extends Camera> extends ObjectManager<Group> impleme
         import("./enableMouseControl").then(module => module.default.call(this))
     }
 }
-interface CameraBase<T extends Camera> extends ObjectManager<Group>, CameraMixin<T> {}
+interface CameraBase<T extends PerspectiveCamera> extends ObjectManager<Group>, CameraMixin<T> {}
 applyMixins(CameraBase, [CameraMixin])
 export default CameraBase

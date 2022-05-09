@@ -6,6 +6,7 @@ import CameraBase from "../core/CameraBase"
 
 export const frustum = 5.7
 
+//@ts-ignore
 export default class extends CameraBase<OrthographicCamera> implements ICamera {
     public constructor() {
         const [w, h] = getResolution()

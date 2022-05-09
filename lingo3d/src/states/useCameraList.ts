@@ -1,7 +1,7 @@
 import store, { push, pull } from "@lincode/reactivity"
-import { Camera } from "three"
+import { PerspectiveCamera } from "three"
 
-export const [setCameraList, getCameraList] = store<Array<Camera>>([])
+export const [setCameraList, getCameraList] = store<Array<PerspectiveCamera>>([])
 
 export const pushCameraList = push(setCameraList, getCameraList)
 export const pullCameraList = pull(setCameraList, getCameraList)

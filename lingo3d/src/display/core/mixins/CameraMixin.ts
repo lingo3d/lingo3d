@@ -1,4 +1,4 @@
-import { Camera, CameraHelper } from "three"
+import { CameraHelper, PerspectiveCamera } from "three"
 import mainCamera from "../../../engine/mainCamera"
 import scene from "../../../engine/scene"
 import { bokehDefault, setBokeh } from "../../../states/useBokeh"
@@ -12,7 +12,7 @@ import ICameraMixin from "../../../interface/ICameraMixin"
 import makeCameraSprite from "../utils/makeCameraSprite"
 import { getSelectionTarget, setSelectionTarget } from "../../../states/useSelectionTarget"
 
-export default abstract class CameraMixin<T extends Camera> extends EventLoopItem implements ICameraMixin {
+export default abstract class CameraMixin<T extends PerspectiveCamera> extends EventLoopItem implements ICameraMixin {
     protected abstract camera: T
     public abstract minPolarAngle: number
     public abstract maxPolarAngle: number
@@ -48,46 +48,34 @@ export default abstract class CameraMixin<T extends Camera> extends EventLoopIte
     }
 
     public get fov() {
-        //@ts-ignore
         return this.camera.fov
     }
     public set fov(val: number) {
-        //@ts-ignore
         this.camera.fov = val
-        //@ts-ignore
         this.camera.updateProjectionMatrix?.()
     }
 
     public get zoom() {
-        //@ts-ignore
         return this.camera.zoom
     }
     public set zoom(val: number) {
-        //@ts-ignore
         this.camera.zoom = val
-        //@ts-ignore
         this.camera.updateProjectionMatrix?.()
     }
 
     public get near() {
-        //@ts-ignore
         return this.camera.near
     }
     public set near(val: number) {
-        //@ts-ignore
         this.camera.near = val
-        //@ts-ignore
         this.camera.updateProjectionMatrix?.()
     }
 
     public get far() {
-        //@ts-ignore
         return this.camera.far
     }
     public set far(val: number) {
-        //@ts-ignore
         this.camera.far = val
-        //@ts-ignore
         this.camera.updateProjectionMatrix?.()
     }
 

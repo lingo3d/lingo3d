@@ -1,6 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
 import { preventTreeShake } from "@lincode/utils"
-import { PerspectiveCamera } from "three"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import Cube from "../../display/primitives/Cube"
 import { vector3 } from "../../display/utils/reusables"
@@ -11,6 +10,7 @@ import { setOutline } from "../../states/useOutline"
 import { getPerformance } from "../../states/usePerformance"
 import { getRenderer } from "../../states/useRenderer"
 import { getResolution } from "../../states/useResolution"
+import { getSecondaryCamera } from "../../states/useSecondaryCamera"
 import { setSelectiveBloom } from "../../states/useSelectiveBloom"
 import { setSSR } from "../../states/useSSR"
 import { getVR } from "../../states/useVR"
@@ -29,8 +29,11 @@ export default {}
 createEffect(() => {
     const vr = getVR()
     const camera = getCamera()
+    const secondaryCamera = getSecondaryCamera()
     const renderer = getRenderer()
 
+    if (secondaryCamera) {}
+    
     if (getPerformance() === "speed" || vr === "webxr") {
         const handle = loop(() => {
             emitBeforeRender()
@@ -41,7 +44,7 @@ createEffect(() => {
             handle.cancel()
         }
     }
-    if (vr && camera instanceof PerspectiveCamera) {
+    if (vr) {
         const focus = new Cube()
         focus.scale = 0.5
         focus.visible = false
@@ -135,4 +138,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getPerformance, getVR, getCamera, getResolution, getRenderer])
+}, [getPerformance, getVR, getCamera, getSecondaryCamera, getResolution, getRenderer])

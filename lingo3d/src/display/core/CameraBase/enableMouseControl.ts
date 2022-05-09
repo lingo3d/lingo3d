@@ -1,12 +1,12 @@
 import CameraBase from "."
 import { getCamera } from "../../../states/useCamera"
 import { container } from "../../../engine/renderLoop/renderSetup"
-import { Camera } from "three"
+import { PerspectiveCamera } from "three"
 import { getPointerLockCamera, setPointerLockCamera } from "../../../states/usePointLockCamera"
 import { mouseEvents } from "../../../api/mouse"
 import { setPickingMode } from "../../../states/usePickingMode"
 
-export default function (this: CameraBase<Camera>) {
+export default function (this: CameraBase<PerspectiveCamera>) {
     if (this.done) return
 
     this.createEffect(() => {

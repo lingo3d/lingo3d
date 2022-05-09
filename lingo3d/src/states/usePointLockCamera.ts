@@ -1,4 +1,4 @@
 import store from "@lincode/reactivity"
-import { Camera } from "three"
+import { PerspectiveCamera } from "three"
 
-export const [setPointerLockCamera, getPointerLockCamera] = store<Camera | undefined>(undefined)
+export const [setPointerLockCamera, getPointerLockCamera] = store<PerspectiveCamera | undefined>(undefined)

@@ -1,6 +1,6 @@
 import { deg2Rad } from "@lincode/math"
 import { createEffect } from "@lincode/reactivity"
-import { OrthographicCamera, PerspectiveCamera } from "three"
+import { Camera, OrthographicCamera, PerspectiveCamera } from "three"
 import { scaleDown } from "../constants"
 import { frustum } from "../../display/cameras/OrthographicCamera"
 import { getCamera } from "../../states/useCamera"
@@ -18,7 +18,7 @@ const getZ = (height: number, camera: PerspectiveCamera) => Math.abs((height * 0
 createEffect(() => {
     const [resX, resY] = getResolution()
     const [viewportWidth, viewportHeight] = getViewportSize()
-    const camera = getCamera()
+    const camera: Camera = getCamera()
 
     const aspect = resX / resY
 

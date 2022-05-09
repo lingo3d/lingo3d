@@ -1,5 +1,5 @@
 import { debounce, omit, preventTreeShake } from "@lincode/utils"
-import { Camera } from "three"
+import { PerspectiveCamera } from "three"
 import { Pane } from "tweakpane"
 import background from "../../api/background"
 import rendering from "../../api/rendering"
@@ -25,7 +25,7 @@ import { emitSceneChange } from "../../events/onSceneChange"
 
 preventTreeShake(h)
 
-const addCameraInput = (pane: Pane, camList: Array<Camera>) => {
+const addCameraInput = (pane: Pane, camList: Array<PerspectiveCamera>) => {
     const cameraFolder = pane.addFolder({ title: "camera" })
     const cameraInput = pane.addInput({ "camera": 0 }, "camera", {
         options: camList.reduce<Record<string, any>>((acc, _, i) => (acc["camera " + i] = i, acc), {})
