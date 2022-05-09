@@ -20,6 +20,7 @@ import ReactIcon from "./icons/ReactIcon"
 import VueIcon from "./icons/VueIcon"
 import saveTextFile from "./saveTextFile"
 import serializeReact from "./serializeReact"
+import serializeVue from "./serializeVue"
 
 preventTreeShake(h)
 
@@ -108,7 +109,7 @@ const Toolbar = () => {
                 <IconButton onClick={serializeReact}>
                     <ReactIcon />
                 </IconButton>
-                <IconButton onClick={handleOpen}>
+                <IconButton onClick={serializeVue}>
                     <VueIcon />
                 </IconButton>
             </div>
