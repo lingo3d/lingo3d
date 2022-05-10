@@ -12,6 +12,7 @@ export default class Reflector extends Plane {
         super()
         this.rotationX = -90
         this.scale = 100
+        this.scaleZ = 0.001
 
         const [setClass, getClass] = store<any>(undefined)
         import("./MeshReflectorMaterial").then(module => setClass(module.default))

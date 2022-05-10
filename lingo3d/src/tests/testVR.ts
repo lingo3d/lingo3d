@@ -6,6 +6,9 @@ import fairySrc from "../../assets-local/fairy.glb"
 import Sky from "../display/Sky"
 import Cube from "../display/primitives/Cube"
 import FirstPersonCamera from "../display/cameras/FirstPersonCamera"
+import { setVR } from "../states/useVR"
+
+setVR("webxr")
 
 export default {}
 
