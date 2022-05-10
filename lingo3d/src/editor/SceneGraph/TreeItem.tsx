@@ -45,6 +45,7 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
         }}>
             <div style={{
                 display: "flex",
+                alignItems: "center",
                 backgroundColor: selectionTarget === appendable ? "rgba(255, 255, 255, 0.1)" : undefined,
                 cursor: "default"
             }}>

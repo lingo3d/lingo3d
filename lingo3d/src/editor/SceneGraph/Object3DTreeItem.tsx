@@ -39,6 +39,7 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
         }}>
             <div style={{
                 display: "flex",
+                alignItems: "center",
                 // backgroundColor: selectionTarget === appendable ? "rgba(255, 255, 255, 0.1)" : undefined,
                 cursor: "default"
             }}>

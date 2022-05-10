@@ -36,6 +36,11 @@ export default class Appendable extends Disposable {
         this._append(child)
         this.outerObject3d.add(child.outerObject3d)
     }
+    
+    public attach(child: Appendable) {
+        this._append(child)
+        this.outerObject3d.attach(child.outerObject3d)
+    }
 
     public override dispose() {
         super.dispose()

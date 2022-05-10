@@ -9,8 +9,6 @@ import { getTransformControlsDragging } from "../states/useTransformControlsDrag
 import { appendableRoot } from "../api/core/Appendable"
 import { onSceneGraphDoubleClick } from "../events/onSceneGraphDoubleClick"
 import { getCameraDistance } from "../states/useCameraDistance"
-import SimpleObjectManager from "../display/core/SimpleObjectManager"
-import { getSelectionTarget } from "../states/useSelectionTarget"
 
 export default {}
 
@@ -20,14 +18,12 @@ mainOrbitCamera.enableZoom = true
 mainOrbitCamera.enableFly = true
 appendableRoot.delete(mainOrbitCamera)
 
-const centerManager = (manager: SimpleObjectManager) => {
+onSceneGraphDoubleClick(manager => {
     const pos = manager.getCenter()
     mainOrbitCamera.targetX = pos.x
     mainOrbitCamera.targetY = pos.y
     mainOrbitCamera.targetZ = pos.z
-}
-
-onSceneGraphDoubleClick(centerManager)
+})
 
 //@ts-ignore
 const { controls } = mainOrbitCamera
@@ -62,20 +58,7 @@ createEffect(() => {
 }, [getOrbitControls])
 
 createEffect(() => {
-    if (getCamera() !== mainCamera) return
-
-    if (getOrbitControls()) {
-        const cb = (e: KeyboardEvent) => {
-            if (e.key.toLocaleLowerCase() !== "c") return
-            const target = getSelectionTarget()
-            target instanceof SimpleObjectManager && centerManager(target)
-        }
-        document.addEventListener("keydown", cb)
-
-        return () => {
-            document.removeEventListener("keydown", cb)
-        }
-    }
+    if (getCamera() !== mainCamera || getOrbitControls()) return
 
     const handle = getCameraDistance(cameraDistance => mainCamera.position.z = cameraDistance)
 

@@ -20,9 +20,12 @@ import { useSelectionTarget, useCameraList } from "../states"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import ObjectManager from "../../display/core/ObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
-import { setSelectionTarget } from "../../states/useSelectionTarget"
+import { getSelectionTarget, setSelectionTarget } from "../../states/useSelectionTarget"
 import { emitSceneChange } from "../../events/onSceneChange"
 import { getSecondaryCamera, setSecondaryCamera } from "../../states/useSecondaryCamera"
+import deserialize from "../../display/utils/deserialize"
+import serialize from "../../display/utils/deserialize/serialize"
+import { emitSceneGraphDoubleClick } from "../../events/onSceneGraphDoubleClick"
 
 preventTreeShake(h)
 
@@ -169,9 +172,24 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
             if (e.key === "Backspace") {
                 selectionTarget.dispose()
                 setSelectionTarget(undefined)
+                return
             }
+            if (e.key.toLocaleLowerCase() !== "c") return
+
+            const target = getSelectionTarget()
+            if (!(target instanceof SimpleObjectManager)) return
+
+            if (e.metaKey || e.ctrlKey) {
+                const [item] = deserialize(serialize(target))
+                if (!target.parent || !item) return
+
+                target.parent.attach(item)
+                setSelectionTarget(item)
+                return
+            }
+            emitSceneGraphDoubleClick(target)
         }
-        document.addEventListener("keyup", handleKey)
+        document.addEventListener("keydown", handleKey)
 
         addCameraInput(pane, cameraList)
 
@@ -271,7 +289,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
         return () => {
             handle.cancel()
             pane.dispose()
-            document.removeEventListener("keyup", handleKey)
+            document.removeEventListener("keydown", handleKey)
         }
     }, [selectionTarget, cameraList])
 

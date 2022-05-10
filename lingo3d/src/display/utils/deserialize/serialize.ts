@@ -1,4 +1,4 @@
-import { appendableRoot } from "../../../api/core/Appendable"
+import Appendable, { appendableRoot } from "../../../api/core/Appendable"
 import { SceneGraphNode } from "./types"
 
 const serialize = (children: Array<any> | Set<any>) => {
@@ -31,4 +31,6 @@ const serialize = (children: Array<any> | Set<any>) => {
     return dataParent
 }
 
-export default () => serialize(appendableRoot)
+export default (children: Array<Appendable> | Set<Appendable> | Appendable = appendableRoot) => (
+    serialize(children instanceof Appendable? [children] : children)
+)
