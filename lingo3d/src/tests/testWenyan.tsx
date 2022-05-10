@@ -15,7 +15,7 @@ import Model from "../display/Model"
 import keyboard from "../api/keyboard"
 import { endPoint, mapRange } from "@lincode/math"
 import Sky from "../display/Sky"
-import Reflector from "../display/Reflector"
+import Reflector from "../display/GroundReflector"
 import { random } from "@lincode/utils"
 import mouse from "../api/mouse"
 // import Spring from "../api/Spring"
@@ -124,7 +124,6 @@ const reflector = new Reflector()
 reflector.width = 10000
 reflector.height = 10000
 reflector.rotationX = -90
-reflector.shape = "circle"
 reflector.physics = true
 reflector.mass = 0
 

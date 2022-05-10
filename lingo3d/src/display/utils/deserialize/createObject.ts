@@ -2,7 +2,6 @@ import ObjectManager from "../../core/ObjectManager"
 import Model from "../../Model"
 import SvgMesh from "../../SvgMesh"
 import Sprite from "../../Sprite"
-import Reflector from "../../Reflector"
 import Circle from "../../primitives/Circle"
 import Cone from "../../primitives/Cone"
 import Cube from "../../primitives/Cube"
@@ -32,7 +31,6 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     "model": () => new Model(),
     "svgMesh": () => new SvgMesh(),
     "sprite": () => new Sprite(),
-    "reflector": () => new Reflector(),
     "camera": () => new Camera(),
     "thirdPersonCamera": () => new ThirdPersonCamera(),
     "firstPersonCamera": () => new FirstPersonCamera(),

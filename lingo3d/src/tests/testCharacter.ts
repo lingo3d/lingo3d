@@ -18,7 +18,7 @@ export default {}
 import Model from "../display/Model"
 import keyboard from "../api/keyboard"
 import Sky from "../display/Sky"
-import Reflector from "../display/Reflector"
+import Reflector from "../display/GroundReflector"
 import mouse from "../api/mouse"
 import store, { createEffect, createNestedEffect } from "@lincode/reactivity"
 import Octahedron from "../display/primitives/Octahedron"
@@ -50,9 +50,6 @@ const reflector = new Reflector()
 reflector.width = 10000
 reflector.height = 10000
 reflector.rotationX = -90
-reflector.shape = "circle"
-reflector.contrast = 0.5
-reflector.blur = 2
 reflector.physics = true
 reflector.mass = 0
 

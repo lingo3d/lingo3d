@@ -1,22 +1,16 @@
 
-import { Reflector, mouse, keyboard, rendering } from ".."
-import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
+import { mouse, keyboard, rendering, GroundReflector, ThirdPersonCamera } from ".."
 import { setGridHelper } from "../states/useGridHelper"
 import makeCharacter from "./utils/makeCharacter"
 
 export default {}
 
-rendering.bloom = true
-rendering.bloomStrength = 0.5
 setGridHelper(true)
 
-const reflector = new Reflector()
+const reflector = new GroundReflector()
 reflector.width = 10000
 reflector.height = 10000
 reflector.rotationX = -90
-reflector.shape = "circle"
-reflector.contrast = 0.5
-reflector.blur = 2
 reflector.physics = true
 reflector.mass = 0
 
