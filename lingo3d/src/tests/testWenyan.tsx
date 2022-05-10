@@ -11,21 +11,13 @@ import aimWalkSrc from "../../assets-local/aim-walk.fbx"
 //@ts-ignore
 import recoilSrc from "../../assets-local/recoil.fbx"
 
-import Model from "../display/Model"
-import keyboard from "../api/keyboard"
+import { Model, keyboard, Sky, mouse, Octahedron, Cube, DirectionalLight, settings, ThirdPersonCamera, Reflector } from "../index"
+
 import { endPoint, mapRange } from "@lincode/math"
-import Sky from "../display/Sky"
-import Reflector from "../display/GroundReflector"
 import { random } from "@lincode/utils"
-import mouse from "../api/mouse"
 // import Spring from "../api/Spring"
 import store, { createEffect } from "@lincode/reactivity"
-import Octahedron from "../display/primitives/Octahedron"
-import Cube from "../display/primitives/Cube"
 import randomColor from "randomcolor"
-import DirectionalLight from "../display/lights/DirectionalLight"
-import { settings } from ".."
-import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import { setGridHelper } from "../states/useGridHelper"
 
 export default {}

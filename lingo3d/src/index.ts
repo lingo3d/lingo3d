@@ -16,7 +16,7 @@ import ParticleSystem from "./display/ParticleSystem"
 import Model from "./display/Model"
 import SvgMesh from "./display/SvgMesh"
 import Sprite from "./display/Sprite"
-import GroundReflector from "./display/GroundReflector"
+import Reflector from "./display/Reflector"
 import Group from "./display/Group"
 import Skybox from "./display/Skybox"
 import Sky from "./display/Sky"
@@ -74,7 +74,7 @@ export {
     Model,
     SvgMesh,
     Sprite,
-    GroundReflector,
+    Reflector,
     Group,
     Skybox,
     Sky,

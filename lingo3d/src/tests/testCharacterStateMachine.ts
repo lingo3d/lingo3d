@@ -1,5 +1,6 @@
 
-import { mouse, keyboard, rendering, GroundReflector, ThirdPersonCamera } from ".."
+import { mouse, keyboard, ThirdPersonCamera, Sky } from ".."
+import Reflector from "../display/Reflector"
 import { setGridHelper } from "../states/useGridHelper"
 import makeCharacter from "./utils/makeCharacter"
 
@@ -7,7 +8,7 @@ export default {}
 
 setGridHelper(true)
 
-const reflector = new GroundReflector()
+const reflector = new Reflector()
 reflector.width = 10000
 reflector.height = 10000
 reflector.rotationX = -90
@@ -66,3 +67,5 @@ characterService.onTransition(({ value, changed }) => {
         interval = setInterval(() => characterModel.intersects(reflector) && characterService.send("JUMP_OFF"), 100)
     }
 })
+
+new Sky()

@@ -3157,6 +3157,11 @@ pkg-dir@^4.1.0, pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
+postprocessing@^6.26.4:
+  version "6.26.4"
+  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.26.4.tgz#726c66feb09ca0517f578376682820c472054a21"
+  integrity sha512-8u3ERu8va0bhJ3E97r33tAqhMgOdX9ndSTQnL2KlNNOeO9L5h2w3Qi8UGzrU+R7s/Kwz51KxcB90XODcrpa0SA==
+
 preact-custom-element@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/preact-custom-element/-/preact-custom-element-4.2.1.tgz#a18752ef60823ea61199d9cdc1866e51139b3f46"

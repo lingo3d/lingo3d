@@ -3,7 +3,6 @@ import scene from "../../scene"
 import { getCamera } from "../../../states/useCamera"
 import { Mesh, Object3D } from "three"
 import { pull } from "@lincode/utils"
-import { getSSRGroundReflector } from "../../../states/useSSRGroundReflector"
 import { HEIGHT, WIDTH } from "../../../globals"
 import { getRenderer } from "../../../states/useRenderer"
 
@@ -30,14 +29,10 @@ const ssrPass = new SSRPass({
     camera: getCamera(),
     width: WIDTH,
     height: HEIGHT,
-    groundReflector: getSSRGroundReflector(),
+    groundReflector: null,
     selects: ssrSelects
 })
 export default ssrPass
 
 getRenderer(renderer => ssrPass.renderer = renderer)
 getCamera(camera => ssrPass.camera = camera)
-getSSRGroundReflector(reflector => {
-    ssrPass.groundReflector = reflector
-    reflector && (ssrPtr[0] = true)
-})

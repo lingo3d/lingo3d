@@ -15,16 +15,10 @@ import fallingSrc from "../../assets-local/falling.fbx"
 
 export default {}
 
-import Model from "../display/Model"
-import keyboard from "../api/keyboard"
-import Sky from "../display/Sky"
-import Reflector from "../display/GroundReflector"
-import mouse from "../api/mouse"
+import { Model, keyboard, Sky, Reflector, mouse, Octahedron, ThirdPersonCamera } from "../index"
+
 import store, { createEffect, createNestedEffect } from "@lincode/reactivity"
-import Octahedron from "../display/primitives/Octahedron"
 import { Cancellable } from "@lincode/promiselikes"
-import { settings } from ".."
-import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import { setGridHelper } from "../states/useGridHelper"
 
 const model = new Model()
