@@ -1,13 +1,12 @@
 import { getRenderer } from "lingo3d/lib/states/useRenderer"
-import { useLayoutEffect, useRef } from "react"
-import { WebGLRenderer } from "three"
+import { useLayoutEffect, useState } from "react"
 
 export default () => {
-    const renderer = useRef<WebGLRenderer>()
+    const [renderer, setRenderer] = useState(() => getRenderer())
 
     useLayoutEffect(() => {
         const handle = getRenderer(value => {
-            renderer.current = value
+            setRenderer(value)
         })
         return () => {
             handle.cancel()

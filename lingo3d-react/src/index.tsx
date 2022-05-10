@@ -60,6 +60,7 @@ export { default as useTimer } from "./hooks/useTimer"
 export { default as useWindowSize } from "./hooks/useWindowSize"
 export { default as useDocumentScroll } from "./hooks/useDocumentScroll"
 export { default as useRenderer } from "./hooks/useRenderer"
+export { default as useScene } from "./hooks/useScene"
 
 export { default as Reticle } from "@lincode/react-reticle"
 export { default as Joystick } from "@lincode/react-joystick"
