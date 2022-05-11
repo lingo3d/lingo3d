@@ -6,14 +6,14 @@ export default {}
 
 const box = new Cube()
 
-box.texture = [
-    require("../../assets-local/f1.png"),
-    require("../../assets-local/f2.png"),
-    require("../../assets-local/f3.png"),
-    require("../../assets-local/f4.png"),
-    require("../../assets-local/f5.png"),
-    require("../../assets-local/f6.png")
-]
+// box.texture = [
+//     require("../../assets-local/f1.png"),
+//     require("../../assets-local/f2.png"),
+//     require("../../assets-local/f3.png"),
+//     require("../../assets-local/f4.png"),
+//     require("../../assets-local/f5.png"),
+//     require("../../assets-local/f6.png")
+// ]
 
 box.animation = {
     rotationX: [0, 45, 0]

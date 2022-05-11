@@ -30,8 +30,6 @@ export default class Reflector extends Plane {
                 mirror: this.mirrorState.get()
             })
 
-            console.log(mat)
-
             const handle = onBeforeRender(() => {
                 mat.update()
             })

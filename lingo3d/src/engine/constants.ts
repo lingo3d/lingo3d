@@ -9,6 +9,6 @@ export const scaleInverse = mapRange(scale, 1, 100, 100, 1)
 export const camNear = 0.1
 export const camFar = 10000 * scaleInverse
 
-export const flatGeomScaleZ = 1 * scaleDown
+export const flatGeomScaleZ = Number.EPSILON
 export const diameterScaled = 100 * scaleDown
 export const radiusScaled = diameterScaled * 0.5

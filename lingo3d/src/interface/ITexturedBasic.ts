@@ -7,7 +7,7 @@ export default interface ITexturedBasic {
     vertexColors: boolean
     fog: boolean
     opacity: number
-    texture?: string | Array<string> | HTMLVideoElement
+    texture?: string | HTMLVideoElement
     videoTexture?: string | HTMLVideoElement
     alphaMap?: string
     textureRepeat?: Vector2 | number
@@ -18,7 +18,7 @@ export const texturedBasicSchema: Required<ExtractProps<ITexturedBasic>> = {
     vertexColors: Boolean,
     fog: Boolean,
     opacity: Number,
-    texture: [String, Array, Object],
+    texture: [String, Object],
     videoTexture: [String, Object],
     alphaMap: String,
     textureRepeat: [Object, Number]
