@@ -56,6 +56,8 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     }
 
     private basicTextureRepeat() {
+        this.material.needsUpdate = true
+        
         if (!this._textureRepeat) return
         textureRepeatMap.set(this, this._textureRepeat)
         applyTextureRepeat()
@@ -120,7 +122,6 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
             const { material } = this
             const { map } = material
             material.map = loadTexture(url as string)
-            this.material.needsUpdate = true
             this.basicTextureRepeat()
 
             return () => {

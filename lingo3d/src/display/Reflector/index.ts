@@ -20,6 +20,8 @@ export default class Reflector extends Plane {
         import("./MeshReflectorMaterial").then(module => setClass(module.default))
 
         this.createEffect(() => {
+            if (this.done) return
+
             const MeshReflectorMaterial = getClass()
             if (!MeshReflectorMaterial) return
 
@@ -31,6 +33,7 @@ export default class Reflector extends Plane {
                 mirror: this.mirrorState.get()
             })
             copyStandard(this.material, mat)
+            this.material.dispose()
             this.material = this.object3d.material = mat
 
             const handle = onBeforeRender(() => {

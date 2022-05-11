@@ -67,12 +67,13 @@ const App = () => {
         </HTML>
       </Cube>
       <Skybox texture={skyboxSrc} />
-      <Toolbar />
+      
+    </World>
+    <Reticle />
+    <Toolbar />
       <SceneGraph />
       <Editor />
       <Library />
-    </World>
-    <Reticle />
     </>
   )
 }

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { World, Editor, SceneGraph, Toolbar, Scene, Library } from "."
+import { World, Editor, SceneGraph, Toolbar, Library } from "."
 
 </script>
 
 <template>
-  <World default-orbit-controls>
+  <World>
     <Toolbar />
     <SceneGraph />
     <Editor />

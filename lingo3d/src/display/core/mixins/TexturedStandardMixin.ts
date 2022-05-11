@@ -48,6 +48,7 @@ export default abstract class TexturedStandardMixin implements ITexturedStandard
     }
 
     private standardTextureRepeat() {
+        this.material.needsUpdate = true
         //@ts-ignore
         if (!this._textureRepeat) return
         //@ts-ignore
