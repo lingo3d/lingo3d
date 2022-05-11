@@ -2814,10 +2814,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingo3d@1.10.149:
-  version "1.10.149"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.149.tgz#b2122abc14b0bc24d8058cda58a9b544bca3f62f"
-  integrity sha512-plx4pTUyNY0arhyPHYBQNcVFRlkjb929ibFpsXiGVf0/Ix1QntcMpT1nWagwkzsu40FMXcH/TfRdJkHp1p4oBA==
+lingo3d@1.10.150:
+  version "1.10.150"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.150.tgz#850bdf4e0954ff89cd7dac01741e7600f49dc2bf"
+  integrity sha512-bW1xOM/r/9J1AS0LP8+P1ivoS+xuRX87daW3bXDn+e/VsSPSgK8Okygb6GD7PWhirqP2n8bzySop3ylm4uYnbQ==
   dependencies:
     "@lincode/events" "1.0.23"
     "@lincode/filetypes" "1.0.1"
@@ -2830,6 +2830,7 @@ lingo3d@1.10.149:
     browser-fs-access "^0.29.5"
     cannon-es "0.19.0"
     howler "2"
+    postprocessing "^6.26.4"
     preact "10"
     preact-custom-element "^4.2.1"
     three "0.140.1"
@@ -3313,6 +3314,11 @@ postcss@^8.4.7:
     nanoid "^3.3.3"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+postprocessing@^6.26.4:
+  version "6.26.4"
+  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.26.4.tgz#726c66feb09ca0517f578376682820c472054a21"
+  integrity sha512-8u3ERu8va0bhJ3E97r33tAqhMgOdX9ndSTQnL2KlNNOeO9L5h2w3Qi8UGzrU+R7s/Kwz51KxcB90XODcrpa0SA==
 
 preact-custom-element@^4.2.1:
   version "4.2.1"

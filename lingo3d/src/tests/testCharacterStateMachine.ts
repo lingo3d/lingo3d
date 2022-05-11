@@ -16,6 +16,9 @@ const reflector = new Reflector()
 reflector.scale = 100
 reflector.physics = true
 reflector.mass = 0
+reflector.roughnessMap = roughnessSrc
+reflector.normalMap = normalSrc
+reflector.roughness = 5
 
 const { characterModel, characterService } = makeCharacter()
 

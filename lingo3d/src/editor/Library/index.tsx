@@ -18,6 +18,10 @@ const Library = () => {
         >
             <div style={{ display: "flex" }}>
                 <ObjectIcon name="model" />
+                <ObjectIcon name="svgMesh" />
+            </div>
+            <div style={{ display: "flex" }}>
+                <ObjectIcon name="reflector" />
                 <ObjectIcon name="cube" />
             </div>
             <div style={{ display: "flex" }}>

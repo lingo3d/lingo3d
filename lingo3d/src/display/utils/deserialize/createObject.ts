@@ -1,6 +1,7 @@
 import ObjectManager from "../../core/ObjectManager"
 import Model from "../../Model"
 import SvgMesh from "../../SvgMesh"
+import Reflector from "../../Reflector"
 import Sprite from "../../Sprite"
 import Circle from "../../primitives/Circle"
 import Cone from "../../primitives/Cone"
@@ -30,6 +31,7 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     "group": () => new Group(),
     "model": () => new Model(),
     "svgMesh": () => new SvgMesh(),
+    "reflector": () => new Reflector(),
     "sprite": () => new Sprite(),
     "camera": () => new Camera(),
     "thirdPersonCamera": () => new ThirdPersonCamera(),

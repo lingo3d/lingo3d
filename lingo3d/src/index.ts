@@ -15,8 +15,8 @@ import Circle from "./display/primitives/Circle"
 import ParticleSystem from "./display/ParticleSystem"
 import Model from "./display/Model"
 import SvgMesh from "./display/SvgMesh"
-import Sprite from "./display/Sprite"
 import Reflector from "./display/Reflector"
+import Sprite from "./display/Sprite"
 import Group from "./display/Group"
 import Skybox from "./display/Skybox"
 import Sky from "./display/Sky"
@@ -73,8 +73,8 @@ export {
     ParticleSystem,
     Model,
     SvgMesh,
-    Sprite,
     Reflector,
+    Sprite,
     Group,
     Skybox,
     Sky,

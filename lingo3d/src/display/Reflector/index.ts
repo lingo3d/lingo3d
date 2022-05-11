@@ -4,6 +4,7 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 import { reflectorDefaults, reflectorSchema } from "../../interface/IReflector"
 import { getCamera } from "../../states/useCamera"
 import { getRenderer } from "../../states/useRenderer"
+import copyStandard from "../core/SimpleObjectManager/applyMaterialProperties/copyStandard"
 import Plane from "../primitives/Plane"
 
 export default class Reflector extends Plane {
@@ -22,13 +23,15 @@ export default class Reflector extends Plane {
             const MeshReflectorMaterial = getClass()
             if (!MeshReflectorMaterial) return
 
-            const mat = this.material = this.object3d.material = new MeshReflectorMaterial(getRenderer(), getCamera(), scene, this.object3d, {
+            const mat = new MeshReflectorMaterial(getRenderer(), getCamera(), scene, this.object3d, {
                 resolution: this.resolutionState.get(),
                 blur: [this.blurState.get(), this.blurState.get()],
                 mixBlur: 2.5,
                 mixContrast: this.contrastState.get(),
                 mirror: this.mirrorState.get()
             })
+            copyStandard(this.material, mat)
+            this.material = this.object3d.material = mat
 
             const handle = onBeforeRender(() => {
                 mat.update()

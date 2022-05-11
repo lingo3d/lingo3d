@@ -3,6 +3,8 @@ import { Cube } from ".."
 //@ts-ignore
 import roadSrc from "../../assets-local/road.jpg"
 
+export default {}
+
 const cube = new Cube()
 cube.texture = roadSrc
 
