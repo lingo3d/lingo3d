@@ -9,9 +9,7 @@ export default {}
 setGridHelper(true)
 
 const reflector = new Reflector()
-reflector.width = 10000
-reflector.height = 10000
-reflector.rotationX = -90
+reflector.scale = 100
 reflector.physics = true
 reflector.mass = 0
 
