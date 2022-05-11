@@ -3,6 +3,10 @@ import { mouse, keyboard, ThirdPersonCamera, Sky } from ".."
 import Reflector from "../display/Reflector"
 import { setGridHelper } from "../states/useGridHelper"
 import makeCharacter from "./utils/makeCharacter"
+//@ts-ignore
+import roughnessSrc from "../../assets-local/roughness.png"
+//@ts-ignore
+import normalSrc from "../../assets-local/normal.jpg"
 
 export default {}
 
