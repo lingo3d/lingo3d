@@ -35,6 +35,9 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     outlinePulse: Number,
     outlineStrength: Number,
     outlineThickness: Number,
+    lensDistortion: Boolean,
+    lensIOR: Number,
+    lensBand: Number,
     texture: String,
     skybox: [String, Array],
     color: String

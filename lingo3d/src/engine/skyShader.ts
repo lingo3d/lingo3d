@@ -12,7 +12,7 @@ const lazySky = lazy(() => {
     sky.scale.setScalar(450000)
 
     getSkyShaderOptions(effectController => {
-        const uniforms = sky.material.uniforms
+        const { uniforms } = sky.material
         uniforms["turbidity"].value = effectController.turbidity
         uniforms["rayleigh"].value = effectController.rayleigh
         uniforms["mieCoefficient"].value = effectController.mieCoefficient

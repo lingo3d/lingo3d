@@ -17,6 +17,8 @@ import { getPixelRatio } from "../../../states/usePixelRatio"
 import outlinePass from "./outlinePass"
 import { getOutline } from "../../../states/useOutline"
 import smaaPass from "./smaaPass"
+import lensDistortionPass from "./lensDistortionPass"
+import { getLensDistortion } from "../../../states/useLensDistortion"
 
 const effectComposer = new EffectComposer(getRenderer())
 export default effectComposer
@@ -50,6 +52,9 @@ createEffect(() => {
     if (getOutline())
         passes.push(outlinePass)
 
+    if (getLensDistortion())
+        passes.push(lensDistortionPass)
+
     passes.push(smaaPass)
 
     for (const pass of passes)
@@ -59,4 +64,4 @@ createEffect(() => {
         for (const pass of passes)
             effectComposer.removePass(pass)
     }
-}, [getSSR, getAmbientOcclusion, getBloom, getSelectiveBloom, getBokeh, getOutline])
+}, [getSSR, getAmbientOcclusion, getBloom, getSelectiveBloom, getBokeh, getOutline, getLensDistortion])

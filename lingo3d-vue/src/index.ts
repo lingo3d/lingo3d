@@ -4,6 +4,7 @@ export { types }
 export { screenshot, onAfterRender } from "lingo3d"
 
 export { default as World } from "./components/World.vue"
+export { default as LingoEditor } from "./components/editor/LingoEditor.vue"
 export { default as Editor } from "./components/editor/Editor.vue"
 export { default as SceneGraph } from "./components/Editor/SceneGraph.vue"
 export { default as Toolbar } from "./components/Editor/Toolbar.vue"

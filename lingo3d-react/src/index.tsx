@@ -4,6 +4,7 @@ export { types }
 export { screenshot, onAfterRender } from "lingo3d"
 
 export { default as World } from "./components/World"
+export { default as LingoEditor } from "./components/editor/LingoEditor"
 export { default as Editor } from "./components/editor/Editor"
 export { default as SceneGraph } from "./components/editor/SceneGraph"
 export { default as Toolbar } from "./components/editor/Toolbar"
