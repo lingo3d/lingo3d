@@ -10,9 +10,8 @@ import { emitSceneGraphDoubleClick } from "../../events/onSceneGraphDoubleClick"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
-import { setMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
-import { setSelectionTarget } from "../../states/useSelectionTarget"
 import { getMultipleSelection } from "../../states/useMultipleSelection"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 
 preventTreeShake(h)
 
@@ -28,8 +27,7 @@ export const makeTreeItemCallbacks = (appendable: Appendable) => {
         if (getMultipleSelection()) {
             return
         }
-        setSelectionTarget(appendable)
-        setMultipleSelectionTargets([])
+        appendable instanceof SimpleObjectManager && emitSelectionTarget(appendable)
     }
 
     const handleDoubleClick = (e: MouseEvent) => {
