@@ -6,8 +6,7 @@ import scene from "../engine/scene"
 import { getMultipleSelectionEnabled } from "./useMultipleSelectionEnabled"
 import { setSelectionTarget } from "./useSelectionTarget"
 
-const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store<Array<SimpleObjectManager>>([])
-export { getMultipleSelectionTargets }
+export const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store<Array<SimpleObjectManager>>([])
 
 export const pushMultipleSelectionTargets = push(setMultipleSelectionTargets, getMultipleSelectionTargets)
 export const pullMultipleSelectionTargets = pull(setMultipleSelectionTargets, getMultipleSelectionTargets)

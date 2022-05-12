@@ -16,7 +16,7 @@ import { setSelectionBlockMouse } from "../../states/useSelectionBlockMouse"
 import { h } from "preact"
 import { useEffect, useRef } from "preact/hooks"
 import register from "preact-custom-element"
-import { useSelectionTarget, useCameraList } from "../states"
+import { useSelectionTarget, useCameraList, useMultipleSelectionTargets } from "../states"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import ObjectManager from "../../display/core/ObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
@@ -158,6 +158,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
     }, [])
 
     const [selectionTarget] = useSelectionTarget()
+    const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const [cameraList] = useCameraList()
 
     useEffect(() => {
@@ -223,11 +224,13 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
         })
         const makeVectorNames = (prop: string) => [prop + "X", prop + "Y", prop + "Z"]
 
-        const [nameInput] = addInputs(pane, "general", target, {
-            name: target.name,
-            id: target.id
-        })
-        nameInput.on("change", () => emitSceneChange())
+        if (!multipleSelectionTargets.length) {
+            const [nameInput] = addInputs(pane, "general", target, {
+                name: target.name,
+                id: target.id
+            })
+            nameInput.on("change", () => emitSceneChange())
+        }
 
         if (selectionTarget instanceof SimpleObjectManager) {
             const transformParams = {
@@ -265,48 +268,50 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
                 "inner rotation": makeVectorNames("innerRotation")
             })
 
-        if (selectionTarget instanceof SimpleObjectManager)
-            addInputs(pane, "display", target, {
-                bloom: target.bloom,
-                reflection: target.reflection,
-                outline: target.outline,
+        if (!multipleSelectionTargets.length) {
+            if (selectionTarget instanceof SimpleObjectManager)
+                addInputs(pane, "display", target, {
+                    bloom: target.bloom,
+                    reflection: target.reflection,
+                    outline: target.outline,
 
-                visible: target.visible,
-                innerVisible: target.innerVisible,
-                frustumCulled: target.frustumCulled,
+                    visible: target.visible,
+                    innerVisible: target.innerVisible,
+                    frustumCulled: target.frustumCulled,
 
-                metalnessFactor: target.metalnessFactor,
-                roughnessFactor: target.roughnessFactor,
-                environmentFactor: target.environmentFactor,
+                    metalnessFactor: target.metalnessFactor,
+                    roughnessFactor: target.roughnessFactor,
+                    environmentFactor: target.environmentFactor,
 
-                toon: target.toon,
-                pbr: target.pbr
-            })
-        
-        const { schema, componentName } = target.constructor
+                    toon: target.toon,
+                    pbr: target.pbr
+                })
+            
+            const { schema, componentName } = target.constructor
 
-        const params: Record<string, any> = {}
-        for (const [key, value] of Object.entries(schema)) {
-            if (key in objectManagerSchema || value === Function) continue
+            const params: Record<string, any> = {}
+            for (const [key, value] of Object.entries(schema)) {
+                if (key in objectManagerSchema || value === Function) continue
 
-            let v = target[key]
-            if (v === Infinity)
-                v = 9999
-            else if (v === -Infinity)
-                v = -9999
-            else if (Array.isArray(v))
-                v = JSON.stringify(v)
+                let v = target[key]
+                if (v === Infinity)
+                    v = 9999
+                else if (v === -Infinity)
+                    v = -9999
+                else if (Array.isArray(v))
+                    v = JSON.stringify(v)
 
-            params[key] = v
+                params[key] = v
+            }
+            addInputs(pane, componentName, target, params)
         }
-        addInputs(pane, componentName, target, params)
 
         return () => {
             handle.cancel()
             pane.dispose()
             document.removeEventListener("keydown", handleKey)
         }
-    }, [selectionTarget, cameraList])
+    }, [selectionTarget, multipleSelectionTargets, cameraList])
 
     return (
         <div
