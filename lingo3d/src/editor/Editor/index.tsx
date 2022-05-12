@@ -20,14 +20,14 @@ import { useSelectionTarget, useCameraList, useMultipleSelectionTargets } from "
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import ObjectManager from "../../display/core/ObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
-import { getSelectionTarget, setSelectionTarget } from "../../states/useSelectionTarget"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { emitSceneChange } from "../../events/onSceneChange"
 import { getSecondaryCamera, setSecondaryCamera } from "../../states/useSecondaryCamera"
 import deserialize from "../../display/utils/deserialize"
 import serialize from "../../display/utils/deserialize/serialize"
 import { emitSceneGraphDoubleClick } from "../../events/onSceneGraphDoubleClick"
 import { setMultipleSelection } from "../../states/useMultipleSelection"
-import { setMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 
 preventTreeShake(h)
 
@@ -191,8 +191,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
                 for (const target of multipleSelectionTargets)
                     target.dispose()
 
-                setSelectionTarget(undefined)
-                setMultipleSelectionTargets([])
+                emitSelectionTarget(undefined)
                 return
             }
             if (e.key.toLocaleLowerCase() !== "c") return
@@ -205,7 +204,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
                 if (!target.parent || !item) return
 
                 target.parent.attach(item)
-                setSelectionTarget(item)
+                emitSelectionTarget(item)
                 return
             }
             emitSceneGraphDoubleClick(target)
