@@ -18,7 +18,8 @@ const TitleBarButton = ({ children, onClick, active }: TitleBarButtonProps) => {
         justifyContent: "center",
         alignItems: "center",
         marginRight: 2,
-        opacity: active ? 1 : 0.1
+        opacity: active ? 1 : 0.1,
+        cursor: active ? "pointer" : "default"
     }}>
         {children}
     </div>

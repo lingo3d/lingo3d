@@ -12,6 +12,7 @@ import GroupIcon from "./icons/GroupIcon"
 import DeleteIcon from "./icons/DeleteIcon"
 import TitleBarButton from "./TitleBarButton"
 import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
+import deleteSelected from "../Editor/deleteSelected"
 
 preventTreeShake(h)
 
@@ -55,7 +56,7 @@ const SceneGraph = () => {
                 <TitleBarButton active={!!multipleSelectionTargets.length}>
                     <GroupIcon />
                 </TitleBarButton>
-                <TitleBarButton active={!!selectionTarget}>
+                <TitleBarButton active={!!selectionTarget} onClick={deleteSelected}>
                     <DeleteIcon />
                 </TitleBarButton>
             </div>

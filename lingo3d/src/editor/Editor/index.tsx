@@ -28,6 +28,7 @@ import serialize from "../../display/utils/deserialize/serialize"
 import { emitSceneGraphDoubleClick } from "../../events/onSceneGraphDoubleClick"
 import { setMultipleSelection } from "../../states/useMultipleSelection"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
+import deleteSelected from "./deleteSelected"
 
 preventTreeShake(h)
 
@@ -187,11 +188,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
 
         const handleKey = (e: KeyboardEvent) => {
             if (e.key === "Backspace") {
-                selectionTarget.dispose()
-                for (const target of multipleSelectionTargets)
-                    target.dispose()
-
-                emitSelectionTarget(undefined)
+                deleteSelected()
                 return
             }
             if (e.key.toLocaleLowerCase() !== "c") return
