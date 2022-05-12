@@ -197,7 +197,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
             if (e.key.toLocaleLowerCase() !== "c") return
 
             const target = getSelectionTarget()
-            if (!(target instanceof SimpleObjectManager)) return
+            if (!target) return
 
             if (e.metaKey || e.ctrlKey) {
                 const [item] = deserialize(serialize(target))

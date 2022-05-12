@@ -83,7 +83,7 @@ createEffect(() => {
 
                 if (firstMultipleSelection.current) {
                     const currentTarget = getSelectionTarget()
-                    currentTarget instanceof SimpleObjectManager && pushMultipleSelectionTargets(currentTarget)
+                    currentTarget && pushMultipleSelectionTargets(currentTarget)
                 }
                 firstMultipleSelection.current = false
 
