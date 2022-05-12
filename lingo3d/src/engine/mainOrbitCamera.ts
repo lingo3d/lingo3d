@@ -7,7 +7,7 @@ import { getOrbitControlsScreenSpacePanning } from "../states/useOrbitControlsSc
 import OrbitCamera from "../display/cameras/OrbitCamera"
 import { getTransformControlsDragging } from "../states/useTransformControlsDragging"
 import { appendableRoot } from "../api/core/Appendable"
-import { onSceneGraphDoubleClick } from "../events/onSceneGraphDoubleClick"
+import { onEditorCenterView } from "../events/onSceneGraphDoubleClick"
 import { getCameraDistance } from "../states/useCameraDistance"
 
 export default {}
@@ -18,7 +18,7 @@ mainOrbitCamera.enableZoom = true
 mainOrbitCamera.enableFly = true
 appendableRoot.delete(mainOrbitCamera)
 
-onSceneGraphDoubleClick(manager => {
+onEditorCenterView(manager => {
     const pos = manager.getCenter()
     mainOrbitCamera.targetX = pos.x
     mainOrbitCamera.targetY = pos.y

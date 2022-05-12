@@ -6,7 +6,7 @@ import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
 import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
-import { emitSceneGraphDoubleClick } from "../../events/onSceneGraphDoubleClick"
+import { emitEditorCenterView } from "../../events/onSceneGraphDoubleClick"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
@@ -28,7 +28,7 @@ export const makeTreeItemCallbacks = (appendable?: Appendable) => {
 
     const handleDoubleClick = (e: MouseEvent) => {
         e.stopPropagation()
-        appendable instanceof SimpleObjectManager && emitSceneGraphDoubleClick(appendable)
+        appendable instanceof SimpleObjectManager && emitEditorCenterView(appendable)
     }
     
     return { handleMouseDown, handleDoubleClick }

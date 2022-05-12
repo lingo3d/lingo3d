@@ -25,7 +25,7 @@ import { emitSceneChange } from "../../events/onSceneChange"
 import { getSecondaryCamera, setSecondaryCamera } from "../../states/useSecondaryCamera"
 import deserialize from "../../display/utils/deserialize"
 import serialize from "../../display/utils/deserialize/serialize"
-import { emitSceneGraphDoubleClick } from "../../events/onSceneGraphDoubleClick"
+import { emitEditorCenterView } from "../../events/onSceneGraphDoubleClick"
 import { setMultipleSelection } from "../../states/useMultipleSelection"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import deleteSelected from "./deleteSelected"
@@ -204,7 +204,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
                 emitSelectionTarget(item)
                 return
             }
-            emitSceneGraphDoubleClick(target)
+            emitEditorCenterView(target)
         }
         document.addEventListener("keydown", handleKey)
 
