@@ -26,6 +26,7 @@ import { getSecondaryCamera, setSecondaryCamera } from "../../states/useSecondar
 import deserialize from "../../display/utils/deserialize"
 import serialize from "../../display/utils/deserialize/serialize"
 import { emitSceneGraphDoubleClick } from "../../events/onSceneGraphDoubleClick"
+import { setMultipleSelection } from "../../states/useMultipleSelection"
 
 preventTreeShake(h)
 
@@ -133,12 +134,26 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
         setOrbitControls(true)
         setSelection(true)
         setGridHelper(true)
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key !== "Shift") return
+            setMultipleSelection(true)
+        }
+        const handleKeyUp = (e: KeyboardEvent) => {
+            if (e.key !== "Shift") return
+            setMultipleSelection(false)
+        }
+        document.addEventListener("keydown", handleKeyDown)
+        document.addEventListener("keyup", handleKeyUp)
         
         return () => {
             setCamera(currentCamera)
             setOrbitControls(false)
             setSelection(false)
             setGridHelper(false)
+
+            document.removeEventListener("keydown", handleKeyDown)
+            document.removeEventListener("keyup", handleKeyUp)
         }
     }, [])
 
