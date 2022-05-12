@@ -1,6 +1,6 @@
 import worldToClient from "../display/utils/worldToClient"
 
-export default class {
+export default class Point3d {
     public constructor(
         public x: number,
         public y: number,

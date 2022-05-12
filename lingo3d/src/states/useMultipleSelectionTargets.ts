@@ -19,11 +19,9 @@ createEffect(() => {
     
     const group = new Group()
     scene.add(group)
-    group.userData.isMultipleSelectionGroup = true
     
-    const baseObject = new SimpleObjectManager(group)
-    group.userData.manager = undefined
-    setSelectionTarget(baseObject)
+    const groupManager = new SimpleObjectManager(group)
+    setSelectionTarget(groupManager)
     
     const parentEntries: Array<[Object3D, Object3D]> = []
     for (const { outerObject3d: target } of targets) {
@@ -43,10 +41,11 @@ createEffect(() => {
     return () => {
         setSelectionTarget(undefined)
 
-        for (const [object, parent] of parentEntries)
-            parent.attach(object)
+        if (!groupManager.done)
+            for (const [object, parent] of parentEntries)
+                parent.attach(object)
 
-        baseObject.dispose()
+        groupManager.dispose()
         scene.remove(group)
     }
 }, [getMultipleSelectionTargets, getMultipleSelectionEnabled])
