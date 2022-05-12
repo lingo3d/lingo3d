@@ -4,8 +4,8 @@ import clientToWorld from "../../display/utils/clientToWorld"
 import createObject from "../../display/utils/deserialize/createObject"
 import { GameObjectType } from "../../display/utils/deserialize/types"
 import { container } from "../../engine/renderLoop/renderSetup"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getSelection } from "../../states/useSelection"
-import { setSelectionTarget } from "../../states/useSelectionTarget"
 
 preventTreeShake(h)
 
@@ -18,7 +18,7 @@ container.addEventListener("drop", e => {
     const manager = createObject(draggingItem as GameObjectType)
     const { x, y, z } = clientToWorld(e, true)
     manager.outerObject3d.position.set(x, y, z)
-    setSelectionTarget(manager)
+    emitSelectionTarget(manager)
 })
 
 type ObjectIconProps = {
