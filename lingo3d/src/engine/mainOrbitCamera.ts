@@ -7,7 +7,7 @@ import { getOrbitControlsScreenSpacePanning } from "../states/useOrbitControlsSc
 import OrbitCamera from "../display/cameras/OrbitCamera"
 import { getTransformControlsDragging } from "../states/useTransformControlsDragging"
 import { appendableRoot } from "../api/core/Appendable"
-import { onEditorCenterView } from "../events/onSceneGraphDoubleClick"
+import { onEditorCenterView } from "../events/onEditorCenterView"
 import { getCameraDistance } from "../states/useCameraDistance"
 
 export default {}
