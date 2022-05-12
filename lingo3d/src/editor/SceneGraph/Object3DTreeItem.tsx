@@ -4,11 +4,8 @@ import { preventTreeShake } from "@lincode/utils"
 import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
-import { useSelectionTarget } from "../states"
-import { emitSceneGraphDoubleClick } from "../../events/onSceneGraphDoubleClick"
-import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import { Object3D } from "three"
-import { TreeItemProps } from "./TreeItem"
+import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
 
 preventTreeShake(h)
 
@@ -20,16 +17,8 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
     const expandIconStyle = { opacity: object3d.children.length ? 0.5 : 0.05, cursor: "pointer" }
 
     const [expanded, setExpanded] = useState(false)
-    const [, setSelectionTarget] = useSelectionTarget()
 
-    const handleMouseDown = (e: MouseEvent) => {
-        e.stopPropagation()
-        setSelectionTarget(appendable)
-    }
-    const handleDoubleClick = (e: MouseEvent) => {
-        e.stopPropagation()
-        appendable instanceof SimpleObjectManager && emitSceneGraphDoubleClick(appendable)
-    }
+    const { handleMouseDown, handleDoubleClick } = makeTreeItemCallbacks(appendable)
 
     return (
         <div onMouseDown={handleMouseDown} onDblClick={handleDoubleClick} style={{

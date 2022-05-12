@@ -1,5 +1,6 @@
 import store, { createEffect, pull, push, reset } from "@lincode/reactivity"
 import { Group, Object3D } from "three"
+import Appendable from "../api/core/Appendable"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import { box3, vector3 } from "../display/utils/reusables"
 import scene from "../engine/scene"
@@ -12,6 +13,8 @@ export const pushMultipleSelectionTargets = push(setMultipleSelectionTargets, ge
 export const pullMultipleSelectionTargets = pull(setMultipleSelectionTargets, getMultipleSelectionTargets)
 export const resetMultipleSelectionTargets = reset(setMultipleSelectionTargets, getMultipleSelectionTargets)
 
+export const multipleSelectionGroupManagers = new WeakSet<Appendable>()
+
 createEffect(() => {
     const enabled = getMultipleSelectionEnabled()
     const targets = getMultipleSelectionTargets()
@@ -21,6 +24,7 @@ createEffect(() => {
     scene.add(group)
     
     const groupManager = new SimpleObjectManager(group)
+    multipleSelectionGroupManagers.add(groupManager)
     setSelectionTarget(groupManager)
     
     const parentEntries: Array<[Object3D, Object3D]> = []

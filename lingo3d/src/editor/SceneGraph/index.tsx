@@ -7,6 +7,7 @@ import { appendableRoot } from "../../api/core/Appendable"
 import TreeItem from "./TreeItem"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
+import { multipleSelectionGroupManagers } from "../../states/useMultipleSelectionTargets"
 
 preventTreeShake(h)
 
@@ -20,7 +21,7 @@ const SceneGraph = () => {
         }
     }, [])
 
-    const appendables = useMemo(() => [...appendableRoot], [r])
+    const appendables = useMemo(() => [...appendableRoot].filter(item => !multipleSelectionGroupManagers.has(item)), [r])
 
     return (
         <div

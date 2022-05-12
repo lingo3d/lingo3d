@@ -10,6 +10,9 @@ import { emitSceneGraphDoubleClick } from "../../events/onSceneGraphDoubleClick"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
+import { setMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
+import { setSelectionTarget } from "../../states/useSelectionTarget"
+import { getMultipleSelection } from "../../states/useMultipleSelection"
 
 preventTreeShake(h)
 
@@ -19,6 +22,24 @@ export type TreeItemProps = {
     children?: JSX.Element | Array<JSX.Element>
 }
 
+export const makeTreeItemCallbacks = (appendable: Appendable) => {
+    const handleMouseDown = (e: MouseEvent) => {
+        e.stopPropagation()
+        if (getMultipleSelection()) {
+            return
+        }
+        setSelectionTarget(appendable)
+        setMultipleSelectionTargets([])
+    }
+
+    const handleDoubleClick = (e: MouseEvent) => {
+        e.stopPropagation()
+        appendable instanceof SimpleObjectManager && emitSceneGraphDoubleClick(appendable)
+    }
+    
+    return { handleMouseDown, handleDoubleClick }
+}
+
 const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     //@ts-ignore
     const name = appendable.name || upperFirst(appendable.constructor.componentName)
@@ -26,16 +47,9 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     const expandIconStyle = { opacity: (appendableChildren?.length || children) ? 0.5 : 0.05, cursor: "pointer" }
 
     const [expanded, setExpanded] = useState(!!appendableChildren?.length)
-    const [selectionTarget, setSelectionTarget] = useSelectionTarget()
+    const [selectionTarget] = useSelectionTarget()
 
-    const handleMouseDown = (e: MouseEvent) => {
-        e.stopPropagation()
-        setSelectionTarget(appendable)
-    }
-    const handleDoubleClick = (e: MouseEvent) => {
-        e.stopPropagation()
-        appendable instanceof SimpleObjectManager && emitSceneGraphDoubleClick(appendable)
-    }
+    const { handleMouseDown, handleDoubleClick } = makeTreeItemCallbacks(appendable)
 
     return (
         <div onMouseDown={handleMouseDown} onDblClick={handleDoubleClick} style={{
