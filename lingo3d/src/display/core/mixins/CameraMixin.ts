@@ -10,7 +10,7 @@ import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import ICameraMixin from "../../../interface/ICameraMixin"
 import makeCameraSprite from "../utils/makeCameraSprite"
-import { getSelectionTarget, setSelectionTarget } from "../../../states/useSelectionTarget"
+import { emitSelectionTarget, onSelectionTarget } from "../../../events/onSelectionTarget"
 
 export default abstract class CameraMixin<T extends PerspectiveCamera> extends EventLoopItem implements ICameraMixin {
     protected abstract camera: T
@@ -34,8 +34,8 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
             const sprite = makeCameraSprite()
             helper.add(sprite.outerObject3d)
 
-            const handle = getSelectionTarget(target => {
-                target === sprite && this.queueMicrotask(() => setSelectionTarget(this))
+            const handle = onSelectionTarget(target => {
+                target === sprite && emitSelectionTarget(this as any)
             })
             return () => {
                 helper.dispose()

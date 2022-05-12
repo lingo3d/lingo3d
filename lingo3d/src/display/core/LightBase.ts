@@ -3,9 +3,9 @@ import { Color, Light, Object3D } from "three"
 import Point3d from "../../api/Point3d"
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
+import { emitSelectionTarget, onSelectionTarget } from "../../events/onSelectionTarget"
 import ILightBase from "../../interface/ILightBase"
 import { getCamera } from "../../states/useCamera"
-import { getSelectionTarget, setSelectionTarget } from "../../states/useSelectionTarget"
 import ObjectManager from "./ObjectManager"
 import SimpleObjectManager from "./SimpleObjectManager"
 import makeLightSprite from "./utils/makeLightSprite"
@@ -23,8 +23,8 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
             const sprite = makeLightSprite()
             helper.add(sprite.outerObject3d)
 
-            const handle = getSelectionTarget(target => {
-                target === sprite && this.queueMicrotask(() => setSelectionTarget(this))
+            const handle = onSelectionTarget(target => {
+                target === sprite && emitSelectionTarget(this)
             })
             return () => {
                 helper.dispose()
