@@ -138,11 +138,11 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
         setGridHelper(true)
 
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key !== "Shift") return
+            if (e.key !== "Shift" && e.key !== "Meta" && e.key !== "Control") return
             setMultipleSelection(true)
         }
         const handleKeyUp = (e: KeyboardEvent) => {
-            if (e.key !== "Shift") return
+            if (e.key !== "Shift" && e.key !== "Meta" && e.key !== "Control") return
             setMultipleSelection(false)
         }
         document.addEventListener("keydown", handleKeyDown)
