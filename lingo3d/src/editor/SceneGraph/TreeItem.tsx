@@ -5,12 +5,11 @@ import Appendable from "../../api/core/Appendable"
 import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
-import { useSelectionTarget } from "../states"
+import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
 import { emitSceneGraphDoubleClick } from "../../events/onSceneGraphDoubleClick"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
-import { getMultipleSelection } from "../../states/useMultipleSelection"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 
 preventTreeShake(h)
@@ -24,9 +23,6 @@ export type TreeItemProps = {
 export const makeTreeItemCallbacks = (appendable: Appendable) => {
     const handleMouseDown = (e: MouseEvent) => {
         e.stopPropagation()
-        if (getMultipleSelection()) {
-            return
-        }
         appendable instanceof SimpleObjectManager && emitSelectionTarget(appendable)
     }
 
@@ -45,7 +41,10 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     const expandIconStyle = { opacity: (appendableChildren?.length || children) ? 0.5 : 0.05, cursor: "pointer" }
 
     const [expanded, setExpanded] = useState(!!appendableChildren?.length)
+    
     const [selectionTarget] = useSelectionTarget()
+    const [multipleSelectionTargets] = useMultipleSelectionTargets()
+    const selected = selectionTarget === appendable || multipleSelectionTargets.includes(appendable as any)
 
     const { handleMouseDown, handleDoubleClick } = makeTreeItemCallbacks(appendable)
 
@@ -58,7 +57,7 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
             <div style={{
                 display: "flex",
                 alignItems: "center",
-                backgroundColor: selectionTarget === appendable ? "rgba(255, 255, 255, 0.1)" : undefined,
+                backgroundColor: selected ? "rgba(255, 255, 255, 0.1)" : undefined,
                 cursor: "default"
             }}>
                 {expanded ? (
