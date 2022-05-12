@@ -43,7 +43,7 @@ type Node = {
     children?: Array<BaseSceneGraphNode>
 }
 
-export const nonSerializedProperties = <const>["type", "name", "children"]
+export const nonSerializedProperties = <const>["type", "name", "children", "scale"]
 
 type TypedPropsNode<Props, Type extends GameObjectType> = Partial<Props> & Node & { type: Type }
 

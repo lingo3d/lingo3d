@@ -22,6 +22,11 @@ style.innerHTML =
     color: white;
     font-size: 11px;
 }
+
+.lingo3d-ui::-webkit-scrollbar {
+    display: none;
+}
+
 .tp-rotv {
     box-shadow: none !important;
     background-color: transparent !important;

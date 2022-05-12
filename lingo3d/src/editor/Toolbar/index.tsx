@@ -55,7 +55,8 @@ const Toolbar = () => {
              width: 50,
              height: "100%",
              background: "rgb(40, 41, 46)",
-             borderRight: "1px solid rgba(255, 255, 255, 0.05)"
+             borderRight: "1px solid rgba(255, 255, 255, 0.05)",
+             overflow: "hidden"
          }}
         >
             <div style={{
@@ -97,11 +98,11 @@ const Toolbar = () => {
 
                 <Separator />
 
-                <IconButton onClick={handleSave}>
-                    <ExportIcon />
-                </IconButton>
                 <IconButton onClick={handleOpen}>
                     <OpenIcon />
+                </IconButton>
+                <IconButton onClick={handleSave}>
+                    <ExportIcon />
                 </IconButton>
 
                 <Separator />
