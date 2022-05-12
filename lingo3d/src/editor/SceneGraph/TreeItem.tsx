@@ -20,7 +20,7 @@ export type TreeItemProps = {
     children?: JSX.Element | Array<JSX.Element>
 }
 
-export const makeTreeItemCallbacks = (appendable: Appendable) => {
+export const makeTreeItemCallbacks = (appendable?: Appendable) => {
     const handleMouseDown = (e: MouseEvent) => {
         e.stopPropagation()
         appendable instanceof SimpleObjectManager && emitSelectionTarget(appendable)

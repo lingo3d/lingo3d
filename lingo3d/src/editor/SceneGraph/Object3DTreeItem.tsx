@@ -18,7 +18,7 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
 
     const [expanded, setExpanded] = useState(false)
 
-    const { handleMouseDown, handleDoubleClick } = makeTreeItemCallbacks(appendable)
+    const { handleMouseDown, handleDoubleClick } = makeTreeItemCallbacks()
 
     return (
         <div onMouseDown={handleMouseDown} onDblClick={handleDoubleClick} style={{
