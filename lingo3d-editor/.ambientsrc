@@ -1,0 +1,15 @@
+{
+	"name": "lingo3d-editor",
+	"strict": true,
+	"esnext": true,
+	"es2015": false,
+	"es5": false,
+	"library": false,
+	"node": false,
+	"react": false,
+	"jsx": false,
+	"css": false,
+	"tailwind": false,
+	"contentLoader": false,
+	"urlLoader": false
+}
