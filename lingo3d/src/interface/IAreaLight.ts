@@ -12,8 +12,6 @@ export const areaLightSchema: Required<ExtractProps<IAreaLight>> = {
 
 export const areaLightDefaults: IAreaLight = {
     ...lightBaseDefaults,
-    width: 1000,
-    height: 1000,
     depth: 0,
     scaleZ: 0,
     power: 10 * Math.PI

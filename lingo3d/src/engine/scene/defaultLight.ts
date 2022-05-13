@@ -21,11 +21,21 @@ createEffect(() => {
                 const AreaLight = (await import("../../display/lights/AreaLight")).default
                 if (handle.done) return
                 
-                handle.watch(Object.assign(new AreaLight(), { scale, innerY: 1000 * scale, innerRotationX: -90, intensity: 3 }))
-                handle.watch(Object.assign(new AreaLight(), { scale, innerY: 1000 * scale, innerRotationX: -90, rotationX: 90, intensity: 3 }))
-                handle.watch(Object.assign(new AreaLight(), { scale, innerY: 1000 * scale, innerRotationX: -90, rotationX: -90, intensity: 3 }))
-                handle.watch(Object.assign(new AreaLight(), { scale, innerY: 1000 * scale, innerRotationX: -90, rotationZ: 90, intensity: 3 }))
-                handle.watch(Object.assign(new AreaLight(), { scale, innerY: 1000 * scale, innerRotationX: -90, rotationZ: -90, intensity: 3 }))
+                handle.watch(Object.assign(new AreaLight(), {
+                    width: 1000, height: 1000, scale, innerY: 1000 * scale, innerRotationX: -90, intensity: 3
+                }))
+                handle.watch(Object.assign(new AreaLight(), {
+                    width: 1000, height: 1000, scale, innerY: 1000 * scale, innerRotationX: -90, rotationX: 90, intensity: 3
+                }))
+                handle.watch(Object.assign(new AreaLight(), {
+                    width: 1000, height: 1000, scale, innerY: 1000 * scale, innerRotationX: -90, rotationX: -90, intensity: 3
+                }))
+                handle.watch(Object.assign(new AreaLight(), {
+                    width: 1000, height: 1000, scale, innerY: 1000 * scale, innerRotationX: -90, rotationZ: 90, intensity: 3
+                }))
+                handle.watch(Object.assign(new AreaLight(), {
+                    width: 1000, height: 1000, scale, innerY: 1000 * scale, innerRotationX: -90, rotationZ: -90, intensity: 3
+                }))
             })()
             return () => {
                 handle.cancel()
