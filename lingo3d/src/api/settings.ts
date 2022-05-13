@@ -1,11 +1,13 @@
 import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { getDefaultFog, setDefaultFog } from "../states/useDefaultFog"
-import { DefaultLight, getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
-import { getPerformance, PerformanceValue, setPerformance } from "../states/usePerformance"
+import { getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
+import { getPerformance, setPerformance } from "../states/usePerformance"
 import { getOrbitControls, setOrbitControls } from "../states/useOrbitControls"
 import { getGravity, setGravity } from "../states/useGravity"
 import { getRepulsion, setRepulsion } from "../states/useRepulsion"
 import { getDefaultLightScale, setDefaultLightScale } from "../states/useDefaultLightScale"
+import { getGridHelper, setGridHelper } from "../states/useGridHelper"
+import { getGridHelperSize, setGridHelperSize } from "../states/useGridHelperSize"
 
 export default {
     get pixelRatio() {
@@ -18,49 +20,63 @@ export default {
     get performance() {
         return getPerformance()
     },
-    set performance(value: PerformanceValue) {
+    set performance(value) {
         setPerformance(value)
     },
 
     get defaultFog() {
         return getDefaultFog()
     },
-    set defaultFog(value: string | undefined) {
+    set defaultFog(value) {
         setDefaultFog(value)
     },
 
     get defaultLight() {
         return getDefaultLight()
     },
-    set defaultLight(value: DefaultLight) {
+    set defaultLight(value) {
         setDefaultLight(value)
     },
 
     get defaultLightScale() {
         return getDefaultLightScale()
     },
-    set defaultLightScale(value: number) {
+    set defaultLightScale(value) {
         setDefaultLightScale(value)
     },
 
     get defaultOrbitControls() {
         return getOrbitControls()
     },
-    set defaultOrbitControls(value: boolean) {
+    set defaultOrbitControls(value) {
         setOrbitControls(value)
+    },
+
+    get gridHelper() {
+        return getGridHelper()
+    },
+    set gridHelper(value) {
+        setGridHelper(value)
+    },
+
+    get gridHelperSize() {
+        return getGridHelperSize()
+    },
+    set gridHelperSize(value) {
+        setGridHelperSize(value)
     },
 
     get gravity() {
         return getGravity()
     },
-    set gravity(value: number) {
+    set gravity(value) {
         setGravity(value)
     },
 
     get repulsion() {
         return getRepulsion()
     },
-    set repulsion(value: number) {
+    set repulsion(value) {
         setRepulsion(value)
     },
 

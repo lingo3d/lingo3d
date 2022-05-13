@@ -9,6 +9,8 @@ import scene from "../../engine/scene"
 import SimpleObjectManager from "../core/SimpleObjectManager"
 import Point3d from "../../api/Point3d"
 import { scaleDown } from "../../engine/constants"
+import { getTransformControlsMode } from "../../states/useTransformControlsMode"
+import { onTransformControls } from "../../events/onTransformControls"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import("three/examples/jsm/lights/RectAreaLightUniformsLib.js")
@@ -42,8 +44,20 @@ export default class extends ObjectManager<Group> implements IAreaLight {
             this.then(() => light.dispose())
 
             this.createEffect(() => {
-                if (getCamera() !== mainCamera)
-                    return
+                if (getTransformControlsMode() !== "scale") return
+
+                const handle = onTransformControls(() => {
+                    const { x, y } = this.outerObject3d.scale
+                    this.scaleX = x
+                    this.scaleY = y
+                })
+                return () => {
+                    handle.cancel()
+                }
+            }, [getTransformControlsMode])
+            
+            this.createEffect(() => {
+                if (getCamera() !== mainCamera) return
     
                 const helper = new RectAreaLightHelper(light)
                 scene.add(helper)

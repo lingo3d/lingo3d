@@ -16,6 +16,8 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     defaultLight: [String, Boolean],
     defaultLightScale: Number,
     defaultOrbitControls: Boolean,
+    gridHelper: Boolean,
+    gridHelperSize: Number,
     gravity: Number,
     repulsion: Number,
     wasmPath: String,
