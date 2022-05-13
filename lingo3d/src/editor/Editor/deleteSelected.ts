@@ -1,8 +1,11 @@
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
+import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 
 export default () => {
+    if (getTransformControlsDragging()) return
+
     const selectionTarget = getSelectionTarget()
     const multipleSelectionTargets = getMultipleSelectionTargets()
 
