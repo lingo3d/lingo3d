@@ -1,9 +1,12 @@
 import store, { createEffect, pull, push, reset } from "@lincode/reactivity"
-import { Group, Object3D } from "three"
+import { Group as ThreeGroup, Object3D } from "three"
 import Appendable from "../api/core/Appendable"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
+import Group from "../display/Group"
 import { box3, vector3 } from "../display/utils/reusables"
 import scene from "../engine/scene"
+import { onEditorGroupItems } from "../events/onEditorGroupItems"
+import { emitSelectionTarget } from "../events/onSelectionTarget"
 import { getMultipleSelectionEnabled } from "./useMultipleSelectionEnabled"
 import { setSelectionTarget } from "./useSelectionTarget"
 
@@ -20,7 +23,7 @@ createEffect(() => {
     const targets = getMultipleSelectionTargets()
     if (!targets.length || !enabled) return
     
-    const group = new Group()
+    const group = new ThreeGroup()
     scene.add(group)
     
     const groupManager = new SimpleObjectManager(group)
@@ -42,14 +45,28 @@ createEffect(() => {
     for (const [object] of parentEntries)
         group.attach(object)
 
-    return () => {
-        setSelectionTarget(undefined)
+    let consolidated = false
+    const handle = onEditorGroupItems(() => {
+        if (!targets.length || consolidated) return
+        consolidated = true
 
-        if (!groupManager.done)
+        const consolidatedGroup = new Group()
+        consolidatedGroup.outerObject3d.position.copy(group.position)
+        for (const target of targets)
+            consolidatedGroup.attach(target)
+
+        emitSelectionTarget(consolidatedGroup)
+    })
+
+    return () => {
+        emitSelectionTarget(undefined)
+
+        if (!groupManager.done && !consolidated)
             for (const [object, parent] of parentEntries)
                 parent.attach(object)
 
         groupManager.dispose()
         scene.remove(group)
+        handle.cancel()
     }
 }, [getMultipleSelectionTargets, getMultipleSelectionEnabled])

@@ -61,9 +61,9 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
                 cursor: "default"
             }}>
                 {expanded ? (
-                    <CollapseIcon style={expandIconStyle} onClick={e => (e.stopPropagation(), setExpanded(false))} />
+                    <CollapseIcon style={expandIconStyle} onClick={() => setExpanded(false)} />
                 ) : (
-                    <ExpandIcon style={expandIconStyle} onClick={e => (e.stopPropagation(), setExpanded(true))} />
+                    <ExpandIcon style={expandIconStyle} onClick={() => setExpanded(true)} />
                 )}
                 <CubeIcon />
                 {name}

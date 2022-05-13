@@ -17,6 +17,7 @@ const CollapseIcon = ({ style, onClick }: CollapseIconProps) => {
       height="14"
       viewBox="0 0 1024 1024"
       style={{ margin: 2, ...style }}
+      onMouseDown={e => e.stopPropagation()}
       onClick={onClick}
     >
       <path

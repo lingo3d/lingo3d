@@ -13,6 +13,7 @@ import DeleteIcon from "./icons/DeleteIcon"
 import TitleBarButton from "./TitleBarButton"
 import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
 import deleteSelected from "../Editor/deleteSelected"
+import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
 
 preventTreeShake(h)
 
@@ -53,7 +54,7 @@ const SceneGraph = () => {
             }}>
                 <div>scenegraph</div>
                 <div style={{ flexGrow: 1 }} />
-                <TitleBarButton active={!!multipleSelectionTargets.length}>
+                <TitleBarButton active={!!multipleSelectionTargets.length} onClick={emitEditorGroupItems}>
                     <GroupIcon />
                 </TitleBarButton>
                 <TitleBarButton active={!!selectionTarget} onClick={deleteSelected}>
