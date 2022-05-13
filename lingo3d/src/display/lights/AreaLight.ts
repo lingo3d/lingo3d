@@ -129,12 +129,6 @@ export default class extends ObjectManager<Group> implements IAreaLight {
         this.light && (this.light.height = val * this.scaleY * scaleDown)
     }
 
-    public override get depth() {
-        return areaLightDefaults.depth
-    }
-    public override set depth(val: number) {
-    }
-
     private _scaleX?: number
     public override get scaleX() {
         return this._scaleX ?? areaLightDefaults.scaleX
@@ -153,9 +147,14 @@ export default class extends ObjectManager<Group> implements IAreaLight {
         this.light && (this.light.height = val * this.height * scaleDown)
     }
 
-    public override get scaleZ() {
-        return areaLightDefaults.scaleZ
+    public override get depth() {
+        return 0
     }
-    public override set scaleZ(val: number) {
+    public override set depth(_) {
+    }
+    public override get scaleZ() {
+        return 0
+    }
+    public override set scaleZ(_) {
     }
 }

@@ -22,6 +22,17 @@ class Sprite extends ObjectManager<ThreeSprite> implements ISprite {
         this.material.dispose()
         return this
     }
+
+    public override get depth() {
+        return 0
+    }
+    public override set depth(_) {
+    }
+    public override get scaleZ() {
+        return 0
+    }
+    public override set scaleZ(_) {
+    }
 }
 interface Sprite extends ObjectManager<ThreeSprite>, TexturedBasicMixin {}
 applyMixins(Sprite, [TexturedBasicMixin])
