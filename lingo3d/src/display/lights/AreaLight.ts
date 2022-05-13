@@ -11,6 +11,7 @@ import Point3d from "../../api/Point3d"
 import { scaleDown } from "../../engine/constants"
 import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import { onTransformControls } from "../../events/onTransformControls"
+import { Reactive } from "@lincode/reactivity"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import("three/examples/jsm/lights/RectAreaLightUniformsLib.js")
@@ -57,7 +58,7 @@ export default class extends ObjectManager<Group> implements IAreaLight {
             }, [getTransformControlsMode])
             
             this.createEffect(() => {
-                if (getCamera() !== mainCamera) return
+                if (getCamera() !== mainCamera || !this.helperState.get()) return
     
                 const helper = new RectAreaLightHelper(light)
                 scene.add(helper)
@@ -66,8 +67,16 @@ export default class extends ObjectManager<Group> implements IAreaLight {
                     helper.dispose()
                     scene.remove(helper)
                 }
-            }, [getCamera])
+            }, [getCamera, this.helperState.get])
         })()
+    }
+
+    private helperState = new Reactive(true)
+    public get helper() {
+        return this.helperState.get()
+    }
+    public set helper(val) {
+        this.helperState.set(val)
     }
 
     public override lookAt(target: SimpleObjectManager | Point3d) {
