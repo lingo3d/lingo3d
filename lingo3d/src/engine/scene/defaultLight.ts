@@ -14,7 +14,7 @@ createEffect(() => {
 
     const scale = getDefaultLightScale()
 
-    if (typeof defaultLight === "string") {
+    if (typeof defaultLight === "string" && defaultLight !== "default") {
         if (defaultLight === "studio") {
             const handle = new Cancellable()
             ;(async () => {
@@ -50,10 +50,10 @@ createEffect(() => {
         }
     }
 
-    const skylight = new HemisphereLight(0xffffff, 0x666666, 1)
+    const skylight = new HemisphereLight(0xffffff, 0x666666, 1 * scale)
     scene.add(skylight)
 
-    const light = new DirectionalLight(0xffffff, 0.5)
+    const light = new DirectionalLight(0xffffff, 0.5 * scale)
     light.position.set(0, 1, 1)
     scene.add(light)
     // light.castShadow = true
