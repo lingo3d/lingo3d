@@ -29,6 +29,7 @@ import { emitEditorCenterView } from "../../events/onEditorCenterView"
 import { setMultipleSelection } from "../../states/useMultipleSelection"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import deleteSelected from "./deleteSelected"
+import { onKeyClear } from "../../events/onKeyClear"
 
 preventTreeShake(h)
 
@@ -147,6 +148,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
         }
         document.addEventListener("keydown", handleKeyDown)
         document.addEventListener("keyup", handleKeyUp)
+        const handle = onKeyClear(() => setMultipleSelection(false))
         
         return () => {
             setCamera(currentCamera)
@@ -156,6 +158,7 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
 
             document.removeEventListener("keydown", handleKeyDown)
             document.removeEventListener("keyup", handleKeyUp)
+            handle.cancel()
         }
     }, [])
 

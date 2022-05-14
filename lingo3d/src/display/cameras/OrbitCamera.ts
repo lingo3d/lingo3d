@@ -15,6 +15,7 @@ import { vector3 } from "../utils/reusables"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../globals"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import SimpleObjectManager from "../core/SimpleObjectManager"
+import { onKeyClear } from "../../events/onKeyClear"
 
 class OrbitCamera extends EventLoopItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -105,6 +106,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
                 }
                 document.addEventListener("keydown", handleKeyDown)
                 document.addEventListener("keyup", handleKeyUp)
+                handle.watch(onKeyClear(() => downSet.clear()))
 
                 handle.then(() => {
                     document.removeEventListener("keydown", handleKeyDown)
