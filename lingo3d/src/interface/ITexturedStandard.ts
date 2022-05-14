@@ -6,7 +6,6 @@ export type NormalMapType = "objectSpace" | "tangentSpace"
 
 export default interface ITexturedStandard {
     color: string
-    emissiveColor: string
     flatShading: boolean
     wireframe: boolean
     envMap?: string
@@ -17,6 +16,7 @@ export default interface ITexturedStandard {
     displacementMap?: string
     displacementScale: number
     displacementBias: number
+    emissiveColor: string
     emissiveMap?: string
     emissiveIntensity: number
     lightMap?: string
@@ -32,7 +32,6 @@ export default interface ITexturedStandard {
 
 export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> = {
     color: String,
-    emissiveColor: String,
     flatShading: Boolean,
     wireframe: Boolean,
     envMap: String,
@@ -43,6 +42,7 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
     displacementMap: String,
     displacementScale: Number,
     displacementBias: Number,
+    emissiveColor: String,
     emissiveMap: String,
     emissiveIntensity: Number,
     lightMap: String,
@@ -58,13 +58,13 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
 
 export const texturedStandardDefaults: ITexturedStandard = {
     color: "#ffffff",
-    emissiveColor: "#000000",
     flatShading: false,
     wireframe: false,
     aoMapIntensity: 1,
     bumpScale: 1,
     displacementScale: 1,
     displacementBias: 0,
+    emissiveColor: "#000000",
     emissiveIntensity: 1,
     lightMapIntensity: 1,
     metalness: 0,

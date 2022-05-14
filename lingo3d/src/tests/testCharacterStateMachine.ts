@@ -7,12 +7,8 @@ import makeCharacter from "./utils/makeCharacter"
 import roughnessSrc from "../../assets-local/roughness.png"
 //@ts-ignore
 import normalSrc from "../../assets-local/normal.jpg"
-//@ts-ignore
-import svgSrc from "../../assets-local/VivaTech.svg"
 
 export default {}
-
-console.log(svgSrc)
 
 setGridHelper(true)
 

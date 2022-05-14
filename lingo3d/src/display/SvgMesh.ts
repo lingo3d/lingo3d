@@ -31,6 +31,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
 
     protected resolveLoaded(svgData: SVGResult) {
         const loadedObject3d = new Group()
+        loadedObject3d.scale.y *= -1
 
         const geometries = forceGet(svgGeometryCache, svgData, () => {
             const shapes: Array<Shape> = []
@@ -41,11 +42,14 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
             if (!shapes.length) return []
 
             const testGroup = new Group()
-            for (const shape of shapes)
-                testGroup.add(new Mesh(new ExtrudeBufferGeometry(shape, {
+            for (const shape of shapes) {
+                const geom = new ExtrudeBufferGeometry(shape, {
                     depth: 0,
                     bevelEnabled: false
-                })))
+                })
+                geom.dispose()
+                testGroup.add(new Mesh(geom))
+            }
 
             const size = measure(testGroup)
 
@@ -69,8 +73,6 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         !this.widthSet && (this.object3d.scale.x = size.x)
         !this.heightSet && (this.object3d.scale.y = size.y)
         !this.depthSet && (this.object3d.scale.z = size.z)
-
-        loadedObject3d.scale.y *= -1
 
         this.loadedGroup.add(loadedObject3d)
 

@@ -26,13 +26,6 @@ export default abstract class TexturedStandardMixin implements ITexturedStandard
         this.material.color = new Color(val)
     }
 
-    public get emissiveColor() {
-        return "#" + this.material.emissive.getHexString()
-    }
-    public set emissiveColor(val: string) {
-        this.material.emissive = new Color(val)
-    }
-
     public get flatShading() {
         return this.material.flatShading
     }
@@ -122,6 +115,13 @@ export default abstract class TexturedStandardMixin implements ITexturedStandard
     }
     public set displacementBias(val: number) {
         this.material.displacementBias = val
+    }
+
+    public get emissiveColor() {
+        return "#" + this.material.emissive.getHexString()
+    }
+    public set emissiveColor(val: string) {
+        this.material.emissive = new Color(val)
     }
 
     private _emissiveMap?: string
