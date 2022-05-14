@@ -7,6 +7,7 @@ import { createEffect } from "@lincode/reactivity"
 import { getSelectionBlockKeyboard } from "../states/useSelectionBlockKeyboard"
 import { appendableRoot } from "./core/Appendable"
 import { getEditorActive } from "../states/useEditorActive"
+import { onKeyClear } from "../events/onKeyClear"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
@@ -29,8 +30,6 @@ createEffect(() => {
         const key = processKey(e.key)
         isPressed.add(key)
         emitDown(key)
-        if (isPressed.has("Meta") && isPressed.has("Shift"))
-            clear()
     }
     
     const handleKeyUp = (e: KeyboardEvent): void => {
@@ -38,28 +37,22 @@ createEffect(() => {
         isPressed.delete(key)
         emitUp(key)
     }
-    
-    const clear = () => {
+
+    handle.watch(onKeyClear(() => {
         if (!isPressed.size) return
         const pressed = [...isPressed]
         isPressed.clear()
         for (const key of pressed)
             emitUp(key)
-    }
+    }))
     
     document.addEventListener("keydown", handleKeyDown)
     document.addEventListener("keyup", handleKeyUp)
-    window.addEventListener("blur", clear)
-    window.addEventListener("focus", clear)
-    document.addEventListener("visibilitychange", clear)
 
     return () => {
         handle.cancel()
         document.removeEventListener("keydown", handleKeyDown)
         document.removeEventListener("keyup", handleKeyUp)
-        window.removeEventListener("blur", clear)
-        window.removeEventListener("focus", clear)
-        document.removeEventListener("visibilitychange", clear)
     }
 }, [getEditorActive, getSelectionBlockKeyboard])
 
