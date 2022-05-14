@@ -14,11 +14,11 @@ createEffect(() => {
     if (!target || getCamera() !== mainCamera) return
 
     const boxHelper = new BoxHelper(target.object3d)
-    scene.add(boxHelper)
-
+    const frame = requestAnimationFrame(() => scene.add(boxHelper))
     const handle = loop(() => boxHelper.update())
 
     return () => {
+        cancelAnimationFrame(frame)
         scene.remove(boxHelper)
         handle.cancel()
     }

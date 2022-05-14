@@ -1,10 +1,10 @@
 import index from "."
-import test from "./tests/testCharacterStateMachine"
+// import test from "./tests/testCharacterStateMachine"
 import { preventTreeShake } from "@lincode/utils"
 import settings from "./api/settings"
 import "./editor"
 
-preventTreeShake([index, test])
+preventTreeShake([index])
 
 settings.autoMount = "#lingoapp"
 
