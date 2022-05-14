@@ -17,10 +17,9 @@ createEffect(() => {
     if (typeof defaultLight === "string" && defaultLight !== "default") {
         if (defaultLight === "studio") {
             const handle = new Cancellable()
-            ;(async () => {
-                const AreaLight = (await import("../../display/lights/AreaLight")).default
+            import("../../display/lights/AreaLight").then(({ default: AreaLight }) => {
                 if (handle.done) return
-                
+
                 handle.watch(Object.assign(new AreaLight(), {
                     width: 1000, height: 1000, scale, innerY: 1000 * scale, innerRotationX: -90, intensity: 3
                 }))
@@ -36,7 +35,7 @@ createEffect(() => {
                 handle.watch(Object.assign(new AreaLight(), {
                     width: 1000, height: 1000, scale, innerY: 1000 * scale, innerRotationX: -90, rotationZ: -90, intensity: 3
                 }))
-            })()
+            })
             return () => {
                 handle.cancel()
             }
