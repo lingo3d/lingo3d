@@ -118,17 +118,22 @@ const addInputs = (
 }
 
 interface EditorProps {
-    blockKeyboard?: string
-    blockMouse?: string
+    mouse?: "enabled" | "disabled"
+    keyboard?: "enabled" | "disabled"
 }
 
-const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
+const Editor = ({ mouse, keyboard }: EditorProps) => {
     const elRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        setSelectionBlockKeyboard(blockKeyboard === "false" ? false : true)
-        setSelectionBlockMouse(blockMouse === "false" ? false : true)
-    }, [blockKeyboard, blockMouse])
+        setSelectionBlockMouse(mouse !== "enabled")
+        setSelectionBlockKeyboard(keyboard !== "enabled")
+
+        return () => {
+            setSelectionBlockKeyboard(true)
+            setSelectionBlockMouse(true)
+        }
+    }, [mouse, keyboard])
 
     useEffect(() => {
         const currentCamera = getCamera()
@@ -332,4 +337,4 @@ const Editor = ({ blockKeyboard, blockMouse }: EditorProps) => {
     )
 }
 
-register(Editor, "lingo3d-editor", ["blockKeyboard", "blockMouse"])
+register(Editor, "lingo3d-editor", ["mouse", "keyboard"])

@@ -24,6 +24,14 @@ const { characterModel, characterService } = makeCharacter()
 
 characterModel.physics = true
 
+characterModel.onMouseOver = () => {
+    characterModel.outline = true
+}
+
+characterModel.onMouseOut = () => {
+    characterModel.outline = false
+}
+
 const cam = new ThirdPersonCamera()
 cam.target = characterModel
 cam.activate()

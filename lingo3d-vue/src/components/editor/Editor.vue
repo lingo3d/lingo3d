@@ -2,11 +2,11 @@
 import "lingo3d/lib/editor"
 
 const props = defineProps({
-    blockKeyboard: { type: Boolean, default: true },
-    blockMouse: { type: Boolean, default: true }
+    unblockKeyboard: { type: Boolean, default: false },
+    unblockMouse: { type: Boolean, default: false }
 })
 </script>
 
 <template>
-    <lingo3d-editor :block-keyboard="props.blockKeyboard" :block-mouse="props.blockMouse" />
+    <lingo3d-editor :unblock-keyboard="props.unblockKeyboard" :unblock-mouse="props.unblockMouse" />
 </template>

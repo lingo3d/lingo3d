@@ -17,6 +17,7 @@ import mainCamera from "../../../engine/mainCamera"
 import { getTransformControlsDragging } from "../../../states/useTransformControlsDragging"
 import { debounce } from "@lincode/utils"
 import { onSceneChange } from "../../../events/onSceneChange"
+import { getSelectionBlockMouse } from "../../../states/useSelectionBlockMouse"
 
 const raycaster = new Raycaster()
 
@@ -55,58 +56,7 @@ export const mouseOverSet = new Set<Object3D>()
 export const mouseOutSet = new Set<Object3D>()
 export const mouseMoveSet = new Set<Object3D>()
 
-createEffect(() => {
-    const selection = getSelection()
-    const selectionEnabled = !getTransformControlsDragging() && getCamera() === mainCamera
-    const multipleSelection = getMultipleSelection()
-    const firstMultipleSelection = createRef(true)
-
-    createNestedEffect(() => {
-        !multipleSelection && (firstMultipleSelection.current = true)
-    }, [multipleSelection])
-
-    if (selection && selectionEnabled) {
-        const handle = new Cancellable()
-
-        getSelectionCandidates()
-        handle.watch(onSceneChange(getSelectionCandidates))
-
-        handle.watch(mouseEvents.on("click", () => {
-            emitSelectionTarget(undefined)
-        }))
-        handle.watch(pickable("click", selectionCandidates, target => {
-            emitSelectionTarget(target)
-        }))
-        handle.watch(onSelectionTarget(target => {
-            if (multipleSelection) {
-                if (!target) return
-
-                if (firstMultipleSelection.current) {
-                    const currentTarget = getSelectionTarget()
-                    currentTarget && pushMultipleSelectionTargets(currentTarget)
-                }
-                firstMultipleSelection.current = false
-
-                if (getMultipleSelectionTargets().includes(target))
-                    pullMultipleSelectionTargets(target)
-                else
-                    pushMultipleSelectionTargets(target)
-                    
-                return
-            }
-            resetMultipleSelectionTargets()
-            setSelectionTarget(target === getSelectionTarget() ? undefined : target)
-        }))
-        return () => {
-            handle.cancel()
-        }
-    }
-    
-    if (selection) return
-
-    resetMultipleSelectionTargets()
-    setSelectionTarget(undefined)
-
+const enableMouseEvents = () => {
     const handle = new Cancellable()
 
     handle.watch(pickable("click", clickSet, (obj, e) => obj.onClick?.(e)))
@@ -145,7 +95,67 @@ createEffect(() => {
         moveSet = new Set()
     }))
 
+    return handle
+}
+
+createEffect(() => {
+    const selection = getSelection()
+    const multipleSelection = getMultipleSelection()
+    const firstMultipleSelection = createRef(true)
+
+    createNestedEffect(() => {
+        !multipleSelection && (firstMultipleSelection.current = true)
+    }, [multipleSelection])
+
+    if (selection && !getTransformControlsDragging() && getCamera() === mainCamera) {
+        const handle = new Cancellable()
+
+        getSelectionCandidates()
+        handle.watch(onSceneChange(getSelectionCandidates))
+
+        handle.watch(mouseEvents.on("click", () => {
+            emitSelectionTarget(undefined)
+        }))
+        handle.watch(pickable("click", selectionCandidates, target => {
+            emitSelectionTarget(target)
+        }))
+        handle.watch(onSelectionTarget(target => {
+            if (multipleSelection) {
+                if (!target) return
+
+                if (firstMultipleSelection.current) {
+                    const currentTarget = getSelectionTarget()
+                    currentTarget && pushMultipleSelectionTargets(currentTarget)
+                }
+                firstMultipleSelection.current = false
+
+                if (getMultipleSelectionTargets().includes(target))
+                    pullMultipleSelectionTargets(target)
+                else
+                    pushMultipleSelectionTargets(target)
+                    
+                return
+            }
+            resetMultipleSelectionTargets()
+            setSelectionTarget(target === getSelectionTarget() ? undefined : target)
+        }))
+
+        if (!multipleSelection && !getSelectionBlockMouse())
+            handle.watch(enableMouseEvents())
+
+        return () => {
+            handle.cancel()
+        }
+    }
+    
+    if (selection) return
+
+    resetMultipleSelectionTargets()
+    setSelectionTarget(undefined)
+
+    const handle = enableMouseEvents()
+
     return () => {
         handle.cancel()
     }
-}, [getSelection, getTransformControlsDragging, getCamera, getMultipleSelection])
+}, [getSelection, getSelectionBlockMouse, getTransformControlsDragging, getCamera, getMultipleSelection])
