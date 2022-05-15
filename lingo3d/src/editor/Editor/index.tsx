@@ -13,7 +13,7 @@ import { setSelection } from "../../states/useSelection"
 import { setSelectionBlockKeyboard } from "../../states/useSelectionBlockKeyboard"
 import { setSelectionBlockMouse } from "../../states/useSelectionBlockMouse"
 import { h } from "preact"
-import { useEffect, useRef, useState } from "preact/hooks"
+import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks"
 import register from "preact-custom-element"
 import { useSelectionTarget, useCameraList, useMultipleSelectionTargets, useCamera } from "../states"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
@@ -156,7 +156,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
     const [pane, setPane] = useState<Pane>()
     const [cameraFolder, setCameraFolder] = useState<FolderApi>()
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!pane || !cameraFolder) return
 
         const options = cameraList.reduce<Record<string, any>>((acc, _, i) => (acc["camera " + i] = i, acc), {})

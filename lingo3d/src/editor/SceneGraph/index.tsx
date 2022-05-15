@@ -48,7 +48,6 @@ const SceneGraph = () => {
         >
             <div style={{
                 height: 24,
-                marginBottom: 8,
                 borderBottom: "1px solid rgb(255,255,255,0.1)",
                 opacity: 0.5,
                 display: "flex",
