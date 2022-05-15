@@ -8,7 +8,7 @@ import copyToon from "./copyToon"
 export const applySet = new Set<SimpleObjectManager | Loaded<Group>>()
 
 const getDefault = (child: any, property: string) => (
-    child.userData[property] ??= (child.material[property] ?? 0)
+    child.userData[property] ??= (child.material[property] ?? 1)
 )
 const setValue = (child: any, property: string, factor: number) => {
     child.material[property] = getDefault(child, property) * factor
