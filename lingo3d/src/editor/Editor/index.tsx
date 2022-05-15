@@ -138,10 +138,12 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
     useEffect(() => {
         const currentCamera = getCamera()
 
-        setCamera(mainCamera)
-        setOrbitControls(true)
-        setSelection(true)
-        setGridHelper(true)
+        const timeout = setTimeout(() => {
+            setCamera(mainCamera)
+            setOrbitControls(true)
+            setSelection(true)
+            setGridHelper(true)
+        })
 
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key !== "Shift" && e.key !== "Meta" && e.key !== "Control") return
@@ -156,6 +158,8 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         const handle = onKeyClear(() => setMultipleSelection(false))
         
         return () => {
+            clearTimeout(timeout)
+
             setCamera(currentCamera)
             setOrbitControls(false)
             setSelection(false)

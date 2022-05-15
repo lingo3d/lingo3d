@@ -2,14 +2,14 @@ import React from "react"
 import "lingo3d/lib/editor"
 
 interface EditorProps {
-    blockKeyboard?: boolean,
-    blockMouse?: boolean
+    keyboard?: "enabled" | "disabled",
+    mouse?: "enabled" | "disabled" 
 }
 
-const Editor: React.FC<EditorProps> = ({ blockKeyboard = true, blockMouse = true }) => {
+const Editor: React.FC<EditorProps> = ({ keyboard, mouse }) => {
     return (
         //@ts-ignore
-        <lingo3d-editor block-keyboard={blockKeyboard} block-mouse={blockMouse}  />
+        <lingo3d-editor keyboard={keyboard} mouse={mouse}  />
     )
 }
 
