@@ -40,7 +40,10 @@ const SceneGraph = () => {
              height: "100%",
              background: "rgb(40, 41, 46)",
              padding: 4,
-             paddingTop: 0
+             paddingTop: 0,
+             display: "flex",
+             flexDirection: "column",
+             overflow: "hidden"
          }}
         >
             <div style={{
@@ -61,14 +64,16 @@ const SceneGraph = () => {
                     <DeleteIcon />
                 </TitleBarButton>
             </div>
-            <div style={{ width: 9999 }}>
-                {appendables.map(appendable => (
-                    appendable instanceof Model ? (
-                        <ModelTreeItem appendable={appendable} level={0} />
-                    ) : (
-                        <TreeItem key={appendable.uuid} appendable={appendable} level={0} />
-                    )
-                ))}
+            <div style={{ overflowY: "scroll", overflowX: "hidden" }} className="lingo3d-ui">
+                <div style={{ width: 9999 }}>
+                    {appendables.map(appendable => (
+                        appendable instanceof Model ? (
+                            <ModelTreeItem appendable={appendable} level={0} />
+                        ) : (
+                            <TreeItem key={appendable.uuid} appendable={appendable} level={0} />
+                        )
+                    ))}
+                </div>
             </div>
         </div>
     )
