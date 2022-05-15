@@ -11,9 +11,9 @@ const handleMouse = () => {
   <World>
     <Toolbar />
     <SceneGraph />
-    <Editor unblock-mouse />
+    <Editor mouse="enabled" />
     <Library />
-    <Cube @click="handleMouse" />
+    <Cube @mouse-over="handleMouse" />
   </World>
   
 </template>

@@ -179,9 +179,6 @@ export default abstract class Loaded<T> extends ObjectManager<Mesh> implements I
         this._outline = val
 
         this._outlineHandle?.cancel()
-
-        if (!val) return
-
         this._outlineHandle = this.loadedResolvable.then(loaded => {
             val ? addOutline(loaded) : deleteOutline(loaded)
         })

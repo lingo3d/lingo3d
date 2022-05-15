@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import "lingo3d/lib/editor"
+import { PropType } from "vue";
 
 const props = defineProps({
-    unblockKeyboard: { type: Boolean, default: false },
-    unblockMouse: { type: Boolean, default: false }
+    mouse: {
+        type: String as PropType<"enabled" | "disabled">,
+        default: "disabled"
+    },
+    keyboard: {
+        type: String as PropType<"enabled" | "disabled">,
+        default: "disabled"
+    }
 })
+
 </script>
 
 <template>
-    <lingo3d-editor :unblock-keyboard="props.unblockKeyboard" :unblock-mouse="props.unblockMouse" />
+    <lingo3d-editor :mouse="props.mouse" :keyboard="props.keyboard" />
 </template>
