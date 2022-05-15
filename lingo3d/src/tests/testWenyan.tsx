@@ -19,6 +19,7 @@ import { random } from "@lincode/utils"
 import store, { createEffect } from "@lincode/reactivity"
 import randomColor from "randomcolor"
 import { setGridHelper } from "../states/useGridHelper"
+import rendering from "../api/rendering"
 
 export default {}
 
@@ -241,46 +242,4 @@ keyboard.onKeyUp = (key) => {
         setRunning(false)
 }
 
-settings.defaultLight = false
-
-const l0 = new DirectionalLight()
-l0.innerZ = -100
-l0.intensity = 0.25
-
-const l1 = new DirectionalLight()
-l1.innerZ = -0
-l1.intensity = 0.25
-
-const l2 = new DirectionalLight()
-l2.innerZ = 100
-l2.intensity = 0.25
-
-const l3 = new DirectionalLight()
-l3.innerZ = -100
-l3.innerX = -100
-l3.intensity = 0.25
-
-const l4 = new DirectionalLight()
-l4.innerZ = -0
-l4.innerX = -100
-l4.intensity = 0.25
-
-const l5 = new DirectionalLight()
-l5.innerZ = 100
-l5.innerX = -100
-l5.intensity = 0.25
-
-const l6 = new DirectionalLight()
-l6.innerZ = -100
-l6.innerX = 100
-l6.intensity = 0.25
-
-const l7 = new DirectionalLight()
-l7.innerZ = -0
-l7.innerX = 100
-l7.intensity = 0.25
-
-const l8 = new DirectionalLight()
-l8.innerZ = 100
-l8.innerX = 100
-l8.intensity = 0.25
+rendering.bloomStrength = 0.5

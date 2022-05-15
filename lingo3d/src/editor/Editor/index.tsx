@@ -1,6 +1,5 @@
 import { debounce, omit, preventTreeShake } from "@lincode/utils"
-import { PerspectiveCamera } from "three"
-import { Pane } from "tweakpane"
+import { FolderApi, Pane } from "tweakpane"
 import background from "../../api/background"
 import rendering from "../../api/rendering"
 import settings from "../../api/settings"
@@ -14,9 +13,9 @@ import { setSelection } from "../../states/useSelection"
 import { setSelectionBlockKeyboard } from "../../states/useSelectionBlockKeyboard"
 import { setSelectionBlockMouse } from "../../states/useSelectionBlockMouse"
 import { h } from "preact"
-import { useEffect, useRef } from "preact/hooks"
+import { useEffect, useRef, useState } from "preact/hooks"
 import register from "preact-custom-element"
-import { useSelectionTarget, useCameraList, useMultipleSelectionTargets } from "../states"
+import { useSelectionTarget, useCameraList, useMultipleSelectionTargets, useCamera } from "../states"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import ObjectManager from "../../display/core/ObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
@@ -32,28 +31,6 @@ import deleteSelected from "./deleteSelected"
 import { onKeyClear } from "../../events/onKeyClear"
 
 preventTreeShake(h)
-
-const addCameraInput = (pane: Pane, camList: Array<PerspectiveCamera>) => {
-    const cameraFolder = pane.addFolder({ title: "camera" })
-
-    const options = camList.reduce<Record<string, any>>((acc, _, i) => (acc["camera " + i] = i, acc), {})
-    const cameraInput = pane.addInput(
-        { "camera": camList.indexOf(getCamera()) },
-        "camera",
-        { options }
-    )
-    cameraFolder.add(cameraInput)
-    cameraInput.on("change", e => setCamera(camList[e.value]))
-
-    const secondaryOptions: any = { none: 0, ...omit(options, "camera 0") }
-    const secondaryCameraInput = pane.addInput(
-        { "secondary camera": camList.indexOf(getSecondaryCamera() ?? mainCamera) },
-        "secondary camera",
-        { options: secondaryOptions }
-    )
-    cameraFolder.add(secondaryCameraInput)
-    secondaryCameraInput.on("change", e => setSecondaryCamera(e.value === 0 ? undefined : camList[e.value]))
-}
 
 const toFixed = (v: any) => typeof v === "number" ? Number(v.toFixed(2)) : v
 
@@ -174,16 +151,43 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
     const [selectionTarget] = useSelectionTarget()
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const [cameraList] = useCameraList()
+    const [camera] = useCamera()
+
+    const [pane, setPane] = useState<Pane>()
+    const [cameraFolder, setCameraFolder] = useState<FolderApi>()
+
+    useEffect(() => {
+        if (!pane || !cameraFolder) return
+
+        const options = cameraList.reduce<Record<string, any>>((acc, _, i) => (acc["camera " + i] = i, acc), {})
+        const cameraInput = pane.addInput({ "camera": cameraList.indexOf(getCamera()) }, "camera", { options })
+        cameraFolder.add(cameraInput)
+        cameraInput.on("change", e => setCamera(cameraList[e.value]))
+
+        const secondaryOptions: any = { none: 0, ...omit(options, "camera 0") }
+        const secondaryCameraInput = pane.addInput(
+            { "secondary camera": cameraList.indexOf(getSecondaryCamera() ?? mainCamera) },
+            "secondary camera",
+            { options: secondaryOptions }
+        )
+        cameraFolder.add(secondaryCameraInput)
+        secondaryCameraInput.on("change", e => setSecondaryCamera(e.value === 0 ? undefined : cameraList[e.value]))
+
+        return () => {
+            cameraInput.dispose()
+            secondaryCameraInput.dispose()
+        }
+    }, [pane, cameraFolder, cameraList, camera])
 
     useEffect(() => {
         const el = elRef.current
         if (!el) return
 
         const pane = new Pane({ container: el })
+        setPane(pane)
+        setCameraFolder(pane.addFolder({ title: "camera" }))
 
         if (!selectionTarget) {
-            addCameraInput(pane, cameraList)
-
             addInputs(pane, "settings", settings, omit(settings, [
                 "pixelRatio",
                 "performance",
@@ -219,8 +223,6 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             emitEditorCenterView(target)
         }
         document.addEventListener("keydown", handleKey)
-
-        addCameraInput(pane, cameraList)
 
         const target = selectionTarget as any
         const handle = new Cancellable()
@@ -324,7 +326,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             pane.dispose()
             document.removeEventListener("keydown", handleKey)
         }
-    }, [selectionTarget, multipleSelectionTargets, cameraList])
+    }, [selectionTarget, multipleSelectionTargets])
 
     return (
         <div
