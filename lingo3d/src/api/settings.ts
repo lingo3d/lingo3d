@@ -26,6 +26,13 @@ import { getOutlinePulse, setOutlinePulse } from "../states/useOutlinePulse"
 import { getOutlineStrength, setOutlineStrength } from "../states/useOutlineStrength"
 import { getOutlineThickness, setOutlineThickness } from "../states/useOutlineThickness"
 import { getPBR, setPBR } from "../states/usePBR"
+import { getBackgroundColor, setBackgroundColor } from "../states/useBackgroundColor"
+import { getBackgroundImage, setBackgroundImage } from "../states/useBackgroundImage"
+import Skybox from "../display/Skybox"
+import { appendableRoot } from "./core/Appendable"
+
+const defaultSkybox = new Skybox()
+appendableRoot.delete(defaultSkybox)
 
 export default {
     //general
@@ -228,5 +235,27 @@ export default {
     },
     set lensBand(val) {
         setLensBand(val)
+    },
+
+    //background
+    get texture() {
+        return getBackgroundImage()
+    },
+    set texture(value: string | undefined) {
+        setBackgroundImage(value)
+    },
+
+    get skybox() {
+        return defaultSkybox.texture
+    },
+    set skybox(value: string | Array<string> | undefined) {
+        defaultSkybox.texture = value
+    },
+
+    get color() {
+        return getBackgroundColor()
+    },
+    set color(value: string) {
+        setBackgroundColor(value)
     }
 }

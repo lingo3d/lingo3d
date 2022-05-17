@@ -1,6 +1,5 @@
 import { debounce, omit, preventTreeShake } from "@lincode/utils"
 import { FolderApi, Pane } from "tweakpane"
-import background from "../../api/background"
 import settings from "../../api/settings"
 import mainCamera from "../../engine/mainCamera"
 import { onTransformControls } from "../../events/onTransformControls"
@@ -193,8 +192,6 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 "wasmPath",
                 "autoMount"
             ]))
-            addInputs(pane, "background", background)
-
             return () => {
                 pane.dispose()
             }

@@ -22,7 +22,7 @@ import RightSrc from "../../assets-local/skybox/Right.png"
 import UpSrc from "../../assets-local/skybox/Up.png"
 
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
-import Skybox from "../display/Skybox"
+import settings from "../api/settings"
 
 export default {}
 
@@ -62,7 +62,4 @@ map.src = fairySrc
 map.scale = 20
 map.physics = "map"
 
-// const sky = new Sky()
-
-const skybox = new Skybox()
-skybox.texture = [LeftSrc, RightSrc, UpSrc, DownSrc, FrontSrc, BackSrc]
+settings.skybox = [LeftSrc, RightSrc, UpSrc, DownSrc, FrontSrc, BackSrc]

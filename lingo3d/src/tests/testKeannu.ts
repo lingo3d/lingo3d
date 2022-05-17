@@ -3,7 +3,6 @@ import { PointLight, SkyLight, settings } from ".."
 import keanuSrc from "../../assets-local/keannu.glb"
 //@ts-ignore
 import hdrSrc from "../../assets-local/studio010.hdr"
-import background from "../api/background"
 import Model from "../display/Model"
 
 export default {}
@@ -19,4 +18,4 @@ model.roughnessFactor = 0.5
 settings.defaultOrbitControls = true
 settings.defaultLight = hdrSrc
 
-background.texture = hdrSrc
+settings.texture = hdrSrc

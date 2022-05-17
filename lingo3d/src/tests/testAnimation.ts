@@ -1,4 +1,4 @@
-import { background } from ".."
+import settings from "../api/settings"
 import Cube from "../display/primitives/Cube"
 import Skybox from "../display/Skybox"
 
@@ -62,4 +62,4 @@ box.animation.rotationY = [0, 45, 0]
 // const cube = new Cube()
 // cube.animation.rotationX = [0, 30, 0, 30, 0, 30, 0, 30, 0, 30, 0, 30]
 
-background.texture = require("../../assets-local/bg.jpg")
+settings.texture = require("../../assets-local/bg.jpg")
