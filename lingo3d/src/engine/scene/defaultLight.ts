@@ -1,6 +1,7 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { HemisphereLight, DirectionalLight, EquirectangularReflectionMapping } from "three"
+import { appendableRoot } from "../../api/core/Appendable"
 import loadTexture from "../../display/utils/loaders/loadTexture"
 import { getDefaultLight } from "../../states/useDefaultLight"
 import { getDefaultLightScale } from "../../states/useDefaultLightScale"
@@ -12,8 +13,6 @@ createEffect(() => {
     const defaultLight = getDefaultLight()
     if (!defaultLight) return
 
-    const scale = getDefaultLightScale()
-
     if (typeof defaultLight === "string" && defaultLight !== "default") {
         if (defaultLight === "studio") {
             const handle = new Cancellable()
@@ -21,7 +20,13 @@ createEffect(() => {
                 if (handle.done) return
 
                 const light = new BoxLight()
-                light.then(() => light.dispose())
+                appendableRoot.delete(light)
+                handle.then(() => light.dispose())
+
+                handle.watch(getDefaultLightScale(scale => {
+                    light.area = scale
+                    light.scale = scale
+                }))
             })
             return () => {
                 handle.cancel()
@@ -36,12 +41,18 @@ createEffect(() => {
         }
     }
 
-    const skylight = new HemisphereLight(0xffffff, 0x666666, 1 * scale)
+    const skylight = new HemisphereLight(0xffffff, 0x666666)
     scene.add(skylight)
 
-    const light = new DirectionalLight(0xffffff, 0.5 * scale)
+    const light = new DirectionalLight(0xffffff, 0.5)
     light.position.set(0, 1, 1)
     scene.add(light)
+
+    const handle = getDefaultLightScale(scale => {
+        skylight.intensity = scale
+        light.intensity = scale * 0.5
+    })
+
     // light.castShadow = true
     // light.shadow.camera.near = camNear
     // light.shadow.camera.far = camFar
@@ -52,5 +63,7 @@ createEffect(() => {
 
         light.dispose()
         scene.remove(light)
+
+        handle.cancel()
     }
-}, [getDefaultLight, getDefaultLightScale])
+}, [getDefaultLight])

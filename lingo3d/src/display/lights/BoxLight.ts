@@ -15,6 +15,7 @@ export default class BoxLight extends ObjectManager<Group> implements IBoxLight 
         this.watch(this.intensityState.get(val => light.intensity = val))
         this.watch(this.helperState.get(val => light.helper = val))
         this.watch(this.colorState.get(val => light.color = val))
+        this.watch(this.areaState.get(val => light.scaleX = light.scaleY = val))
         return light
     }
 
@@ -79,5 +80,13 @@ export default class BoxLight extends ObjectManager<Group> implements IBoxLight 
     }
     public set color(val) {
         this.colorState.set(val)
+    }
+
+    private areaState = new Reactive(boxLightDefaults.area)
+    public get area() {
+        return this.areaState.get()
+    }
+    public set area(val) {
+        this.areaState.set(val)
     }
 }
