@@ -61,7 +61,6 @@ const map = new Model()
 map.src = fairySrc
 map.scale = 20
 map.physics = "map"
-map.pbr = true
 
 // const sky = new Sky()
 

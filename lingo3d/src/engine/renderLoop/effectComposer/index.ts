@@ -19,8 +19,19 @@ import { getOutline } from "../../../states/useOutline"
 import smaaPass from "./smaaPass"
 import lensDistortionPass from "./lensDistortionPass"
 import { getLensDistortion } from "../../../states/useLensDistortion"
+import isSafari from "../../../api/utils/isSafari"
+import { WebGLRenderTarget } from "three"
+import { WIDTH, HEIGHT } from "../../../globals"
 
-const effectComposer = new EffectComposer(getRenderer())
+const effectComposer = (() => {
+    if (isSafari)
+        return new EffectComposer(getRenderer())
+
+    //@ts-ignore
+    const msaaRenderTarget = new WebGLRenderTarget(WIDTH, HEIGHT, { samples: 4 })
+    getResolution(([w, h]) => msaaRenderTarget.setSize(w, h))
+    return new EffectComposer(getRenderer(), msaaRenderTarget)
+})()
 export default effectComposer
 
 createEffect(() => {
@@ -55,7 +66,7 @@ createEffect(() => {
     if (getLensDistortion())
         passes.push(lensDistortionPass)
 
-    passes.push(smaaPass)
+    isSafari && passes.push(smaaPass)
 
     for (const pass of passes)
         effectComposer.addPass(pass)
