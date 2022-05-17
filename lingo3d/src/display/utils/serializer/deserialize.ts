@@ -15,7 +15,6 @@ const nodeToObjectManager = (node: SceneGraphNode, loadedResolvables: Array<Reso
     //@ts-ignore
     loadedResolvables && "loadedResolvable" in object && loadedResolvables.push(object.loadedResolvable)
     Object.assign(object, omit(node, nonSerializedProperties))
-    node.name && (object.outerObject3d.name = node.name)
     node.children?.map(n => nodeToObjectManager(n, loadedResolvables)).forEach(c => c && object.append(c))
     return object
 }

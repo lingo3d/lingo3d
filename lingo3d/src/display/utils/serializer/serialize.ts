@@ -1,5 +1,5 @@
 import Appendable, { appendableRoot } from "../../../api/core/Appendable"
-import { SceneGraphNode } from "./types"
+import { nonSerializedProperties, SceneGraphNode } from "./types"
 
 const serialize = (children: Array<any> | Set<any>) => {
     const dataParent: Array<SceneGraphNode> = []
@@ -8,7 +8,8 @@ const serialize = (children: Array<any> | Set<any>) => {
 
         const data: Record<string, any> = { type: componentName }
         for (const key of Object.keys(schema)) {
-            if (key === "velocity" || key === "target") continue
+            if (nonSerializedProperties.includes(key))
+                continue
 
             let value: any
             if (key === "animations") {
