@@ -1,13 +1,11 @@
 import background from "../api/background"
-import rendering from "../api/rendering"
 import settings from "../api/settings"
 import { ExtractProps } from "./utils/extractProps"
 
-type Rendering = typeof rendering
 type Settings = typeof settings
 type Background = typeof background
 
-export default interface ISetup extends Rendering, Settings, Background {}
+export default interface ISetup extends Settings, Background {}
 
 export const setupSchema: Required<ExtractProps<ISetup>> = {
     pixelRatio: Number,
@@ -46,7 +44,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 }
 
 export const setupDefaults: ISetup = {
-    ...rendering,
     ...settings,
     ...background
 }

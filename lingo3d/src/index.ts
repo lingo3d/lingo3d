@@ -43,7 +43,6 @@ import keyboard, { Keyboard } from "./api/keyboard"
 import mouse, { Mouse } from "./api/mouse"
 import gamepad from "./api/gamepad"
 import background from "./api/background"
-import rendering from "./api/rendering"
 import settings from "./api/settings"
 import preload from "./api/preload"
 // import HandTracker from "./api/HandTracker"
@@ -104,7 +103,6 @@ export {
     mouse,
     gamepad,
     background,
-    rendering,
     settings,
     preload,
     

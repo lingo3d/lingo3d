@@ -1,19 +1,11 @@
 //@ts-ignore
-import parrotSrc from "../../assets-local/parrot.glb"
-//@ts-ignore
-import machineSrc from "../../assets-local/machine.glb"
-//@ts-ignore
 import casaSrc from "../../assets-local/casa2.glb"
 //@ts-ignore
 import hdrSrc from "../../assets-local/hdrnightvison.hdr"
-//@ts-ignore
-import shipSrc from "../../assets-local/ship1.glb"
 import Model from "../display/Model"
 import settings from "../api/settings"
 import background from "../api/background"
 import AreaLight from "../display/lights/AreaLight"
-import rendering from "../api/rendering"
-import OrbitCamera from "../display/cameras/OrbitCamera"
 
 export default {}
 
@@ -31,11 +23,8 @@ rectLight.rotationX = -90
 rectLight.y = 1000
 rectLight.scale = 100
 
-rendering.bloom = true
-rendering.bloomStrength = 0.1
-
-// rendering.exposure = 3
-// rendering.encoding = "sRGB"
+settings.bloom = true
+settings.bloomStrength = 0.1
 
 // const makefire = function () {
 //     const fire = new ParticleSystem()

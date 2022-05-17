@@ -8,8 +8,27 @@ import { getRepulsion, setRepulsion } from "../states/useRepulsion"
 import { getDefaultLightScale, setDefaultLightScale } from "../states/useDefaultLightScale"
 import { getGridHelper, setGridHelper } from "../states/useGridHelper"
 import { getGridHelperSize, setGridHelperSize } from "../states/useGridHelperSize"
+import { getAmbientOcclusion, setAmbientOcclusion } from "../states/useAmbientOcclusion"
+import { getBloom, setBloom } from "../states/useBloom"
+import { getBloomRadius, setBloomRadius } from "../states/useBloomRadius"
+import { getBloomStrength, setBloomStrength } from "../states/useBloomStrength"
+import { getBloomThreshold, setBloomThreshold } from "../states/useBloomThreshold"
+import { getEncoding, setEncoding } from "../states/useEncoding"
+import { getExposure, setExposure } from "../states/useExposure"
+import { getLensBand, setLensBand } from "../states/useLensBand"
+import { getLensDistortion, setLensDistortion } from "../states/useLensDistortion"
+import { getLensIOR, setLensIOR } from "../states/useLensIOR"
+import { getLogarithmicDepth, setLogarithmicDepth } from "../states/useLogarithmicDepth"
+import { getOutlineColor, setOutlineColor } from "../states/useOutlineColor"
+import { getOutlineHiddenColor, setOutlineHiddenColor } from "../states/useOutlineHiddenColor"
+import { getOutlinePattern, setOutlinePattern } from "../states/useOutlinePattern"
+import { getOutlinePulse, setOutlinePulse } from "../states/useOutlinePulse"
+import { getOutlineStrength, setOutlineStrength } from "../states/useOutlineStrength"
+import { getOutlineThickness, setOutlineThickness } from "../states/useOutlineThickness"
+import { getPBR, setPBR } from "../states/usePBR"
 
 export default {
+    //general
     get pixelRatio() {
         return getPixelRatio()
     },
@@ -82,5 +101,132 @@ export default {
 
     wasmPath: "https://unpkg.com/lingo3d-wasm@1.0.0/assets/",
   
-    autoMount: false as boolean | string
+    autoMount: false as boolean | string,
+
+    //rendering
+    get logarithmicDepth() {
+        return getLogarithmicDepth()
+    },
+    set logarithmicDepth(value) {
+        setLogarithmicDepth(value)
+    },
+
+    get encoding() {
+        return getEncoding()
+    },
+    set encoding(val) {
+        setEncoding(val)
+    },
+
+    get exposure() {
+        return getExposure()
+    },
+    set exposure(value) {
+        setExposure(value)
+    },
+
+    get pbr() {
+        return getPBR()
+    },
+    set pbr(value) {
+        setPBR(value)
+    },
+
+    get bloom() {
+        return getBloom()
+    },
+    set bloom(value) {
+        setBloom(value)
+    },
+
+    get bloomStrength() {
+        return getBloomStrength()
+    },
+    set bloomStrength(value) {
+        setBloomStrength(value)
+    },
+
+    get bloomRadius() {
+        return getBloomRadius()
+    },
+    set bloomRadius(value) {
+        setBloomRadius(value)
+    },
+
+    get bloomThreshold() {
+        return getBloomThreshold()
+    },
+    set bloomThreshold(value) {
+        setBloomThreshold(value)
+    },
+
+    get ambientOcclusion() {
+        return getAmbientOcclusion()
+    },
+    set ambientOcclusion(value) {
+        setAmbientOcclusion(value)
+    },
+
+    get outlineColor() {
+        return getOutlineColor()
+    },
+    set outlineColor(value) {
+        setOutlineColor(value)
+    },
+
+    get outlineHiddenColor() {
+        return getOutlineHiddenColor()
+    },
+    set outlineHiddenColor(value) {
+        setOutlineHiddenColor(value)
+    },
+
+    get outlinePattern() {
+        return getOutlinePattern()
+    },
+    set outlinePattern(value) {
+        setOutlinePattern(value)
+    },
+
+    get outlinePulse() {
+        return getOutlinePulse()
+    },
+    set outlinePulse(value) {
+        setOutlinePulse(value)
+    },
+
+    get outlineStrength() {
+        return getOutlineStrength()
+    },
+    set outlineStrength(value) {
+        setOutlineStrength(value)
+    },
+
+    get outlineThickness() {
+        return getOutlineThickness()
+    },
+    set outlineThickness(value) {
+        setOutlineThickness(value)
+    },
+
+    get lensDistortion() {
+        return getLensDistortion()
+    },
+    set lensDistortion(val) {
+        setLensDistortion(val)
+    },
+
+    get lensIOR() {
+        return getLensIOR()
+    },
+    set lensIOR(val) {
+        setLensIOR(val)
+    },
+
+    get lensBand() {
+        return getLensBand()
+    },
+    set lensBand(val) {
+        setLensBand(val)
+    }
 }

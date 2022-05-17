@@ -1,4 +1,4 @@
-import { PointLight, SkyLight, settings, Sky, rendering, Reflector } from ".."
+import { PointLight, SkyLight, settings, Sky, Reflector } from ".."
 //@ts-ignore
 import faceSrc from "../../assets-local/face.glb"
 import Model from "../display/Model"
@@ -33,9 +33,9 @@ const sky = new Sky()
 
 // settings.performance = "quality"
 settings.defaultOrbitControls = true
-rendering.ambientOcclusion = true
-rendering.bloom = true
-rendering.bloomStrength = 0.1
+settings.ambientOcclusion = true
+settings.bloom = true
+settings.bloomStrength = 0.1
 
 const reflector = new Reflector()
 

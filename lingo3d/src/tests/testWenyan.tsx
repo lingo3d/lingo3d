@@ -19,7 +19,6 @@ import { random } from "@lincode/utils"
 import store, { createEffect } from "@lincode/reactivity"
 import randomColor from "randomcolor"
 import { setGridHelper } from "../states/useGridHelper"
-import rendering from "../api/rendering"
 
 export default {}
 
@@ -242,4 +241,4 @@ keyboard.onKeyUp = (key) => {
         setRunning(false)
 }
 
-rendering.bloomStrength = 0.5
+settings.bloomStrength = 0.5
