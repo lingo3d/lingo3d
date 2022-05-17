@@ -3,7 +3,6 @@ import { getExposure } from "../../states/useExposure"
 import { getResolution, setResolution } from "../../states/useResolution"
 import { getPerformance } from "../../states/usePerformance"
 import { getPixelRatio } from "../../states/usePixelRatio"
-import { VRButton } from "three/examples/jsm/webxr/VRButton"
 import { createEffect } from "@lincode/reactivity"
 import { getVR } from "../../states/useVR"
 import settings from "../../api/settings"
@@ -12,6 +11,7 @@ import { getEncoding } from "../../states/useEncoding"
 import { getPBR } from "../../states/usePBR"
 import { getViewportSize } from "../../states/useViewportSize"
 import { getSecondaryCamera } from "../../states/useSecondaryCamera"
+import { VRButton } from "./VRButton"
 
 export const rootContainer = document.createElement("div")
 Object.assign(rootContainer.style, {
