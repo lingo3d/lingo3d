@@ -65,6 +65,6 @@ document.head.appendChild(style)
 <template>
     <div class="lingo3d" :style="{ position: props.position }">
         <div style="height: 100%;"><slot /></div>
-        <div ref="divRef" style="height: 100%; flex-grow: 1; position: relative;" />
+        <div ref="divRef" style="height: 100%; flex-grow: 1; position: relative; z-index: 0;" />
     </div>
 </template>

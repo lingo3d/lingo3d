@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react"
-import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Sphere, HTML, Find, types, FirstPersonCamera, Editor, SceneGraph, Toolbar, Stats, Library } from "."
+import { Camera, Cube, World, Model, Keyboard, Mouse, Skybox, Reticle, useSpring, useSpawn, useAnimation, Sphere, HTML, Find, types, FirstPersonCamera, Stats, LingoEditor } from "."
 //@ts-ignore
 import gunSrc from "../assets-local/gun.glb"
 //@ts-ignore
@@ -70,10 +70,7 @@ const App = () => {
       
     </World>
     <Reticle />
-    <Toolbar />
-      <SceneGraph />
-      <Editor />
-      <Library />
+    <LingoEditor />
     </>
   )
 }
@@ -152,6 +149,6 @@ function App3() {
 
 
 const root = createRoot(document.getElementById('app'));
-root.render(<React.StrictMode><App /></React.StrictMode>);
+root.render(<React.StrictMode><App2 /></React.StrictMode>);
 
 // ReactDOM.render(<React.StrictMode><App /></React.StrictMode>, document.querySelector("#app"))
