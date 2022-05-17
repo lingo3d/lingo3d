@@ -51,7 +51,7 @@ import Point3d from "./api/Point3d"
 import { Sound } from "./api/Sound"
 import screenshot from "./api/screenshot"
 
-import applySetup from "./display/utils/deserialize/applySetup"
+import applySetup from "./display/utils/serializer/applySetup"
 import { rootContainer } from "./engine/renderLoop/renderSetup"
 import { loop, timer } from "./engine/eventLoop"
 import SimpleObjectManager from "./display/core/SimpleObjectManager"

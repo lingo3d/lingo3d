@@ -1,6 +1,6 @@
 import { upperFirst } from "@lincode/utils"
-import serialize from "../../display/utils/deserialize/serialize"
-import { SceneGraphNode } from "../../display/utils/deserialize/types"
+import serialize from "../../display/utils/serializer/serialize"
+import { SceneGraphNode } from "../../display/utils/serializer/types"
 import makeIndent from "./makeIndent"
 import saveTextFile from "./saveTextFile"
 

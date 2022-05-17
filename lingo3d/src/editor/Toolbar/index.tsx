@@ -11,10 +11,10 @@ import { useTransformControlsMode, useTransformControlsSpace } from "../states"
 import CursorIcon from "./icons/CursorIcon"
 import Separator from "./Separator"
 import ExportIcon from "./icons/ExportIcon"
-import serialize from "../../display/utils/deserialize/serialize"
+import serialize from "../../display/utils/serializer/serialize"
 import OpenIcon from "./icons/OpenIcont"
 import { fileOpen } from "browser-fs-access"
-import deserialize from "../../display/utils/deserialize"
+import deserialize from "../../display/utils/serializer/deserialize"
 import { appendableRoot } from "../../api/core/Appendable"
 import ReactIcon from "./icons/ReactIcon"
 import VueIcon from "./icons/VueIcon"
@@ -30,7 +30,7 @@ const handleSave = () => {
 
 const handleOpen = async () => {
     const blob = await fileOpen({
-        mimeTypes: ['text/json']
+        extensions: [".json"]
     })
     const text = await blob.text()
 
