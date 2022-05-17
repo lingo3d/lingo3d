@@ -26,6 +26,7 @@ import FirstPersonCamera from "./display/cameras/FirstPersonCamera"
 import OrbitCamera from "./display/cameras/OrbitCamera"
 import AmbientLight from "./display/lights/AmbientLight"
 import AreaLight from "./display/lights/AreaLight"
+import BoxLight from "./display/lights/BoxLight"
 import DirectionalLight from "./display/lights/DirectionalLight"
 import SkyLight from "./display/lights/SkyLight"
 import PointLight from "./display/lights/PointLight"
@@ -84,6 +85,7 @@ export {
     OrbitCamera,
     AmbientLight,
     AreaLight,
+    BoxLight,
     DirectionalLight,
     SkyLight,
     PointLight,

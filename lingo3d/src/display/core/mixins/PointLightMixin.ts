@@ -1,6 +1,6 @@
 import { PointLight, SpotLight } from "three"
 
-export default abstract class PointLightMixin <T extends PointLight | SpotLight> {
+export default abstract class PointLightMixin<T extends PointLight | SpotLight> {
     public abstract object3d: T
 
     public get decay() {
@@ -15,12 +15,5 @@ export default abstract class PointLightMixin <T extends PointLight | SpotLight>
     }
     public set distance(val: number) {
         this.object3d.distance = val
-    }
-
-    public get power() {
-        return this.object3d.power
-    }
-    public set power(val: number) {
-        this.object3d.power = val
     }
 }

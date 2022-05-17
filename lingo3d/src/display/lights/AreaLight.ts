@@ -39,7 +39,6 @@ export default class extends ObjectManager<Group> implements IAreaLight {
                 this.width * this.scaleX * scaleDown,
                 this.height * this.scaleY * scaleDown
             )
-            this._power && (light.power = this._power)
             this.object3d.add(light)
 
             this.then(() => light.dispose())
@@ -100,15 +99,6 @@ export default class extends ObjectManager<Group> implements IAreaLight {
     public set intensity(val: number) {
         this._intensity = val
         this.light && (this.light.intensity = val)
-    }
-
-    private _power?: number
-    public get power() {
-        return this._power ?? areaLightDefaults.power
-    }
-    public set power(val: number) {
-        this._power = val
-        this.light && (this.light.power = val)
     }
 
     private _width?: number

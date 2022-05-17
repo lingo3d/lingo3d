@@ -17,24 +17,11 @@ createEffect(() => {
     if (typeof defaultLight === "string" && defaultLight !== "default") {
         if (defaultLight === "studio") {
             const handle = new Cancellable()
-            import("../../display/lights/AreaLight").then(({ default: AreaLight }) => {
+            import("../../display/lights/BoxLight").then(({ default: BoxLight }) => {
                 if (handle.done) return
 
-                handle.watch(Object.assign(new AreaLight(), {
-                    width: 1000, height: 1000, scale, innerY: 1000 * scale, innerRotationX: -90, intensity: 3
-                }))
-                handle.watch(Object.assign(new AreaLight(), {
-                    width: 1000, height: 1000, scale, innerY: 1000 * scale, innerRotationX: -90, rotationX: 90, intensity: 3
-                }))
-                handle.watch(Object.assign(new AreaLight(), {
-                    width: 1000, height: 1000, scale, innerY: 1000 * scale, innerRotationX: -90, rotationX: -90, intensity: 3
-                }))
-                handle.watch(Object.assign(new AreaLight(), {
-                    width: 1000, height: 1000, scale, innerY: 1000 * scale, innerRotationX: -90, rotationZ: 90, intensity: 3
-                }))
-                handle.watch(Object.assign(new AreaLight(), {
-                    width: 1000, height: 1000, scale, innerY: 1000 * scale, innerRotationX: -90, rotationZ: -90, intensity: 3
-                }))
+                const light = new BoxLight()
+                light.then(() => light.dispose())
             })
             return () => {
                 handle.cancel()

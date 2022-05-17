@@ -29,46 +29,42 @@ const processChild = (
         if (_toon) {
             for (let i = 0; i < material.length; ++i) {
                 const m = material[i]
-                if (!(m instanceof MeshToonMaterial)) {
-                    const mat = material[i] = new MeshToonMaterial()
-                    copyToon(m, mat)
-                    m.dispose()
-                }
+                const mat = material[i] = new MeshToonMaterial()
+                copyToon(m, mat)
+                m.dispose()
             }
             return
         }
         if (_pbr)
             for (let i = 0; i < material.length; ++i) {
                 const m = material[i]
-                if (!(m instanceof MeshStandardMaterial)) {
-                    const mat = material[i] = new MeshStandardMaterial()
-                    copyStandard(m, mat)
-                    mat.envMapIntensity = 1
-                    mat.roughness = 1
-                    m.dispose()
-                }
+                const mat = material[i] = new MeshStandardMaterial()
+                copyStandard(m, mat)
+                mat.envMapIntensity = 1
+                mat.roughness = 1
+                mat.metalness = 1
+                m.dispose()
             }
         return
     }
 
     if (_toon) {
-        if (!(material instanceof MeshToonMaterial)) {
-            child.material = new MeshToonMaterial()
-            copyToon(material, child.material)
-            material.dispose()
-        }
-        // (child.material as MeshToonMaterial).gradientMap = new
+        child.material = new MeshToonMaterial()
+        copyToon(material, child.material)
+        material.dispose()
         return
     }
     
-    if (_pbr && !(material instanceof MeshStandardMaterial)) {
+    if (_pbr) {
         child.material = new MeshStandardMaterial()
         copyStandard(material, child.material)
         child.material.envMapIntensity = 1
         child.material.roughness = 1
+        child.material.metalness = 1
         material.dispose()
     }
-    if (_pbr || (child.material instanceof MeshStandardMaterial)) {
+    
+    if (child.material instanceof MeshStandardMaterial) {
         _metalnessFactor !== undefined && setValue(child, "metalness", _metalnessFactor)
         _roughnessFactor !== undefined && setValue(child, "roughness", _roughnessFactor)
         _environmentFactor !== undefined && setValue(child, "envMapIntensity", _environmentFactor)

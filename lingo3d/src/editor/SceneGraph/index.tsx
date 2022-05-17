@@ -1,5 +1,5 @@
 import { h } from "preact"
-import { useEffect, useMemo, useState } from "preact/hooks"
+import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
 import { onSceneChange } from "../../events/onSceneChange"
@@ -20,7 +20,7 @@ preventTreeShake(h)
 const SceneGraph = () => {
     const [r, render] = useState({})
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const handle = onSceneChange(() => render({}))
         return () => {
             handle.cancel()

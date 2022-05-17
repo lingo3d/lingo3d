@@ -1,18 +1,17 @@
 import ILightBase, { lightBaseDefaults, lightBaseSchema } from "./ILightBase"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IAreaLight extends ILightBase {
+export default interface IBoxLight extends ILightBase {
     helper: boolean
 }
 
-export const areaLightSchema: Required<ExtractProps<IAreaLight>> = {
+export const boxLightSchema: Required<ExtractProps<IBoxLight>> = {
     ...lightBaseSchema,
     helper: Boolean
 }
 
-export const areaLightDefaults: IAreaLight = {
+export const boxLightDefaults: IBoxLight = {
     ...lightBaseDefaults,
-    depth: 0,
-    scaleZ: 0,
-    helper: true
+    helper: true,
+    intensity: 3
 }
