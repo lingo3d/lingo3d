@@ -26,12 +26,14 @@ export const makeTreeItemCallbacks = (appendable?: Appendable) => {
         appendable instanceof SimpleObjectManager && emitSelectionTarget(appendable)
     }
 
+    const handleClick = (e: MouseEvent) => e.stopPropagation()
+
     const handleDoubleClick = (e: MouseEvent) => {
         e.stopPropagation()
         appendable instanceof SimpleObjectManager && emitEditorCenterView(appendable)
     }
     
-    return { handleMouseDown, handleDoubleClick }
+    return { handleMouseDown, handleClick, handleDoubleClick }
 }
 
 const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
@@ -47,10 +49,10 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const selected = selectionTarget === appendable || multipleSelectionTargets.includes(appendable as any)
 
-    const { handleMouseDown, handleDoubleClick } = makeTreeItemCallbacks(appendable)
+    const { handleMouseDown, handleClick, handleDoubleClick } = makeTreeItemCallbacks(appendable)
 
     return (
-        <div onMouseDown={handleMouseDown} onDblClick={handleDoubleClick} style={{
+        <div onMouseDown={handleMouseDown} onClick={handleClick} onDblClick={handleDoubleClick} style={{
             color: "rgba(255, 255, 255, 0.75)",
             marginLeft: 8,
             borderLeft: "1px solid rgba(255, 255, 255, 0.05)"

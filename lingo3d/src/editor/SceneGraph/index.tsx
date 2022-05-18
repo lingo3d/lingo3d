@@ -14,6 +14,7 @@ import TitleBarButton from "./TitleBarButton"
 import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
 import deleteSelected from "../Editor/deleteSelected"
 import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 
 preventTreeShake(h)
 
@@ -35,6 +36,7 @@ const SceneGraph = () => {
     return (
         <div
          className="lingo3d-ui"
+         onClick={() => emitSelectionTarget(undefined)}
          style={{
              width: 200,
              height: "100%",
