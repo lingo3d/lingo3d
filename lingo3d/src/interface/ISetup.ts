@@ -8,10 +8,11 @@ export default interface ISetup extends Settings {}
 export const setupSchema: Required<ExtractProps<ISetup>> = {
     pixelRatio: Number,
     performance: String,
-    defaultFog: String,
+    skybox: [String, Array],
     defaultLight: [String, Boolean],
     defaultLightScale: Number,
     defaultOrbitControls: Boolean,
+    defaultFog: String,
     gridHelper: Boolean,
     gridHelperSize: Number,
     gravity: Number,
@@ -37,7 +38,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     lensIOR: Number,
     lensBand: Number,
     texture: String,
-    skybox: [String, Array],
     color: String
 }
 

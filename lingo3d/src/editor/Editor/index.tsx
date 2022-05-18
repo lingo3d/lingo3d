@@ -55,6 +55,10 @@ const addInputs = (
                 break
 
             case "object":
+                if (Array.isArray(value)) {
+                    params[key] = JSON.stringify(value)
+                    break
+                }
                 typeof value?.x === "number" && (value.x = toFixed(value.x))
                 typeof value?.y === "number" && (value.y = toFixed(value.y))
                 typeof value?.z === "number" && (value.z = toFixed(value.z))
@@ -190,7 +194,9 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 "pixelRatio",
                 "performance",
                 "wasmPath",
-                "autoMount"
+                "autoMount",
+                "texture",
+                "color"
             ]))
             return () => {
                 pane.dispose()

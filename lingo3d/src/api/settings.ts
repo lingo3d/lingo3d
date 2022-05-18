@@ -50,11 +50,11 @@ export default {
         setPerformance(value)
     },
 
-    get defaultFog() {
-        return getDefaultFog()
+    get skybox() {
+        return defaultSkybox.texture
     },
-    set defaultFog(value) {
-        setDefaultFog(value)
+    set skybox(value: string | Array<string> | undefined) {
+        defaultSkybox.texture = value
     },
 
     get defaultLight() {
@@ -76,6 +76,13 @@ export default {
     },
     set defaultOrbitControls(value) {
         setOrbitControls(value)
+    },
+
+    get defaultFog() {
+        return getDefaultFog()
+    },
+    set defaultFog(value) {
+        setDefaultFog(value)
     },
 
     get gridHelper() {
@@ -243,13 +250,6 @@ export default {
     },
     set texture(value: string | undefined) {
         setBackgroundImage(value)
-    },
-
-    get skybox() {
-        return defaultSkybox.texture
-    },
-    set skybox(value: string | Array<string> | undefined) {
-        defaultSkybox.texture = value
     },
 
     get color() {
