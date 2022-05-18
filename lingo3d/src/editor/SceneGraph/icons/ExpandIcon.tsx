@@ -6,7 +6,7 @@ preventTreeShake(h)
 
 type ExpandIconProps = {
     style?: CSSProperties
-    onClick?: (e: MouseEvent) => void
+    onClick?: () => void
 }
 
 const ExpandIcon = ({ style, onClick }: ExpandIconProps) => {
@@ -18,7 +18,7 @@ const ExpandIcon = ({ style, onClick }: ExpandIconProps) => {
       viewBox="0 0 1024 1024"
       style={{ margin: 2, ...style }}
       onMouseDown={e => e.stopPropagation()}
-      onClick={onClick}
+      onClick={e => (e.stopPropagation(), onClick?.())}
     >
       <path
         fill="#fff"

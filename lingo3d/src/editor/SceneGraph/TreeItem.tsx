@@ -11,6 +11,7 @@ import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
+import useClick from "./useClick"
 
 preventTreeShake(h)
 
@@ -21,10 +22,10 @@ export type TreeItemProps = {
 }
 
 export const makeTreeItemCallbacks = (appendable?: Appendable) => {
-    const handleMouseDown = (e: MouseEvent) => {
+    const setClickEl = useClick(e => {
         e.stopPropagation()
         appendable instanceof SimpleObjectManager && emitSelectionTarget(appendable)
-    }
+    })
 
     const handleClick = (e: MouseEvent) => e.stopPropagation()
 
@@ -33,7 +34,7 @@ export const makeTreeItemCallbacks = (appendable?: Appendable) => {
         appendable instanceof SimpleObjectManager && emitEditorCenterView(appendable)
     }
     
-    return { handleMouseDown, handleClick, handleDoubleClick }
+    return { setClickEl, handleClick, handleDoubleClick }
 }
 
 const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
@@ -49,10 +50,10 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const selected = selectionTarget === appendable || multipleSelectionTargets.includes(appendable as any)
 
-    const { handleMouseDown, handleClick, handleDoubleClick } = makeTreeItemCallbacks(appendable)
+    const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks(appendable)
 
     return (
-        <div onMouseDown={handleMouseDown} onClick={handleClick} onDblClick={handleDoubleClick} style={{
+        <div ref={setClickEl} onClick={handleClick} onDblClick={handleDoubleClick} style={{
             color: "rgba(255, 255, 255, 0.75)",
             marginLeft: 8,
             borderLeft: "1px solid rgba(255, 255, 255, 0.05)"

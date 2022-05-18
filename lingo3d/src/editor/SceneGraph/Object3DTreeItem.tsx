@@ -18,10 +18,10 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
 
     const [expanded, setExpanded] = useState(false)
 
-    const { handleMouseDown, handleClick, handleDoubleClick } = makeTreeItemCallbacks()
+    const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks()
 
     return (
-        <div onMouseDown={handleMouseDown} onClick={handleClick} onDblClick={handleDoubleClick} style={{
+        <div ref={setClickEl} onClick={handleClick} onDblClick={handleDoubleClick} style={{
             color: "rgba(255, 255, 255, 0.75)",
             marginLeft: 8,
             borderLeft: "1px solid rgba(255, 255, 255, 0.05)"
@@ -33,9 +33,9 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
                 cursor: "default"
             }}>
                 {expanded ? (
-                    <CollapseIcon style={expandIconStyle} onClick={e => (e.stopPropagation(), setExpanded(false))} />
+                    <CollapseIcon style={expandIconStyle} onClick={() => setExpanded(false)} />
                 ) : (
-                    <ExpandIcon style={expandIconStyle} onClick={e => (e.stopPropagation(), setExpanded(true))} />
+                    <ExpandIcon style={expandIconStyle} onClick={() => setExpanded(true)} />
                 )}
                 <CubeIcon />
                 {object3d.name}
