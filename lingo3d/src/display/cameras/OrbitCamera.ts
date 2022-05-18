@@ -86,6 +86,12 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
                     this.controls.target.addScaledVector(vector3, distance * scaleDown)
                     this.updateDebounced()
                 }
+                const moveUp = (distance: number) => {
+                    const dist = distance * scaleDown
+                    camera.position.y += dist
+                    this.controls.target.y += dist
+                    this.updateDebounced()
+                }
                 handle.watch(loop(() => {
                     if (downSet.has("w") || downSet.has("ArrowUp"))
                         moveForward(10)
@@ -96,6 +102,11 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
                         moveRight(-10)
                     else if (downSet.has("d") || downSet.has("ArrowRight"))
                         moveRight(10)
+
+                    if (downSet.has("q"))
+                        moveUp(10)
+                    else if (downSet.has("e"))
+                        moveUp(-10)
                 }))
 
                 const handleKeyDown = (e: KeyboardEvent) => {
