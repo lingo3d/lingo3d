@@ -42,7 +42,22 @@ type Node = {
     children?: Array<BaseSceneGraphNode>
 }
 
-export const nonSerializedProperties = ["type", "children", "scale", "velocity", "target"]
+export const nonSerializedProperties = [
+    "type",
+    "children",
+    "scale",
+    "velocity",
+    "target"
+]
+export const nonSerializedSettings = [
+    "pixelRatio",
+    "performance",
+    "defaultOrbitControls",
+    "wasmPath",
+    "autoMount",
+    "texture",
+    "color"
+]
 
 type TypedPropsNode<Props, Type extends GameObjectType> = Partial<Props> & Node & { type: Type }
 

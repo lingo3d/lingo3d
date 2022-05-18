@@ -1,9 +1,7 @@
 import settings from "../api/settings"
 import { ExtractProps } from "./utils/extractProps"
 
-type Settings = typeof settings
-
-export default interface ISetup extends Settings {}
+export default interface ISetup extends Partial<typeof settings> {}
 
 export const setupSchema: Required<ExtractProps<ISetup>> = {
     pixelRatio: Number,

@@ -27,6 +27,7 @@ import { setMultipleSelection } from "../../states/useMultipleSelection"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import deleteSelected from "./deleteSelected"
 import { onKeyClear } from "../../events/onKeyClear"
+import { nonSerializedSettings } from "../../display/utils/serializer/types"
 
 preventTreeShake(h)
 
@@ -190,14 +191,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         setCameraFolder(pane.addFolder({ title: "camera" }))
 
         if (!selectionTarget) {
-            addInputs(pane, "settings", settings, omit(settings, [
-                "pixelRatio",
-                "performance",
-                "wasmPath",
-                "autoMount",
-                "texture",
-                "color"
-            ]))
+            addInputs(pane, "settings", settings, omit(settings, nonSerializedSettings))
             return () => {
                 pane.dispose()
             }
