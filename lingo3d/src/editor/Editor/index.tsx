@@ -28,6 +28,7 @@ import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import deleteSelected from "./deleteSelected"
 import { onKeyClear } from "../../events/onKeyClear"
 import { nonSerializedSettings } from "../../display/utils/serializer/types"
+import { onApplySetup } from "../../events/onApplySetup"
 
 preventTreeShake(h)
 
@@ -115,15 +116,21 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         }
     }, [mouse, keyboard])
 
+    const [renderDeps, render] = useState({})
+
     useEffect(() => {
         const currentCamera = getCamera()
 
-        const timeout = setTimeout(() => {
+        const init = () => {
             setCamera(mainCamera)
             setOrbitControls(true)
             setSelection(true)
             setGridHelper(true)
-        })
+            render({})
+        }
+        init()
+
+        const handle0 = onApplySetup(init)
 
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key !== "Shift" && e.key !== "Meta" && e.key !== "Control") return
@@ -135,11 +142,9 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         }
         document.addEventListener("keydown", handleKeyDown)
         document.addEventListener("keyup", handleKeyUp)
-        const handle = onKeyClear(() => setMultipleSelection(false))
+        const handle1 = onKeyClear(() => setMultipleSelection(false))
         
         return () => {
-            clearTimeout(timeout)
-
             setCamera(currentCamera)
             setOrbitControls(false)
             setSelection(false)
@@ -147,7 +152,8 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
 
             document.removeEventListener("keydown", handleKeyDown)
             document.removeEventListener("keyup", handleKeyUp)
-            handle.cancel()
+            handle0.cancel()
+            handle1.cancel()
         }
     }, [])
 
@@ -321,7 +327,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             pane.dispose()
             document.removeEventListener("keydown", handleKey)
         }
-    }, [selectionTarget, multipleSelectionTargets])
+    }, [selectionTarget, multipleSelectionTargets, renderDeps])
 
     return (
         <div
