@@ -24,7 +24,7 @@ mouse.onMouseMove = () => {
     paddle.y = mouse.y
 }
 
-paddle.intersectIDs = ["ball"]
+paddle.intersectIds = ["ball"]
 paddle.onIntersect = (target) => {
     target.applyImpulse(0, 1, 0)
 }

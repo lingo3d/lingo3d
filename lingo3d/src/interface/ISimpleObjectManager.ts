@@ -17,7 +17,7 @@ export default interface ISimpleObjectManager extends IPhysics {
 
     name: string
     id?: string
-    intersectIDs?: Array<string>
+    intersectIds?: Array<string>
 
     width: number
     height: number
@@ -67,7 +67,7 @@ export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManag
 
     name: String,
     id: String,
-    intersectIDs: Array,
+    intersectIds: Array,
 
     width: Number,
     height: Number,

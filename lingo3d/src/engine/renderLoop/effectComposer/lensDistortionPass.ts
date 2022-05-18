@@ -1,6 +1,6 @@
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass"
 import { ShaderMaterial } from "three"
-import { getLensIOR } from "../../../states/useLensIOR"
+import { getLensIor } from "../../../states/useLensIor"
 import { getLensBand } from "../../../states/useLensBand"
 
 const lensDistortionPass = new ShaderPass(new ShaderMaterial({
@@ -144,7 +144,7 @@ const lensDistortionPass = new ShaderPass(new ShaderMaterial({
 	`
 }))
 const { uniforms } = lensDistortionPass
-getLensIOR(val => uniforms["baseIor"].value = val)
+getLensIor(val => uniforms["baseIor"].value = val)
 getLensBand(val => uniforms["bandOffset"].value = val)
 
 export default lensDistortionPass

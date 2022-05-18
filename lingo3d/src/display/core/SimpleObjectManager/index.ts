@@ -292,29 +292,29 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
 
     private onIntersectState?: Reactive<OnIntersectValue | undefined>
     private onIntersectOutState?: Reactive<OnIntersectValue | undefined>
-    private intersectIDsState?: Reactive<Array<string> | undefined>
+    private intersectIdsState?: Reactive<Array<string> | undefined>
 
     private initIntersect() {
         if (this.onIntersectState) return
 
         this.onIntersectState = new Reactive<OnIntersectValue | undefined>(undefined)
         this.onIntersectOutState = new Reactive<OnIntersectValue | undefined>(undefined)
-        this.intersectIDsState = new Reactive<Array<string> | undefined>(undefined)
+        this.intersectIdsState = new Reactive<Array<string> | undefined>(undefined)
 
         this.createEffect(() => {
-            const { onIntersect, onIntersectOut, intersectIDs } = this
-            if (!intersectIDs || (!onIntersect && !onIntersectOut)) return
+            const { onIntersect, onIntersectOut, intersectIds } = this
+            if (!intersectIds || (!onIntersect && !onIntersectOut)) return
 
             const handles: Array<Cancellable> = []
 
-            for (const id of intersectIDs)
+            for (const id of intersectIds)
                 handles.push(this.listenToIntersection(id, onIntersect, onIntersectOut))
 
             return () => {
                 for (const handle of handles)
                     handle.cancel()
             }
-        }, [this.onIntersectState.get, this.onIntersectOutState.get, this.intersectIDsState.get])
+        }, [this.onIntersectState.get, this.onIntersectOutState.get, this.intersectIdsState.get])
     }
     
     public get onIntersect() {
@@ -333,12 +333,12 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this.onIntersectOutState?.set(val)
     }
 
-    public get intersectIDs() {
-        return this.intersectIDsState?.get()
+    public get intersectIds() {
+        return this.intersectIdsState?.get()
     }
-    public set intersectIDs(val: Array<string> | undefined) {
+    public set intersectIds(val: Array<string> | undefined) {
         this.initIntersect()
-        this.intersectIDsState?.set(val)
+        this.intersectIdsState?.set(val)
     }
 
     public get clientX() {

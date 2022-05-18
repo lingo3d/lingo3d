@@ -17,7 +17,7 @@ import { getEncoding, setEncoding } from "../states/useEncoding"
 import { getExposure, setExposure } from "../states/useExposure"
 import { getLensBand, setLensBand } from "../states/useLensBand"
 import { getLensDistortion, setLensDistortion } from "../states/useLensDistortion"
-import { getLensIOR, setLensIOR } from "../states/useLensIOR"
+import { getLensIor, setLensIor } from "../states/useLensIor"
 import { getLogarithmicDepth, setLogarithmicDepth } from "../states/useLogarithmicDepth"
 import { getOutlineColor, setOutlineColor } from "../states/useOutlineColor"
 import { getOutlineHiddenColor, setOutlineHiddenColor } from "../states/useOutlineHiddenColor"
@@ -230,11 +230,11 @@ export default {
         setLensDistortion(val)
     },
 
-    get lensIOR() {
-        return getLensIOR()
+    get lensIor() {
+        return getLensIor()
     },
-    set lensIOR(val) {
-        setLensIOR(val)
+    set lensIor(val) {
+        setLensIor(val)
     },
 
     get lensBand() {

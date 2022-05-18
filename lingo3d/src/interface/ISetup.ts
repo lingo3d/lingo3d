@@ -35,7 +35,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     outlineStrength: Number,
     outlineThickness: Number,
     lensDistortion: Boolean,
-    lensIOR: Number,
+    lensIor: Number,
     lensBand: Number,
     texture: String,
     color: String

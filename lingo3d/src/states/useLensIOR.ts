@@ -1,3 +1,3 @@
 import store from "@lincode/reactivity"
 
-export const [setLensIOR, getLensIOR] = store(0.8)
+export const [setLensIor, getLensIor] = store(0.8)
