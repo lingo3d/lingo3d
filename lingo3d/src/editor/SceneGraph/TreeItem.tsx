@@ -53,11 +53,19 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks(appendable)
 
     return (
-        <div ref={setClickEl} onClick={handleClick} onDblClick={handleDoubleClick} style={{
+        <div
+         ref={setClickEl}
+         onClick={handleClick}
+         onDblClick={handleDoubleClick}
+         draggable
+         onDragStart={() => console.log("drag start")}
+         onDragEnd={() => console.log("drag end")}
+         style={{
             color: "rgba(255, 255, 255, 0.75)",
             marginLeft: 8,
             borderLeft: "1px solid rgba(255, 255, 255, 0.05)"
-        }}>
+         }}
+        >
             <div style={{
                 display: "flex",
                 alignItems: "center",

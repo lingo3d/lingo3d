@@ -16,7 +16,7 @@ const CollapseIcon = ({ style, onClick }: CollapseIconProps) => {
       width="14"
       height="14"
       viewBox="0 0 1024 1024"
-      style={{ margin: 2, ...style }}
+      style={{ margin: 2, flexShrink: 0, ...style }}
       onMouseDown={e => e.stopPropagation()}
       onClick={e => (e.stopPropagation(), onClick?.())}
     >
