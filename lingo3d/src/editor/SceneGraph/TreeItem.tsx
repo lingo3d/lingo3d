@@ -37,12 +37,15 @@ export const makeTreeItemCallbacks = (appendable?: Appendable) => {
     return { setClickEl, handleClick, handleDoubleClick }
 }
 
+let draggingItem: Appendable | undefined
+
 const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     //@ts-ignore
     const name = appendable.name || upperFirst(appendable.constructor.componentName)
     const appendableChildren = appendable.children ? [...appendable.children] : undefined
     const expandIconStyle = { opacity: (appendableChildren?.length || children) ? 0.5 : 0.05, cursor: "pointer" }
 
+    const [dragOver, setDragOver] = useState(false)
     const [expanded, setExpanded] = useState(false)
     // const [expanded, setExpanded] = useState(!!appendableChildren?.length)
     
@@ -58,12 +61,35 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
          onClick={handleClick}
          onDblClick={handleDoubleClick}
          draggable
-         onDragStart={() => console.log("drag start")}
-         onDragEnd={() => console.log("drag end")}
+         onDragStart={e => (e.stopPropagation(), draggingItem = appendable)}
+         onDragEnd={e => (e.stopPropagation(), draggingItem = undefined)}
+         onDragOver={e => {
+             e.stopPropagation()
+             e.preventDefault()
+             if (!draggingItem || draggingItem === appendable) return
+             setDragOver(true)
+         }}
+         onDragEnter={e => {
+             e.stopPropagation()
+             e.preventDefault()
+             if (!draggingItem || draggingItem === appendable) return
+             setDragOver(true)
+         }}
+         onDragLeave={e => {
+             e.stopPropagation()
+             if (!draggingItem || draggingItem === appendable) return
+             setDragOver(false)
+         }}
+         onDrop={e => {
+             e.stopPropagation()
+             if (!draggingItem || draggingItem === appendable) return
+             setDragOver(false)
+         }}
          style={{
             color: "rgba(255, 255, 255, 0.75)",
             marginLeft: 8,
-            borderLeft: "1px solid rgba(255, 255, 255, 0.05)"
+            borderLeft: "1px solid rgba(255, 255, 255, 0.05)",
+            background: dragOver ? "rgba(255, 255, 255, 0.5)" : "none"
          }}
         >
             <div style={{

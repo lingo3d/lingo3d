@@ -21,11 +21,22 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
     const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks()
 
     return (
-        <div ref={setClickEl} onClick={handleClick} onDblClick={handleDoubleClick} style={{
+        <div
+         ref={setClickEl}
+         onClick={handleClick}
+         onDblClick={handleDoubleClick}
+         onDragStart={e => e.stopPropagation()}
+         onDragEnd={e => e.stopPropagation()}
+         onDragOver={e => (e.stopPropagation(), e.preventDefault())}
+         onDragEnter={e => (e.stopPropagation(), e.preventDefault())}
+         onDragLeave={e => e.stopPropagation()}
+         onDrop={e => e.stopPropagation()}
+         style={{
             color: "rgba(255, 255, 255, 0.75)",
             marginLeft: 8,
             borderLeft: "1px solid rgba(255, 255, 255, 0.05)"
-        }}>
+         }}
+        >
             <div style={{
                 display: "flex",
                 alignItems: "center",
