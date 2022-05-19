@@ -15,6 +15,7 @@ import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
 import deleteSelected from "../Editor/deleteSelected"
 import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
+import EmptyItem from "./EmptyItem"
 
 preventTreeShake(h)
 
@@ -73,6 +74,7 @@ const SceneGraph = () => {
                         <TreeItem key={appendable.uuid} appendable={appendable} level={0} />
                     )
                 ))}
+                <EmptyItem />
             </div>
         </div>
     )

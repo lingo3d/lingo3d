@@ -37,7 +37,7 @@ export const makeTreeItemCallbacks = (appendable?: Appendable) => {
     return { setClickEl, handleClick, handleDoubleClick }
 }
 
-let draggingItem: Appendable | undefined
+export const draggingItemPtr: [Appendable | undefined] = [undefined]
 
 const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     //@ts-ignore
@@ -61,29 +61,30 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
          onClick={handleClick}
          onDblClick={handleDoubleClick}
          draggable
-         onDragStart={e => (e.stopPropagation(), draggingItem = appendable)}
-         onDragEnd={e => (e.stopPropagation(), draggingItem = undefined)}
+         onDragStart={e => (e.stopPropagation(), draggingItemPtr[0] = appendable)}
+         onDragEnd={e => (e.stopPropagation(), draggingItemPtr[0] = undefined)}
          onDragOver={e => {
              e.stopPropagation()
              e.preventDefault()
-             if (!draggingItem || draggingItem === appendable) return
+             if (!draggingItemPtr[0] || draggingItemPtr[0] === appendable) return
              setDragOver(true)
          }}
          onDragEnter={e => {
              e.stopPropagation()
              e.preventDefault()
-             if (!draggingItem || draggingItem === appendable) return
+             if (!draggingItemPtr[0] || draggingItemPtr[0] === appendable) return
              setDragOver(true)
          }}
          onDragLeave={e => {
              e.stopPropagation()
-             if (!draggingItem || draggingItem === appendable) return
+             if (!draggingItemPtr[0] || draggingItemPtr[0] === appendable) return
              setDragOver(false)
          }}
          onDrop={e => {
              e.stopPropagation()
-             if (!draggingItem || draggingItem === appendable) return
+             if (!draggingItemPtr[0] || draggingItemPtr[0] === appendable) return
              setDragOver(false)
+             appendable.attach(draggingItemPtr[0])
          }}
          style={{
             color: "rgba(255, 255, 255, 0.75)",
