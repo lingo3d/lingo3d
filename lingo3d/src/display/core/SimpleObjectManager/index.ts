@@ -22,7 +22,7 @@ import getCenter from "../../utils/getCenter"
 import applyMaterialProperties, { applySet } from "./applyMaterialProperties"
 import { Reactive } from "@lincode/reactivity"
 
-const idMap = new Map<string, Set<SimpleObjectManager>>()
+export const idMap = new Map<string, Set<SimpleObjectManager>>()
 const thisOBB = new OBB()
 const targetOBB = new OBB()
 
