@@ -1,7 +1,6 @@
 import { deg2Rad } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import store, { Reactive } from "@lincode/reactivity"
-import { debounce } from "@lincode/utils"
 import { Quaternion } from "three"
 import { loop } from "../../engine/eventLoop"
 import { onSceneChange } from "../../events/onSceneChange"
@@ -86,32 +85,24 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
         this.targetState.set(target)
     }
 
-    private setTarget = debounce((attach?: boolean) => {
-        let i = 0
-        for (const object of [this.target, ...(this.children ?? [])]) {
-            if (!(object instanceof SimpleObjectManager) || object.done) continue
-
-            if (++i === 1) {
-                if (attach)
-                    this.outerObject3d.parent?.attach(object.outerObject3d)
-                else
-                    this.outerObject3d.parent?.add(object.outerObject3d)
-
-                this.target = object
-            }
-        }
-        i === 0 && (this.target = undefined)
-
-    }, 0, "trailing")
-
     public override append(object: ObjectManager) {
-        super.append(object)
-        this.setTarget()
+        if (this.target) {
+            super.append(object)
+            return
+        }
+        this._append(object)
+        this.outerObject3d.parent?.add(object.outerObject3d)
+        this.target = object
     }
     
     public override attach(object: ObjectManager) {
-        super.attach(object)
-        this.setTarget(true)
+        if (this.target) {
+            super.append(object)
+            return
+        }
+        this._append(object)
+        this.outerObject3d.parent?.attach(object.outerObject3d)
+        this.target = object
     }
     
     private gyroControlHandle?: Cancellable

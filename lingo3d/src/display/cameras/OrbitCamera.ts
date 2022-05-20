@@ -16,6 +16,7 @@ import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../globals"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import SimpleObjectManager from "../core/SimpleObjectManager"
 import { onKeyClear } from "../../events/onKeyClear"
+import { onSceneChange } from "../../events/onSceneChange"
 
 class OrbitCamera extends EventLoopItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -33,6 +34,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         const controls = this.controls = new OrbitControls(camera, container)
 
         this.initCamera()
+        this.watch(onSceneChange(() => this.target?.parent !== this && (this.target = undefined)))
 
         controls.enabled = false
         controls.enablePan = false
@@ -165,6 +167,7 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         return this._target
     }
     public set target(target: SimpleObjectManager | undefined) {
+        if (target === this._target) return
         this._target = target
         this.controls.target = target?.outerObject3d.position ?? new Vector3()
     }
