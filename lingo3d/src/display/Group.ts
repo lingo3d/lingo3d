@@ -21,8 +21,13 @@ export default class Group extends ObjectManager<ThreeGroup> implements IGroup {
         super(new ThreeGroup())
     }
 
-    public override append(target: ObjectManager) {
+    public override append(target: SimpleObjectManager) {
         super.append(target)
+        fitContent(this)
+    }
+
+    public override attach(target: SimpleObjectManager) {
+        super.attach(target)
         fitContent(this)
     }
 }

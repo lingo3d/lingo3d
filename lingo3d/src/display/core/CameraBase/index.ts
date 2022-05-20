@@ -35,6 +35,11 @@ abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Gro
         this.camera.add(object.outerObject3d)
     }
 
+    public override attach(object: SimpleObjectManager) {
+        this._append(object)
+        this.camera.attach(object.outerObject3d)
+    }
+
     public override get width() {
         return this.object3d.scale.x * scaleUp
     }

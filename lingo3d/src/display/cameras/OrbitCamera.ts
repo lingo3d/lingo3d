@@ -104,9 +104,9 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
                         moveRight(10)
 
                     if (downSet.has("q"))
-                        moveUp(10)
-                    else if (downSet.has("e"))
                         moveUp(-10)
+                    else if (downSet.has("e"))
+                        moveUp(10)
                 }))
 
                 const handleKeyDown = (e: KeyboardEvent) => {
@@ -176,6 +176,16 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         }
         this._append(object)
         this.outerObject3d.parent?.add(object.outerObject3d)
+        this.target = object
+    }
+
+    public override attach(object: ObjectManager) {
+        if (this._target) {
+            super.attach(object)
+            return
+        }
+        this._append(object)
+        this.outerObject3d.parent?.attach(object.outerObject3d)
         this.target = object
     }
 

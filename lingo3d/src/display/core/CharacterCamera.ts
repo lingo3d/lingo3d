@@ -4,6 +4,7 @@ import store, { Reactive } from "@lincode/reactivity"
 import { debounce } from "@lincode/utils"
 import { Quaternion } from "three"
 import { loop } from "../../engine/eventLoop"
+import { onSceneChange } from "../../events/onSceneChange"
 import ICharacterCamera, { characterCameraDefaults, characterCameraSchema, LockTargetRotationValue } from "../../interface/ICharacterCamera"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
@@ -20,6 +21,8 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
     public constructor() {
         super()
 
+        this.watch(onSceneChange(() => this.target?.parent !== this && (this.target = undefined)))
+        
         this.targetState.get(target => target && (target.frustumCulled = false))
 
         const followTarget = (target: SimpleObjectManager) => {
@@ -83,17 +86,19 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
         this.targetState.set(target)
     }
 
-    private setTarget = debounce(() => {
+    private setTarget = debounce((attach?: boolean) => {
         let i = 0
-        for (const child of [this.target?.outerObject3d, ...this.camera.children]) {
-            const object = child?.userData.manager
-            if (!object || object.done) continue
+        for (const object of [this.target, ...(this.children ?? [])]) {
+            if (!(object instanceof SimpleObjectManager) || object.done) continue
 
             if (++i === 1) {
-                this.outerObject3d.parent?.add(object.outerObject3d)
-                this.target = object        
+                if (attach)
+                    this.outerObject3d.parent?.attach(object.outerObject3d)
+                else
+                    this.outerObject3d.parent?.add(object.outerObject3d)
+
+                this.target = object
             }
-            else object.z = -100
         }
         i === 0 && (this.target = undefined)
 
@@ -102,6 +107,11 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
     public override append(object: ObjectManager) {
         super.append(object)
         this.setTarget()
+    }
+    
+    public override attach(object: ObjectManager) {
+        super.attach(object)
+        this.setTarget(true)
     }
     
     private gyroControlHandle?: Cancellable
