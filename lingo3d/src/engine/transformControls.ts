@@ -42,13 +42,6 @@ createEffect(() => {
 
     if (!target || getCamera() !== mainCamera) return
 
-    const { physics } = target
-    let restorePhysics = false
-    if (target.mass !== 0 && physics !== "map" && physics !== "map-debug") {
-        target.physics = false
-        restorePhysics = true
-    }
-
     const handle = new Cancellable()
 
     lazyTransformControls().then(transformControls => {
@@ -74,6 +67,5 @@ createEffect(() => {
     })
     return () => {
         handle.cancel()
-        restorePhysics && (target.physics = physics)
     }
 }, [getSelectionTarget, getTransformControlsMode, getTransformControlsSpace, getTransformControlsSnap, getCamera])

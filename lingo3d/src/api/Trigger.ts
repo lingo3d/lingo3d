@@ -3,11 +3,16 @@ import { Group } from "three"
 import SimpleObjectManager, { idMap } from "../display/core/SimpleObjectManager"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import { scaleDown } from "../engine/constants"
-import ITrigger, { triggerDefaults } from "../interface/ITrigger"
+import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
+import EventLoopItem from "./core/EventLoopItem"
 
 const getTargets = (id: string) => [...(idMap.get(id) ?? [])]
 
-export default class Trigger extends SimpleObjectManager implements ITrigger {
+export default class Trigger extends EventLoopItem implements ITrigger {
+    public static componentName = "trigger"
+    public static defaults = triggerDefaults
+    public static schema = triggerSchema
+
     private refresh = new Reactive({})
 
     public onEnter: ((target: SimpleObjectManager) => void) | undefined

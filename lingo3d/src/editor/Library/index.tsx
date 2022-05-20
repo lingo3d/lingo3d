@@ -1,6 +1,7 @@
 import { h } from "preact"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
+import ObjectIcon from "./ObjectIcon"
 import ObjectGroup from "./ObjectGroup"
 
 preventTreeShake(h)
@@ -41,6 +42,7 @@ const Library = () => {
                 "firstPersonCamera",
                 "orbitCamera"
             ]} />
+            <ObjectIcon name="trigger" iconName="cube" />
         </div>
     )
 }
