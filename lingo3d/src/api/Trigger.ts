@@ -4,11 +4,10 @@ import SimpleObjectManager, { idMap } from "../display/core/SimpleObjectManager"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import { scaleDown } from "../engine/constants"
 import ITrigger, { triggerDefaults } from "../interface/ITrigger"
-import EventLoopItem from "./core/EventLoopItem"
 
 const getTargets = (id: string) => [...(idMap.get(id) ?? [])]
 
-export default class Trigger extends EventLoopItem implements ITrigger {
+export default class Trigger extends SimpleObjectManager implements ITrigger {
     private refresh = new Reactive({})
 
     public onEnter: ((target: SimpleObjectManager) => void) | undefined

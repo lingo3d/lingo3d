@@ -39,6 +39,7 @@ import sphereShape from "./display/core/SimpleObjectManager/PhysicsItem/cannon/s
 import torusShape from "./display/core/SimpleObjectManager/PhysicsItem/cannon/shapes/torusShape"
 import pillShape from "./display/core/SimpleObjectManager/PhysicsItem/cannon/shapes/pillShape"
 
+import Trigger from "./api/Trigger"
 import keyboard, { Keyboard } from "./api/keyboard"
 import mouse, { Mouse } from "./api/mouse"
 import gamepad from "./api/gamepad"
@@ -96,6 +97,7 @@ export {
     torusShape,
     pillShape,
 
+    Trigger,
     Keyboard,
     keyboard,
     Mouse,

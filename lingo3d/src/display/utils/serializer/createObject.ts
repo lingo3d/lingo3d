@@ -27,9 +27,11 @@ import ThirdPersonCamera from "../../cameras/ThirdPersonCamera"
 import FirstPersonCamera from "../../cameras/FirstPersonCamera"
 import OrbitCamera from "../../cameras/OrbitCamera"
 import Skybox from "../../Skybox"
+import Trigger from "../../../api/Trigger"
 
 const record = type<Record<GameObjectType, () => ObjectManager>>({
     "group": () => new Group(),
+    "trigger": () => new Trigger() as any,
     "model": () => new Model(),
     "svgMesh": () => new SvgMesh(),
     "reflector": () => new Reflector(),
