@@ -12,8 +12,9 @@ export { default as Library } from "./components/editor/Library"
 export { default as Stats } from "./components/Stats"
 
 export { default as Keyboard } from "./components/api/Keyboard"
-export { default as Sound } from "./components/api/Sound"
 export { default as Mouse } from "./components/api/Mouse"
+export { default as Sound } from "./components/api/Sound"
+export { default as Trigger } from "./components/api/Trigger"
 
 export { default as Group } from "./components/display/Group"
 export { default as Model } from "./components/display/Model"

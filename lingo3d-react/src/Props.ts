@@ -20,6 +20,7 @@ import ISound from "lingo3d/lib/interface/ISound"
 import IAmbientLight from "lingo3d/lib/interface/IAmbientLight"
 import IDirectionalLight from "lingo3d/lib/interface/IDirectionalLight"
 import IFound from "lingo3d/lib/interface/IFound"
+import ITrigger from "lingo3d/lib/interface/ITrigger"
 
 type Children = React.ReactNode
 
@@ -47,4 +48,5 @@ export type SpotLightProps = Partial<ISpotLight> & { children?: Children }
 export type KeyboardProps = Partial<IKeyboard>
 export type MouseProps = Partial<IMouse>
 export type SoundProps = Partial<ISound>
+export type TriggerProps = Partial<ITrigger>
 export type SkyboxProps = Partial<ISkybox>

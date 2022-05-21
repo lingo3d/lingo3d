@@ -12,8 +12,9 @@ export { default as Library } from "./components/Editor/Library.vue"
 // export { default as Stats } from "./components/Stats"
 
 export { default as Keyboard } from "./components/api/Keyboard.vue"
-export { default as Sound } from "./components/api/Sound.vue"
 export { default as Mouse } from "./components/api/Mouse.vue"
+export { default as Trigger } from "./components/api/Trigger.vue"
+export { default as Sound } from "./components/api/Sound.vue"
 
 export { default as Group } from "./components/display/Group.vue"
 export { default as Model } from "./components/display/Model.vue"
