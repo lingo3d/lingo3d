@@ -21,6 +21,7 @@ import { addOutline, deleteOutline } from "../../../engine/renderLoop/effectComp
 import getCenter from "../../utils/getCenter"
 import applyMaterialProperties, { applySet } from "./applyMaterialProperties"
 import { Reactive } from "@lincode/reactivity"
+import PositionedItem from "../../../api/core/PositionedItem"
 
 export const idMap = new Map<string, Set<SimpleObjectManager>>()
 const thisOBB = new OBB()
@@ -541,9 +542,9 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         applyMaterialProperties()
     }
 
-    public lookAt(target: SimpleObjectManager | Point3d) {
+    public lookAt(target: PositionedItem | Point3d) {
         if ("object3d" in target)
-            this.outerObject3d.lookAt(target.object3d.getWorldPosition(vector3))
+            this.outerObject3d.lookAt((target.object3d ?? target.outerObject3d).getWorldPosition(vector3))
         else
             this.outerObject3d.lookAt(point2Vec(target))
 
@@ -582,9 +583,9 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this.physicsRotate()
     }
 
-    public placeAt(object: SimpleObjectManager | { x: number, y: number, z: number }) {
+    public placeAt(object: PositionedItem | { x: number, y: number, z: number }) {
         if ("object3d" in object) {
-            this.outerObject3d.position.copy(getCenter(object.object3d))
+            this.outerObject3d.position.copy(getCenter(object.object3d ?? object.outerObject3d))
             this.outerObject3d.quaternion.copy(object.outerObject3d.getWorldQuaternion(quaternion))
         }
         else this.outerObject3d.position.copy(point2Vec(object))

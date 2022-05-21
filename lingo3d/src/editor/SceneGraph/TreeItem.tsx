@@ -7,11 +7,11 @@ import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
 import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
 import { emitEditorCenterView } from "../../events/onEditorCenterView"
-import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import useClick from "./useClick"
+import PositionedItem from "../../api/core/PositionedItem"
 
 preventTreeShake(h)
 
@@ -24,14 +24,14 @@ export type TreeItemProps = {
 export const makeTreeItemCallbacks = (appendable?: Appendable) => {
     const setClickEl = useClick(e => {
         e.stopPropagation()
-        appendable instanceof SimpleObjectManager && emitSelectionTarget(appendable)
+        appendable instanceof PositionedItem && emitSelectionTarget(appendable)
     })
 
     const handleClick = (e: MouseEvent) => e.stopPropagation()
 
     const handleDoubleClick = (e: MouseEvent) => {
         e.stopPropagation()
-        appendable instanceof SimpleObjectManager && emitEditorCenterView(appendable)
+        appendable instanceof PositionedItem && emitEditorCenterView(appendable)
     }
     
     return { setClickEl, handleClick, handleDoubleClick }

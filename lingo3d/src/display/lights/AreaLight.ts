@@ -6,12 +6,12 @@ import ObjectManager from "../core/ObjectManager"
 import { getCamera } from "../../states/useCamera"
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
-import SimpleObjectManager from "../core/SimpleObjectManager"
 import Point3d from "../../api/Point3d"
 import { scaleDown } from "../../engine/constants"
 import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import { onTransformControls } from "../../events/onTransformControls"
 import { Reactive } from "@lincode/reactivity"
+import PositionedItem from "../../api/core/PositionedItem"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import("three/examples/jsm/lights/RectAreaLightUniformsLib.js")
@@ -78,7 +78,7 @@ export default class extends ObjectManager<Group> implements IAreaLight {
         this.helperState.set(val)
     }
 
-    public override lookAt(target: SimpleObjectManager | Point3d) {
+    public override lookAt(target: PositionedItem | Point3d) {
         super.lookAt(target)
         this.rotationY += 180
     }

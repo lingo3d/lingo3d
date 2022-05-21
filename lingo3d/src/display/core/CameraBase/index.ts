@@ -2,7 +2,6 @@ import { Group, PerspectiveCamera } from "three"
 import ObjectManager from "../ObjectManager"
 import CameraMixin from "../mixins/CameraMixin"
 import { applyMixins, debounce } from "@lincode/utils"
-import SimpleObjectManager from "../SimpleObjectManager"
 import Point3d from "../../../api/Point3d"
 import { scaleUp, scaleDown } from "../../../engine/constants"
 import { ray, vector3_, vector3, euler } from "../../utils/reusables"
@@ -68,7 +67,7 @@ abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Gro
         this.camera.scale.z = 1 / num
     }
 
-    public override lookAt(target: SimpleObjectManager | Point3d) {
+    public override lookAt(target: PositionedItem | Point3d) {
         super.lookAt(target)
         this.rotationY += 180
     }
