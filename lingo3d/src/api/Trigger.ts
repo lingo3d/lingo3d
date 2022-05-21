@@ -78,7 +78,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
 
             const interval = setInterval(() => {
                 const { x, y, z } = getWorldPosition(this.outerObject3d)
-                const targets = (typeof _targetIds === "string" ? [_targetIds] : _targetIds).map(getTargets).flat()
+                const targets = typeof _targetIds === "string" ? getTargets(_targetIds) : _targetIds.map(getTargets).flat()
 
                 for (const target of targets) {
                     const { x: tx, y: ty, z: tz} = getWorldPosition(target.object3d)
