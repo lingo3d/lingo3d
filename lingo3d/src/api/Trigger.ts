@@ -6,6 +6,7 @@ import getWorldPosition from "../display/utils/getWorldPosition"
 import { scaleDown } from "../engine/constants"
 import mainCamera from "../engine/mainCamera"
 import scene from "../engine/scene"
+import { emitSelectionTarget, onSelectionTarget } from "../events/onSelectionTarget"
 import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
 import { getCamera } from "../states/useCamera"
 import { appendableRoot } from "./core/Appendable"
@@ -113,9 +114,12 @@ export default class Trigger extends PositionedItem implements ITrigger {
             h.scale = _radius * scaleDown * 2
             h.opacity = 0.5
 
+            const handle = onSelectionTarget(target => target === h && emitSelectionTarget(this))
+
             return () => {
                 h.dispose()
                 helper = undefined
+                handle.cancel()
             }
         }, [this.refresh.get, getCamera])
     }
