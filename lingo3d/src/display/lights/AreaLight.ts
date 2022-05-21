@@ -147,4 +147,8 @@ export default class extends ObjectManager<Group> implements IAreaLight {
     }
     public override set scaleZ(_) {
     }
+
+    public override getCenter() {
+        return this.getWorldPosition()
+    }
 }
