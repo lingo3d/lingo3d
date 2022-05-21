@@ -346,6 +346,10 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
             this.controls.maxDistance = Infinity
         })
     }
+
+    public override getCenter() {
+        return this.getWorldPosition()
+    }
 }
 interface OrbitCamera extends EventLoopItem, CameraMixin<PerspectiveCamera> {}
 applyMixins(OrbitCamera, [CameraMixin])
