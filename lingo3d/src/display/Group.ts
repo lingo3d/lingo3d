@@ -1,5 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import { Group as ThreeGroup, Object3D } from "three"
+import PositionedItem from "../api/core/PositionedItem"
 import scene from "../engine/scene"
 import { onEditorGroupItems } from "../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
@@ -21,12 +22,12 @@ export default class Group extends ObjectManager<ThreeGroup> implements IGroup {
         super(new ThreeGroup())
     }
 
-    public override append(target: SimpleObjectManager) {
+    public override append(target: PositionedItem) {
         super.append(target)
         fitContent(this)
     }
 
-    public override attach(target: SimpleObjectManager) {
+    public override attach(target: PositionedItem) {
         super.attach(target)
         fitContent(this)
     }

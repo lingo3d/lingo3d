@@ -1,4 +1,4 @@
 import store from "@lincode/reactivity"
-import SimpleObjectManager from "../display/core/SimpleObjectManager"
+import PositionedItem from "../api/core/PositionedItem"
 
-export const [setSelectionTarget, getSelectionTarget] = store<SimpleObjectManager | undefined>(undefined)
+export const [setSelectionTarget, getSelectionTarget] = store<PositionedItem | undefined>(undefined)

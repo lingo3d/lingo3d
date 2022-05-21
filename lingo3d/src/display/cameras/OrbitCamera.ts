@@ -10,11 +10,9 @@ import EventLoopItem from "../../api/core/EventLoopItem"
 import CameraMixin from "../core/mixins/CameraMixin"
 import IOrbitCamera, { orbitCameraDefaults, orbitCameraSchema } from "../../interface/IOrbitCamera"
 import { loop } from "../../engine/eventLoop"
-import ObjectManager from "../core/ObjectManager"
 import { vector3 } from "../utils/reusables"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../globals"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
-import SimpleObjectManager from "../core/SimpleObjectManager"
 import { onKeyClear } from "../../events/onKeyClear"
 import { onSceneChange } from "../../events/onSceneChange"
 import PositionedItem from "../../api/core/PositionedItem"
@@ -163,17 +161,17 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         this.controls.target.z = val * scaleDown
     }
 
-    protected _target: SimpleObjectManager | undefined
+    protected _target: PositionedItem | undefined
     public get target() {
         return this._target
     }
-    public set target(target: SimpleObjectManager | undefined) {
+    public set target(target: PositionedItem | undefined) {
         if (target === this._target) return
         this._target = target
         this.controls.target = target?.outerObject3d.position ?? new Vector3()
     }
 
-    public override append(object: ObjectManager) {
+    public override append(object: PositionedItem) {
         if (this._target) {
             super.append(object)
             return
@@ -183,7 +181,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         this.target = object
     }
 
-    public override attach(object: ObjectManager) {
+    public override attach(object: PositionedItem) {
         if (this._target) {
             super.attach(object)
             return

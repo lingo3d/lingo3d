@@ -2,6 +2,7 @@ import { deg2Rad } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import store, { Reactive } from "@lincode/reactivity"
 import { Quaternion } from "three"
+import PositionedItem from "../../api/core/PositionedItem"
 import { loop } from "../../engine/eventLoop"
 import { onSceneChange } from "../../events/onSceneChange"
 import ICharacterCamera, { characterCameraDefaults, characterCameraSchema, LockTargetRotationValue } from "../../interface/ICharacterCamera"
@@ -10,7 +11,6 @@ import { getTransformControlsDragging } from "../../states/useTransformControlsD
 import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import Camera from "../cameras/Camera"
 import { euler, quaternion, quaternion_ } from "../utils/reusables"
-import ObjectManager from "./ObjectManager"
 import SimpleObjectManager from "./SimpleObjectManager"
 
 export default class CharacterCamera extends Camera implements ICharacterCamera {
@@ -22,9 +22,9 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
 
         this.watch(onSceneChange(() => this.target?.parent !== this && (this.target = undefined)))
         
-        this.targetState.get(target => target && (target.frustumCulled = false))
+        this.targetState.get(target => target && ("frustumCulled" in target) && (target.frustumCulled = false))
 
-        const followTarget = (target: SimpleObjectManager) => {
+        const followTarget = (target: PositionedItem) => {
             euler.setFromQuaternion(target.outerObject3d.quaternion)
             euler.y += Math.PI
             this.outerObject3d.quaternion.setFromEuler(euler)
@@ -77,15 +77,15 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
 
     public lockTargetRotation: LockTargetRotationValue = true
 
-    protected targetState = new Reactive<SimpleObjectManager | undefined>(undefined)
+    protected targetState = new Reactive<PositionedItem | SimpleObjectManager | undefined>(undefined)
     public get target() {
         return this.targetState.get()
     }
-    public set target(target: SimpleObjectManager | undefined) {
+    public set target(target: PositionedItem | SimpleObjectManager | undefined) {
         this.targetState.set(target)
     }
 
-    public override append(object: ObjectManager) {
+    public override append(object: PositionedItem) {
         if (this.target) {
             super.append(object)
             return
@@ -95,7 +95,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
         this.target = object
     }
     
-    public override attach(object: ObjectManager) {
+    public override attach(object: PositionedItem) {
         if (this.target) {
             super.append(object)
             return

@@ -1,11 +1,12 @@
 import ICamera, { cameraDefaults, cameraSchema } from "./ICamera"
+import IPositioned from "./IPositioned"
 import ISimpleObjectManager from "./ISimpleObjectManager"
 import { ExtractProps } from "./utils/extractProps"
 
 export type LockTargetRotationValue = boolean | "follow"
 
 export default interface ICharacterCamera extends ICamera {
-    target?: ISimpleObjectManager
+    target?: ISimpleObjectManager | IPositioned
     lockTargetRotation: LockTargetRotationValue
 }
 

@@ -13,7 +13,7 @@ createEffect(() => {
     const target = getSelectionTarget()
     if (!target || getCamera() !== mainCamera) return
 
-    const boxHelper = new BoxHelper(target.object3d)
+    const boxHelper = new BoxHelper(target.object3d ?? target.outerObject3d)
     const frame = requestAnimationFrame(() => scene.add(boxHelper))
     const handle = loop(() => boxHelper.update())
 

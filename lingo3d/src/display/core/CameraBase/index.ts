@@ -11,6 +11,7 @@ import ICameraBase, { MouseControl, MouseControlMode } from "../../../interface/
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
+import PositionedItem from "../../../api/core/PositionedItem"
 
 const PI_2 = Math.PI * 0.5
 
@@ -30,12 +31,12 @@ abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Gro
         return ray.set(this.camera.getWorldPosition(vector3_), this.camera.getWorldDirection(vector3))
     }
 
-    public override append(object: SimpleObjectManager) {
+    public override append(object: PositionedItem) {
         this._append(object)
         this.camera.add(object.outerObject3d)
     }
 
-    public override attach(object: SimpleObjectManager) {
+    public override attach(object: PositionedItem) {
         this._append(object)
         this.camera.attach(object.outerObject3d)
     }

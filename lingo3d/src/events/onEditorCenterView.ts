@@ -1,4 +1,4 @@
 import { event } from "@lincode/events"
-import SimpleObjectManager from "../display/core/SimpleObjectManager"
+import PositionedItem from "../api/core/PositionedItem"
 
-export const [emitEditorCenterView, onEditorCenterView] = event<SimpleObjectManager>()
+export const [emitEditorCenterView, onEditorCenterView] = event<PositionedItem>()
