@@ -370,26 +370,26 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this.object3d.scale.z = val * scaleDown
     }
     
-    public get x() {
+    public override get x() {
         return this.outerObject3d.position.x * scaleUp
     }
-    public set x(val: number) {
+    public override set x(val: number) {
         this.outerObject3d.position.x = val * scaleDown
         this.physicsUpdate && ((this.physicsUpdate.position ??= {}).x = true)
     }
 
-    public get y() {
+    public override get y() {
         return this.outerObject3d.position.y * scaleUp
     }
-    public set y(val: number) {
+    public override set y(val: number) {
         this.outerObject3d.position.y = val * scaleDown
         this.physicsUpdate && ((this.physicsUpdate.position ??= {}).y = true)
     }
 
-    public get z() {
+    public override get z() {
         return this.outerObject3d.position.z * scaleUp
     }
-    public set z(val: number) {
+    public override set z(val: number) {
         this.outerObject3d.position.z = val * scaleDown
         this.physicsUpdate && ((this.physicsUpdate.position ??= {}).z = true)
     }

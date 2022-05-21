@@ -1,8 +1,8 @@
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface ITrigger extends IEventLoop {
+export default interface ITrigger extends IPositioned {
     onEnter: ((target: SimpleObjectManager) => void) | undefined
     onExit: ((target: SimpleObjectManager) => void) | undefined
     targetIds?: string | Array<string>
@@ -12,7 +12,7 @@ export default interface ITrigger extends IEventLoop {
 }
 
 export const triggerSchema: Required<ExtractProps<ITrigger>> = {
-    ...eventLoopSchema,
+    ...positionedSchema,
     onEnter: Function,
     onExit: Function,
     targetIds: [String, Array],
@@ -22,7 +22,7 @@ export const triggerSchema: Required<ExtractProps<ITrigger>> = {
 }
 
 export const triggerDefaults: ITrigger ={
-    ...eventLoopDefaults,
+    ...positionedDefaults,
     onEnter: undefined,
     onExit: undefined,
     radius: 50,

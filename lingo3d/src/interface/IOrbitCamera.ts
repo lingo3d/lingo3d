@@ -1,15 +1,11 @@
 import ICameraMixin, { cameraMixinDefaults, cameraMixinSchema } from "./ICameraMixin"
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IOrbitCamera extends IEventLoop, ICameraMixin {
+export default interface IOrbitCamera extends IPositioned, ICameraMixin {
     targetX: number
     targetY: number
     targetZ: number
-
-    x: number
-    y: number
-    z: number
 
     enableDamping: boolean
     enablePan: boolean
@@ -25,16 +21,12 @@ export default interface IOrbitCamera extends IEventLoop, ICameraMixin {
 }
 
 export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
-    ...eventLoopSchema,
+    ...positionedSchema,
     ...cameraMixinSchema,
 
     targetX: Number,
     targetY: Number,
     targetZ: Number,
-
-    x: Number,
-    y: Number,
-    z: Number,
 
     enableDamping: Boolean,
     enablePan: Boolean,
@@ -50,15 +42,13 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
 }
 
 export const orbitCameraDefaults: IOrbitCamera = {
-    ...eventLoopDefaults,
+    ...positionedDefaults,
     ...cameraMixinDefaults,
 
     targetX: 0,
     targetY: 0,
     targetZ: 0,
     
-    x: 0,
-    y: 0,
     z: 500,
 
     enableDamping: false,

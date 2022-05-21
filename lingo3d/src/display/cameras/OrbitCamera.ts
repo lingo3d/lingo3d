@@ -17,8 +17,9 @@ import { getTransformControlsDragging } from "../../states/useTransformControlsD
 import SimpleObjectManager from "../core/SimpleObjectManager"
 import { onKeyClear } from "../../events/onKeyClear"
 import { onSceneChange } from "../../events/onSceneChange"
+import PositionedItem from "../../api/core/PositionedItem"
 
-class OrbitCamera extends EventLoopItem implements IOrbitCamera {
+class OrbitCamera extends PositionedItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
     public static defaults = orbitCameraDefaults
     public static schema = orbitCameraSchema
@@ -192,24 +193,24 @@ class OrbitCamera extends EventLoopItem implements IOrbitCamera {
         this.target = object
     }
 
-    public get x() {
+    public override get x() {
         return this.camera.position.x * scaleUp
     }
-    public set x(val: number) {
+    public override set x(val: number) {
         this.camera.position.x = val * scaleDown
     }
 
-    public get y() {
+    public override get y() {
         return this.camera.position.y * scaleUp
     }
-    public set y(val: number) {
+    public override set y(val: number) {
         this.camera.position.y = val * scaleDown
     }
 
-    public get z() {
+    public override get z() {
         return this.camera.position.z * scaleUp
     }
-    public set z(val: number) {
+    public override set z(val: number) {
         this.camera.position.z = val * scaleDown
     }
 

@@ -23,10 +23,6 @@ export default interface ISimpleObjectManager extends IPhysics {
     height: number
     depth: number
 
-    x: number
-    y: number
-    z: number
-
     scaleX: number
     scaleY: number
     scaleZ: number
@@ -73,10 +69,6 @@ export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManag
     height: Number,
     depth: Number,
 
-    x: Number,
-    y: Number,
-    z: Number,
-
     scaleX: Number,
     scaleY: Number,
     scaleZ: Number,
@@ -111,10 +103,6 @@ export const simpleObjectManagerDefaults: ISimpleObjectManager = {
     width: 100,
     height: 100,
     depth: 100,
-
-    x: 0,
-    y: 0,
-    z: 0,
 
     scaleX: 1,
     scaleY: 1,

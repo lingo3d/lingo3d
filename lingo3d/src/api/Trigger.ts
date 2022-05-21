@@ -9,11 +9,11 @@ import scene from "../engine/scene"
 import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
 import { getCamera } from "../states/useCamera"
 import { appendableRoot } from "./core/Appendable"
-import EventLoopItem from "./core/EventLoopItem"
+import PositionedItem from "./core/PositionedItem"
 
 const getTargets = (id: string) => [...(idMap.get(id) ?? [])]
 
-export default class Trigger extends EventLoopItem implements ITrigger {
+export default class Trigger extends PositionedItem implements ITrigger {
     public static componentName = "trigger"
     public static defaults = triggerDefaults
     public static schema = triggerSchema
