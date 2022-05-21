@@ -50,7 +50,7 @@ export const nonSerializedProperties = [
     "velocity",
     "target"
 ]
-export const nonSerializedSettings = [
+export const nonSerializedSettings: Array<keyof ISetup> = [
     "pixelRatio",
     "performance",
     "defaultOrbitControls",

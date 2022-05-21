@@ -13,7 +13,7 @@ import { setSelectionBlockMouse } from "../../states/useSelectionBlockMouse"
 import { h } from "preact"
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks"
 import register from "preact-custom-element"
-import { useSelectionTarget, useCameraList, useMultipleSelectionTargets, useCamera } from "../states"
+import { useSelectionTarget, useCameraList, useMultipleSelectionTargets, useCamera, useDefaultLight, useDefaultFog } from "../states"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import ObjectManager from "../../display/core/ObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
@@ -29,6 +29,7 @@ import deleteSelected from "./deleteSelected"
 import { onKeyClear } from "../../events/onKeyClear"
 import { nonSerializedSettings } from "../../display/utils/serializer/types"
 import { onApplySetup } from "../../events/onApplySetup"
+import ISetup from "../../interface/ISetup"
 
 preventTreeShake(h)
 
@@ -69,30 +70,30 @@ const addInputs = (
 
     return Object.keys(params).map(key => {
         const input = folder.addInput(params, key)
-        input.on("change", e => {
+        input.on("change", ({ value }) => {
             if (programmatic) return
             
             if (vectorMap?.[key]) {
                 const [xProp, yProp, zProp] = vectorMap[key]
-                const { x, y, z } = e.value
+                const { x, y, z } = value
                 target[xProp] = toFixed(x)
                 target[yProp] = toFixed(y)
                 target[zProp] = toFixed(z)
                 return
             }
 
-            if (typeof e.value === "string") {
-                if (e.value === "true" || e.value === "false") {
-                    target[key] = e.value === "true" ? true : false
+            if (typeof value === "string") {
+                if (value === "true" || value === "false") {
+                    target[key] = value === "true" ? true : false
                     return
                 }
-                const num = parseFloat(e.value)
+                const num = parseFloat(value)
                 if (!Number.isNaN(num)) {
                     target[key] = num
                     return
                 }
             }
-            target[key] = toFixed(e.value)
+            target[key] = toFixed(value)
         })
         return input
     })
@@ -171,7 +172,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         const options = cameraList.reduce<Record<string, any>>((acc, _, i) => (acc["camera " + i] = i, acc), {})
         const cameraInput = pane.addInput({ "camera": cameraList.indexOf(getCamera()) }, "camera", { options })
         cameraFolder.add(cameraInput)
-        cameraInput.on("change", e => setCamera(cameraList[e.value]))
+        cameraInput.on("change", ({ value }) => setCamera(cameraList[value]))
 
         const secondaryOptions: any = { none: 0, ...omit(options, "camera 0") }
         const secondaryCameraInput = pane.addInput(
@@ -180,13 +181,19 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             { options: secondaryOptions }
         )
         cameraFolder.add(secondaryCameraInput)
-        secondaryCameraInput.on("change", e => setSecondaryCamera(e.value === 0 ? undefined : cameraList[e.value]))
+        secondaryCameraInput.on("change", ({ value }) => setSecondaryCamera(value === 0 ? undefined : cameraList[value]))
 
         return () => {
             cameraInput.dispose()
             secondaryCameraInput.dispose()
         }
     }, [pane, cameraFolder, cameraList, camera])
+
+    const [defaultLight, setDefaultLight] = useDefaultLight()
+    const defaultLightEnabled = !!defaultLight
+
+    const [defaultFog, setDefaultFog] = useDefaultFog()
+    const defaultFogEnabled = !!defaultFog
 
     useEffect(() => {
         const el = elRef.current
@@ -197,7 +204,23 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         setCameraFolder(pane.addFolder({ title: "camera" }))
 
         if (!selectionTarget) {
-            addInputs(pane, "settings", settings, omit(settings, nonSerializedSettings))
+            const omitted: Array<keyof ISetup> = ["defaultFog", "defaultLight", "defaultLightScale"]
+
+            const inputs = addInputs(pane, "settings", settings, Object.assign({
+                defaultLightEnabled,
+                ...defaultLightEnabled && { defaultLight, defaultLightScale: settings.defaultLightScale },
+                
+                defaultFogEnabled,
+                ...defaultFogEnabled && { defaultFog }
+
+            }, omit(settings, [...nonSerializedSettings, ...omitted])))
+
+            const defaultLightEnabledInput = inputs[0]
+            defaultLightEnabledInput.on("change", ({ value }) => setDefaultLight(value ? "default" : false))
+
+            const defaultFogEnabledInput = defaultLightEnabled ? inputs[3] : inputs[1]
+            defaultFogEnabledInput.on("change", ({ value }) => setDefaultFog(value ? "white" : undefined))
+
             return () => {
                 pane.dispose()
             }
@@ -344,7 +367,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             pane.dispose()
             document.removeEventListener("keydown", handleKey)
         }
-    }, [selectionTarget, multipleSelectionTargets, renderDeps])
+    }, [selectionTarget, multipleSelectionTargets, renderDeps, defaultFogEnabled, defaultLightEnabled])
 
     return (
         <div

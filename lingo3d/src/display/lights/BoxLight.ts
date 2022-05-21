@@ -89,4 +89,8 @@ export default class BoxLight extends ObjectManager<Group> implements IBoxLight 
     public set area(val) {
         this.areaState.set(val)
     }
+
+    public override getCenter() {
+        return this.getWorldPosition()
+    }
 }
