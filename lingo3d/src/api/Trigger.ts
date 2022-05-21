@@ -1,7 +1,8 @@
 import { Reactive } from "@lincode/reactivity"
 import { Group } from "three"
-import SimpleObjectManager, { idMap } from "../display/core/SimpleObjectManager"
+import { idMap } from "../display/core/SimpleObjectManager"
 import Cylinder from "../display/primitives/Cylinder"
+import Sphere from "../display/primitives/Sphere"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import { scaleDown } from "../engine/constants"
 import mainCamera from "../engine/mainCamera"
@@ -21,10 +22,19 @@ export default class Trigger extends PositionedItem implements ITrigger {
 
     private refresh = new Reactive({})
 
-    public onEnter: ((target: SimpleObjectManager) => void) | undefined
+    public onEnter: (() => void) | undefined
     
-    public onExit: ((target: SimpleObjectManager) => void) | undefined
+    public onExit: (() => void) | undefined
 
+    private _pad = triggerDefaults.pad
+    public get pad() {
+        return this._pad
+    }
+    public set pad(val) {
+        this._pad = val
+        this.refresh.set({})
+    }
+    
     private _radius = triggerDefaults.radius
     public get radius() {
         return this._radius
@@ -66,35 +76,36 @@ export default class Trigger extends PositionedItem implements ITrigger {
         super(group)
         scene.add(group)
 
-        let helper: Cylinder | undefined
+        let helper: Cylinder | Sphere | undefined
 
         this.createEffect(() => {
-            const { _radius, _interval, _targetIds } = this
+            const { _radius, _interval, _targetIds, _pad } = this
             if (!_targetIds) return
 
             const r = _radius * scaleDown
 
             let hitOld = false
-
             const interval = setInterval(() => {
                 const { x, y, z } = getWorldPosition(this.outerObject3d)
                 const targets = typeof _targetIds === "string" ? getTargets(_targetIds) : _targetIds.map(getTargets).flat()
-
+                
+                let hit = false
                 for (const target of targets) {
                     const { x: tx, y: ty, z: tz} = getWorldPosition(target.object3d)
-                    const hit = Math.abs(x - tx) < r && Math.abs(y - ty) < r && Math.abs(z - tz) < r
-
-                    if (hitOld !== hit)
-                        if (hit) {
-                            this.onEnter?.(target)
-                            helper && (helper.color = "blue")
-                        }
-                        else {
-                            this.onExit?.(target)
-                            helper && (helper.color = "white")
-                        }
-                    hitOld = hit
+                    hit = Math.abs(x - tx) < r && Math.abs(y - ty) < r && Math.abs(z - tz) < r
+                    if (hit) break
                 }
+                if (hitOld !== hit)
+                    if (hit) {
+                        this.onEnter?.()
+                        helper && (helper.color = "blue")
+                    }
+                    else {
+                        this.onExit?.()
+                        helper && (helper.color = "white")
+                    }
+                hitOld = hit
+                
             }, _interval)
 
             return () => {
@@ -103,16 +114,17 @@ export default class Trigger extends PositionedItem implements ITrigger {
         }, [this.refresh.get])
 
         this.createEffect(() => {
-            const { _radius, _helper } = this
+            const { _radius, _helper, _pad } = this
             if (!_helper) return
 
             if (getCamera() !== mainCamera) return
 
-            const h = helper = new Cylinder()
+            const h = helper = _pad ? new Cylinder() : new Sphere()
             appendableRoot.delete(h)
             group.add(h.outerObject3d)
             h.scale = _radius * scaleDown * 2
             h.opacity = 0.5
+            h.height = _pad ? 10 : 100
 
             const handle = onSelectionTarget(target => target === h && emitSelectionTarget(this))
 
