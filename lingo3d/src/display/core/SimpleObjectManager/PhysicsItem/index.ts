@@ -8,7 +8,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { assertExhaustive } from "@lincode/utils"
 
 export default abstract class PhysicsItem extends AnimationItem implements IPhysics {
-    public abstract object3d: Object3D
+    public abstract override object3d: Object3D
 
     protected _mAV?: Point3d
     private getMAV() {

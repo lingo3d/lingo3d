@@ -166,14 +166,6 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         val !== undefined && forceGet(idMap, val, makeSet).add(this)
     }
 
-    public getWorldPosition() {
-        return vec2Point(this.object3d.getWorldPosition(vector3_))
-    }
-
-    public getCenter() {
-        return vec2Point(getCenter(this.object3d))
-    }
-
     protected getRay() {
         return ray.set(this.object3d.getWorldPosition(vector3_), this.object3d.getWorldDirection(vector3))
     }
@@ -371,26 +363,26 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
     }
     
     public override get x() {
-        return this.outerObject3d.position.x * scaleUp
+        return super.x
     }
     public override set x(val: number) {
-        this.outerObject3d.position.x = val * scaleDown
+        super.x = val
         this.physicsUpdate && ((this.physicsUpdate.position ??= {}).x = true)
     }
 
     public override get y() {
-        return this.outerObject3d.position.y * scaleUp
+        return super.y
     }
     public override set y(val: number) {
-        this.outerObject3d.position.y = val * scaleDown
+        super.y = val
         this.physicsUpdate && ((this.physicsUpdate.position ??= {}).y = true)
     }
 
     public override get z() {
-        return this.outerObject3d.position.z * scaleUp
+        return super.z
     }
     public override set z(val: number) {
-        this.outerObject3d.position.z = val * scaleDown
+        super.z = val
         this.physicsUpdate && ((this.physicsUpdate.position ??= {}).z = true)
     }
 
