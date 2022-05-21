@@ -7,7 +7,7 @@ import ScaleIcon from "./icons/ScaleIcon"
 import AbsoluteIcon from "./icons/AbsoluteIcon"
 import RelativeIcon from "./icons/RelativeIcon"
 import IconButton from "./IconButton"
-import { useTransformControlsMode, useTransformControlsSpace } from "../states"
+import { useSelectionTarget, useTransformControlsMode, useTransformControlsSpace } from "../states"
 import CursorIcon from "./icons/CursorIcon"
 import Separator from "./Separator"
 import ExportIcon from "./icons/ExportIcon"
@@ -21,6 +21,8 @@ import VueIcon from "./icons/VueIcon"
 import saveTextFile from "./saveTextFile"
 import serializeReact from "./serializeReact"
 import serializeVue from "./serializeVue"
+import SimpleObjectManager from "../../display/core/SimpleObjectManager"
+import { useLayoutEffect } from "preact/hooks"
 
 preventTreeShake(h)
 
@@ -48,6 +50,13 @@ const Toolbar = () => {
     let [space, setSpace] = useTransformControlsSpace()
     if (mode === "scale") space = "local"
 
+    const [target] = useSelectionTarget()
+    const isPositioned = target && !(target instanceof SimpleObjectManager)
+
+    useLayoutEffect(() => {
+        isPositioned && (mode === "rotate" || mode === "scale") && setMode("translate")
+    }, [isPositioned])
+
     return (
         <div
          className="lingo3d-ui"
@@ -72,10 +81,10 @@ const Toolbar = () => {
                 <IconButton active={mode === "translate"} onClick={() => setMode("translate")}>
                     <TranslateIcon />
                 </IconButton>
-                <IconButton active={mode === "rotate"} onClick={() => setMode("rotate")}>
+                <IconButton active={mode === "rotate"} disabled={isPositioned} onClick={() => setMode("rotate")}>
                     <RotateIcon />
                 </IconButton>
-                <IconButton active={mode === "scale"} onClick={() => setMode("scale")}>
+                <IconButton active={mode === "scale"} disabled={isPositioned} onClick={() => setMode("scale")}>
                     <ScaleIcon />
                 </IconButton>
 

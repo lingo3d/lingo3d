@@ -272,6 +272,23 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 pane.refresh()
             }))
         }
+        else {
+            const transformParams = {
+                "position": makeVector("x", "y", "z")
+            }
+            addInputs(pane, "transform", target, transformParams, {
+                "position": ["x", "y", "z"]
+            })
+            handle.watch(onTransformControls(() => {
+                programmatic = true
+                disableProgrammatic()
+
+                Object.assign(transformParams, {
+                    "position": makeVector("x", "y", "z")
+                })
+                pane.refresh()
+            }))
+        }
 
         if (selectionTarget instanceof ObjectManager)
             addInputs(pane, "inner transform", target, {
