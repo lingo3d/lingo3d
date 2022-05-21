@@ -3,6 +3,7 @@ import { Group } from "three"
 import { idMap } from "../display/core/SimpleObjectManager"
 import Cylinder from "../display/primitives/Cylinder"
 import Sphere from "../display/primitives/Sphere"
+import getActualScale from "../display/utils/getActualScale"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import { scaleDown } from "../engine/constants"
 import mainCamera from "../engine/mainCamera"
@@ -83,6 +84,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
             if (!_targetIds) return
 
             const r = _radius * scaleDown
+            const pr = r * 0.2
 
             let hitOld = false
             const interval = setInterval(() => {
@@ -92,7 +94,13 @@ export default class Trigger extends PositionedItem implements ITrigger {
                 let hit = false
                 for (const target of targets) {
                     const { x: tx, y: ty, z: tz} = getWorldPosition(target.object3d)
-                    hit = Math.abs(x - tx) < r && Math.abs(y - ty) < r && Math.abs(z - tz) < r
+                    if (_pad) {
+                        const { y: sy } = getActualScale(target)
+                        hit = Math.abs(x - tx) < r && Math.abs(y - (ty - sy * 0.5)) < pr && Math.abs(z - tz) < r
+                    }
+                    else
+                        hit = Math.abs(x - tx) < r && Math.abs(y - ty) < r && Math.abs(z - tz) < r
+
                     if (hit) break
                 }
                 if (hitOld !== hit)
