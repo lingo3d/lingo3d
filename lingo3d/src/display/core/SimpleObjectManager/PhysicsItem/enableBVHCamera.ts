@@ -20,13 +20,8 @@ export default function(this: ThirdPersonCamera) {
     if (this.done) return
 
     const cam = this.camera
-
-    scene.attach(cam)
     bvhCameraSet.add(cam)
-    this.then(() => {
-        scene.remove(cam)
-        bvhCameraSet.delete(cam)
-    })
+    this.then(() => bvhCameraSet.delete(cam))
 
     let tooCloseOld = false
 

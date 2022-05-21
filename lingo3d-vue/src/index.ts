@@ -1,7 +1,7 @@
 import type * as types from "lingo3d"
 export { types }
 
-export { screenshot, onAfterRender } from "lingo3d"
+export { screenshot, onAfterRender, keyboard, mouse } from "lingo3d"
 
 export { default as World } from "./components/World.vue"
 export { default as LingoEditor } from "./components/editor/LingoEditor.vue"

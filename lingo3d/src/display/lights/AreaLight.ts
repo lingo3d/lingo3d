@@ -12,6 +12,7 @@ import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import { onTransformControls } from "../../events/onTransformControls"
 import { Reactive } from "@lincode/reactivity"
 import PositionedItem from "../../api/core/PositionedItem"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import("three/examples/jsm/lights/RectAreaLightUniformsLib.js")
@@ -44,17 +45,19 @@ export default class extends ObjectManager<Group> implements IAreaLight {
             this.then(() => light.dispose())
 
             this.createEffect(() => {
-                if (getTransformControlsMode() !== "scale") return
+                if (getTransformControlsMode() !== "scale" || getSelectionTarget() !== this) return
 
                 const handle = onTransformControls(() => {
                     const { x, y } = this.outerObject3d.scale
+                    console.log(x, y)
+
                     this.scaleX = x
                     this.scaleY = y
                 })
                 return () => {
                     handle.cancel()
                 }
-            }, [getTransformControlsMode])
+            }, [getTransformControlsMode, getSelectionTarget])
             
             this.createEffect(() => {
                 if (getCamera() !== mainCamera || !this.helperState.get()) return

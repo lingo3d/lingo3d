@@ -4,6 +4,7 @@ import store, { Reactive } from "@lincode/reactivity"
 import { Quaternion } from "three"
 import PositionedItem from "../../api/core/PositionedItem"
 import { loop } from "../../engine/eventLoop"
+import scene from "../../engine/scene"
 import { onSceneChange } from "../../events/onSceneChange"
 import ICharacterCamera, { characterCameraDefaults, characterCameraSchema, LockTargetRotationValue } from "../../interface/ICharacterCamera"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
@@ -19,6 +20,10 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
 
     public constructor() {
         super()
+
+        const cam = this.camera
+        scene.attach(cam)
+        this.then(() => scene.remove(cam))
 
         this.watch(onSceneChange(() => this.target?.parent !== this && (this.target = undefined)))
         

@@ -57,7 +57,9 @@ export const nonSerializedSettings: Array<keyof ISetup> = [
     "wasmPath",
     "autoMount",
     "texture",
-    "color"
+    "color",
+    "gridHelper",
+    "gridHelperSize"
 ]
 
 type TypedPropsNode<Props, Type extends GameObjectType> = Partial<Props> & Node & { type: Type }
