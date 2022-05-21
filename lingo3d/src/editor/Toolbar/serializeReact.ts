@@ -1,10 +1,9 @@
 import { upperFirst } from "@lincode/utils"
 import serialize from "../../display/utils/serializer/serialize"
 import { SceneGraphNode } from "../../display/utils/serializer/types"
-import makeIndent from "./makeIndent"
 import saveTextFile from "./saveTextFile"
 
-const serializeReact = (nodes: Array<SceneGraphNode>, level: number) => {
+const serializeReact = (nodes: Array<SceneGraphNode>) => {
     let result = ""
     for (const node of nodes) {
         const componentName = upperFirst(node.type)
@@ -25,17 +24,25 @@ const serializeReact = (nodes: Array<SceneGraphNode>, level: number) => {
         }
 
         result += "children" in node && node.children
-            ? `${makeIndent(level)}<${componentName}${props}>\n${serializeReact(node.children, level + 1)}${makeIndent(level)}</${componentName}>\n`
-            : `${makeIndent(level)}<${componentName}${props} />\n`
+            ? `<${componentName}${props}>${serializeReact(node.children)}</${componentName}>`
+            : `<${componentName}${props} />`
     }
     return result
 }
 
-export default () => {
-    const code = 
-`const App = () => {
-    return <>
-${serializeReact(serialize(), 2)}    </>
-}`
+export default async () => {
+    const prettier = (await import("prettier/standalone")).default
+    const parser = (await import("prettier/parser-babel")).default
+
+    const code = prettier.format(`
+        const App = () => {
+            return (
+                <World>
+                    ${serializeReact(serialize())}
+                </World>
+            )
+        }
+    `, { parser: "babel", plugins: [parser] })
+    
     saveTextFile("App.jsx", code)
 }

@@ -26,8 +26,12 @@ import { useLayoutEffect } from "preact/hooks"
 
 preventTreeShake(h)
 
-const handleSave = () => {
-    saveTextFile("scene.json", JSON.stringify(serialize()))
+const handleSave = async () => {
+    const prettier = (await import("prettier/standalone")).default
+    const parser = (await import("prettier/parser-babel")).default
+
+    const code = prettier.format(JSON.stringify(serialize()), { parser: "json", plugins: [parser] })
+    saveTextFile("scene.json", code)
 }
 
 const handleOpen = async () => {

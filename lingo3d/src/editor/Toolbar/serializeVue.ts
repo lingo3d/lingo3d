@@ -2,10 +2,9 @@ import { upperFirst } from "@lincode/utils"
 import { kebabCase } from "lodash"
 import serialize from "../../display/utils/serializer/serialize"
 import { SceneGraphNode } from "../../display/utils/serializer/types"
-import makeIndent from "./makeIndent"
 import saveTextFile from "./saveTextFile"
 
-const serializeVue = (nodes: Array<SceneGraphNode>, level: number) => {
+const serializeVue = (nodes: Array<SceneGraphNode>) => {
     let result = ""
     for (const node of nodes) {
         const componentName = upperFirst(node.type)
@@ -28,15 +27,23 @@ const serializeVue = (nodes: Array<SceneGraphNode>, level: number) => {
         }
 
         result += "children" in node && node.children
-            ? `${makeIndent(level)}<${componentName}${props}>\n${serializeVue(node.children, level + 1)}${makeIndent(level)}</${componentName}>\n`
-            : `${makeIndent(level)}<${componentName}${props} />\n`
+            ? `<${componentName}${props}>\n${serializeVue(node.children)}</${componentName}>\n`
+            : `<${componentName}${props} />\n`
     }
     return result
 }
 
-export default () => {
-    const code = 
-`<template>
-${serializeVue(serialize(), 1)}</template>`
+export default async () => {
+    const prettier = (await import("prettier/standalone")).default
+    const parser = (await import("prettier/parser-html")).default
+
+    const code = prettier.format(`
+        <template>
+            <World>
+                ${serializeVue(serialize())}
+            </World>
+        </template>
+    `, { parser: "vue", plugins: [parser] })
+
     saveTextFile("App.vue", code)
 }
