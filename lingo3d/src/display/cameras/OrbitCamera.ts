@@ -118,9 +118,9 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                     else if (downSet.has("d"))
                         moveRight(10)
 
-                    if (downSet.has("q"))
+                    if (downSet.has("ArrowDown"))
                         moveUp(-10)
-                    else if (downSet.has("e"))
+                    else if (downSet.has("ArrowUp"))
                         moveUp(10)
                 }))
 
