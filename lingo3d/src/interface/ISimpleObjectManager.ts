@@ -122,7 +122,7 @@ export const simpleObjectManagerDefaults: ISimpleObjectManager = {
     innerVisible: true,
     frustumCulled: true,
 
-    metalnessFactor: 1,
+    metalnessFactor: 0,
     roughnessFactor: 1,
     environmentFactor: 1,
 

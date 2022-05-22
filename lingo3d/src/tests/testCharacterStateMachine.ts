@@ -27,6 +27,7 @@ cam.activate()
 cam.mouseControl = true
 cam.innerX = 20
 characterModel.physics = "character"
+characterModel.pbr = true
 
 mouse.onMouseDown = () => {
     characterService.send("AIM_ON")

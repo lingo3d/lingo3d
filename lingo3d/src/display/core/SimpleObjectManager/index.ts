@@ -494,7 +494,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
 
     protected _metalnessFactor?: number
     public get metalnessFactor() {
-        return this._metalnessFactor ?? 1
+        return this._metalnessFactor ?? 0
     }
     public set metalnessFactor(val: number) {
         this._metalnessFactor = val

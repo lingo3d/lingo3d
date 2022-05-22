@@ -74,7 +74,7 @@ const processChild = (
 export default debounce(() => {
     for (const model of applySet) {
         //@ts-ignore
-        const { _toon, _pbr, _metalnessFactor, _roughnessFactor, _environmentFactor } = model
+        const { _toon, _pbr, _metalnessFactor = 0, _roughnessFactor, _environmentFactor } = model
 
         if ("loadedResolvable" in model)
             //@ts-ignore
