@@ -55,7 +55,7 @@ const SceneGraph = () => {
                 opacity: 0.5,
                 display: "flex",
                 alignItems: "center",
-                paddingLeft: 30
+                paddingLeft: 12
             }}>
                 <div>scenegraph</div>
                 <div style={{ flexGrow: 1 }} />
