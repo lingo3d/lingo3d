@@ -1,6 +1,6 @@
 import { preventTreeShake } from "@lincode/utils"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
-import { defineComponent, PropType, VNode, h, ref, watchEffect } from "vue"
+import { defineComponent, PropType, VNode, h, ref, watchEffect, toRaw } from "vue"
 
 preventTreeShake(h)
 
@@ -15,7 +15,7 @@ export default defineComponent({
         const divRef = ref<HTMLDivElement>()
 
         watchEffect(cleanUp => {
-            const div = divRef.value
+            const div = toRaw(divRef.value)
             const manager = props.manager
             if (!div || !manager) return
 

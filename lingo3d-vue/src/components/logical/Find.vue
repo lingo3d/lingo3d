@@ -2,7 +2,7 @@
 import FoundManager from "lingo3d/lib/display/core/FoundManager"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
 import { foundDefaults } from "lingo3d/lib/interface/IFound"
-import { inject, ref, watchEffect, computed, Ref, provide } from "vue"
+import { inject, ref, watchEffect, computed, Ref, provide, toRaw } from "vue"
 import useDiffProps from "../../hooks/useDiffProps"
 import { applyChanges } from "../../hooks/useManager"
 import foundProps from "../../props/foundProps"
@@ -15,7 +15,7 @@ provide("parent", managerRef)
 
 watchEffect(onCleanUp => {
     const { name } = props
-    const parent = parentRef?.value
+    const parent = toRaw(parentRef?.value)
     if (!parent || !name) return
     
     if ("loadedResolvable" in parent){

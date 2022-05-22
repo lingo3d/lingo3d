@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import { World, Editor, SceneGraph, Toolbar, Library } from "."
-import Cube from "./components/display/primitives/Cube.vue"
-
-const handleMouse = () => {
-  console.log("over")
-}
+import { World, Editor, SceneGraph, Toolbar, Library, Cube } from "."
 </script>
 
 <template>
@@ -13,7 +8,7 @@ const handleMouse = () => {
     <SceneGraph />
     <Editor mouse="enabled" />
     <Library />
-    <Cube @mouse-over="handleMouse" />
+    <Cube><Cube /></Cube>
   </World>
   
 </template>

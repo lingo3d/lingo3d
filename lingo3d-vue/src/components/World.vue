@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PropType, ref, watchEffect } from "vue"
+import { PropType, ref, toRaw, watchEffect } from "vue"
 import { applySetup, rootContainer } from "lingo3d"
 import { setResolution } from "lingo3d/lib/states/useResolution"
 import { setViewportSize } from "lingo3d/lib/states/useViewportSize"
@@ -22,7 +22,7 @@ const props = defineProps({
 const divRef = ref<HTMLDivElement>()
 
 watchEffect(onCleanUp => {
-    const el = divRef.value
+    const el = toRaw(divRef.value)
     if (!el) return
 
     el.appendChild(rootContainer)
