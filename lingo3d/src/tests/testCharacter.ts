@@ -53,7 +53,7 @@ cam.rotationY = 180
 cam.mouseControl = true
 cam.activate()
 cam.innerX = 20
-cam.target = model
+cam.append(model)
 
 // const camSpring = cam.watch(new Spring())
 // camSpring.from = 1

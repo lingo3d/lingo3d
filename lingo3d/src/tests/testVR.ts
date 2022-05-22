@@ -30,7 +30,7 @@ keyboard.onKeyPress = (k) => {
 }
 
 const cam = new FirstPersonCamera()
-cam.target = player
+cam.append(player)
 cam.mouseControl = "drag"
 cam.active = true
 

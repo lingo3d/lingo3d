@@ -1,11 +1,10 @@
-import scene from "../../../../engine/scene"
 import { getEditorActive } from "../../../../states/useEditorActive"
 import ThirdPersonCamera from "../../../cameras/ThirdPersonCamera"
 import { vector3, vector3_, quaternion } from "../../../utils/reusables"
 import { bvhCameraSet, onBeforeCameraLoop } from "./bvh/bvhCameraLoop"
 
 function setVisible(this: ThirdPersonCamera, visible: boolean) {
-    const { target } = this
+    const target = this.targetState.get()
 
     //@ts-ignore
     if (target && target._visible === undefined)

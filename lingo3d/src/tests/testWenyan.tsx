@@ -124,7 +124,7 @@ cam.mouseControl = true
 cam.activate()
 cam.innerX = 20
 cam.minPolarAngle = 70
-cam.target = model
+cam.append(model)
 
 // const camSpring = cam.watch(new Spring())
 // camSpring.from = 1

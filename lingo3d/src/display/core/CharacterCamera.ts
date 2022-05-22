@@ -93,31 +93,24 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
     public lockTargetRotation: LockTargetRotationValue = true
 
     protected targetState = new Reactive<PositionedItem | SimpleObjectManager | undefined>(undefined)
-    public get target() {
-        return this.targetState.get()
-    }
-    public set target(target: PositionedItem | SimpleObjectManager | undefined) {
-        this.targetState.set(target)
-    }
-
     public override append(object: PositionedItem) {
-        if (this.target) {
+        if (this.targetState.get()) {
             super.append(object)
             return
         }
         this._append(object)
         this.outerObject3d.parent?.add(object.outerObject3d)
-        this.target = object
+        this.targetState.set(object)
     }
     
     public override attach(object: PositionedItem) {
-        if (this.target) {
+        if (this.targetState.get()) {
             super.attach(object)
             return
         }
         this._append(object)
         this.outerObject3d.parent?.attach(object.outerObject3d)
-        this.target = object
+        this.targetState.set(object)
     }
     
     private gyroControlHandle?: Cancellable
