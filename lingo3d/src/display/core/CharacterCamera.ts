@@ -112,7 +112,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
     
     public override attach(object: PositionedItem) {
         if (this.target) {
-            super.append(object)
+            super.attach(object)
             return
         }
         this._append(object)
