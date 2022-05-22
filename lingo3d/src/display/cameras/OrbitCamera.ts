@@ -108,14 +108,14 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                     this.updateDebounced()
                 }
                 handle.watch(loop(() => {
-                    if (downSet.has("w") || downSet.has("ArrowUp"))
+                    if (downSet.has("w"))
                         moveForward(downSet.has("Shift") ? 50 : 10)
-                    else if (downSet.has("s") || downSet.has("ArrowDown"))
+                    else if (downSet.has("s"))
                         moveForward(downSet.has("Shift") ? -50 : -10)
 
-                    if (downSet.has("a") || downSet.has("ArrowLeft"))
+                    if (downSet.has("a"))
                         moveRight(-10)
-                    else if (downSet.has("d") || downSet.has("ArrowRight"))
+                    else if (downSet.has("d"))
                         moveRight(10)
 
                     if (downSet.has("q"))
