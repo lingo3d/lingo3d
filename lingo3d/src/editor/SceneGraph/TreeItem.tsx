@@ -12,6 +12,8 @@ import ModelTreeItem from "./ModelTreeItem"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import useClick from "./useClick"
 import PositionedItem from "../../api/core/PositionedItem"
+import { setCamera } from "../../states/useCamera"
+import mainCamera from "../../engine/mainCamera"
 
 preventTreeShake(h)
 
@@ -24,14 +26,17 @@ export type TreeItemProps = {
 export const makeTreeItemCallbacks = (appendable?: Appendable) => {
     const setClickEl = useClick(e => {
         e.stopPropagation()
-        appendable instanceof PositionedItem && emitSelectionTarget(appendable)
+        if (!(appendable instanceof PositionedItem)) return
+        setCamera(mainCamera)
+        emitSelectionTarget(appendable)
     })
 
     const handleClick = (e: MouseEvent) => e.stopPropagation()
 
     const handleDoubleClick = (e: MouseEvent) => {
         e.stopPropagation()
-        appendable instanceof PositionedItem && emitEditorCenterView(appendable)
+        if (!(appendable instanceof PositionedItem)) return
+        emitEditorCenterView(appendable)
     }
     
     return { setClickEl, handleClick, handleDoubleClick }
