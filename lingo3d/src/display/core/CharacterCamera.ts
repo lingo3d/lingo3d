@@ -24,10 +24,20 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
         const cam = this.camera
         scene.attach(cam)
         this.then(() => scene.remove(cam))
-
-        this.watch(onSceneChange(() => this.target?.parent !== this && (this.target = undefined)))
         
-        this.targetState.get(target => target && ("frustumCulled" in target) && (target.frustumCulled = false))
+        this.createEffect(() => {
+            const target = this.targetState.get()
+            if (!target) return
+
+            if ("frustumCulled" in target)
+                target.frustumCulled = false
+
+            const handle = onSceneChange(() => target.parent !== this && this.targetState.set(undefined))
+            
+            return () => {
+                handle.cancel()
+            }
+        }, [this.targetState.get])
 
         const followTarget = (target: PositionedItem) => {
             euler.setFromQuaternion(target.outerObject3d.quaternion)

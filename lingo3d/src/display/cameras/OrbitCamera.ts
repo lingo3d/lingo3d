@@ -34,7 +34,19 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         scene.add(camera)
 
         this.initCamera()
-        this.watch(onSceneChange(() => this.target?.parent !== this && (this.target = undefined)))
+
+        this.createEffect(() => {
+            const target = this.targetState.get()
+            if (!target) return
+
+            this.controls.target = target.outerObject3d.position
+            const handle = onSceneChange(() => target.parent !== this && this.targetState.set(undefined))
+            
+            return () => {
+                this.controls.target = new Vector3()
+                handle.cancel()
+            }
+        }, [this.targetState.get])
 
         const controls = this.controls = new OrbitControls(camera, container)
         controls.enabled = false
@@ -163,18 +175,16 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         this.controls.target.z = val * scaleDown
     }
 
-    protected _target: PositionedItem | undefined
+    private targetState = new Reactive<PositionedItem | undefined>(undefined)
     public get target() {
-        return this._target
+        return this.targetState.get()
     }
     public set target(target: PositionedItem | undefined) {
-        if (target === this._target) return
-        this._target = target
-        this.controls.target = target?.outerObject3d.position ?? new Vector3()
+        this.targetState.set(target)
     }
 
     public override append(object: PositionedItem) {
-        if (this._target) {
+        if (this.target) {
             super.append(object)
             return
         }
@@ -184,7 +194,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
     }
 
     public override attach(object: PositionedItem) {
-        if (this._target) {
+        if (this.target) {
             super.attach(object)
             return
         }
