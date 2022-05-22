@@ -11,11 +11,12 @@ import { multipleSelectionGroupManagers } from "../../states/useMultipleSelectio
 import GroupIcon from "./icons/GroupIcon"
 import DeleteIcon from "./icons/DeleteIcon"
 import TitleBarButton from "./TitleBarButton"
-import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
+import { useCamera, useMultipleSelectionTargets, useSelectionTarget } from "../states"
 import deleteSelected from "../Editor/deleteSelected"
 import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import EmptyItem from "./EmptyItem"
+import mainCamera from "../../engine/mainCamera"
 
 preventTreeShake(h)
 
@@ -33,6 +34,8 @@ const SceneGraph = () => {
 
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const [selectionTarget] = useSelectionTarget()
+    const [camera] = useCamera()
+    const enabled = camera === mainCamera
 
     return (
         <div
@@ -46,16 +49,17 @@ const SceneGraph = () => {
              paddingTop: 0,
              display: "flex",
              flexDirection: "column",
-             overflow: "hidden"
+             overflow: "hidden",
+             pointerEvents: enabled ? "auto" : "none"
          }}
         >
             <div style={{
                 height: 24,
                 borderBottom: "1px solid rgb(255,255,255,0.1)",
-                opacity: 0.5,
+                opacity: enabled ? 0.5 : 0.25,
                 display: "flex",
                 alignItems: "center",
-                paddingLeft: 30
+                paddingLeft: 30,
             }}>
                 <div>scenegraph</div>
                 <div style={{ flexGrow: 1 }} />
@@ -66,7 +70,7 @@ const SceneGraph = () => {
                     <DeleteIcon />
                 </TitleBarButton>
             </div>
-            <div style={{ overflow: "scroll" }} className="lingo3d-ui">
+            <div style={{ overflow: "scroll", opacity: enabled ? 1 : 0.5 }} className="lingo3d-ui">
                 {appendables.map(appendable => (
                     appendable instanceof Model ? (
                         <ModelTreeItem appendable={appendable} level={0} />
