@@ -1,5 +1,5 @@
 
-import { ThirdPersonCamera, Sky, Dummy } from ".."
+import { ThirdPersonCamera, Dummy } from ".."
 import Reflector from "../display/Reflector"
 import { setGridHelper } from "../states/useGridHelper"
 //@ts-ignore
@@ -26,5 +26,3 @@ const cam = new ThirdPersonCamera()
 cam.append(dummy)
 cam.activate()
 cam.mouseControl = true
-
-new Sky()
