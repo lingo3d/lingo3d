@@ -15,23 +15,25 @@ export default class Dummy extends Model {
         this.animation = "idle"
 
         this.createEffect(() => {
-            const pose = this.poseState.get()
+            const preset = this.presetState.get()
 
-            const prefix = pose === "rifle" ? "rifle-" : ""
+            const prefix = preset === "rifle" ? "rifle-" : ""
 
             this.animations = {
                 idle: url + prefix + "idle.fbx",
                 running: url + prefix + "running.fbx",
                 falling: url + prefix + "falling.fbx"
             }
-        }, [this.poseState.get])
+            this.animation = "idle"
+
+        }, [this.presetState.get])
     }
 
-    private poseState = new Reactive<"default" | "rifle">("default")
-    public get mode() {
-        return this.poseState.get()
+    private presetState = new Reactive<"default" | "rifle">("default")
+    public get preset() {
+        return this.presetState.get()
     }
-    public set mode(val) {
-        this.poseState.set(val)
+    public set preset(val) {
+        this.presetState.set(val)
     }
 }

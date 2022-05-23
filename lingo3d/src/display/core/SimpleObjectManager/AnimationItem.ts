@@ -143,7 +143,6 @@ export default abstract class AnimationItem extends PositionedItem implements IA
             this.setAnimation(val[0], o)
             return
         }
-        
-        this.setAnimation(val)
+        this.queueMicrotask(() => this.setAnimation(val))
     }
 }
