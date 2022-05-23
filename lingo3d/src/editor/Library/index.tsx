@@ -18,6 +18,7 @@ const Library = () => {
         >
             <ObjectGroup names={[
                 "model",
+                { "svgMesh": "model" },
                 "svgMesh",
                 { "trigger": "cylinder" },
                 "reflector",
