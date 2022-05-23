@@ -1,8 +1,9 @@
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
+import { onBeforeRender } from "../../events/onBeforeRender"
 import IDummy, { dummyDefaults, dummySchema } from "../../interface/IDummy"
+import FoundManager from "../core/FoundManager"
 import Model from "../Model"
-import { vec2Point } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
 
 const url = "https://unpkg.com/lingo3d-dummy@1.0.0/assets/"
@@ -42,20 +43,34 @@ export default class Dummy extends Model implements IDummy {
         poseService.onTransition(state => setPose(state.value as string)).start()
         this.then(() => poseService.stop())
 
+        const [setSpine, getSpine] = store<FoundManager | undefined>(undefined)
+        this.loadedResolvable.then(() => setSpine(this.find("mixamorigSpine")))
+
         this.createEffect(() => {
             const { strideForward, strideRight } = this
             if (!strideForward && !strideRight) return
 
-            const point = vec2Point(this.outerObject3d.position)
-            point.x += strideRight
-            point.z += strideForward
+            const spine = getSpine()
+            if (!spine) return
+
+            spine.animation = false
+
+            const spinePoint = spine.getWorldPosition()
+            spinePoint.z += 1000
+            spinePoint.y -= Math.max(Math.abs(spinePoint.x), Math.abs(spinePoint.z)) * 0.4
+            const handle = onBeforeRender(() => spine.lookAt(spinePoint))
+
+            const point = this.getWorldPosition()
+            point.x += strideRight * 1000
+            point.z += strideForward * 1000
             this.lookAt(point)
 
             poseService.send("RUN_START")
             return () => {
                 poseService.send("RUN_STOP")
+                handle.cancel()
             }
-        }, [this.strideForwardState.get, this.strideRightState.get])
+        }, [this.strideForwardState.get, this.strideRightState.get, getSpine])
     }
 
     private srcState = new Reactive(url + "ybot.fbx")
