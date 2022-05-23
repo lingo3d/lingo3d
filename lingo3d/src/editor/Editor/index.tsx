@@ -364,9 +364,16 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
 
             if (schema === dummySchema) {
                 params.stride = { x: 0, y: 0 }
+                const { stride: strideInput } = addInputs(pane, componentName, target, params)
+                strideInput.on("change", ({ value }) => {
+                    Object.assign(params, {
+                        "strideForward": value.y,
+                        "strideRight": value.x,
+                    })
+                    pane.refresh()
+                })
             }
-
-            addInputs(pane, componentName, target, params)
+            else addInputs(pane, componentName, target, params)
         }
 
         return () => {
