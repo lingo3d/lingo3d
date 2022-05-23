@@ -35,27 +35,19 @@ export default class Dummy extends Model implements IDummy {
         }, [this.presetState.get, this.srcState.get])
         
         const [setPose, getPose] = store("idle")
-
         this.createEffect(() => {
             const pose = getPose()
             this.animation = pose
-            
         }, [getPose])
-
         this.poseService.onTransition(state => setPose(state.value as string)).start()
         this.then(() => this.poseService.stop())
-    }
 
-    public jump(val = 10) {
-        this.poseService.send("JUMP_START")
-    }
+        this.createEffect(() => {
+            const { strideForward, strideRight } = this
 
-    public run(val = 10) {
-        this.poseService.send("RUN_START")
-    }
+            console.log(strideForward, strideRight)
 
-    public runStop() {
-        this.poseService.send("RUN_STOP")
+        }, [this.strideForwardState.get, this.strideRightState.get])
     }
 
     private srcState = new Reactive(url + "ybot.fbx")
@@ -72,5 +64,21 @@ export default class Dummy extends Model implements IDummy {
     }
     public set preset(val) {
         this.presetState.set(val)
+    }
+
+    private strideForwardState = new Reactive(0)
+    public get strideForward() {
+        return this.strideForwardState.get()
+    }
+    public set strideForward(val) {
+        this.strideForwardState.set(val)
+    }
+
+    private strideRightState = new Reactive(0)
+    public get strideRight() {
+        return this.strideRightState.get()
+    }
+    public set strideRight(val) {
+        this.strideRightState.set(val)
     }
 }

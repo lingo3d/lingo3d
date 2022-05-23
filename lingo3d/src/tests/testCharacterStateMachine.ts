@@ -6,7 +6,6 @@ import { setGridHelper } from "../states/useGridHelper"
 import roughnessSrc from "../../assets-local/roughness.png"
 //@ts-ignore
 import normalSrc from "../../assets-local/normal.jpg"
-import keyboard from "../api/keyboard"
 
 export default {}
 
@@ -22,22 +21,6 @@ reflector.roughness = 5
 const dummy = new Dummy()
 dummy.y = 50
 dummy.preset = "rifle"
-
-keyboard.onKeyPress = (k) => {
-    if (k === "w") {
-        dummy.run(-10)
-    }
-    if (k === "Space") {
-        dummy.jump(10)
-    }
-}
-
-keyboard.onKeyUp = (k) => {
-    if (k === "w") {
-        dummy.runStop()
-    }
-}
-
 
 const cam = new ThirdPersonCamera()
 cam.append(dummy)
