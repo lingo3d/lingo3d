@@ -30,6 +30,7 @@ import { onKeyClear } from "../../events/onKeyClear"
 import { nonSerializedSettings } from "../../display/utils/serializer/types"
 import { onApplySetup } from "../../events/onApplySetup"
 import ISetup from "../../interface/ISetup"
+import { dummySchema } from "../../interface/IDummy"
 
 preventTreeShake(h)
 
@@ -359,6 +360,11 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
 
                 params[key] = v
             }
+
+            if (schema === dummySchema) {
+                params.stride = { x: 0, y: 0 }
+            }
+
             addInputs(pane, componentName, target, params)
         }
 
