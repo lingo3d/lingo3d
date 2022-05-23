@@ -1,3 +1,4 @@
+import { rad2Deg } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
 import IDummy, { dummyDefaults, dummySchema } from "../../interface/IDummy"
@@ -10,8 +11,6 @@ export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
     public static override defaults = dummyDefaults
     public static override schema = dummySchema
-
-    private poseService = interpret(poseMachine)
 
     public constructor () {
         super()
@@ -34,19 +33,27 @@ export default class Dummy extends Model implements IDummy {
 
         }, [this.presetState.get, this.srcState.get])
         
+        const poseService = interpret(poseMachine)
+
         const [setPose, getPose] = store("idle")
         this.createEffect(() => {
-            const pose = getPose()
-            this.animation = pose
+            this.animation = getPose()
         }, [getPose])
-        this.poseService.onTransition(state => setPose(state.value as string)).start()
-        this.then(() => this.poseService.stop())
+        poseService.onTransition(state => setPose(state.value as string)).start()
+        this.then(() => poseService.stop())
 
         this.createEffect(() => {
             const { strideForward, strideRight } = this
+            if (!strideForward && !strideRight) return
+            
+            const angle = Math.atan2(strideForward, strideRight) * rad2Deg
+            this.rotationY = angle
+            console.log(angle)
 
-            console.log(strideForward, strideRight)
-
+            poseService.send("RUN_START")
+            return () => {
+                poseService.send("RUN_STOP")
+            }
         }, [this.strideForwardState.get, this.strideRightState.get])
     }
 
