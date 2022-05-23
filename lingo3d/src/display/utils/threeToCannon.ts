@@ -48,7 +48,7 @@ export default async () => {
         model.physics = true
         model.mass = 0
 
-        timer(1000, Infinity, () => {
+        timer(1000, -1, () => {
             const ball = new Sphere()
             ball.scale = 0.1
             ball.y = 100

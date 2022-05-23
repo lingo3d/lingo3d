@@ -126,11 +126,11 @@ export default abstract class AnimationItem extends PositionedItem implements IA
         this.buildAnimation(val)
     }
 
-    private _animation?: AnimationValue
-    public get animation(): AnimationValue {
-        return this._animation ??= this.makeAnimationProxy({})
+    private _animation?: Animation
+    public get animation() {
+        return this._animation
     }
-    public set animation(val: Animation | undefined) {
+    public set animation(val) {
         if (Array.isArray(val)) {
             let currentIndex = 0
             const o = {

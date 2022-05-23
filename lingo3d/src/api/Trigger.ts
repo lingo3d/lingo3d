@@ -6,6 +6,7 @@ import Sphere from "../display/primitives/Sphere"
 import getActualScale from "../display/utils/getActualScale"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import { scaleDown } from "../engine/constants"
+import { timer } from "../engine/eventLoop"
 import mainCamera from "../engine/mainCamera"
 import scene from "../engine/scene"
 import { emitSelectionTarget, onSelectionTarget } from "../events/onSelectionTarget"
@@ -87,7 +88,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
             const pr = r * 0.2
 
             let hitOld = false
-            const interval = setInterval(() => {
+            const handle = timer(_interval, -1, () => {
                 const { x, y, z } = getWorldPosition(this.outerObject3d)
                 const targets = typeof _targetIds === "string" ? getTargets(_targetIds) : _targetIds.map(getTargets).flat()
                 
@@ -114,10 +115,10 @@ export default class Trigger extends PositionedItem implements ITrigger {
                     }
                 hitOld = hit
                 
-            }, _interval)
+            })
 
             return () => {
-                clearInterval(interval)
+                handle.cancel()
             }
         }, [this.refresh.get])
 

@@ -2,30 +2,18 @@ import { Cancellable } from "@lincode/promiselikes"
 import { getPaused } from "../states/usePaused"
 import { getRenderer } from "../states/useRenderer"
 
-const interval = (time: number, repeat: number, cb: () => void) => {
+let paused = getPaused()
+getPaused(val => paused = val)
+
+export const timer = (time: number, repeat: number, cb: () => void) => {
     let count = 0
     const handle = setInterval(() => {
-        if (document.hidden) return
-
+        if (document.hidden || paused) return
         cb()
-        ++count >= repeat && clearInterval(handle)
+        if (repeat !== -1 && ++count >= repeat)
+            clearInterval(handle)
     }, time)
     return new Cancellable(() => clearInterval(handle))
-}
-
-type Timer = {
-    (time: number, cb: () => void): Cancellable
-    (time: number, repeat: number, cb: () => void): Cancellable
-}
-
-export const timer: Timer = (...args: Array<any>): Cancellable => {
-    if (args.length === 2)
-        return interval(args[0], 0, args[1])
-
-    if (args.length === 3)
-        return interval(args[0], args[1], args[2])
-
-    throw new Error("incorrect number of arguments")
 }
 
 const callbacks = new Set<() => void>()
@@ -39,7 +27,7 @@ getRenderer(renderer => {
         const fps = 1000 / (time - prevTime)
         prevTime = time
 
-        if (getPaused() || ++count < Math.round(fps / 60)) return
+        if (paused || ++count < Math.round(fps / 60)) return
         count = 0
 
         for (const cb of callbacks)

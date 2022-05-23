@@ -28,8 +28,7 @@
 		"preact-custom-element": "^4.2.1",
 		"prettier": "*",
 		"three": "0.140.2",
-		"tweakpane": "3",
-		"xstate": "*"
+		"tweakpane": "3"
 	},
 	"devDependencies": {
 		"@babel/cli": "7",
@@ -57,7 +56,8 @@
 		"webpack-bundle-analyzer": "*",
 		"webpack-cli": "4",
 		"webpack-dev-server": "4",
-		"webpack-notifier": "1"
+		"webpack-notifier": "1",
+		"xstate": "*"
 	},
 	"scripts": {
 		"build": "ambients clean && yarn webpack --mode production && yarn tsc",

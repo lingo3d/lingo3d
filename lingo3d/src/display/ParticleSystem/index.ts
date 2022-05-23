@@ -55,7 +55,7 @@ export default class ParticleSystem extends Cube {
 
     public start() {
         this.handle?.cancel()
-        this.handle = this.timer(1000 / this._frequency, Infinity, () => {
+        this.handle = this.timer(1000 / this._frequency, -1, () => {
             const [, , , , m0, m1, m2] = this.outerObject3d.matrixWorld.elements
         
             const speed = randomRange(this.speed, this.speedRange)

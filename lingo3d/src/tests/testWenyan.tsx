@@ -208,7 +208,7 @@ model.onLoad = () => {
             bolt.physics = true
             bolt.ignorePhysicsGroups = [2]
             bolt.applyLocalImpulse(0, 0, 50)
-            bolt.timer(5000, () => bolt.dispose())
+            bolt.timer(5000, 0, () => bolt.dispose())
 
             // bolt.listenToIntersection("text", t => {
             //     if (t.name === "error") {

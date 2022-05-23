@@ -10,9 +10,9 @@ export default class Dummy extends Model {
         this.width = 20
         this.depth = 20
         this.pbr = true
+        this.roughnessFactor = 0.3
+        this.metalnessFactor = 0.3
         this.physics = "character"
-
-        this.animation = "idle"
 
         this.createEffect(() => {
             const preset = this.presetState.get()
@@ -27,6 +27,17 @@ export default class Dummy extends Model {
             this.animation = "idle"
 
         }, [this.presetState.get])
+    }
+
+    public override get animation() {
+        return super.animation
+    }
+    public override set animation(val) {
+        super.animation = val
+    }
+
+    public jump(height = 10) {
+        this.velocity.y = height
     }
 
     private presetState = new Reactive<"default" | "rifle">("default")
