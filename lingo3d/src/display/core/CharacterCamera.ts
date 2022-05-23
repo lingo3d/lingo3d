@@ -1,6 +1,6 @@
 import { deg2Rad } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
-import store, { Reactive } from "@lincode/reactivity"
+import { Reactive } from "@lincode/reactivity"
 import { Quaternion } from "three"
 import PositionedItem from "../../api/core/PositionedItem"
 import { loop } from "../../engine/eventLoop"
@@ -45,11 +45,11 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             this.outerObject3d.quaternion.setFromEuler(euler)
             this.updatePolarAngle()
         }
-        const [setEditorRotating, getEditorRotating] = store<boolean | undefined>(undefined)
+        let transformControlRotating = false
 
         this.createEffect(() => {
             const target = this.targetState.get()
-            if (!target || getEditorRotating()) return
+            if (!target) return
 
             followTarget(target)
 
@@ -57,7 +57,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
                 this.outerObject3d.position.copy(target.outerObject3d.position)
                 if (!this.lockTargetRotation) return
 
-                if (this.lockTargetRotation === "follow") {
+                if (this.lockTargetRotation === "follow" || transformControlRotating) {
                     followTarget(target)
                     return
                 }
@@ -70,7 +70,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             return () => {
                 handle.cancel()
             }
-        }, [this.targetState.get, getEditorRotating])
+        }, [this.targetState.get])
 
         this.createEffect(() => {
             const target = this.targetState.get()
@@ -79,13 +79,12 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             const mode = getTransformControlsMode()
 
             const rotating = target && target === selectionTarget && dragging && mode === "rotate"
-            setEditorRotating(rotating)
             if (!rotating) return
             
-            const handle = loop(() => followTarget(target))
+            transformControlRotating = true
 
             return () => {
-                handle.cancel()
+                transformControlRotating = false
             }
         }, [this.targetState.get, getSelectionTarget, getTransformControlsDragging, getTransformControlsMode])
     }

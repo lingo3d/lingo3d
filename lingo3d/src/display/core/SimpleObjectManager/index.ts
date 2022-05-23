@@ -566,23 +566,6 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this.physicsMove()
     }
 
-    public rotateX(val: number) {
-        this.outerObject3d.rotateX(val * deg2Rad)
-
-        this.physicsRotate()
-    }
-
-    public rotateY(val: number) {
-        this.outerObject3d.rotateY(val * deg2Rad)
-
-        this.physicsRotate()
-    }
-
-    public rotateZ(val: number) {
-        this.outerObject3d.rotateZ(val * deg2Rad)
-        this.physicsRotate()
-    }
-
     public placeAt(object: PositionedItem | { x: number, y: number, z: number }) {
         if ("object3d" in object) {
             this.outerObject3d.position.copy(getCenter(object.object3d ?? object.outerObject3d))
