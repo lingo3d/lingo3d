@@ -368,7 +368,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 strideInput.on("change", ({ value }) => {
                     Object.assign(params, {
                         "strideForward": value.y,
-                        "strideRight": value.x,
+                        "strideRight": value.x
                     })
                     pane.refresh()
                 })

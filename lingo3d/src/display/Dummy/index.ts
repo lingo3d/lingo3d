@@ -1,8 +1,8 @@
-import { rad2Deg } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
 import IDummy, { dummyDefaults, dummySchema } from "../../interface/IDummy"
 import Model from "../Model"
+import { vec2Point } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
 
 const url = "https://unpkg.com/lingo3d-dummy@1.0.0/assets/"
@@ -45,9 +45,11 @@ export default class Dummy extends Model implements IDummy {
         this.createEffect(() => {
             const { strideForward, strideRight } = this
             if (!strideForward && !strideRight) return
-            
-            const angle = 90 - Math.atan2(strideForward, strideRight) * rad2Deg
-            this.rotationY = angle
+
+            const point = vec2Point(this.outerObject3d.position)
+            point.x += strideRight
+            point.z += strideForward
+            this.lookAt(point)
 
             poseService.send("RUN_START")
             return () => {

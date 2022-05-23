@@ -551,6 +551,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
             this.outerObject3d.lookAt(point2Vec(target))
 
         this.physicsRotate()
+        this.onRotationY?.()
     }
 
     public translateX(val: number) {
@@ -577,6 +578,7 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
 
         this.physicsMove()
         this.physicsRotate()
+        this.onRotationY?.()
     }
 
     public moveForward(distance: number) {
