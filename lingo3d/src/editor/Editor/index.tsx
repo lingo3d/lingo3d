@@ -69,7 +69,7 @@ const addInputs = (
                 break
         }
 
-    return Object.keys(params).map(key => {
+    return Object.fromEntries(Object.keys(params).map(key => {
         const input = folder.addInput(params, key)
         input.on("change", ({ value }) => {
             if (programmatic) return
@@ -96,8 +96,8 @@ const addInputs = (
             }
             target[key] = toFixed(value)
         })
-        return input
-    })
+        return [key, input] as const
+    }))
 }
 
 interface EditorProps {
@@ -207,7 +207,11 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         if (!selectionTarget) {
             const omitted: Array<keyof ISetup> = ["defaultFog", "defaultLight", "defaultLightScale"]
 
-            const inputs = addInputs(pane, "settings", settings, Object.assign({
+            const {
+                defaultLightEnabled: defaultLightEnabledInput,
+                defaultFogEnabled: defaultFogEnabledInput
+
+            } = addInputs(pane, "settings", settings, Object.assign({
                 defaultLightEnabled,
                 ...defaultLightEnabled && { defaultLight, defaultLightScale: settings.defaultLightScale },
                 
@@ -216,10 +220,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
 
             }, omit(settings, [...nonSerializedSettings, ...omitted])))
 
-            const defaultLightEnabledInput = inputs[0]
             defaultLightEnabledInput.on("change", ({ value }) => setDefaultLight(value ? "default" : false))
-
-            const defaultFogEnabledInput = defaultLightEnabled ? inputs[3] : inputs[1]
             defaultFogEnabledInput.on("change", ({ value }) => setDefaultFog(value ? "white" : undefined))
 
             return () => {
@@ -265,7 +266,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         const makeVectorNames = (prop: string) => [prop + "X", prop + "Y", prop + "Z"]
 
         if (!multipleSelectionTargets.length) {
-            const [nameInput] = addInputs(pane, "general", target, {
+            const { name: nameInput } = addInputs(pane, "general", target, {
                 name: target.name,
                 id: target.id
             })
