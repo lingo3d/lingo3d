@@ -4,6 +4,7 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 import IDummy, { dummyDefaults, dummySchema } from "../../interface/IDummy"
 import FoundManager from "../core/FoundManager"
 import Model from "../Model"
+import { vector3 } from "../utils/reusables"
 import poseMachine from "./poseMachine"
 
 const url = "https://unpkg.com/lingo3d-dummy@1.0.0/assets/"
@@ -60,10 +61,7 @@ export default class Dummy extends Model implements IDummy {
             spinePoint.y -= Math.max(Math.abs(spinePoint.x), Math.abs(spinePoint.z)) * 0.4
             const handle = onBeforeRender(() => spine.lookAt(spinePoint))
 
-            const point = this.getWorldPosition()
-            point.x += strideRight * 1000
-            point.z += strideForward * 1000
-            this.lookAt(point)
+            this.loadedGroup.lookAt(vector3.set(strideRight, 0, strideForward))
 
             poseService.send("RUN_START")
             return () => {
