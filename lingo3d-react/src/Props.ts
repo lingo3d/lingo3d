@@ -3,6 +3,8 @@ import ICamera from "lingo3d/lib/interface/ICamera"
 import IKeyboard from "lingo3d/lib/interface/IKeyboard"
 import ILoaded from "lingo3d/lib/interface/ILoaded"
 import IModel from "lingo3d/lib/interface/IModel"
+import IDummy from "lingo3d/lib/interface/IDummy"
+import ISvgMesh from "lingo3d/lib/interface/ISvgMesh"
 import IMouse from "lingo3d/lib/interface/IMouse"
 import IObjectManager from "lingo3d/lib/interface/IObjectManager"
 import IOrbitCamera from "lingo3d/lib/interface/IOrbitCamera"
@@ -15,7 +17,6 @@ import ISkyLight from "lingo3d/lib/interface/ISkyLight"
 import ISpotLight from "lingo3d/lib/interface/ISpotLight"
 import IReflector from "lingo3d/lib/interface/IReflector"
 import ISprite from "lingo3d/lib/interface/ISprite"
-import ISvgMesh from "lingo3d/lib/interface/ISvgMesh"
 import ISound from "lingo3d/lib/interface/ISound"
 import IAmbientLight from "lingo3d/lib/interface/IAmbientLight"
 import IDirectionalLight from "lingo3d/lib/interface/IDirectionalLight"
@@ -29,9 +30,10 @@ export type FoundProps = Partial<IFound> & { children?: Children }
 export type PrimitiveProps = Partial<IPrimitive> & { children?: Children }
 export type LoadedProps = Partial<ILoaded> & { children?: Children }
 export type ModelProps = Partial<IModel> & { children?: Children }
+export type DummyProps = Partial<IDummy> & { children?: Children }
+export type SvgMeshProps = Partial<ISvgMesh> & { children?: Children }
 export type ReflectorProps = Partial<IReflector> & { children?: Children }
 export type SpriteProps = Partial<ISprite> & { children?: Children }
-export type SvgMeshProps = Partial<ISvgMesh> & { children?: Children }
 
 export type CameraProps = Partial<ICamera> & { children?: Children }
 export type OrbitCameraProps = Partial<IOrbitCamera> & { children?: Children }

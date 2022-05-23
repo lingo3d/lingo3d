@@ -282,7 +282,7 @@ babel-walk@3.0.0-canary-5:
   dependencies:
     "@babel/types" "^7.9.6"
 
-browser-fs-access@^0.29.5:
+browser-fs-access@0.29.5:
   version "0.29.5"
   resolved "https://registry.yarnpkg.com/browser-fs-access/-/browser-fs-access-0.29.5.tgz#e31e67f3cb45b2d3fbe34031e1b88321f143d219"
   integrity sha512-raivG4nPY3iTxBNgt2syHFjHGwWwyTxpCGx7OTLdmprakG+yXre9f5PZgPHQQ6axTlRxllj+fcmhRiI4gXLq0A==
@@ -620,10 +620,10 @@ jstransformer@1.0.0:
     is-promise "^2.0.0"
     promise "^7.0.1"
 
-lingo3d@1.10.187:
-  version "1.10.187"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.187.tgz#c0165081b91c7ce32efef51eeea0798e1d5a3bc3"
-  integrity sha512-mSHpOhlBx9iU3DpJJQdaxznMRpe8QuJZ7hN1lMBoLqAmbEz0YiOYUeYKqlA5GZxZ8JnSZAv8R0ZpAJOb3XfesQ==
+lingo3d@1.10.188:
+  version "1.10.188"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.188.tgz#7c9a1d5318d88cdfef9227d413e2398cf4ea986c"
+  integrity sha512-mdsAqiJvDKKGc+SM0n9VU04sehQHpQjjSuU4l8X0l0KrvbC2DLS8homY7ZMAnDFSx6Q2pWFx+2DBHHTGlYAHgQ==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
@@ -633,15 +633,16 @@ lingo3d@1.10.187:
     "@lincode/utils" "*"
     "@tweakpane/core" "1"
     "@types/three" "0.140.0"
-    browser-fs-access "^0.29.5"
+    browser-fs-access "0.29.5"
     cannon-es "0.19.0"
     howler "2"
-    postprocessing "^6.26.4"
+    postprocessing "6"
     preact "10"
-    preact-custom-element "^4.2.1"
-    prettier "*"
+    preact-custom-element "4"
+    prettier "2"
     three "0.140.2"
     tweakpane "3"
+    xstate "4"
 
 lodash@4:
   version "4.17.21"
@@ -701,12 +702,12 @@ postcss@^8.1.10, postcss@^8.4.13:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-postprocessing@^6.26.4:
+postprocessing@6:
   version "6.26.4"
   resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.26.4.tgz#726c66feb09ca0517f578376682820c472054a21"
   integrity sha512-8u3ERu8va0bhJ3E97r33tAqhMgOdX9ndSTQnL2KlNNOeO9L5h2w3Qi8UGzrU+R7s/Kwz51KxcB90XODcrpa0SA==
 
-preact-custom-element@^4.2.1:
+preact-custom-element@4:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/preact-custom-element/-/preact-custom-element-4.2.1.tgz#a18752ef60823ea61199d9cdc1866e51139b3f46"
   integrity sha512-/fiEEAyC+MXRlCBRmv/owoN5BLpO2nF/MF3YBHLtp4C2lNqlhV+a4he74A5DhfDoRmxDHm0sYVgQzWFEyzTDsw==
@@ -716,7 +717,7 @@ preact@10:
   resolved "https://registry.yarnpkg.com/preact/-/preact-10.7.2.tgz#5c632ba194b87345dcaee6598b3b6529b58e6a12"
   integrity sha512-GLjn0I3r6ka+NvxJUppsVFqb4V0qDTEHT/QxHlidPuClGaxF/4AI2Qti4a0cv3XMh5n1+D3hLScW10LRIm5msQ==
 
-prettier@*:
+prettier@2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.6.2.tgz#e26d71a18a74c3d0f0597f55f01fb6c06c206032"
   integrity sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==
@@ -1091,6 +1092,11 @@ with@^7.0.0:
     "@babel/types" "^7.9.6"
     assert-never "^1.2.1"
     babel-walk "3.0.0-canary-5"
+
+xstate@4:
+  version "4.32.1"
+  resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.32.1.tgz#1a09c808a66072938861a3b4acc5b38460244b70"
+  integrity sha512-QYUd+3GkXZ8i6qdixnOn28bL3EvA++LONYL/EMWwKlFSh/hiLndJ8YTnz77FDs+JUXcwU7NZJg7qoezoRHc4GQ==
 
 yallist@^4.0.0:
   version "4.0.0"

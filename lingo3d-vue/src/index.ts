@@ -18,10 +18,11 @@ export { default as Sound } from "./components/api/Sound.vue"
 
 export { default as Group } from "./components/display/Group.vue"
 export { default as Model } from "./components/display/Model.vue"
+export { default as Dummy } from "./components/display/Dummy.vue"
+export { default as SvgMesh } from "./components/display/SvgMesh.vue"
 export { default as Reflector } from "./components/display/Reflector.vue"
 export { default as Skybox } from "./components/display/Skybox.vue"
 export { default as Sprite } from "./components/display/Sprite.vue"
-export { default as SvgMesh } from "./components/display/SvgMesh.vue"
 
 export { default as Camera } from "./components/display/cameras/Camera.vue"
 export { default as OrbitCamera } from "./components/display/cameras/OrbitCamera.vue"

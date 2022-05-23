@@ -18,10 +18,11 @@ export { default as Trigger } from "./components/api/Trigger"
 
 export { default as Group } from "./components/display/Group"
 export { default as Model } from "./components/display/Model"
+export { default as Dummy } from "./components/display/Dummy"
+export { default as SvgMesh } from "./components/display/SvgMesh"
 export { default as Reflector } from "./components/display/Reflector"
 export { default as Skybox } from "./components/display/Skybox"
 export { default as Sprite } from "./components/display/Sprite"
-export { default as SvgMesh } from "./components/display/SvgMesh"
 
 export { default as Camera } from "./components/display/cameras/Camera"
 export { default as OrbitCamera } from "./components/display/cameras/OrbitCamera"
