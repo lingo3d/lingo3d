@@ -52,6 +52,8 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             if (!target) return
 
             followTarget(target)
+            //@ts-ignore
+            target.onRotationY = () => followTarget(target)
 
             const handle = loop(() => {
                 this.outerObject3d.position.copy(target.outerObject3d.position)
@@ -69,6 +71,8 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             })
             return () => {
                 handle.cancel()
+                //@ts-ignore
+                target.onRotationY = undefined
             }
         }, [this.targetState.get])
 

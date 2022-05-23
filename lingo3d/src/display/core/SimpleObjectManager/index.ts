@@ -425,12 +425,14 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).x = true)
     }
 
+    protected onRotationY?: () => void
     public get rotationY() {
         return this.outerObject3d.rotation.y * rad2Deg
     }
     public set rotationY(val: number) {
         this.outerObject3d.rotation.y = val * deg2Rad
         this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).y = true)
+        this.onRotationY?.()
     }
 
     public get rotationZ() {
