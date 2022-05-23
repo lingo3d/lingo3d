@@ -42,7 +42,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
         const followTarget = (target: PositionedItem) => {
             euler.setFromQuaternion(target.outerObject3d.quaternion)
             euler.y += Math.PI
-            this.outerObject3d.quaternion.setFromEuler(euler)
+            this.outerObject3d.setRotationFromEuler(euler)
             this.updatePolarAngle()
         }
         let transformControlRotating = false
@@ -52,14 +52,16 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             if (!target) return
 
             followTarget(target)
+            let targetRotated = false
             //@ts-ignore
-            target.onRotationY = () => followTarget(target)
+            target.onRotationY = () => targetRotated = true
 
             const handle = loop(() => {
                 this.outerObject3d.position.copy(target.outerObject3d.position)
                 if (!this.lockTargetRotation) return
 
-                if (this.lockTargetRotation === "follow" || transformControlRotating) {
+                if (this.lockTargetRotation === "follow" || transformControlRotating || targetRotated) {
+                    targetRotated = false
                     followTarget(target)
                     return
                 }
@@ -67,7 +69,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
                 euler.x = 0
                 euler.z = 0
                 euler.y += Math.PI
-                target.outerObject3d.quaternion.setFromEuler(euler)
+                target.outerObject3d.setRotationFromEuler(euler)
             })
             return () => {
                 handle.cancel()

@@ -48,7 +48,6 @@ export default class Dummy extends Model implements IDummy {
             
             const angle = Math.atan2(strideForward, strideRight) * rad2Deg
             this.rotationY = angle
-            console.log(angle)
 
             poseService.send("RUN_START")
             return () => {

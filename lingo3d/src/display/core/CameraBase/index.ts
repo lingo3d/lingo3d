@@ -82,7 +82,7 @@ abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Gro
 
         euler.x = Math.max(PI_2 - this._maxPolarAngle, Math.min(PI_2 - this._minPolarAngle, euler.x))
 
-        manager.quaternion.setFromEuler(euler)
+        manager.setRotationFromEuler(euler)
         !inner && this.physicsRotate()
     }
 
