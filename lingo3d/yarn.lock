@@ -1653,7 +1653,7 @@ braces@^3.0.2, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-browser-fs-access@^0.29.5:
+browser-fs-access@0.29.5:
   version "0.29.5"
   resolved "https://registry.yarnpkg.com/browser-fs-access/-/browser-fs-access-0.29.5.tgz#e31e67f3cb45b2d3fbe34031e1b88321f143d219"
   integrity sha512-raivG4nPY3iTxBNgt2syHFjHGwWwyTxpCGx7OTLdmprakG+yXre9f5PZgPHQQ6axTlRxllj+fcmhRiI4gXLq0A==
@@ -1902,9 +1902,9 @@ core-js-compat@^3.21.0, core-js-compat@^3.22.1:
     semver "7.0.0"
 
 core-js@3:
-  version "3.22.5"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.22.5.tgz#a5f5a58e663d5c0ebb4e680cd7be37536fb2a9cf"
-  integrity sha512-VP/xYuvJ0MJWRAobcmQ8F2H6Bsn+s7zqAAjFaHGBMc5AQm7zaelhD1LGduFn2EehEcQcU+br6t+fwbpQ5d1ZWA==
+  version "3.22.6"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.22.6.tgz#294dd824b4cae2c24725a36baa4a791ed00bb0de"
+  integrity sha512-2IGcGH00z9I4twgNWU4uGCNEsBFG1s2JudVQrgSCoVhOfwoTwQjxC8aMo9exrpTMOxvobggEpaHnGMmQY4cfBQ==
 
 core-util-is@~1.0.0:
   version "1.0.3"
@@ -3176,12 +3176,12 @@ pkg-dir@^4.1.0, pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-postprocessing@^6.26.4:
+postprocessing@6:
   version "6.26.4"
   resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.26.4.tgz#726c66feb09ca0517f578376682820c472054a21"
   integrity sha512-8u3ERu8va0bhJ3E97r33tAqhMgOdX9ndSTQnL2KlNNOeO9L5h2w3Qi8UGzrU+R7s/Kwz51KxcB90XODcrpa0SA==
 
-preact-custom-element@^4.2.1:
+preact-custom-element@4:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/preact-custom-element/-/preact-custom-element-4.2.1.tgz#a18752ef60823ea61199d9cdc1866e51139b3f46"
   integrity sha512-/fiEEAyC+MXRlCBRmv/owoN5BLpO2nF/MF3YBHLtp4C2lNqlhV+a4he74A5DhfDoRmxDHm0sYVgQzWFEyzTDsw==
@@ -3191,7 +3191,7 @@ preact@10, preact@^10.0.0:
   resolved "https://registry.yarnpkg.com/preact/-/preact-10.7.2.tgz#5c632ba194b87345dcaee6598b3b6529b58e6a12"
   integrity sha512-GLjn0I3r6ka+NvxJUppsVFqb4V0qDTEHT/QxHlidPuClGaxF/4AI2Qti4a0cv3XMh5n1+D3hLScW10LRIm5msQ==
 
-prettier@*:
+prettier@2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.6.2.tgz#e26d71a18a74c3d0f0597f55f01fb6c06c206032"
   integrity sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==
@@ -4058,7 +4058,7 @@ ws@^8.4.2:
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.6.0.tgz#e5e9f1d9e7ff88083d0c0dd8281ea662a42c9c23"
   integrity sha512-AzmM3aH3gk0aX7/rZLYvjdvZooofDu3fFOzGqcSnQ1tOcTWwhM/o+q++E8mAyVVIyUdajrkzWUGftaVSDLn1bw==
 
-xstate@*:
+xstate@4:
   version "4.32.1"
   resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.32.1.tgz#1a09c808a66072938861a3b4acc5b38460244b70"
   integrity sha512-QYUd+3GkXZ8i6qdixnOn28bL3EvA++LONYL/EMWwKlFSh/hiLndJ8YTnz77FDs+JUXcwU7NZJg7qoezoRHc4GQ==

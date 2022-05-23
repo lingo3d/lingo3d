@@ -1,5 +1,5 @@
 import { Reactive } from "@lincode/reactivity"
-import Model from "./Model"
+import Model from "../Model"
 
 const url = "https://unpkg.com/lingo3d-dummy@1.0.0/assets/"
 
