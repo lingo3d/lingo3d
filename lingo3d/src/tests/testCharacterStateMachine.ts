@@ -25,16 +25,16 @@ dummy.preset = "rifle"
 
 keyboard.onKeyPress = (k) => {
     if (k === "w") {
-        dummy.animation = "running"
-        dummy.moveForward(-10)
+        dummy.run(-10)
     }
-    if (k === "Space")
-        dummy.jump()
+    if (k === "Space") {
+        dummy.jump(10)
+    }
 }
 
 keyboard.onKeyUp = (k) => {
     if (k === "w") {
-        dummy.animation = "idle"
+        dummy.runStop()
     }
 }
 

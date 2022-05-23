@@ -4,21 +4,20 @@ export default createMachine({
     states: {
         "idle": {
             on: {
-                KEY_W_DOWN: "running",
-                KEY_SPACE_DOWN: "jumping"
+                RUN_START: "running",
+                JUMP_START: "falling"
             }
         },
         "running": {
             on: {
-                KEY_W_UP: "idle",
-                KEY_SPACE_DOWN: "jumping"
+                RUN_STOP: "idle",
+                JUMP_START: "falling"
             }
         },
-        "jumping": {
+        "falling": {
             on: {
-                LANDED: "idle"
-            },
-            entry: "enterJumping"
+                JUMP_STOP: "idle"
+            }
         }
     },
     initial: "idle"
