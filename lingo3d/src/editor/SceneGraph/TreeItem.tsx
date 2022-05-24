@@ -14,6 +14,8 @@ import useClick from "./useClick"
 import PositionedItem from "../../api/core/PositionedItem"
 import { getCamera, setCamera } from "../../states/useCamera"
 import mainCamera from "../../engine/mainCamera"
+import { Object3D } from "three"
+import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 
 preventTreeShake(h)
 
@@ -23,24 +25,21 @@ export type TreeItemProps = {
     children?: JSX.Element | Array<JSX.Element>
 }
 
-export const makeTreeItemCallbacks = (appendable?: Appendable) => {
+export const makeTreeItemCallbacks = (target: Appendable | Object3D) => {
     const setClickEl = useClick(e => {
         e.stopPropagation()
-        if (!(appendable instanceof PositionedItem)) return
-
-        if (getCamera() !== mainCamera) {
-            setCamera(mainCamera)
-            emitEditorCenterView(appendable)
-        }
-        emitSelectionTarget(appendable)
+        setSceneGraphTarget(target)
+        if (!(target instanceof PositionedItem)) return
+        emitSelectionTarget(target)
     })
 
     const handleClick = (e: MouseEvent) => e.stopPropagation()
 
     const handleDoubleClick = (e: MouseEvent) => {
         e.stopPropagation()
-        if (!(appendable instanceof PositionedItem)) return
-        emitEditorCenterView(appendable)
+        if (!(target instanceof PositionedItem)) return
+        getCamera() !== mainCamera && setCamera(mainCamera)
+        emitEditorCenterView(target)
     }
     
     return { setClickEl, handleClick, handleDoubleClick }

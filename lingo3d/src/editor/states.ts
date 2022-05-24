@@ -7,6 +7,7 @@ import { getTransformControlsSpace, setTransformControlsSpace } from "../states/
 import { getCamera, setCamera } from "../states/useCamera"
 import { setDefaultLight, getDefaultLight } from "../states/useDefaultLight"
 import { setDefaultFog, getDefaultFog } from "../states/useDefaultFog"
+import { setSceneGraphTarget, getSceneGraphTarget } from "../states/useSceneGraphTarget"
 
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(setMultipleSelectionTargets, getMultipleSelectionTargets)
@@ -16,3 +17,4 @@ export const useTransformControlsMode = hook(setTransformControlsMode, getTransf
 export const useTransformControlsSpace = hook(setTransformControlsSpace, getTransformControlsSpace)
 export const useDefaultLight = hook(setDefaultLight, getDefaultLight)
 export const useDefaultFog = hook(setDefaultFog, getDefaultFog)
+export const useSceneGraphTarget = hook(setSceneGraphTarget, getSceneGraphTarget)

@@ -18,7 +18,7 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
 
     const [expanded, setExpanded] = useState(false)
 
-    const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks()
+    const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks(object3d)
 
     return (
         <div
