@@ -16,6 +16,7 @@ const mainOrbitCamera = new OrbitCamera(mainCamera)
 mainOrbitCamera.enablePan = true
 mainOrbitCamera.enableZoom = true
 mainOrbitCamera.enableFly = true
+mainOrbitCamera.enabled = false
 appendableRoot.delete(mainOrbitCamera)
 
 onEditorCenterView(manager => {

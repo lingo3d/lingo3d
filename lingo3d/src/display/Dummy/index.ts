@@ -1,10 +1,13 @@
+import { rad2Deg, rotatePoint } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
+import Point3d from "../../api/Point3d"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import IDummy, { dummyDefaults, dummySchema } from "../../interface/IDummy"
 import FoundManager from "../core/FoundManager"
 import Model from "../Model"
-import { vector3 } from "../utils/reusables"
+import { vector3, vector3_ } from "../utils/reusables"
+import { point2Vec } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
 
 const url = "https://unpkg.com/lingo3d-dummy@1.0.0/assets/"
@@ -48,24 +51,34 @@ export default class Dummy extends Model implements IDummy {
         this.loadedResolvable.then(() => setSpine(this.find("mixamorigSpine")))
 
         this.createEffect(() => {
-            const { strideForward, strideRight } = this
-            if (!strideForward && !strideRight) return
-
             const spine = getSpine()
             if (!spine) return
 
-            spine.animation = false
+            const { strideForward, strideRight } = this
+            if (!strideForward && !strideRight) {
+                const thisPoint = this.pointAt(1000)
+                this.loadedGroup.lookAt(point2Vec(thisPoint))
+                poseService.send("RUN_STOP")
+                return
+            }
 
-            const spinePoint = spine.getWorldPosition()
-            spinePoint.z += 1000
-            spinePoint.y -= Math.max(Math.abs(spinePoint.x), Math.abs(spinePoint.z)) * 0.4
-            const handle = onBeforeRender(() => spine.lookAt(spinePoint))
+            const handle = onBeforeRender(() => {
+                const thisPoint = this.pointAt(1000)
+                this.loadedGroup.lookAt(point2Vec(thisPoint))
 
-            this.loadedGroup.lookAt(vector3.set(strideRight, 0, strideForward))
+                const spinePoint = spine.pointAt(1000)
+                
+                const angle = 90 - Math.atan2(-strideForward, -strideRight) * rad2Deg
+                const centerPoint = this.getWorldPosition()
+                const rotated = rotatePoint({ x: thisPoint.x, y: thisPoint.z }, { x: centerPoint.x, y: centerPoint.z }, angle)
+                const groupPoint = new Point3d(rotated.x, thisPoint.y, rotated.y)
+                this.loadedGroup.lookAt(point2Vec(groupPoint))
+
+                spine.lookAt(spinePoint)
+            })
 
             poseService.send("RUN_START")
             return () => {
-                poseService.send("RUN_STOP")
                 handle.cancel()
             }
         }, [this.strideForwardState.get, this.strideRightState.get, getSpine])

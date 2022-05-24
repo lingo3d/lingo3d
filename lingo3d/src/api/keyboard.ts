@@ -36,6 +36,7 @@ createEffect(() => {
         const key = processKey(e.key)
         isPressed.delete(key)
         emitUp(key)
+        !isPressed.size && emitPress()
     }
 
     handle.watch(onKeyClear(() => {
@@ -70,6 +71,11 @@ export class Keyboard extends EventLoopItem implements IKeyboard {
 
         this.watch(onPress(() => {
             if (!this.onKeyPress) return
+
+            if (!isPressed.size) {
+                this.onKeyPress("", isPressed)
+                return
+            }
             for (const key of isPressed)
                 this.onKeyPress(key, isPressed)
         }))
