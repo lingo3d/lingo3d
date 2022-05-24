@@ -43,10 +43,14 @@ export const makeTreeItemCallbacks = (target: Appendable | Object3D, parent?: Ap
 
     const handleDoubleClick = (e: MouseEvent) => {
         e.stopPropagation()
+
+        if (getCamera() !== mainCamera) {
+            setCamera(mainCamera)
+            setSceneGraphTarget(undefined)
+        }
         if (!(target instanceof PositionedItem)) return
-        getCamera() !== mainCamera && setCamera(mainCamera)
+
         emitEditorCenterView(target)
-        setSceneGraphTarget(undefined)
         emitSelectionTarget(target)
     }
     
