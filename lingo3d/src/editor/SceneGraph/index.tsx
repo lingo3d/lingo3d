@@ -18,6 +18,8 @@ import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import EmptyItem from "./EmptyItem"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 import FindIcon from "./icons/FindIcon"
+import { Object3D } from "three"
+import ObjectManager from "../../display/core/ObjectManager"
 
 preventTreeShake(h)
 
@@ -38,7 +40,8 @@ const SceneGraph = () => {
     const [sceneGraphTarget] = useSceneGraphTarget()
 
     const handleFind = () => {
-        console.log("here")
+        if (sceneGraphTarget instanceof Object3D && selectionTarget instanceof ObjectManager && sceneGraphTarget.name)
+            setTimeout(() => emitSelectionTarget(selectionTarget.find(sceneGraphTarget.name)))
     }
 
     return (

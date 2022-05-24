@@ -20,7 +20,7 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
     const [expanded, setExpanded] = useState(false)
     const [sceneGraphTarget] = useSceneGraphTarget()
 
-    const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks(object3d)
+    const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks(object3d, appendable)
 
     return (
         <div

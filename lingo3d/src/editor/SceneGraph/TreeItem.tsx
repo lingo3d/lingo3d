@@ -15,7 +15,8 @@ import PositionedItem from "../../api/core/PositionedItem"
 import { getCamera, setCamera } from "../../states/useCamera"
 import mainCamera from "../../engine/mainCamera"
 import { Object3D } from "three"
-import { getSceneGraphTarget, setSceneGraphTarget } from "../../states/useSceneGraphTarget"
+import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
 
 preventTreeShake(h)
 
@@ -25,12 +26,14 @@ export type TreeItemProps = {
     children?: JSX.Element | Array<JSX.Element>
 }
 
-export const makeTreeItemCallbacks = (target: Appendable | Object3D) => {
+export const makeTreeItemCallbacks = (target: Appendable | Object3D, parent?: Appendable) => {
     const setClickEl = useClick(e => {
         e.stopPropagation()
-        setSceneGraphTarget(getSceneGraphTarget() === target ? undefined : target)
-        if (!(target instanceof PositionedItem)) return
-        emitSelectionTarget(target)
+        if (parent instanceof PositionedItem) {
+            getSelectionTarget() !== parent && emitSelectionTarget(parent)
+            queueMicrotask(() => setSceneGraphTarget(target))
+        }
+        target instanceof PositionedItem && emitSelectionTarget(target)
     })
 
     const handleClick = (e: MouseEvent) => e.stopPropagation()
