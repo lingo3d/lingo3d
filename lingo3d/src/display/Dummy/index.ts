@@ -6,11 +6,10 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 import IDummy, { dummyDefaults, dummySchema } from "../../interface/IDummy"
 import FoundManager from "../core/FoundManager"
 import Model from "../Model"
-import { vector3, vector3_ } from "../utils/reusables"
 import { point2Vec } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
 
-const url = "https://unpkg.com/lingo3d-dummy@1.0.0/assets/"
+const url = "https://unpkg.com/lingo3d-dummy@1.0.1/assets/"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -32,6 +31,7 @@ export default class Dummy extends Model implements IDummy {
             this.animations = {
                 idle: url + prefix + "idle.fbx",
                 running: url + prefix + "running.fbx",
+                runningBackwards: url + prefix + "running-backwards.fbx",
                 falling: url + prefix + "falling.fbx"
             }
             this.animation = "idle"
@@ -41,9 +41,7 @@ export default class Dummy extends Model implements IDummy {
         const poseService = interpret(poseMachine)
 
         const [setPose, getPose] = store("idle")
-        this.createEffect(() => {
-            this.animation = getPose()
-        }, [getPose])
+        this.createEffect(() => { this.animation = getPose() }, [getPose])
         poseService.onTransition(state => setPose(state.value as string)).start()
         this.then(() => poseService.stop())
 
@@ -54,7 +52,7 @@ export default class Dummy extends Model implements IDummy {
             const spine = getSpine()
             if (!spine) return
 
-            const { strideForward, strideRight } = this
+            let { strideForward, strideRight } = this
             if (!strideForward && !strideRight) {
                 const thisPoint = this.pointAt(1000)
                 this.loadedGroup.lookAt(point2Vec(thisPoint))
@@ -62,13 +60,21 @@ export default class Dummy extends Model implements IDummy {
                 return
             }
 
+            const backwards = strideForward > 0
+
+            if (backwards) {
+                strideForward = -strideForward
+                strideRight = -strideRight
+            }
+
+            const angle = 90 - Math.atan2(-strideForward, -strideRight) * rad2Deg
+
             const handle = onBeforeRender(() => {
                 const thisPoint = this.pointAt(1000)
                 this.loadedGroup.lookAt(point2Vec(thisPoint))
 
                 const spinePoint = spine.pointAt(1000)
                 
-                const angle = 90 - Math.atan2(-strideForward, -strideRight) * rad2Deg
                 const centerPoint = this.getWorldPosition()
                 const rotated = rotatePoint({ x: thisPoint.x, y: thisPoint.z }, { x: centerPoint.x, y: centerPoint.z }, angle)
                 const groupPoint = new Point3d(rotated.x, thisPoint.y, rotated.y)
@@ -77,7 +83,7 @@ export default class Dummy extends Model implements IDummy {
                 spine.lookAt(spinePoint)
             })
 
-            poseService.send("RUN_START")
+            poseService.send(backwards ? "RUN_BACKWARDS_START" : "RUN_START")
             return () => {
                 handle.cancel()
             }

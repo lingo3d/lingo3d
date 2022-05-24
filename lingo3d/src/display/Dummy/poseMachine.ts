@@ -5,12 +5,21 @@ export default createMachine({
         "idle": {
             on: {
                 RUN_START: "running",
+                RUN_BACKWARDS_START: "runningBackwards",
                 JUMP_START: "falling"
             }
         },
         "running": {
             on: {
                 RUN_STOP: "idle",
+                RUN_BACKWARDS_START: "runningBackwards",
+                JUMP_START: "falling"
+            }
+        },
+        "runningBackwards": {
+            on: {
+                RUN_STOP: "idle",
+                RUN_START: "running",
                 JUMP_START: "falling"
             }
         },
