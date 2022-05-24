@@ -23,6 +23,7 @@ const dummy = new Dummy()
 dummy.y = 50
 dummy.preset = "rifle"
 dummy.physics = "character"
+dummy.strideMove = true
 
 const cam = new ThirdPersonCamera()
 cam.append(dummy)
@@ -37,27 +38,20 @@ cam.mouseControl = true
 // map.physics = "map"
 
 keyboard.onKeyPress = (_, pressed) => {
-    if (pressed.has("w")) {
-        dummy.strideForward = -2
-        dummy.moveForward(-2)
-    }
-    else if (pressed.has("s")) {
-        dummy.strideForward = 2
-        dummy.moveForward(2)
-    }
-    else {
+    if (pressed.has("w"))
+        dummy.strideForward = -5
+    else if (pressed.has("s"))
+        dummy.strideForward = 5
+    else
         dummy.strideForward = 0
-    }
 
-    if (pressed.has("a")) {
-        dummy.strideRight = 2
-        dummy.moveRight(2)
-    }
-    else if (pressed.has("d")) {
-        dummy.strideRight = -2
-        dummy.moveRight(-2)
-    }
-    else {
+    if (pressed.has("a"))
+        dummy.strideRight = 5
+    else if (pressed.has("d"))
+        dummy.strideRight = -5
+    else
         dummy.strideRight = 0
-    }
+
+    if (pressed.has("Space"))
+        dummy.jump(10)
 }

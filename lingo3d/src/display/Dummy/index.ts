@@ -1,4 +1,4 @@
-import { rad2Deg, rotatePoint } from "@lincode/math"
+import { endPoint, rad2Deg, rotatePoint } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
 import Point3d from "../../api/Point3d"
@@ -15,6 +15,8 @@ export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
     public static override defaults = dummyDefaults
     public static override schema = dummySchema
+
+    private poseService = interpret(poseMachine)
 
     public constructor () {
         super()
@@ -38,7 +40,7 @@ export default class Dummy extends Model implements IDummy {
 
         }, [this.presetState.get, this.srcState.get])
         
-        const poseService = interpret(poseMachine)
+        const { poseService } = this
 
         const [setPose, getPose] = store("idle")
         this.createEffect(() => { this.animation = getPose() }, [getPose])
@@ -52,7 +54,7 @@ export default class Dummy extends Model implements IDummy {
             const spine = getSpine()
             if (!spine) return
 
-            let { strideForward, strideRight } = this
+            const { strideForward, strideRight, strideMove } = this
             if (!strideForward && !strideRight) {
                 const thisPoint = this.pointAt(1000)
                 this.loadedGroup.lookAt(point2Vec(thisPoint))
@@ -62,12 +64,9 @@ export default class Dummy extends Model implements IDummy {
 
             const backwards = strideForward > 0
 
-            if (backwards) {
-                strideForward = -strideForward
-                strideRight = -strideRight
-            }
-
-            const angle = 90 - Math.atan2(-strideForward, -strideRight) * rad2Deg
+            const sf = backwards ? -strideForward : strideForward
+            const sr = backwards ? -strideRight : strideRight
+            const angle = 90 - Math.atan2(-sf, -sr) * rad2Deg
 
             const handle = onBeforeRender(() => {
                 const thisPoint = this.pointAt(1000)
@@ -81,13 +80,19 @@ export default class Dummy extends Model implements IDummy {
                 this.loadedGroup.lookAt(point2Vec(groupPoint))
 
                 spine.lookAt(spinePoint)
+
+                if (!strideMove) return
+
+                const { x, y } = endPoint(0, 0, angle + 90, Math.max(Math.abs(strideForward), Math.abs(strideRight)))
+                this.moveForward(backwards ? y : -y)
+                this.moveRight(backwards ? -x : x)
             })
 
             poseService.send(backwards ? "RUN_BACKWARDS_START" : "RUN_START")
             return () => {
                 handle.cancel()
             }
-        }, [this.strideForwardState.get, this.strideRightState.get, getSpine])
+        }, [this.strideMoveState.get, this.strideForwardState.get, this.strideRightState.get, getSpine])
     }
 
     private srcState = new Reactive(url + "ybot.fbx")
@@ -120,5 +125,18 @@ export default class Dummy extends Model implements IDummy {
     }
     public set strideRight(val) {
         this.strideRightState.set(val)
+    }
+    
+    private strideMoveState = new Reactive(false)
+    public get strideMove() {
+        return this.strideMoveState.get()
+    }
+    public set strideMove(val) {
+        this.strideMoveState.set(val)
+    }
+
+    public jump(height: number) {
+        this.velocity.y = height
+        this.poseService.send("JUMP_START")
     }
 }
