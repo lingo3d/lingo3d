@@ -6,24 +6,24 @@ export default createMachine({
             on: {
                 RUN_START: "running",
                 RUN_BACKWARDS_START: "runningBackwards",
-                JUMP_START: "falling"
+                JUMP_START: "jumping"
             }
         },
         "running": {
             on: {
                 RUN_STOP: "idle",
                 RUN_BACKWARDS_START: "runningBackwards",
-                JUMP_START: "falling"
+                JUMP_START: "jumping"
             }
         },
         "runningBackwards": {
             on: {
                 RUN_STOP: "idle",
                 RUN_START: "running",
-                JUMP_START: "falling"
+                JUMP_START: "jumping"
             }
         },
-        "falling": {
+        "jumping": {
             on: {
                 JUMP_STOP: "idle"
             }

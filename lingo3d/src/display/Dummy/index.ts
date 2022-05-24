@@ -2,6 +2,7 @@ import { endPoint, rad2Deg, rotatePoint } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
 import Point3d from "../../api/Point3d"
+import { loop } from "../../engine/eventLoop"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import IDummy, { dummyDefaults, dummySchema } from "../../interface/IDummy"
 import FoundManager from "../core/FoundManager"
@@ -34,7 +35,7 @@ export default class Dummy extends Model implements IDummy {
                 idle: url + prefix + "idle.fbx",
                 running: url + prefix + "running.fbx",
                 runningBackwards: url + prefix + "running-backwards.fbx",
-                falling: url + prefix + "falling.fbx"
+                jumping: url + prefix + "falling.fbx"
             }
             this.animation = "idle"
 
@@ -43,8 +44,20 @@ export default class Dummy extends Model implements IDummy {
         const { poseService } = this
 
         const [setPose, getPose] = store("idle")
-        this.createEffect(() => { this.animation = getPose() }, [getPose])
-        poseService.onTransition(state => setPose(state.value as string)).start()
+        this.createEffect(() => {
+            const pose = this.animation = getPose()
+            if (pose !== "jumping") return
+
+            this.velocity.y = this.jumpHeight
+
+            const handle = loop(() => {
+                this.velocity.y === 0 && poseService.send("JUMP_STOP")
+            })
+            return () => {
+                handle.cancel()
+            }
+        }, [getPose])
+        poseService.onTransition(state => state.changed && setPose(state.value as string)).start()
         this.then(() => poseService.stop())
 
         const [setSpine, getSpine] = store<FoundManager | undefined>(undefined)
@@ -69,6 +82,8 @@ export default class Dummy extends Model implements IDummy {
             const angle = 90 - Math.atan2(-sf, -sr) * rad2Deg
 
             const handle = onBeforeRender(() => {
+                poseService.send(backwards ? "RUN_BACKWARDS_START" : "RUN_START")
+
                 const thisPoint = this.pointAt(1000)
                 this.loadedGroup.lookAt(point2Vec(thisPoint))
 
@@ -87,8 +102,6 @@ export default class Dummy extends Model implements IDummy {
                 this.moveForward(backwards ? y : -y)
                 this.moveRight(backwards ? -x : x)
             })
-
-            poseService.send(backwards ? "RUN_BACKWARDS_START" : "RUN_START")
             return () => {
                 handle.cancel()
             }
@@ -135,8 +148,9 @@ export default class Dummy extends Model implements IDummy {
         this.strideMoveState.set(val)
     }
 
-    public jump(height: number) {
-        this.velocity.y = height
+    private jumpHeight = 10
+    public jump(height = 10) {
+        this.jumpHeight = height
         this.poseService.send("JUMP_START")
     }
 }
