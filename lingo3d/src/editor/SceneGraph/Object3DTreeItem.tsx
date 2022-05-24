@@ -6,6 +6,7 @@ import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
 import { Object3D } from "three"
 import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
+import { useSceneGraphTarget } from "../states"
 
 preventTreeShake(h)
 
@@ -17,6 +18,7 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
     const expandIconStyle = { opacity: object3d.children.length ? 0.5 : 0.05, cursor: "pointer" }
 
     const [expanded, setExpanded] = useState(false)
+    const [sceneGraphTarget] = useSceneGraphTarget()
 
     const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks(object3d)
 
@@ -40,7 +42,7 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
             <div style={{
                 display: "flex",
                 alignItems: "center",
-                // backgroundColor: selectionTarget === appendable ? "rgba(255, 255, 255, 0.1)" : undefined,
+                border: sceneGraphTarget === object3d ? "1px solid rgba(255, 255, 255, 0.5)" : undefined,
                 cursor: "default"
             }}>
                 {expanded ? (

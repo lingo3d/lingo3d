@@ -80,6 +80,7 @@ createEffect(() => {
             for (const [object, parent] of parentEntries)
                 parent.attach(object)
 
+        setSelectionTarget(undefined)
         groupManager.dispose()
         scene.remove(group)
         handle.cancel()

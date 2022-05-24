@@ -1,5 +1,6 @@
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
+import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 
@@ -14,4 +15,5 @@ export default () => {
         target.dispose()
 
     emitSelectionTarget(undefined)
+    setSceneGraphTarget(undefined)
 }

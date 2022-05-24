@@ -16,6 +16,7 @@ import deleteSelected from "../Editor/deleteSelected"
 import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import EmptyItem from "./EmptyItem"
+import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 
 preventTreeShake(h)
 
@@ -37,7 +38,10 @@ const SceneGraph = () => {
     return (
         <div
          className="lingo3d-ui"
-         onClick={() => emitSelectionTarget(undefined)}
+         onClick={() => {
+             emitSelectionTarget(undefined)
+             setSceneGraphTarget(undefined)
+         }}
          style={{
              width: 200,
              height: "100%",
