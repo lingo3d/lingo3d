@@ -1,4 +1,3 @@
-import mouse from "../api/mouse"
 import { Cube, Cylinder, pillShape, Torus } from "../index"
 
 export default {}
@@ -41,5 +40,3 @@ torus.onMouseOut = () => {
 torus.onClick = () => {
     console.log("click")
 }
-
-const box = new Cube()
