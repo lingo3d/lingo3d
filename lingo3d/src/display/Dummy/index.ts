@@ -61,7 +61,7 @@ export default class Dummy extends Model implements IDummy {
         this.then(() => poseService.stop())
 
         const [setSpine, getSpine] = store<FoundManager | undefined>(undefined)
-        this.loadedResolvable.then(() => setSpine(this.find("mixamorigSpine")))
+        this.loadedResolvable.then(() => setSpine(this.find("mixamorigSpine", true)))
 
         this.createEffect(() => {
             const spine = getSpine()

@@ -66,14 +66,18 @@ export default abstract class ObjectManager<T extends Object3D = Object3D> exten
         this.object3d.position.z = val * scaleDown
     }
 
-    public find(name: string): FoundManager | undefined {
+    public find(name: string, hiddenFromSceneGraph?: boolean): FoundManager | undefined {
         const child = this.outerObject3d.getObjectByName(PropertyBinding.sanitizeNodeName(name))
-        return child && (child.userData.manager ??= new FoundManager(child))
+        if (!child) return
+
+        const result = child.userData.manager ??= new FoundManager(child)
+        !hiddenFromSceneGraph && this._append(result)
+
+        return result
     }
 
     public findAll(name: string): Array<FoundManager> {
         const result: Array<FoundManager> = []
-
         this.outerObject3d.traverse(child => {
             child.name === name && result.push(child.userData.manager ??= new FoundManager(child))
         })
