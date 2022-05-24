@@ -68,10 +68,6 @@ export class Mouse extends EventLoopItem implements IMouse {
     public onMouseDown?: (e: MouseEventPayload) => void
     public onMouseUp?: (e: MouseEventPayload) => void
     public onMousePress?: (e: MouseEventPayload) => void
-    public x = 0
-    public y = 0
-    public clientX = 0
-    public clientY = 0
 
     public constructor() {
         super(new Group())
@@ -94,10 +90,6 @@ export class Mouse extends EventLoopItem implements IMouse {
             if (getEditorActive() && getSelectionBlockMouse()) return
 
             const handle0 = mouseEvents.on("move", e => {
-                this.x = e.x
-                this.y = e.y
-                this.clientX = e.clientX
-                this.clientY = e.clientY
                 this.onMouseMove?.(e)
                 currentPayload = e
             })

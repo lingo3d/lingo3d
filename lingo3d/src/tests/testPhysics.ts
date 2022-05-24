@@ -43,7 +43,3 @@ torus.onClick = () => {
 }
 
 const box = new Cube()
-mouse.onMouseMove = () => {
-    box.x = mouse.x
-    box.y = mouse.y
-}

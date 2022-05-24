@@ -1,5 +1,5 @@
 import index from "."
-import test from "./tests/testDummy"
+import test from "./tests/testPhysics"
 import { preventTreeShake } from "@lincode/utils"
 import settings from "./api/settings"
 import "./editor"
@@ -20,11 +20,5 @@ Object.assign(lingo3dContainer.style, {
 })
 
 lingo3dContainer.innerHTML = `
-    <div style="height: 100%">
-        <lingo3d-toolbar></lingo3d-toolbar>
-        <lingo3d-scenegraph></lingo3d-scenegraph>
-        <lingo3d-editor></lingo3d-editor>
-        <lingo3d-library></lingo3d-library>
-    </div>
     <div id="lingoapp" style="height: 100%; flex-grow: 1; position: relative"></div>
 `
