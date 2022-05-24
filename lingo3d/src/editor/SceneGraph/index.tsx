@@ -11,12 +11,13 @@ import { multipleSelectionGroupManagers } from "../../states/useMultipleSelectio
 import GroupIcon from "./icons/GroupIcon"
 import DeleteIcon from "./icons/DeleteIcon"
 import TitleBarButton from "./TitleBarButton"
-import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
+import { useMultipleSelectionTargets, useSceneGraphTarget, useSelectionTarget } from "../states"
 import deleteSelected from "../Editor/deleteSelected"
 import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import EmptyItem from "./EmptyItem"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
+import FindIcon from "./icons/FindIcon"
 
 preventTreeShake(h)
 
@@ -34,6 +35,11 @@ const SceneGraph = () => {
 
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const [selectionTarget] = useSelectionTarget()
+    const [sceneGraphTarget] = useSceneGraphTarget()
+
+    const handleFind = () => {
+        console.log("here")
+    }
 
     return (
         <div
@@ -63,6 +69,9 @@ const SceneGraph = () => {
             }}>
                 <div>scenegraph</div>
                 <div style={{ flexGrow: 1 }} />
+                <TitleBarButton active={!!sceneGraphTarget} onClick={handleFind}>
+                    <FindIcon />
+                </TitleBarButton>
                 <TitleBarButton active={!!multipleSelectionTargets.length} onClick={emitEditorGroupItems}>
                     <GroupIcon />
                 </TitleBarButton>

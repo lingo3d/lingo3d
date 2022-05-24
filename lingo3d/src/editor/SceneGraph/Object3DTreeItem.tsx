@@ -1,12 +1,12 @@
 import { h } from "preact"
 import { useState } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
-import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
 import { Object3D } from "three"
 import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
 import { useSceneGraphTarget } from "../states"
+import ComponentIcon from "./icons/ComponentIcon"
 
 preventTreeShake(h)
 
@@ -50,7 +50,7 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
                 ) : (
                     <ExpandIcon style={expandIconStyle} onClick={() => setExpanded(true)} />
                 )}
-                <CubeIcon />
+                <ComponentIcon />
                 {object3d.name}
             </div>
             {expanded && object3d.children.map(child => (
