@@ -5,8 +5,8 @@ import IFound, { foundDefaults, foundSchema } from "../../interface/IFound"
 import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
 import { Cancellable } from "@lincode/promiselikes"
-import AnimationManager from "./SimpleObjectManager/AnimationManager"
 import { appendableRoot } from "../../api/core/Appendable"
+import Model from "../Model"
 
 class FoundManager extends SimpleObjectManager<Object3D> implements IFound {
     public static componentName = "found"
@@ -21,17 +21,24 @@ class FoundManager extends SimpleObjectManager<Object3D> implements IFound {
         super(mesh)
         //@ts-ignore
         this.material = mesh.material ??= new MeshStandardMaterial()
-
-        const { modelManager } = this.outerObject3d.userData
-
-        this.parent = modelManager
-        ;(modelManager.children ??= new Set()).add(this)
         appendableRoot.delete(this)
+    }
 
-        if (!modelManager?.animationManagers) return
+    public model?: Model
+    private retargetAnimations() {
+        if (!this.model?.animationManagers) return
+        for (const animationManager of Object.values(this.model.animationManagers))
+            this.animations[animationManager.name] = this.watch(animationManager.retarget(this.object3d))
 
-        for (const animationManager of Object.values<AnimationManager>(modelManager.animationManagers))
-            this.animations[animationManager.name] = this.watch(animationManager.retarget(mesh))
+        this.model = undefined
+    }
+
+    public override get animation() {
+        return super.animation
+    }
+    public override set animation(val) {
+        this.retargetAnimations()
+        super.animation = val
     }
 
     public override dispose() {

@@ -23,7 +23,7 @@ const buildAnimationTracks = debounce((val: AnimationValue) => {
 }, 0, "trailingPromise")
 
 export default abstract class AnimationItem extends PositionedItem implements IAnimation {
-    protected animationManagers?: Record<string, AnimationManager>
+    public animationManagers?: Record<string, AnimationManager>
     
     public get animations() {
         return this.animationManagers ??= {}

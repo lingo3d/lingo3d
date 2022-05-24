@@ -7,6 +7,7 @@ import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
 import { objectURLMapperPtr } from "./utils/loaders/setObjectURLMapper"
 import { Resolvable } from "@lincode/promiselikes"
 import { lazyLoadFBX, lazyLoadGLTF } from "./utils/loaders/lazyLoad"
+import FoundManager from "./core/FoundManager"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -105,8 +106,6 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     protected resolveLoaded(loadedObject3d: Group) {
-        loadedObject3d.traverse(child => child.userData.modelManager = this)
-
         for (const clip of loadedObject3d.animations)
             this.animations[clip.name] = this.watch(new AnimationManager(clip, loadedObject3d))
 
@@ -129,5 +128,19 @@ export default class Model extends Loaded<Group> implements IModel {
         
         this.loadedGroup.add(loadedObject3d)
         this.loadedResolvable.resolve(loadedObject3d)
+    }
+
+    public override find(name: string): FoundManager | undefined {
+        const child = super.find(name)
+        child && (child.model = this)
+        return child
+    }
+
+    public override findAll(name: string): Array<FoundManager> {
+        const children = super.findAll(name)
+        for (const child of children)
+            child.model = this
+
+        return children
     }
 }
