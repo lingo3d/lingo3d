@@ -5,7 +5,7 @@ import Appendable from "../../api/core/Appendable"
 import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
-import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
+import { useMultipleSelectionTargets, useSceneGraphTarget, useSelectionTarget } from "../states"
 import { emitEditorCenterView } from "../../events/onEditorCenterView"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
@@ -33,6 +33,9 @@ export const makeTreeItemCallbacks = (target: Appendable | Object3D, parent?: Ap
             getSelectionTarget() !== parent && emitSelectionTarget(parent)
             queueMicrotask(() => setSceneGraphTarget(target))
         }
+        else if (getCamera() !== mainCamera)
+            setSceneGraphTarget(target)
+
         target instanceof PositionedItem && emitSelectionTarget(target)
     })
 
@@ -43,6 +46,8 @@ export const makeTreeItemCallbacks = (target: Appendable | Object3D, parent?: Ap
         if (!(target instanceof PositionedItem)) return
         getCamera() !== mainCamera && setCamera(mainCamera)
         emitEditorCenterView(target)
+        setSceneGraphTarget(undefined)
+        emitSelectionTarget(target)
     }
     
     return { setClickEl, handleClick, handleDoubleClick }
@@ -63,6 +68,7 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     const [selectionTarget] = useSelectionTarget()
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const selected = selectionTarget === appendable || multipleSelectionTargets.includes(appendable as any)
+    const [sceneGraphTarget] = useSceneGraphTarget()
 
     const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks(appendable)
 
@@ -108,6 +114,7 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
                 display: "flex",
                 alignItems: "center",
                 backgroundColor: selected ? "rgba(255, 255, 255, 0.1)" : undefined,
+                border: sceneGraphTarget === appendable ? "1px solid rgba(255, 255, 255, 0.5)" : undefined,
                 cursor: "default"
             }}>
                 {expanded ? (

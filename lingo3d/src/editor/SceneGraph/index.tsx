@@ -72,7 +72,7 @@ const SceneGraph = () => {
             }}>
                 <div>scenegraph</div>
                 <div style={{ flexGrow: 1 }} />
-                <TitleBarButton active={!!sceneGraphTarget} onClick={handleFind}>
+                <TitleBarButton active={sceneGraphTarget instanceof Object3D} onClick={handleFind}>
                     <FindIcon />
                 </TitleBarButton>
                 <TitleBarButton active={!!multipleSelectionTargets.length} onClick={emitEditorGroupItems}>
