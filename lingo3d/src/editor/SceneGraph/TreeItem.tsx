@@ -67,7 +67,7 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
 
     const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks(appendable)
 
-    const [sceneGraphExpanded] = useSceneGraphExpanded()
+    const [sceneGraphExpanded, setSceneGraphExpanded] = useSceneGraphExpanded()
 
     useEffect(() => {
         if (!sceneGraphExpanded) return
@@ -122,7 +122,7 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
                 cursor: "default"
             }}>
                 {expanded ? (
-                    <CollapseIcon style={expandIconStyle} onClick={() => setExpanded(false)} />
+                    <CollapseIcon style={expandIconStyle} onClick={() => (setExpanded(false), setSceneGraphExpanded(undefined))} />
                 ) : (
                     <ExpandIcon style={expandIconStyle} onClick={() => setExpanded(true)} />
                 )}

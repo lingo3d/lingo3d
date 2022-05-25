@@ -22,7 +22,7 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
 
     const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks(object3d, appendable)
 
-    const [sceneGraphExpanded] = useSceneGraphExpanded()
+    const [sceneGraphExpanded, setSceneGraphExpanded] = useSceneGraphExpanded()
 
     useEffect(() => {
         if (!sceneGraphExpanded) return
@@ -56,7 +56,7 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
                 cursor: "default"
             }}>
                 {expanded ? (
-                    <CollapseIcon style={expandIconStyle} onClick={() => setExpanded(false)} />
+                    <CollapseIcon style={expandIconStyle} onClick={() => (setExpanded(false), setSceneGraphExpanded(undefined))} />
                 ) : (
                     <ExpandIcon style={expandIconStyle} onClick={() => setExpanded(true)} />
                 )}
