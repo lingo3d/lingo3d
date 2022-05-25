@@ -1,5 +1,5 @@
 import { h } from "preact"
-import { useState, useEffect } from "preact/hooks"
+import { useState, useEffect, useRef, useMemo } from "preact/hooks"
 import { preventTreeShake, upperFirst } from "@lincode/utils"
 import Appendable from "../../api/core/Appendable"
 import CubeIcon from "./icons/CubeIcon"
@@ -77,6 +77,18 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
 
     }, [sceneGraphExpanded])
 
+    const startRef = useRef<HTMLDivElement>(null)
+    const endRef = useRef<HTMLDivElement>(null)
+
+    const highlightWidth = useMemo(() => {
+        if (!selected || !startRef.current || !endRef.current) return
+
+        const boundsStart = startRef.current.getBoundingClientRect()
+        const boundsEnd = endRef.current.getBoundingClientRect()
+        return boundsEnd.right - boundsStart.left + 4
+
+    }, [selected, expanded])
+
     return (
         <div
          ref={setClickEl}
@@ -115,10 +127,12 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
             background: dragOver ? "rgba(255, 255, 255, 0.5)" : "none"
          }}
         >
-            <div style={{
+            <div ref={startRef} style={{
                 display: "flex",
                 alignItems: "center",
                 backgroundColor: selected ? "rgba(255, 255, 255, 0.1)" : undefined,
+                width: highlightWidth,
+                minWidth: "100%",
                 cursor: "default"
             }}>
                 {expanded ? (
@@ -127,7 +141,7 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
                     <ExpandIcon style={expandIconStyle} onClick={() => setExpanded(true)} />
                 )}
                 <CubeIcon />
-                {name}
+                <div ref={endRef}>{name}</div>
             </div>
             {expanded && appendableChildren?.map(childAppendable => (
                 childAppendable instanceof Model ? (

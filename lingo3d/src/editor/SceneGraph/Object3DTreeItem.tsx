@@ -1,5 +1,5 @@
 import { h } from "preact"
-import { useEffect, useState } from "preact/hooks"
+import { useEffect, useMemo, useRef, useState } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
@@ -32,6 +32,20 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
 
     }, [sceneGraphExpanded])
 
+    const startRef = useRef<HTMLDivElement>(null)
+    const endRef = useRef<HTMLDivElement>(null)
+
+    const selected = sceneGraphTarget === object3d
+
+    const highlightWidth = useMemo(() => {
+        if (!selected || !startRef.current || !endRef.current) return
+
+        const boundsStart = startRef.current.getBoundingClientRect()
+        const boundsEnd = endRef.current.getBoundingClientRect()
+        return boundsEnd.right - boundsStart.left + 4
+
+    }, [selected, expanded])
+
     return (
         <div
          ref={setClickEl}
@@ -49,10 +63,12 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
             borderLeft: "1px solid rgba(255, 255, 255, 0.05)"
          }}
         >
-            <div style={{
+            <div ref={startRef} style={{
                 display: "flex",
                 alignItems: "center",
-                border: sceneGraphTarget === object3d ? "1px solid rgba(255, 255, 255, 0.5)" : undefined,
+                border: selected ? "1px solid rgba(255, 255, 255, 0.5)" : undefined,
+                width: highlightWidth,
+                minWidth: "100%",
                 cursor: "default"
             }}>
                 {expanded ? (
@@ -61,7 +77,7 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
                     <ExpandIcon style={expandIconStyle} onClick={() => setExpanded(true)} />
                 )}
                 <ComponentIcon />
-                {object3d.name}
+                <div ref={endRef}>{object3d.name}</div>
             </div>
             {expanded && object3d.children.map(child => (
                 <Object3DTreeItem key={child.uuid} object3d={child} appendable={appendable} level={level + 1} />
