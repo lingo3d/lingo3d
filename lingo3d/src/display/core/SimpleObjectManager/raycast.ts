@@ -37,7 +37,7 @@ const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
 
 type Then = (obj: SimpleObjectManager, e: MouseInteractionPayload) => void
 
-const pickable = (name: MouseEventName, candidates: Set<Object3D>, then: Then) => (
+const pickable = (name: MouseEventName | Array<MouseEventName>, candidates: Set<Object3D>, then: Then) => (
     mouseEvents.on(name, e => {
         const result = raycast(e.xNorm, e.yNorm, candidates)
         if (!result) return
@@ -113,15 +113,18 @@ createEffect(() => {
         getSelectionCandidates()
         handle.watch(onSceneChange(getSelectionCandidates))
 
-        handle.watch(mouseEvents.on("click", () => {
-            emitSelectionTarget()
+        handle.watch(mouseEvents.on("click", () => emitSelectionTarget()))
+
+        let rightClick = false
+        handle.watch(mouseEvents.on("rightClick", () => rightClick = true))
+        
+        handle.watch(pickable(["click", "rightClick"], selectionCandidates, target => {
+            emitSelectionTarget(target, rightClick)
+            rightClick = false
         }))
-        handle.watch(pickable("click", selectionCandidates, target => {
-            emitSelectionTarget(target)
-        }))
-        handle.watch(onSelectionTarget(({ target }) => {
+        handle.watch(onSelectionTarget(({ target, rightClick }) => {
             if (multipleSelection) {
-                if (!target) return
+                if (!target || rightClick) return
 
                 if (firstMultipleSelection.current) {
                     const currentTarget = getSelectionTarget()
@@ -137,7 +140,7 @@ createEffect(() => {
                 return
             }
             resetMultipleSelectionTargets()
-            setSelectionTarget(target === getSelectionTarget() ? undefined : target)
+            setSelectionTarget(rightClick ? target : (target === getSelectionTarget() ? undefined : target))
         }))
 
         if (!multipleSelection && !getSelectionBlockMouse())

@@ -11,13 +11,17 @@ import clientToWorld from "../display/utils/clientToWorld"
 import store from "@lincode/reactivity"
 import { getEditorActive } from "../states/useEditorActive"
 
-export type MouseEventName = "click" | "move" | "down" | "up"
+export type MouseEventName = "click" | "rightClick" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
 
 let downTime = 0
 let downX = 0
 let downY = 0
+let rightClick = false
 
+container.addEventListener("contextmenu", () => {
+    rightClick = true
+})
 mouseEvents.on("down", e => {
     downTime = Date.now()
     downX = e.clientX
@@ -35,7 +39,9 @@ mouseEvents.on("up", e => {
     downY = e.clientY
 
     if (deltaTime < 300 && deltaX < 5 && deltaY < 5)
-        mouseEvents.emit("click", e)
+        mouseEvents.emit(rightClick ? "rightClick" : "click", e)
+
+    rightClick = false
 })
 
 const computeMouse = throttle(clientToWorld, 0, "leading")
