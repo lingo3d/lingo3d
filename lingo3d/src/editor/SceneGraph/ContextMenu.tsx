@@ -1,12 +1,28 @@
 import { preventTreeShake } from "@lincode/utils"
 import { h } from "preact"
 import { useEffect, useState } from "preact/hooks"
+import { Object3D } from "three"
 import PositionedItem from "../../api/core/PositionedItem"
 import { mouseEvents } from "../../api/mouse"
-import { emitEditorSearch } from "../../events/onEditorSearch"
+import Model from "../../display/Model"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
 
 preventTreeShake(h)
+
+const search = (n: string) => {
+    const model = getSelectionTarget()
+    if (!(model instanceof Model)) return
+    
+    const name = n.toLowerCase()
+    let found: Object3D | undefined
+    //@ts-ignore
+    model.loadedGroup.traverse(item => {
+        if (found) return
+        item.name.toLowerCase().includes(name) && (found = item)
+    })
+    console.log(found)
+}
 
 const ContextMenu = () => {
     const [data, setData] = useState<{ x: number, y: number, target: PositionedItem } | undefined>(undefined)
@@ -43,7 +59,7 @@ const ContextMenu = () => {
                  onKeyDown={e => {
                      e.stopPropagation()
                      if (e.key !== "Enter" && e.key !== "Escape") return
-                     e.key === "Enter" && emitEditorSearch((e.target as HTMLInputElement).value)
+                     e.key === "Enter" && search((e.target as HTMLInputElement).value)
                      setShowSearch(false)
                      setData(undefined)
                  }}
