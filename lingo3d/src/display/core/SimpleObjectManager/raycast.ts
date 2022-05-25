@@ -114,12 +114,12 @@ createEffect(() => {
         handle.watch(onSceneChange(getSelectionCandidates))
 
         handle.watch(mouseEvents.on("click", () => {
-            emitSelectionTarget(undefined)
+            emitSelectionTarget()
         }))
         handle.watch(pickable("click", selectionCandidates, target => {
             emitSelectionTarget(target)
         }))
-        handle.watch(onSelectionTarget(target => {
+        handle.watch(onSelectionTarget(({ target }) => {
             if (multipleSelection) {
                 if (!target) return
 

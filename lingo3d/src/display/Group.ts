@@ -74,7 +74,7 @@ createEffect(() => {
     })
 
     return () => {
-        emitSelectionTarget(undefined)
+        emitSelectionTarget()
 
         if (!groupManager.done && !consolidated)
             for (const [object, parent] of parentEntries)

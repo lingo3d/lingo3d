@@ -135,7 +135,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
             h.opacity = 0.5
             h.height = _pad ? 10 : 100
 
-            const handle = onSelectionTarget(target => target === h && emitSelectionTarget(this))
+            const handle = onSelectionTarget(({ target }) => target === h && emitSelectionTarget(this))
 
             return () => {
                 h.dispose()

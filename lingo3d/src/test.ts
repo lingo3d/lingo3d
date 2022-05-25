@@ -25,6 +25,7 @@ lingo3dContainer.innerHTML = `
         <lingo3d-scenegraph></lingo3d-scenegraph>
         <lingo3d-editor></lingo3d-editor>
         <lingo3d-library></lingo3d-library>
+        <lingo3d-contextmenu></lingo3d-contextmenu>
     </div>
     <div id="lingoapp" style="height: 100%; flex-grow: 1; position: relative"></div>
 `

@@ -47,7 +47,7 @@ const SceneGraph = () => {
     return (
         <div
          className="lingo3d-ui"
-         onClick={() => emitSelectionTarget(undefined)}
+         onClick={() => emitSelectionTarget()}
          style={{
              width: 200,
              height: "100%",

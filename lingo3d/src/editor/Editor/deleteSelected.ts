@@ -13,5 +13,5 @@ export default () => {
     for (const target of multipleSelectionTargets)
         target.dispose()
 
-    emitSelectionTarget(undefined)
+    emitSelectionTarget()
 }

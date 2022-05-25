@@ -34,7 +34,7 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
             const sprite = makeCameraSprite()
             helper.add(sprite.outerObject3d)
 
-            const handle = onSelectionTarget(target => {
+            const handle = onSelectionTarget(({ target }) => {
                 target === sprite && emitSelectionTarget(this as any)
             })
             return () => {

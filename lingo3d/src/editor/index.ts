@@ -2,6 +2,7 @@ import "./Editor"
 import "./SceneGraph"
 import "./Toolbar"
 import "./Library"
+import "./ContextMenu"
 
 const style = document.createElement("style")
 document.head.appendChild(style)

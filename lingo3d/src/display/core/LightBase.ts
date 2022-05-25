@@ -23,7 +23,7 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
             const sprite = makeLightSprite()
             helper.add(sprite.outerObject3d)
 
-            const handle = onSelectionTarget(target => {
+            const handle = onSelectionTarget(({ target }) => {
                 target === sprite && emitSelectionTarget(this)
             })
             return () => {
