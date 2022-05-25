@@ -5,18 +5,18 @@ import Appendable from "../../api/core/Appendable"
 import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
-import { useMultipleSelectionTargets, useSceneGraphTarget, useSelectionTarget } from "../states"
+import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
 import { emitEditorCenterView } from "../../events/onEditorCenterView"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import useClick from "./useClick"
 import PositionedItem from "../../api/core/PositionedItem"
-import { getCamera, setCamera } from "../../states/useCamera"
-import mainCamera from "../../engine/mainCamera"
 import { Object3D } from "three"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
+import { setCamera } from "../../states/useCamera"
+import mainCamera from "../../engine/mainCamera"
 
 preventTreeShake(h)
 
@@ -29,13 +29,11 @@ export type TreeItemProps = {
 export const makeTreeItemCallbacks = (target: Appendable | Object3D, parent?: Appendable) => {
     const setClickEl = useClick(e => {
         e.stopPropagation()
+        setCamera(mainCamera)
         if (parent instanceof PositionedItem) {
             getSelectionTarget() !== parent && emitSelectionTarget(parent)
-            queueMicrotask(() => setSceneGraphTarget(target))
+            target instanceof Object3D && queueMicrotask(() => setSceneGraphTarget(target))
         }
-        else if (getCamera() !== mainCamera)
-            setSceneGraphTarget(target)
-
         target instanceof PositionedItem && emitSelectionTarget(target)
     })
 
@@ -43,13 +41,7 @@ export const makeTreeItemCallbacks = (target: Appendable | Object3D, parent?: Ap
 
     const handleDoubleClick = (e: MouseEvent) => {
         e.stopPropagation()
-
-        if (getCamera() !== mainCamera) {
-            setCamera(mainCamera)
-            setSceneGraphTarget(undefined)
-        }
         if (!(target instanceof PositionedItem)) return
-
         emitEditorCenterView(target)
         emitSelectionTarget(target)
     }
@@ -72,7 +64,6 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     const [selectionTarget] = useSelectionTarget()
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const selected = selectionTarget === appendable || multipleSelectionTargets.includes(appendable as any)
-    const [sceneGraphTarget] = useSceneGraphTarget()
 
     const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks(appendable)
 
@@ -118,7 +109,6 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
                 display: "flex",
                 alignItems: "center",
                 backgroundColor: selected ? "rgba(255, 255, 255, 0.1)" : undefined,
-                border: sceneGraphTarget === appendable ? "1px solid rgba(255, 255, 255, 0.5)" : undefined,
                 cursor: "default"
             }}>
                 {expanded ? (

@@ -16,9 +16,7 @@ import deleteSelected from "../Editor/deleteSelected"
 import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import EmptyItem from "./EmptyItem"
-import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 import FindIcon from "./icons/FindIcon"
-import { Object3D } from "three"
 import ObjectManager from "../../display/core/ObjectManager"
 import mainCamera from "../../engine/mainCamera"
 
@@ -42,17 +40,14 @@ const SceneGraph = () => {
     const [camera] = useCamera()
 
     const handleFind = () => {
-        if (sceneGraphTarget instanceof Object3D && selectionTarget instanceof ObjectManager && sceneGraphTarget.name)
+        if (sceneGraphTarget?.name && selectionTarget instanceof ObjectManager)
             setTimeout(() => emitSelectionTarget(selectionTarget.find(sceneGraphTarget.name)))
     }
 
     return (
         <div
          className="lingo3d-ui"
-         onClick={() => {
-             emitSelectionTarget(undefined)
-             setSceneGraphTarget(undefined)
-         }}
+         onClick={() => emitSelectionTarget(undefined)}
          style={{
              width: 200,
              height: "100%",
@@ -74,7 +69,7 @@ const SceneGraph = () => {
             }}>
                 <div>scenegraph</div>
                 <div style={{ flexGrow: 1 }} />
-                <TitleBarButton active={sceneGraphTarget instanceof Object3D} onClick={handleFind}>
+                <TitleBarButton active={!!sceneGraphTarget} onClick={handleFind}>
                     <FindIcon />
                 </TitleBarButton>
                 <TitleBarButton active={!!multipleSelectionTargets.length} onClick={emitEditorGroupItems}>
