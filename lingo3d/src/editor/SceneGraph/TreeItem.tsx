@@ -1,11 +1,11 @@
 import { h } from "preact"
-import { useState } from "preact/hooks"
+import { useState, useEffect } from "preact/hooks"
 import { preventTreeShake, upperFirst } from "@lincode/utils"
 import Appendable from "../../api/core/Appendable"
 import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
-import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
+import { useMultipleSelectionTargets, useSceneGraphExpanded, useSelectionTarget } from "../states"
 import { emitEditorCenterView } from "../../events/onEditorCenterView"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
@@ -66,6 +66,16 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     const selected = selectionTarget === appendable || multipleSelectionTargets.includes(appendable as any)
 
     const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks(appendable)
+
+    const [sceneGraphExpanded] = useSceneGraphExpanded()
+
+    useEffect(() => {
+        if (!sceneGraphExpanded) return
+
+        if (sceneGraphExpanded.has(appendable.outerObject3d))
+            setExpanded(true)
+
+    }, [sceneGraphExpanded])
 
     return (
         <div

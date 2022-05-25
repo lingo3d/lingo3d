@@ -1,11 +1,11 @@
 import { h } from "preact"
-import { useState } from "preact/hooks"
+import { useEffect, useState } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
 import { Object3D } from "three"
 import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
-import { useSceneGraphTarget } from "../states"
+import { useSceneGraphExpanded, useSceneGraphTarget } from "../states"
 import ComponentIcon from "./icons/ComponentIcon"
 
 preventTreeShake(h)
@@ -21,6 +21,16 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
     const [sceneGraphTarget] = useSceneGraphTarget()
 
     const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks(object3d, appendable)
+
+    const [sceneGraphExpanded] = useSceneGraphExpanded()
+
+    useEffect(() => {
+        if (!sceneGraphExpanded) return
+
+        if (sceneGraphExpanded.has(object3d))
+            setExpanded(true)
+
+    }, [sceneGraphExpanded])
 
     return (
         <div

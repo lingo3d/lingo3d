@@ -6,9 +6,15 @@ import PositionedItem from "../../api/core/PositionedItem"
 import { mouseEvents } from "../../api/mouse"
 import Model from "../../display/Model"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
+import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 
 preventTreeShake(h)
+
+const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
+    expandedSet.add(obj)
+    obj.parent && traverseUp(obj.parent, expandedSet)
+}
 
 const search = (n: string) => {
     const model = getSelectionTarget()
@@ -21,7 +27,11 @@ const search = (n: string) => {
         if (found) return
         item.name.toLowerCase().includes(name) && (found = item)
     })
-    console.log(found)
+    if (!found) return
+    
+    const expandedSet = new Set<Object3D>()
+    traverseUp(found, expandedSet)
+    setSceneGraphExpanded(expandedSet)
 }
 
 const ContextMenu = () => {
