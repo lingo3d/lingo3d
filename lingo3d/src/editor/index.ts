@@ -2,7 +2,7 @@ import "./Editor"
 import "./SceneGraph"
 import "./Toolbar"
 import "./Library"
-import "./ContextMenu"
+import "./SceneGraph/ContextMenu"
 
 const style = document.createElement("style")
 document.head.appendChild(style)
@@ -12,7 +12,7 @@ style.innerHTML =
     -webkit-user-select: none;
     position: relative;
     box-sizing: border-box;
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
 .lingo3d-ui {
     position: relative;

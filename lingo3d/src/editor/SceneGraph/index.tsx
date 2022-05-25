@@ -1,4 +1,4 @@
-import { h } from "preact"
+import { Fragment, h } from "preact"
 import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
@@ -19,6 +19,7 @@ import EmptyItem from "./EmptyItem"
 import FindIcon from "./icons/FindIcon"
 import ObjectManager from "../../display/core/ObjectManager"
 import mainCamera from "../../engine/mainCamera"
+import ContextMenu from "./ContextMenu"
 
 preventTreeShake(h)
 
@@ -44,7 +45,7 @@ const SceneGraph = () => {
             setTimeout(() => emitSelectionTarget(selectionTarget.find(sceneGraphTarget.name)))
     }
 
-    return (
+    return (<Fragment>
         <div
          className="lingo3d-ui"
          onClick={() => emitSelectionTarget()}
@@ -90,7 +91,8 @@ const SceneGraph = () => {
                 <EmptyItem />
             </div>
         </div>
-    )
+        <ContextMenu />
+    </Fragment>)
 }
 
 register(SceneGraph, "lingo3d-scenegraph")
