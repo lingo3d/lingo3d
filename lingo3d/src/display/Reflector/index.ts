@@ -4,7 +4,7 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 import { reflectorDefaults, reflectorSchema } from "../../interface/IReflector"
 import { getCamera } from "../../states/useCamera"
 import { getRenderer } from "../../states/useRenderer"
-import copyStandard from "../core/SimpleObjectManager/applyMaterialProperties/copyStandard"
+import copyStandard from "../core/StaticObjectManager/applyMaterialProperties/copyStandard"
 import Plane from "../primitives/Plane"
 
 export default class Reflector extends Plane {

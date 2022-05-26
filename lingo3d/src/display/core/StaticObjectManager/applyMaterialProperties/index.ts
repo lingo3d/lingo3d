@@ -1,11 +1,11 @@
 import { debounce } from "@lincode/utils"
 import { Group, MeshToonMaterial, MeshStandardMaterial } from "three"
-import SimpleObjectManager from ".."
+import StaticObjectManager from ".."
 import Loaded from "../../Loaded"
 import copyStandard from "./copyStandard"
 import copyToon from "./copyToon"
 
-export const applySet = new Set<SimpleObjectManager | Loaded<Group>>()
+export const applySet = new Set<StaticObjectManager | Loaded<Group>>()
 
 const getDefault = (child: any, property: string) => (
     child.userData[property] ??= (child.material[property] ?? 1)

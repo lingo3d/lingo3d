@@ -5,7 +5,6 @@ import { getSelection } from "../../../states/useSelection"
 import { getSelectionTarget, setSelectionTarget } from "../../../states/useSelectionTarget"
 import { getCamera } from "../../../states/useCamera"
 import scene from "../../../engine/scene"
-import SimpleObjectManager from "."
 import { getMultipleSelection } from "../../../states/useMultipleSelection"
 import { getMultipleSelectionTargets, pullMultipleSelectionTargets, pushMultipleSelectionTargets, resetMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
 import { emitSelectionTarget, onSelectionTarget } from "../../../events/onSelectionTarget"
@@ -18,6 +17,7 @@ import { getTransformControlsDragging } from "../../../states/useTransformContro
 import { debounce } from "@lincode/utils"
 import { onSceneChange } from "../../../events/onSceneChange"
 import { getSelectionBlockMouse } from "../../../states/useSelectionBlockMouse"
+import StaticObjectManager from "."
 
 const raycaster = new Raycaster()
 
@@ -35,7 +35,7 @@ const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     return raycaster.intersectObjects([...candidates])[0]
 }
 
-type Then = (obj: SimpleObjectManager, e: MouseInteractionPayload) => void
+type Then = (obj: StaticObjectManager, e: MouseInteractionPayload) => void
 
 const pickable = (name: MouseEventName | Array<MouseEventName>, candidates: Set<Object3D>, then: Then) => (
     mouseEvents.on(name, e => {
@@ -63,8 +63,8 @@ const enableMouseEvents = () => {
     handle.watch(pickable("down", mouseDownSet, (obj, e) => obj.onMouseDown?.(e)))
     handle.watch(pickable("up", mouseUpSet, (obj, e) => obj.onMouseUp?.(e)))
 
-    let moveSet = new Set<SimpleObjectManager>()
-    let moveSetOld = new Set<SimpleObjectManager>()
+    let moveSet = new Set<StaticObjectManager>()
+    let moveSetOld = new Set<StaticObjectManager>()
 
     handle.watch(pickable("move", mouseOverSet, (obj, e) => {
         moveSet.add(obj)
