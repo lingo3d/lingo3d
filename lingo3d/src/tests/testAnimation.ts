@@ -1,6 +1,5 @@
 import settings from "../api/settings"
 import Cube from "../display/primitives/Cube"
-import Skybox from "../display/Skybox"
 
 export default {}
 
@@ -18,8 +17,6 @@ const box = new Cube()
 box.animation = {
     rotationX: [0, 45, 0]
 }
-
-box.animation.rotationY = [0, 45, 0]
 
 // setTimeout(() => {
 //     box.enablePhysics()

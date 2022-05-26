@@ -1,13 +1,13 @@
-import PhysicsItem from "../core/SimpleObjectManager/PhysicsItem"
 import { Vector3 } from "three"
+import PositionedItem from "../../api/core/PositionedItem"
 
-const cache = new WeakMap<PhysicsItem, Vector3>()
+const cache = new WeakMap<PositionedItem, Vector3>()
 
-export default (target: PhysicsItem) => {
+export default (target: PositionedItem) => {
     if (cache.has(target))
         return cache.get(target)!
 
-    const result = target.object3d.scale.clone().multiply(target.outerObject3d.scale)
+    const result = (target.object3d ?? target.outerObject3d).scale.clone().multiply(target.outerObject3d.scale)
 
     cache.set(target, result)
     setTimeout(() => cache.delete(target))

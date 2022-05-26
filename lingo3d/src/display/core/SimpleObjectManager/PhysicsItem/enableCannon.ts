@@ -26,7 +26,7 @@ export default async function (this: PhysicsItem, handle: Cancellable) {
                 .map(index => physicsGroups[index])
                 .reduce((acc, curr) => acc + curr, 0)
     })
-    await this._physicsShape()
+    await this.physicsShape()
 
     if (handle.done) return
 

@@ -48,9 +48,9 @@ const updateFrustum = throttle(() => {
 
 
 
-class SimpleObjectManager<T extends Object3D = Object3D> extends PhysicsItem implements ISimpleObjectManager {
+class SimpleObjectManager<T extends Object3D = Object3D> extends PositionedItem implements ISimpleObjectManager {
     public constructor(
-        public object3d: T
+        public override object3d: T
     ) {
         super(object3d)
     }
@@ -606,6 +606,6 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends PhysicsItem imp
         return frustum.containsPoint(getCenter(this.object3d))
     }
 }
-interface SimpleObjectManager<T extends Object3D = Object3D> extends PhysicsItem, AnimationMixin {}
-applyMixins(SimpleObjectManager, [AnimationMixin])
+interface SimpleObjectManager<T extends Object3D = Object3D> extends PositionedItem, AnimationMixin, PhysicsItem {}
+applyMixins(SimpleObjectManager, [AnimationMixin, PhysicsItem])
 export default SimpleObjectManager
