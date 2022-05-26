@@ -9,6 +9,7 @@ import { setDefaultLight, getDefaultLight } from "../states/useDefaultLight"
 import { setDefaultFog, getDefaultFog } from "../states/useDefaultFog"
 import { setSceneGraphTarget, getSceneGraphTarget } from "../states/useSceneGraphTarget"
 import { setSceneGraphExpanded, getSceneGraphExpanded } from "../states/useSceneGraphExpanded"
+import { setSceneGraphPreventDrag, getSceneGraphPreventDrag } from "../states/useSceneGraphPreventDrag"
 
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(setMultipleSelectionTargets, getMultipleSelectionTargets)
@@ -20,3 +21,4 @@ export const useDefaultLight = hook(setDefaultLight, getDefaultLight)
 export const useDefaultFog = hook(setDefaultFog, getDefaultFog)
 export const useSceneGraphTarget = hook(setSceneGraphTarget, getSceneGraphTarget)
 export const useSceneGraphExpanded = hook(setSceneGraphExpanded, getSceneGraphExpanded)
+export const useSceneGraphPreventDrag = hook(setSceneGraphPreventDrag, getSceneGraphPreventDrag)

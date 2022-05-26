@@ -5,7 +5,7 @@ import Appendable from "../../api/core/Appendable"
 import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
-import { useMultipleSelectionTargets, useSceneGraphExpanded, useSelectionTarget } from "../states"
+import { useMultipleSelectionTargets, useSceneGraphExpanded, useSceneGraphPreventDrag, useSelectionTarget } from "../states"
 import { emitEditorCenterView } from "../../events/onEditorCenterView"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
@@ -89,12 +89,14 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
 
     }, [selected, expanded])
 
+    const [preventDrag] = useSceneGraphPreventDrag()
+
     return (
         <div
          ref={setClickEl}
          onClick={handleClick}
          onDblClick={handleDoubleClick}
-         draggable
+         draggable={!preventDrag}
          onDragStart={e => (e.stopPropagation(), draggingItemPtr[0] = appendable)}
          onDragEnd={e => (e.stopPropagation(), draggingItemPtr[0] = undefined)}
          onDragOver={e => {

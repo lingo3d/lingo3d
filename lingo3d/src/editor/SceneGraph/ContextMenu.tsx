@@ -3,7 +3,6 @@ import { h } from "preact"
 import { useEffect, useState } from "preact/hooks"
 import { Object3D } from "three"
 import PositionedItem from "../../api/core/PositionedItem"
-import { mouseEvents } from "../../api/mouse"
 import Model from "../../display/Model"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
@@ -46,13 +45,10 @@ const ContextMenu = () => {
         const cb = (e: MouseEvent) => [clientX, clientY] = [e.clientX, e.clientY]
         document.addEventListener("mousemove", cb)
 
-        const handle0 = mouseEvents.on("down", () => setData(undefined))
-
         const handle = onSelectionTarget(({ target, rightClick }) => {
             rightClick && target && setData({ x: clientX, y: clientY, target })
         })
         return () => {
-            handle0.cancel()
             handle.cancel()
             document.removeEventListener("mousemove", cb)
         }
@@ -61,23 +57,21 @@ const ContextMenu = () => {
     if (!data) return null
 
     return (
-        <div className="lingo3d-ui" style={{
+        <div className="lingo3d-ui" onMouseDown={() => setData(undefined)} style={{
             zIndex: 9999,
             position: "absolute",
             left: 0,
             top: 0,
             width: "100%",
             height: "100%",
-            pointerEvents: "none",
             overflow: "hidden"
         }}>
-            <div style={{
+            <div onMouseDown={e => e.stopPropagation()} style={{
                 position: "absolute",
                 left: data.x,
                 top: data.y,
                 background: "rgb(40, 41, 46)",
-                padding: 6,
-                pointerEvents: "auto"
+                padding: 6
             }}>
                 {showSearch ? (
                     <input

@@ -7,8 +7,11 @@ import { Object3D } from "three"
 import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
 import { useSceneGraphExpanded, useSceneGraphTarget } from "../states"
 import ComponentIcon from "./icons/ComponentIcon"
+import { setSceneGraphPreventDrag } from "../../states/useSceneGraphPreventDrag"
 
 preventTreeShake(h)
+
+document.addEventListener("mouseup", () => setSceneGraphPreventDrag(false))
 
 type Object3DTreeItemProps = TreeItemProps & {
     object3d: Object3D
@@ -51,12 +54,7 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
          ref={setClickEl}
          onClick={handleClick}
          onDblClick={handleDoubleClick}
-         onDragStart={e => e.stopPropagation()}
-         onDragEnd={e => e.stopPropagation()}
-         onDragOver={e => (e.stopPropagation(), e.preventDefault())}
-         onDragEnter={e => (e.stopPropagation(), e.preventDefault())}
-         onDragLeave={e => e.stopPropagation()}
-         onDrop={e => e.stopPropagation()}
+         onMouseDown={() => setSceneGraphPreventDrag(true)}
          style={{
             color: "rgba(255, 255, 255, 0.75)",
             marginLeft: 8,

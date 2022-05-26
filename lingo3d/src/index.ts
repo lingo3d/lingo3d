@@ -120,5 +120,5 @@ export {
 
     rootContainer,
     SimpleObjectManager as Object,
-    FoundManager as Find
+    FoundManager
 }
