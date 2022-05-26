@@ -1,9 +1,9 @@
-import { AnimationData } from "../../utils/serializer/types"
-import IAnimation, { Animation, AnimationValue } from "../../../interface/IAnimation"
+import { AnimationData } from "../../../utils/serializer/types"
+import IAnimation, { Animation, AnimationValue } from "../../../../interface/IAnimation"
 import { debounce } from "@lincode/utils"
 import { Resolvable } from "@lincode/promiselikes"
-import AnimationManager, { PlayOptions } from "../SimpleObjectManager/AnimationManager"
-import EventLoopItem from "../../../api/core/EventLoopItem"
+import AnimationManager, { PlayOptions } from "./AnimationManager"
+import EventLoopItem from "../../../../api/core/EventLoopItem"
 
 const buildAnimationTracks = debounce((val: AnimationValue) => {
     const entries = Object.entries(val)

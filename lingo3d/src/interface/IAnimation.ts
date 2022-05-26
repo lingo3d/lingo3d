@@ -1,4 +1,4 @@
-import AnimationManager from "../display/core/SimpleObjectManager/AnimationManager"
+import AnimationManager from "../display/core/mixins/AnimationMixin/AnimationManager"
 import { ExtractProps } from "./utils/extractProps"
 
 export type AnimationValue = Record<string, Array<number>>
