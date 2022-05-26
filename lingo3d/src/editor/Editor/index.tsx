@@ -298,7 +298,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 pane.refresh()
             }))
         }
-        else {
+        else if (isPositionedItem(selectionTarget)) {
             const transformParams = {
                 "position": makeVector("x", "y", "z")
             }

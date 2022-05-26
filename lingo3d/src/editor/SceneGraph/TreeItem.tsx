@@ -33,7 +33,7 @@ export const makeTreeItemCallbacks = (target: Appendable | Object3D, parent?: Ap
         isPositionedItem(parent) && getSelectionTarget() !== parent && emitSelectionTarget(parent)
         if (target instanceof Object3D)
             queueMicrotask(() => setSceneGraphTarget(target))
-        else if (isPositionedItem(target))
+        else
             emitSelectionTarget(target)
     })
 

@@ -2,7 +2,7 @@ import { preventTreeShake } from "@lincode/utils"
 import { h } from "preact"
 import { useEffect, useState } from "preact/hooks"
 import { Object3D } from "three"
-import EventLoopItem from "../../api/core/EventLoopItem"
+import Appendable from "../../api/core/Appendable"
 import Model from "../../display/Model"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
@@ -37,7 +37,7 @@ const search = (n: string) => {
 }
 
 const ContextMenu = () => {
-    const [data, setData] = useState<{ x: number, y: number, target: EventLoopItem } | undefined>(undefined)
+    const [data, setData] = useState<{ x: number, y: number, target: Appendable } | undefined>(undefined)
     const [showSearch, setShowSearch] = useState(false)
 
     useEffect(() => {
