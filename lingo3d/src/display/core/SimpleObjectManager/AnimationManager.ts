@@ -3,10 +3,10 @@ import { Object3D, AnimationMixer, AnimationClip, NumberKeyframeTrack, Animation
 import { AnimationData } from "../../utils/serializer/types"
 import { forceGet } from "@lincode/utils"
 import clockDelta from "../../utils/clockDelta"
-import AnimationItem from "./AnimationItem"
 import { loop } from "../../../engine/eventLoop"
+import EventLoopItem from "../../../api/core/EventLoopItem"
 
-const targetMixerMap = new WeakMap<AnimationItem | Object3D, AnimationMixer>()
+const targetMixerMap = new WeakMap<EventLoopItem | Object3D, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, [AnimationAction, boolean]>()
 const mixerHandleMap = new WeakMap<AnimationMixer, Cancellable>()
 
@@ -24,7 +24,7 @@ export default class AnimationManager extends Disposable {
 
     public constructor(
         nameOrClip: string | AnimationClip,
-        target: AnimationItem | Object3D
+        target: EventLoopItem | Object3D
     ) {
         super()
 

@@ -2,7 +2,7 @@ import { rad2Deg, deg2Rad, distance3d } from "@lincode/math"
 import { Matrix3, Object3D, PropertyBinding, Vector3 } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
 import { frustum, matrix4, quaternion, ray, vector3, vector3_, vector3_1, vector3_half } from "../../utils/reusables"
-import { forceGet, throttle } from "@lincode/utils"
+import { applyMixins, forceGet, throttle } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import { scaleDown, scaleUp } from "../../../engine/constants"
 import { addBloom, deleteBloom } from "../../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
@@ -22,6 +22,7 @@ import getCenter from "../../utils/getCenter"
 import applyMaterialProperties, { applySet } from "./applyMaterialProperties"
 import { Reactive } from "@lincode/reactivity"
 import PositionedItem from "../../../api/core/PositionedItem"
+import AnimationMixin from "../mixins/AnimationMixin"
 
 export const idMap = new Map<string, Set<SimpleObjectManager>>()
 const thisOBB = new OBB()
@@ -47,7 +48,7 @@ const updateFrustum = throttle(() => {
 
 
 
-export default class SimpleObjectManager<T extends Object3D = Object3D> extends PhysicsItem implements ISimpleObjectManager {
+class SimpleObjectManager<T extends Object3D = Object3D> extends PhysicsItem implements ISimpleObjectManager {
     public constructor(
         public object3d: T
     ) {
@@ -605,3 +606,6 @@ export default class SimpleObjectManager<T extends Object3D = Object3D> extends 
         return frustum.containsPoint(getCenter(this.object3d))
     }
 }
+interface SimpleObjectManager<T extends Object3D = Object3D> extends PhysicsItem, AnimationMixin {}
+applyMixins(SimpleObjectManager, [AnimationMixin])
+export default SimpleObjectManager

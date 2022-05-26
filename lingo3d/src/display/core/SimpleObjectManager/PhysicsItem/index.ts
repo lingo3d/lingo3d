@@ -1,4 +1,3 @@
-import AnimationItem from "../AnimationItem"
 import cubeShape from "./cannon/shapes/cubeShape"
 import { Point3d } from "@lincode/math"
 import { Object3D, Vector3 } from "three"
@@ -6,8 +5,9 @@ import IPhysics, { PhysicsGroupIndex, PhysicsOptions, PhysicsShape } from "../..
 import type { Body } from "cannon-es"
 import { Cancellable } from "@lincode/promiselikes"
 import { assertExhaustive } from "@lincode/utils"
+import PositionedItem from "../../../../api/core/PositionedItem"
 
-export default abstract class PhysicsItem extends AnimationItem implements IPhysics {
+export default abstract class PhysicsItem extends PositionedItem implements IPhysics {
     public abstract override object3d: Object3D
 
     protected _mAV?: Point3d
