@@ -9,7 +9,6 @@ import getCenter from "../../utils/getCenter"
 import PositionedItem from "../../../api/core/PositionedItem"
 import StaticObjectManager from "../StaticObjectManager"
 import { applyMixins, forceGet } from "@lincode/utils"
-import AnimationMixin from "../mixins/AnimationMixin"
 import PhysicsMixin from "../mixins/PhysicsMixin"
 import bvhContactMap from "../mixins/PhysicsMixin/bvh/bvhContactMap"
 import { cannonContactBodies, cannonContactMap } from "../mixins/PhysicsMixin/cannon/cannonLoop"
@@ -347,6 +346,6 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         this.physicsMoveXZ()
 	}
 }
-interface SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectManager, PositionedItem, AnimationMixin, PhysicsMixin {}
-applyMixins(SimpleObjectManager, [PositionedItem, AnimationMixin, PhysicsMixin])
+interface SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectManager, PositionedItem, PhysicsMixin {}
+applyMixins(SimpleObjectManager, [PositionedItem, PhysicsMixin])
 export default SimpleObjectManager

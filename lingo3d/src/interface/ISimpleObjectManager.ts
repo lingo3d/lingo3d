@@ -1,5 +1,4 @@
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
-import IAnimation, { animationDefaults, animationSchema } from "./IAnimation"
 import IPhysics, { physicsDefaults, physicsSchema } from "./IPhysics"
 import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
 import IStaticObjectManager, { staticObjectManagerDefaults, staticObjectManagerSchema } from "./IStaticObjectManaget"
@@ -7,7 +6,7 @@ import { ExtractProps } from "./utils/extractProps"
 
 export type OnIntersectValue = (target: SimpleObjectManager) => void
 
-export default interface ISimpleObjectManager extends IStaticObjectManager, IPositioned, IAnimation, IPhysics {
+export default interface ISimpleObjectManager extends IStaticObjectManager, IPositioned, IPhysics {
     onIntersect?: OnIntersectValue
     onIntersectOut?: OnIntersectValue
 
@@ -34,7 +33,6 @@ export default interface ISimpleObjectManager extends IStaticObjectManager, IPos
 export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManager>> = {
     ...staticObjectManagerSchema,
     ...positionedSchema,
-    ...animationSchema,
     ...physicsSchema,
 
     onIntersect: Function,
@@ -63,7 +61,6 @@ export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManag
 export const simpleObjectManagerDefaults: ISimpleObjectManager = {
     ...staticObjectManagerDefaults,
     ...positionedDefaults,
-    ...animationDefaults,
     ...physicsDefaults,
 
     width: 100,

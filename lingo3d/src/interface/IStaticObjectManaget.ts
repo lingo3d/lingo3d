@@ -1,8 +1,9 @@
+import IAnimation, { animationDefaults, animationSchema } from "./IAnimation"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { MouseInteractionPayload } from "./IMouse"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IStaticObjectManager extends IEventLoop {
+export default interface IStaticObjectManager extends IEventLoop, IAnimation {
     onClick?: (e: MouseInteractionPayload) => void
     onMouseDown?: (e: MouseInteractionPayload) => void
     onMouseUp?: (e: MouseInteractionPayload) => void
@@ -29,6 +30,7 @@ export default interface IStaticObjectManager extends IEventLoop {
 
 export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManager>> = {
     ...eventLoopSchema,
+    ...animationSchema,
 
     onClick: Function,
     onMouseDown: Function,
@@ -56,6 +58,7 @@ export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManag
 
 export const staticObjectManagerDefaults: IStaticObjectManager = {
     ...eventLoopDefaults,
+    ...animationDefaults,
 
     name: "",
 
