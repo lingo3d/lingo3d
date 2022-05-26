@@ -2,44 +2,24 @@ import { distance3d } from "@lincode/math"
 import { Matrix3, Object3D, PropertyBinding, Vector3 } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
 import { frustum, matrix4, ray, vector3, vector3_, vector3_1, vector3_half } from "../../utils/reusables"
-import { applyMixins, forceGet, throttle } from "@lincode/utils"
+import { throttle } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import { scaleDown, scaleUp } from "../../../engine/constants"
 import { addBloom, deleteBloom } from "../../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import worldToClient from "../../utils/worldToClient"
 import { Cancellable } from "@lincode/promiselikes"
-import Point3d from "../../../api/Point3d"
 import { vec2Point } from "../../utils/vec2Point"
-import PhysicsMixin from "../mixins/PhysicsMixin"
-import { cannonContactBodies, cannonContactMap } from "../mixins/PhysicsMixin/cannon/cannonLoop"
 import { MouseInteractionPayload } from "../../../interface/IMouse"
 import { addSSR, deleteSSR } from "../../../engine/renderLoop/effectComposer/ssrPass"
 import { getCamera } from "../../../states/useCamera"
-import bvhContactMap from "../mixins/PhysicsMixin/bvh/bvhContactMap"
 import { addOutline, deleteOutline } from "../../../engine/renderLoop/effectComposer/outlinePass"
 import getCenter from "../../utils/getCenter"
 import applyMaterialProperties, { applySet } from "./applyMaterialProperties"
-import { Reactive } from "@lincode/reactivity"
-import PositionedItem from "../../../api/core/PositionedItem"
-import AnimationMixin from "../mixins/AnimationMixin"
 import EventLoopItem from "../../../api/core/EventLoopItem"
-import IStaticObjectManager, { OnIntersectValue } from "../../../interface/IStaticObjectManaget"
+import IStaticObjectManager from "../../../interface/IStaticObjectManaget"
 
-export const idMap = new Map<string, Set<StaticObjectManager>>()
 const thisOBB = new OBB()
 const targetOBB = new OBB()
-
-const makeSet = () => new Set()
-
-const ptDistCache = new WeakMap<Point3d, number>()
-const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
-    const cached = ptDistCache.get(pt)
-    if (cached) return cached
-
-    const result = distance3d(pt.x, pt.y, pt.z, vecSelf.x * scaleUp, vecSelf.y * scaleUp, vecSelf.z * scaleUp)
-    ptDistCache.set(pt, result)
-    return result
-}
 
 
 const updateFrustum = throttle(() => {
@@ -49,7 +29,7 @@ const updateFrustum = throttle(() => {
 
 
 
-class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem implements IStaticObjectManager {
+export default class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem implements IStaticObjectManager {
     public constructor(
         public object3d: T
     ) {
@@ -58,7 +38,6 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
 
     public override dispose() {
         super.dispose()
-        this._id !== undefined && idMap.get(this._id)!.delete(this)
         deleteSSR(this.object3d)
         return this
     }
@@ -159,16 +138,6 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this.outerObject3d.name = PropertyBinding.sanitizeNodeName(val)
     }
 
-    private _id?: string
-    public get id() {
-        return this._id
-    }
-    public set id(val: string | undefined) {
-        this._id !== undefined && idMap.get(this._id)!.delete(this)
-        this._id = val
-        val !== undefined && forceGet(idMap, val, makeSet).add(this)
-    }
-
     protected getRay() {
         return ray.set(this.object3d.getWorldPosition(vector3_), this.object3d.getWorldDirection(vector3))
     }
@@ -203,49 +172,10 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         return !!this.rayIntersectsAt(target)
     }
 
-    public getRayIntersectionsAt(id: string, maxDistance?: number) {
-        const result: Array<[StaticObjectManager, Point3d]> = []
-        for (const target of idMap.get(id) ?? []) {
-            if (target === this) continue
-            const pt = this.rayIntersectsAt(target, maxDistance)
-            pt && result.push([target, pt])
-        }
-        this.object3d.getWorldPosition(vector3_)
-        return result.sort((a, b) => {
-            return distance3dCached(a[1], vector3_) - distance3dCached(b[1], vector3_)
-        })
-    }
-
-    public getRayIntersections(id: string, maxDistance?: number) {
-        return this.getRayIntersectionsAt(id, maxDistance).map(result => result[0])
-    }
-
-    public listenToRayIntersection(id: string, cb: (target: StaticObjectManager, pt: Point3d) => void, maxDistance?: number) {
-        return this.loop(() => {
-            for (const [target, pt] of this.getRayIntersectionsAt(id, maxDistance))
-                cb(target, pt)
-        })
-    }
-
     public intersects(target: StaticObjectManager) {
         if (this.done) return false
         if (target.done) return false
         if (this === target) return false
-
-        if ((this.bvhMap && target.bvhCharacter) || (this.bvhCharacter && target.bvhMap))
-            return (
-                bvhContactMap.get(this)?.has(target) ||
-                bvhContactMap.get(target)?.has(this) || false
-            )
-
-        if (this.cannonBody && target.cannonBody) {
-            cannonContactBodies.add(this.cannonBody)
-            cannonContactBodies.add(target.cannonBody)
-            return (
-                cannonContactMap.get(this.cannonBody)?.has(target.cannonBody) ||
-                cannonContactMap.get(target.cannonBody)?.has(this.cannonBody) || false
-            )
-        }
 
         thisOBB.set(this.object3d.getWorldPosition(new Vector3()), vector3_1.clone(), new Matrix3())
         thisOBB.applyMatrix4(this.object3d.matrixWorld)
@@ -254,86 +184,6 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         targetOBB.applyMatrix4(target.object3d.matrixWorld)
 
         return thisOBB.intersectsOBB(targetOBB, 0)
-    }
-
-    public getIntersections(id: string) {
-        const result: Array<StaticObjectManager> = []
-        for (const target of idMap.get(id) ?? []) {
-            if (target === this) continue
-            this.intersects(target) && result.push(target)
-        }
-        return result
-    }
-
-    public listenToIntersection(id: string, cb?: OnIntersectValue, cbOut?: OnIntersectValue) {
-        let intersectionsOld: Array<StaticObjectManager> = []
-
-        return this.loop(() => {
-            const intersections = this.getIntersections(id)
-
-            if (cb)
-                for (const target of intersections)
-                    if (!intersectionsOld.includes(target))
-                        cb(target)
-
-            if (cbOut)
-                for (const target of intersectionsOld)
-                    if (!intersections.includes(target))
-                        cbOut(target)
-                    
-            intersectionsOld = intersections
-        })
-    }
-
-    private onIntersectState?: Reactive<OnIntersectValue | undefined>
-    private onIntersectOutState?: Reactive<OnIntersectValue | undefined>
-    private intersectIdsState?: Reactive<Array<string> | undefined>
-
-    private initIntersect() {
-        if (this.onIntersectState) return
-
-        this.onIntersectState = new Reactive<OnIntersectValue | undefined>(undefined)
-        this.onIntersectOutState = new Reactive<OnIntersectValue | undefined>(undefined)
-        this.intersectIdsState = new Reactive<Array<string> | undefined>(undefined)
-
-        this.createEffect(() => {
-            const { onIntersect, onIntersectOut, intersectIds } = this
-            if (!intersectIds || (!onIntersect && !onIntersectOut)) return
-
-            const handles: Array<Cancellable> = []
-
-            for (const id of intersectIds)
-                handles.push(this.listenToIntersection(id, onIntersect, onIntersectOut))
-
-            return () => {
-                for (const handle of handles)
-                    handle.cancel()
-            }
-        }, [this.onIntersectState.get, this.onIntersectOutState.get, this.intersectIdsState.get])
-    }
-    
-    public get onIntersect() {
-        return this.onIntersectState?.get()
-    }
-    public set onIntersect(val: OnIntersectValue | undefined) {
-        this.initIntersect()
-        this.onIntersectState?.set(val)
-    }
-
-    public get onIntersectOut() {
-        return this.onIntersectOutState?.get()
-    }
-    public set onIntersectOut(val: OnIntersectValue | undefined) {
-        this.initIntersect()
-        this.onIntersectOutState?.set(val)
-    }
-
-    public get intersectIds() {
-        return this.intersectIdsState?.get()
-    }
-    public set intersectIds(val: Array<string> | undefined) {
-        this.initIntersect()
-        this.intersectIdsState?.set(val)
     }
 
     public get clientX() {
@@ -436,6 +286,3 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         return frustum.containsPoint(getCenter(this.object3d))
     }
 }
-interface StaticObjectManager<T extends Object3D = Object3D> extends PositionedItem, AnimationMixin, PhysicsMixin {}
-applyMixins(StaticObjectManager, [AnimationMixin, PhysicsMixin])
-export default StaticObjectManager

@@ -119,6 +119,8 @@ createEffect(() => {
         handle.watch(mouseEvents.on("rightClick", () => rightClick = true))
         
         handle.watch(pickable(["click", "rightClick"], selectionCandidates, target => {
+            //mark
+            //@ts-ignore
             emitSelectionTarget(target, rightClick)
             rightClick = false
         }))

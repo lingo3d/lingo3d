@@ -1,9 +1,6 @@
-import StaticObjectManager from "../display/core/StaticObjectManager"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { MouseInteractionPayload } from "./IMouse"
 import { ExtractProps } from "./utils/extractProps"
-
-export type OnIntersectValue = (target: StaticObjectManager) => void
 
 export default interface IStaticObjectManager extends IEventLoop {
     onClick?: (e: MouseInteractionPayload) => void
@@ -12,12 +9,8 @@ export default interface IStaticObjectManager extends IEventLoop {
     onMouseOver?: (e: MouseInteractionPayload) => void
     onMouseOut?: (e: MouseInteractionPayload) => void
     onMouseMove?: (e: MouseInteractionPayload) => void
-    onIntersect?: OnIntersectValue
-    onIntersectOut?: OnIntersectValue
-
+    
     name: string
-    id?: string
-    intersectIds?: Array<string>
 
     bloom: boolean
     reflection: boolean
@@ -43,12 +36,8 @@ export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManag
     onMouseOver: Function,
     onMouseOut: Function,
     onMouseMove: Function,
-    onIntersect: Function,
-    onIntersectOut: Function,
 
     name: String,
-    id: String,
-    intersectIds: Array,
 
     bloom: Boolean,
     reflection: Boolean,

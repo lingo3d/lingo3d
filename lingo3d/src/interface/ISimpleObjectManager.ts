@@ -8,6 +8,12 @@ import { ExtractProps } from "./utils/extractProps"
 export type OnIntersectValue = (target: SimpleObjectManager) => void
 
 export default interface ISimpleObjectManager extends IStaticObjectManager, IPositioned, IAnimation, IPhysics {
+    onIntersect?: OnIntersectValue
+    onIntersectOut?: OnIntersectValue
+
+    id?: string
+    intersectIds?: Array<string>
+
     width: number
     height: number
     depth: number
@@ -30,6 +36,12 @@ export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManag
     ...positionedSchema,
     ...animationSchema,
     ...physicsSchema,
+
+    onIntersect: Function,
+    onIntersectOut: Function,
+
+    id: String,
+    intersectIds: Array,
 
     width: Number,
     height: Number,
