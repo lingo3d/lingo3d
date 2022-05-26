@@ -1,18 +1,18 @@
-import ISimpleObjectManager, { simpleObjectManagerDefaults, simpleObjectManagerSchema } from "./ISimpleObjectManager"
+import IStaticObjectManager, { staticObjectManagerDefaults, staticObjectManagerSchema } from "./IStaticObjectManaget"
 import ITexturedBasic, { texturedBasicDefaults, texturedBasicSchema } from "./ITexturedBasic"
 import ITexturedStandard, { texturedStandardDefaults, texturedStandardSchema } from "./ITexturedStandard"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IFound extends ISimpleObjectManager, ITexturedBasic, ITexturedStandard {}
+export default interface IFound extends IStaticObjectManager, ITexturedBasic, ITexturedStandard {}
 
 export const foundSchema: Required<ExtractProps<IFound>> = {
-    ...simpleObjectManagerSchema,
+    ...staticObjectManagerSchema,
     ...texturedBasicSchema,
     ...texturedStandardSchema
 }
 
 export const foundDefaults: IFound = {
-    ...simpleObjectManagerDefaults,
+    ...staticObjectManagerDefaults,
     ...texturedBasicDefaults,
     ...texturedStandardDefaults
 }

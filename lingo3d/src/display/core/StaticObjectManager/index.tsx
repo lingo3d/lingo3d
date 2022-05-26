@@ -8,7 +8,7 @@ import { scaleDown, scaleUp } from "../../../engine/constants"
 import { addBloom, deleteBloom } from "../../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import worldToClient from "../../utils/worldToClient"
 import { Cancellable } from "@lincode/promiselikes"
-import { vec2Point } from "../../utils/vec2Point"
+import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import { MouseInteractionPayload } from "../../../interface/IMouse"
 import { addSSR, deleteSSR } from "../../../engine/renderLoop/effectComposer/ssrPass"
 import { getCamera } from "../../../states/useCamera"
@@ -18,6 +18,7 @@ import applyMaterialProperties, { applySet } from "./applyMaterialProperties"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import IStaticObjectManager from "../../../interface/IStaticObjectManaget"
 import AnimationMixin from "../mixins/AnimationMixin"
+import PositionedItem from "../../../api/core/PositionedItem"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -285,6 +286,13 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     public get frustumVisible() {
         updateFrustum()
         return frustum.containsPoint(getCenter(this.object3d))
+    }
+
+    public lookAt(target: PositionedItem | StaticObjectManager | { x: number, y: number, z: number }) {
+        if ("outerObject3d" in target)
+            this.outerObject3d.lookAt((target.object3d ?? target.outerObject3d).getWorldPosition(vector3))
+        else
+            this.outerObject3d.lookAt(point2Vec(target))
     }
 }
 interface StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem, AnimationMixin {}

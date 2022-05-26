@@ -1,14 +1,17 @@
 import { applyMixins } from "@lincode/utils"
 import { MeshStandardMaterial, Object3D } from "three"
-import SimpleObjectManager from "./SimpleObjectManager"
+import StaticObjectManager from "./StaticObjectManager"
 import IFound, { foundDefaults, foundSchema } from "../../interface/IFound"
 import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
 import { Cancellable } from "@lincode/promiselikes"
 import { appendableRoot } from "../../api/core/Appendable"
 import Model from "../Model"
+import PositionedItem from "../../api/core/PositionedItem"
+import { vector3 } from "../utils/reusables"
+import { point2Vec } from "../utils/vec2Point"
 
-class FoundManager extends SimpleObjectManager<Object3D> implements IFound {
+class FoundManager extends StaticObjectManager<Object3D> implements IFound {
     public static componentName = "found"
     public static defaults = foundDefaults
     public static schema = foundSchema
@@ -57,6 +60,6 @@ class FoundManager extends SimpleObjectManager<Object3D> implements IFound {
         handle.then(() => set.delete(this.object3d))
     }
 }
-interface FoundManager extends SimpleObjectManager<Object3D>, TexturedBasicMixin, TexturedStandardMixin {}
+interface FoundManager extends StaticObjectManager<Object3D>, TexturedBasicMixin, TexturedStandardMixin {}
 applyMixins(FoundManager, [TexturedStandardMixin, TexturedBasicMixin])
 export default FoundManager

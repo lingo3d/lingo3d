@@ -2,7 +2,6 @@ import { Group, PerspectiveCamera } from "three"
 import ObjectManager from "../ObjectManager"
 import CameraMixin from "../mixins/CameraMixin"
 import { applyMixins, debounce } from "@lincode/utils"
-import Point3d from "../../../api/Point3d"
 import { scaleUp, scaleDown } from "../../../engine/constants"
 import { ray, vector3_, vector3, euler } from "../../utils/reusables"
 import pillShape from "../mixins/PhysicsMixin/cannon/shapes/pillShape"
@@ -11,6 +10,7 @@ import { deg2Rad, rad2Deg } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
 import PositionedItem from "../../../api/core/PositionedItem"
+import StaticObjectManager from "../StaticObjectManager"
 
 const PI_2 = Math.PI * 0.5
 
@@ -67,7 +67,7 @@ abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Gro
         this.camera.scale.z = 1 / num
     }
 
-    public override lookAt(target: PositionedItem | Point3d) {
+    public override lookAt(target: PositionedItem | StaticObjectManager | { x: number, y: number, z: number }) {
         super.lookAt(target)
         this.rotationY += 180
     }
