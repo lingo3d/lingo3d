@@ -7,6 +7,6 @@ export default class ThirdPersonCamera extends CharacterCamera {
         super()
         this.innerZ = 200
         this.mouseControlMode = "orbit"
-        import("../core/SimpleObjectManager/PhysicsItem/enableBVHCamera").then(module => module.default.call(this))
+        import("../core/mixins/PhysicsMixin/enableBVHCamera").then(module => module.default.call(this))
     }
 }

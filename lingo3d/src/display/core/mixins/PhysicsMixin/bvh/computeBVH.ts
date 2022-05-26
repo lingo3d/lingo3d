@@ -1,14 +1,14 @@
 import { BufferGeometry } from "three"
-import PhysicsItem from ".."
+import PhysicsMixin from ".."
 import Primitive from "../../../Primitive"
 import { MeshBVH } from "./bvh"
 // import { GenerateMeshBVHWorker } from "./GenerateMeshBVHWorker"
 
-export const bvhManagerMap = new WeakMap<any, PhysicsItem>()
+export const bvhManagerMap = new WeakMap<any, PhysicsMixin>()
 
 // const bvhWorker = new GenerateMeshBVHWorker()
 
-export default (item: PhysicsItem): [Array<MeshBVH>, Array<BufferGeometry>] => {
+export default (item: PhysicsMixin): [Array<MeshBVH>, Array<BufferGeometry>] => {
     item.outerObject3d.updateMatrixWorld(true)
 
     const geometries: Array<BufferGeometry> = []

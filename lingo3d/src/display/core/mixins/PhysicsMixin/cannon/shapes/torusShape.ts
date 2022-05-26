@@ -1,9 +1,9 @@
 import getActualScale from "../../../../../utils/getActualScale"
 import { Vector3 } from "three"
-import PhysicsItem from "../.."
+import PhysicsMixin from "../.."
 import loadCannon from "../loadCannon"
 
-export default async function (this: PhysicsItem) {
+export default async function (this: PhysicsMixin) {
     const { Box, Vec3 } = await loadCannon()
 
     const actualScale = getActualScale(this)

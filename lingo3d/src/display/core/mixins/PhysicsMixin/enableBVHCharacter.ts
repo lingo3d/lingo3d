@@ -1,11 +1,11 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Vector3 } from "three"
-import PhysicsItem from "."
+import PhysicsMixin from "."
 import scene from "../../../../engine/scene"
 import getActualScale from "../../../utils/getActualScale"
 import { bvhCharacterSet } from "./bvh/bvhLoop"
 
-export default function (this: PhysicsItem, handle: Cancellable) {
+export default function (this: PhysicsMixin, handle: Cancellable) {
     if (handle.done) return
     
     scene.attach(this.outerObject3d)

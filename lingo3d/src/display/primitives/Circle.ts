@@ -1,7 +1,7 @@
 import { CircleBufferGeometry } from "three"
 import Primitive from "../core/Primitive"
 import { flatGeomScaleZ, radiusScaled } from "../../engine/constants"
-import circleShape from "../core/SimpleObjectManager/PhysicsItem/cannon/shapes/circleShape"
+import circleShape from "../core/mixins/PhysicsMixin/cannon/shapes/circleShape"
 import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 
 const circleGeometry = new CircleBufferGeometry(radiusScaled, 32)

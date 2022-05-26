@@ -4,10 +4,10 @@ import { wireframeMaterial } from "../../../utils/reusables"
 import { Mesh } from "three"
 import scene from "../../../../engine/scene"
 import { Cancellable } from "@lincode/promiselikes"
-import PhysicsItem from "."
+import PhysicsMixin from "."
 import computeBVH from "./bvh/computeBVH"
 
-export default async function (this: PhysicsItem, handle: Cancellable, debug: boolean) {
+export default async function (this: PhysicsMixin, handle: Cancellable, debug: boolean) {
     if (handle.done) return
     
     scene.attach(this.outerObject3d)

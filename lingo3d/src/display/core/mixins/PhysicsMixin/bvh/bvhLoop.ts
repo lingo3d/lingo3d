@@ -1,7 +1,7 @@
 import { createEffect } from "@lincode/reactivity"
 import { forceGet } from "@lincode/utils"
 import { Box3, Vector3 } from "three"
-import PhysicsItem from ".."
+import PhysicsMixin from ".."
 import { loop } from "../../../../../engine/eventLoop"
 import { getBVHMap } from "../../../../../states/useBVHMap"
 import { getEditorActive } from "../../../../../states/useEditorActive"
@@ -11,11 +11,11 @@ import { box3, line3, vector3, vector3_, vector3__ } from "../../../../utils/reu
 import bvhContactMap from "./bvhContactMap"
 import { bvhManagerMap } from "./computeBVH"
 
-export const bvhCharacterSet = new Set<PhysicsItem>()
+export const bvhCharacterSet = new Set<PhysicsMixin>()
 
 const makeWeakSet = () => new WeakSet()
 
-createEffect(function (this: PhysicsItem) {
+createEffect(function (this: PhysicsMixin) {
     if (getEditorActive()) return
 
     const bvhArray = getBVHMap()
@@ -64,7 +64,7 @@ createEffect(function (this: PhysicsItem) {
             let direction: Vector3 | undefined
 
             let contact = false
-            let mapManager: PhysicsItem | undefined
+            let mapManager: PhysicsMixin | undefined
 
             for (const boundsTree of bvhArray) {
                 mapManager = bvhManagerMap.get(boundsTree)

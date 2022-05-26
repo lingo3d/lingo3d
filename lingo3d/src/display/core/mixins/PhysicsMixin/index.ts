@@ -7,7 +7,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { assertExhaustive } from "@lincode/utils"
 import PositionedItem from "../../../../api/core/PositionedItem"
 
-export default abstract class PhysicsItem extends PositionedItem implements IPhysics {
+export default abstract class PhysicsMixin extends PositionedItem implements IPhysics {
     protected _mAV?: Point3d
     private getMAV() {
         return this._mAV ??= new Point3d(Infinity, Infinity, Infinity)

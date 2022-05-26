@@ -11,12 +11,12 @@ import { Cancellable } from "@lincode/promiselikes"
 import Point3d from "../../../api/Point3d"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import ISimpleObjectManager, { OnIntersectValue } from "../../../interface/ISimpleObjectManager"
-import PhysicsItem from "./PhysicsItem"
-import { cannonContactBodies, cannonContactMap } from "./PhysicsItem/cannon/cannonLoop"
+import PhysicsMixin from "../mixins/PhysicsMixin"
+import { cannonContactBodies, cannonContactMap } from "../mixins/PhysicsMixin/cannon/cannonLoop"
 import { MouseInteractionPayload } from "../../../interface/IMouse"
 import { addSSR, deleteSSR } from "../../../engine/renderLoop/effectComposer/ssrPass"
 import { getCamera } from "../../../states/useCamera"
-import bvhContactMap from "./PhysicsItem/bvh/bvhContactMap"
+import bvhContactMap from "../mixins/PhysicsMixin/bvh/bvhContactMap"
 import { addOutline, deleteOutline } from "../../../engine/renderLoop/effectComposer/outlinePass"
 import getCenter from "../../utils/getCenter"
 import applyMaterialProperties, { applySet } from "./applyMaterialProperties"
@@ -606,6 +606,6 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends PositionedItem 
         return frustum.containsPoint(getCenter(this.object3d))
     }
 }
-interface SimpleObjectManager<T extends Object3D = Object3D> extends PositionedItem, AnimationMixin, PhysicsItem {}
-applyMixins(SimpleObjectManager, [AnimationMixin, PhysicsItem])
+interface SimpleObjectManager<T extends Object3D = Object3D> extends PositionedItem, AnimationMixin, PhysicsMixin {}
+applyMixins(SimpleObjectManager, [AnimationMixin, PhysicsMixin])
 export default SimpleObjectManager

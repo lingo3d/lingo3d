@@ -1,7 +1,7 @@
 import { event } from "@lincode/events"
 import { createEffect } from "@lincode/reactivity"
 import { Box3, Object3D } from "three"
-import PhysicsItem from ".."
+import PhysicsMixin from ".."
 import { loop } from "../../../../../engine/eventLoop"
 import { getBVHMap } from "../../../../../states/useBVHMap"
 import { box3, line3, vector3, vector3_, vector3__ } from "../../../../utils/reusables"
@@ -9,7 +9,7 @@ import { box3, line3, vector3, vector3_, vector3__ } from "../../../../utils/reu
 export const bvhCameraSet = new Set<Object3D>()
 export const [emitBeforeCameraLoop, onBeforeCameraLoop] = event()
 
-createEffect(function (this: PhysicsItem) {
+createEffect(function (this: PhysicsMixin) {
     const bvhArray = getBVHMap()
     if (!bvhArray.length) {
         const handle = loop(emitBeforeCameraLoop)
