@@ -23,6 +23,8 @@ import serializeReact from "./serializeReact"
 import serializeVue from "./serializeVue"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import { useLayoutEffect } from "preact/hooks"
+import StaticObjectManager from "../../display/core/StaticObjectManager"
+import { isPositionedItem } from "../../api/core/PositionedItem"
 
 preventTreeShake(h)
 
@@ -56,9 +58,14 @@ const Toolbar = () => {
 
     const [target] = useSelectionTarget()
     const isPositioned = target && !(target instanceof SimpleObjectManager)
+    // const isStatic = target && !isPositionedItem(target)
 
     useLayoutEffect(() => {
-        isPositioned && (mode === "rotate" || mode === "scale") && setMode("translate")
+        // if (isStatic)
+            // setMode("select")
+        if (isPositioned && (mode === "rotate" || mode === "scale"))
+            setMode("translate")
+
     }, [isPositioned])
 
     return (

@@ -7,12 +7,9 @@ import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
 import { Cancellable } from "@lincode/promiselikes"
 import { appendableRoot } from "../../api/core/Appendable"
 import Model from "../Model"
-import PositionedItem from "../../api/core/PositionedItem"
-import { vector3 } from "../utils/reusables"
-import { point2Vec } from "../utils/vec2Point"
 
 class FoundManager extends StaticObjectManager<Object3D> implements IFound {
-    public static componentName = "found"
+    public static componentName = "find"
     public static defaults = foundDefaults
     public static schema = foundSchema
 
