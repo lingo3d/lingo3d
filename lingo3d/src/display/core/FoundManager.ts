@@ -58,5 +58,5 @@ class FoundManager extends SimpleObjectManager<Object3D> implements IFound {
     }
 }
 interface FoundManager extends SimpleObjectManager<Object3D>, TexturedBasicMixin, TexturedStandardMixin {}
-applyMixins(FoundManager, [TexturedBasicMixin, TexturedStandardMixin])
+applyMixins(FoundManager, [TexturedStandardMixin, TexturedBasicMixin])
 export default FoundManager

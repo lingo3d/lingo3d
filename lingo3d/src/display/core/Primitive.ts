@@ -29,5 +29,5 @@ abstract class Primitive extends ObjectManager<Mesh> implements IPrimitive {
     }
 }
 interface Primitive extends ObjectManager<Mesh>, TexturedBasicMixin, TexturedStandardMixin {}
-applyMixins(Primitive, [TexturedBasicMixin, TexturedStandardMixin])
+applyMixins(Primitive, [TexturedStandardMixin, TexturedBasicMixin])
 export default Primitive
