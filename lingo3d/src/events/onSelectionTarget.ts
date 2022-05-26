@@ -1,10 +1,10 @@
 import { event } from "@lincode/events"
 import { debounce } from "@lincode/utils"
-import PositionedItem from "../api/core/PositionedItem"
+import EventLoopItem from "../api/core/EventLoopItem"
 import { getCamera } from "../states/useCamera"
 
-const [_emitSelectionTarget, onSelectionTarget] = event<{ target?: PositionedItem, rightClick?: boolean }>()
-const emitSelectionTarget = debounce((target?: PositionedItem, rightClick?: boolean) => (
+const [_emitSelectionTarget, onSelectionTarget] = event<{ target?: EventLoopItem, rightClick?: boolean }>()
+const emitSelectionTarget = debounce((target?: EventLoopItem, rightClick?: boolean) => (
     _emitSelectionTarget({ target, rightClick })
 ), 0, "trailing")
 

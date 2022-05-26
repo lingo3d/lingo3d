@@ -1,4 +1,4 @@
 import store from "@lincode/reactivity"
-import PositionedItem from "../api/core/PositionedItem"
+import EventLoopItem from "../api/core/EventLoopItem"
 
-export const [setSelectionTarget, getSelectionTarget] = store<PositionedItem | undefined>(undefined)
+export const [setSelectionTarget, getSelectionTarget] = store<EventLoopItem | undefined>(undefined)

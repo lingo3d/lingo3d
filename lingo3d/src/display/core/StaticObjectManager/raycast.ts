@@ -18,6 +18,7 @@ import { debounce } from "@lincode/utils"
 import { onSceneChange } from "../../../events/onSceneChange"
 import { getSelectionBlockMouse } from "../../../states/useSelectionBlockMouse"
 import StaticObjectManager from "."
+import { isPositionedItem } from "../../../api/core/PositionedItem"
 
 const raycaster = new Raycaster()
 
@@ -119,18 +120,16 @@ createEffect(() => {
         handle.watch(mouseEvents.on("rightClick", () => rightClick = true))
         
         handle.watch(pickable(["click", "rightClick"], selectionCandidates, target => {
-            //mark
-            //@ts-ignore
             emitSelectionTarget(target, rightClick)
             rightClick = false
         }))
         handle.watch(onSelectionTarget(({ target, rightClick }) => {
             if (multipleSelection) {
-                if (!target || rightClick) return
+                if (!isPositionedItem(target) || rightClick) return
 
                 if (firstMultipleSelection.current) {
                     const currentTarget = getSelectionTarget()
-                    currentTarget && pushMultipleSelectionTargets(currentTarget)
+                    isPositionedItem(currentTarget) && pushMultipleSelectionTargets(currentTarget)
                 }
                 firstMultipleSelection.current = false
 

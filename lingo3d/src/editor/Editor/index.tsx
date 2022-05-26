@@ -31,6 +31,7 @@ import { nonSerializedSettings } from "../../display/utils/serializer/types"
 import { onApplySetup } from "../../events/onApplySetup"
 import ISetup from "../../interface/ISetup"
 import { dummySchema } from "../../interface/IDummy"
+import { isPositionedItem } from "../../api/core/PositionedItem"
 
 preventTreeShake(h)
 
@@ -246,7 +247,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 emitSelectionTarget(item)
                 return
             }
-            emitEditorCenterView(target)
+            isPositionedItem(target) && emitEditorCenterView(target)
         }
         document.addEventListener("keydown", handleKey)
 
