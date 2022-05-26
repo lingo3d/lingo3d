@@ -39,4 +39,4 @@ export default abstract class PositionedItem extends EventLoopItem implements IP
     }
 }
 
-export const isPositionedItem = (item: EventLoopItem | undefined): item is PositionedItem => !!item && "getWorldPosition" in item
+export const isPositionedItem = (item: any): item is PositionedItem => item && "getWorldPosition" in item

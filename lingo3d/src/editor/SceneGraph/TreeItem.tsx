@@ -11,7 +11,7 @@ import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import useClick from "./useClick"
-import PositionedItem from "../../api/core/PositionedItem"
+import PositionedItem, { isPositionedItem } from "../../api/core/PositionedItem"
 import { Object3D } from "three"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
@@ -30,18 +30,18 @@ export const makeTreeItemCallbacks = (target: Appendable | Object3D, parent?: Ap
     const setClickEl = useClick(e => {
         e.stopPropagation()
         setCamera(mainCamera)
-        if (parent instanceof PositionedItem) {
+        if (isPositionedItem(parent)) {
             getSelectionTarget() !== parent && emitSelectionTarget(parent)
             target instanceof Object3D && queueMicrotask(() => setSceneGraphTarget(target))
         }
-        target instanceof PositionedItem && emitSelectionTarget(target)
+        isPositionedItem(target) && emitSelectionTarget(target)
     })
 
     const handleClick = (e: MouseEvent) => e.stopPropagation()
 
     const handleDoubleClick = (e: MouseEvent) => {
         e.stopPropagation()
-        if (!(target instanceof PositionedItem)) return
+        if (!isPositionedItem(target)) return
         emitEditorCenterView(target)
         emitSelectionTarget(target)
     }
