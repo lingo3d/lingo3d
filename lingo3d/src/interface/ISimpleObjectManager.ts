@@ -1,11 +1,13 @@
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
+import IAnimation, { animationDefaults, animationSchema } from "./IAnimation"
 import { MouseInteractionPayload } from "./IMouse"
 import IPhysics, { physicsDefaults, physicsSchema } from "./IPhysics"
+import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
 import { ExtractProps } from "./utils/extractProps"
 
 export type OnIntersectValue = (target: SimpleObjectManager) => void
 
-export default interface ISimpleObjectManager extends IPhysics {
+export default interface ISimpleObjectManager extends IPositioned, IAnimation, IPhysics {
     onClick?: (e: MouseInteractionPayload) => void
     onMouseDown?: (e: MouseInteractionPayload) => void
     onMouseUp?: (e: MouseInteractionPayload) => void
@@ -50,6 +52,8 @@ export default interface ISimpleObjectManager extends IPhysics {
 }
 
 export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManager>> = {
+    ...positionedSchema,
+    ...animationSchema,
     ...physicsSchema,
 
     onClick: Function,
@@ -96,6 +100,8 @@ export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManag
 }
 
 export const simpleObjectManagerDefaults: ISimpleObjectManager = {
+    ...positionedDefaults,
+    ...animationDefaults,
     ...physicsDefaults,
 
     name: "",
