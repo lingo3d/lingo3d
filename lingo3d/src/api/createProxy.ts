@@ -1,21 +1,21 @@
-const target = {} as any
-
 export default <T extends object>() => {
-    let t: any
+    let instance: Record<string | symbol, any> | undefined
+    const data: Record<string | symbol, any> = {}
 
-    return new Proxy<T>(target, {
+    return new Proxy<T>(data as T, {
         get(_, prop) {
-            if (prop === "__target") return t
-            return t?.[prop]
+            return data[prop]
         },
         set(_, prop, val) {
             if (prop === "__target") {
-                t = val
+                instance = val
+                for (const [key, value] of Object.entries(data))
+                    val[key] = value
+
                 return true
             }
-            if (!t) return true
-            
-            t[prop] = val
+            data[prop] = val
+            instance && (instance[prop] = val)
             return true
         }
     })

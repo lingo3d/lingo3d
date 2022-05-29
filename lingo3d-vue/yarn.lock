@@ -620,10 +620,10 @@ jstransformer@1.0.0:
     is-promise "^2.0.0"
     promise "^7.0.1"
 
-lingo3d@1.10.195:
-  version "1.10.195"
-  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.195.tgz#fcc5584d15500e19e5394c96c3e09430e20727a1"
-  integrity sha512-RZdIRFfCoSOnimDfWTPGTvuNs+gBGlGcCiLaiG+b0T+K735WsukOo0OJySCZdfAJrDKJBoUkXc/PDVY1GmCH9g==
+lingo3d@1.10.196:
+  version "1.10.196"
+  resolved "https://registry.yarnpkg.com/lingo3d/-/lingo3d-1.10.196.tgz#c952cd6209e38c3bcc7b4544069007d5b34cfac4"
+  integrity sha512-zl9kKaWcpkZz4m8Pej+Q+cVgGVPKQzsazlCRFod88s+0WDwdeFEa6rDVRT1kWd/Zb3UK1sefTd7XGh5zK7zjvA==
   dependencies:
     "@lincode/events" "*"
     "@lincode/filetypes" "*"
@@ -640,7 +640,7 @@ lingo3d@1.10.195:
     preact "10"
     preact-custom-element "4"
     prettier "2"
-    three "0.140.2"
+    three "0.141.0"
     tweakpane "3"
     xstate "4"
 
@@ -888,10 +888,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-three@0.140.2:
-  version "0.140.2"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.140.2.tgz#ca0b7390d1ce4f7f2850e80afd00ef48fc244491"
-  integrity sha512-DdT/AHm/TbZXEhQKQpGt5/iSgBrmXpjU26FNtj1KhllVPTKj1eG4X/ShyD5W2fngE+I1s1wa4ttC4C3oCJt7Ag==
+three@0.141.0:
+  version "0.141.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.141.0.tgz#16677a12b9dd0c3e1568ebad0fd09de15d5a8216"
+  integrity sha512-JaSDAPWuk4RTzG5BYRQm8YZbERUxTfTDVouWgHMisS2to4E5fotMS9F2zPFNOIJyEFTTQDDKPpsgZVThKU3pXA==
 
 to-fast-properties@^2.0.0:
   version "2.0.0"
