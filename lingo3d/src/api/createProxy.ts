@@ -4,7 +4,7 @@ export default <T extends object>() => {
 
     return new Proxy<T>(data as T, {
         get(_, prop) {
-            return data[prop]
+            return instance?.[prop] ?? data[prop]
         },
         set(_, prop, val) {
             if (prop === "__target") {

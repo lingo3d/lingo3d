@@ -105,18 +105,17 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
 
     protected animationName?: string | number
     private setAnimation(val?: string | number | boolean | AnimationValue, o?: PlayOptions) {
+        this._animation = val
+
         if (typeof val === "string" || typeof val === "number") {
             this.animationName = val
             this.playAnimation(val, o)
-            this._animation = undefined
             return
         }
         if (typeof val === "boolean") {
             val ? this.playAnimation(undefined, o) : this.stopAnimation()
-            this._animation = undefined
             return
         }
-        this._animation = val
 
         if (!val) {
             this.stopAnimation()
