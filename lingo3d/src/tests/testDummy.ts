@@ -5,6 +5,7 @@ import { setGridHelper } from "../states/useGridHelper"
 import roughnessSrc from "../../assets-local/roughness.png"
 //@ts-ignore
 import normalSrc from "../../assets-local/normal.jpg"
+import createProxy from "../api/createProxy"
 //@ts-ignore
 // import cbpunkSrc from "../../assets-local/cbpunk.glb"
 
@@ -30,6 +31,9 @@ cam.append(dummy)
 cam.activate()
 cam.mouseControl = true
 
+const dummyProxy = createProxy<Dummy>()
+dummy.proxy = dummyProxy
+
 // const map = new Model()
 // map.scale = 200
 // map.src = cbpunkSrc
@@ -39,19 +43,19 @@ cam.mouseControl = true
 
 keyboard.onKeyPress = (_, pressed) => {
     if (pressed.has("w"))
-        dummy.strideForward = -5
+        dummyProxy.strideForward = -5
     else if (pressed.has("s"))
-        dummy.strideForward = 5
+        dummyProxy.strideForward = 5
     else
-        dummy.strideForward = 0
+        dummyProxy.strideForward = 0
 
     if (pressed.has("a"))
-        dummy.strideRight = 5
+        dummyProxy.strideRight = 5
     else if (pressed.has("d"))
-        dummy.strideRight = -5
+        dummyProxy.strideRight = -5
     else
-        dummy.strideRight = 0
+        dummyProxy.strideRight = 0
 
     if (pressed.has("Space"))
-        dummy.jump(10)
+        dummyProxy.jump(10)
 }

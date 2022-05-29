@@ -27,7 +27,7 @@
 		"preact": "10",
 		"preact-custom-element": "4",
 		"prettier": "2",
-		"three": "0.140.2",
+		"three": "0.141.0",
 		"tweakpane": "3",
 		"xstate": "4"
 	},

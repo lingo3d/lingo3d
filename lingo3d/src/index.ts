@@ -44,6 +44,7 @@ import Trigger from "./api/Trigger"
 import keyboard, { Keyboard } from "./api/keyboard"
 import mouse, { Mouse } from "./api/mouse"
 import gamepad from "./api/gamepad"
+import createProxy from "./api/createProxy"
 import settings from "./api/settings"
 import preload from "./api/preload"
 // import HandTracker from "./api/HandTracker"
@@ -105,6 +106,7 @@ export {
     Mouse,
     mouse,
     gamepad,
+    createProxy,
     settings,
     preload,
     

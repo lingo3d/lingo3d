@@ -231,6 +231,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
 
         const handleKey = (e: KeyboardEvent) => {
             if (e.key === "Backspace") {
+                e.preventDefault()
                 deleteSelected()
                 return
             }

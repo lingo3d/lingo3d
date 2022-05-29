@@ -5,6 +5,19 @@ import IEventLoop from "../../interface/IEventLoop"
 import Appendable from "./Appendable"
 
 export default abstract class EventLoopItem extends Appendable implements IEventLoop {
+    private _proxy?: EventLoopItem
+    public get proxy() {
+        return this._proxy
+    }
+    public set proxy(val) {
+        if (this._proxy === val) return
+        //@ts-ignore
+        this._proxy && (this._proxy.__target = undefined)
+        this._proxy = val
+        //@ts-ignore
+        val && (val.__target = this)
+    }
+
     public timer(time: number, repeat: number, cb: () => void) : Cancellable {
         return this.watch(timer(time, repeat, cb))
     }
