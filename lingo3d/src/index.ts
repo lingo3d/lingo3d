@@ -53,6 +53,9 @@ import { Sound } from "./api/Sound"
 import screenshot from "./api/screenshot"
 
 import applySetup from "./display/utils/serializer/applySetup"
+import serialize from "./display/utils/serializer/serialize"
+import deserialize from "./display/utils/serializer/deserialize"
+
 import { rootContainer } from "./engine/renderLoop/renderSetup"
 import { loop, timer } from "./engine/eventLoop"
 import SimpleObjectManager from "./display/core/SimpleObjectManager"
@@ -116,6 +119,9 @@ export {
     screenshot,
 
     applySetup,
+    serialize,
+    deserialize,
+    
     loop,
     timer,
     onAfterRender,

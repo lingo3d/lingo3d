@@ -19,7 +19,8 @@ let downX = 0
 let downY = 0
 let rightClick = false
 
-container.addEventListener("contextmenu", () => {
+container.addEventListener("contextmenu", e => {
+    e.preventDefault()
     rightClick = true
 })
 mouseEvents.on("down", e => {
