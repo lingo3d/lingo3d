@@ -1,6 +1,5 @@
-import { useMemoOnce } from "@lincode/hooks"
 import { GetGlobalState } from "@lincode/reactivity"
-import { useLayoutEffect } from "react"
+import { useLayoutEffect, useMemo } from "react"
 import AnimReactive from "./utils/AnimReactive"
 
 type Options = {
@@ -10,10 +9,10 @@ type Options = {
 }
 
 export default (o?: Options) => {
-    const reactive = useMemoOnce(() => {
+    const reactive = useMemo(() => {
         const value = typeof o?.from === "function" ? o.from() : o?.from ?? 0
         return new AnimReactive(o?.map?.(value) ?? value)
-    })
+    }, [])
 
     useLayoutEffect(() => {
         if (typeof o?.from !== "function") return

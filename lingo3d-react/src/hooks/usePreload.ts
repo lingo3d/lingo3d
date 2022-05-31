@@ -1,17 +1,13 @@
 import { preload } from "lingo3d"
-import { useLayoutEffect, useState } from "react"
+import { useState } from "react"
+import useLayoutEffectOnce from "./useLayoutEffectOnce"
 
 export default (urls: Array<string>, total: string | number) => {
     const [progress, setProgress] = useState(0)
 
-    useLayoutEffect(() => {
-        let proceed = true
-
-        preload(urls, total, val => proceed && setProgress(val)).then(() => proceed && setProgress(100))
-
-        return () => {
-            proceed = false
-        }
+    useLayoutEffectOnce(() => {
+        preload(urls, total, val => setProgress(val)).then(() => setProgress(100))
     }, [])
+
     return progress
 }
