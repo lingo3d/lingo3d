@@ -1,6 +1,5 @@
+import { Point } from "@lincode/math"
 import { ExtractProps } from "./utils/extractProps"
-
-type Vector2 = { x: number, y: number }
 
 export default interface ITexturedBasic {
     color: string
@@ -10,7 +9,7 @@ export default interface ITexturedBasic {
     texture?: string | HTMLVideoElement
     videoTexture?: string | HTMLVideoElement
     alphaMap?: string
-    textureRepeat?: Vector2 | number
+    textureRepeat?: Point | number
 }
 
 export const texturedBasicSchema: Required<ExtractProps<ITexturedBasic>> = {

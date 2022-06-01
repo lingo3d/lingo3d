@@ -290,7 +290,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         this.object3d.visible = val
     }
 
-    public override lookAt(target: MeshItem | { x: number, y: number, z: number }) {
+    public override lookAt(target: MeshItem | Point3d) {
         super.lookAt(target)
         this.physicsRotate()
         this.onRotationY?.()
@@ -311,7 +311,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         this.physicsMove()
     }
 
-    public placeAt(object: MeshItem | { x: number, y: number, z: number }) {
+    public placeAt(object: MeshItem | Point3d) {
         if ("object3d" in object) {
             this.outerObject3d.position.copy(getCenter(object.object3d ?? object.outerObject3d))
             this.outerObject3d.quaternion.copy(object.outerObject3d.getWorldQuaternion(quaternion))

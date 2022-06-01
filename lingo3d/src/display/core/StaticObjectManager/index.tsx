@@ -1,4 +1,4 @@
-import { distance3d } from "@lincode/math"
+import { distance3d, Point3d } from "@lincode/math"
 import { Matrix3, Object3D, PropertyBinding, Vector3 } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
 import { frustum, matrix4, ray, vector3, vector3_, vector3_1, vector3_half } from "../../utils/reusables"
@@ -288,7 +288,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         return frustum.containsPoint(getCenter(this.object3d))
     }
 
-    public lookAt(target: MeshItem | { x: number, y: number, z: number }) {
+    public lookAt(target: MeshItem | Point3d) {
         if ("outerObject3d" in target)
             this.outerObject3d.lookAt((target.object3d ?? target.outerObject3d).getWorldPosition(vector3))
         else

@@ -1,6 +1,5 @@
+import { Point } from "@lincode/math"
 import { ExtractProps } from "./utils/extractProps"
-
-type Vector2 = { x: number, y: number }
 
 export type NormalMapType = "objectSpace" | "tangentSpace"
 
@@ -26,7 +25,7 @@ export default interface ITexturedStandard {
     roughnessMap?: string
     roughness: number
     normalMap?: string
-    normalScale: Vector2 | number
+    normalScale: Point | number
     normalMapType?: NormalMapType
 }
 

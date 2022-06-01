@@ -1,3 +1,4 @@
+import { Point3d } from "@lincode/math"
 import { Class } from "@lincode/utils"
 import { Color, Light, Object3D } from "three"
 import mainCamera from "../../engine/mainCamera"
@@ -41,7 +42,7 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
         return this
     }
 
-    public override lookAt(target: MeshItem | { x: number, y: number, z: number }) {
+    public override lookAt(target: MeshItem | Point3d) {
         super.lookAt(target)
         this.rotationY += 180
     }

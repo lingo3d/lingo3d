@@ -1,3 +1,4 @@
+import { Point3d } from "@lincode/math"
 import PhysicsMixin from "../display/core/mixins/PhysicsMixin"
 import cubeShape from "../display/core/mixins/PhysicsMixin/cannon/shapes/cubeShape"
 import { ExtractProps } from "./utils/extractProps"
@@ -15,7 +16,7 @@ export default interface IPhysics {
     maxVelocityY: number
     maxVelocityZ: number
 
-    velocity: { x: number, y: number, z: number }
+    velocity: Point3d
 
     noTumble?: boolean
     slippery?: boolean
