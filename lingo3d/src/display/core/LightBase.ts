@@ -1,13 +1,12 @@
 import { Class } from "@lincode/utils"
 import { Color, Light, Object3D } from "three"
-import PositionedItem from "../../api/core/PositionedItem"
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { emitSelectionTarget, onSelectionTarget } from "../../events/onSelectionTarget"
 import ILightBase from "../../interface/ILightBase"
 import { getCamera } from "../../states/useCamera"
+import MeshItem from "./MeshItem"
 import ObjectManager from "./ObjectManager"
-import StaticObjectManager from "./StaticObjectManager"
 import makeLightSprite from "./utils/makeLightSprite"
 
 export default abstract class LightBase<T extends Light> extends ObjectManager<T> implements ILightBase {
@@ -42,7 +41,7 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
         return this
     }
 
-    public override lookAt(target: PositionedItem | StaticObjectManager | { x: number, y: number, z: number }) {
+    public override lookAt(target: MeshItem | { x: number, y: number, z: number }) {
         super.lookAt(target)
         this.rotationY += 180
     }

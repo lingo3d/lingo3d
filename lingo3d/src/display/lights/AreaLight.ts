@@ -10,9 +10,8 @@ import { scaleDown } from "../../engine/constants"
 import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import { onTransformControls } from "../../events/onTransformControls"
 import { Reactive } from "@lincode/reactivity"
-import PositionedItem from "../../api/core/PositionedItem"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import StaticObjectManager from "../core/StaticObjectManager"
+import MeshItem from "../core/MeshItem"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import("three/examples/jsm/lights/RectAreaLightUniformsLib.js")
@@ -81,7 +80,7 @@ export default class extends ObjectManager<Group> implements IAreaLight {
         this.helperState.set(val)
     }
 
-    public override lookAt(target: PositionedItem | StaticObjectManager | { x: number, y: number, z: number }) {
+    public override lookAt(target: MeshItem | { x: number, y: number, z: number }) {
         super.lookAt(target)
         this.rotationY += 180
     }

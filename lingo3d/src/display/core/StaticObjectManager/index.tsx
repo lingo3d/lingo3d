@@ -18,7 +18,7 @@ import applyMaterialProperties, { applySet } from "./applyMaterialProperties"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import IStaticObjectManager from "../../../interface/IStaticObjectManaget"
 import AnimationMixin from "../mixins/AnimationMixin"
-import PositionedItem from "../../../api/core/PositionedItem"
+import MeshItem from "../MeshItem"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -288,7 +288,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         return frustum.containsPoint(getCenter(this.object3d))
     }
 
-    public lookAt(target: PositionedItem | StaticObjectManager | { x: number, y: number, z: number }) {
+    public lookAt(target: MeshItem | { x: number, y: number, z: number }) {
         if ("outerObject3d" in target)
             this.outerObject3d.lookAt((target.object3d ?? target.outerObject3d).getWorldPosition(vector3))
         else

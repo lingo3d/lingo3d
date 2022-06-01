@@ -14,6 +14,7 @@ import bvhContactMap from "../mixins/PhysicsMixin/bvh/bvhContactMap"
 import { cannonContactBodies, cannonContactMap } from "../mixins/PhysicsMixin/cannon/cannonLoop"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
+import MeshItem from "../MeshItem"
 
 export const idMap = new Map<string, Set<SimpleObjectManager>>()
 
@@ -290,7 +291,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         this.object3d.visible = val
     }
 
-    public override lookAt(target: PositionedItem | StaticObjectManager | { x: number, y: number, z: number }) {
+    public override lookAt(target: MeshItem | { x: number, y: number, z: number }) {
         super.lookAt(target)
         this.physicsRotate()
         this.onRotationY?.()
@@ -311,7 +312,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         this.physicsMove()
     }
 
-    public placeAt(object: PositionedItem | StaticObjectManager | { x: number, y: number, z: number }) {
+    public placeAt(object: MeshItem | { x: number, y: number, z: number }) {
         if ("object3d" in object) {
             this.outerObject3d.position.copy(getCenter(object.object3d ?? object.outerObject3d))
             this.outerObject3d.quaternion.copy(object.outerObject3d.getWorldQuaternion(quaternion))
