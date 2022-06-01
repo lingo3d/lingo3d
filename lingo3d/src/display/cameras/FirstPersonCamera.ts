@@ -1,6 +1,7 @@
 import CharacterCamera from "../core/CharacterCamera"
 import { scaleUp, scaleDown } from "../../engine/constants"
 import { quaternion, vector3 } from "../utils/reusables"
+import SimpleObjectManager from "../core/SimpleObjectManager"
 
 export default class FirstPersonCamera extends CharacterCamera {
     public static override componentName = "firstPersonCamera"
@@ -16,8 +17,7 @@ export default class FirstPersonCamera extends CharacterCamera {
         
         this.createEffect(() => {
             const target = this.targetState.get()
-            if (!target || !("height" in target) || this._innerY !== undefined) return
-
+            if (!target || !(target instanceof SimpleObjectManager) || this._innerY !== undefined) return
             this.innerY = target.height * 0.4
 
             return () => {

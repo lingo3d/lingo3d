@@ -1,6 +1,7 @@
 import { deg2Rad } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
+import { debounce } from "@lincode/utils"
 import { Quaternion } from "three"
 import PositionedItem from "../../api/core/PositionedItem"
 import { loop } from "../../engine/eventLoop"
@@ -12,7 +13,7 @@ import { getTransformControlsDragging } from "../../states/useTransformControlsD
 import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import Camera from "../cameras/Camera"
 import { euler, quaternion, quaternion_ } from "../utils/reusables"
-import SimpleObjectManager from "./SimpleObjectManager"
+import MeshItem, { isMeshItem } from "./MeshItem"
 
 export default class CharacterCamera extends Camera implements ICharacterCamera {
     public static override defaults = characterCameraDefaults
@@ -32,14 +33,14 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             if ("frustumCulled" in target)
                 target.frustumCulled = false
 
-            const handle = onSceneChange(() => target.parent !== this && this.targetState.set(undefined))
+            const handle = onSceneChange(() => target.parent !== this && this.retarget())
             
             return () => {
                 handle.cancel()
             }
         }, [this.targetState.get])
 
-        const followTarget = (target: PositionedItem) => {
+        const followTarget = (target: MeshItem) => {
             euler.setFromQuaternion(target.outerObject3d.quaternion)
             euler.y += Math.PI
             this.outerObject3d.setRotationFromEuler(euler)
@@ -97,25 +98,31 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
 
     public lockTargetRotation: LockTargetRotationValue = true
 
-    protected targetState = new Reactive<PositionedItem | SimpleObjectManager | undefined>(undefined)
-    public override append(object: PositionedItem) {
-        if (this.targetState.get()) {
-            super.append(object)
-            return
+    protected targetState = new Reactive<MeshItem | undefined>(undefined)
+
+    private retarget = debounce(() => {
+        let target: MeshItem | undefined
+        for (const child of this.children ?? []) {
+            if (target) {
+                if (child.outerObject3d.parent !== this.camera)
+                    this.camera.attach(child.outerObject3d)
+            }
+            else if (isMeshItem(child))
+                target = child
         }
-        this._append(object)
-        this.outerObject3d.parent?.add(object.outerObject3d)
-        this.targetState.set(object)
+        target && this.outerObject3d.parent?.attach(target.outerObject3d)
+        this.targetState.set(target)
+
+    }, 0, "trailing")
+
+    public override append(object: PositionedItem) {
+        super.append(object)
+        this.retarget()
     }
     
     public override attach(object: PositionedItem) {
-        if (this.targetState.get()) {
-            super.attach(object)
-            return
-        }
-        this._append(object)
-        this.outerObject3d.parent?.attach(object.outerObject3d)
-        this.targetState.set(object)
+        super.attach(object)
+        this.retarget()
     }
     
     private gyroControlHandle?: Cancellable
