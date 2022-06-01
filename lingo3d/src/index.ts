@@ -48,7 +48,6 @@ import createProxy from "./api/createProxy"
 import settings from "./api/settings"
 import preload from "./api/preload"
 // import HandTracker from "./api/HandTracker"
-import Point3d from "./api/Point3d"
 import { Sound } from "./api/Sound"
 import screenshot from "./api/screenshot"
 
@@ -61,6 +60,8 @@ import { loop, timer } from "./engine/eventLoop"
 import SimpleObjectManager from "./display/core/SimpleObjectManager"
 import FoundManager from "./display/core/FoundManager"
 import { onAfterRender } from "./events/onAfterRender"
+
+import { Point3d, Point } from "@lincode/math"
 
 export default {}
 
@@ -114,7 +115,6 @@ export {
     preload,
     
     // HandTracker,
-    Point3d,
     Sound,
     screenshot,
 
@@ -128,5 +128,8 @@ export {
 
     rootContainer,
     SimpleObjectManager as Object,
-    FoundManager
+    FoundManager,
+
+    Point3d,
+    Point
 }

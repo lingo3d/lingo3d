@@ -1,4 +1,4 @@
-import Point3d from "../api/Point3d"
+import { Point3d } from "@lincode/math"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { ExtractProps } from "./utils/extractProps"
 

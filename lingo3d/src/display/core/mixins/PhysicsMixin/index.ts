@@ -1,11 +1,11 @@
 import cubeShape from "./cannon/shapes/cubeShape"
-import { Point3d } from "@lincode/math"
 import { Vector3 } from "three"
 import IPhysics, { PhysicsGroupIndex, PhysicsOptions, PhysicsShape } from "../../../../interface/IPhysics"
 import type { Body } from "cannon-es"
 import { Cancellable } from "@lincode/promiselikes"
 import { assertExhaustive } from "@lincode/utils"
 import PositionedItem from "../../../../api/core/PositionedItem"
+import { Point3d } from "@lincode/math"
 
 export default abstract class PhysicsMixin extends PositionedItem implements IPhysics {
     protected _mAV?: Point3d

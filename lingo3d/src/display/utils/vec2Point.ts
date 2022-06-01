@@ -1,5 +1,5 @@
+import { Point3d } from "@lincode/math"
 import { Vector3 } from "three"
-import Point3d from "../../api/Point3d"
 import { scaleDown, scaleUp } from "../../engine/constants"
 
 export const vec2Point = (vec: Vector3) => new Point3d(vec.x * scaleUp, vec.y * scaleUp, vec.z * scaleUp)

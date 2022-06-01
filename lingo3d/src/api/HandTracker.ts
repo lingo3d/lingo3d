@@ -4,9 +4,8 @@ import Cube from "../display/primitives/Cube"
 import { Hands } from "@mediapipe/hands"
 import { Camera } from "@mediapipe/camera_utils"
 import store, { createEffect, GetGlobalState, SetGlobalState } from "@lincode/reactivity"
-import { distance, distance3d, LowPassFilter, mapRange, vertexAngle3d } from "@lincode/math"
+import { distance, distance3d, LowPassFilter, mapRange, Point3d, vertexAngle3d } from "@lincode/math"
 import Sphere from "../display/primitives/Sphere"
-import Point3d from "./Point3d"
 import settings from "../api/settings"
 
 interface Options {

@@ -1,7 +1,6 @@
-import { endPoint, rad2Deg, rotatePoint } from "@lincode/math"
+import { endPoint, Point3d, rad2Deg, rotatePoint } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
-import Point3d from "../../api/Point3d"
 import { loop } from "../../engine/eventLoop"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import IDummy, { dummyDefaults, dummySchema } from "../../interface/IDummy"
