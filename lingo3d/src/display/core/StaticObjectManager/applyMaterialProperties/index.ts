@@ -34,9 +34,8 @@ const processChild = (
                 copyToon(m, mat)
                 m.dispose()
             }
-            return
         }
-        if (_pbr)
+        else if (_pbr)
             for (let i = 0; i < material.length; ++i) {
                 const m = material[i]
                 const mat = material[i] = new MeshStandardMaterial()
@@ -53,10 +52,8 @@ const processChild = (
         child.material = new MeshToonMaterial()
         copyToon(material, child.material)
         material.dispose()
-        return
     }
-    
-    if (_pbr) {
+    else if (_pbr) {
         child.material = new MeshStandardMaterial()
         copyStandard(material, child.material)
         child.material.envMapIntensity = 1
@@ -69,7 +66,10 @@ const processChild = (
         _metalnessFactor !== undefined && setValue(child, "metalness", _metalnessFactor)
         _roughnessFactor !== undefined && setValue(child, "roughness", _roughnessFactor)
         _environmentFactor !== undefined && setValue(child, "envMapIntensity", _environmentFactor)
-        _opacityFactor !== undefined && setValue(child, "opacity", _opacityFactor)
+    }
+    if (_opacityFactor !== undefined) {
+        setValue(child, "opacity", _opacityFactor)
+        child.material.transparent = _opacityFactor < 1
     }
 }
 

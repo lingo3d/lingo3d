@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { World, Editor, SceneGraph, Toolbar, Library, Cube } from "."
+import { World, Cube, HTML } from "."
+import LingoEditor from "./components/editor/LingoEditor.vue";
 </script>
 
 <template>
   <World>
-    <Toolbar />
-    <SceneGraph />
-    <Editor mouse="enabled" />
-    <Library />
-    <Cube><Cube /></Cube>
+    <LingoEditor />
+    <Cube>
+      <HTML>
+        <div>hello world</div>
+      </HTML>
+    </Cube>
   </World>
   
 </template>

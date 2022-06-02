@@ -70,7 +70,6 @@ const App = () => {
       
     </World>
     <Reticle />
-    <LingoEditor />
     </>
   )
 }
