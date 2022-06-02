@@ -20,7 +20,8 @@ const processChild = (
     _pbr?: boolean,
     _metalnessFactor?: number,
     _roughnessFactor?: number,
-    _environmentFactor?: number
+    _environmentFactor?: number,
+    _opacityFactor?: number
 ) => {
     const { material } = child
     if (!material) return
@@ -68,24 +69,25 @@ const processChild = (
         _metalnessFactor !== undefined && setValue(child, "metalness", _metalnessFactor)
         _roughnessFactor !== undefined && setValue(child, "roughness", _roughnessFactor)
         _environmentFactor !== undefined && setValue(child, "envMapIntensity", _environmentFactor)
+        _opacityFactor !== undefined && setValue(child, "opacity", _opacityFactor)
     }
 }
 
 export default debounce(() => {
     for (const model of applySet) {
         //@ts-ignore
-        const { _toon, _pbr, _metalnessFactor = 0, _roughnessFactor, _environmentFactor } = model
+        const { _toon, _pbr, _metalnessFactor = 0, _roughnessFactor, _environmentFactor, _opacityFactor } = model
 
         if ("loadedResolvable" in model)
             //@ts-ignore
             model.loadedResolvable.then(loaded => {
                 loaded.traverse(child => processChild(
-                    child, _toon, _pbr, _metalnessFactor, _roughnessFactor, _environmentFactor
+                    child, _toon, _pbr, _metalnessFactor, _roughnessFactor, _environmentFactor, _opacityFactor
                 ))
             })
         else
             model.outerObject3d.traverse(child => processChild(
-                child, _toon, _pbr, _metalnessFactor, _roughnessFactor, _environmentFactor
+                child, _toon, _pbr, _metalnessFactor, _roughnessFactor, _environmentFactor, _opacityFactor
             ))
     }
     applySet.clear()    
