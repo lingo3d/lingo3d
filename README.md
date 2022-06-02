@@ -20,8 +20,8 @@ Lingo3D is a web-first 3d game development library with React integration.
         <img src="https://github.com/lingo3d/example-react-gallery/blob/main/screenshot.jpg" />
       </a>
       <table>
-        <td><a href="https://github.com/lingo3d/example-react-gallery">github</a></td>
-        <td><a href="https://codesandbox.io/s/lingo3d-example-react-gallery-wdj1rl">codesandbox</a></td>
+        <td><a href="https://github.com/lingo3d/example-react-gallery" target="_blank">react source</a></td>
+        <td><a href="https://codesandbox.io/s/lingo3d-example-react-gallery-wdj1rl" target="_blank">codesandbox</a></td>
       </table>
     </td>
     <td>
@@ -29,8 +29,9 @@ Lingo3D is a web-first 3d game development library with React integration.
         <img src="https://github.com/lingo3d/example-react-fairytale/blob/main/screenshot.jpg" />
       </a>
       <table>
-        <td><a href="https://github.com/lingo3d/example-react-fairytale">github</a></td>
-        <td><a href="https://codesandbox.io/s/lingo3d-example-react-fairytale-4b0wzv">codesandbox</a></td>
+        <td><a href="https://github.com/lingo3d/example-react-fairytale" target="_blank">react source</a></td>
+        <td><a href="https://github.com/lingo3d/example-vue-fairytale" target="_blank">vue source</a></td>
+        <td><a href="https://codesandbox.io/s/lingo3d-example-react-fairytale-4b0wzv" target="_blank">codesandbox</a></td>
       </table>
     </td>
   </tr>
@@ -40,8 +41,9 @@ Lingo3D is a web-first 3d game development library with React integration.
         <img src="https://github.com/lingo3d/example-react-keanu/blob/main/screenshot.jpg" />
       </a>
       <table>
-        <td><a href="https://github.com/lingo3d/example-react-keanu">github</a></td>
-        <td><a href="https://codesandbox.io/s/lingo3d-example-react-keanu-4ovxlw">codesandbox</a></td>
+        <td><a href="https://github.com/lingo3d/example-react-keanu" target="_blank">react source</a></td>
+        <td><a href="https://github.com/lingo3d/example-vue-keanu" target="_blank">vue source</a></td>
+        <td><a href="https://codesandbox.io/s/lingo3d-example-react-keanu-4ovxlw" target="_blank">codesandbox</a></td>
       </table>
     </td>
     <td>
@@ -49,8 +51,9 @@ Lingo3D is a web-first 3d game development library with React integration.
         <img src="https://github.com/lingo3d/example-react-applewatch/blob/main/screenshot.jpg" />
       </a>
       <table>
-        <td><a href="https://github.com/lingo3d/example-react-applewatch">github</a></td>
-        <td><a href="https://codesandbox.io/s/lingo3d-example-react-applewatch-9peq84">codesandbox</a></td>
+        <td><a href="https://github.com/lingo3d/example-react-applewatch" target="_blank">react source</a></td>
+        <td><a href="https://github.com/lingo3d/example-vue-applewatch" target="_blank">vue source</a></td>
+        <td><a href="https://codesandbox.io/s/lingo3d-example-react-applewatch-9peq84" target="_blank">codesandbox</a></td>
       </table>
     </td>
   </tr>
@@ -60,8 +63,9 @@ Lingo3D is a web-first 3d game development library with React integration.
         <img src="https://github.com/lingo3d/example-react-pubg/blob/main/screenshot.jpg" />
       </a>
       <table>
-        <td><a href="https://github.com/lingo3d/example-react-pubg">github</a></td>
-        <td><a href="https://codesandbox.io/s/lingo3d-example-react-pubg-kdl8r6">codesandbox</a></td>
+        <td><a href="https://github.com/lingo3d/example-react-pubg" target="_blank">react source</a></td>
+        <td><a href="https://github.com/lingo3d/example-vue-pubg" target="_blank">vue source</a></td>
+        <td><a href="https://codesandbox.io/s/lingo3d-example-react-pubg-kdl8r6" target="_blank">codesandbox</a></td>
       </table>
     </td>
     <td>
@@ -69,8 +73,9 @@ Lingo3D is a web-first 3d game development library with React integration.
         <img src="https://github.com/lingo3d/example-react-macbook/blob/main/screenshot.jpg" />
       </a>
       <table>
-        <td><a href="https://github.com/lingo3d/example-react-macbook">github</a></td>
-        <td><a href="https://codesandbox.io/s/lingo3d-example-react-macbook-ouusr6">codesandbox</a></td>
+        <td><a href="https://github.com/lingo3d/example-react-macbook" target="_blank">react source</a></td>
+        <td><a href="https://github.com/lingo3d/example-vue-macbook" target="_blank">vue source</a></td>
+        <td><a href="https://codesandbox.io/s/lingo3d-example-react-macbook-ouusr6" target="_blank">codesandbox</a></td>
       </table>
     </td>
   </tr>
@@ -80,7 +85,8 @@ Lingo3D is a web-first 3d game development library with React integration.
         <img src="https://github.com/lingo3d/example-react-nft-gallery/blob/main/screenshot.jpg" />
       </a>
       <table>
-        <td><a href="https://github.com/lingo3d/example-react-nft-gallery">github</a></td>
+        <td><a href="https://github.com/lingo3d/example-react-nft-gallery" target="_blank">react source</a></td>
+        <td><a href="https://github.com/lingo3d/example-vue-nft-gallery" target="_blank">vue source</a></td>
       </table>
     </td>
   </tr>
