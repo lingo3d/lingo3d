@@ -9,7 +9,7 @@ export { default as Editor } from "./components/editor/Editor.vue"
 export { default as SceneGraph } from "./components/Editor/SceneGraph.vue"
 export { default as Toolbar } from "./components/Editor/Toolbar.vue"
 export { default as Library } from "./components/Editor/Library.vue"
-// export { default as Stats } from "./components/Stats"
+export { default as Stats } from "./components/Stats.vue"
 
 export { default as Keyboard } from "./components/api/Keyboard.vue"
 export { default as Mouse } from "./components/api/Mouse.vue"

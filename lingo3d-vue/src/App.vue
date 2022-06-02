@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { World, Cube, HTML } from "."
-import LingoEditor from "./components/editor/LingoEditor.vue"
+import { World, Cube, HTML, Stats, LingoEditor } from "."
 
 const handleClick = () => {
   console.log("here")
@@ -15,6 +14,7 @@ const handleClick = () => {
         <div style="color: red; pointer-events: auto;" @click="handleClick">hello world</div>
       </HTML>
     </Cube>
+    <Stats />
   </World>
   
 </template>
