@@ -8,19 +8,9 @@ import ISetup from "lingo3d/lib/interface/ISetup"
 import { setResolution } from "lingo3d/lib/states/useResolution"
 import { setViewportSize } from "lingo3d/lib/states/useViewportSize"
 import useLayoutEffectOnce from "../hooks/useLayoutEffectOnce"
+import htmlContainer from "./logical/HTML/htmlContainer"
 
 preventTreeShake(index)
-
-export const htmlContainer = document.createElement("div")
-Object.assign(htmlContainer.style, {
-    position: "absolute",
-    left: "0px",
-    top: "0px",
-    width: "100%",
-    height: "100%",
-    pointerEvents: "none",
-    userSelect: "none"
-})
 
 type WorldProps = Partial<ISetup> & {
     style?: React.CSSProperties

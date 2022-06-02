@@ -1,9 +1,8 @@
-import React, { useContext, useLayoutEffect } from "react"
+import { onAfterRender } from "lingo3d"
+import React, { useContext, useLayoutEffect, useRef } from "react"
+import ReactDOM from "react-dom"
 import { ParentContext } from "../../../hooks/useManager"
-import { pull } from "lodash"
-import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
-import render from "./render17"
-import { elements } from "./build"
+import htmlContainer from "./htmlContainer"
 
 interface HTMLProps {
     parent?: any,
@@ -12,22 +11,38 @@ interface HTMLProps {
 
 const HTML: React.FC<HTMLProps> = ({ children }) => {
     const parent = useContext(ParentContext)
-
+    const divRef = useRef<HTMLDivElement>(null)
+    
     useLayoutEffect(() => {
-        if (!parent) return
+        const div = divRef.current
+        if (!div || !parent) return
 
-        const pair: [React.ReactNode, ObjectManager] = [children, parent]
+        let frustumVisibleOld = false
 
-        elements.push(pair)
-        render()
+        const handle = onAfterRender(() => {
+            console.log("here")
 
+            const { frustumVisible } = parent
+            
+            if (frustumVisible !== frustumVisibleOld)
+                div.style.display = frustumVisible ? "block" : "none"
+
+            frustumVisibleOld = frustumVisible
+
+            if (!frustumVisible) return
+            
+            div.style.transform = `translateX(${parent.clientX}px) translateY(${parent.clientY}px)`
+        })
         return () => {
-            pull(elements, pair)
-            render()
+            handle.cancel()
         }
     }, [parent])
 
-    return null
+    return ReactDOM.createPortal(
+        <div ref={divRef} style={{ display: "none" }}>
+            {children}
+        </div>
+    , htmlContainer)
 }
 
 export default HTML
