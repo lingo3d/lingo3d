@@ -1,32 +1,41 @@
 <script setup lang="ts">
+import { onAfterRender } from "lingo3d"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
-import { pull } from "lodash";
-import { nanoid } from "nanoid"
-import { inject, onUnmounted, Ref, toRaw, useSlots, VNode, watch } from "vue"
-import { elements, renderRef } from "./render"
+import { inject, Ref, ref, toRaw, watchEffect } from "vue"
+import htmlContainer from "./htmlContainer"
 
+const divRef = ref<HTMLDivElement>()
 const parentRef = inject<Ref<ObjectManager> | undefined>("parent", undefined)
-const slots = useSlots()
 
-let pair: [Array<VNode>, ObjectManager, string] | undefined
-const id = nanoid()
-
-parentRef && watch(parentRef, () => {
+watchEffect(cleanUp => {
+    const div = toRaw(divRef.value)
     const parent = toRaw(parentRef?.value)
-    const children = slots.default?.()
-    if (!children || !parent || pair) return
+    if (!div || !parent) return
 
-    pair = [children, parent, id]
-    elements.push(pair)
-    renderRef.value = {}
+    let frustumVisibleOld = false
 
-}, { immediate: true })
+    const handle = onAfterRender(() => {
+        const { frustumVisible } = parent
+        
+        if (frustumVisible !== frustumVisibleOld)
+            div.style.display = frustumVisible ? "block" : "none"
 
-onUnmounted(() => {
-    pull(elements, pair)
-    renderRef.value = {}
+        frustumVisibleOld = frustumVisible
+
+        if (!frustumVisible) return
+        
+        div.style.transform = `translateX(${parent.clientX}px) translateY(${parent.clientY}px)`
+    })
+    cleanUp(() => {
+        handle.cancel()
+    })
 })
 </script>
 
 <template>
+    <Teleport :to="htmlContainer">
+        <div ref="divRef" style="display: none">
+            <slot />
+        </div>
+    </Teleport>
 </template>

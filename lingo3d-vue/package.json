@@ -24,7 +24,8 @@
     "@types/three": "0.140.0",
     "lingo3d": "1.10.203",
     "nanoid": "3",
-    "popmotion": "11"
+    "popmotion": "11",
+    "stats.js": "^0.17.0"
   },
   "peerDependencies": {
     "vue": "^3.2.25"
