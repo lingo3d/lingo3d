@@ -23,8 +23,6 @@ import serializeReact from "./serializeReact"
 import serializeVue from "./serializeVue"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import { useLayoutEffect } from "preact/hooks"
-import StaticObjectManager from "../../display/core/StaticObjectManager"
-import { isPositionedItem } from "../../api/core/PositionedItem"
 
 preventTreeShake(h)
 
@@ -63,7 +61,7 @@ const Toolbar = () => {
     useLayoutEffect(() => {
         // if (isStatic)
             // setMode("select")
-        if (isPositioned && (mode === "rotate" || mode === "scale"))
+        if (isPositioned && (mode === "scale"))
             setMode("translate")
 
     }, [isPositioned])
@@ -92,7 +90,7 @@ const Toolbar = () => {
                 <IconButton active={mode === "translate"} onClick={() => setMode("translate")}>
                     <TranslateIcon />
                 </IconButton>
-                <IconButton active={mode === "rotate"} disabled={isPositioned} onClick={() => setMode("rotate")}>
+                <IconButton active={mode === "rotate"} onClick={() => setMode("rotate")}>
                     <RotateIcon />
                 </IconButton>
                 <IconButton active={mode === "scale"} disabled={isPositioned} onClick={() => setMode("scale")}>

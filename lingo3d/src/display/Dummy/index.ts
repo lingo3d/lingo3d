@@ -59,12 +59,18 @@ export default class Dummy extends Model implements IDummy {
         poseService.onTransition(state => state.changed && setPose(state.value as string)).start()
         this.then(() => poseService.stop())
 
-        const [setSpine, getSpine] = store<FoundManager | undefined>(undefined)
-        this.loadedResolvable.then(() => setSpine(this.find("mixamorigSpine", true)))
+        const [setJoints, getJoints] = store<Record<string, FoundManager> | undefined>(undefined)
+        this.loadedResolvable.then(() => setJoints({
+            spine: this.find("mixamorigSpine")!,
+            rightUpLeg: this.find("mixamorigRightUpLeg")!,
+            rightLeg: this.find("mixamorigRightLeg")!
+        }))
 
         this.createEffect(() => {
-            const spine = getSpine()
-            if (!spine) return
+            const joints = getJoints()
+            if (!joints) return
+
+            const { spine } = joints
 
             const { strideForward, strideRight, strideMove } = this
             if (!strideForward && !strideRight) {
@@ -104,7 +110,7 @@ export default class Dummy extends Model implements IDummy {
             return () => {
                 handle.cancel()
             }
-        }, [this.strideMoveState.get, this.strideForwardState.get, this.strideRightState.get, getSpine])
+        }, [this.strideMoveState.get, this.strideForwardState.get, this.strideRightState.get, getJoints])
     }
 
     private srcState = new Reactive(url + "ybot.fbx")
