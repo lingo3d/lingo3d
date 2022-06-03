@@ -1,4 +1,3 @@
-import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { getDefaultFog, setDefaultFog } from "../states/useDefaultFog"
 import { getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
 import { getPerformance, setPerformance } from "../states/usePerformance"
@@ -36,13 +35,6 @@ appendableRoot.delete(defaultSkybox)
 
 export default {
     //general
-    get pixelRatio() {
-        return getPixelRatio()
-    },
-    set pixelRatio(value: number) {
-        setPixelRatio(value)
-    },
-    
     get performance() {
         return getPerformance()
     },

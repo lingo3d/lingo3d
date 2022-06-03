@@ -13,7 +13,6 @@ import { getViewportSize } from "../../states/useViewportSize"
 import { getSecondaryCamera } from "../../states/useSecondaryCamera"
 import { VRButton } from "./VRButton"
 import { getDefaultLightScale } from "../../states/useDefaultLightScale"
-import { last } from "@lincode/utils"
 import { getDefaultLight } from "../../states/useDefaultLight"
 
 export const rootContainer = document.createElement("div")

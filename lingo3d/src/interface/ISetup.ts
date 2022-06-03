@@ -4,7 +4,6 @@ import { ExtractProps } from "./utils/extractProps"
 export default interface ISetup extends Partial<typeof settings> {}
 
 export const setupSchema: Required<ExtractProps<ISetup>> = {
-    pixelRatio: Number,
     performance: String,
     skybox: [String, Array],
     defaultLight: [String, Boolean],

@@ -53,7 +53,6 @@ export const nonSerializedProperties = [
     "target"
 ]
 export const nonSerializedSettings: Array<keyof ISetup> = [
-    "pixelRatio",
     "performance",
     "defaultOrbitControls",
     "wasmPath",
