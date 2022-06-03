@@ -14,7 +14,7 @@ map.metalnessFactor = 1
 map.roughnessFactor = 0.4
 
 settings.defaultLight = "studio"
-settings.defaultLightScale = 9
+settings.defaultLightScale = 2
 settings.exposure = 0.7
 
 const dummy = new Dummy()

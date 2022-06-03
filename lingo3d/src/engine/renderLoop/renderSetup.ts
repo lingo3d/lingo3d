@@ -12,6 +12,9 @@ import { getPBR } from "../../states/usePBR"
 import { getViewportSize } from "../../states/useViewportSize"
 import { getSecondaryCamera } from "../../states/useSecondaryCamera"
 import { VRButton } from "./VRButton"
+import { getDefaultLightScale } from "../../states/useDefaultLightScale"
+import { last } from "@lincode/utils"
+import { getDefaultLight } from "../../states/useDefaultLight"
 
 export const rootContainer = document.createElement("div")
 Object.assign(rootContainer.style, {
@@ -112,12 +115,15 @@ createEffect(() => {
 
 createEffect(() => {
     const renderer = getRenderer()
-    const exposure = getExposure()
+    const defaultLight = getDefaultLight()
+    const exposure = defaultLight && typeof defaultLight === "string" && defaultLight !== "default"
+        ? getExposure() * getDefaultLightScale()
+        : getExposure()
 
     renderer.toneMapping = exposure !== 1 ? LinearToneMapping : NoToneMapping
     renderer.toneMappingExposure = exposure
 
-}, [getExposure, getRenderer])
+}, [getExposure, getRenderer, getDefaultLight, getDefaultLightScale])
 
 createEffect(() => {
     const renderer = getRenderer()
