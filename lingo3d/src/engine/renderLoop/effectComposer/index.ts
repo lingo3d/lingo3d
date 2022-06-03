@@ -21,8 +21,9 @@ import lensDistortionPass from "./lensDistortionPass"
 import { getLensDistortion } from "../../../states/useLensDistortion"
 import { WebGLRenderTarget } from "three"
 import { WIDTH, HEIGHT } from "../../../globals"
+import isSafari from "../../../api/utils/isSafari"
 
-const useSMAA = true
+const useSMAA = isSafari
 
 const effectComposer = (() => {
     if (useSMAA)

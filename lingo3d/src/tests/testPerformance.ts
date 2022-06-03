@@ -1,0 +1,20 @@
+//@ts-ignore
+import mapSrc from "../../assets-local/bugp.glb"
+import settings from "../api/settings"
+import Model from "../display/Model"
+import Dummy from "../display/Dummy"
+
+export default {}
+
+const map = new Model()
+map.src = mapSrc
+map.scale = 150
+map.pbr = true
+map.metalnessFactor = 1
+map.roughnessFactor = 0.4
+
+settings.defaultLight = "studio"
+settings.defaultLightScale = 9
+settings.exposure = 0.7
+
+const dummy = new Dummy()
