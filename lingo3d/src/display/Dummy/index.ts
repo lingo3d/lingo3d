@@ -61,9 +61,7 @@ export default class Dummy extends Model implements IDummy {
 
         const [setJoints, getJoints] = store<Record<string, FoundManager> | undefined>(undefined)
         this.loadedResolvable.then(() => setJoints({
-            spine: this.find("mixamorigSpine")!,
-            rightUpLeg: this.find("mixamorigRightUpLeg")!,
-            rightLeg: this.find("mixamorigRightLeg")!
+            spine: this.find("mixamorigSpine")!
         }))
 
         this.createEffect(() => {
