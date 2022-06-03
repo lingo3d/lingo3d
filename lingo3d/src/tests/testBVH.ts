@@ -23,6 +23,7 @@ import UpSrc from "../../assets-local/skybox/Up.png"
 
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import settings from "../api/settings"
+import { setPixelRatio } from "../states/usePixelRatio"
 
 export default {}
 
@@ -63,3 +64,5 @@ map.scale = 20
 map.physics = "map"
 
 settings.skybox = [LeftSrc, RightSrc, UpSrc, DownSrc, FrontSrc, BackSrc]
+
+setPixelRatio(0.5)
