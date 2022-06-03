@@ -22,6 +22,7 @@ import IAmbientLight from "lingo3d/lib/interface/IAmbientLight"
 import IDirectionalLight from "lingo3d/lib/interface/IDirectionalLight"
 import IFound from "lingo3d/lib/interface/IFound"
 import ITrigger from "lingo3d/lib/interface/ITrigger"
+import IEnvironment from "lingo3d/lib/interface/IEnvironment"
 
 type Children = React.ReactNode
 
@@ -52,3 +53,4 @@ export type MouseProps = Partial<IMouse>
 export type SoundProps = Partial<ISound>
 export type TriggerProps = Partial<ITrigger>
 export type SkyboxProps = Partial<ISkybox>
+export type EnvironmentProps = Partial<IEnvironment>

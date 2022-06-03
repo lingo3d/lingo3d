@@ -22,6 +22,7 @@ export { default as Dummy } from "./components/display/Dummy"
 export { default as SvgMesh } from "./components/display/SvgMesh"
 export { default as Reflector } from "./components/display/Reflector"
 export { default as Skybox } from "./components/display/Skybox"
+export { default as Environment } from "./components/display/Environment"
 export { default as Sprite } from "./components/display/Sprite"
 
 export { default as Camera } from "./components/display/cameras/Camera"

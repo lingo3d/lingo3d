@@ -22,6 +22,7 @@ export { default as Dummy } from "./components/display/Dummy.vue"
 export { default as SvgMesh } from "./components/display/SvgMesh.vue"
 export { default as Reflector } from "./components/display/Reflector.vue"
 export { default as Skybox } from "./components/display/Skybox.vue"
+export { default as Environment } from "./components/display/Environment.vue"
 export { default as Sprite } from "./components/display/Sprite.vue"
 
 export { default as Camera } from "./components/display/cameras/Camera.vue"
