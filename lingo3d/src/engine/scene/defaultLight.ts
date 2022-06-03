@@ -15,11 +15,10 @@ createEffect(() => {
         if (defaultLight === "studio")
             defaultLight = "https://unpkg.com/lingo3d-textures@1.0.0/assets/studio.jpg"
 
-        let proceed = true
-        const texture = loadTexture(defaultLight, () => proceed && (scene.environment = texture))
+        const texture = loadTexture(defaultLight)
         texture.mapping = EquirectangularReflectionMapping
+        scene.environment = texture
         return () => {
-            proceed = false
             scene.environment = null
         }
     }

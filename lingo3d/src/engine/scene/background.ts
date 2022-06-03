@@ -19,12 +19,9 @@ createEffect(() => {
         if (Array.isArray(skybox))
             scene.background = loadCubeTexture(skybox)
         else {
-            let proceed = true
-            const texture = loadTexture(skybox, () => proceed && (scene.background = texture))
+            const texture = loadTexture(skybox)
             texture.mapping = EquirectangularReflectionMapping
-            return () => {
-                proceed = false
-            }
+            scene.background = texture
         }
     }
     else if (image)
