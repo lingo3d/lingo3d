@@ -74,7 +74,7 @@ export default {
     get skybox() {
         return defaultSkybox.texture
     },
-    set skybox(value: string | Array<string> | undefined) {
+    set skybox(value) {
         defaultSkybox.texture = value
     },
 

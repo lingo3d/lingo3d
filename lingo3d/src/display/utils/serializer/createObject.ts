@@ -28,6 +28,7 @@ import ThirdPersonCamera from "../../cameras/ThirdPersonCamera"
 import FirstPersonCamera from "../../cameras/FirstPersonCamera"
 import OrbitCamera from "../../cameras/OrbitCamera"
 import Skybox from "../../Skybox"
+import Environment from "../../Environment"
 import Trigger from "../../../api/Trigger"
 
 const record = type<Record<GameObjectType, () => ObjectManager>>({
@@ -58,7 +59,8 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     "sphere": () => new Sphere(),
     "tetrahedron": () => new Tetrahedron(),
     "torus": () => new Torus(),
-    "skybox": () => new Skybox() as any
+    "skybox": () => new Skybox() as any,
+    "environment": () => new Environment() as any
 })
 
 export default (type: GameObjectType) => record[type]()

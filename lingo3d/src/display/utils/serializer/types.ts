@@ -15,9 +15,10 @@ import ISpotLight from "../../../interface/ISpotLight"
 import IPrimitive from "../../../interface/IPrimitive"
 import ISetup from "../../../interface/ISetup"
 import ISkybox from "../../../interface/ISkybox"
+import IEnvironment from "../../../interface/IEnvironment"
 import ITrigger from "../../../interface/ITrigger"
 
-export type GameObjectType = "group" | "trigger" | "model" | "dummy" | "svgMesh" | "reflector" | "sprite" | "ambientLight" | "areaLight" | "boxLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "orbitCamera" | "thirdPersonCamera" | "firstPersonCamera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus" | "skybox"
+export type GameObjectType = "group" | "trigger" | "model" | "dummy" | "svgMesh" | "reflector" | "sprite" | "ambientLight" | "areaLight" | "boxLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "orbitCamera" | "thirdPersonCamera" | "firstPersonCamera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus" | "skybox" | "environment"
 
 export type AnimationData = Record<
     string,//property name
@@ -115,6 +116,8 @@ export type TorusNode = TypedPropsNode<IPrimitive, "torus">
 
 export type SkyboxNode = TypedPropsNode<ISkybox, "skybox">
 
-export type BaseSceneGraphNode = GroupNode | TriggerNode | ModelNode | DummyNode | SvgMeshNode | ReflectorNode | SpriteNode | CameraNode | AmbientLightNode | AreaLightNode | BoxLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode | SkyboxNode
+export type EnvironmentNode = TypedPropsNode<IEnvironment, "environment">
+
+export type BaseSceneGraphNode = GroupNode | TriggerNode | ModelNode | DummyNode | SvgMeshNode | ReflectorNode | SpriteNode | CameraNode | AmbientLightNode | AreaLightNode | BoxLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode | SkyboxNode | EnvironmentNode
 
 export type SceneGraphNode = BaseSceneGraphNode | AnimationNode | SetupNode

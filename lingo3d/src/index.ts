@@ -20,6 +20,7 @@ import Reflector from "./display/Reflector"
 import Sprite from "./display/Sprite"
 import Group from "./display/Group"
 import Skybox from "./display/Skybox"
+import Environment from "./display/Environment"
 import Sky from "./display/Sky"
 import Camera from "./display/cameras/Camera"
 import ThirdPersonCamera from "./display/cameras/ThirdPersonCamera"
@@ -84,6 +85,7 @@ export {
     Sprite,
     Group,
     Skybox,
+    Environment,
     Sky,
     Camera,
     ThirdPersonCamera,

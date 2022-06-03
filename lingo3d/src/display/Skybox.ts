@@ -23,7 +23,7 @@ export default class Skybox extends EventLoopItem implements ISkybox {
     public get texture() {
         return this._texture
     }
-    public set texture(value: string | Array<string> | undefined) {
+    public set texture(value) {
         this._texture = value
         setSkyboxStack([...getSkyboxStack()])
     }

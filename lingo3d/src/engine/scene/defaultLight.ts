@@ -1,26 +1,39 @@
 import { createEffect } from "@lincode/reactivity"
+import { last } from "@lincode/utils"
 import { HemisphereLight, DirectionalLight, EquirectangularReflectionMapping } from "three"
+import { appendableRoot } from "../../api/core/Appendable"
+import Environment from "../../display/Environment"
 import loadTexture from "../../display/utils/loaders/loadTexture"
 import { getDefaultLight } from "../../states/useDefaultLight"
 import { getDefaultLightScale } from "../../states/useDefaultLightScale"
+import { getEnvironmentStack } from "../../states/useEnvironmentStack"
 import scene from "./scene"
 
 export default {}
 
+const defaultEnvironment = new Environment()
+appendableRoot.delete(defaultEnvironment)
+
 createEffect(() => {
-    let defaultLight = getDefaultLight()
-    if (!defaultLight) return
+    const defaultLight = getDefaultLight()
+    const environment = last(getEnvironmentStack())?.texture
+    if (!defaultLight && !environment) return
 
-    if (typeof defaultLight === "string" && defaultLight !== "default") {
-        if (defaultLight === "studio")
-            defaultLight = "https://unpkg.com/lingo3d-textures@1.0.0/assets/studio.jpg"
-
-        const texture = loadTexture(defaultLight)
+    if (environment) {
+        const texture = loadTexture(environment)
         texture.mapping = EquirectangularReflectionMapping
         scene.environment = texture
         return () => {
             scene.environment = null
         }
+    }
+    if (typeof defaultLight === "string" && defaultLight !== "default") {
+        if (defaultLight === "studio")
+            defaultEnvironment.texture = "https://unpkg.com/lingo3d-textures@1.0.0/assets/studio.jpg"
+        else
+            defaultEnvironment.texture = defaultLight
+
+        return
     }
 
     const skylight = new HemisphereLight(0xffffff, 0x666666)
@@ -48,4 +61,4 @@ createEffect(() => {
 
         handle.cancel()
     }
-}, [getDefaultLight])
+}, [getDefaultLight, getEnvironmentStack])
