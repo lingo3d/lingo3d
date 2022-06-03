@@ -15,25 +15,30 @@ const defaultEnvironment = new Environment()
 appendableRoot.delete(defaultEnvironment)
 
 createEffect(() => {
-    const defaultLight = getDefaultLight()
     const environment = last(getEnvironmentStack())?.texture
-    if (!defaultLight && !environment) return
+    if (!environment) return
 
-    if (environment) {
-        const texture = loadTexture(environment)
-        texture.mapping = EquirectangularReflectionMapping
-        scene.environment = texture
-        return () => {
-            scene.environment = null
-        }
+    const texture = loadTexture(environment)
+    texture.mapping = EquirectangularReflectionMapping
+    scene.environment = texture
+    return () => {
+        scene.environment = null
     }
+}, [getEnvironmentStack])
+
+createEffect(() => {
+    const defaultLight = getDefaultLight()
+    if (!defaultLight) return
+
     if (typeof defaultLight === "string" && defaultLight !== "default") {
         if (defaultLight === "studio")
             defaultEnvironment.texture = "https://unpkg.com/lingo3d-textures@1.0.0/assets/studio.jpg"
         else
             defaultEnvironment.texture = defaultLight
 
-        return
+        return () => {
+            defaultEnvironment.texture = undefined
+        }
     }
 
     const skylight = new HemisphereLight(0xffffff, 0x666666)
@@ -61,4 +66,4 @@ createEffect(() => {
 
         handle.cancel()
     }
-}, [getDefaultLight, getEnvironmentStack])
+}, [getDefaultLight])
