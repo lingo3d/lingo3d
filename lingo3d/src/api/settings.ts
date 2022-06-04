@@ -12,7 +12,6 @@ import { getBloom, setBloom } from "../states/useBloom"
 import { getBloomRadius, setBloomRadius } from "../states/useBloomRadius"
 import { getBloomStrength, setBloomStrength } from "../states/useBloomStrength"
 import { getBloomThreshold, setBloomThreshold } from "../states/useBloomThreshold"
-import { getEncoding, setEncoding } from "../states/useEncoding"
 import { getExposure, setExposure } from "../states/useExposure"
 import { getLensBand, setLensBand } from "../states/useLensBand"
 import { getLensDistortion, setLensDistortion } from "../states/useLensDistortion"
@@ -115,13 +114,6 @@ export default {
     },
     set logarithmicDepth(value) {
         setLogarithmicDepth(value)
-    },
-
-    get encoding() {
-        return getEncoding()
-    },
-    set encoding(val) {
-        setEncoding(val)
     },
 
     get exposure() {

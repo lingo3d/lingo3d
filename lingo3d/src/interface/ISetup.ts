@@ -17,7 +17,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     wasmPath: String,
     autoMount: [Boolean, String],
     logarithmicDepth: Boolean,
-    encoding: String,
     exposure: Number,
     pbr: Boolean,
     bloom: Boolean,

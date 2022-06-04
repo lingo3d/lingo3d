@@ -1,4 +1,4 @@
-import { LinearEncoding, LinearToneMapping, NoToneMapping, PCFSoftShadowMap, sRGBEncoding } from "three"
+import { LinearToneMapping, NoToneMapping, PCFSoftShadowMap } from "three"
 import { getExposure } from "../../states/useExposure"
 import { getResolution, setResolution } from "../../states/useResolution"
 import { getPerformance } from "../../states/usePerformance"
@@ -7,7 +7,6 @@ import { createEffect } from "@lincode/reactivity"
 import { getVR } from "../../states/useVR"
 import settings from "../../api/settings"
 import { getRenderer } from "../../states/useRenderer"
-import { getEncoding } from "../../states/useEncoding"
 import { getPBR } from "../../states/usePBR"
 import { getViewportSize } from "../../states/useViewportSize"
 import { getSecondaryCamera } from "../../states/useSecondaryCamera"
@@ -123,14 +122,6 @@ createEffect(() => {
     renderer.toneMappingExposure = exposure
 
 }, [getExposure, getRenderer, getDefaultLight, getDefaultLightScale])
-
-createEffect(() => {
-    const renderer = getRenderer()
-    const encoding = getEncoding()
-
-    renderer.outputEncoding = encoding === "linear" ? LinearEncoding : sRGBEncoding
-
-}, [getEncoding, getRenderer])
 
 createEffect(() => {
     if (getVR() !== "webxr") return
