@@ -1,5 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import { BoxHelper } from "three"
+import Loaded from "../display/core/Loaded"
 import { skinnedMeshSet } from "../display/utils/cloneSkinnedMesh"
 import { getCamera } from "../states/useCamera"
 import { getSelectionTarget } from "../states/useSelectionTarget"
@@ -11,7 +12,7 @@ export default {}
 
 createEffect(() => {
     const target = getSelectionTarget()
-    if (!target || getCamera() !== mainCamera) return
+    if (!(target instanceof Loaded) || getCamera() !== mainCamera) return
 
     //@ts-ignore
     console.log(skinnedMeshSet.has(target.loadedResolvable._value))

@@ -79,7 +79,6 @@ export default debounce(() => {
         const { _toon, _pbr, _metalnessFactor = 0, _roughnessFactor, _environmentFactor, _opacityFactor } = model
 
         if ("loadedResolvable" in model)
-            //@ts-ignore
             model.loadedResolvable.then(loaded => {
                 loaded.traverse(child => processChild(
                     child, _toon, _pbr, _metalnessFactor, _roughnessFactor, _environmentFactor, _opacityFactor

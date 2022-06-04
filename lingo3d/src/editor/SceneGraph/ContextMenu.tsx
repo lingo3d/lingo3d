@@ -23,7 +23,6 @@ const search = (n: string) => {
     
     const name = n.toLowerCase()
     let found: Object3D | undefined
-    //@ts-ignore
     model.loadedGroup.traverse(item => {
         if (found) return
         item.name.toLowerCase().includes(name) && (found = item)

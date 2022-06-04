@@ -14,12 +14,10 @@ type ModelTreeItemProps = TreeItemProps & {
 
 const ModelTreeItem = ({ appendable, level }: ModelTreeItemProps) => {
     const [loaded, setLoaded] = useState<Object3D>()
-    //@ts-ignore
     const { loadedResolvable } = appendable
 
     useEffect(() => {
         setLoaded(undefined)
-        //@ts-ignore
         const handle = loadedResolvable.then(() => setLoaded(appendable.loadedGroup.children[0]))
         return () => {
             handle.cancel()

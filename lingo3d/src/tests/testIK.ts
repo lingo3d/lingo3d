@@ -16,7 +16,6 @@ const bot = new Model()
 bot.src = botSrc
 
 const [setJoints, getJoints] = store<Record<string, FoundManager> | undefined>(undefined)
-//@ts-ignore
 bot.loadedResolvable.then(() => setJoints({
     spine: bot.find("mixamorigSpine")!,
     rightUpLeg: bot.find("mixamorigRightUpLeg")!,

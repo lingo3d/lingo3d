@@ -10,14 +10,14 @@ import { addBloom, deleteBloom } from "../../engine/renderLoop/effectComposer/se
 import { addSSR, deleteSSR } from "../../engine/renderLoop/effectComposer/ssrPass"
 
 export default abstract class Loaded<T> extends ObjectManager<Mesh> implements ILoaded {
-    protected loadedGroup = new Group()
+    public loadedGroup = new Group()
     
     public constructor() {
         super(new Mesh(boxGeometry, wireframeMaterial))
         this.outerObject3d.add(this.loadedGroup)
     }
 
-    protected loadedResolvable = new Resolvable<Object3D>()
+    public loadedResolvable = new Resolvable<Object3D>()
 
     protected abstract load(src: string): Promise<T>
 
