@@ -1,10 +1,9 @@
 import { createEffect } from "@lincode/reactivity"
-import { BoxHelper } from "three"
+import { SkeletonHelper } from "three"
 import Loaded from "../display/core/Loaded"
 import { skinnedMeshSet } from "../display/utils/cloneSkinnedMesh"
 import { getCamera } from "../states/useCamera"
 import { getSelectionTarget } from "../states/useSelectionTarget"
-import { loop } from "./eventLoop"
 import mainCamera from "./mainCamera"
 import scene from "./scene"
 
@@ -14,9 +13,13 @@ createEffect(() => {
     const target = getSelectionTarget()
     if (!(target instanceof Loaded) || getCamera() !== mainCamera) return
 
-    //@ts-ignore
-    console.log(skinnedMeshSet.has(target.loadedResolvable._value))
+    const skinnedMesh = target.loadedGroup.children[0]
+    if (!skinnedMeshSet.has(skinnedMesh)) return
+
+    const helper = new SkeletonHelper(skinnedMesh)
+    scene.add(helper)
 
     return () => {
+        scene.remove(helper)
     }
 }, [getSelectionTarget, getCamera])
