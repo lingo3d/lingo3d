@@ -1,20 +1,17 @@
 <script setup lang="ts">
-import { World, Cube, HTML, Stats, LingoEditor } from "."
+import { World, Cube, HTML, Stats, LingoEditor, Dummy, Find } from "."
 
-const handleClick = () => {
-  console.log("here")
-}
 
 </script>
 
 <template>
   <World>
-    <Cube>
-      <HTML>
-        <div style="color: red; pointer-events: auto;" @click="handleClick">hello world</div>
-      </HTML>
-    </Cube>
-    <Stats />
+    <Dummy>
+      <Find name="mixamorigHips">
+        <HTML><div>hello world</div></HTML>
+      </Find>
+    </Dummy>
+    <LingoEditor />
   </World>
   
 </template>
