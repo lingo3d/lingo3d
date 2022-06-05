@@ -243,7 +243,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
 
     private _refreshFactors?: Reactive<{}>
-    private refreshFactors() {
+    protected refreshFactors() {
         if (this._refreshFactors) {
             this._refreshFactors.set({})
             return
@@ -318,7 +318,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         }, [this._refreshFactors.get])
     }
 
-    protected _metalnessFactor?: number
+    private _metalnessFactor?: number
     public get metalnessFactor() {
         return this._metalnessFactor ?? 0
     }
@@ -327,7 +327,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this.refreshFactors()
     }
     
-    protected _roughnessFactor?: number
+    private _roughnessFactor?: number
     public get roughnessFactor() {
         return this._roughnessFactor ?? 1
     }
@@ -336,7 +336,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this.refreshFactors()
     }
 
-    protected _opacityFactor?: number
+    private _opacityFactor?: number
     public get opacityFactor() {
         return this._opacityFactor ?? 1
     }
@@ -345,7 +345,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this.refreshFactors()
     }
     
-    protected _toon?: boolean
+    private _toon?: boolean
     public get toon() {
         return this._toon ?? false
     }
@@ -354,7 +354,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this.refreshFactors()
     }
 
-    protected _pbr?: boolean
+    private _pbr?: boolean
     public get pbr() {
         return this._pbr ?? false
     }

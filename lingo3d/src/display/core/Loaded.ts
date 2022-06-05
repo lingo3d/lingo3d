@@ -227,4 +227,8 @@ export default abstract class Loaded<T> extends ObjectManager<Mesh> implements I
             handle.then(() => set.delete(loaded))
         }))
     }
+
+    protected override refreshFactors() {
+        this.loadedResolvable.then(() => super.refreshFactors())
+    }
 }
