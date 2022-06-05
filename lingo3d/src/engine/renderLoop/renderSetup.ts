@@ -115,7 +115,7 @@ createEffect(() => {
     const renderer = getRenderer()
     const defaultLight = getDefaultLight()
     const exposure = typeof defaultLight === "string" && defaultLight !== "default"
-        ? getExposure() * getDefaultLightScale() * 2
+        ? getExposure() * getDefaultLightScale() * (defaultLight === "studio" ? 2 : 1)
         : getExposure()
 
     renderer.toneMapping = exposure !== 1 ? LinearToneMapping : NoToneMapping

@@ -1,12 +1,12 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@babel/cli': '7'
-  '@babel/core': '7'
-  '@babel/preset-env': '7'
-  '@babel/preset-react': '7'
-  '@babel/preset-typescript': '7'
-  '@babel/runtime': '7'
+  '@babel/cli': ^7.17.10
+  '@babel/core': ^7.18.2
+  '@babel/preset-env': ^7.18.2
+  '@babel/preset-react': ^7.17.12
+  '@babel/preset-typescript': ^7.17.12
+  '@babel/runtime': ^7.18.3
   '@lincode/hooks': 1.0.40
   '@lincode/promiselikes': '*'
   '@lincode/react-joystick': 1.0.7
@@ -17,27 +17,28 @@ specifiers:
   '@types/react-dom': '*'
   '@types/stats.js': ^0.17.0
   '@types/three': 0.140.0
-  autoprefixer: '10'
-  babel-loader: '8'
+  autoprefixer: ^10.4.7
+  babel-loader: ^8.2.5
   content-loader: '*'
-  core-js: '3'
-  css-loader: '6'
-  fork-ts-checker-webpack-plugin: '7'
-  html-webpack-plugin: '5'
-  lingo3d: 1.10.209
-  nanoid: '3'
-  popmotion: '11'
-  postcss-loader: '6'
-  react: '18'
-  react-dom: '18'
+  core-js: ^3.22.8
+  css-loader: ^6.7.1
+  fork-ts-checker-webpack-plugin: ^7.2.11
+  html-webpack-plugin: ^5.5.0
+  lingo3d: 1.10.210
+  nanoid: ^3.3.4
+  popmotion: ^11.0.3
+  postcss: ^8.4.14
+  postcss-loader: ^7.0.0
+  react: ^18.1.0
+  react-dom: ^18.1.0
   stats.js: ^0.17.0
-  style-loader: '3'
+  style-loader: ^3.3.1
   typescript: '*'
   url-loader: '*'
-  webpack: '5'
-  webpack-cli: '4'
-  webpack-dev-server: '4'
-  webpack-notifier: '1'
+  webpack: ^5.73.0
+  webpack-cli: ^4.9.2
+  webpack-dev-server: ^4.9.1
+  webpack-notifier: ^1.15.0
 
 dependencies:
   '@lincode/hooks': 1.0.40_react@18.1.0
@@ -45,9 +46,9 @@ dependencies:
   '@lincode/react-joystick': 1.0.7_ef5jwxihqo6n7gxfmzogljlgcm
   '@lincode/react-reticle': 1.1.3_react@18.1.0
   '@lincode/reactivity': 1.0.65
-  '@lincode/utils': 1.2.50
+  '@lincode/utils': 1.2.51
   '@types/three': 0.140.0
-  lingo3d: 1.10.209
+  lingo3d: 1.10.210
   nanoid: 3.3.4
   popmotion: 11.0.3
   stats.js: 0.17.0
@@ -62,14 +63,15 @@ devDependencies:
   '@types/react': 18.0.11
   '@types/react-dom': 18.0.5
   '@types/stats.js': 0.17.0
-  autoprefixer: 10.4.7
+  autoprefixer: 10.4.7_postcss@8.4.14
   babel-loader: 8.2.5_dzrarqmejens5o5lr5bdn3kdtu
   content-loader: 2.0.11
   core-js: 3.22.8
   css-loader: 6.7.1_webpack@5.73.0
   fork-ts-checker-webpack-plugin: 7.2.11_jy5w4alwxi2du2dgjfsq7k3iza
   html-webpack-plugin: 5.5.0_webpack@5.73.0
-  postcss-loader: 6.2.1_webpack@5.73.0
+  postcss: 8.4.14
+  postcss-loader: 7.0.0_mepnsno3xmng6eyses4tepu7bu
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
   style-loader: 3.3.1_webpack@5.73.0
@@ -1406,13 +1408,13 @@ packages:
     resolution: {integrity: sha512-YSpcweyhfliLrJwLT6Xplt5kpIP1LnP5KVxWT8MGD/iJmlHwFNoTWO4KSUvtuhb40vp5XuHF65I2ibZgj6Cobw==}
     dependencies:
       '@lincode/promiselikes': 1.0.20
-      '@lincode/utils': 1.2.50
+      '@lincode/utils': 1.2.51
     dev: false
 
   /@lincode/filetypes/1.0.1:
     resolution: {integrity: sha512-ltOOAqFCz9zRmhhis624r9ME7XNP2gYOAECa4kD5LxwEqZBto1/JK0mimDcnb6pZf4gvUjO+9tTyykQJfIcy4Q==}
     dependencies:
-      '@lincode/utils': 1.2.50
+      '@lincode/utils': 1.2.51
     dev: false
 
   /@lincode/hooks/1.0.40_react@18.1.0:
@@ -1421,7 +1423,7 @@ packages:
       react: '18'
     dependencies:
       '@lincode/promiselikes': 1.0.20
-      '@lincode/utils': 1.2.50
+      '@lincode/utils': 1.2.51
       intersection-observer: 0.12.0
       react: 18.1.0
       resize-observer-polyfill: 1.5.1
@@ -1434,7 +1436,7 @@ packages:
   /@lincode/promiselikes/1.0.20:
     resolution: {integrity: sha512-A4teV4WJKYNnoi3siCc/74PzNWLB3nSkgS7qRzm5Zf0Q0xf90+FP80Z5uq0CpWkYLbvHAAR7DRtioTztSPCyfg==}
     dependencies:
-      '@lincode/utils': 1.2.50
+      '@lincode/utils': 1.2.51
     dev: false
 
   /@lincode/react-joystick/1.0.7_ef5jwxihqo6n7gxfmzogljlgcm:
@@ -1463,11 +1465,11 @@ packages:
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/promiselikes': 1.0.20
-      '@lincode/utils': 1.2.50
+      '@lincode/utils': 1.2.51
     dev: false
 
-  /@lincode/utils/1.2.50:
-    resolution: {integrity: sha512-1Idd7DHhQz9mr8ffsPVML/a8ThaVvP1e8xIZUPrU0CKd9Gz64g0t9SlcDuEzFSolKAi8Sg3+VgMST1MEhy2LxQ==}
+  /@lincode/utils/1.2.51:
+    resolution: {integrity: sha512-Se5Fy65R2obmhVjjBSjswwbdXDOnXXrUih00JHee2YeTf0R1ddGl0VrAVCPJguQauSdjcSfn9mmYjTL+Gs6PNg==}
     dependencies:
       '@types/lodash': 4.14.182
       lodash: 4.17.21
@@ -1487,26 +1489,26 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 17.0.39
+      '@types/node': 17.0.40
     dev: true
 
   /@types/bonjour/3.5.10:
     resolution: {integrity: sha512-p7ienRMiS41Nu2/igbJxxLDWrSZ0WxM8UQgCeO9KhoVF7cOVFkrKsiDr1EsJIla8vV3oEEjGcz11jc5yimhzZw==}
     dependencies:
-      '@types/node': 17.0.39
+      '@types/node': 17.0.40
     dev: true
 
   /@types/connect-history-api-fallback/1.3.5:
     resolution: {integrity: sha512-h8QJa8xSb1WD4fpKBDcATDNGXghFj6/3GRWG6dhmRcu0RX1Ubasur2Uvx5aeEwlf0MwblEC2bMzzMQntxnw/Cw==}
     dependencies:
       '@types/express-serve-static-core': 4.17.28
-      '@types/node': 17.0.39
+      '@types/node': 17.0.40
     dev: true
 
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 17.0.39
+      '@types/node': 17.0.40
     dev: true
 
   /@types/eslint-scope/3.7.3:
@@ -1530,7 +1532,7 @@ packages:
   /@types/express-serve-static-core/4.17.28:
     resolution: {integrity: sha512-P1BJAEAW3E2DJUlkgq4tOL3RyMunoWXqbSCygWo5ZIWTjUgN1YnaXWW4VWl/oc8vs/XoYibEGBKP0uZyF4AHig==}
     dependencies:
-      '@types/node': 17.0.39
+      '@types/node': 17.0.40
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
     dev: true
@@ -1551,7 +1553,7 @@ packages:
   /@types/http-proxy/1.17.9:
     resolution: {integrity: sha512-QsbSjA/fSk7xB+UXlCT3wHBy5ai9wOcNDWwZAtud+jXhwOM3l+EYZh8Lng4+/6n8uar0J7xILzqftJdJ/Wdfkw==}
     dependencies:
-      '@types/node': 17.0.39
+      '@types/node': 17.0.40
     dev: true
 
   /@types/json-schema/7.0.11:
@@ -1566,8 +1568,8 @@ packages:
     resolution: {integrity: sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==}
     dev: true
 
-  /@types/node/17.0.39:
-    resolution: {integrity: sha512-JDU3YLlnPK3WDao6/DlXLOgSNpG13ct+CwIO17V8q0/9fWJyeMJJ/VyZ1lv8kDprihvZMydzVwf0tQOqGiY2Nw==}
+  /@types/node/17.0.40:
+    resolution: {integrity: sha512-UXdBxNGqTMtm7hCwh9HtncFVLrXoqA3oJW30j6XWp5BH/wu3mVeaxo7cq5benFdBw34HB3XDT2TRPI7rXZ+mDg==}
     dev: true
 
   /@types/parse-json/4.0.0:
@@ -1618,13 +1620,13 @@ packages:
     resolution: {integrity: sha512-nCkHGI4w7ZgAdNkrEu0bv+4xNV/XDqW+DydknebMOQwkpDGx8G+HTlj7R7ABI8i8nKxVw0wtKPi1D+lPOkh4YQ==}
     dependencies:
       '@types/mime': 1.3.2
-      '@types/node': 17.0.39
+      '@types/node': 17.0.40
     dev: true
 
   /@types/sockjs/0.3.33:
     resolution: {integrity: sha512-f0KEEe05NvUnat+boPTZ0dgaLZ4SfSouXUgv5noUiefG2ajgKjmETo9ZJyuqsl7dfl2aHlLJUiki6B4ZYldiiw==}
     dependencies:
-      '@types/node': 17.0.39
+      '@types/node': 17.0.40
     dev: true
 
   /@types/stats.js/0.17.0:
@@ -1638,7 +1640,7 @@ packages:
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
     dependencies:
-      '@types/node': 17.0.39
+      '@types/node': 17.0.40
     dev: true
 
   /@webassemblyjs/ast/1.11.1:
@@ -1894,7 +1896,7 @@ packages:
     resolution: {integrity: sha512-hNfzcOV8W4NdualtqBFPyVO+54DSJuZGY9qT4pRroB6S9e3iiido2ISIC5h9R2sPJ8H3FHCIiEnsv1lPXO3KtQ==}
     dev: true
 
-  /autoprefixer/10.4.7:
+  /autoprefixer/10.4.7_postcss@8.4.14:
     resolution: {integrity: sha512-ypHju4Y2Oav95SipEcCcI5J7CGPuvz8oat7sUtYj3ClK44bldfvtvcxK6IEK++7rqB7YchDGzweZIBG+SD0ZAA==}
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
@@ -1906,6 +1908,7 @@ packages:
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
+      postcss: 8.4.14
       postcss-value-parser: 4.2.0
     dev: true
 
@@ -2030,8 +2033,8 @@ packages:
       fill-range: 7.0.1
     dev: true
 
-  /browser-fs-access/0.29.5:
-    resolution: {integrity: sha512-raivG4nPY3iTxBNgt2syHFjHGwWwyTxpCGx7OTLdmprakG+yXre9f5PZgPHQQ6axTlRxllj+fcmhRiI4gXLq0A==}
+  /browser-fs-access/0.29.6:
+    resolution: {integrity: sha512-YQ3s9diP+o2a9mKM4OGozmOu8MBUZ3GTbiu1R7SgaH96uCXo7ONMz9uAX7oVL6IaE+jUNuve1ryrnZsCkXU82w==}
     dev: false
 
   /browserslist/4.20.3:
@@ -3113,7 +3116,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 17.0.39
+      '@types/node': 17.0.40
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: true
@@ -3172,18 +3175,18 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lingo3d/1.10.209:
-    resolution: {integrity: sha512-iyj41v8EBV9VhKMWSR9pUuJZejC9nYH0PDNcBGiawIfqZzbhWse1/dHUaYZ1Kx/EmXc7NHnBiNOQaObPpxCyrQ==}
+  /lingo3d/1.10.210:
+    resolution: {integrity: sha512-rvC0Q/jmzE7W0uiAPlCUBJlpNYqgYsSSYuSgfKHOb+Bu5FNUbr6fqlb7xAShHMU/fbBKE4KzF+4lN3128KfMrg==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
       '@lincode/math': 1.0.8
       '@lincode/promiselikes': 1.0.20
       '@lincode/reactivity': 1.0.65
-      '@lincode/utils': 1.2.50
+      '@lincode/utils': 1.2.51
       '@tweakpane/core': 1.0.9
       '@types/three': 0.140.0
-      browser-fs-access: 0.29.5
+      browser-fs-access: 0.29.6
       cannon-es: 0.19.0
       howler: 2.2.3
       postprocessing: 6.27.0_three@0.140.2
@@ -3585,15 +3588,16 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /postcss-loader/6.2.1_webpack@5.73.0:
-    resolution: {integrity: sha512-WbbYpmAaKcux/P66bZ40bpWsBucjx/TTgVVzRZ9yUO8yQfVBlameJ0ZGVaPfH64hNSBh63a+ICP5nqOpBA0w+Q==}
-    engines: {node: '>= 12.13.0'}
+  /postcss-loader/7.0.0_mepnsno3xmng6eyses4tepu7bu:
+    resolution: {integrity: sha512-IDyttebFzTSY6DI24KuHUcBjbAev1i+RyICoPEWcAstZsj03r533uMXtDn506l6/wlsRYiS5XBdx7TpccCsyUg==}
+    engines: {node: '>= 14.15.0'}
     peerDependencies:
       postcss: ^7.0.0 || ^8.0.1
       webpack: ^5.0.0
     dependencies:
       cosmiconfig: 7.0.1
       klona: 2.0.5
+      postcss: 8.4.14
       semver: 7.3.7
       webpack: 5.73.0_webpack-cli@4.9.2
     dev: true

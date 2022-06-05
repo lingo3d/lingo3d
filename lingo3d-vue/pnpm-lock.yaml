@@ -7,7 +7,7 @@ specifiers:
   '@types/stats.js': ^0.17.0
   '@types/three': 0.140.0
   '@vitejs/plugin-vue': ^2.3.3
-  lingo3d: 1.10.209
+  lingo3d: 1.10.210
   nanoid: ^3.3.4
   popmotion: ^11.0.3
   stats.js: ^0.17.0
@@ -19,9 +19,9 @@ specifiers:
 dependencies:
   '@lincode/promiselikes': 1.0.20
   '@lincode/reactivity': 1.0.65
-  '@lincode/utils': 1.2.50
+  '@lincode/utils': 1.2.51
   '@types/three': 0.140.0
-  lingo3d: 1.10.209
+  lingo3d: 1.10.210
   nanoid: 3.3.4
   popmotion: 11.0.3
   stats.js: 0.17.0
@@ -61,13 +61,13 @@ packages:
     resolution: {integrity: sha512-YSpcweyhfliLrJwLT6Xplt5kpIP1LnP5KVxWT8MGD/iJmlHwFNoTWO4KSUvtuhb40vp5XuHF65I2ibZgj6Cobw==}
     dependencies:
       '@lincode/promiselikes': 1.0.20
-      '@lincode/utils': 1.2.50
+      '@lincode/utils': 1.2.51
     dev: false
 
   /@lincode/filetypes/1.0.1:
     resolution: {integrity: sha512-ltOOAqFCz9zRmhhis624r9ME7XNP2gYOAECa4kD5LxwEqZBto1/JK0mimDcnb6pZf4gvUjO+9tTyykQJfIcy4Q==}
     dependencies:
-      '@lincode/utils': 1.2.50
+      '@lincode/utils': 1.2.51
     dev: false
 
   /@lincode/math/1.0.8:
@@ -77,7 +77,7 @@ packages:
   /@lincode/promiselikes/1.0.20:
     resolution: {integrity: sha512-A4teV4WJKYNnoi3siCc/74PzNWLB3nSkgS7qRzm5Zf0Q0xf90+FP80Z5uq0CpWkYLbvHAAR7DRtioTztSPCyfg==}
     dependencies:
-      '@lincode/utils': 1.2.50
+      '@lincode/utils': 1.2.51
     dev: false
 
   /@lincode/reactivity/1.0.65:
@@ -85,11 +85,11 @@ packages:
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/promiselikes': 1.0.20
-      '@lincode/utils': 1.2.50
+      '@lincode/utils': 1.2.51
     dev: false
 
-  /@lincode/utils/1.2.50:
-    resolution: {integrity: sha512-1Idd7DHhQz9mr8ffsPVML/a8ThaVvP1e8xIZUPrU0CKd9Gz64g0t9SlcDuEzFSolKAi8Sg3+VgMST1MEhy2LxQ==}
+  /@lincode/utils/1.2.51:
+    resolution: {integrity: sha512-Se5Fy65R2obmhVjjBSjswwbdXDOnXXrUih00JHee2YeTf0R1ddGl0VrAVCPJguQauSdjcSfn9mmYjTL+Gs6PNg==}
     dependencies:
       '@types/lodash': 4.14.182
       lodash: 4.17.21
@@ -235,8 +235,8 @@ packages:
     resolution: {integrity: sha512-JtB41wXl7Au3+Nl3gD16Cfpj7k/6aCroZ6BbOiCMFCMvrOpkg/qQUXTso2XowaNqBbnkuGHurLAqkLBxNGc1hQ==}
     dev: true
 
-  /browser-fs-access/0.29.5:
-    resolution: {integrity: sha512-raivG4nPY3iTxBNgt2syHFjHGwWwyTxpCGx7OTLdmprakG+yXre9f5PZgPHQQ6axTlRxllj+fcmhRiI4gXLq0A==}
+  /browser-fs-access/0.29.6:
+    resolution: {integrity: sha512-YQ3s9diP+o2a9mKM4OGozmOu8MBUZ3GTbiu1R7SgaH96uCXo7ONMz9uAX7oVL6IaE+jUNuve1ryrnZsCkXU82w==}
     dev: false
 
   /cannon-es/0.19.0:
@@ -498,18 +498,18 @@ packages:
       has: 1.0.3
     dev: true
 
-  /lingo3d/1.10.209:
-    resolution: {integrity: sha512-iyj41v8EBV9VhKMWSR9pUuJZejC9nYH0PDNcBGiawIfqZzbhWse1/dHUaYZ1Kx/EmXc7NHnBiNOQaObPpxCyrQ==}
+  /lingo3d/1.10.210:
+    resolution: {integrity: sha512-rvC0Q/jmzE7W0uiAPlCUBJlpNYqgYsSSYuSgfKHOb+Bu5FNUbr6fqlb7xAShHMU/fbBKE4KzF+4lN3128KfMrg==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
       '@lincode/math': 1.0.8
       '@lincode/promiselikes': 1.0.20
       '@lincode/reactivity': 1.0.65
-      '@lincode/utils': 1.2.50
+      '@lincode/utils': 1.2.51
       '@tweakpane/core': 1.0.9
       '@types/three': 0.140.0
-      browser-fs-access: 0.29.5
+      browser-fs-access: 0.29.6
       cannon-es: 0.19.0
       howler: 2.2.3
       postprocessing: 6.27.0_three@0.140.2
