@@ -1,5 +1,5 @@
 import { distance3d, Point3d } from "@lincode/math"
-import { Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding, Vector3 } from "three"
+import { Material, Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding, Vector3 } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
 import { frustum, matrix4, ray, vector3, vector3_, vector3_1, vector3_half } from "../../utils/reusables"
 import { applyMixins, throttle } from "@lincode/utils"
@@ -30,9 +30,13 @@ const updateFrustum = throttle(() => {
     frustum.setFromProjectionMatrix(matrix4.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse))
 }, 200, "leading")
 
+const forcePBRSet = new WeakSet<Material>()
+
 const setNumber = (child: any, property: string, factor: number | undefined) => {
     const defaultValue: number | undefined = child.userData[property] ??= child.material[property]
-    child.material[property] = factor === undefined ? defaultValue : (defaultValue ?? 1) * factor
+    child.material[property] = factor === undefined
+        ? defaultValue
+        : (defaultValue || (forcePBRSet.has(child.material) ? 1 : 0)) * factor
 }
 
 const setBoolean = (child: any, property: string, value: boolean | undefined) => {
@@ -259,12 +263,12 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
             
                 Array.isArray(material) && (material = material[0])
             
-                if (this._toon && !(material instanceof MeshToonMaterial)) {
+                if (this._toon) {
                     child.material = new MeshToonMaterial()
                     copyToon(material, child.material)
                 }
-                else if (this._pbr && !(material instanceof MeshStandardMaterial)) {
-                    child.material = new MeshStandardMaterial()
+                else if (this._pbr) {
+                    forcePBRSet.add(child.material = new MeshStandardMaterial())
                     copyStandard(material, child.material)
                 }
                 

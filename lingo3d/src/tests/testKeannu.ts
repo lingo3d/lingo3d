@@ -15,7 +15,13 @@ model.scale = 5
 model.metalnessFactor = 5
 model.roughnessFactor = 0.5
 
+model.onLoop = () => {
+    model.rotationY += 1
+}
+
 settings.defaultOrbitControls = true
 settings.defaultLight = hdrSrc
 
-settings.texture = hdrSrc
+setTimeout(() => {
+settings.skybox = hdrSrc
+}, 1000)
