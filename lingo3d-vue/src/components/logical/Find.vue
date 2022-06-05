@@ -32,8 +32,6 @@ const paused = computed(() => !managerRef.value)
 const diff = useDiffProps(props, foundDefaults, paused)
 applyChanges(managerRef, undefined, diff, foundDefaults)
 
-defineExpose(managerRef)
-
 watchEffect(() => {
     managerRef.value && props.onLoad?.()
 })
