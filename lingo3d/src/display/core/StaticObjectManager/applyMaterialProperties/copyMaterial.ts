@@ -1,5 +1,3 @@
-import { Material } from "three"
-
 const properties = [
     "name",
     "blending",
@@ -40,12 +38,7 @@ const properties = [
     "toneMapped"
 ]
 
-export const ogMaterialMap = new WeakMap<Material, Material>()
-
 export default (from: any, to: any) => {
-    const og = ogMaterialMap.get(from) ?? from
-    ogMaterialMap.set(to, og)
-
     for (const prop of properties) {
         const value = from[prop]
         value != null && (to[prop] = value)

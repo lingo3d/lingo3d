@@ -1,5 +1,5 @@
 import { distance3d, Point3d } from "@lincode/math"
-import { Matrix3, Object3D, PropertyBinding, Vector3 } from "three"
+import { Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding, Vector3 } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
 import { frustum, matrix4, ray, vector3, vector3_, vector3_1, vector3_half } from "../../utils/reusables"
 import { applyMixins, throttle } from "@lincode/utils"
@@ -14,22 +14,31 @@ import { addSSR, deleteSSR } from "../../../engine/renderLoop/effectComposer/ssr
 import { getCamera } from "../../../states/useCamera"
 import { addOutline, deleteOutline } from "../../../engine/renderLoop/effectComposer/outlinePass"
 import getCenter from "../../utils/getCenter"
-import applyMaterialProperties, { applySet } from "./applyMaterialProperties"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import IStaticObjectManager from "../../../interface/IStaticObjectManaget"
 import AnimationMixin from "../mixins/AnimationMixin"
 import MeshItem from "../MeshItem"
+import { Reactive } from "@lincode/reactivity"
+import copyStandard from "./applyMaterialProperties/copyStandard"
+import copyToon from "./applyMaterialProperties/copyToon"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
-
 
 const updateFrustum = throttle(() => {
     const camera = getCamera()
     frustum.setFromProjectionMatrix(matrix4.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse))
 }, 200, "leading")
 
+const setNumber = (child: any, property: string, factor: number | undefined) => {
+    const defaultValue: number | undefined = child.userData[property] ??= child.material[property]
+    child.material[property] = factor === undefined ? defaultValue : (defaultValue ?? 1) * factor
+}
 
+const setBoolean = (child: any, property: string, value: boolean | undefined) => {
+    const defaultValue: boolean | undefined = child.userData[property] ??= child.material[property]
+    child.material[property] = value === undefined ? defaultValue : value
+}
 
 class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem implements IStaticObjectManager {
     public constructor(
@@ -233,54 +242,125 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this.outerObject3d.traverse(child => child.frustumCulled = val)
     }
 
+    private _refreshFactors?: Reactive<{}>
+    private refreshFactors() {
+        if (this._refreshFactors) {
+            this._refreshFactors.set({})
+            return
+        }
+        this._refreshFactors = new Reactive({})
+
+        this.createEffect(() => {
+            const handle = new Cancellable()
+
+            this.outerObject3d.traverse((child: any) => {
+                const { material } = child
+                if (!material) return
+            
+                if (Array.isArray(material)) {
+                    if (this._toon)
+                        child.material = material.map(m => {
+                            const mat = new MeshToonMaterial()
+                            copyToon(m, mat)
+                            return mat
+                        })
+                    else if (this._pbr)
+                        child.material = material.map(m => {
+                            const mat = new MeshStandardMaterial()
+                            copyStandard(m, mat)
+                            return mat
+                        })
+
+                    return handle.then(() => {
+                        if (child.material === material) return
+
+                        for (const mat of child.material)
+                            mat.dispose()
+
+                        child.material = material
+                    })
+                }
+            
+                if (this._toon && !(material instanceof MeshToonMaterial)) {
+                    child.material = new MeshToonMaterial()
+                    copyToon(material, child.material)
+                }
+                else if (this._pbr && !(material instanceof MeshStandardMaterial)) {
+                    child.material = new MeshStandardMaterial()
+                    copyStandard(material, child.material)
+                }
+                
+                if (this._metalnessFactor !== undefined && this._metalnessFactor !== 0)
+                    setNumber(child, "metalness", this._metalnessFactor)
+
+                if (this._roughnessFactor !== undefined && this._roughnessFactor !== 1)
+                    setNumber(child, "roughness", this._roughnessFactor)
+
+                if (this._opacityFactor !== undefined && this._opacityFactor !== 1) {
+                    setNumber(child, "opacity", this._opacityFactor)
+                    setBoolean(child, "transparent", this._opacityFactor < 1)
+                }
+
+                handle.then(() => {
+                    setNumber(child, "metalness", undefined)
+                    setNumber(child, "roughness", undefined)
+                    setNumber(child, "opacity", undefined)
+                    setBoolean(child, "transparent", undefined)
+
+                    if (child.material === material) return
+                    child.material.dispose()
+                    child.material = material
+                })
+            })
+            return () => {
+                handle.cancel()
+            }
+        }, [this._refreshFactors.get])
+    }
+
     protected _metalnessFactor?: number
     public get metalnessFactor() {
         return this._metalnessFactor ?? 0
     }
-    public set metalnessFactor(val: number) {
+    public set metalnessFactor(val) {
         this._metalnessFactor = val
-        applySet.add(this)
-        applyMaterialProperties()
+        this.refreshFactors()
     }
     
     protected _roughnessFactor?: number
     public get roughnessFactor() {
         return this._roughnessFactor ?? 1
     }
-    public set roughnessFactor(val: number) {
+    public set roughnessFactor(val) {
         this._roughnessFactor = val
-        applySet.add(this)
-        applyMaterialProperties()
+        this.refreshFactors()
     }
 
     protected _opacityFactor?: number
     public get opacityFactor() {
         return this._opacityFactor ?? 1
     }
-    public set opacityFactor(val: number) {
+    public set opacityFactor(val) {
         this._opacityFactor = val
-        applySet.add(this)
-        applyMaterialProperties()
+        this.refreshFactors()
     }
     
     protected _toon?: boolean
     public get toon() {
         return this._toon ?? false
     }
-    public set toon(val: boolean) {
+    public set toon(val) {
         this._toon = val
-        applySet.add(this)
-        applyMaterialProperties()
+        this.refreshFactors()
     }
 
     protected _pbr?: boolean
     public get pbr() {
         return this._pbr ?? false
     }
-    public set pbr(val: boolean) {
+    public set pbr(val) {
         this._pbr = val
-        applySet.add(this)
-        applyMaterialProperties()
+        this.refreshFactors()
     }
 
     public get frustumVisible() {
