@@ -2,16 +2,20 @@ import { debounce } from "@lincode/utils"
 import { Group, MeshToonMaterial, MeshStandardMaterial } from "three"
 import StaticObjectManager from ".."
 import Loaded from "../../Loaded"
+import { ogMaterialMap } from "./copyMaterial"
 import copyStandard from "./copyStandard"
 import copyToon from "./copyToon"
 
 export const applySet = new Set<StaticObjectManager | Loaded<Group>>()
 
-const getDefault = (child: any, property: string) => (
-    child.userData[property] ??= (child.material[property] ?? 1)
-)
-const setValue = (child: any, property: string, factor: number) => {
-    child.material[property] = getDefault(child, property) * factor
+const setNumber = (child: any, property: string, factor: number) => {
+    const defaultValue = child.userData[property] ??= (child.material[property] ?? 1)
+    child.material[property] = defaultValue * factor
+}
+
+const setBoolean = (child: any, property: string, value?: boolean) => {
+    const defaultValue = child.userData[property] ??= child.material[property]
+    child.material[property] = value !== undefined ? value : defaultValue
 }
 
 const processChild = (
@@ -44,6 +48,11 @@ const processChild = (
                 mat.metalness = 1
                 m.dispose()
             }
+        else
+            for (let i = 0; i < material.length; ++i) {
+                const og = ogMaterialMap.get(material[i])
+                og && (material[i] = og)
+            }
         return
     }
 
@@ -60,14 +69,21 @@ const processChild = (
         child.material.metalness = 1
         material.dispose()
     }
+    else {
+        const og = ogMaterialMap.get(child.material)
+        if (og && child.material !== og) {
+            child.material = og
+            return
+        }
+    }
     
     if (child.material instanceof MeshStandardMaterial) {
-        _metalnessFactor !== undefined && setValue(child, "metalness", _metalnessFactor)
-        _roughnessFactor !== undefined && setValue(child, "roughness", _roughnessFactor)
+        _metalnessFactor !== undefined && setNumber(child, "metalness", _metalnessFactor)
+        _roughnessFactor !== undefined && setNumber(child, "roughness", _roughnessFactor)
     }
     if (_opacityFactor !== undefined) {
-        setValue(child, "opacity", _opacityFactor)
-        child.material.transparent = _opacityFactor < 1
+        setNumber(child, "opacity", _opacityFactor)
+        setBoolean(child, "transparent", _opacityFactor < 1 ? true : undefined)
     }
 }
 
