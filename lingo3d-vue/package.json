@@ -14,17 +14,20 @@
   "types": "./dist/index.d.ts",
   "private": false,
   "sideEffects": false,
-  "version": "1.0.110",
+  "version": "1.0.111",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lincode/promiselikes": "*",
+    "@lincode/reactivity": "*",
+    "@lincode/utils": "*",
     "@types/three": "0.140.0",
-    "lingo3d": "1.10.208",
-    "nanoid": "3",
-    "popmotion": "11",
+    "lingo3d": "1.10.209",
+    "nanoid": "^3.3.4",
+    "popmotion": "^11.0.3",
     "stats.js": "^0.17.0"
   },
   "peerDependencies": {
@@ -32,10 +35,10 @@
   },
   "devDependencies": {
     "@types/stats.js": "^0.17.0",
-    "@vitejs/plugin-vue": "^2.3.0",
-    "typescript": "^4.5.4",
-    "vite": "^2.9.0",
-    "vue": "^3.2.25",
-    "vue-tsc": "0.29.8"
+    "@vitejs/plugin-vue": "^2.3.3",
+    "typescript": "^4.7.3",
+    "vite": "^2.9.9",
+    "vue": "^3.2.36",
+    "vue-tsc": "^0.36.1"
   }
 }
