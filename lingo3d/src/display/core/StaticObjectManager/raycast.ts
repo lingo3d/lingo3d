@@ -8,7 +8,7 @@ import scene from "../../../engine/scene"
 import { getMultipleSelection } from "../../../states/useMultipleSelection"
 import { getMultipleSelectionTargets, pullMultipleSelectionTargets, pushMultipleSelectionTargets, resetMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
 import { emitSelectionTarget, onSelectionTarget } from "../../../events/onSelectionTarget"
-import { MouseInteractionPayload } from "../../../interface/IMouse"
+import { LingoMouseEvent } from "../../../interface/IMouse"
 import { scaleUp } from "../../../engine/constants"
 import { Cancellable } from "@lincode/promiselikes"
 import { vec2Point } from "../../utils/vec2Point"
@@ -36,7 +36,7 @@ const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     return raycaster.intersectObjects([...candidates])[0]
 }
 
-type Then = (obj: StaticObjectManager, e: MouseInteractionPayload) => void
+type Then = (obj: StaticObjectManager, e: LingoMouseEvent) => void
 
 const pickable = (name: MouseEventName | Array<MouseEventName>, candidates: Set<Object3D>, then: Then) => (
     mouseEvents.on(name, e => {
@@ -46,7 +46,10 @@ const pickable = (name: MouseEventName | Array<MouseEventName>, candidates: Set<
         const point = vec2Point(result.point)
         const distance = result.distance * scaleUp
 
-        then(result.object.userData.manager, { ...e, point, distance })
+        then(
+            result.object.userData.manager,
+            new LingoMouseEvent(e.x, e.y, e.z, e.clientX, e.clientY, e.xNorm, e.yNorm, point, distance)
+        )
     })
 )
 

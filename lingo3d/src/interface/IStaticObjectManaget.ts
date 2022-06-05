@@ -1,15 +1,15 @@
 import IAnimation, { animationDefaults, animationSchema } from "./IAnimation"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
-import { MouseInteractionPayload } from "./IMouse"
+import { LingoMouseEvent } from "./IMouse"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IStaticObjectManager extends IEventLoop, IAnimation {
-    onClick?: (e: MouseInteractionPayload) => void
-    onMouseDown?: (e: MouseInteractionPayload) => void
-    onMouseUp?: (e: MouseInteractionPayload) => void
-    onMouseOver?: (e: MouseInteractionPayload) => void
-    onMouseOut?: (e: MouseInteractionPayload) => void
-    onMouseMove?: (e: MouseInteractionPayload) => void
+    onClick?: (e: LingoMouseEvent) => void
+    onMouseDown?: (e: LingoMouseEvent) => void
+    onMouseUp?: (e: LingoMouseEvent) => void
+    onMouseOver?: (e: LingoMouseEvent) => void
+    onMouseOut?: (e: LingoMouseEvent) => void
+    onMouseMove?: (e: LingoMouseEvent) => void
     
     name: string
 

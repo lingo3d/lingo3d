@@ -9,7 +9,7 @@ import { addBloom, deleteBloom } from "../../../engine/renderLoop/effectComposer
 import worldToClient from "../../utils/worldToClient"
 import { Cancellable } from "@lincode/promiselikes"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
-import { MouseInteractionPayload } from "../../../interface/IMouse"
+import { LingoMouseEvent } from "../../../interface/IMouse"
 import { addSSR, deleteSSR } from "../../../engine/renderLoop/effectComposer/ssrPass"
 import { getCamera } from "../../../states/useCamera"
 import { addOutline, deleteOutline } from "../../../engine/renderLoop/effectComposer/outlinePass"
@@ -63,11 +63,11 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
 
     protected clickHandle: Cancellable | undefined
-    private _onClick?: (e: MouseInteractionPayload) => void
-    public get onClick(): ((e: MouseInteractionPayload) => void) | undefined {
+    private _onClick?: (e: LingoMouseEvent) => void
+    public get onClick(): ((e: LingoMouseEvent) => void) | undefined {
         return this._onClick
     }
-    public set onClick(cb: ((e: MouseInteractionPayload) => void) | undefined) {
+    public set onClick(cb: ((e: LingoMouseEvent) => void) | undefined) {
         this.clickHandle?.cancel()
 
         this._onClick = cb
@@ -77,11 +77,11 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
 
     protected mouseDownHandle: Cancellable | undefined
-    private _onMouseDown?: (e: MouseInteractionPayload) => void
-    public get onMouseDown(): ((e: MouseInteractionPayload) => void) | undefined {
+    private _onMouseDown?: (e: LingoMouseEvent) => void
+    public get onMouseDown(): ((e: LingoMouseEvent) => void) | undefined {
         return this._onMouseDown
     }
-    public set onMouseDown(cb: ((e: MouseInteractionPayload) => void) | undefined) {
+    public set onMouseDown(cb: ((e: LingoMouseEvent) => void) | undefined) {
         this.mouseDownHandle?.cancel()
 
         this._onMouseDown = cb
@@ -91,11 +91,11 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
 
     protected mouseUpHandle: Cancellable | undefined
-    private _onMouseUp?: (e: MouseInteractionPayload) => void
-    public get onMouseUp(): ((e: MouseInteractionPayload) => void) | undefined {
+    private _onMouseUp?: (e: LingoMouseEvent) => void
+    public get onMouseUp(): ((e: LingoMouseEvent) => void) | undefined {
         return this._onMouseUp
     }
-    public set onMouseUp(cb: ((e: MouseInteractionPayload) => void) | undefined) {
+    public set onMouseUp(cb: ((e: LingoMouseEvent) => void) | undefined) {
         this.mouseUpHandle?.cancel()
 
         this._onMouseUp = cb
@@ -105,11 +105,11 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
 
     protected mouseOverHandle: Cancellable | undefined
-    private _onMouseOver?: (e: MouseInteractionPayload) => void
-    public get onMouseOver(): ((e: MouseInteractionPayload) => void) | undefined {
+    private _onMouseOver?: (e: LingoMouseEvent) => void
+    public get onMouseOver(): ((e: LingoMouseEvent) => void) | undefined {
         return this._onMouseOver
     }
-    public set onMouseOver(cb: ((e: MouseInteractionPayload) => void) | undefined) {
+    public set onMouseOver(cb: ((e: LingoMouseEvent) => void) | undefined) {
         this.mouseOverHandle?.cancel()
 
         this._onMouseOver = cb
@@ -119,11 +119,11 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
 
     protected mouseOutHandle: Cancellable | undefined
-    private _onMouseOut?: (e: MouseInteractionPayload) => void
-    public get onMouseOut(): ((e: MouseInteractionPayload) => void) | undefined {
+    private _onMouseOut?: (e: LingoMouseEvent) => void
+    public get onMouseOut(): ((e: LingoMouseEvent) => void) | undefined {
         return this._onMouseOut
     }
-    public set onMouseOut(cb: ((e: MouseInteractionPayload) => void) | undefined) {
+    public set onMouseOut(cb: ((e: LingoMouseEvent) => void) | undefined) {
         this.mouseOutHandle?.cancel()
 
         this._onMouseOut = cb
@@ -133,11 +133,11 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
 
     protected mouseMoveHandle: Cancellable | undefined
-    private _onMouseMove?: (e: MouseInteractionPayload) => void
-    public get onMouseMove(): ((e: MouseInteractionPayload) => void) | undefined {
+    private _onMouseMove?: (e: LingoMouseEvent) => void
+    public get onMouseMove(): ((e: LingoMouseEvent) => void) | undefined {
         return this._onMouseMove
     }
-    public set onMouseMove(cb: ((e: MouseInteractionPayload) => void) | undefined) {
+    public set onMouseMove(cb: ((e: LingoMouseEvent) => void) | undefined) {
         this.mouseMoveHandle?.cancel()
 
         this._onMouseMove = cb
