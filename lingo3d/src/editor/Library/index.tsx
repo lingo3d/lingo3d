@@ -32,7 +32,6 @@ const Library = () => {
                 "plane",
                 "circle",
                 "areaLight",
-                "boxLight",
                 "ambientLight",
                 "skyLight",
                 "directionalLight",

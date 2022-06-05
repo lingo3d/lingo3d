@@ -19,7 +19,7 @@ const lazyInit = lazy(async () => {
     RectAreaLightUniformsLib.init()
 })
 
-export default class extends ObjectManager<Group> implements IAreaLight {
+export default class AreaLight extends ObjectManager<Group> implements IAreaLight {
     public static componentName = "areaLight"
     public static defaults = areaLightDefaults
     public static schema = areaLightSchema

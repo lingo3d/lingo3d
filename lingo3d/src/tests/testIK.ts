@@ -5,27 +5,33 @@ import botSrc from "../../assets-local/bot.fbx"
 import playerSrc from "../../assets-local/readyplayer.glb"
 import store, { createEffect } from "@lincode/reactivity"
 import FoundManager from "../display/core/FoundManager"
+import Cube from "../display/primitives/Cube"
+import { Sphere } from ".."
+import Tetrahedron from "../display/primitives/Tetrahedron"
 
 export default {}
 
-const player = new Model()
-player.src = playerSrc
-player.x = 100
+const bone = new Tetrahedron()
+bone.wireframe = true
 
-const bot = new Model()
-bot.src = botSrc
+// const player = new Model()
+// player.src = playerSrc
+// player.x = 100
 
-const [setJoints, getJoints] = store<Record<string, FoundManager> | undefined>(undefined)
-bot.loadedResolvable.then(() => setJoints({
-    spine: bot.find("mixamorigSpine")!,
-    rightUpLeg: bot.find("mixamorigRightUpLeg")!,
-    rightLeg: bot.find("mixamorigRightLeg")!
-}))
+// const bot = new Model()
+// bot.src = botSrc
 
-createEffect(() => {
-    const joints = getJoints()
-    if (!joints) return
+// const [setJoints, getJoints] = store<Record<string, FoundManager> | undefined>(undefined)
+// bot.loadedResolvable.then(() => setJoints({
+//     spine: bot.find("mixamorigSpine")!,
+//     rightUpLeg: bot.find("mixamorigRightUpLeg")!,
+//     rightLeg: bot.find("mixamorigRightLeg")!
+// }))
+
+// createEffect(() => {
+//     const joints = getJoints()
+//     if (!joints) return
     
-    console.log(joints)
+//     console.log(joints)
 
-}, [getJoints])
+// }, [getJoints])

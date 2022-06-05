@@ -7,7 +7,6 @@ import ISprite from "../../../interface/ISprite"
 import ICamera from "../../../interface/ICamera"
 import IAmbientLight from "../../../interface/IAmbientLight"
 import IAreaLight from "../../../interface/IAreaLight"
-import IBoxLight from "../../../interface/IBoxLight"
 import IDirectionalLight from "../../../interface/IDirectionalLight"
 import ISkyLight from "../../../interface/ISkyLight"
 import IPointLight from "../../../interface/IPointLight"
@@ -18,7 +17,7 @@ import ISkybox from "../../../interface/ISkybox"
 import IEnvironment from "../../../interface/IEnvironment"
 import ITrigger from "../../../interface/ITrigger"
 
-export type GameObjectType = "group" | "trigger" | "model" | "dummy" | "svgMesh" | "reflector" | "sprite" | "ambientLight" | "areaLight" | "boxLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "orbitCamera" | "thirdPersonCamera" | "firstPersonCamera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus" | "skybox" | "environment"
+export type GameObjectType = "group" | "trigger" | "model" | "dummy" | "svgMesh" | "reflector" | "sprite" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "orbitCamera" | "thirdPersonCamera" | "firstPersonCamera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus" | "skybox" | "environment"
 
 export type AnimationData = Record<
     string,//property name
@@ -85,8 +84,6 @@ export type AmbientLightNode = TypedPropsNode<IAmbientLight, "ambientLight">
 
 export type AreaLightNode = TypedPropsNode<IAreaLight, "areaLight">
 
-export type BoxLightNode = TypedPropsNode<IBoxLight, "boxLight">
-
 export type DirectionalLightNode = TypedPropsNode<IDirectionalLight, "directionalLight">
 
 export type SkyLightNode = TypedPropsNode<ISkyLight, "skyLight">
@@ -117,6 +114,6 @@ export type SkyboxNode = TypedPropsNode<ISkybox, "skybox">
 
 export type EnvironmentNode = TypedPropsNode<IEnvironment, "environment">
 
-export type BaseSceneGraphNode = GroupNode | TriggerNode | ModelNode | DummyNode | SvgMeshNode | ReflectorNode | SpriteNode | CameraNode | AmbientLightNode | AreaLightNode | BoxLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode | SkyboxNode | EnvironmentNode
+export type BaseSceneGraphNode = GroupNode | TriggerNode | ModelNode | DummyNode | SvgMeshNode | ReflectorNode | SpriteNode | CameraNode | AmbientLightNode | AreaLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode | SkyboxNode | EnvironmentNode
 
 export type SceneGraphNode = BaseSceneGraphNode | AnimationNode | SetupNode

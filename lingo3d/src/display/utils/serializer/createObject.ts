@@ -16,7 +16,6 @@ import Torus from "../../primitives/Torus"
 import Camera from "../../cameras/Camera"
 import AmbientLight from "../../lights/AmbientLight"
 import AreaLight from "../../lights/AreaLight"
-import BoxLight from "../../lights/BoxLight"
 import DirectionalLight from "../../lights/DirectionalLight"
 import SkyLight from "../../lights/SkyLight"
 import PointLight from "../../lights/PointLight"
@@ -45,7 +44,6 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     "orbitCamera": () => new OrbitCamera() as any,
     "ambientLight": () => new AmbientLight(),
     "areaLight": () => new AreaLight(),
-    "boxLight": () => new BoxLight(),
     "directionalLight": () => new DirectionalLight(),
     "skyLight": () => new SkyLight(),
     "pointLight": () => new PointLight(),
