@@ -257,39 +257,42 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this.createEffect(() => {
             const handle = new Cancellable()
 
+            const { _toon, _pbr, _metalnessFactor, _roughnessFactor, _opacityFactor } = this
+
             this.outerObject3d.traverse((child: any) => {
                 let { material } = child
                 if (!material) return
             
                 Array.isArray(material) && (material = material[0])
             
-                if (this._toon) {
+                if (_toon) {
                     child.material = new MeshToonMaterial()
                     copyToon(material, child.material)
                 }
-                else if (this._pbr) {
+                else if (_pbr) {
                     forcePBRSet.add(child.material = new MeshStandardMaterial())
                     copyStandard(material, child.material)
                 }
                 
-                if (this._metalnessFactor !== undefined && this._metalnessFactor !== 0)
-                    setNumber(child, "metalness", this._metalnessFactor)
+                if (_metalnessFactor !== undefined && _metalnessFactor !== 0)
+                    setNumber(child, "metalness", _metalnessFactor)
 
-                if (this._roughnessFactor !== undefined && this._roughnessFactor !== 1)
-                    setNumber(child, "roughness", this._roughnessFactor)
+                if (_roughnessFactor !== undefined && _roughnessFactor !== 1)
+                    setNumber(child, "roughness", _roughnessFactor)
 
-                if (this._opacityFactor !== undefined && this._opacityFactor !== 1) {
-                    setNumber(child, "opacity", this._opacityFactor)
-                    setBoolean(child, "transparent", this._opacityFactor < 1)
+                if (_opacityFactor !== undefined && _opacityFactor !== 1) {
+                    setNumber(child, "opacity", _opacityFactor)
+                    setBoolean(child, "transparent", _opacityFactor < 1)
                 }
 
                 handle.then(() => {
-                    setNumber(child, "metalness", undefined)
-                    setNumber(child, "roughness", undefined)
-                    setNumber(child, "opacity", undefined)
-                    setBoolean(child, "transparent", undefined)
-
-                    if (child.material === material) return
+                    if (child.material === material) {
+                        setNumber(child, "metalness", undefined)
+                        setNumber(child, "roughness", undefined)
+                        setNumber(child, "opacity", undefined)
+                        setBoolean(child, "transparent", undefined)
+                        return
+                    }
                     child.material.dispose()
                     child.material = material
                 })
