@@ -254,32 +254,10 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
             const handle = new Cancellable()
 
             this.outerObject3d.traverse((child: any) => {
-                const { material } = child
+                let { material } = child
                 if (!material) return
             
-                if (Array.isArray(material)) {
-                    if (this._toon)
-                        child.material = material.map(m => {
-                            const mat = new MeshToonMaterial()
-                            copyToon(m, mat)
-                            return mat
-                        })
-                    else if (this._pbr)
-                        child.material = material.map(m => {
-                            const mat = new MeshStandardMaterial()
-                            copyStandard(m, mat)
-                            return mat
-                        })
-
-                    return handle.then(() => {
-                        if (child.material === material) return
-
-                        for (const mat of child.material)
-                            mat.dispose()
-
-                        child.material = material
-                    })
-                }
+                Array.isArray(material) && (material = material[0])
             
                 if (this._toon && !(material instanceof MeshToonMaterial)) {
                     child.material = new MeshToonMaterial()
