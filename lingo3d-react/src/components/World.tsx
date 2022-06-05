@@ -3,11 +3,9 @@ import { rootContainer, settings } from "lingo3d"
 import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
 import Setup from "./logical/Setup"
-import scene from "lingo3d/lib/engine/scene"
 import ISetup from "lingo3d/lib/interface/ISetup"
 import { setResolution } from "lingo3d/lib/states/useResolution"
 import { setViewportSize } from "lingo3d/lib/states/useViewportSize"
-import useLayoutEffectOnce from "../hooks/useLayoutEffectOnce"
 import htmlContainer from "./logical/HTML/htmlContainer"
 
 preventTreeShake(index)
@@ -23,11 +21,6 @@ const World: React.FC<WorldProps> = ({ style, className, position, children, ...
     const divRef = useRef<HTMLDivElement>(null)
 
     rest.wasmPath && (settings.wasmPath = rest.wasmPath)
-
-    useLayoutEffectOnce(() => {
-        for (const child of [...scene.children])
-            child.userData.manager && scene.remove(child)
-    }, [])
 
     useLayoutEffect(() => {
         const el = divRef.current

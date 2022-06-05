@@ -5,14 +5,10 @@ import { setResolution } from "lingo3d/lib/states/useResolution"
 import { setViewportSize } from "lingo3d/lib/states/useViewportSize"
 import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
-import scene from "lingo3d/lib/engine/scene"
 import setupProps from "../props/setupProps"
 import htmlContainer from "./logical/HTML/htmlContainer"
 
 preventTreeShake(index)
-
-for (const child of [...scene.children])
-    child.userData.manager && scene.remove(child)
 
 const props = defineProps({
     ...setupProps,

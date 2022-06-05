@@ -2,7 +2,7 @@ import Model from "../display/Model"
 //@ts-ignore
 import botSrc from "../../assets-local/bot.fbx"
 //@ts-ignore
-import playerSrc from "../../assets-local/readyplayer.glb"
+import playerSrc from "../../assets-local/keannu.glb"
 import store, { createEffect } from "@lincode/reactivity"
 import FoundManager from "../display/core/FoundManager"
 
