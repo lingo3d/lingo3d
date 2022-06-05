@@ -1,5 +1,4 @@
-import { upperFirst } from "@lincode/utils"
-import { kebabCase } from "lodash"
+import { upperFirst, kebabCase } from "@lincode/utils"
 import serialize from "../../display/utils/serializer/serialize"
 import { SceneGraphNode } from "../../display/utils/serializer/types"
 import saveTextFile from "./saveTextFile"

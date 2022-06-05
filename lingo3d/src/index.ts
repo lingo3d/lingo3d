@@ -48,7 +48,6 @@ import gamepad from "./api/gamepad"
 import createProxy from "./api/createProxy"
 import settings from "./api/settings"
 import preload from "./api/preload"
-// import HandTracker from "./api/HandTracker"
 import { Sound } from "./api/Sound"
 import screenshot from "./api/screenshot"
 
@@ -116,7 +115,6 @@ export {
     settings,
     preload,
     
-    // HandTracker,
     Sound,
     screenshot,
 
