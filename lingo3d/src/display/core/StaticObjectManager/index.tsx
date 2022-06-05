@@ -1,7 +1,7 @@
 import { distance3d, Point3d } from "@lincode/math"
 import { Material, Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding, Vector3 } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
-import { frustum, matrix4, ray, vector3, vector3_, vector3_1, vector3_half } from "../../utils/reusables"
+import { frustum, matrix4, ray, vector3, vector3_, vector3_1, vector3_half, vector3__ } from "../../utils/reusables"
 import { applyMixins, throttle } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import { scaleDown, scaleUp } from "../../../engine/constants"
@@ -167,7 +167,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         if (this === target) return undefined
 
         targetOBB.set(
-            target.object3d.getWorldPosition(new Vector3()),
+            target.object3d.getWorldPosition(vector3__),
             vector3_half,
             new Matrix3().setFromMatrix4(target.object3d.matrixWorld)
         )
@@ -192,10 +192,10 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         if (target.done) return false
         if (this === target) return false
 
-        thisOBB.set(this.object3d.getWorldPosition(new Vector3()), vector3_1.clone(), new Matrix3())
+        thisOBB.set(this.object3d.getWorldPosition(vector3), vector3_1.clone(), new Matrix3())
         thisOBB.applyMatrix4(this.object3d.matrixWorld)
 
-        targetOBB.set(target.object3d.getWorldPosition(new Vector3()), vector3_1.clone(), new Matrix3())
+        targetOBB.set(target.object3d.getWorldPosition(vector3_), vector3_1.clone(), new Matrix3())
         targetOBB.applyMatrix4(target.object3d.matrixWorld)
 
         return thisOBB.intersectsOBB(targetOBB, 0)

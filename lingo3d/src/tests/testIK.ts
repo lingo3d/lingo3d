@@ -8,11 +8,11 @@ import FoundManager from "../display/core/FoundManager"
 import Cube from "../display/primitives/Cube"
 import { Sphere } from ".."
 import Tetrahedron from "../display/primitives/Tetrahedron"
+import Bone from "../display/Bone"
 
 export default {}
 
-const bone = new Tetrahedron()
-bone.wireframe = true
+const bone = new Bone()
 
 // const player = new Model()
 // player.src = playerSrc

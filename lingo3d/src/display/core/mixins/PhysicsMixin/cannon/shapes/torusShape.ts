@@ -1,14 +1,14 @@
 import getActualScale from "../../../../../utils/getActualScale"
-import { Vector3 } from "three"
 import PhysicsMixin from "../.."
 import loadCannon from "../loadCannon"
+import { vector3, vector3_ } from "../../../../../utils/reusables"
 
 export default async function (this: PhysicsMixin) {
     const { Box, Vec3 } = await loadCannon()
 
     const actualScale = getActualScale(this)
-    const scale0 = actualScale.clone().multiply(new Vector3(0.15, 0.5, 0.1))
-    const scale1 = actualScale.clone().multiply(new Vector3(0.5, 0.15, 0.1))
+    const scale0 = actualScale.clone().multiply(vector3.set(0.15, 0.5, 0.1))
+    const scale1 = actualScale.clone().multiply(vector3_.set(0.5, 0.15, 0.1))
 
     const shape0 = new Box(scale0 as any)
     const shape1 = new Box(scale1 as any)
