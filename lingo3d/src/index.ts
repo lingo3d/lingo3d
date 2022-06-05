@@ -59,7 +59,10 @@ import { rootContainer } from "./engine/renderLoop/renderSetup"
 import { loop, timer } from "./engine/eventLoop"
 import SimpleObjectManager from "./display/core/SimpleObjectManager"
 import FoundManager from "./display/core/FoundManager"
+
 import { onAfterRender } from "./events/onAfterRender"
+import { onBeforeRender } from "./events/onBeforeRender"
+import { LingoMouseEvent } from "./interface/IMouse"
 
 import { Point3d, Point } from "@lincode/math"
 
@@ -124,11 +127,14 @@ export {
     
     loop,
     timer,
-    onAfterRender,
 
     rootContainer,
     SimpleObjectManager as Object,
     FoundManager,
+
+    onAfterRender,
+    onBeforeRender,
+    LingoMouseEvent,
 
     Point3d,
     Point

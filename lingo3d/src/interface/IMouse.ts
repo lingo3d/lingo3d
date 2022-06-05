@@ -2,16 +2,16 @@ import { Point3d } from "@lincode/math"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { ExtractProps } from "./utils/extractProps"
 
-export type MouseEventPayload = { x: number, y: number, z: number, clientX: number, clientY: number, xNorm: number, yNorm: number }
+export type LingoMouseEvent = { x: number, y: number, z: number, clientX: number, clientY: number, xNorm: number, yNorm: number }
 
-export type MouseInteractionPayload = MouseEventPayload & { point: Point3d, distance: number }
+export type MouseInteractionPayload = LingoMouseEvent & { point: Point3d, distance: number }
 
 export default interface IMouse extends IEventLoop {
-    onClick?: (e: MouseEventPayload) => void
-    onMouseMove?: (e: MouseEventPayload) => void
-    onMouseDown?: (e: MouseEventPayload) => void
-    onMouseUp?: (e: MouseEventPayload) => void
-    onMousePress?: (e: MouseEventPayload) => void
+    onClick?: (e: LingoMouseEvent) => void
+    onMouseMove?: (e: LingoMouseEvent) => void
+    onMouseDown?: (e: LingoMouseEvent) => void
+    onMouseUp?: (e: LingoMouseEvent) => void
+    onMousePress?: (e: LingoMouseEvent) => void
 }
 
 export const mouseSchema: Required<ExtractProps<IMouse>> = {

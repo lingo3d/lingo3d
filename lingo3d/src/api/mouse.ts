@@ -1,7 +1,7 @@
 import Events from "@lincode/events"
 import { container } from "../engine/renderLoop/renderSetup"
 import { Group } from "three"
-import IMouse, { mouseDefaults, MouseEventPayload, mouseSchema } from "../interface/IMouse"
+import IMouse, { mouseDefaults, LingoMouseEvent, mouseSchema } from "../interface/IMouse"
 import EventLoopItem from "./core/EventLoopItem"
 import { throttle } from "@lincode/utils"
 import { loop } from "../engine/eventLoop"
@@ -12,7 +12,7 @@ import store from "@lincode/reactivity"
 import { getEditorActive } from "../states/useEditorActive"
 
 export type MouseEventName = "click" | "rightClick" | "move" | "down" | "up"
-export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
+export const mouseEvents = new Events<LingoMouseEvent, MouseEventName>()
 
 let downTime = 0
 let downX = 0
@@ -70,16 +70,16 @@ export class Mouse extends EventLoopItem implements IMouse {
     public static defaults = mouseDefaults
     public static schema = mouseSchema
 
-    public onClick?: (e: MouseEventPayload) => void
-    public onMouseMove?: (e: MouseEventPayload) => void
-    public onMouseDown?: (e: MouseEventPayload) => void
-    public onMouseUp?: (e: MouseEventPayload) => void
-    public onMousePress?: (e: MouseEventPayload) => void
+    public onClick?: (e: LingoMouseEvent) => void
+    public onMouseMove?: (e: LingoMouseEvent) => void
+    public onMouseDown?: (e: LingoMouseEvent) => void
+    public onMouseUp?: (e: LingoMouseEvent) => void
+    public onMousePress?: (e: LingoMouseEvent) => void
 
     public constructor() {
         super(new Group())
 
-        let currentPayload: MouseEventPayload = { x: 0, y: 0, z: 0, clientX: 0, clientY: 0, xNorm: 0, yNorm: 0 }
+        let currentPayload: LingoMouseEvent = { x: 0, y: 0, z: 0, clientX: 0, clientY: 0, xNorm: 0, yNorm: 0 }
         const [setDown, getDown] = store(false)
 
         this.createEffect(() => {
