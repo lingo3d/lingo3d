@@ -341,7 +341,6 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
 
                     metalnessFactor: target.metalnessFactor,
                     roughnessFactor: target.roughnessFactor,
-                    environmentFactor: target.environmentFactor,
                     opacityFactor: target.opacityFactor,
 
                     toon: target.toon,

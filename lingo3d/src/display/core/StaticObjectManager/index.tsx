@@ -253,16 +253,6 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         applyMaterialProperties()
     }
 
-    protected _environmentFactor?: number
-    public get environmentFactor() {
-        return this._environmentFactor ?? 1
-    }
-    public set environmentFactor(val: number) {
-        this._environmentFactor = val
-        applySet.add(this)
-        applyMaterialProperties()
-    }
-
     protected _opacityFactor?: number
     public get opacityFactor() {
         return this._opacityFactor ?? 1

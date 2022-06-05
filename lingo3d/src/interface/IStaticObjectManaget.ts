@@ -22,7 +22,6 @@ export default interface IStaticObjectManager extends IEventLoop, IAnimation {
 
     metalnessFactor: number
     roughnessFactor: number
-    environmentFactor: number
     opacityFactor: number
 
     toon: boolean
@@ -51,7 +50,6 @@ export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManag
 
     metalnessFactor: Number,
     roughnessFactor: Number,
-    environmentFactor: Number,
     opacityFactor: Number,
 
     toon: Boolean,
@@ -73,7 +71,6 @@ export const staticObjectManagerDefaults: IStaticObjectManager = {
 
     metalnessFactor: 0,
     roughnessFactor: 1,
-    environmentFactor: 1,
     opacityFactor: 1,
 
     toon: false,
