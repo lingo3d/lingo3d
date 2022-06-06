@@ -32,7 +32,7 @@ getRenderer(renderer => {
         if (fpsArray.length === 60) {
             fpsArray.sort(sort)
             const medianFPS = fpsArray[Math.floor(fpsArray.length * 0.5)]
-            medianFPS < 25 && setPixelRatio(getPixelRatio() * 0.75)
+            // medianFPS < 25 && setPixelRatio(getPixelRatio() * 0.75)
             fpsArray = []
         }
 

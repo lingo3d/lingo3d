@@ -192,7 +192,7 @@ setGridHelper(true)
 keyboard.onKeyDown = (key) => {
     if (key === "w")
         setRunning(true)
-    else if (key === " ")
+    else if (key === "Space")
         setJump(true)
 }
 
