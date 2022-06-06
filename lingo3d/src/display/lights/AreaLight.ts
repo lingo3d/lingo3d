@@ -150,8 +150,4 @@ export default class AreaLight extends ObjectManager<Group> implements IAreaLigh
     }
     public override set scaleZ(_) {
     }
-
-    public override getCenter() {
-        return this.getWorldPosition()
-    }
 }

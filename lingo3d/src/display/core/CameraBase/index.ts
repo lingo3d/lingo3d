@@ -131,10 +131,6 @@ abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Gro
 
         import("./enableMouseControl").then(module => module.default.call(this))
     }
-
-    public override getCenter() {
-        return this.getWorldPosition()
-    }
 }
 interface CameraBase<T extends PerspectiveCamera> extends ObjectManager<Group>, CameraMixin<T> {}
 applyMixins(CameraBase, [CameraMixin])

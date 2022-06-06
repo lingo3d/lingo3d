@@ -33,10 +33,6 @@ export default abstract class PositionedItem extends EventLoopItem implements IP
     public getWorldPosition() {
         return vec2Point((this.object3d ?? this.outerObject3d).getWorldPosition(vector3_))
     }
-
-    public getCenter() {
-        return vec2Point(getCenter((this.object3d ?? this.outerObject3d)))
-    }
 }
 
 export const isPositionedItem = (item: any): item is PositionedItem => item instanceof EventLoopItem && "getWorldPosition" in item

@@ -20,7 +20,7 @@ mainOrbitCamera.enabled = false
 appendableRoot.delete(mainOrbitCamera)
 
 onEditorCenterView(manager => {
-    const pos = manager.getCenter()
+    const pos = manager.getWorldPosition()
     mainOrbitCamera.targetX = pos.x
     mainOrbitCamera.targetY = pos.y
     mainOrbitCamera.targetZ = pos.z

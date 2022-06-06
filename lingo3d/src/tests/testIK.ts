@@ -9,11 +9,13 @@ import Bone from "../display/Bone"
 import { vec2Point } from "../display/utils/vec2Point"
 import { last } from "@lincode/utils"
 import { vector3, vector3_ } from "../display/utils/reusables"
+//@ts-ignore
+import personSrc from "../../assets-local/person.glb"
 
 export default {}
 
 const player = new Model()
-player.src = playerSrc
+player.src = personSrc
 player.x = 100
 
 const bot = new Model()

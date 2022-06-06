@@ -60,8 +60,4 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
     public set intensity(val: number) {
         this.object3d.intensity = val
     }
-
-    public override getCenter() {
-        return this.getWorldPosition()
-    }
 }
