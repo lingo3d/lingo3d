@@ -1,5 +1,4 @@
 import { Object3D } from "three"
-import getCenter from "../../display/utils/getCenter"
 import { vector3_ } from "../../display/utils/reusables"
 import { vec2Point } from "../../display/utils/vec2Point"
 import { scaleUp, scaleDown } from "../../engine/constants"
