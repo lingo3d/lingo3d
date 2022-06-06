@@ -19,6 +19,7 @@ import SvgMesh from "./display/SvgMesh"
 import Reflector from "./display/Reflector"
 import Sprite from "./display/Sprite"
 import Trigger from "./display/Trigger"
+import Audio from "./display/Audio"
 import Group from "./display/Group"
 import Skybox from "./display/Skybox"
 import Environment from "./display/Environment"
@@ -85,6 +86,7 @@ export {
     Reflector,
     Sprite,
     Trigger,
+    Audio,
     Group,
     Skybox,
     Environment,

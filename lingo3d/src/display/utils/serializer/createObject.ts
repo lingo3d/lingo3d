@@ -29,6 +29,7 @@ import OrbitCamera from "../../cameras/OrbitCamera"
 import Skybox from "../../Skybox"
 import Environment from "../../Environment"
 import Trigger from "../../Trigger"
+import Audio from "../../Audio"
 
 const record = type<Record<GameObjectType, () => ObjectManager>>({
     "group": () => new Group(),
@@ -38,6 +39,7 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     "reflector": () => new Reflector(),
     "sprite": () => new Sprite(),
     "trigger": () => new Trigger() as any,
+    "audio": () => new Audio() as any,
     "camera": () => new Camera(),
     "thirdPersonCamera": () => new ThirdPersonCamera(),
     "firstPersonCamera": () => new FirstPersonCamera(),

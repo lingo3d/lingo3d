@@ -5,6 +5,7 @@ import ISvgMesh from "../../../interface/ISvgMesh"
 import IReflector from "../../../interface/IReflector"
 import ISprite from "../../../interface/ISprite"
 import ITrigger from "../../../interface/ITrigger"
+import IAudio from "../../../interface/IAudio"
 import ICamera from "../../../interface/ICamera"
 import IAmbientLight from "../../../interface/IAmbientLight"
 import IAreaLight from "../../../interface/IAreaLight"
@@ -17,7 +18,7 @@ import ISetup from "../../../interface/ISetup"
 import ISkybox from "../../../interface/ISkybox"
 import IEnvironment from "../../../interface/IEnvironment"
 
-export type GameObjectType = "group" | "model" | "dummy" | "svgMesh" | "reflector" | "sprite" | "trigger" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "orbitCamera" | "thirdPersonCamera" | "firstPersonCamera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus" | "skybox" | "environment"
+export type GameObjectType = "group" | "model" | "dummy" | "svgMesh" | "reflector" | "sprite" | "trigger" | "audio" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "orbitCamera" | "thirdPersonCamera" | "firstPersonCamera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus" | "skybox" | "environment"
 
 export type AnimationData = Record<
     string,//property name
@@ -78,6 +79,8 @@ export type SpriteNode = TypedPropsNode<ISprite, "sprite">
 
 export type TriggerNode = TypedPropsNode<ITrigger, "trigger">
 
+export type AudioNode = TypedPropsNode<IAudio, "audio">
+
 export type CameraNode = TypedPropsNode<ICamera, "camera">
 
 export type AmbientLightNode = TypedPropsNode<IAmbientLight, "ambientLight">
@@ -114,6 +117,6 @@ export type SkyboxNode = TypedPropsNode<ISkybox, "skybox">
 
 export type EnvironmentNode = TypedPropsNode<IEnvironment, "environment">
 
-export type BaseSceneGraphNode = GroupNode | ModelNode | DummyNode | SvgMeshNode | ReflectorNode | SpriteNode | TriggerNode | CameraNode | AmbientLightNode | AreaLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode | SkyboxNode | EnvironmentNode
+export type BaseSceneGraphNode = GroupNode | ModelNode | DummyNode | SvgMeshNode | ReflectorNode | SpriteNode | TriggerNode | AudioNode | CameraNode | AmbientLightNode | AreaLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode | SkyboxNode | EnvironmentNode
 
 export type SceneGraphNode = BaseSceneGraphNode | AnimationNode | SetupNode
