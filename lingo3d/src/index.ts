@@ -18,6 +18,7 @@ import Dummy from "./display/Dummy"
 import SvgMesh from "./display/SvgMesh"
 import Reflector from "./display/Reflector"
 import Sprite from "./display/Sprite"
+import Trigger from "./display/Trigger"
 import Group from "./display/Group"
 import Skybox from "./display/Skybox"
 import Environment from "./display/Environment"
@@ -40,7 +41,6 @@ import sphereShape from "./display/core/mixins/PhysicsMixin/cannon/shapes/sphere
 import torusShape from "./display/core/mixins/PhysicsMixin/cannon/shapes/torusShape"
 import pillShape from "./display/core/mixins/PhysicsMixin/cannon/shapes/pillShape"
 
-import Trigger from "./display/Trigger"
 import keyboard, { Keyboard } from "./api/keyboard"
 import mouse, { Mouse } from "./api/mouse"
 import gamepad from "./api/gamepad"
@@ -84,6 +84,7 @@ export {
     SvgMesh,
     Reflector,
     Sprite,
+    Trigger,
     Group,
     Skybox,
     Environment,
@@ -106,7 +107,6 @@ export {
     torusShape,
     pillShape,
 
-    Trigger,
     Keyboard,
     keyboard,
     Mouse,

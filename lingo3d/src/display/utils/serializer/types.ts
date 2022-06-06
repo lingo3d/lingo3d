@@ -4,6 +4,7 @@ import IDummy from "../../../interface/IDummy"
 import ISvgMesh from "../../../interface/ISvgMesh"
 import IReflector from "../../../interface/IReflector"
 import ISprite from "../../../interface/ISprite"
+import ITrigger from "../../../interface/ITrigger"
 import ICamera from "../../../interface/ICamera"
 import IAmbientLight from "../../../interface/IAmbientLight"
 import IAreaLight from "../../../interface/IAreaLight"
@@ -15,9 +16,8 @@ import IPrimitive from "../../../interface/IPrimitive"
 import ISetup from "../../../interface/ISetup"
 import ISkybox from "../../../interface/ISkybox"
 import IEnvironment from "../../../interface/IEnvironment"
-import ITrigger from "../../../interface/ITrigger"
 
-export type GameObjectType = "group" | "trigger" | "model" | "dummy" | "svgMesh" | "reflector" | "sprite" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "orbitCamera" | "thirdPersonCamera" | "firstPersonCamera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus" | "skybox" | "environment"
+export type GameObjectType = "group" | "model" | "dummy" | "svgMesh" | "reflector" | "sprite" | "trigger" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "orbitCamera" | "thirdPersonCamera" | "firstPersonCamera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus" | "skybox" | "environment"
 
 export type AnimationData = Record<
     string,//property name
@@ -66,8 +66,6 @@ type TypedPropsNode<Props, Type extends GameObjectType> = Partial<Props> & Node 
 
 export type GroupNode = TypedPropsNode<IGroup, "group">
 
-export type TriggerNode = TypedPropsNode<ITrigger, "trigger">
-
 export type ModelNode = TypedPropsNode<IModel, "model">
 
 export type DummyNode = TypedPropsNode<IDummy, "dummy">
@@ -77,6 +75,8 @@ export type SvgMeshNode = TypedPropsNode<ISvgMesh, "svgMesh">
 export type ReflectorNode = TypedPropsNode<IReflector, "reflector">
 
 export type SpriteNode = TypedPropsNode<ISprite, "sprite">
+
+export type TriggerNode = TypedPropsNode<ITrigger, "trigger">
 
 export type CameraNode = TypedPropsNode<ICamera, "camera">
 
@@ -114,6 +114,6 @@ export type SkyboxNode = TypedPropsNode<ISkybox, "skybox">
 
 export type EnvironmentNode = TypedPropsNode<IEnvironment, "environment">
 
-export type BaseSceneGraphNode = GroupNode | TriggerNode | ModelNode | DummyNode | SvgMeshNode | ReflectorNode | SpriteNode | CameraNode | AmbientLightNode | AreaLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode | SkyboxNode | EnvironmentNode
+export type BaseSceneGraphNode = GroupNode | ModelNode | DummyNode | SvgMeshNode | ReflectorNode | SpriteNode | TriggerNode | CameraNode | AmbientLightNode | AreaLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode | SkyboxNode | EnvironmentNode
 
 export type SceneGraphNode = BaseSceneGraphNode | AnimationNode | SetupNode

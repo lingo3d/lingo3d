@@ -32,12 +32,12 @@ import Trigger from "../../Trigger"
 
 const record = type<Record<GameObjectType, () => ObjectManager>>({
     "group": () => new Group(),
-    "trigger": () => new Trigger() as any,
     "model": () => new Model(),
     "svgMesh": () => new SvgMesh(),
     "dummy": () => new Dummy(),
     "reflector": () => new Reflector(),
     "sprite": () => new Sprite(),
+    "trigger": () => new Trigger() as any,
     "camera": () => new Camera(),
     "thirdPersonCamera": () => new ThirdPersonCamera(),
     "firstPersonCamera": () => new FirstPersonCamera(),

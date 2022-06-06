@@ -22,6 +22,4 @@ model.onLoop = () => {
 settings.defaultOrbitControls = true
 settings.defaultLight = hdrSrc
 
-setTimeout(() => {
 settings.skybox = hdrSrc
-}, 1000)

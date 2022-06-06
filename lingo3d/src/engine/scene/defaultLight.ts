@@ -18,10 +18,12 @@ createEffect(() => {
     const environment = last(getEnvironmentStack())?.texture
     if (!environment) return
 
-    const texture = loadTexture(environment)
+    let proceed = true
+    const texture = loadTexture(environment, () => proceed && (scene.environment = texture))
     texture.mapping = EquirectangularReflectionMapping
-    scene.environment = texture
+    
     return () => {
+        proceed = false
         scene.environment = null
     }
 }, [getEnvironmentStack])
