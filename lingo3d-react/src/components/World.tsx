@@ -29,15 +29,16 @@ const World: React.FC<WorldProps> = ({ style, className, position, children, ...
         el.appendChild(rootContainer)
         el.appendChild(htmlContainer)
 
-        const resizeObserver = new ResizeObserver(() => {
+        const handleResize = () => {
             const res: [number, number] = [el.clientWidth, el.clientHeight]
             setResolution(res)
             setViewportSize(res)
-        })
-        resizeObserver.observe(el)
+        }
+        handleResize()
+        window.addEventListener("resize", handleResize)
 
         return () => {
-            resizeObserver.disconnect()
+            window.removeEventListener("resize", handleResize)
         }
     }, [])
 

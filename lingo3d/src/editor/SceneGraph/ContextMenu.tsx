@@ -1,5 +1,5 @@
 import { preventTreeShake } from "@lincode/utils"
-import { h } from "preact"
+import { Fragment, h } from "preact"
 import { useEffect, useState } from "preact/hooks"
 import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
@@ -35,6 +35,26 @@ const search = (n: string) => {
     setSceneGraphTarget(found)
 }
 
+type MenuItemProps = {
+    onClick: () => void
+    children: string
+}
+
+const MenuItem = ({ onClick, children }: MenuItemProps) => {
+    const [hover, setHover] = useState(false)
+
+    return (
+        <div
+         style={{ padding: 6, whiteSpace: "nowrap", background: hover ? "rgba(255, 255, 255, 0.1)" : undefined }}
+         onClick={onClick}
+         onMouseEnter={() => setHover(true)}
+         onMouseLeave={() => setHover(false)}
+        >
+            {children}
+        </div>
+    )
+}
+
 const ContextMenu = () => {
     const [data, setData] = useState<{ x: number, y: number, target: Appendable } | undefined>(undefined)
     const [showSearch, setShowSearch] = useState(false)
@@ -52,6 +72,10 @@ const ContextMenu = () => {
             document.removeEventListener("mousemove", cb)
         }
     }, [])
+
+    useEffect(() => {
+        !data && setShowSearch(false)
+    }, [data])
 
     if (!data) return null
 
@@ -74,20 +98,24 @@ const ContextMenu = () => {
             }}>
                 {showSearch ? (
                     <input
-                    ref={el => el?.focus()}
-                    style={{ all: "unset", padding: 6 }}
-                    onKeyDown={e => {
-                        e.stopPropagation()
-                        if (e.key !== "Enter" && e.key !== "Escape") return
-                        e.key === "Enter" && search((e.target as HTMLInputElement).value)
-                        setShowSearch(false)
-                        setData(undefined)
-                    }}
+                     ref={el => el?.focus()}
+                     style={{ all: "unset", padding: 6 }}
+                     onKeyDown={e => {
+                         e.stopPropagation()
+                         if (e.key !== "Enter" && e.key !== "Escape") return
+                         e.key === "Enter" && search((e.target as HTMLInputElement).value)
+                         setData(undefined)
+                     }}
                     />
                 ) : (
-                    <div style={{ padding: 6, whiteSpace: "nowrap" }} onClick={() => setShowSearch(true)}>
-                        Search children
-                    </div>
+                    <Fragment>
+                        <MenuItem onClick={() => setShowSearch(true)}>
+                            Search children
+                        </MenuItem>
+                        <MenuItem onClick={() => setShowSearch(true)}>
+                            Freeze selction
+                        </MenuItem>
+                    </Fragment>
                 )}
             </div>
         </div>

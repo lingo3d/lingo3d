@@ -24,15 +24,16 @@ watchEffect(onCleanUp => {
     el.appendChild(rootContainer)
     el.appendChild(htmlContainer)
 
-    const resizeObserver = new ResizeObserver(() => {
+    const handleResize = () => {
         const res: [number, number] = [el.clientWidth, el.clientHeight]
         setResolution(res)
         setViewportSize(res)
-    })
-    resizeObserver.observe(el)
+    }
+    handleResize()
+    window.addEventListener("resize", handleResize)
 
     onCleanUp(() => {
-        resizeObserver.disconnect()
+        window.removeEventListener("resize", handleResize)
     })
 })
 

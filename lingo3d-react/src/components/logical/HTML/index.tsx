@@ -20,8 +20,6 @@ const HTML: React.FC<HTMLProps> = ({ children }) => {
         let frustumVisibleOld = false
 
         const handle = onAfterRender(() => {
-            console.log("here")
-
             const { frustumVisible } = parent
             
             if (frustumVisible !== frustumVisibleOld)
