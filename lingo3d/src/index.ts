@@ -40,7 +40,7 @@ import sphereShape from "./display/core/mixins/PhysicsMixin/cannon/shapes/sphere
 import torusShape from "./display/core/mixins/PhysicsMixin/cannon/shapes/torusShape"
 import pillShape from "./display/core/mixins/PhysicsMixin/cannon/shapes/pillShape"
 
-import Trigger from "./api/Trigger"
+import Trigger from "./display/Trigger"
 import keyboard, { Keyboard } from "./api/keyboard"
 import mouse, { Mouse } from "./api/mouse"
 import gamepad from "./api/gamepad"

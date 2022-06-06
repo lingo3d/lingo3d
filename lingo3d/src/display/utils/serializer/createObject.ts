@@ -28,7 +28,7 @@ import FirstPersonCamera from "../../cameras/FirstPersonCamera"
 import OrbitCamera from "../../cameras/OrbitCamera"
 import Skybox from "../../Skybox"
 import Environment from "../../Environment"
-import Trigger from "../../../api/Trigger"
+import Trigger from "../../Trigger"
 
 const record = type<Record<GameObjectType, () => ObjectManager>>({
     "group": () => new Group(),
