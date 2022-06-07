@@ -3,7 +3,7 @@ import { getExposure } from "../../states/useExposure"
 import { getResolution, setResolution } from "../../states/useResolution"
 import { getPerformance } from "../../states/usePerformance"
 import { getPixelRatio } from "../../states/usePixelRatio"
-import { createEffect } from "@lincode/reactivity"
+import { createEffect, createNestedEffect } from "@lincode/reactivity"
 import { getVR } from "../../states/useVR"
 import { getRenderer } from "../../states/useRenderer"
 import { getPBR } from "../../states/usePBR"
@@ -38,50 +38,55 @@ getSecondaryCamera(cam => container.style.height = cam ? "50%" : "100%")
 
 export const containerBounds = [container.getBoundingClientRect()]
 
+const useResize = (el: Element) => {
+    createNestedEffect(() => {
+        const handleResize = () => {
+            containerBounds[0] = container.getBoundingClientRect()
+            setResolution(el === document.body ? [window.innerWidth, window.innerHeight] : [el.clientWidth, el.clientHeight])
+        }
+        handleResize()
+
+        const handleResizeDebounced = debounce(handleResize, 100, "trailing")
+        window.addEventListener("resize", handleResizeDebounced)
+        const handle = onEditorMountChange(handleResizeDebounced)
+
+        return () => {
+            window.removeEventListener("resize", handleResize)
+            handle.cancel()
+        }
+    }, [])
+}
+
 createEffect(() => {
     const autoMount = getAutoMount()
     if (!autoMount) return
-    
-    const handleResize = () => {
-        const bounds = containerBounds[0] = container.getBoundingClientRect()
-        setResolution([bounds.width, bounds.height])
-    }
-    const handleResizeDebounced = debounce(handleResize, 100, "trailing")
-    window.addEventListener("resize", handleResizeDebounced)
-    const handle = onEditorMountChange(handleResizeDebounced)
 
     if (typeof autoMount === "string") {
         const el = document.querySelector(autoMount)
         if (!el) return
 
         el.appendChild(rootContainer)
-        handleResize()
+        useResize(el)
 
         return () => {
             el.removeChild(rootContainer)
-            window.removeEventListener("resize", handleResize)
-            handle.cancel()
         }
     }
-    else if (autoMount === true) {
+
+    if (autoMount === true) {
         document.body.appendChild(rootContainer)
-        handleResize()
+        useResize(document.body)
 
         return () => {
             document.body.removeChild(rootContainer)
-            window.removeEventListener("resize", handleResize)
-            handle.cancel()
         }
     }
-    else {
-        autoMount.appendChild(rootContainer)
-        handleResize()
+    
+    autoMount.appendChild(rootContainer)
+    useResize(autoMount)
 
-        return () => {
-            autoMount.removeChild(rootContainer)
-            window.removeEventListener("resize", handleResize)
-            handle.cancel()
-        }
+    return () => {
+        autoMount.removeChild(rootContainer)
     }
 }, [getAutoMount])
 

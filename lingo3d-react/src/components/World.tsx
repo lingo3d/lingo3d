@@ -1,11 +1,9 @@
 import React, { useLayoutEffect, useRef } from "react"
-import { rootContainer, settings } from "lingo3d"
+import { settings } from "lingo3d"
 import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
 import Setup from "./logical/Setup"
 import ISetup from "lingo3d/lib/interface/ISetup"
-import { setResolution } from "lingo3d/lib/states/useResolution"
-import { setViewportSize } from "lingo3d/lib/states/useViewportSize"
 import htmlContainer from "./logical/HTML/htmlContainer"
 
 preventTreeShake(index)
@@ -26,19 +24,11 @@ const World: React.FC<WorldProps> = ({ style, className, position, children, ...
         const el = divRef.current
         if (!el) return
 
-        el.appendChild(rootContainer)
         el.appendChild(htmlContainer)
-
-        const handleResize = () => {
-            const res: [number, number] = [el.clientWidth, el.clientHeight]
-            setResolution(res)
-            setViewportSize(res)
-        }
-        handleResize()
-        window.addEventListener("resize", handleResize)
+        settings.autoMount = el
 
         return () => {
-            window.removeEventListener("resize", handleResize)
+            settings.autoMount = false
         }
     }, [])
 
