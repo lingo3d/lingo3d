@@ -6,6 +6,7 @@ Object.assign(htmlContainer.style, {
     width: "100%",
     height: "100%",
     pointerEvents: "none",
-    userSelect: "none"
+    userSelect: "none",
+    zIndex: 1
 })
 export default htmlContainer

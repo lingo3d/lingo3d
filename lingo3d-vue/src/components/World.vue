@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { PropType, ref, toRaw, watchEffect } from "vue"
-import { applySetup, rootContainer } from "lingo3d"
-import { setResolution } from "lingo3d/lib/states/useResolution"
-import { setViewportSize } from "lingo3d/lib/states/useViewportSize"
+import { applySetup, settings } from "lingo3d"
 import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
 import setupProps from "../props/setupProps"
@@ -21,19 +19,11 @@ watchEffect(onCleanUp => {
     const el = toRaw(divRef.value)
     if (!el) return
 
-    el.appendChild(rootContainer)
     el.appendChild(htmlContainer)
-
-    const handleResize = () => {
-        const res: [number, number] = [el.clientWidth, el.clientHeight]
-        setResolution(res)
-        setViewportSize(res)
-    }
-    handleResize()
-    window.addEventListener("resize", handleResize)
+    settings.autoMount = el
 
     onCleanUp(() => {
-        window.removeEventListener("resize", handleResize)
+        settings.autoMount = false
     })
 })
 
@@ -62,6 +52,6 @@ document.head.appendChild(style)
 <template>
     <div class="lingo3d" :style="{ position: props.position }">
         <div style="height: 100%;"><slot /></div>
-        <div ref="divRef" style="height: 100%; flex-grow: 1; position: relative; z-index: 0;" />
+        <div ref="divRef" style="height: 100%; flex-grow: 1; position: relative; overflow: hidden;" />
     </div>
 </template>
