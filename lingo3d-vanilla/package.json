@@ -1,6 +1,6 @@
 {
 	"name": "lingo3d-vanilla",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"description": "Lingo3D is a web-first 3d game development library with React integration",
 	"author": "Lingo3D",
 	"license": "MIT",
@@ -11,24 +11,23 @@
 		"react"
 	],
 	"dependencies": {
-		"lingo3d": "^1.10.58"
+		"lingo3d": "latest"
 	},
-	"peerDependencies": {},
 	"devDependencies": {
-		"@babel/cli": "7",
-		"@babel/core": "7",
-		"@babel/preset-env": "7",
-		"@babel/preset-typescript": "7",
-		"@babel/runtime": "7",
-		"babel-loader": "8",
-		"core-js": "3",
-		"fork-ts-checker-webpack-plugin": "7",
-		"html-webpack-plugin": "5",
+		"@babel/cli": "^7.17.10",
+		"@babel/core": "^7.18.2",
+		"@babel/preset-env": "^7.18.2",
+		"@babel/preset-typescript": "^7.17.12",
+		"@babel/runtime": "^7.18.3",
+		"babel-loader": "^8.2.5",
+		"core-js": "^3.22.8",
+		"fork-ts-checker-webpack-plugin": "^7.2.11",
+		"html-webpack-plugin": "^5.5.0",
 		"typescript": "*",
-		"webpack": "5",
-		"webpack-cli": "4",
-		"webpack-dev-server": "4",
-		"webpack-notifier": "1"
+		"webpack": "^5.73.0",
+		"webpack-cli": "^4.9.2",
+		"webpack-dev-server": "^4.9.2",
+		"webpack-notifier": "^1.15.0"
 	},
 	"scripts": {
 		"build": "ambients clean && yarn webpack --mode production",
