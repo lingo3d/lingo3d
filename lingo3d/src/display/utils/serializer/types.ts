@@ -52,13 +52,16 @@ export const nonSerializedProperties = [
     "velocity",
     "target"
 ]
-export const nonSerializedSettings: Array<keyof ISetup> = [
+export const nonEditorSettings: Array<keyof ISetup> = [
     "performance",
     "defaultOrbitControls",
     "wasmPath",
     "autoMount",
     "texture",
-    "color",
+    "color"
+]
+export const nonSerializedSettings: Array<keyof ISetup> = [
+    ...nonEditorSettings,
     "gridHelper",
     "gridHelperSize"
 ]

@@ -2,10 +2,20 @@ import { h } from "preact"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
 import ObjectGroup from "./ObjectGroup"
+import { useEffect } from "preact/hooks"
+import { emitEditorMountChange } from "../../events/onEditorMountChange"
 
 preventTreeShake(h)
 
 const Library = () => {
+    useEffect(() => {
+        emitEditorMountChange()
+
+        return () => {
+            emitEditorMountChange()
+        }
+    }, [])
+
     return (
         <div
          className="lingo3d-ui"

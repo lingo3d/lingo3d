@@ -13,6 +13,8 @@ import { VRButton } from "./VRButton"
 import { getDefaultLightScale } from "../../states/useDefaultLightScale"
 import { getDefaultLight } from "../../states/useDefaultLight"
 import { getAutoMount } from "../../states/useAutoMount"
+import { onEditorMountChange } from "../../events/onEditorMountChange"
+import { debounce } from "@lincode/utils"
 
 export const rootContainer = document.createElement("div")
 Object.assign(rootContainer.style, {
@@ -44,7 +46,9 @@ createEffect(() => {
         const bounds = containerBounds[0] = container.getBoundingClientRect()
         setResolution([bounds.width, bounds.height])
     }
-    window.addEventListener("resize", handleResize)
+    const handleResizeDebounced = debounce(handleResize, 100, "trailing")
+    window.addEventListener("resize", handleResizeDebounced)
+    const handle = onEditorMountChange(handleResizeDebounced)
 
     if (typeof autoMount === "string") {
         const el = document.querySelector(autoMount)
@@ -56,6 +60,7 @@ createEffect(() => {
         return () => {
             el.removeChild(rootContainer)
             window.removeEventListener("resize", handleResize)
+            handle.cancel()
         }
     }
     else if (autoMount === true) {
@@ -65,6 +70,7 @@ createEffect(() => {
         return () => {
             document.body.removeChild(rootContainer)
             window.removeEventListener("resize", handleResize)
+            handle.cancel()
         }
     }
     else {
@@ -74,6 +80,7 @@ createEffect(() => {
         return () => {
             autoMount.removeChild(rootContainer)
             window.removeEventListener("resize", handleResize)
+            handle.cancel()
         }
     }
 }, [getAutoMount])

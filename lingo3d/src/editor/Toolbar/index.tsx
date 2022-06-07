@@ -22,7 +22,8 @@ import saveTextFile from "./saveTextFile"
 import serializeReact from "./serializeReact"
 import serializeVue from "./serializeVue"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
-import { useLayoutEffect } from "preact/hooks"
+import { useEffect, useLayoutEffect } from "preact/hooks"
+import { emitEditorMountChange } from "../../events/onEditorMountChange"
 
 preventTreeShake(h)
 
@@ -65,6 +66,14 @@ const Toolbar = () => {
             setMode("translate")
 
     }, [isPositioned])
+
+    useEffect(() => {
+        emitEditorMountChange()
+
+        return () => {
+            emitEditorMountChange()
+        }
+    }, [])
 
     return (
         <div

@@ -27,11 +27,12 @@ import { setMultipleSelection } from "../../states/useMultipleSelection"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import deleteSelected from "./deleteSelected"
 import { onKeyClear } from "../../events/onKeyClear"
-import { nonSerializedSettings } from "../../display/utils/serializer/types"
+import { nonEditorSettings } from "../../display/utils/serializer/types"
 import { onApplySetup } from "../../events/onApplySetup"
 import ISetup from "../../interface/ISetup"
 import { dummySchema } from "../../interface/IDummy"
 import { isPositionedItem } from "../../api/core/PositionedItem"
+import { emitEditorMountChange } from "../../events/onEditorMountChange"
 
 preventTreeShake(h)
 
@@ -147,6 +148,8 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         document.addEventListener("keyup", handleKeyUp)
         const handle1 = onKeyClear(() => setMultipleSelection(false))
         
+        emitEditorMountChange()
+
         return () => {
             setCamera(currentCamera)
             setOrbitControls(false)
@@ -157,6 +160,8 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             document.removeEventListener("keyup", handleKeyUp)
             handle0.cancel()
             handle1.cancel()
+
+            emitEditorMountChange()
         }
     }, [])
 
@@ -219,7 +224,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 defaultFogEnabled,
                 ...defaultFogEnabled && { defaultFog }
 
-            }, omit(settings, [...nonSerializedSettings, ...omitted])))
+            }, omit(settings, [...nonEditorSettings, ...omitted])))
 
             defaultLightEnabledInput.on("change", ({ value }) => setDefaultLight(value ? "default" : false))
             defaultFogEnabledInput.on("change", ({ value }) => setDefaultFog(value ? "white" : undefined))

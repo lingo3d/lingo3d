@@ -20,6 +20,7 @@ import FindIcon from "./icons/FindIcon"
 import ObjectManager from "../../display/core/ObjectManager"
 import mainCamera from "../../engine/mainCamera"
 import ContextMenu from "./ContextMenu"
+import { emitEditorMountChange } from "../../events/onEditorMountChange"
 
 preventTreeShake(h)
 
@@ -28,8 +29,11 @@ const SceneGraph = () => {
 
     useLayoutEffect(() => {
         const handle = onSceneChange(() => render({}))
+        emitEditorMountChange()
+
         return () => {
             handle.cancel()
+            emitEditorMountChange()
         }
     }, [])
 
