@@ -6,25 +6,14 @@ import "./editor"
 
 preventTreeShake([index, test])
 
-settings.autoMount = "#lingoapp"
+settings.autoMount = "#world"
 
-const lingo3dContainer = document.createElement("div")
-document.body.appendChild(lingo3dContainer)
-Object.assign(lingo3dContainer.style, {
-    position: "absolute",
-    left: "0px",
-    top: "0px",
-    width: "100%",
-    height: "100%",
-    display: "flex"
-})
-
-lingo3dContainer.innerHTML = `
-    <div style="height: 100%">
+document.body.innerHTML = `
+    <div style="width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; display: flex">
         <lingo3d-toolbar></lingo3d-toolbar>
         <lingo3d-scenegraph></lingo3d-scenegraph>
         <lingo3d-editor></lingo3d-editor>
         <lingo3d-library></lingo3d-library>
+        <div id="world" style="height: 100%; flex-grow: 1; position: relative"></div>
     </div>
-    <div id="lingoapp" style="height: 100%; flex-grow: 1; position: relative"></div>
 `

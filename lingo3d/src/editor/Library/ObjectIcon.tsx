@@ -40,7 +40,7 @@ const ObjectIcon = ({ name, iconName = name }: ObjectIconProps) => {
             paddingBottom: 20,
          }}
         >
-            <img style={{ width: 50 }} src={`https://unpkg.com/lingo3d-editor@1.0.1/assets/${iconName}.png`} />
+            <img style={{ width: 50 }} src={`https://unpkg.com/lingo3d-editor@1.0.2/assets/${iconName}.png`} />
             <div style={{ marginTop: 6, opacity: 0.75, overflow: "hidden", textOverflow: "ellipsis", maxWidth: "100%" }}>
                 {upperFirst(name)}
             </div>
