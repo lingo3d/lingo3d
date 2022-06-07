@@ -15,6 +15,4 @@ const isMobile = () => {
 const [setMobile, getMobile] = store(isMobile())
 export { getMobile }
 
-const setMobileDebounced = debounce(() => setMobile(isMobile()), 100, "trailing")
-
-window.addEventListener("resize", setMobileDebounced)
+window.addEventListener("resize", debounce(() => setMobile(isMobile()), 100, "trailing"))

@@ -5,7 +5,6 @@ import { getPerformance } from "../../states/usePerformance"
 import { getPixelRatio } from "../../states/usePixelRatio"
 import { createEffect } from "@lincode/reactivity"
 import { getVR } from "../../states/useVR"
-import settings from "../../api/settings"
 import { getRenderer } from "../../states/useRenderer"
 import { getPBR } from "../../states/usePBR"
 import { getViewportSize } from "../../states/useViewportSize"
@@ -13,6 +12,7 @@ import { getSecondaryCamera } from "../../states/useSecondaryCamera"
 import { VRButton } from "./VRButton"
 import { getDefaultLightScale } from "../../states/useDefaultLightScale"
 import { getDefaultLight } from "../../states/useDefaultLight"
+import { getAutoMount } from "../../states/useAutoMount"
 
 export const rootContainer = document.createElement("div")
 Object.assign(rootContainer.style, {
@@ -35,31 +35,48 @@ rootContainer.appendChild(container)
 getSecondaryCamera(cam => container.style.height = cam ? "50%" : "100%")
 
 export const containerBounds = [container.getBoundingClientRect()]
-const resizeObserver = new ResizeObserver(() => containerBounds[0] = container.getBoundingClientRect())
-resizeObserver.observe(container)
 
-queueMicrotask(() => {
-    if (!settings.autoMount || rootContainer.parentElement) return
+createEffect(() => {
+    const autoMount = getAutoMount()
+    if (!autoMount) return
     
-    if (typeof settings.autoMount === "string") {
-        const el = document.querySelector(settings.autoMount)
+    const handleResize = () => {
+        const bounds = containerBounds[0] = container.getBoundingClientRect()
+        setResolution([bounds.width, bounds.height])
+    }
+    window.addEventListener("resize", handleResize)
+
+    if (typeof autoMount === "string") {
+        const el = document.querySelector(autoMount)
         if (!el) return
 
         el.appendChild(rootContainer)
+        handleResize()
 
-        const resizeObserver = new ResizeObserver(() => {
-            const res: [number, number] = [el.clientWidth, el.clientHeight]
-            setResolution(res)
-        })
-        resizeObserver.observe(el)
-        return
+        return () => {
+            el.removeChild(rootContainer)
+            window.removeEventListener("resize", handleResize)
+        }
     }
+    else if (autoMount === true) {
+        document.body.appendChild(rootContainer)
+        handleResize()
 
-    window.addEventListener("resize", () => {
-        setResolution([window.innerWidth, window.innerHeight])
-    })
-    document.body.appendChild(rootContainer)
-})
+        return () => {
+            document.body.removeChild(rootContainer)
+            window.removeEventListener("resize", handleResize)
+        }
+    }
+    else {
+        autoMount.appendChild(rootContainer)
+        handleResize()
+
+        return () => {
+            autoMount.removeChild(rootContainer)
+            window.removeEventListener("resize", handleResize)
+        }
+    }
+}, [getAutoMount])
 
 export const referenceOutline = document.createElement("div")
 Object.assign(referenceOutline.style, {

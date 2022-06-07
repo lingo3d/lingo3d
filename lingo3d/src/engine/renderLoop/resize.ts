@@ -7,7 +7,7 @@ import { getCamera } from "../../states/useCamera"
 import { setCameraDistance } from "../../states/useCameraDistance"
 import { getViewportSize } from "../../states/useViewportSize"
 import mainCamera from "../mainCamera"
-import { referenceOutline, rootContainer } from "./renderSetup"
+import { referenceOutline } from "./renderSetup"
 import { getVR } from "../../states/useVR"
 import { getResolution } from "../../states/useResolution"
 

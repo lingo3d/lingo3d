@@ -28,6 +28,7 @@ import { getBackgroundColor, setBackgroundColor } from "../states/useBackgroundC
 import { getBackgroundImage, setBackgroundImage } from "../states/useBackgroundImage"
 import Skybox from "../display/Skybox"
 import { appendableRoot } from "./core/Appendable"
+import { getAutoMount, setAutoMount } from "../states/useAutoMount"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -106,7 +107,12 @@ export default {
 
     wasmPath: "https://unpkg.com/lingo3d-wasm@1.0.0/assets/",
   
-    autoMount: false as boolean | string,
+    get autoMount() {
+        return getAutoMount()
+    },
+    set autoMount(value) {
+        setAutoMount(value)
+    },
 
     //rendering
     get logarithmicDepth() {
