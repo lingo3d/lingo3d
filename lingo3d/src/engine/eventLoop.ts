@@ -24,7 +24,7 @@ const sort = (a: number, b: number) => b - a
 const callbacks = new Set<() => void>()
 
 getRenderer(renderer => {
-    renderer.setAnimationLoop(() => {
+    renderer?.setAnimationLoop(() => {
         const fps = 1 / clockDelta[0]
 
         fpsArray.push(fps)

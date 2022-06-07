@@ -1,6 +1,6 @@
 import { Object3D } from "three"
+import { getSelectiveBloomComposer } from "../../../../states/useSelectiveBloomComposer"
 import scene from "../../../scene"
-import selectiveBloomComposer from "./selectiveBloomComposer"
 
 export const bloomPtr = [false]
 
@@ -45,6 +45,6 @@ const restore = () => {
 
 export default () => {
     darken()
-    selectiveBloomComposer.render()
+    getSelectiveBloomComposer()?.render()
     restore()
 }

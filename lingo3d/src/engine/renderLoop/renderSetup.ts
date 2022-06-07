@@ -109,7 +109,10 @@ createEffect(() => {
 }, [getResolution, getViewportSize, getSecondaryCamera])
 
 createEffect(() => {
-    const canvas = getRenderer().domElement
+    const renderer = getRenderer()
+    if (!renderer) return
+
+    const canvas = renderer.domElement
     rootContainer.appendChild(canvas)
     Object.assign(canvas.style, { position: "absolute", left: "0px", top: "0px" })
     return () => {
@@ -119,6 +122,7 @@ createEffect(() => {
 
 createEffect(() => {
     const renderer = getRenderer()
+    if (!renderer) return
 
     const [w, h] = getResolution()
     renderer.setSize(w, h)
@@ -128,6 +132,7 @@ createEffect(() => {
 
 createEffect(() => {
     const renderer = getRenderer()
+    if (!renderer) return
 
     // renderer.shadowMap.type = PCFSoftShadowMap
     renderer.shadowMap.enabled = getPerformance() !== "speed"
@@ -136,12 +141,16 @@ createEffect(() => {
 
 createEffect(() => {
     const renderer = getRenderer()
+    if (!renderer) return
+
     renderer.physicallyCorrectLights = getPBR()
 
 }, [getRenderer, getPBR])
 
 createEffect(() => {
     const renderer = getRenderer()
+    if (!renderer) return
+
     const defaultLight = getDefaultLight()
     const exposure = typeof defaultLight === "string" && defaultLight !== "default"
         ? getExposure() * getDefaultLightScale() * (defaultLight === "studio" ? 2 : 1)
@@ -156,6 +165,8 @@ createEffect(() => {
     if (getVR() !== "webxr") return
 
     const renderer = getRenderer()
+    if (!renderer) return
+
     renderer.xr.enabled = true
     
     const button = VRButton.createButton(renderer)

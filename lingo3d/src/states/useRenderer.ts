@@ -5,23 +5,19 @@ import { getBackgroundColor } from "./useBackgroundColor"
 import { getLogarithmicDepth } from "./useLogarithmicDepth"
 import { getMobile } from "./useMobile"
 
-const makeRenderer = () => new WebGLRenderer({
-    powerPreference: "high-performance",
-    alpha: getBackgroundColor() === "transparent",
-    logarithmicDepthBuffer: isChromium && !getMobile() ? getLogarithmicDepth() : false,
-    antialias: true
-})
-
-let firstRenderer: WebGLRenderer | undefined
-
-const [setRenderer, getRenderer] = store(firstRenderer = makeRenderer())
+const [setRenderer, getRenderer] = store<WebGLRenderer | undefined>(undefined)
 export { getRenderer }
 
 createEffect(() => {
-    const renderer = firstRenderer ?? makeRenderer()
+    const renderer = new WebGLRenderer({
+        powerPreference: "high-performance",
+        alpha: getBackgroundColor() === "transparent",
+        logarithmicDepthBuffer: isChromium && !getMobile() ? getLogarithmicDepth() : false,
+        antialias: true
+    })
     setRenderer(renderer)
+    
     return () => {
         renderer.dispose()
-        firstRenderer = undefined
     }
 }, [getBackgroundColor, getLogarithmicDepth, getMobile])

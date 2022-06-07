@@ -16,21 +16,23 @@ import { setSSR } from "../../states/useSSR"
 import { getVR } from "../../states/useVR"
 import { loop } from "../eventLoop"
 import scene from "../scene"
-import effectComposer from "./effectComposer"
 import { outlinePtr } from "./effectComposer/outlinePass"
 import renderSelectiveBloom, { bloomPtr } from "./effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import { ssrPtr } from "./effectComposer/ssrPass"
 import resize from "./resize"
+import effectComposer from "./effectComposer"
+import { getEffectComposer } from "../../states/useEffectComposer"
 
-preventTreeShake(resize)
+preventTreeShake([resize, effectComposer])
 
 export default {}
 
 createEffect(() => {
-    const vr = getVR()
+    const renderer = getRenderer()
+    if (!renderer) return
+
     const camera = getCamera()
     const secondaryCamera = getSecondaryCamera()
-    const renderer = getRenderer()
 
     if (secondaryCamera) {
         const [resX, resY] = getResolution()
@@ -66,6 +68,8 @@ createEffect(() => {
             camera.updateProjectionMatrix()
         }
     }
+
+    const vr = getVR()
     
     if (getPerformance() === "speed" || vr === "webxr") {
         const handle = loop(() => {
@@ -146,6 +150,9 @@ createEffect(() => {
         }
     }
 
+    const effectComposer = getEffectComposer()
+    if (!effectComposer) return
+
     let selectiveBloomInitialized = false
     let ssrInitialized = false
     let outlineInitialized = false
@@ -175,4 +182,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getPerformance, getVR, getCamera, getSecondaryCamera, getResolution, getRenderer])
+}, [getPerformance, getVR, getCamera, getSecondaryCamera, getResolution, getRenderer, getEffectComposer])

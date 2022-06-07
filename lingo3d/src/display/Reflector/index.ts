@@ -22,10 +22,11 @@ export default class Reflector extends Plane {
         this.createEffect(() => {
             if (this.done) return
 
+            const renderer = getRenderer()
             const MeshReflectorMaterial = getClass()
-            if (!MeshReflectorMaterial) return
+            if (!MeshReflectorMaterial || !renderer) return
 
-            const mat = new MeshReflectorMaterial(getRenderer(), getCamera(), scene, this.object3d, {
+            const mat = new MeshReflectorMaterial(renderer, getCamera(), scene, this.object3d, {
                 resolution: this.resolutionState.get(),
                 blur: [this.blurState.get(), this.blurState.get()],
                 mixBlur: 2.5,

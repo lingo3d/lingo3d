@@ -1,7 +1,6 @@
-import { PointLight, SkyLight, settings, Sky, Reflector } from ".."
+import { PointLight, SkyLight, settings, Sky, Cube, Model } from ".."
 //@ts-ignore
 import faceSrc from "../../assets-local/face.glb"
-import Model from "../display/Model"
 
 export default {}
 
@@ -37,12 +36,10 @@ settings.ambientOcclusion = true
 settings.bloom = true
 settings.bloomStrength = 0.1
 
-const reflector = new Reflector()
+const cube = new Cube()
+cube.height = 20
+cube.width = 9999
+cube.depth = 9999
+cube.opacity = 0.001
 
-// const cube = new Cube()
-// cube.height = 20
-// cube.width = 9999
-// cube.depth = 9999
-// cube.opacity = 0.001
-
-// cube.reflection = true
+cube.reflection = true

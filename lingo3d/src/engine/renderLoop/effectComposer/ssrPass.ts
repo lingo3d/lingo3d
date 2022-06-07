@@ -24,7 +24,7 @@ export const deleteSSR = (target: Object3D) => {
 }
 
 const ssrPass = new SSRPass({
-    renderer: getRenderer(),
+    renderer: undefined as any,
     scene,
     camera: getCamera(),
     width: WIDTH,
@@ -34,5 +34,5 @@ const ssrPass = new SSRPass({
 })
 export default ssrPass
 
-getRenderer(renderer => ssrPass.renderer = renderer)
+getRenderer(renderer => renderer && (ssrPass.renderer = renderer))
 getCamera(camera => ssrPass.camera = camera)

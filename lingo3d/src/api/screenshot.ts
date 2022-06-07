@@ -6,7 +6,7 @@ export default {
         return new Promise<Blob>(resolve => {
             const handle = onAfterRender(() => {
                 handle.cancel()
-                getRenderer().domElement.toBlob(blob => blob && resolve(blob))
+                getRenderer()?.domElement.toBlob(blob => blob && resolve(blob))
             })
         })
     },
@@ -14,7 +14,8 @@ export default {
         return new Promise<string>(resolve => {
             const handle = onAfterRender(() => {
                 handle.cancel()
-                resolve(getRenderer().domElement.toDataURL(type, quality))
+                const renderer = getRenderer()
+                renderer && resolve(renderer.domElement.toDataURL(type, quality))
             })
         })
     }
