@@ -127,7 +127,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         const currentCamera = getCamera()
 
         const init = () => {
-            mainOrbitCamera.activate(true)
+            mainOrbitCamera.activate()
             setOrbitControls(true)
             setSelection(true)
             setGridHelper(true)

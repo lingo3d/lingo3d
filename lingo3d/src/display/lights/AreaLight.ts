@@ -49,8 +49,6 @@ export default class AreaLight extends ObjectManager<Group> implements IAreaLigh
 
                 const handle = onTransformControls(() => {
                     const { x, y } = this.outerObject3d.scale
-                    console.log(x, y)
-
                     this.scaleX = x
                     this.scaleY = y
                 })
