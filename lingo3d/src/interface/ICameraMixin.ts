@@ -11,7 +11,7 @@ export default interface ICameraMixin {
     zoom: number
     near: number
     far: number
-    active: boolean
+    active: boolean | "transition"
     bokeh: boolean
     bokehFocus: number
     bokehMaxBlur: number
@@ -26,7 +26,7 @@ export const cameraMixinSchema: Required<ExtractProps<ICameraMixin>> = {
     zoom: Number,
     near: Number,
     far: Number,
-    active: Boolean,
+    active: [Boolean, String],
     bokeh: Boolean,
     bokehFocus: Number,
     bokehMaxBlur: Number,
