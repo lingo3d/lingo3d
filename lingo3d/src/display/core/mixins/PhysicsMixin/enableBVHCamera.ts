@@ -26,18 +26,17 @@ export default function(this: ThirdPersonCamera) {
         const target = this.targetState.get()
         if (!target) return
 
-        let tooCloseOld = false
-        let lerp = false
+        let tooCloseOld = true
+        setVisible.call(this, !tooCloseOld)
 
         const handle = onBeforeCameraLoop(() => {
             const origin = this.outerObject3d.getWorldPosition(vector3)
             const camPos = this.object3d.getWorldPosition(vector3_)
             const dist = camPos.distanceTo(origin)
     
-            cam.position.lerp(camPos, lerp ? 0.1 : 1)
-            const ratio = lerp ? cam.position.distanceTo(origin) / dist : 1
+            cam.position.lerp(camPos, 0.1)
+            const ratio = cam.position.distanceTo(origin) / dist
             cam.position.lerpVectors(origin, camPos, ratio)
-            lerp = true
 
             cam.quaternion.copy(this.object3d.getWorldQuaternion(quaternion))
     
