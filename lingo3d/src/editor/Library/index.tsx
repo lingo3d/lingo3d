@@ -32,7 +32,7 @@ const Library = () => {
                 "svgMesh",
                 { "sprite": "plane" },
                 "trigger",
-                "audio",
+                // "audio",
                 "reflector",
                 "cube",
                 "sphere",
