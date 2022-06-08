@@ -1,10 +1,10 @@
 import { CameraHelper, PerspectiveCamera } from "three"
 import mainCamera from "../../../engine/mainCamera"
 import scene from "../../../engine/scene"
-import { bokehDefault, setBokeh } from "../../../states/useBokeh"
-import { bokehApertureDefault, setBokehAperture } from "../../../states/useBokehAperture"
-import { bokehFocusDefault, setBokehFocus } from "../../../states/useBokehFocus"
-import { bokehMaxBlurDefault, setBokehMaxBlur } from "../../../states/useBokehMaxBlur"
+import { bokehDefault } from "../../../states/useBokeh"
+import { bokehApertureDefault } from "../../../states/useBokehAperture"
+import { bokehFocusDefault } from "../../../states/useBokehFocus"
+import { bokehMaxBlurDefault } from "../../../states/useBokehMaxBlur"
 import { getCamera, setCamera } from "../../../states/useCamera"
 import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import EventLoopItem from "../../../api/core/EventLoopItem"
@@ -13,6 +13,8 @@ import makeCameraSprite from "../utils/makeCameraSprite"
 import { emitSelectionTarget, onSelectionTarget } from "../../../events/onSelectionTarget"
 import { setCameraInterpolate } from "../../../states/useCameraInterpolate"
 import { setCameraFrom } from "../../../states/useCameraFrom"
+import { getCameraRendered } from "../../../states/useCameraRendered"
+import { setBokehRefresh } from "../../../states/useBokehRefresh"
 
 export default abstract class CameraMixin<T extends PerspectiveCamera> extends EventLoopItem implements ICameraMixin {
     protected abstract camera: T
@@ -33,7 +35,7 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
         })
 
         this.createEffect(() => {
-            if (getCamera() !== mainCamera || getCamera() === this.camera)
+            if (getCameraRendered() !== mainCamera || getCameraRendered() === this.camera)
                 return
 
             const helper = new CameraHelper(this.camera)
@@ -52,7 +54,7 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
                 sprite.dispose()
                 handle.cancel()
             }
-        }, [getCamera])
+        }, [getCameraRendered])
     }
 
     public get fov() {
@@ -107,31 +109,31 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
         return this.camera.userData.bokeh ?? bokehDefault
     }
     public set bokeh(val) {
-        getCamera() === this.camera && setBokeh(val)
         this.camera.userData.bokeh = val
+        setBokehRefresh({})
     }
     
     public get bokehFocus() {
         return this.camera.userData.bokehFocus ?? bokehFocusDefault
     }
     public set bokehFocus(val) {
-        getCamera() === this.camera && setBokehFocus(val)
         this.camera.userData.bokehFocus = val
+        setBokehRefresh({})
     }
 
     public get bokehMaxBlur() {
         return this.camera.userData.bokehMaxBlur ?? bokehMaxBlurDefault
     }
     public set bokehMaxBlur(val) {
-        getCamera() === this.camera && setBokehMaxBlur(val)
         this.camera.userData.bokehMaxBlur = val
+        setBokehRefresh({})
     }
 
     public get bokehAperture() {
         return this.camera.userData.bokehAperture ?? bokehApertureDefault
     }
     public set bokehAperture(val) {
-        getCamera() === this.camera && setBokehAperture(val)
         this.camera.userData.bokehAperture = val
+        setBokehRefresh({})
     }
 }
