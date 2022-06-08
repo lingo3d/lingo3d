@@ -32,6 +32,7 @@ player.width = 20
 player.depth = 20
 player.z = -100
 player.y = 210.59
+player.x = 210.59
 player.physics = "character"
 player.animations = { running: runningSrc, idle: idleSrc }
 player.animation = "idle"
