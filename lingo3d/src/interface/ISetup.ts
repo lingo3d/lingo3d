@@ -14,7 +14,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     gridHelperSize: Number,
     gravity: Number,
     repulsion: Number,
-    wasmPath: String,
     autoMount: [Boolean, String],
     logarithmicDepth: Boolean,
     exposure: Number,

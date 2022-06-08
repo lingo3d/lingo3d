@@ -4,14 +4,14 @@ import { Bone, LinearEncoding } from "three"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { decreaseLoadingCount, increaseLoadingCount } from "../../../states/useLoadingCount"
-import settings from "../../../api/settings"
 import { handleProgress } from "./bytesLoaded"
+import { getWasmPath } from "../../../states/useWasmPath"
 
 const cache = new Map<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()
 
 const dracoLoader = new DRACOLoader()
-dracoLoader.setDecoderPath(settings.wasmPath)
+getWasmPath(wasmPath => dracoLoader.setDecoderPath(wasmPath))
 loader.setDRACOLoader(dracoLoader)
 
 export default async (url: string, clone: boolean) => {

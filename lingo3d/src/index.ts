@@ -65,6 +65,7 @@ import { onBeforeRender } from "./events/onBeforeRender"
 import { LingoMouseEvent } from "./interface/IMouse"
 
 import { Point3d, Point } from "@lincode/math"
+import { setWasmPath } from "./states/useWasmPath"
 
 export default {}
 
@@ -137,5 +138,6 @@ export {
     LingoMouseEvent,
 
     Point3d,
-    Point
+    Point,
+    setWasmPath
 }

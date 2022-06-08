@@ -104,8 +104,6 @@ export default {
     set repulsion(value) {
         setRepulsion(value)
     },
-
-    wasmPath: "https://unpkg.com/lingo3d-wasm@1.0.0/assets/",
   
     get autoMount() {
         return getAutoMount()

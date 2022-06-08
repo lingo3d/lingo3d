@@ -18,8 +18,6 @@ type WorldProps = Partial<ISetup> & {
 const World: React.FC<WorldProps> = ({ style, className, position, children, ...rest }) => {
     const divRef = useRef<HTMLDivElement>(null)
 
-    rest.wasmPath && (settings.wasmPath = rest.wasmPath)
-
     useLayoutEffect(() => {
         const el = divRef.current
         if (!el) return

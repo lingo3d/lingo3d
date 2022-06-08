@@ -55,7 +55,6 @@ export const nonSerializedProperties = [
 export const nonEditorSettings: Array<keyof ISetup> = [
     "performance",
     "defaultOrbitControls",
-    "wasmPath",
     "autoMount",
     "texture",
     "color"
