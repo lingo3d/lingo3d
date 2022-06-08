@@ -7,6 +7,7 @@ export default interface IOrbitCamera extends IPositioned, ICameraMixin {
     targetY: number
     targetZ: number
 
+    enabled: boolean
     enableDamping: boolean
     enablePan: boolean
     enableZoom: boolean
@@ -28,6 +29,7 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
     targetY: Number,
     targetZ: Number,
 
+    enabled: Boolean,
     enableDamping: Boolean,
     enablePan: Boolean,
     enableZoom: Boolean,
@@ -51,6 +53,7 @@ export const orbitCameraDefaults: IOrbitCamera = {
     
     z: 500,
 
+    enabled: true,
     enableDamping: false,
     enablePan: false,
     enableZoom: false,

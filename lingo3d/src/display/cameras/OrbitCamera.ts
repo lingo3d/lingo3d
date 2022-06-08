@@ -86,6 +86,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                 container.addEventListener("wheel", cb)
                 handle.then(() => container.removeEventListener("wheel", cb))
             }
+
             if (this.enableFlyState.get()) {
                 const downSet = new Set<string>()
 
@@ -139,6 +140,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                     document.removeEventListener("keyup", handleKeyUp)
                 })
             }
+            
             return () => {
                 controls.enabled = false
                 handle.cancel()
