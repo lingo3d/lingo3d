@@ -1,14 +1,14 @@
 import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass"
-import { getCamera } from "../../../states/useCamera"
 import scene from "../../scene"
 import { getBokehFocus } from "../../../states/useBokehFocus"
 import { getBokehAperture } from "../../../states/useBokehAperture"
 import { getBokehMaxBlur } from "../../../states/useBokehMaxBlur"
+import { getCameraRendered } from "../../../states/useCameraRendered"
 
-const bokehPass = new BokehPass(scene, getCamera(), {})
+const bokehPass = new BokehPass(scene, getCameraRendered(), {})
 export default bokehPass
 
-getCamera(camera => bokehPass.camera = camera)
+getCameraRendered(camera => bokehPass.camera = camera)
 
 const uniforms = bokehPass.uniforms as any
 

@@ -2,7 +2,7 @@ import store, { Reactive } from "@lincode/reactivity"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { reflectorDefaults, reflectorSchema } from "../../interface/IReflector"
-import { getCamera } from "../../states/useCamera"
+import { getCameraRendered } from "../../states/useCameraRendered"
 import { getRenderer } from "../../states/useRenderer"
 import copyStandard from "../core/StaticObjectManager/applyMaterialProperties/copyStandard"
 import Plane from "../primitives/Plane"
@@ -26,7 +26,7 @@ export default class Reflector extends Plane {
             const MeshReflectorMaterial = getClass()
             if (!MeshReflectorMaterial || !renderer) return
 
-            const mat = new MeshReflectorMaterial(renderer, getCamera(), scene, this.object3d, {
+            const mat = new MeshReflectorMaterial(renderer, getCameraRendered(), scene, this.object3d, {
                 resolution: this.resolutionState.get(),
                 blur: [this.blurState.get(), this.blurState.get()],
                 mixBlur: 2.5,
@@ -44,7 +44,7 @@ export default class Reflector extends Plane {
                 mat.dispose()
                 handle.cancel()
             }
-        }, [getRenderer, getClass, getCamera, this.resolutionState.get, this.blurState.get, this.contrastState.get, this.mirrorState.get])
+        }, [getRenderer, getClass, getCameraRendered, this.resolutionState.get, this.blurState.get, this.contrastState.get, this.mirrorState.get])
     }
 
     private resolutionState = new Reactive(512)

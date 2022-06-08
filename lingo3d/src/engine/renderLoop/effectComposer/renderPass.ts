@@ -1,8 +1,8 @@
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
-import { getCamera } from "../../../states/useCamera"
+import { getCameraRendered } from "../../../states/useCameraRendered"
 import scene from "../../scene"
 
-const renderPass = new RenderPass(scene, getCamera())
+const renderPass = new RenderPass(scene, getCameraRendered())
 export default renderPass
 
-getCamera(camera => renderPass.camera = camera)
+getCameraRendered(camera => renderPass.camera = camera)

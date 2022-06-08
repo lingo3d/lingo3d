@@ -1,7 +1,7 @@
 import { event } from "@lincode/events"
 import { debounce } from "@lincode/utils"
 import Appendable from "../api/core/Appendable"
-import { getCamera } from "../states/useCamera"
+import { getCameraRendered } from "../states/useCameraRendered"
 
 const [_emitSelectionTarget, onSelectionTarget] = event<{ target?: Appendable, rightClick?: boolean }>()
 const emitSelectionTarget = debounce((target?: Appendable, rightClick?: boolean) => (
@@ -10,4 +10,4 @@ const emitSelectionTarget = debounce((target?: Appendable, rightClick?: boolean)
 
 export { emitSelectionTarget, onSelectionTarget }
 
-getCamera(() => emitSelectionTarget())
+getCameraRendered(() => emitSelectionTarget())

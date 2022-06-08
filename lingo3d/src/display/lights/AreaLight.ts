@@ -3,7 +3,6 @@ import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHel
 import IAreaLight, { areaLightDefaults, areaLightSchema } from "../../interface/IAreaLight"
 import { lazy } from "@lincode/utils"
 import ObjectManager from "../core/ObjectManager"
-import { getCamera } from "../../states/useCamera"
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { scaleDown } from "../../engine/constants"
@@ -13,6 +12,7 @@ import { Reactive } from "@lincode/reactivity"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import MeshItem from "../core/MeshItem"
 import { Point3d } from "@lincode/math"
+import { getCameraRendered } from "../../states/useCameraRendered"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import("three/examples/jsm/lights/RectAreaLightUniformsLib.js")
@@ -58,7 +58,7 @@ export default class AreaLight extends ObjectManager<Group> implements IAreaLigh
             }, [getTransformControlsMode, getSelectionTarget])
             
             this.createEffect(() => {
-                if (getCamera() !== mainCamera || !this.helperState.get()) return
+                if (getCameraRendered() !== mainCamera || !this.helperState.get()) return
     
                 const helper = new RectAreaLightHelper(light)
                 scene.add(helper)
@@ -67,7 +67,7 @@ export default class AreaLight extends ObjectManager<Group> implements IAreaLigh
                     helper.dispose()
                     scene.remove(helper)
                 }
-            }, [getCamera, this.helperState.get])
+            }, [getCameraRendered, this.helperState.get])
         })()
     }
 

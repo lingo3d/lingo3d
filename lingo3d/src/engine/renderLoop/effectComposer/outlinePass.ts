@@ -3,7 +3,7 @@ import { pull } from "@lincode/utils"
 import { Color, Object3D, Vector2 } from "three"
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass"
 import loadTexture from "../../../display/utils/loaders/loadTexture"
-import { getCamera } from "../../../states/useCamera"
+import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getOutlineColor } from "../../../states/useOutlineColor"
 import { getOutlineHiddenColor } from "../../../states/useOutlineHiddenColor"
 import { getOutlinePattern } from "../../../states/useOutlinePattern"
@@ -29,10 +29,10 @@ export const deleteOutline = (target: Object3D) => {
     pull(outlineSelects, target)
 }
 
-const outlinePass = new OutlinePass(new Vector2(), scene, getCamera(), outlineSelects)
+const outlinePass = new OutlinePass(new Vector2(), scene, getCameraRendered(), outlineSelects)
 export default outlinePass
 
-getCamera(camera => outlinePass.renderCamera = camera)
+getCameraRendered(camera => outlinePass.renderCamera = camera)
 
 createEffect(() => {
     const color = getOutlineColor()

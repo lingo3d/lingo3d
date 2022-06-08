@@ -1,6 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
 import { emitTransformControls } from "../events/onTransformControls"
-import { getCamera } from "../states/useCamera"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import { getTransformControlsMode } from "../states/useTransformControlsMode"
 import { getTransformControlsSpace } from "../states/useTransformControlsSpace"
@@ -11,14 +10,15 @@ import { lazy } from "@lincode/utils"
 import { Cancellable } from "@lincode/promiselikes"
 import mainCamera from "./mainCamera"
 import { setTransformControlsDragging } from "../states/useTransformControlsDragging"
+import { getCameraRendered } from "../states/useCameraRendered"
 
 export default {}
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("three/examples/jsm/controls/TransformControls")
 
-    const transformControls = new TransformControls(getCamera(), container)
-    getCamera(camera => transformControls.camera = camera)
+    const transformControls = new TransformControls(getCameraRendered(), container)
+    getCameraRendered(camera => transformControls.camera = camera)
     transformControls.enabled = false
 
     let dragging = false
@@ -40,7 +40,7 @@ createEffect(() => {
     const space = getTransformControlsSpace()
     const snap = getTransformControlsSnap()
 
-    if (!target || getCamera() !== mainCamera) return
+    if (!target || getCameraRendered() !== mainCamera) return
 
     const handle = new Cancellable()
 
@@ -68,4 +68,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getSelectionTarget, getTransformControlsMode, getTransformControlsSpace, getTransformControlsSnap, getCamera])
+}, [getSelectionTarget, getTransformControlsMode, getTransformControlsSpace, getTransformControlsSnap, getCameraRendered])

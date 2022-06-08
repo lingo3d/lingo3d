@@ -3,13 +3,13 @@ import { createEffect } from "@lincode/reactivity"
 import { Camera, OrthographicCamera, PerspectiveCamera } from "three"
 import { scaleDown } from "../constants"
 import { frustum } from "../../display/cameras/OrthographicCamera"
-import { getCamera } from "../../states/useCamera"
 import { setCameraDistance } from "../../states/useCameraDistance"
 import { getViewportSize } from "../../states/useViewportSize"
 import mainCamera from "../mainCamera"
 import { referenceOutline } from "./renderSetup"
 import { getVR } from "../../states/useVR"
 import { getResolution } from "../../states/useResolution"
+import { getCameraRendered } from "../../states/useCameraRendered"
 
 export default {}
 
@@ -18,7 +18,7 @@ const getZ = (height: number, camera: PerspectiveCamera) => Math.abs((height * 0
 createEffect(() => {
     const [resX, resY] = getResolution()
     const [vw, vh] = getViewportSize() ?? getResolution()
-    const camera: Camera = getCamera()
+    const camera: Camera = getCameraRendered()
 
     const aspect = resX / resY
 
@@ -56,4 +56,4 @@ createEffect(() => {
 
     // Object.assign(rootContainer.style, { width: resX + "px", height: resY + "px" })
 
-}, [getResolution, getViewportSize, getCamera, getVR])
+}, [getResolution, getViewportSize, getCameraRendered, getVR])

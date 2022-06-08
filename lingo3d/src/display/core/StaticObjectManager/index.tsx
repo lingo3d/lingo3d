@@ -11,7 +11,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import { addSSR, deleteSSR } from "../../../engine/renderLoop/effectComposer/ssrPass"
-import { getCamera } from "../../../states/useCamera"
 import { addOutline, deleteOutline } from "../../../engine/renderLoop/effectComposer/outlinePass"
 import getCenter from "../../utils/getCenter"
 import EventLoopItem from "../../../api/core/EventLoopItem"
@@ -21,12 +20,13 @@ import MeshItem, { getObject3d } from "../MeshItem"
 import { Reactive } from "@lincode/reactivity"
 import copyStandard from "./applyMaterialProperties/copyStandard"
 import copyToon from "./applyMaterialProperties/copyToon"
+import { getCameraRendered } from "../../../states/useCameraRendered"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
 
 const updateFrustum = throttle(() => {
-    const camera = getCamera()
+    const camera = getCameraRendered()
     frustum.setFromProjectionMatrix(matrix4.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse))
 }, 200, "leading")
 

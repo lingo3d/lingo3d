@@ -1,7 +1,7 @@
 import { Point } from "@lincode/math"
 import { Object3D } from "three"
 import { container } from "../../engine/renderLoop/renderSetup"
-import { getCamera } from "../../states/useCamera"
+import { getCameraRendered } from "../../states/useCameraRendered"
 import getCenter from "./getCenter"
 import { vector3 } from "./reusables"
 
@@ -13,7 +13,7 @@ export default (object3d: Object3D) => {
 
     getCenter(object3d)
     
-    const camera = getCamera()
+    const camera = getCameraRendered()
     vector3.project(camera)
     
     const x = (vector3.x *  .5 + .5) * container.clientWidth

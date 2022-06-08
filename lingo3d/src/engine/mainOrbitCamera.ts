@@ -2,13 +2,13 @@ import { getOrbitControls } from "../states/useOrbitControls"
 import { container } from "./renderLoop/renderSetup"
 import { createEffect } from "@lincode/reactivity"
 import mainCamera from "./mainCamera"
-import { getCamera } from "../states/useCamera"
 import { getOrbitControlsScreenSpacePanning } from "../states/useOrbitControlsScreenSpacePanning"
 import OrbitCamera from "../display/cameras/OrbitCamera"
 import { getTransformControlsDragging } from "../states/useTransformControlsDragging"
 import { appendableRoot } from "../api/core/Appendable"
 import { onEditorCenterView } from "../events/onEditorCenterView"
 import { getCameraDistance } from "../states/useCameraDistance"
+import { getCameraRendered } from "../states/useCameraRendered"
 
 const mainOrbitCamera = new OrbitCamera(mainCamera)
 export default mainOrbitCamera
@@ -32,7 +32,7 @@ const { controls } = mainOrbitCamera
 getOrbitControlsScreenSpacePanning(val => controls.screenSpacePanning = val)
 
 createEffect(() => {
-    if (!getOrbitControls() || getCamera() !== mainCamera || getTransformControlsDragging())
+    if (!getOrbitControls() || getCameraRendered() !== mainCamera || getTransformControlsDragging())
         return
 
     mainOrbitCamera.enabled = true
@@ -42,7 +42,7 @@ createEffect(() => {
         mainOrbitCamera.enabled = false
         container.style.cursor = "auto"
     }
-}, [getOrbitControls, getTransformControlsDragging, getCamera])
+}, [getOrbitControls, getTransformControlsDragging, getCameraRendered])
 
 createEffect(() => {
     if (!getOrbitControls()) return
@@ -59,11 +59,11 @@ createEffect(() => {
 }, [getOrbitControls])
 
 createEffect(() => {
-    if (getCamera() !== mainCamera || getOrbitControls()) return
+    if (getCameraRendered() !== mainCamera || getOrbitControls()) return
 
     const handle = getCameraDistance(cameraDistance => mainCamera.position.z = cameraDistance)
 
     return () => {
         handle.cancel()
     }
-}, [getCamera, getOrbitControls])
+}, [getCameraRendered, getOrbitControls])

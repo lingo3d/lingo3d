@@ -3,7 +3,6 @@ import { MouseEventName, mouseEvents } from "../../../api/mouse"
 import { createEffect, createNestedEffect, createRef } from "@lincode/reactivity"
 import { getSelection } from "../../../states/useSelection"
 import { getSelectionTarget, setSelectionTarget } from "../../../states/useSelectionTarget"
-import { getCamera } from "../../../states/useCamera"
 import scene from "../../../engine/scene"
 import { getMultipleSelection } from "../../../states/useMultipleSelection"
 import { getMultipleSelectionTargets, pullMultipleSelectionTargets, pushMultipleSelectionTargets, resetMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
@@ -19,6 +18,7 @@ import { onSceneChange } from "../../../events/onSceneChange"
 import { getSelectionBlockMouse } from "../../../states/useSelectionBlockMouse"
 import StaticObjectManager from "."
 import { isPositionedItem } from "../../../api/core/PositionedItem"
+import { getCameraRendered } from "../../../states/useCameraRendered"
 
 const raycaster = new Raycaster()
 
@@ -32,7 +32,7 @@ const getSelectionCandidates = debounce(() => {
 }, 0, "trailing")
 
 const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
-    raycaster.setFromCamera({ x, y }, getCamera())
+    raycaster.setFromCamera({ x, y }, getCameraRendered())
     return raycaster.intersectObjects([...candidates])[0]
 }
 
@@ -111,7 +111,7 @@ createEffect(() => {
         !multipleSelection && (firstMultipleSelection.current = true)
     }, [multipleSelection])
 
-    if (selection && !getTransformControlsDragging() && getCamera() === mainCamera) {
+    if (selection && !getTransformControlsDragging() && getCameraRendered() === mainCamera) {
         const handle = new Cancellable()
 
         getSelectionCandidates()
@@ -165,4 +165,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getSelection, getSelectionBlockMouse, getTransformControlsDragging, getCamera, getMultipleSelection])
+}, [getSelection, getSelectionBlockMouse, getTransformControlsDragging, getCameraRendered, getMultipleSelection])
