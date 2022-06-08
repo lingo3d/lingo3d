@@ -20,9 +20,15 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
     public abstract maxPolarAngle: number
 
     protected initCamera(this: EventLoopItem & CameraMixin<T>) {
+        this.camera.userData.manager = this
+
         pushCameraList(this.camera)
         this.then(() => {
-            this.active && setCamera(mainCamera)
+            if (this.active) {
+                setCamera(mainCamera)
+                setCameraFrom(undefined)
+                setCameraInterpolate(false)
+            }
             pullCameraList(this.camera)
         })
 

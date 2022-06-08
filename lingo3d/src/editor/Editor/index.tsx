@@ -4,7 +4,7 @@ import settings from "../../api/settings"
 import mainCamera from "../../engine/mainCamera"
 import { onTransformControls } from "../../events/onTransformControls"
 import { objectManagerSchema } from "../../interface/IObjectManager"
-import { getCamera, setCamera } from "../../states/useCamera"
+import { getCamera } from "../../states/useCamera"
 import { setGridHelper } from "../../states/useGridHelper"
 import { setOrbitControls } from "../../states/useOrbitControls"
 import { setSelection } from "../../states/useSelection"
@@ -33,6 +33,7 @@ import ISetup from "../../interface/ISetup"
 import { dummySchema } from "../../interface/IDummy"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
+import mainOrbitCamera from "../../engine/mainOrbitCamera"
 
 preventTreeShake(h)
 
@@ -126,7 +127,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         const currentCamera = getCamera()
 
         const init = () => {
-            setCamera(mainCamera)
+            mainOrbitCamera.activate(true)
             setOrbitControls(true)
             setSelection(true)
             setGridHelper(true)
@@ -151,7 +152,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         emitEditorMountChange()
 
         return () => {
-            setCamera(currentCamera)
+            currentCamera.userData.manager.activate(true)
             setOrbitControls(false)
             setSelection(false)
             setGridHelper(false)
@@ -179,7 +180,9 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         const options = cameraList.reduce<Record<string, any>>((acc, _, i) => (acc["camera " + i] = i, acc), {})
         const cameraInput = pane.addInput({ "camera": cameraList.indexOf(getCamera()) }, "camera", { options })
         cameraFolder.add(cameraInput)
-        cameraInput.on("change", ({ value }) => setCamera(cameraList[value]))
+        cameraInput.on("change", ({ value }) => {
+            cameraList[value].userData.manager.activate(true)
+        })
 
         const secondaryOptions: any = { none: 0, ...omit(options, "camera 0") }
         const secondaryCameraInput = pane.addInput(

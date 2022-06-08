@@ -15,8 +15,7 @@ import { isPositionedItem } from "../../api/core/PositionedItem"
 import { Object3D } from "three"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import { setCamera } from "../../states/useCamera"
-import mainCamera from "../../engine/mainCamera"
+import mainOrbitCamera from "../../engine/mainOrbitCamera"
 
 preventTreeShake(h)
 
@@ -29,7 +28,7 @@ export type TreeItemProps = {
 export const makeTreeItemCallbacks = (target: Appendable | Object3D, parent?: Appendable) => {
     const setClickEl = useClick(e => {
         e.stopPropagation()
-        setCamera(mainCamera)
+        mainOrbitCamera.activate(true)
         isPositionedItem(parent) && getSelectionTarget() !== parent && emitSelectionTarget(parent)
         if (target instanceof Object3D)
             queueMicrotask(() => setSceneGraphTarget(target))

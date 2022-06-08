@@ -10,9 +10,9 @@ import { appendableRoot } from "../api/core/Appendable"
 import { onEditorCenterView } from "../events/onEditorCenterView"
 import { getCameraDistance } from "../states/useCameraDistance"
 
-export default {}
-
 const mainOrbitCamera = new OrbitCamera(mainCamera)
+export default mainOrbitCamera
+
 mainOrbitCamera.enablePan = true
 mainOrbitCamera.enableZoom = true
 mainOrbitCamera.enableFly = true
