@@ -1,24 +1,24 @@
 import CameraBase from "."
-import { getCamera } from "../../../states/useCamera"
 import { container } from "../../../engine/renderLoop/renderSetup"
 import { PerspectiveCamera } from "three"
 import { getPointerLockCamera, setPointerLockCamera } from "../../../states/usePointLockCamera"
 import { mouseEvents } from "../../../api/mouse"
 import { setPickingMode } from "../../../states/usePickingMode"
+import { getCameraRendered } from "../../../states/useCameraRendered"
 
 export default function (this: CameraBase<PerspectiveCamera>) {
     if (this.done) return
 
     this.createEffect(() => {
-        if (this.mouseControlState.get() !== true || getCamera() !== this.camera) return
+        if (this.mouseControlState.get() !== true || getCameraRendered() !== this.camera) return
         setPickingMode("camera")
         return () => {
             setPickingMode("mouse")
         }
-    }, [this.mouseControlState.get, getCamera])
+    }, [this.mouseControlState.get, getCameraRendered])
 
     this.createEffect(() => {
-        if (getCamera() !== this.camera || !this.mouseControlState.get()) return
+        if (getCameraRendered() !== this.camera || !this.mouseControlState.get()) return
 
         if (getPointerLockCamera() === this.camera) {
             const handleMove = (e: MouseEvent) => this.gyrate(e.movementX, e.movementY)
@@ -53,10 +53,10 @@ export default function (this: CameraBase<PerspectiveCamera>) {
             container.removeEventListener("pointermove", handleMove)
             started = false
         }
-    }, [this.mouseControlState.get, getCamera, getPointerLockCamera])
+    }, [this.mouseControlState.get, getCameraRendered, getPointerLockCamera])
 
     this.createEffect(() => {
-        const camera = getCamera()
+        const camera = getCameraRendered()
         if (this.mouseControlState.get() !== true || camera !== this.camera) return
 
         const onClick = () => container.requestPointerLock?.()
@@ -75,5 +75,5 @@ export default function (this: CameraBase<PerspectiveCamera>) {
             document.exitPointerLock()
             setPointerLockCamera(undefined)
         }
-    }, [this.mouseControlState.get, getCamera])
+    }, [this.mouseControlState.get, getCameraRendered])
 }

@@ -5,7 +5,6 @@ import { PerspectiveCamera, Vector3 } from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { camFar, camNear, scaleDown, scaleUp } from "../../engine/constants"
 import { container } from "../../engine/renderLoop/renderSetup"
-import { getCamera } from "../../states/useCamera"
 import EventLoopItem from "../../api/core/EventLoopItem"
 import CameraMixin from "../core/mixins/CameraMixin"
 import IOrbitCamera, { orbitCameraDefaults, orbitCameraSchema } from "../../interface/IOrbitCamera"
@@ -16,6 +15,7 @@ import { getTransformControlsDragging } from "../../states/useTransformControlsD
 import { onKeyClear } from "../../events/onKeyClear"
 import { onSceneChange } from "../../events/onSceneChange"
 import PositionedItem from "../../api/core/PositionedItem"
+import { getCameraRendered } from "../../states/useCameraRendered"
 
 class OrbitCamera extends PositionedItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -59,7 +59,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         this.updateDebounced()
 
         this.createEffect(() => {
-            if (getTransformControlsDragging() || getCamera() !== camera || !this.enabledState.get())
+            if (getTransformControlsDragging() || getCameraRendered() !== camera || !this.enabledState.get())
                 return
 
             controls.enabled = true
@@ -143,7 +143,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                 controls.enabled = false
                 handle.cancel()
             }
-        }, [getCamera, getTransformControlsDragging, this.enableZoomState.get, this.enableFlyState.get, this.enabledState.get])
+        }, [getCameraRendered, getTransformControlsDragging, this.enableZoomState.get, this.enableFlyState.get, this.enabledState.get])
 
         this.then(() => controls.dispose())
     }

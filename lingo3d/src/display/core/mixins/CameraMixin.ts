@@ -11,7 +11,7 @@ import EventLoopItem from "../../../api/core/EventLoopItem"
 import ICameraMixin from "../../../interface/ICameraMixin"
 import makeCameraSprite from "../utils/makeCameraSprite"
 import { emitSelectionTarget, onSelectionTarget } from "../../../events/onSelectionTarget"
-import { getCameraInterpolate, setCameraInterpolate } from "../../../states/useCameraInterpolate"
+import { setCameraInterpolate } from "../../../states/useCameraInterpolate"
 import { setCameraFrom } from "../../../states/useCameraFrom"
 
 export default abstract class CameraMixin<T extends PerspectiveCamera> extends EventLoopItem implements ICameraMixin {

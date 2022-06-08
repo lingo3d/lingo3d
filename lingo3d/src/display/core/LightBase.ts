@@ -5,7 +5,7 @@ import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { emitSelectionTarget, onSelectionTarget } from "../../events/onSelectionTarget"
 import ILightBase from "../../interface/ILightBase"
-import { getCamera } from "../../states/useCamera"
+import { getCameraRendered } from "../../states/useCameraRendered"
 import MeshItem from "./MeshItem"
 import ObjectManager from "./ObjectManager"
 import makeLightSprite from "./utils/makeLightSprite"
@@ -15,7 +15,7 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
         super(light)
 
         Helper && this.createEffect(() => {
-            if (getCamera() !== mainCamera) return
+            if (getCameraRendered() !== mainCamera) return
 
             const helper = new Helper(this.object3d)
             scene.add(helper)
@@ -33,7 +33,7 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
                 sprite.dispose()
                 handle.cancel()
             }
-        }, [getCamera])
+        }, [getCameraRendered])
     }
 
     public override dispose() {

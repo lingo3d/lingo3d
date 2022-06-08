@@ -11,9 +11,9 @@ import mainCamera from "../engine/mainCamera"
 import scene from "../engine/scene"
 import { emitSelectionTarget, onSelectionTarget } from "../events/onSelectionTarget"
 import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
-import { getCamera } from "../states/useCamera"
 import { appendableRoot } from "../api/core/Appendable"
 import PositionedItem from "../api/core/PositionedItem"
+import { getCameraRendered } from "../states/useCameraRendered"
 
 const getTargets = (id: string) => [...(idMap.get(id) ?? [])]
 
@@ -126,7 +126,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
             const { _radius, _helper, _pad } = this
             if (!_helper) return
 
-            if (getCamera() !== mainCamera) return
+            if (getCameraRendered() !== mainCamera) return
 
             const h = helper = _pad ? new Cylinder() : new Sphere()
             appendableRoot.delete(h)
@@ -142,6 +142,6 @@ export default class Trigger extends PositionedItem implements ITrigger {
                 helper = undefined
                 handle.cancel()
             }
-        }, [this.refresh.get, getCamera])
+        }, [this.refresh.get, getCameraRendered])
     }
 }

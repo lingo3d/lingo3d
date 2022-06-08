@@ -3,19 +3,19 @@ import { AudioListener, PositionalAudio } from "three"
 import PositionedItem from "../api/core/PositionedItem"
 import scene from "../engine/scene"
 import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
-import { getCamera } from "../states/useCamera"
+import { getCameraRendered } from "../states/useCameraRendered"
 import loadAudio from "./utils/loaders/loadAudio"
 
 const audioListener = new AudioListener()
 
 createEffect(() => {
-    const cam = getCamera()
+    const cam = getCameraRendered()
     cam.add(audioListener)
 
     return () => {
         cam.remove(audioListener)
     }
-}, [getCamera])
+}, [getCameraRendered])
 
 export default class Audio extends PositionedItem implements IAudio {
     public static componentName = "audio"
