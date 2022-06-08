@@ -2,15 +2,16 @@ import store, { createEffect } from "@lincode/reactivity"
 import { Quaternion, Vector3 } from "three"
 import { loop } from "../engine/eventLoop"
 import interpolationCamera from "../engine/interpolationCamera"
-import { getCamera } from "./useCamera"
+import { getCameraStack } from "./useCameraStack"
 import { getCameraFrom } from "./useCameraFrom"
+import { last } from "@lincode/utils"
 
 export const [setCameraInterpolate, getCameraInterpolate] = store(false)
 
 createEffect(() => {
     const interpolate = getCameraInterpolate()
     const cameraFrom = getCameraFrom()
-    const cameraTo = getCamera()
+    const cameraTo = last(getCameraStack())!
     if (!interpolate || !cameraFrom || cameraFrom === cameraTo) return
 
     const positionFrom = cameraFrom.getWorldPosition(new Vector3())
@@ -30,4 +31,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getCameraInterpolate, getCameraFrom, getCamera])
+}, [getCameraInterpolate, getCameraFrom, getCameraStack])

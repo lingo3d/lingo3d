@@ -1,7 +1,7 @@
 import { Fragment, h } from "preact"
 import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import register from "preact-custom-element"
-import { preventTreeShake } from "@lincode/utils"
+import { last, preventTreeShake } from "@lincode/utils"
 import { onSceneChange } from "../../events/onSceneChange"
 import { appendableRoot } from "../../api/core/Appendable"
 import TreeItem from "./TreeItem"
@@ -11,7 +11,7 @@ import { multipleSelectionGroupManagers } from "../../states/useMultipleSelectio
 import GroupIcon from "./icons/GroupIcon"
 import DeleteIcon from "./icons/DeleteIcon"
 import TitleBarButton from "./TitleBarButton"
-import { useCamera, useMultipleSelectionTargets, useSceneGraphTarget, useSelectionTarget } from "../states"
+import { useCameraStack, useMultipleSelectionTargets, useSceneGraphTarget, useSelectionTarget } from "../states"
 import deleteSelected from "../Editor/deleteSelected"
 import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
@@ -42,7 +42,8 @@ const SceneGraph = () => {
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const [selectionTarget] = useSelectionTarget()
     const [sceneGraphTarget] = useSceneGraphTarget()
-    const [camera] = useCamera()
+    const [cameraStack] = useCameraStack()
+    const camera = last(cameraStack)
 
     const handleFind = () => {
         if (sceneGraphTarget?.name && selectionTarget instanceof ObjectManager)

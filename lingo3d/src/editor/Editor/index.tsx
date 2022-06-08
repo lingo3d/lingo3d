@@ -1,10 +1,9 @@
-import { debounce, omit, preventTreeShake } from "@lincode/utils"
+import { debounce, last, omit, preventTreeShake } from "@lincode/utils"
 import { FolderApi, Pane } from "tweakpane"
 import settings from "../../api/settings"
 import mainCamera from "../../engine/mainCamera"
 import { onTransformControls } from "../../events/onTransformControls"
 import { objectManagerSchema } from "../../interface/IObjectManager"
-import { getCamera } from "../../states/useCamera"
 import { setGridHelper } from "../../states/useGridHelper"
 import { setOrbitControls } from "../../states/useOrbitControls"
 import { setSelection } from "../../states/useSelection"
@@ -13,7 +12,7 @@ import { setSelectionBlockMouse } from "../../states/useSelectionBlockMouse"
 import { h } from "preact"
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks"
 import register from "preact-custom-element"
-import { useSelectionTarget, useCameraList, useMultipleSelectionTargets, useCamera, useDefaultLight, useDefaultFog } from "../states"
+import { useSelectionTarget, useCameraList, useMultipleSelectionTargets, useCameraStack, useDefaultLight, useDefaultFog } from "../states"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import ObjectManager from "../../display/core/ObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
@@ -123,8 +122,11 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
 
     const [renderDeps, render] = useState({})
 
+    const [cameraStack] = useCameraStack()
+    const camera = last(cameraStack)!
+
     useEffect(() => {
-        const currentCamera = getCamera()
+        const currentCamera = camera!
 
         const init = () => {
             mainOrbitCamera.activate()
@@ -169,7 +171,6 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
     const [selectionTarget] = useSelectionTarget()
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const [cameraList] = useCameraList()
-    const [camera] = useCamera()
 
     const [pane, setPane] = useState<Pane>()
     const [cameraFolder, setCameraFolder] = useState<FolderApi>()
@@ -178,7 +179,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         if (!pane || !cameraFolder) return
 
         const options = cameraList.reduce<Record<string, any>>((acc, _, i) => (acc["camera " + i] = i, acc), {})
-        const cameraInput = pane.addInput({ "camera": cameraList.indexOf(getCamera()) }, "camera", { options })
+        const cameraInput = pane.addInput({ "camera": cameraList.indexOf(camera) }, "camera", { options })
         cameraFolder.add(cameraInput)
         cameraInput.on("change", ({ value }) => {
             cameraList[value].userData.manager.activate(true)

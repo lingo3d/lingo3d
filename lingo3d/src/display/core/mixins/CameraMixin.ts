@@ -5,7 +5,7 @@ import { bokehDefault } from "../../../states/useBokeh"
 import { bokehApertureDefault } from "../../../states/useBokehAperture"
 import { bokehFocusDefault } from "../../../states/useBokehFocus"
 import { bokehMaxBlurDefault } from "../../../states/useBokehMaxBlur"
-import { getCamera, setCamera } from "../../../states/useCamera"
+import { getCameraStack, pullCameraStack, pushCameraStack } from "../../../states/useCameraStack"
 import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import ICameraMixin from "../../../interface/ICameraMixin"
@@ -15,6 +15,7 @@ import { setCameraInterpolate } from "../../../states/useCameraInterpolate"
 import { setCameraFrom } from "../../../states/useCameraFrom"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { setBokehRefresh } from "../../../states/useBokehRefresh"
+import { last } from "@lincode/utils"
 
 export default abstract class CameraMixin<T extends PerspectiveCamera> extends EventLoopItem implements ICameraMixin {
     protected abstract camera: T
@@ -27,10 +28,10 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
         pushCameraList(this.camera)
         this.then(() => {
             if (this.active) {
-                setCamera(mainCamera)
                 setCameraFrom(undefined)
                 setCameraInterpolate(false)
             }
+            pullCameraStack(this.camera)
             pullCameraList(this.camera)
         })
 
@@ -90,16 +91,17 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
     }
 
     public activate(interpolate?: boolean) {
-        const cameraFrom = getCamera()
+        const cameraFrom = last(getCameraStack())
         if (cameraFrom === this.camera) return
 
-        setCamera(this.camera)
+        pullCameraStack(this.camera)
+        pushCameraStack(this.camera)
         setCameraFrom(cameraFrom)
         setCameraInterpolate(!!interpolate)
     }
 
     public get active() {
-        return getCamera() === this.camera
+        return last(getCameraStack()) === this.camera
     }
     public set active(val: boolean | "transition") {
         val && this.activate(val === "transition")
