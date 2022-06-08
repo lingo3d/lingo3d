@@ -1,5 +1,6 @@
 import { BufferGeometry } from "three"
 import PhysicsMixin from ".."
+import { getObject3d } from "../../../MeshItem"
 import Primitive from "../../../Primitive"
 import { MeshBVH } from "./bvh"
 // import { GenerateMeshBVHWorker } from "./GenerateMeshBVHWorker"
@@ -13,7 +14,7 @@ export default (item: PhysicsMixin): [Array<MeshBVH>, Array<BufferGeometry>] => 
 
     const geometries: Array<BufferGeometry> = []
     item.outerObject3d.traverse((c: any) => {
-        if (!c.geometry || (c === item.object3d && !(item instanceof Primitive)))
+        if (!c.geometry || (c === getObject3d(item) && !(item instanceof Primitive)))
             return
             
         const geom = c.geometry.clone()

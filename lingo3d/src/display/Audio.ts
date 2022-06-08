@@ -1,6 +1,7 @@
 import { createEffect } from "@lincode/reactivity"
 import { AudioListener, PositionalAudio } from "three"
 import PositionedItem from "../api/core/PositionedItem"
+import scene from "../engine/scene"
 import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
 import { getCamera } from "../states/useCamera"
 import loadAudio from "./utils/loaders/loadAudio"
@@ -27,6 +28,7 @@ export default class Audio extends PositionedItem implements IAudio {
         const sound = new PositionalAudio(audioListener)
         super(sound)
         this.sound = sound
+        scene.add(sound)
     }
 
     public override dispose() {

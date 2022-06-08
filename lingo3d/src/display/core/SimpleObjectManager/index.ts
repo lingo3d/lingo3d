@@ -13,7 +13,7 @@ import bvhContactMap from "../mixins/PhysicsMixin/bvh/bvhContactMap"
 import { cannonContactBodies, cannonContactMap } from "../mixins/PhysicsMixin/cannon/cannonLoop"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
-import MeshItem from "../MeshItem"
+import MeshItem, { getObject3d, isMeshItem } from "../MeshItem"
 
 export const idMap = new Map<string, Set<SimpleObjectManager>>()
 
@@ -312,8 +312,8 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     }
 
     public placeAt(object: MeshItem | Point3d) {
-        if ("object3d" in object) {
-            this.outerObject3d.position.copy(getCenter(object.object3d ?? object.outerObject3d))
+        if ("outerObject3d" in object) {
+            this.outerObject3d.position.copy(getCenter(getObject3d(object)))
             this.outerObject3d.quaternion.copy(object.outerObject3d.getWorldQuaternion(quaternion))
         }
         else this.outerObject3d.position.copy(point2Vec(object))

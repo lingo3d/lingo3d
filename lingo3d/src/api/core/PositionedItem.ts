@@ -1,4 +1,4 @@
-import { Object3D } from "three"
+import { getObject3d } from "../../display/core/MeshItem"
 import { vector3_ } from "../../display/utils/reusables"
 import { vec2Point } from "../../display/utils/vec2Point"
 import { scaleUp, scaleDown } from "../../engine/constants"
@@ -6,8 +6,6 @@ import IPositioned from "../../interface/IPositioned"
 import EventLoopItem from "./EventLoopItem"
 
 export default abstract class PositionedItem extends EventLoopItem implements IPositioned {
-    public object3d?: Object3D
-
     public get x() {
         return this.outerObject3d.position.x * scaleUp
     }
@@ -30,7 +28,7 @@ export default abstract class PositionedItem extends EventLoopItem implements IP
     }
 
     public getWorldPosition() {
-        return vec2Point((this.object3d ?? this.outerObject3d).getWorldPosition(vector3_))
+        return vec2Point(getObject3d(this).getWorldPosition(vector3_))
     }
 }
 

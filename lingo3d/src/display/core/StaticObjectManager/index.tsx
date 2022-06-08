@@ -1,5 +1,5 @@
 import { distance3d, Point3d } from "@lincode/math"
-import { Material, Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding, Vector3 } from "three"
+import { Material, Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
 import { frustum, matrix4, ray, vector3, vector3_, vector3_1, vector3_half, vector3__ } from "../../utils/reusables"
 import { applyMixins, throttle } from "@lincode/utils"
@@ -17,7 +17,7 @@ import getCenter from "../../utils/getCenter"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import IStaticObjectManager from "../../../interface/IStaticObjectManaget"
 import AnimationMixin from "../mixins/AnimationMixin"
-import MeshItem from "../MeshItem"
+import MeshItem, { getObject3d, isMeshItem } from "../MeshItem"
 import { Reactive } from "@lincode/reactivity"
 import copyStandard from "./applyMaterialProperties/copyStandard"
 import copyToon from "./applyMaterialProperties/copyToon"
@@ -355,7 +355,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
 
     public lookAt(target: MeshItem | Point3d) {
         if ("outerObject3d" in target)
-            this.outerObject3d.lookAt((target.object3d ?? target.outerObject3d).getWorldPosition(vector3))
+            this.outerObject3d.lookAt(getObject3d(target).getWorldPosition(vector3))
         else
             this.outerObject3d.lookAt(point2Vec(target))
     }
