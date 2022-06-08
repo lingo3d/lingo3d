@@ -97,13 +97,9 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
     }
 
     public get active() {
-        if (getCamera() === this.camera) {
-            if (getCameraInterpolate()) return "transition"
-            return true
-        }
-        return false
+        return getCamera() === this.camera
     }
-    public set active(val) {
+    public set active(val: boolean | "transition") {
         val && this.activate(val === "transition")
     }
 

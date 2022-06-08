@@ -22,6 +22,8 @@ import { ssrPtr } from "./effectComposer/ssrPass"
 import resize from "./resize"
 import effectComposer from "./effectComposer"
 import { getEffectComposer } from "../../states/useEffectComposer"
+import { getCameraInterpolate } from "../../states/useCameraInterpolate"
+import interpolationCamera from "../interpolationCamera"
 
 preventTreeShake([resize, effectComposer])
 
@@ -31,8 +33,10 @@ createEffect(() => {
     const renderer = getRenderer()
     if (!renderer) return
 
-    const camera = getCamera()
+    const camera = getCameraInterpolate() ? interpolationCamera : getCamera()
     const secondaryCamera = getSecondaryCamera()
+
+    console.log(camera === interpolationCamera)
 
     if (secondaryCamera) {
         const [resX, resY] = getResolution()
@@ -182,4 +186,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getPerformance, getVR, getCamera, getSecondaryCamera, getResolution, getRenderer, getEffectComposer])
+}, [getPerformance, getVR, getCamera, getCameraInterpolate, getSecondaryCamera, getResolution, getRenderer, getEffectComposer])

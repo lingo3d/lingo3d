@@ -16,7 +16,6 @@ import { getTransformControlsDragging } from "../../states/useTransformControlsD
 import { onKeyClear } from "../../events/onKeyClear"
 import { onSceneChange } from "../../events/onSceneChange"
 import PositionedItem from "../../api/core/PositionedItem"
-import scene from "../../engine/scene"
 
 class OrbitCamera extends PositionedItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -31,7 +30,6 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         protected camera = new PerspectiveCamera(75, 1, camNear, camFar)
     ) {
         super(camera)
-        scene.add(camera)
 
         this.initCamera()
 
