@@ -1,6 +1,6 @@
 import { settings } from ".."
 //@ts-ignore
-import linkSrc from "../../assets-local/T-Pose.fbx"
+import linkSrc from "../../assets-local/link.glb"
 import Model from "../display/Model"
 //@ts-ignore
 import personSrc from "../../assets-local/person.glb"
