@@ -154,7 +154,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         emitEditorMountChange()
 
         return () => {
-            currentCamera.userData.manager.activate(true)
+            currentCamera.userData.manager.activate()
             setOrbitControls(false)
             setSelection(false)
             setGridHelper(false)
@@ -182,7 +182,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         const cameraInput = pane.addInput({ "camera": cameraList.indexOf(camera) }, "camera", { options })
         cameraFolder.add(cameraInput)
         cameraInput.on("change", ({ value }) => {
-            cameraList[value].userData.manager.activate(true)
+            cameraList[value].userData.manager.activate()
         })
 
         const secondaryOptions: any = { none: 0, ...omit(options, "camera 0") }

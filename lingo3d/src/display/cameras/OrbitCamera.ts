@@ -1,6 +1,6 @@
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
-import { applyMixins, debounce } from "@lincode/utils"
+import { applyMixins } from "@lincode/utils"
 import { PerspectiveCamera } from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { camFar, camNear, scaleDown, scaleUp } from "../../engine/constants"
@@ -27,8 +27,6 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
     public static schema = orbitCameraSchema
 
     private controls: OrbitControls
-
-    private updateDebounced = debounce(() => this.controls.update(), 0, "trailing")
 
     public constructor(
         protected camera = new PerspectiveCamera(75, 1, camNear, camFar)
@@ -68,13 +66,13 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         controls.maxAzimuthAngle = this._maxAzimuthAngle
 
         camera.position.z = 5
-        this.updateDebounced()
+        this.controls.update()
 
         this.createEffect(() => {
             if (!this.enabledState.get()) return
 
             controls.enabled = true
-            const handle = onBeforeRender(this.updateDebounced)
+            const handle = onBeforeRender(() => this.controls.update())
 
             return () => {
                 controls.enabled = false
@@ -102,7 +100,6 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                         pt = controls.target.clone().add(direction.multiplyScalar(-1))
 
                     camera.position.copy(pt)
-                    this.updateDebounced()
                 }
                 container.addEventListener("wheel", cb)
                 handle.then(() => container.removeEventListener("wheel", cb))
@@ -115,19 +112,16 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                     const direction = camera.getWorldDirection(vector3)
                     camera.position.add(direction.clone().multiplyScalar(distance * scaleDown))
                     this.controls.target.copy(camera.position).add(direction)
-                    this.updateDebounced()
                 }
                 const moveRight = (distance: number) => {
                     vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
                     camera.position.addScaledVector(vector3, distance * scaleDown)
                     this.controls.target.addScaledVector(vector3, distance * scaleDown)
-                    this.updateDebounced()
                 }
                 const moveUp = (distance: number) => {
                     const dist = distance * scaleDown
                     camera.position.y += dist
                     this.controls.target.y += dist
-                    this.updateDebounced()
                 }
                 handle.watch(onBeforeRender(() => {
                     if (downSet.has("w"))
