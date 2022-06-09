@@ -8,7 +8,6 @@ import { container } from "../../engine/renderLoop/renderSetup"
 import EventLoopItem from "../../api/core/EventLoopItem"
 import CameraMixin from "../core/mixins/CameraMixin"
 import IOrbitCamera, { orbitCameraDefaults, orbitCameraSchema } from "../../interface/IOrbitCamera"
-import { loop } from "../../engine/eventLoop"
 import { vector3 } from "../utils/reusables"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../globals"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
@@ -18,6 +17,8 @@ import PositionedItem from "../../api/core/PositionedItem"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import scene from "../../engine/scene"
 import mainCamera from "../../engine/mainCamera"
+import { onBeforeRender } from "../../events/onBeforeRender"
+import { Cancellable } from "@lincode/promiselikes"
 
 class OrbitCamera extends PositionedItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -54,7 +55,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
 
             const { target } = this.controls
 
-            const handle = loop(() => {
+            const handle = onBeforeRender(() => {
             })
             return () => {
                 handle.cancel()
@@ -75,11 +76,22 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         this.updateDebounced()
 
         this.createEffect(() => {
+            if (!this.enabledState.get()) return
+
+            controls.enabled = true
+            const handle = onBeforeRender(this.updateDebounced)
+
+            return () => {
+                controls.enabled = false
+                handle.cancel()
+            }
+        }, [this.enabledState.get])
+
+        this.createEffect(() => {
             if (getTransformControlsDragging() || getCameraRendered() !== camera || !this.enabledState.get())
                 return
 
-            controls.enabled = true
-            const handle = loop(this.updateDebounced)
+            const handle = new Cancellable()
 
             if (this.enableZoomState.get()) {
                 const cb = (e: WheelEvent) => {
@@ -122,7 +134,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                     this.controls.target.y += dist
                     this.updateDebounced()
                 }
-                handle.watch(loop(() => {
+                handle.watch(onBeforeRender(() => {
                     if (downSet.has("w"))
                         moveForward(downSet.has("Shift") ? 50 : 10)
                     else if (downSet.has("s"))
@@ -156,7 +168,6 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
             }
             
             return () => {
-                controls.enabled = false
                 handle.cancel()
             }
         }, [
