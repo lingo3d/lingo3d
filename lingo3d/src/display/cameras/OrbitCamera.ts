@@ -16,6 +16,8 @@ import { onKeyClear } from "../../events/onKeyClear"
 import { onSceneChange } from "../../events/onSceneChange"
 import PositionedItem from "../../api/core/PositionedItem"
 import { getCameraRendered } from "../../states/useCameraRendered"
+import scene from "../../engine/scene"
+import mainCamera from "../../engine/mainCamera"
 
 class OrbitCamera extends PositionedItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -45,6 +47,20 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                 handle.cancel()
             }
         }, [this.targetState.get])
+
+        this.createEffect(() => {
+            if (getCameraRendered() !== mainCamera || getCameraRendered() === this.camera)
+                return
+
+            const { target } = this.controls
+
+            const handle = loop(() => {
+            })
+            return () => {
+                handle.cancel()
+            }
+
+        }, [this.targetState.get, getCameraRendered])
 
         const controls = this.controls = new OrbitControls(camera, container)
         controls.enabled = false
@@ -143,9 +159,19 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                 controls.enabled = false
                 handle.cancel()
             }
-        }, [getCameraRendered, getTransformControlsDragging, this.enableZoomState.get, this.enableFlyState.get, this.enabledState.get])
+        }, [
+            getCameraRendered,
+            getTransformControlsDragging,
+            this.enableZoomState.get,
+            this.enableFlyState.get,
+            this.enabledState.get
+        ])
 
-        this.then(() => controls.dispose())
+        scene.add(camera)
+        this.then(() => {
+            controls.dispose()
+            scene.remove(camera)
+        })
     }
 
     private _targetX?: number
