@@ -6,6 +6,7 @@ export default interface IOrbitCamera extends IPositioned, ICameraMixin {
     targetX: number
     targetY: number
     targetZ: number
+    targetId?: string
 
     enabled: boolean
     enableDamping: boolean
@@ -28,6 +29,7 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
     targetX: Number,
     targetY: Number,
     targetZ: Number,
+    targetId: String,
 
     enabled: Boolean,
     enableDamping: Boolean,

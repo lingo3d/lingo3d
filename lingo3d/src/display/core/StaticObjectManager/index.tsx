@@ -2,7 +2,7 @@ import { distance3d, Point3d } from "@lincode/math"
 import { Material, Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
 import { frustum, matrix4, ray, vector3, vector3_, vector3_1, vector3_half, vector3__ } from "../../utils/reusables"
-import { applyMixins, throttle } from "@lincode/utils"
+import { applyMixins, forceGet, throttle } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import { scaleDown, scaleUp } from "../../../engine/constants"
 import { addBloom, deleteBloom } from "../../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
@@ -44,6 +44,9 @@ const setBoolean = (child: any, property: string, value: boolean | undefined) =>
     child.material[property] = value === undefined ? defaultValue : value
 }
 
+export const staticIdMap = new Map<string, Set<StaticObjectManager>>()
+const makeSet = () => new Set()
+
 class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem implements IStaticObjectManager {
     public constructor(
         public object3d: T
@@ -54,7 +57,18 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     public override dispose() {
         super.dispose()
         deleteSSR(this.object3d)
+        this._id !== undefined && staticIdMap.get(this._id)!.delete(this)
         return this
+    }
+
+    protected _id?: string
+    public get id() {
+        return this._id
+    }
+    public set id(val: string | undefined) {
+        this._id !== undefined && staticIdMap.get(this._id)!.delete(this)
+        this._id = val
+        val !== undefined && forceGet(staticIdMap, val, makeSet).add(this)
     }
 
     protected addToRaycastSet(set: Set<Object3D>, handle: Cancellable) {

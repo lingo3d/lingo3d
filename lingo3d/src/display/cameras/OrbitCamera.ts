@@ -1,7 +1,7 @@
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
 import { applyMixins, debounce } from "@lincode/utils"
-import { PerspectiveCamera, Vector3 } from "three"
+import { PerspectiveCamera } from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { camFar, camNear, scaleDown, scaleUp } from "../../engine/constants"
 import { container } from "../../engine/renderLoop/renderSetup"
@@ -18,6 +18,8 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { Cancellable } from "@lincode/promiselikes"
+import { staticIdMap } from "../core/StaticObjectManager"
+import MeshItem from "../core/MeshItem"
 
 class OrbitCamera extends PositionedItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -39,14 +41,22 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
             const target = this.targetState.get()
             if (!target) return
 
-            this.controls.target = target.outerObject3d.position
-            const handle = onSceneChange(() => target.parent !== this && this.targetState.set(undefined))
+            const handle0 = onBeforeRender(() => this.controls.target.copy(target.outerObject3d.getWorldPosition(vector3)))
+            const handle1 = onSceneChange(() => target.parent !== this && this.targetState.set(undefined))
             
             return () => {
-                this.controls.target = new Vector3()
-                handle.cancel()
+                handle0.cancel
+                handle1.cancel()
             }
         }, [this.targetState.get])
+
+        this.createEffect(() => {
+            const targetId = this.targetIdState.get()
+            if (!targetId) return
+
+            this.targetState.set([...staticIdMap.get(targetId) ?? []][0])
+
+        }, [this.targetIdState.get])
 
         const controls = this.controls = new OrbitControls(camera, container)
         controls.enabled = false
@@ -197,8 +207,8 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         this.controls.target.z = val * scaleDown
     }
 
-    private targetState = new Reactive<PositionedItem | undefined>(undefined)
-    public override append(object: PositionedItem) {
+    private targetState = new Reactive<MeshItem | undefined>(undefined)
+    public override append(object: MeshItem) {
         if (this.targetState.get()) {
             super.append(object)
             return
@@ -208,7 +218,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         this.targetState.set(object)
     }
 
-    public override attach(object: PositionedItem) {
+    public override attach(object: MeshItem) {
         if (this.targetState.get()) {
             super.attach(object)
             return
@@ -216,6 +226,14 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         this._append(object)
         this.outerObject3d.parent?.attach(object.outerObject3d)
         this.targetState.set(object)
+    }
+
+    private targetIdState = new Reactive<string | undefined>(undefined)
+    public get targetId() {
+        return this.targetIdState.get()
+    }
+    public set targetId(val: string | undefined) {
+        this.targetIdState.set(val)
     }
 
     public override get x() {

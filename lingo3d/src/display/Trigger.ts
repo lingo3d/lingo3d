@@ -1,6 +1,5 @@
 import { Reactive } from "@lincode/reactivity"
 import { Group } from "three"
-import { idMap } from "./core/SimpleObjectManager"
 import Cylinder from "./primitives/Cylinder"
 import Sphere from "./primitives/Sphere"
 import getActualScale from "./utils/getActualScale"
@@ -14,8 +13,9 @@ import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
 import { appendableRoot } from "../api/core/Appendable"
 import PositionedItem from "../api/core/PositionedItem"
 import { getCameraRendered } from "../states/useCameraRendered"
+import { simpleIdMap } from "./core/SimpleObjectManager"
 
-const getTargets = (id: string) => [...(idMap.get(id) ?? [])]
+const getTargets = (id: string) => [...(simpleIdMap.get(id) ?? [])]
 
 export default class Trigger extends PositionedItem implements ITrigger {
     public static componentName = "trigger"

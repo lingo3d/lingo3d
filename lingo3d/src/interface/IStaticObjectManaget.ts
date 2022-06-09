@@ -12,6 +12,7 @@ export default interface IStaticObjectManager extends IEventLoop, IAnimation {
     onMouseMove?: (e: LingoMouseEvent) => void
     
     name: string
+    id?: string
 
     bloom: boolean
     reflection: boolean
@@ -40,6 +41,7 @@ export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManag
     onMouseMove: Function,
 
     name: String,
+    id: String,
 
     bloom: Boolean,
     reflection: Boolean,

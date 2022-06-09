@@ -10,7 +10,6 @@ export default interface ISimpleObjectManager extends IStaticObjectManager, IPos
     onIntersect?: OnIntersectValue
     onIntersectOut?: OnIntersectValue
 
-    id?: string
     intersectIds?: Array<string>
 
     width: number
@@ -38,7 +37,6 @@ export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManag
     onIntersect: Function,
     onIntersectOut: Function,
 
-    id: String,
     intersectIds: Array,
 
     width: Number,
