@@ -50,7 +50,8 @@ export const nonSerializedProperties = [
     "children",
     "scale",
     "velocity",
-    "target"
+    "target",
+    "proxy"
 ]
 export const nonEditorSettings: Array<keyof ISetup> = [
     "performance",

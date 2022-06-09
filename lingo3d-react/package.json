@@ -19,7 +19,7 @@
 		"@lincode/reactivity": "*",
 		"@lincode/utils": "*",
 		"@types/three": "0.140.0",
-		"lingo3d": "1.10.231",
+		"lingo3d": "1.10.232",
 		"nanoid": "^3.3.4",
 		"popmotion": "^11.0.3",
 		"stats.js": "^0.17.0"

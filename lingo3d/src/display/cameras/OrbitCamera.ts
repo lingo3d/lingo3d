@@ -52,8 +52,22 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
             const targetId = this.targetIdState.get()
             if (!targetId) return
 
-            this.targetState.set([...staticIdMap.get(targetId) ?? []][0])
+            const handle = new Cancellable()
+            setTimeout(() => {
+                if (handle.done) return
 
+                const find = () => {
+                    const found = [...staticIdMap.get(targetId) ?? [undefined]][0]
+                    found && this.targetState.set(found)
+                    return found
+                }
+                if (find()) return
+
+                handle.watch(onSceneChange(() => setTimeout(() => find() && handle.cancel())))
+            })
+            return () => {
+                handle.cancel()
+            }
         }, [this.targetIdState.get])
 
         const controls = this.controls = new OrbitControls(camera, container)
