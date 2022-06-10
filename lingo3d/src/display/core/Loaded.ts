@@ -9,7 +9,7 @@ import { addOutline, deleteOutline } from "../../engine/renderLoop/effectCompose
 import { addBloom, deleteBloom } from "../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import { addSSR, deleteSSR } from "../../engine/renderLoop/effectComposer/ssrPass"
 
-export default abstract class Loaded<T> extends ObjectManager<Mesh> implements ILoaded {
+export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> implements ILoaded {
     public loadedGroup = new Group()
     
     public constructor() {

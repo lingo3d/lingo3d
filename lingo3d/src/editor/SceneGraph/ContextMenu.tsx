@@ -3,13 +3,13 @@ import { Fragment, h } from "preact"
 import { useEffect, useState } from "preact/hooks"
 import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
+import Loaded from "../../display/core/Loaded"
 import { isMeshItem } from "../../display/core/MeshItem"
-import Model from "../../display/Model"
 import { emitSelectionFrozen } from "../../events/onSelectionFrozen"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
-import { getSelectionTarget } from "../../states/useSelectionTarget"
+import { useSelectionTarget } from "../states"
 
 preventTreeShake(h)
 
@@ -19,16 +19,19 @@ const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     nextParent && traverseUp(nextParent, expandedSet)
 }
 
-const search = (n: string) => {
-    const model = getSelectionTarget()
-    if (!(model instanceof Model)) return
-    
+const search = (n: string, target: Loaded | Appendable) => {
     const name = n.toLowerCase()
     let found: Object3D | undefined
-    model.loadedGroup.traverse(item => {
-        if (found) return
-        item.name.toLowerCase().includes(name) && (found = item)
-    })
+    if (target instanceof Loaded)
+        target.loadedGroup.traverse(item => {
+            if (found) return
+            item.name.toLowerCase().includes(name) && (found = item)
+        })
+    else
+        target.outerObject3d.traverse(item => {
+            if (found) return
+            item.name.toLowerCase().includes(name) && (found = item)
+        })
     if (!found) return
     
     const expandedSet = new Set<Object3D>()
@@ -60,6 +63,7 @@ const MenuItem = ({ onClick, children }: MenuItemProps) => {
 const ContextMenu = () => {
     const [data, setData] = useState<{ x: number, y: number, target: Appendable } | undefined>(undefined)
     const [showSearch, setShowSearch] = useState(false)
+    const [selectionTarget] = useSelectionTarget()
 
     useEffect(() => {
         let [clientX, clientY] = [0, 0]
@@ -105,7 +109,7 @@ const ContextMenu = () => {
                      onKeyDown={e => {
                          e.stopPropagation()
                          if (e.key !== "Enter" && e.key !== "Escape") return
-                         e.key === "Enter" && search((e.target as HTMLInputElement).value)
+                         e.key === "Enter" && selectionTarget && search((e.target as HTMLInputElement).value, selectionTarget)
                          setData(undefined)
                      }}
                     />
@@ -115,8 +119,7 @@ const ContextMenu = () => {
                             Search children
                         </MenuItem>
                         <MenuItem onClick={() => {
-                            const target = getSelectionTarget()
-                            isMeshItem(target) && emitSelectionFrozen(target)
+                            isMeshItem(selectionTarget) && emitSelectionFrozen(selectionTarget)
                             setData(undefined)
                         }}>
                             Freeze selction
