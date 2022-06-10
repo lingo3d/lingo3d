@@ -137,7 +137,10 @@ createEffect(() => {
         handle.watch(mouseEvents.on("click", () => emitSelectionTarget()))
 
         let rightClick = false
-        handle.watch(mouseEvents.on("rightClick", () => rightClick = true))
+        handle.watch(mouseEvents.on("rightClick", () => {
+            rightClick = true
+            queueMicrotask(() => rightClick = false)
+        }))
         
         handle.watch(pickable(["click", "rightClick"], selectionCandidates, target => {
             emitSelectionTarget(target, rightClick)
