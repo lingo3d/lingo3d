@@ -15,6 +15,7 @@ import Circle from "./display/primitives/Circle"
 import ParticleSystem from "./display/ParticleSystem"
 import Model from "./display/Model"
 import Dummy from "./display/Dummy"
+import Building from "./display/Building"
 import SvgMesh from "./display/SvgMesh"
 import Reflector from "./display/Reflector"
 import Sprite from "./display/Sprite"
@@ -83,6 +84,7 @@ export {
     ParticleSystem,
     Model,
     Dummy,
+    Building,
     SvgMesh,
     Reflector,
     Sprite,

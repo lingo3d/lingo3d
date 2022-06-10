@@ -1,6 +1,6 @@
 import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings } from ".."
-import Facade from "../display/Facade"
+import Building from "../display/Building"
 
 export default {}
 
-const facade = new Facade()
+const building = new Building()

@@ -16,7 +16,7 @@ const makeFacade = (src: string, parent: Appendable, rotationY: number) => {
     return facade
 }
 
-export default class Facade extends ObjectManager<Group> {
+export default class Building extends ObjectManager<Group> {
     public constructor() {
         const group = new Group()
         super(group)
