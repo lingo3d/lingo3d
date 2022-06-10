@@ -44,6 +44,7 @@ onSelectionFrozen(target => {
             object3d.userData.selectionFrozen = true
             return
         }
+        target === getSelectionTarget() && emitSelectionTarget()
     }
 })
 
