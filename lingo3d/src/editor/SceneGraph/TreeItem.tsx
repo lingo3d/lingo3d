@@ -1,6 +1,6 @@
 import { h } from "preact"
 import { useState, useEffect, useRef, useMemo } from "preact/hooks"
-import { preventTreeShake, upperFirst } from "@lincode/utils"
+import { preventTreeShake } from "@lincode/utils"
 import Appendable from "../../api/core/Appendable"
 import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
@@ -16,6 +16,7 @@ import { Object3D } from "three"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
+import getComponentName from "../getComponentName"
 
 preventTreeShake(h)
 
@@ -51,8 +52,7 @@ export const makeTreeItemCallbacks = (target: Appendable | Object3D, parent?: Ap
 export const draggingItemPtr: [Appendable | undefined] = [undefined]
 
 const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
-    //@ts-ignore
-    const name = appendable.name || upperFirst(appendable.constructor.componentName)
+    const name = getComponentName(appendable)
     const appendableChildren = appendable.children ? [...appendable.children] : undefined
     const expandIconStyle = { opacity: (appendableChildren?.length || children) ? 0.5 : 0.05, cursor: "pointer" }
 

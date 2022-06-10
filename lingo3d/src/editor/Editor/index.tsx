@@ -33,6 +33,7 @@ import { dummySchema } from "../../interface/IDummy"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
+import getComponentName from "../getComponentName"
 
 preventTreeShake(h)
 
@@ -178,7 +179,10 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
     useLayoutEffect(() => {
         if (!pane || !cameraFolder) return
 
-        const options = cameraList.reduce<Record<string, any>>((acc, _, i) => (acc["camera " + i] = i, acc), {})
+        const options = cameraList.reduce<Record<string, any>>((acc, cam, i) => {
+            acc[i === 0 ? "editor camera" : getComponentName(cam.userData.manager)] = i
+            return acc
+        }, {})
         const cameraInput = pane.addInput({ "camera": cameraList.indexOf(camera) }, "camera", { options })
         cameraFolder.add(cameraInput)
         cameraInput.on("change", ({ value }) => {
