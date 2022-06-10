@@ -19,34 +19,20 @@ import { getSelectionBlockMouse } from "../../../states/useSelectionBlockMouse"
 import StaticObjectManager from "."
 import { isPositionedItem } from "../../../api/core/PositionedItem"
 import { getCameraRendered } from "../../../states/useCameraRendered"
-import { onSelectionFrozen } from "../../../events/onSelectionFrozen"
 import { getObject3d } from "../MeshItem"
+import { getSelectionFrozen } from "../../../states/useSelectionFrozen"
 
 const raycaster = new Raycaster()
 
 export const selectionCandidates = new Set<Object3D>()
 const getSelectionCandidates = debounce(() => {
     selectionCandidates.clear()
+    const [frozenSet] = getSelectionFrozen()
     scene.traverse(c => {
         const { manager } = c.userData
-        if (!manager) return
-
-        const object3d = getObject3d(manager)
-        !object3d.userData.selectionFrozen && selectionCandidates.add(object3d)
+        manager && !frozenSet.has(manager) && selectionCandidates.add(getObject3d(manager))
     })
 }, 0, "trailing")
-
-onSelectionFrozen(target => {
-    for (const candidate of selectionCandidates) {
-        const object3d = getObject3d(target)
-        if (candidate === object3d) {
-            selectionCandidates.delete(object3d)
-            object3d.userData.selectionFrozen = true
-            return
-        }
-        target === getSelectionTarget() && emitSelectionTarget()
-    }
-})
 
 const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     raycaster.setFromCamera({ x, y }, getCameraRendered())
@@ -133,6 +119,7 @@ createEffect(() => {
 
         getSelectionCandidates()
         handle.watch(onSceneGraphChange(getSelectionCandidates))
+        handle.watch(getSelectionFrozen(getSelectionCandidates))
 
         handle.watch(mouseEvents.on("click", () => emitSelectionTarget()))
 

@@ -5,10 +5,10 @@ import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
 import Loaded from "../../display/core/Loaded"
 import { isMeshItem } from "../../display/core/MeshItem"
-import { emitSelectionFrozen } from "../../events/onSelectionFrozen"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
+import { addSelectionFrozen, clearSelectionFrozen } from "../../states/useSelectionFrozen"
 import { useSelectionTarget } from "../states"
 
 preventTreeShake(h)
@@ -120,14 +120,17 @@ const ContextMenu = () => {
                                 Search children
                             </MenuItem>
                             <MenuItem onClick={() => {
-                                isMeshItem(selectionTarget) && emitSelectionFrozen(selectionTarget)
+                                isMeshItem(selectionTarget) && addSelectionFrozen(selectionTarget)
                                 setData(undefined)
                             }}>
                                 Freeze selction
                             </MenuItem>
                         </Fragment>
                     )}
-                    <MenuItem onClick={() => setData(undefined)}>
+                    <MenuItem onClick={() => {
+                        clearSelectionFrozen()
+                        setData(undefined)
+                    }}>
                         Unfreeze all
                     </MenuItem>
                 </Fragment>}
