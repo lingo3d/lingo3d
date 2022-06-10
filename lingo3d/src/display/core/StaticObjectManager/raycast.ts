@@ -119,7 +119,10 @@ createEffect(() => {
 
         getSelectionCandidates()
         handle.watch(onSceneGraphChange(getSelectionCandidates))
-        handle.watch(getSelectionFrozen(getSelectionCandidates))
+        handle.watch(getSelectionFrozen(() => {
+            getSelectionCandidates()
+            emitSelectionTarget()
+        }))
 
         handle.watch(mouseEvents.on("click", () => emitSelectionTarget()))
 
