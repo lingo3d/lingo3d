@@ -4,6 +4,7 @@ import { useEffect, useState } from "preact/hooks"
 import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
 import Model from "../../display/Model"
+import { emitSelectionFrozen } from "../../events/onSelectionFrozen"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
@@ -112,7 +113,11 @@ const ContextMenu = () => {
                         <MenuItem onClick={() => setShowSearch(true)}>
                             Search children
                         </MenuItem>
-                        <MenuItem onClick={() => setShowSearch(true)}>
+                        <MenuItem onClick={() => {
+                            const target = getSelectionTarget()
+                            target && emitSelectionFrozen(target)
+                            setData(undefined)
+                        }}>
                             Freeze selction
                         </MenuItem>
                     </Fragment>
