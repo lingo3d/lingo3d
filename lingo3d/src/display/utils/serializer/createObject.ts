@@ -1,6 +1,7 @@
 import ObjectManager from "../../core/ObjectManager"
 import Model from "../../Model"
 import Dummy from "../../Dummy"
+import Building from "../../Building"
 import SvgMesh from "../../SvgMesh"
 import Reflector from "../../Reflector"
 import Sprite from "../../Sprite"
@@ -36,6 +37,7 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     "model": () => new Model(),
     "svgMesh": () => new SvgMesh(),
     "dummy": () => new Dummy(),
+    "building": () => new Building(),
     "reflector": () => new Reflector(),
     "sprite": () => new Sprite(),
     "trigger": () => new Trigger() as any,
