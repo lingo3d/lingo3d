@@ -17,7 +17,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         this.outerObject3d.add(this.loadedGroup)
     }
 
-    public loadedResolvable = new Resolvable<Object3D>()
+    public loaded = new Resolvable<Object3D>()
 
     protected abstract load(src: string): Promise<T>
 
@@ -33,8 +33,8 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
 
         if (!src) return
 
-        if (this.loadedResolvable.done) {
-            this.loadedResolvable = new Resolvable()
+        if (this.loaded.done) {
+            this.loaded = new Resolvable()
             this.loadedGroup.clear()
         }
 
@@ -54,7 +54,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public set onLoad(cb: (() => void) | undefined) {
         this._onLoad = cb
         this.loadedHandle?.cancel()
-        cb && (this.loadedHandle = this.loadedResolvable.then(cb))
+        cb && (this.loadedHandle = this.loaded.then(cb))
     }
 
     protected widthSet?: boolean
@@ -146,7 +146,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         if (this.outerObject3d.frustumCulled === val) return
         this.outerObject3d.frustumCulled = val
         
-        this.loadedResolvable.then(() => super.frustumCulled = val)
+        this.loaded.then(() => super.frustumCulled = val)
     }
 
     public override get physics() {
@@ -159,7 +159,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         this.physicsHandle?.cancel()
         const handle = this.physicsHandle = this.cancellable()
         
-        this.loadedResolvable.then(() => this.initPhysics(val, handle))
+        this.loaded.then(() => this.initPhysics(val, handle))
     }
 
     private _boxVisible?: boolean
@@ -181,7 +181,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         this._outline = val
 
         this._outlineHandle?.cancel()
-        this._outlineHandle = this.loadedResolvable.then(loaded => {
+        this._outlineHandle = this.loaded.then(loaded => {
             val ? addOutline(loaded) : deleteOutline(loaded)
         })
     }
@@ -196,7 +196,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         this._bloom = val
 
         this._bloomHandle?.cancel()
-        this._bloomHandle = this.loadedResolvable.then(loaded => {
+        this._bloomHandle = this.loaded.then(loaded => {
             val ? addBloom(loaded) : deleteBloom(loaded)
         })
     }
@@ -211,14 +211,14 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         this._reflection = val
 
         this._reflectionHandle?.cancel()
-        this._reflectionHandle = this.loadedResolvable.then(loaded => {
+        this._reflectionHandle = this.loaded.then(loaded => {
             val ? addSSR(loaded) : deleteSSR(loaded)
         })
     }
 
     private managerSet?: boolean
     protected override addToRaycastSet(set: Set<Object3D>, handle: Cancellable) {
-        handle.watch(this.loadedResolvable.then(loaded => {
+        handle.watch(this.loaded.then(loaded => {
             if (!this.managerSet) {
                 this.managerSet = true
                 loaded.traverse(child => child.userData.manager ??= this)
@@ -229,6 +229,6 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     }
 
     protected override refreshFactors() {
-        this.loadedResolvable.then(() => super.refreshFactors())
+        this.loaded.then(() => super.refreshFactors())
     }
 }

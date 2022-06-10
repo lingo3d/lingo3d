@@ -14,7 +14,7 @@ const nodeToObjectManager = (node: SceneGraphNode, loadedResolvables: Array<Reso
     if (node.type === "animation") return
 
     const object = createObject(node.type)
-    loadedResolvables && object instanceof Loaded && loadedResolvables.push(object.loadedResolvable)
+    loadedResolvables && object instanceof Loaded && loadedResolvables.push(object.loaded)
     Object.assign(object, omit(node, nonSerializedProperties))
     node.children?.map(n => nodeToObjectManager(n, loadedResolvables)).forEach(c => c && object.append(c))
     return object

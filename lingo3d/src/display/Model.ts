@@ -33,7 +33,7 @@ export default class Model extends Loaded<Group> implements IModel {
         }
 
         const clip = data.animations[0]
-        clip && (this.animations[name] = this.watch(new AnimationManager(clip, await this.loadedResolvable)))
+        clip && (this.animations[name] = this.watch(new AnimationManager(clip, await this.loaded)))
 
         resolvable.resolve()
     }
@@ -127,7 +127,7 @@ export default class Model extends Loaded<Group> implements IModel {
         }
         
         this.loadedGroup.add(loadedObject3d)
-        this.loadedResolvable.resolve(loadedObject3d)
+        this.loaded.resolve(loadedObject3d)
     }
 
     public override find(name: string, hiddenFromSceneGraph?: boolean): FoundManager | undefined {

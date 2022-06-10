@@ -60,7 +60,7 @@ export default class Dummy extends Model implements IDummy {
         this.then(() => poseService.stop())
 
         const [setJoints, getJoints] = store<Record<string, FoundManager> | undefined>(undefined)
-        this.loadedResolvable.then(() => setJoints({
+        this.loaded.then(() => setJoints({
             spine: this.find("mixamorigSpine", true)!
         }))
 

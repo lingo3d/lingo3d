@@ -76,7 +76,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
 
         this.loadedGroup.add(loadedObject3d)
 
-        this.loadedResolvable.resolve(loadedObject3d)
+        this.loaded.resolve(loadedObject3d)
     }
 }
 interface SvgMesh extends Loaded<SVGResult>, TexturedBasicMixin, TexturedStandardMixin {}
