@@ -12,7 +12,7 @@ import { vector3 } from "../utils/reusables"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../globals"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import { onKeyClear } from "../../events/onKeyClear"
-import { onSceneChange } from "../../events/onSceneChange"
+import { onSceneGraphChange } from "../../events/onSceneGraphChange"
 import PositionedItem from "../../api/core/PositionedItem"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import scene from "../../engine/scene"
@@ -47,7 +47,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                 this.controls.target.copy(target.outerObject3d.getWorldPosition(vector3))
                 this.controls.update()
             })
-            const handle1 = onSceneChange(() => target.parent !== this && this.targetState.set(undefined))
+            const handle1 = onSceneGraphChange(() => target.parent !== this && this.targetState.set(undefined))
             
             return () => {
                 handle0.cancel
@@ -70,7 +70,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                 }
                 if (find()) return
 
-                handle.watch(onSceneChange(() => setTimeout(() => find() && handle.cancel())))
+                handle.watch(onSceneGraphChange(() => setTimeout(() => find() && handle.cancel())))
             })
             return () => {
                 handle.cancel()

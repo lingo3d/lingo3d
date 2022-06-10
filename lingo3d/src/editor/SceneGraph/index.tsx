@@ -2,7 +2,7 @@ import { Fragment, h } from "preact"
 import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import register from "preact-custom-element"
 import { last, preventTreeShake } from "@lincode/utils"
-import { onSceneChange } from "../../events/onSceneChange"
+import { onSceneGraphChange } from "../../events/onSceneGraphChange"
 import { appendableRoot } from "../../api/core/Appendable"
 import TreeItem from "./TreeItem"
 import Model from "../../display/Model"
@@ -21,6 +21,7 @@ import ObjectManager from "../../display/core/ObjectManager"
 import mainCamera from "../../engine/mainCamera"
 import ContextMenu from "./ContextMenu"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
+import { onEditorNameChange } from "../../events/onEditorNameChange"
 
 preventTreeShake(h)
 
@@ -28,11 +29,14 @@ const SceneGraph = () => {
     const [r, render] = useState({})
 
     useLayoutEffect(() => {
-        const handle = onSceneChange(() => render({}))
+        const cb = () => render({})
+        const handle0 = onSceneGraphChange(cb)
+        const handle1 = onEditorNameChange(cb)
         emitEditorMountChange()
 
         return () => {
-            handle.cancel()
+            handle0.cancel()
+            handle1.cancel()
             emitEditorMountChange()
         }
     }, [])

@@ -2,7 +2,7 @@ import { h } from "preact"
 import { useState } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
 import { draggingItemPtr } from "./TreeItem"
-import { emitSceneChange } from "../../events/onSceneChange"
+import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import { appendableRoot } from "../../api/core/Appendable"
 import scene from "../../engine/scene"
 
@@ -37,7 +37,7 @@ const EmptyItem = () => {
              const child = draggingItemPtr[0]
              if (!child) return
              
-             emitSceneChange()
+             emitSceneGraphChange()
              appendableRoot.add(child)
              scene.attach(child.outerObject3d)
              child.parent?.children?.delete(child)

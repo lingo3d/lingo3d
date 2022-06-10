@@ -7,7 +7,7 @@ import Appendable from "../../api/core/Appendable"
 import PositionedItem from "../../api/core/PositionedItem"
 import { loop } from "../../engine/eventLoop"
 import scene from "../../engine/scene"
-import { onSceneChange } from "../../events/onSceneChange"
+import { onSceneGraphChange } from "../../events/onSceneGraphChange"
 import ICharacterCamera, { characterCameraDefaults, characterCameraSchema, LockTargetRotationValue } from "../../interface/ICharacterCamera"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
@@ -36,7 +36,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             if ("frustumCulled" in target)
                 target.frustumCulled = false
 
-            const handle = onSceneChange(() => target.parent !== this && this.retarget())
+            const handle = onSceneGraphChange(() => target.parent !== this && this.retarget())
             
             return () => {
                 handle.cancel()

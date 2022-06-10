@@ -17,7 +17,6 @@ import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import ObjectManager from "../../display/core/ObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import { emitSceneChange } from "../../events/onSceneChange"
 import { getSecondaryCamera, setSecondaryCamera } from "../../states/useSecondaryCamera"
 import deserialize from "../../display/utils/serializer/deserialize"
 import serialize from "../../display/utils/serializer/serialize"
@@ -34,6 +33,7 @@ import { isPositionedItem } from "../../api/core/PositionedItem"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../getComponentName"
+import { emitEditorNameChange } from "../../events/onEditorNameChange"
 
 preventTreeShake(h)
 
@@ -285,7 +285,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 name: target.name,
                 id: target.id
             })
-            nameInput.on("change", () => emitSceneChange())
+            nameInput.on("change", () => emitEditorNameChange())
         }
 
         if (selectionTarget instanceof SimpleObjectManager) {

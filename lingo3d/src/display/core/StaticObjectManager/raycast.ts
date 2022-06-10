@@ -14,7 +14,7 @@ import { vec2Point } from "../../utils/vec2Point"
 import mainCamera from "../../../engine/mainCamera"
 import { getTransformControlsDragging } from "../../../states/useTransformControlsDragging"
 import { debounce } from "@lincode/utils"
-import { onSceneChange } from "../../../events/onSceneChange"
+import { onSceneGraphChange } from "../../../events/onSceneGraphChange"
 import { getSelectionBlockMouse } from "../../../states/useSelectionBlockMouse"
 import StaticObjectManager from "."
 import { isPositionedItem } from "../../../api/core/PositionedItem"
@@ -132,7 +132,7 @@ createEffect(() => {
         const handle = new Cancellable()
 
         getSelectionCandidates()
-        handle.watch(onSceneChange(getSelectionCandidates))
+        handle.watch(onSceneGraphChange(getSelectionCandidates))
 
         handle.watch(mouseEvents.on("click", () => emitSelectionTarget()))
 
