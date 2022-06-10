@@ -10,9 +10,11 @@ import { setDefaultFog, getDefaultFog } from "../states/useDefaultFog"
 import { setSceneGraphTarget, getSceneGraphTarget } from "../states/useSceneGraphTarget"
 import { setSceneGraphExpanded, getSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 import { setSceneGraphPreventDrag, getSceneGraphPreventDrag } from "../states/useSceneGraphPreventDrag"
+import { getSelectionFrozen, setSelectionFrozen } from "../states/useSelectionFrozen"
 
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(setMultipleSelectionTargets, getMultipleSelectionTargets)
+export const useSelectionFrozen = hook(setSelectionFrozen, getSelectionFrozen)
 export const useCameraList = hook(setCameraList, getCameraList)
 export const useCameraStack = hook(setCameraStack, getCameraStack)
 export const useTransformControlsMode = hook(setTransformControlsMode, getTransformControlsMode)

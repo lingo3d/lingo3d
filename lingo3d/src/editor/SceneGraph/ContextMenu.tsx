@@ -9,7 +9,7 @@ import { onSelectionTarget } from "../../events/onSelectionTarget"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 import { addSelectionFrozen, clearSelectionFrozen } from "../../states/useSelectionFrozen"
-import { useSelectionTarget } from "../states"
+import { useSelectionFrozen, useSelectionTarget } from "../states"
 
 preventTreeShake(h)
 
@@ -41,19 +41,25 @@ const search = (n: string, target: Loaded | Appendable) => {
 }
 
 type MenuItemProps = {
+    disabled?: boolean
     onClick: () => void
     children: string
 }
 
-const MenuItem = ({ onClick, children }: MenuItemProps) => {
+const MenuItem = ({ disabled, onClick, children }: MenuItemProps) => {
     const [hover, setHover] = useState(false)
 
     return (
         <div
-         style={{ padding: 6, whiteSpace: "nowrap", background: hover ? "rgba(255, 255, 255, 0.1)" : undefined }}
-         onClick={onClick}
-         onMouseEnter={() => setHover(true)}
-         onMouseLeave={() => setHover(false)}
+         style={{
+            padding: 6,
+            whiteSpace: "nowrap",
+            background: !disabled && hover ? "rgba(255, 255, 255, 0.1)" : undefined,
+            opacity: disabled ? 0.5 : 1
+        }}
+         onClick={disabled ? undefined : onClick}
+         onMouseEnter={disabled ? undefined : () => setHover(true)}
+         onMouseLeave={disabled? undefined : () => setHover(false)}
         >
             {children}
         </div>
@@ -64,6 +70,7 @@ const ContextMenu = () => {
     const [data, setData] = useState<{ x: number, y: number, target: Appendable | undefined } | undefined>(undefined)
     const [showSearch, setShowSearch] = useState(false)
     const [selectionTarget] = useSelectionTarget()
+    const [[selectionFrozen]] = useSelectionFrozen()
 
     useEffect(() => {
         let [clientX, clientY] = [0, 0]
@@ -127,7 +134,7 @@ const ContextMenu = () => {
                             </MenuItem>
                         </Fragment>
                     )}
-                    <MenuItem onClick={() => {
+                    <MenuItem disabled={!selectionFrozen.size} onClick={() => {
                         clearSelectionFrozen()
                         setData(undefined)
                     }}>
