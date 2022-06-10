@@ -48,13 +48,13 @@ export default class Building extends ObjectManager<Group> implements IBuilding 
         this.scale = 4
 
         this.createEffect(() => {
-            const repeatX = Math.floor(this.repeatXState.get())
-            const repeatZ = Math.floor(this.repeatZState.get())
+            const repeatX = Math.max(Math.floor(this.repeatXState.get()), 1)
+            const repeatZ = Math.max(Math.floor(this.repeatZState.get()), 1)
 
             const src = url + this.presetState.get() + ".glb"
+            
             const facade0 = range(repeatX).map(() => makeFacade(src, this, 0))
             const facade2 = range(repeatX).map(() => makeFacade(src, this, 180))
-
             const facade1 = range(repeatZ).map(() => makeFacade(src, this, 90))
             const facade3 = range(repeatZ).map(() => makeFacade(src, this, 270))
 
@@ -69,7 +69,6 @@ export default class Building extends ObjectManager<Group> implements IBuilding 
             })
             return () => {
                 handle.cancel()
-
                 for (const facade of facade0) facade.dispose()
                 for (const facade of facade2) facade.dispose()
                 for (const facade of facade1) facade.dispose()
