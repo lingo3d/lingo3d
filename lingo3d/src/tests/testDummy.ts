@@ -1,17 +1,14 @@
 
-import { ThirdPersonCamera, Dummy, Reflector, keyboard } from ".."
-import { setGridHelper } from "../states/useGridHelper"
+import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings } from ".."
 //@ts-ignore
 import roughnessSrc from "../../assets-local/roughness.png"
 //@ts-ignore
 import normalSrc from "../../assets-local/normal.jpg"
 import createProxy from "../api/createProxy"
-//@ts-ignore
-// import cbpunkSrc from "../../assets-local/cbpunk.glb"
 
 export default {}
 
-setGridHelper(true)
+settings.gridHelper = true
 
 const reflector = new Reflector()
 reflector.scale = 100
