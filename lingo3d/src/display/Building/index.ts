@@ -1,10 +1,10 @@
 import { Reactive } from "@lincode/reactivity"
 import { range } from "@lincode/utils"
 import { Group } from "three"
-import Appendable from "../api/core/Appendable"
-import IBuilding, { buildingDefaults, buildingSchema, FacadePreset } from "../interface/IBuilding"
-import ObjectManager from "./core/ObjectManager"
-import Model from "./Model"
+import Appendable from "../../api/core/Appendable"
+import IBuilding, { buildingDefaults, buildingSchema, FacadePreset } from "../../interface/IBuilding"
+import ObjectManager from "../core/ObjectManager"
+import Model from "../Model"
 
 const url = "https://unpkg.com/lingo3d-facade@1.0.0/assets/"
 
