@@ -1,40 +1,9 @@
 import { Reactive } from "@lincode/reactivity"
-import { range } from "@lincode/utils"
 import { Group } from "three"
-import Appendable from "../../api/core/Appendable"
-import IBuilding, { buildingDefaults, buildingSchema, FacadePreset } from "../../interface/IBuilding"
+import IBuilding, { buildingDefaults, buildingSchema } from "../../interface/IBuilding"
+import { FacadePreset } from "../../interface/IFloor"
 import ObjectManager from "../core/ObjectManager"
-import Model from "../Model"
-
-const url = "https://unpkg.com/lingo3d-facade@1.0.0/assets/"
-
-const makeFacade = (src: string, parent: Appendable, rotationY: number) => {
-    const facade = new Model()
-    facade.src = src
-    facade.rotationY = rotationY
-    parent.append(facade)
-    return facade
-}
-
-const applyTransform = (
-    facadeArray: Array<Model>, radius: number, diameter: number, repeatX: number, repeatZ: number, z: boolean
-) => {
-    const offset = diameter * facadeArray.length * 0.5 - radius
-
-    let i = 0
-    if (z) {
-        for (const facade of facadeArray) {
-            facade.z += radius * repeatX
-            facade.x += (i++) * diameter - offset
-        }
-        return
-    }
-    
-    for (const facade of facadeArray) {
-        facade.x += radius * repeatZ
-        facade.z += (i++) * diameter - offset
-    }
-}
+import Floor from "./Floor"
 
 export default class Building extends ObjectManager<Group> implements IBuilding {
     public static componentName = "building"
@@ -48,31 +17,19 @@ export default class Building extends ObjectManager<Group> implements IBuilding 
         this.scale = 4
 
         this.createEffect(() => {
-            const repeatX = Math.max(Math.floor(this.repeatXState.get()), 1)
-            const repeatZ = Math.max(Math.floor(this.repeatZState.get()), 1)
+            const preset = this.presetState.get()
+            const repeatX = this.repeatXState.get()
+            const repeatZ = this.repeatZState.get()
 
-            const src = url + this.presetState.get() + ".glb"
-            
-            const facade0 = range(repeatX).map(() => makeFacade(src, this, 0))
-            const facade2 = range(repeatX).map(() => makeFacade(src, this, 180))
-            const facade1 = range(repeatZ).map(() => makeFacade(src, this, 90))
-            const facade3 = range(repeatZ).map(() => makeFacade(src, this, 270))
+            const floor = new Floor()
+            this.append(floor)
 
-            const handle = facade0[0].loaded.then(() => {
-                const diameter = facade0[0].depth
-                const radius = diameter * 0.5
+            floor.preset = preset
+            floor.repeatX = repeatX
+            floor.repeatZ = repeatZ
 
-                applyTransform(facade0, radius, diameter, repeatX, repeatZ, false)
-                applyTransform(facade2, -radius, -diameter, repeatX, repeatZ, false)
-                applyTransform(facade1, -radius, -diameter, repeatX, repeatZ, true)
-                applyTransform(facade3, radius, diameter, repeatX, repeatZ, true)
-            })
             return () => {
-                handle.cancel()
-                for (const facade of facade0) facade.dispose()
-                for (const facade of facade2) facade.dispose()
-                for (const facade of facade1) facade.dispose()
-                for (const facade of facade3) facade.dispose()
+                floor.dispose()
             }
         }, [this.presetState.get, this.repeatXState.get, this.repeatZState.get])
     }
