@@ -20,6 +20,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     protected material = new MeshStandardMaterial()
 
     public override dispose() {
+        if (this.done) return this
         super.dispose()
         this.material.dispose()
         return this

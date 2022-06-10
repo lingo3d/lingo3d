@@ -151,6 +151,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     }
 
     public override dispose() {
+        if (this.done) return this
         super.dispose()
         this._id !== undefined && simpleIdMap.get(this._id)!.delete(this)
         return this

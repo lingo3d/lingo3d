@@ -32,6 +32,7 @@ export default class Audio extends PositionedItem implements IAudio {
     }
 
     public override dispose() {
+        if (this.done) return this
         super.dispose()
         this.sound.disconnect()
         return this

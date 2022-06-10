@@ -14,6 +14,7 @@ export default class Environment extends EventLoopItem implements IEnvironment {
     }
 
     public override dispose() {
+        if (this.done) return this
         super.dispose()
         pullEnvironmentStack(this)
         return this

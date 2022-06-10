@@ -43,6 +43,7 @@ export default class Appendable extends Disposable {
     }
 
     public override dispose() {
+        if (this.done) return this
         super.dispose()
 
         appendableRoot.delete(this)

@@ -37,6 +37,7 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
     }
 
     public override dispose() {
+        if (this.done) return this
         super.dispose()
         this.object3d.dispose()
         return this

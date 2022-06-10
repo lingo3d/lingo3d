@@ -18,6 +18,7 @@ class Sprite extends ObjectManager<ThreeSprite> implements ISprite {
     }
 
     public override dispose() {
+        if (this.done) return this
         super.dispose()
         this.material.dispose()
         return this

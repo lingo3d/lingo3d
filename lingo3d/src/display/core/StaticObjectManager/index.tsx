@@ -55,6 +55,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
 
     public override dispose() {
+        if (this.done) return this
         super.dispose()
         deleteSSR(this.object3d)
         this._id !== undefined && staticIdMap.get(this._id)!.delete(this)

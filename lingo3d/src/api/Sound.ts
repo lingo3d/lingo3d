@@ -14,6 +14,7 @@ export class Sound extends Disposable implements ISound {
     public onEnded?: () => void
 
     public override dispose() {
+        if (this.done) return this
         super.dispose()
         this.sound?.stop()
         this.sound?.unload()

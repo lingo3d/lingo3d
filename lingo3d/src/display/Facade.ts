@@ -28,6 +28,20 @@ export default class Facade extends ObjectManager<Group> {
             const facade2 = makeFacade(src, this, 180)
             const facade3 = makeFacade(src, this, 270)
 
+            const handle = facade0.loaded.then(() => {
+                const radius = facade0.depth * 0.5
+                facade0.x += radius
+                facade2.x -= radius
+                facade1.z -= radius
+                facade3.z += radius
+            })
+            return () => {
+                handle.cancel()
+                facade0.dispose()
+                facade1.dispose()
+                facade2.dispose()
+                facade3.dispose()
+            }
         }, [this.presetState.get])
     }
     
