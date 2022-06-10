@@ -1,4 +1,4 @@
 import { event } from "@lincode/events"
-import Appendable from "../api/core/Appendable"
+import MeshItem from "../display/core/MeshItem"
 
-export const [emitSelectionFrozen, onSelectionFrozen] = event<Appendable>()
+export const [emitSelectionFrozen, onSelectionFrozen] = event<MeshItem>()

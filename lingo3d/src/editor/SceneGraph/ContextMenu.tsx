@@ -3,6 +3,7 @@ import { Fragment, h } from "preact"
 import { useEffect, useState } from "preact/hooks"
 import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
+import { isMeshItem } from "../../display/core/MeshItem"
 import Model from "../../display/Model"
 import { emitSelectionFrozen } from "../../events/onSelectionFrozen"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
@@ -115,7 +116,7 @@ const ContextMenu = () => {
                         </MenuItem>
                         <MenuItem onClick={() => {
                             const target = getSelectionTarget()
-                            target && emitSelectionFrozen(target)
+                            isMeshItem(target) && emitSelectionFrozen(target)
                             setData(undefined)
                         }}>
                             Freeze selction

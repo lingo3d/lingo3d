@@ -40,8 +40,6 @@ createEffect(() => {
     const from = object3d.getWorldPosition(vector3)
     const to = child.getWorldPosition(vector3_)
 
-    console.log({ from, to })
-
     const bone = new Bone()
     bone.from = vec2Point(from)
     bone.to = vec2Point(to)
