@@ -21,7 +21,7 @@ import ObjectManager from "../../display/core/ObjectManager"
 import mainCamera from "../../engine/mainCamera"
 import ContextMenu from "./ContextMenu"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
-import { onEditorNameChange } from "../../events/onEditorNameChange"
+import { onSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 
 preventTreeShake(h)
 
@@ -31,7 +31,7 @@ const SceneGraph = () => {
     useLayoutEffect(() => {
         const cb = () => render({})
         const handle0 = onSceneGraphChange(cb)
-        const handle1 = onEditorNameChange(cb)
+        const handle1 = onSceneGraphNameChange(cb)
         emitEditorMountChange()
 
         return () => {

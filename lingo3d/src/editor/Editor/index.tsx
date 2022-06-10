@@ -33,7 +33,7 @@ import { isPositionedItem } from "../../api/core/PositionedItem"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../getComponentName"
-import { emitEditorNameChange } from "../../events/onEditorNameChange"
+import { emitSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 
 preventTreeShake(h)
 
@@ -285,7 +285,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 name: target.name,
                 id: target.id
             })
-            nameInput.on("change", () => emitEditorNameChange())
+            nameInput.on("change", () => emitSceneGraphNameChange())
         }
 
         if (selectionTarget instanceof SimpleObjectManager) {
