@@ -61,7 +61,7 @@ const MenuItem = ({ onClick, children }: MenuItemProps) => {
 }
 
 const ContextMenu = () => {
-    const [data, setData] = useState<{ x: number, y: number, target: Appendable } | undefined>(undefined)
+    const [data, setData] = useState<{ x: number, y: number, target: Appendable | undefined } | undefined>(undefined)
     const [showSearch, setShowSearch] = useState(false)
     const [selectionTarget] = useSelectionTarget()
 
@@ -71,7 +71,7 @@ const ContextMenu = () => {
         document.addEventListener("mousemove", cb)
 
         const handle = onSelectionTarget(({ target, rightClick }) => {
-            rightClick && target && setData({ x: clientX, y: clientY, target })
+            rightClick && setData({ x: clientX, y: clientY, target })
         })
         return () => {
             handle.cancel()
@@ -113,19 +113,24 @@ const ContextMenu = () => {
                          setData(undefined)
                      }}
                     />
-                ) : (
-                    <Fragment>
-                        <MenuItem onClick={() => setShowSearch(true)}>
-                            Search children
-                        </MenuItem>
-                        <MenuItem onClick={() => {
-                            isMeshItem(selectionTarget) && emitSelectionFrozen(selectionTarget)
-                            setData(undefined)
-                        }}>
-                            Freeze selction
-                        </MenuItem>
-                    </Fragment>
-                )}
+                ) : <Fragment>
+                    {data.target && (
+                        <Fragment>
+                            <MenuItem onClick={() => setShowSearch(true)}>
+                                Search children
+                            </MenuItem>
+                            <MenuItem onClick={() => {
+                                isMeshItem(selectionTarget) && emitSelectionFrozen(selectionTarget)
+                                setData(undefined)
+                            }}>
+                                Freeze selction
+                            </MenuItem>
+                        </Fragment>
+                    )}
+                    <MenuItem onClick={() => setData(undefined)}>
+                        Unfreeze all
+                    </MenuItem>
+                </Fragment>}
             </div>
         </div>
     )
