@@ -37,9 +37,16 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
 
         this.createEffect(() => {
             const target = this.targetState.get()
-            if (!target) return
-
-            const handle0 = onBeforeRender(() => this.controls.target.copy(target.outerObject3d.getWorldPosition(vector3)))
+            if (!target) {
+                const handle = onBeforeRender(() => this.controls.update())
+                return () => {
+                    handle.cancel()
+                }
+            }
+            const handle0 = onBeforeRender(() => {
+                this.controls.target.copy(target.outerObject3d.getWorldPosition(vector3))
+                this.controls.update()
+            })
             const handle1 = onSceneChange(() => target.parent !== this && this.targetState.set(undefined))
             
             return () => {
@@ -80,25 +87,13 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         controls.maxAzimuthAngle = this._maxAzimuthAngle
 
         camera.position.z = 5
-        this.controls.update()
+        controls.update()
 
         this.createEffect(() => {
-            if (!this.enabledState.get()) return
-
-            controls.enabled = true
-            const handle = onBeforeRender(() => this.controls.update())
-
-            return () => {
-                controls.enabled = false
-                handle.cancel()
-            }
-        }, [this.enabledState.get])
-
-        this.createEffect(() => {
-            if (getTransformControlsDragging() || getCameraRendered() !== camera || !this.enabledState.get())
-                return
+            if (getTransformControlsDragging() || getCameraRendered() !== camera || !this.enabledState.get()) return
 
             const handle = new Cancellable()
+            controls.enabled = true
 
             if (this.enableZoomState.get()) {
                 const cb = (e: WheelEvent) => {
@@ -125,17 +120,17 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                 const moveForward = (distance: number) => {
                     const direction = camera.getWorldDirection(vector3)
                     camera.position.add(direction.clone().multiplyScalar(distance * scaleDown))
-                    this.controls.target.copy(camera.position).add(direction)
+                    controls.target.copy(camera.position).add(direction)
                 }
                 const moveRight = (distance: number) => {
                     vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
                     camera.position.addScaledVector(vector3, distance * scaleDown)
-                    this.controls.target.addScaledVector(vector3, distance * scaleDown)
+                    controls.target.addScaledVector(vector3, distance * scaleDown)
                 }
                 const moveUp = (distance: number) => {
                     const dist = distance * scaleDown
                     camera.position.y += dist
-                    this.controls.target.y += dist
+                    controls.target.y += dist
                 }
                 handle.watch(onBeforeRender(() => {
                     if (downSet.has("w"))
@@ -172,6 +167,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
             
             return () => {
                 handle.cancel()
+                controls.enabled = false
             }
         }, [
             getCameraRendered,
@@ -195,6 +191,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
     public set targetX(val: number) {
         this._targetX = val
         this.controls.target.x = val * scaleDown
+        this.controls.update()
     }
 
     private _targetY?: number
@@ -204,6 +201,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
     public set targetY(val: number) {
         this._targetY = val
         this.controls.target.y = val * scaleDown
+        this.controls.update()
     }
     
     private _targetZ?: number
@@ -213,6 +211,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
     public set targetZ(val: number) {
         this._targetZ = val
         this.controls.target.z = val * scaleDown
+        this.controls.update()
     }
 
     private targetState = new Reactive<MeshItem | undefined>(undefined)
