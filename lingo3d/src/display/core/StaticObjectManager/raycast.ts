@@ -21,6 +21,7 @@ import { isPositionedItem } from "../../../api/core/PositionedItem"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getObject3d } from "../MeshItem"
 import { getSelectionFrozen } from "../../../states/useSelectionFrozen"
+import { onSelectionFrozen } from "../../../events/onSelectionFrozen"
 
 const raycaster = new Raycaster()
 
@@ -119,11 +120,7 @@ createEffect(() => {
 
         getSelectionCandidates()
         handle.watch(onSceneGraphChange(getSelectionCandidates))
-        handle.watch(getSelectionFrozen(() => {
-            getSelectionCandidates()
-            emitSelectionTarget()
-        }))
-
+        handle.watch(onSelectionFrozen(() => (getSelectionCandidates(), emitSelectionTarget())))
         handle.watch(mouseEvents.on("click", () => emitSelectionTarget()))
 
         let rightClick = false
