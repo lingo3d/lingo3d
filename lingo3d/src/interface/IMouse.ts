@@ -4,25 +4,25 @@ import { ExtractProps } from "./utils/extractProps"
 
 export class MouseEventPayload {
     public constructor(
-        public x: number = 0,
-        public y: number = 0,
-        public z: number = 0,
-        public clientX: number = 0,
-        public clientY: number = 0,
-        public xNorm: number = 0,
-        public yNorm: number = 0
+        public x = 0,
+        public y = 0,
+        public z = 0,
+        public clientX = 0,
+        public clientY = 0,
+        public xNorm = 0,
+        public yNorm = 0
     ) {}
 }
 
 export class LingoMouseEvent extends MouseEventPayload {
     public constructor(
-        x: number = 0,
-        y: number = 0,
-        z: number = 0,
-        clientX: number = 0,
-        clientY: number = 0,
-        xNorm: number = 0,
-        yNorm: number = 0,
+        x: number,
+        y: number,
+        z: number,
+        clientX: number,
+        clientY: number,
+        xNorm: number,
+        yNorm: number,
         public point: Point3d,
         public distance: number
     ) {

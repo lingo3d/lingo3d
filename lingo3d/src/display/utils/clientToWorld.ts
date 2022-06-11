@@ -10,7 +10,7 @@ export default (ev: { clientX: number, clientY: number }, forceMouse?: boolean) 
     const clientY = ev.clientY - rect.y
 
     if (getPickingMode() === "camera" && !forceMouse)
-        return new MouseEventPayload()
+        return new MouseEventPayload(undefined, undefined, undefined, clientX, clientY)
 
     const xNorm = (clientX / rect.width) * 2 - 1
     const yNorm = -(clientY / rect.height) * 2 + 1
