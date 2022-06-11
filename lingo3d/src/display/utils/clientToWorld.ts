@@ -10,7 +10,7 @@ export default (ev: { clientX: number, clientY: number }, forceMouse?: boolean) 
     const clientY = ev.clientY - rect.y
 
     if (getPickingMode() === "camera" && !forceMouse)
-        return new MouseEventPayload(undefined, undefined, undefined, clientX, clientY)
+        return new MouseEventPayload(clientX, clientY)
 
     const xNorm = (clientX / rect.width) * 2 - 1
     const yNorm = -(clientY / rect.height) * 2 + 1
@@ -21,5 +21,5 @@ export default (ev: { clientX: number, clientY: number }, forceMouse?: boolean) 
     vector3.sub(camera.position).normalize()
     const { x, y, z } = camera.position.clone().add(vector3.multiplyScalar(5))
 
-    return new MouseEventPayload(x, y, z, clientX, clientY, xNorm, yNorm)
+    return new MouseEventPayload(clientX, clientY, x, y, z, xNorm, yNorm)
 }

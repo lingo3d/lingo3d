@@ -52,7 +52,7 @@ const pickable = (name: MouseEventName | Array<MouseEventName>, candidates: Set<
 
         then(
             result.object.userData.manager,
-            new LingoMouseEvent(e.x, e.y, e.z, e.clientX, e.clientY, e.xNorm, e.yNorm, point, distance)
+            new LingoMouseEvent(e.clientX, e.clientY, e.x, e.y, e.z, e.xNorm, e.yNorm, point, distance)
         )
     })
 )
