@@ -19,9 +19,11 @@ export default function(this: ThirdPersonCamera) {
     if (this.done) return
 
     const cam = this.camera
+    
     bvhCameraSet.add(cam)
     this.then(() => bvhCameraSet.delete(cam))
 
+    
     this.createEffect(() => {
         const target = this.targetState.get()
         if (!target) return
@@ -29,13 +31,15 @@ export default function(this: ThirdPersonCamera) {
         let tooCloseOld = true
         setVisible.call(this, !tooCloseOld)
 
+        let first = true
+
         const handle = onBeforeCameraLoop(() => {
             const origin = this.outerObject3d.getWorldPosition(vector3)
             const camPos = this.object3d.getWorldPosition(vector3_)
             const dist = camPos.distanceTo(origin)
     
-            cam.position.lerp(camPos, 0.1)
-            const ratio = cam.position.distanceTo(origin) / dist
+            cam.position.lerp(camPos, first ? 1 : 0.1)
+            const ratio = first ? 1 : cam.position.distanceTo(origin) / dist
             cam.position.lerpVectors(origin, camPos, ratio)
 
             cam.quaternion.copy(this.object3d.getWorldQuaternion(quaternion))
@@ -43,6 +47,8 @@ export default function(this: ThirdPersonCamera) {
             const tooClose = getEditorActive() ? false : ratio < 0.35
             tooClose !== tooCloseOld && setVisible.call(this, !tooClose)
             tooCloseOld = tooClose
+
+            first = false
         })
         return () => {
             handle.cancel()

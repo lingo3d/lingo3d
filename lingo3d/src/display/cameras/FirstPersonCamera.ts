@@ -1,7 +1,8 @@
 import CharacterCamera from "../core/CharacterCamera"
 import { scaleUp, scaleDown } from "../../engine/constants"
-import { quaternion, vector3 } from "../utils/reusables"
 import SimpleObjectManager from "../core/SimpleObjectManager"
+import { onBeforeCameraLoop } from "../core/mixins/PhysicsMixin/bvh/bvhCameraLoop"
+import { vector3, quaternion } from "../utils/reusables"
 
 export default class FirstPersonCamera extends CharacterCamera {
     public static override componentName = "firstPersonCamera"
@@ -10,11 +11,12 @@ export default class FirstPersonCamera extends CharacterCamera {
         super()
 
         const cam = this.camera
-        this.loop(() => {
+
+        this.watch(onBeforeCameraLoop(() => {
             cam.position.copy(this.object3d.getWorldPosition(vector3))
             cam.quaternion.copy(this.object3d.getWorldQuaternion(quaternion))
-        })
-        
+        }))
+
         this.createEffect(() => {
             const target = this.targetState.get()
             if (!target || !(target instanceof SimpleObjectManager) || this._innerY !== undefined) return
