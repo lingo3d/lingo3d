@@ -8,7 +8,7 @@ import { forceGet } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"
 import Loaded from "lingo3d/lib/display/core/Loaded"
 
-export const ParentContext = React.createContext<ObjectManager | Loaded<any> | undefined>(undefined)
+export const ParentContext = React.createContext<ObjectManager | Loaded | undefined>(undefined)
 
 const handleStore = new WeakMap<SimpleObjectManager, Map<string, Cancellable>>()
 const makeHandleMap = () => new Map<string, Cancellable>()

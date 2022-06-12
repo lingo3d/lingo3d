@@ -11,9 +11,8 @@ const Find = React.forwardRef<FoundManager, FoundProps & { onLoad?: () => void }
     useLayoutEffect(() => {
         if (!parent || !name) return
 
-        if ("loadedResolvable" in parent){
-            //@ts-ignore
-            const handle = parent.loadedResolvable.then(() => setManager(parent.find(name)))
+        if ("loaded" in parent){
+            const handle = parent.loaded.then(() => setManager(parent.find(name)))
             return () => {
                 handle.cancel()
             }
