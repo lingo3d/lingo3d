@@ -248,7 +248,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 deleteSelected()
                 return
             }
-            if (e.key.toLocaleLowerCase() !== "c") return
+            if (e.key.toLowerCase() !== "c") return
 
             const target = getSelectionTarget()
             if (!target) return

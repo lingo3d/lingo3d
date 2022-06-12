@@ -1,5 +1,5 @@
 import { omit } from "@lincode/utils"
-import Appendable, { appendableRoot } from "../../../api/core/Appendable"
+import Appendable, { appendableRoot, hiddenAppendables } from "../../../api/core/Appendable"
 import settings from "../../../api/settings"
 import { setupDefaults } from "../../../interface/ISetup"
 import { nonSerializedProperties, nonSerializedSettings, SceneGraphNode, SetupNode } from "./types"
@@ -7,6 +7,8 @@ import { nonSerializedProperties, nonSerializedSettings, SceneGraphNode, SetupNo
 const serialize = (children: Array<any> | Set<any>) => {
     const dataParent: Array<SceneGraphNode> = []
     for (const child of children) {
+        if (hiddenAppendables.has(child)) continue
+        
         const { componentName, schema, defaults } = child.constructor
 
         const data: Record<string, any> = { type: componentName }
