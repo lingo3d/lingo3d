@@ -22,13 +22,18 @@ import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getObject3d } from "../MeshItem"
 import { getSelectionFrozen } from "../../../states/useSelectionFrozen"
 import { onSelectionFrozen } from "../../../events/onSelectionFrozen"
+import { getRetargetBones } from "../../../states/useRetargetBones"
 
 const raycaster = new Raycaster()
 
 export const selectionCandidates = new Set<Object3D>()
 const getSelectionCandidates = debounce(() => {
-    selectionCandidates.clear()
     const [frozenSet] = getSelectionFrozen()
+
+    const dummy = getRetargetBones()
+    dummy && frozenSet.add(dummy)
+
+    selectionCandidates.clear()
     scene.traverse(c => {
         const { manager } = c.userData
         manager && !frozenSet.has(manager) && selectionCandidates.add(getObject3d(manager))

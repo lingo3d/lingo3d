@@ -5,7 +5,9 @@ import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
 import Loaded from "../../display/core/Loaded"
 import { isMeshItem } from "../../display/core/MeshItem"
+import Dummy from "../../display/Dummy"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
+import { setRetargetBones } from "../../states/useRetargetBones"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 import { addSelectionFrozen, clearSelectionFrozen } from "../../states/useSelectionFrozen"
@@ -126,6 +128,17 @@ const ContextMenu = () => {
                             <MenuItem onClick={() => setShowSearch(true)}>
                                 Search children
                             </MenuItem>
+
+                            {selectionTarget instanceof Dummy && (
+                                <MenuItem onClick={() => {
+                                    addSelectionFrozen(selectionTarget)
+                                    setRetargetBones(selectionTarget)
+                                    setData(undefined)
+                                }}>
+                                    Convert to Mixamo
+                                </MenuItem>
+                            )}
+
                             <MenuItem onClick={() => {
                                 isMeshItem(selectionTarget) && addSelectionFrozen(selectionTarget)
                                 setData(undefined)
