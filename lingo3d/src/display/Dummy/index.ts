@@ -22,6 +22,7 @@ export default class Dummy extends Model implements IDummy {
         super()
         this.width = 20
         this.depth = 20
+        this.scale = 1.7
         this.pbr = true
 
         this.createEffect(() => {

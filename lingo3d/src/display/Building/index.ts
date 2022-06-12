@@ -15,7 +15,7 @@ export default class Building extends ObjectManager<Group> implements IBuilding 
         const group = new Group()
         super(group)
 
-        this.scale = 4
+        this.scale = 10
 
         this.createEffect(() => {
             const preset = this.presetState.get()
