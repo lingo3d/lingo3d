@@ -29,7 +29,7 @@ const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
 }
 
 class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectManager<T> implements ISimpleObjectManager {
-    public override object3d!: T
+    public declare object3d: T
 
     public override get id() {
         return this._id

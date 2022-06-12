@@ -1,5 +1,3 @@
-//@ts-ignore
-import mapSrc from "../../assets-local/bugp.glb"
 import settings from "../api/settings"
 import Model from "../display/Model"
 import Dummy from "../display/Dummy"
@@ -7,7 +5,7 @@ import Dummy from "../display/Dummy"
 export default {}
 
 const map = new Model()
-map.src = mapSrc
+map.src = "bugp.glb"
 map.scale = 150
 map.pbr = true
 map.metalnessFactor = 1

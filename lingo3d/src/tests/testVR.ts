@@ -1,8 +1,6 @@
 import keyboard from "../api/keyboard"
 import settings from "../api/settings"
 import Model from "../display/Model"
-//@ts-ignore
-import fairySrc from "../../assets-local/fairy.glb"
 import Sky from "../display/Sky"
 import Cube from "../display/primitives/Cube"
 import FirstPersonCamera from "../display/cameras/FirstPersonCamera"
@@ -35,7 +33,7 @@ cam.mouseControl = "drag"
 cam.active = true
 
 const map = new Model()
-map.src = fairySrc
+map.src = "fairy.glb"
 map.scale = 20
 map.physics = "map"
 

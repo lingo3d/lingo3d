@@ -1,11 +1,9 @@
 import { PointLight, SkyLight, settings, Sky, Cube, Model } from ".."
-//@ts-ignore
-import faceSrc from "../../assets-local/face.glb"
 
 export default {}
 
 const model = new Model()
-model.src = faceSrc
+model.src = "face.glb"
 model.scale = 5
 model.playAnimation()
 model.y = 300

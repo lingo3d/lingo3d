@@ -1,16 +1,3 @@
-//@ts-ignore
-import botSrc from "../../assets-local/bot.fbx"
-//@ts-ignore
-import runningSrc from "../../assets-local/running.fbx"
-//@ts-ignore
-import idleSrc from "../../assets-local/idle.fbx"
-//@ts-ignore
-import aimSrc from "../../assets-local/aim.fbx"
-//@ts-ignore
-import aimWalkSrc from "../../assets-local/aim-walk.fbx"
-//@ts-ignore
-import recoilSrc from "../../assets-local/recoil.fbx"
-
 import { Model, keyboard, Sky, mouse, Octahedron, Cube, DirectionalLight, settings, ThirdPersonCamera, Reflector } from "../index"
 
 import { endPoint, mapRange } from "@lincode/math"
@@ -37,7 +24,7 @@ export const text2ImageData = (text: string) => {
 }
 
 const model = new Model()
-model.src = botSrc
+model.src = "bot.fbx"
 model.width = 30
 model.depth = 30
 model.y = 50
@@ -45,11 +32,11 @@ model.physics = true
 model.noTumble = true
 model.physicsGroup = 2
 
-model.loadAnimation(runningSrc, "running")
-model.loadAnimation(idleSrc, "idle")
-model.loadAnimation(aimSrc, "aim")
-model.loadAnimation(aimWalkSrc, "aimWalk")
-model.loadAnimation(recoilSrc, "recoil")
+model.loadAnimation("running.fbx", "running")
+model.loadAnimation("idle.fbx", "idle")
+model.loadAnimation("aim.fbx", "aim")
+model.loadAnimation("aim-walk.fbx", "aimWalk")
+model.loadAnimation("recoil.fbx", "recoil")
 model.playAnimation("idle")
 
 const makeText = (angle: number, distance: number, y: number, speed: number, char: string, errors: Array<string>) => {

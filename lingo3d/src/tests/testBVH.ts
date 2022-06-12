@@ -1,25 +1,5 @@
 import keyboard from "../api/keyboard"
 import Model from "../display/Model"
-//@ts-ignore
-import fairySrc from "../../assets-local/fairy.glb"
-//@ts-ignore
-import personSrc from "../../assets-local/person.glb"
-//@ts-ignore
-import runningSrc from "../../assets-local/running 2.fbx"
-//@ts-ignore
-import idleSrc from "../../assets-local/idle 2.fbx"
-//@ts-ignore
-import BackSrc from "../../assets-local/skybox/Back.png"
-//@ts-ignore
-import DownSrc from "../../assets-local/skybox/Down.png"
-//@ts-ignore
-import FrontSrc from "../../assets-local/skybox/Front.png"
-//@ts-ignore
-import LeftSrc from "../../assets-local/skybox/Left.png"
-//@ts-ignore
-import RightSrc from "../../assets-local/skybox/Right.png"
-//@ts-ignore
-import UpSrc from "../../assets-local/skybox/Up.png"
 
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import settings from "../api/settings"
@@ -27,13 +7,13 @@ import settings from "../api/settings"
 export default {}
 
 const player = new Model()
-player.src = personSrc
+player.src = "person.glb"
 player.width = 20
 player.depth = 20
 player.z = -100
 player.y = 210.59
 player.physics = "character"
-player.animations = { running: runningSrc, idle: idleSrc }
+player.animations = { running: "running 2.fbx", idle: "idle 2.fbx" }
 player.animation = "idle"
 player.rotationY = 90
 
@@ -58,8 +38,10 @@ cam.mouseControl = true
 cam.active = true
 
 const map = new Model()
-map.src = fairySrc
+map.src = "fairy.glb"
 map.scale = 20
 map.physics = "map"
 
-settings.skybox = [LeftSrc, RightSrc, UpSrc, DownSrc, FrontSrc, BackSrc]
+settings.skybox = [
+    "skybox/Left.png", "skybox/Right.png", "skybox/Up.png", "skybox/Down.png", "skybox/Front.png", "skybox/Back.png"
+]

@@ -7,12 +7,12 @@ specifiers:
   '@types/stats.js': ^0.17.0
   '@types/three': 0.140.0
   '@vitejs/plugin-vue': ^2.3.3
-  lingo3d: 1.10.235
+  lingo3d: 1.10.238
   nanoid: ^3.3.4
   popmotion: ^11.0.3
   stats.js: ^0.17.0
   typescript: ^4.7.3
-  vite: ^2.9.10
+  vite: ^2.9.12
   vue: ^3.2.37
   vue-tsc: ^0.36.1
 
@@ -21,16 +21,16 @@ dependencies:
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
   '@types/three': 0.140.0
-  lingo3d: 1.10.235
+  lingo3d: 1.10.238
   nanoid: 3.3.4
   popmotion: 11.0.3
   stats.js: 0.17.0
 
 devDependencies:
   '@types/stats.js': 0.17.0
-  '@vitejs/plugin-vue': 2.3.3_vite@2.9.10+vue@3.2.37
+  '@vitejs/plugin-vue': 2.3.3_vite@2.9.12+vue@3.2.37
   typescript: 4.7.3
-  vite: 2.9.10
+  vite: 2.9.12
   vue: 3.2.37
   vue-tsc: 0.36.1_typescript@4.7.3
 
@@ -111,14 +111,14 @@ packages:
     resolution: {integrity: sha512-YPJLSIY6uKUOp1k6BZYDq5GtEIdhfeK04UCbc9IPAVbdn/RNjkfrbnyd7smrsNkJhc0IFASLpd3AAYgwqgXKVQ==}
     dev: false
 
-  /@vitejs/plugin-vue/2.3.3_vite@2.9.10+vue@3.2.37:
+  /@vitejs/plugin-vue/2.3.3_vite@2.9.12+vue@3.2.37:
     resolution: {integrity: sha512-SmQLDyhz+6lGJhPELsBdzXGc+AcaT8stgkbiTFGpXPe8Tl1tJaBw1A6pxDqDuRsVkD8uscrkx3hA7QDOoKYtyw==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       vite: ^2.5.10
       vue: ^3.2.25
     dependencies:
-      vite: 2.9.10
+      vite: 2.9.12
       vue: 3.2.37
     dev: true
 
@@ -498,8 +498,8 @@ packages:
       has: 1.0.3
     dev: true
 
-  /lingo3d/1.10.235:
-    resolution: {integrity: sha512-BZjgtymPej5gyVqHIHRJmDg25P4DNeHGEgxJTHWuFjHRFWm4AApRkT+YMCY08AFxPWUuZBsMY1Bxni7Gyz0pdQ==}
+  /lingo3d/1.10.238:
+    resolution: {integrity: sha512-ZjWcs33m5yZOO1RwEG7JO7U/wVjYEifmiDLHoZ7Zd9nqIvuwICT1SgVpbummXGCdg4Oz55IMxmXUUpIa1RixVA==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
@@ -621,7 +621,7 @@ packages:
     dev: true
 
   /stats.js/0.17.0:
-    resolution: {integrity: sha1-scPcRtlEmLV4t/05hbgaznExzH0=}
+    resolution: {integrity: sha512-hNKz8phvYLPEcRkeG1rsGmV5ChMjKDAWU7/OJJdDErPBNChQXxCo3WZurGpnWc6gZhAzEPFad1aVgyOANH1sMw==}
     dev: false
 
   /style-value-types/5.0.0:
@@ -641,7 +641,7 @@ packages:
     dev: false
 
   /to-fast-properties/2.0.0:
-    resolution: {integrity: sha1-3F5pjL0HkmW8c+A3doGk5Og/YW4=}
+    resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==}
     engines: {node: '>=4'}
     dev: true
 
@@ -659,8 +659,8 @@ packages:
     hasBin: true
     dev: true
 
-  /vite/2.9.10:
-    resolution: {integrity: sha512-TwZRuSMYjpTurLqXspct+HZE7ONiW9d+wSWgvADGxhDPPyoIcNywY+RX4ng+QpK30DCa1l/oZgi2PLZDibhzbQ==}
+  /vite/2.9.12:
+    resolution: {integrity: sha512-suxC36dQo9Rq1qMB2qiRorNJtJAdxguu5TMvBHOc/F370KvqAe9t48vYp+/TbPKRNrMh/J55tOUmkuIqstZaew==}
     engines: {node: '>=12.2.0'}
     hasBin: true
     peerDependencies:

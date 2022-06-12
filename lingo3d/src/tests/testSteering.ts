@@ -1,7 +1,5 @@
 import keyboard from "../api/keyboard"
 import Cube from "../display/primitives/Cube"
-//@ts-ignore
-import parrotSrc from "../../assets-local/parrot.glb"
 import Model from "../display/Model"
 
 const floor = new Cube()
@@ -13,7 +11,7 @@ floor.physics = true
 floor.mass = 0
 
 const box = new Model()
-box.src = parrotSrc
+box.src = "parrot.glb"
 box.scale = 3
 box.physics = true
 box.slippery = true

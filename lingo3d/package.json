@@ -1,6 +1,6 @@
 {
 	"name": "lingo3d",
-	"version": "1.10.235",
+	"version": "1.10.238",
 	"description": "Lingo3D is a web-first 3d game development library with React integration",
 	"homepage": "https://github.com/lingo3d/lingo3d",
 	"author": "Lingo3D",
@@ -11,6 +11,11 @@
 		"game",
 		"react"
 	],
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc --noEmit false --declaration --outDir lib",
+		"preview": "vite preview"
+	},
 	"dependencies": {
 		"@lincode/events": "*",
 		"@lincode/filetypes": "*",
@@ -32,35 +37,16 @@
 		"xstate": "^4.32.1"
 	},
 	"devDependencies": {
-		"@babel/cli": "^7.17.10",
 		"@babel/core": "^7.18.2",
-		"@babel/plugin-proposal-decorators": "^7.18.2",
-		"@babel/plugin-transform-react-jsx": "^7.17.12",
-		"@babel/preset-env": "^7.18.2",
-		"@babel/preset-typescript": "^7.17.12",
-		"@babel/runtime": "^7.18.3",
+		"@preact/preset-vite": "^2.2.0",
 		"@types/howler": "^2.2.7",
 		"@types/preact-custom-element": "^4.0.1",
 		"@types/prettier": "^2.6.3",
 		"@types/randomcolor": "^0.5.6",
 		"@types/react": "^18.0.12",
-		"babel-loader": "^8.2.5",
-		"content-loader": "*",
-		"core-js": "^3.22.8",
-		"fork-ts-checker-webpack-plugin": "^7.2.11",
-		"html-webpack-plugin": "^5.5.0",
-		"randomcolor": "^0.6.2",
-		"typescript": "*",
-		"webpack": "^5.73.0",
-		"webpack-bundle-analyzer": "*",
-		"webpack-cli": "^4.9.2",
-		"webpack-dev-server": "^4.9.2",
-		"webpack-notifier": "^1.15.0"
-	},
-	"scripts": {
-		"build": "ambients clean && yarn webpack --mode production && yarn tsc",
-		"start": "yarn webpack-dev-server",
-		"dev": "yarn start"
+		"randomcolor": "*",
+		"typescript": "^4.7.3",
+		"vite": "^2.9.12"
 	},
 	"private": false,
 	"module": "lib/index.js",

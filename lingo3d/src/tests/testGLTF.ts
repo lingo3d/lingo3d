@@ -1,7 +1,3 @@
-//@ts-ignore
-import casaSrc from "../../assets-local/casa2.glb"
-//@ts-ignore
-import hdrSrc from "../../assets-local/hdrnightvison.hdr"
 import Model from "../display/Model"
 import settings from "../api/settings"
 import AreaLight from "../display/lights/AreaLight"
@@ -9,12 +5,12 @@ import AreaLight from "../display/lights/AreaLight"
 export default {}
 
 const model = new Model()
-model.src = casaSrc
+model.src = "casa2.glb"
 model.scale = 3
 
 settings.defaultOrbitControls = true
-settings.defaultLight = hdrSrc
-settings.skybox = hdrSrc
+settings.defaultLight = "hdrnightvison.hdr"
+settings.skybox = "hdrnightvison.hdr"
 
 const rectLight = new AreaLight()
 rectLight.rotationX = -90

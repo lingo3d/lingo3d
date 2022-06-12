@@ -1,37 +1,22 @@
 import { createMachine, interpret } from "xstate"
 import { Model, pillShape } from "../.."
 
-//@ts-ignore
-import botSrc from "../../../assets-local/bot.fbx"
-//@ts-ignore
-import runningSrc from "../../../assets-local/running.fbx"
-//@ts-ignore
-import idleSrc from "../../../assets-local/idle.fbx"
-//@ts-ignore
-import aimSrc from "../../../assets-local/aim.fbx"
-//@ts-ignore
-import aimWalkSrc from "../../../assets-local/aim-walk.fbx"
-//@ts-ignore
-import recoilSrc from "../../../assets-local/recoil.fbx"
-//@ts-ignore
-import fallingSrc from "../../../assets-local/falling.fbx"
-
 export default () => {
     const characterModel = new Model()
-    characterModel.src = botSrc
+    characterModel.src = "bot.fbx"
     characterModel.width = 30
     characterModel.depth = 30
     characterModel.y = 50
     characterModel.physicsShape = pillShape
 
-    characterModel.loadAnimation(runningSrc)
-    characterModel.loadAnimation(idleSrc)
-    characterModel.loadAnimation(aimSrc)
-    characterModel.loadAnimation(aimWalkSrc)
-    characterModel.loadAnimation(recoilSrc)
-    characterModel.loadAnimation(fallingSrc)
+    characterModel.loadAnimation("running.fbx")
+    characterModel.loadAnimation("idle.fbx")
+    characterModel.loadAnimation("aim.fbx")
+    characterModel.loadAnimation("aim-walk.fbx")
+    characterModel.loadAnimation("recoil.fbx")
+    characterModel.loadAnimation("falling.fbx")
 
-    characterModel.playAnimation(idleSrc)
+    characterModel.playAnimation("idle.fbx")
 
     const characterMachine = createMachine({
         initial: "idle",
@@ -43,7 +28,7 @@ export default () => {
                     JUMP_ON: { target: "jump" }
                 },
                 entry: () => {
-                    characterModel.playAnimation(idleSrc)
+                    characterModel.playAnimation("aim.fbx")
                 }
             },
             move: {
@@ -53,7 +38,7 @@ export default () => {
                     JUMP_ON: { target: "jump" }
                 },
                 entry: () => {
-                    characterModel.playAnimation(runningSrc)
+                    characterModel.playAnimation("running.fbx")
                 }
             },
             aim: {
@@ -63,7 +48,7 @@ export default () => {
                     JUMP_ON: { target: "jump" }
                 },
                 entry: () => {
-                    characterModel.playAnimation(aimSrc)
+                    characterModel.playAnimation("aim.fbx")
                 }
             },
             aimMove: {
@@ -73,7 +58,7 @@ export default () => {
                     JUMP_ON: { target: "jump" }
                 },
                 entry: () => {
-                   characterModel.playAnimation(aimWalkSrc)
+                   characterModel.playAnimation("aim-walk.fbx")
                 }
             },
             jump: {
@@ -81,7 +66,7 @@ export default () => {
                     JUMP_OFF: { target: "idle" }
                 },
                 entry: () => {
-                    characterModel.playAnimation(fallingSrc)
+                    characterModel.playAnimation("falling.fbx")
                 }
             },
             recoil: {
@@ -89,7 +74,7 @@ export default () => {
                     RECOIL_OFF: { target: "idle" }
                 },
                 entry: () => {
-                    characterModel.playAnimation(recoilSrc, { repeat: false, onFinish: () => characterService.send("RECOIL_OFF") })
+                    characterModel.playAnimation("recoil.fbx", { repeat: false, onFinish: () => characterService.send("RECOIL_OFF") })
                 }
             }
         }

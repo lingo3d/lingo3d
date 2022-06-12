@@ -1,18 +1,3 @@
-//@ts-ignore
-import botSrc from "../../assets-local/bot.fbx"
-//@ts-ignore
-import runningSrc from "../../assets-local/running.fbx"
-//@ts-ignore
-import idleSrc from "../../assets-local/idle.fbx"
-//@ts-ignore
-import aimSrc from "../../assets-local/aim.fbx"
-//@ts-ignore
-import aimWalkSrc from "../../assets-local/aim-walk.fbx"
-//@ts-ignore
-import recoilSrc from "../../assets-local/recoil.fbx"
-//@ts-ignore
-import fallingSrc from "../../assets-local/falling.fbx"
-
 export default {}
 
 import { Model, keyboard, Sky, Reflector, mouse, Octahedron, ThirdPersonCamera } from "../index"
@@ -22,7 +7,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { setGridHelper } from "../states/useGridHelper"
 
 const model = new Model()
-model.src = botSrc
+model.src = "bot.fbx"
 model.width = 30
 model.depth = 30
 model.y = 50
@@ -31,12 +16,12 @@ model.noTumble = true
 model.physicsGroup = 2
 model.slippery = true
 
-model.loadAnimation(runningSrc)
-model.loadAnimation(idleSrc)
-model.loadAnimation(aimSrc)
-model.loadAnimation(aimWalkSrc)
-model.loadAnimation(recoilSrc)
-model.loadAnimation(fallingSrc)
+model.loadAnimation("running.fbx")
+model.loadAnimation("idle.fbx")
+model.loadAnimation("aim.fbx")
+model.loadAnimation("aim-walk.fbx")
+model.loadAnimation("recoil.fbx")
+model.loadAnimation("falling.fbx")
 
 const sky = new Sky()
 
@@ -102,7 +87,7 @@ const useFireBolt = (aim: boolean) => createNestedEffect(() => {
 const useDetectLanding = (airborn: boolean) => createNestedEffect(() => {
     if (!airborn) return
 
-    model.playAnimation(fallingSrc)
+    model.playAnimation("falling.fbx")
 
     const handle = new Cancellable()
     const timeout = setTimeout(() => {
@@ -146,13 +131,13 @@ createEffect(() => {
     useFireBolt(aim)
 
     if (recoil) {
-        model.playAnimation(recoilSrc, { repeat: false, onFinish: () => setRecoil(false) })
+        model.playAnimation("recoil.fbx", { repeat: false, onFinish: () => setRecoil(false) })
         Object.assign(model.velocity, { x: 0, y: 0, z: 0 })
         return
     }
 
     if (aim && running) {
-        model.playAnimation(aimWalkSrc)
+        model.playAnimation("aim-walk.fbx")
         model.onLoop = () => {
             model.moveForward(-1)   
         }
@@ -161,7 +146,7 @@ createEffect(() => {
         }
     }
     if (running) {
-        model.playAnimation(runningSrc)
+        model.playAnimation("running.fbx")
         model.onLoop = () => {
             model.moveForward(-5)
         }
@@ -170,11 +155,11 @@ createEffect(() => {
         }
     }
     if (aim) {
-        model.playAnimation(aimSrc)
+        model.playAnimation("aim.fbx")
         return
     }
 
-    model.playAnimation(idleSrc)
+    model.playAnimation("idle.fbx")
     Object.assign(model.velocity, { x: 0, y: 0, z: 0})
 
 }, [getAim, getRecoil, getRunning, getJump, getAirborn])

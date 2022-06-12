@@ -1,8 +1,4 @@
 import { PointLight, SkyLight, settings } from ".."
-//@ts-ignore
-import keanuSrc from "../../assets-local/keannu.glb"
-//@ts-ignore
-import hdrSrc from "../../assets-local/studio010.hdr"
 import Model from "../display/Model"
 
 export default {}
@@ -10,7 +6,7 @@ export default {}
 settings.performance = "quality"
 
 const model = new Model()
-model.src = keanuSrc
+model.src = "keannu.glb"
 model.scale = 5
 model.metalnessFactor = 5
 model.roughnessFactor = 0.5
@@ -20,6 +16,6 @@ model.onLoop = () => {
 }
 
 settings.defaultOrbitControls = true
-settings.defaultLight = hdrSrc
+settings.defaultLight = "studio010.hdr"
 
-settings.skybox = hdrSrc
+settings.skybox = "studio010.hdr"
