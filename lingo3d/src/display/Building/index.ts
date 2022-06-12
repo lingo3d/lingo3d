@@ -24,9 +24,7 @@ export default class Building extends ObjectManager<Group> implements IBuilding 
             const repeatY = Math.max(Math.floor(this.repeatYState.get()), 1)
 
             const floors = range(repeatY).map(y => {
-                const floor = new Floor()
-                this.append(floor)
-                
+                const floor = new Floor(this)
                 floor.preset = preset
                 floor.repeatX = repeatX
                 floor.repeatZ = repeatZ
