@@ -1,5 +1,6 @@
 import { endPoint, Point3d, rad2Deg, rotatePoint } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
+import { preventTreeShake } from "@lincode/utils"
 import { interpret } from "xstate"
 import { loop } from "../../engine/eventLoop"
 import { onBeforeRender } from "../../events/onBeforeRender"
@@ -8,6 +9,9 @@ import FoundManager from "../core/FoundManager"
 import Model from "../Model"
 import { point2Vec } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
+import retargetBones from "./retargetBones"
+
+preventTreeShake(retargetBones)
 
 const url = "https://unpkg.com/lingo3d-dummy@1.0.1/assets/"
 const botUrl = url + "ybot.fbx"

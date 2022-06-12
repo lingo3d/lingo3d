@@ -1,15 +1,21 @@
-import Model from "../Model"
-import { Bone as ThreeBone } from "three"
-import { last } from "@lincode/utils"
-import { vector3, vector3_ } from "./reusables"
-import { vec2Point } from "./vec2Point"
-import Bone from "../Bone"
 import { Cancellable } from "@lincode/promiselikes"
+import { createEffect } from "@lincode/reactivity"
+import { last } from "@lincode/utils"
+import { Bone as ThreeBone } from "three"
+import { getRetargetBones } from "../../states/useRetargetBones"
+import Bone from "../Bone"
+import { vector3, vector3_ } from "../utils/reusables"
+import { vec2Point } from "../utils/vec2Point"
 
-export default (bot: Model) => {
+export default {}
+
+createEffect(() => {
+    const dummy = getRetargetBones()
+    if (!dummy) return
+    
     const handle = new Cancellable()
     
-    handle.watch(bot.loaded.then(loadedGroup => {
+    handle.watch(dummy.loaded.then(loadedGroup => {
         const bones: Array<Bone> = []
 
         loadedGroup.traverse(object3d => {
@@ -33,5 +39,8 @@ export default (bot: Model) => {
                 bone.dispose()
         })
     }))
-    return handle
-}
+
+    return () => {
+        handle.cancel()
+    }
+}, [getRetargetBones])

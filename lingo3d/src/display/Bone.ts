@@ -1,6 +1,7 @@
 import { distance3d, Point3d } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
 import { hiddenAppendables } from "../api/core/Appendable"
+import { getSelectionTarget } from "../states/useSelectionTarget"
 import Cube from "./primitives/Cube"
 import Octahedron from "./primitives/Octahedron"
 
@@ -25,6 +26,18 @@ export default class Bone extends Cube {
         //@ts-ignore
         joint.material.depthTest = false
         joint.color = "red"
+
+        this.createEffect(() => {
+            if (getSelectionTarget() !== this) return
+
+            this.color = "blue"
+            joint.color = "blue"
+
+            return () => {
+                this.color = "red"
+                joint.color = "red"
+            }
+        }, [getSelectionTarget])
 
         this.createEffect(() => {
             const from = this.fromState.get()
