@@ -27,8 +27,7 @@ export default class Dummy extends Model implements IDummy {
         this.pbr = true
 
         this.createEffect(() => {
-            const src = this.srcState.get()
-            if (src !== botUrl) return
+            if (this.srcState.get() !== botUrl) return
 
             const preset = this.presetState.get()
             const prefix = preset === "rifle" ? "rifle-" : ""
@@ -44,7 +43,7 @@ export default class Dummy extends Model implements IDummy {
             return () => {
                 this.animation = undefined
             }
-        }, [this.presetState.get, this.srcState.get])
+        }, [this.presetState.get, this.srcState.get, this.mixamoState.get])
         
         const { poseService } = this
 

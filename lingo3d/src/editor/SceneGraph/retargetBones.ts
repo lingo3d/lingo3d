@@ -36,7 +36,6 @@ createEffect(() => {
         for (const bone of bones) {
             console.log(bone.target.name = "mixamorig" + bone.target.name)
         }
-        setRetargetBones(undefined)
         dummy.mixamo = true
 
         handle.then(() => {

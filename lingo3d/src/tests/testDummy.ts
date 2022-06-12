@@ -14,7 +14,7 @@ reflector.normalMap = "normal.jpg"
 reflector.roughness = 5
 
 const dummy = new Dummy()
-dummy.y = 50
+dummy.y = 170 * 0.5
 dummy.preset = "rifle"
 dummy.physics = "character"
 dummy.strideMove = true
