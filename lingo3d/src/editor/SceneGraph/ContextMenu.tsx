@@ -6,6 +6,7 @@ import Appendable from "../../api/core/Appendable"
 import Loaded from "../../display/core/Loaded"
 import { isMeshItem } from "../../display/core/MeshItem"
 import Dummy from "../../display/Dummy"
+import { emitSelectionRecompute } from "../../events/onSelectionRecompute"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
 import { setRetargetBones } from "../../states/useRetargetBones"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
@@ -131,8 +132,8 @@ const ContextMenu = () => {
 
                             {selectionTarget instanceof Dummy && (
                                 <MenuItem onClick={() => {
-                                    addSelectionFrozen(selectionTarget)
                                     setRetargetBones(selectionTarget)
+                                    emitSelectionRecompute()
                                     setData(undefined)
                                 }}>
                                     Convert to Mixamo
@@ -143,7 +144,7 @@ const ContextMenu = () => {
                                 isMeshItem(selectionTarget) && addSelectionFrozen(selectionTarget)
                                 setData(undefined)
                             }}>
-                                Freeze selction
+                                Freeze selection
                             </MenuItem>
                         </Fragment>
                     )}
