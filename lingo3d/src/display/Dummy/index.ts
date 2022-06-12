@@ -91,6 +91,8 @@ export default class Dummy extends Model implements IDummy {
             if (!joints) return
 
             const { spine } = joints
+            const spineQuaternion = spine.outerObject3d.quaternion.clone()
+            const loadedGroupQuaternion = this.loadedGroup.quaternion.clone()
 
             const { strideForward, strideRight, strideMove } = this
             if (!strideForward && !strideRight) {
@@ -109,11 +111,11 @@ export default class Dummy extends Model implements IDummy {
             const handle = onBeforeRender(() => {
                 poseService.send(backwards ? "RUN_BACKWARDS_START" : "RUN_START")
 
-                const thisPoint = this.pointAt(1000)
-                this.loadedGroup.lookAt(point2Vec(thisPoint))
-
+                this.loadedGroup.quaternion.copy(loadedGroupQuaternion)
+                spine.outerObject3d.quaternion.copy(spineQuaternion)
                 const spinePoint = spine.pointAt(1000)
                 
+                const thisPoint = this.pointAt(1000)
                 const centerPoint = this.getWorldPosition()
                 const rotated = rotatePoint({ x: thisPoint.x, y: thisPoint.z }, { x: centerPoint.x, y: centerPoint.z }, angle)
                 const groupPoint = new Point3d(rotated.x, thisPoint.y, rotated.y)
@@ -129,6 +131,8 @@ export default class Dummy extends Model implements IDummy {
             })
             return () => {
                 handle.cancel()
+                spine.outerObject3d.quaternion.copy(spineQuaternion)
+                this.loadedGroup.quaternion.copy(loadedGroupQuaternion)
             }
         }, [this.strideMoveState.get, this.strideForwardState.get, this.strideRightState.get, getJoints])
     }
