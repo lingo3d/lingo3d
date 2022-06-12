@@ -1,7 +1,6 @@
 import { endPoint, Point3d, rad2Deg, rotatePoint } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
-import { hiddenAppendables } from "../../api/core/Appendable"
 import { loop } from "../../engine/eventLoop"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import IDummy, { dummyDefaults, dummySchema } from "../../interface/IDummy"
@@ -11,6 +10,7 @@ import { point2Vec } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
 
 const url = "https://unpkg.com/lingo3d-dummy@1.0.1/assets/"
+const botUrl = url + "ybot.fbx"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -19,16 +19,16 @@ export default class Dummy extends Model implements IDummy {
 
     private poseService = interpret(poseMachine)
 
-    public constructor() {
+    public constructor () {
         super()
         this.width = 20
         this.depth = 20
         this.scale = 1.7
         this.pbr = true
 
-        super.src = url + "ybot.fbx"
-
         this.createEffect(() => {
+            if (this.srcState.get() !== botUrl) return
+
             const preset = this.presetState.get()
             const prefix = preset === "rifle" ? "rifle-" : ""
 
@@ -43,7 +43,7 @@ export default class Dummy extends Model implements IDummy {
             return () => {
                 this.animation = undefined
             }
-        }, [this.presetState.get])
+        }, [this.presetState.get, this.srcState.get, this.mixamoState.get])
         
         const { poseService } = this
 
@@ -65,9 +65,25 @@ export default class Dummy extends Model implements IDummy {
         this.then(() => poseService.stop())
 
         const [setJoints, getJoints] = store<Record<string, FoundManager> | undefined>(undefined)
-        this.loaded.then(() => setJoints({
-            spine: this.find("mixamorigSpine", true)!
-        }))
+        const [setLoaded, getLoaded] = store(false)
+
+        this.createEffect(() => {
+            super.src = this.srcState.get()
+            setLoaded(false)
+            setJoints(undefined)
+            const handle = this.loaded.then(() => setLoaded(true))
+            return () => {
+                handle.cancel()
+            }
+        }, [this.srcState.get])
+
+        this.createEffect(() => {
+            if (!getLoaded() || (this.srcState.get() !== botUrl && !this.mixamoState.get())) return
+
+            setJoints({
+                spine: this.find("mixamorigSpine", true)!
+            })
+        }, [getLoaded, this.mixamoState.get, this.srcState.get])
 
         this.createEffect(() => {
             const joints = getJoints()
@@ -118,21 +134,6 @@ export default class Dummy extends Model implements IDummy {
                 this.loadedGroup.quaternion.copy(loadedGroupQuaternion)
             }
         }, [this.strideMoveState.get, this.strideForwardState.get, this.strideRightState.get, getJoints])
-
-        this.createEffect(() => {
-            const src = this.srcState.get()
-            if (!src) return
-
-            const model = new Model()
-            model.src = src
-            this._append(model)
-            this.outerObject3d.add(model.outerObject3d)
-            hiddenAppendables.add(model)
-
-            return () => {
-                model.dispose()
-            }
-        }, [this.srcState.get])
     }
 
     private mixamoState = new Reactive(false)
@@ -143,7 +144,7 @@ export default class Dummy extends Model implements IDummy {
         this.mixamoState.set(val)
     }
 
-    private srcState = new Reactive<string | undefined>(undefined)
+    private srcState = new Reactive(botUrl)
     public override get src() {
         return this.srcState.get()
     }
