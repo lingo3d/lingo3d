@@ -1,11 +1,14 @@
 import { distance3d, Point3d } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
+import { hiddenAppendables } from "../api/core/Appendable"
 import Cube from "./primitives/Cube"
 import Octahedron from "./primitives/Octahedron"
 
 export default class Bone extends Cube {
     public constructor() {
         super()
+        hiddenAppendables.add(this)
+
         this.wireframe = true
         this.outerObject3d.renderOrder = 999
         this.material.depthTest = false
@@ -36,6 +39,8 @@ export default class Bone extends Cube {
 
             const h = this.depth = distance3d(x0, y0, z0, x1, y1, z1)
             this.innerZ = h * 0.5
+            const t = this.width = this.height = h * 0.1
+            joint.scale = t * 0.025
 
             this.lookAt(to)
 

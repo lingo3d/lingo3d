@@ -105,8 +105,8 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                     const localPt = camera.worldToLocal(pt.clone())
                     const localTarget = camera.worldToLocal(controls.target.clone())
                     
-                    if (localPt.z - localTarget.z <= 1)
-                        pt = controls.target.clone().add(direction.multiplyScalar(-1))
+                    if (localPt.z - localTarget.z <= 0.1)
+                        pt = controls.target.clone().add(direction.multiplyScalar(-0.1))
 
                     camera.position.copy(pt)
                 }
