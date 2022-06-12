@@ -2,14 +2,13 @@ import { distance3d } from "@lincode/math"
 import { last } from "@lincode/utils"
 import { Bone as ThreeBone, Quaternion } from "three"
 import { getSelectionTarget } from "../states/useSelectionTarget"
-import Cube from "./primitives/Cube"
 import Octahedron from "./primitives/Octahedron"
 import { vector3, vector3_ } from "./utils/reusables"
 import { vec2Point } from "./utils/vec2Point"
 
 const diffQuat = (A: Quaternion, B: Quaternion) => A.clone().multiply(B.clone().invert())
 
-export default class Bone extends Cube {
+export default class Bone extends Octahedron {
     public constructor(
         public target: ThreeBone
     ) {
@@ -69,10 +68,7 @@ export default class Bone extends Cube {
         const myQuat = this.outerObject3d.quaternion.clone()
 
         this.onLoop = () => {
-            this.outerObject3d.quaternion
             const diff = diffQuat(this.outerObject3d.quaternion, myQuat)
-            diff.x = -diff.x
-            diff.y = -diff.y
             target.quaternion.copy(targetQuat.clone().multiply(diff))
         }
     }
