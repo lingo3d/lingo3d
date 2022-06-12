@@ -3,6 +3,7 @@ import { Object3D } from "three"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 
 export const appendableRoot = new Set<Appendable>()
+export const hiddenAppendables = new WeakSet<Appendable>()
 
 export default class Appendable extends Disposable {
     public constructor(

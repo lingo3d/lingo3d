@@ -1,7 +1,7 @@
 import { h } from "preact"
 import { useState, useEffect, useRef, useMemo } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
-import Appendable from "../../api/core/Appendable"
+import Appendable, { hiddenAppendables } from "../../api/core/Appendable"
 import CubeIcon from "./icons/CubeIcon"
 import ExpandIcon from "./icons/ExpandIcon"
 import CollapseIcon from "./icons/CollapseIcon"
@@ -53,7 +53,11 @@ export const draggingItemPtr: [Appendable | undefined] = [undefined]
 
 const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     const name = getComponentName(appendable)
-    const appendableChildren = appendable.children ? [...appendable.children] : undefined
+    
+    const appendableChildren = useMemo(() => {
+        return appendable.children ? [...appendable.children].filter(item => !hiddenAppendables.has(item)) : undefined
+    }, [appendable.children?.size])
+
     const expandIconStyle = { opacity: (appendableChildren?.length || children) ? 0.5 : 0.05, cursor: "pointer" }
 
     const [dragOver, setDragOver] = useState(false)
