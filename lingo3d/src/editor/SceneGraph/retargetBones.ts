@@ -1,11 +1,8 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
-import { last } from "@lincode/utils"
 import { Bone as ThreeBone } from "three"
-import { getRetargetBones, setRetargetBones } from "../../states/useRetargetBones"
+import { getRetargetBones } from "../../states/useRetargetBones"
 import Bone from "../../display/Bone"
-import { vector3, vector3_ } from "../../display/utils/reusables"
-import { vec2Point } from "../../display/utils/vec2Point"
 
 export default {}
 
