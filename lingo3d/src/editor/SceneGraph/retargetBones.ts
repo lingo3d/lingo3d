@@ -20,22 +20,10 @@ createEffect(() => {
 
         loadedGroup.traverse(object3d => {
             if (!(object3d instanceof ThreeBone)) return
-    
-            const child = last(object3d.children)
-            if (!child) return
-    
-            const from = object3d.getWorldPosition(vector3)
-            const to = child.getWorldPosition(vector3_)
-    
             const bone = new Bone(object3d)
-            bone.from = vec2Point(from)
-            bone.to = vec2Point(to)
-            
+            bone.target.name = "mixamorig" + bone.target.name
             bones.push(bone)
         })
-        for (const bone of bones) {
-            console.log(bone.target.name = "mixamorig" + bone.target.name)
-        }
         dummy.mixamo = true
 
         handle.then(() => {

@@ -64,13 +64,13 @@ export default class Dummy extends Model implements IDummy {
         poseService.onTransition(state => state.changed && setPose(state.value as string)).start()
         this.then(() => poseService.stop())
 
-        const [setJoints, getJoints] = store<Record<string, FoundManager> | undefined>(undefined)
+        const [setSpine, getSpine] = store<FoundManager | undefined>(undefined)
         const [setLoaded, getLoaded] = store(false)
 
         this.createEffect(() => {
             super.src = this.srcState.get()
             setLoaded(false)
-            setJoints(undefined)
+            setSpine(undefined)
             const handle = this.loaded.then(() => setLoaded(true))
             return () => {
                 handle.cancel()
@@ -79,17 +79,14 @@ export default class Dummy extends Model implements IDummy {
 
         this.createEffect(() => {
             if (!getLoaded() || (this.srcState.get() !== botUrl && !this.mixamoState.get())) return
+            setSpine(this.find("mixamorigSpine", true))
 
-            setJoints({
-                spine: this.find("mixamorigSpine", true)!
-            })
         }, [getLoaded, this.mixamoState.get, this.srcState.get])
 
         this.createEffect(() => {
-            const joints = getJoints()
-            if (!joints) return
+            const spine = getSpine()
+            if (!spine) return
 
-            const { spine } = joints
             const spineQuaternion = spine.outerObject3d.quaternion.clone()
             const loadedGroupQuaternion = this.loadedGroup.quaternion.clone()
 
@@ -133,7 +130,7 @@ export default class Dummy extends Model implements IDummy {
                 spine.outerObject3d.quaternion.copy(spineQuaternion)
                 this.loadedGroup.quaternion.copy(loadedGroupQuaternion)
             }
-        }, [this.strideMoveState.get, this.strideForwardState.get, this.strideRightState.get, getJoints])
+        }, [this.strideMoveState.get, this.strideForwardState.get, this.strideRightState.get, getSpine])
     }
 
     private mixamoState = new Reactive(false)
