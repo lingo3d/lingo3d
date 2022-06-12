@@ -22,8 +22,9 @@ import mainCamera from "../../engine/mainCamera"
 import ContextMenu from "./ContextMenu"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import { onSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
+import retargetBones from "./retargetBones"
 
-preventTreeShake(h)
+preventTreeShake([h, retargetBones])
 
 const SceneGraph = () => {
     const [r, render] = useState({})
