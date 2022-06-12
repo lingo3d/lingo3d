@@ -1,17 +1,18 @@
 import { distance3d, Point3d } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
-import { Bone as ThreeBone } from "three"
+import { Bone as ThreeBone, Euler, Quaternion } from "three"
 import { hiddenAppendables } from "../api/core/Appendable"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import Cube from "./primitives/Cube"
 import Octahedron from "./primitives/Octahedron"
+import { euler, quaternion } from "./utils/reusables"
 
 export default class Bone extends Cube {
     public constructor(
         public target: ThreeBone
     ) {
         super()
-        hiddenAppendables.add(this)
+        // hiddenAppendables.add(this)
 
         this.wireframe = true
         this.outerObject3d.renderOrder = 999
@@ -58,8 +59,24 @@ export default class Bone extends Cube {
             const t = this.width = this.height = h * 0.1
             joint.scale = t * 0.025
 
+            // this.outerObject3d.quaternion.copy(target.getWorldQuaternion(quaternion))
+
             this.lookAt(to)
 
+            const targetQuat = target.quaternion.clone()
+            const myQuat = this.outerObject3d.quaternion.clone()
+
+            const diffQuat = (A: Quaternion, B: Quaternion) => {
+                return A.clone().multiply(B.clone().invert())
+            }
+
+            this.onLoop = () => {
+                this.outerObject3d.quaternion
+                const diff = diffQuat(this.outerObject3d.quaternion, myQuat)
+                diff.x = -diff.x
+                diff.y = -diff.y
+                target.quaternion.copy(targetQuat.clone().multiply(diff))
+            }
         }, [this.fromState.get, this.toState.get])
     }
 
