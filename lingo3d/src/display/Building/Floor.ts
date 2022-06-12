@@ -2,7 +2,7 @@ import { Reactive } from "@lincode/reactivity"
 import { range } from "@lincode/utils"
 import { Group } from "three"
 import Appendable from "../../api/core/Appendable"
-import IFloor, { FacadePreset } from "../../interface/IFloor"
+import IFloor, { FacadePreset, floorDefaults, floorSchema } from "../../interface/IFloor"
 import ObjectManager from "../core/ObjectManager"
 import Model from "../Model"
 
@@ -37,6 +37,10 @@ const applyTransform = (
 }
 
 export default class Floor extends ObjectManager<Group> implements IFloor {
+    public static componentName = "floor"
+    public static defaults = floorDefaults
+    public static schema = floorSchema
+
     public constructor() {
         const group = new Group()
         super(group)

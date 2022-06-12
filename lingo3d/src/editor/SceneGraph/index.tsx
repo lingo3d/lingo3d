@@ -90,9 +90,9 @@ const SceneGraph = () => {
                 </TitleBarButton>
             </div>
             <div style={{ overflow: "scroll", opacity: camera === mainCamera ? 1 : 0.5 }} className="lingo3d-ui">
-                {appendables.map(appendable => (
+                {appendables.map((appendable, i) => (
                     appendable instanceof Model ? (
-                        <ModelTreeItem appendable={appendable} level={0} />
+                        <ModelTreeItem key={appendable.uuid} appendable={appendable} level={0} />
                     ) : (
                         <TreeItem key={appendable.uuid} appendable={appendable} level={0} />
                     )

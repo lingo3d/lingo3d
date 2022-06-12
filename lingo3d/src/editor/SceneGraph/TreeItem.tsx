@@ -146,7 +146,7 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
             </div>
             {expanded && appendableChildren?.map(childAppendable => (
                 childAppendable instanceof Model ? (
-                    <ModelTreeItem appendable={childAppendable} level={level + 1} />
+                    <ModelTreeItem key={childAppendable.uuid} appendable={childAppendable} level={level + 1} />
                 ) : (
                     <TreeItem key={childAppendable.uuid} appendable={childAppendable} level={level + 1} />
                 )
