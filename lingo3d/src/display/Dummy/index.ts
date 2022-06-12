@@ -10,6 +10,7 @@ import { point2Vec } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
 
 const url = "https://unpkg.com/lingo3d-dummy@1.0.1/assets/"
+const botUrl = url + "ybot.fbx"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -26,7 +27,9 @@ export default class Dummy extends Model implements IDummy {
         this.pbr = true
 
         this.createEffect(() => {
-            super.src = this.srcState.get()
+            const src = super.src = this.srcState.get()
+
+            if (src !== botUrl) return
 
             const preset = this.presetState.get()
             const prefix = preset === "rifle" ? "rifle-" : ""
@@ -38,7 +41,10 @@ export default class Dummy extends Model implements IDummy {
                 jumping: url + prefix + "falling.fbx"
             }
             this.animation = "idle"
-
+            
+            return () => {
+                this.animation = undefined
+            }
         }, [this.presetState.get, this.srcState.get])
         
         const { poseService } = this
@@ -112,7 +118,7 @@ export default class Dummy extends Model implements IDummy {
         }, [this.strideMoveState.get, this.strideForwardState.get, this.strideRightState.get, getJoints])
     }
 
-    private srcState = new Reactive(url + "ybot.fbx")
+    private srcState = new Reactive(botUrl)
     public override get src() {
         return this.srcState.get()
     }

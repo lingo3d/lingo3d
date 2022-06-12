@@ -1,4 +1,3 @@
-import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
@@ -12,6 +11,4 @@ export default () => {
     selectionTarget?.dispose()
     for (const target of multipleSelectionTargets)
         target.dispose()
-
-    emitSelectionTarget()
 }
