@@ -27,8 +27,7 @@ export default class Dummy extends Model implements IDummy {
         this.pbr = true
 
         this.createEffect(() => {
-            const src = super.src = this.srcState.get()
-
+            const src = this.srcState.get()
             if (src !== botUrl) return
 
             const preset = this.presetState.get()
@@ -70,6 +69,7 @@ export default class Dummy extends Model implements IDummy {
         const [setLoaded, getLoaded] = store(false)
 
         this.createEffect(() => {
+            super.src = this.srcState.get()
             setLoaded(false)
             setJoints(undefined)
             const handle = this.loaded.then(() => setLoaded(true))
@@ -79,8 +79,7 @@ export default class Dummy extends Model implements IDummy {
         }, [this.srcState.get])
 
         this.createEffect(() => {
-            if (!getLoaded()) return
-            if (this.srcState.get() !== botUrl && !this.mixamoState.get()) return
+            if (!getLoaded() || (this.srcState.get() !== botUrl && !this.mixamoState.get())) return
 
             setJoints({
                 spine: this.find("mixamorigSpine", true)!
