@@ -1,8 +1,8 @@
 import CharacterCamera from "../core/CharacterCamera"
-import { scaleUp, scaleDown } from "../../engine/constants"
 import SimpleObjectManager from "../core/SimpleObjectManager"
 import { onBeforeCameraLoop } from "../core/mixins/PhysicsMixin/bvh/bvhCameraLoop"
 import { vector3, quaternion } from "../utils/reusables"
+import { Reactive } from "@lincode/reactivity"
 
 export default class FirstPersonCamera extends CharacterCamera {
     public static override componentName = "firstPersonCamera"
@@ -19,20 +19,22 @@ export default class FirstPersonCamera extends CharacterCamera {
 
         this.createEffect(() => {
             const target = this.targetState.get()
-            if (!target || !(target instanceof SimpleObjectManager) || this._innerY !== undefined) return
-            this.innerY = target.height * 0.4
+            const innerYSet = this.innerYSetState.get()
+            if (!target || !(target instanceof SimpleObjectManager) || innerYSet) return
+            super.innerY = target.height * 0.4
 
             return () => {
-                this.innerY = 0
+                super.innerY = 0
             }
-        }, [this.targetState.get])
+        }, [this.targetState.get, this.innerYSetState.get])
     }
 
-    private _innerY?: number
+    private innerYSetState = new Reactive(false)
     public override get innerY() {
-        return this.object3d.position.y * scaleUp
+        return super.innerY
     }
     public override set innerY(val: number) {
-        this._innerY = this.object3d.position.y = val * scaleDown
+        super.innerY = val
+        this.innerYSetState.set(true)
     }
 }
