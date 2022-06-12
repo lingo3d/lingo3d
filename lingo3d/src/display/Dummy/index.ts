@@ -67,9 +67,25 @@ export default class Dummy extends Model implements IDummy {
         this.then(() => poseService.stop())
 
         const [setJoints, getJoints] = store<Record<string, FoundManager> | undefined>(undefined)
-        this.loaded.then(() => setJoints({
-            spine: this.find("mixamorigSpine", true)!
-        }))
+        const [setLoaded, getLoaded] = store(false)
+
+        this.createEffect(() => {
+            setLoaded(false)
+            setJoints(undefined)
+            const handle = this.loaded.then(() => setLoaded(true))
+            return () => {
+                handle.cancel()
+            }
+        }, [this.srcState.get])
+
+        this.createEffect(() => {
+            if (!getLoaded()) return
+            if (this.srcState.get() !== botUrl && !this.mixamoState.get()) return
+
+            setJoints({
+                spine: this.find("mixamorigSpine", true)!
+            })
+        }, [getLoaded, this.mixamoState.get, this.srcState.get])
 
         this.createEffect(() => {
             const joints = getJoints()
@@ -116,6 +132,14 @@ export default class Dummy extends Model implements IDummy {
                 handle.cancel()
             }
         }, [this.strideMoveState.get, this.strideForwardState.get, this.strideRightState.get, getJoints])
+    }
+
+    private mixamoState = new Reactive(false)
+    public get mixamo() {
+        return this.mixamoState.get()
+    }
+    public set mixamo(val) {
+        this.mixamoState.set(val)
     }
 
     private srcState = new Reactive(botUrl)

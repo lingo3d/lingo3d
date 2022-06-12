@@ -1,12 +1,15 @@
 import { distance3d, Point3d } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
+import { Bone as ThreeBone } from "three"
 import { hiddenAppendables } from "../api/core/Appendable"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import Cube from "./primitives/Cube"
 import Octahedron from "./primitives/Octahedron"
 
 export default class Bone extends Cube {
-    public constructor() {
+    public constructor(
+        public target: ThreeBone
+    ) {
         super()
         hiddenAppendables.add(this)
 
