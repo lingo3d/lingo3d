@@ -130,7 +130,7 @@ const ContextMenu = () => {
                                 Search children
                             </MenuItem>
 
-                            {selectionTarget instanceof Dummy && (
+                            {/* {selectionTarget instanceof Dummy && (
                                 <MenuItem onClick={() => {
                                     setRetargetBones(selectionTarget)
                                     setSelectionLocked(true)
@@ -138,7 +138,7 @@ const ContextMenu = () => {
                                 }}>
                                     Convert to Mixamo
                                 </MenuItem>
-                            )}
+                            )} */}
 
                             <MenuItem onClick={() => {
                                 isMeshItem(selectionTarget) && addSelectionFrozen(selectionTarget)

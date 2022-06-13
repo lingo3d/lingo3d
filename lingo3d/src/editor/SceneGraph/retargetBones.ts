@@ -14,7 +14,6 @@ createEffect(() => {
     handle.watch(dummy.loaded.then(loadedGroup => {
         const bone = loadedGroup.getObjectByProperty("type", "Bone") as ThreeBone
         bone.traverse(parent => parent.name = "mixamorig" + parent.name)
-        dummy.mixamo = true
     }))
     return () => {
         handle.cancel()

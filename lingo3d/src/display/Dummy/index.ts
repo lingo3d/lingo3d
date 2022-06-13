@@ -9,8 +9,6 @@ import Model from "../Model"
 import { point2Vec } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
 
-const botUrl = "https://unpkg.com/lingo3d-dummy@1.0.1/assets/ybot.fbx"
-
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
     public static override defaults = dummyDefaults
@@ -45,7 +43,7 @@ export default class Dummy extends Model implements IDummy {
             return () => {
                 this.animation = undefined
             }
-        }, [this.presetState.get, this.srcState.get, this.mixamoState.get])
+        }, [this.presetState.get, this.srcState.get])
         
         const { poseService } = this
 
@@ -80,10 +78,10 @@ export default class Dummy extends Model implements IDummy {
         }, [this.srcState.get])
 
         this.createEffect(() => {
-            if (!getLoaded() || (this.srcState.get() !== botUrl && !this.mixamoState.get())) return
+            if (!getLoaded()) return
             setSpine(this.find("mixamorigSpine", true))
 
-        }, [getLoaded, this.mixamoState.get, this.srcState.get])
+        }, [getLoaded])
 
         this.createEffect(() => {
             const spine = getSpine()
@@ -134,16 +132,8 @@ export default class Dummy extends Model implements IDummy {
             }
         }, [this.strideMoveState.get, this.strideForwardState.get, this.strideRightState.get, getSpine])
     }
-
-    private mixamoState = new Reactive(false)
-    public get mixamo() {
-        return this.mixamoState.get()
-    }
-    public set mixamo(val) {
-        this.mixamoState.set(val)
-    }
-
-    private srcState = new Reactive(botUrl)
+    
+    private srcState = new Reactive("https://unpkg.com/lingo3d-dummy@1.0.1/assets/ybot.fbx")
     public override get src() {
         return this.srcState.get()
     }
