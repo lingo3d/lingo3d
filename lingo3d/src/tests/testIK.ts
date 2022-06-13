@@ -1,6 +1,4 @@
-import Dummy from "../display/Dummy"
+import "../display/Dummy/ik/retarget"
+
 
 export default {}
-
-const player = new Dummy()
-player.src = "readyplayer.glb"

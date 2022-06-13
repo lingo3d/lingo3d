@@ -26,24 +26,24 @@ export default class Dummy extends Model implements IDummy {
         this.scale = 1.7
         this.pbr = true
 
-        this.createEffect(() => {
-            if (this.srcState.get() !== botUrl) return
+        // this.createEffect(() => {
+        //     if (this.srcState.get() !== botUrl) return
 
-            const preset = this.presetState.get()
-            const prefix = preset === "rifle" ? "rifle-" : ""
+        //     const preset = this.presetState.get()
+        //     const prefix = preset === "rifle" ? "rifle-" : ""
 
-            this.animations = {
-                idle: url + prefix + "idle.fbx",
-                running: url + prefix + "running.fbx",
-                runningBackwards: url + prefix + "running-backwards.fbx",
-                jumping: url + prefix + "falling.fbx"
-            }
-            this.animation = "idle"
+        //     this.animations = {
+        //         idle: url + prefix + "idle.fbx",
+        //         running: url + prefix + "running.fbx",
+        //         runningBackwards: url + prefix + "running-backwards.fbx",
+        //         jumping: url + prefix + "falling.fbx"
+        //     }
+        //     this.animation = "idle"
             
-            return () => {
-                this.animation = undefined
-            }
-        }, [this.presetState.get, this.srcState.get, this.mixamoState.get])
+        //     return () => {
+        //         this.animation = undefined
+        //     }
+        // }, [this.presetState.get, this.srcState.get, this.mixamoState.get])
         
         const { poseService } = this
 
