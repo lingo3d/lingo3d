@@ -29,7 +29,7 @@ export type TreeItemProps = {
 export const makeTreeItemCallbacks = (target: Appendable | Object3D, parent?: Appendable) => {
     const setClickEl = useClick(e => {
         e.stopPropagation()
-        mainOrbitCamera.activate(true)
+        mainOrbitCamera.activate()
         isPositionedItem(parent) && getSelectionTarget() !== parent && emitSelectionTarget(parent)
         if (target instanceof Object3D)
             queueMicrotask(() => setSceneGraphTarget(target))
