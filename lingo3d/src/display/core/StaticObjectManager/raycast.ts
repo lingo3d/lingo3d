@@ -22,19 +22,17 @@ import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getObject3d } from "../MeshItem"
 import { getSelectionFrozen } from "../../../states/useSelectionFrozen"
 import { onSelectionRecompute } from "../../../events/onSelectionRecompute"
-import { getRetargetBones } from "../../../states/useRetargetBones"
 
 const raycaster = new Raycaster()
 
 export const selectionCandidates = new Set<Object3D>()
 const getSelectionCandidates = debounce(() => {
     const [frozenSet] = getSelectionFrozen()
-    const dummy = getRetargetBones()
 
     selectionCandidates.clear()
     scene.traverse(c => {
         const { manager } = c.userData
-        manager && !frozenSet.has(manager) && manager !== dummy && selectionCandidates.add(getObject3d(manager))
+        manager && !frozenSet.has(manager) && selectionCandidates.add(getObject3d(manager))
     })
 }, 0, "trailing")
 
