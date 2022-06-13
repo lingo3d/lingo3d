@@ -9,8 +9,7 @@ import Model from "../Model"
 import { point2Vec } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
 
-const url = "https://unpkg.com/lingo3d-dummy@1.0.1/assets/"
-const botUrl = url + "ybot.fbx"
+const botUrl = "https://unpkg.com/lingo3d-dummy@1.0.1/assets/ybot.fbx"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -25,25 +24,28 @@ export default class Dummy extends Model implements IDummy {
         this.depth = 20
         this.scale = 1.7
         this.pbr = true
+        this.frustumCulled = false
 
-        // this.createEffect(() => {
-        //     if (this.srcState.get() !== botUrl) return
+        this.createEffect(() => {
+            const preset = this.presetState.get()
+            const prefix = preset === "rifle" ? "rifle-" : ""
 
-        //     const preset = this.presetState.get()
-        //     const prefix = preset === "rifle" ? "rifle-" : ""
+            const parts = this.srcState.get().split("/")
+            parts.pop()
+            const url = parts.join("/") + "/"
 
-        //     this.animations = {
-        //         idle: url + prefix + "idle.fbx",
-        //         running: url + prefix + "running.fbx",
-        //         runningBackwards: url + prefix + "running-backwards.fbx",
-        //         jumping: url + prefix + "falling.fbx"
-        //     }
-        //     this.animation = "idle"
+            this.animations = {
+                idle: url + prefix + "idle.fbx",
+                running: url + prefix + "running.fbx",
+                runningBackwards: url + prefix + "running-backwards.fbx",
+                jumping: url + prefix + "falling.fbx"
+            }
+            this.animation = "idle"
             
-        //     return () => {
-        //         this.animation = undefined
-        //     }
-        // }, [this.presetState.get, this.srcState.get, this.mixamoState.get])
+            return () => {
+                this.animation = undefined
+            }
+        }, [this.presetState.get, this.srcState.get, this.mixamoState.get])
         
         const { poseService } = this
 
