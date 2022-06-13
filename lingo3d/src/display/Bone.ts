@@ -1,6 +1,6 @@
 import { distance3d } from "@lincode/math"
-import { last } from "@lincode/utils"
-import { Bone as ThreeBone, Quaternion } from "three"
+import randomColor from "randomcolor"
+import { Object3D, Quaternion } from "three"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import Octahedron from "./primitives/Octahedron"
 import { vector3, vector3_ } from "./utils/reusables"
@@ -9,16 +9,15 @@ import { vec2Point } from "./utils/vec2Point"
 const diffQuat = (A: Quaternion, B: Quaternion) => A.clone().multiply(B.clone().invert())
 
 export default class Bone extends Octahedron {
-    public constructor(
-        public target: ThreeBone
-    ) {
+    public constructor(target: Object3D, child: Object3D) {
         super()
         // hiddenAppendables.add(this)
 
+        const color = randomColor()
+        
         this.wireframe = true
-        this.outerObject3d.renderOrder = 999
         this.material.depthTest = false
-        this.color = "red"
+        this.color = color
         this.width = 2
         this.height = 2
         this.depth = 2
@@ -27,10 +26,9 @@ export default class Bone extends Octahedron {
         this.append(joint)
         joint.scale = 0.05
         joint.wireframe = true
-        joint.outerObject3d.renderOrder = 999
         //@ts-ignore
         joint.material.depthTest = false
-        joint.color = "red"
+        joint.color = color
 
         this.createEffect(() => {
             if (getSelectionTarget() !== this) return
@@ -39,13 +37,10 @@ export default class Bone extends Octahedron {
             joint.color = "blue"
 
             return () => {
-                this.color = "red"
-                joint.color = "red"
+                this.color = color
+                joint.color = color
             }
         }, [getSelectionTarget])
-
-        const child = last(target.children)
-        if (!child) return
 
         const from = vec2Point(target.getWorldPosition(vector3))
         const to = vec2Point(child.getWorldPosition(vector3_))
@@ -59,10 +54,10 @@ export default class Bone extends Octahedron {
 
         const h = this.depth = distance3d(x0, y0, z0, x1, y1, z1)
         this.innerZ = h * 0.5
-        const t = this.width = this.height = h * 0.1
-        joint.scale = t * 0.025
+        const t = this.width = this.height = h * 0.2
+        joint.scale = t * 0.01
 
-        this.lookAt(to)
+        // this.lookAt(to)
 
         const targetQuat = target.quaternion.clone()
         const myQuat = this.outerObject3d.quaternion.clone()
