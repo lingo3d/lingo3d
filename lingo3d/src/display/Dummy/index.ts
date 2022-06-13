@@ -1,5 +1,6 @@
 import { endPoint, Point3d, rad2Deg, rotatePoint } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
+import { Vector3 } from "three"
 import { interpret } from "xstate"
 import { loop } from "../../engine/eventLoop"
 import { onBeforeRender } from "../../events/onBeforeRender"
@@ -88,6 +89,15 @@ export default class Dummy extends Model implements IDummy {
             }
         }, [this.srcState.get, this.spineNameState.get])
 
+        let groupVecOld: Vector3 | undefined
+
+        const computeAngle = (angle: number) => {
+            const thisPoint = this.pointAt(1000)
+            const centerPoint = this.getWorldPosition()
+            const rotated = rotatePoint({ x: thisPoint.x, y: thisPoint.z }, { x: centerPoint.x, y: centerPoint.z }, angle)
+            return point2Vec(new Point3d(rotated.x, thisPoint.y, rotated.y))
+        }
+
         this.createEffect(() => {
             const spine = getSpine()
             if (!spine) return
@@ -100,6 +110,7 @@ export default class Dummy extends Model implements IDummy {
                 const thisPoint = this.pointAt(1000)
                 this.loadedGroup.lookAt(point2Vec(thisPoint))
                 poseService.send("RUN_STOP")
+                groupVecOld = undefined
                 return
             }
 
@@ -116,11 +127,10 @@ export default class Dummy extends Model implements IDummy {
                 spine.outerObject3d.quaternion.copy(spineQuaternion)
                 const spinePoint = spine.pointAt(1000)
                 
-                const thisPoint = this.pointAt(1000)
-                const centerPoint = this.getWorldPosition()
-                const rotated = rotatePoint({ x: thisPoint.x, y: thisPoint.z }, { x: centerPoint.x, y: centerPoint.z }, angle)
-                const groupPoint = new Point3d(rotated.x, thisPoint.y, rotated.y)
-                this.loadedGroup.lookAt(point2Vec(groupPoint))
+                const groupVecNew = computeAngle(angle)
+                const groupVec = (groupVecOld ?? computeAngle(0)).lerp(groupVecNew, 0.1)
+                this.loadedGroup.lookAt(groupVec)
+                groupVecOld = groupVec
 
                 spine.lookAt(spinePoint)
 
