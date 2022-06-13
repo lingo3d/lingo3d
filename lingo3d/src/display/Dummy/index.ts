@@ -65,23 +65,28 @@ export default class Dummy extends Model implements IDummy {
         this.then(() => poseService.stop())
 
         const [setSpine, getSpine] = store<FoundManager | undefined>(undefined)
-        const [setLoaded, getLoaded] = store(false)
 
         this.createEffect(() => {
+            const spineName = this.spineNameState.get()
             super.src = this.srcState.get()
-            setLoaded(false)
             setSpine(undefined)
-            const handle = this.loaded.then(() => setLoaded(true))
+
+            const handle = this.loaded.then(loaded => {
+                if (spineName) {
+                    setSpine(this.find(spineName, true))
+                    return
+                }
+                if (loaded.getObjectByName("Wolf3D_Body")) {
+                    //ready player me model detected
+                    setSpine(this.find("Spine", true))
+                    return
+                }
+                setSpine(this.find("mixamorigSpine", true))
+            })
             return () => {
                 handle.cancel()
             }
-        }, [this.srcState.get])
-
-        this.createEffect(() => {
-            if (!getLoaded()) return
-            setSpine(this.find("mixamorigSpine", true))
-
-        }, [getLoaded])
+        }, [this.srcState.get, this.spineNameState.get])
 
         this.createEffect(() => {
             const spine = getSpine()
@@ -133,6 +138,14 @@ export default class Dummy extends Model implements IDummy {
         }, [this.strideMoveState.get, this.strideForwardState.get, this.strideRightState.get, getSpine])
     }
     
+    private spineNameState = new Reactive<string | undefined>(undefined)
+    public get spineName() {
+        return this.spineNameState.get()
+    }
+    public set spineName(val) {
+        this.spineNameState.set(val)
+    }
+
     private srcState = new Reactive("https://unpkg.com/lingo3d-dummy@1.0.1/assets/ybot.fbx")
     public override get src() {
         return this.srcState.get()
