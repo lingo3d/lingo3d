@@ -37,6 +37,18 @@ import { emitSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 
 preventTreeShake(h)
 
+const style = document.createElement("style")
+document.head.appendChild(style)
+style.innerHTML = `
+    .tp-rotv {
+        box-shadow: none !important;
+        background-color: transparent !important;
+    }
+    .tp-brkv {
+        border-left: none !important;
+    }
+`
+
 const toFixed = (v: any) => typeof v === "number" ? Number(v.toFixed(2)) : v
 
 let programmatic = false
