@@ -1,5 +1,5 @@
 import { AnimationData } from "../../../utils/serializer/types"
-import IAnimation, { Animation, AnimationValue } from "../../../../interface/IAnimation"
+import IAnimationMixin, { Animation, AnimationValue } from "../../../../interface/IAnimationMixin"
 import { debounce } from "@lincode/utils"
 import { Resolvable } from "@lincode/promiselikes"
 import AnimationManager, { PlayOptions } from "./AnimationManager"
@@ -22,7 +22,7 @@ const buildAnimationTracks = debounce((val: AnimationValue) => {
 
 }, 0, "trailingPromise")
 
-export default abstract class AnimationMixin extends EventLoopItem implements IAnimation {
+export default abstract class AnimationMixin extends EventLoopItem implements IAnimationMixin {
     public animationManagers?: Record<string, AnimationManager>
     
     public get animations() {

@@ -4,19 +4,19 @@ import { ExtractProps } from "./utils/extractProps"
 export type AnimationValue = Record<string, Array<number>>
 export type Animation = string | number | Array<string | number> | boolean | AnimationValue
 
-export default interface IAnimation {
+export default interface IAnimationMixin {
     animations: Record<string, string | AnimationManager>
     animation?: Animation
     animationPaused: boolean
 }
 
-export const animationSchema: Required<ExtractProps<IAnimation>> = {
+export const animationMixinSchema: Required<ExtractProps<IAnimationMixin>> = {
     animations: Object,
     animation: [String, Number, Array, Boolean, Object],
     animationPaused: Boolean
 }
 
-export const animationDefaults: IAnimation = {
+export const animationMixinDefaults: IAnimationMixin = {
     animations: {},
     animationPaused: false
 }

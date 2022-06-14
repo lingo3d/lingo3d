@@ -1,9 +1,9 @@
-import IAnimation, { animationDefaults, animationSchema } from "./IAnimation"
+import IAnimationMixin, { animationMixinDefaults, animationMixinSchema } from "./IAnimationMixin"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { LingoMouseEvent } from "./IMouse"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IStaticObjectManager extends IEventLoop, IAnimation {
+export default interface IStaticObjectManager extends IEventLoop, IAnimationMixin {
     onClick?: (e: LingoMouseEvent) => void
     onMouseDown?: (e: LingoMouseEvent) => void
     onMouseUp?: (e: LingoMouseEvent) => void
@@ -31,7 +31,7 @@ export default interface IStaticObjectManager extends IEventLoop, IAnimation {
 
 export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManager>> = {
     ...eventLoopSchema,
-    ...animationSchema,
+    ...animationMixinSchema,
 
     onClick: Function,
     onMouseDown: Function,
@@ -60,7 +60,7 @@ export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManag
 
 export const staticObjectManagerDefaults: IStaticObjectManager = {
     ...eventLoopDefaults,
-    ...animationDefaults,
+    ...animationMixinDefaults,
 
     name: "",
 
