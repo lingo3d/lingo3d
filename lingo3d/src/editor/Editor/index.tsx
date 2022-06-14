@@ -21,7 +21,7 @@ import { getSecondaryCamera, setSecondaryCamera } from "../../states/useSecondar
 import deserialize from "../../display/utils/serializer/deserialize"
 import serialize from "../../display/utils/serializer/serialize"
 import { emitEditorCenterView } from "../../events/onEditorCenterView"
-import { setMultipleSelection } from "../../states/useMultipleSelection"
+import { getMultipleSelection, setMultipleSelection } from "../../states/useMultipleSelection"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import deleteSelected from "./deleteSelected"
 import { onKeyClear } from "../../events/onKeyClear"
@@ -255,9 +255,9 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         }
 
         const handleKey = (e: KeyboardEvent) => {
-            if (e.key === "Backspace") {
+            if (e.key === "Backspace" || e.key === "Delete") {
                 e.preventDefault()
-                deleteSelected()
+                !getMultipleSelection() && deleteSelected()
                 return
             }
             if (e.key.toLowerCase() !== "c") return
