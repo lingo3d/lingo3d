@@ -10,6 +10,8 @@ import Model from "../Model"
 import { point2Vec } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
 
+const assetsUrl = "https://unpkg.com/lingo3d-dummy@1.0.2/assets/"
+
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
     public static override defaults = dummyDefaults
@@ -25,13 +27,55 @@ export default class Dummy extends Model implements IDummy {
         this.pbr = true
         this.frustumCulled = false
 
+        const [setType, getType] = store<"mixamo" | "readyplayerme" | undefined>(undefined)
+        const [setSpine, getSpine] = store<FoundManager | undefined>(undefined)
+
+        this.createEffect(() => {
+            const spineName = this.spineNameState.get()
+            super.src = this.srcState.get()
+            setSpine(undefined)
+            setType(undefined)
+
+            const handle = this.loaded.then(loaded => {
+                if (spineName) {
+                    setSpine(this.find(spineName, true))
+
+                    if (spineName === "mixamorigSpine")
+                        setType("mixamo")
+                    else if (spineName === "Spine" && loaded.getObjectByName("Wolf3D_Body"))
+                        setType("readyplayerme")
+
+                    return
+                }
+                if (loaded.getObjectByName("Wolf3D_Body")) {
+                    setSpine(this.find("Spine", true))
+                    setType("readyplayerme")
+                    return
+                }
+                const spine = this.find("mixamorigSpine", true)
+                setSpine(spine)
+                spine && setType("mixamo")
+            })
+            return () => {
+                handle.cancel()
+            }
+        }, [this.srcState.get, this.spineNameState.get])
+
         this.createEffect(() => {
             const preset = this.presetState.get()
             const prefix = preset === "rifle" ? "rifle-" : ""
 
-            const parts = this.srcState.get().split("/")
-            parts.pop()
-            const url = parts.join("/") + "/"
+            const type = getType()
+            const src = this.srcState.get()
+
+            let url = ""
+            if (type === "readyplayerme")
+                url = assetsUrl + "readyplayerme/"
+            else {
+                const parts = src.split("/")
+                parts.pop()
+                url = parts.join("/") + "/"
+            }
 
             this.animations = {
                 idle: url + prefix + "idle.fbx",
@@ -44,7 +88,7 @@ export default class Dummy extends Model implements IDummy {
             return () => {
                 this.animation = undefined
             }
-        }, [this.presetState.get, this.srcState.get])
+        }, [this.presetState.get, this.srcState.get, getType])
         
         const { poseService } = this
 
@@ -64,30 +108,6 @@ export default class Dummy extends Model implements IDummy {
         }, [getPose])
         poseService.onTransition(state => state.changed && setPose(state.value as string)).start()
         this.then(() => poseService.stop())
-
-        const [setSpine, getSpine] = store<FoundManager | undefined>(undefined)
-
-        this.createEffect(() => {
-            const spineName = this.spineNameState.get()
-            super.src = this.srcState.get()
-            setSpine(undefined)
-
-            const handle = this.loaded.then(loaded => {
-                if (spineName) {
-                    setSpine(this.find(spineName, true))
-                    return
-                }
-                if (loaded.getObjectByName("Wolf3D_Body")) {
-                    //ready player me model detected
-                    setSpine(this.find("Spine", true))
-                    return
-                }
-                setSpine(this.find("mixamorigSpine", true))
-            })
-            return () => {
-                handle.cancel()
-            }
-        }, [this.srcState.get, this.spineNameState.get])
 
         let groupVecOld: Vector3 | undefined
 
@@ -156,7 +176,7 @@ export default class Dummy extends Model implements IDummy {
         this.spineNameState.set(val)
     }
 
-    private srcState = new Reactive("https://unpkg.com/lingo3d-dummy@1.0.1/assets/ybot.fbx")
+    private srcState = new Reactive(assetsUrl + "ybot.fbx")
     public override get src() {
         return this.srcState.get()
     }

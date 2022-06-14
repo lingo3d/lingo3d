@@ -2,6 +2,7 @@ import IModel, { modelDefaults, modelSchema } from "./IModel"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IDummy extends IModel {
+    spineName?: string
     preset: "default" | "rifle"
     strideForward: number
     strideRight: number
@@ -10,6 +11,7 @@ export default interface IDummy extends IModel {
 
 export const dummySchema: Required<ExtractProps<IDummy>> = {
     ...modelSchema,
+    spineName: String,
     preset: String,
     strideForward: Number,
     strideRight: Number,
