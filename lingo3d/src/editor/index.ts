@@ -2,6 +2,10 @@ import "./Editor"
 import "./SceneGraph"
 import "./Toolbar"
 import "./Library"
+import EventLoopItem from "../api/core/EventLoopItem"
+import { Group } from "three"
+import settings from "../api/settings"
+import { appendableRoot } from "../api/core/Appendable"
 
 const style = document.createElement("style")
 document.head.appendChild(style)
@@ -26,3 +30,30 @@ style.innerHTML = `
         display: none;
     }
 `
+
+export default class LingoEditor extends EventLoopItem {
+    public constructor() {
+        super(new Group())
+        appendableRoot.delete(this)
+
+        this.createEffect(() => {
+            settings.autoMount = "#lingo3d-world"
+
+            const el = document.createElement("div")
+            document.body.appendChild(el)
+            el.style.cssText = "width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; display: flex"
+
+            el.innerHTML = `
+                <lingo3d-toolbar></lingo3d-toolbar>
+                <lingo3d-scenegraph></lingo3d-scenegraph>
+                <lingo3d-editor></lingo3d-editor>
+                <lingo3d-library></lingo3d-library>
+                <div id="lingo3d-world" style="height: 100%; flex-grow: 1; position: relative"></div>
+            `
+            return () => {
+                document.body.removeChild(el)
+                settings.autoMount = false
+            }
+        }, [])
+    }
+}
