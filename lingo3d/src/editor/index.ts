@@ -2,8 +2,6 @@ import "./Editor"
 import "./SceneGraph"
 import "./Toolbar"
 import "./Library"
-import "./SceneGraph/ContextMenu"
-import "./SceneGraph/KeyMap"
 
 const style = document.createElement("style")
 document.head.appendChild(style)
@@ -35,21 +33,5 @@ style.innerHTML =
 }
 .tp-brkv {
     border-left: none !important;
-}
-.lingo-keyblock-win{
-    padding: 15px 15px;
-    margin: 5px;
-    font-weight: bold;
-    color:#ffffff;
-    border-radius: 10px;
-    background: linear-gradient(145deg, #242529, #2b2c31);
-    box-shadow:  5px 5px 10px #222327,
-                 -5px -5px 10px #2e2f35;
-}
-.lingo-tabpanel{
-    text-align: center;
-    flex: 1;
-    padding: 15px;
-    cursor: pointer;
 }
 `

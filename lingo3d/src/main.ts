@@ -16,7 +16,6 @@ document.body.innerHTML = `
         <lingo3d-scenegraph></lingo3d-scenegraph>
         <lingo3d-editor></lingo3d-editor>
         <lingo3d-library></lingo3d-library>
-        <lingo3d-keymap></lingo3d-keymap>
         <div id="world" style="height: 100%; flex-grow: 1; position: relative"></div>
     </div>
 `
