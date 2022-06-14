@@ -34,20 +34,22 @@ import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../getComponentName"
 import { emitSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
+import createElement from "../../utils/createElement"
 
 preventTreeShake(h)
 
-const style = document.createElement("style")
+const style = createElement(`
+    <style>
+        .tp-rotv {
+            box-shadow: none !important;
+            background-color: transparent !important;
+        }
+        .tp-brkv {
+            border-left: none !important;
+        }
+    </style>
+`)
 document.head.appendChild(style)
-style.innerHTML = `
-    .tp-rotv {
-        box-shadow: none !important;
-        background-color: transparent !important;
-    }
-    .tp-brkv {
-        border-left: none !important;
-    }
-`
 
 const toFixed = (v: any) => typeof v === "number" ? Number(v.toFixed(2)) : v
 

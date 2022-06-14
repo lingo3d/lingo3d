@@ -1,30 +1,32 @@
-import { h } from "preact"
+import {, h } from "preact"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
 import { useEffect, useState } from "preact/hooks"
+import createElement from "../../utils/createElement"
 
 preventTreeShake(h)
 
-const style = document.createElement("style")
+const style = createElement(`
+    <style>
+        .lingo-keyblock-win{
+            padding: 15px 15px;
+            margin: 5px;
+            font-weight: bold;
+            color:#ffffff;
+            border-radius: 10px;
+            background: linear-gradient(145deg, #242529, #2b2c31);
+            box-shadow:  5px 5px 10px #222327,
+                        -5px -5px 10px #2e2f35;
+        }
+        .lingo-tabpanel{
+            text-align: center;
+            flex: 1;
+            padding: 15px;
+            cursor: pointer;
+        }
+    </style>
+`)
 document.head.appendChild(style)
-style.innerHTML = `
-    .lingo-keyblock-win{
-        padding: 15px 15px;
-        margin: 5px;
-        font-weight: bold;
-        color:#ffffff;
-        border-radius: 10px;
-        background: linear-gradient(145deg, #242529, #2b2c31);
-        box-shadow:  5px 5px 10px #222327,
-                    -5px -5px 10px #2e2f35;
-    }
-    .lingo-tabpanel{
-        text-align: center;
-        flex: 1;
-        padding: 15px;
-        cursor: pointer;
-    }
-`
 
 const KeyMapRender = () => {
     useEffect(() => {
