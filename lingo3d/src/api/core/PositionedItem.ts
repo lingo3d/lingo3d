@@ -1,5 +1,5 @@
 import { getObject3d } from "../../display/core/MeshItem"
-import { vector3_ } from "../../display/utils/reusables"
+import { vector3 } from "../../display/utils/reusables"
 import { vec2Point } from "../../display/utils/vec2Point"
 import { scaleUp, scaleDown } from "../../engine/constants"
 import IPositioned from "../../interface/IPositioned"
@@ -28,7 +28,7 @@ export default abstract class PositionedItem extends EventLoopItem implements IP
     }
 
     public getWorldPosition() {
-        return vec2Point(getObject3d(this).getWorldPosition(vector3_))
+        return vec2Point(getObject3d(this).getWorldPosition(vector3))
     }
 }
 

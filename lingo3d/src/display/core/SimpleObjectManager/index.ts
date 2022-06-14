@@ -346,6 +346,55 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
 
         this.physicsMoveXZ()
 	}
+
+    private lerpToHandle?: Cancellable
+    public lerpTo(x: number, y: number, z: number, alpha: number) {
+        this.lerpToHandle?.cancel()
+
+        const from = new Vector3(this.x, this.y, this.z)
+        const to = new Vector3(x, y, z)
+
+        this.lerpToHandle = this.loop(() => {
+            const { x, y, z } = from.lerp(to, alpha)
+
+            if (Math.abs(this.x - x) < 1 && Math.abs(this.y - y) < 1 && Math.abs(this.z - z) < 1)
+                this.lerpToHandle?.cancel()
+
+            this.x = x
+            this.y = y
+            this.z = z
+        })
+    }
+
+    public moveTo(x: number, y: number, z: number, speed: number) {
+        this.lerpToHandle?.cancel()
+
+        const { x: rx, y: ry, z: rz } = vector3.set(x - this.x, y - this.y, z - this.z).normalize()
+        const sx = Math.abs(speed * rx)
+        const sy = Math.abs(speed * ry)
+        const sz = Math.abs(speed * rz)
+
+        const signX = Math.sign(x)
+        const signY = Math.sign(y)
+        const signZ = Math.sign(z)
+
+        this.lerpToHandle = this.loop(() => {
+            const diffX = Math.min(Math.abs((x - this.x) * 0.5), sx) * signX
+            const diffY = Math.min(Math.abs((y - this.y) * 0.5), sy) * signY
+            const diffZ = Math.min(Math.abs((z - this.z) * 0.5), sz) * signZ
+
+            if (Math.abs(this.x - x) < 1 && Math.abs(this.y - y) < 1 && Math.abs(this.z - z) < 1) {
+                this.lerpToHandle?.cancel()
+                this.x = x
+                this.y = y
+                this.z = z
+                return
+            }
+            this.x += diffX
+            this.y += diffY
+            this.z += diffZ
+        })
+    }
 }
 interface SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectManager, PositionedItem, PhysicsMixin {}
 applyMixins(SimpleObjectManager, [PositionedItem, PhysicsMixin])

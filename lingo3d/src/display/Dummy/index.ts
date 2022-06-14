@@ -140,7 +140,7 @@ export default class Dummy extends Model implements IDummy {
 
             const sf = backwards ? -strideForward : strideForward
             const sr = backwards ? -strideRight : strideRight
-            const angle = 90 - Math.atan2(-sf, -sr) * rad2Deg
+            const angle = 90 - (Math.atan2(-sf, -sr) * rad2Deg)
 
             const handle = onBeforeRender(() => {
                 poseService.send(backwards ? "RUN_BACKWARDS_START" : "RUN_START")

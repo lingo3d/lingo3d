@@ -88,7 +88,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this._onClick = cb
         if (!cb) return
         
-        this.addToRaycastSet(clickSet, this.clickHandle = new Cancellable())
+        this.addToRaycastSet(clickSet, this.clickHandle = this.cancellable())
     }
 
     protected mouseDownHandle: Cancellable | undefined
@@ -102,7 +102,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this._onMouseDown = cb
         if (!cb) return
         
-        this.addToRaycastSet(mouseDownSet, this.mouseDownHandle = new Cancellable())
+        this.addToRaycastSet(mouseDownSet, this.mouseDownHandle = this.cancellable())
     }
 
     protected mouseUpHandle: Cancellable | undefined
@@ -116,7 +116,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this._onMouseUp = cb
         if (!cb) return
         
-        this.addToRaycastSet(mouseUpSet, this.mouseUpHandle = new Cancellable())
+        this.addToRaycastSet(mouseUpSet, this.mouseUpHandle = this.cancellable())
     }
 
     protected mouseOverHandle: Cancellable | undefined
@@ -130,7 +130,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this._onMouseOver = cb
         if (!cb) return
         
-        this.addToRaycastSet(mouseOverSet, this.mouseOverHandle = new Cancellable())
+        this.addToRaycastSet(mouseOverSet, this.mouseOverHandle = this.cancellable())
     }
 
     protected mouseOutHandle: Cancellable | undefined
@@ -144,7 +144,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this._onMouseOut = cb
         if (!cb) return
         
-        this.addToRaycastSet(mouseOutSet, this.mouseOutHandle = new Cancellable())
+        this.addToRaycastSet(mouseOutSet, this.mouseOutHandle = this.cancellable())
     }
 
     protected mouseMoveHandle: Cancellable | undefined
@@ -158,7 +158,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this._onMouseMove = cb
         if (!cb) return
         
-        this.addToRaycastSet(mouseMoveSet, this.mouseMoveHandle = new Cancellable())
+        this.addToRaycastSet(mouseMoveSet, this.mouseMoveHandle = this.cancellable())
     }
 
     public get name() {
