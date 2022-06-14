@@ -3,7 +3,7 @@ import createObject from "./createObject"
 import { nonSerializedProperties, SceneGraphNode } from "./types"
 import applySetup from "./applySetup"
 import { Resolvable } from "@lincode/promiselikes"
-import Loaded from "../../core/Loaded"
+import Loaded from "../../display/core/Loaded"
 import { Object3D } from "three"
 
 const nodeToObjectManager = (node: SceneGraphNode, loadedResolvables: Array<Resolvable<Object3D>> | undefined) => {

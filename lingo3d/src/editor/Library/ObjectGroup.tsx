@@ -1,6 +1,6 @@
 import { preventTreeShake } from "@lincode/utils"
 import { h, Fragment } from "preact"
-import { GameObjectType } from "../../display/utils/serializer/types"
+import { GameObjectType } from "../../api/serializer/types"
 import ObjectIcon from "./ObjectIcon"
 
 preventTreeShake(h)

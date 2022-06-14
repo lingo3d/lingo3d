@@ -1,6 +1,6 @@
 import { upperFirst, kebabCase } from "@lincode/utils"
-import serialize from "../../display/utils/serializer/serialize"
-import { SceneGraphNode } from "../../display/utils/serializer/types"
+import serialize from "../../api/serializer/serialize"
+import { SceneGraphNode } from "../../api/serializer/types"
 import saveTextFile from "./saveTextFile"
 
 const serializeVue = (nodes: Array<SceneGraphNode>) => {

@@ -1,7 +1,7 @@
 import { omit } from "@lincode/utils"
-import Appendable, { appendableRoot, hiddenAppendables } from "../../../api/core/Appendable"
-import settings from "../../../api/settings"
-import { setupDefaults } from "../../../interface/ISetup"
+import Appendable, { appendableRoot, hiddenAppendables } from "../core/Appendable"
+import settings from "../settings"
+import { setupDefaults } from "../../interface/ISetup"
 import { nonSerializedProperties, nonSerializedSettings, SceneGraphNode, SetupNode } from "./types"
 
 const serialize = (children: Array<any> | Set<any>) => {

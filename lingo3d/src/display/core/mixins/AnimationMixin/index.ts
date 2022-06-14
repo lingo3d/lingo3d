@@ -1,4 +1,4 @@
-import { AnimationData } from "../../../utils/serializer/types"
+import { AnimationData } from "../../../../api/serializer/types"
 import IAnimationMixin, { Animation, AnimationValue } from "../../../../interface/IAnimationMixin"
 import { debounce } from "@lincode/utils"
 import { Resolvable } from "@lincode/promiselikes"
