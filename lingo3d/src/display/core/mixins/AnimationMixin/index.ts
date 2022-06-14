@@ -66,41 +66,48 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
     }
 
     protected loadingAnims?: Array<Resolvable>
-    private animationManager?: AnimationManager
-
-    public async playAnimation(name?: string | number, o?: PlayOptions) {
-        await Promise.resolve()
+    private async loadingAnimsAsync() {
+        await new Promise(resolve => setTimeout(resolve))
+        
         if (this.loadingAnims) {
             await Promise.all(this.loadingAnims)
             this.loadingAnims = undefined
         }
+    }
 
+    private animationManager?: AnimationManager
+
+    public get animationPaused() {
+        return this.animationManager?.getPaused()
+    }
+    public set animationPaused(value: boolean | undefined) {
+        this.loadingAnimsAsync().then(() => {
+            if (this.done) return
+            this.animationManager?.setPaused(!!value)
+        })
+    }
+    
+    public animationRepeat?: boolean
+    
+    public onAnimationFinish?: () => void
+
+    public async playAnimation(name?: string | number, o?: PlayOptions) {
+        await this.loadingAnimsAsync()
         if (this.done) return
 
         this.animationManager = typeof name === "string"
             ? this.animations[name]
             : Object.values(this.animations)[name ?? 0]
 
+        if (o) {
+            o.repeat ??= this.animationRepeat
+            o.onFinish ??= this.onAnimationFinish
+        }
         this.animationManager?.play(o)
     }
 
     public stopAnimation() {
         this.animationManager?.stop()
-    }
-
-    public get animationPaused() {
-        return !!this.animationManager?.getPaused()
-    }
-    public set animationPaused(value: boolean) {
-        (async () => {
-            await Promise.resolve()
-            if (this.loadingAnims)
-                await Promise.all(this.loadingAnims)
-
-            if (this.done) return
-
-            this.animationManager?.setPaused(value)
-        })()
     }
 
     protected animationName?: string | number

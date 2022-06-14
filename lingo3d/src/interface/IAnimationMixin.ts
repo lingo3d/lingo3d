@@ -7,16 +7,19 @@ export type Animation = string | number | Array<string | number> | boolean | Ani
 export default interface IAnimationMixin {
     animations: Record<string, string | AnimationManager>
     animation?: Animation
-    animationPaused: boolean
+    animationPaused?: boolean
+    animationRepeat?: boolean
+    onAnimationFinish?: () => void
 }
 
 export const animationMixinSchema: Required<ExtractProps<IAnimationMixin>> = {
     animations: Object,
     animation: [String, Number, Array, Boolean, Object],
-    animationPaused: Boolean
+    animationPaused: Boolean,
+    animationRepeat: Boolean,
+    onAnimationFinish: Function
 }
 
 export const animationMixinDefaults: IAnimationMixin = {
-    animations: {},
-    animationPaused: false
+    animations: {}
 }

@@ -18,7 +18,7 @@
 		"@lincode/react-reticle": "1.1.3",
 		"@lincode/reactivity": "*",
 		"@lincode/utils": "*",
-		"@types/three": "0.140.0",
+		"@types/three": "*",
 		"lingo3d": "1.10.242",
 		"nanoid": "^3.3.4",
 		"popmotion": "^11.0.3",
