@@ -357,7 +357,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         this.lerpToHandle = this.loop(() => {
             const { x, y, z } = from.lerp(to, alpha)
 
-            if (Math.abs(this.x - x) < 1 && Math.abs(this.y - y) < 1 && Math.abs(this.z - z) < 1)
+            if (Math.abs(this.x - x) < 0.1 && Math.abs(this.y - y) < 0.1 && Math.abs(this.z - z) < 0.1)
                 this.lerpToHandle?.cancel()
 
             this.x = x
@@ -383,7 +383,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
             const diffY = Math.min(Math.abs((y - this.y) * 0.5), sy) * signY
             const diffZ = Math.min(Math.abs((z - this.z) * 0.5), sz) * signZ
 
-            if (Math.abs(this.x - x) < 1 && Math.abs(this.y - y) < 1 && Math.abs(this.z - z) < 1) {
+            if (Math.abs(this.x - x) < 0.1 && Math.abs(this.y - y) < 0.1 && Math.abs(this.z - z) < 0.1) {
                 this.lerpToHandle?.cancel()
                 this.x = x
                 this.y = y
@@ -410,7 +410,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
             const diffX = Math.min(Math.abs((x - this.x) * 0.5), sx) * signX
             const diffZ = Math.min(Math.abs((z - this.z) * 0.5), sz) * signZ
 
-            if (Math.abs(this.x - x) < 1 && Math.abs(this.z - z) < 1) {
+            if (Math.abs(this.x - x) < 0.1 && Math.abs(this.z - z) < 0.1) {
                 this.lerpToHandle?.cancel()
                 this.x = x
                 this.z = z

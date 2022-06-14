@@ -7,7 +7,7 @@ specifiers:
   '@types/stats.js': ^0.17.0
   '@types/three': 0.140.0
   '@vitejs/plugin-vue': ^2.3.3
-  lingo3d: 1.10.242
+  lingo3d: 1.10.243
   nanoid: ^3.3.4
   popmotion: ^11.0.3
   stats.js: ^0.17.0
@@ -21,7 +21,7 @@ dependencies:
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
   '@types/three': 0.140.0
-  lingo3d: 1.10.242
+  lingo3d: 1.10.243
   nanoid: 3.3.4
   popmotion: 11.0.3
   stats.js: 0.17.0
@@ -41,8 +41,8 @@ packages:
     engines: {node: '>=6.9.0'}
     dev: true
 
-  /@babel/parser/7.18.4:
-    resolution: {integrity: sha512-FDge0dFazETFcxGw/EXzOkN8uJp0PC7Qbm+Pe9T+av2zlBpOgunFHkQPPn+eRuClU73JF+98D531UgayY89tow==}
+  /@babel/parser/7.18.5:
+    resolution: {integrity: sha512-YZWVaglMiplo7v8f1oMQ5ZPQr0vn7HPeZXxXWsxXJRjGVrzUFn9OxFQl1sb5wzfootjA/yChhW84BV+383FSOw==}
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
@@ -155,7 +155,7 @@ packages:
   /@vue/compiler-core/3.2.37:
     resolution: {integrity: sha512-81KhEjo7YAOh0vQJoSmAD68wLfYqJvoiD4ulyedzF+OEk/bk6/hx3fTNVfuzugIIaTrOx4PGx6pAiBRe5e9Zmg==}
     dependencies:
-      '@babel/parser': 7.18.4
+      '@babel/parser': 7.18.5
       '@vue/shared': 3.2.37
       estree-walker: 2.0.2
       source-map: 0.6.1
@@ -171,7 +171,7 @@ packages:
   /@vue/compiler-sfc/3.2.37:
     resolution: {integrity: sha512-+7i/2+9LYlpqDv+KTtWhOZH+pa8/HnX/905MdVmAcI/mPQOBwkHHIzrsEsucyOIZQYMkXUiTkmZq5am/NyXKkg==}
     dependencies:
-      '@babel/parser': 7.18.4
+      '@babel/parser': 7.18.5
       '@vue/compiler-core': 3.2.37
       '@vue/compiler-dom': 3.2.37
       '@vue/compiler-ssr': 3.2.37
@@ -193,7 +193,7 @@ packages:
   /@vue/reactivity-transform/3.2.37:
     resolution: {integrity: sha512-IWopkKEb+8qpu/1eMKVeXrK0NLw9HicGviJzhJDEyfxTR9e1WtpnnbYkJWurX6WwoFP0sz10xQg8yL8lgskAZg==}
     dependencies:
-      '@babel/parser': 7.18.4
+      '@babel/parser': 7.18.5
       '@vue/compiler-core': 3.2.37
       '@vue/shared': 3.2.37
       estree-walker: 2.0.2
@@ -498,8 +498,8 @@ packages:
       has: 1.0.3
     dev: true
 
-  /lingo3d/1.10.242:
-    resolution: {integrity: sha512-0J0kGUUm68ElTIPDuGEjOrWCxZH/KV4YSWYIN3XHL63apLn6DVo/XyXJqejcdjVA/3P59oNadu/gyYBRqbdRVg==}
+  /lingo3d/1.10.243:
+    resolution: {integrity: sha512-RPOUE8MgS7/t3uhXhXNr6apjV1RVhCxzuRzbD0u50EP+Y/rCd9vUOT7KP+HtM4gUSFbhWErgx/6ni70qpw1suA==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
@@ -513,8 +513,8 @@ packages:
       cannon-es: 0.19.0
       howler: 2.2.3
       postprocessing: 6.27.0_three@0.140.2
-      preact: 10.7.3
-      preact-custom-element: 4.2.1_preact@10.7.3
+      preact: 10.8.0
+      preact-custom-element: 4.2.1_preact@10.8.0
       prettier: 2.7.0
       three: 0.140.2
       tweakpane: 3.1.0
@@ -571,16 +571,16 @@ packages:
       three: 0.140.2
     dev: false
 
-  /preact-custom-element/4.2.1_preact@10.7.3:
+  /preact-custom-element/4.2.1_preact@10.8.0:
     resolution: {integrity: sha512-/fiEEAyC+MXRlCBRmv/owoN5BLpO2nF/MF3YBHLtp4C2lNqlhV+a4he74A5DhfDoRmxDHm0sYVgQzWFEyzTDsw==}
     peerDependencies:
       preact: 10.x
     dependencies:
-      preact: 10.7.3
+      preact: 10.8.0
     dev: false
 
-  /preact/10.7.3:
-    resolution: {integrity: sha512-giqJXP8VbtA1tyGa3f1n9wiN7PrHtONrDyE3T+ifjr/tTkg+2N4d/6sjC9WyJKv8wM7rOYDveqy5ZoFmYlwo4w==}
+  /preact/10.8.0:
+    resolution: {integrity: sha512-2yXIS/h/UP5go0rBKesZqx0LuScqjECtH5pq8SQu3t6X2XNUWjCY4pcViUttDu3qX6NMxGiA/RuxOZd00QLCzg==}
     dev: false
 
   /prettier/2.7.0:
