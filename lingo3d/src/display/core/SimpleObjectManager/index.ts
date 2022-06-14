@@ -1,5 +1,5 @@
 import { rad2Deg, deg2Rad, distance3d, Point3d } from "@lincode/math"
-import { Object3D, Vector3 } from "three"
+import { Object3D, Vector2, Vector3 } from "three"
 import { quaternion, vector3, vector3_ } from "../../utils/reusables"
 import { scaleDown, scaleUp } from "../../../engine/constants"
 import { point2Vec } from "../../utils/vec2Point"
@@ -392,6 +392,31 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
             }
             this.x += diffX
             this.y += diffY
+            this.z += diffZ
+        })
+    }
+
+    public moveForwardTo(x: number, z: number, speed: number) {
+        this.lerpToHandle?.cancel()
+
+        const { x: rx, y: rz } = new Vector2(x - this.x, z - this.z).normalize()
+        const sx = Math.abs(speed * rx)
+        const sz = Math.abs(speed * rz)
+
+        const signX = Math.sign(x)
+        const signZ = Math.sign(z)
+
+        this.lerpToHandle = this.loop(() => {
+            const diffX = Math.min(Math.abs((x - this.x) * 0.5), sx) * signX
+            const diffZ = Math.min(Math.abs((z - this.z) * 0.5), sz) * signZ
+
+            if (Math.abs(this.x - x) < 1 && Math.abs(this.z - z) < 1) {
+                this.lerpToHandle?.cancel()
+                this.x = x
+                this.z = z
+                return
+            }
+            this.x += diffX
             this.z += diffZ
         })
     }
