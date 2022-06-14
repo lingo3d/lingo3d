@@ -1,4 +1,4 @@
-import { LinearToneMapping, NoToneMapping, PCFSoftShadowMap } from "three"
+import { LinearToneMapping, NoToneMapping } from "three"
 import { getExposure } from "../../states/useExposure"
 import { getResolution, setResolution } from "../../states/useResolution"
 import { getPerformance } from "../../states/usePerformance"
@@ -7,7 +7,6 @@ import { createEffect, createNestedEffect } from "@lincode/reactivity"
 import { getVR } from "../../states/useVR"
 import { getRenderer } from "../../states/useRenderer"
 import { getPBR } from "../../states/usePBR"
-import { getViewportSize } from "../../states/useViewportSize"
 import { getSecondaryCamera } from "../../states/useSecondaryCamera"
 import { VRButton } from "./VRButton"
 import { getDefaultLightScale } from "../../states/useDefaultLightScale"
@@ -89,24 +88,6 @@ createEffect(() => {
         autoMount.removeChild(rootContainer)
     }
 }, [getAutoMount])
-
-export const referenceOutline = document.createElement("div")
-Object.assign(referenceOutline.style, {
-    border: "1px solid blue",
-    position: "absolute",
-    left: "50%",
-    top: "50%",
-    transform: "translateX(-50%) translateY(-50%)",
-    pointerEvents: "none"
-})
-container.appendChild(referenceOutline)
-
-createEffect(() => {
-    const [vw, vh] = getViewportSize() ?? getResolution()
-    const [rx, ry] = getResolution()
-    referenceOutline.style.display = (getSecondaryCamera() || (rx === vw && ry === vh)) ? "none" : "block"
-    
-}, [getResolution, getViewportSize, getSecondaryCamera])
 
 createEffect(() => {
     const renderer = getRenderer()

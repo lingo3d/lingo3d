@@ -131,7 +131,6 @@ export {
     loop,
     timer,
 
-    rootContainer,
     SimpleObjectManager as Object,
     FoundManager,
 

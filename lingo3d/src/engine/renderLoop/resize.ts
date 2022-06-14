@@ -6,7 +6,6 @@ import { frustum } from "../../display/cameras/OrthographicCamera"
 import { setCameraDistance } from "../../states/useCameraDistance"
 import { getViewportSize } from "../../states/useViewportSize"
 import mainCamera from "../mainCamera"
-import { referenceOutline } from "./renderSetup"
 import { getVR } from "../../states/useVR"
 import { getResolution } from "../../states/useResolution"
 import { getCameraRendered } from "../../states/useCameraRendered"
@@ -47,13 +46,10 @@ createEffect(() => {
 
     if (val0 > val1) {
         setCameraDistance(getZ(vw / aspect, mainCamera) * scaleDown)
-        Object.assign(referenceOutline.style, { width: size0.width + "px", height: size0.height + "px" })
+        // Object.assign(referenceOutline.style, { width: size0.width + "px", height: size0.height + "px" })
     }
     else {
         setCameraDistance(getZ(vh, mainCamera) * scaleDown)
-        Object.assign(referenceOutline.style, { width: size1.width + "px", height: size1.height + "px" })
+        // Object.assign(referenceOutline.style, { width: size1.width + "px", height: size1.height + "px" })
     }
-
-    // Object.assign(rootContainer.style, { width: resX + "px", height: resY + "px" })
-
 }, [getResolution, getViewportSize, getCameraRendered, getVR])

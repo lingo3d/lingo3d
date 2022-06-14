@@ -22,7 +22,6 @@ specifiers:
   postprocessing: ^6.27.0
   preact: ^10.8.0
   preact-custom-element: ^4.2.1
-  preact-portal: ^1.1.3
   prettier: ^2.7.0
   randomcolor: '*'
   three: 0.140.2
@@ -46,7 +45,6 @@ dependencies:
   postprocessing: 6.27.0_three@0.140.2
   preact: 10.8.0
   preact-custom-element: 4.2.1_preact@10.8.0
-  preact-portal: 1.1.3_preact@10.8.0
   prettier: 2.7.0
   three: 0.140.2
   tweakpane: 3.1.0
@@ -914,14 +912,6 @@ packages:
     resolution: {integrity: sha512-/fiEEAyC+MXRlCBRmv/owoN5BLpO2nF/MF3YBHLtp4C2lNqlhV+a4he74A5DhfDoRmxDHm0sYVgQzWFEyzTDsw==}
     peerDependencies:
       preact: 10.x
-    dependencies:
-      preact: 10.8.0
-    dev: false
-
-  /preact-portal/1.1.3_preact@10.8.0:
-    resolution: {integrity: sha512-rE0KG2b7ggIly4VVsSm7+WmQmG/EoUZzBOed2IbycyaFIArOvz+yab/8RBoDogA0JWZuTsbMTStR41Ghc+5m7Q==}
-    peerDependencies:
-      preact: '*'
     dependencies:
       preact: 10.8.0
     dev: false
