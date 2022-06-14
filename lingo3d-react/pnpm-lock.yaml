@@ -24,7 +24,7 @@ specifiers:
   css-loader: ^6.7.1
   fork-ts-checker-webpack-plugin: ^7.2.11
   html-webpack-plugin: ^5.5.0
-  lingo3d: 1.10.239
+  lingo3d: 1.10.240
   nanoid: ^3.3.4
   popmotion: ^11.0.3
   postcss: ^8.4.14
@@ -48,7 +48,7 @@ dependencies:
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
   '@types/three': 0.140.0
-  lingo3d: 1.10.239
+  lingo3d: 1.10.240
   nanoid: 3.3.4
   popmotion: 11.0.3
   stats.js: 0.17.0
@@ -1481,8 +1481,8 @@ packages:
     dev: true
     optional: true
 
-  /@tweakpane/core/1.0.9:
-    resolution: {integrity: sha512-vvS0IGhJ9Wq37vgldgF9Ohh5BA0RKapffhzyTN84170nt/0SCreXB9zIMLlbL4ZxvCKAKJ0080wJHS5aVhf20Q==}
+  /@tweakpane/core/1.1.0:
+    resolution: {integrity: sha512-vbbiQb+aoFI13lIbE7DJvhHZVE1YlUpGoaAamSpU6wLp2jA3VowS1wfRJBBB8IBCYm7nF6ULl7zfJKxl1XdyfA==}
     dev: false
 
   /@types/body-parser/1.19.2:
@@ -3175,8 +3175,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lingo3d/1.10.239:
-    resolution: {integrity: sha512-Byw5ImYrz1NBQjTb0VyTknyvq8VdU2mfhl3wIPGszFi8IpVSt2+tNdaD2E2JQN5QAeN13Y1ZQyfMeD7OTdptpQ==}
+  /lingo3d/1.10.240:
+    resolution: {integrity: sha512-CgVVqrGjcE5ZHfMFLWO5/d6ZPubhbCeKwB9y0kRLzZtPR9n9LNEBgIID4I5ZELdB2+7ETEaHVB8lG5HduExLpg==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
@@ -3184,7 +3184,7 @@ packages:
       '@lincode/promiselikes': 1.0.20
       '@lincode/reactivity': 1.0.65
       '@lincode/utils': 1.2.51
-      '@tweakpane/core': 1.0.9
+      '@tweakpane/core': 1.1.0
       '@types/three': 0.140.0
       browser-fs-access: 0.29.6
       cannon-es: 0.19.0
@@ -3192,9 +3192,9 @@ packages:
       postprocessing: 6.27.0_three@0.140.2
       preact: 10.7.3
       preact-custom-element: 4.2.1_preact@10.7.3
-      prettier: 2.6.2
+      prettier: 2.7.0
       three: 0.140.2
-      tweakpane: 3.0.8
+      tweakpane: 3.1.0
       xstate: 4.32.1
     dev: false
 
@@ -3685,8 +3685,8 @@ packages:
     resolution: {integrity: sha512-giqJXP8VbtA1tyGa3f1n9wiN7PrHtONrDyE3T+ifjr/tTkg+2N4d/6sjC9WyJKv8wM7rOYDveqy5ZoFmYlwo4w==}
     dev: false
 
-  /prettier/2.6.2:
-    resolution: {integrity: sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==}
+  /prettier/2.7.0:
+    resolution: {integrity: sha512-nwoX4GMFgxoPC6diHvSwmK/4yU8FFH3V8XWtLQrbj4IBsK2pkYhG4kf/ljF/haaZ/aii+wNJqISrCDPgxGWDVQ==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: false
@@ -4294,8 +4294,8 @@ packages:
   /tslib/2.4.0:
     resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
 
-  /tweakpane/3.0.8:
-    resolution: {integrity: sha512-vJuB0346B6gMpxnFDJyy2wcEshkvcTpQ74TCqJTeFaDvzq9FL29h5KszT1+YUTLlP+26OQI8PFGN8WbtOQStnQ==}
+  /tweakpane/3.1.0:
+    resolution: {integrity: sha512-PGAp/LPQdHwzL7/iAW4lV1p9iPQTti7YMjMWO48CoYjvZRS59RmgQnhEGzKzqST1JnmOYmQUjTe8bdhlZRJs5A==}
     dev: false
 
   /type-is/1.6.18:

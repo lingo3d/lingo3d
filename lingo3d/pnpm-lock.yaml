@@ -22,13 +22,13 @@ specifiers:
   postprocessing: ^6.27.0
   preact: ^10.7.3
   preact-custom-element: ^4.2.1
-  prettier: ^2.6.2
+  prettier: ^2.7.0
   randomcolor: '*'
   three: 0.140.2
   tweakpane: ^3.1.0
   typescript: ^4.7.3
   vite: ^2.9.12
-  xstate: ^4.32.1
+  xstate: '*'
 
 dependencies:
   '@lincode/events': 1.0.24
@@ -45,7 +45,7 @@ dependencies:
   postprocessing: 6.27.0_three@0.140.2
   preact: 10.7.3
   preact-custom-element: 4.2.1_preact@10.7.3
-  prettier: 2.6.2
+  prettier: 2.7.0
   three: 0.140.2
   tweakpane: 3.1.0
   xstate: 4.32.1
@@ -514,7 +514,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001352
-      electron-to-chromium: 1.4.152
+      electron-to-chromium: 1.4.154
       escalade: 3.1.1
       node-releases: 2.0.5
       picocolors: 1.0.0
@@ -569,8 +569,8 @@ packages:
       ms: 2.1.2
     dev: true
 
-  /electron-to-chromium/1.4.152:
-    resolution: {integrity: sha512-jk4Ju5SGZAQQJ1iI4Rgru7dDlvkQPLpNPWH9gIZmwCD4YteA5Bbk1xPcPDUf5jUYs3e1e80RXdi8XgKQZaigeg==}
+  /electron-to-chromium/1.4.154:
+    resolution: {integrity: sha512-GbV9djOkrnj6xmW+YYVVEI3VCQnJ0pnSTu7TW2JyjKd5cakoiSaG5R4RbEtfaD92GsY10DzbU3GYRe+IOA9kqA==}
     dev: true
 
   /esbuild-android-64/0.14.43:
@@ -919,8 +919,8 @@ packages:
   /preact/10.7.3:
     resolution: {integrity: sha512-giqJXP8VbtA1tyGa3f1n9wiN7PrHtONrDyE3T+ifjr/tTkg+2N4d/6sjC9WyJKv8wM7rOYDveqy5ZoFmYlwo4w==}
 
-  /prettier/2.6.2:
-    resolution: {integrity: sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==}
+  /prettier/2.7.0:
+    resolution: {integrity: sha512-nwoX4GMFgxoPC6diHvSwmK/4yU8FFH3V8XWtLQrbj4IBsK2pkYhG4kf/ljF/haaZ/aii+wNJqISrCDPgxGWDVQ==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: false

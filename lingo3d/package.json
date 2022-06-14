@@ -34,7 +34,7 @@
 		"prettier": "^2.7.0",
 		"three": "0.140.2",
 		"tweakpane": "^3.1.0",
-		"xstate": "^4.32.1"
+		"xstate": "*"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.18.5",

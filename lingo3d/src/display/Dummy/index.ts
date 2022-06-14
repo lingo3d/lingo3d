@@ -61,6 +61,8 @@ export default class Dummy extends Model implements IDummy {
             }
         }, [this.srcState.get, this.spineNameState.get])
 
+        const [setPose, getPose] = store("idle")
+
         this.createEffect(() => {
             const preset = this.presetState.get()
             const prefix = preset === "rifle" ? "rifle-" : ""
@@ -83,7 +85,7 @@ export default class Dummy extends Model implements IDummy {
                 runningBackwards: url + prefix + "running-backwards.fbx",
                 jumping: url + prefix + "falling.fbx"
             }
-            this.animation = "idle"
+            this.animation = getPose()
             
             return () => {
                 this.animation = undefined
@@ -91,8 +93,6 @@ export default class Dummy extends Model implements IDummy {
         }, [this.presetState.get, this.srcState.get, getType])
         
         const { poseService } = this
-
-        const [setPose, getPose] = store("idle")
         this.createEffect(() => {
             const pose = this.animation = getPose()
             if (pose !== "jumping") return
