@@ -6,6 +6,7 @@ import { loop } from "../../engine/eventLoop"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import IDummy, { dummyDefaults, dummySchema } from "../../interface/IDummy"
 import FoundManager from "../core/FoundManager"
+import AnimationManager from "../core/mixins/AnimationMixin/AnimationManager"
 import Model from "../Model"
 import { point2Vec } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
@@ -79,18 +80,19 @@ export default class Dummy extends Model implements IDummy {
                 url = parts.join("/") + "/"
             }
 
-            this.animations = {
+            super.animations = {
                 idle: url + prefix + "idle.fbx",
                 running: url + prefix + "running.fbx",
                 runningBackwards: url + prefix + "running-backwards.fbx",
-                jumping: url + prefix + "falling.fbx"
+                jumping: url + prefix + "falling.fbx",
+                ...this.animationsState.get()
             }
             this.animation = getPose()
             
             return () => {
                 this.animation = undefined
             }
-        }, [this.presetState.get, this.srcState.get, getType])
+        }, [this.presetState.get, this.srcState.get, getType, this.animationsState.get])
         
         const { poseService } = this
         this.createEffect(() => {
@@ -182,6 +184,14 @@ export default class Dummy extends Model implements IDummy {
     }
     public override set src(val) {
         this.srcState.set(val)
+    }
+
+    private animationsState = new Reactive({})
+    public override get animations(): Record<string, AnimationManager> {
+        return super.animations
+    }
+    public override set animations(val: Record<string, string | AnimationManager>) {
+        this.animationsState.set(val)
     }
 
     private presetState = new Reactive<"default" | "rifle">("default")
