@@ -1,4 +1,4 @@
-import {, h } from "preact"
+import { h } from "preact"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
 import { useEffect, useState } from "preact/hooks"

@@ -29,8 +29,7 @@ Object.assign(container.style, {
     position: "absolute",
     left: "0px",
     top: "0px",
-    width: "100%",
-    zIndex: "10"
+    width: "100%"
 })
 rootContainer.appendChild(container)
 getSecondaryCamera(cam => container.style.height = cam ? "50%" : "100%")
@@ -64,7 +63,7 @@ createEffect(() => {
         const el = document.querySelector(autoMount)
         if (!el) return
 
-        el.appendChild(rootContainer)
+        el.prepend(rootContainer)
         useResize(el)
 
         return () => {
@@ -73,7 +72,7 @@ createEffect(() => {
     }
 
     if (autoMount === true) {
-        document.body.appendChild(rootContainer)
+        document.body.prepend(rootContainer)
         useResize(document.body)
 
         return () => {
@@ -81,7 +80,7 @@ createEffect(() => {
         }
     }
     
-    autoMount.appendChild(rootContainer)
+    autoMount.prepend(rootContainer)
     useResize(autoMount)
 
     return () => {
@@ -94,7 +93,7 @@ createEffect(() => {
     if (!renderer) return
 
     const canvas = renderer.domElement
-    rootContainer.appendChild(canvas)
+    rootContainer.prepend(canvas)
     Object.assign(canvas.style, { position: "absolute", left: "0px", top: "0px" })
     return () => {
         rootContainer.removeChild(canvas)

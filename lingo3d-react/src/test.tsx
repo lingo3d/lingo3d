@@ -9,7 +9,7 @@ import skyboxSrc from "../assets-local/skybox.jpg"
 import { createRoot } from "react-dom/client"
 import { nanoid } from "nanoid"
 
-const Controls: React.FC<{ camera?: types.Camera, onClick: () => void }> = ({ camera, onClick }) => {
+const Controls: React.FC<{ camera?: types.Camera | null, onClick: () => void }> = ({ camera, onClick }) => {
   if (!camera) return null
 
   return <>
@@ -35,10 +35,10 @@ const Controls: React.FC<{ camera?: types.Camera, onClick: () => void }> = ({ ca
 }
 
 const App = () => {
-  const [camera, setCamera] = useState<types.Camera>()
+  const [camera, setCamera] = useState<types.Camera | null>(null)
   const [bullets, spawnBullet] = useSpawn({ lifetime: 1000 })
 
-  const fire = useCallback((bullet: types.Cube) => bullet.applyLocalImpulse(0, 0, -1), [])
+  const fire = useCallback((bullet: types.Cube | null) => bullet?.applyLocalImpulse(0, 0, -1), [])
 
   const [scale, setScale] = useState(1)
   const scaleSpring = useSpring(scale)
@@ -104,7 +104,7 @@ const App2 = () => {
   </>)
 }
 
-const root = createRoot(document.getElementById('app'));
+const root = createRoot(document.getElementById('app')!);
 root.render(<React.StrictMode><App /></React.StrictMode>);
 
 // ReactDOM.render(<React.StrictMode><App /></React.StrictMode>, document.querySelector("#app"))

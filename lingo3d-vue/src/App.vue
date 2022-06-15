@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { World, Cube, HTML, Stats, LingoEditor, Dummy, Find, OrbitCamera } from "."
+import { World, Cube, HTML, Stats, LingoEditor, Dummy, Find, OrbitCamera, UI } from "."
 
 
 </script>
 
 <template>
   <World>
-    <LingoEditor />
+    <Cube />
+    <UI>
+      <button>click me!</button>
+    </UI>
   </World>
   
 </template>

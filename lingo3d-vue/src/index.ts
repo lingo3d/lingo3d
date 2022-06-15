@@ -50,6 +50,7 @@ export { default as Torus } from "./components/display/primitives/Torus.vue"
 export { default as Setup } from "./components/logical/Setup.vue"
 export { default as HTML } from "./components/logical/HTML/index.vue"
 export { default as Find } from "./components/logical/Find.vue"
+export { default as UI } from "./components/logical/UI.vue"
 export { default as Scene } from "./components/logical/Scene.vue"
 
 // export { default as useSpawn } from "./hooks/useSpawn"
