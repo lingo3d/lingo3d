@@ -51,6 +51,7 @@ import settings from "./api/settings"
 import preload from "./api/preload"
 import { Sound } from "./api/Sound"
 import screenshot from "./api/screenshot"
+
 import applySetup from "./api/serializer/applySetup"
 import serialize from "./api/serializer/serialize"
 import deserialize from "./api/serializer/deserialize"
