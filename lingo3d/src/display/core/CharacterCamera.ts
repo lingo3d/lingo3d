@@ -5,8 +5,8 @@ import { debounce } from "@lincode/utils"
 import { Quaternion } from "three"
 import Appendable from "../../api/core/Appendable"
 import PositionedItem from "../../api/core/PositionedItem"
-import { loop } from "../../engine/eventLoop"
 import scene from "../../engine/scene"
+import { onBeforeRender } from "../../events/onBeforeRender"
 import { onSceneGraphChange } from "../../events/onSceneGraphChange"
 import ICharacterCamera, { characterCameraDefaults, characterCameraSchema, LockTargetRotationValue } from "../../interface/ICharacterCamera"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
@@ -60,7 +60,7 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             //@ts-ignore
             target.onRotationY = () => targetRotated = true
 
-            const handle = loop(() => {
+            const handle = onBeforeRender(() => {
                 this.outerObject3d.position.copy(target.outerObject3d.position)
                 if (!this.lockTargetRotation) return
 

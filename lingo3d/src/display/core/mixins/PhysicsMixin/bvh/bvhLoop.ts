@@ -2,7 +2,7 @@ import { createEffect } from "@lincode/reactivity"
 import { forceGet } from "@lincode/utils"
 import { Box3, Vector3 } from "three"
 import PhysicsMixin from ".."
-import { loop } from "../../../../../engine/eventLoop"
+import { onBeforeRender } from "../../../../../events/onBeforeRender"
 import { getBVHMap } from "../../../../../states/useBVHMap"
 import { getEditorActive } from "../../../../../states/useEditorActive"
 import { getGravity } from "../../../../../states/useGravity"
@@ -25,7 +25,7 @@ createEffect(function (this: PhysicsMixin) {
     const repulsion = getRepulsion()
     const delta = 0.02
 
-    const handle = loop(() => {
+    const handle = onBeforeRender(() => {
         bvhContactMap.clear()
 
         for (const characterManager of bvhCharacterSet) {

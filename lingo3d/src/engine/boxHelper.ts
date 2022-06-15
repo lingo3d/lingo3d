@@ -1,9 +1,9 @@
 import { createEffect } from "@lincode/reactivity"
 import { BoxHelper } from "three"
+import { onBeforeRender } from "../events/onBeforeRender"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../states/useSelectionTarget"
-import { loop } from "./eventLoop"
 import mainCamera from "./mainCamera"
 import scene from "./scene"
 
@@ -16,7 +16,7 @@ createEffect(() => {
     //@ts-ignore
     const boxHelper = new BoxHelper(target.object3d ?? target.outerObject3d)
     const frame = requestAnimationFrame(() => scene.add(boxHelper))
-    const handle = loop(() => boxHelper.update())
+    const handle = onBeforeRender(() => boxHelper.update())
 
     return () => {
         cancelAnimationFrame(frame)
@@ -36,7 +36,7 @@ createEffect(() => {
         boxHelpers.push(boxHelper)
     }
 
-    const handle = loop(() => {
+    const handle = onBeforeRender(() => {
         for (const boxHelper of boxHelpers)
             boxHelper.update()
     })

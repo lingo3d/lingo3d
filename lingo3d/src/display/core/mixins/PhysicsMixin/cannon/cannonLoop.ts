@@ -1,10 +1,10 @@
 import { createEffect } from "@lincode/reactivity"
 import type { Body } from "cannon-es"
-import { loop } from "../../../../../engine/eventLoop"
 import PhysicsMixin from ".."
 import { forceGet } from "@lincode/utils"
 import { getPhysicsWorld } from "../../../../../states/usePhysicsWorld"
 import { getEditorActive } from "../../../../../states/useEditorActive"
+import { onBeforeRender } from "../../../../../events/onBeforeRender"
 
 export const cannonSet = new Set<PhysicsMixin>()
 export const cannonContactMap = new Map<Body, WeakSet<Body>>()
@@ -20,7 +20,7 @@ createEffect(function (this: PhysicsMixin) {
     const world = getPhysicsWorld()
     if (!world) return
 
-    const handle = loop(() => {
+    const handle = onBeforeRender(() => {
         for (const item of cannonSet) {
             const body = item.cannonBody!
 

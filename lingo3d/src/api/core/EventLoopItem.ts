@@ -1,6 +1,7 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect, GetGlobalState } from "@lincode/reactivity"
-import { loop, timer } from "../../engine/eventLoop"
+import { timer } from "../../engine/eventLoop"
+import { onBeforeRender } from "../../events/onBeforeRender"
 import IEventLoop from "../../interface/IEventLoop"
 import Appendable from "./Appendable"
 
@@ -23,7 +24,7 @@ export default abstract class EventLoopItem extends Appendable implements IEvent
     }
 
     public loop(cb: () => void) {
-        return this.watch(loop(cb))
+        return this.watch(onBeforeRender(cb))
     }
 
     public queueMicrotask(cb: () => void) {

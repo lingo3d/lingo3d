@@ -2,7 +2,6 @@ import { endPoint, Point3d, rad2Deg, rotatePoint } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { Vector3 } from "three"
 import { interpret } from "xstate"
-import { loop } from "../../engine/eventLoop"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import IDummy, { dummyDefaults, dummySchema } from "../../interface/IDummy"
 import FoundManager from "../core/FoundManager"
@@ -11,7 +10,7 @@ import Model from "../Model"
 import { point2Vec } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
 
-const assetsUrl = "https://unpkg.com/lingo3d-dummy@1.0.2/assets/"
+const assetsUrl = "https://unpkg.com/lingo3d-dummy@1.0.3/assets/"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -85,6 +84,7 @@ export default class Dummy extends Model implements IDummy {
                 running: url + prefix + "running.fbx",
                 runningBackwards: url + prefix + "running-backwards.fbx",
                 jumping: url + prefix + "falling.fbx",
+                death: url + prefix + "death.fbx",
                 ...this.animationsState.get()
             }
             this.animation = getPose()
@@ -101,7 +101,7 @@ export default class Dummy extends Model implements IDummy {
 
             this.velocity.y = this.jumpHeight
 
-            const handle = loop(() => {
+            const handle = onBeforeRender(() => {
                 this.velocity.y === 0 && poseService.send("JUMP_STOP")
             })
             return () => {

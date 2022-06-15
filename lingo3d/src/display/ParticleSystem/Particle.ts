@@ -2,7 +2,7 @@ import { SpriteMaterial, Sprite, Texture, Color } from "three"
 import scene from "../../engine/scene"
 import { scaleDown } from "../../engine/constants"
 import { addBloom, deleteBloom } from "../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
-import { loop } from "../../engine/eventLoop"
+import { onBeforeRender } from "../../events/onBeforeRender"
 
 const disposed: Array<Particle> = []
 const colorObj = new Color()
@@ -17,7 +17,7 @@ export const createParticle = () => {
 
 const activeParticles = new Set<Particle>()
 
-loop(() => {
+onBeforeRender(() => {
     for (const particle of activeParticles)
         particle.update()
 })
