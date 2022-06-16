@@ -29,6 +29,7 @@ import { getBackgroundImage, setBackgroundImage } from "../states/useBackgroundI
 import Skybox from "../display/Skybox"
 import { appendableRoot } from "./core/Appendable"
 import { getAutoMount, setAutoMount } from "../states/useAutoMount"
+import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -113,6 +114,13 @@ export default {
     },
 
     //rendering
+    get pixelRatio() {
+        return getPixelRatio()
+    },
+    set pixelRatio(value) {
+        setPixelRatio(value)
+    },
+
     get logarithmicDepth() {
         return getLogarithmicDepth()
     },
