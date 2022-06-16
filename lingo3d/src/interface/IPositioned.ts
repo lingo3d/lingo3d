@@ -1,4 +1,4 @@
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import IEventLoop, { eventLoopDefaults, eventLoopRequiredDefaults, eventLoopSchema } from "./IEventLoop"
 import { ExtractProps } from "./utils/extractProps"
 
 export type PositionedValue = Record<string, Array<number>>
@@ -19,6 +19,13 @@ export const positionedSchema: Required<ExtractProps<IPositioned>> = {
 
 export const positionedDefaults: IPositioned = {
     ...eventLoopDefaults,
+    x: 0,
+    y: 0,
+    z: 0
+}
+
+export const positionedRequiredDefaults: IPositioned = {
+    ...eventLoopRequiredDefaults,
     x: 0,
     y: 0,
     z: 0

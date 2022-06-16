@@ -1,4 +1,4 @@
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import IEventLoop, { eventLoopDefaults, eventLoopRequiredDefaults, eventLoopSchema } from "./IEventLoop"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
@@ -14,4 +14,9 @@ export const environmentSchema: Required<ExtractProps<IEnvironment>> = {
 export const environmentDefaults: IEnvironment = {
     ...eventLoopDefaults,
     texture: undefined
+}
+
+export const environmentRequiredDefaults: IEnvironment = {
+    ...eventLoopRequiredDefaults,
+    texture: ""
 }

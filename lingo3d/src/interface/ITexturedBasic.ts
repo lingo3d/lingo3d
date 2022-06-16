@@ -34,3 +34,14 @@ export const texturedBasicDefaults: ITexturedBasic = {
     alphaMap: undefined,
     textureRepeat: undefined
 }
+
+export const texturedBasicRequiredDefaults: ITexturedBasic = {
+    color: "#ffffff",
+    vertexColors: false,
+    fog: true,
+    opacity: 1,
+    texture: "",
+    videoTexture: "",
+    alphaMap: "",
+    textureRepeat: { x: 1, y: 1 }
+}

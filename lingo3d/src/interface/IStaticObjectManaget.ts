@@ -1,7 +1,8 @@
-import IAnimationMixin, { animationMixinDefaults, animationMixinSchema } from "./IAnimationMixin"
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import IAnimationMixin, { animationMixinDefaults, animationMixinRequiredDefaults, animationMixinSchema } from "./IAnimationMixin"
+import IEventLoop, { eventLoopDefaults, eventLoopRequiredDefaults, eventLoopSchema } from "./IEventLoop"
 import { LingoMouseEvent } from "./IMouse"
 import { ExtractProps } from "./utils/extractProps"
+import fn from "./utils/fn"
 import Nullable from "./utils/Nullable"
 
 export default interface IStaticObjectManager extends IEventLoop, IAnimationMixin {
@@ -72,6 +73,35 @@ export const staticObjectManagerDefaults: IStaticObjectManager = {
 
     name: "",
     id: undefined,
+
+    bloom: false,
+    reflection: false,
+    outline: false,
+
+    visible: true,
+    frustumCulled: true,
+
+    metalnessFactor: 0,
+    roughnessFactor: 1,
+    opacityFactor: 1,
+
+    toon: false,
+    pbr: false
+}
+
+export const staticObjectManagerRequiredDefaults: IStaticObjectManager = {
+    ...eventLoopRequiredDefaults,
+    ...animationMixinRequiredDefaults,
+
+    onClick: fn,
+    onMouseDown: fn,
+    onMouseUp: fn,
+    onMouseOver: fn,
+    onMouseOut: fn,
+    onMouseMove: fn,
+
+    name: "",
+    id: "",
 
     bloom: false,
     reflection: false,
