@@ -1,6 +1,6 @@
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import fn from "./utils/fn"
 import Nullable from "./utils/Nullable"
 
 export default interface IKeyboard extends IEventLoop {
@@ -16,7 +16,7 @@ export const keyboardSchema: Required<ExtractProps<IKeyboard>> = {
     onKeyDown: Function
 }
 
-export const keyboardDefaults: IKeyboard ={
+export const keyboardDefaults: Defaults<IKeyboard> ={
     ...eventLoopDefaults,
     onKeyPress: undefined,
     onKeyUp: undefined,

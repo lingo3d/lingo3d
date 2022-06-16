@@ -1,6 +1,7 @@
 import AnimationManager from "../display/core/mixins/AnimationMixin/AnimationManager"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
+import Defaults from "./utils/Defaults"
 
 export type AnimationValue = Record<string, Array<number>>
 export type Animation = string | number | Array<string | number> | boolean | AnimationValue
@@ -21,10 +22,10 @@ export const animationMixinSchema: Required<ExtractProps<IAnimationMixin>> = {
     onAnimationFinish: Function
 }
 
-export const animationMixinDefaults: IAnimationMixin = {
+export const animationMixinDefaults: Defaults<IAnimationMixin> = {
     animations: {},
     animation: undefined,
-    animationPaused: undefined,
-    animationRepeat: undefined,
+    animationPaused: [undefined, false],
+    animationRepeat: [undefined, true],
     onAnimationFinish: undefined
 }

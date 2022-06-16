@@ -1,6 +1,8 @@
 import MeshItem from "../display/core/MeshItem"
 import ICamera, { cameraDefaults, cameraSchema } from "./ICamera"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
 export type LockTargetRotationValue = boolean | "follow"
@@ -16,7 +18,9 @@ export const characterCameraSchema: Required<ExtractProps<ICharacterCamera>> = {
     lockTargetRotation: [Boolean, String]
 }
 
-export const characterCameraDefaults: ICharacterCamera = {
+hideSchema(["target"])
+
+export const characterCameraDefaults: Defaults<ICharacterCamera> = {
     ...cameraDefaults,
     lockTargetRotation: true,
     target: undefined

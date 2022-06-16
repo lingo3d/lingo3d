@@ -1,4 +1,5 @@
 import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
@@ -11,7 +12,7 @@ export const audioSchema: Required<ExtractProps<IAudio>> = {
     src: String
 }
 
-export const audioDefaults: IAudio ={
+export const audioDefaults: Defaults<IAudio> ={
     ...positionedDefaults,
     src: undefined
 }

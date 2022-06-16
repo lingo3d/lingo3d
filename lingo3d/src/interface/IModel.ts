@@ -1,4 +1,5 @@
 import ILoaded, { loadedDefaults, loadedSchema } from "./ILoaded"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
@@ -17,7 +18,7 @@ export const modelSchema: Required<ExtractProps<IModel>> = {
     loadedZ: Number
 }
 
-export const modelDefaults: IModel = {
+export const modelDefaults: Defaults<IModel> = {
     ...loadedDefaults,
     loadedScale: undefined,
     loadedX: undefined,

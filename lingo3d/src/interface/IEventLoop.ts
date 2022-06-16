@@ -1,6 +1,6 @@
 import EventLoopItem from "../api/core/EventLoopItem"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import fn from "./utils/fn"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
@@ -16,7 +16,7 @@ export const eventLoopSchema: Required<ExtractProps<IEventLoop>> = {
 
 hideSchema(["proxy"])
 
-export const eventLoopDefaults: IEventLoop = {
+export const eventLoopDefaults: Defaults<IEventLoop> = {
     onLoop: undefined,
     proxy: undefined
 }

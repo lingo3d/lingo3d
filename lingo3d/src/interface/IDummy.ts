@@ -1,4 +1,5 @@
 import IModel, { modelDefaults, modelSchema } from "./IModel"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
@@ -19,7 +20,7 @@ export const dummySchema: Required<ExtractProps<IDummy>> = {
     strideMove: Boolean
 }
 
-export const dummyDefaults: IDummy = {
+export const dummyDefaults: Defaults<IDummy> = {
     ...modelDefaults,
     spineName: undefined,
     preset: "default",
