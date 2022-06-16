@@ -50,6 +50,7 @@ export const nonSerializedProperties = [
     "type",
     "children",
     "scale",
+    "rotation",
     "velocity",
     "target",
     "proxy"

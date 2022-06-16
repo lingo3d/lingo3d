@@ -2,6 +2,7 @@ import { Point3d } from "@lincode/math"
 import PhysicsMixin from "../display/core/mixins/PhysicsMixin"
 import cubeShape from "../display/core/mixins/PhysicsMixin/cannon/shapes/cubeShape"
 import { ExtractProps } from "./utils/extractProps"
+import { hideSchema } from "./utils/nonEditorSchemaSet"
 
 export type PhysicsGroupIndex = 0 | 1 | 2 | 3 | 4 | 5
 export type PhysicsOptions = boolean | "2d" | "map" | "map-debug" | "character"
@@ -48,6 +49,21 @@ export const physicsSchema: Required<ExtractProps<IPhysics>> = {
     physics: [String, Boolean],
     physicsShape: Function
 }
+
+hideSchema([
+    "maxAngularVelocityX",
+    "maxAngularVelocityY",
+    "maxAngularVelocityZ",
+    "maxVelocityX",
+    "maxVelocityY",
+    "maxVelocityZ",
+    "noTumble",
+    "slippery",
+    "mass",
+    "physicsGroup",
+    "ignorePhysicsGroups",
+    "physicsShape"
+])
 
 export const physicsDefaults: IPhysics = {
     maxAngularVelocityX: Infinity,

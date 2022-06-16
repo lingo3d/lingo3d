@@ -2,8 +2,6 @@ import { debounce, last, omit, preventTreeShake } from "@lincode/utils"
 import { FolderApi, Pane } from "tweakpane"
 import settings from "../../api/settings"
 import mainCamera from "../../engine/mainCamera"
-import { onTransformControls } from "../../events/onTransformControls"
-import { objectManagerSchema } from "../../interface/IObjectManager"
 import { setGridHelper } from "../../states/useGridHelper"
 import { setOrbitControls } from "../../states/useOrbitControls"
 import { setSelection } from "../../states/useSelection"
@@ -13,8 +11,6 @@ import { h } from "preact"
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks"
 import register from "preact-custom-element"
 import { useSelectionTarget, useCameraList, useMultipleSelectionTargets, useCameraStack, useDefaultLight, useDefaultFog } from "../states"
-import SimpleObjectManager from "../../display/core/SimpleObjectManager"
-import ObjectManager from "../../display/core/ObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getSecondaryCamera, setSecondaryCamera } from "../../states/useSecondaryCamera"
@@ -28,13 +24,13 @@ import { onKeyClear } from "../../events/onKeyClear"
 import { nonEditorSettings } from "../../api/serializer/types"
 import { onApplySetup } from "../../events/onApplySetup"
 import ISetup from "../../interface/ISetup"
-import { dummySchema } from "../../interface/IDummy"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../getComponentName"
 import { emitSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 import createElement from "../../utils/createElement"
+import nonEditorSchemaSet from "../../interface/utils/nonEditorSchemaSet"
 
 preventTreeShake(h)
 
@@ -60,8 +56,7 @@ const addInputs = (
     pane: Pane,
     title: string,
     target: Record<string, any>,
-    params = { ...target },
-    vectorMap?: Record<string, Array<string>>
+    params = { ...target }
 ) => {
     const folder = pane.addFolder({ title })
 
@@ -90,15 +85,6 @@ const addInputs = (
         const input = folder.addInput(params, key)
         input.on("change", ({ value }) => {
             if (programmatic) return
-            
-            if (vectorMap?.[key]) {
-                const [xProp, yProp, zProp] = vectorMap[key]
-                const { x, y, z } = value
-                target[xProp] = toFixed(x)
-                target[yProp] = toFixed(y)
-                target[zProp] = toFixed(z)
-                return
-            }
 
             if (typeof value === "string") {
                 if (value === "true" || value === "false") {
@@ -115,6 +101,17 @@ const addInputs = (
         })
         return [key, input] as const
     }))
+}
+
+const addNamedInputs = (
+    pane: Pane,
+    title: string,
+    target: Record<string, any>,
+    params = { ...target }
+) => {
+    const result = addInputs(pane, title, target, params)
+    result.name.on("change", () => emitSceneGraphNameChange())
+    return result
 }
 
 interface EditorProps {
@@ -284,119 +281,33 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         const target = selectionTarget as any
         const handle = new Cancellable()
 
-        const makeVectorXYZ = (prop: string) => ({
-            x: target[prop + "X"],
-            y: target[prop + "Y"],
-            z: target[prop + "Z"]
-        })
-        const makeVector = (x: string, y: string, z: string) => ({
-            x: target[x],
-            y: target[y],
-            z: target[z]
-        })
-        const makeVectorNames = (prop: string) => [prop + "X", prop + "Y", prop + "Z"]
-
         if (!multipleSelectionTargets.length) {
-            const { name: nameInput } = addInputs(pane, "general", target, {
-                name: target.name,
-                id: target.id
-            })
-            nameInput.on("change", () => emitSceneGraphNameChange())
-        }
-
-        if (selectionTarget instanceof SimpleObjectManager) {
-            const transformParams = {
-                "scale": target.scale,
-                "scale xyz": makeVectorXYZ("scale"),
-                "position": makeVector("x", "y", "z"),
-                "rotation": makeVectorXYZ("rotation")
-            }
-            addInputs(pane, "transform", target, transformParams, {
-                "scale xyz": makeVectorNames("scale"),
-                "position": ["x", "y", "z"],
-                "rotation": makeVectorNames("rotation")
-            })
-            handle.watch(onTransformControls(() => {
-                programmatic = true
-                disableProgrammatic()
-
-                Object.assign(transformParams, {
-                    "scale xyz": makeVectorXYZ("scale"),
-                    "position": makeVector("x", "y", "z"),
-                    "rotation": makeVectorXYZ("rotation"),
-                })
-                pane.refresh()
-            }))
-        }
-        else if (isPositionedItem(selectionTarget)) {
-            const transformParams = {
-                "position": makeVector("x", "y", "z")
-            }
-            addInputs(pane, "transform", target, transformParams, {
-                "position": ["x", "y", "z"]
-            })
-            handle.watch(onTransformControls(() => {
-                programmatic = true
-                disableProgrammatic()
-
-                Object.assign(transformParams, {
-                    "position": makeVector("x", "y", "z")
-                })
-                pane.refresh()
-            }))
-        }
-
-        if (selectionTarget instanceof ObjectManager)
-            addInputs(pane, "inner transform", target, {
-                "size": makeVector("width", "height", "depth"),
-                "inner position": makeVectorXYZ("inner"),
-                "inner rotation": makeVectorXYZ("innerRotation")
-            }, {
-                "size": ["width", "height", "depth"],
-                "inner position": makeVectorNames("inner"),
-                "inner rotation": makeVectorNames("innerRotation")
-            })
-
-        if (!multipleSelectionTargets.length) {
-            if (selectionTarget instanceof SimpleObjectManager)
-                addInputs(pane, "display", target, {
-                    bloom: target.bloom,
-                    reflection: target.reflection,
-                    outline: target.outline,
-
-                    visible: target.visible,
-                    innerVisible: target.innerVisible,
-                    frustumCulled: target.frustumCulled,
-
-                    metalnessFactor: target.metalnessFactor,
-                    roughnessFactor: target.roughnessFactor,
-                    opacityFactor: target.opacityFactor,
-
-                    toon: target.toon,
-                    pbr: target.pbr
-                })
-            
             const { schema, componentName } = target.constructor
-            const animationKeys = { animation: true, animationPaused: true, animationRepeat: true }
 
             const params: Record<string, any> = {}
             for (const [key, value] of Object.entries(schema)) {
-                if ((key in objectManagerSchema && !(key in animationKeys)) || value === Function) continue
+                if (nonEditorSchemaSet.has(key)) continue
 
+                const val = target[key]
+                if (value === Function || typeof val === "function") continue
+                if (value === Object || (typeof val === "object" && !Array.isArray(val)))
+                    if (!val || typeof val.x !== "number" || typeof val.y !== "number")
+                        continue
+                        
                 let v = target[key]
                 if (v === Infinity)
-                    v = 9999
+                    v = 999999999
                 else if (v === -Infinity)
-                    v = -9999
+                    v = -999999999
                 else if (Array.isArray(v))
                     v = JSON.stringify(v)
 
                 params[key] = v
             }
 
-            if (schema === dummySchema) {
+            if (componentName === "dummy") {
                 params.stride = { x: 0, y: 0 }
-                const { stride: strideInput } = addInputs(pane, componentName, target, params)
+                const { stride: strideInput } = addNamedInputs(pane, componentName, target, params)
                 strideInput.on("change", ({ value }) => {
                     Object.assign(params, {
                         "strideForward": -value.y,
@@ -405,7 +316,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                     pane.refresh()
                 })
             }
-            else addInputs(pane, componentName, target, params)
+            else addNamedInputs(pane, componentName, target, params)
         }
 
         return () => {
