@@ -216,27 +216,31 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         const handle = new Cancellable()
 
         if (!multipleSelectionTargets.length) {
-            const { schema, componentName } = target.constructor
+            const { schema, defaults, componentName } = target.constructor
 
             const params: Record<string, any> = {}
             for (const [key, value] of Object.entries(schema)) {
                 if (nonEditorSchemaSet.has(key)) continue
 
-                const val = target[key]
-                if (value === Function || typeof val === "function") continue
-                if (value === Object || (typeof val === "object" && !Array.isArray(val)))
-                    if (!val || typeof val.x !== "number" || typeof val.y !== "number")
+                let currentVal = target[key]
+                if (value === Function || typeof currentVal === "function") continue
+                if (value === Object || (typeof currentVal === "object" && !Array.isArray(currentVal)))
+                    if (!currentVal || typeof currentVal.x !== "number" || typeof currentVal.y !== "number")
                         continue
-                        
-                let v = target[key]
-                if (v === Infinity)
-                    v = 999999999
-                else if (v === -Infinity)
-                    v = -999999999
-                else if (Array.isArray(v))
-                    v = JSON.stringify(v)
+                     
+                if (currentVal === undefined) {
+                    currentVal = defaults[key]
+                    Array.isArray(currentVal) && (currentVal = currentVal[1])
+                }
+                
+                if (currentVal === Infinity)
+                    currentVal = 999999999
+                else if (currentVal === -Infinity)
+                    currentVal = -999999999
+                else if (Array.isArray(currentVal))
+                    currentVal = JSON.stringify(currentVal)
 
-                params[key] = v
+                params[key] = currentVal
             }
 
             if (componentName === "dummy") {
