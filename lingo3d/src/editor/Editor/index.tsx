@@ -171,21 +171,58 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         if (!selectionTarget) {
             const omitted: Array<keyof ISetup> = ["defaultFog", "defaultLight", "defaultLightScale"]
 
-            const {
-                defaultLightEnabled: defaultLightEnabledInput,
-                defaultFogEnabled: defaultFogEnabledInput
-
-            } = addInputs(pane, "settings", settings, Object.assign({
+            const params0 = Object.assign({
                 defaultLightEnabled,
                 ...defaultLightEnabled && { defaultLight, defaultLightScale: settings.defaultLightScale },
                 
                 defaultFogEnabled,
                 ...defaultFogEnabled && { defaultFog }
 
-            }, omit(settings, [...nonEditorSettings, ...omitted])))
+            }, omit(settings, [...nonEditorSettings, ...omitted]))
+
+            const [editorParams, params1] = splitObject(params0, [
+                "gridHelper", "gridHelperSize"
+            ])
+            addInputs(pane, "editor", settings, editorParams)
+
+            const [rendererParams, params2] = splitObject(params1, [
+                "pixelRatio", "logarithmicDepth", "pbr"
+            ])
+            addInputs(pane, "renderer", settings, rendererParams)
+
+            const [sceneParams, params3] = splitObject(params2, [
+                "exposure",
+                "defaultLightEnabled", "defaultLight", "defaultLightScale",
+                "defaultFogEnabled", "defaultFog",
+                "skybox"
+            ])
+            const {
+                defaultLightEnabled: defaultLightEnabledInput,
+                defaultFogEnabled: defaultFogEnabledInput
+
+            } = addInputs(pane, "lighting & environment", settings, sceneParams)
 
             defaultLightEnabledInput.on("change", ({ value }) => setDefaultLight(value ? "default" : false))
             defaultFogEnabledInput.on("change", ({ value }) => setDefaultFog(value ? "white" : undefined))
+
+            const [effectsParams, params4] = splitObject(params3, [
+                "ambientOcclusion",
+                "bloom", "bloomStrength", "bloomRadius", "bloomThreshold",
+                "lensDistortion", "lensIor", "lensBand",
+            ])
+            addInputs(pane, "effects", settings, effectsParams)
+
+            const [outlineParams, params5] = splitObject(params4, [
+                "outlineColor", "outlineHiddenColor", "outlinePattern", "outlinePulse", "outlineStrength", "outlineThickness"
+            ])
+            addInputs(pane, "outline effect", settings, outlineParams)
+
+            const [physicsParams, params] = splitObject(params5, [
+                "gravity", "repulsion"
+            ])
+            addInputs(pane, "physics", settings, physicsParams)
+
+            Object.keys(params).length && addInputs(pane, "settings", settings, params)
 
             return () => {
                 pane.dispose()
