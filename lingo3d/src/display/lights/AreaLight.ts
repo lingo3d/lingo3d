@@ -86,7 +86,7 @@ export default class AreaLight extends ObjectManager<Group> implements IAreaLigh
 
     private _color?: string
     public get color() {
-        return this._color ?? areaLightDefaults.color
+        return this._color ?? "white"
     }
     public set color(val: string) {
         this._color = val
@@ -95,7 +95,7 @@ export default class AreaLight extends ObjectManager<Group> implements IAreaLigh
 
     private _intensity?: number
     public get intensity() {
-        return this._intensity ?? areaLightDefaults.intensity
+        return this._intensity ?? 1
     }
     public set intensity(val: number) {
         this._intensity = val
@@ -104,7 +104,7 @@ export default class AreaLight extends ObjectManager<Group> implements IAreaLigh
 
     private _width?: number
     public override get width() {
-        return this._width ?? areaLightDefaults.width
+        return this._width ?? 100
     }
     public override set width(val: number) {
         this._width = val
@@ -113,7 +113,7 @@ export default class AreaLight extends ObjectManager<Group> implements IAreaLigh
 
     private _height?: number
     public override get height() {
-        return this._height ?? areaLightDefaults.height
+        return this._height ?? 100
     }
     public override set height(val: number) {
         this._height = val
@@ -122,7 +122,7 @@ export default class AreaLight extends ObjectManager<Group> implements IAreaLigh
 
     private _scaleX?: number
     public override get scaleX() {
-        return this._scaleX ?? areaLightDefaults.scaleX
+        return this._scaleX ?? 1
     }
     public override set scaleX(val: number) {
         this._scaleX = val
@@ -131,7 +131,7 @@ export default class AreaLight extends ObjectManager<Group> implements IAreaLigh
 
     private _scaleY?: number
     public override get scaleY() {
-        return this._scaleY ?? areaLightDefaults.scaleY
+        return this._scaleY ?? 1
     }
     public override set scaleY(val: number) {
         this._scaleY = val

@@ -28,6 +28,8 @@ export const applyChanges = (managerRef: Ref<any> | undefined, manager: any | un
     })
 }
 
+const defaultsMap = new WeakMap<any, any>()
+
 export default (props: Record<string, any>, ManagerClass: any) => {
     const manager = new ManagerClass()
     const managerRef = ref(manager)
@@ -38,11 +40,16 @@ export default (props: Record<string, any>, ManagerClass: any) => {
         toRaw(parentRef?.value)?.append(manager)
     })
     
-    if (!ManagerClass.defaults)
-        console.error("ManagerClass has no defaults", ManagerClass)
+    const defaults = forceGet(defaultsMap, ManagerClass.defaults, () => {
+        const result: any = {}
+        for (const [key, value] of Object.entries(ManagerClass.defaults))
+            result[key] = Array.isArray(value) ? value[0] : value
 
-    const diff = useDiffProps(props, ManagerClass.defaults)
-    applyChanges(undefined, manager, diff, ManagerClass.defaults)
+        return result
+    })
+
+    const diff = useDiffProps(props, defaults)
+    applyChanges(undefined, manager, diff, defaults)
 
     onUnmounted(() => {
         const handleMap = handleStore.get(manager)

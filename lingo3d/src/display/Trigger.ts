@@ -28,7 +28,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
     
     public onExit: (() => void) | undefined
 
-    private _pad = triggerDefaults.pad
+    private _pad = false
     public get pad() {
         return this._pad
     }
@@ -37,7 +37,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
         this.refresh.set({})
     }
     
-    private _radius = triggerDefaults.radius
+    private _radius = 50
     public get radius() {
         return this._radius
     }
@@ -46,7 +46,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
         this.refresh.set({})
     }
 
-    private _interval = triggerDefaults.interval
+    private _interval = 300
     public get interval() {
         return this._interval
     }
@@ -55,7 +55,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
         this.refresh.set({})
     }
 
-    private _helper = triggerDefaults.helper
+    private _helper = true
     public get helper() {
         return this._helper
     }
@@ -64,7 +64,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
         this.refresh.set({})
     }
 
-    private _targetIds = triggerDefaults.targetIds
+    private _targetIds?: string | Array<string>
     public get targetIds() {
         return this._targetIds
     }
