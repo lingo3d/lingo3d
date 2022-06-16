@@ -1,4 +1,5 @@
 import ILightBase, { lightBaseDefaults, lightBaseSchema } from "./ILightBase"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface ISpotLight extends ILightBase {
@@ -12,7 +13,7 @@ export const spotLightSchema: Required<ExtractProps<ISpotLight>> = {
     penumbra: Number
 }
 
-export const spotLightDefaults: ISpotLight = {
+export const spotLightDefaults: Defaults<ISpotLight> = {
     ...lightBaseDefaults,
     angle: 1,
     penumbra: 0

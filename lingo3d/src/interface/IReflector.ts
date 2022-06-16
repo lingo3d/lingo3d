@@ -1,4 +1,5 @@
 import IPlane, { planeDefaults, planeSchema } from "./IPlane"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IReflector extends IPlane {
@@ -16,7 +17,7 @@ export const reflectorSchema: Required<ExtractProps<IReflector>> = {
     mirror: Number
 }
 
-export const reflectorDefaults: IReflector = {
+export const reflectorDefaults: Defaults<IReflector> = {
     ...planeDefaults,
     resolution: 512,
     blur: 1024,

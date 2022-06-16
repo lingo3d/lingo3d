@@ -4,6 +4,7 @@ import { bokehDefault } from "../states/useBokeh"
 import { bokehApertureDefault } from "../states/useBokehAperture"
 import { bokehFocusDefault } from "../states/useBokehFocus"
 import { bokehMaxBlurDefault } from "../states/useBokehMaxBlur"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface ICameraMixin {
@@ -36,7 +37,7 @@ export const cameraMixinSchema: Required<ExtractProps<ICameraMixin>> = {
     maxPolarAngle: Number
 }
 
-export const cameraMixinDefaults: ICameraMixin = {
+export const cameraMixinDefaults: Defaults<ICameraMixin> = {
     fov: 75,
     zoom: 1,
     near: camNear,

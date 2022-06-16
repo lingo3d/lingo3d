@@ -1,4 +1,5 @@
 import ILightBase, { lightBaseDefaults, lightBaseSchema } from "./ILightBase"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IPointLight extends ILightBase {
@@ -12,7 +13,7 @@ export const pointLightSchema: Required<ExtractProps<IPointLight>> = {
     distance: Number
 }
 
-export const pointLightDefaults: IPointLight = {
+export const pointLightDefaults: Defaults<IPointLight> = {
     ...lightBaseDefaults,
     decay: 1,
     distance: 0

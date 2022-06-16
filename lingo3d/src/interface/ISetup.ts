@@ -1,4 +1,5 @@
 import settings from "../api/settings"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface ISetup extends Partial<typeof settings> {}
@@ -36,6 +37,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     color: String
 }
 
-export const setupDefaults: ISetup = {
+export const setupDefaults: Defaults<ISetup> = {
     ...settings
 }

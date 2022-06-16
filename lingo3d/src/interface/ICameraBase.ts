@@ -1,5 +1,6 @@
 import ICameraMixin, { cameraMixinDefaults, cameraMixinSchema } from "./ICameraMixin"
 import IObjectManager, { objectManagerDefaults, objectManagerSchema } from "./IObjectManager"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export type MouseControl = boolean | "drag"
@@ -15,7 +16,7 @@ export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
     mouseControl: [Boolean, String]
 }
 
-export const cameraBaseDefaults: ICameraBase = {
+export const cameraBaseDefaults: Defaults<ICameraBase> = {
     ...objectManagerDefaults,
     ...cameraMixinDefaults,
     

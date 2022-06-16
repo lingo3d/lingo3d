@@ -1,4 +1,5 @@
 import IObjectManager, { objectManagerDefaults, objectManagerSchema } from "./IObjectManager"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface ILightBase extends IObjectManager {
@@ -12,7 +13,7 @@ export const lightBaseSchema: Required<ExtractProps<ILightBase>> = {
     intensity: Number
 }
 
-export const lightBaseDefaults: ILightBase = {
+export const lightBaseDefaults: Defaults<ILightBase> = {
     ...objectManagerDefaults,
     color: "#ffffff",
     intensity: 1

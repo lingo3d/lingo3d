@@ -1,4 +1,5 @@
 import ISimpleObjectManager, { simpleObjectManagerDefaults, simpleObjectManagerSchema } from "./ISimpleObjectManager"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IObjectManager extends ISimpleObjectManager {
@@ -25,7 +26,7 @@ export const objectManagerSchema: Required<ExtractProps<IObjectManager>> = {
     innerZ: Number
 }
 
-export const objectManagerDefaults: IObjectManager = {
+export const objectManagerDefaults: Defaults<IObjectManager> = {
     ...simpleObjectManagerDefaults,
     
     innerRotationX: 0,
