@@ -29,13 +29,6 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
         this.material.color = new Color(val)
     }
 
-    public get vertexColors() {
-        return this.material.vertexColors
-    }
-    public set vertexColors(val: boolean) {
-        this.material.vertexColors = val
-    }
-
     public get fog() {
         return this.material.fog
     }

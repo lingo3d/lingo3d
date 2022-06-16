@@ -7,7 +7,6 @@ export type NormalMapType = "objectSpace" | "tangentSpace"
 
 export default interface ITexturedStandard {
     color: string
-    flatShading: boolean
     wireframe: boolean
     envMap: Nullable<string>
     aoMap: Nullable<string>
@@ -33,7 +32,6 @@ export default interface ITexturedStandard {
 
 export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> = {
     color: String,
-    flatShading: Boolean,
     wireframe: Boolean,
     envMap: String,
     aoMap: String,
@@ -59,7 +57,6 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
 
 export const texturedStandardDefaults: Defaults<ITexturedStandard> = {
     color: "#ffffff",
-    flatShading: false,
     wireframe: false,
     envMap: undefined,
     aoMap: undefined,

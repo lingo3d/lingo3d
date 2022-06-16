@@ -5,7 +5,6 @@ import Nullable from "./utils/Nullable"
 
 export default interface ITexturedBasic {
     color: string
-    vertexColors: boolean
     fog: boolean
     opacity: number
     texture: Nullable<string | HTMLVideoElement>
@@ -16,7 +15,6 @@ export default interface ITexturedBasic {
 
 export const texturedBasicSchema: Required<ExtractProps<ITexturedBasic>> = {
     color: String,
-    vertexColors: Boolean,
     fog: Boolean,
     opacity: Number,
     texture: [String, Object],
@@ -27,7 +25,6 @@ export const texturedBasicSchema: Required<ExtractProps<ITexturedBasic>> = {
 
 export const texturedBasicDefaults: Defaults<ITexturedBasic> = {
     color: "#ffffff",
-    vertexColors: false,
     fog: true,
     opacity: 1,
     texture: undefined,

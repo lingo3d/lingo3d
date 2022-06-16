@@ -29,9 +29,10 @@ import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../getComponentName"
 import createElement from "../../utils/createElement"
-import nonEditorSchemaSet from "../../interface/utils/nonEditorSchemaSet"
 import addInputs from "./addInputs"
 import addNamedInputs from "./addNamedInputs"
+import getParams from "./getParams"
+import splitObject from "./splitObject"
 
 preventTreeShake(h)
 
@@ -218,34 +219,67 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         if (!multipleSelectionTargets.length) {
             const { schema, defaults, componentName } = target.constructor
 
-            const params: Record<string, any> = {}
-            for (const [key, value] of Object.entries(schema)) {
-                if (nonEditorSchemaSet.has(key)) continue
+            const [generalParams, params0] = splitObject(omit(getParams(schema, defaults, target), [
+                "rotation", "scale", "innerRotation"
+            ]), [
+                "name", "id", "physics"
+            ])
+            generalParams && (addNamedInputs(pane, "general", target, generalParams))
 
-                let currentVal = target[key]
-                if (value === Function || typeof currentVal === "function") continue
-                if (value === Object || (typeof currentVal === "object" && !Array.isArray(currentVal)))
-                    if (!currentVal || typeof currentVal.x !== "number" || typeof currentVal.y !== "number")
-                        continue
-                     
-                if (currentVal === undefined) {
-                    currentVal = defaults[key]
-                    Array.isArray(currentVal) && (currentVal = currentVal[1])
-                }
-                
-                if (currentVal === Infinity)
-                    currentVal = 999999999
-                else if (currentVal === -Infinity)
-                    currentVal = -999999999
-                else if (Array.isArray(currentVal))
-                    currentVal = JSON.stringify(currentVal)
-
-                params[key] = currentVal
+            const [transformParams0, params1] = splitObject(params0, [
+                "x", "y", "z",
+                "rotationX", "rotationY", "rotationZ",
+                "scaleX", "scaleY", "scaleZ",
+                "innerX", "innerY", "innerZ",
+                "innerRotationX", "innerRotationY", "innerRotationZ",
+                "width", "height", "depth"
+            ])
+            if (transformParams0) {
+                const [innerTransformParams, transformParams] = splitObject(transformParams0, [
+                    "innerX", "innerY", "innerZ",
+                    "innerRotationX", "innerRotationY", "innerRotationZ",
+                    "width", "height", "depth"
+                ])
+                addInputs(pane, "transform", target, transformParams)
+                innerTransformParams && addInputs(pane, "inner transform", target, innerTransformParams)
             }
+
+            const [displayParams, params2] = splitObject(params1, [
+                "bloom", "reflection", "outline", "visible", "frustumCulled", "innerVisible"
+            ])
+            displayParams && addInputs(pane, "display", target, displayParams)
+
+            const [animationParams, params3] = splitObject(params2, [
+                "animation", "animationPaused", "animationRepeat"
+            ])
+            animationParams && addInputs(pane, "animation", target, animationParams)
+
+            const [adjustMaterialParams, params4] = splitObject(params3, [
+                "toon", "pbr", "metalnessFactor", "roughnessFactor", "opacityFactor"
+            ])
+            adjustMaterialParams && addInputs(pane, "adjust material", target, adjustMaterialParams)
+
+            const [materialParams, params5] = splitObject(params4, [
+                "fog", "opacity", "color", "texture", "textureRepeat", "videoTexture", "wireframe"
+            ])
+            materialParams && addInputs(pane, "material", target, materialParams)
+
+            const [pbrMaterialParams, params] = splitObject(params5, [
+                "metalnessMap", "metalness",
+                "roughnessMap", "roughness",
+                "normalMap", "normalScale", "normalMapType",
+                "bumpMap", "bumpScale",
+                "displacementMap", "displacementScale", "displacementBias",
+                "aoMap", "aoMapIntensity",
+                "lightMap", "lightMapIntensity",
+                "emissiveMap", "emissiveIntensity", "emissiveColor",
+                "envMap", "alphaMap",
+            ])
+            pbrMaterialParams && addInputs(pane, "pbr material", target, pbrMaterialParams)
 
             if (componentName === "dummy") {
                 params.stride = { x: 0, y: 0 }
-                const { stride: strideInput } = addNamedInputs(pane, componentName, target, params)
+                const { stride: strideInput } = addInputs(pane, componentName, target, params)
                 strideInput.on("change", ({ value }) => {
                     Object.assign(params, {
                         "strideForward": -value.y,
@@ -254,7 +288,8 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                     pane.refresh()
                 })
             }
-            else addNamedInputs(pane, componentName, target, params)
+            else if (Object.keys(params).length)
+                addInputs(pane, componentName, target, params)
         }
 
         return () => {

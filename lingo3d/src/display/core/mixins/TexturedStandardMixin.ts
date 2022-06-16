@@ -26,13 +26,6 @@ export default abstract class TexturedStandardMixin implements ITexturedStandard
         this.material.color = new Color(val)
     }
 
-    public get flatShading() {
-        return this.material.flatShading
-    }
-    public set flatShading(val: boolean) {
-        this.material.flatShading = val
-    }
-
     public get wireframe() {
         return this.material.wireframe
     }
