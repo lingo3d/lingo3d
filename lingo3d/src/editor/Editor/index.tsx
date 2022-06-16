@@ -1,4 +1,4 @@
-import { debounce, last, omit, preventTreeShake } from "@lincode/utils"
+import { last, omit, preventTreeShake } from "@lincode/utils"
 import { FolderApi, Pane } from "tweakpane"
 import settings from "../../api/settings"
 import mainCamera from "../../engine/mainCamera"
@@ -28,9 +28,10 @@ import { isPositionedItem } from "../../api/core/PositionedItem"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../getComponentName"
-import { emitSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 import createElement from "../../utils/createElement"
 import nonEditorSchemaSet from "../../interface/utils/nonEditorSchemaSet"
+import addInputs from "./addInputs"
+import addNamedInputs from "./addNamedInputs"
 
 preventTreeShake(h)
 
@@ -46,73 +47,6 @@ const style = createElement(`
     </style>
 `)
 document.head.appendChild(style)
-
-const toFixed = (v: any) => typeof v === "number" ? Number(v.toFixed(2)) : v
-
-let programmatic = false
-const disableProgrammatic = debounce(() => programmatic = false, 100, "trailing")
-
-const addInputs = (
-    pane: Pane,
-    title: string,
-    target: Record<string, any>,
-    params = { ...target }
-) => {
-    const folder = pane.addFolder({ title })
-
-    for (const [key, value] of Object.entries(params))
-        switch (typeof value) {
-            case "undefined":
-                params[key] = ""
-                break
-        
-            case "number":
-                params[key] = toFixed(value)
-                break
-
-            case "object":
-                if (Array.isArray(value)) {
-                    params[key] = JSON.stringify(value)
-                    break
-                }
-                typeof value?.x === "number" && (value.x = toFixed(value.x))
-                typeof value?.y === "number" && (value.y = toFixed(value.y))
-                typeof value?.z === "number" && (value.z = toFixed(value.z))
-                break
-        }
-
-    return Object.fromEntries(Object.keys(params).map(key => {
-        const input = folder.addInput(params, key)
-        input.on("change", ({ value }) => {
-            if (programmatic) return
-
-            if (typeof value === "string") {
-                if (value === "true" || value === "false") {
-                    target[key] = value === "true" ? true : false
-                    return
-                }
-                const num = parseFloat(value)
-                if (!Number.isNaN(num)) {
-                    target[key] = num
-                    return
-                }
-            }
-            target[key] = toFixed(value)
-        })
-        return [key, input] as const
-    }))
-}
-
-const addNamedInputs = (
-    pane: Pane,
-    title: string,
-    target: Record<string, any>,
-    params = { ...target }
-) => {
-    const result = addInputs(pane, title, target, params)
-    result.name.on("change", () => emitSceneGraphNameChange())
-    return result
-}
 
 interface EditorProps {
     mouse?: "enabled" | "disabled"
