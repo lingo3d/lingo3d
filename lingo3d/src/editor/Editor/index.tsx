@@ -193,8 +193,10 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
     useLayoutEffect(() => {
         if (!pane || !cameraFolder) return
 
+        const editorCameraName = "editor camera"
+
         const options = cameraList.reduce<Record<string, any>>((acc, cam, i) => {
-            acc[i === 0 ? "editor camera" : getComponentName(cam.userData.manager)] = i
+            acc[i === 0 ? editorCameraName : getComponentName(cam.userData.manager)] = i
             return acc
         }, {})
         const cameraInput = pane.addInput({ "camera": cameraList.indexOf(camera) }, "camera", { options })
@@ -203,7 +205,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             cameraList[value].userData.manager.activate()
         })
 
-        const secondaryOptions: any = { none: 0, ...omit(options, "camera 0") }
+        const secondaryOptions: any = { none: 0, ...omit(options, editorCameraName) }
         const secondaryCameraInput = pane.addInput(
             { "secondary camera": cameraList.indexOf(getSecondaryCamera() ?? mainCamera) },
             "secondary camera",
@@ -375,10 +377,11 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 })
             
             const { schema, componentName } = target.constructor
+            const animationKeys = { animation: true, animationPaused: true, animationRepeat: true }
 
             const params: Record<string, any> = {}
             for (const [key, value] of Object.entries(schema)) {
-                if (key in objectManagerSchema || value === Function) continue
+                if ((key in objectManagerSchema && !(key in animationKeys)) || value === Function) continue
 
                 let v = target[key]
                 if (v === Infinity)

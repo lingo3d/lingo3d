@@ -84,7 +84,7 @@ export default class Dummy extends Model implements IDummy {
                 running: url + prefix + "running.fbx",
                 runningBackwards: url + prefix + "running-backwards.fbx",
                 jumping: url + prefix + "falling.fbx",
-                death: url + prefix + "death.fbx",
+                death: url + "death.fbx",
                 ...this.animationsState.get()
             }
             this.animation = getPose()
