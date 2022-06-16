@@ -1,7 +1,7 @@
 export default (target: Record<string, any>, keys: Array<string>) => {    
     let result0: Record<string, any> | undefined
     for (const key of keys)
-        (result0 ??= {})[key] = target[key]
+        key in target && ((result0 ??= {})[key] = target[key])
 
     const keySet = new Set(keys)
     const result1: Record<string, any> = {}
