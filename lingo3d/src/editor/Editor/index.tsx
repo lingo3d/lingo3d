@@ -29,10 +29,12 @@ import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../getComponentName"
 import createElement from "../../utils/createElement"
-import addInputs from "./addInputs"
-import addNamedInputs from "./addNamedInputs"
+import addInputs, { setProgrammatic } from "./addInputs"
 import getParams from "./getParams"
 import splitObject from "./splitObject"
+import { onTransformControls } from "../../events/onTransformControls"
+import assignIn from "./assignIn"
+import { emitSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 
 preventTreeShake(h)
 
@@ -224,7 +226,10 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             ]), [
                 "name", "id", "physics"
             ])
-            generalParams && (addNamedInputs(pane, "general", target, generalParams))
+            if (generalParams) {
+                const { name: nameInput } = addInputs(pane, "general", target, generalParams)
+                nameInput.on("change", () => emitSceneGraphNameChange())
+            }
 
             const [transformParams0, params1] = splitObject(params0, [
                 "x", "y", "z",
@@ -242,6 +247,16 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 ])
                 addInputs(pane, "transform", target, transformParams)
                 innerTransformParams && addInputs(pane, "inner transform", target, innerTransformParams)
+
+                handle.watch(onTransformControls(() => {
+                    setProgrammatic()
+                    assignIn(transformParams, target, [
+                        "x", "y", "z",
+                        "rotationX", "rotationY", "rotationZ",
+                        "scaleX", "scaleY", "scaleZ"
+                    ])
+                    pane.refresh()
+                }))
             }
 
             const [displayParams, params2] = splitObject(params1, [
