@@ -23,7 +23,3 @@ export const positionedDefaults: IPositioned = {
     y: 0,
     z: 0
 }
-
-export const positionedRequiredDefaults: IPositioned = {
-    ...positionedDefaults
-}

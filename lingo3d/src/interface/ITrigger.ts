@@ -34,10 +34,3 @@ export const triggerDefaults: ITrigger ={
     interval: 300,
     helper: true
 }
-
-export const triggerRequiredDefaults: ITrigger ={
-    ...triggerDefaults,
-    onEnter: fn,
-    onExit: fn,
-    targetIds: ""
-}

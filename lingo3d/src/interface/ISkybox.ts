@@ -15,8 +15,3 @@ export const skyboxDefaults: ISkybox = {
     ...eventLoopDefaults,
     texture: undefined
 }
-
-export const skyboxRequiredDefaults: ISkybox = {
-    ...skyboxDefaults,
-    texture: ""
-}

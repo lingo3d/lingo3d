@@ -88,16 +88,3 @@ export const staticObjectManagerDefaults: IStaticObjectManager = {
     toon: false,
     pbr: false
 }
-
-export const staticObjectManagerRequiredDefaults: IStaticObjectManager = {
-    ...staticObjectManagerDefaults,
-
-    onClick: fn,
-    onMouseDown: fn,
-    onMouseUp: fn,
-    onMouseOver: fn,
-    onMouseOut: fn,
-    onMouseMove: fn,
-
-    id: ""
-}

@@ -10,7 +10,3 @@ export const skySchema: Required<ExtractProps<ISky>> = {
 export const skyDefaults: ISky = {
     ...eventLoopDefaults
 }
-
-export const skyRequiredDefaults: ISky = {
-    ...skyDefaults
-}

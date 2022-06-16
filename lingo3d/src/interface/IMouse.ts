@@ -57,12 +57,3 @@ export const mouseDefaults: IMouse = {
     onMouseUp: undefined,
     onMousePress: undefined
 }
-
-export const mouseRequiredDefaults: IMouse = {
-    ...mouseDefaults,
-    onClick: fn,
-    onMouseMove: fn,
-    onMouseDown: fn,
-    onMouseUp: fn,
-    onMousePress: fn
-}

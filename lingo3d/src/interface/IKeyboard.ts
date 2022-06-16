@@ -22,10 +22,3 @@ export const keyboardDefaults: IKeyboard ={
     onKeyUp: undefined,
     onKeyDown: undefined
 }
-
-export const keyboardRequiredDefaults: IKeyboard ={
-    ...keyboardDefaults,
-    onKeyPress: fn,
-    onKeyUp: fn,
-    onKeyDown: fn
-}

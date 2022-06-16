@@ -81,17 +81,3 @@ export const texturedStandardDefaults: ITexturedStandard = {
     normalScale: { x: 1, y: 1 },
     normalMapType: undefined
 }
-
-export const texturedStandardRequiredDefaults: ITexturedStandard = {
-    ...texturedStandardDefaults,
-    envMap: "",
-    aoMap: "",
-    bumpMap: "",
-    displacementMap: "",
-    emissiveMap: "",
-    lightMap: "",
-    metalnessMap: "",
-    roughnessMap: "",
-    normalMap: "",
-    normalMapType: "objectSpace"
-}

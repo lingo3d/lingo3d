@@ -15,8 +15,3 @@ export const environmentDefaults: IEnvironment = {
     ...eventLoopDefaults,
     texture: undefined
 }
-
-export const environmentRequiredDefaults: IEnvironment = {
-    ...environmentDefaults,
-    texture: ""
-}

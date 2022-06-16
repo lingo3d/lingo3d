@@ -1,6 +1,5 @@
 import AnimationManager from "../display/core/mixins/AnimationMixin/AnimationManager"
 import { ExtractProps } from "./utils/extractProps"
-import fn from "./utils/fn"
 import Nullable from "./utils/Nullable"
 
 export type AnimationValue = Record<string, Array<number>>
@@ -28,12 +27,4 @@ export const animationMixinDefaults: IAnimationMixin = {
     animationPaused: undefined,
     animationRepeat: undefined,
     onAnimationFinish: undefined
-}
-
-export const animationMixinRequiredDefaults: IAnimationMixin = {
-    ...animationMixinDefaults,
-    animation: "",
-    animationPaused: false,
-    animationRepeat: true,
-    onAnimationFinish: fn
 }

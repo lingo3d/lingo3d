@@ -70,8 +70,3 @@ export const orbitCameraDefaults: IOrbitCamera = {
     azimuthAngle: 0,
     polarAngle: 0
 }
-
-export const orbitCameraRequiredDefaults: IOrbitCamera = {
-    ...orbitCameraDefaults,
-    targetId: ""
-}
