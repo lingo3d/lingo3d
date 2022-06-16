@@ -7,7 +7,7 @@ specifiers:
   '@types/stats.js': ^0.17.0
   '@types/three': 0.140.0
   '@vitejs/plugin-vue': ^2.3.3
-  lingo3d: 1.10.249
+  lingo3d: 1.10.250
   nanoid: ^3.3.4
   popmotion: ^11.0.3
   stats.js: ^0.17.0
@@ -21,7 +21,7 @@ dependencies:
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
   '@types/three': 0.140.0
-  lingo3d: 1.10.249
+  lingo3d: 1.10.250
   nanoid: 3.3.4
   popmotion: 11.0.3
   stats.js: 0.17.0
@@ -498,8 +498,8 @@ packages:
       has: 1.0.3
     dev: true
 
-  /lingo3d/1.10.249:
-    resolution: {integrity: sha512-JzODGSRqsEY9HEpQg1/E5lTs05ivwgPWJxj5SKXlEQ82QEelys+8V594574XjtlQN/wEhaq93sc2TjnHJc7bVg==}
+  /lingo3d/1.10.250:
+    resolution: {integrity: sha512-7p/jrxt1rahKO1GDbZCKQBevfsIsUt3Qw96E5L6ugs6bE3hO4r0lauma5QxvSMySovaK2eu5L2ZTmq7dH2BwLw==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
@@ -513,8 +513,8 @@ packages:
       cannon-es: 0.19.0
       howler: 2.2.3
       postprocessing: 6.28.0_three@0.140.2
-      preact: 10.8.0
-      preact-custom-element: 4.2.1_preact@10.8.0
+      preact: 10.8.1
+      preact-custom-element: 4.2.1_preact@10.8.1
       prettier: 2.7.1
       three: 0.140.2
       tweakpane: 3.1.0
@@ -571,16 +571,16 @@ packages:
       three: 0.140.2
     dev: false
 
-  /preact-custom-element/4.2.1_preact@10.8.0:
+  /preact-custom-element/4.2.1_preact@10.8.1:
     resolution: {integrity: sha512-/fiEEAyC+MXRlCBRmv/owoN5BLpO2nF/MF3YBHLtp4C2lNqlhV+a4he74A5DhfDoRmxDHm0sYVgQzWFEyzTDsw==}
     peerDependencies:
       preact: 10.x
     dependencies:
-      preact: 10.8.0
+      preact: 10.8.1
     dev: false
 
-  /preact/10.8.0:
-    resolution: {integrity: sha512-2yXIS/h/UP5go0rBKesZqx0LuScqjECtH5pq8SQu3t6X2XNUWjCY4pcViUttDu3qX6NMxGiA/RuxOZd00QLCzg==}
+  /preact/10.8.1:
+    resolution: {integrity: sha512-p5CKQ0MCEXTGKGOHiFaNE2V2nDq2hvDHykXvIlz+4lbfJ9umLZr8JS/fa1bXUwRcHXK+Ljk8zqmDhr25n0LtVg==}
     dev: false
 
   /prettier/2.7.1:

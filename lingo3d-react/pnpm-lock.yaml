@@ -24,7 +24,7 @@ specifiers:
   css-loader: ^6.7.1
   fork-ts-checker-webpack-plugin: ^7.2.11
   html-webpack-plugin: ^5.5.0
-  lingo3d: 1.10.249
+  lingo3d: 1.10.250
   nanoid: ^3.3.4
   popmotion: ^11.0.3
   postcss: ^8.4.14
@@ -48,7 +48,7 @@ dependencies:
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
   '@types/three': 0.140.0
-  lingo3d: 1.10.249
+  lingo3d: 1.10.250
   nanoid: 3.3.4
   popmotion: 11.0.3
   stats.js: 0.17.0
@@ -60,7 +60,7 @@ devDependencies:
   '@babel/preset-react': 7.17.12_@babel+core@7.18.5
   '@babel/preset-typescript': 7.17.12_@babel+core@7.18.5
   '@babel/runtime': 7.18.3
-  '@types/react': 18.0.12
+  '@types/react': 18.0.14
   '@types/react-dom': 18.0.5
   '@types/stats.js': 0.17.0
   autoprefixer: 10.4.7_postcss@8.4.14
@@ -1591,11 +1591,11 @@ packages:
   /@types/react-dom/18.0.5:
     resolution: {integrity: sha512-OWPWTUrY/NIrjsAPkAk1wW9LZeIjSvkXRhclsFO8CZcZGCOg2G0YZy4ft+rOyYxy8B7ui5iZzi9OkDebZ7/QSA==}
     dependencies:
-      '@types/react': 18.0.12
+      '@types/react': 18.0.14
     dev: true
 
-  /@types/react/18.0.12:
-    resolution: {integrity: sha512-duF1OTASSBQtcigUvhuiTB1Ya3OvSy+xORCiEf20H0P0lzx+/KeVsA99U5UjLXSbyo1DRJDlLKqTeM1ngosqtg==}
+  /@types/react/18.0.14:
+    resolution: {integrity: sha512-x4gGuASSiWmo0xjDLpm5mPb52syZHJx02VKbqUKdLmKtAwIh63XClGsiTI1K6DO5q7ox4xAsQrU+Gl3+gGXF9Q==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
@@ -2043,7 +2043,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001355
-      electron-to-chromium: 1.4.158
+      electron-to-chromium: 1.4.159
       escalade: 3.1.1
       node-releases: 2.0.5
       picocolors: 1.0.0
@@ -2455,8 +2455,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: true
 
-  /electron-to-chromium/1.4.158:
-    resolution: {integrity: sha512-gppO3/+Y6sP432HtvwvuU8S+YYYLH4PmAYvQwqUtt9HDOmEsBwQfLnK9T8+1NIKwAS1BEygIjTaATC4H5EzvxQ==}
+  /electron-to-chromium/1.4.159:
+    resolution: {integrity: sha512-D0NfhJzv5GgN3L7bzy5VUD90yKXnNFdCy+fH6jox+5UyJJSFmDC2d1mUxc9yi3bpTaOA1MJ6BkuVjn+GZTaZwg==}
     dev: true
 
   /emojis-list/3.0.0:
@@ -3175,8 +3175,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lingo3d/1.10.249:
-    resolution: {integrity: sha512-JzODGSRqsEY9HEpQg1/E5lTs05ivwgPWJxj5SKXlEQ82QEelys+8V594574XjtlQN/wEhaq93sc2TjnHJc7bVg==}
+  /lingo3d/1.10.250:
+    resolution: {integrity: sha512-7p/jrxt1rahKO1GDbZCKQBevfsIsUt3Qw96E5L6ugs6bE3hO4r0lauma5QxvSMySovaK2eu5L2ZTmq7dH2BwLw==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
@@ -3190,8 +3190,8 @@ packages:
       cannon-es: 0.19.0
       howler: 2.2.3
       postprocessing: 6.28.0_three@0.140.2
-      preact: 10.8.0
-      preact-custom-element: 4.2.1_preact@10.8.0
+      preact: 10.8.1
+      preact-custom-element: 4.2.1_preact@10.8.1
       prettier: 2.7.1
       three: 0.140.2
       tweakpane: 3.1.0
@@ -3673,16 +3673,16 @@ packages:
       three: 0.140.2
     dev: false
 
-  /preact-custom-element/4.2.1_preact@10.8.0:
+  /preact-custom-element/4.2.1_preact@10.8.1:
     resolution: {integrity: sha512-/fiEEAyC+MXRlCBRmv/owoN5BLpO2nF/MF3YBHLtp4C2lNqlhV+a4he74A5DhfDoRmxDHm0sYVgQzWFEyzTDsw==}
     peerDependencies:
       preact: 10.x
     dependencies:
-      preact: 10.8.0
+      preact: 10.8.1
     dev: false
 
-  /preact/10.8.0:
-    resolution: {integrity: sha512-2yXIS/h/UP5go0rBKesZqx0LuScqjECtH5pq8SQu3t6X2XNUWjCY4pcViUttDu3qX6NMxGiA/RuxOZd00QLCzg==}
+  /preact/10.8.1:
+    resolution: {integrity: sha512-p5CKQ0MCEXTGKGOHiFaNE2V2nDq2hvDHykXvIlz+4lbfJ9umLZr8JS/fa1bXUwRcHXK+Ljk8zqmDhr25n0LtVg==}
     dev: false
 
   /prettier/2.7.1:
