@@ -22,6 +22,6 @@ export const eventLoopDefaults: IEventLoop = {
 }
 
 export const eventLoopRequiredDefaults: IEventLoop = {
-    onLoop: fn,
-    proxy: undefined
+    ...eventLoopDefaults,
+    onLoop: fn
 }

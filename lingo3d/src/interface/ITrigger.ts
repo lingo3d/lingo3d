@@ -1,5 +1,6 @@
 import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
 import { ExtractProps } from "./utils/extractProps"
+import fn from "./utils/fn"
 import Nullable from "./utils/Nullable"
 
 export default interface ITrigger extends IPositioned {
@@ -32,4 +33,11 @@ export const triggerDefaults: ITrigger ={
     radius: 50,
     interval: 300,
     helper: true
+}
+
+export const triggerRequiredDefaults: ITrigger ={
+    ...triggerDefaults,
+    onEnter: fn,
+    onExit: fn,
+    targetIds: ""
 }

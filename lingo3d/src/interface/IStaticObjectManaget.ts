@@ -1,5 +1,5 @@
-import IAnimationMixin, { animationMixinDefaults, animationMixinRequiredDefaults, animationMixinSchema } from "./IAnimationMixin"
-import IEventLoop, { eventLoopDefaults, eventLoopRequiredDefaults, eventLoopSchema } from "./IEventLoop"
+import IAnimationMixin, { animationMixinDefaults, animationMixinSchema } from "./IAnimationMixin"
+import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { LingoMouseEvent } from "./IMouse"
 import { ExtractProps } from "./utils/extractProps"
 import fn from "./utils/fn"
@@ -90,8 +90,7 @@ export const staticObjectManagerDefaults: IStaticObjectManager = {
 }
 
 export const staticObjectManagerRequiredDefaults: IStaticObjectManager = {
-    ...eventLoopRequiredDefaults,
-    ...animationMixinRequiredDefaults,
+    ...staticObjectManagerDefaults,
 
     onClick: fn,
     onMouseDown: fn,
@@ -100,20 +99,5 @@ export const staticObjectManagerRequiredDefaults: IStaticObjectManager = {
     onMouseOut: fn,
     onMouseMove: fn,
 
-    name: "",
-    id: "",
-
-    bloom: false,
-    reflection: false,
-    outline: false,
-
-    visible: true,
-    frustumCulled: true,
-
-    metalnessFactor: 0,
-    roughnessFactor: 1,
-    opacityFactor: 1,
-
-    toon: false,
-    pbr: false
+    id: ""
 }

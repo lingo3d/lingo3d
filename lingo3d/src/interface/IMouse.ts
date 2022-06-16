@@ -1,5 +1,5 @@
 import { Point3d } from "@lincode/math"
-import IEventLoop, { eventLoopDefaults, eventLoopRequiredDefaults, eventLoopSchema } from "./IEventLoop"
+import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { ExtractProps } from "./utils/extractProps"
 import fn from "./utils/fn"
 import Nullable from "./utils/Nullable"
@@ -59,7 +59,7 @@ export const mouseDefaults: IMouse = {
 }
 
 export const mouseRequiredDefaults: IMouse = {
-    ...eventLoopRequiredDefaults,
+    ...mouseDefaults,
     onClick: fn,
     onMouseMove: fn,
     onMouseDown: fn,

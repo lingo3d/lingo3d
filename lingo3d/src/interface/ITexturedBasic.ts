@@ -36,10 +36,7 @@ export const texturedBasicDefaults: ITexturedBasic = {
 }
 
 export const texturedBasicRequiredDefaults: ITexturedBasic = {
-    color: "#ffffff",
-    vertexColors: false,
-    fog: true,
-    opacity: 1,
+    ...texturedBasicDefaults,
     texture: "",
     videoTexture: "",
     alphaMap: "",

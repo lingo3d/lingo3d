@@ -15,3 +15,8 @@ export const audioDefaults: IAudio ={
     ...positionedDefaults,
     src: undefined
 }
+
+export const audioRequiredDefaults: IAudio ={
+    ...audioDefaults,
+    src: ""
+}

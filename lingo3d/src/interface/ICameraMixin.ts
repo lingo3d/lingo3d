@@ -50,3 +50,7 @@ export const cameraMixinDefaults: ICameraMixin = {
     minPolarAngle: MIN_POLAR_ANGLE,
     maxPolarAngle: MAX_POLAR_ANGLE
 }
+
+export const cameraMixinRequiredDefaults: ICameraMixin = {
+    ...cameraMixinDefaults
+}

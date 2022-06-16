@@ -83,27 +83,15 @@ export const texturedStandardDefaults: ITexturedStandard = {
 }
 
 export const texturedStandardRequiredDefaults: ITexturedStandard = {
-    color: "#ffffff",
-    flatShading: false,
-    wireframe: false,
+    ...texturedStandardDefaults,
     envMap: "",
     aoMap: "",
-    aoMapIntensity: 1,
     bumpMap: "",
-    bumpScale: 1,
     displacementMap: "",
-    displacementScale: 1,
-    displacementBias: 0,
-    emissiveColor: "#000000",
     emissiveMap: "",
-    emissiveIntensity: 1,
     lightMap: "",
-    lightMapIntensity: 1,
     metalnessMap: "",
-    metalness: 0,
     roughnessMap: "",
-    roughness: 1,
     normalMap: "",
-    normalScale: { x: 1, y: 1 },
     normalMapType: "objectSpace"
 }

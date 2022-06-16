@@ -31,7 +31,7 @@ export const animationMixinDefaults: IAnimationMixin = {
 }
 
 export const animationMixinRequiredDefaults: IAnimationMixin = {
-    animations: {},
+    ...animationMixinDefaults,
     animation: "",
     animationPaused: false,
     animationRepeat: true,
