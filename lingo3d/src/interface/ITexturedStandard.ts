@@ -1,4 +1,5 @@
 import { Point } from "@lincode/math"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
@@ -56,7 +57,7 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
     normalMapType: String
 }
 
-export const texturedStandardDefaults: ITexturedStandard = {
+export const texturedStandardDefaults: Defaults<ITexturedStandard> = {
     color: "#ffffff",
     flatShading: false,
     wireframe: false,

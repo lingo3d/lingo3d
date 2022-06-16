@@ -2,7 +2,9 @@ import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import IPhysics, { physicsDefaults, physicsSchema } from "./IPhysics"
 import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
 import IStaticObjectManager, { staticObjectManagerDefaults, staticObjectManagerSchema } from "./IStaticObjectManaget"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
 export type OnIntersectValue = (target: SimpleObjectManager) => void
@@ -57,7 +59,9 @@ export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManag
     innerVisible: Boolean
 }
 
-export const simpleObjectManagerDefaults: ISimpleObjectManager = {
+hideSchema(["intersectIds"])
+
+export const simpleObjectManagerDefaults: Defaults<ISimpleObjectManager> = {
     ...staticObjectManagerDefaults,
     ...positionedDefaults,
     ...physicsDefaults,

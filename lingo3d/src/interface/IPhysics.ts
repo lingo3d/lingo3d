@@ -1,6 +1,7 @@
 import { Point3d } from "@lincode/math"
 import PhysicsMixin from "../display/core/mixins/PhysicsMixin"
 import cubeShape from "../display/core/mixins/PhysicsMixin/cannon/shapes/cubeShape"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
@@ -67,7 +68,7 @@ hideSchema([
     "physicsShape"
 ])
 
-export const physicsDefaults: IPhysics = {
+export const physicsDefaults: Defaults<IPhysics> = {
     maxAngularVelocityX: Infinity,
     maxAngularVelocityY: Infinity,
     maxAngularVelocityZ: Infinity,
@@ -78,9 +79,9 @@ export const physicsDefaults: IPhysics = {
 
     velocity: { x: 0, y: 0, z: 0 },
 
-    noTumble: undefined,
-    slippery: undefined,
-    mass: undefined,
+    noTumble: [undefined, false],
+    slippery: [undefined, false],
+    mass: [undefined, 1],
     physicsGroup: undefined,
     ignorePhysicsGroups: undefined,
 

@@ -1,7 +1,7 @@
 import { Point3d } from "@lincode/math"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import fn from "./utils/fn"
 import Nullable from "./utils/Nullable"
 
 export class MouseEventPayload {
@@ -49,7 +49,7 @@ export const mouseSchema: Required<ExtractProps<IMouse>> = {
     onMousePress: Function
 }
 
-export const mouseDefaults: IMouse = {
+export const mouseDefaults: Defaults<IMouse> = {
     ...eventLoopDefaults,
     onClick: undefined,
     onMouseMove: undefined,

@@ -1,4 +1,5 @@
 import { Point } from "@lincode/math"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
@@ -24,7 +25,7 @@ export const texturedBasicSchema: Required<ExtractProps<ITexturedBasic>> = {
     textureRepeat: [Object, Number]
 }
 
-export const texturedBasicDefaults: ITexturedBasic = {
+export const texturedBasicDefaults: Defaults<ITexturedBasic> = {
     color: "#ffffff",
     vertexColors: false,
     fog: true,
@@ -32,5 +33,5 @@ export const texturedBasicDefaults: ITexturedBasic = {
     texture: undefined,
     videoTexture: undefined,
     alphaMap: undefined,
-    textureRepeat: undefined
+    textureRepeat: [undefined, { x: 1, y: 1 }]
 }

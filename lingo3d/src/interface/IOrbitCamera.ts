@@ -1,5 +1,6 @@
 import ICameraMixin, { cameraMixinDefaults, cameraMixinSchema } from "./ICameraMixin"
 import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
@@ -46,7 +47,7 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
     polarAngle: Number
 }
 
-export const orbitCameraDefaults: IOrbitCamera = {
+export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
     ...positionedDefaults,
     ...cameraMixinDefaults,
 

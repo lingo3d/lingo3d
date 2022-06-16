@@ -1,3 +1,4 @@
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
@@ -31,17 +32,17 @@ export const soundSchema: Required<ExtractProps<ISound>> = {
     paused: Boolean
 }
 
-export const soundDefaults: ISound = {
+export const soundDefaults: Defaults<ISound> = {
     onPlay: undefined,
     onPause: undefined,
     onEnded: undefined,
-    stream: undefined,
+    stream: [undefined, false],
     src: undefined,
-    loop: undefined,
-    autoplay: undefined,
-    muted: undefined,
-    playbackRate: undefined,
-    volume: undefined,
+    loop: [undefined, false],
+    autoplay: [undefined, false],
+    muted: [undefined, false],
+    playbackRate: [undefined, 1],
+    volume: [undefined, 1],
 
     paused: true
 }

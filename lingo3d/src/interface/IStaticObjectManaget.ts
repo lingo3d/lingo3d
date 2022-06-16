@@ -1,8 +1,8 @@
 import IAnimationMixin, { animationMixinDefaults, animationMixinSchema } from "./IAnimationMixin"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { LingoMouseEvent } from "./IMouse"
+import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import fn from "./utils/fn"
 import Nullable from "./utils/Nullable"
 
 export default interface IStaticObjectManager extends IEventLoop, IAnimationMixin {
@@ -60,7 +60,7 @@ export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManag
     pbr: Boolean
 }
 
-export const staticObjectManagerDefaults: IStaticObjectManager = {
+export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     ...eventLoopDefaults,
     ...animationMixinDefaults,
 
