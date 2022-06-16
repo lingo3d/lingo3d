@@ -8,6 +8,7 @@ import { getSelectionBlockKeyboard } from "../states/useSelectionBlockKeyboard"
 import { appendableRoot } from "./core/Appendable"
 import { getEditorActive } from "../states/useEditorActive"
 import { onKeyClear } from "../events/onKeyClear"
+import Nullable from "../interface/utils/Nullable"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
@@ -62,9 +63,9 @@ export class Keyboard extends EventLoopItem implements IKeyboard {
     public static defaults = keyboardDefaults
     public static schema = keyboardSchema
 
-    public onKeyPress?: (key: string, keys: Set<string>) => void
-    public onKeyUp?: (key: string, keys: Set<string>) => void
-    public onKeyDown?: (key: string, keys: Set<string>) => void
+    public onKeyPress: Nullable<(key: string, keys: Set<string>) => void>
+    public onKeyUp: Nullable<(key: string, keys: Set<string>) => void>
+    public onKeyDown: Nullable<(key: string, keys: Set<string>) => void>
 
     public constructor() {
         super(new Group())

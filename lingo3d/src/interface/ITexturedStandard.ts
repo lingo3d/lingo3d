@@ -1,5 +1,6 @@
 import { Point } from "@lincode/math"
 import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
 
 export type NormalMapType = "objectSpace" | "tangentSpace"
 
@@ -7,26 +8,26 @@ export default interface ITexturedStandard {
     color: string
     flatShading: boolean
     wireframe: boolean
-    envMap?: string
-    aoMap?: string
+    envMap: Nullable<string>
+    aoMap: Nullable<string>
     aoMapIntensity: number
-    bumpMap?: string
+    bumpMap: Nullable<string>
     bumpScale: number
-    displacementMap?: string
+    displacementMap: Nullable<string>
     displacementScale: number
     displacementBias: number
     emissiveColor: string
-    emissiveMap?: string
+    emissiveMap: Nullable<string>
     emissiveIntensity: number
-    lightMap?: string
+    lightMap: Nullable<string>
     lightMapIntensity: number
-    metalnessMap?: string
+    metalnessMap: Nullable<string>
     metalness: number
-    roughnessMap?: string
+    roughnessMap: Nullable<string>
     roughness: number
-    normalMap?: string
+    normalMap: Nullable<string>
     normalScale: Point | number
-    normalMapType?: NormalMapType
+    normalMapType: Nullable<NormalMapType>
 }
 
 export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> = {
@@ -59,14 +60,24 @@ export const texturedStandardDefaults: ITexturedStandard = {
     color: "#ffffff",
     flatShading: false,
     wireframe: false,
+    envMap: undefined,
+    aoMap: undefined,
     aoMapIntensity: 1,
+    bumpMap: undefined,
     bumpScale: 1,
+    displacementMap: undefined,
     displacementScale: 1,
     displacementBias: 0,
     emissiveColor: "#000000",
+    emissiveMap: undefined,
     emissiveIntensity: 1,
+    lightMap: undefined,
     lightMapIntensity: 1,
+    metalnessMap: undefined,
     metalness: 0,
+    roughnessMap: undefined,
     roughness: 1,
-    normalScale: { x: 1, y: 1 }
+    normalMap: undefined,
+    normalScale: { x: 1, y: 1 },
+    normalMapType: undefined
 }

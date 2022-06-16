@@ -5,7 +5,7 @@ import { applyMixins, debounce } from "@lincode/utils"
 import { scaleUp, scaleDown } from "../../../engine/constants"
 import { ray, vector3_, vector3, euler } from "../../utils/reusables"
 import pillShape from "../mixins/PhysicsMixin/cannon/shapes/pillShape"
-import ICameraBase, { MouseControl, MouseControlMode } from "../../../interface/ICameraBase"
+import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
 import { deg2Rad, Point3d, rad2Deg } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
@@ -115,7 +115,7 @@ abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Gro
         this.updatePolarAngle()
     }
 
-    public mouseControlMode?: MouseControlMode
+    protected mouseControlMode?: "orbit" | "stationary"
 
     protected mouseControlState = new Reactive<MouseControl>(false)
     private mouseControlInit?: boolean

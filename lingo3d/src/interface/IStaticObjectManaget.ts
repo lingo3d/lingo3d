@@ -2,17 +2,18 @@ import IAnimationMixin, { animationMixinDefaults, animationMixinSchema } from ".
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { LingoMouseEvent } from "./IMouse"
 import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
 
 export default interface IStaticObjectManager extends IEventLoop, IAnimationMixin {
-    onClick?: (e: LingoMouseEvent) => void
-    onMouseDown?: (e: LingoMouseEvent) => void
-    onMouseUp?: (e: LingoMouseEvent) => void
-    onMouseOver?: (e: LingoMouseEvent) => void
-    onMouseOut?: (e: LingoMouseEvent) => void
-    onMouseMove?: (e: LingoMouseEvent) => void
+    onClick: Nullable<(e: LingoMouseEvent) => void>
+    onMouseDown: Nullable<(e: LingoMouseEvent) => void>
+    onMouseUp: Nullable<(e: LingoMouseEvent) => void>
+    onMouseOver: Nullable<(e: LingoMouseEvent) => void>
+    onMouseOut: Nullable<(e: LingoMouseEvent) => void>
+    onMouseMove: Nullable<(e: LingoMouseEvent) => void>
     
     name: string
-    id?: string
+    id: Nullable<string>
 
     bloom: boolean
     reflection: boolean
@@ -62,7 +63,15 @@ export const staticObjectManagerDefaults: IStaticObjectManager = {
     ...eventLoopDefaults,
     ...animationMixinDefaults,
 
+    onClick: undefined,
+    onMouseDown: undefined,
+    onMouseUp: undefined,
+    onMouseOver: undefined,
+    onMouseOut: undefined,
+    onMouseMove: undefined,
+
     name: "",
+    id: undefined,
 
     bloom: false,
     reflection: false,

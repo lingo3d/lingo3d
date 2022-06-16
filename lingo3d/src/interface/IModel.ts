@@ -1,11 +1,12 @@
 import ILoaded, { loadedDefaults, loadedSchema } from "./ILoaded"
 import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
 
 export default interface IModel extends ILoaded {
-    loadedScale?: number
-    loadedX?: number
-    loadedY?: number
-    loadedZ?: number
+    loadedScale: Nullable<number>
+    loadedX: Nullable<number>
+    loadedY: Nullable<number>
+    loadedZ: Nullable<number>
 }
 
 export const modelSchema: Required<ExtractProps<IModel>> = {
@@ -17,5 +18,9 @@ export const modelSchema: Required<ExtractProps<IModel>> = {
 }
 
 export const modelDefaults: IModel = {
-    ...loadedDefaults
+    ...loadedDefaults,
+    loadedScale: undefined,
+    loadedX: undefined,
+    loadedY: undefined,
+    loadedZ: undefined
 }

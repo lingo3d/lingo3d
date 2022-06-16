@@ -1,8 +1,9 @@
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
 
 export default interface ISkybox extends IEventLoop {
-    texture?: string | Array<string>
+    texture: Nullable<string | Array<string>>
 }
 
 export const skyboxSchema: Required<ExtractProps<ISkybox>> = {
@@ -11,5 +12,6 @@ export const skyboxSchema: Required<ExtractProps<ISkybox>> = {
 }
 
 export const skyboxDefaults: ISkybox = {
-    ...eventLoopDefaults
+    ...eventLoopDefaults,
+    texture: undefined
 }

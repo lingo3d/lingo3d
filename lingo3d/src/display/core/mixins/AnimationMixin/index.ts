@@ -4,6 +4,7 @@ import { debounce } from "@lincode/utils"
 import { Resolvable } from "@lincode/promiselikes"
 import AnimationManager, { PlayOptions } from "./AnimationManager"
 import EventLoopItem from "../../../../api/core/EventLoopItem"
+import Nullable from "../../../../interface/utils/Nullable"
 
 const buildAnimationTracks = debounce((val: AnimationValue) => {
     const entries = Object.entries(val)
@@ -87,9 +88,9 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
         })
     }
     
-    public animationRepeat?: boolean
+    public animationRepeat: Nullable<boolean>
     
-    public onAnimationFinish?: () => void
+    public onAnimationFinish: Nullable<() => void>
 
     public async playAnimation(name?: string | number, o?: PlayOptions) {
         await this.loadingAnimsAsync()

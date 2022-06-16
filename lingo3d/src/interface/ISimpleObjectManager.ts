@@ -3,14 +3,15 @@ import IPhysics, { physicsDefaults, physicsSchema } from "./IPhysics"
 import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
 import IStaticObjectManager, { staticObjectManagerDefaults, staticObjectManagerSchema } from "./IStaticObjectManaget"
 import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
 
 export type OnIntersectValue = (target: SimpleObjectManager) => void
 
 export default interface ISimpleObjectManager extends IStaticObjectManager, IPositioned, IPhysics {
-    onIntersect?: OnIntersectValue
-    onIntersectOut?: OnIntersectValue
+    onIntersect: Nullable<OnIntersectValue>
+    onIntersectOut: Nullable<OnIntersectValue>
 
-    intersectIds?: Array<string>
+    intersectIds: Nullable<Array<string>>
 
     width: number
     height: number
@@ -60,6 +61,10 @@ export const simpleObjectManagerDefaults: ISimpleObjectManager = {
     ...staticObjectManagerDefaults,
     ...positionedDefaults,
     ...physicsDefaults,
+
+    onIntersect: undefined,
+    onIntersectOut: undefined,
+    intersectIds: undefined,
 
     width: 100,
     height: 100,

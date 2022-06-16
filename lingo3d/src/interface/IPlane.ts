@@ -1,8 +1,7 @@
 import IPrimitive, { primitiveDefaults, primitiveSchema } from "./IPrimitive"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IPlane extends IPrimitive {
-}
+export default interface IPlane extends IPrimitive {}
 
 export const planeSchema: Required<ExtractProps<IPlane>> = {
     ...primitiveSchema

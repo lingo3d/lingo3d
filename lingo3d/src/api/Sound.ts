@@ -1,17 +1,16 @@
 import { Disposable, Resolvable } from "@lincode/promiselikes"
 import type { Howl } from "howler"
 import ISound, { soundDefaults, soundSchema } from "../interface/ISound"
+import Nullable from "../interface/utils/Nullable"
 
 export class Sound extends Disposable implements ISound {
     public static componentName = "sound"
     public static defaults = soundDefaults
     public static schema = soundSchema
 
-    public onPlay?: () => void
-
-    public onPause?: () => void
-
-    public onEnded?: () => void
+    public onPlay: Nullable<() => void>
+    public onPause: Nullable<() => void>
+    public onEnded: Nullable<() => void>
 
     public override dispose() {
         if (this.done) return this
@@ -33,7 +32,7 @@ export class Sound extends Disposable implements ISound {
             this.pause()
     }
 
-    public stream?: boolean
+    public stream: Nullable<boolean>
 
     private sound?: Howl
     private soundResolvable = new Resolvable<Howl>()

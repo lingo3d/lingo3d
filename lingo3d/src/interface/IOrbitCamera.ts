@@ -1,12 +1,13 @@
 import ICameraMixin, { cameraMixinDefaults, cameraMixinSchema } from "./ICameraMixin"
 import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
 import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
 
 export default interface IOrbitCamera extends IPositioned, ICameraMixin {
     targetX: number
     targetY: number
     targetZ: number
-    targetId?: string
+    targetId: Nullable<string>
 
     enabled: boolean
     enableDamping: boolean
@@ -52,6 +53,7 @@ export const orbitCameraDefaults: IOrbitCamera = {
     targetX: 0,
     targetY: 0,
     targetZ: 0,
+    targetId: undefined,
     
     z: 500,
 

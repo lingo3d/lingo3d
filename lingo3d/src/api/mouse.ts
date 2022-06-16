@@ -10,6 +10,7 @@ import { appendableRoot } from "./core/Appendable"
 import clientToWorld from "../display/utils/clientToWorld"
 import store from "@lincode/reactivity"
 import { getEditorActive } from "../states/useEditorActive"
+import Nullable from "../interface/utils/Nullable"
 
 export type MouseEventName = "click" | "rightClick" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
@@ -70,11 +71,11 @@ export class Mouse extends EventLoopItem implements IMouse {
     public static defaults = mouseDefaults
     public static schema = mouseSchema
 
-    public onClick?: (e: MouseEventPayload) => void
-    public onMouseMove?: (e: MouseEventPayload) => void
-    public onMouseDown?: (e: MouseEventPayload) => void
-    public onMouseUp?: (e: MouseEventPayload) => void
-    public onMousePress?: (e: MouseEventPayload) => void
+    public onClick: Nullable<(e: MouseEventPayload) => void>
+    public onMouseMove: Nullable<(e: MouseEventPayload) => void>
+    public onMouseDown: Nullable<(e: MouseEventPayload) => void>
+    public onMouseUp: Nullable<(e: MouseEventPayload) => void>
+    public onMousePress: Nullable<(e: MouseEventPayload) => void>
 
     public constructor() {
         super(new Group())

@@ -9,6 +9,7 @@ import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { onSceneGraphChange } from "../../events/onSceneGraphChange"
 import ICharacterCamera, { characterCameraDefaults, characterCameraSchema, LockTargetRotationValue } from "../../interface/ICharacterCamera"
+import Nullable from "../../interface/utils/Nullable"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import { getTransformControlsMode } from "../../states/useTransformControlsMode"
@@ -100,6 +101,8 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
     }
 
     public lockTargetRotation: LockTargetRotationValue = true
+
+    public target: Nullable<MeshItem>
 
     protected targetState = new Reactive<MeshItem | undefined>(undefined)
 

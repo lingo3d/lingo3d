@@ -1,12 +1,12 @@
+import MeshItem from "../display/core/MeshItem"
 import ICamera, { cameraDefaults, cameraSchema } from "./ICamera"
-import IPositioned from "./IPositioned"
-import ISimpleObjectManager from "./ISimpleObjectManager"
 import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
 
 export type LockTargetRotationValue = boolean | "follow"
 
 export default interface ICharacterCamera extends ICamera {
-    target?: ISimpleObjectManager | IPositioned
+    target: Nullable<MeshItem>
     lockTargetRotation: LockTargetRotationValue
 }
 
@@ -18,5 +18,6 @@ export const characterCameraSchema: Required<ExtractProps<ICharacterCamera>> = {
 
 export const characterCameraDefaults: ICharacterCamera = {
     ...cameraDefaults,
-    lockTargetRotation: true
+    lockTargetRotation: true,
+    target: undefined
 }
