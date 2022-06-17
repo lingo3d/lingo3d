@@ -10,8 +10,6 @@ import computeBVH from "./bvh/computeBVH"
 export default async function (this: PhysicsMixin, handle: Cancellable, debug: boolean) {
     if (handle.done) return
     
-    scene.attach(this.outerObject3d)
-
     const [bvhMaps, geometries] = computeBVH(this)
 
     for (const bvhMap of bvhMaps)
