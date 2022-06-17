@@ -22,6 +22,8 @@ export default interface IOrbitCamera extends IPositioned, ICameraMixin {
 
     azimuthAngle: number
     polarAngle: number
+
+    distance: number
 }
 
 export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
@@ -44,7 +46,9 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
     maxAzimuthAngle: Number,
 
     azimuthAngle: Number,
-    polarAngle: Number
+    polarAngle: Number,
+
+    distance: Number
 }
 
 export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
@@ -69,5 +73,7 @@ export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
     maxAzimuthAngle: Infinity,
 
     azimuthAngle: 0,
-    polarAngle: 0
+    polarAngle: 0,
+
+    distance: 500
 }

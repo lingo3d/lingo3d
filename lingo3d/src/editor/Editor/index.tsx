@@ -259,7 +259,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             const { schema, defaults, componentName } = target.constructor
 
             const [generalParams, params0] = splitObject(omit(getParams(schema, defaults, target), [
-                "rotation", "scale", "innerRotation"
+                "rotation", "innerRotation"
             ]), [
                 "name", "id", "physics"
             ])
@@ -271,7 +271,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             const [transformParams0, params1] = splitObject(params0, [
                 "x", "y", "z",
                 "rotationX", "rotationY", "rotationZ",
-                "scaleX", "scaleY", "scaleZ",
+                "scale", "scaleX", "scaleY", "scaleZ",
                 "innerX", "innerY", "innerZ",
                 "innerRotationX", "innerRotationY", "innerRotationZ",
                 "width", "height", "depth"

@@ -28,10 +28,10 @@
 		"browser-fs-access": "0.29.6",
 		"cannon-es": "0.19.0",
 		"howler": "^2.2.3",
-		"postprocessing": "^6.27.0",
-		"preact": "^10.8.0",
+		"postprocessing": "^6.28.0",
+		"preact": "^10.8.1",
 		"preact-custom-element": "^4.2.1",
-		"prettier": "^2.7.0",
+		"prettier": "^2.7.1",
 		"three": "0.140.2",
 		"tweakpane": "^3.1.0",
 		"xstate": "*"
@@ -43,7 +43,7 @@
 		"@types/preact-custom-element": "^4.0.1",
 		"@types/prettier": "^2.6.3",
 		"@types/randomcolor": "^0.5.6",
-		"@types/react": "^18.0.12",
+		"@types/react": "^18.0.14",
 		"randomcolor": "*",
 		"typescript": "^4.7.3",
 		"vite": "^2.9.12"
