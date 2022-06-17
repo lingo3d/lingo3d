@@ -19,7 +19,8 @@ import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { Cancellable } from "@lincode/promiselikes"
 import { staticIdMap } from "../core/StaticObjectManager"
-import MeshItem from "../core/MeshItem"
+import MeshItem, { getObject3d } from "../core/MeshItem"
+import getCenter from "../utils/getCenter"
 
 class OrbitCamera extends PositionedItem implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -44,7 +45,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                 }
             }
             const handle0 = onBeforeRender(() => {
-                this.controls.target.copy(target.outerObject3d.getWorldPosition(vector3))
+                this.controls.target.copy(getCenter(getObject3d(target)))
                 this.controls.update()
             })
             const handle1 = onSceneGraphChange(() => target.parent !== this && this.targetState.set(undefined))
