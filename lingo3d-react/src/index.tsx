@@ -49,6 +49,7 @@ export { default as Torus } from "./components/display/primitives/Torus"
 
 export { default as Setup } from "./components/logical/Setup"
 export { default as HTML } from "./components/logical/HTML"
+export { default as UI } from "./components/logical/UI"
 export { default as Find } from "./components/logical/Find"
 
 export { default as useSpawn } from "./hooks/useSpawn"
