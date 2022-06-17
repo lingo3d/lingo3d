@@ -1,7 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import clockDelta from "../display/utils/clockDelta"
 import { getPaused } from "../states/usePaused"
-import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { getRenderer } from "../states/useRenderer"
 
 let paused = getPaused()
@@ -19,22 +18,11 @@ export const timer = (time: number, repeat: number, cb: () => void) => {
 }
 
 let count = 0
-let fpsArray: Array<number> = []
-const sort = (a: number, b: number) => b - a
 const callbacks = new Set<() => void>()
 
 getRenderer(renderer => {
     renderer?.setAnimationLoop(() => {
         const fps = 1 / clockDelta[0]
-
-        fpsArray.push(fps)
-
-        if (fpsArray.length === 60) {
-            fpsArray.sort(sort)
-            const medianFPS = fpsArray[Math.floor(fpsArray.length * 0.5)]
-            // medianFPS < 25 && setPixelRatio(getPixelRatio() * 0.75)
-            fpsArray = []
-        }
 
         if (paused || ++count < Math.round(fps / 60)) return
         count = 0

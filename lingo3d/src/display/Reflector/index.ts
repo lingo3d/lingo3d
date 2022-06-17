@@ -1,6 +1,6 @@
 import store, { Reactive } from "@lincode/reactivity"
 import scene from "../../engine/scene"
-import { onBeforeRender } from "../../events/onBeforeRender"
+import { onRender } from "../../events/onRender"
 import { reflectorDefaults, reflectorSchema } from "../../interface/IReflector"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getRenderer } from "../../states/useRenderer"
@@ -37,9 +37,8 @@ export default class Reflector extends Plane {
             this.material.dispose()
             this.material = this.object3d.material = mat
 
-            const handle = onBeforeRender(() => {
-                mat.update()
-            })
+            const handle = onRender(() => mat.update())
+
             return () => {
                 mat.dispose()
                 handle.cancel()

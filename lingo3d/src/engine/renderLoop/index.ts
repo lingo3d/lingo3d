@@ -22,6 +22,7 @@ import resize from "./resize"
 import effectComposer from "./effectComposer"
 import { getEffectComposer } from "../../states/useEffectComposer"
 import { getCameraRendered } from "../../states/useCameraRendered"
+import { emitRender } from "../../events/onRender"
 
 preventTreeShake([resize, effectComposer])
 
@@ -45,6 +46,7 @@ createEffect(() => {
 
         const handle = loop(() => {
             emitBeforeRender()
+            emitRender()
 
             renderer.setViewport(0, 0, width, height)
             renderer.setScissor(0, 0, width, height)
@@ -74,6 +76,7 @@ createEffect(() => {
     if (getPerformance() === "speed" || vr === "webxr") {
         const handle = loop(() => {
             emitBeforeRender()
+            emitRender()
             renderer.render(scene, camera)
             emitAfterRender()
         })
@@ -101,6 +104,7 @@ createEffect(() => {
 
         const handle = loop(() => {
             emitBeforeRender()
+            emitRender()
 
             renderer.setViewport(0, 0, width, height)
             renderer.setScissor(0, 0, width, height)
@@ -159,6 +163,7 @@ createEffect(() => {
 
     const handle = loop(() => {
         emitBeforeRender()
+        emitRender()
 
         if (bloomPtr[0]) {
             if (!selectiveBloomInitialized) {
