@@ -1,9 +1,12 @@
 import { createEffect } from "@lincode/reactivity"
 import { AudioListener, PositionalAudio } from "three"
 import PositionedItem from "../api/core/PositionedItem"
+import mainCamera from "../engine/mainCamera"
 import scene from "../engine/scene"
+import { onSelectionTarget, emitSelectionTarget } from "../events/onSelectionTarget"
 import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
 import { getCameraRendered } from "../states/useCameraRendered"
+import makeAudioSprite from "./core/utils/makeAudioSprite"
 import loadAudio from "./utils/loaders/loadAudio"
 
 const audioListener = new AudioListener()
@@ -29,6 +32,21 @@ export default class Audio extends PositionedItem implements IAudio {
         super(sound)
         this.sound = sound
         scene.add(sound)
+
+        this.createEffect(() => {
+            if (getCameraRendered() !== mainCamera) return
+
+            const sprite = makeAudioSprite()
+            this.outerObject3d.add(sprite.outerObject3d)
+
+            const handle = onSelectionTarget(({ target }) => {
+                target === sprite && emitSelectionTarget(this)
+            })
+            return () => {
+                sprite.dispose()
+                handle.cancel()
+            }
+        }, [getCameraRendered])
     }
 
     public override dispose() {

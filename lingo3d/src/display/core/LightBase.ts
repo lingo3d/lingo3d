@@ -1,4 +1,5 @@
 import { Point3d } from "@lincode/math"
+import { Cancellable } from "@lincode/promiselikes"
 import { Class } from "@lincode/utils"
 import { Color, Light, Object3D } from "three"
 import mainCamera from "../../engine/mainCamera"
@@ -14,22 +15,28 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
     public constructor(light: T, Helper?: Class<Object3D & { dispose: () => void }>) {
         super(light)
 
-        Helper && this.createEffect(() => {
+        this.createEffect(() => {
             if (getCameraRendered() !== mainCamera) return
 
-            const helper = new Helper(this.object3d)
-            scene.add(helper)
+            const handle = new Cancellable()
 
             const sprite = makeLightSprite()
-            helper.add(sprite.outerObject3d)
-
-            const handle = onSelectionTarget(({ target }) => {
+            handle.watch(onSelectionTarget(({ target }) => {
                 target === sprite && emitSelectionTarget(this)
-            })
-            return () => {
-                helper.dispose()
-                scene.remove(helper)
+            }))
 
+            if (Helper) {
+                const helper = new Helper(this.object3d)
+                scene.add(helper)
+                helper.add(sprite.outerObject3d)
+                handle.then(() => {
+                    helper.dispose()
+                    scene.remove(helper)
+                })
+            }
+            else this.outerObject3d.add(sprite.outerObject3d)
+            
+            return () => {
                 sprite.dispose()
                 handle.cancel()
             }
