@@ -44,31 +44,43 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             }
         }, [this.targetState.get])
 
-        const followTarget = (target: MeshItem) => {
+        const followTarget = (target: MeshItem, slerp: boolean) => {
             euler.setFromQuaternion(target.outerObject3d.quaternion)
             euler.y += Math.PI
-            this.outerObject3d.setRotationFromEuler(euler)
+            
+            if (slerp) {
+                quaternion.setFromEuler(euler)
+                this.outerObject3d.quaternion.slerp(quaternion, 0.1)
+            }
+            else this.outerObject3d.setRotationFromEuler(euler)
+
             this.updatePolarAngle()
         }
+
+        const lockTarget = (target: MeshItem, slerp: boolean) => {
+            euler.setFromQuaternion(this.outerObject3d.quaternion)
+            euler.x = 0
+            euler.z = 0
+            euler.y += Math.PI
+
+            if (slerp) {
+                quaternion.setFromEuler(euler)
+                target.outerObject3d.quaternion.slerp(quaternion, 0.1)
+            }
+            else target.outerObject3d.setRotationFromEuler(euler)
+        }
+
         let transformControlRotating = false
 
         this.createEffect(() => {
             const target = this.targetState.get()
             if (!target) return
 
-            followTarget(target)
-
-            let targetRotated = false
-            let [qw, qx, qy, qz] = [0, 0, 0, 0]
+            followTarget(target, false)
 
             let targetMoved = false
             let [x, y, z] = [0, 0, 0]
-
             onBeforeRender(() => {
-                const { w: qw0, x: qx0, y: qy0, z: qz0 } = target.outerObject3d.quaternion
-                targetRotated = qw0 !== qw || qx0 !== qx || qy0 !== qy || qz0 !== qz
-                ;[qw, qx, qy, qz] = [qw0, qx0, qy0, qz0]
-
                 const { x: x0, y: y0, z: z0 } = target.outerObject3d.position
                 targetMoved = x0 !== x || y0 !== y || z0 !== z
                 ;[x, y, z] = [x0, y0, z0]
@@ -79,31 +91,18 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
                 if (!this.lockTargetRotation) return
 
                 if (this.lockTargetRotation === "follow" || transformControlRotating) {
-                    followTarget(target)
+                    followTarget(target, false)
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-lock") {
-                    if (!targetMoved) return
-
-                    euler.setFromQuaternion(this.outerObject3d.quaternion)
-                    euler.x = 0
-                    euler.z = 0
-                    euler.y += Math.PI
-                    quaternion.setFromEuler(euler)
-
-                    target.outerObject3d.quaternion.slerp(quaternion, 0.1)
-
+                    targetMoved && lockTarget(target, true)
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-follow") {
+                    targetMoved && followTarget(target, true)
                     return
                 }
-
-                euler.setFromQuaternion(this.outerObject3d.quaternion)
-                euler.x = 0
-                euler.z = 0
-                euler.y += Math.PI
-                target.outerObject3d.setRotationFromEuler(euler)
+                lockTarget(target, false)
             })
             return () => {
                 handle.cancel()
