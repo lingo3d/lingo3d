@@ -57,19 +57,48 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             if (!target) return
 
             followTarget(target)
+
             let targetRotated = false
-            //@ts-ignore
-            target.onRotationY = () => targetRotated = true
+            let [qw, qx, qy, qz] = [0, 0, 0, 0]
+
+            let targetMoved = false
+            let [x, y, z] = [0, 0, 0]
+
+            onBeforeRender(() => {
+                const { w: qw0, x: qx0, y: qy0, z: qz0 } = target.outerObject3d.quaternion
+                targetRotated = qw0 !== qw || qx0 !== qx || qy0 !== qy || qz0 !== qz
+                ;[qw, qx, qy, qz] = [qw0, qx0, qy0, qz0]
+
+                const { x: x0, y: y0, z: z0 } = target.outerObject3d.position
+                targetMoved = x0 !== x || y0 !== y || z0 !== z
+                ;[x, y, z] = [x0, y0, z0]
+            })
 
             const handle = onBeforeRender(() => {
                 this.outerObject3d.position.copy(target.outerObject3d.position)
                 if (!this.lockTargetRotation) return
 
-                if (this.lockTargetRotation === "follow" || transformControlRotating || targetRotated) {
-                    targetRotated = false
+                if (this.lockTargetRotation === "follow" || transformControlRotating) {
                     followTarget(target)
                     return
                 }
+                if (this.lockTargetRotation === "dynamic-lock") {
+                    if (!targetMoved) return
+
+                    euler.setFromQuaternion(this.outerObject3d.quaternion)
+                    euler.x = 0
+                    euler.z = 0
+                    euler.y += Math.PI
+                    quaternion.setFromEuler(euler)
+
+                    target.outerObject3d.quaternion.slerp(quaternion, 0.1)
+
+                    return
+                }
+                if (this.lockTargetRotation === "dynamic-follow") {
+                    return
+                }
+
                 euler.setFromQuaternion(this.outerObject3d.quaternion)
                 euler.x = 0
                 euler.z = 0
@@ -78,8 +107,6 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             })
             return () => {
                 handle.cancel()
-                //@ts-ignore
-                target.onRotationY = undefined
             }
         }, [this.targetState.get])
 

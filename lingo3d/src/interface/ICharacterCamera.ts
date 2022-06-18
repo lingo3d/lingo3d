@@ -5,7 +5,7 @@ import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
-export type LockTargetRotationValue = boolean | "follow"
+export type LockTargetRotationValue = boolean | "lock" | "follow" | "dynamic-lock" | "dynamic-follow"
 
 export default interface ICharacterCamera extends ICamera {
     target: Nullable<MeshItem>
