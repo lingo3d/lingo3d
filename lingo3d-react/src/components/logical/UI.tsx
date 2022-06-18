@@ -4,7 +4,7 @@ import htmlContainer from "./HTML/htmlContainer"
 
 const UI: React.FC<PropsWithChildren> = ({ children }) => {
     return ReactDOM.createPortal(
-        <div style={{ pointerEvents: "all" }}>
+        <div style={{ pointerEvents: "all", position: "static" }}>
             {children}
         </div>
     , htmlContainer)

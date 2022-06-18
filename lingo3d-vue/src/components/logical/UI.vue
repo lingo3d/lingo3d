@@ -4,7 +4,7 @@ import htmlContainer from "./HTML/htmlContainer"
 
 <template>
     <Teleport :to="htmlContainer">
-        <div style="pointer-events: all;">
+        <div style="pointer-events: all; position: static;">
             <slot />
         </div>
     </Teleport>
