@@ -24,23 +24,24 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     protected abstract resolveLoaded(data: T): void
 
     protected _src?: string
+    private srcCount = 0
     public get src() {
         return this._src
     }
-    public set src(src: string | undefined) {
-        if (this._src === src) return
-        this._src = src
+    public set src(val: string | undefined) {
+        if (this._src === val) return
 
-        if (!src) return
+        this._src = val
+        const srcCount = ++this.srcCount
 
         if (this.loaded.done) {
             this.loaded = new Resolvable()
             this.loadedGroup.clear()
         }
+        if (!val) return
 
-        this.load(src).then(loaded => {
-            if (this.done || this._src !== src) return
-
+        this.load(val).then(loaded => {
+            if (srcCount !== this.srcCount || this.done) return
             this.object3d.visible = !!this._boxVisible
             this.resolveLoaded(loaded)
         })

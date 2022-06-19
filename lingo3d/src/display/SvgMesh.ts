@@ -76,7 +76,6 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         !this.depthSet && (this.object3d.scale.z = size.z)
 
         this.loadedGroup.add(loadedObject3d)
-
         this.loaded.resolve(loadedObject3d)
     }
 }
