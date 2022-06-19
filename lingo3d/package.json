@@ -27,7 +27,6 @@
 		"@types/three": "0.140.0",
 		"browser-fs-access": "0.29.6",
 		"cannon-es": "0.19.0",
-		"howler": "^2.2.3",
 		"postprocessing": "^6.28.0",
 		"preact": "^10.8.1",
 		"preact-custom-element": "^4.2.1",
