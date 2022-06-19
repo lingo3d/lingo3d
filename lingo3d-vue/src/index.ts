@@ -24,6 +24,7 @@ export { default as Skybox } from "./components/display/Skybox.vue"
 export { default as Environment } from "./components/display/Environment.vue"
 export { default as Sprite } from "./components/display/Sprite.vue"
 export { default as Trigger } from "./components/display/Trigger.vue"
+export { default as Audio } from "./components/display/Audio.vue"
 
 export { default as Camera } from "./components/display/cameras/Camera.vue"
 export { default as OrbitCamera } from "./components/display/cameras/OrbitCamera.vue"
