@@ -23,7 +23,7 @@ export default abstract class EventLoopItem extends Appendable implements IEvent
         return this.watch(timer(time, repeat, cb))
     }
 
-    public loop(cb: () => void) {
+    public beforeRender(cb: () => void) {
         return this.watch(onBeforeRender(cb))
     }
 
@@ -47,6 +47,6 @@ export default abstract class EventLoopItem extends Appendable implements IEvent
     public set onLoop(cb: (() => void) | undefined) {
         this._onLoop = cb
         this._loopHandle?.cancel()
-        cb && (this._loopHandle = this.loop(cb))
+        cb && (this._loopHandle = this.beforeRender(cb))
     }
 }

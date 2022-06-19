@@ -62,15 +62,58 @@ export default class Audio extends PositionedItem implements IAudio {
         return this._src
     }
     public set src(val) {
+        if (this._src === val) return
+
         this._src = val
         const srcCount = ++this.srcCount
         if (!val) return
 
         loadAudio(val).then(buffer => {
-            if (srcCount !== this.srcCount) return
+            if (srcCount !== this.srcCount || this.done) return
             this.sound.setBuffer(buffer)
-            this.sound.setRefDistance(20)
-            this.sound.play()
         })
+    }
+
+    public get autoplay() {
+        return this.sound.autoplay
+    }
+    public set autoplay(val) {
+        this.sound.autoplay = val
+        val && this.sound.play()
+    }
+
+    public get loop() {
+        return this.sound.loop
+    }
+    public set loop(val) {
+        this.sound.loop = val
+    }
+
+    public get distance() {
+        return this.sound.getRefDistance()
+    }
+    public set distance(val) {
+        this.sound.setRefDistance(val)
+    }
+
+    public get distanceModel() {
+        return this.sound.getDistanceModel()
+    }
+    public set distanceModel(val) {
+        this.sound.setDistanceModel(val)
+    }
+
+    public get maxDistance() {
+        return this.sound.getMaxDistance()
+    }
+    public set maxDistance(val) {
+        this.sound.setMaxDistance(val)
+    }
+
+    public get rolloffFactor() {
+        return this.sound.getRolloffFactor()
+    }
+    public set rolloffFactor(val) {
+        this.sound.setRolloffFactor(val)
     }
 }

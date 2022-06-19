@@ -64,7 +64,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     }
 
     public listenToRayIntersection(id: string, cb: (target: SimpleObjectManager, pt: Point3d) => void, maxDistance?: number) {
-        return this.loop(() => {
+        return this.beforeRender(() => {
             for (const [target, pt] of this.getRayIntersectionsAt(id, maxDistance))
                 cb(target, pt)
         })
@@ -82,7 +82,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     public listenToIntersection(id: string, cb?: OnIntersectValue, cbOut?: OnIntersectValue) {
         let intersectionsOld: Array<SimpleObjectManager> = []
 
-        return this.loop(() => {
+        return this.beforeRender(() => {
             const intersections = this.getIntersections(id)
 
             if (cb)
@@ -350,7 +350,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         const from = new Vector3(this.x, this.y, this.z)
         const to = new Vector3(x, y, z)
 
-        this.lerpToHandle = this.loop(() => {
+        this.lerpToHandle = this.beforeRender(() => {
             const { x, y, z } = from.lerp(to, alpha)
 
             if (Math.abs(this.x - x) < 0.1 && Math.abs(this.y - y) < 0.1 && Math.abs(this.z - z) < 0.1)
@@ -374,7 +374,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         const signY = Math.sign(y)
         const signZ = Math.sign(z)
 
-        this.lerpToHandle = this.loop(() => {
+        this.lerpToHandle = this.beforeRender(() => {
             const diffX = Math.min(Math.abs((x - this.x) * 0.5), sx) * signX
             const diffY = Math.min(Math.abs((y - this.y) * 0.5), sy) * signY
             const diffZ = Math.min(Math.abs((z - this.z) * 0.5), sz) * signZ
@@ -402,7 +402,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         const signX = Math.sign(x)
         const signZ = Math.sign(z)
 
-        this.lerpToHandle = this.loop(() => {
+        this.lerpToHandle = this.beforeRender(() => {
             const diffX = Math.min(Math.abs((x - this.x) * 0.5), sx) * signX
             const diffZ = Math.min(Math.abs((z - this.z) * 0.5), sz) * signZ
 

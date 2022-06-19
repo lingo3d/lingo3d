@@ -23,7 +23,7 @@ const cam = new ThirdPersonCamera()
 cam.append(dummy)
 cam.activate()
 cam.mouseControl = true
-cam.lockTargetRotation = "dynamic-follow"
+cam.lockTargetRotation = "dynamic-lock"
 
 const dummyProxy = createProxy<Dummy>()
 dummy.proxy = dummyProxy
