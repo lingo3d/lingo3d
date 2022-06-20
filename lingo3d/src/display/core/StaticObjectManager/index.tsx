@@ -57,7 +57,6 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     public override dispose() {
         if (this.done) return this
         super.dispose()
-        deleteSSR(this.object3d)
         this._id !== undefined && staticIdMap.get(this._id)!.delete(this)
         return this
     }
@@ -198,21 +197,24 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         return !!this.object3d.userData.ssr
     }
     public set reflection(val: boolean) {
-        val ? addSSR(this.object3d) : deleteSSR(this.object3d)
+        this.cancelHandle("reflection", val && new Cancellable(() => deleteSSR(this.object3d)))
+        val && addSSR(this.object3d)
     }
 
     public get bloom() {
         return !!this.outerObject3d.userData.bloom
     }
     public set bloom(val: boolean) {
-        val ? addBloom(this.outerObject3d) : deleteBloom(this.outerObject3d)
+        this.cancelHandle("bloom", val && new Cancellable(() => deleteBloom(this.outerObject3d)))
+        val && addBloom(this.outerObject3d)
     }
 
     public get outline() {
         return !!this.object3d.userData.outline
     }
     public set outline(val: boolean) {
-        val ? addOutline(this.object3d) : deleteOutline(this.object3d)
+        this.cancelHandle("outline", val && new Cancellable(() => deleteOutline(this.object3d)))
+        val && addOutline(this.object3d)
     }
 
     private _visible?: boolean
