@@ -33,6 +33,7 @@ export default class Dummy extends Model implements IDummy {
         this.createEffect(() => {
             const spineName = this.spineNameState.get()
             super.src = this.srcState.get()
+            
             setSpine(undefined)
             setType(undefined)
 
@@ -64,10 +65,12 @@ export default class Dummy extends Model implements IDummy {
         const [setPose, getPose] = store("idle")
 
         this.createEffect(() => {
+            const type = getType()
+            if (!type) return
+
             const preset = this.presetState.get()
             const prefix = preset === "rifle" ? "rifle-" : ""
 
-            const type = getType()
             const src = this.srcState.get()
 
             let url = ""
