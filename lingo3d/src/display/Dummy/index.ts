@@ -140,14 +140,12 @@ export default class Dummy extends Model implements IDummy {
 
             const { strideForward, strideRight, strideMove } = this
             if (!strideForward && !strideRight) {
-                const thisPoint = this.pointAt(1000)
-                this.loadedGroup.lookAt(point2Vec(thisPoint))
                 poseService.send("RUN_STOP")
-                groupVecOld = undefined
+                this.strideMode === "aim" && (groupVecOld = undefined)
                 return
             }
 
-            const backwards = strideForward > 0
+            const backwards = this.strideMode === "aim" ? strideForward > 0 : false
 
             const sf = backwards ? -strideForward : strideForward
             const sr = backwards ? -strideRight : strideRight
@@ -156,16 +154,19 @@ export default class Dummy extends Model implements IDummy {
             const handle = onBeforeRender(() => {
                 poseService.send(backwards ? "RUN_BACKWARDS_START" : "RUN_START")
 
-                this.loadedGroup.quaternion.copy(loadedGroupQuaternion)
-                spine.outerObject3d.quaternion.copy(spineQuaternion)
-                const spinePoint = spine.pointAt(1000)
+                let spinePoint: Point3d | undefined
+                if (this.strideMode === "aim") {
+                    this.loadedGroup.quaternion.copy(loadedGroupQuaternion)
+                    spine.outerObject3d.quaternion.copy(spineQuaternion)
+                    spinePoint = spine.pointAt(1000)
+                }
                 
                 const groupVecNew = computeAngle(angle)
                 const groupVec = (groupVecOld ?? computeAngle(0)).lerp(groupVecNew, 0.1)
                 this.loadedGroup.lookAt(groupVec)
                 groupVecOld = groupVec
 
-                this.strideMode === "aim" && spine.lookAt(spinePoint)
+                spinePoint && spine.lookAt(spinePoint)
 
                 if (!strideMove) return
 
@@ -175,8 +176,10 @@ export default class Dummy extends Model implements IDummy {
             })
             return () => {
                 handle.cancel()
-                spine.outerObject3d.quaternion.copy(spineQuaternion)
-                this.loadedGroup.quaternion.copy(loadedGroupQuaternion)
+                if (this.strideMode === "aim") {
+                    spine.outerObject3d.quaternion.copy(spineQuaternion)
+                    this.loadedGroup.quaternion.copy(loadedGroupQuaternion)
+                }
             }
         }, [this.strideMoveState.get, this.strideForwardState.get, this.strideRightState.get, getSpine])
     }
