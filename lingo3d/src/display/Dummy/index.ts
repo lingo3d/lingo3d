@@ -71,29 +71,37 @@ export default class Dummy extends Model implements IDummy {
             const preset = this.presetState.get()
             const prefix = preset === "rifle" ? "rifle-" : ""
 
-            const src = this.srcState.get()
+            const parts = this.srcState.get().split("/")
+            parts.pop()
+            let url = parts.join("/") + "/"
 
-            let url = ""
-            if (type === "readyplayerme")
-                url = assetsUrl + "readyplayerme/"
-            else {
-                const parts = src.split("/")
-                parts.pop()
-                url = parts.join("/") + "/"
-            }
+            let done = false
+            ;(async () => {
+                const res = await fetch(url + prefix + "idle.fbx", { method: "HEAD" })
+                if (done) return
 
-            super.animations = {
-                idle: url + prefix + "idle.fbx",
-                running: url + prefix + "running.fbx",
-                runningBackwards: url + prefix + "running-backwards.fbx",
-                jumping: url + prefix + "falling.fbx",
-                death: url + "death.fbx",
-                ...this.animationsState.get()
-            }
-            this.animation = getPose()
+                if (!res.ok) {
+                    if (type === "readyplayerme")
+                        url = assetsUrl + "readyplayerme/"
+                    else
+                        return
+                }
+
+                super.animations = {
+                    idle: url + prefix + "idle.fbx",
+                    running: url + prefix + "running.fbx",
+                    runningBackwards: url + prefix + "running-backwards.fbx",
+                    jumping: url + prefix + "falling.fbx",
+                    death: url + "death.fbx",
+                    ...this.animationsState.get()
+                }
+                this.animation = getPose()
+            })()
             
             return () => {
+                done = true
                 this.animation = undefined
+                super.animations = {}
             }
         }, [this.presetState.get, this.srcState.get, getType, this.animationsState.get])
         
