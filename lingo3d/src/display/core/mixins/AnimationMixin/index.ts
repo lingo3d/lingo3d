@@ -92,7 +92,7 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
     
     public onAnimationFinish: Nullable<() => void>
 
-    private async playAnimation(name?: string | number, o?: PlayOptions) {
+    public async playAnimation(name?: string | number, o?: PlayOptions) {
         await this.loadingAnimsAsync()
         if (this.done) return
 
@@ -103,7 +103,7 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
         this.animationManager?.play(o)
     }
 
-    private async stopAnimation() {
+    public async stopAnimation() {
         await this.loadingAnimsAsync()
         if (this.done) return
 

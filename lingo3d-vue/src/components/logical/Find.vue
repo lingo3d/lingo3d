@@ -20,7 +20,9 @@ watchEffect(onCleanUp => {
     if (!parent || !name) return
     
     if ("loaded" in parent){
-        const handle = parent.loaded.then(() => managerRef.value = parent.find(name))
+        const handle = parent.loaded.then(() => {
+            managerRef.value = parent.find(name)
+        })
         return onCleanUp(() => {
             handle.cancel()
         })

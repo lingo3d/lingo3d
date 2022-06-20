@@ -12,7 +12,9 @@ const Find = React.forwardRef<FoundManager, FoundProps & { onLoad?: () => void }
         if (!parent || !name) return
 
         if ("loaded" in parent){
-            const handle = parent.loaded.then(() => setManager(parent.find(name)))
+            const handle = parent.loaded.then(() => {
+                setManager(parent.find(name))
+            })
             return () => {
                 handle.cancel()
             }
