@@ -125,9 +125,8 @@ export default class Model extends Loaded<Group> implements IModel {
             this._loadedZ && (z = this._loadedZ * scaleDown)
             loadedObject3d.position.set(x, y, z)
         }
-        
-        this.loadedGroup.add(loadedObject3d)
-        this.loaded.resolve(loadedObject3d)
+
+        return loadedObject3d
     }
 
     public override find(name: string, hiddenFromSceneGraph?: boolean): FoundManager | undefined {

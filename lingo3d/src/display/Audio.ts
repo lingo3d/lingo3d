@@ -63,8 +63,8 @@ export default class Audio extends PositionedItem implements IAudio {
     }
     public set src(val) {
         if (this._src === val) return
-
         this._src = val
+        
         const srcCount = ++this.srcCount
 
         this.sound.stop()

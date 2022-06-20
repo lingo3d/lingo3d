@@ -21,7 +21,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
 
     protected abstract load(src: string): Promise<T>
 
-    protected abstract resolveLoaded(data: T): void
+    protected abstract resolveLoaded(data: T): Group
 
     protected _src?: string
     private srcCount = 0
@@ -30,19 +30,22 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     }
     public set src(val: string | undefined) {
         if (this._src === val) return
-
         this._src = val
+
         const srcCount = ++this.srcCount
 
-        if (this.loaded.done) {
-            this.loadedGroup.clear()
-        }
+        this.loaded.done && this.loadedGroup.clear()
+
         if (!val) return
 
         this.load(val).then(loaded => {
             if (srcCount !== this.srcCount || this.done) return
+            
+            const loadedObject3d = this.resolveLoaded(loaded)
+            this.loadedGroup.add(loadedObject3d)
+            this.loaded.resolve(loadedObject3d)
+
             this.object3d.visible = !!this._boxVisible
-            this.resolveLoaded(loaded)
         })
     }
 
