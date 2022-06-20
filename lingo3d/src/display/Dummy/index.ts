@@ -3,6 +3,7 @@ import store, { Reactive } from "@lincode/reactivity"
 import { Vector3 } from "three"
 import { interpret } from "xstate"
 import { onBeforeRender } from "../../events/onBeforeRender"
+import { DUMMY_URL } from "../../globals"
 import IDummy, { dummyDefaults, dummySchema, StrideMode } from "../../interface/IDummy"
 import FoundManager from "../core/FoundManager"
 import AnimationManager from "../core/mixins/AnimationMixin/AnimationManager"
@@ -10,7 +11,7 @@ import Model from "../Model"
 import { point2Vec } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
 
-const assetsUrl = "https://unpkg.com/lingo3d-dummy@1.0.3/assets/"
+export const dummyTypeMap = new WeakMap<Dummy, "dummy" | "readyplayerme">()
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -32,30 +33,38 @@ export default class Dummy extends Model implements IDummy {
 
         this.createEffect(() => {
             const spineName = this.spineNameState.get()
-            super.src = this.srcState.get()
+            const src = super.src = this.srcState.get()
             
             setSpine(undefined)
             setType(undefined)
+            dummyTypeMap.delete(this)
 
             const handle = this.loaded.then(loaded => {
                 if (spineName) {
                     setSpine(this.find(spineName, true))
 
-                    if (spineName === "mixamorigSpine")
+                    if (spineName === "mixamorigSpine") {
                         setType("mixamo")
-                    else if (spineName === "Spine" && loaded.getObjectByName("Wolf3D_Body"))
+                        src === DUMMY_URL + "ybot.fbx" && dummyTypeMap.set(this, "dummy")
+                    }
+                    else if (spineName === "Spine" && loaded.getObjectByName("Wolf3D_Body")) {
                         setType("readyplayerme")
-
+                        dummyTypeMap.set(this, "readyplayerme")
+                    }
                     return
                 }
                 if (loaded.getObjectByName("Wolf3D_Body")) {
                     setSpine(this.find("Spine", true))
                     setType("readyplayerme")
+                    dummyTypeMap.set(this, "readyplayerme")
                     return
                 }
                 const spine = this.find("mixamorigSpine", true)
                 setSpine(spine)
-                spine && setType("mixamo")
+                if (spine) {
+                    setType("mixamo")
+                    src === DUMMY_URL + "ybot.fbx" && dummyTypeMap.set(this, "dummy")
+                }
             })
             return () => {
                 handle.cancel()
@@ -82,7 +91,7 @@ export default class Dummy extends Model implements IDummy {
 
                 if (!res.ok) {
                     if (type === "readyplayerme")
-                        url = assetsUrl + "readyplayerme/"
+                        url = DUMMY_URL + "readyplayerme/"
                     else
                         return
                 }
@@ -192,7 +201,7 @@ export default class Dummy extends Model implements IDummy {
         this.spineNameState.set(val)
     }
 
-    private srcState = new Reactive(assetsUrl + "ybot.fbx")
+    private srcState = new Reactive(DUMMY_URL + "ybot.fbx")
     public override get src() {
         return this.srcState.get()
     }

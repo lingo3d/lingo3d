@@ -5,10 +5,13 @@ import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
 import Loaded from "../../display/core/Loaded"
 import { isMeshItem } from "../../display/core/MeshItem"
+import Dummy, { dummyTypeMap } from "../../display/Dummy"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
+import { DUMMY_URL } from "../../globals"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 import { addSelectionFrozen, clearSelectionFrozen } from "../../states/useSelectionFrozen"
+import downloadBlob from "../../utils/downloadBlob"
 import { useSelectionFrozen, useSelectionTarget } from "../states"
 
 preventTreeShake(h)
@@ -143,6 +146,21 @@ const ContextMenu = () => {
                             }}>
                                 Freeze selection
                             </MenuItem>
+
+                            {selectionTarget instanceof Dummy && dummyTypeMap.has(selectionTarget) && (
+                                <MenuItem onClick={async () => {
+                                    setData(undefined)
+
+                                    const url = dummyTypeMap.get(selectionTarget) === "dummy"
+                                        ? DUMMY_URL + "ybot.fbx"
+                                        : DUMMY_URL + "readyplayerme/reference.fbx"
+
+                                    const res = await fetch(url)
+                                    downloadBlob("model.fbx", await res.blob())
+                                }}>
+                                    Download for Mixamo
+                                </MenuItem>
+                            )}
                         </Fragment>
                     )}
                     <MenuItem disabled={!selectionFrozen.size} onClick={() => {
