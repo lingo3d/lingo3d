@@ -12,7 +12,6 @@ import Torus from "./display/primitives/Torus"
 import Plane from "./display/primitives/Plane"
 import Circle from "./display/primitives/Circle"
 
-import ParticleSystem from "./display/ParticleSystem"
 import Model from "./display/Model"
 import Dummy from "./display/Dummy"
 import Building from "./display/Building"
@@ -79,7 +78,6 @@ export {
     Plane,
     Circle,
 
-    ParticleSystem,
     Model,
     Dummy,
     Building,

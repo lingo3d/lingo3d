@@ -1,4 +1,4 @@
-import { Cancellable, Resolvable } from "@lincode/promiselikes"
+import { Cancellable } from "@lincode/promiselikes"
 import { Group, Mesh, Object3D } from "three"
 import { boxGeometry } from "../primitives/Cube"
 import { wireframeMaterial } from "../utils/reusables"
@@ -8,6 +8,7 @@ import { PhysicsOptions } from "../../interface/IPhysics"
 import { addOutline, deleteOutline } from "../../engine/renderLoop/effectComposer/outlinePass"
 import { addBloom, deleteBloom } from "../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import { addSSR, deleteSSR } from "../../engine/renderLoop/effectComposer/ssrPass"
+import Reresolvable from "./utils/Reresolvable"
 
 export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> implements ILoaded {
     public loadedGroup = new Group()
@@ -17,7 +18,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         this.outerObject3d.add(this.loadedGroup)
     }
 
-    public loaded = new Resolvable<Object3D>()
+    public loaded = new Reresolvable<Object3D>()
 
     protected abstract load(src: string): Promise<T>
 
@@ -35,7 +36,6 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         const srcCount = ++this.srcCount
 
         if (this.loaded.done) {
-            this.loaded = new Resolvable()
             this.loadedGroup.clear()
         }
         if (!val) return
@@ -140,6 +140,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         this.loadedGroup.visible = val
     }
 
+    private frustumCulledHandle?: Cancellable
     public override get frustumCulled() {
         return this.outerObject3d.frustumCulled
     }
@@ -147,7 +148,10 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         if (this.outerObject3d.frustumCulled === val) return
         this.outerObject3d.frustumCulled = val
         
-        this.loaded.then(() => super.frustumCulled = val)
+        this.frustumCulledHandle?.cancel()
+        this.frustumCulledHandle = this.loaded.then(() => {
+            super.frustumCulled = val
+        })
     }
 
     public override get physics() {
@@ -159,8 +163,9 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
 
         this.physicsHandle?.cancel()
         const handle = this.physicsHandle = this.cancellable()
-        
-        this.loaded.then(() => this.initPhysics(val, handle))
+        this.loaded.then(() => {
+            this.initPhysics(val, handle)
+        })
     }
 
     private _boxVisible?: boolean
@@ -183,7 +188,12 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
 
         this._outlineHandle?.cancel()
         this._outlineHandle = this.loaded.then(loaded => {
-            val ? addOutline(loaded) : deleteOutline(loaded)
+            if (!val) return
+
+            addOutline(loaded)
+            return () => {
+                deleteOutline(loaded)
+            }
         })
     }
 
@@ -198,7 +208,12 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
 
         this._bloomHandle?.cancel()
         this._bloomHandle = this.loaded.then(loaded => {
-            val ? addBloom(loaded) : deleteBloom(loaded)
+            if (!val) return
+
+            addBloom(loaded)
+            return () => {
+                deleteBloom(loaded)
+            }
         })
     }
 
@@ -213,7 +228,12 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
 
         this._reflectionHandle?.cancel()
         this._reflectionHandle = this.loaded.then(loaded => {
-            val ? addSSR(loaded) : deleteSSR(loaded)
+            if (!val) return
+
+            addSSR(loaded)
+            return () => {
+                deleteSSR(loaded)
+            }
         })
     }
 
@@ -225,11 +245,15 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
                 loaded.traverse(child => child.userData.manager ??= this)
             }
             set.add(loaded)
-            handle.then(() => set.delete(loaded))
+            return () => {
+                set.delete(loaded)
+            }
         }))
     }
 
+    private _refreshFactorsHandle?: Cancellable
     protected override refreshFactors() {
-        this.loaded.then(() => super.refreshFactors())
+        this._refreshFactorsHandle?.cancel()
+        this._refreshFactorsHandle = this.loaded.then(() => super.refreshFactors())
     }
 }

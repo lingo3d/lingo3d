@@ -221,7 +221,6 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
 
         this.physicsHandle?.cancel()
         const handle = this.physicsHandle = this.cancellable()
-        
         this.initPhysics(val, handle)
     }
 }
