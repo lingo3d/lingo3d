@@ -9,6 +9,7 @@ export default interface IDummy extends IModel {
     strideForward: number
     strideRight: number
     strideMove: boolean
+    strideAim: boolean
 }
 
 export const dummySchema: Required<ExtractProps<IDummy>> = {
@@ -17,7 +18,8 @@ export const dummySchema: Required<ExtractProps<IDummy>> = {
     preset: String,
     strideForward: Number,
     strideRight: Number,
-    strideMove: Boolean
+    strideMove: Boolean,
+    strideAim: Boolean
 }
 
 export const dummyDefaults: Defaults<IDummy> = {
@@ -26,5 +28,6 @@ export const dummyDefaults: Defaults<IDummy> = {
     preset: "default",
     strideForward: 0,
     strideRight: 0,
-    strideMove: false
+    strideMove: false,
+    strideAim: true
 }

@@ -237,6 +237,14 @@ export default class Dummy extends Model implements IDummy {
         this.strideMoveState.set(val)
     }
 
+    private strideAimState = new Reactive(true)
+    public get strideAim() {
+        return this.strideAimState.get()
+    }
+    public set strideAim(val) {
+        this.strideAimState.set(val)
+    }
+
     private jumpHeight = 10
     public jump(height = 10) {
         this.jumpHeight = height
