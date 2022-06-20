@@ -33,7 +33,7 @@ dependencies:
   '@lincode/events': 1.0.24
   '@lincode/filetypes': 1.0.1
   '@lincode/math': 1.0.8
-  '@lincode/promiselikes': 1.0.21
+  '@lincode/promiselikes': 1.0.22
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
   '@tweakpane/core': 1.1.0
@@ -344,7 +344,7 @@ packages:
   /@lincode/events/1.0.24:
     resolution: {integrity: sha512-YSpcweyhfliLrJwLT6Xplt5kpIP1LnP5KVxWT8MGD/iJmlHwFNoTWO4KSUvtuhb40vp5XuHF65I2ibZgj6Cobw==}
     dependencies:
-      '@lincode/promiselikes': 1.0.21
+      '@lincode/promiselikes': 1.0.22
       '@lincode/utils': 1.2.51
     dev: false
 
@@ -358,8 +358,8 @@ packages:
     resolution: {integrity: sha512-lgjk6Wv3YdVTsLQD1wSj8w6xyGYR66Dvg/Nu1wQUYWicYKijuDZC4UMaYjY7jb1Zf2Iwi6RVdP4iFkrdPztsBw==}
     dev: false
 
-  /@lincode/promiselikes/1.0.21:
-    resolution: {integrity: sha512-X4xzuRPL2iyo6quqoqzdpHHhrA26wRxNLwtUuwXNR9IoSmQFg21xZA4rxySY8ZverWveS7XCVmYDtXjGDZaS7w==}
+  /@lincode/promiselikes/1.0.22:
+    resolution: {integrity: sha512-ANQXjtoSVBphlCV6Yff3rm4cXcw59iaOwJhWnVkU5voRJXlBaihzFU6PBNtISfbLTQtrJM1C40O8tzVgv7Vd0g==}
     dependencies:
       '@lincode/utils': 1.2.51
     dev: false
@@ -368,7 +368,7 @@ packages:
     resolution: {integrity: sha512-c1iqR6tGvqUyuoea8J3nxdiI2jnSCkpWx1eVqlPxyoksjSRTxF/toBAl1HOsc6xUth4LdMhNvvS/7lyDYZV9GQ==}
     dependencies:
       '@lincode/events': 1.0.24
-      '@lincode/promiselikes': 1.0.21
+      '@lincode/promiselikes': 1.0.22
       '@lincode/utils': 1.2.51
     dev: false
 

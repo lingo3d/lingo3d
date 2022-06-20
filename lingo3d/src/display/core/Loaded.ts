@@ -1,4 +1,3 @@
-import { Cancellable } from "@lincode/promiselikes"
 import { Group, Mesh, Object3D } from "three"
 import { boxGeometry } from "../primitives/Cube"
 import { wireframeMaterial } from "../utils/reusables"

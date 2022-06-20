@@ -2,11 +2,11 @@ import { omit } from "@lincode/utils"
 import createObject from "./createObject"
 import { nonSerializedProperties, SceneGraphNode } from "./types"
 import applySetup from "./applySetup"
-import { Resolvable } from "@lincode/promiselikes"
 import Loaded from "../../display/core/Loaded"
 import { Object3D } from "three"
+import Reresolvable from "../../display/core/utils/Reresolvable"
 
-const nodeToObjectManager = (node: SceneGraphNode, loadedResolvables: Array<Resolvable<Object3D>> | undefined) => {
+const nodeToObjectManager = (node: SceneGraphNode, loadedResolvables: Array<Reresolvable<Object3D>> | undefined) => {
     if (node.type === "setup") {
         applySetup(node)
         return
@@ -20,6 +20,6 @@ const nodeToObjectManager = (node: SceneGraphNode, loadedResolvables: Array<Reso
     return object
 }
 
-export default (graph: Array<SceneGraphNode>, loadedResolvables?: Array<Resolvable<Object3D>>) => (
+export default (graph: Array<SceneGraphNode>, loadedResolvables?: Array<Reresolvable<Object3D>>) => (
     graph.map(n => nodeToObjectManager(n, loadedResolvables))
 )
