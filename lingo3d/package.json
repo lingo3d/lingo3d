@@ -44,7 +44,7 @@
 		"@types/randomcolor": "^0.5.6",
 		"@types/react": "^18.0.14",
 		"randomcolor": "*",
-		"typescript": "^4.7.3",
+		"typescript": "^4.7.4",
 		"vite": "^2.9.12"
 	},
 	"private": false,
