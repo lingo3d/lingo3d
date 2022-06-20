@@ -210,7 +210,6 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
                 assertExhaustive(val)
         }
     }
-    protected physicsHandle?: Cancellable
     protected _physics?: PhysicsOptions
     public get physics() {
         return this._physics ?? false
@@ -219,8 +218,6 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
         if (this._physics === val) return
         this._physics = val
 
-        this.physicsHandle?.cancel()
-        const handle = this.physicsHandle = this.cancellable()
-        this.initPhysics(val, handle)
+        this.initPhysics(val, this.cancelHandle("physics", new Cancellable()))
     }
 }

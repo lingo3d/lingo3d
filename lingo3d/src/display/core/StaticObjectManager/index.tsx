@@ -72,93 +72,63 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         val !== undefined && forceGet(staticIdMap, val, makeSet).add(this)
     }
 
-    protected addToRaycastSet(set: Set<Object3D>, handle: Cancellable) {
+    protected addToRaycastSet(set: Set<Object3D>) {
         set.add(this.object3d)
-        handle.then(() => set.delete(this.object3d))
+        return new Cancellable(() => set.delete(this.object3d))
     }
 
-    protected clickHandle: Cancellable | undefined
     private _onClick?: (e: LingoMouseEvent) => void
     public get onClick(): ((e: LingoMouseEvent) => void) | undefined {
         return this._onClick
     }
     public set onClick(cb: ((e: LingoMouseEvent) => void) | undefined) {
-        this.clickHandle?.cancel()
-
         this._onClick = cb
-        if (!cb) return
-        
-        this.addToRaycastSet(clickSet, this.clickHandle = this.cancellable())
+        this.cancelHandle("onClick", cb && this.addToRaycastSet(clickSet))
     }
 
-    protected mouseDownHandle: Cancellable | undefined
     private _onMouseDown?: (e: LingoMouseEvent) => void
     public get onMouseDown(): ((e: LingoMouseEvent) => void) | undefined {
         return this._onMouseDown
     }
     public set onMouseDown(cb: ((e: LingoMouseEvent) => void) | undefined) {
-        this.mouseDownHandle?.cancel()
-
         this._onMouseDown = cb
-        if (!cb) return
-        
-        this.addToRaycastSet(mouseDownSet, this.mouseDownHandle = this.cancellable())
+        this.cancelHandle("onMouseDown", cb && this.addToRaycastSet(mouseDownSet))
     }
 
-    protected mouseUpHandle: Cancellable | undefined
     private _onMouseUp?: (e: LingoMouseEvent) => void
     public get onMouseUp(): ((e: LingoMouseEvent) => void) | undefined {
         return this._onMouseUp
     }
     public set onMouseUp(cb: ((e: LingoMouseEvent) => void) | undefined) {
-        this.mouseUpHandle?.cancel()
-
         this._onMouseUp = cb
-        if (!cb) return
-        
-        this.addToRaycastSet(mouseUpSet, this.mouseUpHandle = this.cancellable())
+        this.cancelHandle("onMouseUp", cb && this.addToRaycastSet(mouseUpSet))
     }
 
-    protected mouseOverHandle: Cancellable | undefined
     private _onMouseOver?: (e: LingoMouseEvent) => void
     public get onMouseOver(): ((e: LingoMouseEvent) => void) | undefined {
         return this._onMouseOver
     }
     public set onMouseOver(cb: ((e: LingoMouseEvent) => void) | undefined) {
-        this.mouseOverHandle?.cancel()
-
         this._onMouseOver = cb
-        if (!cb) return
-        
-        this.addToRaycastSet(mouseOverSet, this.mouseOverHandle = this.cancellable())
+        this.cancelHandle("onMouseOver", cb && this.addToRaycastSet(mouseOverSet))
     }
 
-    protected mouseOutHandle: Cancellable | undefined
     private _onMouseOut?: (e: LingoMouseEvent) => void
     public get onMouseOut(): ((e: LingoMouseEvent) => void) | undefined {
         return this._onMouseOut
     }
     public set onMouseOut(cb: ((e: LingoMouseEvent) => void) | undefined) {
-        this.mouseOutHandle?.cancel()
-
         this._onMouseOut = cb
-        if (!cb) return
-        
-        this.addToRaycastSet(mouseOutSet, this.mouseOutHandle = this.cancellable())
+        this.cancelHandle("onMouseOut", cb && this.addToRaycastSet(mouseOutSet))
     }
 
-    protected mouseMoveHandle: Cancellable | undefined
     private _onMouseMove?: (e: LingoMouseEvent) => void
     public get onMouseMove(): ((e: LingoMouseEvent) => void) | undefined {
         return this._onMouseMove
     }
     public set onMouseMove(cb: ((e: LingoMouseEvent) => void) | undefined) {
-        this.mouseMoveHandle?.cancel()
-
         this._onMouseMove = cb
-        if (!cb) return
-        
-        this.addToRaycastSet(mouseMoveSet, this.mouseMoveHandle = this.cancellable())
+        this.cancelHandle("onMouseMove", cb && this.addToRaycastSet(mouseMoveSet))
     }
 
     public get name() {

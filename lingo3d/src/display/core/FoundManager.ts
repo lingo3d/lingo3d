@@ -49,13 +49,13 @@ class FoundManager extends StaticObjectManager<Object3D> implements IFound {
     }
 
     private managerSet?: boolean
-    protected override addToRaycastSet(set: Set<Object3D>, handle: Cancellable) {
+    protected override addToRaycastSet(set: Set<Object3D>) {
         if (!this.managerSet) {
             this.managerSet = true
             this.object3d.traverse(child => child.userData.manager = this)
         }
         set.add(this.object3d)
-        handle.then(() => set.delete(this.object3d))
+        return new Cancellable(() => set.delete(this.object3d))
     }
 }
 interface FoundManager extends StaticObjectManager<Object3D>, TexturedBasicMixin, TexturedStandardMixin {}

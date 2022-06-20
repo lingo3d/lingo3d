@@ -157,11 +157,9 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         if (this._physics === val) return
         this._physics = val
 
-        this.physicsHandle?.cancel()
-        const handle = this.physicsHandle = this.cancellable()
-        this.loaded.then(() => {
+        const handle = this.cancelHandle("physics", this.loaded.then(() => {
             this.initPhysics(val, handle)
-        })
+        }))
     }
 
     private _boxVisible?: boolean
@@ -228,8 +226,8 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     }
 
     private managerSet?: boolean
-    protected override addToRaycastSet(set: Set<Object3D>, handle: Cancellable) {
-        handle.watch(this.loaded.then(loaded => {
+    protected override addToRaycastSet(set: Set<Object3D>) {
+        return this.loaded.then(loaded => {
             if (!this.managerSet) {
                 this.managerSet = true
                 loaded.traverse(child => child.userData.manager ??= this)
@@ -238,7 +236,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
             return () => {
                 set.delete(loaded)
             }
-        }))
+        })
     }
 
     protected override refreshFactors() {
