@@ -92,7 +92,7 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
     
     public onAnimationFinish: Nullable<() => void>
 
-    public async playAnimation(name?: string | number, o?: PlayOptions) {
+    private async playAnimation(name?: string | number, o?: PlayOptions) {
         await this.loadingAnimsAsync()
         if (this.done) return
 
@@ -100,14 +100,13 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
             ? this.animations[name]
             : Object.values(this.animations)[name ?? 0]
 
-        if (o) {
-            o.repeat ??= this.animationRepeat
-            o.onFinish ??= this.onAnimationFinish
-        }
         this.animationManager?.play(o)
     }
 
-    public stopAnimation() {
+    private async stopAnimation() {
+        await this.loadingAnimsAsync()
+        if (this.done) return
+
         this.animationManager?.stop()
     }
 
@@ -142,7 +141,13 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
             let currentIndex = 0
             const o = {
                 onFinish: () => {
-                    if (++currentIndex >= val.length) currentIndex = 0
+                    if (++currentIndex >= val.length) {
+                        if (this.animationRepeat === false) {
+                            this.onAnimationFinish?.()
+                            return
+                        }
+                        currentIndex = 0
+                    }
                     this.setAnimation(val[currentIndex], o)
                 },
                 repeat: false
@@ -150,6 +155,8 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
             this.setAnimation(val[0], o)
             return
         }
-        this.queueMicrotask(() => this.setAnimation(val))
+        this.queueMicrotask(() => this.setAnimation(val, {
+            repeat: this.animationRepeat, onFinish: this.onAnimationFinish
+        }))
     }
 }
