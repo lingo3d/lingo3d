@@ -39,14 +39,30 @@ export default abstract class EventLoopItem extends Appendable implements IEvent
         return this.watch(createEffect(cb, getStates))
     }
 
-    private _loopHandle?: Cancellable
+    private handles?: Map<string, Cancellable>
+    protected cancelHandle(name: string, handle?: Cancellable) {
+        const handles = this.handles ??= new Map<string, Cancellable>()
+        handles.get(name)?.cancel()
+        handle && handles.set(name, handle)
+    }
+
+    public override dispose() {
+        if (this.done) return this
+        super.dispose()
+
+        if (this.handles)
+            for (const handle of this.handles.values())
+                handle.cancel()
+
+        return this
+    }
+
     private _onLoop?: () => void
     public get onLoop(): (() => void) | undefined {
         return this._onLoop
     }
     public set onLoop(cb: (() => void) | undefined) {
         this._onLoop = cb
-        this._loopHandle?.cancel()
-        cb && (this._loopHandle = this.beforeRender(cb))
+        this.cancelHandle("onLoop", cb && onBeforeRender(cb))
     }
 }

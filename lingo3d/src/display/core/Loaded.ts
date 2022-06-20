@@ -47,15 +47,13 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         })
     }
 
-    private loadedHandle?: Cancellable
     private _onLoad?: () => void
     public get onLoad() {
         return this._onLoad
     }
     public set onLoad(cb: (() => void) | undefined) {
         this._onLoad = cb
-        this.loadedHandle?.cancel()
-        cb && (this.loadedHandle = this.loaded.then(cb))
+        this.cancelHandle("onLoad", cb && this.loaded.then(cb))
     }
 
     protected widthSet?: boolean
@@ -140,7 +138,6 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         this.loadedGroup.visible = val
     }
 
-    private frustumCulledHandle?: Cancellable
     public override get frustumCulled() {
         return this.outerObject3d.frustumCulled
     }
@@ -148,10 +145,9 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         if (this.outerObject3d.frustumCulled === val) return
         this.outerObject3d.frustumCulled = val
         
-        this.frustumCulledHandle?.cancel()
-        this.frustumCulledHandle = this.loaded.then(() => {
+        this.cancelHandle("frustumCulled", this.loaded.then(() => {
             super.frustumCulled = val
-        })
+        }))
     }
 
     public override get physics() {
@@ -178,7 +174,6 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     }
 
     private _outline?: boolean
-    private _outlineHandle?: Cancellable
     public override get outline() {
         return !!this._outline
     }
@@ -186,19 +181,17 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         if (this._outline === val) return
         this._outline = val
 
-        this._outlineHandle?.cancel()
-        this._outlineHandle = this.loaded.then(loaded => {
+        this.cancelHandle("outline", this.loaded.then(loaded => {
             if (!val) return
 
             addOutline(loaded)
             return () => {
                 deleteOutline(loaded)
             }
-        })
+        }))
     }
 
     private _bloom?: boolean
-    private _bloomHandle?: Cancellable
     public override get bloom() {
         return !!this._bloom
     }
@@ -206,19 +199,17 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         if (this._bloom === val) return
         this._bloom = val
 
-        this._bloomHandle?.cancel()
-        this._bloomHandle = this.loaded.then(loaded => {
+        this.cancelHandle("bloom", this.loaded.then(loaded => {
             if (!val) return
 
             addBloom(loaded)
             return () => {
                 deleteBloom(loaded)
             }
-        })
+        }))
     }
 
     private _reflection?: boolean
-    private _reflectionHandle?: Cancellable
     public override get reflection() {
         return !!this._reflection
     }
@@ -226,15 +217,14 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         if (this._reflection === val) return
         this._reflection = val
 
-        this._reflectionHandle?.cancel()
-        this._reflectionHandle = this.loaded.then(loaded => {
+        this.cancelHandle("reflection", this.loaded.then(loaded => {
             if (!val) return
 
             addSSR(loaded)
             return () => {
                 deleteSSR(loaded)
             }
-        })
+        }))
     }
 
     private managerSet?: boolean
@@ -251,9 +241,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         }))
     }
 
-    private _refreshFactorsHandle?: Cancellable
     protected override refreshFactors() {
-        this._refreshFactorsHandle?.cancel()
-        this._refreshFactorsHandle = this.loaded.then(() => super.refreshFactors())
+        this.cancelHandle("refreshFactors", this.loaded.then(() => super.refreshFactors()))
     }
 }

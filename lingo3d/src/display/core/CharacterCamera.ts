@@ -162,7 +162,6 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
         this.retarget()
     }
     
-    private gyroControlHandle?: Cancellable
     private _gyroControl?: boolean
     public get gyroControl() {
         return !!this._gyroControl
@@ -170,8 +169,6 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
     public set gyroControl(val: boolean) {
         if (this._gyroControl === val) return
         this._gyroControl
-
-        this.gyroControlHandle?.cancel()
 
         const deviceEuler = euler
         const deviceQuaternion = quaternion
@@ -194,6 +191,6 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             this.object3d.quaternion.multiply(worldTransform)
         }
         window.addEventListener("deviceorientation", cb)
-        this.gyroControlHandle = this.cancellable(() => window.removeEventListener("deviceorientation", cb))
+        this.cancelHandle("gyroControl", new Cancellable(() => window.removeEventListener("deviceorientation", cb)))
     }
 }
