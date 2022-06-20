@@ -18,6 +18,7 @@ dummy.y = 170 * 0.5
 dummy.preset = "rifle"
 dummy.physics = "character"
 dummy.strideMove = true
+dummy.strideMode = "free"
 
 const cam = new ThirdPersonCamera()
 cam.append(dummy)

@@ -3,7 +3,7 @@ import store, { Reactive } from "@lincode/reactivity"
 import { Vector3 } from "three"
 import { interpret } from "xstate"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import IDummy, { dummyDefaults, dummySchema } from "../../interface/IDummy"
+import IDummy, { dummyDefaults, dummySchema, StrideMode } from "../../interface/IDummy"
 import FoundManager from "../core/FoundManager"
 import AnimationManager from "../core/mixins/AnimationMixin/AnimationManager"
 import Model from "../Model"
@@ -165,7 +165,7 @@ export default class Dummy extends Model implements IDummy {
                 this.loadedGroup.lookAt(groupVec)
                 groupVecOld = groupVec
 
-                spine.lookAt(spinePoint)
+                this.strideMode === "aim" && spine.lookAt(spinePoint)
 
                 if (!strideMove) return
 
@@ -237,13 +237,7 @@ export default class Dummy extends Model implements IDummy {
         this.strideMoveState.set(val)
     }
 
-    private strideAimState = new Reactive(true)
-    public get strideAim() {
-        return this.strideAimState.get()
-    }
-    public set strideAim(val) {
-        this.strideAimState.set(val)
-    }
+    public strideMode: StrideMode = "aim"
 
     private jumpHeight = 10
     public jump(height = 10) {

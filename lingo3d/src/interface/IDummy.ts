@@ -3,13 +3,15 @@ import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
+export type StrideMode = "aim" | "free"
+
 export default interface IDummy extends IModel {
     spineName: Nullable<string>
     preset: "default" | "rifle"
     strideForward: number
     strideRight: number
     strideMove: boolean
-    strideAim: boolean
+    strideMode: StrideMode
 }
 
 export const dummySchema: Required<ExtractProps<IDummy>> = {
@@ -19,7 +21,7 @@ export const dummySchema: Required<ExtractProps<IDummy>> = {
     strideForward: Number,
     strideRight: Number,
     strideMove: Boolean,
-    strideAim: Boolean
+    strideMode: String
 }
 
 export const dummyDefaults: Defaults<IDummy> = {
@@ -29,5 +31,5 @@ export const dummyDefaults: Defaults<IDummy> = {
     strideForward: 0,
     strideRight: 0,
     strideMove: false,
-    strideAim: true
+    strideMode: "aim"
 }
