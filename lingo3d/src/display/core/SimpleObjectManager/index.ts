@@ -346,6 +346,8 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         this.physicsMoveXZ()
 	}
 
+    public onMoveToEnd: (() => void) | undefined
+
     public lerpTo(x: number, y: number, z: number, alpha: number) {
         const from = new Vector3(this.x, this.y, this.z)
         const to = new Vector3(x, y, z)
@@ -353,9 +355,10 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         this.cancelHandle("lerpTo", () => onBeforeRender(() => {
             const { x, y, z } = from.lerp(to, alpha)
 
-            if (Math.abs(this.x - x) < 0.1 && Math.abs(this.y - y) < 0.1 && Math.abs(this.z - z) < 0.1)
+            if (Math.abs(this.x - x) < 0.1 && Math.abs(this.y - y) < 0.1 && Math.abs(this.z - z) < 0.1) {
                 this.cancelHandle("lerpTo", undefined)
-
+                this.onMoveToEnd?.()
+            }
             this.x = x
             this.y = y
             this.z = z
@@ -379,6 +382,8 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
             let dist = distance3d(this.x, y === undefined ? 0 : this.y, this.z, x, y === undefined ? 0 : y, z)
             if (dist >= distOld) {
                 this.cancelHandle("lerpTo", undefined)
+                this.onMoveToEnd?.()
+
                 this.x = x
                 y !== undefined && (this.y = y)
                 this.z = z

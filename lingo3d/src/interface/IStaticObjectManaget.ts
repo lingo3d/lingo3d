@@ -12,6 +12,7 @@ export default interface IStaticObjectManager extends IEventLoop, IAnimationMixi
     onMouseOver: Nullable<(e: LingoMouseEvent) => void>
     onMouseOut: Nullable<(e: LingoMouseEvent) => void>
     onMouseMove: Nullable<(e: LingoMouseEvent) => void>
+    onLookToEnd: Nullable<() => void>
     
     name: string
     id: Nullable<string>
@@ -41,6 +42,7 @@ export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManag
     onMouseOver: Function,
     onMouseOut: Function,
     onMouseMove: Function,
+    onLookToEnd: Function,
 
     name: String,
     id: String,
@@ -70,6 +72,7 @@ export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     onMouseOver: undefined,
     onMouseOut: undefined,
     onMouseMove: undefined,
+    onLookToEnd: undefined,
 
     name: "",
     id: undefined,

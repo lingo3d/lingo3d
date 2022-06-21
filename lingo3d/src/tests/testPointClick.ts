@@ -33,8 +33,3 @@ cam.append(dummy)
 cam.activate()
 cam.mouseControl = "drag"
 cam.lockTargetRotation = false
-
-const light = new DirectionalLight()
-light.y = 500
-light.x = 500
-light.z = 500

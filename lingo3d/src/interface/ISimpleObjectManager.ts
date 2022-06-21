@@ -12,6 +12,7 @@ export type OnIntersectValue = (target: SimpleObjectManager) => void
 export default interface ISimpleObjectManager extends IStaticObjectManager, IPositioned, IPhysics {
     onIntersect: Nullable<OnIntersectValue>
     onIntersectOut: Nullable<OnIntersectValue>
+    onMoveToEnd: Nullable<() => void>
 
     intersectIds: Nullable<Array<string>>
 
@@ -39,6 +40,7 @@ export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManag
 
     onIntersect: Function,
     onIntersectOut: Function,
+    onMoveToEnd: Function,
 
     intersectIds: Array,
 
@@ -68,6 +70,8 @@ export const simpleObjectManagerDefaults: Defaults<ISimpleObjectManager> = {
 
     onIntersect: undefined,
     onIntersectOut: undefined,
+    onMoveToEnd: undefined,
+
     intersectIds: undefined,
 
     width: 100,

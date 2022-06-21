@@ -355,6 +355,8 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
             this.outerObject3d.lookAt(point2Vec(a0))
     }
 
+    public onLookToEnd: (() => void) | undefined
+
     public lookTo(target: MeshItem | Point3d, alpha: number): void
     public lookTo(x: number, y: number | undefined, z: number, alpha: number): void
     public lookTo(a0: MeshItem | Point3d | number, a1: number | undefined, a2?: number, a3?: number) {
@@ -375,6 +377,8 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
             const { x, y, z } = diffQuaternions(quaternion, quaternionNew)
             if (Math.abs(x) + Math.abs(y) + Math.abs(z) < 0.001) {
                 this.cancelHandle("lookTo", undefined)
+                this.onLookToEnd?.()
+
                 quaternion.copy(quaternionNew)
             }
         }))
