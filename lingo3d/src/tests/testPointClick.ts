@@ -1,5 +1,5 @@
 
-import { ThirdPersonCamera, Dummy, Reflector, settings } from ".."
+import { ThirdPersonCamera, Dummy, Reflector, settings, Cube } from ".."
 
 export default {}
 
@@ -15,8 +15,12 @@ reflector.onClick = e => {
     console.log(e)
 }
 
+const marker = new Cube()
+
 reflector.onClick = e => {
-    console.log(e)
+    marker.placeAt(e.point)
+    marker.y += 50
+    dummy.lookTo({ ...e.point, y: dummy.y }, 0.1)
 }
 
 const dummy = new Dummy()
@@ -27,3 +31,4 @@ const cam = new ThirdPersonCamera()
 cam.append(dummy)
 cam.activate()
 cam.mouseControl = "drag"
+cam.lockTargetRotation = "follow"

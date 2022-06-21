@@ -1,5 +1,5 @@
 import { distance3d, Point3d } from "@lincode/math"
-import { Material, Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding } from "three"
+import { Material, Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding, Quaternion } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
 import { frustum, matrix4, ray, vector3, vector3_, vector3_1, vector3_half, vector3__ } from "../../utils/reusables"
 import { applyMixins, forceGet, throttle } from "@lincode/utils"
@@ -22,6 +22,7 @@ import copyStandard from "./applyMaterialProperties/copyStandard"
 import copyToon from "./applyMaterialProperties/copyToon"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { onBeforeRender } from "../../../events/onBeforeRender"
+import diffQuaternions from "../../utils/diffQuaternions"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -353,16 +354,14 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         const quaternionOld = quaternion.clone()
         this.lookAt(target)
         const quaternionNew = quaternion.clone()
-        const { w, x, y, z } = quaternionNew
+
+        quaternion.copy(quaternionOld)
 
         this.cancelHandle("lookTo", () => onBeforeRender(() => {
-            quaternion.slerpQuaternions(quaternionOld, quaternionNew, alpha)
+            quaternion.slerp(quaternionNew, alpha)
 
-            if (Math.abs(quaternion.x - x) < 0.01 &&
-                Math.abs(quaternion.y - y) < 0.01 &&
-                Math.abs(quaternion.z - z) < 0.01 &&
-                Math.abs(quaternion.z - w) < 0.01)
-            {
+            const { x, y, z } = diffQuaternions(quaternion, quaternionNew)
+            if (Math.abs(x) + Math.abs(y) + Math.abs(z) < 0.001) {
                 this.cancelHandle("lookTo", undefined)
                 quaternion.copy(quaternionNew)
             }

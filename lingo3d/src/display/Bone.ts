@@ -1,12 +1,11 @@
 import { distance3d } from "@lincode/math"
 import randomColor from "randomcolor"
-import { Object3D, Quaternion } from "three"
+import { Object3D } from "three"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import Octahedron from "./primitives/Octahedron"
+import diffQuaternions from "./utils/diffQuaternions"
 import { vector3, vector3_ } from "./utils/reusables"
 import { vec2Point } from "./utils/vec2Point"
-
-const diffQuat = (A: Quaternion, B: Quaternion) => A.clone().multiply(B.clone().invert())
 
 export default class Bone extends Octahedron {
     public constructor(target: Object3D, child: Object3D) {
@@ -63,7 +62,7 @@ export default class Bone extends Octahedron {
         const myQuat = this.outerObject3d.quaternion.clone()
 
         this.onLoop = () => {
-            const diff = diffQuat(this.outerObject3d.quaternion, myQuat)
+            const diff = diffQuaternions(this.outerObject3d.quaternion, myQuat)
             target.quaternion.copy(targetQuat.clone().multiply(diff))
         }
     }
