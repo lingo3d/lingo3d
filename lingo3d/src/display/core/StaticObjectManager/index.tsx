@@ -342,23 +342,35 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         return frustum.containsPoint(getCenter(this.object3d))
     }
 
-    public lookAt(target: MeshItem | Point3d) {
-        if ("outerObject3d" in target)
-            this.outerObject3d.lookAt(getObject3d(target).getWorldPosition(vector3))
+    public lookAt(target: MeshItem | Point3d): void
+    public lookAt(x: number, y: number | undefined, z: number): void
+    public lookAt(a0: MeshItem | Point3d | number, a1?: number, a2?: number) {
+        if (typeof a0 === "number") {
+            this.lookAt(new Point3d(a0, a1 === undefined ? this.outerObject3d.position.y * scaleUp : a1, a2!))
+            return
+        }
+        if ("outerObject3d" in a0)
+            this.outerObject3d.lookAt(getObject3d(a0).getWorldPosition(vector3))
         else
-            this.outerObject3d.lookAt(point2Vec(target))
+            this.outerObject3d.lookAt(point2Vec(a0))
     }
 
-    public lookTo(target: MeshItem | Point3d, alpha: number) {
+    public lookTo(target: MeshItem | Point3d, alpha: number): void
+    public lookTo(x: number, y: number | undefined, z: number, alpha: number): void
+    public lookTo(a0: MeshItem | Point3d | number, a1: number | undefined, a2?: number, a3?: number) {
+        if (typeof a0 === "number") {
+            this.lookTo(new Point3d(a0, a1 === undefined ? this.outerObject3d.position.y * scaleUp : a1, a2!), a3!)
+            return
+        }
         const { quaternion } = this.outerObject3d
         const quaternionOld = quaternion.clone()
-        this.lookAt(target)
+        this.lookAt(a0)
         const quaternionNew = quaternion.clone()
 
         quaternion.copy(quaternionOld)
 
         this.cancelHandle("lookTo", () => onBeforeRender(() => {
-            quaternion.slerp(quaternionNew, alpha)
+            quaternion.slerp(quaternionNew, a1!)
 
             const { x, y, z } = diffQuaternions(quaternion, quaternionNew)
             if (Math.abs(x) + Math.abs(y) + Math.abs(z) < 0.001) {

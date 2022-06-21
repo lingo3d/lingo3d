@@ -1,4 +1,4 @@
-import { rad2Deg, deg2Rad, distance3d, Point3d } from "@lincode/math"
+import { rad2Deg, deg2Rad, distance3d, Point3d, distance } from "@lincode/math"
 import { Object3D, Vector2, Vector3 } from "three"
 import { quaternion, vector3, vector3_ } from "../../utils/reusables"
 import { scaleDown, scaleUp } from "../../../engine/constants"
@@ -360,54 +360,27 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         }))
     }
 
-    public moveTo(x: number, y: number, z: number, speed: number) {
-        const { x: rx, y: ry, z: rz } = vector3.set(x - this.x, y - this.y, z - this.z).normalize()
-        const sx = Math.abs(speed * rx)
-        const sy = Math.abs(speed * ry)
-        const sz = Math.abs(speed * rz)
+    public moveTo(x: number, y: number | undefined, z: number, speed: number) {
+        const { x: rx, y: ry, z: rz } = new Vector3(x - this.x, y === undefined ? 0 : y - this.y, z - this.z).normalize()
+        const sx = speed * rx
+        const sy = speed * ry
+        const sz = speed * rz
 
-        const signX = Math.sign(x)
-        const signY = Math.sign(y)
-        const signZ = Math.sign(z)
-
+        let distOld = Infinity
         this.cancelHandle("lerpTo", () => onBeforeRender(() => {
-            const diffX = Math.min(Math.abs((x - this.x) * 0.5), sx) * signX
-            const diffY = Math.min(Math.abs((y - this.y) * 0.5), sy) * signY
-            const diffZ = Math.min(Math.abs((z - this.z) * 0.5), sz) * signZ
-
-            if (Math.abs(this.x - x) < 0.1 && Math.abs(this.y - y) < 0.1 && Math.abs(this.z - z) < 0.1) {
+            this.x += sx
+            y !== undefined && (this.y += sy)
+            this.z += sz
+            
+            let dist = distance3d(this.x, y === undefined ? 0 : this.y, this.z, x, y === undefined ? 0 : y, z)
+            if (dist >= distOld) {
                 this.cancelHandle("lerpTo", undefined)
                 this.x = x
-                this.y = y
+                y !== undefined && (this.y = y)
                 this.z = z
                 return
             }
-            this.x += diffX
-            this.y += diffY
-            this.z += diffZ
-        }))
-    }
-
-    public walkTo(x: number, z: number, speed: number) {
-        const { x: rx, y: rz } = new Vector2(x - this.x, z - this.z).normalize()
-        const sx = Math.abs(speed * rx)
-        const sz = Math.abs(speed * rz)
-
-        const signX = Math.sign(x)
-        const signZ = Math.sign(z)
-
-        this.cancelHandle("lerpTo", () => onBeforeRender(() => {
-            const diffX = Math.min(Math.abs((x - this.x) * 0.5), sx) * signX
-            const diffZ = Math.min(Math.abs((z - this.z) * 0.5), sz) * signZ
-
-            if (Math.abs(this.x - x) < 0.1 && Math.abs(this.z - z) < 0.1) {
-                this.cancelHandle("lerpTo", undefined)
-                this.x = x
-                this.z = z
-                return
-            }
-            this.x += diffX
-            this.z += diffZ
+            distOld = dist
         }))
     }
 }

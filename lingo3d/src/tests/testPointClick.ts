@@ -20,7 +20,8 @@ const marker = new Cube()
 reflector.onClick = e => {
     marker.placeAt(e.point)
     marker.y += 50
-    dummy.lookTo({ ...e.point, y: dummy.y }, 0.1)
+    dummy.lookTo(e.point.x, undefined, e.point.z, 0.1)
+    dummy.moveTo(e.point.x, undefined, e.point.z, 5)
 }
 
 const dummy = new Dummy()
@@ -31,4 +32,4 @@ const cam = new ThirdPersonCamera()
 cam.append(dummy)
 cam.activate()
 cam.mouseControl = "drag"
-cam.lockTargetRotation = "follow"
+cam.lockTargetRotation = false
