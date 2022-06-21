@@ -98,6 +98,7 @@ import {
     beforeRender() {
       if (!this.parent) return
   
+      this.camera.updateMatrixWorld()
       this.reflectorWorldPosition.setFromMatrixPosition(this.parent.matrixWorld)
       this.cameraWorldPosition.setFromMatrixPosition(this.camera.matrixWorld)
       this.rotationMatrix.extractRotation(this.parent.matrixWorld)
