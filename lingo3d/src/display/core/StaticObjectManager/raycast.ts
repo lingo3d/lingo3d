@@ -108,7 +108,7 @@ const enableMouseEvents = () => {
 }
 
 createEffect(() => {
-    const selection = getSelection()
+    const selection = getSelection() && getCameraRendered() === mainCamera
     const multipleSelection = getMultipleSelection()
     const firstMultipleSelection = createRef(true)
 
@@ -116,7 +116,7 @@ createEffect(() => {
         !multipleSelection && (firstMultipleSelection.current = true)
     }, [multipleSelection])
 
-    if (selection && !getTransformControlsDragging() && getCameraRendered() === mainCamera) {
+    if (selection && !getTransformControlsDragging()) {
         const handle = new Cancellable()
 
         getSelectionCandidates()

@@ -44,7 +44,7 @@ const useResize = (el: Element) => {
         }
         handleResize()
 
-        const handleResizeDebounced = debounce(handleResize, 100, "trailing")
+        const handleResizeDebounced = debounce(handleResize, 100, "both")
         window.addEventListener("resize", handleResizeDebounced)
         const handle = onEditorMountChange(handleResizeDebounced)
 
