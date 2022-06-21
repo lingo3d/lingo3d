@@ -55,7 +55,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     }
     public set onLoad(cb: (() => void) | undefined) {
         this._onLoad = cb
-        this.cancelHandle("onLoad", cb && this.loaded.then(cb))
+        this.cancelHandle("onLoad", cb && (() => this.loaded.then(cb)))
     }
 
     protected widthSet?: boolean
@@ -147,7 +147,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         if (this.outerObject3d.frustumCulled === val) return
         this.outerObject3d.frustumCulled = val
         
-        this.cancelHandle("frustumCulled", this.loaded.then(() => {
+        this.cancelHandle("frustumCulled", () => this.loaded.then(() => {
             super.frustumCulled = val
         }))
     }
@@ -159,8 +159,8 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         if (this._physics === val) return
         this._physics = val
 
-        const handle = this.cancelHandle("physics", this.loaded.then(() => {
-            this.initPhysics(val, handle)
+        const handle = this.cancelHandle("physics", () => this.loaded.then(() => {
+            this.initPhysics(val, handle!)
         }))
     }
 
@@ -181,7 +181,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         if (this._outline === val) return
         this._outline = val
 
-        this.cancelHandle("outline", this.loaded.then(loaded => {
+        this.cancelHandle("outline", () => this.loaded.then(loaded => {
             if (!val) return
 
             addOutline(loaded)
@@ -199,7 +199,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         if (this._bloom === val) return
         this._bloom = val
 
-        this.cancelHandle("bloom", this.loaded.then(loaded => {
+        this.cancelHandle("bloom", () => this.loaded.then(loaded => {
             if (!val) return
 
             addBloom(loaded)
@@ -217,7 +217,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         if (this._reflection === val) return
         this._reflection = val
 
-        this.cancelHandle("reflection", this.loaded.then(loaded => {
+        this.cancelHandle("reflection", () => this.loaded.then(loaded => {
             if (!val) return
 
             addSSR(loaded)
@@ -242,6 +242,6 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     }
 
     protected override refreshFactors() {
-        this.cancelHandle("refreshFactors", this.loaded.then(() => super.refreshFactors()))
+        this.cancelHandle("refreshFactors", () => this.loaded.then(() => super.refreshFactors()))
     }
 }

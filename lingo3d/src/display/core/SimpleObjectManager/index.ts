@@ -348,7 +348,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         const from = new Vector3(this.x, this.y, this.z)
         const to = new Vector3(x, y, z)
 
-        this.cancelHandle("lerpTo", onBeforeRender(() => {
+        this.cancelHandle("lerpTo", () => onBeforeRender(() => {
             const { x, y, z } = from.lerp(to, alpha)
 
             if (Math.abs(this.x - x) < 0.1 && Math.abs(this.y - y) < 0.1 && Math.abs(this.z - z) < 0.1)
@@ -370,7 +370,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         const signY = Math.sign(y)
         const signZ = Math.sign(z)
 
-        this.cancelHandle("lerpTo", onBeforeRender(() => {
+        this.cancelHandle("lerpTo", () => onBeforeRender(() => {
             const diffX = Math.min(Math.abs((x - this.x) * 0.5), sx) * signX
             const diffY = Math.min(Math.abs((y - this.y) * 0.5), sy) * signY
             const diffZ = Math.min(Math.abs((z - this.z) * 0.5), sz) * signZ
@@ -396,7 +396,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         const signX = Math.sign(x)
         const signZ = Math.sign(z)
 
-        this.cancelHandle("lerpTo", onBeforeRender(() => {
+        this.cancelHandle("lerpTo", () => onBeforeRender(() => {
             const diffX = Math.min(Math.abs((x - this.x) * 0.5), sx) * signX
             const diffZ = Math.min(Math.abs((z - this.z) * 0.5), sz) * signZ
 

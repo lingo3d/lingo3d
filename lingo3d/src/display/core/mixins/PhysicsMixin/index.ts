@@ -218,6 +218,6 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
         if (this._physics === val) return
         this._physics = val
 
-        this.initPhysics(val, this.cancelHandle("physics", new Cancellable()))
+        this.initPhysics(val, this.cancelHandle("physics", () => new Cancellable())!)
     }
 }

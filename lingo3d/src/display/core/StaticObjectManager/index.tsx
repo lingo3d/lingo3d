@@ -83,7 +83,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
     public set onClick(cb: ((e: LingoMouseEvent) => void) | undefined) {
         this._onClick = cb
-        this.cancelHandle("onClick", cb && this.addToRaycastSet(clickSet))
+        this.cancelHandle("onClick", cb && (() => this.addToRaycastSet(clickSet)))
     }
 
     private _onMouseDown?: (e: LingoMouseEvent) => void
@@ -92,7 +92,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
     public set onMouseDown(cb: ((e: LingoMouseEvent) => void) | undefined) {
         this._onMouseDown = cb
-        this.cancelHandle("onMouseDown", cb && this.addToRaycastSet(mouseDownSet))
+        this.cancelHandle("onMouseDown", cb && (() => this.addToRaycastSet(mouseDownSet)))
     }
 
     private _onMouseUp?: (e: LingoMouseEvent) => void
@@ -101,7 +101,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
     public set onMouseUp(cb: ((e: LingoMouseEvent) => void) | undefined) {
         this._onMouseUp = cb
-        this.cancelHandle("onMouseUp", cb && this.addToRaycastSet(mouseUpSet))
+        this.cancelHandle("onMouseUp", cb && (() => this.addToRaycastSet(mouseUpSet)))
     }
 
     private _onMouseOver?: (e: LingoMouseEvent) => void
@@ -110,7 +110,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
     public set onMouseOver(cb: ((e: LingoMouseEvent) => void) | undefined) {
         this._onMouseOver = cb
-        this.cancelHandle("onMouseOver", cb && this.addToRaycastSet(mouseOverSet))
+        this.cancelHandle("onMouseOver", cb && (() => this.addToRaycastSet(mouseOverSet)))
     }
 
     private _onMouseOut?: (e: LingoMouseEvent) => void
@@ -119,7 +119,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
     public set onMouseOut(cb: ((e: LingoMouseEvent) => void) | undefined) {
         this._onMouseOut = cb
-        this.cancelHandle("onMouseOut", cb && this.addToRaycastSet(mouseOutSet))
+        this.cancelHandle("onMouseOut", cb && (() => this.addToRaycastSet(mouseOutSet)))
     }
 
     private _onMouseMove?: (e: LingoMouseEvent) => void
@@ -128,7 +128,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
     public set onMouseMove(cb: ((e: LingoMouseEvent) => void) | undefined) {
         this._onMouseMove = cb
-        this.cancelHandle("onMouseMove", cb && this.addToRaycastSet(mouseMoveSet))
+        this.cancelHandle("onMouseMove", cb && (() => this.addToRaycastSet(mouseMoveSet)))
     }
 
     public get name() {
@@ -199,7 +199,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
     public set reflection(val: boolean) {
         val && addSSR(this.object3d)
-        this.cancelHandle("reflection", val && new Cancellable(() => deleteSSR(this.object3d)))
+        this.cancelHandle("reflection", val && (() => new Cancellable(() => deleteSSR(this.object3d))))
     }
 
     public get bloom() {
@@ -207,7 +207,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
     public set bloom(val: boolean) {
         val && addBloom(this.outerObject3d)
-        this.cancelHandle("bloom", val && new Cancellable(() => deleteBloom(this.outerObject3d)))
+        this.cancelHandle("bloom", val && (() => new Cancellable(() => deleteBloom(this.outerObject3d))))
     }
 
     public get outline() {
@@ -215,7 +215,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
     public set outline(val: boolean) {
         val && addOutline(this.object3d)
-        this.cancelHandle("outline", val && new Cancellable(() => deleteOutline(this.object3d)))
+        this.cancelHandle("outline", val && (() => new Cancellable(() => deleteOutline(this.object3d))))
     }
 
     private _visible?: boolean
@@ -355,7 +355,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         const quaternionNew = quaternion.clone()
         const { w, x, y, z } = quaternionNew
 
-        this.cancelHandle("lookTo", onBeforeRender(() => {
+        this.cancelHandle("lookTo", () => onBeforeRender(() => {
             quaternion.slerpQuaternions(quaternionOld, quaternionNew, alpha)
 
             if (Math.abs(quaternion.x - x) < 0.01 &&

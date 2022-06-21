@@ -191,6 +191,6 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
             this.object3d.quaternion.multiply(worldTransform)
         }
         val && window.addEventListener("deviceorientation", cb)
-        this.cancelHandle("gyroControl", val && new Cancellable(() => window.removeEventListener("deviceorientation", cb)))
+        this.cancelHandle("gyroControl", val && (() => new Cancellable(() => window.removeEventListener("deviceorientation", cb))))
     }
 }

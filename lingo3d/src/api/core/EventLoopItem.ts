@@ -19,7 +19,7 @@ export default abstract class EventLoopItem extends Appendable implements IEvent
         val && (val.__target = this)
     }
 
-    public timer(time: number, repeat: number, cb: () => void) : Cancellable {
+    public timer(time: number, repeat: number, cb: () => void) {
         return this.watch(timer(time, repeat, cb))
     }
 
@@ -40,11 +40,15 @@ export default abstract class EventLoopItem extends Appendable implements IEvent
     }
 
     private handles?: Map<string, Cancellable>
-    protected cancelHandle<T extends Cancellable | undefined | false>(name: string, handle: T) {
+    protected cancelHandle(name: string, lazyHandle: undefined | false | (() => Cancellable)) {
         const handles = this.handles ??= new Map<string, Cancellable>()
         handles.get(name)?.cancel()
-        handle && handles.set(name, handle)
-        return handle as T
+
+        if (!lazyHandle) return
+
+        const handle = lazyHandle()
+        handles.set(name, handle)
+        return handle
     }
 
     public override dispose() {
@@ -64,6 +68,6 @@ export default abstract class EventLoopItem extends Appendable implements IEvent
     }
     public set onLoop(cb: (() => void) | undefined) {
         this._onLoop = cb
-        this.cancelHandle("onLoop", cb && onBeforeRender(cb))
+        this.cancelHandle("onLoop", cb && (() => onBeforeRender(cb)))
     }
 }
