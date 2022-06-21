@@ -1,5 +1,5 @@
 
-import { ThirdPersonCamera, Dummy, Reflector, settings, Cube } from ".."
+import { ThirdPersonCamera, Dummy, Reflector, settings, Cube, Camera } from ".."
 
 export default {}
 
@@ -33,3 +33,9 @@ cam.append(dummy)
 cam.activate()
 cam.mouseControl = "drag"
 cam.lockTargetRotation = false
+
+const light = new Camera()
+// light.y = 500
+// light.x = 500
+// light.z = 500
+// light.lookAt(dummy)

@@ -79,11 +79,6 @@ export default class AreaLight extends ObjectManager<Group> implements IAreaLigh
         this.helperState.set(val)
     }
 
-    public override lookAt(target: MeshItem | Point3d) {
-        super.lookAt(target)
-        this.rotationY += 180
-    }
-
     private _color?: string
     public get color() {
         return this._color ?? "white"

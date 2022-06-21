@@ -24,6 +24,7 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
 
     protected initCamera() {
         this.camera.userData.manager = this
+        this.camera.rotation.y = Math.PI
 
         pushCameraList(this.camera)
         this.then(() => {

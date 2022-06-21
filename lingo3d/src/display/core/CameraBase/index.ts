@@ -6,11 +6,10 @@ import { scaleUp, scaleDown } from "../../../engine/constants"
 import { ray, vector3_, vector3, euler } from "../../utils/reusables"
 import pillShape from "../mixins/PhysicsMixin/cannon/shapes/pillShape"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
-import { deg2Rad, Point3d, rad2Deg } from "@lincode/math"
+import { deg2Rad, rad2Deg } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
 import PositionedItem from "../../../api/core/PositionedItem"
-import MeshItem from "../MeshItem"
 
 const PI_2 = Math.PI * 0.5
 
@@ -65,11 +64,6 @@ abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Gro
         const num = val * scaleDown
         this.object3d.scale.z = num
         this.camera.scale.z = 1 / num
-    }
-
-    public override lookAt(target: MeshItem | Point3d) {
-        super.lookAt(target)
-        this.rotationY += 180
     }
 
     private _gyrate(movementX: number, movementY: number, inner?: boolean) {

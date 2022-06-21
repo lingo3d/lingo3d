@@ -1,5 +1,5 @@
-import { rad2Deg, deg2Rad, distance3d, Point3d, distance } from "@lincode/math"
-import { Object3D, Vector2, Vector3 } from "three"
+import { rad2Deg, deg2Rad, distance3d, Point3d } from "@lincode/math"
+import { Object3D, Vector3 } from "three"
 import { quaternion, vector3, vector3_ } from "../../utils/reusables"
 import { scaleDown, scaleUp } from "../../../engine/constants"
 import { point2Vec } from "../../utils/vec2Point"
@@ -294,8 +294,10 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         this.object3d.visible = val
     }
 
-    public override lookAt(target: MeshItem | Point3d) {
-        super.lookAt(target)
+    public override lookAt(target: MeshItem | Point3d): void
+    public override lookAt(x: number, y: number | undefined, z: number): void
+    public override lookAt(a0: any, a1?: any, a2?: any) {
+        super.lookAt(a0, a1, a2)
         this.physicsRotate()
     }
 
@@ -357,6 +359,8 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
             this.x = x
             this.y = y
             this.z = z
+
+            this.physicsMove()
         }))
     }
 
@@ -378,9 +382,10 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
                 this.x = x
                 y !== undefined && (this.y = y)
                 this.z = z
-                return
             }
             distOld = dist
+
+            y === undefined ? this.physicsMoveXZ() : this.physicsMove()
         }))
     }
 }

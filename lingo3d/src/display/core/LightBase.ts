@@ -1,4 +1,3 @@
-import { Point3d } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Class } from "@lincode/utils"
 import { Color, Light, Object3D } from "three"
@@ -7,7 +6,6 @@ import scene from "../../engine/scene"
 import { emitSelectionTarget, onSelectionTarget } from "../../events/onSelectionTarget"
 import ILightBase from "../../interface/ILightBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import MeshItem from "./MeshItem"
 import ObjectManager from "./ObjectManager"
 import makeLightSprite from "./utils/makeLightSprite"
 
@@ -48,11 +46,6 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
         super.dispose()
         this.object3d.dispose()
         return this
-    }
-
-    public override lookAt(target: MeshItem | Point3d) {
-        super.lookAt(target)
-        this.rotationY += 180
     }
 
     public get color() {
