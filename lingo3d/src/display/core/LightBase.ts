@@ -3,6 +3,7 @@ import { Class } from "@lincode/utils"
 import { Color, Light, Object3D } from "three"
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
+import { onBeforeRender } from "../../events/onBeforeRender"
 import { emitSelectionTarget, onSelectionTarget } from "../../events/onSelectionTarget"
 import ILightBase from "../../interface/ILightBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
@@ -27,6 +28,13 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
                 const helper = new Helper(this.object3d)
                 scene.add(helper)
                 helper.add(sprite.outerObject3d)
+
+                if ("update" in helper)
+                    handle.watch(onBeforeRender(() => {
+                        //@ts-ignore
+                        helper.update()
+                    }))
+                
                 handle.then(() => {
                     helper.dispose()
                     scene.remove(helper)
