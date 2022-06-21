@@ -24,7 +24,7 @@ specifiers:
   css-loader: ^6.7.1
   fork-ts-checker-webpack-plugin: ^7.2.11
   html-webpack-plugin: ^5.5.0
-  lingo3d: 1.10.258
+  lingo3d: 1.10.260
   nanoid: ^3.3.4
   popmotion: ^11.0.3
   postcss: ^8.4.14
@@ -48,7 +48,7 @@ dependencies:
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
   '@types/three': 0.140.0
-  lingo3d: 1.10.258
+  lingo3d: 1.10.260
   nanoid: 3.3.4
   popmotion: 11.0.3
   stats.js: 0.17.0
@@ -1904,7 +1904,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.20.4
-      caniuse-lite: 1.0.30001357
+      caniuse-lite: 1.0.30001358
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -2042,8 +2042,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001357
-      electron-to-chromium: 1.4.161
+      caniuse-lite: 1.0.30001358
+      electron-to-chromium: 1.4.163
       escalade: 3.1.1
       node-releases: 2.0.5
       picocolors: 1.0.0
@@ -2082,8 +2082,8 @@ packages:
       tslib: 2.4.0
     dev: true
 
-  /caniuse-lite/1.0.30001357:
-    resolution: {integrity: sha512-b+KbWHdHePp+ZpNj+RDHFChZmuN+J5EvuQUlee9jOQIUAdhv9uvAZeEtUeLAknXbkiu1uxjQ9NLp1ie894CuWg==}
+  /caniuse-lite/1.0.30001358:
+    resolution: {integrity: sha512-hvp8PSRymk85R20bsDra7ZTCpSVGN/PAz9pSAjPSjKC+rNmnUk5vCRgJwiTT/O4feQ/yu/drvZYpKxxhbFuChw==}
     dev: true
 
   /cannon-es/0.19.0:
@@ -2455,8 +2455,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: true
 
-  /electron-to-chromium/1.4.161:
-    resolution: {integrity: sha512-sTjBRhqh6wFodzZtc5Iu8/R95OkwaPNn7tj/TaDU5nu/5EFiQDtADGAXdR4tJcTEHlYfJpHqigzJqHvPgehP8A==}
+  /electron-to-chromium/1.4.163:
+    resolution: {integrity: sha512-c9q94pUVqIdc8hyr7jZDB4bNEoNF3QJ7y35lnddMD+mXtiv5GsL1bT/RmfW/KEOmvlNg5Oy1qioiy4tA7e864Q==}
     dev: true
 
   /emojis-list/3.0.0:
@@ -3171,8 +3171,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lingo3d/1.10.258:
-    resolution: {integrity: sha512-ZYffIR0anR78GrAnaKD2HOm7PIJSXvFSb7wNaOCWlvJHkQolbn3S+rD1Yydyc9EaVRYAt4D6cuEuu82NU5dvOQ==}
+  /lingo3d/1.10.260:
+    resolution: {integrity: sha512-xNe5GW+Bluy5FljZRNLBb3Qln54cpwZNd28Yfp83+4a9sJFam26+i+01Yl30St5Ub3YxTsOudmaC8bgr+RB2Ng==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1

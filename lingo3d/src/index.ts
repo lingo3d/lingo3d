@@ -61,6 +61,7 @@ import FoundManager from "./display/core/FoundManager"
 import { onAfterRender } from "./events/onAfterRender"
 import { onBeforeRender } from "./events/onBeforeRender"
 import { LingoMouseEvent } from "./interface/IMouse"
+export type { SimpleMouseEvent } from "./interface/IMouse"
 
 import { Point3d, Point } from "@lincode/math"
 import { setWasmPath } from "./states/useWasmPath"

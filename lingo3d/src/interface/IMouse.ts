@@ -32,17 +32,24 @@ export class LingoMouseEvent extends MouseEventPayload {
     }
 }
 
+export type SimpleMouseEvent = {
+    clientX: number
+    clientY: number
+}
+
 export default interface IMouse extends IEventLoop {
-    onClick: Nullable<(e: LingoMouseEvent) => void>
-    onMouseMove: Nullable<(e: LingoMouseEvent) => void>
-    onMouseDown: Nullable<(e: LingoMouseEvent) => void>
-    onMouseUp: Nullable<(e: LingoMouseEvent) => void>
-    onMousePress: Nullable<(e: LingoMouseEvent) => void>
+    onClick: Nullable<(e: SimpleMouseEvent) => void>
+    onRightClick: Nullable<(e: SimpleMouseEvent) => void>
+    onMouseMove: Nullable<(e: SimpleMouseEvent) => void>
+    onMouseDown: Nullable<(e: SimpleMouseEvent) => void>
+    onMouseUp: Nullable<(e: SimpleMouseEvent) => void>
+    onMousePress: Nullable<(e: SimpleMouseEvent) => void>
 }
 
 export const mouseSchema: Required<ExtractProps<IMouse>> = {
     ...eventLoopSchema,
     onClick: Function,
+    onRightClick: Function,
     onMouseMove: Function,
     onMouseDown: Function,
     onMouseUp: Function,
@@ -52,6 +59,7 @@ export const mouseSchema: Required<ExtractProps<IMouse>> = {
 export const mouseDefaults: Defaults<IMouse> = {
     ...eventLoopDefaults,
     onClick: undefined,
+    onRightClick: undefined,
     onMouseMove: undefined,
     onMouseDown: undefined,
     onMouseUp: undefined,
