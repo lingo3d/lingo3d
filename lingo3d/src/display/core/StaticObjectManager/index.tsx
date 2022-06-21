@@ -21,6 +21,7 @@ import { Reactive } from "@lincode/reactivity"
 import copyStandard from "./applyMaterialProperties/copyStandard"
 import copyToon from "./applyMaterialProperties/copyToon"
 import { getCameraRendered } from "../../../states/useCameraRendered"
+import { onBeforeRender } from "../../../events/onBeforeRender"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -345,6 +346,27 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
             this.outerObject3d.lookAt(getObject3d(target).getWorldPosition(vector3))
         else
             this.outerObject3d.lookAt(point2Vec(target))
+    }
+
+    public lookTo(target: MeshItem | Point3d, alpha: number) {
+        const { quaternion } = this.outerObject3d
+        const quaternionOld = quaternion.clone()
+        this.lookAt(target)
+        const quaternionNew = quaternion.clone()
+        const { w, x, y, z } = quaternionNew
+
+        this.cancelHandle("lookTo", onBeforeRender(() => {
+            quaternion.slerpQuaternions(quaternionOld, quaternionNew, alpha)
+
+            if (Math.abs(quaternion.x - x) < 0.01 &&
+                Math.abs(quaternion.y - y) < 0.01 &&
+                Math.abs(quaternion.z - z) < 0.01 &&
+                Math.abs(quaternion.z - w) < 0.01)
+            {
+                this.cancelHandle("lookTo", undefined)
+                quaternion.copy(quaternionNew)
+            }
+        }))
     }
 }
 interface StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem, AnimationMixin {}

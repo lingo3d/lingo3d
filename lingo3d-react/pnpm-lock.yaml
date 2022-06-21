@@ -24,7 +24,7 @@ specifiers:
   css-loader: ^6.7.1
   fork-ts-checker-webpack-plugin: ^7.2.11
   html-webpack-plugin: ^5.5.0
-  lingo3d: 1.10.260
+  lingo3d: 1.10.261
   nanoid: ^3.3.4
   popmotion: ^11.0.3
   postcss: ^8.4.14
@@ -48,7 +48,7 @@ dependencies:
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
   '@types/three': 0.140.0
-  lingo3d: 1.10.260
+  lingo3d: 1.10.261
   nanoid: 3.3.4
   popmotion: 11.0.3
   stats.js: 0.17.0
@@ -2043,7 +2043,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001358
-      electron-to-chromium: 1.4.163
+      electron-to-chromium: 1.4.164
       escalade: 3.1.1
       node-releases: 2.0.5
       picocolors: 1.0.0
@@ -2455,8 +2455,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: true
 
-  /electron-to-chromium/1.4.163:
-    resolution: {integrity: sha512-c9q94pUVqIdc8hyr7jZDB4bNEoNF3QJ7y35lnddMD+mXtiv5GsL1bT/RmfW/KEOmvlNg5Oy1qioiy4tA7e864Q==}
+  /electron-to-chromium/1.4.164:
+    resolution: {integrity: sha512-K7iy5y6XyP9Pzh3uaDti0KC4JUNT6T1tLG5RTOmesqq2YgAJpYYYJ32m+anvZYjCV35llPTEh87kvEV/uSsiyQ==}
     dev: true
 
   /emojis-list/3.0.0:
@@ -3171,8 +3171,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lingo3d/1.10.260:
-    resolution: {integrity: sha512-xNe5GW+Bluy5FljZRNLBb3Qln54cpwZNd28Yfp83+4a9sJFam26+i+01Yl30St5Ub3YxTsOudmaC8bgr+RB2Ng==}
+  /lingo3d/1.10.261:
+    resolution: {integrity: sha512-31FawGSRCetiaLjKFHt5vTwE3vMp1SKGEJ0XNXNgC2/cpyT/hRMvjAa0t2iw2qrG/5OSjM644L/wdyF4OloS/w==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
