@@ -66,8 +66,7 @@ export default class Audio extends PositionedItem implements IAudio {
         this._src = val
         
         const srcCount = ++this.srcCount
-
-        this.sound.stop()
+        
         if (!val) return
 
         loadAudio(val).then(buffer => {
