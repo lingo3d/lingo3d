@@ -50,7 +50,7 @@ createEffect(() => {
 
     interpolationCamera.zoom = cameraFrom.zoom
     interpolationCamera.fov = cameraFrom.fov
-    interpolationCamera.updateProjectionMatrix()
+    updateCameraAspect(interpolationCamera)
 
     let alpha = 0
     const diffMax = typeof transition === "number" ? transition : Infinity
