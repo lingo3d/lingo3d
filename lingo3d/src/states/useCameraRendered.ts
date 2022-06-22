@@ -12,14 +12,12 @@ export const [setCameraRendered, getCameraRendered] = store<PerspectiveCamera>(m
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
 createEffect(() => {
-    const cameraRendered = getCameraRendered()
-    const cameraFrom = cameraRendered === interpolationCamera ? interpolationCamera : getCameraFrom()
+    const cameraFrom = getCameraRendered() === interpolationCamera ? interpolationCamera : getCameraFrom()
     const cameraTo = last(getCameraStack())!
-    if (!cameraTo.userData.transition || !cameraFrom || cameraFrom === cameraTo || cameraRendered === cameraTo) {
+    if (!cameraTo.userData.transition || !cameraFrom || cameraFrom === cameraTo) {
         setCameraRendered(cameraTo)
         return
     }
-    setCameraRendered(interpolationCamera)
 
     const positionFrom = cameraFrom.getWorldPosition(new Vector3())
     const quaternionFrom = cameraFrom.getWorldQuaternion(new Quaternion())
@@ -41,9 +39,15 @@ createEffect(() => {
         interpolationCamera.updateProjectionMatrix()
 
         alpha = (1 - alpha) * 0.1 + alpha
-        alpha > 0.999 && setCameraRendered(cameraTo)
+        if (alpha < 0.999) return
+
+        setCameraRendered(cameraTo)
+        handle.cancel()
     })
+    setCameraRendered(cameraTo)
+    queueMicrotask(() => !handle.done && setCameraRendered(interpolationCamera))
+
     return () => {
         handle.cancel()
     }
-}, [getCameraFrom, getCameraStack, getCameraRendered])
+}, [getCameraFrom, getCameraStack])
