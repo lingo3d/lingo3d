@@ -23,6 +23,7 @@ import effectComposer from "./effectComposer"
 import { getEffectComposer } from "../../states/useEffectComposer"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { emitRender } from "../../events/onRender"
+import { emitRender2 } from "../../events/onRender2"
 
 preventTreeShake([resize, effectComposer])
 
@@ -47,6 +48,7 @@ createEffect(() => {
         const handle = loop(() => {
             emitBeforeRender()
             emitRender()
+            emitRender2()
 
             renderer.setViewport(0, 0, width, height)
             renderer.setScissor(0, 0, width, height)
@@ -77,6 +79,7 @@ createEffect(() => {
         const handle = loop(() => {
             emitBeforeRender()
             emitRender()
+            emitRender2()
             renderer.render(scene, camera)
             emitAfterRender()
         })
@@ -105,6 +108,7 @@ createEffect(() => {
         const handle = loop(() => {
             emitBeforeRender()
             emitRender()
+            emitRender2()
 
             renderer.setViewport(0, 0, width, height)
             renderer.setScissor(0, 0, width, height)
@@ -164,6 +168,7 @@ createEffect(() => {
     const handle = loop(() => {
         emitBeforeRender()
         emitRender()
+        emitRender2()
 
         if (bloomPtr[0]) {
             if (!selectiveBloomInitialized) {

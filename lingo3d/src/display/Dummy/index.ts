@@ -3,6 +3,7 @@ import store, { Reactive } from "@lincode/reactivity"
 import { Vector3 } from "three"
 import { interpret } from "xstate"
 import { onBeforeRender } from "../../events/onBeforeRender"
+import { onRender } from "../../events/onRender"
 import { DUMMY_URL } from "../../globals"
 import IDummy, { dummyDefaults, dummySchema, StrideMode } from "../../interface/IDummy"
 import FoundManager from "../core/FoundManager"
@@ -160,7 +161,7 @@ export default class Dummy extends Model implements IDummy {
             const sr = backwards ? -strideRight : strideRight
             const angle = 90 - (Math.atan2(-sf, -sr) * rad2Deg)
 
-            const handle = onBeforeRender(() => {
+            const handle = onRender(() => {
                 poseService.send(backwards ? "RUN_BACKWARDS_START" : "RUN_START")
 
                 let spinePoint: Point3d | undefined
