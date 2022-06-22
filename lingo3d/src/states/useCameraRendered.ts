@@ -1,13 +1,37 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { PerspectiveCamera, Quaternion, Vector3 } from "three"
+import { Camera, OrthographicCamera, PerspectiveCamera, Quaternion, Vector3 } from "three"
 import interpolationCamera from "../engine/interpolationCamera"
 import mainCamera from "../engine/mainCamera"
 import { getCameraStack } from "./useCameraStack"
 import { last } from "@lincode/utils"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { getCameraFrom } from "./useCameraFrom"
+import { getResolution } from "./useResolution"
+import { getVR } from "./useVR"
+import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
 
 export const [setCameraRendered, getCameraRendered] = store<PerspectiveCamera>(mainCamera)
+
+export const updateCameraAspect = (camera: Camera) => {
+    const [resX, resY] = getResolution()
+    const aspect = resX / resY
+
+    if (camera instanceof PerspectiveCamera && !getVR()) {
+        camera.aspect = aspect
+        camera.updateProjectionMatrix()
+    }
+    else if (camera instanceof OrthographicCamera) {
+        [camera.left, camera.right, camera.top, camera.bottom] = [
+            aspect * ORTHOGRAPHIC_FRUSTUM * -0.5,
+            aspect * ORTHOGRAPHIC_FRUSTUM * 0.5,
+            ORTHOGRAPHIC_FRUSTUM * 0.5,
+            ORTHOGRAPHIC_FRUSTUM * -0.5
+        ]
+        camera.updateProjectionMatrix()
+    }
+
+    return [resX, resY, aspect]
+}
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
@@ -45,6 +69,7 @@ createEffect(() => {
         if (alpha < 0.999) return
 
         setCameraRendered(cameraTo)
+        updateCameraAspect(cameraTo)
         handle.cancel()
     })
     return () => {
