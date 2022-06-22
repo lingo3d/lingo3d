@@ -8,6 +8,8 @@ import { onBeforeRender } from "../events/onBeforeRender"
 
 export const [setCameraInterpolate, getCameraInterpolate] = store(false)
 
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t
+
 createEffect(() => {
     const interpolate = getCameraInterpolate()
     const cameraFrom = getCameraFrom()
@@ -17,6 +19,10 @@ createEffect(() => {
     const positionFrom = cameraFrom.getWorldPosition(new Vector3())
     const quaternionFrom = cameraFrom.getWorldQuaternion(new Quaternion())
 
+    interpolationCamera.zoom = cameraFrom.zoom
+    interpolationCamera.fov = cameraFrom.fov
+    interpolationCamera.updateProjectionMatrix()
+
     let alpha = 0
     const handle = onBeforeRender(() => {
         const positionTo = cameraTo.getWorldPosition(new Vector3())
@@ -24,6 +30,10 @@ createEffect(() => {
 
         interpolationCamera.position.lerpVectors(positionFrom, positionTo, alpha)
         interpolationCamera.quaternion.slerpQuaternions(quaternionFrom, quaternionTo, alpha)
+
+        interpolationCamera.zoom = lerp(cameraFrom.zoom, cameraTo.zoom, alpha)
+        interpolationCamera.fov = lerp(cameraFrom.fov, cameraTo.fov, alpha)
+        interpolationCamera.updateProjectionMatrix()
 
         alpha = (1 - alpha) * 0.1 + alpha
         alpha > 0.999 && setCameraInterpolate(false)
