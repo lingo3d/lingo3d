@@ -38,8 +38,8 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 createEffect(() => {
     const cameraFrom = getCameraRendered() === interpolationCamera ? interpolationCamera : getCameraFrom()
     const cameraTo = last(getCameraStack())!
-    const transition = cameraTo.userData.transition ?? cameraFrom?.userData.transition
-    if (!cameraFrom || !transition || cameraTo.userData.transition === false || cameraFrom === cameraTo) {
+    const transition = cameraTo.userData.transition
+    if (!cameraFrom || !transition || cameraFrom === cameraTo) {
         setCameraRendered(cameraTo)
         return
     }
@@ -75,4 +75,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getCameraFrom, getCameraStack])
+}, [getCameraStack])

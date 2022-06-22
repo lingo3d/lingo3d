@@ -100,12 +100,7 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
         return last(getCameraStack()) === this.camera
     }
     public set active(val) {
-        if (val === this.active) return
-
-        if (val)
-            this.activate()
-        else
-            pullCameraStack(this.camera)
+        val && this.activate()
     }
 
     public get transition() {
