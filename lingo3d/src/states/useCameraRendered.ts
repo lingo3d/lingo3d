@@ -14,10 +14,12 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 createEffect(() => {
     const cameraFrom = getCameraRendered() === interpolationCamera ? interpolationCamera : getCameraFrom()
     const cameraTo = last(getCameraStack())!
-    if (!cameraTo.userData.transition || !cameraFrom || cameraFrom === cameraTo) {
+    const transition = cameraTo.userData.transition ?? cameraFrom?.userData.transition
+    if (!cameraFrom || !transition || cameraTo.userData.transition === false || cameraFrom === cameraTo) {
         setCameraRendered(cameraTo)
         return
     }
+    setCameraRendered(interpolationCamera)
 
     const positionFrom = cameraFrom.getWorldPosition(new Vector3())
     const quaternionFrom = cameraFrom.getWorldQuaternion(new Quaternion())
@@ -27,6 +29,7 @@ createEffect(() => {
     interpolationCamera.updateProjectionMatrix()
 
     let alpha = 0
+    const diffMax = typeof transition === "number" ? transition : Infinity
     const handle = onBeforeRender(() => {
         const positionTo = cameraTo.getWorldPosition(new Vector3())
         const quaternionTo = cameraTo.getWorldQuaternion(new Quaternion())
@@ -38,15 +41,12 @@ createEffect(() => {
         interpolationCamera.fov = lerp(cameraFrom.fov, cameraTo.fov, alpha)
         interpolationCamera.updateProjectionMatrix()
 
-        alpha = (1 - alpha) * 0.1 + alpha
+        alpha = Math.min((1 - alpha) * 0.1, diffMax) + alpha
         if (alpha < 0.999) return
 
         setCameraRendered(cameraTo)
         handle.cancel()
     })
-    setCameraRendered(cameraTo)
-    queueMicrotask(() => !handle.done && setCameraRendered(interpolationCamera))
-
     return () => {
         handle.cancel()
     }

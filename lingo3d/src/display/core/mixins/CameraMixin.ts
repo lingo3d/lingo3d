@@ -109,7 +109,7 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
     }
 
     public get transition() {
-        return this.camera.userData.transition as boolean | undefined
+        return this.camera.userData.transition as boolean | number | undefined
     }
     public set transition(val) {
         this.camera.userData.transition = val

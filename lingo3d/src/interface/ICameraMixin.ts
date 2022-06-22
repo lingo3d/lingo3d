@@ -14,7 +14,7 @@ export default interface ICameraMixin {
     near: number
     far: number
     active: boolean
-    transition: Nullable<boolean>
+    transition: Nullable<boolean | number>
 
     bokeh: boolean
     bokehFocus: number
@@ -31,7 +31,7 @@ export const cameraMixinSchema: Required<ExtractProps<ICameraMixin>> = {
     near: Number,
     far: Number,
     active: Boolean,
-    transition: Boolean,
+    transition: [Boolean, Number],
 
     bokeh: Boolean,
     bokehFocus: Number,

@@ -33,6 +33,7 @@ keyboard.onKeyUp = () => {
 }
 
 const cam = new ThirdPersonCamera()
+cam.transition = true
 cam.append(player)
 cam.mouseControl = true
 cam.active = true
