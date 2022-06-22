@@ -1,9 +1,9 @@
-import { loop } from "../engine/eventLoop"
+import { onBeforeRender } from "../events/onBeforeRender"
 
 const gamepad = {}
 export default gamepad
 
-"getGamepads" in navigator && loop(() => {
+"getGamepads" in navigator && onBeforeRender(() => {
     for (const pad of navigator.getGamepads()) {
         if (!pad) continue
 

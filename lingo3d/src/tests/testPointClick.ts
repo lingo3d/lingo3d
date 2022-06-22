@@ -1,5 +1,5 @@
 
-import { ThirdPersonCamera, Dummy, Reflector, settings, Cube, Camera, DirectionalLight } from ".."
+import { ThirdPersonCamera, Dummy, Reflector, settings, Cube } from ".."
 
 export default {}
 

@@ -4,13 +4,13 @@ import { Group } from "three"
 import IMouse, { mouseDefaults, MouseEventPayload, mouseSchema, SimpleMouseEvent } from "../interface/IMouse"
 import EventLoopItem from "./core/EventLoopItem"
 import { throttle } from "@lincode/utils"
-import { loop } from "../engine/eventLoop"
 import { getSelectionBlockMouse } from "../states/useSelectionBlockMouse"
 import { appendableRoot } from "./core/Appendable"
 import clientToWorld from "../display/utils/clientToWorld"
 import store from "@lincode/reactivity"
 import { getEditorActive } from "../states/useEditorActive"
 import Nullable from "../interface/utils/Nullable"
+import { onBeforeRender } from "../events/onBeforeRender"
 
 export type MouseEventName = "click" | "rightClick" | "move" | "down" | "up"
 export const mouseEvents = new Events<MouseEventPayload, MouseEventName>()
@@ -88,7 +88,7 @@ export class Mouse extends EventLoopItem implements IMouse {
             const cb = this.onMousePress
             if (!getDown() || !cb) return
 
-            const handle = loop(() => cb(currentPayload))
+            const handle = onBeforeRender(() => cb(currentPayload))
 
             return () => {
                 handle.cancel()
