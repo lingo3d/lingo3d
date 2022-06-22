@@ -105,7 +105,12 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
         return last(getCameraStack()) === this.camera
     }
     public set active(val: boolean | "transition") {
-        val && this.activate(val === "transition")
+        if (!!val === this.active) return
+
+        if (val)
+            this.activate(val === "transition")
+        else
+            pullCameraStack(this.camera)
     }
 
     public get bokeh() {
