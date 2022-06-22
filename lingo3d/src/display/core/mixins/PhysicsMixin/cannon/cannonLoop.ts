@@ -12,7 +12,7 @@ export const cannonContactBodies = new WeakSet<Body>()
 
 const makeWeakSet = () => new WeakSet()
 
-const dt = 1/60
+const dt = 1 / 60
 
 createEffect(function (this: PhysicsMixin) {
     if (getEditorActive()) return

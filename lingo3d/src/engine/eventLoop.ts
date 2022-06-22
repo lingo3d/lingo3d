@@ -1,5 +1,5 @@
 import { Cancellable } from "@lincode/promiselikes"
-import clockDelta from "../display/utils/clockDelta"
+import { Clock } from "three"
 import { getPaused } from "../states/usePaused"
 import { getRenderer } from "../states/useRenderer"
 
@@ -19,10 +19,11 @@ export const timer = (time: number, repeat: number, cb: () => void) => {
 
 let count = 0
 const callbacks = new Set<() => void>()
+const clock = new Clock()
 
 getRenderer(renderer => {
     renderer?.setAnimationLoop(() => {
-        const fps = 1 / clockDelta[0]
+        const fps = 1 / clock.getDelta()
 
         if (paused || ++count < Math.round(fps / 60)) return
         count = 0
