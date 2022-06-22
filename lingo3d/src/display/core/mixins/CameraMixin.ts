@@ -11,7 +11,6 @@ import EventLoopItem from "../../../api/core/EventLoopItem"
 import ICameraMixin from "../../../interface/ICameraMixin"
 import makeCameraSprite from "../utils/makeCameraSprite"
 import { emitSelectionTarget, onSelectionTarget } from "../../../events/onSelectionTarget"
-import { setCameraInterpolate } from "../../../states/useCameraInterpolate"
 import { setCameraFrom } from "../../../states/useCameraFrom"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { setBokehRefresh } from "../../../states/useBokehRefresh"
@@ -28,10 +27,7 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
 
         pushCameraList(this.camera)
         this.then(() => {
-            if (this.active) {
-                setCameraFrom(undefined)
-                setCameraInterpolate(false)
-            }
+            this.active && setCameraFrom(undefined)
             pullCameraStack(this.camera)
             pullCameraList(this.camera)
         })
@@ -91,26 +87,32 @@ export default abstract class CameraMixin<T extends PerspectiveCamera> extends E
         this.camera.updateProjectionMatrix?.()
     }
 
-    public activate(interpolate?: boolean) {
+    public activate() {
         const cameraFrom = last(getCameraStack())
         if (cameraFrom === this.camera) return
 
         pullCameraStack(this.camera)
         pushCameraStack(this.camera)
         setCameraFrom(cameraFrom)
-        setCameraInterpolate(!!interpolate)
     }
 
     public get active() {
         return last(getCameraStack()) === this.camera
     }
-    public set active(val: boolean | "transition") {
-        if (!!val === this.active) return
+    public set active(val) {
+        if (val === this.active) return
 
         if (val)
-            this.activate(val === "transition")
+            this.activate()
         else
             pullCameraStack(this.camera)
+    }
+
+    public get transition() {
+        return this.camera.userData.transition as boolean | undefined
+    }
+    public set transition(val) {
+        this.camera.userData.transition = val
     }
 
     public get bokeh() {

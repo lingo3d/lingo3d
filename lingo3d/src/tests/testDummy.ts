@@ -1,5 +1,5 @@
 
-import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings } from ".."
+import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings, OrbitCamera } from ".."
 import createProxy from "../api/createProxy"
 
 export default {}
@@ -53,4 +53,18 @@ keyboard.onKeyPress = (_, pressed) => {
 
     if (pressed.has("Space"))
         dummyProxy.jump(10)
+}
+
+const camera2 = new OrbitCamera()
+camera2.z = -500
+camera2.transition = true
+cam.transition = true
+
+keyboard.onKeyDown = (key) => {
+    if (key === "c") {
+        if (camera2.active)
+            cam.active = true
+        else
+            camera2.active = true
+    }
 }

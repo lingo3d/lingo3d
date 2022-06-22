@@ -6,13 +6,16 @@ import { bokehFocusDefault } from "../states/useBokehFocus"
 import { bokehMaxBlurDefault } from "../states/useBokehMaxBlur"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
 
 export default interface ICameraMixin {
     fov: number
     zoom: number
     near: number
     far: number
-    active: boolean | "transition"
+    active: boolean
+    transition: Nullable<boolean>
+
     bokeh: boolean
     bokehFocus: number
     bokehMaxBlur: number
@@ -27,7 +30,9 @@ export const cameraMixinSchema: Required<ExtractProps<ICameraMixin>> = {
     zoom: Number,
     near: Number,
     far: Number,
-    active: [Boolean, String],
+    active: Boolean,
+    transition: Boolean,
+
     bokeh: Boolean,
     bokehFocus: Number,
     bokehMaxBlur: Number,
@@ -43,6 +48,8 @@ export const cameraMixinDefaults: Defaults<ICameraMixin> = {
     near: camNear,
     far: camFar,
     active: false,
+    transition: undefined,
+    
     bokeh: bokehDefault,
     bokehFocus: bokehFocusDefault,
     bokehMaxBlur: bokehMaxBlurDefault,
