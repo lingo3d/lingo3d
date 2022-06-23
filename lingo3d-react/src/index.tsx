@@ -1,7 +1,7 @@
 import type * as types from "lingo3d"
 export { types }
 
-export { screenshot, onAfterRender, onBeforeRender, loop, keyboard, mouse, createProxy, serialize, deserialize, setWasmPath } from "lingo3d"
+export { screenshot, onAfterRender, onBeforeRender, loop, mainOrbitCamera, keyboard, mouse, createProxy, serialize, deserialize, setWasmPath } from "lingo3d"
 
 export { default as World } from "./components/World"
 export { default as LingoEditor } from "./components/editor/LingoEditor"

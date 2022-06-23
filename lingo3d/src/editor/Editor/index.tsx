@@ -127,10 +127,10 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
     useLayoutEffect(() => {
         if (!pane || !cameraFolder) return
 
-        const editorCameraName = "editor camera"
+        const mainCameraName = "main camera"
 
         const options = cameraList.reduce<Record<string, any>>((acc, cam, i) => {
-            acc[i === 0 ? editorCameraName : getComponentName(cam.userData.manager)] = i
+            acc[i === 0 ? mainCameraName : getComponentName(cam.userData.manager)] = i
             return acc
         }, {})
         const cameraInput = pane.addInput({ "camera": cameraList.indexOf(camera) }, "camera", { options })
@@ -139,7 +139,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             cameraList[value].userData.manager.activate()
         })
 
-        const secondaryOptions: any = { none: 0, ...omit(options, editorCameraName) }
+        const secondaryOptions: any = { none: 0, ...omit(options, mainCameraName) }
         const secondaryCameraInput = pane.addInput(
             { "secondary camera": cameraList.indexOf(getSecondaryCamera() ?? mainCamera) },
             "secondary camera",

@@ -55,6 +55,9 @@ import serialize from "./api/serializer/serialize"
 import deserialize from "./api/serializer/deserialize"
 
 import { loop, timer } from "./engine/eventLoop"
+
+import mainOrbitCamera from "./engine/mainOrbitCamera"
+
 import SimpleObjectManager from "./display/core/SimpleObjectManager"
 import FoundManager from "./display/core/FoundManager"
 
@@ -126,6 +129,8 @@ export {
     
     loop,
     timer,
+    
+    mainOrbitCamera,
 
     SimpleObjectManager as Object,
     FoundManager,
