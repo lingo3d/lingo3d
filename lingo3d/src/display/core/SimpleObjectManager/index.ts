@@ -6,8 +6,8 @@ import { point2Vec } from "../../utils/vec2Point"
 import ISimpleObjectManager, { OnIntersectValue } from "../../../interface/ISimpleObjectManager"
 import getCenter from "../../utils/getCenter"
 import PositionedItem from "../../../api/core/PositionedItem"
-import StaticObjectManager, { staticIdMap } from "../StaticObjectManager"
-import { applyMixins, forceGet } from "@lincode/utils"
+import StaticObjectManager, { idMap } from "../StaticObjectManager"
+import { applyMixins } from "@lincode/utils"
 import PhysicsMixin from "../mixins/PhysicsMixin"
 import bvhContactMap from "../mixins/PhysicsMixin/bvh/bvhContactMap"
 import { cannonContactBodies, cannonContactMap } from "../mixins/PhysicsMixin/cannon/cannonLoop"
@@ -15,9 +15,6 @@ import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import MeshItem, { getObject3d } from "../MeshItem"
 import { onBeforeRender } from "../../../events/onBeforeRender"
-
-export const simpleIdMap = new Map<string, Set<SimpleObjectManager>>()
-const makeSet = () => new Set()
 
 const ptDistCache = new WeakMap<Point3d, number>()
 const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
@@ -32,24 +29,9 @@ const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
 class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectManager<T> implements ISimpleObjectManager {
     public declare object3d: T
 
-    public override get id() {
-        return this._id
-    }
-    public override set id(val: string | undefined) {
-        if (this._id !== undefined) {
-            staticIdMap.get(this._id)!.delete(this)
-            simpleIdMap.get(this._id)!.delete(this)
-        }
-        this._id = val
-        if (val !== undefined) {
-            forceGet(staticIdMap, val, makeSet).add(this)
-            forceGet(simpleIdMap, val, makeSet).add(this)
-        }
-    }
-
     public getRayIntersectionsAt(id: string, maxDistance?: number) {
-        const result: Array<[SimpleObjectManager, Point3d]> = []
-        for (const target of simpleIdMap.get(id) ?? []) {
+        const result: Array<[StaticObjectManager, Point3d]> = []
+        for (const target of idMap.get(id) ?? []) {
             if (target === this) continue
             const pt = this.rayIntersectsAt(target, maxDistance)
             pt && result.push([target, pt])
@@ -64,7 +46,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         return this.getRayIntersectionsAt(id, maxDistance).map(result => result[0])
     }
 
-    public listenToRayIntersection(id: string, cb: (target: SimpleObjectManager, pt: Point3d) => void, maxDistance?: number) {
+    public listenToRayIntersection(id: string, cb: (target: StaticObjectManager, pt: Point3d) => void, maxDistance?: number) {
         return this.beforeRender(() => {
             for (const [target, pt] of this.getRayIntersectionsAt(id, maxDistance))
                 cb(target, pt)
@@ -72,8 +54,8 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     }
 
     public getIntersections(id: string) {
-        const result: Array<SimpleObjectManager> = []
-        for (const target of simpleIdMap.get(id) ?? []) {
+        const result: Array<StaticObjectManager> = []
+        for (const target of idMap.get(id) ?? []) {
             if (target === this) continue
             this.intersects(target) && result.push(target)
         }
@@ -81,7 +63,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     }
 
     public listenToIntersection(id: string, cb?: OnIntersectValue, cbOut?: OnIntersectValue) {
-        let intersectionsOld: Array<SimpleObjectManager> = []
+        let intersectionsOld: Array<StaticObjectManager> = []
 
         return this.beforeRender(() => {
             const intersections = this.getIntersections(id)
@@ -151,33 +133,27 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
         this.intersectIdsState?.set(val)
     }
 
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
-        this._id !== undefined && simpleIdMap.get(this._id)!.delete(this)
-        return this
-    }
-
-    public override intersects(target: SimpleObjectManager): boolean {
+    public override intersects(target: StaticObjectManager): boolean {
         if (this.done) return false
         if (target.done) return false
         if (this === target) return false
 
-        if ((this.bvhMap && target.bvhCharacter) || (this.bvhCharacter && target.bvhMap))
-            return (
-                bvhContactMap.get(this)?.has(target) ||
-                bvhContactMap.get(target)?.has(this) || false
-            )
+        if (target instanceof SimpleObjectManager) {
+            if ((this.bvhMap && target.bvhCharacter) || (this.bvhCharacter && target.bvhMap))
+                return (
+                    bvhContactMap.get(this)?.has(target) ||
+                    bvhContactMap.get(target)?.has(this) || false
+                )
 
-        if (this.cannonBody && target.cannonBody) {
-            cannonContactBodies.add(this.cannonBody)
-            cannonContactBodies.add(target.cannonBody)
-            return (
-                cannonContactMap.get(this.cannonBody)?.has(target.cannonBody) ||
-                cannonContactMap.get(target.cannonBody)?.has(this.cannonBody) || false
-            )
+            if (this.cannonBody && target.cannonBody) {
+                cannonContactBodies.add(this.cannonBody)
+                cannonContactBodies.add(target.cannonBody)
+                return (
+                    cannonContactMap.get(this.cannonBody)?.has(target.cannonBody) ||
+                    cannonContactMap.get(target.cannonBody)?.has(this.cannonBody) || false
+                )
+            }
         }
-
         return super.intersects(target)
     }
 

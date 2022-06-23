@@ -46,7 +46,7 @@ const setBoolean = (child: any, property: string, value: boolean | undefined) =>
     child.material[property] = value === undefined ? defaultValue : value
 }
 
-export const staticIdMap = new Map<string, Set<StaticObjectManager>>()
+export const idMap = new Map<string, Set<StaticObjectManager>>()
 const makeSet = () => new Set()
 
 class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem implements IStaticObjectManager {
@@ -59,7 +59,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     public override dispose() {
         if (this.done) return this
         super.dispose()
-        this._id !== undefined && staticIdMap.get(this._id)!.delete(this)
+        this._id !== undefined && idMap.get(this._id)!.delete(this)
         return this
     }
 
@@ -68,9 +68,9 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         return this._id
     }
     public set id(val: string | undefined) {
-        this._id !== undefined && staticIdMap.get(this._id)!.delete(this)
+        this._id !== undefined && idMap.get(this._id)!.delete(this)
         this._id = val
-        val !== undefined && forceGet(staticIdMap, val, makeSet).add(this)
+        val !== undefined && forceGet(idMap, val, makeSet).add(this)
     }
 
     protected addToRaycastSet(set: Set<Object3D>) {

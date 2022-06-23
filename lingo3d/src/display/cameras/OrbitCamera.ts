@@ -18,7 +18,7 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { Cancellable } from "@lincode/promiselikes"
-import { staticIdMap } from "../core/StaticObjectManager"
+import { idMap } from "../core/StaticObjectManager"
 import MeshItem, { getObject3d } from "../core/MeshItem"
 import getCenter from "../utils/getCenter"
 
@@ -65,7 +65,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                 if (handle.done) return
 
                 const find = () => {
-                    const found = [...staticIdMap.get(targetId) ?? [undefined]][0]
+                    const found = [...idMap.get(targetId) ?? [undefined]][0]
                     found && this.targetState.set(found)
                     return found
                 }

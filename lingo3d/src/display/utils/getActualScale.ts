@@ -1,10 +1,9 @@
 import { Vector3 } from "three"
-import PositionedItem from "../../api/core/PositionedItem"
-import { getObject3d } from "../core/MeshItem"
+import MeshItem, { getObject3d } from "../core/MeshItem"
 
-const cache = new WeakMap<PositionedItem, Vector3>()
+const cache = new WeakMap<MeshItem, Vector3>()
 
-export default (target: PositionedItem) => {
+export default (target: MeshItem) => {
     if (cache.has(target))
         return cache.get(target)!
 

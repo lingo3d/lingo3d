@@ -13,9 +13,9 @@ import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
 import { appendableRoot } from "../api/core/Appendable"
 import PositionedItem from "../api/core/PositionedItem"
 import { getCameraRendered } from "../states/useCameraRendered"
-import { simpleIdMap } from "./core/SimpleObjectManager"
+import { idMap } from "./core/StaticObjectManager"
 
-const getTargets = (id: string) => [...(simpleIdMap.get(id) ?? [])]
+const getTargets = (id: string) => [...(idMap.get(id) ?? [])]
 
 export default class Trigger extends PositionedItem implements ITrigger {
     public static componentName = "trigger"

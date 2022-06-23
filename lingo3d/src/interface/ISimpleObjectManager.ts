@@ -1,4 +1,5 @@
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
+import StaticObjectManager from "../display/core/StaticObjectManager"
 import IPhysics, { physicsDefaults, physicsSchema } from "./IPhysics"
 import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
 import IStaticObjectManager, { staticObjectManagerDefaults, staticObjectManagerSchema } from "./IStaticObjectManaget"
@@ -7,7 +8,7 @@ import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
-export type OnIntersectValue = (target: SimpleObjectManager) => void
+export type OnIntersectValue = (target: StaticObjectManager) => void
 
 export default interface ISimpleObjectManager extends IStaticObjectManager, IPositioned, IPhysics {
     onIntersect: Nullable<OnIntersectValue>
