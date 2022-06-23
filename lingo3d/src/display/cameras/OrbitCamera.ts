@@ -65,7 +65,7 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                 if (handle.done) return
 
                 const find = () => {
-                    const found = [...idMap.get(targetId) ?? [undefined]][0]
+                    const [found] = idMap.get(targetId) ?? [undefined]
                     found && this.targetState.set(found)
                     return found
                 }

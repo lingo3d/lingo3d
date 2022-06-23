@@ -15,7 +15,7 @@ import PositionedItem from "../api/core/PositionedItem"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { idMap } from "./core/StaticObjectManager"
 
-const getTargets = (id: string) => [...(idMap.get(id) ?? [])]
+const getTargets = (id: string) => idMap.get(id) ?? []
 
 export default class Trigger extends PositionedItem implements ITrigger {
     public static componentName = "trigger"
@@ -90,7 +90,9 @@ export default class Trigger extends PositionedItem implements ITrigger {
             let hitOld = false
             const handle = timer(_interval, -1, () => {
                 const { x, y, z } = getWorldPosition(this.outerObject3d)
-                const targets = typeof _targetIds === "string" ? getTargets(_targetIds) : _targetIds.map(getTargets).flat()
+                const targets = typeof _targetIds === "string"
+                    ? getTargets(_targetIds)
+                    : _targetIds.map(id => [...getTargets(id)]).flat()
                 
                 let hit = false
                 for (const target of targets) {
