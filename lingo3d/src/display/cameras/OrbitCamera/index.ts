@@ -1,69 +1,38 @@
-import { deg2Rad, rad2Deg } from "@lincode/math"
+import { rad2Deg } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
-import { applyMixins } from "@lincode/utils"
-import { PerspectiveCamera } from "three"
-import { OrbitControls } from "./OrbitControls"
-import { camFar, camNear, scaleDown, scaleUp } from "../../../engine/constants"
+import { camFar, camNear } from "../../../engine/constants"
 import { container } from "../../../engine/renderLoop/renderSetup"
-import EventLoopItem from "../../../api/core/EventLoopItem"
-import CameraMixin from "../../core/mixins/CameraMixin"
 import IOrbitCamera, { orbitCameraDefaults, orbitCameraSchema } from "../../../interface/IOrbitCamera"
-import { vector3 } from "../../utils/reusables"
-import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
 import { getTransformControlsDragging } from "../../../states/useTransformControlsDragging"
 import { onKeyClear } from "../../../events/onKeyClear"
 import { onSceneGraphChange } from "../../../events/onSceneGraphChange"
-import PositionedItem from "../../../api/core/PositionedItem"
 import { getCameraRendered } from "../../../states/useCameraRendered"
-import scene from "../../../engine/scene"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import { Cancellable } from "@lincode/promiselikes"
 import { idMap } from "../../core/StaticObjectManager"
-import MeshItem, { getObject3d } from "../../core/MeshItem"
-import getCenter from "../../utils/getCenter"
+import { PerspectiveCamera } from "three"
+import { quaternion, vector3 } from "../../utils/reusables"
+import CharacterCamera from "../../core/CharacterCamera"
 
-class OrbitCamera extends PositionedItem implements IOrbitCamera {
-    public static componentName = "orbitCamera"
-    public static defaults = orbitCameraDefaults
-    public static schema = orbitCameraSchema
+export default class OrbitCamera extends CharacterCamera implements IOrbitCamera {
+    public static override componentName = "orbitCamera"
+    public static override defaults = orbitCameraDefaults
+    public static override schema = orbitCameraSchema
 
-    private controls: OrbitControls
+    public constructor(camera = new PerspectiveCamera(75, 1, camNear, camFar)) {
+        super(camera, false)
+        this.innerZ = 500
+        this.mouseControlMode = "orbit"
+        this.mouseControl = "drag"
 
-    public constructor(
-        protected camera = new PerspectiveCamera(75, 1, camNear, camFar)
-    ) {
-        super(camera)
-
-        this.initCamera()
-
-        this.createEffect(() => {
-            const target = this.targetState.get()
-            if (!target) {
-                const handle = onBeforeRender(() => this.controls.update())
-                return () => {
-                    handle.cancel()
-                }
-            }
-            const handle0 = onBeforeRender(() => {
-                this.controls.target.copy(getCenter(getObject3d(target)))
-                this.controls.update()
-            })
-            const handle1 = onSceneGraphChange(() => target.parent !== this && this.targetState.set(undefined))
-            
-            return () => {
-                handle0.cancel
-                handle1.cancel()
-            }
-        }, [this.targetState.get])
+        this.camera.rotation.y = Math.PI
 
         this.createEffect(() => {
             const targetId = this.targetIdState.get()
             if (!targetId) return
 
             const handle = new Cancellable()
-            setTimeout(() => {
-                if (handle.done) return
-
+            const timeout = setTimeout(() => {
                 const find = () => {
                     const [found] = idMap.get(targetId) ?? [undefined]
                     found && this.targetState.set(found)
@@ -74,42 +43,22 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
                 handle.watch(onSceneGraphChange(() => setTimeout(() => find() && handle.cancel())))
             })
             return () => {
+                clearTimeout(timeout)
                 handle.cancel()
             }
         }, [this.targetIdState.get])
 
-        const controls = this.controls = new OrbitControls(camera, container)
-        controls.enabled = false
-        controls.enablePan = false
-        controls.enableZoom = false
-        controls.minPolarAngle = this._minPolarAngle
-        controls.maxPolarAngle = this._maxPolarAngle
-        controls.minAzimuthAngle = this._minAzimuthAngle
-        controls.maxAzimuthAngle = this._maxAzimuthAngle
-
-        camera.position.z = 5
-        controls.update()
-
         this.createEffect(() => {
-            if (getTransformControlsDragging() || getCameraRendered() !== camera || !this.enabledState.get()) return
+            if (getTransformControlsDragging() || getCameraRendered() !== camera || !this.mouseControlState.get())
+                return
 
             const handle = new Cancellable()
-            controls.enabled = true
 
             if (this.enableZoomState.get()) {
                 const cb = (e: WheelEvent) => {
                     e.preventDefault()
-
-                    const direction = camera.getWorldDirection(vector3)
-                    let pt = camera.position.clone().add(direction.clone().multiplyScalar(-e.deltaY * scaleDown))
-
-                    const localPt = camera.worldToLocal(pt.clone())
-                    const localTarget = camera.worldToLocal(controls.target.clone())
-                    
-                    if (localPt.z - localTarget.z <= 0.1)
-                        pt = controls.target.clone().add(direction.multiplyScalar(-0.1))
-
-                    camera.position.copy(pt)
+                    this.innerZ += e.deltaY
+                    if (this.innerZ < 0) this.innerZ = 0
                 }
                 container.addEventListener("wheel", cb)
                 handle.then(() => container.removeEventListener("wheel", cb))
@@ -118,36 +67,21 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
             if (this.enableFlyState.get()) {
                 const downSet = new Set<string>()
 
-                const moveForward = (distance: number) => {
-                    const direction = camera.getWorldDirection(vector3)
-                    camera.position.add(direction.clone().multiplyScalar(distance * scaleDown))
-                    controls.target.copy(camera.position).add(direction)
-                }
-                const moveRight = (distance: number) => {
-                    vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
-                    camera.position.addScaledVector(vector3, distance * scaleDown)
-                    controls.target.addScaledVector(vector3, distance * scaleDown)
-                }
-                const moveUp = (distance: number) => {
-                    const dist = distance * scaleDown
-                    camera.position.y += dist
-                    controls.target.y += dist
-                }
                 handle.watch(onBeforeRender(() => {
                     if (downSet.has("w"))
-                        moveForward(downSet.has("Shift") ? 50 : 10)
+                        this.translateZ(downSet.has("Shift") ? -50 : -10)
                     else if (downSet.has("s"))
-                        moveForward(downSet.has("Shift") ? -50 : -10)
+                        this.translateZ(downSet.has("Shift") ? 50 : 10)
 
                     if (downSet.has("a"))
-                        moveRight(-10)
+                        this.moveRight(-10)
                     else if (downSet.has("d"))
-                        moveRight(10)
+                        this.moveRight(10)
 
                     if (downSet.has("ArrowDown"))
-                        moveUp(-10)
+                        this.y -= 10
                     else if (downSet.has("ArrowUp"))
-                        moveUp(10)
+                        this.y += 10
                 }))
 
                 const handleKeyDown = (e: KeyboardEvent) => {
@@ -168,72 +102,23 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
             
             return () => {
                 handle.cancel()
-                controls.enabled = false
             }
         }, [
             getCameraRendered,
             getTransformControlsDragging,
             this.enableZoomState.get,
             this.enableFlyState.get,
-            this.enabledState.get
+            this.mouseControlState.get
         ])
 
-        scene.add(camera)
-        this.then(() => {
-            controls.dispose()
-            scene.remove(camera)
-        })
-    }
+        this.createEffect(() => {
+            if (this.target) return
 
-    private _targetX?: number
-    public get targetX() {
-        return this._targetX ??= 0
-    }
-    public set targetX(val: number) {
-        this._targetX = val
-        this.controls.target.x = val * scaleDown
-        this.controls.update()
-    }
+            const ogPos = this.object3d.getWorldPosition(vector3)
+            ;[this.x, this.y, this.z] = [this._targetX, this._targetY, this._targetZ]
+            this.object3d.position.copy(this.outerObject3d.worldToLocal(ogPos))
 
-    private _targetY?: number
-    public get targetY() {
-        return this._targetY ??= 0
-    }
-    public set targetY(val: number) {
-        this._targetY = val
-        this.controls.target.y = val * scaleDown
-        this.controls.update()
-    }
-    
-    private _targetZ?: number
-    public get targetZ() {
-        return this._targetZ ??= 0
-    }
-    public set targetZ(val: number) {
-        this._targetZ = val
-        this.controls.target.z = val * scaleDown
-        this.controls.update()
-    }
-
-    private targetState = new Reactive<MeshItem | undefined>(undefined)
-    public override append(object: MeshItem) {
-        if (this.targetState.get()) {
-            super.append(object)
-            return
-        }
-        this._append(object)
-        this.outerObject3d.parent?.add(object.outerObject3d)
-        this.targetState.set(object)
-    }
-
-    public override attach(object: MeshItem) {
-        if (this.targetState.get()) {
-            super.attach(object)
-            return
-        }
-        this._append(object)
-        this.outerObject3d.parent?.attach(object.outerObject3d)
-        this.targetState.set(object)
+        }, [this.refreshTarget.get, this.targetState.get])
     }
 
     private targetIdState = new Reactive<string | undefined>(undefined)
@@ -244,51 +129,49 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         this.targetIdState.set(val)
     }
 
-    public override get x() {
-        return this.camera.position.x * scaleUp
+    private refreshTarget = new Reactive({})
+
+    private _targetX = 0
+    public get targetX() {
+        return this._targetX
     }
-    public override set x(val: number) {
-        this.camera.position.x = val * scaleDown
+    public set targetX(val) {
+        this._targetX = val
+        this.refreshTarget.set({})
     }
 
-    public override get y() {
-        return this.camera.position.y * scaleUp
+    private _targetY = 0
+    public get targetY() {
+        return this._targetY
     }
-    public override set y(val: number) {
-        this.camera.position.y = val * scaleDown
-    }
-
-    public override get z() {
-        return this.camera.position.z * scaleUp
-    }
-    public override set z(val: number) {
-        this.camera.position.z = val * scaleDown
+    public set targetY(val) {
+        this._targetY = val
+        this.refreshTarget.set({})
     }
 
-    public get rotationX() {
-        return this.camera.rotation.x * rad2Deg
+    private _targetZ = 0
+    public get targetZ() {
+        return this._targetZ
+    }
+    public set targetZ(val) {
+        this._targetZ = val
+        this.refreshTarget.set({})
     }
 
-    public get rotationY() {
-        return this.camera.rotation.y * rad2Deg
-    }
-
-    public get rotationZ() {
-        return this.camera.rotation.z * rad2Deg
-    }
-
+    private enableDampingState = new Reactive(false)
     public get enableDamping() {
-        return this.controls.enableDamping
+        return this.enableDampingState.get()
     }
     public set enableDamping(val: boolean) {
-        this.controls.enableDamping = val
+        this.enableDampingState.set(val)
     }
 
+    private enablePanState = new Reactive(false)
     public get enablePan() {
-        return this.controls.enablePan
+        return this.enablePanState.get()
     }
     public set enablePan(val: boolean) {
-        this.controls.enablePan = val
+        this.enablePanState.set(val)
     }
 
     private enableZoomState = new Reactive(false)
@@ -307,50 +190,27 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         this.enableFlyState.set(val)
     }
 
-    private enabledState = new Reactive(true)
-    public get enabled() {
-        return this.enabledState.get()
-    }
-    public set enabled(val: boolean) {
-        this.enabledState.set(val)
-    }
-
+    private autoRotateState = new Reactive(false)
     public get autoRotate() {
-        return this.controls.autoRotate
+        return this.autoRotateState.get()
     }
     public set autoRotate(val: boolean) {
-        this.controls.autoRotate = val
+        this.autoRotateState.set(val)
     }
 
+    private _autoRotateSpeed = 1
     public get autoRotateSpeed() {
-        return this.controls.autoRotateSpeed
+        return this._autoRotateSpeed
     }
-    public set autoRotateSpeed(val: number) {
-        this.controls.autoRotateSpeed = val
+    public set autoRotateSpeed(val) {
+        this._autoRotateSpeed = val
     }
     
-    private _minPolarAngle = MIN_POLAR_ANGLE * deg2Rad
-    public get minPolarAngle() {
-        return this._minPolarAngle * rad2Deg
-    }
-    public set minPolarAngle(val: number) {
-        this.controls.minPolarAngle = this._minPolarAngle = val * deg2Rad
-    }
-
-    private _maxPolarAngle = MAX_POLAR_ANGLE * deg2Rad
-    public get maxPolarAngle() {
-        return this._maxPolarAngle * rad2Deg
-    }
-    public set maxPolarAngle(val: number) {
-        this.controls.maxPolarAngle = this._maxPolarAngle = val * deg2Rad
-    }
-
     private _minAzimuthAngle = -Infinity
     public get minAzimuthAngle() {
         return this._minAzimuthAngle * rad2Deg
     }
     public set minAzimuthAngle(val: number) {
-        this.controls.minAzimuthAngle = this._minAzimuthAngle = val * deg2Rad
     }
 
     private _maxAzimuthAngle = Infinity
@@ -358,48 +218,27 @@ class OrbitCamera extends PositionedItem implements IOrbitCamera {
         return this._maxAzimuthAngle * rad2Deg
     }
     public set maxAzimuthAngle(val: number) {
-        this.controls.maxAzimuthAngle = this._maxAzimuthAngle = val * deg2Rad
     }
 
     public get azimuthAngle() {
-        return this.controls.getAzimuthalAngle() * rad2Deg
+        return 0
     }
-    public set azimuthAngle(val: number) {
-        this.controls.minAzimuthAngle = this.controls.maxAzimuthAngle = val * deg2Rad
-        this.controls.update()
-
-        this.queueMicrotask(() => {
-            this.controls.minAzimuthAngle = this._minAzimuthAngle
-            this.controls.maxAzimuthAngle = this._maxAzimuthAngle
-        })
+    public set azimuthAngle(val) {
+        
     }
 
     public get polarAngle() {
-        return this.controls.getPolarAngle() * rad2Deg
+        return 0
     }
-    public set polarAngle(val: number) {
-        this.controls.minPolarAngle = this.controls.maxPolarAngle = val * deg2Rad
-        this.controls.update()
-
-        this.queueMicrotask(() => {
-            this.controls.minPolarAngle = this._minPolarAngle
-            this.controls.maxPolarAngle = this._maxPolarAngle
-        })
+    public set polarAngle(val) {
+        
     }
     
+    private distanceState = new Reactive(500)
     public get distance() {
-        return this.controls.getDistance() * scaleUp
+        return this.distanceState.get()
     }
-    public set distance(val: number) {
-        this.controls.minDistance = this.controls.maxDistance = val * scaleDown
-        this.controls.update()
-
-        this.queueMicrotask(() => {
-            this.controls.minDistance = -Infinity
-            this.controls.maxDistance = Infinity
-        })
+    public set distance(val) {
+        this.distanceState.set(val)
     }
 }
-interface OrbitCamera extends EventLoopItem, CameraMixin<PerspectiveCamera> {}
-applyMixins(OrbitCamera, [CameraMixin])
-export default OrbitCamera

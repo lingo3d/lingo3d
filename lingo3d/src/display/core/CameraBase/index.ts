@@ -1,15 +1,16 @@
-import { Group, PerspectiveCamera } from "three"
+import { Group, PerspectiveCamera, Quaternion } from "three"
 import ObjectManager from "../ObjectManager"
 import CameraMixin from "../mixins/CameraMixin"
 import { applyMixins, debounce } from "@lincode/utils"
 import { scaleUp, scaleDown } from "../../../engine/constants"
-import { ray, vector3_, vector3, euler } from "../../utils/reusables"
+import { ray, vector3_, vector3, euler, quaternion, quaternion_ } from "../../utils/reusables"
 import pillShape from "../mixins/PhysicsMixin/cannon/shapes/pillShape"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
-import PositionedItem from "../../../api/core/PositionedItem"
+import MeshItem from "../MeshItem"
+import { Cancellable } from "@lincode/promiselikes"
 
 const PI_2 = Math.PI * 0.5
 
@@ -29,12 +30,12 @@ abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Gro
         return ray.set(this.camera.getWorldPosition(vector3_), this.camera.getWorldDirection(vector3))
     }
 
-    public override append(object: PositionedItem) {
+    public override append(object: MeshItem) {
         this._append(object)
         this.camera.add(object.outerObject3d)
     }
 
-    public override attach(object: PositionedItem) {
+    public override attach(object: MeshItem) {
         this._append(object)
         this.camera.attach(object.outerObject3d)
     }
@@ -91,7 +92,7 @@ abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Gro
 
     protected updatePolarAngle = debounce(() => this.gyrate(0, 0), 0, "trailing")
 
-    private _minPolarAngle = MIN_POLAR_ANGLE * deg2Rad
+    protected _minPolarAngle = MIN_POLAR_ANGLE * deg2Rad
     public get minPolarAngle() {
         return this._minPolarAngle * rad2Deg
     }
@@ -100,7 +101,7 @@ abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Gro
         this.updatePolarAngle()
     }
 
-    private _maxPolarAngle = MAX_POLAR_ANGLE * deg2Rad
+    protected _maxPolarAngle = MAX_POLAR_ANGLE * deg2Rad
     public get maxPolarAngle() {
         return this._maxPolarAngle * rad2Deg
     }
@@ -124,6 +125,38 @@ abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Gro
         this.mouseControlInit = true
 
         import("./enableMouseControl").then(module => module.default.call(this))
+    }
+
+    private _gyroControl?: boolean
+    public get gyroControl() {
+        return !!this._gyroControl
+    }
+    public set gyroControl(val: boolean) {
+        if (this._gyroControl === val) return
+        this._gyroControl = val
+
+        const deviceEuler = euler
+        const deviceQuaternion = quaternion
+        const screenTransform = quaternion_
+        const worldTransform = new Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5))
+
+        const quat = this.object3d.getWorldQuaternion(quaternion).clone()
+        const orient = 0
+
+        const cb = (e: DeviceOrientationEvent) => {
+            this.object3d.quaternion.copy(quat)
+            deviceEuler.set((e.beta ?? 0) * deg2Rad, (e.alpha ?? 0) * deg2Rad, -(e.gamma ?? 0) * deg2Rad, "YXZ")
+
+            this.object3d.quaternion.multiply(deviceQuaternion.setFromEuler(deviceEuler))
+
+            const minusHalfAngle = -orient * 0.5
+            screenTransform.set(0, Math.sin(minusHalfAngle), 0, Math.cos(minusHalfAngle))
+
+            this.object3d.quaternion.multiply(screenTransform)
+            this.object3d.quaternion.multiply(worldTransform)
+        }
+        val && window.addEventListener("deviceorientation", cb)
+        this.cancelHandle("gyroControl", val && (() => new Cancellable(() => window.removeEventListener("deviceorientation", cb))))
     }
 }
 interface CameraBase<T extends PerspectiveCamera> extends ObjectManager<Group>, CameraMixin<T> {}

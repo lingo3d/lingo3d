@@ -11,3 +11,5 @@ import { preventTreeShake } from "@lincode/utils"
 preventTreeShake([render, skyShader, referencePlane, gridHelper, transformControls, mainOrbitControls, boxHelper, skeletonHelper])
 
 export default {}
+
+"__THREE__" in window && ((window as any).__THREE__ += " - Lingo3D Beta")

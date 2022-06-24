@@ -1,16 +1,14 @@
-import ICameraMixin, { cameraMixinDefaults, cameraMixinSchema } from "./ICameraMixin"
-import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
+import ICharacterCamera, { characterCameraDefaults, characterCameraSchema } from "./ICharacterCamera"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
-export default interface IOrbitCamera extends IPositioned, ICameraMixin {
+export default interface IOrbitCamera extends ICharacterCamera {
+    targetId: Nullable<string>
     targetX: number
     targetY: number
     targetZ: number
-    targetId: Nullable<string>
 
-    enabled: boolean
     enableDamping: boolean
     enablePan: boolean
     enableZoom: boolean
@@ -22,20 +20,16 @@ export default interface IOrbitCamera extends IPositioned, ICameraMixin {
 
     azimuthAngle: number
     polarAngle: number
-
-    distance: number
 }
 
 export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
-    ...positionedSchema,
-    ...cameraMixinSchema,
+    ...characterCameraSchema,
 
+    targetId: String,
     targetX: Number,
     targetY: Number,
     targetZ: Number,
-    targetId: String,
 
-    enabled: Boolean,
     enableDamping: Boolean,
     enablePan: Boolean,
     enableZoom: Boolean,
@@ -46,23 +40,20 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
     maxAzimuthAngle: Number,
 
     azimuthAngle: Number,
-    polarAngle: Number,
-
-    distance: Number
+    polarAngle: Number
 }
 
 export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
-    ...positionedDefaults,
-    ...cameraMixinDefaults,
+    ...characterCameraDefaults,
 
+    innerZ: 500,
+    mouseControl: "drag",
+
+    targetId: undefined,
     targetX: 0,
     targetY: 0,
     targetZ: 0,
-    targetId: undefined,
     
-    z: 500,
-
-    enabled: true,
     enableDamping: false,
     enablePan: false,
     enableZoom: false,
@@ -73,7 +64,5 @@ export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
     maxAzimuthAngle: Infinity,
 
     azimuthAngle: 0,
-    polarAngle: 0,
-
-    distance: 500
+    polarAngle: 0
 }

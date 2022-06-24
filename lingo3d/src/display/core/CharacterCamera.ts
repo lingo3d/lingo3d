@@ -1,10 +1,9 @@
-import { deg2Rad } from "@lincode/math"
-import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import { debounce } from "@lincode/utils"
-import { Quaternion } from "three"
+import { PerspectiveCamera } from "three"
 import Appendable from "../../api/core/Appendable"
 import PositionedItem from "../../api/core/PositionedItem"
+import { camNear, camFar } from "../../engine/constants"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { onSceneGraphChange } from "../../events/onSceneGraphChange"
@@ -14,7 +13,7 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import Camera from "../cameras/Camera"
-import { euler, quaternion, quaternion_ } from "../utils/reusables"
+import { euler, quaternion } from "../utils/reusables"
 import MeshItem, { isMeshItem } from "./MeshItem"
 
 const attachSet = new WeakSet<Appendable>()
@@ -23,12 +22,15 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
     public static override defaults = characterCameraDefaults
     public static override schema = characterCameraSchema
 
-    public constructor() {
-        super()
+    public constructor(camera = new PerspectiveCamera(75, 1, camNear, camFar), detach = true) {
+        super(camera)
 
         const cam = this.camera
-        scene.attach(cam)
-        this.then(() => scene.remove(cam))
+
+        if (detach) {
+            scene.attach(cam)
+            this.then(() => scene.remove(cam))
+        }
         
         this.createEffect(() => {
             const target = this.targetState.get()
@@ -160,37 +162,5 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
         this._append(object)
         attachSet.add(object)
         this.retarget()
-    }
-    
-    private _gyroControl?: boolean
-    public get gyroControl() {
-        return !!this._gyroControl
-    }
-    public set gyroControl(val: boolean) {
-        if (this._gyroControl === val) return
-        this._gyroControl = val
-
-        const deviceEuler = euler
-        const deviceQuaternion = quaternion
-        const screenTransform = quaternion_
-        const worldTransform = new Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5))
-
-        const quat = this.object3d.getWorldQuaternion(quaternion).clone()
-        const orient = 0
-
-        const cb = (e: DeviceOrientationEvent) => {
-            this.object3d.quaternion.copy(quat)
-            deviceEuler.set((e.beta ?? 0) * deg2Rad, (e.alpha ?? 0) * deg2Rad, -(e.gamma ?? 0) * deg2Rad, "YXZ")
-
-            this.object3d.quaternion.multiply(deviceQuaternion.setFromEuler(deviceEuler))
-
-            const minusHalfAngle = -orient * 0.5
-            screenTransform.set(0, Math.sin(minusHalfAngle), 0, Math.cos(minusHalfAngle))
-
-            this.object3d.quaternion.multiply(screenTransform)
-            this.object3d.quaternion.multiply(worldTransform)
-        }
-        val && window.addEventListener("deviceorientation", cb)
-        this.cancelHandle("gyroControl", val && (() => new Cancellable(() => window.removeEventListener("deviceorientation", cb))))
     }
 }

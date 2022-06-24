@@ -2,7 +2,6 @@ import { getOrbitControls } from "../states/useOrbitControls"
 import { container } from "./renderLoop/renderSetup"
 import { createEffect } from "@lincode/reactivity"
 import mainCamera from "./mainCamera"
-import { getOrbitControlsScreenSpacePanning } from "../states/useOrbitControlsScreenSpacePanning"
 import OrbitCamera from "../display/cameras/OrbitCamera"
 import { getTransformControlsDragging } from "../states/useTransformControlsDragging"
 import { appendableRoot } from "../api/core/Appendable"
@@ -16,7 +15,7 @@ export default mainOrbitCamera
 mainOrbitCamera.enablePan = true
 mainOrbitCamera.enableZoom = true
 mainOrbitCamera.enableFly = true
-mainOrbitCamera.enabled = false
+mainOrbitCamera.mouseControl = false
 appendableRoot.delete(mainOrbitCamera)
 
 onEditorCenterView(manager => {
@@ -26,20 +25,15 @@ onEditorCenterView(manager => {
     mainOrbitCamera.targetZ = pos.z
 })
 
-//@ts-ignore
-const { controls } = mainOrbitCamera
-
-getOrbitControlsScreenSpacePanning(val => controls.screenSpacePanning = val)
-
 createEffect(() => {
     if (!getOrbitControls() || getCameraRendered() !== mainCamera || getTransformControlsDragging())
         return
 
-    mainOrbitCamera.enabled = true
+    mainOrbitCamera.mouseControl = "drag"
     container.style.cursor = "grab"
 
     return () => {
-        mainOrbitCamera.enabled = false
+        mainOrbitCamera.mouseControl = false
         container.style.cursor = "auto"
     }
 }, [getOrbitControls, getTransformControlsDragging, getCameraRendered])
@@ -52,9 +46,9 @@ createEffect(() => {
 
     return () => {
         proceed = false
-        controls.reset()
         mainOrbitCamera.polarAngle = 90
         mainOrbitCamera.azimuthAngle = 0
+        mainOrbitCamera.innerZ = 500
     }
 }, [getOrbitControls])
 
