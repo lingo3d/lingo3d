@@ -5,7 +5,6 @@ import Appendable from "../../../api/core/Appendable"
 import PositionedItem from "../../../api/core/PositionedItem"
 import { onSceneGraphChange } from "../../../events/onSceneGraphChange"
 import ICameraBase from "../../../interface/ICameraBase"
-import Nullable from "../../../interface/utils/Nullable"
 import CameraBase from "../../core/CameraBase"
 import MeshItem, { isMeshItem } from "../../core/MeshItem"
 
@@ -26,8 +25,6 @@ export default class OrbitCameraBase extends CameraBase<PerspectiveCamera> imple
             }
         }, [this.targetState.get])
     }
-
-    public target: Nullable<MeshItem>
 
     protected targetState = new Reactive<MeshItem | undefined>(undefined)
 

@@ -1,7 +1,9 @@
 import { Reactive } from "@lincode/reactivity"
 import { debounce } from "@lincode/utils"
+import { PerspectiveCamera } from "three"
 import Appendable from "../../api/core/Appendable"
 import PositionedItem from "../../api/core/PositionedItem"
+import { camNear, camFar } from "../../engine/constants"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { onSceneGraphChange } from "../../events/onSceneGraphChange"
@@ -9,18 +11,18 @@ import ICharacterCamera, { characterCameraDefaults, characterCameraSchema, LockT
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import { getTransformControlsMode } from "../../states/useTransformControlsMode"
-import Camera from "../cameras/Camera"
 import { euler, quaternion } from "../utils/reusables"
+import CameraBase from "./CameraBase"
 import MeshItem, { isMeshItem } from "./MeshItem"
 
 const attachSet = new WeakSet<Appendable>()
 
-export default class CharacterCamera extends Camera implements ICharacterCamera {
-    public static override defaults = characterCameraDefaults
-    public static override schema = characterCameraSchema
+export default class CharacterCamera extends CameraBase<PerspectiveCamera> implements ICharacterCamera {
+    public static defaults = characterCameraDefaults
+    public static schema = characterCameraSchema
 
     public constructor() {
-        super()
+        super(new PerspectiveCamera(75, 1, camNear, camFar))
 
         const cam = this.camera
         scene.attach(cam)
