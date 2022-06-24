@@ -1,12 +1,12 @@
 import { Reactive } from "@lincode/reactivity"
 import { debounce } from "@lincode/utils"
 import { PerspectiveCamera } from "three"
-import Appendable from "../../../api/core/Appendable"
-import PositionedItem from "../../../api/core/PositionedItem"
-import { onSceneGraphChange } from "../../../events/onSceneGraphChange"
-import ICameraBase from "../../../interface/ICameraBase"
-import CameraBase from "../../core/CameraBase"
-import MeshItem, { isMeshItem } from "../../core/MeshItem"
+import Appendable from "../../api/core/Appendable"
+import PositionedItem from "../../api/core/PositionedItem"
+import { onSceneGraphChange } from "../../events/onSceneGraphChange"
+import ICameraBase from "../../interface/ICameraBase"
+import CameraBase from "./CameraBase"
+import MeshItem, { isMeshItem } from "./MeshItem"
 
 const attachSet = new WeakSet<Appendable>()
 
