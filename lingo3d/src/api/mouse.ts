@@ -24,6 +24,10 @@ container.addEventListener("contextmenu", e => {
     e.preventDefault()
     rightClick = true
 })
+container.addEventListener("touchstart", e => {
+    e.preventDefault()
+})
+
 mouseEvents.on("down", e => {
     downTime = Date.now()
     downX = e.clientX
