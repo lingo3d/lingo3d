@@ -1,14 +1,11 @@
 import { Reactive } from "@lincode/reactivity"
 import { debounce } from "@lincode/utils"
-import { PerspectiveCamera } from "three"
 import Appendable from "../../api/core/Appendable"
 import PositionedItem from "../../api/core/PositionedItem"
-import { camNear, camFar } from "../../engine/constants"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { onSceneGraphChange } from "../../events/onSceneGraphChange"
 import ICharacterCamera, { characterCameraDefaults, characterCameraSchema, LockTargetRotationValue } from "../../interface/ICharacterCamera"
-import Nullable from "../../interface/utils/Nullable"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import { getTransformControlsMode } from "../../states/useTransformControlsMode"
@@ -22,15 +19,12 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
     public static override defaults = characterCameraDefaults
     public static override schema = characterCameraSchema
 
-    public constructor(camera = new PerspectiveCamera(75, 1, camNear, camFar), detach = true) {
-        super(camera)
+    public constructor() {
+        super()
 
         const cam = this.camera
-
-        if (detach) {
-            scene.attach(cam)
-            this.then(() => scene.remove(cam))
-        }
+        scene.attach(cam)
+        this.then(() => scene.remove(cam))
         
         this.createEffect(() => {
             const target = this.targetState.get()
@@ -129,8 +123,6 @@ export default class CharacterCamera extends Camera implements ICharacterCamera 
     }
 
     public lockTargetRotation: LockTargetRotationValue = true
-
-    public target: Nullable<MeshItem>
 
     protected targetState = new Reactive<MeshItem | undefined>(undefined)
 

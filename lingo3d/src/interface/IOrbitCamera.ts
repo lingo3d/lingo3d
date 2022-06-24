@@ -1,9 +1,9 @@
-import ICharacterCamera, { characterCameraDefaults, characterCameraSchema } from "./ICharacterCamera"
+import ICamera, { cameraDefaults, cameraSchema } from "./ICamera"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
-export default interface IOrbitCamera extends ICharacterCamera {
+export default interface IOrbitCamera extends ICamera {
     targetId: Nullable<string>
     targetX: number
     targetY: number
@@ -23,7 +23,7 @@ export default interface IOrbitCamera extends ICharacterCamera {
 }
 
 export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
-    ...characterCameraSchema,
+    ...cameraSchema,
 
     targetId: String,
     targetX: Number,
@@ -44,7 +44,7 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
 }
 
 export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
-    ...characterCameraDefaults,
+    ...cameraDefaults,
 
     innerZ: 500,
     mouseControl: "drag",

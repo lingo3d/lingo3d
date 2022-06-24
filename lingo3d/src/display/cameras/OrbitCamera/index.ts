@@ -12,15 +12,15 @@ import { Cancellable } from "@lincode/promiselikes"
 import { idMap } from "../../core/StaticObjectManager"
 import { PerspectiveCamera } from "three"
 import { vector3 } from "../../utils/reusables"
-import CharacterCamera from "../../core/CharacterCamera"
+import OrbitCameraBase from "./OrbitCameraBase"
 
-export default class OrbitCamera extends CharacterCamera implements IOrbitCamera {
+export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera {
     public static override componentName = "orbitCamera"
     public static override defaults = orbitCameraDefaults
     public static override schema = orbitCameraSchema
 
     public constructor(camera = new PerspectiveCamera(75, 1, camNear, camFar)) {
-        super(camera, false)
+        super(camera)
 
         this.innerZ = 500
         this.mouseControlMode = "orbit"
