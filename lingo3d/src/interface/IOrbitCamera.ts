@@ -6,7 +6,7 @@ import Nullable from "./utils/Nullable"
 export default interface IOrbitCamera extends ICameraBase {
     targetId: Nullable<string>
 
-    enableDamping: boolean
+    damping: boolean
     enableZoom: boolean
     autoRotate: boolean | number
 }
@@ -16,7 +16,7 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
 
     targetId: String,
 
-    enableDamping: Boolean,
+    damping: Boolean,
     enableZoom: Boolean,
     autoRotate: [Boolean, Number]
 }
@@ -29,7 +29,7 @@ export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
 
     targetId: undefined,
     
-    enableDamping: false,
+    damping: false,
     enableZoom: false,
     autoRotate: false
 }

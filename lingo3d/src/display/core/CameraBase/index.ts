@@ -23,6 +23,7 @@ import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { pullCameraStack, getCameraStack, pushCameraStack } from "../../../states/useCameraStack"
 import makeCameraSprite from "../utils/makeCameraSprite"
+import Nullable from "../../../interface/utils/Nullable"
 
 const PI_2 = Math.PI * 0.5
 
@@ -218,13 +219,28 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         !inner && this.physicsRotate()
     }
 
+    private gyrateHandle?: Cancellable
     public gyrate(movementX: number, movementY: number) {
+        if (this.damping) {
+            const ratio = typeof this.damping === "number" ? this.damping : 0.2
+            movementX *= ratio
+            movementY *= ratio
+        }
         if (this.orbitMode)
             this._gyrate(movementX, movementY)
         else {
             this._gyrate(movementX, 0)
             this._gyrate(0, movementY, true)
         }
+        if (!this.damping) return
+
+        this.gyrateHandle?.cancel()
+        let factor = 1
+        const handle = this.gyrateHandle = this.beforeRender(() => {
+            this._gyrate(movementX * factor, movementY * factor)
+            if ((factor -= 0.02) <= 0)
+                handle.cancel()
+        })
     }
 
     protected updateAngle = debounce(() => this.gyrate(0, 0), 0, "trailing")
@@ -283,7 +299,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         })
     }
 
-    public enableDamping = false
+    public damping: Nullable<boolean | number>
 
     protected mouseControlState = new Reactive<MouseControl>(false)
     private mouseControlInit?: boolean
