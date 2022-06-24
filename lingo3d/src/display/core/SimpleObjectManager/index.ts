@@ -1,6 +1,6 @@
 import { rad2Deg, deg2Rad, distance3d, Point3d } from "@lincode/math"
 import { Object3D, Vector3 } from "three"
-import { quaternion, vector3, vector3_ } from "../../utils/reusables"
+import { quaternion, vector3 } from "../../utils/reusables"
 import { scaleDown, scaleUp } from "../../../engine/constants"
 import { point2Vec } from "../../utils/vec2Point"
 import ISimpleObjectManager, { OnIntersectValue } from "../../../interface/ISimpleObjectManager"
@@ -15,6 +15,7 @@ import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import MeshItem, { getObject3d } from "../MeshItem"
 import { onBeforeRender } from "../../../events/onBeforeRender"
+import getWorldPosition from "../../utils/getWorldPosition"
 
 const ptDistCache = new WeakMap<Point3d, number>()
 const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
@@ -36,9 +37,9 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
             const pt = this.rayIntersectsAt(target, maxDistance)
             pt && result.push([target, pt])
         }
-        this.object3d.getWorldPosition(vector3_)
+        const vec = getWorldPosition(this.object3d)
         return result.sort((a, b) => {
-            return distance3dCached(a[1], vector3_) - distance3dCached(b[1], vector3_)
+            return distance3dCached(a[1], vec) - distance3dCached(b[1], vec)
         })
     }
 

@@ -1,6 +1,7 @@
 import CharacterCamera from "../core/CharacterCamera"
 import { onBeforeCameraLoop } from "../core/mixins/PhysicsMixin/bvh/bvhCameraLoop"
-import { quaternion, vector3 } from "../utils/reusables"
+import getWorldPosition from "../utils/getWorldPosition"
+import { quaternion } from "../utils/reusables"
 
 export default class ThirdPersonCamera extends CharacterCamera {
     public static componentName = "thirdPersonCamera"
@@ -17,7 +18,7 @@ export default class ThirdPersonCamera extends CharacterCamera {
             if (target) return
             
             const handle = onBeforeCameraLoop(() => {
-                cam.position.copy(this.object3d.getWorldPosition(vector3))
+                cam.position.copy(getWorldPosition(this.object3d))
                 cam.quaternion.copy(this.object3d.getWorldQuaternion(quaternion))
             })
             return () => {

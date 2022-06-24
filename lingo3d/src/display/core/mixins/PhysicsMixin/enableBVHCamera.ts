@@ -1,6 +1,7 @@
 import { getEditorActive } from "../../../../states/useEditorActive"
 import ThirdPersonCamera from "../../../cameras/ThirdPersonCamera"
-import { vector3, vector3_, quaternion } from "../../../utils/reusables"
+import getWorldPosition from "../../../utils/getWorldPosition"
+import { quaternion } from "../../../utils/reusables"
 import { bvhCameraSet, onBeforeCameraLoop } from "./bvh/bvhCameraLoop"
 
 function setVisible(this: ThirdPersonCamera, visible: boolean) {
@@ -34,8 +35,8 @@ export default function(this: ThirdPersonCamera) {
         let first = true
 
         const handle = onBeforeCameraLoop(() => {
-            const origin = this.outerObject3d.getWorldPosition(vector3)
-            const camPos = this.object3d.getWorldPosition(vector3_)
+            const origin = getWorldPosition(this.outerObject3d)
+            const camPos = getWorldPosition(this.object3d)
             const dist = camPos.distanceTo(origin)
     
             cam.position.lerp(camPos, first ? 1 : 0.1)

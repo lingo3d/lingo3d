@@ -4,7 +4,7 @@ import { Object3D } from "three"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import Octahedron from "./primitives/Octahedron"
 import diffQuaternions from "./utils/diffQuaternions"
-import { vector3, vector3_ } from "./utils/reusables"
+import getWorldPosition from "./utils/getWorldPosition"
 import { vec2Point } from "./utils/vec2Point"
 
 export default class Bone extends Octahedron {
@@ -41,8 +41,8 @@ export default class Bone extends Octahedron {
             }
         }, [getSelectionTarget])
 
-        const from = vec2Point(target.getWorldPosition(vector3))
-        const to = vec2Point(child.getWorldPosition(vector3_))
+        const from = vec2Point(getWorldPosition(target))
+        const to = vec2Point(getWorldPosition(child))
 
         const { x: x0, y: y0, z: z0 } = from
         const { x: x1, y: y1, z: z1 } = to

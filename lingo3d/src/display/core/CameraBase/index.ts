@@ -2,7 +2,7 @@ import { CameraHelper, Group, PerspectiveCamera, Quaternion } from "three"
 import ObjectManager from "../ObjectManager"
 import { debounce, last } from "@lincode/utils"
 import { scaleUp, scaleDown } from "../../../engine/constants"
-import { ray, vector3_, vector3, euler, quaternion, quaternion_ } from "../../utils/reusables"
+import { ray, vector3, euler, quaternion, quaternion_ } from "../../utils/reusables"
 import pillShape from "../mixins/PhysicsMixin/cannon/shapes/pillShape"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
 import { deg2Rad } from "@lincode/math"
@@ -24,6 +24,7 @@ import { getCameraRendered } from "../../../states/useCameraRendered"
 import { pullCameraStack, getCameraStack, pushCameraStack } from "../../../states/useCameraStack"
 import makeCameraSprite from "../utils/makeCameraSprite"
 import Nullable from "../../../interface/utils/Nullable"
+import getWorldPosition from "../../utils/getWorldPosition"
 
 const PI_2 = Math.PI * 0.5
 
@@ -163,7 +164,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
     }
 
     protected override getRay() {
-        return ray.set(this.camera.getWorldPosition(vector3_), this.camera.getWorldDirection(vector3))
+        return ray.set(getWorldPosition(this.camera), this.camera.getWorldDirection(vector3))
     }
 
     public override append(object: MeshItem) {

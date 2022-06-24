@@ -11,7 +11,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import { idMap } from "../core/StaticObjectManager"
 import { PerspectiveCamera } from "three"
 import OrbitCameraBase from "../core/OrbitCameraBase"
-import { vector3 } from "../utils/reusables"
 import { vec2Point } from "../utils/vec2Point"
 import { getObject3d } from "../core/MeshItem"
 import getWorldPosition from "../utils/getWorldPosition"
@@ -110,9 +109,9 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
                         this.moveRight(10)
 
                     if (downSet.has("w") || downSet.has("s") || downSet.has("a") || downSet.has("d")) {
-                        const worldPos = this.object3d.getWorldPosition(vector3)
+                        const worldPos = vec2Point(getWorldPosition(this.object3d))
                         this.innerZ = 0
-                        this.placeAt(vec2Point(worldPos))
+                        this.placeAt(worldPos)
                     }
 
                     if (downSet.has("ArrowDown"))
