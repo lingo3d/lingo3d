@@ -11,7 +11,7 @@ import { onBeforeRender } from "../../../events/onBeforeRender"
 import { Cancellable } from "@lincode/promiselikes"
 import { idMap } from "../../core/StaticObjectManager"
 import { PerspectiveCamera } from "three"
-import { quaternion, vector3 } from "../../utils/reusables"
+import { vector3 } from "../../utils/reusables"
 import CharacterCamera from "../../core/CharacterCamera"
 
 export default class OrbitCamera extends CharacterCamera implements IOrbitCamera {
@@ -21,11 +21,12 @@ export default class OrbitCamera extends CharacterCamera implements IOrbitCamera
 
     public constructor(camera = new PerspectiveCamera(75, 1, camNear, camFar)) {
         super(camera, false)
+
         this.innerZ = 500
         this.mouseControlMode = "orbit"
         this.mouseControl = "drag"
 
-        this.camera.rotation.y = Math.PI
+        this.camera.rotation.y = 0
 
         this.createEffect(() => {
             const targetId = this.targetIdState.get()
@@ -99,7 +100,6 @@ export default class OrbitCamera extends CharacterCamera implements IOrbitCamera
                     document.removeEventListener("keyup", handleKeyUp)
                 })
             }
-            
             return () => {
                 handle.cancel()
             }
@@ -114,9 +114,9 @@ export default class OrbitCamera extends CharacterCamera implements IOrbitCamera
         this.createEffect(() => {
             if (this.target) return
 
-            const ogPos = this.object3d.getWorldPosition(vector3)
+            const worldPos = this.object3d.getWorldPosition(vector3)
             ;[this.x, this.y, this.z] = [this._targetX, this._targetY, this._targetZ]
-            this.object3d.position.copy(this.outerObject3d.worldToLocal(ogPos))
+            this.object3d.position.copy(this.outerObject3d.worldToLocal(worldPos))
 
         }, [this.refreshTarget.get, this.targetState.get])
     }
