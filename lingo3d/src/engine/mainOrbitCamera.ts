@@ -8,6 +8,8 @@ import { appendableRoot } from "../api/core/Appendable"
 import { onEditorCenterView } from "../events/onEditorCenterView"
 import { getCameraDistance } from "../states/useCameraDistance"
 import { getCameraRendered } from "../states/useCameraRendered"
+import getActualScale from "../display/utils/getActualScale"
+import { scaleUp } from "./constants"
 
 const mainOrbitCamera = new OrbitCamera(mainCamera)
 export default mainOrbitCamera
@@ -20,9 +22,12 @@ appendableRoot.delete(mainOrbitCamera)
 
 onEditorCenterView(manager => {
     const pos = manager.getWorldPosition()
-    mainOrbitCamera.targetX = pos.x
-    mainOrbitCamera.targetY = pos.y
-    mainOrbitCamera.targetZ = pos.z
+    mainOrbitCamera.x = pos.x
+    mainOrbitCamera.y = pos.y
+    mainOrbitCamera.z = pos.z
+    
+    const size = getActualScale(manager)
+    mainOrbitCamera.innerZ = Math.max(size.x, size.y, size.z, 1) * scaleUp
 })
 
 createEffect(() => {
@@ -48,14 +53,13 @@ createEffect(() => {
         proceed = false
         mainOrbitCamera.polarAngle = 90
         mainOrbitCamera.azimuthAngle = 0
-        mainOrbitCamera.innerZ = 500
     }
 }, [getOrbitControls])
 
 createEffect(() => {
     if (getCameraRendered() !== mainCamera || getOrbitControls()) return
 
-    const handle = getCameraDistance(cameraDistance => mainCamera.position.z = cameraDistance)
+    const handle = getCameraDistance(cameraDistance => mainOrbitCamera.innerZ = cameraDistance)
 
     return () => {
         handle.cancel()

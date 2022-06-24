@@ -1,7 +1,6 @@
 import { deg2Rad } from "@lincode/math"
 import { createEffect } from "@lincode/reactivity"
 import { PerspectiveCamera } from "three"
-import { scaleDown } from "../constants"
 import { setCameraDistance } from "../../states/useCameraDistance"
 import { getViewportSize } from "../../states/useViewportSize"
 import mainCamera from "../mainCamera"
@@ -30,11 +29,11 @@ createEffect(() => {
     const val1 = Math.min(resX - size1.width, resY - size1.height)
 
     if (val0 > val1) {
-        setCameraDistance(getZ(vw / aspect, mainCamera) * scaleDown)
+        setCameraDistance(getZ(vw / aspect, mainCamera))
         // Object.assign(referenceOutline.style, { width: size0.width + "px", height: size0.height + "px" })
     }
     else {
-        setCameraDistance(getZ(vh, mainCamera) * scaleDown)
+        setCameraDistance(getZ(vh, mainCamera))
         // Object.assign(referenceOutline.style, { width: size1.width + "px", height: size1.height + "px" })
     }
 }, [getResolution, getViewportSize, getCameraRendered, getVR])

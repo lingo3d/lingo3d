@@ -5,9 +5,6 @@ import Nullable from "./utils/Nullable"
 
 export default interface IOrbitCamera extends ICameraBase {
     targetId: Nullable<string>
-    targetX: number
-    targetY: number
-    targetZ: number
 
     enableDamping: boolean
     enablePan: boolean
@@ -26,9 +23,6 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
     ...cameraBaseSchema,
 
     targetId: String,
-    targetX: Number,
-    targetY: Number,
-    targetZ: Number,
 
     enableDamping: Boolean,
     enablePan: Boolean,
@@ -50,9 +44,6 @@ export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
     mouseControl: "drag",
 
     targetId: undefined,
-    targetX: 0,
-    targetY: 0,
-    targetZ: 0,
     
     enableDamping: false,
     enablePan: false,

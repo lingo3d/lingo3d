@@ -11,8 +11,9 @@ import { onBeforeRender } from "../../../events/onBeforeRender"
 import { Cancellable } from "@lincode/promiselikes"
 import { idMap } from "../../core/StaticObjectManager"
 import { PerspectiveCamera } from "three"
-import { vector3 } from "../../utils/reusables"
 import OrbitCameraBase from "./OrbitCameraBase"
+import { vector3 } from "../../utils/reusables"
+import { vec2Point } from "../../utils/vec2Point"
 
 export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -79,6 +80,12 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
                     else if (downSet.has("d"))
                         this.moveRight(10)
 
+                    if (downSet.has("w") || downSet.has("s") || downSet.has("a") || downSet.has("d")) {
+                        const worldPos = this.object3d.getWorldPosition(vector3)
+                        this.innerZ = 0
+                        this.placeAt(vec2Point(worldPos))
+                    }
+
                     if (downSet.has("ArrowDown"))
                         this.y -= 10
                     else if (downSet.has("ArrowUp"))
@@ -110,15 +117,6 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
             this.enableFlyState.get,
             this.mouseControlState.get
         ])
-
-        this.createEffect(() => {
-            if (this.target) return
-
-            const worldPos = this.object3d.getWorldPosition(vector3)
-            ;[this.x, this.y, this.z] = [this._targetX, this._targetY, this._targetZ]
-            this.object3d.position.copy(this.outerObject3d.worldToLocal(worldPos))
-
-        }, [this.refreshTarget.get, this.targetState.get])
     }
 
     private targetIdState = new Reactive<string | undefined>(undefined)
@@ -127,35 +125,6 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
     }
     public set targetId(val: string | undefined) {
         this.targetIdState.set(val)
-    }
-
-    private refreshTarget = new Reactive({})
-
-    private _targetX = 0
-    public get targetX() {
-        return this._targetX
-    }
-    public set targetX(val) {
-        this._targetX = val
-        this.refreshTarget.set({})
-    }
-
-    private _targetY = 0
-    public get targetY() {
-        return this._targetY
-    }
-    public set targetY(val) {
-        this._targetY = val
-        this.refreshTarget.set({})
-    }
-
-    private _targetZ = 0
-    public get targetZ() {
-        return this._targetZ
-    }
-    public set targetZ(val) {
-        this._targetZ = val
-        this.refreshTarget.set({})
     }
 
     private enableDampingState = new Reactive(false)
