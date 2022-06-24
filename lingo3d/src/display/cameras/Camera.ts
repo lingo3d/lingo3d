@@ -8,7 +8,7 @@ export default class Camera extends CameraBase<PerspectiveCamera> implements ICa
     public static defaults = cameraDefaults
     public static schema = cameraSchema
 
-    public constructor(camera = new PerspectiveCamera(75, 1, camNear, camFar)) {
-        super(camera)
+    public constructor() {
+        super(new PerspectiveCamera(75, 1, camNear, camFar))
     }
 }

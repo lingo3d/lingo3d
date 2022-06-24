@@ -15,9 +15,9 @@ import { vector3 } from "../../utils/reusables"
 import OrbitCameraBase from "./OrbitCameraBase"
 
 export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera {
-    public static override componentName = "orbitCamera"
-    public static override defaults = orbitCameraDefaults
-    public static override schema = orbitCameraSchema
+    public static componentName = "orbitCamera"
+    public static defaults = orbitCameraDefaults
+    public static schema = orbitCameraSchema
 
     public constructor(camera = new PerspectiveCamera(75, 1, camNear, camFar)) {
         super(camera)

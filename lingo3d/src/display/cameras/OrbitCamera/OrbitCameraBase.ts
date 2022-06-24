@@ -3,17 +3,16 @@ import { debounce } from "@lincode/utils"
 import { PerspectiveCamera } from "three"
 import Appendable from "../../../api/core/Appendable"
 import PositionedItem from "../../../api/core/PositionedItem"
-import { camNear, camFar } from "../../../engine/constants"
 import { onSceneGraphChange } from "../../../events/onSceneGraphChange"
-import ICamera from "../../../interface/ICamera"
+import ICameraBase from "../../../interface/ICameraBase"
 import Nullable from "../../../interface/utils/Nullable"
-import Camera from "../../cameras/Camera"
+import CameraBase from "../../core/CameraBase"
 import MeshItem, { isMeshItem } from "../../core/MeshItem"
 
 const attachSet = new WeakSet<Appendable>()
 
-export default class OrbitCameraBase extends Camera implements ICamera {
-    public constructor(camera = new PerspectiveCamera(75, 1, camNear, camFar)) {
+export default class OrbitCameraBase extends CameraBase<PerspectiveCamera> implements ICameraBase {
+    public constructor(camera: PerspectiveCamera) {
         super(camera)
 
         this.createEffect(() => {
