@@ -204,20 +204,13 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
 
     private _gyrate(movementX: number, movementY: number, inner?: boolean) {
         const manager = inner ? this.object3d : this.outerObject3d
-
         euler.setFromQuaternion(manager.quaternion)
 
-        if (this._azimuthAngle === undefined) {
-            euler.y -= movementX * 0.002
-            euler.y = Math.max(PI_2 - this._maxAzimuthAngle * deg2Rad, Math.min(PI_2 - this._minAzimuthAngle * deg2Rad, euler.y))
-        }
-        else euler.y = this._azimuthAngle * deg2Rad
+        euler.y -= movementX * 0.002
+        euler.y = Math.max(PI_2 - this._maxAzimuthAngle * deg2Rad, Math.min(PI_2 - this._minAzimuthAngle * deg2Rad, euler.y))
         
-        if (this._polarAngle === undefined) {
-            euler.x -= movementY * 0.002
-            euler.x = Math.max(PI_2 - this._maxPolarAngle * deg2Rad, Math.min(PI_2 - this._minPolarAngle * deg2Rad, euler.x))
-        }
-        else euler.x = this._polarAngle * deg2Rad
+        euler.x -= movementY * 0.002
+        euler.x = Math.max(PI_2 - this._maxPolarAngle * deg2Rad, Math.min(PI_2 - this._minPolarAngle * deg2Rad, euler.x))
 
         manager.setRotationFromEuler(euler)
         !inner && this.physicsRotate()
@@ -270,22 +263,22 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         this.updateAngle()
     }
 
-    private _polarAngle?: number
-    public get polarAngle() {
-        return this._polarAngle
-    }
-    public set polarAngle(val) {
-        this._polarAngle = val
-        this.updateAngle()
+    public setPolarAngle(angle: number) {
+        const { _minPolarAngle, _maxPolarAngle } = this
+        this.minPolarAngle = this.maxPolarAngle = angle
+        this.queueMicrotask(() => {
+            this.minPolarAngle = _minPolarAngle
+            this.maxPolarAngle = _maxPolarAngle
+        })
     }
 
-    private _azimuthAngle?: number
-    public get azimuthAngle() {
-        return this._azimuthAngle
-    }
-    public set azimuthAngle(val) {
-        this._azimuthAngle = val
-        this.updateAngle()
+    public setAzimuthAngle(angle: number) {
+        const { _minAzimuthAngle, _maxAzimuthAngle } = this
+        this.minAzimuthAngle = this.maxAzimuthAngle = angle
+        this.queueMicrotask(() => {
+            this.minAzimuthAngle = _minAzimuthAngle
+            this.maxAzimuthAngle = _maxAzimuthAngle
+        })
     }
 
     protected mouseControlMode?: "orbit" | "stationary"

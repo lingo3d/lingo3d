@@ -30,6 +30,12 @@ onEditorCenterView(manager => {
     mainOrbitCamera.innerZ = Math.max(size.x, size.y, size.z, 1) * scaleUp
 })
 
+getOrbitControls(val => {
+    if (val) return
+    mainOrbitCamera.setPolarAngle(90)
+    mainOrbitCamera.setAzimuthAngle(90)
+})
+
 createEffect(() => {
     if (!getOrbitControls() || getCameraRendered() !== mainCamera || getTransformControlsDragging())
         return
@@ -42,19 +48,6 @@ createEffect(() => {
         container.style.cursor = "auto"
     }
 }, [getOrbitControls, getTransformControlsDragging, getCameraRendered])
-
-createEffect(() => {
-    if (!getOrbitControls()) return
-
-    let proceed = true
-    queueMicrotask(() => proceed && (mainOrbitCamera.polarAngle = 60))
-
-    return () => {
-        proceed = false
-        mainOrbitCamera.polarAngle = 90
-        mainOrbitCamera.azimuthAngle = 0
-    }
-}, [getOrbitControls])
 
 createEffect(() => {
     if (getCameraRendered() !== mainCamera || getOrbitControls()) return

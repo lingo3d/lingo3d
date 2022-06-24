@@ -1,4 +1,3 @@
-import { rad2Deg } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
 import { camFar, camNear } from "../../engine/constants"
 import { container } from "../../engine/renderLoop/renderSetup"
@@ -173,41 +172,5 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
     }
     public set autoRotateSpeed(val) {
         this._autoRotateSpeed = val
-    }
-    
-    private _minAzimuthAngle = -Infinity
-    public get minAzimuthAngle() {
-        return this._minAzimuthAngle * rad2Deg
-    }
-    public set minAzimuthAngle(val: number) {
-    }
-
-    private _maxAzimuthAngle = Infinity
-    public get maxAzimuthAngle() {
-        return this._maxAzimuthAngle * rad2Deg
-    }
-    public set maxAzimuthAngle(val: number) {
-    }
-
-    public get azimuthAngle() {
-        return 0
-    }
-    public set azimuthAngle(val) {
-        
-    }
-
-    public get polarAngle() {
-        return 0
-    }
-    public set polarAngle(val) {
-        
-    }
-    
-    private distanceState = new Reactive(500)
-    public get distance() {
-        return this.distanceState.get()
-    }
-    public set distance(val) {
-        this.distanceState.set(val)
     }
 }
