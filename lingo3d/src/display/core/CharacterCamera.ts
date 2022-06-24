@@ -40,7 +40,7 @@ export default class CharacterCamera extends OrbitCameraBase implements ICharact
             }
             else this.outerObject3d.setRotationFromEuler(euler)
 
-            this.updatePolarAngle()
+            this.updateAngle()
         }
 
         const lockTarget = (target: MeshItem, slerp: boolean) => {

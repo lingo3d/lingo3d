@@ -28,6 +28,12 @@ export default interface ICameraBase extends IObjectManager {
 
     minPolarAngle: number
     maxPolarAngle: number
+
+    minAzimuthAngle: number
+    maxAzimuthAngle: number
+
+    azimuthAngle: Nullable<number>
+    polarAngle: Nullable<number>
 }
 
 export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
@@ -48,7 +54,13 @@ export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
     bokehAperture: Number,
 
     minPolarAngle: Number,
-    maxPolarAngle: Number
+    maxPolarAngle: Number,
+
+    minAzimuthAngle: Number,
+    maxAzimuthAngle: Number,
+
+    azimuthAngle: Number,
+    polarAngle: Number
 }
 
 export const cameraBaseDefaults: Defaults<ICameraBase> = {
@@ -69,5 +81,11 @@ export const cameraBaseDefaults: Defaults<ICameraBase> = {
     bokehAperture: bokehApertureDefault,
 
     minPolarAngle: MIN_POLAR_ANGLE,
-    maxPolarAngle: MAX_POLAR_ANGLE
+    maxPolarAngle: MAX_POLAR_ANGLE,
+    
+    minAzimuthAngle: -Infinity,
+    maxAzimuthAngle: Infinity,
+
+    azimuthAngle: undefined,
+    polarAngle: undefined
 }

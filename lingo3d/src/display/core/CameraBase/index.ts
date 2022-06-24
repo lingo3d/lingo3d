@@ -5,7 +5,7 @@ import { scaleUp, scaleDown } from "../../../engine/constants"
 import { ray, vector3_, vector3, euler, quaternion, quaternion_ } from "../../utils/reusables"
 import pillShape from "../mixins/PhysicsMixin/cannon/shapes/pillShape"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
-import { deg2Rad, rad2Deg } from "@lincode/math"
+import { deg2Rad } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
 import MeshItem from "../MeshItem"
@@ -178,7 +178,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
     public override get width() {
         return this.object3d.scale.x * scaleUp
     }
-    public override set width(val: number) {
+    public override set width(val) {
         const num = val * scaleDown
         this.object3d.scale.x = num
         this.camera.scale.x = 1 / num
@@ -187,7 +187,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
     public override get height() {
         return this.object3d.scale.y * scaleUp
     }
-    public override set height(val: number) {
+    public override set height(val) {
         const num = val * scaleDown
         this.object3d.scale.y = num
         this.camera.scale.y = 1 / num
@@ -196,7 +196,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
     public override get depth() {
         return this.object3d.scale.z * scaleUp
     }
-    public override set depth(val: number) {
+    public override set depth(val) {
         const num = val * scaleDown
         this.object3d.scale.z = num
         this.camera.scale.z = 1 / num
@@ -207,10 +207,17 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
 
         euler.setFromQuaternion(manager.quaternion)
 
-        euler.y -= movementX * 0.002
-        euler.x -= movementY * 0.002
-
-        euler.x = Math.max(PI_2 - this._maxPolarAngle, Math.min(PI_2 - this._minPolarAngle, euler.x))
+        if (this._azimuthAngle === undefined) {
+            euler.y -= movementX * 0.002
+            euler.y = Math.max(PI_2 - this._maxAzimuthAngle * deg2Rad, Math.min(PI_2 - this._minAzimuthAngle * deg2Rad, euler.y))
+        }
+        else euler.y = this._azimuthAngle * deg2Rad
+        
+        if (this._polarAngle === undefined) {
+            euler.x -= movementY * 0.002
+            euler.x = Math.max(PI_2 - this._maxPolarAngle * deg2Rad, Math.min(PI_2 - this._minPolarAngle * deg2Rad, euler.x))
+        }
+        else euler.x = this._polarAngle * deg2Rad
 
         manager.setRotationFromEuler(euler)
         !inner && this.physicsRotate()
@@ -225,35 +232,70 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         }
     }
 
-    protected updatePolarAngle = debounce(() => this.gyrate(0, 0), 0, "trailing")
+    protected updateAngle = debounce(() => this.gyrate(0, 0), 0, "trailing")
 
-    protected _minPolarAngle = MIN_POLAR_ANGLE * deg2Rad
+    private _minPolarAngle = MIN_POLAR_ANGLE
     public get minPolarAngle() {
-        return this._minPolarAngle * rad2Deg
+        return this._minPolarAngle
     }
-    public set minPolarAngle(val: number) {
-        this._minPolarAngle = val * deg2Rad
-        this.updatePolarAngle()
+    public set minPolarAngle(val) {
+        this._minPolarAngle = val
+        this.updateAngle()
     }
 
-    protected _maxPolarAngle = MAX_POLAR_ANGLE * deg2Rad
+    private _maxPolarAngle = MAX_POLAR_ANGLE
     public get maxPolarAngle() {
-        return this._maxPolarAngle * rad2Deg
+        return this._maxPolarAngle
     }
-    public set maxPolarAngle(val: number) {
-        this._maxPolarAngle = val * deg2Rad
-        this.updatePolarAngle()
+    public set maxPolarAngle(val) {
+        this._maxPolarAngle = val
+        this.updateAngle()
+    }
+
+    private _minAzimuthAngle = -Infinity
+    public get minAzimuthAngle() {
+        return this._minAzimuthAngle
+    }
+    public set minAzimuthAngle(val) {
+        this._minAzimuthAngle = val
+        this.updateAngle()
+    }
+
+    private _maxAzimuthAngle = Infinity
+    public get maxAzimuthAngle() {
+        return this._maxAzimuthAngle
+    }
+    public set maxAzimuthAngle(val) {
+        this._maxAzimuthAngle = val
+        this.updateAngle()
+    }
+
+    private _polarAngle?: number
+    public get polarAngle() {
+        return this._polarAngle
+    }
+    public set polarAngle(val) {
+        this._polarAngle = val
+        this.updateAngle()
+    }
+
+    private _azimuthAngle?: number
+    public get azimuthAngle() {
+        return this._azimuthAngle
+    }
+    public set azimuthAngle(val) {
+        this._azimuthAngle = val
+        this.updateAngle()
     }
 
     protected mouseControlMode?: "orbit" | "stationary"
 
     protected mouseControlState = new Reactive<MouseControl>(false)
     private mouseControlInit?: boolean
-
     public get mouseControl() {
         return this.mouseControlState.get()
     }
-    public set mouseControl(val: MouseControl) {
+    public set mouseControl(val) {
         this.mouseControlState.set(val)
 
         if (!val || this.mouseControlInit) return
@@ -266,7 +308,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
     public get gyroControl() {
         return !!this._gyroControl
     }
-    public set gyroControl(val: boolean) {
+    public set gyroControl(val) {
         if (this._gyroControl === val) return
         this._gyroControl = val
 

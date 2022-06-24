@@ -11,12 +11,6 @@ export default interface IOrbitCamera extends ICameraBase {
     enableZoom: boolean
     autoRotate: boolean
     autoRotateSpeed: number
-
-    minAzimuthAngle: number
-    maxAzimuthAngle: number
-
-    azimuthAngle: number
-    polarAngle: number
 }
 
 export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
@@ -28,13 +22,7 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
     enablePan: Boolean,
     enableZoom: Boolean,
     autoRotate: Boolean,
-    autoRotateSpeed: Number,
-
-    minAzimuthAngle: Number,
-    maxAzimuthAngle: Number,
-
-    azimuthAngle: Number,
-    polarAngle: Number
+    autoRotateSpeed: Number
 }
 
 export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
@@ -49,11 +37,5 @@ export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
     enablePan: false,
     enableZoom: false,
     autoRotate: false,
-    autoRotateSpeed: 2,
-
-    minAzimuthAngle: -Infinity,
-    maxAzimuthAngle: Infinity,
-
-    azimuthAngle: 0,
-    polarAngle: 0
+    autoRotateSpeed: 2
 }
