@@ -50,11 +50,10 @@ monolith.texture = "wave1.mp4"
 
 const camera = new OrbitCamera()
 camera.activate()
-camera.targetY = 50
-camera.azimuthAngle = 235
-camera.polarAngle = 70
-camera.distance = 100
+// camera.targetY = 50
+// camera.azimuthAngle = 235
+// camera.polarAngle = 70
+// camera.distance = 100
 camera.enableDamping = true
 camera.bokeh = true
 camera.enableZoom = true
-camera.enablePan = true
