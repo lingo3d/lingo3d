@@ -26,10 +26,11 @@ export default class OrbitCameraBase extends CameraBase<PerspectiveCamera> imple
         }, [this.targetState.get])
     }
 
+    protected manualTarget?: MeshItem
     protected targetState = new Reactive<MeshItem | undefined>(undefined)
 
     private retarget = debounce(() => {
-        let target: MeshItem | undefined
+        let target = this.manualTarget
         for (const child of this.children ?? [])
             if (target) {
                 if (child.outerObject3d.parent !== this.camera)

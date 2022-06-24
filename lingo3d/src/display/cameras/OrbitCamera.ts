@@ -13,6 +13,8 @@ import { PerspectiveCamera } from "three"
 import OrbitCameraBase from "../core/OrbitCameraBase"
 import { vector3 } from "../utils/reusables"
 import { vec2Point } from "../utils/vec2Point"
+import { getObject3d } from "../core/MeshItem"
+import getWorldPosition from "../utils/getWorldPosition"
 
 export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -36,7 +38,10 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
             const timeout = setTimeout(() => {
                 const find = () => {
                     const [found] = idMap.get(targetId) ?? [undefined]
-                    found && this.targetState.set(found)
+                    if (found) {
+                        this.manualTarget = found
+                        this.targetState.set(found)
+                    }
                     return found
                 }
                 if (find()) return
@@ -54,7 +59,7 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
             if (!target) return
 
             const handle = onBeforeRender(() => {
-                this.placeAt(target)
+                this.placeAt(vec2Point(getWorldPosition(getObject3d(target))))
             })
             return () => {
                 handle.cancel()
