@@ -134,14 +134,6 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
         this.enableDampingState.set(val)
     }
 
-    private enablePanState = new Reactive(false)
-    public get enablePan() {
-        return this.enablePanState.get()
-    }
-    public set enablePan(val: boolean) {
-        this.enablePanState.set(val)
-    }
-
     private enableZoomState = new Reactive(false)
     public get enableZoom() {
         return this.enableZoomState.get()

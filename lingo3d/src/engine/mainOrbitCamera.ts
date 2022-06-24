@@ -14,7 +14,6 @@ import { scaleUp } from "./constants"
 const mainOrbitCamera = new OrbitCamera(mainCamera)
 export default mainOrbitCamera
 
-mainOrbitCamera.enablePan = true
 mainOrbitCamera.enableZoom = true
 mainOrbitCamera.enableFly = true
 mainOrbitCamera.mouseControl = false

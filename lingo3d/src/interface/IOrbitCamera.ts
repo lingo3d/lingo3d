@@ -7,7 +7,6 @@ export default interface IOrbitCamera extends ICameraBase {
     targetId: Nullable<string>
 
     enableDamping: boolean
-    enablePan: boolean
     enableZoom: boolean
     autoRotate: boolean
     autoRotateSpeed: number
@@ -19,7 +18,6 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
     targetId: String,
 
     enableDamping: Boolean,
-    enablePan: Boolean,
     enableZoom: Boolean,
     autoRotate: Boolean,
     autoRotateSpeed: Number
@@ -34,7 +32,6 @@ export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
     targetId: undefined,
     
     enableDamping: false,
-    enablePan: false,
     enableZoom: false,
     autoRotate: false,
     autoRotateSpeed: 2
