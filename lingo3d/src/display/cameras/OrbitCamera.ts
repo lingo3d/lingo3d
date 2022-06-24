@@ -50,6 +50,19 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
         }, [this.targetIdState.get])
 
         this.createEffect(() => {
+            const autoRotate = this.autoRotateState.get()
+            if (getCameraRendered() !== camera || !autoRotate) return
+
+            const speed = typeof autoRotate === "number" ? autoRotate : 2
+            const handle = onBeforeRender(() => {
+                this.gyrate(speed, 0, true)
+            })
+            return () => {
+                handle.cancel()
+            }
+        }, [getCameraRendered, this.autoRotateState.get])
+
+        this.createEffect(() => {
             if (getTransformControlsDragging() || getCameraRendered() !== camera || !this.mouseControlState.get())
                 return
 

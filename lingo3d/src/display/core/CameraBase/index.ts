@@ -220,7 +220,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
     }
 
     private gyrateHandle?: Cancellable
-    public gyrate(movementX: number, movementY: number) {
+    public gyrate(movementX: number, movementY: number, noDamping?: boolean) {
         if (this.damping) {
             const ratio = typeof this.damping === "number" ? this.damping : 0.2
             movementX *= ratio
@@ -232,13 +232,14 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
             this._gyrate(movementX, 0)
             this._gyrate(0, movementY, true)
         }
-        if (!this.damping) return
+        if (!this.damping || noDamping) return
 
         this.gyrateHandle?.cancel()
         let factor = 1
         const handle = this.gyrateHandle = this.beforeRender(() => {
+            factor *= 0.95
             this._gyrate(movementX * factor, movementY * factor)
-            if ((factor -= 0.02) <= 0)
+            if ((factor) <= 0.001)
                 handle.cancel()
         })
     }
