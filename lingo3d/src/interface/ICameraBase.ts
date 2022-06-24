@@ -31,6 +31,8 @@ export default interface ICameraBase extends IObjectManager {
 
     minAzimuthAngle: number
     maxAzimuthAngle: number
+
+    enableDamping: boolean
 }
 
 export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
@@ -54,7 +56,9 @@ export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
     maxPolarAngle: Number,
 
     minAzimuthAngle: Number,
-    maxAzimuthAngle: Number
+    maxAzimuthAngle: Number,
+
+    enableDamping: Boolean
 }
 
 export const cameraBaseDefaults: Defaults<ICameraBase> = {
@@ -78,5 +82,7 @@ export const cameraBaseDefaults: Defaults<ICameraBase> = {
     maxPolarAngle: MAX_POLAR_ANGLE,
     
     minAzimuthAngle: -Infinity,
-    maxAzimuthAngle: Infinity
+    maxAzimuthAngle: Infinity,
+
+    enableDamping: false
 }

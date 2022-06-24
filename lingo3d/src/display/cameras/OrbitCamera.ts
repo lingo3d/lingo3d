@@ -23,7 +23,7 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
         super(camera)
 
         this.innerZ = 500
-        this.mouseControlMode = "orbit"
+        this.orbitMode = true
         this.mouseControl = "drag"
 
         this.camera.rotation.y = 0
@@ -124,14 +124,6 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
     }
     public set targetId(val) {
         this.targetIdState.set(val)
-    }
-
-    private enableDampingState = new Reactive(false)
-    public get enableDamping() {
-        return this.enableDampingState.get()
-    }
-    public set enableDamping(val) {
-        this.enableDampingState.set(val)
     }
 
     private enableZoomState = new Reactive(false)

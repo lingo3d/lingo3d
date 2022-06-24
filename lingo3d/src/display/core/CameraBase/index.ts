@@ -202,6 +202,8 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         this.camera.scale.z = 1 / num
     }
 
+    protected orbitMode?: boolean
+
     private _gyrate(movementX: number, movementY: number, inner?: boolean) {
         const manager = inner ? this.object3d : this.outerObject3d
         euler.setFromQuaternion(manager.quaternion)
@@ -217,7 +219,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
     }
 
     public gyrate(movementX: number, movementY: number) {
-        if (this.mouseControlMode === "orbit")
+        if (this.orbitMode)
             this._gyrate(movementX, movementY)
         else {
             this._gyrate(movementX, 0)
@@ -281,7 +283,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         })
     }
 
-    protected mouseControlMode?: "orbit" | "stationary"
+    public enableDamping = false
 
     protected mouseControlState = new Reactive<MouseControl>(false)
     private mouseControlInit?: boolean

@@ -8,7 +8,7 @@ export default class ThirdPersonCamera extends CharacterCamera {
     public constructor() {
         super()
         this.innerZ = 300
-        this.mouseControlMode = "orbit"
+        this.orbitMode = true
 
         const cam = this.camera
 
