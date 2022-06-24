@@ -3,7 +3,7 @@ import { onBeforeCameraLoop } from "../core/mixins/PhysicsMixin/bvh/bvhCameraLoo
 import { quaternion, vector3 } from "../utils/reusables"
 
 export default class ThirdPersonCamera extends CharacterCamera {
-    public static override componentName = "thirdPersonCamera"
+    public static componentName = "thirdPersonCamera"
 
     public constructor() {
         super()

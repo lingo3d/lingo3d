@@ -5,7 +5,7 @@ import { vector3, quaternion } from "../utils/reusables"
 import { Reactive } from "@lincode/reactivity"
 
 export default class FirstPersonCamera extends CharacterCamera {
-    public static override componentName = "firstPersonCamera"
+    public static componentName = "firstPersonCamera"
 
     public constructor() {
         super()
