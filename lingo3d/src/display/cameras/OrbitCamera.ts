@@ -48,6 +48,18 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
                 handle.cancel()
             }
         }, [this.targetIdState.get])
+        
+        this.createEffect(() => {
+            const target = this.targetState.get()
+            if (!target) return
+
+            const handle = onBeforeRender(() => {
+                this.placeAt(target)
+            })
+            return () => {
+                handle.cancel()
+            }
+        }, [this.targetState.get])
 
         this.createEffect(() => {
             const autoRotate = this.autoRotateState.get()
