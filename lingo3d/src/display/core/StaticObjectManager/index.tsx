@@ -1,7 +1,7 @@
 import { distance3d, Point3d } from "@lincode/math"
-import { Material, Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding, Quaternion } from "three"
+import { Material, Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
-import { frustum, matrix4, ray, vector3, vector3_, vector3_1, vector3_half, vector3__ } from "../../utils/reusables"
+import { frustum, matrix4, ray, vector3, vector3_, vector3_1, vector3_half } from "../../utils/reusables"
 import { applyMixins, forceGet, throttle } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import { scaleDown, scaleUp } from "../../../engine/constants"
@@ -23,6 +23,7 @@ import copyToon from "./applyMaterialProperties/copyToon"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import diffQuaternions from "../../utils/diffQuaternions"
+import getWorldPosition from "../../utils/getWorldPosition"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -140,7 +141,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
 
     protected getRay() {
-        return ray.set(this.object3d.getWorldPosition(vector3_), this.object3d.getWorldDirection(vector3))
+        return ray.set(getWorldPosition(this.object3d), this.object3d.getWorldDirection(vector3))
     }
 
     public pointAt(distance: number) {
@@ -153,7 +154,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         if (this === target) return undefined
 
         targetOBB.set(
-            target.object3d.getWorldPosition(vector3__),
+            getWorldPosition(target.object3d),
             vector3_half,
             new Matrix3().setFromMatrix4(target.object3d.matrixWorld)
         )
@@ -162,7 +163,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         if (!vec) return
         
         if (maxDistance) {
-            const { x, y, z } = this.object3d.getWorldPosition(vector3_)
+            const { x, y, z } = getWorldPosition(this.object3d)
             if (distance3d(vec.x, vec.y, vec.z, x, y, z) * scaleUp > maxDistance)
                 return
         }
@@ -178,10 +179,10 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         if (target.done) return false
         if (this === target) return false
 
-        thisOBB.set(this.object3d.getWorldPosition(vector3), vector3_1.clone(), new Matrix3())
+        thisOBB.set(getWorldPosition(this.object3d), vector3_1.clone(), new Matrix3())
         thisOBB.applyMatrix4(this.object3d.matrixWorld)
 
-        targetOBB.set(target.object3d.getWorldPosition(vector3_), vector3_1.clone(), new Matrix3())
+        targetOBB.set(getWorldPosition(target.object3d), vector3_1.clone(), new Matrix3())
         targetOBB.applyMatrix4(target.object3d.matrixWorld)
 
         return thisOBB.intersectsOBB(targetOBB, 0)
@@ -350,7 +351,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
             return
         }
         if ("outerObject3d" in a0)
-            this.outerObject3d.lookAt(getObject3d(a0).getWorldPosition(vector3))
+            this.outerObject3d.lookAt(getWorldPosition(getObject3d(a0)))
         else
             this.outerObject3d.lookAt(point2Vec(a0))
     }

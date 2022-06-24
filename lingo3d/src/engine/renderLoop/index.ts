@@ -2,7 +2,6 @@ import { createEffect } from "@lincode/reactivity"
 import { preventTreeShake } from "@lincode/utils"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import Cube from "../../display/primitives/Cube"
-import { vector3 } from "../../display/utils/reusables"
 import { emitAfterRender } from "../../events/onAfterRender"
 import { emitBeforeRender } from "../../events/onBeforeRender"
 import { setOutline } from "../../states/useOutline"
@@ -24,6 +23,7 @@ import { getEffectComposer } from "../../states/useEffectComposer"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { emitRender } from "../../events/onRender"
 import { emitRender2 } from "../../events/onRender2"
+import getWorldPosition from "../../display/utils/getWorldPosition"
 
 preventTreeShake([resize, effectComposer])
 
@@ -114,7 +114,7 @@ createEffect(() => {
             renderer.setScissor(0, 0, width, height)
             renderer.setScissorTest(true)
 
-            focus.outerObject3d.position.copy(camera.getWorldPosition(vector3))
+            focus.outerObject3d.position.copy(getWorldPosition(camera))
             focus.outerObject3d.quaternion.copy(camera.quaternion)
             focus.translateZ(-focalDistannce)
 

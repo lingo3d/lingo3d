@@ -1,5 +1,5 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { Camera, OrthographicCamera, PerspectiveCamera, Quaternion, Vector3 } from "three"
+import { Camera, OrthographicCamera, PerspectiveCamera, Quaternion } from "three"
 import interpolationCamera from "../engine/interpolationCamera"
 import mainCamera from "../engine/mainCamera"
 import { getCameraStack } from "./useCameraStack"
@@ -9,6 +9,7 @@ import { getCameraFrom } from "./useCameraFrom"
 import { getResolution } from "./useResolution"
 import { getVR } from "./useVR"
 import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
+import getWorldPosition from "../display/utils/getWorldPosition"
 
 export const [setCameraRendered, getCameraRendered] = store<PerspectiveCamera>(mainCamera)
 
@@ -45,7 +46,7 @@ createEffect(() => {
     }
     setCameraRendered(interpolationCamera)
 
-    const positionFrom = cameraFrom.getWorldPosition(new Vector3())
+    const positionFrom = getWorldPosition(cameraFrom)
     const quaternionFrom = cameraFrom.getWorldQuaternion(new Quaternion())
 
     interpolationCamera.zoom = cameraFrom.zoom
@@ -55,7 +56,7 @@ createEffect(() => {
     let alpha = 0
     const diffMax = typeof transition === "number" ? transition : Infinity
     const handle = onBeforeRender(() => {
-        const positionTo = cameraTo.getWorldPosition(new Vector3())
+        const positionTo = getWorldPosition(cameraTo)
         const quaternionTo = cameraTo.getWorldQuaternion(new Quaternion())
 
         interpolationCamera.position.lerpVectors(positionFrom, positionTo, alpha)
