@@ -122,7 +122,7 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
     public get targetId() {
         return this.targetIdState.get()
     }
-    public set targetId(val: string | undefined) {
+    public set targetId(val) {
         this.targetIdState.set(val)
     }
 
@@ -130,7 +130,7 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
     public get enableDamping() {
         return this.enableDampingState.get()
     }
-    public set enableDamping(val: boolean) {
+    public set enableDamping(val) {
         this.enableDampingState.set(val)
     }
 
@@ -138,7 +138,7 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
     public get enableZoom() {
         return this.enableZoomState.get()
     }
-    public set enableZoom(val: boolean) {
+    public set enableZoom(val) {
         this.enableZoomState.set(val)
     }
 
@@ -146,15 +146,15 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
     public get enableFly() {
         return this.enableFlyState.get()
     }
-    public set enableFly(val: boolean) {
+    public set enableFly(val) {
         this.enableFlyState.set(val)
     }
 
-    private autoRotateState = new Reactive(false)
+    private autoRotateState = new Reactive<boolean | number>(false)
     public get autoRotate() {
         return this.autoRotateState.get()
     }
-    public set autoRotate(val: boolean) {
+    public set autoRotate(val) {
         this.autoRotateState.set(val)
     }
 }
