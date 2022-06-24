@@ -9,7 +9,6 @@ export default interface IOrbitCamera extends ICameraBase {
     enableDamping: boolean
     enableZoom: boolean
     autoRotate: boolean
-    autoRotateSpeed: number
 }
 
 export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
@@ -19,8 +18,7 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
 
     enableDamping: Boolean,
     enableZoom: Boolean,
-    autoRotate: Boolean,
-    autoRotateSpeed: Number
+    autoRotate: Boolean
 }
 
 export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
@@ -33,6 +31,5 @@ export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
     
     enableDamping: false,
     enableZoom: false,
-    autoRotate: false,
-    autoRotateSpeed: 2
+    autoRotate: false
 }

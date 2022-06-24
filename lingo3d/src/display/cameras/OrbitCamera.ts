@@ -157,12 +157,4 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
     public set autoRotate(val: boolean) {
         this.autoRotateState.set(val)
     }
-
-    private _autoRotateSpeed = 1
-    public get autoRotateSpeed() {
-        return this._autoRotateSpeed
-    }
-    public set autoRotateSpeed(val) {
-        this._autoRotateSpeed = val
-    }
 }
