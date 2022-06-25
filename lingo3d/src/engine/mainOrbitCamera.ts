@@ -26,7 +26,7 @@ onEditorCenterView(manager => {
     mainOrbitCamera.z = pos.z
     
     const size = getActualScale(manager)
-    mainOrbitCamera.innerZ = Math.max(size.x, size.y, size.z, 1) * scaleUp
+    mainOrbitCamera.innerZ = Math.max(size.x, size.y, size.z, 1) * scaleUp + 50
 })
 
 getOrbitControls(val => {
