@@ -220,8 +220,6 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
     }
 
     private gyrateHandle?: Cancellable
-    private movementXOld?: number
-    private movementYOld?: number
     public gyrate(movementX: number, movementY: number, noDamping?: boolean) {
         if (this.enableDamping) {
             movementX *= 0.5
@@ -233,19 +231,16 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
             this._gyrate(movementX, 0)
             this._gyrate(0, movementY, true)
         }
-        if (!this.enableDamping || noDamping) return        
+        if (!this.enableDamping || noDamping || !(movementX || movementY)) return        
 
-        const [mx, my] = [this.movementXOld, this.movementYOld]
-        if (mx && my) {
-            this.gyrateHandle?.cancel()
-            let factor = 1
-            const handle = this.gyrateHandle = this.beforeRender(() => {
-                factor *= 0.95
-                this._gyrate(mx * factor, my * factor)
-                factor <= 0.001 && handle.cancel()
-            })
-        }
-        ;[this.movementXOld, this.movementYOld] = [movementX, movementY]
+        this.gyrateHandle?.cancel()
+        
+        let factor = 1
+        const handle = this.gyrateHandle = this.beforeRender(() => {
+            factor *= 0.95
+            this._gyrate(movementX * factor, movementY * factor)
+            factor <= 0.001 && handle.cancel()
+        })
     }
 
     protected updateAngle = debounce(() => this.gyrate(0, 0), 0, "trailing")

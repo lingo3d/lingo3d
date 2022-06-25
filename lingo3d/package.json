@@ -1,6 +1,6 @@
 {
 	"name": "lingo3d",
-	"version": "1.10.283",
+	"version": "1.10.284",
 	"description": "Lingo3D is a web-first 3d game development library with React integration",
 	"homepage": "https://github.com/lingo3d/lingo3d",
 	"author": "Lingo3D",
@@ -27,8 +27,8 @@
 		"@types/three": "0.140.0",
 		"browser-fs-access": "0.29.6",
 		"cannon-es": "0.19.0",
-		"postprocessing": "^6.28.0",
-		"preact": "^10.8.1",
+		"postprocessing": "^6.28.1",
+		"preact": "^10.8.2",
 		"preact-custom-element": "^4.2.1",
 		"prettier": "^2.7.1",
 		"three": "0.140.2",
