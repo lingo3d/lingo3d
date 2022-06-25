@@ -54,6 +54,6 @@ camera.activate()
 // camera.azimuthAngle = 235
 // camera.polarAngle = 70
 // camera.distance = 100
-camera.damping = true
+camera.enableDamping = true
 camera.bokeh = true
 camera.enableZoom = true

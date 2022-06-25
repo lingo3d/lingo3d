@@ -222,10 +222,9 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
 
     private gyrateHandle?: Cancellable
     public gyrate(movementX: number, movementY: number, noDamping?: boolean) {
-        if (this.damping) {
-            const ratio = typeof this.damping === "number" ? this.damping : 0.2
-            movementX *= ratio
-            movementY *= ratio
+        if (this.enableDamping) {
+            movementX *= 0.5
+            movementY *= 0.5
         }
         if (this.orbitMode)
             this._gyrate(movementX, movementY)
@@ -233,7 +232,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
             this._gyrate(movementX, 0)
             this._gyrate(0, movementY, true)
         }
-        if (!this.damping || noDamping) return
+        if (!this.enableDamping || noDamping) return
 
         this.gyrateHandle?.cancel()
         let factor = 1
@@ -301,7 +300,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         })
     }
 
-    public damping: Nullable<boolean | number>
+    public enableDamping = false
 
     protected mouseControlState = new Reactive<MouseControl>(false)
     private mouseControlInit?: boolean
