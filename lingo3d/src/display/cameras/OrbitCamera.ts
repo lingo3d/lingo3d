@@ -15,6 +15,7 @@ import { vec2Point } from "../utils/vec2Point"
 import { getObject3d } from "../core/MeshItem"
 import getWorldPosition from "../utils/getWorldPosition"
 import getCenter from "../utils/getCenter"
+import { onRender } from "../../events/onRender"
 
 export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -58,7 +59,7 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
             const target = this.targetState.get()
             if (!target) return
 
-            const handle = onBeforeRender(() => {
+            const handle = onRender(() => {
                 this.placeAt(vec2Point(getCenter(getObject3d(target))))
             })
             return () => {
