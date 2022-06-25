@@ -68,7 +68,6 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         if (this.done) return this
         super.dispose()
 
-        this.active && setCameraFrom(undefined)
         pullCameraStack(this.camera)
         pullCameraList(this.camera)
 

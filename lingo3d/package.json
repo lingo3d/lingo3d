@@ -13,8 +13,9 @@
 	],
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc --noEmit false --declaration --outDir lib",
-		"preview": "vite preview"
+		"build": "npm run clean && tsc --noEmit false --declaration --outDir lib",
+		"preview": "vite preview",
+		"clean": "node node_modules/rimraf/bin lib"
 	},
 	"dependencies": {
 		"@lincode/events": "*",
@@ -45,7 +46,8 @@
 		"@types/react": "^18.0.14",
 		"randomcolor": "*",
 		"typescript": "^4.7.4",
-		"vite": "^2.9.12"
+		"vite": "^2.9.12",
+		"rimraf": "3"
 	},
 	"private": false,
 	"module": "lib/index.js",
