@@ -41,7 +41,7 @@ export default function (this: CameraBase<PerspectiveCamera>) {
             yOld === undefined && (yOld = e.clientY)
             const [movementX, movementY] = [e.clientX - xOld, e.clientY - yOld]
             ;[xOld, yOld] = [e.clientX, e.clientY]
-            started && this.gyrate(movementX * 2, movementY * 2)
+            started && this.gyrate(movementX / window.innerWidth * 2000, movementY / window.innerHeight * 2000)
         }
         container.addEventListener("pointermove", handleMove)
 
