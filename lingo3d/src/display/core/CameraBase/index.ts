@@ -23,7 +23,6 @@ import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { pullCameraStack, getCameraStack, pushCameraStack } from "../../../states/useCameraStack"
 import makeCameraSprite from "../utils/makeCameraSprite"
-import Nullable from "../../../interface/utils/Nullable"
 import getWorldPosition from "../../utils/getWorldPosition"
 
 const PI_2 = Math.PI * 0.5

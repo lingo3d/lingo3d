@@ -30,20 +30,18 @@ export default function (this: CameraBase<PerspectiveCamera>) {
         }
 
         let started = false
-        let [xOld, yOld] = [0, 0]
+        let xOld: number | undefined
+        let yOld: number | undefined
         
-        const handle0 = mouseEvents.on("down", e => (started = true, [xOld, yOld] = [e.clientX, e.clientY]))
+        const handle0 = mouseEvents.on("down", () => (started = true, [xOld, yOld] = [undefined, undefined]))
         const handle1 = mouseEvents.on("up", () => started = false)
 
         const handleMove = (e: PointerEvent) => {
-            //hack for ios safari 14.7.1
-            if (e.movementX === undefined) {
-                const [movementX, movementY] = [e.clientX - xOld, e.clientY - yOld]
-                ;[xOld, yOld] = [e.clientX, e.clientY]
-                started && this.gyrate(movementX * 2, movementY * 2)
-                return
-            }
-            started && this.gyrate(e.movementX * 2, e.movementY * 2)
+            xOld === undefined && (xOld = e.clientX)
+            yOld === undefined && (yOld = e.clientY)
+            const [movementX, movementY] = [e.clientX - xOld, e.clientY - yOld]
+            ;[xOld, yOld] = [e.clientX, e.clientY]
+            started && this.gyrate(movementX * 2, movementY * 2)
         }
         container.addEventListener("pointermove", handleMove)
 
