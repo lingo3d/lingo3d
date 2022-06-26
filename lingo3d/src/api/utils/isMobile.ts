@@ -1,7 +1,4 @@
-import store from "@lincode/reactivity"
-import { debounce } from "@lincode/utils"
-
-const isMobile = () => {
+export default (() => {
     const ua = navigator.userAgent
     if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
         return true
@@ -10,9 +7,4 @@ const isMobile = () => {
         return true
     }
     return false
-}
-
-const [setMobile, getMobile] = store(isMobile())
-export { getMobile }
-
-window.addEventListener("resize", debounce(() => setMobile(isMobile()), 100, "trailing"))
+})()
