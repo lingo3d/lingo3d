@@ -29,6 +29,7 @@ import Skybox from "../display/Skybox"
 import { appendableRoot } from "./core/Appendable"
 import { getAutoMount, setAutoMount } from "../states/useAutoMount"
 import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
+import { getAntiAlias, setAntiAlias } from "../states/useAntiAlias"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -106,6 +107,13 @@ export default {
     },
 
     //rendering
+    get antiAlias() {
+        return getAntiAlias()
+    },
+    set antiAlias(value) {
+        setAntiAlias(value)
+    },
+
     get pixelRatio() {
         return getPixelRatio()
     },

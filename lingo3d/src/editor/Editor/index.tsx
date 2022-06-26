@@ -186,7 +186,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             addInputs(pane, "editor", settings, editorParams)
 
             const [rendererParams, rendererRest] = splitObject(editorRest, [
-                "pixelRatio", "logarithmicDepth", "pbr"
+                "antiAlias", "pixelRatio", "logarithmicDepth", "pbr"
             ])
             addInputs(pane, "renderer", settings, rendererParams)
 

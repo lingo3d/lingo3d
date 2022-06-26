@@ -15,6 +15,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     gravity: Number,
     repulsion: Number,
     autoMount: [Boolean, String],
+    antiAlias: [Boolean, String],
     logarithmicDepth: Boolean,
     pixelRatio: Number,
     exposure: Number,
