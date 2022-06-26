@@ -2,10 +2,10 @@ import store, { createEffect } from "@lincode/reactivity"
 import { WebGLRenderTarget } from "three"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 import { WIDTH, HEIGHT } from "../globals"
-import { getPixelRatio } from "./usePixelRatio"
 import { getRenderer } from "./useRenderer"
 import { getResolution } from "./useResolution"
 import { getAntiAlias } from "./useAntiAlias"
+import { getPixelRatioComputed } from "./usePixelRatioComputed"
 
 const [setEffectComposer, getEffectComposer] = store<EffectComposer | undefined>(undefined)
 export { getEffectComposer }
@@ -37,6 +37,6 @@ createEffect(() => {
 
     const [w, h] = getResolution()
     effectComposer.setSize(w, h)
-    effectComposer.setPixelRatio(getPixelRatio())
+    effectComposer.setPixelRatio(getPixelRatioComputed())
 
-}, [getEffectComposer, getResolution, getPixelRatio])
+}, [getEffectComposer, getResolution, getPixelRatioComputed])
