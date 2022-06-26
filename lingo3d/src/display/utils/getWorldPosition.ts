@@ -1,4 +1,5 @@
 import { Object3D, Vector3 } from "three"
+import { onAfterRender } from "../../events/onAfterRender"
 
 const cache = new WeakMap<Object3D, Vector3>()
 
@@ -9,7 +10,7 @@ export default (object3d: Object3D) => {
     const result = object3d.getWorldPosition(new Vector3())
 
     cache.set(object3d, result)
-    setTimeout(() => cache.delete(object3d))
+    onAfterRender(() => cache.delete(object3d), true)
 
     return result
 }

@@ -1,6 +1,7 @@
 import { Point } from "@lincode/math"
 import { Object3D } from "three"
 import { container } from "../../engine/renderLoop/renderSetup"
+import { onAfterRender } from "../../events/onAfterRender"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import getCenter from "./getCenter"
 
@@ -21,7 +22,7 @@ export default (object3d: Object3D) => {
     const result = { x, y }
 
     cache.set(object3d, result)
-    setTimeout(() => cache.delete(object3d))
+    onAfterRender(() => cache.delete(object3d), true)
 
     return result
 }

@@ -1,4 +1,5 @@
 import { Bone, Object3D, Vector3 } from "three"
+import { onAfterRender } from "../../events/onAfterRender"
 import getWorldPosition from "./getWorldPosition"
 import { box3, vector3 } from "./reusables"
 
@@ -13,7 +14,7 @@ export default (object: Object3D) => {
         : box3.setFromObject(object).getCenter(vector3).clone()
 
     cache.set(object, result)
-    setTimeout(() => cache.delete(object))
+    onAfterRender(() => cache.delete(object), true)
 
     return result
 }
