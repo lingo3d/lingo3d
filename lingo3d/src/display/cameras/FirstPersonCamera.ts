@@ -1,9 +1,9 @@
 import CharacterCamera from "../core/CharacterCamera"
 import SimpleObjectManager from "../core/SimpleObjectManager"
-import { onBeforeCameraLoop } from "../core/mixins/PhysicsMixin/bvh/bvhCameraLoop"
 import { quaternion } from "../utils/reusables"
 import { Reactive } from "@lincode/reactivity"
 import getWorldPosition from "../utils/getWorldPosition"
+import { onBeforeRender } from "../../events/onBeforeRender"
 
 export default class FirstPersonCamera extends CharacterCamera {
     public static componentName = "firstPersonCamera"
@@ -13,7 +13,7 @@ export default class FirstPersonCamera extends CharacterCamera {
 
         const cam = this.camera
 
-        this.watch(onBeforeCameraLoop(() => {
+        this.watch(onBeforeRender(() => {
             cam.position.copy(getWorldPosition(this.object3d))
             cam.quaternion.copy(this.object3d.getWorldQuaternion(quaternion))
         }))
