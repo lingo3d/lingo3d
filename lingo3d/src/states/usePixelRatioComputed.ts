@@ -7,7 +7,7 @@ export const [setPixelRatioComputed, getPixelRatioComputed] = store(1)
 createEffect(() => {
     setPixelRatioComputed(getPixelRatio() ?? (
         getAntiAlias() === "SSAA"
-            ? devicePixelRatio > 1 ? 1.5 : 1
+            ? devicePixelRatio > 1 ? 1.25 : 1
             : 1
         )
     )

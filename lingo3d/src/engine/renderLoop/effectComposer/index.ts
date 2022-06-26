@@ -18,7 +18,7 @@ import { getLensDistortion } from "../../../states/useLensDistortion"
 import { getEffectComposer } from "../../../states/useEffectComposer"
 import { getAntiAlias } from "../../../states/useAntiAlias"
 import { setEffectComposerPassCount } from "../../../states/useEffectComposerPassCount"
-import fxaaPass from "./fxaaPass"
+import smaaPass from "./smaaPass"
 
 export default {}
 
@@ -50,7 +50,7 @@ createEffect(() => {
         passes.push(lensDistortionPass)
 
     if (getAntiAlias() === "SSAA")
-        passes.push(fxaaPass)
+        passes.push(smaaPass)
 
     for (const pass of passes)
         effectComposer.addPass(pass)
