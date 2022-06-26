@@ -66,13 +66,13 @@ export default class CharacterCamera extends OrbitCameraBase implements ICharact
 
             let targetMoved = false
             let [x, y, z] = [0, 0, 0]
-            onBeforeRender(() => {
+            const handle0 = onBeforeRender(() => {
                 const { x: x0, y: y0, z: z0 } = target.outerObject3d.position
                 targetMoved = x0 !== x || y0 !== y || z0 !== z
                 ;[x, y, z] = [x0, y0, z0]
             })
 
-            const handle = onBeforeRender(() => {
+            const handle1 = onBeforeRender(() => {
                 this.outerObject3d.position.copy(target.outerObject3d.position)
                 if (!this.lockTargetRotation) return
 
@@ -91,7 +91,8 @@ export default class CharacterCamera extends OrbitCameraBase implements ICharact
                 lockTarget(target, false)
             })
             return () => {
-                handle.cancel()
+                handle0.cancel()
+                handle1.cancel()
             }
         }, [this.targetState.get])
 
