@@ -13,7 +13,6 @@ import ssrPass from "./ssrPass"
 import { getSSR } from "../../../states/useSSR"
 import outlinePass from "./outlinePass"
 import { getOutline } from "../../../states/useOutline"
-import smaaPass from "./smaaPass"
 import lensDistortionPass from "./lensDistortionPass"
 import { getLensDistortion } from "../../../states/useLensDistortion"
 import { getEffectComposer } from "../../../states/useEffectComposer"
@@ -50,9 +49,7 @@ createEffect(() => {
     if (getLensDistortion())
         passes.push(lensDistortionPass)
 
-    if (getAntiAlias() === "SMAA")
-        passes.push(smaaPass)
-    else if (getAntiAlias() === "SSAA")
+    if (getAntiAlias() === "SSAA")
         passes.push(fxaaPass)
 
     for (const pass of passes)
