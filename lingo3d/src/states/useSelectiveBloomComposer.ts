@@ -1,5 +1,6 @@
 import store, { createEffect } from "@lincode/reactivity"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
+import { getPixelRatioComputed } from "./usePixelRatioComputed"
 import { getRenderer } from "./useRenderer"
 import { getResolution } from "./useResolution"
 
@@ -22,6 +23,6 @@ createEffect(() => {
 
     const [w, h] = getResolution()
     selectiveBloomComposer.setSize(w, h)
-    selectiveBloomComposer.setPixelRatio(0.5)
+    selectiveBloomComposer.setPixelRatio(getPixelRatioComputed())
 
-}, [getSelectiveBloomComposer, getResolution])
+}, [getSelectiveBloomComposer, getResolution, getPixelRatioComputed])
