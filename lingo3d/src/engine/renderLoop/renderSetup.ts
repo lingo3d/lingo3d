@@ -1,7 +1,6 @@
 import { LinearToneMapping, NoToneMapping } from "three"
 import { getExposure } from "../../states/useExposure"
 import { getResolution, setResolution } from "../../states/useResolution"
-import { getPerformance } from "../../states/usePerformance"
 import { getPixelRatio } from "../../states/usePixelRatio"
 import { createEffect, createNestedEffect } from "@lincode/reactivity"
 import { getVR } from "../../states/useVR"
@@ -115,9 +114,9 @@ createEffect(() => {
     if (!renderer) return
 
     // renderer.shadowMap.type = PCFSoftShadowMap
-    renderer.shadowMap.enabled = getPerformance() !== "speed"
+    renderer.shadowMap.enabled = true
 
-}, [getRenderer, getPerformance])
+}, [getRenderer])
 
 createEffect(() => {
     const renderer = getRenderer()

@@ -24,7 +24,7 @@ specifiers:
   css-loader: ^6.7.1
   fork-ts-checker-webpack-plugin: ^7.2.11
   html-webpack-plugin: ^5.5.0
-  lingo3d: 1.10.286
+  lingo3d: 1.10.287
   nanoid: ^3.3.4
   popmotion: ^11.0.3
   postcss: ^8.4.14
@@ -48,7 +48,7 @@ dependencies:
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
   '@types/three': 0.140.0
-  lingo3d: 1.10.286
+  lingo3d: 1.10.287
   nanoid: 3.3.4
   popmotion: 11.0.3
   stats.js: 0.17.0
@@ -180,7 +180,7 @@ packages:
       '@babel/compat-data': 7.18.5
       '@babel/core': 7.18.5
       '@babel/helper-validator-option': 7.16.7
-      browserslist: 4.20.4
+      browserslist: 4.21.0
       semver: 6.3.0
     dev: true
 
@@ -1903,8 +1903,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      browserslist: 4.20.4
-      caniuse-lite: 1.0.30001358
+      browserslist: 4.21.0
+      caniuse-lite: 1.0.30001359
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -2037,16 +2037,15 @@ packages:
     resolution: {integrity: sha512-YQ3s9diP+o2a9mKM4OGozmOu8MBUZ3GTbiu1R7SgaH96uCXo7ONMz9uAX7oVL6IaE+jUNuve1ryrnZsCkXU82w==}
     dev: false
 
-  /browserslist/4.20.4:
-    resolution: {integrity: sha512-ok1d+1WpnU24XYN7oC3QWgTyMhY/avPJ/r9T00xxvUOIparA/gc+UPUMaod3i+G6s+nI2nUb9xZ5k794uIwShw==}
+  /browserslist/4.21.0:
+    resolution: {integrity: sha512-UQxE0DIhRB5z/zDz9iA03BOfxaN2+GQdBYH/2WrSIWEUrnpzTPJbhqt+umq6r3acaPRTW1FNTkrcp0PXgtFkvA==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001358
-      electron-to-chromium: 1.4.164
-      escalade: 3.1.1
+      caniuse-lite: 1.0.30001359
+      electron-to-chromium: 1.4.170
       node-releases: 2.0.5
-      picocolors: 1.0.0
+      update-browserslist-db: 1.0.4_browserslist@4.21.0
     dev: true
 
   /buffer-from/1.1.2:
@@ -2082,8 +2081,8 @@ packages:
       tslib: 2.4.0
     dev: true
 
-  /caniuse-lite/1.0.30001358:
-    resolution: {integrity: sha512-hvp8PSRymk85R20bsDra7ZTCpSVGN/PAz9pSAjPSjKC+rNmnUk5vCRgJwiTT/O4feQ/yu/drvZYpKxxhbFuChw==}
+  /caniuse-lite/1.0.30001359:
+    resolution: {integrity: sha512-Xln/BAsPzEuiVLgJ2/45IaqD9jShtk3Y33anKb4+yLwQzws3+v6odKfpgES/cDEaZMLzSChpIGdbOYtH9MyuHw==}
     dev: true
 
   /cannon-es/0.19.0:
@@ -2258,7 +2257,7 @@ packages:
   /core-js-compat/3.23.2:
     resolution: {integrity: sha512-lrgZvxFwbQp9v7E8mX0rJ+JX7Bvh4eGULZXA1IAyjlsnWvCdw6TF8Tg6xtaSUSJMrSrMaLdpmk+V54LM1dvfOA==}
     dependencies:
-      browserslist: 4.20.4
+      browserslist: 4.21.0
       semver: 7.0.0
     dev: true
 
@@ -2455,8 +2454,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: true
 
-  /electron-to-chromium/1.4.164:
-    resolution: {integrity: sha512-K7iy5y6XyP9Pzh3uaDti0KC4JUNT6T1tLG5RTOmesqq2YgAJpYYYJ32m+anvZYjCV35llPTEh87kvEV/uSsiyQ==}
+  /electron-to-chromium/1.4.170:
+    resolution: {integrity: sha512-rZ8PZLhK4ORPjFqLp9aqC4/S1j4qWFsPPz13xmWdrbBkU/LlxMcok+f+6f8YnQ57MiZwKtOaW15biZZsY5Igvw==}
     dev: true
 
   /emojis-list/3.0.0:
@@ -2694,7 +2693,7 @@ packages:
       cosmiconfig: 7.0.1
       deepmerge: 4.2.2
       fs-extra: 10.1.0
-      memfs: 3.4.6
+      memfs: 3.4.7
       minimatch: 3.1.2
       schema-utils: 3.1.1
       semver: 7.3.7
@@ -2925,8 +2924,8 @@ packages:
       toidentifier: 1.0.1
     dev: true
 
-  /http-parser-js/0.5.6:
-    resolution: {integrity: sha512-vDlkRPDJn93swjcjqMSaGSPABbIarsr1TLAui/gLDXzV5VsJNdXNzMYDyNBLQkjWQCJ1uizu8T2oDMhmGt0PRA==}
+  /http-parser-js/0.5.7:
+    resolution: {integrity: sha512-8gQM8ZcewlONQLnik2AKzS13euQhaZcu4rK5QBSYOszW0T1upLW9VA2MdWvTvMmRo42HjXp7igFmdROoBCCrfg==}
     dev: true
 
   /http-proxy-middleware/2.0.6_@types+express@4.17.13:
@@ -3171,8 +3170,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lingo3d/1.10.286:
-    resolution: {integrity: sha512-3ICB50ffYcovWXXE2UnYNVniN5L/aC0edMWsYfyHlfXASeg19umWYI7pmYL6P3aQwnPRonP+tmz9YKFc0SMl/Q==}
+  /lingo3d/1.10.287:
+    resolution: {integrity: sha512-8p/dVSlviiacvALppNnI8fFXVpawlu5sfgx+0wWegJ8Fvdivh/RHS0YlksSsizD3xV3aim2hGUHuHTM2s5FViA==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
@@ -3260,8 +3259,8 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
-  /memfs/3.4.6:
-    resolution: {integrity: sha512-rH9mjopto6Wkr7RFuH9l9dk3qb2XGOcYKr7xMhaYqfzuJqOqhRrcFvfD7JMuPj6SLmPreh5+6eAuv36NFAU+Mw==}
+  /memfs/3.4.7:
+    resolution: {integrity: sha512-ygaiUSNalBX85388uskeCyhSAoOSgzBbtVCr9jA2RROssFL9Q19/ZXFqS+2Th2sr1ewNIWgFdLzLC3Yl1Zv+lw==}
     engines: {node: '>= 4.0.0'}
     dependencies:
       fs-monkey: 1.0.3
@@ -4344,6 +4343,17 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
+  /update-browserslist-db/1.0.4_browserslist@4.21.0:
+    resolution: {integrity: sha512-jnmO2BEGUjsMOe/Fg9u0oczOe/ppIDZPebzccl1yDWGLFP16Pa1/RM5wEoKYPG2zstNcDuAStejyxsOuKINdGA==}
+    hasBin: true
+    peerDependencies:
+      browserslist: '>= 4.21.0'
+    dependencies:
+      browserslist: 4.21.0
+      escalade: 3.1.1
+      picocolors: 1.0.0
+    dev: true
+
   /uri-js/4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
@@ -4446,7 +4456,7 @@ packages:
       webpack: ^4.0.0 || ^5.0.0
     dependencies:
       colorette: 2.0.19
-      memfs: 3.4.6
+      memfs: 3.4.7
       mime-types: 2.1.35
       range-parser: 1.2.1
       schema-utils: 4.0.0
@@ -4544,7 +4554,7 @@ packages:
       '@webassemblyjs/wasm-parser': 1.11.1
       acorn: 8.7.1
       acorn-import-assertions: 1.8.0_acorn@8.7.1
-      browserslist: 4.20.4
+      browserslist: 4.21.0
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.9.3
       es-module-lexer: 0.9.3
@@ -4572,7 +4582,7 @@ packages:
     resolution: {integrity: sha512-b17KeDIQVjvb0ssuSDF2cYXSg2iztliJ4B9WdsuB6J952qCPKmnVq4DyW5motImXHDC1cBT/1UezrJVsKw5zjg==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      http-parser-js: 0.5.6
+      http-parser-js: 0.5.7
       safe-buffer: 5.2.1
       websocket-extensions: 0.1.4
     dev: true

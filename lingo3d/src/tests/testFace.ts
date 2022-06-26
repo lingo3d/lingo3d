@@ -28,7 +28,6 @@ light3.intensity = 0.5
 
 const sky = new Sky()
 
-// settings.performance = "quality"
 settings.defaultOrbitControls = true
 settings.ambientOcclusion = true
 settings.bloom = true

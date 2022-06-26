@@ -5,7 +5,6 @@ import Cube from "../../display/primitives/Cube"
 import { emitAfterRender } from "../../events/onAfterRender"
 import { emitBeforeRender } from "../../events/onBeforeRender"
 import { setOutline } from "../../states/useOutline"
-import { getPerformance } from "../../states/usePerformance"
 import { getRenderer } from "../../states/useRenderer"
 import { getResolution } from "../../states/useResolution"
 import { getSecondaryCamera } from "../../states/useSecondaryCamera"
@@ -75,7 +74,7 @@ createEffect(() => {
 
     const vr = getVR()
     
-    if (getPerformance() === "speed" || vr === "webxr") {
+    if (vr === "webxr") {
         const handle = loop(() => {
             emitBeforeRender()
             emitRender()
@@ -192,4 +191,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getPerformance, getVR, getCameraRendered, getSecondaryCamera, getResolution, getRenderer, getEffectComposer])
+}, [getVR, getCameraRendered, getSecondaryCamera, getResolution, getRenderer, getEffectComposer])

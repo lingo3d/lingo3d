@@ -56,7 +56,6 @@ export const nonSerializedProperties = [
     "proxy"
 ]
 export const nonEditorSettings: Array<keyof ISetup> = [
-    "performance",
     "defaultOrbitControls",
     "autoMount",
     "texture",

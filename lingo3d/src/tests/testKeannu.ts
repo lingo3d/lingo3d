@@ -1,9 +1,7 @@
-import { PointLight, SkyLight, settings } from ".."
+import { settings } from ".."
 import Model from "../display/Model"
 
 export default {}
-
-settings.performance = "quality"
 
 const model = new Model()
 model.src = "keannu.glb"

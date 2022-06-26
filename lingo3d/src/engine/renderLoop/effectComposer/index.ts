@@ -17,7 +17,7 @@ import smaaPass from "./smaaPass"
 import lensDistortionPass from "./lensDistortionPass"
 import { getLensDistortion } from "../../../states/useLensDistortion"
 import { getEffectComposer } from "../../../states/useEffectComposer"
-import { getSMAA } from "../../../states/useSMAA"
+import { getAntiAlias } from "../../../states/useAntiAlias"
 
 export default {}
 
@@ -48,7 +48,7 @@ createEffect(() => {
     if (getLensDistortion())
         passes.push(lensDistortionPass)
 
-    if (getSMAA())
+    if (getAntiAlias() === "SMAA")
         passes.push(smaaPass)
 
     for (const pass of passes)
@@ -58,4 +58,4 @@ createEffect(() => {
         for (const pass of passes)
             effectComposer.removePass(pass)
     }
-}, [getEffectComposer, getSSR, getAmbientOcclusion, getBloom, getSelectiveBloom, getBokeh, getOutline, getLensDistortion, getSMAA])
+}, [getEffectComposer, getSSR, getAmbientOcclusion, getBloom, getSelectiveBloom, getBokeh, getOutline, getLensDistortion, getAntiAlias])

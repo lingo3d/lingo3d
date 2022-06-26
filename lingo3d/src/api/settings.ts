@@ -1,6 +1,5 @@
 import { getDefaultFog, setDefaultFog } from "../states/useDefaultFog"
 import { getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
-import { getPerformance, setPerformance } from "../states/usePerformance"
 import { getOrbitControls, setOrbitControls } from "../states/useOrbitControls"
 import { getGravity, setGravity } from "../states/useGravity"
 import { getRepulsion, setRepulsion } from "../states/useRepulsion"
@@ -36,13 +35,6 @@ appendableRoot.delete(defaultSkybox)
 
 export default {
     //general
-    get performance() {
-        return getPerformance()
-    },
-    set performance(value) {
-        setPerformance(value)
-    },
-
     get defaultFog() {
         return getDefaultFog()
     },
