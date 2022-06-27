@@ -1,6 +1,6 @@
 import { rad2Deg, deg2Rad, distance3d, Point3d } from "@lincode/math"
 import { Object3D, Vector3 } from "three"
-import { quaternion, vector3 } from "../../utils/reusables"
+import { vector3 } from "../../utils/reusables"
 import { scaleDown, scaleUp } from "../../../engine/constants"
 import { point2Vec } from "../../utils/vec2Point"
 import ISimpleObjectManager, { OnIntersectValue } from "../../../interface/ISimpleObjectManager"
@@ -16,6 +16,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import MeshItem, { getObject3d } from "../MeshItem"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import getWorldPosition from "../../utils/getWorldPosition"
+import getWorldQuaternion from "../../utils/getWorldQuaternion"
 
 const ptDistCache = new WeakMap<Point3d, number>()
 const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
@@ -296,7 +297,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     public placeAt(object: MeshItem | Point3d) {
         if ("outerObject3d" in object) {
             this.outerObject3d.position.copy(getCenter(getObject3d(object)))
-            this.outerObject3d.quaternion.copy(object.outerObject3d.getWorldQuaternion(quaternion))
+            this.outerObject3d.quaternion.copy(getWorldQuaternion(object.outerObject3d))
         }
         else this.outerObject3d.position.copy(point2Vec(object))
 

@@ -7,6 +7,8 @@ import getCenter from "./getCenter"
 
 const cache = new WeakMap<Object3D, Point>()
 
+//todo: might need cloning for caching
+
 export default (object3d: Object3D) => {
     if (cache.has(object3d))
         return cache.get(object3d)!

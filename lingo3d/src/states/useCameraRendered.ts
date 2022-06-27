@@ -1,5 +1,5 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { Camera, OrthographicCamera, PerspectiveCamera, Quaternion } from "three"
+import { Camera, OrthographicCamera, PerspectiveCamera } from "three"
 import interpolationCamera from "../engine/interpolationCamera"
 import mainCamera from "../engine/mainCamera"
 import { getCameraStack } from "./useCameraStack"
@@ -10,6 +10,7 @@ import { getResolution } from "./useResolution"
 import { getVR } from "./useVR"
 import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
 import getWorldPosition from "../display/utils/getWorldPosition"
+import getWorldQuaternion from "../display/utils/getWorldQuaternion"
 
 export const [setCameraRendered, getCameraRendered] = store<PerspectiveCamera>(mainCamera)
 
@@ -47,7 +48,7 @@ createEffect(() => {
     setCameraRendered(interpolationCamera)
 
     const positionFrom = getWorldPosition(cameraFrom)
-    const quaternionFrom = cameraFrom.getWorldQuaternion(new Quaternion())
+    const quaternionFrom = getWorldQuaternion(cameraFrom)
 
     interpolationCamera.zoom = cameraFrom.zoom
     interpolationCamera.fov = cameraFrom.fov
@@ -57,7 +58,7 @@ createEffect(() => {
     const diffMax = typeof transition === "number" ? transition : Infinity
     const handle = onBeforeRender(() => {
         const positionTo = getWorldPosition(cameraTo)
-        const quaternionTo = cameraTo.getWorldQuaternion(new Quaternion())
+        const quaternionTo = getWorldQuaternion(cameraTo)
 
         interpolationCamera.position.lerpVectors(positionFrom, positionTo, alpha)
         interpolationCamera.quaternion.slerpQuaternions(quaternionFrom, quaternionTo, alpha)

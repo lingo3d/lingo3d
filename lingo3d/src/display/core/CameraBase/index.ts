@@ -24,6 +24,7 @@ import { getCameraRendered } from "../../../states/useCameraRendered"
 import { pullCameraStack, getCameraStack, pushCameraStack } from "../../../states/useCameraStack"
 import makeCameraSprite from "../utils/makeCameraSprite"
 import getWorldPosition from "../../utils/getWorldPosition"
+import getWorldQuaternion from "../../utils/getWorldQuaternion"
 
 const PI_2 = Math.PI * 0.5
 
@@ -334,7 +335,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         const screenTransform = quaternion_
         const worldTransform = new Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5))
 
-        const quat = this.object3d.getWorldQuaternion(quaternion).clone()
+        const quat = getWorldQuaternion(this.object3d)
         const orient = 0
 
         const cb = (e: DeviceOrientationEvent) => {

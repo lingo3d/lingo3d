@@ -1,8 +1,8 @@
 import CharacterCamera from "../core/CharacterCamera"
 import SimpleObjectManager from "../core/SimpleObjectManager"
-import { quaternion } from "../utils/reusables"
 import { Reactive } from "@lincode/reactivity"
 import getWorldPosition from "../utils/getWorldPosition"
+import getWorldQuaternion from "../utils/getWorldQuaternion"
 import { onBeforeRender } from "../../events/onBeforeRender"
 
 export default class FirstPersonCamera extends CharacterCamera {
@@ -15,7 +15,7 @@ export default class FirstPersonCamera extends CharacterCamera {
 
         this.watch(onBeforeRender(() => {
             cam.position.copy(getWorldPosition(this.object3d))
-            cam.quaternion.copy(this.object3d.getWorldQuaternion(quaternion))
+            cam.quaternion.copy(getWorldQuaternion(this.object3d))
         }))
 
         this.createEffect(() => {

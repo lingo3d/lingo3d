@@ -1,7 +1,7 @@
 import { getEditorActive } from "../../../../states/useEditorActive"
 import ThirdPersonCamera from "../../../cameras/ThirdPersonCamera"
 import getWorldPosition from "../../../utils/getWorldPosition"
-import { quaternion } from "../../../utils/reusables"
+import getWorldQuaternion from "../../../utils/getWorldQuaternion"
 import { bvhCameraSet, onBeforeCameraLoop } from "./bvh/bvhCameraLoop"
 
 function setVisible(this: ThirdPersonCamera, visible: boolean) {
@@ -43,7 +43,7 @@ export default function(this: ThirdPersonCamera) {
             const ratio = first ? 1 : cam.position.distanceTo(origin) / dist
             cam.position.lerpVectors(origin, camPos, ratio)
 
-            cam.quaternion.copy(this.object3d.getWorldQuaternion(quaternion))
+            cam.quaternion.copy(getWorldQuaternion(this.object3d))
     
             const tooClose = getEditorActive() ? false : ratio < 0.35
             tooClose !== tooCloseOld && setVisible.call(this, !tooClose)
