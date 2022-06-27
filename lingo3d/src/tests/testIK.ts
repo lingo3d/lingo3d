@@ -6,7 +6,7 @@ export default {}
 
 const player = new Dummy()
 player.id = "player"
-player.src = "player2.glb"
+// player.src = "player2.glb"
 player.preset = "rifle"
 player.boxVisible = true
 
@@ -32,6 +32,7 @@ cam1.transition = true
 
 player.onClick = () => {
     cam0.activate()
+    console.log("player")
 }
 
 dummy.onClick = () => {

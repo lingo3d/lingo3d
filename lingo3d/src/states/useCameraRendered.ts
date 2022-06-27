@@ -46,7 +46,7 @@ createEffect(() => {
     }
     setCameraRendered(interpolationCamera)
 
-    const positionFrom = getWorldPosition(cameraFrom, true)
+    const positionFrom = getWorldPosition(cameraFrom)
     const quaternionFrom = cameraFrom.getWorldQuaternion(new Quaternion())
 
     interpolationCamera.zoom = cameraFrom.zoom

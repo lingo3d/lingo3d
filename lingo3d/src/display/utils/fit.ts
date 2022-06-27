@@ -10,7 +10,7 @@ export default (gltf: Object3D, src: string) => {
         const [ratio, center, result] = cached
         gltf.scale.multiplyScalar(ratio)
         gltf.position.copy(center).multiplyScalar(-1)
-        return result
+        return result.clone()
     }
 
     const gltfSize = measure(gltf)
@@ -22,7 +22,7 @@ export default (gltf: Object3D, src: string) => {
     gltf.position.copy(center).multiplyScalar(-1)
 
     const result = gltfSize.multiplyScalar(ratio)
-    cache.set(src, [ratio, center.clone(), result.clone()])
+    cache.set(src, [ratio, center, result.clone()])
 
     return result
 }
