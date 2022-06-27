@@ -8,6 +8,7 @@ import { addOutline, deleteOutline } from "../../engine/renderLoop/effectCompose
 import { addBloom, deleteBloom } from "../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import { addSSR, deleteSSR } from "../../engine/renderLoop/effectComposer/ssrPass"
 import Reresolvable from "./utils/Reresolvable"
+import { Cancellable } from "@lincode/promiselikes"
 
 export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> implements ILoaded {
     public loadedGroup = new Group()
@@ -229,16 +230,26 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
 
     private managerSet?: boolean
     protected override addToRaycastSet(set: Set<Object3D>) {
-        return this.loaded.then(loaded => {
-            if (!this.managerSet) {
-                this.managerSet = true
-                loaded.traverse(child => child.userData.manager ??= this)
-            }
-            set.add(loaded)
-            return () => {
-                set.delete(loaded)
-            }
+        const handle = new Cancellable()
+
+        queueMicrotask(() => {
+            if (handle.done) return
+
+            if (this._physics === "map" || this._physics === "map-debug")
+                handle.watch(this.loaded.then(loaded => {
+                    if (!this.managerSet) {
+                        this.managerSet = true
+                        loaded.traverse(child => child.userData.manager ??= this)
+                    }
+                    set.add(loaded)
+                    return () => {
+                        set.delete(loaded)
+                    }
+                }))
+            else
+                handle.watch(super.addToRaycastSet(set))
         })
+        return handle
     }
 
     protected override refreshFactors() {
