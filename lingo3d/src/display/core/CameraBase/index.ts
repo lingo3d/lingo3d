@@ -5,7 +5,7 @@ import { scaleUp, scaleDown } from "../../../engine/constants"
 import { ray, vector3, euler, quaternion, quaternion_ } from "../../utils/reusables"
 import pillShape from "../mixins/PhysicsMixin/cannon/shapes/pillShape"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
-import { deg2Rad } from "@lincode/math"
+import { deg2Rad, Point3d } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
 import MeshItem from "../MeshItem"
@@ -35,10 +35,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
     ) {
         super(new Group())
         this.object3d.add(camera)
-
         this.camera.userData.manager = this
-        this.camera.rotation.y = Math.PI
-
         pushCameraList(this.camera)
 
         this.createEffect(() => {
@@ -72,6 +69,16 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         pullCameraList(this.camera)
 
         return this
+    }
+
+    public override lookAt(target: MeshItem | Point3d): void
+    public override lookAt(x: number, y: number | undefined, z: number): void
+    public override lookAt(a0: any, a1?: any, a2?: any) {
+        super.lookAt(a0, a1, a2)
+        const angle = euler.setFromQuaternion(this.outerObject3d.quaternion)
+        angle.x += Math.PI
+        angle.z += Math.PI
+        this.outerObject3d.setRotationFromEuler(angle)
     }
 
     public get fov() {

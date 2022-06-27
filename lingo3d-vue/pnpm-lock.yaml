@@ -7,7 +7,7 @@ specifiers:
   '@types/stats.js': ^0.17.0
   '@types/three': 0.140.0
   '@vitejs/plugin-vue': ^2.3.3
-  lingo3d: 1.10.296
+  lingo3d: 1.10.297
   nanoid: ^3.3.4
   popmotion: ^11.0.3
   stats.js: ^0.17.0
@@ -21,7 +21,7 @@ dependencies:
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
   '@types/three': 0.140.0
-  lingo3d: 1.10.296
+  lingo3d: 1.10.297
   nanoid: 3.3.4
   popmotion: 11.0.3
   stats.js: 0.17.0
@@ -494,8 +494,8 @@ packages:
       has: 1.0.3
     dev: true
 
-  /lingo3d/1.10.296:
-    resolution: {integrity: sha512-kNdPS+LYc8gY3olpZQFlhq1Qw98qO6AcGmtECiprdYzlzLHKcCwOR6dcWTtQKRXssTs+vVXzrp7FqSKq7uMO0Q==}
+  /lingo3d/1.10.297:
+    resolution: {integrity: sha512-XO933TfmsknxLw+fM+HY4o45C37ZpoW6XgyP81YQYTV3WzWwJuM3fP/N9eBZDdcZUS6lLeqUUChoxWjomIPiFQ==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
