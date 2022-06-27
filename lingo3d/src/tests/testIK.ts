@@ -6,8 +6,7 @@ export default {}
 
 const player = new Dummy()
 player.id = "player"
-// player.src = "player2.glb"
-player.preset = "rifle"
+player.src = "player2.glb"
 player.boxVisible = true
 
 const dummy = new Dummy()
