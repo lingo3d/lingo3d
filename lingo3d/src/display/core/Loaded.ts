@@ -227,6 +227,20 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
         }))
     }
 
+    private managerSet?: boolean
+    protected override addToRaycastSet(set: Set<Object3D>) {
+        return this.loaded.then(loaded => {
+            if (!this.managerSet) {
+                this.managerSet = true
+                loaded.traverse(child => child.userData.manager ??= this)
+            }
+            set.add(loaded)
+            return () => {
+                set.delete(loaded)
+            }
+        })
+    }
+
     protected override refreshFactors() {
         this.cancelHandle("refreshFactors", () => this.loaded.then(() => super.refreshFactors()))
     }

@@ -45,6 +45,8 @@ type Then = (obj: StaticObjectManager, e: LingoMouseEvent) => void
 
 const pickable = (name: MouseEventName | Array<MouseEventName>, candidates: Set<Object3D>, then: Then) => (
     mouseEvents.on(name, e => {
+        if (!candidates.size) return
+
         const result = raycast(e.xNorm, e.yNorm, candidates)
         if (!result) return
 
