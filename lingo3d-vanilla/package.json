@@ -1,6 +1,6 @@
 {
 	"name": "lingo3d-vanilla",
-	"version": "1.3.2",
+	"version": "1.3.4",
 	"description": "Lingo3D is a web-first 3d game development library with React integration",
 	"author": "Lingo3D",
 	"license": "MIT",
