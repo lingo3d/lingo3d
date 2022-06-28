@@ -48,12 +48,17 @@ import splitObject from "./splitObject"
 import { onTransformControls } from "../../events/onTransformControls"
 import assignIn from "./assignIn"
 import { emitSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
+import { dummyDefaults } from "../../interface/IDummy"
 
 preventTreeShake(h)
 
 Object.assign(setupDefaults, {
     defaultLightEnabled: true,
     defaultFogEnabled: false
+})
+
+Object.assign(dummyDefaults, {
+    stride: { x: 0, y: 0 }
 })
 
 const style = createElement(`
