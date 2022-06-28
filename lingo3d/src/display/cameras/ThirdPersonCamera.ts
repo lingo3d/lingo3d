@@ -1,7 +1,10 @@
+import { thirdPersonCameraDefaults, thirdPersonCameraSchema } from "../../interface/IThirdPersonCamera"
 import CharacterCamera from "../core/CharacterCamera"
 
 export default class ThirdPersonCamera extends CharacterCamera {
     public static componentName = "thirdPersonCamera"
+    public static override defaults = thirdPersonCameraDefaults
+    public static override schema = thirdPersonCameraSchema
 
     public constructor() {
         super()
