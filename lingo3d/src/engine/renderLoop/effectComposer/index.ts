@@ -49,7 +49,7 @@ createEffect(() => {
     if (getLensDistortion())
         passes.push(lensDistortionPass)
 
-    if (getAntiAlias() === "SSAA")
+    if (getAntiAlias() === "SSAA" || getAntiAlias() === "SMAA")
         passes.push(smaaPass)
 
     for (const pass of passes)
