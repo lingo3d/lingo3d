@@ -355,7 +355,8 @@ class StaticObjectManager<T extends Object3D = Object3D>
                 _roughnessFactor,
                 _opacityFactor,
                 _emissiveIntensityFactor,
-                _emissiveColorFactor
+                _emissiveColorFactor,
+                _colorFactor
             } = this
 
             this.outerObject3d.traverse((child: any) => {
@@ -415,6 +416,15 @@ class StaticObjectManager<T extends Object3D = Object3D>
                             : undefined
                     )
 
+                if (_colorFactor !== undefined)
+                    setColor(
+                        child,
+                        "color",
+                        _colorFactor !== "#ffffff"
+                            ? new Color(_colorFactor)
+                            : undefined
+                    )
+
                 handle.then(() => {
                     child.material.dispose()
                     child.material = material
@@ -468,6 +478,15 @@ class StaticObjectManager<T extends Object3D = Object3D>
     }
     public set emissiveColorFactor(val) {
         this._emissiveColorFactor = val
+        this.refreshFactors()
+    }
+
+    private _colorFactor?: string
+    public get colorFactor() {
+        return this._colorFactor
+    }
+    public set colorFactor(val) {
+        this._colorFactor = val
         this.refreshFactors()
     }
 
