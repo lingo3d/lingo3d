@@ -49,7 +49,9 @@ export default (
         const resetButton = resetIcon.cloneNode(true) as HTMLElement
         input.element.prepend(resetButton)
 
-        const defaultValue = (Array.isArray(defaults) ? defaults[1] : defaults[key]) ?? ""
+        let defaultValue = defaults[key]
+        defaultValue = (Array.isArray(defaultValue) ? defaultValue[1] : defaultValue) ?? ""
+
         const unchanged = params[key] === defaultValue
         resetButton.style.opacity = unchanged ? "0.1" : "0.5"
         resetButton.style.cursor = unchanged ? "auto" : "pointer"

@@ -4,7 +4,7 @@ import { Vector3 } from "three"
 import { interpret } from "xstate"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { onRender } from "../../events/onRender"
-import { DUMMY_URL } from "../../globals"
+import { DUMMY_URL, YBOT_URL } from "../../globals"
 import IDummy, { dummyDefaults, dummySchema, StrideMode } from "../../interface/IDummy"
 import FoundManager from "../core/FoundManager"
 import AnimationManager from "../core/mixins/AnimationMixin/AnimationManager"
@@ -46,7 +46,7 @@ export default class Dummy extends Model implements IDummy {
 
                     if (spineName === "mixamorigSpine") {
                         setType("mixamo")
-                        src === DUMMY_URL + "ybot.fbx" && dummyTypeMap.set(this, "dummy")
+                        src === YBOT_URL && dummyTypeMap.set(this, "dummy")
                     }
                     else if (spineName === "Spine" && loaded.getObjectByName("Wolf3D_Body")) {
                         setType("readyplayerme")
@@ -64,7 +64,7 @@ export default class Dummy extends Model implements IDummy {
                 setSpine(spine)
                 if (spine) {
                     setType("mixamo")
-                    src === DUMMY_URL + "ybot.fbx" && dummyTypeMap.set(this, "dummy")
+                    src === YBOT_URL && dummyTypeMap.set(this, "dummy")
                 }
             })
             return () => {
@@ -202,7 +202,7 @@ export default class Dummy extends Model implements IDummy {
         this.spineNameState.set(val)
     }
 
-    private srcState = new Reactive(DUMMY_URL + "ybot.fbx")
+    private srcState = new Reactive(YBOT_URL)
     public override get src() {
         return this.srcState.get()
     }

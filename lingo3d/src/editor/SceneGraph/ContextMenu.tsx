@@ -7,7 +7,7 @@ import Loaded from "../../display/core/Loaded"
 import { isMeshItem } from "../../display/core/MeshItem"
 import Dummy, { dummyTypeMap } from "../../display/Dummy"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
-import { DUMMY_URL } from "../../globals"
+import { DUMMY_URL, YBOT_URL } from "../../globals"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 import { addSelectionFrozen, clearSelectionFrozen } from "../../states/useSelectionFrozen"
@@ -152,7 +152,7 @@ const ContextMenu = () => {
                                     setData(undefined)
 
                                     const url = dummyTypeMap.get(selectionTarget) === "dummy"
-                                        ? DUMMY_URL + "ybot.fbx"
+                                        ? YBOT_URL
                                         : DUMMY_URL + "readyplayerme/reference.fbx"
 
                                     const res = await fetch(url)

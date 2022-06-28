@@ -1,3 +1,4 @@
+import { YBOT_URL } from "../globals"
 import IModel, { modelDefaults, modelSchema } from "./IModel"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
@@ -37,5 +38,8 @@ export const dummyDefaults: Defaults<IDummy> = {
     scaleY: 1.7,
     scaleZ: 1.7,
     width: 20,
-    depth: 20
+    depth: 20,
+    animation: "idle",
+    pbr: true,
+    src: YBOT_URL
 }
