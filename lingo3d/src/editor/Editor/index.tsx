@@ -327,7 +327,9 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             const [generalParams, generalRest] = splitObject(
                 omit(getParams(schema, defaults, target), [
                     "rotation",
-                    "innerRotation"
+                    "innerRotation",
+                    "frustumCulled",
+                    "physics"
                 ]),
                 ["name", "id"]
             )

@@ -53,9 +53,7 @@ export const nonSerializedProperties = [
     "rotation",
     "velocity",
     "target",
-    "proxy",
-    "frustumCulled",
-    "physics"
+    "proxy"
 ]
 export const nonEditorSettings: Array<keyof ISetup> = [
     "defaultOrbitControls",
