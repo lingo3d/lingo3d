@@ -20,9 +20,15 @@ const toFixed = (v: any) => (typeof v === "number" ? Number(v.toFixed(2)) : v)
 const isPoint = (v: any): v is { x: number; y: number; z?: number } =>
     v && typeof v === "object" && "x" in v && "y" in v
 
+const isTrue = (v: any) => v === true || v === "true"
+const isFalse = (v: any) => v === false || v === "false"
+
 const isEqual = (a: any, b: any) => {
     if (isPoint(a) && isPoint(b))
         return a.x === b.x && a.y === b.y && a.z === b.z
+
+    if (isTrue(a) && isTrue(b)) return true
+    if (isFalse(a) && isFalse(b)) return true
 
     return a === b
 }
