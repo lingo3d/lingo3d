@@ -1,5 +1,7 @@
 import { debounce } from "@lincode/utils"
 import { Pane } from "tweakpane"
+import resetIcon from "./resetIcon"
+import Defaults from "../../interface/utils/Defaults"
 
 let programmatic = false
 
@@ -15,6 +17,7 @@ export default (
     pane: Pane,
     title: string,
     target: Record<string, any>,
+    defaults: Defaults<any>,
     params = { ...target }
 ) => {
     const folder = pane.addFolder({ title })
@@ -42,8 +45,26 @@ export default (
 
     return Object.fromEntries(Object.keys(params).map(key => {
         const input = folder.addInput(params, key)
+
+        const resetButton = resetIcon.cloneNode(true) as HTMLElement
+        input.element.prepend(resetButton)
+
+        const defaultValue = (Array.isArray(defaults) ? defaults[1] : defaults[key]) ?? ""
+        const unchanged = params[key] === defaultValue
+        resetButton.style.opacity = unchanged ? "0.1" : "0.5"
+        resetButton.style.cursor = unchanged ? "auto" : "pointer"
+
+        resetButton.onclick = () => {
+            params[key] = defaultValue
+            input.refresh()
+        }
+
         input.on("change", ({ value }) => {
             if (programmatic) return
+
+            const unchanged = value === defaultValue
+            resetButton.style.opacity = unchanged ? "0.1" : "0.5"
+            resetButton.style.cursor = unchanged ? "auto" : "pointer"
 
             if (typeof value === "string") {
                 if (value === "true" || value === "false") {

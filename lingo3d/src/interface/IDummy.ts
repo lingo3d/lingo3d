@@ -31,5 +31,11 @@ export const dummyDefaults: Defaults<IDummy> = {
     strideForward: 0,
     strideRight: 0,
     strideMove: false,
-    strideMode: "aim"
+    strideMode: "aim",
+    scale: 1.7,
+    scaleX: 1.7,
+    scaleY: 1.7,
+    scaleZ: 1.7,
+    width: 20,
+    depth: 20
 }

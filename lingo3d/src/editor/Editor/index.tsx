@@ -36,7 +36,7 @@ import deleteSelected from "./deleteSelected"
 import { onKeyClear } from "../../events/onKeyClear"
 import { nonEditorSettings } from "../../api/serializer/types"
 import { onApplySetup } from "../../events/onApplySetup"
-import ISetup from "../../interface/ISetup"
+import ISetup, { setupDefaults } from "../../interface/ISetup"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
@@ -228,7 +228,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 "gridHelper",
                 "gridHelperSize"
             ])
-            addInputs(pane, "editor", settings, editorParams)
+            addInputs(pane, "editor", settings, setupDefaults, editorParams)
 
             const [rendererParams, rendererRest] = splitObject(editorRest, [
                 "antiAlias",
@@ -236,7 +236,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 "logarithmicDepth",
                 "pbr"
             ])
-            addInputs(pane, "renderer", settings, rendererParams)
+            addInputs(pane, "renderer", settings, setupDefaults, rendererParams)
 
             const [sceneParams, sceneRest] = splitObject(rendererRest, [
                 "exposure",
@@ -250,7 +250,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             const {
                 defaultLightEnabled: defaultLightEnabledInput,
                 defaultFogEnabled: defaultFogEnabledInput
-            } = addInputs(pane, "lighting & environment", settings, sceneParams)
+            } = addInputs(pane, "lighting & environment", settings, setupDefaults, sceneParams)
 
             defaultLightEnabledInput.on("change", ({ value }) =>
                 setDefaultLight(value ? "default" : false)
@@ -269,7 +269,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 "lensIor",
                 "lensBand"
             ])
-            addInputs(pane, "effects", settings, effectsParams)
+            addInputs(pane, "effects", settings, setupDefaults, effectsParams)
 
             const [outlineParams, outlineRest] = splitObject(effectsRest, [
                 "outlineColor",
@@ -279,16 +279,16 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 "outlineStrength",
                 "outlineThickness"
             ])
-            addInputs(pane, "outline effect", settings, outlineParams)
+            addInputs(pane, "outline effect", settings, setupDefaults, outlineParams)
 
             const [physicsParams, physicsRest] = splitObject(outlineRest, [
                 "gravity",
                 "repulsion"
             ])
-            addInputs(pane, "physics", settings, physicsParams)
+            addInputs(pane, "physics", settings, setupDefaults, physicsParams)
 
             Object.keys(physicsRest).length &&
-                addInputs(pane, "settings", settings, physicsRest)
+                addInputs(pane, "settings", settings, setupDefaults, physicsRest)
 
             return () => {
                 pane.dispose()
@@ -329,13 +329,14 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                     "rotation",
                     "innerRotation"
                 ]),
-                ["name", "id", "physics"]
+                ["name", "id"]
             )
             if (generalParams) {
                 const { name: nameInput } = addInputs(
                     pane,
                     "general",
                     target,
+                    defaults,
                     generalParams
                 )
                 nameInput.on("change", () => emitSceneGraphNameChange())
@@ -377,12 +378,13 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                         "depth"
                     ]
                 )
-                addInputs(pane, "transform", target, transformParams)
+                addInputs(pane, "transform", target, defaults, transformParams)
                 innerTransformParams &&
                     addInputs(
                         pane,
                         "inner transform",
                         target,
+                        defaults,
                         innerTransformParams
                     )
 
@@ -407,17 +409,16 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
 
             const [displayParams, displayRest] = splitObject(transformRest, [
                 "visible",
-                "frustumCulled",
                 "innerVisible"
             ])
-            displayParams && addInputs(pane, "display", target, displayParams)
+            displayParams && addInputs(pane, "display", target, defaults, displayParams)
 
             const [effectsParams, effectsRest] = splitObject(displayRest, [
                 "bloom",
                 "reflection",
                 "outline"
             ])
-            effectsParams && addInputs(pane, "effects", target, effectsParams)
+            effectsParams && addInputs(pane, "effects", target, defaults, effectsParams)
 
             const [animationParams, animationRest] = splitObject(effectsRest, [
                 "animation",
@@ -425,7 +426,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 "animationRepeat"
             ])
             animationParams &&
-                addInputs(pane, "animation", target, animationParams)
+                addInputs(pane, "animation", target, defaults, animationParams)
 
             const [adjustMaterialParams, adjustMaterialRest] = splitObject(
                 animationRest,
@@ -441,7 +442,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 ]
             )
             adjustMaterialParams &&
-                addInputs(pane, "adjust material", target, adjustMaterialParams)
+                addInputs(pane, "adjust material", target, defaults, adjustMaterialParams)
 
             const [materialParams, materialRest] = splitObject(
                 adjustMaterialRest,
@@ -456,7 +457,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 ]
             )
             materialParams &&
-                addInputs(pane, "material", target, materialParams)
+                addInputs(pane, "material", target, defaults, materialParams)
 
             const [pbrMaterialParams, pbrMaterialRest] = splitObject(
                 materialRest,
@@ -485,7 +486,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 ]
             )
             pbrMaterialParams &&
-                addInputs(pane, "pbr material", target, pbrMaterialParams)
+                addInputs(pane, "pbr material", target, defaults, pbrMaterialParams)
 
             if (componentName === "dummy") {
                 pbrMaterialRest.stride = { x: 0, y: 0 }
@@ -493,6 +494,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                     pane,
                     componentName,
                     target,
+                    defaults,
                     pbrMaterialRest
                 )
                 strideInput.on("change", ({ value }) => {
@@ -503,7 +505,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                     pane.refresh()
                 })
             } else if (Object.keys(pbrMaterialRest).length)
-                addInputs(pane, componentName, target, pbrMaterialRest)
+                addInputs(pane, componentName, target, defaults, pbrMaterialRest)
         }
 
         return () => {
