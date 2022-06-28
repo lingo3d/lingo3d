@@ -21,16 +21,17 @@ const HUD = () => {
                 left: 15,
                 top: 10,
                 overflow: "visible",
-                opacity: 0.75
+                opacity: 0.5,
+                pointerEvents: "none"
             }}
         >
-            <Hotkeys hotkey="W" hotkeyFunction="MOVE FORWARD" />
-            <Hotkeys hotkey="S" hotkeyFunction="MOVE BACKWARDS" />
-            <Hotkeys hotkey="A" hotkeyFunction="MOVE LEFT" />
-            <Hotkeys hotkey="D" hotkeyFunction="MOVE RIGHT" />
-            <Hotkeys hotkey="↑" hotkeyFunction="MOVE UP" />
-            <Hotkeys hotkey="↓" hotkeyFunction="MOVE DOWN" />
-            <Hotkeys hotkey="C" hotkeyFunction="CENTER SELECTED" />
+            <Hotkeys hotkey="W" hotkeyFunction="move forward" />
+            <Hotkeys hotkey="S" hotkeyFunction="move backwards" />
+            <Hotkeys hotkey="A" hotkeyFunction="move left" />
+            <Hotkeys hotkey="D" hotkeyFunction="move right" />
+            <Hotkeys hotkey="↑" hotkeyFunction="move up" />
+            <Hotkeys hotkey="↓" hotkeyFunction="move down" />
+            <Hotkeys hotkey="C" hotkeyFunction="center selected" />
         </div>
     )
 }
