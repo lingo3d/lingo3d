@@ -51,6 +51,11 @@ import { emitSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 
 preventTreeShake(h)
 
+Object.assign(setupDefaults, {
+    defaultLightEnabled: true,
+    defaultFogEnabled: false
+})
+
 const style = createElement(`
     <style>
         .tp-rotv {
