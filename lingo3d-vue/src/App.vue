@@ -10,6 +10,7 @@ import { World, Cube, HTML, Stats, LingoEditor, Dummy, Find, OrbitCamera, UI } f
     <UI>
       <button>click me!</button>
     </UI>
+    <LingoEditor />
   </World>
   
 </template>

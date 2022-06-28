@@ -7,4 +7,5 @@ import "lingo3d/lib/editor"
     <lingo3d-scenegraph />
     <lingo3d-editor />
     <lingo3d-library />
+    <lingo3d-hud />
 </template>
