@@ -9,5 +9,6 @@ export default class DirectionalLight extends LightBase<ThreeDirectionalLight> i
 
     public constructor() {
         super(new ThreeDirectionalLight(), DirectionalLightHelper)
+        this.innerY = 0
     }
 }

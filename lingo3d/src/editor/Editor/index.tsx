@@ -339,7 +339,9 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                     "rotation",
                     "innerRotation",
                     "frustumCulled",
-                    "physics"
+                    "physics",
+                    "minAzimuthAngle",
+                    "maxAzimuthAngle"
                 ]),
                 ["name", "id"]
             )

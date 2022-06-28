@@ -12,5 +12,5 @@ export const reflectorDefaults: Defaults<IReflector> = {
     ...planeDefaults,
     rotationX: -90,
     reflection: true,
-    opacity: 0.001
+    opacity: 0.01
 }

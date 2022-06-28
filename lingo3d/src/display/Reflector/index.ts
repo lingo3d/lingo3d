@@ -11,6 +11,6 @@ export default class Reflector extends Plane implements IReflector {
         this.rotationX = -90
 
         // this.reflection = true
-        this.opacity = 0.001
+        this.opacity = 0.01
     }
 }

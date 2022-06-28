@@ -11,6 +11,7 @@ class SpotLight extends LightBase<ThreeSpotLight> implements ISpotLight {
 
     public constructor() {
         super(new ThreeSpotLight(), SpotLightHelper)
+        this.innerY = 0
     }
 
     public get angle() {

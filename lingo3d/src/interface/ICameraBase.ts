@@ -81,8 +81,8 @@ export const cameraBaseDefaults: Defaults<ICameraBase> = {
     minPolarAngle: MIN_POLAR_ANGLE,
     maxPolarAngle: MAX_POLAR_ANGLE,
     
-    minAzimuthAngle: -Infinity,
-    maxAzimuthAngle: Infinity,
+    minAzimuthAngle: [-Infinity, -999999999],
+    maxAzimuthAngle: [Infinity, 999999999],
 
     enableDamping: false
 }

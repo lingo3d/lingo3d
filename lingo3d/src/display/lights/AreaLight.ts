@@ -10,8 +10,6 @@ import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import { onTransformControls } from "../../events/onTransformControls"
 import { Reactive } from "@lincode/reactivity"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import MeshItem from "../core/MeshItem"
-import { Point3d } from "@lincode/math"
 import { getCameraRendered } from "../../states/useCameraRendered"
 
 const lazyInit = lazy(async () => {
@@ -81,7 +79,7 @@ export default class AreaLight extends ObjectManager<Group> implements IAreaLigh
 
     private _color?: string
     public get color() {
-        return this._color ?? "white"
+        return this._color ?? "#ffffff"
     }
     public set color(val: string) {
         this._color = val

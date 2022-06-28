@@ -9,6 +9,7 @@ export default class Skylight extends LightBase<HemisphereLight> implements ISky
 
     public constructor() {
         super(new HemisphereLight(), HemisphereLightHelper)
+        this.innerY = 0
     }
 
     public get groundColor() {
