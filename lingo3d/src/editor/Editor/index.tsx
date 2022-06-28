@@ -10,14 +10,27 @@ import { setSelectionBlockMouse } from "../../states/useSelectionBlockMouse"
 import { h } from "preact"
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks"
 import register from "preact-custom-element"
-import { useSelectionTarget, useCameraList, useMultipleSelectionTargets, useCameraStack, useDefaultLight, useDefaultFog } from "../states"
+import {
+    useSelectionTarget,
+    useCameraList,
+    useMultipleSelectionTargets,
+    useCameraStack,
+    useDefaultLight,
+    useDefaultFog
+} from "../states"
 import { Cancellable } from "@lincode/promiselikes"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import { getSecondaryCamera, setSecondaryCamera } from "../../states/useSecondaryCamera"
+import {
+    getSecondaryCamera,
+    setSecondaryCamera
+} from "../../states/useSecondaryCamera"
 import deserialize from "../../api/serializer/deserialize"
 import serialize from "../../api/serializer/serialize"
 import { emitEditorCenterView } from "../../events/onEditorCenterView"
-import { getMultipleSelection, setMultipleSelection } from "../../states/useMultipleSelection"
+import {
+    getMultipleSelection,
+    setMultipleSelection
+} from "../../states/useMultipleSelection"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import deleteSelected from "./deleteSelected"
 import { onKeyClear } from "../../events/onKeyClear"
@@ -89,17 +102,19 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         const handle0 = onApplySetup(init)
 
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key !== "Shift" && e.key !== "Meta" && e.key !== "Control") return
+            if (e.key !== "Shift" && e.key !== "Meta" && e.key !== "Control")
+                return
             setMultipleSelection(true)
         }
         const handleKeyUp = (e: KeyboardEvent) => {
-            if (e.key !== "Shift" && e.key !== "Meta" && e.key !== "Control") return
+            if (e.key !== "Shift" && e.key !== "Meta" && e.key !== "Control")
+                return
             setMultipleSelection(false)
         }
         document.addEventListener("keydown", handleKeyDown)
         document.addEventListener("keyup", handleKeyUp)
         const handle1 = onKeyClear(() => setMultipleSelection(false))
-        
+
         emitEditorMountChange()
 
         return () => {
@@ -129,24 +144,44 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
 
         const mainCameraName = "main camera"
 
-        const options = cameraList.reduce<Record<string, any>>((acc, cam, i) => {
-            acc[i === 0 ? mainCameraName : getComponentName(cam.userData.manager)] = i
-            return acc
-        }, {})
-        const cameraInput = pane.addInput({ "camera": cameraList.indexOf(camera) }, "camera", { options })
+        const options = cameraList.reduce<Record<string, any>>(
+            (acc, cam, i) => {
+                acc[
+                    i === 0
+                        ? mainCameraName
+                        : getComponentName(cam.userData.manager)
+                ] = i
+                return acc
+            },
+            {}
+        )
+        const cameraInput = pane.addInput(
+            { camera: cameraList.indexOf(camera) },
+            "camera",
+            { options }
+        )
         cameraFolder.add(cameraInput)
         cameraInput.on("change", ({ value }) => {
             cameraList[value].userData.manager.activate()
         })
 
-        const secondaryOptions: any = { none: 0, ...omit(options, mainCameraName) }
+        const secondaryOptions: any = {
+            none: 0,
+            ...omit(options, mainCameraName)
+        }
         const secondaryCameraInput = pane.addInput(
-            { "secondary camera": cameraList.indexOf(getSecondaryCamera() ?? mainCamera) },
+            {
+                "secondary camera": cameraList.indexOf(
+                    getSecondaryCamera() ?? mainCamera
+                )
+            },
             "secondary camera",
             { options: secondaryOptions }
         )
         cameraFolder.add(secondaryCameraInput)
-        secondaryCameraInput.on("change", ({ value }) => setSecondaryCamera(value === 0 ? undefined : cameraList[value]))
+        secondaryCameraInput.on("change", ({ value }) =>
+            setSecondaryCamera(value === 0 ? undefined : cameraList[value])
+        )
 
         return () => {
             cameraInput.dispose()
@@ -169,60 +204,91 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         setCameraFolder(pane.addFolder({ title: "camera" }))
 
         if (!selectionTarget) {
-            const omitted: Array<keyof ISetup> = ["defaultFog", "defaultLight", "defaultLightScale"]
+            const omitted: Array<keyof ISetup> = [
+                "defaultFog",
+                "defaultLight",
+                "defaultLightScale"
+            ]
 
-            const rest = Object.assign({
-                defaultLightEnabled,
-                ...defaultLightEnabled && { defaultLight, defaultLightScale: settings.defaultLightScale },
-                
-                defaultFogEnabled,
-                ...defaultFogEnabled && { defaultFog }
+            const rest = Object.assign(
+                {
+                    defaultLightEnabled,
+                    ...(defaultLightEnabled && {
+                        defaultLight,
+                        defaultLightScale: settings.defaultLightScale
+                    }),
 
-            }, omit(settings, [...nonEditorSettings, ...omitted]))
+                    defaultFogEnabled,
+                    ...(defaultFogEnabled && { defaultFog })
+                },
+                omit(settings, [...nonEditorSettings, ...omitted])
+            )
 
             const [editorParams, editorRest] = splitObject(rest, [
-                "gridHelper", "gridHelperSize"
+                "gridHelper",
+                "gridHelperSize"
             ])
             addInputs(pane, "editor", settings, editorParams)
 
             const [rendererParams, rendererRest] = splitObject(editorRest, [
-                "antiAlias", "pixelRatio", "logarithmicDepth", "pbr"
+                "antiAlias",
+                "pixelRatio",
+                "logarithmicDepth",
+                "pbr"
             ])
             addInputs(pane, "renderer", settings, rendererParams)
 
             const [sceneParams, sceneRest] = splitObject(rendererRest, [
                 "exposure",
-                "defaultLightEnabled", "defaultLight", "defaultLightScale",
-                "defaultFogEnabled", "defaultFog",
+                "defaultLightEnabled",
+                "defaultLight",
+                "defaultLightScale",
+                "defaultFogEnabled",
+                "defaultFog",
                 "skybox"
             ])
             const {
                 defaultLightEnabled: defaultLightEnabledInput,
                 defaultFogEnabled: defaultFogEnabledInput
-
             } = addInputs(pane, "lighting & environment", settings, sceneParams)
 
-            defaultLightEnabledInput.on("change", ({ value }) => setDefaultLight(value ? "default" : false))
-            defaultFogEnabledInput.on("change", ({ value }) => setDefaultFog(value ? "white" : undefined))
+            defaultLightEnabledInput.on("change", ({ value }) =>
+                setDefaultLight(value ? "default" : false)
+            )
+            defaultFogEnabledInput.on("change", ({ value }) =>
+                setDefaultFog(value ? "white" : undefined)
+            )
 
             const [effectsParams, effectsRest] = splitObject(sceneRest, [
                 "ambientOcclusion",
-                "bloom", "bloomStrength", "bloomRadius", "bloomThreshold",
-                "lensDistortion", "lensIor", "lensBand",
+                "bloom",
+                "bloomStrength",
+                "bloomRadius",
+                "bloomThreshold",
+                "lensDistortion",
+                "lensIor",
+                "lensBand"
             ])
             addInputs(pane, "effects", settings, effectsParams)
 
             const [outlineParams, outlineRest] = splitObject(effectsRest, [
-                "outlineColor", "outlineHiddenColor", "outlinePattern", "outlinePulse", "outlineStrength", "outlineThickness"
+                "outlineColor",
+                "outlineHiddenColor",
+                "outlinePattern",
+                "outlinePulse",
+                "outlineStrength",
+                "outlineThickness"
             ])
             addInputs(pane, "outline effect", settings, outlineParams)
 
             const [physicsParams, physicsRest] = splitObject(outlineRest, [
-                "gravity", "repulsion"
+                "gravity",
+                "repulsion"
             ])
             addInputs(pane, "physics", settings, physicsParams)
 
-            Object.keys(physicsRest).length && addInputs(pane, "settings", settings, physicsRest)
+            Object.keys(physicsRest).length &&
+                addInputs(pane, "settings", settings, physicsRest)
 
             return () => {
                 pane.dispose()
@@ -258,94 +324,184 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         if (!multipleSelectionTargets.length) {
             const { schema, defaults, componentName } = target.constructor
 
-            const [generalParams, generalRest] = splitObject(omit(getParams(schema, defaults, target), [
-                "rotation", "innerRotation"
-            ]), [
-                "name", "id", "physics"
-            ])
+            const [generalParams, generalRest] = splitObject(
+                omit(getParams(schema, defaults, target), [
+                    "rotation",
+                    "innerRotation"
+                ]),
+                ["name", "id", "physics"]
+            )
             if (generalParams) {
-                const { name: nameInput } = addInputs(pane, "general", target, generalParams)
+                const { name: nameInput } = addInputs(
+                    pane,
+                    "general",
+                    target,
+                    generalParams
+                )
                 nameInput.on("change", () => emitSceneGraphNameChange())
             }
 
             const [transformParams0, transformRest] = splitObject(generalRest, [
-                "x", "y", "z",
-                "rotationX", "rotationY", "rotationZ",
-                "scale", "scaleX", "scaleY", "scaleZ",
-                "innerX", "innerY", "innerZ",
-                "innerRotationX", "innerRotationY", "innerRotationZ",
-                "width", "height", "depth"
+                "x",
+                "y",
+                "z",
+                "rotationX",
+                "rotationY",
+                "rotationZ",
+                "scale",
+                "scaleX",
+                "scaleY",
+                "scaleZ",
+                "innerX",
+                "innerY",
+                "innerZ",
+                "innerRotationX",
+                "innerRotationY",
+                "innerRotationZ",
+                "width",
+                "height",
+                "depth"
             ])
             if (transformParams0) {
-                const [innerTransformParams, transformParams] = splitObject(transformParams0, [
-                    "innerX", "innerY", "innerZ",
-                    "innerRotationX", "innerRotationY", "innerRotationZ",
-                    "width", "height", "depth"
-                ])
+                const [innerTransformParams, transformParams] = splitObject(
+                    transformParams0,
+                    [
+                        "innerX",
+                        "innerY",
+                        "innerZ",
+                        "innerRotationX",
+                        "innerRotationY",
+                        "innerRotationZ",
+                        "width",
+                        "height",
+                        "depth"
+                    ]
+                )
                 addInputs(pane, "transform", target, transformParams)
-                innerTransformParams && addInputs(pane, "inner transform", target, innerTransformParams)
+                innerTransformParams &&
+                    addInputs(
+                        pane,
+                        "inner transform",
+                        target,
+                        innerTransformParams
+                    )
 
-                handle.watch(onTransformControls(() => {
-                    setProgrammatic()
-                    assignIn(transformParams, target, [
-                        "x", "y", "z",
-                        "rotationX", "rotationY", "rotationZ",
-                        "scaleX", "scaleY", "scaleZ"
-                    ])
-                    pane.refresh()
-                }))
+                handle.watch(
+                    onTransformControls(() => {
+                        setProgrammatic()
+                        assignIn(transformParams, target, [
+                            "x",
+                            "y",
+                            "z",
+                            "rotationX",
+                            "rotationY",
+                            "rotationZ",
+                            "scaleX",
+                            "scaleY",
+                            "scaleZ"
+                        ])
+                        pane.refresh()
+                    })
+                )
             }
 
             const [displayParams, displayRest] = splitObject(transformRest, [
-                "visible", "frustumCulled", "innerVisible"
+                "visible",
+                "frustumCulled",
+                "innerVisible"
             ])
             displayParams && addInputs(pane, "display", target, displayParams)
 
             const [effectsParams, effectsRest] = splitObject(displayRest, [
-                "bloom", "reflection", "outline"
+                "bloom",
+                "reflection",
+                "outline"
             ])
             effectsParams && addInputs(pane, "effects", target, effectsParams)
 
             const [animationParams, animationRest] = splitObject(effectsRest, [
-                "animation", "animationPaused", "animationRepeat"
+                "animation",
+                "animationPaused",
+                "animationRepeat"
             ])
-            animationParams && addInputs(pane, "animation", target, animationParams)
+            animationParams &&
+                addInputs(pane, "animation", target, animationParams)
 
-            const [adjustMaterialParams, adjustMaterialRest] = splitObject(animationRest, [
-                "toon", "pbr", "metalnessFactor", "roughnessFactor", "opacityFactor", "emissiveIntensityFactor"
-            ])
-            adjustMaterialParams && addInputs(pane, "adjust material", target, adjustMaterialParams)
+            const [adjustMaterialParams, adjustMaterialRest] = splitObject(
+                animationRest,
+                [
+                    "toon",
+                    "pbr",
+                    "metalnessFactor",
+                    "roughnessFactor",
+                    "opacityFactor",
+                    "emissiveIntensityFactor",
+                    "emissiveColorFactor"
+                ]
+            )
+            adjustMaterialParams &&
+                addInputs(pane, "adjust material", target, adjustMaterialParams)
 
-            const [materialParams, materialRest] = splitObject(adjustMaterialRest, [
-                "fog", "opacity", "color", "texture", "textureRepeat", "videoTexture", "wireframe"
-            ])
-            materialParams && addInputs(pane, "material", target, materialParams)
+            const [materialParams, materialRest] = splitObject(
+                adjustMaterialRest,
+                [
+                    "fog",
+                    "opacity",
+                    "color",
+                    "texture",
+                    "textureRepeat",
+                    "videoTexture",
+                    "wireframe"
+                ]
+            )
+            materialParams &&
+                addInputs(pane, "material", target, materialParams)
 
-            const [pbrMaterialParams, pbrMaterialRest] = splitObject(materialRest, [
-                "metalnessMap", "metalness",
-                "roughnessMap", "roughness",
-                "normalMap", "normalScale", "normalMapType",
-                "bumpMap", "bumpScale",
-                "displacementMap", "displacementScale", "displacementBias",
-                "aoMap", "aoMapIntensity",
-                "lightMap", "lightMapIntensity",
-                "emissiveMap", "emissiveIntensity", "emissiveColor",
-                "envMap", "alphaMap",
-            ])
-            pbrMaterialParams && addInputs(pane, "pbr material", target, pbrMaterialParams)
+            const [pbrMaterialParams, pbrMaterialRest] = splitObject(
+                materialRest,
+                [
+                    "metalnessMap",
+                    "metalness",
+                    "roughnessMap",
+                    "roughness",
+                    "normalMap",
+                    "normalScale",
+                    "normalMapType",
+                    "bumpMap",
+                    "bumpScale",
+                    "displacementMap",
+                    "displacementScale",
+                    "displacementBias",
+                    "aoMap",
+                    "aoMapIntensity",
+                    "lightMap",
+                    "lightMapIntensity",
+                    "emissiveMap",
+                    "emissiveIntensity",
+                    "emissiveColor",
+                    "envMap",
+                    "alphaMap"
+                ]
+            )
+            pbrMaterialParams &&
+                addInputs(pane, "pbr material", target, pbrMaterialParams)
 
             if (componentName === "dummy") {
                 pbrMaterialRest.stride = { x: 0, y: 0 }
-                const { stride: strideInput } = addInputs(pane, componentName, target, pbrMaterialRest)
+                const { stride: strideInput } = addInputs(
+                    pane,
+                    componentName,
+                    target,
+                    pbrMaterialRest
+                )
                 strideInput.on("change", ({ value }) => {
                     Object.assign(pbrMaterialRest, {
-                        "strideForward": -value.y,
-                        "strideRight": value.x
+                        strideForward: -value.y,
+                        strideRight: value.x
                     })
                     pane.refresh()
                 })
-            }
-            else if (Object.keys(pbrMaterialRest).length)
+            } else if (Object.keys(pbrMaterialRest).length)
                 addInputs(pane, componentName, target, pbrMaterialRest)
         }
 
@@ -354,19 +510,25 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             pane.dispose()
             document.removeEventListener("keydown", handleKey)
         }
-    }, [selectionTarget, multipleSelectionTargets, renderDeps, defaultFogEnabled, defaultLightEnabled])
+    }, [
+        selectionTarget,
+        multipleSelectionTargets,
+        renderDeps,
+        defaultFogEnabled,
+        defaultLightEnabled
+    ])
 
     return (
         <div
-         ref={elRef}
-         onKeyDown={e => e.stopPropagation()}
-         onKeyUp={e => e.stopPropagation()}
-         className="lingo3d-ui"
-         style={{
-             width: 300,
-             height: "100%",
-             background: "rgb(40, 41, 46)"
-         }}
+            ref={elRef}
+            onKeyDown={(e) => e.stopPropagation()}
+            onKeyUp={(e) => e.stopPropagation()}
+            className="lingo3d-ui"
+            style={{
+                width: 300,
+                height: "100%",
+                background: "rgb(40, 41, 46)"
+            }}
         />
     )
 }

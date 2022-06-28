@@ -1,4 +1,3 @@
-import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import StaticObjectManager from "../display/core/StaticObjectManager"
 import IPhysics, { physicsDefaults, physicsSchema } from "./IPhysics"
 import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
