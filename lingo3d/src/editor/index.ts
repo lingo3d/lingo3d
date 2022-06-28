@@ -2,6 +2,7 @@ import "./Editor"
 import "./SceneGraph"
 import "./Toolbar"
 import "./Library"
+import "./HUD"
 import settings from "../api/settings"
 import { Disposable } from "@lincode/promiselikes"
 import createElement from "../utils/createElement"
@@ -43,6 +44,7 @@ export default class LingoEditor extends Disposable {
                 <lingo3d-scenegraph></lingo3d-scenegraph>
                 <lingo3d-editor></lingo3d-editor>
                 <lingo3d-library></lingo3d-library>
+                <lingo3d-hud></lingo3d-hud>
                 <div id="lingo3d-world" style="height: 100%; flex-grow: 1; position: relative"></div>
             </div>
         `)
