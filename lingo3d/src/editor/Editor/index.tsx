@@ -312,7 +312,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             animationParams && addInputs(pane, "animation", target, animationParams)
 
             const [adjustMaterialParams, adjustMaterialRest] = splitObject(animationRest, [
-                "toon", "pbr", "metalnessFactor", "roughnessFactor", "opacityFactor"
+                "toon", "pbr", "metalnessFactor", "roughnessFactor", "opacityFactor", "emissiveIntensityFactor"
             ])
             adjustMaterialParams && addInputs(pane, "adjust material", target, adjustMaterialParams)
 

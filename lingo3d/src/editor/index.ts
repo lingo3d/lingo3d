@@ -28,6 +28,11 @@ const style = createElement(`
         .lingo3d-ui::-webkit-scrollbar {
             display: none;
         }
+        .tp-lblv_l {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     </style>
 `)
 document.head.appendChild(style)

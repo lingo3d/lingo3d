@@ -1,7 +1,7 @@
 import { distance3d, Point3d } from "@lincode/math"
-import { Material, Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding } from "three"
+import { Color, Material, Matrix3, MeshStandardMaterial, MeshToonMaterial, Object3D, PropertyBinding } from "three"
 import { clickSet, mouseDownSet, mouseOutSet, mouseMoveSet, mouseOverSet, mouseUpSet } from "./raycast"
-import { frustum, matrix4, ray, vector3, vector3_, vector3_1, vector3_half } from "../../utils/reusables"
+import { frustum, matrix4, ray, vector3, vector3_1, vector3_half } from "../../utils/reusables"
 import { applyMixins, forceGet, throttle } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import { scaleDown, scaleUp } from "../../../engine/constants"
@@ -44,6 +44,11 @@ const setNumber = (child: any, property: string, factor: number | undefined) => 
 
 const setBoolean = (child: any, property: string, value: boolean | undefined) => {
     const defaultValue: boolean | undefined = child.userData[property] ??= child.material[property]
+    child.material[property] = value === undefined ? defaultValue : value
+}
+
+const setColor = (child: any, property: string, value: Color | undefined) => {
+    const defaultValue: Color | undefined = child.userData[property] ??= child.material[property]
     child.material[property] = value === undefined ? defaultValue : value
 }
 
@@ -247,7 +252,7 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
         this.createEffect(() => {
             const handle = new Cancellable()
 
-            const { _toon, _pbr, _metalnessFactor, _roughnessFactor, _opacityFactor } = this
+            const { _toon, _pbr, _metalnessFactor, _roughnessFactor, _opacityFactor, _emissiveIntensityFactor } = this
 
             this.outerObject3d.traverse((child: any) => {
                 let { material } = child
@@ -264,25 +269,23 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
                     copyStandard(material, child.material)
                 }
                 
-                if (_metalnessFactor !== undefined && _metalnessFactor !== 0)
-                    setNumber(child, "metalness", _metalnessFactor)
+                if (_metalnessFactor !== undefined)
+                    setNumber(child, "metalness", _metalnessFactor !== 0 ? _metalnessFactor : undefined)
 
-                if (_roughnessFactor !== undefined && _roughnessFactor !== 1)
-                    setNumber(child, "roughness", _roughnessFactor)
+                if (_roughnessFactor !== undefined)
+                    setNumber(child, "roughness", _roughnessFactor !== 1 ? _roughnessFactor : undefined)
 
-                if (_opacityFactor !== undefined && _opacityFactor !== 1) {
+                if (_opacityFactor !== undefined) {
                     setNumber(child, "opacity", _opacityFactor)
-                    setBoolean(child, "transparent", _opacityFactor < 1)
+                    setBoolean(child, "transparent", _opacityFactor !== 1 ? true : undefined)
+                }
+
+                if (_emissiveIntensityFactor !== undefined) {
+                    setNumber(child, "emissiveIntensity", _emissiveIntensityFactor !== 0 ? _emissiveIntensityFactor : undefined)
+                    setColor(child, "emissive", _emissiveIntensityFactor !== 0 ? new Color("white") : undefined)
                 }
 
                 handle.then(() => {
-                    if (child.material === material) {
-                        setNumber(child, "metalness", undefined)
-                        setNumber(child, "roughness", undefined)
-                        setNumber(child, "opacity", undefined)
-                        setBoolean(child, "transparent", undefined)
-                        return
-                    }
                     child.material.dispose()
                     child.material = material
                 })
@@ -317,6 +320,15 @@ class StaticObjectManager<T extends Object3D = Object3D> extends EventLoopItem i
     }
     public set opacityFactor(val) {
         this._opacityFactor = val
+        this.refreshFactors()
+    }
+
+    private _emissiveIntensityFactor?: number
+    public get emissiveIntensityFactor() {
+        return this._emissiveIntensityFactor ?? 0
+    }
+    public set emissiveIntensityFactor(val) {
+        this._emissiveIntensityFactor = val
         this.refreshFactors()
     }
     
