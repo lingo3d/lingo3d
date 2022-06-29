@@ -503,7 +503,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 addInputs(pane, "pbr material", target, defaults, pbrMaterialParams)
 
             if (componentName === "dummy") {
-                pbrMaterialRest.stride = { x: 0, y: 0 }
+                pbrMaterialRest.stride = { x: target.strideRight, y: -target.strideForward }
                 const { stride: strideInput } = addInputs(
                     pane,
                     componentName,
