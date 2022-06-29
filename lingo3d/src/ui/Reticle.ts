@@ -26,10 +26,10 @@ export default class Reticle extends EventLoopItem {
     }
 
     private variantState = new Reactive<1 | 2 | 3 | 4>(1)
-    public get variant(): 1 | 2 | 3 | 4 {
+    public get variant() {
         return this.variantState.get()
     }
-    public set variant(value: 1 | 2 | 3 | 4) {
+    public set variant(value) {
         this.variantState.set(value)
     }
 }

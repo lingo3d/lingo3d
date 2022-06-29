@@ -50,12 +50,13 @@ import settings from "./api/settings"
 import preload from "./api/preload"
 import screenshot from "./api/screenshot"
 
+import Reticle from "./ui/Reticle"
+
 import applySetup from "./api/serializer/applySetup"
 import serialize from "./api/serializer/serialize"
 import deserialize from "./api/serializer/deserialize"
 
 import { loop, timer } from "./engine/eventLoop"
-
 import mainOrbitCamera from "./engine/mainOrbitCamera"
 
 import SimpleObjectManager from "./display/core/SimpleObjectManager"
@@ -120,8 +121,9 @@ export {
     createProxy,
     settings,
     preload,
-    
     screenshot,
+
+    Reticle,
 
     applySetup,
     serialize,
@@ -129,7 +131,6 @@ export {
     
     loop,
     timer,
-    
     mainOrbitCamera,
 
     SimpleObjectManager as Object,
