@@ -2,7 +2,7 @@ import index, { settings } from "."
 import test from "./tests/testDummy"
 import { preventTreeShake } from "@lincode/utils"
 import LingoEditor from "./editor"
-import Reticle from "./ui/Reticle"
+import Joystick from "./ui/Joystick"
 
 preventTreeShake([index, test])
 
@@ -10,4 +10,8 @@ preventTreeShake([index, test])
 
 const editor = new LingoEditor()
 
-Reticle
+const joystick = new Joystick()
+joystick.onMove = (e) => {
+    console.log("x is", e.x)
+    console.log("y is", e.y)
+}

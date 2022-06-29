@@ -18,6 +18,7 @@ specifiers:
   '@types/three': 0.140.0
   browser-fs-access: 0.29.6
   cannon-es: 0.19.0
+  nipplejs: ^0.9.1
   postprocessing: ^6.28.1
   preact: ^10.8.2
   preact-custom-element: ^4.2.1
@@ -41,6 +42,7 @@ dependencies:
   '@types/three': 0.140.0
   browser-fs-access: 0.29.6
   cannon-es: 0.19.0
+  nipplejs: 0.9.1
   postprocessing: 6.28.1_three@0.140.2
   preact: 10.8.2
   preact-custom-element: 4.2.1_preact@10.8.2
@@ -914,6 +916,10 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
     dev: true
+
+  /nipplejs/0.9.1:
+    resolution: {integrity: sha512-Tu7ZaB1q0TgA+PH20s8i5Ngt3VmSCp8vxNVv/sOfGBAS0wwlNkJxnCD3bInC4iPg+W8dt80Pl+HU7B8y6dlXMQ==}
+    dev: false
 
   /node-releases/2.0.5:
     resolution: {integrity: sha512-U9h1NLROZTq9uE1SNffn6WuPDg8icmi3ns4rEl/oTfIle4iLjTliCzgTsbaIFMq/Xn078/lfY/BL0GWZ+psK4Q==}

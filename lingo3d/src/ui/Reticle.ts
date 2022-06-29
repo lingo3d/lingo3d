@@ -33,6 +33,3 @@ export default class Reticle extends EventLoopItem {
         this.variantState.set(value)
     }
 }
-
-const reticle = new Reticle()
-reticle.variant = 2
