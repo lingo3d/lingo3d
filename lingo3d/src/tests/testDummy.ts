@@ -61,9 +61,7 @@ keyboard.onKeyPress = (_, pressed) => {
 mouse.onClick = () => {
     const line = new Line()
     line.from = { x: dummy.x, y: dummy.y, z: dummy.z }
-    const ball = new Sphere()
     const pt = cam.pointAt(10000)
-    ball.placeAt(pt)
     line.to = { x: pt.x, y: pt.y, z: pt.z }
     line.bloom = true
 }

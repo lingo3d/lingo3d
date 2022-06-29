@@ -1,9 +1,14 @@
 import { Reactive } from "@lincode/reactivity"
 import EventLoopItem from "../api/core/EventLoopItem"
 import { container } from "../engine/renderLoop/renderSetup"
+import { reticleDefaults, reticleSchema } from "../interface/IReticle"
 import createElement from "../utils/createElement"
 
 export default class Reticle extends EventLoopItem {
+    public static componentName = "reticle"
+    public static defaults = reticleDefaults
+    public static schema = reticleSchema
+
     public constructor() {
         super()
 

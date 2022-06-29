@@ -1,14 +1,15 @@
 import { Point3d } from "@lincode/math"
-import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
-import { BufferGeometry, LineBasicMaterial, Line as ThreeLine, Color } from "three"
+import { LineGeometry } from "three/examples/jsm/lines/LineGeometry"
+import { Line2 } from "three/examples/jsm/lines/Line2"
+import { LineMaterial } from "three/examples/jsm/lines/LineMaterial"
 import EventLoopItem from "../api/core/EventLoopItem"
+import { scaleDown, scaleUp } from "../engine/constants"
 import { addBloom, deleteBloom } from "../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import scene from "../engine/scene"
-import { point2Vec } from "./utils/vec2Point"
 
 export default class Line extends EventLoopItem {
-    private material = new LineBasicMaterial()
+    private material = new LineMaterial({ linewidth: 0.01 })
 
     public constructor() {
         super()
@@ -17,8 +18,11 @@ export default class Line extends EventLoopItem {
             const { from, to, bloom } = this
             if (!from || !to) return
 
-            const geometry = new BufferGeometry().setFromPoints([point2Vec(from), point2Vec(to)])
-            const line = new ThreeLine(geometry, this.material)
+            const geometry = new LineGeometry().setPositions([
+                from.x * scaleDown, from.y * scaleDown, from.z * scaleDown,
+                to.x * scaleDown, to.y * scaleDown, to.z * scaleDown
+            ])
+            const line: any = new Line2(geometry, this.material)
 
             scene.add(line)
             bloom && addBloom(line)
@@ -30,16 +34,6 @@ export default class Line extends EventLoopItem {
         }, [this.refresh.get])
     }
 
-    private _bloom?: boolean
-    public get bloom() {
-        return this._bloom
-    }
-    public set bloom(value) {
-        this._bloom = value
-        this.refresh.set({})
-    }
-
-
     public override dispose() {
         if (this.done) return this
         super.dispose()
@@ -48,6 +42,15 @@ export default class Line extends EventLoopItem {
     }
 
     private refresh = new Reactive({})
+
+    private _bloom?: boolean
+    public get bloom() {
+        return this._bloom
+    }
+    public set bloom(value) {
+        this._bloom = value
+        this.refresh.set({})
+    }
 
     private _from?: Point3d
     public get from() {
@@ -67,17 +70,10 @@ export default class Line extends EventLoopItem {
         this.refresh.set({})
     }
 
-    public get color() {
-        return "#" + this.material.color.getHexString()
-    }
-    public set color(val) {
-        this.material.color = new Color(val)
-    }
-
     public get thickness() {
-        return this.material.linewidth
+        return this.material.linewidth * scaleUp
     }
     public set thickness(val) {
-        this.material.linewidth = val
+        this.material.linewidth = val * scaleDown
     }
 }
