@@ -1,4 +1,3 @@
-import { Group } from "three"
 import EventLoopItem from "../api/core/EventLoopItem"
 import nipplejs from "nipplejs"
 import { container } from "../engine/renderLoop/renderSetup"
@@ -12,7 +11,7 @@ export default class Joystick extends EventLoopItem implements IJoystick {
     public onMoveEnd: Nullable<(e: Point) => void>
 
     public constructor() {
-        super(new Group())
+        super()
 
         this.createEffect(() => {
             const manager = nipplejs.create({

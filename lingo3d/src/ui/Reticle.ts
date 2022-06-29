@@ -1,12 +1,11 @@
 import { Reactive } from "@lincode/reactivity"
-import { Group } from "three"
 import EventLoopItem from "../api/core/EventLoopItem"
 import { container } from "../engine/renderLoop/renderSetup"
 import createElement from "../utils/createElement"
 
 export default class Reticle extends EventLoopItem {
     public constructor() {
-        super(new Group())
+        super()
 
         this.createEffect(() => {
             const variant = this.variantState.get()

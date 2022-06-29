@@ -1,6 +1,5 @@
 import Events from "@lincode/events"
 import { container } from "../engine/renderLoop/renderSetup"
-import { Group } from "three"
 import IMouse, { mouseDefaults, MouseEventPayload, mouseSchema, SimpleMouseEvent } from "../interface/IMouse"
 import EventLoopItem from "./core/EventLoopItem"
 import { throttle } from "@lincode/utils"
@@ -83,7 +82,7 @@ export class Mouse extends EventLoopItem implements IMouse {
     public onMousePress: Nullable<(e: SimpleMouseEvent) => void>
 
     public constructor() {
-        super(new Group())
+        super()
 
         let currentPayload = { clientX: 0, clientY: 0 }
         const [setDown, getDown] = store(false)

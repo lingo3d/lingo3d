@@ -1,5 +1,4 @@
 import { event } from "@lincode/events"
-import { Group } from "three"
 import IKeyboard, { keyboardDefaults, keyboardSchema } from "../interface/IKeyboard"
 import EventLoopItem from "./core/EventLoopItem"
 import { createEffect } from "@lincode/reactivity"
@@ -68,7 +67,7 @@ export class Keyboard extends EventLoopItem implements IKeyboard {
     public onKeyDown: Nullable<(key: string, keys: Set<string>) => void>
 
     public constructor() {
-        super(new Group())
+        super()
 
         this.watch(onPress(() => {
             if (!this.onKeyPress) return

@@ -1,4 +1,3 @@
-import { Group } from "three"
 import { getEnvironmentStack, pullEnvironmentStack, pushEnvironmentStack, setEnvironmentStack } from "../states/useEnvironmentStack"
 import IEnvironment, { environmentDefaults, environmentSchema } from "../interface/IEnvironment"
 import EventLoopItem from "../api/core/EventLoopItem"
@@ -9,7 +8,7 @@ export default class Environment extends EventLoopItem implements IEnvironment {
     public static schema = environmentSchema
 
     public constructor() {
-        super(new Group())
+        super()
         pushEnvironmentStack(this)
     }
 

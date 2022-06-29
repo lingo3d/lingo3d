@@ -34,6 +34,8 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     lensDistortion: Boolean,
     lensIor: Number,
     lensBand: Number,
+    motionBlur: Boolean,
+    motionBlurStrength: Number,
     texture: String,
     color: String
 }

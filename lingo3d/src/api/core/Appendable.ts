@@ -7,7 +7,7 @@ export const hiddenAppendables = new WeakSet<Appendable>()
 
 export default class Appendable extends Disposable {
     public constructor(
-        public outerObject3d: Object3D
+        public outerObject3d = new Object3D()
     ) {
         super()
         outerObject3d.userData.manager = this

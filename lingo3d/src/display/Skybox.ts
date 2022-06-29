@@ -1,4 +1,3 @@
-import { Group } from "three"
 import { getSkyboxStack, pullSkyboxStack, pushSkyboxStack, setSkyboxStack } from "../states/useSkyboxStack"
 import ISkybox, { skyboxDefaults, skyboxSchema } from "../interface/ISkybox"
 import EventLoopItem from "../api/core/EventLoopItem"
@@ -9,7 +8,7 @@ export default class Skybox extends EventLoopItem implements ISkybox {
     public static schema = skyboxSchema
 
     public constructor() {
-        super(new Group())
+        super()
         pushSkyboxStack(this)
     }
 
