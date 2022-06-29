@@ -26,6 +26,8 @@ cam.activate()
 cam.transition = true
 cam.mouseControl = true
 cam.lockTargetRotation = "dynamic-lock"
+cam.innerX = 50
+cam.innerY = 50
 
 const dummyProxy = createProxy<Dummy>()
 dummy.proxy = dummyProxy
