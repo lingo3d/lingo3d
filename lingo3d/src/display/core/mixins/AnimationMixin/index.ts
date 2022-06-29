@@ -29,7 +29,7 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
     public get animations() {
         return this.animationManagers ??= {}
     }
-    public set animations(val: Record<string, AnimationManager>) {
+    public set animations(val) {
         this.animationManagers = val
     }
 
@@ -81,7 +81,7 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
     public get animationPaused() {
         return this.animationManager?.getPaused()
     }
-    public set animationPaused(value: boolean | undefined) {
+    public set animationPaused(value) {
         this.loadingAnimsAsync().then(() => {
             if (this.done) return
             this.animationManager?.setPaused(!!value)

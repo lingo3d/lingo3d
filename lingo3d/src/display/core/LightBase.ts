@@ -59,14 +59,14 @@ export default abstract class LightBase<T extends Light> extends ObjectManager<T
     public get color() {
         return "#" + this.object3d.color.getHexString()
     }
-    public set color(val: string) {
+    public set color(val) {
         this.object3d.color = new Color(val)
     }
 
     public get intensity() {
         return this.object3d.intensity
     }
-    public set intensity(val: number) {
+    public set intensity(val) {
         this.object3d.intensity = val
     }
 }

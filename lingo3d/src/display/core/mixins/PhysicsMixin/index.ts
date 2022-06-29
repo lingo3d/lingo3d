@@ -15,19 +15,19 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
     public get maxAngularVelocityX() {
         return this._mAV?.x ?? Infinity
     }
-    public set maxAngularVelocityX(val: number) {
+    public set maxAngularVelocityX(val) {
         this.getMAV().x = val
     }
     public get maxAngularVelocityY() {
         return this._mAV?.y ?? Infinity
     }
-    public set maxAngularVelocityY(val: number) {
+    public set maxAngularVelocityY(val) {
         this.getMAV().y = val
     }
     public get maxAngularVelocityZ() {
         return this._mAV?.z ?? Infinity
     }
-    public set maxAngularVelocityZ(val: number) {
+    public set maxAngularVelocityZ(val) {
         this.getMAV().z = val
     }
 
@@ -38,19 +38,19 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
     public get maxVelocityX() {
         return this._mV?.x ?? Infinity
     }
-    public set maxVelocityX(val: number) {
+    public set maxVelocityX(val) {
         this.getMV().x = val
     }
     public get maxVelocityY() {
         return this._mV?.y ?? Infinity
     }
-    public set maxVelocityY(val: number) {
+    public set maxVelocityY(val) {
         this.getMV().y = val
     }
     public get maxVelocityZ() {
         return this._mV?.z ?? Infinity
     }
-    public set maxVelocityZ(val: number) {
+    public set maxVelocityZ(val) {
         this.getMV().z = val
     }
     
@@ -110,7 +110,7 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
 
         return new Point3d(0, 0, 0)
     }
-    public set velocity(val: Point3d) {
+    public set velocity(val) {
         if (this.bvhVelocity)
             Object.assign(this.bvhVelocity, val)
         else if (this.cannonBody)
@@ -125,7 +125,7 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
     public get noTumble() {
         return this._noTumble
     }
-    public set noTumble(val: boolean | undefined) {
+    public set noTumble(val) {
         this._noTumble = val
         this.refreshCannon()
     }
@@ -134,7 +134,7 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
     public get slippery() {
         return this._slippery
     }
-    public set slippery(val: boolean | undefined) {
+    public set slippery(val) {
         this._slippery = val
         this.refreshCannon()
     }
@@ -143,7 +143,7 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
     public get mass() {
         return this._mass
     }
-    public set mass(val: number | undefined) {
+    public set mass(val) {
         this._mass = val
         this.refreshCannon()
     }
@@ -152,7 +152,7 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
     public get physicsGroup() {
         return this._physicsGroup
     }
-    public set physicsGroup(val: PhysicsGroupIndex | undefined) {
+    public set physicsGroup(val) {
         this._physicsGroup = val
         this.refreshCannon()
     }
@@ -161,7 +161,7 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
     public get ignorePhysicsGroups() {
         return this._ignorePhysicsGroups
     }
-    public set ignorePhysicsGroups(val: Array<PhysicsGroupIndex> | undefined) {
+    public set ignorePhysicsGroups(val) {
         this._ignorePhysicsGroups = val
         this.refreshCannon()
     }
@@ -170,7 +170,7 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
     public get physicsShape() {
         return this._physicsShape ??= cubeShape
     }
-    public set physicsShape(val: PhysicsShape) {
+    public set physicsShape(val) {
         this._physicsShape = val
         this.refreshCannon()
     }
@@ -214,7 +214,7 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
     public get physics() {
         return this._physics ?? false
     }
-    public set physics(val: PhysicsOptions) {
+    public set physics(val) {
         if (this._physics === val) return
         this._physics = val
 

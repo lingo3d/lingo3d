@@ -20,49 +20,49 @@ export default abstract class ObjectManager<T extends Object3D = Object3D> exten
     public get innerRotationX() {
         return this.object3d.rotation.x * rad2Deg
     }
-    public set innerRotationX(val: number) {
+    public set innerRotationX(val) {
         this.object3d.rotation.x = val * deg2Rad
     }
 
     public get innerRotationY() {
         return this.object3d.rotation.y * rad2Deg
     }
-    public set innerRotationY(val: number) {
+    public set innerRotationY(val) {
         this.object3d.rotation.y = val * deg2Rad
     }
 
     public get innerRotationZ() {
         return this.object3d.rotation.z * rad2Deg
     }
-    public set innerRotationZ(val: number) {
+    public set innerRotationZ(val) {
         this.object3d.rotation.z = val * deg2Rad
     }
 
     public get innerRotation() {
         return this.innerRotationZ
     }
-    public set innerRotation(val: number) {
+    public set innerRotation(val) {
         this.innerRotationZ = val
     }
 
     public get innerX() {
         return this.object3d.position.x * scaleUp
     }
-    public set innerX(val: number) {
+    public set innerX(val) {
         this.object3d.position.x = val * scaleDown
     }
 
     public get innerY() {
         return this.object3d.position.y * scaleUp
     }
-    public set innerY(val: number) {
+    public set innerY(val) {
         this.object3d.position.y = val * scaleDown
     }
 
     public get innerZ() {
         return this.object3d.position.z * scaleUp
     }
-    public set innerZ(val: number) {
+    public set innerZ(val) {
         this.object3d.position.z = val * scaleDown
     }
 

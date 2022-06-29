@@ -25,14 +25,14 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     public get color() {
         return "#" + this.material.color.getHexString()
     }
-    public set color(val: string) {
+    public set color(val) {
         this.material.color = new Color(val)
     }
 
     public get fog() {
         return this.material.fog
     }
-    public set fog(val: boolean) {
+    public set fog(val) {
         this.material.fog = val
     }
 
@@ -40,7 +40,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     public get opacity() {
         return this._opacity ??= 1.0
     }
-    public set opacity(val: number) {
+    public set opacity(val) {
         this._opacity = val
         this.material.opacity = val
         this.material.transparent = this.transparent ?? val < 1
@@ -127,7 +127,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     public get videoTexture() {
         return this.videoTextureState?.get()
     }
-    public set videoTexture(url: string | HTMLVideoElement | undefined) {
+    public set videoTexture(url) {
         this.initTexture()
         this.videoTextureState!.set(url)
     }
@@ -135,7 +135,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     public get texture() {
         return this.textureState?.get()
     }
-    public set texture(url: string | HTMLVideoElement | undefined) {
+    public set texture(url) {
         this.initTexture()
         this.textureState!.set(url)
     }
@@ -144,7 +144,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     public get alphaMap() {
         return this._alphaMap
     }
-    public set alphaMap(val: string | undefined) {
+    public set alphaMap(val) {
         this._alphaMap = val
         this.material.alphaMap = val ? loadTexture(val) : null
         this.basicTextureRepeat()

@@ -17,6 +17,7 @@ import Dummy from "./display/Dummy"
 import Building from "./display/Building"
 import SvgMesh from "./display/SvgMesh"
 import Reflector from "./display/Reflector"
+import Line from "./display/Line"
 import Sprite from "./display/Sprite"
 import Trigger from "./display/Trigger"
 import Audio from "./display/Audio"
@@ -88,6 +89,7 @@ export {
     Building,
     SvgMesh,
     Reflector,
+    Line,
     Sprite,
     Trigger,
     Audio,

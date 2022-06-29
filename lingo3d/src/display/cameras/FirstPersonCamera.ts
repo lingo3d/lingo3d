@@ -34,7 +34,7 @@ export default class FirstPersonCamera extends CharacterCamera {
     public override get innerY() {
         return super.innerY
     }
-    public override set innerY(val: number) {
+    public override set innerY(val) {
         super.innerY = val
         this.innerYSetState.set(true)
     }

@@ -127,7 +127,7 @@ class StaticObjectManager<T extends Object3D = Object3D>
     public get id() {
         return this._id
     }
-    public set id(val: string | undefined) {
+    public set id(val) {
         this._id !== undefined && idMap.get(this._id)!.delete(this)
         this._id = val
         val !== undefined && forceGet(idMap, val, makeSet).add(this)
@@ -139,10 +139,10 @@ class StaticObjectManager<T extends Object3D = Object3D>
     }
 
     private _onClick?: (e: LingoMouseEvent) => void
-    public get onClick(): ((e: LingoMouseEvent) => void) | undefined {
+    public get onClick() {
         return this._onClick
     }
-    public set onClick(cb: ((e: LingoMouseEvent) => void) | undefined) {
+    public set onClick(cb) {
         this._onClick = cb
         this.cancelHandle(
             "onClick",
@@ -151,10 +151,10 @@ class StaticObjectManager<T extends Object3D = Object3D>
     }
 
     private _onMouseDown?: (e: LingoMouseEvent) => void
-    public get onMouseDown(): ((e: LingoMouseEvent) => void) | undefined {
+    public get onMouseDown() {
         return this._onMouseDown
     }
-    public set onMouseDown(cb: ((e: LingoMouseEvent) => void) | undefined) {
+    public set onMouseDown(cb) {
         this._onMouseDown = cb
         this.cancelHandle(
             "onMouseDown",
@@ -163,10 +163,10 @@ class StaticObjectManager<T extends Object3D = Object3D>
     }
 
     private _onMouseUp?: (e: LingoMouseEvent) => void
-    public get onMouseUp(): ((e: LingoMouseEvent) => void) | undefined {
+    public get onMouseUp() {
         return this._onMouseUp
     }
-    public set onMouseUp(cb: ((e: LingoMouseEvent) => void) | undefined) {
+    public set onMouseUp(cb) {
         this._onMouseUp = cb
         this.cancelHandle(
             "onMouseUp",
@@ -175,10 +175,10 @@ class StaticObjectManager<T extends Object3D = Object3D>
     }
 
     private _onMouseOver?: (e: LingoMouseEvent) => void
-    public get onMouseOver(): ((e: LingoMouseEvent) => void) | undefined {
+    public get onMouseOver() {
         return this._onMouseOver
     }
-    public set onMouseOver(cb: ((e: LingoMouseEvent) => void) | undefined) {
+    public set onMouseOver(cb) {
         this._onMouseOver = cb
         this.cancelHandle(
             "onMouseOver",
@@ -187,10 +187,10 @@ class StaticObjectManager<T extends Object3D = Object3D>
     }
 
     private _onMouseOut?: (e: LingoMouseEvent) => void
-    public get onMouseOut(): ((e: LingoMouseEvent) => void) | undefined {
+    public get onMouseOut() {
         return this._onMouseOut
     }
-    public set onMouseOut(cb: ((e: LingoMouseEvent) => void) | undefined) {
+    public set onMouseOut(cb) {
         this._onMouseOut = cb
         this.cancelHandle(
             "onMouseOut",
@@ -199,10 +199,10 @@ class StaticObjectManager<T extends Object3D = Object3D>
     }
 
     private _onMouseMove?: (e: LingoMouseEvent) => void
-    public get onMouseMove(): ((e: LingoMouseEvent) => void) | undefined {
+    public get onMouseMove() {
         return this._onMouseMove
     }
-    public set onMouseMove(cb: ((e: LingoMouseEvent) => void) | undefined) {
+    public set onMouseMove(cb) {
         this._onMouseMove = cb
         this.cancelHandle(
             "onMouseMove",
@@ -213,7 +213,7 @@ class StaticObjectManager<T extends Object3D = Object3D>
     public get name() {
         return this.outerObject3d.name
     }
-    public set name(val: string) {
+    public set name(val) {
         this.outerObject3d.name = PropertyBinding.sanitizeNodeName(val)
     }
 
@@ -290,7 +290,7 @@ class StaticObjectManager<T extends Object3D = Object3D>
     public get reflection() {
         return !!this.object3d.userData.ssr
     }
-    public set reflection(val: boolean) {
+    public set reflection(val) {
         val && addSSR(this.object3d)
         this.cancelHandle(
             "reflection",
@@ -301,7 +301,7 @@ class StaticObjectManager<T extends Object3D = Object3D>
     public get bloom() {
         return !!this.outerObject3d.userData.bloom
     }
-    public set bloom(val: boolean) {
+    public set bloom(val) {
         val && addBloom(this.outerObject3d)
         this.cancelHandle(
             "bloom",
@@ -313,7 +313,7 @@ class StaticObjectManager<T extends Object3D = Object3D>
     public get outline() {
         return !!this.object3d.userData.outline
     }
-    public set outline(val: boolean) {
+    public set outline(val) {
         val && addOutline(this.object3d)
         this.cancelHandle(
             "outline",
@@ -325,7 +325,7 @@ class StaticObjectManager<T extends Object3D = Object3D>
     public get visible() {
         return this._visible !== false
     }
-    public set visible(val: boolean) {
+    public set visible(val) {
         this._visible = val
         this.outerObject3d.visible = val
     }
@@ -333,7 +333,7 @@ class StaticObjectManager<T extends Object3D = Object3D>
     public get frustumCulled() {
         return this.outerObject3d.frustumCulled
     }
-    public set frustumCulled(val: boolean) {
+    public set frustumCulled(val) {
         this.outerObject3d.traverse((child) => (child.frustumCulled = val))
     }
 

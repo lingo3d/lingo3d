@@ -257,14 +257,14 @@ export default {
     get texture() {
         return getBackgroundImage()
     },
-    set texture(value: string | undefined) {
+    set texture(value) {
         setBackgroundImage(value)
     },
 
     get color() {
         return getBackgroundColor()
     },
-    set color(value: string) {
+    set color(value) {
         setBackgroundColor(value)
     }
 }

@@ -73,7 +73,7 @@ export default class Model extends Loaded<Group> implements IModel {
     public get loadedScale() {
         return this._loadedScale
     }
-    public set loadedScale(val: number | undefined) {
+    public set loadedScale(val) {
         this._loadedScale = val
     }
 
@@ -82,7 +82,7 @@ export default class Model extends Loaded<Group> implements IModel {
     public get loadedX() {
         return this._loadedX
     }
-    public set loadedX(val: number | undefined) {
+    public set loadedX(val) {
         this._loadedX = val
         this._loadedPos = true
     }
@@ -91,7 +91,7 @@ export default class Model extends Loaded<Group> implements IModel {
     public get loadedY() {
         return this._loadedY
     }
-    public set loadedY(val: number | undefined) {
+    public set loadedY(val) {
         this._loadedY = val
         this._loadedPos = true
     }
@@ -100,7 +100,7 @@ export default class Model extends Loaded<Group> implements IModel {
     public get loadedZ() {
         return this._loadedZ
     }
-    public set loadedZ(val: number | undefined) {
+    public set loadedZ(val) {
         this._loadedZ = val
         this._loadedPos = true
     }

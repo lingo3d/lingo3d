@@ -15,7 +15,7 @@ specifiers:
   '@types/prettier': ^2.6.3
   '@types/randomcolor': ^0.5.6
   '@types/react': ^18.0.14
-  '@types/three': 0.140.0
+  '@types/three': 0.141.0
   browser-fs-access: 0.29.6
   cannon-es: 0.19.0
   nipplejs: ^0.9.1
@@ -24,7 +24,7 @@ specifiers:
   prettier: ^2.7.1
   randomcolor: '*'
   rimraf: ^3.0.2
-  three: 0.140.2
+  three: 0.142.0
   tweakpane: ^3.1.0
   typescript: ^4.7.4
   vite: ^2.9.13
@@ -38,14 +38,14 @@ dependencies:
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
   '@tweakpane/core': 1.1.0
-  '@types/three': 0.140.0
+  '@types/three': 0.141.0
   browser-fs-access: 0.29.6
   cannon-es: 0.19.0
   nipplejs: 0.9.1
   preact: 10.8.2
   preact-custom-element: 4.2.1_preact@10.8.2
   prettier: 2.7.1
-  three: 0.140.2
+  three: 0.142.0
   tweakpane: 3.1.0
   xstate: 4.32.1
 
@@ -485,8 +485,14 @@ packages:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
     dev: true
 
-  /@types/three/0.140.0:
-    resolution: {integrity: sha512-YPJLSIY6uKUOp1k6BZYDq5GtEIdhfeK04UCbc9IPAVbdn/RNjkfrbnyd7smrsNkJhc0IFASLpd3AAYgwqgXKVQ==}
+  /@types/three/0.141.0:
+    resolution: {integrity: sha512-OJdKDgTPVBUgc+s74DYoy4aLznbFFC38Xm4ElmU1YwGNgR7GGFVvFCX7lpVgOsT6S1zSJtGdajTsOYE8/xY9nA==}
+    dependencies:
+      '@types/webxr': 0.4.0
+    dev: false
+
+  /@types/webxr/0.4.0:
+    resolution: {integrity: sha512-LQvrACV3Pj17GpkwHwXuTd733gfY+D7b9mKdrTmLdO7vo7P/o6209Qqtk63y/FCv/lspdmi0pWz6Qe/ull9kQg==}
     dev: false
 
   /ansi-styles/3.2.1:
@@ -525,7 +531,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001361
-      electron-to-chromium: 1.4.173
+      electron-to-chromium: 1.4.174
       node-releases: 2.0.5
       update-browserslist-db: 1.0.4_browserslist@4.21.1
     dev: true
@@ -583,8 +589,8 @@ packages:
       ms: 2.1.2
     dev: true
 
-  /electron-to-chromium/1.4.173:
-    resolution: {integrity: sha512-Qo3LnVW6JRNhD32viSdPebxKI7K+3WeBDjU1+Q2yZS83zAh8C2LyPpzTimlciv6U74KpY9n/0ESAhUByRke0jw==}
+  /electron-to-chromium/1.4.174:
+    resolution: {integrity: sha512-JER+w+9MV2MBVFOXxP036bLlNOnzbYAWrWU8sNUwoOO69T3w4564WhM5H5atd8VVS8U4vpi0i0kdoYzm1NPQgQ==}
     dev: true
 
   /esbuild-android-64/0.14.47:
@@ -1027,8 +1033,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /three/0.140.2:
-    resolution: {integrity: sha512-DdT/AHm/TbZXEhQKQpGt5/iSgBrmXpjU26FNtj1KhllVPTKj1eG4X/ShyD5W2fngE+I1s1wa4ttC4C3oCJt7Ag==}
+  /three/0.142.0:
+    resolution: {integrity: sha512-ESjPO+3geFr+ZUfVMpMnF/eVU2uJPOh0e2ZpMFqjNca1wApS9lJb7E4MjwGIczgt9iuKd8PEm6Pfgp2bJ92Xtg==}
     dev: false
 
   /to-fast-properties/2.0.0:

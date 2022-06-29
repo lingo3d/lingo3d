@@ -15,7 +15,7 @@ export default class Skylight extends LightBase<HemisphereLight> implements ISky
     public get groundColor() {
         return "#" + this.object3d.groundColor.getHexString()
     }
-    public set groundColor(val: string) {
+    public set groundColor(val) {
         this.object3d.groundColor = new Color(val)
     }
 }

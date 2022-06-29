@@ -114,7 +114,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     public get onIntersect() {
         return this.onIntersectState?.get()
     }
-    public set onIntersect(val: OnIntersectValue | undefined) {
+    public set onIntersect(val) {
         this.initIntersect()
         this.onIntersectState?.set(val)
     }
@@ -122,7 +122,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     public get onIntersectOut() {
         return this.onIntersectOutState?.get()
     }
-    public set onIntersectOut(val: OnIntersectValue | undefined) {
+    public set onIntersectOut(val) {
         this.initIntersect()
         this.onIntersectOutState?.set(val)
     }
@@ -130,7 +130,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     public get intersectIds() {
         return this.intersectIdsState?.get()
     }
-    public set intersectIds(val: Array<string> | undefined) {
+    public set intersectIds(val) {
         this.initIntersect()
         this.intersectIdsState?.set(val)
     }
@@ -162,28 +162,28 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     public get width() {
         return this.object3d.scale.x * scaleUp
     }
-    public set width(val: number) {
+    public set width(val) {
         this.object3d.scale.x = val * scaleDown
     }
 
     public get height() {
         return this.object3d.scale.y * scaleUp
     }
-    public set height(val: number) {
+    public set height(val) {
         this.object3d.scale.y = val * scaleDown
     }
 
     public get depth() {
         return this.object3d.scale.z * scaleUp
     }
-    public set depth(val: number) {
+    public set depth(val) {
         this.object3d.scale.z = val * scaleDown
     }
 
     public get x() {
         return this.outerObject3d.position.x * scaleUp
     }
-    public set x(val: number) {
+    public set x(val) {
         this.outerObject3d.position.x = val * scaleDown
         this.physicsUpdate && ((this.physicsUpdate.position ??= {}).x = true)
     }
@@ -191,7 +191,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     public get y() {
         return this.outerObject3d.position.y * scaleUp
     }
-    public set y(val: number) {
+    public set y(val) {
         this.outerObject3d.position.y = val * scaleDown
         this.physicsUpdate && ((this.physicsUpdate.position ??= {}).y = true)
     }
@@ -199,7 +199,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     public get z() {
         return this.outerObject3d.position.z * scaleUp
     }
-    public set z(val: number) {
+    public set z(val) {
         this.outerObject3d.position.z = val * scaleDown
         this.physicsUpdate && ((this.physicsUpdate.position ??= {}).z = true)
     }
@@ -207,28 +207,28 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     public get scaleX() {
         return this.outerObject3d.scale.x
     }
-    public set scaleX(val: number) {
+    public set scaleX(val) {
         this.outerObject3d.scale.x = val
     }
 
     public get scaleY() {
         return this.outerObject3d.scale.y
     }
-    public set scaleY(val: number) {
+    public set scaleY(val) {
         this.outerObject3d.scale.y = val
     }
 
     public get scaleZ() {
         return this.outerObject3d.scale.z
     }
-    public set scaleZ(val: number) {
+    public set scaleZ(val) {
         this.outerObject3d.scale.z = val
     }
 
     public get scale() {
         return this.scaleX
     }
-    public set scale(val: number) {
+    public set scale(val) {
         this.scaleX = val
         this.scaleY = val
         this.scaleZ = val
@@ -237,7 +237,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     public get rotationX() {
         return this.outerObject3d.rotation.x * rad2Deg
     }
-    public set rotationX(val: number) {
+    public set rotationX(val) {
         this.outerObject3d.rotation.x = val * deg2Rad
         this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).x = true)
     }
@@ -245,7 +245,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     public get rotationY() {
         return this.outerObject3d.rotation.y * rad2Deg
     }
-    public set rotationY(val: number) {
+    public set rotationY(val) {
         this.outerObject3d.rotation.y = val * deg2Rad
         this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).y = true)
     }
@@ -253,7 +253,7 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     public get rotationZ() {
         return this.outerObject3d.rotation.z * rad2Deg
     }
-    public set rotationZ(val: number) {
+    public set rotationZ(val) {
         this.outerObject3d.rotation.z = val * deg2Rad
         this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).z = true)
     }
@@ -261,14 +261,14 @@ class SimpleObjectManager<T extends Object3D = Object3D> extends StaticObjectMan
     public get rotation() {
         return this.rotationZ
     }
-    public set rotation(val: number) {
+    public set rotation(val) {
         this.rotationZ = val
     }
 
     public get innerVisible() {
         return this.object3d.visible
     }
-    public set innerVisible(val: boolean) {
+    public set innerVisible(val) {
         this.object3d.visible = val
     }
 

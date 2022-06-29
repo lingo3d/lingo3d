@@ -6,14 +6,14 @@ export default abstract class PointLightMixin<T extends PointLight | SpotLight> 
     public get decay() {
         return this.object3d.decay
     }
-    public set decay(val: number) {
+    public set decay(val) {
         this.object3d.decay = val
     }
 
     public get distance() {
         return this.object3d.distance
     }
-    public set distance(val: number) {
+    public set distance(val) {
         this.object3d.distance = val
     }
 }

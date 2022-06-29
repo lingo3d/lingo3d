@@ -63,10 +63,10 @@ export default abstract class EventLoopItem extends Appendable implements IEvent
     }
 
     private _onLoop?: () => void
-    public get onLoop(): (() => void) | undefined {
+    public get onLoop() {
         return this._onLoop
     }
-    public set onLoop(cb: (() => void) | undefined) {
+    public set onLoop(cb) {
         this._onLoop = cb
         this.cancelHandle("onLoop", cb && (() => onBeforeRender(cb)))
     }

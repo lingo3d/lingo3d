@@ -1,5 +1,5 @@
 
-import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings } from ".."
+import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings, mouse, Line, Sphere } from ".."
 import createProxy from "../api/createProxy"
 
 export default {}
@@ -25,7 +25,7 @@ cam.append(dummy)
 cam.activate()
 cam.transition = true
 cam.mouseControl = true
-cam.lockTargetRotation = "dynamic-lock"
+// cam.lockTargetRotation = "dynamic-lock"
 cam.innerX = 50
 cam.innerY = 50
 
@@ -56,4 +56,14 @@ keyboard.onKeyPress = (_, pressed) => {
 
     if (pressed.has("Space"))
         dummyProxy.jump(10)
+}
+
+mouse.onClick = () => {
+    const line = new Line()
+    line.from = { x: dummy.x, y: dummy.y, z: dummy.z }
+    const ball = new Sphere()
+    const pt = cam.pointAt(10000)
+    ball.placeAt(pt)
+    line.to = { x: pt.x, y: pt.y, z: pt.z }
+    line.bloom = true
 }

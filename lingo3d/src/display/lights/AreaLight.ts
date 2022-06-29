@@ -81,7 +81,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
     public get color() {
         return this._color ?? "#ffffff"
     }
-    public set color(val: string) {
+    public set color(val) {
         this._color = val
         this.light && (this.light.color = new Color(val))
     }
@@ -90,7 +90,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
     public get intensity() {
         return this._intensity ?? 1
     }
-    public set intensity(val: number) {
+    public set intensity(val) {
         this._intensity = val
         this.light && (this.light.intensity = val)
     }
@@ -99,7 +99,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
     public override get width() {
         return this._width ?? 100
     }
-    public override set width(val: number) {
+    public override set width(val) {
         this._width = val
         this.light && (this.light.width = val * this.scaleX * scaleDown)
     }
@@ -108,7 +108,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
     public override get height() {
         return this._height ?? 100
     }
-    public override set height(val: number) {
+    public override set height(val) {
         this._height = val
         this.light && (this.light.height = val * this.scaleY * scaleDown)
     }
@@ -117,7 +117,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
     public override get scaleX() {
         return this._scaleX ?? 1
     }
-    public override set scaleX(val: number) {
+    public override set scaleX(val) {
         this._scaleX = val
         this.light && (this.light.width = val * this.width * scaleDown)
     }
@@ -126,7 +126,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
     public override get scaleY() {
         return this._scaleY ?? 1
     }
-    public override set scaleY(val: number) {
+    public override set scaleY(val) {
         this._scaleY = val
         this.light && (this.light.height = val * this.height * scaleDown)
     }

@@ -29,7 +29,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public get src() {
         return this._src
     }
-    public set src(val: string | undefined) {
+    public set src(val) {
         if (this._src === val) return
         this._src = val
 
@@ -54,7 +54,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public get onLoad() {
         return this._onLoad
     }
-    public set onLoad(cb: (() => void) | undefined) {
+    public set onLoad(cb) {
         this._onLoad = cb
         this.cancelHandle("onLoad", cb && (() => this.loaded.then(cb)))
     }
@@ -63,7 +63,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get width() {
         return super.width
     }
-    public override set width(val: number) {
+    public override set width(val) {
         super.width = val
         this.widthSet = true
     }
@@ -72,7 +72,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get height() {
         return super.height
     }
-    public override set height(val: number) {
+    public override set height(val) {
         super.height = val
         this.heightSet = true
     }
@@ -81,7 +81,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get depth() {
         return super.depth
     }
-    public override set depth(val: number) {
+    public override set depth(val) {
         super.depth = val
         this.depthSet = true
     }
@@ -89,7 +89,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get innerRotationX() {
         return super.innerRotationX
     }
-    public override set innerRotationX(val: number) {
+    public override set innerRotationX(val) {
         super.innerRotationX = val
         this.loadedGroup.rotation.x = this.object3d.rotation.x
     }
@@ -97,7 +97,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get innerRotationY() {
         return super.innerRotationY
     }
-    public override set innerRotationY(val: number) {
+    public override set innerRotationY(val) {
         super.innerRotationY = val
         this.loadedGroup.rotation.y = this.object3d.rotation.y
     }
@@ -105,7 +105,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get innerRotationZ() {
         return super.innerRotationZ
     }
-    public override set innerRotationZ(val: number) {
+    public override set innerRotationZ(val) {
         super.innerRotationZ = val
         this.loadedGroup.rotation.z = this.object3d.rotation.z
     }
@@ -113,7 +113,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get innerX() {
         return super.innerX
     }
-    public override set innerX(val: number) {
+    public override set innerX(val) {
         super.innerX = val
         this.loadedGroup.position.x = this.object3d.position.x
     }
@@ -121,7 +121,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get innerY() {
         return super.innerY
     }
-    public override set innerY(val: number) {
+    public override set innerY(val) {
         super.innerY = val
         this.loadedGroup.position.y = this.object3d.position.y
     }
@@ -129,7 +129,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get innerZ() {
         return super.innerZ
     }
-    public override set innerZ(val: number) {
+    public override set innerZ(val) {
         super.innerZ = val
         this.loadedGroup.position.z = this.object3d.position.z
     }
@@ -137,14 +137,14 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get innerVisible() {
         return this.loadedGroup.visible
     }
-    public override set innerVisible(val: boolean) {
+    public override set innerVisible(val) {
         this.loadedGroup.visible = val
     }
 
     public override get frustumCulled() {
         return this.outerObject3d.frustumCulled
     }
-    public override set frustumCulled(val: boolean) {
+    public override set frustumCulled(val) {
         if (this.outerObject3d.frustumCulled === val) return
         this.outerObject3d.frustumCulled = val
         
@@ -156,7 +156,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get physics() {
         return this._physics ?? false
     }
-    public override set physics(val: PhysicsOptions) {
+    public override set physics(val) {
         if (this._physics === val) return
         this._physics = val
 
@@ -169,7 +169,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public get boxVisible() {
         return this._boxVisible ?? this.object3d.visible
     }
-    public set boxVisible(val: boolean) {
+    public set boxVisible(val) {
         this._boxVisible = val
         this.object3d.visible = val
     }
@@ -178,7 +178,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get outline() {
         return !!this._outline
     }
-    public override set outline(val: boolean) {
+    public override set outline(val) {
         if (this._outline === val) return
         this._outline = val
 
@@ -196,7 +196,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get bloom() {
         return !!this._bloom
     }
-    public override set bloom(val: boolean) {
+    public override set bloom(val) {
         if (this._bloom === val) return
         this._bloom = val
 
@@ -214,7 +214,7 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
     public override get reflection() {
         return !!this._reflection
     }
-    public override set reflection(val: boolean) {
+    public override set reflection(val) {
         if (this._reflection === val) return
         this._reflection = val
 
