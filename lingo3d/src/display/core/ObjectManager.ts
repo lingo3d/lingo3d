@@ -7,7 +7,7 @@ import IObjectManager from "../../interface/IObjectManager"
 import FoundManager from "./FoundManager"
 
 export default abstract class ObjectManager<T extends Object3D = Object3D> extends SimpleObjectManager<T> implements IObjectManager {
-    public constructor(object3d: T) {
+    public constructor(object3d = new Object3D() as T) {
         super(object3d)
         
         const outerObject3d = this.outerObject3d = new Object3D()

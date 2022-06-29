@@ -1,4 +1,4 @@
-import { Color, Object3D, RectAreaLight } from "three"
+import { Color, RectAreaLight } from "three"
 import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper"
 import IAreaLight, { areaLightDefaults, areaLightSchema } from "../../interface/IAreaLight"
 import { lazy } from "@lincode/utils"
@@ -17,7 +17,7 @@ const lazyInit = lazy(async () => {
     RectAreaLightUniformsLib.init()
 })
 
-export default class AreaLight extends ObjectManager<Object3D> implements IAreaLight {
+export default class AreaLight extends ObjectManager implements IAreaLight {
     public static componentName = "areaLight"
     public static defaults = areaLightDefaults
     public static schema = areaLightSchema
@@ -25,7 +25,7 @@ export default class AreaLight extends ObjectManager<Object3D> implements IAreaL
     private light?: RectAreaLight
 
     public constructor() {
-        super(new Object3D())
+        super()
 
         ;(async () => {
             await lazyInit()

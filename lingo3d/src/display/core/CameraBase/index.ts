@@ -1,4 +1,4 @@
-import { CameraHelper, Object3D, PerspectiveCamera, Quaternion } from "three"
+import { CameraHelper, PerspectiveCamera, Quaternion } from "three"
 import ObjectManager from "../ObjectManager"
 import { debounce, last } from "@lincode/utils"
 import { scaleUp, scaleDown } from "../../../engine/constants"
@@ -28,13 +28,13 @@ import getWorldQuaternion from "../../utils/getWorldQuaternion"
 
 const PI_2 = Math.PI * 0.5
 
-export default abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager<Object3D> implements ICameraBase {
+export default abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager implements ICameraBase {
     protected override _physicsShape = pillShape
 
     public constructor(
         protected camera: T
     ) {
-        super(new Object3D())
+        super()
         this.object3d.add(camera)
         this.camera.userData.manager = this
         pushCameraList(this.camera)

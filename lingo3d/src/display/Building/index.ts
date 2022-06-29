@@ -1,18 +1,17 @@
 import { Reactive } from "@lincode/reactivity"
 import { range } from "@lincode/utils"
-import { Object3D } from "three"
 import IBuilding, { buildingDefaults, buildingSchema } from "../../interface/IBuilding"
 import { FacadePreset } from "../../interface/IFloor"
 import ObjectManager from "../core/ObjectManager"
 import Floor from "./Floor"
 
-export default class Building extends ObjectManager<Object3D> implements IBuilding {
+export default class Building extends ObjectManager implements IBuilding {
     public static componentName = "building"
     public static defaults = buildingDefaults
     public static schema = buildingSchema
 
     public constructor() {
-        super(new Object3D)
+        super()
 
         this.scale = 10
 
