@@ -277,7 +277,9 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 "bloomThreshold",
                 "lensDistortion",
                 "lensIor",
-                "lensBand"
+                "lensBand",
+                "motionBlur",
+                "motionBlurStrength"
             ])
             addInputs(pane, "effects", settings, setupDefaults, effectsParams)
 

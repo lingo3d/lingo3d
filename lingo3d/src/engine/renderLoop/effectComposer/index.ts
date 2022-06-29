@@ -19,6 +19,8 @@ import { getEffectComposer } from "../../../states/useEffectComposer"
 import { getAntiAlias } from "../../../states/useAntiAlias"
 import { setEffectComposerPassCount } from "../../../states/useEffectComposerPassCount"
 import smaaPass from "./smaaPass"
+import motionBlurPass from "./motionBlurPass"
+import { getMotionBlur } from "../../../states/useMotionBlur"
 
 export default {}
 
@@ -28,39 +30,43 @@ createEffect(() => {
 
     const passes: Array<Pass> = [renderPass]
 
-    if (getSSR())
-        passes.push(ssrPass)
+    if (getSSR()) passes.push(ssrPass)
 
-    if (getAmbientOcclusion())
-        passes.push(saoPass)
+    if (getAmbientOcclusion()) passes.push(saoPass)
 
-    if (getBloom())
-        passes.push(bloomPass)
+    if (getBloom()) passes.push(bloomPass)
 
-    if (getSelectiveBloom())
-        passes.push(selectiveBloomPass)
+    if (getSelectiveBloom()) passes.push(selectiveBloomPass)
 
-    if (getBokeh())
-        passes.push(bokehPass)
+    if (getBokeh()) passes.push(bokehPass)
 
-    if (getOutline())
-        passes.push(outlinePass)
+    if (getOutline()) passes.push(outlinePass)
 
-    if (getLensDistortion())
-        passes.push(lensDistortionPass)
+    if (getLensDistortion()) passes.push(lensDistortionPass)
 
     if (getAntiAlias() === "SSAA" || getAntiAlias() === "SMAA")
         passes.push(smaaPass)
 
-    for (const pass of passes)
-        effectComposer.addPass(pass)
+    if (getMotionBlur()) for (const pass of motionBlurPass) passes.push(pass)
+
+    for (const pass of passes) effectComposer.addPass(pass)
 
     setEffectComposerPassCount(passes.length - 1)
 
     return () => {
-        for (const pass of passes)
-            effectComposer.removePass(pass)
+        for (const pass of passes) effectComposer.removePass(pass)
 
         setEffectComposerPassCount(0)
     }
-}, [getEffectComposer, getSSR, getAmbientOcclusion, getBloom, getSelectiveBloom, getBokeh, getOutline, getLensDistortion, getAntiAlias])
+}, [
+    getEffectComposer,
+    getSSR,
+    getAmbientOcclusion,
+    getBloom,
+    getSelectiveBloom,
+    getBokeh,
+    getOutline,
+    getLensDistortion,
+    getAntiAlias,
+    getMotionBlur
+])

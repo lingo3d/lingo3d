@@ -30,12 +30,13 @@ import { appendableRoot } from "./core/Appendable"
 import { getAutoMount, setAutoMount } from "../states/useAutoMount"
 import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { getAntiAlias, setAntiAlias } from "../states/useAntiAlias"
+import { getMotionBlur, setMotionBlur } from "../states/useMotionBlur"
+import { getMotionBlurStrength, setMotionBlurStrength } from "../states/useMotionBlurStrength"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
 
 export default {
-    //general
     get defaultFog() {
         return getDefaultFog()
     },
@@ -106,7 +107,6 @@ export default {
         setAutoMount(value)
     },
 
-    //rendering
     get antiAlias() {
         return getAntiAlias()
     },
@@ -240,7 +240,20 @@ export default {
         setLensBand(val)
     },
 
-    //background
+    get motionBlur() {
+        return getMotionBlur()
+    },
+    set motionBlur(val) {
+        setMotionBlur(val)
+    },
+
+    get motionBlurStrength() {
+        return getMotionBlurStrength()
+    },
+    set motionBlurStrength(val) {
+        setMotionBlurStrength(val)
+    },
+
     get texture() {
         return getBackgroundImage()
     },
