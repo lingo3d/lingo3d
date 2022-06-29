@@ -1,4 +1,4 @@
-import { Object3D, Group, PropertyBinding } from "three"
+import { Object3D, PropertyBinding } from "three"
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import scene from "../../engine/scene"
 import SimpleObjectManager from "./SimpleObjectManager"
@@ -10,11 +10,11 @@ export default abstract class ObjectManager<T extends Object3D = Object3D> exten
     public constructor(object3d: T) {
         super(object3d)
         
-        const group = this.outerObject3d = new Group()
-        group.userData.manager = this
+        const outerObject3d = this.outerObject3d = new Object3D()
+        outerObject3d.userData.manager = this
 
-        scene.add(group)
-        group.add(object3d)
+        scene.add(outerObject3d)
+        outerObject3d.add(object3d)
     }
 
     public get innerRotationX() {

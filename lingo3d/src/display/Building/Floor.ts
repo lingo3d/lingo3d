@@ -1,6 +1,6 @@
 import { Reactive } from "@lincode/reactivity"
 import { range } from "@lincode/utils"
-import { Group } from "three"
+import { Object3D } from "three"
 import Building from "."
 import Appendable, { hiddenAppendables } from "../../api/core/Appendable"
 import IFloor, { FacadePreset } from "../../interface/IFloor"
@@ -37,10 +37,9 @@ const applyTransform = (
     }
 }
 
-export default class Floor extends ObjectManager<Group> implements IFloor {
+export default class Floor extends ObjectManager<Object3D> implements IFloor {
     public constructor(parent: Building) {
-        const group = new Group()
-        super(group)
+        super(new Object3D())
 
         parent.append(this)
         hiddenAppendables.add(this)

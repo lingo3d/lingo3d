@@ -1,5 +1,5 @@
 import { Reactive } from "@lincode/reactivity"
-import { Group } from "three"
+import { Object3D } from "three"
 import Cylinder from "./primitives/Cylinder"
 import Sphere from "./primitives/Sphere"
 import getActualScale from "./utils/getActualScale"
@@ -74,9 +74,9 @@ export default class Trigger extends PositionedItem implements ITrigger {
     }
 
     public constructor() {
-        const group = new Group()
-        super(group)
-        scene.add(group)
+        const outerObject3d = new Object3D()
+        super(outerObject3d)
+        scene.add(outerObject3d)
 
         let helper: Cylinder | Sphere | undefined
 
@@ -89,7 +89,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
 
             let hitOld = false
             const handle = timer(_interval, -1, () => {
-                const { x, y, z } = getWorldPosition(this.outerObject3d)
+                const { x, y, z } = getWorldPosition(outerObject3d)
                 const targets = typeof _targetIds === "string"
                     ? getTargets(_targetIds)
                     : _targetIds.map(id => [...getTargets(id)]).flat()
@@ -132,7 +132,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
 
             const h = helper = _pad ? new Cylinder() : new Sphere()
             appendableRoot.delete(h)
-            group.add(h.outerObject3d)
+            outerObject3d.add(h.outerObject3d)
             h.scale = _radius * scaleDown * 2
             h.opacity = 0.5
             h.height = _pad ? 10 : 100
