@@ -7,6 +7,7 @@ import { inject, ref, watchEffect, computed, Ref, provide, toRaw } from "vue"
 import useDiffProps from "../../hooks/useDiffProps"
 import { applyChanges } from "../../hooks/useManager"
 import foundProps from "../../props/foundProps"
+import processDefaults from "../../props/utils/processDefaults"
 
 const props = defineProps({ ...foundProps, onLoad: Function })
 
@@ -31,8 +32,9 @@ watchEffect(onCleanUp => {
 })
 
 const paused = computed(() => !managerRef.value)
-const diff = useDiffProps(props, foundDefaults, paused)
-applyChanges(managerRef, undefined, diff, foundDefaults)
+const defaults = processDefaults(foundDefaults)
+const diff = useDiffProps(props, defaults, paused)
+applyChanges(managerRef, undefined, diff, defaults)
 
 watchEffect(() => {
     managerRef.value && props.onLoad?.()

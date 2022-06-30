@@ -4,6 +4,7 @@ import { forceGet } from "@lincode/utils"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
 import SimpleObjectManager from "lingo3d/lib/display/core/SimpleObjectManager"
 import { inject, onUnmounted, provide, Ref, ref, watchEffect, toRaw } from "vue"
+import processDefaults from "../props/utils/processDefaults"
 import useDiffProps from "./useDiffProps"
 
 const handleStore = new WeakMap<SimpleObjectManager, Map<string, Cancellable>>()
@@ -28,8 +29,6 @@ export const applyChanges = (managerRef: Ref<any> | undefined, manager: any | un
     })
 }
 
-const defaultsMap = new WeakMap<any, any>()
-
 export default (props: Record<string, any>, ManagerClass: any) => {
     const manager = new ManagerClass()
     const managerRef = ref(manager)
@@ -40,14 +39,7 @@ export default (props: Record<string, any>, ManagerClass: any) => {
         toRaw(parentRef?.value)?.append(manager)
     })
     
-    const defaults = forceGet(defaultsMap, ManagerClass.defaults, () => {
-        const result: any = {}
-        for (const [key, value] of Object.entries(ManagerClass.defaults))
-            result[key] = Array.isArray(value) ? value[0] : value
-
-        return result
-    })
-
+    const defaults = processDefaults(ManagerClass.defaults)
     const diff = useDiffProps(props, defaults)
     applyChanges(undefined, manager, diff, defaults)
 
