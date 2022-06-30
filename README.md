@@ -1,5 +1,5 @@
 <div align="center">
-  <img width="500px" src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/bg-top.jpg"/>
+  <img  src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/bg-top.jpg"/>
 </div>
 
 
