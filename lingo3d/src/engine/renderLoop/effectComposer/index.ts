@@ -17,7 +17,6 @@ import lensDistortionPass from "./lensDistortionPass"
 import { getLensDistortion } from "../../../states/useLensDistortion"
 import { getEffectComposer } from "../../../states/useEffectComposer"
 import { getAntiAlias } from "../../../states/useAntiAlias"
-import { setEffectComposerPassCount } from "../../../states/useEffectComposerPassCount"
 import smaaPass from "./smaaPass"
 import motionBlurPass from "./motionBlurPass"
 import { getMotionBlur } from "../../../states/useMotionBlur"
@@ -51,12 +50,8 @@ createEffect(() => {
 
     for (const pass of passes) effectComposer.addPass(pass)
 
-    setEffectComposerPassCount(passes.length - 1)
-
     return () => {
         for (const pass of passes) effectComposer.removePass(pass)
-
-        setEffectComposerPassCount(0)
     }
 }, [
     getEffectComposer,
