@@ -4,10 +4,10 @@
 
 
 ---
-[![npm package](https://img.shields.io/badge/npm--React-1.2.94-blue)](https://www.npmjs.com/package/lingo3d-react)
-[![npm package](https://img.shields.io/badge/npm-1.10.110-green)](https://www.npmjs.com/package/lingo3d)
-[![npm package](https://img.shields.io/badge/npm--Vue-1.0.29-yellow)](https://www.npmjs.com/package/lingo3d-vue)
-[![npm package](https://img.shields.io/badge/npm--vanilla-1.0.6-red)](https://www.npmjs.com/package/lingo3d-vanilla)
+[![npm package](https://img.shields.io/badge/npm--React-1.3.6-blue)](https://www.npmjs.com/package/lingo3d-react)
+[![npm package](https://img.shields.io/badge/npm-1.11.3-green)](https://www.npmjs.com/package/lingo3d)
+[![npm package](https://img.shields.io/badge/npm--Vue-1.3.6-yellow)](https://www.npmjs.com/package/lingo3d-vue)
+[![npm package](https://img.shields.io/badge/npm--vanilla-1.3.4-red)](https://www.npmjs.com/package/lingo3d-vanilla)
 
 ## What is Lingo3D?
 Lingo3D is a web-first 3d game development library with React integration.
