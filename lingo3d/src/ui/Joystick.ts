@@ -15,20 +15,21 @@ export default class Joystick extends EventLoopItem implements IJoystick {
 
         this.createEffect(() => {
             const manager = nipplejs.create({
-                zone: container
+                zone: container,
+                mode: 'static',
+                position: {left: '10%', bottom: '10%'},
+                color: 'white'
             })
 
-            // manager.on("start", (e: any) => {
-            //     this.onMoveStart?.(e.position)
-            // })
-
-            // manager.on("move", (e: any) => {
-
-            // })
-
-            // manager.on("end", (e: any) => {
-
-            // })
+            manager.on('start', (e: any) => {
+                console.log('i have started')
+            })
+            manager.on('move', (e: any, nipple: any) => {
+                console.log(e, nipple)
+            })
+            manager.on('end', (e: any) => {
+                console.log('i have ended')
+            })
 
             return () => {
                 manager.destroy()
