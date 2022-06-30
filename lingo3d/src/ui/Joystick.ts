@@ -4,6 +4,8 @@ import { container } from "../engine/renderLoop/renderSetup"
 import IJoystick from "../interface/IJoystick"
 import { Point } from "@lincode/math"
 import Nullable from "../interface/utils/Nullable"
+import createElement from "../utils/createElement"
+import { Cancellable } from "@lincode/promiselikes"
 
 export default class Joystick extends EventLoopItem implements IJoystick {
     public onMove: Nullable<(e: Point) => void>
@@ -14,34 +16,36 @@ export default class Joystick extends EventLoopItem implements IJoystick {
         super()
 
         this.createEffect(() => {
-            const manager = nipplejs.create({
-                zone: container,
-                mode: 'static',
-                position: {left: '10%', bottom: '10%'},
-                color: 'white'
-            })
+            const zone = createElement(`
+                <div style="width: 150px; height: 150px; position: absolute; bottom: 25px; left: 25px;"></div>
+            `) as HTMLDivElement
 
-            manager.on('start', (e: any) => {
-                console.log('i have started')
-            })
-            manager.on('move', (e: any, nipple: any) => {
-                console.log(e, nipple)
-            })
-            manager.on('end', (e: any) => {
-                console.log('i have ended')
-            })
+            container.appendChild(zone)
 
+            const handle = new Cancellable()
+
+            setTimeout(() => {
+                const manager = nipplejs.create({
+                    zone,
+                    mode: "static",
+                    position: { left: "75px", bottom: "75px" },
+                    color: "white"
+                })
+                handle.then(() => manager.destroy())
+
+                manager.on("start", () => {
+                    this.onMoveStart?.(new Point(0, 0))
+                })
+                manager.on("move", (_, nipple) => {
+                    this.onMove?.(nipple.vector)
+                })
+                manager.on("end", () => {
+                    this.onMoveEnd?.(new Point(0, 0))
+                })
+            })
             return () => {
-                manager.destroy()
+                handle.cancel()
             }
-        }, [/* this.variantState.get */])
+        }, [])
     }
-
-    // private variantState = new Reactive<1 | 2 | 3 | 4>(1)
-    // public get variant(): 1 | 2 | 3 | 4 {
-    //     return this.variantState.get()
-    // }
-    // public set variant(value: 1 | 2 | 3 | 4) {
-    //     this.variantState.set(value)
-    // }
 }
