@@ -7,13 +7,12 @@ import { Cancellable } from "@lincode/promiselikes"
 import { forceGet } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"
 import Loaded from "lingo3d/lib/display/core/Loaded"
+import processDefaults from "../Props/utils/processDefaults"
 
 export const ParentContext = React.createContext<ObjectManager | Loaded | undefined>(undefined)
 
 const handleStore = new WeakMap<SimpleObjectManager, Map<string, Cancellable>>()
 const makeHandleMap = () => new Map<string, Cancellable>()
-
-const defaultsMap = new WeakMap<any, any>()
 
 export const applyChanges = (manager: any, changed: Array<[string, any]>, removed: Array<string>) => {
     const handleMap = forceGet(handleStore, manager, makeHandleMap)
@@ -30,13 +29,7 @@ export const applyChanges = (manager: any, changed: Array<[string, any]>, remove
 
     if (!removed.length) return
 
-    const defaults = forceGet(defaultsMap, manager.constructor.defaults, () => {
-        const result: any = {}
-        for (const [key, value] of Object.entries(manager.constructor.defaults))
-            result[key] = Array.isArray(value) ? value[0] : value
-
-        return result
-    })
+    const defaults = processDefaults(manager.constructor.defaults)
     for (const key of removed) {
         handleMap.get(key)?.cancel()
         manager[key] = defaults[key]
