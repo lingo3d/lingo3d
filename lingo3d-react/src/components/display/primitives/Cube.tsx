@@ -1,7 +1,7 @@
 import React from "react"
 import { Cube as GameCube } from "lingo3d"
 import useManager, { ParentContext } from "../../../hooks/useManager"
-import { PrimitiveProps } from "../../../Props"
+import { PrimitiveProps } from "../../../props"
 
 const Cube = React.forwardRef<GameCube, PrimitiveProps>((p, ref) => {
     const manager = useManager(p, ref, GameCube)

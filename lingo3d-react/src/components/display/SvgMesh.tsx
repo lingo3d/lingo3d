@@ -1,7 +1,7 @@
 import React from "react"
 import { SvgMesh as GameSvgMesh } from "lingo3d"
 import useManager, { ParentContext } from "../../hooks/useManager"
-import { SvgMeshProps } from "../../Props"
+import { SvgMeshProps } from "../../props"
 
 const SvgMesh = React.forwardRef<GameSvgMesh, SvgMeshProps>((p, ref) => {
     const manager = useManager(p, ref, GameSvgMesh)

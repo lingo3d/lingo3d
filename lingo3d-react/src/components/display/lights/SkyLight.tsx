@@ -1,7 +1,7 @@
 import React from "react"
 import { SkyLight as GameSkyLight } from "lingo3d"
 import useManager, { ParentContext } from "../../../hooks/useManager"
-import { SkyLightProps } from "../../../Props"
+import { SkyLightProps } from "../../../props"
 
 const SkyLight = React.forwardRef<GameSkyLight, SkyLightProps>((p, ref) => {
     const manager = useManager(p, ref, GameSkyLight)

@@ -1,7 +1,7 @@
 import React from "react"
 import { Keyboard as GameKeyboard } from "lingo3d"
 import useManager, { ParentContext } from "../../hooks/useManager"
-import { KeyboardProps } from "../../Props"
+import { KeyboardProps } from "../../props"
 
 const Keyboard = React.forwardRef<GameKeyboard, KeyboardProps>((p, ref) => {
     const manager = useManager(p, ref, GameKeyboard)

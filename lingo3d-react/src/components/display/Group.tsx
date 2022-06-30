@@ -1,7 +1,7 @@
 import React from "react"
 import { Group as GameGroup } from "lingo3d"
 import useManager, { ParentContext } from "../../hooks/useManager"
-import { ManagerProps } from "../../Props"
+import { ManagerProps } from "../../props"
 
 const Group = React.forwardRef<GameGroup, ManagerProps>((p, ref) => {
     const manager = useManager(p, ref, GameGroup)

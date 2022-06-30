@@ -1,7 +1,7 @@
 import React from "react"
 import { Octahedron as GameOctahedron } from "lingo3d"
 import useManager, { ParentContext } from "../../../hooks/useManager"
-import { PrimitiveProps } from "../../../Props"
+import { PrimitiveProps } from "../../../props"
 
 const Octahedron = React.forwardRef<GameOctahedron, PrimitiveProps>((p, ref) => {
     const manager = useManager(p, ref, GameOctahedron)
