@@ -38,12 +38,10 @@ export default ssrPass
 
 getResolution(([w, h]) =>
     queueMicrotask(() =>
-        queueMicrotask(() =>
-            ssrPass.blurMaterial.uniforms["resolution"].value.set(
-                w * 0.25,
-                h * 0.25
-            )
-        )
+        queueMicrotask(() => {
+            ssrPass.setSize(w * 0.5, h * 0.5)
+            ssrPass.beautyRenderTarget.setSize(w, h)
+        })
     )
 )
 
