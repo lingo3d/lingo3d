@@ -2,7 +2,6 @@ import store, { createEffect } from "@lincode/reactivity"
 import { WebGLRenderer } from "three"
 import isChromium from "../api/utils/isChromium"
 import isMobile from "../api/utils/isMobile"
-import { getAntiAlias } from "./useAntiAlias"
 import { getBackgroundColor } from "./useBackgroundColor"
 import { getLogarithmicDepth } from "./useLogarithmicDepth"
 
@@ -14,11 +13,11 @@ createEffect(() => {
         powerPreference: "high-performance",
         alpha: getBackgroundColor() === "transparent",
         logarithmicDepthBuffer: isChromium && !isMobile ? getLogarithmicDepth() : false,
-        antialias: !!getAntiAlias()
+        antialias: true
     })
     setRenderer(renderer)
     
     return () => {
         renderer.dispose()
     }
-}, [getBackgroundColor, getLogarithmicDepth, getAntiAlias])
+}, [getBackgroundColor, getLogarithmicDepth])
