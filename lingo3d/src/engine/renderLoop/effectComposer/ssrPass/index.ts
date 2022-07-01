@@ -1,12 +1,12 @@
 import { SSRPass } from "three/examples/jsm/postprocessing/SSRPass"
-import scene from "../../scene"
+import scene from "../../../scene"
 import { Mesh, Object3D } from "three"
 import { pull } from "@lincode/utils"
-import { HEIGHT, WIDTH } from "../../../globals"
-import { getRenderer } from "../../../states/useRenderer"
-import { getCameraRendered } from "../../../states/useCameraRendered"
-import { getSSROpacity } from "../../../states/useSSROpacity"
-import { getResolution } from "../../../states/useResolution"
+import { HEIGHT, WIDTH } from "../../../../globals"
+import { getRenderer } from "../../../../states/useRenderer"
+import { getCameraRendered } from "../../../../states/useCameraRendered"
+import { getSSROpacity } from "../../../../states/useSSROpacity"
+import { getResolution } from "../../../../states/useResolution"
 
 export const ssrPtr = [false]
 
