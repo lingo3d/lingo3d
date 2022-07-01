@@ -1,9 +1,7 @@
-import settings from "../api/settings"
 import Dummy from "../display/Dummy"
 import Joystick from "../ui/Joystick"
 
 export default {}
-setTimeout(() => settings.defaultOrbitControls = false, 100)
 
 const dummy = new Dummy()
 
