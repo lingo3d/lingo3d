@@ -9,7 +9,7 @@ import { addBloom, deleteBloom } from "../engine/renderLoop/effectComposer/selec
 import scene from "../engine/scene"
 
 export default class Line extends EventLoopItem {
-    private material = new LineMaterial({ linewidth: 0.01 })
+    private material = new LineMaterial({ linewidth: 0.001 })
 
     public constructor() {
         super()
