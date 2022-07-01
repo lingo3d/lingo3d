@@ -306,6 +306,24 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         })
     }
 
+    private _polarAngle?: number
+    public get polarAngle() {
+        return this._polarAngle
+    }
+    public set polarAngle(val) {
+        this._polarAngle = val
+        val && this.setPolarAngle(val)
+    }
+
+    private _azimuthAngle?: number
+    public get azimuthAngle() {
+        return this._azimuthAngle
+    }
+    public set azimuthAngle(val) {
+        this._azimuthAngle = val
+        val && this.setAzimuthAngle(val)
+    }
+
     public enableDamping = false
 
     protected mouseControlState = new Reactive<MouseControl>(false)

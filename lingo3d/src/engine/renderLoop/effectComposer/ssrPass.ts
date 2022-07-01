@@ -5,6 +5,8 @@ import { pull } from "@lincode/utils"
 import { HEIGHT, WIDTH } from "../../../globals"
 import { getRenderer } from "../../../states/useRenderer"
 import { getCameraRendered } from "../../../states/useCameraRendered"
+import { getSSROpacity } from "../../../states/useSSROpacity"
+import { getResolution } from "../../../states/useResolution"
 
 export const ssrPtr = [false]
 
@@ -34,5 +36,17 @@ const ssrPass = new SSRPass({
 })
 export default ssrPass
 
-getRenderer(renderer => renderer && (ssrPass.renderer = renderer))
-getCameraRendered(camera => ssrPass.camera = camera)
+getResolution(([w, h]) =>
+    queueMicrotask(() =>
+        queueMicrotask(() =>
+            ssrPass.blurMaterial.uniforms["resolution"].value.set(
+                w * 0.25,
+                h * 0.25
+            )
+        )
+    )
+)
+
+getRenderer((renderer) => renderer && (ssrPass.renderer = renderer))
+getCameraRendered((camera) => (ssrPass.camera = camera))
+getSSROpacity((opacity) => (ssrPass.opacity = opacity))
