@@ -9,7 +9,7 @@ specifiers:
   '@lincode/reactivity': '*'
   '@lincode/utils': '*'
   '@preact/preset-vite': ^2.3.0
-  '@tweakpane/core': ^1.1.0
+  '@tweakpane/core': 1.1.0
   '@types/howler': ^2.2.7
   '@types/preact-custom-element': ^4.0.1
   '@types/prettier': ^2.6.3
@@ -18,14 +18,14 @@ specifiers:
   '@types/three': 0.141.0
   browser-fs-access: 0.29.6
   cannon-es: 0.19.0
-  nipplejs: ^0.9.1
-  preact: ^10.8.2
-  preact-custom-element: ^4.2.1
-  prettier: ^2.7.1
+  nipplejs: 0.9.1
+  preact: 10.8.2
+  preact-custom-element: 4.2.1
+  prettier: 2.7.1
   randomcolor: '*'
   rimraf: ^3.0.2
   three: 0.142.0
-  tweakpane: ^3.1.0
+  tweakpane: 3.1.0
   typescript: ^4.7.4
   vite: ^2.9.13
   xstate: '*'
