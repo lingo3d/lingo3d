@@ -45,6 +45,10 @@ const selectiveBloomPass = new ShaderPass(
 )
 
 const { uniforms } = selectiveBloomPass
-getSelectiveBloomComposer(composer => composer && (uniforms["bloomTexture"].value = composer.renderTarget2.texture))
+getSelectiveBloomComposer(
+    (composer) =>
+        composer &&
+        (uniforms["bloomTexture"].value = composer.renderTarget2.texture)
+)
 
 export default selectiveBloomPass

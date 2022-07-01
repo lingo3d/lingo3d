@@ -7,6 +7,8 @@ import { getRenderer } from "../../../../states/useRenderer"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { getSSROpacity } from "../../../../states/useSSROpacity"
 import { getResolution } from "../../../../states/useResolution"
+import { createEffect } from "@lincode/reactivity"
+import { getCameraPointerLock } from "../../../../states/useCameraPointerLock"
 
 export const ssrPtr = [false]
 
@@ -36,15 +38,16 @@ const ssrPass = new SSRPass({
 })
 export default ssrPass
 
-getResolution(([w, h]) =>
-    queueMicrotask(() =>
-        queueMicrotask(() => {
-            ssrPass.setSize(w * 0.5, h * 0.5)
-            ssrPass.beautyRenderTarget.setSize(w, h)
-        })
-    )
-)
+createEffect(() => {
+    const [w, h] = getResolution()
 
-getRenderer((renderer) => renderer && (ssrPass.renderer = renderer))
-getCameraRendered((camera) => (ssrPass.camera = camera))
-getSSROpacity((opacity) => (ssrPass.opacity = opacity))
+    //hack to make lower resolution work after cameraPointerLock changes
+    requestAnimationFrame(() => {
+        ssrPass.setSize(w * 0.25, h * 0.25)
+        ssrPass.beautyRenderTarget.setSize(w, h)
+    })
+}, [getResolution, getCameraRendered, getCameraPointerLock])
+
+getRenderer(renderer => renderer && (ssrPass.renderer = renderer))
+getCameraRendered(camera => ssrPass.camera = camera)
+getSSROpacity(opacity => ssrPass.opacity = opacity)

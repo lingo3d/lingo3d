@@ -3,28 +3,24 @@ import { ShaderMaterial } from "three"
 import { getLensIor } from "../../../states/useLensIor"
 import { getLensBand } from "../../../states/useLensBand"
 
-const lensDistortionPass = new ShaderPass(new ShaderMaterial({
+const lensDistortionPass = new ShaderPass(
+    new ShaderMaterial({
+        defines: {
+            // 0: NONE, 1: RGB, 2: RYGCBV
+            BAND_MODE: 2,
 
-	defines: {
+            CHROMA_SAMPLES: 1
+        },
 
-		// 0: NONE, 1: RGB, 2: RYGCBV
-		BAND_MODE: 2,
+        uniforms: {
+            tDiffuse: { value: null },
+            baseIor: { value: 0.8 },
+            bandOffset: { value: 0.01 },
+            jitterIntensity: { value: 1.0 },
+            jitterOffset: { value: 0.0 }
+        },
 
-		CHROMA_SAMPLES: 1,
-
-	},
-
-	uniforms: {
-
-		tDiffuse: { value: null },
-		baseIor: { value: 0.8 },
-		bandOffset: { value: 0.01 },
-		jitterIntensity: { value: 1.0 },
-		jitterOffset: { value: 0.0 },
-
-	},
-
-	vertexShader: /* glsl */`
+        vertexShader: /* glsl */ `
 
 		varying vec2 vUv;
 		varying vec3 viewDir;
@@ -39,7 +35,7 @@ const lensDistortionPass = new ShaderPass(new ShaderMaterial({
 
 	`,
 
-	fragmentShader: /* glsl */`
+        fragmentShader: /* glsl */ `
 
 		varying vec2 vUv;
 		varying vec3 viewDir;
@@ -142,9 +138,10 @@ const lensDistortionPass = new ShaderPass(new ShaderMaterial({
 		}
 
 	`
-}))
+    })
+)
 const { uniforms } = lensDistortionPass
-getLensIor(val => uniforms["baseIor"].value = val)
-getLensBand(val => uniforms["bandOffset"].value = val)
+getLensIor((val) => (uniforms["baseIor"].value = val))
+getLensBand((val) => (uniforms["bandOffset"].value = val))
 
 export default lensDistortionPass
