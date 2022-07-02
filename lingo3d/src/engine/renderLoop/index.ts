@@ -9,13 +9,11 @@ import { getRenderer } from "../../states/useRenderer"
 import { getResolution } from "../../states/useResolution"
 import { getSecondaryCamera } from "../../states/useSecondaryCamera"
 import { setSelectiveBloom } from "../../states/useSelectiveBloom"
-import { setSSR } from "../../states/useSSR"
 import { getVR } from "../../states/useVR"
 import { loop } from "../eventLoop"
 import scene from "../scene"
 import { outlinePtr } from "./effectComposer/outlinePass"
 import renderSelectiveBloom, { bloomPtr } from "./effectComposer/selectiveBloomPass/renderSelectiveBloom"
-import { ssrPtr } from "./effectComposer/ssrPass"
 import resize from "./resize"
 import effectComposer from "./effectComposer"
 import { getEffectComposer } from "../../states/useEffectComposer"
@@ -161,7 +159,6 @@ createEffect(() => {
     if (!effectComposer) return
 
     let selectiveBloomInitialized = false
-    let ssrInitialized = false
     let outlineInitialized = false
 
     const handle = loop(() => {
@@ -175,10 +172,6 @@ createEffect(() => {
                 selectiveBloomInitialized = true
             }
             renderSelectiveBloom()
-        }
-        if (ssrPtr[0] && !ssrInitialized) {
-            setSSR(true)
-            ssrInitialized = true
         }
         if (outlinePtr[0] && !outlineInitialized) {
             setOutline(true)

@@ -436,7 +436,6 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
 
             const [effectsParams, effectsRest] = splitObject(displayRest, [
                 "bloom",
-                "reflection",
                 "outline"
             ])
             effectsParams && addInputs(pane, "effects", target, defaults, effectsParams)

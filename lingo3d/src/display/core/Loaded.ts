@@ -5,7 +5,6 @@ import ObjectManager from "./ObjectManager"
 import ILoaded from "../../interface/ILoaded"
 import { addOutline, deleteOutline } from "../../engine/renderLoop/effectComposer/outlinePass"
 import { addBloom, deleteBloom } from "../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
-import { addSSR, deleteSSR } from "../../engine/renderLoop/effectComposer/ssrPass"
 import Reresolvable from "./utils/Reresolvable"
 import { Cancellable } from "@lincode/promiselikes"
 
@@ -205,24 +204,6 @@ export default abstract class Loaded<T = Object3D> extends ObjectManager<Mesh> i
             addBloom(loaded)
             return () => {
                 deleteBloom(loaded)
-            }
-        }))
-    }
-
-    private _reflection?: boolean
-    public override get reflection() {
-        return !!this._reflection
-    }
-    public override set reflection(val) {
-        if (this._reflection === val) return
-        this._reflection = val
-
-        this.cancelHandle("reflection", () => this.loaded.then(loaded => {
-            if (!val) return
-
-            addSSR(loaded)
-            return () => {
-                deleteSSR(loaded)
             }
         }))
     }

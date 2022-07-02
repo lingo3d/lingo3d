@@ -18,7 +18,6 @@ export default interface IStaticObjectManager extends IEventLoop, IAnimationMixi
     id: Nullable<string>
 
     bloom: boolean
-    reflection: boolean
     outline: boolean
 
     visible: boolean
@@ -51,7 +50,6 @@ export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManag
     id: String,
 
     bloom: Boolean,
-    reflection: Boolean,
     outline: Boolean,
 
     visible: Boolean,
@@ -84,7 +82,6 @@ export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     id: undefined,
 
     bloom: false,
-    reflection: false,
     outline: false,
 
     visible: true,

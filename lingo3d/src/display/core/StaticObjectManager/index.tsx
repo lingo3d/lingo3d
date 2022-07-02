@@ -36,10 +36,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import {
-    addSSR,
-    deleteSSR
-} from "../../../engine/renderLoop/effectComposer/ssrPass"
-import {
     addOutline,
     deleteOutline
 } from "../../../engine/renderLoop/effectComposer/outlinePass"
@@ -285,17 +281,6 @@ class StaticObjectManager<T extends Object3D = Object3D>
 
     public get clientY() {
         return worldToClient(this.object3d).y
-    }
-
-    public get reflection() {
-        return !!this.object3d.userData.ssr
-    }
-    public set reflection(val) {
-        val && addSSR(this.object3d)
-        this.cancelHandle(
-            "reflection",
-            val && (() => new Cancellable(() => deleteSSR(this.object3d)))
-        )
     }
 
     public get bloom() {

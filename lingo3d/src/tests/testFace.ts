@@ -38,5 +38,3 @@ cube.height = 20
 cube.width = 9999
 cube.depth = 9999
 cube.opacity = 0.001
-
-cube.reflection = true

@@ -5,7 +5,6 @@ import { getSelectiveBloom } from "../../../states/useSelectiveBloom"
 import bloomPass from "./bloomPass"
 import renderPass from "./renderPass"
 import selectiveBloomPass from "./selectiveBloomPass"
-import { getSSRPass } from "./ssrPass"
 import lensDistortionPass from "./lensDistortionPass"
 import { getLensDistortion } from "../../../states/useLensDistortion"
 import { getEffectComposer } from "../../../states/useEffectComposer"
@@ -27,11 +26,7 @@ createEffect(() => {
     const effectComposer = getEffectComposer()
     if (!effectComposer) return
 
-    const passes: Array<Pass> = []
-
-    const ssrPass = getSSRPass()
-    if (ssrPass) passes.push(ssrPass)
-    else passes.push(renderPass)
+    const passes: Array<Pass> = [renderPass]
 
     if (getAmbientOcclusion()) passes.push(saoPass)
 
@@ -58,7 +53,6 @@ createEffect(() => {
     }
 }, [
     getEffectComposer,
-    getSSRPass,
     getAmbientOcclusion,
     getBloom,
     getSelectiveBloom,
