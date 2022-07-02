@@ -23,7 +23,6 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { emitRender } from "../../events/onRender"
 import { emitRender2 } from "../../events/onRender2"
 import getWorldPosition from "../../display/utils/getWorldPosition"
-import { setAntiAlias } from "../../states/useAntiAlias"
 
 preventTreeShake([resize, effectComposer])
 

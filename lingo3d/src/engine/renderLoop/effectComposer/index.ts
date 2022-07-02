@@ -1,11 +1,9 @@
 import { createEffect } from "@lincode/reactivity"
 import { Pass } from "three/examples/jsm/postprocessing/EffectComposer"
 import { getBloom } from "../../../states/useBloom"
-import { getBokeh } from "../../../states/useBokeh"
 import { getAmbientOcclusion } from "../../../states/useAmbientOcclusion"
 import { getSelectiveBloom } from "../../../states/useSelectiveBloom"
 import bloomPass from "./bloomPass"
-import bokehPass from "./bokehPass"
 import renderPass from "./renderPass"
 import selectiveBloomPass from "./selectiveBloomPass"
 import saoPass from "./saoPass"
@@ -19,6 +17,7 @@ import { getAntiAlias } from "../../../states/useAntiAlias"
 import smaaPass from "./smaaPass"
 import motionBlurPass from "./motionBlurPass"
 import { getMotionBlur } from "../../../states/useMotionBlur"
+import { getBokehPass } from "./bokehPass"
 
 export default {}
 
@@ -38,7 +37,8 @@ createEffect(() => {
 
     if (getSelectiveBloom()) passes.push(selectiveBloomPass)
 
-    if (getBokeh()) passes.push(bokehPass)
+    const bokehPass = getBokehPass()
+    if (bokehPass) passes.push(bokehPass)
 
     if (getOutline()) passes.push(outlinePass)
 
@@ -60,7 +60,7 @@ createEffect(() => {
     getAmbientOcclusion,
     getBloom,
     getSelectiveBloom,
-    getBokeh,
+    getBokehPass,
     getOutline,
     getLensDistortion,
     getAntiAlias,
