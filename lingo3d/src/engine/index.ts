@@ -6,9 +6,24 @@ import gridHelper from "./gridHelper"
 import referencePlane from "./referencePlane"
 import skyShader from "./skyShader"
 import render from "./renderLoop"
+import background from "./background"
+import defaultLight from "./defaultLight"
+import defaultFog from "./defaultFog"
 import { preventTreeShake } from "@lincode/utils"
 
-preventTreeShake([render, skyShader, referencePlane, gridHelper, transformControls, mainOrbitControls, boxHelper, skeletonHelper])
+preventTreeShake([
+    render,
+    skyShader,
+    referencePlane,
+    gridHelper,
+    transformControls,
+    mainOrbitControls,
+    boxHelper,
+    skeletonHelper,
+    background,
+    defaultLight,
+    defaultFog
+])
 
 export default {}
 

@@ -1,7 +1,7 @@
 import { createEffect } from "@lincode/reactivity"
 import { Fog } from "three"
 import scene from "./scene"
-import { getDefaultFog } from "../../states/useDefaultFog"
+import { getDefaultFog } from "../states/useDefaultFog"
 
 export default {}
 

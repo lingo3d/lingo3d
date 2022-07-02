@@ -1,11 +1,11 @@
 import { createEffect } from "@lincode/reactivity"
 import { Color, EquirectangularReflectionMapping } from "three"
 import scene from "./scene"
-import loadCubeTexture from "../../display/utils/loaders/loadCubeTexture"
-import loadTexture from "../../display/utils/loaders/loadTexture"
-import { getBackgroundColor } from "../../states/useBackgroundColor"
-import { getBackgroundImage } from "../../states/useBackgroundImage"
-import { getSkyboxStack } from "../../states/useSkyboxStack"
+import loadCubeTexture from "../display/utils/loaders/loadCubeTexture"
+import loadTexture from "../display/utils/loaders/loadTexture"
+import { getBackgroundColor } from "../states/useBackgroundColor"
+import { getBackgroundImage } from "../states/useBackgroundImage"
+import { getSkyboxStack } from "../states/useSkyboxStack"
 import { last } from "@lincode/utils"
 
 export default {}

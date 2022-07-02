@@ -1,12 +1,12 @@
 import { createEffect } from "@lincode/reactivity"
 import { last } from "@lincode/utils"
 import { HemisphereLight, DirectionalLight, EquirectangularReflectionMapping } from "three"
-import { appendableRoot } from "../../api/core/Appendable"
-import Environment from "../../display/Environment"
-import loadTexture from "../../display/utils/loaders/loadTexture"
-import { getDefaultLight } from "../../states/useDefaultLight"
-import { getDefaultLightScale } from "../../states/useDefaultLightScale"
-import { getEnvironmentStack } from "../../states/useEnvironmentStack"
+import { appendableRoot } from "../api/core/Appendable"
+import Environment from "../display/Environment"
+import loadTexture from "../display/utils/loaders/loadTexture"
+import { getDefaultLight } from "../states/useDefaultLight"
+import { getDefaultLightScale } from "../states/useDefaultLightScale"
+import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import scene from "./scene"
 
 export default {}
