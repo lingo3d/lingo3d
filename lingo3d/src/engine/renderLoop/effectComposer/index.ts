@@ -18,7 +18,6 @@ import { getBokeh } from "../../../states/useBokeh"
 import bokehPass from "./bokehPass"
 import { getOutline } from "../../../states/useOutline"
 import outlinePass from "./outlinePass"
-import ssaaPass from "./ssaaPass"
 
 export default {}
 
@@ -40,9 +39,7 @@ createEffect(() => {
 
     if (getLensDistortion()) passes.push(lensDistortionPass)
 
-    const antiAlias = getAntiAlias()
-    if (antiAlias === "SMAA") passes.push(smaaPass)
-    else if (antiAlias === "SSAA") passes.push(ssaaPass)
+    passes.push(smaaPass)
 
     if (getMotionBlur()) for (const pass of motionBlurPass) passes.push(pass)
 
