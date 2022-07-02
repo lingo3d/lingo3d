@@ -15,7 +15,8 @@ import motionBlurPass from "./motionBlurPass"
 import { getMotionBlur } from "../../../states/useMotionBlur"
 import { getBokehPass } from "./bokehPass"
 import { getOutlinePass } from "./outlinePass"
-import { getSAOPass } from "./saoPass"
+import { getAmbientOcclusion } from "../../../states/useAmbientOcclusion"
+import saoPass from "./saoPass"
 
 export default {}
 
@@ -29,8 +30,7 @@ createEffect(() => {
     if (ssrPass) passes.push(ssrPass)
     else passes.push(renderPass)
 
-    const saoPass = getSAOPass()
-    if (saoPass) passes.push(saoPass)
+    if (getAmbientOcclusion()) passes.push(saoPass)
 
     if (getBloom()) passes.push(bloomPass)
 
@@ -57,7 +57,7 @@ createEffect(() => {
 }, [
     getEffectComposer,
     getSSRPass,
-    getSAOPass,
+    getAmbientOcclusion,
     getBloom,
     getSelectiveBloom,
     getBokehPass,
