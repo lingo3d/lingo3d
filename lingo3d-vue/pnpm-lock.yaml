@@ -7,9 +7,9 @@ specifiers:
   '@lincode/utils': '*'
   '@types/babel__traverse': ^7.17.1
   '@types/stats.js': ^0.17.0
-  '@types/three': 0.140.0
+  '@types/three': 0.141.0
   '@vitejs/plugin-vue': ^2.3.3
-  lingo3d: 1.11.3
+  lingo3d: 1.11.4
   nanoid: ^3.3.4
   popmotion: ^11.0.3
   stats.js: ^0.17.0
@@ -22,8 +22,8 @@ dependencies:
   '@lincode/promiselikes': 1.0.22
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
-  '@types/three': 0.140.0
-  lingo3d: 1.11.3
+  '@types/three': 0.141.0
+  lingo3d: 1.11.4
   nanoid: 3.3.4
   popmotion: 11.0.3
   stats.js: 0.17.0
@@ -226,8 +226,14 @@ packages:
     resolution: {integrity: sha512-9w+a7bR8PeB0dCT/HBULU2fMqf6BAzvKbxFboYhmDtDkKPiyXYbjoe2auwsXlEFI7CFNMF1dCv3dFH5Poy9R1w==}
     dev: true
 
-  /@types/three/0.140.0:
-    resolution: {integrity: sha512-YPJLSIY6uKUOp1k6BZYDq5GtEIdhfeK04UCbc9IPAVbdn/RNjkfrbnyd7smrsNkJhc0IFASLpd3AAYgwqgXKVQ==}
+  /@types/three/0.141.0:
+    resolution: {integrity: sha512-OJdKDgTPVBUgc+s74DYoy4aLznbFFC38Xm4ElmU1YwGNgR7GGFVvFCX7lpVgOsT6S1zSJtGdajTsOYE8/xY9nA==}
+    dependencies:
+      '@types/webxr': 0.4.0
+    dev: false
+
+  /@types/webxr/0.4.0:
+    resolution: {integrity: sha512-LQvrACV3Pj17GpkwHwXuTd733gfY+D7b9mKdrTmLdO7vo7P/o6209Qqtk63y/FCv/lspdmi0pWz6Qe/ull9kQg==}
     dev: false
 
   /@vitejs/plugin-vue/2.3.3_vite@2.9.13+vue@3.2.37:
@@ -676,8 +682,8 @@ packages:
     hasBin: true
     dev: true
 
-  /lingo3d/1.11.3:
-    resolution: {integrity: sha512-H308nM9m6kThL5riGuF4pPVQZGdL+t3GEiXtwTjr05wJZI9wHJVcIYddUKpKNOVhmTBh6Wi/Q3bF3VNqEc//yA==}
+  /lingo3d/1.11.4:
+    resolution: {integrity: sha512-bJopng22tiYocjjyLhrjFkaorU2cvf6HsMp3BnP4gSwyztkDnn/IzmZtXe5PBSbMzkhR9WrApxBqm2LEbQofMg==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
@@ -686,14 +692,14 @@ packages:
       '@lincode/reactivity': 1.0.65
       '@lincode/utils': 1.2.51
       '@tweakpane/core': 1.1.0
-      '@types/three': 0.140.0
+      '@types/three': 0.141.0
       browser-fs-access: 0.29.6
       cannon-es: 0.19.0
-      postprocessing: 6.28.1_three@0.140.2
+      nipplejs: 0.9.1
       preact: 10.8.2
       preact-custom-element: 4.2.1_preact@10.8.2
       prettier: 2.7.1
-      three: 0.140.2
+      three: 0.142.0
       tweakpane: 3.1.0
       xstate: 4.32.1
     dev: false
@@ -716,6 +722,10 @@ packages:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+
+  /nipplejs/0.9.1:
+    resolution: {integrity: sha512-Tu7ZaB1q0TgA+PH20s8i5Ngt3VmSCp8vxNVv/sOfGBAS0wwlNkJxnCD3bInC4iPg+W8dt80Pl+HU7B8y6dlXMQ==}
+    dev: false
 
   /path-parse/1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
@@ -742,15 +752,6 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
     dev: true
-
-  /postprocessing/6.28.1_three@0.140.2:
-    resolution: {integrity: sha512-3KwA5k9IwdB0bpyJ/jK1KnXAk1BJYV1jnywGXJnQXg5trSNVRUq0Gkas2GDIpo+6ThCbwb20NmF6WQOaeyk1Og==}
-    engines: {node: '>= 0.13.2'}
-    peerDependencies:
-      three: '>= 0.107.0 < 0.142.0'
-    dependencies:
-      three: 0.140.2
-    dev: false
 
   /preact-custom-element/4.2.1_preact@10.8.2:
     resolution: {integrity: sha512-/fiEEAyC+MXRlCBRmv/owoN5BLpO2nF/MF3YBHLtp4C2lNqlhV+a4he74A5DhfDoRmxDHm0sYVgQzWFEyzTDsw==}
@@ -824,8 +825,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /three/0.140.2:
-    resolution: {integrity: sha512-DdT/AHm/TbZXEhQKQpGt5/iSgBrmXpjU26FNtj1KhllVPTKj1eG4X/ShyD5W2fngE+I1s1wa4ttC4C3oCJt7Ag==}
+  /three/0.142.0:
+    resolution: {integrity: sha512-ESjPO+3geFr+ZUfVMpMnF/eVU2uJPOh0e2ZpMFqjNca1wApS9lJb7E4MjwGIczgt9iuKd8PEm6Pfgp2bJ92Xtg==}
     dev: false
 
   /to-fast-properties/2.0.0:
