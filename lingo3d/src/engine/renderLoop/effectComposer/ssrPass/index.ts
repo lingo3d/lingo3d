@@ -7,8 +7,8 @@ import { getRenderer } from "../../../../states/useRenderer"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { getSSROpacity } from "../../../../states/useSSROpacity"
 import { getResolution } from "../../../../states/useResolution"
-import { createEffect } from "@lincode/reactivity"
-import { getCameraPointerLock } from "../../../../states/useCameraPointerLock"
+import store, { createEffect } from "@lincode/reactivity"
+import { getSSR } from "../../../../states/useSSR"
 
 export const ssrPtr = [false]
 
@@ -27,26 +27,43 @@ export const deleteSSR = (target: Object3D) => {
     pull(ssrSelects, target as Mesh)
 }
 
-const ssrPass = new SSRPass({
-    renderer: undefined as any,
-    scene,
-    camera: getCameraRendered(),
-    width: WIDTH,
-    height: HEIGHT,
-    groundReflector: null,
-    selects: ssrSelects
-})
-export default ssrPass
+const [setSSRPass, getSSRPass] = store<SSRPass | undefined>(undefined)
+export { getSSRPass }
 
 createEffect(() => {
-    const [w, h] = getResolution()
+    const renderer = getRenderer()
+    if (!renderer || !getSSR()) return
 
-    //hack to make lower resolution work after cameraPointerLock changes
-    requestAnimationFrame(() => {
-        ssrPass.setSize(w * 0.5, h * 0.5)
+    const ssrPass = new SSRPass({
+        renderer,
+        scene,
+        camera: getCameraRendered(),
+        width: WIDTH,
+        height: HEIGHT,
+        groundReflector: null,
+        selects: ssrSelects
     })
-}, [getResolution, getCameraRendered, getCameraPointerLock])
+    setSSRPass(ssrPass)
 
-getRenderer((renderer) => renderer && (ssrPass.renderer = renderer))
-getCameraRendered((camera) => (ssrPass.camera = camera))
-getSSROpacity((opacity) => (ssrPass.opacity = opacity))
+    return () => {
+        ssrPass.dispose()
+        setSSRPass(undefined)
+    }
+}, [getRenderer, getCameraRendered, getSSR])
+
+createEffect(() => {
+    const ssrPass = getSSRPass()
+    if (!ssrPass) return
+
+    const [w, h] = getResolution()
+    ssrPass.setSize(w * 0.5, h * 0.5)
+
+}, [getResolution, getSSRPass])
+
+createEffect(() => {
+    const ssrPass = getSSRPass()
+    if (!ssrPass) return
+
+    ssrPass.opacity = getSSROpacity()
+
+}, [getSSROpacity, getSSRPass])

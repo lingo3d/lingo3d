@@ -9,8 +9,7 @@ import bokehPass from "./bokehPass"
 import renderPass from "./renderPass"
 import selectiveBloomPass from "./selectiveBloomPass"
 import saoPass from "./saoPass"
-import ssrPass from "./ssrPass"
-import { getSSR } from "../../../states/useSSR"
+import { getSSRPass } from "./ssrPass"
 import outlinePass from "./outlinePass"
 import { getOutline } from "../../../states/useOutline"
 import lensDistortionPass from "./lensDistortionPass"
@@ -29,7 +28,8 @@ createEffect(() => {
 
     const passes: Array<Pass> = [renderPass]
 
-    if (getSSR()) passes.push(ssrPass)
+    const ssrPass = getSSRPass()
+    if (ssrPass) passes.push(ssrPass)
 
     if (getAmbientOcclusion()) passes.push(saoPass)
 
@@ -55,7 +55,7 @@ createEffect(() => {
     }
 }, [
     getEffectComposer,
-    getSSR,
+    getSSRPass,
     getAmbientOcclusion,
     getBloom,
     getSelectiveBloom,
