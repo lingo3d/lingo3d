@@ -17,22 +17,29 @@ type Object3DTreeItemProps = TreeItemProps & {
     object3d: Object3D
 }
 
-const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps) => {
-    const expandIconStyle = { opacity: object3d.children.length ? 0.5 : 0.05, cursor: "pointer" }
+const Object3DTreeItem = ({
+    appendable,
+    object3d,
+    level
+}: Object3DTreeItemProps) => {
+    const expandIconStyle = {
+        opacity: object3d.children.length ? 0.5 : 0.05,
+        cursor: "pointer"
+    }
 
     const [expanded, setExpanded] = useState(false)
     const [sceneGraphTarget] = useSceneGraphTarget()
 
-    const { setClickEl, handleClick, handleDoubleClick } = makeTreeItemCallbacks(object3d, appendable)
+    const { setClickEl, handleClick } = makeTreeItemCallbacks(
+        object3d,
+        appendable
+    )
 
     const [sceneGraphExpanded, setSceneGraphExpanded] = useSceneGraphExpanded()
 
     useEffect(() => {
         if (!sceneGraphExpanded) return
-
-        if (sceneGraphExpanded.has(object3d))
-            setExpanded(true)
-
+        if (sceneGraphExpanded.has(object3d)) setExpanded(true)
     }, [sceneGraphExpanded])
 
     const startRef = useRef<HTMLDivElement>(null)
@@ -46,40 +53,61 @@ const Object3DTreeItem = ({ appendable, object3d, level }: Object3DTreeItemProps
         const boundsStart = startRef.current.getBoundingClientRect()
         const boundsEnd = endRef.current.getBoundingClientRect()
         return boundsEnd.right - boundsStart.left + 4
-
     }, [selected, expanded])
+
+    const collapse = () => {
+        setExpanded(false)
+        setSceneGraphExpanded(undefined)
+    }
+    const expand = () => setExpanded(true)
+
+    const handleDoubleClick = (e: MouseEvent) => {
+        e.stopPropagation()
+        expanded ? collapse() : expand()
+    }
 
     return (
         <div
-         ref={setClickEl}
-         onClick={handleClick}
-         onDblClick={handleDoubleClick}
-         onMouseDown={() => setSceneGraphPreventDrag(true)}
-         style={{
-            color: "rgba(255, 255, 255, 0.75)",
-            marginLeft: 8,
-            borderLeft: "1px solid rgba(255, 255, 255, 0.05)"
-         }}
+            ref={setClickEl}
+            onClick={handleClick}
+            onDblClick={handleDoubleClick}
+            onMouseDown={() => setSceneGraphPreventDrag(true)}
+            style={{
+                color: "rgba(255, 255, 255, 0.75)",
+                marginLeft: 8,
+                borderLeft: "1px solid rgba(255, 255, 255, 0.05)"
+            }}
         >
-            <div ref={startRef} style={{
-                display: "flex",
-                alignItems: "center",
-                border: selected ? "1px solid rgba(255, 255, 255, 0.5)" : undefined,
-                width: highlightWidth,
-                minWidth: "100%",
-                cursor: "default"
-            }}>
+            <div
+                ref={startRef}
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    border: selected
+                        ? "1px solid rgba(255, 255, 255, 0.5)"
+                        : undefined,
+                    width: highlightWidth,
+                    minWidth: "100%",
+                    cursor: "default"
+                }}
+            >
                 {expanded ? (
-                    <CollapseIcon style={expandIconStyle} onClick={() => (setExpanded(false), setSceneGraphExpanded(undefined))} />
+                    <CollapseIcon style={expandIconStyle} onClick={collapse} />
                 ) : (
-                    <ExpandIcon style={expandIconStyle} onClick={() => setExpanded(true)} />
+                    <ExpandIcon style={expandIconStyle} onClick={expand} />
                 )}
                 <ComponentIcon />
                 <div ref={endRef}>{object3d.name}</div>
             </div>
-            {expanded && object3d.children.map(child => (
-                <Object3DTreeItem key={child.uuid} object3d={child} appendable={appendable} level={level + 1} />
-            ))}
+            {expanded &&
+                object3d.children.map((child) => (
+                    <Object3DTreeItem
+                        key={child.uuid}
+                        object3d={child}
+                        appendable={appendable}
+                        level={level + 1}
+                    />
+                ))}
         </div>
     )
 }
