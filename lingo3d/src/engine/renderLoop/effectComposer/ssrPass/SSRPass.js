@@ -31,7 +31,8 @@ class SSRPass extends Pass {
         height,
         selects,
         bouncing = false,
-        groundReflector
+        groundReflector,
+        msaa
     }) {
         super()
 
@@ -147,7 +148,8 @@ class SSRPass extends Pass {
                 minFilter: NearestFilter,
                 magFilter: NearestFilter,
                 depthTexture: depthTexture,
-                depthBuffer: true
+                depthBuffer: true,
+                samples: msaa ? 4 : undefined
             }
         )
 
@@ -661,7 +663,9 @@ class SSRPass extends Pass {
         renderer.setClearAlpha(originalClearAlpha)
     }
 
-    setSize(width, height) {
+    setSize(w, h) {
+        const [width, height] = [w * 0.5, h * 0.5]
+
         this.width = width
         this.height = height
 
@@ -669,7 +673,7 @@ class SSRPass extends Pass {
             width * width + height * height
         )
         this.ssrMaterial.needsUpdate = true
-        this.beautyRenderTarget.setSize(width, height)
+        this.beautyRenderTarget.setSize(w, h)
         this.prevRenderTarget.setSize(width, height)
         this.ssrRenderTarget.setSize(width, height)
         this.normalRenderTarget.setSize(width, height)

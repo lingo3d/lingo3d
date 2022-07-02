@@ -6,6 +6,7 @@ import { getRenderer } from "./useRenderer"
 import { getResolution } from "./useResolution"
 import { getAntiAlias } from "./useAntiAlias"
 import { getPixelRatioComputed } from "./usePixelRatioComputed"
+import { getSSR } from "./useSSR"
 
 const [setEffectComposer, getEffectComposer] = store<EffectComposer | undefined>(undefined)
 export { getEffectComposer }
@@ -14,7 +15,7 @@ createEffect(() => {
     const renderer = getRenderer()
     if (!renderer) return
 
-    if (getAntiAlias() !== "MSAA") {
+    if (getAntiAlias() !== "MSAA" || getSSR()) {
         setEffectComposer(new EffectComposer(renderer))
         return
     }
@@ -28,7 +29,7 @@ createEffect(() => {
         msaaRenderTarget.dispose()
         handle.cancel()
     }
-}, [getRenderer, getAntiAlias])
+}, [getRenderer, getAntiAlias, getSSR])
 
 
 createEffect(() => {

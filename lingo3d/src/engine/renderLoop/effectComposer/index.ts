@@ -43,7 +43,8 @@ createEffect(() => {
 
     if (getLensDistortion()) passes.push(lensDistortionPass)
 
-    if (getAntiAlias() === "SSAA" || getAntiAlias() === "SMAA")
+    const antiAlias = getAntiAlias()
+    if (antiAlias === "SSAA" || antiAlias === "SMAA")
         passes.push(smaaPass)
 
     if (getMotionBlur()) for (const pass of motionBlurPass) passes.push(pass)

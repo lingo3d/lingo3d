@@ -6,9 +6,9 @@ import { HEIGHT, WIDTH } from "../../../../globals"
 import { getRenderer } from "../../../../states/useRenderer"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { getSSROpacity } from "../../../../states/useSSROpacity"
-import { getResolution } from "../../../../states/useResolution"
 import store, { createEffect } from "@lincode/reactivity"
 import { getSSR } from "../../../../states/useSSR"
+import { getAntiAlias } from "../../../../states/useAntiAlias"
 
 export const ssrPtr = [false]
 
@@ -41,7 +41,8 @@ createEffect(() => {
         width: WIDTH,
         height: HEIGHT,
         groundReflector: null,
-        selects: ssrSelects
+        selects: ssrSelects,
+        msaa: getAntiAlias() === "MSAA"
     })
     setSSRPass(ssrPass)
 
@@ -49,16 +50,7 @@ createEffect(() => {
         ssrPass.dispose()
         setSSRPass(undefined)
     }
-}, [getRenderer, getCameraRendered, getSSR])
-
-createEffect(() => {
-    const ssrPass = getSSRPass()
-    if (!ssrPass) return
-
-    const [w, h] = getResolution()
-    ssrPass.setSize(w * 0.5, h * 0.5)
-
-}, [getResolution, getSSRPass])
+}, [getRenderer, getCameraRendered, getSSR, getAntiAlias])
 
 createEffect(() => {
     const ssrPass = getSSRPass()
