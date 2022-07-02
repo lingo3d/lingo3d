@@ -1,3 +1,3 @@
 import store from "@lincode/reactivity"
 
-export const [setNodeEditor, getNodeEditor] = store(true)
+export const [setNodeEditor, getNodeEditor] = store(false)

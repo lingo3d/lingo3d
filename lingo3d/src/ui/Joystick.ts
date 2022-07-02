@@ -1,13 +1,17 @@
 import EventLoopItem from "../api/core/EventLoopItem"
 import nipplejs from "nipplejs"
 import { container } from "../engine/renderLoop/renderSetup"
-import IJoystick from "../interface/IJoystick"
+import IJoystick, { joystickDefaults, joystickSchema } from "../interface/IJoystick"
 import { Point } from "@lincode/math"
 import Nullable from "../interface/utils/Nullable"
 import createElement from "../utils/createElement"
 import { Cancellable } from "@lincode/promiselikes"
 
 export default class Joystick extends EventLoopItem implements IJoystick {
+    public static componentName = "joystick"
+    public static defaults = joystickDefaults
+    public static schema = joystickSchema
+
     public onMove: Nullable<(e: Point) => void>
     public onMoveStart: Nullable<(e: Point) => void>
     public onMoveEnd: Nullable<(e: Point) => void>
@@ -16,11 +20,18 @@ export default class Joystick extends EventLoopItem implements IJoystick {
         super()
 
         this.createEffect(() => {
-            const zone = createElement(`
+            const zone = createElement<HTMLDivElement>(`
                 <div style="width: 150px; height: 150px; position: absolute; bottom: 25px; left: 25px;"></div>
-            `) as HTMLDivElement
-
+            `)
             container.appendChild(zone)
+
+            const prevent = (e: Event) => {
+                e.preventDefault()
+                e.stopPropagation()
+            }
+            zone.onmousedown = prevent
+            zone.ontouchstart = prevent
+            zone.onpointerdown = prevent
 
             const handle = new Cancellable()
 
