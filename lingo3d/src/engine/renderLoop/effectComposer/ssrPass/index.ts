@@ -1,4 +1,4 @@
-import { SSRPass } from "three/examples/jsm/postprocessing/SSRPass"
+import { SSRPass } from "./SSRPass"
 import scene from "../../../scene"
 import { Mesh, Object3D } from "three"
 import { pull } from "@lincode/utils"
@@ -38,16 +38,16 @@ const ssrPass = new SSRPass({
 })
 export default ssrPass
 
-createEffect(() => {
-    const [w, h] = getResolution()
+// createEffect(() => {
+//     const [w, h] = getResolution()
 
-    //hack to make lower resolution work after cameraPointerLock changes
-    requestAnimationFrame(() => {
-        ssrPass.setSize(w * 0.25, h * 0.25)
-        ssrPass.beautyRenderTarget.setSize(w, h)
-    })
-}, [getResolution, getCameraRendered, getCameraPointerLock])
+//     //hack to make lower resolution work after cameraPointerLock changes
+//     requestAnimationFrame(() => {
+//         ssrPass.setSize(w * 0.5, h * 0.5)
+//         ssrPass.beautyRenderTarget.setSize(w, h)
+//     })
+// }, [getResolution, getCameraRendered, getCameraPointerLock])
 
-getRenderer(renderer => renderer && (ssrPass.renderer = renderer))
-getCameraRendered(camera => ssrPass.camera = camera)
-getSSROpacity(opacity => ssrPass.opacity = opacity)
+getRenderer((renderer) => renderer && (ssrPass.renderer = renderer))
+getCameraRendered((camera) => (ssrPass.camera = camera))
+getSSROpacity((opacity) => (ssrPass.opacity = opacity))
