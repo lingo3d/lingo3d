@@ -1,10 +1,9 @@
-import store, { createEffect } from "@lincode/reactivity"
+import { createEffect } from "@lincode/reactivity"
 import { pull } from "@lincode/utils"
 import { Color, Object3D, Vector2 } from "three"
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass"
 import loadTexture from "../../../display/utils/loaders/loadTexture"
 import { getCameraRendered } from "../../../states/useCameraRendered"
-import { getOutline } from "../../../states/useOutline"
 import { getOutlineColor } from "../../../states/useOutlineColor"
 import { getOutlineHiddenColor } from "../../../states/useOutlineHiddenColor"
 import { getOutlinePattern } from "../../../states/useOutlinePattern"
@@ -30,43 +29,29 @@ export const deleteOutline = (target: Object3D) => {
     pull(outlineSelects, target)
 }
 
-const [setOutlinePass, getOutlinePass] = store<OutlinePass | undefined>(undefined)
-export { getOutlinePass }
+const outlinePass = new OutlinePass(
+    new Vector2(),
+    scene,
+    getCameraRendered(),
+    outlineSelects
+)
+export default outlinePass
+
+getCameraRendered((camera) => (outlinePass.renderCamera = camera))
+getOutlinePulse((pulse) => (outlinePass.pulsePeriod = pulse * 0.001))
+getOutlineStrength((strength) => (outlinePass.edgeStrength = strength))
+getOutlineThickness((thickness) => (outlinePass.edgeThickness = thickness))
 
 createEffect(() => {
-    if (!getOutline()) return
-
-    const outlinePass = new OutlinePass(new Vector2(), scene, getCameraRendered(), outlineSelects)
-    setOutlinePass(outlinePass)
-
-    const handle0 = getOutlinePulse(pulse => outlinePass.pulsePeriod = pulse * 0.001)
-    const handle1 = getOutlineStrength(strength => outlinePass.edgeStrength = strength)
-    const handle2 = getOutlineThickness(thickness => outlinePass.edgeThickness = thickness)
-
-    return () => {
-        setOutlinePass(undefined)
-        outlinePass.dispose()
-        handle0.cancel()
-        handle1.cancel()
-        handle2.cancel()
-    }
-}, [getCameraRendered, getOutline])
-
-createEffect(() => {
-    const outlinePass = getOutlinePass()
-    if (!outlinePass) return
-
     const color = getOutlineColor()
     const hiddenColor = getOutlineHiddenColor() ?? color
     outlinePass.visibleEdgeColor = new Color(color)
     outlinePass.hiddenEdgeColor = new Color(hiddenColor)
-
-}, [getOutlinePass, getOutlineColor, getOutlineHiddenColor])
+}, [getOutlineColor, getOutlineHiddenColor])
 
 createEffect(() => {
     const url = getOutlinePattern()
-    const outlinePass = getOutlinePass()
-    if (!url || !outlinePass) return
+    if (!url) return
 
     outlinePass.patternTexture = loadTexture(url)
     outlinePass.usePatternTexture = true
@@ -74,4 +59,4 @@ createEffect(() => {
     return () => {
         outlinePass.usePatternTexture = false
     }
-}, [getOutlinePass, getOutlinePattern])
+}, [getOutlinePattern])
