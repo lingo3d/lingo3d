@@ -13,10 +13,11 @@ import { getAntiAlias } from "../../../states/useAntiAlias"
 import smaaPass from "./smaaPass"
 import motionBlurPass from "./motionBlurPass"
 import { getMotionBlur } from "../../../states/useMotionBlur"
-import { getBokehPass } from "./bokehPass"
 import { getOutlinePass } from "./outlinePass"
 import { getAmbientOcclusion } from "../../../states/useAmbientOcclusion"
 import saoPass from "./saoPass"
+import { getBokeh } from "../../../states/useBokeh"
+import bokehPass from "./bokehPass"
 
 export default {}
 
@@ -36,8 +37,7 @@ createEffect(() => {
 
     if (getSelectiveBloom()) passes.push(selectiveBloomPass)
 
-    const bokehPass = getBokehPass()
-    if (bokehPass) passes.push(bokehPass)
+    if (getBokeh()) passes.push(bokehPass)
 
     const outlinePass = getOutlinePass()
     if (outlinePass) passes.push(outlinePass)
@@ -60,7 +60,7 @@ createEffect(() => {
     getAmbientOcclusion,
     getBloom,
     getSelectiveBloom,
-    getBokehPass,
+    getBokeh,
     getOutlinePass,
     getLensDistortion,
     getAntiAlias,

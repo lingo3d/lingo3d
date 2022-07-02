@@ -32,6 +32,10 @@ import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { getAntiAlias, setAntiAlias } from "../states/useAntiAlias"
 import { getMotionBlur, setMotionBlur } from "../states/useMotionBlur"
 import { getMotionBlurStrength, setMotionBlurStrength } from "../states/useMotionBlurStrength"
+import { getBokeh, setBokeh } from "../states/useBokeh"
+import { getBokehFocus, setBokehFocus } from "../states/useBokehFocus"
+import { getBokehMaxBlur, setBokehMaxBlur } from "../states/useBokehMaxBlur"
+import { getBokehAperture, setBokehAperture } from "../states/useBokehAperture"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -217,6 +221,34 @@ export default {
     },
     set outlineThickness(value) {
         setOutlineThickness(value)
+    },
+
+    get bokeh() {
+        return getBokeh()
+    },
+    set bokeh(value) {
+        setBokeh(value)
+    },
+
+    get bokehAperture() {
+        return getBokehAperture()
+    },
+    set bokehAperture(value) {
+        setBokehAperture(value)
+    },
+
+    get bokehFocus() {
+        return getBokehFocus()
+    },
+    set bokehFocus(value) {
+        setBokehFocus(value)
+    },
+
+    get bokehMaxBlur() {
+        return getBokehMaxBlur()
+    },
+    set bokehMaxBlur(value) {
+        setBokehMaxBlur(value)
     },
 
     get lensDistortion() {
