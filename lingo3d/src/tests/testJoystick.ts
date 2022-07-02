@@ -1,4 +1,3 @@
-import { Keyboard } from "../api/keyboard"
 import Dummy from "../display/Dummy"
 import Joystick from "../ui/Joystick"
 
@@ -17,5 +16,3 @@ joystick.onMoveEnd = () => {
     dummy.strideForward = 0
     dummy.strideRight = 0
 }
-
-const keyboard = new Keyboard()

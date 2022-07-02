@@ -8,7 +8,6 @@ import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { getSSROpacity } from "../../../../states/useSSROpacity"
 import store, { createEffect } from "@lincode/reactivity"
 import { getSSR } from "../../../../states/useSSR"
-import { getAntiAlias } from "../../../../states/useAntiAlias"
 
 export const ssrPtr = [false]
 
@@ -41,8 +40,7 @@ createEffect(() => {
         width: WIDTH,
         height: HEIGHT,
         groundReflector: null,
-        selects: ssrSelects,
-        msaa: getAntiAlias() === "MSAA"
+        selects: ssrSelects
     })
     setSSRPass(ssrPass)
 
@@ -50,7 +48,7 @@ createEffect(() => {
         setSSRPass(undefined)
         ssrPass.dispose()
     }
-}, [getRenderer, getCameraRendered, getSSR, getAntiAlias])
+}, [getRenderer, getCameraRendered, getSSR])
 
 createEffect(() => {
     const ssrPass = getSSRPass()

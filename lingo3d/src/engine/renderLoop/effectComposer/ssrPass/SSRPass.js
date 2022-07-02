@@ -31,8 +31,7 @@ class SSRPass extends Pass {
         height,
         selects,
         bouncing = false,
-        groundReflector,
-        msaa
+        groundReflector
     }) {
         super()
 
@@ -148,8 +147,7 @@ class SSRPass extends Pass {
                 minFilter: NearestFilter,
                 magFilter: NearestFilter,
                 depthTexture: depthTexture,
-                depthBuffer: true,
-                samples: msaa ? 4 : undefined
+                depthBuffer: true
             }
         )
 
