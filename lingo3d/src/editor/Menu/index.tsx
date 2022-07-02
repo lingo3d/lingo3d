@@ -39,7 +39,7 @@ const Menu = () => {
                     style={{
                         display: "flex",
                         flexDirection: "row",
-                        alignItems: "start"
+                        alignItems: "start",
                     }}
                 >
                     <MenuButton
@@ -49,22 +49,32 @@ const Menu = () => {
                                 y: e.top,
                                 menuItems: [
                                     {
-                                        text: "first button",
+                                        text: "open...",
                                         onClick: () =>
                                             console.log("first button clicked")
                                     },
-                                    {
-                                        text: "second button",
-                                        onClick: () =>
-                                            console.log("second button clicked")
-                                    }
                                 ]
                             })
                         }
                     >
                         File
                     </MenuButton>
-                    <MenuButton>View</MenuButton>
+                    <MenuButton
+                    onClick={(e) =>
+                        setData({
+                            x: e.left,
+                            y: e.top,
+                            menuItems: [
+                                {
+                                    text: "show nodes editor",
+                                    onClick: () =>
+                                        console.log("h")
+                                },
+                             
+                            ]
+                        })
+                    }
+                    >View</MenuButton>
                 </ul>
             </div>
             <ContextMenu data={data}>
