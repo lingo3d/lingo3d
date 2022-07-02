@@ -26,10 +26,11 @@ createEffect(() => {
     const effectComposer = getEffectComposer()
     if (!effectComposer) return
 
-    const passes: Array<Pass> = [renderPass]
+    const passes: Array<Pass> = []
 
     const ssrPass = getSSRPass()
     if (ssrPass) passes.push(ssrPass)
+    else passes.push(renderPass)
 
     if (getAmbientOcclusion()) passes.push(saoPass)
 
@@ -44,8 +45,7 @@ createEffect(() => {
     if (getLensDistortion()) passes.push(lensDistortionPass)
 
     const antiAlias = getAntiAlias()
-    if (antiAlias === "SSAA" || antiAlias === "SMAA")
-        passes.push(smaaPass)
+    if (antiAlias === "SSAA" || antiAlias === "SMAA") passes.push(smaaPass)
 
     if (getMotionBlur()) for (const pass of motionBlurPass) passes.push(pass)
 
