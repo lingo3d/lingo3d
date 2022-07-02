@@ -2,7 +2,7 @@ import store, { createEffect } from "@lincode/reactivity"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 import { getRenderer } from "./useRenderer"
 import { getResolution } from "./useResolution"
-import { getPixelRatio } from "./usePixelRatio"
+import { getPixelRatioComputed } from "./usePixelRatioComputed"
 
 const [setEffectComposer, getEffectComposer] = store<EffectComposer | undefined>(undefined)
 export { getEffectComposer }
@@ -22,6 +22,6 @@ createEffect(() => {
 
     const [w, h] = getResolution()
     effectComposer.setSize(w, h)
-    effectComposer.setPixelRatio(getPixelRatio())
+    effectComposer.setPixelRatio(getPixelRatioComputed())
 
-}, [getEffectComposer, getResolution, getPixelRatio])
+}, [getEffectComposer, getResolution, getPixelRatioComputed])
