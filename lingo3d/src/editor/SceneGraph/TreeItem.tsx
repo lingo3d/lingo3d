@@ -109,7 +109,6 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
     const handleDoubleClick = (e: MouseEvent) => {
         e.stopPropagation()
         expanded ? collapse() : expand()
-        emitSelectionTarget(appendable)
     }
 
     return (
