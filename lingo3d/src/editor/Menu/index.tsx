@@ -5,6 +5,8 @@ import MenuButton from "./MenuButton"
 import ContextMenu from "../ContextMenu"
 import MenuItem from "../ContextMenu/MenuItem"
 import { useState } from "preact/hooks"
+import { setNodeEditor } from "../../states/useNodeEditor"
+import { useNodeEditor } from "../states"
 
 preventTreeShake(h)
 
@@ -16,6 +18,7 @@ type Data = {
 
 const Menu = () => {
     const [data, setData] = useState<Data | undefined>()
+    const [nodeEditor] = useNodeEditor()
 
     return (
         <Fragment>
@@ -39,7 +42,7 @@ const Menu = () => {
                     style={{
                         display: "flex",
                         flexDirection: "row",
-                        alignItems: "start",
+                        alignItems: "start"
                     }}
                 >
                     <MenuButton
@@ -52,7 +55,7 @@ const Menu = () => {
                                         text: "open...",
                                         onClick: () =>
                                             console.log("first button clicked")
-                                    },
+                                    }
                                 ]
                             })
                         }
@@ -60,21 +63,26 @@ const Menu = () => {
                         File
                     </MenuButton>
                     <MenuButton
-                    onClick={(e) =>
-                        setData({
-                            x: e.left,
-                            y: e.top,
-                            menuItems: [
-                                {
-                                    text: "show nodes editor",
-                                    onClick: () =>
-                                        console.log("h")
-                                },
-                             
-                            ]
-                        })
-                    }
-                    >View</MenuButton>
+                        onClick={(e) =>
+                            setData({
+                                x: e.left,
+                                y: e.top,
+                                menuItems: [
+                                    {
+                                        text: nodeEditor
+                                            ? "hide nodes editor"
+                                            : "show nodes editor",
+                                        onClick: () => {
+                                            setData(undefined)
+                                            setNodeEditor(!nodeEditor)
+                                        }
+                                    }
+                                ]
+                            })
+                        }
+                    >
+                        View
+                    </MenuButton>
                 </ul>
             </div>
             <ContextMenu data={data}>

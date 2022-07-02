@@ -4,10 +4,13 @@ import { preventTreeShake } from "@lincode/utils"
 import ObjectGroup from "./ObjectGroup"
 import { useEffect } from "preact/hooks"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
+import { useNodeEditor } from "../states"
 
 preventTreeShake(h)
 
 const Library = () => {
+    const [nodeEditor] = useNodeEditor()
+
     useEffect(() => {
         emitEditorMountChange()
 
@@ -15,6 +18,8 @@ const Library = () => {
             emitEditorMountChange()
         }
     }, [])
+
+    if (nodeEditor) return null
 
     return (
         <div
