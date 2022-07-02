@@ -179,7 +179,6 @@ createEffect(() => {
         }
         if (ssrPtr[0] && !ssrInitialized) {
             setSSR(true)
-            setAntiAlias("SMAA")
             ssrInitialized = true
         }
         if (outlinePtr[0] && !outlineInitialized) {

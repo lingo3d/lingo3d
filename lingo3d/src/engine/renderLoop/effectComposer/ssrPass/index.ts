@@ -44,7 +44,6 @@ createEffect(() => {
     //hack to make lower resolution work after cameraPointerLock changes
     requestAnimationFrame(() => {
         ssrPass.setSize(w * 0.5, h * 0.5)
-        ssrPass.beautyRenderTarget.setSize(w, h)
     })
 }, [getResolution, getCameraRendered, getCameraPointerLock])
 
