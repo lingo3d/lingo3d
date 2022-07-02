@@ -8,8 +8,6 @@ import renderPass from "./renderPass"
 import selectiveBloomPass from "./selectiveBloomPass"
 import saoPass from "./saoPass"
 import { getSSRPass } from "./ssrPass"
-import outlinePass from "./outlinePass"
-import { getOutline } from "../../../states/useOutline"
 import lensDistortionPass from "./lensDistortionPass"
 import { getLensDistortion } from "../../../states/useLensDistortion"
 import { getEffectComposer } from "../../../states/useEffectComposer"
@@ -18,6 +16,7 @@ import smaaPass from "./smaaPass"
 import motionBlurPass from "./motionBlurPass"
 import { getMotionBlur } from "../../../states/useMotionBlur"
 import { getBokehPass } from "./bokehPass"
+import { getOutlinePass } from "./outlinePass"
 
 export default {}
 
@@ -40,7 +39,8 @@ createEffect(() => {
     const bokehPass = getBokehPass()
     if (bokehPass) passes.push(bokehPass)
 
-    if (getOutline()) passes.push(outlinePass)
+    const outlinePass = getOutlinePass()
+    if (outlinePass) passes.push(outlinePass)
 
     if (getLensDistortion()) passes.push(lensDistortionPass)
 
@@ -61,7 +61,7 @@ createEffect(() => {
     getBloom,
     getSelectiveBloom,
     getBokehPass,
-    getOutline,
+    getOutlinePass,
     getLensDistortion,
     getAntiAlias,
     getMotionBlur
