@@ -1,27 +1,21 @@
 import { h } from "preact"
 import { preventTreeShake } from "@lincode/utils"
-import { useState, useEffect } from "preact/hooks"
 
 preventTreeShake(h)
 
 interface ContextMenuProps {
-    data?: { x: number, y: number }
+    data?: { x: number; y: number }
+    setData: (value: any) => void
     children?: JSX.Element | Array<JSX.Element>
 }
 
-const ContextMenu = ({ data, children }: ContextMenuProps) => {
-    const [show, setShow] = useState(false)
+const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
+    if (!data) return null
 
-    useEffect(() => {
-        setShow(!!data)
-    }, [data])
-
-    if (!show || !data) return null
-    
     return (
         <div
             className="lingo3d-ui"
-            onMouseDown={() => setShow(false)}
+            onMouseDown={() => setData(undefined)}
             style={{
                 zIndex: 9999,
                 position: "absolute",

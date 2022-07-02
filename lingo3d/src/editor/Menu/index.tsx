@@ -32,7 +32,6 @@ const Menu = () => {
                     height: 25,
                     background: "rgb(35, 36, 41)",
                     marginTop: -20,
-                    zIndex: 10,
                     display: "flex",
                     justifyContent: "flex-start",
                     alignItems: "center"
@@ -85,9 +84,11 @@ const Menu = () => {
                     </MenuButton>
                 </ul>
             </div>
-            <ContextMenu data={data}>
+            <ContextMenu data={data} setData={setData}>
                 {data?.menuItems.map((item) => (
-                    <MenuItem onClick={item.onClick}>{item.text}</MenuItem>
+                    <MenuItem setData={setData} onClick={item.onClick}>
+                        {item.text}
+                    </MenuItem>
                 ))}
             </ContextMenu>
         </Fragment>

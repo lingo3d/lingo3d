@@ -78,7 +78,7 @@ const SceneGraphContextMenu = () => {
     if (!data) return null
 
     return (
-        <ContextMenu data={data}>
+        <ContextMenu data={data} setData={setData}>
             {showSearch ? (
                 <input
                     ref={(el) => el?.focus()}
@@ -99,7 +99,7 @@ const SceneGraphContextMenu = () => {
                 <Fragment>
                     {data.target && (
                         <Fragment>
-                            <MenuItem onClick={() => setShowSearch(true)}>
+                            <MenuItem setData={undefined} onClick={() => setShowSearch(true)}>
                                 Search children
                             </MenuItem>
 
@@ -107,18 +107,17 @@ const SceneGraphContextMenu = () => {
                                 <MenuItem onClick={() => {
                                     setRetargetBones(selectionTarget)
                                     setSelectionLocked(true)
-                                    setData(undefined)
                                 }}>
                                     Convert to Mixamo
                                 </MenuItem>
                             )} */}
 
                             <MenuItem
-                                onClick={() => {
+                                setData={setData}
+                                onClick={() =>
                                     isMeshItem(selectionTarget) &&
-                                        addSelectionFrozen(selectionTarget)
-                                    setData(undefined)
-                                }}
+                                    addSelectionFrozen(selectionTarget)
+                                }
                             >
                                 Freeze selection
                             </MenuItem>
@@ -126,9 +125,8 @@ const SceneGraphContextMenu = () => {
                             {selectionTarget instanceof Dummy &&
                                 dummyTypeMap.has(selectionTarget) && (
                                     <MenuItem
+                                        setData={setData}
                                         onClick={async () => {
-                                            setData(undefined)
-
                                             const url =
                                                 dummyTypeMap.get(
                                                     selectionTarget
@@ -150,11 +148,9 @@ const SceneGraphContextMenu = () => {
                         </Fragment>
                     )}
                     <MenuItem
+                        setData={setData}
                         disabled={!selectionFrozen.size}
-                        onClick={() => {
-                            clearSelectionFrozen()
-                            setData(undefined)
-                        }}
+                        onClick={() => clearSelectionFrozen()}
                     >
                         Unfreeze all
                     </MenuItem>
