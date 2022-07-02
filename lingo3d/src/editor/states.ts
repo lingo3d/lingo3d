@@ -12,6 +12,7 @@ import { setSceneGraphExpanded, getSceneGraphExpanded } from "../states/useScene
 import { setSceneGraphPreventDrag, getSceneGraphPreventDrag } from "../states/useSceneGraphPreventDrag"
 import { getSelectionFrozen, setSelectionFrozen } from "../states/useSelectionFrozen"
 import { getEditorActive, setEditorActive } from "../states/useEditorActive"
+import { getNodeEditor, setNodeEditor } from "../states/useNodeEditor"
 
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(setMultipleSelectionTargets, getMultipleSelectionTargets)
@@ -26,3 +27,4 @@ export const useSceneGraphTarget = hook(setSceneGraphTarget, getSceneGraphTarget
 export const useSceneGraphExpanded = hook(setSceneGraphExpanded, getSceneGraphExpanded)
 export const useSceneGraphPreventDrag = hook(setSceneGraphPreventDrag, getSceneGraphPreventDrag)
 export const useEditorActive = hook(setEditorActive, getEditorActive)
+export const useNodeEditor = hook(setNodeEditor, getNodeEditor)

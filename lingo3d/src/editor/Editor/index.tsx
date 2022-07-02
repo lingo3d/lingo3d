@@ -16,7 +16,8 @@ import {
     useMultipleSelectionTargets,
     useCameraStack,
     useDefaultLight,
-    useDefaultFog
+    useDefaultFog,
+    useNodeEditor
 } from "../states"
 import { Cancellable } from "@lincode/promiselikes"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
@@ -556,4 +557,14 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
     )
 }
 
-register(Editor, "lingo3d-editor", ["mouse", "keyboard"])
+const EditorParent = () => {
+    const [nodeEditor] = useNodeEditor()
+
+    if (nodeEditor) return null
+
+    return (
+        <Editor />
+    )
+}
+
+register(EditorParent, "lingo3d-editor", ["mouse", "keyboard"])

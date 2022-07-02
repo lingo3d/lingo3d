@@ -19,7 +19,7 @@ import EmptyItem from "./EmptyItem"
 import FindIcon from "./icons/FindIcon"
 import ObjectManager from "../../display/core/ObjectManager"
 import mainCamera from "../../engine/mainCamera"
-import ContextMenu from "./ContextMenu"
+import SceneGraphContextMenu from "./SceneGraphContextMenu"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import { onSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 import retargetBones from "./retargetBones"
@@ -103,7 +103,7 @@ const SceneGraph = () => {
                 <EmptyItem />
             </div>
         </div>
-        <ContextMenu />
+        <SceneGraphContextMenu />
     </Fragment>)
 }
 

@@ -1,4 +1,5 @@
 import "./Editor"
+import "./NodeEditor"
 import "./SceneGraph"
 import "./Toolbar"
 import "./Library"
@@ -48,6 +49,7 @@ export default class LingoEditor extends Disposable {
                 <lingo3d-toolbar></lingo3d-toolbar>
                 <lingo3d-scenegraph></lingo3d-scenegraph>
                 <lingo3d-editor></lingo3d-editor>
+                <lingo3d-node-editor></lingo3d-node-editor>
                 <lingo3d-library></lingo3d-library>
                 <lingo3d-hud></lingo3d-hud>
                 <div id="lingo3d-world" style="height: 100%; flex-grow: 1; position: relative"></div>
