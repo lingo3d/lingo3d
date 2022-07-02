@@ -1,7 +1,7 @@
 import { createEffect } from "@lincode/reactivity"
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass"
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader"
-import { getPixelRatioComputed } from "../../../states/usePixelRatioComputed"
+import { getPixelRatio } from "../../../states/usePixelRatio"
 import { getResolution } from "../../../states/useResolution"
 
 const fxaaPass = new ShaderPass(FXAAShader)
@@ -9,7 +9,7 @@ export default fxaaPass
 
 createEffect(() => {
     const [w, h] = getResolution()
-    const pixelRatio = getPixelRatioComputed()
+    const pixelRatio = getPixelRatio()
     fxaaPass.material.uniforms["resolution"].value.set(1 / (w * pixelRatio), 1 / (h * pixelRatio))
 
-}, [getPixelRatioComputed, getResolution])
+}, [getPixelRatio, getResolution])

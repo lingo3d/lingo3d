@@ -12,7 +12,7 @@ import { getDefaultLight } from "../../states/useDefaultLight"
 import { getAutoMount } from "../../states/useAutoMount"
 import { onEditorMountChange } from "../../events/onEditorMountChange"
 import { debounce } from "@lincode/utils"
-import { getPixelRatioComputed } from "../../states/usePixelRatioComputed"
+import { getPixelRatio } from "../../states/usePixelRatio"
 
 export const rootContainer = document.createElement("div")
 Object.assign(rootContainer.style, {
@@ -105,9 +105,9 @@ createEffect(() => {
 
     const [w, h] = getResolution()
     renderer.setSize(w, h)
-    renderer.setPixelRatio(getPixelRatioComputed())
+    renderer.setPixelRatio(getPixelRatio())
 
-}, [getRenderer, getResolution, getPixelRatioComputed])
+}, [getRenderer, getResolution, getPixelRatio])
 
 createEffect(() => {
     const renderer = getRenderer()
