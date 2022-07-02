@@ -44,6 +44,7 @@ createEffect(() => {
     const handle2 = getOutlineThickness(thickness => outlinePass.edgeThickness = thickness)
 
     return () => {
+        setOutlinePass(undefined)
         outlinePass.dispose()
         handle0.cancel()
         handle1.cancel()

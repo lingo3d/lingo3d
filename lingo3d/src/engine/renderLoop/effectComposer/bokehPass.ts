@@ -23,6 +23,7 @@ createEffect(() => {
     const handle2 = getBokehMaxBlur(val => uniforms["maxblur"].value = val)
     
     return () => {
+        setBokehPass(undefined)
         handle0.cancel()
         handle1.cancel()
         handle2.cancel()

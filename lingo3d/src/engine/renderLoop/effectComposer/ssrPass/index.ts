@@ -47,8 +47,8 @@ createEffect(() => {
     setSSRPass(ssrPass)
 
     return () => {
-        ssrPass.dispose()
         setSSRPass(undefined)
+        ssrPass.dispose()
     }
 }, [getRenderer, getCameraRendered, getSSR, getAntiAlias])
 

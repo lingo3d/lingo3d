@@ -19,7 +19,7 @@ createEffect(() => {
     const handle = getAmbientOcclusion(ao => saoPass.params.saoScale = ao === "light" ? 3000 : 2000)
 
     return () => {
-        handle.cancel()
         setSAOPass(undefined)
+        handle.cancel()
     }
 }, [getCameraRendered, getAmbientOcclusion])
