@@ -274,7 +274,7 @@ class SSRPass extends Pass {
         })
         this.blurMaterial2.uniforms["tDiffuse"].value =
             this.blurRenderTarget.texture
-        this.blurMaterial2.uniforms["h"].value = 1 / 128
+        // this.blurMaterial2.uniforms["h"].value = 1 / 128
 
         // // blur material 3
 
