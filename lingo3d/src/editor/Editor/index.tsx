@@ -457,8 +457,8 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                     "roughnessFactor",
                     "opacityFactor",
                     "emissiveIntensityFactor",
-                    "emissiveColorFactor",
-                    "colorFactor"
+                    "adjustEmissiveColor",
+                    "adjustColor"
                 ]
             )
             adjustMaterialParams &&

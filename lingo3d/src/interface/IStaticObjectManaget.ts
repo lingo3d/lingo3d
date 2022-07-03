@@ -27,8 +27,8 @@ export default interface IStaticObjectManager extends IEventLoop, IAnimationMixi
     roughnessFactor: Nullable<number>
     opacityFactor: Nullable<number>
     emissiveIntensityFactor: Nullable<number>
-    emissiveColorFactor: Nullable<string>
-    colorFactor: Nullable<string>
+    adjustEmissiveColor: Nullable<string>
+    adjustColor: Nullable<string>
 
     toon: boolean
     pbr: boolean
@@ -59,8 +59,8 @@ export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManag
     roughnessFactor: Number,
     opacityFactor: Number,
     emissiveIntensityFactor: Number,
-    emissiveColorFactor: String,
-    colorFactor: String,
+    adjustEmissiveColor: String,
+    adjustColor: String,
 
     toon: Boolean,
     pbr: Boolean
@@ -91,8 +91,8 @@ export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     roughnessFactor: [undefined, 1],
     opacityFactor: [undefined, 1],
     emissiveIntensityFactor: [undefined, 1],
-    emissiveColorFactor: [undefined, "#000000"],
-    colorFactor: [undefined, "#ffffff"],
+    adjustEmissiveColor: [undefined, "#000000"],
+    adjustColor: [undefined, "#ffffff"],
 
     toon: false,
     pbr: false

@@ -340,8 +340,8 @@ class StaticObjectManager<T extends Object3D = Object3D>
                 _roughnessFactor,
                 _opacityFactor,
                 _emissiveIntensityFactor,
-                _emissiveColorFactor,
-                _colorFactor
+                _adjustEmissiveColor,
+                _adjustColor
             } = this
 
             this.outerObject3d.traverse((child: any) => {
@@ -392,21 +392,21 @@ class StaticObjectManager<T extends Object3D = Object3D>
                             : undefined
                     )
 
-                if (_emissiveColorFactor !== undefined)
+                if (_adjustEmissiveColor !== undefined)
                     setColor(
                         child,
                         "emissive",
-                        _emissiveColorFactor !== "#000000"
-                            ? new Color(_emissiveColorFactor)
+                        _adjustEmissiveColor !== "#000000"
+                            ? new Color(_adjustEmissiveColor)
                             : undefined
                     )
 
-                if (_colorFactor !== undefined)
+                if (_adjustColor !== undefined)
                     setColor(
                         child,
                         "color",
-                        _colorFactor !== "#ffffff"
-                            ? new Color(_colorFactor)
+                        _adjustColor !== "#ffffff"
+                            ? new Color(_adjustColor)
                             : undefined
                     )
 
@@ -457,21 +457,21 @@ class StaticObjectManager<T extends Object3D = Object3D>
         this.refreshFactors()
     }
 
-    private _emissiveColorFactor?: string
-    public get emissiveColorFactor() {
-        return this._emissiveColorFactor
+    private _adjustEmissiveColor?: string
+    public get adjustEmissiveColor() {
+        return this._adjustEmissiveColor
     }
-    public set emissiveColorFactor(val) {
-        this._emissiveColorFactor = val
+    public set adjustEmissiveColor(val) {
+        this._adjustEmissiveColor = val
         this.refreshFactors()
     }
 
-    private _colorFactor?: string
-    public get colorFactor() {
-        return this._colorFactor
+    private _adjustColor?: string
+    public get adjustColor() {
+        return this._adjustColor
     }
-    public set colorFactor(val) {
-        this._colorFactor = val
+    public set adjustColor(val) {
+        this._adjustColor = val
         this.refreshFactors()
     }
 
