@@ -52,6 +52,7 @@ import preload from "./api/preload"
 import screenshot from "./api/screenshot"
 
 import Reticle from "./ui/Reticle"
+import Joystick from "./ui/Joystick"
 
 import applySetup from "./api/serializer/applySetup"
 import serialize from "./api/serializer/serialize"
@@ -132,6 +133,7 @@ export {
     preload,
     screenshot,
 
+    Joystick,
     Reticle,
 
     applySetup,

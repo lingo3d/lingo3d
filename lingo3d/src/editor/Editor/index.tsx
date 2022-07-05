@@ -565,5 +565,6 @@ const EditorParent = () => {
         <Editor />
     )
 }
+export default EditorParent
 
 register(EditorParent, "lingo3d-editor", ["mouse", "keyboard"])

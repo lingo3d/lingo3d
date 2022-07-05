@@ -1,9 +1,20 @@
 import React from "react"
-import "lingo3d/lib/editor"
+import Toolbar from "./Toolbar"
+import SceneGraph from "./SceneGraph"
+import Editor from "./Editor"
+import Library from "./Library"
+import HUD from "./HUD"
 
 const LingoEditor: React.FC = () => {
-    //@ts-ignore
-    return <><lingo3d-toolbar /><lingo3d-scenegraph /><lingo3d-editor /><lingo3d-library /><lingo3d-hud /></>
+  return (
+    <>
+      <Toolbar />
+      <SceneGraph />
+      <Editor />
+      <Library />
+      <HUD />
+    </>
+  )
 }
 
 export default LingoEditor

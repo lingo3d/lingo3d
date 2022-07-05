@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import "lingo3d/lib/editor"
+import SceneGraph from "lingo3d/lib/editor/SceneGraph"
+import useEditor from "../../hooks/useEditor"
+
+const divRef = useEditor(SceneGraph)
 </script>
 
 <template>
-    <lingo3d-scenegraph />
+  <div ref="divRef" class="lingo3d-ui" style="height: 100%;" />
 </template>

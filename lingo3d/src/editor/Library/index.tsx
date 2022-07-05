@@ -63,5 +63,6 @@ const Library = () => {
         </div>
     )
 }
+export default Library
 
 register(Library, "lingo3d-library")

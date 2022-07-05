@@ -106,5 +106,6 @@ const SceneGraph = () => {
         <SceneGraphContextMenu />
     </Fragment>)
 }
+export default SceneGraph
 
 register(SceneGraph, "lingo3d-scenegraph")

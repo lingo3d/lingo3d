@@ -1,7 +1,25 @@
 import type * as types from "lingo3d"
 export { types }
 
-export { screenshot, onAfterRender, onBeforeRender, loop, mainOrbitCamera, keyboard, mouse, createProxy, serialize, deserialize, setWasmPath } from "lingo3d"
+export {
+  screenshot,
+  onAfterRender,
+  onBeforeRender,
+  loop,
+  mainOrbitCamera,
+  keyboard,
+  mouse,
+  createProxy,
+  serialize,
+  deserialize,
+  downloadBlob,
+  downloadText,
+  exportJSON,
+  exportReact,
+  exportVue,
+  openJSON,
+  setWasmPath
+} from "lingo3d"
 
 export { default as World } from "./components/World"
 export { default as LingoEditor } from "./components/editor/LingoEditor"
@@ -47,6 +65,9 @@ export { default as Sphere } from "./components/display/primitives/Sphere"
 export { default as Tetrahedron } from "./components/display/primitives/Tetrahedron"
 export { default as Torus } from "./components/display/primitives/Torus"
 
+export { default as Joystick } from "./components/ui/Joystick"
+export { default as Reticle } from "./components/ui/Reticle"
+
 export { default as Setup } from "./components/logical/Setup"
 export { default as HTML } from "./components/logical/HTML"
 export { default as UI } from "./components/logical/UI"
@@ -65,6 +86,3 @@ export { default as useWindowSize } from "./hooks/useWindowSize"
 export { default as useDocumentScroll } from "./hooks/useDocumentScroll"
 export { default as useRenderer } from "./hooks/useRenderer"
 export { default as useScene } from "./hooks/useScene"
-
-export { default as Reticle } from "@lincode/react-reticle"
-export { default as Joystick } from "@lincode/react-joystick"

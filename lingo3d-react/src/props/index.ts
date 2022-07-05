@@ -23,6 +23,8 @@ import IFound from "lingo3d/lib/interface/IFound"
 import ITrigger from "lingo3d/lib/interface/ITrigger"
 import IAudio from "lingo3d/lib/interface/IAudio"
 import IEnvironment from "lingo3d/lib/interface/IEnvironment"
+import IJoystick from "lingo3d/lib/interface/IJoystick"
+import IReticle from "lingo3d/lib/interface/IReticle"
 
 type Children = React.ReactNode
 
@@ -54,3 +56,6 @@ export type TriggerProps = Partial<ITrigger>
 export type AudioProps = Partial<IAudio>
 export type SkyboxProps = Partial<ISkybox>
 export type EnvironmentProps = Partial<IEnvironment>
+
+export type JoystickProps = Partial<IJoystick>
+export type ReticleProps = Partial<IReticle>

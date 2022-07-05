@@ -1,15 +1,17 @@
 import React from "react"
-import "lingo3d/lib/editor"
+import LingoEditor from "lingo3d/lib/editor/Editor"
+import useEditor from "../../hooks/useEditor"
 
 interface EditorProps {
     keyboard?: "enabled" | "disabled",
     mouse?: "enabled" | "disabled" 
 }
 
-const Editor: React.FC<EditorProps> = ({ keyboard, mouse }) => {
+const Editor: React.FC<EditorProps> = (props) => {
+    const divRef = useEditor(LingoEditor, props)
+
     return (
-        //@ts-ignore
-        <lingo3d-editor keyboard={keyboard} mouse={mouse}  />
+          <div ref={divRef} className="lingo3d-ui" style={{ height: "100%" }} />
     )
 }
 

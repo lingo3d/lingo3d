@@ -33,7 +33,7 @@ type ButtonOptions = {
     onClick?: () => void
 }
 
-type ToolbarOptions = {
+interface ToolbarProps {
     buttons?: {
         openJSON?: ButtonOptions
         exportJSON?: ButtonOptions
@@ -42,9 +42,7 @@ type ToolbarOptions = {
     }
 }
 
-const Toolbar = ({ buttons }: ToolbarOptions) => {
-    console.log(buttons)
-
+const Toolbar = ({ buttons }: ToolbarProps) => {
     const [mode, setMode] = useTransformControlsMode()
     let [space, setSpace] = useTransformControlsSpace()
     if (mode === "scale") space = "local"
@@ -161,5 +159,6 @@ const Toolbar = ({ buttons }: ToolbarOptions) => {
         </div>
     )
 }
+export default Toolbar
 
 register(Toolbar, "lingo3d-toolbar", ["buttons"])

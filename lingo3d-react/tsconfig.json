@@ -5,6 +5,7 @@
 		"strict": true,
 		"noImplicitOverride": true,
 		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
 		"allowSyntheticDefaultImports": true,
 		"experimentalDecorators": true,
 		"target": "es2019",

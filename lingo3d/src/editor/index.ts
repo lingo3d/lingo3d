@@ -25,6 +25,7 @@ const style = createElement(`
             float: left;
             color: white;
             font-size: 11px;
+            max-height: 100%;
         }
         .lingo3d-ui::-webkit-scrollbar {
             display: none;

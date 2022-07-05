@@ -35,5 +35,6 @@ const HUD = () => {
         </div>
     )
 }
+export default HUD
 
 register(HUD, "lingo3d-hud")

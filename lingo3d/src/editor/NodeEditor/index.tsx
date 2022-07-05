@@ -30,5 +30,6 @@ const NodeEditorParent = () => {
         <NodeEditor />
     )
 }
+export default NodeEditorParent
 
 register(NodeEditorParent, "lingo3d-node-editor")

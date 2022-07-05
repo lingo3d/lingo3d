@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import "lingo3d/lib/editor"
+import Library from "lingo3d/lib/editor/Library"
+import useEditor from "../../hooks/useEditor"
+
+const divRef = useEditor(Library)
 </script>
 
 <template>
-    <lingo3d-library />
+  <div ref="divRef" class="lingo3d-ui" style="height: 100%;" />
 </template>

@@ -1,10 +1,12 @@
 import React from "react"
-import "lingo3d/lib/editor"
+import LingoLibrary from "lingo3d/lib/editor/Library"
+import useEditor from "../../hooks/useEditor"
 
 const Library: React.FC = () => {
+    const divRef = useEditor(LingoLibrary)
+
     return (
-        //@ts-ignore
-        <lingo3d-library />
+          <div ref={divRef} className="lingo3d-ui" style={{ height: "100%" }} />
     )
 }
 

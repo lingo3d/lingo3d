@@ -94,5 +94,6 @@ const Menu = () => {
         </Fragment>
     )
 }
+export default Menu
 
 register(Menu, "lingo3d-menu")

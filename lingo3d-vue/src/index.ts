@@ -1,15 +1,35 @@
 import type * as types from "lingo3d"
 export { types }
 
-export { screenshot, onAfterRender, onBeforeRender, loop, mainOrbitCamera, keyboard, mouse, createProxy, serialize, deserialize, setWasmPath } from "lingo3d"
+export {
+  screenshot,
+  onAfterRender,
+  onBeforeRender,
+  loop,
+  mainOrbitCamera,
+  keyboard,
+  mouse,
+  createProxy,
+  serialize,
+  deserialize,
+  downloadBlob,
+  downloadText,
+  exportJSON,
+  exportReact,
+  exportVue,
+  openJSON,
+  setWasmPath
+} from "lingo3d"
 
 export { default as World } from "./components/World.vue"
+export { default as Stats } from "./components/Stats.vue"
+
 export { default as LingoEditor } from "./components/editor/LingoEditor.vue"
 export { default as Editor } from "./components/editor/Editor.vue"
 export { default as SceneGraph } from "./components/Editor/SceneGraph.vue"
 export { default as Toolbar } from "./components/Editor/Toolbar.vue"
 export { default as Library } from "./components/Editor/Library.vue"
-export { default as Stats } from "./components/Stats.vue"
+export { default as HUD } from "./components/editor/HUD.vue"
 
 export { default as Keyboard } from "./components/api/Keyboard.vue"
 export { default as Mouse } from "./components/api/Mouse.vue"
@@ -51,7 +71,9 @@ export { default as Setup } from "./components/logical/Setup.vue"
 export { default as HTML } from "./components/logical/HTML/index.vue"
 export { default as Find } from "./components/logical/Find.vue"
 export { default as UI } from "./components/logical/UI.vue"
-export { default as Scene } from "./components/logical/Scene.vue"
+
+export { default as Joystick } from "./components/ui/Joystick.vue"
+export { default as Reticle } from "./components/ui/Reticle.vue"
 
 // export { default as useSpawn } from "./hooks/useSpawn"
 export { default as useSpring } from "./hooks/useSpring"
