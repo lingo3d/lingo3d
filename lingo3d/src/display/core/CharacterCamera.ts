@@ -30,7 +30,7 @@ export default class CharacterCamera extends OrbitCameraBase implements ICharact
 
         }, [this.targetState.get])
 
-        const followTarget = (target: MeshItem, slerp: boolean) => {
+        const followTargetRotation = (target: MeshItem, slerp: boolean) => {
             euler.setFromQuaternion(target.outerObject3d.quaternion)
             euler.y += Math.PI
             
@@ -43,7 +43,7 @@ export default class CharacterCamera extends OrbitCameraBase implements ICharact
             this.updateAngle()
         }
 
-        const lockTarget = (target: MeshItem, slerp: boolean) => {
+        const lockTargetRotation = (target: MeshItem, slerp: boolean) => {
             euler.setFromQuaternion(this.outerObject3d.quaternion)
             euler.x = 0
             euler.z = 0
@@ -62,7 +62,7 @@ export default class CharacterCamera extends OrbitCameraBase implements ICharact
             const target = this.targetState.get()
             if (!target) return
 
-            followTarget(target, false)
+            followTargetRotation(target, false)
 
             let targetMoved = false
             let [x, y, z] = [0, 0, 0]
@@ -77,18 +77,18 @@ export default class CharacterCamera extends OrbitCameraBase implements ICharact
                 if (!this.lockTargetRotation) return
 
                 if (this.lockTargetRotation === "follow" || transformControlRotating) {
-                    followTarget(target, false)
+                    followTargetRotation(target, false)
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-lock") {
-                    targetMoved && lockTarget(target, true)
+                    targetMoved && lockTargetRotation(target, true)
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-follow") {
-                    targetMoved && followTarget(target, true)
+                    targetMoved && followTargetRotation(target, true)
                     return
                 }
-                lockTarget(target, false)
+                lockTargetRotation(target, false)
             })
             return () => {
                 handle0.cancel()

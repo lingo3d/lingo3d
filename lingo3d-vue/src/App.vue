@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { World, Cube, HTML, Stats, LingoEditor, Dummy, Find, OrbitCamera, UI } from "."
+import { World, Cube, LingoEditor } from "."
 
 
 </script>
@@ -7,9 +7,6 @@ import { World, Cube, HTML, Stats, LingoEditor, Dummy, Find, OrbitCamera, UI } f
 <template>
   <World>
     <Cube />
-    <UI>
-      <button>click me!</button>
-    </UI>
     <LingoEditor />
   </World>
   
