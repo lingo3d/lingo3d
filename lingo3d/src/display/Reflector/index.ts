@@ -3,8 +3,10 @@ import IReflector, {
     reflectorSchema
 } from "../../interface/IReflector"
 import Plane from "../primitives/Plane"
-import { Reflector as ThreeReflector } from "three/examples/jsm/objects/Reflector"
 import { Reactive } from "@lincode/reactivity"
+//@ts-ignore
+import { ReflectNode, NodeFrame, ExpressionNode, PhongNodeMaterial, BlurNode, FloatNode, ColorAdjustmentNode, Vector2Node } from "three/examples/jsm/nodes/Nodes"
+import ReflectorMaterial from "./ReflectorMaterial"
 
 export default class Reflector extends Plane implements IReflector {
     public static override componentName = "reflector"
@@ -17,17 +19,20 @@ export default class Reflector extends Plane implements IReflector {
         this.opacity = 0.01
 
         this.createEffect(() => {
-            const reflector = new ThreeReflector(this.object3d.geometry, {
+            const reflectorMaterial = new ReflectorMaterial(this.object3d, {
                 clipBias: 0.003,
-                textureWidth: 128,
-                textureHeight: 128,
+                textureWidth: 256,
+                textureHeight: 256,
                 color: this.colorState.get()
             })
-            this.object3d.add(reflector)
+            //@ts-ignore
+            this.object3d.material.dispose()
+            this.object3d.material = reflectorMaterial
+            //@ts-ignore
+            this.object3d.onBeforeRender = reflectorMaterial.render
 
             return () => {
-                reflector.dispose()
-                this.object3d.remove(reflector)
+                reflectorMaterial.dispose()
             }
         }, [this.colorState.get])
     }
