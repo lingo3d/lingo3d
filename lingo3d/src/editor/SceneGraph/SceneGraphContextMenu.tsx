@@ -14,7 +14,7 @@ import {
     addSelectionFrozen,
     clearSelectionFrozen
 } from "../../states/useSelectionFrozen"
-import downloadBlob from "../../utils/downloadBlob"
+import downloadBlob from "../../api/files/downloadBlob"
 import ContextMenu from "../ContextMenu"
 import MenuItem from "../ContextMenu/MenuItem"
 import { useSelectionFrozen, useSelectionTarget } from "../states"

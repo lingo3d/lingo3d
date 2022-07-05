@@ -57,6 +57,13 @@ import applySetup from "./api/serializer/applySetup"
 import serialize from "./api/serializer/serialize"
 import deserialize from "./api/serializer/deserialize"
 
+import downloadBlob from "./api/files/downloadBlob"
+import downloadText from "./api/files/downloadText"
+import exportJSON from "./api/files/exportJSON"
+import exportReact from "./api/files/exportReact"
+import exportVue from "./api/files/exportVue"
+import openJSON from "./api/files/openJSON"
+
 import { loop, timer } from "./engine/eventLoop"
 import mainOrbitCamera from "./engine/mainOrbitCamera"
 
@@ -131,6 +138,13 @@ export {
     serialize,
     deserialize,
     
+    downloadBlob,
+    downloadText,
+    exportJSON,
+    exportReact,
+    exportVue,
+    openJSON,
+
     loop,
     timer,
     mainOrbitCamera,

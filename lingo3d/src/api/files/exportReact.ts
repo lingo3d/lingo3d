@@ -1,7 +1,7 @@
 import { upperFirst } from "@lincode/utils"
-import serialize from "../../api/serializer/serialize"
-import { SceneGraphNode } from "../../api/serializer/types"
-import saveTextFile from "./saveTextFile"
+import serialize from "../serializer/serialize"
+import { SceneGraphNode } from "../serializer/types"
+import downloadText from "./downloadText"
 
 const serializeReact = (nodes: Array<SceneGraphNode>) => {
     let result = ""
@@ -44,5 +44,5 @@ export default async () => {
         }
     `, { parser: "babel", plugins: [parser] })
     
-    saveTextFile("App.jsx", code)
+    downloadText("App.jsx", code)
 }

@@ -11,44 +11,18 @@ import { useSelectionTarget, useTransformControlsMode, useTransformControlsSpace
 import CursorIcon from "./icons/CursorIcon"
 import Separator from "./Separator"
 import ExportIcon from "./icons/ExportIcon"
-import serialize from "../../api/serializer/serialize"
 import OpenIcon from "./icons/OpenIcont"
-import { fileOpen } from "browser-fs-access"
-import deserialize from "../../api/serializer/deserialize"
-import { appendableRoot } from "../../api/core/Appendable"
 import ReactIcon from "./icons/ReactIcon"
 import VueIcon from "./icons/VueIcon"
-import saveTextFile from "./saveTextFile"
-import serializeReact from "./serializeReact"
-import serializeVue from "./serializeVue"
+import exportReact from "../../api/files/exportReact"
+import exportVue from "../../api/files/exportVue"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import { useEffect, useLayoutEffect } from "preact/hooks"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
+import openJSON from "../../api/files/openJSON"
+import exportJSON from "../../api/files/exportJSON"
 
 preventTreeShake(h)
-
-const handleSave = async () => {
-    const prettier = (await import("prettier/standalone")).default
-    const parser = (await import("prettier/parser-babel")).default
-
-    const code = prettier.format(JSON.stringify(serialize()), { parser: "json", plugins: [parser] })
-    saveTextFile("scene.json", code)
-}
-
-const handleOpen = async () => {
-    const blob = await fileOpen({
-        extensions: [".json"]
-    })
-    const text = await blob.text()
-
-    for (const child of appendableRoot)
-        child.dispose()
-
-    try {
-        deserialize(JSON.parse(text))
-    }
-    catch {}
-}
 
 const Toolbar = () => {
     const [mode, setMode] = useTransformControlsMode()
@@ -125,19 +99,19 @@ const Toolbar = () => {
 
                 <Separator />
 
-                <IconButton onClick={handleOpen}>
+                <IconButton onClick={openJSON}>
                     <OpenIcon />
                 </IconButton>
-                <IconButton onClick={handleSave}>
+                <IconButton onClick={exportJSON}>
                     <ExportIcon />
                 </IconButton>
 
                 <Separator />
 
-                <IconButton onClick={serializeReact}>
+                <IconButton onClick={exportReact}>
                     <ReactIcon />
                 </IconButton>
-                <IconButton onClick={serializeVue}>
+                <IconButton onClick={exportVue}>
                     <VueIcon />
                 </IconButton>
             </div>
