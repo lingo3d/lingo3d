@@ -7,9 +7,12 @@ import ScaleIcon from "./icons/ScaleIcon"
 import AbsoluteIcon from "./icons/AbsoluteIcon"
 import RelativeIcon from "./icons/RelativeIcon"
 import IconButton from "./IconButton"
-import { useSelectionTarget, useTransformControlsMode, useTransformControlsSpace } from "../states"
+import {
+    useSelectionTarget,
+    useTransformControlsMode,
+    useTransformControlsSpace
+} from "../states"
 import CursorIcon from "./icons/CursorIcon"
-import Separator from "./Separator"
 import ExportIcon from "./icons/ExportIcon"
 import OpenIcon from "./icons/OpenIcont"
 import ReactIcon from "./icons/ReactIcon"
@@ -21,10 +24,27 @@ import { useEffect, useLayoutEffect } from "preact/hooks"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import openJSON from "../../api/files/openJSON"
 import exportJSON from "../../api/files/exportJSON"
+import Section from "./Section"
 
 preventTreeShake(h)
 
-const Toolbar = () => {
+type ButtonOptions = {
+    hidden?: boolean
+    onClick?: () => void
+}
+
+type ToolbarOptions = {
+    buttons?: {
+        openJSON?: ButtonOptions
+        exportJSON?: ButtonOptions
+        exportReact?: ButtonOptions
+        exportVue?: ButtonOptions
+    }
+}
+
+const Toolbar = ({ buttons }: ToolbarOptions) => {
+    console.log(buttons)
+
     const [mode, setMode] = useTransformControlsMode()
     let [space, setSpace] = useTransformControlsSpace()
     if (mode === "scale") space = "local"
@@ -35,10 +55,8 @@ const Toolbar = () => {
 
     useLayoutEffect(() => {
         // if (isStatic)
-            // setMode("select")
-        if (isPositioned && (mode === "scale"))
-            setMode("translate")
-
+        // setMode("select")
+        if (isPositioned && mode === "scale") setMode("translate")
     }, [isPositioned])
 
     useEffect(() => {
@@ -51,72 +69,97 @@ const Toolbar = () => {
 
     return (
         <div
-         className="lingo3d-ui"
-         style={{
-             width: 50,
-             height: "100%",
-             background: "rgb(40, 41, 46)",
-             borderRight: "1px solid rgba(255, 255, 255, 0.05)",
-             overflow: "hidden"
-         }}
+            className="lingo3d-ui"
+            style={{
+                width: 50,
+                height: "100%",
+                background: "rgb(40, 41, 46)",
+                borderRight: "1px solid rgba(255, 255, 255, 0.05)",
+                overflow: "hidden"
+            }}
         >
-            <div style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                opacity: 0.75,
-                paddingTop: 12
-            }}>
-                <IconButton active={mode === "select"} onClick={() => setMode("select")}>
-                    <CursorIcon />
-                </IconButton>
-                <IconButton active={mode === "translate"} onClick={() => setMode("translate")}>
-                    <TranslateIcon />
-                </IconButton>
-                <IconButton active={mode === "rotate"} onClick={() => setMode("rotate")}>
-                    <RotateIcon />
-                </IconButton>
-                <IconButton active={mode === "scale"} disabled={isPositioned} onClick={() => setMode("scale")}>
-                    <ScaleIcon />
-                </IconButton>
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    opacity: 0.75,
+                    paddingTop: 12
+                }}
+            >
+                <Section>
+                    <IconButton
+                        active={mode === "select"}
+                        onClick={() => setMode("select")}
+                    >
+                        <CursorIcon />
+                    </IconButton>
+                    <IconButton
+                        active={mode === "translate"}
+                        onClick={() => setMode("translate")}
+                    >
+                        <TranslateIcon />
+                    </IconButton>
+                    <IconButton
+                        active={mode === "rotate"}
+                        onClick={() => setMode("rotate")}
+                    >
+                        <RotateIcon />
+                    </IconButton>
+                    <IconButton
+                        active={mode === "scale"}
+                        disabled={isPositioned}
+                        onClick={() => setMode("scale")}
+                    >
+                        <ScaleIcon />
+                    </IconButton>
+                </Section>
 
-                <Separator />
+                <Section>
+                    <IconButton
+                        active={space === "world"}
+                        onClick={() => setSpace("world")}
+                        disabled={mode === "scale" || mode === "select"}
+                    >
+                        <AbsoluteIcon />
+                    </IconButton>
+                    <IconButton
+                        active={space === "local"}
+                        onClick={() => setSpace("local")}
+                        disabled={mode === "select"}
+                    >
+                        <RelativeIcon />
+                    </IconButton>
+                </Section>
 
-                <IconButton
-                 active={space === "world"}
-                 onClick={() => setSpace("world")}
-                 disabled={mode === "scale" || mode === "select"}
-                >
-                    <AbsoluteIcon />
-                </IconButton>
-                <IconButton
-                 active={space === "local"}
-                 onClick={() => setSpace("local")}
-                 disabled={mode === "select"}
-                >
-                    <RelativeIcon />
-                </IconButton>
+                <Section>
+                    {!buttons?.openJSON?.hidden && (
+                        <IconButton onClick={buttons?.openJSON?.onClick ?? openJSON}>
+                            <OpenIcon />
+                        </IconButton>
+                    )}
+                    {!buttons?.exportJSON?.hidden && (
+                        <IconButton onClick={buttons?.exportJSON?.onClick ?? exportJSON}>
+                            <ExportIcon />
+                        </IconButton>
+                    )}
+                </Section>
 
-                <Separator />
-
-                <IconButton onClick={openJSON}>
-                    <OpenIcon />
-                </IconButton>
-                <IconButton onClick={exportJSON}>
-                    <ExportIcon />
-                </IconButton>
-
-                <Separator />
-
-                <IconButton onClick={exportReact}>
-                    <ReactIcon />
-                </IconButton>
-                <IconButton onClick={exportVue}>
-                    <VueIcon />
-                </IconButton>
+                <Section>
+                    {!buttons?.exportReact?.hidden && (
+                        <IconButton onClick={buttons?.exportReact?.onClick ?? exportReact}>
+                            <ReactIcon />
+                        </IconButton>
+                    )}
+                    {!buttons?.exportVue?.hidden && (
+                        <IconButton onClick={buttons?.exportVue?.onClick ?? exportVue}>
+                            <VueIcon />
+                        </IconButton>
+                    )}
+                </Section>
             </div>
         </div>
     )
 }
 
-register(Toolbar, "lingo3d-toolbar")
+register(Toolbar, "lingo3d-toolbar", ["buttons"])

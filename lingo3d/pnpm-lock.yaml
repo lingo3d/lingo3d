@@ -10,7 +10,6 @@ specifiers:
   '@lincode/utils': '*'
   '@preact/preset-vite': ^2.3.0
   '@tweakpane/core': 1.1.0
-  '@types/howler': ^2.2.7
   '@types/preact-custom-element': ^4.0.1
   '@types/prettier': ^2.6.3
   '@types/randomcolor': ^0.5.6
@@ -18,9 +17,10 @@ specifiers:
   '@types/three': 0.141.0
   browser-fs-access: 0.29.6
   cannon-es: 0.19.0
+  lit: '*'
   nipplejs: 0.9.1
-  preact: 10.8.2
-  preact-custom-element: 4.2.1
+  preact: '*'
+  preact-custom-element: '*'
   prettier: 2.7.1
   randomcolor: '*'
   rimraf: ^3.0.2
@@ -41,6 +41,7 @@ dependencies:
   '@types/three': 0.141.0
   browser-fs-access: 0.29.6
   cannon-es: 0.19.0
+  lit: 2.2.7
   nipplejs: 0.9.1
   preact: 10.8.2
   preact-custom-element: 4.2.1_preact@10.8.2
@@ -52,7 +53,6 @@ dependencies:
 devDependencies:
   '@babel/core': 7.18.6
   '@preact/preset-vite': 2.3.0_ky234gujrfwb6hxnhxybzomxeq
-  '@types/howler': 2.2.7
   '@types/preact-custom-element': 4.0.1
   '@types/prettier': 2.6.3
   '@types/randomcolor': 0.5.6
@@ -381,6 +381,10 @@ packages:
       lodash: 4.17.21
     dev: false
 
+  /@lit/reactive-element/1.3.3:
+    resolution: {integrity: sha512-ukelZ49tzUqgOAEbVujl/U62JNK3wdn5kKtXVqrjKND4QvHACZOMOYaZI6/5Jd8vsg+Fq9HDwiib70FBLydOiQ==}
+    dev: false
+
   /@preact/preset-vite/2.3.0_ky234gujrfwb6hxnhxybzomxeq:
     resolution: {integrity: sha512-0kOuz7wdrQLqrPlyI/Ypw9IWDF2++GGcOHMRBYO5T2w2+dheelaBH+XrIN/okqdsGIflzFIFNyIGubo5BC8wbQ==}
     peerDependencies:
@@ -447,10 +451,6 @@ packages:
     resolution: {integrity: sha512-vbbiQb+aoFI13lIbE7DJvhHZVE1YlUpGoaAamSpU6wLp2jA3VowS1wfRJBBB8IBCYm7nF6ULl7zfJKxl1XdyfA==}
     dev: false
 
-  /@types/howler/2.2.7:
-    resolution: {integrity: sha512-PEZldwZqJJw1PWRTpupyC7ajVTZA8aHd8nB/Y0n6zRZi5u8ktYDntsHj13ltEiBRqWwF06pASxBEvCTxniG8eA==}
-    dev: true
-
   /@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
     dev: false
@@ -489,6 +489,10 @@ packages:
     resolution: {integrity: sha512-OJdKDgTPVBUgc+s74DYoy4aLznbFFC38Xm4ElmU1YwGNgR7GGFVvFCX7lpVgOsT6S1zSJtGdajTsOYE8/xY9nA==}
     dependencies:
       '@types/webxr': 0.4.0
+    dev: false
+
+  /@types/trusted-types/2.0.2:
+    resolution: {integrity: sha512-F5DIZ36YVLE+PN+Zwws4kJogq47hNgX3Nx6WyDJ3kcplxyke3XIzB8uK5n/Lpm1HBsbGzd6nmGehL8cPekP+Tg==}
     dev: false
 
   /@types/webxr/0.4.0:
@@ -900,6 +904,27 @@ packages:
   /kolorist/1.5.1:
     resolution: {integrity: sha512-lxpCM3HTvquGxKGzHeknB/sUjuVoUElLlfYnXZT73K8geR9jQbroGlSCFBax9/0mpGoD3kzcMLnOlGQPJJNyqQ==}
     dev: true
+
+  /lit-element/3.2.1:
+    resolution: {integrity: sha512-2PxyE9Yq9Jyo/YBK2anycaHcqo93YvB5D+24JxloPVqryW/BOXekne+jGsm0Ke3E5E2v7CDgkmpEmCAzYfrHCQ==}
+    dependencies:
+      '@lit/reactive-element': 1.3.3
+      lit-html: 2.2.6
+    dev: false
+
+  /lit-html/2.2.6:
+    resolution: {integrity: sha512-xOKsPmq/RAKJ6dUeOxhmOYFjcjf0Q7aSdfBJgdJkOfCUnkmmJPxNrlZpRBeVe1Gg50oYWMlgm6ccAE/SpJgSdw==}
+    dependencies:
+      '@types/trusted-types': 2.0.2
+    dev: false
+
+  /lit/2.2.7:
+    resolution: {integrity: sha512-WXYujlKFwme5ZqXOZoWuRVZQAwy7scbcVT3wCbAOHefOxyscqjywWGlF2e6nnC9E64yP9l2ZQlN8wZcRlrjUMQ==}
+    dependencies:
+      '@lit/reactive-element': 1.3.3
+      lit-element: 3.2.1
+      lit-html: 2.2.6
+    dev: false
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
