@@ -11,10 +11,16 @@ export default (Component: any, props?: any) => {
 
         render(preactH(Component, props, el), el)
         
+    }, [props])
+
+    useLayoutEffect(() => {
+        const el = divRef.current
+        if (!el) return
+
         return() => {
             render(undefined, el)
         }
-    }, [props])
+    }, [])
 
     return divRef
 }
