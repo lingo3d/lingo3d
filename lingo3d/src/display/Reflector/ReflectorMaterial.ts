@@ -13,77 +13,9 @@ import {
     WebGLRenderer,
     WebGLRenderTarget
 } from "three"
-
-const ReflectorShader = {
-    uniforms: {
-        color: {
-            value: null
-        },
-
-        tDiffuse: {
-            value: null
-        },
-
-        textureMatrix: {
-            value: null
-        },
-
-        opacity: {
-            value: 1.0
-        }
-    },
-
-    vertexShader: /* glsl */ `
-        uniform mat4 textureMatrix;
-        varying vec4 vUv;
-
-        #include <common>
-        #include <logdepthbuf_pars_vertex>
-
-        void main() {
-
-            vUv = textureMatrix * vec4( position, 1.0 );
-
-            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-
-            #include <logdepthbuf_vertex>
-
-        }`,
-
-    fragmentShader: /* glsl */ `
-        uniform vec3 color;
-        uniform sampler2D tDiffuse;
-        uniform float opacity;
-        varying vec4 vUv;
-
-        #include <logdepthbuf_pars_fragment>
-
-        float blendOverlay( float base, float blend ) {
-
-            return( base < 0.5 ? ( 2.0 * base * blend ) : ( 1.0 - 2.0 * ( 1.0 - base ) * ( 1.0 - blend ) ) );
-
-        }
-
-        vec3 blendOverlay( vec3 base, vec3 blend ) {
-            float r = blendOverlay( base.r, blend.r );
-            float g = blendOverlay( base.g, blend.g );
-            float b = blendOverlay( base.b, blend.b );
-
-            return vec3( r, g, b );
-
-        }
-
-        void main() {
-
-            #include <logdepthbuf_fragment>
-
-            vec4 base = texture2DProj( tDiffuse, vUv );
-            gl_FragColor = vec4( blendOverlay( base.rgb, color ), opacity );
-
-            #include <encodings_fragment>
-
-        }`
-}
+import createPass from "./createPass"
+import reflectorShader from "./reflectorShader"
+import renderScene from "./renderScene"
 
 type Options = {
     clipBias?: number
@@ -91,23 +23,24 @@ type Options = {
     textureHeight?: number
     color?: ColorRepresentation
     shader?: any
-    multisample?: number
 }
 
 export default class ReflectorMaterial extends ShaderMaterial {
     private camera = new PerspectiveCamera()
-    private renderTarget: WebGLRenderTarget
+    public renderTarget: WebGLRenderTarget
 
-    public render: (renderer: WebGLRenderer, scene: Scene, camera: PerspectiveCamera) => void
+    public render: (
+        renderer: WebGLRenderer,
+        scene: Scene,
+        camera: PerspectiveCamera
+    ) => void
 
     public constructor(mesh: Mesh, options: Options = {}) {
         super({
-            uniforms: UniformsUtils.clone(ReflectorShader.uniforms),
-            fragmentShader: ReflectorShader.fragmentShader,
-            vertexShader: ReflectorShader.vertexShader
+            uniforms: UniformsUtils.clone(reflectorShader.uniforms),
+            fragmentShader: reflectorShader.fragmentShader,
+            vertexShader: reflectorShader.vertexShader
         })
-        
-        const scope = this
 
         const color =
             options.color !== undefined
@@ -116,9 +49,6 @@ export default class ReflectorMaterial extends ShaderMaterial {
         const textureWidth = options.textureWidth || 512
         const textureHeight = options.textureHeight || 512
         const clipBias = options.clipBias || 0
-        const multisample =
-            options.multisample !== undefined ? options.multisample : 4
-
         //
 
         const reflectorPlane = new Plane()
@@ -136,13 +66,9 @@ export default class ReflectorMaterial extends ShaderMaterial {
         const textureMatrix = new Matrix4()
         const virtualCamera = this.camera
 
-        const renderTarget = this.renderTarget = new WebGLRenderTarget(
-            textureWidth,
-            textureHeight,
-            { samples: multisample }
-        )
+        const { renderTarget } = createPass(textureWidth, textureHeight, reflectorShader, this)
+        this.renderTarget = renderTarget
 
-        this.uniforms["tDiffuse"].value = renderTarget.texture
         this.uniforms["color"].value = color
         this.uniforms["textureMatrix"].value = textureMatrix
         this.transparent = true
@@ -247,30 +173,7 @@ export default class ReflectorMaterial extends ShaderMaterial {
             projectionMatrix.elements[14] = clipPlane.w
 
             // Render
-
-            renderTarget.texture.encoding = renderer.outputEncoding
-
-            scope.visible = false
-
-            const currentRenderTarget = renderer.getRenderTarget()
-
-            const currentXrEnabled = renderer.xr.enabled
-            const currentShadowAutoUpdate = renderer.shadowMap.autoUpdate
-
-            renderer.xr.enabled = false // Avoid camera modification
-            renderer.shadowMap.autoUpdate = false // Avoid re-computing shadows
-
-            renderer.setRenderTarget(renderTarget)
-
-            renderer.state.buffers.depth.setMask(true) // make sure the depth buffer is writable so it can be properly cleared, see #18897
-
-            if (renderer.autoClear === false) renderer.clear()
-            renderer.render(scene, virtualCamera)
-
-            renderer.xr.enabled = currentXrEnabled
-            renderer.shadowMap.autoUpdate = currentShadowAutoUpdate
-
-            renderer.setRenderTarget(currentRenderTarget)
+            renderScene(renderer, renderTarget, scene, virtualCamera)
 
             // Restore viewport
 
@@ -280,8 +183,6 @@ export default class ReflectorMaterial extends ShaderMaterial {
             if (viewport !== undefined) {
                 renderer.state.viewport(viewport)
             }
-
-            scope.visible = true
         }
     }
 
