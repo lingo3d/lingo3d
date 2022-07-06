@@ -4,8 +4,6 @@ import IReflector, {
 } from "../../interface/IReflector"
 import Plane from "../primitives/Plane"
 import { Reactive } from "@lincode/reactivity"
-//@ts-ignore
-import { ReflectNode, NodeFrame, ExpressionNode, PhongNodeMaterial, BlurNode, FloatNode, ColorAdjustmentNode, Vector2Node } from "three/examples/jsm/nodes/Nodes"
 import ReflectorMaterial from "./ReflectorMaterial"
 
 export default class Reflector extends Plane implements IReflector {
