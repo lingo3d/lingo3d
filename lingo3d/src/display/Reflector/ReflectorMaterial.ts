@@ -77,6 +77,7 @@ export default class ReflectorMaterial extends ShaderMaterial {
         this.uniforms["tDiffuse"].value = renderTarget.texture
         this.uniforms["color"].value = color
         this.uniforms["textureMatrix"].value = textureMatrix
+        this.transparent = true
 
         this.render = (renderer, scene, camera) => {
             reflectorWorldPosition.setFromMatrixPosition(mesh.matrixWorld)
@@ -233,6 +234,10 @@ export default class ReflectorMaterial extends ShaderMaterial {
 
             textureMatrix: {
                 value: null
+            },
+
+            opacity: {
+                value: 1.0
             }
         },
 
@@ -256,6 +261,7 @@ export default class ReflectorMaterial extends ShaderMaterial {
         fragmentShader: /* glsl */ `
             uniform vec3 color;
             uniform sampler2D tDiffuse;
+            uniform float opacity;
             varying vec4 vUv;
     
             #include <logdepthbuf_pars_fragment>
@@ -267,8 +273,11 @@ export default class ReflectorMaterial extends ShaderMaterial {
             }
     
             vec3 blendOverlay( vec3 base, vec3 blend ) {
-    
-                return vec3( blendOverlay( base.r, blend.r ), blendOverlay( base.g, blend.g ), blendOverlay( base.b, blend.b ) );
+                float r = blendOverlay( base.r, blend.r );
+                float g = blendOverlay( base.g, blend.g );
+                float b = blendOverlay( base.b, blend.b );
+
+                return vec3( r, g, b );
     
             }
     
@@ -277,7 +286,7 @@ export default class ReflectorMaterial extends ShaderMaterial {
                 #include <logdepthbuf_fragment>
     
                 vec4 base = texture2DProj( tDiffuse, vUv );
-                gl_FragColor = vec4( blendOverlay( base.rgb, color ), 1.0 );
+                gl_FragColor = vec4( blendOverlay( base.rgb, color ), opacity );
     
                 #include <encodings_fragment>
     

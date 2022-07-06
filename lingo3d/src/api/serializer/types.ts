@@ -58,8 +58,7 @@ export const nonSerializedProperties = [
 export const nonEditorSettings: Array<keyof ISetup> = [
     "defaultOrbitControls",
     "autoMount",
-    "texture",
-    "color"
+    "texture"
 ]
 export const nonSerializedSettings: Array<keyof ISetup> = [
     ...nonEditorSettings,

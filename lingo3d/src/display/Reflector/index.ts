@@ -25,6 +25,11 @@ export default class Reflector extends Plane implements IReflector {
                 textureHeight: 256,
                 color: this.colorState.get()
             })
+            
+            const handle = this.reflectivityState.get(reflectivity => {
+                reflectorMaterial.uniforms["opacity"].value = reflectivity
+            })
+            
             //@ts-ignore
             this.object3d.material.dispose()
             this.object3d.material = reflectorMaterial
@@ -33,8 +38,17 @@ export default class Reflector extends Plane implements IReflector {
 
             return () => {
                 reflectorMaterial.dispose()
+                handle.cancel()
             }
         }, [this.colorState.get])
+    }
+
+    private reflectivityState = new Reactive(1)
+    public get reflectivity() {
+        return this.reflectivityState.get()
+    }
+    public set reflectivity(value) {
+        this.reflectivityState.set(value)
     }
     
     private colorState = new Reactive("#777777")

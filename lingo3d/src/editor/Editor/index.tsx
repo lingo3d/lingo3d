@@ -256,7 +256,8 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 "defaultLightScale",
                 "defaultFogEnabled",
                 "defaultFog",
-                "skybox"
+                "skybox",
+                "color"
             ])
             const {
                 defaultLightEnabled: defaultLightEnabledInput,
