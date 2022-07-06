@@ -1,6 +1,7 @@
 import { Reactive } from "@lincode/reactivity"
 import EventLoopItem from "../api/core/EventLoopItem"
 import { container } from "../engine/renderLoop/renderSetup"
+import { TEXTURES_URL } from "../globals"
 import { reticleDefaults, reticleSchema } from "../interface/IReticle"
 import createElement from "../utils/createElement"
 
@@ -17,7 +18,7 @@ export default class Reticle extends EventLoopItem {
 
             const imageElement = createElement(`
                 <img
-                  src="https://unpkg.com/lingo3d-textures@1.0.1/assets/reticle${variant}.png"
+                  src="${TEXTURES_URL}reticle${variant}.png"
                   style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); pointer-events: none; user-select: none; width: 20px;"
                 ></img>
             `)

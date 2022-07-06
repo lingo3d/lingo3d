@@ -4,6 +4,7 @@ import { HemisphereLight, DirectionalLight, EquirectangularReflectionMapping } f
 import { appendableRoot } from "../api/core/Appendable"
 import Environment from "../display/Environment"
 import loadTexture from "../display/utils/loaders/loadTexture"
+import { TEXTURES_URL } from "../globals"
 import { getDefaultLight } from "../states/useDefaultLight"
 import { getDefaultLightScale } from "../states/useDefaultLightScale"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
@@ -34,7 +35,7 @@ createEffect(() => {
 
     if (typeof defaultLight === "string" && defaultLight !== "default") {
         if (defaultLight === "studio")
-            defaultEnvironment.texture = "https://unpkg.com/lingo3d-textures@1.0.0/assets/studio.jpg"
+            defaultEnvironment.texture = TEXTURES_URL + "studio.jpg"
         else
             defaultEnvironment.texture = defaultLight
 
