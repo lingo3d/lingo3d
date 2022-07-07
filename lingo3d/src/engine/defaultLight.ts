@@ -13,7 +13,6 @@ import { getDefaultLightScale } from "../states/useDefaultLightScale"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import { getRenderer } from "../states/useRenderer"
 import scene from "./scene"
-import { KawaseBlurPass } from "postprocessing"
 
 export default {}
 
@@ -39,9 +38,6 @@ const cubeRenderTarget = new WebGLCubeRenderTarget(64, {
     minFilter: LinearMipmapLinearFilter
 })
 const cubeCamera = new CubeCamera(1, 100000, cubeRenderTarget)
-const blurPass = new KawaseBlurPass()
-
-blurPass.setSize(128, 128)
 
 createEffect(() => {
     const defaultLight = getDefaultLight()
@@ -49,7 +45,6 @@ createEffect(() => {
 
     if (typeof defaultLight === "string" && defaultLight !== "default") {
         if (defaultLight === "dynamic") {
-
             const handle = onBeforeRender(() => {
                 const camera = getCameraRendered()
                 const renderer = getRenderer()!
