@@ -1,12 +1,13 @@
-import IReflector, {
-    reflectorDefaults,
-    reflectorSchema
-} from "../../interface/IReflector"
+import store, { Reactive } from "@lincode/reactivity"
+import scene from "../../engine/scene"
+import { onRender } from "../../events/onRender"
+import { reflectorDefaults, reflectorSchema } from "../../interface/IReflector"
+import { getCameraRendered } from "../../states/useCameraRendered"
+import { getRenderer } from "../../states/useRenderer"
+import copyStandard from "../core/StaticObjectManager/applyMaterialProperties/copyStandard"
 import Plane from "../primitives/Plane"
-import { Reactive } from "@lincode/reactivity"
-import ReflectorMaterial from "./ReflectorMaterial"
 
-export default class Reflector extends Plane implements IReflector {
+export default class Reflector extends Plane {
     public static override componentName = "reflector"
     public static override defaults = reflectorDefaults
     public static override schema = reflectorSchema
@@ -14,47 +15,71 @@ export default class Reflector extends Plane implements IReflector {
     public constructor() {
         super()
         this.rotationX = -90
-        this.opacity = 0.01
+
+        const [setClass, getClass] = store<any>(undefined)
+        import("./MeshReflectorMaterial").then(module => setClass(module.default))
 
         this.createEffect(() => {
-            const reflectorMaterial = new ReflectorMaterial(this.object3d, {
-                clipBias: 0.003,
-                textureWidth: 256,
-                textureHeight: 256,
-                color: this.colorState.get()
+            if (this.done) return
+
+            const renderer = getRenderer()
+            const MeshReflectorMaterial = getClass()
+            if (!MeshReflectorMaterial || !renderer) return
+
+            const camera = getCameraRendered()
+
+            const mat = new MeshReflectorMaterial(renderer, camera, scene, this.object3d, {
+                resolution: this.resolutionState.get(),
+                blur: [this.blurState.get(), this.blurState.get()],
+                mixBlur: 2.5,
+                mixContrast: this.contrastState.get(),
+                mirror: this.mirrorState.get()
             })
-            
-            const handle = this.reflectivityState.get(reflectivity => {
-                reflectorMaterial.uniforms["opacity"].value = reflectivity
+            copyStandard(this.material, mat)
+            this.material.dispose()
+            this.material = this.object3d.material = mat
+
+            const handle = onRender(() => {
+                camera.updateWorldMatrix(true, false)
+                mat.update()
             })
-            
-            //@ts-ignore
-            this.object3d.material.dispose()
-            this.object3d.material = reflectorMaterial
-            //@ts-ignore
-            this.object3d.onBeforeRender = reflectorMaterial.render
 
             return () => {
-                reflectorMaterial.dispose()
+                mat.dispose()
                 handle.cancel()
             }
-        }, [this.colorState.get])
+        }, [getRenderer, getClass, getCameraRendered, this.resolutionState.get, this.blurState.get, this.contrastState.get, this.mirrorState.get])
     }
 
-    private reflectivityState = new Reactive(1)
-    public get reflectivity() {
-        return this.reflectivityState.get()
+    private resolutionState = new Reactive(256)
+    public get resolution() {
+        return this.resolutionState.get()
     }
-    public set reflectivity(value) {
-        this.reflectivityState.set(value)
+    public set resolution(val) {
+        this.resolutionState.set(val)
     }
-    
-    private colorState = new Reactive("#777777")
-    public override get color() {
-        return this.colorState.get()
+
+    private blurState = new Reactive(1024)
+    public get blur() {
+        return this.blurState.get()
     }
-    public override set color(value: string) {
-        this.colorState.set(value)
-        super.color = value
+    public set blur(val) {
+        this.blurState.set(val)
+    }
+
+    private contrastState = new Reactive(1.5)
+    public get contrast() {
+        return this.contrastState.get()
+    }
+    public set contrast(val) {
+        this.contrastState.set(val)
+    }
+
+    private mirrorState = new Reactive(1)
+    public get mirror() {
+        return this.mirrorState.get()
+    }
+    public set mirror(val) {
+        this.mirrorState.set(val)
     }
 }
