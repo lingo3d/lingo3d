@@ -1,5 +1,5 @@
 
-import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings, mouse, Line, Sphere } from ".."
+import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings, mouse, Line } from ".."
 import createProxy from "../api/createProxy"
 
 export default {}
@@ -9,9 +9,9 @@ settings.gridHelper = true
 const reflector = new Reflector()
 reflector.scale = 100
 reflector.physics = "map"
-reflector.roughnessMap = "roughness.png"
-reflector.normalMap = "normal.jpg"
-reflector.roughness = 5
+// reflector.roughnessMap = "roughness.png"
+// reflector.normalMap = "normal.jpg"
+// reflector.roughness = 5
 
 const dummy = new Dummy()
 dummy.y = 170 * 0.5

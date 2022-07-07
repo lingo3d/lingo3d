@@ -13,7 +13,7 @@ import {
     Vector4,
     WebGLRenderTarget
 } from "three"
-import * as POSTPROCESSING from "postprocessing"
+import { KawaseBlurPass } from "postprocessing"
 
 export default class MeshReflectorMaterial extends MeshStandardMaterial {
     constructor(
@@ -108,7 +108,7 @@ export default class MeshReflectorMaterial extends MeshStandardMaterial {
         this.fbo1 = fbo1
         this.fbo2 = fbo2
 
-        this.kawaseBlurPass = new POSTPROCESSING.KawaseBlurPass()
+        this.kawaseBlurPass = new KawaseBlurPass()
         this.kawaseBlurPass.setSize(blur[0], blur[1])
     }
 
