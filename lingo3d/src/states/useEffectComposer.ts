@@ -1,7 +1,10 @@
 import store, { createEffect } from "@lincode/reactivity"
+import { WebGLRenderTarget } from "three"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
+import { WIDTH, HEIGHT } from "../globals"
 import { getRenderer } from "./useRenderer"
 import { getResolution } from "./useResolution"
+import { getAntiAlias } from "./useAntiAlias"
 import { getPixelRatioComputed } from "./usePixelRatioComputed"
 
 const [setEffectComposer, getEffectComposer] = store<EffectComposer | undefined>(undefined)
@@ -11,9 +14,20 @@ createEffect(() => {
     const renderer = getRenderer()
     if (!renderer) return
 
-    setEffectComposer(new EffectComposer(renderer))
+    if (getAntiAlias() !== "MSAA" || !renderer.capabilities.isWebGL2) {
+        setEffectComposer(new EffectComposer(renderer))
+        return
+    }
+    
+    const msaaRenderTarget = new WebGLRenderTarget(WIDTH, HEIGHT, { samples: 4 })
+    const handle = getResolution(([w, h]) => msaaRenderTarget.setSize(w, h))
+    setEffectComposer(new EffectComposer(renderer, msaaRenderTarget))
 
-}, [getRenderer])
+    return () => {
+        msaaRenderTarget.dispose()
+        handle.cancel()
+    }
+}, [getRenderer, getAntiAlias])
 
 
 createEffect(() => {

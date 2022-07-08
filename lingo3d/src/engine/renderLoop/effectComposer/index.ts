@@ -8,7 +8,6 @@ import selectiveBloomPass from "./selectiveBloomPass"
 import lensDistortionPass from "./lensDistortionPass"
 import { getLensDistortion } from "../../../states/useLensDistortion"
 import { getEffectComposer } from "../../../states/useEffectComposer"
-import smaaPass from "./smaaPass"
 import motionBlurPass from "./motionBlurPass"
 import { getMotionBlur } from "../../../states/useMotionBlur"
 import { getAmbientOcclusion } from "../../../states/useAmbientOcclusion"
@@ -18,6 +17,9 @@ import bokehPass from "./bokehPass"
 import { getOutline } from "../../../states/useOutline"
 import outlinePass from "./outlinePass"
 import { getPixelRatioComputed } from "../../../states/usePixelRatioComputed"
+import { getAntiAlias } from "../../../states/useAntiAlias"
+import { getRenderer } from "../../../states/useRenderer"
+import smaaPass from "./smaaPass"
 
 export default {}
 
@@ -39,9 +41,14 @@ createEffect(() => {
 
     if (getLensDistortion()) passes.push(lensDistortionPass)
 
-    if (getPixelRatioComputed() < 2) passes.push(smaaPass)
-
     if (getMotionBlur()) for (const pass of motionBlurPass) passes.push(pass)
+
+    const antiAlias = getAntiAlias()
+    if (
+        (antiAlias === "MSAA" && !getRenderer()?.capabilities.isWebGL2) ||
+        antiAlias === "SSAA"
+    )
+        passes.push(smaaPass)
 
     for (const pass of passes) effectComposer.addPass(pass)
 
@@ -57,5 +64,7 @@ createEffect(() => {
     getOutline,
     getLensDistortion,
     getPixelRatioComputed,
-    getMotionBlur
+    getMotionBlur,
+    getAntiAlias,
+    getRenderer
 ])
