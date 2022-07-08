@@ -19,7 +19,7 @@ export default class Environment extends EventLoopItem implements IEnvironment {
         return this
     }
 
-    private _texture?: string
+    private _texture?: string | "dynamic"
     public get texture() {
         return this._texture
     }
