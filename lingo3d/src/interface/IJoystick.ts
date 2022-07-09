@@ -8,6 +8,7 @@ export default interface IJoystick extends IEventLoop {
     onMove: Nullable<(e: Point) => void>
     onMoveStart: Nullable<(e: Point) => void>
     onMoveEnd: Nullable<(e: Point) => void>
+    onPress: Nullable<(e: Point) => void>
 }
 
 export const joystickSchema: Required<ExtractProps<IJoystick>> = {
@@ -15,6 +16,7 @@ export const joystickSchema: Required<ExtractProps<IJoystick>> = {
     onMove: Function,
     onMoveStart: Function,
     onMoveEnd: Function,
+    onPress: Function
 }
 
 export const joystickDefaults: Defaults<IJoystick> = {
@@ -22,4 +24,5 @@ export const joystickDefaults: Defaults<IJoystick> = {
     onMove: undefined,
     onMoveStart: undefined,
     onMoveEnd: undefined,
+    onPress: undefined
 }
