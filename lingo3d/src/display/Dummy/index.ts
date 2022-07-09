@@ -189,6 +189,8 @@ export default class Dummy extends Model implements IDummy {
                     backwards ? "RUN_BACKWARDS_START" : "RUN_START"
                 )
 
+                const quaternionOld = this.loadedGroup.quaternion.clone()
+
                 let spinePoint: Point3d | undefined
                 if (strideMode === "aim") {
                     this.loadedGroup.quaternion.copy(loadedGroupQuaternion)
@@ -196,7 +198,6 @@ export default class Dummy extends Model implements IDummy {
                     spinePoint = spine.pointAt(1000)
                 }
 
-                const quaternionOld = this.loadedGroup.quaternion.clone()
                 const groupVec = computeAngle(angle)
                 this.loadedGroup.lookAt(groupVec)
                 const quaternionNew = this.loadedGroup.quaternion.clone()

@@ -28,8 +28,6 @@ cam.mouseControl = true
 cam.innerX = 50
 cam.innerY = 50
 
-dummy.strideMode = "free"
-
 // dummy.src = "fox/Fox.fbx"
 // dummy.animations = {
 //     idle: "fox/Idle.fbx",
