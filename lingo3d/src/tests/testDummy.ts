@@ -1,5 +1,5 @@
 
-import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings, mouse, Line } from ".."
+import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings, mouse, Line, Joystick } from ".."
 import createProxy from "../api/createProxy"
 
 export default {}
@@ -28,11 +28,11 @@ cam.mouseControl = true
 cam.innerX = 50
 cam.innerY = 50
 
-// dummy.src = "fox/Fox.fbx"
-// dummy.animations = {
-//     idle: "fox/Idle.fbx",
-//     running: "fox/Walking.fbx",
-// }
+dummy.src = "fox/Fox.fbx"
+dummy.animations = {
+    idle: "fox/Idle.fbx",
+    running: "fox/Walking.fbx",
+}
 
 keyboard.onKeyPress = (_, pressed) => {
     if (pressed.has("w"))
@@ -60,3 +60,5 @@ mouse.onClick = () => {
     line.to = { x: pt.x, y: pt.y, z: pt.z }
     line.bloom = true
 }
+
+const joystick = new Joystick()
