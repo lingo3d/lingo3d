@@ -15,7 +15,6 @@ reflector.physics = "map"
 
 const dummy = new Dummy()
 dummy.y = 170 * 0.5
-dummy.preset = "rifle"
 dummy.physics = "character"
 dummy.strideMove = true
 // dummy.strideMode = "free"
@@ -29,33 +28,29 @@ cam.mouseControl = true
 cam.innerX = 50
 cam.innerY = 50
 
-const dummyProxy = createProxy<Dummy>()
-dummy.proxy = dummyProxy
-
-// const map = new Model()
-// map.scale = 200
-// map.src = cbpunkSrc
-// map.y = 8900
-// map.z = 1000
-// map.physics = "map"
+dummy.src = "fox/Fox.fbx"
+dummy.animations = {
+    idle: "fox/Idle.fbx",
+    running: "fox/Walking.fbx",
+}
 
 keyboard.onKeyPress = (_, pressed) => {
     if (pressed.has("w"))
-        dummyProxy.strideForward = -5
+        dummy.strideForward = -5
     else if (pressed.has("s"))
-        dummyProxy.strideForward = 5
+        dummy.strideForward = 5
     else
-        dummyProxy.strideForward = 0
+        dummy.strideForward = 0
 
     if (pressed.has("a"))
-        dummyProxy.strideRight = 5
+        dummy.strideRight = 5
     else if (pressed.has("d"))
-        dummyProxy.strideRight = -5
+        dummy.strideRight = -5
     else
-        dummyProxy.strideRight = 0
+        dummy.strideRight = 0
 
     if (pressed.has("Space"))
-        dummyProxy.jump(10)
+        dummy.jump(10)
 }
 
 mouse.onClick = () => {

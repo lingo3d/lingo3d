@@ -81,22 +81,20 @@ export default class Dummy extends Model implements IDummy {
             const preset = this.presetState.get()
             const prefix = preset === "rifle" ? "rifle-" : ""
 
-            const parts = this.srcState.get().split("/")
+            const src = this.srcState.get()
+            const parts = src.split("/")
             parts.pop()
             let url = parts.join("/") + "/"
 
             let done = false
             ;(async () => {
-                const res = await fetch(url + prefix + "idle.fbx", { method: "HEAD" })
-                if (done) return
-
-                if (!res.ok) {
-                    if (type === "readyplayerme")
-                        url = DUMMY_URL + "readyplayerme/"
-                    else
-                        return
+                if (type === "readyplayerme")
+                    url = DUMMY_URL + "readyplayerme/"
+                else if (src !== YBOT_URL) {
+                    super.animations = this.animationsState.get()
+                    this.animation = getPose()
+                    return
                 }
-
                 super.animations = {
                     idle: url + prefix + "idle.fbx",
                     running: url + prefix + "running.fbx",
