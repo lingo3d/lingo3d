@@ -1,6 +1,5 @@
 import { endPoint, Point3d, rad2Deg, rotatePoint } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
-import { Vector3 } from "three"
 import { interpret } from "xstate"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { onRender } from "../../events/onRender"
@@ -94,27 +93,25 @@ export default class Dummy extends Model implements IDummy {
             parts.pop()
             let url = parts.join("/") + "/"
 
-            let done = false
-            ;(async () => {
-                if (type === "readyplayerme") url = DUMMY_URL + "readyplayerme/"
-                else if (src !== YBOT_URL) {
-                    super.animations = this.animationsState.get()
-                    this.animation = getPose()
-                    return
-                }
-                super.animations = {
-                    idle: url + prefix + "idle.fbx",
-                    running: url + prefix + "running.fbx",
-                    runningBackwards: url + prefix + "running-backwards.fbx",
-                    jumping: url + prefix + "falling.fbx",
-                    death: url + "death.fbx",
-                    ...this.animationsState.get()
-                }
+            if (type === "readyplayerme") url = DUMMY_URL + "readyplayerme/"
+            else if (src !== YBOT_URL) {
+                super.animations = this.animationsState.get()
                 this.animation = getPose()
-            })()
+                return () => {
+                    this.animation = undefined
+                }
+            }
+            super.animations = {
+                idle: url + prefix + "idle.fbx",
+                running: url + prefix + "running.fbx",
+                runningBackwards: url + prefix + "running-backwards.fbx",
+                jumping: url + prefix + "falling.fbx",
+                death: url + "death.fbx",
+                ...this.animationsState.get()
+            }
+            this.animation = getPose()
 
             return () => {
-                done = true
                 this.animation = undefined
                 super.animations = {}
             }
@@ -146,8 +143,6 @@ export default class Dummy extends Model implements IDummy {
             .start()
         this.then(() => poseService.stop())
 
-        let groupVecOld: Vector3 | undefined
-
         const computeAngle = (angle: number) => {
             const thisPoint = this.pointAt(1000)
             const centerPoint = this.getWorldPosition()
@@ -164,7 +159,10 @@ export default class Dummy extends Model implements IDummy {
             if (!spine) return
 
             let strideMode = this.strideModeState.get()
-            if (strideMode === "aim" && !("runningBackwards" in this.animations))
+            if (
+                strideMode === "aim" &&
+                !("runningBackwards" in this.animations)
+            )
                 strideMode = "free"
 
             const spineQuaternion = spine.outerObject3d.quaternion.clone()
@@ -173,12 +171,10 @@ export default class Dummy extends Model implements IDummy {
             const { strideForward, strideRight, strideMove } = this
             if (!strideForward && !strideRight) {
                 poseService.send("RUN_STOP")
-                strideMode === "aim" && (groupVecOld = undefined)
                 return
             }
 
-            const backwards =
-                strideMode === "aim" ? strideForward > 0 : false
+            const backwards = strideMode === "aim" ? strideForward > 0 : false
 
             const sf = backwards ? -strideForward : strideForward
             const sr = backwards ? -strideRight : strideRight
@@ -201,8 +197,9 @@ export default class Dummy extends Model implements IDummy {
                 const groupVec = computeAngle(angle)
                 this.loadedGroup.lookAt(groupVec)
                 const quaternionNew = this.loadedGroup.quaternion.clone()
-                this.loadedGroup.quaternion.copy(quaternionOld).slerp(quaternionNew, 0.2)
-                groupVecOld = groupVec
+                this.loadedGroup.quaternion
+                    .copy(quaternionOld)
+                    .slerp(quaternionNew, 0.2)
 
                 spinePoint && spine.lookAt(spinePoint)
 
@@ -218,11 +215,14 @@ export default class Dummy extends Model implements IDummy {
                 this.moveRight(backwards ? -x : x)
             })
             return () => {
+                if (
+                    strideMode === "aim" &&
+                    !this.strideForward &&
+                    !this.strideRight
+                )
+                    this.loadedGroup.quaternion.set(0, 0, 0, 0)
+
                 handle.cancel()
-                if (strideMode === "aim") {
-                    spine.outerObject3d.quaternion.copy(spineQuaternion)
-                    this.loadedGroup.quaternion.copy(loadedGroupQuaternion)
-                }
             }
         }, [
             this.animationsState.get,
