@@ -196,12 +196,11 @@ export default class Dummy extends Model implements IDummy {
                     spinePoint = spine.pointAt(1000)
                 }
 
-                const groupVecNew = computeAngle(angle)
-                const groupVec = (groupVecOld ?? computeAngle(0)).lerp(
-                    groupVecNew,
-                    0.1
-                )
+                const quaternionOld = this.loadedGroup.quaternion.clone()
+                const groupVec = computeAngle(angle)
                 this.loadedGroup.lookAt(groupVec)
+                const quaternionNew = this.loadedGroup.quaternion.clone()
+                this.loadedGroup.quaternion.copy(quaternionOld).slerp(quaternionNew, 0.2)
                 groupVecOld = groupVec
 
                 spinePoint && spine.lookAt(spinePoint)

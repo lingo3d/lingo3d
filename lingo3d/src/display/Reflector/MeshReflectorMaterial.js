@@ -35,7 +35,6 @@ export default class MeshReflectorMaterial extends MeshStandardMaterial {
             mixContrast = 1,
             distortionMap,
             reflectorOffset = 0,
-            bufferSamples = 8,
             planeNormal = new Vector3(0, 0, 1)
         } = {}
     ) {
@@ -62,7 +61,7 @@ export default class MeshReflectorMaterial extends MeshStandardMaterial {
         this.reflectorOffset = reflectorOffset
         this.planeNormal = planeNormal
 
-        this.setupBuffers(resolution, blur, bufferSamples)
+        this.setupBuffers(resolution, blur)
 
         this.reflectorProps = {
             mirror,
@@ -86,7 +85,7 @@ export default class MeshReflectorMaterial extends MeshStandardMaterial {
         }
     }
 
-    setupBuffers(resolution, blur, bufferSamples) {
+    setupBuffers(resolution, blur) {
         const parameters = {
             minFilter: LinearFilter,
             magFilter: LinearFilter,
@@ -100,10 +99,6 @@ export default class MeshReflectorMaterial extends MeshStandardMaterial {
         fbo1.depthTexture.type = UnsignedShortType
 
         const fbo2 = new WebGLRenderTarget(resolution, resolution, parameters)
-
-        if (this.gl.capabilities.isWebGL2) {
-            fbo1.samples = bufferSamples
-        }
 
         this.fbo1 = fbo1
         this.fbo2 = fbo2

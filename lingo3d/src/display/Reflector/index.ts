@@ -1,4 +1,4 @@
-import store, { Reactive } from "@lincode/reactivity"
+import { Reactive } from "@lincode/reactivity"
 import scene from "../../engine/scene"
 import { onRender } from "../../events/onRender"
 import { reflectorDefaults, reflectorSchema } from "../../interface/IReflector"
@@ -16,39 +16,49 @@ export default class Reflector extends Plane {
         super()
         this.rotationX = -90
 
-        const [setClass, getClass] = store<any>(undefined)
-        import("./MeshReflectorMaterial").then(module => setClass(module.default))
+        import("./MeshReflectorMaterial").then((module) => {
+            this.createEffect(() => {
+                const renderer = getRenderer()
+                if (!renderer || this.done) return
 
-        this.createEffect(() => {
-            if (this.done) return
+                const camera = getCameraRendered()
 
-            const renderer = getRenderer()
-            const MeshReflectorMaterial = getClass()
-            if (!MeshReflectorMaterial || !renderer) return
+                const MeshReflectorMaterial = module.default
+                const mat = new MeshReflectorMaterial(
+                    renderer,
+                    camera,
+                    scene,
+                    this.object3d,
+                    {
+                        resolution: this.resolutionState.get(),
+                        blur: [this.blurState.get(), this.blurState.get()],
+                        mixBlur: 2.5,
+                        mixContrast: this.contrastState.get(),
+                        mirror: this.mirrorState.get(),
+                        distortionMap: undefined
+                    }
+                )
+                copyStandard(this.material, mat)
+                this.material.dispose()
+                this.material = this.object3d.material = mat
 
-            const camera = getCameraRendered()
-
-            const mat = new MeshReflectorMaterial(renderer, camera, scene, this.object3d, {
-                resolution: this.resolutionState.get(),
-                blur: [this.blurState.get(), this.blurState.get()],
-                mixBlur: 2.5,
-                mixContrast: this.contrastState.get(),
-                mirror: this.mirrorState.get()
-            })
-            copyStandard(this.material, mat)
-            this.material.dispose()
-            this.material = this.object3d.material = mat
-
-            const handle = onRender(() => {
-                camera.updateWorldMatrix(true, false)
-                mat.update()
-            })
-
-            return () => {
-                mat.dispose()
-                handle.cancel()
-            }
-        }, [getRenderer, getClass, getCameraRendered, this.resolutionState.get, this.blurState.get, this.contrastState.get, this.mirrorState.get])
+                const handle = onRender(() => {
+                    camera.updateWorldMatrix(true, false)
+                    mat.update()
+                })
+                return () => {
+                    mat.dispose()
+                    handle.cancel()
+                }
+            }, [
+                getRenderer,
+                getCameraRendered,
+                this.resolutionState.get,
+                this.blurState.get,
+                this.contrastState.get,
+                this.mirrorState.get
+            ])
+        })
     }
 
     private resolutionState = new Reactive(256)
