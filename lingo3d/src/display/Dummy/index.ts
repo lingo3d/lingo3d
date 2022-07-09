@@ -163,18 +163,22 @@ export default class Dummy extends Model implements IDummy {
             const spine = getSpine()
             if (!spine) return
 
+            let strideMode = this.strideModeState.get()
+            if (strideMode === "aim" && !("runningBackwards" in this.animations))
+                strideMode = "free"
+
             const spineQuaternion = spine.outerObject3d.quaternion.clone()
             const loadedGroupQuaternion = this.loadedGroup.quaternion.clone()
 
             const { strideForward, strideRight, strideMove } = this
             if (!strideForward && !strideRight) {
                 poseService.send("RUN_STOP")
-                this.strideMode === "aim" && (groupVecOld = undefined)
+                strideMode === "aim" && (groupVecOld = undefined)
                 return
             }
 
             const backwards =
-                this.strideMode === "aim" ? strideForward > 0 : false
+                strideMode === "aim" ? strideForward > 0 : false
 
             const sf = backwards ? -strideForward : strideForward
             const sr = backwards ? -strideRight : strideRight
@@ -186,7 +190,7 @@ export default class Dummy extends Model implements IDummy {
                 )
 
                 let spinePoint: Point3d | undefined
-                if (this.strideMode === "aim") {
+                if (strideMode === "aim") {
                     this.loadedGroup.quaternion.copy(loadedGroupQuaternion)
                     spine.outerObject3d.quaternion.copy(spineQuaternion)
                     spinePoint = spine.pointAt(1000)
@@ -215,12 +219,14 @@ export default class Dummy extends Model implements IDummy {
             })
             return () => {
                 handle.cancel()
-                if (this.strideMode === "aim") {
+                if (strideMode === "aim") {
                     spine.outerObject3d.quaternion.copy(spineQuaternion)
                     this.loadedGroup.quaternion.copy(loadedGroupQuaternion)
                 }
             }
         }, [
+            this.animationsState.get,
+            this.strideModeState.get,
             this.strideMoveState.get,
             this.strideForwardState.get,
             this.strideRightState.get,
@@ -286,7 +292,13 @@ export default class Dummy extends Model implements IDummy {
         this.strideMoveState.set(val)
     }
 
-    public strideMode: StrideMode = "aim"
+    private strideModeState = new Reactive<StrideMode>("aim")
+    public get strideMode() {
+        return this.strideModeState.get()
+    }
+    public set strideMode(val) {
+        this.strideModeState.set(val)
+    }
 
     private jumpHeight = 10
     public jump(height = 10) {
