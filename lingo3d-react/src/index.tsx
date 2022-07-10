@@ -21,6 +21,8 @@ export {
   setWasmPath
 } from "lingo3d"
 
+export { default as globalState } from "./globalState"
+
 export { default as World } from "./components/World"
 export { default as LingoEditor } from "./components/editor/LingoEditor"
 export { default as Editor } from "./components/editor/Editor"
