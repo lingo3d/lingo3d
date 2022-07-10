@@ -3,6 +3,7 @@ import MeshItem from "../display/core/MeshItem"
 import IAnimationMixin, { animationMixinDefaults, animationMixinSchema } from "./IAnimationMixin"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { LingoMouseEvent } from "./IMouse"
+import Callable from "./utils/Callable"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import fn from "./utils/fn"
@@ -18,8 +19,8 @@ export default interface IStaticObjectManager extends IEventLoop, IAnimationMixi
     onMouseMove: Nullable<(e: LingoMouseEvent) => void>
     onLookToEnd: Nullable<() => void>
     
-    lookAt: (target: MeshItem | Point3d) => void,
-    lookTo: (target: MeshItem | Point3d, alpha: number) => void,
+    lookAt: Callable<[target: MeshItem | Point3d]>,
+    lookTo: Callable<[target: MeshItem | Point3d, alpha: number]>,
 
     name: string
     id: Nullable<string>
@@ -53,8 +54,8 @@ export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManag
     onMouseMove: Function,
     onLookToEnd: Function,
 
-    lookAt: Function,
-    lookTo: Function,
+    lookAt: [Function, Array],
+    lookTo: [Function, Array],
 
     name: String,
     id: String,

@@ -18,11 +18,11 @@ specifiers:
   autoprefixer: ^10.4.7
   babel-loader: ^8.2.5
   content-loader: '*'
-  core-js: ^3.23.3
+  core-js: ^3.23.4
   css-loader: ^6.7.1
-  fork-ts-checker-webpack-plugin: ^7.2.11
+  fork-ts-checker-webpack-plugin: ^7.2.12
   html-webpack-plugin: ^5.5.0
-  lingo3d: 1.11.21
+  lingo3d: 1.11.25
   nanoid: '*'
   popmotion: '*'
   postcss: ^8.4.14
@@ -45,7 +45,7 @@ dependencies:
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
   '@types/three': 0.141.0
-  lingo3d: 1.11.21
+  lingo3d: 1.11.25
   nanoid: 4.0.0
   popmotion: 11.0.3
   preact: 10.9.0
@@ -64,9 +64,9 @@ devDependencies:
   autoprefixer: 10.4.7_postcss@8.4.14
   babel-loader: 8.2.5_fswvdo7jykdwhfxrdcvghfn6pa
   content-loader: 2.0.11
-  core-js: 3.23.3
+  core-js: 3.23.4
   css-loader: 6.7.1_webpack@5.73.0
-  fork-ts-checker-webpack-plugin: 7.2.11_3o2jfq6vfqxns3sz6wn2nnc3ei
+  fork-ts-checker-webpack-plugin: 7.2.12_3o2jfq6vfqxns3sz6wn2nnc3ei
   html-webpack-plugin: 5.5.0_webpack@5.73.0
   postcss: 8.4.14
   postcss-loader: 7.0.0_mepnsno3xmng6eyses4tepu7bu
@@ -1263,7 +1263,7 @@ packages:
       babel-plugin-polyfill-corejs2: 0.3.1_@babel+core@7.18.6
       babel-plugin-polyfill-corejs3: 0.5.2_@babel+core@7.18.6
       babel-plugin-polyfill-regenerator: 0.3.1_@babel+core@7.18.6
-      core-js-compat: 3.23.3
+      core-js-compat: 3.23.4
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
@@ -1892,7 +1892,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.1
-      caniuse-lite: 1.0.30001363
+      caniuse-lite: 1.0.30001364
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -1941,7 +1941,7 @@ packages:
     dependencies:
       '@babel/core': 7.18.6
       '@babel/helper-define-polyfill-provider': 0.3.1_@babel+core@7.18.6
-      core-js-compat: 3.23.3
+      core-js-compat: 3.23.4
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2030,8 +2030,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001363
-      electron-to-chromium: 1.4.184
+      caniuse-lite: 1.0.30001364
+      electron-to-chromium: 1.4.185
       node-releases: 2.0.6
       update-browserslist-db: 1.0.4_browserslist@4.21.1
     dev: true
@@ -2069,8 +2069,8 @@ packages:
       tslib: 2.4.0
     dev: true
 
-  /caniuse-lite/1.0.30001363:
-    resolution: {integrity: sha512-HpQhpzTGGPVMnCjIomjt+jvyUu8vNFo3TaDiZ/RcoTrlOq/5+tC8zHdsbgFB6MxmaY+jCpsH09aD80Bb4Ow3Sg==}
+  /caniuse-lite/1.0.30001364:
+    resolution: {integrity: sha512-9O0xzV3wVyX0SlegIQ6knz+okhBB5pE0PC40MNdwcipjwpxoUEHL24uJ+gG42cgklPjfO5ZjZPme9FTSN3QT2Q==}
     dev: true
 
   /cannon-es/0.19.0:
@@ -2242,15 +2242,15 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
-  /core-js-compat/3.23.3:
-    resolution: {integrity: sha512-WSzUs2h2vvmKsacLHNTdpyOC9k43AEhcGoFlVgCY4L7aw98oSBKtPL6vD0/TqZjRWRQYdDSLkzZIni4Crbbiqw==}
+  /core-js-compat/3.23.4:
+    resolution: {integrity: sha512-RkSRPe+JYEoflcsuxJWaiMPhnZoFS51FcIxm53k4KzhISCBTmaGlto9dTIrYuk0hnJc3G6pKufAKepHnBq6B6Q==}
     dependencies:
       browserslist: 4.21.1
       semver: 7.0.0
     dev: true
 
-  /core-js/3.23.3:
-    resolution: {integrity: sha512-oAKwkj9xcWNBAvGbT//WiCdOMpb9XQG92/Fe3ABFM/R16BsHgePG00mFOgKf7IsCtfj8tA1kHtf/VwErhriz5Q==}
+  /core-js/3.23.4:
+    resolution: {integrity: sha512-vjsKqRc1RyAJC3Ye2kYqgfdThb3zYnx9CrqoCcjMOENMtQPC7ZViBvlDxwYU/2z2NI/IPuiXw5mT4hWhddqjzQ==}
     requiresBuild: true
     dev: true
 
@@ -2442,8 +2442,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: true
 
-  /electron-to-chromium/1.4.184:
-    resolution: {integrity: sha512-IADi390FRdvxWfVX3hjzfTDNVHiTqVo9ar53/7em/SfhUG9YcjVhyQecY/XwmBHRKden/wFud7RWOUH7+7LFng==}
+  /electron-to-chromium/1.4.185:
+    resolution: {integrity: sha512-9kV/isoOGpKkBt04yYNaSWIBn3187Q5VZRtoReq8oz5NY/A4XmU6cAoqgQlDp7kKJCZMRjWZ8nsQyxfpFHvfyw==}
     dev: true
 
   /emojis-list/3.0.0:
@@ -2664,8 +2664,8 @@ packages:
         optional: true
     dev: true
 
-  /fork-ts-checker-webpack-plugin/7.2.11_3o2jfq6vfqxns3sz6wn2nnc3ei:
-    resolution: {integrity: sha512-2e5+NyTUTE1Xq4fWo7KFEQblCaIvvINQwUX3jRmEGlgCTc1Ecqw/975EfQrQ0GEraxJTnp8KB9d/c8hlCHUMJA==}
+  /fork-ts-checker-webpack-plugin/7.2.12_3o2jfq6vfqxns3sz6wn2nnc3ei:
+    resolution: {integrity: sha512-SCjmmjPXPgp5XRQ49hXd2Eqth8rz4+ggtOHygTzyaOn32oIIOd8Kw+xKcgXNkFGlZy5l03bHRYTkbQs+TWhaNA==}
     engines: {node: '>=12.13.0', yarn: '>=1.0.0'}
     peerDependencies:
       typescript: '>3.6.0'
@@ -3158,8 +3158,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lingo3d/1.11.21:
-    resolution: {integrity: sha512-mAEGWAl+xsidlRAuGeqgLuOBYJI1+YcZ8xnz1IuRlJeIklwS6EPoibqotVbWYEQYxbes5XmKZ6vZralx7W//uA==}
+  /lingo3d/1.11.25:
+    resolution: {integrity: sha512-UujbxTz2ZjMEF9n+6Agom631qGVeujT7CJLRWhDaWY3dl1Jf4ZyMMcxedJgt/VCCQVZbSUAHMDDvQV5UbbNldw==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1

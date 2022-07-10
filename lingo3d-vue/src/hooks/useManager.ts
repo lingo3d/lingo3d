@@ -6,51 +6,65 @@ import SimpleObjectManager from "lingo3d/lib/display/core/SimpleObjectManager"
 import { inject, onUnmounted, provide, Ref, ref, watchEffect, toRaw } from "vue"
 import processDefaults from "../props/utils/processDefaults"
 import useDiffProps from "./useDiffProps"
+import fn from "lingo3d/lib/interface/utils/fn"
 
 const handleStore = new WeakMap<SimpleObjectManager, Map<string, Cancellable>>()
 const makeHandleMap = () => new Map<string, Cancellable>()
 
-export const applyChanges = (managerRef: Ref<any> | undefined, manager: any | undefined, diff: Ref<Array<[string, any]>>, defaults: Record<string, any>) => {
-    watchEffect(() => {
-        manager ??= toRaw(managerRef?.value)
-        if (!manager) return
+export const applyChanges = (
+  managerRef: Ref<any> | undefined,
+  manager: any | undefined,
+  diff: Ref<Array<[string, any]>>,
+  defaults: Record<string, any>
+) => {
+  watchEffect(() => {
+    manager ??= toRaw(managerRef?.value)
+    if (!manager) return
 
-        const handleMap = forceGet(handleStore, manager, makeHandleMap)
-    
-        for (const [key, value] of toRaw(diff.value)) {
-            handleMap.get(key)?.cancel()
-            
-            if (value instanceof Reactive) {
-                handleMap.set(key, value.get(v => manager[key] = v))
-                continue
-            }
-            manager[key] = value ?? defaults[key]
-        }
-    })
+    const handleMap = forceGet(handleStore, manager, makeHandleMap)
+
+    for (const [key, value] of toRaw(diff.value)) {
+      handleMap.get(key)?.cancel()
+
+      if (value instanceof Reactive) {
+        handleMap.set(
+          key,
+          value.get((v) => (manager[key] = v))
+        )
+        continue
+      }
+      const defaultValue = defaults[key]
+      if (defaultValue === fn) {
+        if (!value) continue
+        if (Array.isArray(value)) manager[key](...value)
+        else manager[key]()
+        continue
+      }
+      manager[key] = value ?? defaultValue
+    }
+  })
 }
 
 export default (props: Record<string, any>, ManagerClass: any) => {
-    const manager = new ManagerClass()
-    const managerRef = ref(manager)
-    provide("parent", managerRef)
+  const manager = new ManagerClass()
+  const managerRef = ref(manager)
+  provide("parent", managerRef)
 
-    const parentRef = inject<Ref<ObjectManager> | undefined>("parent", undefined)
-    watchEffect(() => {
-        toRaw(parentRef?.value)?.append(manager)
-    })
-    
-    const defaults = processDefaults(ManagerClass.defaults)
-    const diff = useDiffProps(props, defaults)
-    applyChanges(undefined, manager, diff, defaults)
+  const parentRef = inject<Ref<ObjectManager> | undefined>("parent", undefined)
+  watchEffect(() => {
+    toRaw(parentRef?.value)?.append(manager)
+  })
 
-    onUnmounted(() => {
-        const handleMap = handleStore.get(manager)
-        if (handleMap)
-            for (const handle of handleMap.values())
-                handle.cancel()
+  const defaults = processDefaults(ManagerClass.defaults)
+  const diff = useDiffProps(props, defaults)
+  applyChanges(undefined, manager, diff, defaults)
 
-        manager.dispose()
-    })
+  onUnmounted(() => {
+    const handleMap = handleStore.get(manager)
+    if (handleMap) for (const handle of handleMap.values()) handle.cancel()
 
-    return manager
+    manager.dispose()
+  })
+
+  return manager
 }

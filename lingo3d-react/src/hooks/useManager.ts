@@ -8,75 +8,92 @@ import { forceGet } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"
 import Loaded from "lingo3d/lib/display/core/Loaded"
 import processDefaults from "../props/utils/processDefaults"
+import fn from "lingo3d/lib/interface/utils/fn"
 
-export const ParentContext = React.createContext<ObjectManager | Loaded | undefined>(undefined)
+export const ParentContext = React.createContext<
+  ObjectManager | Loaded | undefined
+>(undefined)
 
 const handleStore = new WeakMap<SimpleObjectManager, Map<string, Cancellable>>()
 const makeHandleMap = () => new Map<string, Cancellable>()
 
-export const applyChanges = (manager: any, changed: Array<[string, any]>, removed: Array<string>) => {
-    const handleMap = forceGet(handleStore, manager, makeHandleMap)
+export const applyChanges = (
+  manager: any,
+  changed: Array<[string, any]>,
+  removed: Array<string>
+) => {
+  const handleMap = forceGet(handleStore, manager, makeHandleMap)
+  const defaults = processDefaults(manager.constructor.defaults)
 
-    for (const [key, value] of changed) {
-        handleMap.get(key)?.cancel()
+  for (const [key, value] of changed) {
+    handleMap.get(key)?.cancel()
 
-        if (value instanceof Reactive) {
-            handleMap.set(key, value.get(v => manager[key] = v))
-            continue
-        }
-        manager[key] = value
+    if (value instanceof Reactive) {
+      handleMap.set(
+        key,
+        value.get((v) => (manager[key] = v))
+      )
+      continue
     }
-
-    if (!removed.length) return
-
-    const defaults = processDefaults(manager.constructor.defaults)
-    for (const key of removed) {
-        handleMap.get(key)?.cancel()
-        manager[key] = defaults[key]
+    const defaultValue = defaults[key]
+    if (defaultValue === fn) {
+      if (!value) continue
+      if (Array.isArray(value)) manager[key](...value)
+      else manager[key]()
+      continue
     }
+    manager[key] = value
+  }
+
+  for (const key of removed) {
+    handleMap.get(key)?.cancel()
+    manager[key] = defaults[key]
+  }
 }
 
 const appendedSet = new WeakSet<any>()
 
-export default (p: React.PropsWithChildren<any>, ref: React.ForwardedRef<any>, ManagerClass: any) => {
-    const { children, ...props } = p
+export default (
+  p: React.PropsWithChildren<any>,
+  ref: React.ForwardedRef<any>,
+  ManagerClass: any
+) => {
+  const { children, ...props } = p
 
-    const parent = useContext(ParentContext)
-    
-    const manager = useMemoOnce(() => {
-        const manager = new ManagerClass()
-        if (parent) {
-            parent.append(manager)
-            appendedSet.add(manager)
-        }
-        return manager
-        
-    }, manager => {
-        const handleMap = handleStore.get(manager)
-        if (handleMap)
-            for (const handle of handleMap.values())
-                handle.cancel()
+  const parent = useContext(ParentContext)
 
-        manager.dispose()
-    })
-
-    useLayoutEffect(() => {
-        if (!parent || appendedSet.has(manager)) return
+  const manager = useMemoOnce(
+    () => {
+      const manager = new ManagerClass()
+      if (parent) {
         parent.append(manager)
         appendedSet.add(manager)
-    }, [parent])
+      }
+      return manager
+    },
+    (manager) => {
+      const handleMap = handleStore.get(manager)
+      if (handleMap) for (const handle of handleMap.values()) handle.cancel()
 
-    const [changed, removed] = useDiffProps(props)
-    applyChanges(manager, changed, removed)    
+      manager.dispose()
+    }
+  )
 
-    useLayoutEffect(() => {
-        if (!ref) return
+  useLayoutEffect(() => {
+    if (!parent || appendedSet.has(manager)) return
+    parent.append(manager)
+    appendedSet.add(manager)
+  }, [parent])
 
-        if (typeof ref === "function")
-            ref(manager)
-        else
-            ref.current = manager
-    }, [ref])
+  const [changed, removed] = useDiffProps(props)
+  applyChanges(manager, changed, removed)
 
-    return manager
+  useLayoutEffect(() => {
+    if (!ref) return
+
+    if (typeof ref === "function") ref(manager)
+    else ref.current = manager
+  }, [ref])
+
+  return manager
 }

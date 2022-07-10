@@ -6,7 +6,7 @@ import { World, Cube, LingoEditor } from "."
 
 <template>
   <World>
-    <Cube />
+    <Cube :move-to="[300, 300, 300, 10]" />
     <LingoEditor />
   </World>
   
