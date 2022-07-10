@@ -14,7 +14,7 @@
   "types": "./dist/index.d.ts",
   "private": false,
   "sideEffects": false,
-  "version": "1.11.24",
+  "version": "1.11.26",
   "scripts": {
     "dev": "vite",
     "build": "vite build --config vite.config.production.ts && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
@@ -25,7 +25,7 @@
     "@lincode/reactivity": "*",
     "@lincode/utils": "*",
     "@types/three": "0.141.0",
-    "lingo3d": "1.11.24",
+    "lingo3d": "1.11.26",
     "popmotion": "*",
     "preact": "*",
     "stats.js": "*"

@@ -2,7 +2,6 @@ import StaticObjectManager from "../display/core/StaticObjectManager"
 import IPhysics, { physicsDefaults, physicsSchema } from "./IPhysics"
 import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
 import IStaticObjectManager, { staticObjectManagerDefaults, staticObjectManagerSchema } from "./IStaticObjectManaget"
-import Callable from "./utils/Callable"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import fn from "./utils/fn"
@@ -16,8 +15,8 @@ export default interface ISimpleObjectManager extends IStaticObjectManager, IPos
     onIntersectOut: Nullable<OnIntersectValue>
     onMoveToEnd: Nullable<() => void>
 
-    moveTo: Callable<[x: number, y: number | undefined, z: number, speed: number]>
-    lerpTo: Callable<[x: number, y: number, z: number, alpha: number]>
+    moveTo: Function | Array<any>
+    lerpTo: Function | Array<any>
 
     intersectIds: Nullable<Array<string>>
 
