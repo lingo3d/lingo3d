@@ -4,6 +4,7 @@ import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned
 import IStaticObjectManager, { staticObjectManagerDefaults, staticObjectManagerSchema } from "./IStaticObjectManaget"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import fn from "./utils/fn"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
@@ -13,6 +14,9 @@ export default interface ISimpleObjectManager extends IStaticObjectManager, IPos
     onIntersect: Nullable<OnIntersectValue>
     onIntersectOut: Nullable<OnIntersectValue>
     onMoveToEnd: Nullable<() => void>
+
+    moveTo: (x: number, y: number | undefined, z: number, speed: number) => void
+    lerpTo: (x: number, y: number, z: number, alpha: number) => void
 
     intersectIds: Nullable<Array<string>>
 
@@ -42,6 +46,9 @@ export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManag
     onIntersectOut: Function,
     onMoveToEnd: Function,
 
+    moveTo: Function,
+    lerpTo: Function,
+
     intersectIds: Array,
 
     width: Number,
@@ -61,7 +68,7 @@ export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManag
     innerVisible: Boolean
 }
 
-hideSchema(["intersectIds"])
+hideSchema(["intersectIds", "moveTo", "lerpTo"])
 
 export const simpleObjectManagerDefaults: Defaults<ISimpleObjectManager> = {
     ...staticObjectManagerDefaults,
@@ -71,6 +78,9 @@ export const simpleObjectManagerDefaults: Defaults<ISimpleObjectManager> = {
     onIntersect: undefined,
     onIntersectOut: undefined,
     onMoveToEnd: undefined,
+
+    moveTo: fn,
+    lerpTo: fn,
 
     intersectIds: undefined,
 

@@ -8,16 +8,13 @@ const player = new Dummy()
 player.id = "player"
 player.src = "player2.glb"
 
-const cam = new Camera()
-cam.z = 500
-cam.active = true
+const player2 = new Dummy()
+player2.id = "player"
+player2.src = "player2.glb"
+player2.x = 100
 
-const cam0 = new OrbitCamera()
-cam0.targetId = "player"
-cam0.innerZ = 200
-cam0.transition = true
-
-player.onClick = () => {
-    cam0.activate()
-    console.log("player")
+player2.onLoad = () => {
+    const found = player2.find("Wolf3D_Hair")
+    if (!found) return
+    found.color = "red"
 }
