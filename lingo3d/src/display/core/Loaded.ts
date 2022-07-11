@@ -13,7 +13,7 @@ import {
 } from "../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import Reresolvable from "./utils/Reresolvable"
 import { Cancellable } from "@lincode/promiselikes"
-import toResolvable from "./utils/toResolvable"
+import toResolvable from "../utils/toResolvable"
 
 export default abstract class Loaded<T = Object3D>
     extends ObjectManager<Mesh>
@@ -37,6 +37,7 @@ export default abstract class Loaded<T = Object3D>
         return this._src
     }
     public set src(val) {
+        this._src = val
         this.loaded.done && this.loadedGroup.clear()
 
         this.cancelHandle(

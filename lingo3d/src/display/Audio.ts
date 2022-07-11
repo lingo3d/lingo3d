@@ -3,10 +3,14 @@ import { AudioListener, PositionalAudio } from "three"
 import PositionedItem from "../api/core/PositionedItem"
 import mainCamera from "../engine/mainCamera"
 import scene from "../engine/scene"
-import { onSelectionTarget, emitSelectionTarget } from "../events/onSelectionTarget"
+import {
+    onSelectionTarget,
+    emitSelectionTarget
+} from "../events/onSelectionTarget"
 import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
 import { getCameraRendered } from "../states/useCameraRendered"
 import makeAudioSprite from "./core/utils/makeAudioSprite"
+import toResolvable from "./utils/toResolvable"
 import loadAudio from "./utils/loaders/loadAudio"
 
 const audioListener = new AudioListener()
@@ -52,27 +56,25 @@ export default class Audio extends PositionedItem implements IAudio {
     public override dispose() {
         if (this.done) return this
         super.dispose()
-        this.sound.disconnect()
+        this.sound.buffer && this.sound.disconnect()
         return this
     }
 
     private _src?: string
-    private srcCount = 0
     public get src() {
         return this._src
     }
     public set src(val) {
-        if (this._src === val) return
         this._src = val
-        
-        const srcCount = ++this.srcCount
-        
-        if (!val) return
 
-        loadAudio(val).then(buffer => {
-            if (srcCount !== this.srcCount || this.done) return
-            this.sound.setBuffer(buffer)
-        })
+        this.cancelHandle(
+            "src",
+            val &&
+                (() =>
+                    toResolvable(loadAudio(val)).then((buffer) =>
+                        this.sound.setBuffer(buffer)
+                    ))
+        )
     }
 
     public get autoplay() {
