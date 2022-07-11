@@ -57,6 +57,7 @@ export default class LingoEditor extends Disposable {
                 <lingo3d-toolbar></lingo3d-toolbar>
                 <lingo3d-scenegraph></lingo3d-scenegraph>
                 <lingo3d-editor></lingo3d-editor>
+                <div id="customEditor"></div>
                 <lingo3d-node-editor></lingo3d-node-editor>
                 <lingo3d-library></lingo3d-library>
                 <lingo3d-hud></lingo3d-hud>

@@ -1,6 +1,6 @@
 import { h } from "preact"
 import { preventTreeShake } from "@lincode/utils"
-import useInit from "../utils/useInit";
+import useInit from "../utils/useInit"
 
 preventTreeShake(h)
 
