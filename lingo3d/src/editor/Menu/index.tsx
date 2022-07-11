@@ -7,6 +7,7 @@ import MenuItem from "../ContextMenu/MenuItem"
 import { useState } from "preact/hooks"
 import { setNodeEditor } from "../../states/useNodeEditor"
 import { useNodeEditor } from "../states"
+import useInit from "../utils/useInit"
 
 preventTreeShake(h)
 
@@ -17,12 +18,14 @@ type Data = {
 }
 
 const Menu = () => {
+    const elRef = useInit()
     const [data, setData] = useState<Data | undefined>()
     const [nodeEditor] = useNodeEditor()
 
     return (
         <Fragment>
             <div
+                ref={elRef}
                 className="lingo3d-ui"
                 style={{
                     position: "absolute",

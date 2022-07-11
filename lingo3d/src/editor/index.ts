@@ -35,6 +35,13 @@ const style = createElement(`
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+        .tp-rotv {
+            box-shadow: none !important;
+            background-color: transparent !important;
+        }
+        .tp-brkv {
+            border-left: none !important;
+        }
     </style>
 `)
 document.head.appendChild(style)

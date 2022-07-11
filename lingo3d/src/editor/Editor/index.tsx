@@ -41,8 +41,7 @@ import ISetup, { setupDefaults } from "../../interface/ISetup"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
-import getComponentName from "../getComponentName"
-import createElement from "../../utils/createElement"
+import getComponentName from "../utils/getComponentName"
 import addInputs, { setProgrammatic } from "./addInputs"
 import getParams from "./getParams"
 import splitObject from "./splitObject"
@@ -50,6 +49,7 @@ import { onTransformControls } from "../../events/onTransformControls"
 import assignIn from "./assignIn"
 import { emitSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 import { dummyDefaults } from "../../interface/IDummy"
+import useInit from "../utils/useInit"
 
 preventTreeShake(h)
 
@@ -62,26 +62,13 @@ Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
 })
 
-const style = createElement(`
-    <style>
-        .tp-rotv {
-            box-shadow: none !important;
-            background-color: transparent !important;
-        }
-        .tp-brkv {
-            border-left: none !important;
-        }
-    </style>
-`)
-document.head.appendChild(style)
-
 interface EditorProps {
     mouse?: "enabled" | "disabled"
     keyboard?: "enabled" | "disabled"
 }
 
 const Editor = ({ mouse, keyboard }: EditorProps) => {
-    const elRef = useRef<HTMLDivElement>(null)
+    const elRef = useInit()
 
     useEffect(() => {
         setSelectionBlockMouse(mouse !== "enabled")
@@ -113,14 +100,12 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         const handle0 = onApplySetup(init)
 
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key !== "Shift" && e.key !== "Meta" && e.key !== "Control")
-                return
-            setMultipleSelection(true)
+            if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
+                setMultipleSelection(true)
         }
         const handleKeyUp = (e: KeyboardEvent) => {
-            if (e.key !== "Shift" && e.key !== "Meta" && e.key !== "Control")
-                return
-            setMultipleSelection(false)
+            if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
+                setMultipleSelection(false)
         }
         document.addEventListener("keydown", handleKeyDown)
         document.addEventListener("keyup", handleKeyUp)
@@ -262,7 +247,13 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             const {
                 defaultLightEnabled: defaultLightEnabledInput,
                 defaultFogEnabled: defaultFogEnabledInput
-            } = addInputs(pane, "lighting & environment", settings, setupDefaults, sceneParams)
+            } = addInputs(
+                pane,
+                "lighting & environment",
+                settings,
+                setupDefaults,
+                sceneParams
+            )
 
             defaultLightEnabledInput.on("change", ({ value }) =>
                 setDefaultLight(value ? "default" : false)
@@ -297,7 +288,13 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 "outlineStrength",
                 "outlineThickness"
             ])
-            addInputs(pane, "outline effect", settings, setupDefaults, outlineParams)
+            addInputs(
+                pane,
+                "outline effect",
+                settings,
+                setupDefaults,
+                outlineParams
+            )
 
             const [physicsParams, physicsRest] = splitObject(outlineRest, [
                 "gravity",
@@ -306,7 +303,13 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             addInputs(pane, "physics", settings, setupDefaults, physicsParams)
 
             Object.keys(physicsRest).length &&
-                addInputs(pane, "settings", settings, setupDefaults, physicsRest)
+                addInputs(
+                    pane,
+                    "settings",
+                    settings,
+                    setupDefaults,
+                    physicsRest
+                )
 
             return () => {
                 pane.dispose()
@@ -433,13 +436,15 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 "visible",
                 "innerVisible"
             ])
-            displayParams && addInputs(pane, "display", target, defaults, displayParams)
+            displayParams &&
+                addInputs(pane, "display", target, defaults, displayParams)
 
             const [effectsParams, effectsRest] = splitObject(displayRest, [
                 "bloom",
                 "outline"
             ])
-            effectsParams && addInputs(pane, "effects", target, defaults, effectsParams)
+            effectsParams &&
+                addInputs(pane, "effects", target, defaults, effectsParams)
 
             const [animationParams, animationRest] = splitObject(effectsRest, [
                 "animation",
@@ -463,7 +468,13 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 ]
             )
             adjustMaterialParams &&
-                addInputs(pane, "adjust material", target, defaults, adjustMaterialParams)
+                addInputs(
+                    pane,
+                    "adjust material",
+                    target,
+                    defaults,
+                    adjustMaterialParams
+                )
 
             const [materialParams, materialRest] = splitObject(
                 adjustMaterialRest,
@@ -507,10 +518,19 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                 ]
             )
             pbrMaterialParams &&
-                addInputs(pane, "pbr material", target, defaults, pbrMaterialParams)
+                addInputs(
+                    pane,
+                    "pbr material",
+                    target,
+                    defaults,
+                    pbrMaterialParams
+                )
 
             if (componentName === "dummy") {
-                pbrMaterialRest.stride = { x: target.strideRight, y: -target.strideForward }
+                pbrMaterialRest.stride = {
+                    x: target.strideRight,
+                    y: -target.strideForward
+                }
                 const { stride: strideInput } = addInputs(
                     pane,
                     componentName,
@@ -526,7 +546,13 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                     pane.refresh()
                 })
             } else if (Object.keys(pbrMaterialRest).length)
-                addInputs(pane, componentName, target, defaults, pbrMaterialRest)
+                addInputs(
+                    pane,
+                    componentName,
+                    target,
+                    defaults,
+                    pbrMaterialRest
+                )
         }
 
         return () => {
@@ -562,9 +588,7 @@ const EditorParent = () => {
 
     if (nodeEditor) return null
 
-    return (
-        <Editor />
-    )
+    return <Editor />
 }
 export default EditorParent
 

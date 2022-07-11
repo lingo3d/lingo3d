@@ -5,10 +5,12 @@ import ObjectGroup from "./ObjectGroup"
 import { useEffect } from "preact/hooks"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import { useNodeEditor } from "../states"
+import useInit from "../utils/useInit"
 
 preventTreeShake(h)
 
 const Library = () => {
+    const elRef = useInit()
     const [nodeEditor] = useNodeEditor()
 
     useEffect(() => {
@@ -23,43 +25,46 @@ const Library = () => {
 
     return (
         <div
-         className="lingo3d-ui"
-         style={{
-             width: 200,
-             height: "100%",
-             background: "rgb(40, 41, 46)",
-             padding: 10
-         }}
+            ref={elRef}
+            className="lingo3d-ui"
+            style={{
+                width: 200,
+                height: "100%",
+                background: "rgb(40, 41, 46)",
+                padding: 10
+            }}
         >
-            <ObjectGroup names={[
-                "model",
-                "dummy",
-                // { "building": "cube" },
-                "svgMesh",
-                { "sprite": "plane" },
-                "trigger",
-                "audio",
-                "reflector",
-                "cube",
-                "sphere",
-                "cone",
-                "cylinder",
-                "octahedron",
-                "tetrahedron",
-                "torus",
-                "plane",
-                "circle",
-                "areaLight",
-                "ambientLight",
-                "skyLight",
-                "directionalLight",
-                "pointLight",
-                "spotLight",
-                "camera",
-                "thirdPersonCamera",
-                "firstPersonCamera",
-                "orbitCamera"
-            ]} />
+            <ObjectGroup
+                names={[
+                    "model",
+                    "dummy",
+                    // { "building": "cube" },
+                    "svgMesh",
+                    { sprite: "plane" },
+                    "trigger",
+                    "audio",
+                    "reflector",
+                    "cube",
+                    "sphere",
+                    "cone",
+                    "cylinder",
+                    "octahedron",
+                    "tetrahedron",
+                    "torus",
+                    "plane",
+                    "circle",
+                    "areaLight",
+                    "ambientLight",
+                    "skyLight",
+                    "directionalLight",
+                    "pointLight",
+                    "spotLight",
+                    "camera",
+                    "thirdPersonCamera",
+                    "firstPersonCamera",
+                    "orbitCamera"
+                ]}
+            />
         </div>
     )
 }

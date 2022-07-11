@@ -20,7 +20,7 @@ import { Object3D } from "three"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
-import getComponentName from "../getComponentName"
+import getComponentName from "../utils/getComponentName"
 
 preventTreeShake(h)
 

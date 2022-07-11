@@ -1,5 +1,6 @@
 import { h } from "preact"
 import { preventTreeShake } from "@lincode/utils"
+import useInit from "../utils/useInit";
 
 preventTreeShake(h)
 
@@ -11,9 +12,11 @@ interface ContextMenuProps {
 
 const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
     if (!data) return null
+    const elRef = useInit()
 
     return (
         <div
+            ref={elRef}
             className="lingo3d-ui"
             onMouseDown={() => setData(undefined)}
             style={{

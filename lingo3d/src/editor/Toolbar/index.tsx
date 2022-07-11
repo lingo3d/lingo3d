@@ -25,6 +25,7 @@ import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import openJSON from "../../api/files/openJSON"
 import exportJSON from "../../api/files/exportJSON"
 import Section from "./Section"
+import useInit from "../utils/useInit"
 
 preventTreeShake(h)
 
@@ -43,6 +44,8 @@ interface ToolbarProps {
 }
 
 const Toolbar = ({ buttons }: ToolbarProps) => {
+    const elRef = useInit()
+
     const [mode, setMode] = useTransformControlsMode()
     let [space, setSpace] = useTransformControlsSpace()
     if (mode === "scale") space = "local"
@@ -67,6 +70,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
 
     return (
         <div
+            ref={elRef}
             className="lingo3d-ui"
             style={{
                 width: 50,
@@ -132,12 +136,16 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
 
                 <Section>
                     {!buttons?.openJSON?.hidden && (
-                        <IconButton onClick={buttons?.openJSON?.onClick ?? openJSON}>
+                        <IconButton
+                            onClick={buttons?.openJSON?.onClick ?? openJSON}
+                        >
                             <OpenIcon />
                         </IconButton>
                     )}
                     {!buttons?.exportJSON?.hidden && (
-                        <IconButton onClick={buttons?.exportJSON?.onClick ?? exportJSON}>
+                        <IconButton
+                            onClick={buttons?.exportJSON?.onClick ?? exportJSON}
+                        >
                             <ExportIcon />
                         </IconButton>
                     )}
@@ -145,12 +153,18 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
 
                 <Section>
                     {!buttons?.exportReact?.hidden && (
-                        <IconButton onClick={buttons?.exportReact?.onClick ?? exportReact}>
+                        <IconButton
+                            onClick={
+                                buttons?.exportReact?.onClick ?? exportReact
+                            }
+                        >
                             <ReactIcon />
                         </IconButton>
                     )}
                     {!buttons?.exportVue?.hidden && (
-                        <IconButton onClick={buttons?.exportVue?.onClick ?? exportVue}>
+                        <IconButton
+                            onClick={buttons?.exportVue?.onClick ?? exportVue}
+                        >
                             <VueIcon />
                         </IconButton>
                     )}
