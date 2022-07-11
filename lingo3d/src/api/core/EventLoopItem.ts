@@ -40,7 +40,7 @@ export default abstract class EventLoopItem extends Appendable implements IEvent
     }
 
     private handles?: Map<string, Cancellable>
-    protected cancelHandle(name: string, lazyHandle: undefined | false | (() => Cancellable)) {
+    protected cancelHandle(name: string, lazyHandle: undefined | false | "" | (() => Cancellable)) {
         const handles = this.handles ??= new Map<string, Cancellable>()
         handles.get(name)?.cancel()
 
