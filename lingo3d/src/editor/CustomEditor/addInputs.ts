@@ -22,6 +22,7 @@ export default (
     onChange: (key: string, value: any) => void
 ) => {
     const folder = pane.addFolder({ title })
+    const options: Record<string, any> = {}
 
     for (const [key, value] of Object.entries(params))
         switch (typeof value) {
@@ -38,6 +39,15 @@ export default (
                     params[key] = JSON.stringify(value)
                     break
                 }
+                if ("values" in value) {
+                    params[key] = value.value
+                    options[key] = {
+                        options: Object.fromEntries(
+                            value.values.map((item: string) => [item, item])
+                        )
+                    }
+                    break
+                }
                 typeof value?.x === "number" && (value.x = toFixed(value.x))
                 typeof value?.y === "number" && (value.y = toFixed(value.y))
                 typeof value?.z === "number" && (value.z = toFixed(value.z))
@@ -46,7 +56,7 @@ export default (
 
     return Object.fromEntries(
         Object.keys(params).map((key) => {
-            const input = folder.addInput(params, key)
+            const input = folder.addInput(params, key, options[key])
             input.on("change", ({ value }) => {
                 if (programmatic) return
 

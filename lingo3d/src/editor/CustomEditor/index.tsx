@@ -24,7 +24,7 @@ const CustomEditor = ({ children }: CustomEditorProps) => {
         const params = Object.fromEntries(
             (Array.isArray(children) ? children : [children]).map((child) => [
                 child.props.name,
-                child.props.value
+                child.props.values ? child.props : child.props.value
             ])
         )
         const onChange = Object.fromEntries(
@@ -33,8 +33,6 @@ const CustomEditor = ({ children }: CustomEditorProps) => {
                 child.props.onChange
             ])
         )
-        console.log(params)
-
         addInputs(pane, "inputs", params, (name, value) => onChange[name]?.(value))
 
         return () => {

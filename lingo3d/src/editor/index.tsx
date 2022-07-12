@@ -73,7 +73,7 @@ export default class LingoEditor extends Disposable {
             <CustomEditor>
                 <Input name="hello" value={0} />
                 <Input name="world" value={false} />
-                <Input name="test" value="option 0" choices={["option 0", "option 1", "option 2"]} onChange={val => console.log(val)} />
+                <Input name="test" value="option1" values={["option0", "option1", "option2"]} onChange={val => console.log(val)} />
             </CustomEditor>,
             //@ts-ignore
             customEditor

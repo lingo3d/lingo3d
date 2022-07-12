@@ -6,6 +6,7 @@ preventTreeShake(h)
 type InputProps = {
     name: string
     value: any
+    values?: any
     choices?: any
     onChange?: (value: any) => void
 }
