@@ -10,9 +10,10 @@ interface ContextMenuProps {
     children?: JSX.Element | Array<JSX.Element>
 }
 
-const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
-    if (!data) return null
+const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {    
     const elRef = useInit()
+
+    if (!data) return null
 
     return (
         <div
@@ -20,7 +21,7 @@ const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
             className="lingo3d-ui"
             onMouseDown={() => setData(undefined)}
             style={{
-                zIndex: 9999,
+                zIndex: 2,
                 position: "absolute",
                 left: 0,
                 top: 0,
@@ -30,7 +31,6 @@ const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
             }}
         >
             <div
-                onMouseDown={(e) => e.stopPropagation()}
                 style={{
                     position: "absolute",
                     left: data.x,

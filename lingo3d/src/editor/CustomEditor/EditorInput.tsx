@@ -3,7 +3,7 @@ import { h } from "preact"
 
 preventTreeShake(h)
 
-type InputProps = {
+type EditorInputProps = {
     name: string
     value: any
     values?: any
@@ -11,8 +11,8 @@ type InputProps = {
     onChange?: (value: any) => void
 }
 
-const Input = (props: InputProps) => {
+const EditorInput = (props: EditorInputProps) => {
     return null
 }
 
-export default Input
+export default EditorInput

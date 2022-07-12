@@ -33,7 +33,9 @@ const CustomEditor = ({ children }: CustomEditorProps) => {
                 child.props.onChange
             ])
         )
-        addInputs(pane, "inputs", params, (name, value) => onChange[name]?.(value))
+        addInputs(pane, "inputs", params, (name, value) =>
+            onChange[name]?.(value)
+        )
 
         return () => {
             pane.dispose()
@@ -43,14 +45,8 @@ const CustomEditor = ({ children }: CustomEditorProps) => {
     return (
         <div
             ref={elRef}
-            onKeyDown={(e) => e.stopPropagation()}
-            onKeyUp={(e) => e.stopPropagation()}
             className="lingo3d-ui"
-            style={{
-                width: 300,
-                height: "100%",
-                background: "rgb(40, 41, 46)"
-            }}
+            style={{ width: 300, background: "rgb(40, 41, 46)" }}
         />
     )
 }

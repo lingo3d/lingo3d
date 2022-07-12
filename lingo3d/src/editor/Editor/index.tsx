@@ -571,8 +571,6 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
     return (
         <div
             ref={elRef}
-            onKeyDown={(e) => e.stopPropagation()}
-            onKeyUp={(e) => e.stopPropagation()}
             className="lingo3d-ui"
             style={{
                 width: 300,
