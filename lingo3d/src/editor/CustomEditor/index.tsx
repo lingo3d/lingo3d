@@ -15,23 +15,28 @@ const CustomEditor = ({ children }: CustomEditorProps) => {
     const elRef = useInit()
     const paneRef = useRef<Pane>()
 
+    const _children: Array<JSX.Element | undefined> = Array.isArray(children)
+        ? children
+        : [children]
+
     useEffect(() => {
         const el = elRef.current
-        if (!el || !children) return
+        if (!el || !_children.length) return
 
         const pane = (paneRef.current = new Pane({ container: el }))
 
         const params = Object.fromEntries(
-            (Array.isArray(children) ? children : [children]).map((child) => [
-                child.props.name,
-                child.props.values ? child.props : child.props.value
-            ])
+            _children
+                .filter((child) => child?.props?.name)
+                .map((child) => [
+                    child!.props.name,
+                    child!.props.values ? child!.props : child!.props.value
+                ])
         )
         const onChange = Object.fromEntries(
-            (Array.isArray(children) ? children : [children]).map((child) => [
-                child.props.name,
-                child.props.onChange
-            ])
+            _children
+                .filter((child) => child?.props?.name)
+                .map((child) => [child!.props.name, child!.props.onChange])
         )
         addInputs(pane, "inputs", params, (name, value) =>
             onChange[name]?.(value)
@@ -40,7 +45,7 @@ const CustomEditor = ({ children }: CustomEditorProps) => {
         return () => {
             pane.dispose()
         }
-    }, [children])
+    }, [_children])
 
     return (
         <div
