@@ -1,30 +1,41 @@
 import { preventTreeShake } from "@lincode/utils"
 import { Pane } from "tweakpane"
 import { h } from "preact"
-import { useEffect } from "preact/hooks"
+import { useEffect, useRef } from "preact/hooks"
 import useInit from "../utils/useInit"
+import addInputs from "./addInputs"
 
 preventTreeShake(h)
 
 type CustomEditorProps = {
-    children: JSX.Element | Array<JSX.Element>
+    children?: JSX.Element | Array<JSX.Element>
 }
 
 const CustomEditor = ({ children }: CustomEditorProps) => {
     const elRef = useInit()
+    const paneRef = useRef<Pane>()
 
     useEffect(() => {
         const el = elRef.current
-        if (!el) return
+        if (!el || !children) return
 
-        const pane = new Pane({ container: el })
+        const pane = (paneRef.current = new Pane({ container: el }))
 
-        console.log(children)
+        const params = Object.fromEntries(
+            (Array.isArray(children) ? children : [children]).map((child) => [
+                child.key,
+                child.props.value
+            ])
+        )
+        addInputs(pane, "inputs", params, (key, value) =>
+        console.log(params[key])
+            // params[key].onChange?.(value)
+        )
 
         return () => {
             pane.dispose()
         }
-    }, [])
+    }, [children])
 
     return (
         <div

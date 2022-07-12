@@ -6,9 +6,11 @@ preventTreeShake(h)
 type InputProps = {
     key: string
     value: any
-    onChange: (value: any) => void
+    onChange?: (value: any) => void
 }
 
-const Input = (props: InputProps) => {}
+const Input = (props: InputProps) => {
+    return null
+}
 
 export default Input
