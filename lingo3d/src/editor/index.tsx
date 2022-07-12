@@ -7,6 +7,9 @@ import "./HUD"
 import settings from "../api/settings"
 import { Disposable } from "@lincode/promiselikes"
 import createElement from "../utils/createElement"
+import { render } from "preact"
+import CustomEditor from "./CustomEditor"
+import Input from "./CustomEditor/Input"
 
 const style = createElement(`
     <style>
@@ -65,6 +68,16 @@ export default class LingoEditor extends Disposable {
             </div>
         `)
         document.body.appendChild(el)
+
+        render(
+            <CustomEditor>
+                <Input name="hello" value={0} />
+                <Input name="world" value={false} />
+                <Input name="test" value="option 0" choices={["option 0", "option 1", "option 2"]} onChange={val => console.log(val)} />
+            </CustomEditor>,
+            //@ts-ignore
+            customEditor
+        )
 
         this.then(() => {
             document.body.removeChild(el)

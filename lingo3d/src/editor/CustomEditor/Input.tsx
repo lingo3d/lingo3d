@@ -4,8 +4,9 @@ import { h } from "preact"
 preventTreeShake(h)
 
 type InputProps = {
-    key: string
+    name: string
     value: any
+    choices?: any
     onChange?: (value: any) => void
 }
 

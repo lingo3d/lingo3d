@@ -8,7 +8,7 @@ import { setSelection } from "../../states/useSelection"
 import { setSelectionBlockKeyboard } from "../../states/useSelectionBlockKeyboard"
 import { setSelectionBlockMouse } from "../../states/useSelectionBlockMouse"
 import { h } from "preact"
-import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks"
+import { useEffect, useLayoutEffect, useState } from "preact/hooks"
 import register from "preact-custom-element"
 import {
     useSelectionTarget,
