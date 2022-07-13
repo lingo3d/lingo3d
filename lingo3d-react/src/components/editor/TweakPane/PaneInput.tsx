@@ -1,6 +1,3 @@
-import React from "react"
-import useEditor from "../../hooks/useEditor"
-
 type EditorInputProps = {
     name: string
     value: any
@@ -9,8 +6,7 @@ type EditorInputProps = {
     onChange?: (value: any) => void
 }
 
-const EditorInput: React.FC<EditorInputProps> = (props) => {
-    useEditor(EditorInput, props, true)
+const EditorInput = (props: EditorInputProps) => {
     return null
 }
 

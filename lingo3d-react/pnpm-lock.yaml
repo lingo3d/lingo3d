@@ -11,6 +11,7 @@ specifiers:
   '@lincode/promiselikes': '*'
   '@lincode/reactivity': '*'
   '@lincode/utils': '*'
+  '@tweakpane/core': 1.1.0
   '@types/react': '*'
   '@types/react-dom': '*'
   '@types/stats.js': ^0.17.0
@@ -32,6 +33,7 @@ specifiers:
   react-dom: ^18.2.0
   stats.js: '*'
   style-loader: ^3.3.1
+  tweakpane: 3.1.0
   typescript: '*'
   url-loader: '*'
   webpack: ^5.73.0
@@ -44,12 +46,14 @@ dependencies:
   '@lincode/promiselikes': 1.0.23
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
+  '@tweakpane/core': 1.1.0
   '@types/three': 0.141.0
   lingo3d: 1.11.34
   nanoid: 4.0.0
   popmotion: 11.0.3
   preact: 10.9.0
   stats.js: 0.17.0
+  tweakpane: 3.1.0
 
 devDependencies:
   '@babel/cli': 7.18.6_@babel+core@7.18.6
@@ -1892,7 +1896,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.1
-      caniuse-lite: 1.0.30001365
+      caniuse-lite: 1.0.30001366
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -2030,8 +2034,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001365
-      electron-to-chromium: 1.4.186
+      caniuse-lite: 1.0.30001366
+      electron-to-chromium: 1.4.187
       node-releases: 2.0.6
       update-browserslist-db: 1.0.4_browserslist@4.21.1
     dev: true
@@ -2069,8 +2073,8 @@ packages:
       tslib: 2.4.0
     dev: true
 
-  /caniuse-lite/1.0.30001365:
-    resolution: {integrity: sha512-VDQZ8OtpuIPMBA4YYvZXECtXbddMCUFJk1qu8Mqxfm/SZJNSr1cy4IuLCOL7RJ/YASrvJcYg1Zh+UEUQ5m6z8Q==}
+  /caniuse-lite/1.0.30001366:
+    resolution: {integrity: sha512-yy7XLWCubDobokgzudpkKux8e0UOOnLHE6mlNJBzT3lZJz6s5atSEzjoL+fsCPkI0G8MP5uVdDx1ur/fXEWkZA==}
     dev: true
 
   /cannon-es/0.19.0:
@@ -2442,8 +2446,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: true
 
-  /electron-to-chromium/1.4.186:
-    resolution: {integrity: sha512-YoVeFrGd/7ROjz4R9uPoND1K/hSRC/xADy9639ZmIZeJSaBnKdYx3I6LMPsY7CXLpK7JFgKQVzeZ/dk2br6Eaw==}
+  /electron-to-chromium/1.4.187:
+    resolution: {integrity: sha512-t3iFLHVIMhB8jGZ+8ui951nz6Bna5qKfhxezG3wzXdBJ79qFKPsE2chjjVFNqC1ewhfrPQrw9pmVeo4FFpZeQA==}
     dev: true
 
   /emojis-list/3.0.0:

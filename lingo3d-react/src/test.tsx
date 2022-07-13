@@ -17,8 +17,9 @@ import {
   LingoEditor,
   types,
   globalState,
-  EditorInput,
-  CustomEditor
+  UI,
+  TweakPane,
+  PaneInput,
 } from "."
 //@ts-ignore
 import gunSrc from "../assets-local/gun.glb"
@@ -118,8 +119,11 @@ const App = () => {
         <Skybox texture={skyboxSrc} />
         <LingoEditor />
         <Reticle />
-        <CustomEditor>
-        </CustomEditor>
+        <UI>
+          <TweakPane>
+            <PaneInput name="hello" value="world" />
+          </TweakPane>
+        </UI>
       </World>
     </>
   )
