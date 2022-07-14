@@ -1,3 +1,6 @@
+## What is Lingo3D?
+Lingo3D is a React/Vue 3d game development framework that ships with a complete visual editor
+
 <a href="https://www.lingo3d.com">
  <img src="https://github.com/lingo3d/lingo3d-readme/blob/main/image/bg-top.jpg"/>
 </a>
@@ -7,9 +10,6 @@
 [![npm package](https://img.shields.io/badge/npm-1.11.3-green)](https://www.npmjs.com/package/lingo3d)
 [![npm package](https://img.shields.io/badge/npm--Vue-1.3.6-yellow)](https://www.npmjs.com/package/lingo3d-vue)
 [![npm package](https://img.shields.io/badge/npm--vanilla-1.3.4-red)](https://www.npmjs.com/package/lingo3d-vanilla)
-
-## What is Lingo3D?
-Lingo3D is a React/Vue 3d game development framework that ships with a complete visual editor
 
 ## Examples
 <a href="https://www.lingo3d.com/examples">
