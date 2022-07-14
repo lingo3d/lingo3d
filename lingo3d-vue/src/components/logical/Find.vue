@@ -11,24 +11,27 @@ import processDefaults from "../../props/utils/processDefaults"
 
 const props = defineProps({ ...foundProps, onLoad: Function })
 
-const parentRef = inject<Ref<ObjectManager | Loaded> | undefined>("parent", undefined)
+const parentRef = inject<Ref<ObjectManager | Loaded> | undefined>(
+  "parent",
+  undefined
+)
 const managerRef = ref<FoundManager>()
 provide("parent", managerRef)
 
-watchEffect(onCleanUp => {
-    const { name } = props
-    const parent = toRaw(parentRef?.value)
-    if (!parent || !name) return
-    
-    if ("loaded" in parent){
-        const handle = parent.loaded.then(() => {
-            managerRef.value = parent.find(name)
-        })
-        return onCleanUp(() => {
-            handle.cancel()
-        })
-    }
-    managerRef.value = parent.find(name)
+watchEffect((onCleanUp) => {
+  const { name } = props
+  const parent = toRaw(parentRef?.value)
+  if (!parent || !name) return
+
+  if ("loaded" in parent) {
+    const handle = parent.loaded.then(() => {
+      managerRef.value = parent.find(name)
+    })
+    return onCleanUp(() => {
+      handle.cancel()
+    })
+  }
+  managerRef.value = parent.find(name)
 })
 
 const paused = computed(() => !managerRef.value)
@@ -37,11 +40,10 @@ const diff = useDiffProps(props, defaults, paused)
 applyChanges(managerRef, undefined, diff, defaults)
 
 watchEffect(() => {
-    managerRef.value && props.onLoad?.()
+  managerRef.value && props.onLoad?.()
 })
-
 </script>
 
 <template>
-    <slot />
+  <slot />
 </template>

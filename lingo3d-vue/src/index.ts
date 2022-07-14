@@ -30,6 +30,8 @@ export { default as SceneGraph } from "./components/editor/SceneGraph.vue"
 export { default as Toolbar } from "./components/editor/Toolbar.vue"
 export { default as Library } from "./components/editor/Library.vue"
 export { default as HUD } from "./components/editor/HUD.vue"
+export { default as TweakPane } from "./components/editor/TweakPane/index.vue"
+export { default as PaneInput } from "./components/editor/TweakPane/PaneInput.vue"
 
 export { default as Keyboard } from "./components/api/Keyboard.vue"
 export { default as Mouse } from "./components/api/Mouse.vue"

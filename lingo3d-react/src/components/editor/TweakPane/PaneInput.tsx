@@ -1,8 +1,7 @@
 type EditorInputProps = {
     name: string
     value: any
-    values?: any
-    choices?: any
+    values?: Array<any>
     onChange?: (value: any) => void
 }
 

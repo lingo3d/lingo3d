@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react"
+import React, { useEffect } from "react"
 import { Pane } from "tweakpane"
 import addInputs from "./addInputs"
 import useInit from "./useInit"
@@ -9,7 +9,6 @@ type CustomEditorProps = {
 
 const CustomEditor = ({ children }: CustomEditorProps) => {
   const elRef = useInit()
-  const paneRef = useRef<Pane>()
 
   const _children: Array<JSX.Element | undefined> = Array.isArray(children)
     ? children
@@ -19,11 +18,11 @@ const CustomEditor = ({ children }: CustomEditorProps) => {
     const el = elRef.current
     if (!el || !_children.length) return
 
-    const pane = (paneRef.current = new Pane({ container: el }))
+    const pane = new Pane({ container: el })
 
     const params = Object.fromEntries(
       _children
-        .filter((child) => child?.props?.name)
+        .filter((child) => child!.props?.name)
         .map((child) => [
           child!.props.name,
           child!.props.values ? child!.props : child!.props.value
@@ -31,7 +30,7 @@ const CustomEditor = ({ children }: CustomEditorProps) => {
     )
     const onChange = Object.fromEntries(
       _children
-        .filter((child) => child?.props?.name)
+        .filter((child) => child!.props?.name)
         .map((child) => [child!.props.name, child!.props.onChange])
     )
     addInputs(pane, "inputs", params, (name, value) => onChange[name]?.(value))
@@ -50,7 +49,8 @@ const CustomEditor = ({ children }: CustomEditorProps) => {
         background: "rgb(40, 41, 46)",
         position: "absolute",
         top: 0,
-        right: 0
+        right: 0,
+        zIndex: 1
       }}
     />
   )

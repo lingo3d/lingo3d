@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { World, Cube, LingoEditor } from "."
+import { World, Cube, LingoEditor, TweakPane, PaneInput } from "."
 
 
 </script>
@@ -8,6 +8,9 @@ import { World, Cube, LingoEditor } from "."
   <World>
     <Cube :move-to="[300, 300, 300, 10]" />
     <LingoEditor />
+    <TweakPane>
+      <PaneInput name="text" value="text" />
+    </TweakPane>
   </World>
   
 </template>
