@@ -23,7 +23,7 @@ specifiers:
   css-loader: ^6.7.1
   fork-ts-checker-webpack-plugin: ^7.2.12
   html-webpack-plugin: ^5.5.0
-  lingo3d: 1.11.35
+  lingo3d: 1.11.38
   nanoid: '*'
   popmotion: '*'
   postcss: ^8.4.14
@@ -48,7 +48,7 @@ dependencies:
   '@lincode/utils': 1.2.51
   '@tweakpane/core': 1.1.0
   '@types/three': 0.141.0
-  lingo3d: 1.11.35
+  lingo3d: 1.11.38
   nanoid: 4.0.0
   popmotion: 11.0.3
   preact: 10.9.0
@@ -2025,8 +2025,8 @@ packages:
       fill-range: 7.0.1
     dev: true
 
-  /browser-fs-access/0.29.6:
-    resolution: {integrity: sha512-YQ3s9diP+o2a9mKM4OGozmOu8MBUZ3GTbiu1R7SgaH96uCXo7ONMz9uAX7oVL6IaE+jUNuve1ryrnZsCkXU82w==}
+  /browser-fs-access/0.31.0:
+    resolution: {integrity: sha512-OndIM5LkmHfx01D3YuVvPpW3fochBeXFS3yhDzcD/Yk7S3lx5RZGltnf7xwbr5V0B8XuN2becZmtceOQFZgQPw==}
     dev: false
 
   /browserslist/4.21.1:
@@ -2971,6 +2971,12 @@ packages:
       postcss: 8.4.14
     dev: true
 
+  /immutability-helper/2.9.1:
+    resolution: {integrity: sha512-r/RmRG8xO06s/k+PIaif2r5rGc3j4Yhc01jSBfwPCXDLYZwp/yxralI37Df1mwmuzcCsen/E/ITKcTEvc1PQmQ==}
+    dependencies:
+      invariant: 2.2.4
+    dev: false
+
   /import-fresh/3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -3010,6 +3016,12 @@ packages:
 
   /intersection-observer/0.12.2:
     resolution: {integrity: sha512-7m1vEcPCxXYI8HqnL8CKI6siDyD+eIWSwgB3DZA+ZTogxk9I4CDnj4wilt9x/+/QbHI4YG5YZNmC6458/e9Ktg==}
+    dev: false
+
+  /invariant/2.2.4:
+    resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
+    dependencies:
+      loose-envify: 1.4.0
     dev: false
 
   /ipaddr.js/1.9.1:
@@ -3162,8 +3174,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lingo3d/1.11.35:
-    resolution: {integrity: sha512-EYVFryNB0zUQxHhOkXzQjT/GezOAo+VSfXtRmC2IOin8hTJmlpO64IGUekTPk8yejrSXoG6U3a939SX2yAmFzw==}
+  /lingo3d/1.11.38:
+    resolution: {integrity: sha512-g9AGCQiT7BQ00Y/ZMc9/X7XL8M3j2X+BypUJ6mVVYHM7DANbi1OPHnlTo0Ma2Y6kNPgVcjPXcaqGpCpyGwFd4g==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
@@ -3173,14 +3185,15 @@ packages:
       '@lincode/utils': 1.2.51
       '@tweakpane/core': 1.1.0
       '@types/three': 0.141.0
-      browser-fs-access: 0.29.6
+      browser-fs-access: 0.31.0
       cannon-es: 0.19.0
       nipplejs: 0.9.1
-      postprocessing: 6.28.1_three@0.141.0
+      postprocessing: 6.28.3_three@0.142.0
       preact: 10.9.0
+      preact-compat: 3.19.0_preact@10.9.0
       preact-custom-element: 4.2.1_preact@10.9.0
       prettier: 2.7.1
-      three: 0.141.0
+      three: 0.142.0
       tweakpane: 3.1.0
       xstate: 4.32.1
     dev: false
@@ -3407,6 +3420,11 @@ packages:
     dependencies:
       boolbase: 1.0.0
     dev: true
+
+  /object-assign/4.1.1:
+    resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
+    engines: {node: '>=0.10.0'}
+    dev: false
 
   /object-inspect/1.12.2:
     resolution: {integrity: sha512-z+cPxW0QGUp0mcqcsgQyLVRDoXFQbXOwBaqyF7VIgI4TWNQsDHrBpUQslRmIfAoYWdYzs6UlKJtB2XJpTaNSpQ==}
@@ -3662,19 +3680,58 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing/6.28.1_three@0.141.0:
-    resolution: {integrity: sha512-3KwA5k9IwdB0bpyJ/jK1KnXAk1BJYV1jnywGXJnQXg5trSNVRUq0Gkas2GDIpo+6ThCbwb20NmF6WQOaeyk1Og==}
+  /postprocessing/6.28.3_three@0.142.0:
+    resolution: {integrity: sha512-Y3VzV2pa+EJlzXOFyNTV/6htDQsHdhhYhpALyfv/9fk9H+GbUR/Zw2wjpZO1JWqO1x/nYbhmZficwvVk981EEw==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
-      three: '>= 0.107.0 < 0.142.0'
+      three: '>= 0.107.0 < 0.143.0'
     dependencies:
-      three: 0.141.0
+      three: 0.142.0
+    dev: false
+
+  /preact-compat/3.19.0_preact@10.9.0:
+    resolution: {integrity: sha512-f83A4hIhH8Uzhb9GbIcGk8SM19ffWlwP9mDaYwQdRnMdekZwcCA7eIAbeV4EMQaV9C0Yuy8iKgBAtyTKPZQt/Q==}
+    peerDependencies:
+      preact: <10
+    dependencies:
+      immutability-helper: 2.9.1
+      preact: 10.9.0
+      preact-context: 1.1.4_preact@10.9.0
+      preact-render-to-string: 3.8.2_preact@10.9.0
+      preact-transition-group: 1.1.1_preact@10.9.0
+      prop-types: 15.8.1
+      standalone-react-addons-pure-render-mixin: 0.1.1
+    dev: false
+
+  /preact-context/1.1.4_preact@10.9.0:
+    resolution: {integrity: sha512-gcCjPJ65R0MiW9hDu8W/3WAmyTElIvwLyEO6oLQiM6/TbLKLxCpBCWV8GJjx52TTEyUr60HLDcmoCXZlslelzQ==}
+    peerDependencies:
+      preact: ^8.2.7
+    dependencies:
+      preact: 10.9.0
     dev: false
 
   /preact-custom-element/4.2.1_preact@10.9.0:
     resolution: {integrity: sha512-/fiEEAyC+MXRlCBRmv/owoN5BLpO2nF/MF3YBHLtp4C2lNqlhV+a4he74A5DhfDoRmxDHm0sYVgQzWFEyzTDsw==}
     peerDependencies:
       preact: 10.x
+    dependencies:
+      preact: 10.9.0
+    dev: false
+
+  /preact-render-to-string/3.8.2_preact@10.9.0:
+    resolution: {integrity: sha512-przuZPajiurStGgxMoJP0EJeC4xj5CgHv+M7GfF3YxAdhGgEWAkhOSE0xympAFN20uMayntBZpttIZqqLl77fw==}
+    peerDependencies:
+      preact: '*'
+    dependencies:
+      preact: 10.9.0
+      pretty-format: 3.8.0
+    dev: false
+
+  /preact-transition-group/1.1.1_preact@10.9.0:
+    resolution: {integrity: sha512-v89XLodCvylf5lMrhI+LqIhDsAjWfiDKV4keAU+L5yDtxmqn8uvjZXn+haKMEG0x0PZz81own19SuNJD5NlOFQ==}
+    peerDependencies:
+      preact: '*'
     dependencies:
       preact: 10.9.0
     dev: false
@@ -3696,9 +3753,21 @@ packages:
       renderkid: 3.0.0
     dev: true
 
+  /pretty-format/3.8.0:
+    resolution: {integrity: sha512-WuxUnVtlWL1OfZFQFuqvnvs6MiAGk9UNsBostyBOB0Is9wb5uRESevA6rnl/rkksXaGX3GzZhPup5d6Vp1nFew==}
+    dev: false
+
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
     dev: true
+
+  /prop-types/15.8.1:
+    resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      react-is: 16.13.1
+    dev: false
 
   /proxy-addr/2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
@@ -3750,6 +3819,10 @@ packages:
       react: 18.2.0
       scheduler: 0.23.0
     dev: true
+
+  /react-is/16.13.1:
+    resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+    dev: false
 
   /react/18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
@@ -4135,6 +4208,10 @@ packages:
       - supports-color
     dev: true
 
+  /standalone-react-addons-pure-render-mixin/0.1.1:
+    resolution: {integrity: sha512-HFkwqpJmvz4vxHyzdeUcjtsp8Am+NauLXdU2/YXT1/InPbszaRo1cLPAy/58H7oOPNNjteqHcv04JEw+d9C+Xw==}
+    dev: false
+
   /stats.js/0.17.0:
     resolution: {integrity: sha512-hNKz8phvYLPEcRkeG1rsGmV5ChMjKDAWU7/OJJdDErPBNChQXxCo3WZurGpnWc6gZhAzEPFad1aVgyOANH1sMw==}
     dev: false
@@ -4255,8 +4332,8 @@ packages:
       source-map-support: 0.5.21
     dev: true
 
-  /three/0.141.0:
-    resolution: {integrity: sha512-JaSDAPWuk4RTzG5BYRQm8YZbERUxTfTDVouWgHMisS2to4E5fotMS9F2zPFNOIJyEFTTQDDKPpsgZVThKU3pXA==}
+  /three/0.142.0:
+    resolution: {integrity: sha512-ESjPO+3geFr+ZUfVMpMnF/eVU2uJPOh0e2ZpMFqjNca1wApS9lJb7E4MjwGIczgt9iuKd8PEm6Pfgp2bJ92Xtg==}
     dev: false
 
   /thunky/1.1.0:

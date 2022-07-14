@@ -24,7 +24,7 @@
 		"@lincode/promiselikes": "*",
 		"@lincode/reactivity": "*",
 		"@lincode/utils": "*",
-		"@tweakpane/core": "1.1.0",
+		"@tweakpane/core": "*",
 		"@types/three": "0.141.0",
 		"browser-fs-access": "0.31.0",
 		"cannon-es": "0.19.0",
@@ -35,7 +35,7 @@
 		"preact-custom-element": "*",
 		"prettier": "2.7.1",
 		"three": "0.142.0",
-		"tweakpane": "3.1.0",
+		"tweakpane": "*",
 		"xstate": "*"
 	},
 	"devDependencies": {
