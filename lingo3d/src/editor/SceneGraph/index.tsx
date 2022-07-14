@@ -1,4 +1,4 @@
-import { Fragment, h } from "preact"
+import { h } from "preact"
 import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import register from "preact-custom-element"
 import { last, preventTreeShake } from "@lincode/utils"
@@ -73,80 +73,78 @@ const SceneGraph = () => {
     }
 
     return (
-        <Fragment>
+        <div
+            ref={elRef}
+            className="lingo3d-ui"
+            onClick={() => emitSelectionTarget()}
+            style={{
+                width: 200,
+                height: "100%",
+                background: "rgb(40, 41, 46)",
+                padding: 4,
+                paddingTop: 0,
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden"
+            }}
+        >
             <div
-                ref={elRef}
-                className="lingo3d-ui"
-                onClick={() => emitSelectionTarget()}
                 style={{
-                    width: 200,
-                    height: "100%",
-                    background: "rgb(40, 41, 46)",
-                    padding: 4,
-                    paddingTop: 0,
+                    height: 24,
+                    borderBottom: "1px solid rgb(255,255,255,0.1)",
+                    opacity: camera === mainCamera ? 0.5 : 0.25,
                     display: "flex",
-                    flexDirection: "column",
-                    overflow: "hidden"
+                    alignItems: "center",
+                    paddingLeft: 12
                 }}
             >
-                <div
-                    style={{
-                        height: 24,
-                        borderBottom: "1px solid rgb(255,255,255,0.1)",
-                        opacity: camera === mainCamera ? 0.5 : 0.25,
-                        display: "flex",
-                        alignItems: "center",
-                        paddingLeft: 12
-                    }}
+                <div>scenegraph</div>
+                <div style={{ flexGrow: 1 }} />
+                <TitleBarButton
+                    active={!!sceneGraphTarget}
+                    onClick={handleFind}
                 >
-                    <div>scenegraph</div>
-                    <div style={{ flexGrow: 1 }} />
-                    <TitleBarButton
-                        active={!!sceneGraphTarget}
-                        onClick={handleFind}
-                    >
-                        <FindIcon />
-                    </TitleBarButton>
-                    <TitleBarButton
-                        active={!!multipleSelectionTargets.length}
-                        onClick={emitEditorGroupItems}
-                    >
-                        <GroupIcon />
-                    </TitleBarButton>
-                    <TitleBarButton
-                        active={!!selectionTarget}
-                        onClick={deleteSelected}
-                    >
-                        <DeleteIcon />
-                    </TitleBarButton>
-                </div>
-                <div
-                    style={{
-                        overflow: "scroll",
-                        opacity: camera === mainCamera ? 1 : 0.5
-                    }}
-                    className="lingo3d-ui"
+                    <FindIcon />
+                </TitleBarButton>
+                <TitleBarButton
+                    active={!!multipleSelectionTargets.length}
+                    onClick={emitEditorGroupItems}
                 >
-                    {appendables.map((appendable) =>
-                        appendable instanceof Model ? (
-                            <ModelTreeItem
-                                key={appendable.uuid}
-                                appendable={appendable}
-                                level={0}
-                            />
-                        ) : (
-                            <TreeItem
-                                key={appendable.uuid}
-                                appendable={appendable}
-                                level={0}
-                            />
-                        )
-                    )}
-                    <EmptyItem />
-                </div>
+                    <GroupIcon />
+                </TitleBarButton>
+                <TitleBarButton
+                    active={!!selectionTarget}
+                    onClick={deleteSelected}
+                >
+                    <DeleteIcon />
+                </TitleBarButton>
+            </div>
+            <div
+                style={{
+                    overflow: "scroll",
+                    opacity: camera === mainCamera ? 1 : 0.5
+                }}
+                className="lingo3d-ui"
+            >
+                {appendables.map((appendable) =>
+                    appendable instanceof Model ? (
+                        <ModelTreeItem
+                            key={appendable.uuid}
+                            appendable={appendable}
+                            level={0}
+                        />
+                    ) : (
+                        <TreeItem
+                            key={appendable.uuid}
+                            appendable={appendable}
+                            level={0}
+                        />
+                    )
+                )}
+                <EmptyItem />
             </div>
             <SceneGraphContextMenu />
-        </Fragment>
+        </div>
     )
 }
 export default SceneGraph

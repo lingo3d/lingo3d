@@ -1,6 +1,7 @@
 import { h } from "preact"
 import { preventTreeShake } from "@lincode/utils"
 import useInit from "../utils/useInit"
+import { createPortal } from "preact/compat"
 
 preventTreeShake(h)
 
@@ -10,12 +11,12 @@ interface ContextMenuProps {
     children?: JSX.Element | Array<JSX.Element>
 }
 
-const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {    
+const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
     const elRef = useInit()
 
     if (!data) return null
 
-    return (
+    return createPortal(
         <div
             ref={elRef}
             className="lingo3d-ui"
@@ -41,7 +42,8 @@ const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
             >
                 {children}
             </div>
-        </div>
+        </div>,
+        document.body
     )
 }
 export default ContextMenu

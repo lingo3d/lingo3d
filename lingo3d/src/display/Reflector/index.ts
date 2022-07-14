@@ -69,7 +69,7 @@ export default class Reflector extends Plane {
         this.resolutionState.set(val)
     }
 
-    private blurState = new Reactive(1024)
+    private blurState = new Reactive(512)
     public get blur() {
         return this.blurState.get()
     }

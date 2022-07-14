@@ -38,7 +38,7 @@ const CustomEditor = ({ children }: CustomEditorProps) => {
     return () => {
       pane.dispose()
     }
-  }, [_children])
+  }, [_children.length])
 
   return (
     <div

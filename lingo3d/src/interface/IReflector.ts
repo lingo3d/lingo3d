@@ -21,7 +21,7 @@ export const reflectorDefaults: Defaults<IReflector> = {
     ...planeDefaults,
 
     resolution: 256,
-    blur: 1024,
+    blur: 512,
     contrast: 1.5,
     mirror: 1,
 
