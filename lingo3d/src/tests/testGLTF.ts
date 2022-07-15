@@ -5,7 +5,7 @@ import AreaLight from "../display/lights/AreaLight"
 export default {}
 
 const model = new Model()
-model.src = "casa2.glb"
+model.src = "gallery.glb"
 model.scale = 3
 
 settings.defaultOrbitControls = true
