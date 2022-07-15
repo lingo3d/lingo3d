@@ -1,13 +1,14 @@
-import React, { useEffect } from "react"
+import React, { PropsWithChildren, useEffect } from "react"
 import { Pane } from "tweakpane"
 import addInputs from "./addInputs"
 import useInit from "./useInit"
 
-type CustomEditorProps = {
-  children?: JSX.Element | Array<JSX.Element>
-}
+type CustomEditorProps = PropsWithChildren<{
+  style?: React.CSSProperties
+  className?: string
+}>
 
-const CustomEditor = ({ children }: CustomEditorProps) => {
+const CustomEditor: React.FC<CustomEditorProps> = ({ children, style, className }) => {
   const elRef = useInit()
 
   const _children: Array<JSX.Element | undefined> = Array.isArray(children)
@@ -43,14 +44,15 @@ const CustomEditor = ({ children }: CustomEditorProps) => {
   return (
     <div
       ref={elRef}
-      className="lingo3d-ui"
+      className={"lingo3d-ui " + (className ?? "")}
       style={{
         width: 300,
         background: "rgb(40, 41, 46)",
         position: "absolute",
         top: 0,
         right: 0,
-        zIndex: 1
+        zIndex: 1,
+        ...style
       }}
     />
   )

@@ -1,4 +1,4 @@
-import { createEffect } from "@lincode/reactivity"
+import store, { createEffect } from "@lincode/reactivity"
 import { AudioListener, PositionalAudio } from "three"
 import PositionedItem from "../api/core/PositionedItem"
 import mainCamera from "../engine/mainCamera"
@@ -13,16 +13,21 @@ import makeAudioSprite from "./core/utils/makeAudioSprite"
 import toResolvable from "./utils/toResolvable"
 import loadAudio from "./utils/loaders/loadAudio"
 
-const audioListener = new AudioListener()
+const [setAudioListener, getAudioListener] = store<AudioListener | undefined>(
+    undefined
+)
 
 createEffect(() => {
+    const audioListener = getAudioListener()
+    if (!audioListener) return
+
     const cam = getCameraRendered()
     cam.add(audioListener)
 
     return () => {
         cam.remove(audioListener)
     }
-}, [getCameraRendered])
+}, [getCameraRendered, getAudioListener])
 
 export default class Audio extends PositionedItem implements IAudio {
     public static componentName = "audio"
@@ -32,7 +37,8 @@ export default class Audio extends PositionedItem implements IAudio {
     private sound: PositionalAudio
 
     public constructor() {
-        const sound = new PositionalAudio(audioListener)
+        !getAudioListener() && setAudioListener(new AudioListener())
+        const sound = new PositionalAudio(getAudioListener()!)
         super(sound)
         this.sound = sound
         scene.add(sound)
