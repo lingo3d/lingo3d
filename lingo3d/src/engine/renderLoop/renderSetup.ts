@@ -113,15 +113,6 @@ createEffect(() => {
     const renderer = getRenderer()
     if (!renderer) return
 
-    // renderer.shadowMap.type = PCFSoftShadowMap
-    renderer.shadowMap.enabled = true
-
-}, [getRenderer])
-
-createEffect(() => {
-    const renderer = getRenderer()
-    if (!renderer) return
-
     renderer.physicallyCorrectLights = getPBR()
 
 }, [getRenderer, getPBR])

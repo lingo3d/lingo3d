@@ -1,5 +1,3 @@
-import { Point3d } from "@lincode/math"
-import MeshItem from "../display/core/MeshItem"
 import IAnimationMixin, { animationMixinDefaults, animationMixinSchema } from "./IAnimationMixin"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { LingoMouseEvent } from "./IMouse"
@@ -38,7 +36,6 @@ export default interface IStaticObjectManager extends IEventLoop, IAnimationMixi
     adjustColor: Nullable<string>
 
     toon: boolean
-    pbr: boolean
 }
 
 export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManager>> = {
@@ -72,8 +69,7 @@ export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManag
     adjustEmissiveColor: String,
     adjustColor: String,
 
-    toon: Boolean,
-    pbr: Boolean
+    toon: Boolean
 }
 
 hideSchema(["lookAt", "lookTo"])
@@ -109,6 +105,5 @@ export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     adjustEmissiveColor: [undefined, "#000000"],
     adjustColor: [undefined, "#ffffff"],
 
-    toon: false,
-    pbr: false
+    toon: false
 }

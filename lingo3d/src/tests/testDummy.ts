@@ -28,6 +28,12 @@ cam.mouseControl = true
 cam.innerX = 50
 cam.innerY = 50
 
+dummy.src = "fox/Fox.fbx"
+dummy.animations = {
+    idle: "fox/Idle.fbx",
+    running: "fox/Walking.fbx",
+}
+
 keyboard.onKeyPress = (_, pressed) => {
     if (pressed.has("w"))
         dummy.strideForward = -5

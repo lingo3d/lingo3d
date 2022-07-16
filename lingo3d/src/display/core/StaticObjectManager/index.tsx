@@ -1,9 +1,7 @@
 import { distance3d, Point3d } from "@lincode/math"
 import {
     Color,
-    Material,
     Matrix3,
-    MeshStandardMaterial,
     MeshToonMaterial,
     Object3D,
     PropertyBinding
@@ -45,7 +43,6 @@ import IStaticObjectManager from "../../../interface/IStaticObjectManaget"
 import AnimationMixin from "../mixins/AnimationMixin"
 import MeshItem, { getObject3d } from "../MeshItem"
 import { Reactive } from "@lincode/reactivity"
-import copyStandard from "./applyMaterialProperties/copyStandard"
 import copyToon from "./applyMaterialProperties/copyToon"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { onBeforeRender } from "../../../events/onBeforeRender"
@@ -69,8 +66,6 @@ const updateFrustum = throttle(
     "leading"
 )
 
-const forcePBRSet = new WeakSet<Material>()
-
 const setNumber = (
     child: any,
     property: string,
@@ -81,8 +76,7 @@ const setNumber = (
     child.material[property] =
         factor === undefined
             ? defaultValue
-            : (defaultValue || (forcePBRSet.has(child.material) ? 1 : 0)) *
-              factor
+            : Math.max(defaultValue || 0, 0.25) * factor
 }
 
 const setBoolean = (
@@ -335,7 +329,6 @@ class StaticObjectManager<T extends Object3D = Object3D>
 
             const {
                 _toon,
-                _pbr,
                 _metalnessFactor,
                 _roughnessFactor,
                 _opacityFactor,
@@ -353,11 +346,6 @@ class StaticObjectManager<T extends Object3D = Object3D>
                 if (_toon) {
                     child.material = new MeshToonMaterial()
                     copyToon(material, child.material)
-                } else if (_pbr) {
-                    forcePBRSet.add(
-                        (child.material = new MeshStandardMaterial())
-                    )
-                    copyStandard(material, child.material)
                 }
 
                 if (_metalnessFactor !== undefined)
@@ -481,15 +469,6 @@ class StaticObjectManager<T extends Object3D = Object3D>
     }
     public set toon(val) {
         this._toon = val
-        this.refreshFactors()
-    }
-
-    private _pbr?: boolean
-    public get pbr() {
-        return this._pbr ?? false
-    }
-    public set pbr(val) {
-        this._pbr = val
         this.refreshFactors()
     }
 

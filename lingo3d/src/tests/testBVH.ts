@@ -34,12 +34,12 @@ cam.transition = true
 cam.append(player)
 cam.mouseControl = true
 cam.active = true
+cam.lockTargetRotation = "dynamic-lock"
 
 const map = new Model()
 map.src = "fairy.glb"
 map.scale = 30
 map.physics = "map"
-map.pbr = true
 
 settings.skybox = [
     "skybox/Left.png", "skybox/Right.png", "skybox/Up.png", "skybox/Down.png", "skybox/Front.png", "skybox/Back.png"

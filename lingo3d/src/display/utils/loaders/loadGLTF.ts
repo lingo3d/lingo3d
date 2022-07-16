@@ -1,11 +1,12 @@
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
-import { Bone, LinearEncoding } from "three"
+import { Bone, LinearEncoding, MeshStandardMaterial } from "three"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { decreaseLoadingCount, increaseLoadingCount } from "../../../states/useLoadingCount"
 import { handleProgress } from "./bytesLoaded"
 import { getWasmPath } from "../../../states/useWasmPath"
+import copyStandard from "../../core/StaticObjectManager/applyMaterialProperties/copyStandard"
 
 const cache = new Map<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()
@@ -25,9 +26,15 @@ export default async (url: string, clone: boolean) => {
                 scene.traverse((child: any) => {
                     noBone && child instanceof Bone && (noBone = false)
 
-                    child.material?.map && (child.material.map.encoding = LinearEncoding)
                     child.castShadow = true
                     child.receiveShadow = true
+
+                    const {material} = child
+                    if (!material) return
+
+                    material.map && (material.map.encoding = LinearEncoding)
+                    copyStandard(material, child.material = new MeshStandardMaterial())
+                    material.dispose()
                 })
             resolve([gltf, noBone])
         },

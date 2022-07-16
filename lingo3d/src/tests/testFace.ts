@@ -5,7 +5,6 @@ export default {}
 const model = new Model()
 model.src = "face.glb"
 model.scale = 5
-model.playAnimation()
 model.y = 300
 
 settings.defaultLight = false
@@ -32,9 +31,3 @@ settings.defaultOrbitControls = true
 settings.ambientOcclusion = true
 settings.bloom = true
 settings.bloomStrength = 0.1
-
-const cube = new Cube()
-cube.height = 20
-cube.width = 9999
-cube.depth = 9999
-cube.opacity = 0.001

@@ -1,6 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import { last } from "@lincode/utils"
-import { HemisphereLight, DirectionalLight, EquirectangularReflectionMapping, WebGLCubeRenderTarget, LinearMipmapLinearFilter, CubeCamera } from "three"
+import { HemisphereLight, DirectionalLight, EquirectangularReflectionMapping, WebGLCubeRenderTarget, CubeCamera } from "three"
 import { appendableRoot } from "../api/core/Appendable"
 import Environment from "../display/Environment"
 import getWorldPosition from "../display/utils/getWorldPosition"
@@ -12,6 +12,7 @@ import { getDefaultLight } from "../states/useDefaultLight"
 import { getDefaultLightScale } from "../states/useDefaultLightScale"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import { getRenderer } from "../states/useRenderer"
+import initLight from "./initLight"
 import scene from "./scene"
 
 export default {}
@@ -75,7 +76,7 @@ createEffect(() => {
     const skylight = new HemisphereLight(0xffffff, 0x666666)
     scene.add(skylight)
 
-    const light = new DirectionalLight(0xffffff, 0.5)
+    const light = initLight(new DirectionalLight(0xffffff, 0.5))
     light.position.set(0, 1, 1)
     scene.add(light)
 

@@ -1,5 +1,5 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { WebGLRenderer } from "three"
+import { VSMShadowMap, WebGLRenderer } from "three"
 import isChromium from "../api/utils/isChromium"
 import isMobile from "../api/utils/isMobile"
 import { getBackgroundColor } from "./useBackgroundColor"
@@ -16,6 +16,7 @@ createEffect(() => {
         antialias: true
     })
     renderer.shadowMap.enabled = true
+    renderer.shadowMap.type = VSMShadowMap
     setRenderer(renderer)
     
     return () => {

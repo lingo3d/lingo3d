@@ -29,7 +29,6 @@ export default class Dummy extends Model implements IDummy {
         this.width = 20
         this.depth = 20
         this.scale = 1.7
-        this.pbr = true
         this.frustumCulled = false
 
         const [setType, getType] = store<

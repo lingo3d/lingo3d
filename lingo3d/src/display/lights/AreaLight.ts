@@ -33,12 +33,12 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
 
             if (this.done) return
 
-            const light = this.light = initLight(new RectAreaLight(
+            const light = this.light = new RectAreaLight(
                 this._color,
                 this._intensity,
                 this.width * this.scaleX * scaleDown,
                 this.height * this.scaleY * scaleDown
-            ))
+            )
             this.object3d.add(light)
 
             this.then(() => light.dispose())

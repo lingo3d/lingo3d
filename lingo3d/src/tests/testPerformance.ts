@@ -6,7 +6,6 @@ export default {}
 const map = new Model()
 map.src = "bugp.glb"
 map.scale = 150
-map.pbr = true
 map.metalnessFactor = 0
 map.roughnessFactor = 0
 

@@ -457,7 +457,6 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             const [adjustMaterialParams, adjustMaterialRest] = splitObject(
                 animationRest,
                 [
-                    "toon",
                     "pbr",
                     "metalnessFactor",
                     "roughnessFactor",
