@@ -15,6 +15,7 @@ createEffect(() => {
         logarithmicDepthBuffer: isChromium && !isMobile ? getLogarithmicDepth() : false,
         antialias: true
     })
+    renderer.shadowMap.enabled = true
     setRenderer(renderer)
     
     return () => {

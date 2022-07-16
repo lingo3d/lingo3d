@@ -11,6 +11,7 @@ import { onTransformControls } from "../../events/onTransformControls"
 import { Reactive } from "@lincode/reactivity"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getCameraRendered } from "../../states/useCameraRendered"
+import initLight from "../../engine/initLight"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import("three/examples/jsm/lights/RectAreaLightUniformsLib.js")
@@ -32,12 +33,12 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
 
             if (this.done) return
 
-            const light = this.light = new RectAreaLight(
+            const light = this.light = initLight(new RectAreaLight(
                 this._color,
                 this._intensity,
                 this.width * this.scaleX * scaleDown,
                 this.height * this.scaleY * scaleDown
-            )
+            ))
             this.object3d.add(light)
 
             this.then(() => light.dispose())

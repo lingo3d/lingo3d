@@ -3,18 +3,15 @@ import Model from "../display/Model"
 
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import settings from "../api/settings"
+import Dummy from "../display/Dummy"
 
 export default {}
 
-const player = new Model()
+const player = new Dummy()
 player.src = "person.glb"
-player.width = 20
-player.depth = 20
 player.z = -100
 player.y = 210.59
 player.physics = "character"
-player.animations = { running: "running 2.fbx", idle: "idle 2.fbx" }
-player.animation = "idle"
 player.rotationY = 90
 
 keyboard.onKeyPress = (k) => {
@@ -40,8 +37,9 @@ cam.active = true
 
 const map = new Model()
 map.src = "fairy.glb"
-map.scale = 20
+map.scale = 30
 map.physics = "map"
+map.pbr = true
 
 settings.skybox = [
     "skybox/Left.png", "skybox/Right.png", "skybox/Up.png", "skybox/Down.png", "skybox/Front.png", "skybox/Back.png"

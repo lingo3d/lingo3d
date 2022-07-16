@@ -84,10 +84,6 @@ createEffect(() => {
         light.intensity = scale * 0.5
     })
 
-    // light.castShadow = true
-    // light.shadow.camera.near = camNear
-    // light.shadow.camera.far = camFar
-
     return () => {
         skylight.dispose()
         scene.remove(skylight)

@@ -16,8 +16,6 @@ class FoundManager extends StaticObjectManager implements IFound {
     protected material: MeshStandardMaterial
 
     public constructor(mesh: Object3D) {
-        // mesh.castShadow = true
-        // mesh.receiveShadow = true
         super(mesh)
         //@ts-ignore
         this.material = mesh.material ??= new MeshStandardMaterial()

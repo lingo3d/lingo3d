@@ -26,8 +26,8 @@ export default async (url: string, clone: boolean) => {
                     noBone && child instanceof Bone && (noBone = false)
 
                     child.material?.map && (child.material.map.encoding = LinearEncoding)
-                    // child.castShadow = true
-                    // child.receiveShadow = true
+                    child.castShadow = true
+                    child.receiveShadow = true
                 })
             resolve([gltf, noBone])
         },
