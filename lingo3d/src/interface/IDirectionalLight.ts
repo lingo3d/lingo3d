@@ -3,15 +3,15 @@ import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IDirectionalLight extends ILight {
-    shadowArea: number
+    shadowDistance: number
 }
 
 export const directionalLightSchema: Required<ExtractProps<IDirectionalLight>> = {
     ...lightSchema,
-    shadowArea: Number
+    shadowDistance: Number
 }
 
 export const directionalLightDefaults: Defaults<IDirectionalLight> = {
     ...lightDefaults,
-    shadowArea: 1000
+    shadowDistance: 500
 }

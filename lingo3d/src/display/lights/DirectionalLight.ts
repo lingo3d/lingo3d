@@ -1,14 +1,19 @@
+import { mapRange } from "@tweakpane/core"
 import {
-    DirectionalLightHelper,
     DirectionalLight as ThreeDirectionalLight,
-    OrthographicCamera
+    DirectionalLightShadow,
+    OrthographicCamera as ThreeOrthographicCamera
 } from "three"
-import { scaleDown } from "../../engine/constants"
+import scene from "../../engine/scene"
+import { onBeforeRender } from "../../events/onBeforeRender"
 import IDirectionalLight, {
     directionalLightDefaults,
     directionalLightSchema
 } from "../../interface/IDirectionalLight"
+import { getCameraRendered } from "../../states/useCameraRendered"
 import LightBase from "../core/LightBase"
+import getWorldPosition from "../utils/getWorldPosition"
+import { vec2Point } from "../utils/vec2Point"
 
 export default class DirectionalLight
     extends LightBase<ThreeDirectionalLight>
@@ -18,26 +23,41 @@ export default class DirectionalLight
     public static defaults = directionalLightDefaults
     public static schema = directionalLightSchema
 
-    private shadowCamera: OrthographicCamera
+    private shadowCamera: ThreeOrthographicCamera
 
     public constructor() {
         const light = new ThreeDirectionalLight()
-        super(light, DirectionalLightHelper)
+        super(light)
+
+        scene.add(light.target)
+        this.then(() => scene.remove(light.target))
+
         this.shadowCamera = light.shadow.camera
+
+        this.createEffect(() => {
+            const cam = getCameraRendered()
+            const handle = onBeforeRender(() => {
+                const position = getWorldPosition(cam)
+                light.position.copy(position).add(this.outerObject3d.position)
+                light.target.position.copy(position).sub(this.outerObject3d.position)
+            })
+            return () => {
+                handle.cancel()
+            }
+        }, [getCameraRendered])
     }
 
-    private _shadowArea = 1000
-    public get shadowArea() {
-        return this._shadowArea
+    public override getWorldPosition() {
+        return vec2Point(getWorldPosition(this.outerObject3d))
     }
-    public set shadowArea(val) {
-        this._shadowArea = val
-
-        const value = val * 0.5 * scaleDown
-        this.shadowCamera.left = -value
-        this.shadowCamera.right = value
-        this.shadowCamera.top = value
-        this.shadowCamera.bottom = -value
+    
+    private _shadowDistance = 500
+    public get shadowDistance() {
+        return this._shadowDistance
+    }
+    public set shadowDistance(val) {
+        this._shadowDistance = val
+        this.shadowCamera.zoom = 500 / val
         this.shadowCamera.updateProjectionMatrix()
     }
 }

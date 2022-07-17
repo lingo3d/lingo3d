@@ -7,11 +7,15 @@ import CameraBase from "../core/CameraBase"
 
 //@ts-ignore
 export default class OrthographicCamera extends CameraBase<ThreeOrthographicCamera> implements ICamera {
-    public constructor() {
+    public componentName = "orthographicCamera"
+    public static defaults = {}
+    public static schema = {}
+
+    public constructor(cam?: ThreeOrthographicCamera) {
         const [w, h] = getResolution()
         const aspect = w / h
 
-        super(new ThreeOrthographicCamera(
+        super(cam ?? new ThreeOrthographicCamera(
             aspect * ORTHOGRAPHIC_FRUSTUM * -0.5,
             aspect * ORTHOGRAPHIC_FRUSTUM * 0.5,
             ORTHOGRAPHIC_FRUSTUM * 0.5,
