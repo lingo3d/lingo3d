@@ -19,6 +19,9 @@ export default async (url: string, clone: boolean) => {
             group.traverse((child: any) => {
                 noBone && child instanceof Bone && (noBone = false)
 
+                child.castShadow = true
+                child.receiveShadow = true
+
                 const {material} = child
                 if (!material) return
 
