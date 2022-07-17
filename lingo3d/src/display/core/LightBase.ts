@@ -38,6 +38,7 @@ export default abstract class LightBase<T extends typeof Light>
                 light.shadow.bias = -0.00009
                 light.shadow.mapSize.width = shadowResolution
                 light.shadow.mapSize.height = shadowResolution
+                light.shadow.radius = 2
             }
             return () => {
                 group.remove(light)

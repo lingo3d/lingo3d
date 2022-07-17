@@ -22,6 +22,9 @@ export default class DirectionalLight
     public constructor() {
         super(ThreeDirectionalLight)
 
+        this.shadowDistance = 2000
+        this.shadowResolution = 1024
+
         this.createEffect(() => {
             const light = this.lightState.get()
             if (!light) return

@@ -78,6 +78,7 @@ createEffect(() => {
     import("../display/lights/SkyLight").then(module => {
         const SkyLight = module.default
         const light = new SkyLight()
+        appendableRoot.delete(light)
 
         handle.watch((getDefaultLightScale(scale => light.intensity = scale)))
         handle.then(() => light.dispose())
@@ -85,6 +86,8 @@ createEffect(() => {
     import("../display/lights/DirectionalLight").then(module => {
         const DirectionalLight = module.default
         const light = new DirectionalLight()
+        appendableRoot.delete(light)
+
         light.y = 1000
         light.z = 1000
 
