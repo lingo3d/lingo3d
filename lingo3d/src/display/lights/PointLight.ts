@@ -5,7 +5,7 @@ import IPointLight, {
 } from "../../interface/IPointLight"
 import LightBase from "../core/LightBase"
 
-export class PointLight
+export default class PointLight
     extends LightBase<typeof ThreePointLight>
     implements IPointLight
 {
