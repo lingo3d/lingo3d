@@ -1,6 +1,7 @@
+import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { last } from "@lincode/utils"
-import { HemisphereLight, DirectionalLight, EquirectangularReflectionMapping, WebGLCubeRenderTarget, CubeCamera } from "three"
+import { EquirectangularReflectionMapping, WebGLCubeRenderTarget, CubeCamera } from "three"
 import { appendableRoot } from "../api/core/Appendable"
 import Environment from "../display/Environment"
 import getWorldPosition from "../display/utils/getWorldPosition"
@@ -12,7 +13,6 @@ import { getDefaultLight } from "../states/useDefaultLight"
 import { getDefaultLightScale } from "../states/useDefaultLightScale"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import { getRenderer } from "../states/useRenderer"
-import initLight from "./initLight"
 import scene from "./scene"
 
 export default {}
@@ -72,26 +72,27 @@ createEffect(() => {
             defaultEnvironment.texture = undefined
         }
     }
+    
+    const handle = new Cancellable()
 
-    const skylight = new HemisphereLight(0xffffff, 0x666666)
-    scene.add(skylight)
+    import("../display/lights/SkyLight").then(module => {
+        const SkyLight = module.default
+        const light = new SkyLight()
 
-    const light = initLight(new DirectionalLight(0xffffff, 0.5))
-    light.position.set(0, 1, 1)
-    scene.add(light)
+        handle.watch((getDefaultLightScale(scale => light.intensity = scale)))
+        handle.then(() => light.dispose())
+    })
+    import("../display/lights/DirectionalLight").then(module => {
+        const DirectionalLight = module.default
+        const light = new DirectionalLight()
+        light.y = 1000
+        light.z = 1000
 
-    const handle = getDefaultLightScale(scale => {
-        skylight.intensity = scale
-        light.intensity = scale * 0.5
+        handle.watch((getDefaultLightScale(scale => light.intensity = scale * 0.5)))
+        handle.then(() => light.dispose())
     })
 
     return () => {
-        skylight.dispose()
-        scene.remove(skylight)
-
-        light.dispose()
-        scene.remove(light)
-
         handle.cancel()
     }
 }, [getDefaultLight])
