@@ -1,8 +1,14 @@
 import { SpotLight as ThreeSpotLight, SpotLightHelper } from "three"
 import LightBase from "../core/LightBase"
-import ISpotLight, { spotLightDefaults, spotLightSchema } from "../../interface/ISpotLight"
+import ISpotLight, {
+    spotLightDefaults,
+    spotLightSchema
+} from "../../interface/ISpotLight"
 
-export default class SpotLight extends LightBase<typeof ThreeSpotLight> implements ISpotLight {
+export default class SpotLight
+    extends LightBase<typeof ThreeSpotLight>
+    implements ISpotLight
+{
     public static componentName = "spotLight"
     public static defaults = spotLightDefaults
     public static schema = spotLightSchema
@@ -13,30 +19,50 @@ export default class SpotLight extends LightBase<typeof ThreeSpotLight> implemen
     }
 
     public get angle() {
-        return this.light.angle
+        const light = this.lightState.get()
+        if (!light) return 1
+
+        return light.angle
     }
     public set angle(val) {
-        this.light.angle = val
+        this.cancelHandle("angle", () =>
+            this.lightState.get((light) => light && (light.angle = val))
+        )
     }
 
     public get penumbra() {
-        return this.light.penumbra
+        const light = this.lightState.get()
+        if (!light) return 0
+
+        return light.penumbra
     }
     public set penumbra(val) {
-        this.light.penumbra = val
+        this.cancelHandle("penumbra", () =>
+            this.lightState.get((light) => light && (light.penumbra = val))
+        )
     }
 
     public get decay() {
-        return this.light.decay
+        const light = this.lightState.get()
+        if (!light) return 1
+
+        return light.decay
     }
     public set decay(val) {
-        this.light.decay = val
+        this.cancelHandle("decay", () =>
+            this.lightState.get((light) => light && (light.decay = val))
+        )
     }
 
     public get distance() {
-        return this.light.distance
+        const light = this.lightState.get()
+        if (!light) return 0
+
+        return light.distance
     }
     public set distance(val) {
-        this.light.distance = val
+        this.cancelHandle("distance", () =>
+            this.lightState.get((light) => light && (light.distance = val))
+        )
     }
 }

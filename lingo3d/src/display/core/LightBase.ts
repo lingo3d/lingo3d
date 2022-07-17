@@ -1,4 +1,5 @@
 import { Cancellable } from "@lincode/promiselikes"
+import { Reactive } from "@lincode/reactivity"
 import { Class } from "@lincode/utils"
 import { Color, Group, Light, Object3D } from "three"
 import mainCamera from "../../engine/mainCamera"
@@ -17,7 +18,7 @@ export default abstract class LightBase<T extends typeof Light>
     extends ObjectManager<Group>
     implements ILightBase
 {
-    protected light: InstanceType<T>
+    protected lightState = new Reactive<InstanceType<T> | undefined>(undefined)
 
     public constructor(
         Light: T,
@@ -26,17 +27,23 @@ export default abstract class LightBase<T extends typeof Light>
         const group = new Group()
         super(group)
 
-        //@ts-ignore
-        const light = this.light = new Light()
-        group.add(light)
-        this.then(() => light.dispose())
+        this.createEffect(() => {
+            const light = new Light()
+            this.lightState.set(light as InstanceType<T>)
+            group.add(light)
 
-        if (light.shadow) {
-            light.castShadow = true
-            light.shadow.bias = -0.00009
-            light.shadow.mapSize.width = 512
-            light.shadow.mapSize.height = 512
-        }
+            if (light.shadow) {
+                const shadowResolution = this.shadowResolutionState.get()
+                light.castShadow = true
+                light.shadow.bias = -0.00009
+                light.shadow.mapSize.width = shadowResolution
+                light.shadow.mapSize.height = shadowResolution
+            }
+            return () => {
+                group.remove(light)
+                light.dispose()
+            }
+        }, [this.shadowResolutionState.get])
 
         this.createEffect(() => {
             if (getCameraRendered() !== mainCamera) return
@@ -76,17 +83,37 @@ export default abstract class LightBase<T extends typeof Light>
         }, [getCameraRendered])
     }
 
+    private shadowResolutionState = new Reactive(512)
+    public get shadowResolution() {
+        return this.shadowResolutionState.get()
+    }
+    public set shadowResolution(val) {
+        this.shadowResolutionState.set(val)
+    }
+
     public get color() {
-        return "#" + this.light.color.getHexString()
+        const light = this.lightState.get()
+        if (!light) return "#ffffff"
+
+        return "#" + light.color.getHexString()
     }
     public set color(val) {
-        this.light.color = new Color(val)
+        this.cancelHandle("color", () =>
+            this.lightState.get(
+                (light) => light && (light.color = new Color(val))
+            )
+        )
     }
 
     public get intensity() {
-        return this.light.intensity
+        const light = this.lightState.get()
+        if (!light) return 1
+
+        return light.intensity
     }
     public set intensity(val) {
-        this.light.intensity = val
+        this.cancelHandle("intensity", () =>
+            this.lightState.get((light) => light && (light.intensity = val))
+        )
     }
 }

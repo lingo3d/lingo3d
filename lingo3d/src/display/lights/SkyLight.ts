@@ -1,21 +1,34 @@
 import { Color, HemisphereLight } from "three"
 import LightBase from "../core/LightBase"
-import ISkyLight, { skyLightDefaults, skyLightSchema } from "../../interface/ISkyLight"
+import ISkyLight, {
+    skyLightDefaults,
+    skyLightSchema
+} from "../../interface/ISkyLight"
 
-export default class Skylight extends LightBase<HemisphereLight> implements ISkyLight {
+export default class Skylight
+    extends LightBase<typeof HemisphereLight>
+    implements ISkyLight
+{
     public static componentName = "skyLight"
     public static defaults = skyLightDefaults
     public static schema = skyLightSchema
 
     public constructor() {
-        super(new HemisphereLight())
+        super(HemisphereLight)
         this.innerY = 0
     }
 
     public get groundColor() {
-        return "#" + this.object3d.groundColor.getHexString()
+        const light = this.lightState.get()
+        if (!light) return "#ffffff"
+
+        return "#" + light.groundColor.getHexString()
     }
     public set groundColor(val) {
-        this.object3d.groundColor = new Color(val)
+        this.cancelHandle("groundColor", () =>
+            this.lightState.get(
+                (light) => light && (light.groundColor = new Color(val))
+            )
+        )
     }
 }
