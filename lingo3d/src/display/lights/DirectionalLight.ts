@@ -1,7 +1,9 @@
 import {
     DirectionalLightHelper,
-    DirectionalLight as ThreeDirectionalLight
+    DirectionalLight as ThreeDirectionalLight,
+    OrthographicCamera
 } from "three"
+import { scaleDown } from "../../engine/constants"
 import IDirectionalLight, {
     directionalLightDefaults,
     directionalLightSchema
@@ -16,7 +18,26 @@ export default class DirectionalLight
     public static defaults = directionalLightDefaults
     public static schema = directionalLightSchema
 
+    private shadowCamera: OrthographicCamera
+
     public constructor() {
-        super(new ThreeDirectionalLight(), DirectionalLightHelper)
+        const light = new ThreeDirectionalLight()
+        super(light, DirectionalLightHelper)
+        this.shadowCamera = light.shadow.camera
+    }
+
+    private _shadowArea = 1000
+    public get shadowArea() {
+        return this._shadowArea
+    }
+    public set shadowArea(val) {
+        this._shadowArea = val
+
+        const value = val * 0.5 * scaleDown
+        this.shadowCamera.left = -value
+        this.shadowCamera.right = value
+        this.shadowCamera.top = value
+        this.shadowCamera.bottom = -value
+        this.shadowCamera.updateProjectionMatrix()
     }
 }
