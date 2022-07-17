@@ -69,6 +69,8 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
         })()
     }
 
+    public shadowResolution = 512
+
     private helperState = new Reactive(true)
     public get helper() {
         return this.helperState.get()

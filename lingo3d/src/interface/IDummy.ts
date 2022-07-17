@@ -40,6 +40,5 @@ export const dummyDefaults: Defaults<IDummy> = {
     width: 20,
     depth: 20,
     animation: "idle",
-    pbr: true,
     src: YBOT_URL
 }
