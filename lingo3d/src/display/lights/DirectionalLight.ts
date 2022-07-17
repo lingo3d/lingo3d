@@ -1,7 +1,5 @@
-import { mapRange } from "@tweakpane/core"
 import {
     DirectionalLight as ThreeDirectionalLight,
-    DirectionalLightShadow,
     OrthographicCamera as ThreeOrthographicCamera
 } from "three"
 import scene from "../../engine/scene"
@@ -16,7 +14,7 @@ import getWorldPosition from "../utils/getWorldPosition"
 import { vec2Point } from "../utils/vec2Point"
 
 export default class DirectionalLight
-    extends LightBase<ThreeDirectionalLight>
+    extends LightBase<typeof ThreeDirectionalLight>
     implements IDirectionalLight
 {
     public static componentName = "directionalLight"
@@ -26,9 +24,9 @@ export default class DirectionalLight
     private shadowCamera: ThreeOrthographicCamera
 
     public constructor() {
-        const light = new ThreeDirectionalLight()
-        super(light)
+        super(ThreeDirectionalLight)
 
+        const light = this.light
         scene.add(light.target)
         this.then(() => scene.remove(light.target))
 

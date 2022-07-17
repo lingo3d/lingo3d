@@ -1,33 +1,42 @@
-import { applyMixins } from "@lincode/utils"
 import { SpotLight as ThreeSpotLight, SpotLightHelper } from "three"
 import LightBase from "../core/LightBase"
-import PointLightMixin from "../core/mixins/PointLightMixin"
 import ISpotLight, { spotLightDefaults, spotLightSchema } from "../../interface/ISpotLight"
 
-class SpotLight extends LightBase<ThreeSpotLight> implements ISpotLight {
+export default class SpotLight extends LightBase<typeof ThreeSpotLight> implements ISpotLight {
     public static componentName = "spotLight"
     public static defaults = spotLightDefaults
     public static schema = spotLightSchema
 
     public constructor() {
-        super(new ThreeSpotLight(), SpotLightHelper)
+        super(ThreeSpotLight, SpotLightHelper)
         this.innerY = 0
     }
 
     public get angle() {
-        return this.object3d.angle
+        return this.light.angle
     }
     public set angle(val) {
-        this.object3d.angle = val
+        this.light.angle = val
     }
 
     public get penumbra() {
-        return this.object3d.penumbra
+        return this.light.penumbra
     }
     public set penumbra(val) {
-        this.object3d.penumbra = val
+        this.light.penumbra = val
+    }
+
+    public get decay() {
+        return this.light.decay
+    }
+    public set decay(val) {
+        this.light.decay = val
+    }
+
+    public get distance() {
+        return this.light.distance
+    }
+    public set distance(val) {
+        this.light.distance = val
     }
 }
-interface SpotLight extends LightBase<ThreeSpotLight>, PointLightMixin<ThreeSpotLight> {}
-applyMixins(SpotLight, [PointLightMixin])
-export default SpotLight

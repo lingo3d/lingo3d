@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Class } from "@lincode/utils"
-import { Color, Light, Object3D } from "three"
+import { Color, Group, Light, Object3D } from "three"
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
@@ -13,15 +13,23 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import ObjectManager from "./ObjectManager"
 import makeLightSprite from "./utils/makeLightSprite"
 
-export default abstract class LightBase<T extends Light>
-    extends ObjectManager<T>
+export default abstract class LightBase<T extends typeof Light>
+    extends ObjectManager<Group>
     implements ILightBase
 {
+    protected light: InstanceType<T>
+
     public constructor(
-        light: T,
+        Light: T,
         Helper?: Class<Object3D & { dispose: () => void }>
     ) {
-        super(light)
+        const group = new Group()
+        super(group)
+
+        //@ts-ignore
+        const light = this.light = new Light()
+        group.add(light)
+        this.then(() => light.dispose())
 
         if (light.shadow) {
             light.castShadow = true
@@ -68,24 +76,17 @@ export default abstract class LightBase<T extends Light>
         }, [getCameraRendered])
     }
 
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
-        this.object3d.dispose()
-        return this
-    }
-
     public get color() {
-        return "#" + this.object3d.color.getHexString()
+        return "#" + this.light.color.getHexString()
     }
     public set color(val) {
-        this.object3d.color = new Color(val)
+        this.light.color = new Color(val)
     }
 
     public get intensity() {
-        return this.object3d.intensity
+        return this.light.intensity
     }
     public set intensity(val) {
-        this.object3d.intensity = val
+        this.light.intensity = val
     }
 }
