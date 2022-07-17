@@ -13,20 +13,22 @@ player.z = -100
 player.y = 210.59
 player.physics = "character"
 player.rotationY = 90
+player.strideMove = true
 
-keyboard.onKeyPress = (k) => {
-    if (k === "w") {
-        player.moveForward(-5)
-        player.animation = "running"
-    }
-    if (k === "s") player.moveForward(5)
-    if (k === "a") player.moveRight(5)
-    if (k === "d") player.moveRight(-5)
-    if (k === "Space") player.velocity.y = 5
-}
+keyboard.onKeyPress = (_, key) => {
+    if (key.has("w"))
+        player.strideForward = -5
+    else if (key.has("s"))
+        player.strideForward = 5
+    else
+        player.strideForward = 0
 
-keyboard.onKeyUp = () => {
-    player.animation = "idle"
+    if (key.has("a"))
+        player.strideRight = 5
+    else if (key.has("d"))
+        player.strideRight = -5
+    else
+        player.strideRight = 0
 }
 
 const cam = new ThirdPersonCamera()

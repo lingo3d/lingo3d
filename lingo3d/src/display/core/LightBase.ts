@@ -1,7 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Class } from "@lincode/utils"
 import { Color, Light, Object3D } from "three"
-import initLight from "../../engine/initLight"
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
@@ -22,7 +21,14 @@ export default abstract class LightBase<T extends Light>
         light: T,
         Helper?: Class<Object3D & { dispose: () => void }>
     ) {
-        super(initLight(light))
+        super(light)
+
+        if (light.shadow) {
+            light.castShadow = true
+            light.shadow.bias = -0.00009
+            light.shadow.mapSize.width = 512
+            light.shadow.mapSize.height = 512
+        }
 
         this.createEffect(() => {
             if (getCameraRendered() !== mainCamera) return

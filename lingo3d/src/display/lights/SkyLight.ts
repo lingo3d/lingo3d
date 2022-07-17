@@ -1,4 +1,4 @@
-import { Color, HemisphereLight, HemisphereLightHelper } from "three"
+import { Color, HemisphereLight } from "three"
 import LightBase from "../core/LightBase"
 import ISkyLight, { skyLightDefaults, skyLightSchema } from "../../interface/ISkyLight"
 
@@ -8,7 +8,7 @@ export default class Skylight extends LightBase<HemisphereLight> implements ISky
     public static schema = skyLightSchema
 
     public constructor() {
-        super(new HemisphereLight(), HemisphereLightHelper)
+        super(new HemisphereLight())
         this.innerY = 0
     }
 
