@@ -2,6 +2,22 @@ import Model from "../display/Model"
 
 export default {}
 
-const model = new Model()
-model.src = "gallery.glb"
-model.scale = 10
+let model = new Model()
+model.src="/mod/youhua/zuanji-v1.glb"
+model.adjustColor = "#000"
+model.adjustEmissiveColor = "#000000"
+
+model = new Model()
+model.src="/mod/youhua/njb-v1.glb"
+model.adjustColor = "#000"
+model.adjustEmissiveColor = "#000000"
+
+model = new Model()
+model.src="/mod/youhua/AAA-v1.glb"
+model.adjustColor = "#000"
+model.adjustEmissiveColor = "#000000"
+
+model = new Model()
+model.src="/mod/youhua/CCC-v1.glb"
+model.adjustColor = "#000"
+model.adjustEmissiveColor = "#000000"

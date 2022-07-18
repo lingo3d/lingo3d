@@ -450,6 +450,7 @@ class StaticObjectManager<T extends Object3D = Object3D>
         return this._adjustEmissiveColor
     }
     public set adjustEmissiveColor(val) {
+        if (val && val[0] === "#" && val.length === 4) val += "000"
         this._adjustEmissiveColor = val
         this.refreshFactors()
     }

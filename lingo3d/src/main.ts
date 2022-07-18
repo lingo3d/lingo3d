@@ -1,5 +1,5 @@
 import index, { settings } from "."
-import test from "./tests/testBVH"
+import test from "./tests/testGLTF"
 import { preventTreeShake } from "@lincode/utils"
 import LingoEditor from "./editor"
 
