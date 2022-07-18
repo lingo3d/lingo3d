@@ -19,7 +19,7 @@ createEffect(() => {
         return
     }
     
-    const msaaRenderTarget = new WebGLRenderTarget(WIDTH, HEIGHT, { samples: 8 })
+    const msaaRenderTarget = new WebGLRenderTarget(WIDTH, HEIGHT, { samples: 4 })
     const handle = getResolution(([w, h]) => msaaRenderTarget.setSize(w, h))
     setEffectComposer(new EffectComposer(renderer, msaaRenderTarget))
 

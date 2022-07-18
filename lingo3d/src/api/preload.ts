@@ -1,5 +1,4 @@
 import { getExtensionType } from "@lincode/filetypes"
-import { Cancellable } from "@lincode/promiselikes"
 import { assertExhaustive, splitFileName } from "@lincode/utils"
 import bytesLoaded from "../display/utils/loaders/bytesLoaded"
 import { lazyLoadFBX, lazyLoadGLTF } from "../display/utils/loaders/lazyLoad"
@@ -59,12 +58,11 @@ export default async (urls: Array<string>, total: number | string, onProgress?: 
     clearInterval(interval)
 
     await new Promise<void>(resolve => {
-        const handle = new Cancellable()
-        handle.watch(getLoadingCount(count => {
+        getLoadingCount((count, handle) => {
             if (count > 0) return
             handle.cancel()
             resolve() 
-        }))
+        })
     })
     onProgress?.(100)
 }

@@ -8,7 +8,7 @@ import Dummy from "../display/Dummy"
 export default {}
 
 const player = new Dummy()
-player.src = "fox/Fox.fbx"
+player.src = "person.glb"
 player.z = -100
 player.y = 210.59
 player.physics = "character"

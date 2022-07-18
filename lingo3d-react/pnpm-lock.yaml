@@ -23,7 +23,7 @@ specifiers:
   css-loader: ^6.7.1
   fork-ts-checker-webpack-plugin: ^7.2.12
   html-webpack-plugin: ^5.5.0
-  lingo3d: 1.12.0
+  lingo3d: 1.12.6
   nanoid: '*'
   popmotion: '*'
   postcss: ^8.4.14
@@ -48,7 +48,7 @@ dependencies:
   '@lincode/utils': 1.2.51
   '@tweakpane/core': 1.1.0
   '@types/three': 0.141.0
-  lingo3d: 1.12.0
+  lingo3d: 1.12.6
   nanoid: 4.0.0
   popmotion: 11.0.3
   preact: 10.10.0
@@ -68,7 +68,7 @@ devDependencies:
   autoprefixer: 10.4.7_postcss@8.4.14
   babel-loader: 8.2.5_fswvdo7jykdwhfxrdcvghfn6pa
   content-loader: 2.0.11
-  core-js: 3.23.4
+  core-js: 3.23.5
   css-loader: 6.7.1_webpack@5.73.0
   fork-ts-checker-webpack-plugin: 7.2.12_3o2jfq6vfqxns3sz6wn2nnc3ei
   html-webpack-plugin: 5.5.0_webpack@5.73.0
@@ -1267,7 +1267,7 @@ packages:
       babel-plugin-polyfill-corejs2: 0.3.1_@babel+core@7.18.6
       babel-plugin-polyfill-corejs3: 0.5.2_@babel+core@7.18.6
       babel-plugin-polyfill-regenerator: 0.3.1_@babel+core@7.18.6
-      core-js-compat: 3.23.4
+      core-js-compat: 3.23.5
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
@@ -1945,7 +1945,7 @@ packages:
     dependencies:
       '@babel/core': 7.18.6
       '@babel/helper-define-polyfill-provider': 0.3.1_@babel+core@7.18.6
-      core-js-compat: 3.23.4
+      core-js-compat: 3.23.5
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2246,15 +2246,15 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
-  /core-js-compat/3.23.4:
-    resolution: {integrity: sha512-RkSRPe+JYEoflcsuxJWaiMPhnZoFS51FcIxm53k4KzhISCBTmaGlto9dTIrYuk0hnJc3G6pKufAKepHnBq6B6Q==}
+  /core-js-compat/3.23.5:
+    resolution: {integrity: sha512-fHYozIFIxd+91IIbXJgWd/igXIc8Mf9is0fusswjnGIWVG96y2cwyUdlCkGOw6rMLHKAxg7xtCIVaHsyOUnJIg==}
     dependencies:
       browserslist: 4.21.2
       semver: 7.0.0
     dev: true
 
-  /core-js/3.23.4:
-    resolution: {integrity: sha512-vjsKqRc1RyAJC3Ye2kYqgfdThb3zYnx9CrqoCcjMOENMtQPC7ZViBvlDxwYU/2z2NI/IPuiXw5mT4hWhddqjzQ==}
+  /core-js/3.23.5:
+    resolution: {integrity: sha512-7Vh11tujtAZy82da4duVreQysIoO2EvVrur7y6IzZkH1IHPSekuDi8Vuw1+YKjkbfWLRD7Nc9ICQ/sIUDutcyg==}
     requiresBuild: true
     dev: true
 
@@ -3174,8 +3174,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lingo3d/1.12.0:
-    resolution: {integrity: sha512-t5McrhleNkyk+tDkdffriewMWXvTiq6tq2cVluF8R6+OGII4TXT6mmynCwX3Sd2C8ZpH6z8aJQjAo07b6Rh+gQ==}
+  /lingo3d/1.12.6:
+    resolution: {integrity: sha512-cs2883D+K9qSkk4cT+mD5T9o1n4JifQDxv/XgNlZQQdJFQJqKsl67armMhwU8jBAojRZJmUDfEbcFpSGDUMF9A==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
