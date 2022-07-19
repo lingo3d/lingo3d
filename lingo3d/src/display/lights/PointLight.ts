@@ -1,4 +1,4 @@
-import { PointLight as ThreePointLight, PointLightHelper } from "three"
+import { PointLight as ThreePointLight } from "three"
 import IPointLight, {
     pointLightDefaults,
     pointLightSchema
@@ -14,7 +14,7 @@ export default class PointLight
     public static schema = pointLightSchema
 
     public constructor() {
-        super(ThreePointLight, PointLightHelper)
+        super(ThreePointLight)
     }
 
     public get decay() {

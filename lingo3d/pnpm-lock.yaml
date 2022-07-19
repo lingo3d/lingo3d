@@ -13,7 +13,7 @@ specifiers:
   '@types/prettier': ^2.6.3
   '@types/randomcolor': ^0.5.6
   '@types/react': ^18.0.15
-  '@types/three': 0.141.0
+  '@types/three': 0.142.0
   browser-fs-access: 0.31.0
   cannon-es: 0.19.0
   nipplejs: 0.9.1
@@ -27,7 +27,7 @@ specifiers:
   three: 0.142.0
   tweakpane: '*'
   typescript: ^4.7.4
-  vite: ^2.9.14
+  vite: ^3.0.2
   xstate: '*'
 
 dependencies:
@@ -38,7 +38,7 @@ dependencies:
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.2.51
   '@tweakpane/core': 1.1.0
-  '@types/three': 0.141.0
+  '@types/three': 0.142.0
   browser-fs-access: 0.31.0
   cannon-es: 0.19.0
   nipplejs: 0.9.1
@@ -52,7 +52,7 @@ dependencies:
   xstate: 4.32.1
 
 devDependencies:
-  '@preact/preset-vite': 2.3.0_preact@10.10.0+vite@2.9.14
+  '@preact/preset-vite': 2.3.0_preact@10.10.0+vite@3.0.2
   '@types/preact-custom-element': 4.0.1
   '@types/prettier': 2.6.3
   '@types/randomcolor': 0.5.6
@@ -60,7 +60,7 @@ devDependencies:
   randomcolor: 0.6.2
   rimraf: 3.0.2
   typescript: 4.7.4
-  vite: 2.9.14
+  vite: 3.0.2
 
 packages:
 
@@ -378,7 +378,7 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /@preact/preset-vite/2.3.0_preact@10.10.0+vite@2.9.14:
+  /@preact/preset-vite/2.3.0_preact@10.10.0+vite@3.0.2:
     resolution: {integrity: sha512-0kOuz7wdrQLqrPlyI/Ypw9IWDF2++GGcOHMRBYO5T2w2+dheelaBH+XrIN/okqdsGIflzFIFNyIGubo5BC8wbQ==}
     peerDependencies:
       '@babel/core': 7.x
@@ -386,13 +386,13 @@ packages:
     dependencies:
       '@babel/plugin-transform-react-jsx': 7.18.6
       '@babel/plugin-transform-react-jsx-development': 7.18.6
-      '@prefresh/vite': 2.2.8_preact@10.10.0+vite@2.9.14
+      '@prefresh/vite': 2.2.8_preact@10.10.0+vite@3.0.2
       '@rollup/pluginutils': 4.2.1
       babel-plugin-transform-hook-names: 1.0.2
       debug: 4.3.4
       kolorist: 1.5.1
       resolve: 1.22.1
-      vite: 2.9.14
+      vite: 3.0.2
     transitivePeerDependencies:
       - preact
       - supports-color
@@ -414,7 +414,7 @@ packages:
     resolution: {integrity: sha512-Mb9abhJTOV4yCfkXrMrcgFiFT7MfNOw8sDa+XyZBdq/Ai2p4Zyxqsb3EgHLOEdHpMj6J9aiZ54W8H6FTam1u+A==}
     dev: true
 
-  /@prefresh/vite/2.2.8_preact@10.10.0+vite@2.9.14:
+  /@prefresh/vite/2.2.8_preact@10.10.0+vite@3.0.2:
     resolution: {integrity: sha512-yGGa+PKPYPTzMlxgQ8aBgxw9K69I8X4iQ0E6KOcIvls96WKqKLLOYZW9SUgCve446jpUXvc9udviPBZjCeZIIQ==}
     peerDependencies:
       preact: ^10.4.0
@@ -426,7 +426,7 @@ packages:
       '@prefresh/utils': 1.1.3
       '@rollup/pluginutils': 4.2.1
       preact: 10.10.0
-      vite: 2.9.14
+      vite: 3.0.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -477,8 +477,8 @@ packages:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
     dev: true
 
-  /@types/three/0.141.0:
-    resolution: {integrity: sha512-OJdKDgTPVBUgc+s74DYoy4aLznbFFC38Xm4ElmU1YwGNgR7GGFVvFCX7lpVgOsT6S1zSJtGdajTsOYE8/xY9nA==}
+  /@types/three/0.142.0:
+    resolution: {integrity: sha512-YNVnlqthfgqsxKuSNbT/G2r+ha/6x+aJm7kvjT+sxa4jUROw/KOPm5xzGj33sk1+Librg6NwH/wJ6LCDX33UZg==}
     dependencies:
       '@types/webxr': 0.4.0
     dev: false
@@ -1144,20 +1144,23 @@ packages:
       picocolors: 1.0.0
     dev: true
 
-  /vite/2.9.14:
-    resolution: {integrity: sha512-P/UCjSpSMcE54r4mPak55hWAZPlyfS369svib/gpmz8/01L822lMPOJ/RYW6tLCe1RPvMvOsJ17erf55bKp4Hw==}
-    engines: {node: '>=12.2.0'}
+  /vite/3.0.2:
+    resolution: {integrity: sha512-TAqydxW/w0U5AoL5AsD9DApTvGb2iNbGs3sN4u2VdT1GFkQVUfgUldt+t08TZgi23uIauh1TUOQJALduo9GXqw==}
+    engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
       less: '*'
       sass: '*'
       stylus: '*'
+      terser: ^5.4.0
     peerDependenciesMeta:
       less:
         optional: true
       sass:
         optional: true
       stylus:
+        optional: true
+      terser:
         optional: true
     dependencies:
       esbuild: 0.14.49

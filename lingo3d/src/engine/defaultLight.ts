@@ -84,7 +84,9 @@ createEffect(() => {
         const SkyLight = module.default
         const light = new SkyLight()
         appendableRoot.delete(light)
+        
         light.helper = false
+        light.groundColor = "#666666"
 
         handle.watch(getDefaultLightScale((scale) => (light.intensity = scale)))
         handle.then(() => light.dispose())
@@ -93,10 +95,11 @@ createEffect(() => {
         const DirectionalLight = module.default
         const light = new DirectionalLight()
         appendableRoot.delete(light)
-        light.helper = false
 
+        light.helper = false
         light.y = 1000
         light.z = 1000
+        light.intensity = 0.5
 
         handle.watch(
             getDefaultLightScale((scale) => (light.intensity = scale * 0.5))

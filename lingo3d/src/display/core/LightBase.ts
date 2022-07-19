@@ -47,7 +47,8 @@ export default abstract class LightBase<T extends typeof Light>
         }, [this.shadowResolutionState.get])
 
         this.createEffect(() => {
-            if (getCameraRendered() !== mainCamera || !this.helperState.get())
+            const light = this.lightState.get()
+            if (getCameraRendered() !== mainCamera || !this.helperState.get() || !light)
                 return
 
             const handle = new Cancellable()
@@ -60,7 +61,7 @@ export default abstract class LightBase<T extends typeof Light>
             )
 
             if (Helper) {
-                const helper = new Helper(this.object3d)
+                const helper = new Helper(light)
                 scene.add(helper)
                 helper.add(sprite.outerObject3d)
 
@@ -82,7 +83,7 @@ export default abstract class LightBase<T extends typeof Light>
                 sprite.dispose()
                 handle.cancel()
             }
-        }, [getCameraRendered, this.helperState.get])
+        }, [getCameraRendered, this.helperState.get, this.lightState.get])
     }
 
     private helperState = new Reactive(true)
