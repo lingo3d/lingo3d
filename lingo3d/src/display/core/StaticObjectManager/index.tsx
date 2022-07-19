@@ -42,7 +42,6 @@ import EventLoopItem from "../../../api/core/EventLoopItem"
 import IStaticObjectManager from "../../../interface/IStaticObjectManaget"
 import AnimationMixin from "../mixins/AnimationMixin"
 import MeshItem, { getObject3d } from "../MeshItem"
-import { Reactive } from "@lincode/reactivity"
 import copyToon from "./applyMaterialProperties/copyToon"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { onBeforeRender } from "../../../events/onBeforeRender"
@@ -316,97 +315,92 @@ class StaticObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.traverse((child) => (child.frustumCulled = val))
     }
 
-    private _refreshFactors?: Reactive<{}>
     protected refreshFactors() {
-        if (this._refreshFactors) {
-            this._refreshFactors.set({})
-            return
-        }
-        this._refreshFactors = new Reactive({})
-
-        this.createEffect(() => {
+        this.cancelHandle("refreshFactors", () => {
             const handle = new Cancellable()
+            
+            queueMicrotask(() => {
+                if (handle.done) return
 
-            const {
-                _toon,
-                _metalnessFactor,
-                _roughnessFactor,
-                _opacityFactor,
-                _emissiveIntensityFactor,
-                _adjustEmissiveColor,
-                _adjustColor
-            } = this
-
-            this.outerObject3d.traverse((child: any) => {
-                let { material } = child
-                if (!material) return
-
-                Array.isArray(material) && (material = material[0])
-
-                if (_toon) {
-                    child.material = new MeshToonMaterial()
-                    copyToon(material, child.material)
-                }
-
-                if (_metalnessFactor !== undefined)
-                    setNumber(
-                        child,
-                        "metalness",
-                        _metalnessFactor !== 0 ? _metalnessFactor : undefined
-                    )
-
-                if (_roughnessFactor !== undefined)
-                    setNumber(
-                        child,
-                        "roughness",
-                        _roughnessFactor !== 1 ? _roughnessFactor : undefined
-                    )
-
-                if (_opacityFactor !== undefined) {
-                    setNumber(child, "opacity", _opacityFactor)
-                    setBoolean(
-                        child,
-                        "transparent",
-                        _opacityFactor !== 1 ? true : undefined
-                    )
-                }
-
-                if (_emissiveIntensityFactor !== undefined)
-                    setNumber(
-                        child,
-                        "emissiveIntensity",
-                        _emissiveIntensityFactor !== 1
-                            ? _emissiveIntensityFactor
-                            : undefined
-                    )
-
-                if (_adjustEmissiveColor !== undefined)
-                    setColor(
-                        child,
-                        "emissive",
-                        _adjustEmissiveColor !== "#000000"
-                            ? new Color(_adjustEmissiveColor)
-                            : undefined
-                    )
-
-                if (_adjustColor !== undefined)
-                    setColor(
-                        child,
-                        "color",
-                        _adjustColor !== "#ffffff"
-                            ? new Color(_adjustColor)
-                            : undefined
-                    )
-
-                handle.then(() => {
-                    child.material.dispose()
-                    child.material = material
+                const {
+                    _toon,
+                    _metalnessFactor,
+                    _roughnessFactor,
+                    _opacityFactor,
+                    _emissiveIntensityFactor,
+                    _adjustEmissiveColor,
+                    _adjustColor
+                } = this
+    
+                this.outerObject3d.traverse((child: any) => {
+                    let { material } = child
+                    if (!material) return
+    
+                    Array.isArray(material) && (material = material[0])
+    
+                    if (_toon) {
+                        child.material = new MeshToonMaterial()
+                        copyToon(material, child.material)
+                    }
+    
+                    if (_metalnessFactor !== undefined)
+                        setNumber(
+                            child,
+                            "metalness",
+                            _metalnessFactor !== 0 ? _metalnessFactor : undefined
+                        )
+    
+                    if (_roughnessFactor !== undefined)
+                        setNumber(
+                            child,
+                            "roughness",
+                            _roughnessFactor !== 1 ? _roughnessFactor : undefined
+                        )
+    
+                    if (_opacityFactor !== undefined) {
+                        setNumber(child, "opacity", _opacityFactor)
+                        setBoolean(
+                            child,
+                            "transparent",
+                            _opacityFactor !== 1 ? true : undefined
+                        )
+                    }
+    
+                    if (_emissiveIntensityFactor !== undefined)
+                        setNumber(
+                            child,
+                            "emissiveIntensity",
+                            _emissiveIntensityFactor !== 1
+                                ? _emissiveIntensityFactor
+                                : undefined
+                        )
+    
+                    if (_adjustEmissiveColor !== undefined)
+                        setColor(
+                            child,
+                            "emissive",
+                            _adjustEmissiveColor !== "#000000"
+                                ? new Color(_adjustEmissiveColor)
+                                : undefined
+                        )
+    
+                    if (_adjustColor !== undefined)
+                        setColor(
+                            child,
+                            "color",
+                            _adjustColor !== "#ffffff"
+                                ? new Color(_adjustColor)
+                                : undefined
+                        )
+    
+                    handle.then(() => {
+                        child.material.dispose()
+                        child.material = material
+                    })
                 })
             })
-            return () => {
-                handle.cancel()
-            }
-        }, [this._refreshFactors.get])
+            return handle
+        })
     }
 
     private _metalnessFactor?: number
