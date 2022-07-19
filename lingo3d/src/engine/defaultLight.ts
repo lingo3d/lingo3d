@@ -1,7 +1,11 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { last } from "@lincode/utils"
-import { EquirectangularReflectionMapping, WebGLCubeRenderTarget, CubeCamera } from "three"
+import {
+    EquirectangularReflectionMapping,
+    WebGLCubeRenderTarget,
+    CubeCamera
+} from "three"
 import { appendableRoot } from "../api/core/Appendable"
 import Environment from "../display/Environment"
 import getWorldPosition from "../display/utils/getWorldPosition"
@@ -47,9 +51,12 @@ createEffect(() => {
         }
     }
     let proceed = true
-    const texture = loadTexture(environment, () => proceed && (scene.environment = texture))
+    const texture = loadTexture(
+        environment,
+        () => proceed && (scene.environment = texture)
+    )
     texture.mapping = EquirectangularReflectionMapping
-    
+
     return () => {
         proceed = false
         scene.environment = null
@@ -61,37 +68,39 @@ createEffect(() => {
     if (!defaultLight) return
 
     if (typeof defaultLight === "string" && defaultLight !== "default") {
-        if (defaultLight === "dynamic")
-            defaultEnvironment.texture = "dynamic"
+        if (defaultLight === "dynamic") defaultEnvironment.texture = "dynamic"
         else if (defaultLight === "studio")
             defaultEnvironment.texture = TEXTURES_URL + "studio.jpg"
-        else
-            defaultEnvironment.texture = defaultLight
+        else defaultEnvironment.texture = defaultLight
 
         return () => {
             defaultEnvironment.texture = undefined
         }
     }
-    
+
     const handle = new Cancellable()
 
-    import("../display/lights/SkyLight").then(module => {
+    import("../display/lights/SkyLight").then((module) => {
         const SkyLight = module.default
         const light = new SkyLight()
         appendableRoot.delete(light)
+        light.helper = false
 
-        handle.watch((getDefaultLightScale(scale => light.intensity = scale)))
+        handle.watch(getDefaultLightScale((scale) => (light.intensity = scale)))
         handle.then(() => light.dispose())
     })
-    import("../display/lights/DirectionalLight").then(module => {
+    import("../display/lights/DirectionalLight").then((module) => {
         const DirectionalLight = module.default
         const light = new DirectionalLight()
         appendableRoot.delete(light)
+        light.helper = false
 
         light.y = 1000
         light.z = 1000
 
-        handle.watch((getDefaultLightScale(scale => light.intensity = scale * 0.5)))
+        handle.watch(
+            getDefaultLightScale((scale) => (light.intensity = scale * 0.5))
+        )
         handle.then(() => light.dispose())
     })
 
