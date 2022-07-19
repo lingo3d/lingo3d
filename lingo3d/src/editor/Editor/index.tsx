@@ -461,8 +461,6 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                     "metalnessFactor",
                     "roughnessFactor",
                     "opacityFactor",
-                    "emissiveIntensityFactor",
-                    "adjustEmissiveColor",
                     "adjustColor"
                 ]
             )

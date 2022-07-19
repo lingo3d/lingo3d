@@ -327,8 +327,6 @@ class StaticObjectManager<T extends Object3D = Object3D>
                     _metalnessFactor,
                     _roughnessFactor,
                     _opacityFactor,
-                    _emissiveIntensityFactor,
-                    _adjustEmissiveColor,
                     _adjustColor
                 } = this
     
@@ -365,24 +363,6 @@ class StaticObjectManager<T extends Object3D = Object3D>
                             _opacityFactor !== 1 ? true : undefined
                         )
                     }
-    
-                    if (_emissiveIntensityFactor !== undefined)
-                        setNumber(
-                            child,
-                            "emissiveIntensity",
-                            _emissiveIntensityFactor !== 1
-                                ? _emissiveIntensityFactor
-                                : undefined
-                        )
-    
-                    if (_adjustEmissiveColor !== undefined)
-                        setColor(
-                            child,
-                            "emissive",
-                            _adjustEmissiveColor !== "#000000"
-                                ? new Color(_adjustEmissiveColor)
-                                : undefined
-                        )
     
                     if (_adjustColor !== undefined)
                         setColor(
@@ -427,24 +407,6 @@ class StaticObjectManager<T extends Object3D = Object3D>
     }
     public set opacityFactor(val) {
         this._opacityFactor = val
-        this.refreshFactors()
-    }
-
-    private _emissiveIntensityFactor?: number
-    public get emissiveIntensityFactor() {
-        return this._emissiveIntensityFactor
-    }
-    public set emissiveIntensityFactor(val) {
-        this._emissiveIntensityFactor = val
-        this.refreshFactors()
-    }
-
-    private _adjustEmissiveColor?: string
-    public get adjustEmissiveColor() {
-        return this._adjustEmissiveColor
-    }
-    public set adjustEmissiveColor(val) {
-        this._adjustEmissiveColor = val
         this.refreshFactors()
     }
 

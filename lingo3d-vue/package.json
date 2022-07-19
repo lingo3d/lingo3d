@@ -14,7 +14,7 @@
   "types": "./dist/index.d.ts",
   "private": false,
   "sideEffects": false,
-  "version": "1.12.12",
+  "version": "1.12.13",
   "scripts": {
     "dev": "vite",
     "build": "vite build --config vite.config.production.ts && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
@@ -25,7 +25,7 @@
     "@lincode/reactivity": "*",
     "@lincode/utils": "*",
     "@types/three": "0.141.0",
-    "lingo3d": "1.12.12",
+    "lingo3d": "1.12.13",
     "popmotion": "*",
     "preact": "*",
     "stats.js": "*",
@@ -36,8 +36,6 @@
     "vue": "^3.2.25"
   },
   "devDependencies": {
-    "@babel/traverse": "^7.18.8",
-    "@types/babel__traverse": "^7.17.1",
     "@types/stats.js": "^0.17.0",
     "@vitejs/plugin-vue": "^2.3.3",
     "typescript": "^4.7.4",
