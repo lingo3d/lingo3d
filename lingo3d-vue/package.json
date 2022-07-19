@@ -14,7 +14,7 @@
   "types": "./dist/index.d.ts",
   "private": false,
   "sideEffects": false,
-  "version": "1.12.13",
+  "version": "1.12.14",
   "scripts": {
     "dev": "vite",
     "build": "vite build --config vite.config.production.ts && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
@@ -24,8 +24,8 @@
     "@lincode/promiselikes": "*",
     "@lincode/reactivity": "*",
     "@lincode/utils": "*",
-    "@types/three": "0.141.0",
-    "lingo3d": "1.12.13",
+    "@types/three": "0.142.0",
+    "lingo3d": "1.12.14",
     "popmotion": "*",
     "preact": "*",
     "stats.js": "*",
@@ -37,11 +37,11 @@
   },
   "devDependencies": {
     "@types/stats.js": "^0.17.0",
-    "@vitejs/plugin-vue": "^2.3.3",
+    "@vitejs/plugin-vue": "^3.0.1",
     "typescript": "^4.7.4",
-    "vite": "^2.9.14",
+    "vite": "^3.0.2",
     "vue": "^3.2.37",
-    "vue-tsc": "^0.36.1"
+    "vue-tsc": "^0.38.8"
   },
   "prettier": {
     "trailingComma": "none",
