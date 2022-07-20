@@ -250,7 +250,7 @@ export default abstract class Loaded<T = Object3D>
     }
 
     protected override refreshFactors() {
-        this.cancelHandle("refreshFactors", () =>
+        this.cancelHandle("refreshFactorsLoaded", () =>
             this.loaded.then(() => super.refreshFactors())
         )
     }
