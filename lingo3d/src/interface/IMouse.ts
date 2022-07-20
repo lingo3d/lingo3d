@@ -4,32 +4,15 @@ import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
-export class MouseEventPayload {
+export class LingoMouseEvent {
     public constructor(
-        public clientX = 0,
-        public clientY = 0,
-        public x = 0,
-        public y = 0,
-        public z = 0,
-        public xNorm = 0,
-        public yNorm = 0
-    ) {}
-}
-
-export class LingoMouseEvent extends MouseEventPayload {
-    public constructor(
-        clientX: number,
-        clientY: number,
-        x: number,
-        y: number,
-        z: number,
-        xNorm: number,
-        yNorm: number,
+        public clientX: number,
+        public clientY: number,
+        public xNorm: number,
+        public yNorm: number,
         public point: Point3d,
         public distance: number
-    ) {
-        super(x, y, z, clientX, clientY, xNorm, yNorm)
-    }
+    ) {}
 }
 
 export type SimpleMouseEvent = {
