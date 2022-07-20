@@ -3,18 +3,18 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/lingo3d-vue.es.js",
-  "module": "./dist/lingo3d-vue.es.js",
+  "main": "./dist/lingo3d-vue.mjs",
+  "module": "./dist/lingo3d-vue.mjs",
   "exports": {
     ".": {
-      "import": "./dist/lingo3d-vue.es.js",
-      "require": "./dist/lingo3d-vue.es.js"
+      "import": "./dist/lingo3d-vue.mjs",
+      "require": "./dist/lingo3d-vue.mjs"
     }
   },
   "types": "./dist/index.d.ts",
   "private": false,
   "sideEffects": false,
-  "version": "1.12.14",
+  "version": "1.12.16",
   "scripts": {
     "dev": "vite",
     "build": "vite build --config vite.config.production.ts && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
@@ -25,7 +25,7 @@
     "@lincode/reactivity": "*",
     "@lincode/utils": "*",
     "@types/three": "0.142.0",
-    "lingo3d": "1.12.14",
+    "lingo3d": "1.12.15",
     "popmotion": "*",
     "preact": "*",
     "stats.js": "*",

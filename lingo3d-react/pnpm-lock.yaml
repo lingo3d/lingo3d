@@ -1,12 +1,12 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@babel/cli': ^7.18.9
-  '@babel/core': ^7.18.9
-  '@babel/preset-env': ^7.18.9
+  '@babel/cli': ^7.18.6
+  '@babel/core': ^7.18.6
+  '@babel/preset-env': ^7.18.6
   '@babel/preset-react': ^7.18.6
   '@babel/preset-typescript': ^7.18.6
-  '@babel/runtime': ^7.18.9
+  '@babel/runtime': ^7.18.6
   '@lincode/hooks': '*'
   '@lincode/promiselikes': '*'
   '@lincode/reactivity': '*'
@@ -19,11 +19,11 @@ specifiers:
   autoprefixer: ^10.4.7
   babel-loader: ^8.2.5
   content-loader: '*'
-  core-js: ^3.23.5
+  core-js: ^3.23.4
   css-loader: ^6.7.1
-  fork-ts-checker-webpack-plugin: ^7.2.13
+  fork-ts-checker-webpack-plugin: ^7.2.12
   html-webpack-plugin: ^5.5.0
-  lingo3d: 1.12.14
+  lingo3d: 1.12.15
   nanoid: '*'
   popmotion: '*'
   postcss: ^8.4.14
@@ -48,7 +48,7 @@ dependencies:
   '@lincode/utils': 1.2.51
   '@tweakpane/core': 1.1.0
   '@types/three': 0.142.0
-  lingo3d: 1.12.14
+  lingo3d: 1.12.15
   nanoid: 4.0.0
   popmotion: 11.0.3
   preact: 10.10.0
@@ -3176,8 +3176,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lingo3d/1.12.14:
-    resolution: {integrity: sha512-1kzn+7xY+ylKgbQRHIkLhkwwmhjrBl0c5WivBg6nQ7sbLd/WnKr9bjEctGFVjug+h10AbJOwqvZSjSJaDJL4iQ==}
+  /lingo3d/1.12.15:
+    resolution: {integrity: sha512-nTJnttdHwj66QF4ZstHgVmOb+AGYaRJQbN+ySnKk2A7KZSGKLY6zIgocqkTxTvNWMwVgNyrWd+y/TiEYP6ygxw==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
