@@ -25,6 +25,7 @@ import IAudio from "lingo3d/lib/interface/IAudio"
 import IEnvironment from "lingo3d/lib/interface/IEnvironment"
 import IJoystick from "lingo3d/lib/interface/IJoystick"
 import IReticle from "lingo3d/lib/interface/IReticle"
+import IThirdPersonCamera from "lingo3d/lib/interface/IThirdPersonCamera"
 
 type Children = React.ReactNode
 
@@ -40,7 +41,7 @@ export type SpriteProps = Partial<ISprite> & { children?: Children }
 
 export type CameraProps = Partial<ICamera> & { children?: Children }
 export type OrbitCameraProps = Partial<IOrbitCamera> & { children?: Children }
-export type ThirdPersonCameraProps = Partial<ICharacterCamera> & { children?: Children }
+export type ThirdPersonCameraProps = Partial<IThirdPersonCamera> & { children?: Children }
 export type FirstPersonCameraProps = Partial<ICharacterCamera> & { children?: Children }
 
 export type AmbientLightProps = Partial<IAmbientLight> & { children?: Children }

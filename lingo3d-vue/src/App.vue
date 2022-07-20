@@ -5,7 +5,7 @@ import LingoEditor from "./components/editor/LingoEditor.vue";
 
 <template>
   <World>
-    <ThirdPersonCamera active :inner-rotation-z="-500">
+    <ThirdPersonCamera active>
       <Cube :animation="{ rotationY: [0, 180, 360] }" />
     </ThirdPersonCamera>
     <LingoEditor />

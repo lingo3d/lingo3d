@@ -1,4 +1,4 @@
-import { characterCameraSchema, characterCameraDefaults } from "lingo3d/lib/interface/ICharacterCamera"
+import { thirdPersonCameraSchema, thirdPersonCameraDefaults } from "lingo3d/lib/interface/IThirdPersonCamera"
 import makeProps from "./utils/makeProps"
 
-export default makeProps(characterCameraSchema, characterCameraDefaults)
+export default makeProps(thirdPersonCameraSchema, thirdPersonCameraDefaults)
