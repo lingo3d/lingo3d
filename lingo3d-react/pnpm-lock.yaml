@@ -23,7 +23,7 @@ specifiers:
   css-loader: ^6.7.1
   fork-ts-checker-webpack-plugin: ^7.2.12
   html-webpack-plugin: ^5.5.0
-  lingo3d: 1.12.22
+  lingo3d: 1.12.23
   nanoid: '*'
   popmotion: '*'
   postcss: ^8.4.14
@@ -48,7 +48,7 @@ dependencies:
   '@lincode/utils': 1.2.51
   '@tweakpane/core': 1.1.0
   '@types/three': 0.142.0
-  lingo3d: 1.12.22
+  lingo3d: 1.12.23
   nanoid: 4.0.0
   popmotion: 11.0.3
   preact: 10.10.0
@@ -3176,8 +3176,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lingo3d/1.12.22:
-    resolution: {integrity: sha512-siX+/94xZvX6SsGTY6KvQscIMhfrJBpxTDm/loYCMH7xez0Lr1AIfM5bbJmS1hlVeX031w7J5kY0FOcfAbro5A==}
+  /lingo3d/1.12.23:
+    resolution: {integrity: sha512-YIUsj8Hwy38Mhwmjf9pReE7w/iTaoPc5nv7renLjJRuMZ4cKfH8Jw7a/ivnadeJl74oo5H0xAZvG+HHrB3q61g==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
