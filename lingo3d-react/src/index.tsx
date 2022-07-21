@@ -18,7 +18,8 @@ export {
   exportReact,
   exportVue,
   openJSON,
-  setWasmPath
+  setWasmPath,
+  clientToWorld
 } from "lingo3d"
 
 export { default as globalState } from "./globalState"
@@ -76,6 +77,7 @@ export { default as Setup } from "./components/logical/Setup"
 export { default as HTML } from "./components/logical/HTML"
 export { default as UI } from "./components/logical/UI"
 export { default as Find } from "./components/logical/Find"
+export { default as Frame } from "./components/logical/Frame"
 
 export { default as useSpawn } from "./hooks/useSpawn"
 export { default as useSpring } from "./hooks/useSpring"

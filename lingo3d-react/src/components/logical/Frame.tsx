@@ -1,38 +1,41 @@
-import { onBeforeRender } from "lingo3d"
-import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
-import React, { PropsWithChildren, useLayoutEffect, useRef, useState } from "react"
-
-export const FrameContext = React.createContext<
-  Array<ObjectManager> | undefined
->(undefined)
+import { clientToWorld, Group as LingoGroup, onBeforeRender } from "lingo3d"
+import React, { PropsWithChildren, useLayoutEffect, useRef } from "react"
+import Group from "../display/Group"
 
 interface FrameProps {
   className?: string
   style?: React.CSSProperties
+  distance?: number
 }
 
-const Frame: React.FC<FrameProps & PropsWithChildren> = ({ children, className, style }) => {
-  const [frameObjects] = useState<Array<ObjectManager>>([])
+const Frame: React.FC<FrameProps & PropsWithChildren> = ({
+  children,
+  className,
+  style,
+  distance = 500
+}) => {
   const elRef = useRef<HTMLDivElement>(null)
+  const groupRef = useRef<LingoGroup>(null)
 
   useLayoutEffect(() => {
     const el = elRef.current
-    if (!el) return
+    const group = groupRef.current
+    if (!el || !group) return
 
     const handle = onBeforeRender(() => {
-      const bounds = el.getBoundingClientRect()
-      bounds
+      const { left, top, width, height } = el.getBoundingClientRect()
+      const clientX = left + width * 0.5
+      const clientY = top + height * 0.5
+      group.placeAt(clientToWorld(clientX, clientY, distance))
     })
     return () => {
       handle.cancel()
     }
-  }, [frameObjects])
+  }, [distance])
 
   return (
     <div ref={elRef} className={className} style={style}>
-      <FrameContext.Provider value={frameObjects}>
-        {children}
-      </FrameContext.Provider>
+      <Group ref={groupRef}>{children}</Group>
     </div>
   )
 }

@@ -16,10 +16,10 @@ import {
   Stats,
   LingoEditor,
   types,
-  globalState,
   UI,
   TweakPane,
   PaneInput,
+  Frame,
 } from "."
 //@ts-ignore
 import gunSrc from "../assets-local/gun.glb"
@@ -123,6 +123,9 @@ const App = () => {
           <TweakPane>
             <PaneInput name="hello" value="world" />
           </TweakPane>
+          <Frame style={{ width: 300, height: 300, border: "1px solid blue" }}>
+            <Cube />
+          </Frame>
         </UI>
       </World>
     </>
