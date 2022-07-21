@@ -18,7 +18,8 @@ export {
   exportReact,
   exportVue,
   openJSON,
-  setWasmPath
+  setWasmPath,
+  clientToWorld
 } from "lingo3d"
 
 export { default as World } from "./components/World.vue"
@@ -73,6 +74,7 @@ export { default as Setup } from "./components/logical/Setup.vue"
 export { default as HTML } from "./components/logical/HTML/index.vue"
 export { default as Find } from "./components/logical/Find.vue"
 export { default as UI } from "./components/logical/UI.vue"
+export { default as Frame } from "./components/logical/Frame.vue"
 
 export { default as Joystick } from "./components/ui/Joystick.vue"
 export { default as Reticle } from "./components/ui/Reticle.vue"

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { World, Model, LingoEditor, Setup, DirectionalLight } from "./index"
+import UI from "./components/logical/UI.vue"
+import Frame from "./components/logical/Frame.vue"
+import Cube from "./components/display/primitives/Cube.vue"
 </script>
 
 <template>
@@ -19,13 +22,18 @@ import { World, Model, LingoEditor, Setup, DirectionalLight } from "./index"
       :metalness-factor="1"
     />
     <DirectionalLight :x="-1000" :y="1000" :z="1000" />
-    <DirectionalLight
-      :x="-1000"
-      :y="1000"
-      :z="1000"
-      :shadow-distance="5000"
-    />
+    <DirectionalLight :x="-1000" :y="1000" :z="1000" :shadow-distance="5000" />
     <LingoEditor />
-    <Setup default-light="env.hdr" skybox="env.hdr" :exposure="0.6" ambient-occlusion />
+    <Setup
+      default-light="env.hdr"
+      skybox="env.hdr"
+      :exposure="0.6"
+      ambient-occlusion
+    />
+    <UI>
+      <Frame style="width: 500px; height: 500px; border: 1px solid blue">
+        <Cube />
+      </Frame>
+    </UI>
   </World>
 </template>
