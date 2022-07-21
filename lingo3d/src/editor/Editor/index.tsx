@@ -350,11 +350,10 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
                     "rotation",
                     "innerRotation",
                     "frustumCulled",
-                    "physics",
                     "minAzimuthAngle",
                     "maxAzimuthAngle"
                 ]),
-                ["name", "id"]
+                ["name", "id", "physics", "gravity"]
             )
             if (generalParams) {
                 const { name: nameInput } = addInputs(
@@ -457,11 +456,11 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             const [adjustMaterialParams, adjustMaterialRest] = splitObject(
                 animationRest,
                 [
-                    "pbr",
                     "metalnessFactor",
                     "roughnessFactor",
                     "opacityFactor",
-                    "adjustColor"
+                    "adjustColor",
+                    "toon"
                 ]
             )
             adjustMaterialParams &&
