@@ -8,12 +8,15 @@ import { scaleDown } from "../engine/constants"
 import { timer } from "../engine/eventLoop"
 import mainCamera from "../engine/mainCamera"
 import scene from "../engine/scene"
-import { emitSelectionTarget, onSelectionTarget } from "../events/onSelectionTarget"
+import {
+    emitSelectionTarget,
+    onSelectionTarget
+} from "../events/onSelectionTarget"
 import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
 import { appendableRoot } from "../api/core/Appendable"
 import PositionedItem from "../api/core/PositionedItem"
 import { getCameraRendered } from "../states/useCameraRendered"
-import { idMap } from "./core/StaticObjectManager"
+import StaticObjectManager, { idMap } from "./core/StaticObjectManager"
 
 const getTargets = (id: string) => idMap.get(id) ?? []
 
@@ -24,8 +27,8 @@ export default class Trigger extends PositionedItem implements ITrigger {
 
     private refresh = new Reactive({})
 
-    public onEnter: (() => void) | undefined
-    
+    public onEnter: ((target: StaticObjectManager) => void) | undefined
+
     public onExit: (() => void) | undefined
 
     private _pad = false
@@ -36,7 +39,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
         this._pad = val
         this.refresh.set({})
     }
-    
+
     private _radius = 50
     public get radius() {
         return this._radius
@@ -90,33 +93,45 @@ export default class Trigger extends PositionedItem implements ITrigger {
             let hitOld = false
             const handle = timer(_interval, -1, () => {
                 const { x, y, z } = getWorldPosition(outerObject3d)
-                const targets = typeof _targetIds === "string"
-                    ? getTargets(_targetIds)
-                    : _targetIds.map(id => [...getTargets(id)]).flat()
-                
+                const targets =
+                    typeof _targetIds === "string"
+                        ? getTargets(_targetIds)
+                        : _targetIds.map((id) => [...getTargets(id)]).flat()
+
                 let hit = false
+                let targetHit: StaticObjectManager | undefined
                 for (const target of targets) {
-                    const { x: tx, y: ty, z: tz} = getWorldPosition(target.object3d)
+                    const {
+                        x: tx,
+                        y: ty,
+                        z: tz
+                    } = getWorldPosition(target.object3d)
                     if (_pad) {
                         const { y: sy } = getActualScale(target)
-                        hit = Math.abs(x - tx) < r && Math.abs(y - (ty - sy * 0.5)) < pr && Math.abs(z - tz) < r
-                    }
-                    else
-                        hit = Math.abs(x - tx) < r && Math.abs(y - ty) < r && Math.abs(z - tz) < r
+                        hit =
+                            Math.abs(x - tx) < r &&
+                            Math.abs(y - (ty - sy * 0.5)) < pr &&
+                            Math.abs(z - tz) < r
+                    } else
+                        hit =
+                            Math.abs(x - tx) < r &&
+                            Math.abs(y - ty) < r &&
+                            Math.abs(z - tz) < r
 
-                    if (hit) break
+                    if (hit) {
+                        targetHit = target
+                        break
+                    }
                 }
                 if (hitOld !== hit)
-                    if (hit) {
-                        this.onEnter?.()
+                    if (hit && targetHit) {
+                        this.onEnter?.(targetHit)
                         helper && (helper.color = "blue")
-                    }
-                    else {
+                    } else {
                         this.onExit?.()
                         helper && (helper.color = "white")
                     }
                 hitOld = hit
-                
             })
 
             return () => {
@@ -130,14 +145,16 @@ export default class Trigger extends PositionedItem implements ITrigger {
 
             if (getCameraRendered() !== mainCamera) return
 
-            const h = helper = _pad ? new Cylinder() : new Sphere()
+            const h = (helper = _pad ? new Cylinder() : new Sphere())
             appendableRoot.delete(h)
             outerObject3d.add(h.outerObject3d)
             h.scale = _radius * scaleDown * 2
             h.opacity = 0.5
             h.height = _pad ? 10 : 100
 
-            const handle = onSelectionTarget(({ target }) => target === h && emitSelectionTarget(this))
+            const handle = onSelectionTarget(
+                ({ target }) => target === h && emitSelectionTarget(this)
+            )
 
             return () => {
                 h.dispose()
