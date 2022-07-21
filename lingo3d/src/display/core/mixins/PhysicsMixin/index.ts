@@ -220,4 +220,12 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
 
         this.initPhysics(val, this.cancelHandle("physics", () => new Cancellable())!)
     }
+
+    protected _gravity?: boolean
+    public get gravity() {
+        return this._gravity ?? true
+    }
+    public set gravity(val) {
+        this._gravity = val
+    }
 }

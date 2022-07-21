@@ -77,6 +77,8 @@ import { onBeforeRender } from "./events/onBeforeRender"
 import { Point3d, Point } from "@lincode/math"
 import { setWasmPath } from "./states/useWasmPath"
 
+import clientToWorld from "./display/utils/clientToWorld"
+
 export type { SimpleMouseEvent, LingoMouseEvent as MouseEvent } from "./interface/IMouse"
 
 export default {}
@@ -159,5 +161,7 @@ export {
 
     Point3d,
     Point,
-    setWasmPath
+    setWasmPath,
+
+    clientToWorld
 }

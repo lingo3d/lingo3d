@@ -20,6 +20,7 @@ export default interface IPhysics {
     maxVelocityZ: number
 
     velocity: Point3d
+    gravity: boolean
 
     noTumble: Nullable<boolean>
     slippery: Nullable<boolean>
@@ -41,6 +42,7 @@ export const physicsSchema: Required<ExtractProps<IPhysics>> = {
     maxVelocityZ: Number,
 
     velocity: Object,
+    gravity: Boolean,
 
     noTumble: Boolean,
     slippery: Boolean,
@@ -78,6 +80,7 @@ export const physicsDefaults: Defaults<IPhysics> = {
     maxVelocityZ: Infinity,
 
     velocity: { x: 0, y: 0, z: 0 },
+    gravity: true,
 
     noTumble: [undefined, false],
     slippery: [undefined, false],
