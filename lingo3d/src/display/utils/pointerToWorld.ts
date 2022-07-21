@@ -1,18 +1,29 @@
+import { Point3d } from "@lincode/math"
 import { scaleDown } from "../../engine/constants"
 import { containerBounds } from "../../engine/renderLoop/renderSetup"
+import { LingoMouseEvent } from "../../interface/IMouse"
 import { getCameraRendered } from "../../states/useCameraRendered"
+import { getPickingMode } from "../../states/usePickingMode"
 import getWorldPosition from "./getWorldPosition"
 import { vector3 } from "./reusables"
 import { vec2Point } from "./vec2Point"
 
-export default (
-    clientX: number,
-    clientY: number,
-    distance = 500
-) => {
+export default (ev: { clientX: number, clientY: number }) => {
     const rect = containerBounds[0]
-    clientX -= rect.x
-    clientY -= rect.y
+    const clientX = ev.clientX - rect.x
+    const clientY = ev.clientY - rect.y
+
+    const distance = 500
+
+    if (getPickingMode() === "camera")
+        return new LingoMouseEvent(
+            clientX,
+            clientY,
+            0,
+            0,
+            new Point3d(0, 0, 0),
+            distance
+        )
 
     const xNorm = (clientX / rect.width) * 2 - 1
     const yNorm = -(clientY / rect.height) * 2 + 1
@@ -25,5 +36,12 @@ export default (
     vector3.sub(cameraPosition).normalize()
     const vec = cameraPosition.add(vector3.multiplyScalar(distance * scaleDown))
 
-    return vec2Point(vec)
+    return new LingoMouseEvent(
+        clientX,
+        clientY,
+        xNorm,
+        yNorm,
+        vec2Point(vec),
+        distance
+    )
 }

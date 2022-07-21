@@ -10,7 +10,7 @@ import EventLoopItem from "./core/EventLoopItem"
 import { throttle } from "@lincode/utils"
 import { getSelectionBlockMouse } from "../states/useSelectionBlockMouse"
 import { appendableRoot } from "./core/Appendable"
-import clientToWorld from "../display/utils/clientToWorld"
+import pointerToWorld from "../display/utils/pointerToWorld"
 import store from "@lincode/reactivity"
 import { getEditorActive } from "../states/useEditorActive"
 import Nullable from "../interface/utils/Nullable"
@@ -54,7 +54,7 @@ mouseEvents.on("up", (e) => {
     rightClick = false
 })
 
-const computeMouse = throttle(clientToWorld, 0, "leading")
+const computeMouse = throttle(pointerToWorld, 0, "leading")
 
 container.addEventListener("pointermove", (ev) => {
     mouseEvents.emit("move", computeMouse(ev))

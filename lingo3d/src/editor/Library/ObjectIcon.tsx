@@ -1,12 +1,12 @@
 import { preventTreeShake, upperFirst } from "@lincode/utils"
 import { h } from "preact"
-import clientToWorld from "../../display/utils/clientToWorld"
 import createObject from "../../api/serializer/createObject"
 import { GameObjectType } from "../../api/serializer/types"
 import { container } from "../../engine/renderLoop/renderSetup"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getSelection } from "../../states/useSelection"
 import { point2Vec } from "../../display/utils/vec2Point"
+import clientToWorld from "../../display/utils/clientToWorld"
 
 preventTreeShake(h)
 
@@ -17,7 +17,7 @@ container.addEventListener("dragenter", (e) => e.preventDefault())
 container.addEventListener("drop", (e) => {
     if (!draggingItem || !getSelection()) return
     const manager = createObject(draggingItem as GameObjectType)
-    manager.outerObject3d.position.copy(point2Vec(clientToWorld(e, true).point))
+    manager.outerObject3d.position.copy(point2Vec(clientToWorld(e.clientX, e.clientY)))
     emitSelectionTarget(manager)
 })
 
