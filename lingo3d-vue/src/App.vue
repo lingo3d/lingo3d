@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { World, Model, LingoEditor, Setup, DirectionalLight } from "./index"
-import UI from "./components/logical/UI.vue"
-import Frame from "./components/logical/Frame.vue"
-import Cube from "./components/display/primitives/Cube.vue"
+import { World, Model, LingoEditor, Setup, DirectionalLight, UI, Frame, Cube } from "./index"
+
 </script>
 
 <template>

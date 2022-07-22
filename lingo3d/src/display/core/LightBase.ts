@@ -35,7 +35,8 @@ export default abstract class LightBase<T extends typeof Light>
             if (light.shadow) {
                 const shadowResolution = this.shadowResolutionState.get()
                 light.castShadow = true
-                light.shadow.bias = -0.00009
+                light.shadow.bias = -0.0005
+                // light.shadow.bias = -0.00009
                 light.shadow.mapSize.width = shadowResolution
                 light.shadow.mapSize.height = shadowResolution
                 light.shadow.radius = 2
