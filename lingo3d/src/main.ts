@@ -1,10 +1,11 @@
 import index, { settings } from "."
-import test from "./tests/testBVH"
+import test from "./tests/testLightMapper"
 import { preventTreeShake } from "@lincode/utils"
 import LingoEditor from "./editor"
 
 preventTreeShake([index, test])
 
-// settings.autoMount = true
+settings.autoMount = true
+settings.defaultLight = false
 
 const editor = new LingoEditor()
