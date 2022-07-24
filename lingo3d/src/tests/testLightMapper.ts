@@ -1,10 +1,9 @@
 import { createEffect } from "@lincode/reactivity"
 import * as THREE from "three"
 //@ts-ignore
-import { ProgressiveLightMap } from "./ProgressiveLightMap.js"
-import Cube from "../display/primitives/Cube"
+import { ProgressiveLightMap } from "three/examples/jsm/misc/ProgressiveLightMap"
+import Octahedron from "../display/primitives/Octahedron"
 import Plane from "../display/primitives/Plane"
-import scene from "../engine/scene"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getRenderer } from "../states/useRenderer"
@@ -35,8 +34,8 @@ for (let l = 0; l < lightCount; l++) {
     dirLight.name = "Dir. Light " + l
     dirLight.position.set(200, 200, 200)
     dirLight.castShadow = true
-    dirLight.shadow.camera.near = 100
-    dirLight.shadow.camera.far = 5000
+    // dirLight.shadow.camera.near = 100
+    // dirLight.shadow.camera.far = 5000
     dirLight.shadow.camera.right = 150
     dirLight.shadow.camera.left = -150
     dirLight.shadow.camera.top = 150
@@ -63,7 +62,7 @@ lightmapObjects.push(groundMesh)
 
 
 
-object = new Cube().outerObject3d
+object = new Octahedron().object3d
 object.traverse(function (child: any) {
     if (child.isMesh) {
         child.material = new THREE.MeshStandardMaterial()
