@@ -4,9 +4,13 @@ import { diameterScaled, radiusScaled } from "../../engine/constants"
 export const vector3 = new Vector3()
 export const vector3_ = new Vector3()
 export const vector3__ = new Vector3()
+export const vector3___ = new Vector3()
 
 export const quaternion = new Quaternion()
 export const quaternion_ = new Quaternion()
+
+export const vector3_0 = new Vector3(0, 0, 0)
+Object.freeze(vector3_0)
 
 export const vector3_1 = new Vector3(diameterScaled, diameterScaled, diameterScaled)
 Object.freeze(vector3_1)
@@ -25,3 +29,5 @@ export const wireframeMaterial = new MeshBasicMaterial({ wireframe: true })
 export const frustum = new Frustum()
 
 export const matrix4 = new Matrix4()
+
+export const halfPi = Math.PI * 0.5

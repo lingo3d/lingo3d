@@ -2,7 +2,14 @@ import { CameraHelper, PerspectiveCamera, Quaternion } from "three"
 import ObjectManager from "../ObjectManager"
 import { debounce, last } from "@lincode/utils"
 import { scaleUp, scaleDown } from "../../../engine/constants"
-import { ray, vector3, euler, quaternion, quaternion_ } from "../../utils/reusables"
+import {
+    ray,
+    vector3,
+    euler,
+    quaternion,
+    quaternion_,
+    halfPi
+} from "../../utils/reusables"
 import pillShape from "../mixins/PhysicsMixin/cannon/shapes/pillShape"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
 import { deg2Rad, Point3d } from "@lincode/math"
@@ -12,7 +19,10 @@ import MeshItem from "../MeshItem"
 import { Cancellable } from "@lincode/promiselikes"
 import mainCamera from "../../../engine/mainCamera"
 import scene from "../../../engine/scene"
-import { onSelectionTarget, emitSelectionTarget } from "../../../events/onSelectionTarget"
+import {
+    onSelectionTarget,
+    emitSelectionTarget
+} from "../../../events/onSelectionTarget"
 import { bokehDefault } from "../../../states/useBokeh"
 import { bokehApertureDefault } from "../../../states/useBokehAperture"
 import { bokehFocusDefault } from "../../../states/useBokehFocus"
@@ -21,26 +31,32 @@ import { setBokehRefresh } from "../../../states/useBokehRefresh"
 import { setCameraFrom } from "../../../states/useCameraFrom"
 import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import { getCameraRendered } from "../../../states/useCameraRendered"
-import { pullCameraStack, getCameraStack, pushCameraStack } from "../../../states/useCameraStack"
+import {
+    pullCameraStack,
+    getCameraStack,
+    pushCameraStack
+} from "../../../states/useCameraStack"
 import makeCameraSprite from "../utils/makeCameraSprite"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
 
-const PI_2 = Math.PI * 0.5
-
-export default abstract class CameraBase<T extends PerspectiveCamera> extends ObjectManager implements ICameraBase {
+export default abstract class CameraBase<T extends PerspectiveCamera>
+    extends ObjectManager
+    implements ICameraBase
+{
     protected override _physicsShape = pillShape
 
-    public constructor(
-        protected camera: T
-    ) {
+    public constructor(protected camera: T) {
         super()
         this.object3d.add(camera)
         this.camera.userData.manager = this
         pushCameraList(this.camera)
 
         this.createEffect(() => {
-            if (getCameraRendered() !== mainCamera || getCameraRendered() === this.camera)
+            if (
+                getCameraRendered() !== mainCamera ||
+                getCameraRendered() === this.camera
+            )
                 return
 
             const helper = new CameraHelper(this.camera)
@@ -55,7 +71,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
             return () => {
                 helper.dispose()
                 scene.remove(helper)
-                
+
                 sprite.dispose()
                 handle.cancel()
             }
@@ -144,7 +160,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         this.camera.userData.bokeh = val
         setBokehRefresh({})
     }
-    
+
     public get bokehFocus() {
         return this.camera.userData.bokehFocus ?? bokehFocusDefault
     }
@@ -170,7 +186,10 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
     }
 
     protected override getRay() {
-        return ray.set(getWorldPosition(this.camera), this.camera.getWorldDirection(vector3))
+        return ray.set(
+            getWorldPosition(this.camera),
+            this.camera.getWorldDirection(vector3)
+        )
     }
 
     public override append(object: MeshItem) {
@@ -217,10 +236,16 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         euler.setFromQuaternion(manager.quaternion)
 
         euler.y -= movementX * 0.002
-        euler.y = Math.max(PI_2 - this._maxAzimuthAngle * deg2Rad, Math.min(PI_2 - this._minAzimuthAngle * deg2Rad, euler.y))
-        
+        euler.y = Math.max(
+            halfPi - this._maxAzimuthAngle * deg2Rad,
+            Math.min(halfPi - this._minAzimuthAngle * deg2Rad, euler.y)
+        )
+
         euler.x -= movementY * 0.002
-        euler.x = Math.max(PI_2 - this._maxPolarAngle * deg2Rad, Math.min(PI_2 - this._minPolarAngle * deg2Rad, euler.x))
+        euler.x = Math.max(
+            halfPi - this._maxPolarAngle * deg2Rad,
+            Math.min(halfPi - this._minPolarAngle * deg2Rad, euler.x)
+        )
 
         manager.setRotationFromEuler(euler)
         !inner && this.physicsRotate()
@@ -232,22 +257,22 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
             movementX *= 0.5
             movementY *= 0.5
         }
-        if (this.orbitMode)
-            this._gyrate(movementX, movementY)
+        if (this.orbitMode) this._gyrate(movementX, movementY)
         else {
             this._gyrate(movementX, 0)
             this._gyrate(0, movementY, true)
         }
-        if (!this.enableDamping || noDamping || !(movementX || movementY)) return        
+        if (!this.enableDamping || noDamping || !(movementX || movementY))
+            return
 
         this.gyrateHandle?.cancel()
-        
+
         let factor = 1
-        const handle = this.gyrateHandle = this.beforeRender(() => {
+        const handle = (this.gyrateHandle = this.beforeRender(() => {
             factor *= 0.95
             this._gyrate(movementX * factor, movementY * factor)
             factor <= 0.001 && handle.cancel()
-        })
+        }))
     }
 
     protected updateAngle = debounce(() => this.gyrate(0, 0), 0, "trailing")
@@ -337,7 +362,9 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         if (!val || this.mouseControlInit) return
         this.mouseControlInit = true
 
-        import("./enableMouseControl").then(module => module.default.call(this))
+        import("./enableMouseControl").then((module) =>
+            module.default.call(this)
+        )
     }
 
     private _gyroControl?: boolean
@@ -351,24 +378,48 @@ export default abstract class CameraBase<T extends PerspectiveCamera> extends Ob
         const deviceEuler = euler
         const deviceQuaternion = quaternion
         const screenTransform = quaternion_
-        const worldTransform = new Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5))
+        const worldTransform = new Quaternion(
+            -Math.sqrt(0.5),
+            0,
+            0,
+            Math.sqrt(0.5)
+        )
 
         const quat = getWorldQuaternion(this.object3d)
         const orient = 0
 
         const cb = (e: DeviceOrientationEvent) => {
             this.object3d.quaternion.copy(quat)
-            deviceEuler.set((e.beta ?? 0) * deg2Rad, (e.alpha ?? 0) * deg2Rad, -(e.gamma ?? 0) * deg2Rad, "YXZ")
+            deviceEuler.set(
+                (e.beta ?? 0) * deg2Rad,
+                (e.alpha ?? 0) * deg2Rad,
+                -(e.gamma ?? 0) * deg2Rad,
+                "YXZ"
+            )
 
-            this.object3d.quaternion.multiply(deviceQuaternion.setFromEuler(deviceEuler))
+            this.object3d.quaternion.multiply(
+                deviceQuaternion.setFromEuler(deviceEuler)
+            )
 
             const minusHalfAngle = -orient * 0.5
-            screenTransform.set(0, Math.sin(minusHalfAngle), 0, Math.cos(minusHalfAngle))
+            screenTransform.set(
+                0,
+                Math.sin(minusHalfAngle),
+                0,
+                Math.cos(minusHalfAngle)
+            )
 
             this.object3d.quaternion.multiply(screenTransform)
             this.object3d.quaternion.multiply(worldTransform)
         }
         val && window.addEventListener("deviceorientation", cb)
-        this.cancelHandle("gyroControl", val && (() => new Cancellable(() => window.removeEventListener("deviceorientation", cb))))
+        this.cancelHandle(
+            "gyroControl",
+            val &&
+                (() =>
+                    new Cancellable(() =>
+                        window.removeEventListener("deviceorientation", cb)
+                    ))
+        )
     }
 }

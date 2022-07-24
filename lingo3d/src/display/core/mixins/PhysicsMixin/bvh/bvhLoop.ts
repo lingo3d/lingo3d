@@ -1,25 +1,33 @@
 import { createEffect } from "@lincode/reactivity"
 import { forceGet } from "@lincode/utils"
-import { Box3, Vector3 } from "three"
+import { Box3, Object3D, Vector3 } from "three"
 import PhysicsMixin from ".."
 import { onBeforeRender } from "../../../../../events/onBeforeRender"
 import { getBVHMap } from "../../../../../states/useBVHMap"
+import { getCentripetal } from "../../../../../states/useCentripetal"
 import { getEditorActive } from "../../../../../states/useEditorActive"
 import { getGravity } from "../../../../../states/useGravity"
 import { getRepulsion } from "../../../../../states/useRepulsion"
 import {
     box3,
+    halfPi,
     line3,
     vector3,
     vector3_,
+    vector3_0,
     vector3__
 } from "../../../../utils/reusables"
 import bvhContactMap from "./bvhContactMap"
 import { bvhManagerMap } from "./computeBVH"
+import measure from "../../../../utils/measure"
+import PositionedItem from "../../../../../api/core/PositionedItem"
+import getWorldPosition from "../../../../utils/getWorldPosition"
 
 export const bvhCharacterSet = new Set<PhysicsMixin>()
 
 const makeWeakSet = () => new WeakSet()
+
+const dirObj = new Object3D()
 
 createEffect(
     function (this: PhysicsMixin) {
@@ -29,8 +37,22 @@ createEffect(
         if (!bvhArray.length) return
 
         const gravity = getGravity()
+        const centripetal = getCentripetal()
         const repulsion = getRepulsion()
         const delta = 0.02
+
+        let sizeMax = 0
+        let itemSizeMax: PositionedItem | undefined
+        for (const item of centripetal) {
+            const { x, y, z } = measure(item.outerObject3d)
+            const size = x + y + z
+            if (size < sizeMax) return
+
+            sizeMax = size
+            itemSizeMax = item
+        }
+        const center =
+            itemSizeMax && getWorldPosition(itemSizeMax.outerObject3d)
 
         const handle = onBeforeRender(() => {
             bvhContactMap.clear()
@@ -41,11 +63,23 @@ createEffect(
                 const capsuleHalfHeight = characterManager.bvhHalfHeight!
                 const capsuleRadius = characterManager.bvhRadius!
 
-                playerVelocity.y +=
-                    characterManager.bvhOnGround ||
-                    characterManager._gravity === false
-                        ? 0
-                        : delta * -gravity
+                const dir =
+                    center && getWorldPosition(player).sub(center).normalize()
+
+                if (dir) {
+                    playerVelocity.add(
+                        characterManager.bvhOnGround ||
+                            characterManager._gravity === false
+                            ? vector3_0
+                            : dir.clone().multiplyScalar(delta * -gravity)
+                    )
+                } else {
+                    playerVelocity.y +=
+                        characterManager.bvhOnGround ||
+                        characterManager._gravity === false
+                            ? 0
+                            : delta * -gravity
+                }
 
                 const { position } = characterManager.physicsUpdate!
                 characterManager.physicsUpdate = {}
@@ -116,17 +150,51 @@ createEffect(
                 const deltaVector = start.sub(startOld)
 
                 // if the player was primarily adjusted vertically we assume it's on something we should consider ground
-                characterManager.bvhOnGround =
-                    deltaVector.y > Math.abs(delta * playerVelocity.y * 0.25)
+                if (dir) {
+                    dirObj.lookAt(dir)
+                    dirObj.rotateX(halfPi)
 
-                if (repulsion && characterManager.bvhOnGround)
-                    if (
-                        Math.abs(
-                            deltaVector.y /
-                                (deltaVector.x + deltaVector.z + Number.EPSILON)
-                        ) < repulsion
-                    )
-                        characterManager.bvhOnGround = false
+                    const angle = dirObj.rotation
+                    //@ts-ignore
+                    characterManager.loadedGroup?.quaternion.setFromEuler(angle)
+
+                    const playerVelocityUpright = playerVelocity
+                        .clone()
+                        .applyEuler(angle)
+                    const deltaVectorUpright = deltaVector
+                        .clone()
+                        .applyEuler(angle)
+
+                    characterManager.bvhOnGround =
+                        deltaVectorUpright.y >
+                        Math.abs(delta * playerVelocityUpright.y * 0.25)
+
+                    if (repulsion && characterManager.bvhOnGround)
+                        if (
+                            Math.abs(
+                                deltaVectorUpright.y /
+                                    (deltaVectorUpright.x +
+                                        deltaVectorUpright.z +
+                                        Number.EPSILON)
+                            ) < repulsion
+                        )
+                            characterManager.bvhOnGround = false
+                } else {
+                    characterManager.bvhOnGround =
+                        deltaVector.y >
+                        Math.abs(delta * playerVelocity.y * 0.25)
+
+                    if (repulsion && characterManager.bvhOnGround)
+                        if (
+                            Math.abs(
+                                deltaVector.y /
+                                    (deltaVector.x +
+                                        deltaVector.z +
+                                        Number.EPSILON)
+                            ) < repulsion
+                        )
+                            characterManager.bvhOnGround = false
+                }
 
                 const offset = Math.max(0.0, deltaVector.length() - 1e-5)
                 deltaVector.normalize().multiplyScalar(offset)
@@ -147,5 +215,5 @@ createEffect(
             handle.cancel()
         }
     },
-    [getBVHMap, getGravity, getRepulsion, getEditorActive]
+    [getBVHMap, getGravity, getRepulsion, getCentripetal, getEditorActive]
 )
