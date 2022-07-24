@@ -7,7 +7,13 @@ import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
 export type PhysicsGroupIndex = 0 | 1 | 2 | 3 | 4 | 5
-export type PhysicsOptions = boolean | "2d" | "map" | "map-debug" | "character"
+export type PhysicsOptions =
+    | boolean
+    | "2d"
+    | "map"
+    | "map-debug"
+    | "map-centripetal"
+    | "character"
 export type PhysicsShape = (this: PhysicsMixin) => Promise<void>
 
 export default interface IPhysics {

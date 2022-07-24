@@ -1,16 +1,27 @@
 import cubeShape from "./cannon/shapes/cubeShape"
 import { Vector3 } from "three"
-import IPhysics, { PhysicsGroupIndex, PhysicsOptions, PhysicsShape } from "../../../../interface/IPhysics"
+import IPhysics, {
+    PhysicsGroupIndex,
+    PhysicsOptions,
+    PhysicsShape
+} from "../../../../interface/IPhysics"
 import type { Body } from "cannon-es"
 import { Cancellable } from "@lincode/promiselikes"
 import { assertExhaustive } from "@lincode/utils"
 import PositionedItem from "../../../../api/core/PositionedItem"
 import { Point3d } from "@lincode/math"
+import {
+    pullCentripetal,
+    pushCentripetal
+} from "../../../../states/useCentripetal"
 
-export default abstract class PhysicsMixin extends PositionedItem implements IPhysics {
+export default abstract class PhysicsMixin
+    extends PositionedItem
+    implements IPhysics
+{
     protected _mAV?: Point3d
     private getMAV() {
-        return this._mAV ??= new Point3d(Infinity, Infinity, Infinity)
+        return (this._mAV ??= new Point3d(Infinity, Infinity, Infinity))
     }
     public get maxAngularVelocityX() {
         return this._mAV?.x ?? Infinity
@@ -33,7 +44,7 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
 
     protected _mV?: Point3d
     private getMV() {
-        return this._mV ??= new Point3d(Infinity, Infinity, Infinity)
+        return (this._mV ??= new Point3d(Infinity, Infinity, Infinity))
     }
     public get maxVelocityX() {
         return this._mV?.x ?? Infinity
@@ -53,32 +64,32 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
     public set maxVelocityZ(val) {
         this.getMV().z = val
     }
-    
+
     protected physicsUpdate?: {
-        position?: { x?: boolean, y?: boolean, z?: boolean }
-        rotation?: { x?: boolean, y?: boolean, z?: boolean }
+        position?: { x?: boolean; y?: boolean; z?: boolean }
+        rotation?: { x?: boolean; y?: boolean; z?: boolean }
     }
     protected physicsRotate() {
         if (!this.physicsUpdate) return
-        const rotation = this.physicsUpdate.rotation ??= {}
+        const rotation = (this.physicsUpdate.rotation ??= {})
         rotation.x = true
         rotation.y = true
         rotation.z = true
     }
     protected physicsMove() {
         if (!this.physicsUpdate) return
-        const position = this.physicsUpdate.position ??= {}
+        const position = (this.physicsUpdate.position ??= {})
         position.x = true
         position.y = true
         position.z = true
     }
     protected physicsMoveXZ() {
         if (!this.physicsUpdate) return
-        const position = this.physicsUpdate.position ??= {}
+        const position = (this.physicsUpdate.position ??= {})
         position.x = true
         position.z = true
     }
-    
+
     protected cannonBody?: Body
 
     public applyForce(x: number, y: number, z: number) {
@@ -102,19 +113,15 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
     }
 
     public get velocity(): Point3d {
-        if (this.bvhVelocity)
-            return this.bvhVelocity
+        if (this.bvhVelocity) return this.bvhVelocity
 
-        if (this.cannonBody)
-            return this.cannonBody.velocity
+        if (this.cannonBody) return this.cannonBody.velocity
 
         return new Point3d(0, 0, 0)
     }
     public set velocity(val) {
-        if (this.bvhVelocity)
-            Object.assign(this.bvhVelocity, val)
-        else if (this.cannonBody)
-            Object.assign(this.cannonBody.velocity, val)
+        if (this.bvhVelocity) Object.assign(this.bvhVelocity, val)
+        else if (this.cannonBody) Object.assign(this.cannonBody.velocity, val)
     }
 
     private refreshCannon() {
@@ -168,13 +175,13 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
 
     protected _physicsShape?: PhysicsShape
     public get physicsShape() {
-        return this._physicsShape ??= cubeShape
+        return (this._physicsShape ??= cubeShape)
     }
     public set physicsShape(val) {
         this._physicsShape = val
         this.refreshCannon()
     }
-    
+
     protected bvhVelocity?: Vector3
     protected bvhOnGround?: boolean
     protected bvhRadius?: number
@@ -188,22 +195,39 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
         switch (val) {
             case true:
             case "2d":
-                import("./enableCannon").then(module => module.default.call(this, handle))
+                import("./enableCannon").then((module) =>
+                    module.default.call(this, handle)
+                )
                 break
 
             case "map":
                 this.bvhMap = true
-                import("./enableBVHMap").then(module => module.default.call(this, handle, false))
+                import("./enableBVHMap").then((module) =>
+                    module.default.call(this, handle, false)
+                )
                 break
 
             case "map-debug":
                 this.bvhMap = true
-                import("./enableBVHMap").then(module => module.default.call(this, handle, true))
+                import("./enableBVHMap").then((module) =>
+                    module.default.call(this, handle, true)
+                )
+                break
+
+            case "map-centripetal":
+                this.bvhMap = true
+                import("./enableBVHMap").then((module) =>
+                    module.default.call(this, handle, false)
+                )
+                pushCentripetal(this)
+                handle.then(() => pullCentripetal(this))
                 break
 
             case "character":
                 this.bvhCharacter = true
-                import("./enableBVHCharacter").then(module => module.default.call(this, handle))
+                import("./enableBVHCharacter").then((module) =>
+                    module.default.call(this, handle)
+                )
                 break
 
             default:
@@ -218,7 +242,10 @@ export default abstract class PhysicsMixin extends PositionedItem implements IPh
         if (this._physics === val) return
         this._physics = val
 
-        this.initPhysics(val, this.cancelHandle("physics", () => new Cancellable())!)
+        this.initPhysics(
+            val,
+            this.cancelHandle("physics", () => new Cancellable())!
+        )
     }
 
     protected _gravity?: boolean
