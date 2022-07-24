@@ -12,7 +12,6 @@ export type PhysicsOptions =
     | "2d"
     | "map"
     | "map-debug"
-    | "map-centripetal"
     | "character"
 export type PhysicsShape = (this: PhysicsMixin) => Promise<void>
 

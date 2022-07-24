@@ -10,10 +10,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import { assertExhaustive } from "@lincode/utils"
 import PositionedItem from "../../../../api/core/PositionedItem"
 import { Point3d } from "@lincode/math"
-import {
-    pullCentripetal,
-    pushCentripetal
-} from "../../../../states/useCentripetal"
 
 export default abstract class PhysicsMixin
     extends PositionedItem
@@ -212,15 +208,6 @@ export default abstract class PhysicsMixin
                 import("./enableBVHMap").then((module) =>
                     module.default.call(this, handle, true)
                 )
-                break
-
-            case "map-centripetal":
-                this.bvhMap = true
-                import("./enableBVHMap").then((module) =>
-                    module.default.call(this, handle, false)
-                )
-                pushCentripetal(this)
-                handle.then(() => pullCentripetal(this))
                 break
 
             case "character":
