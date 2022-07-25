@@ -8,7 +8,7 @@ specifiers:
   '@types/stats.js': ^0.17.0
   '@types/three': 0.142.0
   '@vitejs/plugin-vue': ^3.0.1
-  lingo3d: 1.12.26
+  lingo3d: 1.12.27
   popmotion: '*'
   preact: '*'
   stats.js: '*'
@@ -16,7 +16,7 @@ specifiers:
   typescript: ^4.7.4
   vite: ^3.0.2
   vue: ^3.2.37
-  vue-tsc: ^0.38.8
+  vue-tsc: ^0.38.9
 
 dependencies:
   '@lincode/promiselikes': 1.0.23
@@ -24,7 +24,7 @@ dependencies:
   '@lincode/utils': 1.2.51
   '@tweakpane/core': 1.1.0
   '@types/three': 0.142.0
-  lingo3d: 1.12.26
+  lingo3d: 1.12.27
   popmotion: 11.0.3
   preact: 10.10.0
   stats.js: 0.17.0
@@ -114,11 +114,11 @@ packages:
   /@types/three/0.142.0:
     resolution: {integrity: sha512-YNVnlqthfgqsxKuSNbT/G2r+ha/6x+aJm7kvjT+sxa4jUROw/KOPm5xzGj33sk1+Librg6NwH/wJ6LCDX33UZg==}
     dependencies:
-      '@types/webxr': 0.4.0
+      '@types/webxr': 0.5.0
     dev: false
 
-  /@types/webxr/0.4.0:
-    resolution: {integrity: sha512-LQvrACV3Pj17GpkwHwXuTd733gfY+D7b9mKdrTmLdO7vo7P/o6209Qqtk63y/FCv/lspdmi0pWz6Qe/ull9kQg==}
+  /@types/webxr/0.5.0:
+    resolution: {integrity: sha512-IUMDPSXnYIbEO2IereEFcgcqfDREOgmbGqtrMpVPpACTU6pltYLwHgVkrnYv0XhWEcjio9sYEfIEzgn3c7nDqA==}
     dev: false
 
   /@vitejs/plugin-vue/3.0.1_vite@3.0.2+vue@3.2.37:
@@ -520,8 +520,8 @@ packages:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
     dev: false
 
-  /lingo3d/1.12.26:
-    resolution: {integrity: sha512-qE99qVSv19ecKcl902it0mrBSuumOnJXF5r9kjkTovtQ2aovAIMV0zDKjX6qy7CRtLecTybgINXSk3av/S615g==}
+  /lingo3d/1.12.27:
+    resolution: {integrity: sha512-HfkHLgMNAAD5hF99QZ3zM0mPcV/hHzJjZcMbdwJ80d9T+0Q/V5io/LEY1mqWb8u/yxEQGD8dx2b+jvADebp8kA==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
