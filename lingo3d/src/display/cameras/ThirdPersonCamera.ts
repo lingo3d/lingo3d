@@ -39,7 +39,9 @@ export default class ThirdPersonCamera
                     if (!target) {
                         const handle = onBeforeRender(() => {
                             cam.position.copy(getWorldPosition(this.object3d))
-                            cam.quaternion.copy(getWorldQuaternion(this.object3d))
+                            cam.quaternion.copy(
+                                getWorldQuaternion(this.object3d)
+                            )
                         })
                         return () => {
                             handle.cancel()

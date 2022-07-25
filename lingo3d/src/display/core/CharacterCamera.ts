@@ -2,7 +2,11 @@ import { PerspectiveCamera } from "three"
 import { camNear, camFar } from "../../engine/constants"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import ICharacterCamera, { characterCameraDefaults, characterCameraSchema, LockTargetRotationValue } from "../../interface/ICharacterCamera"
+import ICharacterCamera, {
+    characterCameraDefaults,
+    characterCameraSchema,
+    LockTargetRotationValue
+} from "../../interface/ICharacterCamera"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import { getTransformControlsMode } from "../../states/useTransformControlsMode"
@@ -10,7 +14,10 @@ import OrbitCameraBase from "./OrbitCameraBase"
 import { euler, quaternion } from "../utils/reusables"
 import MeshItem from "./MeshItem"
 
-export default class CharacterCamera extends OrbitCameraBase implements ICharacterCamera {
+export default class CharacterCamera
+    extends OrbitCameraBase
+    implements ICharacterCamera
+{
     public static defaults = characterCameraDefaults
     public static schema = characterCameraSchema
 
@@ -20,25 +27,22 @@ export default class CharacterCamera extends OrbitCameraBase implements ICharact
         const cam = this.camera
         scene.attach(cam)
         this.then(() => scene.remove(cam))
-        
+
         this.createEffect(() => {
             const target = this.targetState.get()
             if (!target) return
 
-            if ("frustumCulled" in target)
-                target.frustumCulled = false
-
+            if ("frustumCulled" in target) target.frustumCulled = false
         }, [this.targetState.get])
 
         const followTargetRotation = (target: MeshItem, slerp: boolean) => {
             euler.setFromQuaternion(target.outerObject3d.quaternion)
             euler.y += Math.PI
-            
+
             if (slerp) {
                 quaternion.setFromEuler(euler)
                 this.outerObject3d.quaternion.slerp(quaternion, 0.1)
-            }
-            else this.outerObject3d.setRotationFromEuler(euler)
+            } else this.outerObject3d.setRotationFromEuler(euler)
 
             this.updateAngle()
         }
@@ -52,8 +56,7 @@ export default class CharacterCamera extends OrbitCameraBase implements ICharact
             if (slerp) {
                 quaternion.setFromEuler(euler)
                 target.outerObject3d.quaternion.slerp(quaternion, 0.1)
-            }
-            else target.outerObject3d.setRotationFromEuler(euler)
+            } else target.outerObject3d.setRotationFromEuler(euler)
         }
 
         let transformControlRotating = false
@@ -76,7 +79,10 @@ export default class CharacterCamera extends OrbitCameraBase implements ICharact
                 this.outerObject3d.position.copy(target.outerObject3d.position)
                 if (!this.lockTargetRotation) return
 
-                if (this.lockTargetRotation === "follow" || transformControlRotating) {
+                if (
+                    this.lockTargetRotation === "follow" ||
+                    transformControlRotating
+                ) {
                     followTargetRotation(target, false)
                     return
                 }
@@ -102,15 +108,24 @@ export default class CharacterCamera extends OrbitCameraBase implements ICharact
             const dragging = getTransformControlsDragging()
             const mode = getTransformControlsMode()
 
-            const rotating = target && target === selectionTarget && dragging && mode === "rotate"
+            const rotating =
+                target &&
+                target === selectionTarget &&
+                dragging &&
+                mode === "rotate"
             if (!rotating) return
-            
+
             transformControlRotating = true
 
             return () => {
                 transformControlRotating = false
             }
-        }, [this.targetState.get, getSelectionTarget, getTransformControlsDragging, getTransformControlsMode])
+        }, [
+            this.targetState.get,
+            getSelectionTarget,
+            getTransformControlsDragging,
+            getTransformControlsMode
+        ])
     }
 
     public lockTargetRotation: LockTargetRotationValue = true

@@ -141,16 +141,13 @@ createEffect(
                     dirObj.lookAt(dir)
                     dirObj.rotateX(halfPi)
 
-                    const angle = dirObj.rotation
-                    //@ts-ignore
-                    // characterManager.loadedGroup?.quaternion.setFromEuler(angle)
-
                     const playerVelocityUpright = playerVelocity
                         .clone()
-                        .applyEuler(angle)
+                        .applyEuler(dirObj.rotation)
+
                     const deltaVectorUpright = deltaVector
                         .clone()
-                        .applyEuler(angle)
+                        .applyEuler(dirObj.rotation)
 
                     characterManager.bvhOnGround =
                         deltaVectorUpright.y >
