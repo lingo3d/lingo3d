@@ -2,6 +2,7 @@ import ObjectManager from "../../display/core/ObjectManager"
 import Model from "../../display/Model"
 import Dummy from "../../display/Dummy"
 import Building from "../../display/Building"
+import Tree from "../../display/Tree"
 import SvgMesh from "../../display/SvgMesh"
 import Reflector from "../../display/Reflector"
 import Sprite from "../../display/Sprite"
@@ -38,6 +39,7 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     "svgMesh": () => new SvgMesh(),
     "dummy": () => new Dummy(),
     "building": () => new Building(),
+    "tree": () => new Tree(),
     "reflector": () => new Reflector(),
     "sprite": () => new Sprite(),
     "trigger": () => new Trigger() as any,

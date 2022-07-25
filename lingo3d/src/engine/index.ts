@@ -10,6 +10,7 @@ import background from "./background"
 import defaultLight from "./defaultLight"
 import defaultFog from "./defaultFog"
 import { preventTreeShake } from "@lincode/utils"
+import { setDebug } from "../states/useDebug"
 
 preventTreeShake([
     render,
@@ -27,4 +28,6 @@ preventTreeShake([
 
 export default {}
 
-"__THREE__" in window && ((window as any).__THREE__ += " - Lingo3D Beta")
+const w = window as any
+"__THREE__" in w && (w.__THREE__ += " - Lingo3D Beta")
+w.setDebug = setDebug

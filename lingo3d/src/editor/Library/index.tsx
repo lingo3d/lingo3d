@@ -4,7 +4,7 @@ import { preventTreeShake } from "@lincode/utils"
 import ObjectGroup from "./ObjectGroup"
 import { useEffect } from "preact/hooks"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
-import { useNodeEditor } from "../states"
+import { useDebug, useNodeEditor } from "../states"
 import useInit from "../utils/useInit"
 
 preventTreeShake(h)
@@ -12,6 +12,7 @@ preventTreeShake(h)
 const Library = () => {
     const elRef = useInit()
     const [nodeEditor] = useNodeEditor()
+    const [debug] = useDebug()
 
     useEffect(() => {
         emitEditorMountChange()
@@ -38,7 +39,7 @@ const Library = () => {
                 names={[
                     "model",
                     "dummy",
-                    // { "building": "cube" },
+                    ...(debug ? [{ "building": "cube" }, { "tree": "cylinder" }] : []),
                     "svgMesh",
                     { sprite: "plane" },
                     "trigger",
