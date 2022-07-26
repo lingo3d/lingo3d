@@ -67,15 +67,15 @@ export default class CharacterCamera
 
             followTargetRotation(target, false)
 
-            let targetMoved = false
-            let [x, y, z] = [0, 0, 0]
-            const handle0 = onBeforeRender(() => {
-                const { x: x0, y: y0, z: z0 } = target.outerObject3d.position
-                targetMoved = x0 !== x || y0 !== y || z0 !== z
-                ;[x, y, z] = [x0, y0, z0]
-            })
+            let [xOld, yOld, zOld] = [0, 0, 0]
+            const targetMoved = () => {
+                const { x, y, z } = target.outerObject3d.position
+                const result = x !== xOld || y !== yOld || z !== zOld
+                ;[xOld, yOld, zOld] = [x, y, z]
+                return result
+            }
 
-            const handle1 = onBeforeRender(() => {
+            const handle = onBeforeRender(() => {
                 this.outerObject3d.position.copy(target.outerObject3d.position)
                 if (!this.lockTargetRotation) return
 
@@ -87,18 +87,17 @@ export default class CharacterCamera
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-lock") {
-                    targetMoved && lockTargetRotation(target, true)
+                    targetMoved() && lockTargetRotation(target, true)
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-follow") {
-                    targetMoved && followTargetRotation(target, true)
+                    targetMoved() && followTargetRotation(target, true)
                     return
                 }
                 lockTargetRotation(target, false)
             })
             return () => {
-                handle0.cancel()
-                handle1.cancel()
+                handle.cancel()
             }
         }, [this.targetState.get])
 
