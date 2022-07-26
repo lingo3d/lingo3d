@@ -20,6 +20,7 @@ import {
 import bvhContactMap from "./bvhContactMap"
 import { bvhManagerMap } from "./computeBVH"
 import getWorldPosition from "../../../../utils/getWorldPosition"
+import { getLoadedObject } from "../../../Loaded"
 
 export const bvhCharacterSet = new Set<PhysicsMixin>()
 
@@ -51,6 +52,8 @@ createEffect(
 
                 const dir =
                     center && getWorldPosition(player).sub(center).normalize()
+
+                dir && (characterManager.bvhDir = dir)
 
                 if (dir)
                     playerVelocity.add(
@@ -139,9 +142,9 @@ createEffect(
                     dirObj.lookAt(dir)
                     dirObj.rotateX(halfPi)
 
-                    //@ts-ignore
-                    const item = characterManager.loadedGroup ?? characterManager.object3d
-                    item.quaternion.copy(dirObj.quaternion)
+                    getLoadedObject(characterManager).quaternion.copy(
+                        dirObj.quaternion
+                    )
 
                     const playerVelocityUpright = playerVelocity
                         .clone()
@@ -155,16 +158,16 @@ createEffect(
                         deltaVectorUpright.y >
                         Math.abs(delta * playerVelocityUpright.y * 0.25)
 
-                    if (repulsion && characterManager.bvhOnGround)
-                        if (
-                            Math.abs(
-                                deltaVectorUpright.y /
-                                    (deltaVectorUpright.x +
-                                        deltaVectorUpright.z +
-                                        Number.EPSILON)
-                            ) < repulsion
-                        )
-                            characterManager.bvhOnGround = false
+                    // if (repulsion && characterManager.bvhOnGround)
+                    //     if (
+                    //         Math.abs(
+                    //             deltaVectorUpright.y /
+                    //                 (deltaVectorUpright.x +
+                    //                     deltaVectorUpright.z +
+                    //                     Number.EPSILON)
+                    //         ) < repulsion
+                    //     )
+                    //         characterManager.bvhOnGround = false
                 } else {
                     characterManager.bvhOnGround =
                         deltaVector.y >

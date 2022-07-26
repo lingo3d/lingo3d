@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from "three"
+import { Object3D, PerspectiveCamera } from "three"
 import { camNear, camFar } from "../../engine/constants"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
@@ -11,8 +11,10 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import OrbitCameraBase from "./OrbitCameraBase"
-import { euler, quaternion } from "../utils/reusables"
+import { euler, halfPi, quaternion } from "../utils/reusables"
 import MeshItem from "./MeshItem"
+
+const dirObj = new Object3D()
 
 export default class CharacterCamera
     extends OrbitCameraBase
@@ -77,6 +79,17 @@ export default class CharacterCamera
 
             const handle = onBeforeRender(() => {
                 this.outerObject3d.position.copy(target.outerObject3d.position)
+
+                //@ts-ignore
+                const dir = target.bvhDir
+
+                if (dir) {
+                    dirObj.lookAt(dir)
+                    dirObj.rotateX(halfPi)
+                    this.outerObject3d.quaternion.copy(dirObj.quaternion)
+                    return
+                }
+                
                 if (!this.lockTargetRotation) return
 
                 if (

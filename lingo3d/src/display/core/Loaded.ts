@@ -14,6 +14,7 @@ import {
 import Reresolvable from "./utils/Reresolvable"
 import { Cancellable } from "@lincode/promiselikes"
 import toResolvable from "../utils/toResolvable"
+import MeshItem from "./MeshItem"
 
 export default abstract class Loaded<T = Object3D>
     extends ObjectManager<Mesh>
@@ -254,4 +255,10 @@ export default abstract class Loaded<T = Object3D>
             this.loaded.then(() => super.refreshFactors())
         )
     }
+}
+
+export const getLoadedObject = (item: Loaded | MeshItem) => {
+    if ("loadedGroup" in item) return item.loadedGroup
+    if ("object3d" in item) return item.object3d
+    return item.outerObject3d
 }

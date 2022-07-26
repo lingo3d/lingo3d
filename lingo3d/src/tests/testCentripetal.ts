@@ -23,9 +23,9 @@ char.physics = "character"
 
 const cam = new ThirdPersonCamera()
 cam.append(char)
+cam.transition = true
 
 keyboard.onKeyPress = (key) => {
-    if (key === "w") char.translateZ(-5)
-    else if (key === "a") char.translateX(-5)
-    else if (key === "s") char.translateY(-5)
+    if (key === "w") char.moveForward(-5)
+    else if (key === "s") char.moveForward(5)
 }
