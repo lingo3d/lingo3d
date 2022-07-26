@@ -3,7 +3,16 @@ import FoundManager from "lingo3d/lib/display/core/FoundManager"
 import Loaded from "lingo3d/lib/display/core/Loaded"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
 import { foundDefaults } from "lingo3d/lib/interface/IFound"
-import { inject, ref, watchEffect, computed, Ref, provide, toRaw, PropType } from "vue"
+import {
+  inject,
+  ref,
+  watchEffect,
+  computed,
+  Ref,
+  provide,
+  toRaw,
+  PropType
+} from "vue"
 import useDiffProps from "../../hooks/useDiffProps"
 import { applyChanges } from "../../hooks/useManager"
 import foundProps from "../../props/foundProps"

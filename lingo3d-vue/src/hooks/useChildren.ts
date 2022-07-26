@@ -1,4 +1,5 @@
-import { FoundManager, Model } from "lingo3d"
+import { Model } from "lingo3d"
+import FoundManager from "lingo3d/lib/display/core/FoundManager"
 import Loaded from "lingo3d/lib/display/core/Loaded"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
 import { ref, Ref, toRaw, watchEffect } from "vue"

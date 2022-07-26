@@ -5,7 +5,10 @@ import { scaleUp, scaleDown } from "../../engine/constants"
 import IPositioned from "../../interface/IPositioned"
 import EventLoopItem from "./EventLoopItem"
 
-export default abstract class PositionedItem extends EventLoopItem implements IPositioned {
+export default abstract class PositionedItem
+    extends EventLoopItem
+    implements IPositioned
+{
     public get x() {
         return this.outerObject3d.position.x * scaleUp
     }
@@ -32,4 +35,5 @@ export default abstract class PositionedItem extends EventLoopItem implements IP
     }
 }
 
-export const isPositionedItem = (item: any): item is PositionedItem => item instanceof EventLoopItem && "getWorldPosition" in item
+export const isPositionedItem = (item: any): item is PositionedItem =>
+    item instanceof EventLoopItem && "x" in item

@@ -156,7 +156,7 @@ export {
     mainOrbitCamera,
 
     SimpleObjectManager as Object,
-    FoundManager,
+    FoundManager as Found,
 
     onAfterRender,
     onBeforeRender,

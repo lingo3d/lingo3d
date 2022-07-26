@@ -25,8 +25,12 @@ class FoundManager extends StaticObjectManager implements IFound {
     public model?: Model
     private retargetAnimations() {
         if (!this.model?.animationManagers) return
-        for (const animationManager of Object.values(this.model.animationManagers))
-            this.animations[animationManager.name] = this.watch(animationManager.retarget(this.object3d))
+        for (const animationManager of Object.values(
+            this.model.animationManagers
+        ))
+            this.animations[animationManager.name] = this.watch(
+                animationManager.retarget(this.object3d)
+            )
 
         this.model = undefined
     }
@@ -50,12 +54,15 @@ class FoundManager extends StaticObjectManager implements IFound {
     protected override addToRaycastSet(set: Set<Object3D>) {
         if (!this.managerSet) {
             this.managerSet = true
-            this.object3d.traverse(child => child.userData.manager = this)
+            this.object3d.traverse((child) => (child.userData.manager = this))
         }
         set.add(this.object3d)
         return new Cancellable(() => set.delete(this.object3d))
     }
 }
-interface FoundManager extends StaticObjectManager, TexturedBasicMixin, TexturedStandardMixin {}
+interface FoundManager
+    extends StaticObjectManager,
+        TexturedBasicMixin,
+        TexturedStandardMixin {}
 applyMixins(FoundManager, [TexturedStandardMixin, TexturedBasicMixin])
 export default FoundManager

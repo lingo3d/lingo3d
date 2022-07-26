@@ -318,7 +318,7 @@ class StaticObjectManager<T extends Object3D = Object3D>
     protected refreshFactors() {
         this.cancelHandle("refreshFactors", () => {
             const handle = new Cancellable()
-            
+
             queueMicrotask(() => {
                 if (handle.done) return
 
@@ -329,32 +329,36 @@ class StaticObjectManager<T extends Object3D = Object3D>
                     _opacityFactor,
                     _adjustColor
                 } = this
-    
+
                 this.outerObject3d.traverse((child: any) => {
                     let { material } = child
                     if (!material) return
-    
+
                     Array.isArray(material) && (material = material[0])
-    
+
                     if (_toon) {
                         child.material = new MeshToonMaterial()
                         copyToon(material, child.material)
                     }
-    
+
                     if (_metalnessFactor !== undefined)
                         setNumber(
                             child,
                             "metalness",
-                            _metalnessFactor !== 0 ? _metalnessFactor : undefined
+                            _metalnessFactor !== 0
+                                ? _metalnessFactor
+                                : undefined
                         )
-    
+
                     if (_roughnessFactor !== undefined)
                         setNumber(
                             child,
                             "roughness",
-                            _roughnessFactor !== 1 ? _roughnessFactor : undefined
+                            _roughnessFactor !== 1
+                                ? _roughnessFactor
+                                : undefined
                         )
-    
+
                     if (_opacityFactor !== undefined) {
                         setNumber(child, "opacity", _opacityFactor)
                         setBoolean(
@@ -363,7 +367,7 @@ class StaticObjectManager<T extends Object3D = Object3D>
                             _opacityFactor !== 1 ? true : undefined
                         )
                     }
-    
+
                     if (_adjustColor !== undefined)
                         setColor(
                             child,
@@ -372,7 +376,7 @@ class StaticObjectManager<T extends Object3D = Object3D>
                                 ? new Color(_adjustColor)
                                 : undefined
                         )
-    
+
                     handle.then(() => {
                         child.material.dispose()
                         child.material = material
@@ -501,6 +505,10 @@ class StaticObjectManager<T extends Object3D = Object3D>
                 }
             })
         )
+    }
+
+    public getWorldPosition(): Point3d {
+        return vec2Point(getWorldPosition(getObject3d(this)))
     }
 }
 interface StaticObjectManager<T extends Object3D = Object3D>
