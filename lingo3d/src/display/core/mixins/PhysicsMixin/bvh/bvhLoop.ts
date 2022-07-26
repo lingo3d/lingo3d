@@ -19,8 +19,6 @@ import {
 } from "../../../../utils/reusables"
 import bvhContactMap from "./bvhContactMap"
 import { bvhManagerMap } from "./computeBVH"
-import measure from "../../../../utils/measure"
-import PositionedItem from "../../../../../api/core/PositionedItem"
 import getWorldPosition from "../../../../utils/getWorldPosition"
 
 export const bvhCharacterSet = new Set<PhysicsMixin>()
@@ -140,6 +138,10 @@ createEffect(
                 if (dir) {
                     dirObj.lookAt(dir)
                     dirObj.rotateX(halfPi)
+
+                    //@ts-ignore
+                    const item = characterManager.loadedGroup ?? characterManager.object3d
+                    item.quaternion.copy(dirObj.quaternion)
 
                     const playerVelocityUpright = playerVelocity
                         .clone()

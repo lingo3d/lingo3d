@@ -3,13 +3,16 @@ import FoundManager from "lingo3d/lib/display/core/FoundManager"
 import Loaded from "lingo3d/lib/display/core/Loaded"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
 import { foundDefaults } from "lingo3d/lib/interface/IFound"
-import { inject, ref, watchEffect, computed, Ref, provide, toRaw } from "vue"
+import { inject, ref, watchEffect, computed, Ref, provide, toRaw, PropType } from "vue"
 import useDiffProps from "../../hooks/useDiffProps"
 import { applyChanges } from "../../hooks/useManager"
 import foundProps from "../../props/foundProps"
 import processDefaults from "../../props/utils/processDefaults"
 
-const props = defineProps({ ...foundProps, onLoad: Function })
+const props = defineProps({
+  ...foundProps,
+  onLoad: Function as PropType<(found: FoundManager) => void>
+})
 
 const parentRef = inject<Ref<ObjectManager | Loaded> | undefined>(
   "parent",
@@ -40,7 +43,8 @@ const diff = useDiffProps(props, defaults, paused)
 applyChanges(managerRef, undefined, diff, defaults)
 
 watchEffect(() => {
-  managerRef.value && props.onLoad?.()
+  const manager = toRaw(managerRef.value)
+  manager && props.onLoad?.(manager)
 })
 </script>
 
