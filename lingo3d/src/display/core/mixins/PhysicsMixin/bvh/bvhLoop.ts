@@ -20,7 +20,6 @@ import {
 import bvhContactMap from "./bvhContactMap"
 import { bvhManagerMap } from "./computeBVH"
 import getWorldPosition from "../../../../utils/getWorldPosition"
-import { getLoadedObject } from "../../../Loaded"
 
 export const bvhCharacterSet = new Set<PhysicsMixin>()
 
@@ -141,10 +140,6 @@ createEffect(
                 if (dir) {
                     dirObj.lookAt(dir)
                     dirObj.rotateX(halfPi)
-
-                    getLoadedObject(characterManager).quaternion.copy(
-                        dirObj.quaternion
-                    )
 
                     const playerVelocityUpright = playerVelocity
                         .clone()
