@@ -1,6 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import { forceGet } from "@lincode/utils"
-import { Box3, Object3D, Vector3 } from "three"
+import { Box3, Vector3 } from "three"
 import PhysicsMixin from ".."
 import { onBeforeRender } from "../../../../../events/onBeforeRender"
 import { getBVHMap } from "../../../../../states/useBVHMap"
@@ -10,7 +10,6 @@ import { getGravity } from "../../../../../states/useGravity"
 import { getRepulsion } from "../../../../../states/useRepulsion"
 import {
     box3,
-    halfPi,
     line3,
     vector3,
     vector3_,
@@ -24,8 +23,6 @@ import getWorldPosition from "../../../../utils/getWorldPosition"
 export const bvhCharacterSet = new Set<PhysicsMixin>()
 
 const makeWeakSet = () => new WeakSet()
-
-const dirObj = new Object3D()
 
 createEffect(
     function (this: PhysicsMixin) {
@@ -49,17 +46,16 @@ createEffect(
                 const capsuleHalfHeight = characterManager.bvhHalfHeight!
                 const capsuleRadius = characterManager.bvhRadius!
 
-                const dir =
-                    center && getWorldPosition(player).sub(center).normalize()
-
-                if (dir)
+                if (center) {
+                    const dir = getWorldPosition(player).sub(center).normalize()
+                    characterManager.bvhDir = dir
                     playerVelocity.add(
                         characterManager.bvhOnGround ||
                             characterManager._gravity === false
                             ? vector3_0
                             : dir.clone().multiplyScalar(delta * -gravity)
                     )
-                else
+                } else
                     playerVelocity.y +=
                         characterManager.bvhOnGround ||
                         characterManager._gravity === false
@@ -135,13 +131,8 @@ createEffect(
                 const deltaVector = start.sub(startOld)
 
                 // if the player was primarily adjusted vertically we assume it's on something we should consider ground
-                if (dir) {
-                    dirObj.lookAt(dir)
-                    dirObj.rotateX(halfPi)
-                    characterManager.bvhQuaternion = dirObj.quaternion
-
-                    characterManager.bvhOnGround = contact
-                } else {
+                if (center) characterManager.bvhOnGround = contact
+                else {
                     characterManager.bvhOnGround =
                         deltaVector.y >
                         Math.abs(delta * playerVelocity.y * 0.25)

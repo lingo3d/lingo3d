@@ -1,5 +1,5 @@
 import cubeShape from "./cannon/shapes/cubeShape"
-import { Quaternion, Vector3 } from "three"
+import { Vector3 } from "three"
 import IPhysics, {
     PhysicsGroupIndex,
     PhysicsOptions,
@@ -184,7 +184,7 @@ export default abstract class PhysicsMixin
     protected bvhHalfHeight?: number
     protected bvhMap?: boolean
     protected bvhCharacter?: boolean
-    protected bvhQuaternion?: Quaternion
+    protected bvhDir?: Vector3
 
     protected initPhysics(val: PhysicsOptions, handle: Cancellable) {
         if (!val || handle.done) return

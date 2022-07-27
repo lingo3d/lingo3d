@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from "three"
+import { Object3D, PerspectiveCamera, Quaternion } from "three"
 import { camNear, camFar } from "../../engine/constants"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
@@ -11,10 +11,12 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import OrbitCameraBase from "./OrbitCameraBase"
-import { euler, quaternion } from "../utils/reusables"
+import { euler, halfPi, quaternion } from "../utils/reusables"
 import MeshItem from "./MeshItem"
 import { getLoadedObject } from "./Loaded"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
+
+const dirObj = new Object3D()
 
 export default class CharacterCamera
     extends OrbitCameraBase
@@ -49,14 +51,12 @@ export default class CharacterCamera
             this.updateAngle()
         }
 
-        const lockTargetRotation = (target: MeshItem, slerp: boolean) => {
+        const lockTargetRotation = (target: MeshItem, slerp: boolean, quat: Quaternion | undefined) => {
             euler.setFromQuaternion(this.midObject3d.quaternion)
             euler.x = 0
             euler.z = 0
             euler.y += Math.PI
 
-            //@ts-ignore
-            const quat = target.bvhQuaternion
             if (quat) {
                 const innerObject = getLoadedObject(target)
                 quaternion.copy(target.outerObject3d.quaternion)
@@ -96,8 +96,14 @@ export default class CharacterCamera
                 this.outerObject3d.position.copy(target.outerObject3d.position)
 
                 //@ts-ignore
-                const quat = target.bvhQuaternion
-                quat && this.outerObject3d.quaternion.copy(quat)
+                const dir = target.bvhDir
+                let quat: Quaternion | undefined
+                if (dir) {
+                    dirObj.lookAt(dir)
+                    dirObj.rotateX(halfPi)
+                    quat = dirObj.quaternion
+                    this.outerObject3d.quaternion.copy(quat)
+                }
 
                 if (!this.lockTargetRotation) return
 
@@ -109,14 +115,14 @@ export default class CharacterCamera
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-lock") {
-                    targetMoved() && lockTargetRotation(target, true)
+                    targetMoved() && lockTargetRotation(target, true, quat)
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-follow") {
                     targetMoved() && followTargetRotation(target, true)
                     return
                 }
-                lockTargetRotation(target, false)
+                lockTargetRotation(target, false, quat)
             })
             return () => {
                 handle.cancel()
