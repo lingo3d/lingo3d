@@ -43,14 +43,14 @@ export default class CharacterCamera
 
             if (slerp) {
                 quaternion.setFromEuler(euler)
-                this.outerObject3d.quaternion.slerp(quaternion, 0.1)
-            } else this.outerObject3d.setRotationFromEuler(euler)
+                this.midObject3d.quaternion.slerp(quaternion, 0.1)
+            } else this.midObject3d.setRotationFromEuler(euler)
 
             this.updateAngle()
         }
 
         const lockTargetRotation = (target: MeshItem, slerp: boolean) => {
-            euler.setFromQuaternion(this.outerObject3d.quaternion)
+            euler.setFromQuaternion(this.midObject3d.quaternion)
             euler.x = 0
             euler.z = 0
             euler.y += Math.PI
@@ -82,7 +82,6 @@ export default class CharacterCamera
 
                 //@ts-ignore
                 const dir = target.bvhDir
-
                 if (dir) {
                     dirObj.lookAt(dir)
                     dirObj.rotateX(halfPi)

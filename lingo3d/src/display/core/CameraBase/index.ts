@@ -1,4 +1,4 @@
-import { CameraHelper, PerspectiveCamera, Quaternion } from "three"
+import { CameraHelper, Object3D, PerspectiveCamera, Quaternion } from "three"
 import ObjectManager from "../ObjectManager"
 import { debounce, last } from "@lincode/utils"
 import { scaleUp, scaleDown } from "../../../engine/constants"
@@ -46,8 +46,12 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
 {
     protected override _physicsShape = pillShape
 
+    protected midObject3d = new Object3D()
+
     public constructor(protected camera: T) {
         super()
+        this.outerObject3d.add(this.midObject3d)
+        this.midObject3d.add(this.object3d)
         this.object3d.add(camera)
         this.camera.userData.manager = this
         pushCameraList(this.camera)
@@ -232,7 +236,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
     protected orbitMode?: boolean
 
     private _gyrate(movementX: number, movementY: number, inner?: boolean) {
-        const manager = inner ? this.object3d : this.outerObject3d
+        const manager = inner ? this.object3d : this.midObject3d
         euler.setFromQuaternion(manager.quaternion)
 
         euler.y -= movementX * 0.002
