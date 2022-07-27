@@ -13,6 +13,7 @@ export default {}
 const world = new Sphere()
 world.physics = "map"
 world.scale = 20
+world.texture = "basecolor.png"
 
 setCentripetal(true)
 
@@ -27,8 +28,11 @@ cam.transition = true
 cam.mouseControl = "drag"
 
 keyboard.onKeyPress = (key) => {
-    if (key === "w") char.moveForward(-5)
-    else if (key === "s") char.moveForward(5)
+    if (key === "w") {
+        queueMicrotask(() => {
+            char.translateZ(5)
+        })
+    }
 }
 
 char.boxVisible = true

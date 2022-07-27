@@ -138,31 +138,9 @@ createEffect(
                 if (dir) {
                     dirObj.lookAt(dir)
                     dirObj.rotateX(halfPi)
-
                     characterManager.bvhQuaternion = dirObj.quaternion
 
-                    const playerVelocityUpright = playerVelocity
-                        .clone()
-                        .applyQuaternion(dirObj.quaternion)
-
-                    const deltaVectorUpright = deltaVector
-                        .clone()
-                        .applyQuaternion(dirObj.quaternion)
-
-                    characterManager.bvhOnGround =
-                        deltaVectorUpright.y >
-                        Math.abs(delta * playerVelocityUpright.y * 0.25)
-
-                    // if (repulsion && characterManager.bvhOnGround)
-                    //     if (
-                    //         Math.abs(
-                    //             deltaVectorUpright.y /
-                    //                 (deltaVectorUpright.x +
-                    //                     deltaVectorUpright.z +
-                    //                     Number.EPSILON)
-                    //         ) < repulsion
-                    //     )
-                    //         characterManager.bvhOnGround = false
+                    characterManager.bvhOnGround = contact
                 } else {
                     characterManager.bvhOnGround =
                         deltaVector.y >
