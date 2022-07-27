@@ -52,8 +52,6 @@ createEffect(
                 const dir =
                     center && getWorldPosition(player).sub(center).normalize()
 
-                dir && (characterManager.bvhDir = dir)
-
                 if (dir)
                     playerVelocity.add(
                         characterManager.bvhOnGround ||
@@ -141,13 +139,15 @@ createEffect(
                     dirObj.lookAt(dir)
                     dirObj.rotateX(halfPi)
 
+                    characterManager.bvhQuaternion = dirObj.quaternion
+
                     const playerVelocityUpright = playerVelocity
                         .clone()
-                        .applyEuler(dirObj.rotation)
+                        .applyQuaternion(dirObj.quaternion)
 
                     const deltaVectorUpright = deltaVector
                         .clone()
-                        .applyEuler(dirObj.rotation)
+                        .applyQuaternion(dirObj.quaternion)
 
                     characterManager.bvhOnGround =
                         deltaVectorUpright.y >

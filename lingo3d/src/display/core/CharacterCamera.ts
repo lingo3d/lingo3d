@@ -1,4 +1,4 @@
-import { Object3D, PerspectiveCamera } from "three"
+import { PerspectiveCamera } from "three"
 import { camNear, camFar } from "../../engine/constants"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
@@ -11,12 +11,10 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import OrbitCameraBase from "./OrbitCameraBase"
-import { euler, halfPi, quaternion, quaternion_ } from "../utils/reusables"
+import { euler, quaternion } from "../utils/reusables"
 import MeshItem from "./MeshItem"
 import { getLoadedObject } from "./Loaded"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
-
-const dirObj = new Object3D()
 
 export default class CharacterCamera
     extends OrbitCameraBase
@@ -58,16 +56,18 @@ export default class CharacterCamera
             euler.y += Math.PI
 
             //@ts-ignore
-            const dir = target.bvhDir
-
-            if (dir) {
-                quaternion_.copy(dirObj.quaternion)
-                target.outerObject3d.quaternion.copy(dirObj.quaternion)
+            const quat = target.bvhQuaternion
+            if (quat) {
                 const innerObject = getLoadedObject(target)
+                quaternion.copy(target.outerObject3d.quaternion)
+                const innerRotationY = innerObject.rotation.y
+
+                target.outerObject3d.quaternion.copy(quat)
                 innerObject.rotation.y = euler.y
                 euler.setFromQuaternion(getWorldQuaternion(innerObject))
-                innerObject.rotation.y = 0
-                target.outerObject3d.quaternion.copy(quaternion_)
+
+                innerObject.rotation.y = innerRotationY
+                target.outerObject3d.quaternion.copy(quaternion)
             }
 
             if (slerp) {
@@ -96,12 +96,8 @@ export default class CharacterCamera
                 this.outerObject3d.position.copy(target.outerObject3d.position)
 
                 //@ts-ignore
-                const dir = target.bvhDir
-                if (dir) {
-                    dirObj.lookAt(dir)
-                    dirObj.rotateX(halfPi)
-                    this.outerObject3d.quaternion.copy(dirObj.quaternion)
-                }
+                const quat = target.bvhQuaternion
+                quat && this.outerObject3d.quaternion.copy(quat)
 
                 if (!this.lockTargetRotation) return
 
