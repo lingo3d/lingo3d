@@ -1,11 +1,5 @@
-import {
-    Cube,
-    keyboard,
-    Model,
-    OrbitCamera,
-    Sphere,
-    ThirdPersonCamera
-} from ".."
+import { deg2Rad, distance, distance3d, mapRange } from "@lincode/math"
+import { Dummy, keyboard, Model, settings, Sky, Sphere, ThirdPersonCamera } from ".."
 import { setCentripetal } from "../states/useCentripetal"
 
 export default {}
@@ -17,22 +11,34 @@ world.texture = "basecolor.png"
 
 setCentripetal(true)
 
-const char = new Model()
-char.src = "fox/Fox.fbx"
-char.y = 1500
-char.physics = "character"
+const player = new Dummy()
+player.y = 1500
+player.physics = "character"
+player.strideMove = true
 
 const cam = new ThirdPersonCamera()
-cam.append(char)
+cam.append(player)
 cam.transition = true
 cam.mouseControl = "drag"
 
-keyboard.onKeyPress = (key) => {
-    if (key === "w") {
-        queueMicrotask(() => {
-            char.translateZ(5)
-        })
-    }
+keyboard.onKeyPress = (_, key) => {
+    if (key.has("w"))
+        player.strideForward = -5
+    else if (key.has("s"))
+        player.strideForward = 5
+    else
+        player.strideForward = 0
+
+    if (key.has("a"))
+        player.strideRight = 5
+    else if (key.has("d"))
+        player.strideRight = -5
+    else
+        player.strideRight = 0
 }
 
-char.boxVisible = true
+const sky = new Sky()
+
+settings.defaultLight = "studio"
+player.roughnessFactor = 0.1
+world.roughness = 0.3

@@ -44,7 +44,9 @@ createEffect(
                 const playerVelocity = characterManager.bvhVelocity!
                 const player = characterManager.outerObject3d
                 const capsuleHalfHeight = characterManager.bvhHalfHeight!
-                const capsuleRadius = characterManager.bvhRadius!
+                const capsuleRadius = center
+                    ? capsuleHalfHeight
+                    : characterManager.bvhRadius!
 
                 if (center) {
                     const dir = getWorldPosition(player).sub(center).normalize()
