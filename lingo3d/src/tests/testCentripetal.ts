@@ -15,6 +15,7 @@ const player = new Dummy()
 player.y = 1500
 player.physics = "character"
 player.strideMove = true
+player.strideMode = "free"
 
 const cam = new ThirdPersonCamera()
 cam.append(player)
@@ -42,3 +43,4 @@ const sky = new Sky()
 settings.defaultLight = "studio"
 player.roughnessFactor = 0.1
 world.roughness = 0.3
+player.boxVisible = true

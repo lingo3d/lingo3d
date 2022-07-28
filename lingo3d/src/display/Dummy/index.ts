@@ -1,4 +1,4 @@
-import { endPoint, Point3d, rad2Deg, rotatePoint } from "@lincode/math"
+import { deg2Rad, endPoint, Point3d, rad2Deg, rotatePoint } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
 import { onBeforeRender } from "../../events/onBeforeRender"
@@ -12,7 +12,6 @@ import IDummy, {
 import FoundManager from "../core/FoundManager"
 import AnimationManager from "../core/mixins/AnimationMixin/AnimationManager"
 import Model from "../Model"
-import { point2Vec } from "../utils/vec2Point"
 import poseMachine from "./poseMachine"
 
 export const dummyTypeMap = new WeakMap<Dummy, "dummy" | "readyplayerme">()
@@ -142,17 +141,6 @@ export default class Dummy extends Model implements IDummy {
             .start()
         this.then(() => poseService.stop())
 
-        const computeAngle = (angle: number) => {
-            const thisPoint = this.pointAt(1000)
-            const centerPoint = this.getWorldPosition()
-            const rotated = rotatePoint(
-                { x: thisPoint.x, y: thisPoint.z },
-                { x: centerPoint.x, y: centerPoint.z },
-                angle
-            )
-            return point2Vec(new Point3d(rotated.x, thisPoint.y, rotated.y))
-        }
-
         this.createEffect(() => {
             const spine = getSpine()
             if (!spine) return
@@ -176,7 +164,7 @@ export default class Dummy extends Model implements IDummy {
             const backwards = strideMode === "aim" ? strideForward > 0 : false
 
             const sf = backwards ? -strideForward : strideForward
-            const sr = backwards ? -strideRight : strideRight
+            const sr = backwards ? strideRight : -strideRight
             const angle = 90 - Math.atan2(-sf, -sr) * rad2Deg
 
             const handle = onRender(() => {
@@ -193,8 +181,7 @@ export default class Dummy extends Model implements IDummy {
                     spinePoint = spine.pointAt(1000)
                 }
 
-                const groupVec = computeAngle(angle)
-                this.loadedGroup.lookAt(groupVec)
+                this.loadedGroup.rotation.y = angle * deg2Rad
                 const quaternionNew = this.loadedGroup.quaternion.clone()
                 this.loadedGroup.quaternion
                     .copy(quaternionOld)
@@ -211,7 +198,7 @@ export default class Dummy extends Model implements IDummy {
                     Math.max(Math.abs(strideForward), Math.abs(strideRight))
                 )
                 this.moveForward(backwards ? y : -y)
-                this.moveRight(backwards ? -x : x)
+                this.moveRight(backwards ? x : -x)
             })
             return () => {
                 if (
