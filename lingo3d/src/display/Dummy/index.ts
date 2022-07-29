@@ -1,4 +1,4 @@
-import { deg2Rad, endPoint, Point3d, rad2Deg, rotatePoint } from "@lincode/math"
+import { deg2Rad, endPoint, Point3d, rad2Deg } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
 import { onBeforeRender } from "../../events/onBeforeRender"
@@ -145,15 +145,8 @@ export default class Dummy extends Model implements IDummy {
             const spine = getSpine()
             if (!spine) return
 
-            let strideMode = this.strideModeState.get()
-            if (
-                strideMode === "aim" &&
-                !("runningBackwards" in this.animations)
-            )
-                strideMode = "free"
-
-            const spineQuaternion = spine.outerObject3d.quaternion.clone()
-            const loadedGroupQuaternion = this.loadedGroup.quaternion.clone()
+            const loadedItem = this.loadedGroup.children[0]
+            if (!loadedItem) return
 
             const { strideForward, strideRight, strideMove } = this
             if (!strideForward && !strideRight) {
@@ -161,29 +154,39 @@ export default class Dummy extends Model implements IDummy {
                 return
             }
 
+            let strideMode = this.strideModeState.get()
+            if (
+                strideMode === "aim" &&
+                !("runningBackwards" in this.animations)
+            )
+                strideMode = "free"
+
             const backwards = strideMode === "aim" ? strideForward > 0 : false
 
             const sf = backwards ? -strideForward : strideForward
             const sr = backwards ? strideRight : -strideRight
             const angle = 90 - Math.atan2(-sf, -sr) * rad2Deg
 
+            const spineQuaternion = spine.outerObject3d.quaternion.clone()
+            const loadedItemQuaternion = loadedItem.quaternion.clone()
+
             const handle = onRender(() => {
                 poseService.send(
                     backwards ? "RUN_BACKWARDS_START" : "RUN_START"
                 )
 
-                const quaternionOld = this.loadedGroup.quaternion.clone()
+                const quaternionOld = loadedItem.quaternion.clone()
 
                 let spinePoint: Point3d | undefined
                 if (strideMode === "aim") {
-                    this.loadedGroup.quaternion.copy(loadedGroupQuaternion)
+                    loadedItem.quaternion.copy(loadedItemQuaternion)
                     spine.outerObject3d.quaternion.copy(spineQuaternion)
                     spinePoint = spine.pointAt(1000)
                 }
 
-                this.loadedGroup.rotation.y = angle * deg2Rad
-                const quaternionNew = this.loadedGroup.quaternion.clone()
-                this.loadedGroup.quaternion
+                loadedItem.rotation.y = angle * deg2Rad
+                const quaternionNew = loadedItem.quaternion.clone()
+                loadedItem.quaternion
                     .copy(quaternionOld)
                     .slerp(quaternionNew, 0.2)
 
@@ -206,7 +209,7 @@ export default class Dummy extends Model implements IDummy {
                     !this.strideForward &&
                     !this.strideRight
                 )
-                    this.loadedGroup.quaternion.set(0, 0, 0, 0)
+                    loadedItem.quaternion.set(0, 0, 0, 0)
 
                 handle.cancel()
             }
