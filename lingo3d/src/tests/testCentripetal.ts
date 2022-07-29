@@ -1,18 +1,18 @@
-import { deg2Rad, distance, distance3d, mapRange } from "@lincode/math"
-import { Dummy, keyboard, Model, settings, Sky, Sphere, ThirdPersonCamera } from ".."
+import { Dummy, keyboard, Model, OrbitCamera, settings, Sky, Sphere, ThirdPersonCamera } from ".."
 import { setCentripetal } from "../states/useCentripetal"
 
 export default {}
 
-const world = new Sphere()
+const world = new Model()
 world.physics = "map"
-world.scale = 20
-world.texture = "basecolor.png"
+world.scale = 40
+world.src = "waic.glb"
+world.loadedScale = 1
 
 setCentripetal(true)
 
 const player = new Dummy()
-player.y = 1500
+player.y = 4000
 player.physics = "character"
 player.strideMove = true
 player.strideMode = "free"
@@ -21,26 +21,23 @@ const cam = new ThirdPersonCamera()
 cam.append(player)
 cam.transition = true
 cam.mouseControl = "drag"
+cam.innerZ = 1000
 
 keyboard.onKeyPress = (_, key) => {
     if (key.has("w"))
-        player.strideForward = -5
+        player.strideForward = -10
     else if (key.has("s"))
-        player.strideForward = 5
+        player.strideForward = 10
     else
         player.strideForward = 0
 
     if (key.has("a"))
-        player.strideRight = 5
+        player.strideRight = 10
     else if (key.has("d"))
-        player.strideRight = -5
+        player.strideRight = -10
     else
         player.strideRight = 0
 }
 
-const sky = new Sky()
-
-settings.defaultLight = "studio"
-player.roughnessFactor = 0.1
-world.roughness = 0.3
-player.boxVisible = true
+settings.texture = "bg.png"
+settings.defaultLight = "env.hdr"
