@@ -40,4 +40,4 @@ keyboard.onKeyPress = (_, key) => {
 }
 
 settings.texture = "bg.png"
-settings.defaultLight = "env.hdr"
+settings.defaultLight = "studio"

@@ -6,6 +6,8 @@ import Nullable from "./utils/Nullable"
 export default interface IAudio extends IPositioned {
     src: Nullable<string>
     autoplay: boolean
+    paused: boolean
+    stopped: boolean
     loop: boolean
     distance: number
     distanceModel: string
@@ -17,6 +19,8 @@ export const audioSchema: Required<ExtractProps<IAudio>> = {
     ...positionedSchema,
     src: String,
     autoplay: Boolean,
+    paused: Boolean,
+    stopped: Boolean,
     loop: Boolean,
     distance: Number,
     distanceModel: String,
@@ -28,6 +32,8 @@ export const audioDefaults: Defaults<IAudio> ={
     ...positionedDefaults,
     src: undefined,
     autoplay: false,
+    paused: false,
+    stopped: false,
     loop: false,
     distance: 1,
     maxDistance: 10000,
