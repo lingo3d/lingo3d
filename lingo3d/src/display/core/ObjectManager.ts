@@ -13,7 +13,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     public constructor(object3d = new Object3D() as T) {
         super(object3d)
 
-        const outerObject3d = (this.outerObject3d = new Object3D())
+        const outerObject3d = (this.outerObject3d = new Object3D() as T)
         outerObject3d.userData.manager = this
 
         scene.add(outerObject3d)

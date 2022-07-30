@@ -1,11 +1,15 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect, GetGlobalState } from "@lincode/reactivity"
+import { Object3D } from "three"
 import { timer } from "../../engine/eventLoop"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import IEventLoop from "../../interface/IEventLoop"
 import Appendable from "./Appendable"
 
-export default abstract class EventLoopItem extends Appendable implements IEventLoop {
+export default abstract class EventLoopItem<T extends Object3D = Object3D>
+    extends Appendable<T>
+    implements IEventLoop
+{
     private _proxy?: EventLoopItem
     public get proxy() {
         return this._proxy
@@ -35,13 +39,19 @@ export default abstract class EventLoopItem extends Appendable implements IEvent
         return this.watch(new Cancellable(cb))
     }
 
-    protected createEffect(cb: () => (() => void) | void, getStates: Array<GetGlobalState<any> | any>) {
+    protected createEffect(
+        cb: () => (() => void) | void,
+        getStates: Array<GetGlobalState<any> | any>
+    ) {
         return this.watch(createEffect(cb, getStates))
     }
 
     private handles?: Map<string, Cancellable>
-    protected cancelHandle(name: string, lazyHandle: undefined | false | "" | (() => Cancellable)) {
-        const handles = this.handles ??= new Map<string, Cancellable>()
+    protected cancelHandle(
+        name: string,
+        lazyHandle: undefined | false | "" | (() => Cancellable)
+    ) {
+        const handles = (this.handles ??= new Map<string, Cancellable>())
         handles.get(name)?.cancel()
 
         if (!lazyHandle) return
@@ -56,8 +66,7 @@ export default abstract class EventLoopItem extends Appendable implements IEvent
         super.dispose()
 
         if (this.handles)
-            for (const handle of this.handles.values())
-                handle.cancel()
+            for (const handle of this.handles.values()) handle.cancel()
 
         return this
     }

@@ -28,18 +28,18 @@ createEffect(() => {
     }
 }, [getCameraRendered, getAudioListener])
 
-export default class Audio extends PositionedItem implements IAudio {
+export default class Audio
+    extends PositionedItem<PositionalAudio>
+    implements IAudio
+{
     public static componentName = "audio"
     public static defaults = audioDefaults
     public static schema = audioSchema
-
-    private sound: PositionalAudio
 
     public constructor() {
         !getAudioListener() && setAudioListener(new AudioListener())
         const sound = new PositionalAudio(getAudioListener()!)
         super(sound)
-        this.sound = sound
         scene.add(sound)
 
         this.createEffect(() => {
@@ -66,7 +66,7 @@ export default class Audio extends PositionedItem implements IAudio {
             let proceed = true
             loadAudio(src).then((buffer) => {
                 if (!proceed) return
-                this.sound.setBuffer(buffer)
+                sound.setBuffer(buffer)
                 setReady(true)
             })
             return () => {
@@ -84,10 +84,10 @@ export default class Audio extends PositionedItem implements IAudio {
             )
                 return
 
-            this.sound.play()
+            sound.play()
 
             return () => {
-                this.stoppedState.get() ? this.sound.stop() : this.sound.pause()
+                this.stoppedState.get() ? sound.stop() : sound.pause()
             }
         }, [
             getReady,
@@ -100,7 +100,7 @@ export default class Audio extends PositionedItem implements IAudio {
     public override dispose() {
         if (this.done) return this
         super.dispose()
-        this.sound.buffer && this.sound.disconnect()
+        this.outerObject3d.buffer && this.outerObject3d.disconnect()
         return this
     }
 
@@ -137,37 +137,37 @@ export default class Audio extends PositionedItem implements IAudio {
     }
 
     public get loop() {
-        return this.sound.loop
+        return this.outerObject3d.loop
     }
     public set loop(val) {
-        this.sound.loop = val
+        this.outerObject3d.loop = val
     }
 
     public get distance() {
-        return this.sound.getRefDistance()
+        return this.outerObject3d.getRefDistance()
     }
     public set distance(val) {
-        this.sound.setRefDistance(val)
+        this.outerObject3d.setRefDistance(val)
     }
 
     public get distanceModel() {
-        return this.sound.getDistanceModel()
+        return this.outerObject3d.getDistanceModel()
     }
     public set distanceModel(val) {
-        this.sound.setDistanceModel(val)
+        this.outerObject3d.setDistanceModel(val)
     }
 
     public get maxDistance() {
-        return this.sound.getMaxDistance()
+        return this.outerObject3d.getMaxDistance()
     }
     public set maxDistance(val) {
-        this.sound.setMaxDistance(val)
+        this.outerObject3d.setMaxDistance(val)
     }
 
     public get rolloffFactor() {
-        return this.sound.getRolloffFactor()
+        return this.outerObject3d.getRolloffFactor()
     }
     public set rolloffFactor(val) {
-        this.sound.setRolloffFactor(val)
+        this.outerObject3d.setRolloffFactor(val)
     }
 }

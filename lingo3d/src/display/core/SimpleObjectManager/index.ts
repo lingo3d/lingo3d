@@ -383,7 +383,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
 }
 interface SimpleObjectManager<T extends Object3D = Object3D>
-    extends AnimatedObjectManager,
-        PositionedItem {}
+    extends AnimatedObjectManager<T>,
+        PositionedItem<T> {}
 applyMixins(SimpleObjectManager, [PositionedItem])
 export default SimpleObjectManager

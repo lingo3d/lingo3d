@@ -98,7 +98,7 @@ export const idMap = new Map<string, Set<StaticObjectManager>>()
 const makeSet = () => new Set()
 
 export default class StaticObjectManager<T extends Object3D = Object3D>
-    extends EventLoopItem
+    extends EventLoopItem<T>
     implements IStaticObjectManager
 {
     public constructor(public object3d: T) {
