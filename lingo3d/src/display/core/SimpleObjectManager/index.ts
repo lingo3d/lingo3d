@@ -23,6 +23,7 @@ import { onBeforeRender } from "../../../events/onBeforeRender"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import { getCentripetal } from "../../../states/useCentripetal"
+import AnimatedObjectManager from "../AnimatedObjectManager"
 
 const ptDistCache = new WeakMap<Point3d, number>()
 const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
@@ -42,7 +43,7 @@ const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
 }
 
 class SimpleObjectManager<T extends Object3D = Object3D>
-    extends StaticObjectManager<T>
+    extends AnimatedObjectManager<T>
     implements ISimpleObjectManager
 {
     public declare object3d: T
@@ -454,7 +455,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
 }
 interface SimpleObjectManager<T extends Object3D = Object3D>
-    extends StaticObjectManager,
+    extends AnimatedObjectManager,
         PositionedItem,
         PhysicsMixin {}
 applyMixins(SimpleObjectManager, [PositionedItem, PhysicsMixin])

@@ -1,13 +1,16 @@
-import { AnimationData } from "../../../../api/serializer/types"
-import IAnimationMixin, {
+import { Resolvable } from "@lincode/promiselikes"
+import { debounce } from "@lincode/utils"
+import { Object3D } from "three"
+import { AnimationData } from "../../../api/serializer/types"
+import IAnimatedObjectManager, {
     Animation,
     AnimationValue
-} from "../../../../interface/IAnimationMixin"
-import { debounce } from "@lincode/utils"
-import { Resolvable } from "@lincode/promiselikes"
-import AnimationManager, { PlayOptions } from "./AnimationManager"
-import EventLoopItem from "../../../../api/core/EventLoopItem"
-import Nullable from "../../../../interface/utils/Nullable"
+} from "../../../interface/IAnimatedObjectManager"
+import Nullable from "../../../interface/utils/Nullable"
+import AnimationManager, {
+    PlayOptions
+} from "./AnimationManager"
+import StaticObjectManager from "../StaticObjectManager"
 
 const buildAnimationTracks = debounce(
     (val: AnimationValue) => {
@@ -31,9 +34,9 @@ const buildAnimationTracks = debounce(
     "trailingPromise"
 )
 
-export default abstract class AnimationMixin
-    extends EventLoopItem
-    implements IAnimationMixin
+export default class AnimatedObjectManager<T extends Object3D = Object3D>
+    extends StaticObjectManager<T>
+    implements IAnimatedObjectManager
 {
     public animationManagers?: Record<string, AnimationManager>
 

@@ -22,7 +22,7 @@ import {
     vector3_1,
     vector3_half
 } from "../../utils/reusables"
-import { applyMixins, forceGet, throttle } from "@lincode/utils"
+import { forceGet, throttle } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import { scaleDown, scaleUp } from "../../../engine/constants"
 import {
@@ -40,7 +40,6 @@ import {
 import getCenter from "../../utils/getCenter"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import IStaticObjectManager from "../../../interface/IStaticObjectManaget"
-import AnimationMixin from "../mixins/AnimationMixin"
 import MeshItem, { getObject3d } from "../MeshItem"
 import copyToon from "./applyMaterialProperties/copyToon"
 import { getCameraRendered } from "../../../states/useCameraRendered"
@@ -98,7 +97,7 @@ const setColor = (child: any, property: string, value: Color | undefined) => {
 export const idMap = new Map<string, Set<StaticObjectManager>>()
 const makeSet = () => new Set()
 
-class StaticObjectManager<T extends Object3D = Object3D>
+export default class StaticObjectManager<T extends Object3D = Object3D>
     extends EventLoopItem
     implements IStaticObjectManager
 {
@@ -512,8 +511,3 @@ class StaticObjectManager<T extends Object3D = Object3D>
         return vec2Point(getWorldPosition(getObject3d(this)))
     }
 }
-interface StaticObjectManager<T extends Object3D = Object3D>
-    extends EventLoopItem,
-        AnimationMixin {}
-applyMixins(StaticObjectManager, [AnimationMixin])
-export default StaticObjectManager

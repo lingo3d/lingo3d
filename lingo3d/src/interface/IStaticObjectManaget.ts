@@ -1,4 +1,3 @@
-import IAnimationMixin, { animationMixinDefaults, animationMixinSchema } from "./IAnimationMixin"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { LingoMouseEvent } from "./IMouse"
 import Defaults from "./utils/Defaults"
@@ -7,7 +6,7 @@ import fn from "./utils/fn"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
-export default interface IStaticObjectManager extends IEventLoop, IAnimationMixin {
+export default interface IStaticObjectManager extends IEventLoop {
     onClick: Nullable<(e: LingoMouseEvent) => void>
     onMouseDown: Nullable<(e: LingoMouseEvent) => void>
     onMouseUp: Nullable<(e: LingoMouseEvent) => void>
@@ -38,7 +37,6 @@ export default interface IStaticObjectManager extends IEventLoop, IAnimationMixi
 
 export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManager>> = {
     ...eventLoopSchema,
-    ...animationMixinSchema,
 
     onClick: Function,
     onMouseDown: Function,
@@ -72,7 +70,6 @@ hideSchema(["lookAt", "lookTo"])
 
 export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     ...eventLoopDefaults,
-    ...animationMixinDefaults,
 
     onClick: undefined,
     onMouseDown: undefined,

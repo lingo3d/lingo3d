@@ -1,9 +1,9 @@
 import { Cancellable, Disposable } from "@lincode/promiselikes"
 import { Object3D, AnimationMixer, AnimationClip, NumberKeyframeTrack, AnimationAction, LoopRepeat, LoopOnce } from "three"
-import { AnimationData } from "../../../../api/serializer/types"
+import { AnimationData } from "../../../api/serializer/types"
 import { forceGet } from "@lincode/utils"
-import EventLoopItem from "../../../../api/core/EventLoopItem"
-import { onBeforeRender } from "../../../../events/onBeforeRender"
+import EventLoopItem from "../../../api/core/EventLoopItem"
+import { onBeforeRender } from "../../../events/onBeforeRender"
 
 const targetMixerMap = new WeakMap<EventLoopItem | Object3D, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, [AnimationAction, boolean]>()

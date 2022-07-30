@@ -1,7 +1,7 @@
 import { Group } from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
-import AnimationManager from "./core/mixins/AnimationMixin/AnimationManager"
+import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import { scaleDown } from "../engine/constants"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
 import { objectURLMapperPtr } from "./utils/loaders/setObjectURLMapper"

@@ -1,14 +1,14 @@
 import { applyMixins } from "@lincode/utils"
 import { MeshStandardMaterial, Object3D } from "three"
-import StaticObjectManager from "./StaticObjectManager"
 import IFound, { foundDefaults, foundSchema } from "../../interface/IFound"
 import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
 import { Cancellable } from "@lincode/promiselikes"
 import { appendableRoot } from "../../api/core/Appendable"
 import Model from "../Model"
+import AnimatedObjectManager from "./AnimatedObjectManager"
 
-class FoundManager extends StaticObjectManager implements IFound {
+class FoundManager extends AnimatedObjectManager implements IFound {
     public static componentName = "find"
     public static defaults = foundDefaults
     public static schema = foundSchema
@@ -61,7 +61,7 @@ class FoundManager extends StaticObjectManager implements IFound {
     }
 }
 interface FoundManager
-    extends StaticObjectManager,
+    extends AnimatedObjectManager,
         TexturedBasicMixin,
         TexturedStandardMixin {}
 applyMixins(FoundManager, [TexturedStandardMixin, TexturedBasicMixin])

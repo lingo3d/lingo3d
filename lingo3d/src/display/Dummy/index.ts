@@ -10,7 +10,7 @@ import IDummy, {
     StrideMode
 } from "../../interface/IDummy"
 import FoundManager from "../core/FoundManager"
-import AnimationManager from "../core/mixins/AnimationMixin/AnimationManager"
+import AnimationManager from "../core/AnimatedObjectManager/AnimationManager"
 import Model from "../Model"
 import { euler } from "../utils/reusables"
 import poseMachine from "./poseMachine"
