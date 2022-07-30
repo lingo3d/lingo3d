@@ -47,6 +47,7 @@ import { getCameraRendered } from "../../../states/useCameraRendered"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import diffQuaternions from "../../utils/diffQuaternions"
 import getWorldPosition from "../../utils/getWorldPosition"
+import getWorldDirection from "../../utils/getWorldDirection"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -209,7 +210,7 @@ class StaticObjectManager<T extends Object3D = Object3D>
     protected getRay() {
         return ray.set(
             getWorldPosition(this.object3d),
-            this.object3d.getWorldDirection(vector3)
+            getWorldDirection(this.object3d)
         )
     }
 

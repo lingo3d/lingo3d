@@ -4,7 +4,8 @@ import { Box3, Object3D } from "three"
 import PhysicsMixin from ".."
 import { onBeforeRender } from "../../../../../events/onBeforeRender"
 import { getBVHMap } from "../../../../../states/useBVHMap"
-import { box3, line3, vector3, vector3_, vector3__ } from "../../../../utils/reusables"
+import getWorldDirection from "../../../../utils/getWorldDirection"
+import { box3, line3, vector3, vector3_ } from "../../../../utils/reusables"
 
 export const bvhCameraSet = new Set<Object3D>()
 export const [emitBeforeCameraLoop, onBeforeCameraLoop] = event()
@@ -25,7 +26,7 @@ createEffect(function (this: PhysicsMixin) {
             const capsuleRadius = 0.5
 
             cam.updateMatrixWorld()
-            const direction = cam.getWorldDirection(vector3__)
+            const direction = getWorldDirection(cam)
 
             const { start, end } = line3
             end.copy(start.copy(cam.position))

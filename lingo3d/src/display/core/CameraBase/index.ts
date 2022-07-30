@@ -4,7 +4,6 @@ import { debounce, last } from "@lincode/utils"
 import { scaleUp, scaleDown } from "../../../engine/constants"
 import {
     ray,
-    vector3,
     euler,
     quaternion,
     quaternion_,
@@ -39,6 +38,7 @@ import {
 import makeCameraSprite from "../utils/makeCameraSprite"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
+import getWorldDirection from "../../utils/getWorldDirection"
 
 export default abstract class CameraBase<T extends PerspectiveCamera>
     extends ObjectManager
@@ -192,7 +192,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
     protected override getRay() {
         return ray.set(
             getWorldPosition(this.camera),
-            this.camera.getWorldDirection(vector3)
+            getWorldDirection(this.camera)
         )
     }
 

@@ -22,6 +22,7 @@ cam.append(player)
 cam.transition = true
 cam.mouseControl = "drag"
 cam.innerZ = 1000
+cam.lockTargetRotation = "dynamic-lock"
 
 keyboard.onKeyPress = (_, key) => {
     if (key.has("w"))
