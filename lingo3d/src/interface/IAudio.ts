@@ -9,6 +9,8 @@ export default interface IAudio extends IPositioned {
     paused: boolean
     stopped: boolean
     loop: boolean
+    volume: number
+    playbackRate: number
     distance: number
     distanceModel: string
     maxDistance: number
@@ -22,6 +24,8 @@ export const audioSchema: Required<ExtractProps<IAudio>> = {
     paused: Boolean,
     stopped: Boolean,
     loop: Boolean,
+    volume: Number,
+    playbackRate: Number,
     distance: Number,
     distanceModel: String,
     maxDistance: Number,
@@ -35,6 +39,8 @@ export const audioDefaults: Defaults<IAudio> ={
     paused: false,
     stopped: false,
     loop: false,
+    volume: 1,
+    playbackRate: 1,
     distance: 1,
     maxDistance: 10000,
     distanceModel: "inverse",

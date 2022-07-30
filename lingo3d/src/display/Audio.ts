@@ -127,7 +127,7 @@ export default class Audio
     public set paused(val) {
         this.pausedState.set(val)
     }
-
+    
     private stoppedState = new Reactive(false)
     public get stopped() {
         return this.stoppedState.get()
@@ -141,6 +141,20 @@ export default class Audio
     }
     public set loop(val) {
         this.outerObject3d.loop = val
+    }
+
+    public get volume() {
+        return this.outerObject3d.getVolume()
+    }
+    public set volume(val) {
+        this.outerObject3d.setVolume(val)
+    }
+
+    public get playbackRate() {
+        return this.outerObject3d.playbackRate
+    }
+    public set playbackRate(val) {
+        this.outerObject3d.playbackRate = val
     }
 
     public get distance() {

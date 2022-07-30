@@ -1,4 +1,4 @@
-import { Dummy, keyboard, Model, OrbitCamera, settings, Sky, Sphere, ThirdPersonCamera } from ".."
+import { Dummy, keyboard, Model, OrbitCamera, settings, Sky, Sphere, ThirdPersonCamera, Audio } from ".."
 import { setCentripetal } from "../states/useCentripetal"
 
 export default {}
@@ -23,6 +23,13 @@ cam.transition = true
 cam.mouseControl = "drag"
 cam.innerZ = 1000
 cam.lockTargetRotation = "dynamic-lock"
+
+const footSteps = new Audio()
+footSteps.src = "footsteps.wav"
+footSteps.autoplay = true
+footSteps.loop = true
+footSteps.playbackRate = 2.5
+player.append(footSteps)
 
 keyboard.onKeyPress = (_, key) => {
     if (key.has("w"))
