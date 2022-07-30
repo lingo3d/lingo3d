@@ -1,33 +1,44 @@
 import { AnimationData } from "../../../../api/serializer/types"
-import IAnimationMixin, { Animation, AnimationValue } from "../../../../interface/IAnimationMixin"
+import IAnimationMixin, {
+    Animation,
+    AnimationValue
+} from "../../../../interface/IAnimationMixin"
 import { debounce } from "@lincode/utils"
 import { Resolvable } from "@lincode/promiselikes"
 import AnimationManager, { PlayOptions } from "./AnimationManager"
 import EventLoopItem from "../../../../api/core/EventLoopItem"
 import Nullable from "../../../../interface/utils/Nullable"
 
-const buildAnimationTracks = debounce((val: AnimationValue) => {
-    const entries = Object.entries(val)
-    let maxLength = 0
-    for (const [, { length }] of entries)
-        length > maxLength && (maxLength = length)
+const buildAnimationTracks = debounce(
+    (val: AnimationValue) => {
+        const entries = Object.entries(val)
+        let maxLength = 0
+        for (const [, { length }] of entries)
+            length > maxLength && (maxLength = length)
 
-    const duration = 1000
-    const timeStep = duration * 0.001 / maxLength
+        const duration = 1000
+        const timeStep = (duration * 0.001) / maxLength
 
-    const result: AnimationData = {}
-    for (const [name, values] of entries)
-        result[name] = Object.fromEntries(values.map((v, i) => [(i * timeStep).toFixed(2), v]))
+        const result: AnimationData = {}
+        for (const [name, values] of entries)
+            result[name] = Object.fromEntries(
+                values.map((v, i) => [(i * timeStep).toFixed(2), v])
+            )
 
-    return result
+        return result
+    },
+    0,
+    "trailingPromise"
+)
 
-}, 0, "trailingPromise")
-
-export default abstract class AnimationMixin extends EventLoopItem implements IAnimationMixin {
+export default abstract class AnimationMixin
+    extends EventLoopItem
+    implements IAnimationMixin
+{
     public animationManagers?: Record<string, AnimationManager>
-    
+
     public get animations() {
-        return this.animationManagers ??= {}
+        return (this.animationManagers ??= {})
     }
     public set animations(val) {
         this.animationManagers = val
@@ -36,17 +47,16 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
     private createAnimation(name: string): AnimationManager {
         if (name in this.animations) {
             const animation = this.animations[name]
-            if (typeof animation !== "string")
-                return animation
+            if (typeof animation !== "string") return animation
         }
         const animation = this.watch(new AnimationManager(name, this))
         this.animations[name] = animation
-        
+
         return animation
     }
 
     private buildAnimation(val: AnimationValue) {
-        buildAnimationTracks(val).then(tracks => {
+        buildAnimationTracks(val).then((tracks) => {
             const name = "lingo3d-animation"
             this.createAnimation(name).setTracks(tracks)
             this.playAnimation(name)
@@ -68,8 +78,8 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
 
     protected loadingAnims?: Array<Resolvable>
     private async loadingAnimsAsync() {
-        await new Promise(resolve => setTimeout(resolve))
-        
+        await new Promise((resolve) => setTimeout(resolve))
+
         if (this.loadingAnims) {
             await Promise.all(this.loadingAnims)
             this.loadingAnims = undefined
@@ -87,18 +97,19 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
             this.animationManager?.setPaused(!!value)
         })
     }
-    
+
     public animationRepeat: Nullable<boolean>
-    
+
     public onAnimationFinish: Nullable<() => void>
 
     public async playAnimation(name?: string | number, o?: PlayOptions) {
         await this.loadingAnimsAsync()
         if (this.done) return
 
-        this.animationManager = typeof name === "string"
-            ? this.animations[name]
-            : Object.values(this.animations)[name ?? 0]
+        this.animationManager =
+            typeof name === "string"
+                ? this.animations[name]
+                : Object.values(this.animations)[name ?? 0]
 
         this.animationManager?.play(o)
     }
@@ -111,7 +122,10 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
     }
 
     protected animationName?: string | number
-    private setAnimation(val?: string | number | boolean | AnimationValue, o?: PlayOptions) {
+    private setAnimation(
+        val?: string | number | boolean | AnimationValue,
+        o?: PlayOptions
+    ) {
         this._animation = val
 
         if (typeof val === "string" || typeof val === "number") {
@@ -155,8 +169,11 @@ export default abstract class AnimationMixin extends EventLoopItem implements IA
             this.setAnimation(val[0], o)
             return
         }
-        this.queueMicrotask(() => this.setAnimation(val, {
-            repeat: this.animationRepeat, onFinish: this.onAnimationFinish
-        }))
+        this.queueMicrotask(() =>
+            this.setAnimation(val, {
+                repeat: this.animationRepeat,
+                onFinish: this.onAnimationFinish
+            })
+        )
     }
 }
