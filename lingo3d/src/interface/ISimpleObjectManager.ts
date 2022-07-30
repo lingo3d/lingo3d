@@ -1,7 +1,12 @@
 import StaticObjectManager from "../display/core/StaticObjectManager"
-import IAnimatedObjectManager, { animatedObjectManagerDefaults, animatedObjectManagerSchema } from "./IAnimatedObjectManager"
-import IPhysics, { physicsDefaults, physicsSchema } from "./IPhysics"
-import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
+import IAnimatedObjectManager, {
+    animatedObjectManagerDefaults,
+    animatedObjectManagerSchema
+} from "./IAnimatedObjectManager"
+import IPositioned, {
+    positionedDefaults,
+    positionedSchema
+} from "./IPositioned"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import fn from "./utils/fn"
@@ -10,7 +15,9 @@ import Nullable from "./utils/Nullable"
 
 export type OnIntersectValue = (target: StaticObjectManager) => void
 
-export default interface ISimpleObjectManager extends IAnimatedObjectManager, IPositioned, IPhysics {
+export default interface ISimpleObjectManager
+    extends IAnimatedObjectManager,
+        IPositioned {
     onIntersect: Nullable<OnIntersectValue>
     onIntersectOut: Nullable<OnIntersectValue>
     onMoveToEnd: Nullable<() => void>
@@ -37,10 +44,11 @@ export default interface ISimpleObjectManager extends IAnimatedObjectManager, IP
     innerVisible: boolean
 }
 
-export const simpleObjectManagerSchema: Required<ExtractProps<ISimpleObjectManager>> = {
+export const simpleObjectManagerSchema: Required<
+    ExtractProps<ISimpleObjectManager>
+> = {
     ...animatedObjectManagerSchema,
     ...positionedSchema,
-    ...physicsSchema,
 
     onIntersect: Function,
     onIntersectOut: Function,
@@ -73,7 +81,6 @@ hideSchema(["intersectIds", "moveTo", "lerpTo"])
 export const simpleObjectManagerDefaults: Defaults<ISimpleObjectManager> = {
     ...animatedObjectManagerDefaults,
     ...positionedDefaults,
-    ...physicsDefaults,
 
     onIntersect: undefined,
     onIntersectOut: undefined,

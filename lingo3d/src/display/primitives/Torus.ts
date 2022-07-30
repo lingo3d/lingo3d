@@ -1,7 +1,7 @@
 import { TorusBufferGeometry } from "three"
 import { scaleDown } from "../../engine/constants"
 import Primitive from "../core/Primitive"
-import torusShape from "../core/mixins/PhysicsMixin/cannon/shapes/torusShape"
+import torusShape from "../core/PhysicsObjectManager/cannon/shapes/torusShape"
 
 const geometry = new TorusBufferGeometry(40 * scaleDown, 10 * scaleDown, 8, 16)
 

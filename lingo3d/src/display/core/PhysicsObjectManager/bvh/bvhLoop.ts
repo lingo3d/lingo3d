@@ -1,13 +1,12 @@
 import { createEffect } from "@lincode/reactivity"
 import { forceGet } from "@lincode/utils"
 import { Box3, Vector3 } from "three"
-import PhysicsMixin from ".."
-import { onBeforeRender } from "../../../../../events/onBeforeRender"
-import { getBVHMap } from "../../../../../states/useBVHMap"
-import { getCentripetal } from "../../../../../states/useCentripetal"
-import { getEditorActive } from "../../../../../states/useEditorActive"
-import { getGravity } from "../../../../../states/useGravity"
-import { getRepulsion } from "../../../../../states/useRepulsion"
+import { onBeforeRender } from "../../../../events/onBeforeRender"
+import { getBVHMap } from "../../../../states/useBVHMap"
+import { getCentripetal } from "../../../../states/useCentripetal"
+import { getEditorActive } from "../../../../states/useEditorActive"
+import { getGravity } from "../../../../states/useGravity"
+import { getRepulsion } from "../../../../states/useRepulsion"
 import {
     box3,
     line3,
@@ -15,17 +14,18 @@ import {
     vector3_,
     vector3_0,
     vector3__
-} from "../../../../utils/reusables"
+} from "../../../utils/reusables"
 import bvhContactMap from "./bvhContactMap"
 import { bvhManagerMap } from "./computeBVH"
-import getWorldPosition from "../../../../utils/getWorldPosition"
+import getWorldPosition from "../../../utils/getWorldPosition"
+import PhysicsObjectManager from ".."
 
-export const bvhCharacterSet = new Set<PhysicsMixin>()
+export const bvhCharacterSet = new Set<PhysicsObjectManager>()
 
 const makeWeakSet = () => new WeakSet()
 
 createEffect(
-    function (this: PhysicsMixin) {
+    function (this: PhysicsObjectManager) {
         if (getEditorActive()) return
 
         const bvhArray = getBVHMap()
@@ -99,7 +99,7 @@ createEffect(
                 let direction: Vector3 | undefined
 
                 let contact = false
-                let mapManager: PhysicsMixin | undefined
+                let mapManager: PhysicsObjectManager | undefined
 
                 for (const boundsTree of bvhArray) {
                     mapManager = bvhManagerMap.get(boundsTree)

@@ -1,13 +1,13 @@
 import { MeshBVHVisualizer } from "./bvh/bvh"
-import { pullBVHMap, pushBVHMap } from "../../../../states/useBVHMap"
-import { wireframeMaterial } from "../../../utils/reusables"
+import { pullBVHMap, pushBVHMap } from "../../../states/useBVHMap"
+import { wireframeMaterial } from "../../utils/reusables"
 import { Mesh } from "three"
-import scene from "../../../../engine/scene"
+import scene from "../../../engine/scene"
 import { Cancellable } from "@lincode/promiselikes"
-import PhysicsMixin from "."
 import computeBVH from "./bvh/computeBVH"
+import PhysicsObjectManager from "."
 
-export default async function (this: PhysicsMixin, handle: Cancellable, debug: boolean) {
+export default async function (this: PhysicsObjectManager, handle: Cancellable, debug: boolean) {
     if (handle.done) return
     
     const [bvhMaps, geometries] = computeBVH(this)

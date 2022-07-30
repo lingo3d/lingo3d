@@ -1,13 +1,13 @@
 import { Object3D, PropertyBinding } from "three"
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import scene from "../../engine/scene"
-import SimpleObjectManager from "./SimpleObjectManager"
 import { scaleDown, scaleUp } from "../../engine/constants"
 import IObjectManager from "../../interface/IObjectManager"
 import FoundManager from "./FoundManager"
+import PhysicsObjectManager from "./PhysicsObjectManager"
 
 export default abstract class ObjectManager<T extends Object3D = Object3D>
-    extends SimpleObjectManager<T>
+    extends PhysicsObjectManager<T>
     implements IObjectManager
 {
     public constructor(object3d = new Object3D() as T) {

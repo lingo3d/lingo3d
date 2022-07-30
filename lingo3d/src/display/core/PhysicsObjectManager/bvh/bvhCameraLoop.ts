@@ -1,16 +1,16 @@
 import { event } from "@lincode/events"
 import { createEffect } from "@lincode/reactivity"
 import { Box3, Object3D } from "three"
-import PhysicsMixin from ".."
-import { onBeforeRender } from "../../../../../events/onBeforeRender"
-import { getBVHMap } from "../../../../../states/useBVHMap"
-import getWorldDirection from "../../../../utils/getWorldDirection"
-import { box3, line3, vector3, vector3_ } from "../../../../utils/reusables"
+import PhysicsObjectManager from ".."
+import { onBeforeRender } from "../../../../events/onBeforeRender"
+import { getBVHMap } from "../../../../states/useBVHMap"
+import getWorldDirection from "../../../utils/getWorldDirection"
+import { box3, line3, vector3, vector3_ } from "../../../utils/reusables"
 
 export const bvhCameraSet = new Set<Object3D>()
 export const [emitBeforeCameraLoop, onBeforeCameraLoop] = event()
 
-createEffect(function (this: PhysicsMixin) {
+createEffect(function (this: PhysicsObjectManager) {
     const bvhArray = getBVHMap()
     if (!bvhArray.length) {
         const handle = onBeforeRender(emitBeforeCameraLoop)

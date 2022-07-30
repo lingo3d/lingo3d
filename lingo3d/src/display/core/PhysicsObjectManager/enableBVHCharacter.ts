@@ -1,16 +1,15 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Vector3 } from "three"
-import PhysicsMixin from "."
-import scene from "../../../../engine/scene"
-import getActualScale from "../../../utils/getActualScale"
+import PhysicsObjectManager from "."
+import scene from "../../../engine/scene"
+import getActualScale from "../../utils/getActualScale"
 import { bvhCharacterSet } from "./bvh/bvhLoop"
 
-export default function (this: PhysicsMixin, handle: Cancellable) {
+export default function (this: PhysicsObjectManager, handle: Cancellable) {
     if (handle.done) return
-    
+
     scene.attach(this.outerObject3d)
-    
-    //@ts-ignore
+
     this.width = this.depth = Math.min(this.width, this.depth)
 
     this.physicsUpdate = {}

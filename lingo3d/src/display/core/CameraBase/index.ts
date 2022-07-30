@@ -9,7 +9,7 @@ import {
     quaternion_,
     halfPi
 } from "../../utils/reusables"
-import pillShape from "../mixins/PhysicsMixin/cannon/shapes/pillShape"
+import pillShape from "../PhysicsObjectManager/cannon/shapes/pillShape"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
 import { deg2Rad, Point3d } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"

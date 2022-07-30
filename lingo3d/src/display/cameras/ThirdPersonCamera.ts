@@ -32,7 +32,7 @@ export default class ThirdPersonCamera
 
         const cam = this.camera
 
-        import("../core/mixins/PhysicsMixin/bvh/bvhCameraLoop").then(
+        import("../core/PhysicsObjectManager/bvh/bvhCameraLoop").then(
             ({ bvhCameraSet, onBeforeCameraLoop }) => {
                 this.createEffect(() => {
                     const target = this.targetState.get()

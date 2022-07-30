@@ -10,12 +10,6 @@ import getCenter from "../../utils/getCenter"
 import PositionedItem from "../../../api/core/PositionedItem"
 import StaticObjectManager, { idMap } from "../StaticObjectManager"
 import { applyMixins } from "@lincode/utils"
-import PhysicsMixin from "../mixins/PhysicsMixin"
-import bvhContactMap from "../mixins/PhysicsMixin/bvh/bvhContactMap"
-import {
-    cannonContactBodies,
-    cannonContactMap
-} from "../mixins/PhysicsMixin/cannon/cannonLoop"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import MeshItem, { getObject3d } from "../MeshItem"
@@ -24,6 +18,7 @@ import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import { getCentripetal } from "../../../states/useCentripetal"
 import AnimatedObjectManager from "../AnimatedObjectManager"
+import Nullable from "../../../interface/utils/Nullable"
 
 const ptDistCache = new WeakMap<Point3d, number>()
 const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
@@ -174,39 +169,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         this.intersectIdsState?.set(val)
     }
 
-    public override intersects(target: StaticObjectManager): boolean {
-        if (this.done) return false
-        if (target.done) return false
-        if (this === target) return false
-
-        if (target instanceof SimpleObjectManager) {
-            if (
-                (this.bvhMap && target.bvhCharacter) ||
-                (this.bvhCharacter && target.bvhMap)
-            )
-                return (
-                    bvhContactMap.get(this)?.has(target) ||
-                    bvhContactMap.get(target)?.has(this) ||
-                    false
-                )
-
-            if (this.cannonBody && target.cannonBody) {
-                cannonContactBodies.add(this.cannonBody)
-                cannonContactBodies.add(target.cannonBody)
-                return (
-                    cannonContactMap
-                        .get(this.cannonBody)
-                        ?.has(target.cannonBody) ||
-                    cannonContactMap
-                        .get(target.cannonBody)
-                        ?.has(this.cannonBody) ||
-                    false
-                )
-            }
-        }
-        return super.intersects(target)
-    }
-
     public get width() {
         return this.object3d.scale.x * scaleUp
     }
@@ -226,30 +188,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
     public set depth(val) {
         this.object3d.scale.z = val * scaleDown
-    }
-
-    public get x() {
-        return this.outerObject3d.position.x * scaleUp
-    }
-    public set x(val) {
-        this.outerObject3d.position.x = val * scaleDown
-        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).x = true)
-    }
-
-    public get y() {
-        return this.outerObject3d.position.y * scaleUp
-    }
-    public set y(val) {
-        this.outerObject3d.position.y = val * scaleDown
-        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).y = true)
-    }
-
-    public get z() {
-        return this.outerObject3d.position.z * scaleUp
-    }
-    public set z(val) {
-        this.outerObject3d.position.z = val * scaleDown
-        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).z = true)
     }
 
     public get scaleX() {
@@ -287,7 +225,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
     public set rotationX(val) {
         this.outerObject3d.rotation.x = val * deg2Rad
-        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).x = true)
     }
 
     public get rotationY() {
@@ -295,7 +232,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
     public set rotationY(val) {
         this.outerObject3d.rotation.y = val * deg2Rad
-        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).y = true)
     }
 
     public get rotationZ() {
@@ -303,7 +239,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
     public set rotationZ(val) {
         this.outerObject3d.rotation.z = val * deg2Rad
-        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).z = true)
     }
 
     public get rotation() {
@@ -320,26 +255,16 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         this.object3d.visible = val
     }
 
-    public override lookAt(target: MeshItem | Point3d): void
-    public override lookAt(x: number, y: number | undefined, z: number): void
-    public override lookAt(a0: any, a1?: any, a2?: any) {
-        super.lookAt(a0, a1, a2)
-        this.physicsRotate()
-    }
-
     public translateX(val: number) {
         this.outerObject3d.translateX(val * scaleDown)
-        this.physicsMove()
     }
 
     public translateY(val: number) {
         this.outerObject3d.translateY(val * scaleDown)
-        this.physicsMove()
     }
 
     public translateZ(val: number) {
         this.outerObject3d.translateZ(val * scaleDown)
-        this.physicsMove()
     }
 
     public placeAt(object: MeshItem | Point3d) {
@@ -349,14 +274,9 @@ class SimpleObjectManager<T extends Object3D = Object3D>
                 getWorldQuaternion(object.outerObject3d)
             )
         } else this.outerObject3d.position.copy(point2Vec(object))
-
-        this.physicsMove()
-        this.physicsRotate()
     }
 
     public moveForward(distance: number) {
-        if (distance === 0) return
-
         if (getCentripetal()) this.translateZ(-distance)
         else {
             vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
@@ -366,12 +286,9 @@ class SimpleObjectManager<T extends Object3D = Object3D>
                 distance * scaleDown
             )
         }
-        this.physicsMoveXZ()
     }
 
     public moveRight(distance: number) {
-        if (distance === 0) return
-
         if (getCentripetal()) this.translateX(distance)
         else {
             vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
@@ -380,12 +297,17 @@ class SimpleObjectManager<T extends Object3D = Object3D>
                 distance * scaleDown
             )
         }
-        this.physicsMoveXZ()
     }
 
-    public onMoveToEnd: (() => void) | undefined
+    public onMoveToEnd: Nullable<() => void>
 
-    public lerpTo(x: number, y: number, z: number, alpha: number) {
+    public lerpTo(
+        x: number,
+        y: number,
+        z: number,
+        alpha: number,
+        onFrame?: () => void
+    ) {
         const from = new Vector3(this.x, this.y, this.z)
         const to = new Vector3(x, y, z)
 
@@ -405,12 +327,18 @@ class SimpleObjectManager<T extends Object3D = Object3D>
                 this.y = y
                 this.z = z
 
-                this.physicsMove()
+                onFrame?.()
             })
         )
     }
 
-    public moveTo(x: number, y: number | undefined, z: number, speed: number) {
+    public moveTo(
+        x: number,
+        y: number | undefined,
+        z: number,
+        speed: number,
+        onFrame?: (y?: number) => void
+    ) {
         const {
             x: rx,
             y: ry,
@@ -449,14 +377,13 @@ class SimpleObjectManager<T extends Object3D = Object3D>
                 }
                 distOld = dist
 
-                y === undefined ? this.physicsMoveXZ() : this.physicsMove()
+                onFrame?.(y)
             })
         )
     }
 }
 interface SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager,
-        PositionedItem,
-        PhysicsMixin {}
-applyMixins(SimpleObjectManager, [PositionedItem, PhysicsMixin])
+        PositionedItem {}
+applyMixins(SimpleObjectManager, [PositionedItem])
 export default SimpleObjectManager

@@ -1,19 +1,23 @@
 import cubeShape from "./cannon/shapes/cubeShape"
-import { Vector3 } from "three"
-import IPhysics, {
-    PhysicsGroupIndex,
-    PhysicsOptions,
-    PhysicsShape
-} from "../../../../interface/IPhysics"
+import { Object3D, Vector3 } from "three"
 import type { Body } from "cannon-es"
 import { Cancellable } from "@lincode/promiselikes"
 import { assertExhaustive } from "@lincode/utils"
-import PositionedItem from "../../../../api/core/PositionedItem"
 import { Point3d } from "@lincode/math"
+import SimpleObjectManager from "../SimpleObjectManager"
+import IPhysicsObjectManager, {
+    PhysicsGroupIndex,
+    PhysicsOptions,
+    PhysicsShape
+} from "../../../interface/IPhysicsObjectManager"
+import StaticObjectManager from "../StaticObjectManager"
+import bvhContactMap from "./bvh/bvhContactMap"
+import { cannonContactBodies, cannonContactMap } from "./cannon/cannonLoop"
+import MeshItem from "../MeshItem"
 
-export default abstract class PhysicsMixin
-    extends PositionedItem
-    implements IPhysics
+export default class PhysicsObjectManager<T extends Object3D = Object3D>
+    extends SimpleObjectManager<T>
+    implements IPhysicsObjectManager
 {
     protected _mAV?: Point3d
     private getMAV() {
@@ -242,5 +246,141 @@ export default abstract class PhysicsMixin
     }
     public set gravity(val) {
         this._gravity = val
+    }
+
+    public override intersects(target: StaticObjectManager): boolean {
+        if (this.done) return false
+        if (target.done) return false
+        if (this === target) return false
+
+        if (target instanceof PhysicsObjectManager) {
+            if (
+                (this.bvhMap && target.bvhCharacter) ||
+                (this.bvhCharacter && target.bvhMap)
+            )
+                return (
+                    bvhContactMap.get(this)?.has(target) ||
+                    bvhContactMap.get(target)?.has(this) ||
+                    false
+                )
+
+            if (this.cannonBody && target.cannonBody) {
+                cannonContactBodies.add(this.cannonBody)
+                cannonContactBodies.add(target.cannonBody)
+                return (
+                    cannonContactMap
+                        .get(this.cannonBody)
+                        ?.has(target.cannonBody) ||
+                    cannonContactMap
+                        .get(target.cannonBody)
+                        ?.has(this.cannonBody) ||
+                    false
+                )
+            }
+        }
+        return super.intersects(target)
+    }
+
+    public override get x() {
+        return super.x
+    }
+    public override set x(val) {
+        super.x = val
+        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).x = true)
+    }
+
+    public override get y() {
+        return super.y
+    }
+    public override set y(val) {
+        super.y = val
+        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).y = true)
+    }
+
+    public override get z() {
+        return super.z
+    }
+    public override set z(val) {
+        super.z = val
+        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).z = true)
+    }
+
+    public override get rotationX() {
+        return super.rotationX
+    }
+    public override set rotationX(val) {
+        super.rotationX = val
+        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).x = true)
+    }
+
+    public override get rotationY() {
+        return super.rotationY
+    }
+    public override set rotationY(val) {
+        super.rotationY = val
+        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).y = true)
+    }
+
+    public override get rotationZ() {
+        return super.rotationZ
+    }
+    public override set rotationZ(val) {
+        super.rotationZ = val
+        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).z = true)
+    }
+
+    public override lookAt(target: MeshItem | Point3d): void
+    public override lookAt(x: number, y: number | undefined, z: number): void
+    public override lookAt(a0: any, a1?: any, a2?: any) {
+        super.lookAt(a0, a1, a2)
+        this.physicsRotate()
+    }
+
+    public override translateX(val: number) {
+        super.translateX(val)
+        this.physicsMove()
+    }
+
+    public override translateY(val: number) {
+        super.translateY(val)
+        this.physicsMove()
+    }
+
+    public override translateZ(val: number) {
+        super.translateZ(val)
+        this.physicsMove()
+    }
+
+    public override placeAt(object: MeshItem | Point3d) {
+        super.placeAt(object)
+        this.physicsMove()
+        this.physicsRotate()
+    }
+
+    public override moveForward(distance: number) {
+        if (distance === 0) return
+        super.moveForward(distance)
+        this.physicsMoveXZ()
+    }
+
+    public override moveRight(distance: number) {
+        if (distance === 0) return
+        super.moveRight(distance)
+        this.physicsMoveXZ()
+    }
+
+    public override lerpTo(x: number, y: number, z: number, alpha: number) {
+        super.lerpTo(x, y, z, alpha, () => this.physicsMove())
+    }
+
+    public override moveTo(
+        x: number,
+        y: number | undefined,
+        z: number,
+        speed: number
+    ) {
+        super.moveTo(x, y, z, speed, (y) =>
+            y === undefined ? this.physicsMoveXZ() : this.physicsMove()
+        )
     }
 }

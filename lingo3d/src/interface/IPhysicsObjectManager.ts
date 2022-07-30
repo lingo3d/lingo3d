@@ -1,21 +1,20 @@
 import { Point3d } from "@lincode/math"
-import PhysicsMixin from "../display/core/mixins/PhysicsMixin"
-import cubeShape from "../display/core/mixins/PhysicsMixin/cannon/shapes/cubeShape"
+import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
+import cubeShape from "../display/core/PhysicsObjectManager/cannon/shapes/cubeShape"
+import ISimpleObjectManager, {
+    simpleObjectManagerDefaults,
+    simpleObjectManagerSchema
+} from "./ISimpleObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
 export type PhysicsGroupIndex = 0 | 1 | 2 | 3 | 4 | 5
-export type PhysicsOptions =
-    | boolean
-    | "2d"
-    | "map"
-    | "map-debug"
-    | "character"
-export type PhysicsShape = (this: PhysicsMixin) => Promise<void>
+export type PhysicsOptions = boolean | "2d" | "map" | "map-debug" | "character"
+export type PhysicsShape = (this: PhysicsObjectManager) => Promise<void>
 
-export default interface IPhysics {
+export default interface IPhysicsObjectManager extends ISimpleObjectManager {
     maxAngularVelocityX: number
     maxAngularVelocityY: number
     maxAngularVelocityZ: number
@@ -37,7 +36,11 @@ export default interface IPhysics {
     physicsShape: PhysicsShape
 }
 
-export const physicsSchema: Required<ExtractProps<IPhysics>> = {
+export const physicsObjectManagerSchema: Required<
+    ExtractProps<IPhysicsObjectManager>
+> = {
+    ...simpleObjectManagerSchema,
+
     maxAngularVelocityX: Number,
     maxAngularVelocityY: Number,
     maxAngularVelocityZ: Number,
@@ -75,7 +78,9 @@ hideSchema([
     "physicsShape"
 ])
 
-export const physicsDefaults: Defaults<IPhysics> = {
+export const physicsObjectManagerDefaults: Defaults<IPhysicsObjectManager> = {
+    ...simpleObjectManagerDefaults,
+
     maxAngularVelocityX: Infinity,
     maxAngularVelocityY: Infinity,
     maxAngularVelocityZ: Infinity,
