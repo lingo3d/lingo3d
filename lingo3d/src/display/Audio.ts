@@ -104,6 +104,20 @@ export default class Audio
         return this
     }
 
+    public play() {
+        this.autoplay = true
+        this.paused = false
+        this.stopped = false
+    }
+
+    public pause() {
+        this.paused = true
+    }
+
+    public stop() {
+        this.stopped = true
+    }
+
     private srcState = new Reactive<string | undefined>(undefined)
     public get src() {
         return this.srcState.get()
