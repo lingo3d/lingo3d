@@ -39,7 +39,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     public override get animations(): Record<string, AnimationManager> {
-        return this.animationManagers ??= {}
+        return super.animations
     }
     public override set animations(val: Record<string, string | AnimationManager>) {
         for (const [key, value] of Object.entries(val))

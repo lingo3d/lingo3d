@@ -56,8 +56,7 @@ class FoundManager extends AnimatedObjectManager implements IFound {
             this.managerSet = true
             this.object3d.traverse((child) => (child.userData.manager = this))
         }
-        set.add(this.object3d)
-        return new Cancellable(() => set.delete(this.object3d))
+        return super.addToRaycastSet(set)
     }
 }
 interface FoundManager

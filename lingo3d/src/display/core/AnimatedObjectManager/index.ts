@@ -7,9 +7,7 @@ import IAnimatedObjectManager, {
     AnimationValue
 } from "../../../interface/IAnimatedObjectManager"
 import Nullable from "../../../interface/utils/Nullable"
-import AnimationManager, {
-    PlayOptions
-} from "./AnimationManager"
+import AnimationManager, { PlayOptions } from "./AnimationManager"
 import StaticObjectManager from "../StaticObjectManager"
 
 const buildAnimationTracks = debounce(

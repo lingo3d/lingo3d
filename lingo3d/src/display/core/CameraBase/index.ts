@@ -1,7 +1,7 @@
 import { CameraHelper, Object3D, PerspectiveCamera, Quaternion } from "three"
 import ObjectManager from "../ObjectManager"
 import { debounce, last } from "@lincode/utils"
-import { scaleUp, scaleDown } from "../../../engine/constants"
+import { scaleDown } from "../../../engine/constants"
 import {
     ray,
     euler,
@@ -207,7 +207,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
     }
 
     public override get width() {
-        return this.object3d.scale.x * scaleUp
+        return super.width
     }
     public override set width(val) {
         const num = val * scaleDown
@@ -216,7 +216,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
     }
 
     public override get height() {
-        return this.object3d.scale.y * scaleUp
+        return super.height
     }
     public override set height(val) {
         const num = val * scaleDown
@@ -225,7 +225,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
     }
 
     public override get depth() {
-        return this.object3d.scale.z * scaleUp
+        return super.depth
     }
     public override set depth(val) {
         const num = val * scaleDown
