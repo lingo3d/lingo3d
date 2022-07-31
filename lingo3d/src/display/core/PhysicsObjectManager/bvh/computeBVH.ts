@@ -1,6 +1,5 @@
 import { BufferGeometry } from "three"
 import PhysicsObjectManager from ".."
-import { getObject3d } from "../../MeshItem"
 import Primitive from "../../Primitive"
 import { MeshBVH } from "./bvh"
 // import { GenerateMeshBVHWorker } from "./GenerateMeshBVHWorker"
@@ -18,7 +17,7 @@ export default (
     item.outerObject3d.traverse((c: any) => {
         if (
             !c.geometry ||
-            (c === getObject3d(item) && !(item instanceof Primitive))
+            (c === item.nativeObject3d && !(item instanceof Primitive))
         )
             return
 

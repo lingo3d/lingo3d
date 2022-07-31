@@ -12,7 +12,7 @@ import StaticObjectManager, { idMap } from "../StaticObjectManager"
 import { applyMixins } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
-import MeshItem, { getObject3d } from "../MeshItem"
+import MeshItem from "../MeshItem"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
@@ -239,7 +239,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
 
     public placeAt(object: MeshItem | Point3d) {
         if ("outerObject3d" in object) {
-            this.outerObject3d.position.copy(getCenter(getObject3d(object)))
+            this.outerObject3d.position.copy(getCenter(object.nativeObject3d))
             this.outerObject3d.quaternion.copy(
                 getWorldQuaternion(object.outerObject3d)
             )

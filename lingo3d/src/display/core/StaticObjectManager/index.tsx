@@ -40,7 +40,7 @@ import {
 import getCenter from "../../utils/getCenter"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import IStaticObjectManager from "../../../interface/IStaticObjectManaget"
-import MeshItem, { getObject3d } from "../MeshItem"
+import MeshItem from "../MeshItem"
 import copyToon from "./applyMaterialProperties/copyToon"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { onBeforeRender } from "../../../events/onBeforeRender"
@@ -451,7 +451,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
             return
         }
         if ("outerObject3d" in a0)
-            this.outerObject3d.lookAt(getWorldPosition(getObject3d(a0)))
+            this.outerObject3d.lookAt(getWorldPosition(a0.nativeObject3d))
         else this.outerObject3d.lookAt(point2Vec(a0))
     }
 

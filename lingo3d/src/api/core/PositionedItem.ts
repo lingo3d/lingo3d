@@ -1,6 +1,5 @@
 import { Point3d } from "@lincode/math"
 import { Object3D } from "three"
-import { getObject3d } from "../../display/core/MeshItem"
 import getWorldPosition from "../../display/utils/getWorldPosition"
 import { vec2Point } from "../../display/utils/vec2Point"
 import { scaleUp, scaleDown } from "../../engine/constants"
@@ -33,7 +32,7 @@ export default abstract class PositionedItem<T extends Object3D = Object3D>
     }
 
     public getWorldPosition(): Point3d {
-        return vec2Point(getWorldPosition(getObject3d(this)))
+        return vec2Point(getWorldPosition(this.nativeObject3d))
     }
 }
 

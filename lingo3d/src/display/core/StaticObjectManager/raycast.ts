@@ -34,7 +34,6 @@ import { getSelectionBlockMouse } from "../../../states/useSelectionBlockMouse"
 import StaticObjectManager from "."
 import { isPositionedItem } from "../../../api/core/PositionedItem"
 import { getCameraRendered } from "../../../states/useCameraRendered"
-import { getObject3d } from "../MeshItem"
 import { getSelectionFrozen } from "../../../states/useSelectionFrozen"
 import { onSelectionRecompute } from "../../../events/onSelectionRecompute"
 
@@ -50,7 +49,7 @@ const getSelectionCandidates = debounce(
             const { manager } = c.userData
             manager &&
                 !frozenSet.has(manager) &&
-                selectionCandidates.add(getObject3d(manager))
+                selectionCandidates.add(manager.nativeObject3d)
         })
     },
     0,

@@ -12,7 +12,6 @@ import { idMap } from "../core/StaticObjectManager"
 import { PerspectiveCamera } from "three"
 import OrbitCameraBase from "../core/OrbitCameraBase"
 import { vec2Point } from "../utils/vec2Point"
-import { getObject3d } from "../core/MeshItem"
 import getWorldPosition from "../utils/getWorldPosition"
 import getCenter from "../utils/getCenter"
 
@@ -59,7 +58,7 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
             if (!target) return
 
             const handle = onBeforeRender(() => {
-                this.placeAt(vec2Point(getCenter(getObject3d(target))))
+                this.placeAt(vec2Point(getCenter(target.nativeObject3d)))
             })
             return () => {
                 handle.cancel()
