@@ -1,4 +1,4 @@
-import { Group } from "three"
+import { Group, Vector3 } from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import AnimationManager, {
@@ -10,6 +10,7 @@ import { Resolvable } from "@lincode/promiselikes"
 import { lazyLoadFBX, lazyLoadGLTF } from "./utils/loaders/lazyLoad"
 import FoundManager from "./core/FoundManager"
 import { Reactive } from "@lincode/reactivity"
+import measure from "./utils/measure"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -95,12 +96,15 @@ export default class Model extends Loaded<Group> implements IModel {
                 new AnimationManager(clip, loadedObject3d)
             )
 
-        if (this.resize !== false) {
-            const size = fit(loadedObject3d, this._src!)
-            !this.widthSet && (this.object3d.scale.x = size.x)
-            !this.heightSet && (this.object3d.scale.y = size.y)
-            !this.depthSet && (this.object3d.scale.z = size.z)
-        }
+        const size =
+            this.resize === false
+                ? measure(loadedObject3d)
+                : fit(loadedObject3d, this._src!)
+
+        !this.widthSet && (this.object3d.scale.x = size.x)
+        !this.heightSet && (this.object3d.scale.y = size.y)
+        !this.depthSet && (this.object3d.scale.z = size.z)
+
         return loadedObject3d
     }
 
