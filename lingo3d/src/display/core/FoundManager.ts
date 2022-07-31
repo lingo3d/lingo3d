@@ -3,7 +3,6 @@ import { MeshStandardMaterial, Object3D } from "three"
 import IFound, { foundDefaults, foundSchema } from "../../interface/IFound"
 import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
-import { Cancellable } from "@lincode/promiselikes"
 import { appendableRoot } from "../../api/core/Appendable"
 import Model from "../Model"
 import AnimatedObjectManager from "./AnimatedObjectManager"
@@ -29,9 +28,8 @@ class FoundManager extends AnimatedObjectManager implements IFound {
             this.model.animationManagers
         ))
             this.animations[animationManager.name] = this.watch(
-                animationManager.retarget(this.object3d)
+                animationManager.retarget(this.nativeObject3d)
             )
-
         this.model = undefined
     }
 
@@ -54,7 +52,9 @@ class FoundManager extends AnimatedObjectManager implements IFound {
     protected override addToRaycastSet(set: Set<Object3D>) {
         if (!this.managerSet) {
             this.managerSet = true
-            this.object3d.traverse((child) => (child.userData.manager = this))
+            this.nativeObject3d.traverse(
+                (child) => (child.userData.manager = this)
+            )
         }
         return super.addToRaycastSet(set)
     }

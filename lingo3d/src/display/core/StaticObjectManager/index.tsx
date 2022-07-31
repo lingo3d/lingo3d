@@ -101,10 +101,6 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     extends EventLoopItem<T>
     implements IStaticObjectManager
 {
-    public constructor(public object3d: T) {
-        super(object3d)
-    }
-
     public override dispose() {
         if (this.done) return this
         super.dispose()
@@ -123,8 +119,8 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
 
     protected addToRaycastSet(set: Set<Object3D>) {
-        set.add(this.object3d)
-        return new Cancellable(() => set.delete(this.object3d))
+        set.add(this.nativeObject3d)
+        return new Cancellable(() => set.delete(this.nativeObject3d))
     }
 
     private _onClick?: (e: LingoMouseEvent) => void
@@ -208,8 +204,8 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
     protected getRay() {
         return ray.set(
-            getWorldPosition(this.object3d),
-            getWorldDirection(this.object3d)
+            getWorldPosition(this.nativeObject3d),
+            getWorldDirection(this.nativeObject3d)
         )
     }
 
@@ -223,16 +219,16 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         if (this === target) return undefined
 
         targetOBB.set(
-            getWorldPosition(target.object3d),
+            getWorldPosition(target.nativeObject3d),
             vector3_half,
-            new Matrix3().setFromMatrix4(target.object3d.matrixWorld)
+            new Matrix3().setFromMatrix4(target.nativeObject3d.matrixWorld)
         )
 
         const vec = targetOBB.intersectRay(this.getRay(), vector3)
         if (!vec) return
 
         if (maxDistance) {
-            const { x, y, z } = getWorldPosition(this.object3d)
+            const { x, y, z } = getWorldPosition(this.nativeObject3d)
             if (
                 distance3d(vec.x, vec.y, vec.z, x, y, z) * scaleUp >
                 maxDistance
@@ -252,28 +248,28 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         if (this === target) return false
 
         thisOBB.set(
-            getWorldPosition(this.object3d),
+            getWorldPosition(this.nativeObject3d),
             vector3_1.clone(),
             new Matrix3()
         )
-        thisOBB.applyMatrix4(this.object3d.matrixWorld)
+        thisOBB.applyMatrix4(this.nativeObject3d.matrixWorld)
 
         targetOBB.set(
-            getWorldPosition(target.object3d),
+            getWorldPosition(target.nativeObject3d),
             vector3_1.clone(),
             new Matrix3()
         )
-        targetOBB.applyMatrix4(target.object3d.matrixWorld)
+        targetOBB.applyMatrix4(target.nativeObject3d.matrixWorld)
 
         return thisOBB.intersectsOBB(targetOBB, 0)
     }
 
     public get clientX() {
-        return worldToClient(this.object3d).x
+        return worldToClient(this.nativeObject3d).x
     }
 
     public get clientY() {
-        return worldToClient(this.object3d).y
+        return worldToClient(this.nativeObject3d).y
     }
 
     public get bloom() {
@@ -289,13 +285,15 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
 
     public get outline() {
-        return !!this.object3d.userData.outline
+        return !!this.nativeObject3d.userData.outline
     }
     public set outline(val) {
-        val && addOutline(this.object3d)
+        val && addOutline(this.nativeObject3d)
         this.cancelHandle(
             "outline",
-            val && (() => new Cancellable(() => deleteOutline(this.object3d)))
+            val &&
+                (() =>
+                    new Cancellable(() => deleteOutline(this.nativeObject3d)))
         )
     }
 
@@ -434,7 +432,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
     public get frustumVisible() {
         updateFrustum()
-        return frustum.containsPoint(getCenter(this.object3d))
+        return frustum.containsPoint(getCenter(this.nativeObject3d))
     }
 
     public lookAt(target: MeshItem | Point3d): void
@@ -508,6 +506,6 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
 
     public getWorldPosition(): Point3d {
-        return vec2Point(getWorldPosition(getObject3d(this)))
+        return vec2Point(getWorldPosition(this.nativeObject3d))
     }
 }

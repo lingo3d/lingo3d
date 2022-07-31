@@ -8,9 +8,12 @@ export const hiddenAppendables = new WeakSet<Appendable>()
 export default class Appendable<
     T extends Object3D = Object3D
 > extends Disposable {
+    public nativeObject3d: Object3D
+
     public constructor(public outerObject3d: T = new Object3D() as T) {
         super()
         outerObject3d.userData.manager = this
+        this.nativeObject3d = outerObject3d
 
         appendableRoot.add(this)
         emitSceneGraphChange()

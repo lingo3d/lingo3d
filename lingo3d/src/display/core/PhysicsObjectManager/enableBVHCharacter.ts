@@ -3,6 +3,7 @@ import { Vector3 } from "three"
 import PhysicsObjectManager from "."
 import scene from "../../../engine/scene"
 import getActualScale from "../../utils/getActualScale"
+import ObjectManager from "../ObjectManager"
 import { bvhCharacterSet } from "./bvh/bvhLoop"
 
 export default function (this: PhysicsObjectManager, handle: Cancellable) {
@@ -10,7 +11,8 @@ export default function (this: PhysicsObjectManager, handle: Cancellable) {
 
     scene.attach(this.outerObject3d)
 
-    this.width = this.depth = Math.min(this.width, this.depth)
+    if (this instanceof ObjectManager)
+        this.width = this.depth = Math.min(this.width, this.depth)
 
     this.physicsUpdate = {}
     const actualScale = getActualScale(this).multiplyScalar(0.5)

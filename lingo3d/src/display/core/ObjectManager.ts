@@ -10,7 +10,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     extends PhysicsObjectManager<T>
     implements IObjectManager
 {
-    public constructor(object3d = new Object3D() as T) {
+    public constructor(public object3d = new Object3D() as T) {
         super(object3d)
 
         const outerObject3d = (this.outerObject3d = new Object3D() as T)
@@ -67,6 +67,34 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     }
     public set innerZ(val) {
         this.object3d.position.z = val * scaleDown
+    }
+
+    public get width() {
+        return this.object3d.scale.x * scaleUp
+    }
+    public set width(val) {
+        this.object3d.scale.x = val * scaleDown
+    }
+
+    public get height() {
+        return this.object3d.scale.y * scaleUp
+    }
+    public set height(val) {
+        this.object3d.scale.y = val * scaleDown
+    }
+
+    public get depth() {
+        return this.object3d.scale.z * scaleUp
+    }
+    public set depth(val) {
+        this.object3d.scale.z = val * scaleDown
+    }
+
+    public get innerVisible() {
+        return this.object3d.visible
+    }
+    public set innerVisible(val) {
+        this.object3d.visible = val
     }
 
     public find(

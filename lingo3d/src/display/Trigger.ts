@@ -105,7 +105,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
                         x: tx,
                         y: ty,
                         z: tz
-                    } = getWorldPosition(target.object3d)
+                    } = getWorldPosition(target.nativeObject3d)
                     if (_pad) {
                         const { y: sy } = getActualScale(target)
                         hit =

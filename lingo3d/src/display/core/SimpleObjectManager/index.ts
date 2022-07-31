@@ -48,7 +48,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
             const pt = this.rayIntersectsAt(target, maxDistance)
             pt && result.push([target, pt])
         }
-        const vec = getWorldPosition(this.object3d)
+        const vec = getWorldPosition(this.nativeObject3d)
         return result.sort((a, b) => {
             return distance3dCached(a[1], vec) - distance3dCached(b[1], vec)
         })
@@ -167,27 +167,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         this.intersectIdsState?.set(val)
     }
 
-    public get width() {
-        return this.object3d.scale.x * scaleUp
-    }
-    public set width(val) {
-        this.object3d.scale.x = val * scaleDown
-    }
-
-    public get height() {
-        return this.object3d.scale.y * scaleUp
-    }
-    public set height(val) {
-        this.object3d.scale.y = val * scaleDown
-    }
-
-    public get depth() {
-        return this.object3d.scale.z * scaleUp
-    }
-    public set depth(val) {
-        this.object3d.scale.z = val * scaleDown
-    }
-
     public get scaleX() {
         return this.outerObject3d.scale.x
     }
@@ -244,13 +223,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
     public set rotation(val) {
         this.rotationZ = val
-    }
-
-    public get innerVisible() {
-        return this.object3d.visible
-    }
-    public set innerVisible(val) {
-        this.object3d.visible = val
     }
 
     public translateX(val: number) {

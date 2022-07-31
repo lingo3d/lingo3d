@@ -14,6 +14,12 @@ export default interface IObjectManager extends IPhysicsObjectManager {
     innerX: number
     innerY: number
     innerZ: number
+
+    width: number
+    height: number
+    depth: number
+
+    innerVisible: boolean
 }
 
 export const objectManagerSchema: Required<ExtractProps<IObjectManager>> = {
@@ -26,7 +32,13 @@ export const objectManagerSchema: Required<ExtractProps<IObjectManager>> = {
 
     innerX: Number,
     innerY: Number,
-    innerZ: Number
+    innerZ: Number,
+
+    width: Number,
+    height: Number,
+    depth: Number,
+
+    innerVisible: Boolean
 }
 
 export const objectManagerDefaults: Defaults<IObjectManager> = {
@@ -39,5 +51,11 @@ export const objectManagerDefaults: Defaults<IObjectManager> = {
 
     innerX: 0,
     innerY: 0,
-    innerZ: 0
+    innerZ: 0,
+
+    width: 100,
+    height: 100,
+    depth: 100,
+
+    innerVisible: true
 }
