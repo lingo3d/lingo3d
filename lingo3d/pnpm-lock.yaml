@@ -10,7 +10,7 @@ specifiers:
   '@preact/preset-vite': ^2.3.0
   '@tweakpane/core': '*'
   '@types/preact-custom-element': ^4.0.1
-  '@types/prettier': ^2.6.4
+  '@types/prettier': ^2.6.3
   '@types/randomcolor': ^0.5.6
   '@types/react': ^18.0.15
   '@types/three': 0.143.0
@@ -24,10 +24,10 @@ specifiers:
   prettier: 2.7.1
   randomcolor: '*'
   rimraf: ^3.0.2
-  three: 0.143.0
+  three: 0.142.0
   tweakpane: '*'
   typescript: ^4.7.4
-  vite: ^3.0.4
+  vite: ^3.0.2
   xstate: '*'
 
 dependencies:
@@ -42,12 +42,12 @@ dependencies:
   browser-fs-access: 0.31.0
   cannon-es: 0.19.0
   nipplejs: 0.9.1
-  postprocessing: 6.28.4_three@0.143.0
+  postprocessing: 6.28.4_three@0.142.0
   preact: 10.10.0
   preact-compat: 3.19.0_preact@10.10.0
   preact-custom-element: 4.2.1_preact@10.10.0
   prettier: 2.7.1
-  three: 0.143.0
+  three: 0.142.0
   tweakpane: 3.1.0
   xstate: 4.32.1
 
@@ -975,13 +975,13 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing/6.28.4_three@0.143.0:
+  /postprocessing/6.28.4_three@0.142.0:
     resolution: {integrity: sha512-xVw7wT9H4s/f/AWS+u3FssIZ1iMY632zweCHqcNZ1ydFChCWeHcWOpEPx0dQz2DMIUlZclFW9WmwMJQxESI+cQ==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
       three: '>= 0.107.0 < 0.143.0'
     dependencies:
-      three: 0.143.0
+      three: 0.142.0
     dev: false
 
   /preact-compat/3.19.0_preact@10.10.0:
@@ -1114,8 +1114,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /three/0.143.0:
-    resolution: {integrity: sha512-oKcAGYHhJ46TGEuHjodo2n6TY2R6lbvrkp+feKZxqsUL/WkH7GKKaeu6RHeyb2Xjfk2dPLRKLsOP0KM2VgT8Zg==}
+  /three/0.142.0:
+    resolution: {integrity: sha512-ESjPO+3geFr+ZUfVMpMnF/eVU2uJPOh0e2ZpMFqjNca1wApS9lJb7E4MjwGIczgt9iuKd8PEm6Pfgp2bJ92Xtg==}
     dev: false
 
   /to-fast-properties/2.0.0:

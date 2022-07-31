@@ -8,7 +8,7 @@ export default (
   parentRef: Ref<ObjectManager | Model | Loaded | undefined>,
   name?: string | RegExp
 ) => {
-  const foundRef = ref<Array<FoundManager>>([])
+  const foundRef: Ref<Array<FoundManager>> = ref([])
 
   watchEffect((onCleanUp) => {
     const parent = toRaw(parentRef?.value)
