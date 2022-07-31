@@ -26,7 +26,6 @@ import { LingoMouseEvent } from "../../../interface/IMouse"
 import { scaleUp } from "../../../engine/constants"
 import { Cancellable } from "@lincode/promiselikes"
 import { vec2Point } from "../../utils/vec2Point"
-import mainCamera from "../../../engine/mainCamera"
 import { getTransformControlsDragging } from "../../../states/useTransformControlsDragging"
 import { debounce } from "@lincode/utils"
 import { onSceneGraphChange } from "../../../events/onSceneGraphChange"
@@ -150,7 +149,7 @@ const enableMouseEvents = () => {
 }
 
 createEffect(() => {
-    const selection = getSelection() && getCameraRendered() === mainCamera
+    const selection = getSelection()
     const multipleSelection = getMultipleSelection()
     const firstMultipleSelection = createRef(true)
 
@@ -239,6 +238,5 @@ createEffect(() => {
     getSelection,
     getSelectionBlockMouse,
     getTransformControlsDragging,
-    getCameraRendered,
     getMultipleSelection
 ])
