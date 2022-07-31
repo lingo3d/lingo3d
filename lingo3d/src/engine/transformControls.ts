@@ -6,11 +6,10 @@ import { container } from "./renderLoop/renderSetup"
 import scene from "./scene"
 import { lazy } from "@lincode/utils"
 import { Cancellable } from "@lincode/promiselikes"
-import mainCamera from "./mainCamera"
 import { setTransformControlsDragging } from "../states/useTransformControlsDragging"
-import { getCameraRendered } from "../states/useCameraRendered"
 import { getTransformControlsModeComputed } from "../states/useTransformControlsModeComputed"
 import { getTransformControlsSpaceComputed } from "../states/useTransformControlsSpaceComputed"
+import { getCameraRendered } from "../states/useCameraRendered"
 
 export default {}
 
@@ -48,7 +47,7 @@ createEffect(() => {
     const space = getTransformControlsSpaceComputed()
     const snap = getTransformControlsSnap()
 
-    if (!target || getCameraRendered() !== mainCamera) return
+    if (!target) return
 
     const handle = new Cancellable()
 
@@ -80,6 +79,5 @@ createEffect(() => {
     getSelectionTarget,
     getTransformControlsModeComputed,
     getTransformControlsSpaceComputed,
-    getTransformControlsSnap,
-    getCameraRendered
+    getTransformControlsSnap
 ])
