@@ -28,6 +28,10 @@ export default class CharacterCamera
     public constructor() {
         super(new PerspectiveCamera(75, 1, camNear, camFar))
 
+        const midObject3d = (this.midObject3d = new Object3D())
+        this.outerObject3d.add(midObject3d)
+        midObject3d.add(this.object3d)
+
         const cam = this.camera
         scene.attach(cam)
         this.then(() => scene.remove(cam))
@@ -45,13 +49,17 @@ export default class CharacterCamera
 
             if (slerp) {
                 quaternion.setFromEuler(euler)
-                this.midObject3d.quaternion.slerp(quaternion, 0.1)
-            } else this.midObject3d.setRotationFromEuler(euler)
+                midObject3d.quaternion.slerp(quaternion, 0.1)
+            } else midObject3d.setRotationFromEuler(euler)
 
             this.updateAngle()
         }
 
-        const lockTargetRotation = (target: MeshItem, slerp: boolean, quat: Quaternion | undefined) => {
+        const lockTargetRotation = (
+            target: MeshItem,
+            slerp: boolean,
+            quat: Quaternion | undefined
+        ) => {
             euler.setFromQuaternion(this.midObject3d.quaternion)
             euler.x = 0
             euler.z = 0

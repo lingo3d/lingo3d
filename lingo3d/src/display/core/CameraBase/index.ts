@@ -46,12 +46,10 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
 {
     protected override _physicsShape = pillShape
 
-    protected midObject3d = new Object3D()
+    protected midObject3d = this.outerObject3d
 
     public constructor(protected camera: T) {
         super()
-        this.outerObject3d.add(this.midObject3d)
-        this.midObject3d.add(this.object3d)
         this.object3d.add(camera)
         this.camera.userData.manager = this
         pushCameraList(this.camera)
