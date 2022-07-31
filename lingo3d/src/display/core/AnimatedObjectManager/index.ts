@@ -1,4 +1,3 @@
-import { Resolvable } from "@lincode/promiselikes"
 import { debounce } from "@lincode/utils"
 import { Object3D } from "three"
 import { AnimationData } from "../../../api/serializer/types"
@@ -77,52 +76,38 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         })
     }
 
-    protected loadingAnims?: Array<Resolvable>
-    private async loadingAnimsAsync() {
-        await new Promise((resolve) => setTimeout(resolve))
-
-        if (this.loadingAnims) {
-            await Promise.all(this.loadingAnims)
-            this.loadingAnims = undefined
-        }
-    }
-
     private animationManager?: AnimationManager
 
+    private _animationPaused?: boolean
     public get animationPaused() {
-        return this.animationManager?.getPaused()
+        return this._animationPaused
     }
     public set animationPaused(value) {
-        this.loadingAnimsAsync().then(() => {
-            if (this.done) return
-            this.animationManager?.setPaused(!!value)
-        })
+        this._animationPaused = value
+        this.animationManager?.setPaused(!!value)
     }
 
     public animationRepeat: Nullable<boolean>
 
     public onAnimationFinish: Nullable<() => void>
 
-    public async playAnimation(name?: string | number, o?: PlayOptions) {
-        await this.loadingAnimsAsync()
-        if (this.done) return
-
-        this.animationManager =
+    public playAnimation(name?: string | number, o?: PlayOptions) {
+        const manager = (this.animationManager =
             typeof name === "string"
                 ? this.animations[name]
-                : Object.values(this.animations)[name ?? 0]
+                : Object.values(this.animations)[name ?? 0])
 
-        this.animationManager?.play(o)
+        if (!manager) return
+
+        manager.play(o)
+        this._animationPaused && manager.setPaused(true)
     }
 
-    public async stopAnimation() {
-        await this.loadingAnimsAsync()
-        if (this.done) return
-
+    public stopAnimation() {
         this.animationManager?.stop()
     }
 
-    protected animationName?: string | number
+    protected serializeAnimation?: string | number
     private setAnimation(
         val?: string | number | boolean | AnimationValue,
         o?: PlayOptions
@@ -130,7 +115,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         this._animation = val
 
         if (typeof val === "string" || typeof val === "number") {
-            this.animationName = val
+            this.serializeAnimation = val
             this.playAnimation(val, o)
             return
         }

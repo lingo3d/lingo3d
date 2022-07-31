@@ -18,11 +18,11 @@ const serialize = (children: Array<any> | Set<any>) => {
 
             let value: any
             if (key === "animations") {
-                value = child.loadedAnims
+                value = child.serializeAnimations
                 if (!value) continue
             }
             else if (key === "animation") {
-                value = child.animationName
+                value = child.serializeAnimation
                 if (value === undefined) continue
             }
             else value = child[key]
