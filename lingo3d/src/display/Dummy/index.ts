@@ -185,7 +185,9 @@ export default class Dummy extends Model implements IDummy {
                     spinePoint = spine.pointAt(1000)
                 }
 
-                loadedItem.quaternion.setFromEuler(euler.set(0, angle * deg2Rad, 0))
+                loadedItem.quaternion.setFromEuler(
+                    euler.set(0, angle * deg2Rad, 0)
+                )
                 const quaternionNew = loadedItem.quaternion.clone()
                 loadedItem.quaternion
                     .copy(quaternionOld)

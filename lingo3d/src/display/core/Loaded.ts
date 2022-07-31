@@ -61,7 +61,10 @@ export default abstract class Loaded<T = Object3D>
     }
     public set onLoad(cb) {
         this._onLoad = cb
-        this.cancelHandle("onLoad", cb && (() => this.loaded.then(cb)))
+        this.cancelHandle(
+            "onLoad",
+            cb && (() => this.loaded.then(() => void cb()))
+        )
     }
 
     protected widthSet?: boolean
@@ -252,7 +255,7 @@ export default abstract class Loaded<T = Object3D>
 
     protected override refreshFactors() {
         this.cancelHandle("refreshFactorsLoaded", () =>
-            this.loaded.then(() => super.refreshFactors())
+            this.loaded.then(() => void super.refreshFactors())
         )
     }
 }

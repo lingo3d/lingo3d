@@ -8,13 +8,18 @@ export default {}
 createEffect(() => {
     const dummy = getRetargetBones()
     if (!dummy) return
-    
+
     const handle = new Cancellable()
-    
-    handle.watch(dummy.loaded.then(loadedGroup => {
-        const bone = loadedGroup.getObjectByProperty("type", "Bone") as ThreeBone
-        bone.traverse(parent => parent.name = "mixamorig" + parent.name)
-    }))
+
+    handle.watch(
+        dummy.loaded.then((loadedGroup) => {
+            const bone = loadedGroup.getObjectByProperty(
+                "type",
+                "Bone"
+            ) as ThreeBone
+            bone.traverse((parent) => (parent.name = "mixamorig" + parent.name))
+        })
+    )
     return () => {
         handle.cancel()
     }
