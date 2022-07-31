@@ -1,4 +1,4 @@
-import { CameraHelper, Object3D, PerspectiveCamera, Quaternion } from "three"
+import { CameraHelper, PerspectiveCamera, Quaternion } from "three"
 import ObjectManager from "../ObjectManager"
 import { debounce, last } from "@lincode/utils"
 import { scaleDown } from "../../../engine/constants"

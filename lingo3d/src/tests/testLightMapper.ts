@@ -59,9 +59,6 @@ const groundMesh = ground.object3d
 // )
 lightmapObjects.push(groundMesh)
 
-
-
-
 object = new Octahedron().object3d
 object.traverse(function (child: any) {
     if (child.isMesh) {
@@ -70,8 +67,6 @@ object.traverse(function (child: any) {
     }
 })
 
-
-
 const lightTarget = new THREE.Group()
 lightTarget.position.set(0, 20, 0)
 for (let l = 0; l < dirLights.length; l++) {
@@ -79,11 +74,6 @@ for (let l = 0; l < dirLights.length; l++) {
 }
 
 object.add(lightTarget)
-
-
-
-
-
 
 createEffect(() => {
     const renderer = getRenderer()

@@ -12,7 +12,8 @@ import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import getWorldQuaternion from "../display/utils/getWorldQuaternion"
 
-export const [setCameraRendered, getCameraRendered] = store<PerspectiveCamera>(mainCamera)
+export const [setCameraRendered, getCameraRendered] =
+    store<PerspectiveCamera>(mainCamera)
 
 export const updateCameraAspect = (camera: Camera) => {
     const [resX, resY] = getResolution()
@@ -21,9 +22,8 @@ export const updateCameraAspect = (camera: Camera) => {
     if (camera instanceof PerspectiveCamera && !getVR()) {
         camera.aspect = aspect
         camera.updateProjectionMatrix()
-    }
-    else if (camera instanceof OrthographicCamera) {
-        [camera.left, camera.right, camera.top, camera.bottom] = [
+    } else if (camera instanceof OrthographicCamera) {
+        ;[camera.left, camera.right, camera.top, camera.bottom] = [
             aspect * ORTHOGRAPHIC_FRUSTUM * -0.5,
             aspect * ORTHOGRAPHIC_FRUSTUM * 0.5,
             ORTHOGRAPHIC_FRUSTUM * 0.5,
@@ -38,7 +38,10 @@ export const updateCameraAspect = (camera: Camera) => {
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
 createEffect(() => {
-    const cameraFrom = getCameraRendered() === interpolationCamera ? interpolationCamera : getCameraFrom()
+    const cameraFrom =
+        getCameraRendered() === interpolationCamera
+            ? interpolationCamera
+            : getCameraFrom()
     const cameraTo = last(getCameraStack())!
     const transition = cameraTo.userData.transition
     if (!cameraFrom || !transition || cameraFrom === cameraTo) {
@@ -60,8 +63,16 @@ createEffect(() => {
         const positionTo = getWorldPosition(cameraTo)
         const quaternionTo = getWorldQuaternion(cameraTo)
 
-        interpolationCamera.position.lerpVectors(positionFrom, positionTo, alpha)
-        interpolationCamera.quaternion.slerpQuaternions(quaternionFrom, quaternionTo, alpha)
+        interpolationCamera.position.lerpVectors(
+            positionFrom,
+            positionTo,
+            alpha
+        )
+        interpolationCamera.quaternion.slerpQuaternions(
+            quaternionFrom,
+            quaternionTo,
+            alpha
+        )
 
         interpolationCamera.zoom = lerp(cameraFrom.zoom, cameraTo.zoom, alpha)
         interpolationCamera.fov = lerp(cameraFrom.fov, cameraTo.fov, alpha)

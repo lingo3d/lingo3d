@@ -7,5 +7,4 @@ export const [setEditorActive, getEditorActive] = store(false)
 
 createEffect(() => {
     setEditorActive(getSelection() && getCameraRendered() === mainCamera)
-
 }, [getSelection, getCameraRendered])

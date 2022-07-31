@@ -7,6 +7,7 @@ export const bokehMaxBlurDefault = 0.01
 export const [setBokehMaxBlur, getBokehMaxBlur] = store(bokehMaxBlurDefault)
 
 createEffect(() => {
-    setBokehMaxBlur(getCameraRendered().userData.bokehMaxBlur ?? bokehMaxBlurDefault)
-
+    setBokehMaxBlur(
+        getCameraRendered().userData.bokehMaxBlur ?? bokehMaxBlurDefault
+    )
 }, [getCameraRendered, getBokehRefresh])

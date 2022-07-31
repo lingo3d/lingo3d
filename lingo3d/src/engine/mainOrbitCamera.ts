@@ -19,24 +19,28 @@ mainOrbitCamera.enableFly = true
 mainOrbitCamera.mouseControl = false
 appendableRoot.delete(mainOrbitCamera)
 
-onEditorCenterView(manager => {
+onEditorCenterView((manager) => {
     const pos = manager.getWorldPosition()
     mainOrbitCamera.x = pos.x
     mainOrbitCamera.y = pos.y
     mainOrbitCamera.z = pos.z
-    
+
     const size = getActualScale(manager)
     mainOrbitCamera.innerZ = Math.max(size.x, size.y, size.z, 1) * scaleUp + 50
 })
 
-getOrbitControls(val => {
+getOrbitControls((val) => {
     if (val) return
     mainOrbitCamera.setPolarAngle(90)
     mainOrbitCamera.setAzimuthAngle(90)
 })
 
 createEffect(() => {
-    if (!getOrbitControls() || getCameraRendered() !== mainCamera || getTransformControlsDragging())
+    if (
+        !getOrbitControls() ||
+        getCameraRendered() !== mainCamera ||
+        getTransformControlsDragging()
+    )
         return
 
     mainOrbitCamera.mouseControl = "drag"
@@ -51,7 +55,9 @@ createEffect(() => {
 createEffect(() => {
     if (getCameraRendered() !== mainCamera || getOrbitControls()) return
 
-    const handle = getCameraDistance(cameraDistance => mainOrbitCamera.innerZ = cameraDistance)
+    const handle = getCameraDistance(
+        (cameraDistance) => (mainOrbitCamera.innerZ = cameraDistance)
+    )
 
     return () => {
         handle.cancel()

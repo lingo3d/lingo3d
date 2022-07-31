@@ -84,7 +84,7 @@ createEffect(() => {
         const SkyLight = module.default
         const light = new SkyLight()
         appendableRoot.delete(light)
-        
+
         light.helper = false
         light.groundColor = "#666666"
 

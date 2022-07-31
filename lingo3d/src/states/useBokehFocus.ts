@@ -8,5 +8,4 @@ export const [setBokehFocus, getBokehFocus] = store(bokehFocusDefault)
 
 createEffect(() => {
     setBokehFocus(getCameraRendered().userData.bokehFocus ?? bokehFocusDefault)
-
 }, [getCameraRendered, getBokehRefresh])

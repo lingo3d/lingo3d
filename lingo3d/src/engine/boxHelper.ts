@@ -37,14 +37,12 @@ createEffect(() => {
     }
 
     const handle = onBeforeRender(() => {
-        for (const boxHelper of boxHelpers)
-            boxHelper.update()
+        for (const boxHelper of boxHelpers) boxHelper.update()
     })
 
     return () => {
-        for (const boxHelper of boxHelpers)
-            scene.remove(boxHelper)
-            
+        for (const boxHelper of boxHelpers) scene.remove(boxHelper)
+
         handle.cancel()
     }
 }, [getMultipleSelectionTargets, getCameraRendered])

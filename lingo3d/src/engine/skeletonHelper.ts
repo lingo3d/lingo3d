@@ -11,7 +11,8 @@ export default {}
 
 createEffect(() => {
     const target = getSelectionTarget()
-    if (!(target instanceof Loaded) || getCameraRendered() !== mainCamera) return
+    if (!(target instanceof Loaded) || getCameraRendered() !== mainCamera)
+        return
 
     const skinnedMesh = target.loadedGroup.children[0]
     if (!skinnedMeshSet.has(skinnedMesh)) return

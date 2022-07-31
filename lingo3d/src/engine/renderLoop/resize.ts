@@ -6,11 +6,15 @@ import { getViewportSize } from "../../states/useViewportSize"
 import mainCamera from "../mainCamera"
 import { getVR } from "../../states/useVR"
 import { getResolution } from "../../states/useResolution"
-import { getCameraRendered, updateCameraAspect } from "../../states/useCameraRendered"
+import {
+    getCameraRendered,
+    updateCameraAspect
+} from "../../states/useCameraRendered"
 
 export default {}
 
-const getZ = (height: number, camera: PerspectiveCamera) => Math.abs((height * 0.5) / Math.cos(camera.fov * 0.6 * deg2Rad))
+const getZ = (height: number, camera: PerspectiveCamera) =>
+    Math.abs((height * 0.5) / Math.cos(camera.fov * 0.6 * deg2Rad))
 
 createEffect(() => {
     const [vw, vh] = getViewportSize() ?? getResolution()
@@ -18,10 +22,10 @@ createEffect(() => {
 
     const size0 = {
         width: resX,
-        height: vh - ((vw - resX) * vh / vw)
+        height: vh - ((vw - resX) * vh) / vw
     }
     const size1 = {
-        width: vw - ((vh - resY) * vw / vh),
+        width: vw - ((vh - resY) * vw) / vh,
         height: resY
     }
 
@@ -31,8 +35,7 @@ createEffect(() => {
     if (val0 > val1) {
         setCameraDistance(getZ(vw / aspect, mainCamera))
         // Object.assign(referenceOutline.style, { width: size0.width + "px", height: size0.height + "px" })
-    }
-    else {
+    } else {
         setCameraDistance(getZ(vh, mainCamera))
         // Object.assign(referenceOutline.style, { width: size1.width + "px", height: size1.height + "px" })
     }

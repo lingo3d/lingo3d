@@ -8,5 +8,4 @@ export const [setBokeh, getBokeh] = store(bokehDefault)
 
 createEffect(() => {
     setBokeh(getCameraRendered().userData.bokeh ?? bokehDefault)
-
 }, [getCameraRendered, getBokehRefresh])

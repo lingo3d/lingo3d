@@ -49,7 +49,11 @@ export default abstract class LightBase<T extends typeof Light>
 
         this.createEffect(() => {
             const light = this.lightState.get()
-            if (getCameraRendered() !== mainCamera || !this.helperState.get() || !light)
+            if (
+                getCameraRendered() !== mainCamera ||
+                !this.helperState.get() ||
+                !light
+            )
                 return
 
             const handle = new Cancellable()

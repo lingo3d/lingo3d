@@ -5,4 +5,4 @@ import scene from "../../scene"
 const renderPass = new RenderPass(scene, getCameraRendered())
 export default renderPass
 
-getCameraRendered(camera => renderPass.camera = camera)
+getCameraRendered((camera) => (renderPass.camera = camera))

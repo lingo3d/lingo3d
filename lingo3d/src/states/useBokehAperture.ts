@@ -7,6 +7,7 @@ export const bokehApertureDefault = 0.03
 export const [setBokehAperture, getBokehAperture] = store(bokehApertureDefault)
 
 createEffect(() => {
-    setBokehAperture(getCameraRendered().userData.bokehAperture ?? bokehApertureDefault)
-
+    setBokehAperture(
+        getCameraRendered().userData.bokehAperture ?? bokehApertureDefault
+    )
 }, [getCameraRendered, getBokehRefresh])

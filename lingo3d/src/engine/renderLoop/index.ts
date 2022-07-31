@@ -13,7 +13,9 @@ import { getVR } from "../../states/useVR"
 import { loop } from "../eventLoop"
 import scene from "../scene"
 import { outlinePtr } from "./effectComposer/outlinePass"
-import renderSelectiveBloom, { bloomPtr } from "./effectComposer/selectiveBloomPass/renderSelectiveBloom"
+import renderSelectiveBloom, {
+    bloomPtr
+} from "./effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import resize from "./resize"
 import effectComposer from "./effectComposer"
 import { getEffectComposer } from "../../states/useEffectComposer"
@@ -49,7 +51,7 @@ createEffect(() => {
             renderer.setScissor(0, 0, width, height)
             renderer.setScissorTest(true)
             renderer.render(scene, secondaryCamera)
-            
+
             renderer.setViewport(0, height, width, height)
             renderer.setScissor(0, height, width, height)
             renderer.render(scene, camera)
@@ -62,14 +64,14 @@ createEffect(() => {
             renderer.setViewport(0, 0, resX, resY)
             renderer.setScissor(0, 0, resX, resY)
             renderer.setScissorTest(false)
-            
+
             camera.aspect = resX / resY
             camera.updateProjectionMatrix()
         }
     }
 
     const vr = getVR()
-    
+
     if (vr === "webxr") {
         const handle = loop(() => {
             emitBeforeRender()
@@ -119,7 +121,7 @@ createEffect(() => {
             camManager.moveRight(-3)
             camera.lookAt(focus.outerObject3d.position)
             renderer.render(scene, camera)
-            
+
             focus.outerObject3d.position.copy(focalPosition)
             camera.quaternion.copy(quat)
             camera.position.copy(pos)
@@ -179,4 +181,11 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getVR, getCameraRendered, getSecondaryCamera, getResolution, getRenderer, getEffectComposer])
+}, [
+    getVR,
+    getCameraRendered,
+    getSecondaryCamera,
+    getResolution,
+    getRenderer,
+    getEffectComposer
+])

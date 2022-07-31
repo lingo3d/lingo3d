@@ -10,16 +10,15 @@ const cache = new WeakMap<Object3D, Point>()
 //todo: might need cloning for caching
 
 export default (object3d: Object3D) => {
-    if (cache.has(object3d))
-        return cache.get(object3d)!
+    if (cache.has(object3d)) return cache.get(object3d)!
 
     const center = getCenter(object3d)
-    
+
     const camera = getCameraRendered()
     center.project(camera)
-    
-    const x = (center.x *  .5 + .5) * container.clientWidth
-    const y = (center.y * -.5 + .5) * container.clientHeight
+
+    const x = (center.x * 0.5 + 0.5) * container.clientWidth
+    const y = (center.y * -0.5 + 0.5) * container.clientHeight
 
     const result = { x, y }
 

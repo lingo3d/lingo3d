@@ -5,11 +5,7 @@ import getWorldPosition from "./getWorldPosition"
 import { vector3 } from "./reusables"
 import { vec2Point } from "./vec2Point"
 
-export default (
-    clientX: number,
-    clientY: number,
-    distance = 500
-) => {
+export default (clientX: number, clientY: number, distance = 500) => {
     const rect = containerBounds[0]
     clientX -= rect.x
     clientY -= rect.y

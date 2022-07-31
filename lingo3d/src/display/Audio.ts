@@ -141,7 +141,7 @@ export default class Audio
     public set paused(val) {
         this.pausedState.set(val)
     }
-    
+
     private stoppedState = new Reactive(false)
     public get stopped() {
         return this.stoppedState.get()

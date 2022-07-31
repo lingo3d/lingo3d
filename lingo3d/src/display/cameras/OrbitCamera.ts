@@ -1,7 +1,10 @@
 import { Reactive } from "@lincode/reactivity"
 import { camFar, camNear } from "../../engine/constants"
 import { container } from "../../engine/renderLoop/renderSetup"
-import IOrbitCamera, { orbitCameraDefaults, orbitCameraSchema } from "../../interface/IOrbitCamera"
+import IOrbitCamera, {
+    orbitCameraDefaults,
+    orbitCameraSchema
+} from "../../interface/IOrbitCamera"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import { onKeyClear } from "../../events/onKeyClear"
 import { onSceneGraphChange } from "../../events/onSceneGraphChange"
@@ -15,7 +18,10 @@ import { vec2Point } from "../utils/vec2Point"
 import getWorldPosition from "../utils/getWorldPosition"
 import getCenter from "../utils/getCenter"
 
-export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera {
+export default class OrbitCamera
+    extends OrbitCameraBase
+    implements IOrbitCamera
+{
     public static componentName = "orbitCamera"
     public static defaults = orbitCameraDefaults
     public static schema = orbitCameraSchema
@@ -45,14 +51,18 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
                 }
                 if (find()) return
 
-                handle.watch(onSceneGraphChange(() => setTimeout(() => find() && handle.cancel())))
+                handle.watch(
+                    onSceneGraphChange(() =>
+                        setTimeout(() => find() && handle.cancel())
+                    )
+                )
             })
             return () => {
                 clearTimeout(timeout)
                 handle.cancel()
             }
         }, [this.targetIdState.get])
-        
+
         this.createEffect(() => {
             const target = this.targetState.get()
             if (!target) return
@@ -79,7 +89,11 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
         }, [getCameraRendered, this.autoRotateState.get])
 
         this.createEffect(() => {
-            if (getTransformControlsDragging() || getCameraRendered() !== camera || !this.mouseControlState.get())
+            if (
+                getTransformControlsDragging() ||
+                getCameraRendered() !== camera ||
+                !this.mouseControlState.get()
+            )
                 return
 
             const handle = new Cancellable()
@@ -97,34 +111,43 @@ export default class OrbitCamera extends OrbitCameraBase implements IOrbitCamera
             if (this.enableFlyState.get()) {
                 const downSet = new Set<string>()
 
-                handle.watch(onBeforeRender(() => {
-                    if (downSet.has("w"))
-                        this.translateZ(downSet.has("Shift") ? -50 : -10)
-                    else if (downSet.has("s"))
-                        this.translateZ(downSet.has("Shift") ? 50 : 10)
+                handle.watch(
+                    onBeforeRender(() => {
+                        if (downSet.has("w"))
+                            this.translateZ(downSet.has("Shift") ? -50 : -10)
+                        else if (downSet.has("s"))
+                            this.translateZ(downSet.has("Shift") ? 50 : 10)
 
-                    if (downSet.has("a"))
-                        this.moveRight(-10)
-                    else if (downSet.has("d"))
-                        this.moveRight(10)
+                        if (downSet.has("a")) this.moveRight(-10)
+                        else if (downSet.has("d")) this.moveRight(10)
 
-                    if (downSet.has("w") || downSet.has("s") || downSet.has("a") || downSet.has("d")) {
-                        const worldPos = vec2Point(getWorldPosition(this.object3d))
-                        this.innerZ = 0
-                        this.placeAt(worldPos)
-                    }
+                        if (
+                            downSet.has("w") ||
+                            downSet.has("s") ||
+                            downSet.has("a") ||
+                            downSet.has("d")
+                        ) {
+                            const worldPos = vec2Point(
+                                getWorldPosition(this.object3d)
+                            )
+                            this.innerZ = 0
+                            this.placeAt(worldPos)
+                        }
 
-                    if (downSet.has("ArrowDown"))
-                        this.y -= 10
-                    else if (downSet.has("ArrowUp"))
-                        this.y += 10
-                }))
+                        if (downSet.has("ArrowDown")) this.y -= 10
+                        else if (downSet.has("ArrowUp")) this.y += 10
+                    })
+                )
 
                 const handleKeyDown = (e: KeyboardEvent) => {
-                    downSet.add(e.key.length === 1 ? e.key.toLowerCase() : e.key)
+                    downSet.add(
+                        e.key.length === 1 ? e.key.toLowerCase() : e.key
+                    )
                 }
                 const handleKeyUp = (e: KeyboardEvent) => {
-                    downSet.delete(e.key.length === 1 ? e.key.toLowerCase() : e.key)
+                    downSet.delete(
+                        e.key.length === 1 ? e.key.toLowerCase() : e.key
+                    )
                 }
                 document.addEventListener("keydown", handleKeyDown)
                 document.addEventListener("keyup", handleKeyUp)

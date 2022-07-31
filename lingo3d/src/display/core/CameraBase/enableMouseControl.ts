@@ -21,7 +21,7 @@ export default function (this: CameraBase<PerspectiveCamera>) {
             return
 
         setPickingMode("camera")
-        
+
         return () => {
             setPickingMode("mouse")
         }

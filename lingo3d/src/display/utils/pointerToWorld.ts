@@ -8,7 +8,7 @@ import getWorldPosition from "./getWorldPosition"
 import { vector3 } from "./reusables"
 import { vec2Point } from "./vec2Point"
 
-export default (ev: { clientX: number, clientY: number }) => {
+export default (ev: { clientX: number; clientY: number }) => {
     const rect = containerBounds[0]
     const clientX = ev.clientX - rect.x
     const clientY = ev.clientY - rect.y

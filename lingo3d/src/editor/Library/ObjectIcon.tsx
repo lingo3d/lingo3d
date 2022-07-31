@@ -17,7 +17,9 @@ container.addEventListener("dragenter", (e) => e.preventDefault())
 container.addEventListener("drop", (e) => {
     if (!draggingItem || !getSelection()) return
     const manager = createObject(draggingItem as GameObjectType)
-    manager.outerObject3d.position.copy(point2Vec(clientToWorld(e.clientX, e.clientY)))
+    manager.outerObject3d.position.copy(
+        point2Vec(clientToWorld(e.clientX, e.clientY))
+    )
     emitSelectionTarget(manager)
 })
 

@@ -138,7 +138,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
     useLayoutEffect(() => {
         if (!pane || !cameraFolder) return
 
-        const mainCameraName = "main camera"
+        const mainCameraName = "editor camera"
 
         const options = cameraList.reduce<Record<string, any>>(
             (acc, cam, i) => {

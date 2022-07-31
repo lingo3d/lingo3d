@@ -10,7 +10,10 @@ import { onBeforeRender } from "../events/onBeforeRender"
 import { getResolution } from "../states/useResolution"
 import { getCameraRendered } from "../states/useCameraRendered"
 
-const referencePlane = new Mesh(new PlaneBufferGeometry(diameterScaled, diameterScaled, 4, 4), wireframeMaterial)
+const referencePlane = new Mesh(
+    new PlaneBufferGeometry(diameterScaled, diameterScaled, 4, 4),
+    wireframeMaterial
+)
 export default referencePlane
 
 createEffect(() => {

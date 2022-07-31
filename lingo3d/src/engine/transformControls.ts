@@ -15,10 +15,15 @@ import { getCameraRendered } from "../states/useCameraRendered"
 export default {}
 
 const lazyTransformControls = lazy(async () => {
-    const { TransformControls } = await import("three/examples/jsm/controls/TransformControls")
+    const { TransformControls } = await import(
+        "three/examples/jsm/controls/TransformControls"
+    )
 
-    const transformControls = new TransformControls(getCameraRendered(), container)
-    getCameraRendered(camera => transformControls.camera = camera)
+    const transformControls = new TransformControls(
+        getCameraRendered(),
+        container
+    )
+    getCameraRendered((camera) => (transformControls.camera = camera))
     transformControls.enabled = false
 
     let dragging = false
@@ -29,8 +34,11 @@ const lazyTransformControls = lazy(async () => {
         emitTransformControls(dragging ? "start" : "stop")
     })
 
-    transformControls.addEventListener("change", () => dragging && emitTransformControls("move"))
-    
+    transformControls.addEventListener(
+        "change",
+        () => dragging && emitTransformControls("move")
+    )
+
     return transformControls
 })
 
@@ -44,7 +52,7 @@ createEffect(() => {
 
     const handle = new Cancellable()
 
-    lazyTransformControls().then(transformControls => {
+    lazyTransformControls().then((transformControls) => {
         if (mode === "select" || !target.outerObject3d.parent) {
             transformControls.enabled = false
             return
@@ -68,4 +76,10 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getSelectionTarget, getTransformControlsMode, getTransformControlsSpace, getTransformControlsSnap, getCameraRendered])
+}, [
+    getSelectionTarget,
+    getTransformControlsMode,
+    getTransformControlsSpace,
+    getTransformControlsSnap,
+    getCameraRendered
+])
