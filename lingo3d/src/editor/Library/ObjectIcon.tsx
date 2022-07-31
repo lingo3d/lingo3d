@@ -4,7 +4,7 @@ import createObject from "../../api/serializer/createObject"
 import { GameObjectType } from "../../api/serializer/types"
 import { container } from "../../engine/renderLoop/renderSetup"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import { getSelection } from "../../states/useSelection"
+import { getSelectionEnabled } from "../../states/useSelectionEnabled"
 import { point2Vec } from "../../display/utils/vec2Point"
 import clientToWorld from "../../display/utils/clientToWorld"
 
@@ -15,7 +15,7 @@ let draggingItem: string | undefined
 container.addEventListener("dragover", (e) => e.preventDefault())
 container.addEventListener("dragenter", (e) => e.preventDefault())
 container.addEventListener("drop", (e) => {
-    if (!draggingItem || !getSelection()) return
+    if (!draggingItem || !getSelectionEnabled()) return
     const manager = createObject(draggingItem as GameObjectType)
     manager.outerObject3d.position.copy(
         point2Vec(clientToWorld(e.clientX, e.clientY))
