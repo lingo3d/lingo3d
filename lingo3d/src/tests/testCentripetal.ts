@@ -1,14 +1,4 @@
-import {
-    Dummy,
-    keyboard,
-    Model,
-    OrbitCamera,
-    settings,
-    Sky,
-    Sphere,
-    ThirdPersonCamera,
-    Audio
-} from ".."
+import { Dummy, keyboard, Model, settings, ThirdPersonCamera } from ".."
 import { YBOT_URL } from "../globals"
 import { setCentripetal } from "../states/useCentripetal"
 
@@ -18,7 +8,7 @@ const world = new Model()
 world.physics = "map"
 world.scale = 40
 world.src = "waic.glb"
-world.loadedScale = 1
+world.resize = false
 
 setCentripetal(true)
 
@@ -27,6 +17,7 @@ player.y = 4000
 player.physics = "character"
 player.strideMove = true
 player.strideMode = "free"
+player.boxVisible = true
 
 const cam = new ThirdPersonCamera()
 cam.append(player)

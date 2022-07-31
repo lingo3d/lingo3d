@@ -4,7 +4,6 @@ import Loaded from "./core/Loaded"
 import AnimationManager, {
     PlayOptions
 } from "./core/AnimatedObjectManager/AnimationManager"
-import { scaleDown } from "../engine/constants"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
 import { objectURLMapperPtr } from "./utils/loaders/setObjectURLMapper"
 import { Resolvable } from "@lincode/promiselikes"
@@ -88,41 +87,7 @@ export default class Model extends Loaded<Group> implements IModel {
         return result
     }
 
-    private _loadedScale?: number
-    public get loadedScale() {
-        return this._loadedScale
-    }
-    public set loadedScale(val) {
-        this._loadedScale = val
-    }
-
-    private _loadedPos?: boolean
-    private _loadedX?: number
-    public get loadedX() {
-        return this._loadedX
-    }
-    public set loadedX(val) {
-        this._loadedX = val
-        this._loadedPos = true
-    }
-
-    private _loadedY?: number
-    public get loadedY() {
-        return this._loadedY
-    }
-    public set loadedY(val) {
-        this._loadedY = val
-        this._loadedPos = true
-    }
-
-    private _loadedZ?: number
-    public get loadedZ() {
-        return this._loadedZ
-    }
-    public set loadedZ(val) {
-        this._loadedZ = val
-        this._loadedPos = true
-    }
+    public resize = true
 
     protected resolveLoaded(loadedObject3d: Group) {
         for (const clip of loadedObject3d.animations)
@@ -130,23 +95,12 @@ export default class Model extends Loaded<Group> implements IModel {
                 new AnimationManager(clip, loadedObject3d)
             )
 
-        if (this._loadedScale)
-            loadedObject3d.scale.multiplyScalar(this._loadedScale)
-        else {
+        if (this.resize !== false) {
             const size = fit(loadedObject3d, this._src!)
             !this.widthSet && (this.object3d.scale.x = size.x)
             !this.heightSet && (this.object3d.scale.y = size.y)
             !this.depthSet && (this.object3d.scale.z = size.z)
         }
-
-        if (this._loadedPos) {
-            let { x, y, z } = loadedObject3d.position
-            this._loadedX && (x = this._loadedX * scaleDown)
-            this._loadedY && (y = this._loadedY * scaleDown)
-            this._loadedZ && (z = this._loadedZ * scaleDown)
-            loadedObject3d.position.set(x, y, z)
-        }
-
         return loadedObject3d
     }
 
