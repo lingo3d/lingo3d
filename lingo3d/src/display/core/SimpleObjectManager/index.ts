@@ -41,8 +41,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>
     implements ISimpleObjectManager
 {
-    public declare object3d: T
-
     public getRayIntersectionsAt(id: string, maxDistance?: number) {
         const result: Array<[StaticObjectManager, Point3d]> = []
         for (const target of idMap.get(id) ?? []) {
