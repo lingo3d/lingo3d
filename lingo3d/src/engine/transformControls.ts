@@ -1,8 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import { emitTransformControls } from "../events/onTransformControls"
 import { getSelectionTarget } from "../states/useSelectionTarget"
-import { getTransformControlsMode } from "../states/useTransformControlsMode"
-import { getTransformControlsSpace } from "../states/useTransformControlsSpace"
 import { getTransformControlsSnap } from "../states/useTransformControlsSnap"
 import { container } from "./renderLoop/renderSetup"
 import scene from "./scene"
@@ -11,6 +9,8 @@ import { Cancellable } from "@lincode/promiselikes"
 import mainCamera from "./mainCamera"
 import { setTransformControlsDragging } from "../states/useTransformControlsDragging"
 import { getCameraRendered } from "../states/useCameraRendered"
+import { getTransformControlsModeComputed } from "../states/useTransformControlsModeComputed"
+import { getTransformControlsSpaceComputed } from "../states/useTransformControlsSpaceComputed"
 
 export default {}
 
@@ -44,8 +44,8 @@ const lazyTransformControls = lazy(async () => {
 
 createEffect(() => {
     const target = getSelectionTarget()
-    const mode = getTransformControlsMode()
-    const space = getTransformControlsSpace()
+    const mode = getTransformControlsModeComputed()
+    const space = getTransformControlsSpaceComputed()
     const snap = getTransformControlsSnap()
 
     if (!target || getCameraRendered() !== mainCamera) return
@@ -78,8 +78,8 @@ createEffect(() => {
     }
 }, [
     getSelectionTarget,
-    getTransformControlsMode,
-    getTransformControlsSpace,
+    getTransformControlsModeComputed,
+    getTransformControlsSpaceComputed,
     getTransformControlsSnap,
     getCameraRendered
 ])

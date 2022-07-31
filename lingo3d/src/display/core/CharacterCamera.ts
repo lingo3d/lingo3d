@@ -9,12 +9,12 @@ import ICharacterCamera, {
 } from "../../interface/ICharacterCamera"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
-import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import OrbitCameraBase from "./OrbitCameraBase"
 import { euler, halfPi, quaternion } from "../utils/reusables"
 import MeshItem from "./MeshItem"
 import { getLoadedObject } from "./Loaded"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
+import { getTransformControlsModeComputed } from "../../states/useTransformControlsModeComputed"
 
 const dirObj = new Object3D()
 
@@ -141,7 +141,7 @@ export default class CharacterCamera
             const target = this.targetState.get()
             const selectionTarget = getSelectionTarget()
             const dragging = getTransformControlsDragging()
-            const mode = getTransformControlsMode()
+            const mode = getTransformControlsModeComputed()
 
             const rotating =
                 target &&
@@ -159,7 +159,7 @@ export default class CharacterCamera
             this.targetState.get,
             getSelectionTarget,
             getTransformControlsDragging,
-            getTransformControlsMode
+            getTransformControlsModeComputed
         ])
     }
 

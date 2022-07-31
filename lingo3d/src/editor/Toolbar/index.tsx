@@ -9,8 +9,8 @@ import RelativeIcon from "./icons/RelativeIcon"
 import IconButton from "./IconButton"
 import {
     useSelectionTarget,
-    useTransformControlsMode,
-    useTransformControlsSpace
+    useTransformControlsModeComputed,
+    useTransformControlsSpaceComputed
 } from "../states"
 import CursorIcon from "./icons/CursorIcon"
 import ExportIcon from "./icons/ExportIcon"
@@ -19,13 +19,16 @@ import ReactIcon from "./icons/ReactIcon"
 import VueIcon from "./icons/VueIcon"
 import exportReact from "../../api/files/exportReact"
 import exportVue from "../../api/files/exportVue"
-import SimpleObjectManager from "../../display/core/SimpleObjectManager"
-import { useEffect, useLayoutEffect } from "preact/hooks"
+import { useEffect } from "preact/hooks"
 import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import openJSON from "../../api/files/openJSON"
 import exportJSON from "../../api/files/exportJSON"
 import Section from "./Section"
 import useInit from "../utils/useInit"
+import { setTransformControlsMode } from "../../states/useTransformControlsMode"
+import { setTransformControlsSpace } from "../../states/useTransformControlsSpace"
+import { isPositionedItem } from "../../api/core/PositionedItem"
+import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 
 preventTreeShake(h)
 
@@ -46,19 +49,13 @@ interface ToolbarProps {
 const Toolbar = ({ buttons }: ToolbarProps) => {
     const elRef = useInit()
 
-    const [mode, setMode] = useTransformControlsMode()
-    let [space, setSpace] = useTransformControlsSpace()
-    if (mode === "scale") space = "local"
-
+    const [mode] = useTransformControlsModeComputed()
+    const [space] = useTransformControlsSpaceComputed()
     const [target] = useSelectionTarget()
-    const isPositioned = target && !(target instanceof SimpleObjectManager)
-    // const isStatic = target && !isPositionedItem(target)
-
-    useLayoutEffect(() => {
-        // if (isStatic)
-        // setMode("select")
-        if (isPositioned && mode === "scale") setMode("translate")
-    }, [isPositioned])
+    const translateOnly =
+        target &&
+        isPositionedItem(target) &&
+        !(target instanceof SimpleObjectManager)
 
     useEffect(() => {
         emitEditorMountChange()
@@ -92,26 +89,27 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                 <Section>
                     <IconButton
                         active={mode === "select"}
-                        onClick={() => setMode("select")}
+                        onClick={() => setTransformControlsMode("select")}
                     >
                         <CursorIcon />
                     </IconButton>
                     <IconButton
                         active={mode === "translate"}
-                        onClick={() => setMode("translate")}
+                        onClick={() => setTransformControlsMode("translate")}
                     >
                         <TranslateIcon />
                     </IconButton>
                     <IconButton
                         active={mode === "rotate"}
-                        onClick={() => setMode("rotate")}
+                        disabled={translateOnly}
+                        onClick={() => setTransformControlsMode("rotate")}
                     >
                         <RotateIcon />
                     </IconButton>
                     <IconButton
                         active={mode === "scale"}
-                        disabled={isPositioned}
-                        onClick={() => setMode("scale")}
+                        disabled={translateOnly}
+                        onClick={() => setTransformControlsMode("scale")}
                     >
                         <ScaleIcon />
                     </IconButton>
@@ -120,14 +118,14 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                 <Section>
                     <IconButton
                         active={space === "world"}
-                        onClick={() => setSpace("world")}
+                        onClick={() => setTransformControlsSpace("world")}
                         disabled={mode === "scale" || mode === "select"}
                     >
                         <AbsoluteIcon />
                     </IconButton>
                     <IconButton
                         active={space === "local"}
-                        onClick={() => setSpace("local")}
+                        onClick={() => setTransformControlsSpace("local")}
                         disabled={mode === "select"}
                     >
                         <RelativeIcon />

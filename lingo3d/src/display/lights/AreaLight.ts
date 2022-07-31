@@ -9,11 +9,11 @@ import ObjectManager from "../core/ObjectManager"
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { scaleDown } from "../../engine/constants"
-import { getTransformControlsMode } from "../../states/useTransformControlsMode"
 import { onTransformControls } from "../../events/onTransformControls"
 import { Reactive } from "@lincode/reactivity"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getCameraRendered } from "../../states/useCameraRendered"
+import { getTransformControlsModeComputed } from "../../states/useTransformControlsModeComputed"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -47,7 +47,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
 
             this.createEffect(() => {
                 if (
-                    getTransformControlsMode() !== "scale" ||
+                    getTransformControlsModeComputed() !== "scale" ||
                     getSelectionTarget() !== this
                 )
                     return
@@ -60,7 +60,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
                 return () => {
                     handle.cancel()
                 }
-            }, [getTransformControlsMode, getSelectionTarget])
+            }, [getTransformControlsModeComputed, getSelectionTarget])
 
             this.createEffect(() => {
                 if (
