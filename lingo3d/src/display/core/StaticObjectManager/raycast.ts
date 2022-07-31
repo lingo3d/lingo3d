@@ -163,9 +163,10 @@ createEffect(() => {
         getSelectionCandidates()
         handle.watch(onSceneGraphChange(getSelectionCandidates))
         handle.watch(
-            onSelectionRecompute(
-                () => (getSelectionCandidates(), emitSelectionTarget())
-            )
+            onSelectionRecompute(() => {
+                getSelectionCandidates()
+                emitSelectionTarget()
+            })
         )
         handle.watch(mouseEvents.on("click", () => emitSelectionTarget()))
 

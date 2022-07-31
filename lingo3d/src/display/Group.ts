@@ -4,7 +4,6 @@ import scene from "../engine/scene"
 import { onEditorGroupItems } from "../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 import IGroup, { groupDefaults, groupSchema } from "../interface/IGroup"
-import { getMultipleSelectionEnabled } from "../states/useMultipleSelectionEnabled"
 import {
     getMultipleSelectionTargets,
     multipleSelectionGroupManagers
@@ -25,9 +24,8 @@ export default class Group extends ObjectManager<ThreeGroup> implements IGroup {
 }
 
 createEffect(() => {
-    const enabled = getMultipleSelectionEnabled()
     const targets = getMultipleSelectionTargets()
-    if (!targets.length || !enabled) return
+    if (!targets.length) return
 
     const group = new ThreeGroup()
     scene.add(group)
@@ -72,4 +70,4 @@ createEffect(() => {
         scene.remove(group)
         handle.cancel()
     }
-}, [getMultipleSelectionTargets, getMultipleSelectionEnabled])
+}, [getMultipleSelectionTargets])
