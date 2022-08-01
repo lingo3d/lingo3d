@@ -1,6 +1,7 @@
 import store, { createEffect } from "@lincode/reactivity"
 import { isPositionedItem } from "../api/core/PositionedItem"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
+import { getSelectionEnabled } from "./useSelectionEnabled"
 import { getSelectionTarget } from "./useSelectionTarget"
 import { getTransformControlsMode } from "./useTransformControlsMode"
 
@@ -10,11 +11,18 @@ export const [
 ] = store(getTransformControlsMode())
 
 createEffect(() => {
-    let mode = getTransformControlsMode()
+    if (!getSelectionEnabled()) {
+        setTransformControlsModeComputed("none")
+        return
+    }
     const target = getSelectionTarget()
     if (target)
-        if (!isPositionedItem(target)) mode = "select"
-        else if (!(target instanceof SimpleObjectManager)) mode = "translate"
-
-    setTransformControlsModeComputed(mode)
-}, [getTransformControlsMode, getSelectionTarget])
+        if (!isPositionedItem(target)) {
+            setTransformControlsModeComputed("select")
+            return
+        } else if (!(target instanceof SimpleObjectManager)) {
+            setTransformControlsModeComputed("translate")
+            return
+        }
+    setTransformControlsModeComputed(getTransformControlsMode())
+}, [getTransformControlsMode, getSelectionTarget, getSelectionEnabled])

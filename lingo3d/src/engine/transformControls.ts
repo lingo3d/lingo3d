@@ -52,7 +52,11 @@ createEffect(() => {
     const handle = new Cancellable()
 
     lazyTransformControls().then((transformControls) => {
-        if (mode === "select" || !target.outerObject3d.parent) {
+        if (
+            mode === "select" ||
+            mode === "none" ||
+            !target.outerObject3d.parent
+        ) {
             transformControls.enabled = false
             return
         }
