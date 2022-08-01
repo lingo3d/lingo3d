@@ -3,7 +3,7 @@ import IThirdPersonCamera, {
     thirdPersonCameraDefaults,
     thirdPersonCameraSchema
 } from "../../interface/IThirdPersonCamera"
-import { getEditorActive } from "../../states/useEditorActive"
+import { getSelectionEnabled } from "../../states/useSelectionEnabled"
 import CharacterCamera from "../core/CharacterCamera"
 import MeshItem from "../core/MeshItem"
 import StaticObjectManager from "../core/StaticObjectManager"
@@ -67,7 +67,7 @@ export default class ThirdPersonCamera
 
                         cam.quaternion.copy(getWorldQuaternion(this.object3d))
 
-                        const tooClose = getEditorActive()
+                        const tooClose = getSelectionEnabled()
                             ? false
                             : ratio < 0.35
                         tooClose !== tooCloseOld &&

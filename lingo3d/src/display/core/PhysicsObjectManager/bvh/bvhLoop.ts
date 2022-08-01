@@ -4,7 +4,6 @@ import { Box3, Vector3 } from "three"
 import { onBeforeRender } from "../../../../events/onBeforeRender"
 import { getBVHMap } from "../../../../states/useBVHMap"
 import { getCentripetal } from "../../../../states/useCentripetal"
-import { getEditorActive } from "../../../../states/useEditorActive"
 import { getGravity } from "../../../../states/useGravity"
 import { getRepulsion } from "../../../../states/useRepulsion"
 import {
@@ -19,6 +18,7 @@ import bvhContactMap from "./bvhContactMap"
 import { bvhManagerMap } from "./computeBVH"
 import getWorldPosition from "../../../utils/getWorldPosition"
 import PhysicsObjectManager from ".."
+import { getSelectionEnabled } from "../../../../states/useSelectionEnabled"
 
 export const bvhCharacterSet = new Set<PhysicsObjectManager>()
 
@@ -26,7 +26,7 @@ const makeWeakSet = () => new WeakSet()
 
 createEffect(
     function (this: PhysicsObjectManager) {
-        if (getEditorActive()) return
+        if (getSelectionEnabled()) return
 
         const bvhArray = getBVHMap()
         if (!bvhArray.length) return
@@ -170,5 +170,5 @@ createEffect(
             handle.cancel()
         }
     },
-    [getBVHMap, getGravity, getRepulsion, getCentripetal, getEditorActive]
+    [getBVHMap, getGravity, getRepulsion, getCentripetal, getSelectionEnabled]
 )

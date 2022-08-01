@@ -129,7 +129,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                     </IconButton>
                     <IconButton
                         active={mode === "none"}
-                        onClick={() => setTransformControlsMode("none")}
+                        onClick={() => setSelectionEnabled(false)}
                     >
                         <NoneIcon />
                     </IconButton>

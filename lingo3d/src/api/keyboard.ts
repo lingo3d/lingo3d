@@ -4,10 +4,10 @@ import EventLoopItem from "./core/EventLoopItem"
 import { createEffect } from "@lincode/reactivity"
 import { getSelectionBlockKeyboard } from "../states/useSelectionBlockKeyboard"
 import { appendableRoot } from "./core/Appendable"
-import { getEditorActive } from "../states/useEditorActive"
 import { onKeyClear } from "../events/onKeyClear"
 import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
+import { getSelectionEnabled } from "../states/useSelectionEnabled"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
@@ -22,7 +22,7 @@ const processKey = (str: string) => {
 }
 
 createEffect(() => {
-    if (getEditorActive() && getSelectionBlockKeyboard()) return
+    if (getSelectionEnabled() && getSelectionBlockKeyboard()) return
 
     const handle = onBeforeRender(() => isPressed.size > 0 && emitPress())
 
@@ -55,7 +55,7 @@ createEffect(() => {
         document.removeEventListener("keydown", handleKeyDown)
         document.removeEventListener("keyup", handleKeyUp)
     }
-}, [getEditorActive, getSelectionBlockKeyboard])
+}, [getSelectionEnabled, getSelectionBlockKeyboard])
 
 export class Keyboard extends EventLoopItem implements IKeyboard {
     public static componentName = "keyboard"

@@ -2,9 +2,9 @@ import { createEffect } from "@lincode/reactivity"
 import type { Body } from "cannon-es"
 import { forceGet } from "@lincode/utils"
 import { getPhysicsWorld } from "../../../../states/usePhysicsWorld"
-import { getEditorActive } from "../../../../states/useEditorActive"
 import { onBeforeRender } from "../../../../events/onBeforeRender"
 import PhysicsObjectManager from ".."
+import { getSelectionEnabled } from "../../../../states/useSelectionEnabled"
 
 export const cannonSet = new Set<PhysicsObjectManager>()
 export const cannonContactMap = new Map<Body, WeakSet<Body>>()
@@ -16,7 +16,7 @@ const dt = 1 / 60
 
 createEffect(
     function (this: PhysicsObjectManager) {
-        if (getEditorActive()) return
+        if (getSelectionEnabled()) return
 
         const world = getPhysicsWorld()
         if (!world) return
@@ -104,5 +104,5 @@ createEffect(
             handle.cancel()
         }
     },
-    [getPhysicsWorld, getEditorActive]
+    [getPhysicsWorld, getSelectionEnabled]
 )
