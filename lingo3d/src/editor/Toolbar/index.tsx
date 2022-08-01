@@ -30,6 +30,7 @@ import { setTransformControlsSpace } from "../../states/useTransformControlsSpac
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import { setSelectionEnabled } from "../../states/useSelectionEnabled"
+import NoneIcon from "./icons/NoneIcon"
 
 preventTreeShake(h)
 
@@ -126,20 +127,33 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                     >
                         <ScaleIcon />
                     </IconButton>
+                    <IconButton
+                        active={mode === "none"}
+                        onClick={() => {
+                            setTransformControlsMode("none")
+                            setSelectionEnabled(true)
+                        }}
+                    >
+                        <NoneIcon />
+                    </IconButton>
                 </Section>
 
                 <Section>
                     <IconButton
                         active={space === "world"}
                         onClick={() => setTransformControlsSpace("world")}
-                        disabled={mode === "scale" || mode === "select"}
+                        disabled={
+                            mode === "scale" ||
+                            mode === "select" ||
+                            mode === "none"
+                        }
                     >
                         <AbsoluteIcon />
                     </IconButton>
                     <IconButton
                         active={space === "local"}
                         onClick={() => setTransformControlsSpace("local")}
-                        disabled={mode === "select"}
+                        disabled={mode === "select" || mode === "none"}
                     >
                         <RelativeIcon />
                     </IconButton>
