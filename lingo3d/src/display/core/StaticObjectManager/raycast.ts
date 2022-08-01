@@ -5,7 +5,7 @@ import {
     createNestedEffect,
     createRef
 } from "@lincode/reactivity"
-import { getSelectionEnabled } from "../../../states/useSelectionEnabled"
+import { getSelection } from "../../../states/useSelection"
 import {
     getSelectionTarget,
     setSelectionTarget
@@ -149,7 +149,7 @@ const enableMouseEvents = () => {
 }
 
 createEffect(() => {
-    const selectionEnabled = getSelectionEnabled()
+    const selection = getSelection()
     const multipleSelection = getMultipleSelection()
     const firstMultipleSelection = createRef(true)
 
@@ -157,7 +157,7 @@ createEffect(() => {
         !multipleSelection && (firstMultipleSelection.current = true)
     }, [multipleSelection])
 
-    if (selectionEnabled && !getTransformControlsDragging()) {
+    if (selection && !getTransformControlsDragging()) {
         const handle = new Cancellable()
 
         getSelectionCandidates()
@@ -225,7 +225,7 @@ createEffect(() => {
         }
     }
 
-    if (selectionEnabled) return
+    if (selection) return
 
     resetMultipleSelectionTargets()
     setSelectionTarget(undefined)
@@ -236,7 +236,7 @@ createEffect(() => {
         handle.cancel()
     }
 }, [
-    getSelectionEnabled,
+    getSelection,
     getSelectionBlockMouse,
     getTransformControlsDragging,
     getMultipleSelection

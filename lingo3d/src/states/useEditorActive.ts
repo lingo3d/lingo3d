@@ -1,10 +1,10 @@
 import store, { createEffect } from "@lincode/reactivity"
 import mainCamera from "../engine/mainCamera"
 import { getCameraRendered } from "./useCameraRendered"
-import { getSelectionEnabled } from "./useSelectionEnabled"
+import { getSelection } from "./useSelection"
 
 export const [setEditorActive, getEditorActive] = store(false)
 
 createEffect(() => {
-    setEditorActive(getSelectionEnabled() && getCameraRendered() === mainCamera)
-}, [getSelectionEnabled, getCameraRendered])
+    setEditorActive(getSelection() && getCameraRendered() === mainCamera)
+}, [getSelection, getCameraRendered])
