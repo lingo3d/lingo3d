@@ -29,6 +29,7 @@ import { setTransformControlsMode } from "../../states/useTransformControlsMode"
 import { setTransformControlsSpace } from "../../states/useTransformControlsSpace"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
+import { setSelectionEnabled } from "../../states/useSelectionEnabled"
 
 preventTreeShake(h)
 
@@ -89,27 +90,39 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                 <Section>
                     <IconButton
                         active={mode === "select"}
-                        onClick={() => setTransformControlsMode("select")}
+                        onClick={() => {
+                            setTransformControlsMode("select")
+                            setSelectionEnabled(true)
+                        }}
                     >
                         <CursorIcon />
                     </IconButton>
                     <IconButton
                         active={mode === "translate"}
-                        onClick={() => setTransformControlsMode("translate")}
+                        onClick={() => {
+                            setTransformControlsMode("translate")
+                            setSelectionEnabled(true)
+                        }}
                     >
                         <TranslateIcon />
                     </IconButton>
                     <IconButton
                         active={mode === "rotate"}
                         disabled={translateOnly}
-                        onClick={() => setTransformControlsMode("rotate")}
+                        onClick={() => {
+                            setTransformControlsMode("rotate")
+                            setSelectionEnabled(true)
+                        }}
                     >
                         <RotateIcon />
                     </IconButton>
                     <IconButton
                         active={mode === "scale"}
                         disabled={translateOnly}
-                        onClick={() => setTransformControlsMode("scale")}
+                        onClick={() => {
+                            setTransformControlsMode("scale")
+                            setSelectionEnabled(true)
+                        }}
                     >
                         <ScaleIcon />
                     </IconButton>
