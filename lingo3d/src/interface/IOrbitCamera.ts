@@ -1,4 +1,7 @@
-import ICameraBase, { cameraBaseDefaults, cameraBaseSchema } from "./ICameraBase"
+import ICameraBase, {
+    cameraBaseDefaults,
+    cameraBaseSchema
+} from "./ICameraBase"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
@@ -7,6 +10,7 @@ export default interface IOrbitCamera extends ICameraBase {
     targetId: Nullable<string>
 
     enableZoom: boolean
+    enableFly: boolean
     autoRotate: boolean | number
 }
 
@@ -16,6 +20,7 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
     targetId: String,
 
     enableZoom: Boolean,
+    enableFly: Boolean,
     autoRotate: [Boolean, Number]
 }
 
@@ -26,7 +31,8 @@ export const orbitCameraDefaults: Defaults<IOrbitCamera> = {
     mouseControl: "drag",
 
     targetId: undefined,
-    
+
     enableZoom: false,
+    enableFly: false,
     autoRotate: false
 }

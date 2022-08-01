@@ -1,4 +1,4 @@
-import { Group, Vector3 } from "three"
+import { Group } from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import AnimationManager, {
@@ -78,12 +78,13 @@ export default class Model extends Loaded<Group> implements IModel {
             else result = await (await lazyLoadGLTF()).default(url, true)
         } catch {
             resolvable.resolve()
-            this.loadingState.set(this.loadingState.get() - 1)
+            setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
+
             return new Group()
         }
 
         resolvable.resolve()
-        this.loadingState.set(this.loadingState.get() - 1)
+        setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
 
         return result
     }
