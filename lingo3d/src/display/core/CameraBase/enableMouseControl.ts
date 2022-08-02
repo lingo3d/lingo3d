@@ -9,6 +9,7 @@ import { mouseEvents } from "../../../api/mouse"
 import { setPickingMode } from "../../../states/usePickingMode"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import isMobile from "../../../api/utils/isMobile"
+import { getEditing } from "../../../states/useEditing"
 
 export default function (this: CameraBase<PerspectiveCamera>) {
     if (this.done) return
@@ -126,7 +127,11 @@ export default function (this: CameraBase<PerspectiveCamera>) {
 
     this.createEffect(() => {
         const camera = getCameraRendered()
-        if (this.mouseControlState.get() !== true || camera !== this.camera)
+        if (
+            this.mouseControlState.get() !== true ||
+            camera !== this.camera ||
+            getEditing()
+        )
             return
 
         const onClick = () => container.requestPointerLock?.()
@@ -147,5 +152,5 @@ export default function (this: CameraBase<PerspectiveCamera>) {
             document.exitPointerLock()
             setCameraPointerLock(undefined)
         }
-    }, [this.mouseControlState.get, getCameraRendered])
+    }, [this.mouseControlState.get, getCameraRendered, getEditing])
 }

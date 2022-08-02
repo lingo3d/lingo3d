@@ -22,7 +22,7 @@ player.boxVisible = true
 const cam = new ThirdPersonCamera()
 cam.append(player)
 cam.transition = true
-cam.mouseControl = "drag"
+cam.mouseControl = true
 cam.innerZ = 1000
 cam.lockTargetRotation = "dynamic-lock"
 
