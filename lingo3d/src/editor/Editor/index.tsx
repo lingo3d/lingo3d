@@ -4,7 +4,6 @@ import settings from "../../api/settings"
 import mainCamera from "../../engine/mainCamera"
 import { setGridHelper } from "../../states/useGridHelper"
 import { setOrbitControls } from "../../states/useOrbitControls"
-import { setSelection } from "../../states/useSelection"
 import { setSelectionBlockKeyboard } from "../../states/useSelectionBlockKeyboard"
 import { setSelectionBlockMouse } from "../../states/useSelectionBlockMouse"
 import { h } from "preact"
@@ -94,7 +93,6 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         const init = () => {
             mainOrbitCamera.activate()
             setOrbitControls(true)
-            setSelection(true)
             setGridHelper(true)
             render({})
         }
@@ -119,7 +117,6 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         return () => {
             currentCamera.userData.manager.activate()
             setOrbitControls(false)
-            setSelection(false)
             setGridHelper(false)
 
             document.removeEventListener("keydown", handleKeyDown)

@@ -2,15 +2,15 @@ import { h } from "preact"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
 import Hotkeys from "./HotKeys"
-import { useCameraRendered, useSelection } from "../states"
+import { useCameraRendered, useEditorMounted } from "../states"
 import mainCamera from "../../engine/mainCamera"
 
 preventTreeShake(h)
 
 const HUD = () => {
-    const [selection] = useSelection()
+    const [editorMounted] = useEditorMounted()
     const [cameraRendered] = useCameraRendered()
-    const editorActive = selection && cameraRendered === mainCamera
+    const editorActive = editorMounted && cameraRendered === mainCamera
 
     if (!editorActive) return null
 

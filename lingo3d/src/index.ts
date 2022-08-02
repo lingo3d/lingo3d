@@ -80,7 +80,10 @@ import { setWasmPath } from "./states/useWasmPath"
 
 import clientToWorld from "./display/utils/clientToWorld"
 
-export type { SimpleMouseEvent, LingoMouseEvent as MouseEvent } from "./interface/IMouse"
+export type {
+    SimpleMouseEvent,
+    LingoMouseEvent as MouseEvent
+} from "./interface/IMouse"
 
 export default {}
 
@@ -94,7 +97,6 @@ export {
     Torus,
     Plane,
     Circle,
-
     Model,
     Dummy,
     Building,
@@ -119,14 +121,12 @@ export {
     SkyLight,
     PointLight,
     SpotLight,
-
     circleShape,
     cubeShape,
     cylinderShape,
     sphereShape,
     torusShape,
     pillShape,
-
     Keyboard,
     keyboard,
     Mouse,
@@ -136,34 +136,26 @@ export {
     settings,
     preload,
     screenshot,
-
     Joystick,
     Reticle,
-
     applySetup,
     serialize,
     deserialize,
-    
     downloadBlob,
     downloadText,
     exportJSON,
     exportReact,
     exportVue,
     openJSON,
-
     loop,
     timer,
     mainOrbitCamera,
-
     ObjectManager as Object,
     FoundManager as Found,
-
     onAfterRender,
     onBeforeRender,
-
     Point3d,
     Point,
     setWasmPath,
-
     clientToWorld
 }

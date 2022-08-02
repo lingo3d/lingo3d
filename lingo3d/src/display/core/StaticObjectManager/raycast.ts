@@ -5,7 +5,6 @@ import {
     createNestedEffect,
     createRef
 } from "@lincode/reactivity"
-import { getSelection } from "../../../states/useSelection"
 import {
     getSelectionTarget,
     setSelectionTarget
@@ -35,6 +34,7 @@ import { isPositionedItem } from "../../../api/core/PositionedItem"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getSelectionFrozen } from "../../../states/useSelectionFrozen"
 import { onSelectionRecompute } from "../../../events/onSelectionRecompute"
+import { getEditorMounted } from "../../../states/useEditorMounted"
 
 const raycaster = new Raycaster()
 
@@ -126,7 +126,6 @@ const enableMouseEvents = () => {
             obj.outerObject3d.userData.eMove = e
         })
     )
-
     handle.watch(
         mouseEvents.on("move", () => {
             for (const obj of moveSet) {
@@ -144,12 +143,11 @@ const enableMouseEvents = () => {
             moveSet = new Set()
         })
     )
-
     return handle
 }
 
 createEffect(() => {
-    const selection = getSelection()
+    const editorMounted = getEditorMounted()
     const multipleSelection = getMultipleSelection()
     const firstMultipleSelection = createRef(true)
 
@@ -157,86 +155,83 @@ createEffect(() => {
         !multipleSelection && (firstMultipleSelection.current = true)
     }, [multipleSelection])
 
-    if (selection && !getTransformControlsDragging()) {
-        const handle = new Cancellable()
+    if (!editorMounted) {
+        resetMultipleSelectionTargets()
+        setSelectionTarget(undefined)
 
-        getSelectionCandidates()
-        handle.watch(onSceneGraphChange(getSelectionCandidates))
-        handle.watch(
-            onSelectionRecompute(() => {
-                getSelectionCandidates()
-                emitSelectionTarget()
-            })
-        )
-        handle.watch(mouseEvents.on("click", () => emitSelectionTarget()))
-
-        let rightClick = false
-        handle.watch(
-            mouseEvents.on("rightClick", () => {
-                rightClick = true
-                queueMicrotask(() => {
-                    if (!rightClick) return
-                    rightClick = false
-                    emitSelectionTarget(undefined, true)
-                })
-            })
-        )
-
-        handle.watch(
-            pickable(["click", "rightClick"], selectionCandidates, (target) => {
-                emitSelectionTarget(target, rightClick)
-                rightClick = false
-            })
-        )
-        handle.watch(
-            onSelectionTarget(({ target, rightClick }) => {
-                if (multipleSelection) {
-                    if (!isPositionedItem(target) || rightClick) return
-
-                    if (firstMultipleSelection.current) {
-                        const currentTarget = getSelectionTarget()
-                        isPositionedItem(currentTarget) &&
-                            pushMultipleSelectionTargets(currentTarget)
-                    }
-                    firstMultipleSelection.current = false
-
-                    if (getMultipleSelectionTargets().includes(target))
-                        pullMultipleSelectionTargets(target)
-                    else pushMultipleSelectionTargets(target)
-
-                    return
-                }
-                resetMultipleSelectionTargets()
-                setSelectionTarget(
-                    rightClick
-                        ? target
-                        : target === getSelectionTarget()
-                        ? undefined
-                        : target
-                )
-            })
-        )
-
-        if (!multipleSelection && !getSelectionBlockMouse())
-            handle.watch(enableMouseEvents())
+        const handle = enableMouseEvents()
 
         return () => {
             handle.cancel()
         }
     }
 
-    if (selection) return
+    if (getTransformControlsDragging()) return
 
-    resetMultipleSelectionTargets()
-    setSelectionTarget(undefined)
+    getSelectionCandidates()
+    const handle0 = onSceneGraphChange(getSelectionCandidates)
+    const handle1 = onSelectionRecompute(() => {
+        getSelectionCandidates()
+        emitSelectionTarget()
+    })
+    const handle2 = mouseEvents.on("click", () => emitSelectionTarget())
 
-    const handle = enableMouseEvents()
+    let rightClick = false
+    const handle3 = mouseEvents.on("rightClick", () => {
+        rightClick = true
+        queueMicrotask(() => {
+            if (!rightClick) return
+            rightClick = false
+            emitSelectionTarget(undefined, true)
+        })
+    })
+    const handle4 = pickable(
+        ["click", "rightClick"],
+        selectionCandidates,
+        (target) => {
+            emitSelectionTarget(target, rightClick)
+            rightClick = false
+        }
+    )
+    const handle5 = onSelectionTarget(({ target, rightClick }) => {
+        if (multipleSelection) {
+            if (!isPositionedItem(target) || rightClick) return
+
+            if (firstMultipleSelection.current) {
+                const currentTarget = getSelectionTarget()
+                isPositionedItem(currentTarget) &&
+                    pushMultipleSelectionTargets(currentTarget)
+            }
+            firstMultipleSelection.current = false
+
+            if (getMultipleSelectionTargets().includes(target))
+                pullMultipleSelectionTargets(target)
+            else pushMultipleSelectionTargets(target)
+
+            return
+        }
+        resetMultipleSelectionTargets()
+        setSelectionTarget(
+            rightClick
+                ? target
+                : target === getSelectionTarget()
+                ? undefined
+                : target
+        )
+    })
+    if (!multipleSelection && !getSelectionBlockMouse())
+        handle0.watch(enableMouseEvents())
 
     return () => {
-        handle.cancel()
+        handle0.cancel()
+        handle1.cancel()
+        handle2.cancel()
+        handle3.cancel()
+        handle4.cancel()
+        handle5.cancel()
     }
 }, [
-    getSelection,
+    getEditorMounted,
     getSelectionBlockMouse,
     getTransformControlsDragging,
     getMultipleSelection
