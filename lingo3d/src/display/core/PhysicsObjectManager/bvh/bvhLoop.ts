@@ -132,29 +132,26 @@ createEffect(
 
                 const deltaVector = start.sub(startOld)
 
-                // if the player was primarily adjusted vertically we assume it's on something we should consider ground
                 if (center) characterManager.bvhOnGround = contact
                 else {
                     characterManager.bvhOnGround =
                         deltaVector.y >
                         Math.abs(delta * playerVelocity.y * 0.25)
 
-                    if (repulsion && characterManager.bvhOnGround)
-                        if (
-                            Math.abs(
-                                deltaVector.y /
-                                    (deltaVector.x +
-                                        deltaVector.z +
-                                        Number.EPSILON)
-                            ) < repulsion
-                        )
-                            characterManager.bvhOnGround = false
+                    if (
+                        repulsion &&
+                        characterManager.bvhOnGround &&
+                        Math.abs(
+                            deltaVector.y /
+                                (deltaVector.x + deltaVector.z + Number.EPSILON)
+                        ) < repulsion
+                    )
+                        characterManager.bvhOnGround = false
                 }
 
                 const offset = Math.max(0.0, deltaVector.length() - 1e-5)
                 deltaVector.normalize().multiplyScalar(offset)
 
-                // adjust the player model
                 player.position.add(deltaVector)
 
                 if (!characterManager.bvhOnGround) {
