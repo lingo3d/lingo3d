@@ -48,9 +48,10 @@ createEffect(
                     ? capsuleHalfHeight
                     : characterManager.bvhRadius!
 
-                if (center) {
-                    const dir = getWorldPosition(player).sub(center).normalize()
-                    characterManager.bvhDir = dir
+                const dir = (characterManager.bvhDir =
+                    center && getWorldPosition(player).sub(center).normalize())
+
+                if (dir) {
                     playerVelocity.add(
                         characterManager.bvhOnGround ||
                             characterManager._gravity === false
@@ -132,7 +133,7 @@ createEffect(
 
                 const deltaVector = start.sub(startOld)
 
-                if (center) characterManager.bvhOnGround = contact
+                if (dir) characterManager.bvhOnGround = contact
                 else {
                     characterManager.bvhOnGround =
                         deltaVector.y >
