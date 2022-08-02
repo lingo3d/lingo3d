@@ -29,7 +29,7 @@ import { setTransformControlsSpace } from "../../states/useTransformControlsSpac
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import { setSelectionEnabled } from "../../states/useSelectionEnabled"
-import NoneIcon from "./icons/NoneIcon"
+import PlayIcon from "./icons/PlayIcon"
 import {
     decreaseEditorMounted,
     increaseEditorMounted
@@ -134,7 +134,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                         active={mode === "none"}
                         onClick={() => setSelectionEnabled(false)}
                     >
-                        <NoneIcon />
+                        <PlayIcon />
                     </IconButton>
                 </Section>
 

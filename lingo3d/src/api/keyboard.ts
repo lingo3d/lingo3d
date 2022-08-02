@@ -1,5 +1,8 @@
 import { event } from "@lincode/events"
-import IKeyboard, { keyboardDefaults, keyboardSchema } from "../interface/IKeyboard"
+import IKeyboard, {
+    keyboardDefaults,
+    keyboardSchema
+} from "../interface/IKeyboard"
 import EventLoopItem from "./core/EventLoopItem"
 import { createEffect } from "@lincode/reactivity"
 import { getSelectionBlockKeyboard } from "../states/useSelectionBlockKeyboard"
@@ -31,7 +34,7 @@ createEffect(() => {
         isPressed.add(key)
         emitDown(key)
     }
-    
+
     const handleKeyUp = (e: KeyboardEvent): void => {
         const key = processKey(e.key)
         isPressed.delete(key)
@@ -39,14 +42,15 @@ createEffect(() => {
         !isPressed.size && emitPress()
     }
 
-    handle.watch(onKeyClear(() => {
-        if (!isPressed.size) return
-        const pressed = [...isPressed]
-        isPressed.clear()
-        for (const key of pressed)
-            emitUp(key)
-    }))
-    
+    handle.watch(
+        onKeyClear(() => {
+            if (!isPressed.size) return
+            const pressed = [...isPressed]
+            isPressed.clear()
+            for (const key of pressed) emitUp(key)
+        })
+    )
+
     document.addEventListener("keydown", handleKeyDown)
     document.addEventListener("keyup", handleKeyUp)
 
@@ -69,18 +73,19 @@ export class Keyboard extends EventLoopItem implements IKeyboard {
     public constructor() {
         super()
 
-        this.watch(onPress(() => {
-            if (!this.onKeyPress) return
+        this.watch(
+            onPress(() => {
+                if (!this.onKeyPress) return
 
-            if (!isPressed.size) {
-                this.onKeyPress("", isPressed)
-                return
-            }
-            for (const key of isPressed)
-                this.onKeyPress(key, isPressed)
-        }))
-        this.watch(onUp(key => this.onKeyUp?.(key, isPressed)))
-        this.watch(onDown(key => this.onKeyDown?.(key, isPressed)))
+                if (!isPressed.size) {
+                    this.onKeyPress("", isPressed)
+                    return
+                }
+                for (const key of isPressed) this.onKeyPress(key, isPressed)
+            })
+        )
+        this.watch(onUp((key) => this.onKeyUp?.(key, isPressed)))
+        this.watch(onDown((key) => this.onKeyDown?.(key, isPressed)))
     }
 }
 
