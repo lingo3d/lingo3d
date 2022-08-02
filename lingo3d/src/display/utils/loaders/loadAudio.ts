@@ -13,7 +13,7 @@ export default (url: string) => forceGet(cache, url, () => new Promise<AudioBuff
         decreaseLoadingCount()
         resolve(Object.freeze(buffer))
     },
-    handleProgress,
+    handleProgress(url),
     () => {
         decreaseLoadingCount()
         reject()

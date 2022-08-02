@@ -18,31 +18,37 @@ loader.setDRACOLoader(dracoLoader)
 export default async (url: string, clone: boolean) => {
     const [gltf, noBone] = await forceGet(cache, url, () => new Promise<[GLTF, boolean]>((resolve, reject) => {
         increaseLoadingCount()
-        loader.load(url, gltf => {
-            decreaseLoadingCount()
-    
-            let noBone = true
-            for (const scene of gltf.scenes)
-                scene.traverse((child: any) => {
-                    noBone && child instanceof Bone && (noBone = false)
+        loader.load(
+            url,
+            (gltf) => {
+                decreaseLoadingCount()
 
-                    child.castShadow = true
-                    child.receiveShadow = true
+                let noBone = true
+                for (const scene of gltf.scenes)
+                    scene.traverse((child: any) => {
+                        noBone && child instanceof Bone && (noBone = false)
 
-                    const {material} = child
-                    if (!material) return
+                        child.castShadow = true
+                        child.receiveShadow = true
 
-                    material.map && (material.map.encoding = LinearEncoding)
-                    copyStandard(material, child.material = new MeshStandardMaterial())
-                    material.dispose()
-                })
-            resolve([gltf, noBone])
-        },
-        handleProgress,
-        () => {
-            decreaseLoadingCount()
-            reject()
-        })
+                        const { material } = child
+                        if (!material) return
+
+                        material.map && (material.map.encoding = LinearEncoding)
+                        copyStandard(
+                            material,
+                            (child.material = new MeshStandardMaterial())
+                        )
+                        material.dispose()
+                    })
+                resolve([gltf, noBone])
+            },
+            handleProgress(url),
+            () => {
+                decreaseLoadingCount()
+                reject()
+            }
+        )
     }))
     if (clone)
         return cloneSkinnedMesh(gltf.scene, noBone, gltf.animations)

@@ -9,18 +9,20 @@ const loader = new FileLoader()
 export default (url: string) => forceGet(cache, url, () => new Promise<Record<string, any> | Array<any>>((resolve, reject) => {
     increaseLoadingCount()
 
-    loader.load(url, data => {
-        decreaseLoadingCount()
+    loader.load(
+        url,
+        (data) => {
+            decreaseLoadingCount()
 
-        try {
-            assert(typeof data === "string")
-            resolve(Object.freeze(JSON.parse(data)))
+            try {
+                assert(typeof data === "string")
+                resolve(Object.freeze(JSON.parse(data)))
+            } catch {}
+        },
+        handleProgress(url),
+        () => {
+            decreaseLoadingCount()
+            reject()
         }
-        catch {}
-    },
-    handleProgress,
-    () => {
-        decreaseLoadingCount()
-        reject()
-    })
+    )
 }))

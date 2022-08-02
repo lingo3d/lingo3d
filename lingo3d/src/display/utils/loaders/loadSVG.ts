@@ -9,13 +9,16 @@ const loader = new SVGLoader()
 export default (url: string) => forceGet(cache, url, () => new Promise<SVGResult>((resolve, reject) => {
     increaseLoadingCount()
 
-    loader.load(url, svg => {
-        decreaseLoadingCount()
-        resolve(Object.freeze(svg))
-    },
-    handleProgress,
-    () => {
-        decreaseLoadingCount()
-        reject()
-    })
+    loader.load(
+        url,
+        (svg) => {
+            decreaseLoadingCount()
+            resolve(Object.freeze(svg))
+        },
+        handleProgress(url),
+        () => {
+            decreaseLoadingCount()
+            reject()
+        }
+    )
 }))

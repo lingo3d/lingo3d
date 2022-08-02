@@ -19,13 +19,14 @@ export default (url: string, onLoad?: () => void) => {
         const hdr = url.toLowerCase().toLowerCase().endsWith(".hdr")
         const loader = hdr ? rgbeLoader : textureLoader
 
-        return loader.load(url,
-            texture => {
+        return loader.load(
+            url,
+            (texture) => {
                 texture.wrapS = texture.wrapT = RepeatWrapping
                 loaded.setState(url)
                 decreaseLoadingCount()
             },
-            handleProgress,
+            handleProgress(url),
             () => {
                 loaded.setState(url)
                 decreaseLoadingCount()

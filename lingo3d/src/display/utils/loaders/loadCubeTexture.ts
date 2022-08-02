@@ -8,9 +8,10 @@ const loader = new CubeTextureLoader()
 
 export default (urls: Array<string>) => forceGet(cache, urls.join(","), () => {
     increaseLoadingCount()
-    return loader.load(urls,
+    return loader.load(
+        urls,
         decreaseLoadingCount,
-        handleProgress,
+        handleProgress(urls.join(",")),
         decreaseLoadingCount
     )
 })
