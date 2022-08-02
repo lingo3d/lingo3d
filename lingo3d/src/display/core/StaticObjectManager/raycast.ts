@@ -28,7 +28,6 @@ import { vec2Point } from "../../utils/vec2Point"
 import { getTransformControlsDragging } from "../../../states/useTransformControlsDragging"
 import { debounce } from "@lincode/utils"
 import { onSceneGraphChange } from "../../../events/onSceneGraphChange"
-import { getSelectionBlockMouse } from "../../../states/useSelectionBlockMouse"
 import StaticObjectManager from "."
 import { isPositionedItem } from "../../../api/core/PositionedItem"
 import { getCameraRendered } from "../../../states/useCameraRendered"
@@ -147,7 +146,6 @@ const enableMouseEvents = () => {
 }
 
 createEffect(() => {
-    const editorMounted = getEditorMounted()
     const multipleSelection = getMultipleSelection()
     const firstMultipleSelection = createRef(true)
 
@@ -155,7 +153,7 @@ createEffect(() => {
         !multipleSelection && (firstMultipleSelection.current = true)
     }, [multipleSelection])
 
-    if (!editorMounted) {
+    if (!getEditorMounted()) {
         resetMultipleSelectionTargets()
         setSelectionTarget(undefined)
 
@@ -219,8 +217,7 @@ createEffect(() => {
                 : target
         )
     })
-    if (!multipleSelection && !getSelectionBlockMouse())
-        handle0.watch(enableMouseEvents())
+    !multipleSelection && handle0.watch(enableMouseEvents())
 
     return () => {
         handle0.cancel()
@@ -230,9 +227,4 @@ createEffect(() => {
         handle4.cancel()
         handle5.cancel()
     }
-}, [
-    getEditorMounted,
-    getSelectionBlockMouse,
-    getTransformControlsDragging,
-    getMultipleSelection
-])
+}, [getEditorMounted, getTransformControlsDragging, getMultipleSelection])
