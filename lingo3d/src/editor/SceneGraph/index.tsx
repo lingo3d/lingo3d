@@ -25,10 +25,13 @@ import FindIcon from "./icons/FindIcon"
 import ObjectManager from "../../display/core/ObjectManager"
 import mainCamera from "../../engine/mainCamera"
 import SceneGraphContextMenu from "./SceneGraphContextMenu"
-import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import { onSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 import retargetBones from "./retargetBones"
 import useInit from "../utils/useInit"
+import {
+    decreaseEditorMounted,
+    increaseEditorMounted
+} from "../../states/useEditorMounted"
 
 preventTreeShake([h, retargetBones])
 
@@ -40,12 +43,12 @@ const SceneGraph = () => {
         const cb = () => render({})
         const handle0 = onSceneGraphChange(cb)
         const handle1 = onSceneGraphNameChange(cb)
-        emitEditorMountChange()
+        increaseEditorMounted()
 
         return () => {
             handle0.cancel()
             handle1.cancel()
-            emitEditorMountChange()
+            decreaseEditorMounted()
         }
     }, [])
 

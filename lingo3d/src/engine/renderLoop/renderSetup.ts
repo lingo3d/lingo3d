@@ -10,9 +10,9 @@ import { VRButton } from "./VRButton"
 import { getDefaultLightScale } from "../../states/useDefaultLightScale"
 import { getDefaultLight } from "../../states/useDefaultLight"
 import { getAutoMount } from "../../states/useAutoMount"
-import { onEditorMountChange } from "../../events/onEditorMountChange"
 import { debounce } from "@lincode/utils"
 import { getPixelRatioComputed } from "../../states/usePixelRatioComputed"
+import { getEditorMounted } from "../../states/useEditorMounted"
 
 export const rootContainer = document.createElement("div")
 Object.assign(rootContainer.style, {
@@ -31,7 +31,7 @@ Object.assign(container.style, {
     width: "100%"
 })
 rootContainer.appendChild(container)
-getSecondaryCamera(cam => container.style.height = cam ? "50%" : "100%")
+getSecondaryCamera((cam) => (container.style.height = cam ? "50%" : "100%"))
 
 export const containerBounds = [container.getBoundingClientRect()]
 
@@ -39,13 +39,17 @@ const useResize = (el: Element) => {
     createNestedEffect(() => {
         const handleResize = () => {
             containerBounds[0] = container.getBoundingClientRect()
-            setResolution(el === document.body ? [window.innerWidth, window.innerHeight] : [el.clientWidth, el.clientHeight])
+            setResolution(
+                el === document.body
+                    ? [window.innerWidth, window.innerHeight]
+                    : [el.clientWidth, el.clientHeight]
+            )
         }
         handleResize()
 
         const handleResizeDebounced = debounce(handleResize, 100, "both")
         window.addEventListener("resize", handleResizeDebounced)
-        const handle = onEditorMountChange(handleResizeDebounced)
+        const handle = getEditorMounted(handleResizeDebounced)
 
         return () => {
             window.removeEventListener("resize", handleResize)
@@ -78,7 +82,7 @@ createEffect(() => {
             document.body.removeChild(rootContainer)
         }
     }
-    
+
     autoMount.prepend(rootContainer)
     useResize(autoMount)
 
@@ -93,7 +97,11 @@ createEffect(() => {
 
     const canvas = renderer.domElement
     rootContainer.prepend(canvas)
-    Object.assign(canvas.style, { position: "absolute", left: "0px", top: "0px" })
+    Object.assign(canvas.style, {
+        position: "absolute",
+        left: "0px",
+        top: "0px"
+    })
     return () => {
         rootContainer.removeChild(canvas)
     }
@@ -106,7 +114,6 @@ createEffect(() => {
     const [w, h] = getResolution()
     renderer.setSize(w, h)
     renderer.setPixelRatio(getPixelRatioComputed())
-
 }, [getRenderer, getResolution, getPixelRatioComputed])
 
 createEffect(() => {
@@ -114,7 +121,6 @@ createEffect(() => {
     if (!renderer) return
 
     renderer.physicallyCorrectLights = getPBR()
-
 }, [getRenderer, getPBR])
 
 createEffect(() => {
@@ -122,13 +128,15 @@ createEffect(() => {
     if (!renderer) return
 
     const defaultLight = getDefaultLight()
-    const exposure = typeof defaultLight === "string" && defaultLight !== "default"
-        ? getExposure() * getDefaultLightScale() * (defaultLight === "studio" ? 2 : 1)
-        : getExposure()
+    const exposure =
+        typeof defaultLight === "string" && defaultLight !== "default"
+            ? getExposure() *
+              getDefaultLightScale() *
+              (defaultLight === "studio" ? 2 : 1)
+            : getExposure()
 
     renderer.toneMapping = exposure !== 1 ? LinearToneMapping : NoToneMapping
     renderer.toneMappingExposure = exposure
-
 }, [getExposure, getRenderer, getDefaultLight, getDefaultLightScale])
 
 createEffect(() => {
@@ -138,7 +146,7 @@ createEffect(() => {
     if (!renderer) return
 
     renderer.xr.enabled = true
-    
+
     const button = VRButton.createButton(renderer)
     container.appendChild(button)
 

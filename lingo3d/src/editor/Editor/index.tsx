@@ -39,7 +39,6 @@ import { nonEditorSettings } from "../../api/serializer/types"
 import { onApplySetup } from "../../events/onApplySetup"
 import ISetup, { setupDefaults } from "../../interface/ISetup"
 import { isPositionedItem } from "../../api/core/PositionedItem"
-import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../utils/getComponentName"
 import addInputs, { setProgrammatic } from "./addInputs"
@@ -50,6 +49,10 @@ import assignIn from "./assignIn"
 import { emitSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 import { dummyDefaults } from "../../interface/IDummy"
 import useInit from "../utils/useInit"
+import {
+    decreaseEditorMounted,
+    increaseEditorMounted
+} from "../../states/useEditorMounted"
 
 preventTreeShake(h)
 
@@ -111,7 +114,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
         document.addEventListener("keyup", handleKeyUp)
         const handle1 = onKeyClear(() => setMultipleSelection(false))
 
-        emitEditorMountChange()
+        increaseEditorMounted()
 
         return () => {
             currentCamera.userData.manager.activate()
@@ -124,7 +127,7 @@ const Editor = ({ mouse, keyboard }: EditorProps) => {
             handle0.cancel()
             handle1.cancel()
 
-            emitEditorMountChange()
+            decreaseEditorMounted()
         }
     }, [])
 

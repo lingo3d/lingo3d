@@ -20,7 +20,6 @@ import VueIcon from "./icons/VueIcon"
 import exportReact from "../../api/files/exportReact"
 import exportVue from "../../api/files/exportVue"
 import { useEffect } from "preact/hooks"
-import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import openJSON from "../../api/files/openJSON"
 import exportJSON from "../../api/files/exportJSON"
 import Section from "./Section"
@@ -31,6 +30,10 @@ import { isPositionedItem } from "../../api/core/PositionedItem"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import { setSelectionEnabled } from "../../states/useSelectionEnabled"
 import NoneIcon from "./icons/NoneIcon"
+import {
+    decreaseEditorMounted,
+    increaseEditorMounted
+} from "../../states/useEditorMounted"
 
 preventTreeShake(h)
 
@@ -60,10 +63,10 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
         !(target instanceof SimpleObjectManager)
 
     useEffect(() => {
-        emitEditorMountChange()
+        increaseEditorMounted()
 
         return () => {
-            emitEditorMountChange()
+            decreaseEditorMounted()
         }
     }, [])
 

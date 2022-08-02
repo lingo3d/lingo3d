@@ -3,9 +3,12 @@ import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
 import ObjectGroup from "./ObjectGroup"
 import { useEffect } from "preact/hooks"
-import { emitEditorMountChange } from "../../events/onEditorMountChange"
 import { useDebug, useNodeEditor } from "../states"
 import useInit from "../utils/useInit"
+import {
+    decreaseEditorMounted,
+    increaseEditorMounted
+} from "../../states/useEditorMounted"
 
 preventTreeShake(h)
 
@@ -15,10 +18,10 @@ const Library = () => {
     const [debug] = useDebug()
 
     useEffect(() => {
-        emitEditorMountChange()
+        increaseEditorMounted()
 
         return () => {
-            emitEditorMountChange()
+            decreaseEditorMounted()
         }
     }, [])
 
@@ -39,7 +42,9 @@ const Library = () => {
                 names={[
                     "model",
                     "dummy",
-                    ...(debug ? [{ "building": "cube" }, { "tree": "cylinder" }] : []),
+                    ...(debug
+                        ? [{ building: "cube" }, { tree: "cylinder" }]
+                        : []),
                     "svgMesh",
                     { sprite: "plane" },
                     "trigger",
