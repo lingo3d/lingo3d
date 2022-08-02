@@ -13,8 +13,7 @@ import pointerToWorld from "../display/utils/pointerToWorld"
 import store from "@lincode/reactivity"
 import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
-import { getEditorMounted } from "../states/useEditorMounted"
-import { getEditorPlay } from "../states/useEditorPlay"
+import { getEditing } from "../states/useEditing"
 
 export type MouseEventName = "click" | "rightClick" | "move" | "down" | "up"
 export const mouseEvents = new Events<LingoMouseEvent, MouseEventName>()
@@ -104,7 +103,7 @@ export class Mouse extends EventLoopItem implements IMouse {
         }, [getDown])
 
         this.createEffect(() => {
-            if (getEditorMounted() && !getEditorPlay()) return
+            if (getEditing()) return
 
             const handle0 = mouseEvents.on("move", (e) => {
                 this.onMouseMove?.(e)
@@ -136,7 +135,7 @@ export class Mouse extends EventLoopItem implements IMouse {
                 handle3.cancel()
                 handle4.cancel()
             }
-        }, [getEditorMounted, getEditorPlay])
+        }, [getEditing])
     }
 }
 

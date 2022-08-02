@@ -18,7 +18,7 @@ import bvhContactMap from "./bvhContactMap"
 import { bvhManagerMap } from "./computeBVH"
 import getWorldPosition from "../../../utils/getWorldPosition"
 import PhysicsObjectManager from ".."
-import { getSelectionEnabled } from "../../../../states/useSelectionEnabled"
+import { getEditing } from "../../../../states/useEditing"
 
 export const bvhCharacterSet = new Set<PhysicsObjectManager>()
 
@@ -26,7 +26,7 @@ const makeWeakSet = () => new WeakSet()
 
 createEffect(
     function (this: PhysicsObjectManager) {
-        if (getSelectionEnabled()) return
+        if (getEditing()) return
 
         const bvhArray = getBVHMap()
         if (!bvhArray.length) return
@@ -170,5 +170,5 @@ createEffect(
             handle.cancel()
         }
     },
-    [getBVHMap, getGravity, getRepulsion, getCentripetal, getSelectionEnabled]
+    [getBVHMap, getGravity, getRepulsion, getCentripetal, getEditing]
 )

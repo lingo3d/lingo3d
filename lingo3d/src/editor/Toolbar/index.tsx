@@ -28,12 +28,12 @@ import { setTransformControlsMode } from "../../states/useTransformControlsMode"
 import { setTransformControlsSpace } from "../../states/useTransformControlsSpace"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
-import { setSelectionEnabled } from "../../states/useSelectionEnabled"
 import PlayIcon from "./icons/PlayIcon"
 import {
     decreaseEditorMounted,
     increaseEditorMounted
 } from "../../states/useEditorMounted"
+import { setEditing } from "../../states/useEditing"
 
 preventTreeShake(h)
 
@@ -96,7 +96,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                         active={mode === "select"}
                         onClick={() => {
                             setTransformControlsMode("select")
-                            setSelectionEnabled(true)
+                            setEditing(true)
                         }}
                     >
                         <CursorIcon />
@@ -105,7 +105,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                         active={mode === "translate"}
                         onClick={() => {
                             setTransformControlsMode("translate")
-                            setSelectionEnabled(true)
+                            setEditing(true)
                         }}
                     >
                         <TranslateIcon />
@@ -115,7 +115,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                         disabled={translateOnly}
                         onClick={() => {
                             setTransformControlsMode("rotate")
-                            setSelectionEnabled(true)
+                            setEditing(true)
                         }}
                     >
                         <RotateIcon />
@@ -125,14 +125,14 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                         disabled={translateOnly}
                         onClick={() => {
                             setTransformControlsMode("scale")
-                            setSelectionEnabled(true)
+                            setEditing(true)
                         }}
                     >
                         <ScaleIcon />
                     </IconButton>
                     <IconButton
                         active={mode === "none"}
-                        onClick={() => setSelectionEnabled(false)}
+                        onClick={() => setEditing(false)}
                     >
                         <PlayIcon />
                     </IconButton>

@@ -1,9 +1,13 @@
+import { createEffect } from "@lincode/reactivity"
+import mainCamera from "../../engine/mainCamera"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import IThirdPersonCamera, {
     thirdPersonCameraDefaults,
     thirdPersonCameraSchema
 } from "../../interface/IThirdPersonCamera"
-import { getSelectionEnabled } from "../../states/useSelectionEnabled"
+import { getCameraRendered } from "../../states/useCameraRendered"
+import { getEditing } from "../../states/useEditing"
+import { getEditorMounted } from "../../states/useEditorMounted"
 import CharacterCamera from "../core/CharacterCamera"
 import MeshItem from "../core/MeshItem"
 import StaticObjectManager from "../core/StaticObjectManager"
@@ -16,6 +20,14 @@ const setVisible = (
 ) => {
     "visible" in target && (target.visible = visible)
 }
+
+let alwaysVisible = false
+
+createEffect(() => {
+    alwaysVisible =
+        getEditing() ||
+        (!!getEditorMounted() && getCameraRendered() === mainCamera)
+}, [getEditing, getEditorMounted, getCameraRendered])
 
 export default class ThirdPersonCamera
     extends CharacterCamera
@@ -67,9 +79,7 @@ export default class ThirdPersonCamera
 
                         cam.quaternion.copy(getWorldQuaternion(this.object3d))
 
-                        const tooClose = getSelectionEnabled()
-                            ? false
-                            : ratio < 0.35
+                        const tooClose = alwaysVisible ? false : ratio < 0.35
                         tooClose !== tooCloseOld &&
                             setVisible(target, !tooClose)
                         tooCloseOld = tooClose
