@@ -33,7 +33,7 @@ import { isPositionedItem } from "../../../api/core/PositionedItem"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getSelectionFrozen } from "../../../states/useSelectionFrozen"
 import { onSelectionRecompute } from "../../../events/onSelectionRecompute"
-import { getEditorMounted } from "../../../states/useEditorMounted"
+import { getEditing } from "../../../states/useEditing"
 
 const raycaster = new Raycaster()
 
@@ -153,7 +153,7 @@ createEffect(() => {
         !multipleSelection && (firstMultipleSelection.current = true)
     }, [multipleSelection])
 
-    if (!getEditorMounted()) {
+    if (!getEditing()) {
         resetMultipleSelectionTargets()
         setSelectionTarget(undefined)
 
@@ -227,4 +227,4 @@ createEffect(() => {
         handle4.cancel()
         handle5.cancel()
     }
-}, [getEditorMounted, getTransformControlsDragging, getMultipleSelection])
+}, [getEditing, getTransformControlsDragging, getMultipleSelection])
