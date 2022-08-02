@@ -4,8 +4,6 @@ import settings from "../../api/settings"
 import mainCamera from "../../engine/mainCamera"
 import { setGridHelper } from "../../states/useGridHelper"
 import { setOrbitControls } from "../../states/useOrbitControls"
-import { setSelectionBlockKeyboard } from "../../states/useSelectionBlockKeyboard"
-import { setSelectionBlockMouse } from "../../states/useSelectionBlockMouse"
 import { h } from "preact"
 import { useEffect, useLayoutEffect, useState } from "preact/hooks"
 import register from "preact-custom-element"
@@ -64,23 +62,8 @@ Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
 })
 
-interface EditorProps {
-    mouse?: "enabled" | "disabled"
-    keyboard?: "enabled" | "disabled"
-}
-
-const Editor = ({ mouse, keyboard }: EditorProps) => {
+const Editor = () => {
     const elRef = useInit()
-
-    useEffect(() => {
-        setSelectionBlockMouse(mouse !== "enabled")
-        setSelectionBlockKeyboard(keyboard !== "enabled")
-
-        return () => {
-            setSelectionBlockKeyboard(true)
-            setSelectionBlockMouse(true)
-        }
-    }, [mouse, keyboard])
 
     const [renderDeps, render] = useState({})
 
@@ -586,4 +569,4 @@ const EditorParent = () => {
 }
 export default EditorParent
 
-register(EditorParent, "lingo3d-editor", ["mouse", "keyboard"])
+register(EditorParent, "lingo3d-editor")

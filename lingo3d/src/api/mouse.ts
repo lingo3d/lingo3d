@@ -8,13 +8,13 @@ import IMouse, {
 } from "../interface/IMouse"
 import EventLoopItem from "./core/EventLoopItem"
 import { throttle } from "@lincode/utils"
-import { getSelectionBlockMouse } from "../states/useSelectionBlockMouse"
 import { appendableRoot } from "./core/Appendable"
 import pointerToWorld from "../display/utils/pointerToWorld"
 import store from "@lincode/reactivity"
 import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
-import { getSelectionEnabled } from "../states/useSelectionEnabled"
+import { getEditorMounted } from "../states/useEditorMounted"
+import { getEditorPlay } from "../states/useEditorPlay"
 
 export type MouseEventName = "click" | "rightClick" | "move" | "down" | "up"
 export const mouseEvents = new Events<LingoMouseEvent, MouseEventName>()
@@ -104,7 +104,7 @@ export class Mouse extends EventLoopItem implements IMouse {
         }, [getDown])
 
         this.createEffect(() => {
-            if (getSelectionEnabled() && getSelectionBlockMouse()) return
+            if (getEditorMounted() && !getEditorPlay()) return
 
             const handle0 = mouseEvents.on("move", (e) => {
                 this.onMouseMove?.(e)
@@ -136,7 +136,7 @@ export class Mouse extends EventLoopItem implements IMouse {
                 handle3.cancel()
                 handle4.cancel()
             }
-        }, [getSelectionEnabled, getSelectionBlockMouse])
+        }, [getEditorMounted, getEditorPlay])
     }
 }
 

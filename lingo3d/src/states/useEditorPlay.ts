@@ -3,10 +3,8 @@ import mainCamera from "../engine/mainCamera"
 import { getCameraRendered } from "./useCameraRendered"
 import { getEditorMounted } from "./useEditorMounted"
 
-export const [setSelectionEnabled, getSelectionEnabled] = store(false)
+export const [setEditorPlay, getEditorPlay] = store(false)
 
 createEffect(() => {
-    setSelectionEnabled(
-        getCameraRendered() === mainCamera && !!getEditorMounted()
-    )
+    setEditorPlay(getCameraRendered() !== mainCamera || !getEditorMounted())
 }, [getCameraRendered, getEditorMounted])
