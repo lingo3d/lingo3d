@@ -3,12 +3,15 @@ import { isPositionedItem } from "../api/core/PositionedItem"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import { getSelectionEnabled } from "./useSelectionEnabled"
 import { getSelectionTarget } from "./useSelectionTarget"
-import { getTransformControlsMode } from "./useTransformControlsMode"
+import {
+    getTransformControlsMode,
+    TransformControlsMode
+} from "./useTransformControlsMode"
 
 export const [
     setTransformControlsModeComputed,
     getTransformControlsModeComputed
-] = store(getTransformControlsMode())
+] = store<TransformControlsMode | "none">(getTransformControlsMode())
 
 createEffect(() => {
     if (!getSelectionEnabled()) {

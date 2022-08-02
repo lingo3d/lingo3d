@@ -1,5 +1,6 @@
 import store from "@lincode/reactivity"
 
-export const [setTransformControlsMode, getTransformControlsMode] = store<
-    "translate" | "rotate" | "scale" | "select" | "none"
->("translate")
+export type TransformControlsMode = "translate" | "rotate" | "scale" | "select"
+
+export const [setTransformControlsMode, getTransformControlsMode] =
+    store<TransformControlsMode>("translate")
