@@ -6,27 +6,12 @@ import {
     setCameraPointerLock
 } from "../../../states/useCameraPointerLock"
 import { mouseEvents } from "../../../api/mouse"
-import { setPickingMode } from "../../../states/usePickingMode"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import isMobile from "../../../api/utils/isMobile"
 import { getEditing } from "../../../states/useEditing"
 
 export default function (this: CameraBase<PerspectiveCamera>) {
     if (this.done) return
-
-    this.createEffect(() => {
-        if (
-            this.mouseControlState.get() !== true ||
-            getCameraRendered() !== this.camera
-        )
-            return
-
-        setPickingMode("camera")
-
-        return () => {
-            setPickingMode("mouse")
-        }
-    }, [this.mouseControlState.get, getCameraRendered])
 
     this.createEffect(() => {
         if (
