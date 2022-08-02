@@ -336,37 +336,10 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.physicsRotate()
     }
 
-    public override translateX(val: number) {
-        super.translateX(val)
-        this.physicsMove()
-    }
-
-    public override translateY(val: number) {
-        super.translateY(val)
-        this.physicsMove()
-    }
-
-    public override translateZ(val: number) {
-        super.translateZ(val)
-        this.physicsMove()
-    }
-
     public override placeAt(object: MeshItem | Point3d) {
         super.placeAt(object)
         this.physicsMove()
         this.physicsRotate()
-    }
-
-    public override moveForward(distance: number) {
-        if (distance === 0) return
-        super.moveForward(distance)
-        this.physicsMoveXZ()
-    }
-
-    public override moveRight(distance: number) {
-        if (distance === 0) return
-        super.moveRight(distance)
-        this.physicsMoveXZ()
     }
 
     public override lerpTo(x: number, y: number, z: number, alpha: number) {
