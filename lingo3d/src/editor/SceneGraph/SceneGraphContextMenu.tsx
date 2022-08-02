@@ -99,7 +99,10 @@ const SceneGraphContextMenu = () => {
                 <Fragment>
                     {data.target && (
                         <Fragment>
-                            <MenuItem setData={undefined} onClick={() => setShowSearch(true)}>
+                            <MenuItem
+                                setData={undefined}
+                                onClick={() => setShowSearch(true)}
+                            >
                                 Search children
                             </MenuItem>
 

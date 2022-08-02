@@ -24,7 +24,12 @@ const MenuItem = ({ disabled, onClick, setData, children }: MenuItemProps) => {
                 opacity: disabled ? 0.5 : 1
             }}
             onClick={
-                disabled ? undefined : () => (setData?.(undefined), onClick?.())
+                disabled
+                    ? undefined
+                    : () => {
+                          setData?.(undefined)
+                          onClick?.()
+                      }
             }
             onMouseEnter={disabled ? undefined : () => setHover(true)}
             onMouseLeave={disabled ? undefined : () => setHover(false)}
