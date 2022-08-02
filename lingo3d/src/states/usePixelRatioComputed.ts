@@ -2,7 +2,8 @@ import store, { createEffect } from "@lincode/reactivity"
 import { getAntiAlias } from "./useAntiAlias"
 import { getPixelRatio } from "./usePixelRatio"
 
-export const [setPixelRatioComputed, getPixelRatioComputed] = store(1)
+const [setPixelRatioComputed, getPixelRatioComputed] = store(1)
+export { getPixelRatioComputed }
 
 createEffect(() => {
     setPixelRatioComputed(

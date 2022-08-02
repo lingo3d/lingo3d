@@ -10,7 +10,6 @@ preventTreeShake(h)
 const HUD = () => {
     const [editorMounted] = useEditorMounted()
     const [cameraRendered] = useCameraRendered()
-    //todo
     const editorActive = editorMounted && cameraRendered === mainCamera
 
     if (!editorActive) return null

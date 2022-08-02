@@ -1,6 +1,6 @@
 import copyMaterial from "./copyMaterial"
 
-export const properties = [
+const properties = [
     "roughness",
     "metalness",
     "map",
@@ -38,7 +38,7 @@ export default (source: any, target: any) => {
         value != null && (target[prop] = value)
     }
 
-    target.defines = {"STANDARD": ""}
+    target.defines = { STANDARD: "" }
     source.color && target.color.copy(source.color)
     source.emissive && target.emissive.copy(source.emissive)
     source.normalScale && target.normalScale.copy(source.normalScale)

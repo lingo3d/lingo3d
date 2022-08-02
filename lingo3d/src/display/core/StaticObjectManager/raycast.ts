@@ -37,7 +37,7 @@ import { getEditorMounted } from "../../../states/useEditorMounted"
 
 const raycaster = new Raycaster()
 
-export const selectionCandidates = new Set<Object3D>()
+const selectionCandidates = new Set<Object3D>()
 const getSelectionCandidates = debounce(
     () => {
         const [frozenSet] = getSelectionFrozen()

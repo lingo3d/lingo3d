@@ -14,7 +14,7 @@ import { debounce } from "@lincode/utils"
 import { getPixelRatioComputed } from "../../states/usePixelRatioComputed"
 import { getEditorMounted } from "../../states/useEditorMounted"
 
-export const rootContainer = document.createElement("div")
+const rootContainer = document.createElement("div")
 Object.assign(rootContainer.style, {
     position: "absolute",
     left: "0px",

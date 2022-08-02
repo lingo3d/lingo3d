@@ -2,9 +2,6 @@ import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
-export type PositionedValue = Record<string, Array<number>>
-export type Positioned = string | number | Array<string | number> | boolean | PositionedValue
-
 export default interface IPositioned extends IEventLoop {
     x: number
     y: number
