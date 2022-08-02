@@ -20,7 +20,6 @@ const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
         <div
             ref={elRef}
             className="lingo3d-ui"
-            onMouseDown={() => setData(undefined)}
             style={{
                 zIndex: 2,
                 position: "absolute",
@@ -31,6 +30,16 @@ const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
                 overflow: "hidden"
             }}
         >
+            <div
+                onMouseDown={() => setData(undefined)}
+                style={{
+                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                    width: "100%",
+                    height: "100%"
+                }}
+            />
             <div
                 style={{
                     position: "absolute",
