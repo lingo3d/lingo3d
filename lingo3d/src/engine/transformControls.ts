@@ -54,12 +54,11 @@ createEffect(() => {
     lazyTransformControls().then((transformControls) => {
         if (
             mode === "select" ||
-            mode === "none" ||
+            mode === "play" ||
             !target.outerObject3d.parent
-        ) {
-            transformControls.enabled = false
+        )
             return
-        }
+
         transformControls.setMode(mode)
         transformControls.setSpace(space)
         transformControls.setScaleSnap(snap)

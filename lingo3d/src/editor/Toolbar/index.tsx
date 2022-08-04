@@ -33,7 +33,6 @@ import {
     decreaseEditorMounted,
     increaseEditorMounted
 } from "../../states/useEditorMounted"
-import { setEditing } from "../../states/useEditing"
 
 preventTreeShake(h)
 
@@ -94,45 +93,33 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                 <Section>
                     <IconButton
                         active={mode === "select"}
-                        onClick={() => {
-                            setEditorMode("select")
-                            setEditing(true)
-                        }}
+                        onClick={() => setEditorMode("select")}
                     >
                         <CursorIcon />
                     </IconButton>
                     <IconButton
                         active={mode === "translate"}
-                        onClick={() => {
-                            setEditorMode("translate")
-                            setEditing(true)
-                        }}
+                        onClick={() => setEditorMode("translate")}
                     >
                         <TranslateIcon />
                     </IconButton>
                     <IconButton
                         active={mode === "rotate"}
                         disabled={translateOnly}
-                        onClick={() => {
-                            setEditorMode("rotate")
-                            setEditing(true)
-                        }}
+                        onClick={() => setEditorMode("rotate")}
                     >
                         <RotateIcon />
                     </IconButton>
                     <IconButton
                         active={mode === "scale"}
                         disabled={translateOnly}
-                        onClick={() => {
-                            setEditorMode("scale")
-                            setEditing(true)
-                        }}
+                        onClick={() => setEditorMode("scale")}
                     >
                         <ScaleIcon />
                     </IconButton>
                     <IconButton
-                        active={mode === "none"}
-                        onClick={() => setEditing(false)}
+                        active={mode === "play"}
+                        onClick={() => setEditorMode("play")}
                     >
                         <PlayIcon />
                     </IconButton>
@@ -145,7 +132,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                         disabled={
                             mode === "scale" ||
                             mode === "select" ||
-                            mode === "none"
+                            mode === "play"
                         }
                     >
                         <AbsoluteIcon />
@@ -153,7 +140,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                     <IconButton
                         active={space === "local"}
                         onClick={() => setTransformControlsSpace("local")}
-                        disabled={mode === "select" || mode === "none"}
+                        disabled={mode === "select" || mode === "play"}
                     >
                         <RelativeIcon />
                     </IconButton>

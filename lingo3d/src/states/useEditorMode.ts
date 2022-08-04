@@ -1,5 +1,5 @@
 import store from "@lincode/reactivity"
 
-export type Mode = "translate" | "rotate" | "scale" | "select"
+type Mode = "translate" | "rotate" | "scale" | "select" | "play"
 
-export const [setEditorMode, getEditorMode] = store<Mode>("translate")
+export const [setEditorMode, getEditorMode] = store<Mode>("play")
