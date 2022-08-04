@@ -33,6 +33,7 @@ import {
     decreaseEditorMounted,
     increaseEditorMounted
 } from "../../states/useEditorMounted"
+import MeshIcon from "./icons/MeshIcon"
 
 preventTreeShake(h)
 
@@ -115,6 +116,13 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                         onClick={() => setEditorMode("scale")}
                     >
                         <ScaleIcon />
+                    </IconButton>
+                    <IconButton
+                        active={mode === "mesh"}
+                        disabled={translateOnly}
+                        onClick={() => setEditorMode("mesh")}
+                    >
+                        <MeshIcon />
                     </IconButton>
                     <IconButton
                         active={mode === "play"}

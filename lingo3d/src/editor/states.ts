@@ -42,7 +42,6 @@ import {
 import { getNodeEditor, setNodeEditor } from "../states/useNodeEditor"
 import { getDebug, setDebug } from "../states/useDebug"
 import { getEditorMounted, setEditorMounted } from "../states/useEditorMounted"
-import { getEditing, setEditing } from "../states/useEditing"
 
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(

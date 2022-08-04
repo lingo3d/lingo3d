@@ -3,7 +3,7 @@ import mainCamera from "../engine/mainCamera"
 import { getCameraRendered } from "./useCameraRendered"
 import { getEditorMounted } from "./useEditorMounted"
 
-type Mode = "translate" | "rotate" | "scale" | "select" | "play"
+type Mode = "translate" | "rotate" | "scale" | "select" | "play" | "mesh"
 
 export const [setEditorMode, getEditorMode] = store<Mode>("play")
 
