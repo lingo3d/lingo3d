@@ -1,7 +1,7 @@
 import { h } from "preact"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
-import Hotkeys from "./HotKeys"
+import HotKey from "./HotKey"
 import { useCameraRendered, useEditorMounted } from "../states"
 import mainCamera from "../../engine/mainCamera"
 
@@ -28,13 +28,14 @@ const HUD = () => {
                 pointerEvents: "none"
             }}
         >
-            <Hotkeys hotkey="W" hotkeyFunction="move forward" />
-            <Hotkeys hotkey="S" hotkeyFunction="move backwards" />
-            <Hotkeys hotkey="A" hotkeyFunction="move left" />
-            <Hotkeys hotkey="D" hotkeyFunction="move right" />
-            <Hotkeys hotkey="↑" hotkeyFunction="move up" />
-            <Hotkeys hotkey="↓" hotkeyFunction="move down" />
-            <Hotkeys hotkey="C" hotkeyFunction="center selected" />
+            <HotKey hotkey="W" hotkeyFunction="move forward" />
+            <HotKey hotkey="S" hotkeyFunction="move backwards" />
+            <HotKey hotkey="A" hotkeyFunction="move left" />
+            <HotKey hotkey="D" hotkeyFunction="move right" />
+            <HotKey hotkey="↑" hotkeyFunction="move up" />
+            <HotKey hotkey="↓" hotkeyFunction="move down" />
+            <HotKey hotkey="C" hotkeyFunction="center selected" />
+            <HotKey hotkey="SHIFT" hotkeyFunction="Accelerate" />
         </div>
     )
 }

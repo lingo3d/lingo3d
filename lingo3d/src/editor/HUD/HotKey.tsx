@@ -14,23 +14,27 @@ export default ({ hotkey, hotkeyFunction }: HotKeysProps) => {
             style={{
                 display: "flex",
                 alignItems: "center",
-                fontSize: "11px",
-                lineHeight: "1.3",
-                marginTop: "4px",
-                minWidth: "150px"
+                marginTop: 4,
+                whiteSpace: "nowrap"
             }}
         >
             <div
                 style={{
-                    width: "20px",
                     border: "1px solid white",
                     borderRadius: "4px",
-                    padding: "2px 4px 2px 4px",
-                    display: "flex",
-                    justifyContent: "center"
+                    padding: "2px 4px 2px 4px"
                 }}
             >
-                {hotkey}
+                <div
+                    style={{
+                        minWidth: 10,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}
+                >
+                    {hotkey}
+                </div>
             </div>
             <div style={{ padding: "0 1px 0 1px" }}>&nbsp;-&nbsp;</div>
             <div style={{ padding: "2px 0px 2px 0px" }}>{hotkeyFunction}</div>

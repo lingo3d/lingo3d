@@ -113,13 +113,15 @@ export default class OrbitCamera
 
                 handle.watch(
                     onBeforeRender(() => {
-                        if (downSet.has("w"))
-                            this.translateZ(downSet.has("Shift") ? -50 : -10)
-                        else if (downSet.has("s"))
-                            this.translateZ(downSet.has("Shift") ? 50 : 10)
+                        const speed = downSet.has("Shift") ? 50 : 10
 
-                        if (downSet.has("a")) this.moveRight(-10)
-                        else if (downSet.has("d")) this.moveRight(10)
+                        if (downSet.has("w")) this.translateZ(-speed)
+                        else if (downSet.has("s")) this.translateZ(speed)
+
+                        if (downSet.has("a") || downSet.has("ArrowLeft"))
+                            this.moveRight(-speed)
+                        else if (downSet.has("d") || downSet.has("ArrowRight"))
+                            this.moveRight(speed)
 
                         if (
                             downSet.has("w") ||
@@ -134,8 +136,8 @@ export default class OrbitCamera
                             this.placeAt(worldPos)
                         }
 
-                        if (downSet.has("ArrowDown")) this.y -= 10
-                        else if (downSet.has("ArrowUp")) this.y += 10
+                        if (downSet.has("ArrowDown")) this.y -= speed
+                        else if (downSet.has("ArrowUp")) this.y += speed
                     })
                 )
 
