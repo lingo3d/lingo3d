@@ -29,7 +29,7 @@ export default (url: string, onLoad?: () => void) => {
                 loaded.setState(url)
                 decreaseLoadingCount()
             },
-            handleProgress,
+            handleProgress(url),
             () => {
                 loaded.setState(url)
                 decreaseLoadingCount()

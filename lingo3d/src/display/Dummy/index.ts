@@ -53,14 +53,18 @@ export default class Dummy extends Model implements IDummy {
                         src === YBOT_URL && dummyTypeMap.set(this, "dummy")
                     } else if (
                         spineName === "Spine" &&
-                        loaded.getObjectByName("Wolf3D_Body")
+                        (loaded.getObjectByName("Wolf3D_Body") ||
+                            loaded.getObjectByName("Wolf3D_Avatar"))
                     ) {
                         setType("readyplayerme")
                         dummyTypeMap.set(this, "readyplayerme")
                     }
                     return
                 }
-                if (loaded.getObjectByName("Wolf3D_Body")) {
+                if (
+                    loaded.getObjectByName("Wolf3D_Body") ||
+                    loaded.getObjectByName("Wolf3D_Avatar")
+                ) {
                     setSpine(this.find("Spine", true))
                     setType("readyplayerme")
                     dummyTypeMap.set(this, "readyplayerme")
