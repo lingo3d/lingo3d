@@ -1,9 +1,9 @@
-import { Ref, ref, watchEffect } from "vue"
+import { ComputedRef, ref, watchEffect } from "vue"
 
 export default (
   props: Record<string, any>,
   defaults: Record<string, any>,
-  paused?: Ref<boolean>
+  paused?: ComputedRef<boolean>
 ) => {
   let propsOld: Record<string, any> = defaults
 
