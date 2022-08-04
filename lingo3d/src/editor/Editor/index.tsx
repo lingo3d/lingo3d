@@ -50,6 +50,7 @@ import {
     decreaseEditorMounted,
     increaseEditorMounted
 } from "../../states/useEditorMounted"
+import { setEditorMode } from "../../states/useEditorMode"
 
 preventTreeShake(h)
 
@@ -71,17 +72,14 @@ const Editor = () => {
     const camera = last(cameraStack)!
 
     useEffect(() => {
-        const currentCamera = camera!
+        const currentCamera = camera
 
-        const init = () => {
-            mainOrbitCamera.activate()
-            setOrbitControls(true)
-            setGridHelper(true)
-            render({})
-        }
-        init()
+        mainOrbitCamera.activate()
+        setOrbitControls(true)
+        setGridHelper(true)
+        setEditorMode("translate")
 
-        const handle0 = onApplySetup(init)
+        const handle0 = onApplySetup(() => render({}))
 
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
