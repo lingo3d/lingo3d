@@ -83,7 +83,8 @@ const pickable = (
                 e.xNorm,
                 e.yNorm,
                 point,
-                distance
+                distance,
+                result.object.userData.manager
             )
         )
     })

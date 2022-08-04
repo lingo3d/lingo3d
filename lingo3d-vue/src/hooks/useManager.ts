@@ -11,9 +11,37 @@ import fn from "lingo3d/lib/interface/utils/fn"
 const handleStore = new WeakMap<SimpleObjectManager, Map<string, Cancellable>>()
 const makeHandleMap = () => new Map<string, Cancellable>()
 
+const _applyChanges = (
+  manager: any,
+  diff: Ref<Array<[string, any]>>,
+  defaults: Record<string, any>
+) => {
+  const handleMap = forceGet(handleStore, manager, makeHandleMap)
+
+  for (const [key, value] of toRaw(diff.value)) {
+    handleMap.get(key)?.cancel()
+
+    if (value instanceof Reactive) {
+      handleMap.set(
+        key,
+        value.get((v) => (manager[key] = v))
+      )
+      continue
+    }
+    const defaultValue = defaults[key]
+    if (defaultValue === fn) {
+      if (!value) continue
+      if (Array.isArray(value)) manager[key](...value)
+      else manager[key]()
+      continue
+    }
+    manager[key] = value ?? defaultValue
+  }
+}
+
 export const applyChanges = (
-  managerRef: Ref<any> | undefined,
-  manager: any | undefined,
+  managerRef: Ref<any | Array<any>> | undefined,
+  manager: any | Array<any> | undefined,
   diff: Ref<Array<[string, any]>>,
   defaults: Record<string, any>
 ) => {
@@ -21,27 +49,9 @@ export const applyChanges = (
     manager ??= toRaw(managerRef?.value)
     if (!manager) return
 
-    const handleMap = forceGet(handleStore, manager, makeHandleMap)
-
-    for (const [key, value] of toRaw(diff.value)) {
-      handleMap.get(key)?.cancel()
-
-      if (value instanceof Reactive) {
-        handleMap.set(
-          key,
-          value.get((v) => (manager[key] = v))
-        )
-        continue
-      }
-      const defaultValue = defaults[key]
-      if (defaultValue === fn) {
-        if (!value) continue
-        if (Array.isArray(value)) manager[key](...value)
-        else manager[key]()
-        continue
-      }
-      manager[key] = value ?? defaultValue
-    }
+    if (Array.isArray(manager))
+      for (const _manager of manager) _applyChanges(_manager, diff, defaults)
+    else _applyChanges(manager, diff, defaults)
   })
 }
 

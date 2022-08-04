@@ -8,7 +8,7 @@ specifiers:
   '@types/stats.js': ^0.17.0
   '@types/three': 0.143.0
   '@vitejs/plugin-vue': ^3.0.1
-  lingo3d: 1.15.0
+  lingo3d: 1.15.5
   popmotion: '*'
   preact: '*'
   stats.js: '*'
@@ -24,7 +24,7 @@ dependencies:
   '@lincode/utils': 1.2.51
   '@tweakpane/core': 1.1.0
   '@types/three': 0.143.0
-  lingo3d: 1.15.0
+  lingo3d: 1.15.5
   popmotion: 11.0.3
   preact: 10.10.0
   stats.js: 0.17.0
@@ -534,8 +534,8 @@ packages:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
     dev: false
 
-  /lingo3d/1.15.0:
-    resolution: {integrity: sha512-PPZG1O3fqF7ZYVyZwoTFHM68JyY9DSAUkGCyGE76yX6L2Lug3wwxSJk7YVI8+ZFf3k8xkulvGzWgKeSy/1KkaA==}
+  /lingo3d/1.15.5:
+    resolution: {integrity: sha512-1Yp8+GIsc5auavP2sBCC7lfH2AT00tA+2vMzfoD4EiufHVyMtKi/NqQROPjNQjidnzAhCyYGqrG5MQg22yy6YQ==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
@@ -548,12 +548,12 @@ packages:
       browser-fs-access: 0.31.0
       cannon-es: 0.19.0
       nipplejs: 0.9.1
-      postprocessing: 6.28.4_three@0.142.0
+      postprocessing: 6.28.5_three@0.143.0
       preact: 10.10.0
       preact-compat: 3.19.0_preact@10.10.0
       preact-custom-element: 4.2.1_preact@10.10.0
       prettier: 2.7.1
-      three: 0.142.0
+      three: 0.143.0
       tweakpane: 3.1.0
       xstate: 4.32.1
     dev: false
@@ -623,13 +623,13 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing/6.28.4_three@0.142.0:
-    resolution: {integrity: sha512-xVw7wT9H4s/f/AWS+u3FssIZ1iMY632zweCHqcNZ1ydFChCWeHcWOpEPx0dQz2DMIUlZclFW9WmwMJQxESI+cQ==}
+  /postprocessing/6.28.5_three@0.143.0:
+    resolution: {integrity: sha512-e9aH6T720AiQpStdgqrQSsHzpddFQ7Q8v204sZx4iSTnUuYvkq7mFPOyzhVDlx5NrmXXbwz2PEK2XTq+qEYSMg==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
-      three: '>= 0.107.0 < 0.143.0'
+      three: '>= 0.107.0 < 0.144.0'
     dependencies:
-      three: 0.142.0
+      three: 0.143.0
     dev: false
 
   /preact-compat/3.19.0_preact@10.10.0:
@@ -764,8 +764,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /three/0.142.0:
-    resolution: {integrity: sha512-ESjPO+3geFr+ZUfVMpMnF/eVU2uJPOh0e2ZpMFqjNca1wApS9lJb7E4MjwGIczgt9iuKd8PEm6Pfgp2bJ92Xtg==}
+  /three/0.143.0:
+    resolution: {integrity: sha512-oKcAGYHhJ46TGEuHjodo2n6TY2R6lbvrkp+feKZxqsUL/WkH7GKKaeu6RHeyb2Xjfk2dPLRKLsOP0KM2VgT8Zg==}
     dev: false
 
   /to-fast-properties/2.0.0:

@@ -1,12 +1,12 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@babel/cli': ^7.18.10
-  '@babel/core': ^7.18.10
-  '@babel/preset-env': ^7.18.10
+  '@babel/cli': ^7.18.6
+  '@babel/core': ^7.18.6
+  '@babel/preset-env': ^7.18.6
   '@babel/preset-react': ^7.18.6
   '@babel/preset-typescript': ^7.18.6
-  '@babel/runtime': ^7.18.9
+  '@babel/runtime': ^7.18.6
   '@lincode/hooks': '*'
   '@lincode/promiselikes': '*'
   '@lincode/reactivity': '*'
@@ -16,14 +16,14 @@ specifiers:
   '@types/react-dom': '*'
   '@types/stats.js': ^0.17.0
   '@types/three': 0.143.0
-  autoprefixer: ^10.4.8
+  autoprefixer: ^10.4.7
   babel-loader: ^8.2.5
   content-loader: '*'
-  core-js: ^3.24.1
+  core-js: ^3.23.4
   css-loader: ^6.7.1
-  fork-ts-checker-webpack-plugin: ^7.2.13
+  fork-ts-checker-webpack-plugin: ^7.2.12
   html-webpack-plugin: ^5.5.0
-  lingo3d: 1.15.0
+  lingo3d: 1.15.5
   nanoid: '*'
   popmotion: '*'
   postcss: ^8.4.14
@@ -36,7 +36,7 @@ specifiers:
   tweakpane: 3.1.0
   typescript: '*'
   url-loader: '*'
-  webpack: ^5.74.0
+  webpack: ^5.73.0
   webpack-cli: ^4.10.0
   webpack-dev-server: ^4.9.3
   webpack-notifier: ^1.15.0
@@ -48,7 +48,7 @@ dependencies:
   '@lincode/utils': 1.2.51
   '@tweakpane/core': 1.1.0
   '@types/three': 0.143.0
-  lingo3d: 1.15.0
+  lingo3d: 1.15.5
   nanoid: 4.0.0
   popmotion: 11.0.3
   preact: 10.10.0
@@ -3180,8 +3180,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lingo3d/1.15.0:
-    resolution: {integrity: sha512-PPZG1O3fqF7ZYVyZwoTFHM68JyY9DSAUkGCyGE76yX6L2Lug3wwxSJk7YVI8+ZFf3k8xkulvGzWgKeSy/1KkaA==}
+  /lingo3d/1.15.5:
+    resolution: {integrity: sha512-1Yp8+GIsc5auavP2sBCC7lfH2AT00tA+2vMzfoD4EiufHVyMtKi/NqQROPjNQjidnzAhCyYGqrG5MQg22yy6YQ==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
@@ -3194,12 +3194,12 @@ packages:
       browser-fs-access: 0.31.0
       cannon-es: 0.19.0
       nipplejs: 0.9.1
-      postprocessing: 6.28.4_three@0.142.0
+      postprocessing: 6.28.5_three@0.143.0
       preact: 10.10.0
       preact-compat: 3.19.0_preact@10.10.0
       preact-custom-element: 4.2.1_preact@10.10.0
       prettier: 2.7.1
-      three: 0.142.0
+      three: 0.143.0
       tweakpane: 3.1.0
       xstate: 4.32.1
     dev: false
@@ -3690,13 +3690,13 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing/6.28.4_three@0.142.0:
-    resolution: {integrity: sha512-xVw7wT9H4s/f/AWS+u3FssIZ1iMY632zweCHqcNZ1ydFChCWeHcWOpEPx0dQz2DMIUlZclFW9WmwMJQxESI+cQ==}
+  /postprocessing/6.28.5_three@0.143.0:
+    resolution: {integrity: sha512-e9aH6T720AiQpStdgqrQSsHzpddFQ7Q8v204sZx4iSTnUuYvkq7mFPOyzhVDlx5NrmXXbwz2PEK2XTq+qEYSMg==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
-      three: '>= 0.107.0 < 0.143.0'
+      three: '>= 0.107.0 < 0.144.0'
     dependencies:
-      three: 0.142.0
+      three: 0.143.0
     dev: false
 
   /preact-compat/3.19.0_preact@10.10.0:
@@ -4342,8 +4342,8 @@ packages:
       source-map-support: 0.5.21
     dev: true
 
-  /three/0.142.0:
-    resolution: {integrity: sha512-ESjPO+3geFr+ZUfVMpMnF/eVU2uJPOh0e2ZpMFqjNca1wApS9lJb7E4MjwGIczgt9iuKd8PEm6Pfgp2bJ92Xtg==}
+  /three/0.143.0:
+    resolution: {integrity: sha512-oKcAGYHhJ46TGEuHjodo2n6TY2R6lbvrkp+feKZxqsUL/WkH7GKKaeu6RHeyb2Xjfk2dPLRKLsOP0KM2VgT8Zg==}
     dev: false
 
   /thunky/1.1.0:

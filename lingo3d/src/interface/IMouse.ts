@@ -1,4 +1,5 @@
 import { Point3d } from "@lincode/math"
+import StaticObjectManager from "../display/core/StaticObjectManager"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
@@ -11,7 +12,8 @@ export class LingoMouseEvent {
         public xNorm: number,
         public yNorm: number,
         public point: Point3d,
-        public distance: number
+        public distance: number,
+        public target: StaticObjectManager | undefined
     ) {}
 }
 

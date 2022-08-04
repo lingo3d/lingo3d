@@ -22,7 +22,8 @@ export default (ev: { clientX: number; clientY: number }) => {
             0,
             0,
             new Point3d(0, 0, 0),
-            distance
+            distance,
+            undefined
         )
 
     const xNorm = (clientX / rect.width) * 2 - 1
@@ -42,6 +43,7 @@ export default (ev: { clientX: number; clientY: number }) => {
         xNorm,
         yNorm,
         vec2Point(vec),
-        distance
+        distance,
+        undefined
     )
 }
