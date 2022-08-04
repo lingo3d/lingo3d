@@ -10,7 +10,7 @@ specifiers:
   core-js: ^3.23.3
   fork-ts-checker-webpack-plugin: ^7.2.11
   html-webpack-plugin: ^5.5.0
-  lingo3d: 1.15.8
+  lingo3d: 1.15.9
   typescript: '*'
   webpack: ^5.73.0
   webpack-cli: ^4.10.0
@@ -18,7 +18,7 @@ specifiers:
   webpack-notifier: ^1.15.0
 
 dependencies:
-  lingo3d: 1.15.8
+  lingo3d: 1.15.9
 
 devDependencies:
   '@babel/cli': 7.18.10_@babel+core@7.18.10
@@ -2943,8 +2943,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lingo3d/1.15.8:
-    resolution: {integrity: sha512-RSYV8g6JlOkNvdmjHRm8wSoDRW/tEAWPpllbIInqGUG3bR57IzEl9acHPMYjeTz99h5AEMqLFSAlH19MDe62DA==}
+  /lingo3d/1.15.9:
+    resolution: {integrity: sha512-AyurNUuHtkD3bo0zdbI0pFFuqezNJsga4b50ndSsYIyajU37HYvSvsEIzDfzJZuySiYfMDHyTSJCD73sLbFJ9A==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
