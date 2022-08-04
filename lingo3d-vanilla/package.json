@@ -1,6 +1,6 @@
 {
 	"name": "lingo3d-vanilla",
-	"version": "1.12.29",
+	"version": "1.15.7",
 	"description": "Lingo3D is a React/Vue 3d game development framework that ships with a complete visual editor",
 	"repository": "https://github.com/lingo3d/lingo3d",
 	"homepage": "https://lingo3d.com",
@@ -14,7 +14,7 @@
 		"vue"
 	],
 	"dependencies": {
-		"lingo3d": "1.12.29"
+		"lingo3d": "1.15.7"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.18.6",
