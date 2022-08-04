@@ -42,6 +42,7 @@ import {
 import { getNodeEditor, setNodeEditor } from "../states/useNodeEditor"
 import { getDebug, setDebug } from "../states/useDebug"
 import { getEditorMounted, setEditorMounted } from "../states/useEditorMounted"
+import { getEditing, setEditing } from "../states/useEditing"
 
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(
@@ -77,3 +78,4 @@ export const useSceneGraphPreventDrag = hook(
 export const useNodeEditor = hook(setNodeEditor, getNodeEditor)
 export const useDebug = hook(setDebug, getDebug)
 export const useEditorMounted = hook(setEditorMounted, getEditorMounted)
+export const useEditing = hook(setEditing, getEditing)

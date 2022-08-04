@@ -19,8 +19,9 @@ import { isPositionedItem } from "../../api/core/PositionedItem"
 import { Object3D } from "three"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../utils/getComponentName"
+import { getEditing } from "../../states/useEditing"
+import { setEditorMode } from "../../states/useEditorMode"
 
 preventTreeShake(h)
 
@@ -36,7 +37,7 @@ export const makeTreeItemCallbacks = (
 ) => {
     const setClickEl = useClick((e) => {
         e.stopPropagation()
-        mainOrbitCamera.activate()
+        !getEditing() && setEditorMode("translate")
         isPositionedItem(parent) &&
             getSelectionTarget() !== parent &&
             emitSelectionTarget(parent)

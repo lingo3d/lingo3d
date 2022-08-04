@@ -1,7 +1,7 @@
 import { h } from "preact"
 import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import register from "preact-custom-element"
-import { last, preventTreeShake } from "@lincode/utils"
+import { preventTreeShake } from "@lincode/utils"
 import { onSceneGraphChange } from "../../events/onSceneGraphChange"
 import { appendableRoot, hiddenAppendables } from "../../api/core/Appendable"
 import TreeItem from "./TreeItem"
@@ -12,7 +12,7 @@ import GroupIcon from "./icons/GroupIcon"
 import DeleteIcon from "./icons/DeleteIcon"
 import TitleBarButton from "./TitleBarButton"
 import {
-    useCameraStack,
+    useEditing,
     useMultipleSelectionTargets,
     useSceneGraphTarget,
     useSelectionTarget
@@ -23,7 +23,6 @@ import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import EmptyItem from "./EmptyItem"
 import FindIcon from "./icons/FindIcon"
 import ObjectManager from "../../display/core/ObjectManager"
-import mainCamera from "../../engine/mainCamera"
 import SceneGraphContextMenu from "./SceneGraphContextMenu"
 import { onSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 import retargetBones from "./retargetBones"
@@ -65,8 +64,7 @@ const SceneGraph = () => {
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const [selectionTarget] = useSelectionTarget()
     const [sceneGraphTarget] = useSceneGraphTarget()
-    const [cameraStack] = useCameraStack()
-    const camera = last(cameraStack)
+    const [editing] = useEditing()
 
     const handleFind = () => {
         if (sceneGraphTarget?.name && selectionTarget instanceof ObjectManager)
@@ -94,7 +92,7 @@ const SceneGraph = () => {
                 style={{
                     height: 24,
                     borderBottom: "1px solid rgb(255,255,255,0.1)",
-                    opacity: camera === mainCamera ? 0.5 : 0.25,
+                    opacity: editing ? 0.5 : 0.25,
                     display: "flex",
                     alignItems: "center",
                     paddingLeft: 12
@@ -122,10 +120,7 @@ const SceneGraph = () => {
                 </TitleBarButton>
             </div>
             <div
-                style={{
-                    overflow: "scroll",
-                    opacity: camera === mainCamera ? 1 : 0.5
-                }}
+                style={{ overflow: "scroll", opacity: editing ? 1 : 0.5 }}
                 className="lingo3d-ui"
             >
                 {appendables.map((appendable) =>
