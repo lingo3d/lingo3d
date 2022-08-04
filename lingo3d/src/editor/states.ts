@@ -78,4 +78,3 @@ export const useSceneGraphPreventDrag = hook(
 export const useNodeEditor = hook(setNodeEditor, getNodeEditor)
 export const useDebug = hook(setDebug, getDebug)
 export const useEditorMounted = hook(setEditorMounted, getEditorMounted)
-export const useEditing = hook(setEditing, getEditing)

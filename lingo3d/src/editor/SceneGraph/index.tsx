@@ -12,7 +12,6 @@ import GroupIcon from "./icons/GroupIcon"
 import DeleteIcon from "./icons/DeleteIcon"
 import TitleBarButton from "./TitleBarButton"
 import {
-    useEditing,
     useMultipleSelectionTargets,
     useSceneGraphTarget,
     useSelectionTarget
@@ -64,7 +63,6 @@ const SceneGraph = () => {
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const [selectionTarget] = useSelectionTarget()
     const [sceneGraphTarget] = useSceneGraphTarget()
-    const [editing] = useEditing()
 
     const handleFind = () => {
         if (sceneGraphTarget?.name && selectionTarget instanceof ObjectManager)
@@ -92,7 +90,7 @@ const SceneGraph = () => {
                 style={{
                     height: 24,
                     borderBottom: "1px solid rgb(255,255,255,0.1)",
-                    opacity: editing ? 0.5 : 0.25,
+                    opacity: 0.5,
                     display: "flex",
                     alignItems: "center",
                     paddingLeft: 12
@@ -120,7 +118,7 @@ const SceneGraph = () => {
                 </TitleBarButton>
             </div>
             <div
-                style={{ overflow: "scroll", opacity: editing ? 1 : 0.5 }}
+                style={{ overflow: "scroll" }}
                 className="lingo3d-ui"
             >
                 {appendables.map((appendable) =>
