@@ -548,12 +548,8 @@ const Editor = () => {
     return (
         <div
             ref={elRef}
-            className="lingo3d-ui"
-            style={{
-                width: 300,
-                height: "100%",
-                background: "rgb(40, 41, 46)"
-            }}
+            className="lingo3d-ui lingo3d-bg"
+            style={{ width: 300, height: "100%" }}
         />
     )
 }

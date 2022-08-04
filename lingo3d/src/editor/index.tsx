@@ -30,6 +30,9 @@ const style = createElement(`
         .lingo3d-ui::-webkit-scrollbar {
             display: none;
         }
+        .lingo3d-bg {
+            background: rgb(40, 41, 46);
+        }
         .tp-lblv_l {
             overflow: hidden;
             text-overflow: ellipsis;

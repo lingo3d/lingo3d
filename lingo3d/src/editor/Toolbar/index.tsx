@@ -72,11 +72,10 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
     return (
         <div
             ref={elRef}
-            className="lingo3d-ui"
+            className="lingo3d-ui lingo3d-bg"
             style={{
                 width: 50,
                 height: "100%",
-                background: "rgb(40, 41, 46)",
                 borderRight: "1px solid rgba(255, 255, 255, 0.05)",
                 overflow: "hidden"
             }}

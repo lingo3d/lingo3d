@@ -78,12 +78,11 @@ const SceneGraph = () => {
     return (
         <div
             ref={elRef}
-            className="lingo3d-ui"
+            className="lingo3d-ui lingo3d-bg"
             onClick={() => emitSelectionTarget()}
             style={{
                 width: 200,
                 height: "100%",
-                background: "rgb(40, 41, 46)",
                 padding: 4,
                 paddingTop: 0,
                 display: "flex",

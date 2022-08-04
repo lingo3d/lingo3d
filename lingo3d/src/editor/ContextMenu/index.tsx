@@ -41,11 +41,11 @@ const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
                 }}
             />
             <div
+                className="lingo3d-bg"
                 style={{
                     position: "absolute",
                     left: data.x,
                     top: data.y,
-                    background: "rgb(40, 41, 46)",
                     padding: 6
                 }}
             >

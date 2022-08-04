@@ -30,13 +30,8 @@ const Library = () => {
     return (
         <div
             ref={elRef}
-            className="lingo3d-ui"
-            style={{
-                width: 200,
-                height: "100%",
-                background: "rgb(40, 41, 46)",
-                padding: 10
-            }}
+            className="lingo3d-ui lingo3d-bg"
+            style={{ width: 200, height: "100%", padding: 10 }}
         >
             <ObjectGroup
                 names={[
