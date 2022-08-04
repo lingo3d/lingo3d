@@ -13,7 +13,7 @@ import { onTransformControls } from "../../events/onTransformControls"
 import { Reactive } from "@lincode/reactivity"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { getTransformControlsModeComputed } from "../../states/useTransformControlsModeComputed"
+import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -47,7 +47,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
 
             this.createEffect(() => {
                 if (
-                    getTransformControlsModeComputed() !== "scale" ||
+                    getEditorModeComputed() !== "scale" ||
                     getSelectionTarget() !== this
                 )
                     return
@@ -60,7 +60,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
                 return () => {
                     handle.cancel()
                 }
-            }, [getTransformControlsModeComputed, getSelectionTarget])
+            }, [getEditorModeComputed, getSelectionTarget])
 
             this.createEffect(() => {
                 if (

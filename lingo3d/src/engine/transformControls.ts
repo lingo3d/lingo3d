@@ -7,7 +7,7 @@ import scene from "./scene"
 import { lazy } from "@lincode/utils"
 import { Cancellable } from "@lincode/promiselikes"
 import { setTransformControlsDragging } from "../states/useTransformControlsDragging"
-import { getTransformControlsModeComputed } from "../states/useTransformControlsModeComputed"
+import { getEditorModeComputed } from "../states/useEditorModeComputed"
 import { getTransformControlsSpaceComputed } from "../states/useTransformControlsSpaceComputed"
 import { getCameraRendered } from "../states/useCameraRendered"
 
@@ -43,7 +43,7 @@ const lazyTransformControls = lazy(async () => {
 
 createEffect(() => {
     const target = getSelectionTarget()
-    const mode = getTransformControlsModeComputed()
+    const mode = getEditorModeComputed()
     const space = getTransformControlsSpaceComputed()
     const snap = getTransformControlsSnap()
 
@@ -81,7 +81,7 @@ createEffect(() => {
     }
 }, [
     getSelectionTarget,
-    getTransformControlsModeComputed,
+    getEditorModeComputed,
     getTransformControlsSpaceComputed,
     getTransformControlsSnap
 ])

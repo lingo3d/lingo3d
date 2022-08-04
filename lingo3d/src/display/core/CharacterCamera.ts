@@ -14,7 +14,7 @@ import { euler, halfPi, quaternion } from "../utils/reusables"
 import MeshItem from "./MeshItem"
 import { getLoadedObject } from "./Loaded"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
-import { getTransformControlsModeComputed } from "../../states/useTransformControlsModeComputed"
+import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 
 const dirObj = new Object3D()
 
@@ -141,7 +141,7 @@ export default class CharacterCamera
             const target = this.targetState.get()
             const selectionTarget = getSelectionTarget()
             const dragging = getTransformControlsDragging()
-            const mode = getTransformControlsModeComputed()
+            const mode = getEditorModeComputed()
 
             const rotating =
                 target &&
@@ -159,7 +159,7 @@ export default class CharacterCamera
             this.targetState.get,
             getSelectionTarget,
             getTransformControlsDragging,
-            getTransformControlsModeComputed
+            getEditorModeComputed
         ])
     }
 

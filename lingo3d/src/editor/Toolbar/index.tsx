@@ -9,7 +9,7 @@ import RelativeIcon from "./icons/RelativeIcon"
 import IconButton from "./IconButton"
 import {
     useSelectionTarget,
-    useTransformControlsModeComputed,
+    useEditorComputed,
     useTransformControlsSpaceComputed
 } from "../states"
 import CursorIcon from "./icons/CursorIcon"
@@ -24,7 +24,7 @@ import openJSON from "../../api/files/openJSON"
 import exportJSON from "../../api/files/exportJSON"
 import Section from "./Section"
 import useInit from "../utils/useInit"
-import { setTransformControlsMode } from "../../states/useTransformControlsMode"
+import { setEditorMode } from "../../states/useEditorMode"
 import { setTransformControlsSpace } from "../../states/useTransformControlsSpace"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
@@ -54,7 +54,7 @@ interface ToolbarProps {
 const Toolbar = ({ buttons }: ToolbarProps) => {
     const elRef = useInit()
 
-    const [mode] = useTransformControlsModeComputed()
+    const [mode] = useEditorComputed()
     const [space] = useTransformControlsSpaceComputed()
     const [target] = useSelectionTarget()
     const translateOnly =
@@ -95,7 +95,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                     <IconButton
                         active={mode === "select"}
                         onClick={() => {
-                            setTransformControlsMode("select")
+                            setEditorMode("select")
                             setEditing(true)
                         }}
                     >
@@ -104,7 +104,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                     <IconButton
                         active={mode === "translate"}
                         onClick={() => {
-                            setTransformControlsMode("translate")
+                            setEditorMode("translate")
                             setEditing(true)
                         }}
                     >
@@ -114,7 +114,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                         active={mode === "rotate"}
                         disabled={translateOnly}
                         onClick={() => {
-                            setTransformControlsMode("rotate")
+                            setEditorMode("rotate")
                             setEditing(true)
                         }}
                     >
@@ -124,7 +124,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                         active={mode === "scale"}
                         disabled={translateOnly}
                         onClick={() => {
-                            setTransformControlsMode("scale")
+                            setEditorMode("scale")
                             setEditing(true)
                         }}
                     >
