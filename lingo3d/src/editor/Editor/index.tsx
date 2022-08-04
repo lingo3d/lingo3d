@@ -50,7 +50,6 @@ import {
     decreaseEditorMounted,
     increaseEditorMounted
 } from "../../states/useEditorMounted"
-import { setEditorMode } from "../../states/useEditorMode"
 
 preventTreeShake(h)
 
@@ -77,7 +76,6 @@ const Editor = () => {
         mainOrbitCamera.activate()
         setOrbitControls(true)
         setGridHelper(true)
-        setEditorMode("translate")
 
         const handle0 = onApplySetup(() => render({}))
 
