@@ -5,10 +5,11 @@ import MeshItem from "../core/MeshItem"
 const cache = new WeakMap<MeshItem, Vector3>()
 
 export default (target: MeshItem) => {
-    if (cache.has(target))
-        return cache.get(target)!.clone()
+    if (cache.has(target)) return cache.get(target)!.clone()
 
-    const result = target.nativeObject3d.scale.clone().multiply(target.outerObject3d.scale)
+    const result = target.nativeObject3d.scale
+        .clone()
+        .multiply(target.outerObject3d.scale)
 
     cache.set(target, result.clone())
     onAfterRender(() => cache.delete(target), true)

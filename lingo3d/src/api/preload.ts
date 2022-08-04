@@ -5,7 +5,11 @@ import { lazyLoadFBX, lazyLoadGLTF } from "../display/utils/loaders/lazyLoad"
 import loadTexturePromise from "../display/utils/loaders/loadTexturePromise"
 import { getLoadingCount } from "../states/useLoadingCount"
 
-export default async (urls: Array<string>, total: number | string, onProgress?: (value: number) => void) => {
+export default async (
+    urls: Array<string>,
+    total: number | string,
+    onProgress?: (value: number) => void
+) => {
     const promises: Array<Promise<any>> = []
 
     for (const url of urls) {
@@ -16,7 +20,7 @@ export default async (urls: Array<string>, total: number | string, onProgress?: 
             case "image":
                 promises.push(loadTexturePromise(url))
                 break
-            
+
             case "model":
                 const extension = splitFileName(url)[1]?.toLowerCase()
                 if (extension === "fbx")
@@ -24,7 +28,7 @@ export default async (urls: Array<string>, total: number | string, onProgress?: 
                 else if (extension === "gltf" || extension === "glb")
                     promises.push((await lazyLoadGLTF()).default(url, false))
                 break
-            
+
             case "audio":
             case "plainText":
             case "scene":
@@ -35,33 +39,34 @@ export default async (urls: Array<string>, total: number | string, onProgress?: 
         }
     }
     let totalBytes = 0
-    if (typeof total === "number")
-        totalBytes = total
+    if (typeof total === "number") totalBytes = total
     else {
         total = total.toLowerCase()
-        if (total.endsWith("kb"))
-            totalBytes = parseFloat(total) * 1024 * 1024
+        if (total.endsWith("kb")) totalBytes = parseFloat(total) * 1024 * 1024
         else if (total.endsWith("mb"))
             totalBytes = parseFloat(total) * 1024 * 1024 * 1024
         else if (total.endsWith("gb"))
             totalBytes = parseFloat(total) * 1024 * 1024 * 1024 * 1024
-        else
-            throw new Error("invalid preload total value: " + total)
+        else throw new Error("invalid preload total value: " + total)
     }
 
     const interval = setInterval(() => {
-        onProgress?.(totalBytes <= 0 ? 0 : Math.min(bytesLoaded[0] / totalBytes * 100, 99))
+        onProgress?.(
+            totalBytes <= 0
+                ? 0
+                : Math.min((bytesLoaded[0] / totalBytes) * 100, 99)
+        )
     }, 100)
 
     await Promise.all(promises)
-    
+
     clearInterval(interval)
 
-    await new Promise<void>(resolve => {
+    await new Promise<void>((resolve) => {
         getLoadingCount((count, handle) => {
             if (count > 0) return
             handle.cancel()
-            resolve() 
+            resolve()
         })
     })
     onProgress?.(100)

@@ -4,6 +4,12 @@ import loadTexture from "./loadTexture"
 
 const cache = new Map<string, Promise<Texture>>()
 
-export default (url: string) => forceGet(cache, url, () => new Promise<Texture>(resolve => {
-    const texture = loadTexture(url, () => resolve(texture))
-}))
+export default (url: string) =>
+    forceGet(
+        cache,
+        url,
+        () =>
+            new Promise<Texture>((resolve) => {
+                const texture = loadTexture(url, () => resolve(texture))
+            })
+    )
