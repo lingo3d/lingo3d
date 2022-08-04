@@ -9,6 +9,7 @@ world.physics = "map"
 world.scale = 40
 world.src = "waic.glb"
 world.resize = false
+world.roughnessFactor = 2
 
 setCentripetal(true)
 
@@ -42,4 +43,3 @@ keyboard.onKeyDown = (key) => {
 }
 
 settings.texture = "bg.png"
-settings.defaultLight = "studio"
