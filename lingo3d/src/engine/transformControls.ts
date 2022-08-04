@@ -53,9 +53,8 @@ createEffect(() => {
 
     lazyTransformControls().then((transformControls) => {
         if (
-            mode === "select" ||
-            mode === "play" ||
-            !target.outerObject3d.parent
+            !target.outerObject3d.parent ||
+            (mode !== "translate" && mode !== "rotate" && mode !== "scale")
         )
             return
 

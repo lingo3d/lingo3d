@@ -129,18 +129,18 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                     <IconButton
                         active={space === "world"}
                         onClick={() => setTransformControlsSpace("world")}
-                        disabled={
-                            mode === "scale" ||
-                            mode === "select" ||
-                            mode === "play"
-                        }
+                        disabled={mode !== "translate" && mode !== "rotate"}
                     >
                         <AbsoluteIcon />
                     </IconButton>
                     <IconButton
                         active={space === "local"}
                         onClick={() => setTransformControlsSpace("local")}
-                        disabled={mode === "select" || mode === "play"}
+                        disabled={
+                            mode !== "translate" &&
+                            mode !== "rotate" &&
+                            mode !== "scale"
+                        }
                     >
                         <RelativeIcon />
                     </IconButton>
