@@ -3,7 +3,12 @@ import { diameterScaled, flatGeomScaleZ } from "../../engine/constants"
 import IPlane, { planeDefaults, planeSchema } from "../../interface/IPlane"
 import Primitive from "../core/Primitive"
 
-const planeGeometry = new PlaneBufferGeometry(diameterScaled, diameterScaled, 1, 1)
+const planeGeometry = new PlaneBufferGeometry(
+    diameterScaled,
+    diameterScaled,
+    1,
+    1
+)
 
 export default class Plane extends Primitive implements IPlane {
     public static componentName = "plane"
@@ -18,11 +23,9 @@ export default class Plane extends Primitive implements IPlane {
     public override get depth() {
         return 0
     }
-    public override set depth(_) {
-    }
+    public override set depth(_) {}
     public override get scaleZ() {
         return 0
     }
-    public override set scaleZ(_) {
-    }
+    public override set scaleZ(_) {}
 }

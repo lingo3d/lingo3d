@@ -13,15 +13,22 @@ export default class FirstPersonCamera extends CharacterCamera {
 
         const cam = this.camera
 
-        this.watch(onBeforeRender(() => {
-            cam.position.copy(getWorldPosition(this.object3d))
-            cam.quaternion.copy(getWorldQuaternion(this.object3d))
-        }))
+        this.watch(
+            onBeforeRender(() => {
+                cam.position.copy(getWorldPosition(this.object3d))
+                cam.quaternion.copy(getWorldQuaternion(this.object3d))
+            })
+        )
 
         this.createEffect(() => {
             const target = this.targetState.get()
             const innerYSet = this.innerYSetState.get()
-            if (!target || !(target instanceof SimpleObjectManager) || innerYSet) return
+            if (
+                !target ||
+                !(target instanceof SimpleObjectManager) ||
+                innerYSet
+            )
+                return
             super.innerY = target.height * 0.4
 
             return () => {

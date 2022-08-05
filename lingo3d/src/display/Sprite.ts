@@ -27,13 +27,11 @@ class Sprite extends ObjectManager<ThreeSprite> implements ISprite {
     public override get depth() {
         return 0
     }
-    public override set depth(_) {
-    }
+    public override set depth(_) {}
     public override get scaleZ() {
         return 0
     }
-    public override set scaleZ(_) {
-    }
+    public override set scaleZ(_) {}
 }
 interface Sprite extends ObjectManager<ThreeSprite>, TexturedBasicMixin {}
 applyMixins(Sprite, [TexturedBasicMixin])

@@ -13,7 +13,7 @@ export default class Tree extends Model implements ITree {
         this.scale = 4
         this.preset = "tree1"
     }
-    
+
     private _preset = ""
     public get preset() {
         return this._preset

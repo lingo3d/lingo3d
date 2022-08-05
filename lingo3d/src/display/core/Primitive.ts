@@ -3,7 +3,10 @@ import { Mesh, MeshStandardMaterial, BufferGeometry } from "three"
 import ObjectManager from "./ObjectManager"
 import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
-import IPrimitive, { primitiveDefaults, primitiveSchema } from "../../interface/IPrimitive"
+import IPrimitive, {
+    primitiveDefaults,
+    primitiveSchema
+} from "../../interface/IPrimitive"
 
 abstract class Primitive extends ObjectManager<Mesh> implements IPrimitive {
     public static defaults = primitiveDefaults
@@ -13,7 +16,9 @@ abstract class Primitive extends ObjectManager<Mesh> implements IPrimitive {
     protected transparent?: boolean
 
     public constructor(geometry: BufferGeometry, transparent?: boolean) {
-        const material = new MeshStandardMaterial(transparent ? { transparent: true } : undefined)
+        const material = new MeshStandardMaterial(
+            transparent ? { transparent: true } : undefined
+        )
         const mesh = new Mesh(geometry, material)
         mesh.castShadow = true
         mesh.receiveShadow = true
@@ -29,6 +34,9 @@ abstract class Primitive extends ObjectManager<Mesh> implements IPrimitive {
         return this
     }
 }
-interface Primitive extends ObjectManager<Mesh>, TexturedBasicMixin, TexturedStandardMixin {}
+interface Primitive
+    extends ObjectManager<Mesh>,
+        TexturedBasicMixin,
+        TexturedStandardMixin {}
 applyMixins(Primitive, [TexturedStandardMixin, TexturedBasicMixin])
 export default Primitive

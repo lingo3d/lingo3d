@@ -1,6 +1,9 @@
 import { Reactive } from "@lincode/reactivity"
 import { range } from "@lincode/utils"
-import IBuilding, { buildingDefaults, buildingSchema } from "../../interface/IBuilding"
+import IBuilding, {
+    buildingDefaults,
+    buildingSchema
+} from "../../interface/IBuilding"
 import { FacadePreset } from "../../interface/IFloor"
 import ObjectManager from "../core/ObjectManager"
 import Floor from "./Floor"
@@ -21,7 +24,7 @@ export default class Building extends ObjectManager implements IBuilding {
             const repeatZ = this.repeatZState.get()
             const repeatY = Math.max(Math.floor(this.repeatYState.get()), 1)
 
-            const floors = range(repeatY).map(y => {
+            const floors = range(repeatY).map((y) => {
                 const floor = new Floor(this)
                 floor.preset = preset
                 floor.repeatX = repeatX
@@ -32,12 +35,16 @@ export default class Building extends ObjectManager implements IBuilding {
             })
 
             return () => {
-                for (const floor of floors)
-                    floor.dispose()
+                for (const floor of floors) floor.dispose()
             }
-        }, [this.presetState.get, this.repeatXState.get, this.repeatZState.get, this.repeatYState.get])
+        }, [
+            this.presetState.get,
+            this.repeatXState.get,
+            this.repeatZState.get,
+            this.repeatYState.get
+        ])
     }
-    
+
     private presetState = new Reactive<FacadePreset>("industrial0")
     public get preset() {
         return this.presetState.get()

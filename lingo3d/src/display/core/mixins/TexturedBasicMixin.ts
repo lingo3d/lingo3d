@@ -1,4 +1,11 @@
-import { Color, MeshStandardMaterial, RepeatWrapping, SpriteMaterial, Vector2, VideoTexture } from "three"
+import {
+    Color,
+    MeshStandardMaterial,
+    RepeatWrapping,
+    SpriteMaterial,
+    Vector2,
+    VideoTexture
+} from "three"
 import loadTexture from "../../utils/loaders/loadTexture"
 import ITexturedBasic from "../../../interface/ITexturedBasic"
 import { objectURLMapperPtr } from "../../utils/loaders/setObjectURLMapper"
@@ -8,15 +15,19 @@ import { debounce } from "@lincode/utils"
 const mapNames = <const>["map", "alphaMap"]
 
 const textureRepeatMap = new Map<TexturedBasicMixin, Vector2>()
-const applyTextureRepeat = debounce(function(this: TexturedBasicMixin) {
-    for (const [item, repeat] of textureRepeatMap) {
-        for (const name of mapNames) {
-            const map = item.material[name]
-            map && (map.repeat = repeat)
+const applyTextureRepeat = debounce(
+    function (this: TexturedBasicMixin) {
+        for (const [item, repeat] of textureRepeatMap) {
+            for (const name of mapNames) {
+                const map = item.material[name]
+                map && (map.repeat = repeat)
+            }
         }
-    }
-    textureRepeatMap.clear()
-}, 0, "trailing")
+        textureRepeatMap.clear()
+    },
+    0,
+    "trailing"
+)
 
 export default abstract class TexturedBasicMixin implements ITexturedBasic {
     protected abstract material: MeshStandardMaterial | SpriteMaterial
@@ -38,7 +49,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
 
     private _opacity?: number
     public get opacity() {
-        return this._opacity ??= 1.0
+        return (this._opacity ??= 1.0)
     }
     public set opacity(val) {
         this._opacity = val
@@ -50,7 +61,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
 
     private basicTextureRepeat() {
         this.material.needsUpdate = true
-        
+
         if (!this._textureRepeat) return
         textureRepeatMap.set(this, this._textureRepeat)
         applyTextureRepeat()
@@ -61,27 +72,34 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
 
     private initTexture() {
         if (this.textureState) return
-        
-        const videoTextureState = this.videoTextureState ??= new Reactive<string | HTMLVideoElement | undefined>(undefined)
-        const textureState = this.textureState ??= new Reactive<string | HTMLVideoElement | undefined>(undefined)
+
+        const videoTextureState = (this.videoTextureState ??= new Reactive<
+            string | HTMLVideoElement | undefined
+        >(undefined))
+        const textureState = (this.textureState ??= new Reactive<
+            string | HTMLVideoElement | undefined
+        >(undefined))
 
         //@ts-ignore
         this.createEffect(() => {
             const url = textureState.get()
             let videoURL = videoTextureState.get()
 
-            if (!videoURL && (
-                (typeof url === "string" && objectURLMapperPtr[0](url).toLowerCase().endsWith(".mp4")) ||
-                (url && url instanceof HTMLVideoElement)
-            )) {
+            if (
+                !videoURL &&
+                ((typeof url === "string" &&
+                    objectURLMapperPtr[0](url)
+                        .toLowerCase()
+                        .endsWith(".mp4")) ||
+                    (url && url instanceof HTMLVideoElement))
+            ) {
                 videoURL = url
             }
 
             if (videoURL) {
                 let video: HTMLVideoElement
-                
-                if (videoURL instanceof HTMLVideoElement)
-                    video = videoURL
+
+                if (videoURL instanceof HTMLVideoElement) video = videoURL
                 else {
                     video = document.createElement("video")
                     video.crossOrigin = "anonymous"
@@ -92,7 +110,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
                     video.playsInline = true
                     video.play()
                 }
-                
+
                 const videoTexture = new VideoTexture(video)
                 videoTexture.wrapS = videoTexture.wrapT = RepeatWrapping
 

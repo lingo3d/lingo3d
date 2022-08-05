@@ -36,7 +36,6 @@ export default class Reresolvable<T> {
         this.done = true
         this.value = val
 
-        for (const cb of this.callbacks)
-            run(cb, val)
+        for (const cb of this.callbacks) run(cb, val)
     }
 }

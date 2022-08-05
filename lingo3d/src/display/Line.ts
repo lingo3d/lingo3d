@@ -5,7 +5,10 @@ import { Line2 } from "three/examples/jsm/lines/Line2"
 import { LineMaterial } from "three/examples/jsm/lines/LineMaterial"
 import EventLoopItem from "../api/core/EventLoopItem"
 import { scaleDown, scaleUp } from "../engine/constants"
-import { addBloom, deleteBloom } from "../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
+import {
+    addBloom,
+    deleteBloom
+} from "../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import scene from "../engine/scene"
 
 export default class Line extends EventLoopItem {
@@ -19,8 +22,12 @@ export default class Line extends EventLoopItem {
             if (!from || !to) return
 
             const geometry = new LineGeometry().setPositions([
-                from.x * scaleDown, from.y * scaleDown, from.z * scaleDown,
-                to.x * scaleDown, to.y * scaleDown, to.z * scaleDown
+                from.x * scaleDown,
+                from.y * scaleDown,
+                from.z * scaleDown,
+                to.x * scaleDown,
+                to.y * scaleDown,
+                to.z * scaleDown
             ])
             const line: any = new Line2(geometry, this.material)
 

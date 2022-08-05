@@ -9,7 +9,7 @@ export default class Torus extends Primitive {
     public static componentName = "torus"
 
     protected override _physicsShape = torusShape
-    
+
     public constructor() {
         super(geometry)
     }

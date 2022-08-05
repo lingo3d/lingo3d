@@ -17,7 +17,12 @@ const makeFacade = (src: string, parent: Appendable, rotationY: number) => {
 }
 
 const applyTransform = (
-    facadeArray: Array<Model>, radius: number, diameter: number, repeatX: number, repeatZ: number, z: boolean
+    facadeArray: Array<Model>,
+    radius: number,
+    diameter: number,
+    repeatX: number,
+    repeatZ: number,
+    z: boolean
 ) => {
     const offset = diameter * facadeArray.length * 0.5 - radius
 
@@ -25,14 +30,14 @@ const applyTransform = (
     if (z) {
         for (const facade of facadeArray) {
             facade.z += radius * repeatX
-            facade.x += (i++) * diameter - offset
+            facade.x += i++ * diameter - offset
         }
         return
     }
-    
+
     for (const facade of facadeArray) {
         facade.x += radius * repeatZ
-        facade.z += (i++) * diameter - offset
+        facade.z += i++ * diameter - offset
     }
 }
 
@@ -48,7 +53,7 @@ export default class Floor extends ObjectManager implements IFloor {
             const repeatZ = Math.max(Math.floor(this.repeatZState.get()), 1)
 
             const src = url + this.presetState.get() + ".glb"
-            
+
             const facade0 = range(repeatX).map(() => makeFacade(src, this, 0))
             const facade2 = range(repeatX).map(() => makeFacade(src, this, 180))
             const facade1 = range(repeatZ).map(() => makeFacade(src, this, 90))
@@ -58,10 +63,38 @@ export default class Floor extends ObjectManager implements IFloor {
                 const diameter = facade0[0].depth
                 const radius = diameter * 0.5
 
-                applyTransform(facade0, radius, diameter, repeatX, repeatZ, false)
-                applyTransform(facade2, -radius, -diameter, repeatX, repeatZ, false)
-                applyTransform(facade1, -radius, -diameter, repeatX, repeatZ, true)
-                applyTransform(facade3, radius, diameter, repeatX, repeatZ, true)
+                applyTransform(
+                    facade0,
+                    radius,
+                    diameter,
+                    repeatX,
+                    repeatZ,
+                    false
+                )
+                applyTransform(
+                    facade2,
+                    -radius,
+                    -diameter,
+                    repeatX,
+                    repeatZ,
+                    false
+                )
+                applyTransform(
+                    facade1,
+                    -radius,
+                    -diameter,
+                    repeatX,
+                    repeatZ,
+                    true
+                )
+                applyTransform(
+                    facade3,
+                    radius,
+                    diameter,
+                    repeatX,
+                    repeatZ,
+                    true
+                )
             })
             return () => {
                 handle.cancel()
@@ -72,7 +105,7 @@ export default class Floor extends ObjectManager implements IFloor {
             }
         }, [this.presetState.get, this.repeatXState.get, this.repeatZState.get])
     }
-    
+
     private presetState = new Reactive<FacadePreset>("industrial0")
     public get preset() {
         return this.presetState.get()

@@ -36,4 +36,3 @@ export default (source: any, target: any) => {
     source.emissive && target.emissive.copy(source.emissive)
     source.normalScale && target.normalScale.copy(source.normalScale)
 }
-

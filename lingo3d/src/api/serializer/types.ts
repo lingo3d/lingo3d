@@ -20,20 +20,51 @@ import ISetup from "../../interface/ISetup"
 import ISkybox from "../../interface/ISkybox"
 import IEnvironment from "../../interface/IEnvironment"
 
-export type GameObjectType = "group" | "model" | "dummy" | "building" | "tree" | "svgMesh" | "reflector" | "sprite" | "trigger" | "audio" | "ambientLight" | "areaLight" | "directionalLight" | "skyLight" | "pointLight" | "spotLight" | "camera" | "orbitCamera" | "thirdPersonCamera" | "firstPersonCamera" | "circle" | "cone" | "cube" | "cylinder" | "octahedron" | "plane" | "sphere" | "tetrahedron" | "torus" | "skybox" | "environment"
+export type GameObjectType =
+    | "group"
+    | "model"
+    | "dummy"
+    | "building"
+    | "tree"
+    | "svgMesh"
+    | "reflector"
+    | "sprite"
+    | "trigger"
+    | "audio"
+    | "ambientLight"
+    | "areaLight"
+    | "directionalLight"
+    | "skyLight"
+    | "pointLight"
+    | "spotLight"
+    | "camera"
+    | "orbitCamera"
+    | "thirdPersonCamera"
+    | "firstPersonCamera"
+    | "circle"
+    | "cone"
+    | "cube"
+    | "cylinder"
+    | "octahedron"
+    | "plane"
+    | "sphere"
+    | "tetrahedron"
+    | "torus"
+    | "skybox"
+    | "environment"
 
 export type AnimationData = Record<
-    string,//property name
+    string, //property name
     Record<
-        string,//frame number cast as string
-        number//frame value
+        string, //frame number cast as string
+        number //frame value
     >
 >
 
 export type AnimationNode = {
     type: "animation"
     data: Record<
-        string,//target name
+        string, //target name
         AnimationData
     >
 }
@@ -67,7 +98,8 @@ export const nonSerializedSettings: Array<keyof ISetup> = [
     "gridHelperSize"
 ]
 
-type TypedPropsNode<Props, Type extends GameObjectType> = Partial<Props> & Node & { type: Type }
+type TypedPropsNode<Props, Type extends GameObjectType> = Partial<Props> &
+    Node & { type: Type }
 
 export type GroupNode = TypedPropsNode<IGroup, "group">
 
@@ -95,7 +127,10 @@ export type AmbientLightNode = TypedPropsNode<IAmbientLight, "ambientLight">
 
 export type AreaLightNode = TypedPropsNode<IAreaLight, "areaLight">
 
-export type DirectionalLightNode = TypedPropsNode<IDirectionalLight, "directionalLight">
+export type DirectionalLightNode = TypedPropsNode<
+    IDirectionalLight,
+    "directionalLight"
+>
 
 export type SkyLightNode = TypedPropsNode<ISkyLight, "skyLight">
 
@@ -125,6 +160,34 @@ export type SkyboxNode = TypedPropsNode<ISkybox, "skybox">
 
 export type EnvironmentNode = TypedPropsNode<IEnvironment, "environment">
 
-export type BaseSceneGraphNode = GroupNode | ModelNode | DummyNode | BuildingNode | TreeNode | SvgMeshNode | ReflectorNode | SpriteNode | TriggerNode | AudioNode | CameraNode | AmbientLightNode | AreaLightNode | DirectionalLightNode | SkyLightNode | PointLightNode | SpotLightNode | CircleNode | ConeNode | CubeNode | CylinderNode | OctahedronNode | PlaneNode | SphereNode | TetrahedronNode | TorusNode | SkyboxNode | EnvironmentNode
+export type BaseSceneGraphNode =
+    | GroupNode
+    | ModelNode
+    | DummyNode
+    | BuildingNode
+    | TreeNode
+    | SvgMeshNode
+    | ReflectorNode
+    | SpriteNode
+    | TriggerNode
+    | AudioNode
+    | CameraNode
+    | AmbientLightNode
+    | AreaLightNode
+    | DirectionalLightNode
+    | SkyLightNode
+    | PointLightNode
+    | SpotLightNode
+    | CircleNode
+    | ConeNode
+    | CubeNode
+    | CylinderNode
+    | OctahedronNode
+    | PlaneNode
+    | SphereNode
+    | TetrahedronNode
+    | TorusNode
+    | SkyboxNode
+    | EnvironmentNode
 
 export type SceneGraphNode = BaseSceneGraphNode | AnimationNode | SetupNode

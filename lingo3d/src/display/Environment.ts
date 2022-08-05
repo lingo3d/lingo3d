@@ -1,5 +1,13 @@
-import { getEnvironmentStack, pullEnvironmentStack, pushEnvironmentStack, setEnvironmentStack } from "../states/useEnvironmentStack"
-import IEnvironment, { environmentDefaults, environmentSchema } from "../interface/IEnvironment"
+import {
+    getEnvironmentStack,
+    pullEnvironmentStack,
+    pushEnvironmentStack,
+    setEnvironmentStack
+} from "../states/useEnvironmentStack"
+import IEnvironment, {
+    environmentDefaults,
+    environmentSchema
+} from "../interface/IEnvironment"
 import EventLoopItem from "../api/core/EventLoopItem"
 
 export default class Environment extends EventLoopItem implements IEnvironment {

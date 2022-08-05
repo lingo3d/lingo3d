@@ -51,8 +51,7 @@ export default (from: any, to: any) => {
         const n = srcPlanes.length
         dstPlanes = new Array(n)
 
-        for (let i = 0; i !== n; ++i)
-            dstPlanes[i] = srcPlanes[i].clone()
+        for (let i = 0; i !== n; ++i) dstPlanes[i] = srcPlanes[i].clone()
     }
     to.clippingPlanes = dstPlanes
 }

@@ -13,14 +13,14 @@ export default class Bone extends Octahedron {
         // hiddenAppendables.add(this)
 
         const color = randomColor()
-        
+
         this.wireframe = true
         this.material.depthTest = false
         this.color = color
         this.width = 2
         this.height = 2
         this.depth = 2
-        
+
         const joint = new Octahedron()
         this.append(joint)
         joint.scale = 0.05
@@ -51,9 +51,9 @@ export default class Bone extends Octahedron {
         this.y = y0
         this.z = z0
 
-        const h = this.depth = distance3d(x0, y0, z0, x1, y1, z1)
+        const h = (this.depth = distance3d(x0, y0, z0, x1, y1, z1))
         this.innerZ = h * 0.5
-        const t = this.width = this.height = h * 0.2
+        const t = (this.width = this.height = h * 0.2)
         joint.scale = t * 0.01
 
         // this.lookAt(to)

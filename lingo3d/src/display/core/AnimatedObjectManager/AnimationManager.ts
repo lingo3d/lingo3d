@@ -1,5 +1,13 @@
 import { Cancellable, Disposable } from "@lincode/promiselikes"
-import { Object3D, AnimationMixer, AnimationClip, NumberKeyframeTrack, AnimationAction, LoopRepeat, LoopOnce } from "three"
+import {
+    Object3D,
+    AnimationMixer,
+    AnimationClip,
+    NumberKeyframeTrack,
+    AnimationAction,
+    LoopRepeat,
+    LoopOnce
+} from "three"
 import { AnimationData } from "../../../api/serializer/types"
 import { forceGet } from "@lincode/utils"
 import EventLoopItem from "../../../api/core/EventLoopItem"
@@ -29,10 +37,13 @@ export default class AnimationManager extends Disposable {
     ) {
         super()
 
-        this.mixer = forceGet(targetMixerMap, target, () => new AnimationMixer(target as any))
+        this.mixer = forceGet(
+            targetMixerMap,
+            target,
+            () => new AnimationMixer(target as any)
+        )
 
-        if (typeof nameOrClip === "string")
-            this.name = nameOrClip
+        if (typeof nameOrClip === "string") this.name = nameOrClip
         else {
             this.name = nameOrClip.name
             this.loadClip(nameOrClip)
@@ -42,7 +53,9 @@ export default class AnimationManager extends Disposable {
     public retarget(target: Object3D) {
         const newClip = this.clip!.clone()
         const targetName = target.name + "."
-        newClip.tracks = newClip.tracks.filter(track => track.name.startsWith(targetName))
+        newClip.tracks = newClip.tracks.filter((track) =>
+            track.name.startsWith(targetName)
+        )
         return new AnimationManager(newClip, target)
     }
 
@@ -52,7 +65,7 @@ export default class AnimationManager extends Disposable {
         this.stop()
         return this
     }
-    
+
     public get duration() {
         return this.clip?.duration ?? 0
     }
@@ -63,19 +76,27 @@ export default class AnimationManager extends Disposable {
     }
 
     public setTracks(data: AnimationData) {
-        const tracks = Object.entries(data).map(([property, frames]) => new NumberKeyframeTrack(
-            "." + property,
-            Object.keys(frames).map(t => Number(t)),
-            Object.values(frames)
-        ))
-        this.clip && (this.mixer.uncacheClip(this.clip))
+        const tracks = Object.entries(data).map(
+            ([property, frames]) =>
+                new NumberKeyframeTrack(
+                    "." + property,
+                    Object.keys(frames).map((t) => Number(t)),
+                    Object.values(frames)
+                )
+        )
+        this.clip && this.mixer.uncacheClip(this.clip)
         this.loadClip(new AnimationClip(this.name, -1, tracks))
     }
 
-    public play({ crossFade = 0.25, repeat = true, onFinish }: PlayOptions = {}) {
+    public play({
+        crossFade = 0.25,
+        repeat = true,
+        onFinish
+    }: PlayOptions = {}) {
         const [prevAction, prevRepeat] = mixerActionMap.get(this.mixer) ?? []
         if (prevAction?.isRunning() && this.action === prevAction) {
-            repeat !== prevRepeat && prevAction.setLoop(repeat ? LoopRepeat : LoopOnce, Infinity)
+            repeat !== prevRepeat &&
+                prevAction.setLoop(repeat ? LoopRepeat : LoopOnce, Infinity)
             return
         }
 
@@ -90,8 +111,7 @@ export default class AnimationManager extends Disposable {
             action.time = 0
             action.enabled = true
             action.crossFadeFrom(prevAction, crossFade, true)
-        }
-        else this.mixer.stopAllAction()
+        } else this.mixer.stopAllAction()
 
         mixerActionMap.set(this.mixer, [action, repeat])
         action.setLoop(repeat ? LoopRepeat : LoopOnce, Infinity)
@@ -99,7 +119,9 @@ export default class AnimationManager extends Disposable {
 
         const handleFinish = () => onFinish?.()
         this.mixer.addEventListener("finished", handleFinish)
-        handle.then(() => this.mixer.removeEventListener("finished", handleFinish))
+        handle.then(() =>
+            this.mixer.removeEventListener("finished", handleFinish)
+        )
 
         action.paused && action.stop()
         action.play()

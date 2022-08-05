@@ -3,35 +3,74 @@ import { getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
 import { getOrbitControls, setOrbitControls } from "../states/useOrbitControls"
 import { getGravity, setGravity } from "../states/useGravity"
 import { getRepulsion, setRepulsion } from "../states/useRepulsion"
-import { getDefaultLightScale, setDefaultLightScale } from "../states/useDefaultLightScale"
+import {
+    getDefaultLightScale,
+    setDefaultLightScale
+} from "../states/useDefaultLightScale"
 import { getGridHelper, setGridHelper } from "../states/useGridHelper"
-import { getGridHelperSize, setGridHelperSize } from "../states/useGridHelperSize"
-import { getAmbientOcclusion, setAmbientOcclusion } from "../states/useAmbientOcclusion"
+import {
+    getGridHelperSize,
+    setGridHelperSize
+} from "../states/useGridHelperSize"
+import {
+    getAmbientOcclusion,
+    setAmbientOcclusion
+} from "../states/useAmbientOcclusion"
 import { getBloom, setBloom } from "../states/useBloom"
 import { getBloomRadius, setBloomRadius } from "../states/useBloomRadius"
 import { getBloomStrength, setBloomStrength } from "../states/useBloomStrength"
-import { getBloomThreshold, setBloomThreshold } from "../states/useBloomThreshold"
+import {
+    getBloomThreshold,
+    setBloomThreshold
+} from "../states/useBloomThreshold"
 import { getExposure, setExposure } from "../states/useExposure"
 import { getLensBand, setLensBand } from "../states/useLensBand"
-import { getLensDistortion, setLensDistortion } from "../states/useLensDistortion"
+import {
+    getLensDistortion,
+    setLensDistortion
+} from "../states/useLensDistortion"
 import { getLensIor, setLensIor } from "../states/useLensIor"
-import { getLogarithmicDepth, setLogarithmicDepth } from "../states/useLogarithmicDepth"
+import {
+    getLogarithmicDepth,
+    setLogarithmicDepth
+} from "../states/useLogarithmicDepth"
 import { getOutlineColor, setOutlineColor } from "../states/useOutlineColor"
-import { getOutlineHiddenColor, setOutlineHiddenColor } from "../states/useOutlineHiddenColor"
-import { getOutlinePattern, setOutlinePattern } from "../states/useOutlinePattern"
+import {
+    getOutlineHiddenColor,
+    setOutlineHiddenColor
+} from "../states/useOutlineHiddenColor"
+import {
+    getOutlinePattern,
+    setOutlinePattern
+} from "../states/useOutlinePattern"
 import { getOutlinePulse, setOutlinePulse } from "../states/useOutlinePulse"
-import { getOutlineStrength, setOutlineStrength } from "../states/useOutlineStrength"
-import { getOutlineThickness, setOutlineThickness } from "../states/useOutlineThickness"
+import {
+    getOutlineStrength,
+    setOutlineStrength
+} from "../states/useOutlineStrength"
+import {
+    getOutlineThickness,
+    setOutlineThickness
+} from "../states/useOutlineThickness"
 import { getPBR, setPBR } from "../states/usePBR"
-import { getBackgroundColor, setBackgroundColor } from "../states/useBackgroundColor"
-import { getBackgroundImage, setBackgroundImage } from "../states/useBackgroundImage"
+import {
+    getBackgroundColor,
+    setBackgroundColor
+} from "../states/useBackgroundColor"
+import {
+    getBackgroundImage,
+    setBackgroundImage
+} from "../states/useBackgroundImage"
 import Skybox from "../display/Skybox"
 import { appendableRoot } from "./core/Appendable"
 import { getAutoMount, setAutoMount } from "../states/useAutoMount"
 import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { getAntiAlias, setAntiAlias } from "../states/useAntiAlias"
 import { getMotionBlur, setMotionBlur } from "../states/useMotionBlur"
-import { getMotionBlurStrength, setMotionBlurStrength } from "../states/useMotionBlurStrength"
+import {
+    getMotionBlurStrength,
+    setMotionBlurStrength
+} from "../states/useMotionBlurStrength"
 import { getBokeh, setBokeh } from "../states/useBokeh"
 import { getBokehFocus, setBokehFocus } from "../states/useBokehFocus"
 import { getBokehMaxBlur, setBokehMaxBlur } from "../states/useBokehMaxBlur"
@@ -103,7 +142,7 @@ export default {
     set repulsion(value) {
         setRepulsion(value)
     },
-  
+
     get autoMount() {
         return getAutoMount()
     },

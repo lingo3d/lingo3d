@@ -1,22 +1,48 @@
 import { debounce } from "@lincode/utils"
-import { Color, MeshStandardMaterial, ObjectSpaceNormalMap, TangentSpaceNormalMap, Vector2 } from "three"
-import ITexturedStandard, { NormalMapType } from "../../../interface/ITexturedStandard"
+import {
+    Color,
+    MeshStandardMaterial,
+    ObjectSpaceNormalMap,
+    TangentSpaceNormalMap,
+    Vector2
+} from "three"
+import ITexturedStandard, {
+    NormalMapType
+} from "../../../interface/ITexturedStandard"
 import loadTexture from "../../utils/loaders/loadTexture"
 
-const mapNames = <const>["map", "alphaMap", "envMap", "aoMap", "bumpMap", "displacementMap", "emissiveMap", "lightMap", "metalnessMap", "roughnessMap", "normalMap"]
+const mapNames = <const>[
+    "map",
+    "alphaMap",
+    "envMap",
+    "aoMap",
+    "bumpMap",
+    "displacementMap",
+    "emissiveMap",
+    "lightMap",
+    "metalnessMap",
+    "roughnessMap",
+    "normalMap"
+]
 
 const textureRepeatMap = new Map<TexturedStandardMixin, Vector2>()
-const applyTextureRepeat = debounce(function(this: TexturedStandardMixin) {
-    for (const [item, repeat] of textureRepeatMap) {
-        for (const name of mapNames) {
-            const map = item.material[name]
-            map && (map.repeat = repeat)
+const applyTextureRepeat = debounce(
+    function (this: TexturedStandardMixin) {
+        for (const [item, repeat] of textureRepeatMap) {
+            for (const name of mapNames) {
+                const map = item.material[name]
+                map && (map.repeat = repeat)
+            }
         }
-    }
-    textureRepeatMap.clear()
-}, 0, "trailing")
+        textureRepeatMap.clear()
+    },
+    0,
+    "trailing"
+)
 
-export default abstract class TexturedStandardMixin implements ITexturedStandard {
+export default abstract class TexturedStandardMixin
+    implements ITexturedStandard
+{
     protected abstract material: MeshStandardMaterial
 
     public get color() {
@@ -201,8 +227,7 @@ export default abstract class TexturedStandardMixin implements ITexturedStandard
     public set normalScale(val: Vector2 | number) {
         if (typeof val === "number")
             this.material.normalScale = new Vector2(val, val)
-        else
-            this.material.normalScale = val
+        else this.material.normalScale = val
     }
 
     private _normalMapType?: NormalMapType
@@ -211,6 +236,7 @@ export default abstract class TexturedStandardMixin implements ITexturedStandard
     }
     public set normalMapType(val) {
         this._normalMapType = val
-        this.material.normalMapType = val === "objectSpace" ? ObjectSpaceNormalMap : TangentSpaceNormalMap
+        this.material.normalMapType =
+            val === "objectSpace" ? ObjectSpaceNormalMap : TangentSpaceNormalMap
     }
 }

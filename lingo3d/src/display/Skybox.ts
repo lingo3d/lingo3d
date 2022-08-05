@@ -1,4 +1,9 @@
-import { getSkyboxStack, pullSkyboxStack, pushSkyboxStack, setSkyboxStack } from "../states/useSkyboxStack"
+import {
+    getSkyboxStack,
+    pullSkyboxStack,
+    pushSkyboxStack,
+    setSkyboxStack
+} from "../states/useSkyboxStack"
 import ISkybox, { skyboxDefaults, skyboxSchema } from "../interface/ISkybox"
 import EventLoopItem from "../api/core/EventLoopItem"
 

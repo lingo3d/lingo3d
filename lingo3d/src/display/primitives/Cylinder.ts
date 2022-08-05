@@ -3,7 +3,12 @@ import { diameterScaled, radiusScaled } from "../../engine/constants"
 import Primitive from "../core/Primitive"
 import cylinderShape from "../core/PhysicsObjectManager/cannon/shapes/cylinderShape"
 
-const geometry = new CylinderBufferGeometry(radiusScaled, radiusScaled, diameterScaled, 16)
+const geometry = new CylinderBufferGeometry(
+    radiusScaled,
+    radiusScaled,
+    diameterScaled,
+    16
+)
 
 export default class Cylinder extends Primitive {
     public static componentName = "cylinder"

@@ -5,8 +5,11 @@ import ICamera from "../../interface/ICamera"
 import { getResolution } from "../../states/useResolution"
 import CameraBase from "../core/CameraBase"
 
-//@ts-ignore
-export default class OrthographicCamera extends CameraBase<ThreeOrthographicCamera> implements ICamera {
+export default class OrthographicCamera
+    //@ts-ignore
+    extends CameraBase<ThreeOrthographicCamera>
+    implements ICamera
+{
     public componentName = "orthographicCamera"
     public static defaults = {}
     public static schema = {}
@@ -15,13 +18,16 @@ export default class OrthographicCamera extends CameraBase<ThreeOrthographicCame
         const [w, h] = getResolution()
         const aspect = w / h
 
-        super(cam ?? new ThreeOrthographicCamera(
-            aspect * ORTHOGRAPHIC_FRUSTUM * -0.5,
-            aspect * ORTHOGRAPHIC_FRUSTUM * 0.5,
-            ORTHOGRAPHIC_FRUSTUM * 0.5,
-            ORTHOGRAPHIC_FRUSTUM * -0.5,
-            -1,
-            camFar
-        ))
+        super(
+            cam ??
+                new ThreeOrthographicCamera(
+                    aspect * ORTHOGRAPHIC_FRUSTUM * -0.5,
+                    aspect * ORTHOGRAPHIC_FRUSTUM * 0.5,
+                    ORTHOGRAPHIC_FRUSTUM * 0.5,
+                    ORTHOGRAPHIC_FRUSTUM * -0.5,
+                    -1,
+                    camFar
+                )
+        )
     }
 }

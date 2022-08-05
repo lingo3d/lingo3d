@@ -1,5 +1,11 @@
 import { applyMixins, forceGet, lazy } from "@lincode/utils"
-import { ExtrudeBufferGeometry, Group, Mesh, MeshStandardMaterial, Shape } from "three"
+import {
+    ExtrudeBufferGeometry,
+    Group,
+    Mesh,
+    MeshStandardMaterial,
+    Shape
+} from "three"
 import type { SVGResult } from "three/examples/jsm/loaders/SVGLoader"
 import Loaded from "./core/Loaded"
 import TexturedBasicMixin from "./core/mixins/TexturedBasicMixin"
@@ -27,7 +33,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     }
 
     protected load(url: string) {
-        return lazyLoadSVG().then(module => module.default(url))
+        return lazyLoadSVG().then((module) => module.default(url))
     }
 
     protected resolveLoaded(svgData: SVGResult) {
@@ -37,8 +43,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         const geometries = forceGet(svgGeometryCache, svgData, () => {
             const shapes: Array<Shape> = []
             for (const path of svgData.paths)
-                for (const shape of path.toShapes(true))
-                    shapes.push(shape)
+                for (const shape of path.toShapes(true)) shapes.push(shape)
 
             if (!shapes.length) return []
 
@@ -56,10 +61,12 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
 
             const result: Array<ExtrudeBufferGeometry> = []
             for (const shape of shapes)
-                result.push(new ExtrudeBufferGeometry(shape, {
-                    depth: size.y,
-                    bevelEnabled: false
-                }))
+                result.push(
+                    new ExtrudeBufferGeometry(shape, {
+                        depth: size.y,
+                        bevelEnabled: false
+                    })
+                )
             return result
         })
 
@@ -69,7 +76,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
             mesh.receiveShadow = true
             loadedObject3d.add(mesh)
         }
-        
+
         const size = fit(loadedObject3d, this._src!)
         !this.widthSet && (this.object3d.scale.x = size.x)
         !this.heightSet && (this.object3d.scale.y = size.y)
@@ -78,6 +85,9 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         return loadedObject3d
     }
 }
-interface SvgMesh extends Loaded<SVGResult>, TexturedBasicMixin, TexturedStandardMixin {}
+interface SvgMesh
+    extends Loaded<SVGResult>,
+        TexturedBasicMixin,
+        TexturedStandardMixin {}
 applyMixins(SvgMesh, [TexturedStandardMixin, TexturedBasicMixin])
 export default SvgMesh
