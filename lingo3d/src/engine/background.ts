@@ -16,25 +16,21 @@ createEffect(() => {
     const skybox = last(getSkyboxStack())?.texture
 
     if (skybox) {
-        if (Array.isArray(skybox))
-            scene.background = loadCubeTexture(skybox)
+        if (Array.isArray(skybox)) scene.background = loadCubeTexture(skybox)
         else {
             let proceed = true
-            const texture = loadTexture(skybox, () => proceed && (scene.background = texture))
+            const texture = loadTexture(
+                skybox,
+                () => proceed && (scene.background = texture)
+            )
             texture.mapping = EquirectangularReflectionMapping
             return () => {
                 proceed = false
             }
         }
-    }
-    else if (image)
-        scene.background = loadTexture(image)
+    } else if (image) scene.background = loadTexture(image)
     else if (color) {
-        if (color === "transparent")
-            scene.background = null
-        else
-            scene.background = new Color(color)
-    }
-    else scene.background = new Color("black")
-
+        if (color === "transparent") scene.background = null
+        else scene.background = new Color(color)
+    } else scene.background = new Color("black")
 }, [getBackgroundColor, getBackgroundImage, getSkyboxStack])

@@ -21,6 +21,6 @@ export default () => {
             el.removeEventListener("keydown", stop)
         }
     }, [])
-    
+
     return elRef
 }

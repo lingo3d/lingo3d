@@ -1,4 +1,7 @@
-import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
+import IPositioned, {
+    positionedDefaults,
+    positionedSchema
+} from "./IPositioned"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
@@ -32,7 +35,7 @@ export const audioSchema: Required<ExtractProps<IAudio>> = {
     rolloffFactor: Number
 }
 
-export const audioDefaults: Defaults<IAudio> ={
+export const audioDefaults: Defaults<IAudio> = {
     ...positionedDefaults,
     src: undefined,
     autoplay: false,

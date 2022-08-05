@@ -11,7 +11,7 @@ const lazySky = lazy(() => {
     const sky = new Sky()
     sky.scale.setScalar(450000)
 
-    getSkyShaderOptions(effectController => {
+    getSkyShaderOptions((effectController) => {
         const { uniforms } = sky.material
         uniforms["turbidity"].value = effectController.turbidity
         uniforms["rayleigh"].value = effectController.rayleigh
@@ -33,12 +33,10 @@ const lazySky = lazy(() => {
 
 let enabledOld = false
 
-getSkyShader(enabled => {
+getSkyShader((enabled) => {
     if (enabledOld === enabled) return
     enabledOld = enabled
 
-    if (enabled)
-        scene.add(lazySky())
-    else
-        scene.remove(lazySky())
+    if (enabled) scene.add(lazySky())
+    else scene.remove(lazySky())
 })

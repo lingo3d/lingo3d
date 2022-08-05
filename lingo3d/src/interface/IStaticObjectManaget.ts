@@ -14,9 +14,9 @@ export default interface IStaticObjectManager extends IEventLoop {
     onMouseOut: Nullable<(e: LingoMouseEvent) => void>
     onMouseMove: Nullable<(e: LingoMouseEvent) => void>
     onLookToEnd: Nullable<() => void>
-    
-    lookAt: Function | Array<any>,
-    lookTo: Function | Array<any>,
+
+    lookAt: Function | Array<any>
+    lookTo: Function | Array<any>
 
     name: string
     id: Nullable<string>
@@ -35,7 +35,9 @@ export default interface IStaticObjectManager extends IEventLoop {
     toon: boolean
 }
 
-export const staticObjectManagerSchema: Required<ExtractProps<IStaticObjectManager>> = {
+export const staticObjectManagerSchema: Required<
+    ExtractProps<IStaticObjectManager>
+> = {
     ...eventLoopSchema,
 
     onClick: Function,

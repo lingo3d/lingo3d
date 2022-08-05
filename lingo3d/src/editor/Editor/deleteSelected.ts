@@ -9,6 +9,5 @@ export default () => {
     const multipleSelectionTargets = getMultipleSelectionTargets()
 
     selectionTarget?.dispose()
-    for (const target of multipleSelectionTargets)
-        target.dispose()
+    for (const target of multipleSelectionTargets) target.dispose()
 }

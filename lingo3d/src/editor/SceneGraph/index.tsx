@@ -117,10 +117,7 @@ const SceneGraph = () => {
                     <DeleteIcon />
                 </TitleBarButton>
             </div>
-            <div
-                style={{ overflow: "scroll" }}
-                className="lingo3d-ui"
-            >
+            <div style={{ overflow: "scroll" }} className="lingo3d-ui">
                 {appendables.map((appendable) =>
                     appendable instanceof Model ? (
                         <ModelTreeItem

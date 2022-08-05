@@ -30,30 +30,31 @@ export default interface ITexturedStandard {
     normalMapType: Nullable<NormalMapType>
 }
 
-export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> = {
-    color: String,
-    wireframe: Boolean,
-    envMap: String,
-    aoMap: String,
-    aoMapIntensity: Number,
-    bumpMap: String,
-    bumpScale: Number,
-    displacementMap: String,
-    displacementScale: Number,
-    displacementBias: Number,
-    emissiveColor: String,
-    emissiveMap: String,
-    emissiveIntensity: Number,
-    lightMap: String,
-    lightMapIntensity: Number,
-    metalnessMap: String,
-    metalness: Number,
-    roughnessMap: String,
-    roughness: Number,
-    normalMap: String,
-    normalScale: [Object, Number],
-    normalMapType: String
-}
+export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
+    {
+        color: String,
+        wireframe: Boolean,
+        envMap: String,
+        aoMap: String,
+        aoMapIntensity: Number,
+        bumpMap: String,
+        bumpScale: Number,
+        displacementMap: String,
+        displacementScale: Number,
+        displacementBias: Number,
+        emissiveColor: String,
+        emissiveMap: String,
+        emissiveIntensity: Number,
+        lightMap: String,
+        lightMapIntensity: Number,
+        metalnessMap: String,
+        metalness: Number,
+        roughnessMap: String,
+        roughness: Number,
+        normalMap: String,
+        normalScale: [Object, Number],
+        normalMapType: String
+    }
 
 export const texturedStandardDefaults: Defaults<ITexturedStandard> = {
     color: "#ffffff",

@@ -1,4 +1,7 @@
-import IObjectManager, { objectManagerDefaults, objectManagerSchema } from "./IObjectManager"
+import IObjectManager, {
+    objectManagerDefaults,
+    objectManagerSchema
+} from "./IObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"

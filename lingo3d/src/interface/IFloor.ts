@@ -1,8 +1,18 @@
-import IObjectManager, { objectManagerDefaults, objectManagerSchema } from "./IObjectManager"
+import IObjectManager, {
+    objectManagerDefaults,
+    objectManagerSchema
+} from "./IObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
-export type FacadePreset = "city0" | "city1" | "ghetto0" | "ghetto1" | "ghetto2" | "industrial0" | "storefront0"
+export type FacadePreset =
+    | "city0"
+    | "city1"
+    | "ghetto0"
+    | "ghetto1"
+    | "ghetto2"
+    | "industrial0"
+    | "storefront0"
 
 export default interface IFloor extends IObjectManager {
     preset: FacadePreset

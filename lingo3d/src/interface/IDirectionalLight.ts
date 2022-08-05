@@ -6,10 +6,11 @@ export default interface IDirectionalLight extends ILight {
     shadowDistance: number
 }
 
-export const directionalLightSchema: Required<ExtractProps<IDirectionalLight>> = {
-    ...lightSchema,
-    shadowDistance: Number
-}
+export const directionalLightSchema: Required<ExtractProps<IDirectionalLight>> =
+    {
+        ...lightSchema,
+        shadowDistance: Number
+    }
 
 export const directionalLightDefaults: Defaults<IDirectionalLight> = {
     ...lightDefaults,

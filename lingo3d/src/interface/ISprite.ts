@@ -1,5 +1,11 @@
-import IObjectManager, { objectManagerDefaults, objectManagerSchema } from "./IObjectManager"
-import ITexturedBasic, { texturedBasicDefaults, texturedBasicSchema } from "./ITexturedBasic"
+import IObjectManager, {
+    objectManagerDefaults,
+    objectManagerSchema
+} from "./IObjectManager"
+import ITexturedBasic, {
+    texturedBasicDefaults,
+    texturedBasicSchema
+} from "./ITexturedBasic"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 

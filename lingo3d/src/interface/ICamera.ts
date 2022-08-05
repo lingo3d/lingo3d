@@ -1,4 +1,7 @@
-import ICameraBase, { cameraBaseDefaults, cameraBaseSchema } from "./ICameraBase"
+import ICameraBase, {
+    cameraBaseDefaults,
+    cameraBaseSchema
+} from "./ICameraBase"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 

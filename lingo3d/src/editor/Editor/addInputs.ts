@@ -64,15 +64,14 @@ export default (
         }
 
     return Object.fromEntries(
-        Object.keys(params).map(key => {
+        Object.keys(params).map((key) => {
             const input = folder.addInput(params, key)
 
             const resetButton = resetIcon.cloneNode(true) as HTMLElement
             input.element.prepend(resetButton)
 
             let defaultValue = defaults[key] ?? ""
-            if (Array.isArray(defaultValue))
-                defaultValue = defaultValue[1]
+            if (Array.isArray(defaultValue)) defaultValue = defaultValue[1]
 
             const unchanged = isEqual(params[key], defaultValue)
             resetButton.style.opacity = unchanged ? "0.1" : "0.5"

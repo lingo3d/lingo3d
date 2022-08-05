@@ -1,5 +1,8 @@
 import StaticObjectManager from "../display/core/StaticObjectManager"
-import IPositioned, { positionedDefaults, positionedSchema } from "./IPositioned"
+import IPositioned, {
+    positionedDefaults,
+    positionedSchema
+} from "./IPositioned"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
@@ -25,7 +28,7 @@ export const triggerSchema: Required<ExtractProps<ITrigger>> = {
     helper: Boolean
 }
 
-export const triggerDefaults: Defaults<ITrigger> ={
+export const triggerDefaults: Defaults<ITrigger> = {
     ...positionedDefaults,
     onEnter: undefined,
     onExit: undefined,

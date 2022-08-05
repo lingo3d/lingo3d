@@ -8,7 +8,7 @@ const savePass = new SavePass()
 
 const blendPass = new ShaderPass(BlendShader, "tDiffuse1")
 blendPass.uniforms["tDiffuse2"].value = savePass.renderTarget.texture
-getMotionBlurStrength(value => blendPass.uniforms["mixRatio"].value = value)
+getMotionBlurStrength((value) => (blendPass.uniforms["mixRatio"].value = value))
 
 const outputPass = new ShaderPass(CopyShader)
 outputPass.renderToScreen = true

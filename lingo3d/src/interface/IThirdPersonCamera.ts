@@ -1,10 +1,15 @@
-import ICharacterCamera, { characterCameraDefaults, characterCameraSchema } from "./ICharacterCamera"
+import ICharacterCamera, {
+    characterCameraDefaults,
+    characterCameraSchema
+} from "./ICharacterCamera"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IThirdPersonCamera extends ICharacterCamera {}
 
-export const thirdPersonCameraSchema: Required<ExtractProps<IThirdPersonCamera>> = {
+export const thirdPersonCameraSchema: Required<
+    ExtractProps<IThirdPersonCamera>
+> = {
     ...characterCameraSchema
 }
 

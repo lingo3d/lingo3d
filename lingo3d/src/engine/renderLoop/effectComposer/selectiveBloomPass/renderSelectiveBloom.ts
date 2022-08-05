@@ -37,7 +37,8 @@ const darken = () => {
     }
 }
 
-const restoreRecursive = (child: any) => child.material && (child.material.colorWrite = true)
+const restoreRecursive = (child: any) =>
+    child.material && (child.material.colorWrite = true)
 const restore = () => {
     scene.traverse(restoreRecursive)
     sceneBackground && (scene.background = sceneBackground)

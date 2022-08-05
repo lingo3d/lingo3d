@@ -11,18 +11,16 @@ const isPressed = new Set<string>()
 onKeyClear(() => isPressed.clear())
 
 let queueMouseDownClear = false
-document.addEventListener("keydown", e => {
-    if (e.key === "Shift" || e.key === "Meta")
-        isPressed.add(e.key)
-        
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Shift" || e.key === "Meta") isPressed.add(e.key)
+
     if (isPressed.has("Meta") && isPressed.has("Shift")) {
         emitKeyClear()
         queueMouseDownClear = true
     }
 })
-document.addEventListener("keyup", e => {
-    if (e.key === "Shift" || e.key === "Meta")
-        isPressed.delete(e.key)
+document.addEventListener("keyup", (e) => {
+    if (e.key === "Shift" || e.key === "Meta") isPressed.delete(e.key)
 })
 document.addEventListener("mousedown", () => {
     if (queueMouseDownClear) {
