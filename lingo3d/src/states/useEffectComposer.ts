@@ -7,7 +7,9 @@ import { getResolution } from "./useResolution"
 import { getAntiAlias } from "./useAntiAlias"
 import { getPixelRatioComputed } from "./usePixelRatioComputed"
 
-const [setEffectComposer, getEffectComposer] = store<EffectComposer | undefined>(undefined)
+const [setEffectComposer, getEffectComposer] = store<
+    EffectComposer | undefined
+>(undefined)
 export { getEffectComposer }
 
 createEffect(() => {
@@ -18,8 +20,10 @@ createEffect(() => {
         setEffectComposer(new EffectComposer(renderer))
         return
     }
-    
-    const msaaRenderTarget = new WebGLRenderTarget(WIDTH, HEIGHT, { samples: 4 })
+
+    const msaaRenderTarget = new WebGLRenderTarget(WIDTH, HEIGHT, {
+        samples: 4
+    })
     const handle = getResolution(([w, h]) => msaaRenderTarget.setSize(w, h))
     setEffectComposer(new EffectComposer(renderer, msaaRenderTarget))
 
@@ -29,7 +33,6 @@ createEffect(() => {
     }
 }, [getRenderer, getAntiAlias])
 
-
 createEffect(() => {
     const effectComposer = getEffectComposer()
     if (!effectComposer) return
@@ -37,5 +40,4 @@ createEffect(() => {
     const [w, h] = getResolution()
     effectComposer.setSize(w, h)
     effectComposer.setPixelRatio(getPixelRatioComputed())
-
 }, [getEffectComposer, getResolution, getPixelRatioComputed])

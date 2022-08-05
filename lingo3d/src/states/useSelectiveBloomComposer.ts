@@ -3,7 +3,9 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { getRenderer } from "./useRenderer"
 import { getResolution } from "./useResolution"
 
-const [setSelectiveBloomComposer, getSelectiveBloomComposer] = store<EffectComposer | undefined>(undefined)
+const [setSelectiveBloomComposer, getSelectiveBloomComposer] = store<
+    EffectComposer | undefined
+>(undefined)
 export { getSelectiveBloomComposer }
 
 createEffect(() => {
@@ -13,7 +15,6 @@ createEffect(() => {
     const selectiveBloomComposer = new EffectComposer(renderer)
     selectiveBloomComposer.renderToScreen = false
     setSelectiveBloomComposer(selectiveBloomComposer)
-
 }, [getRenderer])
 
 createEffect(() => {
@@ -23,5 +24,4 @@ createEffect(() => {
     const [w, h] = getResolution()
     selectiveBloomComposer.setSize(w, h)
     selectiveBloomComposer.setPixelRatio(1)
-
 }, [getSelectiveBloomComposer, getResolution])

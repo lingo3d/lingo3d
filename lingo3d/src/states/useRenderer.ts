@@ -12,13 +12,14 @@ createEffect(() => {
     const renderer = new WebGLRenderer({
         powerPreference: "high-performance",
         alpha: getBackgroundColor() === "transparent",
-        logarithmicDepthBuffer: isChromium && !isMobile ? getLogarithmicDepth() : false,
+        logarithmicDepthBuffer:
+            isChromium && !isMobile ? getLogarithmicDepth() : false,
         antialias: true
     })
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = VSMShadowMap
     setRenderer(renderer)
-    
+
     return () => {
         renderer.dispose()
     }
