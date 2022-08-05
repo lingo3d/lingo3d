@@ -6,7 +6,7 @@ preventTreeShake(h)
 
 interface MenuButtonProps {
     children: string
-    onClick?: (e: { left: number, top: number }) => void
+    onClick?: (e: { left: number; top: number }) => void
 }
 
 const MenuButton = ({ children, onClick }: MenuButtonProps) => {
@@ -32,8 +32,7 @@ const MenuButton = ({ children, onClick }: MenuButtonProps) => {
                 textAlign: "left",
                 padding: "5px 10px 5px 10px",
                 borderRadius: "4px",
-                background:
-                    hover ? "rgba(255, 255, 255, 0.1)" : undefined
+                background: hover ? "rgba(255, 255, 255, 0.1)" : undefined
             }}
         >
             {children}

@@ -55,7 +55,7 @@ const useResize = (el: Element) => {
             window.removeEventListener("resize", handleResize)
             handle.cancel()
         }
-    }, [])
+    }, [el])
 }
 
 createEffect(() => {
