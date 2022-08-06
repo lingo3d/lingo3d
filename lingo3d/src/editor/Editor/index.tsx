@@ -277,7 +277,8 @@ const Editor = () => {
 
             const [physicsParams, physicsRest] = splitObject(outlineRest, [
                 "gravity",
-                "repulsion"
+                "repulsion",
+                "centripetal"
             ])
             addInputs(pane, "physics", settings, setupDefaults, physicsParams)
 

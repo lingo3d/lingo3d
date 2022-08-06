@@ -14,6 +14,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     gridHelperSize: Number,
     gravity: Number,
     repulsion: Number,
+    centripetal: Boolean,
     autoMount: [Boolean, String],
     antiAlias: [Boolean, String],
     logarithmicDepth: Boolean,

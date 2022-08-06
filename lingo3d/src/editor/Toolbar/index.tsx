@@ -117,13 +117,13 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                     >
                         <ScaleIcon />
                     </IconButton>
-                    <IconButton
+                    {/* <IconButton
                         active={mode === "mesh"}
                         disabled={translateOnly}
                         onClick={() => setEditorMode("mesh")}
                     >
                         <MeshIcon />
-                    </IconButton>
+                    </IconButton> */}
                     <IconButton
                         active={mode === "play"}
                         onClick={() => setEditorMode("play")}

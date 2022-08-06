@@ -75,6 +75,7 @@ import { getBokeh, setBokeh } from "../states/useBokeh"
 import { getBokehFocus, setBokehFocus } from "../states/useBokehFocus"
 import { getBokehMaxBlur, setBokehMaxBlur } from "../states/useBokehMaxBlur"
 import { getBokehAperture, setBokehAperture } from "../states/useBokehAperture"
+import { getCentripetal, setCentripetal } from "../states/useCentripetal"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -141,6 +142,13 @@ export default {
     },
     set repulsion(value) {
         setRepulsion(value)
+    },
+
+    get centripetal() {
+        return getCentripetal()
+    },
+    set centripetal(value) {
+        setCentripetal(value)
     },
 
     get autoMount() {
