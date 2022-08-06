@@ -1,15 +1,15 @@
 import settings from "../api/settings"
+import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface ISetup extends Partial<typeof settings> {}
+export default interface ISetup extends IEventLoop, Partial<typeof settings> {}
 
 export const setupSchema: Required<ExtractProps<ISetup>> = {
+    ...eventLoopSchema,
     skybox: [String, Array],
     defaultLight: [String, Boolean],
     defaultLightScale: Number,
-    defaultOrbitControls: Boolean,
-    defaultFog: String,
     gridHelper: Boolean,
     gridHelperSize: Number,
     gravity: Number,
@@ -46,5 +46,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 }
 
 export const setupDefaults: Defaults<ISetup> = {
+    ...eventLoopDefaults,
     ...settings
 }

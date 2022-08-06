@@ -34,7 +34,7 @@ import deleteSelected from "./deleteSelected"
 import { onKeyClear } from "../../events/onKeyClear"
 import { nonEditorSettings } from "../../api/serializer/types"
 import { onApplySetup } from "../../events/onApplySetup"
-import ISetup, { setupDefaults } from "../../interface/ISetup"
+import { setupDefaults } from "../../interface/ISetup"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../utils/getComponentName"
@@ -179,12 +179,6 @@ const Editor = () => {
         setCameraFolder(pane.addFolder({ title: "camera" }))
 
         if (!selectionTarget) {
-            const omitted: Array<keyof ISetup> = [
-                "defaultFog",
-                "defaultLight",
-                "defaultLightScale"
-            ]
-
             const rest = Object.assign(
                 {
                     defaultLightEnabled,
@@ -196,7 +190,7 @@ const Editor = () => {
                     defaultFogEnabled,
                     ...(defaultFogEnabled && { defaultFog })
                 },
-                omit(settings, [...nonEditorSettings, ...omitted])
+                omit(settings, nonEditorSettings)
             )
 
             const [editorParams, editorRest] = splitObject(rest, [

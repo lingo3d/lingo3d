@@ -1,16 +1,8 @@
-import { omit } from "@lincode/utils"
 import Appendable, {
     appendableRoot,
     hiddenAppendables
 } from "../core/Appendable"
-import settings from "../settings"
-import { setupDefaults } from "../../interface/ISetup"
-import {
-    nonSerializedProperties,
-    nonSerializedSettings,
-    SceneGraphNode,
-    SetupNode
-} from "./types"
+import { nonSerializedProperties, SceneGraphNode } from "./types"
 
 const serialize = (children: Array<any> | Set<any>) => {
     const dataParent: Array<SceneGraphNode> = []
@@ -44,19 +36,4 @@ const serialize = (children: Array<any> | Set<any>) => {
 
 export default (
     children: Array<Appendable> | Set<Appendable> | Appendable = appendableRoot
-) => {
-    const data = serialize(
-        children instanceof Appendable ? [children] : children
-    )
-
-    const settingsDiff: SetupNode = { type: "setup" }
-    for (const [key, value] of Object.entries(
-        omit(settings, nonSerializedSettings)
-    ))
-        if ((setupDefaults as any)[key] !== value)
-            (settingsDiff as any)[key] = value
-
-    if (Object.keys(settingsDiff).length) data.push(settingsDiff)
-
-    return data
-}
+) => serialize(children instanceof Appendable ? [children] : children)

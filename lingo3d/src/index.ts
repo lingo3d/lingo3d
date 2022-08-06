@@ -55,7 +55,6 @@ import screenshot from "./api/screenshot"
 import Reticle from "./ui/Reticle"
 import Joystick from "./ui/Joystick"
 
-import applySetup from "./api/serializer/applySetup"
 import serialize from "./api/serializer/serialize"
 import deserialize from "./api/serializer/deserialize"
 
@@ -71,6 +70,7 @@ import mainOrbitCamera from "./engine/mainOrbitCamera"
 
 import ObjectManager from "./display/core/ObjectManager"
 import FoundManager from "./display/core/FoundManager"
+import Setup from "./display/Setup"
 
 import { onAfterRender } from "./events/onAfterRender"
 import { onBeforeRender } from "./events/onBeforeRender"
@@ -138,7 +138,6 @@ export {
     screenshot,
     Joystick,
     Reticle,
-    applySetup,
     serialize,
     deserialize,
     downloadBlob,
@@ -152,6 +151,7 @@ export {
     mainOrbitCamera,
     ObjectManager as Object,
     FoundManager as Found,
+    Setup,
     onAfterRender,
     onBeforeRender,
     Point3d,

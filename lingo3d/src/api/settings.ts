@@ -1,6 +1,4 @@
-import { getDefaultFog, setDefaultFog } from "../states/useDefaultFog"
 import { getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
-import { getOrbitControls, setOrbitControls } from "../states/useOrbitControls"
 import { getGravity, setGravity } from "../states/useGravity"
 import { getRepulsion, setRepulsion } from "../states/useRepulsion"
 import {
@@ -81,13 +79,6 @@ const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
 
 export default {
-    get defaultFog() {
-        return getDefaultFog()
-    },
-    set defaultFog(value) {
-        setDefaultFog(value)
-    },
-
     get defaultLight() {
         return getDefaultLight()
     },
@@ -107,13 +98,6 @@ export default {
     },
     set skybox(value) {
         defaultSkybox.texture = value
-    },
-
-    get defaultOrbitControls() {
-        return getOrbitControls()
-    },
-    set defaultOrbitControls(value) {
-        setOrbitControls(value)
     },
 
     get gridHelper() {

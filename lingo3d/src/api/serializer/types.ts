@@ -88,9 +88,10 @@ export const nonSerializedProperties = [
     "proxy"
 ]
 export const nonEditorSettings: Array<keyof ISetup> = [
-    "defaultOrbitControls",
     "autoMount",
-    "texture"
+    "texture",
+    "defaultLight",
+    "defaultLightScale"
 ]
 export const nonSerializedSettings: Array<keyof ISetup> = [
     ...nonEditorSettings,

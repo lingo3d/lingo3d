@@ -7,8 +7,7 @@ import {
     refreshSetupStack
 } from "../states/useSetupStack"
 
-//@ts-ignore
-export default class Setup extends EventLoopItem implements ISetup {
+class Setup extends EventLoopItem {
     public static componentName = "setup"
     public static defaults = setupDefaults
     public static schema = setupSchema
@@ -30,3 +29,5 @@ for (const key of Object.keys(setupSchema)) {
         }
     })
 }
+interface Setup extends EventLoopItem, ISetup {}
+export default Setup
