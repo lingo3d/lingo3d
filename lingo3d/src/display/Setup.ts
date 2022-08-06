@@ -1,5 +1,6 @@
 import EventLoopItem from "../api/core/EventLoopItem"
 import ISetup, { setupDefaults, setupSchema } from "../interface/ISetup"
+import getDefaultValue from "../interface/utils/getDefaultValue"
 import {
     pullSetupStack,
     pushSetupStack,
@@ -21,7 +22,7 @@ export default class Setup extends EventLoopItem implements ISetup {
 for (const key of Object.keys(setupSchema)) {
     Object.defineProperty(Setup.prototype, key, {
         get() {
-            return this["_" + key]
+            return this["_" + key] ?? getDefaultValue(setupDefaults, key)
         },
         set(value) {
             this["_" + key] = value
