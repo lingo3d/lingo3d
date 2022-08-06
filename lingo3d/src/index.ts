@@ -25,6 +25,7 @@ import Audio from "./display/Audio"
 import Group from "./display/Group"
 import Skybox from "./display/Skybox"
 import Environment from "./display/Environment"
+import Setup from "./display/Setup"
 import Sky from "./display/Sky"
 import Camera from "./display/cameras/Camera"
 import ThirdPersonCamera from "./display/cameras/ThirdPersonCamera"
@@ -70,7 +71,6 @@ import mainOrbitCamera from "./engine/mainOrbitCamera"
 
 import ObjectManager from "./display/core/ObjectManager"
 import FoundManager from "./display/core/FoundManager"
-import Setup from "./display/Setup"
 
 import { onAfterRender } from "./events/onAfterRender"
 import { onBeforeRender } from "./events/onBeforeRender"
@@ -110,6 +110,7 @@ export {
     Group,
     Skybox,
     Environment,
+    Setup,
     Sky,
     Camera,
     ThirdPersonCamera,
@@ -151,7 +152,6 @@ export {
     mainOrbitCamera,
     ObjectManager as Object,
     FoundManager as Found,
-    Setup,
     onAfterRender,
     onBeforeRender,
     Point3d,

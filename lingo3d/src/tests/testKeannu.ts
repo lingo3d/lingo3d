@@ -1,5 +1,4 @@
-import { settings } from ".."
-import Model from "../display/Model"
+import { settings, Model } from ".."
 
 export default {}
 
@@ -9,5 +8,4 @@ model.scale = 5
 model.metalnessFactor = 2
 model.roughnessFactor = 0.5
 
-settings.defaultOrbitControls = true
 settings.defaultLight = "studio"

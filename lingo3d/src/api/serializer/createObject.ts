@@ -30,6 +30,7 @@ import FirstPersonCamera from "../../display/cameras/FirstPersonCamera"
 import OrbitCamera from "../../display/cameras/OrbitCamera"
 import Skybox from "../../display/Skybox"
 import Environment from "../../display/Environment"
+import Setup from "../../display/Setup"
 import Trigger from "../../display/Trigger"
 import Audio from "../../display/Audio"
 
@@ -64,7 +65,8 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     tetrahedron: () => new Tetrahedron(),
     torus: () => new Torus(),
     skybox: () => new Skybox() as any,
-    environment: () => new Environment() as any
+    environment: () => new Environment() as any,
+    setup: () => new Setup() as any
 })
 
 export default (type: GameObjectType) => record[type]()

@@ -16,9 +16,9 @@ import ISkyLight from "../../interface/ISkyLight"
 import IPointLight from "../../interface/IPointLight"
 import ISpotLight from "../../interface/ISpotLight"
 import IPrimitive from "../../interface/IPrimitive"
-import ISetup from "../../interface/ISetup"
 import ISkybox from "../../interface/ISkybox"
 import IEnvironment from "../../interface/IEnvironment"
+import ISetup from "../../interface/ISetup"
 
 export type GameObjectType =
     | "group"
@@ -52,6 +52,7 @@ export type GameObjectType =
     | "torus"
     | "skybox"
     | "environment"
+    | "setup"
 
 export type AnimationData = Record<
     string, //property name
@@ -67,10 +68,6 @@ export type AnimationNode = {
         string, //target name
         AnimationData
     >
-}
-
-export type SetupNode = ISetup & {
-    type: "setup"
 }
 
 type Node = {
@@ -161,6 +158,8 @@ export type SkyboxNode = TypedPropsNode<ISkybox, "skybox">
 
 export type EnvironmentNode = TypedPropsNode<IEnvironment, "environment">
 
+export type SetupNode = TypedPropsNode<ISetup, "setup">
+
 export type BaseSceneGraphNode =
     | GroupNode
     | ModelNode
@@ -190,5 +189,6 @@ export type BaseSceneGraphNode =
     | TorusNode
     | SkyboxNode
     | EnvironmentNode
+    | SetupNode
 
-export type SceneGraphNode = BaseSceneGraphNode | AnimationNode | SetupNode
+export type SceneGraphNode = BaseSceneGraphNode | AnimationNode

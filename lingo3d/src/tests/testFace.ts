@@ -1,4 +1,4 @@
-import { PointLight, SkyLight, settings, Sky, Cube, Model } from ".."
+import { PointLight, SkyLight, settings, Sky, Model } from ".."
 
 export default {}
 
@@ -27,7 +27,6 @@ light3.intensity = 0.5
 
 const sky = new Sky()
 
-settings.defaultOrbitControls = true
 settings.ambientOcclusion = true
 settings.bloom = true
 settings.bloomStrength = 0.1

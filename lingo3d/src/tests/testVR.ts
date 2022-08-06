@@ -1,5 +1,4 @@
 import keyboard from "../api/keyboard"
-import settings from "../api/settings"
 import Model from "../display/Model"
 import Sky from "../display/Sky"
 import Cube from "../display/primitives/Cube"
@@ -9,8 +8,6 @@ import { setVR } from "../states/useVR"
 setVR("webxr")
 
 export default {}
-
-settings.defaultOrbitControls = true
 
 const player = new Cube()
 player.width = 50

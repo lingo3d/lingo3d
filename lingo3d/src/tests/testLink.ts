@@ -1,4 +1,3 @@
-import { settings } from ".."
 import Model from "../display/Model"
 
 export default {}
@@ -18,5 +17,3 @@ model.onClick = ({ distance }) => {
 //     idle: idleSrc
 // }
 // model.animation = ["running", "idle"]
-
-settings.defaultOrbitControls = true

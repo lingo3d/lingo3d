@@ -1,7 +1,6 @@
 import { omit } from "@lincode/utils"
 import createObject from "./createObject"
 import { nonSerializedProperties, SceneGraphNode } from "./types"
-import applySetup from "./applySetup"
 import Loaded from "../../display/core/Loaded"
 import { Object3D } from "three"
 import Reresolvable from "../../display/core/utils/Reresolvable"
@@ -10,10 +9,6 @@ const nodeToObjectManager = (
     node: SceneGraphNode,
     loadedResolvables: Array<Reresolvable<Object3D>> | undefined
 ) => {
-    if (node.type === "setup") {
-        applySetup(node)
-        return
-    }
     if (node.type === "animation") return
 
     const object = createObject(node.type)
