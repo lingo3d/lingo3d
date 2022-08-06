@@ -18,7 +18,6 @@ player.y = 4000
 player.physics = "character"
 player.strideMove = true
 player.strideMode = "free"
-player.boxVisible = true
 
 const cam = new ThirdPersonCamera()
 cam.append(player)

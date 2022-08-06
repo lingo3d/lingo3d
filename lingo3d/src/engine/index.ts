@@ -8,7 +8,6 @@ import skyShader from "./skyShader"
 import render from "./renderLoop"
 import background from "./background"
 import defaultLight from "./defaultLight"
-import defaultFog from "./defaultFog"
 import { preventTreeShake } from "@lincode/utils"
 import { setDebug } from "../states/useDebug"
 
@@ -22,8 +21,7 @@ preventTreeShake([
     boxHelper,
     skeletonHelper,
     background,
-    defaultLight,
-    defaultFog
+    defaultLight
 ])
 
 export default {}

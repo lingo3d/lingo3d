@@ -13,7 +13,6 @@ import {
     useMultipleSelectionTargets,
     useCameraStack,
     useDefaultLight,
-    useDefaultFog,
     useNodeEditor
 } from "../states"
 import { Cancellable } from "@lincode/promiselikes"
@@ -54,8 +53,7 @@ import {
 preventTreeShake(h)
 
 Object.assign(setupDefaults, {
-    defaultLightEnabled: true,
-    defaultFogEnabled: false
+    defaultLightEnabled: true
 })
 
 Object.assign(dummyDefaults, {
@@ -167,9 +165,6 @@ const Editor = () => {
     const [defaultLight, setDefaultLight] = useDefaultLight()
     const defaultLightEnabled = !!defaultLight
 
-    const [defaultFog, setDefaultFog] = useDefaultFog()
-    const defaultFogEnabled = !!defaultFog
-
     useEffect(() => {
         const el = elRef.current
         if (!el) return
@@ -185,10 +180,7 @@ const Editor = () => {
                     ...(defaultLightEnabled && {
                         defaultLight,
                         defaultLightScale: settings.defaultLightScale
-                    }),
-
-                    defaultFogEnabled,
-                    ...(defaultFogEnabled && { defaultFog })
+                    })
                 },
                 omit(settings, nonEditorSettings)
             )
@@ -212,15 +204,10 @@ const Editor = () => {
                 "defaultLightEnabled",
                 "defaultLight",
                 "defaultLightScale",
-                "defaultFogEnabled",
-                "defaultFog",
                 "skybox",
                 "color"
             ])
-            const {
-                defaultLightEnabled: defaultLightEnabledInput,
-                defaultFogEnabled: defaultFogEnabledInput
-            } = addInputs(
+            const { defaultLightEnabled: defaultLightEnabledInput } = addInputs(
                 pane,
                 "lighting & environment",
                 settings,
@@ -230,9 +217,6 @@ const Editor = () => {
 
             defaultLightEnabledInput.on("change", ({ value }) =>
                 setDefaultLight(value ? "default" : false)
-            )
-            defaultFogEnabledInput.on("change", ({ value }) =>
-                setDefaultFog(value ? "white" : undefined)
             )
 
             const [effectsParams, effectsRest] = splitObject(sceneRest, [
@@ -534,7 +518,6 @@ const Editor = () => {
         selectionTarget,
         multipleSelectionTargets,
         renderDeps,
-        defaultFogEnabled,
         defaultLightEnabled
     ])
 
