@@ -1,6 +1,5 @@
 import { Dummy, keyboard, Model, Setup, ThirdPersonCamera } from ".."
 import { YBOT_URL } from "../globals"
-import { setCentripetal } from "../states/useCentripetal"
 
 export default {}
 
@@ -10,8 +9,6 @@ world.scale = 40
 world.src = "waic.glb"
 world.resize = false
 world.roughnessFactor = 2
-
-setCentripetal(true)
 
 const player = new Dummy()
 player.y = 4000
@@ -44,3 +41,4 @@ keyboard.onKeyDown = (key) => {
 const settings = new Setup()
 
 settings.texture = "bg.png"
+settings.centripetal = true

@@ -10,11 +10,7 @@ export default {}
 createEffect(
     function (this: Setup) {
         const result: Record<string, any> = {}
-        for (const obj of [
-            setupDefaults,
-            ...getSetupStack().map((item) => item.data),
-            settings
-        ])
+        for (const obj of [setupDefaults, ...getSetupStack(), settings])
             for (const [key, value] of Object.entries(obj))
                 value !== undefined && (result[key] = value)
 

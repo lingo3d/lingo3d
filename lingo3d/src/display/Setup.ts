@@ -15,8 +15,8 @@ class Setup extends Appendable {
 
     public constructor() {
         super()
-        pushSetupStack(this)
-        this.then(() => pullSetupStack(this))
+        pushSetupStack(this.data)
+        this.then(() => pullSetupStack(this.data))
     }
 }
 for (const key of Object.keys(setupSchema))

@@ -1,8 +1,8 @@
 import store, { push, pull, refresh } from "@lincode/reactivity"
 import { debounce } from "@lincode/utils"
-import Setup from "../display/Setup"
+import ISetup from "../interface/ISetup"
 
-const [setSetupStack, getSetupStack] = store<Array<Setup>>([])
+const [setSetupStack, getSetupStack] = store<Array<Partial<ISetup>>>([])
 export { getSetupStack }
 
 export const pushSetupStack = push(setSetupStack, getSetupStack)
