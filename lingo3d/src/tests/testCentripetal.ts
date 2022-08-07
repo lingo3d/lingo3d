@@ -1,4 +1,4 @@
-import { Dummy, keyboard, Model, settings, ThirdPersonCamera } from ".."
+import { Dummy, keyboard, Model, Setup, ThirdPersonCamera } from ".."
 import { YBOT_URL } from "../globals"
 import { setCentripetal } from "../states/useCentripetal"
 
@@ -40,5 +40,7 @@ keyboard.onKeyDown = (key) => {
     if (key === "Space")
         player.src = player.src === "player2.glb" ? YBOT_URL : "player2.glb"
 }
+
+const settings = new Setup()
 
 settings.texture = "bg.png"

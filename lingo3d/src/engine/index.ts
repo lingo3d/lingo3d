@@ -10,6 +10,7 @@ import background from "./background"
 import defaultLight from "./defaultLight"
 import { preventTreeShake } from "@lincode/utils"
 import { setDebug } from "../states/useDebug"
+import setup from "./setup"
 
 preventTreeShake([
     render,
@@ -21,7 +22,8 @@ preventTreeShake([
     boxHelper,
     skeletonHelper,
     background,
-    defaultLight
+    defaultLight,
+    setup
 ])
 
 export default {}

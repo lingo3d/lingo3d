@@ -1,4 +1,4 @@
-import EventLoopItem from "../api/core/EventLoopItem"
+import Appendable from "../api/core/Appendable"
 import ISetup, { setupDefaults, setupSchema } from "../interface/ISetup"
 import getDefaultValue from "../interface/utils/getDefaultValue"
 import {
@@ -7,10 +7,12 @@ import {
     refreshSetupStack
 } from "../states/useSetupStack"
 
-class Setup extends EventLoopItem {
+class Setup extends Appendable implements ISetup {
     public static componentName = "setup"
     public static defaults = setupDefaults
     public static schema = setupSchema
+
+    protected data: Partial<ISetup> = {}
 
     public constructor() {
         super()
@@ -21,13 +23,16 @@ class Setup extends EventLoopItem {
 for (const key of Object.keys(setupSchema)) {
     Object.defineProperty(Setup.prototype, key, {
         get() {
-            return this["_" + key] ?? getDefaultValue(setupDefaults, key)
+            return this.data[key] ?? getDefaultValue(setupDefaults, key)
         },
         set(value) {
-            this["_" + key] = value
+            this.data[key] =
+                value === getDefaultValue(setupDefaults, key)
+                    ? undefined
+                    : value
             refreshSetupStack()
         }
     })
 }
-interface Setup extends EventLoopItem, ISetup {}
+interface Setup extends Appendable, ISetup {}
 export default Setup
