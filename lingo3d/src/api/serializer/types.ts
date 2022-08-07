@@ -82,18 +82,15 @@ export const nonSerializedProperties = [
     "rotation",
     "velocity",
     "target",
-    "proxy"
+    "proxy",
+    "gridHelper",
+    "gridHelperSize"
 ]
 export const nonEditorSettings: Array<keyof ISetup> = [
     "autoMount",
     "texture",
     "defaultLight",
     "defaultLightScale"
-]
-export const nonSerializedSettings: Array<keyof ISetup> = [
-    ...nonEditorSettings,
-    "gridHelper",
-    "gridHelperSize"
 ]
 
 type TypedPropsNode<Props, Type extends GameObjectType> = Partial<Props> &
