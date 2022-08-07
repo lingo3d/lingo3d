@@ -13,7 +13,8 @@ import {
     useMultipleSelectionTargets,
     useCameraStack,
     useDefaultLight,
-    useNodeEditor
+    useNodeEditor,
+    useSetupStack
 } from "../states"
 import { Cancellable } from "@lincode/promiselikes"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
@@ -32,7 +33,6 @@ import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import deleteSelected from "./deleteSelected"
 import { onKeyClear } from "../../events/onKeyClear"
 import { nonEditorSettings } from "../../api/serializer/types"
-import { onApplySetup } from "../../events/onApplySetup"
 import { setupDefaults } from "../../interface/ISetup"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
@@ -63,8 +63,6 @@ Object.assign(dummyDefaults, {
 const Editor = () => {
     const elRef = useInit()
 
-    const [renderDeps, render] = useState({})
-
     const [cameraStack] = useCameraStack()
     const camera = last(cameraStack)!
 
@@ -74,8 +72,6 @@ const Editor = () => {
         mainOrbitCamera.activate()
         setOrbitControls(true)
         setGridHelper(true)
-
-        const handle0 = onApplySetup(() => render({}))
 
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
@@ -98,7 +94,6 @@ const Editor = () => {
 
             document.removeEventListener("keydown", handleKeyDown)
             document.removeEventListener("keyup", handleKeyUp)
-            handle0.cancel()
             handle1.cancel()
 
             decreaseEditorMounted()
@@ -164,6 +159,7 @@ const Editor = () => {
 
     const [defaultLight, setDefaultLight] = useDefaultLight()
     const defaultLightEnabled = !!defaultLight
+    const [setupStack] = useSetupStack()
 
     useEffect(() => {
         const el = elRef.current
@@ -517,7 +513,7 @@ const Editor = () => {
     }, [
         selectionTarget,
         multipleSelectionTargets,
-        renderDeps,
+        setupStack,
         defaultLightEnabled
     ])
 
