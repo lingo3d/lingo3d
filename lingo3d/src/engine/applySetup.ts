@@ -1,5 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
-import settings from "../api/settings"
+import { finalSetup } from "../api/settings"
 import Setup from "../display/Setup"
 import { setupDefaults } from "../interface/ISetup"
 import { getSetupStack } from "../states/useSetupStack"
@@ -10,7 +10,7 @@ export default {}
 createEffect(
     function (this: Setup) {
         const result: Record<string, any> = {}
-        for (const obj of [setupDefaults, ...getSetupStack(), settings])
+        for (const obj of [setupDefaults, ...getSetupStack(), finalSetup])
             for (const [key, value] of Object.entries(obj))
                 value !== undefined && (result[key] = value)
 
