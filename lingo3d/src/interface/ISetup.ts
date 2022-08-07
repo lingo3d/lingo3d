@@ -1,8 +1,10 @@
-import settings from "../api/settings"
+import setupStruct from "../engine/setupStruct"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface ISetup extends Partial<typeof settings> {}
+type Type = typeof setupStruct
+
+export default interface ISetup extends Type {}
 
 export const setupSchema: Required<ExtractProps<ISetup>> = {
     skybox: [String, Array],
@@ -44,5 +46,5 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 }
 
 export const setupDefaults: Defaults<ISetup> = {
-    ...settings
+    ...setupStruct
 }
