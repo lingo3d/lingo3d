@@ -67,8 +67,6 @@ const Editor = () => {
     const camera = last(cameraStack)!
 
     useEffect(() => {
-        const currentCamera = camera
-
         mainOrbitCamera.activate()
         setOrbitControls(true)
         setGridHelper(true)
@@ -88,7 +86,6 @@ const Editor = () => {
         increaseEditorMounted()
 
         return () => {
-            currentCamera.userData.manager.activate()
             setOrbitControls(false)
             setGridHelper(false)
 
