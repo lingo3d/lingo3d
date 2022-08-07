@@ -315,7 +315,7 @@ const Editor = () => {
                     defaults,
                     generalParams
                 )
-                nameInput.on("change", () => emitSceneGraphNameChange())
+                nameInput?.on("change", () => emitSceneGraphNameChange())
             }
 
             const [transformParams0, transformRest] = splitObject(generalRest, [

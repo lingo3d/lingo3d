@@ -1,4 +1,4 @@
-import { Dummy, keyboard, Model, ThirdPersonCamera, settings } from ".."
+import { Dummy, keyboard, Model, ThirdPersonCamera, settings, Setup } from ".."
 import { YBOT_URL } from "../globals"
 
 export default {}
@@ -40,3 +40,5 @@ keyboard.onKeyDown = (key) => {
 
 settings.texture = "bg.png"
 settings.centripetal = true
+
+const setup = new Setup()

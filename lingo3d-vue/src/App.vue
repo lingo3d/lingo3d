@@ -13,33 +13,8 @@ import {
 
 <template>
   <World>
-    <Model
-      :x="10588.61"
-      :y="9758.37"
-      :z="-14228.96"
-      :width="128.53"
-      :height="100"
-      :depth="174.43"
-      :scale-x="200"
-      :scale-y="200"
-      :scale-z="200"
-      src="afterrain.glb"
-      :roughness-factor="0"
-      :metalness-factor="1"
-    />
-    <DirectionalLight :x="-1000" :y="1000" :z="1000" />
-    <DirectionalLight :x="-1000" :y="1000" :z="1000" :shadow-distance="5000" />
+    <Cube :metalness-factor="1" :roughness-factor="0" />
+    <Setup default-light="studio" />
     <LingoEditor />
-    <Setup
-      default-light="env.hdr"
-      skybox="env.hdr"
-      :exposure="0.6"
-      ambient-occlusion
-    />
-    <UI>
-      <Frame style="width: 500px; height: 500px; border: 1px solid blue">
-        <Cube />
-      </Frame>
-    </UI>
   </World>
 </template>
