@@ -5,7 +5,6 @@ import {
     setAmbientOcclusion
 } from "../states/useAmbientOcclusion"
 import { getAntiAlias, setAntiAlias } from "../states/useAntiAlias"
-import { getAutoMount, setAutoMount } from "../states/useAutoMount"
 import {
     getBackgroundColor,
     setBackgroundColor
@@ -133,13 +132,6 @@ export default {
     },
     set centripetal(value) {
         setCentripetal(value)
-    },
-
-    get autoMount() {
-        return getAutoMount()
-    },
-    set autoMount(value) {
-        setAutoMount(value)
     },
 
     get antiAlias() {

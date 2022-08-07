@@ -201,6 +201,7 @@ const Editor = () => {
                 "defaultLight",
                 "defaultLightScale",
                 "skybox",
+                "texture",
                 "color"
             ])
             const { defaultLightEnabled: defaultLightEnabledInput } = addInputs(

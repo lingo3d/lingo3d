@@ -1,5 +1,5 @@
 import store from "@lincode/reactivity"
 
-export const [setAutoMount, getAutoMount] = store<
-    boolean | string | HTMLElement
->(false)
+export type AutoMount = boolean | string | HTMLElement
+
+export const [setAutoMount, getAutoMount] = store<AutoMount>(false)

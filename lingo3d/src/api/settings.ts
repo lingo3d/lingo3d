@@ -1,8 +1,16 @@
 import setupStruct from "../engine/setupStruct"
 import ISetup, { setupSchema } from "../interface/ISetup"
+import { AutoMount, getAutoMount, setAutoMount } from "../states/useAutoMount"
 import { refreshSetupStack } from "../states/useSetupStack"
 
-const settings: Partial<ISetup> = {}
+const settings: Partial<ISetup> & { autoMount: AutoMount } = {
+    get autoMount() {
+        return getAutoMount()
+    },
+    set autoMount(value) {
+        setAutoMount(value)
+    }
+}
 export default settings
 
 export const finalSetup: Record<string, any> = {}

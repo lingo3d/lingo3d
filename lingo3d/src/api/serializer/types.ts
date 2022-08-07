@@ -86,9 +86,8 @@ export const nonSerializedProperties = [
     "gridHelper",
     "gridHelperSize"
 ]
-export const nonEditorSettings: Array<keyof ISetup> = [
+export const nonEditorSettings: Array<keyof ISetup | "autoMount"> = [
     "autoMount",
-    "texture",
     "defaultLight",
     "defaultLightScale"
 ]
