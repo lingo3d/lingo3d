@@ -4,8 +4,12 @@ import useManager, { ParentContext } from "../../../hooks/useManager"
 import { PrimitiveProps } from "../../../props"
 
 const Sphere = React.forwardRef<GameSphere, PrimitiveProps>((p, ref) => {
-    const manager = useManager(p, ref, GameSphere)
-    return <ParentContext.Provider value={manager}>{p.children}</ParentContext.Provider>
+  const manager = useManager(p, ref, GameSphere)
+  return (
+    <ParentContext.Provider value={manager}>
+      {p.children}
+    </ParentContext.Provider>
+  )
 })
 
 export default Sphere

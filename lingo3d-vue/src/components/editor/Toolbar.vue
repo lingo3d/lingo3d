@@ -24,5 +24,5 @@ const divRef = useEditor(Toolbar, props)
 </script>
 
 <template>
-  <div ref="divRef" class="lingo3d-ui" style="height: 100%;" />
+  <div ref="divRef" class="lingo3d-ui" style="height: 100%" />
 </template>

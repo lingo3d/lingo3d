@@ -5,42 +5,43 @@ import { ParentContext } from "../../../hooks/useManager"
 import htmlContainer from "./htmlContainer"
 
 interface HTMLProps {
-    parent?: any,
-    children: React.ReactNode
+  parent?: any
+  children: React.ReactNode
 }
 
 const HTML: React.FC<HTMLProps> = ({ children }) => {
-    const parent = useContext(ParentContext)
-    const divRef = useRef<HTMLDivElement>(null)
-    
-    useLayoutEffect(() => {
-        const div = divRef.current
-        if (!div || !parent) return
+  const parent = useContext(ParentContext)
+  const divRef = useRef<HTMLDivElement>(null)
 
-        let frustumVisibleOld = false
+  useLayoutEffect(() => {
+    const div = divRef.current
+    if (!div || !parent) return
 
-        const handle = onAfterRender(() => {
-            const { frustumVisible } = parent
-            
-            if (frustumVisible !== frustumVisibleOld)
-                div.style.display = frustumVisible ? "block" : "none"
+    let frustumVisibleOld = false
 
-            frustumVisibleOld = frustumVisible
+    const handle = onAfterRender(() => {
+      const { frustumVisible } = parent
 
-            if (!frustumVisible) return
-            
-            div.style.transform = `translateX(${parent.clientX}px) translateY(${parent.clientY}px)`
-        })
-        return () => {
-            handle.cancel()
-        }
-    }, [parent])
+      if (frustumVisible !== frustumVisibleOld)
+        div.style.display = frustumVisible ? "block" : "none"
 
-    return ReactDOM.createPortal(
-        <div ref={divRef} style={{ display: "none" }}>
-            {children}
-        </div>
-    , htmlContainer)
+      frustumVisibleOld = frustumVisible
+
+      if (!frustumVisible) return
+
+      div.style.transform = `translateX(${parent.clientX}px) translateY(${parent.clientY}px)`
+    })
+    return () => {
+      handle.cancel()
+    }
+  }, [parent])
+
+  return ReactDOM.createPortal(
+    <div ref={divRef} style={{ display: "none" }}>
+      {children}
+    </div>,
+    htmlContainer
+  )
 }
 
 export default HTML

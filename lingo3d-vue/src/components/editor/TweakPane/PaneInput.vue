@@ -23,7 +23,9 @@ watchEffect((cleanup) => {
   _childrenRef.value = [..._childrenRef.value, props]
 
   cleanup(() => {
-    _childrenRef.value = _childrenRef.value.filter((child: any) => child !== props)
+    _childrenRef.value = _childrenRef.value.filter(
+      (child: any) => child !== props
+    )
   })
 })
 </script>

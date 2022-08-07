@@ -1,6 +1,14 @@
 <script setup lang="ts">
-import { World, Model, LingoEditor, Setup, DirectionalLight, UI, Frame, Cube } from "./index"
-
+import {
+  World,
+  Model,
+  LingoEditor,
+  Setup,
+  DirectionalLight,
+  UI,
+  Frame,
+  Cube
+} from "./index"
 </script>
 
 <template>

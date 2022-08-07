@@ -25,7 +25,6 @@ export default (
       }
     }
     setFound(_parent.findAll(name))
-    
   }, [_parent])
 
   return found

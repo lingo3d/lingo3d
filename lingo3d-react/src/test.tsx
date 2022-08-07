@@ -19,7 +19,7 @@ import {
   UI,
   TweakPane,
   PaneInput,
-  Frame,
+  Frame
 } from "."
 //@ts-ignore
 import gunSrc from "../assets-local/gun.glb"

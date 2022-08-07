@@ -26,6 +26,7 @@ import IEnvironment from "lingo3d/lib/interface/IEnvironment"
 import IJoystick from "lingo3d/lib/interface/IJoystick"
 import IReticle from "lingo3d/lib/interface/IReticle"
 import IThirdPersonCamera from "lingo3d/lib/interface/IThirdPersonCamera"
+import ISetup from "lingo3d/lib/interface/ISetup"
 
 type Children = React.ReactNode
 
@@ -41,12 +42,18 @@ export type SpriteProps = Partial<ISprite> & { children?: Children }
 
 export type CameraProps = Partial<ICamera> & { children?: Children }
 export type OrbitCameraProps = Partial<IOrbitCamera> & { children?: Children }
-export type ThirdPersonCameraProps = Partial<IThirdPersonCamera> & { children?: Children }
-export type FirstPersonCameraProps = Partial<ICharacterCamera> & { children?: Children }
+export type ThirdPersonCameraProps = Partial<IThirdPersonCamera> & {
+  children?: Children
+}
+export type FirstPersonCameraProps = Partial<ICharacterCamera> & {
+  children?: Children
+}
 
 export type AmbientLightProps = Partial<IAmbientLight> & { children?: Children }
 export type AreaLightProps = Partial<IAreaLight> & { children?: Children }
-export type DirectionalLightProps = Partial<IDirectionalLight> & { children?: Children }
+export type DirectionalLightProps = Partial<IDirectionalLight> & {
+  children?: Children
+}
 export type PointLightProps = Partial<IPointLight> & { children?: Children }
 export type SkyLightProps = Partial<ISkyLight> & { children?: Children }
 export type SpotLightProps = Partial<ISpotLight> & { children?: Children }
@@ -57,6 +64,7 @@ export type TriggerProps = Partial<ITrigger>
 export type AudioProps = Partial<IAudio>
 export type SkyboxProps = Partial<ISkybox>
 export type EnvironmentProps = Partial<IEnvironment>
+export type SetupProps = Partial<ISetup>
 
 export type JoystickProps = Partial<IJoystick>
 export type ReticleProps = Partial<IReticle>

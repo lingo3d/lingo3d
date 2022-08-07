@@ -8,5 +8,4 @@ const manager = useManager(props, Keyboard)
 defineExpose(manager)
 </script>
 
-<template>
-</template>
+<template></template>

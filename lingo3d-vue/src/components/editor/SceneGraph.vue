@@ -6,5 +6,5 @@ const divRef = useEditor(SceneGraph)
 </script>
 
 <template>
-  <div ref="divRef" class="lingo3d-ui" style="height: 100%;" />
+  <div ref="divRef" class="lingo3d-ui" style="height: 100%" />
 </template>

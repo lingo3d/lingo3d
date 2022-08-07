@@ -8,6 +8,4 @@ const manager = useManager(props, Skybox)
 defineExpose(manager)
 </script>
 
-<template>
-  <slot />
-</template>
+<template></template>

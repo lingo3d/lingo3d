@@ -4,32 +4,30 @@ import { onAfterRender } from "lingo3d/lib/events/onAfterRender"
 import StatsJS from "stats.js"
 
 type StatsProps = {
-    mode?: "fps" | "time" | "memory"
+  mode?: "fps" | "time" | "memory"
 }
 
 const Stats: React.FC<StatsProps> = ({ mode = "fps" }) => {
-    const divRef = useRef<HTMLDivElement>(null)
+  const divRef = useRef<HTMLDivElement>(null)
 
-    useLayoutEffect(() => {
-        const div = divRef.current
-        if (!div) return
+  useLayoutEffect(() => {
+    const div = divRef.current
+    if (!div) return
 
-        const stats = new StatsJS()
-        stats.showPanel(mode === "fps" ? 0 : mode === "time" ? 1 : 2)
-        div.appendChild(stats.dom)
+    const stats = new StatsJS()
+    stats.showPanel(mode === "fps" ? 0 : mode === "time" ? 1 : 2)
+    div.appendChild(stats.dom)
 
-        const beforeHandle = onBeforeRender(() => stats.begin())
-        const afterHandle = onAfterRender(() => stats.end())
+    const beforeHandle = onBeforeRender(() => stats.begin())
+    const afterHandle = onAfterRender(() => stats.end())
 
-        return () => {
-            beforeHandle.cancel()
-            afterHandle.cancel()
-        }
-    }, [])
+    return () => {
+      beforeHandle.cancel()
+      afterHandle.cancel()
+    }
+  }, [])
 
-    return (
-        <div ref={divRef} />
-    )
+  return <div ref={divRef} />
 }
 
 export default Stats

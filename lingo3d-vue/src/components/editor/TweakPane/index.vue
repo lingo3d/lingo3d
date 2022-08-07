@@ -19,10 +19,7 @@ watchEffect((cleanup) => {
   const params = Object.fromEntries(
     _children
       .filter((child) => child.name)
-      .map((child) => [
-        child.name,
-        child.values ? child : child.value
-      ])
+      .map((child) => [child.name, child.values ? child : child.value])
   )
   const onChange = Object.fromEntries(
     _children
@@ -41,7 +38,14 @@ watchEffect((cleanup) => {
   <div
     ref="elRef"
     className="lingo3d-ui"
-    style="width: 300px; background: rgb(40, 41, 46); position: absolute; top: 0px; right: 0px; z-index: 1;"
+    style="
+      width: 300px;
+      background: rgb(40, 41, 46);
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      z-index: 1;
+    "
   >
     <slot />
   </div>
