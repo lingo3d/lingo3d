@@ -1,5 +1,4 @@
-import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings } from ".."
-import Building from "../display/Building"
+import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings, Building } from ".."
 
 export default {}
 

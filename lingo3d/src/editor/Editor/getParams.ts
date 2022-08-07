@@ -1,3 +1,4 @@
+import getDefaultValue from "../../interface/utils/getDefaultValue"
 import nonEditorSchemaSet from "../../interface/utils/nonEditorSchemaSet"
 
 export default (schema: any, defaults: any, target: any) => {
@@ -18,10 +19,7 @@ export default (schema: any, defaults: any, target: any) => {
             )
                 continue
 
-        if (currentVal === undefined) {
-            currentVal = defaults[key]
-            Array.isArray(currentVal) && (currentVal = currentVal[1])
-        }
+        currentVal ??= getDefaultValue(defaults, key, true)
 
         if (currentVal === Infinity) currentVal = 999999999
         else if (currentVal === -Infinity) currentVal = -999999999

@@ -13,8 +13,9 @@ class Setup extends Appendable {
 
     protected data: Partial<ISetup> = {}
 
-    public constructor() {
+    public constructor(protected noEffect?: boolean) {
         super()
+        if (noEffect) return
         pushSetupStack(this.data)
         this.then(() => pullSetupStack(this.data))
     }
@@ -26,7 +27,7 @@ for (const key of Object.keys(setupSchema))
         },
         set(value) {
             this.data[key] = value
-            refreshSetupStack()
+            !this.noEffect && refreshSetupStack()
         }
     })
 interface Setup extends Appendable, ISetup {}
