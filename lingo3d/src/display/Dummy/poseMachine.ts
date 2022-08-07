@@ -1,6 +1,7 @@
 import { createMachine } from "xstate"
 
 export default createMachine({
+    predictableActionArguments: true,
     states: {
         idle: {
             on: {
