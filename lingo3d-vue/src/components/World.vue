@@ -5,6 +5,8 @@ import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
 import setupProps from "../props/setupProps"
 import htmlContainer from "./logical/HTML/htmlContainer"
+import useDiffProps from "../hooks/useDiffProps"
+import { setupDefaults } from "lingo3d/lib/interface/ISetup"
 
 preventTreeShake(index)
 
@@ -27,8 +29,10 @@ watchEffect((onCleanUp) => {
   })
 })
 
+const settingsProps = useDiffProps(props, setupDefaults)
+
 watchEffect(() => {
-  Object.assign(settings, props)
+  Object.assign(settings, toRaw(settingsProps.value))
 })
 
 const style = document.createElement("style")
