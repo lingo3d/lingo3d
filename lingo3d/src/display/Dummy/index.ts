@@ -32,7 +32,7 @@ export default class Dummy extends Model implements IDummy {
         this.frustumCulled = false
 
         const [setType, getType] = store<
-            "mixamo" | "readyplayerme" | undefined
+            "mixamo" | "readyplayerme" | "other" | undefined
         >(undefined)
         const [setSpine, getSpine] = store<FoundManager | undefined>(undefined)
 
@@ -45,6 +45,8 @@ export default class Dummy extends Model implements IDummy {
             dummyTypeMap.delete(this)
 
             const handle = this.loaded.then((loaded) => {
+                setType("other")
+
                 if (spineName) {
                     setSpine(this.find(spineName, true))
 
@@ -147,9 +149,6 @@ export default class Dummy extends Model implements IDummy {
         this.then(() => poseService.stop())
 
         this.createEffect(() => {
-            const spine = getSpine()
-            if (!spine) return
-
             const loadedItem = this.loadedGroup.children[0]
             if (!loadedItem) return
 
@@ -172,7 +171,8 @@ export default class Dummy extends Model implements IDummy {
             const sr = backwards ? strideRight : -strideRight
             const angle = 90 - Math.atan2(-sf, -sr) * rad2Deg
 
-            const spineQuaternion = spine.outerObject3d.quaternion.clone()
+            const spine = getSpine()
+            const spineQuaternion = spine?.outerObject3d.quaternion.clone()
             const loadedItemQuaternion = loadedItem.quaternion.clone()
 
             const handle = onRender(() => {
@@ -183,7 +183,7 @@ export default class Dummy extends Model implements IDummy {
                 const quaternionOld = loadedItem.quaternion.clone()
 
                 let spinePoint: Point3d | undefined
-                if (strideMode === "aim") {
+                if (strideMode === "aim" && spine && spineQuaternion) {
                     loadedItem.quaternion.copy(loadedItemQuaternion)
                     spine.outerObject3d.quaternion.copy(spineQuaternion)
                     spinePoint = spine.pointAt(1000)
@@ -197,7 +197,7 @@ export default class Dummy extends Model implements IDummy {
                     .copy(quaternionOld)
                     .slerp(quaternionNew, 0.2)
 
-                spinePoint && spine.lookAt(spinePoint)
+                spinePoint && spine?.lookAt(spinePoint)
 
                 if (!strideMove) return
 

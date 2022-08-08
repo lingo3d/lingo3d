@@ -28,10 +28,10 @@ cam.mouseControl = true
 cam.innerX = 50
 cam.innerY = 50
 
-dummy.src = "fox/Fox.fbx"
+dummy.src = "awei/awei.fbx"
 dummy.animations = {
-    idle: "fox/Idle.fbx",
-    running: "fox/Walking.fbx",
+    idle: "awei/idle.fbx",
+    running: "awei/running.fbx",
 }
 
 keyboard.onKeyPress = (_, pressed) => {
