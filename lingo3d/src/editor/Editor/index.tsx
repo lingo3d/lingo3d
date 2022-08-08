@@ -170,10 +170,7 @@ const Editor = () => {
             const rest = Object.assign(
                 {
                     defaultLightEnabled,
-                    ...(defaultLightEnabled && {
-                        defaultLight,
-                        defaultLightScale: settings.defaultLightScale
-                    })
+                    ...(defaultLightEnabled && { defaultLight })
                 },
                 omit(settings, nonEditorSettings)
             )
@@ -196,7 +193,6 @@ const Editor = () => {
                 "exposure",
                 "defaultLightEnabled",
                 "defaultLight",
-                "defaultLightScale",
                 "skybox",
                 "texture",
                 "color"

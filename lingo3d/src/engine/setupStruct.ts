@@ -26,10 +26,6 @@ import { getBokehFocus, setBokehFocus } from "../states/useBokehFocus"
 import { getBokehMaxBlur, setBokehMaxBlur } from "../states/useBokehMaxBlur"
 import { getCentripetal, setCentripetal } from "../states/useCentripetal"
 import { getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
-import {
-    getDefaultLightScale,
-    setDefaultLightScale
-} from "../states/useDefaultLightScale"
 import { getExposure, setExposure } from "../states/useExposure"
 import { getGravity, setGravity } from "../states/useGravity"
 import { getGridHelper, setGridHelper } from "../states/useGridHelper"
@@ -83,13 +79,6 @@ export default {
     },
     set defaultLight(value) {
         setDefaultLight(value)
-    },
-
-    get defaultLightScale() {
-        return getDefaultLightScale()
-    },
-    set defaultLightScale(value) {
-        setDefaultLightScale(value)
     },
 
     get skybox() {

@@ -7,8 +7,6 @@ import { getRenderer } from "../../states/useRenderer"
 import { getPBR } from "../../states/usePBR"
 import { getSecondaryCamera } from "../../states/useSecondaryCamera"
 import { VRButton } from "./VRButton"
-import { getDefaultLightScale } from "../../states/useDefaultLightScale"
-import { getDefaultLight } from "../../states/useDefaultLight"
 import { getAutoMount } from "../../states/useAutoMount"
 import { debounce } from "@lincode/utils"
 import { getPixelRatioComputed } from "../../states/usePixelRatioComputed"
@@ -127,17 +125,10 @@ createEffect(() => {
     const renderer = getRenderer()
     if (!renderer) return
 
-    const defaultLight = getDefaultLight()
-    const exposure =
-        typeof defaultLight === "string" && defaultLight !== "default"
-            ? getExposure() *
-              getDefaultLightScale() *
-              (defaultLight === "studio" ? 2 : 1)
-            : getExposure()
-
+    const exposure = getExposure()
     renderer.toneMapping = exposure !== 1 ? LinearToneMapping : NoToneMapping
     renderer.toneMappingExposure = exposure
-}, [getExposure, getRenderer, getDefaultLight, getDefaultLightScale])
+}, [getExposure, getRenderer])
 
 createEffect(() => {
     if (getVR() !== "webxr") return

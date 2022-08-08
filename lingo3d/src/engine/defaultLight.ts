@@ -14,7 +14,6 @@ import { onBeforeRender } from "../events/onBeforeRender"
 import { TEXTURES_URL } from "../globals"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getDefaultLight } from "../states/useDefaultLight"
-import { getDefaultLightScale } from "../states/useDefaultLightScale"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import { getRenderer } from "../states/useRenderer"
 import scene from "./scene"
@@ -86,7 +85,6 @@ createEffect(() => {
         light.helper = false
         light.groundColor = "#666666"
 
-        handle.watch(getDefaultLightScale((scale) => (light.intensity = scale)))
         handle.then(() => light.dispose())
     })
     import("../display/lights/DirectionalLight").then((module) => {
@@ -99,9 +97,6 @@ createEffect(() => {
         light.z = 1000
         light.intensity = 0.5
 
-        handle.watch(
-            getDefaultLightScale((scale) => (light.intensity = scale * 0.5))
-        )
         handle.then(() => light.dispose())
     })
 

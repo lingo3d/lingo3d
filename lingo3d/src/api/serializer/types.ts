@@ -88,8 +88,7 @@ export const nonSerializedProperties = [
 ]
 export const nonEditorSettings: Array<keyof ISetup | "autoMount"> = [
     "autoMount",
-    "defaultLight",
-    "defaultLightScale"
+    "defaultLight"
 ]
 
 type TypedPropsNode<Props, Type extends GameObjectType> = Partial<Props> &
