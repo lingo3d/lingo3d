@@ -5,8 +5,7 @@ import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
 import setupProps from "../props/setupProps"
 import htmlContainer from "./logical/HTML/htmlContainer"
-import useDiffProps from "../hooks/useDiffProps"
-import { setupDefaults } from "lingo3d/lib/interface/ISetup"
+import Setup from "./display/Setup.vue"
 
 preventTreeShake(index)
 
@@ -29,12 +28,6 @@ watchEffect((onCleanUp) => {
   })
 })
 
-const settingsProps = useDiffProps(props, setupDefaults)
-
-watchEffect(() => {
-  Object.assign(settings, toRaw(settingsProps.value))
-})
-
 const style = document.createElement("style")
 style.innerHTML = `.lingo3d {
     position: absolute;
@@ -55,4 +48,5 @@ document.head.appendChild(style)
       style="height: 100%; flex-grow: 1; position: relative; overflow: hidden"
     />
   </div>
+  <Setup v-bind="$props" />
 </template>

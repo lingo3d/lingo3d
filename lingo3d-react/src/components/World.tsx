@@ -4,6 +4,7 @@ import index from "lingo3d"
 import { preventTreeShake } from "@lincode/utils"
 import ISetup from "lingo3d/lib/interface/ISetup"
 import htmlContainer from "./logical/HTML/htmlContainer"
+import Setup from "./display/Setup"
 
 preventTreeShake(index)
 
@@ -35,10 +36,6 @@ const World: React.FC<WorldProps> = ({
     }
   }, [])
 
-  useLayoutEffect(() => {
-    Object.assign(settings, setupProps)
-  }, [setupProps])
-
   return (
     <>
       <div
@@ -63,6 +60,7 @@ const World: React.FC<WorldProps> = ({
           }}
         />
       </div>
+      <Setup {...setupProps} />
     </>
   )
 }

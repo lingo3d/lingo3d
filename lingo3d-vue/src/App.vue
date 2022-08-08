@@ -12,9 +12,8 @@ import {
 </script>
 
 <template>
-  <World>
+  <World default-light="studio">
     <Cube :metalness-factor="1" :roughness-factor="0" />
-    <Setup default-light="studio" />
     <LingoEditor />
   </World>
 </template>
