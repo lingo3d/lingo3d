@@ -69,6 +69,14 @@ import {
 import { getPBR, setPBR } from "../states/usePBR"
 import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { getRepulsion, setRepulsion } from "../states/useRepulsion"
+import {
+    getShadowDistance,
+    setShadowDistance
+} from "../states/useShadowDistance"
+import {
+    getShadowResolution,
+    setShadowResolution
+} from "../states/useShadowResolution"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -79,6 +87,20 @@ export default {
     },
     set defaultLight(value) {
         setDefaultLight(value)
+    },
+
+    get shadowResolution() {
+        return getShadowResolution()
+    },
+    set shadowResolution(value) {
+        setShadowResolution(value)
+    },
+
+    get shadowDistance() {
+        return getShadowDistance()
+    },
+    set shadowDistance(value) {
+        setShadowDistance(value)
     },
 
     get skybox() {

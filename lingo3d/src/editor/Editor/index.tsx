@@ -193,6 +193,8 @@ const Editor = () => {
                 "exposure",
                 "defaultLightEnabled",
                 "defaultLight",
+                "shadowDistance",
+                "shadowResolution",
                 "skybox",
                 "texture",
                 "color"

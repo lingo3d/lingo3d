@@ -9,6 +9,8 @@ export default interface ISetup extends Type {}
 export const setupSchema: Required<ExtractProps<ISetup>> = {
     skybox: [String, Array],
     defaultLight: [String, Boolean],
+    shadowDistance: Number,
+    shadowResolution: Number,
     gridHelper: Boolean,
     gridHelperSize: Number,
     gravity: Number,
@@ -44,5 +46,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 }
 
 export const setupDefaults: Defaults<ISetup> = {
-    ...setupStruct
+    ...setupStruct,
+    shadowDistance: 2000,
+    shadowResolution: 1024
 }
