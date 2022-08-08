@@ -1,6 +1,13 @@
-
-import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings, mouse, Line, Joystick } from ".."
-import createProxy from "../api/createProxy"
+import {
+    ThirdPersonCamera,
+    Dummy,
+    Reflector,
+    keyboard,
+    settings,
+    mouse,
+    Line,
+    Joystick
+} from ".."
 
 export default {}
 
@@ -24,41 +31,34 @@ cam.append(dummy)
 cam.activate()
 cam.transition = true
 cam.mouseControl = true
-// cam.lockTargetRotation = "dynamic-lock"
+cam.lockTargetRotation = "dynamic-lock"
 cam.innerX = 50
 cam.innerY = 50
 
 dummy.src = "awei/awei.fbx"
 dummy.animations = {
     idle: "awei/idle.fbx",
-    running: "awei/running.fbx",
+    running: "awei/running.fbx"
 }
 
 keyboard.onKeyPress = (_, pressed) => {
-    if (pressed.has("w"))
-        dummy.strideForward = -5
-    else if (pressed.has("s"))
-        dummy.strideForward = 5
-    else
-        dummy.strideForward = 0
+    if (pressed.has("w")) dummy.strideForward = -5
+    else if (pressed.has("s")) dummy.strideForward = 5
+    else dummy.strideForward = 0
 
-    if (pressed.has("a"))
-        dummy.strideRight = 5
-    else if (pressed.has("d"))
-        dummy.strideRight = -5
-    else
-        dummy.strideRight = 0
+    if (pressed.has("a")) dummy.strideRight = 5
+    else if (pressed.has("d")) dummy.strideRight = -5
+    else dummy.strideRight = 0
 
-    if (pressed.has("Space"))
-        dummy.jump(10)
+    if (pressed.has("Space")) dummy.jump(10)
 }
 
-mouse.onClick = () => {
-    const line = new Line()
-    line.from = { x: dummy.x, y: dummy.y, z: dummy.z }
-    const pt = cam.pointAt(10000)
-    line.to = { x: pt.x, y: pt.y, z: pt.z }
-    line.bloom = true
-}
+// mouse.onClick = () => {
+//     const line = new Line()
+//     line.from = { x: dummy.x, y: dummy.y, z: dummy.z }
+//     const pt = cam.pointAt(10000)
+//     line.to = { x: pt.x, y: pt.y, z: pt.z }
+//     line.bloom = true
+// }
 
-const joystick = new Joystick()
+// const joystick = new Joystick()

@@ -52,7 +52,7 @@ createEffect(() => {
     }
     let proceed = true
     const texture = loadTexture(
-        environment,
+        environment === "studio" ? TEXTURES_URL + "studio.jpg" : environment,
         () => proceed && (scene.environment = texture)
     )
     texture.mapping = EquirectangularReflectionMapping
@@ -69,8 +69,6 @@ createEffect(() => {
 
     if (typeof defaultLight === "string" && defaultLight !== "default") {
         if (defaultLight === "dynamic") defaultEnvironment.texture = "dynamic"
-        else if (defaultLight === "studio")
-            defaultEnvironment.texture = TEXTURES_URL + "studio.jpg"
         else defaultEnvironment.texture = defaultLight
 
         return () => {

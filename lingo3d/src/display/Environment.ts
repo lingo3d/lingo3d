@@ -1,8 +1,7 @@
 import {
-    getEnvironmentStack,
     pullEnvironmentStack,
     pushEnvironmentStack,
-    setEnvironmentStack
+    refreshEnvironmentStack
 } from "../states/useEnvironmentStack"
 import IEnvironment, {
     environmentDefaults,
@@ -27,12 +26,12 @@ export default class Environment extends EventLoopItem implements IEnvironment {
         return this
     }
 
-    private _texture?: string | "dynamic"
+    private _texture?: string | "studio" | "dynamic"
     public get texture() {
         return this._texture
     }
     public set texture(value) {
         this._texture = value
-        setEnvironmentStack([...getEnvironmentStack()])
+        refreshEnvironmentStack()
     }
 }
