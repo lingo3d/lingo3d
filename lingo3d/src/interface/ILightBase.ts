@@ -4,11 +4,12 @@ import IObjectManager, {
 } from "./IObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
 
 export default interface ILightBase extends IObjectManager {
     color: string
     intensity: number
-    shadowResolution: number
+    shadowResolution: Nullable<number>
     helper: boolean
 }
 
@@ -24,6 +25,6 @@ export const lightBaseDefaults: Defaults<ILightBase> = {
     ...objectManagerDefaults,
     color: "#ffffff",
     intensity: 1,
-    shadowResolution: 512,
+    shadowResolution: [undefined, 512],
     helper: true
 }

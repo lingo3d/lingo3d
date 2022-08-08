@@ -7,6 +7,7 @@ import IDirectionalLight, {
     directionalLightSchema
 } from "../../interface/IDirectionalLight"
 import { getCameraRendered } from "../../states/useCameraRendered"
+import { getShadowDistance } from "../../states/useShadowDistance"
 import LightBase from "../core/LightBase"
 import getWorldPosition from "../utils/getWorldPosition"
 import { vec2Point } from "../utils/vec2Point"
@@ -19,11 +20,10 @@ export default class DirectionalLight
     public static defaults = directionalLightDefaults
     public static schema = directionalLightSchema
 
+    protected override defaultShadowResolution = 1024
+
     public constructor() {
         super(ThreeDirectionalLight)
-
-        this.shadowDistance = 2000
-        this.shadowResolution = 1024
 
         this.createEffect(() => {
             const light = this.lightState.get()
@@ -40,9 +40,15 @@ export default class DirectionalLight
             const shadowCamera = this.lightState.get()?.shadow.camera
             if (!shadowCamera) return
 
-            shadowCamera.zoom = 500 / this.shadowDistanceState.get()
+            shadowCamera.zoom =
+                500 /
+                (this.shadowDistanceState.get() ?? getShadowDistance() ?? 2000)
             shadowCamera.updateProjectionMatrix()
-        }, [this.lightState.get, this.shadowDistanceState.get])
+        }, [
+            this.lightState.get,
+            this.shadowDistanceState.get,
+            getShadowDistance
+        ])
 
         this.createEffect(() => {
             const light = this.lightState.get()
@@ -66,7 +72,7 @@ export default class DirectionalLight
         return vec2Point(getWorldPosition(this.outerObject3d))
     }
 
-    private shadowDistanceState = new Reactive(500)
+    private shadowDistanceState = new Reactive<number | undefined>(undefined)
     public get shadowDistance() {
         return this.shadowDistanceState.get()
     }

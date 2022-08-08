@@ -11,6 +11,7 @@ import {
 } from "../../events/onSelectionTarget"
 import ILightBase from "../../interface/ILightBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
+import { getShadowResolution } from "../../states/useShadowResolution"
 import ObjectManager from "./ObjectManager"
 import makeLightSprite from "./utils/makeLightSprite"
 
@@ -19,6 +20,8 @@ export default abstract class LightBase<T extends typeof Light>
     implements ILightBase
 {
     protected lightState = new Reactive<InstanceType<T> | undefined>(undefined)
+
+    protected defaultShadowResolution = 512
 
     public constructor(
         Light: T,
@@ -33,7 +36,11 @@ export default abstract class LightBase<T extends typeof Light>
             group.add(light)
 
             if (light.shadow) {
-                const shadowResolution = this.shadowResolutionState.get()
+                const shadowResolution =
+                    this.shadowResolutionState.get() ??
+                    getShadowResolution() ??
+                    this.defaultShadowResolution
+
                 light.castShadow = true
                 light.shadow.bias = -0.0005
                 // light.shadow.bias = -0.00009
@@ -45,7 +52,7 @@ export default abstract class LightBase<T extends typeof Light>
                 group.remove(light)
                 light.dispose()
             }
-        }, [this.shadowResolutionState.get])
+        }, [this.shadowResolutionState.get, getShadowResolution])
 
         this.createEffect(() => {
             const light = this.lightState.get()
@@ -99,7 +106,7 @@ export default abstract class LightBase<T extends typeof Light>
         this.helperState.set(val)
     }
 
-    private shadowResolutionState = new Reactive(512)
+    private shadowResolutionState = new Reactive<number | undefined>(undefined)
     public get shadowResolution() {
         return this.shadowResolutionState.get()
     }
