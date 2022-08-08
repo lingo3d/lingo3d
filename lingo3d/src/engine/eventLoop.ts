@@ -18,7 +18,7 @@ export const timer = (time: number, repeat: number, cb: () => void) => {
 
 let count = 0
 const callbacks = new Set<() => void>()
-const clock = new Clock()
+export const clock = new Clock()
 
 getRenderer((renderer) => {
     renderer?.setAnimationLoop(() => {

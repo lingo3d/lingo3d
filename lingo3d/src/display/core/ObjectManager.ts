@@ -12,6 +12,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
 {
     public constructor(public object3d = new Object3D() as T) {
         super(object3d)
+        this.nativeObject3d = object3d
 
         const outerObject3d = (this.outerObject3d = new Object3D() as T)
         outerObject3d.userData.manager = this
