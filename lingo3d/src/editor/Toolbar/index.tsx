@@ -34,8 +34,7 @@ import {
     increaseEditorMounted
 } from "../../states/useEditorMounted"
 import MeshIcon from "./icons/MeshIcon"
-import FolderIcon from "./icons/FolderIcon"
-import { directoryOpen } from "browser-fs-access"
+import PathIcon from "./icons/PathIcon"
 
 preventTreeShake(h)
 
@@ -52,17 +51,6 @@ interface ToolbarProps {
         exportReact?: ButtonOptions
         exportVue?: ButtonOptions
     }
-}
-
-const openFolder = async () => {
-    const blobs = await directoryOpen({
-        recursive: true,
-        startIn: "downloads",
-        id: "lingo3d",
-        skipDirectory: (entry) =>
-            entry.name[0] === "." || entry.name === "node_modules"
-    })
-    console.log(blobs)
 }
 
 const Toolbar = ({ buttons }: ToolbarProps) => {
@@ -133,11 +121,16 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                     </IconButton>
                     {/* <IconButton
                         active={mode === "mesh"}
-                        disabled={translateOnly}
                         onClick={() => setEditorMode("mesh")}
                     >
                         <MeshIcon />
                     </IconButton> */}
+                    <IconButton
+                        active={mode === "path"}
+                        onClick={() => setEditorMode("path")}
+                    >
+                        <PathIcon />
+                    </IconButton>
                     <IconButton
                         active={mode === "play"}
                         onClick={() => setEditorMode("play")}
