@@ -2,21 +2,26 @@ import { h } from "preact"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
 import CloseIcon from "./icons/CloseIcon"
+import { useFiles } from "../states"
+import FolderIcon from "./icons/FolderIcon"
 
 preventTreeShake(h)
 
 const FileBrowser = () => {
+    const [files] = useFiles()
+
     return (
         <div
             className="lingo3d-ui lingo3d-bg"
-            style={{ height: 200, width: "100%" }}
+            style={{ height: 200, width: "100%", overflow: "hidden" }}
         >
             <div
                 style={{
                     width: "100%",
                     height: 25,
                     background: "rgba(0, 0, 0, 0.5)",
-                    display: "flex"
+                    display: "flex",
+                    position: "fixed"
                 }}
             >
                 <div
@@ -29,12 +34,17 @@ const FileBrowser = () => {
                         alignItems: "center"
                     }}
                 >
-                    hello world
+                    File Browser
                     <div style={{ width: 20 }} />
                     <div onClick={() => console.log("here")}>
                         <CloseIcon />
                     </div>
                 </div>
+            </div>
+            <div style={{ width: "100%", height: "100%", overflow: "scroll" }}>
+                {files?.map((file) => (
+                    <FolderIcon />
+                ))}
             </div>
         </div>
     )

@@ -42,6 +42,7 @@ import { getNodeEditor, setNodeEditor } from "../states/useNodeEditor"
 import { getDebug, setDebug } from "../states/useDebug"
 import { getEditorMounted, setEditorMounted } from "../states/useEditorMounted"
 import { getSetupStack, setSetupStack } from "../states/useSetupStack"
+import { getFiles, setFiles } from "../states/useFiles"
 
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(
@@ -77,3 +78,4 @@ export const useNodeEditor = hook(setNodeEditor, getNodeEditor)
 export const useDebug = hook(setDebug, getDebug)
 export const useEditorMounted = hook(setEditorMounted, getEditorMounted)
 export const useSetupStack = hook(setSetupStack, getSetupStack)
+export const useFiles = hook(setFiles, getFiles)

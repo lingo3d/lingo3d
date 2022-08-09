@@ -36,6 +36,7 @@ import {
 import MeshIcon from "./icons/MeshIcon"
 import FolderIcon from "./icons/FolderIcon"
 import { directoryOpen } from "browser-fs-access"
+import { setFiles } from "../../states/useFiles"
 
 preventTreeShake(h)
 
@@ -62,7 +63,7 @@ const openFolder = async () => {
         skipDirectory: (entry) =>
             entry.name[0] === "." || entry.name === "node_modules"
     })
-    console.log(blobs)
+    setFiles(blobs)
 }
 
 const Toolbar = ({ buttons }: ToolbarProps) => {
