@@ -168,13 +168,13 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                 </Section>
 
                 <Section>
-                    {!buttons?.openFolder?.hidden && (
+                    {/* {!buttons?.openFolder?.hidden && (
                         <IconButton
                             onClick={buttons?.openFolder?.onClick ?? openFolder}
                         >
                             <FolderIcon />
                         </IconButton>
-                    )}
+                    )} */}
                     {!buttons?.openJSON?.hidden && (
                         <IconButton
                             onClick={buttons?.openJSON?.onClick ?? openJSON}

@@ -35,13 +35,18 @@ const LingoEditor = () => {
         >
             <Toolbar />
             <div>
-                <div style={{ height: "calc(100% - 200px)" }}>
+                <div
+                    style={{
+                        // height: "calc(100% - 200px)"
+                        height: "100%"
+                    }}
+                >
                     <SceneGraph />
                     <Editor />
                     <NodeEditor />
                     <Library />
                 </div>
-                <FileBrowser />
+                {/* <FileBrowser /> */}
             </div>
             <HUD />
             <div
