@@ -5,7 +5,6 @@ import "./Toolbar"
 import "./Library"
 import "./HUD"
 import "./LingoEditor"
-import settings from "../api/settings"
 import { Disposable } from "@lincode/promiselikes"
 import createElement from "../utils/createElement"
 
@@ -54,19 +53,11 @@ export default class LingoEditor extends Disposable {
     public constructor() {
         super()
 
-        settings.autoMount = "#lingo3d-world"
-
-        const el = createElement(`
-            <div style="width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; display: flex">
-                <lingo3d-lingoeditor></lingo3d-lingoeditor>
-                <div id="lingo3d-world" style="height: 100%; flex-grow: 1; position: relative"></div>
-            </div>
-        `)
+        const el = document.createElement("lingo3d-lingoeditor")
         document.body.appendChild(el)
 
         this.then(() => {
             document.body.removeChild(el)
-            settings.autoMount = false
         })
     }
 }
