@@ -13,7 +13,12 @@ const FileBrowser = () => {
     return (
         <div
             className="lingo3d-ui lingo3d-bg"
-            style={{ height: 200, width: "100%", overflow: "hidden" }}
+            style={{
+                height: 200,
+                width: "100%",
+                maxWidth: "700px",
+                overflow: "hidden"
+            }}
         >
             <div
                 style={{
@@ -41,9 +46,28 @@ const FileBrowser = () => {
                     </div>
                 </div>
             </div>
-            <div style={{ width: "100%", height: "100%", overflow: "scroll" }}>
+            <div
+                style={{
+                    width: "100%",
+                    height: "100%",
+                    overflow: "scroll",
+                    marginTop: 20,
+                    padding: 10,
+                    display: "flex",
+                    flexWrap: "wrap"
+                }}
+            >
                 {files?.map((file) => (
-                    <FolderIcon />
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            padding: "10px 12.5px 10px 12.5px"
+                        }}
+                    >
+                        <FolderIcon />
+                    </div>
                 ))}
             </div>
         </div>
