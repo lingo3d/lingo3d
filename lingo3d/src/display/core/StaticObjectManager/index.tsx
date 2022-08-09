@@ -7,14 +7,6 @@ import {
     PropertyBinding
 } from "three"
 import {
-    clickSet,
-    mouseDownSet,
-    mouseOutSet,
-    mouseMoveSet,
-    mouseOverSet,
-    mouseUpSet
-} from "./raycast"
-import {
     frustum,
     matrix4,
     ray,
@@ -47,6 +39,15 @@ import { onBeforeRender } from "../../../events/onBeforeRender"
 import diffQuaternions from "../../utils/diffQuaternions"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldDirection from "../../utils/getWorldDirection"
+import {
+    clickSet,
+    mouseDownSet,
+    mouseUpSet,
+    mouseOverSet,
+    mouseOutSet,
+    mouseMoveSet
+} from "./raycast/sets"
+import "./raycast"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()

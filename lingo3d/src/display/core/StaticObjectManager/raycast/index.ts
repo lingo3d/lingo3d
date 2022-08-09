@@ -1,5 +1,4 @@
-import { Object3D, Raycaster } from "three"
-import { MouseEventName, mouseEvents } from "../../../api/mouse"
+import { mouseEvents } from "../../../../api/mouse"
 import {
     createEffect,
     createNestedEffect,
@@ -8,94 +7,38 @@ import {
 import {
     getSelectionTarget,
     setSelectionTarget
-} from "../../../states/useSelectionTarget"
-import scene from "../../../engine/scene"
-import { getMultipleSelection } from "../../../states/useMultipleSelection"
+} from "../../../../states/useSelectionTarget"
+import { getMultipleSelection } from "../../../../states/useMultipleSelection"
 import {
     getMultipleSelectionTargets,
     pullMultipleSelectionTargets,
     pushMultipleSelectionTargets,
     resetMultipleSelectionTargets
-} from "../../../states/useMultipleSelectionTargets"
+} from "../../../../states/useMultipleSelectionTargets"
 import {
     emitSelectionTarget,
     onSelectionTarget
-} from "../../../events/onSelectionTarget"
-import { LingoMouseEvent } from "../../../interface/IMouse"
-import { scaleUp } from "../../../engine/constants"
-import { vec2Point } from "../../utils/vec2Point"
-import { getTransformControlsDragging } from "../../../states/useTransformControlsDragging"
-import { debounce } from "@lincode/utils"
-import { onSceneGraphChange } from "../../../events/onSceneGraphChange"
-import StaticObjectManager from "."
-import { isPositionedItem } from "../../../api/core/PositionedItem"
-import { getCameraRendered } from "../../../states/useCameraRendered"
-import { getSelectionFrozen } from "../../../states/useSelectionFrozen"
-import { onSelectionRecompute } from "../../../events/onSelectionRecompute"
-import { getEditing } from "../../../states/useEditing"
-import { getEditorMode } from "../../../states/useEditorMode"
+} from "../../../../events/onSelectionTarget"
+import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
+import { onSceneGraphChange } from "../../../../events/onSceneGraphChange"
+import StaticObjectManager from ".."
+import { isPositionedItem } from "../../../../api/core/PositionedItem"
+import { onSelectionRecompute } from "../../../../events/onSelectionRecompute"
+import { getEditing } from "../../../../states/useEditing"
+import { getEditorMode } from "../../../../states/useEditorMode"
 import { Cancellable } from "@lincode/promiselikes"
-
-const raycaster = new Raycaster()
-
-const selectionCandidates = new Set<Object3D>()
-const getSelectionCandidates = debounce(
-    () => {
-        const [frozenSet] = getSelectionFrozen()
-
-        selectionCandidates.clear()
-        scene.traverse((c) => {
-            const { manager } = c.userData
-            manager &&
-                !frozenSet.has(manager) &&
-                selectionCandidates.add(manager.nativeObject3d)
-        })
-    },
-    0,
-    "trailing"
-)
-
-const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
-    raycaster.setFromCamera({ x, y }, getCameraRendered())
-    return raycaster.intersectObjects([...candidates])[0]
-}
-
-type Then = (obj: StaticObjectManager, e: LingoMouseEvent) => void
-
-const pickable = (
-    name: MouseEventName | Array<MouseEventName>,
-    candidates: Set<Object3D>,
-    then: Then
-) =>
-    mouseEvents.on(name, (e) => {
-        if (!candidates.size) return
-
-        const result = raycast(e.xNorm, e.yNorm, candidates)
-        if (!result) return
-
-        const point = vec2Point(result.point)
-        const distance = result.distance * scaleUp
-
-        then(
-            result.object.userData.manager,
-            new LingoMouseEvent(
-                e.clientX,
-                e.clientY,
-                e.xNorm,
-                e.yNorm,
-                point,
-                distance,
-                result.object.userData.manager
-            )
-        )
-    })
-
-export const clickSet = new Set<Object3D>()
-export const mouseDownSet = new Set<Object3D>()
-export const mouseUpSet = new Set<Object3D>()
-export const mouseOverSet = new Set<Object3D>()
-export const mouseOutSet = new Set<Object3D>()
-export const mouseMoveSet = new Set<Object3D>()
+import {
+    clickSet,
+    mouseDownSet,
+    mouseUpSet,
+    mouseOverSet,
+    mouseOutSet,
+    mouseMoveSet
+} from "./sets"
+import selectionCandidates, {
+    getSelectionCandidates
+} from "./selectionCandidates"
+import pickable from "./pickable"
 
 createEffect(() => {
     const multipleSelection = getMultipleSelection()
@@ -167,7 +110,7 @@ createEffect(() => {
         const handle = new Cancellable()
         selectionCandidates.clear()
 
-        import("../../primitives/Sphere").then((module) => {
+        import("../../../primitives/Sphere").then((module) => {
             const Sphere = module.default
             handle.watch(
                 mouseEvents.on("click", (e) => {
