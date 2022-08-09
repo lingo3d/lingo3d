@@ -9,6 +9,7 @@ import Library from "../Library"
 import HUD from "../HUD"
 import { useEffect, useRef } from "preact/hooks"
 import settings from "../../api/settings"
+import FileBrowser from "../FileBrowser"
 preventTreeShake(h)
 
 const LingoEditor = () => {
@@ -22,6 +23,7 @@ const LingoEditor = () => {
 
     return (
         <div
+            className="lingo3d-ui"
             style={{
                 width: "100%",
                 height: "100%",
@@ -32,10 +34,15 @@ const LingoEditor = () => {
             }}
         >
             <Toolbar />
-            <SceneGraph />
-            <Editor />
-            <NodeEditor />
-            <Library />
+            <div>
+                <div style={{ height: "calc(100% - 200px)" }}>
+                    <SceneGraph />
+                    <Editor />
+                    <NodeEditor />
+                    <Library />
+                </div>
+                <FileBrowser />
+            </div>
             <HUD />
             <div
                 ref={elRef}
