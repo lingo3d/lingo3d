@@ -1,14 +1,17 @@
 import { h } from "preact"
+import { useState } from "preact/hooks"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
 import CloseIcon from "./icons/CloseIcon"
 import { useFiles } from "../states"
 import FolderIcon from "./icons/FolderIcon"
+import IconHolder from "./IconHolder"
 
 preventTreeShake(h)
 
 const FileBrowser = () => {
     const [files] = useFiles()
+    const [hover, setHover] = useState(false)
 
     return (
         <div
@@ -58,16 +61,9 @@ const FileBrowser = () => {
                 }}
             >
                 {files?.map((file) => (
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            padding: "10px 12.5px 10px 12.5px"
-                        }}
-                    >
+                    <IconHolder>
                         <FolderIcon />
-                    </div>
+                    </IconHolder>
                 ))}
             </div>
         </div>
