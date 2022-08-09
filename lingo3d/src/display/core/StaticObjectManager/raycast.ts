@@ -33,6 +33,8 @@ import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getSelectionFrozen } from "../../../states/useSelectionFrozen"
 import { onSelectionRecompute } from "../../../events/onSelectionRecompute"
 import { getEditing } from "../../../states/useEditing"
+import { getEditorMode } from "../../../states/useEditorMode"
+import { Cancellable } from "@lincode/promiselikes"
 
 const raycaster = new Raycaster()
 
@@ -160,6 +162,66 @@ createEffect(() => {
 
     if (getTransformControlsDragging()) return
 
+    const mode = getEditorMode()
+    if (mode === "path") {
+        const handle = new Cancellable()
+        selectionCandidates.clear()
+
+        import("../../primitives/Sphere").then((module) => {
+            const Sphere = module.default
+            handle.watch(
+                mouseEvents.on("click", (e) => {
+                    setTimeout(() => {
+                        if (handle.done || getSelectionTarget()) return
+
+                        const target = new Sphere()
+                        target.scale = 0.1
+                        target.placeAt(e.point)
+                        target.name = "point" + selectionCandidates.size
+                        selectionCandidates.add(target.outerObject3d)
+                        emitSelectionTarget(target)
+                    })
+                })
+            )
+        })
+        const handle0 = onSceneGraphChange(() => {
+            for (const obj of selectionCandidates)
+                !obj.parent && selectionCandidates.delete(obj)
+        })
+        const handle1 = mouseEvents.on("click", () => emitSelectionTarget())
+        const handle2 = pickable("click", selectionCandidates, (target) =>
+            emitSelectionTarget(target)
+        )
+        const handle3 = onSelectionTarget(({ target }) => {
+            if (multipleSelection) {
+                if (!isPositionedItem(target)) return
+
+                if (firstMultipleSelection.current) {
+                    const currentTarget = getSelectionTarget()
+                    isPositionedItem(currentTarget) &&
+                        pushMultipleSelectionTargets(currentTarget)
+                }
+                firstMultipleSelection.current = false
+
+                if (getMultipleSelectionTargets().includes(target))
+                    pullMultipleSelectionTargets(target)
+                else pushMultipleSelectionTargets(target)
+
+                return
+            }
+            resetMultipleSelectionTargets()
+            setSelectionTarget(target)
+        })
+
+        return () => {
+            handle.cancel()
+            handle0.cancel()
+            handle1.cancel()
+            handle2.cancel()
+            handle3.cancel()
+        }
+    }
+
     getSelectionCandidates()
     const handle0 = onSceneGraphChange(getSelectionCandidates)
     const handle1 = onSelectionRecompute(() => {
@@ -219,4 +281,9 @@ createEffect(() => {
         handle4.cancel()
         handle5.cancel()
     }
-}, [getEditing, getTransformControlsDragging, getMultipleSelection])
+}, [
+    getEditing,
+    getEditorMode,
+    getTransformControlsDragging,
+    getMultipleSelection
+])

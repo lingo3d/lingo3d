@@ -43,16 +43,19 @@ const lazyTransformControls = lazy(async () => {
 
 createEffect(() => {
     const target = getSelectionTarget()
-    const mode = getEditorModeComputed()
+    if (!target) return
+
+    let mode = getEditorModeComputed()
+    if (mode === "path") mode = "translate"
+
     const space = getTransformControlsSpaceComputed()
     const snap = getTransformControlsSnap()
-
-    if (!target) return
 
     const handle = new Cancellable()
 
     lazyTransformControls().then((transformControls) => {
         if (
+            handle.done ||
             !target.outerObject3d.parent ||
             (mode !== "translate" && mode !== "rotate" && mode !== "scale")
         )
