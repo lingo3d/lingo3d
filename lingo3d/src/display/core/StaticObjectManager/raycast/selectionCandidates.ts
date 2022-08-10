@@ -7,10 +7,19 @@ const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates
 
 export const getSelectionCandidates = debounce(
-    () => {
+    (targets?: Array<Object3D>) => {
         const [frozenSet] = getSelectionFrozen()
-
         selectionCandidates.clear()
+
+        if (targets) {
+            for (const c of targets) {
+                const { manager } = c.userData
+                manager &&
+                    !frozenSet.has(manager) &&
+                    selectionCandidates.add(manager.nativeObject3d)
+            }
+            return
+        }
         scene.traverse((c) => {
             const { manager } = c.userData
             manager &&

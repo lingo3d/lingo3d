@@ -48,7 +48,7 @@ createEffect(() => {
     if (mode === "path") return raycastPath()
 
     getSelectionCandidates()
-    const handle0 = onSceneGraphChange(getSelectionCandidates)
+    const handle0 = onSceneGraphChange(() => getSelectionCandidates())
     const handle1 = onSelectionRecompute(() => {
         getSelectionCandidates()
         emitSelectionTarget()
