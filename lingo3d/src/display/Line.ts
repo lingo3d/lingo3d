@@ -29,13 +29,14 @@ export default class Line extends EventLoopItem {
                 to.y * scaleDown,
                 to.z * scaleDown
             ])
-            const line: any = new Line2(geometry, this.material)
+            const line = new Line2(geometry, this.material)
 
             scene.add(line)
             bloom && addBloom(line)
 
             return () => {
                 scene.remove(line)
+                geometry.dispose()
                 deleteBloom(line)
             }
         }, [this.refresh.get])

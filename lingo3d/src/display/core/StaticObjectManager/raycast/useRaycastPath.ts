@@ -16,12 +16,13 @@ import {
     setSelectionTarget
 } from "../../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
+import Curve from "../../../Curve"
 import pickable from "./pickable"
 import selectionCandidates, {
     getSelectionCandidates
 } from "./selectionCandidates"
 
-const pathObjects: Array<Object3D> = []
+let pathObjects: Array<Object3D> = []
 
 export default () => {
     createNestedEffect(() => {
@@ -41,6 +42,8 @@ export default () => {
             emitSelectionTarget()
         })
 
+        const curve = new Curve()
+
         const handle2 = new Cancellable()
         import("../../../primitives/Sphere").then((module) => {
             const Sphere = module.default
@@ -55,6 +58,9 @@ export default () => {
                         target.name = "point" + pathObjects.length
                         pathObjects.push(target.outerObject3d)
                         emitSelectionTarget(target)
+                        curve.points = pathObjects.map(
+                            (object) => object.position
+                        )
                     })
                 })
             )
@@ -76,6 +82,11 @@ export default () => {
             handle3.cancel()
             handle4.cancel()
             handle5.cancel()
+            curve.dispose()
+
+            if (getEditorMode() !== "path") {
+                pathObjects = []
+            }
         }
     }, [getEditing, getTransformControlsDragging, getEditorMode])
 }
