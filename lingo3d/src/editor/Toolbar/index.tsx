@@ -64,7 +64,6 @@ const openFolder = async () => {
             entry.name[0] === "." || entry.name === "node_modules"
     })
     setFiles(blobs)
-    console.log(blobs)
 }
 
 const Toolbar = ({ buttons }: ToolbarProps) => {
