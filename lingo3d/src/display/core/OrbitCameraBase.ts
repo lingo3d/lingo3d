@@ -1,14 +1,16 @@
 import { Reactive } from "@lincode/reactivity"
-import { debounce } from "@lincode/utils"
 import { PerspectiveCamera } from "three"
 import Appendable from "../../api/core/Appendable"
 import PositionedItem from "../../api/core/PositionedItem"
 import { onSceneGraphChange } from "../../events/onSceneGraphChange"
 import ICameraBase from "../../interface/ICameraBase"
+import queueDebounce from "../../utils/queueDebounce"
 import CameraBase from "./CameraBase"
 import MeshItem, { isMeshItem } from "./MeshItem"
 
 const attachSet = new WeakSet<Appendable>()
+
+const queueRetarget = queueDebounce()
 
 export default class OrbitCameraBase
     extends CameraBase<PerspectiveCamera>
@@ -34,8 +36,8 @@ export default class OrbitCameraBase
     protected manualTarget?: MeshItem
     protected targetState = new Reactive<MeshItem | undefined>(undefined)
 
-    private retarget = debounce(
-        () => {
+    private retarget() {
+        queueRetarget(this, () => {
             let target = this.manualTarget
             for (const child of this.children ?? [])
                 if (target) {
@@ -51,12 +53,9 @@ export default class OrbitCameraBase
                             target.outerObject3d
                         )
                 }
-
             this.targetState.set(target)
-        },
-        0,
-        "trailing"
-    )
+        })
+    }
 
     public override append(object: PositionedItem) {
         this._append(object)

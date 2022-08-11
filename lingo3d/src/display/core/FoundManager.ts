@@ -63,5 +63,5 @@ interface FoundManager
     extends AnimatedObjectManager,
         TexturedBasicMixin,
         TexturedStandardMixin {}
-applyMixins(FoundManager, [TexturedStandardMixin, TexturedBasicMixin])
+applyMixins(FoundManager, [TexturedBasicMixin, TexturedStandardMixin])
 export default FoundManager

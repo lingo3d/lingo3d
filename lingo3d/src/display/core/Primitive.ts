@@ -38,5 +38,5 @@ interface Primitive
     extends ObjectManager<Mesh>,
         TexturedBasicMixin,
         TexturedStandardMixin {}
-applyMixins(Primitive, [TexturedStandardMixin, TexturedBasicMixin])
+applyMixins(Primitive, [TexturedBasicMixin, TexturedStandardMixin])
 export default Primitive

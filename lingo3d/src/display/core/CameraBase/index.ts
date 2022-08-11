@@ -1,6 +1,6 @@
 import { CameraHelper, PerspectiveCamera, Quaternion } from "three"
 import ObjectManager from "../ObjectManager"
-import { debounce, last } from "@lincode/utils"
+import { last } from "@lincode/utils"
 import { scaleDown } from "../../../engine/constants"
 import {
     ray,
@@ -39,6 +39,9 @@ import makeCameraSprite from "../utils/makeCameraSprite"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import getWorldDirection from "../../utils/getWorldDirection"
+import queueDebounce from "../../../utils/queueDebounce"
+
+const queueUpdateAngle = queueDebounce()
 
 export default abstract class CameraBase<T extends PerspectiveCamera>
     extends ObjectManager
@@ -277,7 +280,9 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
         }))
     }
 
-    protected updateAngle = debounce(() => this.gyrate(0, 0), 0, "trailing")
+    protected updateAngle() {
+        queueUpdateAngle(this, () => this.gyrate(0, 0))
+    }
 
     private _minPolarAngle = MIN_POLAR_ANGLE
     public get minPolarAngle() {

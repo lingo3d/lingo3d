@@ -1,4 +1,3 @@
-import { debounce } from "@lincode/utils"
 import {
     Color,
     MeshStandardMaterial,
@@ -10,6 +9,7 @@ import ITexturedStandard, {
     NormalMapType
 } from "../../../interface/ITexturedStandard"
 import loadTexture from "../../utils/loaders/loadTexture"
+import TexturedBasicMixin, { queueTextureRepeat } from "./TexturedBasicMixin"
 
 const mapNames = <const>[
     "map",
@@ -25,32 +25,11 @@ const mapNames = <const>[
     "normalMap"
 ]
 
-const textureRepeatMap = new Map<TexturedStandardMixin, Vector2>()
-const applyTextureRepeat = debounce(
-    function (this: TexturedStandardMixin) {
-        for (const [item, repeat] of textureRepeatMap) {
-            for (const name of mapNames) {
-                const map = item.material[name]
-                map && (map.repeat = repeat)
-            }
-        }
-        textureRepeatMap.clear()
-    },
-    0,
-    "trailing"
-)
-
 export default abstract class TexturedStandardMixin
+    extends TexturedBasicMixin
     implements ITexturedStandard
 {
-    protected abstract material: MeshStandardMaterial
-
-    public get color() {
-        return "#" + this.material.color.getHexString()
-    }
-    public set color(val) {
-        this.material.color = new Color(val)
-    }
+    protected abstract override material: MeshStandardMaterial
 
     public get wireframe() {
         return this.material.wireframe
@@ -59,13 +38,17 @@ export default abstract class TexturedStandardMixin
         this.material.wireframe = val
     }
 
-    private standardTextureRepeat() {
+    protected applyTextureRepeat2() {
         this.material.needsUpdate = true
-        //@ts-ignore
-        if (!this._textureRepeat) return
-        //@ts-ignore
-        textureRepeatMap.set(this, this._textureRepeat)
-        applyTextureRepeat()
+        const repeat = this._textureRepeat
+        if (!repeat) return
+
+        queueTextureRepeat(this, () => {
+            for (const name of mapNames) {
+                const map = this.material[name]
+                map && (map.repeat = repeat)
+            }
+        })
     }
 
     private _envMap?: string
@@ -75,7 +58,7 @@ export default abstract class TexturedStandardMixin
     public set envMap(val) {
         this._envMap = val
         this.material.envMap = val ? loadTexture(val) : null
-        this.standardTextureRepeat()
+        this.applyTextureRepeat2()
     }
 
     private _aoMap?: string
@@ -85,7 +68,7 @@ export default abstract class TexturedStandardMixin
     public set aoMap(val) {
         this._aoMap = val
         this.material.aoMap = val ? loadTexture(val) : null
-        this.standardTextureRepeat()
+        this.applyTextureRepeat2()
     }
 
     public get aoMapIntensity() {
@@ -102,7 +85,7 @@ export default abstract class TexturedStandardMixin
     public set bumpMap(val) {
         this._bumpMap = val
         this.material.bumpMap = val ? loadTexture(val) : null
-        this.standardTextureRepeat()
+        this.applyTextureRepeat2()
     }
 
     public get bumpScale() {
@@ -119,7 +102,7 @@ export default abstract class TexturedStandardMixin
     public set displacementMap(val) {
         this._displacementMap = val
         this.material.displacementMap = val ? loadTexture(val) : null
-        this.standardTextureRepeat()
+        this.applyTextureRepeat2()
     }
 
     public get displacementScale() {
@@ -150,7 +133,7 @@ export default abstract class TexturedStandardMixin
     public set emissiveMap(val) {
         this._emissiveMap = val
         this.material.emissiveMap = val ? loadTexture(val) : null
-        this.standardTextureRepeat()
+        this.applyTextureRepeat2()
     }
 
     public get emissiveIntensity() {
@@ -167,7 +150,7 @@ export default abstract class TexturedStandardMixin
     public set lightMap(val) {
         this._lightMap = val
         this.material.lightMap = val ? loadTexture(val) : null
-        this.standardTextureRepeat()
+        this.applyTextureRepeat2()
     }
 
     public get lightMapIntensity() {
@@ -184,7 +167,7 @@ export default abstract class TexturedStandardMixin
     public set metalnessMap(val) {
         this._metalnessMap = val
         this.material.metalnessMap = val ? loadTexture(val) : null
-        this.standardTextureRepeat()
+        this.applyTextureRepeat2()
     }
 
     public get metalness() {
@@ -201,7 +184,7 @@ export default abstract class TexturedStandardMixin
     public set roughnessMap(val) {
         this._roughnessMap = val
         this.material.roughnessMap = val ? loadTexture(val) : null
-        this.standardTextureRepeat()
+        this.applyTextureRepeat2()
     }
 
     public get roughness() {
@@ -218,7 +201,7 @@ export default abstract class TexturedStandardMixin
     public set normalMap(val) {
         this._normalMap = val
         this.material.normalMap = val ? loadTexture(val) : null
-        this.standardTextureRepeat()
+        this.applyTextureRepeat2()
     }
 
     public get normalScale() {

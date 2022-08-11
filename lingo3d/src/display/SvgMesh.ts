@@ -89,5 +89,5 @@ interface SvgMesh
     extends Loaded<SVGResult>,
         TexturedBasicMixin,
         TexturedStandardMixin {}
-applyMixins(SvgMesh, [TexturedStandardMixin, TexturedBasicMixin])
+applyMixins(SvgMesh, [TexturedBasicMixin, TexturedStandardMixin])
 export default SvgMesh

@@ -10,24 +10,11 @@ import loadTexture from "../../utils/loaders/loadTexture"
 import ITexturedBasic from "../../../interface/ITexturedBasic"
 import { objectURLMapperPtr } from "../../utils/loaders/setObjectURLMapper"
 import { Reactive } from "@lincode/reactivity"
-import { debounce } from "@lincode/utils"
+import queueDebounce from "../../../utils/queueDebounce"
 
 const mapNames = <const>["map", "alphaMap"]
 
-const textureRepeatMap = new Map<TexturedBasicMixin, Vector2>()
-const applyTextureRepeat = debounce(
-    function (this: TexturedBasicMixin) {
-        for (const [item, repeat] of textureRepeatMap) {
-            for (const name of mapNames) {
-                const map = item.material[name]
-                map && (map.repeat = repeat)
-            }
-        }
-        textureRepeatMap.clear()
-    },
-    0,
-    "trailing"
-)
+export const queueTextureRepeat = queueDebounce()
 
 export default abstract class TexturedBasicMixin implements ITexturedBasic {
     protected abstract material: MeshStandardMaterial | SpriteMaterial
@@ -59,12 +46,17 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
         this.object3d.visible = !!val
     }
 
-    private basicTextureRepeat() {
+    protected applyTextureRepeat() {
         this.material.needsUpdate = true
+        const repeat = this._textureRepeat
+        if (!repeat) return
 
-        if (!this._textureRepeat) return
-        textureRepeatMap.set(this, this._textureRepeat)
-        applyTextureRepeat()
+        queueTextureRepeat(this, () => {
+            for (const name of mapNames) {
+                const map = this.material[name]
+                map && (map.repeat = repeat)
+            }
+        })
     }
 
     private videoTextureState?: Reactive<string | HTMLVideoElement | undefined>
@@ -118,7 +110,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
                 const { map } = material
                 material.map = videoTexture
                 material.needsUpdate = true
-                this.basicTextureRepeat()
+                this.applyTextureRepeat()
 
                 return () => {
                     video.pause()
@@ -133,7 +125,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
             const { material } = this
             const { map } = material
             material.map = loadTexture(url as string)
-            this.basicTextureRepeat()
+            this.applyTextureRepeat()
 
             return () => {
                 material.map = map
@@ -165,16 +157,16 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     public set alphaMap(val) {
         this._alphaMap = val
         this.material.alphaMap = val ? loadTexture(val) : null
-        this.basicTextureRepeat()
+        this.applyTextureRepeat()
     }
 
-    private _textureRepeat?: Vector2
+    protected _textureRepeat?: Vector2
     public get textureRepeat() {
         return this._textureRepeat
     }
     public set textureRepeat(val: Vector2 | number | undefined) {
         typeof val === "number" && (val = new Vector2(val, val))
         this._textureRepeat = val
-        this.basicTextureRepeat()
+        this.applyTextureRepeat()
     }
 }
