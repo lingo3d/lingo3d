@@ -16,6 +16,7 @@ specifiers:
   '@types/three': 0.143.0
   browser-fs-access: 0.31.0
   cannon-es: 0.19.0
+  lil-gui: ^0.17.0
   nipplejs: 0.9.1
   postprocessing: 6.28.5
   preact: '*'
@@ -27,7 +28,7 @@ specifiers:
   three: 0.143.0
   tweakpane: '*'
   typescript: ^4.7.4
-  vite: ^3.0.4
+  vite: ^3.0.5
   xstate: '*'
 
 dependencies:
@@ -43,24 +44,25 @@ dependencies:
   cannon-es: 0.19.0
   nipplejs: 0.9.1
   postprocessing: 6.28.5_three@0.143.0
-  preact: 10.10.1
-  preact-compat: 3.19.0_preact@10.10.1
-  preact-custom-element: 4.2.1_preact@10.10.1
+  preact: 10.10.2
+  preact-compat: 3.19.0_preact@10.10.2
+  preact-custom-element: 4.2.1_preact@10.10.2
   prettier: 2.7.1
   three: 0.143.0
   tweakpane: 3.1.0
   xstate: 4.33.0
 
 devDependencies:
-  '@preact/preset-vite': 2.3.0_preact@10.10.1+vite@3.0.4
+  '@preact/preset-vite': 2.3.0_preact@10.10.2+vite@3.0.5
   '@types/preact-custom-element': 4.0.1
   '@types/prettier': 2.7.0
   '@types/randomcolor': 0.5.6
   '@types/react': 18.0.17
+  lil-gui: 0.17.0
   randomcolor: 0.6.2
   rimraf: 3.0.2
   typescript: 4.7.4
-  vite: 3.0.4
+  vite: 3.0.5
 
 packages:
 
@@ -393,7 +395,7 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /@preact/preset-vite/2.3.0_preact@10.10.1+vite@3.0.4:
+  /@preact/preset-vite/2.3.0_preact@10.10.2+vite@3.0.5:
     resolution: {integrity: sha512-0kOuz7wdrQLqrPlyI/Ypw9IWDF2++GGcOHMRBYO5T2w2+dheelaBH+XrIN/okqdsGIflzFIFNyIGubo5BC8wbQ==}
     peerDependencies:
       '@babel/core': 7.x
@@ -401,13 +403,13 @@ packages:
     dependencies:
       '@babel/plugin-transform-react-jsx': 7.18.10
       '@babel/plugin-transform-react-jsx-development': 7.18.6
-      '@prefresh/vite': 2.2.8_preact@10.10.1+vite@3.0.4
+      '@prefresh/vite': 2.2.8_preact@10.10.2+vite@3.0.5
       '@rollup/pluginutils': 4.2.1
       babel-plugin-transform-hook-names: 1.0.2
       debug: 4.3.4
       kolorist: 1.5.1
       resolve: 1.22.1
-      vite: 3.0.4
+      vite: 3.0.5
     transitivePeerDependencies:
       - preact
       - supports-color
@@ -417,19 +419,19 @@ packages:
     resolution: {integrity: sha512-fYAWbU1WDSLn108kKY4eDaaeUcnszFqXjgaGKYXNZ5NLulpRTpsrY+Sbfo9q8LDpWrBpqIgzjrwNnvglWI1xNQ==}
     dev: true
 
-  /@prefresh/core/1.3.4_preact@10.10.1:
+  /@prefresh/core/1.3.4_preact@10.10.2:
     resolution: {integrity: sha512-s7iNsnyJ3lZEUrYIgmVIB/hKtp4U6mdD91a31Zg7Q8M49O0x2KThrbrMQYraoDDrs4STdFB8Zv6bceUguOoX1A==}
     peerDependencies:
       preact: ^10.0.0
     dependencies:
-      preact: 10.10.1
+      preact: 10.10.2
     dev: true
 
   /@prefresh/utils/1.1.3:
     resolution: {integrity: sha512-Mb9abhJTOV4yCfkXrMrcgFiFT7MfNOw8sDa+XyZBdq/Ai2p4Zyxqsb3EgHLOEdHpMj6J9aiZ54W8H6FTam1u+A==}
     dev: true
 
-  /@prefresh/vite/2.2.8_preact@10.10.1+vite@3.0.4:
+  /@prefresh/vite/2.2.8_preact@10.10.2+vite@3.0.5:
     resolution: {integrity: sha512-yGGa+PKPYPTzMlxgQ8aBgxw9K69I8X4iQ0E6KOcIvls96WKqKLLOYZW9SUgCve446jpUXvc9udviPBZjCeZIIQ==}
     peerDependencies:
       preact: ^10.4.0
@@ -437,11 +439,11 @@ packages:
     dependencies:
       '@babel/core': 7.18.10
       '@prefresh/babel-plugin': 0.4.3
-      '@prefresh/core': 1.3.4_preact@10.10.1
+      '@prefresh/core': 1.3.4_preact@10.10.2
       '@prefresh/utils': 1.1.3
       '@rollup/pluginutils': 4.2.1
-      preact: 10.10.1
-      vite: 3.0.4
+      preact: 10.10.2
+      vite: 3.0.5
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -465,7 +467,7 @@ packages:
   /@types/preact-custom-element/4.0.1:
     resolution: {integrity: sha512-oduUzzxJAZ7qWJ5EsUffxvpRFnzgffilDlfxLR9Q2YkEzSfn3vudIrnDg0AiQgZJ0GkAjLzkxQyAxH6sS/EQdQ==}
     dependencies:
-      preact: 10.10.1
+      preact: 10.10.2
     dev: true
 
   /@types/prettier/2.7.0:
@@ -535,14 +537,14 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001374
-      electron-to-chromium: 1.4.212
+      caniuse-lite: 1.0.30001375
+      electron-to-chromium: 1.4.213
       node-releases: 2.0.6
       update-browserslist-db: 1.0.5_browserslist@4.21.3
     dev: true
 
-  /caniuse-lite/1.0.30001374:
-    resolution: {integrity: sha512-mWvzatRx3w+j5wx/mpFN5v5twlPrabG8NqX2c6e45LCpymdoGqNvRkRutFUqpRTXKFQFNQJasvK0YT7suW6/Hw==}
+  /caniuse-lite/1.0.30001375:
+    resolution: {integrity: sha512-kWIMkNzLYxSvnjy0hL8w1NOaWNr2rn39RTAVyIwcw8juu60bZDWiF1/loOYANzjtJmy6qPgNmn38ro5Pygagdw==}
     dev: true
 
   /cannon-es/0.19.0:
@@ -594,8 +596,8 @@ packages:
       ms: 2.1.2
     dev: true
 
-  /electron-to-chromium/1.4.212:
-    resolution: {integrity: sha512-LjQUg1SpLj2GfyaPDVBUHdhmlDU1vDB4f0mJWSGkISoXQrn5/lH3ECPCuo2Bkvf6Y30wO+b69te+rZK/llZmjg==}
+  /electron-to-chromium/1.4.213:
+    resolution: {integrity: sha512-+3DbGHGOCHTVB/Ms63bGqbyC1b8y7Fk86+7ltssB8NQrZtSCvZG6eooSl9U2Q0yw++fL2DpHKOdTU0NVEkFObg==}
     dev: true
 
   /esbuild-android-64/0.14.54:
@@ -918,6 +920,10 @@ packages:
     resolution: {integrity: sha512-lxpCM3HTvquGxKGzHeknB/sUjuVoUElLlfYnXZT73K8geR9jQbroGlSCFBax9/0mpGoD3kzcMLnOlGQPJJNyqQ==}
     dev: true
 
+  /lil-gui/0.17.0:
+    resolution: {integrity: sha512-MVBHmgY+uEbmJNApAaPbtvNh1RCAeMnKym82SBjtp5rODTYKWtM+MXHCifLe2H2Ti1HuBGBtK/5SyG4ShQ3pUQ==}
+    dev: true
+
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: false
@@ -1000,55 +1006,55 @@ packages:
       three: 0.143.0
     dev: false
 
-  /preact-compat/3.19.0_preact@10.10.1:
+  /preact-compat/3.19.0_preact@10.10.2:
     resolution: {integrity: sha512-f83A4hIhH8Uzhb9GbIcGk8SM19ffWlwP9mDaYwQdRnMdekZwcCA7eIAbeV4EMQaV9C0Yuy8iKgBAtyTKPZQt/Q==}
     peerDependencies:
       preact: <10
     dependencies:
       immutability-helper: 2.9.1
-      preact: 10.10.1
-      preact-context: 1.1.4_preact@10.10.1
-      preact-render-to-string: 3.8.2_preact@10.10.1
-      preact-transition-group: 1.1.1_preact@10.10.1
+      preact: 10.10.2
+      preact-context: 1.1.4_preact@10.10.2
+      preact-render-to-string: 3.8.2_preact@10.10.2
+      preact-transition-group: 1.1.1_preact@10.10.2
       prop-types: 15.8.1
       standalone-react-addons-pure-render-mixin: 0.1.1
     dev: false
 
-  /preact-context/1.1.4_preact@10.10.1:
+  /preact-context/1.1.4_preact@10.10.2:
     resolution: {integrity: sha512-gcCjPJ65R0MiW9hDu8W/3WAmyTElIvwLyEO6oLQiM6/TbLKLxCpBCWV8GJjx52TTEyUr60HLDcmoCXZlslelzQ==}
     peerDependencies:
       preact: ^8.2.7
     dependencies:
-      preact: 10.10.1
+      preact: 10.10.2
     dev: false
 
-  /preact-custom-element/4.2.1_preact@10.10.1:
+  /preact-custom-element/4.2.1_preact@10.10.2:
     resolution: {integrity: sha512-/fiEEAyC+MXRlCBRmv/owoN5BLpO2nF/MF3YBHLtp4C2lNqlhV+a4he74A5DhfDoRmxDHm0sYVgQzWFEyzTDsw==}
     peerDependencies:
       preact: 10.x
     dependencies:
-      preact: 10.10.1
+      preact: 10.10.2
     dev: false
 
-  /preact-render-to-string/3.8.2_preact@10.10.1:
+  /preact-render-to-string/3.8.2_preact@10.10.2:
     resolution: {integrity: sha512-przuZPajiurStGgxMoJP0EJeC4xj5CgHv+M7GfF3YxAdhGgEWAkhOSE0xympAFN20uMayntBZpttIZqqLl77fw==}
     peerDependencies:
       preact: '*'
     dependencies:
-      preact: 10.10.1
+      preact: 10.10.2
       pretty-format: 3.8.0
     dev: false
 
-  /preact-transition-group/1.1.1_preact@10.10.1:
+  /preact-transition-group/1.1.1_preact@10.10.2:
     resolution: {integrity: sha512-v89XLodCvylf5lMrhI+LqIhDsAjWfiDKV4keAU+L5yDtxmqn8uvjZXn+haKMEG0x0PZz81own19SuNJD5NlOFQ==}
     peerDependencies:
       preact: '*'
     dependencies:
-      preact: 10.10.1
+      preact: 10.10.2
     dev: false
 
-  /preact/10.10.1:
-    resolution: {integrity: sha512-cXljG59ylGtSLismoLojXPAGvnh2ipQr3BYz9KZQr+1sdASCT+sR/v8dSMDS96xGCdtln2wHfAHCnLJK+XcBNg==}
+  /preact/10.10.2:
+    resolution: {integrity: sha512-GUXSsfwq4NKhlLYY5ctfNE0IjFk7Xo4952yPI8yMkXdhzeQmQ+FahZITe7CeHXMPyKBVQ8SoCmGNIy9TSOdhgQ==}
 
   /prettier/2.7.1:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
@@ -1160,8 +1166,8 @@ packages:
       picocolors: 1.0.0
     dev: true
 
-  /vite/3.0.4:
-    resolution: {integrity: sha512-NU304nqnBeOx2MkQnskBQxVsa0pRAH5FphokTGmyy8M3oxbvw7qAXts2GORxs+h/2vKsD+osMhZ7An6yK6F1dA==}
+  /vite/3.0.5:
+    resolution: {integrity: sha512-bRvrt9Tw8EGW4jj64aYFTnVg134E8hgDxyl/eEHnxiGqYk7/pTPss6CWlurqPOUzqvEoZkZ58Ws+Iu8MB87iMA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:

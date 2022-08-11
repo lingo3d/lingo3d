@@ -8,37 +8,67 @@ import {
 import scene from "../engine/scene"
 import { point2Vec } from "./utils/vec2Point"
 import {
+    BufferAttribute,
+    BufferGeometry,
     CatmullRomCurve3,
+    Line,
+    LineBasicMaterial,
     Mesh,
+    MeshBasicMaterial,
     MeshStandardMaterial,
-    TubeBufferGeometry
+    TubeBufferGeometry,
+    Vector3
 } from "three"
+import Group from "./Group"
+import { vector3 } from "./utils/reusables"
 
-export default class Line extends EventLoopItem {
+const ARC_SEGMENTS = 50
+
+export default class Curve extends Group {
     private material = new MeshStandardMaterial()
+
+    private bufferAttribute = new BufferAttribute(
+        new Float32Array(ARC_SEGMENTS * 3),
+        3
+    )
+
+    private vectors: Array<Vector3> = []
+
+    private curve = new CatmullRomCurve3(
+        this.vectors,
+        undefined,
+        "catmullrom",
+        0.5
+    )
 
     public constructor() {
         super()
 
-        this.createEffect(() => {
-            const { points, bloom } = this
-            if (!points) return
+        const geometry = new BufferGeometry()
+        geometry.setAttribute("position", this.bufferAttribute)
 
-            const vecs = points.map(point2Vec)
-            const curve = new CatmullRomCurve3(vecs, false, "catmullrom")
-            const geometry = new TubeBufferGeometry(curve, 100, 1, 2, true)
+        const curveMesh = new Line(
+            geometry,
+            new LineBasicMaterial({
+                color: 0xff0000,
+                opacity: 0.35
+            })
+        )
+        scene.add(curveMesh)
+        this.then(() => {
+            geometry.dispose()
+            scene.remove(curveMesh)
+        })
+        this.update()
+    }
 
-            const mesh = new Mesh(geometry, this.material)
-
-            scene.add(mesh)
-            bloom && addBloom(mesh)
-
-            return () => {
-                scene.remove(mesh)
-                geometry.dispose()
-                deleteBloom(mesh)
-            }
-        }, [this.refresh.get])
+    public update() {
+        for (let i = 0; i < ARC_SEGMENTS; i++) {
+            const t = i / (ARC_SEGMENTS - 1)
+            this.curve.getPoint(t, vector3)
+            this.bufferAttribute.setXYZ(i, vector3.x, vector3.y, vector3.z)
+        }
+        this.bufferAttribute.needsUpdate = true
     }
 
     public override dispose() {
@@ -46,25 +76,5 @@ export default class Line extends EventLoopItem {
         super.dispose()
         this.material.dispose()
         return this
-    }
-
-    private refresh = new Reactive({})
-
-    private _bloom?: boolean
-    public get bloom() {
-        return this._bloom
-    }
-    public set bloom(value) {
-        this._bloom = value
-        this.refresh.set({})
-    }
-
-    private _points?: Array<Point3d>
-    public get points() {
-        return this._points
-    }
-    public set points(value) {
-        this._points = value
-        this.refresh.set({})
     }
 }
