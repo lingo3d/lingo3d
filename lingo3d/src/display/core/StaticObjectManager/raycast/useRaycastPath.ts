@@ -63,10 +63,7 @@ export default () => {
                         target.name = "point" + pathObjects.length
                         pathObjects.push(target.outerObject3d)
                         emitSelectionTarget(target)
-
-                        curve.points = pathObjects.map((o) =>
-                            vec2Point(o.position)
-                        )
+                        curve.addPoint(vec2Point(target.outerObject3d.position))
                     })
                 })
             )
