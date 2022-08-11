@@ -16,6 +16,7 @@ import {
     setSelectionTarget
 } from "../../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
+import { vec2Point } from "../../../utils/vec2Point"
 import pickable from "./pickable"
 import selectionCandidates, {
     getSelectionCandidates
@@ -63,7 +64,9 @@ export default () => {
                         pathObjects.push(target.outerObject3d)
                         emitSelectionTarget(target)
 
-                        //mark
+                        curve.points = pathObjects.map((o) =>
+                            vec2Point(o.position)
+                        )
                     })
                 })
             )
