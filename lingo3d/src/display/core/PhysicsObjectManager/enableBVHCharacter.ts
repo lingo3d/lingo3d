@@ -4,7 +4,8 @@ import PhysicsObjectManager from "."
 import scene from "../../../engine/scene"
 import getActualScale from "../../utils/getActualScale"
 import ObjectManager from "../ObjectManager"
-import { bvhCharacterSet } from "./bvh/bvhLoop"
+import { bvhCharacterSet } from "./bvh/bvhCharacterSet"
+import "./bvh/bvhLoop"
 
 export default function (this: PhysicsObjectManager, handle: Cancellable) {
     if (handle.done) return

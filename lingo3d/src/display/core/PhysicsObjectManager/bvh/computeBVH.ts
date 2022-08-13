@@ -2,9 +2,8 @@ import { BufferGeometry } from "three"
 import PhysicsObjectManager from ".."
 import Primitive from "../../Primitive"
 import { MeshBVH } from "./bvh"
+import { bvhManagerMap } from "./bvhManagerMap"
 // import { GenerateMeshBVHWorker } from "./GenerateMeshBVHWorker"
-
-export const bvhManagerMap = new WeakMap<any, PhysicsObjectManager>()
 
 // const bvhWorker = new GenerateMeshBVHWorker()
 

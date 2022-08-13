@@ -15,12 +15,11 @@ import {
     vector3__
 } from "../../../utils/reusables"
 import bvhContactMap from "./bvhContactMap"
-import { bvhManagerMap } from "./computeBVH"
 import getWorldPosition from "../../../utils/getWorldPosition"
 import PhysicsObjectManager from ".."
 import { getEditing } from "../../../../states/useEditing"
-
-export const bvhCharacterSet = new Set<PhysicsObjectManager>()
+import { bvhCharacterSet } from "./bvhCharacterSet"
+import { bvhManagerMap } from "./bvhManagerMap"
 
 const makeWeakSet = () => new WeakSet()
 
