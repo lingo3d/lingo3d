@@ -21,7 +21,6 @@ import {
     getTransformControlsSpaceComputed,
     setTransformControlsSpaceComputed
 } from "../states/useTransformControlsSpaceComputed"
-import { setDefaultLight, getDefaultLight } from "../states/useDefaultLight"
 import {
     setSceneGraphTarget,
     getSceneGraphTarget
@@ -60,7 +59,6 @@ export const useTransformControlsSpaceComputed = hook(
     setTransformControlsSpaceComputed,
     getTransformControlsSpaceComputed
 )
-export const useDefaultLight = hook(setDefaultLight, getDefaultLight)
 export const useSceneGraphTarget = hook(
     setSceneGraphTarget,
     getSceneGraphTarget

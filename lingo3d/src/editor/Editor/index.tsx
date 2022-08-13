@@ -12,7 +12,6 @@ import {
     useCameraList,
     useMultipleSelectionTargets,
     useCameraStack,
-    useDefaultLight,
     useNodeEditor,
     useSetupStack
 } from "../states"
@@ -51,10 +50,6 @@ import {
 } from "../../states/useEditorMounted"
 
 preventTreeShake(h)
-
-Object.assign(setupDefaults, {
-    defaultLightEnabled: true
-})
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -154,8 +149,6 @@ const Editor = () => {
         }
     }, [pane, cameraFolder, cameraList, camera])
 
-    const [defaultLight, setDefaultLight] = useDefaultLight()
-    const defaultLightEnabled = !!defaultLight
     const [setupStack] = useSetupStack()
 
     useEffect(() => {
@@ -167,18 +160,10 @@ const Editor = () => {
         setCameraFolder(pane.addFolder({ title: "camera" }))
 
         if (!selectionTarget) {
-            const rest = Object.assign(
-                {
-                    defaultLightEnabled,
-                    ...(defaultLightEnabled && { defaultLight })
-                },
-                omit(settings, nonEditorSettings)
+            const [editorParams, editorRest] = splitObject(
+                omit(settings, nonEditorSettings),
+                ["gridHelper", "gridHelperSize"]
             )
-
-            const [editorParams, editorRest] = splitObject(rest, [
-                "gridHelper",
-                "gridHelperSize"
-            ])
             addInputs(pane, "editor", settings, setupDefaults, editorParams)
 
             const [rendererParams, rendererRest] = splitObject(editorRest, [
@@ -191,7 +176,6 @@ const Editor = () => {
 
             const [sceneParams, sceneRest] = splitObject(rendererRest, [
                 "exposure",
-                "defaultLightEnabled",
                 "defaultLight",
                 "shadowDistance",
                 "shadowResolution",
@@ -200,16 +184,12 @@ const Editor = () => {
                 "texture",
                 "color"
             ])
-            const { defaultLightEnabled: defaultLightEnabledInput } = addInputs(
+            addInputs(
                 pane,
                 "lighting & environment",
                 settings,
                 setupDefaults,
                 sceneParams
-            )
-
-            defaultLightEnabledInput.on("change", ({ value }) =>
-                setDefaultLight(value ? "default" : false)
             )
 
             const [effectsParams, effectsRest] = splitObject(sceneRest, [
@@ -507,12 +487,7 @@ const Editor = () => {
             pane.dispose()
             document.removeEventListener("keydown", handleKey)
         }
-    }, [
-        selectionTarget,
-        multipleSelectionTargets,
-        setupStack,
-        defaultLightEnabled
-    ])
+    }, [selectionTarget, multipleSelectionTargets, setupStack])
 
     return (
         <div

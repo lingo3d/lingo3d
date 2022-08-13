@@ -87,8 +87,7 @@ export const nonSerializedProperties = [
     "gridHelperSize"
 ]
 export const nonEditorSettings: Array<keyof ISetup | "autoMount"> = [
-    "autoMount",
-    "defaultLight"
+    "autoMount"
 ]
 
 type TypedPropsNode<Props, Type extends GameObjectType> = Partial<Props> &
