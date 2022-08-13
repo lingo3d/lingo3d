@@ -4,10 +4,12 @@ import { box3 } from "./reusables"
 const cache = new Map<string, Vector3>()
 
 export default (gltf: Object3D, src: string) => {
-    if (cache.has(src)) return cache.get(src)!.clone()
+    if (cache.has(src)) return cache.get(src)!
 
-    const gltfSize = new Vector3()
-    box3.setFromObject(gltf).getSize(gltfSize)
-    cache.set(src, gltfSize.clone())
-    return gltfSize
+    const measuredSize = new Vector3()
+    box3.setFromObject(gltf).getSize(measuredSize)
+    Object.freeze(measuredSize)
+
+    cache.set(src, measuredSize)
+    return measuredSize
 }

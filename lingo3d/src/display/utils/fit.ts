@@ -12,7 +12,7 @@ export default (gltf: Object3D, src: string) => {
         return result
     }
 
-    const measuredSize = measure(gltf, src)
+    const measuredSize = measure(gltf, src).clone()
 
     const ratio = 1 / measuredSize.y
     gltf.scale.multiplyScalar(ratio)

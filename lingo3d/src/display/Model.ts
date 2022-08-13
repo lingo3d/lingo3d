@@ -95,6 +95,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set resize(val) {
         this._resize = val
+        this.loaded.done && (this.src = this._src)
     }
 
     protected resolveLoaded(loadedObject3d: Group, src: string) {
