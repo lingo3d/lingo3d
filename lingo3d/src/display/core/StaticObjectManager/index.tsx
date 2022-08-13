@@ -363,7 +363,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                         setBoolean(
                             child,
                             "transparent",
-                            _opacityFactor !== 1 ? true : undefined
+                            _opacityFactor <= 1 ? true : undefined
                         )
                     }
 

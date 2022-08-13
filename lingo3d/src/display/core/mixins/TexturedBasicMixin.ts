@@ -35,12 +35,12 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
 
     private _opacity?: number
     public get opacity() {
-        return (this._opacity ??= 1.0)
+        return (this._opacity ??= 1)
     }
     public set opacity(val) {
         this._opacity = val
         this.material.opacity = val
-        this.material.transparent = val < 1
+        this.material.transparent = val <= 1
         //@ts-ignore
         this.object3d.visible = !!val
     }
