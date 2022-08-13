@@ -1,20 +1,21 @@
 import { Object3D, PerspectiveCamera, Quaternion } from "three"
-import { camNear, camFar } from "../../engine/constants"
-import scene from "../../engine/scene"
-import { onBeforeRender } from "../../events/onBeforeRender"
+import { camNear, camFar } from "../../../engine/constants"
+import scene from "../../../engine/scene"
+import { onBeforeRender } from "../../../events/onBeforeRender"
 import ICharacterCamera, {
     characterCameraDefaults,
     characterCameraSchema,
     LockTargetRotationValue
-} from "../../interface/ICharacterCamera"
-import { getSelectionTarget } from "../../states/useSelectionTarget"
-import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
-import OrbitCameraBase from "./OrbitCameraBase"
-import { euler, halfPi, quaternion } from "../utils/reusables"
-import MeshItem from "./MeshItem"
-import { getLoadedObject } from "./Loaded"
-import getWorldQuaternion from "../utils/getWorldQuaternion"
-import { getEditorModeComputed } from "../../states/useEditorModeComputed"
+} from "../../../interface/ICharacterCamera"
+import { getSelectionTarget } from "../../../states/useSelectionTarget"
+import { getTransformControlsDragging } from "../../../states/useTransformControlsDragging"
+import OrbitCameraBase from "../OrbitCameraBase"
+import { euler, halfPi, quaternion } from "../../utils/reusables"
+import MeshItem from "../MeshItem"
+import { getLoadedObject } from "../Loaded"
+import getWorldQuaternion from "../../utils/getWorldQuaternion"
+import { getEditorModeComputed } from "../../../states/useEditorModeComputed"
+import characterCameraPlaced from "./characterCameraPlaced"
 
 const dirObj = new Object3D()
 
@@ -78,10 +79,14 @@ export default class CharacterCamera
                 target.outerObject3d.quaternion.copy(quaternion)
             }
 
-            if (slerp && !this.physicsUpdate?.position) {
+            const placed = characterCameraPlaced.has(target)
+            if (slerp && !placed) {
                 quaternion.setFromEuler(euler)
                 target.outerObject3d.quaternion.slerp(quaternion, 0.1)
-            } else target.outerObject3d.setRotationFromEuler(euler)
+                return
+            }
+            target.outerObject3d.setRotationFromEuler(euler)
+            quat && placed && characterCameraPlaced.delete(target)
         }
 
         let transformControlRotating = false

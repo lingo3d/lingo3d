@@ -14,6 +14,7 @@ import StaticObjectManager from "../StaticObjectManager"
 import bvhContactMap from "./bvh/bvhContactMap"
 import { cannonContactBodies, cannonContactMap } from "./cannon/cannonLoop"
 import MeshItem from "../MeshItem"
+import characterCameraPlaced from "../CharacterCamera/characterCameraPlaced"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -340,6 +341,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         super.placeAt(object)
         this.physicsMove()
         this.physicsRotate()
+        characterCameraPlaced.add(this)
     }
 
     public override lerpTo(x: number, y: number, z: number, alpha: number) {
