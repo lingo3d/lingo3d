@@ -5,6 +5,7 @@ import Appendable, {
     hiddenAppendables
 } from "../core/Appendable"
 import settings from "../settings"
+import toFixed from "./toFixed"
 import { nonSerializedProperties, SceneGraphNode } from "./types"
 
 const serialize = (children: Array<any>) => {
@@ -33,8 +34,7 @@ const serialize = (children: Array<any>) => {
             )
                 continue
 
-            if (typeof value === "number") value = Number(value.toFixed(2))
-            data[key] = value
+            data[key] = typeof value === "number" ? toFixed(key, value) : value
         }
         child.children && (data.children = serialize(child.children))
         dataParent.push(data as SceneGraphNode)

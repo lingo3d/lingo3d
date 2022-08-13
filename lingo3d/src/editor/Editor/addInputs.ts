@@ -3,6 +3,7 @@ import { Pane } from "tweakpane"
 import resetIcon from "./resetIcon"
 import Defaults from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
+import toFixed from "../../api/serializer/toFixed"
 
 let programmatic = false
 
@@ -15,8 +16,6 @@ export const setProgrammatic = debounce(
     100,
     "both"
 )
-
-const toFixed = (v: any) => (typeof v === "number" ? Number(v.toFixed(2)) : v)
 
 const isPoint = (v: any): v is { x: number; y: number; z?: number } =>
     v && typeof v === "object" && "x" in v && "y" in v
@@ -50,7 +49,7 @@ export default (
                 break
 
             case "number":
-                params[key] = toFixed(value)
+                params[key] = toFixed(key, value)
                 break
 
             case "object":
@@ -58,9 +57,12 @@ export default (
                     params[key] = JSON.stringify(value)
                     break
                 }
-                typeof value?.x === "number" && (value.x = toFixed(value.x))
-                typeof value?.y === "number" && (value.y = toFixed(value.y))
-                typeof value?.z === "number" && (value.z = toFixed(value.z))
+                typeof value?.x === "number" &&
+                    (value.x = toFixed("x", value.x))
+                typeof value?.y === "number" &&
+                    (value.y = toFixed("y", value.y))
+                typeof value?.z === "number" &&
+                    (value.z = toFixed("z", value.z))
                 break
         }
 
@@ -106,7 +108,8 @@ export default (
                         return
                     }
                 }
-                target[key] = toFixed(value)
+                target[key] =
+                    typeof value === "number" ? toFixed(key, value) : value
             })
             return [key, input] as const
         })
