@@ -35,6 +35,7 @@ cam.transition = true
 cam.mouseControl = true
 cam.innerZ = 1000
 cam.lockTargetRotation = "dynamic-lock"
+cam.active = true
 
 keyboard.onKeyPress = (_, key) => {
     if (key.has("w")) player.strideForward = -10
