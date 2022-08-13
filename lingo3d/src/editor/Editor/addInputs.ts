@@ -70,12 +70,20 @@ export default (
 
             const resetButton = resetIcon.cloneNode(true) as HTMLElement
             input.element.prepend(resetButton)
+            resetButton.style.opacity = "0.1"
 
             const defaultValue = getDefaultValue(defaults, key, true)
 
-            const unchanged = isEqual(params[key], defaultValue)
-            resetButton.style.opacity = unchanged ? "0.1" : "0.5"
-            resetButton.style.cursor = unchanged ? "auto" : "pointer"
+            const updateResetButton = debounce(
+                () => {
+                    const unchanged = isEqual(params[key], defaultValue)
+                    resetButton.style.opacity = unchanged ? "0.1" : "0.5"
+                    resetButton.style.cursor = unchanged ? "auto" : "pointer"
+                },
+                100,
+                "trailing"
+            )
+            updateResetButton()
 
             resetButton.onclick = () => {
                 params[key] = JSON.parse(JSON.stringify(defaultValue))
@@ -83,11 +91,9 @@ export default (
             }
 
             input.on("change", ({ value }) => {
-                if (programmatic) return
+                updateResetButton()
 
-                const unchanged = isEqual(value, defaultValue)
-                resetButton.style.opacity = unchanged ? "0.1" : "0.5"
-                resetButton.style.cursor = unchanged ? "auto" : "pointer"
+                if (programmatic) return
 
                 if (typeof value === "string") {
                     if (value === "true" || value === "false") {

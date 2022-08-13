@@ -78,7 +78,7 @@ export default class CharacterCamera
                 target.outerObject3d.quaternion.copy(quaternion)
             }
 
-            if (slerp) {
+            if (slerp && !this.physicsUpdate?.position) {
                 quaternion.setFromEuler(euler)
                 target.outerObject3d.quaternion.slerp(quaternion, 0.1)
             } else target.outerObject3d.setRotationFromEuler(euler)
