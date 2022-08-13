@@ -12,8 +12,7 @@ import {
     useCameraList,
     useMultipleSelectionTargets,
     useCameraStack,
-    useNodeEditor,
-    useSetupStack
+    useNodeEditor
 } from "../states"
 import { Cancellable } from "@lincode/promiselikes"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
@@ -148,8 +147,6 @@ const Editor = () => {
             secondaryCameraInput.dispose()
         }
     }, [pane, cameraFolder, cameraList, camera])
-
-    const [setupStack] = useSetupStack()
 
     useEffect(() => {
         const el = elRef.current
@@ -487,7 +484,7 @@ const Editor = () => {
             pane.dispose()
             document.removeEventListener("keydown", handleKey)
         }
-    }, [selectionTarget, multipleSelectionTargets, setupStack])
+    }, [selectionTarget, multipleSelectionTargets])
 
     return (
         <div
