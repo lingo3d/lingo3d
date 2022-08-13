@@ -11,6 +11,7 @@ import {
 } from "../../events/onSelectionTarget"
 import ILightBase from "../../interface/ILightBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
+import { getShadowBias } from "../../states/useShadowBias"
 import { getShadowResolution } from "../../states/useShadowResolution"
 import ObjectManager from "./ObjectManager"
 import makeLightSprite from "./utils/makeLightSprite"
@@ -22,6 +23,8 @@ export default abstract class LightBase<T extends typeof Light>
     protected lightState = new Reactive<InstanceType<T> | undefined>(undefined)
 
     protected defaultShadowResolution = 512
+    protected defaultShadowBias = -0.0005
+    // protected defaultShadowBias = -0.00009
 
     public constructor(
         Light: T,
@@ -41,9 +44,13 @@ export default abstract class LightBase<T extends typeof Light>
                     getShadowResolution() ??
                     this.defaultShadowResolution
 
+                const shadowBias =
+                    this.shadowBiasState.get() ??
+                    getShadowBias() ??
+                    this.defaultShadowBias
+
                 light.castShadow = true
-                light.shadow.bias = -0.0005
-                // light.shadow.bias = -0.00009
+                light.shadow.bias = shadowBias
                 light.shadow.mapSize.width = shadowResolution
                 light.shadow.mapSize.height = shadowResolution
                 light.shadow.radius = 2
@@ -52,7 +59,7 @@ export default abstract class LightBase<T extends typeof Light>
                 group.remove(light)
                 light.dispose()
             }
-        }, [this.shadowResolutionState.get, getShadowResolution])
+        }, [this.shadowResolutionState.get, getShadowResolution, getShadowBias])
 
         this.createEffect(() => {
             const light = this.lightState.get()
@@ -112,6 +119,14 @@ export default abstract class LightBase<T extends typeof Light>
     }
     public set shadowResolution(val) {
         this.shadowResolutionState.set(val)
+    }
+
+    private shadowBiasState = new Reactive<number | undefined>(undefined)
+    public get shadowBias() {
+        return this.shadowBiasState.get()
+    }
+    public set shadowBias(val) {
+        this.shadowBiasState.set(val)
     }
 
     public get color() {

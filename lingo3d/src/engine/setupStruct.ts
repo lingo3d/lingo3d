@@ -69,6 +69,7 @@ import {
 import { getPBR, setPBR } from "../states/usePBR"
 import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { getRepulsion, setRepulsion } from "../states/useRepulsion"
+import { getShadowBias, setShadowBias } from "../states/useShadowBias"
 import {
     getShadowDistance,
     setShadowDistance
@@ -94,6 +95,13 @@ export default {
     },
     set shadowResolution(value) {
         setShadowResolution(value)
+    },
+
+    get shadowBias() {
+        return getShadowBias()
+    },
+    set shadowBias(value) {
+        setShadowBias(value)
     },
 
     get shadowDistance() {

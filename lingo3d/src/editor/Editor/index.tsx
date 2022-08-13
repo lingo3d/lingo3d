@@ -195,6 +195,7 @@ const Editor = () => {
                 "defaultLight",
                 "shadowDistance",
                 "shadowResolution",
+                "shadowBias",
                 "skybox",
                 "texture",
                 "color"

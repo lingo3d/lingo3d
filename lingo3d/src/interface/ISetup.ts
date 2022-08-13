@@ -11,6 +11,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     defaultLight: [String, Boolean],
     shadowDistance: Number,
     shadowResolution: Number,
+    shadowBias: Number,
     gridHelper: Boolean,
     gridHelperSize: Number,
     gravity: Number,
@@ -48,5 +49,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 export const setupDefaults: Defaults<ISetup> = {
     ...setupStruct,
     shadowDistance: 2000,
-    shadowResolution: 1024
+    shadowResolution: 1024,
+    shadowBias: -0.0005
 }
