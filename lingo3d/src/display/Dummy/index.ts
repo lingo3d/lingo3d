@@ -128,6 +128,7 @@ export default class Dummy extends Model implements IDummy {
         ])
 
         const { poseService } = this
+
         this.createEffect(() => {
             const pose = (this.animation = getPose())
             if (pose !== "jumping") return
@@ -141,11 +142,13 @@ export default class Dummy extends Model implements IDummy {
                 handle.cancel()
             }
         }, [getPose])
+
         poseService
             .onTransition(
                 (state) => state.changed && setPose(state.value as string)
             )
             .start()
+
         this.then(() => poseService.stop())
 
         this.createEffect(() => {
@@ -237,6 +240,11 @@ export default class Dummy extends Model implements IDummy {
     public set spineName(val) {
         this.spineNameState.set(val)
     }
+
+    public override get resize() {
+        return super.resize
+    }
+    public override set resize(val) {}
 
     private srcState = new Reactive(YBOT_URL)
     public override get src() {
