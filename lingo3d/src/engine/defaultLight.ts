@@ -13,9 +13,11 @@ import loadTexture from "../display/utils/loaders/loadTexture"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { TEXTURES_URL } from "../globals"
 import { getCameraRendered } from "../states/useCameraRendered"
+import { getCentripetal } from "../states/useCentripetal"
 import { getDefaultLight } from "../states/useDefaultLight"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import { getRenderer } from "../states/useRenderer"
+import { camFar } from "./constants"
 import scene from "./scene"
 
 export default {}
@@ -81,26 +83,32 @@ createEffect(() => {
         const SkyLight = module.default
         const light = new SkyLight()
         appendableRoot.delete(light)
-
         light.helper = false
         light.groundColor = "#666666"
-
         handle.then(() => light.dispose())
     })
     import("../display/lights/DirectionalLight").then((module) => {
         const DirectionalLight = module.default
         const light = new DirectionalLight()
         appendableRoot.delete(light)
-
         light.helper = false
-        light.y = 1000
-        light.z = 1000
+        light.y = camFar
+        light.z = camFar
         light.intensity = 0.5
-
         handle.then(() => light.dispose())
+
+        if (!getCentripetal()) return
+
+        const light2 = new DirectionalLight()
+        appendableRoot.delete(light2)
+        light2.helper = false
+        light2.y = -camFar
+        light2.z = -camFar
+        light2.intensity = 0.5
+        handle.then(() => light2.dispose())
     })
 
     return () => {
         handle.cancel()
     }
-}, [getDefaultLight])
+}, [getDefaultLight, getCentripetal])

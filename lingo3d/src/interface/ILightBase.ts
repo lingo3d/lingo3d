@@ -1,3 +1,4 @@
+import { SHADOW_BIAS } from "../globals"
 import IObjectManager, {
     objectManagerDefaults,
     objectManagerSchema
@@ -28,6 +29,6 @@ export const lightBaseDefaults: Defaults<ILightBase> = {
     color: "#ffffff",
     intensity: 1,
     shadowResolution: [undefined, 512],
-    shadowBias: [undefined, -0.0005],
+    shadowBias: [undefined, SHADOW_BIAS],
     helper: true
 }

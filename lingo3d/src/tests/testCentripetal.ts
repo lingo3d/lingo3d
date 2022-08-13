@@ -8,10 +8,6 @@ spawn.x = -3888.93
 spawn.y = -3278.18
 spawn.z = -976.08
 
-const light = new DirectionalLight()
-light.y = -1000
-light.z = -1000
-
 const world = new Model()
 world.src = "awei/map.glb"
 world.resize = false

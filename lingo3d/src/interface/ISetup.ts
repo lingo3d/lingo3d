@@ -1,4 +1,5 @@
 import setupStruct from "../engine/setupStruct"
+import { SHADOW_BIAS } from "../globals"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
@@ -51,5 +52,5 @@ export const setupDefaults: Defaults<ISetup> = {
     pixelRatio: 1,
     shadowDistance: 2000,
     shadowResolution: 1024,
-    shadowBias: -0.0005
+    shadowBias: SHADOW_BIAS
 }

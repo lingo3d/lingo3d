@@ -9,6 +9,7 @@ import {
     emitSelectionTarget,
     onSelectionTarget
 } from "../../events/onSelectionTarget"
+import { SHADOW_BIAS } from "../../globals"
 import ILightBase from "../../interface/ILightBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getShadowBias } from "../../states/useShadowBias"
@@ -23,8 +24,7 @@ export default abstract class LightBase<T extends typeof Light>
     protected lightState = new Reactive<InstanceType<T> | undefined>(undefined)
 
     protected defaultShadowResolution = 512
-    protected defaultShadowBias = -0.0005
-    // protected defaultShadowBias = -0.00009
+    protected defaultShadowBias = SHADOW_BIAS
 
     public constructor(
         Light: T,
