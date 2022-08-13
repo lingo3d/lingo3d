@@ -1,20 +1,37 @@
-import { Dummy, keyboard, Model, ThirdPersonCamera, settings } from ".."
+import { Dummy, keyboard, Model, ThirdPersonCamera, settings, DirectionalLight, Sphere } from ".."
 import { YBOT_URL } from "../globals"
 
 export default {}
 
+const spawn = new Sphere()
+spawn.x = -3888.93
+spawn.y = -3278.18
+spawn.z = -976.08
+
+const light = new DirectionalLight()
+light.y = -1000
+light.z = -1000
+
 const world = new Model()
-world.physics = "map"
-world.scale = 40
-world.src = "waic.glb"
+world.src = "awei/map.glb"
 world.resize = false
-world.roughnessFactor = 2
+world.scale = 5
+world.physics = "map"
+world.frustumCulled = false
+world.metalnessFactor = 0.1
 
 const player = new Dummy()
-player.y = 4000
+player.y = 6000
 player.physics = "character"
 player.strideMove = true
 player.strideMode = "free"
+player.src = "awei/awei.fbx"
+player.scale = 3
+player.animations = {
+    idle: "awei/idle.fbx",
+    running: "awei/running.fbx"
+}
+player.placeAt(spawn)
 
 const cam = new ThirdPersonCamera()
 cam.append(player)

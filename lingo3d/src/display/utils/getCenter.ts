@@ -11,7 +11,8 @@ export default (object: Object3D) => {
     const result =
         object instanceof Bone
             ? getWorldPosition(object)
-            : box3.setFromObject(object).getCenter(new Vector3())
+            : (object.updateWorldMatrix(true, false),
+              box3.setFromObject(object).getCenter(new Vector3()))
 
     cache.set(object, result.clone())
     onAfterRender(() => cache.delete(object), true)
