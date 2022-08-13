@@ -36,7 +36,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         return lazyLoadSVG().then((module) => module.default(url))
     }
 
-    protected resolveLoaded(svgData: SVGResult) {
+    protected resolveLoaded(svgData: SVGResult, src: string) {
         const loadedObject3d = new Group()
         loadedObject3d.scale.y *= -1
 
@@ -57,13 +57,13 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
                 testGroup.add(new Mesh(geom))
             }
 
-            const size = measure(testGroup)
+            const measuredSize = measure(testGroup, src)
 
             const result: Array<ExtrudeBufferGeometry> = []
             for (const shape of shapes)
                 result.push(
                     new ExtrudeBufferGeometry(shape, {
-                        depth: size.y,
+                        depth: measuredSize.y,
                         bevelEnabled: false
                     })
                 )
@@ -77,10 +77,10 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
             loadedObject3d.add(mesh)
         }
 
-        const size = fit(loadedObject3d, this._src!)
-        !this.widthSet && (this.object3d.scale.x = size.x)
-        !this.heightSet && (this.object3d.scale.y = size.y)
-        !this.depthSet && (this.object3d.scale.z = size.z)
+        const measuredSize = fit(loadedObject3d, src)
+        !this.widthSet && (this.object3d.scale.x = measuredSize.x)
+        !this.heightSet && (this.object3d.scale.y = measuredSize.y)
+        !this.depthSet && (this.object3d.scale.z = measuredSize.z)
 
         return loadedObject3d
     }

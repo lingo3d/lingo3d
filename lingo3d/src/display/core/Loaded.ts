@@ -31,7 +31,7 @@ export default abstract class Loaded<T = Object3D>
 
     protected abstract load(src: string): Promise<T>
 
-    protected abstract resolveLoaded(data: T): Group
+    protected abstract resolveLoaded(data: T, src: string): Group
 
     protected _src?: string
     public get src() {
@@ -46,7 +46,7 @@ export default abstract class Loaded<T = Object3D>
             val &&
                 (() =>
                     toResolvable(this.load(val)).then((loaded) => {
-                        const loadedObject3d = this.resolveLoaded(loaded)
+                        const loadedObject3d = this.resolveLoaded(loaded, val)
                         this.loadedGroup.add(loadedObject3d)
                         this.loaded.resolve(loadedObject3d)
 

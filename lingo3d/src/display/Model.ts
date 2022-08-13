@@ -89,22 +89,28 @@ export default class Model extends Loaded<Group> implements IModel {
         return result
     }
 
-    public resize = true
+    private _resize?: boolean
+    public get resize() {
+        return this._resize ?? true
+    }
+    public set resize(val) {
+        this._resize = val
+    }
 
-    protected resolveLoaded(loadedObject3d: Group) {
+    protected resolveLoaded(loadedObject3d: Group, src: string) {
         for (const clip of loadedObject3d.animations)
             this.animations[clip.name] = this.watch(
                 new AnimationManager(clip, loadedObject3d)
             )
 
-        const size =
-            this.resize === false
-                ? measure(loadedObject3d)
-                : fit(loadedObject3d, this._src!)
+        const measuredSize =
+            this._resize === false
+                ? measure(loadedObject3d, src)
+                : fit(loadedObject3d, src)
 
-        !this.widthSet && (this.object3d.scale.x = size.x)
-        !this.heightSet && (this.object3d.scale.y = size.y)
-        !this.depthSet && (this.object3d.scale.z = size.z)
+        !this.widthSet && (this.object3d.scale.x = measuredSize.x)
+        !this.heightSet && (this.object3d.scale.y = measuredSize.y)
+        !this.depthSet && (this.object3d.scale.z = measuredSize.z)
 
         return loadedObject3d
     }
