@@ -15,7 +15,7 @@ abstract class Primitive extends ObjectManager<Mesh> implements IPrimitive {
     protected material: MeshStandardMaterial
 
     public constructor(geometry: BufferGeometry) {
-        const material = new MeshStandardMaterial()
+        const material = new MeshStandardMaterial({ transparent: true })
         const mesh = new Mesh(geometry, material)
         mesh.castShadow = true
         mesh.receiveShadow = true
