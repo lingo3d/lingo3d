@@ -18,7 +18,6 @@ export const queueTextureRepeat = queueDebounce()
 
 export default abstract class TexturedBasicMixin implements ITexturedBasic {
     protected abstract material: MeshStandardMaterial | SpriteMaterial
-    protected abstract transparent?: boolean
 
     public get color() {
         return "#" + this.material.color.getHexString()
@@ -41,7 +40,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     public set opacity(val) {
         this._opacity = val
         this.material.opacity = val
-        this.material.transparent = this.transparent ?? val < 1
+        this.material.transparent = val < 1
         //@ts-ignore
         this.object3d.visible = !!val
     }

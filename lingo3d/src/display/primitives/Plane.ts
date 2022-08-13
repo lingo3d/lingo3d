@@ -16,7 +16,7 @@ export default class Plane extends Primitive implements IPlane {
     public static override schema = planeSchema
 
     public constructor() {
-        super(planeGeometry, true)
+        super(planeGeometry)
         this.object3d.scale.z = flatGeomScaleZ
     }
 

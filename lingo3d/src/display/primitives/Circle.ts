@@ -14,7 +14,7 @@ export default class Circle extends Primitive implements ICircle {
     protected override _physicsShape = circleShape
 
     public constructor() {
-        super(circleGeometry, true)
+        super(circleGeometry)
         this.object3d.scale.z = flatGeomScaleZ
     }
 
