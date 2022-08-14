@@ -60,6 +60,7 @@ const Library = () => {
                     "directionalLight",
                     "pointLight",
                     "spotLight",
+                    { environment: "light" },
                     "camera",
                     "thirdPersonCamera",
                     "firstPersonCamera",
