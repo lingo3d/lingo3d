@@ -150,7 +150,7 @@ export default abstract class Loaded<T = Object3D>
     }
 
     public override get frustumCulled() {
-        return this.outerObject3d.frustumCulled
+        return super.frustumCulled
     }
     public override set frustumCulled(val) {
         if (this.outerObject3d.frustumCulled === val) return
@@ -164,7 +164,7 @@ export default abstract class Loaded<T = Object3D>
     }
 
     public override get physics() {
-        return this._physics ?? false
+        return super.physics
     }
     public override set physics(val) {
         if (this._physics === val) return
