@@ -40,9 +40,10 @@ export default class DirectionalLight
             const shadowCamera = this.lightState.get()?.shadow.camera
             if (!shadowCamera) return
 
-            shadowCamera.zoom =
-                500 /
-                (this.shadowDistanceState.get() ?? getShadowDistance() ?? 2000)
+            const shadowDistance =
+                this.shadowDistanceState.get() ?? getShadowDistance() ?? 2000
+
+            shadowCamera.zoom = 500 / shadowDistance
             shadowCamera.updateProjectionMatrix()
         }, [
             this.lightState.get,
