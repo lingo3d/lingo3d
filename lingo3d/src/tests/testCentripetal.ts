@@ -1,4 +1,12 @@
-import { Dummy, keyboard, Model, ThirdPersonCamera, settings, DirectionalLight, Sphere } from ".."
+import {
+    Dummy,
+    keyboard,
+    Model,
+    ThirdPersonCamera,
+    settings,
+    DirectionalLight,
+    Sphere
+} from ".."
 import { YBOT_URL } from "../globals"
 
 export default {}

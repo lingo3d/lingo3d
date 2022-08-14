@@ -153,12 +153,31 @@ export default abstract class Loaded<T = Object3D>
         return super.frustumCulled
     }
     public override set frustumCulled(val) {
-        if (this.outerObject3d.frustumCulled === val) return
-        this.outerObject3d.frustumCulled = val
-
         this.cancelHandle("frustumCulled", () =>
             this.loaded.then(() => {
                 super.frustumCulled = val
+            })
+        )
+    }
+
+    public override get castShadow() {
+        return super.castShadow
+    }
+    public override set castShadow(val) {
+        this.cancelHandle("castShadow", () =>
+            this.loaded.then(() => {
+                super.castShadow = val
+            })
+        )
+    }
+
+    public override get receiveShadow() {
+        return super.receiveShadow
+    }
+    public override set receiveShadow(val) {
+        this.cancelHandle("receiveShadow", () =>
+            this.loaded.then(() => {
+                super.receiveShadow = val
             })
         )
     }

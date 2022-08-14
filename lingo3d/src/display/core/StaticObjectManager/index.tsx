@@ -314,6 +314,21 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.traverse((child) => (child.frustumCulled = val))
     }
 
+    public get castShadow() {
+        return this.outerObject3d.castShadow
+    }
+    public set castShadow(val) {
+        console.log(val)
+        this.outerObject3d.traverse((child) => (child.castShadow = val))
+    }
+
+    public get receiveShadow() {
+        return this.outerObject3d.receiveShadow
+    }
+    public set receiveShadow(val) {
+        this.outerObject3d.traverse((child) => (child.receiveShadow = val))
+    }
+
     protected refreshFactors() {
         this.cancelHandle("refreshFactors", () => {
             const handle = new Cancellable()

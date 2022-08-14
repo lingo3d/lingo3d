@@ -26,6 +26,8 @@ export default interface IStaticObjectManager extends IEventLoop {
 
     visible: boolean
     frustumCulled: boolean
+    castShadow: boolean
+    receiveShadow: boolean
 
     metalnessFactor: Nullable<number>
     roughnessFactor: Nullable<number>
@@ -59,6 +61,8 @@ export const staticObjectManagerSchema: Required<
 
     visible: Boolean,
     frustumCulled: Boolean,
+    castShadow: Boolean,
+    receiveShadow: Boolean,
 
     metalnessFactor: Number,
     roughnessFactor: Number,
@@ -92,6 +96,8 @@ export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
 
     visible: true,
     frustumCulled: true,
+    castShadow: true,
+    receiveShadow: true,
 
     metalnessFactor: [undefined, 0],
     roughnessFactor: [undefined, 1],
