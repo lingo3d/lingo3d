@@ -59,7 +59,12 @@ export default abstract class LightBase<T extends typeof Light>
                 group.remove(light)
                 light.dispose()
             }
-        }, [this.shadowResolutionState.get, getShadowResolution, getShadowBias])
+        }, [
+            this.shadowResolutionState.get,
+            this.shadowBiasState.get,
+            getShadowResolution,
+            getShadowBias
+        ])
 
         this.createEffect(() => {
             const light = this.lightState.get()
@@ -121,7 +126,7 @@ export default abstract class LightBase<T extends typeof Light>
         this.shadowResolutionState.set(val)
     }
 
-    private shadowBiasState = new Reactive<number | undefined>(undefined)
+    protected shadowBiasState = new Reactive<number | undefined>(undefined)
     public get shadowBias() {
         return this.shadowBiasState.get()
     }

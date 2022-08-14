@@ -33,7 +33,8 @@ const cam = new ThirdPersonCamera()
 cam.append(player)
 cam.transition = true
 cam.mouseControl = true
-cam.innerZ = 1000
+cam.innerZ = 2000
+cam.fov = 45
 cam.lockTargetRotation = "dynamic-lock"
 cam.active = true
 

@@ -1,4 +1,5 @@
 import { Reactive } from "@lincode/reactivity"
+import { mapRange } from "@tweakpane/core"
 import { DirectionalLight as ThreeDirectionalLight } from "three"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
@@ -7,8 +8,8 @@ import IDirectionalLight, {
     directionalLightSchema
 } from "../../interface/IDirectionalLight"
 import { getCameraRendered } from "../../states/useCameraRendered"
+import { getShadowBias } from "../../states/useShadowBias"
 import { getShadowDistance } from "../../states/useShadowDistance"
-import OrthographicCamera from "../cameras/OrthographicCamera"
 import LightBase from "../core/LightBase"
 import getWorldPosition from "../utils/getWorldPosition"
 import { vec2Point } from "../utils/vec2Point"
@@ -40,20 +41,50 @@ export default class DirectionalLight
         }, [this.lightState.get])
 
         this.createEffect(() => {
-            const shadowCamera = this.lightState.get()?.shadow.camera
-            if (!shadowCamera) return
+            const light = this.lightState.get()
+            if (!light) return
 
-            new OrthographicCamera(shadowCamera)
+            const camManager = getCameraRendered().userData.manager
+            const offset = camManager
+                ? Math.max(
+                      mapRange(
+                          camManager.innerZ *
+                              (camManager.fov / 75) *
+                              (1 / camManager.zoom),
+                          500,
+                          1000,
+                          1,
+                          2
+                      ),
+                      1
+                  )
+                : 1
+
+            const shadowBias =
+                this.shadowBiasState.get() ??
+                getShadowBias() ??
+                this.defaultShadowBias
+
+            const shadowBiasOffset = shadowBias * offset
+            light.shadow.bias = shadowBiasOffset
 
             const shadowDistance =
                 this.shadowDistanceState.get() ?? getShadowDistance() ?? 2000
 
-            shadowCamera.zoom = 500 / shadowDistance
+            const shadowCamera = light.shadow.camera
+            shadowCamera.zoom = 500 / offset / shadowDistance
             shadowCamera.updateProjectionMatrix()
+
+            return () => {
+                light.shadow.bias = shadowBias
+            }
         }, [
             this.lightState.get,
             this.shadowDistanceState.get,
-            getShadowDistance
+            getShadowDistance,
+            getCameraRendered,
+            this.shadowBiasState.get,
+            getShadowBias
         ])
 
         this.createEffect(() => {
