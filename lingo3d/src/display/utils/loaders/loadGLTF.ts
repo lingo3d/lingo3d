@@ -39,6 +39,7 @@ export default async (url: string, clone: boolean) => {
 
                                 child.castShadow = true
                                 child.receiveShadow = true
+                                child.frustumCulled = false
 
                                 const { material } = child
                                 if (!material) return

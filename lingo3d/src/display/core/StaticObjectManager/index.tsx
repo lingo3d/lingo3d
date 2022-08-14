@@ -311,14 +311,13 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return this.outerObject3d.frustumCulled
     }
     public set frustumCulled(val) {
-        this.outerObject3d.traverse((child) => (child.frustumCulled = val))
+        this.outerObject3d.frustumCulled = val
     }
 
     public get castShadow() {
         return this.outerObject3d.castShadow
     }
     public set castShadow(val) {
-        console.log(val)
         this.outerObject3d.traverse((child) => (child.castShadow = val))
     }
 

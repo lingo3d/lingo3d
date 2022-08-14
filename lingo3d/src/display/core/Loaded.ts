@@ -149,17 +149,6 @@ export default abstract class Loaded<T = Object3D>
         this.loadedGroup.visible = val
     }
 
-    public override get frustumCulled() {
-        return super.frustumCulled
-    }
-    public override set frustumCulled(val) {
-        this.cancelHandle("frustumCulled", () =>
-            this.loaded.then(() => {
-                super.frustumCulled = val
-            })
-        )
-    }
-
     public override get castShadow() {
         return super.castShadow
     }
