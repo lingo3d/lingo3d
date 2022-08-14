@@ -6,7 +6,7 @@ preventTreeShake(h)
 
 type IconHolderProps = {
     name: string
-    children: SVGAElement
+    children: JSX.Element
 }
 
 function IconHolder({ children, name }: IconHolderProps) {
