@@ -6,6 +6,5 @@ import LingoEditor from "./editor"
 preventTreeShake([index, test])
 
 settings.autoMount = true
-settings.shadowResolution = 512
 
 // const editor = new LingoEditor()

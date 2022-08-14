@@ -26,6 +26,13 @@ export default abstract class LightBase<T extends typeof Light>
     protected defaultShadowResolution = 512
     protected defaultShadowBias = SHADOW_BIAS
 
+    protected shadowResolutionComputedState = new Reactive<number | undefined>(
+        undefined
+    )
+    protected shadowBiasComputedState = new Reactive<number | undefined>(
+        undefined
+    )
+
     public constructor(
         Light: T,
         Helper?: Class<Object3D & { dispose: () => void }>
@@ -48,6 +55,9 @@ export default abstract class LightBase<T extends typeof Light>
                     this.shadowBiasState.get() ??
                     getShadowBias() ??
                     this.defaultShadowBias
+
+                this.shadowBiasComputedState.set(shadowBias)
+                this.shadowResolutionComputedState.set(shadowResolution)
 
                 light.castShadow = true
                 light.shadow.bias = shadowBias
@@ -126,7 +136,7 @@ export default abstract class LightBase<T extends typeof Light>
         this.shadowResolutionState.set(val)
     }
 
-    protected shadowBiasState = new Reactive<number | undefined>(undefined)
+    private shadowBiasState = new Reactive<number | undefined>(undefined)
     public get shadowBias() {
         return this.shadowBiasState.get()
     }

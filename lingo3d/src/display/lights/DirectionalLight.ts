@@ -8,7 +8,6 @@ import IDirectionalLight, {
     directionalLightSchema
 } from "../../interface/IDirectionalLight"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { getShadowBias } from "../../states/useShadowBias"
 import { getShadowDistance } from "../../states/useShadowDistance"
 import LightBase from "../core/LightBase"
 import getWorldPosition from "../utils/getWorldPosition"
@@ -54,19 +53,11 @@ export default class DirectionalLight
                           500,
                           1000,
                           1,
-                          2
+                          1.5
                       ),
                       1
                   )
                 : 1
-
-            const shadowBias =
-                this.shadowBiasState.get() ??
-                getShadowBias() ??
-                this.defaultShadowBias
-
-            const shadowBiasOffset = shadowBias * offset
-            light.shadow.bias = shadowBiasOffset
 
             const shadowDistance =
                 this.shadowDistanceState.get() ?? getShadowDistance() ?? 2000
@@ -74,6 +65,19 @@ export default class DirectionalLight
             const shadowCamera = light.shadow.camera
             shadowCamera.zoom = 500 / offset / shadowDistance
             shadowCamera.updateProjectionMatrix()
+
+            const shadowBiasComputed = this.shadowBiasComputedState.get()
+            const shadowResolutionComputed =
+                this.shadowResolutionComputedState.get()
+
+            if (!shadowBiasComputed || !shadowResolutionComputed) return
+
+            const shadowBias = shadowBiasComputed
+            light.shadow.bias =
+                shadowBias *
+                offset *
+                (this.defaultShadowResolution / shadowResolutionComputed) *
+                (shadowDistance / 2000)
 
             return () => {
                 light.shadow.bias = shadowBias
@@ -83,8 +87,8 @@ export default class DirectionalLight
             this.shadowDistanceState.get,
             getShadowDistance,
             getCameraRendered,
-            this.shadowBiasState.get,
-            getShadowBias
+            this.shadowBiasComputedState.get,
+            this.shadowResolutionComputedState.get
         ])
 
         this.createEffect(() => {
