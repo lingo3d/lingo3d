@@ -8,6 +8,7 @@ import IDirectionalLight, {
 } from "../../interface/IDirectionalLight"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getShadowDistance } from "../../states/useShadowDistance"
+import OrthographicCamera from "../cameras/OrthographicCamera"
 import LightBase from "../core/LightBase"
 import getWorldPosition from "../utils/getWorldPosition"
 import { vec2Point } from "../utils/vec2Point"
@@ -30,15 +31,19 @@ export default class DirectionalLight
             if (!light) return
 
             scene.add(light.target)
+            scene.attach(light)
 
             return () => {
                 scene.remove(light.target)
+                scene.remove(light)
             }
         }, [this.lightState.get])
 
         this.createEffect(() => {
             const shadowCamera = this.lightState.get()?.shadow.camera
             if (!shadowCamera) return
+
+            new OrthographicCamera(shadowCamera)
 
             const shadowDistance =
                 this.shadowDistanceState.get() ?? getShadowDistance() ?? 2000
@@ -55,10 +60,11 @@ export default class DirectionalLight
             const light = this.lightState.get()
             if (!light) return
 
-            const lightPos = this.outerObject3d.position
-            const camPos = getCameraRendered().position
+            const cam = getCameraRendered()
 
             const handle = onBeforeRender(() => {
+                const camPos = getWorldPosition(cam)
+                const lightPos = getWorldPosition(this.outerObject3d)
                 light.position.copy(camPos).add(lightPos)
                 light.target.position.copy(camPos).sub(lightPos)
             })
