@@ -15,7 +15,6 @@ export default abstract class EventLoopItem<T extends Object3D = Object3D>
         return this._proxy
     }
     public set proxy(val) {
-        if (this._proxy === val) return
         //@ts-ignore
         this._proxy && (this._proxy.__target = undefined)
         this._proxy = val

@@ -232,7 +232,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return this._physics ?? false
     }
     public set physics(val) {
-        if (this._physics === val) return
         this._physics = val
 
         this.initPhysics(

@@ -55,7 +55,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
         super()
         this.object3d.add(camera)
         camera.userData.manager = this
-        
+
         pushCameraList(camera)
         this.then(() => {
             pullCameraStack(camera)
@@ -374,7 +374,6 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
         return !!this._gyroControl
     }
     public set gyroControl(val) {
-        if (this._gyroControl === val) return
         this._gyroControl = val
 
         const deviceEuler = euler

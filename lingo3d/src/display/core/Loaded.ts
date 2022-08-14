@@ -186,7 +186,6 @@ export default abstract class Loaded<T = Object3D>
         return super.physics
     }
     public override set physics(val) {
-        if (this._physics === val) return
         this._physics = val
 
         const handle = this.cancelHandle("physics", () =>
@@ -210,7 +209,6 @@ export default abstract class Loaded<T = Object3D>
         return !!this._outline
     }
     public override set outline(val) {
-        if (this._outline === val) return
         this._outline = val
 
         this.cancelHandle("outline", () =>
@@ -230,7 +228,6 @@ export default abstract class Loaded<T = Object3D>
         return !!this._bloom
     }
     public override set bloom(val) {
-        if (this._bloom === val) return
         this._bloom = val
 
         this.cancelHandle("bloom", () =>
