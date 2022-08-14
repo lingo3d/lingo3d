@@ -1,6 +1,6 @@
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
-import { Bone, LinearEncoding, MeshStandardMaterial } from "three"
+import { Bone, Light, LinearEncoding, MeshStandardMaterial } from "three"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import {
@@ -30,12 +30,14 @@ export default async (url: string, clone: boolean) => {
                     (gltf) => {
                         decreaseLoadingCount()
 
+                        const lights: Array<Light> = []
+
                         let noBone = true
                         for (const scene of gltf.scenes)
                             scene.traverse((child: any) => {
-                                noBone &&
-                                    child instanceof Bone &&
-                                    (noBone = false)
+                                if (child instanceof Light) lights.push(child)
+                                else if (noBone && child instanceof Bone)
+                                    noBone = false
 
                                 child.castShadow = true
                                 child.receiveShadow = true
@@ -53,6 +55,8 @@ export default async (url: string, clone: boolean) => {
                                 )
                                 material.dispose()
                             })
+                        for (const light of lights) light.parent?.remove(light)
+
                         resolve([gltf, noBone])
                     },
                     handleProgress(url),

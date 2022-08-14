@@ -63,3 +63,6 @@ keyboard.onKeyDown = (key) => {
 
 settings.texture = "bg.png"
 settings.centripetal = true
+
+const box = new Model()
+box.src = "mofang.fbx"

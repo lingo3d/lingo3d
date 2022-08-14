@@ -1,5 +1,5 @@
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader"
-import { Bone, Group, LinearEncoding, MeshStandardMaterial } from "three"
+import { Bone, Group, Light, LinearEncoding, MeshStandardMaterial } from "three"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import {
@@ -24,9 +24,13 @@ export default async (url: string, clone: boolean) => {
                     (group) => {
                         decreaseLoadingCount()
 
+                        const lights: Array<Light> = []
+
                         let noBone = true
                         group.traverse((child: any) => {
-                            noBone && child instanceof Bone && (noBone = false)
+                            if (child instanceof Light) lights.push(child)
+                            else if (noBone && child instanceof Bone)
+                                noBone = false
 
                             child.castShadow = true
                             child.receiveShadow = true
@@ -43,6 +47,8 @@ export default async (url: string, clone: boolean) => {
                             )
                             material.dispose()
                         })
+                        for (const light of lights) light.parent?.remove(light)
+
                         resolve([group, noBone])
                     },
                     handleProgress(url),
