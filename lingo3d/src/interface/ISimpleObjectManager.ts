@@ -24,6 +24,11 @@ export default interface ISimpleObjectManager
 
     moveTo: Function | Array<any>
     lerpTo: Function | Array<any>
+    placeAt: Function | Array<any>
+
+    translateX: Function | Array<any>
+    translateY: Function | Array<any>
+    translateZ: Function | Array<any>
 
     intersectIds: Nullable<Array<string>>
 
@@ -50,6 +55,11 @@ export const simpleObjectManagerSchema: Required<
 
     moveTo: [Function, Array],
     lerpTo: [Function, Array],
+    placeAt: [Function, Array],
+
+    translateX: [Function, Array],
+    translateY: [Function, Array],
+    translateZ: [Function, Array],
 
     intersectIds: Array,
 
@@ -76,6 +86,11 @@ export const simpleObjectManagerDefaults: Defaults<ISimpleObjectManager> = {
 
     moveTo: fn,
     lerpTo: fn,
+    placeAt: fn,
+
+    translateX: fn,
+    translateY: fn,
+    translateZ: fn,
 
     intersectIds: undefined,
 

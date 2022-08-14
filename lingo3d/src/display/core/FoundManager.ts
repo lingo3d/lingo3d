@@ -6,8 +6,9 @@ import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
 import { appendableRoot } from "../../api/core/Appendable"
 import Model from "../Model"
 import AnimatedObjectManager from "./AnimatedObjectManager"
+import SimpleObjectManager from "./SimpleObjectManager"
 
-class FoundManager extends AnimatedObjectManager implements IFound {
+class FoundManager extends SimpleObjectManager implements IFound {
     public static componentName = "find"
     public static defaults = foundDefaults
     public static schema = foundSchema
