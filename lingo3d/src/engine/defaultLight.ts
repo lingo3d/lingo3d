@@ -11,13 +11,12 @@ import Environment from "../display/Environment"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import { onBeforeRender } from "../events/onBeforeRender"
-import { TEXTURES_URL } from "../globals"
+import { FAR, TEXTURES_URL } from "../globals"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getCentripetal } from "../states/useCentripetal"
 import { getDefaultLight } from "../states/useDefaultLight"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import { getRenderer } from "../states/useRenderer"
-import { camFar } from "./constants"
 import scene from "./scene"
 
 export default {}
@@ -92,8 +91,8 @@ createEffect(() => {
         const light = new DirectionalLight()
         appendableRoot.delete(light)
         light.helper = false
-        light.y = camFar
-        light.z = camFar
+        light.y = FAR
+        light.z = FAR
         light.intensity = 0.5
         handle.then(() => light.dispose())
 
@@ -102,8 +101,8 @@ createEffect(() => {
         const light2 = new DirectionalLight()
         appendableRoot.delete(light2)
         light2.helper = false
-        light2.y = -camFar
-        light2.z = -camFar
+        light2.y = -FAR
+        light2.z = -FAR
         light2.intensity = 0.5
         handle.then(() => light2.dispose())
     })
