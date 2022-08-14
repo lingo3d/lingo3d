@@ -54,17 +54,22 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
     public constructor(protected camera: T) {
         super()
         this.object3d.add(camera)
-        this.camera.userData.manager = this
-        pushCameraList(this.camera)
+        camera.userData.manager = this
+        
+        pushCameraList(camera)
+        this.then(() => {
+            pullCameraStack(camera)
+            pullCameraList(camera)
+        })
 
         this.createEffect(() => {
             if (
                 getCameraRendered() !== mainCamera ||
-                getCameraRendered() === this.camera
+                getCameraRendered() === camera
             )
                 return
 
-            const helper = new CameraHelper(this.camera)
+            const helper = new CameraHelper(camera)
             scene.add(helper)
 
             const sprite = makeCameraSprite()
@@ -81,16 +86,6 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
                 handle.cancel()
             }
         }, [getCameraRendered])
-    }
-
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
-
-        pullCameraStack(this.camera)
-        pullCameraList(this.camera)
-
-        return this
     }
 
     public override lookAt(target: MeshItem | Point3d): void

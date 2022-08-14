@@ -55,13 +55,12 @@ export default class DirectionalLight
             const light = this.lightState.get()
             if (!light) return
 
-            const cam = getCameraRendered()
+            const lightPos = this.outerObject3d.position
+            const camPos = getCameraRendered().position
+
             const handle = onBeforeRender(() => {
-                const position = getWorldPosition(cam)
-                light.position.copy(position).add(this.outerObject3d.position)
-                light.target.position
-                    .copy(position)
-                    .sub(this.outerObject3d.position)
+                light.position.copy(camPos).add(lightPos)
+                light.target.position.copy(camPos).sub(lightPos)
             })
             return () => {
                 handle.cancel()
