@@ -1,5 +1,4 @@
 import { Reactive } from "@lincode/reactivity"
-import { camFar, camNear } from "../../engine/constants"
 import { container } from "../../engine/renderLoop/renderSetup"
 import IOrbitCamera, {
     orbitCameraDefaults,
@@ -17,6 +16,7 @@ import OrbitCameraBase from "../core/OrbitCameraBase"
 import { vec2Point } from "../utils/vec2Point"
 import getWorldPosition from "../utils/getWorldPosition"
 import getCenter from "../utils/getCenter"
+import { FAR, NEAR } from "../../globals"
 
 export default class OrbitCamera
     extends OrbitCameraBase
@@ -26,7 +26,7 @@ export default class OrbitCamera
     public static defaults = orbitCameraDefaults
     public static schema = orbitCameraSchema
 
-    public constructor(camera = new PerspectiveCamera(75, 1, camNear, camFar)) {
+    public constructor(camera = new PerspectiveCamera(75, 1, NEAR, FAR)) {
         super(camera)
 
         this.innerZ = 500

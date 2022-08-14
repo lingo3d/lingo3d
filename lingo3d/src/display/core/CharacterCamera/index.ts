@@ -1,5 +1,4 @@
 import { Object3D, PerspectiveCamera, Quaternion } from "three"
-import { camNear, camFar } from "../../../engine/constants"
 import scene from "../../../engine/scene"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import ICharacterCamera, {
@@ -16,6 +15,7 @@ import { getLoadedObject } from "../Loaded"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import { getEditorModeComputed } from "../../../states/useEditorModeComputed"
 import characterCameraPlaced from "./characterCameraPlaced"
+import { FAR, NEAR } from "../../../globals"
 
 const dirObj = new Object3D()
 
@@ -27,7 +27,7 @@ export default class CharacterCamera
     public static schema = characterCameraSchema
 
     public constructor() {
-        super(new PerspectiveCamera(75, 1, camNear, camFar))
+        super(new PerspectiveCamera(75, 1, NEAR, FAR))
 
         const midObject3d = (this.midObject3d = new Object3D())
         this.outerObject3d.add(midObject3d)

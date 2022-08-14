@@ -1,5 +1,5 @@
 import index, { settings } from "."
-import test from "./tests/testDummy"
+import test from "./tests/testCentripetal"
 import { preventTreeShake } from "@lincode/utils"
 import LingoEditor from "./editor"
 
@@ -7,4 +7,4 @@ preventTreeShake([index, test])
 
 settings.autoMount = true
 
-const editor = new LingoEditor()
+// const editor = new LingoEditor()

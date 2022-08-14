@@ -1,4 +1,4 @@
 import { PerspectiveCamera } from "three"
-import { camFar, camNear } from "./constants"
+import { FAR, NEAR } from "../globals"
 
-export default new PerspectiveCamera(75, 1, camNear, camFar)
+export default new PerspectiveCamera(75, 1, NEAR, FAR)

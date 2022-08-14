@@ -1,5 +1,4 @@
-import { camNear, camFar } from "../engine/constants"
-import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../globals"
+import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE, NEAR, FAR } from "../globals"
 import { bokehDefault } from "../states/useBokeh"
 import { bokehApertureDefault } from "../states/useBokehAperture"
 import { bokehFocusDefault } from "../states/useBokehFocus"
@@ -77,8 +76,8 @@ export const cameraBaseDefaults: Defaults<ICameraBase> = {
 
     fov: 75,
     zoom: 1,
-    near: camNear,
-    far: camFar,
+    near: NEAR,
+    far: FAR,
     active: false,
     transition: [undefined, false],
 
