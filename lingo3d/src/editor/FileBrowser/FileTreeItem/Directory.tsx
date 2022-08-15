@@ -42,7 +42,7 @@ export default function Directory({
                     dirPath === currentPath
                         ? "rgb(0,112,221)"
                         : hover
-                        ? "linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2))"
+                        ? "rgba(255,255,255,0.2)"
                         : undefined
             }}
         >

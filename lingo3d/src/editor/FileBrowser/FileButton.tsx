@@ -42,7 +42,7 @@ const FileButton = ({ file }: FileButtonProps) => {
                 width: "70px",
                 height: "80px",
                 background: hover
-                    ? "linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2))"
+                    ? "rgba(255,255,255,0.2)"
                     : "rgb(40, 41, 46)"
             }}
             onMouseEnter={() => {
