@@ -1,6 +1,6 @@
 import { preventTreeShake } from "@lincode/utils"
 import { h } from "preact"
-import { useState } from "preact/hooks"
+import { useState, useRef } from "preact/hooks"
 
 preventTreeShake(h)
 
@@ -12,6 +12,12 @@ type IconHolderProps = {
 function IconHolder({ children, name }: IconHolderProps) {
     const [hover, setHover] = useState(false)
     const [showTooltip, setShowTooltip] = useState(false)
+
+    const elRef = useRef<HTMLSpanElement>(null)
+
+    function checkEllipsis() {
+        setShowTooltip(elRef.current.scrollWidth > elRef.current.clientWidth)
+    }
 
     return (
         <div
@@ -30,8 +36,8 @@ function IconHolder({ children, name }: IconHolderProps) {
                     : "rgb(40, 41, 46)"
             }}
             onMouseEnter={() => {
-                setShowTooltip(true)
                 setHover(true)
+                checkEllipsis()
             }}
             onMouseLeave={() => {
                 setHover(false)
@@ -57,6 +63,7 @@ function IconHolder({ children, name }: IconHolderProps) {
             </span>
             <div>{children}</div>
             <h6
+                ref={elRef}
                 style={{
                     margin: 0,
                     width: "100%",

@@ -56,7 +56,7 @@ const FileBrowser = () => {
                 style={{
                     width: "100%",
                     height: 25,
-                    background: "rgba(0, 0, 0)",
+                    background: "rgba(0, 0, 0, 0.5)",
                     display: "flex",
                     position: "fixed",
                     zIndex: 999
@@ -82,7 +82,8 @@ const FileBrowser = () => {
             <div
                 style={{
                     width: "100%",
-                    height: "100%",
+                    height: "calc(100% - 25px)",
+                    marginTop: "25px",
                     overflow: "scroll",
                     display: "flex",
                     flexDirection: "row",
@@ -97,8 +98,7 @@ const FileBrowser = () => {
                         background: "rgba(0, 0, 0, 0.2)",
                         position: "sticky",
                         left: 0,
-                        top: 0,
-                        marginTop: "25px"
+                        top: 0
                     }}
                 >
                     <div
@@ -125,7 +125,6 @@ const FileBrowser = () => {
                         flexWrap: "wrap",
                         alignContent: "flex-start",
                         flex: 1,
-                        marginTop: "25px",
                         padding: "10px"
                     }}
                 >
