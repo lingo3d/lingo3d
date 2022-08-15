@@ -1,5 +1,5 @@
 import { h } from "preact"
-import { useState, useEffect, useRef, useMemo } from "preact/hooks"
+import { useState, useMemo } from "preact/hooks"
 import register from "preact-custom-element"
 import { get, preventTreeShake, set, traverse } from "@lincode/utils"
 import CloseIcon from "./icons/CloseIcon"
@@ -97,7 +97,6 @@ const FileBrowser = () => {
                         height: "100%",
                         background: "rgba(0, 0, 0, 0.2)",
                         position: "sticky",
-                        minWidth: "150px",
                         left: 0,
                         top: 0
                     }}
@@ -123,7 +122,9 @@ const FileBrowser = () => {
                 <div
                     style={{
                         display: "flex",
-                        flexWrap: "wrap"
+                        flexWrap: "wrap",
+                        alignContent: "flex-start",
+                        flex: 1
                     }}
                 >
                     {filteredFiles?.map((file) => (

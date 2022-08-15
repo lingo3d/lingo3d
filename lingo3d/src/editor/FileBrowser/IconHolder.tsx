@@ -11,6 +11,7 @@ type IconHolderProps = {
 
 function IconHolder({ children, name }: IconHolderProps) {
     const [hover, setHover] = useState(false)
+    const [showTooltip, setShowTooltip] = useState(false)
 
     return (
         <div
@@ -22,16 +23,38 @@ function IconHolder({ children, name }: IconHolderProps) {
                 margin: "5px 6px 5px 6px",
                 cursor: "pointer",
                 width: "70px",
-                height: "80px",
+                height: "50px",
+                position: "relative",
                 background: hover
                     ? "linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2))"
                     : "rgb(40, 41, 46)"
             }}
             onMouseEnter={() => {
+                setShowTooltip(true)
                 setHover(true)
             }}
-            onMouseLeave={() => setHover(false)}
+            onMouseLeave={() => {
+                setHover(false)
+                setShowTooltip(false)
+            }}
         >
+            <span
+                style={{
+                    position: "absolute",
+                    top: "20%",
+                    left: "40%",
+                    display: showTooltip ? "block" : "none",
+                    zIndex: 999,
+                    background: "rgb(231,233,235)",
+                    padding: "2px",
+                    fontWeight: "bold",
+                    color: "black",
+                    fontSize: "9px",
+                    borderRadius: "2px"
+                }}
+            >
+                {name}
+            </span>
             <div>{children}</div>
             <h6
                 style={{
@@ -40,6 +63,7 @@ function IconHolder({ children, name }: IconHolderProps) {
                     height: "20px",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
                     textAlign: "center"
                 }}
             >

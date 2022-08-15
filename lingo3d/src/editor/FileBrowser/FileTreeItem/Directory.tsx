@@ -37,7 +37,6 @@ export default function Directory({
                 onClick?.(path)
             }}
             style={{
-                position: "relative",
                 background:
                     dirPath === currentPath
                         ? "rgb(0,112,221)"
