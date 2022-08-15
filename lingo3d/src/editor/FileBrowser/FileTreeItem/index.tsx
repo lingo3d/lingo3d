@@ -1,6 +1,6 @@
 import { preventTreeShake } from "@lincode/utils"
 import { Fragment, h } from "preact"
-import pathMap from "./pathMap"
+import Directory from "./Directory"
 
 preventTreeShake(h)
 
@@ -8,34 +8,34 @@ type IconHolderProps = {
     fileStructure: any
     firstFolderName: string
     onClick: (path: string) => void
+    currentPath: string
 }
 
 function FileTreeItem({
     fileStructure,
     firstFolderName,
-    onClick
+    onClick,
+    currentPath
 }: IconHolderProps) {
     const fileEntries = Object.entries(fileStructure)
 
     return (
-        <div style={{ paddingLeft: 10 }}>
+        <div style={{ paddingLeft: 10, width: "100%" }}>
             {fileEntries.map(([name, fileOrFolder]) =>
                 fileOrFolder instanceof File ? null : (
                     <Fragment>
-                        <div
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                const path =
-                                    firstFolderName + pathMap.get(fileOrFolder)
-                                onClick?.(path)
-                            }}
-                        >
-                            {name}
-                        </div>
+                        <Directory
+                            currentPath={currentPath}
+                            firstFolderName={firstFolderName}
+                            fileOrFolder={fileOrFolder}
+                            onClick={onClick}
+                            name={name}
+                        />
                         <FileTreeItem
                             fileStructure={fileOrFolder}
                             firstFolderName={firstFolderName}
                             onClick={onClick}
+                            currentPath={currentPath}
                         />
                     </Fragment>
                 )
