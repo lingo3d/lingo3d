@@ -23,7 +23,7 @@ export default abstract class LightBase<T extends typeof Light>
 {
     protected lightState = new Reactive<InstanceType<T> | undefined>(undefined)
 
-    protected defaultShadowResolution = 512
+    protected defaultShadowResolution = 256
     protected defaultShadowBias = SHADOW_BIAS
 
     protected shadowResolutionComputedState = new Reactive<number | undefined>(
@@ -63,7 +63,6 @@ export default abstract class LightBase<T extends typeof Light>
                 light.shadow.bias = shadowBias
                 light.shadow.mapSize.width = shadowResolution
                 light.shadow.mapSize.height = shadowResolution
-                light.shadow.radius = 2
             }
             return () => {
                 group.remove(light)

@@ -1,4 +1,6 @@
+import NullableDefault from "./NullableDefault"
+
 type Defaults<T> = {
-    [key in keyof T]: T[key] | [undefined | number, T[key]]
+    [key in keyof T]: T[key] | NullableDefault<T[key]>
 }
 export default Defaults

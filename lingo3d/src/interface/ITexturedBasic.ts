@@ -2,6 +2,7 @@ import { Point } from "@lincode/math"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
+import NullableDefault from "./utils/NullableDefault"
 
 export default interface ITexturedBasic {
     color: string
@@ -30,5 +31,5 @@ export const texturedBasicDefaults: Defaults<ITexturedBasic> = {
     texture: undefined,
     videoTexture: undefined,
     alphaMap: undefined,
-    textureRepeat: [undefined, { x: 1, y: 1 }]
+    textureRepeat: new NullableDefault({ x: 1, y: 1 })
 }

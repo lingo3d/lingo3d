@@ -5,6 +5,7 @@ import { ExtractProps } from "./utils/extractProps"
 import fn from "./utils/fn"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
+import NullableDefault from "./utils/NullableDefault"
 
 export default interface IStaticObjectManager extends IEventLoop {
     onClick: Nullable<(e: LingoMouseEvent) => void>
@@ -99,10 +100,10 @@ export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     castShadow: true,
     receiveShadow: true,
 
-    metalnessFactor: [undefined, 0],
-    roughnessFactor: [undefined, 1],
-    opacityFactor: [undefined, 1],
-    adjustColor: [undefined, "#ffffff"],
+    metalnessFactor: new NullableDefault(0),
+    roughnessFactor: new NullableDefault(1),
+    opacityFactor: new NullableDefault(1),
+    adjustColor: new NullableDefault("#ffffff"),
 
     toon: false
 }

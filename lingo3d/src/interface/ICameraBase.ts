@@ -10,6 +10,7 @@ import IObjectManager, {
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
+import NullableDefault from "./utils/NullableDefault"
 
 export type MouseControl = boolean | "drag"
 
@@ -79,7 +80,7 @@ export const cameraBaseDefaults: Defaults<ICameraBase> = {
     near: NEAR,
     far: FAR,
     active: false,
-    transition: [undefined, false],
+    transition: new NullableDefault(false),
 
     bokeh: bokehDefault,
     bokehFocus: bokehFocusDefault,
@@ -89,11 +90,11 @@ export const cameraBaseDefaults: Defaults<ICameraBase> = {
     minPolarAngle: MIN_POLAR_ANGLE,
     maxPolarAngle: MAX_POLAR_ANGLE,
 
-    minAzimuthAngle: [-Infinity, -999999999],
-    maxAzimuthAngle: [Infinity, 999999999],
+    minAzimuthAngle: -Infinity,
+    maxAzimuthAngle: Infinity,
 
-    polarAngle: [undefined, 0],
-    azimuthAngle: [undefined, 0],
+    polarAngle: new NullableDefault(0),
+    azimuthAngle: new NullableDefault(0),
 
     enableDamping: false
 }

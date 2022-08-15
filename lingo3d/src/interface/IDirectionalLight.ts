@@ -2,6 +2,7 @@ import ILight, { lightDefaults, lightSchema } from "./ILight"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
+import NullableDefault from "./utils/NullableDefault"
 
 export default interface IDirectionalLight extends ILight {
     shadowDistance: Nullable<number>
@@ -15,6 +16,6 @@ export const directionalLightSchema: Required<ExtractProps<IDirectionalLight>> =
 
 export const directionalLightDefaults: Defaults<IDirectionalLight> = {
     ...lightDefaults,
-    shadowDistance: [undefined, 2000],
-    shadowResolution: [undefined, 1024]
+    shadowDistance: new NullableDefault(2000),
+    shadowResolution: new NullableDefault(1024)
 }

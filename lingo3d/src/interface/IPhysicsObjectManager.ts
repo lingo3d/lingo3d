@@ -9,6 +9,7 @@ import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
+import NullableDefault from "./utils/NullableDefault"
 
 export type PhysicsGroupIndex = 0 | 1 | 2 | 3 | 4 | 5
 export type PhysicsOptions = boolean | "2d" | "map" | "map-debug" | "character"
@@ -92,9 +93,9 @@ export const physicsObjectManagerDefaults: Defaults<IPhysicsObjectManager> = {
     velocity: { x: 0, y: 0, z: 0 },
     gravity: true,
 
-    noTumble: [undefined, false],
-    slippery: [undefined, false],
-    mass: [undefined, 1],
+    noTumble: new NullableDefault(false),
+    slippery: new NullableDefault(false),
+    mass: new NullableDefault(1),
     physicsGroup: undefined,
     ignorePhysicsGroups: undefined,
 

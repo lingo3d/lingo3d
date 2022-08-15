@@ -6,6 +6,7 @@ import IStaticObjectManager, {
     staticObjectManagerDefaults,
     staticObjectManagerSchema
 } from "./IStaticObjectManaget"
+import NullableDefault from "./utils/NullableDefault"
 
 export type AnimationValue = Record<string, Array<number>>
 export type Animation =
@@ -40,7 +41,7 @@ export const animatedObjectManagerDefaults: Defaults<IAnimatedObjectManager> = {
 
     animations: {},
     animation: undefined,
-    animationPaused: [undefined, false],
-    animationRepeat: [undefined, true],
+    animationPaused: new NullableDefault(false),
+    animationRepeat: new NullableDefault(true),
     onAnimationFinish: undefined
 }

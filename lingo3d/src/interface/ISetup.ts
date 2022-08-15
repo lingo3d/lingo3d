@@ -2,6 +2,7 @@ import setupStruct from "../engine/setupStruct"
 import { SHADOW_BIAS } from "../globals"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import NullableDefault from "./utils/NullableDefault"
 
 type Type = typeof setupStruct
 
@@ -49,8 +50,8 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 
 export const setupDefaults: Defaults<ISetup> = {
     ...setupStruct,
-    pixelRatio: 1,
-    shadowDistance: 2000,
-    shadowResolution: 1024,
-    shadowBias: SHADOW_BIAS
+    pixelRatio: new NullableDefault(1),
+    shadowDistance: new NullableDefault(2000),
+    shadowResolution: new NullableDefault(1024),
+    shadowBias: new NullableDefault(SHADOW_BIAS)
 }
