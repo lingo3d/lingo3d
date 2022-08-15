@@ -1,10 +1,10 @@
 import { h } from "preact"
-import { useState, useEffect, useRef, useMemo } from "preact/hooks"
+import { useState, useMemo } from "preact/hooks"
 import register from "preact-custom-element"
 import { get, preventTreeShake, set, traverse } from "@lincode/utils"
 import CloseIcon from "./icons/CloseIcon"
 import { useFiles } from "../states"
-import FolderIcon from "./icons/FolderIcon"
+import FileIcon from "./icons/FileIcon"
 import IconHolder from "./IconHolder"
 import FileTreeItem from "./FileTreeItem/index"
 import pathMap from "./pathMap"
@@ -128,7 +128,7 @@ const FileBrowser = () => {
                 >
                     {filteredFiles?.map((file) => (
                         <IconHolder name={file.name}>
-                            <FolderIcon />
+                            <FileIcon />
                         </IconHolder>
                     ))}
                 </div>
