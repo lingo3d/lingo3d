@@ -6,10 +6,11 @@ import clientToWorld from "../../display/utils/clientToWorld"
 import { point2Vec } from "../../display/utils/vec2Point"
 import { container } from "../../engine/renderLoop/renderSetup"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
+import FileIcon from "./icons/FileIcon"
 
 preventTreeShake(h)
 
-let draggingItem: string | undefined
+let draggingItem: File | undefined
 
 document.addEventListener("drop", (e) => e.preventDefault())
 container.addEventListener("drop", (e) => {
@@ -22,13 +23,11 @@ container.addEventListener("drop", (e) => {
     console.log(draggingItem)
 })
 
-type IconHolderProps = {
-    name: string
-    path: string
-    children: JSX.Element
+type FileButtonProps = {
+    file: File
 }
 
-const IconHolder = ({ children, name }: IconHolderProps) => {
+const FileButton = ({ file }: FileButtonProps) => {
     const [hover, setHover] = useState(false)
 
     return (
@@ -51,11 +50,11 @@ const IconHolder = ({ children, name }: IconHolderProps) => {
             }}
             onMouseLeave={() => setHover(false)}
             draggable
-            onDragStart={() => (draggingItem = name)}
+            onDragStart={() => (draggingItem = file)}
             onDragEnd={() => (draggingItem = undefined)}
         >
-            <div>{children}</div>
-            <h6
+            <FileIcon />
+            <div
                 style={{
                     margin: 0,
                     width: "100%",
@@ -65,10 +64,10 @@ const IconHolder = ({ children, name }: IconHolderProps) => {
                     textAlign: "center"
                 }}
             >
-                {name}
-            </h6>
+                {file.name}
+            </div>
         </div>
     )
 }
 
-export default IconHolder
+export default FileButton

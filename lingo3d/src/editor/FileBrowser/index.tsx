@@ -4,8 +4,7 @@ import register from "preact-custom-element"
 import { get, preventTreeShake, set, traverse } from "@lincode/utils"
 import CloseIcon from "./icons/CloseIcon"
 import { useFiles } from "../states"
-import FileIcon from "./icons/FileIcon"
-import IconHolder from "./IconHolder"
+import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem/index"
 import pathMap from "./pathMap"
 
@@ -20,7 +19,6 @@ const FileBrowser = () => {
     const [currentPath, setCurrentPath] = useState("")
 
     const [fileStructure, firstFolderName] = useMemo(() => {
-        //create nested file structure
         const fileStructure: FileStructure = {}
         let firstFolderName = ""
 
@@ -131,12 +129,7 @@ const FileBrowser = () => {
                     }}
                 >
                     {filteredFiles?.map((file) => (
-                        <IconHolder
-                            name={file.name}
-                            path={file.webkitRelativePath}
-                        >
-                            <FileIcon />
-                        </IconHolder>
+                        <FileButton file={file} />
                     ))}
                 </div>
             </div>
