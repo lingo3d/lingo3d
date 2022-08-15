@@ -14,5 +14,5 @@ export const environmentSchema: Required<ExtractProps<IEnvironment>> = {
 
 export const environmentDefaults: Defaults<IEnvironment> = {
     ...eventLoopDefaults,
-    texture: undefined
+    texture: "studio"
 }

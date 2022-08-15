@@ -1,4 +1,4 @@
-import { preventTreeShake } from "@lincode/utils"
+import { forceGet, preventTreeShake } from "@lincode/utils"
 import { h } from "preact"
 import { useState } from "preact/hooks"
 import Model from "../../display/Model"
@@ -10,17 +10,24 @@ import FileIcon from "./icons/FileIcon"
 
 preventTreeShake(h)
 
+const objectURLMap = new WeakMap<File, string>()
+
 let draggingItem: File | undefined
 
 document.addEventListener("drop", (e) => e.preventDefault())
 container.addEventListener("drop", (e) => {
-    if (!draggingItem) return
+    if (!draggingItem?.name.endsWith(".glb")) return
     const manager = new Model()
+
+    manager.src = forceGet(objectURLMap, draggingItem, () =>
+        URL.createObjectURL(draggingItem!)
+    )
+    console.log(manager.src)
+
     manager.outerObject3d.position.copy(
         point2Vec(clientToWorld(e.clientX, e.clientY))
     )
     emitSelectionTarget(manager)
-    console.log(draggingItem)
 })
 
 type FileButtonProps = {
@@ -41,9 +48,7 @@ const FileButton = ({ file }: FileButtonProps) => {
                 cursor: "pointer",
                 width: "70px",
                 height: "80px",
-                background: hover
-                    ? "rgba(255,255,255,0.2)"
-                    : "rgb(40, 41, 46)"
+                background: hover ? "rgba(255,255,255,0.2)" : undefined
             }}
             onMouseEnter={() => {
                 setHover(true)

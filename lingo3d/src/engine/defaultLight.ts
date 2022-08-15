@@ -22,6 +22,7 @@ import scene from "./scene"
 export default {}
 
 const defaultEnvironment = new Environment()
+defaultEnvironment.texture = undefined
 appendableRoot.delete(defaultEnvironment)
 
 const cubeRenderTarget = new WebGLCubeRenderTarget(256)
