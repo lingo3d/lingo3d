@@ -56,9 +56,10 @@ const FileBrowser = () => {
                 style={{
                     width: "100%",
                     height: 25,
-                    background: "rgba(0, 0, 0, 0.5)",
+                    background: "rgba(0, 0, 0)",
                     display: "flex",
-                    position: "fixed"
+                    position: "fixed",
+                    zIndex: 999
                 }}
             >
                 <div
@@ -83,8 +84,6 @@ const FileBrowser = () => {
                     width: "100%",
                     height: "100%",
                     overflow: "scroll",
-                    marginTop: 20,
-                    padding: 10,
                     display: "flex",
                     flexDirection: "row",
                     position: "relative"
@@ -98,7 +97,8 @@ const FileBrowser = () => {
                         background: "rgba(0, 0, 0, 0.2)",
                         position: "sticky",
                         left: 0,
-                        top: 0
+                        top: 0,
+                        marginTop: "25px"
                     }}
                 >
                     <div
@@ -124,7 +124,9 @@ const FileBrowser = () => {
                         display: "flex",
                         flexWrap: "wrap",
                         alignContent: "flex-start",
-                        flex: 1
+                        flex: 1,
+                        marginTop: "25px",
+                        padding: "10px"
                     }}
                 >
                     {filteredFiles?.map((file) => (
