@@ -1,1 +1,1 @@
-export default new WeakMap<any, string>()
+export default new WeakMap<Record<string, any>, string>()

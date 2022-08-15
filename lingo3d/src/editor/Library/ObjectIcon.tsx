@@ -13,6 +13,7 @@ let draggingItem: string | undefined
 
 container.addEventListener("dragover", (e) => e.preventDefault())
 container.addEventListener("dragenter", (e) => e.preventDefault())
+document.addEventListener("drop", (e) => e.preventDefault())
 container.addEventListener("drop", (e) => {
     if (!draggingItem) return
     const manager = createObject(draggingItem as GameObjectType)

@@ -1,15 +1,34 @@
 import { preventTreeShake } from "@lincode/utils"
 import { h } from "preact"
 import { useState } from "preact/hooks"
+import Model from "../../display/Model"
+import clientToWorld from "../../display/utils/clientToWorld"
+import { point2Vec } from "../../display/utils/vec2Point"
+import { container } from "../../engine/renderLoop/renderSetup"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 
 preventTreeShake(h)
 
+let draggingItem: string | undefined
+
+document.addEventListener("drop", (e) => e.preventDefault())
+container.addEventListener("drop", (e) => {
+    if (!draggingItem) return
+    const manager = new Model()
+    manager.outerObject3d.position.copy(
+        point2Vec(clientToWorld(e.clientX, e.clientY))
+    )
+    emitSelectionTarget(manager)
+    console.log(draggingItem)
+})
+
 type IconHolderProps = {
     name: string
+    path: string
     children: JSX.Element
 }
 
-function IconHolder({ children, name }: IconHolderProps) {
+const IconHolder = ({ children, name }: IconHolderProps) => {
     const [hover, setHover] = useState(false)
 
     return (
@@ -31,6 +50,9 @@ function IconHolder({ children, name }: IconHolderProps) {
                 setHover(true)
             }}
             onMouseLeave={() => setHover(false)}
+            draggable
+            onDragStart={() => (draggingItem = name)}
+            onDragEnd={() => (draggingItem = undefined)}
         >
             <div>{children}</div>
             <h6

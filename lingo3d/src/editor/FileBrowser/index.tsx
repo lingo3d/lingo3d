@@ -11,13 +11,17 @@ import pathMap from "./pathMap"
 
 preventTreeShake(h)
 
+interface FileStructure {
+    [key: string]: FileStructure | File
+}
+
 const FileBrowser = () => {
     const [files] = useFiles()
     const [currentPath, setCurrentPath] = useState("")
 
     const [fileStructure, firstFolderName] = useMemo(() => {
         //create nested file structure
-        const fileStructure: any = {}
+        const fileStructure: FileStructure = {}
         let firstFolderName = ""
 
         if (files) {
@@ -38,7 +42,7 @@ const FileBrowser = () => {
     }, [files])
 
     const currentFolder = get(fileStructure, currentPath.split("/"))
-    const filteredFiles: Array<any> | undefined =
+    const filteredFiles: Array<File> | undefined =
         currentFolder &&
         Object.values(currentFolder).filter((item) => item instanceof File)
 
@@ -127,7 +131,10 @@ const FileBrowser = () => {
                     }}
                 >
                     {filteredFiles?.map((file) => (
-                        <IconHolder name={file.name}>
+                        <IconHolder
+                            name={file.name}
+                            path={file.webkitRelativePath}
+                        >
                             <FileIcon />
                         </IconHolder>
                     ))}
