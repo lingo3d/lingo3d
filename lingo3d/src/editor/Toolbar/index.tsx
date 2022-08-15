@@ -35,8 +35,22 @@ import {
 } from "../../states/useEditorMounted"
 import MeshIcon from "./icons/MeshIcon"
 import PathIcon from "./icons/PathIcon"
+import FolderIcon from "./icons/FolderIcon"
+import { directoryOpen } from "browser-fs-access"
+import { setFiles } from "../../states/useFiles"
 
 preventTreeShake(h)
+
+const openFolder = async () => {
+    const blobs = await directoryOpen({
+        recursive: true,
+        startIn: "downloads",
+        id: "lingo3d",
+        skipDirectory: (entry) =>
+            entry.name[0] === "." || entry.name === "node_modules"
+    })
+    setFiles(blobs)
+}
 
 type ButtonOptions = {
     hidden?: boolean
@@ -161,13 +175,13 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                 </Section>
 
                 <Section>
-                    {/* {!buttons?.openFolder?.hidden && (
+                    {!buttons?.openFolder?.hidden && (
                         <IconButton
                             onClick={buttons?.openFolder?.onClick ?? openFolder}
                         >
                             <FolderIcon />
                         </IconButton>
-                    )} */}
+                    )}
                     {!buttons?.openJSON?.hidden && (
                         <IconButton
                             onClick={buttons?.openJSON?.onClick ?? openJSON}
