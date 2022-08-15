@@ -1,106 +1,48 @@
 import { h } from "preact"
-import { useState, useEffect, useRef } from "preact/hooks"
+import { useState, useEffect, useRef, useMemo } from "preact/hooks"
 import register from "preact-custom-element"
-import { preventTreeShake } from "@lincode/utils"
+import { get, preventTreeShake, set, traverse } from "@lincode/utils"
 import CloseIcon from "./icons/CloseIcon"
 import { useFiles } from "../states"
 import FolderIcon from "./icons/FolderIcon"
 import IconHolder from "./IconHolder"
-import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
+import FileTreeItem from "./FileTreeItem"
+import pathMap from "./pathMap"
 
 preventTreeShake(h)
 
 const FileBrowser = () => {
     const [files] = useFiles()
+    const [currentPath, setCurrentPath] = useState("")
 
-    const [relPaths, setRelPaths] = useState<
-        Array<FileWithDirectoryAndFileHandle> | undefined
-    >(undefined)
+    const [fileStructure, firstFolderName] = useMemo(() => {
+        //create nested file structure
+        const fileStructure: any = {}
+        let firstFolderName = ""
 
-    const [currentDirectory, setCurrentDirectory] = useState<
-        string | undefined
-    >(undefined)
-    const [currentDirFiles, setCurrentDirFiles] = useState<any>([])
+        if (files) {
+            for (const file of files)
+                set(fileStructure, file.webkitRelativePath.split("/"), file)
 
-    const elRef = useRef<HTMLDivElement>(null)
+            firstFolderName = Object.keys(fileStructure)[0]
 
-    useEffect(() => {
-        if (!elRef.current) return
-        if (!files) return
+            traverse(fileStructure, (key, child, parent) => {
+                let path = ""
+                if (pathMap.has(parent)) path = pathMap.get(parent) + "/" + key
+                typeof child === "object" && pathMap.set(child, path)
+            })
+        }
+        setCurrentPath(firstFolderName)
 
-        const relPaths = files.map((m) =>
-            m.webkitRelativePath.substring(
-                0,
-                m.webkitRelativePath.lastIndexOf("/")
-            )
-        )
-        const uniqueRelPath = [...new Set(relPaths)].reverse()
-        uniqueRelPath.forEach((f, i) => {
-            uniqueRelPath[i] = f.split("/")
-        })
-
-        var tree = arrangeIntoTree(uniqueRelPath)
-        renderTree(tree)
+        return [fileStructure, firstFolderName]
     }, [files])
 
-    function arrangeIntoTree(paths) {
-        var tree = []
+    const currentFolder = get(fileStructure, currentPath.split("/"))
+    const filteredFiles: Array<any> | undefined =
+        currentFolder &&
+        Object.values(currentFolder).filter((item) => item instanceof File)
 
-        for (var i = 0; i < paths.length; i++) {
-            var path = paths[i]
-            var currentLevel = tree
-            for (var j = 0; j < path.length; j++) {
-                var part = path[j]
-
-                var existingPath = findWhere(currentLevel, "name", part)
-
-                if (existingPath) {
-                    currentLevel = existingPath.children
-                } else {
-                    var newPart = {
-                        name: part,
-                        children: []
-                    }
-
-                    currentLevel.push(newPart)
-                    currentLevel = newPart.children
-                }
-            }
-        }
-        return tree
-    }
-
-    function findWhere(array, key, value) {
-        var t = 0
-        while (t < array.length && array[t][key] !== value) {
-            t++
-        }
-
-        if (t < array.length) {
-            return array[t]
-        } else {
-            return false
-        }
-    }
-
-    function renderTree(tree) {
-        const newTree = tree.forEach((f) => {
-            Object.entries(f).forEach(([k, v]) => {
-                if (k === "name") {
-                    const ul = document.createElement("ul")
-                    const text = document.createTextNode(v)
-                    ul.appendChild(text)
-                    elRef.current.appendChild(ul)
-                }
-
-                if (k === "children" && v.length > 0) {
-                    renderTree(v)
-                }
-            })
-        })
-
-        return newTree
-    }
+    console.log(filteredFiles)
 
     return (
         <div
@@ -161,10 +103,13 @@ const FileBrowser = () => {
                         top: 0
                     }}
                 >
-                    <div
-                        ref={elRef}
-                        style={{ height: "100%", overflowY: "scroll" }}
-                    ></div>
+                    <div style={{ height: "100%", overflowY: "scroll" }}>
+                        <FileTreeItem
+                            fileStructure={fileStructure}
+                            firstFolderName={firstFolderName}
+                            onClick={(path) => setCurrentPath(path)}
+                        />
+                    </div>
                 </div>
                 <div
                     style={{
@@ -173,7 +118,7 @@ const FileBrowser = () => {
                         flex: 1
                     }}
                 >
-                    {currentDirFiles?.map((file) => (
+                    {filteredFiles?.map((file) => (
                         <IconHolder name={file.name}>
                             <FolderIcon />
                         </IconHolder>
