@@ -314,17 +314,21 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.frustumCulled = val
     }
 
+    protected _castShadow?: boolean
     public get castShadow() {
-        return this.outerObject3d.castShadow
+        return this._castShadow ?? true
     }
     public set castShadow(val) {
+        this._castShadow = val
         this.outerObject3d.traverse((child) => (child.castShadow = val))
     }
 
+    protected _receiveShadow?: boolean
     public get receiveShadow() {
-        return this.outerObject3d.receiveShadow
+        return this._receiveShadow ?? true
     }
     public set receiveShadow(val) {
+        this._receiveShadow = val
         this.outerObject3d.traverse((child) => (child.receiveShadow = val))
     }
 

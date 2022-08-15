@@ -31,4 +31,9 @@ export default class Skylight
             )
         )
     }
+
+    public override get castShadow() {
+        return false
+    }
+    public override set castShadow(_) {}
 }

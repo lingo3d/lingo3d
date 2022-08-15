@@ -153,6 +153,7 @@ export default abstract class Loaded<T = Object3D>
         return super.castShadow
     }
     public override set castShadow(val) {
+        this._castShadow = val
         this.cancelHandle("castShadow", () =>
             this.loaded.then(() => {
                 super.castShadow = val
@@ -164,6 +165,7 @@ export default abstract class Loaded<T = Object3D>
         return super.receiveShadow
     }
     public override set receiveShadow(val) {
+        this._receiveShadow = val
         this.cancelHandle("receiveShadow", () =>
             this.loaded.then(() => {
                 super.receiveShadow = val

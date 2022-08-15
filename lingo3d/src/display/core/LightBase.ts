@@ -45,7 +45,7 @@ export default abstract class LightBase<T extends typeof Light>
             this.lightState.set(light as InstanceType<T>)
             group.add(light)
 
-            if (light.shadow) {
+            if (light.shadow && this.castShadowState.get()) {
                 const shadowResolution =
                     this.shadowResolutionState.get() ??
                     getShadowResolution() ??
@@ -70,6 +70,7 @@ export default abstract class LightBase<T extends typeof Light>
                 light.dispose()
             }
         }, [
+            this.castShadowState.get,
             this.shadowResolutionState.get,
             this.shadowBiasState.get,
             getShadowResolution,
@@ -126,6 +127,14 @@ export default abstract class LightBase<T extends typeof Light>
     }
     public set helper(val) {
         this.helperState.set(val)
+    }
+
+    private castShadowState = new Reactive(true)
+    public override get castShadow() {
+        return this.castShadowState.get()
+    }
+    public override set castShadow(val) {
+        this.castShadowState.set(val)
     }
 
     private shadowResolutionState = new Reactive<number | undefined>(undefined)

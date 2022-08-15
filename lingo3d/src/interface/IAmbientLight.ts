@@ -9,5 +9,6 @@ export const ambientLightSchema: Required<ExtractProps<IAmbientLight>> = {
 }
 
 export const ambientLightDefaults: Defaults<IAmbientLight> = {
-    ...lightDefaults
+    ...lightDefaults,
+    castShadow: false
 }

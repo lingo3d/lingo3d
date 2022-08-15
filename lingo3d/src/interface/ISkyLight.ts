@@ -13,5 +13,6 @@ export const skyLightSchema: Required<ExtractProps<ISkyLight>> = {
 
 export const skyLightDefaults: Defaults<ISkyLight> = {
     ...lightBaseDefaults,
-    groundColor: "#ffffff"
+    groundColor: "#ffffff",
+    castShadow: false
 }
