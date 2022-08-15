@@ -31,7 +31,7 @@ import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import deleteSelected from "./deleteSelected"
 import { onKeyClear } from "../../events/onKeyClear"
 import { nonEditorSettings } from "../../api/serializer/types"
-import { setupDefaults } from "../../interface/ISetup"
+import { setupDefaults, setupSchema } from "../../interface/ISetup"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../utils/getComponentName"
@@ -158,7 +158,10 @@ const Editor = () => {
 
         if (!selectionTarget) {
             const [editorParams, editorRest] = splitObject(
-                omit(settings, nonEditorSettings),
+                omit(
+                    getParams(setupSchema, setupDefaults, settings),
+                    nonEditorSettings
+                ),
                 ["gridHelper", "gridHelperSize"]
             )
             addInputs(pane, "editor", settings, setupDefaults, editorParams)

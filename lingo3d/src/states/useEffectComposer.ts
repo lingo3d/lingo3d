@@ -5,7 +5,7 @@ import { WIDTH, HEIGHT } from "../globals"
 import { getRenderer } from "./useRenderer"
 import { getResolution } from "./useResolution"
 import { getAntiAlias } from "./useAntiAlias"
-import { getPixelRatioComputed } from "./usePixelRatioComputed"
+import { getPixelRatio } from "./usePixelRatio"
 
 const [setEffectComposer, getEffectComposer] = store<
     EffectComposer | undefined
@@ -39,5 +39,5 @@ createEffect(() => {
 
     const [w, h] = getResolution()
     effectComposer.setSize(w, h)
-    effectComposer.setPixelRatio(getPixelRatioComputed())
-}, [getEffectComposer, getResolution, getPixelRatioComputed])
+    effectComposer.setPixelRatio(getPixelRatio())
+}, [getEffectComposer, getResolution, getPixelRatio])

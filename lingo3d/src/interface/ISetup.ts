@@ -50,7 +50,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 
 export const setupDefaults: Defaults<ISetup> = {
     ...setupStruct,
-    pixelRatio: new NullableDefault(1),
     shadowDistance: new NullableDefault(2000),
     shadowResolution: new NullableDefault(1024),
     shadowBias: new NullableDefault(SHADOW_BIAS)

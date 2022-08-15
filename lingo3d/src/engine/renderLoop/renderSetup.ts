@@ -9,8 +9,8 @@ import { getSecondaryCamera } from "../../states/useSecondaryCamera"
 import { VRButton } from "./VRButton"
 import { getAutoMount } from "../../states/useAutoMount"
 import { debounce } from "@lincode/utils"
-import { getPixelRatioComputed } from "../../states/usePixelRatioComputed"
 import { getEditorMounted } from "../../states/useEditorMounted"
+import { getPixelRatio } from "../../states/usePixelRatio"
 
 const rootContainer = document.createElement("div")
 Object.assign(rootContainer.style, {
@@ -111,8 +111,8 @@ createEffect(() => {
 
     const [w, h] = getResolution()
     renderer.setSize(w, h)
-    renderer.setPixelRatio(getPixelRatioComputed())
-}, [getRenderer, getResolution, getPixelRatioComputed])
+    renderer.setPixelRatio(getPixelRatio())
+}, [getRenderer, getResolution, getPixelRatio])
 
 createEffect(() => {
     const renderer = getRenderer()

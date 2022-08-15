@@ -16,7 +16,6 @@ import { getBokeh } from "../../../states/useBokeh"
 import bokehPass from "./bokehPass"
 import { getOutline } from "../../../states/useOutline"
 import outlinePass from "./outlinePass"
-import { getPixelRatioComputed } from "../../../states/usePixelRatioComputed"
 import { getAntiAlias } from "../../../states/useAntiAlias"
 import { getRenderer } from "../../../states/useRenderer"
 import smaaPass from "./smaaPass"
@@ -44,10 +43,7 @@ createEffect(() => {
     if (getMotionBlur()) for (const pass of motionBlurPass) passes.push(pass)
 
     const antiAlias = getAntiAlias()
-    if (
-        (antiAlias === "MSAA" && !getRenderer()?.capabilities.isWebGL2) ||
-        antiAlias === "SSAA"
-    )
+    if (antiAlias === "MSAA" && !getRenderer()?.capabilities.isWebGL2)
         passes.push(smaaPass)
 
     for (const pass of passes) effectComposer.addPass(pass)
@@ -63,7 +59,6 @@ createEffect(() => {
     getBokeh,
     getOutline,
     getLensDistortion,
-    getPixelRatioComputed,
     getMotionBlur,
     getAntiAlias,
     getRenderer
