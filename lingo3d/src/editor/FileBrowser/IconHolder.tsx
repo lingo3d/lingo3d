@@ -19,18 +19,32 @@ function IconHolder({ children, name }: IconHolderProps) {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                padding: "10px 12.5px 10px 12.5px",
+                margin: "5px 6px 5px 6px",
                 cursor: "pointer",
-                width: "75px",
+                width: "70px",
+                height: "80px",
                 background: hover
                     ? "linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2))"
                     : "rgb(40, 41, 46)"
             }}
-            onMouseEnter={() => setHover(true)}
+            onMouseEnter={() => {
+                setHover(true)
+            }}
             onMouseLeave={() => setHover(false)}
         >
             <div>{children}</div>
-            <h6 style={{ margin: 0, overflow: "hidden" }}>{name}</h6>
+            <h6
+                style={{
+                    margin: 0,
+                    width: "100%",
+                    height: "20px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    textAlign: "center"
+                }}
+            >
+                {name}
+            </h6>
         </div>
     )
 }

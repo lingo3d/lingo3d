@@ -6,7 +6,7 @@ import CloseIcon from "./icons/CloseIcon"
 import { useFiles } from "../states"
 import FolderIcon from "./icons/FolderIcon"
 import IconHolder from "./IconHolder"
-import FileTreeItem from "./FileTreeItem"
+import FileTreeItem from "./FileTreeItem/index"
 import pathMap from "./pathMap"
 
 preventTreeShake(h)
@@ -41,8 +41,6 @@ const FileBrowser = () => {
     const filteredFiles: Array<any> | undefined =
         currentFolder &&
         Object.values(currentFolder).filter((item) => item instanceof File)
-
-    console.log(filteredFiles)
 
     return (
         <div
@@ -94,7 +92,8 @@ const FileBrowser = () => {
             >
                 <div
                     style={{
-                        width: "auto",
+                        width: "180px",
+                        overflowX: "scroll",
                         height: "100%",
                         background: "rgba(0, 0, 0, 0.2)",
                         position: "sticky",
@@ -103,19 +102,28 @@ const FileBrowser = () => {
                         top: 0
                     }}
                 >
-                    <div style={{ height: "100%", overflowY: "scroll" }}>
+                    <div
+                        style={{
+                            height: "100%",
+                            width: "100%",
+                            overflowY: "scroll",
+                            padding: "10px"
+                        }}
+                    >
                         <FileTreeItem
                             fileStructure={fileStructure}
                             firstFolderName={firstFolderName}
-                            onClick={(path) => setCurrentPath(path)}
+                            currentPath={currentPath}
+                            onClick={(path) => {
+                                setCurrentPath(path)
+                            }}
                         />
                     </div>
                 </div>
                 <div
                     style={{
                         display: "flex",
-                        flexWrap: "wrap",
-                        flex: 1
+                        flexWrap: "wrap"
                     }}
                 >
                     {filteredFiles?.map((file) => (
