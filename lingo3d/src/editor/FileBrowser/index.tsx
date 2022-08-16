@@ -39,10 +39,15 @@ const FileBrowser = () => {
         return [fileStructure, firstFolderName]
     }, [files])
 
-    const currentFolder = get(fileStructure, currentPath.split("/"))
-    const filteredFiles: Array<File> | undefined =
-        currentFolder &&
-        Object.values(currentFolder).filter((item) => item instanceof File)
+    const filteredFiles = useMemo(() => {
+        const currentFolder = get(fileStructure, currentPath.split("/"))
+        const filteredFiles: Array<File> | undefined =
+            currentFolder &&
+            Object.values(currentFolder).filter(
+                (item) => item instanceof File && item.name[0] !== "."
+            )
+        return filteredFiles
+    }, [fileStructure, currentPath])
 
     return (
         <div
