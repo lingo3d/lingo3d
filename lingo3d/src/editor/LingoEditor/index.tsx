@@ -37,8 +37,8 @@ const LingoEditor = () => {
             <div>
                 <div
                     style={{
-                        height: "calc(100% - 200px)"
-                        // height: "100%"
+                        // height: "calc(100% - 200px)"
+                        height: "100%"
                     }}
                 >
                     <SceneGraph />
@@ -46,7 +46,7 @@ const LingoEditor = () => {
                     <NodeEditor />
                     <Library />
                 </div>
-                <FileBrowser />
+                {/* <FileBrowser /> */}
             </div>
             <HUD />
             <div

@@ -45,7 +45,6 @@ const FileButton = ({ file }: FileButtonProps) => {
                 justifyContent: "center",
                 alignItems: "center",
                 margin: "5px 6px 5px 6px",
-                cursor: "pointer",
                 width: "70px",
                 height: "80px",
                 background: hover ? "rgba(255,255,255,0.2)" : undefined

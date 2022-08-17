@@ -55,18 +55,18 @@ const FileBrowser = () => {
             style={{
                 height: 200,
                 width: "100%",
-                maxWidth: "700px",
-                overflow: "hidden"
+                display: "grid",
+                gridTemplateColumns: "200px 1fr",
+                gridTemplateRows: "25px 1fr",
+                gridColumnGap: "0px",
+                gridRowGap: "0px"
             }}
         >
             <div
                 style={{
-                    width: "100%",
-                    height: 25,
+                    gridArea: "1 / 1 / 2 / 3",
                     background: "rgba(0, 0, 0, 0.5)",
-                    display: "flex",
-                    position: "fixed",
-                    zIndex: 999
+                    display: "flex"
                 }}
             >
                 <div
@@ -86,53 +86,25 @@ const FileBrowser = () => {
                     </div>
                 </div>
             </div>
-            <div
-                style={{
-                    width: "100%",
-                    height: "calc(100% - 25px)",
-                    marginTop: "25px",
-                    overflow: "scroll",
-                    display: "flex",
-                    flexDirection: "row",
-                    position: "relative"
-                }}
-            >
-                <div
-                    style={{
-                        width: "180px",
-                        overflowX: "scroll",
-                        height: "100%",
-                        background: "rgba(0, 0, 0, 0.2)",
-                        position: "sticky",
-                        left: 0,
-                        top: 0
+            <div style={{ gridArea: "2 / 1 / 3 / 2", overflow: "scroll" }}>
+                <FileTreeItem
+                    fileStructure={fileStructure}
+                    firstFolderName={firstFolderName}
+                    currentPath={currentPath}
+                    onClick={(path) => {
+                        setCurrentPath(path)
                     }}
-                >
-                    <div
-                        style={{
-                            height: "100%",
-                            width: "100%",
-                            overflowY: "scroll",
-                            padding: "10px"
-                        }}
-                    >
-                        <FileTreeItem
-                            fileStructure={fileStructure}
-                            firstFolderName={firstFolderName}
-                            currentPath={currentPath}
-                            onClick={(path) => {
-                                setCurrentPath(path)
-                            }}
-                        />
-                    </div>
-                </div>
+                />
+            </div>
+            <div style={{ gridArea: "2 / 2 / 3 / 3" }}>
                 <div
                     style={{
+                        width: "100%",
+                        height: "100%",
+                        overflow: "scroll",
                         display: "flex",
                         flexWrap: "wrap",
-                        alignContent: "flex-start",
-                        flex: 1,
-                        padding: "10px"
+                        position: "absolute"
                     }}
                 >
                     {filteredFiles?.map((file) => (

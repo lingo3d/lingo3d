@@ -4,8 +4,8 @@ import {
     Model,
     ThirdPersonCamera,
     settings,
-    DirectionalLight,
-    Sphere
+    Sphere,
+    OrbitCamera
 } from ".."
 import { YBOT_URL } from "../globals"
 
@@ -40,19 +40,19 @@ player.placeAt(spawn)
 const cam = new ThirdPersonCamera()
 cam.append(player)
 cam.transition = true
-cam.mouseControl = true
+cam.mouseControl = "drag"
 cam.innerZ = 2000
 cam.fov = 45
 cam.lockTargetRotation = "dynamic-lock"
 cam.active = true
 
 keyboard.onKeyPress = (_, key) => {
-    if (key.has("w")) player.strideForward = -10
-    else if (key.has("s")) player.strideForward = 10
+    if (key.has("w")) player.strideForward = -50
+    else if (key.has("s")) player.strideForward = 50
     else player.strideForward = 0
 
-    if (key.has("a")) player.strideRight = 10
-    else if (key.has("d")) player.strideRight = -10
+    if (key.has("a")) player.strideRight = 50
+    else if (key.has("d")) player.strideRight = -50
     else player.strideRight = 0
 }
 
@@ -66,3 +66,15 @@ settings.centripetal = true
 
 const box = new Model()
 box.src = "mofang.fbx"
+box.x = -2833.07
+box.y=-135.73
+box.z=4146.37
+
+const orbitCam = new OrbitCamera()
+orbitCam.append(box)
+orbitCam.transition = true
+
+box.onClick = () => {
+    orbitCam.active = !orbitCam.active
+    console.log(orbitCam.active)
+}

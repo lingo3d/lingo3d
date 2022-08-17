@@ -1,9 +1,16 @@
-import { settings, Model } from ".."
+import Model from "../display/Model"
 
 export default {}
 
-settings.defaultLight = "studio"
-
 const model = new Model()
-model.src = "map.glb"
-model.scale = 150
+model.src = "gfxcard.glb"
+
+model.loaded.then(loaded => {
+    loaded.traverse((child) => {
+        //@ts-ignore
+        const { material } = child
+        if (!material) return
+
+        material.transparent = false
+    })
+})
