@@ -113,7 +113,9 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         return result
     }
 
-    public findAll(name?: string | RegExp): Array<FoundManager> {
+    public findAll(
+        name?: string | RegExp | ((name: string) => boolean)
+    ): Array<FoundManager> {
         const result: Array<FoundManager> = []
         if (name === undefined)
             this.outerObject3d.traverse((child) => {
@@ -124,6 +126,13 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         else if (typeof name === "string")
             this.outerObject3d.traverse((child) => {
                 child.name === name &&
+                    result.push(
+                        (child.userData.manager ??= new FoundManager(child))
+                    )
+            })
+        else if (typeof name === "function")
+            this.outerObject3d.traverse((child) => {
+                name(child.name) &&
                     result.push(
                         (child.userData.manager ??= new FoundManager(child))
                     )

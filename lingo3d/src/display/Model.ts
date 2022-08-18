@@ -125,7 +125,9 @@ export default class Model extends Loaded<Group> implements IModel {
         return child
     }
 
-    public override findAll(name?: string | RegExp): Array<FoundManager> {
+    public override findAll(
+        name?: string | RegExp | ((name: string) => boolean)
+    ): Array<FoundManager> {
         const children = super.findAll(name)
         for (const child of children) child.model = this
 
