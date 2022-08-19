@@ -3,6 +3,7 @@ import loadCannon from "./cannon/loadCannon"
 import { cannonSet } from "./cannon/cannonLoop"
 import scene from "../../../engine/scene"
 import PhysicsObjectManager from "."
+import PhysicsUpdate from "./PhysicsUpdate"
 
 const physicsGroups = <const>[1, 2, 4, 8, 16, 32]
 const physicsGroupIndexes = <const>[0, 1, 2, 3, 4, 5]
@@ -42,7 +43,8 @@ export default async function (
     body.position.copy(this.outerObject3d.position as any)
     body.quaternion.copy(this.outerObject3d.quaternion as any)
 
-    this.physicsUpdate = {}
+    this.rotationUpdate = new PhysicsUpdate()
+    this.positionUpdate = new PhysicsUpdate()
     world.addBody(body)
     cannonSet.add(this)
 
@@ -50,6 +52,7 @@ export default async function (
         world.removeBody(body)
         cannonSet.delete(this)
         this.cannonBody = undefined
-        this.physicsUpdate = undefined
+        this.rotationUpdate = undefined
+        this.positionUpdate = undefined
     })
 }

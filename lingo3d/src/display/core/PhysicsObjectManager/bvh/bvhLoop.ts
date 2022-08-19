@@ -64,14 +64,11 @@ createEffect(
                             ? 0
                             : delta * -gravity
 
-                const { position } = characterManager.physicsUpdate!
-                characterManager.physicsUpdate = {}
-
-                if (position) {
-                    position.x && (playerVelocity.x = 0)
-                    position.y && (playerVelocity.y = 0)
-                    position.z && (playerVelocity.z = 0)
-                }
+                const updatePosition = characterManager.positionUpdate!
+                updatePosition.x && (playerVelocity.x = 0)
+                updatePosition.y && (playerVelocity.y = 0)
+                updatePosition.z && (playerVelocity.z = 0)
+                updatePosition.reset()
 
                 player.position.addScaledVector(playerVelocity, delta)
                 player.updateMatrixWorld()

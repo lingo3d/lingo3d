@@ -15,6 +15,7 @@ import bvhContactMap from "./bvh/bvhContactMap"
 import { cannonContactBodies, cannonContactMap } from "./cannon/cannonLoop"
 import MeshItem from "../MeshItem"
 import characterCameraPlaced from "../CharacterCamera/characterCameraPlaced"
+import PhysicsUpdate from "./PhysicsUpdate"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -66,31 +67,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.getMV().z = val
     }
 
-    protected physicsUpdate?: {
-        position?: { x?: boolean; y?: boolean; z?: boolean }
-        rotation?: { x?: boolean; y?: boolean; z?: boolean }
-    }
-    protected physicsRotate() {
-        if (!this.physicsUpdate) return
-        const rotation = (this.physicsUpdate.rotation ??= {})
-        rotation.x = true
-        rotation.y = true
-        rotation.z = true
-    }
-    protected physicsMove() {
-        if (!this.physicsUpdate) return
-        const position = (this.physicsUpdate.position ??= {})
-        position.x = true
-        position.y = true
-        position.z = true
-    }
-    protected physicsMoveXZ() {
-        if (!this.physicsUpdate) return
-        const position = (this.physicsUpdate.position ??= {})
-        position.x = true
-        position.z = true
-    }
-
     protected cannonBody?: Body
 
     public applyForce(x: number, y: number, z: number) {
@@ -125,8 +101,11 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         else if (this.cannonBody) Object.assign(this.cannonBody.velocity, val)
     }
 
+    protected positionUpdate?: PhysicsUpdate
+    protected rotationUpdate?: PhysicsUpdate
+
     private refreshCannon() {
-        this.physicsUpdate && (this.physics = this._physics ?? false)
+        this.positionUpdate && (this.physics = this._physics ?? false)
     }
 
     protected _noTumble?: boolean
@@ -286,7 +265,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set x(val) {
         super.x = val
-        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).x = true)
+        this.positionUpdate?.updateX()
     }
 
     public override get y() {
@@ -294,7 +273,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set y(val) {
         super.y = val
-        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).y = true)
+        this.positionUpdate?.updateY()
     }
 
     public override get z() {
@@ -302,7 +281,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set z(val) {
         super.z = val
-        this.physicsUpdate && ((this.physicsUpdate.position ??= {}).z = true)
+        this.positionUpdate?.updateZ()
     }
 
     public override get rotationX() {
@@ -310,7 +289,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set rotationX(val) {
         super.rotationX = val
-        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).x = true)
+        this.rotationUpdate?.updateX()
     }
 
     public override get rotationY() {
@@ -318,7 +297,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set rotationY(val) {
         super.rotationY = val
-        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).y = true)
+        this.rotationUpdate?.updateY()
     }
 
     public override get rotationZ() {
@@ -326,25 +305,25 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set rotationZ(val) {
         super.rotationZ = val
-        this.physicsUpdate && ((this.physicsUpdate.rotation ??= {}).z = true)
+        this.rotationUpdate?.updateZ()
     }
 
     public override lookAt(target: MeshItem | Point3d): void
     public override lookAt(x: number, y: number | undefined, z: number): void
     public override lookAt(a0: any, a1?: any, a2?: any) {
         super.lookAt(a0, a1, a2)
-        this.physicsRotate()
+        this.rotationUpdate?.updateXYZ()
     }
 
     public override placeAt(object: MeshItem | Point3d) {
         super.placeAt(object)
-        this.physicsMove()
-        this.physicsRotate()
+        this.positionUpdate?.updateXYZ()
+        this.rotationUpdate?.updateXYZ()
         characterCameraPlaced.add(this)
     }
 
     public override lerpTo(x: number, y: number, z: number, alpha: number) {
-        super.lerpTo(x, y, z, alpha, () => this.physicsMove())
+        super.lerpTo(x, y, z, alpha, () => this.positionUpdate?.updateXYZ())
     }
 
     public override moveTo(
@@ -354,7 +333,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         speed: number
     ) {
         super.moveTo(x, y, z, speed, (y) =>
-            y === undefined ? this.physicsMoveXZ() : this.physicsMove()
+            y === undefined
+                ? this.positionUpdate?.updateXZ()
+                : this.positionUpdate?.updateXYZ()
         )
     }
 }

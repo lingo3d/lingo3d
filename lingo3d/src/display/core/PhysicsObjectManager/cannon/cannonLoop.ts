@@ -53,44 +53,44 @@ createEffect(
                     else if (velocity.z < -z) velocity.z = -z
                 }
 
-                const { position, rotation } = item.physicsUpdate!
-                item.physicsUpdate = {}
-
-                if (position) {
-                    if (position.x) {
-                        body.position.x = item.outerObject3d.position.x
-                        body.velocity.x = 0
-                        body.force.x = 0
-                    }
-                    if (position.y) {
-                        body.position.y = item.outerObject3d.position.y
-                        body.velocity.y = 0
-                        body.force.y = 0
-                    }
-                    if (position.z) {
-                        body.position.z = item.outerObject3d.position.z
-                        body.velocity.z = 0
-                        body.force.z = 0
-                    }
+                const updatePosition = item.positionUpdate!
+                if (updatePosition.x) {
+                    body.position.x = item.outerObject3d.position.x
+                    body.velocity.x = 0
+                    body.force.x = 0
                 }
+                if (updatePosition.y) {
+                    body.position.y = item.outerObject3d.position.y
+                    body.velocity.y = 0
+                    body.force.y = 0
+                }
+                if (updatePosition.z) {
+                    body.position.z = item.outerObject3d.position.z
+                    body.velocity.z = 0
+                    body.force.z = 0
+                }
+                updatePosition.reset()
                 item.outerObject3d.position.copy(body.position as any)
 
-                if (rotation) {
-                    if (rotation.x) {
+                const updateRotation = item.rotationUpdate!
+                if (updateRotation) {
+                    if (updateRotation.x) {
                         body.angularVelocity.x = 0
                         body.torque.x = 0
                     }
-                    if (rotation.y) {
+                    if (updateRotation.y) {
                         body.angularVelocity.y = 0
                         body.torque.y = 0
                     }
-                    if (rotation.z) {
+                    if (updateRotation.z) {
                         body.angularVelocity.z = 0
                         body.torque.z = 0
                     }
                     body.quaternion.copy(item.outerObject3d.quaternion as any)
                 } else
                     item.outerObject3d.quaternion.copy(body.quaternion as any)
+
+                updateRotation.reset
             }
             world.step(dt)
 

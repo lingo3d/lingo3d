@@ -6,6 +6,7 @@ import getActualScale from "../../utils/getActualScale"
 import ObjectManager from "../ObjectManager"
 import { bvhCharacterSet } from "./bvh/bvhCharacterSet"
 import "./bvh/bvhLoop"
+import PhysicsUpdate from "./PhysicsUpdate"
 
 export default function (this: PhysicsObjectManager, handle: Cancellable) {
     if (handle.done) return
@@ -15,7 +16,8 @@ export default function (this: PhysicsObjectManager, handle: Cancellable) {
     if (this instanceof ObjectManager)
         this.width = this.depth = Math.min(this.width, this.depth)
 
-    this.physicsUpdate = {}
+    this.rotationUpdate = new PhysicsUpdate()
+    this.positionUpdate = new PhysicsUpdate()
     const actualScale = getActualScale(this).multiplyScalar(0.5)
     this.bvhHalfHeight = Math.max(actualScale.y, 0.5)
     this.bvhRadius = Math.max(actualScale.x, 0.5)
@@ -24,6 +26,7 @@ export default function (this: PhysicsObjectManager, handle: Cancellable) {
     bvhCharacterSet.add(this)
     handle.then(() => {
         bvhCharacterSet.delete(this)
-        this.physicsUpdate = undefined
+        this.rotationUpdate = undefined
+        this.positionUpdate = undefined
     })
 }

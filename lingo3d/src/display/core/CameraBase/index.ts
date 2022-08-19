@@ -246,7 +246,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
         )
 
         manager.setRotationFromEuler(euler)
-        !inner && this.physicsRotate()
+        !inner && this.rotationUpdate?.updateXYZ()
     }
 
     private gyrateHandle?: Cancellable
