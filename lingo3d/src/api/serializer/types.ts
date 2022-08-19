@@ -7,6 +7,7 @@ import ISvgMesh from "../../interface/ISvgMesh"
 import IReflector from "../../interface/IReflector"
 import ISprite from "../../interface/ISprite"
 import ITrigger from "../../interface/ITrigger"
+import ISpawnPoint from "../../interface/ISpawnPoint"
 import IAudio from "../../interface/IAudio"
 import ICamera from "../../interface/ICamera"
 import IAmbientLight from "../../interface/IAmbientLight"
@@ -30,6 +31,7 @@ export type GameObjectType =
     | "reflector"
     | "sprite"
     | "trigger"
+    | "spawnPoint"
     | "audio"
     | "ambientLight"
     | "areaLight"
@@ -111,6 +113,8 @@ export type SpriteNode = TypedPropsNode<ISprite, "sprite">
 
 export type TriggerNode = TypedPropsNode<ITrigger, "trigger">
 
+export type SpawnPointNode = TypedPropsNode<ISpawnPoint, "spawnPoint">
+
 export type AudioNode = TypedPropsNode<IAudio, "audio">
 
 export type CameraNode = TypedPropsNode<ICamera, "camera">
@@ -164,6 +168,7 @@ export type BaseSceneGraphNode =
     | ReflectorNode
     | SpriteNode
     | TriggerNode
+    | SpawnPointNode
     | AudioNode
     | CameraNode
     | AmbientLightNode

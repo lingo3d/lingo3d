@@ -141,9 +141,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
 
         this.createEffect(() => {
             const { _radius, _helper, _pad } = this
-            if (!_helper) return
-
-            if (getCameraRendered() !== mainCamera) return
+            if (!_helper || getCameraRendered() !== mainCamera) return
 
             const h = (helper = _pad ? new Cylinder() : new Sphere())
             appendableRoot.delete(h)

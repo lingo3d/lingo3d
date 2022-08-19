@@ -32,6 +32,7 @@ import Skybox from "../../display/Skybox"
 import Environment from "../../display/Environment"
 import Setup from "../../display/Setup"
 import Trigger from "../../display/Trigger"
+import SpawnPoint from "../../display/SpawnPoint"
 import Audio from "../../display/Audio"
 
 const record = type<Record<GameObjectType, () => ObjectManager>>({
@@ -44,6 +45,7 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     reflector: () => new Reflector(),
     sprite: () => new Sprite(),
     trigger: () => new Trigger() as any,
+    spawnPoint: () => new SpawnPoint() as any,
     audio: () => new Audio() as any,
     camera: () => new Camera(),
     thirdPersonCamera: () => new ThirdPersonCamera(),

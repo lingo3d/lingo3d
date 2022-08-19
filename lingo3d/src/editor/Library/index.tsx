@@ -43,6 +43,7 @@ const Library = () => {
                     "svgMesh",
                     { sprite: "plane" },
                     "trigger",
+                    { spawnPoint: "cynlinder" },
                     "audio",
                     "reflector",
                     "cube",
