@@ -58,19 +58,19 @@ export default class SpawnPoint extends PositionedItem implements ISpawnPoint {
             }
         }, [this.helperState.get, getCameraRendered])
 
-        this.queueMicrotask(() => this.update())
+        this.queueMicrotask(() => this.updateCentripetal())
 
         this.createEffect(() => {
             if (!getCentripetal()) return
 
-            const handle = onTransformControls(() => this.update())
+            const handle = onTransformControls(() => this.updateCentripetal())
             return () => {
                 handle.cancel()
             }
         }, [getCentripetal])
     }
 
-    private update() {
+    private updateCentripetal() {
         const dir = getWorldPosition(this.outerObject3d).normalize()
         dirObj.lookAt(dir)
         dirObj.rotateX(halfPi)
