@@ -22,7 +22,9 @@ const props = defineProps({
   ...foundProps,
   name: {
     required: true,
-    type: [String, RegExp]
+    type: [String, RegExp, Function] as PropType<
+      string | RegExp | ((name: string) => boolean)
+    >
   },
   onLoad: Function as PropType<(found: Array<FoundManager>) => void>
 })
@@ -34,22 +36,8 @@ const parentRef = inject<Ref<ObjectManager | Loaded> | undefined>(
 const managerRef = ref<Array<FoundManager>>()
 provide("parent", managerRef)
 
-let nameOld = toRaw(props.name)
-const _name = computed(() => {
-  const name = toRaw(props.name)
-  if (
-    typeof name !== "string" &&
-    typeof nameOld !== "string" &&
-    name.toString() === nameOld.toString()
-  )
-    return nameOld
-
-  nameOld = name
-  return name
-})
-
 watchEffect((onCleanUp) => {
-  const name = toRaw(_name.value)
+  const name = toRaw(props.name)
   const parent = toRaw(parentRef?.value)
   if (!parent || !name) return
 
