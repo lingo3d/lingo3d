@@ -237,13 +237,24 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.translateZ(val * scaleDown)
     }
 
-    public placeAt(object: MeshItem | Point3d) {
+    public placeAt(object: MeshItem | Point3d | string) {
+        if (typeof object === "string") {
+            const [found] = idMap.get(object) ?? [undefined]
+            if (!found) return
+            this.outerObject3d.position.copy(getCenter(found.nativeObject3d))
+            this.outerObject3d.quaternion.copy(
+                getWorldQuaternion(found.outerObject3d)
+            )
+            return
+        }
         if ("outerObject3d" in object) {
             this.outerObject3d.position.copy(getCenter(object.nativeObject3d))
             this.outerObject3d.quaternion.copy(
                 getWorldQuaternion(object.outerObject3d)
             )
-        } else this.outerObject3d.position.copy(point2Vec(object))
+            return
+        }
+        this.outerObject3d.position.copy(point2Vec(object))
     }
 
     public moveForward(distance: number) {

@@ -15,6 +15,7 @@ import Reresolvable from "./utils/Reresolvable"
 import { Cancellable } from "@lincode/promiselikes"
 import toResolvable from "../utils/toResolvable"
 import MeshItem from "./MeshItem"
+import { Point3d } from "@lincode/math"
 
 export default abstract class Loaded<T = Object3D>
     extends ObjectManager<Mesh>
@@ -263,6 +264,12 @@ export default abstract class Loaded<T = Object3D>
     protected override refreshFactors() {
         this.cancelHandle("refreshFactorsLoaded", () =>
             this.loaded.then(() => void super.refreshFactors())
+        )
+    }
+
+    public override placeAt(object: MeshItem | Point3d | string) {
+        this.cancelHandle("placeAt", () =>
+            this.loaded.then(() => void super.placeAt(object))
         )
     }
 }

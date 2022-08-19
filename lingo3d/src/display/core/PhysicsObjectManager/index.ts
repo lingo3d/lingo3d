@@ -315,7 +315,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.rotationUpdate?.updateXYZ()
     }
 
-    public override placeAt(object: MeshItem | Point3d) {
+    public override placeAt(object: MeshItem | Point3d | string) {
         super.placeAt(object)
         this.positionUpdate?.updateXYZ()
         this.rotationUpdate?.updateXYZ()

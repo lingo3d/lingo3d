@@ -81,7 +81,8 @@ box.onClick = () => {
 }
 
 const spawnPoint = new SpawnPoint()
+spawnPoint.id = "spawn"
 const test = new Dummy()
 test.onLoop = () => {
-    test.placeAt(spawnPoint)
+    test.placeAt("spawn")
 }
