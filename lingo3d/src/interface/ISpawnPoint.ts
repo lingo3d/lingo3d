@@ -1,20 +1,17 @@
-import IPositioned, {
-    positionedDefaults,
-    positionedSchema
-} from "./IPositioned"
+import IObjectManager, { objectManagerDefaults, objectManagerSchema } from "./IObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface ISpawnPoint extends IPositioned {
+export default interface ISpawnPoint extends IObjectManager {
     helper: boolean
 }
 
 export const spawnPointSchema: Required<ExtractProps<ISpawnPoint>> = {
-    ...positionedSchema,
+    ...objectManagerSchema,
     helper: Boolean
 }
 
 export const spawnPointDefaults: Defaults<ISpawnPoint> = {
-    ...positionedDefaults,
+    ...objectManagerDefaults,
     helper: true
 }

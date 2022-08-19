@@ -8,12 +8,15 @@ const cache = new WeakMap<Object3D, Vector3>()
 export default (object: Object3D) => {
     if (cache.has(object)) return cache.get(object)!.clone()
 
-    const result =
-        object instanceof Bone
-            ? getWorldPosition(object)
-            : (object.updateWorldMatrix(true, false),
-              box3.setFromObject(object).getCenter(new Vector3()))
-
+    let result: Vector3
+    if (object instanceof Bone) {
+        result = getWorldPosition(object)
+    } else {
+        object.updateWorldMatrix(true, false)
+        box3.setFromObject(object)
+        if (box3.isEmpty()) result = getWorldPosition(object)
+        else result = box3.getCenter(new Vector3())
+    }
     cache.set(object, result.clone())
     onAfterRender(() => cache.delete(object), true)
 

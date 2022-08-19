@@ -2,13 +2,11 @@ import { Reactive } from "@lincode/reactivity"
 import { Object3D } from "three"
 import Cylinder from "./primitives/Cylinder"
 import mainCamera from "../engine/mainCamera"
-import scene from "../engine/scene"
 import {
     emitSelectionTarget,
     onSelectionTarget
 } from "../events/onSelectionTarget"
 import { appendableRoot } from "../api/core/Appendable"
-import PositionedItem from "../api/core/PositionedItem"
 import { getCameraRendered } from "../states/useCameraRendered"
 import ISpawnPoint, {
     spawnPointDefaults,
@@ -18,10 +16,11 @@ import { halfPi } from "./utils/reusables"
 import { getCentripetal } from "../states/useCentripetal"
 import getWorldPosition from "./utils/getWorldPosition"
 import { onTransformControls } from "../events/onTransformControls"
+import ObjectManager from "./core/ObjectManager"
 
 const dirObj = new Object3D()
 
-export default class SpawnPoint extends PositionedItem implements ISpawnPoint {
+export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
     public static componentName = "spawnPoint"
     public static defaults = spawnPointDefaults
     public static schema = spawnPointSchema
@@ -35,9 +34,7 @@ export default class SpawnPoint extends PositionedItem implements ISpawnPoint {
     }
 
     public constructor() {
-        const outerObject3d = new Object3D()
-        super(outerObject3d)
-        scene.add(outerObject3d)
+        super()
 
         this.createEffect(() => {
             if (!this.helperState.get() || getCameraRendered() !== mainCamera)
@@ -45,7 +42,7 @@ export default class SpawnPoint extends PositionedItem implements ISpawnPoint {
 
             const h = new Cylinder()
             appendableRoot.delete(h)
-            outerObject3d.add(h.outerObject3d)
+            this.outerObject3d.add(h.outerObject3d)
             h.opacity = 0.5
             h.height = 10
 
