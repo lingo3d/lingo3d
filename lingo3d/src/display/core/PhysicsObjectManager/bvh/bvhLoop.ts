@@ -34,7 +34,7 @@ createEffect(
         const repulsion = getRepulsion()
         const delta = 0.02
 
-        const center = getCentripetal() ? vector3_0 : undefined
+        const centripetal = getCentripetal()
 
         const handle = onBeforeRender(() => {
             bvhContactMap.clear()
@@ -43,12 +43,13 @@ createEffect(
                 const playerVelocity = characterManager.bvhVelocity!
                 const player = characterManager.outerObject3d
                 const capsuleHalfHeight = characterManager.bvhHalfHeight!
-                const capsuleRadius = center
+                const capsuleRadius = centripetal
                     ? capsuleHalfHeight
                     : characterManager.bvhRadius!
 
-                const dir = (characterManager.bvhDir =
-                    center && getWorldPosition(player).sub(center).normalize())
+                const dir = (characterManager.bvhDir = centripetal
+                    ? getWorldPosition(player).normalize()
+                    : undefined)
 
                 if (dir) {
                     playerVelocity.add(

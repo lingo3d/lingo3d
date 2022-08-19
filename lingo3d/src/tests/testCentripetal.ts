@@ -5,7 +5,8 @@ import {
     ThirdPersonCamera,
     settings,
     Sphere,
-    OrbitCamera
+    OrbitCamera,
+    SpawnPoint
 } from ".."
 import { YBOT_URL } from "../globals"
 
@@ -77,4 +78,10 @@ orbitCam.transition = true
 box.onClick = () => {
     orbitCam.active = !orbitCam.active
     console.log(orbitCam.active)
+}
+
+const spawnPoint = new SpawnPoint()
+const test = new Dummy()
+test.onLoop = () => {
+    test.placeAt(spawnPoint)
 }
