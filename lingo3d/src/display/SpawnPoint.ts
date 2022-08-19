@@ -14,10 +14,10 @@ import ISpawnPoint, {
     spawnPointDefaults,
     spawnPointSchema
 } from "../interface/ISpawnPoint"
-import { halfPi, vector3_0 } from "./utils/reusables"
+import { halfPi } from "./utils/reusables"
 import { getCentripetal } from "../states/useCentripetal"
-import { onBeforeRender } from "../events/onBeforeRender"
 import getWorldPosition from "./utils/getWorldPosition"
+import { onTransformControls } from "../events/onTransformControls"
 
 const dirObj = new Object3D()
 
@@ -52,26 +52,29 @@ export default class SpawnPoint extends PositionedItem implements ISpawnPoint {
             const handle = onSelectionTarget(
                 ({ target }) => target === h && emitSelectionTarget(this)
             )
-
             return () => {
                 h.dispose()
                 handle.cancel()
             }
         }, [this.helperState.get, getCameraRendered])
 
+        this.queueMicrotask(() => this.update())
+
         this.createEffect(() => {
             if (!getCentripetal()) return
 
-            const handle = onBeforeRender(() => {
-                const dir = getWorldPosition(this.outerObject3d).normalize()
-                dirObj.lookAt(dir)
-                dirObj.rotateX(halfPi)
-                const quat = dirObj.quaternion
-                this.outerObject3d.quaternion.copy(quat)
-            })
+            const handle = onTransformControls(() => this.update())
             return () => {
                 handle.cancel()
             }
         }, [getCentripetal])
+    }
+
+    private update() {
+        const dir = getWorldPosition(this.outerObject3d).normalize()
+        dirObj.lookAt(dir)
+        dirObj.rotateX(halfPi)
+        const quat = dirObj.quaternion
+        this.outerObject3d.quaternion.copy(quat)
     }
 }
