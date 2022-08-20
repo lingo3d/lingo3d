@@ -47,6 +47,7 @@ export { default as Environment } from "./components/display/Environment"
 export { default as Setup } from "./components/display/Setup"
 export { default as Sprite } from "./components/display/Sprite"
 export { default as Trigger } from "./components/display/Trigger"
+export { default as SpawnPoint } from "./components/display/SpawnPoint"
 export { default as Audio } from "./components/display/Audio"
 
 export { default as Camera } from "./components/display/cameras/Camera"

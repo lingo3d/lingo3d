@@ -241,11 +241,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         if (typeof object === "string") {
             const [found] = idMap.get(object) ?? [undefined]
             if (!found) return
-            this.outerObject3d.position.copy(getCenter(found.nativeObject3d))
-            this.outerObject3d.quaternion.copy(
-                getWorldQuaternion(found.outerObject3d)
-            )
-            return
+            object = found
         }
         if ("outerObject3d" in object) {
             this.outerObject3d.position.copy(getCenter(object.nativeObject3d))

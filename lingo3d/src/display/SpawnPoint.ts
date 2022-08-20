@@ -17,6 +17,7 @@ import { getCentripetal } from "../states/useCentripetal"
 import getWorldPosition from "./utils/getWorldPosition"
 import { onTransformControls } from "../events/onTransformControls"
 import ObjectManager from "./core/ObjectManager"
+import SimpleObjectManager from "./core/SimpleObjectManager"
 
 const dirObj = new Object3D()
 
@@ -73,5 +74,11 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
         dirObj.rotateX(halfPi)
         const quat = dirObj.quaternion
         this.outerObject3d.quaternion.copy(quat)
+    }
+
+    public override append(child: SimpleObjectManager) {
+        this._append(child)
+        //todo: scene.add(child)
+        child.placeAt(this)
     }
 }

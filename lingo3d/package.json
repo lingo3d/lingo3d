@@ -1,65 +1,65 @@
 {
-	"name": "lingo3d",
-	"version": "1.19.7",
-	"description": "Lingo3D is a React/Vue 3d game development framework that ships with a complete visual editor",
-	"repository": "https://github.com/lingo3d/lingo3d",
-	"homepage": "https://lingo3d.com",
-	"author": "Lingo3D",
-	"license": "MIT",
-	"keywords": [
-		"lingo3d",
-		"3d",
-		"game",
-		"react",
-		"vue"
-	],
-	"scripts": {
-		"dev": "vite",
-		"build": "npm run clean && tsc --noEmit false --declaration --outDir lib",
-		"preview": "vite preview",
-		"clean": "node node_modules/rimraf/bin lib"
-	},
-	"dependencies": {
-		"@lincode/events": "*",
-		"@lincode/filetypes": "*",
-		"@lincode/math": "*",
-		"@lincode/promiselikes": "*",
-		"@lincode/reactivity": "*",
-		"@lincode/utils": "*",
-		"@tweakpane/core": "*",
-		"@types/three": "0.143.0",
-		"browser-fs-access": "0.31.0",
-		"cannon-es": "0.20.0",
-		"nipplejs": "0.9.1",
-		"postprocessing": "6.28.5",
-		"preact": "*",
-		"preact-compat": "*",
-		"preact-custom-element": "*",
-		"prettier": "2.7.1",
-		"three": "0.143.0",
-		"tweakpane": "*",
-		"xstate": "*"
-	},
-	"devDependencies": {
-		"@preact/preset-vite": "^2.3.0",
-		"@types/preact-custom-element": "^4.0.1",
-		"@types/prettier": "^2.6.3",
-		"@types/randomcolor": "^0.5.6",
-		"@types/react": "^18.0.15",
-		"randomcolor": "*",
-		"rimraf": "^3.0.2",
-		"typescript": "^4.7.4",
-		"vite": "^3.0.2",
-		"lil-gui": "^0.17.0"
-	},
-	"private": false,
-	"module": "lib/index.js",
-	"main": "lib/index.js",
-	"types": "lib/index.d.ts",
-	"prettier": {
-		"trailingComma": "none",
-		"tabWidth": 4,
-		"semi": false,
-		"singleQuote": false
-	}
+    "name": "lingo3d",
+    "version": "1.20.0",
+    "description": "Lingo3D is a React/Vue 3d game development framework that ships with a complete visual editor",
+    "repository": "https://github.com/lingo3d/lingo3d",
+    "homepage": "https://lingo3d.com",
+    "author": "Lingo3D",
+    "license": "MIT",
+    "keywords": [
+        "lingo3d",
+        "3d",
+        "game",
+        "react",
+        "vue"
+    ],
+    "scripts": {
+        "dev": "vite",
+        "build": "npm run clean && tsc --noEmit false --declaration --outDir lib",
+        "preview": "vite preview",
+        "clean": "node node_modules/rimraf/bin lib"
+    },
+    "dependencies": {
+        "@lincode/events": "*",
+        "@lincode/filetypes": "*",
+        "@lincode/math": "*",
+        "@lincode/promiselikes": "*",
+        "@lincode/reactivity": "*",
+        "@lincode/utils": "*",
+        "@tweakpane/core": "*",
+        "@types/three": "0.143.0",
+        "browser-fs-access": "0.31.0",
+        "cannon-es": "0.20.0",
+        "nipplejs": "0.9.1",
+        "postprocessing": "6.28.5",
+        "preact": "*",
+        "preact-compat": "*",
+        "preact-custom-element": "*",
+        "prettier": "2.7.1",
+        "three": "0.143.0",
+        "tweakpane": "*",
+        "xstate": "*"
+    },
+    "devDependencies": {
+        "@preact/preset-vite": "^2.3.0",
+        "@types/preact-custom-element": "^4.0.1",
+        "@types/prettier": "^2.6.3",
+        "@types/randomcolor": "^0.5.6",
+        "@types/react": "^18.0.15",
+        "randomcolor": "*",
+        "rimraf": "^3.0.2",
+        "typescript": "^4.7.4",
+        "vite": "^3.0.2",
+        "lil-gui": "^0.17.0"
+    },
+    "private": false,
+    "module": "lib/index.js",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "prettier": {
+        "trailingComma": "none",
+        "tabWidth": 4,
+        "semi": false,
+        "singleQuote": false
+    }
 }

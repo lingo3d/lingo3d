@@ -21,6 +21,7 @@ import IAmbientLight from "lingo3d/lib/interface/IAmbientLight"
 import IDirectionalLight from "lingo3d/lib/interface/IDirectionalLight"
 import IFound from "lingo3d/lib/interface/IFound"
 import ITrigger from "lingo3d/lib/interface/ITrigger"
+import ISpawnPoint from "lingo3d/lib/interface/ISpawnPoint"
 import IAudio from "lingo3d/lib/interface/IAudio"
 import IEnvironment from "lingo3d/lib/interface/IEnvironment"
 import IJoystick from "lingo3d/lib/interface/IJoystick"
@@ -61,6 +62,7 @@ export type SpotLightProps = Partial<ISpotLight> & { children?: Children }
 export type KeyboardProps = Partial<IKeyboard>
 export type MouseProps = Partial<IMouse>
 export type TriggerProps = Partial<ITrigger>
+export type SpawnPointProps = Partial<ISpawnPoint> & { children?: Children }
 export type AudioProps = Partial<IAudio>
 export type SkyboxProps = Partial<ISkybox>
 export type EnvironmentProps = Partial<IEnvironment>
