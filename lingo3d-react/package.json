@@ -1,78 +1,69 @@
 {
-	"name": "lingo3d-react",
-	"version": "1.21.3",
-	"description": "Lingo3D is a React/Vue 3d game development framework that ships with a complete visual editor",
-	"repository": "https://github.com/lingo3d/lingo3d",
-	"homepage": "https://lingo3d.com",
-	"author": "Lingo3D",
-	"license": "MIT",
-	"keywords": [
-		"lingo3d",
-		"3d",
-		"game",
-		"react",
-		"vue"
-	],
-	"dependencies": {
-		"@lincode/hooks": "*",
-		"@lincode/promiselikes": "*",
-		"@lincode/reactivity": "*",
-		"@lincode/utils": "*",
-		"@types/three": "0.143.0",
-		"lingo3d": "1.21.2",
-		"nanoid": "*",
-		"popmotion": "*",
-		"preact": "*",
-		"stats.js": "*",
-		"@tweakpane/core": "1.1.0",
-		"tweakpane": "3.1.0"
-	},
-	"peerDependencies": {
-		"react": "18"
-	},
-	"devDependencies": {
-		"@babel/cli": "^7.18.6",
-		"@babel/core": "^7.18.6",
-		"@babel/preset-env": "^7.18.6",
-		"@babel/preset-react": "^7.18.6",
-		"@babel/preset-typescript": "^7.18.6",
-		"@babel/runtime": "^7.18.6",
-		"@types/react": "*",
-		"@types/react-dom": "*",
-		"@types/stats.js": "^0.17.0",
-		"autoprefixer": "^10.4.7",
-		"babel-loader": "^8.2.5",
-		"content-loader": "*",
-		"core-js": "^3.23.4",
-		"css-loader": "^6.7.1",
-		"fork-ts-checker-webpack-plugin": "^7.2.12",
-		"html-webpack-plugin": "^5.5.0",
-		"postcss": "^8.4.14",
-		"postcss-loader": "^7.0.1",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0",
-		"style-loader": "^3.3.1",
-		"typescript": "*",
-		"url-loader": "*",
-		"webpack": "^5.73.0",
-		"webpack-cli": "^4.10.0",
-		"webpack-dev-server": "^4.9.3",
-		"webpack-notifier": "^1.15.0"
-	},
-	"scripts": {
-		"build": "ambients clean && yarn webpack --mode production && yarn tsc",
-		"start": "yarn webpack-dev-server",
-		"dev": "yarn start"
-	},
-	"private": false,
-	"sideEffects": false,
-	"module": "lib/index.js",
-	"main": "lib/index.js",
-	"types": "lib/index.d.ts",
-	"prettier": {
-		"trailingComma": "none",
-		"tabWidth": 2,
-		"semi": false,
-		"singleQuote": false
-	}
+  "name": "lingo3d-react",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/lingo3d-react.mjs",
+  "module": "./dist/lingo3d-react.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/lingo3d-react.mjs",
+      "require": "./dist/lingo3d-react.mjs"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "private": false,
+  "sideEffects": false,
+  "version": "1.21.5",
+  "description": "Lingo3D is a React/Vue 3d game development framework that ships with a complete visual editor",
+  "repository": "https://github.com/lingo3d/lingo3d",
+  "homepage": "https://lingo3d.com",
+  "author": "Lingo3D",
+  "license": "MIT",
+  "keywords": [
+    "lingo3d",
+    "3d",
+    "game",
+    "react",
+    "vue"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --config vite.config.production.ts && tsc --declaration --noEmit false --emitDeclarationOnly --outDir dist",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@lincode/promiselikes": "*",
+    "@lincode/reactivity": "*",
+    "@lincode/utils": "*",
+    "@lincode/hooks": "*",
+    "@tweakpane/core": "1.1.0",
+    "@types/three": "0.143.0",
+    "lingo3d": "1.21.2",
+    "popmotion": "*",
+    "preact": "*",
+    "stats.js": "*",
+    "nanoid": "*",
+    "tweakpane": "3.1.0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@types/stats.js": "^0.17.0",
+    "@vitejs/plugin-react": "^2.0.1",
+    "typescript": "^4.6.4",
+    "vite": "^3.0.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "prettier": {
+    "trailingComma": "none",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": false
+  }
 }
