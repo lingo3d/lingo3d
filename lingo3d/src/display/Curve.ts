@@ -11,12 +11,9 @@ import {
 } from "three"
 import { vector3 } from "./utils/reusables"
 import EventLoopItem from "../api/core/EventLoopItem"
-import queueDebounce from "../utils/queueDebounce"
-import { pull } from "@lincode/utils"
+import { debounceInstance, pull } from "@lincode/utils"
 
 const ARC_SEGMENTS = 50
-
-const queueUpdate = queueDebounce()
 
 const ptVecMap = new WeakMap<Point3d, Vector3>()
 
@@ -48,20 +45,27 @@ export default class Curve extends EventLoopItem {
         })
     }
 
-    public update() {
-        queueUpdate(this, () => {
-            this.bufferAttribute.needsUpdate = true
-            if (this.curve.points.length < 2) {
+    private static update = debounceInstance(
+        (target: Curve) => {
+            const { bufferAttribute, curve } = target
+
+            bufferAttribute.needsUpdate = true
+            if (curve.points.length < 2) {
                 for (let i = 0; i < ARC_SEGMENTS; ++i)
-                    this.bufferAttribute.setXYZ(i, 0, 0, 0)
+                    bufferAttribute.setXYZ(i, 0, 0, 0)
                 return
             }
             for (let i = 0; i < ARC_SEGMENTS; ++i) {
                 const t = i / (ARC_SEGMENTS - 1)
-                this.curve.getPoint(t, vector3)
-                this.bufferAttribute.setXYZ(i, vector3.x, vector3.y, vector3.z)
+                curve.getPoint(t, vector3)
+                bufferAttribute.setXYZ(i, vector3.x, vector3.y, vector3.z)
             }
-        })
+        },
+        0,
+        "trailing"
+    )
+    public update() {
+        Curve.update(this, this)
     }
 
     public get points() {

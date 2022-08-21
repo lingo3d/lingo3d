@@ -37,23 +37,23 @@ dependencies:
   '@lincode/math': 1.0.8
   '@lincode/promiselikes': 1.0.23
   '@lincode/reactivity': 1.0.65
-  '@lincode/utils': 1.2.51
+  '@lincode/utils': 1.3.1
   '@tweakpane/core': 1.1.0
   '@types/three': 0.143.0
   browser-fs-access: 0.31.0
   cannon-es: 0.20.0
   nipplejs: 0.9.1
   postprocessing: 6.28.5_three@0.143.0
-  preact: 10.10.2
-  preact-compat: 3.19.0_preact@10.10.2
-  preact-custom-element: 4.2.1_preact@10.10.2
+  preact: 10.10.6
+  preact-compat: 3.19.0_preact@10.10.6
+  preact-custom-element: 4.2.1_preact@10.10.6
   prettier: 2.7.1
   three: 0.143.0
   tweakpane: 3.1.0
-  xstate: 4.33.1
+  xstate: 4.33.2
 
 devDependencies:
-  '@preact/preset-vite': 2.3.0_preact@10.10.2+vite@3.0.7
+  '@preact/preset-vite': 2.3.0_preact@10.10.6+vite@3.0.9
   '@types/preact-custom-element': 4.0.1
   '@types/prettier': 2.7.0
   '@types/randomcolor': 0.5.6
@@ -62,7 +62,7 @@ devDependencies:
   randomcolor: 0.6.2
   rimraf: 3.0.2
   typescript: 4.7.4
-  vite: 3.0.7
+  vite: 3.0.9
 
 packages:
 
@@ -361,13 +361,13 @@ packages:
     resolution: {integrity: sha512-YSpcweyhfliLrJwLT6Xplt5kpIP1LnP5KVxWT8MGD/iJmlHwFNoTWO4KSUvtuhb40vp5XuHF65I2ibZgj6Cobw==}
     dependencies:
       '@lincode/promiselikes': 1.0.23
-      '@lincode/utils': 1.2.51
+      '@lincode/utils': 1.3.1
     dev: false
 
   /@lincode/filetypes/1.0.1:
     resolution: {integrity: sha512-ltOOAqFCz9zRmhhis624r9ME7XNP2gYOAECa4kD5LxwEqZBto1/JK0mimDcnb6pZf4gvUjO+9tTyykQJfIcy4Q==}
     dependencies:
-      '@lincode/utils': 1.2.51
+      '@lincode/utils': 1.3.1
     dev: false
 
   /@lincode/math/1.0.8:
@@ -377,7 +377,7 @@ packages:
   /@lincode/promiselikes/1.0.23:
     resolution: {integrity: sha512-azOW+DoV3hPT7HFat99ln99GNiYhVUnz636bd9UxbnJJXmC5VMNc8Zw9gsMOPBINctTqEon0vmRcGQqUM7qZEg==}
     dependencies:
-      '@lincode/utils': 1.2.51
+      '@lincode/utils': 1.3.1
     dev: false
 
   /@lincode/reactivity/1.0.65:
@@ -385,17 +385,17 @@ packages:
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/promiselikes': 1.0.23
-      '@lincode/utils': 1.2.51
+      '@lincode/utils': 1.3.1
     dev: false
 
-  /@lincode/utils/1.2.51:
-    resolution: {integrity: sha512-Se5Fy65R2obmhVjjBSjswwbdXDOnXXrUih00JHee2YeTf0R1ddGl0VrAVCPJguQauSdjcSfn9mmYjTL+Gs6PNg==}
+  /@lincode/utils/1.3.1:
+    resolution: {integrity: sha512-IiaV6QS9ZdzjoTwfHkO+HN6x17l415fI7UBl5C5i2mHELjgm8qxmasgU7slavG+1An1t6NnbbwlFW3lDqkbnbQ==}
     dependencies:
-      '@types/lodash': 4.14.182
+      '@types/lodash': 4.14.184
       lodash: 4.17.21
     dev: false
 
-  /@preact/preset-vite/2.3.0_preact@10.10.2+vite@3.0.7:
+  /@preact/preset-vite/2.3.0_preact@10.10.6+vite@3.0.9:
     resolution: {integrity: sha512-0kOuz7wdrQLqrPlyI/Ypw9IWDF2++GGcOHMRBYO5T2w2+dheelaBH+XrIN/okqdsGIflzFIFNyIGubo5BC8wbQ==}
     peerDependencies:
       '@babel/core': 7.x
@@ -403,13 +403,13 @@ packages:
     dependencies:
       '@babel/plugin-transform-react-jsx': 7.18.10
       '@babel/plugin-transform-react-jsx-development': 7.18.6
-      '@prefresh/vite': 2.2.8_preact@10.10.2+vite@3.0.7
+      '@prefresh/vite': 2.2.8_preact@10.10.6+vite@3.0.9
       '@rollup/pluginutils': 4.2.1
       babel-plugin-transform-hook-names: 1.0.2
       debug: 4.3.4
       kolorist: 1.5.1
       resolve: 1.22.1
-      vite: 3.0.7
+      vite: 3.0.9
     transitivePeerDependencies:
       - preact
       - supports-color
@@ -419,19 +419,19 @@ packages:
     resolution: {integrity: sha512-fYAWbU1WDSLn108kKY4eDaaeUcnszFqXjgaGKYXNZ5NLulpRTpsrY+Sbfo9q8LDpWrBpqIgzjrwNnvglWI1xNQ==}
     dev: true
 
-  /@prefresh/core/1.3.4_preact@10.10.2:
+  /@prefresh/core/1.3.4_preact@10.10.6:
     resolution: {integrity: sha512-s7iNsnyJ3lZEUrYIgmVIB/hKtp4U6mdD91a31Zg7Q8M49O0x2KThrbrMQYraoDDrs4STdFB8Zv6bceUguOoX1A==}
     peerDependencies:
       preact: ^10.0.0
     dependencies:
-      preact: 10.10.2
+      preact: 10.10.6
     dev: true
 
   /@prefresh/utils/1.1.3:
     resolution: {integrity: sha512-Mb9abhJTOV4yCfkXrMrcgFiFT7MfNOw8sDa+XyZBdq/Ai2p4Zyxqsb3EgHLOEdHpMj6J9aiZ54W8H6FTam1u+A==}
     dev: true
 
-  /@prefresh/vite/2.2.8_preact@10.10.2+vite@3.0.7:
+  /@prefresh/vite/2.2.8_preact@10.10.6+vite@3.0.9:
     resolution: {integrity: sha512-yGGa+PKPYPTzMlxgQ8aBgxw9K69I8X4iQ0E6KOcIvls96WKqKLLOYZW9SUgCve446jpUXvc9udviPBZjCeZIIQ==}
     peerDependencies:
       preact: ^10.4.0
@@ -439,11 +439,11 @@ packages:
     dependencies:
       '@babel/core': 7.18.10
       '@prefresh/babel-plugin': 0.4.3
-      '@prefresh/core': 1.3.4_preact@10.10.2
+      '@prefresh/core': 1.3.4_preact@10.10.6
       '@prefresh/utils': 1.1.3
       '@rollup/pluginutils': 4.2.1
-      preact: 10.10.2
-      vite: 3.0.7
+      preact: 10.10.6
+      vite: 3.0.9
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -460,14 +460,14 @@ packages:
     resolution: {integrity: sha512-vbbiQb+aoFI13lIbE7DJvhHZVE1YlUpGoaAamSpU6wLp2jA3VowS1wfRJBBB8IBCYm7nF6ULl7zfJKxl1XdyfA==}
     dev: false
 
-  /@types/lodash/4.14.182:
-    resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
+  /@types/lodash/4.14.184:
+    resolution: {integrity: sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==}
     dev: false
 
   /@types/preact-custom-element/4.0.1:
     resolution: {integrity: sha512-oduUzzxJAZ7qWJ5EsUffxvpRFnzgffilDlfxLR9Q2YkEzSfn3vudIrnDg0AiQgZJ0GkAjLzkxQyAxH6sS/EQdQ==}
     dependencies:
-      preact: 10.10.2
+      preact: 10.10.6
     dev: true
 
   /@types/prettier/2.7.0:
@@ -537,14 +537,14 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001375
-      electron-to-chromium: 1.4.218
+      caniuse-lite: 1.0.30001380
+      electron-to-chromium: 1.4.225
       node-releases: 2.0.6
       update-browserslist-db: 1.0.5_browserslist@4.21.3
     dev: true
 
-  /caniuse-lite/1.0.30001375:
-    resolution: {integrity: sha512-kWIMkNzLYxSvnjy0hL8w1NOaWNr2rn39RTAVyIwcw8juu60bZDWiF1/loOYANzjtJmy6qPgNmn38ro5Pygagdw==}
+  /caniuse-lite/1.0.30001380:
+    resolution: {integrity: sha512-OO+pPubxx16lkI7TVrbFpde8XHz66SMwstl1YWpg6uMGw56XnhYVwtPIjvX4kYpzwMwQKr4DDce394E03dQPGg==}
     dev: true
 
   /cannon-es/0.20.0:
@@ -596,8 +596,8 @@ packages:
       ms: 2.1.2
     dev: true
 
-  /electron-to-chromium/1.4.218:
-    resolution: {integrity: sha512-INDylKH//YIf2w67D+IjkfVnGVrZ/D94DAU/FPPm6T4jEPbEDQvo9r2wTj0ncFdtJH8+V8BggZTaN8Rzk5wkgw==}
+  /electron-to-chromium/1.4.225:
+    resolution: {integrity: sha512-ICHvGaCIQR3P88uK8aRtx8gmejbVJyC6bB4LEC3anzBrIzdzC7aiZHY4iFfXhN4st6I7lMO0x4sgBHf/7kBvRw==}
     dev: true
 
   /esbuild-android-64/0.14.54:
@@ -1006,55 +1006,55 @@ packages:
       three: 0.143.0
     dev: false
 
-  /preact-compat/3.19.0_preact@10.10.2:
+  /preact-compat/3.19.0_preact@10.10.6:
     resolution: {integrity: sha512-f83A4hIhH8Uzhb9GbIcGk8SM19ffWlwP9mDaYwQdRnMdekZwcCA7eIAbeV4EMQaV9C0Yuy8iKgBAtyTKPZQt/Q==}
     peerDependencies:
       preact: <10
     dependencies:
       immutability-helper: 2.9.1
-      preact: 10.10.2
-      preact-context: 1.1.4_preact@10.10.2
-      preact-render-to-string: 3.8.2_preact@10.10.2
-      preact-transition-group: 1.1.1_preact@10.10.2
+      preact: 10.10.6
+      preact-context: 1.1.4_preact@10.10.6
+      preact-render-to-string: 3.8.2_preact@10.10.6
+      preact-transition-group: 1.1.1_preact@10.10.6
       prop-types: 15.8.1
       standalone-react-addons-pure-render-mixin: 0.1.1
     dev: false
 
-  /preact-context/1.1.4_preact@10.10.2:
+  /preact-context/1.1.4_preact@10.10.6:
     resolution: {integrity: sha512-gcCjPJ65R0MiW9hDu8W/3WAmyTElIvwLyEO6oLQiM6/TbLKLxCpBCWV8GJjx52TTEyUr60HLDcmoCXZlslelzQ==}
     peerDependencies:
       preact: ^8.2.7
     dependencies:
-      preact: 10.10.2
+      preact: 10.10.6
     dev: false
 
-  /preact-custom-element/4.2.1_preact@10.10.2:
+  /preact-custom-element/4.2.1_preact@10.10.6:
     resolution: {integrity: sha512-/fiEEAyC+MXRlCBRmv/owoN5BLpO2nF/MF3YBHLtp4C2lNqlhV+a4he74A5DhfDoRmxDHm0sYVgQzWFEyzTDsw==}
     peerDependencies:
       preact: 10.x
     dependencies:
-      preact: 10.10.2
+      preact: 10.10.6
     dev: false
 
-  /preact-render-to-string/3.8.2_preact@10.10.2:
+  /preact-render-to-string/3.8.2_preact@10.10.6:
     resolution: {integrity: sha512-przuZPajiurStGgxMoJP0EJeC4xj5CgHv+M7GfF3YxAdhGgEWAkhOSE0xympAFN20uMayntBZpttIZqqLl77fw==}
     peerDependencies:
       preact: '*'
     dependencies:
-      preact: 10.10.2
+      preact: 10.10.6
       pretty-format: 3.8.0
     dev: false
 
-  /preact-transition-group/1.1.1_preact@10.10.2:
+  /preact-transition-group/1.1.1_preact@10.10.6:
     resolution: {integrity: sha512-v89XLodCvylf5lMrhI+LqIhDsAjWfiDKV4keAU+L5yDtxmqn8uvjZXn+haKMEG0x0PZz81own19SuNJD5NlOFQ==}
     peerDependencies:
       preact: '*'
     dependencies:
-      preact: 10.10.2
+      preact: 10.10.6
     dev: false
 
-  /preact/10.10.2:
-    resolution: {integrity: sha512-GUXSsfwq4NKhlLYY5ctfNE0IjFk7Xo4952yPI8yMkXdhzeQmQ+FahZITe7CeHXMPyKBVQ8SoCmGNIy9TSOdhgQ==}
+  /preact/10.10.6:
+    resolution: {integrity: sha512-w0mCL5vICUAZrh1DuHEdOWBjxdO62lvcO++jbzr8UhhYcTbFkpegLH9XX+7MadjTl/y0feoqwQ/zAnzkc/EGog==}
 
   /prettier/2.7.1:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
@@ -1166,8 +1166,8 @@ packages:
       picocolors: 1.0.0
     dev: true
 
-  /vite/3.0.7:
-    resolution: {integrity: sha512-dILhvKba1mbP1wCezVQx/qhEK7/+jVn9ciadEcyKMMhZpsuAi/eWZfJRMkmYlkSFG7Qq9NvJbgFq4XOBxugJsA==}
+  /vite/3.0.9:
+    resolution: {integrity: sha512-waYABTM+G6DBTCpYAxvevpG50UOlZuynR0ckTK5PawNVt7ebX6X7wNXHaGIO6wYYFXSM7/WcuFuO2QzhBB6aMw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -1197,6 +1197,6 @@ packages:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: true
 
-  /xstate/4.33.1:
-    resolution: {integrity: sha512-C9A3esyOuw/xRpwQUkG2e1Gjd8sZYh42t66COq8DaJgaaLOqmE8zWRH1ouL9mHtQ3WV//uT5Ki3ijHGSUdLiww==}
+  /xstate/4.33.2:
+    resolution: {integrity: sha512-hIcoubJm6zuHyTPtE4tKp0Keb94Bs11ohQ1bBE3pwua5PuTDpAPut6gSTJeU/xI1akd1LsTrCvZTil6Kc4LqEA==}
     dev: false
