@@ -18,8 +18,16 @@ import getWorldPosition from "./utils/getWorldPosition"
 import { onTransformControls } from "../events/onTransformControls"
 import ObjectManager from "./core/ObjectManager"
 import SimpleObjectManager from "./core/SimpleObjectManager"
+import MeshItem from "./core/MeshItem"
 
 const dirObj = new Object3D()
+
+const setCentripetalQuaternion = (target: MeshItem) => {
+    const dir = getWorldPosition(target.outerObject3d).normalize()
+    dirObj.lookAt(dir)
+    dirObj.rotateX(halfPi)
+    target.outerObject3d.quaternion.copy(dirObj.quaternion)
+}
 
 export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
     public static componentName = "spawnPoint"
@@ -56,23 +64,18 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
             }
         }, [this.helperState.get, getCameraRendered])
 
-        this.queueMicrotask(() => this.updateCentripetal())
-
         this.createEffect(() => {
             if (!getCentripetal()) return
 
-            const handle = onTransformControls(() => this.updateCentripetal())
+            setCentripetalQuaternion(this)
+
+            const handle = onTransformControls(() =>
+                setCentripetalQuaternion(this)
+            )
             return () => {
                 handle.cancel()
             }
         }, [getCentripetal])
-    }
-
-    private updateCentripetal() {
-        const dir = getWorldPosition(this.outerObject3d).normalize()
-        dirObj.lookAt(dir)
-        dirObj.rotateX(halfPi)
-        this.outerObject3d.quaternion.copy(dirObj.quaternion)
     }
 
     public override append(child: SimpleObjectManager) {
