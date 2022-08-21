@@ -72,8 +72,7 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
         const dir = getWorldPosition(this.outerObject3d).normalize()
         dirObj.lookAt(dir)
         dirObj.rotateX(halfPi)
-        const quat = dirObj.quaternion
-        this.outerObject3d.quaternion.copy(quat)
+        this.outerObject3d.quaternion.copy(dirObj.quaternion)
     }
 
     public override append(child: SimpleObjectManager) {
