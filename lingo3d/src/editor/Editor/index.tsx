@@ -49,6 +49,8 @@ import {
 } from "../../states/useEditorMounted"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import applyCentripetalQuaternion from "../../display/utils/applyCentripetalQuaternion"
+import { setTransformControlsSpace } from "../../states/useTransformControlsSpace"
+import { getCentripetal } from "../../states/useCentripetal"
 
 preventTreeShake(h)
 
@@ -271,8 +273,10 @@ const Editor = () => {
                             emitSelectionTarget(item)
                         }
                     }
-                } else if (e.key === "ArrowUp")
+                } else if (e.key === "ArrowUp" && getCentripetal()) {
                     applyCentripetalQuaternion(target)
+                    setTransformControlsSpace("local")
+                }
             } else if (e.key.toLowerCase() === "c")
                 isPositionedItem(target) && emitEditorCenterView(target)
         }
