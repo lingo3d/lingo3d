@@ -47,6 +47,8 @@ import {
     decreaseEditorMounted,
     increaseEditorMounted
 } from "../../states/useEditorMounted"
+import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
+import applyCentripetalQuaternion from "../../display/utils/applyCentripetalQuaternion"
 
 preventTreeShake(h)
 
@@ -253,20 +255,26 @@ const Editor = () => {
                 !getMultipleSelection() && deleteSelected()
                 return
             }
-            if (e.key.toLowerCase() !== "c") return
 
             const target = getSelectionTarget()
             if (!target) return
 
             if (e.metaKey || e.ctrlKey) {
-                const [item] = deserialize(serialize(target))
-                if (!target.parent || !item) return
-
-                target.parent.attach(item)
-                emitSelectionTarget(item)
-                return
-            }
-            isPositionedItem(target) && emitEditorCenterView(target)
+                if (e.key.toLocaleLowerCase() === "c") {
+                    const targets = getMultipleSelectionTargets()
+                    if (targets.length) {
+                        //todo: copy multiple
+                    } else {
+                        const [item] = deserialize(serialize(target))
+                        if (target.parent && item) {
+                            target.parent.attach(item)
+                            emitSelectionTarget(item)
+                        }
+                    }
+                } else if (e.key === "ArrowUp")
+                    applyCentripetalQuaternion(target)
+            } else if (e.key.toLowerCase() === "c")
+                isPositionedItem(target) && emitEditorCenterView(target)
         }
         document.addEventListener("keydown", handleKey)
 

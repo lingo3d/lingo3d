@@ -135,6 +135,8 @@ export default class OrbitCamera
                             this.innerZ = 0
                             this.placeAt(worldPos)
                         }
+                        if (downSet.has("Meta") || downSet.has("Control"))
+                            return
 
                         if (downSet.has("ArrowDown")) this.y -= speed
                         else if (downSet.has("ArrowUp")) this.y += speed
