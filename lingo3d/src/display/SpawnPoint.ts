@@ -1,5 +1,4 @@
 import { Reactive } from "@lincode/reactivity"
-import { Object3D } from "three"
 import Cylinder from "./primitives/Cylinder"
 import mainCamera from "../engine/mainCamera"
 import {
@@ -12,22 +11,11 @@ import ISpawnPoint, {
     spawnPointDefaults,
     spawnPointSchema
 } from "../interface/ISpawnPoint"
-import { halfPi } from "./utils/reusables"
 import { getCentripetal } from "../states/useCentripetal"
-import getWorldPosition from "./utils/getWorldPosition"
 import { onTransformControls } from "../events/onTransformControls"
 import ObjectManager from "./core/ObjectManager"
 import SimpleObjectManager from "./core/SimpleObjectManager"
-import MeshItem from "./core/MeshItem"
-
-const dirObj = new Object3D()
-
-const setCentripetalQuaternion = (target: MeshItem) => {
-    const dir = getWorldPosition(target.outerObject3d).normalize()
-    dirObj.lookAt(dir)
-    dirObj.rotateX(halfPi)
-    target.outerObject3d.quaternion.copy(dirObj.quaternion)
-}
+import applyCentripetalQuaternion from "./utils/applyCentripetalQuaternion"
 
 export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
     public static componentName = "spawnPoint"
@@ -67,10 +55,10 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
         this.createEffect(() => {
             if (!getCentripetal()) return
 
-            setCentripetalQuaternion(this)
+            applyCentripetalQuaternion(this)
 
             const handle = onTransformControls(() =>
-                setCentripetalQuaternion(this)
+                applyCentripetalQuaternion(this)
             )
             return () => {
                 handle.cancel()

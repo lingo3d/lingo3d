@@ -23,13 +23,13 @@ const world = new Model()
 world.src = "awei/map.glb"
 world.resize = false
 world.scale = 5
-// world.physics = "map"
+world.physics = "map"
 world.frustumCulled = false
 world.metalnessFactor = 0.1
 
 const player = new Dummy()
 player.y = 6000
-// player.physics = "character"
+player.physics = "character"
 player.strideMove = true
 player.strideMode = "free"
 player.src = "awei/awei.fbx"
@@ -38,7 +38,7 @@ player.animations = {
     idle: "awei/idle.fbx",
     running: "awei/running.fbx"
 }
-// player.placeAt("spawn")
+player.placeAt("spawn")
 
 const cam = new ThirdPersonCamera()
 cam.append(player)

@@ -47,16 +47,14 @@ createEffect(
                     ? capsuleHalfHeight
                     : characterManager.bvhRadius!
 
-                const dir = (characterManager.bvhDir = centripetal
-                    ? getWorldPosition(player).normalize()
-                    : undefined)
-
-                if (dir) {
+                if (centripetal) {
                     playerVelocity.add(
                         characterManager.bvhOnGround ||
                             characterManager._gravity === false
                             ? vector3_0
-                            : dir.clone().multiplyScalar(delta * -gravity)
+                            : getWorldPosition(player)
+                                  .normalize()
+                                  .multiplyScalar(delta * -gravity)
                     )
                 } else
                     playerVelocity.y +=
@@ -130,7 +128,7 @@ createEffect(
 
                 const deltaVector = start.sub(startOld)
 
-                if (dir) characterManager.bvhOnGround = contact
+                if (centripetal) characterManager.bvhOnGround = contact
                 else {
                     characterManager.bvhOnGround =
                         deltaVector.y >

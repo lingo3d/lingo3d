@@ -9,15 +9,15 @@ import ICharacterCamera, {
 import { getSelectionTarget } from "../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../states/useTransformControlsDragging"
 import OrbitCameraBase from "../OrbitCameraBase"
-import { euler, halfPi, quaternion } from "../../utils/reusables"
+import { euler, quaternion } from "../../utils/reusables"
 import MeshItem from "../MeshItem"
 import { getLoadedObject } from "../Loaded"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import { getEditorModeComputed } from "../../../states/useEditorModeComputed"
 import characterCameraPlaced from "./characterCameraPlaced"
 import { FAR, NEAR } from "../../../globals"
-
-const dirObj = new Object3D()
+import { getCentripetal } from "../../../states/useCentripetal"
+import applyCentripetalQuaternion from "../../utils/applyCentripetalQuaternion"
 
 export default class CharacterCamera
     extends OrbitCameraBase
@@ -105,18 +105,14 @@ export default class CharacterCamera
                 return result
             }
 
+            const centripetal = getCentripetal()
+
             const handle = onBeforeRender(() => {
                 this.outerObject3d.position.copy(target.outerObject3d.position)
 
-                //@ts-ignore
-                const dir = target.bvhDir
-                let quat: Quaternion | undefined
-                if (dir) {
-                    dirObj.lookAt(dir)
-                    dirObj.rotateX(halfPi)
-                    quat = dirObj.quaternion
-                    this.outerObject3d.quaternion.copy(quat)
-                }
+                const quat = centripetal
+                    ? applyCentripetalQuaternion(this)
+                    : undefined
 
                 if (!this.lockTargetRotation) return
 
@@ -140,7 +136,7 @@ export default class CharacterCamera
             return () => {
                 handle.cancel()
             }
-        }, [this.targetState.get])
+        }, [this.targetState.get, getCentripetal])
 
         this.createEffect(() => {
             const target = this.targetState.get()

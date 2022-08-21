@@ -168,7 +168,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected bvhHalfHeight?: number
     protected bvhMap?: boolean
     protected bvhCharacter?: boolean
-    protected bvhDir?: Vector3
 
     protected initPhysics(val: PhysicsOptions, handle: Cancellable) {
         if (!val || handle.done) return
