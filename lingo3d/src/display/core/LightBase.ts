@@ -1,7 +1,14 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
-import { Class } from "@lincode/utils"
-import { Color, Group, Light, Object3D } from "three"
+import {
+    Color,
+    DirectionalLightHelper,
+    Group,
+    Light,
+    PointLightHelper,
+    SpotLightHelper
+} from "three"
+import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper"
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
@@ -35,7 +42,11 @@ export default abstract class LightBase<T extends typeof Light>
 
     public constructor(
         Light: T,
-        Helper?: Class<Object3D & { dispose: () => void }>
+        Helper?:
+            | typeof DirectionalLightHelper
+            | typeof SpotLightHelper
+            | typeof PointLightHelper
+            | typeof RectAreaLightHelper
     ) {
         const group = new Group()
         super(group)
@@ -95,17 +106,12 @@ export default abstract class LightBase<T extends typeof Light>
             )
 
             if (Helper) {
-                const helper = new Helper(light)
+                const helper = new Helper(light as any)
                 scene.add(helper)
                 helper.add(sprite.outerObject3d)
 
                 if ("update" in helper)
-                    handle.watch(
-                        onBeforeRender(() => {
-                            //@ts-ignore
-                            helper.update()
-                        })
-                    )
+                    handle.watch(onBeforeRender(() => helper.update()))
 
                 handle.then(() => {
                     helper.dispose()
