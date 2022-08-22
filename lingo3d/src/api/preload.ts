@@ -1,5 +1,6 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { assertExhaustive, splitFileName } from "@lincode/utils"
+import { BufferGeometry } from "three"
 import {
     addLoadedBytesChangedEventListeners,
     removeLoadedBytesChangedEventListeners
@@ -8,8 +9,29 @@ import { lazyLoadFBX, lazyLoadGLTF } from "../display/utils/loaders/lazyLoad"
 import loadTexturePromise from "../display/utils/loaders/loadTexturePromise"
 import { getLoadingCount } from "../states/useLoadingCount"
 
+const computeMap = async (
+    lazyLoad: typeof lazyLoadFBX | typeof lazyLoadGLTF,
+    src: string
+) => {
+    const [{ computeBVHFromGeometries }, loadedGroup] = await Promise.all([
+        import("../display/core/PhysicsObjectManager/bvh/computeBVH"),
+        lazyLoad().then(({ default: load }) => load(src, false))
+    ])
+    loadedGroup.updateMatrixWorld(true)
+
+    const geometries: Array<BufferGeometry> = []
+    loadedGroup.traverse((c: any) => {
+        if (!c.geometry) return
+        const geom = c.geometry.clone()
+        geom.applyMatrix4(c.matrixWorld)
+        geometries.push(geom)
+        geom.dispose()
+    })
+    const bvhArray = await computeBVHFromGeometries(geometries)
+}
+
 export default async (
-    urls: Array<string>,
+    urls: Array<string | { physics: "map"; src: string }>,
     total: number | string,
     onProgress?: (value: number) => void
 ) => {
@@ -35,20 +57,23 @@ export default async (
     addLoadedBytesChangedEventListeners(handleLoadedBytesChanged)
 
     for (const url of urls) {
-        const filetype = getExtensionType(url)
+        const src = typeof url === "string" ? url : url.src
+        const isMap = typeof url === "object" && url.physics === "map"
+
+        const filetype = getExtensionType(src)
         if (!filetype) continue
 
         switch (filetype) {
             case "image":
-                promises.push(loadTexturePromise(url))
+                promises.push(loadTexturePromise(src))
                 break
 
             case "model":
-                const extension = splitFileName(url)[1]?.toLowerCase()
+                const extension = splitFileName(src)[1]?.toLowerCase()
                 if (extension === "fbx")
-                    promises.push((await lazyLoadFBX()).default(url, false))
+                    promises.push((await lazyLoadFBX()).default(src, false))
                 else if (extension === "gltf" || extension === "glb")
-                    promises.push((await lazyLoadGLTF()).default(url, false))
+                    promises.push((await lazyLoadGLTF()).default(src, false))
                 break
 
             case "audio":

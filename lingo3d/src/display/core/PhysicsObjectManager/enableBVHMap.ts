@@ -14,7 +14,7 @@ export default async function (
 ) {
     if (handle.done) return
 
-    const [bvhMaps, geometries] = computeBVH(this)
+    const [bvhMaps, geometries] = await computeBVH(this)
 
     for (const bvhMap of bvhMaps) pushBVHMap(bvhMap)
 
