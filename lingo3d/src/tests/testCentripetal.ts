@@ -4,10 +4,8 @@ import {
     Model,
     ThirdPersonCamera,
     settings,
-    Sphere,
-    OrbitCamera,
     SpawnPoint,
-    Cube
+    Sky
 } from ".."
 import { YBOT_URL } from "../globals"
 

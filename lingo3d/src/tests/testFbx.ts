@@ -3,4 +3,5 @@ import Model from "../display/Model"
 export default {}
 
 const model = new Model()
-model.src = "zu.fbx"
+model.src = "rig2.fbx"
+model.resize = false

@@ -1,6 +1,7 @@
-import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
+import { GLTFLoader } from "./loaders/GLTFLoader"
+import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
-import { Bone, Light, LinearEncoding, MeshStandardMaterial } from "three"
+import { Bone, Light } from "three"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import {
@@ -9,7 +10,6 @@ import {
 } from "../../../states/useLoadingCount"
 import { handleProgress } from "./bytesLoaded"
 import { getWasmPath } from "../../../states/useWasmPath"
-import copyStandard from "../../core/StaticObjectManager/applyMaterialProperties/copyStandard"
 
 const cache = new Map<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()
@@ -27,7 +27,7 @@ export default async (url: string, clone: boolean) => {
                 increaseLoadingCount()
                 loader.load(
                     url,
-                    (gltf) => {
+                    (gltf: any) => {
                         decreaseLoadingCount()
 
                         const lights: Array<Light> = []
@@ -42,18 +42,6 @@ export default async (url: string, clone: boolean) => {
                                 child.castShadow = true
                                 child.receiveShadow = true
                                 child.frustumCulled = false
-
-                                const { material } = child
-                                if (!material) return
-
-                                material.map &&
-                                    (material.map.encoding = LinearEncoding)
-                                copyStandard(
-                                    material,
-                                    (child.material =
-                                        new MeshStandardMaterial())
-                                )
-                                material.dispose()
                             })
                         for (const light of lights) light.parent?.remove(light)
 

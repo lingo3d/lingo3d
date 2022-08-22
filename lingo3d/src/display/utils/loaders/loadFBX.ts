@@ -1,5 +1,5 @@
-import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader"
-import { Bone, Group, Light, LinearEncoding, MeshStandardMaterial } from "three"
+import { FBXLoader } from "./loaders/FBXLoader"
+import { Bone, Group, Light } from "three"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import {
@@ -7,7 +7,6 @@ import {
     increaseLoadingCount
 } from "../../../states/useLoadingCount"
 import { handleProgress } from "./bytesLoaded"
-import copyStandard from "../../core/StaticObjectManager/applyMaterialProperties/copyStandard"
 
 const cache = new Map<string, Promise<[Group, boolean]>>()
 const loader = new FBXLoader()
@@ -21,7 +20,7 @@ export default async (url: string, clone: boolean) => {
                 increaseLoadingCount()
                 loader.load(
                     url,
-                    (group) => {
+                    (group: any) => {
                         decreaseLoadingCount()
 
                         const lights: Array<Light> = []
@@ -35,17 +34,6 @@ export default async (url: string, clone: boolean) => {
                             child.castShadow = true
                             child.receiveShadow = true
                             child.frustumCulled = false
-
-                            const { material } = child
-                            if (!material) return
-
-                            material.map &&
-                                (material.map.encoding = LinearEncoding)
-                            copyStandard(
-                                material,
-                                (child.material = new MeshStandardMaterial())
-                            )
-                            material.dispose()
                         })
                         for (const light of lights) light.parent?.remove(light)
 
