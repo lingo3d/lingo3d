@@ -11,11 +11,8 @@ import ISpawnPoint, {
     spawnPointDefaults,
     spawnPointSchema
 } from "../interface/ISpawnPoint"
-import { getCentripetal } from "../states/useCentripetal"
-import { onTransformControls } from "../events/onTransformControls"
 import ObjectManager from "./core/ObjectManager"
 import SimpleObjectManager from "./core/SimpleObjectManager"
-import applyCentripetalQuaternion from "./utils/applyCentripetalQuaternion"
 
 export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
     public static componentName = "spawnPoint"
@@ -29,6 +26,8 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
     public set helper(val) {
         this.helperState.set(val)
     }
+
+    protected isSpawnPoint = true
 
     public constructor() {
         super()
@@ -51,19 +50,6 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
                 handle.cancel()
             }
         }, [this.helperState.get, getCameraRendered])
-
-        this.createEffect(() => {
-            if (!getCentripetal()) return
-
-            applyCentripetalQuaternion(this)
-
-            const handle = onTransformControls(() =>
-                applyCentripetalQuaternion(this)
-            )
-            return () => {
-                handle.cancel()
-            }
-        }, [getCentripetal])
     }
 
     public override append(child: SimpleObjectManager) {

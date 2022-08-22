@@ -19,6 +19,8 @@ import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import { getCentripetal } from "../../../states/useCentripetal"
 import AnimatedObjectManager from "../AnimatedObjectManager"
 import Nullable from "../../../interface/utils/Nullable"
+import SpawnPoint from "../../SpawnPoint"
+import getActualScale from "../../utils/getActualScale"
 
 const ptDistCache = new WeakMap<Point3d, number>()
 const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
@@ -237,13 +239,15 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.translateZ(val * scaleDown)
     }
 
-    public placeAt(object: MeshItem | Point3d | string) {
+    public placeAt(object: MeshItem | Point3d | SpawnPoint | string) {
         if (typeof object === "string") {
             const [found] = idMap.get(object) ?? [undefined]
             if (!found) return
             object = found
         }
         if ("outerObject3d" in object) {
+            if ("isSpawnPoint" in object)
+                object.object3d.position.y = getActualScale(this).y * 0.5
             this.outerObject3d.position.copy(getCenter(object.nativeObject3d))
             this.outerObject3d.quaternion.copy(
                 getWorldQuaternion(object.outerObject3d)

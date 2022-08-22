@@ -11,7 +11,7 @@ specifiers:
   '@types/stats.js': ^0.17.0
   '@types/three': 0.143.0
   '@vitejs/plugin-react': ^2.0.1
-  lingo3d: 1.21.2
+  lingo3d: 1.22.0
   nanoid: '*'
   popmotion: '*'
   preact: '*'
@@ -19,8 +19,8 @@ specifiers:
   react-dom: ^18.2.0
   stats.js: '*'
   tweakpane: 3.1.0
-  typescript: ^4.6.4
-  vite: ^3.0.7
+  typescript: ^4.7.4
+  vite: ^3.0.9
 
 dependencies:
   '@lincode/hooks': 1.0.40_react@18.2.0
@@ -29,8 +29,8 @@ dependencies:
   '@lincode/utils': 1.3.1
   '@tweakpane/core': 1.1.0
   '@types/three': 0.143.0
-  lingo3d: 1.21.2
-  nanoid: 3.3.4
+  lingo3d: 1.22.0
+  nanoid: 4.0.0
   popmotion: 11.0.5
   preact: 10.10.6
   stats.js: 0.17.0
@@ -849,8 +849,8 @@ packages:
     hasBin: true
     dev: true
 
-  /lingo3d/1.21.2:
-    resolution: {integrity: sha512-LkLIeAGYbibiVORUO/nZwU4TQ038S9izoVpa1Y+b8ldwCyZ9aDJjc9nar+1u4mLlWLWyi0yvvJasviarMAhV/Q==}
+  /lingo3d/1.22.0:
+    resolution: {integrity: sha512-xe4kz5PMmmNvs4TGO/0+LsZveKKJ8Z6uI72Ee5K9aWpAOYCSLrfNix1831xcRMj3ZGMDMydFmIR+14f7mW9SuA==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
@@ -898,6 +898,13 @@ packages:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+    dev: true
+
+  /nanoid/4.0.0:
+    resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
+    engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+    dev: false
 
   /nipplejs/0.9.1:
     resolution: {integrity: sha512-Tu7ZaB1q0TgA+PH20s8i5Ngt3VmSCp8vxNVv/sOfGBAS0wwlNkJxnCD3bInC4iPg+W8dt80Pl+HU7B8y6dlXMQ==}
