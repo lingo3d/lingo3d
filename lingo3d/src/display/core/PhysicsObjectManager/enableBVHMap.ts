@@ -1,4 +1,3 @@
-import { MeshBVHVisualizer } from "./bvh/bvh"
 import { pullBVHMap, pushBVHMap } from "../../../states/useBVHMap"
 import { wireframeMaterial } from "../../utils/reusables"
 import { Mesh } from "three"
@@ -6,6 +5,7 @@ import scene from "../../../engine/scene"
 import { Cancellable } from "@lincode/promiselikes"
 import computeBVH from "./bvh/computeBVH"
 import PhysicsObjectManager from "."
+import { MeshBVHVisualizer } from "three-mesh-bvh"
 
 export default async function (
     this: PhysicsObjectManager,
@@ -28,9 +28,7 @@ export default async function (
                 new Mesh(geom, wireframeMaterial),
                 20
             )
-            //@ts-ignore
             scene.add(visualizer)
-            //@ts-ignore
             handle.then(() => scene.remove(visualizer))
         }
 }

@@ -1,12 +1,12 @@
 import { BufferGeometry, BufferAttribute } from "three"
-import { MeshBVH } from "./bvh"
+import { MeshBVH } from "three-mesh-bvh"
 
-self.onmessage = function ({ data }) {
-    let prevTime = self.performance.now()
+onmessage = function ({ data }) {
+    let prevTime = performance.now()
     function onProgressCallback(progress) {
-        const currTime = self.performance.now()
+        const currTime = performance.now()
         if (currTime - prevTime >= 10 || progress === 1.0) {
-            self.postMessage({
+            postMessage({
                 error: null,
                 serialized: null,
                 position: null,
@@ -42,17 +42,17 @@ self.onmessage = function ({ data }) {
         const bvh = new MeshBVH(geometry, options)
         const serialized = MeshBVH.serialize(bvh, { copyIndexBuffer: false })
 
-        self.postMessage(
+        postMessage(
             {
                 error: null,
                 serialized,
                 position,
                 progress: 1
             },
-            [serialized.index.buffer, position.buffer]
+            [serialized.index.buffer, position.buffer, ...serialized.roots]
         )
     } catch (error) {
-        self.postMessage({
+        postMessage({
             error,
             serialized: null,
             position: null,

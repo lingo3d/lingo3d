@@ -1,7 +1,7 @@
 import { BufferGeometry } from "three"
+import { MeshBVH } from "three-mesh-bvh"
 import PhysicsObjectManager from ".."
 import Primitive from "../../Primitive"
-import { MeshBVH } from "./bvh"
 import { bvhManagerMap } from "./bvhManagerMap"
 import { GenerateMeshBVHWorker } from "./GenerateMeshBVHWorker"
 

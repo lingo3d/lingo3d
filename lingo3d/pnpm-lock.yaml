@@ -26,6 +26,7 @@ specifiers:
   randomcolor: '*'
   rimraf: ^3.0.2
   three: 0.143.0
+  three-mesh-bvh: ^0.5.15
   tweakpane: '*'
   typescript: ^4.7.4
   vite: ^3.0.2
@@ -49,6 +50,7 @@ dependencies:
   preact-custom-element: 4.2.1_preact@10.10.6
   prettier: 2.7.1
   three: 0.143.0
+  three-mesh-bvh: 0.5.15_three@0.143.0
   tweakpane: 3.1.0
   xstate: 4.33.2
 
@@ -1135,6 +1137,14 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
+
+  /three-mesh-bvh/0.5.15_three@0.143.0:
+    resolution: {integrity: sha512-jxE5iGjcoEMiyxUs7hMeZL6jBXBz9973ilqhXPhKlA1f7eitjIxRTtu7UWVQy+PhxXTsknmPzWmN5c+uAa/anA==}
+    peerDependencies:
+      three: '>= 0.123.0'
+    dependencies:
+      three: 0.143.0
+    dev: false
 
   /three/0.143.0:
     resolution: {integrity: sha512-oKcAGYHhJ46TGEuHjodo2n6TY2R6lbvrkp+feKZxqsUL/WkH7GKKaeu6RHeyb2Xjfk2dPLRKLsOP0KM2VgT8Zg==}
