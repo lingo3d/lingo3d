@@ -515,24 +515,6 @@ class FBXTreeParser {
             parameters.reflectivity = materialNode.ReflectionFactor.value
         }
 
-        if (materialNode.Shininess) {
-            parameters.shininess = materialNode.Shininess.value
-        }
-
-        if (materialNode.Specular) {
-            parameters.specular = new Color().fromArray(
-                materialNode.Specular.value
-            )
-        } else if (
-            materialNode.SpecularColor &&
-            materialNode.SpecularColor.type === "Color"
-        ) {
-            // The blender exporter exports specular color here instead of in materialNode.Specular
-            parameters.specular = new Color().fromArray(
-                materialNode.SpecularColor.value
-            )
-        }
-
         const scope = this
         connections.get(ID).children.forEach(function (child) {
             const type = child.relationship
@@ -582,13 +564,6 @@ class FBXTreeParser {
 
                     break
 
-                case "SpecularColor":
-                    parameters.specularMap = scope.getTexture(
-                        textureMap,
-                        child.ID
-                    )
-                    break
-
                 case "TransparentColor":
                 case "TransparencyFactor":
                     parameters.alphaMap = scope.getTexture(textureMap, child.ID)
@@ -596,8 +571,6 @@ class FBXTreeParser {
                     break
 
                 case "AmbientColor":
-                case "ShininessExponent": // AKA glossiness map
-                case "SpecularFactor": // AKA specularLevel
                 case "VectorDisplacementColor": // NOTE: Seems to be a copy of DisplacementColor
                 default:
                     console.warn(
