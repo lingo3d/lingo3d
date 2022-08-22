@@ -511,10 +511,6 @@ class FBXTreeParser {
             parameters.transparent = true
         }
 
-        if (materialNode.ReflectionFactor) {
-            parameters.reflectivity = materialNode.ReflectionFactor.value
-        }
-
         const scope = this
         connections.get(ID).children.forEach(function (child) {
             const type = child.relationship
