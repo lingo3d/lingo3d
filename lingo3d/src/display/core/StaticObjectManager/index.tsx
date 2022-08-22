@@ -356,6 +356,11 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                     if (_toon) {
                         child.material = new MeshToonMaterial()
                         copyToon(material, child.material)
+
+                        handle.then(() => {
+                            child.material.dispose()
+                            child.material = material
+                        })
                     }
 
                     if (_metalnessFactor !== undefined)
@@ -393,11 +398,6 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                                 ? new Color(_adjustColor)
                                 : undefined
                         )
-
-                    handle.then(() => {
-                        child.material.dispose()
-                        child.material = material
-                    })
                 })
             })
             return handle

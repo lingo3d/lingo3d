@@ -574,7 +574,7 @@ class FBXTreeParser {
                 case "VectorDisplacementColor": // NOTE: Seems to be a copy of DisplacementColor
                 default:
                     console.warn(
-                        "FBXLoader: %s map is not supported in three.js, skipping texture.",
+                        "FBXLoader: %s map is not supported, skipping texture.",
                         type
                     )
                     break
@@ -592,7 +592,7 @@ class FBXTreeParser {
             id in fbxTree.Objects.LayeredTexture
         ) {
             console.warn(
-                "FBXLoader: layered textures are not supported in three.js. Discarding all but first layer."
+                "FBXLoader: layered textures are not supported. Discarding all but first layer."
             )
             id = connections.get(id).children[0].ID
         }
