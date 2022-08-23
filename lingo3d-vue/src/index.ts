@@ -18,8 +18,9 @@ export {
   exportReact,
   exportVue,
   openJSON,
+  clientToWorld,
   setWasmPath,
-  clientToWorld
+  setBVHWorker
 } from "lingo3d"
 
 export { default as World } from "./components/World.vue"

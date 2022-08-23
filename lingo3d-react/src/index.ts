@@ -18,8 +18,9 @@ export {
   exportReact,
   exportVue,
   openJSON,
+  clientToWorld,
   setWasmPath,
-  clientToWorld
+  setBVHWorker
 } from "lingo3d"
 
 export { default as globalState } from "./globalState"

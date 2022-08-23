@@ -77,9 +77,10 @@ import { onAfterRender } from "./events/onAfterRender"
 import { onBeforeRender } from "./events/onBeforeRender"
 
 import { Point3d, Point } from "@lincode/math"
-import { setWasmPath } from "./states/useWasmPath"
-
 import clientToWorld from "./display/utils/clientToWorld"
+
+import { setWasmPath } from "./states/useWasmPath"
+import { setBVHWorker } from "./display/core/PhysicsObjectManager/bvh/computeBVH"
 
 export type {
     SimpleMouseEvent,
@@ -87,6 +88,8 @@ export type {
 } from "./interface/IMouse"
 
 export default {}
+
+
 
 export {
     Cube,
@@ -158,6 +161,7 @@ export {
     onBeforeRender,
     Point3d,
     Point,
+    clientToWorld,
     setWasmPath,
-    clientToWorld
+    setBVHWorker
 }
