@@ -1,4 +1,4 @@
-import { Object3D } from "three"
+import { MeshBasicMaterial, MeshStandardMaterial, Object3D } from "three"
 import { getSelectiveBloomComposer } from "../../../../states/useSelectiveBloomComposer"
 import scene from "../../../scene"
 
@@ -15,17 +15,18 @@ export const deleteBloom = (target: Object3D) => {
 
 let sceneBackground: typeof scene.background | undefined
 
+const blackMaterial = new MeshBasicMaterial({ color: 0x000000 })
+let restoreMaterials: Array<[MeshStandardMaterial, any]> = []
+
 const darkenRecursive = (children: Array<any>) => {
     for (const child of children) {
-        if (child.userData.bloom) {
-            child.renderOrder = 1
-            continue
-        }
-        if (!child.visible) continue
+        if (child.userData.bloom || !child.visible) continue
 
         darkenRecursive(child.children)
-        child.material && (child.material.colorWrite = false)
-        child.renderOrder = 0
+        if (child.material) {
+            restoreMaterials.push([child.material, child])
+            child.material = blackMaterial
+        }
     }
 }
 const darken = () => {
@@ -37,10 +38,11 @@ const darken = () => {
     }
 }
 
-const restoreRecursive = (child: any) =>
-    child.material && (child.material.colorWrite = true)
 const restore = () => {
-    scene.traverse(restoreRecursive)
+    for (const [material, object] of restoreMaterials)
+        object.material = material
+
+    restoreMaterials = []
     sceneBackground && (scene.background = sceneBackground)
 }
 

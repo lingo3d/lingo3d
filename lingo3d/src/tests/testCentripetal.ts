@@ -18,9 +18,9 @@ spawn.y = -3278.18
 spawn.z = -976.08
 
 const world = new Model()
-world.src = "awei/map.glb"
+world.src = "map.fbx"
 world.resize = false
-world.scale = 5
+world.scale = 0.04
 world.physics = "map"
 world.frustumCulled = false
 world.metalnessFactor = 0.1
