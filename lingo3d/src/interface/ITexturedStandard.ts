@@ -16,6 +16,7 @@ export default interface ITexturedStandard {
     displacementMap: Nullable<string>
     displacementScale: number
     displacementBias: number
+    emissive: boolean
     emissiveColor: string
     emissiveMap: Nullable<string>
     emissiveIntensity: number
@@ -42,6 +43,7 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
         displacementMap: String,
         displacementScale: Number,
         displacementBias: Number,
+        emissive: Boolean,
         emissiveColor: String,
         emissiveMap: String,
         emissiveIntensity: Number,
@@ -67,6 +69,7 @@ export const texturedStandardDefaults: Defaults<ITexturedStandard> = {
     displacementMap: undefined,
     displacementScale: 1,
     displacementBias: 0,
+    emissive: false,
     emissiveColor: "#000000",
     emissiveMap: undefined,
     emissiveIntensity: 1,

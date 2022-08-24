@@ -25,12 +25,12 @@ world.physics = "map"
 world.frustumCulled = false
 world.metalnessFactor = 0.1
 world.onLoad = () => {
-    setTimeout(() => {
-        const found = world.find("YJXZ_shui")
-        if (!found) return
-        found.bloom = true
-        found.videoTexture = "water.webm"
-    }, 1000)
+    const found = world.find("YJXZ_shui")
+    if (!found) return
+    found.bloom = true
+    found.videoTexture = "water.webm"
+    found.emissive = true
+    // found.emissiveIntensity = 0.2
 }
 
 const player = new Dummy()

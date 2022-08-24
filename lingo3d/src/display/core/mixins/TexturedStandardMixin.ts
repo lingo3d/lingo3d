@@ -156,6 +156,19 @@ export default abstract class TexturedStandardMixin
         this.material.emissiveIntensity = val
     }
 
+    private _emissive?: boolean
+    public get emissive() {
+        return !!this._emissive
+    }
+    public set emissive(val: boolean) {
+        this._emissive = val
+        if (!val) return
+        this.tryCloneMaterial()
+        this.material.emissiveMap = this.material.map
+        this.material.emissive = this.material.color
+        //todo: make this property reversible
+    }
+
     private _lightMap?: string
     public get lightMap() {
         return this._lightMap
