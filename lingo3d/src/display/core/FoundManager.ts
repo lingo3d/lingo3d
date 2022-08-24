@@ -18,7 +18,7 @@ class FoundManager extends SimpleObjectManager implements IFound {
     public constructor(mesh: Object3D) {
         super(mesh)
         //@ts-ignore
-        this.material = mesh.material ??= new MeshStandardMaterial()
+        this.material = mesh.material
         appendableRoot.delete(this)
     }
 
@@ -40,13 +40,6 @@ class FoundManager extends SimpleObjectManager implements IFound {
     public override set animation(val) {
         this.retargetAnimations()
         super.animation = val
-    }
-
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
-        this.material.dispose()
-        return this
     }
 
     private managerSet?: boolean

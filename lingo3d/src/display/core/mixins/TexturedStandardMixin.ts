@@ -39,7 +39,6 @@ export default abstract class TexturedStandardMixin
     }
 
     protected applyTextureRepeat2() {
-        this.material.needsUpdate = true
         const repeat = this._textureRepeat
         if (!repeat) return
 
@@ -48,6 +47,7 @@ export default abstract class TexturedStandardMixin
                 const map = this.material[name]
                 map && (map.repeat = repeat)
             }
+            this.material.needsUpdate = true
         })
     }
 

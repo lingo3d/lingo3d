@@ -24,6 +24,12 @@ world.scale = 0.04
 world.physics = "map"
 world.frustumCulled = false
 world.metalnessFactor = 0.1
+world.onLoad = () => {
+    const found = world.find("YJXZ_shui")
+    if (!found) return
+    found.bloom = true
+    found.videoTexture = "water.webm"
+}
 
 const player = new Dummy()
 player.y = 6000

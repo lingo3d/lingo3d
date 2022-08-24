@@ -1,5 +1,6 @@
 import {
     Color,
+    MeshBasicMaterial,
     MeshStandardMaterial,
     RepeatWrapping,
     SpriteMaterial,
@@ -8,7 +9,6 @@ import {
 } from "three"
 import loadTexture from "../../utils/loaders/loadTexture"
 import ITexturedBasic from "../../../interface/ITexturedBasic"
-import { objectURLMapperPtr } from "../../utils/loaders/setObjectURLMapper"
 import { Reactive } from "@lincode/reactivity"
 import queueDebounce from "../../../utils/queueDebounce"
 
@@ -46,7 +46,6 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     }
 
     protected applyTextureRepeat() {
-        this.material.needsUpdate = true
         const repeat = this._textureRepeat
         if (!repeat) return
 
@@ -55,43 +54,31 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
                 const map = this.material[name]
                 map && (map.repeat = repeat)
             }
+            this.material.needsUpdate = true
         })
     }
 
     private videoTextureState?: Reactive<string | HTMLVideoElement | undefined>
-    private textureState?: Reactive<string | HTMLVideoElement | undefined>
+    private textureState?: Reactive<string | undefined>
 
     private initTexture() {
         if (this.textureState) return
 
-        const videoTextureState = (this.videoTextureState ??= new Reactive<
+        const videoTextureState = (this.videoTextureState = new Reactive<
             string | HTMLVideoElement | undefined
         >(undefined))
-        const textureState = (this.textureState ??= new Reactive<
-            string | HTMLVideoElement | undefined
+        const textureState = (this.textureState = new Reactive<
+            string | undefined
         >(undefined))
 
         //@ts-ignore
         this.createEffect(() => {
             const url = textureState.get()
-            let videoURL = videoTextureState.get()
-
-            if (
-                !videoURL &&
-                ((typeof url === "string" &&
-                    objectURLMapperPtr[0](url)
-                        .toLowerCase()
-                        .endsWith(".mp4")) ||
-                    (url && url instanceof HTMLVideoElement))
-            ) {
-                videoURL = url
-            }
+            const videoURL = videoTextureState.get()
 
             if (videoURL) {
                 let video: HTMLVideoElement
-
-                if (videoURL instanceof HTMLVideoElement) video = videoURL
-                else {
+                if (typeof videoURL === "string") {
                     video = document.createElement("video")
                     video.crossOrigin = "anonymous"
                     video.src = videoURL
@@ -100,10 +87,14 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
                     video.muted = true
                     video.playsInline = true
                     video.play()
-                }
+                } else video = videoURL
 
-                const videoTexture = new VideoTexture(video)
-                videoTexture.wrapS = videoTexture.wrapT = RepeatWrapping
+                const videoTexture = new VideoTexture(
+                    video,
+                    undefined,
+                    RepeatWrapping,
+                    RepeatWrapping
+                )
 
                 const { material } = this
                 const { map } = material
