@@ -1,6 +1,5 @@
 import {
     Color,
-    MeshBasicMaterial,
     MeshStandardMaterial,
     RepeatWrapping,
     SpriteMaterial,
@@ -19,10 +18,22 @@ export const queueTextureRepeat = queueDebounce()
 export default abstract class TexturedBasicMixin implements ITexturedBasic {
     protected abstract material: MeshStandardMaterial | SpriteMaterial
 
+    private _materialCloned?: boolean
+    protected cloneMaterial?: boolean
+    protected tryCloneMaterial() {
+        if (this._materialCloned || !this.cloneMaterial) return
+        this._materialCloned = true
+        //@ts-ignore
+        this.material = this.nativeObject3d.material = this.material.clone()
+        //@ts-ignore
+        this.then(() => this.material.dispose())
+    }
+
     public get color() {
         return "#" + this.material.color.getHexString()
     }
     public set color(val) {
+        this.tryCloneMaterial()
         this.material.color = new Color(val)
     }
 
@@ -30,6 +41,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
         return this.material.fog
     }
     public set fog(val) {
+        this.tryCloneMaterial()
         this.material.fog = val
     }
 
@@ -38,11 +50,12 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
         return (this._opacity ??= 1)
     }
     public set opacity(val) {
+        this.tryCloneMaterial()
         this._opacity = val
         this.material.opacity = val
         this.material.transparent = val <= 1
         //@ts-ignore
-        this.object3d.visible = !!val
+        this.nativeObject3d.visible = !!val
     }
 
     protected applyTextureRepeat() {
@@ -50,6 +63,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
         if (!repeat) return
 
         queueTextureRepeat(this, () => {
+            this.tryCloneMaterial()
             for (const name of mapNames) {
                 const map = this.material[name]
                 map && (map.repeat = repeat)
@@ -63,6 +77,8 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
 
     private initTexture() {
         if (this.textureState) return
+
+        this.tryCloneMaterial()
 
         const videoTextureState = (this.videoTextureState = new Reactive<
             string | HTMLVideoElement | undefined
@@ -145,6 +161,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
         return this._alphaMap
     }
     public set alphaMap(val) {
+        this.tryCloneMaterial()
         this._alphaMap = val
         this.material.alphaMap = val ? loadTexture(val) : null
         this.applyTextureRepeat()

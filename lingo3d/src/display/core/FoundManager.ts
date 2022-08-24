@@ -20,6 +20,7 @@ class FoundManager extends SimpleObjectManager implements IFound {
         //@ts-ignore
         this.material = mesh.material
         appendableRoot.delete(this)
+        this.cloneMaterial = true
     }
 
     public model?: Model
