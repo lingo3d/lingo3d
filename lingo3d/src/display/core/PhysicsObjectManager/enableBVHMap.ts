@@ -7,6 +7,7 @@ import computeBVH from "./bvh/computeBVH"
 import PhysicsObjectManager from "."
 import { MeshBVH, MeshBVHVisualizer } from "three-mesh-bvh"
 import Loaded from "../Loaded"
+import { preloadModels } from "../../../api/preload"
 
 const cache = new Map<string, [Array<MeshBVH>, Array<BufferGeometry>]>()
 
@@ -25,6 +26,8 @@ export default async function (
         ;[bvhMaps, geometries] = await computeBVH(this)
         "src" in this && this.src && cache.set(this.src, [bvhMaps, geometries])
     }
+
+    if (preloadModels.has(this)) return
 
     for (const bvhMap of bvhMaps) pushBVHMap(bvhMap)
 

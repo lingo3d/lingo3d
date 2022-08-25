@@ -8,6 +8,9 @@ import { lazyLoadFBX, lazyLoadGLTF } from "../display/utils/loaders/lazyLoad"
 import loadTexturePromise from "../display/utils/loaders/loadTexturePromise"
 import IModel from "../interface/IModel"
 import { getLoadingCount } from "../states/useLoadingCount"
+import Appendable from "./core/Appendable"
+
+export const preloadModels = new WeakSet<Appendable>()
 
 export default async (
     urls: Array<string | (Partial<IModel> & { src: string })>,
@@ -59,6 +62,7 @@ export default async (
                             )
                             const model = new Model(true)
                             Object.assign(model, url)
+                            preloadModels.add(model)
                             model.onLoad = resolve
                         })
                     )
