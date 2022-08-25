@@ -5,12 +5,12 @@ import AnimationManager, {
     PlayOptions
 } from "./core/AnimatedObjectManager/AnimationManager"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
-import { objectURLMapperPtr } from "./utils/loaders/setObjectURLMapper"
 import { Resolvable } from "@lincode/promiselikes"
 import { lazyLoadFBX, lazyLoadGLTF } from "./utils/loaders/lazyLoad"
 import FoundManager from "./core/FoundManager"
 import { Reactive } from "@lincode/reactivity"
 import measure from "./utils/measure"
+import { splitFileName } from "@lincode/utils"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -71,21 +71,27 @@ export default class Model extends Loaded<Group> implements IModel {
         const resolvable = new Resolvable()
         this.loadingState.set(this.loadingState.get() + 1)
 
-        let result: Group | undefined
+        const extension = splitFileName(url)[1]?.toLowerCase()
+        if (!extension || !["fbx", "glb", "gltf"].includes(extension)) {
+            resolvable.resolve()
+            setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
+            return new Group()
+        }
+
+        let result: Group
         try {
-            if (objectURLMapperPtr[0](url).toLowerCase().endsWith(".fbx"))
-                result = await (await lazyLoadFBX()).default(url, true)
-            else result = await (await lazyLoadGLTF()).default(url, true)
+            result =
+                extension === "fbx"
+                    ? await (await lazyLoadFBX()).default(url, true)
+                    : await (await lazyLoadGLTF()).default(url, true)
         } catch {
             resolvable.resolve()
             setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
-
             return new Group()
         }
 
         resolvable.resolve()
         setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
-
         return result
     }
 

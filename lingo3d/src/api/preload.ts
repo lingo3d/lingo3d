@@ -1,6 +1,6 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { assertExhaustive, splitFileName } from "@lincode/utils"
-import { BufferGeometry } from "three"
+import { BufferGeometry, Group } from "three"
 import {
     addLoadedBytesChangedEventListeners,
     removeLoadedBytesChangedEventListeners
@@ -9,13 +9,10 @@ import { lazyLoadFBX, lazyLoadGLTF } from "../display/utils/loaders/lazyLoad"
 import loadTexturePromise from "../display/utils/loaders/loadTexturePromise"
 import { getLoadingCount } from "../states/useLoadingCount"
 
-const computeMap = async (
-    lazyLoad: typeof lazyLoadFBX | typeof lazyLoadGLTF,
-    src: string
-) => {
+const computeMap = async (modelPromise: Promise<Group>, src: string) => {
     const [{ computeBVHFromGeometries }, loadedGroup] = await Promise.all([
         import("../display/core/PhysicsObjectManager/bvh/computeBVH"),
-        lazyLoad().then(({ default: load }) => load(src, false))
+        modelPromise
     ])
     loadedGroup.updateMatrixWorld(true)
 
@@ -27,7 +24,7 @@ const computeMap = async (
         geometries.push(geom)
         geom.dispose()
     })
-    const bvhArray = await computeBVHFromGeometries(geometries)
+    return computeBVHFromGeometries(geometries, src)
 }
 
 export default async (
@@ -58,7 +55,6 @@ export default async (
 
     for (const url of urls) {
         const src = typeof url === "string" ? url : url.src
-        const isMap = typeof url === "object" && url.physics === "map"
 
         const filetype = getExtensionType(src)
         if (!filetype) continue
@@ -70,11 +66,16 @@ export default async (
 
             case "model":
                 const extension = splitFileName(src)[1]?.toLowerCase()
-                if (extension === "fbx")
-                    promises.push((await lazyLoadFBX()).default(src, false))
-                else if (extension === "gltf" || extension === "glb")
-                    promises.push((await lazyLoadGLTF()).default(src, false))
-                break
+                if (!extension || !["fbx", "glb", "gltf"].includes(extension))
+                    break
+
+                const modelPromise =
+                    extension === "fbx"
+                        ? (await lazyLoadFBX()).default(src, false)
+                        : (await lazyLoadGLTF()).default(src, false)
+                promises.push(modelPromise)
+                if (typeof url === "object" && url.physics === "map")
+                    promises.push(computeMap(modelPromise, src))
 
             case "audio":
             case "plainText":

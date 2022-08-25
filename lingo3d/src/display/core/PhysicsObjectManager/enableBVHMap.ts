@@ -6,15 +6,19 @@ import { Cancellable } from "@lincode/promiselikes"
 import computeBVH from "./bvh/computeBVH"
 import PhysicsObjectManager from "."
 import { MeshBVHVisualizer } from "three-mesh-bvh"
+import Loaded from "../Loaded"
 
 export default async function (
-    this: PhysicsObjectManager,
+    this: PhysicsObjectManager | Loaded,
     handle: Cancellable,
     debug: boolean
 ) {
     if (handle.done) return
 
-    const [bvhMaps, geometries] = await computeBVH(this)
+    const [bvhMaps, geometries] = await computeBVH(
+        this,
+        "src" in this ? this.src : undefined
+    )
 
     for (const bvhMap of bvhMaps) pushBVHMap(bvhMap)
 

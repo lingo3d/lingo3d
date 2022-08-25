@@ -11,16 +11,21 @@ export const setBVHWorker = (worker: {
     generate: (geom: BufferGeometry) => Promise<MeshBVH>
 }) => (bvhWorker = worker)
 
+const bvhCache = new Map<string, Array<MeshBVH>>()
+
 export const computeBVHFromGeometries = async (
-    geometries: Array<BufferGeometry>
+    geometries: Array<BufferGeometry>,
+    src?: string
 ) => {
+    if (src && bvhCache.has(src)) return bvhCache.get(src)!
+
     const result: Array<MeshBVH> = []
     for (const geom of geometries) result.push(await bvhWorker.generate(geom))
-
+    src && bvhCache.set(src, result)
     return result
 }
 
-export default async (item: PhysicsObjectManager) => {
+export default async (item: PhysicsObjectManager, src?: string) => {
     item.outerObject3d.updateMatrixWorld(true)
 
     const geometries: Array<BufferGeometry> = []
@@ -36,7 +41,7 @@ export default async (item: PhysicsObjectManager) => {
         geometries.push(geom)
         geom.dispose()
     })
-    const bvhArray = await computeBVHFromGeometries(geometries)
+    const bvhArray = await computeBVHFromGeometries(geometries, src)
     for (const bvh of bvhArray) bvhManagerMap.set(bvh, item)
     return <const>[bvhArray, geometries]
 }
