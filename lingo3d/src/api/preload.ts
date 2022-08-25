@@ -1,34 +1,16 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { assertExhaustive, splitFileName } from "@lincode/utils"
-import { BufferGeometry, Group } from "three"
 import {
     addLoadedBytesChangedEventListeners,
     removeLoadedBytesChangedEventListeners
 } from "../display/utils/loaders/bytesLoaded"
 import { lazyLoadFBX, lazyLoadGLTF } from "../display/utils/loaders/lazyLoad"
 import loadTexturePromise from "../display/utils/loaders/loadTexturePromise"
+import IModel from "../interface/IModel"
 import { getLoadingCount } from "../states/useLoadingCount"
 
-const computeMap = async (modelPromise: Promise<Group>, src: string) => {
-    const [{ computeBVHFromGeometries }, loadedGroup] = await Promise.all([
-        import("../display/core/PhysicsObjectManager/bvh/computeBVH"),
-        modelPromise
-    ])
-    loadedGroup.updateMatrixWorld(true)
-
-    const geometries: Array<BufferGeometry> = []
-    loadedGroup.traverse((c: any) => {
-        if (!c.geometry) return
-        const geom = c.geometry.clone()
-        geom.applyMatrix4(c.matrixWorld)
-        geometries.push(geom)
-        geom.dispose()
-    })
-    return computeBVHFromGeometries(geometries, src)
-}
-
 export default async (
-    urls: Array<string | { physics: "map"; src: string }>,
+    urls: Array<string | (Partial<IModel> & { src: string })>,
     total: number | string,
     onProgress?: (value: number) => void
 ) => {
@@ -69,14 +51,24 @@ export default async (
                 if (!extension || !["fbx", "glb", "gltf"].includes(extension))
                     break
 
-                const modelPromise =
+                if (typeof url === "object") {
+                    promises.push(
+                        new Promise<void>(async (resolve) => {
+                            const { default: Model } = await import(
+                                "../display/Model"
+                            )
+                            const model = new Model(true)
+                            Object.assign(model, url)
+                            model.onLoad = resolve
+                        })
+                    )
+                    break
+                }
+                promises.push(
                     extension === "fbx"
                         ? (await lazyLoadFBX()).default(src, false)
                         : (await lazyLoadGLTF()).default(src, false)
-                promises.push(modelPromise)
-                if (typeof url === "object" && url.physics === "map")
-                    promises.push(computeMap(modelPromise, src))
-
+                )
             case "audio":
             case "plainText":
             case "scene":

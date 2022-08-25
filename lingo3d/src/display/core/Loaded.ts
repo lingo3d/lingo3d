@@ -23,8 +23,8 @@ export default abstract class Loaded<T = Object3D>
 {
     public loadedGroup = new Group()
 
-    public constructor() {
-        super(new Mesh(boxGeometry, wireframeMaterial))
+    public constructor(unmounted?: boolean) {
+        super(new Mesh(boxGeometry, wireframeMaterial), unmounted)
         this.outerObject3d.add(this.loadedGroup)
     }
 

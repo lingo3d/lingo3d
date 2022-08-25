@@ -10,14 +10,17 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     extends PhysicsObjectManager<T>
     implements IObjectManager
 {
-    public constructor(public object3d = new Object3D() as T) {
+    public constructor(
+        public object3d = new Object3D() as T,
+        unmounted?: boolean
+    ) {
         super(object3d)
         this.nativeObject3d = object3d
 
         const outerObject3d = (this.outerObject3d = new Object3D() as T)
         outerObject3d.userData.manager = this
 
-        scene.add(outerObject3d)
+        !unmounted && scene.add(outerObject3d)
         outerObject3d.add(object3d)
     }
 

@@ -1,12 +1,14 @@
 import { pullBVHMap, pushBVHMap } from "../../../states/useBVHMap"
 import { wireframeMaterial } from "../../utils/reusables"
-import { Mesh } from "three"
+import { BufferGeometry, Mesh } from "three"
 import scene from "../../../engine/scene"
 import { Cancellable } from "@lincode/promiselikes"
 import computeBVH from "./bvh/computeBVH"
 import PhysicsObjectManager from "."
-import { MeshBVHVisualizer } from "three-mesh-bvh"
+import { MeshBVH, MeshBVHVisualizer } from "three-mesh-bvh"
 import Loaded from "../Loaded"
+
+const cache = new Map<string, [Array<MeshBVH>, Array<BufferGeometry>]>()
 
 export default async function (
     this: PhysicsObjectManager | Loaded,
@@ -15,10 +17,14 @@ export default async function (
 ) {
     if (handle.done) return
 
-    const [bvhMaps, geometries] = await computeBVH(
-        this,
-        "src" in this ? this.src : undefined
-    )
+    let bvhMaps: Array<MeshBVH>
+    let geometries: Array<BufferGeometry>
+    if ("src" in this && this.src && cache.has(this.src))
+        [bvhMaps, geometries] = cache.get(this.src)!
+    else {
+        ;[bvhMaps, geometries] = await computeBVH(this)
+        "src" in this && this.src && cache.set(this.src, [bvhMaps, geometries])
+    }
 
     for (const bvhMap of bvhMaps) pushBVHMap(bvhMap)
 

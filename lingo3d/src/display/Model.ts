@@ -17,6 +17,10 @@ export default class Model extends Loaded<Group> implements IModel {
     public static defaults = modelDefaults
     public static schema = modelSchema
 
+    public constructor(private unmounted?: boolean) {
+        super(unmounted)
+    }
+
     private loadingState = new Reactive(0)
 
     public override playAnimation(name?: string | number, o?: PlayOptions) {
@@ -82,8 +86,8 @@ export default class Model extends Loaded<Group> implements IModel {
         try {
             result =
                 extension === "fbx"
-                    ? await (await lazyLoadFBX()).default(url, true)
-                    : await (await lazyLoadGLTF()).default(url, true)
+                    ? await (await lazyLoadFBX()).default(url, !this.unmounted)
+                    : await (await lazyLoadGLTF()).default(url, !this.unmounted)
         } catch {
             resolvable.resolve()
             setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))

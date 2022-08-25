@@ -24,6 +24,7 @@ export {
 } from "lingo3d"
 
 export { default as globalState } from "./globalState"
+export { default as createPreload } from "./createPreload"
 
 export { default as World } from "./components/World"
 export { default as LingoEditor } from "./components/editor/LingoEditor"
