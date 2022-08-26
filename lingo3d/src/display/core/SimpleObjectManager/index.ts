@@ -338,9 +338,9 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         let distOld = Infinity
         this.cancelHandle("lerpTo", () =>
             onBeforeRender(() => {
-                this.x += sx
-                y !== undefined && (this.y += sy)
-                this.z += sz
+                this.x += sx * fpsRatio[0]
+                y !== undefined && (this.y += sy * fpsRatio[0])
+                this.z += sz * fpsRatio[0]
 
                 let dist = distance3d(
                     this.x,
