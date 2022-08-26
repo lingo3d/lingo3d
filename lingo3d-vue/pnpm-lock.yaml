@@ -13,7 +13,7 @@ specifiers:
   preact: '*'
   stats.js: '*'
   tweakpane: 3.1.0
-  typescript: ^4.7.4
+  typescript: 4.7.4
   vite: ^3.0.2
   vue: ^3.2.37
   vue-tsc: ^0.40.1
@@ -33,10 +33,10 @@ dependencies:
 devDependencies:
   '@types/stats.js': 0.17.0
   '@vitejs/plugin-vue': 3.0.3_vite@3.0.9+vue@3.2.37
-  typescript: 4.8.2
+  typescript: 4.7.4
   vite: 3.0.9
   vue: 3.2.37
-  vue-tsc: 0.40.1_typescript@4.8.2
+  vue-tsc: 0.40.1_typescript@4.7.4
 
 packages:
 
@@ -798,8 +798,8 @@ packages:
     resolution: {integrity: sha512-PGAp/LPQdHwzL7/iAW4lV1p9iPQTti7YMjMWO48CoYjvZRS59RmgQnhEGzKzqST1JnmOYmQUjTe8bdhlZRJs5A==}
     dev: false
 
-  /typescript/4.8.2:
-    resolution: {integrity: sha512-C0I1UsrrDHo2fYI5oaCGbSejwX4ch+9Y5jTQELvovfmFkK3HHSZJB8MSJcWLmCUBzQBchCrZ9rMRV6GuNrvGtw==}
+  /typescript/4.7.4:
+    resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
@@ -831,7 +831,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vue-tsc/0.40.1_typescript@4.8.2:
+  /vue-tsc/0.40.1_typescript@4.7.4:
     resolution: {integrity: sha512-Z+3rlp/6TrtKvLuaFYwBn03zrdinMR6lBb3mWBJtDA+KwlRu+I4eMoqC1qT9D7i/29u0Bw58dH7ErjMpNLN9bQ==}
     hasBin: true
     peerDependencies:
@@ -839,7 +839,7 @@ packages:
     dependencies:
       '@volar/vue-language-core': 0.40.1
       '@volar/vue-typescript': 0.40.1
-      typescript: 4.8.2
+      typescript: 4.7.4
     dev: true
 
   /vue/3.2.37:

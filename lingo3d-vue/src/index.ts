@@ -23,6 +23,8 @@ export {
   setBVHWorker
 } from "lingo3d"
 
+export { default as createPreload } from "./createPreload"
+
 export { default as World } from "./components/World.vue"
 export { default as Stats } from "./components/Stats.vue"
 
