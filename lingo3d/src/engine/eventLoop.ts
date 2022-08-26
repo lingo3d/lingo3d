@@ -26,7 +26,7 @@ createEffect(() => {
     const renderer = getRenderer()
     if (!renderer) return
 
-    const targetDelta = 1 / getTargetFps()
+    const targetDelta = (1 / getTargetFps()) * 0.9
     const fullDelta = 1 / 60
 
     renderer.setAnimationLoop(() => {
