@@ -21,6 +21,7 @@ import AnimatedObjectManager from "../AnimatedObjectManager"
 import Nullable from "../../../interface/utils/Nullable"
 import SpawnPoint from "../../SpawnPoint"
 import getActualScale from "../../utils/getActualScale"
+import { fpsRatio } from "../../../engine/eventLoop"
 
 const ptDistCache = new WeakMap<Point3d, number>()
 const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
@@ -228,15 +229,15 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
 
     public translateX(val: number) {
-        this.outerObject3d.translateX(val * scaleDown)
+        this.outerObject3d.translateX(val * scaleDown * fpsRatio[0])
     }
 
     public translateY(val: number) {
-        this.outerObject3d.translateY(val * scaleDown)
+        this.outerObject3d.translateY(val * scaleDown * fpsRatio[0])
     }
 
     public translateZ(val: number) {
-        this.outerObject3d.translateZ(val * scaleDown)
+        this.outerObject3d.translateZ(val * scaleDown * fpsRatio[0])
     }
 
     public placeAt(object: MeshItem | Point3d | SpawnPoint | string) {
@@ -264,7 +265,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
             vector3.crossVectors(this.outerObject3d.up, vector3)
             this.outerObject3d.position.addScaledVector(
                 vector3,
-                distance * scaleDown
+                distance * scaleDown * fpsRatio[0]
             )
         }
     }
@@ -275,7 +276,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
             vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
             this.outerObject3d.position.addScaledVector(
                 vector3,
-                distance * scaleDown
+                distance * scaleDown * fpsRatio[0]
             )
         }
     }

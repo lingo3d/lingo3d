@@ -20,6 +20,7 @@ import PhysicsObjectManager from ".."
 import { getEditing } from "../../../../states/useEditing"
 import { bvhCharacterSet } from "./bvhCharacterSet"
 import { bvhManagerMap } from "./bvhManagerMap"
+import { fpsRatio } from "../../../../engine/eventLoop"
 
 const makeWeakSet = () => new WeakSet()
 
@@ -54,14 +55,16 @@ createEffect(
                             ? vector3_0
                             : getWorldPosition(player)
                                   .normalize()
-                                  .multiplyScalar(delta * -gravity)
+                                  .multiplyScalar(
+                                      delta * -gravity * fpsRatio[0]
+                                  )
                     )
                 } else
                     playerVelocity.y +=
                         characterManager.bvhOnGround ||
                         characterManager._gravity === false
                             ? 0
-                            : delta * -gravity
+                            : delta * -gravity * fpsRatio[0]
 
                 const updatePosition = characterManager.positionUpdate!
                 updatePosition.x && (playerVelocity.x = 0)
@@ -154,7 +157,7 @@ createEffect(
                     deltaVector.normalize()
                     playerVelocity.addScaledVector(
                         deltaVector,
-                        -deltaVector.dot(playerVelocity)
+                        -deltaVector.dot(playerVelocity) * fpsRatio[0]
                     )
                 } else playerVelocity.set(0, 0, 0)
             }

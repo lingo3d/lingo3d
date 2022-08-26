@@ -17,10 +17,15 @@ const callbacks = new Set<() => void>()
 const clock = new Clock()
 let delta = 0
 
+const targetDelta = 1 / 30
+const fullDelta = 1 / 60
+export const fpsRatio = [1]
+
 getRenderer((renderer) => {
     renderer?.setAnimationLoop(() => {
         delta += clock.getDelta()
-        if (delta < 0.03) return
+        if (delta < targetDelta) return
+        fpsRatio[0] = delta / fullDelta
         delta = 0
         for (const cb of callbacks) cb()
     })
