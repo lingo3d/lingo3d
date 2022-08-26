@@ -12,6 +12,7 @@ import { AnimationData } from "../../../api/serializer/types"
 import { forceGet } from "@lincode/utils"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import { onBeforeRender } from "../../../events/onBeforeRender"
+import { dt } from "../../../engine/eventLoop"
 
 const targetMixerMap = new WeakMap<EventLoopItem | Object3D, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, [AnimationAction, boolean]>()
@@ -22,8 +23,6 @@ export type PlayOptions = {
     repeat?: boolean
     onFinish?: () => void
 }
-
-const dt = 1 / 60
 
 export default class AnimationManager extends Disposable {
     private clip?: AnimationClip
@@ -101,7 +100,9 @@ export default class AnimationManager extends Disposable {
         }
 
         mixerHandleMap.get(this.mixer)?.cancel()
-        const handle = this.watch(onBeforeRender(() => this.mixer.update(dt)))
+        const handle = this.watch(
+            onBeforeRender(() => this.mixer.update(dt[0]))
+        )
         mixerHandleMap.set(this.mixer, handle)
 
         const { action } = this

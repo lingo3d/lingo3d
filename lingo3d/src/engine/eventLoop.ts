@@ -20,12 +20,14 @@ let delta = 0
 const targetDelta = 1 / 30
 const fullDelta = 1 / 60
 export const fpsRatio = [1]
+export const dt = [0]
 
 getRenderer((renderer) => {
     renderer?.setAnimationLoop(() => {
         delta += clock.getDelta()
         if (delta < targetDelta) return
         fpsRatio[0] = delta / fullDelta
+        dt[0] = delta
         delta = 0
         for (const cb of callbacks) cb()
     })

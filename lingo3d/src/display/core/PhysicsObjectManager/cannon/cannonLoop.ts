@@ -5,14 +5,13 @@ import { getPhysicsWorld } from "../../../../states/usePhysicsWorld"
 import { onBeforeRender } from "../../../../events/onBeforeRender"
 import PhysicsObjectManager from ".."
 import { getEditing } from "../../../../states/useEditing"
+import { dt } from "../../../../engine/eventLoop"
 
 export const cannonSet = new Set<PhysicsObjectManager>()
 export const cannonContactMap = new Map<Body, WeakSet<Body>>()
 export const cannonContactBodies = new WeakSet<Body>()
 
 const makeWeakSet = () => new WeakSet()
-
-const dt = 1 / 60
 
 createEffect(
     function (this: PhysicsObjectManager) {
@@ -92,7 +91,7 @@ createEffect(
 
                 updateRotation.reset
             }
-            world.step(dt)
+            world.step(dt[0])
 
             cannonContactMap.clear()
             for (const contact of world.contacts)
