@@ -18,6 +18,7 @@ import characterCameraPlaced from "./characterCameraPlaced"
 import { FAR, NEAR } from "../../../globals"
 import { getCentripetal } from "../../../states/useCentripetal"
 import applyCentripetalQuaternion from "../../utils/applyCentripetalQuaternion"
+import fpsAlpha from "../../utils/fpsAlpha"
 
 export default class CharacterCamera
     extends OrbitCameraBase
@@ -50,7 +51,7 @@ export default class CharacterCamera
 
             if (slerp) {
                 quaternion.setFromEuler(euler)
-                midObject3d.quaternion.slerp(quaternion, 0.1)
+                midObject3d.quaternion.slerp(quaternion, fpsAlpha(0.1))
             } else midObject3d.setRotationFromEuler(euler)
 
             this.updateAngle()
@@ -82,7 +83,7 @@ export default class CharacterCamera
             const placed = characterCameraPlaced.has(target)
             if (slerp && !placed) {
                 quaternion.setFromEuler(euler)
-                target.outerObject3d.quaternion.slerp(quaternion, 0.1)
+                target.outerObject3d.quaternion.slerp(quaternion, fpsAlpha(0.1))
                 return
             }
             target.outerObject3d.setRotationFromEuler(euler)

@@ -48,6 +48,7 @@ import {
     mouseMoveSet
 } from "./raycast/sets"
 import "./raycast"
+import fpsAlpha from "../../utils/fpsAlpha"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -511,7 +512,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
         this.cancelHandle("lookTo", () =>
             onBeforeRender(() => {
-                quaternion.slerp(quaternionNew, a1!)
+                quaternion.slerp(quaternionNew, fpsAlpha(a1!))
 
                 const { x, y, z } = diffQuaternions(quaternion, quaternionNew)
                 if (Math.abs(x) + Math.abs(y) + Math.abs(z) < 0.001) {

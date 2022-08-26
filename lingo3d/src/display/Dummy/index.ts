@@ -14,6 +14,7 @@ import AnimationManager from "../core/AnimatedObjectManager/AnimationManager"
 import Model from "../Model"
 import { euler } from "../utils/reusables"
 import poseMachine from "./poseMachine"
+import fpsAlpha from "../utils/fpsAlpha"
 
 export const dummyTypeMap = new WeakMap<Dummy, "dummy" | "readyplayerme">()
 
@@ -198,7 +199,7 @@ export default class Dummy extends Model implements IDummy {
                 const quaternionNew = loadedItem.quaternion.clone()
                 loadedItem.quaternion
                     .copy(quaternionOld)
-                    .slerp(quaternionNew, 0.2)
+                    .slerp(quaternionNew, fpsAlpha(0.2))
 
                 spinePoint && spine?.lookAt(spinePoint)
 
