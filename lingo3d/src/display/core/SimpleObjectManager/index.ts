@@ -22,6 +22,7 @@ import Nullable from "../../../interface/utils/Nullable"
 import SpawnPoint from "../../SpawnPoint"
 import getActualScale from "../../utils/getActualScale"
 import { fpsRatio } from "../../../engine/eventLoop"
+import fpsAlpha from "../../utils/fpsAlpha"
 
 const ptDistCache = new WeakMap<Point3d, number>()
 const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
@@ -295,7 +296,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
 
         this.cancelHandle("lerpTo", () =>
             onBeforeRender(() => {
-                const { x, y, z } = from.lerp(to, alpha)
+                const { x, y, z } = from.lerp(to, fpsAlpha(alpha))
 
                 if (
                     Math.abs(this.x - x) < 0.1 &&

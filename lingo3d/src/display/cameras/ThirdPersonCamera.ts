@@ -13,6 +13,7 @@ import CharacterCamera from "../core/CharacterCamera"
 import MeshItem from "../core/MeshItem"
 import { bvhCameraSet } from "../core/PhysicsObjectManager/bvh/bvhCameraSet"
 import StaticObjectManager from "../core/StaticObjectManager"
+import fpsAlpha from "../utils/fpsAlpha"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
 
@@ -70,7 +71,7 @@ export default class ThirdPersonCamera
                     const camPos = getWorldPosition(this.object3d)
                     const dist = camPos.distanceTo(origin)
 
-                    cam.position.lerp(camPos, first ? 1 : 0.1)
+                    cam.position.lerp(camPos, first ? 1 : fpsAlpha(0.1))
                     const ratio = first
                         ? 1
                         : cam.position.distanceTo(origin) / dist
