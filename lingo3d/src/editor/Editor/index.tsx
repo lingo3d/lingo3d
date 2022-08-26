@@ -173,7 +173,7 @@ const Editor = () => {
             const [rendererParams, rendererRest] = splitObject(editorRest, [
                 "antiAlias",
                 "pixelRatio",
-                "targetFps",
+                "fps",
                 "logarithmicDepth",
                 "pbr"
             ])
