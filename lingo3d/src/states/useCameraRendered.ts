@@ -11,6 +11,7 @@ import { getVR } from "./useVR"
 import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import getWorldQuaternion from "../display/utils/getWorldQuaternion"
+import fpsAlpha from "../display/utils/fpsAlpha"
 
 export const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
@@ -57,7 +58,7 @@ createEffect(() => {
     interpolationCamera.fov = cameraFrom.fov
     updateCameraAspect(interpolationCamera)
 
-    let alpha = 0
+    let ratio = 0
     const diffMax = typeof transition === "number" ? transition : Infinity
     const handle = onBeforeRender(() => {
         const positionTo = getWorldPosition(cameraTo)
@@ -66,20 +67,20 @@ createEffect(() => {
         interpolationCamera.position.lerpVectors(
             positionFrom,
             positionTo,
-            alpha
+            ratio
         )
         interpolationCamera.quaternion.slerpQuaternions(
             quaternionFrom,
             quaternionTo,
-            alpha
+            ratio
         )
 
-        interpolationCamera.zoom = lerp(cameraFrom.zoom, cameraTo.zoom, alpha)
-        interpolationCamera.fov = lerp(cameraFrom.fov, cameraTo.fov, alpha)
+        interpolationCamera.zoom = lerp(cameraFrom.zoom, cameraTo.zoom, ratio)
+        interpolationCamera.fov = lerp(cameraFrom.fov, cameraTo.fov, ratio)
         interpolationCamera.updateProjectionMatrix()
 
-        alpha = Math.min((1 - alpha) * 0.1, diffMax) + alpha
-        if (alpha < 0.999) return
+        ratio = Math.min((1 - ratio) * fpsAlpha(0.1), diffMax) + ratio
+        if (ratio < 0.9999) return
 
         setCameraRendered(cameraTo)
         updateCameraAspect(cameraTo)

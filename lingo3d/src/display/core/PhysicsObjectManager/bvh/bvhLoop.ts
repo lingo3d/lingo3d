@@ -157,7 +157,7 @@ createEffect(
                     deltaVector.normalize()
                     playerVelocity.addScaledVector(
                         deltaVector,
-                        -deltaVector.dot(playerVelocity) * fpsRatio[0]
+                        -deltaVector.dot(playerVelocity)
                     )
                 } else playerVelocity.set(0, 0, 0)
             }
