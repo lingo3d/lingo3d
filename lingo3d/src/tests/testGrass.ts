@@ -1,4 +1,5 @@
 import {
+    Clock,
     DoubleSide,
     InstancedMesh,
     Mesh,
@@ -9,7 +10,6 @@ import {
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler"
 import Cube from "../display/primitives/Cube"
 import { vector3, vector3_ } from "../display/utils/reusables"
-import { clock } from "../engine/eventLoop"
 import scene from "../engine/scene"
 import { onBeforeRender } from "../events/onBeforeRender"
 
@@ -115,6 +115,8 @@ for (let i = 0; i < instanceNumber; i++) {
     dummy.updateMatrix()
     instancedMesh.setMatrixAt(i, dummy.matrix)
 }
+
+export const clock = new Clock()
 
 onBeforeRender(() => {
     leavesMaterial.uniforms.time.value = clock.getElapsedTime()
