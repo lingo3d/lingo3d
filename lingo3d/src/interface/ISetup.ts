@@ -22,6 +22,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     antiAlias: [Boolean, String],
     logarithmicDepth: Boolean,
     pixelRatio: Number,
+    targetFps: Number,
     exposure: Number,
     pbr: Boolean,
     bloom: Boolean,

@@ -1,6 +1,8 @@
 import { Cancellable } from "@lincode/promiselikes"
+import { createEffect } from "@lincode/reactivity"
 import { Clock } from "three"
 import { getRenderer } from "../states/useRenderer"
+import { getTargetFps } from "../states/useTargetFPS"
 
 export const timer = (time: number, repeat: number, cb: () => void) => {
     let count = 0
@@ -17,13 +19,17 @@ const callbacks = new Set<() => void>()
 const clock = new Clock()
 let delta = 0
 
-const targetDelta = 1 / 30
-const fullDelta = 1 / 60
 export const fpsRatio = [1]
 export const dt = [0]
 
-getRenderer((renderer) => {
-    renderer?.setAnimationLoop(() => {
+createEffect(() => {
+    const renderer = getRenderer()
+    if (!renderer) return
+
+    const targetDelta = 1 / getTargetFps()
+    const fullDelta = 1 / 60
+
+    renderer.setAnimationLoop(() => {
         delta += clock.getDelta()
         if (delta < targetDelta) return
         fpsRatio[0] = delta / fullDelta
@@ -31,7 +37,7 @@ getRenderer((renderer) => {
         delta = 0
         for (const cb of callbacks) cb()
     })
-})
+}, [getTargetFps, getRenderer])
 
 export const loop = (cb: () => void) => {
     callbacks.add(cb)

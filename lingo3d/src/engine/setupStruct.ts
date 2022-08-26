@@ -78,6 +78,7 @@ import {
     getShadowResolution,
     setShadowResolution
 } from "../states/useShadowResolution"
+import { getTargetFps, setTargetFps } from "../states/useTargetFPS"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -165,6 +166,13 @@ export default {
     },
     set pixelRatio(value) {
         setPixelRatio(value)
+    },
+
+    get targetFps() {
+        return getTargetFps()
+    },
+    set targetFps(value) {
+        setTargetFps(value)
     },
 
     get logarithmicDepth() {
