@@ -14,7 +14,7 @@
   "types": "./dist/index.d.ts",
   "private": false,
   "sideEffects": false,
-  "version": "1.27.0",
+  "version": "1.27.2",
   "description": "Lingo3D is a React/Vue 3d game development framework that ships with a complete visual editor",
   "repository": "https://github.com/lingo3d/lingo3d",
   "homepage": "https://lingo3d.com",
@@ -38,7 +38,7 @@
     "@lincode/utils": "*",
     "@tweakpane/core": "1.1.0",
     "@types/three": "0.143.1",
-    "lingo3d": "1.27.0",
+    "lingo3d": "1.27.2",
     "popmotion": "*",
     "preact": "*",
     "stats.js": "*",
@@ -50,7 +50,7 @@
   "devDependencies": {
     "@types/stats.js": "^0.17.0",
     "@vitejs/plugin-vue": "^3.0.1",
-    "typescript": "^4.7.4",
+    "typescript": "4.7.4",
     "vite": "^3.0.2",
     "vue": "^3.2.37",
     "vue-tsc": "^0.40.1"

@@ -135,6 +135,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
         return last(getCameraStack()) === this.camera
     }
     public set active(val) {
+        if (this.active === val) return
         const cameraFrom = last(getCameraStack())
         pullCameraStack(this.camera)
         val && pushCameraStack(this.camera)

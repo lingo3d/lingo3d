@@ -10,9 +10,9 @@ specifiers:
   '@preact/preset-vite': ^2.3.0
   '@tweakpane/core': '*'
   '@types/preact-custom-element': ^4.0.1
-  '@types/prettier': ^2.6.3
+  '@types/prettier': ^2.7.0
   '@types/randomcolor': ^0.5.6
-  '@types/react': ^18.0.15
+  '@types/react': ^18.0.17
   '@types/three': 0.143.1
   browser-fs-access: 0.31.0
   cannon-es: 0.20.0
@@ -28,8 +28,8 @@ specifiers:
   three: 0.143.0
   three-mesh-bvh: 0.5.15
   tweakpane: '*'
-  typescript: ^4.7.4
-  vite: ^3.0.2
+  typescript: ^4.8.2
+  vite: ^3.0.9
   xstate: '*'
 
 dependencies:
@@ -52,7 +52,7 @@ dependencies:
   three: 0.143.0
   three-mesh-bvh: 0.5.15_three@0.143.0
   tweakpane: 3.1.0
-  xstate: 4.33.2
+  xstate: 4.33.3
 
 devDependencies:
   '@preact/preset-vite': 2.3.0_preact@10.10.6+vite@3.0.9
@@ -63,7 +63,7 @@ devDependencies:
   lil-gui: 0.17.0
   randomcolor: 0.6.2
   rimraf: 3.0.2
-  typescript: 4.7.4
+  typescript: 4.8.2
   vite: 3.0.9
 
 packages:
@@ -539,14 +539,14 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001381
-      electron-to-chromium: 1.4.225
+      caniuse-lite: 1.0.30001383
+      electron-to-chromium: 1.4.231
       node-releases: 2.0.6
       update-browserslist-db: 1.0.5_browserslist@4.21.3
     dev: true
 
-  /caniuse-lite/1.0.30001381:
-    resolution: {integrity: sha512-fEnkDOKpvp6qc+olg7+NzE1SqyfiyKf4uci7fAU38M3zxs0YOyKOxW/nMZ2l9sJbt7KZHcDIxUnbI0Iime7V4w==}
+  /caniuse-lite/1.0.30001383:
+    resolution: {integrity: sha512-swMpEoTp5vDoGBZsYZX7L7nXHe6dsHxi9o6/LKf/f0LukVtnrxly5GVb/fWdCDTqi/yw6Km6tiJ0pmBacm0gbg==}
     dev: true
 
   /cannon-es/0.20.0:
@@ -598,8 +598,8 @@ packages:
       ms: 2.1.2
     dev: true
 
-  /electron-to-chromium/1.4.225:
-    resolution: {integrity: sha512-ICHvGaCIQR3P88uK8aRtx8gmejbVJyC6bB4LEC3anzBrIzdzC7aiZHY4iFfXhN4st6I7lMO0x4sgBHf/7kBvRw==}
+  /electron-to-chromium/1.4.231:
+    resolution: {integrity: sha512-E8WsUC60chToZUfxvVUXBb1U/mR/Df3GFX+mO3edtQnRTUt6L2XgpqBVWcGD/xrzQdINL1g/CEBPPn0YJ86Y6Q==}
     dev: true
 
   /esbuild-android-64/0.14.54:
@@ -1159,8 +1159,8 @@ packages:
     resolution: {integrity: sha512-PGAp/LPQdHwzL7/iAW4lV1p9iPQTti7YMjMWO48CoYjvZRS59RmgQnhEGzKzqST1JnmOYmQUjTe8bdhlZRJs5A==}
     dev: false
 
-  /typescript/4.7.4:
-    resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
+  /typescript/4.8.2:
+    resolution: {integrity: sha512-C0I1UsrrDHo2fYI5oaCGbSejwX4ch+9Y5jTQELvovfmFkK3HHSZJB8MSJcWLmCUBzQBchCrZ9rMRV6GuNrvGtw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
@@ -1207,6 +1207,6 @@ packages:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: true
 
-  /xstate/4.33.2:
-    resolution: {integrity: sha512-hIcoubJm6zuHyTPtE4tKp0Keb94Bs11ohQ1bBE3pwua5PuTDpAPut6gSTJeU/xI1akd1LsTrCvZTil6Kc4LqEA==}
+  /xstate/4.33.3:
+    resolution: {integrity: sha512-NXFGDFXlDg04dYaKwAlHGeCT6K4bcYiXndaG1p9g++1z2FnEUji6chfZ2lxYc28pcV6tz1vAsfaSJdgZUS4J/w==}
     dev: false

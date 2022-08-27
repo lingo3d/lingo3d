@@ -1,5 +1,4 @@
 import CharacterCamera from "../core/CharacterCamera"
-import SimpleObjectManager from "../core/SimpleObjectManager"
 import { Reactive } from "@lincode/reactivity"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
@@ -23,12 +22,7 @@ export default class FirstPersonCamera extends CharacterCamera {
         this.createEffect(() => {
             const target = this.targetState.get()
             const innerYSet = this.innerYSetState.get()
-            if (
-                !target ||
-                !(target instanceof SimpleObjectManager) ||
-                innerYSet
-            )
-                return
+            if (!target || !("height" in target) || innerYSet) return
             super.innerY = target.height * 0.4
 
             return () => {
