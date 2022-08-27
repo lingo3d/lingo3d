@@ -8,6 +8,9 @@ import Model from "../Model"
 import AnimatedObjectManager from "./AnimatedObjectManager"
 import SimpleObjectManager from "./SimpleObjectManager"
 
+const placeholderMateral = new MeshStandardMaterial()
+placeholderMateral.dispose()
+
 class FoundManager extends SimpleObjectManager implements IFound {
     public static componentName = "find"
     public static defaults = foundDefaults
@@ -18,7 +21,7 @@ class FoundManager extends SimpleObjectManager implements IFound {
     public constructor(mesh: Object3D) {
         super(mesh)
         //@ts-ignore
-        this.material = mesh.material
+        this.material = mesh.material ??= placeholderMateral
         appendableRoot.delete(this)
         this.cloneMaterial = true
     }
