@@ -2,23 +2,25 @@ import { useMemoOnce } from "@lincode/hooks"
 import { nanoid } from "nanoid"
 import { useRef, useState } from "react"
 
-type Options = {
+type Options<T extends Record<string, any>> = {
   lifetime?: number
   type?: string
-  data?: Record<string, any>
+  data?: T
   id?: string
 }
 
-export default (o?: Options) => {
+export default <T extends Record<string, any> = Record<string, any>>(
+  o?: Options<T>
+) => {
   const doneRef = useRef(false)
   const optionSet = useMemoOnce(
-    () => new Set<Options>(),
+    () => new Set<Options<T>>(),
     undefined,
     () => (doneRef.current = true)
   )
 
-  const [options, setOptions] = useState<Array<Options>>([])
-  const spawn = (_o?: Options) => {
+  const [options, setOptions] = useState<Array<Options<T>>>([])
+  const spawn = (_o?: Options<T>) => {
     if (doneRef.current) return
 
     const options = { ...o, ..._o }

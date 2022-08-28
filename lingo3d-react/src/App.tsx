@@ -1,10 +1,11 @@
-import { useState } from "react"
-import { Cube, World } from "."
+import { Cube, HTML, World } from "."
 
 function App() {
   return (
     <World>
-      <Cube />
+      <Cube>
+        <HTML><div>hello world</div></HTML>
+      </Cube>
     </World>
   )
 }

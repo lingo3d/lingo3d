@@ -35,7 +35,16 @@ watchEffect((cleanUp) => {
 <template>
   <Teleport :to="htmlContainer">
     <div ref="divRef" style="display: none">
-      <slot />
+      <div
+        style="
+          position: absolute;
+          transform: translateX(-50%) translateY(-50%);
+          left: 0px;
+          top: 0px;
+        "
+      >
+        <slot />
+      </div>
     </div>
   </Teleport>
 </template>
