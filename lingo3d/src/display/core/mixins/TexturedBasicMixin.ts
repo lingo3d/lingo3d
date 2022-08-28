@@ -18,11 +18,10 @@ export const queueTextureRepeat = queueDebounce()
 export default abstract class TexturedBasicMixin implements ITexturedBasic {
     protected abstract material: MeshStandardMaterial | SpriteMaterial
 
-    private _materialCloned?: boolean
-    protected cloneMaterial?: boolean
+    protected materialCloned?: boolean
     protected tryCloneMaterial() {
-        if (this._materialCloned || !this.cloneMaterial) return
-        this._materialCloned = true
+        if (this.materialCloned) return
+        this.materialCloned = true
         //@ts-ignore
         this.material = this.nativeObject3d.material = this.material.clone()
         //@ts-ignore

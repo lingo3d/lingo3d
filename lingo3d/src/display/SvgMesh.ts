@@ -1,11 +1,5 @@
 import { applyMixins, forceGet, lazy } from "@lincode/utils"
-import {
-    ExtrudeBufferGeometry,
-    Group,
-    Mesh,
-    MeshStandardMaterial,
-    Shape
-} from "three"
+import { ExtrudeBufferGeometry, Group, Mesh, Shape } from "three"
 import type { SVGResult } from "three/examples/jsm/loaders/SVGLoader"
 import Loaded from "./core/Loaded"
 import TexturedBasicMixin from "./core/mixins/TexturedBasicMixin"
@@ -13,6 +7,7 @@ import TexturedStandardMixin from "./core/mixins/TexturedStandardMixin"
 import fit from "./utils/fit"
 import measure from "./utils/measure"
 import ISvgMesh, { svgMeshDefaults, svgMeshSchema } from "../interface/ISvgMesh"
+import { standardMaterial } from "./utils/reusables"
 
 const lazyLoadSVG = lazy(() => import("./utils/loaders/loadSVG"))
 
@@ -23,14 +18,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     public static defaults = svgMeshDefaults
     public static schema = svgMeshSchema
 
-    protected material = new MeshStandardMaterial()
-
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
-        this.material.dispose()
-        return this
-    }
+    protected material = standardMaterial
 
     protected load(url: string) {
         return lazyLoadSVG().then((module) => module.default(url))

@@ -15,6 +15,7 @@ export default class Reflector extends Plane {
     public constructor() {
         super()
         this.rotationX = -90
+        this.materialCloned = true
 
         import("./MeshReflectorMaterial").then((module) => {
             this.createEffect(() => {
@@ -39,7 +40,6 @@ export default class Reflector extends Plane {
                     }
                 )
                 copyStandard(this.material, mat)
-                this.material.dispose()
                 this.material = this.object3d.material = mat
 
                 const handle = onRender(() => {

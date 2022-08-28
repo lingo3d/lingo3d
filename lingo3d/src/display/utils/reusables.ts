@@ -7,7 +7,8 @@ import {
     Euler,
     Line3,
     Frustum,
-    Matrix4
+    Matrix4,
+    MeshStandardMaterial
 } from "three"
 import { diameterScaled, radiusScaled } from "../../engine/constants"
 
@@ -41,10 +42,11 @@ export const euler = new Euler(0, 0, 0, "YXZ")
 
 export const line3 = new Line3()
 
-export const wireframeMaterial = new MeshBasicMaterial({ wireframe: true })
-
 export const frustum = new Frustum()
 
 export const matrix4 = new Matrix4()
 
 export const halfPi = Math.PI * 0.5
+
+export const wireframeMaterial = new MeshBasicMaterial({ wireframe: true })
+export const standardMaterial = new MeshStandardMaterial()

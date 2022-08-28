@@ -4,24 +4,17 @@ import ObjectManager from "./core/ObjectManager"
 import TexturedBasicMixin from "./core/mixins/TexturedBasicMixin"
 import ISprite, { spriteDefaults, spriteSchema } from "../interface/ISprite"
 
+const material = new SpriteMaterial({ transparent: true })
+
 class Sprite extends ObjectManager<ThreeSprite> implements ISprite {
     public static componentName = "sprite"
     public static defaults = spriteDefaults
     public static schema = spriteSchema
 
-    protected material: SpriteMaterial
+    protected material = material
 
     public constructor() {
-        const material = new SpriteMaterial({ transparent: true })
         super(new ThreeSprite(material))
-        this.material = material
-    }
-
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
-        this.material.dispose()
-        return this
     }
 
     public override get depth() {
