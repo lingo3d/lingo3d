@@ -4,17 +4,21 @@ import IObjectManager, {
 } from "./IObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
 
-export default interface ISpawnPoint extends IObjectManager {
-    helper: boolean
+export default interface IWater extends IObjectManager {
+    shape: "plane" | "sphere"
+    normalMap: Nullable<string>
 }
 
-export const spawnPointSchema: Required<ExtractProps<ISpawnPoint>> = {
+export const waterSchema: Required<ExtractProps<IWater>> = {
     ...objectManagerSchema,
-    helper: Boolean
+    shape: String,
+    normalMap: String
 }
 
-export const spawnPointDefaults: Defaults<ISpawnPoint> = {
+export const waterDefaults: Defaults<IWater> = {
     ...objectManagerDefaults,
-    helper: true
+    shape: "plane",
+    normalMap: undefined
 }

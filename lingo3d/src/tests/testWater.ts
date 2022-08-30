@@ -18,4 +18,5 @@ settings.skybox = [
 ]
 
 const water = new Water()
-water.scale = 9999
+water.scale = 100
+water.shape = "sphere"

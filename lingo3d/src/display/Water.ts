@@ -6,11 +6,12 @@ import { Water } from "three/examples/jsm/objects/Water"
 import loadTexture from "./utils/loaders/loadTexture"
 import { dt } from "../engine/eventLoop"
 import { onBeforeRender } from "../events/onBeforeRender"
+import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 
-export default class SpawnPoint extends ObjectManager {
-    // public static componentName = "spawnPoint"
-    // public static defaults = spawnPointDefaults
-    // public static schema = spawnPointSchema
+export default class SpawnPoint extends ObjectManager implements IWater {
+    public static componentName = "water"
+    public static defaults = waterDefaults
+    public static schema = waterSchema
 
     private shapeState = new Reactive<"plane" | "sphere">("plane")
     public get shape() {
@@ -20,10 +21,21 @@ export default class SpawnPoint extends ObjectManager {
         this.shapeState.set(val)
     }
 
+    private normalMapState = new Reactive<string | undefined>(undefined)
+    public get normalMap() {
+        return this.normalMapState.get()
+    }
+    public set normalMap(val) {
+        this.normalMapState.set(val)
+    }
+
     public constructor() {
         super()
 
         this.createEffect(() => {
+            const normalMap = this.normalMapState.get()
+            if (!normalMap) return
+
             const waterGeometry =
                 this.shapeState.get() === "plane"
                     ? planeGeometry
@@ -32,7 +44,7 @@ export default class SpawnPoint extends ObjectManager {
             const water = new Water(waterGeometry, {
                 textureWidth: 512,
                 textureHeight: 512,
-                waterNormals: loadTexture("waternormals.jpeg"),
+                waterNormals: loadTexture(normalMap),
                 // sunDirection: new Vector3(),
                 sunColor: 0xffffff,
                 waterColor: 0x001e0f,
@@ -48,6 +60,6 @@ export default class SpawnPoint extends ObjectManager {
                 this.outerObject3d.remove(water)
                 handle.cancel()
             }
-        }, [this.shapeState.get])
+        }, [this.shapeState.get, this.normalMapState.get])
     }
 }
