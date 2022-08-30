@@ -46,6 +46,7 @@ const Library = () => {
                     { spawnPoint: "circle" },
                     "audio",
                     "reflector",
+                    { water: "reflector" },
                     "cube",
                     "sphere",
                     "cone",

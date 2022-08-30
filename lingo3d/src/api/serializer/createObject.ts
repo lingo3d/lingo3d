@@ -5,6 +5,7 @@ import Building from "../../display/Building"
 import Tree from "../../display/Tree"
 import SvgMesh from "../../display/SvgMesh"
 import Reflector from "../../display/Reflector"
+import Water from "../../display/Water"
 import Sprite from "../../display/Sprite"
 import Circle from "../../display/primitives/Circle"
 import Cone from "../../display/primitives/Cone"
@@ -43,6 +44,7 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     building: () => new Building(),
     tree: () => new Tree(),
     reflector: () => new Reflector(),
+    water: () => new Water(),
     sprite: () => new Sprite(),
     trigger: () => new Trigger() as any,
     spawnPoint: () => new SpawnPoint() as any,

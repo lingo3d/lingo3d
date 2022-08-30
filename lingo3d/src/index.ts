@@ -18,6 +18,7 @@ import Building from "./display/Building"
 import Tree from "./display/Tree"
 import SvgMesh from "./display/SvgMesh"
 import Reflector from "./display/Reflector"
+import Water from "./display/Water"
 import Line from "./display/Line"
 import Sprite from "./display/Sprite"
 import Trigger from "./display/Trigger"
@@ -89,8 +90,6 @@ export type {
 
 export default {}
 
-
-
 export {
     Cube,
     Sphere,
@@ -107,6 +106,7 @@ export {
     Tree,
     SvgMesh,
     Reflector,
+    Water,
     Line,
     Sprite,
     Trigger,

@@ -28,6 +28,7 @@ import IJoystick from "lingo3d/lib/interface/IJoystick"
 import IReticle from "lingo3d/lib/interface/IReticle"
 import IThirdPersonCamera from "lingo3d/lib/interface/IThirdPersonCamera"
 import ISetup from "lingo3d/lib/interface/ISetup"
+import IWater from "lingo3d/lib/interface/IWater"
 
 type Children = React.ReactNode
 
@@ -39,6 +40,7 @@ export type ModelProps = Partial<IModel> & { children?: Children }
 export type DummyProps = Partial<IDummy> & { children?: Children }
 export type SvgMeshProps = Partial<ISvgMesh> & { children?: Children }
 export type ReflectorProps = Partial<IReflector> & { children?: Children }
+export type WaterProps = Partial<IWater> & { children?: Children }
 export type SpriteProps = Partial<ISprite> & { children?: Children }
 
 export type CameraProps = Partial<ICamera> & { children?: Children }

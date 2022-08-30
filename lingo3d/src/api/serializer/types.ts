@@ -5,6 +5,7 @@ import IBuilding from "../../interface/IBuilding"
 import ITree from "../../interface/ITree"
 import ISvgMesh from "../../interface/ISvgMesh"
 import IReflector from "../../interface/IReflector"
+import IWater from "../../interface/IWater"
 import ISprite from "../../interface/ISprite"
 import ITrigger from "../../interface/ITrigger"
 import ISpawnPoint from "../../interface/ISpawnPoint"
@@ -29,6 +30,7 @@ export type GameObjectType =
     | "tree"
     | "svgMesh"
     | "reflector"
+    | "water"
     | "sprite"
     | "trigger"
     | "spawnPoint"
@@ -109,6 +111,8 @@ export type SvgMeshNode = TypedPropsNode<ISvgMesh, "svgMesh">
 
 export type ReflectorNode = TypedPropsNode<IReflector, "reflector">
 
+export type WaterNode = TypedPropsNode<IWater, "water">
+
 export type SpriteNode = TypedPropsNode<ISprite, "sprite">
 
 export type TriggerNode = TypedPropsNode<ITrigger, "trigger">
@@ -166,6 +170,7 @@ export type BaseSceneGraphNode =
     | TreeNode
     | SvgMeshNode
     | ReflectorNode
+    | WaterNode
     | SpriteNode
     | TriggerNode
     | SpawnPointNode
