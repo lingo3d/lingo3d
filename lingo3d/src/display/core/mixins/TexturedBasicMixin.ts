@@ -3,6 +3,7 @@ import {
     MeshStandardMaterial,
     RepeatWrapping,
     SpriteMaterial,
+    Texture,
     Vector2,
     VideoTexture
 } from "three"
@@ -65,12 +66,12 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
             this.tryCloneMaterial()
             for (const name of mapNames) {
                 //@ts-ignore
-                const map = this.material[name]
+                const map: Texture = this.material[name]
                 if (!map) return
                 repeat !== undefined && (map.repeat = repeat)
                 flipY !== undefined && (map.flipY = flipY)
+                map.needsUpdate = true
             }
-            this.material.needsUpdate = true
         })
     }
 

@@ -424,6 +424,7 @@ const Editor = () => {
                     "color",
                     "texture",
                     "textureRepeat",
+                    "textureFlipY",
                     "videoTexture",
                     "wireframe"
                 ]

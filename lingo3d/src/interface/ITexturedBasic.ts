@@ -34,5 +34,5 @@ export const texturedBasicDefaults: Defaults<ITexturedBasic> = {
     videoTexture: undefined,
     alphaMap: undefined,
     textureRepeat: new NullableDefault({ x: 1, y: 1 }),
-    textureFlipY: undefined
+    textureFlipY: new NullableDefault(false)
 }
