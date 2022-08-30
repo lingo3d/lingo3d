@@ -9,16 +9,22 @@ import Nullable from "./utils/Nullable"
 export default interface IWater extends IObjectManager {
     shape: "plane" | "sphere"
     normalMap: Nullable<string>
+    resolution: number
+    speed: number
 }
 
 export const waterSchema: Required<ExtractProps<IWater>> = {
     ...objectManagerSchema,
     shape: String,
-    normalMap: String
+    normalMap: String,
+    resolution: Number,
+    speed: Number
 }
 
 export const waterDefaults: Defaults<IWater> = {
     ...objectManagerDefaults,
     shape: "plane",
-    normalMap: undefined
+    normalMap: undefined,
+    resolution: 512,
+    speed: 1
 }
