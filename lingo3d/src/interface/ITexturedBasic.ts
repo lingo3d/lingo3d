@@ -12,6 +12,7 @@ export default interface ITexturedBasic {
     videoTexture: Nullable<string | HTMLVideoElement>
     alphaMap: Nullable<string>
     textureRepeat: Nullable<Point | number>
+    textureFlipY: Nullable<boolean>
 }
 
 export const texturedBasicSchema: Required<ExtractProps<ITexturedBasic>> = {
@@ -21,7 +22,8 @@ export const texturedBasicSchema: Required<ExtractProps<ITexturedBasic>> = {
     texture: [String, Object],
     videoTexture: [String, Object],
     alphaMap: String,
-    textureRepeat: [Object, Number]
+    textureRepeat: [Object, Number],
+    textureFlipY: Boolean
 }
 
 export const texturedBasicDefaults: Defaults<ITexturedBasic> = {
@@ -31,5 +33,6 @@ export const texturedBasicDefaults: Defaults<ITexturedBasic> = {
     texture: undefined,
     videoTexture: undefined,
     alphaMap: undefined,
-    textureRepeat: new NullableDefault({ x: 1, y: 1 })
+    textureRepeat: new NullableDefault({ x: 1, y: 1 }),
+    textureFlipY: undefined
 }

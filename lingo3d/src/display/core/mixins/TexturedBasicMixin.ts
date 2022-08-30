@@ -11,9 +11,9 @@ import ITexturedBasic from "../../../interface/ITexturedBasic"
 import { Reactive } from "@lincode/reactivity"
 import queueDebounce from "../../../utils/queueDebounce"
 
-const mapNames = <const>["map", "alphaMap"]
+const mapNames = ["map", "alphaMap"]
 
-export const queueTextureRepeat = queueDebounce()
+const queueTextureRepeat = queueDebounce()
 
 export default abstract class TexturedBasicMixin implements ITexturedBasic {
     protected abstract material: MeshStandardMaterial | SpriteMaterial
@@ -57,15 +57,18 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
         this.nativeObject3d.visible = !!val
     }
 
-    protected applyTextureRepeat() {
+    protected applyTexture(mapNames: Array<string>) {
         const repeat = this._textureRepeat
-        if (!repeat) return
+        const flipY = this._textureFlipY
 
         queueTextureRepeat(this, () => {
             this.tryCloneMaterial()
             for (const name of mapNames) {
+                //@ts-ignore
                 const map = this.material[name]
-                map && (map.repeat = repeat)
+                if (!map) return
+                repeat !== undefined && (map.repeat = repeat)
+                flipY !== undefined && (map.flipY = flipY)
             }
             this.material.needsUpdate = true
         })
@@ -115,7 +118,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
                 const { map } = material
                 material.map = videoTexture
                 material.needsUpdate = true
-                this.applyTextureRepeat()
+                this.applyTexture(mapNames)
 
                 return () => {
                     video.pause()
@@ -130,7 +133,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
             const { material } = this
             const { map } = material
             material.map = loadTexture(url as string)
-            this.applyTextureRepeat()
+            this.applyTexture(mapNames)
 
             return () => {
                 material.map = map
@@ -163,7 +166,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
         this.tryCloneMaterial()
         this._alphaMap = val
         this.material.alphaMap = val ? loadTexture(val) : null
-        this.applyTextureRepeat()
+        this.applyTexture(mapNames)
     }
 
     protected _textureRepeat?: Vector2
@@ -173,6 +176,15 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     public set textureRepeat(val: Vector2 | number | undefined) {
         typeof val === "number" && (val = new Vector2(val, val))
         this._textureRepeat = val
-        this.applyTextureRepeat()
+        this.applyTexture(mapNames)
+    }
+
+    protected _textureFlipY?: boolean
+    public get textureFlipY() {
+        return this._textureFlipY
+    }
+    public set textureFlipY(val) {
+        this._textureFlipY = val
+        this.applyTexture(mapNames)
     }
 }

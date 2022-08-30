@@ -43,7 +43,10 @@ createEffect(() => {
     if (getMotionBlur()) for (const pass of motionBlurPass) passes.push(pass)
 
     const antiAlias = getAntiAlias()
-    if (antiAlias === "MSAA" && !getRenderer()?.capabilities.isWebGL2)
+    if (
+        antiAlias === "SMAA" ||
+        (antiAlias === "MSAA" && !getRenderer()?.capabilities.isWebGL2)
+    )
         passes.push(smaaPass)
 
     for (const pass of passes) effectComposer.addPass(pass)

@@ -39,5 +39,5 @@ createEffect(() => {
 
     const [w, h] = getResolution()
     effectComposer.setSize(w, h)
-    effectComposer.setPixelRatio(getPixelRatio())
+    effectComposer.setPixelRatio(Math.min(getPixelRatio(), devicePixelRatio))
 }, [getEffectComposer, getResolution, getPixelRatio])

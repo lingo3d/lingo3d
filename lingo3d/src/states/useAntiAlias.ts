@@ -1,5 +1,5 @@
 import store from "@lincode/reactivity"
 
-export const [setAntiAlias, getAntiAlias] = store<"MSAA" | false>(
+export const [setAntiAlias, getAntiAlias] = store<"MSAA" | "SMAA" | false>(
     "MSAA"
 )

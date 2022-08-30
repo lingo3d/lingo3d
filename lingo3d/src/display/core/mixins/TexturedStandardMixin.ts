@@ -9,9 +9,9 @@ import ITexturedStandard, {
     NormalMapType
 } from "../../../interface/ITexturedStandard"
 import loadTexture from "../../utils/loaders/loadTexture"
-import TexturedBasicMixin, { queueTextureRepeat } from "./TexturedBasicMixin"
+import TexturedBasicMixin from "./TexturedBasicMixin"
 
-const mapNames = <const>[
+const mapNames = [
     "map",
     "alphaMap",
     "envMap",
@@ -39,20 +39,6 @@ export default abstract class TexturedStandardMixin
         this.material.wireframe = val
     }
 
-    protected applyTextureRepeat2() {
-        const repeat = this._textureRepeat
-        if (!repeat) return
-
-        queueTextureRepeat(this, () => {
-            this.tryCloneMaterial()
-            for (const name of mapNames) {
-                const map = this.material[name]
-                map && (map.repeat = repeat)
-            }
-            this.material.needsUpdate = true
-        })
-    }
-
     private _envMap?: string
     public get envMap() {
         return this._envMap
@@ -61,7 +47,7 @@ export default abstract class TexturedStandardMixin
         this.tryCloneMaterial()
         this._envMap = val
         this.material.envMap = val ? loadTexture(val) : null
-        this.applyTextureRepeat2()
+        this.applyTexture(mapNames)
     }
 
     private _aoMap?: string
@@ -72,7 +58,7 @@ export default abstract class TexturedStandardMixin
         this.tryCloneMaterial()
         this._aoMap = val
         this.material.aoMap = val ? loadTexture(val) : null
-        this.applyTextureRepeat2()
+        this.applyTexture(mapNames)
     }
 
     public get aoMapIntensity() {
@@ -91,7 +77,7 @@ export default abstract class TexturedStandardMixin
         this.tryCloneMaterial()
         this._bumpMap = val
         this.material.bumpMap = val ? loadTexture(val) : null
-        this.applyTextureRepeat2()
+        this.applyTexture(mapNames)
     }
 
     public get bumpScale() {
@@ -110,7 +96,7 @@ export default abstract class TexturedStandardMixin
         this.tryCloneMaterial()
         this._displacementMap = val
         this.material.displacementMap = val ? loadTexture(val) : null
-        this.applyTextureRepeat2()
+        this.applyTexture(mapNames)
     }
 
     public get displacementScale() {
@@ -145,7 +131,7 @@ export default abstract class TexturedStandardMixin
         this.tryCloneMaterial()
         this._emissiveMap = val
         this.material.emissiveMap = val ? loadTexture(val) : null
-        this.applyTextureRepeat2()
+        this.applyTexture(mapNames)
     }
 
     public get emissiveIntensity() {
@@ -177,7 +163,7 @@ export default abstract class TexturedStandardMixin
         this.tryCloneMaterial()
         this._lightMap = val
         this.material.lightMap = val ? loadTexture(val) : null
-        this.applyTextureRepeat2()
+        this.applyTexture(mapNames)
     }
 
     public get lightMapIntensity() {
@@ -196,7 +182,7 @@ export default abstract class TexturedStandardMixin
         this.tryCloneMaterial()
         this._metalnessMap = val
         this.material.metalnessMap = val ? loadTexture(val) : null
-        this.applyTextureRepeat2()
+        this.applyTexture(mapNames)
     }
 
     public get metalness() {
@@ -215,7 +201,7 @@ export default abstract class TexturedStandardMixin
         this.tryCloneMaterial()
         this._roughnessMap = val
         this.material.roughnessMap = val ? loadTexture(val) : null
-        this.applyTextureRepeat2()
+        this.applyTexture(mapNames)
     }
 
     public get roughness() {
@@ -234,7 +220,7 @@ export default abstract class TexturedStandardMixin
         this.tryCloneMaterial()
         this._normalMap = val
         this.material.normalMap = val ? loadTexture(val) : null
-        this.applyTextureRepeat2()
+        this.applyTexture(mapNames)
     }
 
     public get normalScale() {

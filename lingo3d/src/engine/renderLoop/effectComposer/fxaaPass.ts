@@ -9,7 +9,7 @@ export default fxaaPass
 
 createEffect(() => {
     const [w, h] = getResolution()
-    const pixelRatio = getPixelRatio()
+    const pixelRatio = Math.min(getPixelRatio(), devicePixelRatio)
     fxaaPass.material.uniforms["resolution"].value.set(
         1 / (w * pixelRatio),
         1 / (h * pixelRatio)

@@ -111,7 +111,7 @@ createEffect(() => {
 
     const [w, h] = getResolution()
     renderer.setSize(w, h)
-    renderer.setPixelRatio(getPixelRatio())
+    renderer.setPixelRatio(Math.min(getPixelRatio(), devicePixelRatio))
 }, [getRenderer, getResolution, getPixelRatio])
 
 createEffect(() => {
