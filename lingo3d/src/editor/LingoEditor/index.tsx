@@ -10,6 +10,7 @@ import HUD from "../HUD"
 import { useEffect, useRef } from "preact/hooks"
 import settings from "../../api/settings"
 import FileBrowser from "../FileBrowser"
+import { useFileBrowser } from "../states"
 preventTreeShake(h)
 
 const LingoEditor = () => {
@@ -20,6 +21,8 @@ const LingoEditor = () => {
         if (!el) return
         settings.autoMount = el
     }, [])
+
+    const [fileBrowser] = useFileBrowser()
 
     return (
         <div
@@ -37,8 +40,7 @@ const LingoEditor = () => {
             <div>
                 <div
                     style={{
-                        // height: "calc(100% - 200px)"
-                        height: "100%"
+                        height: fileBrowser ? "calc(100% - 200px)" : "100%"
                     }}
                 >
                     <SceneGraph />
@@ -46,7 +48,7 @@ const LingoEditor = () => {
                     <NodeEditor />
                     <Library />
                 </div>
-                {/* <FileBrowser /> */}
+                {fileBrowser && <FileBrowser />}
             </div>
             <HUD />
             <div

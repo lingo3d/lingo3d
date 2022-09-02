@@ -38,6 +38,7 @@ import PathIcon from "./icons/PathIcon"
 import FolderIcon from "./icons/FolderIcon"
 import { directoryOpen } from "browser-fs-access"
 import { setFiles } from "../../states/useFiles"
+import { setFileBrowser } from "../../states/useFileBrowser"
 
 preventTreeShake(h)
 
@@ -50,6 +51,7 @@ const openFolder = async () => {
             entry.name[0] === "." || entry.name === "node_modules"
     })
     setFiles(blobs)
+    setFileBrowser(true)
 }
 
 type ButtonOptions = {
@@ -175,13 +177,13 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                 </Section>
 
                 <Section>
-                    {/* {!buttons?.openFolder?.hidden && (
+                    {!buttons?.openFolder?.hidden && (
                         <IconButton
                             onClick={buttons?.openFolder?.onClick ?? openFolder}
                         >
                             <FolderIcon />
                         </IconButton>
-                    )} */}
+                    )}
                     {!buttons?.openJSON?.hidden && (
                         <IconButton
                             onClick={buttons?.openJSON?.onClick ?? openJSON}

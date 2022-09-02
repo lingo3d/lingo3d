@@ -7,6 +7,7 @@ import { useFiles } from "../states"
 import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem/index"
 import pathMap from "./pathMap"
+import { setFileBrowser } from "../../states/useFileBrowser"
 
 preventTreeShake(h)
 
@@ -81,7 +82,7 @@ const FileBrowser = () => {
                 >
                     File Browser
                     <div style={{ width: 20 }} />
-                    <div onClick={() => console.log("here")}>
+                    <div onClick={() => setFileBrowser(false)}>
                         <CloseIcon />
                     </div>
                 </div>
