@@ -5,4 +5,4 @@ import Model from "../display/Model"
 export default {}
 
 const world = new Model()
-world.src = "parrot.glb"
+world.src = "cbpunk.glb"

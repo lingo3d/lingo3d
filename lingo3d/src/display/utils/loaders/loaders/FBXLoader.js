@@ -1103,7 +1103,7 @@ class FBXTreeParser {
         } else if (materials.length > 0) {
             material = materials[0]
         } else {
-            material = new MeshPhongMaterial({ color: 0xcccccc })
+            material = new MeshStandardMaterial({ color: 0xcccccc })
             materials.push(material)
         }
 
@@ -1677,6 +1677,14 @@ class GeometryParser {
                     vertexIndex,
                     geoInfo.material
                 )[0]
+
+                if (materialIndex < 0) {
+                    console.warn(
+                        "FBXLoader: Invalid material index:",
+                        materialIndex
+                    )
+                    materialIndex = 0
+                }
             }
 
             if (geoInfo.uv) {
@@ -3504,19 +3512,19 @@ function generateTransform(transformData) {
 
     if (transformData.preRotation) {
         const array = transformData.preRotation.map(MathUtils.degToRad)
-        array.push(transformData.eulerOrder)
+        array.push(transformData.eulerOrder || Euler.DefaultOrder)
         lPreRotationM.makeRotationFromEuler(tempEuler.fromArray(array))
     }
 
     if (transformData.rotation) {
         const array = transformData.rotation.map(MathUtils.degToRad)
-        array.push(transformData.eulerOrder)
+        array.push(transformData.eulerOrder || Euler.DefaultOrder)
         lRotationM.makeRotationFromEuler(tempEuler.fromArray(array))
     }
 
     if (transformData.postRotation) {
         const array = transformData.postRotation.map(MathUtils.degToRad)
-        array.push(transformData.eulerOrder)
+        array.push(transformData.eulerOrder || Euler.DefaultOrder)
         lPostRotationM.makeRotationFromEuler(tempEuler.fromArray(array))
         lPostRotationM.invert()
     }
