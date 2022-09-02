@@ -33,7 +33,6 @@ export default async (url: string, clone: boolean) => {
 
                             child.castShadow = true
                             child.receiveShadow = true
-                            child.frustumCulled = false
                         })
                         for (const light of lights) light.parent?.remove(light)
 

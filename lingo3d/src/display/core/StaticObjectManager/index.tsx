@@ -313,6 +313,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
     public set frustumCulled(val) {
         this.outerObject3d.frustumCulled = val
+        this.outerObject3d.traverse((child) => (child.frustumCulled = val))
     }
 
     protected _castShadow?: boolean

@@ -14,8 +14,7 @@ export default {}
 
 preload(
     [{ src: "map.fbx", resize: false, scale: 0.04, physics: "map" }],
-    "100mb",
-    (val) => console.log(val)
+    "100mb"
 ).then(() => {
     const spawn = new SpawnPoint()
     spawn.id = "spawn"

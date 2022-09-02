@@ -10,26 +10,26 @@ specifiers:
   '@preact/preset-vite': ^2.3.0
   '@tweakpane/core': '*'
   '@types/preact-custom-element': ^4.0.1
-  '@types/prettier': ^2.7.0
+  '@types/prettier': ^2.6.3
   '@types/randomcolor': ^0.5.6
-  '@types/react': ^18.0.17
-  '@types/three': 0.143.1
+  '@types/react': ^18.0.15
+  '@types/three': 0.144.0
   browser-fs-access: 0.31.0
   cannon-es: 0.20.0
   lil-gui: ^0.17.0
   nipplejs: 0.9.1
-  postprocessing: 6.28.5
+  postprocessing: 6.28.7
   preact: '*'
   preact-compat: '*'
   preact-custom-element: '*'
   prettier: 2.7.1
   randomcolor: '*'
   rimraf: ^3.0.2
-  three: 0.143.0
+  three: 0.144.0
   three-mesh-bvh: 0.5.15
   tweakpane: '*'
-  typescript: ^4.8.2
-  vite: ^3.0.9
+  typescript: ^4.7.4
+  vite: ^3.0.2
   xstate: '*'
 
 dependencies:
@@ -40,26 +40,26 @@ dependencies:
   '@lincode/reactivity': 1.0.65
   '@lincode/utils': 1.3.1
   '@tweakpane/core': 1.1.0
-  '@types/three': 0.143.1
+  '@types/three': 0.144.0
   browser-fs-access: 0.31.0
   cannon-es: 0.20.0
   nipplejs: 0.9.1
-  postprocessing: 6.28.5_three@0.143.0
+  postprocessing: 6.28.7_three@0.144.0
   preact: 10.10.6
   preact-compat: 3.19.0_preact@10.10.6
   preact-custom-element: 4.2.1_preact@10.10.6
   prettier: 2.7.1
-  three: 0.143.0
-  three-mesh-bvh: 0.5.15_three@0.143.0
+  three: 0.144.0
+  three-mesh-bvh: 0.5.15_three@0.144.0
   tweakpane: 3.1.0
-  xstate: 4.33.3
+  xstate: 4.33.5
 
 devDependencies:
   '@preact/preset-vite': 2.3.0_preact@10.10.6+vite@3.0.9
   '@types/preact-custom-element': 4.0.1
   '@types/prettier': 2.7.0
   '@types/randomcolor': 0.5.6
-  '@types/react': 18.0.17
+  '@types/react': 18.0.18
   lil-gui: 0.17.0
   randomcolor: 0.6.2
   rimraf: 3.0.2
@@ -484,8 +484,8 @@ packages:
     resolution: {integrity: sha512-lKkW8DGUQpZldTrwa+HM5rY+7eTyaHOMTsnj9ewt7AAwXuMPwBmkLlfh8+SXdgOhBW9iNI4x4zRjQ/TQZkdycQ==}
     dev: true
 
-  /@types/react/18.0.17:
-    resolution: {integrity: sha512-38ETy4tL+rn4uQQi7mB81G7V1g0u2ryquNmsVIOKUAEIDK+3CUjZ6rSRpdvS99dNBnkLFL83qfmtLacGOTIhwQ==}
+  /@types/react/18.0.18:
+    resolution: {integrity: sha512-6hI08umYs6NaiHFEEGioXnxJ+oEhY3eRz8VCUaudZmGdtvPviCJB8mgaMxaDWAdPSYd4eFavrPk2QIolwbLYrg==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
@@ -496,8 +496,8 @@ packages:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
     dev: true
 
-  /@types/three/0.143.1:
-    resolution: {integrity: sha512-OzXb9Zx7gh0CrKiYnL/u+YeGJW0oDEmvL19vHq+sDmQ5V2Ibglf0I8Yoy/z4XPEv2YTFnYJs4imlEaupuBYRMA==}
+  /@types/three/0.144.0:
+    resolution: {integrity: sha512-psvEs6q5rLN50jUYZ3D4pZMfxTbdt3A243blt0my7/NcL6chaCZpHe2csbCtx0SOD9fI/XnF3wnVUAYZGqCSYg==}
     dependencies:
       '@types/webxr': 0.5.0
     dev: false
@@ -539,14 +539,14 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001383
-      electron-to-chromium: 1.4.231
+      caniuse-lite: 1.0.30001388
+      electron-to-chromium: 1.4.240
       node-releases: 2.0.6
-      update-browserslist-db: 1.0.5_browserslist@4.21.3
+      update-browserslist-db: 1.0.7_browserslist@4.21.3
     dev: true
 
-  /caniuse-lite/1.0.30001383:
-    resolution: {integrity: sha512-swMpEoTp5vDoGBZsYZX7L7nXHe6dsHxi9o6/LKf/f0LukVtnrxly5GVb/fWdCDTqi/yw6Km6tiJ0pmBacm0gbg==}
+  /caniuse-lite/1.0.30001388:
+    resolution: {integrity: sha512-znVbq4OUjqgLxMxoNX2ZeeLR0d7lcDiE5uJ4eUiWdml1J1EkxbnQq6opT9jb9SMfJxB0XA16/ziHwni4u1I3GQ==}
     dev: true
 
   /cannon-es/0.20.0:
@@ -598,8 +598,8 @@ packages:
       ms: 2.1.2
     dev: true
 
-  /electron-to-chromium/1.4.231:
-    resolution: {integrity: sha512-E8WsUC60chToZUfxvVUXBb1U/mR/Df3GFX+mO3edtQnRTUt6L2XgpqBVWcGD/xrzQdINL1g/CEBPPn0YJ86Y6Q==}
+  /electron-to-chromium/1.4.240:
+    resolution: {integrity: sha512-r20dUOtZ4vUPTqAajDGonIM1uas5tf85Up+wPdtNBNvBSqGCfkpvMVvQ1T8YJzPV9/Y9g3FbUDcXb94Rafycow==}
     dev: true
 
   /esbuild-android-64/0.14.54:
@@ -999,13 +999,13 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing/6.28.5_three@0.143.0:
-    resolution: {integrity: sha512-e9aH6T720AiQpStdgqrQSsHzpddFQ7Q8v204sZx4iSTnUuYvkq7mFPOyzhVDlx5NrmXXbwz2PEK2XTq+qEYSMg==}
+  /postprocessing/6.28.7_three@0.144.0:
+    resolution: {integrity: sha512-norsBlNIhDoNG2R0nki9C0bNEARIunE/s5W/4qH/Ozlg3m0dOOmBoY8JZhnmPild/+Jvq/UFEeHQRBvTc11WUg==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
-      three: '>= 0.107.0 < 0.144.0'
+      three: '>= 0.125.0 < 0.145.0'
     dependencies:
-      three: 0.143.0
+      three: 0.144.0
     dev: false
 
   /preact-compat/3.19.0_preact@10.10.6:
@@ -1138,16 +1138,16 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /three-mesh-bvh/0.5.15_three@0.143.0:
+  /three-mesh-bvh/0.5.15_three@0.144.0:
     resolution: {integrity: sha512-jxE5iGjcoEMiyxUs7hMeZL6jBXBz9973ilqhXPhKlA1f7eitjIxRTtu7UWVQy+PhxXTsknmPzWmN5c+uAa/anA==}
     peerDependencies:
       three: '>= 0.123.0'
     dependencies:
-      three: 0.143.0
+      three: 0.144.0
     dev: false
 
-  /three/0.143.0:
-    resolution: {integrity: sha512-oKcAGYHhJ46TGEuHjodo2n6TY2R6lbvrkp+feKZxqsUL/WkH7GKKaeu6RHeyb2Xjfk2dPLRKLsOP0KM2VgT8Zg==}
+  /three/0.144.0:
+    resolution: {integrity: sha512-R8AXPuqfjfRJKkYoTQcTK7A6i3AdO9++2n8ubya/GTU+fEHhYKu1ZooRSCPkx69jbnzT7dD/xEo6eROQTt2lJw==}
     dev: false
 
   /to-fast-properties/2.0.0:
@@ -1165,8 +1165,8 @@ packages:
     hasBin: true
     dev: true
 
-  /update-browserslist-db/1.0.5_browserslist@4.21.3:
-    resolution: {integrity: sha512-dteFFpCyvuDdr9S/ff1ISkKt/9YZxKjI9WlRR99c180GaztJtRa/fn18FdxGVKVsnPY7/a/FDN68mcvUmP4U7Q==}
+  /update-browserslist-db/1.0.7_browserslist@4.21.3:
+    resolution: {integrity: sha512-iN/XYesmZ2RmmWAiI4Z5rq0YqSiv0brj9Ce9CfhNE4xIW2h+MFxcgkxIzZ+ShkFPUkjU3gQ+3oypadD3RAMtrg==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
@@ -1207,6 +1207,6 @@ packages:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: true
 
-  /xstate/4.33.3:
-    resolution: {integrity: sha512-NXFGDFXlDg04dYaKwAlHGeCT6K4bcYiXndaG1p9g++1z2FnEUji6chfZ2lxYc28pcV6tz1vAsfaSJdgZUS4J/w==}
+  /xstate/4.33.5:
+    resolution: {integrity: sha512-C8WGBeQC+dNMp4MmQX359BUkJCv2VPAH/CGRnhtgri5JZ7wVEX7fsbfcqznAgnKyD0m9Hd3cGhg/wuzIjnfT4A==}
     dev: false
