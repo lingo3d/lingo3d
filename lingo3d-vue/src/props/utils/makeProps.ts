@@ -1,6 +1,6 @@
 import processDefaults from "./processDefaults"
 
-export default <T>(schema: T, defaults: any): T => {
+export default <T extends object>(schema: T, defaults: any): T => {
   defaults = processDefaults(defaults)
 
   return Object.fromEntries(
