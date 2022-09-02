@@ -1,7 +1,7 @@
 import React from "react"
 import { Sphere as GameSphere } from "lingo3d"
 import useManager, { ParentContext } from "../../../hooks/useManager"
-import { PrimitiveProps } from "../../../props"
+import { PrimitiveProps } from "../../../props/PrimitiveProps"
 
 const Sphere = React.forwardRef<GameSphere, PrimitiveProps>((p, ref) => {
   const manager = useManager(p, ref, GameSphere)

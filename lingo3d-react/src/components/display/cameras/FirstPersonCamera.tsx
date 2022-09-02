@@ -1,7 +1,7 @@
 import React from "react"
 import { FirstPersonCamera as GameFirstPersonCamera } from "lingo3d"
 import useManager, { ParentContext } from "../../../hooks/useManager"
-import { FirstPersonCameraProps } from "../../../props"
+import { FirstPersonCameraProps } from "../../../props/FirstPersonCameraProps"
 
 const FirstPersonCamera = React.forwardRef<
   GameFirstPersonCamera,

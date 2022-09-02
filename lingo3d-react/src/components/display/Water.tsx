@@ -1,7 +1,7 @@
 import React from "react"
 import { Water as GameWater } from "lingo3d"
 import useManager, { ParentContext } from "../../hooks/useManager"
-import { WaterProps } from "../../props"
+import { WaterProps } from "../../props/WaterProps"
 
 const Water = React.forwardRef<GameWater, WaterProps>((p, ref) => {
   const manager = useManager(p, ref, GameWater)

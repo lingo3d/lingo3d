@@ -1,7 +1,7 @@
 import React from "react"
 import { Sprite as GameSprite } from "lingo3d"
 import useManager, { ParentContext } from "../../hooks/useManager"
-import { SpriteProps } from "../../props"
+import { SpriteProps } from "../../props/SpriteProps"
 
 const Sprite = React.forwardRef<GameSprite, SpriteProps>((p, ref) => {
   const manager = useManager(p, ref, GameSprite)

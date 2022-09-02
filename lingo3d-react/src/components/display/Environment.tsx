@@ -1,7 +1,7 @@
 import React from "react"
 import { Environment as GameEnvironment } from "lingo3d"
 import useManager, { ParentContext } from "../../hooks/useManager"
-import { EnvironmentProps } from "../../props"
+import { EnvironmentProps } from "../../props/EnvironmentProps"
 
 const Environment = React.forwardRef<GameEnvironment, EnvironmentProps>(
   (p, ref) => {

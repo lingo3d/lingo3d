@@ -1,7 +1,7 @@
 import React from "react"
 import { Setup as GameSetup } from "lingo3d"
 import useManager, { ParentContext } from "../../hooks/useManager"
-import { SetupProps } from "../../props"
+import { SetupProps } from "../../props/SetupProps"
 
 const Setup = React.forwardRef<GameSetup, SetupProps>((p, ref) => {
   const manager = useManager(p, ref, GameSetup)

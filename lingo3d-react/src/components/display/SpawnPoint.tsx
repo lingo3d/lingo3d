@@ -1,7 +1,7 @@
 import React from "react"
 import { SpawnPoint as GameSpawnPoint } from "lingo3d"
 import useManager, { ParentContext } from "../../hooks/useManager"
-import { SpawnPointProps } from "../../props"
+import { SpawnPointProps } from "../../props/SpawnPointProps"
 
 const SpawnPoint = React.forwardRef<GameSpawnPoint, SpawnPointProps>(
   (p, ref) => {

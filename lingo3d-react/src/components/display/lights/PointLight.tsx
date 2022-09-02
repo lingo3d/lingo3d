@@ -1,7 +1,7 @@
 import React from "react"
 import { PointLight as GamePointLight } from "lingo3d"
 import useManager, { ParentContext } from "../../../hooks/useManager"
-import { PointLightProps } from "../../../props"
+import { PointLightProps } from "../../../props/PointLightProps"
 
 const PointLight = React.forwardRef<GamePointLight, PointLightProps>(
   (p, ref) => {

@@ -1,7 +1,7 @@
 import React from "react"
 import { AmbientLight as GameAmbientLight } from "lingo3d"
 import useManager, { ParentContext } from "../../../hooks/useManager"
-import { AmbientLightProps } from "../../../props"
+import { AmbientLightProps } from "../../../props/AmbientLightProps"
 
 const AmbientLight = React.forwardRef<GameAmbientLight, AmbientLightProps>(
   (p, ref) => {

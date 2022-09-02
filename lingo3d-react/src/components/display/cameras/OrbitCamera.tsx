@@ -1,7 +1,7 @@
 import React from "react"
 import { OrbitCamera as GameOrbitCamera } from "lingo3d"
 import useManager, { ParentContext } from "../../../hooks/useManager"
-import { OrbitCameraProps } from "../../../props"
+import { OrbitCameraProps } from "../../../props/OrbitCameraProps"
 
 const OrbitCamera = React.forwardRef<GameOrbitCamera, OrbitCameraProps>(
   (p, ref) => {

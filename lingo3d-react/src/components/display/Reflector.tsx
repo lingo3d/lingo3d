@@ -1,7 +1,7 @@
 import React from "react"
 import { Reflector as GameReflector } from "lingo3d"
 import useManager, { ParentContext } from "../../hooks/useManager"
-import { ReflectorProps } from "../../props"
+import { ReflectorProps } from "../../props/ReflectorProps"
 
 const Reflector = React.forwardRef<GameReflector, ReflectorProps>((p, ref) => {
   const manager = useManager(p, ref, GameReflector)
