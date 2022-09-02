@@ -28,7 +28,7 @@ dummy.strideMove = true
 
 const cam = new ThirdPersonCamera()
 cam.append(dummy)
-cam.activate()
+cam.active = true
 cam.transition = true
 cam.mouseControl = true
 cam.lockTargetRotation = "dynamic-lock"

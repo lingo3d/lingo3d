@@ -127,10 +127,6 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
         this.camera.updateProjectionMatrix?.()
     }
 
-    public activate() {
-        this.active = true
-    }
-
     public get active() {
         return last(getCameraStack()) === this.camera
     }

@@ -12,7 +12,7 @@ floor.mass = 0
 floor.opacity = 0.5
 
 const cam = new Camera()
-cam.activate()
+cam.active = true
 cam.mouseControl = true
 cam.physics = true
 cam.noTumble = true

@@ -65,7 +65,7 @@ const Editor = () => {
     const camera = last(cameraStack)!
 
     useEffect(() => {
-        mainOrbitCamera.activate()
+        mainOrbitCamera.active = true
         setOrbitControls(true)
         setGridHelper(true)
 
@@ -125,7 +125,7 @@ const Editor = () => {
         )
         cameraFolder.add(cameraInput)
         cameraInput.on("change", ({ value }) => {
-            cameraList[value].userData.manager.activate()
+            cameraList[value].userData.manager.active = true
         })
 
         const secondaryOptions: any = {

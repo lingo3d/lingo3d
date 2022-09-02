@@ -30,6 +30,6 @@ dummy.physics = "character"
 
 const cam = new ThirdPersonCamera()
 cam.append(dummy)
-cam.activate()
+cam.active = true
 cam.mouseControl = "drag"
 cam.lockTargetRotation = false
