@@ -1,10 +1,5 @@
-import { Vector3, SphereBufferGeometry } from "three"
 import settings from "../api/settings"
-import Sky from "../display/Sky"
-import loadTexture from "../display/utils/loaders/loadTexture"
 import Water from "../display/Water"
-import scene from "../engine/scene"
-import { onBeforeRender } from "../events/onBeforeRender"
 
 export default {}
 

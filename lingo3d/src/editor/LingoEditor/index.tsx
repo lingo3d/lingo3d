@@ -11,6 +11,7 @@ import { useEffect, useRef } from "preact/hooks"
 import settings from "../../api/settings"
 import FileBrowser from "../FileBrowser"
 import { useFileBrowser } from "../states"
+import { DEBUG } from "../../globals"
 preventTreeShake(h)
 
 const LingoEditor = () => {
@@ -40,7 +41,8 @@ const LingoEditor = () => {
             <div>
                 <div
                     style={{
-                        height: fileBrowser ? "calc(100% - 200px)" : "100%"
+                        height:
+                            fileBrowser && DEBUG ? "calc(100% - 200px)" : "100%"
                     }}
                 >
                     <SceneGraph />
@@ -48,7 +50,7 @@ const LingoEditor = () => {
                     <NodeEditor />
                     <Library />
                 </div>
-                {fileBrowser && <FileBrowser />}
+                {fileBrowser && DEBUG && <FileBrowser />}
             </div>
             <HUD />
             <div

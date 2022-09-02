@@ -39,6 +39,7 @@ import FolderIcon from "./icons/FolderIcon"
 import { directoryOpen } from "browser-fs-access"
 import { setFiles } from "../../states/useFiles"
 import { setFileBrowser } from "../../states/useFileBrowser"
+import { DEBUG } from "../../globals"
 
 preventTreeShake(h)
 
@@ -141,12 +142,14 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                     >
                         <MeshIcon />
                     </IconButton> */}
-                    <IconButton
-                        active={mode === "path"}
-                        onClick={() => setEditorMode("path")}
-                    >
-                        <PathIcon />
-                    </IconButton>
+                    {DEBUG && (
+                        <IconButton
+                            active={mode === "path"}
+                            onClick={() => setEditorMode("path")}
+                        >
+                            <PathIcon />
+                        </IconButton>
+                    )}
                     <IconButton
                         active={mode === "play"}
                         onClick={() => setEditorMode("play")}
@@ -177,7 +180,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                 </Section>
 
                 <Section>
-                    {!buttons?.openFolder?.hidden && (
+                    {!buttons?.openFolder?.hidden && DEBUG && (
                         <IconButton
                             onClick={buttons?.openFolder?.onClick ?? openFolder}
                         >

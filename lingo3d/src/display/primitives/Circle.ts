@@ -1,10 +1,10 @@
-import { CircleBufferGeometry } from "three"
+import { CircleGeometry } from "three"
 import Primitive from "../core/Primitive"
 import { flatGeomScaleZ, radiusScaled } from "../../engine/constants"
 import circleShape from "../core/PhysicsObjectManager/cannon/shapes/circleShape"
 import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 
-const circleGeometry = new CircleBufferGeometry(radiusScaled, 32)
+const circleGeometry = new CircleGeometry(radiusScaled, 32)
 
 export default class Circle extends Primitive implements ICircle {
     public static componentName = "circle"

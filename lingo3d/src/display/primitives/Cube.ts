@@ -1,8 +1,8 @@
-import { BoxBufferGeometry } from "three"
+import { BoxGeometry } from "three"
 import { diameterScaled } from "../../engine/constants"
 import Primitive from "../core/Primitive"
 
-export const boxGeometry = new BoxBufferGeometry(
+export const boxGeometry = new BoxGeometry(
     diameterScaled,
     diameterScaled,
     diameterScaled,

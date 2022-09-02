@@ -1,5 +1,5 @@
 import { applyMixins, forceGet, lazy } from "@lincode/utils"
-import { ExtrudeBufferGeometry, Group, Mesh, Shape } from "three"
+import { ExtrudeGeometry, Group, Mesh, Shape } from "three"
 import type { SVGResult } from "three/examples/jsm/loaders/SVGLoader"
 import Loaded from "./core/Loaded"
 import TexturedBasicMixin from "./core/mixins/TexturedBasicMixin"
@@ -11,7 +11,7 @@ import { standardMaterial } from "./utils/reusables"
 
 const lazyLoadSVG = lazy(() => import("./utils/loaders/loadSVG"))
 
-const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeBufferGeometry>>()
+const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()
 
 class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     public static componentName = "svgMesh"
@@ -37,7 +37,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
 
             const testGroup = new Group()
             for (const shape of shapes) {
-                const geom = new ExtrudeBufferGeometry(shape, {
+                const geom = new ExtrudeGeometry(shape, {
                     depth: 0,
                     bevelEnabled: false
                 })
@@ -47,10 +47,10 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
 
             const measuredSize = measure(testGroup, src)
 
-            const result: Array<ExtrudeBufferGeometry> = []
+            const result: Array<ExtrudeGeometry> = []
             for (const shape of shapes)
                 result.push(
-                    new ExtrudeBufferGeometry(shape, {
+                    new ExtrudeGeometry(shape, {
                         depth: measuredSize.y,
                         bevelEnabled: false
                     })

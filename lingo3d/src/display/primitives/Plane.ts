@@ -1,9 +1,9 @@
-import { PlaneBufferGeometry } from "three"
+import { PlaneGeometry } from "three"
 import { diameterScaled, flatGeomScaleZ } from "../../engine/constants"
 import IPlane, { planeDefaults, planeSchema } from "../../interface/IPlane"
 import Primitive from "../core/Primitive"
 
-export const planeGeometry = new PlaneBufferGeometry(
+export const planeGeometry = new PlaneGeometry(
     diameterScaled,
     diameterScaled,
     1,

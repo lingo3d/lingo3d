@@ -1,4 +1,4 @@
-import { Mesh, PlaneBufferGeometry } from "three"
+import { Mesh, PlaneGeometry } from "three"
 import { diameterScaled, scaleDown } from "./constants"
 import { wireframeMaterial } from "../display/utils/reusables"
 import { getViewportSize } from "../states/useViewportSize"
@@ -11,7 +11,7 @@ import { getResolution } from "../states/useResolution"
 import { getCameraRendered } from "../states/useCameraRendered"
 
 const referencePlane = new Mesh(
-    new PlaneBufferGeometry(diameterScaled, diameterScaled, 4, 4),
+    new PlaneGeometry(diameterScaled, diameterScaled, 4, 4),
     wireframeMaterial
 )
 export default referencePlane
