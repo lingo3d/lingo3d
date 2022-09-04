@@ -32,7 +32,7 @@ const _applyChanges = (
     if (defaultValue === fn) {
       if (!value) continue
       if (Array.isArray(value)) manager[key](...value)
-      else manager[key]()
+      else manager[key](value)
       continue
     }
     manager[key] = value ?? defaultValue
