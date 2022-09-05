@@ -11,7 +11,7 @@ specifiers:
   '@types/stats.js': ^0.17.0
   '@types/three': 0.144.0
   '@vitejs/plugin-react': ^2.0.1
-  lingo3d: 1.30.2
+  lingo3d: 1.31.0
   nanoid: '*'
   popmotion: '*'
   preact: '*'
@@ -29,7 +29,7 @@ dependencies:
   '@lincode/utils': 1.3.1
   '@tweakpane/core': 1.1.0
   '@types/three': 0.144.0
-  lingo3d: 1.30.2
+  lingo3d: 1.31.0
   nanoid: 4.0.0
   popmotion: 11.0.5
   preact: 10.10.6
@@ -849,8 +849,8 @@ packages:
     hasBin: true
     dev: true
 
-  /lingo3d/1.30.2:
-    resolution: {integrity: sha512-A347IY5ScnKZoixaEqKY8z2ApBUFqN8s+9j+zNGmczqpjHNnUh1EB2QkvklWTKhJ/3noB0Z7rHK8Gy2AtNgsAw==}
+  /lingo3d/1.31.0:
+    resolution: {integrity: sha512-VMxtGdpAhsv4f7M0lkeP6gTFgAVELVbz0ZIyqmwOgoD4hYy+KFKpix0izpEmmbUCcGCKjV7LzU9U1OQjL96Kww==}
     dependencies:
       '@lincode/events': 1.0.24
       '@lincode/filetypes': 1.0.1
