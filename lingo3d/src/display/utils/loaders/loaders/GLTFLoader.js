@@ -1643,7 +1643,9 @@ class GLTFMaterialsPbrSpecularGlossinessExtension {
     }
 
     getMaterialType() {
-        return GLTFMeshStandardSGMaterial
+        //todo: toggle
+        // return GLTFMeshStandardSGMaterial
+        return MeshStandardMaterial
     }
 
     extendParams(materialParams, materialDef, parser) {

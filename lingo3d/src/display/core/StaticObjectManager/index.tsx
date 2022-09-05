@@ -68,32 +68,36 @@ const updateFrustum = throttle(
 )
 
 const setNumber = (
-    child: any,
+    material: any,
     property: string,
     factor: number | undefined
 ) => {
-    const defaultValue: number | undefined = (child.userData[property] ??=
-        child.material[property])
-    child.material[property] =
+    const defaultValue: number | undefined = (material.userData[property] ??=
+        material[property])
+    material[property] =
         factor === undefined
             ? defaultValue
             : Math.max(defaultValue || 0, 0.25) * factor
 }
 
 const setBoolean = (
-    child: any,
+    material: any,
     property: string,
     value: boolean | undefined
 ) => {
-    const defaultValue: boolean | undefined = (child.userData[property] ??=
-        child.material[property])
-    child.material[property] = value === undefined ? defaultValue : value
+    const defaultValue: boolean | undefined = (material.userData[property] ??=
+        material[property])
+    material[property] = value === undefined ? defaultValue : value
 }
 
-const setColor = (child: any, property: string, value: Color | undefined) => {
-    const defaultValue: Color | undefined = (child.userData[property] ??=
-        child.material[property])
-    child.material[property] = value === undefined ? defaultValue : value
+const setColor = (
+    material: any,
+    property: string,
+    value: Color | undefined
+) => {
+    const defaultValue: Color | undefined = (material.userData[property] ??=
+        material[property])
+    material[property] = value === undefined ? defaultValue : value
 }
 
 export const idMap = new Map<string, Set<StaticObjectManager>>()
@@ -367,7 +371,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
                     if (_metalnessFactor !== undefined)
                         setNumber(
-                            child,
+                            material,
                             "metalness",
                             _metalnessFactor !== 0
                                 ? _metalnessFactor
@@ -376,7 +380,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
                     if (_roughnessFactor !== undefined)
                         setNumber(
-                            child,
+                            material,
                             "roughness",
                             _roughnessFactor !== 1
                                 ? _roughnessFactor
@@ -384,9 +388,9 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                         )
 
                     if (_opacityFactor !== undefined) {
-                        setNumber(child, "opacity", _opacityFactor)
+                        setNumber(material, "opacity", _opacityFactor)
                         setBoolean(
-                            child,
+                            material,
                             "transparent",
                             _opacityFactor <= 1 ? true : undefined
                         )
@@ -394,7 +398,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
                     if (_adjustColor !== undefined)
                         setColor(
-                            child,
+                            material,
                             "color",
                             _adjustColor !== "#ffffff"
                                 ? new Color(_adjustColor)
