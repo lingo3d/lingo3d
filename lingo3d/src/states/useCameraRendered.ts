@@ -45,7 +45,13 @@ createEffect(() => {
             : getCameraFrom()
     const cameraTo = last(getCameraStack())!
     const transition = cameraTo.userData.transition
-    if (!cameraFrom || !transition || cameraFrom === cameraTo) {
+    if (
+        !cameraFrom ||
+        !transition ||
+        cameraFrom === cameraTo ||
+        cameraFrom === mainCamera ||
+        cameraTo === mainCamera
+    ) {
         setCameraRendered(cameraTo)
         return
     }

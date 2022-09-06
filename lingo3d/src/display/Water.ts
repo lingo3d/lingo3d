@@ -7,6 +7,7 @@ import { dt } from "../engine/eventLoop"
 import { onBeforeRender } from "../events/onBeforeRender"
 import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import { Cancellable } from "@lincode/promiselikes"
+import { WATERNORMALS_URL } from "../globals"
 
 export default class SpawnPoint extends ObjectManager implements IWater {
     public static componentName = "water"
@@ -21,7 +22,7 @@ export default class SpawnPoint extends ObjectManager implements IWater {
         this.shapeState.set(val)
     }
 
-    private normalMapState = new Reactive<string | undefined>(undefined)
+    private normalMapState = new Reactive(WATERNORMALS_URL)
     public get normalMap() {
         return this.normalMapState.get()
     }

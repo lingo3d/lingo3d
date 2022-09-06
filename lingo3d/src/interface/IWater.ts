@@ -1,3 +1,4 @@
+import { WATERNORMALS_URL } from "../globals"
 import IObjectManager, {
     objectManagerDefaults,
     objectManagerSchema
@@ -24,7 +25,7 @@ export const waterSchema: Required<ExtractProps<IWater>> = {
 export const waterDefaults: Defaults<IWater> = {
     ...objectManagerDefaults,
     shape: "plane",
-    normalMap: undefined,
+    normalMap: WATERNORMALS_URL,
     resolution: 512,
     speed: 1
 }
