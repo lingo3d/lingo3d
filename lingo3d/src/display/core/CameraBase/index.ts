@@ -27,7 +27,6 @@ import { bokehApertureDefault } from "../../../states/useBokehAperture"
 import { bokehFocusDefault } from "../../../states/useBokehFocus"
 import { bokehMaxBlurDefault } from "../../../states/useBokehMaxBlur"
 import { setBokehRefresh } from "../../../states/useBokehRefresh"
-import { setCameraFrom } from "../../../states/useCameraFrom"
 import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import {
@@ -131,11 +130,8 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
         return last(getCameraStack()) === this.camera
     }
     public set active(val) {
-        if (this.active === val) return
-        const cameraFrom = last(getCameraStack())
         pullCameraStack(this.camera)
         val && pushCameraStack(this.camera)
-        setCameraFrom(cameraFrom)
     }
 
     public get transition() {

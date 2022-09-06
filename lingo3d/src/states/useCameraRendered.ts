@@ -5,7 +5,6 @@ import mainCamera from "../engine/mainCamera"
 import { getCameraStack } from "./useCameraStack"
 import { last } from "@lincode/utils"
 import { onBeforeRender } from "../events/onBeforeRender"
-import { getCameraFrom } from "./useCameraFrom"
 import { getResolution } from "./useResolution"
 import { getVR } from "./useVR"
 import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
@@ -38,12 +37,15 @@ export const updateCameraAspect = (camera: Camera) => {
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
+let cameraLast: PerspectiveCamera | undefined
+
 createEffect(() => {
     const cameraFrom =
         getCameraRendered() === interpolationCamera
             ? interpolationCamera
-            : getCameraFrom()
-    const cameraTo = last(getCameraStack())!
+            : cameraLast
+
+    const cameraTo = (cameraLast = last(getCameraStack())!)
     const transition = cameraTo.userData.transition
     if (
         !cameraFrom ||
