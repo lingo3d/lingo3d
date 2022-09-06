@@ -28,7 +28,7 @@ export default async (
             totalBytes = parseFloat(total) * 1024 * 1024
         else if (total.endsWith("gb"))
             totalBytes = parseFloat(total) * 1024 * 1024 * 1024
-        else throw new Error("invalid preload total value: " + total)
+        else throw new Error("Invalid preload total value: " + total)
     }
 
     const handleLoadedBytesChanged = (bytes: number) => {

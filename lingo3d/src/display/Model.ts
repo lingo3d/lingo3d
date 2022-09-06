@@ -79,7 +79,7 @@ export default class Model extends Loaded<Group> implements IModel {
         if (!extension || !["fbx", "glb", "gltf"].includes(extension)) {
             resolvable.resolve()
             setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
-            return new Group()
+            throw new Error("Unsupported file extension")
         }
 
         let result: Group
@@ -91,7 +91,7 @@ export default class Model extends Loaded<Group> implements IModel {
         } catch {
             resolvable.resolve()
             setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
-            return new Group()
+            throw new Error("Failed to load model, check if src is correct")
         }
 
         resolvable.resolve()
