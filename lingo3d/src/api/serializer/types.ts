@@ -4,6 +4,7 @@ import IDummy from "../../interface/IDummy"
 import IBuilding from "../../interface/IBuilding"
 import ITree from "../../interface/ITree"
 import ISvgMesh from "../../interface/ISvgMesh"
+import IHTMLMesh from "../../interface/IHTMLMesh"
 import IReflector from "../../interface/IReflector"
 import IWater from "../../interface/IWater"
 import ISprite from "../../interface/ISprite"
@@ -29,6 +30,7 @@ export type GameObjectType =
     | "building"
     | "tree"
     | "svgMesh"
+    | "htmlMesh"
     | "reflector"
     | "water"
     | "sprite"
@@ -109,6 +111,8 @@ export type TreeNode = TypedPropsNode<ITree, "tree">
 
 export type SvgMeshNode = TypedPropsNode<ISvgMesh, "svgMesh">
 
+export type HTMLMeshNode = TypedPropsNode<IHTMLMesh, "htmlMesh">
+
 export type ReflectorNode = TypedPropsNode<IReflector, "reflector">
 
 export type WaterNode = TypedPropsNode<IWater, "water">
@@ -169,6 +173,7 @@ export type BaseSceneGraphNode =
     | BuildingNode
     | TreeNode
     | SvgMeshNode
+    | HTMLMeshNode
     | ReflectorNode
     | WaterNode
     | SpriteNode

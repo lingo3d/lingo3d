@@ -41,6 +41,7 @@ const Library = () => {
                         ? [{ building: "cube" }, { tree: "cylinder" }]
                         : []),
                     "svgMesh",
+                    // { htmlMesh: "plane" },
                     { sprite: "plane" },
                     "trigger",
                     { spawnPoint: "circle" },

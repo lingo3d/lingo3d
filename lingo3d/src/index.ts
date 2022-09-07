@@ -17,6 +17,7 @@ import Dummy from "./display/Dummy"
 import Building from "./display/Building"
 import Tree from "./display/Tree"
 import SvgMesh from "./display/SvgMesh"
+import HTMLMesh from "./display/HTMLMesh"
 import Reflector from "./display/Reflector"
 import Water from "./display/Water"
 import Line from "./display/Line"
@@ -105,6 +106,7 @@ export {
     Building,
     Tree,
     SvgMesh,
+    HTMLMesh,
     Reflector,
     Water,
     Line,

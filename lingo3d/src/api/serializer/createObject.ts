@@ -4,6 +4,7 @@ import Dummy from "../../display/Dummy"
 import Building from "../../display/Building"
 import Tree from "../../display/Tree"
 import SvgMesh from "../../display/SvgMesh"
+import HTMLMesh from "../../display/HTMLMesh"
 import Reflector from "../../display/Reflector"
 import Water from "../../display/Water"
 import Sprite from "../../display/Sprite"
@@ -40,6 +41,7 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     group: () => new Group(),
     model: () => new Model(),
     svgMesh: () => new SvgMesh(),
+    htmlMesh: () => new HTMLMesh(),
     dummy: () => new Dummy(),
     building: () => new Building(),
     tree: () => new Tree(),

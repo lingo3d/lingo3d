@@ -37,7 +37,7 @@
         "preact-custom-element": "*",
         "prettier": "2.7.1",
         "three": "0.144.0",
-        "three-mesh-bvh": "0.5.15",
+        "three-mesh-bvh": "0.5.16",
         "tweakpane": "*",
         "xstate": "*"
     },
