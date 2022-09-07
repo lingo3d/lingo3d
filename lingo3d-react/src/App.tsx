@@ -1,11 +1,12 @@
-import { Cube, HTML, World } from "."
+import { Cube, HTML, HTMLMesh, World, LingoEditor } from "."
 
 function App() {
   return (
     <World>
-      <Cube>
-        <HTML><div>hello world</div></HTML>
-      </Cube>
+      <HTMLMesh>
+        <div style={{ color: "blue" }}>hello world 2</div>
+      </HTMLMesh>
+      <LingoEditor />
     </World>
   )
 }
