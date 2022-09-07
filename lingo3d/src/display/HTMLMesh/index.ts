@@ -1,11 +1,10 @@
 import { Reactive } from "@lincode/reactivity"
-import { HTMLMesh as ThreeHTMLMesh } from "three/examples/jsm/interactive/HTMLMesh"
-import { InteractiveGroup } from "three/examples/jsm/interactive/InteractiveGroup"
-import { onBeforeRender } from "../events/onBeforeRender"
-import { htmlMeshDefaults, htmlMeshSchema } from "../interface/IHTMLMesh"
-import { getCameraRendered } from "../states/useCameraRendered"
-import { getRenderer } from "../states/useRenderer"
-import ObjectManager from "./core/ObjectManager"
+import { HTMLMesh as ThreeHTMLMesh } from "./HTMLMesh"
+import { InteractiveGroup } from "./InteractiveGroup"
+import { htmlMeshDefaults, htmlMeshSchema } from "../../interface/IHTMLMesh"
+import { getCameraRendered } from "../../states/useCameraRendered"
+import { getRenderer } from "../../states/useRenderer"
+import ObjectManager from "../core/ObjectManager"
 
 export default class HTMLMesh extends ObjectManager {
     public static componentName = "htmlMesh"
@@ -24,16 +23,12 @@ export default class HTMLMesh extends ObjectManager {
             const group = new InteractiveGroup(renderer, camera)
             this.object3d.add(group)
 
-            const mesh = new ThreeHTMLMesh(element as any)
+            const mesh = new ThreeHTMLMesh(element as HTMLElement)
             group.add(mesh)
 
-            const handle = onBeforeRender(() => {
-                ;(mesh.material as any).map.update()
-            })
             return () => {
                 this.object3d.remove(group)
                 mesh.dispose()
-                handle.cancel()
             }
         }, [this.elementState.get, getRenderer, getCameraRendered])
     }
