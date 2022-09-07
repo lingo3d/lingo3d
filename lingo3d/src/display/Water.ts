@@ -1,15 +1,14 @@
 import { Reactive } from "@lincode/reactivity"
-import ObjectManager from "./core/ObjectManager"
 import { planeGeometry } from "./primitives/Plane"
 import { sphereGeometry } from "./primitives/Sphere"
 import loadTexture from "./utils/loaders/loadTexture"
 import { dt } from "../engine/eventLoop"
 import { onBeforeRender } from "../events/onBeforeRender"
 import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
-import { Cancellable } from "@lincode/promiselikes"
 import { WATERNORMALS_URL } from "../globals"
+import ObjectManager from "./core/ObjectManager"
 
-export default class SpawnPoint extends ObjectManager implements IWater {
+export default class Water extends ObjectManager implements IWater {
     public static componentName = "water"
     public static defaults = waterDefaults
     public static schema = waterSchema
@@ -48,14 +47,13 @@ export default class SpawnPoint extends ObjectManager implements IWater {
 
     public constructor() {
         super()
+        this.rotationX = -90
 
-        this.createEffect(() => {
-            const normalMap = this.normalMapState.get()
-            if (!normalMap) return
+        import("three/examples/jsm/objects/Water").then(({ Water }) => {
+            this.createEffect(() => {
+                const normalMap = this.normalMapState.get()
+                if (!normalMap) return
 
-            const handle = new Cancellable()
-
-            import("three/examples/jsm/objects/Water").then(({ Water }) => {
                 const isPlane = this.shapeState.get() === "plane"
                 const waterGeometry = isPlane ? planeGeometry : sphereGeometry
 
@@ -70,27 +68,22 @@ export default class SpawnPoint extends ObjectManager implements IWater {
                     waterColor: 0x001e0f,
                     distortionScale: 3.7
                 })
-                if (isPlane) water.rotation.x = -Math.PI / 2
-
                 const speed = this.speedState.get()
 
-                this.outerObject3d.add(water)
-                const handle2 = onBeforeRender(() => {
+                this.object3d.add(water)
+                const handle = onBeforeRender(() => {
                     water.material.uniforms["time"].value += dt[0] * speed
                 })
-                handle.then(() => {
-                    this.outerObject3d.remove(water)
-                    handle2.cancel()
-                })
-            })
-            return () => {
-                handle.cancel()
-            }
-        }, [
-            this.shapeState.get,
-            this.normalMapState.get,
-            this.resolutionState.get,
-            this.speedState.get
-        ])
+                return () => {
+                    this.object3d.remove(water)
+                    handle.cancel()
+                }
+            }, [
+                this.shapeState.get,
+                this.normalMapState.get,
+                this.resolutionState.get,
+                this.speedState.get
+            ])
+        })
     }
 }

@@ -5,11 +5,10 @@ import IObjectManager, {
 } from "./IObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import Nullable from "./utils/Nullable"
 
 export default interface IWater extends IObjectManager {
     shape: "plane" | "sphere"
-    normalMap: Nullable<string>
+    normalMap: string
     resolution: number
     speed: number
 }
@@ -27,5 +26,6 @@ export const waterDefaults: Defaults<IWater> = {
     shape: "plane",
     normalMap: WATERNORMALS_URL,
     resolution: 512,
-    speed: 1
+    speed: 1,
+    rotationX: -90
 }

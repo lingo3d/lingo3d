@@ -19,11 +19,9 @@ export const reflectorSchema: Required<ExtractProps<IReflector>> = {
 
 export const reflectorDefaults: Defaults<IReflector> = {
     ...planeDefaults,
-
     resolution: 256,
     blur: 512,
     contrast: 1.5,
     mirror: 1,
-
     rotationX: -90
 }

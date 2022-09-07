@@ -7,4 +7,4 @@ preventTreeShake([index, test])
 
 settings.autoMount = true
 
-// const editor = new LingoEditor()
+const editor = new LingoEditor()
