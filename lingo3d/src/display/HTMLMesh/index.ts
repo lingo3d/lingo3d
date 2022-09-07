@@ -3,6 +3,9 @@ import { HTMLMesh as ThreeHTMLMesh } from "./HTMLMesh"
 import { htmlMeshDefaults, htmlMeshSchema } from "../../interface/IHTMLMesh"
 import ObjectManager from "../core/ObjectManager"
 import createElement from "../../utils/createElement"
+import { getCameraRendered } from "../../states/useCameraRendered"
+import getWorldPosition from "../utils/getWorldPosition"
+import { onBeforeRender } from "../../events/onBeforeRender"
 
 const elementContainerTemplate = createElement(`
     <div style="position: absolute; visibility: hidden; pointer-events: none;"></div>
@@ -34,6 +37,18 @@ export default class HTMLMesh extends ObjectManager {
                 document.body.removeChild(elementContainer)
             }
         }, [this.elementState.get])
+
+        this.createEffect(() => {
+            if (!this.spriteState.get()) return
+
+            const camera = getCameraRendered()
+            const handle = onBeforeRender(() => {
+                this.outerObject3d.lookAt(getWorldPosition(camera))
+            })
+            return () => {
+                handle.cancel()
+            }
+        }, [getCameraRendered, this.spriteState.get])
     }
 
     private elementState = new Reactive<Element | undefined>(undefined)
@@ -42,5 +57,13 @@ export default class HTMLMesh extends ObjectManager {
     }
     public set element(val) {
         this.elementState.set(val)
+    }
+
+    private spriteState = new Reactive(false)
+    public get sprite() {
+        return this.spriteState.get()
+    }
+    public set sprite(val) {
+        this.spriteState.set(val)
     }
 }

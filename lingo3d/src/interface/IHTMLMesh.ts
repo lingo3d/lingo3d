@@ -8,14 +8,17 @@ import Nullable from "./utils/Nullable"
 
 export default interface IHTMLMesh extends IObjectManager {
     element: Nullable<Element>
+    sprite: boolean
 }
 
 export const htmlMeshSchema: Required<ExtractProps<IHTMLMesh>> = {
     ...objectManagerSchema,
-    element: Object
+    element: Object,
+    sprite: Boolean
 }
 
 export const htmlMeshDefaults: Defaults<IHTMLMesh> = {
     ...objectManagerDefaults,
-    element: undefined
+    element: undefined,
+    sprite: false
 }
