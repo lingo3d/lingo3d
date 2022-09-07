@@ -1,11 +1,8 @@
 import { Reactive } from "@lincode/reactivity"
-import { HTMLMesh as ThreeHTMLMesh } from "./HTMLMesh"
+import { HTMLMesh as ThreeHTMLMesh, HTMLSprite } from "./HTMLMesh"
 import { htmlMeshDefaults, htmlMeshSchema } from "../../interface/IHTMLMesh"
 import ObjectManager from "../core/ObjectManager"
 import createElement from "../../utils/createElement"
-import { getCameraRendered } from "../../states/useCameraRendered"
-import getWorldPosition from "../utils/getWorldPosition"
-import { onBeforeRender } from "../../events/onBeforeRender"
 
 const elementContainerTemplate = createElement(`
     <div style="position: absolute; visibility: hidden; pointer-events: none;"></div>
@@ -27,28 +24,17 @@ export default class HTMLMesh extends ObjectManager {
             document.body.appendChild(elementContainer)
             elementContainer.appendChild(element)
 
-            const mesh = new ThreeHTMLMesh(element)
+            const mesh = this.spriteState.get()
+                ? new HTMLSprite(element)
+                : new ThreeHTMLMesh(element)
             this.object3d.add(mesh)
-            mesh.scale.setScalar(10)
 
             return () => {
                 this.object3d.remove(mesh)
                 mesh.dispose()
                 document.body.removeChild(elementContainer)
             }
-        }, [this.elementState.get])
-
-        this.createEffect(() => {
-            if (!this.spriteState.get()) return
-
-            const camera = getCameraRendered()
-            const handle = onBeforeRender(() => {
-                this.outerObject3d.lookAt(getWorldPosition(camera))
-            })
-            return () => {
-                handle.cancel()
-            }
-        }, [getCameraRendered, this.spriteState.get])
+        }, [this.elementState.get, this.spriteState.get])
     }
 
     private elementState = new Reactive<Element | undefined>(undefined)

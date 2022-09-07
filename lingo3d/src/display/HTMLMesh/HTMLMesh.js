@@ -4,16 +4,19 @@ import {
     Mesh,
     MeshBasicMaterial,
     PlaneGeometry,
-    Color
+    Color,
+    Sprite,
+    SpriteMaterial
 } from "three"
+import { scaleDown } from "../../engine/constants"
 
-class HTMLMesh extends Mesh {
+export class HTMLMesh extends Mesh {
     constructor(dom) {
         const texture = new HTMLTexture(dom)
 
         const geometry = new PlaneGeometry(
-            texture.image.width * 0.001,
-            texture.image.height * 0.001
+            texture.image.width * scaleDown,
+            texture.image.height * scaleDown
         )
         const material = new MeshBasicMaterial({
             map: texture,
@@ -22,6 +25,46 @@ class HTMLMesh extends Mesh {
         })
 
         super(geometry, material)
+
+        function onEvent(event) {
+            material.map.dispatchDOMEvent(event)
+        }
+
+        this.addEventListener("mousedown", onEvent)
+        this.addEventListener("mousemove", onEvent)
+        this.addEventListener("mouseup", onEvent)
+        this.addEventListener("click", onEvent)
+
+        this.dispose = function () {
+            geometry.dispose()
+            material.dispose()
+
+            material.map.dispose()
+
+            this.removeEventListener("mousedown", onEvent)
+            this.removeEventListener("mousemove", onEvent)
+            this.removeEventListener("mouseup", onEvent)
+            this.removeEventListener("click", onEvent)
+        }
+    }
+}
+
+export class HTMLSprite extends Sprite {
+    constructor(dom) {
+        const texture = new HTMLTexture(dom)
+        const material = new SpriteMaterial({
+            map: texture,
+            toneMapped: false,
+            transparent: true
+        })
+
+        super(material)
+
+        this.scale.set(
+            texture.image.width * scaleDown,
+            texture.image.height * scaleDown,
+            0
+        )
 
         function onEvent(event) {
             material.map.dispatchDOMEvent(event)
@@ -524,5 +567,3 @@ function htmlevent(element, event, x, y) {
 
     traverse(element)
 }
-
-export { HTMLMesh }
