@@ -3,8 +3,8 @@ import { Cube, HTML, HTMLMesh, World, LingoEditor } from "."
 function App() {
   return (
     <World>
-      <HTMLMesh>
-        <div style={{ color: "blue" }}>hello world 2</div>
+      <HTMLMesh sprite>
+        <div style={{ color: "blue" }}>hello world</div>
       </HTMLMesh>
       <LingoEditor />
     </World>
