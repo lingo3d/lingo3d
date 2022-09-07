@@ -2,6 +2,11 @@ import { Reactive } from "@lincode/reactivity"
 import { HTMLMesh as ThreeHTMLMesh } from "./HTMLMesh"
 import { htmlMeshDefaults, htmlMeshSchema } from "../../interface/IHTMLMesh"
 import ObjectManager from "../core/ObjectManager"
+import createElement from "../../utils/createElement"
+
+const elementContainerTemplate = createElement(`
+    <div style="position: absolute; visibility: hidden; pointer-events: none;"></div>
+`)
 
 export default class HTMLMesh extends ObjectManager {
     public static componentName = "htmlMesh"
@@ -12,15 +17,21 @@ export default class HTMLMesh extends ObjectManager {
         super()
 
         this.createEffect(() => {
-            const element = this.elementState.get()
+            const element = this.elementState.get() as HTMLElement | undefined
             if (!element) return
 
-            const mesh = new ThreeHTMLMesh(element as HTMLElement)
+            const elementContainer = elementContainerTemplate.cloneNode()
+            document.body.appendChild(elementContainer)
+            elementContainer.appendChild(element)
+
+            const mesh = new ThreeHTMLMesh(element)
             this.object3d.add(mesh)
+            mesh.scale.setScalar(10)
 
             return () => {
                 this.object3d.remove(mesh)
                 mesh.dispose()
+                document.body.removeChild(elementContainer)
             }
         }, [this.elementState.get])
     }
