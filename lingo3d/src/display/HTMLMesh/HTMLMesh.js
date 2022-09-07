@@ -60,10 +60,7 @@ class HTMLTexture extends CanvasTexture {
 
         // Create an observer on the DOM, and run html2canvas update in the next loop
         const observer = new MutationObserver(() => {
-            if (!this.scheduleUpdate) {
-                // ideally should use xr.requestAnimationFrame, here setTimeout to avoid passing the renderer
-                this.scheduleUpdate = setTimeout(() => this.update(), 16)
-            }
+            this.update()
         })
 
         const config = {
@@ -86,17 +83,12 @@ class HTMLTexture extends CanvasTexture {
     update() {
         this.image = html2canvas(this.dom)
         this.needsUpdate = true
-
-        this.scheduleUpdate = null
     }
 
     dispose() {
         if (this.observer) {
             this.observer.disconnect()
         }
-
-        this.scheduleUpdate = clearTimeout(this.scheduleUpdate)
-
         super.dispose()
     }
 }
