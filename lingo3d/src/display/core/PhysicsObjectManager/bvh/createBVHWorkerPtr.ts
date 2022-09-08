@@ -2,12 +2,11 @@ import { lazy } from "@lincode/utils"
 import { BufferGeometry } from "three"
 
 export default [
-    lazy(() =>
-        Promise.resolve({
-            generate: async (geom: BufferGeometry) => {
-                const { MeshBVH } = await import("three-mesh-bvh")
-                return new MeshBVH(geom)
-            }
-        })
-    )
+    lazy(async () => {
+        const { MeshBVH } = await import("three-mesh-bvh")
+        return {
+            generate: (geom: BufferGeometry) =>
+                Promise.resolve(new MeshBVH(geom))
+        }
+    })
 ]
