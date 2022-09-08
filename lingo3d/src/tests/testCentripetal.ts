@@ -12,10 +12,7 @@ import { YBOT_URL } from "../globals"
 
 export default {}
 
-preload(
-    [{ src: "map.fbx", resize: false, scale: 0.04, physics: "map" }],
-    "100mb"
-).then(() => {
+
     const spawn = new SpawnPoint()
     spawn.id = "spawn"
     spawn.x = -3888.93
@@ -77,4 +74,3 @@ preload(
 
     settings.texture = "bg.png"
     settings.centripetal = true
-})
