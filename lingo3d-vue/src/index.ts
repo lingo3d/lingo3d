@@ -19,8 +19,7 @@ export {
   exportVue,
   openJSON,
   clientToWorld,
-  setWasmPath,
-  setBVHWorker
+  setWasmPath
 } from "lingo3d"
 
 export { default as createPreload } from "./createPreload"
