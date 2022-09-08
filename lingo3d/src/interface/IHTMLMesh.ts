@@ -9,12 +9,14 @@ import Nullable from "./utils/Nullable"
 
 export default interface IHTMLMesh extends IObjectManager {
     element: Nullable<Element>
+    innerHTML: Nullable<string>
     sprite: boolean
 }
 
 export const htmlMeshSchema: Required<ExtractProps<IHTMLMesh>> = {
     ...objectManagerSchema,
     element: Object,
+    innerHTML: String,
     sprite: Boolean
 }
 hideSchema(["element"])
@@ -22,5 +24,6 @@ hideSchema(["element"])
 export const htmlMeshDefaults: Defaults<IHTMLMesh> = {
     ...objectManagerDefaults,
     element: undefined,
+    innerHTML: undefined,
     sprite: false
 }

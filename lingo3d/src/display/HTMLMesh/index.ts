@@ -17,7 +17,9 @@ export default class HTMLMesh extends ObjectManager {
         super()
 
         this.createEffect(() => {
-            const element = this.elementState.get() as HTMLElement | undefined
+            let element = this.elementState.get()
+            const innerHTML = this.innerHTMLState.get()
+            if (!element && innerHTML) element = createElement(innerHTML)
             if (!element) return
 
             const elementContainer = elementContainerTemplate.cloneNode()
@@ -34,7 +36,11 @@ export default class HTMLMesh extends ObjectManager {
                 mesh.dispose()
                 document.body.removeChild(elementContainer)
             }
-        }, [this.elementState.get, this.spriteState.get])
+        }, [
+            this.elementState.get,
+            this.spriteState.get,
+            this.innerHTMLState.get
+        ])
     }
 
     private elementState = new Reactive<Element | undefined>(undefined)
@@ -43,6 +49,14 @@ export default class HTMLMesh extends ObjectManager {
     }
     public set element(val) {
         this.elementState.set(val)
+    }
+
+    private innerHTMLState = new Reactive<string | undefined>(undefined)
+    public get innerHTML() {
+        return this.innerHTMLState.get()
+    }
+    public set innerHTML(val) {
+        this.innerHTMLState.set(val)
     }
 
     private spriteState = new Reactive(false)
