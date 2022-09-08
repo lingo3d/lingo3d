@@ -82,7 +82,6 @@ import { Point3d, Point } from "@lincode/math"
 import clientToWorld from "./display/utils/clientToWorld"
 
 import { setWasmPath } from "./states/useWasmPath"
-import { setBVHWorker } from "./display/core/PhysicsObjectManager/bvh/computeBVH"
 
 export type {
     SimpleMouseEvent,
@@ -164,6 +163,5 @@ export {
     Point3d,
     Point,
     clientToWorld,
-    setWasmPath,
-    setBVHWorker
+    setWasmPath
 }

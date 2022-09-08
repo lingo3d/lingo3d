@@ -9,7 +9,10 @@ import { MeshBVH, MeshBVHVisualizer } from "three-mesh-bvh"
 import Loaded from "../Loaded"
 import { preloadModels } from "../../../api/preload"
 
-const cache = new Map<string, [Array<MeshBVH>, Array<BufferGeometry>]>()
+const cache = new Map<
+    string,
+    Promise<readonly [Array<MeshBVH>, Array<BufferGeometry>]>
+>()
 
 export default async function (
     this: PhysicsObjectManager | Loaded,
@@ -21,10 +24,11 @@ export default async function (
     let bvhMaps: Array<MeshBVH>
     let geometries: Array<BufferGeometry>
     if ("src" in this && this.src && cache.has(this.src))
-        [bvhMaps, geometries] = cache.get(this.src)!
+        [bvhMaps, geometries] = await cache.get(this.src)!
     else {
-        ;[bvhMaps, geometries] = await computeBVH(this)
-        "src" in this && this.src && cache.set(this.src, [bvhMaps, geometries])
+        const result = computeBVH(this)
+        "src" in this && this.src && cache.set(this.src, result)
+        ;[bvhMaps, geometries] = await result
     }
 
     if (preloadModels.has(this)) return

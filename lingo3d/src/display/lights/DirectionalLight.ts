@@ -3,6 +3,7 @@ import { mapRange } from "@tweakpane/core"
 import { DirectionalLight as ThreeDirectionalLight } from "three"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
+import { SHADOW_DISTANCE } from "../../globals"
 import IDirectionalLight, {
     directionalLightDefaults,
     directionalLightSchema
@@ -60,7 +61,9 @@ export default class DirectionalLight
                 : 1
 
             const shadowDistance =
-                this.shadowDistanceState.get() ?? getShadowDistance() ?? 2000
+                this.shadowDistanceState.get() ??
+                getShadowDistance() ??
+                SHADOW_DISTANCE
 
             const shadowCamera = light.shadow.camera
             shadowCamera.zoom = 500 / offset / shadowDistance
@@ -77,7 +80,7 @@ export default class DirectionalLight
                 shadowBias *
                 offset *
                 (this.defaultShadowResolution / shadowResolutionComputed) *
-                (shadowDistance / 2000)
+                0.5
 
             return () => {
                 light.shadow.bias = shadowBias

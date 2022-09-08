@@ -16,6 +16,6 @@ export const directionalLightSchema: Required<ExtractProps<IDirectionalLight>> =
 
 export const directionalLightDefaults: Defaults<IDirectionalLight> = {
     ...lightDefaults,
-    shadowDistance: new NullableDefault(2000),
+    shadowDistance: new NullableDefault(3000),
     shadowResolution: new NullableDefault(1024)
 }

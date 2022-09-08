@@ -1,5 +1,5 @@
 import setupStruct from "../engine/setupStruct"
-import { SHADOW_BIAS } from "../globals"
+import { SHADOW_BIAS, SHADOW_DISTANCE } from "../globals"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import NullableDefault from "./utils/NullableDefault"
@@ -51,7 +51,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 
 export const setupDefaults: Defaults<ISetup> = {
     ...setupStruct,
-    shadowDistance: new NullableDefault(2000),
+    shadowDistance: new NullableDefault(SHADOW_DISTANCE),
     shadowResolution: new NullableDefault(1024),
     shadowBias: new NullableDefault(SHADOW_BIAS)
 }
