@@ -3,10 +3,11 @@ import { MeshBVH } from "three-mesh-bvh"
 import PhysicsObjectManager from ".."
 import Primitive from "../../Primitive"
 import { bvhManagerMap } from "./bvhManagerMap"
-import createBVHWorkerPtr from "./createBVHWorkerPtr"
+import { GenerateMeshBVHWorker } from "./GenerateMeshBVHWorker"
+
+const bvhWorker = new GenerateMeshBVHWorker()
 
 const computeBVHFromGeometries = async (geometries: Array<BufferGeometry>) => {
-    const bvhWorker = await createBVHWorkerPtr[0]()
     const result: Array<MeshBVH> = []
     for (const geom of geometries) result.push(await bvhWorker.generate(geom))
     return result

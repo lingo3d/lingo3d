@@ -1,15 +1,13 @@
 import { Box3, BufferAttribute } from "three"
 import { MeshBVH } from "three-mesh-bvh"
+import code from "./workerString"
 
 export class GenerateMeshBVHWorker {
     constructor() {
         this.running = false
-        this.worker = new Worker(
-            new URL("./generateAsync.worker.js", import.meta.url),
-            {
-                type: "module"
-            }
-        )
+        const blob = new Blob([code], { type: "application/javascript" })
+        this.worker = new Worker(URL.createObjectURL(blob))
+
         this.worker.onerror = (e) => {
             if (e.message) {
                 throw new Error(
