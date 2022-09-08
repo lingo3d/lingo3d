@@ -4,6 +4,7 @@ import IObjectManager, {
 } from "./IObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
 export default interface IHTMLMesh extends IObjectManager {
@@ -16,6 +17,7 @@ export const htmlMeshSchema: Required<ExtractProps<IHTMLMesh>> = {
     element: Object,
     sprite: Boolean
 }
+hideSchema(["element"])
 
 export const htmlMeshDefaults: Defaults<IHTMLMesh> = {
     ...objectManagerDefaults,

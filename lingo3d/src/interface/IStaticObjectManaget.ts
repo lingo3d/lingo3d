@@ -72,7 +72,6 @@ export const staticObjectManagerSchema: Required<
 
     toon: Boolean
 }
-
 hideSchema(["lookAt", "lookTo"])
 
 export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {

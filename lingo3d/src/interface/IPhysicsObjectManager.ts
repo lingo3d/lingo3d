@@ -62,7 +62,6 @@ export const physicsObjectManagerSchema: Required<
     physics: [String, Boolean],
     physicsShape: Function
 }
-
 hideSchema([
     "maxAngularVelocityX",
     "maxAngularVelocityY",

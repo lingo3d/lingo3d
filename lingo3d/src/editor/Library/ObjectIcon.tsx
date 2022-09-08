@@ -31,6 +31,7 @@ type ObjectIconProps = {
 const ObjectIcon = ({ name, iconName = name }: ObjectIconProps) => {
     return (
         <div
+            draggable
             onDragStart={() => (draggingItem = name)}
             onDragEnd={() => (draggingItem = undefined)}
             style={{
@@ -42,9 +43,15 @@ const ObjectIcon = ({ name, iconName = name }: ObjectIconProps) => {
                 paddingBottom: 20
             }}
         >
-            <img
-                style={{ width: 50, height: 50 }}
-                src={`https://unpkg.com/lingo3d-editor@1.0.2/assets/${iconName}.png`}
+            <div
+                style={{
+                    width: 50,
+                    height: 50,
+                    backgroundImage: `url(https://unpkg.com/lingo3d-editor@1.0.3/assets/${iconName}.png)`,
+                    backgroundSize: "contain",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat"
+                }}
             />
             <div
                 style={{

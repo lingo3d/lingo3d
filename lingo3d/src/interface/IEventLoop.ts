@@ -13,7 +13,6 @@ export const eventLoopSchema: Required<ExtractProps<IEventLoop>> = {
     onLoop: Function,
     proxy: Object
 }
-
 hideSchema(["proxy"])
 
 export const eventLoopDefaults: Defaults<IEventLoop> = {
