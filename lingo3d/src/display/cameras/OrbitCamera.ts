@@ -145,12 +145,12 @@ export default class OrbitCamera
 
                 const handleKeyDown = (e: KeyboardEvent) => {
                     downSet.add(
-                        e.key.length === 1 ? e.key.toLowerCase() : e.key
+                        e.key.length === 1 ? e.key.toLocaleLowerCase() : e.key
                     )
                 }
                 const handleKeyUp = (e: KeyboardEvent) => {
                     downSet.delete(
-                        e.key.length === 1 ? e.key.toLowerCase() : e.key
+                        e.key.length === 1 ? e.key.toLocaleLowerCase() : e.key
                     )
                 }
                 document.addEventListener("keydown", handleKeyDown)

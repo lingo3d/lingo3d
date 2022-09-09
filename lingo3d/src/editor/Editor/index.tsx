@@ -262,8 +262,10 @@ const Editor = () => {
             const target = getSelectionTarget()
             if (!target) return
 
+            const keyLowerCase = e.key.toLocaleLowerCase()
+
             if (e.metaKey || e.ctrlKey) {
-                if (e.key.toLocaleLowerCase() === "c") {
+                if (keyLowerCase === "c") {
                     const targets = getMultipleSelectionTargets()
                     if (targets.length) {
                         //todo: copy multiple
@@ -274,11 +276,13 @@ const Editor = () => {
                             emitSelectionTarget(item)
                         }
                     }
+                } else if (keyLowerCase === "s") {
+                    //mark
                 } else if (e.key === "ArrowUp" && getCentripetal()) {
                     applyCentripetalQuaternion(target)
                     setTransformControlsSpace("local")
                 }
-            } else if (e.key.toLowerCase() === "c")
+            } else if (keyLowerCase === "c")
                 isPositionedItem(target) && emitEditorCenterView(target)
         }
         document.addEventListener("keydown", handleKey)

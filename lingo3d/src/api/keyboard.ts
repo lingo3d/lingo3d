@@ -21,7 +21,7 @@ const [emitPress, onPress] = event()
 export const isPressed = new Set<string>()
 
 const processKey = (str: string) => {
-    str = str.length === 1 ? str.toLowerCase() : str
+    str = str.length === 1 ? str.toLocaleLowerCase() : str
     if (str === " ") str = "Space"
     return str
 }
