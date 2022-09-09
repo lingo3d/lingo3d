@@ -366,10 +366,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
                 if (z > rotated.y) {
                     this.cancelHandle("lerpTo", undefined)
                     this.onMoveToEnd?.()
-
-                    this.x = x
-                    y !== undefined && (this.y = y)
-                    this.z = z
                 }
                 onFrame?.(y)
             })
