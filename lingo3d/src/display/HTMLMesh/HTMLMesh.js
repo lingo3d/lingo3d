@@ -13,7 +13,6 @@ import { scaleDown } from "../../engine/constants"
 export class HTMLMesh extends Mesh {
     constructor(dom) {
         const texture = new HTMLTexture(dom)
-
         const geometry = new PlaneGeometry(
             texture.image.width * scaleDown,
             texture.image.height * scaleDown
@@ -46,6 +45,7 @@ export class HTMLMesh extends Mesh {
             this.removeEventListener("mouseup", onEvent)
             this.removeEventListener("click", onEvent)
         }
+        this.update = () => texture.update()
     }
 }
 
@@ -76,7 +76,6 @@ export class HTMLSprite extends Sprite {
         this.addEventListener("click", onEvent)
 
         this.dispose = function () {
-            geometry.dispose()
             material.dispose()
 
             material.map.dispose()
@@ -86,6 +85,7 @@ export class HTMLSprite extends Sprite {
             this.removeEventListener("mouseup", onEvent)
             this.removeEventListener("click", onEvent)
         }
+        this.update = () => texture.update()
     }
 }
 

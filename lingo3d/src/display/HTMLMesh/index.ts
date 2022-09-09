@@ -1,14 +1,17 @@
 import { Reactive } from "@lincode/reactivity"
-import { HTMLMesh as ThreeHTMLMesh, HTMLSprite } from "./HTMLMesh"
-import { htmlMeshDefaults, htmlMeshSchema } from "../../interface/IHTMLMesh"
+import IHTMLMesh, {
+    htmlMeshDefaults,
+    htmlMeshSchema
+} from "../../interface/IHTMLMesh"
 import ObjectManager from "../core/ObjectManager"
 import createElement from "../../utils/createElement"
+import { Cancellable } from "@lincode/promiselikes"
 
 const elementContainerTemplate = createElement(`
     <div style="position: absolute; visibility: hidden; pointer-events: none;"></div>
 `)
 
-export default class HTMLMesh extends ObjectManager {
+export default class HTMLMesh extends ObjectManager implements IHTMLMesh {
     public static componentName = "htmlMesh"
     public static defaults = htmlMeshDefaults
     public static schema = htmlMeshSchema
@@ -19,22 +22,43 @@ export default class HTMLMesh extends ObjectManager {
         this.createEffect(() => {
             let element = this.elementState.get()
             const innerHTML = this.innerHTMLState.get()
-            if (!element && innerHTML) element = createElement(innerHTML)
+            //todo: createMemo doesn't work
+            if (!element && innerHTML)
+                element = createElement(
+                    innerHTML.startsWith("<")
+                        ? innerHTML
+                        : `<div>${innerHTML}</div>`
+                )
             if (!element) return
 
-            const elementContainer = elementContainerTemplate.cloneNode()
+            const elementContainer =
+                elementContainerTemplate.cloneNode() as HTMLElement
             document.body.appendChild(elementContainer)
             elementContainer.appendChild(element)
 
-            const mesh = this.spriteState.get()
-                ? new HTMLSprite(element)
-                : new ThreeHTMLMesh(element)
-            this.object3d.add(mesh)
+            const handle = new Cancellable()
+            import("./HTMLMesh").then(({ HTMLMesh, HTMLSprite }) => {
+                if (handle.done) return
 
+                const mesh = this.spriteState.get()
+                    ? new HTMLSprite(element)
+                    : new HTMLMesh(element)
+                this.object3d.add(mesh)
+
+                handle.watch(
+                    this.cssColorState.get((color) => {
+                        elementContainer.style.color = color
+                        mesh.update()
+                    })
+                )
+                handle.then(() => {
+                    this.object3d.remove(mesh)
+                    mesh.dispose()
+                })
+            })
             return () => {
-                this.object3d.remove(mesh)
-                mesh.dispose()
                 document.body.removeChild(elementContainer)
+                handle.cancel()
             }
         }, [
             this.elementState.get,
@@ -65,5 +89,13 @@ export default class HTMLMesh extends ObjectManager {
     }
     public set sprite(val) {
         this.spriteState.set(val)
+    }
+
+    private cssColorState = new Reactive("#ffffff")
+    public get cssColor() {
+        return this.cssColorState.get()
+    }
+    public set cssColor(val) {
+        this.cssColorState.set(val)
     }
 }
