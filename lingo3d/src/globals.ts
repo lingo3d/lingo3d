@@ -14,4 +14,4 @@ export const YBOT_URL = DUMMY_URL + "ybot.fbx"
 export const TEXTURES_URL = "https://unpkg.com/lingo3d-textures@1.0.3/assets/"
 export const WATERNORMALS_URL = TEXTURES_URL + "waternormals.jpg"
 
-export const DEBUG = true
+export const DEBUG = false

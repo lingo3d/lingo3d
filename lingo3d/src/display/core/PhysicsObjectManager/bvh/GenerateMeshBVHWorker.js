@@ -1,10 +1,12 @@
 import { Box3, BufferAttribute } from "three"
 import { MeshBVH } from "three-mesh-bvh"
 import code from "./workerString"
+import { Queue } from "@lincode/promiselikes"
+
+const queue = new Queue()
 
 export class GenerateMeshBVHWorker {
     constructor() {
-        this.running = false
         const blob = new Blob([code], { type: "application/javascript" })
         this.worker = new Worker(URL.createObjectURL(blob))
 
@@ -21,30 +23,27 @@ export class GenerateMeshBVHWorker {
         }
     }
 
-    generate(geometry, options = {}) {
-        if (this.running) {
-            throw new Error("GenerateMeshBVHWorker: Already running job.")
-        }
+    async generate(geometry, options = {}) {
+        await queue
 
         if (this.worker === null) {
             throw new Error("GenerateMeshBVHWorker: Worker has been disposed.")
         }
 
         const { worker } = this
-        this.running = true
 
         return new Promise((resolve, reject) => {
             worker.onerror = (e) => {
                 reject(new Error(`GenerateMeshBVHWorker: ${e.message}`))
-                this.running = false
+                queue.resolve()
             }
 
             worker.onmessage = (e) => {
-                this.running = false
                 const { data } = e
 
                 if (data.error) {
                     reject(new Error(data.error))
+                    queue.resolve()
                     worker.onmessage = null
                 } else if (data.serialized) {
                     const { serialized, position } = data
@@ -77,6 +76,7 @@ export class GenerateMeshBVHWorker {
                     }
 
                     resolve(bvh)
+                    queue.resolve()
                     worker.onmessage = null
                 } else if (options.onProgress) {
                     options.onProgress(data.progress)
