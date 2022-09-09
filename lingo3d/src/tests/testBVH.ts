@@ -16,27 +16,21 @@ player.rotationY = 90
 player.strideMove = true
 
 keyboard.onKeyPress = (_, key) => {
-    if (key.has("w"))
-        player.strideForward = -5
-    else if (key.has("s"))
-        player.strideForward = 5
-    else
-        player.strideForward = 0
+    if (key.has("w")) player.strideForward = -5
+    else if (key.has("s")) player.strideForward = 5
+    else player.strideForward = 0
 
-    if (key.has("a"))
-        player.strideRight = 5
-    else if (key.has("d"))
-        player.strideRight = -5
-    else
-        player.strideRight = 0
+    if (key.has("a")) player.strideRight = 5
+    else if (key.has("d")) player.strideRight = -5
+    else player.strideRight = 0
 }
 
 const cam = new ThirdPersonCamera()
 cam.transition = true
 cam.append(player)
-cam.mouseControl = true
+cam.mouseControl = "drag"
 cam.active = true
-cam.lockTargetRotation = "dynamic-lock"
+cam.lockTargetRotation = false
 
 const map = new Model()
 map.src = "fairy.glb"
@@ -44,5 +38,15 @@ map.scale = 30
 map.physics = "map"
 
 settings.skybox = [
-    "skybox/Left.png", "skybox/Right.png", "skybox/Up.png", "skybox/Down.png", "skybox/Front.png", "skybox/Back.png"
+    "skybox/Left.png",
+    "skybox/Right.png",
+    "skybox/Up.png",
+    "skybox/Down.png",
+    "skybox/Front.png",
+    "skybox/Back.png"
 ]
+
+map.onClick = (e) => {
+    player.lookTo(e.point.x, undefined, e.point.z, 0.1)
+    player.moveTo(e.point.x, undefined, e.point.z, 5)
+}

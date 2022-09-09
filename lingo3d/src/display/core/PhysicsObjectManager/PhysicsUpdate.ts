@@ -16,7 +16,7 @@ export default class PhysicsUpdate {
     }
 
     public updateXYZ() {
-        this.x = this.y = this.z
+        this.x = this.y = this.z = true
     }
 
     public updateXZ() {
