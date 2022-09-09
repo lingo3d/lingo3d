@@ -48,5 +48,6 @@ settings.skybox = [
 
 map.onClick = (e) => {
     player.lookTo(e.point.x, undefined, e.point.z, 0.1)
+    cam.lookTo(e.point.x, undefined, e.point.z, 0.1)
     player.moveTo(e.point.x, undefined, e.point.z, 5)
 }

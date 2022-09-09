@@ -13,7 +13,6 @@ import {
     useTransformControlsSpaceComputed
 } from "../states"
 import CursorIcon from "./icons/CursorIcon"
-import ExportIcon from "./icons/ExportIcon"
 import OpenIcon from "./icons/OpenIcont"
 import ReactIcon from "./icons/ReactIcon"
 import VueIcon from "./icons/VueIcon"
@@ -21,7 +20,6 @@ import exportReact from "../../api/files/exportReact"
 import exportVue from "../../api/files/exportVue"
 import { useEffect } from "preact/hooks"
 import openJSON from "../../api/files/openJSON"
-import exportJSON from "../../api/files/exportJSON"
 import Section from "./Section"
 import useInit from "../utils/useInit"
 import { setEditorMode } from "../../states/useEditorMode"
@@ -40,6 +38,8 @@ import { directoryOpen } from "browser-fs-access"
 import { setFiles } from "../../states/useFiles"
 import { setFileBrowser } from "../../states/useFileBrowser"
 import { DEBUG } from "../../globals"
+import SaveIcon from "./icons/SaveIcon"
+import saveJSON from "../../api/files/saveJSON"
 
 preventTreeShake(h)
 
@@ -64,7 +64,7 @@ interface ToolbarProps {
     buttons?: {
         openFolder?: ButtonOptions
         openJSON?: ButtonOptions
-        exportJSON?: ButtonOptions
+        saveJSON?: ButtonOptions
         exportReact?: ButtonOptions
         exportVue?: ButtonOptions
     }
@@ -194,11 +194,11 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                             <OpenIcon />
                         </IconButton>
                     )}
-                    {!buttons?.exportJSON?.hidden && (
+                    {!buttons?.saveJSON?.hidden && (
                         <IconButton
-                            onClick={buttons?.exportJSON?.onClick ?? exportJSON}
+                            onClick={buttons?.saveJSON?.onClick ?? saveJSON}
                         >
-                            <ExportIcon />
+                            <SaveIcon />
                         </IconButton>
                     )}
                 </Section>

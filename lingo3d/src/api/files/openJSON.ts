@@ -4,8 +4,8 @@ import deserialize from "../serializer/deserialize"
 export default async () => {
     const { fileOpen } = await import("browser-fs-access")
 
-    const blob = await fileOpen({ extensions: [".json"] })
-    const text = await blob.text()
+    const file = await fileOpen({ extensions: [".json"] })
+    const text = await file.text()
 
     for (const child of appendableRoot) child.dispose()
 
