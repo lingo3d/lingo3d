@@ -1,4 +1,13 @@
-import { rad2Deg, deg2Rad, distance3d, Point3d } from "@lincode/math"
+import {
+    rad2Deg,
+    deg2Rad,
+    distance3d,
+    Point3d,
+    vertexAngle,
+    Point,
+    rotatePoint,
+    quadrant
+} from "@lincode/math"
 import { Object3D, Vector3 } from "three"
 import { vector3 } from "../../utils/reusables"
 import { scaleDown, scaleUp } from "../../../engine/constants"
@@ -335,22 +344,26 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         const sy = speed * ry
         const sz = speed * rz
 
-        let distOld = Infinity
+        const quad = quadrant(x, z, this.x, this.z)
+
         this.cancelHandle("lerpTo", () =>
             onBeforeRender(() => {
                 this.x += sx * fpsRatio[0]
                 y !== undefined && (this.y += sy * fpsRatio[0])
                 this.z += sz * fpsRatio[0]
 
-                let dist = distance3d(
-                    this.x,
-                    y === undefined ? 0 : this.y,
-                    this.z,
-                    x,
-                    y === undefined ? 0 : y,
-                    z
+                const angle = vertexAngle(
+                    new Point(this.x, this.z),
+                    new Point(x, z),
+                    new Point(this.x, z)
                 )
-                if (dist >= distOld) {
+                const rotated = rotatePoint(
+                    new Point(x, z),
+                    new Point(this.x, this.z),
+                    quad === 1 || quad === 4 ? angle : -angle
+                )
+
+                if (z > rotated.y) {
                     this.cancelHandle("lerpTo", undefined)
                     this.onMoveToEnd?.()
 
@@ -358,8 +371,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
                     y !== undefined && (this.y = y)
                     this.z = z
                 }
-                distOld = dist
-
                 onFrame?.(y)
             })
         )
