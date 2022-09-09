@@ -1,6 +1,7 @@
-import { forceGet, preventTreeShake } from "@lincode/utils"
+import { forceGet, preventTreeShake, splitFileName } from "@lincode/utils"
 import { h } from "preact"
 import { useState } from "preact/hooks"
+import objectURLExtensionMap from "../../display/core/utils/objectURLExtensionMap"
 import Model from "../../display/Model"
 import clientToWorld from "../../display/utils/clientToWorld"
 import { point2Vec } from "../../display/utils/vec2Point"
@@ -16,14 +17,17 @@ let draggingItem: File | undefined
 
 document.addEventListener("drop", (e) => e.preventDefault())
 container.addEventListener("drop", (e) => {
-    if (!draggingItem?.name.endsWith(".glb")) return
+    if (!draggingItem) return
+
+    const extension = splitFileName(draggingItem.name)[1]?.toLowerCase()
+    if (extension !== "glb" && extension !== "fbx") return
+
     const manager = new Model()
-
-    manager.src = forceGet(objectURLMap, draggingItem, () =>
-        URL.createObjectURL(draggingItem!)
-    )
-    console.log(manager.src)
-
+    manager.src = forceGet(objectURLMap, draggingItem, () => {
+        const url = URL.createObjectURL(draggingItem!)
+        objectURLExtensionMap.set(url, extension)
+        return url
+    })
     manager.outerObject3d.position.copy(
         point2Vec(clientToWorld(e.clientX, e.clientY))
     )

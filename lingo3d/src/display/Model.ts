@@ -10,7 +10,7 @@ import { lazyLoadFBX, lazyLoadGLTF } from "./utils/loaders/lazyLoad"
 import FoundManager from "./core/FoundManager"
 import { Reactive } from "@lincode/reactivity"
 import measure from "./utils/measure"
-import { splitFileName } from "@lincode/utils"
+import { getExtensionIncludingObjectURL } from "./core/utils/objectURLExtensionMap"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -75,7 +75,7 @@ export default class Model extends Loaded<Group> implements IModel {
         const resolvable = new Resolvable()
         this.loadingState.set(this.loadingState.get() + 1)
 
-        const extension = splitFileName(url)[1]?.toLowerCase()
+        const extension = getExtensionIncludingObjectURL(url)
         if (!extension || !["fbx", "glb", "gltf"].includes(extension)) {
             resolvable.resolve()
             setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))

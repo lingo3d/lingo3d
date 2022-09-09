@@ -1,5 +1,6 @@
 import { getExtensionType } from "@lincode/filetypes"
-import { assertExhaustive, splitFileName } from "@lincode/utils"
+import { assertExhaustive } from "@lincode/utils"
+import { getExtensionIncludingObjectURL } from "../display/core/utils/objectURLExtensionMap"
 import {
     addLoadedBytesChangedEventListeners,
     removeLoadedBytesChangedEventListeners
@@ -50,7 +51,7 @@ export default async (
                 break
 
             case "model":
-                const extension = splitFileName(src)[1]?.toLowerCase()
+                const extension = getExtensionIncludingObjectURL(src)
                 if (!extension || !["fbx", "glb", "gltf"].includes(extension))
                     break
 
