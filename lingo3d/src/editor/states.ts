@@ -38,7 +38,6 @@ import {
     setSelectionFrozen
 } from "../states/useSelectionFrozen"
 import { getNodeEditor, setNodeEditor } from "../states/useNodeEditor"
-import { getDebug, setDebug } from "../states/useDebug"
 import { getEditorMounted, setEditorMounted } from "../states/useEditorMounted"
 import { getFiles, setFiles } from "../states/useFiles"
 import { setFileBrowser, getFileBrowser } from "../states/useFileBrowser"
@@ -73,7 +72,6 @@ export const useSceneGraphPreventDrag = hook(
     getSceneGraphPreventDrag
 )
 export const useNodeEditor = hook(setNodeEditor, getNodeEditor)
-export const useDebug = hook(setDebug, getDebug)
 export const useEditorMounted = hook(setEditorMounted, getEditorMounted)
 export const useFiles = hook(setFiles, getFiles)
 export const useFileBrowser = hook(setFileBrowser, getFileBrowser)
