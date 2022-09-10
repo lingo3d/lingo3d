@@ -48,6 +48,11 @@ const Editor = () => {
     useHotkeys()
 
     useEffect(() => {
+        window.onbeforeunload = confirmExit
+        function confirmExit() {
+            return "Are you sure you want to close the current page?"
+        }
+
         mainOrbitCamera.active = true
         setOrbitControls(true)
         setGridHelper(true)

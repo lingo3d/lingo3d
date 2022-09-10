@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { isPositionedItem } from "../../api/core/PositionedItem"
+import saveJSON from "../../api/files/saveJSON"
 import deserialize from "../../api/serializer/deserialize"
 import serialize from "../../api/serializer/serialize"
 import applyCentripetalQuaternion from "../../display/utils/applyCentripetalQuaternion"
@@ -34,9 +35,8 @@ export default () => {
             if (e.metaKey || e.ctrlKey) {
                 e.preventDefault()
 
-                if (keyLowerCase === "s") {
-                    //mark
-                } else if (target) {
+                if (keyLowerCase === "s") saveJSON()
+                else if (target) {
                     if (keyLowerCase === "c") {
                         const targets = getMultipleSelectionTargets()
                         if (targets.length) {
@@ -62,12 +62,12 @@ export default () => {
         }
         document.addEventListener("keydown", handleKeyDown)
         document.addEventListener("keyup", handleKeyUp)
-        const handle1 = onKeyClear(() => setMultipleSelection(false))
+        const handle = onKeyClear(() => setMultipleSelection(false))
 
         return () => {
             document.removeEventListener("keydown", handleKeyDown)
             document.removeEventListener("keyup", handleKeyUp)
-            handle1.cancel()
+            handle.cancel()
         }
     }, [])
 }

@@ -113,6 +113,9 @@ export default class OrbitCamera
 
                 handle.watch(
                     onBeforeRender(() => {
+                        if (downSet.has("Meta") || downSet.has("Control"))
+                            return
+
                         const speed = downSet.has("Shift") ? 50 : 10
 
                         if (downSet.has("w")) this.translateZ(-speed)
