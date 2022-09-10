@@ -47,7 +47,7 @@ const openFolder = async () => {
     const blobs = await directoryOpen({
         recursive: true,
         startIn: "downloads",
-        id: "lingo3d",
+        id: "lingo3d-openFolder",
         skipDirectory: (entry) =>
             entry.name[0] === "." || entry.name === "node_modules"
     })

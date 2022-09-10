@@ -17,7 +17,7 @@ export default async () => {
             await fileSave(new Blob([code], { type: "text/plain" }), {
                 extensions: [".json"],
                 startIn: "downloads",
-                id: "lingo3d"
+                id: "lingo3d-saveJSON"
             })
         )
     else
