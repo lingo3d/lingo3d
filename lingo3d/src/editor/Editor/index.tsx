@@ -15,7 +15,6 @@ import {
     useNodeEditor
 } from "../states"
 import { Cancellable } from "@lincode/promiselikes"
-import { getSelectionTarget } from "../../states/useSelectionTarget"
 import {
     getSecondaryCamera,
     setSecondaryCamera
@@ -51,6 +50,7 @@ import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTa
 import applyCentripetalQuaternion from "../../display/utils/applyCentripetalQuaternion"
 import { setTransformControlsSpace } from "../../states/useTransformControlsSpace"
 import { getCentripetal } from "../../states/useCentripetal"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
 
 preventTreeShake(h)
 
@@ -72,6 +72,40 @@ const Editor = () => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
                 setMultipleSelection(true)
+
+            if (e.key === "Backspace" || e.key === "Delete") {
+                e.preventDefault()
+                !getMultipleSelection() && deleteSelected()
+                return
+            }
+
+            const keyLowerCase = e.key.toLocaleLowerCase()
+            const target = getSelectionTarget()
+
+            if (e.metaKey || e.ctrlKey) {
+                e.preventDefault()
+
+                if (keyLowerCase === "s") {
+                    //mark
+                } else if (target) {
+                    if (keyLowerCase === "c") {
+                        const targets = getMultipleSelectionTargets()
+                        if (targets.length) {
+                            //todo: copy multiple
+                        } else {
+                            const [item] = deserialize(serialize(target))
+                            if (target.parent && item) {
+                                target.parent.attach(item)
+                                emitSelectionTarget(item)
+                            }
+                        }
+                    } else if (e.key === "ArrowUp" && getCentripetal()) {
+                        applyCentripetalQuaternion(target)
+                        setTransformControlsSpace("local")
+                    }
+                }
+            } else if (keyLowerCase === "c")
+                isPositionedItem(target) && emitEditorCenterView(target)
         }
         const handleKeyUp = (e: KeyboardEvent) => {
             if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
@@ -251,41 +285,6 @@ const Editor = () => {
                 pane.dispose()
             }
         }
-
-        const handleKey = (e: KeyboardEvent) => {
-            if (e.key === "Backspace" || e.key === "Delete") {
-                e.preventDefault()
-                !getMultipleSelection() && deleteSelected()
-                return
-            }
-
-            const target = getSelectionTarget()
-            if (!target) return
-
-            const keyLowerCase = e.key.toLocaleLowerCase()
-
-            if (e.metaKey || e.ctrlKey) {
-                if (keyLowerCase === "c") {
-                    const targets = getMultipleSelectionTargets()
-                    if (targets.length) {
-                        //todo: copy multiple
-                    } else {
-                        const [item] = deserialize(serialize(target))
-                        if (target.parent && item) {
-                            target.parent.attach(item)
-                            emitSelectionTarget(item)
-                        }
-                    }
-                } else if (keyLowerCase === "s") {
-                    //mark
-                } else if (e.key === "ArrowUp" && getCentripetal()) {
-                    applyCentripetalQuaternion(target)
-                    setTransformControlsSpace("local")
-                }
-            } else if (keyLowerCase === "c")
-                isPositionedItem(target) && emitEditorCenterView(target)
-        }
-        document.addEventListener("keydown", handleKey)
 
         const target = selectionTarget as any
         const handle = new Cancellable()
@@ -503,7 +502,6 @@ const Editor = () => {
         return () => {
             handle.cancel()
             pane.dispose()
-            document.removeEventListener("keydown", handleKey)
         }
     }, [selectionTarget, multipleSelectionTargets])
 
