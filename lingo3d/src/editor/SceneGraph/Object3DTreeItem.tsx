@@ -17,11 +17,7 @@ type Object3DTreeItemProps = TreeItemProps & {
     object3d: Object3D
 }
 
-const Object3DTreeItem = ({
-    appendable,
-    object3d,
-    level
-}: Object3DTreeItemProps) => {
+const Object3DTreeItem = ({ appendable, object3d }: Object3DTreeItemProps) => {
     const expandIconStyle = {
         opacity: object3d.children.length ? 0.5 : 0.05,
         cursor: "pointer"
@@ -105,7 +101,6 @@ const Object3DTreeItem = ({
                         key={child.uuid}
                         object3d={child}
                         appendable={appendable}
-                        level={level + 1}
                     />
                 ))}
         </div>

@@ -27,7 +27,6 @@ preventTreeShake(h)
 
 export type TreeItemProps = {
     appendable: Appendable
-    level: number
     children?: JSX.Element | Array<JSX.Element>
 }
 
@@ -53,7 +52,7 @@ export const makeTreeItemCallbacks = (
 
 export const draggingItemPtr: [Appendable | undefined] = [undefined]
 
-const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
+const TreeItem = ({ appendable, children }: TreeItemProps) => {
     const name = getComponentName(appendable)
 
     const appendableChildren = useMemo(() => {
@@ -185,13 +184,11 @@ const TreeItem = ({ appendable, level, children }: TreeItemProps) => {
                         <ModelTreeItem
                             key={childAppendable.uuid}
                             appendable={childAppendable}
-                            level={level + 1}
                         />
                     ) : (
                         <TreeItem
                             key={childAppendable.uuid}
                             appendable={childAppendable}
-                            level={level + 1}
                         />
                     )
                 )}

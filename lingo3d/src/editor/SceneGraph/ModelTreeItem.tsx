@@ -12,7 +12,7 @@ type ModelTreeItemProps = TreeItemProps & {
     appendable: Model
 }
 
-const ModelTreeItem = ({ appendable, level }: ModelTreeItemProps) => {
+const ModelTreeItem = ({ appendable }: ModelTreeItemProps) => {
     const [loadedObject3d, setLoadedObject3d] = useState<Object3D>()
     const { loaded } = appendable
 
@@ -27,11 +27,10 @@ const ModelTreeItem = ({ appendable, level }: ModelTreeItemProps) => {
     }, [loaded])
 
     return (
-        <TreeItem appendable={appendable} level={level}>
+        <TreeItem appendable={appendable}>
             {loadedObject3d && (
                 <Object3DTreeItem
                     appendable={appendable}
-                    level={level + 1}
                     object3d={loadedObject3d}
                 />
             )}
