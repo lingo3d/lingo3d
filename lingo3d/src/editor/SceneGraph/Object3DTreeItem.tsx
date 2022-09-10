@@ -26,10 +26,7 @@ const Object3DTreeItem = ({ appendable, object3d }: Object3DTreeItemProps) => {
     const [expanded, setExpanded] = useState(false)
     const [sceneGraphTarget] = useSceneGraphTarget()
 
-    const { setClickEl, handleClick } = makeTreeItemCallbacks(
-        object3d,
-        appendable
-    )
+    const setClickEl = makeTreeItemCallbacks(object3d, appendable)
 
     const [sceneGraphExpanded, setSceneGraphExpanded] = useSceneGraphExpanded()
 
@@ -65,7 +62,7 @@ const Object3DTreeItem = ({ appendable, object3d }: Object3DTreeItemProps) => {
     return (
         <div
             ref={setClickEl}
-            onClick={handleClick}
+            onClick={(e) => e.stopPropagation()}
             onDblClick={handleDoubleClick}
             onMouseDown={() => setSceneGraphPreventDrag(true)}
             style={{

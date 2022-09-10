@@ -1,10 +1,7 @@
 import { h } from "preact"
-import { useState, useEffect, useRef, useMemo } from "preact/hooks"
+import { useState, useMemo } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
 import Appendable, { hiddenAppendables } from "../../api/core/Appendable"
-import CubeIcon from "./icons/CubeIcon"
-import ExpandIcon from "./icons/ExpandIcon"
-import CollapseIcon from "./icons/CollapseIcon"
 import {
     useMultipleSelectionTargets,
     useSceneGraphExpanded,
@@ -22,6 +19,7 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import getComponentName from "../utils/getComponentName"
 import { getEditing } from "../../states/useEditing"
 import { setEditorMode } from "../../states/useEditorMode"
+import BaseTreeItem from "../component/BaseTreeItem"
 
 preventTreeShake(h)
 
@@ -33,8 +31,8 @@ export type TreeItemProps = {
 export const makeTreeItemCallbacks = (
     target: Appendable | Object3D,
     parent?: Appendable
-) => {
-    const setClickEl = useClick((e) => {
+) =>
+    useClick((e) => {
         e.stopPropagation()
         !getEditing() && setEditorMode("translate")
         isPositionedItem(parent) &&
@@ -44,11 +42,6 @@ export const makeTreeItemCallbacks = (
             queueMicrotask(() => setSceneGraphTarget(target))
         else emitSelectionTarget(target)
     })
-
-    const handleClick = (e: MouseEvent) => e.stopPropagation()
-
-    return { setClickEl, handleClick }
-}
 
 export const draggingItemPtr: [Appendable | undefined] = [undefined]
 
@@ -63,14 +56,7 @@ const TreeItem = ({ appendable, children }: TreeItemProps) => {
             : undefined
     }, [appendable.children?.size])
 
-    const expandIconStyle = {
-        opacity: appendableChildren?.length || children ? 0.5 : 0.05,
-        cursor: "pointer"
-    }
-
     const [dragOver, setDragOver] = useState(false)
-    const [expanded, setExpanded] = useState(false)
-    // const [expanded, setExpanded] = useState(!!appendableChildren?.length)
 
     const [selectionTarget] = useSelectionTarget()
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
@@ -78,122 +64,54 @@ const TreeItem = ({ appendable, children }: TreeItemProps) => {
         selectionTarget === appendable ||
         multipleSelectionTargets.includes(appendable as any)
 
-    const { setClickEl, handleClick } = makeTreeItemCallbacks(appendable)
+    const setClickEl = makeTreeItemCallbacks(appendable)
 
     const [sceneGraphExpanded, setSceneGraphExpanded] = useSceneGraphExpanded()
 
-    useEffect(() => {
-        if (!sceneGraphExpanded) return
-        if (sceneGraphExpanded.has(appendable.outerObject3d)) setExpanded(true)
-    }, [sceneGraphExpanded])
-
-    const startRef = useRef<HTMLDivElement>(null)
-    const endRef = useRef<HTMLDivElement>(null)
-
-    const highlightWidth = useMemo(() => {
-        if (!selected || !startRef.current || !endRef.current) return
-
-        const boundsStart = startRef.current.getBoundingClientRect()
-        const boundsEnd = endRef.current.getBoundingClientRect()
-        return boundsEnd.right - boundsStart.left + 4
-    }, [selected, expanded])
-
     const [preventDrag] = useSceneGraphPreventDrag()
 
-    const collapse = () => {
-        setExpanded(false)
-        setSceneGraphExpanded(undefined)
-    }
-    const expand = () => setExpanded(true)
-
-    const handleDoubleClick = (e: MouseEvent) => {
-        e.stopPropagation()
-        expanded ? collapse() : expand()
-    }
+    const canSetDragOver = () =>
+        draggingItemPtr[0] && draggingItemPtr[0] !== appendable
 
     return (
-        <div
+        <BaseTreeItem
             ref={setClickEl}
-            onClick={handleClick}
-            onDblClick={handleDoubleClick}
+            label={name}
+            selected={selected}
+            dragOver={dragOver}
             draggable={!preventDrag}
-            onDragStart={(e) => (
-                e.stopPropagation(), (draggingItemPtr[0] = appendable)
-            )}
-            onDragEnd={(e) => (
-                e.stopPropagation(), (draggingItemPtr[0] = undefined)
-            )}
-            onDragOver={(e) => {
-                e.stopPropagation()
-                e.preventDefault()
-                if (!draggingItemPtr[0] || draggingItemPtr[0] === appendable)
-                    return
-                setDragOver(true)
-            }}
-            onDragEnter={(e) => {
-                e.stopPropagation()
-                e.preventDefault()
-                if (!draggingItemPtr[0] || draggingItemPtr[0] === appendable)
-                    return
-                setDragOver(true)
-            }}
-            onDragLeave={(e) => {
-                e.stopPropagation()
-                if (!draggingItemPtr[0] || draggingItemPtr[0] === appendable)
-                    return
-                setDragOver(false)
-            }}
-            onDrop={(e) => {
-                e.stopPropagation()
-                if (!draggingItemPtr[0] || draggingItemPtr[0] === appendable)
-                    return
-                setDragOver(false)
-                appendable.attach(draggingItemPtr[0])
-            }}
-            style={{
-                color: "rgba(255, 255, 255, 0.75)",
-                marginLeft: 8,
-                borderLeft: "1px solid rgba(255, 255, 255, 0.05)",
-                background: dragOver ? "rgba(255, 255, 255, 0.5)" : "none"
-            }}
+            onDragStart={() => (draggingItemPtr[0] = appendable)}
+            onDragEnd={() => (draggingItemPtr[0] = undefined)}
+            onDragOver={() => canSetDragOver() && setDragOver(true)}
+            onDragEnter={() => canSetDragOver() && setDragOver(true)}
+            onDragLeave={() => canSetDragOver() && setDragOver(false)}
+            onDrop={() =>
+                canSetDragOver() &&
+                (setDragOver(false), appendable.attach(draggingItemPtr[0]!))
+            }
+            expanded={sceneGraphExpanded?.has(appendable.outerObject3d)}
+            onCollapse={() => setSceneGraphExpanded(undefined)}
+            expandable={!!appendableChildren?.length}
         >
-            <div
-                ref={startRef}
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    backgroundColor: selected
-                        ? "rgba(255, 255, 255, 0.1)"
-                        : undefined,
-                    width: highlightWidth,
-                    minWidth: "100%",
-                    cursor: "default"
-                }}
-            >
-                {expanded ? (
-                    <CollapseIcon style={expandIconStyle} onClick={collapse} />
-                ) : (
-                    <ExpandIcon style={expandIconStyle} onClick={expand} />
-                )}
-                <CubeIcon />
-                <div ref={endRef}>{name}</div>
-            </div>
-            {expanded &&
-                appendableChildren?.map((childAppendable) =>
-                    childAppendable instanceof Model ? (
-                        <ModelTreeItem
-                            key={childAppendable.uuid}
-                            appendable={childAppendable}
-                        />
-                    ) : (
-                        <TreeItem
-                            key={childAppendable.uuid}
-                            appendable={childAppendable}
-                        />
-                    )
-                )}
-            {expanded && children}
-        </div>
+            {() => (
+                <>
+                    {appendableChildren?.map((childAppendable) =>
+                        childAppendable instanceof Model ? (
+                            <ModelTreeItem
+                                key={childAppendable.uuid}
+                                appendable={childAppendable}
+                            />
+                        ) : (
+                            <TreeItem
+                                key={childAppendable.uuid}
+                                appendable={childAppendable}
+                            />
+                        )
+                    )}
+                    {children}
+                </>
+            )}
+        </BaseTreeItem>
     )
 }
 
