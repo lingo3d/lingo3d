@@ -5,7 +5,7 @@ import pathMap from "../pathMap"
 
 preventTreeShake(h)
 
-type IconHolderProps = {
+type DirectoryProps = {
     fileOrFolder: any
     firstFolderName: string
     onClick: (path: string) => void
@@ -19,7 +19,7 @@ export default function Directory({
     onClick,
     name,
     currentPath
-}: IconHolderProps) {
+}: DirectoryProps) {
     const [hover, setHover] = useState(false)
     const [dirPath, setDirPath] = useState("")
 
