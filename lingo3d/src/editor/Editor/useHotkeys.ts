@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { isPositionedItem } from "../../api/core/PositionedItem"
+import openFolder from "../../api/files/openFolder"
 import saveJSON from "../../api/files/saveJSON"
 import deserialize from "../../api/serializer/deserialize"
 import serialize from "../../api/serializer/serialize"
@@ -36,6 +37,7 @@ export default () => {
                 e.preventDefault()
 
                 if (keyLowerCase === "s") saveJSON()
+                else if (keyLowerCase === "o") openFolder()
                 else if (target) {
                     if (keyLowerCase === "c") {
                         const targets = getMultipleSelectionTargets()

@@ -34,26 +34,12 @@ import {
 import MeshIcon from "./icons/MeshIcon"
 import PathIcon from "./icons/PathIcon"
 import FolderIcon from "./icons/FolderIcon"
-import { directoryOpen } from "browser-fs-access"
-import { setFiles } from "../../states/useFiles"
-import { setFileBrowser } from "../../states/useFileBrowser"
 import { DEBUG } from "../../globals"
 import SaveIcon from "./icons/SaveIcon"
 import saveJSON from "../../api/files/saveJSON"
+import openFolder from "../../api/files/openFolder"
 
 preventTreeShake(h)
-
-const openFolder = async () => {
-    const blobs = await directoryOpen({
-        recursive: true,
-        startIn: "downloads",
-        id: "lingo3d-openFolder",
-        skipDirectory: (entry) =>
-            entry.name[0] === "." || entry.name === "node_modules"
-    })
-    setFiles(blobs)
-    setFileBrowser(true)
-}
 
 type ButtonOptions = {
     hidden?: boolean

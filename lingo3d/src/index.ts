@@ -67,7 +67,9 @@ import downloadText from "./api/files/downloadText"
 import exportJSON from "./api/files/exportJSON"
 import exportReact from "./api/files/exportReact"
 import exportVue from "./api/files/exportVue"
+import openFolder from "./api/files/openFolder"
 import openJSON from "./api/files/openJSON"
+import saveJSON from "./api/files/saveJSON"
 
 import { loop, timer } from "./engine/eventLoop"
 import mainOrbitCamera from "./engine/mainOrbitCamera"
@@ -152,7 +154,9 @@ export {
     exportJSON,
     exportReact,
     exportVue,
+    openFolder,
     openJSON,
+    saveJSON,
     loop,
     timer,
     mainOrbitCamera,
