@@ -30,10 +30,6 @@ import {
     getSceneGraphExpanded
 } from "../states/useSceneGraphExpanded"
 import {
-    setSceneGraphPreventDrag,
-    getSceneGraphPreventDrag
-} from "../states/useSceneGraphPreventDrag"
-import {
     getSelectionFrozen,
     setSelectionFrozen
 } from "../states/useSelectionFrozen"
@@ -70,10 +66,6 @@ export const useSceneGraphTarget = hook(
 export const useSceneGraphExpanded = hook(
     setSceneGraphExpanded,
     getSceneGraphExpanded
-)
-export const useSceneGraphPreventDrag = hook(
-    setSceneGraphPreventDrag,
-    getSceneGraphPreventDrag
 )
 export const useNodeEditor = hook(setNodeEditor, getNodeEditor)
 export const useEditorMounted = hook(setEditorMounted, getEditorMounted)

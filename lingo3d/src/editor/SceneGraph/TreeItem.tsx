@@ -5,7 +5,6 @@ import Appendable, { hiddenAppendables } from "../../api/core/Appendable"
 import {
     useMultipleSelectionTargets,
     useSceneGraphExpanded,
-    useSceneGraphPreventDrag,
     useSelectionTarget
 } from "../states"
 import Model from "../../display/Model"
@@ -39,8 +38,6 @@ export const makeTreeItemCallbacks =
     }
 
 const TreeItem = ({ appendable, children }: TreeItemProps) => {
-    const name = getComponentName(appendable)
-
     const appendableChildren = useMemo(() => {
         return appendable.children
             ? [...appendable.children].filter(
@@ -59,13 +56,11 @@ const TreeItem = ({ appendable, children }: TreeItemProps) => {
 
     const [sceneGraphExpanded, setSceneGraphExpanded] = useSceneGraphExpanded()
 
-    const [preventDrag] = useSceneGraphPreventDrag()
-
     return (
         <BaseTreeItem
-            label={name}
+            label={getComponentName(appendable)}
             selected={selected}
-            draggable={!preventDrag}
+            draggable
             myDraggingItem={appendable}
             onDrop={(draggingItem) => appendable.attach(draggingItem)}
             expanded={sceneGraphExpanded?.has(appendable.outerObject3d)}

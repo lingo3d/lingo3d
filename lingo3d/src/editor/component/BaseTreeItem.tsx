@@ -6,6 +6,7 @@ import ExpandIcon from "../SceneGraph/icons/ExpandIcon"
 import CubeIcon from "../SceneGraph/icons/CubeIcon"
 import { TreeItemContext } from "./TreeItemContextProviter"
 import useClick from "../hooks/useClick"
+import Appendable from "../../api/core/Appendable"
 
 preventTreeShake(h)
 
@@ -72,8 +73,20 @@ const BaseTreeItem = ({
     }
 
     const context = useContext(TreeItemContext)
-    const canSetDragOver = () =>
-        context.draggingItem && context.draggingItem !== myDraggingItem
+    const canSetDragOver = () => {
+        if (
+            !draggable ||
+            !context.draggingItem ||
+            context.draggingItem === myDraggingItem
+        )
+            return false
+
+            console.log("recompute")
+
+        return !context.draggingItem.traverseSome(
+            (child: Appendable) => myDraggingItem === child
+        )
+    }
 
     const [dragOver, setDragOver] = useState(false)
     const ref = useClick(onClick)

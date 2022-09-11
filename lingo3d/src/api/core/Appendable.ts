@@ -34,6 +34,22 @@ export default class Appendable<
         child.parent = this
         ;(this.children ??= new Set()).add(child)
     }
+    //todo: check what can be replaced with this new traverse
+
+    public traverse(cb: (appendable: Appendable) => void) {
+        for (const child of this.children ?? []) {
+            cb(child)
+            child.traverse(cb)
+        }
+    }
+
+    public traverseSome(cb: (appendable: Appendable) => unknown) {
+        for (const child of this.children ?? []) {
+            if (cb(child)) return true
+            child.traverseSome(cb)
+        }
+        return false
+    }
 
     public append(child: Appendable) {
         this._append(child)
