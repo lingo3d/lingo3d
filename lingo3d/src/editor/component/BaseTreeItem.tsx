@@ -6,6 +6,7 @@ import ExpandIcon from "./ExpandIcon"
 import { TreeItemContext } from "./TreeItemContextProviter"
 import useClick from "../hooks/useClick"
 import Appendable from "../../api/core/Appendable"
+import mergeRefs from "../hooks/mergeRefs"
 
 preventTreeShake(h)
 
@@ -82,12 +83,10 @@ const BaseTreeItem = ({
         context.draggingItem !== myDraggingItem
 
     const [dragOver, setDragOver] = useState(false)
-    const ref = useClick(onClick)
+    const clickRef = useClick(onClick)
 
     return (
         <div
-            ref={ref}
-            onDblClick={handleDoubleClick}
             draggable={draggable}
             onDragStart={(e) => {
                 e.stopPropagation()
@@ -132,7 +131,8 @@ const BaseTreeItem = ({
             }}
         >
             <div
-                ref={startRef}
+                ref={mergeRefs(startRef, clickRef)}
+                onDblClick={handleDoubleClick}
                 style={{
                     display: "flex",
                     alignItems: "center",
