@@ -123,13 +123,11 @@ const SceneGraph = () => {
                         <ModelTreeItem
                             key={appendable.uuid}
                             appendable={appendable}
-                            level={0}
                         />
                     ) : (
                         <TreeItem
                             key={appendable.uuid}
                             appendable={appendable}
-                            level={0}
                         />
                     )
                 )}

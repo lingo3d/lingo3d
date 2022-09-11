@@ -4,19 +4,19 @@ import Directory from "./Directory"
 
 preventTreeShake(h)
 
-type IconHolderProps = {
+type FileTreeItemProps = {
     fileStructure: any
     firstFolderName: string
     onClick: (path: string) => void
     currentPath: string
 }
 
-function FileTreeItem({
+const FileTreeItem = ({
     fileStructure,
     firstFolderName,
     onClick,
     currentPath
-}: IconHolderProps) {
+}: FileTreeItemProps) => {
     const fileEntries = Object.entries(fileStructure)
 
     return (

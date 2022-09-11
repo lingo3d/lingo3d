@@ -1,4 +1,4 @@
-import { h } from "preact"
+import { Fragment, h } from "preact"
 import { useState, useMemo } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
 import Appendable, { hiddenAppendables } from "../../api/core/Appendable"
@@ -94,7 +94,7 @@ const TreeItem = ({ appendable, children }: TreeItemProps) => {
             expandable={!!appendableChildren?.length}
         >
             {() => (
-                <>
+                <Fragment>
                     {appendableChildren?.map((childAppendable) =>
                         childAppendable instanceof Model ? (
                             <ModelTreeItem
@@ -109,7 +109,7 @@ const TreeItem = ({ appendable, children }: TreeItemProps) => {
                         )
                     )}
                     {children}
-                </>
+                </Fragment>
             )}
         </BaseTreeItem>
     )
