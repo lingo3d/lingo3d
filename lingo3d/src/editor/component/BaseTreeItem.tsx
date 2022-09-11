@@ -1,11 +1,10 @@
-import { h } from "preact"
-import { useState, useRef, useMemo, useContext } from "preact/hooks"
+import { ComponentChildren, h } from "preact"
+import { useState, useRef, useMemo, useContext, useEffect } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
 import CollapseIcon from "../SceneGraph/icons/CollapseIcon"
 import ExpandIcon from "../SceneGraph/icons/ExpandIcon"
 import CubeIcon from "../SceneGraph/icons/CubeIcon"
 import { forwardRef } from "preact/compat"
-import { useEffect } from "react"
 import { TreeItemContext } from "./TreeItemContextProviter"
 
 preventTreeShake(h)
@@ -13,9 +12,10 @@ preventTreeShake(h)
 export type BaseTreeItemProps = {
     label?: string
     selected?: boolean
-    children?: () => any
+    children?: ComponentChildren
     onCollapse?: () => void
     onExpand?: () => void
+    onClick?: () => void
     onDrop?: (draggingItem?: any) => void
     myDraggingItem?: any
     draggable?: boolean
@@ -31,6 +31,7 @@ const BaseTreeItem = forwardRef<HTMLDivElement, BaseTreeItemProps>(
             selected,
             onCollapse,
             onExpand,
+            onClick,
             onDrop,
             myDraggingItem,
             draggable,
@@ -83,7 +84,7 @@ const BaseTreeItem = forwardRef<HTMLDivElement, BaseTreeItemProps>(
         return (
             <div
                 ref={ref}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => (e.stopPropagation(), onClick?.())}
                 onDblClick={handleDoubleClick}
                 draggable={draggable}
                 onDragStart={(e) => {

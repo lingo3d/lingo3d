@@ -1,9 +1,9 @@
 import { h } from "preact"
-import { useState, useMemo } from "preact/hooks"
+import { useMemo } from "preact/hooks"
 import register from "preact-custom-element"
 import { get, preventTreeShake, set, traverse } from "@lincode/utils"
 import CloseIcon from "./icons/CloseIcon"
-import { useFiles } from "../states"
+import { useFileBrowserPath, useFiles } from "../states"
 import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem/index"
 import pathMap from "./pathMap"
@@ -17,7 +17,7 @@ interface FileStructure {
 
 const FileBrowser = () => {
     const [files] = useFiles()
-    const [currentPath, setCurrentPath] = useState("")
+    const [fileBrowserPath, setFileBrowserPath] = useFileBrowserPath()
 
     const [fileStructure, firstFolderName] = useMemo(() => {
         const fileStructure: FileStructure = {}
@@ -35,20 +35,20 @@ const FileBrowser = () => {
                 typeof child === "object" && pathMap.set(child, path)
             })
         }
-        setCurrentPath(firstFolderName)
+        setFileBrowserPath(firstFolderName)
 
         return [fileStructure, firstFolderName]
     }, [files])
 
     const filteredFiles = useMemo(() => {
-        const currentFolder = get(fileStructure, currentPath.split("/"))
+        const currentFolder = get(fileStructure, fileBrowserPath.split("/"))
         const filteredFiles: Array<File> | undefined =
             currentFolder &&
             Object.values(currentFolder).filter(
                 (item) => item instanceof File && item.name[0] !== "."
             )
         return filteredFiles
-    }, [fileStructure, currentPath])
+    }, [fileStructure, fileBrowserPath])
 
     return (
         <div
@@ -91,10 +91,6 @@ const FileBrowser = () => {
                 <FileTreeItem
                     fileStructure={fileStructure}
                     firstFolderName={firstFolderName}
-                    currentPath={currentPath}
-                    onClick={(path) => {
-                        setCurrentPath(path)
-                    }}
                 />
             </div>
             <div style={{ gridArea: "2 / 2 / 3 / 3" }}>

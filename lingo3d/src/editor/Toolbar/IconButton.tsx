@@ -1,10 +1,10 @@
 import { preventTreeShake } from "@lincode/utils"
-import { h } from "preact"
+import { ComponentChildren, h } from "preact"
 
 preventTreeShake(h)
 
 type IconButtonProps = {
-    children: JSX.Element
+    children: ComponentChildren
     onClick?: () => void
     active?: boolean
     disabled?: boolean

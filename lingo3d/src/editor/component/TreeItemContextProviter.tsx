@@ -1,12 +1,12 @@
 import { preventTreeShake } from "@lincode/utils"
-import { createContext, h } from "preact"
+import { ComponentChildren, createContext, h } from "preact"
 
 preventTreeShake(h)
 
 export const TreeItemContext = createContext<{ draggingItem?: any }>({})
 
 interface Props {
-    children?: any
+    children?: ComponentChildren
 }
 
 const TreeItemContextProvider = ({ children }: Props) => {

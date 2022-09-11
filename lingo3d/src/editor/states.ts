@@ -41,6 +41,10 @@ import { getNodeEditor, setNodeEditor } from "../states/useNodeEditor"
 import { getEditorMounted, setEditorMounted } from "../states/useEditorMounted"
 import { getFiles, setFiles } from "../states/useFiles"
 import { setFileBrowser, getFileBrowser } from "../states/useFileBrowser"
+import {
+    setFileBrowserPath,
+    getFileBrowserPath
+} from "../states/useFileBrowserPath"
 
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(
@@ -75,3 +79,4 @@ export const useNodeEditor = hook(setNodeEditor, getNodeEditor)
 export const useEditorMounted = hook(setEditorMounted, getEditorMounted)
 export const useFiles = hook(setFiles, getFiles)
 export const useFileBrowser = hook(setFileBrowser, getFileBrowser)
+export const useFileBrowserPath = hook(setFileBrowserPath, getFileBrowserPath)

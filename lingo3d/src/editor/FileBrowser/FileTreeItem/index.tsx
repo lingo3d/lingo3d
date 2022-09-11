@@ -1,46 +1,49 @@
 import { preventTreeShake } from "@lincode/utils"
 import { Fragment, h } from "preact"
-import Directory from "./Directory"
+import BaseTreeItem from "../../component/BaseTreeItem"
+import { useFileBrowserPath } from "../../states"
+import pathMap from "../pathMap"
 
 preventTreeShake(h)
 
 type FileTreeItemProps = {
     fileStructure: any
     firstFolderName: string
-    onClick: (path: string) => void
-    currentPath: string
+    folderName?: string
+    myPath?: string
 }
 
 const FileTreeItem = ({
     fileStructure,
     firstFolderName,
-    onClick,
-    currentPath
+    folderName,
+    myPath
 }: FileTreeItemProps) => {
-    const fileEntries = Object.entries(fileStructure)
+    const fileEntries = Object.entries<any>(fileStructure)
+    const [fileBrowserPath, setFileBrowserPath] = useFileBrowserPath()
+
+    const children = () =>
+        fileEntries.map(([name, fileOrFolder]) =>
+            fileOrFolder instanceof File ? null : (
+                <FileTreeItem
+                    fileStructure={fileOrFolder}
+                    firstFolderName={firstFolderName}
+                    folderName={name}
+                    myPath={firstFolderName + pathMap.get(fileOrFolder)}
+                />
+            )
+        )
+    if (!myPath) return <Fragment>{children()}</Fragment>
 
     return (
-        <div style={{ paddingLeft: 10, width: "100%" }}>
-            {fileEntries.map(([name, fileOrFolder]) =>
-                fileOrFolder instanceof File ? null : (
-                    <Fragment>
-                        <Directory
-                            currentPath={currentPath}
-                            firstFolderName={firstFolderName}
-                            fileOrFolder={fileOrFolder}
-                            onClick={onClick}
-                            name={name}
-                        />
-                        <FileTreeItem
-                            fileStructure={fileOrFolder}
-                            firstFolderName={firstFolderName}
-                            onClick={onClick}
-                            currentPath={currentPath}
-                        />
-                    </Fragment>
-                )
-            )}
-        </div>
+        <BaseTreeItem
+            label={folderName}
+            expanded
+            selected={myPath === fileBrowserPath}
+            onClick={() => setFileBrowserPath(myPath)}
+        >
+            {children}
+        </BaseTreeItem>
     )
 }
 

@@ -7,12 +7,11 @@ specifiers:
   '@lincode/promiselikes': '*'
   '@lincode/reactivity': '*'
   '@lincode/utils': '*'
-  '@preact/preset-vite': ^2.3.1
+  '@preact/preset-vite': ^2.3.0
   '@tweakpane/core': '*'
   '@types/preact-custom-element': ^4.0.1
-  '@types/prettier': ^2.7.0
+  '@types/prettier': ^2.6.3
   '@types/randomcolor': ^0.5.6
-  '@types/react': ^18.0.18
   '@types/three': 0.144.0
   browser-fs-access: 0.31.0
   cannon-es: 0.20.0
@@ -28,8 +27,8 @@ specifiers:
   three: 0.144.0
   three-mesh-bvh: 0.5.16
   tweakpane: '*'
-  typescript: ^4.8.2
-  vite: ^3.1.0
+  typescript: ^4.7.4
+  vite: ^3.0.2
   xstate: '*'
 
 dependencies:
@@ -59,7 +58,6 @@ devDependencies:
   '@types/preact-custom-element': 4.0.1
   '@types/prettier': 2.7.0
   '@types/randomcolor': 0.5.6
-  '@types/react': 18.0.18
   lil-gui: 0.17.0
   randomcolor: 0.6.2
   rimraf: 3.0.2
@@ -476,24 +474,8 @@ packages:
     resolution: {integrity: sha512-RI1L7N4JnW5gQw2spvL7Sllfuf1SaHdrZpCHiBlCXjIlufi1SMNnbu2teze3/QE67Fg2tBlH7W+mi4hVNk4p0A==}
     dev: true
 
-  /@types/prop-types/15.7.5:
-    resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
-    dev: true
-
   /@types/randomcolor/0.5.6:
     resolution: {integrity: sha512-lKkW8DGUQpZldTrwa+HM5rY+7eTyaHOMTsnj9ewt7AAwXuMPwBmkLlfh8+SXdgOhBW9iNI4x4zRjQ/TQZkdycQ==}
-    dev: true
-
-  /@types/react/18.0.18:
-    resolution: {integrity: sha512-6hI08umYs6NaiHFEEGioXnxJ+oEhY3eRz8VCUaudZmGdtvPviCJB8mgaMxaDWAdPSYd4eFavrPk2QIolwbLYrg==}
-    dependencies:
-      '@types/prop-types': 15.7.5
-      '@types/scheduler': 0.16.2
-      csstype: 3.1.0
-    dev: true
-
-  /@types/scheduler/0.16.2:
-    resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
     dev: true
 
   /@types/three/0.144.0:
@@ -580,10 +562,6 @@ packages:
     resolution: {integrity: sha512-+OQdjP49zViI/6i7nIJpA8rAl4sV/JdPfU9nZs3VqOwGIgizICvuN2ru6fMd+4llL0tar18UYJXfZ/TWtmhUjA==}
     dependencies:
       safe-buffer: 5.1.2
-    dev: true
-
-  /csstype/3.1.0:
-    resolution: {integrity: sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==}
     dev: true
 
   /debug/4.3.4:

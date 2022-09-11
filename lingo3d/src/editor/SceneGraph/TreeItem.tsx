@@ -1,4 +1,4 @@
-import { Fragment, h } from "preact"
+import { ComponentChildren, Fragment, h } from "preact"
 import { useMemo } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
 import Appendable, { hiddenAppendables } from "../../api/core/Appendable"
@@ -25,7 +25,7 @@ preventTreeShake(h)
 
 export type TreeItemProps = {
     appendable: Appendable
-    children?: JSX.Element | Array<JSX.Element>
+    children?: ComponentChildren
 }
 
 export const makeTreeItemCallbacks = (

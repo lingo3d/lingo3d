@@ -1,4 +1,4 @@
-import { h } from "preact"
+import { ComponentChildren, h } from "preact"
 import { preventTreeShake } from "@lincode/utils"
 import useInit from "../utils/useInit"
 import { createPortal } from "preact/compat"
@@ -8,7 +8,7 @@ preventTreeShake(h)
 interface ContextMenuProps {
     data?: { x: number; y: number }
     setData: (value: any) => void
-    children?: JSX.Element | Array<JSX.Element>
+    children?: ComponentChildren
 }
 
 const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {

@@ -1,6 +1,6 @@
 import { preventTreeShake } from "@lincode/utils"
 import { h } from "preact"
-import { CSSProperties } from "react"
+import { CSSProperties } from "preact/compat"
 
 preventTreeShake(h)
 
