@@ -5,6 +5,7 @@ import clientToWorld from "../../display/utils/clientToWorld"
 import { point2Vec } from "../../display/utils/vec2Point"
 import { container } from "../../engine/renderLoop/renderSetup"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
+import { useFileSelected } from "../states"
 import FileIcon from "./icons/FileIcon"
 
 const objectURLMap = new WeakMap<File, string>()
@@ -35,6 +36,8 @@ type FileButtonProps = {
 }
 
 const FileButton = ({ file }: FileButtonProps) => {
+    const [fileSelected, setFileSelected] = useFileSelected()
+
     return (
         <div
             style={{
@@ -44,11 +47,16 @@ const FileButton = ({ file }: FileButtonProps) => {
                 alignItems: "center",
                 margin: "5px 6px 5px 6px",
                 width: "70px",
-                height: "80px"
+                height: "80px",
+                background:
+                    fileSelected === file
+                        ? "rgba(255, 255, 255, 0.1)"
+                        : undefined
             }}
             draggable
             onDragStart={() => (draggingItem = file)}
             onDragEnd={() => (draggingItem = undefined)}
+            onMouseDown={(e) => (e.stopPropagation(), setFileSelected(file))}
         >
             <FileIcon />
             <div

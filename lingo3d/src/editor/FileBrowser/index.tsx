@@ -10,6 +10,7 @@ import { setFileBrowser } from "../../states/useFileBrowser"
 import TitleBar from "../component/TitleBar"
 import TitleBarButton from "../component/TitleBarButton"
 import Border from "../component/Border"
+import { setFileSelected } from "../../states/useFileSelected"
 
 interface FileStructure {
     [key: string]: FileStructure | File
@@ -93,6 +94,7 @@ const FileBrowser = () => {
                         flexWrap: "wrap",
                         position: "absolute"
                     }}
+                    onMouseDown={() => setFileSelected(undefined)}
                 >
                     {filteredFiles?.map((file) => (
                         <FileButton file={file} />

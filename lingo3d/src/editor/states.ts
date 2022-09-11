@@ -41,6 +41,7 @@ import {
     setFileBrowserDir,
     getFileBrowserDir
 } from "../states/useFileBrowserDir"
+import { setFileSelected, getFileSelected } from "../states/useFileSelected"
 
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(
@@ -70,5 +71,6 @@ export const useSceneGraphExpanded = hook(
 export const useNodeEditor = hook(setNodeEditor, getNodeEditor)
 export const useEditorMounted = hook(setEditorMounted, getEditorMounted)
 export const useFiles = hook(setFiles, getFiles)
+export const useFileSelected = hook(setFileSelected, getFileSelected)
 export const useFileBrowser = hook(setFileBrowser, getFileBrowser)
 export const useFileBrowserDir = hook(setFileBrowserDir, getFileBrowserDir)
