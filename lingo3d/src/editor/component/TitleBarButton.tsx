@@ -9,7 +9,11 @@ type TitleBarButtonProps = {
     active?: boolean
 }
 
-const TitleBarButton = ({ children, onClick, active }: TitleBarButtonProps) => {
+const TitleBarButton = ({
+    children,
+    onClick,
+    active = true
+}: TitleBarButtonProps) => {
     return (
         <div
             onClick={active ? onClick : undefined}

@@ -36,6 +36,7 @@ import EmptyTreeItem from "../component/EmptyTreeItem"
 import scene from "../../engine/scene"
 import TreeItemContextProvider from "../component/TreeItemContextProviter"
 import TitleBar from "../component/TitleBar"
+import Border from "../component/Border"
 
 preventTreeShake([h, retargetBones])
 
@@ -85,7 +86,6 @@ const SceneGraph = () => {
             style={{
                 width: 200,
                 height: "100%",
-                padding: 4,
                 paddingTop: 0,
                 display: "flex",
                 flexDirection: "column",
@@ -93,6 +93,7 @@ const SceneGraph = () => {
             }}
         >
             <TitleBar title="scenegraph">
+                <Border />
                 <TitleBarButton
                     active={!!sceneGraphTarget}
                     onClick={handleFind}

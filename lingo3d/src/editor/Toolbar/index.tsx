@@ -38,6 +38,7 @@ import { DEBUG } from "../../globals"
 import SaveIcon from "./icons/SaveIcon"
 import saveJSON from "../../api/files/saveJSON"
 import openFolder from "../../api/files/openFolder"
+import Border from "../component/Border"
 
 preventTreeShake(h)
 
@@ -82,10 +83,10 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
             style={{
                 width: 50,
                 height: "100%",
-                borderRight: "1px solid rgba(255, 255, 255, 0.05)",
                 overflow: "hidden"
             }}
         >
+            <Border side="right" />
             <div
                 style={{
                     display: "flex",

@@ -6,22 +6,23 @@ preventTreeShake(h)
 type TitleBarProps = {
     title?: string
     children?: ComponentChildren
+    gap?: number
 }
 
-const TitleBar = ({ title, children }: TitleBarProps) => {
+const TitleBar = ({ title, children, gap }: TitleBarProps) => {
     return (
         <div
+            className="lingo3d-bg"
             style={{
                 height: 24,
-                borderBottom: "1px solid rgb(255,255,255,0.1)",
-                opacity: 0.5,
                 display: "flex",
                 alignItems: "center",
-                paddingLeft: 12
+                paddingLeft: 12,
+                paddingRight: gap
             }}
         >
             <div>{title}</div>
-            <div style={{ flexGrow: 1 }} />
+            <div style={{ flexGrow: 1, minWidth: gap }} />
             {children}
         </div>
     )

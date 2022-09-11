@@ -8,6 +8,9 @@ import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem"
 import pathMap from "./pathMap"
 import { setFileBrowser } from "../../states/useFileBrowser"
+import TitleBar from "../component/TitleBar"
+import TitleBarButton from "../component/TitleBarButton"
+import Border from "../component/Border"
 
 preventTreeShake(h)
 
@@ -58,7 +61,7 @@ const FileBrowser = () => {
                 width: "100%",
                 display: "grid",
                 gridTemplateColumns: "200px 1fr",
-                gridTemplateRows: "25px 1fr",
+                gridTemplateRows: "24px 1fr",
                 gridColumnGap: "0px",
                 gridRowGap: "0px"
             }}
@@ -70,22 +73,12 @@ const FileBrowser = () => {
                     display: "flex"
                 }}
             >
-                <div
-                    className="lingo3d-bg"
-                    style={{
-                        height: "100%",
-                        display: "flex",
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                        alignItems: "center"
-                    }}
-                >
-                    File Browser
-                    <div style={{ width: 20 }} />
-                    <div onClick={() => setFileBrowser(false)}>
+                <TitleBar title="file browser" gap={4}>
+                    <Border side="top" />
+                    <TitleBarButton onClick={() => setFileBrowser(false)}>
                         <CloseIcon />
-                    </div>
-                </div>
+                    </TitleBarButton>
+                </TitleBar>
             </div>
             <div style={{ gridArea: "2 / 1 / 3 / 2", overflow: "scroll" }}>
                 <FileTreeItem
