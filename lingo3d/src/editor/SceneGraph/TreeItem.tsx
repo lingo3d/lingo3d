@@ -1,5 +1,5 @@
 import { Fragment, h } from "preact"
-import { useState, useMemo } from "preact/hooks"
+import { useState, useMemo, useContext } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
 import Appendable, { hiddenAppendables } from "../../api/core/Appendable"
 import {
@@ -19,7 +19,7 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import getComponentName from "../utils/getComponentName"
 import { getEditing } from "../../states/useEditing"
 import { setEditorMode } from "../../states/useEditorMode"
-import BaseTreeItem from "../component/BaseTreeItem"
+import BaseTreeItem, { TreeItemContext } from "../component/BaseTreeItem"
 
 preventTreeShake(h)
 
@@ -42,8 +42,6 @@ export const makeTreeItemCallbacks = (
             queueMicrotask(() => setSceneGraphTarget(target))
         else emitSelectionTarget(target)
     })
-
-export const draggingItemPtr: [Appendable | undefined] = [undefined]
 
 const TreeItem = ({ appendable, children }: TreeItemProps) => {
     const name = getComponentName(appendable)
@@ -70,8 +68,9 @@ const TreeItem = ({ appendable, children }: TreeItemProps) => {
 
     const [preventDrag] = useSceneGraphPreventDrag()
 
+    const context = useContext(TreeItemContext)
     const canSetDragOver = () =>
-        draggingItemPtr[0] && draggingItemPtr[0] !== appendable
+        context.draggingItem && context.draggingItem !== appendable
 
     return (
         <BaseTreeItem
@@ -80,14 +79,14 @@ const TreeItem = ({ appendable, children }: TreeItemProps) => {
             selected={selected}
             dragOver={dragOver}
             draggable={!preventDrag}
-            onDragStart={() => (draggingItemPtr[0] = appendable)}
-            onDragEnd={() => (draggingItemPtr[0] = undefined)}
+            onDragStart={() => (context.draggingItem = appendable)}
+            onDragEnd={() => (context.draggingItem = undefined)}
             onDragOver={() => canSetDragOver() && setDragOver(true)}
             onDragEnter={() => canSetDragOver() && setDragOver(true)}
             onDragLeave={() => canSetDragOver() && setDragOver(false)}
             onDrop={() =>
                 canSetDragOver() &&
-                (setDragOver(false), appendable.attach(draggingItemPtr[0]!))
+                (setDragOver(false), appendable.attach(context.draggingItem))
             }
             expanded={sceneGraphExpanded?.has(appendable.outerObject3d)}
             onCollapse={() => setSceneGraphExpanded(undefined)}

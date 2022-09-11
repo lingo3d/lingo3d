@@ -1,5 +1,5 @@
-import { h } from "preact"
-import { useState, useRef, useMemo } from "preact/hooks"
+import { createContext, h } from "preact"
+import { useState, useRef, useMemo, useContext } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
 import CollapseIcon from "../SceneGraph/icons/CollapseIcon"
 import ExpandIcon from "../SceneGraph/icons/ExpandIcon"
@@ -9,9 +9,11 @@ import { useEffect } from "react"
 
 preventTreeShake(h)
 
+export const TreeItemContext = createContext<{ draggingItem?: any }>({})
+
 export type BaseTreeItemProps = {
-    label: string
-    selected: boolean
+    label?: string
+    selected?: boolean
     children?: () => any
     onCollapse?: () => void
     onExpand?: () => void
@@ -82,6 +84,8 @@ const BaseTreeItem = forwardRef<HTMLDivElement, BaseTreeItemProps>(
             e.stopPropagation()
             expanded ? collapse() : expand()
         }
+
+        const context = useContext(TreeItemContext)
 
         return (
             <div
