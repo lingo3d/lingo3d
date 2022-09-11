@@ -35,7 +35,6 @@ import EmptyTreeItem from "../component/EmptyTreeItem"
 import scene from "../../engine/scene"
 import TreeItemContextProvider from "../component/TreeItemContextProviter"
 import TitleBar from "../component/TitleBar"
-import Border from "../component/Border"
 
 preventTreeShake(retargetBones)
 
@@ -92,7 +91,6 @@ const SceneGraph = () => {
             }}
         >
             <TitleBar title="scenegraph">
-                <Border />
                 <TitleBarButton
                     disabled={!sceneGraphTarget}
                     onClick={handleFind}
@@ -112,7 +110,10 @@ const SceneGraph = () => {
                     <DeleteIcon />
                 </TitleBarButton>
             </TitleBar>
-            <div style={{ overflow: "scroll" }} className="lingo3d-ui">
+            <div
+                style={{ overflow: "scroll", flexGrow: 1 }}
+                className="lingo3d-ui"
+            >
                 <TreeItemContextProvider>
                     {appendables.map((appendable) =>
                         appendable instanceof Model ? (

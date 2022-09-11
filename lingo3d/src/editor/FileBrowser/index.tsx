@@ -9,7 +9,6 @@ import pathMap from "./pathMap"
 import { setFileBrowser } from "../../states/useFileBrowser"
 import TitleBar from "../component/TitleBar"
 import TitleBarButton from "../component/TitleBarButton"
-import Border from "../component/Border"
 import { setFileSelected } from "../../states/useFileSelected"
 
 interface FileStructure {
@@ -72,7 +71,6 @@ const FileBrowser = () => {
                 }}
             >
                 <TitleBar title="file browser" gap={4}>
-                    <Border side="top" />
                     <TitleBarButton onClick={() => setFileBrowser(false)}>
                         <CloseIcon />
                     </TitleBarButton>

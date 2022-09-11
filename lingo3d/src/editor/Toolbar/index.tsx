@@ -36,7 +36,6 @@ import { DEBUG } from "../../globals"
 import SaveIcon from "./icons/SaveIcon"
 import saveJSON from "../../api/files/saveJSON"
 import openFolder from "../../api/files/openFolder"
-import Border from "../component/Border"
 
 type ButtonOptions = {
     hidden?: boolean
@@ -79,10 +78,9 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
             style={{
                 width: 50,
                 height: "100%",
-                overflow: "hidden"
+                overflowY: "scroll"
             }}
         >
-            <Border side="right" />
             <div
                 style={{
                     display: "flex",

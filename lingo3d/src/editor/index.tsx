@@ -27,8 +27,18 @@ const style = createElement(`
             font-size: 11px;
             max-height: 100%;
         }
-        .lingo3d-ui::-webkit-scrollbar {
-            display: none;
+        .lingo3d-ui *::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        .lingo3d-ui *::-webkit-scrollbar-thumb {
+            background: rgba(100,100,100,0.7);
+        }
+        .lingo3d-ui *::-webkit-scrollbar-track {
+            background: rgba(100,100,100,0.1);
+        }
+        .lingo3d-ui *::-webkit-scrollbar-corner {
+            background: rgba(100,100,100,0.1);
         }
         .lingo3d-bg {
             background: rgb(40, 41, 46);
