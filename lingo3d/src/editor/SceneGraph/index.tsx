@@ -13,7 +13,7 @@ import ModelTreeItem from "./ModelTreeItem"
 import { multipleSelectionGroupManagers } from "../../states/useMultipleSelectionTargets"
 import GroupIcon from "./icons/GroupIcon"
 import DeleteIcon from "./icons/DeleteIcon"
-import TitleBarButton from "./TitleBarButton"
+import TitleBarButton from "../component/TitleBarButton"
 import {
     useMultipleSelectionTargets,
     useSceneGraphTarget,
@@ -35,6 +35,7 @@ import {
 import EmptyTreeItem from "../component/EmptyTreeItem"
 import scene from "../../engine/scene"
 import TreeItemContextProvider from "../component/TreeItemContextProviter"
+import TitleBar from "../component/TitleBar"
 
 preventTreeShake([h, retargetBones])
 
@@ -91,18 +92,7 @@ const SceneGraph = () => {
                 overflow: "hidden"
             }}
         >
-            <div
-                style={{
-                    height: 24,
-                    borderBottom: "1px solid rgb(255,255,255,0.1)",
-                    opacity: 0.5,
-                    display: "flex",
-                    alignItems: "center",
-                    paddingLeft: 12
-                }}
-            >
-                <div>scenegraph</div>
-                <div style={{ flexGrow: 1 }} />
+            <TitleBar title="scenegraph">
                 <TitleBarButton
                     active={!!sceneGraphTarget}
                     onClick={handleFind}
@@ -121,7 +111,7 @@ const SceneGraph = () => {
                 >
                     <DeleteIcon />
                 </TitleBarButton>
-            </div>
+            </TitleBar>
             <div style={{ overflow: "scroll" }} className="lingo3d-ui">
                 <TreeItemContextProvider>
                     {appendables.map((appendable) =>
