@@ -3,7 +3,7 @@ import { useMemo } from "preact/hooks"
 import register from "preact-custom-element"
 import { get, preventTreeShake, set, traverse } from "@lincode/utils"
 import CloseIcon from "./icons/CloseIcon"
-import { useFileBrowserPath, useFiles } from "../states"
+import { useFileBrowserDir, useFiles } from "../states"
 import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem"
 import pathMap from "./pathMap"
@@ -20,7 +20,7 @@ interface FileStructure {
 
 const FileBrowser = () => {
     const [files] = useFiles()
-    const [fileBrowserPath, setFileBrowserPath] = useFileBrowserPath()
+    const [fileBrowserDir, setFileBrowserDir] = useFileBrowserDir()
 
     const [fileStructure, firstFolderName] = useMemo(() => {
         const fileStructure: FileStructure = {}
@@ -38,20 +38,20 @@ const FileBrowser = () => {
                 typeof child === "object" && pathMap.set(child, path)
             })
         }
-        setFileBrowserPath(firstFolderName)
+        setFileBrowserDir(firstFolderName)
 
         return [fileStructure, firstFolderName]
     }, [files])
 
     const filteredFiles = useMemo(() => {
-        const currentFolder = get(fileStructure, fileBrowserPath.split("/"))
+        const currentFolder = get(fileStructure, fileBrowserDir.split("/"))
         const filteredFiles: Array<File> | undefined =
             currentFolder &&
             Object.values(currentFolder).filter(
                 (item) => item instanceof File && item.name[0] !== "."
             )
         return filteredFiles
-    }, [fileStructure, fileBrowserPath])
+    }, [fileStructure, fileBrowserDir])
 
     return (
         <div

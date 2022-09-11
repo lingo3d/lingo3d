@@ -1,6 +1,5 @@
 import { forceGet, preventTreeShake, splitFileName } from "@lincode/utils"
 import { h } from "preact"
-import { useState } from "preact/hooks"
 import objectURLExtensionMap from "../../display/core/utils/objectURLExtensionMap"
 import Model from "../../display/Model"
 import clientToWorld from "../../display/utils/clientToWorld"
@@ -39,8 +38,6 @@ type FileButtonProps = {
 }
 
 const FileButton = ({ file }: FileButtonProps) => {
-    const [hover, setHover] = useState(false)
-
     return (
         <div
             style={{
@@ -50,13 +47,8 @@ const FileButton = ({ file }: FileButtonProps) => {
                 alignItems: "center",
                 margin: "5px 6px 5px 6px",
                 width: "70px",
-                height: "80px",
-                background: hover ? "rgba(255,255,255,0.2)" : undefined
+                height: "80px"
             }}
-            onMouseEnter={() => {
-                setHover(true)
-            }}
-            onMouseLeave={() => setHover(false)}
             draggable
             onDragStart={() => (draggingItem = file)}
             onDragEnd={() => (draggingItem = undefined)}

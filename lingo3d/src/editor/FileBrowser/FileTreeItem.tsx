@@ -1,7 +1,7 @@
 import { preventTreeShake } from "@lincode/utils"
 import { Fragment, h } from "preact"
 import BaseTreeItem from "../component/BaseTreeItem"
-import { useFileBrowserPath } from "../states"
+import { useFileBrowserDir } from "../states"
 import FolderIcon from "./icons/FolderIcon"
 import pathMap from "./pathMap"
 
@@ -21,7 +21,7 @@ const FileTreeItem = ({
     myPath
 }: FileTreeItemProps) => {
     const fileEntries = Object.entries<any>(fileStructure)
-    const [fileBrowserPath, setFileBrowserPath] = useFileBrowserPath()
+    const [fileBrowserDir, setFileBrowserDir] = useFileBrowserDir()
 
     const children = () =>
         fileEntries.map(([name, fileOrFolder]) =>
@@ -41,8 +41,8 @@ const FileTreeItem = ({
             label={folderName}
             expanded
             expandable
-            selected={myPath === fileBrowserPath}
-            onClick={() => setFileBrowserPath(myPath)}
+            selected={myPath === fileBrowserDir}
+            onClick={() => setFileBrowserDir(myPath)}
             IconComponent={FolderIcon}
         >
             {children}
