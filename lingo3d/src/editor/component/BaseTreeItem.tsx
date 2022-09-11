@@ -17,12 +17,12 @@ export type BaseTreeItemProps = {
     children?: () => any
     onCollapse?: () => void
     onExpand?: () => void
-    onDragStart?: (e: DragEvent) => void
-    onDragEnd?: (e: DragEvent) => void
-    onDragOver?: (e: DragEvent) => void
-    onDragEnter?: (e: DragEvent) => void
-    onDragLeave?: (e: DragEvent) => void
-    onDrop?: (e: DragEvent) => void
+    onDragStart?: () => void
+    onDragEnd?: () => void
+    onDragOver?: () => void
+    onDragEnter?: () => void
+    onDragLeave?: () => void
+    onDrop?: (draggingItem?: any) => void
     dragOver?: boolean
     draggable?: boolean
     expanded?: boolean
@@ -95,29 +95,29 @@ const BaseTreeItem = forwardRef<HTMLDivElement, BaseTreeItemProps>(
                 draggable={draggable}
                 onDragStart={(e) => {
                     e.stopPropagation()
-                    onDragStart?.(e)
+                    onDragStart?.()
                 }}
                 onDragEnd={(e) => {
                     e.stopPropagation()
-                    onDragEnd?.(e)
+                    onDragEnd?.()
                 }}
                 onDragOver={(e) => {
                     e.stopPropagation()
                     e.preventDefault()
-                    onDragOver?.(e)
+                    onDragOver?.()
                 }}
                 onDragEnter={(e) => {
                     e.stopPropagation()
                     e.preventDefault()
-                    onDragEnter?.(e)
+                    onDragEnter?.()
                 }}
                 onDragLeave={(e) => {
                     e.stopPropagation()
-                    onDragLeave?.(e)
+                    onDragLeave?.()
                 }}
                 onDrop={(e) => {
                     e.stopPropagation()
-                    onDrop?.(e)
+                    onDrop?.(context.draggingItem)
                 }}
                 style={{
                     color: "rgba(255, 255, 255, 0.75)",

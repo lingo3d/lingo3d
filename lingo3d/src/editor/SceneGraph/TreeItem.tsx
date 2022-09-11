@@ -84,9 +84,9 @@ const TreeItem = ({ appendable, children }: TreeItemProps) => {
             onDragOver={() => canSetDragOver() && setDragOver(true)}
             onDragEnter={() => canSetDragOver() && setDragOver(true)}
             onDragLeave={() => canSetDragOver() && setDragOver(false)}
-            onDrop={() =>
+            onDrop={(draggingItem) =>
                 canSetDragOver() &&
-                (setDragOver(false), appendable.attach(context.draggingItem))
+                (setDragOver(false), appendable.attach(draggingItem))
             }
             expanded={sceneGraphExpanded?.has(appendable.outerObject3d)}
             onCollapse={() => setSceneGraphExpanded(undefined)}

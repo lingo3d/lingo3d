@@ -6,7 +6,7 @@ import { TreeItemContext } from "./BaseTreeItem"
 preventTreeShake(h)
 
 type EmptyTreeItemProps = {
-    onDrop?: (draggingItem: any) => void
+    onDrop?: (draggingItem?: any) => void
 }
 
 const EmptyTreeItem = ({ onDrop }: EmptyTreeItemProps) => {
