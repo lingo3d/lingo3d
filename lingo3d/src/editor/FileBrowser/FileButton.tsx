@@ -41,13 +41,9 @@ const FileButton = ({ file }: FileButtonProps) => {
     return (
         <div
             style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
                 margin: "5px 6px 5px 6px",
-                width: "70px",
-                height: "80px",
+                width: 70,
+                height: 90,
                 background:
                     fileSelected === file
                         ? "rgba(255, 255, 255, 0.1)"
@@ -58,18 +54,39 @@ const FileButton = ({ file }: FileButtonProps) => {
             onDragEnd={() => (draggingItem = undefined)}
             onMouseDown={(e) => (e.stopPropagation(), setFileSelected(file))}
         >
-            <FileIcon />
             <div
                 style={{
-                    margin: 0,
+                    display: "flex",
                     width: "100%",
-                    height: "20px",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    textAlign: "center"
+                    justifyContent: "center",
+                    paddingTop: 10,
+                    paddingBottom: 4
                 }}
             >
-                {file.name}
+                <FileIcon />
+            </div>
+            <div
+                style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "center",
+                    paddingLeft: 10,
+                    paddingRight: 10
+                }}
+            >
+                <div
+                    style={{
+                        wordBreak: "break-word",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        lineClamp: 2,
+                        webkitLineClamp: 2,
+                        webkitBoxOrient: "vertical"
+                    }}
+                >
+                    {file.name}
+                </div>
             </div>
         </div>
     )
