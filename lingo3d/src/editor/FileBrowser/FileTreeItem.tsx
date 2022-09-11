@@ -2,6 +2,7 @@ import { preventTreeShake } from "@lincode/utils"
 import { Fragment, h } from "preact"
 import BaseTreeItem from "../component/BaseTreeItem"
 import { useFileBrowserPath } from "../states"
+import FolderIcon from "./icons/FolderIcon"
 import pathMap from "./pathMap"
 
 preventTreeShake(h)
@@ -42,6 +43,7 @@ const FileTreeItem = ({
             expandable
             selected={myPath === fileBrowserPath}
             onClick={() => setFileBrowserPath(myPath)}
+            IconComponent={FolderIcon}
         >
             {children}
         </BaseTreeItem>
