@@ -6,17 +6,17 @@ preventTreeShake(h)
 type TitleBarButtonProps = {
     children?: ComponentChildren
     onClick?: () => void
-    active?: boolean
+    disabled?: boolean
 }
 
 const TitleBarButton = ({
     children,
     onClick,
-    active = true
+    disabled
 }: TitleBarButtonProps) => {
     return (
         <div
-            onClick={active ? onClick : undefined}
+            onClick={disabled ? undefined : onClick}
             style={{
                 width: 24,
                 height: 24,
@@ -24,8 +24,8 @@ const TitleBarButton = ({
                 justifyContent: "center",
                 alignItems: "center",
                 marginRight: 2,
-                opacity: active ? 1 : 0.1,
-                cursor: active ? "pointer" : "default"
+                opacity: disabled ? 0.1 : 0.5,
+                cursor: disabled ? "default" : "pointer"
             }}
         >
             {children}

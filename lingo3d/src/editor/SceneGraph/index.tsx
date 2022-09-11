@@ -95,19 +95,19 @@ const SceneGraph = () => {
             <TitleBar title="scenegraph">
                 <Border />
                 <TitleBarButton
-                    active={!!sceneGraphTarget}
+                    disabled={!sceneGraphTarget}
                     onClick={handleFind}
                 >
                     <FindIcon />
                 </TitleBarButton>
                 <TitleBarButton
-                    active={!!multipleSelectionTargets.length}
+                    disabled={!multipleSelectionTargets.length}
                     onClick={emitEditorGroupItems}
                 >
                     <GroupIcon />
                 </TitleBarButton>
                 <TitleBarButton
-                    active={!!selectionTarget}
+                    disabled={!selectionTarget}
                     onClick={deleteSelected}
                 >
                     <DeleteIcon />
