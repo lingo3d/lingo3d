@@ -24,6 +24,7 @@ preventTreeShake(h)
 export type TreeItemProps = {
     appendable: Appendable
     children?: ComponentChildren
+    expandable?: boolean
 }
 
 export const makeTreeItemCallbacks =
@@ -37,7 +38,7 @@ export const makeTreeItemCallbacks =
         else emitSelectionTarget(target)
     }
 
-const TreeItem = ({ appendable, children }: TreeItemProps) => {
+const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
     const appendableChildren = useMemo(() => {
         return appendable.children
             ? [...appendable.children].filter(
@@ -65,7 +66,7 @@ const TreeItem = ({ appendable, children }: TreeItemProps) => {
             onDrop={(draggingItem) => appendable.attach(draggingItem)}
             expanded={sceneGraphExpanded?.has(appendable.outerObject3d)}
             onCollapse={() => setSceneGraphExpanded(undefined)}
-            expandable={!!appendableChildren?.length}
+            expandable={expandable ?? !!appendableChildren?.length}
             onClick={handleClick}
         >
             {() => (

@@ -36,6 +36,7 @@ const Object3DTreeItem = ({ appendable, object3d }: Object3DTreeItemProps) => {
             onCollapse={() => setSceneGraphExpanded(undefined)}
             onClick={handleClick}
             expanded={expanded}
+            expandable={!!object3d.children.length}
         >
             {() =>
                 object3d.children.map((child) => (

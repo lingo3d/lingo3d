@@ -27,7 +27,7 @@ const ModelTreeItem = ({ appendable }: ModelTreeItemProps) => {
     }, [loaded])
 
     return (
-        <TreeItem appendable={appendable}>
+        <TreeItem appendable={appendable} expandable={!!loadedObject3d}>
             {loadedObject3d && (
                 <Object3DTreeItem
                     appendable={appendable}
