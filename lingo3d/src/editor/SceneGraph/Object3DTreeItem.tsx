@@ -67,7 +67,6 @@ const Object3DTreeItem = ({ appendable, object3d }: Object3DTreeItemProps) => {
     return (
         <div
             ref={setClickEl}
-            onClick={(e) => e.stopPropagation()}
             onDblClick={handleDoubleClick}
             onMouseDown={() => setSceneGraphPreventDrag(true)}
             style={{

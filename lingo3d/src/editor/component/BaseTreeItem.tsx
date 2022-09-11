@@ -81,7 +81,6 @@ const BaseTreeItem = ({
     return (
         <div
             ref={ref}
-            onClick={(e) => e.stopPropagation()}
             onDblClick={handleDoubleClick}
             draggable={draggable}
             onDragStart={(e) => {

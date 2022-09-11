@@ -11,11 +11,15 @@ export default (cb?: (e: MouseEvent) => void) => {
         let downY = 0
 
         const handleMouseDown = (e: MouseEvent) => {
+            e.stopPropagation()
+
             downTime = Date.now()
             downX = e.clientX
             downY = e.clientY
         }
         const handleMouseUp = (e: MouseEvent) => {
+            e.stopPropagation()
+
             const upTime = Date.now()
 
             const deltaTime = upTime - downTime
@@ -28,12 +32,17 @@ export default (cb?: (e: MouseEvent) => void) => {
 
             deltaTime < 300 && deltaX < 5 && deltaY < 5 && cb(e)
         }
+        const handleClick = (e: MouseEvent) => {
+            e.stopPropagation()
+        }
         el.addEventListener("mousedown", handleMouseDown)
         el.addEventListener("mouseup", handleMouseUp)
+        el.addEventListener("click", handleClick)
 
         return () => {
             el.removeEventListener("mousedown", handleMouseDown)
             el.removeEventListener("mouseup", handleMouseUp)
+            el.removeEventListener("click", handleClick)
         }
     }, [el])
 
