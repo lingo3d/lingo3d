@@ -17,13 +17,8 @@ export type BaseTreeItemProps = {
     children?: () => any
     onCollapse?: () => void
     onExpand?: () => void
-    onDragStart?: () => void
-    onDragEnd?: () => void
-    onDragOver?: () => void
-    onDragEnter?: () => void
-    onDragLeave?: () => void
     onDrop?: (draggingItem?: any) => void
-    dragOver?: boolean
+    myDraggingItem?: any
     draggable?: boolean
     expanded?: boolean
     expandable?: boolean
@@ -37,13 +32,8 @@ const BaseTreeItem = forwardRef<HTMLDivElement, BaseTreeItemProps>(
             selected,
             onCollapse,
             onExpand,
-            onDragStart,
-            onDragEnd,
-            onDragOver,
-            onDragEnter,
-            onDragLeave,
             onDrop,
-            dragOver,
+            myDraggingItem,
             draggable,
             expanded: expandedProp,
             expandable
@@ -86,6 +76,10 @@ const BaseTreeItem = forwardRef<HTMLDivElement, BaseTreeItemProps>(
         }
 
         const context = useContext(TreeItemContext)
+        const canSetDragOver = () =>
+            context.draggingItem && context.draggingItem !== myDraggingItem
+
+        const [dragOver, setDragOver] = useState(false)
 
         return (
             <div
@@ -95,29 +89,30 @@ const BaseTreeItem = forwardRef<HTMLDivElement, BaseTreeItemProps>(
                 draggable={draggable}
                 onDragStart={(e) => {
                     e.stopPropagation()
-                    onDragStart?.()
+                    context.draggingItem = myDraggingItem
                 }}
                 onDragEnd={(e) => {
                     e.stopPropagation()
-                    onDragEnd?.()
+                    context.draggingItem = undefined
                 }}
                 onDragOver={(e) => {
                     e.stopPropagation()
                     e.preventDefault()
-                    onDragOver?.()
+                    canSetDragOver() && setDragOver(true)
                 }}
                 onDragEnter={(e) => {
                     e.stopPropagation()
                     e.preventDefault()
-                    onDragEnter?.()
+                    canSetDragOver() && setDragOver(true)
                 }}
                 onDragLeave={(e) => {
                     e.stopPropagation()
-                    onDragLeave?.()
+                    canSetDragOver() && setDragOver(false)
                 }}
                 onDrop={(e) => {
                     e.stopPropagation()
-                    onDrop?.(context.draggingItem)
+                    canSetDragOver() &&
+                        (setDragOver(false), onDrop?.(context.draggingItem))
                 }}
                 style={{
                     color: "rgba(255, 255, 255, 0.75)",

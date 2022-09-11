@@ -34,6 +34,7 @@ import {
 } from "../../states/useEditorMounted"
 import EmptyTreeItem from "../component/EmptyTreeItem"
 import scene from "../../engine/scene"
+import { TreeItemContext } from "../component/BaseTreeItem"
 
 preventTreeShake([h, retargetBones])
 
@@ -122,28 +123,30 @@ const SceneGraph = () => {
                 </TitleBarButton>
             </div>
             <div style={{ overflow: "scroll" }} className="lingo3d-ui">
-                {appendables.map((appendable) =>
-                    appendable instanceof Model ? (
-                        <ModelTreeItem
-                            key={appendable.uuid}
-                            appendable={appendable}
-                        />
-                    ) : (
-                        <TreeItem
-                            key={appendable.uuid}
-                            appendable={appendable}
-                        />
-                    )
-                )}
-                <EmptyTreeItem
-                    onDrop={(child) => {
-                        emitSceneGraphChange()
-                        appendableRoot.add(child)
-                        scene.attach(child.outerObject3d)
-                        child.parent?.children?.delete(child)
-                        child.parent = undefined
-                    }}
-                />
+                <TreeItemContext.Provider value={{}}>
+                    {appendables.map((appendable) =>
+                        appendable instanceof Model ? (
+                            <ModelTreeItem
+                                key={appendable.uuid}
+                                appendable={appendable}
+                            />
+                        ) : (
+                            <TreeItem
+                                key={appendable.uuid}
+                                appendable={appendable}
+                            />
+                        )
+                    )}
+                    <EmptyTreeItem
+                        onDrop={(child) => {
+                            emitSceneGraphChange()
+                            appendableRoot.add(child)
+                            scene.attach(child.outerObject3d)
+                            child.parent?.children?.delete(child)
+                            child.parent = undefined
+                        }}
+                    />
+                </TreeItemContext.Provider>
             </div>
             <SceneGraphContextMenu />
         </div>
