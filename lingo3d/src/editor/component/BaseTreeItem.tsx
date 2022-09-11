@@ -73,20 +73,10 @@ const BaseTreeItem = ({
     }
 
     const context = useContext(TreeItemContext)
-    const canSetDragOver = () => {
-        if (
-            !draggable ||
-            !context.draggingItem ||
-            context.draggingItem === myDraggingItem
-        )
-            return false
-
-            console.log("recompute")
-
-        return !context.draggingItem.traverseSome(
-            (child: Appendable) => myDraggingItem === child
-        )
-    }
+    const canSetDragOver = () =>
+        draggable &&
+        context.draggingItem &&
+        context.draggingItem !== myDraggingItem
 
     const [dragOver, setDragOver] = useState(false)
     const ref = useClick(onClick)
@@ -120,8 +110,16 @@ const BaseTreeItem = ({
             }}
             onDrop={(e) => {
                 e.stopPropagation()
-                canSetDragOver() &&
-                    (setDragOver(false), onDrop?.(context.draggingItem))
+
+                if (!canSetDragOver()) return
+                setDragOver(false)
+
+                if (
+                    !context.draggingItem.traverseSome(
+                        (child: Appendable) => myDraggingItem === child
+                    )
+                )
+                    onDrop?.(context.draggingItem)
             }}
             style={{
                 color: "rgba(255, 255, 255, 0.75)",
