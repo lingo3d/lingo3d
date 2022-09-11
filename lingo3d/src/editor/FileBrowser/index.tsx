@@ -60,7 +60,8 @@ const FileBrowser = () => {
                 gridTemplateColumns: "200px 1fr",
                 gridTemplateRows: "24px 1fr",
                 gridColumnGap: "0px",
-                gridRowGap: "0px"
+                gridRowGap: "0px",
+                overflow: "hidden"
             }}
         >
             <div
