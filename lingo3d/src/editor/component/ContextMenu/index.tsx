@@ -1,6 +1,6 @@
 import { ComponentChildren, h } from "preact"
 import { preventTreeShake } from "@lincode/utils"
-import useInit from "../utils/useInit"
+import useInit from "../../utils/useInit"
 import { createPortal } from "preact/compat"
 
 preventTreeShake(h)

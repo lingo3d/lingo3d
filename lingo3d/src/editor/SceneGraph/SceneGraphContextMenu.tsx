@@ -15,8 +15,8 @@ import {
     clearSelectionFrozen
 } from "../../states/useSelectionFrozen"
 import downloadBlob from "../../api/files/downloadBlob"
-import ContextMenu from "../ContextMenu"
-import MenuItem from "../ContextMenu/MenuItem"
+import ContextMenu from "../component/ContextMenu"
+import MenuItem from "../component/ContextMenu/MenuItem"
 import { useSelectionFrozen, useSelectionTarget } from "../states"
 
 preventTreeShake(h)
