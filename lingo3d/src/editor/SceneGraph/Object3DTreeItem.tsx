@@ -8,6 +8,7 @@ import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
 import { useSceneGraphExpanded, useSceneGraphTarget } from "../states"
 import ComponentIcon from "./icons/ComponentIcon"
 import { setSceneGraphPreventDrag } from "../../states/useSceneGraphPreventDrag"
+import useClick from "../hooks/useClick"
 
 preventTreeShake(h)
 
@@ -26,7 +27,11 @@ const Object3DTreeItem = ({ appendable, object3d }: Object3DTreeItemProps) => {
     const [expanded, setExpanded] = useState(false)
     const [sceneGraphTarget] = useSceneGraphTarget()
 
-    const setClickEl = makeTreeItemCallbacks(object3d, appendable)
+    const handleClick = useMemo(
+        () => makeTreeItemCallbacks(object3d, appendable),
+        []
+    )
+    const setClickEl = useClick(handleClick)
 
     const [sceneGraphExpanded, setSceneGraphExpanded] = useSceneGraphExpanded()
 

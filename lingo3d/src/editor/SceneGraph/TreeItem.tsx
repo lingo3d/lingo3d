@@ -1,5 +1,5 @@
 import { ComponentChildren, Fragment, h } from "preact"
-import { useMemo } from "preact/hooks"
+import { useCallback, useMemo } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
 import Appendable, { hiddenAppendables } from "../../api/core/Appendable"
 import {
@@ -11,7 +11,6 @@ import {
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import useClick from "./useClick"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import { Object3D } from "three"
 import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
@@ -20,6 +19,7 @@ import getComponentName from "../utils/getComponentName"
 import { getEditing } from "../../states/useEditing"
 import { setEditorMode } from "../../states/useEditorMode"
 import BaseTreeItem from "../component/BaseTreeItem"
+import useClick from "../hooks/useClick"
 
 preventTreeShake(h)
 
@@ -28,11 +28,8 @@ export type TreeItemProps = {
     children?: ComponentChildren
 }
 
-export const makeTreeItemCallbacks = (
-    target: Appendable | Object3D,
-    parent?: Appendable
-) =>
-    useClick((e) => {
+export const makeTreeItemCallbacks =
+    (target: Appendable | Object3D, parent?: Appendable) => (e: MouseEvent) => {
         e.stopPropagation()
         !getEditing() && setEditorMode("translate")
         isPositionedItem(parent) &&
@@ -41,7 +38,7 @@ export const makeTreeItemCallbacks = (
         if (target instanceof Object3D)
             queueMicrotask(() => setSceneGraphTarget(target))
         else emitSelectionTarget(target)
-    })
+    }
 
 const TreeItem = ({ appendable, children }: TreeItemProps) => {
     const name = getComponentName(appendable)
@@ -60,7 +57,8 @@ const TreeItem = ({ appendable, children }: TreeItemProps) => {
         selectionTarget === appendable ||
         multipleSelectionTargets.includes(appendable as any)
 
-    const setClickEl = makeTreeItemCallbacks(appendable)
+    const handleClick = useMemo(() => makeTreeItemCallbacks(appendable), [])
+    const setClickEl = useClick(handleClick)
 
     const [sceneGraphExpanded, setSceneGraphExpanded] = useSceneGraphExpanded()
 
