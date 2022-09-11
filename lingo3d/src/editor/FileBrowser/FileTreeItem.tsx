@@ -1,8 +1,8 @@
 import { preventTreeShake } from "@lincode/utils"
 import { Fragment, h } from "preact"
-import BaseTreeItem from "../../component/BaseTreeItem"
-import { useFileBrowserPath } from "../../states"
-import pathMap from "../pathMap"
+import BaseTreeItem from "../component/BaseTreeItem"
+import { useFileBrowserPath } from "../states"
+import pathMap from "./pathMap"
 
 preventTreeShake(h)
 
@@ -39,6 +39,7 @@ const FileTreeItem = ({
         <BaseTreeItem
             label={folderName}
             expanded
+            expandable
             selected={myPath === fileBrowserPath}
             onClick={() => setFileBrowserPath(myPath)}
         >

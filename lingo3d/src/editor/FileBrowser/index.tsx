@@ -5,7 +5,7 @@ import { get, preventTreeShake, set, traverse } from "@lincode/utils"
 import CloseIcon from "./icons/CloseIcon"
 import { useFileBrowserPath, useFiles } from "../states"
 import FileButton from "./FileButton"
-import FileTreeItem from "./FileTreeItem/index"
+import FileTreeItem from "./FileTreeItem"
 import pathMap from "./pathMap"
 import { setFileBrowser } from "../../states/useFileBrowser"
 

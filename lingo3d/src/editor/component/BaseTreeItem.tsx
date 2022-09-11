@@ -1,9 +1,8 @@
 import { ComponentChildren, h } from "preact"
 import { useState, useRef, useMemo, useContext, useEffect } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
-import CollapseIcon from "../SceneGraph/icons/CollapseIcon"
-import ExpandIcon from "../SceneGraph/icons/ExpandIcon"
-import CubeIcon from "../SceneGraph/icons/CubeIcon"
+import CollapseIcon from "./CollapseIcon"
+import ExpandIcon from "./ExpandIcon"
 import { TreeItemContext } from "./TreeItemContextProviter"
 import useClick from "../hooks/useClick"
 import Appendable from "../../api/core/Appendable"
@@ -23,6 +22,7 @@ export type BaseTreeItemProps = {
     expanded?: boolean
     expandable?: boolean
     outlined?: boolean
+    IconComponent?: any
 }
 
 const BaseTreeItem = ({
@@ -37,7 +37,8 @@ const BaseTreeItem = ({
     draggable,
     expanded: expandedProp,
     expandable,
-    outlined
+    outlined,
+    IconComponent
 }: BaseTreeItemProps) => {
     const expandIconStyle = {
         opacity: expandable ? 0.5 : 0.05,
@@ -153,7 +154,7 @@ const BaseTreeItem = ({
                 ) : (
                     <ExpandIcon style={expandIconStyle} onClick={expand} />
                 )}
-                <CubeIcon />
+                {IconComponent && <IconComponent />}
                 <div ref={endRef}>{label}</div>
             </div>
             {expanded &&

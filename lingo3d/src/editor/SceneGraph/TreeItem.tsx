@@ -18,6 +18,7 @@ import getComponentName from "../utils/getComponentName"
 import { getEditing } from "../../states/useEditing"
 import { setEditorMode } from "../../states/useEditorMode"
 import BaseTreeItem from "../component/BaseTreeItem"
+import CubeIcon from "./icons/CubeIcon"
 
 preventTreeShake(h)
 
@@ -68,6 +69,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
             onCollapse={() => setSceneGraphExpanded(undefined)}
             expandable={expandable ?? !!appendableChildren?.length}
             onClick={handleClick}
+            IconComponent={CubeIcon}
         >
             {() => (
                 <Fragment>

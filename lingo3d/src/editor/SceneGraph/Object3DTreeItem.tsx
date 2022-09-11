@@ -38,6 +38,7 @@ const Object3DTreeItem = ({ appendable, object3d }: Object3DTreeItemProps) => {
             expanded={expanded}
             expandable={!!object3d.children.length}
             outlined
+            IconComponent={ComponentIcon}
         >
             {() =>
                 object3d.children.map((child) => (
