@@ -1,4 +1,3 @@
-import { h } from "preact"
 import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
@@ -38,7 +37,7 @@ import TreeItemContextProvider from "../component/TreeItemContextProviter"
 import TitleBar from "../component/TitleBar"
 import Border from "../component/Border"
 
-preventTreeShake([h, retargetBones])
+preventTreeShake(retargetBones)
 
 const SceneGraph = () => {
     const [r, render] = useState({})

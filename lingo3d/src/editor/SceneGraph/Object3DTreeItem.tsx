@@ -1,13 +1,9 @@
-import { h } from "preact"
 import { useEffect, useMemo, useState } from "preact/hooks"
-import { preventTreeShake } from "@lincode/utils"
 import { Object3D } from "three"
 import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
 import { useSceneGraphExpanded, useSceneGraphTarget } from "../states"
 import ComponentIcon from "./icons/ComponentIcon"
 import BaseTreeItem from "../component/BaseTreeItem"
-
-preventTreeShake(h)
 
 type Object3DTreeItemProps = TreeItemProps & {
     object3d: Object3D

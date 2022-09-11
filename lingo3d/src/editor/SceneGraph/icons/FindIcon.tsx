@@ -1,8 +1,4 @@
-import { preventTreeShake } from "@lincode/utils"
-import { h } from "preact"
 import ComponentIconPath from "./ComponentIconPath"
-
-preventTreeShake(h)
 
 const FindIcon = () => {
     return (

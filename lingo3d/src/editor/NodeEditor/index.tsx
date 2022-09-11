@@ -1,9 +1,5 @@
-import { h } from "preact"
 import register from "preact-custom-element"
-import { preventTreeShake } from "@lincode/utils"
 import { useNodeEditor } from "../states"
-
-preventTreeShake(h)
 
 const NodeEditor = () => {
     return (
@@ -26,9 +22,7 @@ const NodeEditorParent = () => {
 
     if (!nodeEditor) return null
 
-    return (
-        <NodeEditor />
-    )
+    return <NodeEditor />
 }
 export default NodeEditorParent
 

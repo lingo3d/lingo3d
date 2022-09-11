@@ -1,12 +1,8 @@
-import { h } from "preact"
 import { useEffect, useState } from "preact/hooks"
-import { preventTreeShake } from "@lincode/utils"
 import Model from "../../display/Model"
 import { Object3D } from "three"
 import TreeItem, { TreeItemProps } from "./TreeItem"
 import Object3DTreeItem from "./Object3DTreeItem"
-
-preventTreeShake(h)
 
 type ModelTreeItemProps = TreeItemProps & {
     appendable: Model

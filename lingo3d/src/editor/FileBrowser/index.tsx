@@ -1,7 +1,6 @@
-import { h } from "preact"
 import { useMemo } from "preact/hooks"
 import register from "preact-custom-element"
-import { get, preventTreeShake, set, traverse } from "@lincode/utils"
+import { get, set, traverse } from "@lincode/utils"
 import CloseIcon from "./icons/CloseIcon"
 import { useFileBrowserDir, useFiles } from "../states"
 import FileButton from "./FileButton"
@@ -11,8 +10,6 @@ import { setFileBrowser } from "../../states/useFileBrowser"
 import TitleBar from "../component/TitleBar"
 import TitleBarButton from "../component/TitleBarButton"
 import Border from "../component/Border"
-
-preventTreeShake(h)
 
 interface FileStructure {
     [key: string]: FileStructure | File

@@ -1,8 +1,5 @@
-import { ComponentChildren, Fragment, h } from "preact"
-import { preventTreeShake } from "@lincode/utils"
+import { ComponentChildren, Fragment } from "preact"
 import Separator from "./Separator"
-
-preventTreeShake(h)
 
 type SectionOptions = {
     children?: ComponentChildren

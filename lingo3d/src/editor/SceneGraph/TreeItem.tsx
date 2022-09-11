@@ -1,6 +1,5 @@
-import { ComponentChildren, Fragment, h } from "preact"
+import { ComponentChildren, Fragment } from "preact"
 import { useMemo } from "preact/hooks"
-import { preventTreeShake } from "@lincode/utils"
 import Appendable, { hiddenAppendables } from "../../api/core/Appendable"
 import {
     useMultipleSelectionTargets,
@@ -19,8 +18,6 @@ import { getEditing } from "../../states/useEditing"
 import { setEditorMode } from "../../states/useEditorMode"
 import BaseTreeItem from "../component/BaseTreeItem"
 import CubeIcon from "./icons/CubeIcon"
-
-preventTreeShake(h)
 
 export type TreeItemProps = {
     appendable: Appendable

@@ -1,8 +1,4 @@
-import { preventTreeShake } from "@lincode/utils"
-import { h } from "preact"
 import { CSSProperties } from "preact/compat"
-
-preventTreeShake(h)
 
 type ExpandIconProps = {
     style?: CSSProperties

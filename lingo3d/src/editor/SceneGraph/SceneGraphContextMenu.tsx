@@ -1,5 +1,4 @@
-import { preventTreeShake } from "@lincode/utils"
-import { Fragment, h } from "preact"
+import { Fragment } from "preact"
 import { useEffect, useState } from "preact/hooks"
 import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
@@ -18,8 +17,6 @@ import downloadBlob from "../../api/files/downloadBlob"
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
 import { useSelectionFrozen, useSelectionTarget } from "../states"
-
-preventTreeShake(h)
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)

@@ -1,7 +1,4 @@
-import { preventTreeShake } from "@lincode/utils"
-import { ComponentChildren, h } from "preact"
-
-preventTreeShake(h)
+import { ComponentChildren } from "preact"
 
 type TitleBarButtonProps = {
     children?: ComponentChildren

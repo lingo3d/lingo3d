@@ -1,8 +1,3 @@
-import { preventTreeShake } from "@lincode/utils"
-import { h } from "preact"
-
-preventTreeShake(h)
-
 export default () => {
     return (
         <path

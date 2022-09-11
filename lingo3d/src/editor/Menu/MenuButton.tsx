@@ -1,8 +1,4 @@
-import { h } from "preact"
-import { preventTreeShake } from "@lincode/utils"
 import { useRef, useState } from "preact/hooks"
-
-preventTreeShake(h)
 
 interface MenuButtonProps {
     children: string

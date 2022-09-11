@@ -1,8 +1,3 @@
-import { preventTreeShake } from "@lincode/utils"
-import { h } from "preact"
-
-preventTreeShake(h)
-
 const AbsoluteIcon = () => {
     return (
         <svg

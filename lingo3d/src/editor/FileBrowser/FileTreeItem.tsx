@@ -1,11 +1,8 @@
-import { preventTreeShake } from "@lincode/utils"
-import { Fragment, h } from "preact"
+import { Fragment } from "preact"
 import BaseTreeItem from "../component/BaseTreeItem"
 import { useFileBrowserDir } from "../states"
 import FolderIcon from "./icons/FolderIcon"
 import pathMap from "./pathMap"
-
-preventTreeShake(h)
 
 type FileTreeItemProps = {
     fileStructure: any

@@ -1,14 +1,11 @@
-import { ComponentChildren, h } from "preact"
+import { ComponentChildren } from "preact"
 import { useState, useRef, useMemo, useContext, useEffect } from "preact/hooks"
-import { preventTreeShake } from "@lincode/utils"
 import CollapseIcon from "./CollapseIcon"
 import ExpandIcon from "./ExpandIcon"
 import { TreeItemContext } from "./TreeItemContextProviter"
 import useClick from "../hooks/useClick"
 import Appendable from "../../api/core/Appendable"
 import mergeRefs from "../hooks/mergeRefs"
-
-preventTreeShake(h)
 
 export type BaseTreeItemProps = {
     label?: string

@@ -1,5 +1,4 @@
-import { forceGet, preventTreeShake, splitFileName } from "@lincode/utils"
-import { h } from "preact"
+import { forceGet, splitFileName } from "@lincode/utils"
 import objectURLExtensionMap from "../../display/core/utils/objectURLExtensionMap"
 import Model from "../../display/Model"
 import clientToWorld from "../../display/utils/clientToWorld"
@@ -7,8 +6,6 @@ import { point2Vec } from "../../display/utils/vec2Point"
 import { container } from "../../engine/renderLoop/renderSetup"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import FileIcon from "./icons/FileIcon"
-
-preventTreeShake(h)
 
 const objectURLMap = new WeakMap<File, string>()
 

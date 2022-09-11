@@ -1,10 +1,9 @@
-import { last, omit, preventTreeShake } from "@lincode/utils"
+import { last, omit } from "@lincode/utils"
 import { FolderApi, Pane } from "tweakpane"
 import settings from "../../api/settings"
 import mainCamera from "../../engine/mainCamera"
 import { setGridHelper } from "../../states/useGridHelper"
 import { setOrbitControls } from "../../states/useOrbitControls"
-import { h } from "preact"
 import { useEffect, useLayoutEffect, useState } from "preact/hooks"
 import register from "preact-custom-element"
 import {
@@ -36,8 +35,6 @@ import {
     increaseEditorMounted
 } from "../../states/useEditorMounted"
 import useHotkeys from "./useHotkeys"
-
-preventTreeShake(h)
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }

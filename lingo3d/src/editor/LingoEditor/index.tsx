@@ -1,6 +1,4 @@
-import { h } from "preact"
 import register from "preact-custom-element"
-import { preventTreeShake } from "@lincode/utils"
 import Toolbar from "../Toolbar"
 import SceneGraph from "../SceneGraph"
 import Editor from "../Editor"
@@ -12,7 +10,6 @@ import settings from "../../api/settings"
 import FileBrowser from "../FileBrowser"
 import { useFileBrowser } from "../states"
 import { DEBUG } from "../../globals"
-preventTreeShake(h)
 
 const LingoEditor = () => {
     const elRef = useRef<HTMLDivElement>(null)

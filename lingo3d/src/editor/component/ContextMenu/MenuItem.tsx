@@ -1,8 +1,4 @@
-import { h } from "preact"
-import { preventTreeShake } from "@lincode/utils"
 import { useState } from "preact/hooks"
-
-preventTreeShake(h)
 
 type MenuItemProps = {
     disabled?: boolean

@@ -1,9 +1,5 @@
-import { h } from "preact"
 import { useContext, useState } from "preact/hooks"
-import { preventTreeShake } from "@lincode/utils"
 import { TreeItemContext } from "./TreeItemContextProviter"
-
-preventTreeShake(h)
 
 type EmptyTreeItemProps = {
     onDrop?: (draggingItem?: any) => void

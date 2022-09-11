@@ -1,7 +1,4 @@
-import { preventTreeShake } from "@lincode/utils"
-import { ComponentChildren, createContext, h } from "preact"
-
-preventTreeShake(h)
+import { ComponentChildren, createContext } from "preact"
 
 export const TreeItemContext = createContext<{ draggingItem?: any }>({})
 

@@ -1,13 +1,9 @@
-import { h } from "preact"
 import register from "preact-custom-element"
-import { preventTreeShake } from "@lincode/utils"
 import HotKey from "./HotKey"
 import { useCameraRendered, useEditorMounted } from "../states"
 import mainCamera from "../../engine/mainCamera"
 import { createPortal } from "preact/compat"
 import { container } from "../../engine/renderLoop/renderSetup"
-
-preventTreeShake(h)
 
 const HUD = () => {
     const [editorMounted] = useEditorMounted()

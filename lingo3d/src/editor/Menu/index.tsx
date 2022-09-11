@@ -1,6 +1,4 @@
-import { h } from "preact"
 import register from "preact-custom-element"
-import { preventTreeShake } from "@lincode/utils"
 import MenuButton from "./MenuButton"
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
@@ -8,8 +6,6 @@ import { useState } from "preact/hooks"
 import { setNodeEditor } from "../../states/useNodeEditor"
 import { useNodeEditor } from "../states"
 import useInit from "../utils/useInit"
-
-preventTreeShake(h)
 
 type Data = {
     x: number

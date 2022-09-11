@@ -1,6 +1,4 @@
-import { h } from "preact"
 import register from "preact-custom-element"
-import { preventTreeShake } from "@lincode/utils"
 import TranslateIcon from "./icons/TranslateIcon"
 import RotateIcon from "./icons/RotateIcon"
 import ScaleIcon from "./icons/ScaleIcon"
@@ -39,8 +37,6 @@ import SaveIcon from "./icons/SaveIcon"
 import saveJSON from "../../api/files/saveJSON"
 import openFolder from "../../api/files/openFolder"
 import Border from "../component/Border"
-
-preventTreeShake(h)
 
 type ButtonOptions = {
     hidden?: boolean

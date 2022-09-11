@@ -1,8 +1,3 @@
-import { h } from "preact"
-import { preventTreeShake } from "@lincode/utils"
-
-preventTreeShake(h)
-
 interface HotKeysProps {
     hotkey?: string
     hotkeyFunction?: string

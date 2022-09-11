@@ -1,6 +1,4 @@
-import { h } from "preact"
 import register from "preact-custom-element"
-import { preventTreeShake } from "@lincode/utils"
 import ObjectGroup from "./ObjectGroup"
 import { useEffect } from "preact/hooks"
 import { useNodeEditor } from "../states"
@@ -10,8 +8,6 @@ import {
     increaseEditorMounted
 } from "../../states/useEditorMounted"
 import { DEBUG } from "../../globals"
-
-preventTreeShake(h)
 
 const Library = () => {
     const elRef = useInit()

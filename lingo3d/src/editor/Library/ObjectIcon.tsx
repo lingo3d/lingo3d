@@ -1,13 +1,10 @@
-import { preventTreeShake, upperFirst } from "@lincode/utils"
-import { h } from "preact"
+import { upperFirst } from "@lincode/utils"
 import createObject from "../../api/serializer/createObject"
 import { GameObjectType } from "../../api/serializer/types"
 import { container } from "../../engine/renderLoop/renderSetup"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { point2Vec } from "../../display/utils/vec2Point"
 import clientToWorld from "../../display/utils/clientToWorld"
-
-preventTreeShake(h)
 
 let draggingItem: string | undefined
 

@@ -1,9 +1,6 @@
-import { preventTreeShake } from "@lincode/utils"
-import { h, Fragment } from "preact"
+import { Fragment } from "preact"
 import { GameObjectType } from "../../api/serializer/types"
 import ObjectIcon from "./ObjectIcon"
-
-preventTreeShake(h)
 
 interface ObjectGroupProps {
     names: Array<GameObjectType | Partial<Record<GameObjectType, string>>>
