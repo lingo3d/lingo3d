@@ -22,6 +22,7 @@ export type BaseTreeItemProps = {
     draggable?: boolean
     expanded?: boolean
     expandable?: boolean
+    outlined?: boolean
 }
 
 const BaseTreeItem = ({
@@ -35,7 +36,8 @@ const BaseTreeItem = ({
     myDraggingItem,
     draggable,
     expanded: expandedProp,
-    expandable
+    expandable,
+    outlined
 }: BaseTreeItemProps) => {
     const expandIconStyle = {
         opacity: expandable ? 0.5 : 0.05,
@@ -133,9 +135,14 @@ const BaseTreeItem = ({
                 style={{
                     display: "flex",
                     alignItems: "center",
-                    backgroundColor: selected
-                        ? "rgba(255, 255, 255, 0.1)"
-                        : undefined,
+                    backgroundColor:
+                        selected && !outlined
+                            ? "rgba(255, 255, 255, 0.1)"
+                            : undefined,
+                    outline:
+                        selected && outlined
+                            ? "1px solid rgba(255, 255, 255, 0.5)"
+                            : undefined,
                     width: highlightWidth,
                     minWidth: "100%",
                     cursor: "default"
