@@ -1,4 +1,4 @@
-import { createContext, h } from "preact"
+import { h } from "preact"
 import { useState, useRef, useMemo, useContext } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
 import CollapseIcon from "../SceneGraph/icons/CollapseIcon"
@@ -6,10 +6,9 @@ import ExpandIcon from "../SceneGraph/icons/ExpandIcon"
 import CubeIcon from "../SceneGraph/icons/CubeIcon"
 import { forwardRef } from "preact/compat"
 import { useEffect } from "react"
+import { TreeItemContext } from "./TreeItemContextProviter"
 
 preventTreeShake(h)
-
-export const TreeItemContext = createContext<{ draggingItem?: any }>({})
 
 export type BaseTreeItemProps = {
     label?: string

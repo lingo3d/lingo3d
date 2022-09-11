@@ -34,7 +34,7 @@ import {
 } from "../../states/useEditorMounted"
 import EmptyTreeItem from "../component/EmptyTreeItem"
 import scene from "../../engine/scene"
-import { TreeItemContext } from "../component/BaseTreeItem"
+import TreeItemContextProvider from "../component/TreeItemContextProviter"
 
 preventTreeShake([h, retargetBones])
 
@@ -123,7 +123,7 @@ const SceneGraph = () => {
                 </TitleBarButton>
             </div>
             <div style={{ overflow: "scroll" }} className="lingo3d-ui">
-                <TreeItemContext.Provider value={{}}>
+                <TreeItemContextProvider>
                     {appendables.map((appendable) =>
                         appendable instanceof Model ? (
                             <ModelTreeItem
@@ -146,7 +146,7 @@ const SceneGraph = () => {
                             child.parent = undefined
                         }}
                     />
-                </TreeItemContext.Provider>
+                </TreeItemContextProvider>
             </div>
             <SceneGraphContextMenu />
         </div>
