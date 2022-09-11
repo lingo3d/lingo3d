@@ -67,7 +67,7 @@ const FileBrowser = () => {
             <div
                 style={{
                     gridArea: "1 / 1 / 2 / 3",
-                    background: "rgba(0, 0, 0, 0.5)",
+                    background: "rgba(0, 0, 0, 0.2)",
                     display: "flex"
                 }}
             >
