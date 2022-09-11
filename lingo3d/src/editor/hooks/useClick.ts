@@ -1,10 +1,10 @@
 import { useEffect, useState } from "preact/hooks"
 
-export default (cb: (e: MouseEvent) => void) => {
+export default (cb?: (e: MouseEvent) => void) => {
     const [el, setEl] = useState<HTMLDivElement | null>(null)
 
     useEffect(() => {
-        if (!el) return
+        if (!el || !cb) return
 
         let downTime = 0
         let downX = 0
