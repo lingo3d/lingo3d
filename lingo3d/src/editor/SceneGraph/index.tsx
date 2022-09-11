@@ -2,7 +2,10 @@ import { h } from "preact"
 import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import register from "preact-custom-element"
 import { preventTreeShake } from "@lincode/utils"
-import { onSceneGraphChange } from "../../events/onSceneGraphChange"
+import {
+    emitSceneGraphChange,
+    onSceneGraphChange
+} from "../../events/onSceneGraphChange"
 import { appendableRoot, hiddenAppendables } from "../../api/core/Appendable"
 import TreeItem from "./TreeItem"
 import Model from "../../display/Model"
@@ -19,7 +22,6 @@ import {
 import deleteSelected from "../Editor/deleteSelected"
 import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import EmptyItem from "./EmptyItem"
 import FindIcon from "./icons/FindIcon"
 import ObjectManager from "../../display/core/ObjectManager"
 import SceneGraphContextMenu from "./SceneGraphContextMenu"
@@ -30,6 +32,8 @@ import {
     decreaseEditorMounted,
     increaseEditorMounted
 } from "../../states/useEditorMounted"
+import EmptyTreeItem from "../component/EmptyTreeItem"
+import scene from "../../engine/scene"
 
 preventTreeShake([h, retargetBones])
 
@@ -131,7 +135,15 @@ const SceneGraph = () => {
                         />
                     )
                 )}
-                <EmptyItem />
+                <EmptyTreeItem
+                    onDrop={(child) => {
+                        emitSceneGraphChange()
+                        appendableRoot.add(child)
+                        scene.attach(child.outerObject3d)
+                        child.parent?.children?.delete(child)
+                        child.parent = undefined
+                    }}
+                />
             </div>
             <SceneGraphContextMenu />
         </div>

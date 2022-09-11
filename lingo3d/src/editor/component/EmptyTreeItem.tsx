@@ -1,14 +1,15 @@
 import { h } from "preact"
 import { useContext, useState } from "preact/hooks"
 import { preventTreeShake } from "@lincode/utils"
-import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
-import { appendableRoot } from "../../api/core/Appendable"
-import scene from "../../engine/scene"
-import { TreeItemContext } from "../component/BaseTreeItem"
+import { TreeItemContext } from "./BaseTreeItem"
 
 preventTreeShake(h)
 
-const EmptyItem = () => {
+type EmptyTreeItemProps = {
+    onDrop?: (draggingItem: any) => void
+}
+
+const EmptyTreeItem = ({ onDrop }: EmptyTreeItemProps) => {
     const [dragOver, setDragOver] = useState(false)
     const context = useContext(TreeItemContext)
 
@@ -17,32 +18,21 @@ const EmptyItem = () => {
             onDragOver={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
-                if (!context.draggingItem) return
-                setDragOver(true)
+                context.draggingItem && setDragOver(true)
             }}
             onDragEnter={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
-                if (!context.draggingItem) return
-                setDragOver(true)
+                context.draggingItem && setDragOver(true)
             }}
             onDragLeave={(e) => {
                 e.stopPropagation()
-                if (!context.draggingItem) return
                 setDragOver(false)
             }}
             onDrop={(e) => {
                 e.stopPropagation()
                 setDragOver(false)
-
-                const child = context.draggingItem
-                if (!child) return
-
-                emitSceneGraphChange()
-                appendableRoot.add(child)
-                scene.attach(child.outerObject3d)
-                child.parent?.children?.delete(child)
-                child.parent = undefined
+                context.draggingItem && onDrop?.(context.draggingItem)
             }}
             style={{
                 background: dragOver ? "rgba(255, 255, 255, 0.5)" : "none",
@@ -53,4 +43,4 @@ const EmptyItem = () => {
     )
 }
 
-export default EmptyItem
+export default EmptyTreeItem
