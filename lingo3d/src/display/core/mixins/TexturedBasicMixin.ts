@@ -11,6 +11,7 @@ import loadTexture from "../../utils/loaders/loadTexture"
 import ITexturedBasic from "../../../interface/ITexturedBasic"
 import { Reactive } from "@lincode/reactivity"
 import queueDebounce from "../../../utils/queueDebounce"
+import { deg2Rad } from "@lincode/math"
 
 const mapNames = ["map", "alphaMap"]
 
@@ -61,6 +62,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     protected applyTexture(mapNames: Array<string>) {
         const repeat = this._textureRepeat
         const flipY = this._textureFlipY
+        const rotation = this._textureRotation
 
         queueTextureRepeat(this, () => {
             this.tryCloneMaterial()
@@ -70,6 +72,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
                 if (!map) return
                 repeat !== undefined && (map.repeat = repeat)
                 flipY !== undefined && (map.flipY = flipY)
+                rotation !== undefined && (map.rotation = rotation * deg2Rad)
                 map.needsUpdate = true
             }
         })
@@ -186,6 +189,15 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     }
     public set textureFlipY(val) {
         this._textureFlipY = val
+        this.applyTexture(mapNames)
+    }
+
+    protected _textureRotation?: number
+    public get textureRotation() {
+        return this._textureRotation
+    }
+    public set textureRotation(val) {
+        this._textureRotation = val
         this.applyTexture(mapNames)
     }
 }
