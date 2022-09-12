@@ -4,6 +4,7 @@ import openFolder from "../../api/files/openFolder"
 import saveJSON from "../../api/files/saveJSON"
 import deserialize from "../../api/serializer/deserialize"
 import serialize from "../../api/serializer/serialize"
+import settings from "../../api/settings"
 import applyCentripetalQuaternion from "../../display/utils/applyCentripetalQuaternion"
 import { emitEditorCenterView } from "../../events/onEditorCenterView"
 import { onKeyClear } from "../../events/onKeyClear"
@@ -31,6 +32,11 @@ export default () => {
             }
 
             const keyLowerCase = e.key.toLocaleLowerCase()
+            if (keyLowerCase === "g") {
+                settings.gridHelper = !settings.gridHelper
+                return
+            }
+
             const target = getSelectionTarget()
 
             if (e.metaKey || e.ctrlKey) {
