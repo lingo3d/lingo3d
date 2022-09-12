@@ -60,6 +60,11 @@ export type GameObjectType =
     | "environment"
     | "setup"
 
+export type VersionNode = {
+    type: "lingo3d"
+    version: string
+}
+
 export type AnimationData = Record<
     string, //property name
     Record<
@@ -200,4 +205,4 @@ export type BaseSceneGraphNode =
     | EnvironmentNode
     | SetupNode
 
-export type SceneGraphNode = BaseSceneGraphNode | AnimationNode
+export type SceneGraphNode = BaseSceneGraphNode | AnimationNode | VersionNode

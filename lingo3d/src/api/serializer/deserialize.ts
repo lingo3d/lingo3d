@@ -9,7 +9,7 @@ const nodeToObjectManager = (
     node: SceneGraphNode,
     loadedResolvables: Array<Reresolvable<Object3D>> | undefined
 ) => {
-    if (node.type === "animation") return
+    if (node.type === "animation" || node.type === "lingo3d") return
 
     const object = createObject(node.type)
     loadedResolvables &&

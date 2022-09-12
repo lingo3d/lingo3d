@@ -31,7 +31,8 @@ const LingoEditor = () => {
                 position: "absolute",
                 left: 0,
                 top: 0,
-                display: "flex"
+                display: "flex",
+                overflow: "hidden"
             }}
         >
             <Toolbar />

@@ -56,7 +56,8 @@ export default (
     childs.push(setup)
 
     const result = serialize(childs)
-    setup.dispose()
+    result.unshift({ type: "lingo3d", version: "1.33" })
 
+    setup.dispose()
     return result
 }
