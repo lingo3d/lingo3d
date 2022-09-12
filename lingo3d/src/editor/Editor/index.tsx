@@ -2,7 +2,6 @@ import { last, omit } from "@lincode/utils"
 import { FolderApi, Pane } from "tweakpane"
 import settings from "../../api/settings"
 import mainCamera from "../../engine/mainCamera"
-import { setGridHelper } from "../../states/useGridHelper"
 import { setOrbitControls } from "../../states/useOrbitControls"
 import { useEffect, useLayoutEffect, useState } from "preact/hooks"
 import register from "preact-custom-element"
@@ -44,7 +43,7 @@ const Editor = () => {
     const elRef = useInit()
     useHotkeys()
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         window.onbeforeunload = confirmExit
         function confirmExit() {
             return "Are you sure you want to close the current page?"
@@ -52,12 +51,12 @@ const Editor = () => {
 
         mainOrbitCamera.active = true
         setOrbitControls(true)
-        setGridHelper(true)
+        settings.gridHelper = true
         increaseEditorMounted()
 
         return () => {
             setOrbitControls(false)
-            setGridHelper(false)
+            settings.gridHelper = false
             decreaseEditorMounted()
         }
     }, [])
