@@ -1,9 +1,9 @@
 interface HotKeysProps {
     hotkey?: string
-    hotkeyFunction?: string
+    description?: string
 }
 
-export default ({ hotkey, hotkeyFunction }: HotKeysProps) => {
+export default ({ hotkey, description }: HotKeysProps) => {
     return (
         <div
             style={{
@@ -31,8 +31,10 @@ export default ({ hotkey, hotkeyFunction }: HotKeysProps) => {
                     {hotkey}
                 </div>
             </div>
-            <div style={{ padding: "0 1px 0 1px" }}>&nbsp;-&nbsp;</div>
-            <div style={{ padding: "2px 0px 2px 0px" }}>{hotkeyFunction}</div>
+            {hotkey && description && (
+                <div style={{ padding: "0 1px 0 1px" }}>&nbsp;-&nbsp;</div>
+            )}
+            <div style={{ padding: "2px 0px 2px 0px" }}>{description}</div>
         </div>
     )
 }

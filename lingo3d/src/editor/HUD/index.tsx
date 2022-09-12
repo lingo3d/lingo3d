@@ -22,14 +22,27 @@ const HUD = () => {
         >
             {!!editorMounted && cameraRendered === mainCamera && (
                 <div style={{ opacity: 0.5 }}>
-                    <HotKey hotkey="W" hotkeyFunction="move forward" />
-                    <HotKey hotkey="S" hotkeyFunction="move backwards" />
-                    <HotKey hotkey="A" hotkeyFunction="move left" />
-                    <HotKey hotkey="D" hotkeyFunction="move right" />
-                    <HotKey hotkey="↑" hotkeyFunction="move up" />
-                    <HotKey hotkey="↓" hotkeyFunction="move down" />
-                    <HotKey hotkey="C" hotkeyFunction="center selected" />
-                    <HotKey hotkey="SHIFT" hotkeyFunction="Accelerate" />
+                    <HotKey hotkey="⇧" description="accelerate" />
+                    <HotKey hotkey="W" description="move forward" />
+                    <HotKey hotkey="S" description="move backwards" />
+                    <HotKey hotkey="A" description="move left" />
+                    <HotKey hotkey="D" description="move right" />
+                    <HotKey hotkey="↑" description="move up" />
+                    <HotKey hotkey="↓" description="move down" />
+                    <HotKey hotkey="C" description="center selected" />
+                    <HotKey hotkey="⌫" description="delete selected" />
+                    <div style={{ display: "flex", gap: 4 }}>
+                        <HotKey hotkey="⌘" />
+                        <HotKey hotkey="C" description="copy selected" />
+                    </div>
+                    <div style={{ display: "flex", gap: 4 }}>
+                        <HotKey hotkey="⌘" />
+                        <HotKey hotkey="O" description="open folder" />
+                    </div>
+                    <div style={{ display: "flex", gap: 4 }}>
+                        <HotKey hotkey="⌘" />
+                        <HotKey hotkey="S" description="save scene" />
+                    </div>
                 </div>
             )}
         </div>,
