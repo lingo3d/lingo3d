@@ -4,6 +4,7 @@ import Model from "../display/Model"
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import settings from "../api/settings"
 import Dummy from "../display/Dummy"
+import visualize from "../display/utils/visualize"
 
 export default {}
 
@@ -35,7 +36,7 @@ cam.lockTargetRotation = false
 const map = new Model()
 map.src = "fairy.glb"
 map.scale = 30
-map.physics = "map"
+map.physics = "map-debug"
 
 settings.skybox = [
     "skybox/Left.png",
@@ -46,8 +47,12 @@ settings.skybox = [
     "skybox/Back.png"
 ]
 
-map.onClick = (e) => {
-    player.lookTo(e.point.x, undefined, e.point.z, 0.1)
-    cam.lookTo(e.point.x, undefined, e.point.z, 0.1)
-    player.moveTo(e.point.x, undefined, e.point.z, 5)
+// map.onClick = (e) => {
+//     player.lookTo(e.point.x, undefined, e.point.z, 0.1)
+//     cam.lookTo(e.point.x, undefined, e.point.z, 0.1)
+//     player.moveTo(e.point.x, undefined, e.point.z, 5)
+// }
+
+map.onMouseMove = (e) => {
+    visualize("test", e.point)
 }

@@ -5,6 +5,8 @@ import { Queue } from "@lincode/promiselikes"
 
 const queue = new Queue()
 
+export const geometryMeshMap = new WeakMap()
+
 export class GenerateMeshBVHWorker {
     constructor() {
         const blob = new Blob([code], { type: "application/javascript" })
@@ -104,6 +106,7 @@ export class GenerateMeshBVHWorker {
                 {
                     index,
                     position,
+                    matrixWorld: geometryMeshMap.get(geometry).matrixWorld,
                     options: {
                         ...options,
                         onProgress: null,

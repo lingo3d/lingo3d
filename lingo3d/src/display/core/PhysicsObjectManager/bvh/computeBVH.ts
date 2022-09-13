@@ -1,15 +1,19 @@
-import { BufferGeometry } from "three"
-import { MeshBVH } from "three-mesh-bvh"
+import { BufferGeometry, Mesh } from "three"
+import { MeshBVH, acceleratedRaycast } from "three-mesh-bvh"
 import PhysicsObjectManager from ".."
 import Primitive from "../../Primitive"
 import { bvhManagerMap } from "./bvhManagerMap"
-import { GenerateMeshBVHWorker } from "./GenerateMeshBVHWorker"
+import { GenerateMeshBVHWorker, geometryMeshMap } from "./GenerateMeshBVHWorker"
+
+Mesh.prototype.raycast = acceleratedRaycast
 
 const bvhWorker = new GenerateMeshBVHWorker()
 
 const computeBVHFromGeometries = async (geometries: Array<BufferGeometry>) => {
     const result: Array<MeshBVH> = []
-    for (const geom of geometries) result.push(await bvhWorker.generate(geom))
+    for (const geom of geometries)
+        result.push((geom.boundsTree = await bvhWorker.generate(geom)))
+
     return result
 }
 
@@ -24,12 +28,11 @@ export default async (item: PhysicsObjectManager) => {
         )
             return
 
-        const geom = c.geometry.clone()
-        geom.applyMatrix4(c.matrixWorld)
-        geometries.push(geom)
-        geom.dispose()
+        geometries.push(c.geometry)
+        geometryMeshMap.set(c.geometry, c)
     })
     const bvhArray = await computeBVHFromGeometries(geometries)
     for (const bvh of bvhArray) bvhManagerMap.set(bvh, item)
+
     return <const>[bvhArray, geometries]
 }
