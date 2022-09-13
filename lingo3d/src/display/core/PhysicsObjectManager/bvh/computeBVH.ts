@@ -1,8 +1,9 @@
 import { BufferGeometry, Mesh } from "three"
-import { MeshBVH, acceleratedRaycast } from "three-mesh-bvh"
+import { MeshBVH } from "three-mesh-bvh"
 import PhysicsObjectManager from ".."
 import Primitive from "../../Primitive"
 import { bvhManagerMap } from "./bvhManagerMap"
+import { acceleratedRaycast } from "./ExtensionUtilities"
 import { GenerateMeshBVHWorker, geometryMeshMap } from "./GenerateMeshBVHWorker"
 
 Mesh.prototype.raycast = acceleratedRaycast
