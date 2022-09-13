@@ -12,9 +12,10 @@ import IDummy, {
 import FoundManager from "../core/FoundManager"
 import AnimationManager from "../core/AnimatedObjectManager/AnimationManager"
 import Model from "../Model"
-import { euler } from "../utils/reusables"
+import { euler, vector3 } from "../utils/reusables"
 import poseMachine from "./poseMachine"
 import fpsAlpha from "../utils/fpsAlpha"
+import { getCentripetal } from "../../states/useCentripetal"
 
 export const dummyTypeMap = new WeakMap<Dummy, "dummy" | "readyplayerme">()
 
@@ -133,7 +134,11 @@ export default class Dummy extends Model implements IDummy {
             const pose = (this.animation = getPose())
             if (pose !== "jumping") return
 
-            this.velocity.y = this.jumpHeight
+            if (getCentripetal()) {
+                vector3.set(this.velocity.x, this.jumpHeight, this.velocity.z)
+                vector3.applyMatrix4(this.outerObject3d.matrixWorld)
+                Object.assign(this.velocity, vector3.multiplyScalar(0.2))
+            } else this.velocity.y = this.jumpHeight
 
             const handle = onBeforeRender(() => {
                 this.velocity.y === 0 && poseService.send("JUMP_STOP")

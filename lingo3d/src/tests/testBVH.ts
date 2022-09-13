@@ -4,7 +4,6 @@ import Model from "../display/Model"
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import settings from "../api/settings"
 import Dummy from "../display/Dummy"
-import visualize from "../display/utils/visualize"
 
 export default {}
 
@@ -36,7 +35,7 @@ cam.lockTargetRotation = false
 const map = new Model()
 map.src = "fairy.glb"
 map.scale = 30
-map.physics = "map-debug"
+map.physics = "map"
 
 settings.skybox = [
     "skybox/Left.png",
