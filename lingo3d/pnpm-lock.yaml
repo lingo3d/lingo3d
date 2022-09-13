@@ -44,9 +44,9 @@ dependencies:
   cannon-es: 0.20.0
   nipplejs: 0.9.1
   postprocessing: 6.28.7_three@0.144.0
-  preact: 10.10.6
-  preact-compat: 3.19.0_preact@10.10.6
-  preact-custom-element: 4.2.1_preact@10.10.6
+  preact: 10.11.0
+  preact-compat: 3.19.0_preact@10.11.0
+  preact-custom-element: 4.2.1_preact@10.11.0
   prettier: 2.7.1
   three: 0.144.0
   three-mesh-bvh: 0.5.16_three@0.144.0
@@ -54,7 +54,7 @@ dependencies:
   xstate: 4.33.6
 
 devDependencies:
-  '@preact/preset-vite': 2.4.0_preact@10.10.6+vite@3.1.0
+  '@preact/preset-vite': 2.4.0_preact@10.11.0+vite@3.1.0
   '@types/preact-custom-element': 4.0.1
   '@types/prettier': 2.7.0
   '@types/randomcolor': 0.5.6
@@ -395,7 +395,7 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /@preact/preset-vite/2.4.0_preact@10.10.6+vite@3.1.0:
+  /@preact/preset-vite/2.4.0_preact@10.11.0+vite@3.1.0:
     resolution: {integrity: sha512-EiUMHuiCThuTuK+eH2r5uDg+CJbbt4aWJGePuszrHuXUpRv6WAeO4S+/DTJsEHtPtGmPRR3cLQ68N5097eOSRA==}
     peerDependencies:
       '@babel/core': 7.x
@@ -403,11 +403,11 @@ packages:
     dependencies:
       '@babel/plugin-transform-react-jsx': 7.19.0
       '@babel/plugin-transform-react-jsx-development': 7.18.6
-      '@prefresh/vite': 2.2.8_preact@10.10.6+vite@3.1.0
+      '@prefresh/vite': 2.2.8_preact@10.11.0+vite@3.1.0
       '@rollup/pluginutils': 4.2.1
       babel-plugin-transform-hook-names: 1.0.2
       debug: 4.3.4
-      kolorist: 1.5.1
+      kolorist: 1.6.0
       resolve: 1.22.1
       vite: 3.1.0
     transitivePeerDependencies:
@@ -419,19 +419,19 @@ packages:
     resolution: {integrity: sha512-fYAWbU1WDSLn108kKY4eDaaeUcnszFqXjgaGKYXNZ5NLulpRTpsrY+Sbfo9q8LDpWrBpqIgzjrwNnvglWI1xNQ==}
     dev: true
 
-  /@prefresh/core/1.4.1_preact@10.10.6:
+  /@prefresh/core/1.4.1_preact@10.11.0:
     resolution: {integrity: sha512-og1vaBj3LMJagVncNrDb37Gqc0cWaUcDbpVt5hZtsN4i2Iwzd/5hyTsDHvlMirhSym3wL9ihU0Xa2VhSaOue7g==}
     peerDependencies:
       preact: ^10.0.0
     dependencies:
-      preact: 10.10.6
+      preact: 10.11.0
     dev: true
 
   /@prefresh/utils/1.1.3:
     resolution: {integrity: sha512-Mb9abhJTOV4yCfkXrMrcgFiFT7MfNOw8sDa+XyZBdq/Ai2p4Zyxqsb3EgHLOEdHpMj6J9aiZ54W8H6FTam1u+A==}
     dev: true
 
-  /@prefresh/vite/2.2.8_preact@10.10.6+vite@3.1.0:
+  /@prefresh/vite/2.2.8_preact@10.11.0+vite@3.1.0:
     resolution: {integrity: sha512-yGGa+PKPYPTzMlxgQ8aBgxw9K69I8X4iQ0E6KOcIvls96WKqKLLOYZW9SUgCve446jpUXvc9udviPBZjCeZIIQ==}
     peerDependencies:
       preact: ^10.4.0
@@ -439,10 +439,10 @@ packages:
     dependencies:
       '@babel/core': 7.19.0
       '@prefresh/babel-plugin': 0.4.3
-      '@prefresh/core': 1.4.1_preact@10.10.6
+      '@prefresh/core': 1.4.1_preact@10.11.0
       '@prefresh/utils': 1.1.3
       '@rollup/pluginutils': 4.2.1
-      preact: 10.10.6
+      preact: 10.11.0
       vite: 3.1.0
     transitivePeerDependencies:
       - supports-color
@@ -467,7 +467,7 @@ packages:
   /@types/preact-custom-element/4.0.1:
     resolution: {integrity: sha512-oduUzzxJAZ7qWJ5EsUffxvpRFnzgffilDlfxLR9Q2YkEzSfn3vudIrnDg0AiQgZJ0GkAjLzkxQyAxH6sS/EQdQ==}
     dependencies:
-      preact: 10.10.6
+      preact: 10.11.0
     dev: true
 
   /@types/prettier/2.7.0:
@@ -521,14 +521,14 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001393
-      electron-to-chromium: 1.4.247
+      caniuse-lite: 1.0.30001399
+      electron-to-chromium: 1.4.248
       node-releases: 2.0.6
-      update-browserslist-db: 1.0.7_browserslist@4.21.3
+      update-browserslist-db: 1.0.9_browserslist@4.21.3
     dev: true
 
-  /caniuse-lite/1.0.30001393:
-    resolution: {integrity: sha512-N/od11RX+Gsk+1qY/jbPa0R6zJupEa0lxeBG598EbrtblxVCTJsQwbRBm6+V+rxpc5lHKdsXb9RY83cZIPLseA==}
+  /caniuse-lite/1.0.30001399:
+    resolution: {integrity: sha512-4vQ90tMKS+FkvuVWS5/QY1+d805ODxZiKFzsU8o/RsVJz49ZSRR8EjykLJbqhzdPgadbX6wB538wOzle3JniRA==}
     dev: true
 
   /cannon-es/0.20.0:
@@ -576,8 +576,8 @@ packages:
       ms: 2.1.2
     dev: true
 
-  /electron-to-chromium/1.4.247:
-    resolution: {integrity: sha512-FLs6R4FQE+1JHM0hh3sfdxnYjKvJpHZyhQDjc2qFq/xFvmmRt/TATNToZhrcGUFzpF2XjeiuozrA8lI0PZmYYw==}
+  /electron-to-chromium/1.4.248:
+    resolution: {integrity: sha512-qShjzEYpa57NnhbW2K+g+Fl+eNoDvQ7I+2MRwWnU6Z6F0HhXekzsECCLv+y2OJUsRodjqoSfwHkIX42VUFtUzg==}
     dev: true
 
   /esbuild-android-64/0.15.7:
@@ -896,8 +896,8 @@ packages:
     hasBin: true
     dev: true
 
-  /kolorist/1.5.1:
-    resolution: {integrity: sha512-lxpCM3HTvquGxKGzHeknB/sUjuVoUElLlfYnXZT73K8geR9jQbroGlSCFBax9/0mpGoD3kzcMLnOlGQPJJNyqQ==}
+  /kolorist/1.6.0:
+    resolution: {integrity: sha512-dLkz37Ab97HWMx9KTes3Tbi3D1ln9fCAy2zr2YVExJasDRPGRaKcoE4fycWNtnCAJfjFqe0cnY+f8KT2JePEXQ==}
     dev: true
 
   /lil-gui/0.17.0:
@@ -986,55 +986,55 @@ packages:
       three: 0.144.0
     dev: false
 
-  /preact-compat/3.19.0_preact@10.10.6:
+  /preact-compat/3.19.0_preact@10.11.0:
     resolution: {integrity: sha512-f83A4hIhH8Uzhb9GbIcGk8SM19ffWlwP9mDaYwQdRnMdekZwcCA7eIAbeV4EMQaV9C0Yuy8iKgBAtyTKPZQt/Q==}
     peerDependencies:
       preact: <10
     dependencies:
       immutability-helper: 2.9.1
-      preact: 10.10.6
-      preact-context: 1.1.4_preact@10.10.6
-      preact-render-to-string: 3.8.2_preact@10.10.6
-      preact-transition-group: 1.1.1_preact@10.10.6
+      preact: 10.11.0
+      preact-context: 1.1.4_preact@10.11.0
+      preact-render-to-string: 3.8.2_preact@10.11.0
+      preact-transition-group: 1.1.1_preact@10.11.0
       prop-types: 15.8.1
       standalone-react-addons-pure-render-mixin: 0.1.1
     dev: false
 
-  /preact-context/1.1.4_preact@10.10.6:
+  /preact-context/1.1.4_preact@10.11.0:
     resolution: {integrity: sha512-gcCjPJ65R0MiW9hDu8W/3WAmyTElIvwLyEO6oLQiM6/TbLKLxCpBCWV8GJjx52TTEyUr60HLDcmoCXZlslelzQ==}
     peerDependencies:
       preact: ^8.2.7
     dependencies:
-      preact: 10.10.6
+      preact: 10.11.0
     dev: false
 
-  /preact-custom-element/4.2.1_preact@10.10.6:
+  /preact-custom-element/4.2.1_preact@10.11.0:
     resolution: {integrity: sha512-/fiEEAyC+MXRlCBRmv/owoN5BLpO2nF/MF3YBHLtp4C2lNqlhV+a4he74A5DhfDoRmxDHm0sYVgQzWFEyzTDsw==}
     peerDependencies:
       preact: 10.x
     dependencies:
-      preact: 10.10.6
+      preact: 10.11.0
     dev: false
 
-  /preact-render-to-string/3.8.2_preact@10.10.6:
+  /preact-render-to-string/3.8.2_preact@10.11.0:
     resolution: {integrity: sha512-przuZPajiurStGgxMoJP0EJeC4xj5CgHv+M7GfF3YxAdhGgEWAkhOSE0xympAFN20uMayntBZpttIZqqLl77fw==}
     peerDependencies:
       preact: '*'
     dependencies:
-      preact: 10.10.6
+      preact: 10.11.0
       pretty-format: 3.8.0
     dev: false
 
-  /preact-transition-group/1.1.1_preact@10.10.6:
+  /preact-transition-group/1.1.1_preact@10.11.0:
     resolution: {integrity: sha512-v89XLodCvylf5lMrhI+LqIhDsAjWfiDKV4keAU+L5yDtxmqn8uvjZXn+haKMEG0x0PZz81own19SuNJD5NlOFQ==}
     peerDependencies:
       preact: '*'
     dependencies:
-      preact: 10.10.6
+      preact: 10.11.0
     dev: false
 
-  /preact/10.10.6:
-    resolution: {integrity: sha512-w0mCL5vICUAZrh1DuHEdOWBjxdO62lvcO++jbzr8UhhYcTbFkpegLH9XX+7MadjTl/y0feoqwQ/zAnzkc/EGog==}
+  /preact/10.11.0:
+    resolution: {integrity: sha512-Fk6+vB2kb6mSJfDgODq0YDhMfl0HNtK5+Uc9QqECO4nlyPAQwCI+BKyWO//idA7ikV7o+0Fm6LQmNuQi1wXI1w==}
 
   /prettier/2.7.1:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
@@ -1143,8 +1143,8 @@ packages:
     hasBin: true
     dev: true
 
-  /update-browserslist-db/1.0.7_browserslist@4.21.3:
-    resolution: {integrity: sha512-iN/XYesmZ2RmmWAiI4Z5rq0YqSiv0brj9Ce9CfhNE4xIW2h+MFxcgkxIzZ+ShkFPUkjU3gQ+3oypadD3RAMtrg==}
+  /update-browserslist-db/1.0.9_browserslist@4.21.3:
+    resolution: {integrity: sha512-/xsqn21EGVdXI3EXSum1Yckj3ZVZugqyOZQ/CxYPBD/R+ko9NSUScf8tFF4dOKY+2pvSSJA/S+5B8s4Zr4kyvg==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
