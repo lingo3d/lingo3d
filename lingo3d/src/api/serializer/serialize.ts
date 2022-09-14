@@ -1,6 +1,7 @@
 import { objectURLFileMap } from "../../display/core/utils/objectURLMaps"
 import Setup from "../../display/Setup"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
+import { getFileCurrent } from "../../states/useFileCurrent"
 import Appendable, {
     appendableRoot,
     hiddenAppendables
@@ -9,7 +10,7 @@ import settings from "../settings"
 import toFixed from "./toFixed"
 import { nonSerializedProperties, SceneGraphNode } from "./types"
 
-const serialize = (children: Array<any>) => {
+const serialize = async (children: Array<any>) => {
     const dataParent: Array<SceneGraphNode> = []
     for (const child of children) {
         if (hiddenAppendables.has(child)) continue
@@ -39,19 +40,31 @@ const serialize = (children: Array<any>) => {
                 continue
 
             if (t === "string" && value.startsWith("blob:http")) {
-                const file = objectURLFileMap.get(value)
-                console.log(file?.webkitRelativePath)
-            }
+                const file = objectURLFileMap.get(value)!
+                const fileCurrent = getFileCurrent()!
+                const { default: URI } = await import("urijs")
+                value = "./" + URI(
+                    file.webkitRelativePath.startsWith("/")
+                        ? file.webkitRelativePath
+                        : "/" + file.webkitRelativePath
+                )
+                    .relativeTo(
+                        fileCurrent.webkitRelativePath.startsWith("/")
+                            ? fileCurrent.webkitRelativePath
+                            : "/" + fileCurrent.webkitRelativePath
+                    )
+                    .href()
+            } else if (t === "number") value = toFixed(key, value)
 
-            data[key] = t === "number" ? toFixed(key, value) : value
+            data[key] = value
         }
-        child.children && (data.children = serialize(child.children))
+        child.children && (data.children = await serialize(child.children))
         dataParent.push(data as SceneGraphNode)
     }
     return dataParent
 }
 
-export default (
+export default async (
     children: Array<Appendable> | Set<Appendable> | Appendable = appendableRoot
 ) => {
     if (children instanceof Appendable) return serialize([children])
@@ -64,7 +77,7 @@ export default (
     Object.assign(setup, settings)
     childs.push(setup)
 
-    const result = serialize(childs)
+    const result = await serialize(childs)
     result.unshift({ type: "lingo3d", version: "1.33" })
 
     setup.dispose()

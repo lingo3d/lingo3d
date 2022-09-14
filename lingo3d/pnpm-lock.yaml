@@ -7,12 +7,13 @@ specifiers:
   '@lincode/promiselikes': '*'
   '@lincode/reactivity': '*'
   '@lincode/utils': '*'
-  '@preact/preset-vite': ^2.4.0
+  '@preact/preset-vite': ^2.3.0
   '@tweakpane/core': '*'
   '@types/preact-custom-element': ^4.0.1
-  '@types/prettier': ^2.7.0
+  '@types/prettier': ^2.6.3
   '@types/randomcolor': ^0.5.6
   '@types/three': 0.144.0
+  '@types/urijs': ^1.19.19
   browser-fs-access: 0.31.0
   cannon-es: 0.20.0
   lil-gui: ^0.17.0
@@ -27,8 +28,9 @@ specifiers:
   three: 0.144.0
   three-mesh-bvh: 0.5.16
   tweakpane: '*'
-  typescript: ^4.8.3
-  vite: ^3.1.0
+  typescript: ^4.7.4
+  urijs: 1.19.11
+  vite: ^3.0.2
   xstate: '*'
 
 dependencies:
@@ -51,6 +53,7 @@ dependencies:
   three: 0.144.0
   three-mesh-bvh: 0.5.16_three@0.144.0
   tweakpane: 3.1.0
+  urijs: 1.19.11
   xstate: 4.33.6
 
 devDependencies:
@@ -58,6 +61,7 @@ devDependencies:
   '@types/preact-custom-element': 4.0.1
   '@types/prettier': 2.7.0
   '@types/randomcolor': 0.5.6
+  '@types/urijs': 1.19.19
   lil-gui: 0.17.0
   randomcolor: 0.6.2
   rimraf: 3.0.2
@@ -483,6 +487,10 @@ packages:
     dependencies:
       '@types/webxr': 0.5.0
     dev: false
+
+  /@types/urijs/1.19.19:
+    resolution: {integrity: sha512-FDJNkyhmKLw7uEvTxx5tSXfPeQpO0iy73Ry+PmYZJvQy0QIWX8a7kJ4kLWRf+EbTPJEPDSgPXHaM7pzr5lmvCg==}
+    dev: true
 
   /@types/webxr/0.5.0:
     resolution: {integrity: sha512-IUMDPSXnYIbEO2IereEFcgcqfDREOgmbGqtrMpVPpACTU6pltYLwHgVkrnYv0XhWEcjio9sYEfIEzgn3c7nDqA==}
@@ -1153,6 +1161,10 @@ packages:
       escalade: 3.1.1
       picocolors: 1.0.0
     dev: true
+
+  /urijs/1.19.11:
+    resolution: {integrity: sha512-HXgFDgDommxn5/bIv0cnQZsPhHDA90NPHD6+c/v21U5+Sx5hoP8+dP9IZXBU1gIfvdRfhG8cel9QNPeionfcCQ==}
+    dev: false
 
   /vite/3.1.0:
     resolution: {integrity: sha512-YBg3dUicDpDWFCGttmvMbVyS9ydjntwEjwXRj2KBFwSB8SxmGcudo1yb8FW5+M/G86aS8x828ujnzUVdsLjs9g==}

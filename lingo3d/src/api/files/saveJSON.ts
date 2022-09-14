@@ -5,7 +5,7 @@ export default async () => {
     const { default: prettier } = await import("prettier/standalone")
     const { default: parser } = await import("prettier/parser-babel")
 
-    const code = prettier.format(JSON.stringify(serialize()), {
+    const code = prettier.format(JSON.stringify(await serialize()), {
         parser: "json",
         plugins: [parser]
     })

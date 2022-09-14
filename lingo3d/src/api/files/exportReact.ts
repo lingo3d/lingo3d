@@ -37,7 +37,7 @@ export default async () => {
         `const App = () => {
             return (
                 <World>
-                    ${serializeReact(serialize())}
+                    ${serializeReact(await serialize())}
                 </World>
             )
         }`,
