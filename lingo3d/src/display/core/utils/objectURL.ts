@@ -7,8 +7,8 @@ import { getFileCurrent } from "../../../states/useFileCurrent"
 import { getFiles } from "../../../states/useFiles"
 import setURLModifier from "../../utils/loaders/setURLModifier"
 
-export const objectURLExtensionMap = new Map<string, string>()
-export const fileObjectURLMap = new WeakMap<File, string>()
+const objectURLExtensionMap = new Map<string, string>()
+const fileObjectURLMap = new Map<File, string>()
 export const objectURLFileMap = new Map<string, File>()
 
 export const getExtensionIncludingObjectURL = (src: string) =>
@@ -33,8 +33,12 @@ createEffect(() => {
 
     for (const file of files) pathFileMap.set(file.webkitRelativePath, file)
     return () => {
+        for (const objecURL of fileObjectURLMap.values())
+            URL.revokeObjectURL(objecURL)
+
         pathFileMap.clear()
         objectURLExtensionMap.clear()
+        fileObjectURLMap.clear()
         objectURLFileMap.clear()
     }
 }, [getFiles])
