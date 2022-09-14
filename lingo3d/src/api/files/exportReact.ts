@@ -34,15 +34,13 @@ export default async () => {
     const parser = (await import("prettier/parser-babel")).default
 
     const code = prettier.format(
-        `
-        const App = () => {
+        `const App = () => {
             return (
                 <World>
                     ${serializeReact(serialize())}
                 </World>
             )
-        }
-    `,
+        }`,
         { parser: "babel", plugins: [parser] }
     )
 

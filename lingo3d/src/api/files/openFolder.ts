@@ -1,6 +1,6 @@
 import { directoryOpen } from "browser-fs-access"
 import { setFileBrowser } from "../../states/useFileBrowser"
-import { setFileHandle } from "../../states/useFileHandle"
+import { setFileCurrent } from "../../states/useFileCurrent"
 import { setFiles } from "../../states/useFiles"
 import { appendableRoot } from "../core/Appendable"
 import deserialize from "../serializer/deserialize"
@@ -24,7 +24,7 @@ export default async () => {
             if (text.includes(`"type": "lingo3d"`)) {
                 for (const child of appendableRoot) child.dispose()
                 deserialize(JSON.parse(text))
-                setFileHandle(file.handle)
+                setFileCurrent(file)
                 return
             }
         } catch {}

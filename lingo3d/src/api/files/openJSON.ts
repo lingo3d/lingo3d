@@ -1,4 +1,4 @@
-import { setFileHandle } from "../../states/useFileHandle"
+import { setFileCurrent } from "../../states/useFileCurrent"
 import { appendableRoot } from "../core/Appendable"
 import deserialize from "../serializer/deserialize"
 
@@ -12,6 +12,6 @@ export default async () => {
 
     try {
         deserialize(JSON.parse(text))
-        setFileHandle(file.handle)
+        setFileCurrent(file)
     } catch {}
 }

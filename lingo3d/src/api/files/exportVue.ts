@@ -36,13 +36,11 @@ export default async () => {
     const parser = (await import("prettier/parser-html")).default
 
     const code = prettier.format(
-        `
-        <template>
+        `<template>
             <World>
                 ${serializeVue(serialize())}
             </World>
-        </template>
-    `,
+        </template>`,
         { parser: "vue", plugins: [parser] }
     )
 
