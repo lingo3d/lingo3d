@@ -7,7 +7,7 @@ import Appendable, {
     hiddenAppendables
 } from "../core/Appendable"
 import settings from "../settings"
-import relativePath from "./relativePath"
+import relativePath from "../path/relativePath"
 import toFixed from "./toFixed"
 import { nonSerializedProperties, SceneGraphNode } from "./types"
 

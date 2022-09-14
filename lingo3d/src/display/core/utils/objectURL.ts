@@ -1,5 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import { splitFileName } from "@lincode/utils"
+import isRelativePath from "../../../api/path/isRelativePath"
 import { getFileCurrent } from "../../../states/useFileCurrent"
 import setURLModifier from "../../utils/loaders/setURLModifier"
 
@@ -15,10 +16,10 @@ createEffect(() => {
     if (!urlCurrent) return
 
     setURLModifier((url) => {
-        if (url.startsWith("./")) {
-            // URI(urlCurrent)
-            // console.log(url)
-            // console.log("/" + urlCurrent)
+        if (isRelativePath(url)) {
+            console.log(urlCurrent, url)
+
+            // console.log(relativePath(urlCurrent, url))
         }
 
         return url

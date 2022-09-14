@@ -1,4 +1,5 @@
-import { last } from "@lincode/utils"
+import dirPath from "./dirPath"
+import isRelativePath from "./isRelativePath"
 
 const relativePath = (from: string, to: string) => {
     if (from === to) return ""
@@ -74,17 +75,8 @@ const relativePath = (from: string, to: string) => {
     }
 }
 
-const dirPath = (url: string) => {
-    const parts = url.split("/")
-    if (last(parts)?.includes(".")) {
-        parts.pop()
-        return parts.join("/")
-    }
-    return url
-}
-
 export default (from: string, to: string) => {
     const result = relativePath(dirPath(from), to)
-    if (result[0] !== ".") return "./" + result
-    return result
+    if (isRelativePath(result)) return result
+    return "./" + result
 }
