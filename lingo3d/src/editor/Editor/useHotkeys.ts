@@ -21,7 +21,7 @@ import deleteSelected from "./deleteSelected"
 
 export default () => {
     useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
+        const handleKeyDown = async (e: KeyboardEvent) => {
             if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
                 setMultipleSelection(true)
 
@@ -50,7 +50,7 @@ export default () => {
                         if (targets.length) {
                             //todo: copy multiple
                         } else {
-                            const [item] = deserialize(serialize(target))
+                            const [item] = deserialize(await serialize(target))
                             if (target.parent && item) {
                                 target.parent.attach(item)
                                 emitSelectionTarget(item)
