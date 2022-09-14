@@ -3,7 +3,7 @@ import {
     fileObjectURLMap,
     objectURLFileMap,
     objectURLExtensionMap
-} from "../../display/core/utils/objectURLMaps"
+} from "../../display/core/utils/objectURL"
 import Model from "../../display/Model"
 import clientToWorld from "../../display/utils/clientToWorld"
 import { point2Vec } from "../../display/utils/vec2Point"

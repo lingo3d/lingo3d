@@ -9,7 +9,7 @@ import { Resolvable } from "@lincode/promiselikes"
 import FoundManager from "./core/FoundManager"
 import { Reactive } from "@lincode/reactivity"
 import measure from "./utils/measure"
-import { getExtensionIncludingObjectURL } from "./core/utils/objectURLMaps"
+import { getExtensionIncludingObjectURL } from "./core/utils/objectURL"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"

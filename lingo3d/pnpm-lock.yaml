@@ -9,15 +9,16 @@ specifiers:
   '@lincode/utils': '*'
   '@preact/preset-vite': ^2.3.0
   '@tweakpane/core': '*'
+  '@types/path-browserify': ^1.0.0
   '@types/preact-custom-element': ^4.0.1
   '@types/prettier': ^2.6.3
   '@types/randomcolor': ^0.5.6
   '@types/three': 0.144.0
-  '@types/urijs': ^1.19.19
   browser-fs-access: 0.31.0
   cannon-es: 0.20.0
   lil-gui: ^0.17.0
   nipplejs: 0.9.1
+  path-browserify: 1.0.1
   postprocessing: 6.28.7
   preact: '*'
   preact-compat: '*'
@@ -29,7 +30,6 @@ specifiers:
   three-mesh-bvh: 0.5.16
   tweakpane: '*'
   typescript: ^4.7.4
-  urijs: 1.19.11
   vite: ^3.0.2
   xstate: '*'
 
@@ -45,6 +45,7 @@ dependencies:
   browser-fs-access: 0.31.0
   cannon-es: 0.20.0
   nipplejs: 0.9.1
+  path-browserify: 1.0.1
   postprocessing: 6.28.7_three@0.144.0
   preact: 10.11.0
   preact-compat: 3.19.0_preact@10.11.0
@@ -53,15 +54,14 @@ dependencies:
   three: 0.144.0
   three-mesh-bvh: 0.5.16_three@0.144.0
   tweakpane: 3.1.0
-  urijs: 1.19.11
   xstate: 4.33.6
 
 devDependencies:
   '@preact/preset-vite': 2.4.0_preact@10.11.0+vite@3.1.0
+  '@types/path-browserify': 1.0.0
   '@types/preact-custom-element': 4.0.1
   '@types/prettier': 2.7.0
   '@types/randomcolor': 0.5.6
-  '@types/urijs': 1.19.19
   lil-gui: 0.17.0
   randomcolor: 0.6.2
   rimraf: 3.0.2
@@ -468,6 +468,10 @@ packages:
     resolution: {integrity: sha512-evMDG1bC4rgQg4ku9tKpuMh5iBNEwNa3tf9zRHdP1qlv+1WUg44xat4IxCE14gIpZRGUUWAx2VhItCZc25NfMA==}
     dev: false
 
+  /@types/path-browserify/1.0.0:
+    resolution: {integrity: sha512-XMCcyhSvxcch8b7rZAtFAaierBYdeHXVvg2iYnxOV0MCQHmPuRRmGZPFDRzPayxcGiiSL1Te9UIO+f3cuj0tfw==}
+    dev: true
+
   /@types/preact-custom-element/4.0.1:
     resolution: {integrity: sha512-oduUzzxJAZ7qWJ5EsUffxvpRFnzgffilDlfxLR9Q2YkEzSfn3vudIrnDg0AiQgZJ0GkAjLzkxQyAxH6sS/EQdQ==}
     dependencies:
@@ -487,10 +491,6 @@ packages:
     dependencies:
       '@types/webxr': 0.5.0
     dev: false
-
-  /@types/urijs/1.19.19:
-    resolution: {integrity: sha512-FDJNkyhmKLw7uEvTxx5tSXfPeQpO0iy73Ry+PmYZJvQy0QIWX8a7kJ4kLWRf+EbTPJEPDSgPXHaM7pzr5lmvCg==}
-    dev: true
 
   /@types/webxr/0.5.0:
     resolution: {integrity: sha512-IUMDPSXnYIbEO2IereEFcgcqfDREOgmbGqtrMpVPpACTU6pltYLwHgVkrnYv0XhWEcjio9sYEfIEzgn3c7nDqA==}
@@ -958,6 +958,10 @@ packages:
       wrappy: 1.0.2
     dev: true
 
+  /path-browserify/1.0.1:
+    resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
+    dev: false
+
   /path-is-absolute/1.0.1:
     resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
     engines: {node: '>=0.10.0'}
@@ -1161,10 +1165,6 @@ packages:
       escalade: 3.1.1
       picocolors: 1.0.0
     dev: true
-
-  /urijs/1.19.11:
-    resolution: {integrity: sha512-HXgFDgDommxn5/bIv0cnQZsPhHDA90NPHD6+c/v21U5+Sx5hoP8+dP9IZXBU1gIfvdRfhG8cel9QNPeionfcCQ==}
-    dev: false
 
   /vite/3.1.0:
     resolution: {integrity: sha512-YBg3dUicDpDWFCGttmvMbVyS9ydjntwEjwXRj2KBFwSB8SxmGcudo1yb8FW5+M/G86aS8x828ujnzUVdsLjs9g==}

@@ -1,4 +1,4 @@
-import { objectURLFileMap } from "../../display/core/utils/objectURLMaps"
+import { objectURLFileMap } from "../../display/core/utils/objectURL"
 import Setup from "../../display/Setup"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import { getFileCurrent } from "../../states/useFileCurrent"
@@ -7,6 +7,7 @@ import Appendable, {
     hiddenAppendables
 } from "../core/Appendable"
 import settings from "../settings"
+import relativePath from "./relativePath"
 import toFixed from "./toFixed"
 import { nonSerializedProperties, SceneGraphNode } from "./types"
 
@@ -42,18 +43,10 @@ const serialize = async (children: Array<any>) => {
             if (t === "string" && value.startsWith("blob:http")) {
                 const file = objectURLFileMap.get(value)!
                 const fileCurrent = getFileCurrent()!
-                const { default: URI } = await import("urijs")
-                value = "./" + URI(
-                    file.webkitRelativePath.startsWith("/")
-                        ? file.webkitRelativePath
-                        : "/" + file.webkitRelativePath
+                value = relativePath(
+                    fileCurrent.webkitRelativePath,
+                    file.webkitRelativePath
                 )
-                    .relativeTo(
-                        fileCurrent.webkitRelativePath.startsWith("/")
-                            ? fileCurrent.webkitRelativePath
-                            : "/" + fileCurrent.webkitRelativePath
-                    )
-                    .href()
             } else if (t === "number") value = toFixed(key, value)
 
             data[key] = value
