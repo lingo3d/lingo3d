@@ -6,7 +6,6 @@ import AnimationManager, {
 } from "./core/AnimatedObjectManager/AnimationManager"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
 import { Resolvable } from "@lincode/promiselikes"
-import { lazyLoadFBX, lazyLoadGLTF } from "./utils/loaders/lazyLoad"
 import FoundManager from "./core/FoundManager"
 import { Reactive } from "@lincode/reactivity"
 import measure from "./utils/measure"
@@ -82,12 +81,14 @@ export default class Model extends Loaded<Group> implements IModel {
             throw new Error("Unsupported file extension")
         }
 
+        const module =
+            extension === "fbx"
+                ? await import("./utils/loaders/loadFBX")
+                : await import("./utils/loaders/loadGLTF")
+
         let result: Group
         try {
-            result =
-                extension === "fbx"
-                    ? await (await lazyLoadFBX()).default(url, !this.unmounted)
-                    : await (await lazyLoadGLTF()).default(url, !this.unmounted)
+            result = await module.default(url, !this.unmounted)
         } catch {
             resolvable.resolve()
             setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))

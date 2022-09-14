@@ -9,8 +9,6 @@ import measure from "./utils/measure"
 import ISvgMesh, { svgMeshDefaults, svgMeshSchema } from "../interface/ISvgMesh"
 import { standardMaterial } from "./utils/reusables"
 
-const lazyLoadSVG = lazy(() => import("./utils/loaders/loadSVG"))
-
 const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()
 
 class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
@@ -21,7 +19,9 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     protected material = standardMaterial
 
     protected load(url: string) {
-        return lazyLoadSVG().then((module) => module.default(url))
+        return import("./utils/loaders/loadSVG").then((module) =>
+            module.default(url)
+        )
     }
 
     protected resolveLoaded(svgData: SVGResult, src: string) {

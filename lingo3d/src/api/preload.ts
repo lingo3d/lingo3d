@@ -5,7 +5,6 @@ import {
     addLoadedBytesChangedEventListeners,
     removeLoadedBytesChangedEventListeners
 } from "../display/utils/loaders/bytesLoaded"
-import { lazyLoadFBX, lazyLoadGLTF } from "../display/utils/loaders/lazyLoad"
 import loadTexturePromise from "../display/utils/loaders/loadTexturePromise"
 import IModel from "../interface/IModel"
 import { getLoadingCount } from "../states/useLoadingCount"
@@ -69,11 +68,11 @@ export default async (
                     )
                     break
                 }
-                promises.push(
+                const module =
                     extension === "fbx"
-                        ? (await lazyLoadFBX()).default(src, false)
-                        : (await lazyLoadGLTF()).default(src, false)
-                )
+                        ? await import("../display/utils/loaders/loadFBX")
+                        : await import("../display/utils/loaders/loadGLTF")
+                promises.push(module.default(src, false))
             case "audio":
             case "plainText":
             case "scene":
