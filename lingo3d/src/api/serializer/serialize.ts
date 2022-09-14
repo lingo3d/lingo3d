@@ -16,8 +16,13 @@ const serialize = (children: Array<any>) => {
         const { componentName, schema, defaults } = child.constructor
 
         const data: Record<string, any> = { type: componentName }
-        for (const key of Object.keys(schema)) {
-            if (nonSerializedProperties.includes(key)) continue
+        for (const [key, type] of Object.entries(schema)) {
+            if (
+                type === Function ||
+                (Array.isArray(type) && type.includes(Function)) ||
+                nonSerializedProperties.includes(key)
+            )
+                continue
 
             let value: any
             if (key === "animations") {
@@ -26,20 +31,17 @@ const serialize = (children: Array<any>) => {
             } else if (key === "animation") {
                 value = child.serializeAnimation
                 if (value === undefined) continue
-            } else if (
-                typeof value === "string" &&
-                value.startsWith("blob:http")
-            ) {
-                console.log("hello world")
             } else value = child[key]
 
-            if (
-                value === getDefaultValue(defaults, key) ||
-                typeof value === "function"
-            )
+            const t = typeof value
+            if (value === getDefaultValue(defaults, key) || t === "function")
                 continue
 
-            data[key] = typeof value === "number" ? toFixed(key, value) : value
+            if (t === "string" && value.startsWith("blob:http")) {
+                console.log("here")
+            }
+
+            data[key] = t === "number" ? toFixed(key, value) : value
         }
         child.children && (data.children = serialize(child.children))
         dataParent.push(data as SceneGraphNode)

@@ -1,5 +1,8 @@
 import { forceGet, splitFileName } from "@lincode/utils"
-import objectURLExtensionMap from "../../display/core/utils/objectURLExtensionMap"
+import objectURLExtensionMap, {
+    fileObjectURLMap,
+    objectURLFileMap
+} from "../../display/core/utils/objectURLExtensionMap"
 import Model from "../../display/Model"
 import clientToWorld from "../../display/utils/clientToWorld"
 import { point2Vec } from "../../display/utils/vec2Point"
@@ -7,8 +10,6 @@ import { container } from "../../engine/renderLoop/renderSetup"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { useFileSelected } from "../states"
 import FileIcon from "./icons/FileIcon"
-
-const objectURLMap = new WeakMap<File, string>()
 
 let draggingItem: File | undefined
 
@@ -20,9 +21,10 @@ container.addEventListener("drop", (e) => {
     if (extension !== "glb" && extension !== "fbx") return
 
     const manager = new Model()
-    manager.src = forceGet(objectURLMap, draggingItem, () => {
+    manager.src = forceGet(fileObjectURLMap, draggingItem, () => {
         const url = URL.createObjectURL(draggingItem!)
         objectURLExtensionMap.set(url, extension)
+        objectURLFileMap.set(url, draggingItem!)
         return url
     })
     manager.outerObject3d.position.copy(
