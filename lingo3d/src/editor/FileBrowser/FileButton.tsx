@@ -1,8 +1,9 @@
 import { forceGet, splitFileName } from "@lincode/utils"
-import objectURLExtensionMap, {
+import {
     fileObjectURLMap,
-    objectURLFileMap
-} from "../../display/core/utils/objectURLExtensionMap"
+    objectURLFileMap,
+    objectURLExtensionMap
+} from "../../display/core/utils/objectURLMaps"
 import Model from "../../display/Model"
 import clientToWorld from "../../display/utils/clientToWorld"
 import { point2Vec } from "../../display/utils/vec2Point"

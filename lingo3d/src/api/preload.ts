@@ -1,6 +1,6 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { assertExhaustive } from "@lincode/utils"
-import { getExtensionIncludingObjectURL } from "../display/core/utils/objectURLExtensionMap"
+import { getExtensionIncludingObjectURL } from "../display/core/utils/objectURLMaps"
 import {
     addLoadedBytesChangedEventListeners,
     removeLoadedBytesChangedEventListeners

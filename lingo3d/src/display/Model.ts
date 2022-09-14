@@ -10,7 +10,7 @@ import { lazyLoadFBX, lazyLoadGLTF } from "./utils/loaders/lazyLoad"
 import FoundManager from "./core/FoundManager"
 import { Reactive } from "@lincode/reactivity"
 import measure from "./utils/measure"
-import { getExtensionIncludingObjectURL } from "./core/utils/objectURLExtensionMap"
+import { getExtensionIncludingObjectURL } from "./core/utils/objectURLMaps"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"

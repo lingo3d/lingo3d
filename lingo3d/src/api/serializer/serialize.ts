@@ -1,3 +1,4 @@
+import { objectURLFileMap } from "../../display/core/utils/objectURLMaps"
 import Setup from "../../display/Setup"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import Appendable, {
@@ -38,7 +39,8 @@ const serialize = (children: Array<any>) => {
                 continue
 
             if (t === "string" && value.startsWith("blob:http")) {
-                console.log("here")
+                const file = objectURLFileMap.get(value)
+                console.log(file?.webkitRelativePath)
             }
 
             data[key] = t === "number" ? toFixed(key, value) : value
