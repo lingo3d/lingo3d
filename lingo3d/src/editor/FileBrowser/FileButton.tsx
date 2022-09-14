@@ -1,9 +1,5 @@
-import { forceGet, splitFileName } from "@lincode/utils"
-import {
-    fileObjectURLMap,
-    objectURLFileMap,
-    objectURLExtensionMap
-} from "../../display/core/utils/objectURL"
+import { splitFileName } from "@lincode/utils"
+import { createObjectURL } from "../../display/core/utils/objectURL"
 import Model from "../../display/Model"
 import clientToWorld from "../../display/utils/clientToWorld"
 import { point2Vec } from "../../display/utils/vec2Point"
@@ -22,12 +18,7 @@ container.addEventListener("drop", (e) => {
     if (extension !== "glb" && extension !== "fbx") return
 
     const manager = new Model()
-    manager.src = forceGet(fileObjectURLMap, draggingItem, () => {
-        const url = URL.createObjectURL(draggingItem!)
-        objectURLExtensionMap.set(url, extension)
-        objectURLFileMap.set(url, draggingItem!)
-        return url
-    })
+    manager.src = createObjectURL(draggingItem, extension)
     manager.outerObject3d.position.copy(
         point2Vec(clientToWorld(e.clientX, e.clientY))
     )
