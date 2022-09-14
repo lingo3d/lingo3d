@@ -10,20 +10,20 @@ export default async () => {
         plugins: [parser]
     })
 
-    const { fileSave } = await import("browser-fs-access")
-    const fileHandle = getFileHandle()
-    if (!fileHandle)
-        setFileHandle(
-            await fileSave(new Blob([code], { type: "text/plain" }), {
-                extensions: [".json"],
-                startIn: "downloads",
-                id: "lingo3d"
-            })
-        )
-    else
-        await fileSave(
-            new Blob([code], { type: "text/plain" }),
-            undefined,
-            fileHandle
-        )
+    // const { fileSave } = await import("browser-fs-access")
+    // const fileHandle = getFileHandle()
+    // if (!fileHandle)
+    //     setFileHandle(
+    //         await fileSave(new Blob([code], { type: "text/plain" }), {
+    //             extensions: [".json"],
+    //             startIn: "downloads",
+    //             id: "lingo3d"
+    //         })
+    //     )
+    // else
+    //     await fileSave(
+    //         new Blob([code], { type: "text/plain" }),
+    //         undefined,
+    //         fileHandle
+    //     )
 }

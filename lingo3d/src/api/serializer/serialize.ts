@@ -26,6 +26,11 @@ const serialize = (children: Array<any>) => {
             } else if (key === "animation") {
                 value = child.serializeAnimation
                 if (value === undefined) continue
+            } else if (
+                typeof value === "string" &&
+                value.startsWith("blob:http")
+            ) {
+                console.log("hello world")
             } else value = child[key]
 
             if (

@@ -86,8 +86,7 @@ const SceneGraph = () => {
                 height: "100%",
                 paddingTop: 0,
                 display: "flex",
-                flexDirection: "column",
-                overflow: "hidden"
+                flexDirection: "column"
             }}
         >
             <TitleBar title="scenegraph">

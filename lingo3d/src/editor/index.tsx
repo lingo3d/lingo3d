@@ -16,12 +16,13 @@ const style = createElement(`
             position: relative;
             box-sizing: border-box;
             font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100,100,100,0.1);
         }
         .lingo3d-ui {
             position: relative;
             box-sizing: border-box;
-            overflow-x: hidden;
-            overflow-y: scroll;
+            overflow: hidden;
             float: left;
             color: white;
             font-size: 11px;

@@ -41,7 +41,6 @@ const FileButton = ({ file }: FileButtonProps) => {
     return (
         <div
             style={{
-                margin: "5px 6px 5px 6px",
                 width: 70,
                 height: 90,
                 background:

@@ -445,7 +445,7 @@ const Editor = () => {
         <div
             ref={elRef}
             className="lingo3d-ui lingo3d-bg"
-            style={{ width: 300, height: "100%" }}
+            style={{ width: 300, height: "100%", overflowY: "scroll" }}
         />
     )
 }

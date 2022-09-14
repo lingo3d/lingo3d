@@ -34,7 +34,6 @@ export default class Appendable<
         child.parent = this
         ;(this.children ??= new Set()).add(child)
     }
-    //todo: check what can be replaced with this new traverse
 
     public traverse(cb: (appendable: Appendable) => void) {
         for (const child of this.children ?? []) {

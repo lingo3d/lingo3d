@@ -27,7 +27,12 @@ const Library = () => {
         <div
             ref={elRef}
             className="lingo3d-ui lingo3d-bg"
-            style={{ width: 200, height: "100%", padding: 10 }}
+            style={{
+                width: 200,
+                height: "100%",
+                padding: 10,
+                overflowY: "scroll"
+            }}
         >
             <ObjectGroup
                 names={[
