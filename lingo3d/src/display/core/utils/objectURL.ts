@@ -34,6 +34,8 @@ createEffect(() => {
     for (const file of files) pathFileMap.set(file.webkitRelativePath, file)
     return () => {
         pathFileMap.clear()
+        objectURLExtensionMap.clear()
+        objectURLFileMap.clear()
     }
 }, [getFiles])
 
