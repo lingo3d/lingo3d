@@ -9,7 +9,6 @@ import { useEffect, useRef } from "preact/hooks"
 import settings from "../../api/settings"
 import FileBrowser from "../FileBrowser"
 import { useFileBrowser } from "../states"
-import { DEBUG } from "../../globals"
 
 const LingoEditor = () => {
     const elRef = useRef<HTMLDivElement>(null)
@@ -38,8 +37,7 @@ const LingoEditor = () => {
             <div>
                 <div
                     style={{
-                        height:
-                            fileBrowser && DEBUG ? "calc(100% - 200px)" : "100%"
+                        height: fileBrowser ? "calc(100% - 200px)" : "100%"
                     }}
                 >
                     <SceneGraph />
@@ -47,7 +45,7 @@ const LingoEditor = () => {
                     <NodeEditor />
                     <Library />
                 </div>
-                {fileBrowser && DEBUG && <FileBrowser />}
+                {fileBrowser && <FileBrowser />}
             </div>
             <HUD />
             <div

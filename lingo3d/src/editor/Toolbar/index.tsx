@@ -161,7 +161,7 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                 </Section>
 
                 <Section>
-                    {!buttons?.openFolder?.hidden && DEBUG && (
+                    {!buttons?.openFolder?.hidden && (
                         <IconButton
                             onClick={buttons?.openFolder?.onClick ?? openFolder}
                         >

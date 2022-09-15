@@ -8,7 +8,11 @@ import clientToWorld from "../../display/utils/clientToWorld"
 
 let draggingItem: string | undefined
 
-container.addEventListener("dragover", (e) => e.preventDefault())
+container.addEventListener("dragover", (e) => {
+    e.preventDefault()
+
+    // console.log(e.clientX, e.clientY)
+})
 container.addEventListener("dragenter", (e) => e.preventDefault())
 document.addEventListener("drop", (e) => e.preventDefault())
 container.addEventListener("drop", (e) => {
