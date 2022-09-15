@@ -40,6 +40,7 @@ export class GenerateMeshBVHWorker {
 
         const { worker } = this
         const geometry = geom.clone()
+        geometry.dispose()
 
         return new Promise<MeshBVH>((resolve, reject) => {
             worker.onerror = (e) => {
