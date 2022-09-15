@@ -1,8 +1,8 @@
 {
 	"name": "lingo3d-vanilla",
 	"strict": true,
-	"esnext": false,
-	"es2015": true,
+	"esnext": true,
+	"es2015": false,
 	"es5": false,
 	"library": false,
 	"node": false,

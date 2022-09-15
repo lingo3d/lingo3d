@@ -19,7 +19,7 @@ module.exports = (env, argv) => ({
 												"useBuiltIns": "usage",
 												"corejs": "core-js@3",
 												"targets": {
-													"chrome": "49"
+													"chrome": "73"
 												}
 											}
 										],
