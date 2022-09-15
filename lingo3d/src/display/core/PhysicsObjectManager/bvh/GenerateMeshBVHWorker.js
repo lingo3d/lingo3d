@@ -25,7 +25,7 @@ export class GenerateMeshBVHWorker {
         }
     }
 
-    async generate(geometry, options = {}) {
+    async generate(geom, options = {}) {
         await queue
 
         if (this.worker === null) {
@@ -33,6 +33,7 @@ export class GenerateMeshBVHWorker {
         }
 
         const { worker } = this
+        const geometry = geom.clone()
 
         return new Promise((resolve, reject) => {
             worker.onerror = (e) => {
@@ -106,7 +107,7 @@ export class GenerateMeshBVHWorker {
                 {
                     index,
                     position,
-                    matrixWorld: geometryMeshMap.get(geometry).matrixWorld,
+                    matrixWorld: geometryMeshMap.get(geom).matrixWorld,
                     options: {
                         ...options,
                         onProgress: null,

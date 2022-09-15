@@ -35,7 +35,7 @@ cam.lockTargetRotation = false
 const map = new Model()
 map.src = "fairy.glb"
 map.scale = 30
-map.physics = "map"
+map.physics = "map-debug"
 
 settings.skybox = [
     "skybox/Left.png",
