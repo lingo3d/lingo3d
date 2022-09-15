@@ -1,4 +1,4 @@
-import { Box3, BufferAttribute } from "three"
+import { Box3, BufferAttribute, BufferGeometry } from "three"
 import { MeshBVH } from "three-mesh-bvh"
 import code from "./workerString"
 import { Queue } from "@lincode/promiselikes"
@@ -7,8 +7,14 @@ const queue = new Queue()
 
 export const geometryMeshMap = new WeakMap()
 
+type Options = {
+    onProgress?: (progress: number) => void
+}
+
 export class GenerateMeshBVHWorker {
-    constructor() {
+    private worker: Worker | null
+
+    public constructor() {
         const blob = new Blob([code], { type: "application/javascript" })
         this.worker = new Worker(URL.createObjectURL(blob))
 
@@ -25,7 +31,7 @@ export class GenerateMeshBVHWorker {
         }
     }
 
-    async generate(geom, options = {}) {
+    public async generate(geom: BufferGeometry, options: Options = {}) {
         await queue
 
         if (this.worker === null) {
@@ -35,7 +41,7 @@ export class GenerateMeshBVHWorker {
         const { worker } = this
         const geometry = geom.clone()
 
-        return new Promise((resolve, reject) => {
+        return new Promise<MeshBVH>((resolve, reject) => {
             worker.onerror = (e) => {
                 reject(new Error(`GenerateMeshBVHWorker: ${e.message}`))
                 queue.resolve()
@@ -60,8 +66,7 @@ export class GenerateMeshBVHWorker {
                         options
                     )
 
-                    // we need to replace the arrays because they're neutered entirely by the
-                    // webworker transfer.
+                    //@ts-ignore
                     geometry.attributes.position.array = position
                     if (geometry.index) {
                         geometry.index.array = serialized.index
@@ -89,15 +94,6 @@ export class GenerateMeshBVHWorker {
             const index = geometry.index ? geometry.index.array : null
             const position = geometry.attributes.position.array
 
-            if (
-                position.isInterleavedBufferAttribute ||
-                (index && index.isInterleavedBufferAttribute)
-            ) {
-                throw new Error(
-                    "GenerateMeshBVHWorker: InterleavedBufferAttribute are not supported for the geometry attributes."
-                )
-            }
-
             const transferrables = [position]
             if (index) {
                 transferrables.push(index)
@@ -115,13 +111,14 @@ export class GenerateMeshBVHWorker {
                         groups: [...geometry.groups]
                     }
                 },
+                //@ts-ignore
                 transferrables.map((arr) => arr.buffer)
             )
         })
     }
 
     dispose() {
-        this.worker.terminate()
+        this.worker!.terminate()
         this.worker = null
     }
 
