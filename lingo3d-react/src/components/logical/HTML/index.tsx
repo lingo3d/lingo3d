@@ -6,7 +6,7 @@ import htmlContainer from "./htmlContainer"
 
 interface HTMLProps {
   parent?: any
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 const HTML: React.FC<HTMLProps> = ({ children }) => {

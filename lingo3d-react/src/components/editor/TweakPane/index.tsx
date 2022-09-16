@@ -1,14 +1,19 @@
-import React, { PropsWithChildren, useEffect } from "react"
+import React, { useEffect } from "react"
 import { Pane } from "tweakpane"
 import addInputs from "./addInputs"
 import useInit from "./useInit"
 
-type CustomEditorProps = PropsWithChildren<{
+type CustomEditorProps = {
   style?: React.CSSProperties
   className?: string
-}>
+  children?: any
+}
 
-const CustomEditor: React.FC<CustomEditorProps> = ({ children, style, className }) => {
+const CustomEditor: React.FC<CustomEditorProps> = ({
+  children,
+  style,
+  className
+}) => {
   const elRef = useInit()
 
   const _children: Array<JSX.Element | undefined> = Array.isArray(children)

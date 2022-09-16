@@ -1,8 +1,8 @@
-import React, { PropsWithChildren } from "react"
+import React from "react"
 import ReactDOM from "react-dom"
 import htmlContainer from "./HTML/htmlContainer"
 
-const UI: React.FC<PropsWithChildren> = ({ children }) => {
+const UI: React.FC<{ children?: any }> = ({ children }) => {
   return ReactDOM.createPortal(
     <div style={{ pointerEvents: "all", position: "static" }}>{children}</div>,
     htmlContainer

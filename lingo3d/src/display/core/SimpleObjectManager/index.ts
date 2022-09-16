@@ -331,6 +331,9 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         speed: number,
         onFrame?: (y?: number) => void
     ) {
+        if (x === this.x) x += 0.01
+        if (z === this.z) z += 0.01
+
         const {
             x: rx,
             y: ry,

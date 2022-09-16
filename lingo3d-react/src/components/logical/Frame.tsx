@@ -1,14 +1,15 @@
 import { clientToWorld, Group as LingoGroup, onBeforeRender } from "lingo3d"
-import React, { PropsWithChildren, useLayoutEffect, useRef } from "react"
+import React, { useLayoutEffect, useRef } from "react"
 import Group from "../display/Group"
 
 interface FrameProps {
   className?: string
   style?: React.CSSProperties
   distance?: number
+  children?: any
 }
 
-const Frame: React.FC<FrameProps & PropsWithChildren> = ({
+const Frame: React.FC<FrameProps> = ({
   children,
   className,
   style,

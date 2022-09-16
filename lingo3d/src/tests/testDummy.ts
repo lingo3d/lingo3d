@@ -26,6 +26,8 @@ dummy.physics = "character"
 dummy.strideMove = true
 // dummy.strideMode = "free"
 
+dummy.moveTo(0, undefined, 1000, 5)
+
 const cam = new ThirdPersonCamera()
 cam.append(dummy)
 cam.active = true
