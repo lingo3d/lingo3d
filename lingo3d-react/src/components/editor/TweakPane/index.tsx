@@ -6,7 +6,7 @@ import useInit from "./useInit"
 type CustomEditorProps = {
   style?: React.CSSProperties
   className?: string
-  children?: any
+  children?: React.ReactNode
 }
 
 const CustomEditor: React.FC<CustomEditorProps> = ({

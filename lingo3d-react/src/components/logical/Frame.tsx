@@ -6,7 +6,7 @@ interface FrameProps {
   className?: string
   style?: React.CSSProperties
   distance?: number
-  children?: any
+  children?: React.ReactNode
 }
 
 const Frame: React.FC<FrameProps> = ({

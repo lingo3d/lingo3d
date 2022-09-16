@@ -54,7 +54,7 @@ export const applyChanges = (
 const appendedSet = new WeakSet<any>()
 
 export default (
-  p: { children?: any },
+  p: { children?: React.ReactNode },
   ref: React.ForwardedRef<any>,
   ManagerClass: any
 ) => {
