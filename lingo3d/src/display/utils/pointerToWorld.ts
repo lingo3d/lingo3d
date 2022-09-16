@@ -1,19 +1,19 @@
 import { Point3d } from "@lincode/math"
 import { scaleDown } from "../../engine/constants"
-import { containerBounds } from "../../engine/renderLoop/renderSetup"
 import { LingoMouseEvent } from "../../interface/IMouse"
 import { getCameraPointerLock } from "../../states/useCameraPointerLock"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import getWorldPosition from "./getWorldPosition"
+import normalizeClientPosition from "./normalizeClientPosition"
 import { vector3 } from "./reusables"
 import { vec2Point } from "./vec2Point"
 
 export default (ev: { clientX: number; clientY: number }) => {
-    const rect = containerBounds[0]
-    const clientX = ev.clientX - rect.x
-    const clientY = ev.clientY - rect.y
-
     const distance = 500
+    const [xNorm, yNorm, clientX, clientY] = normalizeClientPosition(
+        ev.clientX,
+        ev.clientY
+    )
 
     if (getCameraPointerLock())
         return new LingoMouseEvent(
@@ -25,9 +25,6 @@ export default (ev: { clientX: number; clientY: number }) => {
             distance,
             undefined
         )
-
-    const xNorm = (clientX / rect.width) * 2 - 1
-    const yNorm = -(clientY / rect.height) * 2 + 1
 
     const camera = getCameraRendered()
     vector3.set(xNorm, yNorm, 0.5)

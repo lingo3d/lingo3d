@@ -9,7 +9,7 @@ import { vec2Point } from "../../../utils/vec2Point"
 const raycaster = new Raycaster()
 raycaster.firstHitOnly = true
 
-const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
+export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     raycaster.setFromCamera({ x, y }, getCameraRendered())
     return raycaster.intersectObjects([...candidates])[0]
 }

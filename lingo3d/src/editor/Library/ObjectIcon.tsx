@@ -3,15 +3,28 @@ import createObject from "../../api/serializer/createObject"
 import { GameObjectType } from "../../api/serializer/types"
 import { container } from "../../engine/renderLoop/renderSetup"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import { point2Vec } from "../../display/utils/vec2Point"
+import { point2Vec, vec2Point } from "../../display/utils/vec2Point"
 import clientToWorld from "../../display/utils/clientToWorld"
+import { raycast } from "../../display/core/StaticObjectManager/raycast/pickable"
+import selectionCandidates from "../../display/core/StaticObjectManager/raycast/selectionCandidates"
+import visualize from "../../display/utils/visualize"
+import normalizeClientPosition from "../../display/utils/normalizeClientPosition"
 
 let draggingItem: string | undefined
 
 container.addEventListener("dragover", (e) => {
     e.preventDefault()
+    if (!draggingItem) return
 
-    // console.log(e.clientX, e.clientY)
+    const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
+    const result = raycast(xNorm, yNorm, selectionCandidates)
+    if (!result) return
+
+    const point = vec2Point(result.point)
+
+    console.log(point)
+
+    visualize("editorDrag", point)
 })
 container.addEventListener("dragenter", (e) => e.preventDefault())
 document.addEventListener("drop", (e) => e.preventDefault())
