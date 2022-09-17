@@ -21,10 +21,9 @@ container.addEventListener("dragover", (e) => {
     if (!result) return
 
     const point = vec2Point(result.point)
-
-    console.log(point)
-
-    visualize("editorDrag", point)
+    const ball = visualize("editorDrag", point)
+    selectionCandidates.delete(ball.outerObject3d)
+    selectionCandidates.delete(ball.object3d)
 })
 container.addEventListener("dragenter", (e) => e.preventDefault())
 document.addEventListener("drop", (e) => e.preventDefault())
@@ -42,11 +41,16 @@ type ObjectIconProps = {
     iconName?: string
 }
 
+const img = document.createElement("img")
+
 const ObjectIcon = ({ name, iconName = name }: ObjectIconProps) => {
     return (
         <div
             draggable
-            onDragStart={() => (draggingItem = name)}
+            onDragStart={(e) => {
+                draggingItem = name
+                e.dataTransfer!.setDragImage(img, 0, 0)
+            }}
             onDragEnd={() => (draggingItem = undefined)}
             style={{
                 width: "50%",

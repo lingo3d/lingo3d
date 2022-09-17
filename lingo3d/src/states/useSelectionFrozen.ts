@@ -1,12 +1,12 @@
 import store from "@lincode/reactivity"
-import MeshItem from "../display/core/MeshItem"
+import Appendable from "../api/core/Appendable"
 import { emitSelectionRecompute } from "../events/onSelectionRecompute"
 
 export const [setSelectionFrozen, getSelectionFrozen] = store([
-    new Set<MeshItem>()
+    new Set<Appendable>()
 ])
 
-export const addSelectionFrozen = (item: MeshItem) => {
+export const addSelectionFrozen = (item: Appendable) => {
     const [frozenSet] = getSelectionFrozen()
     frozenSet.add(item)
     setSelectionFrozen([frozenSet])

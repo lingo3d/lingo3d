@@ -16,13 +16,14 @@ import {
     setSelectionTarget
 } from "../../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
+import Sphere from "../../../primitives/Sphere"
 import { vec2Point } from "../../../utils/vec2Point"
 import pickable from "./pickable"
 import selectionCandidates, {
     getSelectionCandidates
 } from "./selectionCandidates"
 
-let pathObjects: Array<Object3D> = []
+let pathObjects: Array<Sphere> = []
 
 export default () => {
     createNestedEffect(() => {
@@ -61,7 +62,7 @@ export default () => {
                         target.scale = 0.1
                         target.placeAt(e.point)
                         target.name = "point" + pathObjects.length
-                        pathObjects.push(target.outerObject3d)
+                        pathObjects.push(target)
                         emitSelectionTarget(target)
                         curve.addPoint(vec2Point(target.outerObject3d.position))
                     })
