@@ -79,6 +79,7 @@ import FoundManager from "./display/core/FoundManager"
 
 import { onAfterRender } from "./events/onAfterRender"
 import { onBeforeRender } from "./events/onBeforeRender"
+import { onFirstLoad } from "./events/onFirstLoad"
 
 import { Point3d, Point } from "@lincode/math"
 import clientToWorld from "./display/utils/clientToWorld"
@@ -164,6 +165,7 @@ export {
     FoundManager as Found,
     onAfterRender,
     onBeforeRender,
+    onFirstLoad,
     Point3d,
     Point,
     clientToWorld,
