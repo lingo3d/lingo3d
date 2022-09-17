@@ -3,6 +3,7 @@ import { createEffect } from "@lincode/reactivity"
 import { Clock } from "three"
 import { getRenderer } from "../states/useRenderer"
 import { getFps } from "../states/useFps"
+import { getFirstLoad } from "../states/useFirstLoad"
 
 export const timer = (time: number, repeat: number, cb: () => void) => {
     let count = 0
@@ -24,7 +25,7 @@ export const dt = [0]
 
 createEffect(() => {
     const renderer = getRenderer()
-    if (!renderer) return
+    if (!renderer || !getFirstLoad()) return
 
     const targetDelta = (1 / getFps()) * 0.9
     const fullDelta = 1 / 60
@@ -37,7 +38,7 @@ createEffect(() => {
         delta = 0
         for (const cb of callbacks) cb()
     })
-}, [getFps, getRenderer])
+}, [getFps, getRenderer, getFirstLoad])
 
 export const loop = (cb: () => void) => {
     callbacks.add(cb)

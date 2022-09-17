@@ -21,12 +21,14 @@ import { getEditing } from "../../../../states/useEditing"
 import { bvhCharacterSet } from "./bvhCharacterSet"
 import { bvhManagerMap } from "./bvhManagerMap"
 import { fpsRatio } from "../../../../engine/eventLoop"
+import { getFirstLoad } from "../../../../states/useFirstLoad"
+import { getBVHComputing } from "../../../../states/useBVHComputingCount"
 
 const makeWeakSet = () => new WeakSet()
 
 createEffect(
     function (this: PhysicsObjectManager) {
-        if (getEditing()) return
+        if (getEditing() || !getFirstLoad() || getBVHComputing()) return
 
         const bvhArray = getBVHMap()
         if (!bvhArray.length) return
@@ -166,5 +168,13 @@ createEffect(
             handle.cancel()
         }
     },
-    [getBVHMap, getGravity, getRepulsion, getCentripetal, getEditing]
+    [
+        getBVHMap,
+        getGravity,
+        getRepulsion,
+        getCentripetal,
+        getEditing,
+        getFirstLoad,
+        getBVHComputing
+    ]
 )

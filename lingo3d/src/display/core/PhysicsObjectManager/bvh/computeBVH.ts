@@ -1,6 +1,10 @@
 import { BufferGeometry, Mesh } from "three"
 import { MeshBVH } from "three-mesh-bvh"
 import PhysicsObjectManager from ".."
+import {
+    decreaseBVHComputing,
+    increaseBVHComputing
+} from "../../../../states/useBVHComputingCount"
 import Primitive from "../../Primitive"
 import { bvhManagerMap } from "./bvhManagerMap"
 import { acceleratedRaycast } from "./ExtensionUtilities"
@@ -19,6 +23,7 @@ const computeBVHFromGeometries = async (geometries: Array<BufferGeometry>) => {
 }
 
 export default async (item: PhysicsObjectManager) => {
+    increaseBVHComputing()
     item.outerObject3d.updateMatrixWorld(true)
 
     const geometries: Array<BufferGeometry> = []
@@ -35,5 +40,6 @@ export default async (item: PhysicsObjectManager) => {
     const bvhArray = await computeBVHFromGeometries(geometries)
     for (const bvh of bvhArray) bvhManagerMap.set(bvh, item)
 
+    decreaseBVHComputing()
     return <const>[bvhArray, geometries]
 }

@@ -1,18 +1,17 @@
-import { event } from "@lincode/events"
+import store from "@lincode/reactivity"
 import { debounce } from "@lincode/utils"
-import { getLoadingCount } from "../states/useLoadingCount"
+import { getLoadingCount } from "./useLoadingCount"
 
-const [emitFirstLoad, onFirstLoad] = event()
-export { onFirstLoad }
+export const [setFirstLoad, getFirstLoad] = store(false)
 
 const handle = getLoadingCount(
     debounce(
         (loadingCount: number) => {
             if (loadingCount) return
             handle.cancel()
-            emitFirstLoad()
+            setFirstLoad(true)
         },
-        1000,
+        100,
         "trailing"
     )
 )

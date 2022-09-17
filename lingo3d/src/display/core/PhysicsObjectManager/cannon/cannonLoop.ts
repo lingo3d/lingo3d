@@ -6,6 +6,7 @@ import { onBeforeRender } from "../../../../events/onBeforeRender"
 import PhysicsObjectManager from ".."
 import { getEditing } from "../../../../states/useEditing"
 import { dt } from "../../../../engine/eventLoop"
+import { getFirstLoad } from "../../../../states/useFirstLoad"
 
 export const cannonSet = new Set<PhysicsObjectManager>()
 export const cannonContactMap = new Map<Body, WeakSet<Body>>()
@@ -15,7 +16,7 @@ const makeWeakSet = () => new WeakSet()
 
 createEffect(
     function (this: PhysicsObjectManager) {
-        if (getEditing()) return
+        if (getEditing() || !getFirstLoad()) return
 
         const world = getPhysicsWorld()
         if (!world) return
@@ -103,5 +104,5 @@ createEffect(
             handle.cancel()
         }
     },
-    [getPhysicsWorld, getEditing]
+    [getPhysicsWorld, getEditing, getFirstLoad]
 )
