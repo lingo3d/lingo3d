@@ -11,7 +11,7 @@ const handle = getLoadingCount(
             handle.cancel()
             setFirstLoad(true)
         },
-        100,
+        1000,
         "trailing"
     )
 )

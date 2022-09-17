@@ -1,8 +1,11 @@
 import { lazy } from "@lincode/utils"
 import { getGravity } from "../../../../states/useGravity"
+import { decreaseLoadingCount, increaseLoadingCount } from "../../../../states/useLoadingCount"
 import { setPhysicsWorld } from "../../../../states/usePhysicsWorld"
 
 export default lazy(async () => {
+    increaseLoadingCount()
+
     const {
         World,
         GSSolver,
@@ -51,8 +54,9 @@ export default lazy(async () => {
             restitution: 0.0
         })
     )
-
     setPhysicsWorld(world)
+
+    decreaseLoadingCount()
     return {
         world,
         defaultMaterial,

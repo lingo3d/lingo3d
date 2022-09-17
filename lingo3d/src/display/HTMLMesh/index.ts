@@ -6,10 +6,13 @@ import IHTMLMesh, {
 import ObjectManager from "../core/ObjectManager"
 import createElement from "../../utils/createElement"
 import { Cancellable } from "@lincode/promiselikes"
+import { makeLazyImport } from "../utils/lazyImports"
 
 const elementContainerTemplate = createElement(`
     <div style="position: absolute; visibility: hidden; pointer-events: none;"></div>
 `)
+
+const lazyImportHTMLMesh = makeLazyImport(() => import("./HTMLMesh"))
 
 export default class HTMLMesh extends ObjectManager implements IHTMLMesh {
     public static componentName = "htmlMesh"
@@ -37,7 +40,7 @@ export default class HTMLMesh extends ObjectManager implements IHTMLMesh {
             elementContainer.appendChild(element)
 
             const handle = new Cancellable()
-            import("./HTMLMesh").then(({ HTMLMesh, HTMLSprite }) => {
+            lazyImportHTMLMesh().then(({ HTMLMesh, HTMLSprite }) => {
                 if (handle.done) return
 
                 const mesh = this.spriteState.get()

@@ -38,6 +38,11 @@ import makeCameraSprite from "../utils/makeCameraSprite"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import getWorldDirection from "../../utils/getWorldDirection"
+import { makeLazyImport } from "../../utils/lazyImports"
+
+const lazyImportEnableMouseControl = makeLazyImport(
+    () => import("./enableMouseControl")
+)
 
 export default abstract class CameraBase<T extends PerspectiveCamera>
     extends ObjectManager
@@ -357,7 +362,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
         if (!val || this.mouseControlInit) return
         this.mouseControlInit = true
 
-        import("./enableMouseControl").then((module) =>
+        lazyImportEnableMouseControl().then((module) =>
             module.default.call(this)
         )
     }

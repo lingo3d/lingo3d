@@ -6,6 +6,11 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { getRenderer } from "../../states/useRenderer"
 import copyStandard from "../core/StaticObjectManager/applyMaterialProperties/copyStandard"
 import Plane from "../primitives/Plane"
+import { makeLazyImport } from "../utils/lazyImports"
+
+const lazyImportMeshReflectorMaterial = makeLazyImport(
+    () => import("./MeshReflectorMaterial")
+)
 
 export default class Reflector extends Plane {
     public static override componentName = "reflector"
@@ -17,7 +22,7 @@ export default class Reflector extends Plane {
         this.rotationX = -90
         this.materialCloned = true
 
-        import("./MeshReflectorMaterial").then((module) => {
+        lazyImportMeshReflectorMaterial().then((module) => {
             this.createEffect(() => {
                 const renderer = getRenderer()
                 if (!renderer || this.done) return

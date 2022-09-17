@@ -15,11 +15,14 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import Nullable from "../../interface/utils/Nullable"
+import { makeLazyImport } from "../utils/lazyImports"
+
+const lazyImportUniformLib = makeLazyImport(
+    () => import("three/examples/jsm/lights/RectAreaLightUniformsLib.js")
+)
 
 const lazyInit = lazy(async () => {
-    const { RectAreaLightUniformsLib } = await import(
-        "three/examples/jsm/lights/RectAreaLightUniformsLib.js"
-    )
+    const { RectAreaLightUniformsLib } = await lazyImportUniformLib()
     RectAreaLightUniformsLib.init()
 })
 

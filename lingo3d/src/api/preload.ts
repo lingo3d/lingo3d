@@ -2,6 +2,11 @@ import { getExtensionType } from "@lincode/filetypes"
 import { assertExhaustive } from "@lincode/utils"
 import { getExtensionIncludingObjectURL } from "../display/core/utils/objectURL"
 import {
+    lazyImportLoadFBX,
+    lazyImportLoadGLTF,
+    makeLazyImport
+} from "../display/utils/lazyImports"
+import {
     addLoadedBytesChangedEventListeners,
     removeLoadedBytesChangedEventListeners
 } from "../display/utils/loaders/bytesLoaded"
@@ -11,6 +16,8 @@ import { getLoadingCount } from "../states/useLoadingCount"
 import Appendable from "./core/Appendable"
 
 export const preloadModels = new WeakSet<Appendable>()
+
+const lazyImportModel = makeLazyImport(() => import("../display/Model"))
 
 export default async (
     urls: Array<string | (Partial<IModel> & { src: string })>,
@@ -57,9 +64,7 @@ export default async (
                 if (typeof url === "object") {
                     promises.push(
                         new Promise<void>(async (resolve) => {
-                            const { default: Model } = await import(
-                                "../display/Model"
-                            )
+                            const { default: Model } = await lazyImportModel()
                             const model = new Model(true)
                             Object.assign(model, url)
                             preloadModels.add(model)
@@ -70,8 +75,8 @@ export default async (
                 }
                 const module =
                     extension === "fbx"
-                        ? await import("../display/utils/loaders/loadFBX")
-                        : await import("../display/utils/loaders/loadGLTF")
+                        ? await lazyImportLoadFBX()
+                        : await lazyImportLoadGLTF()
                 promises.push(module.default(src, false))
             case "audio":
             case "plainText":

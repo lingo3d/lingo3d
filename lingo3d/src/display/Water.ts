@@ -7,6 +7,11 @@ import { onBeforeRender } from "../events/onBeforeRender"
 import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import { WATERNORMALS_URL } from "../globals"
 import ObjectManager from "./core/ObjectManager"
+import { makeLazyImport } from "./utils/lazyImports"
+
+const lazyImportWater = makeLazyImport(
+    () => import("three/examples/jsm/objects/Water")
+)
 
 export default class Water extends ObjectManager implements IWater {
     public static componentName = "water"
@@ -49,7 +54,7 @@ export default class Water extends ObjectManager implements IWater {
         super()
         this.rotationX = -90
 
-        import("three/examples/jsm/objects/Water").then(({ Water }) => {
+        lazyImportWater().then(({ Water }) => {
             this.createEffect(() => {
                 const normalMap = this.normalMapState.get()
                 if (!normalMap) return
