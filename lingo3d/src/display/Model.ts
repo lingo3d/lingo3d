@@ -118,6 +118,8 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     protected resolveLoaded(loadedObject3d: Group, src: string) {
+        if (this.unmounted) return loadedObject3d
+
         for (const clip of loadedObject3d.animations)
             this.animations[clip.name] = this.watch(
                 new AnimationManager(clip, loadedObject3d)
