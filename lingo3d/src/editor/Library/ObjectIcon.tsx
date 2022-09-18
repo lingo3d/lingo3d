@@ -9,12 +9,13 @@ import { raycast } from "../../display/core/StaticObjectManager/raycast/pickable
 import selectionCandidates from "../../display/core/StaticObjectManager/raycast/selectionCandidates"
 import visualize from "../../display/utils/visualize"
 import normalizeClientPosition from "../../display/utils/normalizeClientPosition"
+import { DEBUG } from "../../globals"
 
 let draggingItem: string | undefined
 
 container.addEventListener("dragover", (e) => {
     e.preventDefault()
-    if (!draggingItem) return
+    if (!draggingItem || !DEBUG) return
 
     const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
     const result = raycast(xNorm, yNorm, selectionCandidates)
@@ -49,7 +50,7 @@ const ObjectIcon = ({ name, iconName = name }: ObjectIconProps) => {
             draggable
             onDragStart={(e) => {
                 draggingItem = name
-                e.dataTransfer!.setDragImage(img, 0, 0)
+                DEBUG && e.dataTransfer!.setDragImage(img, 0, 0)
             }}
             onDragEnd={() => (draggingItem = undefined)}
             style={{
