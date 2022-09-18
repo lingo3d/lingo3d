@@ -1,8 +1,6 @@
 
 import { ThirdPersonCamera, Dummy, Reflector, settings, Cube } from ".."
 
-export default {}
-
 settings.gridHelper = true
 
 const reflector = new Reflector()

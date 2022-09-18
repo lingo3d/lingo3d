@@ -2,8 +2,6 @@
 import { Model, Cube, OrbitCamera, Sky } from ".."
 import { random } from "@lincode/utils"
 
-export default {}
-
 const sky = new Sky()
 
 const island = new Model()

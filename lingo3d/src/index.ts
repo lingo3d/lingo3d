@@ -88,8 +88,6 @@ export type {
     LingoMouseEvent as MouseEvent
 } from "./interface/IMouse"
 
-export default {}
-
 export {
     Cube,
     Sphere,

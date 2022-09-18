@@ -1,7 +1,5 @@
 import { Cube, Cylinder, pillShape, Torus } from "../index"
 
-export default {}
-
 const pole2 = new Cylinder()
 pole2.scaleX = pole2.scaleZ = 0.2
 pole2.rotationZ = 90

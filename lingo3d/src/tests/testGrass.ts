@@ -13,8 +13,6 @@ import { vector3, vector3_ } from "../display/utils/reusables"
 import scene from "../engine/scene"
 import { onBeforeRender } from "../events/onBeforeRender"
 
-export default {}
-
 const leavesMaterial = new ShaderMaterial({
     vertexShader: `
         varying vec2 vUv;

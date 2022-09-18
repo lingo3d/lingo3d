@@ -10,8 +10,6 @@ import {
 } from ".."
 import { YBOT_URL } from "../globals"
 
-export default {}
-
 const spawn = new SpawnPoint()
 spawn.id = "spawn"
 spawn.x = -3888.93

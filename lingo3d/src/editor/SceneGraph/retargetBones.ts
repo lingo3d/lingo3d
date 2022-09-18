@@ -3,8 +3,6 @@ import { createEffect } from "@lincode/reactivity"
 import { Bone as ThreeBone } from "three"
 import { getRetargetBones } from "../../states/useRetargetBones"
 
-export default {}
-
 createEffect(() => {
     const dummy = getRetargetBones()
     if (!dummy) return

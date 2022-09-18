@@ -8,8 +8,6 @@ import { onBeforeRender } from "../events/onBeforeRender"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getRenderer } from "../states/useRenderer"
 
-export default {}
-
 // ShadowMap + LightMap Res and Number of Directional Lights
 const shadowMapRes = 512,
     lightMapRes = 1024,

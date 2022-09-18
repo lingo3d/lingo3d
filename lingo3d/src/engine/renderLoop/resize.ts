@@ -11,8 +11,6 @@ import {
     updateCameraAspect
 } from "../../states/useCameraRendered"
 
-export default {}
-
 const getZ = (height: number, camera: PerspectiveCamera) =>
     Math.abs((height * 0.5) / Math.cos(camera.fov * 0.6 * deg2Rad))
 

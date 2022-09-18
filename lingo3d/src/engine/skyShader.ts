@@ -5,8 +5,6 @@ import scene from "./scene"
 import { getSkyShader } from "../states/useSkyShader"
 import { vector3 } from "../display/utils/reusables"
 
-export default {}
-
 const lazySky = lazy(() => {
     const sky = new Sky()
     sky.scale.setScalar(450000)

@@ -7,8 +7,6 @@ import { getSelectionTarget } from "../states/useSelectionTarget"
 import mainCamera from "./mainCamera"
 import scene from "./scene"
 
-export default {}
-
 createEffect(() => {
     const target = getSelectionTarget()
     if (!(target instanceof Loaded) || getCameraRendered() !== mainCamera)

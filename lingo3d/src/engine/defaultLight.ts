@@ -19,8 +19,6 @@ import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import { getRenderer } from "../states/useRenderer"
 import scene from "./scene"
 
-export default {}
-
 const defaultEnvironment = new Environment()
 defaultEnvironment.texture = undefined
 appendableRoot.delete(defaultEnvironment)

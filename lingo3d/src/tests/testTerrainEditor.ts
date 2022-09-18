@@ -2,8 +2,6 @@ import { random } from "@lincode/utils"
 import { PlaneGeometry, MeshPhongMaterial, Mesh } from "three"
 import scene from "../engine/scene"
 
-export default {}
-
 const geometry = new PlaneGeometry(60, 60, 9, 9)
 
 const material = new MeshPhongMaterial({

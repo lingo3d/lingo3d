@@ -1,8 +1,6 @@
 import settings from "../api/settings"
 import Water from "../display/Water"
 
-export default {}
-
 settings.skybox = [
     "skybox/Left.png",
     "skybox/Right.png",

@@ -4,8 +4,6 @@ import { getGridHelper } from "../states/useGridHelper"
 import { getGridHelperSize } from "../states/useGridHelperSize"
 import scene from "./scene"
 
-export default {}
-
 createEffect(() => {
     if (!getGridHelper()) return
 

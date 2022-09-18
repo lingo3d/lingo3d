@@ -1,7 +1,5 @@
 import { settings, Model } from ".."
 
-export default {}
-
 const model = new Model()
 model.src = "keannu.glb"
 model.scale = 5

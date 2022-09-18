@@ -1,8 +1,6 @@
 import { Vector2 } from "three"
 import { Cube } from ".."
 
-export default {}
-
 const cube = new Cube()
 cube.texture = "road.jpg"
 

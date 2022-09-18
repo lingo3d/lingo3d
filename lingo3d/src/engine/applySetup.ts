@@ -6,8 +6,6 @@ import NullableDefault from "../interface/utils/NullableDefault"
 import { getSetupStack } from "../states/useSetupStack"
 import setupStruct from "./setupStruct"
 
-export default {}
-
 const setupDefaultsMapped = Object.fromEntries(
     Object.entries(setupDefaults).map(([key, value]) => [
         key,

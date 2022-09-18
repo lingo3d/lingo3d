@@ -1,8 +1,6 @@
 import settings from "../api/settings"
 import Model from "../display/Model"
 
-export default {}
-
 const map = new Model()
 map.src = "bugp.glb"
 map.scale = 150

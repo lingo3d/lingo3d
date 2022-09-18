@@ -11,8 +11,6 @@ import { getEditorModeComputed } from "../states/useEditorModeComputed"
 import { getTransformControlsSpaceComputed } from "../states/useTransformControlsSpaceComputed"
 import { getCameraRendered } from "../states/useCameraRendered"
 
-export default {}
-
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import(
         "three/examples/jsm/controls/TransformControls"

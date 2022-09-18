@@ -1,8 +1,6 @@
 import Dummy from "../display/Dummy"
 import Joystick from "../ui/Joystick"
 
-export default {}
-
 const dummy = new Dummy()
 
 const joystick = new Joystick()

@@ -1,8 +1,6 @@
 import { Point3d } from "@lincode/math"
 import Curve from "../display/Curve"
 
-export default {}
-
 const curve = new Curve()
 curve.points = [
     new Point3d(289, 452, 56),

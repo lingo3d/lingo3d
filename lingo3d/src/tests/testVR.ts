@@ -7,8 +7,6 @@ import { setVR } from "../states/useVR"
 
 setVR("webxr")
 
-export default {}
-
 const player = new Cube()
 player.width = 50
 player.depth = 50

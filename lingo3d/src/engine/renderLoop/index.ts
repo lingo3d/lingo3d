@@ -22,8 +22,6 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { emitRender } from "../../events/onRender"
 import getWorldPosition from "../../display/utils/getWorldPosition"
 
-export default {}
-
 createEffect(() => {
     const renderer = getRenderer()
     if (!renderer) return

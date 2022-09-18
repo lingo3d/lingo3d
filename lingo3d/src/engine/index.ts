@@ -10,8 +10,6 @@ import "./background"
 import "./defaultLight"
 import "./applySetup"
 
-export default {}
-
 const w = window as any
 "__THREE__" in w && (w.__THREE__ += " - Lingo3D Beta")
 

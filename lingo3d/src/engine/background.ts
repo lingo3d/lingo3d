@@ -8,8 +8,6 @@ import { getBackgroundImage } from "../states/useBackgroundImage"
 import { getSkyboxStack } from "../states/useSkyboxStack"
 import { last } from "@lincode/utils"
 
-export default {}
-
 createEffect(() => {
     const image = getBackgroundImage()
     const color = getBackgroundColor()

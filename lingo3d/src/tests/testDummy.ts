@@ -9,6 +9,4 @@ import {
     Joystick
 } from ".."
 
-export default {}
-
 const dummy = new Dummy()

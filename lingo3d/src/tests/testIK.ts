@@ -2,8 +2,6 @@ import { Camera } from ".."
 import OrbitCamera from "../display/cameras/OrbitCamera"
 import Dummy from "../display/Dummy"
 
-export default {}
-
 const player = new Dummy()
 player.id = "player"
 player.src = "player2.glb"

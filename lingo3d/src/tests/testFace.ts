@@ -1,7 +1,5 @@
 import { PointLight, SkyLight, settings, Sky, Model } from ".."
 
-export default {}
-
 const model = new Model()
 model.src = "face.glb"
 model.scale = 5

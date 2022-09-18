@@ -1,7 +1,5 @@
 import { AreaLight, Cube } from ".."
 
-export default {}
-
 let box = new Cube()
 
 let light = new AreaLight()

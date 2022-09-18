@@ -5,8 +5,6 @@ import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTarge
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import scene from "./scene"
 
-export default {}
-
 createEffect(() => {
     const target = getSelectionTarget()
     if (!target) return

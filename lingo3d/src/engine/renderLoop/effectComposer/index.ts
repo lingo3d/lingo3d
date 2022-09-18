@@ -20,8 +20,6 @@ import { getAntiAlias } from "../../../states/useAntiAlias"
 import { getRenderer } from "../../../states/useRenderer"
 import smaaPass from "./smaaPass"
 
-export default {}
-
 createEffect(() => {
     const effectComposer = getEffectComposer()
     if (!effectComposer) return
