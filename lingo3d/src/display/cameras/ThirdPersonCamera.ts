@@ -16,7 +16,6 @@ import StaticObjectManager from "../core/StaticObjectManager"
 import fpsAlpha from "../utils/fpsAlpha"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
-import { makeLazyImport } from "../utils/lazyImports"
 
 const setVisible = (
     target: MeshItem | StaticObjectManager,
@@ -33,10 +32,6 @@ createEffect(() => {
         (!!getEditorMounted() && getCameraRendered() === mainCamera)
 }, [getEditing, getEditorMounted, getCameraRendered])
 
-const lazyImportBVHCameraLoop = makeLazyImport(
-    () => import("../core/PhysicsObjectManager/bvh/bvhCameraLoop")
-)
-
 export default class ThirdPersonCamera
     extends CharacterCamera
     implements IThirdPersonCamera
@@ -52,7 +47,7 @@ export default class ThirdPersonCamera
 
         const cam = this.camera
 
-        lazyImportBVHCameraLoop().then(() => {
+        import("../core/PhysicsObjectManager/bvh/bvhCameraLoop").then(() => {
             this.createEffect(() => {
                 const target = this.targetState.get()
                 if (!target) {

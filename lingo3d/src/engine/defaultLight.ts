@@ -9,7 +9,6 @@ import {
 import { appendableRoot } from "../api/core/Appendable"
 import Environment from "../display/Environment"
 import getWorldPosition from "../display/utils/getWorldPosition"
-import { makeLazyImport } from "../display/utils/lazyImports"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { FAR, TEXTURES_URL } from "../globals"
@@ -65,13 +64,6 @@ createEffect(() => {
     }
 }, [getEnvironmentStack])
 
-const lazyImportSkylight = makeLazyImport(
-    () => import("../display/lights/SkyLight")
-)
-const lazyImportDirectionalLight = makeLazyImport(
-    () => import("../display/lights/DirectionalLight")
-)
-
 createEffect(() => {
     const defaultLight = getDefaultLight()
     if (!defaultLight) return
@@ -87,7 +79,7 @@ createEffect(() => {
 
     const handle = new Cancellable()
 
-    lazyImportSkylight().then((module) => {
+    import("../display/lights/SkyLight").then((module) => {
         const SkyLight = module.default
         const light = new SkyLight()
         appendableRoot.delete(light)
@@ -95,7 +87,7 @@ createEffect(() => {
         light.groundColor = "#666666"
         handle.then(() => light.dispose())
     })
-    lazyImportDirectionalLight().then((module) => {
+    import("../display/lights/DirectionalLight").then((module) => {
         const DirectionalLight = module.default
         const light = new DirectionalLight()
         appendableRoot.delete(light)

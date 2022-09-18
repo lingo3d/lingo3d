@@ -10,7 +10,6 @@ import FoundManager from "./core/FoundManager"
 import { Reactive } from "@lincode/reactivity"
 import measure from "./utils/measure"
 import { getExtensionIncludingObjectURL } from "./core/utils/objectURL"
-import { lazyImportLoadFBX, lazyImportLoadGLTF } from "./utils/lazyImports"
 import {
     decreaseLoadingCount,
     increaseLoadingCount
@@ -90,8 +89,8 @@ export default class Model extends Loaded<Group> implements IModel {
 
         const module =
             extension === "fbx"
-                ? await lazyImportLoadFBX()
-                : await lazyImportLoadGLTF()
+                ? await import("./utils/loaders/loadFBX")
+                : await import("./utils/loaders/loadGLTF")
 
         let result: Group
         try {

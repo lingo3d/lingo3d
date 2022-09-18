@@ -2,11 +2,6 @@ import { getExtensionType } from "@lincode/filetypes"
 import { assertExhaustive } from "@lincode/utils"
 import { getExtensionIncludingObjectURL } from "../display/core/utils/objectURL"
 import {
-    lazyImportLoadFBX,
-    lazyImportLoadGLTF,
-    makeLazyImport
-} from "../display/utils/lazyImports"
-import {
     addLoadedBytesChangedEventListeners,
     removeLoadedBytesChangedEventListeners
 } from "../display/utils/loaders/bytesLoaded"
@@ -17,7 +12,14 @@ import Appendable from "./core/Appendable"
 
 export const preloadModels = new WeakSet<Appendable>()
 
-const lazyImportModel = makeLazyImport(() => import("../display/Model"))
+const preloadModelPromise = (properties: Partial<IModel>) =>
+    new Promise<void>(async (resolve) => {
+        const { default: Model } = await import("../display/Model")
+        const model = new Model(true)
+        Object.assign(model, properties)
+        preloadModels.add(model)
+        model.onLoad = resolve
+    })
 
 export default async (
     urls: Array<string | (Partial<IModel> & { src: string })>,
@@ -61,23 +63,9 @@ export default async (
                 if (!extension || !["fbx", "glb", "gltf"].includes(extension))
                     break
 
-                if (typeof url === "object") {
-                    promises.push(
-                        new Promise<void>(async (resolve) => {
-                            const { default: Model } = await lazyImportModel()
-                            const model = new Model(true)
-                            Object.assign(model, url)
-                            preloadModels.add(model)
-                            model.onLoad = resolve
-                        })
-                    )
-                    break
-                }
-                const module =
-                    extension === "fbx"
-                        ? await lazyImportLoadFBX()
-                        : await lazyImportLoadGLTF()
-                promises.push(module.default(src, false))
+                if (typeof url === "object")
+                    promises.push(preloadModelPromise(url))
+                else promises.push(preloadModelPromise({ src }))
             case "audio":
             case "plainText":
             case "scene":

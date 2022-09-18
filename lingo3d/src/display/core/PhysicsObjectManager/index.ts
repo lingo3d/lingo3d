@@ -16,13 +16,6 @@ import { cannonContactBodies, cannonContactMap } from "./cannon/cannonLoop"
 import MeshItem from "../MeshItem"
 import characterCameraPlaced from "../CharacterCamera/characterCameraPlaced"
 import PhysicsUpdate from "./PhysicsUpdate"
-import { makeLazyImport } from "../../utils/lazyImports"
-
-const lazyImportEnableCannon = makeLazyImport(() => import("./enableCannon"))
-const lazyImportEnableBVHMap = makeLazyImport(() => import("./enableBVHMap"))
-const lazyImportEnableBVHCharacter = makeLazyImport(
-    () => import("./enableBVHCharacter")
-)
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -182,28 +175,28 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         switch (val) {
             case true:
             case "2d":
-                lazyImportEnableCannon().then((module) =>
+                import("./enableCannon").then((module) =>
                     module.default.call(this, handle)
                 )
                 break
 
             case "map":
                 this.bvhMap = true
-                lazyImportEnableBVHMap().then((module) =>
+                import("./enableBVHMap").then((module) =>
                     module.default.call(this, handle, false)
                 )
                 break
 
             case "map-debug":
                 this.bvhMap = true
-                lazyImportEnableBVHMap().then((module) =>
+                import("./enableBVHMap").then((module) =>
                     module.default.call(this, handle, true)
                 )
                 break
 
             case "character":
                 this.bvhCharacter = true
-                lazyImportEnableBVHCharacter().then((module) =>
+                import("./enableBVHCharacter").then((module) =>
                     module.default.call(this, handle)
                 )
                 break

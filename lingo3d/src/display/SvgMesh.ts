@@ -8,7 +8,6 @@ import fit from "./utils/fit"
 import measure from "./utils/measure"
 import ISvgMesh, { svgMeshDefaults, svgMeshSchema } from "../interface/ISvgMesh"
 import { standardMaterial } from "./utils/reusables"
-import { lazyImportLoadSVG } from "./utils/lazyImports"
 import {
     decreaseLoadingCount,
     increaseLoadingCount
@@ -25,11 +24,10 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
 
     protected async load(url: string) {
         increaseLoadingCount()
+        const module = await import("./utils/loaders/loadSVG")
         let result: SVGResult
         try {
-            result = await lazyImportLoadSVG().then((module) =>
-                module.default(url)
-            )
+            result = await module.default(url)
         } catch {
             decreaseLoadingCount()
             throw new Error("Failed to load svg, check if src is correct")
