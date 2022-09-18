@@ -7,6 +7,8 @@ import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
 const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates
 
+export const unselectableSet = new WeakSet<StaticObjectManager>()
+
 const traverse = (
     targets:
         | Array<Appendable | StaticObjectManager>
@@ -16,7 +18,7 @@ const traverse = (
     for (const manager of targets) {
         if (frozenSet.has(manager)) continue
 
-        if ("addToRaycastSet" in manager)
+        if ("addToRaycastSet" in manager && !unselectableSet.has(manager))
             //@ts-ignore
             manager.addToRaycastSet(selectionCandidates)
 

@@ -30,7 +30,7 @@ cam.transition = true
 cam.append(player)
 cam.mouseControl = "drag"
 cam.active = true
-cam.lockTargetRotation = false
+cam.lockTargetRotation = "dynamic-lock"
 
 const map = new Model()
 map.src = "fairy.glb"
@@ -45,9 +45,3 @@ settings.skybox = [
     "skybox/Front.png",
     "skybox/Back.png"
 ]
-
-map.onClick = (e) => {
-    player.lookTo(e.point.x, undefined, e.point.z, 0.1)
-    cam.lookTo(e.point.x, undefined, e.point.z, 0.1)
-    player.moveTo(e.point.x, undefined, e.point.z, 5)
-}

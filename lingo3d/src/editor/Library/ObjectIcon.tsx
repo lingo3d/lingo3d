@@ -23,8 +23,6 @@ container.addEventListener("dragover", (e) => {
 
     const point = vec2Point(result.point)
     const ball = visualize("editorDrag", point)
-    selectionCandidates.delete(ball.outerObject3d)
-    selectionCandidates.delete(ball.object3d)
 })
 container.addEventListener("dragenter", (e) => e.preventDefault())
 document.addEventListener("drop", (e) => e.preventDefault())
