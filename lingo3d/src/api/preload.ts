@@ -1,28 +1,22 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { assertExhaustive } from "@lincode/utils"
-import { getExtensionIncludingObjectURL } from "../display/core/utils/objectURL"
 import {
     addLoadedBytesChangedEventListeners,
     removeLoadedBytesChangedEventListeners
 } from "../display/utils/loaders/bytesLoaded"
 import loadTexturePromise from "../display/utils/loaders/loadTexturePromise"
-import IModel from "../interface/IModel"
 import { getLoadingCount } from "../states/useLoadingCount"
-import Appendable from "./core/Appendable"
 
-export const preloadModels = new WeakSet<Appendable>()
-
-const preloadModelPromise = (properties: Partial<IModel>) =>
+const preloadModelPromise = (src: string) =>
     new Promise<void>(async (resolve) => {
         const { default: Model } = await import("../display/Model")
         const model = new Model(true)
-        Object.assign(model, properties)
-        preloadModels.add(model)
+        model.src = src
         model.onLoad = resolve
     })
 
 export default async (
-    urls: Array<string | (Partial<IModel> & { src: string })>,
+    urls: Array<string>,
     total: number | string,
     onProgress?: (value: number) => void
 ) => {
@@ -47,25 +41,15 @@ export default async (
     }
     addLoadedBytesChangedEventListeners(handleLoadedBytesChanged)
 
-    for (const url of urls) {
-        const src = typeof url === "string" ? url : url.src
-
+    for (const src of urls) {
         const filetype = getExtensionType(src)
         if (!filetype) continue
 
         switch (filetype) {
             case "image":
                 promises.push(loadTexturePromise(src))
-                break
-
             case "model":
-                const extension = getExtensionIncludingObjectURL(src)
-                if (!extension || !["fbx", "glb", "gltf"].includes(extension))
-                    break
-
-                if (typeof url === "object")
-                    promises.push(preloadModelPromise(url))
-                else promises.push(preloadModelPromise({ src }))
+                promises.push(preloadModelPromise(src))
             case "audio":
             case "plainText":
             case "scene":

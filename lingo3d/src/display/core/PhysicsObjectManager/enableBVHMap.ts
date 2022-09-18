@@ -1,18 +1,12 @@
 import { pullBVHMap, pushBVHMap } from "../../../states/useBVHMap"
 import { wireframeMaterial } from "../../utils/reusables"
-import { BufferGeometry, Mesh } from "three"
+import { Mesh } from "three"
 import scene from "../../../engine/scene"
 import { Cancellable } from "@lincode/promiselikes"
 import computeBVH from "./bvh/computeBVH"
 import PhysicsObjectManager from "."
-import { MeshBVH, MeshBVHVisualizer } from "three-mesh-bvh"
+import { MeshBVHVisualizer } from "three-mesh-bvh"
 import Loaded from "../Loaded"
-import { preloadModels } from "../../../api/preload"
-
-const cache = new Map<
-    string,
-    Promise<readonly [Array<MeshBVH>, Array<BufferGeometry>]>
->()
 
 export default async function (
     this: PhysicsObjectManager | Loaded,
@@ -21,20 +15,9 @@ export default async function (
 ) {
     if (handle.done) return
 
-    let bvhMaps: Array<MeshBVH>
-    let geometries: Array<BufferGeometry>
-    if ("src" in this && this.src && cache.has(this.src))
-        [bvhMaps, geometries] = await cache.get(this.src)!
-    else {
-        const result = computeBVH(this)
-        "src" in this && this.src && cache.set(this.src, result)
-        ;[bvhMaps, geometries] = await result
-    }
-
-    if (preloadModels.has(this)) return
+    const [bvhMaps, geometries] = await computeBVH(this)
 
     for (const bvhMap of bvhMaps) pushBVHMap(bvhMap)
-
     handle.then(() => {
         for (const bvhMap of bvhMaps) pullBVHMap(bvhMap)
     })
