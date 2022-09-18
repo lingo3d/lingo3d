@@ -11,6 +11,10 @@ import { Reactive } from "@lincode/reactivity"
 import measure from "./utils/measure"
 import { getExtensionIncludingObjectURL } from "./core/utils/objectURL"
 import { lazyImportLoadFBX, lazyImportLoadGLTF } from "./utils/lazyImports"
+import {
+    decreaseLoadingCount,
+    increaseLoadingCount
+} from "../states/useLoadingCount"
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -72,6 +76,7 @@ export default class Model extends Loaded<Group> implements IModel {
     }
 
     protected async load(url: string) {
+        increaseLoadingCount()
         const resolvable = new Resolvable()
         this.loadingState.set(this.loadingState.get() + 1)
 
@@ -79,6 +84,7 @@ export default class Model extends Loaded<Group> implements IModel {
         if (!extension || !["fbx", "glb", "gltf"].includes(extension)) {
             resolvable.resolve()
             setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
+            decreaseLoadingCount()
             throw new Error("Unsupported file extension")
         }
 
@@ -93,11 +99,13 @@ export default class Model extends Loaded<Group> implements IModel {
         } catch {
             resolvable.resolve()
             setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
+            decreaseLoadingCount()
             throw new Error("Failed to load model, check if src is correct")
         }
 
         resolvable.resolve()
         setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
+        decreaseLoadingCount()
         return result
     }
 

@@ -1,16 +1,7 @@
 import { lazy } from "@lincode/utils"
-import {
-    decreaseLoadingCount,
-    increaseLoadingCount
-} from "../../states/useLoadingCount"
 
 export const makeLazyImport = <T>(importWrapper: () => Promise<T>) =>
-    lazy(() => {
-        increaseLoadingCount()
-        const module = importWrapper()
-        decreaseLoadingCount()
-        return module
-    })
+    lazy(() => importWrapper())
 
 export const lazyImportLoadFBX = makeLazyImport(
     () => import("./loaders/loadFBX")

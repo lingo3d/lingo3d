@@ -9,6 +9,10 @@ import measure from "./utils/measure"
 import ISvgMesh, { svgMeshDefaults, svgMeshSchema } from "../interface/ISvgMesh"
 import { standardMaterial } from "./utils/reusables"
 import { lazyImportLoadSVG } from "./utils/lazyImports"
+import {
+    decreaseLoadingCount,
+    increaseLoadingCount
+} from "../states/useLoadingCount"
 
 const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()
 
@@ -19,8 +23,19 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
 
     protected material = standardMaterial
 
-    protected load(url: string) {
-        return lazyImportLoadSVG().then((module) => module.default(url))
+    protected async load(url: string) {
+        increaseLoadingCount()
+        let result: SVGResult
+        try {
+            result = await lazyImportLoadSVG().then((module) =>
+                module.default(url)
+            )
+        } catch {
+            decreaseLoadingCount()
+            throw new Error("Failed to load svg, check if src is correct")
+        }
+        decreaseLoadingCount()
+        return result
     }
 
     protected resolveLoaded(svgData: SVGResult, src: string) {

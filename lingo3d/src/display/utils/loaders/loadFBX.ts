@@ -2,10 +2,6 @@ import { FBXLoader } from "./loaders/FBXLoader"
 import { Bone, Group, Light } from "three"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
-import {
-    decreaseLoadingCount,
-    increaseLoadingCount
-} from "../../../states/useLoadingCount"
 import { handleProgress } from "./bytesLoaded"
 
 const cache = new Map<string, Promise<[Group, boolean]>>()
@@ -17,12 +13,9 @@ export default async (url: string, clone: boolean) => {
         url,
         () =>
             new Promise<[Group, boolean]>((resolve, reject) => {
-                increaseLoadingCount()
                 loader.load(
                     url,
                     (group: any) => {
-                        decreaseLoadingCount()
-
                         const lights: Array<Light> = []
 
                         let noBone = true
@@ -39,10 +32,7 @@ export default async (url: string, clone: boolean) => {
                         resolve([group, noBone])
                     },
                     handleProgress(url),
-                    () => {
-                        decreaseLoadingCount()
-                        reject()
-                    }
+                    reject
                 )
             })
     )

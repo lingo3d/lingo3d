@@ -1,9 +1,5 @@
 import { TextureLoader, Texture, RepeatWrapping } from "three"
 import { forceGet } from "@lincode/utils"
-import {
-    increaseLoadingCount,
-    decreaseLoadingCount
-} from "../../../states/useLoadingCount"
 import { handleProgress } from "./bytesLoaded"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
 import Events from "@lincode/events"
@@ -17,8 +13,6 @@ export default (url: string, onLoad?: () => void) => {
     onLoad && loaded.once(url, () => queueMicrotask(onLoad))
 
     return forceGet(cache, url, () => {
-        increaseLoadingCount()
-
         const hdr = url.toLowerCase().endsWith(".hdr")
         const loader = hdr ? rgbeLoader : textureLoader
 
@@ -27,13 +21,9 @@ export default (url: string, onLoad?: () => void) => {
             (texture) => {
                 texture.wrapS = texture.wrapT = RepeatWrapping
                 loaded.setState(url)
-                decreaseLoadingCount()
             },
             handleProgress(url),
-            () => {
-                loaded.setState(url)
-                decreaseLoadingCount()
-            }
+            () => loaded.setState(url)
         )
     })
 }

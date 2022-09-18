@@ -4,10 +4,6 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
 import { Bone, Light } from "three"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
-import {
-    decreaseLoadingCount,
-    increaseLoadingCount
-} from "../../../states/useLoadingCount"
 import { handleProgress } from "./bytesLoaded"
 import { getWasmPath } from "../../../states/useWasmPath"
 
@@ -24,12 +20,9 @@ export default async (url: string, clone: boolean) => {
         url,
         () =>
             new Promise<[GLTF, boolean]>((resolve, reject) => {
-                increaseLoadingCount()
                 loader.load(
                     url,
                     (gltf: any) => {
-                        decreaseLoadingCount()
-
                         const lights: Array<Light> = []
 
                         let noBone = true
@@ -47,10 +40,7 @@ export default async (url: string, clone: boolean) => {
                         resolve([gltf, noBone])
                     },
                     handleProgress(url),
-                    () => {
-                        decreaseLoadingCount()
-                        reject()
-                    }
+                    reject
                 )
             })
     )

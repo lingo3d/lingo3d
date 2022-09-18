@@ -1,9 +1,5 @@
 import { forceGet } from "@lincode/utils"
 import { AudioLoader } from "three"
-import {
-    increaseLoadingCount,
-    decreaseLoadingCount
-} from "../../../states/useLoadingCount"
 import { handleProgress } from "./bytesLoaded"
 
 const cache = new Map<string, Promise<AudioBuffer>>()
@@ -15,19 +11,11 @@ export default (url: string) =>
         url,
         () =>
             new Promise<AudioBuffer>((resolve, reject) => {
-                increaseLoadingCount()
-
                 loader.load(
                     url,
-                    (buffer) => {
-                        decreaseLoadingCount()
-                        resolve(Object.freeze(buffer))
-                    },
+                    (buffer) => resolve(Object.freeze(buffer)),
                     handleProgress(url),
-                    () => {
-                        decreaseLoadingCount()
-                        reject()
-                    }
+                    reject
                 )
             })
     )
