@@ -7,7 +7,7 @@ import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
 const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates
 
-export const unselectableSet = new WeakSet<StaticObjectManager>()
+export const unselectableSet = new WeakSet<Appendable>()
 
 const traverse = (
     targets:

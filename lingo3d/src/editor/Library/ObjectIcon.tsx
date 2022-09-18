@@ -22,7 +22,7 @@ container.addEventListener("dragover", (e) => {
     if (!result) return
 
     const point = vec2Point(result.point)
-    const ball = visualize("editorDrag", point)
+    //mark
 })
 container.addEventListener("dragenter", (e) => e.preventDefault())
 document.addEventListener("drop", (e) => e.preventDefault())
