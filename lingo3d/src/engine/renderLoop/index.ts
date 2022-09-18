@@ -1,5 +1,4 @@
 import { createEffect } from "@lincode/reactivity"
-import { preventTreeShake } from "@lincode/utils"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import Cube from "../../display/primitives/Cube"
 import { emitAfterRender } from "../../events/onAfterRender"
@@ -16,14 +15,12 @@ import { outlinePtr } from "./effectComposer/outlinePass"
 import renderSelectiveBloom, {
     bloomPtr
 } from "./effectComposer/selectiveBloomPass/renderSelectiveBloom"
-import resize from "./resize"
-import effectComposer from "./effectComposer"
+import "./resize"
+import "./effectComposer"
 import { getEffectComposer } from "../../states/useEffectComposer"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { emitRender } from "../../events/onRender"
 import getWorldPosition from "../../display/utils/getWorldPosition"
-
-preventTreeShake([resize, effectComposer])
 
 export default {}
 

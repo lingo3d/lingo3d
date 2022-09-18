@@ -1,6 +1,5 @@
 import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import register from "preact-custom-element"
-import { preventTreeShake } from "@lincode/utils"
 import {
     emitSceneGraphChange,
     onSceneGraphChange
@@ -25,7 +24,7 @@ import FindIcon from "./icons/FindIcon"
 import ObjectManager from "../../display/core/ObjectManager"
 import SceneGraphContextMenu from "./SceneGraphContextMenu"
 import { onSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
-import retargetBones from "./retargetBones"
+import "./retargetBones"
 import useInit from "../utils/useInit"
 import {
     decreaseEditorMounted,
@@ -35,8 +34,6 @@ import EmptyTreeItem from "../component/EmptyTreeItem"
 import scene from "../../engine/scene"
 import TreeItemContextProvider from "../component/TreeItemContextProviter"
 import TitleBar from "../component/TitleBar"
-
-preventTreeShake(retargetBones)
 
 const SceneGraph = () => {
     const [r, render] = useState({})

@@ -1,29 +1,14 @@
-import boxHelper from "./boxHelper"
-import skeletonHelper from "./skeletonHelper"
-import mainOrbitControls from "./mainOrbitCamera"
-import transformControls from "./transformControls"
-import gridHelper from "./gridHelper"
-import referencePlane from "./referencePlane"
-import skyShader from "./skyShader"
-import render from "./renderLoop"
-import background from "./background"
-import defaultLight from "./defaultLight"
-import { preventTreeShake } from "@lincode/utils"
-import applySetup from "./applySetup"
-
-preventTreeShake([
-    render,
-    skyShader,
-    referencePlane,
-    gridHelper,
-    transformControls,
-    mainOrbitControls,
-    boxHelper,
-    skeletonHelper,
-    background,
-    defaultLight,
-    applySetup
-])
+import "./boxHelper"
+import "./skeletonHelper"
+import "./mainOrbitCamera"
+import "./transformControls"
+import "./gridHelper"
+import "./referencePlane"
+import "./skyShader"
+import "./renderLoop"
+import "./background"
+import "./defaultLight"
+import "./applySetup"
 
 export default {}
 

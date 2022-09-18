@@ -1,6 +1,4 @@
-import engine from "./engine"
-import { preventTreeShake } from "@lincode/utils"
-preventTreeShake(engine)
+import "./engine"
 
 import Cube from "./display/primitives/Cube"
 import Sphere from "./display/primitives/Sphere"

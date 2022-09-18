@@ -1,9 +1,6 @@
-import index, { settings } from "."
-import test from "./tests/testBVH"
-import { preventTreeShake } from "@lincode/utils"
+import { settings } from "."
+import "./tests/testBVH"
 import LingoEditor from "./editor"
-
-preventTreeShake([index, test])
 
 settings.autoMount = true
 
