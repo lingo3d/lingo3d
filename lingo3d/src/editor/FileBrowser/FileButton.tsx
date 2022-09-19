@@ -1,28 +1,15 @@
 import { splitFileName } from "@lincode/utils"
 import { createObjectURL } from "../../display/core/utils/objectURL"
 import Model from "../../display/Model"
-import clientToWorld from "../../display/utils/clientToWorld"
-import { point2Vec } from "../../display/utils/vec2Point"
-import { container } from "../../engine/renderLoop/renderSetup"
-import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { useFileSelected } from "../states"
+import drag, { dragImage } from "../utils/drag"
 import FileIcon from "./icons/FileIcon"
 
-let draggingItem: File | undefined
-
-document.addEventListener("drop", (e) => e.preventDefault())
-container.addEventListener("drop", (e) => {
-    if (!draggingItem) return
-
+const setDraggingItem = drag<File>((draggingItem) => {
     const extension = splitFileName(draggingItem.name)[1]?.toLowerCase()
-    if (extension !== "glb" && extension !== "fbx") return
-
     const manager = new Model()
     manager.src = createObjectURL(draggingItem, extension)
-    manager.outerObject3d.position.copy(
-        point2Vec(clientToWorld(e.clientX, e.clientY))
-    )
-    emitSelectionTarget(manager)
+    return manager
 })
 
 type FileButtonProps = {
@@ -43,8 +30,11 @@ const FileButton = ({ file }: FileButtonProps) => {
                         : undefined
             }}
             draggable
-            onDragStart={() => (draggingItem = file)}
-            onDragEnd={() => (draggingItem = undefined)}
+            onDragStart={(e) => {
+                setDraggingItem(file)
+                e.dataTransfer!.setDragImage(dragImage, 0, 0)
+            }}
+            onDragEnd={() => setDraggingItem(undefined)}
             onMouseDown={(e) => (e.stopPropagation(), setFileSelected(file))}
         >
             <div
