@@ -1,25 +1,9 @@
 import { upperFirst } from "@lincode/utils"
 import createObject from "../../api/serializer/createObject"
 import { GameObjectType } from "../../api/serializer/types"
-import { container } from "../../engine/renderLoop/renderSetup"
-import { setDragEvent } from "../../states/useDragEvent"
+import drag from "../utils/drag"
 
-let draggingItem: string | undefined
-
-container.addEventListener("dragenter", (e) => e.preventDefault())
-container.addEventListener("dragover", (e) => {
-    e.preventDefault()
-    draggingItem && setDragEvent(e)
-})
-container.addEventListener("dragleave", (e) => {
-    e.preventDefault()
-    setDragEvent(undefined)
-})
-container.addEventListener("drop", (e) => {
-    e.preventDefault()
-    if (!draggingItem) return
-    setDragEvent(() => createObject(draggingItem as GameObjectType))
-})
+const setDraggingItem = drag<GameObjectType>(createObject)
 
 type ObjectIconProps = {
     name: string
@@ -33,10 +17,10 @@ const ObjectIcon = ({ name, iconName = name }: ObjectIconProps) => {
         <div
             draggable
             onDragStart={(e) => {
-                draggingItem = name
+                setDraggingItem(name as GameObjectType)
                 e.dataTransfer!.setDragImage(img, 0, 0)
             }}
-            onDragEnd={() => (draggingItem = undefined)}
+            onDragEnd={() => setDraggingItem(undefined)}
             style={{
                 width: "50%",
                 display: "flex",
