@@ -6,8 +6,9 @@ import selectionCandidates, {
     unselectableSet
 } from "../display/core/StaticObjectManager/raycast/selectionCandidates"
 import Sphere from "../display/primitives/Sphere"
+import clientToWorld from "../display/utils/clientToWorld"
 import normalizeClientPosition from "../display/utils/normalizeClientPosition"
-import { vec2Point } from "../display/utils/vec2Point"
+import { point2Vec, vec2Point } from "../display/utils/vec2Point"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 
 export const [setDragEvent, getDragEvent] = store<
@@ -22,6 +23,7 @@ createEffect(() => {
     const indicator = createMemo(() => {
         if (!isDragEvent) return
         const indicator = new Sphere()
+        indicator.name = "indicator"
         unselectableSet.add(indicator)
         indicator.opacity = 0.5
         return indicator
@@ -37,13 +39,11 @@ createEffect(() => {
     if (!isDragEvent || !indicator) return
 
     const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
-    const result = raycast(xNorm, yNorm, selectionCandidates)
-    if (!result)
-        return () => {
-            !(getDragEvent() instanceof DragEvent) && indicator.dispose()
-        }
+    const result =
+        raycast(xNorm, yNorm, selectionCandidates)?.point ??
+        point2Vec(clientToWorld(e.clientX, e.clientY))
 
-    const point = vec2Point(result.point)
+    const point = vec2Point(result)
     Object.assign(indicator, point)
     pointRef.current = point
 
