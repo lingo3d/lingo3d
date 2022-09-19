@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { PropType, ref, toRaw, watchEffect } from "vue"
 import { settings } from "lingo3d"
-import index from "lingo3d"
-import { preventTreeShake } from "@lincode/utils"
 import setupProps from "../props/setupProps"
 import htmlContainer from "./logical/HTML/htmlContainer"
 import Setup from "./display/Setup.vue"
-
-preventTreeShake(index)
 
 const props = defineProps({
   ...setupProps,

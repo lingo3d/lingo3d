@@ -1,26 +1,5 @@
-import type * as types from "lingo3d"
-export { types }
-
-export {
-  screenshot,
-  onAfterRender,
-  onBeforeRender,
-  loop,
-  mainOrbitCamera,
-  keyboard,
-  mouse,
-  createProxy,
-  serialize,
-  deserialize,
-  downloadBlob,
-  downloadText,
-  exportJSON,
-  exportReact,
-  exportVue,
-  openJSON,
-  clientToWorld,
-  setWasmPath
-} from "lingo3d"
+import * as Lingo from "lingo3d"
+export { Lingo }
 
 export { default as createPreload } from "./createPreload"
 

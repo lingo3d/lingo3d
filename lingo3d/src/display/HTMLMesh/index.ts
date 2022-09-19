@@ -22,7 +22,6 @@ export default class HTMLMesh extends ObjectManager implements IHTMLMesh {
         this.createEffect(() => {
             let element = this.elementState.get()
             const innerHTML = this.innerHTMLState.get()
-            //todo: createMemo doesn't work
             if (!element && innerHTML)
                 element = createElement(
                     innerHTML.startsWith("<")

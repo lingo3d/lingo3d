@@ -1,12 +1,8 @@
 import React, { useLayoutEffect, useRef } from "react"
 import { settings } from "lingo3d"
-import index from "lingo3d"
-import { preventTreeShake } from "@lincode/utils"
 import ISetup from "lingo3d/lib/interface/ISetup"
 import htmlContainer from "./logical/HTML/htmlContainer"
 import Setup from "./display/Setup"
-
-preventTreeShake(index)
 
 type WorldProps = Partial<ISetup> & {
   style?: React.CSSProperties

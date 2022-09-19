@@ -2,37 +2,23 @@ import { upperFirst } from "@lincode/utils"
 import createObject from "../../api/serializer/createObject"
 import { GameObjectType } from "../../api/serializer/types"
 import { container } from "../../engine/renderLoop/renderSetup"
-import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import { point2Vec, vec2Point } from "../../display/utils/vec2Point"
-import clientToWorld from "../../display/utils/clientToWorld"
-import { raycast } from "../../display/core/StaticObjectManager/raycast/pickable"
-import selectionCandidates from "../../display/core/StaticObjectManager/raycast/selectionCandidates"
-import visualize from "../../display/utils/visualize"
-import normalizeClientPosition from "../../display/utils/normalizeClientPosition"
-import { DEBUG } from "../../globals"
+import { setDragEvent } from "../../states/useDragEvent"
 
 let draggingItem: string | undefined
 
+container.addEventListener("dragenter", (e) => e.preventDefault())
 container.addEventListener("dragover", (e) => {
     e.preventDefault()
-    if (!draggingItem || !DEBUG) return
-
-    const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
-    const result = raycast(xNorm, yNorm, selectionCandidates)
-    if (!result) return
-
-    const point = vec2Point(result.point)
-    //mark
+    draggingItem && setDragEvent(e)
 })
-container.addEventListener("dragenter", (e) => e.preventDefault())
-document.addEventListener("drop", (e) => e.preventDefault())
+container.addEventListener("dragleave", (e) => {
+    e.preventDefault()
+    setDragEvent(undefined)
+})
 container.addEventListener("drop", (e) => {
+    e.preventDefault()
     if (!draggingItem) return
-    const manager = createObject(draggingItem as GameObjectType)
-    manager.outerObject3d.position.copy(
-        point2Vec(clientToWorld(e.clientX, e.clientY))
-    )
-    emitSelectionTarget(manager)
+    setDragEvent(() => createObject(draggingItem as GameObjectType))
 })
 
 type ObjectIconProps = {
@@ -48,7 +34,7 @@ const ObjectIcon = ({ name, iconName = name }: ObjectIconProps) => {
             draggable
             onDragStart={(e) => {
                 draggingItem = name
-                DEBUG && e.dataTransfer!.setDragImage(img, 0, 0)
+                e.dataTransfer!.setDragImage(img, 0, 0)
             }}
             onDragEnd={() => (draggingItem = undefined)}
             style={{
