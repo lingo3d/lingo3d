@@ -12,12 +12,15 @@ import { point2Vec, vec2Point } from "../display/utils/vec2Point"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 
 export const [setDragEvent, getDragEvent] = store<
-    DragEvent | (() => ObjectManager) | undefined
+    | DragEvent
+    | ((hitManager?: ObjectManager) => ObjectManager | undefined)
+    | undefined
 >(undefined)
 
 createEffect(() => {
     const e = getDragEvent()
     const pointRef = createRef<Point3d>({ x: 0, y: 0, z: 0 })
+    const hitManagerRef = createRef<ObjectManager>()
 
     const isDragEvent = e instanceof DragEvent
     const indicator = createMemo(() => {
@@ -30,7 +33,8 @@ createEffect(() => {
     }, [isDragEvent])
 
     if (typeof e === "function") {
-        const manager = e()
+        const manager = e(hitManagerRef.current)
+        if (!manager) return
         Object.assign(manager, pointRef.current)
         emitSelectionTarget(manager)
         return
@@ -39,9 +43,9 @@ createEffect(() => {
     if (!isDragEvent || !indicator) return
 
     const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
-    const result =
-        raycast(xNorm, yNorm, selectionCandidates)?.point ??
-        point2Vec(clientToWorld(e.clientX, e.clientY))
+    const hit = raycast(xNorm, yNorm, selectionCandidates)
+    hitManagerRef.current = hit?.object.userData.manager
+    const result = hit?.point ?? point2Vec(clientToWorld(e.clientX, e.clientY))
 
     const point = vec2Point(result)
     Object.assign(indicator, point)
