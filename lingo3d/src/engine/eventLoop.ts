@@ -4,6 +4,7 @@ import { Clock } from "three"
 import { getRenderer } from "../states/useRenderer"
 import { getFps } from "../states/useFps"
 import { getFirstLoad } from "../states/useFirstLoad"
+import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
 
 export const timer = (time: number, repeat: number, cb: () => void) => {
     let count = 0
@@ -25,7 +26,7 @@ export const dt = [0]
 
 createEffect(() => {
     const renderer = getRenderer()
-    if (!renderer || !getFirstLoad()) return
+    if (!renderer || (getFirstLoadBeforeRender() && !getFirstLoad())) return
 
     const targetDelta = (1 / getFps()) * 0.9
     const fullDelta = 1 / 60
@@ -38,7 +39,7 @@ createEffect(() => {
         delta = 0
         for (const cb of callbacks) cb()
     })
-}, [getFps, getRenderer, getFirstLoad])
+}, [getFps, getRenderer, getFirstLoad, getFirstLoadBeforeRender])
 
 export const loop = (cb: () => void) => {
     callbacks.add(cb)

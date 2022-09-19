@@ -84,7 +84,7 @@ export default class Model extends Loaded<Group> implements IModel {
             resolvable.resolve()
             setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
             decreaseLoadingCount()
-            throw new Error("Unsupported file extension")
+            throw new Error("Unsupported file extension " + extension)
         }
 
         const module =

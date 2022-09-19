@@ -1,5 +1,4 @@
 import { getExtensionType } from "@lincode/filetypes"
-import { assertExhaustive } from "@lincode/utils"
 import {
     addLoadedBytesChangedEventListeners,
     removeLoadedBytesChangedEventListeners
@@ -43,21 +42,8 @@ export default async (
 
     for (const src of urls) {
         const filetype = getExtensionType(src)
-        if (!filetype) continue
-
-        switch (filetype) {
-            case "image":
-                promises.push(loadTexturePromise(src))
-            case "model":
-                promises.push(preloadModelPromise(src))
-            case "audio":
-            case "plainText":
-            case "scene":
-                break
-
-            default:
-                assertExhaustive(filetype)
-        }
+        if (filetype === "image") promises.push(loadTexturePromise(src))
+        else if (filetype === "model") promises.push(preloadModelPromise(src))
     }
 
     await Promise.all(promises)
