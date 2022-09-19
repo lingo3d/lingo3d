@@ -40,9 +40,13 @@ const serialize = async (children: Array<any>) => {
             if (value === getDefaultValue(defaults, key) || t === "function")
                 continue
 
-            if (t === "string" && value.startsWith("blob:http")) {
+            const fileCurrent = getFileCurrent()
+            if (
+                t === "string" &&
+                value.startsWith("blob:http") &&
+                fileCurrent
+            ) {
                 const file = objectURLFileMap.get(value)!
-                const fileCurrent = getFileCurrent()!
                 value = relativePath(
                     fileCurrent.webkitRelativePath,
                     file.webkitRelativePath
