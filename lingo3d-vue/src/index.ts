@@ -1,6 +1,8 @@
 import * as Lingo from "lingo3d"
 export { Lingo }
 
+export { screenshot, keyboard, mouse, createProxy, setWasmPath } from "lingo3d"
+
 export { default as createPreload } from "./createPreload"
 
 export { default as World } from "./components/World.vue"

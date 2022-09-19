@@ -1,6 +1,6 @@
 {
 	"name": "lingo3d-vanilla",
-	"version": "1.33.12",
+	"version": "1.33.19",
 	"description": "Lingo3D is a React/Vue 3d game development framework that ships with a complete visual editor",
 	"author": "Lingo3D",
 	"license": "MIT",
@@ -12,7 +12,7 @@
 		"vue"
 	],
 	"dependencies": {
-		"lingo3d": "1.33.12"
+		"lingo3d": "1.33.19"
 	},
 	"peerDependencies": {
 		
