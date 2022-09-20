@@ -8,11 +8,9 @@ import {
 } from "three"
 import { appendableRoot } from "../api/core/Appendable"
 import Environment from "../display/Environment"
-import getWorldPosition from "../display/utils/getWorldPosition"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { FAR, TEXTURES_URL } from "../globals"
-import { getCameraRendered } from "../states/useCameraRendered"
 import { getCentripetal } from "../states/useCentripetal"
 import { getDefaultLight } from "../states/useDefaultLight"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
@@ -22,24 +20,22 @@ import scene from "./scene"
 const defaultEnvironment = new Environment()
 defaultEnvironment.texture = undefined
 appendableRoot.delete(defaultEnvironment)
+defaultEnvironment.helper = false
 
 const cubeRenderTarget = new WebGLCubeRenderTarget(256)
 const cubeCamera = new CubeCamera(1, 100000, cubeRenderTarget)
 
 createEffect(() => {
-    const environment = last(getEnvironmentStack())?.texture
-    if (!environment) return
+    const environment = last(getEnvironmentStack())
+    const renderer = getRenderer()
 
-    if (environment === "dynamic") {
+    if (!environment?.texture || !renderer) return
+
+    if (environment.texture === "dynamic") {
         const handle = onBeforeRender(() => {
-            const camera = getCameraRendered()
-            const renderer = getRenderer()!
-
-            cubeCamera.position.copy(getWorldPosition(camera))
-            cubeCamera.matrixWorld.copy(camera.matrixWorld)
-
+            cubeCamera.position.copy(environment.outerObject3d.position)
+            cubeCamera.matrixWorld.copy(environment.outerObject3d.matrixWorld)
             cubeCamera.update(renderer, scene)
-            renderer.render(scene, camera)
         })
 
         scene.environment = cubeRenderTarget.texture
@@ -51,7 +47,9 @@ createEffect(() => {
     }
     let proceed = true
     const texture = loadTexture(
-        environment === "studio" ? TEXTURES_URL + "studio.jpg" : environment,
+        environment.texture === "studio"
+            ? TEXTURES_URL + "studio.jpg"
+            : environment.texture,
         () => proceed && (scene.environment = texture)
     )
     texture.mapping = EquirectangularReflectionMapping
@@ -60,7 +58,7 @@ createEffect(() => {
         proceed = false
         scene.environment = null
     }
-}, [getEnvironmentStack])
+}, [getEnvironmentStack, getRenderer])
 
 createEffect(() => {
     const defaultLight = getDefaultLight()

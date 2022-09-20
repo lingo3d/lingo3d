@@ -1,18 +1,24 @@
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import IPositioned, {
+    positionedDefaults,
+    positionedSchema
+} from "./IPositioned"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
-export default interface IEnvironment extends IEventLoop {
-    texture: Nullable<string>
+export default interface IEnvironment extends IPositioned {
+    texture: Nullable<string | "studio" | "dynamic">
+    helper: boolean
 }
 
 export const environmentSchema: Required<ExtractProps<IEnvironment>> = {
-    ...eventLoopSchema,
-    texture: String
+    ...positionedSchema,
+    texture: String,
+    helper: Boolean
 }
 
 export const environmentDefaults: Defaults<IEnvironment> = {
-    ...eventLoopDefaults,
-    texture: "studio"
+    ...positionedDefaults,
+    texture: "studio",
+    helper: true
 }
