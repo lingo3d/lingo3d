@@ -4,6 +4,7 @@ import Model from "../display/Model"
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import settings from "../api/settings"
 import Dummy from "../display/Dummy"
+import Cube from "../display/primitives/Cube"
 
 const player = new Dummy()
 player.src = "ready.glb"
@@ -35,14 +36,16 @@ map.src = "fairy.glb"
 map.scale = 30
 map.physics = "map"
 
-map.onClick = (e) => {
-    const model = new Model()
-    model.src = "fox/Fox.fbx"
-    model.x = e.point.x
-    model.y = e.point.y + 50
-    model.z = e.point.z
+const boxes = [
+    { x: -1276.38, y: 2.63, z: -502.67 },
+    { x: -1471.26, y: 2.63, z: -321.88 }
+].map(({ x, y, z }) => {
+    const model = new Cube()
+    model.x = x
+    model.y = y
+    model.z = z
     model.physics = "map-debug"
-}
+})
 
 settings.skybox = [
     "skybox/Left.png",
