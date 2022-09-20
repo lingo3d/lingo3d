@@ -36,10 +36,11 @@ export default class Environment
                 return
 
             const sprite = makeLightSprite()
-            this.append(sprite)
             const handle = onSelectionTarget(({ target }) => {
                 target === sprite && emitSelectionTarget(this)
             })
+            this.outerObject3d.add(sprite.outerObject3d)
+
             return () => {
                 handle.cancel()
                 sprite.dispose()
