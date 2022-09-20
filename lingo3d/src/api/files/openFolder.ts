@@ -23,8 +23,8 @@ export default async () => {
             const text = await file.text()
             if (text.includes(`"type": "lingo3d"`)) {
                 for (const child of appendableRoot) child.dispose()
-                deserialize(JSON.parse(text))
                 setFileCurrent(file)
+                queueMicrotask(() => deserialize(JSON.parse(text)))
                 return
             }
         } catch {}

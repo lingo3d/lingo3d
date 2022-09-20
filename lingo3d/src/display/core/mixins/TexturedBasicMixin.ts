@@ -136,7 +136,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
 
             const { material } = this
             const { map } = material
-            material.map = loadTexture(url as string)
+            material.map = loadTexture(url)
             this.applyTexture(mapNames)
 
             return () => {

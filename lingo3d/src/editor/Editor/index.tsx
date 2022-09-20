@@ -315,7 +315,9 @@ const Editor = () => {
 
             const [displayParams, displayRest] = splitObject(transformRest, [
                 "visible",
-                "innerVisible"
+                "innerVisible",
+                "castShadow",
+                "receiveShadow"
             ])
             displayParams &&
                 addInputs(pane, "display", target, defaults, displayParams)
@@ -393,6 +395,7 @@ const Editor = () => {
                     "emissiveMap",
                     "emissiveIntensity",
                     "emissiveColor",
+                    "emissive",
                     "envMap",
                     "alphaMap"
                 ]
