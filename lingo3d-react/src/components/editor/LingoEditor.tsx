@@ -1,20 +1,11 @@
 import React from "react"
-import Toolbar from "./Toolbar"
-import SceneGraph from "./SceneGraph"
-import Editor from "./Editor"
-import Library from "./Library"
-import HUD from "./HUD"
+import LingoEditor from "lingo3d/lib/editor/LingoEditor"
+import useEditor from "../../hooks/useEditor"
 
-const LingoEditor: React.FC = () => {
-  return (
-    <>
-      <Toolbar />
-      <SceneGraph />
-      <Editor />
-      <Library />
-      <HUD />
-    </>
-  )
+const Editor: React.FC = () => {
+  const divRef = useEditor(LingoEditor, { embedded: true })
+
+  return <div ref={divRef} style={{ height: "100%" }} />
 }
 
-export default LingoEditor
+export default Editor
