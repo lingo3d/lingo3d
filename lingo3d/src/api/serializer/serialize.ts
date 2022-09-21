@@ -10,6 +10,7 @@ import settings from "../settings"
 import relativePath from "../path/relativePath"
 import toFixed from "./toFixed"
 import { nonSerializedProperties, SceneGraphNode } from "./types"
+import { VERSION } from "../../globals"
 
 const serialize = async (children: Array<any>) => {
     const dataParent: Array<SceneGraphNode> = []
@@ -75,7 +76,7 @@ export default async (
     childs.push(setup)
 
     const result = await serialize(childs)
-    result.unshift({ type: "lingo3d", version: "1.33" })
+    result.unshift({ type: "lingo3d", version: VERSION })
 
     setup.dispose()
     return result

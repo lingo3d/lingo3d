@@ -15,3 +15,4 @@ export const TEXTURES_URL = "https://unpkg.com/lingo3d-textures@1.0.3/assets/"
 export const WATERNORMALS_URL = TEXTURES_URL + "waternormals.jpg"
 
 export const DEBUG = false
+export const VERSION = "1.34.0"
