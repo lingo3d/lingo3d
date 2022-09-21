@@ -10,7 +10,7 @@ import { appendableRoot } from "../api/core/Appendable"
 import Environment from "../display/Environment"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import { onBeforeRender } from "../events/onBeforeRender"
-import { FAR, TEXTURES_URL } from "../globals"
+import { FAR, NEAR, TEXTURES_URL } from "../globals"
 import { getCentripetal } from "../states/useCentripetal"
 import { getDefaultLight } from "../states/useDefaultLight"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
@@ -23,7 +23,7 @@ appendableRoot.delete(defaultEnvironment)
 defaultEnvironment.helper = false
 
 const cubeRenderTarget = new WebGLCubeRenderTarget(256)
-const cubeCamera = new CubeCamera(1, 100000, cubeRenderTarget)
+const cubeCamera = new CubeCamera(NEAR, FAR, cubeRenderTarget)
 
 createEffect(() => {
     const environment = last(getEnvironmentStack())

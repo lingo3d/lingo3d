@@ -56,6 +56,7 @@ import fpsAlpha from "../../utils/fpsAlpha"
 import { createEffect } from "@lincode/reactivity"
 import scene from "../../../engine/scene"
 import { getRenderer } from "../../../states/useRenderer"
+import { FAR, NEAR } from "../../../globals"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -364,8 +365,8 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                     })
 
                     const cubeCamera = new CubeCamera(
-                        1,
-                        100000,
+                        NEAR,
+                        FAR,
                         cubeRenderTarget
                     )
 
@@ -378,7 +379,9 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                                 cubeCamera.position.copy(
                                     getWorldPosition(this.outerObject3d)
                                 )
+                                this.outerObject3d.visible = false
                                 cubeCamera.update(renderer, scene)
+                                this.outerObject3d.visible = true
                             })
 
                             return () => {
