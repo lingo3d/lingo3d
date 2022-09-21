@@ -36,23 +36,10 @@ import { DEBUG } from "../../globals"
 import SaveIcon from "./icons/SaveIcon"
 import saveJSON from "../../api/files/saveJSON"
 import openFolder from "../../api/files/openFolder"
+import exportJSON from "../../api/files/exportJSON"
+import JSONIcon from "./icons/JSONIcon"
 
-type ButtonOptions = {
-    hidden?: boolean
-    onClick?: () => void
-}
-
-interface ToolbarProps {
-    buttons?: {
-        openFolder?: ButtonOptions
-        openJSON?: ButtonOptions
-        saveJSON?: ButtonOptions
-        exportReact?: ButtonOptions
-        exportVue?: ButtonOptions
-    }
-}
-
-const Toolbar = ({ buttons }: ToolbarProps) => {
+const Toolbar = () => {
     const elRef = useInit()
 
     const [mode] = useEditorComputed()
@@ -161,46 +148,27 @@ const Toolbar = ({ buttons }: ToolbarProps) => {
                 </Section>
 
                 <Section>
-                    {!buttons?.openFolder?.hidden && (
-                        <IconButton
-                            onClick={buttons?.openFolder?.onClick ?? openFolder}
-                        >
-                            <FolderIcon />
-                        </IconButton>
-                    )}
-                    {!buttons?.openJSON?.hidden && (
-                        <IconButton
-                            onClick={buttons?.openJSON?.onClick ?? openJSON}
-                        >
-                            <OpenIcon />
-                        </IconButton>
-                    )}
-                    {!buttons?.saveJSON?.hidden && (
-                        <IconButton
-                            onClick={buttons?.saveJSON?.onClick ?? saveJSON}
-                        >
-                            <SaveIcon />
-                        </IconButton>
-                    )}
+                    <IconButton onClick={openFolder}>
+                        <FolderIcon />
+                    </IconButton>
+                    <IconButton onClick={openJSON}>
+                        <OpenIcon />
+                    </IconButton>
+                    <IconButton onClick={saveJSON}>
+                        <SaveIcon />
+                    </IconButton>
                 </Section>
 
                 <Section>
-                    {!buttons?.exportReact?.hidden && (
-                        <IconButton
-                            onClick={
-                                buttons?.exportReact?.onClick ?? exportReact
-                            }
-                        >
-                            <ReactIcon />
-                        </IconButton>
-                    )}
-                    {!buttons?.exportVue?.hidden && (
-                        <IconButton
-                            onClick={buttons?.exportVue?.onClick ?? exportVue}
-                        >
-                            <VueIcon />
-                        </IconButton>
-                    )}
+                    <IconButton onClick={exportJSON}>
+                        <JSONIcon />
+                    </IconButton>
+                    <IconButton onClick={exportReact}>
+                        <ReactIcon />
+                    </IconButton>
+                    <IconButton onClick={exportVue}>
+                        <VueIcon />
+                    </IconButton>
                 </Section>
             </div>
         </div>
