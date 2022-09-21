@@ -346,6 +346,7 @@ const Editor = () => {
                     "envFactor",
                     "adjustColor",
                     "reflection",
+                    "illumination",
                     "toon"
                 ]
             )

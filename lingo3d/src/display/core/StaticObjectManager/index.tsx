@@ -58,6 +58,7 @@ import scene from "../../../engine/scene"
 import { getRenderer } from "../../../states/useRenderer"
 import { FAR, NEAR } from "../../../globals"
 import { onRenderSlow } from "../../../events/onRenderSlow"
+import { onRenderSlowest } from "../../../events/onRenderSlowest"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -354,12 +355,15 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                     _opacityFactor,
                     _envFactor,
                     _adjustColor,
-                    _reflection
+                    _reflection,
+                    _illumination
                 } = this
 
                 let reflectionTexture: Texture | undefined
-                if (!_toon && _reflection) {
-                    const cubeRenderTarget = new WebGLCubeRenderTarget(256)
+                if (!_toon && (_reflection || _illumination)) {
+                    const cubeRenderTarget = new WebGLCubeRenderTarget(
+                        _reflection ? 256 : 256
+                    )
                     reflectionTexture = cubeRenderTarget.texture
                     handle.then(() => {
                         cubeRenderTarget.dispose()
@@ -368,7 +372,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
                     const cubeCamera = new CubeCamera(
                         NEAR,
-                        FAR,
+                        _reflection ? FAR: 10,
                         cubeRenderTarget
                     )
 
@@ -377,7 +381,10 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                             const renderer = getRenderer()
                             if (!renderer) return
 
-                            const handle = onRenderSlow(() => {
+                            const onRender = _reflection
+                                ? onRenderSlow
+                                : onRenderSlowest
+                            const handle = onRender(() => {
                                 cubeCamera.position.copy(
                                     getWorldPosition(this.outerObject3d)
                                 )
@@ -385,7 +392,6 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                                 cubeCamera.update(renderer, scene)
                                 this.outerObject3d.visible = true
                             })
-
                             return () => {
                                 handle.cancel()
                             }
@@ -453,7 +459,10 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                                 : undefined
                         )
 
-                    if (_reflection !== undefined)
+                    if (
+                        _reflection !== undefined ||
+                        _illumination !== undefined
+                    )
                         setProperty(material, "envMap", reflectionTexture)
                 })
             })
@@ -512,6 +521,15 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
     public set reflection(val: boolean) {
         this._reflection = val
+        this.refreshFactors()
+    }
+
+    private _illumination?: boolean
+    public get illumination() {
+        return this._illumination ?? false
+    }
+    public set illumination(val: boolean) {
+        this._illumination = val
         this.refreshFactors()
     }
 

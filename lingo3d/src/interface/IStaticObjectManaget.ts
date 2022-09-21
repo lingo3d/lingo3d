@@ -36,6 +36,7 @@ export default interface IStaticObjectManager extends IEventLoop {
     envFactor: Nullable<number>
     adjustColor: Nullable<string>
     reflection: boolean
+    illumination: boolean
 
     toon: boolean
 }
@@ -73,6 +74,7 @@ export const staticObjectManagerSchema: Required<
     envFactor: Number,
     adjustColor: String,
     reflection: Boolean,
+    illumination: Boolean, 
 
     toon: Boolean
 }
@@ -109,6 +111,7 @@ export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     envFactor: new NullableDefault(1),
     adjustColor: new NullableDefault("#ffffff"),
     reflection: false,
+    illumination: false,
 
     toon: false
 }
