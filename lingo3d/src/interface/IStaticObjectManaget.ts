@@ -33,6 +33,7 @@ export default interface IStaticObjectManager extends IEventLoop {
     metalnessFactor: Nullable<number>
     roughnessFactor: Nullable<number>
     opacityFactor: Nullable<number>
+    envFactor: Nullable<number>
     adjustColor: Nullable<string>
     reflection: boolean
 
@@ -69,6 +70,7 @@ export const staticObjectManagerSchema: Required<
     metalnessFactor: Number,
     roughnessFactor: Number,
     opacityFactor: Number,
+    envFactor: Number,
     adjustColor: String,
     reflection: Boolean,
 
@@ -104,6 +106,7 @@ export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     metalnessFactor: new NullableDefault(0),
     roughnessFactor: new NullableDefault(1),
     opacityFactor: new NullableDefault(1),
+    envFactor: new NullableDefault(1),
     adjustColor: new NullableDefault("#ffffff"),
     reflection: false,
 

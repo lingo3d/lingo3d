@@ -343,6 +343,7 @@ const Editor = () => {
                     "metalnessFactor",
                     "roughnessFactor",
                     "opacityFactor",
+                    "envFactor",
                     "adjustColor",
                     "reflection",
                     "toon"

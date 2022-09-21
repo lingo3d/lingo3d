@@ -351,6 +351,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                     _metalnessFactor,
                     _roughnessFactor,
                     _opacityFactor,
+                    _envFactor,
                     _adjustColor,
                     _reflection
                 } = this
@@ -435,6 +436,15 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                         )
                     }
 
+                    if (_envFactor !== undefined)
+                        setNumber(
+                            material,
+                            "envMapIntensity",
+                            _envFactor !== 1
+                                ? _envFactor
+                                : undefined
+                        )
+
                     if (_adjustColor !== undefined)
                         setProperty(
                             material,
@@ -476,6 +486,15 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
     public set opacityFactor(val) {
         this._opacityFactor = val
+        this.refreshFactors()
+    }
+
+    private _envFactor?: number
+    public get envFactor() {
+        return this._envFactor
+    }
+    public set envFactor(val) {
+        this._envFactor = val
         this.refreshFactors()
     }
 
