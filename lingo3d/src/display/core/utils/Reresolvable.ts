@@ -33,9 +33,9 @@ export default class Reresolvable<T> {
     }
 
     public resolve(val: T) {
+        for (const cb of this.callbacks) run(cb, val)
+
         this.done = true
         this.value = val
-
-        for (const cb of this.callbacks) run(cb, val)
     }
 }

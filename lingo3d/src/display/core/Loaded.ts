@@ -284,19 +284,18 @@ export default abstract class Loaded<T = Object3D>
         if (this.materialCloned) return
         this.materialCloned = true
 
-        this.loaded.then((loaded) => {
-            const cloned: Array<Material> = []
-            loaded.traverse((child: any) => {
-                if (!child.material) return
-                cloned.push((child.material = child.material.clone()))
-            })
-            return () => {
-                for (const material of cloned) {
-                    material.dispose()
-                    console.log("so much to do")
+        this.watch(
+            this.loaded.then((loaded) => {
+                const cloned: Array<Material> = []
+                loaded.traverse((child: any) => {
+                    if (!child.material) return
+                    cloned.push((child.material = child.material.clone()))
+                })
+                return () => {
+                    for (const material of cloned) material.dispose()
                 }
-            }
-        })
+            })
+        )
     }
 
     public override placeAt(object: MeshItem | Point3d | string) {
