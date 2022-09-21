@@ -1,6 +1,9 @@
 import {
     Color,
+    Material,
+    Mesh,
     MeshStandardMaterial,
+    Object3D,
     RepeatWrapping,
     SpriteMaterial,
     Texture,
@@ -17,17 +20,31 @@ const mapNames = ["map", "alphaMap"]
 
 const queueTextureRepeat = queueDebounce()
 
+const clonedSet = new WeakSet<Material>()
+
+export const tryCloneMaterial = (
+    material: Material,
+    nativeObject3d: Object3D,
+    manager?: any
+) => {
+    if (clonedSet.has(material)) return
+    clonedSet.add(material)
+
+    const clone = ((nativeObject3d as Mesh).material = material.clone())
+    clonedSet.add(clone)
+
+    if (!manager) return
+
+    manager.material = clone
+    manager.then(() => clone.dispose())
+}
+
 export default abstract class TexturedBasicMixin implements ITexturedBasic {
     protected abstract material: MeshStandardMaterial | SpriteMaterial
+    public abstract nativeObject3d: Object3D
 
-    protected materialCloned?: boolean
     protected tryCloneMaterial() {
-        if (this.materialCloned) return
-        this.materialCloned = true
-        //@ts-ignore
-        this.material = this.nativeObject3d.material = this.material.clone()
-        //@ts-ignore
-        this.then(() => this.material.dispose())
+        tryCloneMaterial(this.material, this.nativeObject3d, this)
     }
 
     public get color() {

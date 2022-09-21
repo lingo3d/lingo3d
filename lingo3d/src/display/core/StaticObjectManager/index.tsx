@@ -340,9 +340,6 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         this.cancelHandle("refreshFactors", () => {
             const handle = new Cancellable()
 
-            //@ts-ignore
-            "tryCloneMaterial" in this && this.tryCloneMaterial()
-
             queueMicrotask(() => {
                 if (handle.done) return
 
