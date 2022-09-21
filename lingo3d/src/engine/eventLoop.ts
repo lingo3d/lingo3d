@@ -47,7 +47,7 @@ createEffect(() => {
             renderSlowCount = 0
             emitRenderSlow()
         }
-        if (++renderSlowestCount === 6) {
+        if (++renderSlowestCount === 10) {
             renderSlowestCount = 0
             emitRenderSlowest()
         }

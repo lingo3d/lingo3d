@@ -362,7 +362,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                 let reflectionTexture: Texture | undefined
                 if (!_toon && (_reflection || _illumination)) {
                     const cubeRenderTarget = new WebGLCubeRenderTarget(
-                        _reflection ? 256 : 256
+                        _reflection ? 256 : 16
                     )
                     reflectionTexture = cubeRenderTarget.texture
                     handle.then(() => {
@@ -372,7 +372,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
                     const cubeCamera = new CubeCamera(
                         NEAR,
-                        _reflection ? FAR: 10,
+                        _reflection ? FAR: 5,
                         cubeRenderTarget
                     )
 
