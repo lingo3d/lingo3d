@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import Editor from "./Editor.vue"
-import Toolbar from "./Toolbar.vue"
-import SceneGraph from "./SceneGraph.vue"
-import Library from "./Library.vue"
-import HUD from "./HUD.vue"
+import LingoEditor from "lingo3d/lib/editor/LingoEditor"
+import useEditor from "../../hooks/useEditor"
+
+const divRef = useEditor(LingoEditor, { embedded: true })
 </script>
 
 <template>
-  <Toolbar />
-  <SceneGraph />
-  <Editor />
-  <Library />
-  <HUD />
+  <div ref="divRef" style="height: 100%" />
 </template>

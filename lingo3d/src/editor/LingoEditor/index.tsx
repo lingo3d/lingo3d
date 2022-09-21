@@ -10,28 +10,37 @@ import settings from "../../api/settings"
 import FileBrowser from "../FileBrowser"
 import { useFileBrowser } from "../states"
 
-const LingoEditor = () => {
+type Props = {
+    embedded?: boolean
+}
+
+const LingoEditor = ({ embedded }: Props) => {
     const elRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const el = elRef.current
-        if (!el) return
+        if (!el || embedded) return
         settings.autoMount = el
-    }, [])
+    }, [embedded])
 
     const [fileBrowser] = useFileBrowser()
 
     return (
         <div
             className="lingo3d-ui"
-            style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-                left: 0,
-                top: 0,
-                display: "flex"
-            }}
+            style={
+                embedded
+                    ? { display: "flex", flexWrap: "nowrap", height: "100vh" }
+                    : {
+                          width: "100%",
+                          height: "100%",
+                          position: "absolute",
+                          left: 0,
+                          top: 0,
+                          display: "flex",
+                          flexWrap: "nowrap"
+                      }
+            }
         >
             <Toolbar />
             <div>
