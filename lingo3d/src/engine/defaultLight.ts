@@ -9,7 +9,7 @@ import {
 import { appendableRoot } from "../api/core/Appendable"
 import Environment from "../display/Environment"
 import loadTexture from "../display/utils/loaders/loadTexture"
-import { onBeforeRender } from "../events/onBeforeRender"
+import { onRenderSlow } from "../events/onRenderSlow"
 import { FAR, NEAR, TEXTURES_URL } from "../globals"
 import { getCentripetal } from "../states/useCentripetal"
 import { getDefaultLight } from "../states/useDefaultLight"
@@ -32,7 +32,7 @@ createEffect(() => {
     if (!environment?.texture || !renderer) return
 
     if (environment.texture === "dynamic") {
-        const handle = onBeforeRender(() => {
+        const handle = onRenderSlow(() => {
             cubeCamera.position.copy(environment.outerObject3d.position)
             cubeCamera.matrixWorld.copy(environment.outerObject3d.matrixWorld)
             cubeCamera.update(renderer, scene)

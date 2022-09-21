@@ -441,9 +441,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                         setNumber(
                             material,
                             "envMapIntensity",
-                            _envFactor !== 1
-                                ? _envFactor
-                                : undefined
+                            _envFactor !== 1 ? _envFactor : undefined
                         )
 
                     if (_adjustColor !== undefined)
