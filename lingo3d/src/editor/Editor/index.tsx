@@ -344,6 +344,7 @@ const Editor = () => {
                     "roughnessFactor",
                     "opacityFactor",
                     "adjustColor",
+                    "reflection",
                     "toon"
                 ]
             )

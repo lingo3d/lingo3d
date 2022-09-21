@@ -1,10 +1,14 @@
 import { distance3d, Point3d } from "@lincode/math"
 import {
     Color,
+    CubeCamera,
     Matrix3,
+    MeshStandardMaterial,
     MeshToonMaterial,
     Object3D,
-    PropertyBinding
+    PropertyBinding,
+    Texture,
+    WebGLCubeRenderTarget
 } from "three"
 import {
     frustum,
@@ -49,6 +53,9 @@ import {
 } from "./raycast/sets"
 import "./raycast"
 import fpsAlpha from "../../utils/fpsAlpha"
+import { createEffect } from "@lincode/reactivity"
+import scene from "../../../engine/scene"
+import { getRenderer } from "../../../states/useRenderer"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -80,23 +87,13 @@ const setNumber = (
             : Math.max(defaultValue || 0, 0.25) * factor
 }
 
-const setBoolean = (
+const setProperty = (
     material: any,
     property: string,
-    value: boolean | undefined
+    value: boolean | Color | Texture | undefined
 ) => {
-    const defaultValue: boolean | undefined = (material.userData[property] ??=
-        material[property])
-    material[property] = value === undefined ? defaultValue : value
-}
-
-const setColor = (
-    material: any,
-    property: string,
-    value: Color | undefined
-) => {
-    const defaultValue: Color | undefined = (material.userData[property] ??=
-        material[property])
+    const defaultValue: boolean | Color | Texture | undefined =
+        (material.userData[property] ??= material[property])
     material[property] = value === undefined ? defaultValue : value
 }
 
@@ -353,11 +350,46 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                     _metalnessFactor,
                     _roughnessFactor,
                     _opacityFactor,
-                    _adjustColor
+                    _adjustColor,
+                    _reflection
                 } = this
 
+                let reflectionTexture: Texture | undefined
+                if (!_toon && _reflection) {
+                    const cubeRenderTarget = new WebGLCubeRenderTarget(256)
+                    reflectionTexture = cubeRenderTarget.texture
+                    handle.then(() => {
+                        cubeRenderTarget.dispose()
+                        reflectionTexture = undefined
+                    })
+
+                    const cubeCamera = new CubeCamera(
+                        1,
+                        100000,
+                        cubeRenderTarget
+                    )
+
+                    handle.watch(
+                        createEffect(() => {
+                            const renderer = getRenderer()
+                            if (!renderer) return
+
+                            const handle = onBeforeRender(() => {
+                                cubeCamera.position.copy(
+                                    getWorldPosition(this.outerObject3d)
+                                )
+                                cubeCamera.update(renderer, scene)
+                            })
+
+                            return () => {
+                                handle.cancel()
+                            }
+                        }, [getRenderer])
+                    )
+                }
+
                 this.outerObject3d.traverse((child: any) => {
-                    let { material } = child
+                    let material: MeshStandardMaterial = child.material
                     if (!material) return
 
                     Array.isArray(material) && (material = material[0])
@@ -370,6 +402,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                             child.material.dispose()
                             child.material = material
                         })
+                        return
                     }
 
                     if (_metalnessFactor !== undefined)
@@ -392,7 +425,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
                     if (_opacityFactor !== undefined) {
                         setNumber(material, "opacity", _opacityFactor)
-                        setBoolean(
+                        setProperty(
                             material,
                             "transparent",
                             _opacityFactor <= 1 ? true : undefined
@@ -400,13 +433,16 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                     }
 
                     if (_adjustColor !== undefined)
-                        setColor(
+                        setProperty(
                             material,
                             "color",
                             _adjustColor !== "#ffffff"
                                 ? new Color(_adjustColor)
                                 : undefined
                         )
+
+                    if (_reflection !== undefined)
+                        setProperty(material, "envMap", reflectionTexture)
                 })
             })
             return handle
@@ -446,6 +482,15 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
     public set adjustColor(val) {
         this._adjustColor = val
+        this.refreshFactors()
+    }
+
+    private _reflection?: boolean
+    public get reflection() {
+        return this._reflection ?? false
+    }
+    public set reflection(val: boolean) {
+        this._reflection = val
         this.refreshFactors()
     }
 
