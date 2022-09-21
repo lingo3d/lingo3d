@@ -1,4 +1,4 @@
-import { applyMixins, forceGet, lazy } from "@lincode/utils"
+import { applyMixins, forceGet } from "@lincode/utils"
 import { ExtrudeGeometry, Group, Mesh, Shape } from "three"
 import type { SVGResult } from "three/examples/jsm/loaders/SVGLoader"
 import Loaded from "./core/Loaded"
@@ -85,6 +85,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         return loadedObject3d
     }
 }
+//@ts-ignore
 interface SvgMesh
     extends Loaded<SVGResult>,
         TexturedBasicMixin,

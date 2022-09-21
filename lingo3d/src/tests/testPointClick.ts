@@ -6,9 +6,6 @@ settings.gridHelper = true
 const reflector = new Reflector()
 reflector.scale = 100
 reflector.physics = "map"
-reflector.roughnessMap = "roughness.png"
-reflector.normalMap = "normal.jpg"
-reflector.roughness = 5
 reflector.onClick = e => {
     console.log(e)
 }
