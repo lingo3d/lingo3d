@@ -57,6 +57,7 @@ import { createEffect } from "@lincode/reactivity"
 import scene from "../../../engine/scene"
 import { getRenderer } from "../../../states/useRenderer"
 import { FAR, NEAR } from "../../../globals"
+import { onRenderSlow } from "../../../events/onRenderSlow"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -376,7 +377,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                             const renderer = getRenderer()
                             if (!renderer) return
 
-                            const handle = onBeforeRender(() => {
+                            const handle = onRenderSlow(() => {
                                 cubeCamera.position.copy(
                                     getWorldPosition(this.outerObject3d)
                                 )
