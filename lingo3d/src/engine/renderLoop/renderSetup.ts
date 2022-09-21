@@ -2,7 +2,7 @@ import { LinearToneMapping, NoToneMapping } from "three"
 import { getExposure } from "../../states/useExposure"
 import { getResolution, setResolution } from "../../states/useResolution"
 import { createEffect, createNestedEffect } from "@lincode/reactivity"
-import { getVR } from "../../states/useVR"
+import { getWebXR } from "../../states/useWebXR"
 import { getRenderer } from "../../states/useRenderer"
 import { getPBR } from "../../states/usePBR"
 import { getSecondaryCamera } from "../../states/useSecondaryCamera"
@@ -131,7 +131,7 @@ createEffect(() => {
 }, [getExposure, getRenderer])
 
 createEffect(() => {
-    if (getVR() !== "webxr") return
+    if (!getWebXR()) return
 
     const renderer = getRenderer()
     if (!renderer) return
@@ -147,4 +147,4 @@ createEffect(() => {
         renderer.xr.enabled = false
         container.removeChild(button)
     }
-}, [getVR, getRenderer])
+}, [getWebXR, getRenderer])

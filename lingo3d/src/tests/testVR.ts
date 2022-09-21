@@ -3,9 +3,9 @@ import Model from "../display/Model"
 import Sky from "../display/Sky"
 import Cube from "../display/primitives/Cube"
 import FirstPersonCamera from "../display/cameras/FirstPersonCamera"
-import { setVR } from "../states/useVR"
+import { setWebXR } from "../states/useWebXR"
 
-setVR("webxr")
+setWebXR(true)
 
 const player = new Cube()
 player.width = 50

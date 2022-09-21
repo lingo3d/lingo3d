@@ -6,11 +6,11 @@ import { getCameraStack } from "./useCameraStack"
 import { last } from "@lincode/utils"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { getResolution } from "./useResolution"
-import { getVR } from "./useVR"
 import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import getWorldQuaternion from "../display/utils/getWorldQuaternion"
 import fpsAlpha from "../display/utils/fpsAlpha"
+import { getWebXR } from "./useWebXR"
 
 export const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
@@ -19,7 +19,7 @@ export const updateCameraAspect = (camera: Camera) => {
     const [resX, resY] = getResolution()
     const aspect = resX / resY
 
-    if (camera instanceof PerspectiveCamera && !getVR()) {
+    if (camera instanceof PerspectiveCamera && !getWebXR()) {
         camera.aspect = aspect
         camera.updateProjectionMatrix()
     } else if (camera instanceof OrthographicCamera) {
