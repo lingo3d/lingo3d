@@ -1,4 +1,4 @@
-import { Group, Mesh, Object3D } from "three"
+import { Group, Material, Mesh, Object3D } from "three"
 import { boxGeometry } from "../primitives/Cube"
 import { wireframeMaterial } from "../utils/reusables"
 import ObjectManager from "./ObjectManager"
@@ -277,6 +277,26 @@ export default abstract class Loaded<T = Object3D>
         this.cancelHandle("refreshFactorsLoaded", () =>
             this.loaded.then(() => void super.refreshFactors())
         )
+    }
+
+    protected materialCloned?: boolean
+    protected tryCloneMaterial() {
+        if (this.materialCloned) return
+        this.materialCloned = true
+
+        this.loaded.then((loaded) => {
+            const cloned: Array<Material> = []
+            loaded.traverse((child: any) => {
+                if (!child.material) return
+                cloned.push((child.material = child.material.clone()))
+            })
+            return () => {
+                for (const material of cloned) {
+                    material.dispose()
+                    console.log("so much to do")
+                }
+            }
+        })
     }
 
     public override placeAt(object: MeshItem | Point3d | string) {
