@@ -384,7 +384,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
                 this.outerObject3d.traverse((child: any) => {
                     let material: MeshStandardMaterial = child.material
-                    if (!material) return
+                    if (!material || material.wireframe) return
 
                     Array.isArray(material) && (material = material[0])
 
