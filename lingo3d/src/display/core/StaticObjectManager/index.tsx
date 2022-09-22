@@ -53,12 +53,12 @@ import {
 } from "./raycast/sets"
 import "./raycast"
 import fpsAlpha from "../../utils/fpsAlpha"
-import { createEffect } from "@lincode/reactivity"
-import scene from "../../../engine/scene"
-import { getRenderer } from "../../../states/useRenderer"
 import { FAR, NEAR } from "../../../globals"
 import { onRenderSlow } from "../../../events/onRenderSlow"
-import { onRenderSlowest } from "../../../events/onRenderSlowest"
+import {
+    pullReflectionPairs,
+    pushReflectionPairs
+} from "../../../states/useReflectionPairs"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -365,38 +365,21 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                         _reflection ? 256 : 16
                     )
                     reflectionTexture = cubeRenderTarget.texture
+                    const cubeCamera = new CubeCamera(
+                        NEAR,
+                        _reflection ? FAR : 5,
+                        cubeRenderTarget
+                    )
+                    const pair: [StaticObjectManager, CubeCamera] = [
+                        this,
+                        cubeCamera
+                    ]
+                    pushReflectionPairs(pair)
                     handle.then(() => {
                         cubeRenderTarget.dispose()
                         reflectionTexture = undefined
+                        pullReflectionPairs(pair)
                     })
-
-                    const cubeCamera = new CubeCamera(
-                        NEAR,
-                        _reflection ? FAR: 5,
-                        cubeRenderTarget
-                    )
-
-                    handle.watch(
-                        createEffect(() => {
-                            const renderer = getRenderer()
-                            if (!renderer) return
-
-                            const onRender = _reflection
-                                ? onRenderSlow
-                                : onRenderSlowest
-                            const handle = onRender(() => {
-                                cubeCamera.position.copy(
-                                    getWorldPosition(this.outerObject3d)
-                                )
-                                this.outerObject3d.visible = false
-                                cubeCamera.update(renderer, scene)
-                                this.outerObject3d.visible = true
-                            })
-                            return () => {
-                                handle.cancel()
-                            }
-                        }, [getRenderer])
-                    )
                 }
 
                 this.outerObject3d.traverse((child: any) => {
