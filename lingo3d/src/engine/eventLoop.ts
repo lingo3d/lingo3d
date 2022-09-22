@@ -6,7 +6,6 @@ import { getFps } from "../states/useFps"
 import { getFirstLoad } from "../states/useFirstLoad"
 import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
 import { emitRenderSlow } from "../events/onRenderSlow"
-import { emitRenderSlowest } from "../events/onRenderSlowest"
 
 export const timer = (time: number, repeat: number, cb: () => void) => {
     let count = 0
@@ -27,7 +26,6 @@ export const fpsRatio = [1]
 export const dt = [0]
 
 let renderSlowCount = 0
-let renderSlowestCount = 0
 
 createEffect(() => {
     const renderer = getRenderer()
@@ -46,10 +44,6 @@ createEffect(() => {
         if (++renderSlowCount === 2) {
             renderSlowCount = 0
             emitRenderSlow()
-        }
-        if (++renderSlowestCount === 10) {
-            renderSlowestCount = 0
-            emitRenderSlowest()
         }
     })
 }, [getFps, getRenderer, getFirstLoad, getFirstLoadBeforeRender])
