@@ -12,7 +12,7 @@ import {
     deleteBloom
 } from "../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import Reresolvable from "./utils/Reresolvable"
-import { Cancellable } from "@lincode/promiselikes"
+import { Cancellable, Resolvable } from "@lincode/promiselikes"
 import toResolvable from "../utils/toResolvable"
 import MeshItem from "./MeshItem"
 import { Point3d } from "@lincode/math"
@@ -284,6 +284,7 @@ export default abstract class Loaded<T = Object3D>
         if (this.materialCloned) return
         this.materialCloned = true
 
+        const resolvable = new Resolvable()
         this.watch(
             this.loaded.then((loaded) => {
                 const cloned: Array<Material> = []
@@ -291,11 +292,13 @@ export default abstract class Loaded<T = Object3D>
                     if (!child.material) return
                     cloned.push((child.material = child.material.clone()))
                 })
+                resolvable.resolve()
                 return () => {
                     for (const material of cloned) material.dispose()
                 }
             })
         )
+        return resolvable
     }
 
     public override placeAt(object: MeshItem | Point3d | string) {

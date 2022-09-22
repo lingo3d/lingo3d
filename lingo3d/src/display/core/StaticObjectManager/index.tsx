@@ -343,9 +343,10 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
             const handle = new Cancellable()
 
             //@ts-ignore
-            "tryCloneMaterial" in this && this.tryCloneMaterial()
+            const resolvable = this.tryCloneMaterial?.()
 
-            queueMicrotask(() => {
+            ;(async () => {
+                await resolvable
                 if (handle.done) return
 
                 const {
@@ -367,7 +368,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                     reflectionTexture = cubeRenderTarget.texture
                     const cubeCamera = new CubeCamera(
                         NEAR,
-                        _reflection ? FAR : 5,
+                        10,
                         cubeRenderTarget
                     )
                     const pair: [StaticObjectManager, CubeCamera] = [
@@ -448,7 +449,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                     )
                         setProperty(material, "envMap", reflectionTexture)
                 })
-            })
+            })()
             return handle
         })
     }
