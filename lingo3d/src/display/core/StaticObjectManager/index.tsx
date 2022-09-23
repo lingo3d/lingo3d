@@ -53,12 +53,11 @@ import {
 } from "./raycast/sets"
 import "./raycast"
 import fpsAlpha from "../../utils/fpsAlpha"
-import { FAR, NEAR } from "../../../globals"
-import { onRenderSlow } from "../../../events/onRenderSlow"
 import {
     pullReflectionPairs,
     pushReflectionPairs
 } from "../../../states/useReflectionPairs"
+import { NEAR } from "../../../globals"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
