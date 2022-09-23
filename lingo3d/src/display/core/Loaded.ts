@@ -253,22 +253,22 @@ export default abstract class Loaded<T = Object3D>
         queueMicrotask(() => {
             if (handle.done) return
 
-            if (this._physics === "map" || this._physics === "map-debug")
-                handle.watch(
-                    this.loaded.then((loaded) => {
-                        if (!this.managerSet) {
-                            this.managerSet = true
-                            loaded.traverse(
-                                (child) => (child.userData.manager ??= this)
-                            )
-                        }
-                        set.add(loaded)
-                        return () => {
-                            set.delete(loaded)
-                        }
-                    })
-                )
-            else handle.watch(super.addToRaycastSet(set))
+            set.add(this.object3d)
+            handle.watch(
+                this.loaded.then((loaded) => {
+                    if (!this.managerSet) {
+                        this.managerSet = true
+                        loaded.traverse(
+                            (child) => (child.userData.manager ??= this)
+                        )
+                    }
+                    set.add(loaded)
+                    set.delete(this.object3d)
+                    return () => {
+                        set.delete(loaded)
+                    }
+                })
+            )
         })
         return handle
     }
