@@ -10,6 +10,7 @@ import { setTransformControlsDragging } from "../states/useTransformControlsDrag
 import { getEditorModeComputed } from "../states/useEditorModeComputed"
 import { getTransformControlsSpaceComputed } from "../states/useTransformControlsSpaceComputed"
 import { getCameraRendered } from "../states/useCameraRendered"
+import { getSelectionNativeTarget } from "../states/useSelectionNativeTarget"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import(
@@ -40,7 +41,8 @@ const lazyTransformControls = lazy(async () => {
 })
 
 createEffect(() => {
-    const target = getSelectionTarget()
+    const target =
+        getSelectionNativeTarget() ?? getSelectionTarget()?.outerObject3d
     if (!target) return
 
     let mode = getEditorModeComputed()
@@ -54,7 +56,7 @@ createEffect(() => {
     lazyTransformControls().then((transformControls) => {
         if (
             handle.done ||
-            !target.outerObject3d.parent ||
+            !target.parent ||
             (mode !== "translate" && mode !== "rotate" && mode !== "scale")
         )
             return
@@ -66,7 +68,7 @@ createEffect(() => {
         transformControls.setTranslationSnap(snap)
 
         scene.add(transformControls)
-        transformControls.attach(target.outerObject3d)
+        transformControls.attach(target)
         transformControls.enabled = true
 
         handle.then(() => {
@@ -80,6 +82,7 @@ createEffect(() => {
     }
 }, [
     getSelectionTarget,
+    getSelectionNativeTarget,
     getEditorModeComputed,
     getTransformControlsSpaceComputed,
     getTransformControlsSnap
