@@ -11,7 +11,7 @@ import ModelTreeItem from "./ModelTreeItem"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import { Object3D } from "three"
-import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
+import { setSelectionSubTarget } from "../../states/useSelectionSubTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import getComponentName from "../utils/getComponentName"
 import { getEditing } from "../../states/useEditing"
@@ -32,7 +32,7 @@ export const makeTreeItemCallbacks =
             getSelectionTarget() !== parent &&
             emitSelectionTarget(parent)
         if (target instanceof Object3D)
-            queueMicrotask(() => setSceneGraphTarget(target))
+            queueMicrotask(() => setSelectionSubTarget(target))
         else emitSelectionTarget(target)
     }
 

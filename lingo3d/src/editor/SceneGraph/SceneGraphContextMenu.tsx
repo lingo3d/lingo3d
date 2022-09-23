@@ -8,7 +8,7 @@ import Dummy, { dummyTypeMap } from "../../display/Dummy"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
 import { DUMMY_URL, YBOT_URL } from "../../globals"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
-import { setSceneGraphTarget } from "../../states/useSceneGraphTarget"
+import { setSelectionSubTarget } from "../../states/useSelectionSubTarget"
 import {
     addSelectionFrozen,
     clearSelectionFrozen
@@ -42,7 +42,7 @@ const search = (n: string, target: Loaded | Appendable) => {
     const expandedSet = new Set<Object3D>()
     traverseUp(found, expandedSet)
     setSceneGraphExpanded(expandedSet)
-    setSceneGraphTarget(found)
+    setSelectionSubTarget(found)
 }
 
 const SceneGraphContextMenu = () => {

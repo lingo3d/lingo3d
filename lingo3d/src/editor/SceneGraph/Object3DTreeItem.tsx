@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "preact/hooks"
 import { Object3D } from "three"
 import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
-import { useSceneGraphExpanded, useSceneGraphTarget } from "../states"
+import { useSceneGraphExpanded, useSelectionSubTarget } from "../states"
 import ComponentIcon from "./icons/ComponentIcon"
 import BaseTreeItem from "../component/BaseTreeItem"
 
@@ -11,7 +11,7 @@ type Object3DTreeItemProps = TreeItemProps & {
 
 const Object3DTreeItem = ({ appendable, object3d }: Object3DTreeItemProps) => {
     const [expanded, setExpanded] = useState(false)
-    const [sceneGraphTarget] = useSceneGraphTarget()
+    const [subTarget] = useSelectionSubTarget()
 
     const handleClick = useMemo(
         () => makeTreeItemCallbacks(object3d, appendable),
@@ -23,7 +23,7 @@ const Object3DTreeItem = ({ appendable, object3d }: Object3DTreeItemProps) => {
         sceneGraphExpanded?.has(object3d) && setExpanded(true)
     }, [sceneGraphExpanded])
 
-    const selected = sceneGraphTarget === object3d
+    const selected = subTarget === object3d
 
     return (
         <BaseTreeItem

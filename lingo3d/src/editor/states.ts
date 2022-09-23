@@ -22,9 +22,9 @@ import {
     setTransformControlsSpaceComputed
 } from "../states/useTransformControlsSpaceComputed"
 import {
-    setSceneGraphTarget,
-    getSceneGraphTarget
-} from "../states/useSceneGraphTarget"
+    setSelectionSubTarget,
+    getSelectionSubTarget
+} from "../states/useSelectionSubTarget"
 import {
     setSceneGraphExpanded,
     getSceneGraphExpanded
@@ -60,9 +60,9 @@ export const useTransformControlsSpaceComputed = hook(
     setTransformControlsSpaceComputed,
     getTransformControlsSpaceComputed
 )
-export const useSceneGraphTarget = hook(
-    setSceneGraphTarget,
-    getSceneGraphTarget
+export const useSelectionSubTarget = hook(
+    setSelectionSubTarget,
+    getSelectionSubTarget
 )
 export const useSceneGraphExpanded = hook(
     setSceneGraphExpanded,
