@@ -2,8 +2,8 @@ import store from "@lincode/reactivity"
 import { Object3D } from "three"
 import { getSelectionTarget } from "./useSelectionTarget"
 
-export const [setSelectionSubTarget, getSelectionSubTarget] = store<
+export const [setSelectionNativeTarget, getSelectionNativeTarget] = store<
     Object3D | undefined
 >(undefined)
 
-getSelectionTarget(() => setSelectionSubTarget(undefined))
+getSelectionTarget(() => setSelectionNativeTarget(undefined))

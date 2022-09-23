@@ -14,7 +14,7 @@ import DeleteIcon from "./icons/DeleteIcon"
 import TitleBarButton from "../component/TitleBarButton"
 import {
     useMultipleSelectionTargets,
-    useSelectionSubTarget,
+    useSelectionNativeTarget,
     useSelectionTarget
 } from "../states"
 import deleteSelected from "../Editor/deleteSelected"
@@ -64,12 +64,12 @@ const SceneGraph = () => {
 
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const [selectionTarget] = useSelectionTarget()
-    const [subTarget] = useSelectionSubTarget()
+    const [nativeTarget] = useSelectionNativeTarget()
 
     const handleFind = () => {
-        if (subTarget?.name && selectionTarget instanceof ObjectManager)
+        if (nativeTarget?.name && selectionTarget instanceof ObjectManager)
             setTimeout(() =>
-                emitSelectionTarget(selectionTarget.find(subTarget.name))
+                emitSelectionTarget(selectionTarget.find(nativeTarget.name))
             )
     }
 
@@ -87,10 +87,7 @@ const SceneGraph = () => {
             }}
         >
             <TitleBar title="scenegraph">
-                <TitleBarButton
-                    disabled={!subTarget}
-                    onClick={handleFind}
-                >
+                <TitleBarButton disabled={!nativeTarget} onClick={handleFind}>
                     <FindIcon />
                 </TitleBarButton>
                 <TitleBarButton

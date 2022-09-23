@@ -1,17 +1,17 @@
 import { useEffect, useMemo, useState } from "preact/hooks"
 import { Object3D } from "three"
 import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
-import { useSceneGraphExpanded, useSelectionSubTarget } from "../states"
+import { useSceneGraphExpanded, useSelectionNativeTarget } from "../states"
 import ComponentIcon from "./icons/ComponentIcon"
 import BaseTreeItem from "../component/BaseTreeItem"
 
-type Object3DTreeItemProps = TreeItemProps & {
+type NativeTreeItemProps = TreeItemProps & {
     object3d: Object3D
 }
 
-const Object3DTreeItem = ({ appendable, object3d }: Object3DTreeItemProps) => {
+const NativeTreeItem = ({ appendable, object3d }: NativeTreeItemProps) => {
     const [expanded, setExpanded] = useState(false)
-    const [subTarget] = useSelectionSubTarget()
+    const [nativeTarget] = useSelectionNativeTarget()
 
     const handleClick = useMemo(
         () => makeTreeItemCallbacks(object3d, appendable),
@@ -23,7 +23,7 @@ const Object3DTreeItem = ({ appendable, object3d }: Object3DTreeItemProps) => {
         sceneGraphExpanded?.has(object3d) && setExpanded(true)
     }, [sceneGraphExpanded])
 
-    const selected = subTarget === object3d
+    const selected = nativeTarget === object3d
 
     return (
         <BaseTreeItem
@@ -38,7 +38,7 @@ const Object3DTreeItem = ({ appendable, object3d }: Object3DTreeItemProps) => {
         >
             {() =>
                 object3d.children.map((child) => (
-                    <Object3DTreeItem
+                    <NativeTreeItem
                         key={child.uuid}
                         object3d={child}
                         appendable={appendable}
@@ -49,4 +49,4 @@ const Object3DTreeItem = ({ appendable, object3d }: Object3DTreeItemProps) => {
     )
 }
 
-export default Object3DTreeItem
+export default NativeTreeItem

@@ -2,7 +2,7 @@ import { useEffect, useState } from "preact/hooks"
 import Model from "../../display/Model"
 import { Object3D } from "three"
 import TreeItem, { TreeItemProps } from "./TreeItem"
-import Object3DTreeItem from "./Object3DTreeItem"
+import NativeTreeItem from "./NativeTreeItem"
 
 type ModelTreeItemProps = TreeItemProps & {
     appendable: Model
@@ -25,7 +25,7 @@ const ModelTreeItem = ({ appendable }: ModelTreeItemProps) => {
     return (
         <TreeItem appendable={appendable} expandable={!!loadedObject3d}>
             {loadedObject3d && (
-                <Object3DTreeItem
+                <NativeTreeItem
                     appendable={appendable}
                     object3d={loadedObject3d}
                 />
