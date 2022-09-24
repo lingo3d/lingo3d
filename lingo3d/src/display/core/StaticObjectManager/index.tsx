@@ -355,14 +355,13 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                     _opacityFactor,
                     _envFactor,
                     _adjustColor,
-                    _reflection,
-                    _illumination
+                    _reflection
                 } = this
 
                 let reflectionTexture: Texture | undefined
-                if (!_toon && (_reflection || _illumination)) {
+                if (!_toon && _reflection) {
                     const cubeRenderTarget = new WebGLCubeRenderTarget(
-                        _reflection ? 256 : 16
+                        _reflection ? 256 : 64
                     )
                     reflectionTexture = cubeRenderTarget.texture
                     const cubeCamera = new CubeCamera(
@@ -442,10 +441,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                                 : undefined
                         )
 
-                    if (
-                        _reflection !== undefined ||
-                        _illumination !== undefined
-                    )
+                    if (_reflection !== undefined)
                         setProperty(material, "envMap", reflectionTexture)
                 })
             })()
@@ -504,15 +500,6 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
     public set reflection(val: boolean) {
         this._reflection = val
-        this.refreshFactors()
-    }
-
-    private _illumination?: boolean
-    public get illumination() {
-        return this._illumination ?? false
-    }
-    public set illumination(val: boolean) {
-        this._illumination = val
         this.refreshFactors()
     }
 
