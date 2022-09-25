@@ -360,9 +360,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
                 let reflectionTexture: Texture | undefined
                 if (!_toon && _reflection) {
-                    const cubeRenderTarget = new WebGLCubeRenderTarget(
-                        _reflection ? 256 : 64
-                    )
+                    const cubeRenderTarget = new WebGLCubeRenderTarget(256)
                     reflectionTexture = cubeRenderTarget.texture
                     const cubeCamera = new CubeCamera(
                         NEAR,
