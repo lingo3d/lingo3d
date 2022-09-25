@@ -1,13 +1,34 @@
+import { Cancellable } from "@lincode/promiselikes"
 import { debounce } from "@lincode/utils"
 import { Object3D } from "three"
 import StaticObjectManager from ".."
 import Appendable, { appendableRoot } from "../../../../api/core/Appendable"
+import {
+    onSelectionTarget,
+    emitSelectionTarget
+} from "../../../../events/onSelectionTarget"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
 
 const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates
 
 export const unselectableSet = new WeakSet<Appendable>()
+const helpers = new Set<Appendable>()
+
+export const addSelectionHelper = (helper: Appendable, manager: Appendable) => {
+    appendableRoot.delete(helper)
+    manager.outerObject3d.add(helper.outerObject3d)
+    helpers.add(helper)
+
+    const handle = onSelectionTarget(
+        ({ target }) => target === helper && emitSelectionTarget(manager)
+    )
+    return new Cancellable(() => {
+        helper.dispose()
+        helpers.delete(helper)
+        handle.cancel()
+    })
+}
 
 const traverse = (
     targets:
@@ -15,6 +36,10 @@ const traverse = (
         | Set<Appendable | StaticObjectManager>,
     frozenSet: Set<Appendable>
 ) => {
+    for (const helper of helpers) {
+        //@ts-ignore
+        helper.addToRaycastSet(selectionCandidates)
+    }
     for (const manager of targets) {
         if (frozenSet.has(manager)) continue
 

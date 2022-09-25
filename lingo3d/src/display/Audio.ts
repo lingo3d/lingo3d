@@ -2,9 +2,9 @@ import store, { createEffect, Reactive } from "@lincode/reactivity"
 import { AudioListener, PositionalAudio } from "three"
 import PositionedItem from "../api/core/PositionedItem"
 import mainCamera from "../engine/mainCamera"
-import { emitSelectionTarget } from "../events/onSelectionTarget"
 import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
 import { getCameraRendered } from "../states/useCameraRendered"
+import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import makeAudioSprite from "./core/utils/makeAudioSprite"
 import loadAudio from "./utils/loaders/loadAudio"
 
@@ -40,13 +40,9 @@ export default class Audio
         this.createEffect(() => {
             if (getCameraRendered() !== mainCamera) return
 
-            const sprite = makeAudioSprite()
-            this.outerObject3d.add(sprite.outerObject3d)
-            sprite.onClick = () => {
-                emitSelectionTarget(this)
-            }
+            const handle = addSelectionHelper(makeAudioSprite(), this)
             return () => {
-                sprite.dispose()
+                handle.cancel()
             }
         }, [getCameraRendered])
 

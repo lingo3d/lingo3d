@@ -7,16 +7,11 @@ import getWorldPosition from "./utils/getWorldPosition"
 import { scaleDown } from "../engine/constants"
 import { timer } from "../engine/eventLoop"
 import mainCamera from "../engine/mainCamera"
-import scene from "../engine/scene"
-import {
-    emitSelectionTarget,
-    onSelectionTarget
-} from "../events/onSelectionTarget"
 import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
-import { appendableRoot } from "../api/core/Appendable"
 import PositionedItem from "../api/core/PositionedItem"
 import { getCameraRendered } from "../states/useCameraRendered"
 import StaticObjectManager, { idMap } from "./core/StaticObjectManager"
+import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 
 const getTargets = (id: string) => idMap.get(id) ?? []
 
@@ -142,15 +137,10 @@ export default class Trigger extends PositionedItem implements ITrigger {
             if (!_helper || getCameraRendered() !== mainCamera) return
 
             const h = (helper = _pad ? new Cylinder() : new Sphere())
-            appendableRoot.delete(h)
-            this.outerObject3d.add(h.outerObject3d)
+            const handle = addSelectionHelper(h, this)
             h.scale = _radius * scaleDown * 2
             h.opacity = 0.5
             h.height = _pad ? 10 : 100
-
-            const handle = onSelectionTarget(
-                ({ target }) => target === h && emitSelectionTarget(this)
-            )
 
             return () => {
                 h.dispose()

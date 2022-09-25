@@ -8,11 +8,11 @@ import IEnvironment, {
     environmentSchema
 } from "../interface/IEnvironment"
 import PositionedItem from "../api/core/PositionedItem"
-import { emitSelectionTarget } from "../events/onSelectionTarget"
 import makeLightSprite from "./core/utils/makeLightSprite"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
 import { Reactive } from "@lincode/reactivity"
+import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 
 export default class Environment
     extends PositionedItem
@@ -30,13 +30,9 @@ export default class Environment
             if (getCameraRendered() !== mainCamera || !this.helperState.get())
                 return
 
-            const sprite = makeLightSprite()
-            this.outerObject3d.add(sprite.outerObject3d)
-            sprite.onClick = () => {
-                emitSelectionTarget(this)
-            }
+            const handle = addSelectionHelper(makeLightSprite(), this)
             return () => {
-                sprite.dispose()
+                handle.cancel()
             }
         }, [getCameraRendered, this.helperState.get])
     }

@@ -12,13 +12,13 @@ import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHel
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { SHADOW_BIAS } from "../../globals"
 import ILightBase from "../../interface/ILightBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getShadowBias } from "../../states/useShadowBias"
 import { getShadowResolution } from "../../states/useShadowResolution"
 import ObjectManager from "./ObjectManager"
+import { addSelectionHelper } from "./StaticObjectManager/raycast/selectionCandidates"
 import makeLightSprite from "./utils/makeLightSprite"
 
 export default abstract class LightBase<T extends typeof Light>
@@ -94,10 +94,7 @@ export default abstract class LightBase<T extends typeof Light>
                 return
 
             const sprite = makeLightSprite()
-            sprite.onClick = () => {
-                emitSelectionTarget(this)
-            }
-            const handle = new Cancellable()
+            const handle = addSelectionHelper(sprite, this)
             if (Helper) {
                 const helper = new Helper(light as any)
                 scene.add(helper)
@@ -110,10 +107,8 @@ export default abstract class LightBase<T extends typeof Light>
                     helper.dispose()
                     scene.remove(helper)
                 })
-            } else this.outerObject3d.add(sprite.outerObject3d)
-
+            }
             return () => {
-                sprite.dispose()
                 handle.cancel()
             }
         }, [getCameraRendered, this.helperState.get, this.lightState.get])

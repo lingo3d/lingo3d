@@ -1,11 +1,6 @@
 import { Reactive } from "@lincode/reactivity"
 import Cylinder from "./primitives/Cylinder"
 import mainCamera from "../engine/mainCamera"
-import {
-    emitSelectionTarget,
-    onSelectionTarget
-} from "../events/onSelectionTarget"
-import { appendableRoot } from "../api/core/Appendable"
 import { getCameraRendered } from "../states/useCameraRendered"
 import ISpawnPoint, {
     spawnPointDefaults,
@@ -14,6 +9,7 @@ import ISpawnPoint, {
 import ObjectManager from "./core/ObjectManager"
 import SimpleObjectManager from "./core/SimpleObjectManager"
 import scene from "../engine/scene"
+import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 
 export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
     public static componentName = "spawnPoint"
@@ -38,16 +34,11 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
                 return
 
             const h = new Cylinder()
-            appendableRoot.delete(h)
-            this.outerObject3d.add(h.outerObject3d)
+            const handle = addSelectionHelper(h, this)
             h.opacity = 0.5
             h.height = 10
 
-            const handle = onSelectionTarget(
-                ({ target }) => target === h && emitSelectionTarget(this)
-            )
             return () => {
-                h.dispose()
                 handle.cancel()
             }
         }, [this.helperState.get, getCameraRendered])
