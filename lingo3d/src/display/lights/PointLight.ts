@@ -15,6 +15,7 @@ export default class PointLight
 
     public constructor() {
         super(ThreePointLight)
+        this.castShadow = false
     }
 
     public get decay() {

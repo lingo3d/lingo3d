@@ -80,7 +80,7 @@ createEffect(() => {
         const light = new SkyLight()
         appendableRoot.delete(light)
         light.helper = false
-        light.groundColor = "#666666"
+        light.intensity = 0.7
         handle.then(() => light.dispose())
     })
     import("../display/lights/DirectionalLight").then((module) => {
