@@ -77,9 +77,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
     }
 
     public constructor() {
-        const outerObject3d = new Object3D()
-        super(outerObject3d)
-        scene.add(outerObject3d)
+        super()
 
         let helper: Cylinder | Sphere | undefined
 
@@ -92,7 +90,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
 
             let hitOld = false
             const handle = timer(_interval, -1, () => {
-                const { x, y, z } = getWorldPosition(outerObject3d)
+                const { x, y, z } = getWorldPosition(this.outerObject3d)
                 const targets =
                     typeof _targetIds === "string"
                         ? getTargets(_targetIds)
@@ -145,7 +143,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
 
             const h = (helper = _pad ? new Cylinder() : new Sphere())
             appendableRoot.delete(h)
-            outerObject3d.add(h.outerObject3d)
+            this.outerObject3d.add(h.outerObject3d)
             h.scale = _radius * scaleDown * 2
             h.opacity = 0.5
             h.height = _pad ? 10 : 100

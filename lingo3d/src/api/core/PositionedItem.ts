@@ -3,6 +3,7 @@ import { Object3D } from "three"
 import getWorldPosition from "../../display/utils/getWorldPosition"
 import { vec2Point } from "../../display/utils/vec2Point"
 import { scaleUp, scaleDown } from "../../engine/constants"
+import scene from "../../engine/scene"
 import IPositioned from "../../interface/IPositioned"
 import EventLoopItem from "./EventLoopItem"
 
@@ -10,6 +11,11 @@ export default abstract class PositionedItem<T extends Object3D = Object3D>
     extends EventLoopItem<T>
     implements IPositioned
 {
+    public constructor(outerObject3d: T = new Object3D() as T) {
+        super(outerObject3d)
+        scene.add(outerObject3d)
+    }
+
     public get x() {
         return this.outerObject3d.position.x * scaleUp
     }

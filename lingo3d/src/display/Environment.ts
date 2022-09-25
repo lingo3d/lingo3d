@@ -16,7 +16,6 @@ import makeLightSprite from "./core/utils/makeLightSprite"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
 import { Reactive } from "@lincode/reactivity"
-import scene from "../engine/scene"
 
 export default class Environment
     extends PositionedItem
@@ -28,7 +27,6 @@ export default class Environment
 
     public constructor() {
         super()
-        scene.add(this.outerObject3d)
         pushEnvironmentStack(this)
 
         this.createEffect(() => {

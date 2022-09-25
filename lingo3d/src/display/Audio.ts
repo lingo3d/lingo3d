@@ -2,7 +2,6 @@ import store, { createEffect, Reactive } from "@lincode/reactivity"
 import { AudioListener, PositionalAudio } from "three"
 import PositionedItem from "../api/core/PositionedItem"
 import mainCamera from "../engine/mainCamera"
-import scene from "../engine/scene"
 import {
     onSelectionTarget,
     emitSelectionTarget
@@ -40,7 +39,6 @@ export default class Audio
         !getAudioListener() && setAudioListener(new AudioListener())
         const sound = new PositionalAudio(getAudioListener()!)
         super(sound)
-        scene.add(sound)
 
         this.createEffect(() => {
             if (getCameraRendered() !== mainCamera) return
