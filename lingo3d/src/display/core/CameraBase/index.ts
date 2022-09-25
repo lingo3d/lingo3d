@@ -18,10 +18,7 @@ import MeshItem from "../MeshItem"
 import { Cancellable } from "@lincode/promiselikes"
 import mainCamera from "../../../engine/mainCamera"
 import scene from "../../../engine/scene"
-import {
-    onSelectionTarget,
-    emitSelectionTarget
-} from "../../../events/onSelectionTarget"
+import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { bokehDefault } from "../../../states/useBokeh"
 import { bokehApertureDefault } from "../../../states/useBokehAperture"
 import { bokehFocusDefault } from "../../../states/useBokehFocus"
@@ -70,16 +67,13 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
 
             const sprite = makeCameraSprite()
             helper.add(sprite.outerObject3d)
-
-            const handle = onSelectionTarget(({ target }) => {
-                target === sprite && emitSelectionTarget(this as any)
-            })
+            sprite.onClick = () => {
+                emitSelectionTarget(this)
+            }
             return () => {
                 helper.dispose()
                 scene.remove(helper)
-
                 sprite.dispose()
-                handle.cancel()
             }
         }, [getCameraRendered])
     }

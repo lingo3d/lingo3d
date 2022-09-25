@@ -8,10 +8,7 @@ import IEnvironment, {
     environmentSchema
 } from "../interface/IEnvironment"
 import PositionedItem from "../api/core/PositionedItem"
-import {
-    onSelectionTarget,
-    emitSelectionTarget
-} from "../events/onSelectionTarget"
+import { emitSelectionTarget } from "../events/onSelectionTarget"
 import makeLightSprite from "./core/utils/makeLightSprite"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
@@ -34,13 +31,11 @@ export default class Environment
                 return
 
             const sprite = makeLightSprite()
-            const handle = onSelectionTarget(({ target }) => {
-                target === sprite && emitSelectionTarget(this)
-            })
             this.outerObject3d.add(sprite.outerObject3d)
-
+            sprite.onClick = () => {
+                emitSelectionTarget(this)
+            }
             return () => {
-                handle.cancel()
                 sprite.dispose()
             }
         }, [getCameraRendered, this.helperState.get])

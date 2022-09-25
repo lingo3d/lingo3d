@@ -12,10 +12,7 @@ import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHel
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import {
-    emitSelectionTarget,
-    onSelectionTarget
-} from "../../events/onSelectionTarget"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { SHADOW_BIAS } from "../../globals"
 import ILightBase from "../../interface/ILightBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
@@ -96,15 +93,11 @@ export default abstract class LightBase<T extends typeof Light>
             )
                 return
 
-            const handle = new Cancellable()
-
             const sprite = makeLightSprite()
-            handle.watch(
-                onSelectionTarget(({ target }) => {
-                    target === sprite && emitSelectionTarget(this)
-                })
-            )
-
+            sprite.onClick = () => {
+                emitSelectionTarget(this)
+            }
+            const handle = new Cancellable()
             if (Helper) {
                 const helper = new Helper(light as any)
                 scene.add(helper)
