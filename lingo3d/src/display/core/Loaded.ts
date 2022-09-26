@@ -16,6 +16,10 @@ import { Cancellable, Resolvable } from "@lincode/promiselikes"
 import toResolvable from "../utils/toResolvable"
 import MeshItem from "./MeshItem"
 import { Point3d } from "@lincode/math"
+import {
+    addSSR,
+    deleteSSR
+} from "../../engine/renderLoop/effectComposer/ssrPass"
 
 export default abstract class Loaded<T = Object3D>
     extends ObjectManager<Mesh>
@@ -222,6 +226,30 @@ export default abstract class Loaded<T = Object3D>
                 addOutline(loaded)
                 return () => {
                     deleteOutline(loaded)
+                }
+            })
+        )
+    }
+
+    private _ssr?: boolean
+    public override get ssr() {
+        return !!this._ssr
+    }
+    public override set ssr(val) {
+        this._ssr = val
+
+        this.cancelHandle("ssr", () =>
+            this.loaded.then((loaded) => {
+                if (!val) return
+
+                const added: Array<Mesh> = []
+                loaded.traverse((child: any) => {
+                    if (!child.material) return
+                    addSSR(child)
+                    added.push(child)
+                })
+                return () => {
+                    for (const child of added) deleteSSR(child)
                 }
             })
         )

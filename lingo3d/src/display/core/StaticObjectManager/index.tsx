@@ -58,6 +58,10 @@ import {
     pushReflectionPairs
 } from "../../../states/useReflectionPairs"
 import { NEAR } from "../../../globals"
+import {
+    addSSR,
+    deleteSSR
+} from "../../../engine/renderLoop/effectComposer/ssrPass"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -299,6 +303,17 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
             val &&
                 (() =>
                     new Cancellable(() => deleteOutline(this.nativeObject3d)))
+        )
+    }
+
+    public get ssr() {
+        return !!this.nativeObject3d.userData.ssr
+    }
+    public set ssr(val) {
+        val && addSSR(this.nativeObject3d)
+        this.cancelHandle(
+            "ssr",
+            val && (() => new Cancellable(() => deleteSSR(this.nativeObject3d)))
         )
     }
 

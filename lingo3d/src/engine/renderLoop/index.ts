@@ -18,6 +18,8 @@ import "./effectComposer"
 import { getEffectComposer } from "../../states/useEffectComposer"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { emitRender } from "../../events/onRender"
+import { ssrPtr } from "./effectComposer/ssrPass"
+import { setSSR } from "../../states/useSSR"
 
 createEffect(() => {
     const renderer = getRenderer()
@@ -79,6 +81,7 @@ createEffect(() => {
 
     let selectiveBloomInitialized = false
     let outlineInitialized = false
+    let ssrInitialized = false
 
     const handle = loop(() => {
         emitBeforeRender()
@@ -94,6 +97,10 @@ createEffect(() => {
         if (outlinePtr[0] && !outlineInitialized) {
             setOutline(true)
             outlineInitialized = true
+        }
+        if (ssrPtr[0] && !ssrInitialized) {
+            setSSR(true)
+            ssrInitialized = true
         }
         effectComposer.render()
 

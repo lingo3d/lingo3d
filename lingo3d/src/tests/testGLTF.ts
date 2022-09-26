@@ -1,3 +1,1 @@
-import Model from "../display/Model"
-
-const model = new Model()
+import settings from "../api/settings"

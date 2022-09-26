@@ -324,7 +324,8 @@ const Editor = () => {
 
             const [effectsParams, effectsRest] = splitObject(displayRest, [
                 "bloom",
-                "outline"
+                "outline",
+                "ssr"
             ])
             effectsParams &&
                 addInputs(pane, "effects", target, defaults, effectsParams)

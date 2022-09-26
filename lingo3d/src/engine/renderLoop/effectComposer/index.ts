@@ -19,12 +19,16 @@ import outlinePass from "./outlinePass"
 import { getAntiAlias } from "../../../states/useAntiAlias"
 import { getRenderer } from "../../../states/useRenderer"
 import smaaPass from "./smaaPass"
+import { getSSR } from "../../../states/useSSR"
+import ssrPass from "./ssrPass"
 
 createEffect(() => {
     const effectComposer = getEffectComposer()
     if (!effectComposer) return
 
     const passes: Array<Pass> = [renderPass]
+
+    if (getSSR()) passes.push(ssrPass)
 
     if (getAmbientOcclusion()) passes.push(saoPass)
 
@@ -59,6 +63,7 @@ createEffect(() => {
     getSelectiveBloom,
     getBokeh,
     getOutline,
+    getSSR,
     getLensDistortion,
     getMotionBlur,
     getAntiAlias,
