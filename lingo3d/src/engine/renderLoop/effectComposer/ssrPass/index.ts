@@ -1,6 +1,6 @@
-import { SSRPass } from "three/examples/jsm/postprocessing/SSRPass"
+import { SSRPass } from "./SSRPass"
 import scene from "../../../scene"
-import { Mesh, Object3D } from "three"
+import { LinearEncoding, Mesh, Object3D } from "three"
 import { pull } from "@lincode/utils"
 import { HEIGHT, WIDTH } from "../../../../globals"
 import { getRenderer } from "../../../../states/useRenderer"
@@ -31,7 +31,8 @@ const ssrPass = new SSRPass({
     width: WIDTH,
     height: HEIGHT,
     groundReflector: null,
-    selects: ssrSelects
+    selects: ssrSelects,
+    encoding: LinearEncoding
 }) as any
 export default ssrPass
 

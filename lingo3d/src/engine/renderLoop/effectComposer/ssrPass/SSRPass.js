@@ -154,7 +154,8 @@ class SSRPass extends Pass {
                 magFilter: NearestFilter,
                 format: RGBAFormat,
                 depthTexture: depthTexture,
-                depthBuffer: true
+                depthBuffer: true,
+                samples: 4
             }
         )
 
@@ -199,8 +200,6 @@ class SSRPass extends Pass {
         })
 
         this.blurRenderTarget = this.ssrRenderTarget.clone()
-        this.blurRenderTarget2 = this.ssrRenderTarget.clone()
-        // this.blurRenderTarget3 = this.ssrRenderTarget.clone();
 
         // ssr material
 
@@ -246,7 +245,7 @@ class SSRPass extends Pass {
 
         // normal material
 
-        this.normalMaterial = new MeshNormalMaterial({ morphTargets })
+        this.normalMaterial = new MeshNormalMaterial()
         this.normalMaterial.blending = NoBlending
 
         // metalness material
@@ -269,32 +268,6 @@ class SSRPass extends Pass {
             this.width,
             this.height
         )
-
-        // blur material 2
-
-        this.blurMaterial2 = new ShaderMaterial({
-            defines: Object.assign({}, SSRBlurShader.defines),
-            uniforms: UniformsUtils.clone(SSRBlurShader.uniforms),
-            vertexShader: SSRBlurShader.vertexShader,
-            fragmentShader: SSRBlurShader.fragmentShader
-        })
-        this.blurMaterial2.uniforms["tDiffuse"].value =
-            this.blurRenderTarget.texture
-        this.blurMaterial2.uniforms["resolution"].value.set(
-            this.width,
-            this.height
-        )
-
-        // // blur material 3
-
-        // this.blurMaterial3 = new ShaderMaterial({
-        //   defines: Object.assign({}, SSRBlurShader.defines),
-        //   uniforms: UniformsUtils.clone(SSRBlurShader.uniforms),
-        //   vertexShader: SSRBlurShader.vertexShader,
-        //   fragmentShader: SSRBlurShader.fragmentShader
-        // });
-        // this.blurMaterial3.uniforms['tDiffuse'].value = this.blurRenderTarget2.texture;
-        // this.blurMaterial3.uniforms['resolution'].value.set(this.width, this.height);
 
         // material for rendering the depth
 
@@ -342,15 +315,12 @@ class SSRPass extends Pass {
         this.metalnessRenderTarget.dispose()
         this.ssrRenderTarget.dispose()
         this.blurRenderTarget.dispose()
-        this.blurRenderTarget2.dispose()
-        // this.blurRenderTarget3.dispose();
 
         // dispose materials
 
         this.normalMaterial.dispose()
         this.metalnessMaterial.dispose()
         this.blurMaterial.dispose()
-        this.blurMaterial2.dispose()
         this.copyMaterial.dispose()
         this.depthRenderMaterial.dispose()
 
@@ -406,12 +376,6 @@ class SSRPass extends Pass {
 
         if (this.blur) {
             this.renderPass(renderer, this.blurMaterial, this.blurRenderTarget)
-            this.renderPass(
-                renderer,
-                this.blurMaterial2,
-                this.blurRenderTarget2
-            )
-            // this.renderPass(renderer, this.blurMaterial3, this.blurRenderTarget3);
         }
 
         // output result to screen
@@ -430,7 +394,7 @@ class SSRPass extends Pass {
 
                     if (this.blur)
                         this.copyMaterial.uniforms["tDiffuse"].value =
-                            this.blurRenderTarget2.texture
+                            this.blurRenderTarget.texture
                     else
                         this.copyMaterial.uniforms["tDiffuse"].value =
                             this.ssrRenderTarget.texture
@@ -461,7 +425,7 @@ class SSRPass extends Pass {
 
                     if (this.blur)
                         this.copyMaterial.uniforms["tDiffuse"].value =
-                            this.blurRenderTarget2.texture
+                            this.blurRenderTarget.texture
                     else
                         this.copyMaterial.uniforms["tDiffuse"].value =
                             this.ssrRenderTarget.texture
@@ -477,7 +441,7 @@ class SSRPass extends Pass {
             case SSRPass.OUTPUT.SSR:
                 if (this.blur)
                     this.copyMaterial.uniforms["tDiffuse"].value =
-                        this.blurRenderTarget2.texture
+                        this.blurRenderTarget.texture
                 else
                     this.copyMaterial.uniforms["tDiffuse"].value =
                         this.ssrRenderTarget.texture
@@ -491,7 +455,7 @@ class SSRPass extends Pass {
                 if (this.bouncing) {
                     if (this.blur)
                         this.copyMaterial.uniforms["tDiffuse"].value =
-                            this.blurRenderTarget2.texture
+                            this.blurRenderTarget.texture
                     else
                         this.copyMaterial.uniforms["tDiffuse"].value =
                             this.beautyRenderTarget.texture
@@ -638,11 +602,7 @@ class SSRPass extends Pass {
         }
 
         this.selects.forEach((child) => {
-            this.metalnessMaterial.color.setScalar(
-                typeof child.material.metalness === "number"
-                    ? child.material.metalness
-                    : 1
-            )
+            this.metalnessMaterial.color.setScalar(0.1)
             let materialBack = child.material
             child.material = this.metalnessMaterial
             renderer.render(child, this.camera)
@@ -670,8 +630,6 @@ class SSRPass extends Pass {
         this.normalRenderTarget.setSize(width, height)
         this.metalnessRenderTarget.setSize(width, height)
         this.blurRenderTarget.setSize(width, height)
-        this.blurRenderTarget2.setSize(width, height)
-        // this.blurRenderTarget3.setSize(width, height);
 
         this.ssrMaterial.uniforms["resolution"].value.set(width, height)
         this.ssrMaterial.uniforms["cameraProjectionMatrix"].value.copy(
@@ -681,8 +639,7 @@ class SSRPass extends Pass {
             this.camera.projectionMatrixInverse
         )
 
-        this.blurMaterial.uniforms["resolution"].value.set(width, height)
-        this.blurMaterial2.uniforms["resolution"].value.set(width, height)
+        this.blurMaterial.uniforms["resolution"].value.set(256, 256)
     }
 }
 

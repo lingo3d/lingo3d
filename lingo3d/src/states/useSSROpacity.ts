@@ -1,3 +1,3 @@
 import store from "@lincode/reactivity"
 
-export const [setSSROpacity, getSSROpacity] = store(0.5)
+export const [setSSROpacity, getSSROpacity] = store(1)
