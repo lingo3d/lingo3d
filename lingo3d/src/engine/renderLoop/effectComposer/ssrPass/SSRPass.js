@@ -602,7 +602,6 @@ class SSRPass extends Pass {
         }
 
         this.selects.forEach((child) => {
-            this.metalnessMaterial.color.setScalar(0.1)
             let materialBack = child.material
             child.material = this.metalnessMaterial
             renderer.render(child, this.camera)

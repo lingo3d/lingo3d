@@ -6,6 +6,7 @@ import { HEIGHT, WIDTH } from "../../../../globals"
 import { getRenderer } from "../../../../states/useRenderer"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { getSSROpacity } from "../../../../states/useSSROpacity"
+import { getSSRDistance } from "../../../../states/useSSRDistance"
 
 export const ssrPtr = [false]
 
@@ -36,11 +37,7 @@ const ssrPass = new SSRPass({
 }) as any
 export default ssrPass
 
-ssrPass.maxDistance = 4
-// ssrPass.fresnel = false
-// ssrPass.bouncing = true
-// ssrPass.infiniteThick = true
-
 getRenderer((renderer) => renderer && (ssrPass.renderer = renderer))
 getCameraRendered((camera) => (ssrPass.camera = camera))
 getSSROpacity((opacity) => (ssrPass.opacity = opacity))
+getSSRDistance((distance) => (ssrPass.maxDistance = distance))

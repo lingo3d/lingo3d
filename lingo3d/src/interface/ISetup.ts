@@ -29,6 +29,8 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     bloomStrength: Number,
     bloomRadius: Number,
     bloomThreshold: Number,
+    ssrDistance: Number,
+    ssrOpacity: Number,
     ambientOcclusion: [Boolean, String],
     outlineColor: String,
     outlineHiddenColor: String,

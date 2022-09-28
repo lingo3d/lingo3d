@@ -172,6 +172,8 @@ const Editor = () => {
                 "bloomStrength",
                 "bloomRadius",
                 "bloomThreshold",
+                "ssrDistance",
+                "ssrOpacity",
                 "bokeh",
                 "bokehAperture",
                 "bokehFocus",
