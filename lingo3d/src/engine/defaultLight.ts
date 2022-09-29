@@ -1,16 +1,11 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { last } from "@lincode/utils"
-import {
-    EquirectangularReflectionMapping,
-    WebGLCubeRenderTarget,
-    CubeCamera
-} from "three"
+import { EquirectangularReflectionMapping } from "three"
 import { appendableRoot } from "../api/core/Appendable"
 import Environment from "../display/Environment"
 import loadTexture from "../display/utils/loaders/loadTexture"
-import { onRenderSlow } from "../events/onRenderSlow"
-import { FAR, NEAR, TEXTURES_URL } from "../globals"
+import { FAR, TEXTURES_URL } from "../globals"
 import { getCentripetal } from "../states/useCentripetal"
 import { getDefaultLight } from "../states/useDefaultLight"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
@@ -22,29 +17,13 @@ defaultEnvironment.texture = undefined
 appendableRoot.delete(defaultEnvironment)
 defaultEnvironment.helper = false
 
-const cubeRenderTarget = new WebGLCubeRenderTarget(256)
-const cubeCamera = new CubeCamera(NEAR, FAR, cubeRenderTarget)
-
 createEffect(() => {
     const environment = last(getEnvironmentStack())
     const renderer = getRenderer()
 
-    if (!environment?.texture || !renderer) return
+    if (!environment?.texture || !renderer || environment.texture === "dynamic")
+        return
 
-    if (environment.texture === "dynamic") {
-        const handle = onRenderSlow(() => {
-            cubeCamera.position.copy(environment.outerObject3d.position)
-            cubeCamera.matrixWorld.copy(environment.outerObject3d.matrixWorld)
-            cubeCamera.update(renderer, scene)
-        })
-
-        scene.environment = cubeRenderTarget.texture
-
-        return () => {
-            handle.cancel()
-            scene.environment = null
-        }
-    }
     let proceed = true
     const texture = loadTexture(
         environment.texture === "studio"
@@ -65,9 +44,7 @@ createEffect(() => {
     if (!defaultLight) return
 
     if (typeof defaultLight === "string" && defaultLight !== "default") {
-        if (defaultLight === "dynamic") defaultEnvironment.texture = "dynamic"
-        else defaultEnvironment.texture = defaultLight
-
+        defaultEnvironment.texture = defaultLight
         return () => {
             defaultEnvironment.texture = undefined
         }

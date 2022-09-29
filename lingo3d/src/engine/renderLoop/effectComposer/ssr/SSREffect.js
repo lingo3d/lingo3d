@@ -21,6 +21,7 @@ import { TemporalResolvePass } from "./temporal-resolve/pass/TemporalResolvePass
 import { generateHalton23Points } from "./utils/generateHalton23Points"
 import { useBoxProjectedEnvMap } from "./utils/useBoxProjectedEnvMap"
 import { setupEnvMap } from "./utils/Utils"
+import { getEnvironmentStack } from "../../../../states/useEnvironmentStack"
 
 const finalFragmentShader = finalSSRShader
     .replace("#include <helperFunctions>", helperFunctions)
@@ -31,6 +32,9 @@ const noResetSamplesProperties = ["blur", "blurSharpness", "blurKernel"]
 
 const defaultCubeRenderTarget = new WebGLCubeRenderTarget(1)
 let pmremGenerator
+
+let internalEnvMap
+getEnvironmentStack(() => (internalEnvMap = undefined))
 
 export class SSREffect extends Effect {
     haltonSequence = generateHalton23Points(1024)
@@ -330,27 +334,33 @@ export class SSREffect extends Effect {
     update(renderer, inputBuffer) {
         emitBeforeRenderSSR()
 
-        if (!this.usingBoxProjectedEnvMap && this._scene.environment) {
+        if (
+            !this.usingBoxProjectedEnvMap &&
+            this._scene.environment &&
+            !internalEnvMap
+        ) {
             const reflectionsMaterial = this.reflectionsPass.fullscreenMaterial
-
-            let envMap = null
 
             // not sure if there is a cleaner way to find the internal texture of a CubeTexture (when used as scene environment)
             this._scene.traverse((c) => {
-                if (!envMap && c.material && !c.material.envMap) {
+                if (!internalEnvMap && c.material && !c.material.envMap) {
                     const properties = renderer.properties.get(c.material)
 
                     if (
                         "envMap" in properties &&
                         properties.envMap instanceof Texture
                     )
-                        envMap = properties.envMap
+                        internalEnvMap = properties.envMap
                 }
             })
 
-            if (envMap) {
+            if (internalEnvMap) {
                 const envMapCubeUVHeight = this._scene.environment.image.height
-                setupEnvMap(reflectionsMaterial, envMap, envMapCubeUVHeight)
+                setupEnvMap(
+                    reflectionsMaterial,
+                    internalEnvMap,
+                    envMapCubeUVHeight
+                )
             }
         }
 
