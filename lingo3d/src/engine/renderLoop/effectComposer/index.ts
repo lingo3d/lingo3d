@@ -2,6 +2,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import {
     BloomEffect,
+    Effect,
     EffectComposer,
     EffectPass,
     RenderPass
@@ -34,27 +35,29 @@ createEffect(() => {
     const renderPass = new RenderPass(scene, camera)
     effectComposer.addPass(renderPass)
 
+    const effects: Array<Effect> = []
+
     if (getBloom()) {
         const bloomEffect = new BloomEffect()
-        const bloomPass = new EffectPass(camera, bloomEffect)
-        effectComposer.addPass(bloomPass)
+        effects.push(bloomEffect)
         handle.then(() => {
             bloomEffect.dispose()
-            bloomPass.dispose()
         })
     }
 
     const ssrEffect = new SSREffect(scene, camera)
-    const ssrPass = new EffectPass(camera, ssrEffect)
-    effectComposer.addPass(ssrPass)
+    effects.push(ssrEffect)
     handle.then(() => {
         ssrEffect.dispose()
-        ssrPass.dispose()
     })
+
+    const effectPass = new EffectPass(camera, ...effects)
+    effectComposer.addPass(effectPass)
 
     return () => {
         effectComposer.removeAllPasses()
         renderPass.dispose()
+        effectPass.dispose()
         handle.cancel()
     }
 }, [getCameraRendered, getRenderer, getBloom])
