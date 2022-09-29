@@ -47,7 +47,7 @@ export const defaultSSROptions = {
 	blur: 0.5,
 	blurKernel: 1,
 	blurSharpness: 10,
-	jitter: 0,
+	jitter: 0.2,
 	jitterRoughness: 0,
 	steps: 20,
 	refineSteps: 5,
