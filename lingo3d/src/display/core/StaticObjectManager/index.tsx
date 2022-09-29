@@ -21,18 +21,10 @@ import {
 import { forceGet, throttle } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import { scaleDown, scaleUp } from "../../../engine/constants"
-import {
-    addBloom,
-    deleteBloom
-} from "../../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import worldToClient from "../../utils/worldToClient"
 import { Cancellable } from "@lincode/promiselikes"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import { LingoMouseEvent } from "../../../interface/IMouse"
-import {
-    addOutline,
-    deleteOutline
-} from "../../../engine/renderLoop/effectComposer/outlinePass"
 import getCenter from "../../utils/getCenter"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import IStaticObjectManager from "../../../interface/IStaticObjectManaget"
@@ -58,10 +50,6 @@ import {
     pushReflectionPairs
 } from "../../../states/useReflectionPairs"
 import { NEAR } from "../../../globals"
-import {
-    addSSR,
-    deleteSSR
-} from "../../../engine/renderLoop/effectComposer/ssrPass"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -285,11 +273,12 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return !!this.outerObject3d.userData.bloom
     }
     public set bloom(val) {
-        val && addBloom(this.outerObject3d)
         this.cancelHandle(
             "bloom",
             val &&
-                (() => new Cancellable(() => deleteBloom(this.outerObject3d)))
+                (() => new Cancellable(() => {
+
+                }))
         )
     }
 
@@ -297,12 +286,13 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return !!this.nativeObject3d.userData.outline
     }
     public set outline(val) {
-        val && addOutline(this.nativeObject3d)
         this.cancelHandle(
             "outline",
             val &&
                 (() =>
-                    new Cancellable(() => deleteOutline(this.nativeObject3d)))
+                    new Cancellable(() => {
+
+                    }))
         )
     }
 
@@ -310,10 +300,11 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return !!this.nativeObject3d.userData.ssr
     }
     public set ssr(val) {
-        val && addSSR(this.nativeObject3d)
         this.cancelHandle(
             "ssr",
-            val && (() => new Cancellable(() => deleteSSR(this.nativeObject3d)))
+            val && (() => new Cancellable(() => {
+                
+            }))
         )
     }
 

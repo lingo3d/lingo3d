@@ -1,25 +1,16 @@
 import { createEffect } from "@lincode/reactivity"
 import { emitAfterRender } from "../../events/onAfterRender"
 import { emitBeforeRender } from "../../events/onBeforeRender"
-import { setOutline } from "../../states/useOutline"
 import { getRenderer } from "../../states/useRenderer"
 import { getResolution } from "../../states/useResolution"
 import { getSecondaryCamera } from "../../states/useSecondaryCamera"
-import { setSelectiveBloom } from "../../states/useSelectiveBloom"
 import { getWebXR } from "../../states/useWebXR"
-import { loop } from "../eventLoop"
+import { dt, loop } from "../eventLoop"
 import scene from "../scene"
-import { outlinePtr } from "./effectComposer/outlinePass"
-import renderSelectiveBloom, {
-    bloomPtr
-} from "./effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import "./resize"
-import "./effectComposer"
-import { getEffectComposer } from "../../states/useEffectComposer"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { emitRender } from "../../events/onRender"
-import { ssrPtr } from "./effectComposer/ssrPass"
-import { setSSR } from "../../states/useSSR"
+import effectComposer from "./effectComposer"
 
 createEffect(() => {
     const renderer = getRenderer()
@@ -76,34 +67,10 @@ createEffect(() => {
         }
     }
 
-    const effectComposer = getEffectComposer()
-    if (!effectComposer) return
-
-    let selectiveBloomInitialized = false
-    let outlineInitialized = false
-    let ssrInitialized = false
-
     const handle = loop(() => {
         emitBeforeRender()
         emitRender()
-
-        if (bloomPtr[0]) {
-            if (!selectiveBloomInitialized) {
-                setSelectiveBloom(true)
-                selectiveBloomInitialized = true
-            }
-            renderSelectiveBloom()
-        }
-        if (outlinePtr[0] && !outlineInitialized) {
-            setOutline(true)
-            outlineInitialized = true
-        }
-        if (ssrPtr[0] && !ssrInitialized) {
-            setSSR(true)
-            ssrInitialized = true
-        }
-        effectComposer.render()
-
+        effectComposer.render(dt[0])
         emitAfterRender()
     })
     return () => {
@@ -114,6 +81,5 @@ createEffect(() => {
     getCameraRendered,
     getSecondaryCamera,
     getResolution,
-    getRenderer,
-    getEffectComposer
+    getRenderer
 ])

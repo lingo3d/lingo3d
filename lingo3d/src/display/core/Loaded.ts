@@ -3,23 +3,11 @@ import { boxGeometry } from "../primitives/Cube"
 import { wireframeMaterial } from "../utils/reusables"
 import ObjectManager from "./ObjectManager"
 import ILoaded from "../../interface/ILoaded"
-import {
-    addOutline,
-    deleteOutline
-} from "../../engine/renderLoop/effectComposer/outlinePass"
-import {
-    addBloom,
-    deleteBloom
-} from "../../engine/renderLoop/effectComposer/selectiveBloomPass/renderSelectiveBloom"
 import Reresolvable from "./utils/Reresolvable"
 import { Cancellable, Resolvable } from "@lincode/promiselikes"
 import toResolvable from "../utils/toResolvable"
 import MeshItem from "./MeshItem"
 import { Point3d } from "@lincode/math"
-import {
-    addSSR,
-    deleteSSR
-} from "../../engine/renderLoop/effectComposer/ssrPass"
 
 export default abstract class Loaded<T = Object3D>
     extends ObjectManager<Mesh>
@@ -223,9 +211,7 @@ export default abstract class Loaded<T = Object3D>
             this.loaded.then((loaded) => {
                 if (!val) return
 
-                addOutline(loaded)
                 return () => {
-                    deleteOutline(loaded)
                 }
             })
         )
@@ -245,11 +231,12 @@ export default abstract class Loaded<T = Object3D>
                 const added: Array<Mesh> = []
                 loaded.traverse((child: any) => {
                     if (!child.material) return
-                    addSSR(child)
                     added.push(child)
                 })
                 return () => {
-                    for (const child of added) deleteSSR(child)
+                    for (const child of added) {
+
+                    }
                 }
             })
         )
@@ -266,9 +253,7 @@ export default abstract class Loaded<T = Object3D>
             this.loaded.then((loaded) => {
                 if (!val) return
 
-                addBloom(loaded)
                 return () => {
-                    deleteBloom(loaded)
                 }
             })
         )

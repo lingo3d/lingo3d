@@ -1,71 +1,60 @@
+import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
-import { Pass } from "three/examples/jsm/postprocessing/EffectComposer"
+import {
+    BloomEffect,
+    EffectComposer,
+    EffectPass,
+    RenderPass
+} from "postprocessing"
 import { getBloom } from "../../../states/useBloom"
-import { getSelectiveBloom } from "../../../states/useSelectiveBloom"
-import bloomPass from "./bloomPass"
-import renderPass from "./renderPass"
-import selectiveBloomPass from "./selectiveBloomPass"
-import lensDistortionPass from "./lensDistortionPass"
-import { getLensDistortion } from "../../../states/useLensDistortion"
-import { getEffectComposer } from "../../../states/useEffectComposer"
-import motionBlurPass from "./motionBlurPass"
-import { getMotionBlur } from "../../../states/useMotionBlur"
-import { getAmbientOcclusion } from "../../../states/useAmbientOcclusion"
-import saoPass from "./saoPass"
-import { getBokeh } from "../../../states/useBokeh"
-import bokehPass from "./bokehPass"
-import { getOutline } from "../../../states/useOutline"
-import outlinePass from "./outlinePass"
-import { getAntiAlias } from "../../../states/useAntiAlias"
+import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getRenderer } from "../../../states/useRenderer"
-import smaaPass from "./smaaPass"
-import { getSSR } from "../../../states/useSSR"
-import ssrPass from "./ssrPass"
+import { getResolution } from "../../../states/useResolution"
+import scene from "../../scene"
+import { SSREffect } from "./ssr"
+
+const effectComposer = new EffectComposer(undefined)
+export default effectComposer
+
+getRenderer((renderer) => renderer && effectComposer.setRenderer(renderer))
 
 createEffect(() => {
-    const effectComposer = getEffectComposer()
-    if (!effectComposer) return
+    if (!getRenderer()) return
 
-    const passes: Array<Pass> = [renderPass]
+    const [w, h] = getResolution()
+    effectComposer.setSize(w, h)
+}, [getRenderer, getResolution])
 
-    if (getSSR()) passes.push(ssrPass)
+createEffect(() => {
+    if (!getRenderer()) return
 
-    if (getAmbientOcclusion()) passes.push(saoPass)
+    const camera = getCameraRendered()
+    const handle = new Cancellable()
 
-    if (getBloom()) passes.push(bloomPass)
+    const renderPass = new RenderPass(scene, camera)
+    effectComposer.addPass(renderPass)
 
-    if (getSelectiveBloom()) passes.push(selectiveBloomPass)
+    if (getBloom()) {
+        const bloomEffect = new BloomEffect()
+        const bloomPass = new EffectPass(camera, bloomEffect)
+        effectComposer.addPass(bloomPass)
+        handle.then(() => {
+            bloomEffect.dispose()
+            bloomPass.dispose()
+        })
+    }
 
-    if (getBokeh()) passes.push(bokehPass)
-
-    if (getOutline()) passes.push(outlinePass)
-
-    if (getLensDistortion()) passes.push(lensDistortionPass)
-
-    if (getMotionBlur()) for (const pass of motionBlurPass) passes.push(pass)
-
-    const antiAlias = getAntiAlias()
-    if (
-        antiAlias === "SMAA" ||
-        (antiAlias === "MSAA" && !getRenderer()?.capabilities.isWebGL2)
-    )
-        passes.push(smaaPass)
-
-    for (const pass of passes) effectComposer.addPass(pass)
+    const ssrEffect = new SSREffect(scene, camera)
+    const ssrPass = new EffectPass(camera, ssrEffect)
+    effectComposer.addPass(ssrPass)
+    handle.then(() => {
+        ssrEffect.dispose()
+        ssrPass.dispose()
+    })
 
     return () => {
-        for (const pass of passes) effectComposer.removePass(pass)
+        effectComposer.removeAllPasses()
+        renderPass.dispose()
+        handle.cancel()
     }
-}, [
-    getEffectComposer,
-    getAmbientOcclusion,
-    getBloom,
-    getSelectiveBloom,
-    getBokeh,
-    getOutline,
-    getSSR,
-    getLensDistortion,
-    getMotionBlur,
-    getAntiAlias,
-    getRenderer
-])
+}, [getCameraRendered, getRenderer, getBloom])
