@@ -11,6 +11,8 @@ import { getBloom } from "../../../states/useBloom"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getRenderer } from "../../../states/useRenderer"
 import { getResolution } from "../../../states/useResolution"
+import { getSSR } from "../../../states/useSSR"
+import { getSSRIntensity } from "../../../states/useSSRIntensity"
 import scene from "../../scene"
 import { SSREffect } from "./ssr"
 
@@ -45,11 +47,18 @@ createEffect(() => {
         })
     }
 
-    const ssrEffect = new SSREffect(scene, camera)
-    effects.push(ssrEffect)
-    handle.then(() => {
-        ssrEffect.dispose()
-    })
+    if (getSSR()) {
+        const ssrEffect = new SSREffect(scene, camera)
+        effects.push(ssrEffect)
+
+        handle.watch(
+            //@ts-ignore
+            getSSRIntensity((intensity) => (ssrEffect.intensity = intensity))
+        )
+        handle.then(() => {
+            ssrEffect.dispose()
+        })
+    }
 
     const effectPass = new EffectPass(camera, ...effects)
     effectComposer.addPass(effectPass)
@@ -60,4 +69,4 @@ createEffect(() => {
         effectPass.dispose()
         handle.cancel()
     }
-}, [getCameraRendered, getRenderer, getBloom])
+}, [getCameraRendered, getRenderer, getBloom, getSSR])

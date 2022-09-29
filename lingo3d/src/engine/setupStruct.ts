@@ -79,8 +79,8 @@ import {
     setShadowResolution
 } from "../states/useShadowResolution"
 import { getFps, setFps } from "../states/useFps"
-import { getSSRDistance, setSSRDistance } from "../states/useSSRDistance"
-import { getSSROpacity, setSSROpacity } from "../states/useSSROpacity"
+import { getSSR, setSSR } from "../states/useSSR"
+import { getSSRIntensity, setSSRIntensity } from "../states/useSSRIntensity"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -226,18 +226,18 @@ export default {
         setBloomThreshold(value)
     },
 
-    get ssrDistance() {
-        return getSSRDistance()
+    get ssr() {
+        return getSSR()
     },
-    set ssrDistance(value) {
-        setSSRDistance(value)
+    set ssr(value) {
+        setSSR(value)
     },
 
-    get ssrOpacity() {
-        return getSSROpacity()
+    get ssrIntensity() {
+        return getSSRIntensity()
     },
-    set ssrOpacity(value) {
-        setSSROpacity(value)
+    set ssrIntensity(value) {
+        setSSRIntensity(value)
     },
 
     get ambientOcclusion() {
