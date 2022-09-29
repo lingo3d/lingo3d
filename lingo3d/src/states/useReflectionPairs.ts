@@ -4,6 +4,8 @@ import Loaded from "../display/core/Loaded"
 import StaticObjectManager from "../display/core/StaticObjectManager"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import scene from "../engine/scene"
+import { emitAfterRenderSSR } from "../events/onAfterRenderSSR"
+import { emitBeforeRenderSSR } from "../events/onBeforeRenderSSR"
 import { onRenderSlow } from "../events/onRenderSlow"
 import { getRenderer } from "./useRenderer"
 
@@ -20,6 +22,7 @@ createEffect(() => {
     if (!renderer || !pairs.length) return
 
     const handle = onRenderSlow(() => {
+        emitBeforeRenderSSR()
         for (const [manager] of pairs) {
             manager.outerObject3d.visible = false
             if ("loadedGroup" in manager) manager.loadedGroup.visible = false
@@ -32,6 +35,7 @@ createEffect(() => {
             manager.outerObject3d.visible = true
             if ("loadedGroup" in manager) manager.loadedGroup.visible = true
         }
+        emitAfterRenderSSR()
     })
     return () => {
         handle.cancel()

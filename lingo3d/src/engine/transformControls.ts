@@ -74,10 +74,10 @@ createEffect(() => {
         transformControls.enabled = true
 
         const handle1 = onBeforeRenderSSR(() => {
-            scene.remove(transformControls)
+            transformControls.visible = false
         })
         const handle2 = onAfterRenderSSR(() => {
-            scene.add(transformControls)
+            transformControls.visible = true
         })
         handle.then(() => {
             scene.remove(transformControls)
