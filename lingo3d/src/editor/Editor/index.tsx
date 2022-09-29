@@ -170,7 +170,6 @@ const Editor = () => {
                 "ambientOcclusion",
                 "bloom",
                 "bloomStrength",
-                "bloomRadius",
                 "bloomThreshold",
                 "ssr",
                 "ssrIntensity",

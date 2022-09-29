@@ -14,7 +14,6 @@ import {
     setBackgroundImage
 } from "../states/useBackgroundImage"
 import { getBloom, setBloom } from "../states/useBloom"
-import { getBloomRadius, setBloomRadius } from "../states/useBloomRadius"
 import { getBloomStrength, setBloomStrength } from "../states/useBloomStrength"
 import {
     getBloomThreshold,
@@ -210,13 +209,6 @@ export default {
     },
     set bloomStrength(value) {
         setBloomStrength(value)
-    },
-
-    get bloomRadius() {
-        return getBloomRadius()
-    },
-    set bloomRadius(value) {
-        setBloomRadius(value)
     },
 
     get bloomThreshold() {

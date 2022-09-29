@@ -1,25 +1,27 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
-import {
-    BloomEffect,
-    Effect,
-    EffectComposer,
-    EffectPass,
-    RenderPass
-} from "postprocessing"
-import { getBloom } from "../../../states/useBloom"
+import { Effect, EffectComposer, EffectPass, RenderPass } from "postprocessing"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getRenderer } from "../../../states/useRenderer"
 import { getResolution } from "../../../states/useResolution"
 import { getSSR } from "../../../states/useSSR"
 import { getSSRIntensity } from "../../../states/useSSRIntensity"
 import scene from "../../scene"
+import { getBloomEffect } from "./bloomEffect"
 import { SSREffect } from "./ssr"
 
 const effectComposer = new EffectComposer(undefined)
 export default effectComposer
 
 getRenderer((renderer) => renderer && effectComposer.setRenderer(renderer))
+
+createEffect(() => {
+    const renderPass = new RenderPass(scene, getCameraRendered())
+    effectComposer.addPass(renderPass, 0)
+    return () => {
+        effectComposer.removePass(renderPass)
+    }
+}, [getCameraRendered])
 
 createEffect(() => {
     if (!getRenderer()) return
@@ -34,18 +36,8 @@ createEffect(() => {
     const camera = getCameraRendered()
     const handle = new Cancellable()
 
-    const renderPass = new RenderPass(scene, camera)
-    effectComposer.addPass(renderPass)
-
-    const effects: Array<Effect> = []
-
-    if (getBloom()) {
-        const bloomEffect = new BloomEffect()
-        effects.push(bloomEffect)
-        handle.then(() => {
-            bloomEffect.dispose()
-        })
-    }
+    //@ts-ignore
+    const effects: Array<Effect> = [getBloomEffect()].filter(Boolean)
 
     if (getSSR()) {
         const ssrEffect = new SSREffect(scene, camera)
@@ -64,9 +56,8 @@ createEffect(() => {
     effectComposer.addPass(effectPass)
 
     return () => {
-        effectComposer.removeAllPasses()
-        renderPass.dispose()
+        effectComposer.removePass(effectPass)
         effectPass.dispose()
         handle.cancel()
     }
-}, [getCameraRendered, getRenderer, getBloom, getSSR])
+}, [getCameraRendered, getRenderer, getBloomEffect, getSSR])

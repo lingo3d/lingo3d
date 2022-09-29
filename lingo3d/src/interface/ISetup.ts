@@ -27,7 +27,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     pbr: Boolean,
     bloom: Boolean,
     bloomStrength: Number,
-    bloomRadius: Number,
     bloomThreshold: Number,
     ssr: Boolean,
     ssrIntensity: Number,
