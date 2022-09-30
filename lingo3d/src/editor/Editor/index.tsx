@@ -167,7 +167,6 @@ const Editor = () => {
             )
 
             const [effectsParams, effectsRest] = splitObject(sceneRest, [
-                "ambientOcclusion",
                 "bloom",
                 "bloomStrength",
                 "bloomThreshold",

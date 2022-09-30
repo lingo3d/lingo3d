@@ -1,9 +1,5 @@
 import { appendableRoot } from "../api/core/Appendable"
 import Skybox from "../display/Skybox"
-import {
-    getAmbientOcclusion,
-    setAmbientOcclusion
-} from "../states/useAmbientOcclusion"
 import { getAntiAlias, setAntiAlias } from "../states/useAntiAlias"
 import {
     getBackgroundColor,
@@ -226,13 +222,6 @@ export default {
     },
     set ssrIntensity(value) {
         setSSRIntensity(value)
-    },
-
-    get ambientOcclusion() {
-        return getAmbientOcclusion()
-    },
-    set ambientOcclusion(value) {
-        setAmbientOcclusion(value)
     },
 
     get outlineColor() {

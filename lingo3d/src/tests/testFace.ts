@@ -25,6 +25,5 @@ light3.intensity = 0.5
 
 const sky = new Sky()
 
-settings.ambientOcclusion = true
 settings.bloom = true
 settings.bloomStrength = 0.1
