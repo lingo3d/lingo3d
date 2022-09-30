@@ -61,10 +61,6 @@ import {
     getOutlineStrength,
     setOutlineStrength
 } from "../states/useOutlineStrength"
-import {
-    getOutlineThickness,
-    setOutlineThickness
-} from "../states/useOutlineThickness"
 import { getPBR, setPBR } from "../states/usePBR"
 import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { getRepulsion, setRepulsion } from "../states/useRepulsion"
@@ -272,13 +268,6 @@ export default {
     },
     set outlineStrength(value) {
         setOutlineStrength(value)
-    },
-
-    get outlineThickness() {
-        return getOutlineThickness()
-    },
-    set outlineThickness(value) {
-        setOutlineThickness(value)
     },
 
     get bokeh() {

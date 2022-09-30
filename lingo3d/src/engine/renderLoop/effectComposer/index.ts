@@ -5,6 +5,7 @@ import { getRenderer } from "../../../states/useRenderer"
 import { getResolution } from "../../../states/useResolution"
 import scene from "../../scene"
 import { getBloomEffect } from "./bloomEffect"
+import { getOutlineEffect } from "./outlineEffect"
 import { getSSREffect } from "./ssrEffect"
 
 const effectComposer = new EffectComposer(undefined)
@@ -31,15 +32,22 @@ createEffect(() => {
 createEffect(() => {
     if (!getRenderer()) return
 
-    //@ts-ignore
-    const effects: Array<Effect> = [getBloomEffect(), getSSREffect()].filter(
-        Boolean
+    const effectPass = new EffectPass(
+        getCameraRendered(),
+        ...([getBloomEffect(), getSSREffect(), getOutlineEffect()].filter(
+            Boolean
+        ) as Array<Effect>)
     )
-    const effectPass = new EffectPass(getCameraRendered(), ...effects)
     effectComposer.addPass(effectPass)
 
     return () => {
         effectComposer.removePass(effectPass)
         effectPass.dispose()
     }
-}, [getCameraRendered, getRenderer, getBloomEffect, getSSREffect])
+}, [
+    getCameraRendered,
+    getRenderer,
+    getBloomEffect,
+    getSSREffect,
+    getOutlineEffect
+])

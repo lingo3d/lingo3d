@@ -50,6 +50,10 @@ import {
     pushReflectionPairs
 } from "../../../states/useReflectionPairs"
 import { NEAR } from "../../../globals"
+import {
+    addOutline,
+    deleteOutline
+} from "../../../engine/renderLoop/effectComposer/outlineEffect"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -273,39 +277,24 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return !!this.outerObject3d.userData.bloom
     }
     public set bloom(val) {
-        this.cancelHandle(
-            "bloom",
-            val &&
-                (() => new Cancellable(() => {
-
-                }))
-        )
+        this.cancelHandle("bloom", val && (() => new Cancellable(() => {})))
     }
 
+    protected _outline?: boolean
     public get outline() {
-        return !!this.nativeObject3d.userData.outline
+        return !!this._outline
     }
     public set outline(val) {
-        this.cancelHandle(
-            "outline",
-            val &&
-                (() =>
-                    new Cancellable(() => {
-
-                    }))
-        )
+        val
+            ? addOutline(this.nativeObject3d)
+            : deleteOutline(this.nativeObject3d)
     }
 
     public get ssr() {
         return !!this.nativeObject3d.userData.ssr
     }
     public set ssr(val) {
-        this.cancelHandle(
-            "ssr",
-            val && (() => new Cancellable(() => {
-                
-            }))
-        )
+        this.cancelHandle("ssr", val && (() => new Cancellable(() => {})))
     }
 
     private _visible?: boolean

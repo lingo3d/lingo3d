@@ -8,6 +8,10 @@ import { Cancellable, Resolvable } from "@lincode/promiselikes"
 import toResolvable from "../utils/toResolvable"
 import MeshItem from "./MeshItem"
 import { Point3d } from "@lincode/math"
+import {
+    addOutline,
+    deleteOutline
+} from "../../engine/renderLoop/effectComposer/outlineEffect"
 
 export default abstract class Loaded<T = Object3D>
     extends ObjectManager<Mesh>
@@ -200,9 +204,8 @@ export default abstract class Loaded<T = Object3D>
         this.object3d.visible = val
     }
 
-    private _outline?: boolean
     public override get outline() {
-        return !!this._outline
+        return super.outline
     }
     public override set outline(val) {
         this._outline = val
@@ -211,7 +214,9 @@ export default abstract class Loaded<T = Object3D>
             this.loaded.then((loaded) => {
                 if (!val) return
 
+                addOutline(loaded)
                 return () => {
+                    deleteOutline(loaded)
                 }
             })
         )
@@ -235,7 +240,6 @@ export default abstract class Loaded<T = Object3D>
                 })
                 return () => {
                     for (const child of added) {
-
                     }
                 }
             })
@@ -253,8 +257,7 @@ export default abstract class Loaded<T = Object3D>
             this.loaded.then((loaded) => {
                 if (!val) return
 
-                return () => {
-                }
+                return () => {}
             })
         )
     }

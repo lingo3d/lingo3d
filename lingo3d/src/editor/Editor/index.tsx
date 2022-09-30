@@ -190,8 +190,7 @@ const Editor = () => {
                 "outlineHiddenColor",
                 "outlinePattern",
                 "outlinePulse",
-                "outlineStrength",
-                "outlineThickness"
+                "outlineStrength"
             ])
             addInputs(
                 pane,

@@ -1,3 +1,3 @@
 import store from "@lincode/reactivity"
 
-export const [setOutlineStrength, getOutlineStrength] = store(3)
+export const [setOutlineStrength, getOutlineStrength] = store(4)

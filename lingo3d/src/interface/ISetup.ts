@@ -36,7 +36,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     outlinePattern: String,
     outlinePulse: Number,
     outlineStrength: Number,
-    outlineThickness: Number,
     bokeh: Boolean,
     bokehAperture: Number,
     bokehFocus: Number,

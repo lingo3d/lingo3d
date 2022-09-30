@@ -12,15 +12,15 @@ export { getBloomEffect }
 createEffect(() => {
     if (!getBloom()) return
 
-    const bloomEffect = new BloomEffect({
+    const effect = new BloomEffect({
         luminanceThreshold: getBloomThreshold()
     })
-    setBloomEffect(bloomEffect)
-    const handle = getBloomStrength((val) => (bloomEffect.intensity = val))
+    setBloomEffect(effect)
+    const handle = getBloomStrength((val) => (effect.intensity = val))
 
     return () => {
         setBloomEffect(undefined)
-        bloomEffect.dispose()
+        effect.dispose()
         handle.cancel()
     }
 }, [getBloom, getBloomThreshold])
