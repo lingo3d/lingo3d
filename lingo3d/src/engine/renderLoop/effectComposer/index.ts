@@ -5,7 +5,9 @@ import { getRenderer } from "../../../states/useRenderer"
 import { getResolution } from "../../../states/useResolution"
 import scene from "../../scene"
 import { getBloomEffect } from "./bloomEffect"
+import { getNormalPass } from "./normalPass"
 import { getOutlineEffect } from "./outlineEffect"
+import { getSSAOEffect } from "./ssaoEffect"
 import { getSSREffect } from "./ssrEffect"
 
 const effectComposer = new EffectComposer(undefined)
@@ -32,16 +34,23 @@ createEffect(() => {
 createEffect(() => {
     if (!getRenderer()) return
 
+    const normalPass = getNormalPass()
+    normalPass && effectComposer.addPass(normalPass)
+
     const effectPass = new EffectPass(
         getCameraRendered(),
-        ...([getBloomEffect(), getSSREffect(), getOutlineEffect()].filter(
-            Boolean
-        ) as Array<Effect>)
+        ...([
+            getBloomEffect(),
+            getSSREffect(),
+            getSSAOEffect(),
+            getOutlineEffect()
+        ].filter(Boolean) as Array<Effect>)
     )
     effectComposer.addPass(effectPass)
 
     return () => {
         effectComposer.removePass(effectPass)
+        normalPass && effectComposer.removePass(normalPass)
         effectPass.dispose()
     }
 }, [
@@ -49,5 +58,7 @@ createEffect(() => {
     getRenderer,
     getBloomEffect,
     getSSREffect,
-    getOutlineEffect
+    getSSAOEffect,
+    getOutlineEffect,
+    getNormalPass
 ])
