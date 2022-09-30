@@ -1,3 +1,3 @@
 import store from "@lincode/reactivity"
 
-export const [setBloomRadius, getBloomRadius] = store(0)
+export const [setBloomRadius, getBloomRadius] = store(1)
