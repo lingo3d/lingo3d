@@ -24,7 +24,6 @@ export default interface IStaticObjectManager extends IEventLoop {
 
     bloom: boolean
     outline: boolean
-    ssr: boolean,
 
     visible: boolean
     frustumCulled: boolean
@@ -62,7 +61,6 @@ export const staticObjectManagerSchema: Required<
 
     bloom: Boolean,
     outline: Boolean,
-    ssr: Boolean,
 
     visible: Boolean,
     frustumCulled: Boolean,
@@ -99,7 +97,6 @@ export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
 
     bloom: false,
     outline: false,
-    ssr: false,
 
     visible: true,
     frustumCulled: true,

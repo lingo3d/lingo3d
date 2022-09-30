@@ -222,30 +222,6 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    private _ssr?: boolean
-    public override get ssr() {
-        return !!this._ssr
-    }
-    public override set ssr(val) {
-        this._ssr = val
-
-        this.cancelHandle("ssr", () =>
-            this.loaded.then((loaded) => {
-                if (!val) return
-
-                const added: Array<Mesh> = []
-                loaded.traverse((child: any) => {
-                    if (!child.material) return
-                    added.push(child)
-                })
-                return () => {
-                    for (const child of added) {
-                    }
-                }
-            })
-        )
-    }
-
     private _bloom?: boolean
     public override get bloom() {
         return !!this._bloom

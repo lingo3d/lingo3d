@@ -290,13 +290,6 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
             : deleteOutline(this.nativeObject3d)
     }
 
-    public get ssr() {
-        return !!this.nativeObject3d.userData.ssr
-    }
-    public set ssr(val) {
-        this.cancelHandle("ssr", val && (() => new Cancellable(() => {})))
-    }
-
     private _visible?: boolean
     public get visible() {
         return this._visible !== false
