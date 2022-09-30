@@ -31,6 +31,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     ssr: Boolean,
     ssrIntensity: Number,
     ssao: Boolean,
+    ssaoIntensity: Number,
     outlineColor: String,
     outlineHiddenColor: String,
     outlinePattern: String,

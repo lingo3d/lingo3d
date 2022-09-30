@@ -173,6 +173,7 @@ const Editor = () => {
                 "ssr",
                 "ssrIntensity",
                 "ssao",
+                "ssaoIntensity",
                 "bokeh",
                 "bokehAperture",
                 "bokehFocus",
