@@ -10,7 +10,10 @@ import {
     setBackgroundImage
 } from "../states/useBackgroundImage"
 import { getBloom, setBloom } from "../states/useBloom"
-import { getBloomStrength, setBloomStrength } from "../states/useBloomStrength"
+import {
+    getBloomIntensity,
+    setBloomIntensity
+} from "../states/useBloomIntensity"
 import {
     getBloomThreshold,
     setBloomThreshold
@@ -74,6 +77,7 @@ import { getSSR, setSSR } from "../states/useSSR"
 import { getSSRIntensity, setSSRIntensity } from "../states/useSSRIntensity"
 import { getSSAO, setSSAO } from "../states/useSSAO"
 import { getSSAOIntensity, setSSAOIntensity } from "../states/useSSAOIntensity"
+import { getBloomRadius, setBloomRadius } from "../states/useBloomRadius"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -198,11 +202,11 @@ export default {
         setBloom(value)
     },
 
-    get bloomStrength() {
-        return getBloomStrength()
+    get bloomIntensity() {
+        return getBloomIntensity()
     },
-    set bloomStrength(value) {
-        setBloomStrength(value)
+    set bloomIntensity(value) {
+        setBloomIntensity(value)
     },
 
     get bloomThreshold() {
@@ -210,6 +214,13 @@ export default {
     },
     set bloomThreshold(value) {
         setBloomThreshold(value)
+    },
+
+    get bloomRadius() {
+        return getBloomRadius()
+    },
+    set bloomRadius(value) {
+        setBloomRadius(value)
     },
 
     get ssr() {

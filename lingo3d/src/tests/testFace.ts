@@ -26,4 +26,4 @@ light3.intensity = 0.5
 const sky = new Sky()
 
 settings.bloom = true
-settings.bloomStrength = 0.1
+settings.bloomIntensity = 0.1
