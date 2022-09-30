@@ -172,6 +172,7 @@ const Editor = () => {
                 "bloomThreshold",
                 "ssr",
                 "ssrIntensity",
+                "ssao",
                 "bokeh",
                 "bokehAperture",
                 "bokehFocus",
@@ -323,8 +324,7 @@ const Editor = () => {
 
             const [effectsParams, effectsRest] = splitObject(displayRest, [
                 "bloom",
-                "outline",
-                "ssr"
+                "outline"
             ])
             effectsParams &&
                 addInputs(pane, "effects", target, defaults, effectsParams)

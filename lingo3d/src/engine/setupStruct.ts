@@ -72,6 +72,7 @@ import {
 import { getFps, setFps } from "../states/useFps"
 import { getSSR, setSSR } from "../states/useSSR"
 import { getSSRIntensity, setSSRIntensity } from "../states/useSSRIntensity"
+import { getSSAO, setSSAO } from "../states/useSSAO"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -222,6 +223,13 @@ export default {
     },
     set ssrIntensity(value) {
         setSSRIntensity(value)
+    },
+
+    get ssao() {
+        return getSSAO()
+    },
+    set ssao(value) {
+        setSSAO(value)
     },
 
     get outlineColor() {
