@@ -11,8 +11,7 @@ createEffect(() => {
     const normalPass = getNormalPass()
     if (!getSSAO() || !normalPass) return
 
-    const camera = getCameraRendered()
-    const effect = new SSAOEffect(camera, normalPass.texture)
+    const effect = new SSAOEffect(getCameraRendered(), normalPass.texture)
     setSSAOEffect(effect)
 
     return () => {
