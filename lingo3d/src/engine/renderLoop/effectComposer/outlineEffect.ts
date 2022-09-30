@@ -10,7 +10,6 @@ import { getOutlinePattern } from "../../../states/useOutlinePattern"
 import { getOutlinePulse } from "../../../states/useOutlinePulse"
 import { getOutlineStrength } from "../../../states/useOutlineStrength"
 import scene from "../../scene"
-import cacheEffect from "./cacheEffect"
 
 const [setOutlineEffect, getOutlineEffect] = store<OutlineEffect | undefined>(
     undefined
@@ -28,10 +27,7 @@ export const deleteOutline = (target: Object3D) => selection.delete(target)
 createEffect(() => {
     if (!getOutline()) return
 
-    const effect = cacheEffect(
-        getCameraRendered(),
-        (camera) => new OutlineEffect(scene, camera)
-    )
+    const effect = new OutlineEffect(scene, getCameraRendered())
     setOutlineEffect(effect)
 
     effect.selection = selection
@@ -51,6 +47,7 @@ createEffect(() => {
 
     return () => {
         setOutlineEffect(undefined)
+        effect.dispose()
         handle0.cancel()
         handle1.cancel()
         handle2.cancel()
