@@ -1,4 +1,3 @@
-import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import {
     Color,
