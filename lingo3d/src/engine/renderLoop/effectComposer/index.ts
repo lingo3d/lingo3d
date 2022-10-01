@@ -7,6 +7,7 @@ import scene from "../../scene"
 import { getBloomEffect } from "./bloomEffect"
 import { getNormalPass } from "./normalPass"
 import { getOutlineEffect } from "./outlineEffect"
+import { getSelectiveBloomEffect } from "./selectiveBloomEffect"
 import { getSSAOEffect } from "./ssaoEffect"
 import { getSSREffect } from "./ssrEffect"
 
@@ -41,6 +42,7 @@ createEffect(() => {
         getCameraRendered(),
         ...([
             getBloomEffect(),
+            getSelectiveBloomEffect(),
             getSSREffect(),
             getSSAOEffect(),
             getOutlineEffect()
@@ -57,6 +59,7 @@ createEffect(() => {
     getCameraRendered,
     getRenderer,
     getBloomEffect,
+    getSelectiveBloomEffect,
     getSSREffect,
     getSSAOEffect,
     getOutlineEffect,

@@ -54,6 +54,10 @@ import {
     addOutline,
     deleteOutline
 } from "../../../engine/renderLoop/effectComposer/outlineEffect"
+import {
+    addSelectiveBloom,
+    deleteSelectiveBloom
+} from "../../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -273,11 +277,15 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return worldToClient(this.nativeObject3d).y
     }
 
+    protected _bloom?: boolean
     public get bloom() {
-        return !!this.outerObject3d.userData.bloom
+        return !!this._bloom
     }
     public set bloom(val) {
-        this.cancelHandle("bloom", val && (() => new Cancellable(() => {})))
+        this._bloom = val
+        val
+            ? addSelectiveBloom(this.nativeObject3d)
+            : deleteSelectiveBloom(this.nativeObject3d)
     }
 
     protected _outline?: boolean
@@ -285,6 +293,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return !!this._outline
     }
     public set outline(val) {
+        this._outline = val
         val
             ? addOutline(this.nativeObject3d)
             : deleteOutline(this.nativeObject3d)

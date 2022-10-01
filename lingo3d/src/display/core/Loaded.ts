@@ -12,6 +12,10 @@ import {
     addOutline,
     deleteOutline
 } from "../../engine/renderLoop/effectComposer/outlineEffect"
+import {
+    addSelectiveBloom,
+    deleteSelectiveBloom
+} from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 
 export default abstract class Loaded<T = Object3D>
     extends ObjectManager<Mesh>
@@ -222,9 +226,8 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    private _bloom?: boolean
     public override get bloom() {
-        return !!this._bloom
+        return super.bloom
     }
     public override set bloom(val) {
         this._bloom = val
@@ -233,7 +236,10 @@ export default abstract class Loaded<T = Object3D>
             this.loaded.then((loaded) => {
                 if (!val) return
 
-                return () => {}
+                addSelectiveBloom(loaded)
+                return () => {
+                    deleteSelectiveBloom(loaded)
+                }
             })
         )
     }

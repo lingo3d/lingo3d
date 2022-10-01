@@ -6,6 +6,10 @@ import { LineMaterial } from "three/examples/jsm/lines/LineMaterial"
 import EventLoopItem from "../api/core/EventLoopItem"
 import { scaleDown, scaleUp } from "../engine/constants"
 import scene from "../engine/scene"
+import {
+    addSelectiveBloom,
+    deleteSelectiveBloom
+} from "../engine/renderLoop/effectComposer/selectiveBloomEffect"
 
 export default class Line extends EventLoopItem {
     private material = new LineMaterial({ linewidth: 0.001 })
@@ -28,9 +32,12 @@ export default class Line extends EventLoopItem {
             const line = new Line2(geometry, this.material)
             scene.add(line)
 
+            bloom && addSelectiveBloom(line)
+
             return () => {
                 scene.remove(line)
                 geometry.dispose()
+                bloom && deleteSelectiveBloom(line)
             }
         }, [this.refresh.get])
     }
