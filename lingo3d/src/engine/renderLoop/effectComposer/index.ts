@@ -14,6 +14,8 @@ import { getSSREffect } from "./ssrEffect"
 const effectComposer = new EffectComposer(undefined)
 export default effectComposer
 
+effectComposer.multisampling = 4
+
 getRenderer((renderer) => renderer && effectComposer.setRenderer(renderer))
 
 createEffect(() => {

@@ -31,12 +31,6 @@ import {
     getGridHelperSize,
     setGridHelperSize
 } from "../states/useGridHelperSize"
-import { getLensBand, setLensBand } from "../states/useLensBand"
-import {
-    getLensDistortion,
-    setLensDistortion
-} from "../states/useLensDistortion"
-import { getLensIor, setLensIor } from "../states/useLensIor"
 import {
     getLogarithmicDepth,
     setLogarithmicDepth
@@ -312,27 +306,6 @@ export default {
     },
     set bokehMaxBlur(value) {
         setBokehMaxBlur(value)
-    },
-
-    get lensDistortion() {
-        return getLensDistortion()
-    },
-    set lensDistortion(val) {
-        setLensDistortion(val)
-    },
-
-    get lensIor() {
-        return getLensIor()
-    },
-    set lensIor(val) {
-        setLensIor(val)
-    },
-
-    get lensBand() {
-        return getLensBand()
-    },
-    set lensBand(val) {
-        setLensBand(val)
     },
 
     get motionBlur() {

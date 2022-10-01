@@ -179,9 +179,6 @@ const Editor = () => {
                 "bokehAperture",
                 "bokehFocus",
                 "bokehMaxBlur",
-                "lensDistortion",
-                "lensIor",
-                "lensBand",
                 "motionBlur",
                 "motionBlurStrength"
             ])
