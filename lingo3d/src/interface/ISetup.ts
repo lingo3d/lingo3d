@@ -42,8 +42,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     bokehAperture: Number,
     bokehFocus: Number,
     bokehMaxBlur: Number,
-    motionBlur: Boolean,
-    motionBlurStrength: Number,
     texture: String,
     color: String
 }

@@ -178,9 +178,7 @@ const Editor = () => {
                 "bokeh",
                 "bokehAperture",
                 "bokehFocus",
-                "bokehMaxBlur",
-                "motionBlur",
-                "motionBlurStrength"
+                "bokehMaxBlur"
             ])
             addInputs(pane, "effects", settings, setupDefaults, effectsParams)
 

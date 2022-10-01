@@ -35,11 +35,6 @@ import {
     getLogarithmicDepth,
     setLogarithmicDepth
 } from "../states/useLogarithmicDepth"
-import { getMotionBlur, setMotionBlur } from "../states/useMotionBlur"
-import {
-    getMotionBlurStrength,
-    setMotionBlurStrength
-} from "../states/useMotionBlurStrength"
 import { getOutlineColor, setOutlineColor } from "../states/useOutlineColor"
 import {
     getOutlineHiddenColor,
@@ -306,20 +301,6 @@ export default {
     },
     set bokehMaxBlur(value) {
         setBokehMaxBlur(value)
-    },
-
-    get motionBlur() {
-        return getMotionBlur()
-    },
-    set motionBlur(val) {
-        setMotionBlur(val)
-    },
-
-    get motionBlurStrength() {
-        return getMotionBlurStrength()
-    },
-    set motionBlurStrength(val) {
-        setMotionBlurStrength(val)
     },
 
     get texture() {
