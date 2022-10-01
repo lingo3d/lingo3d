@@ -18,11 +18,6 @@ import MeshItem from "../MeshItem"
 import { Cancellable } from "@lincode/promiselikes"
 import mainCamera from "../../../engine/mainCamera"
 import scene from "../../../engine/scene"
-import { bokehDefault } from "../../../states/useBokeh"
-import { bokehApertureDefault } from "../../../states/useBokehAperture"
-import { bokehFocusDefault } from "../../../states/useBokehFocus"
-import { bokehMaxBlurDefault } from "../../../states/useBokehMaxBlur"
-import { setBokehRefresh } from "../../../states/useBokehRefresh"
 import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import {
@@ -131,38 +126,6 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
     }
     public set transition(val) {
         this.camera.userData.transition = val
-    }
-
-    public get bokeh() {
-        return this.camera.userData.bokeh ?? bokehDefault
-    }
-    public set bokeh(val) {
-        this.camera.userData.bokeh = val
-        setBokehRefresh({})
-    }
-
-    public get bokehFocus() {
-        return this.camera.userData.bokehFocus ?? bokehFocusDefault
-    }
-    public set bokehFocus(val) {
-        this.camera.userData.bokehFocus = val
-        setBokehRefresh({})
-    }
-
-    public get bokehMaxBlur() {
-        return this.camera.userData.bokehMaxBlur ?? bokehMaxBlurDefault
-    }
-    public set bokehMaxBlur(val) {
-        this.camera.userData.bokehMaxBlur = val
-        setBokehRefresh({})
-    }
-
-    public get bokehAperture() {
-        return this.camera.userData.bokehAperture ?? bokehApertureDefault
-    }
-    public set bokehAperture(val) {
-        this.camera.userData.bokehAperture = val
-        setBokehRefresh({})
     }
 
     protected override getRay() {

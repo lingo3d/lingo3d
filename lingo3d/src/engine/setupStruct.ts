@@ -18,10 +18,6 @@ import {
     getBloomThreshold,
     setBloomThreshold
 } from "../states/useBloomThreshold"
-import { getBokeh, setBokeh } from "../states/useBokeh"
-import { getBokehAperture, setBokehAperture } from "../states/useBokehAperture"
-import { getBokehFocus, setBokehFocus } from "../states/useBokehFocus"
-import { getBokehMaxBlur, setBokehMaxBlur } from "../states/useBokehMaxBlur"
 import { getCentripetal, setCentripetal } from "../states/useCentripetal"
 import { getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
 import { getExposure, setExposure } from "../states/useExposure"
@@ -273,34 +269,6 @@ export default {
     },
     set outlineStrength(value) {
         setOutlineStrength(value)
-    },
-
-    get bokeh() {
-        return getBokeh()
-    },
-    set bokeh(value) {
-        setBokeh(value)
-    },
-
-    get bokehAperture() {
-        return getBokehAperture()
-    },
-    set bokehAperture(value) {
-        setBokehAperture(value)
-    },
-
-    get bokehFocus() {
-        return getBokehFocus()
-    },
-    set bokehFocus(value) {
-        setBokehFocus(value)
-    },
-
-    get bokehMaxBlur() {
-        return getBokehMaxBlur()
-    },
-    set bokehMaxBlur(value) {
-        setBokehMaxBlur(value)
     },
 
     get texture() {

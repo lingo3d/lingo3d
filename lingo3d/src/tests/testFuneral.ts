@@ -1,4 +1,3 @@
-
 import { Model, Cube, OrbitCamera, Sky } from ".."
 import { random } from "@lincode/utils"
 
@@ -53,5 +52,4 @@ camera.active = true
 // camera.polarAngle = 70
 // camera.distance = 100
 camera.enableDamping = true
-camera.bokeh = true
 camera.enableZoom = true

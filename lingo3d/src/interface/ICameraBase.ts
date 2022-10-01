@@ -1,8 +1,4 @@
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE, NEAR, FAR } from "../globals"
-import { bokehDefault } from "../states/useBokeh"
-import { bokehApertureDefault } from "../states/useBokehAperture"
-import { bokehFocusDefault } from "../states/useBokehFocus"
-import { bokehMaxBlurDefault } from "../states/useBokehMaxBlur"
 import IObjectManager, {
     objectManagerDefaults,
     objectManagerSchema
@@ -23,11 +19,6 @@ export default interface ICameraBase extends IObjectManager {
     far: number
     active: boolean
     transition: Nullable<boolean | number>
-
-    bokeh: boolean
-    bokehFocus: number
-    bokehMaxBlur: number
-    bokehAperture: number
 
     minPolarAngle: number
     maxPolarAngle: number
@@ -53,11 +44,6 @@ export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
     active: Boolean,
     transition: [Boolean, Number],
 
-    bokeh: Boolean,
-    bokehFocus: Number,
-    bokehMaxBlur: Number,
-    bokehAperture: Number,
-
     minPolarAngle: Number,
     maxPolarAngle: Number,
 
@@ -81,11 +67,6 @@ export const cameraBaseDefaults: Defaults<ICameraBase> = {
     far: FAR,
     active: false,
     transition: new NullableDefault(false),
-
-    bokeh: bokehDefault,
-    bokehFocus: bokehFocusDefault,
-    bokehMaxBlur: bokehMaxBlurDefault,
-    bokehAperture: bokehApertureDefault,
 
     minPolarAngle: MIN_POLAR_ANGLE,
     maxPolarAngle: MAX_POLAR_ANGLE,

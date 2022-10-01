@@ -174,11 +174,7 @@ const Editor = () => {
                 "ssr",
                 "ssrIntensity",
                 "ssao",
-                "ssaoIntensity",
-                "bokeh",
-                "bokehAperture",
-                "bokehFocus",
-                "bokehMaxBlur"
+                "ssaoIntensity"
             ])
             addInputs(pane, "effects", settings, setupDefaults, effectsParams)
 
