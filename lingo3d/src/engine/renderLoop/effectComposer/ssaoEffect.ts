@@ -19,6 +19,9 @@ createEffect(() => {
     uniforms.bias.value = 0
     effect.radius = 0.05
     effect.samples = 16
+    //@ts-ignore
+    effect.uniforms.get("luminanceInfluence").value = 0
+
     const handle0 = getSSAOIntensity((val) => (uniforms.intensity.value = val))
 
     return () => {
