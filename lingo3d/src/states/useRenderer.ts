@@ -14,9 +14,11 @@ createEffect(() => {
         alpha: getBackgroundColor() === "transparent",
         logarithmicDepthBuffer:
             isChromium && !isMobile ? getLogarithmicDepth() : false,
-        antialias: false,
+        premultipliedAlpha: false,
+        depth: false,
         stencil: false,
-        depth: false
+        antialias: false,
+        preserveDrawingBuffer: true
     })
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = PCFSoftShadowMap

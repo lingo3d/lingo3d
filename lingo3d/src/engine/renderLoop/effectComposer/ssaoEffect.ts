@@ -16,11 +16,16 @@ createEffect(() => {
     setSSAOEffect(effect)
 
     const { uniforms } = effect.ssaoMaterial
-    uniforms.bias.value = 0
+    // uniforms.fade.value = 0
+    // uniforms.bias.value = 0
     effect.radius = 0.05
     effect.samples = 16
     //@ts-ignore
     effect.uniforms.get("luminanceInfluence").value = 0
+    effect.ssaoMaterial.distanceFalloff =
+        effect.ssaoMaterial.distanceThreshold = 1
+    effect.ssaoMaterial.proximityThreshold =
+        effect.ssaoMaterial.proximityFalloff = 0.01
 
     const handle0 = getSSAOIntensity((val) => (uniforms.intensity.value = val))
 
