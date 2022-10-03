@@ -12,13 +12,19 @@ import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
 const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates
 
-export const unselectableSet = new WeakSet<Appendable>()
-const helpers = new Set<Appendable>()
+export const unselectableSet = new WeakSet<StaticObjectManager>()
+const helpers = new Set<StaticObjectManager>()
 
-export const addSelectionHelper = (helper: Appendable, manager: Appendable) => {
+export const addSelectionHelper = (
+    helper: StaticObjectManager,
+    manager: Appendable
+) => {
     appendableRoot.delete(helper)
     manager.outerObject3d.add(helper.outerObject3d)
     helpers.add(helper)
+
+    helper.castShadow = false
+    helper.receiveShadow = false
 
     const handle = onSelectionTarget(
         ({ target }) => target === helper && emitSelectionTarget(manager)
