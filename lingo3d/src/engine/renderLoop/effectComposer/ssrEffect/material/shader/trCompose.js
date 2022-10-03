@@ -1,7 +1,9 @@
 ﻿export default `#define INV_EULER 0.36787944117144233
 
-alpha = velocityDisocclusion < FLOAT_EPSILON ? (alpha + 0.0075) : 0.0;
-alpha = clamp(alpha, 0.0, 1.0);
+alpha = 0.0;
+
+// alpha = velocityDisocclusion < FLOAT_EPSILON ? (alpha + 0.0075) : 0.0;
+// alpha = clamp(alpha, 0.0, 1.0);
 
 bool needsBlur = !didReproject || velocityDisocclusion > 0.5;
 

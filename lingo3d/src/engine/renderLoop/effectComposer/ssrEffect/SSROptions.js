@@ -34,7 +34,7 @@
 export const defaultSSROptions = {
 	intensity: 1,
 	exponent: 1,
-	distance: 10,
+	distance: 6,
 	fade: 0,
 	roughnessFade: 1,
 	thickness: 10,
@@ -42,7 +42,7 @@ export const defaultSSROptions = {
 	maxRoughness: 1,
 	maxDepthDifference: 10,
 	blend: 0.9,
-	correction: 1,
+	correction: 0.5,
 	correctionRadius: 1,
 	blur: 0.5,
 	blurKernel: 1,

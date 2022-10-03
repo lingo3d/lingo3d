@@ -4,7 +4,6 @@ import {
     LinearFilter,
     PMREMGenerator,
     ShaderChunk,
-    Texture,
     Uniform,
     Vector3,
     WebGLCubeRenderTarget
