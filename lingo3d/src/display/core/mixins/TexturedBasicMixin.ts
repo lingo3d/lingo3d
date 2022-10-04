@@ -38,14 +38,6 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
         this.material.color = new Color(val)
     }
 
-    public get fog() {
-        return this.material.fog
-    }
-    public set fog(val) {
-        this.tryCloneMaterial()
-        this.material.fog = val
-    }
-
     private _opacity?: number
     public get opacity() {
         return (this._opacity ??= 1)

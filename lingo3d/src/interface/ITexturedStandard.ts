@@ -9,6 +9,7 @@ export default interface ITexturedStandard {
     color: string
     wireframe: boolean
     envMap: Nullable<string>
+    envMapIntensity: number
     aoMap: Nullable<string>
     aoMapIntensity: number
     bumpMap: Nullable<string>
@@ -36,6 +37,7 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
         color: String,
         wireframe: Boolean,
         envMap: String,
+        envMapIntensity: Number,
         aoMap: String,
         aoMapIntensity: Number,
         bumpMap: String,
@@ -62,6 +64,7 @@ export const texturedStandardDefaults: Defaults<ITexturedStandard> = {
     color: "#ffffff",
     wireframe: false,
     envMap: undefined,
+    envMapIntensity: 1,
     aoMap: undefined,
     aoMapIntensity: 1,
     bumpMap: undefined,

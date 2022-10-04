@@ -354,7 +354,6 @@ const Editor = () => {
             const [materialParams, materialRest] = splitObject(
                 adjustMaterialRest,
                 [
-                    "fog",
                     "opacity",
                     "color",
                     "texture",
@@ -392,6 +391,7 @@ const Editor = () => {
                     "emissiveColor",
                     "emissive",
                     "envMap",
+                    "envMapIntensity",
                     "alphaMap"
                 ]
             )

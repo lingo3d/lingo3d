@@ -50,6 +50,14 @@ export default abstract class TexturedStandardMixin
         this.applyTexture(mapNames)
     }
 
+    public get envMapIntensity() {
+        return this.material.envMapIntensity
+    }
+    public set envMapIntensity(val) {
+        this.tryCloneMaterial()
+        this.material.envMapIntensity = val
+    }
+
     private _aoMap?: string
     public get aoMap() {
         return this._aoMap
