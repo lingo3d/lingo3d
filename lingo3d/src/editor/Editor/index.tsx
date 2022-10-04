@@ -376,7 +376,6 @@ const Editor = () => {
                     "roughness",
                     "normalMap",
                     "normalScale",
-                    "normalMapType",
                     "bumpMap",
                     "bumpScale",
                     "displacementMap",

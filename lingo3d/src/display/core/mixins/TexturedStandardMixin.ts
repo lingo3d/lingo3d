@@ -1,13 +1,5 @@
-import {
-    Color,
-    MeshStandardMaterial,
-    ObjectSpaceNormalMap,
-    TangentSpaceNormalMap,
-    Vector2
-} from "three"
-import ITexturedStandard, {
-    NormalMapType
-} from "../../../interface/ITexturedStandard"
+import { Color, MeshStandardMaterial, Vector2 } from "three"
+import ITexturedStandard from "../../../interface/ITexturedStandard"
 import loadTexture from "../../utils/loaders/loadTexture"
 import TexturedBasicMixin from "./TexturedBasicMixin"
 
@@ -239,16 +231,5 @@ export default abstract class TexturedStandardMixin
         if (typeof val === "number")
             this.material.normalScale = new Vector2(val, val)
         else this.material.normalScale = val
-    }
-
-    private _normalMapType?: NormalMapType
-    public get normalMapType() {
-        return this._normalMapType
-    }
-    public set normalMapType(val) {
-        this.tryCloneMaterial()
-        this._normalMapType = val
-        this.material.normalMapType =
-            val === "objectSpace" ? ObjectSpaceNormalMap : TangentSpaceNormalMap
     }
 }

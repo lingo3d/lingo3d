@@ -3,8 +3,6 @@ import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
-export type NormalMapType = "objectSpace" | "tangentSpace"
-
 export default interface ITexturedStandard {
     color: string
     wireframe: boolean
@@ -29,7 +27,6 @@ export default interface ITexturedStandard {
     roughness: number
     normalMap: Nullable<string>
     normalScale: Point | number
-    normalMapType: Nullable<NormalMapType>
 }
 
 export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
@@ -56,8 +53,7 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
         roughnessMap: String,
         roughness: Number,
         normalMap: String,
-        normalScale: [Object, Number],
-        normalMapType: String
+        normalScale: [Object, Number]
     }
 
 export const texturedStandardDefaults: Defaults<ITexturedStandard> = {
@@ -83,6 +79,5 @@ export const texturedStandardDefaults: Defaults<ITexturedStandard> = {
     roughnessMap: undefined,
     roughness: 1,
     normalMap: undefined,
-    normalScale: { x: 1, y: 1 },
-    normalMapType: undefined
+    normalScale: { x: 1, y: 1 }
 }
