@@ -42,7 +42,7 @@ export const defaultSSROptions = {
 	maxRoughness: 1,
 	maxDepthDifference: 10,
 	blend: 0.9,
-	correction: 0.5,
+	correction: 1,
 	correctionRadius: 1,
 	blur: 0.5,
 	blurKernel: 1,
