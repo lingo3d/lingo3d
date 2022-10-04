@@ -224,12 +224,10 @@ export default abstract class TexturedStandardMixin
     }
 
     public get normalScale() {
-        return this.material.normalScale
+        return this.material.normalScale.x
     }
-    public set normalScale(val: Vector2 | number) {
+    public set normalScale(val: number) {
         this.tryCloneMaterial()
-        if (typeof val === "number")
-            this.material.normalScale = new Vector2(val, val)
-        else this.material.normalScale = val
+        this.material.normalScale.set(val, val)
     }
 }
