@@ -1,4 +1,3 @@
-import { Point } from "@lincode/math"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
