@@ -7,7 +7,6 @@ import { appendableRoot } from "../../api/core/Appendable"
 import Model from "../Model"
 import AnimatedObjectManager from "./AnimatedObjectManager"
 import SimpleObjectManager from "./SimpleObjectManager"
-import { standardMaterial } from "../utils/reusables"
 
 class FoundManager extends SimpleObjectManager implements IFound {
     public static componentName = "find"
@@ -16,9 +15,9 @@ class FoundManager extends SimpleObjectManager implements IFound {
 
     public constructor(mesh: Object3D) {
         super(mesh)
-        //@ts-ignore
-        mesh.material ??= standardMaterial
         appendableRoot.delete(this)
+        const { materialManager } = mesh.userData
+        materialManager && this.append(materialManager)
     }
 
     public model?: Model
