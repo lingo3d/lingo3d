@@ -4,7 +4,7 @@ import { LineGeometry } from "three/examples/jsm/lines/LineGeometry"
 import { Line2 } from "three/examples/jsm/lines/Line2"
 import { LineMaterial } from "three/examples/jsm/lines/LineMaterial"
 import EventLoopItem from "../api/core/EventLoopItem"
-import { scaleDown, scaleUp } from "../engine/constants"
+import { scaleDown } from "../engine/constants"
 import scene from "../engine/scene"
 import {
     addSelectiveBloom,
@@ -12,8 +12,6 @@ import {
 } from "../engine/renderLoop/effectComposer/selectiveBloomEffect"
 
 export default class Line extends EventLoopItem {
-    private material = new LineMaterial({ linewidth: 0.001 })
-
     public constructor() {
         super()
 
@@ -29,7 +27,10 @@ export default class Line extends EventLoopItem {
                 to.y * scaleDown,
                 to.z * scaleDown
             ])
-            const line = new Line2(geometry, this.material)
+            const material = new LineMaterial({
+                linewidth: this._thickness * scaleDown
+            })
+            const line = new Line2(geometry, material)
             scene.add(line)
 
             bloom && addSelectiveBloom(line)
@@ -37,16 +38,10 @@ export default class Line extends EventLoopItem {
             return () => {
                 scene.remove(line)
                 geometry.dispose()
+                material.dispose()
                 bloom && deleteSelectiveBloom(line)
             }
         }, [this.refresh.get])
-    }
-
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
-        this.material.dispose()
-        return this
     }
 
     private refresh = new Reactive({})
@@ -78,10 +73,12 @@ export default class Line extends EventLoopItem {
         this.refresh.set({})
     }
 
+    private _thickness = 1
     public get thickness() {
-        return this.material.linewidth * scaleUp
+        return this._thickness
     }
-    public set thickness(val) {
-        this.material.linewidth = val * scaleDown
+    public set thickness(value) {
+        this._thickness = value
+        this.refresh.set({})
     }
 }

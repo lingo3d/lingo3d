@@ -1,4 +1,4 @@
-import { Group, Material, Mesh, Object3D } from "three"
+import { Group, Mesh, Object3D } from "three"
 import { boxGeometry } from "../primitives/Cube"
 import { wireframeMaterial } from "../utils/reusables"
 import ObjectManager from "./ObjectManager"

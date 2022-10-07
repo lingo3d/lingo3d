@@ -11,8 +11,6 @@ class Sprite extends ObjectManager<ThreeSprite> implements ISprite {
     public static defaults = spriteDefaults
     public static schema = spriteSchema
 
-    protected material = material
-
     public constructor() {
         super(new ThreeSprite(material))
     }

@@ -13,8 +13,6 @@ abstract class Primitive extends ObjectManager<Mesh> implements IPrimitive {
     public static defaults = primitiveDefaults
     public static schema = primitiveSchema
 
-    protected material = standardMaterial
-
     public constructor(geometry: BufferGeometry) {
         const mesh = new Mesh(geometry, standardMaterial)
         mesh.castShadow = true

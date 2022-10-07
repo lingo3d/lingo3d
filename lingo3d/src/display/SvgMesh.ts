@@ -7,11 +7,11 @@ import TexturedStandardMixin from "./core/mixins/TexturedStandardMixin"
 import fit from "./utils/fit"
 import measure from "./utils/measure"
 import ISvgMesh, { svgMeshDefaults, svgMeshSchema } from "../interface/ISvgMesh"
-import { standardMaterial } from "./utils/reusables"
 import {
     decreaseLoadingCount,
     increaseLoadingCount
 } from "../states/useLoadingCount"
+import { standardMaterial } from "./utils/reusables"
 
 const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()
 
@@ -19,8 +19,6 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     public static componentName = "svgMesh"
     public static defaults = svgMeshDefaults
     public static schema = svgMeshSchema
-
-    protected material = standardMaterial
 
     protected async load(url: string) {
         increaseLoadingCount()
@@ -71,7 +69,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         })
 
         for (const geometry of geometries) {
-            const mesh = new Mesh(geometry, this.material)
+            const mesh = new Mesh(geometry, standardMaterial)
             mesh.castShadow = true
             mesh.receiveShadow = true
             loadedObject3d.add(mesh)

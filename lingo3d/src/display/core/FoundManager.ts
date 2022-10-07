@@ -1,5 +1,5 @@
 import { applyMixins } from "@lincode/utils"
-import { MeshStandardMaterial, Object3D } from "three"
+import { Object3D } from "three"
 import IFound, { foundDefaults, foundSchema } from "../../interface/IFound"
 import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
@@ -14,12 +14,10 @@ class FoundManager extends SimpleObjectManager implements IFound {
     public static defaults = foundDefaults
     public static schema = foundSchema
 
-    protected material: MeshStandardMaterial
-
     public constructor(mesh: Object3D) {
         super(mesh)
         //@ts-ignore
-        this.material = mesh.material ??= standardMaterial
+        mesh.material ??= standardMaterial
         appendableRoot.delete(this)
     }
 
