@@ -1,6 +1,5 @@
 import { forceGet } from "@lincode/utils"
 import { MeshStandardMaterial, Object3D } from "three"
-import { appendableRoot } from "../../api/core/Appendable"
 import BasicMaterialManager from "./BasicMaterialManager"
 import StandardMaterialManager from "./StandardMaterialManager"
 
@@ -11,14 +10,6 @@ export const attachStandardMaterialManager = (
     recursive?: boolean
 ) =>
     forceGet(materialManagerMap, target, () => {
-        if (recursive) {
-            let myMaterialManager!: StandardMaterialManager
-            target.traverse((child) => {
-                const materialManager = attachStandardMaterialManager(child)
-                if (child === target) myMaterialManager = materialManager
-            })
-            return myMaterialManager
-        }
         //@ts-ignore
         const { material, userData } = target
         const materialManager = (userData.materialManager =
@@ -27,9 +18,7 @@ export const attachStandardMaterialManager = (
                     ? ((target as any).material = material.clone())
                     : new MeshStandardMaterial()
             ))
-        const { manager } = userData
-        if (manager) manager.append(materialManager)
-        else appendableRoot.delete(materialManager)
+        recursive && target.traverse(attachStandardMaterialManager)
         return materialManager
     })
 

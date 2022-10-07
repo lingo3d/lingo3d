@@ -9,6 +9,7 @@ import {
     Vector2,
     Texture
 } from "three"
+import { appendableRoot } from "../../api/core/Appendable"
 import EventLoopItem from "../../api/core/EventLoopItem"
 import ITexturedBasic from "../../interface/ITexturedBasic"
 import queueDebounce from "../../utils/queueDebounce"
@@ -25,6 +26,7 @@ export default class BasicMaterialManager<
 {
     public constructor(protected material: T) {
         super()
+        appendableRoot.delete(this)
     }
 
     public override dispose() {
