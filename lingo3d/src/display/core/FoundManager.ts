@@ -54,9 +54,10 @@ class FoundManager extends SimpleObjectManager implements IFound {
         return super.addToRaycastSet(set)
     }
 }
+//@ts-ignore
 interface FoundManager
     extends AnimatedObjectManager,
         TexturedBasicMixin,
         TexturedStandardMixin {}
-applyMixins(FoundManager, [TexturedBasicMixin, TexturedStandardMixin])
+applyMixins(FoundManager, [TexturedStandardMixin, TexturedBasicMixin])
 export default FoundManager

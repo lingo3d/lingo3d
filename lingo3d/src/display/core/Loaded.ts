@@ -4,7 +4,7 @@ import { wireframeMaterial } from "../utils/reusables"
 import ObjectManager from "./ObjectManager"
 import ILoaded from "../../interface/ILoaded"
 import Reresolvable from "./utils/Reresolvable"
-import { Cancellable, Resolvable } from "@lincode/promiselikes"
+import { Cancellable } from "@lincode/promiselikes"
 import toResolvable from "../utils/toResolvable"
 import MeshItem from "./MeshItem"
 import { Point3d } from "@lincode/math"
@@ -16,6 +16,7 @@ import {
     addSelectiveBloom,
     deleteSelectiveBloom
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
+import { attachStandardMaterialManager } from "../material/attachMaterialManager"
 
 export default abstract class Loaded<T = Object3D>
     extends ObjectManager<Mesh>
@@ -272,31 +273,16 @@ export default abstract class Loaded<T = Object3D>
     }
 
     protected override refreshFactors() {
-        this.cancelHandle("refreshFactorsLoaded", () =>
-            this.loaded.then(() => void super.refreshFactors())
-        )
-    }
-
-    protected materialCloned?: boolean
-    protected tryCloneMaterial() {
-        if (this.materialCloned) return
-        this.materialCloned = true
-
-        const resolvable = new Resolvable()
-        this.watch(
-            this.loaded.then((loaded) => {
-                const cloned: Array<Material> = []
-                loaded.traverse((child: any) => {
-                    if (!child.material) return
-                    cloned.push((child.material = child.material.clone()))
+        this.cancelHandle("refreshFactorsLoaded", () => {
+            const handle = this.loaded.then((loaded) =>
+                queueMicrotask(() => {
+                    if (handle.done) return
+                    attachStandardMaterialManager(loaded, true)
+                    this._refreshFactors(handle)
                 })
-                resolvable.resolve()
-                return () => {
-                    for (const material of cloned) material.dispose()
-                }
-            })
-        )
-        return resolvable
+            )
+            return handle
+        })
     }
 
     public override placeAt(object: MeshItem | Point3d | string) {

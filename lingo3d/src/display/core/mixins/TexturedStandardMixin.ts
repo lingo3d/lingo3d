@@ -1,233 +1,166 @@
-import { Color, MeshStandardMaterial } from "three"
 import ITexturedStandard from "../../../interface/ITexturedStandard"
-import loadTexture from "../../utils/loaders/loadTexture"
+import { attachStandardMaterialManager } from "../../material/attachMaterialManager"
 import TexturedBasicMixin from "./TexturedBasicMixin"
-
-const mapNames = [
-    "map",
-    "alphaMap",
-    "envMap",
-    "aoMap",
-    "bumpMap",
-    "displacementMap",
-    "emissiveMap",
-    "lightMap",
-    "metalnessMap",
-    "roughnessMap",
-    "normalMap"
-]
 
 export default abstract class TexturedStandardMixin
     extends TexturedBasicMixin
     implements ITexturedStandard
 {
-    protected abstract override material: MeshStandardMaterial
+    protected override getMaterial() {
+        return attachStandardMaterialManager(this.nativeObject3d)!
+    }
 
     public get wireframe() {
-        return this.material.wireframe
+        return this.getMaterial().wireframe
     }
     public set wireframe(val) {
-        this.tryCloneMaterial()
-        this.material.wireframe = val
+        this.getMaterial().wireframe = val
     }
 
-    private _envMap?: string
     public get envMap() {
-        return this._envMap
+        return this.getMaterial().envMap
     }
     public set envMap(val) {
-        this.tryCloneMaterial()
-        this._envMap = val
-        this.material.envMap = val ? loadTexture(val) : null
-        this.applyTexture(mapNames)
+        this.getMaterial().envMap = val
     }
 
     public get envMapIntensity() {
-        return this.material.envMapIntensity
+        return this.getMaterial().envMapIntensity
     }
     public set envMapIntensity(val) {
-        this.tryCloneMaterial()
-        this.material.envMapIntensity = val
+        this.getMaterial().envMapIntensity = val
     }
 
-    private _aoMap?: string
     public get aoMap() {
-        return this._aoMap
+        return this.getMaterial().aoMap
     }
     public set aoMap(val) {
-        this.tryCloneMaterial()
-        this._aoMap = val
-        this.material.aoMap = val ? loadTexture(val) : null
-        this.applyTexture(mapNames)
+        this.getMaterial().aoMap = val
     }
 
     public get aoMapIntensity() {
-        return this.material.aoMapIntensity
+        return this.getMaterial().aoMapIntensity
     }
     public set aoMapIntensity(val) {
-        this.tryCloneMaterial()
-        this.material.aoMapIntensity = val
+        this.getMaterial().aoMapIntensity = val
     }
 
-    private _bumpMap?: string
     public get bumpMap() {
-        return this._bumpMap
+        return this.getMaterial().bumpMap
     }
     public set bumpMap(val) {
-        this.tryCloneMaterial()
-        this._bumpMap = val
-        this.material.bumpMap = val ? loadTexture(val) : null
-        this.applyTexture(mapNames)
+        this.getMaterial().bumpMap = val
     }
 
     public get bumpScale() {
-        return this.material.bumpScale
+        return this.getMaterial().bumpScale
     }
     public set bumpScale(val) {
-        this.tryCloneMaterial()
-        this.material.bumpScale = val
+        this.getMaterial().bumpScale = val
     }
 
-    private _displacementMap?: string
     public get displacementMap() {
-        return this._displacementMap
+        return this.getMaterial().displacementMap
     }
     public set displacementMap(val) {
-        this.tryCloneMaterial()
-        this._displacementMap = val
-        this.material.displacementMap = val ? loadTexture(val) : null
-        this.applyTexture(mapNames)
+        this.getMaterial().displacementMap = val
     }
 
     public get displacementScale() {
-        return this.material.displacementScale
+        return this.getMaterial().displacementScale
     }
     public set displacementScale(val) {
-        this.tryCloneMaterial()
-        this.material.displacementScale = val
+        this.getMaterial().displacementScale = val
     }
 
     public get displacementBias() {
-        return this.material.displacementBias
+        return this.getMaterial().displacementBias
     }
     public set displacementBias(val) {
-        this.tryCloneMaterial()
-        this.material.displacementBias = val
+        this.getMaterial().displacementBias = val
     }
 
     public get emissiveColor() {
-        return "#" + this.material.emissive.getHexString()
+        return this.getMaterial().emissiveColor
     }
     public set emissiveColor(val) {
-        this.tryCloneMaterial()
-        this.material.emissive = new Color(val)
+        this.getMaterial().emissiveColor = val
     }
 
-    private _emissiveMap?: string
     public get emissiveMap() {
-        return this._emissiveMap
+        return this.getMaterial().emissiveMap
     }
     public set emissiveMap(val) {
-        this.tryCloneMaterial()
-        this._emissiveMap = val
-        this.material.emissiveMap = val ? loadTexture(val) : null
-        this.applyTexture(mapNames)
+        this.getMaterial().emissiveMap = val
     }
 
     public get emissiveIntensity() {
-        return this.material.emissiveIntensity
+        return this.getMaterial().emissiveIntensity
     }
     public set emissiveIntensity(val) {
-        this.tryCloneMaterial()
-        this.material.emissiveIntensity = val
+        this.getMaterial().emissiveIntensity = val
     }
 
-    private _emissive?: boolean
     public get emissive() {
-        return !!this._emissive
+        return this.getMaterial().emissive
     }
-    public set emissive(val: boolean) {
-        this._emissive = val
-        if (!val) return
-        this.tryCloneMaterial()
-        this.material.emissiveMap = this.material.map
-        this.material.emissive = this.material.color
-        //todo: make this property reversible
+    public set emissive(val) {
+        this.getMaterial().emissive = val
     }
 
-    private _lightMap?: string
     public get lightMap() {
-        return this._lightMap
+        return this.getMaterial().lightMap
     }
     public set lightMap(val) {
-        this.tryCloneMaterial()
-        this._lightMap = val
-        this.material.lightMap = val ? loadTexture(val) : null
-        this.applyTexture(mapNames)
+        this.getMaterial().lightMap = val
     }
 
     public get lightMapIntensity() {
-        return this.material.lightMapIntensity
+        return this.getMaterial().lightMapIntensity
     }
     public set lightMapIntensity(val) {
-        this.tryCloneMaterial()
-        this.material.lightMapIntensity = val
+        this.getMaterial().lightMapIntensity = val
     }
 
-    private _metalnessMap?: string
     public get metalnessMap() {
-        return this._metalnessMap
+        return this.getMaterial().metalnessMap
     }
     public set metalnessMap(val) {
-        this.tryCloneMaterial()
-        this._metalnessMap = val
-        this.material.metalnessMap = val ? loadTexture(val) : null
-        this.applyTexture(mapNames)
+        this.getMaterial().metalnessMap = val
     }
 
     public get metalness() {
-        return this.material.metalness
+        return this.getMaterial().metalness
     }
     public set metalness(val) {
-        this.tryCloneMaterial()
-        this.material.metalness = val
+        this.getMaterial().metalness = val
     }
 
-    private _roughnessMap?: string
     public get roughnessMap() {
-        return this._roughnessMap
+        return this.getMaterial().roughnessMap
     }
     public set roughnessMap(val) {
-        this.tryCloneMaterial()
-        this._roughnessMap = val
-        this.material.roughnessMap = val ? loadTexture(val) : null
-        this.applyTexture(mapNames)
+        this.getMaterial().roughnessMap = val
     }
 
     public get roughness() {
-        return this.material.roughness
+        return this.getMaterial().roughness
     }
     public set roughness(val) {
-        this.tryCloneMaterial()
-        this.material.roughness = val
+        this.getMaterial().roughness = val
     }
 
-    private _normalMap?: string
     public get normalMap() {
-        return this._normalMap
+        return this.getMaterial().normalMap
     }
     public set normalMap(val) {
-        this.tryCloneMaterial()
-        this._normalMap = val
-        this.material.normalMap = val ? loadTexture(val) : null
-        this.applyTexture(mapNames)
+        this.getMaterial().normalMap = val
     }
 
     public get normalScale() {
-        return this.material.normalScale.x
+        return this.getMaterial().normalScale
     }
-    public set normalScale(val: number) {
-        this.tryCloneMaterial()
-        this.material.normalScale.set(val, val)
+    public set normalScale(val) {
+        this.getMaterial().normalScale = val
     }
 }

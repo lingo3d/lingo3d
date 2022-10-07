@@ -58,6 +58,7 @@ import {
     addSelectiveBloom,
     deleteSelectiveBloom
 } from "../../../engine/renderLoop/effectComposer/selectiveBloomEffect"
+import { attachStandardMaterialManager } from "../../material/attachMaterialManager"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -334,112 +335,100 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.traverse((child) => (child.receiveShadow = val))
     }
 
+    protected _refreshFactors(handle: Cancellable) {
+        const {
+            _toon,
+            _metalnessFactor,
+            _roughnessFactor,
+            _opacityFactor,
+            _envFactor,
+            _adjustColor,
+            _reflection
+        } = this
+
+        let reflectionTexture: Texture | undefined
+        if (!_toon && _reflection) {
+            const cubeRenderTarget = new WebGLCubeRenderTarget(256)
+            reflectionTexture = cubeRenderTarget.texture
+            const cubeCamera = new CubeCamera(NEAR, 10, cubeRenderTarget)
+            const pair: [StaticObjectManager, CubeCamera] = [this, cubeCamera]
+            pushReflectionPairs(pair)
+            handle.then(() => {
+                cubeRenderTarget.dispose()
+                reflectionTexture = undefined
+                pullReflectionPairs(pair)
+            })
+        }
+
+        this.outerObject3d.traverse((child: any) => {
+            let material: MeshStandardMaterial = child.material
+            if (!material || material.wireframe) return
+
+            Array.isArray(material) && (material = material[0])
+
+            if (_toon) {
+                child.material = new MeshToonMaterial()
+                copyToon(material, child.material)
+
+                handle.then(() => {
+                    child.material.dispose()
+                    child.material = material
+                })
+                return
+            }
+
+            if (_metalnessFactor !== undefined)
+                setNumber(
+                    material,
+                    "metalness",
+                    _metalnessFactor !== 0 ? _metalnessFactor : undefined
+                )
+
+            if (_roughnessFactor !== undefined)
+                setNumber(
+                    material,
+                    "roughness",
+                    _roughnessFactor !== 1 ? _roughnessFactor : undefined
+                )
+
+            if (_opacityFactor !== undefined) {
+                setNumber(material, "opacity", _opacityFactor)
+                setProperty(
+                    material,
+                    "transparent",
+                    _opacityFactor <= 1 ? true : undefined
+                )
+            }
+
+            if (_envFactor !== undefined)
+                setNumber(
+                    material,
+                    "envMapIntensity",
+                    _envFactor !== 1 ? _envFactor : undefined
+                )
+
+            if (_adjustColor !== undefined)
+                setProperty(
+                    material,
+                    "color",
+                    _adjustColor !== "#ffffff"
+                        ? new Color(_adjustColor)
+                        : undefined
+                )
+
+            if (_reflection !== undefined)
+                setProperty(material, "envMap", reflectionTexture)
+        })
+    }
+
     protected refreshFactors() {
         this.cancelHandle("refreshFactors", () => {
             const handle = new Cancellable()
-
-            //@ts-ignore
-            const resolvable = this.tryCloneMaterial?.()
-
-            ;(async () => {
-                await resolvable
+            queueMicrotask(() => {
                 if (handle.done) return
-
-                const {
-                    _toon,
-                    _metalnessFactor,
-                    _roughnessFactor,
-                    _opacityFactor,
-                    _envFactor,
-                    _adjustColor,
-                    _reflection
-                } = this
-
-                let reflectionTexture: Texture | undefined
-                if (!_toon && _reflection) {
-                    const cubeRenderTarget = new WebGLCubeRenderTarget(256)
-                    reflectionTexture = cubeRenderTarget.texture
-                    const cubeCamera = new CubeCamera(
-                        NEAR,
-                        10,
-                        cubeRenderTarget
-                    )
-                    const pair: [StaticObjectManager, CubeCamera] = [
-                        this,
-                        cubeCamera
-                    ]
-                    pushReflectionPairs(pair)
-                    handle.then(() => {
-                        cubeRenderTarget.dispose()
-                        reflectionTexture = undefined
-                        pullReflectionPairs(pair)
-                    })
-                }
-
-                this.outerObject3d.traverse((child: any) => {
-                    let material: MeshStandardMaterial = child.material
-                    if (!material || material.wireframe) return
-
-                    Array.isArray(material) && (material = material[0])
-
-                    if (_toon) {
-                        child.material = new MeshToonMaterial()
-                        copyToon(material, child.material)
-
-                        handle.then(() => {
-                            child.material.dispose()
-                            child.material = material
-                        })
-                        return
-                    }
-
-                    if (_metalnessFactor !== undefined)
-                        setNumber(
-                            material,
-                            "metalness",
-                            _metalnessFactor !== 0
-                                ? _metalnessFactor
-                                : undefined
-                        )
-
-                    if (_roughnessFactor !== undefined)
-                        setNumber(
-                            material,
-                            "roughness",
-                            _roughnessFactor !== 1
-                                ? _roughnessFactor
-                                : undefined
-                        )
-
-                    if (_opacityFactor !== undefined) {
-                        setNumber(material, "opacity", _opacityFactor)
-                        setProperty(
-                            material,
-                            "transparent",
-                            _opacityFactor <= 1 ? true : undefined
-                        )
-                    }
-
-                    if (_envFactor !== undefined)
-                        setNumber(
-                            material,
-                            "envMapIntensity",
-                            _envFactor !== 1 ? _envFactor : undefined
-                        )
-
-                    if (_adjustColor !== undefined)
-                        setProperty(
-                            material,
-                            "color",
-                            _adjustColor !== "#ffffff"
-                                ? new Color(_adjustColor)
-                                : undefined
-                        )
-
-                    if (_reflection !== undefined)
-                        setProperty(material, "envMap", reflectionTexture)
-                })
-            })()
+                attachStandardMaterialManager(this.nativeObject3d)
+                this._refreshFactors(handle)
+            })
             return handle
         })
     }

@@ -17,14 +17,21 @@ import loadTexture from "../utils/loaders/loadTexture"
 const mapNames = ["map", "alphaMap"]
 const queueTextureRepeat = queueDebounce()
 
-export default class BasicMaterial<
-        T extends MeshStandardMaterial | SpriteMaterial = SpriteMaterial
+export default class BasicMaterialManager<
+        T extends MeshStandardMaterial | SpriteMaterial
     >
     extends EventLoopItem
     implements ITexturedBasic
 {
     public constructor(protected material: T) {
         super()
+    }
+
+    public override dispose() {
+        if (this.done) return this
+        super.dispose()
+        this.material.dispose()
+        return this
     }
 
     public get color() {

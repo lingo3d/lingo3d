@@ -1,7 +1,7 @@
 import { Color, MeshStandardMaterial } from "three"
 import ITexturedStandard from "../../interface/ITexturedStandard"
 import loadTexture from "../utils/loaders/loadTexture"
-import BasicMaterial from "./BasicMaterial"
+import BasicMaterialManager from "./BasicMaterialManager"
 
 const mapNames = [
     "map",
@@ -17,8 +17,8 @@ const mapNames = [
     "normalMap"
 ]
 
-export default class StandardMaterial
-    extends BasicMaterial<MeshStandardMaterial>
+export default class StandardMaterialManager
+    extends BasicMaterialManager<MeshStandardMaterial>
     implements ITexturedStandard
 {
     public constructor(material: MeshStandardMaterial) {
