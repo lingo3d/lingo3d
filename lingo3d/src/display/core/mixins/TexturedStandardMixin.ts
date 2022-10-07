@@ -1,15 +1,12 @@
 import ITexturedStandard from "../../../interface/ITexturedStandard"
 import { attachStandardMaterialManager } from "../../material/attachMaterialManager"
+import StandardMaterialManager from "../../material/StandardMaterialManager"
 import TexturedBasicMixin from "./TexturedBasicMixin"
 
 export default abstract class TexturedStandardMixin
     extends TexturedBasicMixin
     implements ITexturedStandard
 {
-    protected override getMaterial() {
-        return attachStandardMaterialManager(this.nativeObject3d)!
-    }
-
     public get wireframe() {
         return this.getMaterial().wireframe
     }
@@ -164,3 +161,8 @@ export default abstract class TexturedStandardMixin
         this.getMaterial().normalScale = val
     }
 }
+Object.assign(TexturedBasicMixin.prototype, {
+    getMaterial(this: TexturedStandardMixin): StandardMaterialManager {
+        return attachStandardMaterialManager(this.nativeObject3d)!
+    }
+})

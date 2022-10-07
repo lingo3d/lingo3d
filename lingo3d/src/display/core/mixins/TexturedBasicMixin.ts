@@ -1,13 +1,12 @@
 import { Object3D } from "three"
 import ITexturedBasic from "../../../interface/ITexturedBasic"
 import { attachBasicMaterialManager } from "../../material/attachMaterialManager"
+import BasicMaterialManager from "../../material/BasicMaterialManager"
 
 export default abstract class TexturedBasicMixin implements ITexturedBasic {
     public declare nativeObject3d: Object3D
 
-    protected getMaterial() {
-        return attachBasicMaterialManager(this.nativeObject3d)!
-    }
+    protected declare getMaterial: any
 
     public get color() {
         return this.getMaterial().color
@@ -65,3 +64,8 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
         this.getMaterial().textureRotation = val
     }
 }
+Object.assign(TexturedBasicMixin.prototype, {
+    getMaterial(this: TexturedBasicMixin): BasicMaterialManager<any> {
+        return attachBasicMaterialManager(this.nativeObject3d)!
+    }
+})

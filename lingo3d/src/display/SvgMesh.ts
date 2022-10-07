@@ -83,7 +83,6 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         return loadedObject3d
     }
 }
-//@ts-ignore
 interface SvgMesh
     extends Loaded<SVGResult>,
         TexturedBasicMixin,
