@@ -24,7 +24,7 @@ export default class BasicMaterialManager<
     extends EventLoopItem
     implements ITexturedBasic
 {
-    public constructor(protected material: T) {
+    public constructor(public nativeMaterial: T) {
         super()
         appendableRoot.delete(this)
     }
@@ -32,7 +32,7 @@ export default class BasicMaterialManager<
     public override dispose() {
         if (this.done) return this
         super.dispose()
-        this.material.dispose()
+        this.nativeMaterial.dispose()
         return this
     }
 
@@ -42,7 +42,7 @@ export default class BasicMaterialManager<
     }
     public set color(val) {
         this._color = val
-        this.material.color = new Color(val)
+        this.nativeMaterial.color = new Color(val)
     }
 
     private _opacity?: number
@@ -51,8 +51,8 @@ export default class BasicMaterialManager<
     }
     public set opacity(val) {
         this._opacity = val
-        this.material.opacity = val ?? 1
-        this.material.transparent = this.material.opacity <= 1
+        this.nativeMaterial.opacity = val ?? 1
+        this.nativeMaterial.transparent = this.nativeMaterial.opacity <= 1
     }
 
     protected applyTexture(mapNames: Array<string>) {
@@ -63,7 +63,7 @@ export default class BasicMaterialManager<
 
             for (const name of mapNames) {
                 //@ts-ignore
-                const map: Texture = this.material[name]
+                const map: Texture = this.nativeMaterial[name]
                 if (!map) return
                 repeat !== undefined && (map.repeat = repeat)
                 flipY !== undefined && (map.flipY = flipY)
@@ -110,7 +110,7 @@ export default class BasicMaterialManager<
                     RepeatWrapping
                 )
 
-                const { material } = this
+                const { nativeMaterial: material } = this
                 const { map } = material
                 material.map = videoTexture
                 material.needsUpdate = true
@@ -126,14 +126,14 @@ export default class BasicMaterialManager<
 
             if (!url) return
 
-            const { material } = this
+            const { nativeMaterial: material } = this
             const { map } = material
             material.map = loadTexture(url)
             this.applyTexture(mapNames)
 
             return () => {
                 material.map = map
-                this.material.needsUpdate = true
+                this.nativeMaterial.needsUpdate = true
             }
         }, [videoTextureState.get, textureState.get])
     }
@@ -160,7 +160,7 @@ export default class BasicMaterialManager<
     }
     public set alphaMap(val) {
         this._alphaMap = val
-        this.material.alphaMap = val ? loadTexture(val) : null
+        this.nativeMaterial.alphaMap = val ? loadTexture(val) : null
         this.applyTexture(mapNames)
     }
 

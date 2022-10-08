@@ -30,7 +30,7 @@ export default class StandardMaterialManager
     }
     public set wireframe(val) {
         this._wireframe = val
-        this.material.wireframe = !!val
+        this.nativeMaterial.wireframe = !!val
     }
 
     private _envMap?: string
@@ -39,7 +39,7 @@ export default class StandardMaterialManager
     }
     public set envMap(val) {
         this._envMap = val
-        this.material.envMap = val ? loadTexture(val) : null
+        this.nativeMaterial.envMap = val ? loadTexture(val) : null
         this.applyTexture(mapNames)
     }
 
@@ -49,7 +49,7 @@ export default class StandardMaterialManager
     }
     public set envMapIntensity(val) {
         this._envMapIntensity = val
-        this.material.envMapIntensity = val ?? 1
+        this.nativeMaterial.envMapIntensity = val ?? 1
     }
 
     private _aoMap?: string
@@ -58,7 +58,7 @@ export default class StandardMaterialManager
     }
     public set aoMap(val) {
         this._aoMap = val
-        this.material.aoMap = val ? loadTexture(val) : null
+        this.nativeMaterial.aoMap = val ? loadTexture(val) : null
         this.applyTexture(mapNames)
     }
 
@@ -68,7 +68,7 @@ export default class StandardMaterialManager
     }
     public set aoMapIntensity(val) {
         this._aoMapIntensity = val
-        this.material.aoMapIntensity = val ?? 1
+        this.nativeMaterial.aoMapIntensity = val ?? 1
     }
 
     private _bumpMap?: string
@@ -77,7 +77,7 @@ export default class StandardMaterialManager
     }
     public set bumpMap(val) {
         this._bumpMap = val
-        this.material.bumpMap = val ? loadTexture(val) : null
+        this.nativeMaterial.bumpMap = val ? loadTexture(val) : null
         this.applyTexture(mapNames)
     }
 
@@ -87,7 +87,7 @@ export default class StandardMaterialManager
     }
     public set bumpScale(val) {
         this._bumpScale = val
-        this.material.bumpScale = val ?? 1
+        this.nativeMaterial.bumpScale = val ?? 1
     }
 
     private _displacementMap?: string
@@ -96,7 +96,7 @@ export default class StandardMaterialManager
     }
     public set displacementMap(val) {
         this._displacementMap = val
-        this.material.displacementMap = val ? loadTexture(val) : null
+        this.nativeMaterial.displacementMap = val ? loadTexture(val) : null
         this.applyTexture(mapNames)
     }
 
@@ -106,7 +106,7 @@ export default class StandardMaterialManager
     }
     public set displacementScale(val) {
         this._displacementScale = val
-        this.material.displacementScale = val ?? 1
+        this.nativeMaterial.displacementScale = val ?? 1
     }
 
     private _displacementBias?: number
@@ -115,7 +115,7 @@ export default class StandardMaterialManager
     }
     public set displacementBias(val) {
         this._displacementBias = val
-        this.material.displacementBias = val ?? 0
+        this.nativeMaterial.displacementBias = val ?? 0
     }
 
     private _emissiveIntensity?: number
@@ -124,7 +124,7 @@ export default class StandardMaterialManager
     }
     public set emissiveIntensity(val) {
         this._emissiveIntensity = val
-        this.material.emissiveIntensity = val ?? 1
+        this.nativeMaterial.emissiveIntensity = val ?? 1
     }
 
     private _emissive?: boolean
@@ -134,8 +134,8 @@ export default class StandardMaterialManager
     public set emissive(val) {
         this._emissive = val
         if (!val) return
-        this.material.emissiveMap = this.material.map
-        this.material.emissive = this.material.color
+        this.nativeMaterial.emissiveMap = this.nativeMaterial.map
+        this.nativeMaterial.emissive = this.nativeMaterial.color
         //todo: make this property reversible
     }
 
@@ -145,7 +145,7 @@ export default class StandardMaterialManager
     }
     public set lightMap(val) {
         this._lightMap = val
-        this.material.lightMap = val ? loadTexture(val) : null
+        this.nativeMaterial.lightMap = val ? loadTexture(val) : null
         this.applyTexture(mapNames)
     }
 
@@ -155,7 +155,7 @@ export default class StandardMaterialManager
     }
     public set lightMapIntensity(val) {
         this._lightMapIntensity = val
-        this.material.lightMapIntensity = val ?? 1
+        this.nativeMaterial.lightMapIntensity = val ?? 1
     }
 
     private _metalnessMap?: string
@@ -164,7 +164,7 @@ export default class StandardMaterialManager
     }
     public set metalnessMap(val) {
         this._metalnessMap = val
-        this.material.metalnessMap = val ? loadTexture(val) : null
+        this.nativeMaterial.metalnessMap = val ? loadTexture(val) : null
         this.applyTexture(mapNames)
     }
 
@@ -174,7 +174,7 @@ export default class StandardMaterialManager
     }
     public set metalness(val) {
         this._metalness = val
-        this.material.metalness = val ?? 0
+        this.nativeMaterial.metalness = val ?? 0
     }
 
     private _roughnessMap?: string
@@ -183,7 +183,7 @@ export default class StandardMaterialManager
     }
     public set roughnessMap(val) {
         this._roughnessMap = val
-        this.material.roughnessMap = val ? loadTexture(val) : null
+        this.nativeMaterial.roughnessMap = val ? loadTexture(val) : null
         this.applyTexture(mapNames)
     }
 
@@ -193,7 +193,7 @@ export default class StandardMaterialManager
     }
     public set roughness(val) {
         this._roughness = val
-        this.material.roughness = val ?? 1
+        this.nativeMaterial.roughness = val ?? 1
     }
 
     private _normalMap?: string
@@ -202,7 +202,7 @@ export default class StandardMaterialManager
     }
     public set normalMap(val) {
         this._normalMap = val
-        this.material.normalMap = val ? loadTexture(val) : null
+        this.nativeMaterial.normalMap = val ? loadTexture(val) : null
         this.applyTexture(mapNames)
     }
 
@@ -212,6 +212,6 @@ export default class StandardMaterialManager
     }
     public set normalScale(val) {
         this._normalScale = val
-        this.material.normalScale.set(val ?? 1, val ?? 1)
+        this.nativeMaterial.normalScale.set(val ?? 1, val ?? 1)
     }
 }
