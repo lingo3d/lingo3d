@@ -385,10 +385,8 @@ const Editor = () => {
                     "aoMapIntensity",
                     "lightMap",
                     "lightMapIntensity",
-                    "emissiveMap",
-                    "emissiveIntensity",
-                    "emissiveColor",
                     "emissive",
+                    "emissiveIntensity",
                     "envMap",
                     "envMapIntensity",
                     "alphaMap"

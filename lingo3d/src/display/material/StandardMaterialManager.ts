@@ -1,4 +1,4 @@
-import { Color, MeshStandardMaterial } from "three"
+import { MeshStandardMaterial } from "three"
 import ITexturedStandard from "../../interface/ITexturedStandard"
 import loadTexture from "../utils/loaders/loadTexture"
 import BasicMaterialManager from "./BasicMaterialManager"
@@ -10,7 +10,6 @@ const mapNames = [
     "aoMap",
     "bumpMap",
     "displacementMap",
-    "emissiveMap",
     "lightMap",
     "metalnessMap",
     "roughnessMap",
@@ -25,11 +24,13 @@ export default class StandardMaterialManager
         super(material)
     }
 
+    private _wireframe?: boolean
     public get wireframe() {
-        return this.material.wireframe
+        return this._wireframe
     }
     public set wireframe(val) {
-        this.material.wireframe = val
+        this._wireframe = val
+        this.material.wireframe = !!val
     }
 
     private _envMap?: string
@@ -42,11 +43,13 @@ export default class StandardMaterialManager
         this.applyTexture(mapNames)
     }
 
+    private _envMapIntensity?: number
     public get envMapIntensity() {
-        return this.material.envMapIntensity
+        return this._envMapIntensity
     }
     public set envMapIntensity(val) {
-        this.material.envMapIntensity = val
+        this._envMapIntensity = val
+        this.material.envMapIntensity = val ?? 1
     }
 
     private _aoMap?: string
@@ -59,11 +62,13 @@ export default class StandardMaterialManager
         this.applyTexture(mapNames)
     }
 
+    private _aoMapIntensity?: number
     public get aoMapIntensity() {
-        return this.material.aoMapIntensity
+        return this._aoMapIntensity
     }
     public set aoMapIntensity(val) {
-        this.material.aoMapIntensity = val
+        this._aoMapIntensity = val
+        this.material.aoMapIntensity = val ?? 1
     }
 
     private _bumpMap?: string
@@ -76,11 +81,13 @@ export default class StandardMaterialManager
         this.applyTexture(mapNames)
     }
 
+    private _bumpScale?: number
     public get bumpScale() {
-        return this.material.bumpScale
+        return this._bumpScale
     }
     public set bumpScale(val) {
-        this.material.bumpScale = val
+        this._bumpScale = val
+        this.material.bumpScale = val ?? 1
     }
 
     private _displacementMap?: string
@@ -93,49 +100,38 @@ export default class StandardMaterialManager
         this.applyTexture(mapNames)
     }
 
+    private _displacementScale?: number
     public get displacementScale() {
-        return this.material.displacementScale
+        return this._displacementScale
     }
     public set displacementScale(val) {
-        this.material.displacementScale = val
+        this._displacementScale = val
+        this.material.displacementScale = val ?? 1
     }
 
+    private _displacementBias?: number
     public get displacementBias() {
-        return this.material.displacementBias
+        return this._displacementBias
     }
     public set displacementBias(val) {
-        this.material.displacementBias = val
+        this._displacementBias = val
+        this.material.displacementBias = val ?? 0
     }
 
-    public get emissiveColor() {
-        return "#" + this.material.emissive.getHexString()
-    }
-    public set emissiveColor(val) {
-        this.material.emissive = new Color(val)
-    }
-
-    private _emissiveMap?: string
-    public get emissiveMap() {
-        return this._emissiveMap
-    }
-    public set emissiveMap(val) {
-        this._emissiveMap = val
-        this.material.emissiveMap = val ? loadTexture(val) : null
-        this.applyTexture(mapNames)
-    }
-
+    private _emissiveIntensity?: number
     public get emissiveIntensity() {
-        return this.material.emissiveIntensity
+        return this._emissiveIntensity
     }
     public set emissiveIntensity(val) {
-        this.material.emissiveIntensity = val
+        this._emissiveIntensity = val
+        this.material.emissiveIntensity = val ?? 1
     }
 
     private _emissive?: boolean
     public get emissive() {
-        return !!this._emissive
+        return this._emissive
     }
-    public set emissive(val: boolean) {
+    public set emissive(val) {
         this._emissive = val
         if (!val) return
         this.material.emissiveMap = this.material.map
@@ -153,11 +149,13 @@ export default class StandardMaterialManager
         this.applyTexture(mapNames)
     }
 
+    private _lightMapIntensity?: number
     public get lightMapIntensity() {
-        return this.material.lightMapIntensity
+        return this._lightMapIntensity
     }
     public set lightMapIntensity(val) {
-        this.material.lightMapIntensity = val
+        this._lightMapIntensity = val
+        this.material.lightMapIntensity = val ?? 1
     }
 
     private _metalnessMap?: string
@@ -170,11 +168,13 @@ export default class StandardMaterialManager
         this.applyTexture(mapNames)
     }
 
+    private _metalness?: number
     public get metalness() {
-        return this.material.metalness
+        return this._metalness
     }
     public set metalness(val) {
-        this.material.metalness = val
+        this._metalness = val
+        this.material.metalness = val ?? 0
     }
 
     private _roughnessMap?: string
@@ -187,11 +187,13 @@ export default class StandardMaterialManager
         this.applyTexture(mapNames)
     }
 
+    private _roughness?: number
     public get roughness() {
-        return this.material.roughness
+        return this._roughness
     }
     public set roughness(val) {
-        this.material.roughness = val
+        this._roughness = val
+        this.material.roughness = val ?? 1
     }
 
     private _normalMap?: string
@@ -204,10 +206,12 @@ export default class StandardMaterialManager
         this.applyTexture(mapNames)
     }
 
+    private _normalScale?: number
     public get normalScale() {
-        return this.material.normalScale.x
+        return this._normalScale
     }
-    public set normalScale(val: number) {
-        this.material.normalScale.set(val, val)
+    public set normalScale(val) {
+        this._normalScale = val
+        this.material.normalScale.set(val ?? 1, val ?? 1)
     }
 }

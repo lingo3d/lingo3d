@@ -1,36 +1,33 @@
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
+import NullableDefault from "./utils/NullableDefault"
 
 export default interface ITexturedStandard {
-    color: string
-    wireframe: boolean
+    wireframe: Nullable<boolean>
     envMap: Nullable<string>
-    envMapIntensity: number
+    envMapIntensity: Nullable<number>
     aoMap: Nullable<string>
-    aoMapIntensity: number
+    aoMapIntensity: Nullable<number>
     bumpMap: Nullable<string>
-    bumpScale: number
+    bumpScale: Nullable<number>
     displacementMap: Nullable<string>
-    displacementScale: number
-    displacementBias: number
-    emissive: boolean
-    emissiveColor: string
-    emissiveMap: Nullable<string>
-    emissiveIntensity: number
+    displacementScale: Nullable<number>
+    displacementBias: Nullable<number>
+    emissive: Nullable<boolean>
+    emissiveIntensity: Nullable<number>
     lightMap: Nullable<string>
-    lightMapIntensity: number
+    lightMapIntensity: Nullable<number>
     metalnessMap: Nullable<string>
-    metalness: number
+    metalness: Nullable<number>
     roughnessMap: Nullable<string>
-    roughness: number
+    roughness: Nullable<number>
     normalMap: Nullable<string>
-    normalScale: number
+    normalScale: Nullable<number>
 }
 
 export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
     {
-        color: String,
         wireframe: Boolean,
         envMap: String,
         envMapIntensity: Number,
@@ -42,8 +39,6 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
         displacementScale: Number,
         displacementBias: Number,
         emissive: Boolean,
-        emissiveColor: String,
-        emissiveMap: String,
         emissiveIntensity: Number,
         lightMap: String,
         lightMapIntensity: Number,
@@ -56,27 +51,24 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
     }
 
 export const texturedStandardDefaults: Defaults<ITexturedStandard> = {
-    color: "#ffffff",
-    wireframe: false,
+    wireframe: new NullableDefault(false),
     envMap: undefined,
-    envMapIntensity: 1,
+    envMapIntensity: new NullableDefault(1),
     aoMap: undefined,
-    aoMapIntensity: 1,
+    aoMapIntensity: new NullableDefault(1),
     bumpMap: undefined,
-    bumpScale: 1,
+    bumpScale: new NullableDefault(1),
     displacementMap: undefined,
-    displacementScale: 1,
-    displacementBias: 0,
-    emissive: false,
-    emissiveColor: "#000000",
-    emissiveMap: undefined,
-    emissiveIntensity: 1,
+    displacementScale: new NullableDefault(1),
+    displacementBias: new NullableDefault(0),
+    emissive: new NullableDefault(false),
+    emissiveIntensity: new NullableDefault(1),
     lightMap: undefined,
-    lightMapIntensity: 1,
+    lightMapIntensity: new NullableDefault(1),
     metalnessMap: undefined,
-    metalness: 0,
+    metalness: new NullableDefault(0),
     roughnessMap: undefined,
-    roughness: 1,
+    roughness: new NullableDefault(1),
     normalMap: undefined,
-    normalScale: 1
+    normalScale: new NullableDefault(1)
 }

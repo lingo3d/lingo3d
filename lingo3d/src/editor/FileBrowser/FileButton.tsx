@@ -28,8 +28,6 @@ const setDraggingItem = drag<File>((draggingItem, hitManager) => {
                 hitManager.normalMap = lazyObjectURL()
             else if (name.includes("disp"))
                 hitManager.displacementMap = lazyObjectURL()
-            else if (name.includes("emissive"))
-                hitManager.emissiveMap = lazyObjectURL()
             else hitManager.texture = lazyObjectURL()
         } else hitManager.texture = lazyObjectURL()
     }

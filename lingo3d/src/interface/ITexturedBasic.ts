@@ -5,8 +5,8 @@ import Nullable from "./utils/Nullable"
 import NullableDefault from "./utils/NullableDefault"
 
 export default interface ITexturedBasic {
-    color: string
-    opacity: number
+    color: Nullable<string>
+    opacity: Nullable<number>
     texture: Nullable<string | HTMLVideoElement>
     videoTexture: Nullable<string | HTMLVideoElement>
     alphaMap: Nullable<string>
@@ -27,8 +27,8 @@ export const texturedBasicSchema: Required<ExtractProps<ITexturedBasic>> = {
 }
 
 export const texturedBasicDefaults: Defaults<ITexturedBasic> = {
-    color: "#ffffff",
-    opacity: 1,
+    color: new NullableDefault("#ffffff"),
+    opacity: new NullableDefault(1),
     texture: undefined,
     videoTexture: undefined,
     alphaMap: undefined,

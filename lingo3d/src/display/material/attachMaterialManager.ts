@@ -3,30 +3,50 @@ import { MeshStandardMaterial, Object3D } from "three"
 import BasicMaterialManager from "./BasicMaterialManager"
 import StandardMaterialManager from "./StandardMaterialManager"
 
-const materialManagerMap = new WeakMap<Object3D, StandardMaterialManager>()
+const materialMap = new Map<string, MeshStandardMaterial>()
+
+const allocateMaterial = (desc: Partial<MeshStandardMaterial>) => {
+    let hash = ""
+    for (const key of Object.keys(desc).sort())
+        hash += `${key}:${(desc as any)[key]};`
+
+    return forceGet(materialMap, hash, () => {
+        const material = new MeshStandardMaterial()
+        Object.assign(material, desc)
+        return material
+    })
+}
+
+const materialManagerMap = new WeakMap<
+    Object3D,
+    StandardMaterialManager | undefined
+>()
 
 export const attachStandardMaterialManager = (
     target: Object3D,
     recursive?: boolean
 ) =>
     forceGet(materialManagerMap, target, () => {
-        //@ts-ignore
-        const { material, userData } = target
-        const materialManager = (userData.materialManager =
-            new StandardMaterialManager(
-                material
-                    ? ((target as any).material = material.clone())
-                    : new MeshStandardMaterial()
-            ))
-        recursive && target.traverse(attachStandardMaterialManager)
-        return materialManager
+        const { material } = target as any
+        if (!material) return
+
+        if (recursive)
+            target.traverse(
+                (child) =>
+                    child !== target && attachStandardMaterialManager(child)
+            )
+
+        return (target.userData.materialManager = new StandardMaterialManager(
+            ((target as any).material = material.clone())
+        ))
     })
 
 export const attachBasicMaterialManager = (target: Object3D) =>
     forceGet(materialManagerMap, target, () => {
-        //@ts-ignore
-        const { material } = target
+        const { material } = target as any
         if (!material) return
-        //@ts-ignore
-        return new BasicMaterialManager((target.material = material.clone()))
+
+        return new BasicMaterialManager(
+            ((target as any).material = material.clone())
+        )
     })

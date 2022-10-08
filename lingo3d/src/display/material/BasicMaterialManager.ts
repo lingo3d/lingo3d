@@ -36,21 +36,23 @@ export default class BasicMaterialManager<
         return this
     }
 
+    private _color?: string
     public get color() {
-        return "#" + this.material.color.getHexString()
+        return this._color
     }
     public set color(val) {
+        this._color = val
         this.material.color = new Color(val)
     }
 
     private _opacity?: number
     public get opacity() {
-        return (this._opacity ??= 1)
+        return this._opacity
     }
     public set opacity(val) {
         this._opacity = val
-        this.material.opacity = val
-        this.material.transparent = val <= 1
+        this.material.opacity = val ?? 1
+        this.material.transparent = this.material.opacity <= 1
     }
 
     protected applyTexture(mapNames: Array<string>) {
