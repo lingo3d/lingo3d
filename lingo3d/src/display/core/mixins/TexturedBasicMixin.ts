@@ -9,7 +9,7 @@ abstract class TexturedBasicMixin {
 }
 Object.assign(TexturedBasicMixin.prototype, {
     getMaterial(this: TexturedBasicMixin) {
-        return attachBasicMaterialManager(this.nativeObject3d)
+        return attachBasicMaterialManager(this.nativeObject3d)[0]
     }
 })
 

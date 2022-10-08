@@ -5,34 +5,41 @@ import StandardMaterialManager from "./StandardMaterialManager"
 
 const materialManagerMap = new WeakMap<
     Object3D,
-    StandardMaterialManager | undefined
+    Array<StandardMaterialManager>
 >()
 
 export const attachStandardMaterialManager = (
     target: Object3D,
-    recursive?: boolean
+    recursive?: boolean,
+    result: Array<StandardMaterialManager> = []
 ) =>
     forceGet(materialManagerMap, target, () => {
         const { material } = target as any
-        if (!material) return
+        if (!material) return result
 
         if (recursive)
             target.traverse(
                 (child) =>
-                    child !== target && attachStandardMaterialManager(child)
+                    child !== target &&
+                    attachStandardMaterialManager(child, false, result)
             )
 
-        return (target.userData.materialManager = new StandardMaterialManager(
-            ((target as any).material = material.clone())
-        ))
+        result.push(
+            (target.userData.materialManager = new StandardMaterialManager(
+                ((target as any).material = material.clone())
+            ))
+        )
+        return result
     })
 
 export const attachBasicMaterialManager = (target: Object3D) =>
     forceGet(materialManagerMap, target, () => {
         const { material } = target as any
-        if (!material) return
+        if (!material) return []
 
-        return new BasicMaterialManager(
-            ((target as any).material = material.clone())
-        )
+        return [
+            new BasicMaterialManager(
+                ((target as any).material = material.clone())
+            )
+        ]
     })
