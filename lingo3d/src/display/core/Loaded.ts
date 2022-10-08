@@ -277,8 +277,10 @@ export default abstract class Loaded<T = Object3D>
             const handle = this.loaded.then((loaded) =>
                 queueMicrotask(() => {
                     if (handle.done) return
-                    attachStandardMaterialManager(loaded, true)
-                    this._refreshFactors(handle)
+                    this._refreshFactors(
+                        handle,
+                        attachStandardMaterialManager(loaded, true)
+                    )
                 })
             )
             return handle

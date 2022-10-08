@@ -14,15 +14,15 @@ export const attachStandardMaterialManager = (
     result: Array<StandardMaterialManager> = []
 ) =>
     forceGet(materialManagerMap, target, () => {
+        if (recursive) {
+            target.traverse((child) =>
+                attachStandardMaterialManager(child, false, result)
+            )
+            return result
+        }
+
         const { material } = target as any
         if (!material) return result
-
-        if (recursive)
-            target.traverse(
-                (child) =>
-                    child !== target &&
-                    attachStandardMaterialManager(child, false, result)
-            )
 
         result.push(
             (target.userData.materialManager = new StandardMaterialManager(

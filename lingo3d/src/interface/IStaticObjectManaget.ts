@@ -36,8 +36,6 @@ export default interface IStaticObjectManager extends IEventLoop {
     envFactor: Nullable<number>
     adjustColor: Nullable<string>
     reflection: boolean
-
-    toon: boolean
 }
 
 export const staticObjectManagerSchema: Required<
@@ -72,9 +70,7 @@ export const staticObjectManagerSchema: Required<
     opacityFactor: Number,
     envFactor: Number,
     adjustColor: String,
-    reflection: Boolean,
-
-    toon: Boolean
+    reflection: Boolean
 }
 hideSchema(["lookAt", "lookTo"])
 
@@ -108,7 +104,5 @@ export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     opacityFactor: new NullableDefault(1),
     envFactor: new NullableDefault(1),
     adjustColor: new NullableDefault("#ffffff"),
-    reflection: false,
-
-    toon: false
+    reflection: false
 }

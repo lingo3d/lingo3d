@@ -3,8 +3,6 @@ import {
     Color,
     CubeCamera,
     Matrix3,
-    MeshStandardMaterial,
-    MeshToonMaterial,
     Object3D,
     PropertyBinding,
     Texture,
@@ -29,7 +27,6 @@ import getCenter from "../../utils/getCenter"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import IStaticObjectManager from "../../../interface/IStaticObjectManaget"
 import MeshItem from "../MeshItem"
-import copyToon from "./applyMaterialProperties/copyToon"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import diffQuaternions from "../../utils/diffQuaternions"
@@ -59,6 +56,7 @@ import {
     deleteSelectiveBloom
 } from "../../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import { attachStandardMaterialManager } from "../../material/attachMaterialManager"
+import StandardMaterialManager from "../../material/StandardMaterialManager"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -335,9 +333,11 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.traverse((child) => (child.receiveShadow = val))
     }
 
-    protected _refreshFactors(handle: Cancellable) {
+    protected _refreshFactors(
+        handle: Cancellable,
+        materialManagers: Array<StandardMaterialManager>
+    ) {
         const {
-            _toon,
             _metalnessFactor,
             _roughnessFactor,
             _opacityFactor,
@@ -347,7 +347,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         } = this
 
         let reflectionTexture: Texture | undefined
-        if (!_toon && _reflection) {
+        if (_reflection) {
             const cubeRenderTarget = new WebGLCubeRenderTarget(256)
             reflectionTexture = cubeRenderTarget.texture
             const cubeCamera = new CubeCamera(NEAR, 10, cubeRenderTarget)
@@ -360,22 +360,9 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
             })
         }
 
-        this.outerObject3d.traverse((child: any) => {
-            let material: MeshStandardMaterial = child.material
-            if (!material || material.wireframe) return
-
-            Array.isArray(material) && (material = material[0])
-
-            if (_toon) {
-                child.material = new MeshToonMaterial()
-                copyToon(material, child.material)
-
-                handle.then(() => {
-                    child.material.dispose()
-                    child.material = material
-                })
-                return
-            }
+        for (const materialManager of materialManagers) {
+            const material = materialManager.nativeMaterial
+            if (material.wireframe) return
 
             if (_metalnessFactor !== undefined)
                 setNumber(
@@ -418,7 +405,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
             if (_reflection !== undefined)
                 setProperty(material, "envMap", reflectionTexture)
-        })
+        }
     }
 
     protected refreshFactors() {
@@ -426,8 +413,10 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
             const handle = new Cancellable()
             queueMicrotask(() => {
                 if (handle.done) return
-                attachStandardMaterialManager(this.nativeObject3d)
-                this._refreshFactors(handle)
+                this._refreshFactors(
+                    handle,
+                    attachStandardMaterialManager(this.nativeObject3d)
+                )
             })
             return handle
         })
@@ -484,15 +473,6 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
     public set reflection(val: boolean) {
         this._reflection = val
-        this.refreshFactors()
-    }
-
-    private _toon?: boolean
-    public get toon() {
-        return this._toon ?? false
-    }
-    public set toon(val) {
-        this._toon = val
         this.refreshFactors()
     }
 
