@@ -35,7 +35,8 @@ import {
 } from "../../states/useEditorMounted"
 import useHotkeys from "./useHotkeys"
 import settings from "../../api/settings"
-import { dataSetupMap } from "../../display/Setup"
+import Setup, { dataSetupMap } from "../../display/Setup"
+import addSetupInputs from "./addSetupInputs"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -74,7 +75,7 @@ const Editor = () => {
     const [cameraFolder, setCameraFolder] = useState<FolderApi>()
     const [setupStack] = useSetupStack()
     const lastSetup = last(setupStack)
-    const finalSetup = (lastSetup && dataSetupMap.get(lastSetup)) ?? settings
+    const targetSetup = (lastSetup && dataSetupMap.get(lastSetup)) ?? settings
 
     useLayoutEffect(() => {
         if (!pane || !cameraFolder) return
@@ -134,92 +135,8 @@ const Editor = () => {
         setPane(pane)
         setCameraFolder(pane.addFolder({ title: "camera" }))
 
-        if (!selectionTarget) {
-            const [editorParams, editorRest] = splitObject(
-                omit(
-                    getParams(setupSchema, setupDefaults, finalSetup),
-                    nonEditorSettings
-                ),
-                ["gridHelper", "gridHelperSize"]
-            )
-            addInputs(pane, "editor", finalSetup, setupDefaults, editorParams)
-
-            const [rendererParams, rendererRest] = splitObject(editorRest, [
-                "antiAlias",
-                "pixelRatio",
-                "fps",
-                "logarithmicDepth",
-                "pbr"
-            ])
-            addInputs(
-                pane,
-                "renderer",
-                finalSetup,
-                setupDefaults,
-                rendererParams
-            )
-
-            const [sceneParams, sceneRest] = splitObject(rendererRest, [
-                "exposure",
-                "defaultLight",
-                "shadowDistance",
-                "shadowResolution",
-                "shadowBias",
-                "skybox",
-                "texture",
-                "color"
-            ])
-            addInputs(
-                pane,
-                "lighting & environment",
-                finalSetup,
-                setupDefaults,
-                sceneParams
-            )
-
-            const [effectsParams, effectsRest] = splitObject(sceneRest, [
-                "bloom",
-                "bloomIntensity",
-                "bloomThreshold",
-                "bloomRadius",
-                "ssr",
-                "ssrIntensity",
-                "ssao",
-                "ssaoIntensity"
-            ])
-            addInputs(pane, "effects", finalSetup, setupDefaults, effectsParams)
-
-            const [outlineParams, outlineRest] = splitObject(effectsRest, [
-                "outlineColor",
-                "outlineHiddenColor",
-                "outlinePattern",
-                "outlinePulse",
-                "outlineStrength"
-            ])
-            addInputs(
-                pane,
-                "outline effect",
-                finalSetup,
-                setupDefaults,
-                outlineParams
-            )
-
-            const [physicsParams, physicsRest] = splitObject(outlineRest, [
-                "gravity",
-                "repulsion",
-                "centripetal"
-            ])
-            addInputs(pane, "physics", finalSetup, setupDefaults, physicsParams)
-
-            Object.keys(physicsRest).length &&
-                addInputs(
-                    pane,
-                    "settings",
-                    finalSetup,
-                    setupDefaults,
-                    physicsRest
-                )
-
+        if (!selectionTarget || selectionTarget instanceof Setup) {
+            addSetupInputs(pane, selectionTarget ?? targetSetup)
             return () => {
                 pane.dispose()
             }
@@ -444,7 +361,7 @@ const Editor = () => {
             handle.cancel()
             pane.dispose()
         }
-    }, [selectionTarget, multipleSelectionTargets, finalSetup])
+    }, [selectionTarget, multipleSelectionTargets, targetSetup])
 
     return (
         <div
