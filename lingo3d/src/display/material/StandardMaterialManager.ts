@@ -1,5 +1,5 @@
 import { MeshStandardMaterial } from "three"
-import ITexturedStandard from "../../interface/ITexturedStandard"
+import IStandardMaterialManager, { standardMaterialManagerDefaults, standardMaterialManagerSchema } from "../../interface/IStandardMaterialManager"
 import loadTexture from "../utils/loaders/loadTexture"
 import BasicMaterialManager from "./BasicMaterialManager"
 
@@ -18,8 +18,12 @@ const mapNames = [
 
 export default class StandardMaterialManager
     extends BasicMaterialManager<MeshStandardMaterial>
-    implements ITexturedStandard
+    implements IStandardMaterialManager
 {
+    public static override componentName = "standardMaterial"
+    public static override defaults = standardMaterialManagerDefaults
+    public static override schema = standardMaterialManagerSchema
+
     public constructor(material: MeshStandardMaterial) {
         super(material)
     }

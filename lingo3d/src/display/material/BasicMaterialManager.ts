@@ -10,7 +10,10 @@ import {
     Texture
 } from "three"
 import EventLoopItem from "../../api/core/EventLoopItem"
-import ITexturedBasic from "../../interface/ITexturedBasic"
+import IBasicMaterialManager, {
+    basicMaterialManagerDefaults,
+    basicMaterialManagerSchema
+} from "../../interface/IBasicMaterialManager"
 import queueDebounce from "../../utils/queueDebounce"
 import loadTexture from "../utils/loaders/loadTexture"
 
@@ -21,8 +24,12 @@ export default class BasicMaterialManager<
         T extends MeshStandardMaterial | SpriteMaterial
     >
     extends EventLoopItem
-    implements ITexturedBasic
+    implements IBasicMaterialManager
 {
+    public static componentName = "basicMaterial"
+    public static defaults = basicMaterialManagerDefaults
+    public static schema = basicMaterialManagerSchema
+
     public constructor(public nativeMaterial: T) {
         super()
     }
