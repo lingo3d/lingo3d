@@ -374,7 +374,8 @@ const Editor = () => {
             }}
         >
             <AppBar>
-                <Tab>hello world</Tab>
+                <Tab>World</Tab>
+                <Tab>Model</Tab>
             </AppBar>
             <div style={{ flexGrow: 1, overflow: "scroll" }} ref={elRef}></div>
         </div>
