@@ -41,5 +41,5 @@ createEffect(() => {
     else if (color) {
         if (color === "transparent") scene.background = null
         else scene.background = new Color(color)
-    } else scene.background = new Color("black")
+    } else scene.background = new Color(0)
 }, [getBackgroundColor, getBackgroundImage, getSkyboxStack])

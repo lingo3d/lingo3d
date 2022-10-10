@@ -1,9 +1,8 @@
-import { deg2Rad } from "@lincode/math"
+import { deg2Rad, rad2Deg } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
 import {
     MeshStandardMaterial,
     SpriteMaterial,
-    Color,
     VideoTexture,
     RepeatWrapping,
     Vector2,
@@ -48,14 +47,12 @@ export default class BasicMaterialManager<
         this.nativeMaterial.color.set(val)
     }
 
-    private _opacity?: number
     public get opacity() {
-        return this._opacity
+        return this.nativeMaterial.opacity
     }
     public set opacity(val) {
-        this._opacity = val
-        this.nativeMaterial.opacity = val ?? 1
-        this.nativeMaterial.transparent = this.nativeMaterial.opacity <= 1
+        this.nativeMaterial.opacity = val
+        this.nativeMaterial.transparent = val <= 1
         this.nativeMaterial.needsUpdate = true
     }
 
@@ -71,9 +68,8 @@ export default class BasicMaterialManager<
                 if (!map) return
                 repeat !== undefined && (map.repeat = repeat)
                 rotation !== undefined && (map.rotation = rotation * deg2Rad)
-
-                if (flipY !== map.flipY) {
-                    map.flipY = !!flipY
+                if (flipY !== undefined && flipY !== map.flipY) {
+                    map.flipY = flipY
                     map.needsUpdate = true
                 }
             }
@@ -171,7 +167,7 @@ export default class BasicMaterialManager<
 
     protected _textureRepeat?: Vector2
     public get textureRepeat() {
-        return this._textureRepeat
+        return this.nativeMaterial.map?.repeat ?? this._textureRepeat
     }
     public set textureRepeat(val: Vector2 | number | undefined) {
         typeof val === "number" && (val = new Vector2(val, val))
@@ -181,7 +177,7 @@ export default class BasicMaterialManager<
 
     protected _textureFlipY?: boolean
     public get textureFlipY() {
-        return this._textureFlipY
+        return this.nativeMaterial.map?.flipY ?? this._textureFlipY
     }
     public set textureFlipY(val) {
         this._textureFlipY = val
@@ -190,7 +186,9 @@ export default class BasicMaterialManager<
 
     protected _textureRotation?: number
     public get textureRotation() {
-        return this._textureRotation
+        return this.nativeMaterial.map
+            ? this.nativeMaterial.map.rotation * rad2Deg
+            : this._textureRotation
     }
     public set textureRotation(val) {
         this._textureRotation = val
