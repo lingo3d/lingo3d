@@ -1,20 +1,25 @@
 import { ComponentChildren } from "preact"
+import { CSSProperties } from "preact/compat"
 
 type AppBarProps = {
+    className?: string
     children?: ComponentChildren
+    style?: CSSProperties
 }
 
-const AppBar = ({ children }: AppBarProps) => {
+const AppBar = ({ className, style, children }: AppBarProps) => {
     return (
         <div
-            className="lingo3d-bg"
+            className={className}
             style={{
+                width: "100%",
                 height: 24,
                 display: "flex",
                 alignItems: "center",
-                paddingLeft: 12,
                 paddingRight: 4,
-                flexShrink: 0
+                flexShrink: 0,
+                background: "rgba(0, 0, 0, 0.1)",
+                ...style
             }}
         >
             {children}

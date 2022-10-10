@@ -14,7 +14,8 @@ const Tab = ({ onClose, children }: TabProps) => {
             style={{
                 height: 24,
                 display: "flex",
-                alignItems: "center"
+                alignItems: "center",
+                paddingLeft: 12
             }}
         >
             {children}

@@ -6,9 +6,9 @@ import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem"
 import pathMap from "./pathMap"
 import { setFileBrowser } from "../../states/useFileBrowser"
-import TitleBar from "../component/TitleBar"
 import { setFileSelected } from "../../states/useFileSelected"
 import Tab from "../component/Tab"
+import AppBar from "../component/AppBar"
 
 interface FileStructure {
     [key: string]: FileStructure | File
@@ -62,18 +62,12 @@ const FileBrowser = () => {
                 gridRowGap: "0px"
             }}
         >
-            <div
-                style={{
-                    gridArea: "1 / 1 / 2 / 3",
-                    background: "rgba(0, 0, 0, 0.1)",
-                    display: "flex"
-                }}
-            >
-                <TitleBar>
+            <div style={{ gridArea: "1 / 1 / 2 / 3", display: "flex" }}>
+                <AppBar>
                     <Tab onClose={() => setFileBrowser(false)}>
                         file browser
                     </Tab>
-                </TitleBar>
+                </AppBar>
             </div>
             <div style={{ gridArea: "2 / 1 / 3 / 2", overflow: "scroll" }}>
                 <FileTreeItem

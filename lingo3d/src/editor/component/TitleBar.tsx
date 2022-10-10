@@ -1,4 +1,5 @@
 import { ComponentChildren } from "preact"
+import AppBar from "./AppBar"
 
 type TitleBarProps = {
     title?: string
@@ -7,21 +8,11 @@ type TitleBarProps = {
 
 const TitleBar = ({ title, children }: TitleBarProps) => {
     return (
-        <div
-            className="lingo3d-bg"
-            style={{
-                height: 24,
-                display: "flex",
-                alignItems: "center",
-                paddingLeft: 12,
-                paddingRight: 4,
-                flexShrink: 0
-            }}
-        >
+        <AppBar style={{ paddingLeft: 12, background: undefined }}>
             {title}
             <div style={{ flexGrow: 1, minWidth: 4 }} />
             {children}
-        </div>
+        </AppBar>
     )
 }
 
