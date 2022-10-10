@@ -35,9 +35,8 @@ import useHotkeys from "./useHotkeys"
 import settings from "../../api/settings"
 import Setup, { dataSetupMap } from "../../display/Setup"
 import addSetupInputs from "./addSetupInputs"
-import TitleBar from "../component/TitleBar"
-import TitleBarButton from "../component/TitleBarButton"
-import CloseIcon from "../component/icons/CloseIcon"
+import Tab from "../component/Tab"
+import AppBar from "../component/AppBar"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -374,11 +373,9 @@ const Editor = () => {
                 flexDirection: "column"
             }}
         >
-            <TitleBar title="file browser">
-                <TitleBarButton>
-                    <CloseIcon />
-                </TitleBarButton>
-            </TitleBar>
+            <AppBar>
+                <Tab>hello world</Tab>
+            </AppBar>
             <div style={{ flexGrow: 1, overflow: "scroll" }} ref={elRef}></div>
         </div>
     )
