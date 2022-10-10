@@ -17,8 +17,6 @@ import {
     getSecondaryCamera,
     setSecondaryCamera
 } from "../../states/useSecondaryCamera"
-import { nonEditorSettings } from "../../api/serializer/types"
-import { setupDefaults, setupSchema } from "../../interface/ISetup"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../utils/getComponentName"
 import addInputs, { setProgrammatic } from "./addInputs"
@@ -37,6 +35,9 @@ import useHotkeys from "./useHotkeys"
 import settings from "../../api/settings"
 import Setup, { dataSetupMap } from "../../display/Setup"
 import addSetupInputs from "./addSetupInputs"
+import TitleBar from "../component/TitleBar"
+import TitleBarButton from "../component/TitleBarButton"
+import CloseIcon from "../FileBrowser/icons/CloseIcon"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -365,10 +366,21 @@ const Editor = () => {
 
     return (
         <div
-            ref={elRef}
             className="lingo3d-ui lingo3d-bg"
-            style={{ width: 300, height: "100%", overflowY: "scroll" }}
-        />
+            style={{
+                width: 300,
+                height: "100%",
+                display: "flex",
+                flexDirection: "column"
+            }}
+        >
+            <TitleBar title="file browser" gap={4}>
+                <TitleBarButton>
+                    <CloseIcon />
+                </TitleBarButton>
+            </TitleBar>
+            <div style={{ flexGrow: 1, overflow: "scroll" }} ref={elRef}></div>
+        </div>
     )
 }
 

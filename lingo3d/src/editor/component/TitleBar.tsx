@@ -15,7 +15,8 @@ const TitleBar = ({ title, children, gap }: TitleBarProps) => {
                 display: "flex",
                 alignItems: "center",
                 paddingLeft: 12,
-                paddingRight: gap
+                paddingRight: gap,
+                flexShrink: 0
             }}
         >
             <div>{title}</div>
