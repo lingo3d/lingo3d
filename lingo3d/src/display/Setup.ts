@@ -6,6 +6,8 @@ import {
     refreshSetupStack
 } from "../states/useSetupStack"
 
+export const dataSetupMap = new WeakMap<Partial<ISetup>, Setup>()
+
 class Setup extends Appendable {
     public static componentName = "setup"
     public static defaults = setupDefaults
@@ -18,6 +20,7 @@ class Setup extends Appendable {
         if (noEffect) return
         pushSetupStack(this.data)
         this.then(() => pullSetupStack(this.data))
+        dataSetupMap.set(this.data, this)
     }
 }
 for (const key of Object.keys(setupSchema))
