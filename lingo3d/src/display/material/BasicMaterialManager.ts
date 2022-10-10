@@ -58,6 +58,7 @@ export default class BasicMaterialManager<
         this._opacity = val
         this.nativeMaterial.opacity = val ?? 1
         this.nativeMaterial.transparent = this.nativeMaterial.opacity <= 1
+        this.nativeMaterial.needsUpdate = true
     }
 
     protected applyTexture(mapNames: Array<string>) {
