@@ -28,7 +28,7 @@
         "@lincode/utils": "*",
         "@tweakpane/core": "*",
         "@types/three": "0.144.0",
-        "browser-fs-access": "0.31.0",
+        "browser-fs-access": "0.31.1",
         "cannon-es": "0.20.0",
         "nipplejs": "0.9.1",
         "postprocessing": "6.28.7",
