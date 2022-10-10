@@ -32,11 +32,9 @@ createEffect(() => {
 
     effect.selection = selection
 
-    const handle0 = getOutlineColor(
-        (val) => (effect.visibleEdgeColor = new Color(val))
-    )
-    const handle1 = getOutlineHiddenColor(
-        (val) => (effect.hiddenEdgeColor = new Color(val))
+    const handle0 = getOutlineColor((val) => effect.visibleEdgeColor.set(val))
+    const handle1 = getOutlineHiddenColor((val) =>
+        effect.hiddenEdgeColor.set(val)
     )
     const handle2 = getOutlinePattern(
         //@ts-ignore

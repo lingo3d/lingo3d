@@ -153,9 +153,7 @@ export default abstract class LightBase<T extends typeof Light>
     }
     public set color(val) {
         this.cancelHandle("color", () =>
-            this.lightState.get(
-                (light) => light && (light.color = new Color(val))
-            )
+            this.lightState.get((light) => light?.color.set(val))
         )
     }
 

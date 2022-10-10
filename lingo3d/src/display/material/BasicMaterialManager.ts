@@ -41,13 +41,11 @@ export default class BasicMaterialManager<
         return this
     }
 
-    private _color?: string
     public get color() {
-        return this._color
+        return "#" + this.nativeMaterial.color.getHexString()
     }
     public set color(val) {
-        this._color = val
-        this.nativeMaterial.color = new Color(val)
+        this.nativeMaterial.color.set(val)
     }
 
     private _opacity?: number

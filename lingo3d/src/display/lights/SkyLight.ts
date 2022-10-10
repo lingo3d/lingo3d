@@ -26,9 +26,7 @@ export default class Skylight
     }
     public set groundColor(val) {
         this.cancelHandle("groundColor", () =>
-            this.lightState.get(
-                (light) => light && (light.groundColor = new Color(val))
-            )
+            this.lightState.get((light) => light?.groundColor.set(val))
         )
     }
 

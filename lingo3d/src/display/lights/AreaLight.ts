@@ -103,7 +103,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
     }
     public set color(val) {
         this._color = val
-        this.light && (this.light.color = new Color(val))
+        this.light?.color.set(val)
     }
 
     private _intensity?: number
