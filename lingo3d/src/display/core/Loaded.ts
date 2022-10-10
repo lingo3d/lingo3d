@@ -279,7 +279,7 @@ export default abstract class Loaded<T = Object3D>
                     if (handle.done) return
                     this._refreshFactors(
                         handle,
-                        attachStandardMaterialManager(loaded, true)
+                        attachStandardMaterialManager(loaded, this, true)
                     )
                 })
             )

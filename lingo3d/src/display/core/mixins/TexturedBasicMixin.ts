@@ -1,15 +1,13 @@
-import { Object3D } from "three"
+import Appendable from "../../../api/core/Appendable"
 import ITexturedBasic, {
     texturedBasicSchema
 } from "../../../interface/ITexturedBasic"
 import { attachBasicMaterialManager } from "../../material/attachMaterialManager"
 
-abstract class TexturedBasicMixin {
-    public declare nativeObject3d: Object3D
-}
+abstract class TexturedBasicMixin {}
 Object.assign(TexturedBasicMixin.prototype, {
-    getMaterial(this: TexturedBasicMixin) {
-        return attachBasicMaterialManager(this.nativeObject3d)[0]
+    getMaterial(this: Appendable) {
+        return attachBasicMaterialManager(this.nativeObject3d, this)[0]
     }
 })
 

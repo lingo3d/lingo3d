@@ -1,5 +1,6 @@
 import { forceGet } from "@lincode/utils"
 import { MeshStandardMaterial, Object3D } from "three"
+import Appendable from "../../api/core/Appendable"
 import BasicMaterialManager from "./BasicMaterialManager"
 import StandardMaterialManager from "./StandardMaterialManager"
 
@@ -10,6 +11,7 @@ const materialManagerMap = new WeakMap<
 
 export const attachStandardMaterialManager = (
     target: Object3D,
+    manager: Appendable,
     recursive?: boolean,
     result: Array<StandardMaterialManager> = [],
     recursiveClonedMap?: WeakMap<MeshStandardMaterial, MeshStandardMaterial>
@@ -20,6 +22,7 @@ export const attachStandardMaterialManager = (
             target.traverse((child) =>
                 attachStandardMaterialManager(
                     child,
+                    manager,
                     false,
                     result,
                     recursiveCache
@@ -39,22 +42,26 @@ export const attachStandardMaterialManager = (
         const clone = ((target as any).material = material.clone())
         recursiveClonedMap?.set(material, clone)
 
-        result.push(
-            (target.userData.materialManager = new StandardMaterialManager(
-                clone
-            ))
-        )
+        const materialManager = new StandardMaterialManager(clone)
+
+        manager.append(materialManager)
+        result.push(materialManager)
+
         return result
     })
 
-export const attachBasicMaterialManager = (target: Object3D) =>
+export const attachBasicMaterialManager = (
+    target: Object3D,
+    manager: Appendable
+) =>
     forceGet(materialManagerMap, target, () => {
         const { material } = target as any
         if (!material) return []
 
-        return [
-            new BasicMaterialManager(
-                ((target as any).material = material.clone())
-            )
-        ]
+        const materialManager = new BasicMaterialManager(
+            ((target as any).material = material.clone())
+        )
+        manager.append(materialManager)
+
+        return [materialManager]
     })

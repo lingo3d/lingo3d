@@ -415,7 +415,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                 if (handle.done) return
                 this._refreshFactors(
                     handle,
-                    attachStandardMaterialManager(this.nativeObject3d)
+                    attachStandardMaterialManager(this.nativeObject3d, this)
                 )
             })
             return handle
