@@ -43,6 +43,7 @@ export const attachStandardMaterialManager = (
         recursiveClonedMap?.set(material, clone)
 
         const materialManager = new StandardMaterialManager(clone)
+        material.dispose()
 
         manager.append(materialManager)
         result.push(materialManager)
@@ -61,6 +62,8 @@ export const attachBasicMaterialManager = (
         const materialManager = new BasicMaterialManager(
             ((target as any).material = material.clone())
         )
+        material.dispose()
+
         manager.append(materialManager)
 
         return [materialManager]
