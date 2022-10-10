@@ -1,4 +1,4 @@
-import { settings, Setup } from "."
+import { settings } from "."
 import "./tests/testGLTF"
 import LingoEditor from "./editor"
 

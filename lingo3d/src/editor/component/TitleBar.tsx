@@ -3,10 +3,9 @@ import { ComponentChildren } from "preact"
 type TitleBarProps = {
     title?: string
     children?: ComponentChildren
-    gap?: number
 }
 
-const TitleBar = ({ title, children, gap }: TitleBarProps) => {
+const TitleBar = ({ title, children }: TitleBarProps) => {
     return (
         <div
             className="lingo3d-bg"
@@ -15,12 +14,12 @@ const TitleBar = ({ title, children, gap }: TitleBarProps) => {
                 display: "flex",
                 alignItems: "center",
                 paddingLeft: 12,
-                paddingRight: gap,
+                paddingRight: 4,
                 flexShrink: 0
             }}
         >
-            <div>{title}</div>
-            <div style={{ flexGrow: 1, minWidth: gap }} />
+            {title}
+            <div style={{ flexGrow: 1, minWidth: 4 }} />
             {children}
         </div>
     )

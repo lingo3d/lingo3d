@@ -374,7 +374,7 @@ const Editor = () => {
                 flexDirection: "column"
             }}
         >
-            <TitleBar title="file browser" gap={4}>
+            <TitleBar title="file browser">
                 <TitleBarButton>
                     <CloseIcon />
                 </TitleBarButton>

@@ -1,15 +1,14 @@
 import { useMemo } from "preact/hooks"
 import register from "preact-custom-element"
 import { get, set, traverse } from "@lincode/utils"
-import CloseIcon from "../component/icons/CloseIcon"
 import { useFileBrowserDir, useFiles } from "../states"
 import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem"
 import pathMap from "./pathMap"
 import { setFileBrowser } from "../../states/useFileBrowser"
 import TitleBar from "../component/TitleBar"
-import TitleBarButton from "../component/TitleBarButton"
 import { setFileSelected } from "../../states/useFileSelected"
+import Tab from "../component/Tab"
 
 interface FileStructure {
     [key: string]: FileStructure | File
@@ -70,10 +69,10 @@ const FileBrowser = () => {
                     display: "flex"
                 }}
             >
-                <TitleBar title="file browser" gap={4}>
-                    <TitleBarButton onClick={() => setFileBrowser(false)}>
-                        <CloseIcon />
-                    </TitleBarButton>
+                <TitleBar>
+                    <Tab onClose={() => setFileBrowser(false)}>
+                        file browser
+                    </Tab>
                 </TitleBar>
             </div>
             <div style={{ gridArea: "2 / 1 / 3 / 2", overflow: "scroll" }}>
