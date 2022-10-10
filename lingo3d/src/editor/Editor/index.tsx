@@ -37,7 +37,7 @@ import Setup, { dataSetupMap } from "../../display/Setup"
 import addSetupInputs from "./addSetupInputs"
 import TitleBar from "../component/TitleBar"
 import TitleBarButton from "../component/TitleBarButton"
-import CloseIcon from "../FileBrowser/icons/CloseIcon"
+import CloseIcon from "../component/icons/CloseIcon"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }

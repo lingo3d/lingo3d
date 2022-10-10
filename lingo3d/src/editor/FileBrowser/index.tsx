@@ -1,7 +1,7 @@
 import { useMemo } from "preact/hooks"
 import register from "preact-custom-element"
 import { get, set, traverse } from "@lincode/utils"
-import CloseIcon from "./icons/CloseIcon"
+import CloseIcon from "../component/icons/CloseIcon"
 import { useFileBrowserDir, useFiles } from "../states"
 import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem"
