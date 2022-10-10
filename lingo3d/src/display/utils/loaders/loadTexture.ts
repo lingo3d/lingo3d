@@ -1,4 +1,4 @@
-import { TextureLoader, Texture, RepeatWrapping } from "three"
+import { TextureLoader, Texture, RepeatWrapping, DataTexture } from "three"
 import { forceGet } from "@lincode/utils"
 import { handleProgress } from "./bytesLoaded"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
@@ -12,7 +12,7 @@ const loaded = new Events()
 export default (url: string, onLoad?: () => void) => {
     onLoad && loaded.once(url, () => queueMicrotask(onLoad))
 
-    return forceGet(cache, url, () => {
+    const texture = forceGet(cache, url, () => {
         const hdr = url.toLowerCase().endsWith(".hdr")
         const loader = hdr ? rgbeLoader : textureLoader
 
@@ -20,10 +20,12 @@ export default (url: string, onLoad?: () => void) => {
             url,
             (texture) => {
                 texture.wrapS = texture.wrapT = RepeatWrapping
+                texture.flipY = true
                 loaded.setState(url)
             },
             handleProgress(url),
             () => loaded.setState(url)
         )
     })
+    return texture.constructor === DataTexture ? texture : texture.clone()
 }

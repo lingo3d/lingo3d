@@ -71,11 +71,15 @@ export default class BasicMaterialManager<
                 const map: Texture = this.nativeMaterial[name]
                 if (!map) return
                 repeat !== undefined && (map.repeat = repeat)
-                flipY !== undefined && (map.flipY = flipY)
                 rotation !== undefined && (map.rotation = rotation * deg2Rad)
-                map.needsUpdate = true
+
+                if (flipY !== map.flipY) {
+                    map.flipY = !!flipY
+                    map.needsUpdate = true
+                }
             }
         })
+        this.nativeMaterial.needsUpdate = true
     }
 
     private videoTextureState?: Reactive<string | HTMLVideoElement | undefined>
@@ -118,14 +122,12 @@ export default class BasicMaterialManager<
                 const { nativeMaterial: material } = this
                 const { map } = material
                 material.map = videoTexture
-                material.needsUpdate = true
                 this.applyTexture(mapNames)
 
                 return () => {
                     video.pause()
                     videoTexture.dispose()
                     material.map = map
-                    material.needsUpdate = true
                 }
             }
 
@@ -138,7 +140,6 @@ export default class BasicMaterialManager<
 
             return () => {
                 material.map = map
-                this.nativeMaterial.needsUpdate = true
             }
         }, [videoTextureState.get, textureState.get])
     }
