@@ -37,6 +37,7 @@ import Setup, { dataSetupMap } from "../../display/Setup"
 import addSetupInputs from "./addSetupInputs"
 import Tab from "../component/Tab"
 import AppBar from "../component/AppBar"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -375,9 +376,18 @@ const Editor = () => {
         >
             <AppBar>
                 <Tab>World</Tab>
-                <Tab>Model</Tab>
+                {selectionTarget && (
+                    <Tab
+                        selected
+                        onClose={(selected) =>
+                            selected && emitSelectionTarget(undefined)
+                        }
+                    >
+                        {getComponentName(selectionTarget)}
+                    </Tab>
+                )}
             </AppBar>
-            <div style={{ flexGrow: 1, overflow: "scroll" }} ref={elRef}></div>
+            <div style={{ flexGrow: 1, overflow: "scroll" }} ref={elRef} />
         </div>
     )
 }

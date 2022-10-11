@@ -1,5 +1,5 @@
 import { ComponentChildren } from "preact"
-import { CSSProperties, useState } from "preact/compat"
+import { CSSProperties, useEffect, useMemo, useState } from "preact/compat"
 import { TabContext } from "./Tab"
 
 type AppBarProps = {
@@ -10,6 +10,11 @@ type AppBarProps = {
 
 const AppBar = ({ className, style, children }: AppBarProps) => {
     const [selected, setSelected] = useState<string | undefined>(undefined)
+    const tabs = useMemo<Array<string>>(() => [], [])
+
+    useEffect(() => {
+        setSelected(tabs[0])
+    }, [])
 
     return (
         <div
@@ -25,7 +30,7 @@ const AppBar = ({ className, style, children }: AppBarProps) => {
                 ...style
             }}
         >
-            <TabContext.Provider value={{ selected, setSelected }}>
+            <TabContext.Provider value={{ selected, setSelected, tabs }}>
                 {children}
             </TabContext.Provider>
         </div>
