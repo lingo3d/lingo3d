@@ -45,6 +45,8 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 }
 
 export const setupOptions: Options<ISetup> = {
+    shadowDistance: new Range(1000, 5000),
+    shadowResolution: new Range(512, 2048, 512),
     pixelRatio: new Range(1, 2, 1),
     fps: new Range(30, 60, 30),
     bloomIntensity: new Range(0, 10),
