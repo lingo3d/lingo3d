@@ -13,7 +13,14 @@ const TitleBarButton = ({
 }: TitleBarButtonProps) => {
     return (
         <div
-            onClick={disabled ? undefined : onClick}
+            onClick={
+                disabled
+                    ? undefined
+                    : (e) => {
+                          e.stopPropagation()
+                          onClick?.()
+                      }
+            }
             style={{
                 width: 24,
                 height: 24,

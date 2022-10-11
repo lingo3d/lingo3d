@@ -23,6 +23,9 @@ const Tab = ({ onClose, children, selected }: TabProps) => {
         if (!children) return
         context.tabs.push(children)
         return () => {
+            context.setSelected(
+                context.tabs[context.tabs.indexOf(children) - 1]
+            )
             pull(context.tabs, children)
         }
     }, [])
