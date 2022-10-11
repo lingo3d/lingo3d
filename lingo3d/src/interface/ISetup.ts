@@ -49,6 +49,7 @@ export const setupOptions: Options<ISetup> = {
     shadowResolution: new Range(512, 2048, 512),
     pixelRatio: new Range(1, 2, 1),
     fps: new Range(30, 60, 30),
+    exposure: new Range(0, 10),
     bloomIntensity: new Range(0, 10),
     bloomThreshold: new Range(0, 1),
     bloomRadius: new Range(0, 1),
