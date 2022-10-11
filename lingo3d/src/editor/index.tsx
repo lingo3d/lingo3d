@@ -56,6 +56,9 @@ const style = createElement(`
         .tp-brkv {
             border-left: none !important;
         }
+        .tp-fldv_b {
+            border-radius: 0px !important;
+        }
     </style>
 `)
 document.head.appendChild(style)

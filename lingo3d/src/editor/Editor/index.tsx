@@ -390,15 +390,16 @@ const Editor = () => {
                     <Tab
                         key={selectionTarget.uuid}
                         selected
-                        onClose={(selected) =>
-                            selected && emitSelectionTarget(undefined)
-                        }
+                        onClose={() => emitSelectionTarget(undefined)}
                     >
                         {getComponentName(selectionTarget)}
                     </Tab>
                 )}
             </AppBar>
-            <div style={{ flexGrow: 1, overflow: "scroll" }} ref={elRef} />
+            <div
+                style={{ flexGrow: 1, overflow: "scroll", paddingLeft: 8, paddingRight: 8 }}
+                ref={elRef}
+            />
         </div>
     )
 }

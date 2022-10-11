@@ -38,7 +38,8 @@ const Tab = ({ onClose, children, selected }: TabProps) => {
         <div
             className="lingo3d-bg"
             style={{
-                height: 24,
+                margin: 4,
+                height: 20,
                 display: "flex",
                 alignItems: "center",
                 paddingLeft: 12,

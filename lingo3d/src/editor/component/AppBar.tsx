@@ -26,10 +26,11 @@ const AppBar = ({ className, style, children, onSelectTab }: AppBarProps) => {
             className={className}
             style={{
                 width: "100%",
-                height: 24,
+                height: 28,
                 display: "flex",
                 alignItems: "center",
                 paddingRight: 4,
+                paddingLeft: 4,
                 flexShrink: 0,
                 background: "rgba(0, 0, 0, 0.1)",
                 ...style

@@ -57,7 +57,7 @@ const FileBrowser = () => {
                 width: "100%",
                 display: "grid",
                 gridTemplateColumns: "200px 1fr",
-                gridTemplateRows: "24px 1fr",
+                gridTemplateRows: "28px 1fr",
                 gridColumnGap: "0px",
                 gridRowGap: "0px"
             }}
