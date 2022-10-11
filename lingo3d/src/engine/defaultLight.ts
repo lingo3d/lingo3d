@@ -43,7 +43,7 @@ createEffect(() => {
     const defaultLight = getDefaultLight()
     if (!defaultLight) return
 
-    if (typeof defaultLight === "string" && defaultLight !== "default") {
+    if (typeof defaultLight === "string") {
         defaultEnvironment.texture = defaultLight
         return () => {
             defaultEnvironment.texture = undefined

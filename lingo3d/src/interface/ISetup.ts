@@ -1,5 +1,6 @@
 import setupStruct from "../engine/setupStruct"
 import { SHADOW_BIAS, SHADOW_DISTANCE } from "../globals"
+import Choices from "./utils/Choices"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import NullableDefault from "./utils/NullableDefault"
@@ -45,6 +46,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 }
 
 export const setupOptions: Options<ISetup> = {
+    defaultLight: new Choices({ true: true, false: false, studio: "studio" }),
     shadowDistance: new Range(1000, 5000),
     shadowResolution: new Range(512, 2048, 512),
     pixelRatio: new Range(1, 2, 1),
