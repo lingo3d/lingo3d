@@ -1,6 +1,6 @@
 import store, { createEffect } from "@lincode/reactivity"
 import { OutlineEffect, Selection } from "postprocessing"
-import { Color, Object3D } from "three"
+import { Object3D } from "three"
 import loadTexture from "../../../display/utils/loaders/loadTexture"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getOutline, setOutline } from "../../../states/useOutline"
