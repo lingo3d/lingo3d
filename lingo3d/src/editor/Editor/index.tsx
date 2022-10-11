@@ -139,8 +139,15 @@ const Editor = () => {
         setPane(pane)
         setCameraFolder(pane.addFolder({ title: "camera" }))
 
-        if (!selectionTarget || selectionTarget instanceof Setup) {
-            addSetupInputs(pane, selectionTarget ?? targetSetup)
+        if (
+            tab === "World" ||
+            !selectionTarget ||
+            selectionTarget instanceof Setup
+        ) {
+            addSetupInputs(
+                pane,
+                selectionTarget instanceof Setup ? selectionTarget : targetSetup
+            )
             return () => {
                 pane.dispose()
             }
@@ -365,7 +372,7 @@ const Editor = () => {
             handle.cancel()
             pane.dispose()
         }
-    }, [selectionTarget, multipleSelectionTargets, targetSetup])
+    }, [selectionTarget, multipleSelectionTargets, targetSetup, tab])
 
     return (
         <div
@@ -381,6 +388,7 @@ const Editor = () => {
                 <Tab>World</Tab>
                 {selectionTarget && (
                     <Tab
+                        key={selectionTarget.uuid}
                         selected
                         onClose={(selected) =>
                             selected && emitSelectionTarget(undefined)
