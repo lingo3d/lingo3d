@@ -6,15 +6,20 @@ type AppBarProps = {
     className?: string
     children?: ComponentChildren
     style?: CSSProperties
+    onSelectTab?: (tab: string | undefined) => void
 }
 
-const AppBar = ({ className, style, children }: AppBarProps) => {
+const AppBar = ({ className, style, children, onSelectTab }: AppBarProps) => {
     const [selected, setSelected] = useState<string | undefined>(undefined)
     const tabs = useMemo<Array<string>>(() => [], [])
 
     useEffect(() => {
         setSelected(tabs[0])
     }, [])
+
+    useEffect(() => {
+        onSelectTab?.(selected)
+    }, [selected])
 
     return (
         <div

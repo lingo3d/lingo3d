@@ -67,16 +67,10 @@ const Editor = () => {
 
     const [cameraStack] = useCameraStack()
     const camera = last(cameraStack)!
-
-    const [selectionTarget] = useSelectionTarget()
-    const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const [cameraList] = useCameraList()
 
     const [pane, setPane] = useState<Pane>()
     const [cameraFolder, setCameraFolder] = useState<FolderApi>()
-    const [setupStack] = useSetupStack()
-    const lastSetup = last(setupStack)
-    const targetSetup = (lastSetup && dataSetupMap.get(lastSetup)) ?? settings
 
     useLayoutEffect(() => {
         if (!pane || !cameraFolder) return
@@ -127,6 +121,15 @@ const Editor = () => {
             secondaryCameraInput.dispose()
         }
     }, [pane, cameraFolder, cameraList, camera])
+
+    const [setupStack] = useSetupStack()
+    const lastSetup = last(setupStack)
+    const targetSetup = (lastSetup && dataSetupMap.get(lastSetup)) ?? settings
+
+    const [selectionTarget] = useSelectionTarget()
+    const [multipleSelectionTargets] = useMultipleSelectionTargets()
+
+    const [tab, setTab] = useState<string | undefined>(undefined)
 
     useEffect(() => {
         const el = elRef.current
@@ -374,7 +377,7 @@ const Editor = () => {
                 flexDirection: "column"
             }}
         >
-            <AppBar>
+            <AppBar onSelectTab={setTab}>
                 <Tab>World</Tab>
                 {selectionTarget && (
                     <Tab
