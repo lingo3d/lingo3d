@@ -3,6 +3,7 @@ import { SHADOW_BIAS, SHADOW_DISTANCE } from "../globals"
 import Choices from "./utils/Choices"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import { hideSchema } from "./utils/nonEditorSchemaSet"
 import NullableDefault from "./utils/NullableDefault"
 import Options from "./utils/Options"
 import Range from "./utils/Range"
@@ -45,6 +46,8 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     color: String
 }
 
+hideSchema(["antiAlias", "pixelRatio"])
+
 export const setupOptions: Options<ISetup> = {
     defaultLight: new Choices({ true: true, false: false, studio: "studio" }),
     shadowDistance: new Range(1000, 5000),
@@ -60,7 +63,9 @@ export const setupOptions: Options<ISetup> = {
     outlinePulse: new Range(0, 2),
     outlineStrength: new Range(0, 4),
     gravity: new Range(0, 20),
-    repulsion: new Range(0, 10)
+    repulsion: new Range(0, 10),
+    antiAlias: new Choices({ MSAA: "MSAA", SMAA: "SMAA", false: false }),
+    gridHelperSize: new Range(10, 1000, 10)
 }
 
 export const setupDefaults: Defaults<ISetup> = {
