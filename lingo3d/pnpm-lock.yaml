@@ -16,7 +16,7 @@ specifiers:
   browser-fs-access: 0.31.1
   cannon-es: 0.20.0
   lil-gui: ^0.17.0
-  nipplejs: 0.9.1
+  nipplejs: 0.10.0
   postprocessing: 6.28.7
   preact: '*'
   preact-compat: '*'
@@ -42,7 +42,7 @@ dependencies:
   '@types/three': 0.144.0
   browser-fs-access: 0.31.1
   cannon-es: 0.20.0
-  nipplejs: 0.9.1
+  nipplejs: 0.10.0
   postprocessing: 6.28.7_three@0.144.0
   preact: 10.11.1
   preact-compat: 3.19.0_preact@10.11.1
@@ -941,8 +941,8 @@ packages:
     hasBin: true
     dev: true
 
-  /nipplejs/0.9.1:
-    resolution: {integrity: sha512-Tu7ZaB1q0TgA+PH20s8i5Ngt3VmSCp8vxNVv/sOfGBAS0wwlNkJxnCD3bInC4iPg+W8dt80Pl+HU7B8y6dlXMQ==}
+  /nipplejs/0.10.0:
+    resolution: {integrity: sha512-BYrPA2meyOrk59NZTwKpnbVWYE89kAuMy34hnmjNyW/JmmuQfUs/k7lJhdPgZUjI3ZU7xbASOjCeDLeIDD+8VQ==}
     dev: false
 
   /node-releases/2.0.6:

@@ -1,6 +1,6 @@
 {
     "name": "lingo3d",
-    "version": "1.34.4",
+    "version": "1.40.0",
     "description": "Lingo3D is a React/Vue 3d game development framework that ships with a complete visual editor",
     "repository": "https://github.com/lingo3d/lingo3d",
     "homepage": "https://lingo3d.com",
@@ -30,7 +30,7 @@
         "@types/three": "0.144.0",
         "browser-fs-access": "0.31.1",
         "cannon-es": "0.20.0",
-        "nipplejs": "0.9.1",
+        "nipplejs": "0.10.0",
         "postprocessing": "6.28.7",
         "preact": "*",
         "preact-compat": "*",

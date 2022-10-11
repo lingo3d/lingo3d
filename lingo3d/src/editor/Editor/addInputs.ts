@@ -4,6 +4,7 @@ import resetIcon from "./resetIcon"
 import Defaults from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import toFixed from "../../api/serializer/toFixed"
+import Options from "../../interface/utils/Options"
 
 let programmatic = false
 
@@ -38,7 +39,8 @@ export default (
     title: string,
     target: Record<string, any>,
     defaults: Defaults<any>,
-    params = { ...target }
+    params = { ...target },
+    options?: Options<any>
 ) => {
     const folder = pane.addFolder({ title })
 
@@ -68,7 +70,7 @@ export default (
 
     return Object.fromEntries(
         Object.keys(params).map((key) => {
-            const input = folder.addInput(params, key)
+            const input = folder.addInput(params, key, options?.[key] as any)
 
             const resetButton = resetIcon.cloneNode(true) as HTMLElement
             input.element.prepend(resetButton)

@@ -45,13 +45,17 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 }
 
 export const setupOptions: Options<ISetup> = {
+    pixelRatio: new Range(1, 2, 1),
+    fps: new Range(30, 60, 30),
     bloomIntensity: new Range(0, 10),
     bloomThreshold: new Range(0, 1),
     bloomRadius: new Range(0, 1),
     ssrIntensity: new Range(0, 2),
-    ssaoIntensity: new Range(0, 2),
+    ssaoIntensity: new Range(0, 4),
     outlinePulse: new Range(0, 2),
-    outlineStrength: new Range(0, 4)
+    outlineStrength: new Range(0, 4),
+    gravity: new Range(0, 20),
+    repulsion: new Range(0, 10)
 }
 
 export const setupDefaults: Defaults<ISetup> = {
