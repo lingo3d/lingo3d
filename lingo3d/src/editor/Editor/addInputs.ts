@@ -41,12 +41,15 @@ export default (
     title: string,
     target: Record<string, any>,
     defaults: Defaults<any>,
-    params = { ...target },
+    params: Record<string, any>,
     options?: Options<any>
 ) => {
+    const paramKeys = Object.keys(params)
+    if (!paramKeys.length) return {}
+
     const paramsBackup = { ...params }
-    const paramsDefault: typeof params = {}
-    for (const key of Object.keys(params))
+    const paramsDefault: Record<string, any> = {}
+    for (const key of paramKeys)
         params[key] = paramsDefault[key] = getDefaultValue(defaults, key, true)
 
     const folder = pane.addFolder({ title })
