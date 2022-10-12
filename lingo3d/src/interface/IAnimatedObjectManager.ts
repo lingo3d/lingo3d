@@ -1,7 +1,7 @@
 import AnimationManager from "../display/core/AnimatedObjectManager/AnimationManager"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
-import Defaults from "./utils/Defaults"
+import { extendDefaults } from "./utils/Defaults"
 import IStaticObjectManager, {
     staticObjectManagerDefaults,
     staticObjectManagerSchema
@@ -36,12 +36,14 @@ export const animatedObjectManagerSchema: Required<
     onAnimationFinish: Function
 }
 
-export const animatedObjectManagerDefaults: Defaults<IAnimatedObjectManager> = {
-    ...staticObjectManagerDefaults,
-
-    animations: {},
-    animation: undefined,
-    animationPaused: new NullableDefault(false),
-    animationRepeat: new NullableDefault(true),
-    onAnimationFinish: undefined
-}
+export const animatedObjectManagerDefaults =
+    extendDefaults<IAnimatedObjectManager>([
+        staticObjectManagerDefaults,
+        {
+            animations: {},
+            animation: undefined,
+            animationPaused: new NullableDefault(false),
+            animationRepeat: new NullableDefault(true),
+            onAnimationFinish: undefined
+        }
+    ])
