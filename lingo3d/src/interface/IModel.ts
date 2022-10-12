@@ -3,8 +3,7 @@ import IAdjustMaterial, {
     adjustMaterialSchema
 } from "./IAdjustMaterial"
 import ILoaded, { loadedDefaults, loadedSchema } from "./ILoaded"
-import Defaults from "./utils/Defaults"
-import { inheritOptions } from "./utils/defaultsOptionsMap"
+import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IModel extends ILoaded, IAdjustMaterial {
@@ -17,10 +16,8 @@ export const modelSchema: Required<ExtractProps<IModel>> = {
     resize: Boolean
 }
 
-export const modelDefaults: Defaults<IModel> = {
-    ...loadedDefaults,
-    ...adjustMaterialDefaults,
-    resize: true
-}
-
-inheritOptions(modelDefaults, adjustMaterialDefaults)
+export const modelDefaults = extendDefaults<IModel>([
+    loadedDefaults,
+    adjustMaterialDefaults,
+    { resize: true }
+])
