@@ -184,7 +184,14 @@ const Editor = () => {
                 )
             }
 
-            const [displayParams, displayRest] = splitObject(transformRest, [
+            const [animationParams, animationRest] = splitObject(
+                transformRest,
+                ["animation", "animationPaused", "animationRepeat"]
+            )
+            animationParams &&
+                addInputs(pane, "animation", target, defaults, animationParams)
+
+            const [displayParams, displayRest] = splitObject(animationRest, [
                 "visible",
                 "innerVisible",
                 "frustumCulled",
@@ -201,16 +208,8 @@ const Editor = () => {
             effectsParams &&
                 addInputs(pane, "effects", target, defaults, effectsParams)
 
-            const [animationParams, animationRest] = splitObject(effectsRest, [
-                "animation",
-                "animationPaused",
-                "animationRepeat"
-            ])
-            animationParams &&
-                addInputs(pane, "animation", target, defaults, animationParams)
-
             const [adjustMaterialParams, adjustMaterialRest] = splitObject(
-                animationRest,
+                effectsRest,
                 [
                     "metalnessFactor",
                     "roughnessFactor",
