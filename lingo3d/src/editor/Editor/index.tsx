@@ -106,16 +106,18 @@ const Editor = () => {
                 getParams(schema, defaults, target),
                 ["name", "id", "physics", "gravity"]
             )
-            if (generalParams) {
-                const { name: nameInput } = addInputs(
+            if (generalParams)
+                addInputs(
                     pane,
                     "general",
                     target,
                     defaults,
-                    generalParams
+                    generalParams,
+                    undefined,
+                    true
+                ).then(({ name: nameInput }) =>
+                    nameInput.on("change", () => emitSceneGraphNameChange())
                 )
-                nameInput.on("change", () => emitSceneGraphNameChange())
-            }
 
             const [transformParams0, transformRest] = splitObject(generalRest, [
                 "x",
@@ -281,27 +283,32 @@ const Editor = () => {
                     x: target.strideRight,
                     y: -target.strideForward
                 }
-                const { stride: strideInput } = addInputs(
+                addInputs(
                     pane,
                     componentName,
                     target,
                     defaults,
-                    pbrMaterialRest
-                )
-                strideInput.on("change", ({ value }) => {
-                    Object.assign(pbrMaterialRest, {
-                        strideForward: -value.y,
-                        strideRight: value.x
+                    pbrMaterialRest,
+                    undefined,
+                    true
+                ).then(({ stride: strideInput }) =>
+                    strideInput.on("change", ({ value }) => {
+                        Object.assign(pbrMaterialRest, {
+                            strideForward: -value.y,
+                            strideRight: value.x
+                        })
+                        pane.refresh()
                     })
-                    pane.refresh()
-                })
+                )
             } else if (Object.keys(pbrMaterialRest).length)
                 addInputs(
                     pane,
                     componentName,
                     target,
                     defaults,
-                    pbrMaterialRest
+                    pbrMaterialRest,
+                    undefined,
+                    true
                 )
         }
 

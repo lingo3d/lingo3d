@@ -36,14 +36,17 @@ const isEqual = (a: any, b: any) => {
 
 const numberChars = new Set("01234567890._".split(""))
 
-export default (
+export default async (
     pane: Pane,
     title: string,
     target: Record<string, any>,
     defaults: Defaults<any>,
     params: Record<string, any>,
-    options?: Options<any>
+    options?: Options<any>,
+    prepend?: boolean
 ) => {
+    if (!prepend) await new Promise<void>(queueMicrotask)
+
     const paramKeys = Object.keys(params)
     if (!paramKeys.length) return {}
 
