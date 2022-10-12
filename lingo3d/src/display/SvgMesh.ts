@@ -12,6 +12,7 @@ import {
     increaseLoadingCount
 } from "../states/useLoadingCount"
 import { standardMaterial } from "./utils/reusables"
+import { attachStandardMaterialManager } from "./material/attachMaterialManager"
 
 const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()
 
@@ -69,7 +70,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         })
 
         for (const geometry of geometries) {
-            const mesh = new Mesh(geometry, standardMaterial)
+            const mesh = new Mesh(geometry, this.getMaterial().nativeMaterial)
             mesh.castShadow = true
             mesh.receiveShadow = true
             loadedObject3d.add(mesh)
@@ -81,6 +82,17 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         !this.depthSet && (this.object3d.scale.z = measuredSize.z)
 
         return loadedObject3d
+    }
+
+    protected getMaterial() {
+        return attachStandardMaterialManager(
+            this.nativeObject3d,
+            this,
+            undefined,
+            undefined,
+            undefined,
+            standardMaterial
+        )[0]
     }
 }
 interface SvgMesh

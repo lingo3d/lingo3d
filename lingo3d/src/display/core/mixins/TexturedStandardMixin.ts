@@ -3,13 +3,12 @@ import ITexturedStandard, {
     texturedStandardSchema
 } from "../../../interface/ITexturedStandard"
 import { attachStandardMaterialManager } from "../../material/attachMaterialManager"
-import StandardMaterialManager from "../../material/StandardMaterialManager"
 import TexturedBasicMixin from "./TexturedBasicMixin"
 
 abstract class TexturedStandardMixin extends TexturedBasicMixin {}
 
 Object.assign(TexturedBasicMixin.prototype, {
-    getMaterial(this: Appendable): StandardMaterialManager {
+    getMaterial(this: Appendable) {
         return attachStandardMaterialManager(this.nativeObject3d, this)[0]
     }
 })

@@ -14,7 +14,8 @@ export const attachStandardMaterialManager = (
     manager: Appendable,
     recursive?: boolean,
     result: Array<StandardMaterialManager> = [],
-    recursiveClonedMap?: WeakMap<MeshStandardMaterial, MeshStandardMaterial>
+    recursiveClonedMap?: WeakMap<MeshStandardMaterial, MeshStandardMaterial>,
+    material: MeshStandardMaterial | undefined = (target as any).material
 ) =>
     forceGet(materialManagerMap, target, () => {
         if (recursive) {
@@ -31,7 +32,6 @@ export const attachStandardMaterialManager = (
             return result
         }
 
-        const { material } = target as any
         if (!material) return result
 
         if (recursiveClonedMap?.has(material)) {
@@ -39,7 +39,10 @@ export const attachStandardMaterialManager = (
             return result
         }
 
-        const clone = ((target as any).material = material.clone())
+        const clone = material.clone()
+        if (material === (target as any).material)
+            (target as any).material = clone
+
         recursiveClonedMap?.set(material, clone)
 
         const materialManager = new StandardMaterialManager(clone)
