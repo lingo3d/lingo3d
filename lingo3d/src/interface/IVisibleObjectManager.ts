@@ -2,43 +2,25 @@ import IObjectManager, {
     objectManagerDefaults,
     objectManagerSchema
 } from "./IObjectManager"
-import Defaults from "./utils/Defaults"
+import IVisible, { visibleDefaults, visibleSchema } from "./IVisible"
+import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 
-export default interface IVisibleObjectManager extends IObjectManager {
-    bloom: boolean
-    outline: boolean
-
-    visible: boolean
-    frustumCulled: boolean
-    castShadow: boolean
-    receiveShadow: boolean
-}
+export default interface IVisibleObjectManager
+    extends IObjectManager,
+        IVisible {}
 
 export const visibleObjectManagerSchema: Required<
     ExtractProps<IVisibleObjectManager>
 > = {
     ...objectManagerSchema,
-
-    bloom: Boolean,
-    outline: Boolean,
-
-    visible: Boolean,
-    frustumCulled: Boolean,
-    castShadow: Boolean,
-    receiveShadow: Boolean
+    ...visibleSchema
 }
 hideSchema(["frustumCulled", "visible"])
 
-export const visibleObjectManagerDefaults: Defaults<IVisibleObjectManager> = {
-    ...objectManagerDefaults,
-
-    bloom: false,
-    outline: false,
-
-    visible: true,
-    frustumCulled: true,
-    castShadow: true,
-    receiveShadow: true
-}
+export const visibleObjectManagerDefaults =
+    extendDefaults<IVisibleObjectManager>([
+        objectManagerDefaults,
+        visibleDefaults
+    ])

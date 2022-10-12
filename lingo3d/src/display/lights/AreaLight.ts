@@ -157,4 +157,12 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
         return 0
     }
     public override set scaleZ(_) {}
+
+    private _castShadow?: boolean
+    public get castShadow() {
+        return !!this._castShadow
+    }
+    public set castShadow(val) {
+        this._castShadow = val
+    }
 }

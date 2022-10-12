@@ -8,6 +8,7 @@ import {
     emitSelectionTarget
 } from "../../../../events/onSelectionTarget"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
+import VisibleObjectManager from "../../VisibleObjectManager"
 
 const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates
@@ -16,7 +17,7 @@ export const unselectableSet = new WeakSet<StaticObjectManager>()
 const helpers = new Set<StaticObjectManager>()
 
 export const addSelectionHelper = (
-    helper: StaticObjectManager,
+    helper: VisibleObjectManager,
     manager: Appendable
 ) => {
     appendableRoot.delete(helper)

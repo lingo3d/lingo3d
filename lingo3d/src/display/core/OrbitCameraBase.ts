@@ -7,6 +7,7 @@ import { onSceneGraphChange } from "../../events/onSceneGraphChange"
 import ICameraBase from "../../interface/ICameraBase"
 import CameraBase from "./CameraBase"
 import MeshItem, { isMeshItem } from "./MeshItem"
+import VisibleObjectManager from "./VisibleObjectManager"
 
 const attachSet = new WeakSet<Appendable>()
 
@@ -32,7 +33,9 @@ export default class OrbitCameraBase
     }
 
     protected manualTarget?: MeshItem
-    protected targetState = new Reactive<MeshItem | undefined>(undefined)
+    protected targetState = new Reactive<
+        MeshItem | VisibleObjectManager | undefined
+    >(undefined)
 
     private static retaget = debounceInstance(
         (instance: OrbitCameraBase) => {

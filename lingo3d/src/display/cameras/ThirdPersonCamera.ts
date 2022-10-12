@@ -12,13 +12,13 @@ import { getEditorMounted } from "../../states/useEditorMounted"
 import CharacterCamera from "../core/CharacterCamera"
 import MeshItem from "../core/MeshItem"
 import { bvhCameraSet } from "../core/PhysicsObjectManager/bvh/bvhCameraSet"
-import StaticObjectManager from "../core/StaticObjectManager"
+import VisibleObjectManager from "../core/VisibleObjectManager"
 import fpsAlpha from "../utils/fpsAlpha"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
 
 const setVisible = (
-    target: MeshItem | StaticObjectManager,
+    target: MeshItem | VisibleObjectManager,
     visible: boolean
 ) => {
     "visible" in target && (target.visible = visible)
