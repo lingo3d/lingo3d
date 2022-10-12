@@ -34,6 +34,8 @@ const isEqual = (a: any, b: any) => {
     return a === b
 }
 
+const numberChars = new Set("01234567890._".split(""))
+
 export default (
     pane: Pane,
     title: string,
@@ -42,33 +44,14 @@ export default (
     params = { ...target },
     options?: Options<any>
 ) => {
+    const paramsBackup = { ...params }
+    const paramsDefault: typeof params = {}
+    for (const key of Object.keys(params))
+        params[key] = paramsDefault[key] = getDefaultValue(defaults, key, true)
+
     const folder = pane.addFolder({ title })
 
-    for (const [key, value] of Object.entries(params))
-        switch (typeof value) {
-            case "undefined":
-                params[key] = ""
-                break
-
-            case "number":
-                params[key] = toFixed(key, value)
-                break
-
-            case "object":
-                if (Array.isArray(value)) {
-                    params[key] = JSON.stringify(value)
-                    break
-                }
-                typeof value?.x === "number" &&
-                    (value.x = toFixed("x", value.x))
-                typeof value?.y === "number" &&
-                    (value.y = toFixed("y", value.y))
-                typeof value?.z === "number" &&
-                    (value.z = toFixed("z", value.z))
-                break
-        }
-
-    return Object.fromEntries(
+    const result = Object.fromEntries(
         Object.keys(params).map((key) => {
             const input = folder.addInput(params, key, options?.[key] as any)
 
@@ -76,11 +59,9 @@ export default (
             input.element.prepend(resetButton)
             resetButton.style.opacity = "0.1"
 
-            const defaultValue = getDefaultValue(defaults, key, true)
-
             const updateResetButton = debounce(
                 () => {
-                    const unchanged = isEqual(params[key], defaultValue)
+                    const unchanged = isEqual(params[key], paramsDefault[key])
                     resetButton.style.opacity = unchanged ? "0.1" : "0.5"
                     resetButton.style.cursor = unchanged ? "auto" : "pointer"
                 },
@@ -90,7 +71,7 @@ export default (
             updateResetButton()
 
             resetButton.onclick = () => {
-                params[key] = JSON.parse(JSON.stringify(defaultValue))
+                params[key] = JSON.parse(JSON.stringify(paramsDefault[key]))
                 input.refresh()
             }
 
@@ -104,9 +85,8 @@ export default (
                         target[key] = value === "true" ? true : false
                         return
                     }
-                    const num = parseFloat(value)
-                    if (!Number.isNaN(num)) {
-                        target[key] = num
+                    if ([...value].every((char) => numberChars.has(char))) {
+                        target[key] = parseFloat(value)
                         return
                     }
                 }
@@ -116,4 +96,9 @@ export default (
             return [key, input] as const
         })
     )
+    Object.assign(params, paramsBackup)
+    setProgrammatic()
+    for (const input of Object.values(result)) input.refresh()
+
+    return result
 }

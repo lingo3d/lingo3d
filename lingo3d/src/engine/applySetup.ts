@@ -2,16 +2,13 @@ import { createEffect } from "@lincode/reactivity"
 import { finalSetup } from "../api/settings"
 import Setup from "../display/Setup"
 import { setupDefaults } from "../interface/ISetup"
-import NullableDefault from "../interface/utils/NullableDefault"
+import getDefaultValue from "../interface/utils/getDefaultValue"
 import { getSetupStack } from "../states/useSetupStack"
 import setupStruct from "./setupStruct"
 
-const setupDefaultsMapped = Object.fromEntries(
-    Object.entries(setupDefaults).map(([key, value]) => [
-        key,
-        value instanceof NullableDefault ? undefined : value
-    ])
-)
+const setupDefaultsMapped: Record<string, any> = {}
+for (const key of Object.keys(setupDefaults))
+    setupDefaultsMapped[key] = getDefaultValue(setupDefaults, key)
 
 createEffect(
     function (this: Setup) {
