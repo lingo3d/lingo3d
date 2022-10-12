@@ -16,7 +16,6 @@ import {
     addSelectiveBloom,
     deleteSelectiveBloom
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
-import { attachStandardMaterialManager } from "../material/attachMaterialManager"
 
 export default abstract class Loaded<T = Object3D>
     extends ObjectManager<Mesh>
@@ -270,21 +269,6 @@ export default abstract class Loaded<T = Object3D>
             else handle.watch(super.addToRaycastSet(set))
         })
         return handle
-    }
-
-    protected override refreshFactors() {
-        this.cancelHandle("refreshFactorsLoaded", () => {
-            const handle = this.loaded.then((loaded) =>
-                queueMicrotask(() => {
-                    if (handle.done) return
-                    this._refreshFactors(
-                        handle,
-                        attachStandardMaterialManager(loaded, this, true)
-                    )
-                })
-            )
-            return handle
-        })
     }
 
     public override placeAt(object: MeshItem | Point3d | string) {

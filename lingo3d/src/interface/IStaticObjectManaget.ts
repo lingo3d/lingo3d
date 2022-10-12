@@ -5,7 +5,6 @@ import { ExtractProps } from "./utils/extractProps"
 import fn from "./utils/fn"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
-import NullableDefault from "./utils/NullableDefault"
 
 export default interface IStaticObjectManager extends IEventLoop {
     onClick: Nullable<(e: LingoMouseEvent) => void>
@@ -29,13 +28,6 @@ export default interface IStaticObjectManager extends IEventLoop {
     frustumCulled: boolean
     castShadow: boolean
     receiveShadow: boolean
-
-    metalnessFactor: Nullable<number>
-    roughnessFactor: Nullable<number>
-    opacityFactor: Nullable<number>
-    envFactor: Nullable<number>
-    adjustColor: Nullable<string>
-    reflection: boolean
 }
 
 export const staticObjectManagerSchema: Required<
@@ -63,14 +55,7 @@ export const staticObjectManagerSchema: Required<
     visible: Boolean,
     frustumCulled: Boolean,
     castShadow: Boolean,
-    receiveShadow: Boolean,
-
-    metalnessFactor: Number,
-    roughnessFactor: Number,
-    opacityFactor: Number,
-    envFactor: Number,
-    adjustColor: String,
-    reflection: Boolean
+    receiveShadow: Boolean
 }
 hideSchema(["lookAt", "lookTo", "frustumCulled", "visible"])
 
@@ -97,12 +82,5 @@ export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     visible: true,
     frustumCulled: true,
     castShadow: true,
-    receiveShadow: true,
-
-    metalnessFactor: new NullableDefault(0),
-    roughnessFactor: new NullableDefault(1),
-    opacityFactor: new NullableDefault(1),
-    envFactor: new NullableDefault(1),
-    adjustColor: new NullableDefault("#ffffff"),
-    reflection: false
+    receiveShadow: true
 }
