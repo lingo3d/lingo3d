@@ -7,7 +7,13 @@ export default (schema: any, defaults: any, target: any) => {
         if (nonEditorSchemaSet.has(key)) continue
 
         let currentVal = target[key]
-        if (value === Function || typeof currentVal === "function") continue
+        if (
+            value === Function ||
+            (Array.isArray(value) && value.includes(Function)) ||
+            typeof currentVal === "function"
+        )
+            continue
+
         if (
             value === Object ||
             (typeof currentVal === "object" && !Array.isArray(currentVal))

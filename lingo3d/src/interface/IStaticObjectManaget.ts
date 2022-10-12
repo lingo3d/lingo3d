@@ -57,7 +57,7 @@ export const staticObjectManagerSchema: Required<
     castShadow: Boolean,
     receiveShadow: Boolean
 }
-hideSchema(["lookAt", "lookTo", "frustumCulled", "visible"])
+hideSchema(["frustumCulled", "visible"])
 
 export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     ...eventLoopDefaults,

@@ -74,7 +74,7 @@ export const simpleObjectManagerSchema: Required<
     rotationZ: Number,
     rotation: Number
 }
-hideSchema(["intersectIds", "moveTo", "lerpTo"])
+hideSchema(["intersectIds"])
 
 export const simpleObjectManagerDefaults: Defaults<ISimpleObjectManager> = {
     ...animatedObjectManagerDefaults,
