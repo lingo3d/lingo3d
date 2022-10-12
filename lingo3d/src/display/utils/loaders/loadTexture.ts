@@ -23,8 +23,7 @@ export default (url: string, onLoad?: () => void) => {
                 texture.flipY = true
                 loaded.setState(url)
             },
-            handleProgress(url),
-            () => loaded.setState(url)
+            handleProgress(url)
         )
     })
     return texture.constructor === DataTexture ? texture : texture.clone()

@@ -15,6 +15,7 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import Nullable from "../../interface/utils/Nullable"
+import initHelperSSR from "../core/utils/initHelperSSR"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -72,10 +73,12 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
 
                 const helper = new RectAreaLightHelper(light)
                 scene.add(helper)
+                const handle = initHelperSSR(helper)
 
                 return () => {
                     helper.dispose()
                     scene.remove(helper)
+                    handle.cancel()
                 }
             }, [getCameraRendered, this.helperState.get])
         })

@@ -7,6 +7,7 @@ import { onBeforeRender } from "../events/onBeforeRender"
 import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import { WATERNORMALS_URL } from "../globals"
 import ObjectManager from "./core/ObjectManager"
+import { Cancellable } from "@lincode/promiselikes"
 
 export default class Water extends ObjectManager implements IWater {
     public static componentName = "water"
@@ -58,22 +59,27 @@ export default class Water extends ObjectManager implements IWater {
                 const waterGeometry = isPlane ? planeGeometry : sphereGeometry
 
                 const res = this.resolutionState.get()
+                const speed = this.speedState.get()
 
+                const handle = new Cancellable()
                 const water = new Water(waterGeometry, {
                     textureWidth: res,
                     textureHeight: res,
-                    waterNormals: loadTexture(normalMap),
+                    waterNormals: loadTexture(normalMap, () =>
+                        handle.watch(
+                            onBeforeRender(() => {
+                                water.material.uniforms["time"].value +=
+                                    dt[0] * speed
+                            })
+                        )
+                    ),
                     // sunDirection: new Vector3(),
                     sunColor: 0xffffff,
                     waterColor: 0x001e0f,
                     distortionScale: 3.7
                 })
-                const speed = this.speedState.get()
-
                 this.object3d.add(water)
-                const handle = onBeforeRender(() => {
-                    water.material.uniforms["time"].value += dt[0] * speed
-                })
+
                 return () => {
                     this.object3d.remove(water)
                     handle.cancel()
