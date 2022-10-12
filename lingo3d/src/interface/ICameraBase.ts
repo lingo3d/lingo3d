@@ -5,6 +5,7 @@ import IObjectManager, {
 } from "./IObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 import NullableDefault from "./utils/NullableDefault"
 
@@ -55,6 +56,7 @@ export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
 
     enableDamping: Boolean
 }
+hideSchema(["minAzimuthAngle", "maxAzimuthAngle"])
 
 export const cameraBaseDefaults: Defaults<ICameraBase> = {
     ...objectManagerDefaults,
