@@ -75,8 +75,7 @@ hideSchema([
     "mass",
     "physicsGroup",
     "ignorePhysicsGroups",
-    "physicsShape",
-    "physics"
+    "physicsShape"
 ])
 
 export const physicsObjectManagerDefaults: Defaults<IPhysicsObjectManager> = {
