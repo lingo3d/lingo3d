@@ -1,8 +1,11 @@
-import IObjectManager, { objectManagerDefaults, objectManagerSchema } from "./IObjectManager"
+import IVisibleObjectManager, {
+    visibleObjectManagerDefaults,
+    visibleObjectManagerSchema
+} from "./IVisibleObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IReflector extends IObjectManager {
+export default interface IReflector extends IVisibleObjectManager {
     resolution: number
     blur: number
     contrast: number
@@ -10,7 +13,7 @@ export default interface IReflector extends IObjectManager {
 }
 
 export const reflectorSchema: Required<ExtractProps<IReflector>> = {
-    ...objectManagerSchema,
+    ...visibleObjectManagerSchema,
     resolution: Number,
     blur: Number,
     contrast: Number,
@@ -18,7 +21,7 @@ export const reflectorSchema: Required<ExtractProps<IReflector>> = {
 }
 
 export const reflectorDefaults: Defaults<IReflector> = {
-    ...objectManagerDefaults,
+    ...visibleObjectManagerDefaults,
     resolution: 256,
     blur: 512,
     contrast: 1.5,

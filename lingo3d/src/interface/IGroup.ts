@@ -1,16 +1,16 @@
-import IObjectManager, {
-    objectManagerDefaults,
-    objectManagerSchema
-} from "./IObjectManager"
+import IVisibleObjectManager, {
+    visibleObjectManagerDefaults,
+    visibleObjectManagerSchema
+} from "./IVisibleObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IGroup extends IObjectManager {}
+export default interface IGroup extends IVisibleObjectManager {}
 
 export const groupSchema: Required<ExtractProps<IGroup>> = {
-    ...objectManagerSchema
+    ...visibleObjectManagerSchema
 }
 
 export const groupDefaults: Defaults<IGroup> = {
-    ...objectManagerDefaults
+    ...visibleObjectManagerDefaults
 }

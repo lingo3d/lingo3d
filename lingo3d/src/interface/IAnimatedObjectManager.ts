@@ -5,7 +5,7 @@ import Defaults from "./utils/Defaults"
 import IStaticObjectManager, {
     staticObjectManagerDefaults,
     staticObjectManagerSchema
-} from "./IStaticObjectManaget"
+} from "./IStaticObjectManager"
 import NullableDefault from "./utils/NullableDefault"
 
 export type AnimationValue = Record<string, Array<number>>

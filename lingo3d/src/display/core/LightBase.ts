@@ -122,10 +122,10 @@ export default abstract class LightBase<T extends typeof Light>
     }
 
     private castShadowState = new Reactive(true)
-    public override get castShadow() {
+    public get castShadow() {
         return this.castShadowState.get()
     }
-    public override set castShadow(val) {
+    public set castShadow(val) {
         this.castShadowState.set(val)
     }
 

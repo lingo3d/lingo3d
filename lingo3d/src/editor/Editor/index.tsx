@@ -187,6 +187,7 @@ const Editor = () => {
             const [displayParams, displayRest] = splitObject(transformRest, [
                 "visible",
                 "innerVisible",
+                "frustumCulled",
                 "castShadow",
                 "receiveShadow"
             ])

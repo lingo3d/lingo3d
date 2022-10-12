@@ -3,7 +3,6 @@ import { LingoMouseEvent } from "./IMouse"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import fn from "./utils/fn"
-import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
 export default interface IStaticObjectManager extends IEventLoop {
@@ -20,14 +19,6 @@ export default interface IStaticObjectManager extends IEventLoop {
 
     name: string
     id: Nullable<string>
-
-    bloom: boolean
-    outline: boolean
-
-    visible: boolean
-    frustumCulled: boolean
-    castShadow: boolean
-    receiveShadow: boolean
 }
 
 export const staticObjectManagerSchema: Required<
@@ -47,17 +38,8 @@ export const staticObjectManagerSchema: Required<
     lookTo: [Function, Array],
 
     name: String,
-    id: String,
-
-    bloom: Boolean,
-    outline: Boolean,
-
-    visible: Boolean,
-    frustumCulled: Boolean,
-    castShadow: Boolean,
-    receiveShadow: Boolean
+    id: String
 }
-hideSchema(["frustumCulled", "visible"])
 
 export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     ...eventLoopDefaults,
@@ -74,13 +56,5 @@ export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     lookTo: fn,
 
     name: "",
-    id: undefined,
-
-    bloom: false,
-    outline: false,
-
-    visible: true,
-    frustumCulled: true,
-    castShadow: true,
-    receiveShadow: true
+    id: undefined
 }

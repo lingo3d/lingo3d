@@ -3,7 +3,7 @@ import { range } from "@lincode/utils"
 import Building from "."
 import Appendable, { hiddenAppendables } from "../../api/core/Appendable"
 import IFloor, { FacadePreset } from "../../interface/IFloor"
-import ObjectManager from "../core/ObjectManager"
+import VisibleObjectManager from "../core/VisibleObjectManager"
 import Model from "../Model"
 
 const url = "https://unpkg.com/lingo3d-facade@1.0.0/assets/"
@@ -41,7 +41,7 @@ const applyTransform = (
     }
 }
 
-export default class Floor extends ObjectManager implements IFloor {
+export default class Floor extends VisibleObjectManager implements IFloor {
     public constructor(parent: Building) {
         super()
 

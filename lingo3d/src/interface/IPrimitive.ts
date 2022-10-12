@@ -1,7 +1,3 @@
-import IObjectManager, {
-    objectManagerDefaults,
-    objectManagerSchema
-} from "./IObjectManager"
 import ITexturedBasic, {
     texturedBasicDefaults,
     texturedBasicSchema
@@ -10,22 +6,26 @@ import ITexturedStandard, {
     texturedStandardDefaults,
     texturedStandardSchema
 } from "./ITexturedStandard"
+import IVisibleObjectManager, {
+    visibleObjectManagerDefaults,
+    visibleObjectManagerSchema
+} from "./IVisibleObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IPrimitive
-    extends IObjectManager,
+    extends IVisibleObjectManager,
         ITexturedBasic,
         ITexturedStandard {}
 
 export const primitiveSchema: Required<ExtractProps<IPrimitive>> = {
-    ...objectManagerSchema,
+    ...visibleObjectManagerSchema,
     ...texturedBasicSchema,
     ...texturedStandardSchema
 }
 
 export const primitiveDefaults: Defaults<IPrimitive> = {
-    ...objectManagerDefaults,
+    ...visibleObjectManagerDefaults,
     ...texturedBasicDefaults,
     ...texturedStandardDefaults
 }

@@ -6,10 +6,10 @@ import { dt } from "../engine/eventLoop"
 import { onBeforeRender } from "../events/onBeforeRender"
 import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import { WATERNORMALS_URL } from "../globals"
-import ObjectManager from "./core/ObjectManager"
 import { Cancellable } from "@lincode/promiselikes"
+import VisibleObjectManager from "./core/VisibleObjectManager"
 
-export default class Water extends ObjectManager implements IWater {
+export default class Water extends VisibleObjectManager implements IWater {
     public static componentName = "water"
     public static defaults = waterDefaults
     public static schema = waterSchema

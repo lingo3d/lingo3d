@@ -8,10 +8,13 @@ import IReflector, {
 } from "../../interface/IReflector"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getRenderer } from "../../states/useRenderer"
-import ObjectManager from "../core/ObjectManager"
+import VisibleObjectManager from "../core/VisibleObjectManager"
 import { planeGeometry } from "../primitives/Plane"
 
-export default class Reflector extends ObjectManager implements IReflector {
+export default class Reflector
+    extends VisibleObjectManager
+    implements IReflector
+{
     public static componentName = "reflector"
     public static defaults = reflectorDefaults
     public static schema = reflectorSchema

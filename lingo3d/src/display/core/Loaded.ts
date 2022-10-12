@@ -1,7 +1,6 @@
 import { Group, Mesh, Object3D } from "three"
 import { boxGeometry } from "../primitives/Cube"
 import { wireframeMaterial } from "../utils/reusables"
-import ObjectManager from "./ObjectManager"
 import ILoaded from "../../interface/ILoaded"
 import Reresolvable from "./utils/Reresolvable"
 import { Cancellable } from "@lincode/promiselikes"
@@ -16,9 +15,10 @@ import {
     addSelectiveBloom,
     deleteSelectiveBloom
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
+import VisibleObjectManager from "./VisibleObjectManager"
 
 export default abstract class Loaded<T = Object3D>
-    extends ObjectManager<Mesh>
+    extends VisibleObjectManager<Mesh>
     implements ILoaded
 {
     public loadedGroup = new Group()

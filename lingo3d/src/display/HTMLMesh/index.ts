@@ -3,15 +3,18 @@ import IHTMLMesh, {
     htmlMeshDefaults,
     htmlMeshSchema
 } from "../../interface/IHTMLMesh"
-import ObjectManager from "../core/ObjectManager"
 import createElement from "../../utils/createElement"
 import { Cancellable } from "@lincode/promiselikes"
+import VisibleObjectManager from "../core/VisibleObjectManager"
 
 const elementContainerTemplate = createElement(`
     <div style="position: absolute; visibility: hidden; pointer-events: none;"></div>
 `)
 
-export default class HTMLMesh extends ObjectManager implements IHTMLMesh {
+export default class HTMLMesh
+    extends VisibleObjectManager
+    implements IHTMLMesh
+{
     public static componentName = "htmlMesh"
     public static defaults = htmlMeshDefaults
     public static schema = htmlMeshSchema

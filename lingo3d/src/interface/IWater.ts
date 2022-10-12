@@ -1,12 +1,12 @@
 import { WATERNORMALS_URL } from "../globals"
-import IObjectManager, {
-    objectManagerDefaults,
-    objectManagerSchema
-} from "./IObjectManager"
+import IVisibleObjectManager, {
+    visibleObjectManagerDefaults,
+    visibleObjectManagerSchema
+} from "./IVisibleObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IWater extends IObjectManager {
+export default interface IWater extends IVisibleObjectManager {
     shape: "plane" | "sphere"
     normalMap: string
     resolution: number
@@ -14,7 +14,7 @@ export default interface IWater extends IObjectManager {
 }
 
 export const waterSchema: Required<ExtractProps<IWater>> = {
-    ...objectManagerSchema,
+    ...visibleObjectManagerSchema,
     shape: String,
     normalMap: String,
     resolution: Number,
@@ -22,7 +22,7 @@ export const waterSchema: Required<ExtractProps<IWater>> = {
 }
 
 export const waterDefaults: Defaults<IWater> = {
-    ...objectManagerDefaults,
+    ...visibleObjectManagerDefaults,
     shape: "plane",
     normalMap: WATERNORMALS_URL,
     resolution: 512,

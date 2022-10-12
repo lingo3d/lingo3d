@@ -5,10 +5,13 @@ import IBuilding, {
     buildingSchema
 } from "../../interface/IBuilding"
 import { FacadePreset } from "../../interface/IFloor"
-import ObjectManager from "../core/ObjectManager"
+import VisibleObjectManager from "../core/VisibleObjectManager"
 import Floor from "./Floor"
 
-export default class Building extends ObjectManager implements IBuilding {
+export default class Building
+    extends VisibleObjectManager
+    implements IBuilding
+{
     public static componentName = "building"
     public static defaults = buildingDefaults
     public static schema = buildingSchema

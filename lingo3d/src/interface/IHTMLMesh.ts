@@ -1,13 +1,13 @@
-import IObjectManager, {
-    objectManagerDefaults,
-    objectManagerSchema
-} from "./IObjectManager"
+import IVisibleObjectManager, {
+    visibleObjectManagerDefaults,
+    visibleObjectManagerSchema
+} from "./IVisibleObjectManager"
 import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 
-export default interface IHTMLMesh extends IObjectManager {
+export default interface IHTMLMesh extends IVisibleObjectManager {
     element: Nullable<Element>
     innerHTML: Nullable<string>
     cssColor: string
@@ -15,7 +15,7 @@ export default interface IHTMLMesh extends IObjectManager {
 }
 
 export const htmlMeshSchema: Required<ExtractProps<IHTMLMesh>> = {
-    ...objectManagerSchema,
+    ...visibleObjectManagerSchema,
     element: Object,
     innerHTML: String,
     cssColor: String,
@@ -24,7 +24,7 @@ export const htmlMeshSchema: Required<ExtractProps<IHTMLMesh>> = {
 hideSchema(["element"])
 
 export const htmlMeshDefaults: Defaults<IHTMLMesh> = {
-    ...objectManagerDefaults,
+    ...visibleObjectManagerDefaults,
     element: undefined,
     innerHTML: undefined,
     cssColor: "#ffffff",

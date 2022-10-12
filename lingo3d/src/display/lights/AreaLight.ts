@@ -87,10 +87,10 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
     public shadowResolution: Nullable<number>
     public shadowBias: Nullable<number>
 
-    public override get castShadow() {
+    public get castShadow() {
         return false
     }
-    public override set castShadow(_) {}
+    public set castShadow(_) {}
 
     private helperState = new Reactive(true)
     public get helper() {

@@ -9,11 +9,14 @@ import {
     multipleSelectionGroupManagers
 } from "../states/useMultipleSelectionTargets"
 import { setSelectionTarget } from "../states/useSelectionTarget"
-import ObjectManager from "./core/ObjectManager"
 import SimpleObjectManager from "./core/SimpleObjectManager"
+import VisibleObjectManager from "./core/VisibleObjectManager"
 import { box3, vector3 } from "./utils/reusables"
 
-export default class Group extends ObjectManager<ThreeGroup> implements IGroup {
+export default class Group
+    extends VisibleObjectManager<ThreeGroup>
+    implements IGroup
+{
     public static componentName = "group"
     public static defaults = groupDefaults
     public static schema = groupSchema

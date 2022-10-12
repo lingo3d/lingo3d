@@ -1,12 +1,12 @@
 import { applyMixins } from "@lincode/utils"
 import { Sprite as ThreeSprite, SpriteMaterial } from "three"
-import ObjectManager from "./core/ObjectManager"
 import TexturedBasicMixin from "./core/mixins/TexturedBasicMixin"
 import ISprite, { spriteDefaults, spriteSchema } from "../interface/ISprite"
+import VisibleObjectManager from "./core/VisibleObjectManager"
 
 const material = new SpriteMaterial({ transparent: true })
 
-class Sprite extends ObjectManager<ThreeSprite> implements ISprite {
+class Sprite extends VisibleObjectManager<ThreeSprite> implements ISprite {
     public static componentName = "sprite"
     public static defaults = spriteDefaults
     public static schema = spriteSchema
@@ -24,6 +24,8 @@ class Sprite extends ObjectManager<ThreeSprite> implements ISprite {
     }
     public override set scaleZ(_) {}
 }
-interface Sprite extends ObjectManager<ThreeSprite>, TexturedBasicMixin {}
+interface Sprite
+    extends VisibleObjectManager<ThreeSprite>,
+        TexturedBasicMixin {}
 applyMixins(Sprite, [TexturedBasicMixin])
 export default Sprite
