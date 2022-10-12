@@ -16,9 +16,4 @@ export default class AmbientLight
     public constructor() {
         super(ThreeAmbientLight)
     }
-
-    public override get castShadow() {
-        return false
-    }
-    public override set castShadow(_) {}
 }

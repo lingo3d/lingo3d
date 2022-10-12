@@ -11,6 +11,7 @@ import NullableDefault from "./utils/NullableDefault"
 export default interface ILightBase extends IObjectManager {
     color: string
     intensity: number
+    castShadow: boolean
     shadowResolution: Nullable<number>
     shadowBias: Nullable<number>
     helper: boolean
@@ -20,6 +21,7 @@ export const lightBaseSchema: Required<ExtractProps<ILightBase>> = {
     ...objectManagerSchema,
     color: String,
     intensity: Number,
+    castShadow: Boolean,
     shadowResolution: Number,
     shadowBias: Number,
     helper: Boolean
@@ -29,6 +31,7 @@ export const lightBaseDefaults: Defaults<ILightBase> = {
     ...objectManagerDefaults,
     color: "#ffffff",
     intensity: 1,
+    castShadow: false,
     shadowResolution: new NullableDefault(256),
     shadowBias: new NullableDefault(SHADOW_BIAS),
     helper: true

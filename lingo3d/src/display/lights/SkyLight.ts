@@ -1,4 +1,4 @@
-import { Color, HemisphereLight } from "three"
+import { HemisphereLight } from "three"
 import LightBase from "../core/LightBase"
 import ISkyLight, {
     skyLightDefaults,
@@ -29,9 +29,4 @@ export default class Skylight
             this.lightState.get((light) => light?.groundColor.set(val))
         )
     }
-
-    public override get castShadow() {
-        return false
-    }
-    public override set castShadow(_) {}
 }

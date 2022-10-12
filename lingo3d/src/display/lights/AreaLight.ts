@@ -1,4 +1,4 @@
-import { Color, RectAreaLight } from "three"
+import { RectAreaLight } from "three"
 import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper"
 import IAreaLight, {
     areaLightDefaults,
@@ -86,11 +86,6 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
 
     public shadowResolution: Nullable<number>
     public shadowBias: Nullable<number>
-
-    public get castShadow() {
-        return false
-    }
-    public set castShadow(_) {}
 
     private helperState = new Reactive(true)
     public get helper() {

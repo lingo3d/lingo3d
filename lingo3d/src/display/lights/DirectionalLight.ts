@@ -26,6 +26,7 @@ export default class DirectionalLight
 
     public constructor() {
         super(ThreeDirectionalLight)
+        this.castShadow = true
 
         this.createEffect(() => {
             const light = this.lightState.get()

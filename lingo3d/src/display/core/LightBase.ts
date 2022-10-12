@@ -121,7 +121,7 @@ export default abstract class LightBase<T extends typeof Light>
         this.helperState.set(val)
     }
 
-    private castShadowState = new Reactive(true)
+    private castShadowState = new Reactive(false)
     public get castShadow() {
         return this.castShadowState.get()
     }

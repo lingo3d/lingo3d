@@ -16,6 +16,5 @@ export const pointLightSchema: Required<ExtractProps<IPointLight>> = {
 export const pointLightDefaults: Defaults<IPointLight> = {
     ...lightBaseDefaults,
     decay: 1,
-    distance: 0,
-    castShadow: false
+    distance: 0
 }
