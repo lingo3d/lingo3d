@@ -11,8 +11,7 @@ import { getEditorModeComputed } from "../states/useEditorModeComputed"
 import { getTransformControlsSpaceComputed } from "../states/useTransformControlsSpaceComputed"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getSelectionNativeTarget } from "../states/useSelectionNativeTarget"
-import { onBeforeRenderSSR } from "../events/onBeforeRenderSSR"
-import { onAfterRenderSSR } from "../events/onAfterRenderSSR"
+import initHelperSSR from "../display/core/utils/initHelperSSR"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import(
@@ -73,18 +72,13 @@ createEffect(() => {
         transformControls.attach(target)
         transformControls.enabled = true
 
-        const handle1 = onBeforeRenderSSR(() => {
-            transformControls.visible = false
-        })
-        const handle2 = onAfterRenderSSR(() => {
-            transformControls.visible = true
-        })
+        const helperHandle = initHelperSSR(transformControls)
+
         handle.then(() => {
             scene.remove(transformControls)
             transformControls.detach()
             transformControls.enabled = false
-            handle1.cancel()
-            handle2.cancel()
+            helperHandle.cancel()
         })
     })
     return () => {
