@@ -1,9 +1,5 @@
 import { Pane } from "tweakpane"
-import ISetup, {
-    setupSchema,
-    setupDefaults,
-    setupOptions
-} from "../../interface/ISetup"
+import ISetup, { setupSchema, setupDefaults } from "../../interface/ISetup"
 import addInputs from "./addInputs"
 import getParams from "./getParams"
 import splitObject from "./splitObject"
@@ -13,14 +9,7 @@ export default (pane: Pane, targetSetup: Partial<ISetup>) => {
         getParams(setupSchema, setupDefaults, targetSetup),
         ["gridHelper", "gridHelperSize"]
     )
-    addInputs(
-        pane,
-        "editor",
-        targetSetup,
-        setupDefaults,
-        editorParams,
-        setupOptions
-    )
+    addInputs(pane, "editor", targetSetup, setupDefaults, editorParams)
 
     const [rendererParams, rendererRest] = splitObject(editorRest, [
         "antiAlias",
@@ -29,14 +18,7 @@ export default (pane: Pane, targetSetup: Partial<ISetup>) => {
         "logarithmicDepth",
         "pbr"
     ])
-    addInputs(
-        pane,
-        "renderer",
-        targetSetup,
-        setupDefaults,
-        rendererParams,
-        setupOptions
-    )
+    addInputs(pane, "renderer", targetSetup, setupDefaults, rendererParams)
 
     const [sceneParams, sceneRest] = splitObject(rendererRest, [
         "exposure",
@@ -53,8 +35,7 @@ export default (pane: Pane, targetSetup: Partial<ISetup>) => {
         "lighting & environment",
         targetSetup,
         setupDefaults,
-        sceneParams,
-        setupOptions
+        sceneParams
     )
 
     const [effectsParams, effectsRest] = splitObject(sceneRest, [
@@ -67,14 +48,7 @@ export default (pane: Pane, targetSetup: Partial<ISetup>) => {
         "ssao",
         "ssaoIntensity"
     ])
-    addInputs(
-        pane,
-        "effects",
-        targetSetup,
-        setupDefaults,
-        effectsParams,
-        setupOptions
-    )
+    addInputs(pane, "effects", targetSetup, setupDefaults, effectsParams)
 
     const [outlineParams, outlineRest] = splitObject(effectsRest, [
         "outlineColor",
@@ -83,36 +57,15 @@ export default (pane: Pane, targetSetup: Partial<ISetup>) => {
         "outlinePulse",
         "outlineStrength"
     ])
-    addInputs(
-        pane,
-        "outline effect",
-        targetSetup,
-        setupDefaults,
-        outlineParams,
-        setupOptions
-    )
+    addInputs(pane, "outline effect", targetSetup, setupDefaults, outlineParams)
 
     const [physicsParams, physicsRest] = splitObject(outlineRest, [
         "gravity",
         "repulsion",
         "centripetal"
     ])
-    addInputs(
-        pane,
-        "physics",
-        targetSetup,
-        setupDefaults,
-        physicsParams,
-        setupOptions
-    )
+    addInputs(pane, "physics", targetSetup, setupDefaults, physicsParams)
 
     Object.keys(physicsRest).length &&
-        addInputs(
-            pane,
-            "settings",
-            targetSetup,
-            setupDefaults,
-            physicsRest,
-            setupOptions
-        )
+        addInputs(pane, "settings", targetSetup, setupDefaults, physicsRest)
 }

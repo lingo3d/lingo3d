@@ -5,6 +5,7 @@ import Defaults from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import toFixed from "../../api/serializer/toFixed"
 import Options from "../../interface/utils/Options"
+import defaultsOptionsMap from "../../interface/utils/defaultsOptionsMap"
 
 let programmatic = false
 
@@ -42,7 +43,6 @@ export default async (
     target: Record<string, any>,
     defaults: Defaults<any>,
     params: Record<string, any>,
-    options?: Options<any>,
     prepend?: boolean
 ) => {
     if (!prepend) await new Promise<void>(queueMicrotask)
@@ -56,6 +56,7 @@ export default async (
         params[key] = paramsDefault[key] = getDefaultValue(defaults, key, true)
 
     const folder = pane.addFolder({ title })
+    const options = defaultsOptionsMap.get(defaults)
 
     const result = Object.fromEntries(
         Object.keys(params).map((key) => {

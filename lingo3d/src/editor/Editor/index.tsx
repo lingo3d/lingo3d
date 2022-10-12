@@ -113,7 +113,6 @@ const Editor = () => {
                     target,
                     defaults,
                     generalParams,
-                    undefined,
                     true
                 ).then((inputs) =>
                     inputs.name?.on("change", () => emitSceneGraphNameChange())
@@ -289,7 +288,6 @@ const Editor = () => {
                     target,
                     defaults,
                     pbrMaterialRest,
-                    undefined,
                     true
                 ).then((inputs) =>
                     inputs.stride.on("change", ({ value }) => {
@@ -307,7 +305,6 @@ const Editor = () => {
                     target,
                     defaults,
                     pbrMaterialRest,
-                    undefined,
                     true
                 )
         }

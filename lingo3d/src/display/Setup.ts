@@ -1,9 +1,5 @@
 import Appendable from "../api/core/Appendable"
-import ISetup, {
-    setupDefaults,
-    setupOptions,
-    setupSchema
-} from "../interface/ISetup"
+import ISetup, { setupDefaults, setupSchema } from "../interface/ISetup"
 import {
     pullSetupStack,
     pushSetupStack,
@@ -16,7 +12,6 @@ class Setup extends Appendable {
     public static componentName = "setup"
     public static defaults = setupDefaults
     public static schema = setupSchema
-    public static options = setupOptions
 
     protected data: Partial<ISetup> = {}
 
