@@ -1,6 +1,4 @@
-import { omit } from "@lincode/utils"
 import { Pane } from "tweakpane"
-import { nonEditorSettings } from "../../api/serializer/types"
 import ISetup, {
     setupSchema,
     setupDefaults,
@@ -12,10 +10,7 @@ import splitObject from "./splitObject"
 
 export default (pane: Pane, targetSetup: Partial<ISetup>) => {
     const [editorParams, editorRest] = splitObject(
-        omit(
-            getParams(setupSchema, setupDefaults, targetSetup),
-            nonEditorSettings
-        ),
+        getParams(setupSchema, setupDefaults, targetSetup),
         ["gridHelper", "gridHelperSize"]
     )
     addInputs(

@@ -45,8 +45,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     texture: String,
     color: String
 }
-
-hideSchema(["antiAlias", "pixelRatio"])
+hideSchema(["antiAlias", "pixelRatio", "gravity", "repulsion", "centripetal"])
 
 export const setupOptions: Options<ISetup> = {
     defaultLight: new Choices({ true: true, false: false, studio: "studio" }),

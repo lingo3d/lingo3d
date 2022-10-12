@@ -160,13 +160,7 @@ const Editor = () => {
             const { schema, defaults, componentName } = target.constructor
 
             const [generalParams, generalRest] = splitObject(
-                omit(getParams(schema, defaults, target), [
-                    "rotation",
-                    "innerRotation",
-                    "frustumCulled",
-                    "minAzimuthAngle",
-                    "maxAzimuthAngle"
-                ]),
+                getParams(schema, defaults, target),
                 ["name", "id", "physics", "gravity"]
             )
             if (generalParams) {
@@ -397,7 +391,12 @@ const Editor = () => {
                 )}
             </AppBar>
             <div
-                style={{ flexGrow: 1, overflow: "scroll", paddingLeft: 8, paddingRight: 8 }}
+                style={{
+                    flexGrow: 1,
+                    overflow: "scroll",
+                    paddingLeft: 8,
+                    paddingRight: 8
+                }}
                 ref={elRef}
             />
         </div>

@@ -72,7 +72,7 @@ export const staticObjectManagerSchema: Required<
     adjustColor: String,
     reflection: Boolean
 }
-hideSchema(["lookAt", "lookTo"])
+hideSchema(["lookAt", "lookTo", "frustumCulled", "visible"])
 
 export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
     ...eventLoopDefaults,

@@ -42,6 +42,7 @@ export default interface ISimpleObjectManager
     rotationZ: number
     rotation: number
 }
+hideSchema(["rotation"])
 
 export const simpleObjectManagerSchema: Required<
     ExtractProps<ISimpleObjectManager>
