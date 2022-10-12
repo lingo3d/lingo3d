@@ -15,7 +15,8 @@ export default class SpotLight
 
     public constructor() {
         super(ThreeSpotLight, SpotLightHelper)
-        this.innerY = 0
+        this.innerY = -100
+        this.castShadow = true
     }
 
     public get angle() {

@@ -22,5 +22,6 @@ export const spotLightDefaults: Defaults<ISpotLight> = {
     angle: 1,
     penumbra: 0,
     decay: 1,
-    distance: 0
+    distance: 0,
+    castShadow: true
 }
