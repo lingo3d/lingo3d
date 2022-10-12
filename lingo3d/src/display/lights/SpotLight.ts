@@ -15,7 +15,6 @@ export default class SpotLight
 
     public constructor() {
         super(ThreeSpotLight, SpotLightHelper)
-        this.innerY = -100
         this.castShadow = true
     }
 

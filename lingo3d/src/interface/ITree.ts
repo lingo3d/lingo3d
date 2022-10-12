@@ -1,5 +1,6 @@
 import IModel, { modelDefaults, modelSchema } from "./IModel"
 import Defaults from "./utils/Defaults"
+import { inheritOptions } from "./utils/defaultsOptionsMap"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface ITree extends IModel {
@@ -16,3 +17,5 @@ export const treeDefaults: Defaults<ITree> = {
     preset: "tree1",
     scale: 4
 }
+
+inheritOptions(treeDefaults, modelDefaults)

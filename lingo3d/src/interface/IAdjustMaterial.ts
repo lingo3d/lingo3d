@@ -1,7 +1,10 @@
 import Defaults from "./utils/Defaults"
+import defaultsOptionsMap from "./utils/defaultsOptionsMap"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import NullableDefault from "./utils/NullableDefault"
+import Options from "./utils/Options"
+import Range from "./utils/Range"
 
 export default interface IAdjustMaterial {
     metalnessFactor: Nullable<number>
@@ -29,3 +32,10 @@ export const adjustMaterialDefaults: Defaults<IAdjustMaterial> = {
     adjustColor: new NullableDefault("#ffffff"),
     reflection: false
 }
+
+defaultsOptionsMap.set(adjustMaterialDefaults, <Options<IAdjustMaterial>>{
+    metalnessFactor: new Range(-2, 2),
+    roughnessFactor: new Range(0, 4),
+    opacityFactor: new Range(0, 4),
+    envFactor: new Range(0, 4)
+})

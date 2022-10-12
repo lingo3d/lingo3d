@@ -1,6 +1,7 @@
 import { YBOT_URL } from "../globals"
 import IModel, { modelDefaults, modelSchema } from "./IModel"
 import Defaults from "./utils/Defaults"
+import { inheritOptions } from "./utils/defaultsOptionsMap"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
@@ -42,3 +43,5 @@ export const dummyDefaults: Defaults<IDummy> = {
     animation: "idle",
     src: YBOT_URL
 }
+
+inheritOptions(dummyDefaults, modelDefaults)
