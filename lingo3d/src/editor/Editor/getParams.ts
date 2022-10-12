@@ -21,10 +21,7 @@ export default (schema: any, defaults: any, target: any) => {
 
         currentVal ??= getDefaultValue(defaults, key, true)
 
-        if (currentVal === Infinity) currentVal = 999999999
-        else if (currentVal === -Infinity) currentVal = -999999999
-        else if (Array.isArray(currentVal))
-            currentVal = JSON.stringify(currentVal)
+        if (Array.isArray(currentVal)) currentVal = JSON.stringify(currentVal)
 
         params[key] = currentVal
     }
