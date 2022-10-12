@@ -1,22 +1,15 @@
-import { last, omit } from "@lincode/utils"
+import { last } from "@lincode/utils"
 import { FolderApi, Pane } from "tweakpane"
-import mainCamera from "../../engine/mainCamera"
 import { setOrbitControls } from "../../states/useOrbitControls"
 import { useEffect, useLayoutEffect, useState } from "preact/hooks"
 import register from "preact-custom-element"
 import {
     useSelectionTarget,
-    useCameraList,
     useMultipleSelectionTargets,
-    useCameraStack,
     useNodeEditor,
     useSetupStack
 } from "../states"
 import { Cancellable } from "@lincode/promiselikes"
-import {
-    getSecondaryCamera,
-    setSecondaryCamera
-} from "../../states/useSecondaryCamera"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../utils/getComponentName"
 import addInputs, { setProgrammatic } from "./addInputs"
@@ -38,6 +31,7 @@ import addSetupInputs from "./addSetupInputs"
 import Tab from "../component/Tab"
 import AppBar from "../component/AppBar"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
+import useCameraPanel from "./useCameraPanel"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -65,62 +59,8 @@ const Editor = () => {
         }
     }, [])
 
-    const [cameraStack] = useCameraStack()
-    const camera = last(cameraStack)!
-    const [cameraList] = useCameraList()
-
     const [pane, setPane] = useState<Pane>()
     const [cameraFolder, setCameraFolder] = useState<FolderApi>()
-
-    useLayoutEffect(() => {
-        if (!pane || !cameraFolder) return
-
-        const mainCameraName = "editor camera"
-
-        const options = cameraList.reduce<Record<string, any>>(
-            (acc, cam, i) => {
-                acc[
-                    i === 0
-                        ? mainCameraName
-                        : getComponentName(cam.userData.manager)
-                ] = i
-                return acc
-            },
-            {}
-        )
-        const cameraInput = pane.addInput(
-            { camera: cameraList.indexOf(camera) },
-            "camera",
-            { options }
-        )
-        cameraFolder.add(cameraInput)
-        cameraInput.on("change", ({ value }) => {
-            cameraList[value].userData.manager.active = true
-        })
-
-        const secondaryOptions: any = {
-            none: 0,
-            ...omit(options, mainCameraName)
-        }
-        const secondaryCameraInput = pane.addInput(
-            {
-                "secondary camera": cameraList.indexOf(
-                    getSecondaryCamera() ?? mainCamera
-                )
-            },
-            "secondary camera",
-            { options: secondaryOptions }
-        )
-        cameraFolder.add(secondaryCameraInput)
-        secondaryCameraInput.on("change", ({ value }) =>
-            setSecondaryCamera(value === 0 ? undefined : cameraList[value])
-        )
-
-        return () => {
-            cameraInput.dispose()
-            secondaryCameraInput.dispose()
-        }
-    }, [pane, cameraFolder, cameraList, camera])
 
     const [setupStack] = useSetupStack()
     const lastSetup = last(setupStack)
@@ -131,24 +71,27 @@ const Editor = () => {
 
     const [tab, setTab] = useState<string | undefined>(undefined)
 
+    useCameraPanel(pane, cameraFolder)
+
     useEffect(() => {
         const el = elRef.current
         if (!el) return
 
         const pane = new Pane({ container: el })
         setPane(pane)
-        setCameraFolder(pane.addFolder({ title: "camera" }))
 
         if (
             tab === "World" ||
             !selectionTarget ||
             selectionTarget instanceof Setup
         ) {
+            setCameraFolder(pane.addFolder({ title: "camera" }))
             addSetupInputs(
                 pane,
                 selectionTarget instanceof Setup ? selectionTarget : targetSetup
             )
             return () => {
+                setCameraFolder(undefined)
                 pane.dispose()
             }
         }
