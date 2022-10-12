@@ -115,8 +115,8 @@ const Editor = () => {
                     generalParams,
                     undefined,
                     true
-                ).then(({ name: nameInput }) =>
-                    nameInput.on("change", () => emitSceneGraphNameChange())
+                ).then((inputs) =>
+                    inputs.name?.on("change", () => emitSceneGraphNameChange())
                 )
 
             const [transformParams0, transformRest] = splitObject(generalRest, [
@@ -291,8 +291,8 @@ const Editor = () => {
                     pbrMaterialRest,
                     undefined,
                     true
-                ).then(({ stride: strideInput }) =>
-                    strideInput.on("change", ({ value }) => {
+                ).then((inputs) =>
+                    inputs.stride.on("change", ({ value }) => {
                         Object.assign(pbrMaterialRest, {
                             strideForward: -value.y,
                             strideRight: value.x
