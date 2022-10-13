@@ -3,8 +3,8 @@ import IVisibleObjectManager, {
     visibleObjectManagerDefaults,
     visibleObjectManagerSchema
 } from "./IVisibleObjectManager"
-import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import { extendDefaults } from "./utils/Defaults"
 
 export default interface IWater extends IVisibleObjectManager {
     shape: "plane" | "sphere"
@@ -21,11 +21,13 @@ export const waterSchema: Required<ExtractProps<IWater>> = {
     speed: Number
 }
 
-export const waterDefaults: Defaults<IWater> = {
-    ...visibleObjectManagerDefaults,
-    shape: "plane",
-    normalMap: WATERNORMALS_URL,
-    resolution: 512,
-    speed: 1,
-    rotationX: -90
-}
+export const waterDefaults = extendDefaults<IWater>([
+    visibleObjectManagerDefaults,
+    {
+        shape: "plane",
+        normalMap: WATERNORMALS_URL,
+        resolution: 512,
+        speed: 1,
+        rotationX: -90
+    }
+])

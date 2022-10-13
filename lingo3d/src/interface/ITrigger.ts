@@ -3,9 +3,9 @@ import IPositioned, {
     positionedDefaults,
     positionedSchema
 } from "./IPositioned"
-import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
+import { extendDefaults } from "./utils/Defaults"
 
 export default interface ITrigger extends IPositioned {
     onEnter: Nullable<(target: StaticObjectManager) => void>
@@ -28,13 +28,15 @@ export const triggerSchema: Required<ExtractProps<ITrigger>> = {
     helper: Boolean
 }
 
-export const triggerDefaults: Defaults<ITrigger> = {
-    ...positionedDefaults,
-    onEnter: undefined,
-    onExit: undefined,
-    targetIds: undefined,
-    pad: false,
-    radius: 50,
-    interval: 300,
-    helper: true
-}
+export const triggerDefaults = extendDefaults<ITrigger>([
+    positionedDefaults,
+    {
+        onEnter: undefined,
+        onExit: undefined,
+        targetIds: undefined,
+        pad: false,
+        radius: 50,
+        interval: 300,
+        helper: true
+    }
+])

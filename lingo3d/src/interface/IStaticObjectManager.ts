@@ -1,9 +1,9 @@
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { LingoMouseEvent } from "./IMouse"
-import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import fn from "./utils/fn"
 import Nullable from "./utils/Nullable"
+import { extendDefaults } from "./utils/Defaults"
 
 export default interface IStaticObjectManager extends IEventLoop {
     onClick: Nullable<(e: LingoMouseEvent) => void>
@@ -41,20 +41,23 @@ export const staticObjectManagerSchema: Required<
     id: String
 }
 
-export const staticObjectManagerDefaults: Defaults<IStaticObjectManager> = {
-    ...eventLoopDefaults,
+export const staticObjectManagerDefaults = extendDefaults<IStaticObjectManager>(
+    [
+        eventLoopDefaults,
+        {
+            onClick: undefined,
+            onMouseDown: undefined,
+            onMouseUp: undefined,
+            onMouseOver: undefined,
+            onMouseOut: undefined,
+            onMouseMove: undefined,
+            onLookToEnd: undefined,
 
-    onClick: undefined,
-    onMouseDown: undefined,
-    onMouseUp: undefined,
-    onMouseOver: undefined,
-    onMouseOut: undefined,
-    onMouseMove: undefined,
-    onLookToEnd: undefined,
+            lookAt: fn,
+            lookTo: fn,
 
-    lookAt: fn,
-    lookTo: fn,
-
-    name: "",
-    id: undefined
-}
+            name: "",
+            id: undefined
+        }
+    ]
+)

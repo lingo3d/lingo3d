@@ -6,8 +6,8 @@ import ITexturedStandard, {
     texturedStandardDefaults,
     texturedStandardSchema
 } from "./ITexturedStandard"
-import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import { extendDefaults } from "./utils/Defaults"
 
 export default interface IStandardMaterialManager
     extends IBasicMaterialManager,
@@ -20,8 +20,8 @@ export const standardMaterialManagerSchema: Required<
     ...texturedStandardSchema
 }
 
-export const standardMaterialManagerDefaults: Defaults<IStandardMaterialManager> =
-    {
-        ...basicMaterialManagerDefaults,
-        ...texturedStandardDefaults
-    }
+export const standardMaterialManagerDefaults =
+    extendDefaults<IStandardMaterialManager>([
+        basicMaterialManagerDefaults,
+        texturedStandardDefaults
+    ])
