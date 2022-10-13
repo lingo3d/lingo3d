@@ -2,9 +2,9 @@ import IPhysicsObjectManager, {
     physicsObjectManagerDefaults,
     physicsObjectManagerSchema
 } from "./IPhysicsObjectManager"
-import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
+import { extendDefaults } from "./utils/Defaults"
 
 export default interface IObjectManager extends IPhysicsObjectManager {
     innerRotationX: number
@@ -43,21 +43,22 @@ export const objectManagerSchema: Required<ExtractProps<IObjectManager>> = {
 }
 hideSchema(["innerRotation", "innerVisible"])
 
-export const objectManagerDefaults: Defaults<IObjectManager> = {
-    ...physicsObjectManagerDefaults,
+export const objectManagerDefaults = extendDefaults<IObjectManager>([
+    physicsObjectManagerDefaults,
+    {
+        innerRotationX: 0,
+        innerRotationY: 0,
+        innerRotationZ: 0,
+        innerRotation: 0,
 
-    innerRotationX: 0,
-    innerRotationY: 0,
-    innerRotationZ: 0,
-    innerRotation: 0,
+        innerX: 0,
+        innerY: 0,
+        innerZ: 0,
 
-    innerX: 0,
-    innerY: 0,
-    innerZ: 0,
+        width: 100,
+        height: 100,
+        depth: 100,
 
-    width: 100,
-    height: 100,
-    depth: 100,
-
-    innerVisible: true
-}
+        innerVisible: true
+    }
+])

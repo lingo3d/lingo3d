@@ -5,11 +5,11 @@ import ISimpleObjectManager, {
     simpleObjectManagerDefaults,
     simpleObjectManagerSchema
 } from "./ISimpleObjectManager"
-import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 import NullableDefault from "./utils/NullableDefault"
+import { extendDefaults } from "./utils/Defaults"
 
 export type PhysicsGroupIndex = 0 | 1 | 2 | 3 | 4 | 5
 export type PhysicsOptions = boolean | "2d" | "map" | "map-debug" | "character"
@@ -78,26 +78,28 @@ hideSchema([
     "physicsShape"
 ])
 
-export const physicsObjectManagerDefaults: Defaults<IPhysicsObjectManager> = {
-    ...simpleObjectManagerDefaults,
+export const physicsObjectManagerDefaults =
+    extendDefaults<IPhysicsObjectManager>([
+        simpleObjectManagerDefaults,
+        {
+            maxAngularVelocityX: Infinity,
+            maxAngularVelocityY: Infinity,
+            maxAngularVelocityZ: Infinity,
 
-    maxAngularVelocityX: Infinity,
-    maxAngularVelocityY: Infinity,
-    maxAngularVelocityZ: Infinity,
+            maxVelocityX: Infinity,
+            maxVelocityY: Infinity,
+            maxVelocityZ: Infinity,
 
-    maxVelocityX: Infinity,
-    maxVelocityY: Infinity,
-    maxVelocityZ: Infinity,
+            velocity: { x: 0, y: 0, z: 0 },
+            gravity: true,
 
-    velocity: { x: 0, y: 0, z: 0 },
-    gravity: true,
+            noTumble: new NullableDefault(false),
+            slippery: new NullableDefault(false),
+            mass: new NullableDefault(1),
+            physicsGroup: undefined,
+            ignorePhysicsGroups: undefined,
 
-    noTumble: new NullableDefault(false),
-    slippery: new NullableDefault(false),
-    mass: new NullableDefault(1),
-    physicsGroup: undefined,
-    ignorePhysicsGroups: undefined,
-
-    physics: false,
-    physicsShape: cubeShape
-}
+            physics: false,
+            physicsShape: cubeShape
+        }
+    ])
