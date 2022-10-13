@@ -62,7 +62,7 @@ export const setupDefaults = extendDefaults<ISetup>(
             studio: "studio"
         }),
         shadowDistance: new Range(1000, 5000),
-        shadowResolution: new Range(512, 2048, 512),
+        shadowResolution: new Range(256, 2048, 256),
         pixelRatio: new Range(1, 2, 1),
         fps: new Range(30, 60, 30),
         exposure: new Range(0, 20),
