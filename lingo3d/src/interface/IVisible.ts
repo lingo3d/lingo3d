@@ -1,4 +1,4 @@
-import Defaults from "./utils/Defaults"
+import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 
@@ -23,12 +23,14 @@ export const visibleSchema: Required<ExtractProps<IVisible>> = {
 }
 hideSchema(["frustumCulled", "visible"])
 
-export const visibleDefaults: Defaults<IVisible> = {
-    bloom: false,
-    outline: false,
+export const visibleDefaults = extendDefaults<IVisible>([
+    {
+        bloom: false,
+        outline: false,
 
-    visible: true,
-    frustumCulled: true,
-    castShadow: true,
-    receiveShadow: true
-}
+        visible: true,
+        frustumCulled: true,
+        castShadow: true,
+        receiveShadow: true
+    }
+])

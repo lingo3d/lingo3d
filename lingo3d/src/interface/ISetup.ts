@@ -1,7 +1,7 @@
 import setupStruct from "../engine/setupStruct"
 import { SHADOW_BIAS, SHADOW_DISTANCE } from "../globals"
 import Choices from "./utils/Choices"
-import Defaults from "./utils/Defaults"
+import { extendDefaults } from "./utils/Defaults"
 import defaultsOptionsMap from "./utils/defaultsOptionsMap"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
@@ -48,12 +48,14 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 }
 hideSchema(["antiAlias", "pixelRatio", "gravity", "repulsion", "centripetal"])
 
-export const setupDefaults: Defaults<ISetup> = {
-    ...setupStruct,
-    shadowDistance: new NullableDefault(SHADOW_DISTANCE),
-    shadowResolution: new NullableDefault(1024),
-    shadowBias: new NullableDefault(SHADOW_BIAS)
-}
+export const setupDefaults = extendDefaults<ISetup>([
+    {
+        ...setupStruct,
+        shadowDistance: new NullableDefault(SHADOW_DISTANCE),
+        shadowResolution: new NullableDefault(1024),
+        shadowBias: new NullableDefault(SHADOW_BIAS)
+    }
+])
 
 defaultsOptionsMap.set(setupDefaults, <Options<ISetup>>{
     defaultLight: new Choices({ true: true, false: false, studio: "studio" }),

@@ -1,4 +1,4 @@
-import Defaults from "./utils/Defaults"
+import { extendDefaults } from "./utils/Defaults"
 import defaultsOptionsMap from "./utils/defaultsOptionsMap"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
@@ -24,14 +24,16 @@ export const adjustMaterialSchema: Required<ExtractProps<IAdjustMaterial>> = {
     reflection: Boolean
 }
 
-export const adjustMaterialDefaults: Defaults<IAdjustMaterial> = {
-    metalnessFactor: new NullableDefault(0),
-    roughnessFactor: new NullableDefault(1),
-    opacityFactor: new NullableDefault(1),
-    envFactor: new NullableDefault(1),
-    adjustColor: new NullableDefault("#ffffff"),
-    reflection: false
-}
+export const adjustMaterialDefaults = extendDefaults<IAdjustMaterial>([
+    {
+        metalnessFactor: new NullableDefault(0),
+        roughnessFactor: new NullableDefault(1),
+        opacityFactor: new NullableDefault(1),
+        envFactor: new NullableDefault(1),
+        adjustColor: new NullableDefault("#ffffff"),
+        reflection: false
+    }
+])
 
 defaultsOptionsMap.set(adjustMaterialDefaults, <Options<IAdjustMaterial>>{
     metalnessFactor: new Range(-2, 2),
