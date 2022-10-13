@@ -7,11 +7,11 @@ import IPositioned, {
     positionedDefaults,
     positionedSchema
 } from "./IPositioned"
-import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import fn from "./utils/fn"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
+import { extendDefaults } from "./utils/Defaults"
 
 export type OnIntersectValue = (target: StaticObjectManager) => void
 
@@ -76,31 +76,34 @@ export const simpleObjectManagerSchema: Required<
 }
 hideSchema(["intersectIds"])
 
-export const simpleObjectManagerDefaults: Defaults<ISimpleObjectManager> = {
-    ...animatedObjectManagerDefaults,
-    ...positionedDefaults,
+export const simpleObjectManagerDefaults = extendDefaults<ISimpleObjectManager>(
+    [
+        animatedObjectManagerDefaults,
+        positionedDefaults,
+        {
+            onIntersect: undefined,
+            onIntersectOut: undefined,
+            onMoveToEnd: undefined,
 
-    onIntersect: undefined,
-    onIntersectOut: undefined,
-    onMoveToEnd: undefined,
+            moveTo: fn,
+            lerpTo: fn,
+            placeAt: fn,
 
-    moveTo: fn,
-    lerpTo: fn,
-    placeAt: fn,
+            translateX: fn,
+            translateY: fn,
+            translateZ: fn,
 
-    translateX: fn,
-    translateY: fn,
-    translateZ: fn,
+            intersectIds: undefined,
 
-    intersectIds: undefined,
+            scaleX: 1,
+            scaleY: 1,
+            scaleZ: 1,
+            scale: 1,
 
-    scaleX: 1,
-    scaleY: 1,
-    scaleZ: 1,
-    scale: 1,
-
-    rotationX: 0,
-    rotationY: 0,
-    rotationZ: 0,
-    rotation: 0
-}
+            rotationX: 0,
+            rotationY: 0,
+            rotationZ: 0,
+            rotation: 0
+        }
+    ]
+)
