@@ -1,6 +1,6 @@
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
-import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import { extendDefaults } from "./utils/Defaults"
 
 export default interface ISky extends IEventLoop {}
 
@@ -8,6 +8,4 @@ export const skySchema: Required<ExtractProps<ISky>> = {
     ...eventLoopSchema
 }
 
-export const skyDefaults: Defaults<ISky> = {
-    ...eventLoopDefaults
-}
+export const skyDefaults = extendDefaults<ISky>([eventLoopDefaults])

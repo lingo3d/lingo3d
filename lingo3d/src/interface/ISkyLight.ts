@@ -1,6 +1,6 @@
 import ILightBase, { lightBaseDefaults, lightBaseSchema } from "./ILightBase"
-import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import { extendDefaults } from "./utils/Defaults"
 
 export default interface ISkyLight extends ILightBase {
     groundColor: string
@@ -11,7 +11,7 @@ export const skyLightSchema: Required<ExtractProps<ISkyLight>> = {
     groundColor: String
 }
 
-export const skyLightDefaults: Defaults<ISkyLight> = {
-    ...lightBaseDefaults,
-    groundColor: "#ffffff"
-}
+export const skyLightDefaults = extendDefaults<ISkyLight>([
+    lightBaseDefaults,
+    { groundColor: "#ffffff" }
+])

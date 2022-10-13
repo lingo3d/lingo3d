@@ -1,6 +1,9 @@
-import IObjectManager, { objectManagerDefaults, objectManagerSchema } from "./IObjectManager"
-import Defaults from "./utils/Defaults"
+import IObjectManager, {
+    objectManagerDefaults,
+    objectManagerSchema
+} from "./IObjectManager"
 import { ExtractProps } from "./utils/extractProps"
+import { extendDefaults } from "./utils/Defaults"
 
 export default interface ISpawnPoint extends IObjectManager {
     helper: boolean
@@ -11,7 +14,7 @@ export const spawnPointSchema: Required<ExtractProps<ISpawnPoint>> = {
     helper: Boolean
 }
 
-export const spawnPointDefaults: Defaults<ISpawnPoint> = {
-    ...objectManagerDefaults,
-    helper: true
-}
+export const spawnPointDefaults = extendDefaults<ISpawnPoint>([
+    objectManagerDefaults,
+    { helper: true }
+])
