@@ -3,7 +3,7 @@ import ITexturedBasic, {
     texturedBasicDefaults,
     texturedBasicSchema
 } from "./ITexturedBasic"
-import Defaults from "./utils/Defaults"
+import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IBasicMaterialManager
@@ -17,7 +17,8 @@ export const basicMaterialManagerSchema: Required<
     ...texturedBasicSchema
 }
 
-export const basicMaterialManagerDefaults: Defaults<IBasicMaterialManager> = {
-    ...eventLoopDefaults,
-    ...texturedBasicDefaults
-}
+export const basicMaterialManagerDefaults =
+    extendDefaults<IBasicMaterialManager>([
+        eventLoopDefaults,
+        texturedBasicDefaults
+    ])
