@@ -2,7 +2,7 @@ import IVisibleObjectManager, {
     visibleObjectManagerDefaults,
     visibleObjectManagerSchema
 } from "./IVisibleObjectManager"
-import Defaults from "./utils/Defaults"
+import Defaults, { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
@@ -23,10 +23,12 @@ export const htmlMeshSchema: Required<ExtractProps<IHTMLMesh>> = {
 }
 hideSchema(["element"])
 
-export const htmlMeshDefaults: Defaults<IHTMLMesh> = {
-    ...visibleObjectManagerDefaults,
-    element: undefined,
-    innerHTML: undefined,
-    cssColor: "#ffffff",
-    sprite: false
-}
+export const htmlMeshDefaults = extendDefaults<IHTMLMesh>([
+    visibleObjectManagerDefaults,
+    {
+        element: undefined,
+        innerHTML: undefined,
+        cssColor: "#ffffff",
+        sprite: false
+    }
+])

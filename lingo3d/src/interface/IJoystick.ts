@@ -1,6 +1,6 @@
 import { Point } from "@lincode/math"
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
-import Defaults from "./utils/Defaults"
+import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
@@ -19,10 +19,12 @@ export const joystickSchema: Required<ExtractProps<IJoystick>> = {
     onPress: Function
 }
 
-export const joystickDefaults: Defaults<IJoystick> = {
-    ...eventLoopDefaults,
-    onMove: undefined,
-    onMoveStart: undefined,
-    onMoveEnd: undefined,
-    onPress: undefined
-}
+export const joystickDefaults = extendDefaults<IJoystick>([
+    eventLoopDefaults,
+    {
+        onMove: undefined,
+        onMoveStart: undefined,
+        onMoveEnd: undefined,
+        onPress: undefined
+    }
+])

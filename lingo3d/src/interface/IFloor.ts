@@ -2,7 +2,7 @@ import IVisibleObjectManager, {
     visibleObjectManagerDefaults,
     visibleObjectManagerSchema
 } from "./IVisibleObjectManager"
-import Defaults from "./utils/Defaults"
+import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export type FacadePreset =
@@ -27,9 +27,11 @@ export const floorSchema: Required<ExtractProps<IFloor>> = {
     repeatZ: Number
 }
 
-export const floorDefaults: Defaults<IFloor> = {
-    ...visibleObjectManagerDefaults,
-    preset: "industrial0",
-    repeatX: 1,
-    repeatZ: 1
-}
+export const floorDefaults = extendDefaults<IFloor>([
+    visibleObjectManagerDefaults,
+    {
+        preset: "industrial0",
+        repeatX: 1,
+        repeatZ: 1
+    }
+])

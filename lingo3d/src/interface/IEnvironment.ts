@@ -2,7 +2,7 @@ import IPositioned, {
     positionedDefaults,
     positionedSchema
 } from "./IPositioned"
-import Defaults from "./utils/Defaults"
+import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
@@ -17,8 +17,7 @@ export const environmentSchema: Required<ExtractProps<IEnvironment>> = {
     helper: Boolean
 }
 
-export const environmentDefaults: Defaults<IEnvironment> = {
-    ...positionedDefaults,
-    texture: "studio",
-    helper: true
-}
+export const environmentDefaults = extendDefaults<IEnvironment>([
+    positionedDefaults,
+    { texture: "studio", helper: true }
+])
