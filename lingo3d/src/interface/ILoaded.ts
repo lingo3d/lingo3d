@@ -2,9 +2,9 @@ import IVisibleObjectManager, {
     visibleObjectManagerDefaults,
     visibleObjectManagerSchema
 } from "./IVisibleObjectManager"
-import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
+import { extendDefaults } from "./utils/Defaults"
 
 export default interface ILoaded extends IVisibleObjectManager {
     src: Nullable<string>
@@ -19,9 +19,11 @@ export const loadedSchema: Required<ExtractProps<ILoaded>> = {
     boxVisible: Boolean
 }
 
-export const loadedDefaults: Defaults<ILoaded> = {
-    ...visibleObjectManagerDefaults,
-    src: undefined,
-    onLoad: undefined,
-    boxVisible: false
-}
+export const loadedDefaults = extendDefaults<ILoaded>([
+    visibleObjectManagerDefaults,
+    {
+        src: undefined,
+        onLoad: undefined,
+        boxVisible: false
+    }
+])
