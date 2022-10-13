@@ -1,6 +1,9 @@
 import { applyMixins } from "@lincode/utils"
 import { Object3D } from "three"
-import IFound, { foundDefaults, foundSchema } from "../../interface/IFound"
+import IFoundManager, {
+    foundManagerDefaults,
+    foundManagerSchema
+} from "../../interface/IFoundManager"
 import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
 import { appendableRoot } from "../../api/core/Appendable"
@@ -9,10 +12,10 @@ import IVisible from "../../interface/IVisible"
 import VisibleMixin from "./mixins/VisibleMixin"
 import SimpleObjectManager from "./SimpleObjectManager"
 
-class FoundManager extends SimpleObjectManager implements IFound {
+class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
-    public static defaults = foundDefaults
-    public static schema = foundSchema
+    public static defaults = foundManagerDefaults
+    public static schema = foundManagerSchema
 
     public constructor(mesh: Object3D) {
         super(mesh)

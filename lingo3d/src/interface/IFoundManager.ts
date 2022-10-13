@@ -14,20 +14,20 @@ import IVisible, { visibleDefaults, visibleSchema } from "./IVisible"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IFound
+export default interface IFoundManager
     extends ISimpleObjectManager,
         ITexturedBasic,
         ITexturedStandard,
         IVisible {}
 
-export const foundSchema: Required<ExtractProps<IFound>> = {
+export const foundManagerSchema: Required<ExtractProps<IFoundManager>> = {
     ...simpleObjectManagerSchema,
     ...texturedBasicSchema,
     ...texturedStandardSchema,
     ...visibleSchema
 }
 
-export const foundDefaults = extendDefaults<IFound>([
+export const foundManagerDefaults = extendDefaults<IFoundManager>([
     simpleObjectManagerDefaults,
     texturedBasicDefaults,
     texturedStandardDefaults,
