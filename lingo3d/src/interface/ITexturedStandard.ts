@@ -2,6 +2,7 @@ import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import NullableDefault from "./utils/NullableDefault"
+import Range from "./utils/Range"
 
 export default interface ITexturedStandard {
     wireframe: Nullable<boolean>
@@ -50,27 +51,41 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
         normalScale: Number
     }
 
-export const texturedStandardDefaults = extendDefaults<ITexturedStandard>([
+export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
+    [
+        {
+            wireframe: new NullableDefault(false),
+            envMap: undefined,
+            envMapIntensity: new NullableDefault(1),
+            aoMap: undefined,
+            aoMapIntensity: new NullableDefault(1),
+            bumpMap: undefined,
+            bumpScale: new NullableDefault(1),
+            displacementMap: undefined,
+            displacementScale: new NullableDefault(1),
+            displacementBias: new NullableDefault(0),
+            emissive: new NullableDefault(false),
+            emissiveIntensity: new NullableDefault(1),
+            lightMap: undefined,
+            lightMapIntensity: new NullableDefault(1),
+            metalnessMap: undefined,
+            metalness: new NullableDefault(0),
+            roughnessMap: undefined,
+            roughness: new NullableDefault(1),
+            normalMap: undefined,
+            normalScale: new NullableDefault(1)
+        }
+    ],
     {
-        wireframe: new NullableDefault(false),
-        envMap: undefined,
-        envMapIntensity: new NullableDefault(1),
-        aoMap: undefined,
-        aoMapIntensity: new NullableDefault(1),
-        bumpMap: undefined,
-        bumpScale: new NullableDefault(1),
-        displacementMap: undefined,
-        displacementScale: new NullableDefault(1),
-        displacementBias: new NullableDefault(0),
-        emissive: new NullableDefault(false),
-        emissiveIntensity: new NullableDefault(1),
-        lightMap: undefined,
-        lightMapIntensity: new NullableDefault(1),
-        metalnessMap: undefined,
-        metalness: new NullableDefault(0),
-        roughnessMap: undefined,
-        roughness: new NullableDefault(1),
-        normalMap: undefined,
-        normalScale: new NullableDefault(1)
+        envMapIntensity: new Range(0, 4),
+        aoMapIntensity: new Range(0, 4),
+        bumpScale: new Range(0, 4),
+        displacementScale: new Range(0, 4),
+        displacementBias: new Range(0, 4),
+        emissiveIntensity: new Range(0, 4),
+        lightMapIntensity: new Range(0, 4),
+        metalness: new Range(-2, 2),
+        roughness: new Range(0, 4),
+        normalScale: new Range(0, 4)
     }
-])
+)
