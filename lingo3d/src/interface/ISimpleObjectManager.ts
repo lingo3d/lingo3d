@@ -12,6 +12,7 @@ import fn from "./utils/fn"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
+import Range from "./utils/Range"
 
 export type OnIntersectValue = (target: StaticObjectManager) => void
 
@@ -105,5 +106,11 @@ export const simpleObjectManagerDefaults = extendDefaults<ISimpleObjectManager>(
             rotationZ: 0,
             rotation: 0
         }
-    ]
+    ],
+    {
+        rotation: new Range(0, 360),
+        rotationX: new Range(0, 360),
+        rotationY: new Range(0, 360),
+        rotationZ: new Range(0, 360)
+    }
 )

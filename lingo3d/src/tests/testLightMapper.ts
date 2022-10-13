@@ -45,7 +45,7 @@ for (let l = 0; l < lightCount; l++) {
 }
 
 const ground = new Plane()
-ground.rotationX = -90
+ground.rotationX = 270
 ground.scale = 100
 ground.y = -50
 

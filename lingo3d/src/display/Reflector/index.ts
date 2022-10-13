@@ -25,7 +25,7 @@ export default class Reflector
         mesh.receiveShadow = true
 
         super(mesh)
-        this.rotationX = -90
+        this.rotationX = 270
 
         import("./MeshReflectorMaterial").then(
             ({ default: MeshReflectorMaterial }) => {

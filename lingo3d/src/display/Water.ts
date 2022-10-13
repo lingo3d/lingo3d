@@ -48,7 +48,7 @@ export default class Water extends VisibleObjectManager implements IWater {
 
     public constructor() {
         super()
-        this.rotationX = -90
+        this.rotationX = 270
 
         import("three/examples/jsm/objects/Water").then(({ Water }) => {
             this.createEffect(() => {
