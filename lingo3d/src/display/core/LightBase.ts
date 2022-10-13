@@ -1,6 +1,5 @@
 import { Reactive } from "@lincode/reactivity"
 import {
-    Color,
     DirectionalLightHelper,
     Group,
     Light,
