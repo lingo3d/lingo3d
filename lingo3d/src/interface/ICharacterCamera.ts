@@ -2,7 +2,7 @@ import ICameraBase, {
     cameraBaseDefaults,
     cameraBaseSchema
 } from "./ICameraBase"
-import Defaults from "./utils/Defaults"
+import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export type LockTargetRotationValue =
@@ -21,7 +21,7 @@ export const characterCameraSchema: Required<ExtractProps<ICharacterCamera>> = {
     lockTargetRotation: [Boolean, String]
 }
 
-export const characterCameraDefaults: Defaults<ICharacterCamera> = {
-    ...cameraBaseDefaults,
-    lockTargetRotation: true
-}
+export const characterCameraDefaults = extendDefaults<ICharacterCamera>([
+    cameraBaseDefaults,
+    { lockTargetRotation: true }
+])

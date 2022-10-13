@@ -1,5 +1,5 @@
 import ILightBase, { lightBaseDefaults, lightBaseSchema } from "./ILightBase"
-import Defaults from "./utils/Defaults"
+import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import NullableDefault from "./utils/NullableDefault"
@@ -14,9 +14,11 @@ export const directionalLightSchema: Required<ExtractProps<IDirectionalLight>> =
         shadowDistance: Number
     }
 
-export const directionalLightDefaults: Defaults<IDirectionalLight> = {
-    ...lightBaseDefaults,
-    castShadow: true,
-    shadowDistance: new NullableDefault(3000),
-    shadowResolution: new NullableDefault(1024)
-}
+export const directionalLightDefaults = extendDefaults<IDirectionalLight>([
+    lightBaseDefaults,
+    {
+        castShadow: true,
+        shadowDistance: new NullableDefault(3000),
+        shadowResolution: new NullableDefault(1024)
+    }
+])
