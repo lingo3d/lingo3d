@@ -5,11 +5,11 @@ import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
 import { appendableRoot } from "../../api/core/Appendable"
 import Model from "../Model"
-import VisibleObjectManager from "./VisibleObjectManager"
 import IVisible from "../../interface/IVisible"
-import AnimatedObjectManager from "./AnimatedObjectManager"
+import VisibleMixin from "./mixins/VisibleMixin"
+import SimpleObjectManager from "./SimpleObjectManager"
 
-class FoundManager extends AnimatedObjectManager implements IFound {
+class FoundManager extends SimpleObjectManager implements IFound {
     public static componentName = "find"
     public static defaults = foundDefaults
     public static schema = foundSchema
@@ -53,12 +53,12 @@ class FoundManager extends AnimatedObjectManager implements IFound {
     }
 }
 interface FoundManager
-    extends AnimatedObjectManager,
+    extends SimpleObjectManager,
         TexturedBasicMixin,
         TexturedStandardMixin,
         IVisible {}
 applyMixins(FoundManager, [
-    VisibleObjectManager,
+    VisibleMixin,
     TexturedStandardMixin,
     TexturedBasicMixin
 ])

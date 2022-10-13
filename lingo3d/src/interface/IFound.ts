@@ -1,7 +1,7 @@
-import IAnimatedObjectManager, {
-    animatedObjectManagerDefaults,
-    animatedObjectManagerSchema
-} from "./IAnimatedObjectManager"
+import ISimpleObjectManager, {
+    simpleObjectManagerDefaults,
+    simpleObjectManagerSchema
+} from "./ISimpleObjectManager"
 import ITexturedBasic, {
     texturedBasicDefaults,
     texturedBasicSchema
@@ -15,20 +15,20 @@ import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IFound
-    extends IAnimatedObjectManager,
+    extends ISimpleObjectManager,
         ITexturedBasic,
         ITexturedStandard,
         IVisible {}
 
 export const foundSchema: Required<ExtractProps<IFound>> = {
-    ...animatedObjectManagerSchema,
+    ...simpleObjectManagerSchema,
     ...texturedBasicSchema,
     ...texturedStandardSchema,
     ...visibleSchema
 }
 
 export const foundDefaults = extendDefaults<IFound>([
-    animatedObjectManagerDefaults,
+    simpleObjectManagerDefaults,
     texturedBasicDefaults,
     texturedStandardDefaults,
     visibleDefaults

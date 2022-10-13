@@ -5,7 +5,6 @@ import IObjectManager, {
 import IVisible, { visibleDefaults, visibleSchema } from "./IVisible"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import { hideSchema } from "./utils/nonEditorSchemaSet"
 
 export default interface IVisibleObjectManager
     extends IObjectManager,
@@ -17,7 +16,6 @@ export const visibleObjectManagerSchema: Required<
     ...objectManagerSchema,
     ...visibleSchema
 }
-hideSchema(["frustumCulled", "visible"])
 
 export const visibleObjectManagerDefaults =
     extendDefaults<IVisibleObjectManager>([
