@@ -1,6 +1,6 @@
 import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
-import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import { extendDefaults } from "./utils/Defaults"
 
 export default interface IPositioned extends IEventLoop {
     x: number
@@ -15,9 +15,7 @@ export const positionedSchema: Required<ExtractProps<IPositioned>> = {
     z: Number
 }
 
-export const positionedDefaults: Defaults<IPositioned> = {
-    ...eventLoopDefaults,
-    x: 0,
-    y: 0,
-    z: 0
-}
+export const positionedDefaults = extendDefaults<IPositioned>([
+    eventLoopDefaults,
+    { x: 0, y: 0, z: 0 }
+])

@@ -10,8 +10,8 @@ import IVisibleObjectManager, {
     visibleObjectManagerDefaults,
     visibleObjectManagerSchema
 } from "./IVisibleObjectManager"
-import Defaults from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import { extendDefaults } from "./utils/Defaults"
 
 export default interface IPrimitive
     extends IVisibleObjectManager,
@@ -24,8 +24,8 @@ export const primitiveSchema: Required<ExtractProps<IPrimitive>> = {
     ...texturedStandardSchema
 }
 
-export const primitiveDefaults: Defaults<IPrimitive> = {
-    ...visibleObjectManagerDefaults,
-    ...texturedBasicDefaults,
-    ...texturedStandardDefaults
-}
+export const primitiveDefaults = extendDefaults<IPrimitive>([
+    visibleObjectManagerDefaults,
+    texturedBasicDefaults,
+    texturedStandardDefaults
+])
