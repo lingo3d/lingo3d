@@ -12,10 +12,10 @@ export const extendDefaults = <T>(
     options?: Options<T>
 ) => {
     const result = {} as Defaults<T>
+    options && defaultsOptionsMap.set(result, options)
     for (const defaults of defaultsArray) {
         Object.assign(result, defaults)
         inheritOptions(result, defaults)
     }
-    options && defaultsOptionsMap.set(result, options)
     return result
 }

@@ -111,6 +111,10 @@ export const simpleObjectManagerDefaults = extendDefaults<ISimpleObjectManager>(
         rotation: new Range(0, 360),
         rotationX: new Range(0, 360),
         rotationY: new Range(0, 360),
-        rotationZ: new Range(0, 360)
+        rotationZ: new Range(0, 360),
+        scale: new Range(0, 200),
+        scaleX: new Range(0, 200),
+        scaleY: new Range(0, 200),
+        scaleZ: new Range(0, 200)
     }
 )

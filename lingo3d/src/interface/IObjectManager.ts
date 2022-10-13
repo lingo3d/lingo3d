@@ -68,6 +68,12 @@ export const objectManagerDefaults = extendDefaults<IObjectManager>(
         innerRotation: new Range(0, 360),
         innerRotationX: new Range(0, 360),
         innerRotationY: new Range(0, 360),
-        innerRotationZ: new Range(0, 360)
+        innerRotationZ: new Range(0, 360),
+        innerX: new Range(-1000, 1000),
+        innerY: new Range(-1000, 1000),
+        innerZ: new Range(-1000, 1000),
+        width: new Range(0, 1000),
+        height: new Range(0, 1000),
+        depth: new Range(0, 1000)
     }
 )
