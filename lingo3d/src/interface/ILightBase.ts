@@ -1,11 +1,9 @@
-import { SHADOW_BIAS } from "../globals"
+import { SHADOW_BIAS, SHADOW_RESOLUTION } from "../globals"
 import IObjectManager, {
     objectManagerDefaults,
     objectManagerSchema
 } from "./IObjectManager"
 import { ExtractProps } from "./utils/extractProps"
-import Nullable from "./utils/Nullable"
-import NullableDefault from "./utils/NullableDefault"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
 
@@ -13,8 +11,8 @@ export default interface ILightBase extends IObjectManager {
     color: string
     intensity: number
     castShadow: boolean
-    shadowResolution: Nullable<number>
-    shadowBias: Nullable<number>
+    shadowResolution: number
+    shadowBias: number
     helper: boolean
 }
 
@@ -35,8 +33,8 @@ export const lightBaseDefaults = extendDefaults<ILightBase>(
             color: "#ffffff",
             intensity: 1,
             castShadow: false,
-            shadowResolution: new NullableDefault(256),
-            shadowBias: new NullableDefault(SHADOW_BIAS),
+            shadowResolution: SHADOW_RESOLUTION,
+            shadowBias: SHADOW_BIAS,
             helper: true
         }
     ],

@@ -16,6 +16,7 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import Nullable from "../../interface/utils/Nullable"
 import initHelperSSR from "../core/utils/initHelperSSR"
+import { SHADOW_BIAS, SHADOW_RESOLUTION } from "../../globals"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -84,8 +85,8 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
         })
     }
 
-    public shadowResolution: Nullable<number>
-    public shadowBias: Nullable<number>
+    public shadowResolution = SHADOW_RESOLUTION
+    public shadowBias = SHADOW_BIAS
 
     private helperState = new Reactive(true)
     public get helper() {

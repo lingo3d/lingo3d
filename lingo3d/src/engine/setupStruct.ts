@@ -48,15 +48,6 @@ import {
 import { getPBR, setPBR } from "../states/usePBR"
 import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { getRepulsion, setRepulsion } from "../states/useRepulsion"
-import { getShadowBias, setShadowBias } from "../states/useShadowBias"
-import {
-    getShadowDistance,
-    setShadowDistance
-} from "../states/useShadowDistance"
-import {
-    getShadowResolution,
-    setShadowResolution
-} from "../states/useShadowResolution"
 import { getFps, setFps } from "../states/useFps"
 import { getSSR, setSSR } from "../states/useSSR"
 import { getSSRIntensity, setSSRIntensity } from "../states/useSSRIntensity"
@@ -73,27 +64,6 @@ export default {
     },
     set defaultLight(value) {
         setDefaultLight(value)
-    },
-
-    get shadowResolution() {
-        return getShadowResolution()
-    },
-    set shadowResolution(value) {
-        setShadowResolution(value)
-    },
-
-    get shadowBias() {
-        return getShadowBias()
-    },
-    set shadowBias(value) {
-        setShadowBias(value)
-    },
-
-    get shadowDistance() {
-        return getShadowDistance()
-    },
-    set shadowDistance(value) {
-        setShadowDistance(value)
     },
 
     get skybox() {

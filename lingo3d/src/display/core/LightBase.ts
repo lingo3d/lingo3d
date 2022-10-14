@@ -10,11 +10,9 @@ import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHel
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import { SHADOW_BIAS } from "../../globals"
+import { SHADOW_BIAS, SHADOW_RESOLUTION } from "../../globals"
 import ILightBase from "../../interface/ILightBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { getShadowBias } from "../../states/useShadowBias"
-import { getShadowResolution } from "../../states/useShadowResolution"
 import ObjectManager from "./ObjectManager"
 import { addSelectionHelper } from "./StaticObjectManager/raycast/selectionCandidates"
 import makeLightSprite from "./utils/makeLightSprite"
@@ -24,16 +22,6 @@ export default abstract class LightBase<T extends typeof Light>
     implements ILightBase
 {
     protected lightState = new Reactive<InstanceType<T> | undefined>(undefined)
-
-    protected defaultShadowResolution = 256
-    protected defaultShadowBias = SHADOW_BIAS
-
-    protected shadowResolutionComputedState = new Reactive<number | undefined>(
-        undefined
-    )
-    protected shadowBiasComputedState = new Reactive<number | undefined>(
-        undefined
-    )
 
     public constructor(
         Light: T,
@@ -52,23 +40,9 @@ export default abstract class LightBase<T extends typeof Light>
             group.add(light)
 
             if (light.shadow && this.castShadowState.get()) {
-                const shadowResolution =
-                    this.shadowResolutionState.get() ??
-                    getShadowResolution() ??
-                    this.defaultShadowResolution
-
-                const shadowBias =
-                    this.shadowBiasState.get() ??
-                    getShadowBias() ??
-                    this.defaultShadowBias
-
-                this.shadowBiasComputedState.set(shadowBias)
-                this.shadowResolutionComputedState.set(shadowResolution)
-
                 light.castShadow = true
-                light.shadow.bias = shadowBias
-                light.shadow.mapSize.width = shadowResolution
-                light.shadow.mapSize.height = shadowResolution
+                light.shadow.bias = this.shadowBiasState.get()
+                light.shadow.mapSize.setScalar(this.shadowResolutionState.get())
             }
             return () => {
                 group.remove(light)
@@ -77,9 +51,7 @@ export default abstract class LightBase<T extends typeof Light>
         }, [
             this.castShadowState.get,
             this.shadowResolutionState.get,
-            this.shadowBiasState.get,
-            getShadowResolution,
-            getShadowBias
+            this.shadowBiasState.get
         ])
 
         this.createEffect(() => {
@@ -128,7 +100,7 @@ export default abstract class LightBase<T extends typeof Light>
         this.castShadowState.set(val)
     }
 
-    private shadowResolutionState = new Reactive<number | undefined>(undefined)
+    private shadowResolutionState = new Reactive(SHADOW_RESOLUTION)
     public get shadowResolution() {
         return this.shadowResolutionState.get()
     }
@@ -136,7 +108,7 @@ export default abstract class LightBase<T extends typeof Light>
         this.shadowResolutionState.set(val)
     }
 
-    private shadowBiasState = new Reactive<number | undefined>(undefined)
+    private shadowBiasState = new Reactive(SHADOW_BIAS)
     public get shadowBias() {
         return this.shadowBiasState.get()
     }

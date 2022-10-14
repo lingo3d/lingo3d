@@ -14,9 +14,6 @@ export default interface ISetup extends Type {}
 export const setupSchema: Required<ExtractProps<ISetup>> = {
     skybox: [String, Array],
     defaultLight: [String, Boolean],
-    shadowDistance: Number,
-    shadowResolution: Number,
-    shadowBias: Number,
     gridHelper: Boolean,
     gridHelperSize: Number,
     gravity: Number,
@@ -46,36 +43,24 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
 }
 hideSchema(["antiAlias", "pixelRatio", "gravity", "repulsion", "centripetal"])
 
-export const setupDefaults = extendDefaults<ISetup>(
-    [
-        {
-            ...setupStruct,
-            shadowDistance: new NullableDefault(SHADOW_DISTANCE),
-            shadowResolution: new NullableDefault(1024),
-            shadowBias: new NullableDefault(SHADOW_BIAS)
-        }
-    ],
-    {
-        defaultLight: new Choices({
-            true: true,
-            false: false,
-            studio: "studio"
-        }),
-        shadowDistance: new Range(1000, 5000),
-        shadowResolution: new Range(256, 2048, 256),
-        pixelRatio: new Range(1, 2, 1),
-        fps: new Range(30, 60, 30),
-        exposure: new Range(0, 20),
-        bloomIntensity: new Range(0, 10),
-        bloomThreshold: new Range(0, 1),
-        bloomRadius: new Range(0, 1),
-        ssrIntensity: new Range(0, 2),
-        ssaoIntensity: new Range(0, 4),
-        outlinePulse: new Range(0, 2),
-        outlineStrength: new Range(0, 4),
-        gravity: new Range(0, 20),
-        repulsion: new Range(0, 10),
-        antiAlias: new Choices({ MSAA: "MSAA", SMAA: "SMAA", false: false }),
-        gridHelperSize: new Range(10, 1000, 10)
-    }
-)
+export const setupDefaults = extendDefaults<ISetup>([{ ...setupStruct }], {
+    defaultLight: new Choices({
+        true: true,
+        false: false,
+        studio: "studio"
+    }),
+    pixelRatio: new Range(1, 2, 1),
+    fps: new Range(30, 60, 30),
+    exposure: new Range(0, 20),
+    bloomIntensity: new Range(0, 10),
+    bloomThreshold: new Range(0, 1),
+    bloomRadius: new Range(0, 1),
+    ssrIntensity: new Range(0, 2),
+    ssaoIntensity: new Range(0, 4),
+    outlinePulse: new Range(0, 2),
+    outlineStrength: new Range(0, 4),
+    gravity: new Range(0, 20),
+    repulsion: new Range(0, 10),
+    antiAlias: new Choices({ MSAA: "MSAA", SMAA: "SMAA", false: false }),
+    gridHelperSize: new Range(10, 1000, 10)
+})
