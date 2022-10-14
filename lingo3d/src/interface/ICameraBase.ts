@@ -8,6 +8,7 @@ import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 import NullableDefault from "./utils/NullableDefault"
+import Range from "./utils/Range"
 
 export type MouseControl = boolean | "drag"
 
@@ -58,27 +59,39 @@ export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
 }
 hideSchema(["minAzimuthAngle", "maxAzimuthAngle"])
 
-export const cameraBaseDefaults = extendDefaults<ICameraBase>([
-    objectManagerDefaults,
+export const cameraBaseDefaults = extendDefaults<ICameraBase>(
+    [
+        objectManagerDefaults,
+        {
+            mouseControl: false,
+
+            fov: 75,
+            zoom: 1,
+            near: NEAR,
+            far: FAR,
+            active: false,
+            transition: new NullableDefault(false),
+
+            minPolarAngle: MIN_POLAR_ANGLE,
+            maxPolarAngle: MAX_POLAR_ANGLE,
+
+            minAzimuthAngle: -Infinity,
+            maxAzimuthAngle: Infinity,
+
+            polarAngle: new NullableDefault(0),
+            azimuthAngle: new NullableDefault(0),
+
+            enableDamping: false
+        }
+    ],
     {
-        mouseControl: false,
-
-        fov: 75,
-        zoom: 1,
-        near: NEAR,
-        far: FAR,
-        active: false,
-        transition: new NullableDefault(false),
-
-        minPolarAngle: MIN_POLAR_ANGLE,
-        maxPolarAngle: MAX_POLAR_ANGLE,
-
-        minAzimuthAngle: -Infinity,
-        maxAzimuthAngle: Infinity,
-
-        polarAngle: new NullableDefault(0),
-        azimuthAngle: new NullableDefault(0),
-
-        enableDamping: false
+        fov: new Range(30, 120, 5),
+        zoom: new Range(0.1, 10),
+        near: new Range(0.1, 10000),
+        far: new Range(0.1, 10000),
+        minPolarAngle: new Range(0, 180, 1),
+        maxPolarAngle: new Range(0, 180, 1),
+        polarAngle: new Range(0, 180),
+        azimuthAngle: new Range(0, 360)
     }
-])
+)

@@ -21,7 +21,6 @@ export const visibleSchema: Required<ExtractProps<IVisible>> = {
     castShadow: Boolean,
     receiveShadow: Boolean
 }
-hideSchema(["frustumCulled", "visible"])
 
 export const visibleDefaults = extendDefaults<IVisible>([
     {

@@ -42,7 +42,7 @@ export const objectManagerSchema: Required<ExtractProps<IObjectManager>> = {
 
     innerVisible: Boolean
 }
-hideSchema(["innerRotation", "innerVisible"])
+hideSchema(["innerRotation"])
 
 export const objectManagerDefaults = extendDefaults<IObjectManager>(
     [
