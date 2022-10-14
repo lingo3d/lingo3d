@@ -55,6 +55,7 @@ const style = createElement(`
         }
         .tp-brkv {
             border-left: none !important;
+            overflow: hidden !important;
         }
         .tp-fldv_b {
             border-radius: 0px !important;

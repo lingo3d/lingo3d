@@ -2419,14 +2419,7 @@ class RangeConstraint {
         this.minValue = config.min
     }
     constrain(value) {
-        let result = value
-        if (!isEmpty(this.minValue)) {
-            result = Math.max(result, this.minValue)
-        }
-        if (!isEmpty(this.maxValue)) {
-            result = Math.min(result, this.maxValue)
-        }
-        return result
+        return value
     }
 }
 
@@ -3366,23 +3359,7 @@ class NumberTextController {
         ph.emitter.on("up", this.onPointerUp_)
     }
     constrainValue_(value) {
-        var _a, _b
-        const min =
-            (_a = this.sliderProps_) === null || _a === void 0
-                ? void 0
-                : _a.get("minValue")
-        const max =
-            (_b = this.sliderProps_) === null || _b === void 0
-                ? void 0
-                : _b.get("maxValue")
-        let v = value
-        if (min !== undefined) {
-            v = Math.max(v, min)
-        }
-        if (max !== undefined) {
-            v = Math.min(v, max)
-        }
-        return v
+        return value
     }
     onInputChange_(e) {
         const inputElem = forceCast(e.currentTarget)
