@@ -14,8 +14,8 @@ import scene from "./scene"
 
 const defaultEnvironment = new Environment()
 defaultEnvironment.texture = undefined
-appendableRoot.delete(defaultEnvironment)
 defaultEnvironment.helper = false
+appendableRoot.delete(defaultEnvironment)
 
 createEffect(() => {
     const environment = last(getEnvironmentStack())
@@ -55,7 +55,6 @@ createEffect(() => {
     import("../display/lights/SkyLight").then((module) => {
         const SkyLight = module.default
         const light = new SkyLight()
-        appendableRoot.delete(light)
         light.helper = false
         light.intensity = 0.7
         handle.then(() => light.dispose())
@@ -63,7 +62,6 @@ createEffect(() => {
     import("../display/lights/DirectionalLight").then((module) => {
         const DirectionalLight = module.default
         const light = new DirectionalLight()
-        appendableRoot.delete(light)
         light.helper = false
         light.y = FAR
         light.z = FAR
@@ -73,7 +71,6 @@ createEffect(() => {
         if (!getCentripetal()) return
 
         const light2 = new DirectionalLight()
-        appendableRoot.delete(light2)
         light2.helper = false
         light2.y = -FAR
         light2.z = -FAR

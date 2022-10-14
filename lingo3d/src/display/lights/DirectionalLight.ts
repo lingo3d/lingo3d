@@ -3,7 +3,7 @@ import { Reactive } from "@lincode/reactivity"
 import { DirectionalLight as ThreeDirectionalLight } from "three"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import { SHADOW_DISTANCE } from "../../globals"
+import { SHADOW_BIAS, SHADOW_DISTANCE } from "../../globals"
 import IDirectionalLight, {
     directionalLightDefaults,
     directionalLightSchema
@@ -24,6 +24,7 @@ export default class DirectionalLight
     public constructor() {
         super(ThreeDirectionalLight)
         this.castShadow = true
+        this.shadowResolution = 1024
 
         this.createEffect(() => {
             const light = this.lightState.get()
@@ -83,6 +84,33 @@ export default class DirectionalLight
                 handle.cancel()
             }
         }, [getCameraRendered, this.lightState.get])
+
+        this.createEffect(() => {
+            const light = this.lightState.get()
+            if (!light) return
+
+            light.shadow.bias =
+                SHADOW_BIAS *
+                mapRange(
+                    this.shadowDistanceState.get(),
+                    3000,
+                    10000,
+                    0.05,
+                    0.15
+                ) *
+                mapRange(
+                    this.shadowResolutionState.get(),
+                    1024,
+                    256,
+                    1,
+                    4,
+                    true
+                )
+        }, [
+            this.lightState.get,
+            this.shadowDistanceState.get,
+            this.shadowResolutionState.get
+        ])
     }
 
     public override getWorldPosition() {

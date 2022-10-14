@@ -1,6 +1,6 @@
 export const WIDTH = 375
 export const HEIGHT = 667
-export const SHADOW_BIAS = -0.0005
+export const SHADOW_BIAS = -0.0055
 export const SHADOW_DISTANCE = 3000
 export const SHADOW_RESOLUTION = 256
 

@@ -86,7 +86,6 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
     }
 
     public shadowResolution = SHADOW_RESOLUTION
-    public shadowBias = SHADOW_BIAS
 
     private helperState = new Reactive(true)
     public get helper() {

@@ -1,4 +1,4 @@
-import { SHADOW_BIAS, SHADOW_RESOLUTION } from "../globals"
+import { SHADOW_RESOLUTION } from "../globals"
 import IObjectManager, {
     objectManagerDefaults,
     objectManagerSchema
@@ -12,18 +12,16 @@ export default interface ILightBase extends IObjectManager {
     intensity: number
     castShadow: boolean
     shadowResolution: number
-    shadowBias: number
     helper: boolean
 }
 
 export const lightBaseSchema: Required<ExtractProps<ILightBase>> = {
     ...objectManagerSchema,
+    helper: Boolean,
     color: String,
     intensity: Number,
     castShadow: Boolean,
-    shadowResolution: Number,
-    shadowBias: Number,
-    helper: Boolean
+    shadowResolution: Number
 }
 
 export const lightBaseDefaults = extendDefaults<ILightBase>(
@@ -34,7 +32,6 @@ export const lightBaseDefaults = extendDefaults<ILightBase>(
             intensity: 1,
             castShadow: false,
             shadowResolution: SHADOW_RESOLUTION,
-            shadowBias: SHADOW_BIAS,
             helper: true
         }
     ],
