@@ -1,3 +1,4 @@
+import { SHADOW_DISTANCE } from "../globals"
 import ILightBase, { lightBaseDefaults, lightBaseSchema } from "./ILightBase"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
@@ -18,7 +19,7 @@ export const directionalLightDefaults = extendDefaults<IDirectionalLight>([
     lightBaseDefaults,
     {
         castShadow: true,
-        shadowDistance: new NullableDefault(3000),
+        shadowDistance: new NullableDefault(SHADOW_DISTANCE),
         shadowResolution: new NullableDefault(1024)
     }
 ])
