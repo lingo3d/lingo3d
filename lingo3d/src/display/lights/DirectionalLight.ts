@@ -23,7 +23,6 @@ export default class DirectionalLight
 
     public constructor() {
         super(ThreeDirectionalLight)
-        this.castShadow = true
         this.shadowResolution = 1024
 
         this.createEffect(() => {

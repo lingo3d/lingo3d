@@ -1,6 +1,5 @@
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import { hideSchema } from "./utils/nonEditorSchemaSet"
 
 export default interface IVisible {
     bloom: boolean
