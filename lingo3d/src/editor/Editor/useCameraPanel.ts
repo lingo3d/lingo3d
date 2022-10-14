@@ -1,6 +1,6 @@
 import { last, omit } from "@lincode/utils"
 import { useLayoutEffect } from "preact/hooks"
-import { FolderApi, Pane } from "tweakpane"
+import { FolderApi, Pane } from "./tweakpane"
 import mainCamera from "../../engine/mainCamera"
 import {
     getSecondaryCamera,
@@ -36,7 +36,7 @@ export default (pane?: Pane, cameraFolder?: FolderApi) => {
             { options }
         )
         cameraFolder.add(cameraInput)
-        cameraInput.on("change", ({ value }) => {
+        cameraInput.on("change", ({ value }: any) => {
             cameraList[value].userData.manager.active = true
         })
 
@@ -54,7 +54,7 @@ export default (pane?: Pane, cameraFolder?: FolderApi) => {
             { options: secondaryOptions }
         )
         cameraFolder.add(secondaryCameraInput)
-        secondaryCameraInput.on("change", ({ value }) =>
+        secondaryCameraInput.on("change", ({ value }: any) =>
             setSecondaryCamera(value === 0 ? undefined : cameraList[value])
         )
 

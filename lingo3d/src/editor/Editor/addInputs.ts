@@ -1,10 +1,9 @@
 import { debounce } from "@lincode/utils"
-import { Pane } from "tweakpane"
+import { Pane } from "./tweakpane"
 import resetIcon from "./resetIcon"
 import Defaults from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import toFixed from "../../api/serializer/toFixed"
-import Options from "../../interface/utils/Options"
 import defaultsOptionsMap from "../../interface/utils/defaultsOptionsMap"
 
 let programmatic = false
@@ -82,7 +81,7 @@ export default async (
                 input.refresh()
             }
 
-            input.on("change", ({ value }) => {
+            input.on("change", ({ value }: any) => {
                 updateResetButton()
 
                 if (programmatic) return

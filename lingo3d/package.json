@@ -26,7 +26,6 @@
         "@lincode/promiselikes": "*",
         "@lincode/reactivity": "*",
         "@lincode/utils": "*",
-        "@tweakpane/core": "*",
         "@types/three": "0.144.0",
         "browser-fs-access": "0.31.1",
         "cannon-es": "0.20.0",
@@ -38,7 +37,6 @@
         "prettier": "2.7.1",
         "three": "0.144.0",
         "three-mesh-bvh": "0.5.16",
-        "tweakpane": "*",
         "xstate": "*"
     },
     "devDependencies": {
@@ -50,7 +48,8 @@
         "randomcolor": "*",
         "rimraf": "^3.0.2",
         "typescript": "^4.7.4",
-        "vite": "^3.0.2"
+        "vite": "^3.0.2",
+        "tweakpane": "*"
     },
     "private": false,
     "module": "lib/index.js",

@@ -1,5 +1,5 @@
 import { last } from "@lincode/utils"
-import { FolderApi, Pane } from "tweakpane"
+import { FolderApi, Pane } from "./tweakpane"
 import { setOrbitControls } from "../../states/useOrbitControls"
 import { useEffect, useLayoutEffect, useState } from "preact/hooks"
 import register from "preact-custom-element"
@@ -290,7 +290,7 @@ const Editor = () => {
                     pbrMaterialRest,
                     true
                 ).then((inputs) =>
-                    inputs.stride.on("change", ({ value }) => {
+                    inputs.stride.on("change", ({ value }: any) => {
                         Object.assign(pbrMaterialRest, {
                             strideForward: -value.y,
                             strideRight: value.x

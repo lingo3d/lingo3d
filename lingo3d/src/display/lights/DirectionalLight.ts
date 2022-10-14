@@ -1,5 +1,5 @@
+import { mapRange } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
-import { mapRange } from "@tweakpane/core"
 import { DirectionalLight as ThreeDirectionalLight } from "three"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
