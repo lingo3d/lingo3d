@@ -4,6 +4,7 @@ import ISpotLight, {
     spotLightDefaults,
     spotLightSchema
 } from "../../interface/ISpotLight"
+import { SHADOW_BIAS } from "../../globals"
 
 export default class SpotLight
     extends LightBase<typeof ThreeSpotLight>
@@ -16,6 +17,13 @@ export default class SpotLight
     public constructor() {
         super(ThreeSpotLight, SpotLightHelper)
         this.castShadow = true
+
+        this.createEffect(() => {
+            const light = this.lightState.get()
+            if (!light) return
+
+            light.shadow.bias = SHADOW_BIAS * 1.5
+        }, [this.lightState.get])
     }
 
     public get angle() {
