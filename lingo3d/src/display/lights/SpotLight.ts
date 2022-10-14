@@ -16,7 +16,6 @@ export default class SpotLight
 
     public constructor() {
         super(ThreeSpotLight, SpotLightHelper)
-        this.castShadow = true
 
         this.createEffect(() => {
             const light = this.lightState.get()

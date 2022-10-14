@@ -23,7 +23,6 @@ export const spotLightDefaults = extendDefaults<ISpotLight>([
         angle: 1,
         penumbra: 0,
         decay: 1,
-        distance: 0,
-        castShadow: true
+        distance: 0
     }
 ])

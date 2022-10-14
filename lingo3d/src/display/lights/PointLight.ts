@@ -1,4 +1,5 @@
 import { PointLight as ThreePointLight } from "three"
+import { SHADOW_BIAS } from "../../globals"
 import IPointLight, {
     pointLightDefaults,
     pointLightSchema
@@ -15,7 +16,13 @@ export default class PointLight
 
     public constructor() {
         super(ThreePointLight)
-        this.castShadow = false
+
+        this.createEffect(() => {
+            const light = this.lightState.get()
+            if (!light) return
+
+            light.shadow.bias = SHADOW_BIAS * 0.15
+        }, [this.lightState.get])
     }
 
     public get decay() {
