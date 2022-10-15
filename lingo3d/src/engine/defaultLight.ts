@@ -57,25 +57,11 @@ createEffect(() => {
         const light = new SkyLight()
         light.helper = false
         light.intensity = 0.7
-        handle.then(() => light.dispose())
-    })
-    import("../display/lights/DirectionalLight").then((module) => {
-        const DirectionalLight = module.default
-        const light = new DirectionalLight()
-        light.helper = false
+        light.sun = true
         light.y = FAR
         light.z = FAR
-        light.intensity = 0.5
+
         handle.then(() => light.dispose())
-
-        if (!getCentripetal()) return
-
-        const light2 = new DirectionalLight()
-        light2.helper = false
-        light2.y = -FAR
-        light2.z = -FAR
-        light2.intensity = 0.5
-        handle.then(() => light2.dispose())
     })
 
     return () => {
