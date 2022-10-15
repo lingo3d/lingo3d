@@ -41,7 +41,6 @@ export default class Skylight
                 (color) => (sunLight.color = color)
             )
             sunLight.helper = false
-            sunLight.intensity = 0.5
 
             return () => {
                 sunLight.dispose()
