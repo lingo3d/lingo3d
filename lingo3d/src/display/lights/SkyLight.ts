@@ -5,7 +5,10 @@ import ISkyLight, {
     skyLightSchema
 } from "../../interface/ISkyLight"
 import { Reactive } from "@lincode/reactivity"
-import DirectionalLight from "./DirectionalLight"
+import { CSM } from "three/examples/jsm/csm/CSM"
+import scene from "../../engine/scene"
+import { getCameraRendered } from "../../states/useCameraRendered"
+import { onBeforeRender } from "../../events/onBeforeRender"
 
 export default class Skylight
     extends LightBase<typeof HemisphereLight>
@@ -27,27 +30,29 @@ export default class Skylight
         }, [this.lightState.get, this.groundColorState.get])
 
         this.createEffect(() => {
-            const light = this.lightState.get()
-            if (!light || !this.sunState.get()) return
-
-            const sunLight = new DirectionalLight()
-            this.append(sunLight)
-            sunLight.castShadow = true
-
-            const handle0 = this.sunIntensityState.get(
-                (intensity) => (sunLight.intensity = intensity)
-            )
-            const handle1 = this.sunColorState.get(
-                (color) => (sunLight.color = color)
-            )
-            sunLight.helper = false
+            const csm = new CSM({
+                maxFar: 100,
+                cascades: 1,
+                mode: "practical" as any,
+                parent: scene,
+                shadowMapSize: 1024,
+                lightDirection: this.outerObject3d.position
+                    .clone()
+                    .normalize()
+                    .multiplyScalar(-1),
+                lightIntensity: 0.5,
+                camera: getCameraRendered()
+            })
+            const handle = onBeforeRender(() => {
+                csm.update()
+            })
+            getCameraRendered((camera) => (csm.camera = camera))
 
             return () => {
-                sunLight.dispose()
-                handle0.cancel()
-                handle1.cancel()
+                csm.dispose()
+                handle.cancel()
             }
-        }, [this.lightState.get, this.sunState.get])
+        }, [])
     }
 
     private groundColorState = new Reactive("#ffffff")

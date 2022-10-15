@@ -33,6 +33,8 @@ export const attachStandardMaterialManager = (
         }
 
         if (!material) return result
+        if (Array.isArray(material))
+            material = material[0] as MeshStandardMaterial
 
         if (recursiveClonedMap?.has(material)) {
             ;(target as any).material = recursiveClonedMap.get(material)
