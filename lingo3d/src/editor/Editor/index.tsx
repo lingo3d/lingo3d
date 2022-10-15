@@ -340,7 +340,8 @@ const Editor = () => {
             <div
                 style={{
                     flexGrow: 1,
-                    overflow: "scroll",
+                    overflowY: "scroll",
+                    overflowX: "hidden",
                     paddingLeft: 8,
                     paddingRight: 8
                 }}

@@ -30,11 +30,9 @@ export default class DirectionalLight
             if (!light) return
 
             scene.add(light.target)
-            scene.attach(light)
 
             return () => {
                 scene.remove(light.target)
-                scene.remove(light)
             }
         }, [this.lightState.get])
 
