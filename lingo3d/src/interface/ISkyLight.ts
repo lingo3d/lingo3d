@@ -1,21 +1,19 @@
 import ILightBase, { lightBaseDefaults, lightBaseSchema } from "./ILightBase"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
-import Range from "./utils/Range"
+import Choices from "./utils/Choices"
+
+export type ShadowDistance = "near" | "middle" | "far"
 
 export default interface ISkyLight extends ILightBase {
     groundColor: string
-    sun: boolean
-    sunIntensity: number
-    sunColor: string
+    shadowDistance: ShadowDistance
 }
 
 export const skyLightSchema: Required<ExtractProps<ISkyLight>> = {
     ...lightBaseSchema,
     groundColor: String,
-    sun: Boolean,
-    sunIntensity: Number,
-    sunColor: String
+    shadowDistance: String
 }
 
 export const skyLightDefaults = extendDefaults<ISkyLight>(
@@ -23,12 +21,15 @@ export const skyLightDefaults = extendDefaults<ISkyLight>(
         lightBaseDefaults,
         {
             groundColor: "#ffffff",
-            sun: true,
-            sunIntensity: 0.5,
-            sunColor: "#ffffff"
+            shadowDistance: "middle",
+            intensity: 0.5
         }
     ],
     {
-        sunIntensity: new Range(0, 10)
+        shadowDistance: new Choices({
+            near: "near",
+            middle: "middle",
+            far: "far"
+        })
     }
 )

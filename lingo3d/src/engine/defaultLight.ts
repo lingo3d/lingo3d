@@ -56,8 +56,7 @@ createEffect(() => {
         const SkyLight = module.default
         const light = new SkyLight()
         light.helper = false
-        light.intensity = 0.7
-        light.sun = true
+        light.intensity = 0.5
         light.y = FAR
         light.z = FAR
 

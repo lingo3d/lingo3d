@@ -1,6 +1,7 @@
 import { Color, HemisphereLight } from "three"
 import LightBase from "../core/LightBase"
 import ISkyLight, {
+    ShadowDistance,
     skyLightDefaults,
     skyLightSchema
 } from "../../interface/ISkyLight"
@@ -20,70 +21,80 @@ export default class Skylight
 
     public constructor() {
         super(HemisphereLight)
-        this.innerY = 0
 
         this.createEffect(() => {
-            const light = this.lightState.get()
-            if (!light) return
+            const shadowDistance = this.shadowDistanceState.get()
+            const csmOptions = (() => {
+                if (shadowDistance === "middle")
+                    return {
+                        maxFar: 30,
+                        shadowMapSize: 1024,
+                        shadowBias: -0.000055
+                    }
+                if (shadowDistance === "near")
+                    return {
+                        maxFar: 10,
+                        shadowMapSize: 1024,
+                        shadowBias: -0.000025
+                    }
+                return {
+                    maxFar: 100,
+                    shadowMapSize: 2048,
+                    shadowBias: -0.0001
+                }
+            })()
 
-            light.groundColor = new Color(this.groundColorState.get())
-        }, [this.lightState.get, this.groundColorState.get])
-
-        this.createEffect(() => {
             const csm = new CSM({
-                maxFar: 100,
+                ...csmOptions,
                 cascades: 1,
-                mode: "practical" as any,
                 parent: scene,
-                shadowMapSize: 1024,
-                lightDirection: this.outerObject3d.position
+                camera: getCameraRendered(),
+                lightIntensity: 0.5
+            })
+
+            const handle0 = onBeforeRender(() => {
+                const lightDirection = this.outerObject3d.position
                     .clone()
                     .normalize()
-                    .multiplyScalar(-1),
-                lightIntensity: 0.5,
-                camera: getCameraRendered()
-            })
-            const handle = onBeforeRender(() => {
+                    .multiplyScalar(-1)
+
+                csm.lightDirection = lightDirection
                 csm.update()
             })
-            getCameraRendered((camera) => (csm.camera = camera))
-
+            const handle1 = getCameraRendered((val) => {
+                csm.camera = val
+            })
             return () => {
+                handle0.cancel()
+                handle1.cancel()
                 csm.dispose()
-                handle.cancel()
+                for (const light of csm.lights) {
+                    light.dispose()
+                    scene.remove(light)
+                }
             }
-        }, [])
+        }, [this.shadowDistanceState.get])
     }
 
-    private groundColorState = new Reactive("#ffffff")
+    private shadowDistanceState = new Reactive<ShadowDistance>("middle")
+    public get shadowDistance() {
+        return this.shadowDistanceState.get()
+    }
+    public set shadowDistance(val) {
+        this.shadowDistanceState.set(val)
+    }
+
     public get groundColor() {
-        return this.groundColorState.get()
+        const light = this.lightState.get()
+        if (!light) return "#ffffff"
+
+        return "#" + light.groundColor.getHexString()
     }
     public set groundColor(val) {
-        this.groundColorState.set(val)
-    }
-
-    private sunState = new Reactive(true)
-    public get sun() {
-        return this.sunState.get()
-    }
-    public set sun(val) {
-        this.sunState.set(val)
-    }
-
-    private sunIntensityState = new Reactive(0.5)
-    public get sunIntensity() {
-        return this.sunIntensityState.get()
-    }
-    public set sunIntensity(val) {
-        this.sunIntensityState.set(val)
-    }
-
-    private sunColorState = new Reactive("#ffffff")
-    public get sunColor() {
-        return this.sunColorState.get()
-    }
-    public set sunColor(val) {
-        this.sunColorState.set(val)
+        this.cancelHandle("groundColor", () =>
+            this.lightState.get(
+                (light) => light && (light.groundColor = new Color(val))
+            )
+        )
     }
 }
