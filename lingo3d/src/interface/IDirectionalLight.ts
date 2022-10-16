@@ -1,11 +1,13 @@
+import { ShadowDistance } from "../states/useShadowDistance"
 import ILightBase, { lightBaseDefaults, lightBaseSchema } from "./ILightBase"
-import { ShadowDistance } from "./ISkyLight"
 import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
+import NullableDefault from "./utils/NullableDefault"
 
 export default interface IDirectionalLight extends ILightBase {
-    shadowDistance: ShadowDistance
+    shadowDistance: Nullable<ShadowDistance>
 }
 
 export const directionalLightSchema: Required<ExtractProps<IDirectionalLight>> =
@@ -14,18 +16,19 @@ export const directionalLightSchema: Required<ExtractProps<IDirectionalLight>> =
         shadowDistance: String
     }
 
+export const shadowDistanceChoices = new Choices({
+    near: "near",
+    middle: "middle",
+    far: "far"
+})
 export const directionalLightDefaults = extendDefaults<IDirectionalLight>(
     [
         lightBaseDefaults,
         {
-            shadowDistance: "middle"
+            shadowDistance: new NullableDefault("middle")
         }
     ],
     {
-        shadowDistance: new Choices({
-            near: "near",
-            middle: "middle",
-            far: "far"
-        })
+        shadowDistance: shadowDistanceChoices
     }
 )

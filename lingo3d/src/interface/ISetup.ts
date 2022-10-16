@@ -1,4 +1,6 @@
 import setupStruct from "../engine/setupStruct"
+import { shadowDistanceChoices } from "./IDirectionalLight"
+import { shadowResolutionChoices } from "./ILightBase"
 import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
@@ -22,6 +24,8 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     pixelRatio: Number,
     fps: Number,
     exposure: Number,
+    shadowResolution: String,
+    shadowDistance: String,
     pbr: Boolean,
     bloom: Boolean,
     bloomIntensity: Number,
@@ -50,6 +54,8 @@ export const setupDefaults = extendDefaults<ISetup>([{ ...setupStruct }], {
     pixelRatio: new Range(1, 2, 1),
     fps: new Range(30, 60, 30),
     exposure: new Range(0, 20),
+    shadowResolution: shadowResolutionChoices,
+    shadowDistance: shadowDistanceChoices,
     bloomIntensity: new Range(0, 10),
     bloomThreshold: new Range(0, 1),
     bloomRadius: new Range(0, 1),

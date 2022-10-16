@@ -9,9 +9,15 @@ import IDirectionalLight, {
     directionalLightDefaults,
     directionalLightSchema
 } from "../../interface/IDirectionalLight"
-import { ShadowResolution } from "../../interface/ILightBase"
-import { ShadowDistance } from "../../interface/ISkyLight"
 import { getCameraRendered } from "../../states/useCameraRendered"
+import {
+    getShadowDistance,
+    ShadowDistance
+} from "../../states/useShadowDistance"
+import {
+    getShadowResolution,
+    ShadowResolution
+} from "../../states/useShadowResolution"
 import LightBase from "../core/LightBase"
 import getWorldPosition from "../utils/getWorldPosition"
 import { vec2Point } from "../utils/vec2Point"
@@ -24,6 +30,19 @@ const mapShadowResolution = (val: ShadowResolution) => {
             return 1024
         case "high":
             return 2048
+        default:
+            assertExhaustive(val)
+    }
+}
+
+const mapShadowDistance = (val: ShadowDistance) => {
+    switch (val) {
+        case "near":
+            return 1000
+        case "middle":
+            return 3000
+        case "far":
+            return 10000
         default:
             assertExhaustive(val)
     }
@@ -71,21 +90,23 @@ export default class DirectionalLight
                   )
                 : 1
 
-            const shadowDistance = this.shadowDistanceState.get()
-            const maxFar = (() => {
-                if (shadowDistance === "middle") return 3000
-                if (shadowDistance === "near") return 1000
-                return 10000
-            })()
             const shadowCamera = light.shadow.camera
-            shadowCamera.zoom = 500 / offset / maxFar
+            shadowCamera.zoom =
+                500 /
+                offset /
+                mapShadowDistance(
+                    this.shadowDistanceState.get() ?? getShadowDistance()
+                )
             shadowCamera.updateProjectionMatrix()
             light.shadow.mapSize.setScalar(
-                mapShadowResolution(this.shadowResolutionState.get())
+                mapShadowResolution(
+                    this.shadowResolutionState.get() ?? getShadowResolution()
+                )
             )
         }, [
             this.lightState.get,
             this.shadowDistanceState.get,
+            getShadowDistance,
             getCameraRendered
         ])
 
@@ -110,17 +131,22 @@ export default class DirectionalLight
             const light = this.lightState.get()
             if (!light) return
 
-            const shadowDistance = this.shadowDistanceState.get()
-            const maxFar = (() => {
-                if (shadowDistance === "middle") return 3000
-                if (shadowDistance === "near") return 1000
-                return 10000
-            })()
             light.shadow.bias =
                 SHADOW_BIAS *
-                mapRange(maxFar, 3000, 10000, 0.05, 0.15) *
                 mapRange(
-                    mapShadowResolution(this.shadowResolutionState.get()),
+                    mapShadowDistance(
+                        this.shadowDistanceState.get() ?? getShadowDistance()
+                    ),
+                    3000,
+                    10000,
+                    0.05,
+                    0.15
+                ) *
+                mapRange(
+                    mapShadowResolution(
+                        this.shadowResolutionState.get() ??
+                            getShadowResolution()
+                    ),
                     1024,
                     256,
                     1,
@@ -130,7 +156,9 @@ export default class DirectionalLight
         }, [
             this.lightState.get,
             this.shadowDistanceState.get,
-            this.shadowResolutionState.get
+            getShadowDistance,
+            this.shadowResolutionState.get,
+            getShadowResolution
         ])
     }
 
@@ -138,7 +166,9 @@ export default class DirectionalLight
         return vec2Point(getWorldPosition(this.outerObject3d))
     }
 
-    private shadowDistanceState = new Reactive<ShadowDistance>("middle")
+    private shadowDistanceState = new Reactive<ShadowDistance | undefined>(
+        undefined
+    )
     public get shadowDistance() {
         return this.shadowDistanceState.get()
     }

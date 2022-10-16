@@ -1,13 +1,14 @@
 import ILightBase, { lightBaseDefaults, lightBaseSchema } from "./ILightBase"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
-import Choices from "./utils/Choices"
-
-export type ShadowDistance = "near" | "middle" | "far"
+import { ShadowDistance } from "../states/useShadowDistance"
+import Nullable from "./utils/Nullable"
+import NullableDefault from "./utils/NullableDefault"
+import { shadowDistanceChoices } from "./IDirectionalLight"
 
 export default interface ISkyLight extends ILightBase {
     groundColor: string
-    shadowDistance: ShadowDistance
+    shadowDistance: Nullable<ShadowDistance>
 }
 
 export const skyLightSchema: Required<ExtractProps<ISkyLight>> = {
@@ -21,15 +22,11 @@ export const skyLightDefaults = extendDefaults<ISkyLight>(
         lightBaseDefaults,
         {
             groundColor: "#ffffff",
-            shadowDistance: "middle",
+            shadowDistance: new NullableDefault("middle"),
             intensity: 0.5
         }
     ],
     {
-        shadowDistance: new Choices({
-            near: "near",
-            middle: "middle",
-            far: "far"
-        })
+        shadowDistance: shadowDistanceChoices
     }
 )

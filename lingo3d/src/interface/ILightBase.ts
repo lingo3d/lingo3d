@@ -6,14 +6,15 @@ import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
 import Choices from "./utils/Choices"
-
-export type ShadowResolution = "low" | "medium" | "high"
+import { ShadowResolution } from "../states/useShadowResolution"
+import Nullable from "./utils/Nullable"
+import NullableDefault from "./utils/NullableDefault"
 
 export default interface ILightBase extends IObjectManager {
     color: string
     intensity: number
     castShadow: boolean
-    shadowResolution: ShadowResolution
+    shadowResolution: Nullable<ShadowResolution>
     helper: boolean
 }
 
@@ -26,6 +27,11 @@ export const lightBaseSchema: Required<ExtractProps<ILightBase>> = {
     shadowResolution: String
 }
 
+export const shadowResolutionChoices = new Choices({
+    low: "low",
+    medium: "medium",
+    high: "high"
+})
 export const lightBaseDefaults = extendDefaults<ILightBase>(
     [
         objectManagerDefaults,
@@ -33,16 +39,12 @@ export const lightBaseDefaults = extendDefaults<ILightBase>(
             color: "#ffffff",
             intensity: 1,
             castShadow: false,
-            shadowResolution: "medium",
+            shadowResolution: new NullableDefault("medium"),
             helper: true
         }
     ],
     {
         intensity: new Range(0, 10),
-        shadowResolution: new Choices({
-            low: "low",
-            medium: "medium",
-            high: "high"
-        })
+        shadowResolution: shadowResolutionChoices
     }
 )

@@ -12,8 +12,12 @@ import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { SHADOW_BIAS } from "../../globals"
-import ILightBase, { ShadowResolution } from "../../interface/ILightBase"
+import ILightBase from "../../interface/ILightBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
+import {
+    getShadowResolution,
+    ShadowResolution
+} from "../../states/useShadowResolution"
 import ObjectManager from "./ObjectManager"
 import { addSelectionHelper } from "./StaticObjectManager/raycast/selectionCandidates"
 import makeLightSprite from "./utils/makeLightSprite"
@@ -58,14 +62,21 @@ export default abstract class LightBase<T extends typeof Light>
                 light.shadow.bias = SHADOW_BIAS
 
                 light.shadow.mapSize.setScalar(
-                    mapShadowResolution(this.shadowResolutionState.get())
+                    mapShadowResolution(
+                        this.shadowResolutionState.get() ??
+                            getShadowResolution()
+                    )
                 )
             }
             return () => {
                 group.remove(light)
                 light.dispose()
             }
-        }, [this.castShadowState.get, this.shadowResolutionState.get])
+        }, [
+            this.castShadowState.get,
+            this.shadowResolutionState.get,
+            getShadowResolution
+        ])
 
         this.createEffect(() => {
             const light = this.lightState.get()
@@ -113,7 +124,9 @@ export default abstract class LightBase<T extends typeof Light>
         this.castShadowState.set(val)
     }
 
-    protected shadowResolutionState = new Reactive<ShadowResolution>("medium")
+    protected shadowResolutionState = new Reactive<
+        ShadowResolution | undefined
+    >(undefined)
     public get shadowResolution() {
         return this.shadowResolutionState.get()
     }

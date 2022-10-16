@@ -54,6 +54,14 @@ import { getSSRIntensity, setSSRIntensity } from "../states/useSSRIntensity"
 import { getSSAO, setSSAO } from "../states/useSSAO"
 import { getSSAOIntensity, setSSAOIntensity } from "../states/useSSAOIntensity"
 import { getBloomRadius, setBloomRadius } from "../states/useBloomRadius"
+import {
+    getShadowDistance,
+    setShadowDistance
+} from "../states/useShadowDistance"
+import {
+    getShadowResolution,
+    setShadowResolution
+} from "../states/useShadowResolution"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -141,6 +149,20 @@ export default {
     },
     set exposure(value) {
         setExposure(value)
+    },
+
+    get shadowResolution() {
+        return getShadowResolution()
+    },
+    set shadowResolution(value) {
+        setShadowResolution(value)
+    },
+
+    get shadowDistance() {
+        return getShadowDistance()
+    },
+    set shadowDistance(value) {
+        setShadowDistance(value)
     },
 
     get pbr() {

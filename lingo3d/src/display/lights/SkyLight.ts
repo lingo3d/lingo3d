@@ -1,7 +1,6 @@
 import { Color, HemisphereLight } from "three"
 import LightBase from "../core/LightBase"
 import ISkyLight, {
-    ShadowDistance,
     skyLightDefaults,
     skyLightSchema
 } from "../../interface/ISkyLight"
@@ -10,6 +9,36 @@ import { CSM } from "three/examples/jsm/csm/CSM"
 import scene from "../../engine/scene"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { onBeforeRender } from "../../events/onBeforeRender"
+import {
+    getShadowDistance,
+    ShadowDistance
+} from "../../states/useShadowDistance"
+import { assertExhaustive } from "@lincode/utils"
+
+const mapCSMOptions = (val: ShadowDistance) => {
+    switch (val) {
+        case "near":
+            return {
+                maxFar: 10,
+                shadowMapSize: 1024,
+                shadowBias: -0.000025
+            }
+        case "middle":
+            return {
+                maxFar: 30,
+                shadowMapSize: 1024,
+                shadowBias: -0.000055
+            }
+        case "far":
+            return {
+                maxFar: 100,
+                shadowMapSize: 2048,
+                shadowBias: -0.0001
+            }
+        default:
+            assertExhaustive(val)
+    }
+}
 
 export default class Skylight
     extends LightBase<typeof HemisphereLight>
@@ -23,29 +52,10 @@ export default class Skylight
         super(HemisphereLight)
 
         this.createEffect(() => {
-            const shadowDistance = this.shadowDistanceState.get()
-            const csmOptions = (() => {
-                if (shadowDistance === "middle")
-                    return {
-                        maxFar: 30,
-                        shadowMapSize: 1024,
-                        shadowBias: -0.000055
-                    }
-                if (shadowDistance === "near")
-                    return {
-                        maxFar: 10,
-                        shadowMapSize: 1024,
-                        shadowBias: -0.000025
-                    }
-                return {
-                    maxFar: 100,
-                    shadowMapSize: 2048,
-                    shadowBias: -0.0001
-                }
-            })()
-
             const csm = new CSM({
-                ...csmOptions,
+                ...mapCSMOptions(
+                    this.shadowDistanceState.get() ?? getShadowDistance()
+                ),
                 cascades: 1,
                 parent: scene,
                 camera: getCameraRendered(),
@@ -73,10 +83,12 @@ export default class Skylight
                     scene.remove(light)
                 }
             }
-        }, [this.shadowDistanceState.get])
+        }, [this.shadowDistanceState.get, getShadowDistance])
     }
 
-    private shadowDistanceState = new Reactive<ShadowDistance>("middle")
+    private shadowDistanceState = new Reactive<ShadowDistance | undefined>(
+        undefined
+    )
     public get shadowDistance() {
         return this.shadowDistanceState.get()
     }
