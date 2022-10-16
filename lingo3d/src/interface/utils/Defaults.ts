@@ -14,9 +14,11 @@ export const extendDefaults = <T>(
 ) => {
     const result: Partial<Defaults<T>> = {}
     options && defaultsOptionsMap.set(result, options)
-    for (const defaults of [...parentDefaults, ownDefaults]) {
+    for (const defaults of parentDefaults) {
         Object.assign(result, defaults)
         inheritOptions(result, defaults)
     }
+    Object.assign(result, ownDefaults)
+    inheritOptions(result, ownDefaults)
     return result
 }
