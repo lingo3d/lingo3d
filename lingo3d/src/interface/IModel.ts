@@ -16,8 +16,7 @@ export const modelSchema: Required<ExtractProps<IModel>> = {
     resize: Boolean
 }
 
-export const modelDefaults = extendDefaults<IModel>([
-    loadedDefaults,
-    adjustMaterialDefaults,
+export const modelDefaults = extendDefaults<IModel>(
+    [loadedDefaults, adjustMaterialDefaults],
     { resize: true }
-])
+)

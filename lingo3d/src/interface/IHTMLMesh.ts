@@ -23,12 +23,12 @@ export const htmlMeshSchema: Required<ExtractProps<IHTMLMesh>> = {
 }
 hideSchema(["element"])
 
-export const htmlMeshDefaults = extendDefaults<IHTMLMesh>([
-    visibleObjectManagerDefaults,
+export const htmlMeshDefaults = extendDefaults<IHTMLMesh>(
+    [visibleObjectManagerDefaults],
     {
         element: undefined,
         innerHTML: undefined,
         cssColor: "#ffffff",
         sprite: false
     }
-])
+)

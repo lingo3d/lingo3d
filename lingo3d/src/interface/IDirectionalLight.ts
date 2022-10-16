@@ -22,13 +22,7 @@ export const shadowDistanceChoices = new Choices({
     far: "far"
 })
 export const directionalLightDefaults = extendDefaults<IDirectionalLight>(
-    [
-        lightBaseDefaults,
-        {
-            shadowDistance: new NullableDefault("middle")
-        }
-    ],
-    {
-        shadowDistance: shadowDistanceChoices
-    }
+    [lightBaseDefaults],
+    { shadowDistance: new NullableDefault("middle") },
+    { shadowDistance: shadowDistanceChoices }
 )

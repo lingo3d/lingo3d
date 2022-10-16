@@ -17,7 +17,7 @@ export const environmentSchema: Required<ExtractProps<IEnvironment>> = {
     helper: Boolean
 }
 
-export const environmentDefaults = extendDefaults<IEnvironment>([
-    positionedDefaults,
+export const environmentDefaults = extendDefaults<IEnvironment>(
+    [positionedDefaults],
     { texture: "studio", helper: true }
-])
+)

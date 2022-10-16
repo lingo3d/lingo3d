@@ -13,7 +13,7 @@ export const pointLightSchema: Required<ExtractProps<IPointLight>> = {
     distance: Number
 }
 
-export const pointLightDefaults = extendDefaults<IPointLight>([
-    lightBaseDefaults,
+export const pointLightDefaults = extendDefaults<IPointLight>(
+    [lightBaseDefaults],
     { decay: 1, distance: 0 }
-])
+)

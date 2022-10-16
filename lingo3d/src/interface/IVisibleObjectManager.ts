@@ -18,7 +18,7 @@ export const visibleObjectManagerSchema: Required<
 }
 
 export const visibleObjectManagerDefaults =
-    extendDefaults<IVisibleObjectManager>([
-        objectManagerDefaults,
-        visibleDefaults
-    ])
+    extendDefaults<IVisibleObjectManager>(
+        [objectManagerDefaults, visibleDefaults],
+        {}
+    )

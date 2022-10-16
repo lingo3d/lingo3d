@@ -14,7 +14,7 @@ export const spawnPointSchema: Required<ExtractProps<ISpawnPoint>> = {
     helper: Boolean
 }
 
-export const spawnPointDefaults = extendDefaults<ISpawnPoint>([
-    objectManagerDefaults,
+export const spawnPointDefaults = extendDefaults<ISpawnPoint>(
+    [objectManagerDefaults],
     { helper: true }
-])
+)

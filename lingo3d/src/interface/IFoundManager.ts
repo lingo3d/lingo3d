@@ -27,9 +27,12 @@ export const foundManagerSchema: Required<ExtractProps<IFoundManager>> = {
     ...visibleSchema
 }
 
-export const foundManagerDefaults = extendDefaults<IFoundManager>([
-    simpleObjectManagerDefaults,
-    texturedBasicDefaults,
-    texturedStandardDefaults,
-    visibleDefaults
-])
+export const foundManagerDefaults = extendDefaults<IFoundManager>(
+    [
+        simpleObjectManagerDefaults,
+        texturedBasicDefaults,
+        texturedStandardDefaults,
+        visibleDefaults
+    ],
+    {}
+)

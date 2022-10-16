@@ -33,16 +33,14 @@ export const shadowResolutionChoices = new Choices({
     high: "high"
 })
 export const lightBaseDefaults = extendDefaults<ILightBase>(
-    [
-        objectManagerDefaults,
-        {
-            color: "#ffffff",
-            intensity: 1,
-            castShadow: false,
-            shadowResolution: new NullableDefault("medium"),
-            helper: true
-        }
-    ],
+    [objectManagerDefaults],
+    {
+        color: "#ffffff",
+        intensity: 1,
+        castShadow: false,
+        shadowResolution: new NullableDefault("medium"),
+        helper: true
+    },
     {
         intensity: new Range(0, 10),
         shadowResolution: shadowResolutionChoices

@@ -8,7 +8,7 @@ export const areaLightSchema: Required<ExtractProps<IAreaLight>> = {
     ...lightBaseSchema
 }
 
-export const areaLightDefaults = extendDefaults<IAreaLight>([
-    lightBaseDefaults,
+export const areaLightDefaults = extendDefaults<IAreaLight>(
+    [lightBaseDefaults],
     { depth: 0, scaleZ: 0 }
-])
+)

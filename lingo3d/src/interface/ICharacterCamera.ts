@@ -21,7 +21,7 @@ export const characterCameraSchema: Required<ExtractProps<ICharacterCamera>> = {
     lockTargetRotation: [Boolean, String]
 }
 
-export const characterCameraDefaults = extendDefaults<ICharacterCamera>([
-    cameraBaseDefaults,
+export const characterCameraDefaults = extendDefaults<ICharacterCamera>(
+    [cameraBaseDefaults],
     { lockTargetRotation: true }
-])
+)

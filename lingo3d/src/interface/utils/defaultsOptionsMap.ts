@@ -6,8 +6,8 @@ const defaultsOptionsMap = new WeakMap<Defaults<any>, Options<any>>()
 export default defaultsOptionsMap
 
 export const inheritOptions = <T>(
-    defaults: Defaults<T>,
-    parentDefaults: Defaults<T>
+    defaults: Partial<Defaults<T>>,
+    parentDefaults: Partial<Defaults<T>>
 ) =>
     Object.assign(
         forceGet(defaultsOptionsMap, defaults, () => ({})),

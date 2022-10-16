@@ -15,6 +15,7 @@ export const eventLoopSchema: Required<ExtractProps<IEventLoop>> = {
 }
 hideSchema(["proxy"])
 
-export const eventLoopDefaults = extendDefaults<IEventLoop>([
-    { onLoop: undefined, proxy: undefined }
-])
+export const eventLoopDefaults = extendDefaults<IEventLoop>([], {
+    onLoop: undefined,
+    proxy: undefined
+})

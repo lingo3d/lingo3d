@@ -19,11 +19,11 @@ export const loadedSchema: Required<ExtractProps<ILoaded>> = {
     boxVisible: Boolean
 }
 
-export const loadedDefaults = extendDefaults<ILoaded>([
-    visibleObjectManagerDefaults,
+export const loadedDefaults = extendDefaults<ILoaded>(
+    [visibleObjectManagerDefaults],
     {
         src: undefined,
         onLoad: undefined,
         boxVisible: false
     }
-])
+)

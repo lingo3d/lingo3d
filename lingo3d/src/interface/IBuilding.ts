@@ -11,7 +11,6 @@ export const buildingSchema: Required<ExtractProps<IBuilding>> = {
     repeatY: Number
 }
 
-export const buildingDefaults = extendDefaults<IBuilding>([
-    floorDefaults,
-    { repeatY: 1 }
-])
+export const buildingDefaults = extendDefaults<IBuilding>([floorDefaults], {
+    repeatY: 1
+})

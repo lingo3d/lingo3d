@@ -79,27 +79,24 @@ hideSchema([
 ])
 
 export const physicsObjectManagerDefaults =
-    extendDefaults<IPhysicsObjectManager>([
-        simpleObjectManagerDefaults,
-        {
-            maxAngularVelocityX: Infinity,
-            maxAngularVelocityY: Infinity,
-            maxAngularVelocityZ: Infinity,
+    extendDefaults<IPhysicsObjectManager>([simpleObjectManagerDefaults], {
+        maxAngularVelocityX: Infinity,
+        maxAngularVelocityY: Infinity,
+        maxAngularVelocityZ: Infinity,
 
-            maxVelocityX: Infinity,
-            maxVelocityY: Infinity,
-            maxVelocityZ: Infinity,
+        maxVelocityX: Infinity,
+        maxVelocityY: Infinity,
+        maxVelocityZ: Infinity,
 
-            velocity: { x: 0, y: 0, z: 0 },
-            gravity: true,
+        velocity: { x: 0, y: 0, z: 0 },
+        gravity: true,
 
-            noTumble: new NullableDefault(false),
-            slippery: new NullableDefault(false),
-            mass: new NullableDefault(1),
-            physicsGroup: undefined,
-            ignorePhysicsGroups: undefined,
+        noTumble: new NullableDefault(false),
+        slippery: new NullableDefault(false),
+        mass: new NullableDefault(1),
+        physicsGroup: undefined,
+        ignorePhysicsGroups: undefined,
 
-            physics: false,
-            physicsShape: cubeShape
-        }
-    ])
+        physics: false,
+        physicsShape: cubeShape
+    })

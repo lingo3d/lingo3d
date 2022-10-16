@@ -30,18 +30,17 @@ export const triggerSchema: Required<ExtractProps<ITrigger>> = {
 }
 
 export const triggerDefaults = extendDefaults<ITrigger>(
-    [
-        positionedDefaults,
-        {
-            onEnter: undefined,
-            onExit: undefined,
-            targetIds: undefined,
-            pad: false,
-            radius: 50,
-            interval: 300,
-            helper: true
-        }
-    ],
+    [positionedDefaults],
+    {
+        onEnter: undefined,
+        onExit: undefined,
+        targetIds: undefined,
+        pad: false,
+        radius: 50,
+        interval: 300,
+        helper: true
+    },
+
     {
         radius: new Range(0, 1000),
         interval: new Range(100, 1000, 100)

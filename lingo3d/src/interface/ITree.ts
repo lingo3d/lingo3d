@@ -11,7 +11,7 @@ export const treeSchema: Required<ExtractProps<ITree>> = {
     preset: String
 }
 
-export const treeDefaults = extendDefaults<ITree>([
-    modelDefaults,
-    { preset: "tree1", scale: 4 }
-])
+export const treeDefaults = extendDefaults<ITree>([modelDefaults], {
+    preset: "tree1",
+    scale: 4
+})

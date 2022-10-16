@@ -11,4 +11,4 @@ export const cameraSchema: Required<ExtractProps<ICamera>> = {
     ...cameraBaseSchema
 }
 
-export const cameraDefaults = extendDefaults<ICamera>([cameraBaseDefaults])
+export const cameraDefaults = extendDefaults<ICamera>([cameraBaseDefaults], {})

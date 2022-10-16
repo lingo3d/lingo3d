@@ -15,7 +15,7 @@ export const positionedSchema: Required<ExtractProps<IPositioned>> = {
     z: Number
 }
 
-export const positionedDefaults = extendDefaults<IPositioned>([
-    eventLoopDefaults,
+export const positionedDefaults = extendDefaults<IPositioned>(
+    [eventLoopDefaults],
     { x: 0, y: 0, z: 0 }
-])
+)

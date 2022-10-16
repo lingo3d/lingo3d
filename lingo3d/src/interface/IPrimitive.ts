@@ -24,8 +24,11 @@ export const primitiveSchema: Required<ExtractProps<IPrimitive>> = {
     ...texturedStandardSchema
 }
 
-export const primitiveDefaults = extendDefaults<IPrimitive>([
-    visibleObjectManagerDefaults,
-    texturedBasicDefaults,
-    texturedStandardDefaults
-])
+export const primitiveDefaults = extendDefaults<IPrimitive>(
+    [
+        visibleObjectManagerDefaults,
+        texturedBasicDefaults,
+        texturedStandardDefaults
+    ],
+    {}
+)

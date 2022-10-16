@@ -12,7 +12,6 @@ export const skyboxSchema: Required<ExtractProps<ISkybox>> = {
     texture: [String, Array]
 }
 
-export const skyboxDefaults = extendDefaults<ISkybox>([
-    eventLoopDefaults,
-    { texture: undefined }
-])
+export const skyboxDefaults = extendDefaults<ISkybox>([eventLoopDefaults], {
+    texture: undefined
+})

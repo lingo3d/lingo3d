@@ -19,12 +19,9 @@ export const joystickSchema: Required<ExtractProps<IJoystick>> = {
     onPress: Function
 }
 
-export const joystickDefaults = extendDefaults<IJoystick>([
-    eventLoopDefaults,
-    {
-        onMove: undefined,
-        onMoveStart: undefined,
-        onMoveEnd: undefined,
-        onPress: undefined
-    }
-])
+export const joystickDefaults = extendDefaults<IJoystick>([eventLoopDefaults], {
+    onMove: undefined,
+    onMoveStart: undefined,
+    onMoveEnd: undefined,
+    onPress: undefined
+})

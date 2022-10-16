@@ -18,8 +18,7 @@ export const spriteSchema: Required<ExtractProps<ISprite>> = {
     ...texturedBasicSchema
 }
 
-export const spriteDefaults = extendDefaults<ISprite>([
-    visibleObjectManagerDefaults,
-    texturedBasicDefaults,
+export const spriteDefaults = extendDefaults<ISprite>(
+    [visibleObjectManagerDefaults, texturedBasicDefaults],
     { scaleZ: 0, depth: 0 }
-])
+)

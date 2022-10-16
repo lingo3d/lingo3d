@@ -11,6 +11,7 @@ export const groupSchema: Required<ExtractProps<IGroup>> = {
     ...visibleObjectManagerSchema
 }
 
-export const groupDefaults = extendDefaults<IGroup>([
-    visibleObjectManagerDefaults
-])
+export const groupDefaults = extendDefaults<IGroup>(
+    [visibleObjectManagerDefaults],
+    {}
+)

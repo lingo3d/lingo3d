@@ -8,6 +8,7 @@ export const ambientLightSchema: Required<ExtractProps<IAmbientLight>> = {
     ...lightBaseSchema
 }
 
-export const ambientLightDefaults = extendDefaults<IAmbientLight>([
-    lightBaseDefaults
-])
+export const ambientLightDefaults = extendDefaults<IAmbientLight>(
+    [lightBaseDefaults],
+    {}
+)

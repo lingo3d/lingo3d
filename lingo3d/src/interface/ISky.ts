@@ -8,4 +8,4 @@ export const skySchema: Required<ExtractProps<ISky>> = {
     ...eventLoopSchema
 }
 
-export const skyDefaults = extendDefaults<ISky>([eventLoopDefaults])
+export const skyDefaults = extendDefaults<ISky>([eventLoopDefaults], {})

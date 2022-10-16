@@ -21,7 +21,7 @@ export const standardMaterialManagerSchema: Required<
 }
 
 export const standardMaterialManagerDefaults =
-    extendDefaults<IStandardMaterialManager>([
-        basicMaterialManagerDefaults,
-        texturedStandardDefaults
-    ])
+    extendDefaults<IStandardMaterialManager>(
+        [basicMaterialManagerDefaults, texturedStandardDefaults],
+        {}
+    )

@@ -21,8 +21,7 @@ export const svgMeshSchema: Required<ExtractProps<ISvgMesh>> = {
     ...texturedStandardSchema
 }
 
-export const svgMeshDefaults = extendDefaults<ISvgMesh>([
-    loadedDefaults,
-    texturedBasicDefaults,
-    texturedStandardDefaults
-])
+export const svgMeshDefaults = extendDefaults<ISvgMesh>(
+    [loadedDefaults, texturedBasicDefaults, texturedStandardDefaults],
+    {}
+)

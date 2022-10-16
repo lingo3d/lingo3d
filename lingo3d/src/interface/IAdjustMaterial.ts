@@ -23,16 +23,15 @@ export const adjustMaterialSchema: Required<ExtractProps<IAdjustMaterial>> = {
 }
 
 export const adjustMaterialDefaults = extendDefaults<IAdjustMaterial>(
-    [
-        {
-            metalnessFactor: new NullableDefault(0),
-            roughnessFactor: new NullableDefault(1),
-            opacityFactor: new NullableDefault(1),
-            envFactor: new NullableDefault(1),
-            adjustColor: new NullableDefault("#ffffff"),
-            reflection: false
-        }
-    ],
+    [],
+    {
+        metalnessFactor: new NullableDefault(0),
+        roughnessFactor: new NullableDefault(1),
+        opacityFactor: new NullableDefault(1),
+        envFactor: new NullableDefault(1),
+        adjustColor: new NullableDefault("#ffffff"),
+        reflection: false
+    },
     {
         metalnessFactor: new Range(-2, 2),
         roughnessFactor: new Range(0, 4),

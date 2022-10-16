@@ -18,7 +18,7 @@ export const basicMaterialManagerSchema: Required<
 }
 
 export const basicMaterialManagerDefaults =
-    extendDefaults<IBasicMaterialManager>([
-        eventLoopDefaults,
-        texturedBasicDefaults
-    ])
+    extendDefaults<IBasicMaterialManager>(
+        [eventLoopDefaults, texturedBasicDefaults],
+        {}
+    )

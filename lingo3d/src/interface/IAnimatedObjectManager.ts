@@ -37,13 +37,10 @@ export const animatedObjectManagerSchema: Required<
 }
 
 export const animatedObjectManagerDefaults =
-    extendDefaults<IAnimatedObjectManager>([
-        staticObjectManagerDefaults,
-        {
-            animations: {},
-            animation: undefined,
-            animationPaused: new NullableDefault(false),
-            animationRepeat: new NullableDefault(true),
-            onAnimationFinish: undefined
-        }
-    ])
+    extendDefaults<IAnimatedObjectManager>([staticObjectManagerDefaults], {
+        animations: {},
+        animation: undefined,
+        animationPaused: new NullableDefault(false),
+        animationRepeat: new NullableDefault(true),
+        onAnimationFinish: undefined
+    })

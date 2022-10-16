@@ -78,35 +78,32 @@ export const simpleObjectManagerSchema: Required<
 hideSchema(["intersectIds"])
 
 export const simpleObjectManagerDefaults = extendDefaults<ISimpleObjectManager>(
-    [
-        animatedObjectManagerDefaults,
-        positionedDefaults,
-        {
-            onIntersect: undefined,
-            onIntersectOut: undefined,
-            onMoveToEnd: undefined,
+    [animatedObjectManagerDefaults, positionedDefaults],
+    {
+        onIntersect: undefined,
+        onIntersectOut: undefined,
+        onMoveToEnd: undefined,
 
-            moveTo: fn,
-            lerpTo: fn,
-            placeAt: fn,
+        moveTo: fn,
+        lerpTo: fn,
+        placeAt: fn,
 
-            translateX: fn,
-            translateY: fn,
-            translateZ: fn,
+        translateX: fn,
+        translateY: fn,
+        translateZ: fn,
 
-            intersectIds: undefined,
+        intersectIds: undefined,
 
-            scaleX: 1,
-            scaleY: 1,
-            scaleZ: 1,
-            scale: 1,
+        scaleX: 1,
+        scaleY: 1,
+        scaleZ: 1,
+        scale: 1,
 
-            rotationX: 0,
-            rotationY: 0,
-            rotationZ: 0,
-            rotation: 0
-        }
-    ],
+        rotationX: 0,
+        rotationY: 0,
+        rotationZ: 0,
+        rotation: 0
+    },
     {
         rotation: new Range(0, 360),
         rotationX: new Range(0, 360),

@@ -16,11 +16,8 @@ export const keyboardSchema: Required<ExtractProps<IKeyboard>> = {
     onKeyDown: Function
 }
 
-export const keyboardDefaults = extendDefaults<IKeyboard>([
-    eventLoopDefaults,
-    {
-        onKeyPress: undefined,
-        onKeyUp: undefined,
-        onKeyDown: undefined
-    }
-])
+export const keyboardDefaults = extendDefaults<IKeyboard>([eventLoopDefaults], {
+    onKeyPress: undefined,
+    onKeyUp: undefined,
+    onKeyDown: undefined
+})

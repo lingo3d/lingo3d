@@ -41,14 +41,11 @@ export const mouseSchema: Required<ExtractProps<IMouse>> = {
     onMousePress: Function
 }
 
-export const mouseDefaults = extendDefaults<IMouse>([
-    eventLoopDefaults,
-    {
-        onClick: undefined,
-        onRightClick: undefined,
-        onMouseMove: undefined,
-        onMouseDown: undefined,
-        onMouseUp: undefined,
-        onMousePress: undefined
-    }
-])
+export const mouseDefaults = extendDefaults<IMouse>([eventLoopDefaults], {
+    onClick: undefined,
+    onRightClick: undefined,
+    onMouseMove: undefined,
+    onMouseDown: undefined,
+    onMouseUp: undefined,
+    onMousePress: undefined
+})

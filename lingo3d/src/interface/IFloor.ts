@@ -27,11 +27,11 @@ export const floorSchema: Required<ExtractProps<IFloor>> = {
     repeatZ: Number
 }
 
-export const floorDefaults = extendDefaults<IFloor>([
-    visibleObjectManagerDefaults,
+export const floorDefaults = extendDefaults<IFloor>(
+    [visibleObjectManagerDefaults],
     {
         preset: "industrial0",
         repeatX: 1,
         repeatZ: 1
     }
-])
+)

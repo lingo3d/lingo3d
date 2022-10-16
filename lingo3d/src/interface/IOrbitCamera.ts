@@ -24,8 +24,8 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
     autoRotate: [Boolean, Number]
 }
 
-export const orbitCameraDefaults = extendDefaults<IOrbitCamera>([
-    cameraBaseDefaults,
+export const orbitCameraDefaults = extendDefaults<IOrbitCamera>(
+    [cameraBaseDefaults],
     {
         innerZ: 500,
         mouseControl: "drag",
@@ -36,4 +36,4 @@ export const orbitCameraDefaults = extendDefaults<IOrbitCamera>([
         enableFly: false,
         autoRotate: false
     }
-])
+)

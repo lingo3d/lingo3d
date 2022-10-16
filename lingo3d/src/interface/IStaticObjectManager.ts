@@ -42,22 +42,20 @@ export const staticObjectManagerSchema: Required<
 }
 
 export const staticObjectManagerDefaults = extendDefaults<IStaticObjectManager>(
-    [
-        eventLoopDefaults,
-        {
-            onClick: undefined,
-            onMouseDown: undefined,
-            onMouseUp: undefined,
-            onMouseOver: undefined,
-            onMouseOut: undefined,
-            onMouseMove: undefined,
-            onLookToEnd: undefined,
+    [eventLoopDefaults],
+    {
+        onClick: undefined,
+        onMouseDown: undefined,
+        onMouseUp: undefined,
+        onMouseOver: undefined,
+        onMouseOut: undefined,
+        onMouseMove: undefined,
+        onLookToEnd: undefined,
 
-            lookAt: fn,
-            lookTo: fn,
+        lookAt: fn,
+        lookTo: fn,
 
-            name: "",
-            id: undefined
-        }
-    ]
+        name: "",
+        id: undefined
+    }
 )

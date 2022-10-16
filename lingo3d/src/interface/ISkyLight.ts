@@ -18,14 +18,12 @@ export const skyLightSchema: Required<ExtractProps<ISkyLight>> = {
 }
 
 export const skyLightDefaults = extendDefaults<ISkyLight>(
-    [
-        lightBaseDefaults,
-        {
-            groundColor: "#ffffff",
-            shadowDistance: new NullableDefault("middle"),
-            intensity: 0.5
-        }
-    ],
+    [lightBaseDefaults],
+    {
+        groundColor: "#ffffff",
+        shadowDistance: new NullableDefault("middle"),
+        intensity: 0.5
+    },
     {
         shadowDistance: shadowDistanceChoices
     }

@@ -23,16 +23,14 @@ export const waterSchema: Required<ExtractProps<IWater>> = {
 }
 
 export const waterDefaults = extendDefaults<IWater>(
-    [
-        visibleObjectManagerDefaults,
-        {
-            shape: "plane",
-            normalMap: WATERNORMALS_URL,
-            resolution: 512,
-            speed: 1,
-            rotationX: 270
-        }
-    ],
+    [visibleObjectManagerDefaults],
+    {
+        shape: "plane",
+        normalMap: WATERNORMALS_URL,
+        resolution: 512,
+        speed: 1,
+        rotationX: 270
+    },
     {
         resolution: new Range(256, 2048, 256)
     }

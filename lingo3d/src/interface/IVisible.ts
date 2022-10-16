@@ -21,14 +21,12 @@ export const visibleSchema: Required<ExtractProps<IVisible>> = {
     receiveShadow: Boolean
 }
 
-export const visibleDefaults = extendDefaults<IVisible>([
-    {
-        bloom: false,
-        outline: false,
+export const visibleDefaults = extendDefaults<IVisible>([], {
+    bloom: false,
+    outline: false,
 
-        visible: true,
-        frustumCulled: true,
-        castShadow: true,
-        receiveShadow: true
-    }
-])
+    visible: true,
+    frustumCulled: true,
+    castShadow: true,
+    receiveShadow: true
+})

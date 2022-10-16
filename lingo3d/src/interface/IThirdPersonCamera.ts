@@ -13,7 +13,7 @@ export const thirdPersonCameraSchema: Required<
     ...characterCameraSchema
 }
 
-export const thirdPersonCameraDefaults = extendDefaults<IThirdPersonCamera>([
-    characterCameraDefaults,
+export const thirdPersonCameraDefaults = extendDefaults<IThirdPersonCamera>(
+    [characterCameraDefaults],
     { innerZ: 300 }
-])
+)

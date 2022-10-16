@@ -8,7 +8,7 @@ export const planeSchema: Required<ExtractProps<IPlane>> = {
     ...primitiveSchema
 }
 
-export const planeDefaults = extendDefaults<IPlane>([
-    primitiveDefaults,
-    { scaleZ: 0, depth: 0 }
-])
+export const planeDefaults = extendDefaults<IPlane>([primitiveDefaults], {
+    scaleZ: 0,
+    depth: 0
+})

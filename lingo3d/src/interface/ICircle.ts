@@ -8,7 +8,7 @@ export const circleSchema: Required<ExtractProps<ICircle>> = {
     ...primitiveSchema
 }
 
-export const circleDefaults = extendDefaults<ICircle>([
-    primitiveDefaults,
-    { scaleZ: 0, depth: 0 }
-])
+export const circleDefaults = extendDefaults<ICircle>([primitiveDefaults], {
+    scaleZ: 0,
+    depth: 0
+})

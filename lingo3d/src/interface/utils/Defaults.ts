@@ -8,12 +8,13 @@ type Defaults<T> = {
 export default Defaults
 
 export const extendDefaults = <T>(
-    defaultsArray: Array<Defaults<any>>,
+    parentDefaults: Array<Partial<Defaults<T>>>,
+    ownDefaults: Partial<Defaults<T>>,
     options?: Options<T>
 ) => {
-    const result = {} as Defaults<T>
+    const result: Partial<Defaults<T>> = {}
     options && defaultsOptionsMap.set(result, options)
-    for (const defaults of defaultsArray) {
+    for (const defaults of [...parentDefaults, ownDefaults]) {
         Object.assign(result, defaults)
         inheritOptions(result, defaults)
     }

@@ -11,7 +11,6 @@ export const reticleSchema: Required<ExtractProps<IReticle>> = {
     variant: Number
 }
 
-export const reticleDefaults = extendDefaults<IReticle>([
-    eventLoopDefaults,
-    { variant: 1 }
-])
+export const reticleDefaults = extendDefaults<IReticle>([eventLoopDefaults], {
+    variant: 1
+})
