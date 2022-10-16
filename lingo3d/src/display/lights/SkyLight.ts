@@ -50,6 +50,7 @@ export default class Skylight
 
     public constructor() {
         super(HemisphereLight)
+        this.castShadow = true
 
         this.createEffect(() => {
             const csm = new CSM({

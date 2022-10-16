@@ -44,5 +44,6 @@ export const lightBaseDefaults = extendDefaults<ILightBase>(
     {
         intensity: new Range(0, 10),
         shadowResolution: shadowResolutionChoices
-    }
+    },
+    { color: true, castShadow: true }
 )

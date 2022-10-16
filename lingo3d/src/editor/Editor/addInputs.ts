@@ -1,10 +1,9 @@
 import { debounce } from "@lincode/utils"
 import { Pane } from "./tweakpane"
 import resetIcon from "./resetIcon"
-import Defaults from "../../interface/utils/Defaults"
+import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import toFixed from "../../api/serializer/toFixed"
-import defaultsOptionsMap from "../../interface/utils/defaultsOptionsMap"
 
 let programmatic = false
 

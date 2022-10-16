@@ -33,5 +33,6 @@ export const waterDefaults = extendDefaults<IWater>(
     },
     {
         resolution: new Range(256, 2048, 256)
-    }
+    },
+    { normalMap: true }
 )

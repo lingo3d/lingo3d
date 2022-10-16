@@ -22,7 +22,7 @@ export const skyLightDefaults = extendDefaults<ISkyLight>(
     {
         groundColor: "#ffffff",
         shadowDistance: new NullableDefault("middle"),
-        intensity: 0.5
+        castShadow: true
     },
     {
         shadowDistance: shadowDistanceChoices

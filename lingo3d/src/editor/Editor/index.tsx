@@ -32,6 +32,7 @@ import Tab from "../component/Tab"
 import AppBar from "../component/AppBar"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import useCameraPanel from "./useCameraPanel"
+import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -102,10 +103,17 @@ const Editor = () => {
         if (!multipleSelectionTargets.length) {
             const { schema, defaults, componentName } = target.constructor
 
-            const [generalParams, generalRest] = splitObject(
+            const [ownParams, ownRest] = splitObject(
                 getParams(schema, defaults, target),
-                ["name", "id", "physics", "gravity"]
+                Object.keys(defaultsOwnKeysRecordMap.get(defaults) ?? {})
             )
+
+            const [generalParams, generalRest] = splitObject(ownRest, [
+                "name",
+                "id",
+                "physics",
+                "gravity"
+            ])
             if (generalParams)
                 addInputs(
                     pane,
@@ -276,6 +284,8 @@ const Editor = () => {
                     defaults,
                     pbrMaterialParams
                 )
+
+            Object.assign(pbrMaterialRest, ownParams)
 
             if (componentName === "dummy") {
                 pbrMaterialRest.stride = {
