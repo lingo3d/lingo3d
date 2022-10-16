@@ -3,11 +3,12 @@ import { Reactive } from "@lincode/reactivity"
 import { DirectionalLight as ThreeDirectionalLight } from "three"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import { SHADOW_BIAS, SHADOW_DISTANCE } from "../../globals"
+import { SHADOW_BIAS } from "../../globals"
 import IDirectionalLight, {
     directionalLightDefaults,
     directionalLightSchema
 } from "../../interface/IDirectionalLight"
+import { ShadowDistance } from "../../interface/ISkyLight"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import LightBase from "../core/LightBase"
 import getWorldPosition from "../utils/getWorldPosition"
@@ -56,9 +57,16 @@ export default class DirectionalLight
                   )
                 : 1
 
+            const shadowDistance = this.shadowDistanceState.get()
+            const maxFar = (() => {
+                if (shadowDistance === "middle") return 3000
+                if (shadowDistance === "near") return 1000
+                return 10000
+            })()
             const shadowCamera = light.shadow.camera
-            shadowCamera.zoom = 500 / offset / this.shadowDistanceState.get()
+            shadowCamera.zoom = 500 / offset / maxFar
             shadowCamera.updateProjectionMatrix()
+            light.shadow.mapSize.setScalar(this.shadowResolutionState.get())
         }, [
             this.lightState.get,
             this.shadowDistanceState.get,
@@ -86,15 +94,15 @@ export default class DirectionalLight
             const light = this.lightState.get()
             if (!light) return
 
+            const shadowDistance = this.shadowDistanceState.get()
+            const maxFar = (() => {
+                if (shadowDistance === "middle") return 3000
+                if (shadowDistance === "near") return 1000
+                return 10000
+            })()
             light.shadow.bias =
                 SHADOW_BIAS *
-                mapRange(
-                    this.shadowDistanceState.get(),
-                    3000,
-                    10000,
-                    0.05,
-                    0.15
-                ) *
+                mapRange(maxFar, 3000, 10000, 0.05, 0.15) *
                 mapRange(
                     this.shadowResolutionState.get(),
                     1024,
@@ -114,7 +122,7 @@ export default class DirectionalLight
         return vec2Point(getWorldPosition(this.outerObject3d))
     }
 
-    private shadowDistanceState = new Reactive(SHADOW_DISTANCE)
+    private shadowDistanceState = new Reactive<ShadowDistance>("middle")
     public get shadowDistance() {
         return this.shadowDistanceState.get()
     }

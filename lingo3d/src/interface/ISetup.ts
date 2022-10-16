@@ -1,10 +1,8 @@
 import setupStruct from "../engine/setupStruct"
-import { SHADOW_BIAS, SHADOW_DISTANCE } from "../globals"
 import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
-import NullableDefault from "./utils/NullableDefault"
 import Range from "./utils/Range"
 
 type Type = typeof setupStruct
