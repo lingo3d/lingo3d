@@ -12,8 +12,8 @@ export default interface ISkyLight extends ILightBase {
 
 export const skyLightSchema: Required<ExtractProps<ISkyLight>> = {
     ...lightBaseSchema,
-    groundColor: String,
-    shadowDistance: String
+    shadowDistance: String,
+    groundColor: String
 }
 
 export const skyLightDefaults = extendDefaults<ISkyLight>(

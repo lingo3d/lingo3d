@@ -113,7 +113,7 @@ export default abstract class LightBase<T extends typeof Light>
         this.castShadowState.set(val)
     }
 
-    protected shadowResolutionState = new Reactive<ShadowResolution>("low")
+    protected shadowResolutionState = new Reactive<ShadowResolution>("medium")
     public get shadowResolution() {
         return this.shadowResolutionState.get()
     }

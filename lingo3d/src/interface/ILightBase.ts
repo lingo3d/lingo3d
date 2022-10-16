@@ -33,7 +33,7 @@ export const lightBaseDefaults = extendDefaults<ILightBase>(
             color: "#ffffff",
             intensity: 1,
             castShadow: false,
-            shadowResolution: "low",
+            shadowResolution: "medium",
             helper: true
         }
     ],
