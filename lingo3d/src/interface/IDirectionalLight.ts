@@ -19,7 +19,7 @@ export const directionalLightDefaults = extendDefaults<IDirectionalLight>(
         lightBaseDefaults,
         {
             shadowDistance: "middle",
-            shadowResolution: 1024
+            shadowResolution: "medium"
         }
     ],
     {

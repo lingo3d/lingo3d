@@ -1,5 +1,6 @@
 import { mapRange } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
+import { assertExhaustive } from "@lincode/utils"
 import { DirectionalLight as ThreeDirectionalLight } from "three"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
@@ -8,11 +9,25 @@ import IDirectionalLight, {
     directionalLightDefaults,
     directionalLightSchema
 } from "../../interface/IDirectionalLight"
+import { ShadowResolution } from "../../interface/ILightBase"
 import { ShadowDistance } from "../../interface/ISkyLight"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import LightBase from "../core/LightBase"
 import getWorldPosition from "../utils/getWorldPosition"
 import { vec2Point } from "../utils/vec2Point"
+
+const mapShadowResolution = (val: ShadowResolution) => {
+    switch (val) {
+        case "low":
+            return 512
+        case "medium":
+            return 1024
+        case "high":
+            return 2048
+        default:
+            assertExhaustive(val)
+    }
+}
 
 export default class DirectionalLight
     extends LightBase<typeof ThreeDirectionalLight>
@@ -24,7 +39,7 @@ export default class DirectionalLight
 
     public constructor() {
         super(ThreeDirectionalLight)
-        this.shadowResolution = 1024
+        this.shadowResolution = "medium"
 
         this.createEffect(() => {
             const light = this.lightState.get()
@@ -66,7 +81,9 @@ export default class DirectionalLight
             const shadowCamera = light.shadow.camera
             shadowCamera.zoom = 500 / offset / maxFar
             shadowCamera.updateProjectionMatrix()
-            light.shadow.mapSize.setScalar(this.shadowResolutionState.get())
+            light.shadow.mapSize.setScalar(
+                mapShadowResolution(this.shadowResolutionState.get())
+            )
         }, [
             this.lightState.get,
             this.shadowDistanceState.get,
@@ -104,7 +121,7 @@ export default class DirectionalLight
                 SHADOW_BIAS *
                 mapRange(maxFar, 3000, 10000, 0.05, 0.15) *
                 mapRange(
-                    this.shadowResolutionState.get(),
+                    mapShadowResolution(this.shadowResolutionState.get()),
                     1024,
                     256,
                     1,

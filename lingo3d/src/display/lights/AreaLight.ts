@@ -14,9 +14,8 @@ import { Reactive } from "@lincode/reactivity"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
-import Nullable from "../../interface/utils/Nullable"
 import initHelperSSR from "../core/utils/initHelperSSR"
-import { SHADOW_BIAS, SHADOW_RESOLUTION } from "../../globals"
+import { ShadowResolution } from "../../interface/ILightBase"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -85,7 +84,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
         })
     }
 
-    public shadowResolution = SHADOW_RESOLUTION
+    public shadowResolution: ShadowResolution = "low"
 
     private helperState = new Reactive(true)
     public get helper() {

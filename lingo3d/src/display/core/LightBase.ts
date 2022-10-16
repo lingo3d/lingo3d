@@ -1,4 +1,5 @@
 import { Reactive } from "@lincode/reactivity"
+import { assertExhaustive } from "@lincode/utils"
 import {
     DirectionalLightHelper,
     Group,
@@ -10,12 +11,25 @@ import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHel
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
-import { SHADOW_BIAS, SHADOW_RESOLUTION } from "../../globals"
-import ILightBase from "../../interface/ILightBase"
+import { SHADOW_BIAS } from "../../globals"
+import ILightBase, { ShadowResolution } from "../../interface/ILightBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import ObjectManager from "./ObjectManager"
 import { addSelectionHelper } from "./StaticObjectManager/raycast/selectionCandidates"
 import makeLightSprite from "./utils/makeLightSprite"
+
+const mapShadowResolution = (val: ShadowResolution) => {
+    switch (val) {
+        case "low":
+            return 256
+        case "medium":
+            return 512
+        case "high":
+            return 1024
+        default:
+            assertExhaustive(val)
+    }
+}
 
 export default abstract class LightBase<T extends typeof Light>
     extends ObjectManager<Group>
@@ -42,7 +56,10 @@ export default abstract class LightBase<T extends typeof Light>
             if (light.shadow && this.castShadowState.get()) {
                 light.castShadow = true
                 light.shadow.bias = SHADOW_BIAS
-                light.shadow.mapSize.setScalar(this.shadowResolutionState.get())
+
+                light.shadow.mapSize.setScalar(
+                    mapShadowResolution(this.shadowResolutionState.get())
+                )
             }
             return () => {
                 group.remove(light)
@@ -96,7 +113,7 @@ export default abstract class LightBase<T extends typeof Light>
         this.castShadowState.set(val)
     }
 
-    protected shadowResolutionState = new Reactive(SHADOW_RESOLUTION)
+    protected shadowResolutionState = new Reactive<ShadowResolution>("low")
     public get shadowResolution() {
         return this.shadowResolutionState.get()
     }
