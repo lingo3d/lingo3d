@@ -31,7 +31,6 @@ import {
     Matrix4,
     Mesh,
     MeshBasicMaterial,
-    MeshPhysicalMaterial,
     MeshStandardMaterial,
     MirroredRepeatWrapping,
     NearestFilter,
@@ -620,7 +619,7 @@ class GLTFMaterialsClearcoatExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshPhysicalMaterial
+        return MeshStandardMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -702,7 +701,7 @@ class GLTFMaterialsIridescenceExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshPhysicalMaterial
+        return MeshStandardMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -781,7 +780,7 @@ class GLTFMaterialsSheenExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshPhysicalMaterial
+        return MeshStandardMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -852,7 +851,7 @@ class GLTFMaterialsTransmissionExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshPhysicalMaterial
+        return MeshStandardMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -903,7 +902,7 @@ class GLTFMaterialsVolumeExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshPhysicalMaterial
+        return MeshStandardMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -964,7 +963,7 @@ class GLTFMaterialsIorExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshPhysicalMaterial
+        return MeshStandardMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -1001,7 +1000,7 @@ class GLTFMaterialsSpecularExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshPhysicalMaterial
+        return MeshStandardMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
