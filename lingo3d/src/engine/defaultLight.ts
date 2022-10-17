@@ -8,6 +8,7 @@ import loadTexture from "../display/utils/loaders/loadTexture"
 import { FAR, TEXTURES_URL } from "../globals"
 import { getCentripetal } from "../states/useCentripetal"
 import { getDefaultLight } from "../states/useDefaultLight"
+import { getEnvironment } from "../states/useEnvironment"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import { getRenderer } from "../states/useRenderer"
 import scene from "./scene"
@@ -41,17 +42,9 @@ createEffect(() => {
 
 createEffect(() => {
     const defaultLight = getDefaultLight()
-    if (!defaultLight) return
-
-    if (typeof defaultLight === "string") {
-        defaultEnvironment.texture = defaultLight
-        return () => {
-            defaultEnvironment.texture = undefined
-        }
-    }
+    if (!defaultLight || typeof defaultLight === "string") return
 
     const handle = new Cancellable()
-
     import("../display/lights/SkyLight").then((module) => {
         const SkyLight = module.default
         const light = new SkyLight()
@@ -59,11 +52,23 @@ createEffect(() => {
         light.intensity = 0.5
         light.y = FAR
         light.z = FAR
+        appendableRoot.delete(light)
 
         handle.then(() => light.dispose())
     })
-
     return () => {
         handle.cancel()
     }
 }, [getDefaultLight, getCentripetal])
+
+createEffect(() => {
+    const defaultLight = getDefaultLight()
+    const environment =
+        typeof defaultLight === "string" ? defaultLight : getEnvironment()
+    if (!environment) return
+
+    defaultEnvironment.texture = environment
+    return () => {
+        defaultEnvironment.texture = undefined
+    }
+}, [getEnvironment, getDefaultLight])

@@ -25,6 +25,7 @@ export default (pane: Pane, targetSetup: Partial<ISetup>) => {
         "shadowResolution",
         "shadowDistance",
         "defaultLight",
+        "environment",
         "skybox",
         "texture",
         "color"

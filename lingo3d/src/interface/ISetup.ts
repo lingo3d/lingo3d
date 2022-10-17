@@ -12,8 +12,9 @@ type Type = typeof setupStruct
 export default interface ISetup extends Type {}
 
 export const setupSchema: Required<ExtractProps<ISetup>> = {
-    skybox: [String, Array],
     defaultLight: [String, Boolean],
+    environment: String,
+    skybox: [String, Array],
     gridHelper: Boolean,
     gridHelperSize: Number,
     gravity: Number,
@@ -56,7 +57,7 @@ export const setupDefaults = extendDefaults<ISetup>(
         }),
         pixelRatio: new Range(1, 2, 1),
         fps: new Range(30, 60, 30),
-        exposure: new Range(0, 20),
+        exposure: new Range(0, 2),
         shadowResolution: shadowResolutionChoices,
         shadowDistance: shadowDistanceChoices,
         bloomIntensity: new Range(0, 10),
