@@ -16,13 +16,13 @@ const [setOutlineEffect, getOutlineEffect] = store<OutlineEffect | undefined>(
 )
 export { getOutlineEffect }
 
-const selection = new Selection()
+let objectSet = new Set<Object3D>()
 export const addOutline = (target: Object3D) => {
-    selection.add(target)
-    selection.size === 1 && setOutline(true)
+    objectSet.add(target)
+    objectSet.size === 1 && setOutline(true)
 }
 
-export const deleteOutline = (target: Object3D) => selection.delete(target)
+export const deleteOutline = (target: Object3D) => objectSet.delete(target)
 
 createEffect(() => {
     if (!getOutline()) return
@@ -30,7 +30,8 @@ createEffect(() => {
     const effect = new OutlineEffect(scene, getCameraRendered())
     setOutlineEffect(effect)
 
-    effect.selection = selection
+    for (const object of objectSet) effect.selection.add(object)
+    objectSet = effect.selection
 
     const handle0 = getOutlineColor((val) => effect.visibleEdgeColor.set(val))
     const handle1 = getOutlineHiddenColor((val) =>
