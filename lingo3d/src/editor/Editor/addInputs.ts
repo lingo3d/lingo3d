@@ -5,12 +5,12 @@ import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import toFixed from "../../api/serializer/toFixed"
 
-let programmatic = false
+let skipApply = false
 
 let leading = true
 export const skipApplyValue = debounce(
     () => {
-        programmatic = leading
+        skipApply = leading
         leading = !leading
     },
     100,
@@ -83,7 +83,7 @@ export default async (
             input.on("change", ({ value }: any) => {
                 updateResetButton()
 
-                if (programmatic) return
+                if (skipApply) return
 
                 if (typeof value === "string") {
                     if (value === "true" || value === "false") {
