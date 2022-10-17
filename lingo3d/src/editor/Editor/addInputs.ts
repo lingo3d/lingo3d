@@ -8,7 +8,7 @@ import toFixed from "../../api/serializer/toFixed"
 let programmatic = false
 
 let leading = true
-export const setProgrammatic = debounce(
+export const skipApplyValue = debounce(
     () => {
         programmatic = leading
         leading = !leading
@@ -102,7 +102,7 @@ export default async (
         })
     )
     Object.assign(params, paramsBackup)
-    setProgrammatic()
+    skipApplyValue()
     for (const input of Object.values(result)) input.refresh()
 
     return result

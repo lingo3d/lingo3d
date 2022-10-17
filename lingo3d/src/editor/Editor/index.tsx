@@ -12,7 +12,7 @@ import {
 import { Cancellable } from "@lincode/promiselikes"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../utils/getComponentName"
-import addInputs, { setProgrammatic } from "./addInputs"
+import addInputs, { skipApplyValue } from "./addInputs"
 import getParams from "./getParams"
 import splitObject from "./splitObject"
 import { onTransformControls } from "../../events/onTransformControls"
@@ -174,7 +174,6 @@ const Editor = () => {
 
                 handle.watch(
                     onTransformControls(() => {
-                        setProgrammatic()
                         assignIn(transformParams, target, [
                             "x",
                             "y",
@@ -186,6 +185,7 @@ const Editor = () => {
                             "scaleY",
                             "scaleZ"
                         ])
+                        skipApplyValue()
                         pane.refresh()
                     })
                 )
