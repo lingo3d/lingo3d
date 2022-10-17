@@ -8,7 +8,7 @@ export default async () => {
 
     const formatAndSave = async (handle?: FileSystemFileHandle | null) => {
         if (!handle) return
-        const code = prettier.format(JSON.stringify(await serialize()), {
+        const code = prettier.format(JSON.stringify(await serialize(true)), {
             parser: "json",
             plugins: [parser]
         })

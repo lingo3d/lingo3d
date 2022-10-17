@@ -63,6 +63,7 @@ const serialize = async (children: Array<any>) => {
 }
 
 export default async (
+    versionStamp?: boolean,
     children: Array<Appendable> | Set<Appendable> | Appendable = appendableRoot
 ) => {
     if (children instanceof Appendable) return serialize([children])
@@ -76,7 +77,7 @@ export default async (
     childs.push(setup)
 
     const result = await serialize(childs)
-    result.unshift({ type: "lingo3d", version: VERSION })
+    versionStamp && result.unshift({ type: "lingo3d", version: VERSION })
 
     setup.dispose()
     return result

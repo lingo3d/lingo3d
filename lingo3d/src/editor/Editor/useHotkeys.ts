@@ -50,7 +50,9 @@ export default () => {
                         if (targets.length) {
                             //todo: copy multiple
                         } else {
-                            const [item] = deserialize(await serialize(target))
+                            const [item] = deserialize(
+                                await serialize(false, target)
+                            )
                             if (target.parent && item) {
                                 target.parent.attach(item)
                                 emitSelectionTarget(item)
