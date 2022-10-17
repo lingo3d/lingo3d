@@ -1,7 +1,7 @@
 import * as Lingo from "lingo3d"
 export { Lingo }
 
-export { screenshot, keyboard, mouse, createProxy, setWasmPath } from "lingo3d"
+export { screenshot, keyboard, mouse, createProxy, setWasmPath, clientToWorld } from "lingo3d"
 
 export { default as globalState } from "./globalState"
 export { default as createPreload } from "./createPreload"

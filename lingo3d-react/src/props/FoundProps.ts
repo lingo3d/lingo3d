@@ -1,4 +1,4 @@
-import IFound from "lingo3d/lib/interface/IFound"
+import IFoundManager from "lingo3d/lib/interface/IFoundManager"
 import React from "react"
 
-export type FoundProps = Partial<IFound> & { children?: React.ReactNode }
+export type FoundProps = Partial<IFoundManager> & { children?: React.ReactNode }
