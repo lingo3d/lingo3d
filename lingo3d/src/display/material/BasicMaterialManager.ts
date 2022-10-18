@@ -8,6 +8,7 @@ import {
     Vector2,
     Texture
 } from "three"
+import { nonSerializedAppendables } from "../../api/core/Appendable"
 import EventLoopItem from "../../api/core/EventLoopItem"
 import IBasicMaterialManager, {
     basicMaterialManagerDefaults,
@@ -31,6 +32,7 @@ export default class BasicMaterialManager<
 
     public constructor(public nativeMaterial: T) {
         super()
+        nonSerializedAppendables.add(this)
     }
 
     public override dispose() {

@@ -5,7 +5,7 @@ import { getFileCurrent } from "../../states/useFileCurrent"
 import Appendable, {
     appendableRoot,
     hiddenAppendables,
-    unserializedAppendables
+    nonSerializedAppendables
 } from "../core/Appendable"
 import settings from "../settings"
 import relativePath from "../path/relativePath"
@@ -16,7 +16,7 @@ import { VERSION } from "../../globals"
 const serialize = async (children: Array<any>) => {
     const dataParent: Array<SceneGraphNode> = []
     for (const child of children) {
-        if (hiddenAppendables.has(child) || unserializedAppendables.has(child))
+        if (hiddenAppendables.has(child) || nonSerializedAppendables.has(child))
             continue
 
         const { componentName, schema, defaults } = child.constructor
