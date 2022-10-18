@@ -10,7 +10,7 @@ const serializeVue = (nodes: Array<SceneGraphNode>) => {
 
         let props = ""
         for (let [key, value] of Object.entries(node)) {
-            if (key === "children" || key === "type" || !value) continue
+            if (key === "children" || key === "type") continue
 
             key = kebabCase(key)
 

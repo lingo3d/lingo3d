@@ -10,7 +10,7 @@ const serializeReact = (nodes: Array<SceneGraphNode>) => {
 
         let props = ""
         for (const [key, value] of Object.entries(node)) {
-            if (key === "children" || key === "type" || !value) continue
+            if (key === "children" || key === "type") continue
 
             if (typeof value === "string") props += ` ${key}="${value}"`
             else if (value === true) props += ` ${key}`
