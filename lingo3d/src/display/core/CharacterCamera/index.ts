@@ -19,6 +19,7 @@ import { FAR, NEAR } from "../../../globals"
 import { getCentripetal } from "../../../states/useCentripetal"
 import applyCentripetalQuaternion from "../../utils/applyCentripetalQuaternion"
 import fpsAlpha from "../../utils/fpsAlpha"
+import { trackPositionSet } from "../../utils/trackObject"
 
 export default class CharacterCamera
     extends OrbitCameraBase
@@ -96,15 +97,8 @@ export default class CharacterCamera
             const target = this.targetState.get()
             if (!target) return
 
+            trackPositionSet.add(target.outerObject3d)
             followTargetRotation(target, false)
-
-            let [xOld, yOld, zOld] = [0, 0, 0]
-            const targetMoved = () => {
-                const { x, y, z } = target.outerObject3d.position
-                const result = x !== xOld || y !== yOld || z !== zOld
-                ;[xOld, yOld, zOld] = [x, y, z]
-                return result
-            }
 
             const centripetal = getCentripetal()
 
@@ -125,16 +119,19 @@ export default class CharacterCamera
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-lock") {
-                    targetMoved() && lockTargetRotation(target, true, quat)
+                    target.outerObject3d.userData.positionChanged &&
+                        lockTargetRotation(target, true, quat)
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-follow") {
-                    targetMoved() && followTargetRotation(target, true)
+                    target.outerObject3d.userData.positionChanged &&
+                        followTargetRotation(target, true)
                     return
                 }
                 lockTargetRotation(target, false, quat)
             })
             return () => {
+                trackPositionSet.delete(target.outerObject3d)
                 handle.cancel()
             }
         }, [this.targetState.get, getCentripetal])
