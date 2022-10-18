@@ -1282,6 +1282,10 @@ class FBXTreeParser {
 
 // parse Geometry data from FBXTree and return map of BufferGeometries
 class GeometryParser {
+    constructor() {
+        this.negativeMaterialIndices = false
+    }
+
     // Parse nodes in FBXTree.Objects.Geometry
     parse(deformers) {
         const geometryMap = new Map()
@@ -1299,6 +1303,14 @@ class GeometryParser {
 
                 geometryMap.set(parseInt(nodeID), geo)
             }
+        }
+
+        // report warnings
+
+        if (this.negativeMaterialIndices === true) {
+            console.warn(
+                "FBXLoader: The FBX file contains invalid (negative) material indices. The asset might not render as expected."
+            )
         }
 
         return geometryMap
@@ -1679,11 +1691,8 @@ class GeometryParser {
                 )[0]
 
                 if (materialIndex < 0) {
-                    console.warn(
-                        "FBXLoader: Invalid material index:",
-                        materialIndex
-                    )
-                    materialIndex = 0
+                    scope.negativeMaterialIndices = true
+                    materialIndex = 0 // fallback
                 }
             }
 
