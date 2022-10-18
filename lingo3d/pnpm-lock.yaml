@@ -7,27 +7,27 @@ specifiers:
   '@lincode/promiselikes': '*'
   '@lincode/reactivity': '*'
   '@lincode/utils': '*'
-  '@preact/preset-vite': ^2.4.0
+  '@preact/preset-vite': ^2.3.0
   '@types/preact-custom-element': ^4.0.1
-  '@types/prettier': ^2.7.1
+  '@types/prettier': ^2.6.3
   '@types/randomcolor': ^0.5.6
   '@types/three': 0.144.0
   browser-fs-access: 0.31.1
   cannon-es: 0.20.0
   lil-gui: ^0.17.0
   nipplejs: 0.10.0
-  postprocessing: 6.28.7
+  postprocessing: 6.29.0
   preact: '*'
   preact-compat: '*'
   preact-custom-element: '*'
   prettier: 2.7.1
   randomcolor: '*'
   rimraf: ^3.0.2
-  three: 0.144.0
+  three: 0.145.0
   three-mesh-bvh: 0.5.16
   tweakpane: '*'
-  typescript: ^4.8.4
-  vite: ^3.1.8
+  typescript: ^4.7.4
+  vite: ^3.0.2
   xstate: '*'
 
 dependencies:
@@ -41,13 +41,13 @@ dependencies:
   browser-fs-access: 0.31.1
   cannon-es: 0.20.0
   nipplejs: 0.10.0
-  postprocessing: 6.28.7_three@0.144.0
+  postprocessing: 6.29.0_three@0.145.0
   preact: 10.11.2
   preact-compat: 3.19.0_preact@10.11.2
   preact-custom-element: 4.2.1_preact@10.11.2
   prettier: 2.7.1
-  three: 0.144.0
-  three-mesh-bvh: 0.5.16_three@0.144.0
+  three: 0.145.0
+  three-mesh-bvh: 0.5.16_three@0.145.0
   xstate: 4.33.6
 
 devDependencies:
@@ -979,13 +979,13 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing/6.28.7_three@0.144.0:
-    resolution: {integrity: sha512-norsBlNIhDoNG2R0nki9C0bNEARIunE/s5W/4qH/Ozlg3m0dOOmBoY8JZhnmPild/+Jvq/UFEeHQRBvTc11WUg==}
+  /postprocessing/6.29.0_three@0.145.0:
+    resolution: {integrity: sha512-bicnFesmIZu53U0f777US8zwE9QyJGKClUhjmvq8+TKMU1BDdUHPJWpXKe0SChEcTSkqvS3xBdqddMVuosgsVA==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
-      three: '>= 0.125.0 < 0.145.0'
+      three: '>= 0.125.0 < 0.146.0'
     dependencies:
-      three: 0.144.0
+      three: 0.145.0
     dev: false
 
   /preact-compat/3.19.0_preact@10.11.2:
@@ -1114,16 +1114,16 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /three-mesh-bvh/0.5.16_three@0.144.0:
+  /three-mesh-bvh/0.5.16_three@0.145.0:
     resolution: {integrity: sha512-kN3QGKJNiQQcuiOsjVIkjtPnV3PJa+0Orih2E52afa+kQfs3zfoYt6Kxn6b6RNiAfaQ+7ckwPK0mTVFVl2F2LA==}
     peerDependencies:
       three: '>= 0.123.0'
     dependencies:
-      three: 0.144.0
+      three: 0.145.0
     dev: false
 
-  /three/0.144.0:
-    resolution: {integrity: sha512-R8AXPuqfjfRJKkYoTQcTK7A6i3AdO9++2n8ubya/GTU+fEHhYKu1ZooRSCPkx69jbnzT7dD/xEo6eROQTt2lJw==}
+  /three/0.145.0:
+    resolution: {integrity: sha512-EKoHQEtEJ4CB6b2BGMBgLZrfwLjXcSUfoI/MiIXUuRpeYsfK5aPWbYhdtIVWOH+x6X0TouldHKHBuc/LAiFzAw==}
     dev: false
 
   /to-fast-properties/2.0.0:

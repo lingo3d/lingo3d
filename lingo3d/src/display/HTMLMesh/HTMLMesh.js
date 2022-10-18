@@ -101,7 +101,10 @@ class HTMLTexture extends CanvasTexture {
 
         // Create an observer on the DOM, and run html2canvas update in the next loop
         const observer = new MutationObserver(() => {
-            this.update()
+            if (!this.scheduleUpdate) {
+                // ideally should use xr.requestAnimationFrame, here setTimeout to avoid passing the renderer
+                this.scheduleUpdate = setTimeout(() => this.update(), 16)
+            }
         })
 
         const config = {
@@ -124,12 +127,17 @@ class HTMLTexture extends CanvasTexture {
     update() {
         this.image = html2canvas(this.dom)
         this.needsUpdate = true
+
+        this.scheduleUpdate = null
     }
 
     dispose() {
         if (this.observer) {
             this.observer.disconnect()
         }
+
+        this.scheduleUpdate = clearTimeout(this.scheduleUpdate)
+
         super.dispose()
     }
 }
@@ -488,14 +496,13 @@ function html2canvas(element) {
 
     const offset = element.getBoundingClientRect()
 
-    let canvas
+    let canvas = canvases.get(element)
 
-    if (canvases.has(element)) {
-        canvas = canvases.get(element)
-    } else {
+    if (canvas === undefined) {
         canvas = document.createElement("canvas")
         canvas.width = offset.width
         canvas.height = offset.height
+        canvases.set(element, canvas)
     }
 
     const context = canvas.getContext("2d" /*, { alpha: false }*/)
