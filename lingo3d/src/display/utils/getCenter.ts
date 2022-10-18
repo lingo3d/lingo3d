@@ -1,24 +1,12 @@
-import { Bone, Object3D, Vector3 } from "three"
-import { onAfterRender } from "../../events/onAfterRender"
+import { Object3D, Vector3 } from "three"
+import computePerFrame from "../../utils/computePerFrame"
 import getWorldPosition from "./getWorldPosition"
-import { box3 } from "./reusables"
+import { box3, vector3 } from "./reusables"
 
-const cache = new WeakMap<Object3D, Vector3>()
-
-export default (object: Object3D) => {
-    if (cache.has(object)) return cache.get(object)!.clone()
-
-    let result: Vector3
-    if (object instanceof Bone) {
-        result = getWorldPosition(object)
-    } else {
-        object.updateWorldMatrix(true, false)
-        box3.setFromObject(object)
-        if (box3.isEmpty()) result = getWorldPosition(object)
-        else result = box3.getCenter(new Vector3())
-    }
-    cache.set(object, result.clone())
-    onAfterRender(() => cache.delete(object), true)
-
-    return result
-}
+export default computePerFrame((target: Object3D) => {
+    if ("isBone" in target) return getWorldPosition(target)
+    target.updateWorldMatrix(true, false)
+    box3.setFromObject(target)
+    if (box3.isEmpty()) return getWorldPosition(target)
+    return box3.getCenter(vector3)
+})

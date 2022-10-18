@@ -4,22 +4,20 @@ import { getRenderer } from "../states/useRenderer"
 export default {
     toBlob: async () => {
         return new Promise<Blob>((resolve) => {
-            const handle = onAfterRender(() => {
-                handle.cancel()
+            onAfterRender(() => {
                 getRenderer()?.domElement.toBlob(
                     (blob) => blob && resolve(blob)
                 )
-            })
+            }, true)
         })
     },
     toDataURL: async (type?: string, quality?: any) => {
         return new Promise<string>((resolve) => {
-            const handle = onAfterRender(() => {
-                handle.cancel()
+            onAfterRender(() => {
                 const renderer = getRenderer()
                 renderer &&
                     resolve(renderer.domElement.toDataURL(type, quality))
-            })
+            }, true)
         })
     }
 }
