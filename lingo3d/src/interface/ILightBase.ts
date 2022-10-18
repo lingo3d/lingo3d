@@ -42,7 +42,7 @@ export const lightBaseDefaults = extendDefaults<ILightBase>(
         helper: true
     },
     {
-        intensity: new Range(0, 10),
+        intensity: new Range(0, 2),
         shadowResolution: shadowResolutionChoices
     },
     { color: true, castShadow: true }

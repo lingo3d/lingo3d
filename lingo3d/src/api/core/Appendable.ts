@@ -4,6 +4,7 @@ import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 
 export const appendableRoot = new Set<Appendable>()
 export const hiddenAppendables = new WeakSet<Appendable>()
+export const unserializedAppendables = new WeakSet<Appendable>()
 
 export default class Appendable<
     T extends Object3D = Object3D

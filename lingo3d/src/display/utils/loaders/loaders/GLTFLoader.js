@@ -12,6 +12,7 @@ import {
     FrontSide,
     Group,
     ImageBitmapLoader,
+    InstancedMesh,
     InterleavedBuffer,
     InterleavedBufferAttribute,
     Interpolant,
@@ -31,6 +32,7 @@ import {
     Matrix4,
     Mesh,
     MeshBasicMaterial,
+    MeshPhysicalMaterial,
     MeshStandardMaterial,
     MirroredRepeatWrapping,
     NearestFilter,
@@ -72,9 +74,9 @@ class GLTFLoader extends Loader {
 
         this.pluginCallbacks = []
 
-        this.register(function (parser) {
-            return new GLTFMaterialsClearcoatExtension(parser)
-        })
+        // this.register(function (parser) {
+        //     return new GLTFMaterialsClearcoatExtension(parser)
+        // })
 
         this.register(function (parser) {
             return new GLTFTextureBasisUExtension(parser)
@@ -118,6 +120,10 @@ class GLTFLoader extends Loader {
 
         this.register(function (parser) {
             return new GLTFMeshoptCompression(parser)
+        })
+
+        this.register(function (parser) {
+            return new GLTFMeshGpuInstancing(parser)
         })
     }
 
@@ -221,13 +227,13 @@ class GLTFLoader extends Loader {
     }
 
     parse(data, path, onLoad, onError) {
-        let content
+        let json
         const extensions = {}
         const plugins = {}
 
         if (typeof data === "string") {
-            content = data
-        } else {
+            json = JSON.parse(data)
+        } else if (data instanceof ArrayBuffer) {
             const magic = LoaderUtils.decodeText(new Uint8Array(data, 0, 4))
 
             if (magic === BINARY_EXTENSION_HEADER_MAGIC) {
@@ -239,13 +245,15 @@ class GLTFLoader extends Loader {
                     return
                 }
 
-                content = extensions[EXTENSIONS.KHR_BINARY_GLTF].content
+                json = JSON.parse(
+                    extensions[EXTENSIONS.KHR_BINARY_GLTF].content
+                )
             } else {
-                content = LoaderUtils.decodeText(new Uint8Array(data))
+                json = JSON.parse(LoaderUtils.decodeText(new Uint8Array(data)))
             }
+        } else {
+            json = data
         }
-
-        const json = JSON.parse(content)
 
         if (json.asset === undefined || json.asset.version[0] < 2) {
             if (onError)
@@ -389,7 +397,8 @@ const EXTENSIONS = {
     KHR_MESH_QUANTIZATION: "KHR_mesh_quantization",
     KHR_MATERIALS_EMISSIVE_STRENGTH: "KHR_materials_emissive_strength",
     EXT_TEXTURE_WEBP: "EXT_texture_webp",
-    EXT_MESHOPT_COMPRESSION: "EXT_meshopt_compression"
+    EXT_MESHOPT_COMPRESSION: "EXT_meshopt_compression",
+    EXT_MESH_GPU_INSTANCING: "EXT_mesh_gpu_instancing"
 }
 
 /**
@@ -619,7 +628,7 @@ class GLTFMaterialsClearcoatExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshStandardMaterial
+        return MeshPhysicalMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -701,7 +710,7 @@ class GLTFMaterialsIridescenceExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshStandardMaterial
+        return MeshPhysicalMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -780,7 +789,7 @@ class GLTFMaterialsSheenExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshStandardMaterial
+        return MeshPhysicalMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -851,7 +860,7 @@ class GLTFMaterialsTransmissionExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshStandardMaterial
+        return MeshPhysicalMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -902,7 +911,7 @@ class GLTFMaterialsVolumeExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshStandardMaterial
+        return MeshPhysicalMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -932,7 +941,8 @@ class GLTFMaterialsVolumeExtension {
             )
         }
 
-        materialParams.attenuationDistance = extension.attenuationDistance || 0
+        materialParams.attenuationDistance =
+            extension.attenuationDistance || Infinity
 
         const colorArray = extension.attenuationColor || [1, 1, 1]
         materialParams.attenuationColor = new Color(
@@ -963,7 +973,7 @@ class GLTFMaterialsIorExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshStandardMaterial
+        return MeshPhysicalMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -1051,7 +1061,6 @@ class GLTFMaterialsSpecularExtension {
         return Promise.all(pending)
     }
 }
-
 /**
  * BasisU Texture Extension
  *
@@ -1249,6 +1258,144 @@ class GLTFMeshoptCompression {
     }
 }
 
+/**
+ * GPU Instancing Extension
+ *
+ * Specification: https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/EXT_mesh_gpu_instancing
+ *
+ */
+class GLTFMeshGpuInstancing {
+    constructor(parser) {
+        this.name = EXTENSIONS.EXT_MESH_GPU_INSTANCING
+        this.parser = parser
+    }
+
+    createNodeMesh(nodeIndex) {
+        const json = this.parser.json
+        const nodeDef = json.nodes[nodeIndex]
+
+        if (
+            !nodeDef.extensions ||
+            !nodeDef.extensions[this.name] ||
+            nodeDef.mesh === undefined
+        ) {
+            return null
+        }
+
+        const meshDef = json.meshes[nodeDef.mesh]
+
+        // No Points or Lines + Instancing support yet
+
+        for (const primitive of meshDef.primitives) {
+            if (
+                primitive.mode !== WEBGL_CONSTANTS.TRIANGLES &&
+                primitive.mode !== WEBGL_CONSTANTS.TRIANGLE_STRIP &&
+                primitive.mode !== WEBGL_CONSTANTS.TRIANGLE_FAN &&
+                primitive.mode !== undefined
+            ) {
+                return null
+            }
+        }
+
+        const extensionDef = nodeDef.extensions[this.name]
+        const attributesDef = extensionDef.attributes
+
+        // @TODO: Can we support InstancedMesh + SkinnedMesh?
+
+        const pending = []
+        const attributes = {}
+
+        for (const key in attributesDef) {
+            pending.push(
+                this.parser
+                    .getDependency("accessor", attributesDef[key])
+                    .then((accessor) => {
+                        attributes[key] = accessor
+                        return attributes[key]
+                    })
+            )
+        }
+
+        if (pending.length < 1) {
+            return null
+        }
+
+        pending.push(this.parser.createNodeMesh(nodeIndex))
+
+        return Promise.all(pending).then((results) => {
+            const nodeObject = results.pop()
+            const meshes = nodeObject.isGroup
+                ? nodeObject.children
+                : [nodeObject]
+            const count = results[0].count // All attribute counts should be same
+            const instancedMeshes = []
+
+            for (const mesh of meshes) {
+                // Temporal variables
+                const m = new Matrix4()
+                const p = new Vector3()
+                const q = new Quaternion()
+                const s = new Vector3(1, 1, 1)
+
+                const instancedMesh = new InstancedMesh(
+                    mesh.geometry,
+                    mesh.material,
+                    count
+                )
+
+                for (let i = 0; i < count; i++) {
+                    if (attributes.TRANSLATION) {
+                        p.fromBufferAttribute(attributes.TRANSLATION, i)
+                    }
+
+                    if (attributes.ROTATION) {
+                        q.fromBufferAttribute(attributes.ROTATION, i)
+                    }
+
+                    if (attributes.SCALE) {
+                        s.fromBufferAttribute(attributes.SCALE, i)
+                    }
+
+                    instancedMesh.setMatrixAt(i, m.compose(p, q, s))
+                }
+
+                // Add instance attributes to the geometry, excluding TRS.
+                for (const attributeName in attributes) {
+                    if (
+                        attributeName !== "TRANSLATION" &&
+                        attributeName !== "ROTATION" &&
+                        attributeName !== "SCALE"
+                    ) {
+                        mesh.geometry.setAttribute(
+                            attributeName,
+                            attributes[attributeName]
+                        )
+                    }
+                }
+
+                // Just in case
+                Object3D.prototype.copy.call(instancedMesh, mesh)
+
+                // https://github.com/mrdoob/three.js/issues/18334
+                instancedMesh.frustumCulled = false
+                this.parser.assignFinalMaterial(instancedMesh)
+
+                instancedMeshes.push(instancedMesh)
+            }
+
+            if (nodeObject.isGroup) {
+                nodeObject.clear()
+
+                nodeObject.add(...instancedMeshes)
+
+                return nodeObject
+            }
+
+            return instancedMeshes[0]
+        })
+    }
+}
+
 /* BINARY EXTENSION */
 const BINARY_EXTENSION_HEADER_MAGIC = "glTF"
 const BINARY_EXTENSION_HEADER_LENGTH = 12
@@ -1434,216 +1581,12 @@ class GLTFTextureTransformExtension {
     }
 }
 
-/**
- * Specular-Glossiness Extension
- *
- * Specification: https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Archived/KHR_materials_pbrSpecularGlossiness
- */
-
-/**
- * A sub class of StandardMaterial with some of the functionality
- * changed via the `onBeforeCompile` callback
- * @pailhead
- */
-class GLTFMeshStandardSGMaterial extends MeshStandardMaterial {
-    constructor(params) {
-        super()
-
-        this.isGLTFSpecularGlossinessMaterial = true
-
-        //various chunks that need replacing
-        const specularMapParsFragmentChunk = [
-            "#ifdef USE_SPECULARMAP",
-            "	uniform sampler2D specularMap;",
-            "#endif"
-        ].join("\n")
-
-        const glossinessMapParsFragmentChunk = [
-            "#ifdef USE_GLOSSINESSMAP",
-            "	uniform sampler2D glossinessMap;",
-            "#endif"
-        ].join("\n")
-
-        const specularMapFragmentChunk = [
-            "vec3 specularFactor = specular;",
-            "#ifdef USE_SPECULARMAP",
-            "	vec4 texelSpecular = texture2D( specularMap, vUv );",
-            "	// reads channel RGB, compatible with a glTF Specular-Glossiness (RGBA) texture",
-            "	specularFactor *= texelSpecular.rgb;",
-            "#endif"
-        ].join("\n")
-
-        const glossinessMapFragmentChunk = [
-            "float glossinessFactor = glossiness;",
-            "#ifdef USE_GLOSSINESSMAP",
-            "	vec4 texelGlossiness = texture2D( glossinessMap, vUv );",
-            "	// reads channel A, compatible with a glTF Specular-Glossiness (RGBA) texture",
-            "	glossinessFactor *= texelGlossiness.a;",
-            "#endif"
-        ].join("\n")
-
-        const lightPhysicalFragmentChunk = [
-            "PhysicalMaterial material;",
-            "material.diffuseColor = diffuseColor.rgb * ( 1. - max( specularFactor.r, max( specularFactor.g, specularFactor.b ) ) );",
-            "vec3 dxy = max( abs( dFdx( geometryNormal ) ), abs( dFdy( geometryNormal ) ) );",
-            "float geometryRoughness = max( max( dxy.x, dxy.y ), dxy.z );",
-            "material.roughness = max( 1.0 - glossinessFactor, 0.0525 ); // 0.0525 corresponds to the base mip of a 256 cubemap.",
-            "material.roughness += geometryRoughness;",
-            "material.roughness = min( material.roughness, 1.0 );",
-            "material.specularColor = specularFactor;"
-        ].join("\n")
-
-        const uniforms = {
-            specular: { value: new Color().setHex(0xffffff) },
-            glossiness: { value: 1 },
-            specularMap: { value: null },
-            glossinessMap: { value: null }
-        }
-
-        this._extraUniforms = uniforms
-
-        this.onBeforeCompile = function (shader) {
-            for (const uniformName in uniforms) {
-                shader.uniforms[uniformName] = uniforms[uniformName]
-            }
-
-            shader.fragmentShader = shader.fragmentShader
-                .replace("uniform float roughness;", "uniform vec3 specular;")
-                .replace(
-                    "uniform float metalness;",
-                    "uniform float glossiness;"
-                )
-                .replace(
-                    "#include <roughnessmap_pars_fragment>",
-                    specularMapParsFragmentChunk
-                )
-                .replace(
-                    "#include <metalnessmap_pars_fragment>",
-                    glossinessMapParsFragmentChunk
-                )
-                .replace(
-                    "#include <roughnessmap_fragment>",
-                    specularMapFragmentChunk
-                )
-                .replace(
-                    "#include <metalnessmap_fragment>",
-                    glossinessMapFragmentChunk
-                )
-                .replace(
-                    "#include <lights_physical_fragment>",
-                    lightPhysicalFragmentChunk
-                )
-        }
-
-        Object.defineProperties(this, {
-            specular: {
-                get: function () {
-                    return uniforms.specular.value
-                },
-                set: function (v) {
-                    uniforms.specular.value = v
-                }
-            },
-
-            specularMap: {
-                get: function () {
-                    return uniforms.specularMap.value
-                },
-                set: function (v) {
-                    uniforms.specularMap.value = v
-
-                    if (v) {
-                        this.defines.USE_SPECULARMAP = "" // USE_UV is set by the renderer for specular maps
-                    } else {
-                        delete this.defines.USE_SPECULARMAP
-                    }
-                }
-            },
-
-            glossiness: {
-                get: function () {
-                    return uniforms.glossiness.value
-                },
-                set: function (v) {
-                    uniforms.glossiness.value = v
-                }
-            },
-
-            glossinessMap: {
-                get: function () {
-                    return uniforms.glossinessMap.value
-                },
-                set: function (v) {
-                    uniforms.glossinessMap.value = v
-
-                    if (v) {
-                        this.defines.USE_GLOSSINESSMAP = ""
-                        this.defines.USE_UV = ""
-                    } else {
-                        delete this.defines.USE_GLOSSINESSMAP
-                        delete this.defines.USE_UV
-                    }
-                }
-            }
-        })
-
-        delete this.metalness
-        delete this.roughness
-        delete this.metalnessMap
-        delete this.roughnessMap
-
-        this.setValues(params)
-    }
-
-    copy(source) {
-        super.copy(source)
-
-        this.specularMap = source.specularMap
-        this.specular.copy(source.specular)
-        this.glossinessMap = source.glossinessMap
-        this.glossiness = source.glossiness
-        delete this.metalness
-        delete this.roughness
-        delete this.metalnessMap
-        delete this.roughnessMap
-        return this
-    }
-}
-
 class GLTFMaterialsPbrSpecularGlossinessExtension {
     constructor() {
         this.name = EXTENSIONS.KHR_MATERIALS_PBR_SPECULAR_GLOSSINESS
-
-        this.specularGlossinessParams = [
-            "color",
-            "map",
-            "lightMap",
-            "lightMapIntensity",
-            "aoMap",
-            "aoMapIntensity",
-            "emissive",
-            "emissiveIntensity",
-            "emissiveMap",
-            "bumpMap",
-            "bumpScale",
-            "normalMap",
-            "normalMapType",
-            "displacementMap",
-            "displacementScale",
-            "displacementBias",
-            "specularMap",
-            "specular",
-            "glossinessMap",
-            "glossiness",
-            "alphaMap",
-            "envMap",
-            "envMapIntensity"
-        ]
     }
 
     getMaterialType() {
-        //todo: toggle
-        // return GLTFMeshStandardSGMaterial
         return MeshStandardMaterial
     }
 
@@ -1674,43 +1617,12 @@ class GLTFMaterialsPbrSpecularGlossinessExtension {
         }
 
         materialParams.emissive = new Color(0.0, 0.0, 0.0)
-        materialParams.glossiness =
-            pbrSpecularGlossiness.glossinessFactor !== undefined
-                ? pbrSpecularGlossiness.glossinessFactor
-                : 1.0
-        materialParams.specular = new Color(1.0, 1.0, 1.0)
-
-        if (Array.isArray(pbrSpecularGlossiness.specularFactor)) {
-            materialParams.specular.fromArray(
-                pbrSpecularGlossiness.specularFactor
-            )
-        }
-
-        if (pbrSpecularGlossiness.specularGlossinessTexture !== undefined) {
-            const specGlossMapDef =
-                pbrSpecularGlossiness.specularGlossinessTexture
-            pending.push(
-                parser.assignTexture(
-                    materialParams,
-                    "glossinessMap",
-                    specGlossMapDef
-                )
-            )
-            pending.push(
-                parser.assignTexture(
-                    materialParams,
-                    "specularMap",
-                    specGlossMapDef,
-                    LinearEncoding
-                )
-            )
-        }
 
         return Promise.all(pending)
     }
 
     createMaterial(materialParams) {
-        const material = new GLTFMeshStandardSGMaterial(materialParams)
+        const material = new MeshStandardMaterial(materialParams)
         material.fog = true
 
         material.color = materialParams.color
@@ -1751,18 +1663,6 @@ class GLTFMaterialsPbrSpecularGlossinessExtension {
         material.displacementMap = null
         material.displacementScale = 1
         material.displacementBias = 0
-
-        material.specularMap =
-            materialParams.specularMap === undefined
-                ? null
-                : materialParams.specularMap
-        material.specular = materialParams.specular
-
-        material.glossinessMap =
-            materialParams.glossinessMap === undefined
-                ? null
-                : materialParams.glossinessMap
-        material.glossiness = materialParams.glossiness
 
         material.alphaMap = null
 
@@ -3261,16 +3161,7 @@ class GLTFParser {
         }
 
         return Promise.all(pending).then(function () {
-            let material
-
-            if (materialType === GLTFMeshStandardSGMaterial) {
-                material =
-                    extensions[
-                        EXTENSIONS.KHR_MATERIALS_PBR_SPECULAR_GLOSSINESS
-                    ].createMaterial(materialParams)
-            } else {
-                material = new materialType(materialParams)
-            }
+            let material = new materialType(materialParams)
 
             if (materialDef.name) material.name = materialDef.name
 
