@@ -11,8 +11,10 @@ import {
     VideoTexture,
     WebGLRenderTarget
 } from "three"
-import getWorldPosition from "../../../../../../display/utils/getWorldPosition"
-import getWorldQuaternion from "../../../../../../display/utils/getWorldQuaternion"
+import {
+    positionChanged,
+    quaternionChanged
+} from "../../../../../../display/utils/trackObject"
 import { getVisibleChildren } from "../../utils/Utils"
 import { VelocityMaterial } from "../material/VelocityMaterial"
 
@@ -89,7 +91,8 @@ export class VelocityPass extends Pass {
             }
 
             c.visible =
-                this.cameraMovedThisFrame ||
+                positionChanged(this._camera) ||
+                quaternionChanged(this._camera) ||
                 !c.matrixWorld.equals(velocityMaterial.lastMatrixWorld) ||
                 c.skeleton ||
                 "FULL_MOVEMENT" in velocityMaterial.defines
@@ -179,28 +182,7 @@ export class VelocityPass extends Pass {
         }
     }
 
-    checkCameraMoved() {
-        const position = getWorldPosition(this._camera)
-        const quaternion = getWorldQuaternion(this._camera)
-
-        const moveDist =
-            this.lastCameraTransform.position.distanceToSquared(position)
-        const rotateDist =
-            8 * (1 - this.lastCameraTransform.quaternion.dot(quaternion))
-
-        if (moveDist > 0.000001 || rotateDist > 0.000001) {
-            this.lastCameraTransform.position.copy(position)
-            this.lastCameraTransform.quaternion.copy(quaternion)
-
-            return true
-        }
-
-        return false
-    }
-
     render(renderer) {
-        this.cameraMovedThisFrame = this.checkCameraMoved()
-
         this.setVelocityMaterialInScene()
 
         if (
