@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { PropType, ref, toRaw, watchEffect } from "vue"
-import { onBeforeRender } from "lingo3d/lib/events/onBeforeRender"
-import { onAfterRender } from "lingo3d/lib/events/onAfterRender"
+import { onBeforeRender, onAfterRender } from "lingo3d"
 import StatsJS from "stats.js"
 
 const props = defineProps({

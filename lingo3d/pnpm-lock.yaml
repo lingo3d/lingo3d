@@ -11,6 +11,7 @@ specifiers:
   '@types/preact-custom-element': ^4.0.1
   '@types/prettier': ^2.6.3
   '@types/randomcolor': ^0.5.6
+  '@types/stats.js': ^0.17.0
   '@types/three': 0.144.0
   browser-fs-access: 0.31.1
   cannon-es: 0.20.0
@@ -23,6 +24,7 @@ specifiers:
   prettier: 2.7.1
   randomcolor: '*'
   rimraf: ^3.0.2
+  stats.js: '*'
   three: 0.145.0
   three-mesh-bvh: 0.5.16
   tweakpane: '*'
@@ -46,6 +48,7 @@ dependencies:
   preact-compat: 3.19.0_preact@10.11.2
   preact-custom-element: 4.2.1_preact@10.11.2
   prettier: 2.7.1
+  stats.js: 0.17.0
   three: 0.145.0
   three-mesh-bvh: 0.5.16_three@0.145.0
   xstate: 4.33.6
@@ -55,6 +58,7 @@ devDependencies:
   '@types/preact-custom-element': 4.0.1
   '@types/prettier': 2.7.1
   '@types/randomcolor': 0.5.6
+  '@types/stats.js': 0.17.0
   lil-gui: 0.17.0
   randomcolor: 0.6.2
   rimraf: 3.0.2
@@ -479,6 +483,10 @@ packages:
 
   /@types/randomcolor/0.5.6:
     resolution: {integrity: sha512-lKkW8DGUQpZldTrwa+HM5rY+7eTyaHOMTsnj9ewt7AAwXuMPwBmkLlfh8+SXdgOhBW9iNI4x4zRjQ/TQZkdycQ==}
+    dev: true
+
+  /@types/stats.js/0.17.0:
+    resolution: {integrity: sha512-9w+a7bR8PeB0dCT/HBULU2fMqf6BAzvKbxFboYhmDtDkKPiyXYbjoe2auwsXlEFI7CFNMF1dCv3dFH5Poy9R1w==}
     dev: true
 
   /@types/three/0.144.0:
@@ -1100,6 +1108,10 @@ packages:
 
   /standalone-react-addons-pure-render-mixin/0.1.1:
     resolution: {integrity: sha512-HFkwqpJmvz4vxHyzdeUcjtsp8Am+NauLXdU2/YXT1/InPbszaRo1cLPAy/58H7oOPNNjteqHcv04JEw+d9C+Xw==}
+    dev: false
+
+  /stats.js/0.17.0:
+    resolution: {integrity: sha512-hNKz8phvYLPEcRkeG1rsGmV5ChMjKDAWU7/OJJdDErPBNChQXxCo3WZurGpnWc6gZhAzEPFad1aVgyOANH1sMw==}
     dev: false
 
   /supports-color/5.5.0:
