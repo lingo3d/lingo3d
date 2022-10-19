@@ -1,3 +1,3 @@
-export default class Choices {
-    public constructor(public options: Record<string, any>) {}
+export default class Choices<T> {
+    public constructor(public options: Record<string, T>) {}
 }

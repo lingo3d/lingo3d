@@ -8,7 +8,7 @@ import HUD from "../HUD"
 import { useEffect, useRef } from "preact/hooks"
 import settings from "../../api/settings"
 import FileBrowser from "../FileBrowser"
-import { useFileBrowser } from "../states"
+import { useFileBrowser, useStats } from "../states"
 import Stats from "../Stats"
 
 type Props = {
@@ -25,6 +25,7 @@ const LingoEditor = ({ embedded }: Props) => {
     }, [embedded])
 
     const [fileBrowser] = useFileBrowser()
+    const [stats] = useStats()
 
     return (
         <div
@@ -58,7 +59,7 @@ const LingoEditor = ({ embedded }: Props) => {
                 {fileBrowser && <FileBrowser />}
             </div>
             <HUD />
-            <Stats />
+            {stats && <Stats />}
             <div
                 ref={elRef}
                 style={{ height: "100%", flexGrow: 1, position: "relative" }}

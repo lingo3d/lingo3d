@@ -17,6 +17,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     skybox: [String, Array],
     gridHelper: Boolean,
     gridHelperSize: Number,
+    stats: Boolean,
     gravity: Number,
     repulsion: Number,
     centripetal: Boolean,

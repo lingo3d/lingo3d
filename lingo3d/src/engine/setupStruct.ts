@@ -63,6 +63,7 @@ import {
     setShadowResolution
 } from "../states/useShadowResolution"
 import { getEnvironment, setEnvironment } from "../states/useEnvironment"
+import { getStats, setStats } from "../states/useStats"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -101,6 +102,13 @@ export default {
     },
     set gridHelperSize(value) {
         setGridHelperSize(value)
+    },
+
+    get stats() {
+        return getStats()
+    },
+    set stats(value) {
+        setStats(value)
     },
 
     get gravity() {

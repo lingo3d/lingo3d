@@ -95,7 +95,8 @@ export const nonSerializedProperties = [
     "target",
     "proxy",
     "gridHelper",
-    "gridHelperSize"
+    "gridHelperSize",
+    "stats"
 ]
 
 type TypedPropsNode<Props, Type extends GameObjectType> = Partial<Props> &

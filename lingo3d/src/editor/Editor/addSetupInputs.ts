@@ -7,7 +7,7 @@ import splitObject from "./splitObject"
 export default (pane: Pane, targetSetup: Partial<ISetup>) => {
     const [editorParams, editorRest] = splitObject(
         getParams(setupSchema, setupDefaults, targetSetup),
-        ["gridHelper", "gridHelperSize"]
+        ["gridHelper", "gridHelperSize", "stats"]
     )
     addInputs(pane, "editor", targetSetup, setupDefaults, editorParams)
 

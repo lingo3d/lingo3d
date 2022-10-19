@@ -43,6 +43,7 @@ import {
 } from "../states/useFileBrowserDir"
 import { setFileSelected, getFileSelected } from "../states/useFileSelected"
 import { setSetupStack, getSetupStack } from "../states/useSetupStack"
+import { getStats, setStats } from "../states/useStats"
 
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(
@@ -76,3 +77,4 @@ export const useFiles = hook(setFiles, getFiles)
 export const useFileSelected = hook(setFileSelected, getFileSelected)
 export const useFileBrowser = hook(setFileBrowser, getFileBrowser)
 export const useFileBrowserDir = hook(setFileBrowserDir, getFileBrowserDir)
+export const useStats = hook(setStats, getStats)
