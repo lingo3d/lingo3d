@@ -1,6 +1,7 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Color, Texture, WebGLCubeRenderTarget, CubeCamera } from "three"
 import EventLoopItem from "../../../api/core/EventLoopItem"
+import { ssrExcludeSet } from "../../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
 import { NEAR } from "../../../globals"
 import IAdjustMaterial from "../../../interface/IAdjustMaterial"
 import {
@@ -57,10 +58,12 @@ export default abstract class AdjustMaterialMixin
             const cubeCamera = new CubeCamera(NEAR, 10, cubeRenderTarget)
             const pair: [AdjustMaterialMixin, CubeCamera] = [this, cubeCamera]
             pushReflectionPairs(pair)
+            ssrExcludeSet.add(this.outerObject3d)
             handle.then(() => {
                 cubeRenderTarget.dispose()
                 reflectionTexture = undefined
                 pullReflectionPairs(pair)
+                ssrExcludeSet.delete(this.outerObject3d)
             })
         }
 

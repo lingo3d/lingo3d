@@ -7,13 +7,10 @@ let sceneBackground: any
 export const beforeRenderSSR = () => {
     sceneBackground = scene.background
     scene.background = null
-    for (const target of ssrExcludeSet) {
-        target.userData.visible = target.visible
-        target.visible = false
-    }
+    for (const target of ssrExcludeSet) target.visible = false
 }
 
 export const afterRenderSSR = () => {
     scene.background = sceneBackground
-    for (const target of ssrExcludeSet) target.visible = target.userData.visible
+    for (const target of ssrExcludeSet) target.visible = true
 }
