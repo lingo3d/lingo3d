@@ -22,7 +22,7 @@ import ObjectManager from "./ObjectManager"
 import { addSelectionHelper } from "./StaticObjectManager/raycast/selectionCandidates"
 import makeLightSprite from "./utils/makeLightSprite"
 
-const mapShadowResolution = (val: ShadowResolution) => {
+export const mapShadowResolution = (val: ShadowResolution) => {
     switch (val) {
         case "low":
             return 256

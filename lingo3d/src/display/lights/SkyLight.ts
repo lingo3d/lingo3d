@@ -1,5 +1,5 @@
 import { Color, HemisphereLight } from "three"
-import LightBase from "../core/LightBase"
+import LightBase, { mapShadowResolution } from "../core/LightBase"
 import ISkyLight, {
     skyLightDefaults,
     skyLightSchema
@@ -14,25 +14,32 @@ import {
     ShadowDistance
 } from "../../states/useShadowDistance"
 import { assertExhaustive } from "@lincode/utils"
+import {
+    getShadowResolution,
+    ShadowResolution
+} from "../../states/useShadowResolution"
 
-const mapCSMOptions = (val: ShadowDistance) => {
+const mapCSMOptions = (
+    val: ShadowDistance,
+    shadowResolution: ShadowResolution
+) => {
     switch (val) {
         case "near":
             return {
                 maxFar: 10,
-                shadowMapSize: 1024,
+                shadowMapSize: mapShadowResolution(shadowResolution) * 2,
                 shadowBias: -0.000025
             }
         case "middle":
             return {
                 maxFar: 30,
-                shadowMapSize: 1024,
+                shadowMapSize: mapShadowResolution(shadowResolution) * 2,
                 shadowBias: -0.000055
             }
         case "far":
             return {
                 maxFar: 100,
-                shadowMapSize: 2048,
+                shadowMapSize: mapShadowResolution(shadowResolution) * 4,
                 shadowBias: -0.0001
             }
         default:
@@ -55,7 +62,8 @@ export default class Skylight
         this.createEffect(() => {
             const csm = new CSM({
                 ...mapCSMOptions(
-                    this.shadowDistanceState.get() ?? getShadowDistance()
+                    this.shadowDistanceState.get() ?? getShadowDistance(),
+                    this.shadowResolutionState.get() ?? getShadowResolution()
                 ),
                 cascades: 1,
                 parent: scene,
@@ -84,7 +92,11 @@ export default class Skylight
                     scene.remove(light)
                 }
             }
-        }, [this.shadowDistanceState.get, getShadowDistance])
+        }, [
+            this.shadowDistanceState.get,
+            getShadowDistance,
+            getShadowResolution
+        ])
     }
 
     private shadowDistanceState = new Reactive<ShadowDistance | undefined>(
