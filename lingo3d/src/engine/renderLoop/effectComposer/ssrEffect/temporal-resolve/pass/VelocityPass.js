@@ -4,17 +4,12 @@ import {
     DataTexture,
     FloatType,
     HalfFloatType,
-    Matrix4,
     Quaternion,
     RGBAFormat,
     Vector3,
     VideoTexture,
     WebGLRenderTarget
 } from "three"
-import {
-    positionChanged,
-    quaternionChanged
-} from "../../../../../../display/utils/trackObject"
 import { getVisibleChildren } from "../../utils/Utils"
 import { VelocityMaterial } from "../material/VelocityMaterial"
 
@@ -59,7 +54,6 @@ export class VelocityPass extends Pass {
 
             if (originalMaterial !== cachedOriginalMaterial) {
                 velocityMaterial = new VelocityMaterial()
-                velocityMaterial.lastMatrixWorld = new Matrix4()
 
                 c.material = velocityMaterial
 
@@ -89,13 +83,6 @@ export class VelocityPass extends Pass {
                     velocityMaterial.needsUpdate = true
                 }
             }
-
-            c.visible =
-                positionChanged(this._camera) ||
-                quaternionChanged(this._camera) ||
-                !c.matrixWorld.equals(velocityMaterial.lastMatrixWorld) ||
-                c.skeleton ||
-                "FULL_MOVEMENT" in velocityMaterial.defines
 
             c.material = velocityMaterial
 
@@ -147,9 +134,6 @@ export class VelocityPass extends Pass {
     unsetVelocityMaterialInScene() {
         for (const c of this.visibleMeshes) {
             if (c.material.isVelocityMaterial) {
-                c.visible = true
-
-                c.material.lastMatrixWorld.copy(c.matrixWorld)
                 c.material.uniforms.prevVelocityMatrix.value.multiplyMatrices(
                     this._camera.projectionMatrix,
                     c.modelViewMatrix
