@@ -1,5 +1,5 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { BlendFunction, SelectiveBloomEffect, Selection } from "postprocessing"
+import { BlendFunction, SelectiveBloomEffect } from "postprocessing"
 import { Object3D } from "three"
 import { getBloomIntensity } from "../../../states/useBloomIntensity"
 import { getBloomRadius } from "../../../states/useBloomRadius"

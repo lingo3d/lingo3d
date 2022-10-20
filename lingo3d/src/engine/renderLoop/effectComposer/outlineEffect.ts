@@ -1,5 +1,5 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { OutlineEffect, Selection } from "postprocessing"
+import { OutlineEffect } from "postprocessing"
 import { Object3D } from "three"
 import loadTexture from "../../../display/utils/loaders/loadTexture"
 import { getCameraRendered } from "../../../states/useCameraRendered"
