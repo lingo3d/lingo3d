@@ -7,17 +7,6 @@ import { getBackgroundColor } from "../states/useBackgroundColor"
 import { getBackgroundImage } from "../states/useBackgroundImage"
 import { getSkyboxStack } from "../states/useSkyboxStack"
 import { last } from "@lincode/utils"
-import { onBeforeRenderSSR } from "../events/onBeforeRenderSSR"
-import { onAfterRenderSSR } from "../events/onAfterRenderSSR"
-
-let sceneBackground: any
-onBeforeRenderSSR(() => {
-    sceneBackground = scene.background
-    scene.background = null
-})
-onAfterRenderSSR(() => {
-    scene.background = sceneBackground
-})
 
 createEffect(() => {
     const image = getBackgroundImage()
