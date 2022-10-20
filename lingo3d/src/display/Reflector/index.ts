@@ -1,5 +1,6 @@
 import { Reactive } from "@lincode/reactivity"
 import { Mesh } from "three"
+import { ssrExcludeSet } from "../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
 import scene from "../../engine/scene"
 import { onRender } from "../../events/onRender"
 import IReflector, {
@@ -26,6 +27,9 @@ export default class Reflector
 
         super(mesh)
         this.rotationX = 270
+
+        ssrExcludeSet.add(this.outerObject3d)
+        this.then(() => ssrExcludeSet.delete(this.outerObject3d))
 
         import("./MeshReflectorMaterial").then(
             ({ default: MeshReflectorMaterial }) => {

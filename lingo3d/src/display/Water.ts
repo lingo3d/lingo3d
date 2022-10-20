@@ -8,6 +8,7 @@ import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import { WATERNORMALS_URL } from "../globals"
 import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "./core/VisibleObjectManager"
+import { ssrExcludeSet } from "../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
 
 export default class Water extends VisibleObjectManager implements IWater {
     public static componentName = "water"
@@ -49,6 +50,9 @@ export default class Water extends VisibleObjectManager implements IWater {
     public constructor() {
         super()
         this.rotationX = 270
+
+        ssrExcludeSet.add(this.outerObject3d)
+        this.then(() => ssrExcludeSet.delete(this.outerObject3d))
 
         import("three/examples/jsm/objects/Water").then(({ Water }) => {
             this.createEffect(() => {
