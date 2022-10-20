@@ -22,6 +22,7 @@ export default (pane: Pane, targetSetup: Partial<ISetup>) => {
 
     const [sceneParams, sceneRest] = splitObject(rendererRest, [
         "exposure",
+        "defaultShadow",
         "shadowResolution",
         "shadowDistance",
         "defaultLight",

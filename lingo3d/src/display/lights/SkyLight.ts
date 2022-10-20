@@ -18,6 +18,8 @@ import {
     getShadowResolution,
     ShadowResolution
 } from "../../states/useShadowResolution"
+import DirectionalLight from "./DirectionalLight"
+import { hiddenAppendables } from "../../api/core/Appendable"
 
 const mapCSMOptions = (
     val: ShadowDistance,
@@ -57,9 +59,18 @@ export default class Skylight
 
     public constructor() {
         super(HemisphereLight)
-        this.castShadow = true
 
         this.createEffect(() => {
+            if (!this.castShadowState.get()) {
+                const directionalLight = new DirectionalLight()
+                directionalLight.intensity = 0.5
+                this.append(directionalLight)
+                hiddenAppendables.add(directionalLight)
+                return () => {
+                    directionalLight.dispose()
+                }
+            }
+
             const csm = new CSM({
                 ...mapCSMOptions(
                     this.shadowDistanceState.get() ?? getShadowDistance(),
@@ -93,6 +104,7 @@ export default class Skylight
                 }
             }
         }, [
+            this.castShadowState.get,
             this.shadowDistanceState.get,
             getShadowDistance,
             getShadowResolution

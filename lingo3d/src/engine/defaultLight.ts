@@ -6,6 +6,7 @@ import { appendableRoot } from "../api/core/Appendable"
 import Environment from "../display/Environment"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import { FAR, TEXTURES_URL } from "../globals"
+import { getDefaultShadow } from "../states/defaultShadow"
 import { getCentripetal } from "../states/useCentripetal"
 import { getDefaultLight } from "../states/useDefaultLight"
 import { getEnvironment } from "../states/useEnvironment"
@@ -53,7 +54,7 @@ createEffect(() => {
         light.y = FAR
         light.z = FAR
         appendableRoot.delete(light)
-
+        handle.watch(getDefaultShadow((val) => (light.castShadow = val)))
         handle.then(() => light.dispose())
     })
     return () => {
