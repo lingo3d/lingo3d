@@ -22,14 +22,14 @@ export default (pane: Pane, targetSetup: Partial<ISetup>) => {
 
     const [sceneParams, sceneRest] = splitObject(rendererRest, [
         "exposure",
-        "defaultShadow",
-        "shadowResolution",
-        "shadowDistance",
         "defaultLight",
         "environment",
         "skybox",
         "texture",
-        "color"
+        "color",
+        "defaultShadow",
+        "shadowResolution",
+        "shadowDistance"
     ])
     addInputs(
         pane,
