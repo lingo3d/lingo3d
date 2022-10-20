@@ -1,13 +1,5 @@
 ﻿import { Effect, Selection } from "postprocessing"
-import {
-    CubeCamera,
-    LinearFilter,
-    PMREMGenerator,
-    ShaderChunk,
-    Uniform,
-    Vector3,
-    WebGLCubeRenderTarget
-} from "three"
+import { Uniform } from "three"
 import boxBlur from "./material/shader/boxBlur"
 import finalSSRShader from "./material/shader/finalSSRShader"
 import helperFunctions from "./material/shader/helperFunctions"
@@ -17,8 +9,6 @@ import { afterRenderSSR, beforeRenderSSR } from "./renderSetup"
 import { defaultSSROptions } from "./SSROptions"
 import { TemporalResolvePass } from "./temporal-resolve/pass/TemporalResolvePass"
 import { generateHalton23Points } from "./utils/generateHalton23Points"
-import { useBoxProjectedEnvMap } from "./utils/useBoxProjectedEnvMap"
-import { setupEnvMap } from "./utils/Utils"
 
 const finalFragmentShader = finalSSRShader
     .replace("#include <helperFunctions>", helperFunctions)
@@ -27,16 +17,11 @@ const finalFragmentShader = finalSSRShader
 // all the properties for which we don't have to resample
 const noResetSamplesProperties = ["blur", "blurSharpness", "blurKernel"]
 
-const defaultCubeRenderTarget = new WebGLCubeRenderTarget(1)
-let pmremGenerator
-
 export class SSREffect extends Effect {
     haltonSequence = generateHalton23Points(1024)
     haltonIndex = 0
     selection = new Selection()
     lastSize
-    cubeCamera = new CubeCamera(0.001, 1000, defaultCubeRenderTarget)
-    usingBoxProjectedEnvMap = false
 
     /**
      * @param {THREE.Scene} scene The scene of the SSR effect
@@ -251,46 +236,6 @@ export class SSREffect extends Effect {
         }
     }
 
-    generateBoxProjectedEnvMapFallback(
-        renderer,
-        position = new Vector3(),
-        size = new Vector3(),
-        envMapSize = 512
-    ) {
-        this.cubeCamera.renderTarget.dispose()
-        this.cubeCamera.renderTarget = new WebGLCubeRenderTarget(envMapSize)
-
-        this.cubeCamera.position.copy(position)
-        this.cubeCamera.updateMatrixWorld()
-        this.cubeCamera.update(renderer, this._scene)
-
-        if (!pmremGenerator) {
-            pmremGenerator = new PMREMGenerator(renderer)
-            pmremGenerator.compileCubemapShader()
-        }
-        const envMap = pmremGenerator.fromCubemap(
-            this.cubeCamera.renderTarget.texture
-        ).texture
-        envMap.minFilter = LinearFilter
-        envMap.magFilter = LinearFilter
-
-        const reflectionsMaterial = this.reflectionsPass.fullscreenMaterial
-
-        useBoxProjectedEnvMap(reflectionsMaterial, position, size)
-        reflectionsMaterial.fragmentShader = reflectionsMaterial.fragmentShader
-            .replace("vec3 worldPos", "worldPos")
-            .replace("varying vec3 vWorldPosition;", "vec3 worldPos;")
-
-        reflectionsMaterial.uniforms.envMapPosition.value.copy(position)
-        reflectionsMaterial.uniforms.envMapSize.value.copy(size)
-
-        setupEnvMap(reflectionsMaterial, envMap, envMapSize)
-
-        this.usingBoxProjectedEnvMap = true
-
-        return envMap
-    }
-
     setIBLRadiance(iblRadiance, renderer) {
         this._scene.traverse((c) => {
             if (c.material) {
@@ -301,21 +246,6 @@ export class SSREffect extends Effect {
                 }
             }
         })
-    }
-
-    deleteBoxProjectedEnvMapFallback() {
-        const reflectionsMaterial = this.reflectionsPass.fullscreenMaterial
-        reflectionsMaterial.uniforms.envMap.value = null
-        reflectionsMaterial.fragmentShader =
-            reflectionsMaterial.fragmentShader.replace(
-                "worldPos = ",
-                "vec3 worldPos = "
-            )
-        delete reflectionsMaterial.defines.BOX_PROJECTED_ENV_MAP
-
-        reflectionsMaterial.needsUpdate = true
-
-        this.usingBoxProjectedEnvMap = false
     }
 
     dispose() {
@@ -349,23 +279,5 @@ export class SSREffect extends Effect {
         this._camera.clearViewOffset()
 
         afterRenderSSR()
-    }
-
-    static patchDirectEnvIntensity(envMapIntensity = 0) {
-        if (envMapIntensity === 0) {
-            ShaderChunk.envmap_physical_pars_fragment =
-                ShaderChunk.envmap_physical_pars_fragment.replace(
-                    "vec3 getIBLRadiance( const in vec3 viewDir, const in vec3 normal, const in float roughness ) {",
-                    "vec3 getIBLRadiance( const in vec3 viewDir, const in vec3 normal, const in float roughness ) { return vec3(0.0);"
-                )
-        } else {
-            ShaderChunk.envmap_physical_pars_fragment =
-                ShaderChunk.envmap_physical_pars_fragment.replace(
-                    "vec4 envMapColor = textureCubeUV( envMap, reflectVec, roughness );",
-                    "vec4 envMapColor = textureCubeUV( envMap, reflectVec, roughness ) * " +
-                        envMapIntensity.toFixed(5) +
-                        ";"
-                )
-        }
     }
 }
