@@ -171,24 +171,6 @@ const Editor = () => {
                         defaults,
                         innerTransformParams
                     )
-
-                handle.watch(
-                    onTransformControls(() => {
-                        assignIn(transformParams, target, [
-                            "x",
-                            "y",
-                            "z",
-                            "rotationX",
-                            "rotationY",
-                            "rotationZ",
-                            "scaleX",
-                            "scaleY",
-                            "scaleZ"
-                        ])
-                        skipApplyValue()
-                        pane.refresh()
-                    })
-                )
             }
 
             const [animationParams, animationRest] = splitObject(
