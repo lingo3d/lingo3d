@@ -5,6 +5,7 @@ import {
 } from "../states/useEnvironmentStack"
 import IEnvironment, {
     environmentDefaults,
+    EnvironmentPreset,
     environmentSchema
 } from "../interface/IEnvironment"
 import PositionedItem from "../api/core/PositionedItem"
@@ -44,7 +45,7 @@ export default class Environment
         return this
     }
 
-    private _texture?: string | "studio" | "dynamic" = "studio"
+    private _texture?: string | EnvironmentPreset | "dynamic" = "studio"
     public get texture() {
         return this._texture
     }

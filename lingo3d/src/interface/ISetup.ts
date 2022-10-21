@@ -55,7 +55,9 @@ export const setupDefaults = extendDefaults<ISetup>(
         defaultLight: new Choices({
             true: true,
             false: false,
-            studio: "studio"
+            studio: "studio",
+            day: "day",
+            night: "night"
         }),
         pixelRatio: new Range(1, 2, 1),
         fps: new Range(30, 60, 30),

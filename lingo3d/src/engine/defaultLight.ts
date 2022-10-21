@@ -6,6 +6,7 @@ import { appendableRoot } from "../api/core/Appendable"
 import Environment from "../display/Environment"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import { FAR, TEXTURES_URL } from "../globals"
+import { environmentPreset } from "../interface/IEnvironment"
 import { getDefaultShadow } from "../states/defaultShadow"
 import { getCentripetal } from "../states/useCentripetal"
 import { getDefaultLight } from "../states/useDefaultLight"
@@ -26,11 +27,13 @@ createEffect(() => {
     if (!environment?.texture || !renderer || environment.texture === "dynamic")
         return
 
+    const value = environment.texture
+
     let proceed = true
     const texture = loadTexture(
-        environment.texture === "studio"
-            ? TEXTURES_URL + "studio.jpg"
-            : environment.texture,
+        value in environmentPreset
+            ? TEXTURES_URL + (environmentPreset as any)[value]
+            : value,
         () => proceed && (scene.environment = texture)
     )
     texture.mapping = EquirectangularReflectionMapping

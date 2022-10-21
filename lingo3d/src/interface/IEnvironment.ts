@@ -6,8 +6,16 @@ import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
+export const environmentPreset = {
+    studio: "studio.jpg",
+    day: "day.hdr",
+    night: "night.hdr"
+}
+
+export type EnvironmentPreset = keyof typeof environmentPreset
+
 export default interface IEnvironment extends IPositioned {
-    texture: Nullable<string | "studio" | "dynamic">
+    texture: Nullable<string | EnvironmentPreset | "dynamic">
     helper: boolean
 }
 
