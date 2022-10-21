@@ -1,8 +1,8 @@
 import { upperFirst } from "@lincode/utils"
 import createObject from "../../api/serializer/createObject"
 import { GameObjectType } from "../../api/serializer/types"
-import Spinner from "../component/Spinner"
 import drag, { dragImage } from "../utils/drag"
+import IconImage from "./IconImage"
 
 const setDraggingItem = drag<GameObjectType>(createObject)
 
@@ -29,16 +29,7 @@ const ObjectIcon = ({ name, iconName = name }: ObjectIconProps) => {
                 paddingBottom: 20
             }}
         >
-            <div
-                style={{
-                    width: 50,
-                    height: 50,
-                    backgroundImage: `url(https://unpkg.com/lingo3d-editor@1.0.3/assets/${iconName}.png)`,
-                    backgroundSize: "contain",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat"
-                }}
-            />
+            <IconImage iconName={iconName} />
             <div
                 style={{
                     marginTop: 6,
@@ -50,7 +41,6 @@ const ObjectIcon = ({ name, iconName = name }: ObjectIconProps) => {
             >
                 {upperFirst(name)}
             </div>
-            <Spinner />
         </div>
     )
 }

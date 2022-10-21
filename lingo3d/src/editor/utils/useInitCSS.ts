@@ -125,6 +125,15 @@ const initCSS = () => {
                         transform: scale3D(0, 0, 1);
                 } 
             }
+            
+            .lingo3d-fadein {
+                animation: fadeIn 1s;
+                
+            }
+            @keyframes fadeIn {
+                0% { opacity: 0; }
+                100% { opacity: 1; }
+            }
         </style>
     `)
     document.head.appendChild(style)
