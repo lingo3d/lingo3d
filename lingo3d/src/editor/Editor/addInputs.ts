@@ -105,7 +105,22 @@ export default async (
     )
     Object.assign(params, paramsBackup)
     skipApplyValue()
-    for (const input of Object.values(result)) input.refresh()
+    pane.refresh()
+
+    const interval = setInterval(() => {
+        let changed = false
+        for (const key of paramKeys)
+            if (!isEqual(target[key] ?? paramsDefault[key], params[key])) {
+                params[key] = target[key]
+                changed = true
+            }
+
+        if (changed) {
+            skipApplyValue()
+            pane.refresh()
+        }
+    }, 100)
+    handle.then(() => clearInterval(interval))
 
     return result
 }
