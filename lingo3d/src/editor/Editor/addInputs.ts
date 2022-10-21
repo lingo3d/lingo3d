@@ -13,7 +13,7 @@ export const skipApplyValue = debounce(
         skipApply = leading
         leading = !leading
     },
-    100,
+    0,
     "both"
 )
 
