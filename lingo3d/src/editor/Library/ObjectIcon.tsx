@@ -1,6 +1,7 @@
 import { upperFirst } from "@lincode/utils"
 import createObject from "../../api/serializer/createObject"
 import { GameObjectType } from "../../api/serializer/types"
+import Spinner from "../component/Spinner"
 import drag, { dragImage } from "../utils/drag"
 
 const setDraggingItem = drag<GameObjectType>(createObject)
@@ -49,6 +50,7 @@ const ObjectIcon = ({ name, iconName = name }: ObjectIconProps) => {
             >
                 {upperFirst(name)}
             </div>
+            <Spinner />
         </div>
     )
 }

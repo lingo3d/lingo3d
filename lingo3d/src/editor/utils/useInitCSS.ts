@@ -61,6 +61,70 @@ const initCSS = () => {
             .tp-fldv_b {
                 border-radius: 0px !important;
             }
+
+            .lingo3d-sk-cube-grid {
+                width: 40px;
+                height: 40px;
+                margin: 100px auto;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+            .lingo3d-sk-cube-grid .lingo3d-sk-cube {
+                width: 33%;
+                height: 33%;
+                background-color: #333;
+                float: left;
+                -webkit-animation: lingo3d-sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+                        animation: lingo3d-sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
+            }
+            .lingo3d-sk-cube-grid .lingo3d-sk-cube1 {
+                -webkit-animation-delay: 0.2s;
+                        animation-delay: 0.2s; }
+            .lingo3d-sk-cube-grid .lingo3d-sk-cube2 {
+                -webkit-animation-delay: 0.3s;
+                        animation-delay: 0.3s; }
+            .lingo3d-sk-cube-grid .lingo3d-sk-cube3 {
+                -webkit-animation-delay: 0.4s;
+                        animation-delay: 0.4s; }
+            .lingo3d-sk-cube-grid .lingo3d-sk-cube4 {
+                -webkit-animation-delay: 0.1s;
+                        animation-delay: 0.1s; }
+            .lingo3d-sk-cube-grid .lingo3d-sk-cube5 {
+                -webkit-animation-delay: 0.2s;
+                        animation-delay: 0.2s; }
+            .lingo3d-sk-cube-grid .lingo3d-sk-cube6 {
+                -webkit-animation-delay: 0.3s;
+                        animation-delay: 0.3s; }
+            .lingo3d-sk-cube-grid .lingo3d-sk-cube7 {
+                -webkit-animation-delay: 0s;
+                        animation-delay: 0s; }
+            .lingo3d-sk-cube-grid .lingo3d-sk-cube8 {
+                -webkit-animation-delay: 0.1s;
+                        animation-delay: 0.1s; }
+            .lingo3d-sk-cube-grid .lingo3d-sk-cube9 {
+                -webkit-animation-delay: 0.2s;
+                        animation-delay: 0.2s; }
+            
+            @-webkit-keyframes lingo3d-sk-cubeGridScaleDelay {
+                0%, 70%, 100% {
+                -webkit-transform: scale3D(1, 1, 1);
+                        transform: scale3D(1, 1, 1);
+                } 35% {
+                -webkit-transform: scale3D(0, 0, 1);
+                        transform: scale3D(0, 0, 1); 
+                }
+            }
+            @keyframes lingo3d-sk-cubeGridScaleDelay {
+                0%, 70%, 100% {
+                -webkit-transform: scale3D(1, 1, 1);
+                        transform: scale3D(1, 1, 1);
+                } 35% {
+                -webkit-transform: scale3D(0, 0, 1);
+                        transform: scale3D(0, 0, 1);
+                } 
+            }
         </style>
     `)
     document.head.appendChild(style)
