@@ -1,4 +1,4 @@
-import { Object3D, Vector3 } from "three"
+import { Object3D } from "three"
 import computePerFrame from "../../utils/computePerFrame"
 import getWorldPosition from "./getWorldPosition"
 import { box3, vector3 } from "./reusables"
