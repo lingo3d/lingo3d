@@ -44,7 +44,7 @@ const initCSS = () => {
                 background: rgba(100,100,100,0.1);
             }
             .lingo3d-bg {
-                background: rgb(40, 41, 46);
+                background: rgb(18, 19, 22);
             }
             .tp-lblv_l {
                 overflow: hidden;
