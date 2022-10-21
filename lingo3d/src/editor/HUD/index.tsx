@@ -5,6 +5,7 @@ import mainCamera from "../../engine/mainCamera"
 import { createPortal } from "preact/compat"
 import { container } from "../../engine/renderLoop/renderSetup"
 import useInitCSS from "../utils/useInitCSS"
+import Spinner from "../component/Spinner"
 
 const HUD = () => {
     useInitCSS(false)
@@ -21,6 +22,20 @@ const HUD = () => {
                 padding: 10
             }}
         >
+            <div
+                style={{
+                    width: "100%",
+                    height: "100%",
+                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}
+            >
+                <Spinner />
+            </div>
             {cameraRendered === mainCamera && (
                 <div style={{ opacity: 0.5 }}>
                     <HotKey hotkey="⇧" description="accelerate" />

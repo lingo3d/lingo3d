@@ -1,6 +1,10 @@
-const Spinner = () => {
+type SpinnerProps = {
+    color?: string
+}
+
+const Spinner = ({ color }: SpinnerProps) => {
     return (
-        <div class="lingo3d-sk-cube-grid">
+        <div class="lingo3d-sk-cube-grid" style={{ color }}>
             <div class="lingo3d-sk-cube lingo3d-sk-cube1"></div>
             <div class="lingo3d-sk-cube lingo3d-sk-cube2"></div>
             <div class="lingo3d-sk-cube lingo3d-sk-cube3"></div>

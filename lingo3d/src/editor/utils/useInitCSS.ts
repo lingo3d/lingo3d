@@ -74,7 +74,7 @@ const initCSS = () => {
             .lingo3d-sk-cube-grid .lingo3d-sk-cube {
                 width: 33%;
                 height: 33%;
-                background-color: #333;
+                background-color: currentColor;
                 float: left;
                 -webkit-animation: lingo3d-sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
                         animation: lingo3d-sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
