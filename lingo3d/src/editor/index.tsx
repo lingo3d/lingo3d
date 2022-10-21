@@ -11,6 +11,7 @@ import createElement from "../utils/createElement"
 const style = createElement(`
     <style>
         .lingo3d-ui * {
+            overscroll-behavior: none;
             user-select: none;
             -webkit-user-select: none;
             position: relative;
@@ -20,6 +21,7 @@ const style = createElement(`
             scrollbar-color: rgba(100,100,100,0.1);
         }
         .lingo3d-ui {
+            overscroll-behavior: none;
             position: relative;
             box-sizing: border-box;
             overflow: hidden;
