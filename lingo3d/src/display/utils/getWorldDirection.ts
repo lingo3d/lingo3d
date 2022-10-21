@@ -1,3 +1,6 @@
 import { Object3D, Vector3 } from "three"
+import computePerFrame from "../../utils/computePerFrame"
 
-export default (target: Object3D) => target.getWorldDirection(new Vector3())
+export default computePerFrame((target: Object3D) =>
+    target.getWorldDirection(new Vector3())
+)

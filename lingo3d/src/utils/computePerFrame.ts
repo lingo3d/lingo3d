@@ -21,3 +21,10 @@ export const computeValuePerFrame = <Item extends Object, Return>(
         return result
     }
 }
+
+export default <Item extends Object, Return extends { clone: () => Return }>(
+    cb: (item: Item) => Return
+) => {
+    const compute = computeValuePerFrame(cb)
+    return (item: Item) => compute(item).clone()
+}
