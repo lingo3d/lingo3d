@@ -3,7 +3,6 @@ import { Pane } from "./tweakpane"
 import resetIcon from "./resetIcon"
 import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
-import toFixed from "../../api/serializer/toFixed"
 import { Cancellable } from "@lincode/promiselikes"
 
 let skipApply = false
@@ -33,8 +32,6 @@ const isEqual = (a: any, b: any) => {
 
     return a === b
 }
-
-const numberChars = new Set("01234567890._".split(""))
 
 export default async (
     handle: Cancellable,
@@ -84,21 +81,7 @@ export default async (
 
             input.on("change", ({ value }: any) => {
                 updateResetButton()
-
-                if (skipApply) return
-
-                if (typeof value === "string") {
-                    if (value === "true" || value === "false") {
-                        target[key] = value === "true" ? true : false
-                        return
-                    }
-                    if ([...value].every((char) => numberChars.has(char))) {
-                        target[key] = parseFloat(value)
-                        return
-                    }
-                }
-                target[key] =
-                    typeof value === "number" ? toFixed(key, value) : value
+                if (!skipApply) target[key] = value
             })
             return [key, input] as const
         })
