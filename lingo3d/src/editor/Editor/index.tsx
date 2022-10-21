@@ -12,11 +12,9 @@ import {
 import { Cancellable } from "@lincode/promiselikes"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../utils/getComponentName"
-import addInputs, { skipApplyValue } from "./addInputs"
+import addInputs from "./addInputs"
 import getParams from "./getParams"
 import splitObject from "./splitObject"
-import { onTransformControls } from "../../events/onTransformControls"
-import assignIn from "./assignIn"
 import { emitSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 import { dummyDefaults } from "../../interface/IDummy"
 import useInit from "../utils/useInit"
@@ -80,6 +78,7 @@ const Editor = () => {
 
         const pane = new Pane({ container: el })
         setPane(pane)
+        const handle = new Cancellable()
 
         if (
             tab === "World" ||
@@ -88,17 +87,18 @@ const Editor = () => {
         ) {
             setCameraFolder(pane.addFolder({ title: "camera" }))
             addSetupInputs(
+                handle,
                 pane,
                 selectionTarget instanceof Setup ? selectionTarget : targetSetup
             )
             return () => {
                 setCameraFolder(undefined)
+                handle.cancel()
                 pane.dispose()
             }
         }
 
         const target = selectionTarget as any
-        const handle = new Cancellable()
 
         if (!multipleSelectionTargets.length) {
             const { schema, defaults, componentName } = target.constructor
@@ -116,6 +116,7 @@ const Editor = () => {
             ])
             if (generalParams)
                 addInputs(
+                    handle,
                     pane,
                     "general",
                     target,
@@ -162,9 +163,17 @@ const Editor = () => {
                         "depth"
                     ]
                 )
-                addInputs(pane, "transform", target, defaults, transformParams)
+                addInputs(
+                    handle,
+                    pane,
+                    "transform",
+                    target,
+                    defaults,
+                    transformParams
+                )
                 innerTransformParams &&
                     addInputs(
+                        handle,
                         pane,
                         "inner transform",
                         target,
@@ -178,7 +187,14 @@ const Editor = () => {
                 ["animation", "animationPaused", "animationRepeat"]
             )
             animationParams &&
-                addInputs(pane, "animation", target, defaults, animationParams)
+                addInputs(
+                    handle,
+                    pane,
+                    "animation",
+                    target,
+                    defaults,
+                    animationParams
+                )
 
             const [displayParams, displayRest] = splitObject(animationRest, [
                 "visible",
@@ -188,14 +204,28 @@ const Editor = () => {
                 "receiveShadow"
             ])
             displayParams &&
-                addInputs(pane, "display", target, defaults, displayParams)
+                addInputs(
+                    handle,
+                    pane,
+                    "display",
+                    target,
+                    defaults,
+                    displayParams
+                )
 
             const [effectsParams, effectsRest] = splitObject(displayRest, [
                 "bloom",
                 "outline"
             ])
             effectsParams &&
-                addInputs(pane, "effects", target, defaults, effectsParams)
+                addInputs(
+                    handle,
+                    pane,
+                    "effects",
+                    target,
+                    defaults,
+                    effectsParams
+                )
 
             const [adjustMaterialParams, adjustMaterialRest] = splitObject(
                 effectsRest,
@@ -210,6 +240,7 @@ const Editor = () => {
             )
             adjustMaterialParams &&
                 addInputs(
+                    handle,
                     pane,
                     "adjust material",
                     target,
@@ -231,7 +262,14 @@ const Editor = () => {
                 ]
             )
             materialParams &&
-                addInputs(pane, "material", target, defaults, materialParams)
+                addInputs(
+                    handle,
+                    pane,
+                    "material",
+                    target,
+                    defaults,
+                    materialParams
+                )
 
             const [pbrMaterialParams, pbrMaterialRest] = splitObject(
                 materialRest,
@@ -260,6 +298,7 @@ const Editor = () => {
             )
             pbrMaterialParams &&
                 addInputs(
+                    handle,
                     pane,
                     "pbr material",
                     target,
@@ -275,6 +314,7 @@ const Editor = () => {
                     y: -target.strideForward
                 }
                 addInputs(
+                    handle,
                     pane,
                     componentName,
                     target,
@@ -292,6 +332,7 @@ const Editor = () => {
                 )
             } else if (Object.keys(pbrMaterialRest).length)
                 addInputs(
+                    handle,
                     pane,
                     componentName,
                     target,

@@ -4,6 +4,7 @@ import resetIcon from "./resetIcon"
 import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import toFixed from "../../api/serializer/toFixed"
+import { Cancellable } from "@lincode/promiselikes"
 
 let skipApply = false
 
@@ -36,6 +37,7 @@ const isEqual = (a: any, b: any) => {
 const numberChars = new Set("01234567890._".split(""))
 
 export default async (
+    handle: Cancellable,
     pane: Pane,
     title: string,
     target: Record<string, any>,
@@ -58,7 +60,7 @@ export default async (
 
     const result = Object.fromEntries(
         Object.keys(params).map((key) => {
-            const input = folder.addInput(params, key, options?.[key] as any)
+            const input = folder.addInput(params, key, options?.[key])
 
             const resetButton = resetIcon.cloneNode(true) as HTMLElement
             input.element.prepend(resetButton)
