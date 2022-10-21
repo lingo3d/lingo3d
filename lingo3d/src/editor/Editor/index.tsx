@@ -6,7 +6,6 @@ import register from "preact-custom-element"
 import {
     useSelectionTarget,
     useMultipleSelectionTargets,
-    useNodeEditor,
     useSetupStack
 } from "../states"
 import { Cancellable } from "@lincode/promiselikes"
@@ -17,11 +16,6 @@ import getParams from "./getParams"
 import splitObject from "./splitObject"
 import { emitSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 import { dummyDefaults } from "../../interface/IDummy"
-import useInit from "../utils/useInit"
-import {
-    decreaseEditorMounted,
-    increaseEditorMounted
-} from "../../states/useEditorMounted"
 import useHotkeys from "./useHotkeys"
 import settings from "../../api/settings"
 import Setup, { dataSetupMap } from "../../display/Setup"
@@ -31,14 +25,18 @@ import AppBar from "../component/AppBar"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import useCameraPanel from "./useCameraPanel"
 import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
+import useInitCSS from "../utils/useInitCSS"
+import useClickable from "../utils/useClickable"
+import { setEditorMounted } from "../../states/useEditorMounted"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
 })
 
 const Editor = () => {
-    const elRef = useInit()
+    useInitCSS(true)
     useHotkeys()
+    const elRef = useClickable()
 
     useLayoutEffect(() => {
         window.onbeforeunload = confirmExit
@@ -49,12 +47,12 @@ const Editor = () => {
         mainOrbitCamera.active = true
         setOrbitControls(true)
         settings.gridHelper = true
-        increaseEditorMounted()
+        setEditorMounted(true)
 
         return () => {
             setOrbitControls(false)
             settings.gridHelper = false
-            decreaseEditorMounted()
+            setEditorMounted(false)
         }
     }, [])
 
@@ -383,14 +381,6 @@ const Editor = () => {
         </div>
     )
 }
+export default Editor
 
-const EditorParent = () => {
-    const [nodeEditor] = useNodeEditor()
-
-    if (nodeEditor) return null
-
-    return <Editor />
-}
-export default EditorParent
-
-register(EditorParent, "lingo3d-editor")
+register(Editor, "lingo3d-editor")

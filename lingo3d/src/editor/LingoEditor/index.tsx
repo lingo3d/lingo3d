@@ -2,7 +2,6 @@ import register from "preact-custom-element"
 import Toolbar from "../Toolbar"
 import SceneGraph from "../SceneGraph"
 import Editor from "../Editor"
-import NodeEditor from "../NodeEditor"
 import Library from "../Library"
 import HUD from "../HUD"
 import { useEffect, useRef } from "preact/hooks"
@@ -53,7 +52,6 @@ const LingoEditor = ({ embedded }: Props) => {
                 >
                     <SceneGraph />
                     <Editor />
-                    <NodeEditor />
                     <Library />
                 </div>
                 {fileBrowser && <FileBrowser />}

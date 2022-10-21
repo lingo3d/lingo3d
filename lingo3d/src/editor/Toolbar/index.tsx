@@ -16,19 +16,13 @@ import ReactIcon from "./icons/ReactIcon"
 import VueIcon from "./icons/VueIcon"
 import exportReact from "../../api/files/exportReact"
 import exportVue from "../../api/files/exportVue"
-import { useEffect } from "preact/hooks"
 import openJSON from "../../api/files/openJSON"
 import Section from "./Section"
-import useInit from "../utils/useInit"
 import { setEditorMode } from "../../states/useEditorMode"
 import { setTransformControlsSpace } from "../../states/useTransformControlsSpace"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import PlayIcon from "./icons/PlayIcon"
-import {
-    decreaseEditorMounted,
-    increaseEditorMounted
-} from "../../states/useEditorMounted"
 import MeshIcon from "./icons/MeshIcon"
 import PathIcon from "./icons/PathIcon"
 import FolderIcon from "./icons/FolderIcon"
@@ -38,9 +32,12 @@ import saveJSON from "../../api/files/saveJSON"
 import openFolder from "../../api/files/openFolder"
 import exportJSON from "../../api/files/exportJSON"
 import JSONIcon from "./icons/JSONIcon"
+import useInitCSS from "../utils/useInitCSS"
+import useClickable from "../utils/useClickable"
 
 const Toolbar = () => {
-    const elRef = useInit()
+    useInitCSS(true)
+    const elRef = useClickable()
 
     const [mode] = useEditorComputed()
     const [space] = useTransformControlsSpaceComputed()
@@ -49,14 +46,6 @@ const Toolbar = () => {
         target &&
         isPositionedItem(target) &&
         !(target instanceof SimpleObjectManager)
-
-    useEffect(() => {
-        increaseEditorMounted()
-
-        return () => {
-            decreaseEditorMounted()
-        }
-    }, [])
 
     return (
         <div

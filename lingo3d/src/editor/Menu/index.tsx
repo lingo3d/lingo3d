@@ -3,9 +3,8 @@ import MenuButton from "./MenuButton"
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
 import { useState } from "preact/hooks"
-import { setNodeEditor } from "../../states/useNodeEditor"
-import { useNodeEditor } from "../states"
-import useInit from "../utils/useInit"
+import useInitCSS from "../utils/useInitCSS"
+import useClickable from "../utils/useClickable"
 
 type Data = {
     x: number
@@ -14,9 +13,9 @@ type Data = {
 }
 
 const Menu = () => {
-    const elRef = useInit()
+    useInitCSS(true)
+    const elRef = useClickable()
     const [data, setData] = useState<Data | undefined>()
-    const [nodeEditor] = useNodeEditor()
 
     return (
         <div
@@ -66,12 +65,11 @@ const Menu = () => {
                             y: e.top,
                             menuItems: [
                                 {
-                                    text: nodeEditor
+                                    text: true
                                         ? "hide nodes editor"
                                         : "show nodes editor",
                                     onClick: () => {
                                         setData(undefined)
-                                        setNodeEditor(!nodeEditor)
                                     }
                                 }
                             ]

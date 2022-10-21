@@ -29,7 +29,7 @@ let alwaysVisible = false
 createEffect(() => {
     alwaysVisible =
         getEditing() ||
-        (!!getEditorMounted() && getCameraRendered() === mainCamera)
+        (getEditorMounted() && getCameraRendered() === mainCamera)
 }, [getEditing, getEditorMounted, getCameraRendered])
 
 export default class ThirdPersonCamera

@@ -1,27 +1,12 @@
 import register from "preact-custom-element"
 import ObjectGroup from "./ObjectGroup"
-import { useEffect } from "preact/hooks"
-import { useNodeEditor } from "../states"
-import useInit from "../utils/useInit"
-import {
-    decreaseEditorMounted,
-    increaseEditorMounted
-} from "../../states/useEditorMounted"
 import { DEBUG } from "../../globals"
+import useInitCSS from "../utils/useInitCSS"
+import useClickable from "../utils/useClickable"
 
 const Library = () => {
-    const elRef = useInit()
-    const [nodeEditor] = useNodeEditor()
-
-    useEffect(() => {
-        increaseEditorMounted()
-
-        return () => {
-            decreaseEditorMounted()
-        }
-    }, [])
-
-    if (nodeEditor) return null
+    useInitCSS(true)
+    const elRef = useClickable()
 
     return (
         <div

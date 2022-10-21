@@ -33,8 +33,6 @@ import {
     getSelectionFrozen,
     setSelectionFrozen
 } from "../states/useSelectionFrozen"
-import { getNodeEditor, setNodeEditor } from "../states/useNodeEditor"
-import { getEditorMounted, setEditorMounted } from "../states/useEditorMounted"
 import { getFiles, setFiles } from "../states/useFiles"
 import { setFileBrowser, getFileBrowser } from "../states/useFileBrowser"
 import {
@@ -71,8 +69,6 @@ export const useSceneGraphExpanded = hook(
     getSceneGraphExpanded
 )
 export const useSetupStack = hook(setSetupStack, getSetupStack)
-export const useNodeEditor = hook(setNodeEditor, getNodeEditor)
-export const useEditorMounted = hook(setEditorMounted, getEditorMounted)
 export const useFiles = hook(setFiles, getFiles)
 export const useFileSelected = hook(setFileSelected, getFileSelected)
 export const useFileBrowser = hook(setFileBrowser, getFileBrowser)

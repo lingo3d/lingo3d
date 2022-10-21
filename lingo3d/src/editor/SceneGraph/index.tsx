@@ -25,30 +25,26 @@ import ObjectManager from "../../display/core/ObjectManager"
 import SceneGraphContextMenu from "./SceneGraphContextMenu"
 import { onSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 import "./retargetBones"
-import useInit from "../utils/useInit"
-import {
-    decreaseEditorMounted,
-    increaseEditorMounted
-} from "../../states/useEditorMounted"
 import EmptyTreeItem from "../component/EmptyTreeItem"
 import scene from "../../engine/scene"
 import TreeItemContextProvider from "../component/TreeItemContextProviter"
 import TitleBar from "../component/TitleBar"
+import useInitCSS from "../utils/useInitCSS"
+import useClickable from "../utils/useClickable"
 
 const SceneGraph = () => {
+    useInitCSS(true)
     const [r, render] = useState({})
-    const elRef = useInit()
+    const elRef = useClickable()
 
     useLayoutEffect(() => {
         const cb = () => render({})
         const handle0 = onSceneGraphChange(cb)
         const handle1 = onSceneGraphNameChange(cb)
-        increaseEditorMounted()
 
         return () => {
             handle0.cancel()
             handle1.cancel()
-            decreaseEditorMounted()
         }
     }, [])
 

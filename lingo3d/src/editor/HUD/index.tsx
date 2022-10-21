@@ -1,12 +1,13 @@
 import register from "preact-custom-element"
 import HotKey from "./HotKey"
-import { useCameraRendered, useEditorMounted } from "../states"
+import { useCameraRendered } from "../states"
 import mainCamera from "../../engine/mainCamera"
 import { createPortal } from "preact/compat"
 import { container } from "../../engine/renderLoop/renderSetup"
+import useInitCSS from "../utils/useInitCSS"
 
 const HUD = () => {
-    const [editorMounted] = useEditorMounted()
+    useInitCSS(false)
     const [cameraRendered] = useCameraRendered()
 
     return createPortal(
@@ -20,7 +21,7 @@ const HUD = () => {
                 padding: 10
             }}
         >
-            {!!editorMounted && cameraRendered === mainCamera && (
+            {cameraRendered === mainCamera && (
                 <div style={{ opacity: 0.5 }}>
                     <HotKey hotkey="⇧" description="accelerate" />
                     <HotKey hotkey="W" description="move forward" />

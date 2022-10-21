@@ -1,6 +1,6 @@
 import { ComponentChildren } from "preact"
-import useInit from "../../utils/useInit"
 import { createPortal } from "preact/compat"
+import useClickable from "../../utils/useClickable"
 
 interface ContextMenuProps {
     data?: { x: number; y: number }
@@ -9,7 +9,7 @@ interface ContextMenuProps {
 }
 
 const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
-    const elRef = useInit()
+    const elRef = useClickable()
 
     if (!data) return null
 

@@ -9,12 +9,14 @@ import { setFileBrowser } from "../../states/useFileBrowser"
 import { setFileSelected } from "../../states/useFileSelected"
 import Tab from "../component/Tab"
 import AppBar from "../component/AppBar"
+import useInitCSS from "../utils/useInitCSS"
 
 interface FileStructure {
     [key: string]: FileStructure | File
 }
 
 const FileBrowser = () => {
+    useInitCSS(true)
     const [files] = useFiles()
     const [fileBrowserDir, setFileBrowserDir] = useFileBrowserDir()
 

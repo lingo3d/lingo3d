@@ -9,8 +9,8 @@ import { getSecondaryCamera } from "../../states/useSecondaryCamera"
 import { VRButton } from "./VRButton"
 import { getAutoMount } from "../../states/useAutoMount"
 import { debounce } from "@lincode/utils"
-import { getEditorMounted } from "../../states/useEditorMounted"
 import { getPixelRatio } from "../../states/usePixelRatio"
+import { onEditorLayout } from "../../events/onEditorLayout"
 
 const rootContainer = document.createElement("div")
 Object.assign(rootContainer.style, {
@@ -47,7 +47,7 @@ const useResize = (el: Element) => {
 
         const handleResizeDebounced = debounce(handleResize, 100, "both")
         window.addEventListener("resize", handleResizeDebounced)
-        const handle = getEditorMounted(handleResizeDebounced)
+        const handle = onEditorLayout(handleResizeDebounced)
 
         return () => {
             window.removeEventListener("resize", handleResize)
