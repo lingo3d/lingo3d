@@ -40,12 +40,15 @@ export default () => {
             const target = getSelectionTarget()
 
             if (e.metaKey || e.ctrlKey) {
-                e.preventDefault()
-
-                if (keyLowerCase === "s") saveJSON()
-                else if (keyLowerCase === "o") openFolder()
-                else if (target) {
+                if (keyLowerCase === "s") {
+                    e.preventDefault()
+                    saveJSON()
+                } else if (keyLowerCase === "o") {
+                    e.preventDefault()
+                    openFolder()
+                } else if (target) {
                     if (keyLowerCase === "c") {
+                        e.preventDefault()
                         const targets = getMultipleSelectionTargets()
                         if (targets.length) {
                             //todo: copy multiple
@@ -59,6 +62,7 @@ export default () => {
                             }
                         }
                     } else if (e.key === "ArrowUp" && getCentripetal()) {
+                        e.preventDefault()
                         applyCentripetalQuaternion(target)
                         setTransformControlsSpace("local")
                     }
