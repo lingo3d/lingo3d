@@ -65,7 +65,6 @@ const initCSS = () => {
             .lingo3d-sk-cube-grid {
                 width: 20px;
                 height: 20px;
-                margin: 100px auto;
                 position: absolute;
                 left: 50%;
                 top: 50%;

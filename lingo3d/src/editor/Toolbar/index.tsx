@@ -165,4 +165,4 @@ const Toolbar = () => {
 }
 export default Toolbar
 
-register(Toolbar, "lingo3d-toolbar", ["buttons"])
+register(Toolbar, "lingo3d-toolbar")

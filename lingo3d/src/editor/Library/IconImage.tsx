@@ -20,7 +20,7 @@ const IconImage = ({ iconName }: IconImageProps) => {
 
     return (
         <div style={{ width: 50, height: 50 }}>
-            {!loaded && <Spinner />}
+            {!loaded && <Spinner color="rgba(255, 255, 255, 0.1)" />}
             {loaded && (
                 <div
                     className="lingo3d-fadein"
