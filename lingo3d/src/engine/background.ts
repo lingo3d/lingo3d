@@ -7,6 +7,7 @@ import { getBackgroundColor } from "../states/useBackgroundColor"
 import { getBackgroundImage } from "../states/useBackgroundImage"
 import { getSkyboxStack } from "../states/useSkyboxStack"
 import { last } from "@lincode/utils"
+import { mapEnvironmentPreset } from "./defaultLight"
 
 createEffect(() => {
     const image = getBackgroundImage()
@@ -18,7 +19,7 @@ createEffect(() => {
         else {
             let proceed = true
             const texture = loadTexture(
-                skybox,
+                mapEnvironmentPreset(skybox),
                 () => proceed && (scene.background = texture)
             )
             texture.mapping = EquirectangularReflectionMapping

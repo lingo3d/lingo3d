@@ -20,6 +20,11 @@ defaultEnvironment.texture = undefined
 defaultEnvironment.helper = false
 appendableRoot.delete(defaultEnvironment)
 
+export const mapEnvironmentPreset = (value: string) =>
+    value in environmentPreset
+        ? TEXTURES_URL + (environmentPreset as any)[value]
+        : value
+
 createEffect(() => {
     const environment = last(getEnvironmentStack())
     const renderer = getRenderer()
@@ -27,13 +32,9 @@ createEffect(() => {
     if (!environment?.texture || !renderer || environment.texture === "dynamic")
         return
 
-    const value = environment.texture
-
     let proceed = true
     const texture = loadTexture(
-        value in environmentPreset
-            ? TEXTURES_URL + (environmentPreset as any)[value]
-            : value,
+        mapEnvironmentPreset(environment.texture),
         () => proceed && (scene.environment = texture)
     )
     texture.mapping = EquirectangularReflectionMapping
