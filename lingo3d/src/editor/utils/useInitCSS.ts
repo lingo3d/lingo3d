@@ -123,11 +123,17 @@ const initCSS = () => {
             
             .lingo3d-fadein {
                 animation: fadeIn 1s;
-                
             }
             @keyframes fadeIn {
                 0% { opacity: 0; }
                 100% { opacity: 1; }
+            }
+            .lingo3d-fadeOut {
+                animation: fadeOut 1s;
+            }
+            @keyframes fadeOut {
+                0% { opacity: 1; }
+                100% { opacity: 0; }
             }
         </style>
     `)
