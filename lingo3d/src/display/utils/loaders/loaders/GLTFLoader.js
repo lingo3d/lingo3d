@@ -63,6 +63,24 @@ import {
     VectorKeyframeTrack,
     LinearEncoding
 } from "three"
+import {
+    decreaseLoadingUnpkgCount,
+    increaseLoadingUnpkgCount
+} from "../../../../states/useLoadingUnpkgCount"
+
+let increased = false
+const increaseOnce = () => {
+    if (increased) return
+    increased = true
+    increaseLoadingUnpkgCount()
+}
+
+let decreased = false
+const decreaseOnce = () => {
+    if (decreased) return
+    decreased = true
+    decreaseLoadingUnpkgCount()
+}
 
 class GLTFLoader extends Loader {
     constructor(manager) {
@@ -1471,6 +1489,7 @@ class GLTFDracoMeshCompressionExtension {
         this.json = json
         this.dracoLoader = dracoLoader
         this.dracoLoader.preload()
+        increaseOnce()
     }
 
     decodePrimitive(primitive, parser) {
@@ -1523,6 +1542,7 @@ class GLTFDracoMeshCompressionExtension {
                                     attribute.normalized = normalized
                             }
 
+                            decreaseOnce()
                             resolve(geometry)
                         },
                         threeAttributeMap,
