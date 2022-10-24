@@ -6,6 +6,7 @@ import { createPortal } from "preact/compat"
 import { container } from "../../engine/renderLoop/renderSetup"
 import useInitCSS from "../utils/useInitCSS"
 import Spinner from "../component/Spinner"
+import Transition from "../component/Transition"
 
 const HUD = () => {
     useInitCSS(false)
@@ -23,35 +24,40 @@ const HUD = () => {
                 padding: 10
             }}
         >
-            {!!loadingUnpkgCount && (
-                <div
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        position: "absolute",
-                        left: 0,
-                        top: 0,
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}
-                >
+            <Transition mounted={!!loadingUnpkgCount}>
+                {() => (
                     <div
+                        className={
+                            loadingUnpkgCount ? undefined : "lingo3d-fadeOut"
+                        }
                         style={{
+                            width: "100%",
+                            height: "100%",
+                            position: "absolute",
+                            left: 0,
+                            top: 0,
                             display: "flex",
+                            flexDirection: "column",
                             justifyContent: "center",
-                            alignItems: "center",
-                            gap: 10,
-                            background: "rgba(0, 0, 0, 0.5)",
-                            padding: 2
+                            alignItems: "center"
                         }}
                     >
-                        {<Spinner size={14} />}
-                        {!!loadingUnpkgCount && "loading data from unpkg"}
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                gap: 10,
+                                background: "rgba(0, 0, 0, 0.5)",
+                                padding: 2
+                            }}
+                        >
+                            <Spinner size={14} />
+                            loading data from unpkg
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+            </Transition>
             {cameraRendered === mainCamera && (
                 <div style={{ opacity: 0.5 }}>
                     <HotKey hotkey="⇧" description="accelerate" />
