@@ -1,7 +1,6 @@
+import { FOREST_URL } from "../../globals"
 import ITree, { treeDefaults, treeSchema } from "../../interface/ITree"
 import Model from "../Model"
-
-const url = "https://unpkg.com/lingo3d-forest@1.0.0/assets/"
 
 export default class Tree extends Model implements ITree {
     public static override componentName = "tree"
@@ -19,6 +18,6 @@ export default class Tree extends Model implements ITree {
         return this._preset
     }
     public set preset(val) {
-        this.src = url + val + ".glb"
+        this.src = FOREST_URL + val + ".glb"
     }
 }

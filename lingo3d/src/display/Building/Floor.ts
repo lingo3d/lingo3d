@@ -2,11 +2,10 @@ import { Reactive } from "@lincode/reactivity"
 import { range } from "@lincode/utils"
 import Building from "."
 import Appendable, { hiddenAppendables } from "../../api/core/Appendable"
+import { FACADE_URL } from "../../globals"
 import IFloor, { FacadePreset } from "../../interface/IFloor"
 import VisibleObjectManager from "../core/VisibleObjectManager"
 import Model from "../Model"
-
-const url = "https://unpkg.com/lingo3d-facade@1.0.0/assets/"
 
 const makeFacade = (src: string, parent: Appendable, rotationY: number) => {
     const facade = new Model()
@@ -52,7 +51,7 @@ export default class Floor extends VisibleObjectManager implements IFloor {
             const repeatX = Math.max(Math.floor(this.repeatXState.get()), 1)
             const repeatZ = Math.max(Math.floor(this.repeatZState.get()), 1)
 
-            const src = url + this.presetState.get() + ".glb"
+            const src = FACADE_URL + this.presetState.get() + ".glb"
 
             const facade0 = range(repeatX).map(() => makeFacade(src, this, 0))
             const facade2 = range(repeatX).map(() => makeFacade(src, this, 180))

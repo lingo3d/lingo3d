@@ -1,5 +1,4 @@
 import store from "@lincode/reactivity"
+import { WASM_URL } from "../globals"
 
-export const [setWasmPath, getWasmPath] = store(
-    "https://unpkg.com/lingo3d-wasm@1.0.1/assets/"
-)
+export const [setWasmPath, getWasmPath] = store(WASM_URL)

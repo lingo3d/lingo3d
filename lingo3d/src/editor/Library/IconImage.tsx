@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "preact/hooks"
+import { EDITOR_URL } from "../../globals"
 import Spinner from "../component/Spinner"
 
 type IconImageProps = {
@@ -8,7 +9,7 @@ type IconImageProps = {
 const IconImage = ({ iconName }: IconImageProps) => {
     const [loaded, setLoaded] = useState(false)
     const src = useMemo(
-        () => `https://unpkg.com/lingo3d-editor@1.0.3/assets/${iconName}.png`,
+        () => `${EDITOR_URL}${iconName}.png`,
         [iconName]
     )
 

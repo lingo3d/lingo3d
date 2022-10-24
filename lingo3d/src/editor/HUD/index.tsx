@@ -30,11 +30,13 @@ const HUD = () => {
                     left: 0,
                     top: 0,
                     display: "flex",
+                    flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center"
                 }}
             >
                 <Spinner />
+                loading data from unpkg
             </div>
             {cameraRendered === mainCamera && (
                 <div style={{ opacity: 0.5 }}>
