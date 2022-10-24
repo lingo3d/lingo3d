@@ -1,10 +1,6 @@
 import register from "preact-custom-element"
 import HotKey from "./HotKey"
-import {
-    useCameraRendered,
-    useLoadingCount,
-    useLoadingUnpkgCount
-} from "../states"
+import { useCameraRendered, useLoadingUnpkgCount } from "../states"
 import mainCamera from "../../engine/mainCamera"
 import { createPortal } from "preact/compat"
 import { container } from "../../engine/renderLoop/renderSetup"
@@ -14,7 +10,6 @@ import Spinner from "../component/Spinner"
 const HUD = () => {
     useInitCSS(false)
     const [cameraRendered] = useCameraRendered()
-    const [loadingCount] = useLoadingCount()
     const [loadingUnpkgCount] = useLoadingUnpkgCount()
 
     return createPortal(
@@ -28,7 +23,7 @@ const HUD = () => {
                 padding: 10
             }}
         >
-            {!!(loadingUnpkgCount || loadingCount) && (
+            {!!loadingUnpkgCount && (
                 <div
                     style={{
                         width: "100%",
@@ -53,11 +48,7 @@ const HUD = () => {
                         }}
                     >
                         {<Spinner size={14} />}
-                        {loadingUnpkgCount
-                            ? "loading data from unpkg"
-                            : loadingCount
-                            ? "loading local data"
-                            : undefined}
+                        {!!loadingUnpkgCount && "loading data from unpkg"}
                     </div>
                 </div>
             )}

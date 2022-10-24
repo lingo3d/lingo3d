@@ -79,7 +79,6 @@ export const useFileSelected = hook(setFileSelected, getFileSelected)
 export const useFileBrowser = hook(setFileBrowser, getFileBrowser)
 export const useFileBrowserDir = hook(setFileBrowserDir, getFileBrowserDir)
 export const useStats = hook(setStats, getStats)
-export const useLoadingCount = hook(setLoadingCount, getLoadingCount)
 export const useLoadingUnpkgCount = hook(
     setLoadingUnpkgCount,
     getLoadingUnpkgCount
