@@ -21,7 +21,6 @@ export default (gltf: Object3D, src: string) => {
     gltf.position.copy(center).multiplyScalar(-1)
 
     measuredSize.multiplyScalar(ratio)
-    Object.freeze(measuredSize)
 
     cache.set(src, [ratio, center, measuredSize])
     return measuredSize

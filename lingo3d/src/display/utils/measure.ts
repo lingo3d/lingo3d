@@ -8,7 +8,6 @@ export default (gltf: Object3D, src: string) => {
 
     const measuredSize = new Vector3()
     box3.setFromObject(gltf).getSize(measuredSize)
-    Object.freeze(measuredSize)
 
     cache.set(src, measuredSize)
     return measuredSize

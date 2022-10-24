@@ -1,5 +1,9 @@
 import { forceGet } from "@lincode/utils"
 import { AudioLoader } from "three"
+import {
+    decreaseLoadingUnpkgCount,
+    increaseLoadingUnpkgCount
+} from "../../../states/useLoadingUnpkgCount"
 import { handleProgress } from "./bytesLoaded"
 
 const cache = new Map<string, Promise<AudioBuffer>>()
@@ -11,9 +15,14 @@ export default (url: string) =>
         url,
         () =>
             new Promise<AudioBuffer>((resolve, reject) => {
+                const unpkg = url.startsWith("https://unpkg.com/")
+                unpkg && increaseLoadingUnpkgCount()
                 loader.load(
                     url,
-                    (buffer) => resolve(Object.freeze(buffer)),
+                    (buffer) => {
+                        unpkg && decreaseLoadingUnpkgCount()
+                        resolve(buffer)
+                    },
                     handleProgress(url),
                     reject
                 )

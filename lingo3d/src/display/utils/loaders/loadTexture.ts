@@ -3,6 +3,10 @@ import { forceGet } from "@lincode/utils"
 import { handleProgress } from "./bytesLoaded"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
 import Events from "@lincode/events"
+import {
+    decreaseLoadingUnpkgCount,
+    increaseLoadingUnpkgCount
+} from "../../../states/useLoadingUnpkgCount"
 
 const cache = new Map<string, Texture>()
 const textureLoader = new TextureLoader()
@@ -13,6 +17,9 @@ export default (url: string, onLoad?: () => void) => {
     onLoad && loaded.once(url, () => queueMicrotask(onLoad))
 
     const texture = forceGet(cache, url, () => {
+        const unpkg = url.startsWith("https://unpkg.com/")
+        unpkg && increaseLoadingUnpkgCount()
+
         const hdr = url.toLowerCase().endsWith(".hdr")
         const loader = hdr ? rgbeLoader : textureLoader
 
@@ -22,6 +29,8 @@ export default (url: string, onLoad?: () => void) => {
                 texture.wrapS = texture.wrapT = RepeatWrapping
                 texture.flipY = true
                 loaded.setState(url)
+
+                unpkg && decreaseLoadingUnpkgCount()
             },
             handleProgress(url)
         )

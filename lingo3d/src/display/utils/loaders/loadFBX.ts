@@ -3,6 +3,10 @@ import { Bone, Group, Light } from "three"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { handleProgress } from "./bytesLoaded"
+import {
+    decreaseLoadingUnpkgCount,
+    increaseLoadingUnpkgCount
+} from "../../../states/useLoadingUnpkgCount"
 
 const cache = new Map<string, Promise<[Group, boolean]>>()
 const loader = new FBXLoader()
@@ -13,6 +17,8 @@ export default async (url: string, clone: boolean) => {
         url,
         () =>
             new Promise<[Group, boolean]>((resolve, reject) => {
+                const unpkg = url.startsWith("https://unpkg.com/")
+                unpkg && increaseLoadingUnpkgCount()
                 loader.load(
                     url,
                     (group: any) => {
@@ -29,6 +35,7 @@ export default async (url: string, clone: boolean) => {
                         })
                         for (const light of lights) light.parent?.remove(light)
 
+                        unpkg && decreaseLoadingUnpkgCount()
                         resolve([group, noBone])
                     },
                     handleProgress(url),

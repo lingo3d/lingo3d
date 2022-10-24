@@ -6,6 +6,10 @@ import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { handleProgress } from "./bytesLoaded"
 import { getWasmPath } from "../../../states/useWasmPath"
+import {
+    decreaseLoadingUnpkgCount,
+    increaseLoadingUnpkgCount
+} from "../../../states/useLoadingUnpkgCount"
 
 const cache = new Map<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()
@@ -20,6 +24,8 @@ export default async (url: string, clone: boolean) => {
         url,
         () =>
             new Promise<[GLTF, boolean]>((resolve, reject) => {
+                const unpkg = url.startsWith("https://unpkg.com/")
+                unpkg && increaseLoadingUnpkgCount()
                 loader.load(
                     url,
                     (gltf: any) => {
@@ -37,6 +43,7 @@ export default async (url: string, clone: boolean) => {
                             })
                         for (const light of lights) light.parent?.remove(light)
 
+                        unpkg && decreaseLoadingUnpkgCount()
                         resolve([gltf, noBone])
                     },
                     handleProgress(url),
