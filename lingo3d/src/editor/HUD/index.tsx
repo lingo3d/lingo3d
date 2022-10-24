@@ -1,6 +1,10 @@
 import register from "preact-custom-element"
 import HotKey from "./HotKey"
-import { useCameraRendered } from "../states"
+import {
+    useCameraRendered,
+    useLoadingCount,
+    useLoadingUnpkgCount
+} from "../states"
 import mainCamera from "../../engine/mainCamera"
 import { createPortal } from "preact/compat"
 import { container } from "../../engine/renderLoop/renderSetup"
@@ -10,6 +14,8 @@ import Spinner from "../component/Spinner"
 const HUD = () => {
     useInitCSS(false)
     const [cameraRendered] = useCameraRendered()
+    const [loadingCount] = useLoadingCount()
+    const [loadingUnpkgCount] = useLoadingUnpkgCount()
 
     return createPortal(
         <div
@@ -22,22 +28,39 @@ const HUD = () => {
                 padding: 10
             }}
         >
-            <div
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    position: "absolute",
-                    left: 0,
-                    top: 0,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center"
-                }}
-            >
-                <Spinner />
-                loading data from unpkg
-            </div>
+            {!!(loadingUnpkgCount || loadingCount) && (
+                <div
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}
+                >
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: 10,
+                            background: "rgba(0, 0, 0, 0.5)",
+                            padding: 2
+                        }}
+                    >
+                        {<Spinner size={14} />}
+                        {loadingUnpkgCount
+                            ? "loading data from unpkg"
+                            : loadingCount
+                            ? "loading local data"
+                            : undefined}
+                    </div>
+                </div>
+            )}
             {cameraRendered === mainCamera && (
                 <div style={{ opacity: 0.5 }}>
                     <HotKey hotkey="⇧" description="accelerate" />

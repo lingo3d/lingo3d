@@ -8,10 +8,7 @@ type IconImageProps = {
 
 const IconImage = ({ iconName }: IconImageProps) => {
     const [loaded, setLoaded] = useState(false)
-    const src = useMemo(
-        () => `${EDITOR_URL}${iconName}.png`,
-        [iconName]
-    )
+    const src = useMemo(() => `${EDITOR_URL}${iconName}.png`, [iconName])
 
     useEffect(() => {
         const image = new Image()
@@ -21,7 +18,19 @@ const IconImage = ({ iconName }: IconImageProps) => {
 
     return (
         <div style={{ width: 50, height: 50 }}>
-            {!loaded && <Spinner color="rgba(255, 255, 255, 0.1)" />}
+            {!loaded && (
+                <div
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}
+                >
+                    <Spinner color="rgba(255, 255, 255, 0.1)" />
+                </div>
+            )}
             {loaded && (
                 <div
                     className="lingo3d-fadein"
