@@ -62,6 +62,7 @@ export default class HTMLMesh
                     ? new HTMLSprite(element)
                     : new HTMLMesh(element)
                 this.object3d.add(mesh)
+                mesh.userData.manager = this
 
                 handle.watch(
                     this.cssColorState.get((color) => {
