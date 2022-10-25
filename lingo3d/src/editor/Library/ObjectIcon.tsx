@@ -1,7 +1,7 @@
 import { upperFirst } from "@lincode/utils"
 import createObject from "../../api/serializer/createObject"
 import { GameObjectType } from "../../api/serializer/types"
-import drag, { dragImage } from "../utils/drag"
+import drag, { setDragImage } from "../utils/drag"
 import IconImage from "./IconImage"
 
 const setDraggingItem = drag<GameObjectType>(createObject)
@@ -17,7 +17,7 @@ const ObjectIcon = ({ name, iconName = name }: ObjectIconProps) => {
             draggable
             onDragStart={(e) => {
                 setDraggingItem(name as GameObjectType)
-                e.dataTransfer!.setDragImage(dragImage, 0, 0)
+                setDragImage(e)
             }}
             onDragEnd={() => setDraggingItem(undefined)}
             style={{

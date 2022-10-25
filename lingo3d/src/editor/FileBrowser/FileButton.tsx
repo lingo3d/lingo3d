@@ -3,7 +3,7 @@ import { splitFileName } from "@lincode/utils"
 import { createObjectURL } from "../../display/core/utils/objectURL"
 import Model from "../../display/Model"
 import { useFileSelected } from "../states"
-import drag, { dragImage } from "../utils/drag"
+import drag, { setDragImage } from "../utils/drag"
 import FileIcon from "./icons/FileIcon"
 
 const setDraggingItem = drag<File>((draggingItem, hitManager) => {
@@ -53,7 +53,7 @@ const FileButton = ({ file }: FileButtonProps) => {
             draggable
             onDragStart={(e) => {
                 setDraggingItem(file)
-                e.dataTransfer!.setDragImage(dragImage, 0, 0)
+                setDragImage(e)
             }}
             onDragEnd={() => setDraggingItem(undefined)}
             onMouseDown={(e) => (e.stopPropagation(), setFileSelected(file))}

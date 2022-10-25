@@ -6,6 +6,7 @@ import { TreeItemContext } from "./TreeItemContextProviter"
 import useClick from "../hooks/useClick"
 import Appendable from "../../api/core/Appendable"
 import mergeRefs from "../hooks/mergeRefs"
+import { setDragImage } from "../utils/drag"
 
 export type BaseTreeItemProps = {
     label?: string
@@ -88,6 +89,7 @@ const BaseTreeItem = ({
             onDragStart={(e) => {
                 e.stopPropagation()
                 context.draggingItem = myDraggingItem
+                setDragImage(e)
             }}
             onDragEnd={(e) => {
                 e.stopPropagation()
