@@ -11,7 +11,7 @@ import Range from "./utils/Range"
 export default interface ITrigger extends IPositioned {
     onEnter: Nullable<(target: StaticObjectManager) => void>
     onExit: Nullable<() => void>
-    targetIds: Nullable<string | Array<string>>
+    target: Nullable<string | Array<string> | StaticObjectManager>
     pad: boolean
     radius: number
     interval: number
@@ -22,7 +22,7 @@ export const triggerSchema: Required<ExtractProps<ITrigger>> = {
     ...positionedSchema,
     onEnter: Function,
     onExit: Function,
-    targetIds: [String, Array],
+    target: [String, Array],
     pad: Boolean,
     radius: Number,
     interval: Number,
@@ -34,7 +34,7 @@ export const triggerDefaults = extendDefaults<ITrigger>(
     {
         onEnter: undefined,
         onExit: undefined,
-        targetIds: undefined,
+        target: undefined,
         pad: false,
         radius: 50,
         interval: 300,

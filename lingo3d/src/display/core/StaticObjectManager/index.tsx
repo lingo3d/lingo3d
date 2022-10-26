@@ -53,7 +53,21 @@ const updateFrustum = throttle(
 )
 
 export const idMap = new Map<string, Set<StaticObjectManager>>()
-const makeSet = () => new Set()
+export const makeStaticObjectManagerSet = () => new Set<StaticObjectManager>()
+
+export const getStaticObjectManagerSets = (
+    id: string | Array<string> | StaticObjectManager
+) => {
+    const targetSets: Array<Set<StaticObjectManager>> = []
+    if (Array.isArray(id))
+        for (const target of id)
+            targetSets.push(forceGet(idMap, target, makeStaticObjectManagerSet))
+    else if (typeof id === "string")
+        targetSets.push(forceGet(idMap, id, makeStaticObjectManagerSet))
+    else targetSets.push(new Set([id]))
+
+    return targetSets
+}
 
 export default class StaticObjectManager<T extends Object3D = Object3D>
     extends EventLoopItem<T>
@@ -73,7 +87,8 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     public set id(val) {
         this._id !== undefined && idMap.get(this._id)!.delete(this)
         this._id = val
-        val !== undefined && forceGet(idMap, val, makeSet).add(this)
+        val !== undefined &&
+            forceGet(idMap, val, makeStaticObjectManagerSet).add(this)
     }
 
     protected addToRaycastSet(set: Set<Object3D>) {

@@ -1,5 +1,4 @@
 import { Reactive } from "@lincode/reactivity"
-import { Object3D } from "three"
 import Cylinder from "./primitives/Cylinder"
 import Sphere from "./primitives/Sphere"
 import getActualScale from "./utils/getActualScale"
@@ -10,10 +9,10 @@ import mainCamera from "../engine/mainCamera"
 import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
 import PositionedItem from "../api/core/PositionedItem"
 import { getCameraRendered } from "../states/useCameraRendered"
-import StaticObjectManager, { idMap } from "./core/StaticObjectManager"
+import StaticObjectManager, {
+    getStaticObjectManagerSets
+} from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
-
-const getTargets = (id: string) => idMap.get(id) ?? []
 
 export default class Trigger extends PositionedItem implements ITrigger {
     public static componentName = "trigger"
@@ -62,12 +61,12 @@ export default class Trigger extends PositionedItem implements ITrigger {
         this.refresh.set({})
     }
 
-    private _targetIds?: string | Array<string>
-    public get targetIds() {
-        return this._targetIds
+    private _target?: string | Array<string> | StaticObjectManager
+    public get target() {
+        return this._target
     }
-    public set targetIds(val) {
-        this._targetIds = val
+    public set target(val) {
+        this._target = val
         this.refresh.set({})
     }
 
@@ -77,8 +76,10 @@ export default class Trigger extends PositionedItem implements ITrigger {
         let helper: Cylinder | Sphere | undefined
 
         this.createEffect(() => {
-            const { _radius, _interval, _targetIds, _pad } = this
-            if (!_targetIds) return
+            const { _radius, _interval, _target, _pad } = this
+            if (!_target) return
+
+            const targetSets = getStaticObjectManagerSets(_target)
 
             const r = _radius * scaleDown
             const pr = r * 0.2
@@ -86,36 +87,33 @@ export default class Trigger extends PositionedItem implements ITrigger {
             let hitOld = false
             const handle = timer(_interval, -1, () => {
                 const { x, y, z } = getWorldPosition(this.outerObject3d)
-                const targets =
-                    typeof _targetIds === "string"
-                        ? getTargets(_targetIds)
-                        : _targetIds.map((id) => [...getTargets(id)]).flat()
 
                 let hit = false
                 let targetHit: StaticObjectManager | undefined
-                for (const target of targets) {
-                    const {
-                        x: tx,
-                        y: ty,
-                        z: tz
-                    } = getWorldPosition(target.nativeObject3d)
-                    if (_pad) {
-                        const { y: sy } = getActualScale(target)
-                        hit =
-                            Math.abs(x - tx) < r &&
-                            Math.abs(y - (ty - sy * 0.5)) < pr &&
-                            Math.abs(z - tz) < r
-                    } else
-                        hit =
-                            Math.abs(x - tx) < r &&
-                            Math.abs(y - ty) < r &&
-                            Math.abs(z - tz) < r
+                for (const targetSet of targetSets)
+                    for (const target of targetSet) {
+                        const {
+                            x: tx,
+                            y: ty,
+                            z: tz
+                        } = getWorldPosition(target.nativeObject3d)
+                        if (_pad) {
+                            const { y: sy } = getActualScale(target)
+                            hit =
+                                Math.abs(x - tx) < r &&
+                                Math.abs(y - (ty - sy * 0.5)) < pr &&
+                                Math.abs(z - tz) < r
+                        } else
+                            hit =
+                                Math.abs(x - tx) < r &&
+                                Math.abs(y - ty) < r &&
+                                Math.abs(z - tz) < r
 
-                    if (hit) {
-                        targetHit = target
-                        break
+                        if (hit) {
+                            targetHit = target
+                            break
+                        }
                     }
-                }
                 if (hitOld !== hit)
                     if (hit && targetHit) {
                         this.onEnter?.(targetHit)
@@ -126,7 +124,6 @@ export default class Trigger extends PositionedItem implements ITrigger {
                     }
                 hitOld = hit
             })
-
             return () => {
                 handle.cancel()
             }
