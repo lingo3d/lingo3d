@@ -1,4 +1,3 @@
-import StaticObjectManager from "../display/core/StaticObjectManager"
 import IPositioned, {
     positionedDefaults,
     positionedSchema
@@ -7,11 +6,12 @@ import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
+import MeshItem from "../display/core/MeshItem"
 
 export default interface ITrigger extends IPositioned {
-    onEnter: Nullable<(target: StaticObjectManager) => void>
+    onEnter: Nullable<(target: MeshItem) => void>
     onExit: Nullable<() => void>
-    target: Nullable<string | Array<string> | StaticObjectManager>
+    target: Nullable<string | Array<string> | MeshItem>
     pad: boolean
     radius: number
     interval: number

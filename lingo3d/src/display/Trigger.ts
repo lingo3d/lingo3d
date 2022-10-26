@@ -10,9 +10,10 @@ import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
 import PositionedItem from "../api/core/PositionedItem"
 import { getCameraRendered } from "../states/useCameraRendered"
 import StaticObjectManager, {
-    getStaticObjectManagerSets
+    getMeshItemSets
 } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
+import MeshItem from "./core/MeshItem"
 
 export default class Trigger extends PositionedItem implements ITrigger {
     public static componentName = "trigger"
@@ -21,7 +22,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
 
     private refresh = new Reactive({})
 
-    public onEnter: ((target: StaticObjectManager) => void) | undefined
+    public onEnter: ((target: MeshItem) => void) | undefined
 
     public onExit: (() => void) | undefined
 
@@ -79,7 +80,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
             const { _radius, _interval, _target, _pad } = this
             if (!_target) return
 
-            const targetSets = getStaticObjectManagerSets(_target)
+            const targetSets = getMeshItemSets(_target)
 
             const r = _radius * scaleDown
             const pr = r * 0.2
@@ -89,7 +90,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
                 const { x, y, z } = getWorldPosition(this.outerObject3d)
 
                 let hit = false
-                let targetHit: StaticObjectManager | undefined
+                let targetHit: MeshItem | undefined
                 for (const targetSet of targetSets)
                     for (const target of targetSet) {
                         const {

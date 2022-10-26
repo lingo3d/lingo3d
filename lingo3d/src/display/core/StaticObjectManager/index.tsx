@@ -53,17 +53,17 @@ const updateFrustum = throttle(
 )
 
 export const idMap = new Map<string, Set<StaticObjectManager>>()
-export const makeStaticObjectManagerSet = () => new Set<StaticObjectManager>()
 
-export const getStaticObjectManagerSets = (
+const makeSet = () => new Set<StaticObjectManager>()
+const allocateSet = (id: string) => forceGet(idMap, id, makeSet)
+
+export const getMeshItemSets = (
     id: string | Array<string> | StaticObjectManager
 ) => {
-    const targetSets: Array<Set<StaticObjectManager>> = []
+    const targetSets: Array<Set<MeshItem>> = []
     if (Array.isArray(id))
-        for (const target of id)
-            targetSets.push(forceGet(idMap, target, makeStaticObjectManagerSet))
-    else if (typeof id === "string")
-        targetSets.push(forceGet(idMap, id, makeStaticObjectManagerSet))
+        for (const target of id) targetSets.push(allocateSet(target))
+    else if (typeof id === "string") targetSets.push(allocateSet(id))
     else targetSets.push(new Set([id]))
 
     return targetSets
@@ -87,8 +87,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     public set id(val) {
         this._id !== undefined && idMap.get(this._id)!.delete(this)
         this._id = val
-        val !== undefined &&
-            forceGet(idMap, val, makeStaticObjectManagerSet).add(this)
+        val !== undefined && allocateSet(val).add(this)
     }
 
     protected addToRaycastSet(set: Set<Object3D>) {
