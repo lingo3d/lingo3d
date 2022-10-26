@@ -25,11 +25,11 @@ import {
     getCameraStack,
     pushCameraStack
 } from "../../../states/useCameraStack"
-import makeCameraSprite from "../utils/makeCameraSprite"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import getWorldDirection from "../../utils/getWorldDirection"
 import { addSelectionHelper } from "../StaticObjectManager/raycast/selectionCandidates"
+import HelperSprite from "../utils/HelperSprite"
 
 export default abstract class CameraBase<T extends PerspectiveCamera>
     extends ObjectManager
@@ -60,7 +60,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
             const helper = new CameraHelper(camera)
             scene.add(helper)
 
-            const sprite = makeCameraSprite()
+            const sprite = new HelperSprite("camera")
             const handle = addSelectionHelper(sprite, this)
             helper.add(sprite.outerObject3d)
             return () => {

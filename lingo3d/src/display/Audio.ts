@@ -5,7 +5,7 @@ import mainCamera from "../engine/mainCamera"
 import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
-import makeAudioSprite from "./core/utils/makeAudioSprite"
+import HelperSprite from "./core/utils/HelperSprite"
 import loadAudio from "./utils/loaders/loadAudio"
 
 const [setAudioListener, getAudioListener] = store<AudioListener | undefined>(
@@ -40,7 +40,7 @@ export default class Audio
         this.createEffect(() => {
             if (getCameraRendered() !== mainCamera) return
 
-            const handle = addSelectionHelper(makeAudioSprite(), this)
+            const handle = addSelectionHelper(new HelperSprite("audio"), this)
             return () => {
                 handle.cancel()
             }

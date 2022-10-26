@@ -20,7 +20,7 @@ import {
 } from "../../states/useShadowResolution"
 import ObjectManager from "./ObjectManager"
 import { addSelectionHelper } from "./StaticObjectManager/raycast/selectionCandidates"
-import makeLightSprite from "./utils/makeLightSprite"
+import HelperSprite from "./utils/HelperSprite"
 
 export const mapShadowResolution = (val: ShadowResolution) => {
     switch (val) {
@@ -87,7 +87,7 @@ export default abstract class LightBase<T extends typeof Light>
             )
                 return
 
-            const sprite = makeLightSprite()
+            const sprite = new HelperSprite("light")
             const handle = addSelectionHelper(sprite, this)
             if (Helper) {
                 const helper = new Helper(light as any)
