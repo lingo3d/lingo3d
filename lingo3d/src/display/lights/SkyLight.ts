@@ -66,8 +66,12 @@ export default class Skylight
                 directionalLight.intensity = 0.5
                 this.append(directionalLight)
                 hiddenAppendables.add(directionalLight)
+                const handle = this.helperState.get(
+                    (val) => (directionalLight.helper = val)
+                )
                 return () => {
                     directionalLight.dispose()
+                    handle.cancel()
                 }
             }
 

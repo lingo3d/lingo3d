@@ -108,7 +108,7 @@ export default abstract class LightBase<T extends typeof Light>
         }, [getCameraRendered, this.helperState.get, this.lightState.get])
     }
 
-    private helperState = new Reactive(true)
+    protected helperState = new Reactive(true)
     public get helper() {
         return this.helperState.get()
     }
