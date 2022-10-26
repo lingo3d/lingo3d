@@ -22,7 +22,7 @@ export const triggerSchema: Required<ExtractProps<ITrigger>> = {
     ...positionedSchema,
     onEnter: Function,
     onExit: Function,
-    target: [String, Array],
+    target: [String, Array, Object],
     pad: Boolean,
     radius: Number,
     interval: Number,

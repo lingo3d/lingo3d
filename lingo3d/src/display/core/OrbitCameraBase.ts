@@ -33,9 +33,7 @@ export default class OrbitCameraBase
     }
 
     protected manualTarget?: MeshItem
-    protected targetState = new Reactive<
-        MeshItem | VisibleObjectManager | undefined
-    >(undefined)
+    protected targetState = new Reactive<MeshItem | undefined>(undefined)
 
     private static retaget = debounceInstance(
         (instance: OrbitCameraBase) => {
