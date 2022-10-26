@@ -14,7 +14,7 @@ export const TEXTURES_URL = "https://unpkg.com/lingo3d-textures@1.0.4/assets/"
 export const WATERNORMALS_URL = TEXTURES_URL + "waternormals.jpg"
 export const FACADE_URL = "https://unpkg.com/lingo3d-facade@1.0.0/assets/"
 export const FOREST_URL = "https://unpkg.com/lingo3d-forest@1.0.0/assets/"
-export const EDITOR_URL = "https://unpkg.com/lingo3d-editor@1.0.3/assets/"
+export const EDITOR_URL = "https://unpkg.com/lingo3d-editor@1.0.4/assets/"
 export const WASM_URL = "https://unpkg.com/lingo3d-wasm@1.0.1/assets/"
 
 export const DEBUG = false
