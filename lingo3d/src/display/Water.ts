@@ -65,24 +65,25 @@ export default class Water extends VisibleObjectManager implements IWater {
                 const water = new Water(waterGeometry, {
                     textureWidth: res,
                     textureHeight: res,
-                    waterNormals: loadTexture(normalMap, () =>
-                        handle.watch(
-                            onBeforeRender(() => {
-                                water.material.uniforms["time"].value +=
-                                    dt[0] * speed
-                            })
-                        )
-                    ),
+                    waterNormals: loadTexture(normalMap, () => {
+                        this.object3d.add(water)
+                        const updateHandle = onBeforeRender(() => {
+                            water.material.uniforms["time"].value +=
+                                dt[0] * speed
+                        })
+                        handle.then(() => {
+                            this.object3d.remove(water)
+                            updateHandle.cancel()
+                        })
+                    }),
                     // sunDirection: new Vector3(),
                     sunColor: 0xffffff,
                     waterColor: 0x001e0f,
                     distortionScale: 3.7
                 })
-                this.object3d.add(water)
                 water.userData.manager = this
 
                 return () => {
-                    this.object3d.remove(water)
                     handle.cancel()
                 }
             }, [
