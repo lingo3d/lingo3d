@@ -79,6 +79,7 @@ export default class Water extends VisibleObjectManager implements IWater {
                     distortionScale: 3.7
                 })
                 this.object3d.add(water)
+                water.userData.manager = this
 
                 return () => {
                     this.object3d.remove(water)

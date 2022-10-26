@@ -14,7 +14,7 @@ const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates
 
 export const unselectableSet = new WeakSet<StaticObjectManager>()
-const helpers = new Set<StaticObjectManager>()
+export const manualSelectionCandidates = new Set<Object3D>()
 
 export const addSelectionHelper = (
     helper: VisibleObjectManager,
@@ -22,7 +22,7 @@ export const addSelectionHelper = (
 ) => {
     appendableRoot.delete(helper)
     manager.outerObject3d.add(helper.outerObject3d)
-    helpers.add(helper)
+    manualSelectionCandidates.add(helper.nativeObject3d)
 
     helper.castShadow = false
     helper.receiveShadow = false
@@ -32,7 +32,7 @@ export const addSelectionHelper = (
     )
     return new Cancellable(() => {
         helper.dispose()
-        helpers.delete(helper)
+        manualSelectionCandidates.delete(helper.nativeObject3d)
         handle.cancel()
     })
 }
@@ -43,10 +43,6 @@ const traverse = (
         | Set<Appendable | StaticObjectManager>,
     frozenSet: Set<Appendable>
 ) => {
-    for (const helper of helpers) {
-        //@ts-ignore
-        helper.addToRaycastSet(selectionCandidates)
-    }
     for (const manager of targets) {
         if (frozenSet.has(manager)) continue
 
@@ -63,6 +59,8 @@ export const getSelectionCandidates = debounce(
         const [frozenSet] = getSelectionFrozen()
         selectionCandidates.clear()
         traverse(targets, frozenSet)
+        for (const candidate of manualSelectionCandidates)
+            selectionCandidates.add(candidate)
     },
     0,
     "trailing"

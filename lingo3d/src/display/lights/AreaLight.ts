@@ -17,6 +17,9 @@ import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { ShadowResolution } from "../../states/useShadowResolution"
 import Nullable from "../../interface/utils/Nullable"
 import { ssrExcludeSet } from "../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
+import selectionCandidates, {
+    manualSelectionCandidates
+} from "../core/StaticObjectManager/raycast/selectionCandidates"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -75,11 +78,18 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
                 const helper = new RectAreaLightHelper(light)
                 scene.add(helper)
                 ssrExcludeSet.add(helper)
+                helper.userData.manager = this
+
+                selectionCandidates.add(helper)
+                manualSelectionCandidates.add(helper)
 
                 return () => {
                     helper.dispose()
                     scene.remove(helper)
                     ssrExcludeSet.delete(helper)
+
+                    selectionCandidates.delete(helper)
+                    manualSelectionCandidates.delete(helper)
                 }
             }, [getCameraRendered, this.helperState.get])
         })
