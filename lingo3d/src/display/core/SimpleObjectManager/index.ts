@@ -88,11 +88,9 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
 
     public getIntersections(id: string) {
-        const result: Array<StaticObjectManager> = []
-        for (const target of idMap.get(id) ?? []) {
-            if (target === this) continue
-            this.intersects(target) && result.push(target)
-        }
+        const result = new Set<StaticObjectManager>()
+        for (const target of idMap.get(id) ?? [])
+            target !== this && this.intersects(target) && result.add(target)
         return result
     }
 
@@ -101,18 +99,18 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         cb?: OnIntersectValue,
         cbOut?: OnIntersectValue
     ) {
-        let intersectionsOld: Array<StaticObjectManager> = []
+        let intersectionsOld = new Set<StaticObjectManager>()
 
         return this.beforeRender(() => {
             const intersections = this.getIntersections(id)
 
             if (cb)
                 for (const target of intersections)
-                    if (!intersectionsOld.includes(target)) cb(target)
+                    !intersectionsOld.has(target) && cb(target)
 
             if (cbOut)
                 for (const target of intersectionsOld)
-                    if (!intersections.includes(target)) cbOut(target)
+                    !intersections.has(target) && cbOut(target)
 
             intersectionsOld = intersections
         })
@@ -140,12 +138,10 @@ class SimpleObjectManager<T extends Object3D = Object3D>
             if (!intersectIds || (!onIntersect && !onIntersectOut)) return
 
             const handles: Array<Cancellable> = []
-
             for (const id of intersectIds)
                 handles.push(
                     this.listenToIntersection(id, onIntersect, onIntersectOut)
                 )
-
             return () => {
                 for (const handle of handles) handle.cancel()
             }
