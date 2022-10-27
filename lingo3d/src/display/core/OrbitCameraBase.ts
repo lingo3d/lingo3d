@@ -4,6 +4,7 @@ import CameraBase from "./CameraBase"
 import MeshItem, { isMeshItem } from "./MeshItem"
 import { getMeshItemSets } from "../core/StaticObjectManager"
 import IOrbitCameraBase from "../../interface/IOrbitCameraBase"
+import { onId } from "../../events/onId"
 
 export default class OrbitCameraBase
     extends CameraBase<PerspectiveCamera>
@@ -23,7 +24,16 @@ export default class OrbitCameraBase
             if (!target) return
 
             const [[targetItem]] = getMeshItemSets(target)
-            this.foundState.set(targetItem)
+            if (targetItem) {
+                this.foundState.set(targetItem)
+                return
+            }
+            if (typeof target !== "string") return
+
+            const handle = onId((id) => id === target && this.refresh.set({}))
+            return () => {
+                handle.cancel()
+            }
         }, [this.targetState.get, this.refresh.get])
     }
 

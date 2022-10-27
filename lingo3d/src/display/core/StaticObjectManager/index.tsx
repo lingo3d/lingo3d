@@ -34,6 +34,7 @@ import {
 } from "./raycast/sets"
 import "./raycast"
 import fpsAlpha from "../../utils/fpsAlpha"
+import { emitId } from "../../../events/onId"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -85,7 +86,9 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     public set id(val) {
         this._id !== undefined && idMap.get(this._id)!.delete(this)
         this._id = val
-        val !== undefined && allocateSet(val).add(this)
+        if (val === undefined) return
+        allocateSet(val).add(this)
+        emitId(val)
     }
 
     protected addToRaycastSet(set: Set<Object3D>) {
