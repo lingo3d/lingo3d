@@ -35,6 +35,7 @@ import {
 import "./raycast"
 import fpsAlpha from "../../utils/fpsAlpha"
 import { emitId } from "../../../events/onId"
+import { emitSceneGraphNameChange } from "../../../events/onSceneGraphNameChange"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -173,6 +174,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
     public set name(val) {
         this.outerObject3d.name = PropertyBinding.sanitizeNodeName(val)
+        emitSceneGraphNameChange()
     }
 
     protected getRay() {

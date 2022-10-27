@@ -1,3 +1,11 @@
 import { event } from "@lincode/events"
+import { debounce } from "@lincode/utils"
 
-export const [emitSceneGraphNameChange, onSceneGraphNameChange] = event()
+const [_emitSceneGraphNameChange, onSceneGraphNameChange] = event()
+export { onSceneGraphNameChange }
+
+export const emitSceneGraphNameChange = debounce(
+    _emitSceneGraphNameChange,
+    0,
+    "trailing"
+)
