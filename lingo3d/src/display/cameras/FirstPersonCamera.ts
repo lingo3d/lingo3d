@@ -20,15 +20,15 @@ export default class FirstPersonCamera extends CharacterCamera {
         )
 
         this.createEffect(() => {
-            const target = this.targetState.get()
+            const found = this.foundState.get()
             const innerYSet = this.innerYSetState.get()
-            if (!target || !("height" in target) || innerYSet) return
-            super.innerY = target.height * 0.4
+            if (!found || !("height" in found) || innerYSet) return
+            super.innerY = found.height * 0.4
 
             return () => {
                 super.innerY = 0
             }
-        }, [this.targetState.get, this.innerYSetState.get])
+        }, [this.foundState.get, this.innerYSetState.get])
     }
 
     private innerYSetState = new Reactive(false)

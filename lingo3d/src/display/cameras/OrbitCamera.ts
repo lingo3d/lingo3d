@@ -6,11 +6,9 @@ import IOrbitCamera, {
 } from "../../interface/IOrbitCamera"
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import { onKeyClear } from "../../events/onKeyClear"
-import { onSceneGraphChange } from "../../events/onSceneGraphChange"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { Cancellable } from "@lincode/promiselikes"
-import { idMap } from "../core/StaticObjectManager"
 import { PerspectiveCamera } from "three"
 import OrbitCameraBase from "../core/OrbitCameraBase"
 import { vec2Point } from "../utils/vec2Point"
@@ -36,44 +34,16 @@ export default class OrbitCamera
         this.camera.rotation.y = 0
 
         this.createEffect(() => {
-            const targetId = this.targetIdState.get()
-            if (!targetId) return
-
-            const handle = new Cancellable()
-            const timeout = setTimeout(() => {
-                const find = () => {
-                    const [found] = idMap.get(targetId) ?? [undefined]
-                    if (found) {
-                        this.manualTarget = found
-                        this.targetState.set(found)
-                    }
-                    return found
-                }
-                if (find()) return
-
-                handle.watch(
-                    onSceneGraphChange(() =>
-                        setTimeout(() => find() && handle.cancel())
-                    )
-                )
-            })
-            return () => {
-                clearTimeout(timeout)
-                handle.cancel()
-            }
-        }, [this.targetIdState.get])
-
-        this.createEffect(() => {
-            const target = this.targetState.get()
-            if (!target) return
+            const found = this.foundState.get()
+            if (!found) return
 
             const handle = onBeforeRender(() => {
-                this.placeAt(vec2Point(getCenter(target.nativeObject3d)))
+                this.placeAt(vec2Point(getCenter(found.nativeObject3d)))
             })
             return () => {
                 handle.cancel()
             }
-        }, [this.targetState.get])
+        }, [this.foundState.get])
 
         this.createEffect(() => {
             const autoRotate = this.autoRotateState.get()
@@ -175,14 +145,6 @@ export default class OrbitCamera
             this.enableFlyState.get,
             this.mouseControlState.get
         ])
-    }
-
-    private targetIdState = new Reactive<string | undefined>(undefined)
-    public get targetId() {
-        return this.targetIdState.get()
-    }
-    public set targetId(val) {
-        this.targetIdState.set(val)
     }
 
     private enableZoomState = new Reactive(false)

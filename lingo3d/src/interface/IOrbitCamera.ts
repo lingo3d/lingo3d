@@ -1,23 +1,18 @@
-import ICameraBase, {
-    cameraBaseDefaults,
-    cameraBaseSchema
-} from "./ICameraBase"
 import { ExtractProps } from "./utils/extractProps"
-import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
+import IOrbitCameraBase, {
+    orbitCameraBaseDefaults,
+    orbitCameraBaseSchema
+} from "./IOrbitCameraBase"
 
-export default interface IOrbitCamera extends ICameraBase {
-    targetId: Nullable<string>
-
+export default interface IOrbitCamera extends IOrbitCameraBase {
     enableZoom: boolean
     enableFly: boolean
     autoRotate: boolean | number
 }
 
 export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
-    ...cameraBaseSchema,
-
-    targetId: String,
+    ...orbitCameraBaseSchema,
 
     enableZoom: Boolean,
     enableFly: Boolean,
@@ -25,12 +20,10 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
 }
 
 export const orbitCameraDefaults = extendDefaults<IOrbitCamera>(
-    [cameraBaseDefaults],
+    [orbitCameraBaseDefaults],
     {
         innerZ: 500,
         mouseControl: "drag",
-
-        targetId: undefined,
 
         enableZoom: false,
         enableFly: false,

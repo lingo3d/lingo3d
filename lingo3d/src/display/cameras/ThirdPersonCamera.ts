@@ -45,8 +45,8 @@ export default class ThirdPersonCamera
 
         import("../core/PhysicsObjectManager/bvh/bvhCameraLoop").then(() => {
             this.createEffect(() => {
-                const target = this.targetState.get()
-                if (!target) {
+                const found = this.foundState.get()
+                if (!found) {
                     const handle = onBeforeRender(() => {
                         cam.position.copy(getWorldPosition(this.object3d))
                         cam.quaternion.copy(getWorldQuaternion(this.object3d))
@@ -59,7 +59,7 @@ export default class ThirdPersonCamera
                 bvhCameraSet.add(cam)
 
                 let tooCloseOld = true
-                setVisible(target, !tooCloseOld)
+                setVisible(found, !tooCloseOld)
 
                 let first = true
                 const handle = onBeforeCameraLoop(() => {
@@ -76,7 +76,7 @@ export default class ThirdPersonCamera
                     cam.quaternion.copy(getWorldQuaternion(this.object3d))
 
                     const tooClose = alwaysVisible ? false : ratio < 0.35
-                    tooClose !== tooCloseOld && setVisible(target, !tooClose)
+                    tooClose !== tooCloseOld && setVisible(found, !tooClose)
                     tooCloseOld = tooClose
 
                     first = false
@@ -85,7 +85,7 @@ export default class ThirdPersonCamera
                     handle.cancel()
                     bvhCameraSet.delete(cam)
                 }
-            }, [this.targetState.get])
+            }, [this.foundState.get])
         })
     }
 }

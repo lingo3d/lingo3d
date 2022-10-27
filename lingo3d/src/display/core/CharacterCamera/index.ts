@@ -40,11 +40,11 @@ export default class CharacterCamera
         this.then(() => scene.remove(cam))
 
         this.createEffect(() => {
-            const target = this.targetState.get()
-            if (!target) return
+            const found = this.foundState.get()
+            if (!found) return
 
-            if ("frustumCulled" in target) target.frustumCulled = false
-        }, [this.targetState.get])
+            if ("frustumCulled" in found) found.frustumCulled = false
+        }, [this.foundState.get])
 
         const followTargetRotation = (target: MeshItem, slerp: boolean) => {
             euler.setFromQuaternion(target.outerObject3d.quaternion)
@@ -94,15 +94,15 @@ export default class CharacterCamera
         let transformControlRotating = false
 
         this.createEffect(() => {
-            const target = this.targetState.get()
-            if (!target) return
+            const found = this.foundState.get()
+            if (!found) return
 
-            followTargetRotation(target, false)
+            followTargetRotation(found, false)
 
             const centripetal = getCentripetal()
 
             const handle = onBeforeRender(() => {
-                this.outerObject3d.position.copy(target.outerObject3d.position)
+                this.outerObject3d.position.copy(found.outerObject3d.position)
 
                 const quat = centripetal
                     ? applyCentripetalQuaternion(this)
@@ -114,28 +114,28 @@ export default class CharacterCamera
                     this.lockTargetRotation === "follow" ||
                     transformControlRotating
                 ) {
-                    followTargetRotation(target, false)
+                    followTargetRotation(found, false)
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-lock") {
-                    positionChanged(target.outerObject3d) &&
-                        lockTargetRotation(target, true, quat)
+                    positionChanged(found.outerObject3d) &&
+                        lockTargetRotation(found, true, quat)
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-follow") {
-                    positionChanged(target.outerObject3d) &&
-                        followTargetRotation(target, true)
+                    positionChanged(found.outerObject3d) &&
+                        followTargetRotation(found, true)
                     return
                 }
-                lockTargetRotation(target, false, quat)
+                lockTargetRotation(found, false, quat)
             })
             return () => {
                 handle.cancel()
             }
-        }, [this.targetState.get, getCentripetal])
+        }, [this.foundState.get, getCentripetal])
 
         this.createEffect(() => {
-            const target = this.targetState.get()
+            const target = this.foundState.get()
             const selectionTarget = getSelectionTarget()
             const dragging = getTransformControlsDragging()
             const mode = getEditorModeComputed()
@@ -153,7 +153,7 @@ export default class CharacterCamera
                 transformControlRotating = false
             }
         }, [
-            this.targetState.get,
+            this.foundState.get,
             getSelectionTarget,
             getTransformControlsDragging,
             getEditorModeComputed

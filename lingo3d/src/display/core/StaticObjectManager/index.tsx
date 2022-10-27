@@ -57,9 +57,7 @@ export const idMap = new Map<string, Set<StaticObjectManager>>()
 const makeSet = () => new Set<StaticObjectManager>()
 const allocateSet = (id: string) => forceGet(idMap, id, makeSet)
 
-export const getMeshItemSets = (
-    id: string | Array<string> | StaticObjectManager
-) => {
+export const getMeshItemSets = (id: string | Array<string> | MeshItem) => {
     const targetSets: Array<Set<MeshItem>> = []
     if (Array.isArray(id))
         for (const target of id) targetSets.push(allocateSet(target))
