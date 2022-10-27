@@ -25,7 +25,7 @@ createEffect(() => {
     if (!target) return
 
     const handle = onSceneGraphChange(() => {
-        !target.outerObject3d.parent && emitSelectionTarget()
+        target.done && emitSelectionTarget()
     })
     return () => {
         handle.cancel()

@@ -5,6 +5,7 @@ import MeshItem, { isMeshItem } from "./MeshItem"
 import { getMeshItemSets } from "../core/StaticObjectManager"
 import IOrbitCameraBase from "../../interface/IOrbitCameraBase"
 import { onId } from "../../events/onId"
+import { onSceneGraphChange } from "../../events/onSceneGraphChange"
 
 export default class OrbitCameraBase
     extends CameraBase<PerspectiveCamera>
@@ -20,13 +21,18 @@ export default class OrbitCameraBase
         super(camera)
 
         this.createEffect(() => {
-            const target = this.targetState.get() ?? this.getChild()
+            const target = this.getChild() ?? this.targetState.get()
             if (!target) return
 
             const [[targetItem]] = getMeshItemSets(target)
             if (targetItem) {
                 this.foundState.set(targetItem)
-                return
+                const handle = onSceneGraphChange(
+                    () => targetItem.parent !== this && this.refresh.set({})
+                )
+                return () => {
+                    handle.cancel()
+                }
             }
             if (typeof target !== "string") return
 
