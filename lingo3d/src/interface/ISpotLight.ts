@@ -7,6 +7,9 @@ export default interface ISpotLight extends ILightBase {
     penumbra: number
     decay: number
     distance: number
+    targetX: number
+    targetY: number
+    targetZ: number
 }
 
 export const spotLightSchema: Required<ExtractProps<ISpotLight>> = {
@@ -14,7 +17,10 @@ export const spotLightSchema: Required<ExtractProps<ISpotLight>> = {
     angle: Number,
     penumbra: Number,
     decay: Number,
-    distance: Number
+    distance: Number,
+    targetX: Number,
+    targetY: Number,
+    targetZ: Number
 }
 
 export const spotLightDefaults = extendDefaults<ISpotLight>(
@@ -23,6 +29,9 @@ export const spotLightDefaults = extendDefaults<ISpotLight>(
         angle: 1,
         penumbra: 0,
         decay: 1,
-        distance: 0
+        distance: 0,
+        targetX: 0,
+        targetY: 0,
+        targetZ: 0
     }
 )
