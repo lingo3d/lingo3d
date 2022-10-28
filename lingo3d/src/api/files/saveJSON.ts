@@ -27,8 +27,10 @@ export default async () => {
         id: "lingo3d"
     })
     const file = await fileHandle?.getFile()
-    //@ts-ignore
-    file.handle = fileHandle
-    setFileCurrent(file)
+    if (file) {
+        //@ts-ignore
+        file.handle = fileHandle
+        setFileCurrent(file)
+    }
     return formatAndSave(fileHandle)
 }
