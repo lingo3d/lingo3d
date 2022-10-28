@@ -7,8 +7,9 @@ import HUD from "../HUD"
 import { useEffect, useRef } from "preact/hooks"
 import settings from "../../api/settings"
 import FileBrowser from "../FileBrowser"
-import { useFileBrowser, useStats } from "../states"
+import { useFileBrowser, useFileCurrent, useStats } from "../states"
 import Stats from "../Stats"
+import Tabs from "../Tabs"
 
 const LingoEditor = () => {
     const elRef = useRef<HTMLDivElement>(null)
@@ -19,26 +20,19 @@ const LingoEditor = () => {
     }, [])
 
     const [fileBrowser] = useFileBrowser()
+    const [fileCurrent] = useFileCurrent()
     const [stats] = useStats()
 
     return (
-        <div
-            className="lingo3d-ui lingo3d-lingoeditor"
-            style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-                left: 0,
-                top: 0
-            }}
-        >
+        <div className="lingo3d-ui lingo3d-lingoeditor">
             <Toolbar />
             <SceneGraph />
             <Editor />
             <Library />
             {fileBrowser && <FileBrowser />}
-            <HUD />
+            {fileCurrent && <Tabs />}
             {stats && <Stats />}
+            <HUD />
             <div
                 className="lingo3d-world"
                 ref={elRef}

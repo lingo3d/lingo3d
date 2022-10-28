@@ -68,6 +68,12 @@ const initCSS = () => {
                 grid-template-rows: auto 1fr auto;
                 grid-column-gap: 0px;
                 grid-row-gap: 0px;
+
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0px;
+                top: 0px;
             }
             .lingo3d-scenegraph { grid-area: 1 / 2 / 3 / 3; }
             .lingo3d-editor { grid-area: 1 / 3 / 3 / 4; }
