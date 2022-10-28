@@ -1,10 +1,22 @@
 import { upperFirst } from "@lincode/utils"
 import createObject from "../../api/serializer/createObject"
 import { GameObjectType } from "../../api/serializer/types"
+import SpotLight from "../../display/lights/SpotLight"
 import drag, { setDragImage } from "../utils/drag"
 import IconImage from "./IconImage"
 
-const setDraggingItem = drag<GameObjectType>(createObject)
+const setDraggingItem = drag<GameObjectType>((val) => {
+    const result = createObject(val)
+
+    if (result instanceof SpotLight) {
+        queueMicrotask(() => {
+            result.targetX = result.x
+            result.targetY = result.y - 100
+            result.targetZ = result.z
+        })
+    }
+    return result
+})
 
 type ObjectIconProps = {
     name: string
