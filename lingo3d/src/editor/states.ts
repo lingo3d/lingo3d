@@ -47,6 +47,7 @@ import {
     getLoadingUnpkgCount
 } from "../states/useLoadingUnpkgCount"
 import { setFileCurrent, getFileCurrent } from "../states/useFileCurrent"
+import { setPageInactive, getPageInactive } from "../states/usePageInactive"
 
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(
@@ -84,3 +85,4 @@ export const useLoadingUnpkgCount = hook(
     setLoadingUnpkgCount,
     getLoadingUnpkgCount
 )
+export const usePageInactive = hook(setPageInactive, getPageInactive)

@@ -6,14 +6,17 @@ import { getFps } from "../states/useFps"
 import { getFirstLoad } from "../states/useFirstLoad"
 import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
 import { emitRenderSlow } from "../events/onRenderSlow"
+import { setPageInactive } from "../states/usePageInactive"
 
 let pageInactive = document.hidden
-window.addEventListener("blur", () => (pageInactive = true))
-window.addEventListener("focus", () => (pageInactive = document.hidden))
-document.addEventListener(
-    "visibilitychange",
-    () => (pageInactive = document.hidden)
-)
+const checkPageInactive = (val?: boolean) =>
+    setPageInactive(
+        (pageInactive = val ?? (document.hidden || !document.hasFocus()))
+    )
+window.addEventListener("blur", () => checkPageInactive(true))
+window.addEventListener("focus", () => checkPageInactive())
+document.addEventListener("visibilitychange", () => checkPageInactive())
+setInterval(() => checkPageInactive(), 1000)
 
 export const timer = (time: number, repeat: number, cb: () => void) => {
     let count = 0

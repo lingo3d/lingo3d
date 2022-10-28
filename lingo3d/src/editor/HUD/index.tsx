@@ -1,17 +1,22 @@
 import register from "preact-custom-element"
 import HotKey from "./HotKey"
-import { useCameraRendered, useLoadingUnpkgCount } from "../states"
+import {
+    useCameraRendered,
+    useLoadingUnpkgCount,
+    usePageInactive
+} from "../states"
 import mainCamera from "../../engine/mainCamera"
 import { createPortal } from "preact/compat"
 import { container } from "../../engine/renderLoop/renderSetup"
 import useInitCSS from "../utils/useInitCSS"
 import Spinner from "../component/Spinner"
-import Transition from "../component/Transition"
+import InfoScreen from "./InfoScreen"
 
 const HUD = () => {
     useInitCSS(false)
     const [cameraRendered] = useCameraRendered()
     const [loadingUnpkgCount] = useLoadingUnpkgCount()
+    const [pageInactive] = usePageInactive()
 
     return createPortal(
         <div
@@ -24,40 +29,16 @@ const HUD = () => {
                 padding: 10
             }}
         >
-            <Transition mounted={!!loadingUnpkgCount}>
-                {() => (
-                    <div
-                        className={
-                            loadingUnpkgCount ? undefined : "lingo3d-fadeOut"
-                        }
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            position: "absolute",
-                            left: 0,
-                            top: 0,
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            alignItems: "center"
-                        }}
-                    >
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                gap: 10,
-                                background: "rgba(0, 0, 0, 0.5)",
-                                padding: 2
-                            }}
-                        >
-                            <Spinner size={14} />
-                            loading data from unpkg
-                        </div>
-                    </div>
-                )}
-            </Transition>
+            <InfoScreen mounted={!pageInactive && !!loadingUnpkgCount}>
+                <Spinner size={14} />
+                loading data from unpkg
+            </InfoScreen>
+            <InfoScreen
+                mounted={pageInactive}
+                style={{ background: "rgba(0, 0, 0, 0.75)" }}
+            >
+                paused
+            </InfoScreen>
             {cameraRendered === mainCamera && (
                 <div style={{ opacity: 0.5 }}>
                     <HotKey hotkey="⇧" description="accelerate" />
