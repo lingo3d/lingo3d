@@ -42,7 +42,7 @@ export default async (
     params: Record<string, any>,
     prepend?: boolean
 ) => {
-    if (!prepend) await new Promise<void>(queueMicrotask)
+    if (!prepend) await Promise.resolve()
 
     const paramKeys = Object.keys(params)
     if (!paramKeys.length) return {}

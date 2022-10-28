@@ -1,5 +1,6 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { splitFileName } from "@lincode/utils"
+import loadFile from "../../api/files/loadFile"
 import { createObjectURL } from "../../display/core/utils/objectURL"
 import Model from "../../display/Model"
 import { useFileSelected } from "../states"
@@ -57,6 +58,7 @@ const FileButton = ({ file }: FileButtonProps) => {
             }}
             onDragEnd={() => setDraggingItem(undefined)}
             onMouseDown={(e) => (e.stopPropagation(), setFileSelected(file))}
+            onDblClick={() => loadFile(file)}
         >
             <div
                 style={{
