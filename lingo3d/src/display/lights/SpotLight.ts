@@ -28,6 +28,7 @@ export default class SpotLight
             if (!light) return
 
             light.shadow.bias = SHADOW_BIAS * 1.5
+            light.position.y = -0.01
             this.targetSprite.outerObject3d.add(light.target)
 
             return () => {
