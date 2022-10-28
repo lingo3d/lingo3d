@@ -1,6 +1,5 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createNestedEffect } from "@lincode/reactivity"
-import { Object3D } from "three"
 import { mouseEvents } from "../../../../api/mouse"
 import { onSceneGraphChange } from "../../../../events/onSceneGraphChange"
 import { onSelectionRecompute } from "../../../../events/onSelectionRecompute"
@@ -44,10 +43,7 @@ export default () => {
         })
 
         const handle2 = new Cancellable()
-        Promise.all([
-            import("../../../primitives/Sphere"),
-            import("../../../Curve")
-        ]).then(([{ default: Sphere }, { default: Curve }]) => {
+        import("../../../Curve").then(({ default: Curve }) => {
             if (handle2.done) return
 
             const curve = new Curve()
@@ -57,14 +53,7 @@ export default () => {
                 mouseEvents.on("click", (e) => {
                     setTimeout(() => {
                         if (handle2.done || getSelectionTarget()) return
-
-                        const target = new Sphere()
-                        target.scale = 0.1
-                        target.placeAt(e.point)
-                        target.name = "point" + pathObjects.length
-                        pathObjects.push(target)
-                        emitSelectionTarget(target)
-                        curve.addPoint(vec2Point(target.outerObject3d.position))
+                        emitSelectionTarget(curve.addPointWithHelper(e.point))
                     })
                 })
             )
@@ -80,7 +69,6 @@ export default () => {
         })
 
         return () => {
-            handle2.cancel()
             handle0.cancel()
             handle1.cancel()
             handle2.cancel()

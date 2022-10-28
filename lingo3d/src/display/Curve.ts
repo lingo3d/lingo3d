@@ -12,6 +12,7 @@ import {
 import { vector3 } from "./utils/reusables"
 import EventLoopItem from "../api/core/EventLoopItem"
 import { debounceInstance, pull } from "@lincode/utils"
+import Sphere from "./primitives/Sphere"
 
 const ARC_SEGMENTS = 50
 
@@ -81,6 +82,15 @@ export default class Curve extends EventLoopItem {
         this.curve.points.push(vec)
         ptVecMap.set(pt, vec)
         this.update()
+    }
+
+    public addPointWithHelper(pt: Point3d) {
+        this.addPoint(pt)
+        const helper = new Sphere()
+        helper.scale = 0.1
+        helper.placeAt(pt)
+        helper.name = "point"
+        return helper
     }
 
     public removePoint(pt: Point3d) {
