@@ -16,7 +16,6 @@ import {
 } from "../../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
 import Sphere from "../../../primitives/Sphere"
-import { vec2Point } from "../../../utils/vec2Point"
 import pickable from "./pickable"
 import selectionCandidates, {
     getSelectionCandidates
