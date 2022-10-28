@@ -7,10 +7,18 @@ import { getFirstLoad } from "../states/useFirstLoad"
 import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
 import { emitRenderSlow } from "../events/onRenderSlow"
 
+let pageInactive = document.hidden
+window.addEventListener("blur", () => (pageInactive = true))
+window.addEventListener("focus", () => (pageInactive = document.hidden))
+document.addEventListener(
+    "visibilitychange",
+    () => (pageInactive = document.hidden)
+)
+
 export const timer = (time: number, repeat: number, cb: () => void) => {
     let count = 0
     const handle = setInterval(() => {
-        if (document.hidden) return
+        if (pageInactive) return
         cb()
         if (repeat !== -1 && ++count >= repeat) clearInterval(handle)
     }, time)
@@ -35,6 +43,7 @@ createEffect(() => {
     const fullDelta = 1 / 60
 
     renderer.setAnimationLoop(() => {
+        if (pageInactive) return
         delta += clock.getDelta()
         if (delta < targetDelta) return
         fpsRatio[0] = delta / fullDelta
