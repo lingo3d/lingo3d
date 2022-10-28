@@ -346,7 +346,7 @@ const Editor = () => {
 
     return (
         <div
-            className="lingo3d-ui lingo3d-bg"
+            className="lingo3d-ui lingo3d-bg lingo3d-editor"
             style={{
                 width: 300,
                 height: "100%",

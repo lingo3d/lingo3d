@@ -62,6 +62,21 @@ const initCSS = () => {
                 border-radius: 0px !important;
             }
 
+            .lingo3d-lingoeditor {
+                display: grid;
+                grid-template-columns: auto auto auto auto 1fr;
+                grid-template-rows: auto 1fr auto;
+                grid-column-gap: 0px;
+                grid-row-gap: 0px;
+            }
+            .lingo3d-scenegraph { grid-area: 1 / 2 / 3 / 3; }
+            .lingo3d-editor { grid-area: 1 / 3 / 3 / 4; }
+            .lingo3d-library { grid-area: 1 / 4 / 3 / 5; }
+            .lingo3d-tabs { grid-area: 1 / 5 / 2 / 6; }
+            .lingo3d-filebrowser { grid-area: 3 / 2 / 4 / 5; }
+            .lingo3d-toolbar { grid-area: 1 / 1 / 4 / 2; }
+            .lingo3d-world { grid-area: 2 / 5 / 4 / 6; }
+
             .lingo3d-sk-cube-grid {
                 width: 20px;
                 height: 20px;

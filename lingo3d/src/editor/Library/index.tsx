@@ -11,7 +11,7 @@ const Library = () => {
     return (
         <div
             ref={elRef}
-            className="lingo3d-ui lingo3d-bg"
+            className="lingo3d-ui lingo3d-bg lingo3d-library"
             style={{
                 width: 200,
                 height: "100%",

@@ -49,7 +49,7 @@ const Toolbar = () => {
     return (
         <div
             ref={elRef}
-            className="lingo3d-ui lingo3d-bg"
+            className="lingo3d-ui lingo3d-bg lingo3d-toolbar"
             style={{
                 width: 50,
                 height: "100%",
