@@ -99,14 +99,12 @@ const Toolbar = () => {
                     >
                         <MeshIcon />
                     </IconButton> */}
-                    {DEBUG && (
-                        <IconButton
-                            active={mode === "path"}
-                            onClick={() => setEditorMode("path")}
-                        >
-                            <PathIcon />
-                        </IconButton>
-                    )}
+                    <IconButton
+                        active={mode === "path"}
+                        onClick={() => setEditorMode("path")}
+                    >
+                        <PathIcon />
+                    </IconButton>
                     <IconButton
                         active={mode === "play"}
                         onClick={() => setEditorMode("play")}
