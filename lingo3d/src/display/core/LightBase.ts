@@ -49,13 +49,12 @@ export default abstract class LightBase<T extends typeof Light>
             | typeof PointLightHelper
             | typeof RectAreaLightHelper
     ) {
-        const group = new Group()
-        super(group)
+        super()
 
         this.createEffect(() => {
             const light = new Light()
             this.lightState.set(light as InstanceType<T>)
-            group.add(light)
+            this.object3d.add(light)
 
             if (light.shadow && this.castShadowState.get()) {
                 light.castShadow = true
@@ -69,7 +68,7 @@ export default abstract class LightBase<T extends typeof Light>
                 )
             }
             return () => {
-                group.remove(light)
+                this.object3d.remove(light)
                 light.dispose()
             }
         }, [
