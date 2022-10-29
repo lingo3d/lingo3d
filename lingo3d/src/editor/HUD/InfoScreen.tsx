@@ -6,14 +6,14 @@ interface InfoScreen {
     mounted?: boolean
     style?: CSSProperties
     children?: ComponentChildren
+    fadeIn?: boolean
 }
 
-export default ({ mounted, style, children }: InfoScreen) => {
+export default ({ mounted, style, children, fadeIn }: InfoScreen) => {
     return (
         <Transition mounted={mounted}>
-            {() => (
+            {(enter) => (
                 <div
-                    className={mounted ? undefined : "lingo3d-fadeOut"}
                     style={{
                         width: "100%",
                         height: "100%",
@@ -24,6 +24,8 @@ export default ({ mounted, style, children }: InfoScreen) => {
                         flexDirection: "column",
                         justifyContent: "center",
                         alignItems: "center",
+                        transition: "opacity 1s",
+                        opacity: fadeIn && enter ? 0 : mounted ? 1 : 0,
                         ...style
                     }}
                 >

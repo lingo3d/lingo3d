@@ -29,13 +29,14 @@ const HUD = () => {
                 padding: 10
             }}
         >
-            <InfoScreen mounted={!pageInactive && !!loadingUnpkgCount}>
+            <InfoScreen mounted={!!loadingUnpkgCount}>
                 <Spinner size={14} />
                 loading data from unpkg
             </InfoScreen>
             <InfoScreen
                 mounted={pageInactive}
-                style={{ background: "rgba(0, 0, 0, 0.75)" }}
+                style={{ background: "rgba(0, 0, 0, 0.5)" }}
+                fadeIn
             >
                 paused
             </InfoScreen>
