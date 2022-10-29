@@ -1,6 +1,6 @@
 import { event } from "@lincode/events"
 import { debounce } from "@lincode/utils"
-import { getPageInactive } from "../states/usePageInactive"
+import { getPaused } from "../states/usePaused"
 
 const [_emitKeyClear, onKeyClear] = event()
 export { onKeyClear }
@@ -10,7 +10,7 @@ const emitKeyClear = debounce(_emitKeyClear, 0, "trailing")
 window.addEventListener("blur", () => emitKeyClear())
 window.addEventListener("focus", () => emitKeyClear())
 document.addEventListener("visibilitychange", () => emitKeyClear())
-getPageInactive(() => emitKeyClear())
+getPaused(() => emitKeyClear())
 
 const shiftMetaPressed = new Set<string>()
 onKeyClear(() => shiftMetaPressed.clear())

@@ -6,25 +6,24 @@ import { getFps } from "../states/useFps"
 import { getFirstLoad } from "../states/useFirstLoad"
 import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
 import { emitRenderSlow } from "../events/onRenderSlow"
-import { setPageInactive } from "../states/usePageInactive"
+import { setPaused } from "../states/usePaused"
 
-let pageInactive = document.hidden
-const checkPageInactive = (val?: boolean) =>
-    setPageInactive(
-        (pageInactive = val ?? (document.hidden || !document.hasFocus()))
-    )
-window.addEventListener("blur", () => checkPageInactive(true))
-window.addEventListener("focus", () => checkPageInactive())
-document.addEventListener("visibilitychange", () => checkPageInactive())
-setInterval(() => checkPageInactive(), 1000)
+let paused = false
+const checkPaused = (val?: boolean) =>
+    setPaused((paused = val ?? (document.hidden || !document.hasFocus())))
+
+window.addEventListener("blur", () => checkPaused(true))
+window.addEventListener("focus", () => checkPaused())
+document.addEventListener("visibilitychange", () => checkPaused())
+setInterval(() => checkPaused(), 1000)
 window.addEventListener("resize", () =>
-    setTimeout(() => checkPageInactive(false), 100)
+    setTimeout(() => checkPaused(false), 100)
 )
 
 export const timer = (time: number, repeat: number, cb: () => void) => {
     let count = 0
     const handle = setInterval(() => {
-        if (pageInactive) return
+        if (paused) return
         cb()
         if (repeat !== -1 && ++count >= repeat) clearInterval(handle)
     }, time)
@@ -49,7 +48,7 @@ createEffect(() => {
     const fullDelta = 1 / 60
 
     renderer.setAnimationLoop(() => {
-        if (pageInactive) return
+        if (paused) return
         delta += clock.getDelta()
         if (delta < targetDelta) return
         fpsRatio[0] = delta / fullDelta

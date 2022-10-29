@@ -1,10 +1,6 @@
 import register from "preact-custom-element"
 import HotKey from "./HotKey"
-import {
-    useCameraRendered,
-    useLoadingUnpkgCount,
-    usePageInactive
-} from "../states"
+import { useCameraRendered, useLoadingUnpkgCount, usePaused } from "../states"
 import mainCamera from "../../engine/mainCamera"
 import { createPortal } from "preact/compat"
 import { container } from "../../engine/renderLoop/renderSetup"
@@ -16,7 +12,7 @@ const HUD = () => {
     useInitCSS(false)
     const [cameraRendered] = useCameraRendered()
     const [loadingUnpkgCount] = useLoadingUnpkgCount()
-    const [pageInactive] = usePageInactive()
+    const [paused] = usePaused()
 
     return createPortal(
         <div
@@ -34,7 +30,7 @@ const HUD = () => {
                 loading data from unpkg
             </InfoScreen>
             <InfoScreen
-                mounted={pageInactive}
+                mounted={paused}
                 style={{ background: "rgba(0, 0, 0, 0.5)" }}
                 fadeIn
             >
