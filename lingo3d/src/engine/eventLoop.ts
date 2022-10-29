@@ -17,6 +17,9 @@ window.addEventListener("blur", () => checkPageInactive(true))
 window.addEventListener("focus", () => checkPageInactive())
 document.addEventListener("visibilitychange", () => checkPageInactive())
 setInterval(() => checkPageInactive(), 1000)
+window.addEventListener("resize", () =>
+    setTimeout(() => checkPageInactive(false), 100)
+)
 
 export const timer = (time: number, repeat: number, cb: () => void) => {
     let count = 0
