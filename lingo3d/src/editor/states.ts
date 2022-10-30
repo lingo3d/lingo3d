@@ -48,6 +48,10 @@ import {
 } from "../states/useLoadingUnpkgCount"
 import { setFileCurrent, getFileCurrent } from "../states/useFileCurrent"
 import { setPaused, getPaused } from "../states/usePaused"
+import {
+    setSelectionFocus,
+    getSelectionFocus
+} from "../states/useSelectionFocus"
 
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(
@@ -55,6 +59,7 @@ export const useMultipleSelectionTargets = hook(
     getMultipleSelectionTargets
 )
 export const useSelectionFrozen = hook(setSelectionFrozen, getSelectionFrozen)
+export const useSelectionFocus = hook(setSelectionFocus, getSelectionFocus)
 export const useCameraList = hook(setCameraList, getCameraList)
 export const useCameraStack = hook(setCameraStack, getCameraStack)
 export const useCameraRendered = hook(setCameraRendered, getCameraRendered)
