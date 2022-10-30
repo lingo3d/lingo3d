@@ -5,7 +5,7 @@ import { getRenderer } from "../states/useRenderer"
 import { getFps } from "../states/useFps"
 import { getFirstLoad } from "../states/useFirstLoad"
 import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
-import { emitRenderSlow } from "../events/onRenderSlow"
+import { emitRenderHalfRate } from "../events/onRenderHalfRate"
 import { setPaused } from "../states/usePaused"
 
 let paused = false
@@ -57,7 +57,7 @@ createEffect(() => {
         for (const cb of callbacks) cb()
         if (++renderSlowCount === 2) {
             renderSlowCount = 0
-            emitRenderSlow()
+            emitRenderHalfRate()
         }
     })
 }, [getFps, getRenderer, getFirstLoad, getFirstLoadBeforeRender])

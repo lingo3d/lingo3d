@@ -4,7 +4,7 @@ import Loaded from "../display/core/Loaded"
 import AdjustMaterialMixin from "../display/core/mixins/AdjustMaterialMixin"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import scene from "../engine/scene"
-import { onRenderSlow } from "../events/onRenderSlow"
+import { onRenderHalfRate } from "../events/onRenderHalfRate"
 import { getRenderer } from "./useRenderer"
 
 const [setReflectionPairs, getReflectionPairs] = store<
@@ -19,7 +19,7 @@ createEffect(() => {
     const pairs = getReflectionPairs()
     if (!renderer || !pairs.length) return
 
-    const handle = onRenderSlow(() => {
+    const handle = onRenderHalfRate(() => {
         for (const [manager] of pairs) {
             manager.outerObject3d.visible = false
             if ("loadedGroup" in manager) manager.loadedGroup.visible = false
