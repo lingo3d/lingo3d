@@ -41,17 +41,17 @@
         "xstate": "*"
     },
     "devDependencies": {
-        "@preact/preset-vite": "^2.3.0",
+        "@preact/preset-vite": "^2.4.0",
         "@types/preact-custom-element": "^4.0.1",
-        "@types/prettier": "^2.6.3",
+        "@types/prettier": "^2.7.1",
         "@types/randomcolor": "^0.5.6",
         "@types/stats.js": "^0.17.0",
         "lil-gui": "^0.17.0",
         "randomcolor": "*",
         "rimraf": "^3.0.2",
         "tweakpane": "*",
-        "typescript": "^4.7.4",
-        "vite": "^3.0.2"
+        "typescript": "^4.8.4",
+        "vite": "^3.2.1"
     },
     "private": false,
     "module": "lib/index.js",

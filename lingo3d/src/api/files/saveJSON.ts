@@ -1,5 +1,5 @@
 import serialize from "../serializer/serialize"
-import { getFileCurrent } from "../../states/useFileCurrent"
+import { getFileCurrent, setFileCurrent } from "../../states/useFileCurrent"
 
 export default async () => {
     const { default: prettier } = await import("prettier/standalone")
@@ -10,7 +10,8 @@ export default async () => {
         parser: "json",
         plugins: [parser]
     })
-    await fileSave(
+    const fileCurrent = getFileCurrent()
+    const fileHandle = await fileSave(
         new Blob([code], { type: "text/plain" }),
         {
             fileName: "scene.json",
@@ -18,6 +19,7 @@ export default async () => {
             startIn: "downloads",
             id: "lingo3d"
         },
-        getFileCurrent()?.handle
+        fileCurrent?.handle
     )
+    !fileCurrent && setFileCurrent(await fileHandle?.getFile())
 }
