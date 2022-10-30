@@ -1,7 +1,7 @@
 import { last } from "@lincode/utils"
 import { FolderApi, Pane } from "./tweakpane"
 import { setOrbitControls } from "../../states/useOrbitControls"
-import { useEffect, useLayoutEffect, useState } from "preact/hooks"
+import { useLayoutEffect, useState } from "preact/hooks"
 import register from "preact-custom-element"
 import {
     useSelectionTarget,
@@ -69,7 +69,7 @@ const Editor = () => {
 
     useCameraPanel(pane, cameraFolder)
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const el = elRef.current
         if (!el) return
 
