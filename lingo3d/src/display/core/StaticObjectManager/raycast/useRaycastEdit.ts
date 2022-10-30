@@ -2,7 +2,6 @@ import { createNestedEffect, createRef } from "@lincode/reactivity"
 import { isPositionedItem } from "../../../../api/core/PositionedItem"
 import { mouseEvents } from "../../../../api/mouse"
 import { onSceneGraphChange } from "../../../../events/onSceneGraphChange"
-import { onSelectionRecompute } from "../../../../events/onSelectionRecompute"
 import {
     emitSelectionTarget,
     onSelectionTarget
@@ -49,10 +48,6 @@ export default () => {
 
         getSelectionCandidates()
         const handle0 = onSceneGraphChange(() => getSelectionCandidates())
-        const handle1 = onSelectionRecompute(() => {
-            getSelectionCandidates()
-            emitSelectionTarget()
-        })
         const handle2 = mouseEvents.on("click", () => emitSelectionTarget())
 
         let rightClick = false
@@ -100,7 +95,6 @@ export default () => {
         })
         return () => {
             handle0.cancel()
-            handle1.cancel()
             handle2.cancel()
             handle3.cancel()
             handle4.cancel()

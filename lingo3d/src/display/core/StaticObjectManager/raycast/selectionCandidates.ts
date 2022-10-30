@@ -7,6 +7,7 @@ import {
     onSelectionTarget,
     emitSelectionTarget
 } from "../../../../events/onSelectionTarget"
+import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
 import VisibleObjectManager from "../../VisibleObjectManager"
 
@@ -65,3 +66,13 @@ export const getSelectionCandidates = debounce(
     0,
     "trailing"
 )
+
+getSelectionFrozen(() => {
+    getSelectionCandidates()
+    emitSelectionTarget()
+})
+
+getSelectionFocus(() => {
+    getSelectionCandidates()
+    emitSelectionTarget()
+})
