@@ -30,14 +30,14 @@
         "browser-fs-access": "0.31.1",
         "cannon-es": "0.20.0",
         "nipplejs": "0.10.0",
-        "postprocessing": "6.29.0",
+        "postprocessing": "6.29.1",
         "preact": "*",
         "preact-compat": "*",
         "preact-custom-element": "*",
         "prettier": "2.7.1",
         "stats.js": "*",
-        "three": "0.145.0",
-        "three-mesh-bvh": "0.5.16",
+        "three": "0.146.0",
+        "three-mesh-bvh": "0.5.17",
         "xstate": "*"
     },
     "devDependencies": {

@@ -1,8 +1,9 @@
+import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import { setFileCurrent } from "../../states/useFileCurrent"
 import { appendableRoot } from "../core/Appendable"
 import deserialize from "../serializer/deserialize"
 
-export default async (file: File) => {
+export default async (file: FileWithDirectoryAndFileHandle) => {
     if (!file.name.toLowerCase().endsWith(".json")) return false
     try {
         const text = await file.text()
