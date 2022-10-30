@@ -21,5 +21,12 @@ export default async () => {
         },
         fileCurrent?.handle
     )
-    !fileCurrent && setFileCurrent(await fileHandle?.getFile())
+    if (fileCurrent) return
+
+    const file = await fileHandle?.getFile()
+    if (!file) return
+
+    //@ts-ignore
+    file.handle = fileHandle
+    setFileCurrent(file)
 }
