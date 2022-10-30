@@ -22,6 +22,7 @@ export default async () => {
     if (fileCurrent) return formatAndSave(fileCurrent.handle)
 
     const fileHandle = await fileSave(new Blob([""], { type: "text/plain" }), {
+        fileName: "scene.json",
         extensions: [".json"],
         startIn: "downloads",
         id: "lingo3d"
