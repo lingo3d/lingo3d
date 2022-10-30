@@ -74,6 +74,10 @@ const SceneGraph = () => {
             ref={elRef}
             className="lingo3d-ui lingo3d-bg lingo3d-scenegraph"
             onClick={() => emitSelectionTarget()}
+            onContextMenu={(el) => {
+                el.preventDefault()
+                emitSelectionTarget(undefined, true)
+            }}
             style={{
                 width: 200,
                 height: "100%",

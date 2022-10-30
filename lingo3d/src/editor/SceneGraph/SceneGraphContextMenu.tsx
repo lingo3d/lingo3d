@@ -11,7 +11,8 @@ import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import {
     addSelectionFrozen,
-    clearSelectionFrozen
+    clearSelectionFrozen,
+    removeSelectionFrozen
 } from "../../states/useSelectionFrozen"
 import downloadBlob from "../../api/files/downloadBlob"
 import ContextMenu from "../component/ContextMenu"
@@ -99,7 +100,7 @@ const SceneGraphContextMenu = () => {
                 />
             ) : (
                 <Fragment>
-                    {data.target && (
+                    {data.target && isMeshItem(selectionTarget) && (
                         <Fragment>
                             <MenuItem
                                 setData={undefined}
@@ -120,21 +121,27 @@ const SceneGraphContextMenu = () => {
                             <MenuItem
                                 setData={setData}
                                 onClick={() =>
-                                    isMeshItem(selectionTarget) &&
-                                    addSelectionFrozen(selectionTarget)
+                                    selectionFrozen.has(selectionTarget)
+                                        ? removeSelectionFrozen(selectionTarget)
+                                        : addSelectionFrozen(selectionTarget)
                                 }
                             >
-                                Freeze selection
+                                {selectionFrozen.has(selectionTarget)
+                                    ? "Unfreeze selection"
+                                    : "Freeze selection"}
                             </MenuItem>
 
                             <MenuItem
                                 setData={setData}
                                 onClick={() =>
-                                    isMeshItem(selectionTarget) &&
-                                    setSelectionFocus(selectionTarget)
+                                    selectionFocus === selectionTarget
+                                        ? setSelectionFocus(undefined)
+                                        : setSelectionFocus(selectionTarget)
                                 }
                             >
-                                Focus selection
+                                {selectionFocus === selectionTarget
+                                    ? "Unfocus selection"
+                                    : "Focus selection"}
                             </MenuItem>
 
                             {selectionTarget instanceof Dummy &&

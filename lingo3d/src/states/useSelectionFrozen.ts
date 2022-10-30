@@ -13,6 +13,13 @@ export const addSelectionFrozen = (item: Appendable) => {
     emitSelectionRecompute()
 }
 
+export const removeSelectionFrozen = (item: Appendable) => {
+    const [frozenSet] = getSelectionFrozen()
+    frozenSet.delete(item)
+    setSelectionFrozen([frozenSet])
+    emitSelectionRecompute()
+}
+
 export const clearSelectionFrozen = () => {
     const [frozenSet] = getSelectionFrozen()
     frozenSet.clear()
