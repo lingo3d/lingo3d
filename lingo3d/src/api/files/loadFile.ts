@@ -1,4 +1,5 @@
 import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
+import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import { setFileCurrent } from "../../states/useFileCurrent"
 import { appendableRoot } from "../core/Appendable"
 import deserialize from "../serializer/deserialize"
@@ -8,7 +9,15 @@ export default async (file: FileWithDirectoryAndFileHandle) => {
     try {
         const text = await file.text()
         if (!text.includes(`"type": "lingo3d"`)) return false
+
         for (const child of appendableRoot) child.dispose()
+        mainOrbitCamera.x = 0
+        mainOrbitCamera.y = 0
+        mainOrbitCamera.z = 0
+        mainOrbitCamera.rotationX = 0
+        mainOrbitCamera.rotationY = 0
+        mainOrbitCamera.rotationZ = 0
+
         setFileCurrent(file)
         await Promise.resolve()
         deserialize(JSON.parse(text))
