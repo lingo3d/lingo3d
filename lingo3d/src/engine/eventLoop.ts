@@ -1,5 +1,5 @@
 import { Cancellable } from "@lincode/promiselikes"
-import { createEffect } from "@lincode/reactivity"
+import store, { createEffect } from "@lincode/reactivity"
 import { Clock } from "three"
 import { getRenderer } from "../states/useRenderer"
 import { getFps } from "../states/useFps"
@@ -12,13 +12,33 @@ let paused = false
 const checkPaused = (val?: boolean) =>
     setPaused((paused = val ?? (document.hidden || !document.hasFocus())))
 
-window.addEventListener("blur", () => checkPaused(true))
-window.addEventListener("focus", () => checkPaused())
-document.addEventListener("visibilitychange", () => checkPaused())
-setInterval(() => checkPaused(), 1000)
-window.addEventListener("resize", () =>
-    setTimeout(() => checkPaused(false), 100)
-)
+const [setLocked, getLocked] = store(false)
+createEffect(() => {
+    const locked = getLocked()
+    if (locked) return
+
+    const cb0 = () => checkPaused(true)
+    const cb1 = () => checkPaused()
+    const cb2 = () => {
+        checkPaused(false)
+        setLocked(true)
+        setTimeout(() => setLocked(false), 1000)
+    }
+    window.addEventListener("blur", cb0)
+    window.addEventListener("focus", cb1)
+    document.addEventListener("visibilitychange", cb1)
+    window.addEventListener("resize", cb2)
+    const interval = setInterval(cb1, 1000)
+    cb1()
+
+    return () => {
+        window.removeEventListener("blur", cb0)
+        window.removeEventListener("focus", cb1)
+        document.removeEventListener("visibilitychange", cb1)
+        window.removeEventListener("resize", cb2)
+        clearInterval(interval)
+    }
+}, [getLocked])
 
 export const timer = (time: number, repeat: number, cb: () => void) => {
     let count = 0
