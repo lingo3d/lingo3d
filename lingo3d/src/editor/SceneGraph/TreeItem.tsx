@@ -25,16 +25,20 @@ export type TreeItemProps = {
     expandable?: boolean
 }
 
-export const makeTreeItemCallbacks =
-    (target: Appendable | Object3D, parent?: Appendable) => () => {
+export const makeTreeItemCallbacks = (
+    target: Appendable | Object3D,
+    parent?: Appendable
+) => {
+    return (rightClick?: boolean) => {
         !getEditing() && setEditorMode("translate")
         isPositionedItem(parent) &&
             getSelectionTarget() !== parent &&
-            emitSelectionTarget(parent)
+            emitSelectionTarget(parent, rightClick)
         if (target instanceof Object3D)
             queueMicrotask(() => setSelectionNativeTarget(target))
-        else emitSelectionTarget(target)
+        else emitSelectionTarget(target, rightClick)
     }
+}
 
 const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
     const appendableChildren = useMemo(() => {
@@ -65,7 +69,8 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
             expanded={sceneGraphExpanded?.has(appendable.outerObject3d)}
             onCollapse={() => setSceneGraphExpanded(undefined)}
             expandable={expandable ?? !!appendableChildren?.length}
-            onClick={handleClick}
+            onClick={() => handleClick()}
+            onContextMenu={() => handleClick(true)}
             IconComponent={CubeIcon}
         >
             {() => (

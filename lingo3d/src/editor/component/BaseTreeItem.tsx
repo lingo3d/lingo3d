@@ -15,6 +15,7 @@ export type BaseTreeItemProps = {
     onCollapse?: () => void
     onExpand?: () => void
     onClick?: () => void
+    onContextMenu?: () => void
     onDrop?: (draggingItem?: any) => void
     myDraggingItem?: any
     draggable?: boolean
@@ -31,6 +32,7 @@ const BaseTreeItem = ({
     onCollapse,
     onExpand,
     onClick,
+    onContextMenu,
     onDrop,
     myDraggingItem,
     draggable,
@@ -67,11 +69,6 @@ const BaseTreeItem = ({
     const expand = () => {
         setExpanded(true)
         onExpand?.()
-    }
-
-    const handleDoubleClick = (e: MouseEvent) => {
-        e.stopPropagation()
-        expanded ? collapse() : expand()
     }
 
     const context = useContext(TreeItemContext)
@@ -131,7 +128,15 @@ const BaseTreeItem = ({
         >
             <div
                 ref={mergeRefs(startRef, clickRef)}
-                onDblClick={handleDoubleClick}
+                onDblClick={(e: MouseEvent) => {
+                    e.stopPropagation()
+                    expanded ? collapse() : expand()
+                }}
+                onContextMenu={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    onContextMenu?.()
+                }}
                 style={{
                     display: "flex",
                     alignItems: "center",
