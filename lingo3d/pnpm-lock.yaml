@@ -27,6 +27,7 @@ specifiers:
   stats.js: '*'
   three: 0.146.0
   three-mesh-bvh: 0.5.17
+  three-to-cannon: 4.3.0
   tweakpane: '*'
   typescript: ^4.8.4
   vite: ^3.2.1
@@ -51,6 +52,7 @@ dependencies:
   stats.js: 0.17.0
   three: 0.146.0
   three-mesh-bvh: 0.5.17_three@0.146.0
+  three-to-cannon: 4.3.0_fvhdadnfkpnbczfjcdsu4xhuuu
   xstate: 4.34.0
 
 devDependencies:
@@ -1131,6 +1133,17 @@ packages:
     peerDependencies:
       three: '>= 0.123.0'
     dependencies:
+      three: 0.146.0
+    dev: false
+
+  /three-to-cannon/4.3.0_fvhdadnfkpnbczfjcdsu4xhuuu:
+    resolution: {integrity: sha512-YjGzQwSny4cmRT5MMeVpkrhbcSHxVx/xO8sJYQKln51S/5+2PsEkP5G9YoRKzoBcJFIA9+IkFoqGb9WmAlEe3w==}
+    peerDependencies:
+      cannon-es: 0.x.x
+      three: '>=0.125.x'
+    dependencies:
+      '@types/three': 0.144.0
+      cannon-es: 0.20.0
       three: 0.146.0
     dev: false
 

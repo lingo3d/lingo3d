@@ -38,6 +38,7 @@
         "stats.js": "*",
         "three": "0.146.0",
         "three-mesh-bvh": "0.5.17",
+        "three-to-cannon": "4.3.0",
         "xstate": "*"
     },
     "devDependencies": {

@@ -30,9 +30,6 @@ export default async function (
             .map((index) => physicsGroups[index])
             .reduce((acc, curr) => acc + curr, 0)
     }))
-    await this.physicsShape()
-
-    if (handle.done) return
 
     if (this._physics === "2d") {
         body.angularFactor = new Vec3(0, 0, 1)

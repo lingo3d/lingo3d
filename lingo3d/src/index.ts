@@ -39,13 +39,6 @@ import SkyLight from "./display/lights/SkyLight"
 import PointLight from "./display/lights/PointLight"
 import SpotLight from "./display/lights/SpotLight"
 
-import circleShape from "./display/core/PhysicsObjectManager/cannon/shapes/circleShape"
-import cubeShape from "./display/core/PhysicsObjectManager/cannon/shapes/cubeShape"
-import cylinderShape from "./display/core/PhysicsObjectManager/cannon/shapes/cylinderShape"
-import sphereShape from "./display/core/PhysicsObjectManager/cannon/shapes/sphereShape"
-import torusShape from "./display/core/PhysicsObjectManager/cannon/shapes/torusShape"
-import pillShape from "./display/core/PhysicsObjectManager/cannon/shapes/pillShape"
-
 import keyboard, { Keyboard } from "./api/keyboard"
 import mouse, { Mouse } from "./api/mouse"
 import gamepad from "./api/gamepad"
@@ -126,12 +119,6 @@ export {
     SkyLight,
     PointLight,
     SpotLight,
-    circleShape,
-    cubeShape,
-    cylinderShape,
-    sphereShape,
-    torusShape,
-    pillShape,
     Keyboard,
     keyboard,
     Mouse,

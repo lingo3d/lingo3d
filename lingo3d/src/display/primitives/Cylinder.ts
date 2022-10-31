@@ -1,7 +1,6 @@
 import { CylinderGeometry } from "three"
 import { diameterScaled, radiusScaled } from "../../engine/constants"
 import Primitive from "../core/Primitive"
-import cylinderShape from "../core/PhysicsObjectManager/cannon/shapes/cylinderShape"
 
 const geometry = new CylinderGeometry(
     radiusScaled,
@@ -12,8 +11,6 @@ const geometry = new CylinderGeometry(
 
 export default class Cylinder extends Primitive {
     public static componentName = "cylinder"
-
-    protected override _physicsShape = cylinderShape
 
     public constructor() {
         super(geometry)

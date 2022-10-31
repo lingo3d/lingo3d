@@ -9,7 +9,6 @@ import {
     quaternion_,
     halfPi
 } from "../../utils/reusables"
-import pillShape from "../PhysicsObjectManager/cannon/shapes/pillShape"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
 import { deg2Rad, Point3d } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
@@ -35,8 +34,6 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
     extends ObjectManager
     implements ICameraBase
 {
-    protected override _physicsShape = pillShape
-
     protected midObject3d = this.outerObject3d
 
     public constructor(protected camera: T) {

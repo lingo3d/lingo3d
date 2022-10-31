@@ -1,7 +1,6 @@
 import { CircleGeometry } from "three"
 import Primitive from "../core/Primitive"
 import { flatGeomScaleZ, radiusScaled } from "../../engine/constants"
-import circleShape from "../core/PhysicsObjectManager/cannon/shapes/circleShape"
 import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 
 const circleGeometry = new CircleGeometry(radiusScaled, 32)
@@ -10,8 +9,6 @@ export default class Circle extends Primitive implements ICircle {
     public static componentName = "circle"
     public static override defaults = circleDefaults
     public static override schema = circleSchema
-
-    protected override _physicsShape = circleShape
 
     public constructor() {
         super(circleGeometry)

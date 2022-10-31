@@ -1,6 +1,4 @@
 import { Point3d } from "@lincode/math"
-import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
-import cubeShape from "../display/core/PhysicsObjectManager/cannon/shapes/cubeShape"
 import ISimpleObjectManager, {
     simpleObjectManagerDefaults,
     simpleObjectManagerSchema
@@ -13,7 +11,6 @@ import { extendDefaults } from "./utils/Defaults"
 
 export type PhysicsGroupIndex = 0 | 1 | 2 | 3 | 4 | 5
 export type PhysicsOptions = boolean | "2d" | "map" | "map-debug" | "character"
-export type PhysicsShape = (this: PhysicsObjectManager) => Promise<void>
 
 export default interface IPhysicsObjectManager extends ISimpleObjectManager {
     maxAngularVelocityX: number
@@ -34,7 +31,6 @@ export default interface IPhysicsObjectManager extends ISimpleObjectManager {
     ignorePhysicsGroups: Nullable<Array<PhysicsGroupIndex>>
 
     physics: PhysicsOptions
-    physicsShape: PhysicsShape
 }
 
 export const physicsObjectManagerSchema: Required<
@@ -59,8 +55,7 @@ export const physicsObjectManagerSchema: Required<
     physicsGroup: Number,
     ignorePhysicsGroups: Array,
 
-    physics: [String, Boolean],
-    physicsShape: Function
+    physics: [String, Boolean]
 }
 hideSchema([
     "maxAngularVelocityX",
@@ -74,8 +69,7 @@ hideSchema([
     "slippery",
     "mass",
     "physicsGroup",
-    "ignorePhysicsGroups",
-    "physicsShape"
+    "ignorePhysicsGroups"
 ])
 
 export const physicsObjectManagerDefaults =
@@ -97,6 +91,5 @@ export const physicsObjectManagerDefaults =
         physicsGroup: undefined,
         ignorePhysicsGroups: undefined,
 
-        physics: false,
-        physicsShape: cubeShape
+        physics: false
     })

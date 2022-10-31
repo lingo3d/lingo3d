@@ -1,4 +1,3 @@
-import cubeShape from "./cannon/shapes/cubeShape"
 import { Object3D, Vector3 } from "three"
 import type { Body } from "cannon-es"
 import { Cancellable } from "@lincode/promiselikes"
@@ -7,8 +6,7 @@ import { Point3d } from "@lincode/math"
 import SimpleObjectManager from "../SimpleObjectManager"
 import IPhysicsObjectManager, {
     PhysicsGroupIndex,
-    PhysicsOptions,
-    PhysicsShape
+    PhysicsOptions
 } from "../../../interface/IPhysicsObjectManager"
 import StaticObjectManager from "../StaticObjectManager"
 import bvhContactMap from "./bvh/bvhContactMap"
@@ -153,15 +151,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.refreshCannon()
     }
 
-    protected _physicsShape?: PhysicsShape
-    public get physicsShape() {
-        return (this._physicsShape ??= cubeShape)
-    }
-    public set physicsShape(val) {
-        this._physicsShape = val
-        this.refreshCannon()
-    }
-
     protected bvhVelocity?: Vector3
     protected bvhOnGround?: boolean
     protected bvhRadius?: number
@@ -182,8 +171,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
             case "map":
                 this.bvhMap = true
-                import("./enableBVHMap").then((module) =>
-                    module.default.call(this, handle, false)
+                import("./enableCannon").then((module) =>
+                    module.default.call(this, handle)
                 )
                 break
 
