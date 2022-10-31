@@ -25,8 +25,8 @@ createEffect(
             for (const item of cannonSet) {
                 const body = item.cannonBody!
 
-                if ("_mAV" in item) {
-                    const { x, y, z } = item._mAV!
+                if (item._mAV) {
+                    const { x, y, z } = item._mAV
                     const { angularVelocity } = body
 
                     if (angularVelocity.x > x) angularVelocity.x = x
@@ -39,7 +39,7 @@ createEffect(
                     else if (angularVelocity.z < -z) angularVelocity.z = -z
                 }
 
-                if ("_mV" in item) {
+                if (item._mV) {
                     const { x, y, z } = item._mV!
                     const { velocity } = body
 
