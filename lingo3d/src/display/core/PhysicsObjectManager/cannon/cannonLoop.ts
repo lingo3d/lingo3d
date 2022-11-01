@@ -1,25 +1,65 @@
 import { createEffect } from "@lincode/reactivity"
-import type { Body } from "cannon-es"
 import { forceGet } from "@lincode/utils"
-import { getPhysicsWorld } from "../../../../states/usePhysicsWorld"
 import { onBeforeRender } from "../../../../events/onBeforeRender"
 import PhysicsObjectManager from ".."
 import { getEditing } from "../../../../states/useEditing"
 import { dt } from "../../../../engine/eventLoop"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
+import { getGravity } from "../../../../states/useGravity"
+import {
+    World,
+    GSSolver,
+    SplitSolver,
+    NaiveBroadphase,
+    Material,
+    ContactMaterial,
+    Body,
+    Vec3
+} from "cannon-es"
+import { cannonContactMap, cannonSet } from "./cannonCollections"
 
-export const cannonSet = new Set<PhysicsObjectManager>()
-export const cannonContactMap = new Map<Body, WeakSet<Body>>()
-export const cannonContactBodies = new WeakSet<Body>()
+export { Body, Vec3 }
+
+export const world = new World()
+getGravity((gravity) => world.gravity.set(0, -gravity, 0))
+
+world.quatNormalizeSkip = 0
+world.quatNormalizeFast = false
+
+const solver = new GSSolver()
+
+world.defaultContactMaterial.contactEquationStiffness = 1e9
+world.defaultContactMaterial.contactEquationRelaxation = 4
+
+solver.iterations = 7
+solver.tolerance = 0.1
+const split = true
+if (split) world.solver = new SplitSolver(solver)
+else world.solver = solver
+
+world.broadphase = new NaiveBroadphase()
+
+export const [defaultMaterial] = world.defaultContactMaterial.materials
+export const slipperyMaterial = new Material("slipperyMaterial")
+
+world.addContactMaterial(
+    new ContactMaterial(slipperyMaterial, slipperyMaterial, {
+        friction: 0.0,
+        restitution: 0.0
+    })
+)
+world.addContactMaterial(
+    new ContactMaterial(slipperyMaterial, defaultMaterial, {
+        friction: 0.001,
+        restitution: 0.0
+    })
+)
 
 const makeWeakSet = () => new WeakSet()
 
 createEffect(
     function (this: PhysicsObjectManager) {
         if (getEditing() || !getFirstLoad()) return
-
-        const world = getPhysicsWorld()
-        if (!world) return
 
         const handle = onBeforeRender(() => {
             for (const item of cannonSet) {
@@ -104,5 +144,5 @@ createEffect(
             handle.cancel()
         }
     },
-    [getPhysicsWorld, getEditing, getFirstLoad]
+    [getEditing, getFirstLoad]
 )

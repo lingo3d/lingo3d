@@ -13,7 +13,7 @@ const cam = new Camera()
 cam.active = true
 cam.mouseControl = true
 cam.physics = true
-cam.noTumble = true
+cam.upright = true
 cam.height = 200
 
 keyboard.onKeyPress = (key) => {

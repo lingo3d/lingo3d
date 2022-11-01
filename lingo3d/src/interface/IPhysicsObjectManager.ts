@@ -24,7 +24,7 @@ export default interface IPhysicsObjectManager extends ISimpleObjectManager {
     velocity: Point3d
     gravity: boolean
 
-    noTumble: Nullable<boolean>
+    upright: Nullable<boolean>
     slippery: Nullable<boolean>
     mass: Nullable<number>
     physicsGroup: Nullable<PhysicsGroupIndex>
@@ -49,7 +49,7 @@ export const physicsObjectManagerSchema: Required<
     velocity: Object,
     gravity: Boolean,
 
-    noTumble: Boolean,
+    upright: Boolean,
     slippery: Boolean,
     mass: Number,
     physicsGroup: Number,
@@ -65,7 +65,7 @@ hideSchema([
     "maxVelocityY",
     "maxVelocityZ",
     "velocity",
-    "noTumble",
+    "upright",
     "slippery",
     "mass",
     "physicsGroup",
@@ -85,7 +85,7 @@ export const physicsObjectManagerDefaults =
         velocity: { x: 0, y: 0, z: 0 },
         gravity: true,
 
-        noTumble: new NullableDefault(false),
+        upright: new NullableDefault(false),
         slippery: new NullableDefault(false),
         mass: new NullableDefault(1),
         physicsGroup: undefined,

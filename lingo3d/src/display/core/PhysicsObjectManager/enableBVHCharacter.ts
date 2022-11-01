@@ -11,7 +11,7 @@ import PhysicsUpdate from "./PhysicsUpdate"
 export default function (this: PhysicsObjectManager, handle: Cancellable) {
     if (handle.done) return
 
-    scene.attach(this.outerObject3d)
+    this.outerObject3d.parent !== scene && scene.attach(this.outerObject3d)
 
     if (this instanceof ObjectManager)
         this.width = this.depth = Math.min(this.width, this.depth)

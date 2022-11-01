@@ -1,7 +1,5 @@
 import { Object3D, Vector3 } from "three"
 import type { Body } from "cannon-es"
-import { Cancellable } from "@lincode/promiselikes"
-import { assertExhaustive } from "@lincode/utils"
 import { Point3d } from "@lincode/math"
 import SimpleObjectManager from "../SimpleObjectManager"
 import IPhysicsObjectManager, {
@@ -10,10 +8,20 @@ import IPhysicsObjectManager, {
 } from "../../../interface/IPhysicsObjectManager"
 import StaticObjectManager from "../StaticObjectManager"
 import bvhContactMap from "./bvh/bvhContactMap"
-import { cannonContactBodies, cannonContactMap } from "./cannon/cannonLoop"
 import MeshItem from "../MeshItem"
 import characterCameraPlaced from "../CharacterCamera/characterCameraPlaced"
 import PhysicsUpdate from "./PhysicsUpdate"
+import { Reactive } from "@lincode/reactivity"
+import {
+    cannonContactBodies,
+    cannonContactMap,
+    cannonSet
+} from "./cannon/cannonCollections"
+import scene from "../../../engine/scene"
+import { Cancellable } from "@lincode/promiselikes"
+
+const physicsGroups = <const>[1, 2, 4, 8, 16, 32]
+const physicsGroupIndexes = <const>[0, 1, 2, 3, 4, 5]
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -102,17 +110,72 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected positionUpdate?: PhysicsUpdate
     protected rotationUpdate?: PhysicsUpdate
 
-    private refreshCannon() {
-        this.positionUpdate && (this.physics = this._physics ?? false)
+    private refreshPhysicsState?: Reactive<{}>
+    protected refreshPhysics() {
+        if (this.refreshPhysicsState) {
+            this.refreshPhysicsState.set({})
+            return
+        }
+        this.createEffect(() => {
+            this.outerObject3d.parent !== scene &&
+                scene.attach(this.outerObject3d)
+
+            const handle = new Cancellable()
+
+            import("./cannon/cannonLoop").then(
+                ({ Body, Vec3, slipperyMaterial, defaultMaterial, world }) => {
+                    const body = (this.cannonBody = new Body({
+                        mass: this._mass ?? 1,
+                        material: this._slippery
+                            ? slipperyMaterial
+                            : defaultMaterial,
+                        collisionFilterGroup:
+                            physicsGroups[this._physicsGroup ?? 0],
+                        collisionFilterMask: physicsGroupIndexes
+                            .filter(
+                                (index) =>
+                                    !this._ignorePhysicsGroups?.includes(index)
+                            )
+                            .map((index) => physicsGroups[index])
+                            .reduce((acc, curr) => acc + curr, 0)
+                    }))
+
+                    if (this._physics === "2d") {
+                        body.angularFactor = new Vec3(0, 0, 1)
+                        body.linearFactor = new Vec3(1, 1, 0)
+                    }
+                    if (this._upright) body.angularFactor = new Vec3(0, 0, 0)
+
+                    body.position.copy(this.outerObject3d.position as any)
+                    body.quaternion.copy(this.outerObject3d.quaternion as any)
+
+                    this.rotationUpdate = new PhysicsUpdate()
+                    this.positionUpdate = new PhysicsUpdate()
+                    world.addBody(body)
+                    cannonSet.add(this)
+
+                    handle.then(() => {
+                        world.removeBody(body)
+                        cannonSet.delete(this)
+                        this.cannonBody = undefined
+                        this.rotationUpdate = undefined
+                        this.positionUpdate = undefined
+                    })
+                }
+            )
+            return () => {
+                handle.cancel()
+            }
+        }, [(this.refreshPhysicsState = new Reactive({})).get])
     }
 
-    protected _noTumble?: boolean
-    public get noTumble() {
-        return this._noTumble
+    protected _upright?: boolean
+    public get upright() {
+        return this._upright
     }
-    public set noTumble(val) {
-        this._noTumble = val
-        this.refreshCannon()
+    public set upright(val) {
+        this._upright = val
+        this.refreshPhysics()
     }
 
     protected _slippery?: boolean
@@ -121,7 +184,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set slippery(val) {
         this._slippery = val
-        this.refreshCannon()
+        this.refreshPhysics()
     }
 
     protected _mass?: number
@@ -130,7 +193,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set mass(val) {
         this._mass = val
-        this.refreshCannon()
+        this.refreshPhysics()
     }
 
     protected _physicsGroup?: PhysicsGroupIndex
@@ -139,7 +202,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set physicsGroup(val) {
         this._physicsGroup = val
-        this.refreshCannon()
+        this.refreshPhysics()
     }
 
     protected _ignorePhysicsGroups?: Array<PhysicsGroupIndex>
@@ -148,7 +211,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set ignorePhysicsGroups(val) {
         this._ignorePhysicsGroups = val
-        this.refreshCannon()
+        this.refreshPhysics()
     }
 
     protected bvhVelocity?: Vector3
@@ -158,53 +221,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected bvhMap?: boolean
     protected bvhCharacter?: boolean
 
-    protected initPhysics(val: PhysicsOptions, handle: Cancellable) {
-        if (!val || handle.done) return
-
-        switch (val) {
-            case true:
-            case "2d":
-                import("./enableCannon").then((module) =>
-                    module.default.call(this, handle)
-                )
-                break
-
-            case "map":
-                this.bvhMap = true
-                import("./enableCannon").then((module) =>
-                    module.default.call(this, handle)
-                )
-                break
-
-            case "map-debug":
-                this.bvhMap = true
-                import("./enableBVHMap").then((module) =>
-                    module.default.call(this, handle, true)
-                )
-                break
-
-            case "character":
-                this.bvhCharacter = true
-                import("./enableBVHCharacter").then((module) =>
-                    module.default.call(this, handle)
-                )
-                break
-
-            default:
-                assertExhaustive(val)
-        }
-    }
     protected _physics?: PhysicsOptions
     public get physics() {
         return this._physics ?? false
     }
     public set physics(val) {
         this._physics = val
-
-        this.initPhysics(
-            val,
-            this.cancelHandle("physics", () => new Cancellable())!
-        )
+        this.refreshPhysics()
     }
 
     protected _gravity?: boolean

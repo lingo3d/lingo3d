@@ -1,37 +1,39 @@
-import keyboard from "../api/keyboard"
-import Model from "../display/Model"
+import { Cube, Cylinder, Torus } from "../index"
 
-import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
-import settings from "../api/settings"
-import Dummy from "../display/Dummy"
-import Cube from "../display/primitives/Cube"
+const pole2 = new Cylinder()
+pole2.scaleX = pole2.scaleZ = 0.2
+pole2.rotationZ = 90
+pole2.y = 500
+pole2.physics = true
 
-// const player = new Dummy()
-// player.src = "ready.glb"
-// player.z = -100
-// player.y = 210.59
-// player.physics = "character"
-// player.rotationY = 90
-// player.strideMove = true
+const torus = new Torus()
+torus.rotationX = 90
+torus.y = 200
+torus.x = 25
+torus.physics = true
 
-// keyboard.onKeyPress = (_, key) => {
-//     if (key.has("w")) player.strideForward = -5
-//     else if (key.has("s")) player.strideForward = 5
-//     else player.strideForward = 0
+const pole = new Cylinder()
+pole.scaleX = pole.scaleZ = 0.2
+pole.physics = true
 
-//     if (key.has("a")) player.strideRight = 5
-//     else if (key.has("d")) player.strideRight = -5
-//     else player.strideRight = 0
-// }
+const floor = new Cube()
+floor.width = floor.depth = 9999
+floor.y = -100
+floor.physics = true
+floor.mass = 0
+floor.color = "blue"
 
-// const cam = new ThirdPersonCamera()
-// cam.transition = true
-// cam.append(player)
-// cam.mouseControl = "drag"
-// cam.active = true
-// cam.lockTargetRotation = "dynamic-lock"
+torus.onMouseOver = () => {
+    console.log("over")
+    // torus.applyImpulse(0, 10, 0)
+    torus.outline = true
+}
 
-const map = new Model()
-map.src = "fairy.glb"
-map.scale = 30
-map.physics = "map"
+torus.onMouseOut = () => {
+    console.log("out")
+    torus.outline = false
+}
+
+torus.onClick = () => {
+    console.log("click")
+}

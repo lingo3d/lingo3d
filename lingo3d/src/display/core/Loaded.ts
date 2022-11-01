@@ -192,9 +192,9 @@ export default abstract class Loaded<T = Object3D>
     public override set physics(val) {
         this._physics = val
 
-        const handle = this.cancelHandle("physics", () =>
+        this.cancelHandle("physics", () =>
             this.loaded.then(() => {
-                this.initPhysics(val, handle!)
+                this.refreshPhysics()
             })
         )
     }
