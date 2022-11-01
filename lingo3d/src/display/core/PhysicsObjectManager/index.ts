@@ -19,6 +19,7 @@ import {
 } from "./cannon/cannonCollections"
 import scene from "../../../engine/scene"
 import { Cancellable } from "@lincode/promiselikes"
+import cubeShape from "./cannon/shapes/cubeShape"
 
 const physicsGroups = <const>[1, 2, 4, 8, 16, 32]
 const physicsGroupIndexes = <const>[0, 1, 2, 3, 4, 5]
@@ -110,6 +111,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected positionUpdate?: PhysicsUpdate
     protected rotationUpdate?: PhysicsUpdate
 
+    protected physicsShape?: typeof cubeShape
+
     private refreshPhysicsState?: Reactive<{}>
     protected refreshPhysics() {
         if (this.refreshPhysicsState) {
@@ -117,52 +120,60 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             return
         }
         this.createEffect(() => {
+            if (!this.physics) return
+
             this.outerObject3d.parent !== scene &&
                 scene.attach(this.outerObject3d)
 
             const handle = new Cancellable()
+            ;(async () => {
+                const { Body, Vec3, slipperyMaterial, defaultMaterial, world } =
+                    await import("./cannon/cannonLoop")
 
-            import("./cannon/cannonLoop").then(
-                ({ Body, Vec3, slipperyMaterial, defaultMaterial, world }) => {
-                    const body = (this.cannonBody = new Body({
-                        mass: this._mass ?? 1,
-                        material: this._slippery
-                            ? slipperyMaterial
-                            : defaultMaterial,
-                        collisionFilterGroup:
-                            physicsGroups[this._physicsGroup ?? 0],
-                        collisionFilterMask: physicsGroupIndexes
-                            .filter(
-                                (index) =>
-                                    !this._ignorePhysicsGroups?.includes(index)
-                            )
-                            .map((index) => physicsGroups[index])
-                            .reduce((acc, curr) => acc + curr, 0)
-                    }))
+                if (handle.done) return
 
-                    if (this._physics === "2d") {
-                        body.angularFactor = new Vec3(0, 0, 1)
-                        body.linearFactor = new Vec3(1, 1, 0)
-                    }
-                    if (this._upright) body.angularFactor = new Vec3(0, 0, 0)
+                const body = (this.cannonBody = new Body({
+                    mass: this._mass ?? 1,
+                    material: this._slippery
+                        ? slipperyMaterial
+                        : defaultMaterial,
+                    collisionFilterGroup:
+                        physicsGroups[this._physicsGroup ?? 0],
+                    collisionFilterMask: physicsGroupIndexes
+                        .filter(
+                            (index) =>
+                                !this._ignorePhysicsGroups?.includes(index)
+                        )
+                        .map((index) => physicsGroups[index])
+                        .reduce((acc, curr) => acc + curr, 0)
+                }))
+                const addShape = this.physicsShape ?? cubeShape
+                await addShape.call(this)
+                if (this.done) return
 
-                    body.position.copy(this.outerObject3d.position as any)
-                    body.quaternion.copy(this.outerObject3d.quaternion as any)
-
-                    this.rotationUpdate = new PhysicsUpdate()
-                    this.positionUpdate = new PhysicsUpdate()
-                    world.addBody(body)
-                    cannonSet.add(this)
-
-                    handle.then(() => {
-                        world.removeBody(body)
-                        cannonSet.delete(this)
-                        this.cannonBody = undefined
-                        this.rotationUpdate = undefined
-                        this.positionUpdate = undefined
-                    })
+                if (this._physics === "2d") {
+                    body.angularFactor = new Vec3(0, 0, 1)
+                    body.linearFactor = new Vec3(1, 1, 0)
                 }
-            )
+                if (this._upright) body.angularFactor = new Vec3(0, 0, 0)
+
+                body.position.copy(this.outerObject3d.position as any)
+                body.quaternion.copy(this.outerObject3d.quaternion as any)
+
+                this.rotationUpdate = new PhysicsUpdate()
+                this.positionUpdate = new PhysicsUpdate()
+                world.addBody(body)
+                cannonSet.add(this)
+
+                handle.then(() => {
+                    world.removeBody(body)
+                    cannonSet.delete(this)
+                    this.cannonBody = undefined
+                    this.rotationUpdate = undefined
+                    this.positionUpdate = undefined
+                })
+            })()
+
             return () => {
                 handle.cancel()
             }
