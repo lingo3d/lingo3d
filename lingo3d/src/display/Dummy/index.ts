@@ -16,7 +16,6 @@ import { euler, vector3 } from "../utils/reusables"
 import poseMachine from "./poseMachine"
 import fpsAlpha from "../utils/fpsAlpha"
 import { getCentripetal } from "../../states/useCentripetal"
-import pillShape from "../core/PhysicsObjectManager/cannon/shapes/pillShape"
 
 export const dummyTypeMap = new WeakMap<Dummy, "dummy" | "readyplayerme">()
 
@@ -24,8 +23,6 @@ export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
     public static override defaults = dummyDefaults
     public static override schema = dummySchema
-
-    protected override physicsShape = pillShape
 
     private poseService = interpret(poseMachine)
 

@@ -14,7 +14,6 @@ specifiers:
   '@types/stats.js': ^0.17.0
   '@types/three': 0.144.0
   browser-fs-access: 0.31.1
-  cannon-es: 0.20.0
   lil-gui: ^0.17.0
   nipplejs: 0.10.0
   postprocessing: 6.29.1
@@ -27,7 +26,6 @@ specifiers:
   stats.js: '*'
   three: 0.146.0
   three-mesh-bvh: 0.5.17
-  three-to-cannon: 4.3.0
   tweakpane: '*'
   typescript: ^4.8.4
   vite: ^3.2.1
@@ -42,7 +40,6 @@ dependencies:
   '@lincode/utils': 1.3.1
   '@types/three': 0.144.0
   browser-fs-access: 0.31.1
-  cannon-es: 0.20.0
   nipplejs: 0.10.0
   postprocessing: 6.29.1_three@0.146.0
   preact: 10.11.2
@@ -52,7 +49,6 @@ dependencies:
   stats.js: 0.17.0
   three: 0.146.0
   three-mesh-bvh: 0.5.17_three@0.146.0
-  three-to-cannon: 4.3.0_fvhdadnfkpnbczfjcdsu4xhuuu
   xstate: 4.34.0
 
 devDependencies:
@@ -543,10 +539,6 @@ packages:
   /caniuse-lite/1.0.30001427:
     resolution: {integrity: sha512-lfXQ73oB9c8DP5Suxaszm+Ta2sr/4tf8+381GkIm1MLj/YdLf+rEDyDSRCzeltuyTVGm+/s18gdZ0q+Wmp8VsQ==}
     dev: true
-
-  /cannon-es/0.20.0:
-    resolution: {integrity: sha512-eZhWTZIkFOnMAJOgfXJa9+b3kVlvG+FX4mdkpePev/w/rP5V8NRquGyEozcjPfEoXUlb+p7d9SUcmDSn14prOA==}
-    dev: false
 
   /chalk/2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -1133,17 +1125,6 @@ packages:
     peerDependencies:
       three: '>= 0.123.0'
     dependencies:
-      three: 0.146.0
-    dev: false
-
-  /three-to-cannon/4.3.0_fvhdadnfkpnbczfjcdsu4xhuuu:
-    resolution: {integrity: sha512-YjGzQwSny4cmRT5MMeVpkrhbcSHxVx/xO8sJYQKln51S/5+2PsEkP5G9YoRKzoBcJFIA9+IkFoqGb9WmAlEe3w==}
-    peerDependencies:
-      cannon-es: 0.x.x
-      three: '>=0.125.x'
-    dependencies:
-      '@types/three': 0.144.0
-      cannon-es: 0.20.0
       three: 0.146.0
     dev: false
 
