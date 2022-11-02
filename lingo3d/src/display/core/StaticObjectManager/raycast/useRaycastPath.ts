@@ -1,7 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createNestedEffect } from "@lincode/reactivity"
 import { mouseEvents } from "../../../../api/mouse"
-import { emitSelectionTarget } from "../../../../events/onSelectionTarget"
 import { getEditing } from "../../../../states/useEditing"
 import { getEditorMode } from "../../../../states/useEditorMode"
 import {
@@ -25,9 +24,8 @@ export default () => {
                 mouseEvents.on("click", (e) => {
                     setTimeout(() => {
                         if (handle.done || getSelectionTarget()) return
-                        const helper = curve.addPointWithHelper(e.point)
+                        curve.addPointWithHelper(e.point)
                         setSelectionFocus(getChildManagers(curve))
-                        emitSelectionTarget(helper)
                     })
                 })
             )
