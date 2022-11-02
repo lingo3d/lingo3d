@@ -19,8 +19,7 @@ pole.physics = true
 const floor = new Cube()
 floor.width = floor.depth = 9999
 floor.y = -100
-floor.physics = true
-floor.mass = 0
+floor.physics = "map"
 floor.color = "blue"
 
 torus.onMouseOver = () => {
