@@ -2,7 +2,7 @@ import CharacterCamera from "../core/CharacterCamera"
 import { Reactive } from "@lincode/reactivity"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
-import { onObjectMove } from "../../api/core/PositionedItem"
+import { onBeforeRender } from "../../events/onBeforeRender"
 
 export default class FirstPersonCamera extends CharacterCamera {
     public static componentName = "firstPersonCamera"
@@ -11,7 +11,7 @@ export default class FirstPersonCamera extends CharacterCamera {
         super()
 
         this.watch(
-            onObjectMove(this.object3d, () => {
+            onBeforeRender(() => {
                 this.camera.position.copy(getWorldPosition(this.object3d))
                 this.camera.quaternion.copy(getWorldQuaternion(this.object3d))
             })
