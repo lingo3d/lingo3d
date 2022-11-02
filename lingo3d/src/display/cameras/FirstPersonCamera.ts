@@ -2,7 +2,7 @@ import CharacterCamera from "../core/CharacterCamera"
 import { Reactive } from "@lincode/reactivity"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
-import { onBeforeRender } from "../../events/onBeforeRender"
+import { onObjectMove } from "../../api/core/PositionedItem"
 
 export default class FirstPersonCamera extends CharacterCamera {
     public static componentName = "firstPersonCamera"
@@ -10,15 +10,12 @@ export default class FirstPersonCamera extends CharacterCamera {
     public constructor() {
         super()
 
-        const cam = this.camera
-
         this.watch(
-            onBeforeRender(() => {
-                cam.position.copy(getWorldPosition(this.object3d))
-                cam.quaternion.copy(getWorldQuaternion(this.object3d))
+            onObjectMove(this.object3d, () => {
+                this.camera.position.copy(getWorldPosition(this.object3d))
+                this.camera.quaternion.copy(getWorldQuaternion(this.object3d))
             })
         )
-
         this.createEffect(() => {
             const found = this.foundState.get()
             const innerYSet = this.innerYSetState.get()

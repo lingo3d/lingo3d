@@ -13,6 +13,7 @@ import { vector3 } from "./utils/reusables"
 import EventLoopItem from "../api/core/EventLoopItem"
 import { debounceInstance, pull } from "@lincode/utils"
 import Sphere from "./primitives/Sphere"
+import { onObjectMove } from "../api/core/PositionedItem"
 
 const ARC_SEGMENTS = 50
 
@@ -92,10 +93,9 @@ export default class Curve extends EventLoopItem {
         this._append(helper)
         helper.name = "point"
 
-        helper.onMove = () => {
-            
-        }
-
+        onObjectMove(helper.outerObject3d, () => {
+            console.log("here")
+        })
         return helper
     }
 

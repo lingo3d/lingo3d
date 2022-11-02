@@ -11,26 +11,20 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 import IPositioned from "../../interface/IPositioned"
 import EventLoopItem from "./EventLoopItem"
 
-const onMoveMap = new Map<PositionedItem, Set<() => void>>()
+const onMoveMap = new Map<Object3D, Set<() => void>>()
 
-export const onPositionedItemMove = (item: PositionedItem, cb: () => void) => {
-    cb()
+export const onObjectMove = (item: Object3D, cb: () => void) => {
     const set = forceGet(onMoveMap, item, makeSet)
     set.add(cb)
-    return new Cancellable(() => set.delete(cb))
+    return new Cancellable(() => {
+        set.delete(cb)
+        !set.size && onMoveMap.delete(item)
+    })
 }
 
 onBeforeRender(() => {
-    let toDelete: Array<PositionedItem> = []
-    for (const [item, cbs] of onMoveMap) {
-        if (item.done || !cbs.size) {
-            toDelete.push(item)
-            continue
-        }
-        if (positionChanged(item.outerObject3d)) for (const cb of cbs) cb()
-    }
-    for (const item of toDelete) onMoveMap.delete(item)
-    toDelete = []
+    for (const [item, cbs] of onMoveMap)
+        if (positionChanged(item)) for (const cb of cbs) cb()
 })
 
 const makeSet = () => new Set<() => void>()
@@ -77,7 +71,7 @@ export default abstract class PositionedItem<T extends Object3D = Object3D>
         this._onMove = cb
         this.cancelHandle(
             "onMove",
-            cb && (() => onPositionedItemMove(this, cb))
+            cb && (() => onObjectMove(this.outerObject3d, cb))
         )
     }
 }
