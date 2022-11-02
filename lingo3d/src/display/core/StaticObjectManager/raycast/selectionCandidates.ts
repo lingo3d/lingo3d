@@ -42,24 +42,27 @@ const traverse = (
     targets:
         | Array<Appendable | StaticObjectManager>
         | Set<Appendable | StaticObjectManager>,
-    frozenSet: Set<Appendable>
+    frozenSet: Set<Appendable>,
+    focusSet: WeakSet<Appendable> | undefined
 ) => {
     for (const manager of targets) {
-        if (frozenSet.has(manager)) continue
+        if (frozenSet.has(manager) || (focusSet && !focusSet.has(manager)))
+            continue
 
         if ("addToRaycastSet" in manager && !unselectableSet.has(manager))
             //@ts-ignore
             manager.addToRaycastSet(selectionCandidates)
 
-        manager.children && traverse(manager.children, frozenSet)
+        manager.children && traverse(manager.children, frozenSet, focusSet)
     }
 }
 
 export const getSelectionCandidates = debounce(
     (targets: Array<Appendable> | Set<Appendable> = appendableRoot) => {
         const [frozenSet] = getSelectionFrozen()
+        const focusSet = getSelectionFocus()
         selectionCandidates.clear()
-        traverse(targets, frozenSet)
+        traverse(targets, frozenSet, focusSet)
         for (const candidate of manualSelectionCandidates)
             selectionCandidates.add(candidate)
     },

@@ -22,6 +22,7 @@ import {
     useSelectionFrozen,
     useSelectionTarget
 } from "../states"
+import { getChildManagers } from "../../states/useSelectionFocus"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)
@@ -134,12 +135,14 @@ const SceneGraphContextMenu = () => {
                             <MenuItem
                                 setData={setData}
                                 onClick={() =>
-                                    selectionFocus === selectionTarget
+                                    selectionFocus?.has(selectionTarget)
                                         ? setSelectionFocus(undefined)
-                                        : setSelectionFocus(selectionTarget)
+                                        : setSelectionFocus(
+                                              getChildManagers(selectionTarget)
+                                          )
                                 }
                             >
-                                {selectionFocus === selectionTarget
+                                {selectionFocus?.has(selectionTarget)
                                     ? "Unfocus selection"
                                     : "Focus selection"}
                             </MenuItem>
