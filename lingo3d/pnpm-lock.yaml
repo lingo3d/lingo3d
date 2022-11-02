@@ -28,7 +28,7 @@ specifiers:
   three-mesh-bvh: 0.5.17
   tweakpane: '*'
   typescript: ^4.8.4
-  vite: ^3.2.1
+  vite: ^3.2.2
   xstate: '*'
 
 dependencies:
@@ -52,7 +52,7 @@ dependencies:
   xstate: 4.34.0
 
 devDependencies:
-  '@preact/preset-vite': 2.4.0_preact@10.11.2+vite@3.2.1
+  '@preact/preset-vite': 2.4.0_preact@10.11.2+vite@3.2.2
   '@types/preact-custom-element': 4.0.1
   '@types/prettier': 2.7.1
   '@types/randomcolor': 0.5.6
@@ -62,7 +62,7 @@ devDependencies:
   rimraf: 3.0.2
   tweakpane: 3.1.0
   typescript: 4.8.4
-  vite: 3.2.1
+  vite: 3.2.2
 
 packages:
 
@@ -81,8 +81,8 @@ packages:
       '@babel/highlight': 7.18.6
     dev: true
 
-  /@babel/compat-data/7.20.0:
-    resolution: {integrity: sha512-Gt9jszFJYq7qzXVK4slhc6NzJXnOVmRECWcVjF/T23rNXD9NtWQ0W3qxdg+p9wWIB+VQw3GYV/U2Ha9bRTfs4w==}
+  /@babel/compat-data/7.20.1:
+    resolution: {integrity: sha512-EWZ4mE2diW3QALKvDMiXnbZpRvlj+nayZ112nK93SnhqOtpdsbVD4W+2tEoT3YNBAG9RBR0ISY758ZkOgsn6pQ==}
     engines: {node: '>=6.9.0'}
     dev: true
 
@@ -92,13 +92,13 @@ packages:
     dependencies:
       '@ampproject/remapping': 2.2.0
       '@babel/code-frame': 7.18.6
-      '@babel/generator': 7.20.0
+      '@babel/generator': 7.20.1
       '@babel/helper-compilation-targets': 7.20.0_@babel+core@7.19.6
       '@babel/helper-module-transforms': 7.19.6
-      '@babel/helpers': 7.20.0
-      '@babel/parser': 7.20.0
+      '@babel/helpers': 7.20.1
+      '@babel/parser': 7.20.1
       '@babel/template': 7.18.10
-      '@babel/traverse': 7.20.0
+      '@babel/traverse': 7.20.1
       '@babel/types': 7.20.0
       convert-source-map: 1.9.0
       debug: 4.3.4
@@ -109,8 +109,8 @@ packages:
       - supports-color
     dev: true
 
-  /@babel/generator/7.20.0:
-    resolution: {integrity: sha512-GUPcXxWibClgmYJuIwC2Bc2Lg+8b9VjaJ+HlNdACEVt+Wlr1eoU1OPZjZRm7Hzl0gaTsUZNQfeihvZJhG7oc3w==}
+  /@babel/generator/7.20.1:
+    resolution: {integrity: sha512-u1dMdBUmA7Z0rBB97xh8pIhviK7oItYOkjbsCxTWMknyvbQRBwX7/gn4JXurRdirWMFh+ZtYARqkA6ydogVZpg==}
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.20.0
@@ -131,7 +131,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0
     dependencies:
-      '@babel/compat-data': 7.20.0
+      '@babel/compat-data': 7.20.1
       '@babel/core': 7.19.6
       '@babel/helper-validator-option': 7.18.6
       browserslist: 4.21.4
@@ -175,7 +175,7 @@ packages:
       '@babel/helper-split-export-declaration': 7.18.6
       '@babel/helper-validator-identifier': 7.19.1
       '@babel/template': 7.18.10
-      '@babel/traverse': 7.20.0
+      '@babel/traverse': 7.20.1
       '@babel/types': 7.20.0
     transitivePeerDependencies:
       - supports-color
@@ -215,12 +215,12 @@ packages:
     engines: {node: '>=6.9.0'}
     dev: true
 
-  /@babel/helpers/7.20.0:
-    resolution: {integrity: sha512-aGMjYraN0zosCEthoGLdqot1oRsmxVTQRHadsUPz5QM44Zej2PYRz7XiDE7GqnkZnNtLbOuxqoZw42vkU7+XEQ==}
+  /@babel/helpers/7.20.1:
+    resolution: {integrity: sha512-J77mUVaDTUJFZ5BpP6mMn6OIl3rEWymk2ZxDBQJUG3P+PbmyMcF3bYWvz0ma69Af1oobDqT/iAsvzhB58xhQUg==}
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/template': 7.18.10
-      '@babel/traverse': 7.20.0
+      '@babel/traverse': 7.20.1
       '@babel/types': 7.20.0
     transitivePeerDependencies:
       - supports-color
@@ -235,8 +235,8 @@ packages:
       js-tokens: 4.0.0
     dev: true
 
-  /@babel/parser/7.20.0:
-    resolution: {integrity: sha512-G9VgAhEaICnz8iiJeGJQyVl6J2nTjbW0xeisva0PK6XcKsga7BIaqm4ZF8Rg1Wbaqmy6znspNqhPaPkyukujzg==}
+  /@babel/parser/7.20.1:
+    resolution: {integrity: sha512-hp0AYxaZJhxULfM1zyp7Wgr+pSUKBcP3M+PHnSzWGdXOzg/kHWIgiUWARvubhUKGOEw3xqY4x+lyZ9ytBVcELw==}
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
@@ -279,21 +279,21 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 7.18.6
-      '@babel/parser': 7.20.0
+      '@babel/parser': 7.20.1
       '@babel/types': 7.20.0
     dev: true
 
-  /@babel/traverse/7.20.0:
-    resolution: {integrity: sha512-5+cAXQNARgjRUK0JWu2UBwja4JLSO/rBMPJzpsKb+oBF5xlUuCfljQepS4XypBQoiigL0VQjTZy6WiONtUdScQ==}
+  /@babel/traverse/7.20.1:
+    resolution: {integrity: sha512-d3tN8fkVJwFLkHkBN479SOsw4DMZnz8cdbL/gvuDuzy3TS6Nfw80HuQqhw1pITbIruHyh7d1fMA47kWzmcUEGA==}
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 7.18.6
-      '@babel/generator': 7.20.0
+      '@babel/generator': 7.20.1
       '@babel/helper-environment-visitor': 7.18.9
       '@babel/helper-function-name': 7.19.0
       '@babel/helper-hoist-variables': 7.18.6
       '@babel/helper-split-export-declaration': 7.18.6
-      '@babel/parser': 7.20.0
+      '@babel/parser': 7.20.1
       '@babel/types': 7.20.0
       debug: 4.3.4
       globals: 11.12.0
@@ -400,11 +400,11 @@ packages:
   /@lincode/utils/1.3.1:
     resolution: {integrity: sha512-IiaV6QS9ZdzjoTwfHkO+HN6x17l415fI7UBl5C5i2mHELjgm8qxmasgU7slavG+1An1t6NnbbwlFW3lDqkbnbQ==}
     dependencies:
-      '@types/lodash': 4.14.186
+      '@types/lodash': 4.14.187
       lodash: 4.17.21
     dev: false
 
-  /@preact/preset-vite/2.4.0_preact@10.11.2+vite@3.2.1:
+  /@preact/preset-vite/2.4.0_preact@10.11.2+vite@3.2.2:
     resolution: {integrity: sha512-EiUMHuiCThuTuK+eH2r5uDg+CJbbt4aWJGePuszrHuXUpRv6WAeO4S+/DTJsEHtPtGmPRR3cLQ68N5097eOSRA==}
     peerDependencies:
       '@babel/core': 7.x
@@ -412,13 +412,13 @@ packages:
     dependencies:
       '@babel/plugin-transform-react-jsx': 7.19.0
       '@babel/plugin-transform-react-jsx-development': 7.18.6
-      '@prefresh/vite': 2.2.9_preact@10.11.2+vite@3.2.1
+      '@prefresh/vite': 2.2.9_preact@10.11.2+vite@3.2.2
       '@rollup/pluginutils': 4.2.1
       babel-plugin-transform-hook-names: 1.0.2
       debug: 4.3.4
       kolorist: 1.6.0
       resolve: 1.22.1
-      vite: 3.2.1
+      vite: 3.2.2
     transitivePeerDependencies:
       - preact
       - supports-color
@@ -440,7 +440,7 @@ packages:
     resolution: {integrity: sha512-Mb9abhJTOV4yCfkXrMrcgFiFT7MfNOw8sDa+XyZBdq/Ai2p4Zyxqsb3EgHLOEdHpMj6J9aiZ54W8H6FTam1u+A==}
     dev: true
 
-  /@prefresh/vite/2.2.9_preact@10.11.2+vite@3.2.1:
+  /@prefresh/vite/2.2.9_preact@10.11.2+vite@3.2.2:
     resolution: {integrity: sha512-1ERBF85Ja9/lkrfaltmo4Gca7R2ClQPSHHDDysFgfvPzHmLUeyB0x9WHwhwov/AA1DnyPhsfYT54z3yQd8XrgA==}
     peerDependencies:
       preact: ^10.4.0
@@ -452,7 +452,7 @@ packages:
       '@prefresh/utils': 1.1.3
       '@rollup/pluginutils': 4.2.1
       preact: 10.11.2
-      vite: 3.2.1
+      vite: 3.2.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -465,8 +465,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@types/lodash/4.14.186:
-    resolution: {integrity: sha512-eHcVlLXP0c2FlMPm56ITode2AgLMSa6aJ05JTTbYbI+7EMkCEE5qk2E41d5g2lCVTqRe0GnnRFurmlCsDODrPw==}
+  /@types/lodash/4.14.187:
+    resolution: {integrity: sha512-MrO/xLXCaUgZy3y96C/iOsaIqZSeupyTImKClHunL5GrmaiII2VwvWmLBu2hwa0Kp0sV19CsyjtrTc/Fx8rg/A==}
     dev: false
 
   /@types/preact-custom-element/4.0.1:
@@ -530,14 +530,14 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001427
+      caniuse-lite: 1.0.30001429
       electron-to-chromium: 1.4.284
       node-releases: 2.0.6
       update-browserslist-db: 1.0.10_browserslist@4.21.4
     dev: true
 
-  /caniuse-lite/1.0.30001427:
-    resolution: {integrity: sha512-lfXQ73oB9c8DP5Suxaszm+Ta2sr/4tf8+381GkIm1MLj/YdLf+rEDyDSRCzeltuyTVGm+/s18gdZ0q+Wmp8VsQ==}
+  /caniuse-lite/1.0.30001429:
+    resolution: {integrity: sha512-511ThLu1hF+5RRRt0zYCf2U2yRr9GPF6m5y90SBCWsvSoYoW7yAGlv/elyPaNfvGCkp6kj/KFZWU0BMA69Prsg==}
     dev: true
 
   /chalk/2.4.2:
@@ -1158,8 +1158,8 @@ packages:
       picocolors: 1.0.0
     dev: true
 
-  /vite/3.2.1:
-    resolution: {integrity: sha512-ADtMkfHuWq4tskJsri2n2FZkORO8ZyhI+zIz7zTrDAgDEtct1jdxOg3YsZBfHhKjmMoWLOSCr+64qrEDGo/DbQ==}
+  /vite/3.2.2:
+    resolution: {integrity: sha512-pLrhatFFOWO9kS19bQ658CnRYzv0WLbsPih6R+iFeEEhDOuYgYCX2rztUViMz/uy/V8cLCJvLFeiOK7RJEzHcw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:

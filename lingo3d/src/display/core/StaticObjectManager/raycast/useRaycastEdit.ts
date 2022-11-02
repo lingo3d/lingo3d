@@ -42,7 +42,8 @@ export default () => {
             (mode !== "rotate" &&
                 mode !== "scale" &&
                 mode !== "select" &&
-                mode !== "translate")
+                mode !== "translate" &&
+                mode !== "path")
         )
             return
 

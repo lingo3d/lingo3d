@@ -9,8 +9,8 @@ import { getTransformControlsDragging } from "../../../../states/useTransformCon
 
 createEffect(() => {
     useRaycastPlay()
-    useRaycastPath()
     useRaycastEdit()
+    useRaycastPath()
 }, [
     getEditing,
     getEditorMode,

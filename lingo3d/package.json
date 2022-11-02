@@ -50,7 +50,7 @@
         "rimraf": "^3.0.2",
         "tweakpane": "*",
         "typescript": "^4.8.4",
-        "vite": "^3.2.1"
+        "vite": "^3.2.2"
     },
     "private": false,
     "module": "lib/index.js",

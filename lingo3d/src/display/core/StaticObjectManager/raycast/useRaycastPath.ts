@@ -4,6 +4,7 @@ import { mouseEvents } from "../../../../api/mouse"
 import { emitSelectionTarget } from "../../../../events/onSelectionTarget"
 import { getEditing } from "../../../../states/useEditing"
 import { getEditorMode } from "../../../../states/useEditorMode"
+import { getSelectionTarget } from "../../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
 
 export default () => {
@@ -24,8 +25,8 @@ export default () => {
 
             handle.watch(
                 mouseEvents.on("click", (e) => {
-                    setTimeout(() => {
-                        if (handle.done) return
+                    queueMicrotask(() => {
+                        if (handle.done || getSelectionTarget()) return
                         emitSelectionTarget(curve.addPointWithHelper(e.point))
                     })
                 })
