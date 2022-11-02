@@ -91,6 +91,11 @@ export default class Curve extends EventLoopItem {
         helper.placeAt(pt)
         this._append(helper)
         helper.name = "point"
+
+        helper.onMove = () => {
+            
+        }
+
         return helper
     }
 
