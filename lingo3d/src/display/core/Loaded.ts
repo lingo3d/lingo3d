@@ -266,7 +266,7 @@ export default abstract class Loaded<T = Object3D>
 
     protected override refreshPhysics() {
         this.cancelHandle("refreshPhysics", () =>
-            this.loaded.then((loaded) => void super.refreshPhysics(loaded))
+            this.loaded.then(() => void super.refreshPhysics())
         )
     }
 }

@@ -1,4 +1,4 @@
-import { Camera, Cube, keyboard, settings, Sky } from ".."
+import { Camera, Cube, keyboard, Sky } from ".."
 
 const sky = new Sky()
 const floor = new Cube()
@@ -18,7 +18,7 @@ cam.height = 200
 
 keyboard.onKeyPress = (key) => {
     if (key === " ")
-        cam.applyImpulse(0, 10, 0)
+        cam.velocity.y = 10
     if (key === "w")
         cam.moveForward(10)
     if (key === "s")

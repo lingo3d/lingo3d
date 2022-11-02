@@ -29,7 +29,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected rotationUpdate?: PhysicsUpdate
 
     private refreshPhysicsState?: Reactive<{}>
-    protected refreshPhysics(loaded?: Object3D) {
+    protected refreshPhysics() {
         if (this.refreshPhysicsState) {
             this.refreshPhysicsState.set({})
             return
@@ -42,41 +42,18 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 scene.attach(this.outerObject3d)
 
             const handle = new Cancellable()
-            ;(async () => {
-                handle.then(() => {})
-            })()
-
+            if (_physics === "map" || _physics === "map-debug")
+                import("./enableBVHMap").then((module) => {
+                    module.default.call(this, handle, _physics === "map-debug")
+                })
+            else if (_physics === "character")
+                import("./enableBVHCharacter").then((module) => {
+                    module.default.call(this, handle)
+                })
             return () => {
                 handle.cancel()
             }
         }, [(this.refreshPhysicsState = new Reactive({})).get])
-    }
-
-    protected _upright?: boolean
-    public get upright() {
-        return this._upright
-    }
-    public set upright(val) {
-        this._upright = val
-        this.refreshPhysics()
-    }
-
-    protected _slippery?: boolean
-    public get slippery() {
-        return this._slippery
-    }
-    public set slippery(val) {
-        this._slippery = val
-        this.refreshPhysics()
-    }
-
-    protected _mass?: number
-    public get mass() {
-        return this._mass
-    }
-    public set mass(val) {
-        this._mass = val
-        this.refreshPhysics()
     }
 
     protected bvhVelocity?: Vector3
