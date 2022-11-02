@@ -9,16 +9,10 @@ import {
     setSelectionFocus
 } from "../../../../states/useSelectionFocus"
 import { getSelectionTarget } from "../../../../states/useSelectionTarget"
-import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
 
 export default () => {
     createNestedEffect(() => {
-        if (
-            !getEditing() ||
-            getTransformControlsDragging() ||
-            getEditorMode() !== "path"
-        )
-            return
+        if (!getEditing() || getEditorMode() !== "path") return
 
         const handle = new Cancellable()
         import("../../../Curve").then(({ default: Curve }) => {
@@ -29,16 +23,18 @@ export default () => {
 
             handle.watch(
                 mouseEvents.on("click", (e) => {
-                    queueMicrotask(() => {
+                    setTimeout(() => {
                         if (handle.done || getSelectionTarget()) return
-                        emitSelectionTarget(curve.addPointWithHelper(e.point))
+                        const helper = curve.addPointWithHelper(e.point)
                         setSelectionFocus(getChildManagers(curve))
+                        emitSelectionTarget(helper)
                     })
                 })
             )
         })
         return () => {
             handle.cancel()
+            console.log("here")
         }
-    }, [getEditing, getTransformControlsDragging, getEditorMode])
+    }, [getEditing, getEditorMode])
 }
