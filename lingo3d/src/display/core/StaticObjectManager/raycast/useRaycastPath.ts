@@ -4,6 +4,10 @@ import { mouseEvents } from "../../../../api/mouse"
 import { emitSelectionTarget } from "../../../../events/onSelectionTarget"
 import { getEditing } from "../../../../states/useEditing"
 import { getEditorMode } from "../../../../states/useEditorMode"
+import {
+    getChildManagers,
+    setSelectionFocus
+} from "../../../../states/useSelectionFocus"
 import { getSelectionTarget } from "../../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
 
@@ -28,6 +32,7 @@ export default () => {
                     queueMicrotask(() => {
                         if (handle.done || getSelectionTarget()) return
                         emitSelectionTarget(curve.addPointWithHelper(e.point))
+                        setSelectionFocus(getChildManagers(curve))
                     })
                 })
             )

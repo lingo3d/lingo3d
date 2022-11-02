@@ -89,6 +89,7 @@ export default class Curve extends EventLoopItem {
         const helper = new Sphere()
         helper.scale = 0.1
         helper.placeAt(pt)
+        this._append(helper)
         helper.name = "point"
         return helper
     }
