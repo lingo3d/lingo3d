@@ -186,19 +186,6 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    public override get physics() {
-        return super.physics
-    }
-    public override set physics(val) {
-        this._physics = val
-
-        this.cancelHandle("physics", () =>
-            this.loaded.then(() => {
-                this.refreshPhysics()
-            })
-        )
-    }
-
     private _boxVisible?: boolean
     public get boxVisible() {
         return this._boxVisible ?? this.object3d.visible
@@ -274,6 +261,12 @@ export default abstract class Loaded<T = Object3D>
     public override placeAt(object: MeshItem | Point3d | string) {
         this.cancelHandle("placeAt", () =>
             this.loaded.then(() => void super.placeAt(object))
+        )
+    }
+
+    protected override refreshPhysics() {
+        this.cancelHandle("refreshPhysics", () =>
+            this.loaded.then((loaded) => void super.refreshPhysics(loaded))
         )
     }
 }

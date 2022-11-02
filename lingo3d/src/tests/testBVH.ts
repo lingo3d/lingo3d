@@ -9,7 +9,7 @@ import Cube from "../display/primitives/Cube"
 const player = new Dummy()
 player.src = "ready.glb"
 player.z = -100
-player.y = 210.59
+player.y = 300
 player.physics = "character"
 player.rotationY = 90
 player.strideMove = true

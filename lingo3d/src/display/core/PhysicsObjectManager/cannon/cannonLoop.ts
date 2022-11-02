@@ -18,8 +18,6 @@ import {
 } from "cannon-es"
 import { cannonContactMap, cannonSet } from "./cannonCollections"
 
-export { Body, Vec3 }
-
 export const world = new World()
 getGravity((gravity) => world.gravity.set(0, -gravity, 0))
 

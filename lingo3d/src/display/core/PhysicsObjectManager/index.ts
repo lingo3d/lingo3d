@@ -1,5 +1,5 @@
-import { Object3D, Vector3 } from "three"
-import type { Body } from "cannon-es"
+import { Mesh, Object3D, Vector3 } from "three"
+import type { Body, Vec3 } from "cannon-es"
 import { Point3d } from "@lincode/math"
 import SimpleObjectManager from "../SimpleObjectManager"
 import IPhysicsObjectManager, {
@@ -20,6 +20,7 @@ import {
 import scene from "../../../engine/scene"
 import { Cancellable } from "@lincode/promiselikes"
 import cubeShape from "./cannon/shapes/cubeShape"
+import pillShape from "./cannon/shapes/pillShape"
 
 const physicsGroups = <const>[1, 2, 4, 8, 16, 32]
 const physicsGroupIndexes = <const>[0, 1, 2, 3, 4, 5]
@@ -114,26 +115,28 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected physicsShape?: typeof cubeShape
 
     private refreshPhysicsState?: Reactive<{}>
-    protected refreshPhysics() {
+    protected refreshPhysics(loaded?: Object3D) {
         if (this.refreshPhysicsState) {
             this.refreshPhysicsState.set({})
             return
         }
         this.createEffect(() => {
-            if (!this.physics) return
+            const { _physics } = this
+            if (!_physics) return
 
             this.outerObject3d.parent !== scene &&
                 scene.attach(this.outerObject3d)
 
             const handle = new Cancellable()
             ;(async () => {
-                const { Body, Vec3, slipperyMaterial, defaultMaterial, world } =
+                const { slipperyMaterial, defaultMaterial, world } =
                     await import("./cannon/cannonLoop")
 
+                const { Body, Vec3 } = await import("cannon-es")
                 if (handle.done) return
 
                 const body = (this.cannonBody = new Body({
-                    mass: this._mass ?? 1,
+                    mass: _physics === "map" ? 0 : this._mass ?? 1,
                     material: this._slippery
                         ? slipperyMaterial
                         : defaultMaterial,
@@ -147,18 +150,38 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                         .map((index) => physicsGroups[index])
                         .reduce((acc, curr) => acc + curr, 0)
                 }))
-                const addShape = this.physicsShape ?? cubeShape
+                body.position.copy(this.outerObject3d.position as any)
+                body.quaternion.copy(this.outerObject3d.quaternion as any)
+
+                if (loaded && _physics === "map") {
+                    const { threeToCannon, ShapeType } = await import(
+                        "three-to-cannon"
+                    )
+                    const shape = threeToCannon(loaded, {
+                        type: ShapeType.MESH
+                    })?.shape
+                    if (!shape) return
+
+                    body.addShape(shape)
+                    world.addBody(body)
+                    handle.then(() => world.removeBody(body))
+                    return
+                }
+
+                const addShape =
+                    _physics === "character"
+                        ? pillShape
+                        : this.physicsShape ?? cubeShape
+
                 await addShape.call(this)
                 if (this.done) return
 
-                if (this._physics === "2d") {
+                if (_physics === "2d") {
                     body.angularFactor = new Vec3(0, 0, 1)
                     body.linearFactor = new Vec3(1, 1, 0)
                 }
-                if (this._upright) body.angularFactor = new Vec3(0, 0, 0)
-
-                body.position.copy(this.outerObject3d.position as any)
-                body.quaternion.copy(this.outerObject3d.quaternion as any)
+                if (_physics === "character" || this._upright)
+                    body.angularFactor = new Vec3(0, 0, 0)
 
                 this.rotationUpdate = new PhysicsUpdate()
                 this.positionUpdate = new PhysicsUpdate()
