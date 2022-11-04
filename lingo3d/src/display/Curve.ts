@@ -6,6 +6,7 @@ import { debounceInstance } from "@lincode/utils"
 import Sphere from "./primitives/Sphere"
 import getVecOnCurve from "./utils/getVecOnCurve"
 import { point2Vec } from "./utils/vec2Point"
+import ICurve, { curveDefaults, curveSchema } from "../interface/ICurve"
 
 const ARC_SEGMENTS = 50
 
@@ -20,12 +21,17 @@ export const addPointWithHelper = (curve: Curve, pt: Point3d) => {
 
     helper.onMove = () => {
         Object.assign(pt, helper.getWorldPosition())
+        //@ts-ignore
         curve.update()
     }
     return helper
 }
 
-export default class Curve extends EventLoopItem {
+export default class Curve extends EventLoopItem implements ICurve {
+    public static componentName = "curve"
+    public static defaults = curveDefaults
+    public static schema = curveSchema
+
     private bufferAttribute = new BufferAttribute(
         new Float32Array(ARC_SEGMENTS * 3),
         3
@@ -76,7 +82,7 @@ export default class Curve extends EventLoopItem {
             bufferAttribute.setXYZ(i, vec.x, vec.y, vec.z)
         }
     })
-    public update() {
+    private update() {
         Curve.update(this, this)
     }
 
