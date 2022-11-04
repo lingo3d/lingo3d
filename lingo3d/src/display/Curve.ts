@@ -78,9 +78,7 @@ export default class Curve extends EventLoopItem {
         helper.name = "point"
 
         helper.onMove = () => {
-            pt.x = helper.x
-            pt.y = helper.y
-            pt.z = helper.z
+            Object.assign(pt, helper.getWorldPosition())
             this.update()
         }
         return helper
