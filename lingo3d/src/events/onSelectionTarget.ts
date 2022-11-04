@@ -2,7 +2,6 @@ import { event } from "@lincode/events"
 import { createEffect } from "@lincode/reactivity"
 import { debounceTrailing } from "@lincode/utils"
 import Appendable from "../api/core/Appendable"
-import { getSelectionLocked } from "../states/useSelectionLocked"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import { onSceneGraphChange } from "./onSceneGraphChange"
 
@@ -15,7 +14,7 @@ export { onSelectionTarget }
 
 export const emitSelectionTarget = debounceTrailing(
     (target?: Appendable, rightClick?: boolean) =>
-        !getSelectionLocked() && _emitSelectionTarget({ target, rightClick })
+        _emitSelectionTarget({ target, rightClick })
 )
 
 createEffect(() => {
