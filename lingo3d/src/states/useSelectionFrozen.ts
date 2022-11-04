@@ -1,5 +1,6 @@
-import store from "@lincode/reactivity"
+import store, { createEffect } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
+import { onDispose } from "../events/onDispose"
 
 export const [setSelectionFrozen, getSelectionFrozen] = store([
     new Set<Appendable>()
@@ -22,3 +23,17 @@ export const clearSelectionFrozen = () => {
     frozenSet.clear()
     setSelectionFrozen([frozenSet])
 }
+
+createEffect(() => {
+    const [frozenSet] = getSelectionFrozen()
+    if (!frozenSet.size) return
+
+    const handle = onDispose((item) => {
+        if (!frozenSet.has(item)) return
+        frozenSet.delete(item)
+        setSelectionFrozen([frozenSet])
+    })
+    return () => {
+        handle.cancel()
+    }
+}, [getSelectionFrozen])
