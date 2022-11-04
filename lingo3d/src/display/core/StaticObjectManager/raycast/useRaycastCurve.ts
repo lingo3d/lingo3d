@@ -11,23 +11,25 @@ export default () => {
         if (!getEditing() || getEditorMode() !== "path") return
 
         const handle = new Cancellable()
-        import("../../../Curve").then(({ default: Curve }) => {
-            if (handle.done) return
+        import("../../../Curve").then(
+            ({ default: Curve, addPointWithHelper }) => {
+                if (handle.done) return
 
-            const curve = new Curve()
-            handle.then(() => curve.dispose())
-            traverseSelectionFocus(curve)
+                const curve = new Curve()
+                handle.then(() => curve.dispose())
+                traverseSelectionFocus(curve)
 
-            handle.watch(
-                mouseEvents.on("click", (e) => {
-                    setTimeout(() => {
-                        if (handle.done || getSelectionTarget()) return
-                        curve.addPointWithHelper(e.point)
-                        traverseSelectionFocus(curve)
+                handle.watch(
+                    mouseEvents.on("click", (e) => {
+                        setTimeout(() => {
+                            if (handle.done || getSelectionTarget()) return
+                            addPointWithHelper(curve, e.point)
+                            traverseSelectionFocus(curve)
+                        })
                     })
-                })
-            )
-        })
+                )
+            }
+        )
         return () => {
             handle.cancel()
             console.log("here")

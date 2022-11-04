@@ -9,6 +9,22 @@ import { point2Vec } from "./utils/vec2Point"
 
 const ARC_SEGMENTS = 50
 
+export const addPointWithHelper = (curve: Curve, pt: Point3d) => {
+    curve.addPoint(pt)
+    const helper = new Sphere()
+    helper.scale = 0.1
+    helper.placeAt(pt)
+    //@ts-ignore
+    curve._append(helper)
+    helper.name = "point"
+
+    helper.onMove = () => {
+        Object.assign(pt, helper.getWorldPosition())
+        curve.update()
+    }
+    return helper
+}
+
 export default class Curve extends EventLoopItem {
     private bufferAttribute = new BufferAttribute(
         new Float32Array(ARC_SEGMENTS * 3),
@@ -67,20 +83,5 @@ export default class Curve extends EventLoopItem {
     public addPoint(pt: Point3d) {
         this._points.push(pt)
         this.update()
-    }
-
-    public addPointWithHelper(pt: Point3d) {
-        this.addPoint(pt)
-        const helper = new Sphere()
-        helper.scale = 0.1
-        helper.placeAt(pt)
-        this._append(helper)
-        helper.name = "point"
-
-        helper.onMove = () => {
-            Object.assign(pt, helper.getWorldPosition())
-            this.update()
-        }
-        return helper
     }
 }
