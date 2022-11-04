@@ -1,15 +1,11 @@
-import { debounce } from "@lincode/utils"
+import { debounceTrailing } from "@lincode/utils"
 
 export default () => {
     const map = new Map<any, () => void>()
-    const run = debounce(
-        () => {
-            for (const cb of map.values()) cb()
-            map.clear()
-        },
-        0,
-        "trailing"
-    )
+    const run = debounceTrailing(() => {
+        for (const cb of map.values()) cb()
+        map.clear()
+    })
     return (item: any, cb: () => void) => {
         map.set(item, cb)
         run()

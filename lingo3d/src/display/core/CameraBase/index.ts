@@ -216,9 +216,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
     }
 
     private static updateAngle = debounceInstance(
-        (target: CameraBase<PerspectiveCamera>) => target.gyrate(0, 0),
-        0,
-        "trailing"
+        (target: CameraBase<PerspectiveCamera>) => target.gyrate(0, 0)
     )
     protected updateAngle() {
         CameraBase.updateAngle(this, this)

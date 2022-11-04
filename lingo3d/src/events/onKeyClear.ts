@@ -1,11 +1,11 @@
 import { event } from "@lincode/events"
-import { debounce } from "@lincode/utils"
+import { debounceTrailing } from "@lincode/utils"
 import { getPaused } from "../states/usePaused"
 
 const [_emitKeyClear, onKeyClear] = event()
 export { onKeyClear }
 
-const emitKeyClear = debounce(_emitKeyClear, 0, "trailing")
+const emitKeyClear = debounceTrailing(_emitKeyClear)
 
 window.addEventListener("blur", () => emitKeyClear())
 window.addEventListener("focus", () => emitKeyClear())

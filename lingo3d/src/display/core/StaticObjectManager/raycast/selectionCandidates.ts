@@ -1,5 +1,5 @@
 import { Cancellable } from "@lincode/promiselikes"
-import { debounce } from "@lincode/utils"
+import { debounceTrailing } from "@lincode/utils"
 import { Object3D } from "three"
 import StaticObjectManager from ".."
 import Appendable, { appendableRoot } from "../../../../api/core/Appendable"
@@ -57,7 +57,7 @@ const traverse = (
     }
 }
 
-export const getSelectionCandidates = debounce(
+export const getSelectionCandidates = debounceTrailing(
     (targets: Array<Appendable> | Set<Appendable> = appendableRoot) => {
         const [frozenSet] = getSelectionFrozen()
         const focusSet = getSelectionFocus()
@@ -65,9 +65,7 @@ export const getSelectionCandidates = debounce(
         traverse(targets, frozenSet, focusSet)
         for (const candidate of manualSelectionCandidates)
             selectionCandidates.add(candidate)
-    },
-    0,
-    "trailing"
+    }
 )
 
 getSelectionFrozen(() => {
