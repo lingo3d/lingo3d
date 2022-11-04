@@ -1,5 +1,5 @@
 import useRaycastPlay from "./useRaycastPlay"
-import useRaycastPath from "./useRaycastPath"
+import useRaycastCurve from "./useRaycastCurve"
 import useRaycastEdit from "./useRaycastEdit"
 import { createEffect } from "@lincode/reactivity"
 import { getEditing } from "../../../../states/useEditing"
@@ -10,7 +10,7 @@ import { getTransformControlsDragging } from "../../../../states/useTransformCon
 createEffect(() => {
     useRaycastPlay()
     useRaycastEdit()
-    useRaycastPath()
+    useRaycastCurve()
 }, [
     getEditing,
     getEditorMode,
