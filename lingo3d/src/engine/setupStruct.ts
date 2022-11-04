@@ -64,7 +64,7 @@ import {
 } from "../states/useShadowResolution"
 import { getEnvironment, setEnvironment } from "../states/useEnvironment"
 import { getStats, setStats } from "../states/useStats"
-import { getDefaultShadow, setDefaultShadow } from "../states/defaultShadow"
+import { getDefaultShadow, setDefaultShadow } from "../states/useDefaultShadow"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
