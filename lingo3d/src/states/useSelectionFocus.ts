@@ -6,9 +6,9 @@ export const [setSelectionFocus, getSelectionFocus] = store<
     WeakSet<MeshItem> | undefined
 >(undefined)
 
-export const getChildManagers = (target: Appendable): WeakSet<Appendable> => {
+export const traverseSelectionFocus = (target: Appendable) => {
     const set = new WeakSet<Appendable>()
     set.add(target)
     target.traverse((child) => set.add(child))
-    return set
+    setSelectionFocus(set)
 }

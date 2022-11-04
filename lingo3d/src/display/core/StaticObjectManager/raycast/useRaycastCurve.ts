@@ -3,10 +3,7 @@ import { createNestedEffect } from "@lincode/reactivity"
 import { mouseEvents } from "../../../../api/mouse"
 import { getEditing } from "../../../../states/useEditing"
 import { getEditorMode } from "../../../../states/useEditorMode"
-import {
-    getChildManagers,
-    setSelectionFocus
-} from "../../../../states/useSelectionFocus"
+import { traverseSelectionFocus } from "../../../../states/useSelectionFocus"
 import { getSelectionTarget } from "../../../../states/useSelectionTarget"
 
 export default () => {
@@ -19,13 +16,14 @@ export default () => {
 
             const curve = new Curve()
             handle.then(() => curve.dispose())
+            traverseSelectionFocus(curve)
 
             handle.watch(
                 mouseEvents.on("click", (e) => {
                     setTimeout(() => {
                         if (handle.done || getSelectionTarget()) return
                         curve.addPointWithHelper(e.point)
-                        setSelectionFocus(getChildManagers(curve))
+                        traverseSelectionFocus(curve)
                     })
                 })
             )
