@@ -13,7 +13,8 @@ import {
     pushMultipleSelectionTargets,
     getMultipleSelectionTargets,
     pullMultipleSelectionTargets,
-    resetMultipleSelectionTargets
+    resetMultipleSelectionTargets,
+    multipleSelectionGroupManagers
 } from "../../../../states/useMultipleSelectionTargets"
 import {
     getSelectionTarget,
@@ -75,13 +76,15 @@ export default () => {
                 if (firstMultipleSelection.current) {
                     const currentTarget = getSelectionTarget()
                     isPositionedItem(currentTarget) &&
+                        !multipleSelectionGroupManagers.has(currentTarget) &&
                         pushMultipleSelectionTargets(currentTarget)
                 }
                 firstMultipleSelection.current = false
 
                 if (getMultipleSelectionTargets().includes(target))
                     pullMultipleSelectionTargets(target)
-                else pushMultipleSelectionTargets(target)
+                else if (!multipleSelectionGroupManagers.has(target))
+                    pushMultipleSelectionTargets(target)
 
                 return
             }
