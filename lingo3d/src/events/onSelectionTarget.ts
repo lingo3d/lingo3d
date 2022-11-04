@@ -3,7 +3,7 @@ import { createEffect } from "@lincode/reactivity"
 import { debounceTrailing } from "@lincode/utils"
 import Appendable from "../api/core/Appendable"
 import { getSelectionTarget } from "../states/useSelectionTarget"
-import { onSceneGraphChange } from "./onSceneGraphChange"
+import { onDispose } from "./onDispose"
 
 type Event = {
     target?: Appendable
@@ -21,9 +21,7 @@ createEffect(() => {
     const target = getSelectionTarget()
     if (!target) return
 
-    const handle = onSceneGraphChange(
-        () => target.done && emitSelectionTarget()
-    )
+    const handle = onDispose((item) => item === target && emitSelectionTarget())
     return () => {
         handle.cancel()
     }

@@ -1,5 +1,6 @@
 import { Disposable } from "@lincode/promiselikes"
 import { Object3D } from "three"
+import { emitDispose } from "../../events/onDispose"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 
 export const appendableRoot = new Set<Appendable>()
@@ -66,10 +67,11 @@ export default class Appendable<
         super.dispose()
 
         appendableRoot.delete(this)
-        emitSceneGraphChange()
-
         this.parent?.children?.delete(this)
         this.parent = undefined
+
+        emitSceneGraphChange()
+        emitDispose(this)
 
         this.outerObject3d.parent?.remove(this.outerObject3d)
 

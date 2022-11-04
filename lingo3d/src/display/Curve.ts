@@ -35,18 +35,25 @@ export default class Curve extends EventLoopItem {
         })
     }
 
-    private points: Array<Point3d> = []
+    private _points: Array<Point3d> = []
+    public get points() {
+        return this._points
+    }
+    public set points(val) {
+        this._points = val
+        this.update()
+    }
 
     private static update = debounceInstance((target: Curve) => {
         const { bufferAttribute } = target
         bufferAttribute.needsUpdate = true
 
-        if (target.points.length < 2) {
+        if (target._points.length < 2) {
             for (let i = 0; i < ARC_SEGMENTS; ++i)
                 bufferAttribute.setXYZ(i, 0, 0, 0)
             return
         }
-        const vecs = target.points.map(point2Vec)
+        const vecs = target._points.map(point2Vec)
         for (let i = 0; i < ARC_SEGMENTS; ++i) {
             const t = i / (ARC_SEGMENTS - 1)
             const vec = getVecOnCurve(vecs, t)
@@ -58,7 +65,7 @@ export default class Curve extends EventLoopItem {
     }
 
     public addPoint(pt: Point3d) {
-        this.points.push(pt)
+        this._points.push(pt)
         this.update()
     }
 
