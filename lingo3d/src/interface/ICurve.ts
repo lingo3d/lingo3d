@@ -6,14 +6,17 @@ import { hideSchema } from "./utils/nonEditorSchemaSet"
 
 export default interface ICurve extends IEventLoop {
     points: Array<Point3d>
+    helper: boolean
 }
 
 export const curveSchema: Required<ExtractProps<ICurve>> = {
     ...eventLoopSchema,
-    points: Array
+    points: Array,
+    helper: Boolean
 }
 hideSchema(["points"])
 
 export const curveDefaults = extendDefaults<ICurve>([eventLoopDefaults], {
-    points: []
+    points: [],
+    helper: false
 })

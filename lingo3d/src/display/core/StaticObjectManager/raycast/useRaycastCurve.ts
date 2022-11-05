@@ -12,18 +12,18 @@ export default () => {
 
         const handle = new Cancellable()
         import("../../../Curve").then(
-            ({ default: Curve, addPointWithHelper }) => {
+            ({ default: Curve }) => {
                 if (handle.done) return
 
                 const curve = new Curve()
-                handle.then(() => curve.dispose())
+                curve.helper = true
                 traverseSelectionFocus(curve)
 
                 handle.watch(
                     mouseEvents.on("click", (e) => {
                         setTimeout(() => {
                             if (handle.done || getSelectionTarget()) return
-                            addPointWithHelper(curve, e.point)
+                            curve.addPoint(e.point)
                             traverseSelectionFocus(curve)
                         })
                     })
@@ -32,7 +32,6 @@ export default () => {
         )
         return () => {
             handle.cancel()
-            console.log("here")
         }
     }, [getEditing, getEditorMode])
 }
