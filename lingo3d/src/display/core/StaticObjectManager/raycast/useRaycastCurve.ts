@@ -15,6 +15,10 @@ export default () => {
 
             const curve = new Curve()
             curve.helper = true
+            handle.then(() => {
+                curve.helper = false
+                curve.points.length < 2 && curve.dispose()
+            })
 
             handle.watch(
                 mouseEvents.on("click", (e) => {

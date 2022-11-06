@@ -15,6 +15,7 @@ export default selectionCandidates
 
 export const unselectableSet = new WeakSet<StaticObjectManager>()
 export const manualSelectionCandidates = new Set<Object3D>()
+export const overrideSelectionCandidates = new Set<StaticObjectManager>()
 
 export const addSelectionHelper = (
     helper: VisibleObjectManager,
@@ -56,8 +57,13 @@ const traverse = (
 
 export const getSelectionCandidates = debounceTrailing(
     (targets: Array<Appendable> | Set<Appendable> = appendableRoot) => {
-        const [frozenSet] = getSelectionFrozen()
         selectionCandidates.clear()
+        if (overrideSelectionCandidates.size) {
+            for (const candidate of overrideSelectionCandidates)
+                selectionCandidates.add(candidate)
+            return
+        }
+        const [frozenSet] = getSelectionFrozen()
         traverse(targets, frozenSet)
         for (const candidate of manualSelectionCandidates)
             selectionCandidates.add(candidate)
