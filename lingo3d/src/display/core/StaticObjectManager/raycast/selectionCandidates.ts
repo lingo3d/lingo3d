@@ -66,7 +66,7 @@ export const getSelectionCandidates = debounceTrailing(
         for (const candidate of manualSelectionCandidates)
             selectionCandidates.add(candidate)
     },
-    300
+    1
 )
 
 getSelectionFrozen(() => {
