@@ -14,7 +14,7 @@ const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates
 
 export const unselectableSet = new WeakSet<StaticObjectManager>()
-export const manualSelectionCandidates = new Set<Object3D>()
+export const additionalSelectionCandidates = new Set<Object3D>()
 export const overrideSelectionCandidates = new Set<Object3D>()
 
 export const addSelectionHelper = (
@@ -23,7 +23,7 @@ export const addSelectionHelper = (
 ) => {
     appendableRoot.delete(helper)
     manager.outerObject3d.add(helper.outerObject3d)
-    manualSelectionCandidates.add(helper.nativeObject3d)
+    additionalSelectionCandidates.add(helper.nativeObject3d)
 
     helper.castShadow = false
     helper.receiveShadow = false
@@ -33,7 +33,7 @@ export const addSelectionHelper = (
     )
     return new Cancellable(() => {
         helper.dispose()
-        manualSelectionCandidates.delete(helper.nativeObject3d)
+        additionalSelectionCandidates.delete(helper.nativeObject3d)
         handle.cancel()
     })
 }
@@ -65,7 +65,7 @@ export const getSelectionCandidates = debounceTrailing(
         }
         const [frozenSet] = getSelectionFrozen()
         traverse(targets, frozenSet)
-        for (const candidate of manualSelectionCandidates)
+        for (const candidate of additionalSelectionCandidates)
             selectionCandidates.add(candidate)
     }
 )

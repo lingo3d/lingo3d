@@ -17,7 +17,7 @@ import { ShadowResolution } from "../../states/useShadowResolution"
 import Nullable from "../../interface/utils/Nullable"
 import { ssrExcludeSet } from "../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
 import selectionCandidates, {
-    manualSelectionCandidates
+    additionalSelectionCandidates
 } from "../core/StaticObjectManager/raycast/selectionCandidates"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 
@@ -81,7 +81,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
                 helper.userData.manager = this
 
                 selectionCandidates.add(helper)
-                manualSelectionCandidates.add(helper)
+                additionalSelectionCandidates.add(helper)
 
                 return () => {
                     helper.dispose()
@@ -89,7 +89,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
                     ssrExcludeSet.delete(helper)
 
                     selectionCandidates.delete(helper)
-                    manualSelectionCandidates.delete(helper)
+                    additionalSelectionCandidates.delete(helper)
                 }
             }, [getCameraRendered, this.helperState.get])
         })
