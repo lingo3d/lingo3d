@@ -9,10 +9,10 @@ import { appendableRoot } from "./core/Appendable"
 import { onKeyClear } from "../events/onKeyClear"
 import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
-import { getEditing } from "../states/useEditing"
 import { getEditorMounted } from "../states/useEditorMounted"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
+import { getEditorMode } from "../states/useEditorMode"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
@@ -28,7 +28,7 @@ const processKey = (str: string) => {
 
 createEffect(() => {
     if (
-        getEditing() ||
+        getEditorMode() !== "play" ||
         (getEditorMounted() && getCameraRendered() === mainCamera)
     )
         return
@@ -65,7 +65,7 @@ createEffect(() => {
         document.removeEventListener("keydown", handleKeyDown)
         document.removeEventListener("keyup", handleKeyUp)
     }
-}, [getEditing, getEditorMounted, getCameraRendered])
+}, [getEditorMode, getEditorMounted, getCameraRendered])
 
 export class Keyboard extends EventLoopItem implements IKeyboard {
     public static componentName = "keyboard"

@@ -17,18 +17,19 @@ import {
 import bvhContactMap from "./bvhContactMap"
 import getWorldPosition from "../../../utils/getWorldPosition"
 import PhysicsObjectManager from ".."
-import { getEditing } from "../../../../states/useEditing"
 import { bvhCharacterSet } from "./bvhCharacterSet"
 import { bvhManagerMap } from "./bvhManagerMap"
 import { fpsRatio } from "../../../../engine/eventLoop"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
 import { getBVHComputing } from "../../../../states/useBVHComputingCount"
+import { getEditorMode } from "../../../../states/useEditorMode"
 
 const makeWeakSet = () => new WeakSet()
 
 createEffect(
     function (this: PhysicsObjectManager) {
-        if (getEditing() || !getFirstLoad() || getBVHComputing()) return
+        if (getEditorMode() !== "play" || !getFirstLoad() || getBVHComputing())
+            return
 
         const bvhArray = getBVHMap()
         if (!bvhArray.length) return
@@ -173,7 +174,7 @@ createEffect(
         getGravity,
         getRepulsion,
         getCentripetal,
-        getEditing,
+        getEditorMode,
         getFirstLoad,
         getBVHComputing
     ]

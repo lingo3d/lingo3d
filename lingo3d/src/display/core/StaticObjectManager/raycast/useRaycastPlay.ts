@@ -1,7 +1,7 @@
 import { createEffect } from "@lincode/reactivity"
 import StaticObjectManager from ".."
 import { mouseEvents } from "../../../../api/mouse"
-import { getEditing } from "../../../../states/useEditing"
+import { getEditorMode } from "../../../../states/useEditorMode"
 import { resetMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
 import { setSelectionTarget } from "../../../../states/useSelectionTarget"
 import pickable from "./pickable"
@@ -15,7 +15,7 @@ import {
 } from "./sets"
 
 createEffect(() => {
-    if (getEditing()) return
+    if (getEditorMode() !== "play") return
 
     resetMultipleSelectionTargets()
     setSelectionTarget(undefined)
@@ -65,4 +65,4 @@ createEffect(() => {
         handle5.cancel()
         handle6.cancel()
     }
-}, [getEditing])
+}, [getEditorMode])
