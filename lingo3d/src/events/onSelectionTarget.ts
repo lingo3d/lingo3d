@@ -14,8 +14,7 @@ export { onSelectionTarget }
 
 export const emitSelectionTarget = debounceTrailing(
     (target?: Appendable, rightClick?: boolean) =>
-        _emitSelectionTarget({ target, rightClick }),
-    1
+        _emitSelectionTarget({ target, rightClick })
 )
 
 createEffect(() => {
