@@ -3,12 +3,19 @@ import { createNestedEffect } from "@lincode/reactivity"
 import { mouseEvents } from "../../../../api/mouse"
 import { getEditing } from "../../../../states/useEditing"
 import { getEditorMode } from "../../../../states/useEditorMode"
-import { getSelectionTarget } from "../../../../states/useSelectionTarget"
+import { resetMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
+import {
+    getSelectionTarget,
+    setSelectionTarget
+} from "../../../../states/useSelectionTarget"
 import { overrideSelectionCandidates } from "./selectionCandidates"
 
 export default () => {
     createNestedEffect(() => {
         if (!getEditing() || getEditorMode() !== "path") return
+
+        resetMultipleSelectionTargets()
+        setSelectionTarget(undefined)
 
         const handle = new Cancellable()
         import("../../../Curve").then(({ default: Curve }) => {
