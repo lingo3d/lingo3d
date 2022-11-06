@@ -37,68 +37,63 @@ createEffect(() => {
         !multipleSelection && (firstMultipleSelection.current = true)
     }, [multipleSelection])
 
-    createNestedEffect(() => {
-        if (
-            getEditorModeComputed() === "play" ||
-            getTransformControlsDragging()
-        )
-            return
+    if (getEditorModeComputed() === "play" || getTransformControlsDragging())
+        return
 
-        getSelectionCandidates()
-        const handle0 = onSceneGraphChange(() => getSelectionCandidates())
-        const handle2 = mouseEvents.on("click", () => emitSelectionTarget())
+    getSelectionCandidates()
+    const handle0 = onSceneGraphChange(() => getSelectionCandidates())
+    const handle1 = mouseEvents.on("click", () => emitSelectionTarget())
 
-        let rightClick = false
-        const handle3 = mouseEvents.on("rightClick", () => {
-            rightClick = true
-            queueMicrotask(() => {
-                if (!rightClick) return
-                rightClick = false
-                emitSelectionTarget(undefined, true)
-            })
+    let rightClick = false
+    const handle2 = mouseEvents.on("rightClick", () => {
+        rightClick = true
+        queueMicrotask(() => {
+            if (!rightClick) return
+            rightClick = false
+            emitSelectionTarget(undefined, true)
         })
-        const handle4 = pickable(
-            ["click", "rightClick"],
-            selectionCandidates,
-            (target) => {
-                emitSelectionTarget(target, rightClick)
-                rightClick = false
-            }
-        )
-        const handle5 = onSelectionTarget(({ target, rightClick }) => {
-            if (multipleSelection) {
-                if (!isPositionedItem(target) || rightClick) return
-
-                if (firstMultipleSelection.current) {
-                    const currentTarget = getSelectionTarget()
-                    isPositionedItem(currentTarget) &&
-                        !multipleSelectionGroupManagers.has(currentTarget) &&
-                        pushMultipleSelectionTargets(currentTarget)
-                }
-                firstMultipleSelection.current = false
-
-                if (getMultipleSelectionTargets().includes(target))
-                    pullMultipleSelectionTargets(target)
-                else if (!multipleSelectionGroupManagers.has(target))
-                    pushMultipleSelectionTargets(target)
-
-                return
-            }
-            resetMultipleSelectionTargets()
-            setSelectionTarget(
-                rightClick
-                    ? target
-                    : target === getSelectionTarget()
-                    ? undefined
-                    : target
-            )
-        })
-        return () => {
-            handle0.cancel()
-            handle2.cancel()
-            handle3.cancel()
-            handle4.cancel()
-            handle5.cancel()
+    })
+    const handle3 = pickable(
+        ["click", "rightClick"],
+        selectionCandidates,
+        (target) => {
+            emitSelectionTarget(target, rightClick)
+            rightClick = false
         }
-    }, [getEditorModeComputed, getTransformControlsDragging, multipleSelection])
+    )
+    const handle4 = onSelectionTarget(({ target, rightClick }) => {
+        if (multipleSelection) {
+            if (!isPositionedItem(target) || rightClick) return
+
+            if (firstMultipleSelection.current) {
+                const currentTarget = getSelectionTarget()
+                isPositionedItem(currentTarget) &&
+                    !multipleSelectionGroupManagers.has(currentTarget) &&
+                    pushMultipleSelectionTargets(currentTarget)
+            }
+            firstMultipleSelection.current = false
+
+            if (getMultipleSelectionTargets().includes(target))
+                pullMultipleSelectionTargets(target)
+            else if (!multipleSelectionGroupManagers.has(target))
+                pushMultipleSelectionTargets(target)
+
+            return
+        }
+        resetMultipleSelectionTargets()
+        setSelectionTarget(
+            rightClick
+                ? target
+                : target === getSelectionTarget()
+                ? undefined
+                : target
+        )
+    })
+    return () => {
+        handle0.cancel()
+        handle1.cancel()
+        handle2.cancel()
+        handle3.cancel()
+        handle4.cancel()
+    }
 }, [getEditorModeComputed, getTransformControlsDragging, getMultipleSelection])
