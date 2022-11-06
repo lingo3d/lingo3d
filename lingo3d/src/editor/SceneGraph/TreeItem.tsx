@@ -14,9 +14,10 @@ import { Object3D } from "three"
 import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import getComponentName from "../utils/getComponentName"
-import { getEditorMode, setEditorMode } from "../../states/useEditorMode"
 import BaseTreeItem from "../component/BaseTreeItem"
 import CubeIcon from "./icons/CubeIcon"
+import { getEditorModeComputed } from "../../states/useEditorModeComputed"
+import { setEditorMode } from "../../states/useEditorMode"
 
 export type TreeItemProps = {
     appendable: Appendable
@@ -29,7 +30,7 @@ export const makeTreeItemCallbacks = (
     parent?: Appendable
 ) => {
     return (rightClick?: boolean) => {
-        getEditorMode() === "play" && setEditorMode("translate")
+        getEditorModeComputed() === "play" && setEditorMode("translate")
         isPositionedItem(parent) &&
             getSelectionTarget() !== parent &&
             emitSelectionTarget(parent, rightClick)

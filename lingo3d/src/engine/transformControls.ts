@@ -11,7 +11,7 @@ import { getTransformControlsSpaceComputed } from "../states/useTransformControl
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getSelectionNativeTarget } from "../states/useSelectionNativeTarget"
 import { ssrExcludeSet } from "./renderLoop/effectComposer/ssrEffect/renderSetup"
-import { getEditorMode } from "../states/useEditorMode"
+import { getEditorModeComputed } from "../states/useEditorModeComputed"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import(
@@ -46,7 +46,7 @@ createEffect(() => {
         getSelectionNativeTarget() ?? getSelectionTarget()?.outerObject3d
     if (!target) return
 
-    let mode = getEditorMode()
+    let mode = getEditorModeComputed()
     if (mode === "path") mode = "translate"
 
     const space = getTransformControlsSpaceComputed()
@@ -87,7 +87,7 @@ createEffect(() => {
 }, [
     getSelectionTarget,
     getSelectionNativeTarget,
-    getEditorMode,
+    getEditorModeComputed,
     getTransformControlsSpaceComputed,
     getTransformControlsSnap
 ])

@@ -10,7 +10,7 @@ import {
     emitSelectionTarget,
     onSelectionTarget
 } from "../../../../events/onSelectionTarget"
-import { getEditorMode } from "../../../../states/useEditorMode"
+import { getEditorModeComputed } from "../../../../states/useEditorModeComputed"
 import { getMultipleSelection } from "../../../../states/useMultipleSelection"
 import {
     pushMultipleSelectionTargets,
@@ -38,7 +38,11 @@ createEffect(() => {
     }, [multipleSelection])
 
     createNestedEffect(() => {
-        if (getEditorMode() === "play" || getTransformControlsDragging()) return
+        if (
+            getEditorModeComputed() === "play" ||
+            getTransformControlsDragging()
+        )
+            return
 
         getSelectionCandidates()
         const handle0 = onSceneGraphChange(() => getSelectionCandidates())
@@ -96,15 +100,5 @@ createEffect(() => {
             handle4.cancel()
             handle5.cancel()
         }
-    }, [
-        getEditorMode,
-        getTransformControlsDragging,
-        getEditorMode,
-        multipleSelection
-    ])
-}, [
-    getEditorMode,
-    getEditorMode,
-    getTransformControlsDragging,
-    getMultipleSelection
-])
+    }, [getEditorModeComputed, getTransformControlsDragging, multipleSelection])
+}, [getEditorModeComputed, getTransformControlsDragging, getMultipleSelection])

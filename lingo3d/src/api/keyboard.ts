@@ -12,7 +12,7 @@ import { onBeforeRender } from "../events/onBeforeRender"
 import { getEditorMounted } from "../states/useEditorMounted"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
-import { getEditorMode } from "../states/useEditorMode"
+import { getEditorModeComputed } from "../states/useEditorModeComputed"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
@@ -28,7 +28,7 @@ const processKey = (str: string) => {
 
 createEffect(() => {
     if (
-        getEditorMode() !== "play" ||
+        getEditorModeComputed() !== "play" ||
         (getEditorMounted() && getCameraRendered() === mainCamera)
     )
         return
@@ -65,7 +65,7 @@ createEffect(() => {
         document.removeEventListener("keydown", handleKeyDown)
         document.removeEventListener("keyup", handleKeyUp)
     }
-}, [getEditorMode, getEditorMounted, getCameraRendered])
+}, [getEditorModeComputed, getEditorMounted, getCameraRendered])
 
 export class Keyboard extends EventLoopItem implements IKeyboard {
     public static componentName = "keyboard"

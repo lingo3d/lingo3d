@@ -1,5 +1,5 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { getEditorMode } from "./useEditorMode"
+import { getEditorModeComputed } from "./useEditorModeComputed"
 import { getTransformControlsSpace } from "./useTransformControlsSpace"
 
 export const [
@@ -8,6 +8,7 @@ export const [
 ] = store(getTransformControlsSpace())
 
 createEffect(() => {
-    if (getEditorMode() === "scale") setTransformControlsSpaceComputed("local")
+    if (getEditorModeComputed() === "scale")
+        setTransformControlsSpaceComputed("local")
     else setTransformControlsSpaceComputed(getTransformControlsSpace())
-}, [getTransformControlsSpace, getEditorMode])
+}, [getTransformControlsSpace, getEditorModeComputed])

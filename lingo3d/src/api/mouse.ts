@@ -16,7 +16,7 @@ import { onBeforeRender } from "../events/onBeforeRender"
 import { getEditorMounted } from "../states/useEditorMounted"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
-import { getEditorMode } from "../states/useEditorMode"
+import { getEditorModeComputed } from "../states/useEditorModeComputed"
 
 export type MouseEventName = "click" | "rightClick" | "move" | "down" | "up"
 export const mouseEvents = new Events<LingoMouseEvent, MouseEventName>()
@@ -107,7 +107,7 @@ export class Mouse extends EventLoopItem implements IMouse {
 
         this.createEffect(() => {
             if (
-                getEditorMode() !== "play" ||
+                getEditorModeComputed() !== "play" ||
                 (getEditorMounted() && getCameraRendered() === mainCamera)
             )
                 return
@@ -142,7 +142,7 @@ export class Mouse extends EventLoopItem implements IMouse {
                 handle3.cancel()
                 handle4.cancel()
             }
-        }, [getEditorMode, getEditorMounted, getCameraRendered])
+        }, [getEditorModeComputed, getEditorMounted, getCameraRendered])
     }
 }
 

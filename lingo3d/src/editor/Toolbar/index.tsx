@@ -6,7 +6,7 @@ import AbsoluteIcon from "./icons/AbsoluteIcon"
 import RelativeIcon from "./icons/RelativeIcon"
 import IconButton from "./IconButton"
 import {
-    useEditorMode,
+    useEditorModeComputed,
     useSelectionTarget,
     useTransformControlsSpaceComputed
 } from "../states"
@@ -32,13 +32,13 @@ import exportJSON from "../../api/files/exportJSON"
 import JSONIcon from "./icons/JSONIcon"
 import useInitCSS from "../utils/useInitCSS"
 import useClickable from "../utils/useClickable"
-import TransformButton from "./TransformButton"
+import { setEditorMode } from "../../states/useEditorMode"
 
 const Toolbar = () => {
     useInitCSS(true)
     const elRef = useClickable()
 
-    const [editorMode, setEditorMode] = useEditorMode()
+    const [mode] = useEditorModeComputed()
     const [space] = useTransformControlsSpaceComputed()
     const [target] = useSelectionTarget()
     const selectOnly = target && !isPositionedItem(target)
@@ -68,37 +68,32 @@ const Toolbar = () => {
             >
                 <Section>
                     <IconButton
-                        active={editorMode === "select"}
+                        active={mode === "select"}
                         onClick={() => setEditorMode("select")}
                     >
                         <CursorIcon />
                     </IconButton>
-                    <TransformButton
-                        active={editorMode === "translate"}
+                    <IconButton
+                        active={mode === "translate"}
                         onClick={() => setEditorMode("translate")}
                         disabled={selectOnly}
-                        selectOnly={selectOnly}
                     >
                         <TranslateIcon />
-                    </TransformButton>
-                    <TransformButton
-                        active={editorMode === "rotate"}
+                    </IconButton>
+                    <IconButton
+                        active={mode === "rotate"}
                         disabled={translateOnly || selectOnly}
                         onClick={() => setEditorMode("rotate")}
-                        translateOnly={translateOnly}
-                        selectOnly={selectOnly}
                     >
                         <RotateIcon />
-                    </TransformButton>
-                    <TransformButton
-                        active={editorMode === "scale"}
+                    </IconButton>
+                    <IconButton
+                        active={mode === "scale"}
                         disabled={translateOnly || selectOnly}
                         onClick={() => setEditorMode("scale")}
-                        translateOnly={translateOnly}
-                        selectOnly={selectOnly}
                     >
                         <ScaleIcon />
-                    </TransformButton>
+                    </IconButton>
                     {/* <IconButton
                         active={mode === "mesh"}
                         onClick={() => setEditorMode("mesh")}
@@ -106,13 +101,13 @@ const Toolbar = () => {
                         <MeshIcon />
                     </IconButton> */}
                     <IconButton
-                        active={editorMode === "path"}
+                        active={mode === "path"}
                         onClick={() => setEditorMode("path")}
                     >
                         <PathIcon />
                     </IconButton>
                     <IconButton
-                        active={editorMode === "play"}
+                        active={mode === "play"}
                         onClick={() => setEditorMode("play")}
                     >
                         <PlayIcon />
@@ -123,10 +118,7 @@ const Toolbar = () => {
                     <IconButton
                         active={space === "world"}
                         onClick={() => setTransformControlsSpace("world")}
-                        disabled={
-                            editorMode !== "translate" &&
-                            editorMode !== "rotate"
-                        }
+                        disabled={mode !== "translate" && mode !== "rotate"}
                     >
                         <AbsoluteIcon />
                     </IconButton>
@@ -134,9 +126,9 @@ const Toolbar = () => {
                         active={space === "local"}
                         onClick={() => setTransformControlsSpace("local")}
                         disabled={
-                            editorMode !== "translate" &&
-                            editorMode !== "rotate" &&
-                            editorMode !== "scale"
+                            mode !== "translate" &&
+                            mode !== "rotate" &&
+                            mode !== "scale"
                         }
                     >
                         <RelativeIcon />

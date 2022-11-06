@@ -19,7 +19,7 @@ import { getCentripetal } from "../../../states/useCentripetal"
 import applyCentripetalQuaternion from "../../utils/applyCentripetalQuaternion"
 import fpsAlpha from "../../utils/fpsAlpha"
 import { positionChanged } from "../../utils/trackObject"
-import { getEditorMode } from "../../../states/useEditorMode"
+import { getEditorModeComputed } from "../../../states/useEditorModeComputed"
 
 export default class CharacterCamera
     extends OrbitCameraBase
@@ -138,7 +138,7 @@ export default class CharacterCamera
             const target = this.foundState.get()
             const selectionTarget = getSelectionTarget()
             const dragging = getTransformControlsDragging()
-            const mode = getEditorMode()
+            const mode = getEditorModeComputed()
 
             const rotating =
                 target &&
@@ -156,7 +156,7 @@ export default class CharacterCamera
             this.foundState.get,
             getSelectionTarget,
             getTransformControlsDragging,
-            getEditorMode
+            getEditorModeComputed
         ])
     }
 

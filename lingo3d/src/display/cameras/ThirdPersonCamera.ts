@@ -7,7 +7,7 @@ import IThirdPersonCamera, {
     thirdPersonCameraSchema
 } from "../../interface/IThirdPersonCamera"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { getEditorMode } from "../../states/useEditorMode"
+import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { getEditorMounted } from "../../states/useEditorMounted"
 import CharacterCamera from "../core/CharacterCamera"
 import MeshItem from "../core/MeshItem"
@@ -24,7 +24,7 @@ let alwaysVisible = false
 
 createEffect(() => {
     alwaysVisible =
-        getEditorMode() !== "play" ||
+        getEditorModeComputed() !== "play" ||
         (getEditorMounted() && getCameraRendered() === mainCamera)
 }, [getEditorMounted, getEditorMounted, getCameraRendered])
 

@@ -19,7 +19,7 @@ import { ssrExcludeSet } from "../../engine/renderLoop/effectComposer/ssrEffect/
 import selectionCandidates, {
     manualSelectionCandidates
 } from "../core/StaticObjectManager/raycast/selectionCandidates"
-import { getEditorMode } from "../../states/useEditorMode"
+import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -53,7 +53,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
 
             this.createEffect(() => {
                 if (
-                    getEditorMode() !== "scale" ||
+                    getEditorModeComputed() !== "scale" ||
                     getSelectionTarget() !== this
                 )
                     return
@@ -66,7 +66,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
                 return () => {
                     handle.cancel()
                 }
-            }, [getEditorMode, getSelectionTarget])
+            }, [getEditorModeComputed, getSelectionTarget])
 
             this.createEffect(() => {
                 if (
