@@ -13,13 +13,13 @@ import { euler, quaternion } from "../../utils/reusables"
 import MeshItem from "../MeshItem"
 import { getLoadedObject } from "../Loaded"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
-import { getEditorModeComputed } from "../../../states/useEditorModeComputed"
 import characterCameraPlaced from "./characterCameraPlaced"
 import { FAR, NEAR } from "../../../globals"
 import { getCentripetal } from "../../../states/useCentripetal"
 import applyCentripetalQuaternion from "../../utils/applyCentripetalQuaternion"
 import fpsAlpha from "../../utils/fpsAlpha"
 import { positionChanged } from "../../utils/trackObject"
+import { getEditorMode } from "../../../states/useEditorMode"
 
 export default class CharacterCamera
     extends OrbitCameraBase
@@ -138,7 +138,7 @@ export default class CharacterCamera
             const target = this.foundState.get()
             const selectionTarget = getSelectionTarget()
             const dragging = getTransformControlsDragging()
-            const mode = getEditorModeComputed()
+            const mode = getEditorMode()
 
             const rotating =
                 target &&
@@ -156,7 +156,7 @@ export default class CharacterCamera
             this.foundState.get,
             getSelectionTarget,
             getTransformControlsDragging,
-            getEditorModeComputed
+            getEditorMode
         ])
     }
 

@@ -1,6 +1,6 @@
 import { ComponentChildren } from "preact"
 
-type IconButtonProps = {
+export type IconButtonProps = {
     children: ComponentChildren
     onClick?: () => void
     active?: boolean

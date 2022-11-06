@@ -13,13 +13,13 @@ import { onTransformControls } from "../../events/onTransformControls"
 import { Reactive } from "@lincode/reactivity"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { ShadowResolution } from "../../states/useShadowResolution"
 import Nullable from "../../interface/utils/Nullable"
 import { ssrExcludeSet } from "../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
 import selectionCandidates, {
     manualSelectionCandidates
 } from "../core/StaticObjectManager/raycast/selectionCandidates"
+import { getEditorMode } from "../../states/useEditorMode"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -53,7 +53,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
 
             this.createEffect(() => {
                 if (
-                    getEditorModeComputed() !== "scale" ||
+                    getEditorMode() !== "scale" ||
                     getSelectionTarget() !== this
                 )
                     return
@@ -66,7 +66,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
                 return () => {
                     handle.cancel()
                 }
-            }, [getEditorModeComputed, getSelectionTarget])
+            }, [getEditorMode, getSelectionTarget])
 
             this.createEffect(() => {
                 if (

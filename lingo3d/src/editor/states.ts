@@ -14,10 +14,6 @@ import {
     getMultipleSelectionTargets
 } from "../states/useMultipleSelectionTargets"
 import {
-    getEditorModeComputed,
-    setEditorModeComputed
-} from "../states/useEditorModeComputed"
-import {
     getTransformControlsSpaceComputed,
     setTransformControlsSpaceComputed
 } from "../states/useTransformControlsSpaceComputed"
@@ -48,6 +44,7 @@ import {
 } from "../states/useLoadingUnpkgCount"
 import { setFileCurrent, getFileCurrent } from "../states/useFileCurrent"
 import { setPaused, getPaused } from "../states/usePaused"
+import { setEditorMode, getEditorMode } from "../states/useEditorMode"
 
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(
@@ -58,10 +55,7 @@ export const useSelectionFrozen = hook(setSelectionFrozen, getSelectionFrozen)
 export const useCameraList = hook(setCameraList, getCameraList)
 export const useCameraStack = hook(setCameraStack, getCameraStack)
 export const useCameraRendered = hook(setCameraRendered, getCameraRendered)
-export const useEditorComputed = hook(
-    setEditorModeComputed,
-    getEditorModeComputed
-)
+export const useEditorMode = hook(setEditorMode, getEditorMode)
 export const useTransformControlsSpaceComputed = hook(
     setTransformControlsSpaceComputed,
     getTransformControlsSpaceComputed

@@ -1,4 +1,8 @@
-import { createNestedEffect, createRef } from "@lincode/reactivity"
+import {
+    createEffect,
+    createNestedEffect,
+    createRef
+} from "@lincode/reactivity"
 import { isPositionedItem } from "../../../../api/core/PositionedItem"
 import { mouseEvents } from "../../../../api/mouse"
 import { onSceneGraphChange } from "../../../../events/onSceneGraphChange"
@@ -26,7 +30,7 @@ import selectionCandidates, {
     getSelectionCandidates
 } from "./selectionCandidates"
 
-export default () => {
+createEffect(() => {
     const multipleSelection = getMultipleSelection()
     const firstMultipleSelection = createRef(true)
 
@@ -110,4 +114,9 @@ export default () => {
         getEditorMode,
         multipleSelection
     ])
-}
+}, [
+    getEditing,
+    getEditorMode,
+    getTransformControlsDragging,
+    getMultipleSelection
+])
