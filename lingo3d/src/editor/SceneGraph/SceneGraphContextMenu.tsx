@@ -17,12 +17,7 @@ import {
 import downloadBlob from "../../api/files/downloadBlob"
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
-import {
-    useSelectionFocus,
-    useSelectionFrozen,
-    useSelectionTarget
-} from "../states"
-import { traverseSelectionFocus } from "../../states/useSelectionFocus"
+import { useSelectionFrozen, useSelectionTarget } from "../states"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)
@@ -58,7 +53,6 @@ const SceneGraphContextMenu = () => {
     const [showSearch, setShowSearch] = useState(false)
     const [selectionTarget] = useSelectionTarget()
     const [[selectionFrozen]] = useSelectionFrozen()
-    const [selectionFocus, setSelectionFocus] = useSelectionFocus()
 
     useEffect(() => {
         let [clientX, clientY] = [0, 0]
@@ -132,21 +126,6 @@ const SceneGraphContextMenu = () => {
                                     : "Freeze selection"}
                             </MenuItem>
 
-                            <MenuItem
-                                setData={setData}
-                                onClick={() =>
-                                    selectionFocus?.has(selectionTarget)
-                                        ? setSelectionFocus(undefined)
-                                        : traverseSelectionFocus(
-                                              selectionTarget
-                                          )
-                                }
-                            >
-                                {selectionFocus?.has(selectionTarget)
-                                    ? "Unfocus selection"
-                                    : "Focus selection"}
-                            </MenuItem>
-
                             {selectionTarget instanceof Dummy &&
                                 dummyTypeMap.has(selectionTarget) && (
                                     <MenuItem
@@ -178,14 +157,6 @@ const SceneGraphContextMenu = () => {
                         onClick={() => clearSelectionFrozen()}
                     >
                         Unfreeze all
-                    </MenuItem>
-
-                    <MenuItem
-                        setData={setData}
-                        disabled={!selectionFocus}
-                        onClick={() => setSelectionFocus(undefined)}
-                    >
-                        Unfocus all
                     </MenuItem>
                 </Fragment>
             )}

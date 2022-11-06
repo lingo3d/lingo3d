@@ -7,7 +7,6 @@ import {
     onSelectionTarget,
     emitSelectionTarget
 } from "../../../../events/onSelectionTarget"
-import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
 import VisibleObjectManager from "../../VisibleObjectManager"
 
@@ -42,27 +41,24 @@ const traverse = (
     targets:
         | Array<Appendable | StaticObjectManager>
         | Set<Appendable | StaticObjectManager>,
-    frozenSet: Set<Appendable>,
-    focusSet: WeakSet<Appendable> | undefined
+    frozenSet: Set<Appendable>
 ) => {
     for (const manager of targets) {
-        if (frozenSet.has(manager) || (focusSet && !focusSet.has(manager)))
-            continue
+        if (frozenSet.has(manager)) continue
 
         if ("addToRaycastSet" in manager && !unselectableSet.has(manager))
             //@ts-ignore
             manager.addToRaycastSet(selectionCandidates)
 
-        manager.children && traverse(manager.children, frozenSet, focusSet)
+        manager.children && traverse(manager.children, frozenSet)
     }
 }
 
 export const getSelectionCandidates = debounceTrailing(
     (targets: Array<Appendable> | Set<Appendable> = appendableRoot) => {
         const [frozenSet] = getSelectionFrozen()
-        const focusSet = getSelectionFocus()
         selectionCandidates.clear()
-        traverse(targets, frozenSet, focusSet)
+        traverse(targets, frozenSet)
         for (const candidate of manualSelectionCandidates)
             selectionCandidates.add(candidate)
     },
@@ -70,11 +66,6 @@ export const getSelectionCandidates = debounceTrailing(
 )
 
 getSelectionFrozen(() => {
-    getSelectionCandidates()
-    emitSelectionTarget()
-})
-
-getSelectionFocus(() => {
     getSelectionCandidates()
     emitSelectionTarget()
 })

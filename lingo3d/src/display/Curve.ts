@@ -8,6 +8,7 @@ import { point2Vec } from "./utils/vec2Point"
 import ICurve, { curveDefaults, curveSchema } from "../interface/ICurve"
 import { createMemo, createNestedEffect, Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
+import { hiddenAppendables } from "../api/core/Appendable"
 
 const ARC_SEGMENTS = 50
 
@@ -93,8 +94,8 @@ export default class Curve extends EventLoopItem implements ICurve {
                 this.helperState.get() ? this._points : [],
                 (pt, cleanup) => {
                     const helper = new Sphere()
-                    this._append(helper)
-                    helper.scale = 0.1
+                    hiddenAppendables.add(helper)
+                    helper.scale = 0.5
                     helper.name = "point"
                     helper.onMove = () => {
                         Object.assign(pt, helper.getWorldPosition())
