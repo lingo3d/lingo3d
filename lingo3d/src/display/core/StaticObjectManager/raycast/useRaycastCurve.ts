@@ -31,8 +31,9 @@ createEffect(() => {
 
         handle0.watch(
             mouseEvents.on("click", (e) => {
+                const selected = getSelectionTarget()
                 setTimeout(() => {
-                    if (handle0.done || getSelectionTarget()) return
+                    if (handle0.done || getSelectionTarget() || selected) return
                     curve.addPoint(e.point)
                 })
             })
