@@ -9,6 +9,7 @@ import ICurve, { curveDefaults, curveSchema } from "../interface/ICurve"
 import { createMemo, createNestedEffect, Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { hiddenAppendables } from "../api/core/Appendable"
+import { overrideSelectionCandidates } from "./core/StaticObjectManager/raycast/selectionCandidates"
 
 const ARC_SEGMENTS = 50
 
@@ -95,13 +96,17 @@ export default class Curve extends EventLoopItem implements ICurve {
                 (pt, cleanup) => {
                     const helper = new Sphere()
                     hiddenAppendables.add(helper)
+                    overrideSelectionCandidates.add(helper.outerObject3d)
                     helper.scale = 0.5
                     helper.name = "point"
                     helper.onMove = () => {
                         Object.assign(pt, helper.getWorldPosition())
                         this.refreshState.set({})
                     }
-                    cleanup.then(() => helper.dispose())
+                    cleanup.then(() => {
+                        helper.dispose()
+                        overrideSelectionCandidates.delete(helper.outerObject3d)
+                    })
                     return helper
                 }
             )

@@ -15,7 +15,7 @@ export default selectionCandidates
 
 export const unselectableSet = new WeakSet<StaticObjectManager>()
 export const manualSelectionCandidates = new Set<Object3D>()
-export const overrideSelectionCandidates = new Set<StaticObjectManager>()
+export const overrideSelectionCandidates = new Set<Object3D>()
 
 export const addSelectionHelper = (
     helper: VisibleObjectManager,

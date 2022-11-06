@@ -4,6 +4,7 @@ import { mouseEvents } from "../../../../api/mouse"
 import { getEditing } from "../../../../states/useEditing"
 import { getEditorMode } from "../../../../states/useEditorMode"
 import { getSelectionTarget } from "../../../../states/useSelectionTarget"
+import { overrideSelectionCandidates } from "./selectionCandidates"
 
 export default () => {
     createNestedEffect(() => {
@@ -15,8 +16,10 @@ export default () => {
 
             const curve = new Curve()
             curve.helper = true
+            overrideSelectionCandidates.add(curve.outerObject3d)
             handle.then(() => {
                 curve.helper = false
+                overrideSelectionCandidates.delete(curve.outerObject3d)
                 curve.points.length < 2 && curve.dispose()
             })
 
