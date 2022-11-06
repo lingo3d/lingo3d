@@ -101,8 +101,8 @@ const Toolbar = () => {
                         <MeshIcon />
                     </IconButton> */}
                     <IconButton
-                        active={mode === "path"}
-                        onClick={() => setEditorMode("path")}
+                        active={mode === "curve"}
+                        onClick={() => setEditorMode("curve")}
                     >
                         <PathIcon />
                     </IconButton>

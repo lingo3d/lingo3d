@@ -10,7 +10,7 @@ type Mode =
     | "select"
     | "play"
     | "mesh"
-    | "path"
+    | "curve"
 
 export const [setEditorMode, getEditorMode] = store<Mode>("play")
 

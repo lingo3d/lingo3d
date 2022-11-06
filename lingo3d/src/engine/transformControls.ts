@@ -47,7 +47,7 @@ createEffect(() => {
     if (!target) return
 
     let mode = getEditorModeComputed()
-    if (mode === "path") mode = "translate"
+    if (mode === "curve") mode = "translate"
 
     const space = getTransformControlsSpaceComputed()
     const snap = getTransformControlsSnap()

@@ -10,7 +10,7 @@ import {
 import { overrideSelectionCandidates } from "./selectionCandidates"
 
 createEffect(() => {
-    if (getEditorModeComputed() !== "path") return
+    if (getEditorModeComputed() !== "curve") return
 
     resetMultipleSelectionTargets()
     setSelectionTarget(undefined)
