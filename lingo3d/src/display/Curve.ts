@@ -91,9 +91,10 @@ export default class Curve extends Group implements ICurve {
                 this.helperState.get() ? this._points : [],
                 (pt, cleanup) => {
                     const helper = new HelperSphere()
+                    this.append(helper)
                     helper.scale = 0.1
                     overrideSelectionCandidates.add(helper.outerObject3d)
-                    helper.onMove = () => {
+                    helper.onMoveLocal = () => {
                         Object.assign(pt, helper.getWorldPosition())
                         this.refreshState.set({})
                     }
