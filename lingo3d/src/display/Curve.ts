@@ -53,8 +53,7 @@ export default class Curve extends Group implements ICurve {
         scene.add(this.outerObject3d)
 
         this.createEffect(() => {
-            const { _points } = this
-            const segments = _points.length * 3
+            const segments = this._points.length * this._subdivide
 
             const bufferAttribute = new BufferAttribute(
                 new Float32Array(segments * 3),
@@ -68,11 +67,11 @@ export default class Curve extends Group implements ICurve {
             curveMesh.userData.unselectable = true
             this.outerObject3d.add(curveMesh)
 
-            if (_points.length < 2)
+            if (this._points.length < 2)
                 for (let i = 0; i < segments; ++i)
                     bufferAttribute.setXYZ(i, 0, 0, 0)
             else {
-                const vecs = _points.map(point2Vec)
+                const vecs = this._points.map(point2Vec)
                 for (let i = 0; i < segments; ++i) {
                     const t = i / (segments - 1)
                     const vec = getVecOnCurve(vecs, t)
@@ -117,6 +116,15 @@ export default class Curve extends Group implements ICurve {
     }
     public set helper(val) {
         this.helperState.set(val)
+    }
+
+    private _subdivide = 1
+    public get subdivide() {
+        return this._subdivide
+    }
+    public set subdivide(val) {
+        this._subdivide = val
+        this.refreshState.set({})
     }
 
     private _points: Array<Point3d> = []
