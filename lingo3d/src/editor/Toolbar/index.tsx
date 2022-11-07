@@ -94,24 +94,6 @@ const Toolbar = () => {
                     >
                         <ScaleIcon />
                     </IconButton>
-                    {/* <IconButton
-                        active={mode === "mesh"}
-                        onClick={() => setEditorMode("mesh")}
-                    >
-                        <MeshIcon />
-                    </IconButton> */}
-                    <IconButton
-                        active={mode === "curve"}
-                        onClick={() => setEditorMode("curve")}
-                    >
-                        <PathIcon />
-                    </IconButton>
-                    <IconButton
-                        active={mode === "play"}
-                        onClick={() => setEditorMode("play")}
-                    >
-                        <PlayIcon />
-                    </IconButton>
                 </Section>
 
                 <Section>
@@ -132,6 +114,27 @@ const Toolbar = () => {
                         }
                     >
                         <RelativeIcon />
+                    </IconButton>
+                </Section>
+
+                <Section>
+                    {/* <IconButton
+                        active={mode === "mesh"}
+                        onClick={() => setEditorMode("mesh")}
+                    >
+                        <MeshIcon />
+                    </IconButton> */}
+                    <IconButton
+                        active={mode === "curve"}
+                        onClick={() => setEditorMode("curve")}
+                    >
+                        <PathIcon />
+                    </IconButton>
+                    <IconButton
+                        active={mode === "play"}
+                        onClick={() => setEditorMode("play")}
+                    >
+                        <PlayIcon />
                     </IconButton>
                 </Section>
 
