@@ -46,7 +46,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     texture: String,
     color: String
 }
-hideSchema(["antiAlias", "pixelRatio", "gravity", "repulsion", "centripetal"])
+hideSchema(["antiAlias", "pixelRatio", "gravity", "repulsion", "centripetal", "pbr"])
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],
