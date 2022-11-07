@@ -8,7 +8,6 @@ import { SHADOW_BIAS } from "../../globals"
 import mainCamera from "../../engine/mainCamera"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import HelperSprite from "../core/utils/HelperSprite"
-import { hiddenAppendables } from "../../api/core/Appendable"
 
 export default class SpotLight
     extends LightBase<typeof ThreeSpotLight>
@@ -36,7 +35,6 @@ export default class SpotLight
             }
         }, [this.lightState.get])
 
-        hiddenAppendables.add(this.targetSprite)
         this.targetSprite.scale = 0.25
         this.watch(
             getCameraRendered(

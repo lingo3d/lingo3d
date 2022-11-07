@@ -19,7 +19,7 @@ import useHotkeys from "./useHotkeys"
 import settings from "../../api/settings"
 import Setup, { dataSetupMap } from "../../display/Setup"
 import addSetupInputs from "./addSetupInputs"
-import Tab from "../component/Tab"
+import CloseableTab from "../component/CloseableTab"
 import AppBar from "../component/AppBar"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import useCameraPanel from "./useCameraPanel"
@@ -354,15 +354,15 @@ const Editor = () => {
             }}
         >
             <AppBar onSelectTab={setTab}>
-                <Tab>World</Tab>
+                <CloseableTab>World</CloseableTab>
                 {selectionTarget && (
-                    <Tab
+                    <CloseableTab
                         key={selectionTarget.uuid}
                         selected
                         onClose={() => emitSelectionTarget(undefined)}
                     >
                         {getComponentName(selectionTarget)}
-                    </Tab>
+                    </CloseableTab>
                 )}
             </AppBar>
             <div

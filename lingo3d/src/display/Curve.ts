@@ -2,14 +2,13 @@ import { Point3d } from "@lincode/math"
 import scene from "../engine/scene"
 import { BufferAttribute, BufferGeometry, Line, LineBasicMaterial } from "three"
 import EventLoopItem from "../api/core/EventLoopItem"
-import Sphere from "./primitives/Sphere"
 import getVecOnCurve from "./utils/getVecOnCurve"
 import { point2Vec } from "./utils/vec2Point"
 import ICurve, { curveDefaults, curveSchema } from "../interface/ICurve"
 import { createMemo, createNestedEffect, Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
-import { hiddenAppendables } from "../api/core/Appendable"
 import { overrideSelectionCandidates } from "./core/StaticObjectManager/raycast/selectionCandidates"
+import HelperSphere from "./core/utils/HelperSphere"
 
 const ARC_SEGMENTS = 50
 
@@ -94,11 +93,8 @@ export default class Curve extends EventLoopItem implements ICurve {
             const helpers = createFor(
                 this.helperState.get() ? this._points : [],
                 (pt, cleanup) => {
-                    const helper = new Sphere()
-                    hiddenAppendables.add(helper)
+                    const helper = new HelperSphere()
                     overrideSelectionCandidates.add(helper.outerObject3d)
-                    helper.scale = 0.5
-                    helper.name = "point"
                     helper.onMove = () => {
                         Object.assign(pt, helper.getWorldPosition())
                         this.refreshState.set({})

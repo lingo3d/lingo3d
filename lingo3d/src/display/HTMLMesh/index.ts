@@ -6,9 +6,8 @@ import IHTMLMesh, {
 import createElement from "../../utils/createElement"
 import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "../core/VisibleObjectManager"
-import Cube from "../primitives/Cube"
-import { hiddenAppendables } from "../../api/core/Appendable"
 import { addSelectionHelper } from "../core/StaticObjectManager/raycast/selectionCandidates"
+import HelperCube from "../core/utils/HelperCube"
 
 const elementContainerTemplate = createElement(`
     <div style="position: absolute; visibility: hidden; pointer-events: none;"></div>
@@ -35,14 +34,8 @@ export default class HTMLMesh
                         : `<div>${innerHTML}</div>`
                 )
             if (!element) {
-                const helper = new Cube()
-                helper.wireframe = true
-                helper.emissive = true
-                this.append(helper)
-                hiddenAppendables.add(helper)
-
+                const helper = new HelperCube()
                 const handle = addSelectionHelper(helper, this)
-
                 return () => {
                     helper.dispose()
                     handle.cancel()

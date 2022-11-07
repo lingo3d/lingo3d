@@ -2,7 +2,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { debounceTrailing } from "@lincode/utils"
 import { Object3D } from "three"
 import StaticObjectManager from ".."
-import Appendable, { appendableRoot, hiddenAppendables } from "../../../../api/core/Appendable"
+import Appendable, { appendableRoot } from "../../../../api/core/Appendable"
 import {
     onSelectionTarget,
     emitSelectionTarget
@@ -21,12 +21,11 @@ export const addSelectionHelper = (
     helper: VisibleObjectManager,
     manager: Appendable
 ) => {
-    hiddenAppendables.add(helper)
+    //@ts-ignore
+    manager._append(helper)
     manager.outerObject3d.add(helper.outerObject3d)
+    manager.outerObject3d
     additionalSelectionCandidates.add(helper.nativeObject3d)
-
-    helper.castShadow = false
-    helper.receiveShadow = false
 
     const handle = onSelectionTarget(
         ({ target }) => target === helper && emitSelectionTarget(manager)

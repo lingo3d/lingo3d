@@ -2,7 +2,7 @@ import { CylinderGeometry } from "three"
 import { diameterScaled, radiusScaled } from "../../engine/constants"
 import Primitive from "../core/Primitive"
 
-const geometry = new CylinderGeometry(
+export const cylinderGeometry = new CylinderGeometry(
     radiusScaled,
     radiusScaled,
     diameterScaled,
@@ -13,6 +13,6 @@ export default class Cylinder extends Primitive {
     public static componentName = "cylinder"
 
     public constructor() {
-        super(geometry)
+        super(cylinderGeometry)
     }
 }

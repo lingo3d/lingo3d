@@ -1,21 +1,14 @@
 import { pull } from "@lincode/utils"
-import { createContext } from "preact"
 import { useContext, useEffect, useLayoutEffect } from "preact/hooks"
+import CloseIcon from "./icons/CloseIcon"
+import { TabContext, TabProps } from "./Tab"
+import TitleBarButton from "./TitleBarButton"
 
-export const TabContext = createContext<{
-    selected: string | undefined
-    setSelected: (val: string | undefined) => void
-    tabs: Array<string>
-}>({ selected: "", setSelected: () => {}, tabs: [] })
-
-export type TabProps = {
-    children?: string
-    selected?: boolean
-    disabled?: boolean
-    half?: boolean
+type CloseableTabProps = TabProps & {
+    onClose?: (selected: boolean) => void
 }
 
-const Tab = ({ children, selected, disabled, half }: TabProps) => {
+const CloseableTab = ({ onClose, children, selected }: CloseableTabProps) => {
     const context = useContext(TabContext)
 
     useLayoutEffect(() => {
@@ -37,23 +30,29 @@ const Tab = ({ children, selected, disabled, half }: TabProps) => {
         <div
             className="lingo3d-bg"
             style={{
-                width: half ? "50%" : undefined,
-                opacity: disabled ? 0.1 : 1,
+                marginLeft: 4,
+                marginRight: 4,
                 height: 20,
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-                padding: half ? undefined : 12,
+                paddingLeft: 12,
                 background:
                     context.selected === children
                         ? "rgba(255, 255, 255, 0.1)"
                         : undefined
             }}
-            onClick={disabled ? undefined : () => context.setSelected(children)}
+            onClick={() => context.setSelected(children)}
         >
             <div style={{ marginTop: -2 }}>{children}</div>
+            <div style={{ width: 4 }} />
+            <TitleBarButton
+                disabled={!onClose}
+                onClick={() => onClose?.(context.selected === children)}
+            >
+                <CloseIcon />
+            </TitleBarButton>
         </div>
     )
 }
 
-export default Tab
+export default CloseableTab

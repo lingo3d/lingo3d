@@ -1,5 +1,4 @@
 import { Reactive } from "@lincode/reactivity"
-import Cylinder from "./primitives/Cylinder"
 import mainCamera from "../engine/mainCamera"
 import { getCameraRendered } from "../states/useCameraRendered"
 import ISpawnPoint, {
@@ -10,6 +9,7 @@ import ObjectManager from "./core/ObjectManager"
 import SimpleObjectManager from "./core/SimpleObjectManager"
 import scene from "../engine/scene"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
+import HelperCylinder from "./core/utils/HelperCylinder"
 
 export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
     public static componentName = "spawnPoint"
@@ -33,10 +33,9 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
             if (!this.helperState.get() || getCameraRendered() !== mainCamera)
                 return
 
-            const h = new Cylinder()
-            const handle = addSelectionHelper(h, this)
-            h.opacity = 0.5
-            h.height = 10
+            const helper = new HelperCylinder()
+            const handle = addSelectionHelper(helper, this)
+            helper.height = 10
 
             return () => {
                 handle.cancel()

@@ -5,7 +5,7 @@ import { raycast } from "../display/core/StaticObjectManager/raycast/pickable"
 import selectionCandidates, {
     unselectableSet
 } from "../display/core/StaticObjectManager/raycast/selectionCandidates"
-import Sphere from "../display/primitives/Sphere"
+import HelperSphere from "../display/core/utils/HelperSphere"
 import clientToWorld from "../display/utils/clientToWorld"
 import normalizeClientPosition from "../display/utils/normalizeClientPosition"
 import { point2Vec, vec2Point } from "../display/utils/vec2Point"
@@ -25,10 +25,8 @@ createEffect(() => {
     const isDragEvent = e instanceof DragEvent
     const indicator = createMemo(() => {
         if (!isDragEvent) return
-        const indicator = new Sphere()
-        indicator.name = "indicator"
+        const indicator = new HelperSphere()
         unselectableSet.add(indicator)
-        indicator.opacity = 0.5
         return indicator
     }, [isDragEvent])
 

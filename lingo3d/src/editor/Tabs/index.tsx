@@ -1,6 +1,6 @@
 import register from "preact-custom-element"
 import AppBar from "../component/AppBar"
-import Tab from "../component/Tab"
+import CloseableTab from "../component/CloseableTab"
 import { useFileCurrent } from "../states"
 import useInitCSS from "../utils/useInitCSS"
 
@@ -14,7 +14,7 @@ const Tabs = () => {
             style={{ width: "100%" }}
         >
             <AppBar>
-                <Tab>{fileCurrent?.name ?? "untitled"}</Tab>
+                <CloseableTab>{fileCurrent?.name ?? "untitled"}</CloseableTab>
             </AppBar>
         </div>
     )

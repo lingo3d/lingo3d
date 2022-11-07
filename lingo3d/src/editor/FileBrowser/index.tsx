@@ -7,7 +7,7 @@ import FileTreeItem from "./FileTreeItem"
 import pathMap from "./pathMap"
 import { setFileBrowser } from "../../states/useFileBrowser"
 import { setFileSelected } from "../../states/useFileSelected"
-import Tab from "../component/Tab"
+import CloseableTab from "../component/CloseableTab"
 import AppBar from "../component/AppBar"
 import useInitCSS from "../utils/useInitCSS"
 
@@ -66,9 +66,9 @@ const FileBrowser = () => {
         >
             <div style={{ gridArea: "1 / 1 / 2 / 3", display: "flex" }}>
                 <AppBar>
-                    <Tab onClose={() => setFileBrowser(false)}>
+                    <CloseableTab onClose={() => setFileBrowser(false)}>
                         file browser
-                    </Tab>
+                    </CloseableTab>
                 </AppBar>
             </div>
             <div style={{ gridArea: "2 / 1 / 3 / 2", overflow: "scroll" }}>

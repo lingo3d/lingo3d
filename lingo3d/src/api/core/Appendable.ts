@@ -37,21 +37,6 @@ export default class Appendable<
         ;(this.children ??= new Set()).add(child)
     }
 
-    public traverse(cb: (appendable: Appendable) => void) {
-        for (const child of this.children ?? []) {
-            cb(child)
-            child.traverse(cb)
-        }
-    }
-
-    public traverseSome(cb: (appendable: Appendable) => unknown) {
-        for (const child of this.children ?? []) {
-            if (cb(child)) return true
-            child.traverseSome(cb)
-        }
-        return false
-    }
-
     public append(child: Appendable) {
         this._append(child)
         this.outerObject3d.add(child.outerObject3d)
@@ -78,5 +63,20 @@ export default class Appendable<
         if (this.children) for (const child of this.children) child.dispose()
 
         return this
+    }
+
+    public traverse(cb: (appendable: Appendable) => void) {
+        for (const child of this.children ?? []) {
+            cb(child)
+            child.traverse(cb)
+        }
+    }
+
+    public traverseSome(cb: (appendable: Appendable) => unknown) {
+        for (const child of this.children ?? []) {
+            if (cb(child)) return true
+            child.traverseSome(cb)
+        }
+        return false
     }
 }

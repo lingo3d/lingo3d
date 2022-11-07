@@ -1,6 +1,4 @@
 import { Reactive } from "@lincode/reactivity"
-import Cylinder from "./primitives/Cylinder"
-import Sphere from "./primitives/Sphere"
 import getActualScale from "./utils/getActualScale"
 import getWorldPosition from "./utils/getWorldPosition"
 import { scaleDown } from "../engine/constants"
@@ -14,6 +12,8 @@ import StaticObjectManager, {
 } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import MeshItem from "./core/MeshItem"
+import HelperCylinder from "./core/utils/HelperCylinder"
+import HelperSphere from "./core/utils/HelperSphere"
 
 export default class Trigger extends PositionedItem implements ITrigger {
     public static componentName = "trigger"
@@ -74,7 +74,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
     public constructor() {
         super()
 
-        let helper: Cylinder | Sphere | undefined
+        let helper: HelperCylinder | HelperSphere | undefined
 
         this.createEffect(() => {
             const { _radius, _interval, _target, _pad } = this
@@ -134,14 +134,13 @@ export default class Trigger extends PositionedItem implements ITrigger {
             const { _radius, _helper, _pad } = this
             if (!_helper || getCameraRendered() !== mainCamera) return
 
-            const h = (helper = _pad ? new Cylinder() : new Sphere())
-            const handle = addSelectionHelper(h, this)
-            h.scale = _radius * scaleDown * 2
-            h.opacity = 0.5
-            h.height = _pad ? 10 : 100
+            helper = _pad ? new HelperCylinder() : new HelperSphere()
+            const handle = addSelectionHelper(helper, this)
+            helper.scale = _radius * scaleDown * 2
+            helper.height = _pad ? 10 : 100
 
             return () => {
-                h.dispose()
+                helper!.dispose()
                 helper = undefined
                 handle.cancel()
             }
