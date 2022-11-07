@@ -5,7 +5,7 @@ import IKeyboard, {
 } from "../interface/IKeyboard"
 import EventLoopItem from "./core/EventLoopItem"
 import { createEffect } from "@lincode/reactivity"
-import { appendableRoot, hiddenAppendables } from "./core/Appendable"
+import { appendableRoot } from "./core/Appendable"
 import { onKeyClear } from "../events/onKeyClear"
 import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
@@ -96,6 +96,6 @@ export class Keyboard extends EventLoopItem implements IKeyboard {
 }
 
 const keyboard = new Keyboard()
-hiddenAppendables.add(keyboard)
+appendableRoot.delete(keyboard)
 
 export default keyboard

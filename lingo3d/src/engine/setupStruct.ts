@@ -1,4 +1,4 @@
-import { appendableRoot, hiddenAppendables } from "../api/core/Appendable"
+import { appendableRoot } from "../api/core/Appendable"
 import Skybox from "../display/Skybox"
 import { getAntiAlias, setAntiAlias } from "../states/useAntiAlias"
 import {
@@ -67,7 +67,7 @@ import { getStats, setStats } from "../states/useStats"
 import { getDefaultShadow, setDefaultShadow } from "../states/useDefaultShadow"
 
 const defaultSkybox = new Skybox()
-hiddenAppendables.add(defaultSkybox)
+appendableRoot.delete(defaultSkybox)
 
 export default {
     get defaultShadow() {
