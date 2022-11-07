@@ -1,22 +1,28 @@
 import { Point3d } from "@lincode/math"
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import ISimpleObjectManager, {
+    simpleObjectManagerDefaults,
+    simpleObjectManagerSchema
+} from "./ISimpleObjectManager"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 
-export default interface ICurve extends IEventLoop {
+export default interface ICurve extends ISimpleObjectManager {
     points: Array<Point3d>
     helper: boolean
 }
 
 export const curveSchema: Required<ExtractProps<ICurve>> = {
-    ...eventLoopSchema,
+    ...simpleObjectManagerSchema,
     points: Array,
     helper: Boolean
 }
 hideSchema(["points"])
 
-export const curveDefaults = extendDefaults<ICurve>([eventLoopDefaults], {
-    points: [],
-    helper: false
-})
+export const curveDefaults = extendDefaults<ICurve>(
+    [simpleObjectManagerDefaults],
+    {
+        points: [],
+        helper: false
+    }
+)

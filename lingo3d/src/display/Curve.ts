@@ -1,7 +1,6 @@
 import { Point3d } from "@lincode/math"
 import scene from "../engine/scene"
 import { BufferAttribute, BufferGeometry, Line, LineBasicMaterial } from "three"
-import EventLoopItem from "../api/core/EventLoopItem"
 import getVecOnCurve from "./utils/getVecOnCurve"
 import { point2Vec } from "./utils/vec2Point"
 import ICurve, { curveDefaults, curveSchema } from "../interface/ICurve"
@@ -9,8 +8,7 @@ import { createMemo, createNestedEffect, Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { overrideSelectionCandidates } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
-
-const ARC_SEGMENTS = 50
+import SimpleObjectManager from "./core/SimpleObjectManager"
 
 const createFor = <Result, Data>(
     dataList: Array<Data>,
@@ -45,47 +43,46 @@ const createFor = <Result, Data>(
     return dataResultMap
 }
 
-export default class Curve extends EventLoopItem implements ICurve {
+export default class Curve extends SimpleObjectManager implements ICurve {
     public static componentName = "curve"
     public static defaults = curveDefaults
     public static schema = curveSchema
 
-    private bufferAttribute = new BufferAttribute(
-        new Float32Array(ARC_SEGMENTS * 3),
-        3
-    )
-
     public constructor() {
         super()
-
-        const geometry = new BufferGeometry()
-        const { bufferAttribute, _points } = this
-        geometry.setAttribute("position", bufferAttribute)
-
-        const material = new LineBasicMaterial({ color: 0xff0000 })
-        const curveMesh = new Line(geometry, material)
-        curveMesh.frustumCulled = false
-        scene.add(curveMesh)
-
-        this.then(() => {
-            geometry.dispose()
-            material.dispose()
-            scene.remove(curveMesh)
-        })
+        scene.add(this.outerObject3d)
 
         this.createEffect(() => {
-            bufferAttribute.needsUpdate = true
+            const { _points } = this
+            const segments = _points.length * 3
 
-            if (_points.length < 2) {
-                for (let i = 0; i < ARC_SEGMENTS; ++i)
+            const bufferAttribute = new BufferAttribute(
+                new Float32Array(segments * 3),
+                3
+            )
+            const geometry = new BufferGeometry()
+            geometry.setAttribute("position", bufferAttribute)
+            const material = new LineBasicMaterial({ color: 0xff0000 })
+            const curveMesh = new Line(geometry, material)
+            curveMesh.frustumCulled = false
+            curveMesh.userData.unselectable = true
+            this.outerObject3d.add(curveMesh)
+
+            if (_points.length < 2)
+                for (let i = 0; i < segments; ++i)
                     bufferAttribute.setXYZ(i, 0, 0, 0)
-                return
+            else {
+                const vecs = _points.map(point2Vec)
+                for (let i = 0; i < segments; ++i) {
+                    const t = i / (segments - 1)
+                    const vec = getVecOnCurve(vecs, t)
+                    bufferAttribute.setXYZ(i, vec.x, vec.y, vec.z)
+                }
             }
-            const vecs = _points.map(point2Vec)
-            for (let i = 0; i < ARC_SEGMENTS; ++i) {
-                const t = i / (ARC_SEGMENTS - 1)
-                const vec = getVecOnCurve(vecs, t)
-                bufferAttribute.setXYZ(i, vec.x, vec.y, vec.z)
+            return () => {
+                geometry.dispose()
+                material.dispose()
+                this.outerObject3d.remove(curveMesh)
             }
         }, [this.refreshState.get])
 
@@ -94,6 +91,7 @@ export default class Curve extends EventLoopItem implements ICurve {
                 this.helperState.get() ? this._points : [],
                 (pt, cleanup) => {
                     const helper = new HelperSphere()
+                    helper.scale = 0.1
                     overrideSelectionCandidates.add(helper.outerObject3d)
                     helper.onMove = () => {
                         Object.assign(pt, helper.getWorldPosition())

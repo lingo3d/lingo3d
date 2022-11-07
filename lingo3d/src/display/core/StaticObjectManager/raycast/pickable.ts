@@ -1,4 +1,4 @@
-import { Raycaster, Object3D } from "three"
+import { Raycaster, Object3D, Intersection } from "three"
 import StaticObjectManager from ".."
 import { MouseEventName, mouseEvents } from "../../../../api/mouse"
 import { scaleUp } from "../../../../engine/constants"
@@ -9,9 +9,14 @@ import { vec2Point } from "../../../utils/vec2Point"
 const raycaster = new Raycaster()
 raycaster.firstHitOnly = true
 
+const filterUnselectable = (item: Intersection) =>
+    !item.object.userData.unselectable
+
 export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     raycaster.setFromCamera({ x, y }, getCameraRendered())
-    return raycaster.intersectObjects([...candidates])[0]
+    return raycaster
+        .intersectObjects([...candidates])
+        .filter(filterUnselectable)[0]
 }
 
 type Then = (obj: StaticObjectManager, e: LingoMouseEvent) => void
