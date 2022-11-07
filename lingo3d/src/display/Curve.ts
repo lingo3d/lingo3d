@@ -8,7 +8,7 @@ import { createMemo, createNestedEffect, Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { overrideSelectionCandidates } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
-import SimpleObjectManager from "./core/SimpleObjectManager"
+import Group from "./Group"
 
 const createFor = <Result, Data>(
     dataList: Array<Data>,
@@ -43,10 +43,10 @@ const createFor = <Result, Data>(
     return dataResultMap
 }
 
-export default class Curve extends SimpleObjectManager implements ICurve {
-    public static componentName = "curve"
-    public static defaults = curveDefaults
-    public static schema = curveSchema
+export default class Curve extends Group implements ICurve {
+    public static override componentName = "curve"
+    public static override defaults = curveDefaults
+    public static override schema = curveSchema
 
     public constructor() {
         super()
