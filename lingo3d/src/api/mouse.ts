@@ -8,7 +8,7 @@ import IMouse, {
 } from "../interface/IMouse"
 import EventLoopItem from "./core/EventLoopItem"
 import { throttle } from "@lincode/utils"
-import { appendableRoot } from "./core/Appendable"
+import { hiddenAppendables } from "./core/Appendable"
 import pointerToWorld from "../display/utils/pointerToWorld"
 import store from "@lincode/reactivity"
 import Nullable from "../interface/utils/Nullable"
@@ -147,6 +147,6 @@ export class Mouse extends EventLoopItem implements IMouse {
 }
 
 const mouse = new Mouse()
-appendableRoot.delete(mouse)
+hiddenAppendables.add(mouse)
 
 export default mouse

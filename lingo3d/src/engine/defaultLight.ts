@@ -2,7 +2,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { last } from "@lincode/utils"
 import { EquirectangularReflectionMapping } from "three"
-import { appendableRoot } from "../api/core/Appendable"
+import { appendableRoot, hiddenAppendables } from "../api/core/Appendable"
 import Environment from "../display/Environment"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import { FAR, TEXTURES_URL } from "../globals"
@@ -18,7 +18,7 @@ import scene from "./scene"
 const defaultEnvironment = new Environment()
 defaultEnvironment.texture = undefined
 defaultEnvironment.helper = false
-appendableRoot.delete(defaultEnvironment)
+hiddenAppendables.add(defaultEnvironment)
 
 export const mapEnvironmentPreset = (value: string) =>
     value in environmentPreset
@@ -57,7 +57,7 @@ createEffect(() => {
         light.intensity = 0.5
         light.y = FAR
         light.z = FAR
-        appendableRoot.delete(light)
+        hiddenAppendables.add(light)
         handle.watch(getDefaultShadow((val) => (light.castShadow = val)))
         handle.then(() => light.dispose())
     })

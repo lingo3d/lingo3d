@@ -4,7 +4,7 @@ import { createEffect } from "@lincode/reactivity"
 import mainCamera from "./mainCamera"
 import OrbitCamera from "../display/cameras/OrbitCamera"
 import { getTransformControlsDragging } from "../states/useTransformControlsDragging"
-import { appendableRoot } from "../api/core/Appendable"
+import { appendableRoot, hiddenAppendables } from "../api/core/Appendable"
 import { onEditorCenterView } from "../events/onEditorCenterView"
 import { getCameraDistance } from "../states/useCameraDistance"
 import { getCameraRendered } from "../states/useCameraRendered"
@@ -17,7 +17,7 @@ export default mainOrbitCamera
 mainOrbitCamera.enableZoom = true
 mainOrbitCamera.enableFly = true
 mainOrbitCamera.mouseControl = false
-appendableRoot.delete(mainOrbitCamera)
+hiddenAppendables.add(mainOrbitCamera)
 
 onEditorCenterView((manager) => {
     const pos = manager.getWorldPosition()
