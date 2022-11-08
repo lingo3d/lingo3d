@@ -8,7 +8,12 @@ type CloseableTabProps = TabProps & {
     onClose?: (selected: boolean) => void
 }
 
-const CloseableTab = ({ onClose, children, selected }: CloseableTabProps) => {
+const CloseableTab = ({
+    onClose,
+    children,
+    selected,
+    disabled
+}: CloseableTabProps) => {
     const context = useContext(TabContext)
 
     useLayoutEffect(() => {
@@ -23,6 +28,11 @@ const CloseableTab = ({ onClose, children, selected }: CloseableTabProps) => {
     }, [])
 
     useEffect(() => {
+        if (!disabled || !children) return
+        context.setSelected(context.tabs[context.tabs.indexOf(children) - 1])
+    }, [disabled])
+
+    useEffect(() => {
         selected && context.setSelected(children)
     }, [])
 
@@ -30,6 +40,8 @@ const CloseableTab = ({ onClose, children, selected }: CloseableTabProps) => {
         <div
             className="lingo3d-bg"
             style={{
+                opacity: disabled ? 0.1 : 1,
+                pointerEvents: disabled ? "none" : "auto",
                 marginLeft: 4,
                 marginRight: 4,
                 height: 20,
@@ -41,7 +53,7 @@ const CloseableTab = ({ onClose, children, selected }: CloseableTabProps) => {
                         ? "rgba(255, 255, 255, 0.1)"
                         : undefined
             }}
-            onClick={() => context.setSelected(children)}
+            onClick={disabled ? undefined : () => context.setSelected(children)}
         >
             <div style={{ marginTop: -2, minWidth: 30 }}>{children}</div>
             <div style={{ width: 4 }} />
