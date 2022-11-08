@@ -41,7 +41,10 @@ const serialize = async (children: Array<any>) => {
             } else value = child[key]
 
             const t = typeof value
-            if (value === getDefaultValue(defaults, key) || t === "function")
+            if (
+                value === getDefaultValue(defaults, key, true) ||
+                t === "function"
+            )
                 continue
 
             const fileCurrent = getFileCurrent()
