@@ -8,7 +8,7 @@ import {
     Vector2,
     Texture
 } from "three"
-import { nonSerializedAppendables } from "../../api/core/Appendable"
+import { nonSerializedAppendables } from "../../api/core/collections"
 import EventLoopItem from "../../api/core/EventLoopItem"
 import IBasicMaterialManager, {
     basicMaterialManagerDefaults,

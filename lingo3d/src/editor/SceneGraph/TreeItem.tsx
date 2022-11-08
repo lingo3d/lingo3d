@@ -1,6 +1,6 @@
 import { ComponentChildren, Fragment } from "preact"
 import { useMemo } from "preact/hooks"
-import Appendable, { hiddenAppendables } from "../../api/core/Appendable"
+import Appendable from "../../api/core/Appendable"
 import {
     useMultipleSelectionTargets,
     useSceneGraphExpanded,
@@ -18,6 +18,7 @@ import BaseTreeItem from "../component/BaseTreeItem"
 import CubeIcon from "./icons/CubeIcon"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { setEditorMode } from "../../states/useEditorMode"
+import { hiddenAppendables } from "../../api/core/collections"
 
 export type TreeItemProps = {
     appendable: Appendable

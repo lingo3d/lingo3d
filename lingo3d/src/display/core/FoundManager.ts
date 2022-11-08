@@ -6,11 +6,11 @@ import IFoundManager, {
 } from "../../interface/IFoundManager"
 import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
-import { appendableRoot } from "../../api/core/Appendable"
 import Model from "../Model"
 import IVisible from "../../interface/IVisible"
 import VisibleMixin from "./mixins/VisibleMixin"
 import SimpleObjectManager from "./SimpleObjectManager"
+import { appendableRoot } from "../../api/core/collections"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"

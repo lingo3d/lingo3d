@@ -2,16 +2,17 @@ import { objectURLFileMap } from "../../display/core/utils/objectURL"
 import Setup from "../../display/Setup"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import { getFileCurrent } from "../../states/useFileCurrent"
-import Appendable, {
-    appendableRoot,
-    hiddenAppendables,
-    nonSerializedAppendables
-} from "../core/Appendable"
+import Appendable from "../core/Appendable"
 import settings from "../settings"
 import relativePath from "../path/relativePath"
 import toFixed from "./toFixed"
 import { nonSerializedProperties, SceneGraphNode } from "./types"
 import { VERSION } from "../../globals"
+import {
+    hiddenAppendables,
+    nonSerializedAppendables,
+    appendableRoot
+} from "../core/collections"
 
 const serialize = async (children: Array<any>) => {
     const dataParent: Array<SceneGraphNode> = []

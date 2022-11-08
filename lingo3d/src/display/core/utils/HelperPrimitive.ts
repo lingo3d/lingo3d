@@ -1,5 +1,5 @@
 import { BufferGeometry } from "three"
-import { hiddenAppendables } from "../../../api/core/Appendable"
+import { hiddenAppendables } from "../../../api/core/collections"
 import {
     positionedDefaults,
     positionedSchema

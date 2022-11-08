@@ -2,7 +2,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { last } from "@lincode/utils"
 import { EquirectangularReflectionMapping } from "three"
-import { appendableRoot } from "../api/core/Appendable"
 import Environment from "../display/Environment"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import { FAR, TEXTURES_URL } from "../globals"
@@ -14,6 +13,7 @@ import { getEnvironment } from "../states/useEnvironment"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import { getRenderer } from "../states/useRenderer"
 import scene from "./scene"
+import { appendableRoot } from "../api/core/collections"
 
 const defaultEnvironment = new Environment()
 defaultEnvironment.texture = undefined

@@ -1,7 +1,7 @@
 import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import { setFileCurrent } from "../../states/useFileCurrent"
-import { appendableRoot } from "../core/Appendable"
+import { appendableRoot } from "../core/collections"
 import deserialize from "../serializer/deserialize"
 
 export default async (file: FileWithDirectoryAndFileHandle) => {

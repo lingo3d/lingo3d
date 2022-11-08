@@ -2,7 +2,8 @@ import { Cancellable } from "@lincode/promiselikes"
 import { debounceTrailing } from "@lincode/utils"
 import { Object3D } from "three"
 import StaticObjectManager from ".."
-import Appendable, { appendableRoot } from "../../../../api/core/Appendable"
+import Appendable from "../../../../api/core/Appendable"
+import { appendableRoot } from "../../../../api/core/collections"
 import {
     onSelectionTarget,
     emitSelectionTarget

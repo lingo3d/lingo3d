@@ -1,4 +1,3 @@
-import { appendableRoot } from "../api/core/Appendable"
 import Skybox from "../display/Skybox"
 import { getAntiAlias, setAntiAlias } from "../states/useAntiAlias"
 import {
@@ -65,6 +64,7 @@ import {
 import { getEnvironment, setEnvironment } from "../states/useEnvironment"
 import { getStats, setStats } from "../states/useStats"
 import { getDefaultShadow, setDefaultShadow } from "../states/useDefaultShadow"
+import { appendableRoot } from "../api/core/collections"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)

@@ -1,4 +1,4 @@
-import { hiddenAppendables } from "../../../api/core/Appendable"
+import { hiddenAppendables } from "../../../api/core/collections"
 import { EDITOR_URL } from "../../../globals"
 import Sprite from "../../Sprite"
 

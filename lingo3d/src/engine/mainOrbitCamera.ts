@@ -4,12 +4,12 @@ import { createEffect } from "@lincode/reactivity"
 import mainCamera from "./mainCamera"
 import OrbitCamera from "../display/cameras/OrbitCamera"
 import { getTransformControlsDragging } from "../states/useTransformControlsDragging"
-import { appendableRoot } from "../api/core/Appendable"
 import { onEditorCenterView } from "../events/onEditorCenterView"
 import { getCameraDistance } from "../states/useCameraDistance"
 import { getCameraRendered } from "../states/useCameraRendered"
 import getActualScale from "../display/utils/getActualScale"
 import { scaleUp } from "./constants"
+import { appendableRoot } from "../api/core/collections"
 
 const mainOrbitCamera = new OrbitCamera(mainCamera)
 export default mainOrbitCamera

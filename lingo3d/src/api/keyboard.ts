@@ -5,7 +5,6 @@ import IKeyboard, {
 } from "../interface/IKeyboard"
 import EventLoopItem from "./core/EventLoopItem"
 import { createEffect } from "@lincode/reactivity"
-import { appendableRoot } from "./core/Appendable"
 import { onKeyClear } from "../events/onKeyClear"
 import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
@@ -13,6 +12,7 @@ import { getEditorMounted } from "../states/useEditorMounted"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
 import { getEditorModeComputed } from "../states/useEditorModeComputed"
+import { appendableRoot } from "./core/collections"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()

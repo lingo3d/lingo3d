@@ -4,7 +4,6 @@ import {
     emitSceneGraphChange,
     onSceneGraphChange
 } from "../../events/onSceneGraphChange"
-import { appendableRoot, hiddenAppendables } from "../../api/core/Appendable"
 import TreeItem from "./TreeItem"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
@@ -31,6 +30,7 @@ import TreeItemContextProvider from "../component/TreeItemContextProviter"
 import TitleBar from "../component/TitleBar"
 import useInitCSS from "../utils/useInitCSS"
 import useClickable from "../utils/useClickable"
+import { appendableRoot, hiddenAppendables } from "../../api/core/collections"
 
 const SceneGraph = () => {
     useInitCSS(true)

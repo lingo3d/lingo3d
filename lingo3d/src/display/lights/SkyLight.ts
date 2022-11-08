@@ -19,7 +19,7 @@ import {
     ShadowResolution
 } from "../../states/useShadowResolution"
 import DirectionalLight from "./DirectionalLight"
-import { hiddenAppendables } from "../../api/core/Appendable"
+import { hiddenAppendables } from "../../api/core/collections"
 
 const mapCSMOptions = (
     val: ShadowDistance,

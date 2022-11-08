@@ -2,10 +2,7 @@ import { Disposable } from "@lincode/promiselikes"
 import { Object3D } from "three"
 import { emitDispose } from "../../events/onDispose"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
-
-export const appendableRoot = new Set<Appendable>()
-export const hiddenAppendables = new WeakSet<Appendable>()
-export const nonSerializedAppendables = new WeakSet<Appendable>()
+import { appendableRoot } from "./collections"
 
 export default class Appendable<
     T extends Object3D = Object3D
