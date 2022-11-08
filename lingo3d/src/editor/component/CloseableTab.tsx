@@ -1,7 +1,6 @@
-import { pull } from "@lincode/utils"
-import { useContext, useEffect, useLayoutEffect } from "preact/hooks"
 import CloseIcon from "./icons/CloseIcon"
-import { TabContext, TabProps } from "./Tab"
+import { TabProps } from "./Tab"
+import useTab from "./useTab"
 import TitleBarButton from "./TitleBarButton"
 
 type CloseableTabProps = TabProps & {
@@ -14,27 +13,7 @@ const CloseableTab = ({
     selected,
     disabled
 }: CloseableTabProps) => {
-    const context = useContext(TabContext)
-
-    useLayoutEffect(() => {
-        if (!children) return
-        context.tabs.push(children)
-        return () => {
-            context.setSelected(
-                context.tabs[context.tabs.indexOf(children) - 1]
-            )
-            pull(context.tabs, children)
-        }
-    }, [])
-
-    useEffect(() => {
-        if (!disabled || !children) return
-        context.setSelected(context.tabs[context.tabs.indexOf(children) - 1])
-    }, [disabled])
-
-    useEffect(() => {
-        selected && context.setSelected(children)
-    }, [])
+    const context = useTab(children, selected, disabled)
 
     return (
         <div

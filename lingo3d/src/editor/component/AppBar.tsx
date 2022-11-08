@@ -1,6 +1,6 @@
 import { ComponentChildren } from "preact"
 import { CSSProperties, useEffect, useMemo, useState } from "preact/compat"
-import { TabContext } from "./Tab"
+import { TabContext } from "./useTab"
 
 type AppBarProps = {
     className?: string

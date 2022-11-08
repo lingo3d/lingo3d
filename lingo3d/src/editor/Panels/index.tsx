@@ -26,6 +26,7 @@ const Panels = () => {
                 <CloseableTab
                     disabled={!fileBrowser}
                     onClose={() => setFileBrowser(false)}
+                    selected={!!fileBrowser}
                 >
                     files
                 </CloseableTab>
