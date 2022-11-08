@@ -1,12 +1,9 @@
 import { Point3d } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
-import { forceGet } from "@lincode/utils"
+import { forceGet, lazy } from "@lincode/utils"
 import { Object3D } from "three"
 import getWorldPosition from "../../display/utils/getWorldPosition"
-import {
-    localPositionChanged,
-    positionChanged
-} from "../../display/utils/trackObject"
+import { positionChanged } from "../../display/utils/trackObject"
 import { vec2Point } from "../../display/utils/vec2Point"
 import { scaleUp, scaleDown } from "../../engine/constants"
 import scene from "../../engine/scene"
@@ -14,8 +11,16 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 import IPositioned from "../../interface/IPositioned"
 import EventLoopItem from "./EventLoopItem"
 
+const lazyObjectLoop = lazy(() =>
+    onBeforeRender(() => {
+        for (const [item, cbs] of onMoveMap)
+            if (positionChanged(item)) for (const cb of cbs) cb()
+    })
+)
+
 const onMoveMap = new Map<Object3D, Set<() => void>>()
 export const onObjectMove = (item: Object3D, cb: () => void) => {
+    lazyObjectLoop()
     const set = forceGet(onMoveMap, item, makeSet)
     set.add(cb)
     return new Cancellable(() => {
@@ -23,24 +28,6 @@ export const onObjectMove = (item: Object3D, cb: () => void) => {
         !set.size && onMoveMap.delete(item)
     })
 }
-
-const onMoveLocalMap = new Map<Object3D, Set<() => void>>()
-export const onObjectMoveLocal = (item: Object3D, cb: () => void) => {
-    const set = forceGet(onMoveLocalMap, item, makeSet)
-    set.add(cb)
-    return new Cancellable(() => {
-        set.delete(cb)
-        !set.size && onMoveLocalMap.delete(item)
-    })
-}
-
-onBeforeRender(() => {
-    for (const [item, cbs] of onMoveMap)
-        if (positionChanged(item)) for (const cb of cbs) cb()
-
-    for (const [item, cbs] of onMoveLocalMap)
-        if (localPositionChanged(item)) for (const cb of cbs) cb()
-})
 
 const makeSet = () => new Set<() => void>()
 
@@ -87,18 +74,6 @@ export default abstract class PositionedItem<T extends Object3D = Object3D>
         this.cancelHandle(
             "onMove",
             cb && (() => onObjectMove(this.outerObject3d, cb))
-        )
-    }
-
-    private _onMoveLocal?: () => void
-    public get onMoveLocal() {
-        return this._onMoveLocal
-    }
-    public set onMoveLocal(cb) {
-        this._onMoveLocal = cb
-        this.cancelHandle(
-            "onMoveLocal",
-            cb && (() => onObjectMoveLocal(this.outerObject3d, cb))
         )
     }
 }

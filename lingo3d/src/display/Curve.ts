@@ -8,7 +8,6 @@ import { createMemo, createNestedEffect, Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { overrideSelectionCandidates } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
-import Group from "./Group"
 import EventLoopItem from "../api/core/EventLoopItem"
 
 const createFor = <Result, Data>(
@@ -94,7 +93,7 @@ export default class Curve extends EventLoopItem implements ICurve {
                     this.append(helper)
                     helper.scale = 0.1
                     overrideSelectionCandidates.add(helper.outerObject3d)
-                    helper.onMoveLocal = () => {
+                    helper.onMove = () => {
                         Object.assign(pt, helper.getWorldPosition())
                         this.refreshState.set({})
                     }

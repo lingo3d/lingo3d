@@ -13,16 +13,6 @@ export const positionChanged = computeValuePerFrame((target: Object3D) => {
     return result
 })
 
-export const localPositionChanged = computeValuePerFrame((target: Object3D) => {
-    const { userData } = target
-    const position = target.position.clone()
-    const result = userData.positionOld
-        ? !position.equals(userData.positionOld)
-        : false
-    userData.positionOld = position
-    return result
-})
-
 export const quaternionChanged = computeValuePerFrame((target: Object3D) => {
     const { userData } = target
     const quaternion = getWorldQuaternion(target)
