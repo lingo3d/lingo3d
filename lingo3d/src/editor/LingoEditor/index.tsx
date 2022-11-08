@@ -6,11 +6,9 @@ import Library from "../Library"
 import HUD from "../HUD"
 import { useEffect, useRef } from "preact/hooks"
 import settings from "../../api/settings"
-import FileBrowser from "../FileBrowser"
-import { useFileBrowser, useFileCurrent, useStats } from "../states"
+import { useFileCurrent, useStats } from "../states"
 import Stats from "../Stats"
 import Tabs from "../Tabs"
-import Timeline from "../Timeline"
 import Panels from "../Panels"
 
 const LingoEditor = () => {
@@ -21,7 +19,6 @@ const LingoEditor = () => {
         if (el) settings.autoMount = el
     }, [])
 
-    const [fileBrowser] = useFileBrowser()
     const [fileCurrent] = useFileCurrent()
     const [stats] = useStats()
 
@@ -32,7 +29,6 @@ const LingoEditor = () => {
             <Editor />
             <Library />
             <Panels />
-            {fileBrowser && <FileBrowser />}
             {fileCurrent && <Tabs />}
             {stats && <Stats />}
             <HUD />

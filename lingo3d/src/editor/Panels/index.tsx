@@ -2,9 +2,13 @@ import register from "preact-custom-element"
 import CloseableTab from "../component/CloseableTab"
 import AppBar from "../component/AppBar"
 import useInitCSS from "../utils/useInitCSS"
+import { useFileBrowser } from "../states"
+import FileBrowser from "../FileBrowser"
 
 const Panels = () => {
     useInitCSS(true)
+
+    const [fileBrowser] = useFileBrowser()
 
     return (
         <div
@@ -18,9 +22,9 @@ const Panels = () => {
         >
             <AppBar>
                 <CloseableTab>timeline</CloseableTab>
-                <CloseableTab>files</CloseableTab>
+                <CloseableTab disabled={!fileBrowser}>files</CloseableTab>
             </AppBar>
-            <div style={{ flexGrow: 1 }}></div>
+            <div style={{ flexGrow: 1 }}>{fileBrowser && <FileBrowser />}</div>
         </div>
     )
 }

@@ -8,7 +8,7 @@ const Timeline = () => {
         <div
             className="lingo3d-ui lingo3d-bg lingo3d-panels"
             style={{
-                height: 200,
+                height: 200 - 28,
                 width: "100%",
                 display: "flex"
             }}
