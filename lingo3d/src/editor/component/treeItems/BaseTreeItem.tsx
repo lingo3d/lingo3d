@@ -1,12 +1,12 @@
 import { ComponentChildren } from "preact"
 import { useState, useRef, useMemo, useContext, useEffect } from "preact/hooks"
-import CollapseIcon from "./icons/CollapseIcon"
-import ExpandIcon from "./icons/ExpandIcon"
+import CollapseIcon from "../icons/CollapseIcon"
+import ExpandIcon from "../icons/ExpandIcon"
 import { TreeItemContext } from "./TreeItemContextProviter"
-import useClick from "../hooks/useClick"
-import Appendable from "../../api/core/Appendable"
-import mergeRefs from "../hooks/mergeRefs"
-import { setDragImage } from "../utils/drag"
+import useClick from "../../hooks/useClick"
+import Appendable from "../../../api/core/Appendable"
+import mergeRefs from "../../hooks/mergeRefs"
+import { setDragImage } from "../../utils/drag"
 
 export type BaseTreeItemProps = {
     label?: string

@@ -1,5 +1,5 @@
 import { Fragment } from "preact"
-import BaseTreeItem from "../component/BaseTreeItem"
+import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import { useFileBrowserDir } from "../states"
 import FolderIcon from "./icons/FolderIcon"
 import pathMap from "./pathMap"

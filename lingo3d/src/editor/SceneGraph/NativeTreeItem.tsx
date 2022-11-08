@@ -3,7 +3,7 @@ import { Object3D } from "three"
 import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
 import { useSceneGraphExpanded, useSelectionNativeTarget } from "../states"
 import ComponentIcon from "./icons/ComponentIcon"
-import BaseTreeItem from "../component/BaseTreeItem"
+import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 
 type NativeTreeItemProps = TreeItemProps & {
     object3d: Object3D
