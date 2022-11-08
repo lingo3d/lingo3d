@@ -62,7 +62,10 @@ const serialize = async (children: Array<any>) => {
 
             data[key] = value
         }
-        child.children && (data.children = await serialize(child.children))
+        if (child.children) {
+            const dataChildren = await serialize(child.children)
+            if (dataChildren.length) data.children = dataChildren
+        }
         dataParent.push(data as SceneGraphNode)
     }
     return dataParent
