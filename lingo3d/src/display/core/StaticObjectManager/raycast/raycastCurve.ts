@@ -3,7 +3,10 @@ import { createEffect } from "@lincode/reactivity"
 import { mouseEvents } from "../../../../api/mouse"
 import { getEditorCurve } from "../../../../states/useEditorCurve"
 import { setEditorMode } from "../../../../states/useEditorMode"
-import { resetMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
+import {
+    getMultipleSelectionTargets,
+    resetMultipleSelectionTargets
+} from "../../../../states/useMultipleSelectionTargets"
 import {
     getSelectionTarget,
     setSelectionTarget
@@ -40,8 +43,14 @@ createEffect(() => {
         )
     })
     const handle1 = getSelectionTarget((target) => {
-        if (target && !overrideSelectionCandidates.has(target.outerObject3d))
-            setEditorMode("translate")
+        if (
+            !target ||
+            overrideSelectionCandidates.has(target.outerObject3d) ||
+            getMultipleSelectionTargets().length
+        )
+            return
+
+        setEditorMode("translate")
     })
     return () => {
         handle0.cancel()
