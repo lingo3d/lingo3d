@@ -12,6 +12,7 @@ import { getCameraRendered } from "../states/useCameraRendered"
 import { getSelectionNativeTarget } from "../states/useSelectionNativeTarget"
 import { ssrExcludeSet } from "./renderLoop/effectComposer/ssrEffect/renderSetup"
 import { getEditorModeComputed } from "../states/useEditorModeComputed"
+import { isPositionedItem } from "../api/core/PositionedItem"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import(
@@ -42,8 +43,13 @@ const lazyTransformControls = lazy(async () => {
 })
 
 createEffect(() => {
+    const selectionTarget = getSelectionTarget()
     const target =
-        getSelectionNativeTarget() ?? getSelectionTarget()?.outerObject3d
+        getSelectionNativeTarget() ??
+        (isPositionedItem(selectionTarget)
+            ? selectionTarget.outerObject3d
+            : undefined)
+
     if (!target) return
 
     let mode = getEditorModeComputed()

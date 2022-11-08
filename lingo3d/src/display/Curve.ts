@@ -9,6 +9,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { overrideSelectionCandidates } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
 import Group from "./Group"
+import EventLoopItem from "../api/core/EventLoopItem"
 
 const createFor = <Result, Data>(
     dataList: Array<Data>,
@@ -43,10 +44,10 @@ const createFor = <Result, Data>(
     return dataResultMap
 }
 
-export default class Curve extends Group implements ICurve {
-    public static override componentName = "curve"
-    public static override defaults = curveDefaults
-    public static override schema = curveSchema
+export default class Curve extends EventLoopItem implements ICurve {
+    public static componentName = "curve"
+    public static defaults = curveDefaults
+    public static schema = curveSchema
 
     public constructor() {
         super()
@@ -118,7 +119,7 @@ export default class Curve extends Group implements ICurve {
         this.helperState.set(val)
     }
 
-    private _subdivide = 1
+    private _subdivide = 3
     public get subdivide() {
         return this._subdivide
     }
