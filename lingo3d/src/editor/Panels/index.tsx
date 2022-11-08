@@ -5,11 +5,14 @@ import useInitCSS from "../utils/useInitCSS"
 import { useFileBrowser } from "../states"
 import FileBrowser from "../FileBrowser"
 import { setFileBrowser } from "../../states/useFileBrowser"
+import { useState } from "preact/hooks"
+import Timeline from "../Timeline"
 
 const Panels = () => {
     useInitCSS(true)
 
     const [fileBrowser] = useFileBrowser()
+    const [tab, setTab] = useState<string | undefined>(undefined)
 
     return (
         <div
@@ -21,7 +24,7 @@ const Panels = () => {
                 flexDirection: "column"
             }}
         >
-            <AppBar>
+            <AppBar onSelectTab={setTab}>
                 <CloseableTab>timeline</CloseableTab>
                 <CloseableTab
                     disabled={!fileBrowser}
@@ -31,7 +34,10 @@ const Panels = () => {
                     files
                 </CloseableTab>
             </AppBar>
-            <div style={{ flexGrow: 1 }}>{fileBrowser && <FileBrowser />}</div>
+            <div style={{ flexGrow: 1 }}>
+                {tab === "files" && fileBrowser && <FileBrowser />}
+                {tab === "timeline" && <Timeline />}
+            </div>
         </div>
     )
 }
