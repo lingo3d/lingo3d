@@ -79,7 +79,7 @@ const initCSS = () => {
             .lingo3d-editor { grid-area: 1 / 3 / 3 / 4; }
             .lingo3d-library { grid-area: 1 / 4 / 3 / 5; }
             .lingo3d-tabs { grid-area: 1 / 5 / 2 / 6; }
-            .lingo3d-filebrowser { grid-area: 3 / 2 / 4 / 5; }
+            .lingo3d-panels { grid-area: 3 / 2 / 4 / 5; }
             .lingo3d-toolbar { grid-area: 1 / 1 / 4 / 2; }
             .lingo3d-world { grid-area: 2 / 5 / 4 / 6; }
 

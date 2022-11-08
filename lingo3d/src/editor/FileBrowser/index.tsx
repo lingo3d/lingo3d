@@ -53,7 +53,7 @@ const FileBrowser = () => {
 
     return (
         <div
-            className="lingo3d-ui lingo3d-bg lingo3d-filebrowser"
+            className="lingo3d-ui lingo3d-bg lingo3d-panels"
             style={{
                 height: 200,
                 width: "100%",
