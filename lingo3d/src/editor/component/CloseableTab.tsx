@@ -43,7 +43,7 @@ const CloseableTab = ({ onClose, children, selected }: CloseableTabProps) => {
             }}
             onClick={() => context.setSelected(children)}
         >
-            <div style={{ marginTop: -2 }}>{children}</div>
+            <div style={{ marginTop: -2, minWidth: 30 }}>{children}</div>
             <div style={{ width: 4 }} />
             <TitleBarButton
                 disabled={!onClose}

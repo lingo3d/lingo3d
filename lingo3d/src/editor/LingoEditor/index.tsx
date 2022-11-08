@@ -11,6 +11,7 @@ import { useFileBrowser, useFileCurrent, useStats } from "../states"
 import Stats from "../Stats"
 import Tabs from "../Tabs"
 import Timeline from "../Timeline"
+import Panels from "../Panels"
 
 const LingoEditor = () => {
     const elRef = useRef<HTMLDivElement>(null)
@@ -30,7 +31,7 @@ const LingoEditor = () => {
             <SceneGraph />
             <Editor />
             <Library />
-            <Timeline />
+            <Panels />
             {fileBrowser && <FileBrowser />}
             {fileCurrent && <Tabs />}
             {stats && <Stats />}

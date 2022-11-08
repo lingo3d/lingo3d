@@ -5,10 +5,7 @@ import { useFileBrowserDir, useFiles } from "../states"
 import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem"
 import pathMap from "./pathMap"
-import { setFileBrowser } from "../../states/useFileBrowser"
 import { setFileSelected } from "../../states/useFileSelected"
-import CloseableTab from "../component/CloseableTab"
-import AppBar from "../component/AppBar"
 import useInitCSS from "../utils/useInitCSS"
 
 interface FileStructure {
@@ -57,27 +54,16 @@ const FileBrowser = () => {
             style={{
                 height: 200,
                 width: "100%",
-                display: "grid",
-                gridTemplateColumns: "200px 1fr",
-                gridTemplateRows: "28px 1fr",
-                gridColumnGap: "0px",
-                gridRowGap: "0px"
+                display: "flex"
             }}
         >
-            <div style={{ gridArea: "1 / 1 / 2 / 3", display: "flex" }}>
-                <AppBar>
-                    <CloseableTab onClose={() => setFileBrowser(false)}>
-                        file browser
-                    </CloseableTab>
-                </AppBar>
-            </div>
-            <div style={{ gridArea: "2 / 1 / 3 / 2", overflow: "scroll" }}>
+            <div style={{ overflow: "scroll", width: 200 }}>
                 <FileTreeItem
                     fileStructure={fileStructure}
                     firstFolderName={firstFolderName}
                 />
             </div>
-            <div style={{ gridArea: "2 / 2 / 3 / 3" }}>
+            <div style={{ flexGrow: 1 }}>
                 <div
                     style={{
                         width: "100%",
