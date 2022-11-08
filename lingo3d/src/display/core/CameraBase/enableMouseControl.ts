@@ -8,7 +8,7 @@ import {
 import { mouseEvents } from "../../../api/mouse"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import isMobile from "../../../api/utils/isMobile"
-import { getEditorModeComputed } from "../../../states/useEditorModeComputed"
+import { getEditorPlay } from "../../../states/useEditorPlay"
 
 export default function (this: CameraBase<PerspectiveCamera>) {
     if (this.done) return
@@ -115,7 +115,7 @@ export default function (this: CameraBase<PerspectiveCamera>) {
         if (
             this.mouseControlState.get() !== true ||
             camera !== this.camera ||
-            getEditorModeComputed() !== "play"
+            !getEditorPlay()
         )
             return
 
@@ -137,5 +137,5 @@ export default function (this: CameraBase<PerspectiveCamera>) {
             document.exitPointerLock()
             setCameraPointerLock(undefined)
         }
-    }, [this.mouseControlState.get, getCameraRendered, getEditorModeComputed])
+    }, [this.mouseControlState.get, getCameraRendered, getEditorPlay])
 }

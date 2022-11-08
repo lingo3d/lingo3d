@@ -7,8 +7,8 @@ import IThirdPersonCamera, {
     thirdPersonCameraSchema
 } from "../../interface/IThirdPersonCamera"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { getEditorMounted } from "../../states/useEditorMounted"
+import { getEditorPlay } from "../../states/useEditorPlay"
 import CharacterCamera from "../core/CharacterCamera"
 import MeshItem from "../core/MeshItem"
 import { bvhCameraSet } from "../core/PhysicsObjectManager/bvh/bvhCameraSet"
@@ -24,7 +24,7 @@ let alwaysVisible = false
 
 createEffect(() => {
     alwaysVisible =
-        getEditorModeComputed() !== "play" ||
+        !getEditorPlay() ||
         (getEditorMounted() && getCameraRendered() === mainCamera)
 }, [getEditorMounted, getEditorMounted, getCameraRendered])
 

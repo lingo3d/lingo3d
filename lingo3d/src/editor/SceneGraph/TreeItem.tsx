@@ -16,9 +16,9 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import getComponentName from "../utils/getComponentName"
 import BaseTreeItem from "../component/BaseTreeItem"
 import CubeIcon from "./icons/CubeIcon"
-import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { setEditorMode } from "../../states/useEditorMode"
 import { hiddenAppendables } from "../../api/core/collections"
+import { getEditorPlay } from "../../states/useEditorPlay"
 
 export type TreeItemProps = {
     appendable: Appendable
@@ -31,7 +31,7 @@ export const makeTreeItemCallbacks = (
     parent?: Appendable
 ) => {
     return (rightClick?: boolean) => {
-        getEditorModeComputed() === "play" && setEditorMode("translate")
+        getEditorPlay() && setEditorMode("translate")
         isPositionedItem(parent) &&
             getSelectionTarget() !== parent &&
             emitSelectionTarget(parent, rightClick)

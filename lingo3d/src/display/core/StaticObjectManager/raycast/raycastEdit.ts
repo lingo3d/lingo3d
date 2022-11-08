@@ -10,7 +10,7 @@ import {
     emitSelectionTarget,
     onSelectionTarget
 } from "../../../../events/onSelectionTarget"
-import { getEditorModeComputed } from "../../../../states/useEditorModeComputed"
+import { getEditorPlay } from "../../../../states/useEditorPlay"
 import { getMultipleSelection } from "../../../../states/useMultipleSelection"
 import {
     pushMultipleSelectionTargets,
@@ -37,8 +37,7 @@ createEffect(() => {
         !multipleSelection && (firstMultipleSelection.current = true)
     }, [multipleSelection])
 
-    if (getEditorModeComputed() === "play" || getTransformControlsDragging())
-        return
+    if (getEditorPlay() || getTransformControlsDragging()) return
 
     getSelectionCandidates()
     const handle0 = onSceneGraphChange(() => getSelectionCandidates())
@@ -96,4 +95,4 @@ createEffect(() => {
         handle3.cancel()
         handle4.cancel()
     }
-}, [getEditorModeComputed, getTransformControlsDragging, getMultipleSelection])
+}, [getEditorPlay, getTransformControlsDragging, getMultipleSelection])
