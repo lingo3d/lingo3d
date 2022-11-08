@@ -10,7 +10,7 @@ import ModelTreeItem from "./ModelTreeItem"
 import { multipleSelectionGroupManagers } from "../../states/useMultipleSelectionTargets"
 import GroupIcon from "./icons/GroupIcon"
 import DeleteIcon from "./icons/DeleteIcon"
-import TitleBarButton from "../component/TitleBarButton"
+import TitleBarButton from "../component/bars/TitleBarButton"
 import {
     useMultipleSelectionTargets,
     useSelectionNativeTarget,
@@ -27,7 +27,7 @@ import "./retargetBones"
 import EmptyTreeItem from "../component/treeItems/EmptyTreeItem"
 import scene from "../../engine/scene"
 import TreeItemContextProvider from "../component/treeItems/TreeItemContextProviter"
-import TitleBar from "../component/TitleBar"
+import TitleBar from "../component/bars/TitleBar"
 import useInitCSS from "../utils/useInitCSS"
 import useClickable from "../utils/useClickable"
 import { appendableRoot, hiddenAppendables } from "../../api/core/collections"

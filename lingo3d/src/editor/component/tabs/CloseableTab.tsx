@@ -1,7 +1,7 @@
 import CloseIcon from "../icons/CloseIcon"
 import { TabProps } from "./Tab"
 import useTab from "./useTab"
-import TitleBarButton from "../TitleBarButton"
+import TitleBarButton from "../bars/TitleBarButton"
 
 type CloseableTabProps = TabProps & {
     onClose?: (selected: boolean) => void
