@@ -95,7 +95,7 @@ export default class Curve extends EventLoopItem implements ICurve {
                     overrideSelectionCandidates.add(helper.outerObject3d)
                     helper.onMove = () => {
                         Object.assign(pt, helper.getWorldPosition())
-                        this.refreshState.set({})
+                        this.refreshState.set({ move: true })
                     }
                     cleanup.then(() => {
                         helper.dispose()
@@ -104,11 +104,14 @@ export default class Curve extends EventLoopItem implements ICurve {
                     return helper
                 }
             )
-            for (const [point, helper] of helpers) Object.assign(helper, point)
+            if (!this.refreshState.get().move) {
+                for (const [point, helper] of helpers)
+                    Object.assign(helper, point)
+            }
         }, [this.helperState.get, this.refreshState.get])
     }
 
-    private refreshState = new Reactive({})
+    private refreshState = new Reactive<{ move?: true }>({})
 
     private helperState = new Reactive(false)
     public get helper() {
