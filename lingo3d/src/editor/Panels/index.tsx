@@ -1,5 +1,5 @@
 import register from "preact-custom-element"
-import CloseableTab from "../component/CloseableTab"
+import CloseableTab from "../component/tabs/CloseableTab"
 import AppBar from "../component/AppBar"
 import useInitCSS from "../utils/useInitCSS"
 import { useFileBrowser } from "../states"

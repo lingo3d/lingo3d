@@ -4,7 +4,7 @@ import { DEBUG } from "../../globals"
 import useInitCSS from "../utils/useInitCSS"
 import useClickable from "../utils/useClickable"
 import AppBar from "../component/AppBar"
-import Tab from "../component/Tab"
+import Tab from "../component/tabs/Tab"
 
 const Library = () => {
     useInitCSS(true)
