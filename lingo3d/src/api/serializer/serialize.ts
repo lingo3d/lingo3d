@@ -5,7 +5,7 @@ import { getFileCurrent } from "../../states/useFileCurrent"
 import Appendable from "../core/Appendable"
 import settings from "../settings"
 import relativePath from "../path/relativePath"
-import toFixed from "./toFixed"
+import toFixed, { toFixedPoint } from "./toFixed"
 import { nonSerializedProperties, SceneGraphNode } from "./types"
 import { VERSION } from "../../globals"
 import {
@@ -13,6 +13,7 @@ import {
     nonSerializedAppendables,
     appendableRoot
 } from "../core/collections"
+import { isPoint } from "./isPoint"
 
 const serialize = async (children: Array<any>) => {
     const dataParent: Array<SceneGraphNode> = []
@@ -59,6 +60,9 @@ const serialize = async (children: Array<any>) => {
                     file.webkitRelativePath
                 )
             } else if (t === "number") value = toFixed(key, value)
+            else if (isPoint(value, t)) value = toFixedPoint(value)
+            else if (Array.isArray(value) && value.some((v) => isPoint(v)))
+                value = value.map((v) => (isPoint(v) ? toFixedPoint(v) : v))
 
             data[key] = value
         }

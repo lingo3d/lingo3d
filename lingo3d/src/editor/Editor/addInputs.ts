@@ -4,6 +4,7 @@ import resetIcon from "./resetIcon"
 import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import { Cancellable } from "@lincode/promiselikes"
+import { isPoint } from "../../api/serializer/isPoint"
 
 let skipApply = false
 
@@ -16,9 +17,6 @@ export const skipApplyValue = debounce(
     0,
     "both"
 )
-
-const isPoint = (v: any): v is { x: number; y: number; z?: number } =>
-    v && typeof v === "object" && "x" in v && "y" in v
 
 const isTrue = (v: any) => v === true || v === "true"
 const isFalse = (v: any) => v === false || v === "false"
