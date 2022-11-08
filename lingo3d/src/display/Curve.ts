@@ -9,6 +9,8 @@ import { Cancellable } from "@lincode/promiselikes"
 import { overrideSelectionCandidates } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
 import EventLoopItem from "../api/core/EventLoopItem"
+import { getCameraRendered } from "../states/useCameraRendered"
+import mainCamera from "../engine/mainCamera"
 
 const createFor = <Result, Data>(
     dataList: Array<Data>,
@@ -88,7 +90,9 @@ export default class Curve extends EventLoopItem implements ICurve {
         let move = false
         this.createEffect(() => {
             const helpers = createFor(
-                this.helperState.get() ? this._points : [],
+                this.helperState.get() && getCameraRendered() === mainCamera
+                    ? this._points
+                    : [],
                 (pt, cleanup) => {
                     const helper = new HelperSphere()
                     this.append(helper)
@@ -111,7 +115,7 @@ export default class Curve extends EventLoopItem implements ICurve {
                 return
             }
             for (const [point, helper] of helpers) Object.assign(helper, point)
-        }, [this.helperState.get, this.refreshState.get])
+        }, [this.helperState.get, this.refreshState.get, getCameraRendered])
     }
 
     private refreshState = new Reactive({})
