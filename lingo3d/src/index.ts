@@ -18,6 +18,7 @@ import SvgMesh from "./display/SvgMesh"
 import HTMLMesh from "./display/HTMLMesh"
 import Reflector from "./display/Reflector"
 import Water from "./display/Water"
+import Curve from "./display/Curve"
 import Line from "./display/Line"
 import Sprite from "./display/Sprite"
 import Trigger from "./display/Trigger"
@@ -99,6 +100,7 @@ export {
     HTMLMesh,
     Reflector,
     Water,
+    Curve,
     Line,
     Sprite,
     Trigger,

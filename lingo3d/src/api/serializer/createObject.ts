@@ -7,6 +7,7 @@ import SvgMesh from "../../display/SvgMesh"
 import HTMLMesh from "../../display/HTMLMesh"
 import Reflector from "../../display/Reflector"
 import Water from "../../display/Water"
+import Curve from "../../display/Curve"
 import Sprite from "../../display/Sprite"
 import Circle from "../../display/primitives/Circle"
 import Cone from "../../display/primitives/Cone"
@@ -47,6 +48,7 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     tree: () => new Tree(),
     reflector: () => new Reflector(),
     water: () => new Water(),
+    curve: () => new Curve() as any,
     sprite: () => new Sprite(),
     trigger: () => new Trigger() as any,
     spawnPoint: () => new SpawnPoint() as any,

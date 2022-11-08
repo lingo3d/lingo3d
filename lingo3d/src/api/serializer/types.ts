@@ -7,6 +7,7 @@ import ISvgMesh from "../../interface/ISvgMesh"
 import IHTMLMesh from "../../interface/IHTMLMesh"
 import IReflector from "../../interface/IReflector"
 import IWater from "../../interface/IWater"
+import ICurve from "../../interface/ICurve"
 import ISprite from "../../interface/ISprite"
 import ITrigger from "../../interface/ITrigger"
 import ISpawnPoint from "../../interface/ISpawnPoint"
@@ -33,6 +34,7 @@ export type GameObjectType =
     | "htmlMesh"
     | "reflector"
     | "water"
+    | "curve"
     | "sprite"
     | "trigger"
     | "spawnPoint"
@@ -120,6 +122,8 @@ export type ReflectorNode = TypedPropsNode<IReflector, "reflector">
 
 export type WaterNode = TypedPropsNode<IWater, "water">
 
+export type CurveNode = TypedPropsNode<ICurve, "curve">
+
 export type SpriteNode = TypedPropsNode<ISprite, "sprite">
 
 export type TriggerNode = TypedPropsNode<ITrigger, "trigger">
@@ -179,6 +183,7 @@ export type BaseSceneGraphNode =
     | HTMLMeshNode
     | ReflectorNode
     | WaterNode
+    | CurveNode
     | SpriteNode
     | TriggerNode
     | SpawnPointNode
