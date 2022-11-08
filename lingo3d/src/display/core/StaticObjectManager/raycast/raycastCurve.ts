@@ -1,8 +1,8 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { mouseEvents } from "../../../../api/mouse"
+import { getEditorCurve } from "../../../../states/useEditorCurve"
 import { setEditorMode } from "../../../../states/useEditorMode"
-import { getEditorModeComputed } from "../../../../states/useEditorModeComputed"
 import { resetMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
 import {
     getSelectionTarget,
@@ -11,7 +11,7 @@ import {
 import { overrideSelectionCandidates } from "./selectionCandidates"
 
 createEffect(() => {
-    if (getEditorModeComputed() !== "curve") return
+    if (!getEditorCurve()) return
 
     resetMultipleSelectionTargets()
     setSelectionTarget(undefined)
@@ -47,4 +47,4 @@ createEffect(() => {
         handle0.cancel()
         handle1.cancel()
     }
-}, [getEditorModeComputed])
+}, [getEditorCurve])
