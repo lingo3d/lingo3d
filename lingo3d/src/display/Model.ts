@@ -59,8 +59,14 @@ class Model extends Loaded<Group> implements IModel {
         const clip = (await this.load(url)).animations[0]
         if (!clip) return
 
+        const { onFinishState, repeatState } = this.lazyStates()
         this.animations[name] = this.watch(
-            new AnimationManager(clip, await this.loaded)
+            new AnimationManager(
+                clip,
+                await this.loaded,
+                repeatState,
+                onFinishState
+            )
         )
     }
 
@@ -121,11 +127,16 @@ class Model extends Loaded<Group> implements IModel {
     protected resolveLoaded(loadedObject3d: Group, src: string) {
         if (this.unmounted) return loadedObject3d
 
+        const { onFinishState, repeatState } = this.lazyStates()
         for (const clip of loadedObject3d.animations)
             this.animations[clip.name] = this.watch(
-                new AnimationManager(clip, loadedObject3d)
+                new AnimationManager(
+                    clip,
+                    loadedObject3d,
+                    repeatState,
+                    onFinishState
+                )
             )
-
         const measuredSize =
             this._resize === false
                 ? measure(loadedObject3d, src)

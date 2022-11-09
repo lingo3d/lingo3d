@@ -23,34 +23,13 @@ export default class AnimationManager extends EventLoopItem {
 
     private actionState = new Reactive<AnimationAction | undefined>(undefined)
     private clipState = new Reactive<AnimationClip | undefined>(undefined)
-
-    private pausedState = new Reactive(false)
-    public get paused() {
-        return this.pausedState.get()
-    }
-    public set paused(val) {
-        this.pausedState.set(val)
-    }
-
-    private repeatState = new Reactive(Infinity)
-    public get repeat() {
-        return this.repeatState.get()
-    }
-    public set repeat(val) {
-        this.repeatState.set(val)
-    }
-
-    private onFinishState = new Reactive<(() => void) | undefined>(undefined)
-    public get onFinish() {
-        return this.onFinishState.get()
-    }
-    public set onFinish(val) {
-        this.onFinishState.set(val)
-    }
+    public pausedState = new Reactive(false)
 
     public constructor(
         nameOrClip: string | AnimationClip,
-        target: EventLoopItem | Object3D
+        target: EventLoopItem | Object3D,
+        private repeatState: Reactive<number>,
+        private onFinishState: Reactive<(() => void) | undefined>
     ) {
         super()
 
@@ -61,13 +40,13 @@ export default class AnimationManager extends EventLoopItem {
         )
         this.createEffect(() => {
             const onFinish = this.onFinishState.get()
-            if (!onFinish) return
+            if (!onFinish || this.pausedState.get()) return
 
             mixer.addEventListener("finished", onFinish)
             return () => {
                 mixer.removeEventListener("finished", onFinish)
             }
-        }, [this.onFinishState.get])
+        }, [this.onFinishState.get, this.pausedState.get])
 
         if (typeof nameOrClip === "string") this.name = nameOrClip
         else {
@@ -124,13 +103,17 @@ export default class AnimationManager extends EventLoopItem {
         }, [this.actionState.get, this.pausedState.get])
     }
 
-    public retarget(target: Object3D) {
+    public retarget(
+        target: Object3D,
+        repeatState: Reactive<number>,
+        onFinishState: Reactive<(() => void) | undefined>
+    ) {
         const newClip = this.clipState.get()!.clone()
         const targetName = target.name + "."
         newClip.tracks = newClip.tracks.filter((track) =>
             track.name.startsWith(targetName)
         )
-        return new AnimationManager(newClip, target)
+        return new AnimationManager(newClip, target, repeatState, onFinishState)
     }
 
     public get duration() {
