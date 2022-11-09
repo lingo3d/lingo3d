@@ -3,9 +3,7 @@ import {
     AnimationMixer,
     AnimationClip,
     NumberKeyframeTrack,
-    AnimationAction,
-    LoopRepeat,
-    LoopOnce
+    AnimationAction
 } from "three"
 import { AnimationData } from "../../../api/serializer/types"
 import { forceGet } from "@lincode/utils"
@@ -68,10 +66,7 @@ export default class AnimationManager extends EventLoopItem {
 
         this.createEffect(() => {
             const action = this.actionState.get()
-            if (!action) return
-
-            const repeat = this.repeatState.get()
-            action.setLoop(repeat ? LoopRepeat : LoopOnce, repeat)
+            if (action) action.repetitions = this.repeatState.get()
         }, [this.actionState.get, this.repeatState.get])
 
         this.createEffect(() => {
