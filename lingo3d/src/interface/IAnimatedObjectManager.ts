@@ -7,6 +7,7 @@ import IStaticObjectManager, {
     staticObjectManagerSchema
 } from "./IStaticObjectManager"
 import NullableDefault from "./utils/NullableDefault"
+import { hideSchema } from "./utils/nonEditorSchemaSet"
 
 export type AnimationValue = Record<string, Array<number>>
 export type Animation =
@@ -20,7 +21,7 @@ export default interface IAnimatedObjectManager extends IStaticObjectManager {
     animations: Record<string, string | AnimationManager>
     animation: Nullable<Animation>
     animationPaused: Nullable<boolean>
-    animationRepeat: Nullable<boolean>
+    animationRepeat: Nullable<number>
     onAnimationFinish: Nullable<() => void>
 }
 
@@ -32,15 +33,16 @@ export const animatedObjectManagerSchema: Required<
     animations: Object,
     animation: [String, Number, Array, Boolean, Object],
     animationPaused: Boolean,
-    animationRepeat: Boolean,
+    animationRepeat: Number,
     onAnimationFinish: Function
 }
+hideSchema(["animationRepeat"])
 
 export const animatedObjectManagerDefaults =
     extendDefaults<IAnimatedObjectManager>([staticObjectManagerDefaults], {
         animations: {},
         animation: undefined,
         animationPaused: new NullableDefault(false),
-        animationRepeat: new NullableDefault(true),
+        animationRepeat: new NullableDefault(Infinity),
         onAnimationFinish: undefined
     })

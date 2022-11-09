@@ -1,4 +1,3 @@
-import { Cancellable, Disposable } from "@lincode/promiselikes"
 import {
     Object3D,
     AnimationMixer,
@@ -13,22 +12,41 @@ import { forceGet } from "@lincode/utils"
 import EventLoopItem from "../../../api/core/EventLoopItem"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import { dt } from "../../../engine/eventLoop"
+import { Reactive } from "@lincode/reactivity"
 
 const targetMixerMap = new WeakMap<EventLoopItem | Object3D, AnimationMixer>()
-const mixerActionMap = new WeakMap<AnimationMixer, [AnimationAction, boolean]>()
-const mixerHandleMap = new WeakMap<AnimationMixer, Cancellable>()
+const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
+const mixerManagerMap = new WeakMap<AnimationMixer, AnimationManager>()
 
-export type PlayOptions = {
-    crossFade?: number
-    repeat?: boolean
-    onFinish?: () => void
-}
-
-export default class AnimationManager extends Disposable {
-    private clip?: AnimationClip
+export default class AnimationManager extends EventLoopItem {
     public name: string
-    private mixer: AnimationMixer
-    private action?: AnimationAction
+
+    private actionState = new Reactive<AnimationAction | undefined>(undefined)
+    private clipState = new Reactive<AnimationClip | undefined>(undefined)
+
+    private pausedState = new Reactive(false)
+    public get paused() {
+        return this.pausedState.get()
+    }
+    public set paused(val) {
+        this.pausedState.set(val)
+    }
+
+    private repeatState = new Reactive(Infinity)
+    public get repeat() {
+        return this.repeatState.get()
+    }
+    public set repeat(val) {
+        this.repeatState.set(val)
+    }
+
+    private onFinishState = new Reactive<(() => void) | undefined>(undefined)
+    public get onFinish() {
+        return this.onFinishState.get()
+    }
+    public set onFinish(val) {
+        this.onFinishState.set(val)
+    }
 
     public constructor(
         nameOrClip: string | AnimationClip,
@@ -36,21 +54,78 @@ export default class AnimationManager extends Disposable {
     ) {
         super()
 
-        this.mixer = forceGet(
+        const mixer = forceGet(
             targetMixerMap,
             target,
             () => new AnimationMixer(target as any)
         )
+        this.createEffect(() => {
+            const onFinish = this.onFinishState.get()
+            if (!onFinish) return
+
+            mixer.addEventListener("finished", onFinish)
+            return () => {
+                mixer.removeEventListener("finished", onFinish)
+            }
+        }, [this.onFinishState.get])
 
         if (typeof nameOrClip === "string") this.name = nameOrClip
         else {
             this.name = nameOrClip.name
-            this.loadClip(nameOrClip)
+            this.clipState.set(nameOrClip)
+            this.actionState.set(mixer.clipAction(nameOrClip))
         }
+
+        this.createEffect(() => {
+            const clip = this.clipState.get()
+            if (!clip) return
+
+            this.actionState.set(mixer.clipAction(clip))
+
+            return () => {
+                mixer.uncacheClip(clip)
+            }
+        }, [this.clipState.get])
+
+        this.createEffect(() => {
+            const action = this.actionState.get()
+            if (!action) return
+
+            const repeat = this.repeatState.get()
+            action.setLoop(repeat ? LoopRepeat : LoopOnce, repeat)
+        }, [this.actionState.get, this.repeatState.get])
+
+        this.createEffect(() => {
+            const action = this.actionState.get()
+            if (!action) return
+
+            action.paused = this.pausedState.get()
+            if (action.paused) return
+
+            const prevManager = mixerManagerMap.get(mixer)
+            mixerManagerMap.set(mixer, this)
+            if (prevManager && prevManager !== this)
+                prevManager.pausedState.set(true)
+
+            const prevAction = mixerActionMap.get(mixer)
+            mixerActionMap.set(mixer, action)
+            if (prevAction && action !== prevAction) {
+                action.crossFadeFrom(prevAction, 0.25, true)
+                action.time = 0
+            }
+            action.clampWhenFinished = true
+            action.enabled = true
+            action.play()
+
+            const handle = onBeforeRender(() => mixer.update(dt[0]))
+            return () => {
+                handle.cancel()
+            }
+        }, [this.actionState.get, this.pausedState.get])
     }
 
     public retarget(target: Object3D) {
-        const newClip = this.clip!.clone()
+        const newClip = this.clipState.get()!.clone()
         const targetName = target.name + "."
         newClip.tracks = newClip.tracks.filter((track) =>
             track.name.startsWith(targetName)
@@ -58,91 +133,24 @@ export default class AnimationManager extends Disposable {
         return new AnimationManager(newClip, target)
     }
 
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
-        this.stop()
-        return this
-    }
-
     public get duration() {
-        return this.clip?.duration ?? 0
-    }
-
-    private loadClip(clip: AnimationClip) {
-        this.clip = clip
-        this.action = this.mixer.clipAction(clip)
+        return this.clipState.get()?.duration ?? 0
     }
 
     public setTracks(data: AnimationData) {
-        const tracks = Object.entries(data).map(
-            ([property, frames]) =>
-                new NumberKeyframeTrack(
-                    "." + property,
-                    Object.keys(frames).map((t) => Number(t)),
-                    Object.values(frames)
+        this.clipState.set(
+            new AnimationClip(
+                this.name,
+                -1,
+                Object.entries(data).map(
+                    ([property, frames]) =>
+                        new NumberKeyframeTrack(
+                            "." + property,
+                            Object.keys(frames).map((t) => Number(t)),
+                            Object.values(frames)
+                        )
                 )
+            )
         )
-        this.clip && this.mixer.uncacheClip(this.clip)
-        this.loadClip(new AnimationClip(this.name, -1, tracks))
-    }
-
-    public play({
-        crossFade = 0.25,
-        repeat = true,
-        onFinish
-    }: PlayOptions = {}) {
-        const [prevAction, prevRepeat] = mixerActionMap.get(this.mixer) ?? []
-        if (prevAction?.isRunning() && this.action === prevAction) {
-            repeat !== prevRepeat &&
-                prevAction.setLoop(repeat ? LoopRepeat : LoopOnce, Infinity)
-            return
-        }
-
-        mixerHandleMap.get(this.mixer)?.cancel()
-        const handle = this.watch(
-            onBeforeRender(() => this.mixer.update(dt[0]))
-        )
-        mixerHandleMap.set(this.mixer, handle)
-
-        const { action } = this
-        if (!action) return
-
-        if (prevAction && crossFade) {
-            action.time = 0
-            action.enabled = true
-            action.crossFadeFrom(prevAction, crossFade, true)
-        } else this.mixer.stopAllAction()
-
-        mixerActionMap.set(this.mixer, [action, repeat])
-        action.setLoop(repeat ? LoopRepeat : LoopOnce, Infinity)
-        action.clampWhenFinished = true
-
-        const handleFinish = () => onFinish?.()
-        this.mixer.addEventListener("finished", handleFinish)
-        handle.then(() =>
-            this.mixer.removeEventListener("finished", handleFinish)
-        )
-
-        action.paused && action.stop()
-        action.play()
-    }
-
-    public stop() {
-        this.action && (this.action.paused = true)
-        mixerHandleMap.get(this.mixer)?.cancel()
-    }
-
-    public getPaused() {
-        return this.action?.paused
-    }
-    public setPaused(val: boolean) {
-        this.action && (this.action.paused = val)
-    }
-
-    public update(seconds: number) {
-        this.mixer.time = 0
-        this.action && (this.action.time = 0)
-        this.mixer.update(seconds)
     }
 }

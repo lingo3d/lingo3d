@@ -25,7 +25,7 @@ const Panels = () => {
             }}
         >
             <AppBar onSelectTab={setTab}>
-                <CloseableTab>timeline</CloseableTab>
+                <CloseableTab>animation</CloseableTab>
                 <CloseableTab
                     disabled={!fileBrowser}
                     onClose={() => setFileBrowser(false)}

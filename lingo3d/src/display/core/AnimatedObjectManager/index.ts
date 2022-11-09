@@ -6,7 +6,7 @@ import IAnimatedObjectManager, {
     AnimationValue
 } from "../../../interface/IAnimatedObjectManager"
 import Nullable from "../../../interface/utils/Nullable"
-import AnimationManager, { PlayOptions } from "./AnimationManager"
+import AnimationManager from "./AnimationManager"
 import StaticObjectManager from "../StaticObjectManager"
 
 const buildAnimationTracks = debounce(
@@ -78,20 +78,22 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
 
     private animationManager?: AnimationManager
 
-    private _animationPaused?: boolean
     public get animationPaused() {
-        return this._animationPaused
+        return this.animationManager?.paused
     }
     public set animationPaused(value) {
-        this._animationPaused = value
-        this.animationManager?.setPaused(!!value)
+        if (this.animationManager) this.animationManager.paused = !!value
     }
 
-    public animationRepeat: Nullable<boolean>
+    public animationRepeat: Nullable<number>
 
     public onAnimationFinish: Nullable<() => void>
 
-    public playAnimation(name?: string | number, o?: PlayOptions) {
+    public playAnimation(
+        name?: string | number,
+        repeat = Infinity,
+        onFinish?: () => void
+    ) {
         const manager = (this.animationManager =
             typeof name === "string"
                 ? this.animations[name]
@@ -99,28 +101,32 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
 
         if (!manager) return
 
-        manager.play(o)
-        this._animationPaused && manager.setPaused(true)
+        manager.repeat = repeat
+        manager.onFinish = onFinish
+        manager.paused = false
     }
 
     public stopAnimation() {
-        this.animationManager?.stop()
+        if (this.animationManager) this.animationManager.paused = true
     }
 
     protected serializeAnimation?: string | number
     private setAnimation(
         val?: string | number | boolean | AnimationValue,
-        o?: PlayOptions
+        repeat?: number,
+        onFinish?: () => void
     ) {
         this._animation = val
 
         if (typeof val === "string" || typeof val === "number") {
             this.serializeAnimation = val
-            this.playAnimation(val, o)
+            this.playAnimation(val, repeat, onFinish)
             return
         }
         if (typeof val === "boolean") {
-            val ? this.playAnimation(undefined, o) : this.stopAnimation()
+            val
+                ? this.playAnimation(undefined, repeat, onFinish)
+                : this.stopAnimation()
             return
         }
 
@@ -139,27 +145,20 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     public set animation(val) {
         if (Array.isArray(val)) {
             let currentIndex = 0
-            const o = {
-                onFinish: () => {
-                    if (++currentIndex >= val.length) {
-                        if (this.animationRepeat === false) {
-                            this.onAnimationFinish?.()
-                            return
-                        }
-                        currentIndex = 0
+            this.setAnimation(val[0], 0, () => {
+                if (++currentIndex >= val.length) {
+                    if (this.animationRepeat === 0) {
+                        this.onAnimationFinish?.()
+                        return
                     }
-                    this.setAnimation(val[currentIndex], o)
-                },
-                repeat: false
-            }
-            this.setAnimation(val[0], o)
+                    currentIndex = 0
+                }
+                this.setAnimation(val[currentIndex])
+            })
             return
         }
         this.queueMicrotask(() =>
-            this.setAnimation(val, {
-                repeat: this.animationRepeat,
-                onFinish: this.onAnimationFinish
-            })
+            this.setAnimation(val, this.animationRepeat, this.onAnimationFinish)
         )
     }
 }

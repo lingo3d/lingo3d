@@ -1,9 +1,6 @@
 import { Group } from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
-import AnimationManager, {
-    PlayOptions
-} from "./core/AnimatedObjectManager/AnimationManager"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
 import { Resolvable } from "@lincode/promiselikes"
 import FoundManager from "./core/FoundManager"
@@ -17,6 +14,7 @@ import {
 import AdjustMaterialMixin from "./core/mixins/AdjustMaterialMixin"
 import { attachStandardMaterialManager } from "./material/attachMaterialManager"
 import { applyMixins } from "@lincode/utils"
+import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 
 class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -29,13 +27,13 @@ class Model extends Loaded<Group> implements IModel {
 
     private loadingState = new Reactive(0)
 
-    public override playAnimation(name?: string | number, o?: PlayOptions) {
+    public override playAnimation(name?: string | number) {
         setTimeout(() =>
             this.cancelHandle("playAnimation", () =>
                 this.loadingState.get((count, handle) => {
                     if (count) return
                     handle.cancel()
-                    super.playAnimation(name, o)
+                    super.playAnimation(name)
                 })
             )
         )
