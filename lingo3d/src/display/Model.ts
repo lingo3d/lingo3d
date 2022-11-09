@@ -28,26 +28,22 @@ class Model extends Loaded<Group> implements IModel {
     private loadingState = new Reactive(0)
 
     public override playAnimation(name?: string | number) {
-        setTimeout(() =>
-            this.cancelHandle("playAnimation", () =>
-                this.loadingState.get((count, handle) => {
-                    if (count) return
-                    handle.cancel()
-                    super.playAnimation(name)
-                })
-            )
+        this.cancelHandle("playAnimation", () =>
+            this.loadingState.get((count, handle) => {
+                if (count) return
+                handle.cancel()
+                super.playAnimation(name)
+            })
         )
     }
 
     public override stopAnimation() {
-        setTimeout(() =>
-            this.cancelHandle("stopAnimation", () =>
-                this.loadingState.get((count, handle) => {
-                    if (count) return
-                    handle.cancel()
-                    super.stopAnimation()
-                })
-            )
+        this.cancelHandle("stopAnimation", () =>
+            this.loadingState.get((count, handle) => {
+                if (count) return
+                handle.cancel()
+                super.stopAnimation()
+            })
         )
     }
 
