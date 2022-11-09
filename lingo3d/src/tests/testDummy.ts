@@ -25,6 +25,9 @@ dummy.y = 170 * 0.5
 dummy.physics = "character"
 dummy.strideMove = true
 // dummy.strideMode = "free"
+setTimeout(() => {
+dummy.animation = ["running", "idle", "running", "idle", "running"]
+}, 1000)
 
 const cam = new ThirdPersonCamera()
 cam.append(dummy)

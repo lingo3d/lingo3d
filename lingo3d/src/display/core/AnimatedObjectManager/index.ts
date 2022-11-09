@@ -126,43 +126,30 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         this.lazyStates().onFinishState.set(value)
     }
 
-    protected playAnimation(
-        name?: string | number,
-        repeat = Infinity,
-        onFinish?: () => void
-    ) {
-        const manager =
+    protected playAnimation(name?: string | number) {
+        this.lazyStates().managerState.set(
             typeof name === "string"
                 ? this.animations[name]
                 : Object.values(this.animations)[name ?? 0]
-
-        const { managerState, repeatState, onFinishState } = this.lazyStates()
-        managerState.set(manager)
-        repeatState.set(repeat)
-        onFinishState.set(onFinish)
+        )
     }
 
     public stopAnimation() {
         this.lazyStates().pausedState.set(true)
     }
 
-    protected serializeAnimation?: string | number
-    private setAnimation(
-        val?: string | number | boolean | AnimationValue,
-        repeat?: number,
-        onFinish?: () => void
-    ) {
+    protected serializeAnimation?: string | number | boolean
+    private setAnimation(val?: string | number | boolean | AnimationValue) {
         this._animation = val
 
         if (typeof val === "string" || typeof val === "number") {
             this.serializeAnimation = val
-            this.playAnimation(val, repeat, onFinish)
+            this.playAnimation(val)
             return
         }
         if (typeof val === "boolean") {
-            val
-                ? this.playAnimation(undefined, repeat, onFinish)
-                : this.stopAnimation()
+            this.serializeAnimation = val
+            val ? this.playAnimation(undefined) : this.stopAnimation()
             return
         }
 
@@ -181,18 +168,18 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     public set animation(val) {
         if (Array.isArray(val)) {
             let currentIndex = 0
-            this.setAnimation(val[0], 0, () => {
-                if (++currentIndex >= val.length) {
-                    if (this.animationRepeat === 0) {
-                        this.onAnimationFinish?.()
-                        return
-                    }
-                    currentIndex = 0
-                }
-                this.setAnimation(val[currentIndex])
-            })
+            // this.setAnimation(val[0], 0, () => {
+            //     if (++currentIndex >= val.length) {
+            //         if (this.animationRepeat === 0) {
+            //             this.onAnimationFinish?.()
+            //             return
+            //         }
+            //         currentIndex = 0
+            //     }
+            //     this.setAnimation(val[currentIndex])
+            // })
             return
         }
-        this.setAnimation(val, this.animationRepeat, this.onAnimationFinish)
+        this.setAnimation(val)
     }
 }
