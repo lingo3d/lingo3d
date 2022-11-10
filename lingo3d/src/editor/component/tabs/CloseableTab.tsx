@@ -34,7 +34,18 @@ const CloseableTab = ({
             }}
             onClick={disabled ? undefined : () => context.setSelected(children)}
         >
-            <div style={{ marginTop: -2, minWidth: 30 }}>{children}</div>
+            <div
+                style={{
+                    marginTop: -2,
+                    minWidth: 30,
+                    maxWidth: 100,
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden"
+                }}
+            >
+                {children}
+            </div>
             <div style={{ width: 4 }} />
             <TitleBarButton
                 disabled={!onClose}

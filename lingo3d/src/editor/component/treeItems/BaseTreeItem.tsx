@@ -159,7 +159,7 @@ const BaseTreeItem = ({
                     <ExpandIcon style={expandIconStyle} onClick={expand} />
                 )}
                 {IconComponent && <IconComponent />}
-                <div ref={endRef}>{label}</div>
+                <div ref={endRef} style={{ whiteSpace: "nowrap" }}>{label}</div>
             </div>
             {expanded &&
                 (typeof children === "function" ? children() : children)}
