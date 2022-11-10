@@ -17,8 +17,9 @@ import IAnimationManager, {
     animationDefaults,
     animationSchema
 } from "../../../interface/IAnimationManager"
+import Appendable from "../../../api/core/Appendable"
 
-const targetMixerMap = new WeakMap<EventLoopItem | Object3D, AnimationMixer>()
+const targetMixerMap = new WeakMap<Object3D, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
 const mixerManagerMap = new WeakMap<AnimationMixer, AnimationManager>()
 
@@ -45,13 +46,15 @@ export default class AnimationManager
 
     public constructor(
         nameOrClip: string | AnimationClip,
-        target: EventLoopItem | Object3D,
+        target: Object3D,
+        parent: Appendable,
         repeatState: Reactive<number>,
         onFinishState: Reactive<(() => void) | undefined>,
         finishEventState: Reactive<EventFunctions | undefined>
     ) {
         super()
         nonSerializedAppendables.add(this)
+        parent.append(this)
 
         const mixer = forceGet(
             targetMixerMap,
@@ -148,6 +151,7 @@ export default class AnimationManager
         return new AnimationManager(
             newClip,
             target,
+            this,
             repeatState,
             onFinishState,
             finishEventState

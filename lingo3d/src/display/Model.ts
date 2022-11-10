@@ -60,6 +60,7 @@ class Model extends Loaded<Group> implements IModel {
             new AnimationManager(
                 clip,
                 await this.loaded,
+                this,
                 repeatState,
                 onFinishState,
                 finishEventState
@@ -131,6 +132,7 @@ class Model extends Loaded<Group> implements IModel {
                 new AnimationManager(
                     clip,
                     loadedObject3d,
+                    this,
                     repeatState,
                     onFinishState,
                     finishEventState
