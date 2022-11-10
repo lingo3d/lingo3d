@@ -5,6 +5,7 @@ import {
     decreaseBVHComputing,
     increaseBVHComputing
 } from "../../../../states/useBVHComputingCount"
+import Reflector from "../../../Reflector"
 import Primitive from "../../Primitive"
 import { bvhManagerMap } from "./bvhManagerMap"
 import { acceleratedRaycast } from "./ExtensionUtilities"
@@ -38,7 +39,9 @@ export default async (item: PhysicsObjectManager) => {
     item.outerObject3d.traverse((c: any) => {
         if (
             !c.geometry ||
-            (c === item.nativeObject3d && !(item instanceof Primitive))
+            (c === item.nativeObject3d &&
+                !(item instanceof Primitive) &&
+                !(item instanceof Reflector))
         )
             return
 
