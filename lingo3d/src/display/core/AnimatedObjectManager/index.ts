@@ -189,7 +189,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
 
                       let currentIndex = 0
                       const next = () => {
-                          if (currentIndex + 1 === val.length) {
+                          if (currentIndex === val.length) {
                               if (this.animationRepeat < 2) {
                                   this.onAnimationFinish?.()
                                   return
