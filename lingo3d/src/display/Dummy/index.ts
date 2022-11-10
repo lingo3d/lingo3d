@@ -16,6 +16,7 @@ import { euler, vector3 } from "../utils/reusables"
 import poseMachine from "./poseMachine"
 import fpsAlpha from "../utils/fpsAlpha"
 import { getCentripetal } from "../../states/useCentripetal"
+import { Animation } from "../../interface/IAnimatedObjectManager"
 
 export const dummyTypeMap = new WeakMap<Dummy, "dummy" | "readyplayerme">()
 
@@ -31,6 +32,11 @@ export default class Dummy extends Model implements IDummy {
         this.width = 20
         this.depth = 20
         this.scale = 1.7
+
+        this.createEffect(() => {
+            super.animation =
+                this.animationState.get() ?? this.poseAnimationState.get()
+        }, [this.animationState.get, this.poseAnimationState.get])
 
         const [setType, getType] = store<
             "mixamo" | "readyplayerme" | "other" | undefined
@@ -102,9 +108,9 @@ export default class Dummy extends Model implements IDummy {
             if (type === "readyplayerme") url = DUMMY_URL + "readyplayerme/"
             else if (src !== YBOT_URL) {
                 super.animations = this.animationsState.get()
-                this.animation = getPose()
+                this.poseAnimationState.set(getPose())
                 return () => {
-                    this.animation = undefined
+                    this.poseAnimationState.set(undefined)
                 }
             }
             super.animations = {
@@ -115,10 +121,10 @@ export default class Dummy extends Model implements IDummy {
                 death: url + "death.fbx",
                 ...this.animationsState.get()
             }
-            this.animation = getPose()
+            this.poseAnimationState.set(getPose())
 
             return () => {
-                this.animation = undefined
+                this.poseAnimationState.set(undefined)
                 super.animations = {}
             }
         }, [
@@ -131,7 +137,8 @@ export default class Dummy extends Model implements IDummy {
         const { poseService } = this
 
         this.createEffect(() => {
-            const pose = (this.animation = getPose())
+            const pose = getPose()
+            this.poseAnimationState.set(pose)
             if (pose !== "jumping") return
 
             if (getCentripetal()) {
@@ -236,6 +243,15 @@ export default class Dummy extends Model implements IDummy {
             this.strideRightState.get,
             getSpine
         ])
+    }
+
+    private poseAnimationState = new Reactive<Animation | undefined>(undefined)
+    private animationState = new Reactive<Animation | undefined>(undefined)
+    public override get animation() {
+        return this.animationState.get()
+    }
+    public override set animation(val) {
+        this.animationState.set(val)
     }
 
     private spineNameState = new Reactive<string | undefined>(undefined)

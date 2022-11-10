@@ -25,7 +25,7 @@ dummy.y = 170 * 0.5
 dummy.physics = "character"
 dummy.strideMove = true
 // dummy.strideMode = "free"
-dummy.animation = ["running", "runningBackwards", "jumping", "death"]
+// dummy.animation = ["running", "runningBackwards", "jumping", "death"]
 
 const cam = new ThirdPersonCamera()
 cam.append(dummy)
