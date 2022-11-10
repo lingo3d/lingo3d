@@ -19,6 +19,8 @@ import CubeIcon from "./icons/CubeIcon"
 import { setEditorMode } from "../../states/useEditorMode"
 import { hiddenAppendables } from "../../api/core/collections"
 import { getEditorPlay } from "../../states/useEditorPlay"
+import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
+import PlayIcon from "./icons/PlayIcon"
 
 export type TreeItemProps = {
     appendable: Appendable
@@ -60,6 +62,11 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
 
     const [sceneGraphExpanded, setSceneGraphExpanded] = useSceneGraphExpanded()
 
+    const IconComponent = useMemo(() => {
+        if (appendable instanceof AnimationManager) return PlayIcon
+        return CubeIcon
+    }, [appendable])
+
     return (
         <BaseTreeItem
             label={getComponentName(appendable)}
@@ -72,7 +79,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
             expandable={expandable ?? !!appendableChildren?.length}
             onClick={() => handleClick()}
             onContextMenu={() => handleClick(true)}
-            IconComponent={CubeIcon}
+            IconComponent={IconComponent}
         >
             {() => (
                 <Fragment>
