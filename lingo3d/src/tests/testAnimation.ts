@@ -1,8 +1,7 @@
 import Model from "../display/Model"
+import Cube from "../display/primitives/Cube"
 
-const model = new Model()
-model.src = "fox/Fox.fbx"
-model.animations = {
-    idle: "fox/Idle.fbx"
+const box = new Cube()
+box.animation = {
+    rotationX: [0, 360]
 }
-model.animation = "idle"

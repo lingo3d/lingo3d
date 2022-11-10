@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "preact/hooks"
-import { Object3D } from "three"
+import { Bone, Object3D } from "three"
 import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
 import { useSceneGraphExpanded, useSelectionNativeTarget } from "../states"
 import ComponentIcon from "./icons/ComponentIcon"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
+import BoneIcon from "./icons/BoneIcon"
 
 type NativeTreeItemProps = TreeItemProps & {
-    object3d: Object3D
+    object3d: Object3D | Bone
 }
 
 const NativeTreeItem = ({ appendable, object3d }: NativeTreeItemProps) => {
@@ -25,6 +26,11 @@ const NativeTreeItem = ({ appendable, object3d }: NativeTreeItemProps) => {
 
     const selected = nativeTarget === object3d
 
+    const IconComponent = useMemo(() => {
+        if ("isBone" in object3d) return BoneIcon
+        return ComponentIcon
+    }, [object3d])
+
     return (
         <BaseTreeItem
             label={object3d.name}
@@ -35,7 +41,7 @@ const NativeTreeItem = ({ appendable, object3d }: NativeTreeItemProps) => {
             expanded={expanded}
             expandable={!!object3d.children.length}
             outlined
-            IconComponent={ComponentIcon}
+            IconComponent={IconComponent}
         >
             {() =>
                 object3d.children.map((child) => (
