@@ -58,6 +58,7 @@ class Model extends Loaded<Group> implements IModel {
             this.lazyStates()
         this.animations[name] = this.watch(
             new AnimationManager(
+                name,
                 clip,
                 await this.loaded,
                 this,
@@ -130,6 +131,7 @@ class Model extends Loaded<Group> implements IModel {
         for (const clip of loadedObject3d.animations)
             this.animations[clip.name] = this.watch(
                 new AnimationManager(
+                    clip.name,
                     clip,
                     loadedObject3d,
                     this,

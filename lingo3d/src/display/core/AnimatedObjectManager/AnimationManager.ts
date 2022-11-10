@@ -31,8 +31,6 @@ export default class AnimationManager
     public static defaults = animationDefaults
     public static schema = animationSchema
 
-    public name: string
-
     private actionState = new Reactive<AnimationAction | undefined>(undefined)
     private clipState = new Reactive<AnimationClip | undefined>(undefined)
 
@@ -45,7 +43,8 @@ export default class AnimationManager
     }
 
     public constructor(
-        nameOrClip: string | AnimationClip,
+        public name: string,
+        clip: AnimationClip | undefined,
         target: Object3D,
         parent: Appendable,
         repeatState: Reactive<number>,
@@ -82,11 +81,9 @@ export default class AnimationManager
             }
         }, [onFinishState.get, this.pausedState.get, finishEventState.get])
 
-        if (typeof nameOrClip === "string") this.name = nameOrClip
-        else {
-            this.name = nameOrClip.name
-            this.clipState.set(nameOrClip)
-            this.actionState.set(mixer.clipAction(nameOrClip))
+        if (clip) {
+            this.clipState.set(clip)
+            this.actionState.set(mixer.clipAction(clip))
         }
 
         this.createEffect(() => {
@@ -149,6 +146,7 @@ export default class AnimationManager
             track.name.startsWith(targetName)
         )
         return new AnimationManager(
+            this.name,
             newClip,
             target,
             this,

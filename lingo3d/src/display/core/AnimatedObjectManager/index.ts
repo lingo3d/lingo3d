@@ -87,6 +87,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         const animation = this.watch(
             new AnimationManager(
                 name,
+                undefined,
                 this.outerObject3d,
                 this,
                 repeatState,
