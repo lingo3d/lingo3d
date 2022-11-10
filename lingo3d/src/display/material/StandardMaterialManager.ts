@@ -27,10 +27,6 @@ export default class StandardMaterialManager
     public static override defaults = standardMaterialManagerDefaults
     public static override schema = standardMaterialManagerSchema
 
-    public constructor(material: MeshStandardMaterial) {
-        super(material)
-    }
-
     public get wireframe() {
         return this.nativeMaterial.wireframe
     }

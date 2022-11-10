@@ -9,7 +9,6 @@ export default interface IAdjustMaterial {
     roughnessFactor: Nullable<number>
     opacityFactor: Nullable<number>
     envFactor: Nullable<number>
-    adjustColor: Nullable<string>
     reflection: boolean
 }
 
@@ -18,7 +17,6 @@ export const adjustMaterialSchema: Required<ExtractProps<IAdjustMaterial>> = {
     roughnessFactor: Number,
     opacityFactor: Number,
     envFactor: Number,
-    adjustColor: String,
     reflection: Boolean
 }
 
@@ -29,7 +27,6 @@ export const adjustMaterialDefaults = extendDefaults<IAdjustMaterial>(
         roughnessFactor: new NullableDefault(1),
         opacityFactor: new NullableDefault(1),
         envFactor: new NullableDefault(1),
-        adjustColor: new NullableDefault("#ffffff"),
         reflection: false
     },
     {

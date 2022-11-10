@@ -46,7 +46,6 @@ export default abstract class AdjustMaterialMixin
             _roughnessFactor,
             _opacityFactor,
             _envFactor,
-            _adjustColor,
             _reflection
         } = this
 
@@ -96,15 +95,6 @@ export default abstract class AdjustMaterialMixin
                     material,
                     "envMapIntensity",
                     _envFactor !== 1 ? _envFactor : undefined
-                )
-
-            if (_adjustColor !== undefined)
-                setProperty(
-                    material,
-                    "color",
-                    _adjustColor !== "#ffffff"
-                        ? new Color(_adjustColor)
-                        : undefined
                 )
 
             if (_reflection !== undefined)
@@ -159,15 +149,6 @@ export default abstract class AdjustMaterialMixin
     }
     public set envFactor(val) {
         this._envFactor = val
-        this.refreshFactors()
-    }
-
-    private _adjustColor?: string
-    public get adjustColor() {
-        return this._adjustColor
-    }
-    public set adjustColor(val) {
-        this._adjustColor = val
         this.refreshFactors()
     }
 

@@ -21,6 +21,8 @@ import { hiddenAppendables } from "../../api/core/collections"
 import { getEditorPlay } from "../../states/useEditorPlay"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import PlayIcon from "./icons/PlayIcon"
+import BasicMaterialManager from "../../display/material/BasicMaterialManager"
+import ImageIcon from "./icons/ImageIcon"
 
 export type TreeItemProps = {
     appendable: Appendable
@@ -64,6 +66,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
 
     const IconComponent = useMemo(() => {
         if (appendable instanceof AnimationManager) return PlayIcon
+        if (appendable instanceof BasicMaterialManager) return ImageIcon
         return CubeIcon
     }, [appendable])
 
