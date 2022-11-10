@@ -22,7 +22,7 @@ export default class AnimationManager extends EventLoopItem {
 
     private actionState = new Reactive<AnimationAction | undefined>(undefined)
     private clipState = new Reactive<AnimationClip | undefined>(undefined)
-    public pausedState = new Reactive(false)
+    public pausedState = new Reactive(true)
 
     public constructor(
         nameOrClip: string | AnimationClip,

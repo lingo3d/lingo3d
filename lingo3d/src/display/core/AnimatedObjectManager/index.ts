@@ -140,7 +140,9 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     }
 
     protected playAnimation(name?: string | number) {
-        this.lazyStates().managerState.set(
+        const { managerState, pausedState } = this.lazyStates()
+        pausedState.set(false)
+        managerState.set(
             typeof name === "string"
                 ? this.animations[name]
                 : Object.values(this.animations)[name ?? 0]
