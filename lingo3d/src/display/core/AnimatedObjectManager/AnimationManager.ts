@@ -12,17 +12,36 @@ import { onBeforeRender } from "../../../events/onBeforeRender"
 import { dt } from "../../../engine/eventLoop"
 import { Reactive } from "@lincode/reactivity"
 import { EventFunctions } from "@lincode/events"
+import { nonSerializedAppendables } from "../../../api/core/collections"
+import IAnimationManager, {
+    animationDefaults,
+    animationSchema
+} from "../../../interface/IAnimationManager"
 
 const targetMixerMap = new WeakMap<EventLoopItem | Object3D, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
 const mixerManagerMap = new WeakMap<AnimationMixer, AnimationManager>()
 
-export default class AnimationManager extends EventLoopItem {
+export default class AnimationManager
+    extends EventLoopItem
+    implements IAnimationManager
+{
+    public static componentName = "animation"
+    public static defaults = animationDefaults
+    public static schema = animationSchema
+
     public name: string
 
     private actionState = new Reactive<AnimationAction | undefined>(undefined)
     private clipState = new Reactive<AnimationClip | undefined>(undefined)
-    public pausedState = new Reactive(true)
+
+    private pausedState = new Reactive(true)
+    public get paused() {
+        return this.pausedState.get()
+    }
+    public set paused(val) {
+        this.pausedState.set(val)
+    }
 
     public constructor(
         nameOrClip: string | AnimationClip,
@@ -32,6 +51,8 @@ export default class AnimationManager extends EventLoopItem {
         finishEventState: Reactive<EventFunctions | undefined>
     ) {
         super()
+        nonSerializedAppendables.add(this)
+
         const mixer = forceGet(
             targetMixerMap,
             target,

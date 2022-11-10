@@ -63,7 +63,8 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
             )
         })
         this.createEffect(() => {
-            managerState.get()?.pausedState.set(pausedState.get())
+            const manager = managerState.get()
+            if (manager) manager.paused = pausedState.get()
         }, [managerState.get, pausedState.get])
 
         return this.states
