@@ -1,6 +1,6 @@
 import { objectURLFileMap } from "../../display/core/utils/objectURL"
 import Setup from "../../display/Setup"
-import getDefaultValue from "../../interface/utils/getDefaultValue"
+import { equalsDefaultValue } from "../../interface/utils/getDefaultValue"
 import { getFileCurrent } from "../../states/useFileCurrent"
 import Appendable from "../core/Appendable"
 import settings from "../settings"
@@ -42,10 +42,7 @@ const serialize = async (children: Array<any>) => {
             } else value = child[key]
 
             const t = typeof value
-            if (
-                value === getDefaultValue(defaults, key, true) ||
-                t === "function"
-            )
+            if (equalsDefaultValue(value, defaults, key) || t === "function")
                 continue
 
             const fileCurrent = getFileCurrent()
