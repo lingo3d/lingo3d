@@ -26,7 +26,8 @@ dummy.physics = "character"
 dummy.strideMove = true
 // dummy.strideMode = "free"
 setTimeout(() => {
-dummy.animation = ["running", "idle", "running", "idle", "running"]
+    console.log("start")
+    dummy.animation = ["running", "idle", "running", "idle", "running"]
 }, 1000)
 
 const cam = new ThirdPersonCamera()
@@ -37,12 +38,6 @@ cam.mouseControl = true
 cam.lockTargetRotation = "dynamic-lock"
 cam.innerX = 50
 cam.innerY = 50
-
-dummy.src = "awei/awei.fbx"
-dummy.animations = {
-    idle: "awei/idle.fbx",
-    running: "awei/running.fbx"
-}
 
 keyboard.onKeyPress = (_, pressed) => {
     if (pressed.has("w")) dummy.strideForward = -5

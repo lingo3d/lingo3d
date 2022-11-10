@@ -26,7 +26,7 @@
         "@lincode/promiselikes": "*",
         "@lincode/reactivity": "*",
         "@lincode/utils": "*",
-        "@types/three": "0.144.0",
+        "@types/three": "0.146.0",
         "browser-fs-access": "0.31.1",
         "nipplejs": "0.10.0",
         "postprocessing": "6.29.1",

@@ -12,7 +12,7 @@ specifiers:
   '@types/prettier': ^2.7.1
   '@types/randomcolor': ^0.5.6
   '@types/stats.js': ^0.17.0
-  '@types/three': 0.144.0
+  '@types/three': 0.146.0
   browser-fs-access: 0.31.1
   lil-gui: ^0.17.0
   nipplejs: 0.10.0
@@ -32,13 +32,13 @@ specifiers:
   xstate: '*'
 
 dependencies:
-  '@lincode/events': 1.0.24
+  '@lincode/events': 1.0.27
   '@lincode/filetypes': 1.0.1
   '@lincode/math': 1.0.8
   '@lincode/promiselikes': 1.0.23
   '@lincode/reactivity': 1.0.75
   '@lincode/utils': 1.3.3
-  '@types/three': 0.144.0
+  '@types/three': 0.146.0
   browser-fs-access: 0.31.1
   nipplejs: 0.10.0
   postprocessing: 6.29.1_three@0.146.0
@@ -366,8 +366,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@lincode/events/1.0.24:
-    resolution: {integrity: sha512-YSpcweyhfliLrJwLT6Xplt5kpIP1LnP5KVxWT8MGD/iJmlHwFNoTWO4KSUvtuhb40vp5XuHF65I2ibZgj6Cobw==}
+  /@lincode/events/1.0.27:
+    resolution: {integrity: sha512-y0oqJnvj4+gdU+KXYuQ5+1N5hWRBLyeyQbO0Hh3aRM1srookwHmfHkvBy5QUFllHOegAiC7ophzMiqCqXLeJKA==}
     dependencies:
       '@lincode/promiselikes': 1.0.23
       '@lincode/utils': 1.3.3
@@ -392,7 +392,7 @@ packages:
   /@lincode/reactivity/1.0.75:
     resolution: {integrity: sha512-UdMcfD1Ls5G+J023OxfjoULpok6fJNj1krpOcaTS/9W4xGfwLX9zDtMVUo4/hZ+rTv6wGl4AyEXTeOlUPCSaOw==}
     dependencies:
-      '@lincode/events': 1.0.24
+      '@lincode/events': 1.0.27
       '@lincode/promiselikes': 1.0.23
       '@lincode/utils': 1.3.3
     dev: false
@@ -487,8 +487,8 @@ packages:
     resolution: {integrity: sha512-9w+a7bR8PeB0dCT/HBULU2fMqf6BAzvKbxFboYhmDtDkKPiyXYbjoe2auwsXlEFI7CFNMF1dCv3dFH5Poy9R1w==}
     dev: true
 
-  /@types/three/0.144.0:
-    resolution: {integrity: sha512-psvEs6q5rLN50jUYZ3D4pZMfxTbdt3A243blt0my7/NcL6chaCZpHe2csbCtx0SOD9fI/XnF3wnVUAYZGqCSYg==}
+  /@types/three/0.146.0:
+    resolution: {integrity: sha512-75AgysUrIvTCB054eQa2pDVFurfeFW8CrMQjpzjt3yHBfuuknoSvvsESd/3EhQxPrz9si3+P0wiDUVsWUlljfA==}
     dependencies:
       '@types/webxr': 0.5.0
     dev: false

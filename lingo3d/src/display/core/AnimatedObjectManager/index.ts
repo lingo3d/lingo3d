@@ -8,6 +8,8 @@ import IAnimatedObjectManager, {
 import AnimationManager from "./AnimationManager"
 import StaticObjectManager from "../StaticObjectManager"
 import { Reactive } from "@lincode/reactivity"
+import { Cancellable } from "@lincode/promiselikes"
+import { event, EventFunctions } from "@lincode/events"
 
 const buildAnimationTracks = debounce(
     (val: AnimationValue) => {
@@ -37,12 +39,36 @@ type States = {
     pausedState: Reactive<boolean>
     repeatState: Reactive<number>
     onFinishState: Reactive<(() => void) | undefined>
+    finishEventState: Reactive<EventFunctions | undefined>
 }
 
 export default class AnimatedObjectManager<T extends Object3D = Object3D>
     extends StaticObjectManager<T>
     implements IAnimatedObjectManager
 {
+    private states?: States
+    protected lazyStates() {
+        if (this.states) return this.states
+
+        const { managerState, pausedState } = (this.states = {
+            managerRecordState: new Reactive<Record<string, AnimationManager>>(
+                {}
+            ),
+            managerState: new Reactive<AnimationManager | undefined>(undefined),
+            pausedState: new Reactive(false),
+            repeatState: new Reactive(Infinity),
+            onFinishState: new Reactive<(() => void) | undefined>(undefined),
+            finishEventState: new Reactive<EventFunctions | undefined>(
+                undefined
+            )
+        })
+        this.createEffect(() => {
+            managerState.get()?.pausedState.set(pausedState.get())
+        }, [managerState.get, pausedState.get])
+
+        return this.states
+    }
+
     public get animations() {
         return this.lazyStates().managerRecordState.get()
     }
@@ -55,9 +81,16 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
             const animation = this.animations[name]
             if (typeof animation !== "string") return animation
         }
-        const { onFinishState, repeatState } = this.lazyStates()
+        const { onFinishState, repeatState, finishEventState } =
+            this.lazyStates()
         const animation = this.watch(
-            new AnimationManager(name, this, repeatState, onFinishState)
+            new AnimationManager(
+                name,
+                this,
+                repeatState,
+                onFinishState,
+                finishEventState
+            )
         )
         this.animations[name] = animation
 
@@ -83,26 +116,6 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
                 return true
             }
         })
-    }
-
-    private states?: States
-    protected lazyStates() {
-        if (this.states) return this.states
-
-        const { managerState, pausedState } = (this.states = {
-            managerRecordState: new Reactive<Record<string, AnimationManager>>(
-                {}
-            ),
-            managerState: new Reactive<AnimationManager | undefined>(undefined),
-            pausedState: new Reactive(false),
-            repeatState: new Reactive(Infinity),
-            onFinishState: new Reactive<(() => void) | undefined>(undefined)
-        })
-        this.createEffect(() => {
-            managerState.get()?.pausedState.set(pausedState.get())
-        }, [managerState.get, pausedState.get])
-
-        return this.states
     }
 
     public get animationPaused() {
@@ -166,20 +179,35 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         return this._animation
     }
     public set animation(val) {
-        if (Array.isArray(val)) {
-            let currentIndex = 0
-            // this.setAnimation(val[0], 0, () => {
-            //     if (++currentIndex >= val.length) {
-            //         if (this.animationRepeat === 0) {
-            //             this.onAnimationFinish?.()
-            //             return
-            //         }
-            //         currentIndex = 0
-            //     }
-            //     this.setAnimation(val[currentIndex])
-            // })
-            return
-        }
-        this.setAnimation(val)
+        this.cancelHandle(
+            "playAnimation",
+            Array.isArray(val)
+                ? () => {
+                      const { finishEventState } = this.lazyStates()
+                      const finishEvent = event()
+                      finishEventState.set(finishEvent)
+
+                      let currentIndex = 0
+                      const next = () => {
+                          if (currentIndex + 1 === val.length) {
+                              if (this.animationRepeat < 2) {
+                                  this.onAnimationFinish?.()
+                                  return
+                              }
+                              currentIndex = 0
+                          }
+                          this.setAnimation(val[currentIndex++])
+                      }
+                      next()
+                      const [, onFinish] = finishEvent
+                      const handle = onFinish(next)
+
+                      return new Cancellable(() => {
+                          finishEventState.set(undefined)
+                          handle.cancel()
+                      })
+                  }
+                : void this.setAnimation(val)
+        )
     }
 }

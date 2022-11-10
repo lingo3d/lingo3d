@@ -11,6 +11,7 @@ import EventLoopItem from "../../../api/core/EventLoopItem"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import { dt } from "../../../engine/eventLoop"
 import { Reactive } from "@lincode/reactivity"
+import { EventFunctions } from "@lincode/events"
 
 const targetMixerMap = new WeakMap<EventLoopItem | Object3D, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
@@ -26,25 +27,36 @@ export default class AnimationManager extends EventLoopItem {
     public constructor(
         nameOrClip: string | AnimationClip,
         target: EventLoopItem | Object3D,
-        private repeatState: Reactive<number>,
-        private onFinishState: Reactive<(() => void) | undefined>
+        repeatState: Reactive<number>,
+        onFinishState: Reactive<(() => void) | undefined>,
+        finishEventState: Reactive<EventFunctions | undefined>
     ) {
         super()
-
         const mixer = forceGet(
             targetMixerMap,
             target,
             () => new AnimationMixer(target as any)
         )
         this.createEffect(() => {
-            const onFinish = this.onFinishState.get()
-            if (!onFinish || this.pausedState.get()) return
+            if (this.pausedState.get()) return
+
+            const finishEvent = finishEventState.get()
+            if (finishEvent) {
+                const [emitFinish] = finishEvent
+                const onFinish = () => emitFinish()
+                mixer.addEventListener("finished", onFinish)
+                return () => {
+                    mixer.removeEventListener("finished", onFinish)
+                }
+            }
+            const onFinish = onFinishState.get()
+            if (!onFinish) return
 
             mixer.addEventListener("finished", onFinish)
             return () => {
                 mixer.removeEventListener("finished", onFinish)
             }
-        }, [this.onFinishState.get, this.pausedState.get])
+        }, [onFinishState.get, this.pausedState.get, finishEventState.get])
 
         if (typeof nameOrClip === "string") this.name = nameOrClip
         else {
@@ -66,8 +78,11 @@ export default class AnimationManager extends EventLoopItem {
 
         this.createEffect(() => {
             const action = this.actionState.get()
-            if (action) action.repetitions = this.repeatState.get()
-        }, [this.actionState.get, this.repeatState.get])
+            if (action)
+                action.repetitions = finishEventState.get()
+                    ? 0
+                    : repeatState.get()
+        }, [this.actionState.get, repeatState.get, finishEventState.get])
 
         this.createEffect(() => {
             const action = this.actionState.get()
@@ -101,14 +116,21 @@ export default class AnimationManager extends EventLoopItem {
     public retarget(
         target: Object3D,
         repeatState: Reactive<number>,
-        onFinishState: Reactive<(() => void) | undefined>
+        onFinishState: Reactive<(() => void) | undefined>,
+        finishEventState: Reactive<EventFunctions | undefined>
     ) {
         const newClip = this.clipState.get()!.clone()
         const targetName = target.name + "."
         newClip.tracks = newClip.tracks.filter((track) =>
             track.name.startsWith(targetName)
         )
-        return new AnimationManager(newClip, target, repeatState, onFinishState)
+        return new AnimationManager(
+            newClip,
+            target,
+            repeatState,
+            onFinishState,
+            finishEventState
+        )
     }
 
     public get duration() {
