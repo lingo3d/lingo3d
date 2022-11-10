@@ -28,7 +28,7 @@ class Model extends Loaded<Group> implements IModel {
     private loadingState = new Reactive(0)
 
     public override playAnimation(name?: string | number) {
-        this.cancelHandle("playAnimation", () =>
+        this.cancelHandle("modelPlayAnimation", () =>
             this.loadingState.get((count, handle) => {
                 if (count) return
                 handle.cancel()
@@ -38,7 +38,7 @@ class Model extends Loaded<Group> implements IModel {
     }
 
     public override stopAnimation() {
-        this.cancelHandle("stopAnimation", () =>
+        this.cancelHandle("modelStopAnimation", () =>
             this.loadingState.get((count, handle) => {
                 if (count) return
                 handle.cancel()
