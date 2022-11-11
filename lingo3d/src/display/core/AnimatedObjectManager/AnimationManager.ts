@@ -17,9 +17,13 @@ import IAnimationManager, {
     animationDefaults,
     animationSchema
 } from "../../../interface/IAnimationManager"
+import StaticObjectManager from "../StaticObjectManager"
 import Appendable from "../../../api/core/Appendable"
 
-const targetMixerMap = new WeakMap<Object3D, AnimationMixer>()
+const targetMixerMap = new WeakMap<
+    Object3D | StaticObjectManager,
+    AnimationMixer
+>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
 const mixerManagerMap = new WeakMap<AnimationMixer, AnimationManager>()
 
@@ -45,7 +49,7 @@ export default class AnimationManager
     public constructor(
         public name: string,
         clip: AnimationClip | undefined,
-        target: Object3D,
+        target: Object3D | StaticObjectManager,
         parent: Appendable,
         repeatState: Reactive<number>,
         onFinishState: Reactive<(() => void) | undefined>,
@@ -135,7 +139,7 @@ export default class AnimationManager
     }
 
     public retarget(
-        target: Object3D,
+        target: Object3D | StaticObjectManager,
         repeatState: Reactive<number>,
         onFinishState: Reactive<(() => void) | undefined>,
         finishEventState: Reactive<EventFunctions | undefined>

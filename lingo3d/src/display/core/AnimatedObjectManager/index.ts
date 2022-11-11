@@ -88,7 +88,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
             new AnimationManager(
                 name,
                 undefined,
-                this.outerObject3d,
+                this,
                 this,
                 repeatState,
                 onFinishState,
