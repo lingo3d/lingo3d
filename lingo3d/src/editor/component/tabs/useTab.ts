@@ -17,7 +17,8 @@ export default (children?: string, selected?: boolean, disabled?: boolean) => {
         return () => {
             context.selected === children &&
                 context.setSelected(
-                    context.tabs[context.tabs.indexOf(children) - 1]
+                    (context.selected =
+                        context.tabs[context.tabs.indexOf(children) - 1])
                 )
             pull(context.tabs, children)
         }
@@ -27,12 +28,13 @@ export default (children?: string, selected?: boolean, disabled?: boolean) => {
         if (!disabled || !children) return
         context.selected === children &&
             context.setSelected(
-                context.tabs[context.tabs.indexOf(children) - 1]
+                (context.selected =
+                    context.tabs[context.tabs.indexOf(children) - 1])
             )
     }, [disabled])
 
     useLayoutEffect(() => {
-        selected && context.setSelected(children)
+        selected && context.setSelected((context.selected = children))
     }, [selected])
 
     return context

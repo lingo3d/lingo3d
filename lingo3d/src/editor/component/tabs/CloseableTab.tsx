@@ -32,7 +32,11 @@ const CloseableTab = ({
                         ? "rgba(255, 255, 255, 0.1)"
                         : undefined
             }}
-            onClick={disabled ? undefined : () => context.setSelected(children)}
+            onClick={
+                disabled
+                    ? undefined
+                    : () => context.setSelected((context.selected = children))
+            }
         >
             <div
                 style={{

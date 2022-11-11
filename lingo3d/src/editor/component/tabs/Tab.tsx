@@ -26,7 +26,11 @@ const Tab = ({ children, selected, disabled, half }: TabProps) => {
                         ? "rgba(255, 255, 255, 0.1)"
                         : undefined
             }}
-            onClick={disabled ? undefined : () => context.setSelected(children)}
+            onClick={
+                disabled
+                    ? undefined
+                    : () => context.setSelected((context.selected = children))
+            }
         >
             <div style={{ marginTop: -2 }}>{children}</div>
         </div>
