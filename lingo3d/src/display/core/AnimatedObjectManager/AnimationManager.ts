@@ -160,10 +160,6 @@ export default class AnimationManager
         )
     }
 
-    public get duration() {
-        return this.clipState.get()?.duration ?? 0
-    }
-
     public setTracks(data: AnimationData) {
         this.clipState.set(
             new AnimationClip(
