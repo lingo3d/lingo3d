@@ -33,9 +33,6 @@ const VirtualizedListHorizontal = ({
             })
         )
 
-    const onScroll = (e: Event) =>
-        setScrollLeft((e.currentTarget as HTMLDivElement).scrollLeft)
-
     return (
         <div
             style={{
@@ -50,7 +47,11 @@ const VirtualizedListHorizontal = ({
                     width: containerWidth,
                     height: containerHeight + 4
                 }}
-                onScroll={onScroll}
+                onScroll={(e) =>
+                    setScrollLeft(
+                        (e.currentTarget as HTMLDivElement).scrollLeft
+                    )
+                }
             >
                 <div style={{ position: "relative", width: innerWidth }}>
                     {items}
