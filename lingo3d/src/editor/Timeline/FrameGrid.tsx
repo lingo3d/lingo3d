@@ -1,9 +1,8 @@
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
-import config from "./config"
+import { FRAME_WIDTH, LAYER_HEIGHT } from "./globals"
 import { useScrollLeft } from "./states"
 
 const FrameGrid = () => {
-    const { layerHeight, frameWidth } = config
     const [scrollLeft, setScrollLeft] = useScrollLeft()
 
     return (
@@ -11,16 +10,16 @@ const FrameGrid = () => {
             scrollLeft={scrollLeft}
             onScrollLeft={setScrollLeft}
             itemNum={100}
-            itemWidth={frameWidth}
+            itemWidth={FRAME_WIDTH}
             containerWidth={300}
-            containerHeight={layerHeight}
+            containerHeight={LAYER_HEIGHT}
             renderItem={({ index, style }) => (
                 <div
                     key={index}
                     style={{
                         ...style,
-                        width: frameWidth,
-                        height: layerHeight - 4,
+                        width: FRAME_WIDTH,
+                        height: LAYER_HEIGHT - 4,
                         border: "1px solid rgba(255, 255, 255, 0.1)",
                         borderLeft: "none"
                     }}
