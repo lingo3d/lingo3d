@@ -32,7 +32,7 @@ const Cell = ({ index, style }: CellProps) => {
                     />
                     {index * 5}
                 </div>
-                {showSeconds && rounded + "s"}
+                {showSeconds && <div style={{ fontSize: 10 }}>{rounded}s</div>}
             </div>
         </div>
     )
