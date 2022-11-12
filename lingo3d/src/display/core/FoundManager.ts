@@ -30,13 +30,19 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         const state = this.model?.lazyStates()
         if (!state) return
 
-        const { onFinishState, repeatState, managerRecordState } = state
+        const {
+            onFinishState,
+            repeatState,
+            managerRecordState,
+            finishEventState
+        } = state
         for (const animationManager of Object.values(managerRecordState.get()))
             this.animations[animationManager.name] = this.watch(
                 animationManager.retarget(
                     this.nativeObject3d,
                     repeatState,
-                    onFinishState
+                    onFinishState,
+                    finishEventState
                 )
             )
         this.model = undefined
