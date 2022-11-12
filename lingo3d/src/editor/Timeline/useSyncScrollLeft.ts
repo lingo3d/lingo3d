@@ -1,11 +1,11 @@
-import { useEffect, useRef } from "preact/hooks"
+import { useLayoutEffect, useRef } from "preact/hooks"
 import { useScrollLeft } from "./states"
 
 export default () => {
     const ref = useRef<HTMLDivElement>(null)
     const [scrollLeft, setScrollLeft] = useScrollLeft()
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const el = ref.current
         if (!el) return
 
@@ -17,7 +17,7 @@ export default () => {
         }
     }, [])
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const el = ref.current
         if (el) el.scrollLeft = scrollLeft
     }, [scrollLeft])
