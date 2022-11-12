@@ -1,6 +1,6 @@
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import config from "./config"
-import useSyncScrollLeft from "./useSyncScrollLeft"
+import { useScrollLeft } from "./states"
 
 const round = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100
 
@@ -34,11 +34,12 @@ const Cell = ({ index, style }: CellProps) => {
 }
 
 const Ruler: React.FC = () => {
-    const ref = useSyncScrollLeft()
+    const [scrollLeft, setScrollLeft] = useScrollLeft()
 
     return (
         <VirtualizedListHorizontal
-            ref={ref}
+            scrollLeft={scrollLeft}
+            onScrollLeft={setScrollLeft}
             itemNum={100}
             itemWidth={config.frameWidth * 2}
             containerWidth={300}

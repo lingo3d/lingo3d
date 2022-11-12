@@ -1,14 +1,15 @@
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import config from "./config"
-import useSyncScrollLeft from "./useSyncScrollLeft"
+import { useScrollLeft } from "./states"
 
 const FrameGrid = () => {
     const { layerHeight, frameWidth } = config
-    const ref = useSyncScrollLeft()
+    const [scrollLeft, setScrollLeft] = useScrollLeft()
 
     return (
         <VirtualizedListHorizontal
-            ref={ref}
+            scrollLeft={scrollLeft}
+            onScrollLeft={setScrollLeft}
             itemNum={100}
             itemWidth={frameWidth}
             containerWidth={300}
