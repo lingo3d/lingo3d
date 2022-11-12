@@ -1,36 +1,29 @@
-import { useRef, useEffect } from "preact/hooks"
-import { Grid, AutoSizer, Size } from "react-virtualized"
+import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import config from "./config"
-import initScroll from "./initScroll"
 
 const round = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100
 
-const Cell: React.FC<{
-    columnIndex: number
+type CellProps = {
+    index: number
     style: React.CSSProperties
-    key: string
-}> = ({ columnIndex, style, key }) => {
-    const rounded = round((columnIndex * 5) / 60)
+}
+
+const Cell = ({ index, style }: CellProps) => {
+    const rounded = round((index * 5) / 60)
     const showSeconds = (rounded * 100) % 5 === 0
 
     return (
-        <div key={key} style={style} className="text-xs">
-            <div
-                className="absolute"
-                style={{
-                    left: config.frameWidth / 2,
-                    opacity: showSeconds ? 0.75 : 0.65
-                }}
-            >
-                <div className="flex">
+        <div style={style}>
+            <div style={{ opacity: showSeconds ? 0.75 : 0.65 }}>
+                <div style={{ display: "flex" }}>
                     <div
-                        className="bg-white mr-1"
                         style={{
                             width: 1,
-                            height: showSeconds ? 22 : 16
+                            height: showSeconds ? 22 : 16,
+                            background: "white"
                         }}
                     />
-                    {columnIndex * 5}
+                    {index * 5}
                 </div>
                 {showSeconds && rounded + "s"}
             </div>
@@ -38,32 +31,20 @@ const Cell: React.FC<{
     )
 }
 
+
 const Ruler: React.FC = () => {
-    const { frameWidth } = config
     const framesNum = 100
 
-    const elRef = useRef<HTMLDivElement>(null)
-    useEffect(() => {
-        initScroll(elRef.current?.querySelector(".ReactVirtualized__Grid"))
-    }, [])
-
     return (
-        <div className="absfull" ref={elRef}>
-            <AutoSizer>
-                {(size: Size) => (
-                    <Grid
-                        className="overflow-y-hidden overflow-x-scroll"
-                        width={size.width}
-                        height={100}
-                        columnWidth={frameWidth * 5}
-                        rowHeight={100}
-                        columnCount={framesNum / 5}
-                        rowCount={1}
-                        cellRenderer={Cell}
-                    />
-                )}
-            </AutoSizer>
-        </div>
+        <VirtualizedListHorizontal
+            itemNum={framesNum}
+            itemWidth={config.frameWidth * 2}
+            containerWidth={300}
+            containerHeight={100}
+            renderItem={({ index, style }) => (
+                <Cell index={index} style={style} />
+            )}
+        />
     )
 }
 

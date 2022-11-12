@@ -36,7 +36,7 @@ const Panels = () => {
             </AppBar>
             <div style={{ flexGrow: 1 }}>
                 {tab === "files" && fileBrowser && <FileBrowser />}
-                {tab === "timeline" && <Timeline />}
+                {tab === "animation" && <Timeline />}
             </div>
         </div>
     )

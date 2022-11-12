@@ -1,4 +1,4 @@
 export default {
     layerHeight: 30,
-    frameWidth: 15
+    frameWidth: 16
 }
