@@ -19,6 +19,7 @@ const Cell = ({ index, style }: CellProps) => {
                     <div
                         style={{
                             width: 1,
+                            marginRight: 2,
                             height: showSeconds ? 22 : 16,
                             background: "white"
                         }}
@@ -31,18 +32,15 @@ const Cell = ({ index, style }: CellProps) => {
     )
 }
 
-
 const Ruler: React.FC = () => {
-    const framesNum = 100
-
     return (
         <VirtualizedListHorizontal
-            itemNum={framesNum}
+            itemNum={100}
             itemWidth={config.frameWidth * 2}
             containerWidth={300}
-            containerHeight={100}
+            containerHeight={50}
             renderItem={({ index, style }) => (
-                <Cell index={index} style={style} />
+                <Cell key={index} index={index} style={style} />
             )}
         />
     )
