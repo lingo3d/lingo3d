@@ -14,12 +14,8 @@ export default ({ mounted, style, children, fadeIn }: InfoScreen) => {
         <Transition mounted={mounted}>
             {(enter) => (
                 <div
+                    className="lingo3d-absfull"
                     style={{
-                        width: "100%",
-                        height: "100%",
-                        position: "absolute",
-                        left: 0,
-                        top: 0,
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "center",

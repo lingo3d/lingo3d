@@ -16,14 +16,8 @@ const HUD = () => {
 
     return createPortal(
         <div
-            className="lingo3d-ui"
-            style={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-                pointerEvents: "none",
-                padding: 10
-            }}
+            className="lingo3d-ui lingo3d-absfull"
+            style={{ pointerEvents: "none", padding: 10 }}
         >
             <InfoScreen mounted={!!loadingUnpkgCount}>
                 <Spinner size={14} />

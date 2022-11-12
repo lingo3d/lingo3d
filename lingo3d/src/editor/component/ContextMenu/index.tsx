@@ -16,25 +16,12 @@ const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
     return createPortal(
         <div
             ref={elRef}
-            className="lingo3d-ui"
-            style={{
-                zIndex: 2,
-                position: "absolute",
-                left: 0,
-                top: 0,
-                width: "100%",
-                height: "100%"
-            }}
+            className="lingo3d-ui lingo3d-absfull"
+            style={{ zIndex: 2 }}
         >
             <div
+                className="lingo3d-absfull"
                 onMouseDown={() => setData(undefined)}
-                style={{
-                    position: "absolute",
-                    left: 0,
-                    top: 0,
-                    width: "100%",
-                    height: "100%"
-                }}
             />
             <div
                 className="lingo3d-bg"

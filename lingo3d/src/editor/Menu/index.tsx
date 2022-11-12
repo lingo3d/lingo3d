@@ -20,12 +20,8 @@ const Menu = () => {
     return (
         <div
             ref={elRef}
-            className="lingo3d-ui"
+            className="lingo3d-ui lingo3d-absfull"
             style={{
-                position: "absolute",
-                left: 0,
-                top: 0,
-                width: "100%",
                 height: 25,
                 background: "rgb(35, 36, 41)",
                 marginTop: -20,

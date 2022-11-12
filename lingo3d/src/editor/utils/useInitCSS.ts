@@ -43,9 +43,18 @@ const initCSS = () => {
             .lingo3d-ui *::-webkit-scrollbar-corner {
                 background: rgba(100,100,100,0.1);
             }
+
             .lingo3d-bg {
                 background: rgb(18, 19, 22);
             }
+            .lingo3d-absfull {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+            }
+
             .tp-lblv_l {
                 overflow: hidden;
                 text-overflow: ellipsis;

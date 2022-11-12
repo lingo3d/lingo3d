@@ -16,12 +16,8 @@ const Timeline = () => {
             <div style={{ overflow: "scroll", width: 200 }}></div>
             <div style={{ flexGrow: 1 }}>
                 <div
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        overflow: "scroll",
-                        position: "absolute"
-                    }}
+                    className="lingo3d-absfull"
+                    style={{ overflow: "scroll" }}
                 ></div>
             </div>
         </div>

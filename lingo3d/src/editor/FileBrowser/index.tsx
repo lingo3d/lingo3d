@@ -65,13 +65,11 @@ const FileBrowser = () => {
             </div>
             <div style={{ flexGrow: 1 }}>
                 <div
+                    className="lingo3d-absfull"
                     style={{
-                        width: "100%",
-                        height: "100%",
                         overflow: "scroll",
                         display: "flex",
-                        flexWrap: "wrap",
-                        position: "absolute"
+                        flexWrap: "wrap"
                     }}
                     onMouseDown={() => setFileSelected(undefined)}
                 >
