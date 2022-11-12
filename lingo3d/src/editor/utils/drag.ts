@@ -2,7 +2,7 @@ import TexturedBasicMixin from "../../display/core/mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "../../display/core/mixins/TexturedStandardMixin"
 import ObjectManager from "../../display/core/ObjectManager"
 import { container } from "../../engine/renderLoop/renderSetup"
-import { setDragEvent } from "../../states/useDragEvent"
+import { setEditorDragEvent } from "../../states/useEditorDragEvent"
 
 container.addEventListener("dragenter", (e) => e.preventDefault())
 container.addEventListener("dragover", (e) => e.preventDefault())
@@ -19,14 +19,14 @@ export default <T>(
     let draggingItem: T | undefined
     container.addEventListener(
         "dragover",
-        (e) => draggingItem && setDragEvent(e)
+        (e) => draggingItem && setEditorDragEvent(e)
     )
-    container.addEventListener("dragleave", () => setDragEvent(undefined))
+    container.addEventListener("dragleave", () => setEditorDragEvent(undefined))
     container.addEventListener(
         "drop",
         () =>
             draggingItem &&
-            setDragEvent((hitManager) => onDrop(draggingItem!, hitManager))
+            setEditorDragEvent((hitManager) => onDrop(draggingItem!, hitManager))
     )
     return (val: T | undefined) => (draggingItem = val)
 }

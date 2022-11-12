@@ -11,14 +11,14 @@ import normalizeClientPosition from "../display/utils/normalizeClientPosition"
 import { point2Vec, vec2Point } from "../display/utils/vec2Point"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 
-export const [setDragEvent, getDragEvent] = store<
+export const [setEditorDragEvent, getEditorDragEvent] = store<
     | DragEvent
     | ((hitManager?: ObjectManager) => ObjectManager | undefined)
     | undefined
 >(undefined)
 
 createEffect(() => {
-    const e = getDragEvent()
+    const e = getEditorDragEvent()
     const pointRef = createRef<Point3d>({ x: 0, y: 0, z: 0 })
     const hitManagerRef = createRef<ObjectManager>()
 
@@ -50,6 +50,6 @@ createEffect(() => {
     pointRef.current = point
 
     return () => {
-        !(getDragEvent() instanceof DragEvent) && indicator.dispose()
+        !(getEditorDragEvent() instanceof DragEvent) && indicator.dispose()
     }
-}, [getDragEvent])
+}, [getEditorDragEvent])

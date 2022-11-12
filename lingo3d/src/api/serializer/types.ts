@@ -70,7 +70,7 @@ export type VersionNode = {
 export type AnimationData = Record<
     string, //property name
     Record<
-        string, //frame number cast as string
+        number, //frame number
         number //frame value
     >
 >
