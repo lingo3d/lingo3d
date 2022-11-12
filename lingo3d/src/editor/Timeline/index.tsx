@@ -22,7 +22,11 @@ const Timeline = () => {
                 <div
                     ref={ref}
                     className="lingo3d-absfull"
-                    style={{ display: "flex", flexDirection: "column" }}
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        borderTop: "1px solid rgba(255, 255, 255, 0.2)"
+                    }}
                 >
                     <Ruler width={width} />
                     <FrameGrid width={width} />
