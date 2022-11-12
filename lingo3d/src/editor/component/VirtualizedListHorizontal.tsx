@@ -39,14 +39,22 @@ const VirtualizedListHorizontal = ({
     return (
         <div
             style={{
-                overflowX: "scroll",
+                overflow: "hidden",
                 width: containerWidth,
                 height: containerHeight
             }}
-            onScroll={onScroll}
         >
-            <div style={{ position: "relative", width: innerWidth }}>
-                {items}
+            <div
+                style={{
+                    overflowX: "scroll",
+                    width: containerWidth,
+                    height: containerHeight + 4
+                }}
+                onScroll={onScroll}
+            >
+                <div style={{ position: "relative", width: innerWidth }}>
+                    {items}
+                </div>
             </div>
         </div>
     )
