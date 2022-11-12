@@ -2,7 +2,6 @@ import register from "preact-custom-element"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useInitCSS from "../utils/useInitCSS"
 import FrameGrid from "./FrameGrid"
-import Ruler from "./Ruler"
 
 const Timeline = () => {
     useInitCSS(true)
@@ -28,7 +27,6 @@ const Timeline = () => {
                         borderTop: "1px solid rgba(255, 255, 255, 0.2)"
                     }}
                 >
-                    <Ruler width={width} />
                     <FrameGrid width={width} />
                 </div>
             </div>

@@ -1,5 +1,5 @@
+import { FRAME_WIDTH, LAYER_HEIGHT } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
-import { FRAME_WIDTH, LAYER_HEIGHT } from "./globals"
 import { useScrollLeft } from "./states"
 
 type FrameGridProps = {

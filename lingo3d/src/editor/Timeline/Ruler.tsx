@@ -1,5 +1,5 @@
+import { FRAME_WIDTH } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
-import { FRAME_WIDTH } from "./globals"
 import Metric from "./Metric"
 import { useScrollLeft } from "./states"
 

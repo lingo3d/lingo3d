@@ -19,3 +19,7 @@ export const WASM_URL = "https://unpkg.com/lingo3d-wasm@1.0.1/assets/"
 
 export const DEBUG = false
 export const VERSION = "2.0.3"
+
+export const LAYER_HEIGHT = 30
+export const FRAME_WIDTH = 16
+export const APPBAR_HEIGHT = 28
