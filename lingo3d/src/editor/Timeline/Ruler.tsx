@@ -1,3 +1,4 @@
+import { CSSProperties } from "preact/compat"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import { FRAME_WIDTH } from "./globals"
 import { useScrollLeft } from "./states"
@@ -6,7 +7,7 @@ const round = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100
 
 type CellProps = {
     index: number
-    style: React.CSSProperties
+    style: CSSProperties
 }
 
 const Cell = ({ index, style }: CellProps) => {
@@ -38,7 +39,11 @@ const Cell = ({ index, style }: CellProps) => {
     )
 }
 
-const Ruler: React.FC = () => {
+type RulerProps = {
+    width: number
+}
+
+const Ruler = ({ width }: RulerProps) => {
     const [scrollLeft, setScrollLeft] = useScrollLeft()
 
     return (
@@ -47,7 +52,7 @@ const Ruler: React.FC = () => {
             onScrollLeft={setScrollLeft}
             itemNum={100}
             itemWidth={FRAME_WIDTH * 2}
-            containerWidth={300}
+            containerWidth={width}
             containerHeight={50}
             renderItem={({ index, style }) => (
                 <Cell key={index} index={index} style={style} />

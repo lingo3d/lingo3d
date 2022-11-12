@@ -1,10 +1,12 @@
 import register from "preact-custom-element"
+import useResizeObserver from "../hooks/useResizeObserver"
 import useInitCSS from "../utils/useInitCSS"
 import FrameGrid from "./FrameGrid"
 import Ruler from "./Ruler"
 
 const Timeline = () => {
     useInitCSS(true)
+    const [ref, { width }] = useResizeObserver()
 
     return (
         <div
@@ -18,11 +20,12 @@ const Timeline = () => {
             <div style={{ overflow: "scroll", width: 200 }}></div>
             <div style={{ flexGrow: 1 }}>
                 <div
+                    ref={ref}
                     className="lingo3d-absfull"
                     style={{ display: "flex", flexDirection: "column" }}
                 >
-                    <Ruler />
-                    <FrameGrid />
+                    <Ruler width={width} />
+                    <FrameGrid width={width} />
                 </div>
             </div>
         </div>
