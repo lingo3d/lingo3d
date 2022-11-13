@@ -1,4 +1,3 @@
-import { Fragment } from "preact"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import { useFileBrowserDir } from "../states"
 import FolderIcon from "./icons/FolderIcon"
@@ -31,7 +30,7 @@ const FileTreeItem = ({
                 />
             )
         )
-    if (!myPath) return <Fragment>{children()}</Fragment>
+    if (!myPath) return <>{children()}</>
 
     return (
         <BaseTreeItem

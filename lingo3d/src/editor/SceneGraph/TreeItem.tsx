@@ -1,4 +1,4 @@
-import { ComponentChildren, Fragment } from "preact"
+import { ComponentChildren } from "preact"
 import { useMemo } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import {
@@ -85,7 +85,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
             IconComponent={IconComponent}
         >
             {() => (
-                <Fragment>
+                <>
                     {appendableChildren?.map((childAppendable) =>
                         childAppendable instanceof Model ? (
                             <ModelTreeItem
@@ -100,7 +100,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
                         )
                     )}
                     {children}
-                </Fragment>
+                </>
             )}
         </BaseTreeItem>
     )

@@ -1,4 +1,3 @@
-import { Fragment } from "preact"
 import { useEffect, useState } from "preact/hooks"
 import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
@@ -93,9 +92,9 @@ const SceneGraphContextMenu = () => {
                     }}
                 />
             ) : (
-                <Fragment>
+                <>
                     {isMeshItem(selectionTarget) && (
-                        <Fragment>
+                        <>
                             <MenuItem onClick={() => setShowSearch(true)}>
                                 Search children
                             </MenuItem>
@@ -111,7 +110,7 @@ const SceneGraphContextMenu = () => {
                                     ? "Unfreeze selection"
                                     : "Freeze selection"}
                             </MenuItem>
-                        </Fragment>
+                        </>
                     )}
                     {selectionTarget instanceof AnimationManager && (
                         <MenuItem
@@ -132,7 +131,7 @@ const SceneGraphContextMenu = () => {
                     >
                         Unfreeze all
                     </MenuItem>
-                </Fragment>
+                </>
             )}
         </ContextMenu>
     )

@@ -1,21 +1,21 @@
-import useResizeObserver from "../hooks/useResizeObserver"
-import Ruler from "./Ruler"
+import TitleBarButton from "../component/bars/TitleBarButton"
+import DeleteIcon from "../SceneGraph/icons/DeleteIcon"
+import FindIcon from "../SceneGraph/icons/FindIcon"
+import GroupIcon from "../SceneGraph/icons/GroupIcon"
 
-const TimelineBar = () => {
-    const [ref, { width }] = useResizeObserver()
-
+const RulerBar = () => {
     return (
-        <div
-            ref={ref}
-            className="lingo3d-absfull"
-            style={{
-                display: "flex",
-                alignItems: "center",
-                borderTop: "1px solid rgba(255, 255, 255, 0.1)"
-            }}
-        >
-            <Ruler width={width} />
-        </div>
+        <>
+            <TitleBarButton>
+                <FindIcon />
+            </TitleBarButton>
+            <TitleBarButton>
+                <GroupIcon />
+            </TitleBarButton>
+            <TitleBarButton>
+                <DeleteIcon />
+            </TitleBarButton>
+        </>
     )
 }
-export default TimelineBar
+export default RulerBar
