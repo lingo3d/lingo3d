@@ -1,21 +1,21 @@
-import TitleBarButton from "../component/bars/TitleBarButton"
-import DeleteIcon from "../SceneGraph/icons/DeleteIcon"
-import FindIcon from "../SceneGraph/icons/FindIcon"
-import GroupIcon from "../SceneGraph/icons/GroupIcon"
+import useResizeObserver from "../hooks/useResizeObserver"
+import Ruler from "./Ruler"
 
 const RulerBar = () => {
+    const [ref, { width }] = useResizeObserver()
+
     return (
-        <>
-            <TitleBarButton>
-                <FindIcon />
-            </TitleBarButton>
-            <TitleBarButton>
-                <GroupIcon />
-            </TitleBarButton>
-            <TitleBarButton>
-                <DeleteIcon />
-            </TitleBarButton>
-        </>
+        <div
+            ref={ref}
+            className="lingo3d-absfull"
+            style={{
+                display: "flex",
+                alignItems: "center",
+                borderTop: "1px solid rgba(255, 255, 255, 0.1)"
+            }}
+        >
+            <Ruler width={width} />
+        </div>
     )
 }
 export default RulerBar
