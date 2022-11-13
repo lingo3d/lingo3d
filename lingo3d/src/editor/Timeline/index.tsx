@@ -1,4 +1,5 @@
 import register from "preact-custom-element"
+import { APPBAR_HEIGHT } from "../../globals"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useInitCSS from "../utils/useInitCSS"
 import FrameGrid from "./FrameGrid"
@@ -11,7 +12,7 @@ const Timeline = () => {
         <div
             className="lingo3d-ui lingo3d-bg lingo3d-panels"
             style={{
-                height: 200 - 28,
+                height: 200 - APPBAR_HEIGHT,
                 width: "100%",
                 display: "flex"
             }}

@@ -5,7 +5,15 @@ const TimelineBar = () => {
     const [ref, { width }] = useResizeObserver()
 
     return (
-        <div className="lingo3d-absfull" ref={ref}>
+        <div
+            ref={ref}
+            className="lingo3d-absfull"
+            style={{
+                display: "flex",
+                alignItems: "center",
+                borderTop: "1px solid rgba(255, 255, 255, 0.1)"
+            }}
+        >
             <Ruler width={width} />
         </div>
     )

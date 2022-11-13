@@ -1,4 +1,4 @@
-import { FRAME_WIDTH } from "../../globals"
+import { APPBAR_HEIGHT, FRAME_WIDTH } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import Metric from "./Metric"
 import { useScrollLeft } from "./states"
@@ -17,7 +17,7 @@ const Ruler = ({ width }: RulerProps) => {
             itemNum={100}
             itemWidth={FRAME_WIDTH * 2}
             containerWidth={width}
-            containerHeight={50}
+            containerHeight={APPBAR_HEIGHT}
             renderItem={({ index, style }) => (
                 <Metric key={index} index={index} style={style} />
             )}

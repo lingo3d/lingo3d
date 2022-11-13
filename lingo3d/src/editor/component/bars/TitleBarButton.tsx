@@ -1,4 +1,5 @@
 import { ComponentChildren } from "preact"
+import { APPBAR_HEIGHT } from "../../../globals"
 
 type TitleBarButtonProps = {
     children?: ComponentChildren
@@ -22,8 +23,8 @@ const TitleBarButton = ({
                       }
             }
             style={{
-                width: 28,
-                height: 28,
+                width: APPBAR_HEIGHT,
+                height: APPBAR_HEIGHT,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
