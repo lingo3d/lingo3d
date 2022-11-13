@@ -18,8 +18,6 @@ import fpsAlpha from "../utils/fpsAlpha"
 import { getCentripetal } from "../../states/useCentripetal"
 import { Animation } from "../../interface/IAnimatedObjectManager"
 
-export const dummyTypeMap = new WeakMap<Dummy, "dummy" | "readyplayerme">()
-
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
     public static override defaults = dummyDefaults
@@ -45,11 +43,10 @@ export default class Dummy extends Model implements IDummy {
 
         this.createEffect(() => {
             const spineName = this.spineNameState.get()
-            const src = (super.src = this.srcState.get())
+            super.src = this.srcState.get()
 
             setSpine(undefined)
             setType(undefined)
-            dummyTypeMap.delete(this)
 
             const handle = this.loaded.then((loaded) => {
                 setType("other")
@@ -57,17 +54,13 @@ export default class Dummy extends Model implements IDummy {
                 if (spineName) {
                     setSpine(this.find(spineName, true))
 
-                    if (spineName === "mixamorigSpine") {
-                        setType("mixamo")
-                        src === YBOT_URL && dummyTypeMap.set(this, "dummy")
-                    } else if (
+                    if (spineName === "mixamorigSpine") setType("mixamo")
+                    else if (
                         spineName === "Spine" &&
                         (loaded.getObjectByName("Wolf3D_Body") ||
                             loaded.getObjectByName("Wolf3D_Avatar"))
-                    ) {
+                    )
                         setType("readyplayerme")
-                        dummyTypeMap.set(this, "readyplayerme")
-                    }
                     return
                 }
                 if (
@@ -76,15 +69,11 @@ export default class Dummy extends Model implements IDummy {
                 ) {
                     setSpine(this.find("Spine", true))
                     setType("readyplayerme")
-                    dummyTypeMap.set(this, "readyplayerme")
                     return
                 }
                 const spine = this.find("mixamorigSpine", true)
                 setSpine(spine)
-                if (spine) {
-                    setType("mixamo")
-                    src === YBOT_URL && dummyTypeMap.set(this, "dummy")
-                }
+                spine && setType("mixamo")
             })
             return () => {
                 handle.cancel()

@@ -4,9 +4,7 @@ import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
 import Loaded from "../../display/core/Loaded"
 import { isMeshItem } from "../../display/core/MeshItem"
-import Dummy, { dummyTypeMap } from "../../display/Dummy"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
-import { DUMMY_URL, YBOT_URL } from "../../globals"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import {
@@ -14,7 +12,6 @@ import {
     clearSelectionFrozen,
     removeSelectionFrozen
 } from "../../states/useSelectionFrozen"
-import downloadBlob from "../../api/files/downloadBlob"
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
 import { useSelectionFrozen, useSelectionTarget } from "../states"
@@ -125,30 +122,6 @@ const SceneGraphContextMenu = () => {
                                     ? "Unfreeze selection"
                                     : "Freeze selection"}
                             </MenuItem>
-
-                            {selectionTarget instanceof Dummy &&
-                                dummyTypeMap.has(selectionTarget) && (
-                                    <MenuItem
-                                        setData={setData}
-                                        onClick={async () => {
-                                            const url =
-                                                dummyTypeMap.get(
-                                                    selectionTarget
-                                                ) === "dummy"
-                                                    ? YBOT_URL
-                                                    : DUMMY_URL +
-                                                      "readyplayerme/reference.fbx"
-
-                                            const res = await fetch(url)
-                                            downloadBlob(
-                                                "model.fbx",
-                                                await res.blob()
-                                            )
-                                        }}
-                                    >
-                                        Download for Mixamo
-                                    </MenuItem>
-                                )}
                         </Fragment>
                     )}
                     <MenuItem
