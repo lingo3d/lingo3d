@@ -15,6 +15,8 @@ import {
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
 import { useSelectionFrozen, useSelectionTarget } from "../states"
+import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
+import { Point } from "@lincode/math"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)
@@ -44,9 +46,7 @@ const search = (n: string, target: Loaded | Appendable) => {
 }
 
 const SceneGraphContextMenu = () => {
-    const [data, setData] = useState<
-        { x: number; y: number; target: Appendable | undefined } | undefined
-    >(undefined)
+    const [position, setPosition] = useState<Point | undefined>(undefined)
     const [showSearch, setShowSearch] = useState(false)
     const [selectionTarget] = useSelectionTarget()
     const [[selectionFrozen]] = useSelectionFrozen()
@@ -57,9 +57,10 @@ const SceneGraphContextMenu = () => {
             ([clientX, clientY] = [e.clientX, e.clientY])
         document.addEventListener("mousemove", cb)
 
-        const handle = onSelectionTarget(({ target, rightClick }) => {
-            rightClick && setData({ x: clientX, y: clientY, target })
-        })
+        const handle = onSelectionTarget(
+            ({ rightClick }) =>
+                rightClick && setPosition(new Point(clientX, clientY))
+        )
         return () => {
             handle.cancel()
             document.removeEventListener("mousemove", cb)
@@ -67,13 +68,13 @@ const SceneGraphContextMenu = () => {
     }, [])
 
     useEffect(() => {
-        !data && setShowSearch(false)
-    }, [data])
+        !position && setShowSearch(false)
+    }, [position])
 
-    if (!data) return null
+    if (!position) return null
 
     return (
-        <ContextMenu data={data} setData={setData}>
+        <ContextMenu data={position} setData={setPosition}>
             {showSearch ? (
                 <input
                     ref={(el) => el?.focus()}
@@ -87,12 +88,12 @@ const SceneGraphContextMenu = () => {
                                 (e.target as HTMLInputElement).value,
                                 selectionTarget
                             )
-                        setData(undefined)
+                        setPosition(undefined)
                     }}
                 />
             ) : (
                 <Fragment>
-                    {data.target && isMeshItem(selectionTarget) && (
+                    {isMeshItem(selectionTarget) && (
                         <Fragment>
                             <MenuItem
                                 setData={undefined}
@@ -111,7 +112,7 @@ const SceneGraphContextMenu = () => {
                             )} */}
 
                             <MenuItem
-                                setData={setData}
+                                setData={setPosition}
                                 onClick={() =>
                                     selectionFrozen.has(selectionTarget)
                                         ? removeSelectionFrozen(selectionTarget)
@@ -124,8 +125,16 @@ const SceneGraphContextMenu = () => {
                             </MenuItem>
                         </Fragment>
                     )}
+                    {selectionTarget instanceof AnimationManager && (
+                        <MenuItem
+                            setData={undefined}
+                            onClick={() => setShowSearch(true)}
+                        >
+                            Edit animation
+                        </MenuItem>
+                    )}
                     <MenuItem
-                        setData={setData}
+                        setData={setPosition}
                         disabled={!selectionFrozen.size}
                         onClick={() => clearSelectionFrozen()}
                     >
