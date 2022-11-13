@@ -3,5 +3,5 @@ import hook from "./hook"
 
 export default <T>(val: T) => {
     const [setter, getter] = store(val)
-    return hook(setter, getter)
+    return <const>[hook(setter, getter), setter, getter]
 }

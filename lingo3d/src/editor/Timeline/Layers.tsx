@@ -1,7 +1,9 @@
+import { useAnimationManager } from "./states"
+
 const Layers = () => {
-    return (
-        <div></div>
-    )
+    const [animationManager] = useAnimationManager()
+
+    return <div></div>
 }
 
 export default Layers
