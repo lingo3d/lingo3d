@@ -7,11 +7,7 @@ import FileBrowser from "../FileBrowser"
 import { setFileBrowser } from "../../states/useFileBrowser"
 import { useState } from "preact/hooks"
 import Timeline from "../Timeline"
-import TitleBarButton from "../component/bars/TitleBarButton"
-import DeleteIcon from "../SceneGraph/icons/DeleteIcon"
-import FindIcon from "../SceneGraph/icons/FindIcon"
-import GroupIcon from "../SceneGraph/icons/GroupIcon"
-import TimelineBar from "../Timeline/TimelineBar"
+import RulerBar from "../Timeline/RulerBar"
 
 const Panels = () => {
     useInitCSS(true)
@@ -41,7 +37,7 @@ const Panels = () => {
                     </CloseableTab>
                 </AppBar>
                 <AppBar style={{ flexGrow: 1 }}>
-                    {tab === "animation" && <TimelineBar />}
+                    {tab === "animation" && <RulerBar />}
                 </AppBar>
             </div>
             <div style={{ flexGrow: 1 }}>
