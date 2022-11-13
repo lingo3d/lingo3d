@@ -3,6 +3,7 @@ import { APPBAR_HEIGHT } from "../../globals"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useInitCSS from "../utils/useInitCSS"
 import FrameGrid from "./FrameGrid"
+import Layers from "./Layers"
 
 const Timeline = () => {
     useInitCSS(true)
@@ -17,7 +18,9 @@ const Timeline = () => {
                 display: "flex"
             }}
         >
-            <div style={{ overflow: "scroll", width: 200 }}></div>
+            <div style={{ overflow: "scroll", width: 200 }}>
+                <Layers />
+            </div>
             <div style={{ flexGrow: 1 }}>
                 <div
                     ref={ref}
