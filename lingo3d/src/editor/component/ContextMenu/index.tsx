@@ -29,7 +29,8 @@ const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
                     position: "absolute",
                     left: data.x,
                     top: data.y,
-                    padding: 6
+                    padding: 6,
+                    border: "1px solid rgba(255, 255, 255, 0.1)"
                 }}
             >
                 {children}
