@@ -30,7 +30,7 @@ const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
                     left: data.x,
                     top: data.y,
                     padding: 6,
-                    border: "1px solid rgba(255, 255, 255, 0.1)"
+                    border: "1px solid rgba(255, 255, 255, 0.2)"
                 }}
             >
                 {children}
