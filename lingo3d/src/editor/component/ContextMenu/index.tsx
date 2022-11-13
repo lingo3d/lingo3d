@@ -1,17 +1,18 @@
+import { Point } from "@lincode/math"
 import { ComponentChildren } from "preact"
 import { createPortal } from "preact/compat"
 import useClickable from "../../utils/useClickable"
 
 interface ContextMenuProps {
-    data?: { x: number; y: number }
-    setData: (value: any) => void
+    position?: Point
+    setPosition: (val: Point | undefined) => void
     children?: ComponentChildren
 }
 
-const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
+const ContextMenu = ({ position, setPosition, children }: ContextMenuProps) => {
     const elRef = useClickable()
 
-    if (!data) return null
+    if (!position) return null
 
     return createPortal(
         <div
@@ -21,14 +22,14 @@ const ContextMenu = ({ data, setData, children }: ContextMenuProps) => {
         >
             <div
                 className="lingo3d-absfull"
-                onMouseDown={() => setData(undefined)}
+                onMouseDown={() => setPosition(undefined)}
             />
             <div
                 className="lingo3d-bg"
                 style={{
                     position: "absolute",
-                    left: data.x,
-                    top: data.y,
+                    left: position.x,
+                    top: position.y,
                     padding: 6,
                     border: "1px solid rgba(255, 255, 255, 0.2)"
                 }}

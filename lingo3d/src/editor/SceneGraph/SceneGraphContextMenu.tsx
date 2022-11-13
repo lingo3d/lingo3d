@@ -74,7 +74,7 @@ const SceneGraphContextMenu = () => {
     if (!position) return null
 
     return (
-        <ContextMenu data={position} setData={setPosition}>
+        <ContextMenu position={position} setPosition={setPosition}>
             {showSearch ? (
                 <input
                     ref={(el) => el?.focus()}
@@ -95,29 +95,16 @@ const SceneGraphContextMenu = () => {
                 <Fragment>
                     {isMeshItem(selectionTarget) && (
                         <Fragment>
-                            <MenuItem
-                                setData={undefined}
-                                onClick={() => setShowSearch(true)}
-                            >
+                            <MenuItem onClick={() => setShowSearch(true)}>
                                 Search children
                             </MenuItem>
-
-                            {/* {selectionTarget instanceof Dummy && (
-                                <MenuItem onClick={() => {
-                                    setRetargetBones(selectionTarget)
-                                    setSelectionLocked(true)
-                                }}>
-                                    Convert to Mixamo
-                                </MenuItem>
-                            )} */}
-
                             <MenuItem
-                                setData={setPosition}
-                                onClick={() =>
+                                onClick={() => {
                                     selectionFrozen.has(selectionTarget)
                                         ? removeSelectionFrozen(selectionTarget)
                                         : addSelectionFrozen(selectionTarget)
-                                }
+                                    setPosition(undefined)
+                                }}
                             >
                                 {selectionFrozen.has(selectionTarget)
                                     ? "Unfreeze selection"
@@ -127,16 +114,19 @@ const SceneGraphContextMenu = () => {
                     )}
                     {selectionTarget instanceof AnimationManager && (
                         <MenuItem
-                            setData={undefined}
-                            onClick={() => setShowSearch(true)}
+                            onClick={() => {
+                                setPosition(undefined)
+                            }}
                         >
                             Edit animation
                         </MenuItem>
                     )}
                     <MenuItem
-                        setData={setPosition}
                         disabled={!selectionFrozen.size}
-                        onClick={() => clearSelectionFrozen()}
+                        onClick={() => {
+                            clearSelectionFrozen()
+                            setPosition(undefined)
+                        }}
                     >
                         Unfreeze all
                     </MenuItem>

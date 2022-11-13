@@ -3,11 +3,10 @@ import { useState } from "preact/hooks"
 type MenuItemProps = {
     disabled?: boolean
     onClick?: () => void
-    setData: ((val: any) => void) | undefined
     children: string
 }
 
-const MenuItem = ({ disabled, onClick, setData, children }: MenuItemProps) => {
+const MenuItem = ({ disabled, onClick, children }: MenuItemProps) => {
     const [hover, setHover] = useState(false)
 
     return (
@@ -19,14 +18,7 @@ const MenuItem = ({ disabled, onClick, setData, children }: MenuItemProps) => {
                     !disabled && hover ? "rgba(255, 255, 255, 0.1)" : undefined,
                 opacity: disabled ? 0.5 : 1
             }}
-            onClick={
-                disabled
-                    ? undefined
-                    : () => {
-                          setData?.(undefined)
-                          onClick?.()
-                      }
-            }
+            onClick={disabled ? undefined : onClick}
             onMouseEnter={disabled ? undefined : () => setHover(true)}
             onMouseLeave={disabled ? undefined : () => setHover(false)}
         >
