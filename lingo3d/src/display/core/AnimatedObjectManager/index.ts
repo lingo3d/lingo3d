@@ -11,6 +11,12 @@ import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { event, EventFunctions } from "@lincode/events"
 
+//mark
+const animationData2Tracks = (data: AnimationData) => {
+    for (const [uuid, propertyTracks] of Object.entries(data)) {
+    }
+}
+
 const buildAnimationTracks = debounce(
     (val: AnimationValue, uuid: string) => {
         const entries = Object.entries(val)
@@ -24,10 +30,10 @@ const buildAnimationTracks = debounce(
         const data: AnimationData = {}
         const result = (data[uuid] ??= {})
         for (const [name, values] of entries)
-            result[name] = Object.fromEntries(
-                values.map((v, i) => [(i * timeStep).toFixed(2), v])
-            )
-
+            result[name] = values.map((v, i) => [
+                Number((i * timeStep).toFixed(2)),
+                v
+            ])
         return data
     },
     0,

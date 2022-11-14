@@ -168,8 +168,8 @@ export default class AnimationManager
                     ([property, frames]) =>
                         new NumberKeyframeTrack(
                             "." + property,
-                            Object.keys(frames).map((t) => Number(t)),
-                            Object.values(frames)
+                            frames.map(([frameNum]) => frameNum),
+                            frames.map(([, frameValue]) => frameValue)
                         )
                 )
             )
