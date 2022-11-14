@@ -62,14 +62,7 @@ const PanelSceneGraph = () => {
     }
 
     return (
-        <div
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                flexGrow: 1,
-                maxHeight: "100%"
-            }}
-        >
+        <div style={{ display: "flex", flexDirection: "column" }}>
             <TitleBar title="scenegraph">
                 <TitleBarButton disabled={!nativeTarget} onClick={handleFind}>
                     <FindIcon />

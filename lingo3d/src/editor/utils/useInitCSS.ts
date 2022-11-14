@@ -75,8 +75,6 @@ const initCSS = () => {
                 display: grid;
                 grid-template-columns: auto auto auto auto 1fr;
                 grid-template-rows: auto 1fr auto;
-                grid-column-gap: 0px;
-                grid-row-gap: 0px;
 
                 width: 100%;
                 height: 100%;
