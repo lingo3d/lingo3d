@@ -84,6 +84,9 @@ export default class Appendable<
     public get uuid() {
         return (this._uuid ??= nanoid())
     }
+    public set uuid(val) {
+        this._uuid = val
+    }
 
     private _proxy?: Appendable
     public get proxy() {
