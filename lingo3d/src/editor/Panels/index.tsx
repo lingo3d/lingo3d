@@ -27,7 +27,7 @@ const Panels = () => {
         >
             <div style={{ display: "flex" }}>
                 <AppBar onSelectTab={setTab} style={{ width: 200 }}>
-                    <CloseableTab>animation</CloseableTab>
+                    <CloseableTab>timeline</CloseableTab>
                     <CloseableTab
                         disabled={!fileBrowser}
                         onClose={() => setFileBrowser(false)}
@@ -37,12 +37,12 @@ const Panels = () => {
                     </CloseableTab>
                 </AppBar>
                 <AppBar style={{ flexGrow: 1 }}>
-                    {tab === "animation" && <RulerBar />}
+                    {tab === "timeline" && <RulerBar />}
                 </AppBar>
             </div>
             <div style={{ flexGrow: 1 }}>
                 {tab === "files" && fileBrowser && <FileBrowser />}
-                {tab === "animation" && <Timeline />}
+                {tab === "timeline" && <Timeline />}
             </div>
         </div>
     )
