@@ -5,9 +5,9 @@ import {
     setSkyboxStack
 } from "../states/useSkyboxStack"
 import ISkybox, { skyboxDefaults, skyboxSchema } from "../interface/ISkybox"
-import EventLoopItem from "../api/core/EventLoopItem"
+import Appendable from "../api/core/Appendable"
 
-export default class Skybox extends EventLoopItem implements ISkybox {
+export default class Skybox extends Appendable implements ISkybox {
     public static componentName = "skybox"
     public static defaults = skyboxDefaults
     public static schema = skyboxSchema

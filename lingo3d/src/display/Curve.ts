@@ -8,9 +8,9 @@ import { createMemo, createNestedEffect, Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { overrideSelectionCandidates } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
-import EventLoopItem from "../api/core/EventLoopItem"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
+import Appendable from "../api/core/Appendable"
 
 const createFor = <Result, Data>(
     dataList: Array<Data>,
@@ -45,7 +45,7 @@ const createFor = <Result, Data>(
     return dataResultMap
 }
 
-export default class Curve extends EventLoopItem implements ICurve {
+export default class Curve extends Appendable implements ICurve {
     public static componentName = "curve"
     public static defaults = curveDefaults
     public static schema = curveSchema

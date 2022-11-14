@@ -7,7 +7,6 @@ import {
 } from "three"
 import { AnimationData } from "../../../api/serializer/types"
 import { forceGet } from "@lincode/utils"
-import EventLoopItem from "../../../api/core/EventLoopItem"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import { dt } from "../../../engine/eventLoop"
 import { Reactive } from "@lincode/reactivity"
@@ -28,7 +27,7 @@ const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
 const mixerManagerMap = new WeakMap<AnimationMixer, AnimationManager>()
 
 export default class AnimationManager
-    extends EventLoopItem
+    extends Appendable
     implements IAnimationManager
 {
     public static componentName = "animation"

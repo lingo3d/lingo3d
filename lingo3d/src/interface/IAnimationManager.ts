@@ -1,17 +1,20 @@
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
+import IAppendable, {
+    appendableDefaults,
+    appendableSchema
+} from "./IAppendable"
 
-export default interface IAimationManager extends IEventLoop {
+export default interface IAimationManager extends IAppendable {
     paused: boolean
 }
 
 export const animationSchema: Required<ExtractProps<IAimationManager>> = {
-    ...eventLoopSchema,
+    ...appendableSchema,
     paused: Boolean
 }
 
 export const animationDefaults = extendDefaults<IAimationManager>(
-    [eventLoopDefaults],
+    [appendableDefaults],
     { paused: true }
 )

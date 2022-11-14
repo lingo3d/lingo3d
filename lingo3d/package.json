@@ -28,6 +28,7 @@
         "@lincode/utils": "*",
         "@types/three": "0.146.0",
         "browser-fs-access": "0.31.1",
+        "nanoid": "^4.0.0",
         "nipplejs": "0.10.0",
         "postprocessing": "6.29.1",
         "preact": "*",

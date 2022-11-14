@@ -1,11 +1,11 @@
 import { Reactive } from "@lincode/reactivity"
-import EventLoopItem from "../api/core/EventLoopItem"
+import Appendable from "../api/core/Appendable"
 import { container } from "../engine/renderLoop/renderSetup"
 import { TEXTURES_URL } from "../globals"
 import { reticleDefaults, reticleSchema } from "../interface/IReticle"
 import createElement from "../utils/createElement"
 
-export default class Reticle extends EventLoopItem {
+export default class Reticle extends Appendable {
     public static componentName = "reticle"
     public static defaults = reticleDefaults
     public static schema = reticleSchema

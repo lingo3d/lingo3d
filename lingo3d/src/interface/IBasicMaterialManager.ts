@@ -1,4 +1,7 @@
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import IAppendable, {
+    appendableDefaults,
+    appendableSchema
+} from "./IAppendable"
 import ITexturedBasic, {
     texturedBasicDefaults,
     texturedBasicSchema
@@ -7,18 +10,18 @@ import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IBasicMaterialManager
-    extends IEventLoop,
+    extends IAppendable,
         ITexturedBasic {}
 
 export const basicMaterialManagerSchema: Required<
     ExtractProps<IBasicMaterialManager>
 > = {
-    ...eventLoopSchema,
+    ...appendableSchema,
     ...texturedBasicSchema
 }
 
 export const basicMaterialManagerDefaults =
     extendDefaults<IBasicMaterialManager>(
-        [eventLoopDefaults, texturedBasicDefaults],
+        [appendableDefaults, texturedBasicDefaults],
         {}
     )

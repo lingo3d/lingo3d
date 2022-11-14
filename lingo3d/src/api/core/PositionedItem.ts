@@ -9,7 +9,7 @@ import { scaleUp, scaleDown } from "../../engine/constants"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import IPositioned from "../../interface/IPositioned"
-import EventLoopItem from "./EventLoopItem"
+import Appendable from "./Appendable"
 
 const lazyObjectLoop = lazy(() =>
     onBeforeRender(() => {
@@ -32,7 +32,7 @@ export const onObjectMove = (item: Object3D, cb: () => void) => {
 const makeSet = () => new Set<() => void>()
 
 export default abstract class PositionedItem<T extends Object3D = Object3D>
-    extends EventLoopItem<T>
+    extends Appendable<T>
     implements IPositioned
 {
     public constructor(outerObject3d: T = new Object3D() as T) {
@@ -79,4 +79,4 @@ export default abstract class PositionedItem<T extends Object3D = Object3D>
 }
 
 export const isPositionedItem = (item: any): item is PositionedItem =>
-    item instanceof EventLoopItem && "x" in item
+    item instanceof Appendable && "x" in item

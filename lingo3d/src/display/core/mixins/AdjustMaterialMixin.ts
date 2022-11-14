@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Color, Texture, WebGLCubeRenderTarget, CubeCamera } from "three"
-import EventLoopItem from "../../../api/core/EventLoopItem"
+import Appendable from "../../../api/core/Appendable"
 import { NEAR } from "../../../globals"
 import IAdjustMaterial from "../../../interface/IAdjustMaterial"
 import {
@@ -34,7 +34,7 @@ const setProperty = (
 }
 
 export default abstract class AdjustMaterialMixin
-    extends EventLoopItem
+    extends Appendable
     implements IAdjustMaterial
 {
     protected _refreshFactors(

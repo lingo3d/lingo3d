@@ -3,7 +3,6 @@ import IKeyboard, {
     keyboardDefaults,
     keyboardSchema
 } from "../interface/IKeyboard"
-import EventLoopItem from "./core/EventLoopItem"
 import { createEffect } from "@lincode/reactivity"
 import { onKeyClear } from "../events/onKeyClear"
 import Nullable from "../interface/utils/Nullable"
@@ -13,6 +12,7 @@ import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
 import { appendableRoot } from "./core/collections"
 import { getEditorPlay } from "../states/useEditorPlay"
+import Appendable from "./core/Appendable"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
@@ -67,7 +67,7 @@ createEffect(() => {
     }
 }, [getEditorPlay, getEditorMounted, getCameraRendered])
 
-export class Keyboard extends EventLoopItem implements IKeyboard {
+export class Keyboard extends Appendable implements IKeyboard {
     public static componentName = "keyboard"
     public static defaults = keyboardDefaults
     public static schema = keyboardSchema

@@ -1,11 +1,14 @@
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { LingoMouseEvent } from "./IMouse"
 import { ExtractProps } from "./utils/extractProps"
 import fn from "./utils/fn"
 import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
+import IAppendable, {
+    appendableDefaults,
+    appendableSchema
+} from "./IAppendable"
 
-export default interface IStaticObjectManager extends IEventLoop {
+export default interface IStaticObjectManager extends IAppendable {
     onClick: Nullable<(e: LingoMouseEvent) => void>
     onMouseDown: Nullable<(e: LingoMouseEvent) => void>
     onMouseUp: Nullable<(e: LingoMouseEvent) => void>
@@ -24,7 +27,7 @@ export default interface IStaticObjectManager extends IEventLoop {
 export const staticObjectManagerSchema: Required<
     ExtractProps<IStaticObjectManager>
 > = {
-    ...eventLoopSchema,
+    ...appendableSchema,
 
     onClick: Function,
     onMouseDown: Function,
@@ -42,7 +45,7 @@ export const staticObjectManagerSchema: Required<
 }
 
 export const staticObjectManagerDefaults = extendDefaults<IStaticObjectManager>(
-    [eventLoopDefaults],
+    [appendableDefaults],
     {
         onClick: undefined,
         onMouseDown: undefined,

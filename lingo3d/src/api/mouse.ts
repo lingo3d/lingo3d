@@ -6,7 +6,6 @@ import IMouse, {
     mouseSchema,
     SimpleMouseEvent
 } from "../interface/IMouse"
-import EventLoopItem from "./core/EventLoopItem"
 import { throttle } from "@lincode/utils"
 import pointerToWorld from "../display/utils/pointerToWorld"
 import store from "@lincode/reactivity"
@@ -17,6 +16,7 @@ import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
 import { appendableRoot } from "./core/collections"
 import { getEditorPlay } from "../states/useEditorPlay"
+import Appendable from "./core/Appendable"
 
 export type MouseEventName = "click" | "rightClick" | "move" | "down" | "up"
 export const mouseEvents = new Events<LingoMouseEvent, MouseEventName>()
@@ -76,7 +76,7 @@ container.addEventListener("pointerup", handleUp)
 container.addEventListener("pointercancel", handleUp)
 container.addEventListener("pointerleave", handleUp)
 
-export class Mouse extends EventLoopItem implements IMouse {
+export class Mouse extends Appendable implements IMouse {
     public static componentName = "mouse"
     public static defaults = mouseDefaults
     public static schema = mouseSchema

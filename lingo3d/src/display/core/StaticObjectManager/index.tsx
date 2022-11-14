@@ -16,7 +16,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import getCenter from "../../utils/getCenter"
-import EventLoopItem from "../../../api/core/EventLoopItem"
 import IStaticObjectManager from "../../../interface/IStaticObjectManager"
 import MeshItem from "../MeshItem"
 import { getCameraRendered } from "../../../states/useCameraRendered"
@@ -36,6 +35,7 @@ import "./raycast"
 import fpsAlpha from "../../utils/fpsAlpha"
 import { emitId } from "../../../events/onId"
 import { emitSceneGraphNameChange } from "../../../events/onSceneGraphNameChange"
+import Appendable from "../../../api/core/Appendable"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -70,7 +70,7 @@ export const getMeshItemSets = (id: string | Array<string> | MeshItem) => {
 }
 
 export default class StaticObjectManager<T extends Object3D = Object3D>
-    extends EventLoopItem<T>
+    extends Appendable<T>
     implements IStaticObjectManager
 {
     public override dispose() {

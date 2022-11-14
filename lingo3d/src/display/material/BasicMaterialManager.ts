@@ -8,11 +8,11 @@ import {
     Vector2,
     Texture
 } from "three"
+import Appendable from "../../api/core/Appendable"
 import {
     hiddenAppendables,
     nonSerializedAppendables
 } from "../../api/core/collections"
-import EventLoopItem from "../../api/core/EventLoopItem"
 import IBasicMaterialManager, {
     basicMaterialManagerDefaults,
     basicMaterialManagerSchema
@@ -26,7 +26,7 @@ const queueTextureRepeat = queueDebounce()
 export default class BasicMaterialManager<
         T extends MeshStandardMaterial | SpriteMaterial
     >
-    extends EventLoopItem
+    extends Appendable
     implements IBasicMaterialManager
 {
     public static componentName = "basicMaterial"

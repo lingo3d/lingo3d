@@ -1,4 +1,3 @@
-import EventLoopItem from "../api/core/EventLoopItem"
 import nipplejs from "nipplejs"
 import { container } from "../engine/renderLoop/renderSetup"
 import IJoystick, {
@@ -11,8 +10,9 @@ import createElement from "../utils/createElement"
 import { Cancellable } from "@lincode/promiselikes"
 import store, { Reactive } from "@lincode/reactivity"
 import { onBeforeRender } from "../events/onBeforeRender"
+import Appendable from "../api/core/Appendable"
 
-export default class Joystick extends EventLoopItem implements IJoystick {
+export default class Joystick extends Appendable implements IJoystick {
     public static componentName = "joystick"
     public static defaults = joystickDefaults
     public static schema = joystickSchema

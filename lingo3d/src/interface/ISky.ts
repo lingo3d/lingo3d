@@ -1,11 +1,14 @@
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
+import IAppendable, {
+    appendableDefaults,
+    appendableSchema
+} from "./IAppendable"
 
-export default interface ISky extends IEventLoop {}
+export default interface ISky extends IAppendable {}
 
 export const skySchema: Required<ExtractProps<ISky>> = {
-    ...eventLoopSchema
+    ...appendableSchema
 }
 
-export const skyDefaults = extendDefaults<ISky>([eventLoopDefaults], {})
+export const skyDefaults = extendDefaults<ISky>([appendableDefaults], {})

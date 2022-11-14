@@ -1,4 +1,8 @@
 import setupStruct from "../engine/setupStruct"
+import IAppendable, {
+    appendableDefaults,
+    appendableSchema
+} from "./IAppendable"
 import { shadowDistanceChoices } from "./IDirectionalLight"
 import { shadowResolutionChoices } from "./ILightBase"
 import Choices from "./utils/Choices"
@@ -46,7 +50,15 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     texture: String,
     color: String
 }
-hideSchema(["antiAlias", "pixelRatio", "gravity", "repulsion", "centripetal", "pbr", "ssaoIntensity"])
+hideSchema([
+    "antiAlias",
+    "pixelRatio",
+    "gravity",
+    "repulsion",
+    "centripetal",
+    "pbr",
+    "ssaoIntensity"
+])
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],

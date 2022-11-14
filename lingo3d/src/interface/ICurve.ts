@@ -1,18 +1,21 @@
 import { Point3d } from "@lincode/math"
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import IAppendable, {
+    appendableDefaults,
+    appendableSchema
+} from "./IAppendable"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Range from "./utils/Range"
 
-export default interface ICurve extends IEventLoop {
+export default interface ICurve extends IAppendable {
     points: Array<Point3d>
     helper: boolean
     subdivide: number
 }
 
 export const curveSchema: Required<ExtractProps<ICurve>> = {
-    ...eventLoopSchema,
+    ...appendableSchema,
     points: Array,
     helper: Boolean,
     subdivide: Number
@@ -20,7 +23,7 @@ export const curveSchema: Required<ExtractProps<ICurve>> = {
 hideSchema(["points"])
 
 export const curveDefaults = extendDefaults<ICurve>(
-    [eventLoopDefaults],
+    [appendableDefaults],
     {
         points: [],
         helper: false,

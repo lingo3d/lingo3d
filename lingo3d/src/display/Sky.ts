@@ -1,8 +1,8 @@
-import EventLoopItem from "../api/core/EventLoopItem"
+import Appendable from "../api/core/Appendable"
 import ISky, { skyDefaults, skySchema } from "../interface/ISky"
 import { setSkyShader } from "../states/useSkyShader"
 
-export default class Sky extends EventLoopItem implements ISky {
+export default class Sky extends Appendable implements ISky {
     public static componentName = "sky"
     public static defaults = skyDefaults
     public static schema = skySchema

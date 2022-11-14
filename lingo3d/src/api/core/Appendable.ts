@@ -1,5 +1,9 @@
-import { Disposable } from "@lincode/promiselikes"
+import { Cancellable, Disposable } from "@lincode/promiselikes"
+import { GetGlobalState, createEffect } from "@lincode/reactivity"
+import { nanoid } from "nanoid"
 import { Object3D } from "three"
+import { timer } from "../../engine/eventLoop"
+import { onBeforeRender } from "../../events/onBeforeRender"
 import { emitDispose } from "../../events/onDispose"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import { appendableRoot } from "./collections"
@@ -16,10 +20,6 @@ export default class Appendable<
 
         appendableRoot.add(this)
         emitSceneGraphChange()
-    }
-
-    public get uuid() {
-        return this.outerObject3d.uuid
     }
 
     public parent?: Appendable
@@ -48,6 +48,9 @@ export default class Appendable<
         if (this.done) return this
         super.dispose()
 
+        if (this.handles)
+            for (const handle of this.handles.values()) handle.cancel()
+
         appendableRoot.delete(this)
         this.parent?.children?.delete(this)
         this.parent = undefined
@@ -75,5 +78,69 @@ export default class Appendable<
             child.traverseSome(cb)
         }
         return false
+    }
+
+    private _uuid?: string
+    public get uuid() {
+        return (this._uuid ??= nanoid())
+    }
+
+    private _proxy?: Appendable
+    public get proxy() {
+        return this._proxy
+    }
+    public set proxy(val) {
+        //@ts-ignore
+        this._proxy && (this._proxy.__target = undefined)
+        this._proxy = val
+        //@ts-ignore
+        val && (val.__target = this)
+    }
+
+    public timer(time: number, repeat: number, cb: () => void) {
+        return this.watch(timer(time, repeat, cb))
+    }
+
+    public beforeRender(cb: () => void) {
+        return this.watch(onBeforeRender(cb))
+    }
+
+    public queueMicrotask(cb: () => void) {
+        queueMicrotask(() => !this.done && cb())
+    }
+
+    protected cancellable(cb?: () => void) {
+        return this.watch(new Cancellable(cb))
+    }
+
+    protected createEffect(
+        cb: () => (() => void) | void,
+        getStates: Array<GetGlobalState<any> | any>
+    ) {
+        return this.watch(createEffect(cb, getStates))
+    }
+
+    private handles?: Map<string, Cancellable>
+    protected cancelHandle(
+        name: string,
+        lazyHandle: undefined | false | "" | (() => Cancellable)
+    ) {
+        const handles = (this.handles ??= new Map<string, Cancellable>())
+        handles.get(name)?.cancel()
+
+        if (!lazyHandle) return
+
+        const handle = lazyHandle()
+        handles.set(name, handle)
+        return handle
+    }
+
+    private _onLoop?: () => void
+    public get onLoop() {
+        return this._onLoop
+    }
+    public set onLoop(cb) {
+        this._onLoop = cb
+        this.cancelHandle("onLoop", cb && (() => onBeforeRender(cb)))
     }
 }

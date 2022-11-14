@@ -1,6 +1,9 @@
 import { Point3d } from "@lincode/math"
 import StaticObjectManager from "../display/core/StaticObjectManager"
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
+import IAppendable, {
+    appendableDefaults,
+    appendableSchema
+} from "./IAppendable"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
@@ -22,7 +25,7 @@ export type SimpleMouseEvent = {
     clientY: number
 }
 
-export default interface IMouse extends IEventLoop {
+export default interface IMouse extends IAppendable {
     onClick: Nullable<(e: SimpleMouseEvent) => void>
     onRightClick: Nullable<(e: SimpleMouseEvent) => void>
     onMouseMove: Nullable<(e: SimpleMouseEvent) => void>
@@ -32,7 +35,7 @@ export default interface IMouse extends IEventLoop {
 }
 
 export const mouseSchema: Required<ExtractProps<IMouse>> = {
-    ...eventLoopSchema,
+    ...appendableSchema,
     onClick: Function,
     onRightClick: Function,
     onMouseMove: Function,
@@ -41,7 +44,7 @@ export const mouseSchema: Required<ExtractProps<IMouse>> = {
     onMousePress: Function
 }
 
-export const mouseDefaults = extendDefaults<IMouse>([eventLoopDefaults], {
+export const mouseDefaults = extendDefaults<IMouse>([appendableDefaults], {
     onClick: undefined,
     onRightClick: undefined,
     onMouseMove: undefined,

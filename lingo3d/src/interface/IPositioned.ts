@@ -1,9 +1,12 @@
-import IEventLoop, { eventLoopDefaults, eventLoopSchema } from "./IEventLoop"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
+import IAppendable, {
+    appendableDefaults,
+    appendableSchema
+} from "./IAppendable"
 
-export default interface IPositioned extends IEventLoop {
+export default interface IPositioned extends IAppendable {
     x: number
     y: number
     z: number
@@ -11,7 +14,7 @@ export default interface IPositioned extends IEventLoop {
 }
 
 export const positionedSchema: Required<ExtractProps<IPositioned>> = {
-    ...eventLoopSchema,
+    ...appendableSchema,
     x: Number,
     y: Number,
     z: Number,
@@ -19,6 +22,6 @@ export const positionedSchema: Required<ExtractProps<IPositioned>> = {
 }
 
 export const positionedDefaults = extendDefaults<IPositioned>(
-    [eventLoopDefaults],
+    [appendableDefaults],
     { x: 0, y: 0, z: 0, onMove: undefined }
 )

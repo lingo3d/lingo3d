@@ -3,15 +3,15 @@ import { Reactive } from "@lincode/reactivity"
 import { LineGeometry } from "three/examples/jsm/lines/LineGeometry"
 import { Line2 } from "three/examples/jsm/lines/Line2"
 import { LineMaterial } from "three/examples/jsm/lines/LineMaterial"
-import EventLoopItem from "../api/core/EventLoopItem"
 import { scaleDown } from "../engine/constants"
 import scene from "../engine/scene"
 import {
     addSelectiveBloom,
     deleteSelectiveBloom
 } from "../engine/renderLoop/effectComposer/selectiveBloomEffect"
+import Appendable from "../api/core/Appendable"
 
-export default class Line extends EventLoopItem {
+export default class Line extends Appendable {
     public constructor() {
         super()
 
