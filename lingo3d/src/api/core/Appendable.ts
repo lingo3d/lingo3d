@@ -6,7 +6,7 @@ import { timer } from "../../engine/eventLoop"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { emitDispose } from "../../events/onDispose"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
-import { appendableRoot } from "./collections"
+import { appendableRoot, uuidMap } from "./collections"
 
 export default class Appendable<
     T extends Object3D = Object3D
@@ -48,6 +48,7 @@ export default class Appendable<
         if (this.done) return this
         super.dispose()
 
+        this._uuid !== undefined && uuidMap.delete(this._uuid)
         if (this.handles)
             for (const handle of this.handles.values()) handle.cancel()
 
@@ -61,7 +62,6 @@ export default class Appendable<
         this.outerObject3d.parent?.remove(this.outerObject3d)
 
         if (this.children) for (const child of this.children) child.dispose()
-
         return this
     }
 
@@ -82,10 +82,15 @@ export default class Appendable<
 
     private _uuid?: string
     public get uuid() {
-        return (this._uuid ??= nanoid())
+        if (this._uuid !== undefined) return this._uuid
+        const val = (this._uuid = nanoid())
+        uuidMap.set(val, this)
+        return val
     }
     public set uuid(val) {
+        if (this._uuid !== undefined) return
         this._uuid = val
+        uuidMap.set(val, this)
     }
 
     private _proxy?: Appendable
