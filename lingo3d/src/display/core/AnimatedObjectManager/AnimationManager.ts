@@ -162,9 +162,9 @@ export default class AnimationManager
     public setTracks(data: AnimationData) {
         this.clipState.set(
             new AnimationClip(
-                this.name,
-                -1,
-                Object.entries(data).map(
+                undefined,
+                undefined,
+                Object.entries(Object.values(data)[0]).map(
                     ([property, frames]) =>
                         new NumberKeyframeTrack(
                             "." + property,

@@ -12,7 +12,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { event, EventFunctions } from "@lincode/events"
 
 const buildAnimationTracks = debounce(
-    (val: AnimationValue) => {
+    (val: AnimationValue, uuid: string) => {
         const entries = Object.entries(val)
         let maxLength = 0
         for (const [, { length }] of entries)
@@ -21,13 +21,14 @@ const buildAnimationTracks = debounce(
         const duration = 1000
         const timeStep = (duration * 0.001) / maxLength
 
-        const result: AnimationData = {}
+        const data: AnimationData = {}
+        const result = (data[uuid] ??= {})
         for (const [name, values] of entries)
             result[name] = Object.fromEntries(
                 values.map((v, i) => [(i * timeStep).toFixed(2), v])
             )
 
-        return result
+        return data
     },
     0,
     "trailingPromise"
@@ -101,7 +102,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     }
 
     private buildAnimation(val: AnimationValue) {
-        buildAnimationTracks(val).then((tracks) => {
+        buildAnimationTracks(val, this.uuid).then((tracks) => {
             const name = "animation"
             this.createAnimation(name).setTracks(tracks)
             this.playAnimation(name)

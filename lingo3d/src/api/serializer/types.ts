@@ -68,19 +68,19 @@ export type VersionNode = {
 }
 
 export type AnimationData = Record<
-    string, //property name
+    string, //uuid
     Record<
-        number, //frame number
-        number //frame value
+        string, //property name
+        Record<
+            number, //frame number
+            number //frame value
+        >
     >
 >
 
 export type AnimationNode = {
     type: "animation"
-    data: Record<
-        string, //target name
-        AnimationData
-    >
+    data: AnimationData
 }
 
 type Node = {
