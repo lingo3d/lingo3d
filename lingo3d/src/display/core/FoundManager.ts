@@ -39,7 +39,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         for (const animationManager of Object.values(managerRecordState.get()))
             this.animations[animationManager.name] = this.watch(
                 animationManager.retarget(
-                    this.nativeObject3d,
+                    this,
                     repeatState,
                     onFinishState,
                     finishEventState

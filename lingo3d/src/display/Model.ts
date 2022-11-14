@@ -56,17 +56,17 @@ class Model extends Loaded<Group> implements IModel {
 
         const { onFinishState, repeatState, finishEventState } =
             this.lazyStates()
-        this.animations[name] = this.watch(
+        const animation = (this.animations[name] = this.watch(
             new AnimationManager(
                 name,
                 clip,
                 await this.loaded,
-                this,
                 repeatState,
                 onFinishState,
                 finishEventState
             )
-        )
+        ))
+        this.append(animation)
     }
 
     public override get animations(): Record<string, AnimationManager> {
@@ -128,18 +128,19 @@ class Model extends Loaded<Group> implements IModel {
 
         const { onFinishState, repeatState, finishEventState } =
             this.lazyStates()
-        for (const clip of loadedObject3d.animations)
-            this.animations[clip.name] = this.watch(
+        for (const clip of loadedObject3d.animations) {
+            const animation = (this.animations[clip.name] = this.watch(
                 new AnimationManager(
                     clip.name,
                     clip,
                     loadedObject3d,
-                    this,
                     repeatState,
                     onFinishState,
                     finishEventState
                 )
-            )
+            ))
+            this.append(animation)
+        }
         const measuredSize =
             this._resize === false
                 ? measure(loadedObject3d, src)

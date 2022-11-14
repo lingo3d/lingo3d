@@ -9,12 +9,13 @@ export default interface IAimationManager extends IAppendable {
     paused: boolean
 }
 
-export const animationSchema: Required<ExtractProps<IAimationManager>> = {
-    ...appendableSchema,
-    paused: Boolean
-}
+export const animationManagerSchema: Required<ExtractProps<IAimationManager>> =
+    {
+        ...appendableSchema,
+        paused: Boolean
+    }
 
-export const animationDefaults = extendDefaults<IAimationManager>(
+export const animationManagerDefaults = extendDefaults<IAimationManager>(
     [appendableDefaults],
     { paused: true }
 )

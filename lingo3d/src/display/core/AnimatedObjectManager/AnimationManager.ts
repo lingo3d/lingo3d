@@ -13,8 +13,8 @@ import { Reactive } from "@lincode/reactivity"
 import { EventFunctions } from "@lincode/events"
 import { nonSerializedAppendables } from "../../../api/core/collections"
 import IAnimationManager, {
-    animationDefaults,
-    animationSchema
+    animationManagerDefaults,
+    animationManagerSchema
 } from "../../../interface/IAnimationManager"
 import StaticObjectManager from "../StaticObjectManager"
 import Appendable from "../../../api/core/Appendable"
@@ -31,8 +31,8 @@ export default class AnimationManager
     implements IAnimationManager
 {
     public static componentName = "animation"
-    public static defaults = animationDefaults
-    public static schema = animationSchema
+    public static defaults = animationManagerDefaults
+    public static schema = animationManagerSchema
 
     private actionState = new Reactive<AnimationAction | undefined>(undefined)
     private clipState = new Reactive<AnimationClip | undefined>(undefined)
@@ -49,14 +49,12 @@ export default class AnimationManager
         public name: string,
         clip: AnimationClip | undefined,
         target: Object3D | StaticObjectManager,
-        parent: Appendable,
         repeatState: Reactive<number>,
         onFinishState: Reactive<(() => void) | undefined>,
         finishEventState: Reactive<EventFunctions | undefined>
     ) {
         super()
         nonSerializedAppendables.add(this)
-        parent.append(this)
 
         const mixer = forceGet(
             targetMixerMap,
@@ -138,7 +136,7 @@ export default class AnimationManager
     }
 
     public retarget(
-        target: Object3D | StaticObjectManager,
+        target: StaticObjectManager,
         repeatState: Reactive<number>,
         onFinishState: Reactive<(() => void) | undefined>,
         finishEventState: Reactive<EventFunctions | undefined>
@@ -148,15 +146,16 @@ export default class AnimationManager
         newClip.tracks = newClip.tracks.filter((track) =>
             track.name.startsWith(targetName)
         )
-        return new AnimationManager(
+        const animation = new AnimationManager(
             this.name,
             newClip,
             target,
-            this,
             repeatState,
             onFinishState,
             finishEventState
         )
+        target.append(animation)
+        return animation
     }
 
     public setTracks(data: AnimationData) {

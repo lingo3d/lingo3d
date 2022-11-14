@@ -14,9 +14,7 @@ import {
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
 import { useSelectionFrozen, useSelectionTarget } from "../states"
-import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import { Point } from "@lincode/math"
-import { setAnimationManager } from "../Timeline/states"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)
@@ -112,7 +110,7 @@ const SceneGraphContextMenu = () => {
                             </MenuItem>
                         </>
                     )}
-                    {selectionTarget instanceof AnimationManager && (
+                    {/* {selectionTarget instanceof AnimationManager && (
                         <MenuItem
                             onClick={() => {
                                 setAnimationManager(selectionTarget)
@@ -121,7 +119,7 @@ const SceneGraphContextMenu = () => {
                         >
                             Edit animation
                         </MenuItem>
-                    )}
+                    )} */}
                     <MenuItem
                         disabled={!selectionFrozen.size}
                         onClick={() => {

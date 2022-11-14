@@ -89,12 +89,12 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
                 name,
                 undefined,
                 this,
-                this,
                 repeatState,
                 onFinishState,
                 finishEventState
             )
         )
+        this.append(animation)
         this.animations[name] = animation
 
         return animation
