@@ -5,7 +5,7 @@ import "./retargetBones"
 import useInitCSS from "../utils/useInitCSS"
 import useClickable from "../utils/useClickable"
 import PanelSceneGraph from "./PanelSceneGraph"
-import PanelAnimations from "./PanelAnimations"
+import PanelTimelines from "./PanelTimelines"
 
 const SceneGraph = () => {
     useInitCSS(true)
@@ -29,7 +29,7 @@ const SceneGraph = () => {
                 }}
             >
                 <PanelSceneGraph />
-                <PanelAnimations />
+                <PanelTimelines />
             </div>
             <SceneGraphContextMenu />
         </>

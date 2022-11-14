@@ -5,7 +5,7 @@ import deleteSelected from "../Editor/deleteSelected"
 import { useSelectionTarget } from "../states"
 import DeleteIcon from "./icons/DeleteIcon"
 
-const PanelAnimations = () => {
+const PanelTimelines = () => {
     const [selectionTarget] = useSelectionTarget()
 
     return (
@@ -16,7 +16,7 @@ const PanelAnimations = () => {
                 flexDirection: "column"
             }}
         >
-            <TitleBar title="animations">
+            <TitleBar title="timelines">
                 <TitleBarButton
                     disabled={!selectionTarget}
                     onClick={deleteSelected}
@@ -29,4 +29,4 @@ const PanelAnimations = () => {
     )
 }
 
-export default PanelAnimations
+export default PanelTimelines
