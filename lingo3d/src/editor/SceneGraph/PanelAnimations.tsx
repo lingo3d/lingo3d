@@ -11,9 +11,9 @@ const PanelAnimations = () => {
     return (
         <div
             style={{
+                maxHeight: 200 - APPBAR_HEIGHT,
                 display: "flex",
-                flexDirection: "column",
-                maxHeight: 200 - APPBAR_HEIGHT
+                flexDirection: "column"
             }}
         >
             <TitleBar title="animations">

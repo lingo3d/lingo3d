@@ -12,25 +12,27 @@ const SceneGraph = () => {
     const elRef = useClickable()
 
     return (
-        <div
-            ref={elRef}
-            className="lingo3d-ui lingo3d-bg lingo3d-scenegraph"
-            onClick={() => emitSelectionTarget()}
-            onContextMenu={(el) => {
-                el.preventDefault()
-                emitSelectionTarget(undefined, true)
-            }}
-            style={{
-                width: 200,
-                height: "100%",
-                display: "grid",
-                gridTemplateRows: "1fr 50px"
-            }}
-        >
-            <PanelSceneGraph />
-            <PanelAnimations />
+        <>
+            <div
+                ref={elRef}
+                className="lingo3d-ui lingo3d-bg lingo3d-scenegraph"
+                onClick={() => emitSelectionTarget()}
+                onContextMenu={(el) => {
+                    el.preventDefault()
+                    emitSelectionTarget(undefined, true)
+                }}
+                style={{
+                    width: 200,
+                    height: "100%",
+                    display: "grid",
+                    gridTemplateRows: "1fr auto"
+                }}
+            >
+                <PanelSceneGraph />
+                <PanelAnimations />
+            </div>
             <SceneGraphContextMenu />
-        </div>
+        </>
     )
 }
 export default SceneGraph

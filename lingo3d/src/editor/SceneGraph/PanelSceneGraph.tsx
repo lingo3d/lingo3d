@@ -62,49 +62,57 @@ const PanelSceneGraph = () => {
     }
 
     return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-            <TitleBar title="scenegraph">
-                <TitleBarButton disabled={!nativeTarget} onClick={handleFind}>
-                    <FindIcon />
-                </TitleBarButton>
-                <TitleBarButton
-                    disabled={!multipleSelectionTargets.length}
-                    onClick={emitEditorGroupItems}
-                >
-                    <GroupIcon />
-                </TitleBarButton>
-                <TitleBarButton
-                    disabled={!selectionTarget}
-                    onClick={deleteSelected}
-                >
-                    <DeleteIcon />
-                </TitleBarButton>
-            </TitleBar>
-            <div style={{ overflow: "scroll", flexGrow: 1 }}>
-                <TreeItemContextProvider>
-                    {appendables.map((appendable) =>
-                        appendable instanceof Model ? (
-                            <ModelTreeItem
-                                key={appendable.uuid}
-                                appendable={appendable}
-                            />
-                        ) : (
-                            <TreeItem
-                                key={appendable.uuid}
-                                appendable={appendable}
-                            />
-                        )
-                    )}
-                    <EmptyTreeItem
-                        onDrop={(child) => {
-                            emitSceneGraphChange()
-                            appendableRoot.add(child)
-                            scene.attach(child.outerObject3d)
-                            child.parent?.children?.delete(child)
-                            child.parent = undefined
-                        }}
-                    />
-                </TreeItemContextProvider>
+        <div>
+            <div
+                className="lingo3d-absfull"
+                style={{ display: "flex", flexDirection: "column" }}
+            >
+                <TitleBar title="scenegraph">
+                    <TitleBarButton
+                        disabled={!nativeTarget}
+                        onClick={handleFind}
+                    >
+                        <FindIcon />
+                    </TitleBarButton>
+                    <TitleBarButton
+                        disabled={!multipleSelectionTargets.length}
+                        onClick={emitEditorGroupItems}
+                    >
+                        <GroupIcon />
+                    </TitleBarButton>
+                    <TitleBarButton
+                        disabled={!selectionTarget}
+                        onClick={deleteSelected}
+                    >
+                        <DeleteIcon />
+                    </TitleBarButton>
+                </TitleBar>
+                <div style={{ overflow: "scroll", flexGrow: 1 }}>
+                    <TreeItemContextProvider>
+                        {appendables.map((appendable) =>
+                            appendable instanceof Model ? (
+                                <ModelTreeItem
+                                    key={appendable.uuid}
+                                    appendable={appendable}
+                                />
+                            ) : (
+                                <TreeItem
+                                    key={appendable.uuid}
+                                    appendable={appendable}
+                                />
+                            )
+                        )}
+                        <EmptyTreeItem
+                            onDrop={(child) => {
+                                emitSceneGraphChange()
+                                appendableRoot.add(child)
+                                scene.attach(child.outerObject3d)
+                                child.parent?.children?.delete(child)
+                                child.parent = undefined
+                            }}
+                        />
+                    </TreeItemContextProvider>
+                </div>
             </div>
         </div>
     )
