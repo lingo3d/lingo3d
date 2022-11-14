@@ -102,7 +102,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
 
     private buildAnimation(val: AnimationValue) {
         buildAnimationTracks(val).then((tracks) => {
-            const name = "lingo3d-animation"
+            const name = "animation"
             this.createAnimation(name).setTracks(tracks)
             this.playAnimation(name)
         })
