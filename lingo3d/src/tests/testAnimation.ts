@@ -2,5 +2,6 @@ import Cube from "../display/primitives/Cube"
 
 const box = new Cube()
 box.animation = {
-    rotationX: [0, 360]
+    rotationX: [0, 180, 360],
+    x: [0, 100, 0]
 }

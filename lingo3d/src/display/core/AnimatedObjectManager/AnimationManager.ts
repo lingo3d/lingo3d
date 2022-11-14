@@ -16,8 +16,9 @@ import IAnimationManager, {
     animationManagerDefaults,
     animationManagerSchema
 } from "../../../interface/IAnimationManager"
-import StaticObjectManager from "../StaticObjectManager"
 import Appendable from "../../../api/core/Appendable"
+import FoundManager from "../FoundManager"
+import StaticObjectManager from "../StaticObjectManager"
 
 const targetMixerMap = new WeakMap<
     Object3D | StaticObjectManager,
@@ -48,23 +49,23 @@ export default class AnimationManager
     public constructor(
         public name: string,
         clip: AnimationClip | undefined,
-        target: Object3D | StaticObjectManager,
+        target: Object3D | StaticObjectManager | undefined,
         repeatState: Reactive<number>,
         onFinishState: Reactive<(() => void) | undefined>,
-        finishEventState: Reactive<EventFunctions | undefined>
+        finishEventState?: Reactive<EventFunctions | undefined>
     ) {
         super()
         nonSerializedAppendables.add(this)
 
         const mixer = forceGet(
             targetMixerMap,
-            target,
+            target ?? this,
             () => new AnimationMixer(target as any)
         )
         this.createEffect(() => {
             if (this.pausedState.get()) return
 
-            const finishEvent = finishEventState.get()
+            const finishEvent = finishEventState?.get()
             if (finishEvent) {
                 const [emitFinish] = finishEvent
                 const onFinish = () => emitFinish()
@@ -80,7 +81,7 @@ export default class AnimationManager
             return () => {
                 mixer.removeEventListener("finished", onFinish)
             }
-        }, [onFinishState.get, this.pausedState.get, finishEventState.get])
+        }, [onFinishState.get, this.pausedState.get, finishEventState?.get])
 
         if (clip) {
             this.clipState.set(clip)
@@ -101,10 +102,10 @@ export default class AnimationManager
         this.createEffect(() => {
             const action = this.actionState.get()
             if (action)
-                action.repetitions = finishEventState.get()
+                action.repetitions = finishEventState?.get()
                     ? 0
                     : repeatState.get()
-        }, [this.actionState.get, repeatState.get, finishEventState.get])
+        }, [this.actionState.get, repeatState.get, finishEventState?.get])
 
         this.createEffect(() => {
             const action = this.actionState.get()
@@ -136,7 +137,7 @@ export default class AnimationManager
     }
 
     public retarget(
-        target: StaticObjectManager,
+        target: FoundManager,
         repeatState: Reactive<number>,
         onFinishState: Reactive<(() => void) | undefined>,
         finishEventState: Reactive<EventFunctions | undefined>
