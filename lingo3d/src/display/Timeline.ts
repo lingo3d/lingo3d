@@ -1,15 +1,26 @@
 import { Reactive } from "@lincode/reactivity"
-import ITimeline, { timelineDefaults, timelineSchema } from "../interface/ITimeline"
+import Appendable from "../api/core/Appendable"
+import { AnimationData } from "../api/serializer/types"
+import ITimeline, {
+    timelineDefaults,
+    timelineSchema
+} from "../interface/ITimeline"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 
-export default class Timeline extends AnimationManager implements ITimeline {
-    public static override componentName = "timeline"
-    public static override defaults = timelineDefaults
-    public static override schema = timelineSchema
+export default class Timeline extends Appendable implements ITimeline {
+    public static componentName = "timeline"
+    public static defaults = timelineDefaults
+    public static schema = timelineSchema
 
-    public constructor(name: string) {
-        const repeatState = new Reactive<number>(0)
-        const onFinishState = new Reactive<(() => void) | undefined>(undefined)
-        super(name, undefined, undefined, repeatState, onFinishState)
+    private animationManager = new AnimationManager(
+        "timeline",
+        undefined,
+        this,
+        new Reactive(0),
+        new Reactive<(() => void) | undefined>(undefined)
+    )
+
+    public setData(data: AnimationData) {
+        this.animationManager.setData(data)
     }
 }

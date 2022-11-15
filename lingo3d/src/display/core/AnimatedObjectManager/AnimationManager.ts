@@ -6,7 +6,7 @@ import {
     AnimationAction
 } from "three"
 import { AnimationData } from "../../../api/serializer/types"
-import { forceGet } from "@lincode/utils"
+import { forceGet, merge } from "@lincode/utils"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import { dt } from "../../../engine/eventLoop"
 import { Reactive } from "@lincode/reactivity"
@@ -18,12 +18,8 @@ import IAnimationManager, {
 } from "../../../interface/IAnimationManager"
 import Appendable from "../../../api/core/Appendable"
 import FoundManager from "../FoundManager"
-import StaticObjectManager from "../StaticObjectManager"
 
-const targetMixerMap = new WeakMap<
-    Object3D | StaticObjectManager,
-    AnimationMixer
->()
+const targetMixerMap = new WeakMap<Object3D | Appendable, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
 const mixerManagerMap = new WeakMap<AnimationMixer, AnimationManager>()
 
@@ -37,6 +33,7 @@ export default class AnimationManager
 
     private actionState = new Reactive<AnimationAction | undefined>(undefined)
     private clipState = new Reactive<AnimationClip | undefined>(undefined)
+    private dataState = new Reactive<[AnimationData | undefined]>([undefined])
 
     private pausedState = new Reactive(true)
     public get paused() {
@@ -49,7 +46,7 @@ export default class AnimationManager
     public constructor(
         public name: string,
         clip: AnimationClip | undefined,
-        target: Object3D | StaticObjectManager | undefined,
+        target: Object3D | Appendable | undefined,
         repeatState: Reactive<number>,
         onFinishState: Reactive<(() => void) | undefined>,
         finishEventState?: Reactive<EventFunctions | undefined>
@@ -83,10 +80,27 @@ export default class AnimationManager
             }
         }, [onFinishState.get, this.pausedState.get, finishEventState?.get])
 
-        if (clip) {
-            this.clipState.set(clip)
-            this.actionState.set(mixer.clipAction(clip))
-        }
+        this.createEffect(() => {
+            const [data] = this.dataState.get()
+            if (!data) {
+                this.clipState.set(clip)
+                return
+            }
+            this.clipState.set(
+                new AnimationClip(
+                    undefined,
+                    undefined,
+                    Object.entries(Object.values(data)[0]).map(
+                        ([property, frames]) =>
+                            new NumberKeyframeTrack(
+                                "." + property,
+                                frames.map(([frameNum]) => frameNum),
+                                frames.map(([, frameValue]) => frameValue)
+                            )
+                    )
+                )
+            )
+        }, [this.dataState.get])
 
         this.createEffect(() => {
             const clip = this.clipState.get()
@@ -160,19 +174,16 @@ export default class AnimationManager
     }
 
     public setData(data: AnimationData) {
-        this.clipState.set(
-            new AnimationClip(
-                undefined,
-                undefined,
-                Object.entries(Object.values(data)[0]).map(
-                    ([property, frames]) =>
-                        new NumberKeyframeTrack(
-                            "." + property,
-                            frames.map(([frameNum]) => frameNum),
-                            frames.map(([, frameValue]) => frameValue)
-                        )
-                )
-            )
-        )
+        this.dataState.set([data])
+    }
+
+    public addData(data: AnimationData) {
+        const [prevData] = this.dataState.get()
+        if (!prevData) {
+            this.dataState.set([data])
+            return
+        }
+        merge(prevData, data)
+        this.dataState.set([prevData])
     }
 }
