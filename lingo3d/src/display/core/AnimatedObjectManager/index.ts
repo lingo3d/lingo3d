@@ -129,30 +129,27 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         return animation
     }
 
-    protected serializeAnimation?: string | number | boolean
+    protected get serializeAnimation() {
+        return typeof this._animation !== "object" ? this._animation : undefined
+    }
+
     private setAnimation(val?: string | number | boolean | AnimationValue) {
         this._animation = val
 
         if (typeof val === "string" || typeof val === "number") {
-            this.serializeAnimation = val
             this.playAnimation(val)
             return
         }
         if (typeof val === "boolean") {
-            this.serializeAnimation = val
             val ? this.playAnimation(undefined) : this.stopAnimation()
             return
         }
         if (!val) {
-            this.serializeAnimation = val
             this.stopAnimation()
             return
         }
-        this.serializeAnimation = undefined
         const name = "animation"
-        this.createAnimation(name).setData(
-            animationValueToData(val, this.uuid)
-        )
+        this.createAnimation(name).setData(animationValueToData(val, this.uuid))
         this.playAnimation(name)
     }
 
