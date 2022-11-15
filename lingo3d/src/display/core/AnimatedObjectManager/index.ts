@@ -10,7 +10,7 @@ import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { event, EventFunctions } from "@lincode/events"
 
-const animationValueToData = (val: AnimationValue, uuid: string) => {
+const animationValueToData = (val: AnimationValue) => {
     const entries = Object.entries(val)
     let maxLength = 0
     for (const [, { length }] of entries)
@@ -20,7 +20,7 @@ const animationValueToData = (val: AnimationValue, uuid: string) => {
     const timeStep = (duration * 0.001) / maxLength
 
     const data: AnimationData = {}
-    const result = (data[uuid] ??= {})
+    const result = (data[""] ??= {})
     for (const [name, values] of entries)
         result[name] = values.map((v, i) => [
             Number((i * timeStep).toFixed(2)),
@@ -149,7 +149,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
             return
         }
         const name = "animation"
-        this.createAnimation(name).setData(animationValueToData(val, this.uuid))
+        this.createAnimation(name).setData(animationValueToData(val))
         this.playAnimation(name)
     }
 
