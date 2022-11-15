@@ -159,7 +159,7 @@ export default class AnimationManager
         return animation
     }
 
-    public setTracks(data: AnimationData) {
+    public setData(data: AnimationData) {
         this.clipState.set(
             new AnimationClip(
                 undefined,

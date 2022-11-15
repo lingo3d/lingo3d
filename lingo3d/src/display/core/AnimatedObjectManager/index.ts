@@ -9,7 +9,6 @@ import StaticObjectManager from "../StaticObjectManager"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { event, EventFunctions } from "@lincode/events"
-import { debounceInstance } from "@lincode/utils"
 
 const animationValueToData = (val: AnimationValue, uuid: string) => {
     const entries = Object.entries(val)
@@ -74,54 +73,6 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         this.lazyStates().managerRecordState.set(val)
     }
 
-    private createAnimation(name: string): AnimationManager {
-        if (name in this.animations) {
-            const animation = this.animations[name]
-            if (typeof animation !== "string") return animation
-        }
-        const { onFinishState, repeatState, finishEventState } =
-            this.lazyStates()
-        const animation = this.watch(
-            new AnimationManager(
-                name,
-                undefined,
-                this,
-                repeatState,
-                onFinishState,
-                finishEventState
-            )
-        )
-        this.append(animation)
-        this.animations[name] = animation
-
-        return animation
-    }
-
-    private static buildAnimation = debounceInstance(
-        (target: AnimatedObjectManager, val: AnimationValue) => {
-            const tracks = animationValueToData(val, target.uuid)
-            const name = "animation"
-            target.createAnimation(name).setTracks(tracks)
-            target.playAnimation(name)
-        }
-    )
-    private buildAnimation(val: AnimationValue) {
-        AnimatedObjectManager.buildAnimation(this, this, val)
-    }
-
-    private makeAnimationProxy(source: AnimationValue) {
-        return new Proxy(source, {
-            get: (anim, prop: string) => {
-                return anim[prop]
-            },
-            set: (anim, prop: string, value) => {
-                anim[prop] = value
-                this.buildAnimation(anim)
-                return true
-            }
-        })
-    }
-
     public get animationPaused() {
         return this.lazyStates().pausedState.get()
     }
@@ -157,6 +108,27 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         this.lazyStates().pausedState.set(true)
     }
 
+    private createAnimation(name: string): AnimationManager {
+        let animation = this.animations[name]
+        if (animation && typeof animation !== "string") return animation
+
+        const { onFinishState, repeatState, finishEventState } =
+            this.lazyStates()
+        animation = this.watch(
+            new AnimationManager(
+                name,
+                undefined,
+                this,
+                repeatState,
+                onFinishState,
+                finishEventState
+            )
+        )
+        this.append(animation)
+        this.animations[name] = animation
+        return animation
+    }
+
     protected serializeAnimation?: string | number | boolean
     private setAnimation(val?: string | number | boolean | AnimationValue) {
         this._animation = val
@@ -171,13 +143,17 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
             val ? this.playAnimation(undefined) : this.stopAnimation()
             return
         }
-
         if (!val) {
+            this.serializeAnimation = val
             this.stopAnimation()
             return
         }
-        this._animation = this.makeAnimationProxy(val)
-        this.buildAnimation(val)
+        this.serializeAnimation = undefined
+        const name = "animation"
+        this.createAnimation(name).setData(
+            animationValueToData(val, this.uuid)
+        )
+        this.playAnimation(name)
     }
 
     private _animation?: Animation
