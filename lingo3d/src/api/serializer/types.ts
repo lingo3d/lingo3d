@@ -23,6 +23,7 @@ import IPrimitive from "../../interface/IPrimitive"
 import ISkybox from "../../interface/ISkybox"
 import IEnvironment from "../../interface/IEnvironment"
 import ISetup from "../../interface/ISetup"
+import { Point, Point3d } from "@lincode/math"
 
 export type GameObjectType =
     | "group"
@@ -74,7 +75,7 @@ export type AnimationData = Record<
         Array<
             [
                 number, //frame number
-                number //frame value
+                number | Point | Point3d //frame value
             ]
         >
     >

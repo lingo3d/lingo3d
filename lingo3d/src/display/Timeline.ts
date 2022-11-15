@@ -23,5 +23,6 @@ export default class Timeline extends Appendable implements ITimeline {
 
     public setData(data: AnimationData) {
         this.animationManager.setData(data)
+        this.animationManager.paused = false
     }
 }
