@@ -38,7 +38,7 @@ const serialize = async (children: Array<any>) => {
                 if (!value) continue
             } else if (key === "animation") {
                 value = child.serializeAnimation
-                if (value === undefined) continue
+                if (!value) continue
             } else value = child[key]
 
             const t = typeof value
