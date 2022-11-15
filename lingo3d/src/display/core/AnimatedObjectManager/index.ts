@@ -1,4 +1,3 @@
-import { debounce } from "@lincode/utils"
 import { Object3D } from "three"
 import { AnimationData } from "../../../api/serializer/types"
 import IAnimatedObjectManager, {
@@ -10,35 +9,26 @@ import StaticObjectManager from "../StaticObjectManager"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { event, EventFunctions } from "@lincode/events"
+import { debounceInstance } from "@lincode/utils"
 
-//mark
-const animationData2Tracks = (data: AnimationData) => {
-    for (const [uuid, propertyTracks] of Object.entries(data)) {
-    }
+const animationValueToData = (val: AnimationValue, uuid: string) => {
+    const entries = Object.entries(val)
+    let maxLength = 0
+    for (const [, { length }] of entries)
+        length > maxLength && (maxLength = length)
+
+    const duration = 1000
+    const timeStep = (duration * 0.001) / maxLength
+
+    const data: AnimationData = {}
+    const result = (data[uuid] ??= {})
+    for (const [name, values] of entries)
+        result[name] = values.map((v, i) => [
+            Number((i * timeStep).toFixed(2)),
+            v
+        ])
+    return data
 }
-
-const buildAnimationTracks = debounce(
-    (val: AnimationValue, uuid: string) => {
-        const entries = Object.entries(val)
-        let maxLength = 0
-        for (const [, { length }] of entries)
-            length > maxLength && (maxLength = length)
-
-        const duration = 1000
-        const timeStep = (duration * 0.001) / maxLength
-
-        const data: AnimationData = {}
-        const result = (data[uuid] ??= {})
-        for (const [name, values] of entries)
-            result[name] = values.map((v, i) => [
-                Number((i * timeStep).toFixed(2)),
-                v
-            ])
-        return data
-    },
-    0,
-    "trailingPromise"
-)
 
 type States = {
     managerRecordState: Reactive<Record<string, AnimationManager>>
@@ -107,12 +97,16 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         return animation
     }
 
-    private buildAnimation(val: AnimationValue) {
-        buildAnimationTracks(val, this.uuid).then((tracks) => {
+    private static buildAnimation = debounceInstance(
+        (target: AnimatedObjectManager, val: AnimationValue) => {
+            const tracks = animationValueToData(val, target.uuid)
             const name = "animation"
-            this.createAnimation(name).setTracks(tracks)
-            this.playAnimation(name)
-        })
+            target.createAnimation(name).setTracks(tracks)
+            target.playAnimation(name)
+        }
+    )
+    private buildAnimation(val: AnimationValue) {
+        AnimatedObjectManager.buildAnimation(this, this, val)
     }
 
     private makeAnimationProxy(source: AnimationValue) {
