@@ -18,10 +18,23 @@ import IAnimationManager, {
 } from "../../../interface/IAnimationManager"
 import Appendable from "../../../api/core/Appendable"
 import FoundManager from "../FoundManager"
+import { Point, Point3d } from "@lincode/math"
 
 const targetMixerMap = new WeakMap<Object3D | Appendable, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
 const mixerManagerMap = new WeakMap<AnimationMixer, AnimationManager>()
+
+const framesToKeyframeTrack = (
+    targetName: string,
+    property: string,
+    frames: Array<[number, number | Point | Point3d]>
+) => {
+    return new NumberKeyframeTrack(
+        targetName + "." + property,
+        frames.map(([frameNum]) => frameNum),
+        frames.map(([, frameValue]) => frameValue)
+    )
+}
 
 export default class AnimationManager
     extends Appendable
@@ -94,12 +107,10 @@ export default class AnimationManager
                         .map(([targetName, targetTracks]) =>
                             Object.entries(targetTracks).map(
                                 ([property, frames]) =>
-                                    new NumberKeyframeTrack(
-                                        targetName + "." + property,
-                                        frames.map(([frameNum]) => frameNum),
-                                        frames.map(
-                                            ([, frameValue]) => frameValue
-                                        )
+                                    framesToKeyframeTrack(
+                                        targetName,
+                                        property,
+                                        frames
                                     )
                             )
                         )
