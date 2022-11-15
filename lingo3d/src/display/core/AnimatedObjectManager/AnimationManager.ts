@@ -86,34 +86,24 @@ export default class AnimationManager
                 this.clipState.set(clip)
                 return
             }
-            // Object.entries(data).map(
-            //     ([targetName, targetTracks]) =>
-            //         new AnimationClip(
-            //             undefined,
-            //             undefined,
-            //             Object.entries(targetTracks).map(
-            //                 ([property, frames]) =>
-            //                     new NumberKeyframeTrack(
-            //                         targetName + "." + property,
-            //                         frames.map(([frameNum]) => frameNum),
-            //                         frames.map(([, frameValue]) => frameValue)
-            //                     )
-            //             )
-            //         )
-            // )
-
             this.clipState.set(
                 new AnimationClip(
                     undefined,
                     undefined,
-                    Object.entries(Object.values(data)[0]).map(
-                        ([property, frames]) =>
-                            new NumberKeyframeTrack(
-                                "." + property,
-                                frames.map(([frameNum]) => frameNum),
-                                frames.map(([, frameValue]) => frameValue)
+                    Object.entries(data)
+                        .map(([targetName, targetTracks]) =>
+                            Object.entries(targetTracks).map(
+                                ([property, frames]) =>
+                                    new NumberKeyframeTrack(
+                                        targetName + "." + property,
+                                        frames.map(([frameNum]) => frameNum),
+                                        frames.map(
+                                            ([, frameValue]) => frameValue
+                                        )
+                                    )
                             )
-                    )
+                        )
+                        .flat()
                 )
             )
         }, [this.dataState.get])
