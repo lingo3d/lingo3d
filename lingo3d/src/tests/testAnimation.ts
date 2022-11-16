@@ -18,3 +18,4 @@ timeline.setData({
         ]
     }
 })
+timeline.paused = false

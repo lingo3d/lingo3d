@@ -1,17 +1,17 @@
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
-import IAppendable, {
-    appendableDefaults,
-    appendableSchema
-} from "./IAppendable"
+import IAnimationManager, {
+    animationManagerDefaults,
+    animationManagerSchema
+} from "./IAnimationManager"
 
-export default interface ITimeline extends IAppendable {}
+export default interface ITimeline extends IAnimationManager {}
 
 export const timelineSchema: Required<ExtractProps<ITimeline>> = {
-    ...appendableSchema
+    ...animationManagerSchema
 }
 
 export const timelineDefaults = extendDefaults<ITimeline>(
-    [appendableDefaults],
+    [animationManagerDefaults],
     {}
 )

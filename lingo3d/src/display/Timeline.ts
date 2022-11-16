@@ -1,7 +1,7 @@
 import { Reactive } from "@lincode/reactivity"
 import { PropertyBinding } from "three"
 import Appendable from "../api/core/Appendable"
-import { uuidMap } from "../api/core/collections"
+import { hiddenAppendables, uuidMap } from "../api/core/collections"
 import { AnimationData } from "../api/serializer/types"
 import ITimeline, {
     timelineDefaults,
@@ -15,21 +15,18 @@ PropertyBinding.findNode = (root, nodeName) => {
     return findNode(root, nodeName)
 }
 
-export default class Timeline extends Appendable implements ITimeline {
-    public static componentName = "timeline"
-    public static defaults = timelineDefaults
-    public static schema = timelineSchema
+export default class Timeline extends AnimationManager implements ITimeline {
+    public static override componentName = "timeline"
+    public static override defaults = timelineDefaults
+    public static override schema = timelineSchema
 
-    private animationManager = new AnimationManager(
-        "timeline",
-        undefined,
-        {},
-        new Reactive(0),
-        new Reactive<(() => void) | undefined>(undefined)
-    )
-
-    public setData(data: AnimationData) {
-        this.animationManager.setData(data)
-        this.animationManager.paused = false
+    public constructor() {
+        super(
+            "timeline",
+            undefined,
+            {},
+            new Reactive(0),
+            new Reactive<(() => void) | undefined>(undefined)
+        )
     }
 }
