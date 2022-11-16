@@ -1,8 +1,6 @@
 import { Reactive } from "@lincode/reactivity"
 import { PropertyBinding } from "three"
-import Appendable from "../api/core/Appendable"
-import { hiddenAppendables, uuidMap } from "../api/core/collections"
-import { AnimationData } from "../api/serializer/types"
+import { uuidMap } from "../api/core/collections"
 import ITimeline, {
     timelineDefaults,
     timelineSchema

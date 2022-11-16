@@ -1,7 +1,7 @@
-import { useAnimationManager } from "./states"
+import { useTimeline } from "./states"
 
 const Layers = () => {
-    const [animationManager] = useAnimationManager()
+    const [timeline] = useTimeline()
 
     return <div></div>
 }
