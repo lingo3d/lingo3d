@@ -1,5 +1,4 @@
 import {
-    Object3D,
     AnimationMixer,
     AnimationClip,
     NumberKeyframeTrack,
@@ -20,7 +19,7 @@ import Appendable from "../../../api/core/Appendable"
 import FoundManager from "../FoundManager"
 import { Point, Point3d } from "@lincode/math"
 
-const targetMixerMap = new WeakMap<Object3D | Appendable, AnimationMixer>()
+const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
 const mixerManagerMap = new WeakMap<AnimationMixer, AnimationManager>()
 
@@ -59,7 +58,7 @@ export default class AnimationManager
     public constructor(
         public name: string,
         clip: AnimationClip | undefined,
-        target: Object3D | Appendable | undefined,
+        target: object | undefined,
         repeatState: Reactive<number>,
         onFinishState: Reactive<(() => void) | undefined>,
         finishEventState?: Reactive<EventFunctions | undefined>
