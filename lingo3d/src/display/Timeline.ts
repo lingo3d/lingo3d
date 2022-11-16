@@ -1,12 +1,19 @@
 import { Reactive } from "@lincode/reactivity"
+import { PropertyBinding } from "three"
 import Appendable from "../api/core/Appendable"
+import { uuidMap } from "../api/core/collections"
 import { AnimationData } from "../api/serializer/types"
-import scene from "../engine/scene"
 import ITimeline, {
     timelineDefaults,
     timelineSchema
 } from "../interface/ITimeline"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
+
+const findNode = PropertyBinding.findNode
+PropertyBinding.findNode = (root, nodeName) => {
+    if (uuidMap.has(nodeName)) return uuidMap.get(nodeName)
+    return findNode(root, nodeName)
+}
 
 export default class Timeline extends Appendable implements ITimeline {
     public static componentName = "timeline"
@@ -16,7 +23,7 @@ export default class Timeline extends Appendable implements ITimeline {
     private animationManager = new AnimationManager(
         "timeline",
         undefined,
-        scene,
+        {},
         new Reactive(0),
         new Reactive<(() => void) | undefined>(undefined)
     )
