@@ -1,6 +1,6 @@
 import { FRAME_WIDTH, LAYER_HEIGHT } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
-import { useScrollLeft } from "./states"
+import { useFrameNum, useScrollLeft } from "./states"
 
 type FrameGridProps = {
     width: number
@@ -8,12 +8,13 @@ type FrameGridProps = {
 
 const FrameGrid = ({ width }: FrameGridProps) => {
     const [scrollLeft, setScrollLeft] = useScrollLeft()
+    const [frameNum] = useFrameNum()
 
     return (
         <VirtualizedListHorizontal
             scrollLeft={scrollLeft}
             onScrollLeft={setScrollLeft}
-            itemNum={100}
+            itemNum={frameNum}
             itemWidth={FRAME_WIDTH}
             containerWidth={width}
             containerHeight={LAYER_HEIGHT}
