@@ -7,7 +7,7 @@ import { getFirstLoad } from "../states/useFirstLoad"
 import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
 import { emitRenderHalfRate } from "../events/onRenderHalfRate"
 import { setPaused } from "../states/usePaused"
-import { FRAME_TIME } from "../globals"
+import { DEFAULT_FPS } from "../globals"
 
 let paused = false
 const checkPaused = (val?: boolean) =>
@@ -71,7 +71,7 @@ createEffect(() => {
         if (paused) return
         delta += clock.getDelta()
         if (delta < targetDelta) return
-        fpsRatio[0] = delta / FRAME_TIME
+        fpsRatio[0] = delta * DEFAULT_FPS
         dt[0] = delta
         delta = 0
         for (const cb of callbacks) cb()

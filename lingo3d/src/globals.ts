@@ -1,7 +1,9 @@
 export const WIDTH = 375
 export const HEIGHT = 667
 export const SHADOW_BIAS = -0.0055
-export const FRAME_TIME = 1 / 60
+
+export const DEFAULT_FPS = 60
+export const DEFAULT_SPF = 1 / DEFAULT_FPS
 
 export const MIN_POLAR_ANGLE = 5
 export const MAX_POLAR_ANGLE = 175
