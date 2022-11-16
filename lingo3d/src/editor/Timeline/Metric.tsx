@@ -1,5 +1,5 @@
 import { CSSProperties } from "preact/compat"
-import { FRAME_WIDTH } from "../../globals"
+import { FRAME_TIME, FRAME_WIDTH } from "../../globals"
 
 const round = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100
 
@@ -9,7 +9,7 @@ type MetricProps = {
 }
 
 const Metric = ({ index, style }: MetricProps) => {
-    const rounded = round((index * 5) / 60)
+    const rounded = round(index * 5 * FRAME_TIME)
     const showSeconds = (rounded * 100) % 5 === 0
 
     return (
@@ -31,7 +31,9 @@ const Metric = ({ index, style }: MetricProps) => {
                     />
                     {index * 5}
                 </div>
-                {showSeconds && <div style={{ fontSize: 9, opacity: 0.5 }}>{rounded}s</div>}
+                {showSeconds && (
+                    <div style={{ fontSize: 9, opacity: 0.5 }}>{rounded}s</div>
+                )}
             </div>
         </div>
     )

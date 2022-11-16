@@ -18,6 +18,7 @@ import IAnimationManager, {
 import Appendable from "../../../api/core/Appendable"
 import FoundManager from "../FoundManager"
 import { Point, Point3d } from "@lincode/math"
+import { FRAME_TIME } from "../../../globals"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
@@ -30,7 +31,7 @@ const framesToKeyframeTrack = (
 ) => {
     return new NumberKeyframeTrack(
         targetName + "." + property,
-        frames.map(([frameNum]) => frameNum),
+        frames.map(([frameNum]) => frameNum * FRAME_TIME),
         frames.map(([, frameValue]) => frameValue)
     )
 }

@@ -7,6 +7,7 @@ import { getFirstLoad } from "../states/useFirstLoad"
 import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
 import { emitRenderHalfRate } from "../events/onRenderHalfRate"
 import { setPaused } from "../states/usePaused"
+import { FRAME_TIME } from "../globals"
 
 let paused = false
 const checkPaused = (val?: boolean) =>
@@ -65,13 +66,12 @@ createEffect(() => {
     if (!renderer || (getFirstLoadBeforeRender() && !getFirstLoad())) return
 
     const targetDelta = (1 / getFps()) * 0.9
-    const fullDelta = 1 / 60
 
     renderer.setAnimationLoop(() => {
         if (paused) return
         delta += clock.getDelta()
         if (delta < targetDelta) return
-        fpsRatio[0] = delta / fullDelta
+        fpsRatio[0] = delta / FRAME_TIME
         dt[0] = delta
         delta = 0
         for (const cb of callbacks) cb()
