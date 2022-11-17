@@ -3,7 +3,7 @@ import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import { useTimeline } from "../states"
 import getComponentName from "../utils/getComponentName"
 
-const Layers = () => {
+const TimelineGraph = () => {
     const [timeline] = useTimeline()
 
     return (
@@ -20,4 +20,4 @@ const Layers = () => {
     )
 }
 
-export default Layers
+export default TimelineGraph
