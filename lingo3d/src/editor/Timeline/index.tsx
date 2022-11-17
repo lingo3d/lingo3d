@@ -18,9 +18,7 @@ const Timeline = () => {
                 display: "flex"
             }}
         >
-            <div style={{ overflow: "scroll", width: 200 }}>
-                <Layers />
-            </div>
+            <Layers />
             <div style={{ flexGrow: 1 }}>
                 <div
                     ref={ref}

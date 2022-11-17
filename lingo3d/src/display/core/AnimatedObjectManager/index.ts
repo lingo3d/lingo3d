@@ -150,7 +150,8 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
             return
         }
         const name = "animation"
-        this.createAnimation(name).setData(animationValueToData(val))
+        const anim = this.createAnimation(name)
+        anim.data = animationValueToData(val)
         this.playAnimation(name)
     }
 

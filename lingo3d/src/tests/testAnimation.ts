@@ -9,7 +9,7 @@ const box = new Cube()
 // }
 
 const timeline = new Timeline()
-timeline.setData({
+timeline.data = {
     [box.uuid]: {
         x: [
             [0, 0],
@@ -22,5 +22,5 @@ timeline.setData({
             [80, 0]
         ]
     }
-})
+}
 timeline.paused = false

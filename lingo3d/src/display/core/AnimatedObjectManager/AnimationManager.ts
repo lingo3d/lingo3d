@@ -190,11 +190,14 @@ export default class AnimationManager
         return animation
     }
 
-    public setData(data: AnimationData) {
-        this.dataState.set([data])
+    public get data() {
+        return this.dataState.get()[0]
+    }
+    public set data(val: AnimationData | undefined) {
+        this.dataState.set([val])
     }
 
-    public addData(data: AnimationData) {
+    public assignData(data: AnimationData) {
         const [prevData] = this.dataState.get()
         if (!prevData) {
             this.dataState.set([data])
