@@ -1,10 +1,13 @@
 import useResizeObserver from "../hooks/useResizeObserver"
+import { useTimeline, useTimelineExpandedUUIDs } from "../states"
 import FrameGrid from "./FrameGrid"
 
 type FrameGridProps = {}
 
 const Frames = ({}: FrameGridProps) => {
     const [ref, { width }] = useResizeObserver()
+    const [[expandedUUIDs]] = useTimelineExpandedUUIDs()
+    const [timeline] = useTimeline()
 
     return (
         <div
@@ -16,9 +19,16 @@ const Frames = ({}: FrameGridProps) => {
                 borderTop: "1px solid rgba(255, 255, 255, 0.2)"
             }}
         >
-            <FrameGrid width={width} />
-            <FrameGrid width={width} />
-            <FrameGrid width={width} />
+            {timeline?.data &&
+                Object.entries(timeline.data).map(([uuid, data]) => (
+                    <>
+                        <FrameGrid width={width} />
+                        {expandedUUIDs.has(uuid) &&
+                            Object.entries(data).map(([property, frames]) => (
+                                <FrameGrid width={width} />
+                            ))}
+                    </>
+                ))}
         </div>
     )
 }

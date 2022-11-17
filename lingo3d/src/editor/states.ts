@@ -79,6 +79,22 @@ export const [useSceneGraphExpanded, setSceneGraphExpanded] = preactStore<
 >(undefined)
 export const [useTimelineScrollLeft] = preactStore(0)
 export const [useTimelineFrameNum] = preactStore(1000)
+const [
+    useTimelineExpandedUUIDs,
+    setTimelineExpandedUUIDs,
+    getTimelineExpandedUUIDs
+] = preactStore([new Set<string>()])
+export { useTimelineExpandedUUIDs }
+export const addTimelineExpandedUUID = (uuid: string) => {
+    const [expandedUUIDs] = getTimelineExpandedUUIDs()
+    expandedUUIDs.add(uuid)
+    setTimelineExpandedUUIDs([expandedUUIDs])
+}
+export const deleteTimelineExpandedUUID = (uuid: string) => {
+    const [expandedUUIDs] = getTimelineExpandedUUIDs()
+    expandedUUIDs.delete(uuid)
+    setTimelineExpandedUUIDs([expandedUUIDs])
+}
 export const [useFileSelected, setFileSelected] = preactStore<File | undefined>(
     undefined
 )
