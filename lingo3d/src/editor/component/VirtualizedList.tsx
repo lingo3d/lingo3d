@@ -27,7 +27,16 @@ const VirtualizedList = ({
     onScrollTop,
     style
 }: VirtualizedListProps) => {
-    const [scroll, setScroll] = useState(0)
+    const [scroll, setScroll] = useState(scrollTop ?? 0)
+
+    const firstRef = useRef(true)
+    useLayoutEffect(() => {
+        if (firstRef.current) {
+            firstRef.current = false
+            return
+        }
+        onScrollTop?.(scroll)
+    }, [scroll])
 
     const scrollRef = useRef<HTMLDivElement>(null)
     useLayoutEffect(() => {
@@ -65,7 +74,6 @@ const VirtualizedList = ({
             onScroll={(e) => {
                 const { scrollTop } = e.currentTarget as HTMLDivElement
                 setScroll(scrollTop)
-                onScrollTop?.(scrollTop)
             }}
         >
             <div style={{ position: "relative", height: innerHeight }}>

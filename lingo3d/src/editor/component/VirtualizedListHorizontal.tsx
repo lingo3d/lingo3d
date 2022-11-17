@@ -27,7 +27,16 @@ const VirtualizedListHorizontal = ({
     onScrollLeft,
     style
 }: VirtualizedListHorizontalProps) => {
-    const [scroll, setScroll] = useState(0)
+    const [scroll, setScroll] = useState(scrollLeft ?? 0)
+
+    const firstRef = useRef(true)
+    useLayoutEffect(() => {
+        if (firstRef.current) {
+            firstRef.current = false
+            return
+        }
+        onScrollLeft?.(scroll)
+    }, [scroll])
 
     const scrollRef = useRef<HTMLDivElement>(null)
     useLayoutEffect(() => {
@@ -72,7 +81,6 @@ const VirtualizedListHorizontal = ({
                 onScroll={(e) => {
                     const { scrollLeft } = e.currentTarget as HTMLDivElement
                     setScroll(scrollLeft)
-                    onScrollLeft?.(scrollLeft)
                 }}
             >
                 <div style={{ position: "relative", width: innerWidth }}>
