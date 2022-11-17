@@ -1,14 +1,11 @@
 import register from "preact-custom-element"
 import { APPBAR_HEIGHT } from "../../globals"
-import useResizeObserver from "../hooks/useResizeObserver"
 import useInitCSS from "../utils/useInitCSS"
-import FrameGrid from "./FrameGrid"
+import Frames from "./Frames"
 import TimelineGraph from "./TimelineGraph"
 
 const Timeline = () => {
     useInitCSS(true)
-    const [ref, { width }] = useResizeObserver()
-
     return (
         <div
             className="lingo3d-ui lingo3d-bg lingo3d-panels"
@@ -20,17 +17,7 @@ const Timeline = () => {
         >
             <TimelineGraph />
             <div style={{ flexGrow: 1 }}>
-                <div
-                    ref={ref}
-                    className="lingo3d-absfull"
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        borderTop: "1px solid rgba(255, 255, 255, 0.2)"
-                    }}
-                >
-                    <FrameGrid width={width} />
-                </div>
+                <Frames />
             </div>
         </div>
     )
