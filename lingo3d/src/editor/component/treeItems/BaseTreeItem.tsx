@@ -37,7 +37,7 @@ const BaseTreeItem = ({
     myDraggingItem,
     draggable,
     expanded: expandedProp,
-    expandable = !!(Array.isArray(children) ? children.length : children),
+    expandable = !!children,
     outlined,
     IconComponent
 }: BaseTreeItemProps) => {

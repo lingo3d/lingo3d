@@ -37,7 +37,6 @@ const FileTreeItem = ({
         <BaseTreeItem
             label={folderName}
             expanded
-            expandable
             selected={myPath === fileBrowserDir}
             onClick={() => setFileBrowserDir(myPath)}
             IconComponent={FolderIcon}
