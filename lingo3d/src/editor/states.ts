@@ -26,10 +26,6 @@ import {
     setSelectionFrozen
 } from "../states/useSelectionFrozen"
 import { getFiles, setFiles } from "../states/useFiles"
-import {
-    setFileBrowserDir,
-    getFileBrowserDir
-} from "../states/useFileBrowserDir"
 import { setSetupStack, getSetupStack } from "../states/useSetupStack"
 import { getStats, setStats } from "../states/useStats"
 import {
@@ -82,8 +78,8 @@ export const [useFileSelected, setFileSelected] = preactStore<File | undefined>(
     undefined
 )
 export const [useFileBrowser, setFileBrowser] = preactStore(false)
+export const [useFileBrowserDir] = preactStore("")
 
-export const useFileBrowserDir = hook(setFileBrowserDir, getFileBrowserDir)
 export const useStats = hook(setStats, getStats)
 export const useLoadingUnpkgCount = hook(
     setLoadingUnpkgCount,
