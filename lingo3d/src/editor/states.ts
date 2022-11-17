@@ -26,7 +26,6 @@ import {
     setSelectionFrozen
 } from "../states/useSelectionFrozen"
 import { getFiles, setFiles } from "../states/useFiles"
-import { setFileBrowser, getFileBrowser } from "../states/useFileBrowser"
 import {
     setFileBrowserDir,
     getFileBrowserDir
@@ -69,21 +68,21 @@ export const useSelectionNativeTarget = hook(
     setSelectionNativeTarget,
     getSelectionNativeTarget
 )
-export const [useSceneGraphExpanded, setSceneGraphExpanded] = preactStore<
-    Set<Object3D> | undefined
->(undefined)
-
-export const [useTimelineScrollLeft] = preactStore(0)
-export const [useTimelineFrameNum] = preactStore(1000)
-
 export const useSetupStack = hook(setSetupStack, getSetupStack)
 export const usePaused = hook(setPaused, getPaused)
 export const useFiles = hook(setFiles, getFiles)
-
-export const [useFileSelected, setFileSelected] = preactStore<File | undefined>(undefined)
-
 export const useFileCurrent = hook(setFileCurrent, getFileCurrent)
-export const useFileBrowser = hook(setFileBrowser, getFileBrowser)
+
+export const [useSceneGraphExpanded, setSceneGraphExpanded] = preactStore<
+    Set<Object3D> | undefined
+>(undefined)
+export const [useTimelineScrollLeft] = preactStore(0)
+export const [useTimelineFrameNum] = preactStore(1000)
+export const [useFileSelected, setFileSelected] = preactStore<File | undefined>(
+    undefined
+)
+export const [useFileBrowser, setFileBrowser] = preactStore(false)
+
 export const useFileBrowserDir = hook(setFileBrowserDir, getFileBrowserDir)
 export const useStats = hook(setStats, getStats)
 export const useLoadingUnpkgCount = hook(

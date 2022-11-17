@@ -4,7 +4,6 @@ import AppBar from "../component/bars/AppBar"
 import useInitCSS from "../utils/useInitCSS"
 import { useFileBrowser } from "../states"
 import FileBrowser from "../FileBrowser"
-import { setFileBrowser } from "../../states/useFileBrowser"
 import { useState } from "preact/hooks"
 import Timeline from "../Timeline"
 import RulerBar from "../Timeline/RulerBar"
@@ -12,7 +11,7 @@ import RulerBar from "../Timeline/RulerBar"
 const Panels = () => {
     useInitCSS(true)
 
-    const [fileBrowser] = useFileBrowser()
+    const [fileBrowser, setFileBrowser] = useFileBrowser()
     const [tab, setTab] = useState<string | undefined>(undefined)
 
     return (

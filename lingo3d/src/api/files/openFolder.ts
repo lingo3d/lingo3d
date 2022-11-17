@@ -1,5 +1,5 @@
 import { directoryOpen } from "browser-fs-access"
-import { setFileBrowser } from "../../states/useFileBrowser"
+import { setFileBrowser } from "../../editor/states"
 import { setFiles } from "../../states/useFiles"
 import loadFile from "./loadFile"
 
