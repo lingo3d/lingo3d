@@ -23,6 +23,7 @@ export type BaseTreeItemProps = {
     expandable?: boolean
     outlined?: boolean
     IconComponent?: any
+    height?: number
 }
 
 const BaseTreeItem = ({
@@ -39,7 +40,8 @@ const BaseTreeItem = ({
     expanded: expandedProp,
     expandable = !!children,
     outlined,
-    IconComponent
+    IconComponent,
+    height
 }: BaseTreeItemProps) => {
     const expandIconStyle = {
         opacity: expandable ? 0.5 : 0.05,
@@ -150,7 +152,8 @@ const BaseTreeItem = ({
                             : undefined,
                     width: highlightWidth,
                     minWidth: "100%",
-                    cursor: "default"
+                    cursor: "default",
+                    height
                 }}
             >
                 {expanded ? (
