@@ -48,7 +48,7 @@ export default class AnimationManager
     private clipState = new Reactive<AnimationClip | undefined>(undefined)
     private dataState = new Reactive<[AnimationData | undefined]>([undefined])
 
-    private pausedState = new Reactive(true)
+    protected pausedState = new Reactive(true)
     public get paused() {
         return this.pausedState.get()
     }

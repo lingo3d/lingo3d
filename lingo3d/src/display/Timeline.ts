@@ -5,6 +5,7 @@ import ITimeline, {
     timelineDefaults,
     timelineSchema
 } from "../interface/ITimeline"
+import { setTimeline } from "../states/useTimeline"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 
 const findNode = PropertyBinding.findNode
@@ -25,6 +26,9 @@ export default class Timeline extends AnimationManager implements ITimeline {
             {},
             new Reactive(0),
             new Reactive<(() => void) | undefined>(undefined)
+        )
+        this.watch(
+            this.pausedState.get((paused) => !paused && setTimeline(this))
         )
     }
 }

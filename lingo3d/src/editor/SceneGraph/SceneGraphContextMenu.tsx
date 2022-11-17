@@ -16,7 +16,7 @@ import MenuItem from "../component/ContextMenu/MenuItem"
 import { useSelectionFrozen, useSelectionTarget } from "../states"
 import { Point } from "@lincode/math"
 import Timeline from "../../display/Timeline"
-import { setTimeline } from "../Timeline/states"
+import { setTimeline } from "../../states/useTimeline"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)
