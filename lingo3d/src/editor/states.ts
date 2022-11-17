@@ -66,6 +66,11 @@ export const useSelectionNativeTarget = hook(
 )
 export const useSetupStack = hook(setSetupStack, getSetupStack)
 export const usePaused = hook(setPaused, getPaused)
+export const useStats = hook(setStats, getStats)
+export const useLoadingUnpkgCount = hook(
+    setLoadingUnpkgCount,
+    getLoadingUnpkgCount
+)
 export const useFiles = hook(setFiles, getFiles)
 export const useFileCurrent = hook(setFileCurrent, getFileCurrent)
 
@@ -79,9 +84,3 @@ export const [useFileSelected, setFileSelected] = preactStore<File | undefined>(
 )
 export const [useFileBrowser, setFileBrowser] = preactStore(false)
 export const [useFileBrowserDir] = preactStore("")
-
-export const useStats = hook(setStats, getStats)
-export const useLoadingUnpkgCount = hook(
-    setLoadingUnpkgCount,
-    getLoadingUnpkgCount
-)
