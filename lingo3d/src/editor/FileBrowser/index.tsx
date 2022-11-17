@@ -1,11 +1,10 @@
 import { useMemo } from "preact/hooks"
 import register from "preact-custom-element"
 import { get, set, traverse } from "@lincode/utils"
-import { useFileBrowserDir, useFiles } from "../states"
+import { setFileSelected, useFileBrowserDir, useFiles } from "../states"
 import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem"
 import pathMap from "./pathMap"
-import { setFileSelected } from "../../states/useFileSelected"
 import useInitCSS from "../utils/useInitCSS"
 import { APPBAR_HEIGHT } from "../../globals"
 

@@ -31,7 +31,6 @@ import {
     setFileBrowserDir,
     getFileBrowserDir
 } from "../states/useFileBrowserDir"
-import { setFileSelected, getFileSelected } from "../states/useFileSelected"
 import { setSetupStack, getSetupStack } from "../states/useSetupStack"
 import { getStats, setStats } from "../states/useStats"
 import {
@@ -78,8 +77,11 @@ export const [useTimelineScrollLeft] = preactStore(0)
 export const [useTimelineFrameNum] = preactStore(1000)
 
 export const useSetupStack = hook(setSetupStack, getSetupStack)
+export const usePaused = hook(setPaused, getPaused)
 export const useFiles = hook(setFiles, getFiles)
-export const useFileSelected = hook(setFileSelected, getFileSelected)
+
+export const [useFileSelected, setFileSelected] = preactStore<File | undefined>(undefined)
+
 export const useFileCurrent = hook(setFileCurrent, getFileCurrent)
 export const useFileBrowser = hook(setFileBrowser, getFileBrowser)
 export const useFileBrowserDir = hook(setFileBrowserDir, getFileBrowserDir)
@@ -88,4 +90,3 @@ export const useLoadingUnpkgCount = hook(
     setLoadingUnpkgCount,
     getLoadingUnpkgCount
 )
-export const usePaused = hook(setPaused, getPaused)
