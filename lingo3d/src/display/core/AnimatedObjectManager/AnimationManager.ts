@@ -62,10 +62,11 @@ export default class AnimationManager
         target: object | undefined,
         repeatState: Reactive<number>,
         onFinishState: Reactive<(() => void) | undefined>,
-        finishEventState?: Reactive<EventFunctions | undefined>
+        finishEventState?: Reactive<EventFunctions | undefined>,
+        serialized?: boolean
     ) {
         super()
-        nonSerializedAppendables.add(this)
+        !serialized && nonSerializedAppendables.add(this)
 
         const mixer = forceGet(
             targetMixerMap,

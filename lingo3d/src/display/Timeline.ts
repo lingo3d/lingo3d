@@ -25,7 +25,9 @@ export default class Timeline extends AnimationManager implements ITimeline {
             undefined,
             {},
             new Reactive(0),
-            new Reactive<(() => void) | undefined>(undefined)
+            new Reactive<(() => void) | undefined>(undefined),
+            undefined,
+            true
         )
         this.watch(
             this.pausedState.get((paused) => !paused && setTimeline(this))
