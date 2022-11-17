@@ -4,7 +4,6 @@ import Appendable from "../../api/core/Appendable"
 import Loaded from "../../display/core/Loaded"
 import { isMeshItem } from "../../display/core/MeshItem"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
-import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import {
     addSelectionFrozen,
@@ -13,7 +12,11 @@ import {
 } from "../../states/useSelectionFrozen"
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
-import { useSelectionFrozen, useSelectionTarget } from "../states"
+import {
+    setSceneGraphExpanded,
+    useSelectionFrozen,
+    useSelectionTarget
+} from "../states"
 import { Point } from "@lincode/math"
 import Timeline from "../../display/Timeline"
 import { setTimeline } from "../../states/useTimeline"

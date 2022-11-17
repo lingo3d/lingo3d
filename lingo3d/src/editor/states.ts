@@ -22,10 +22,6 @@ import {
     getSelectionNativeTarget
 } from "../states/useSelectionNativeTarget"
 import {
-    setSceneGraphExpanded,
-    getSceneGraphExpanded
-} from "../states/useSceneGraphExpanded"
-import {
     getSelectionFrozen,
     setSelectionFrozen
 } from "../states/useSelectionFrozen"
@@ -50,6 +46,7 @@ import {
 } from "../states/useEditorModeComputed"
 import { getTimeline, setTimeline } from "../states/useTimeline"
 import preactStore from "./utils/preactStore"
+import { Object3D } from "three"
 
 export const useTimeline = hook(setTimeline, getTimeline)
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
@@ -73,10 +70,9 @@ export const useSelectionNativeTarget = hook(
     setSelectionNativeTarget,
     getSelectionNativeTarget
 )
-export const useSceneGraphExpanded = hook(
-    setSceneGraphExpanded,
-    getSceneGraphExpanded
-)
+export const [useSceneGraphExpanded, setSceneGraphExpanded] = preactStore<
+    Set<Object3D> | undefined
+>(undefined)
 
 export const [useTimelineScrollLeft] = preactStore(0)
 export const [useTimelineFrameNum] = preactStore(1000)
