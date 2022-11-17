@@ -37,7 +37,7 @@ const BaseTreeItem = ({
     myDraggingItem,
     draggable,
     expanded: expandedProp,
-    expandable,
+    expandable = !!(Array.isArray(children) ? children.length : children),
     outlined,
     IconComponent
 }: BaseTreeItemProps) => {
@@ -159,7 +159,9 @@ const BaseTreeItem = ({
                     <ExpandIcon style={expandIconStyle} onClick={expand} />
                 )}
                 {IconComponent && <IconComponent />}
-                <div ref={endRef} style={{ whiteSpace: "nowrap" }}>{label}</div>
+                <div ref={endRef} style={{ whiteSpace: "nowrap" }}>
+                    {label}
+                </div>
             </div>
             {expanded &&
                 (typeof children === "function" ? children() : children)}
