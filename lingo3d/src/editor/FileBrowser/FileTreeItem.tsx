@@ -23,6 +23,7 @@ const FileTreeItem = ({
         fileEntries.map(([name, fileOrFolder]) =>
             fileOrFolder instanceof File ? null : (
                 <FileTreeItem
+                    key={name}
                     fileStructure={fileOrFolder}
                     firstFolderName={firstFolderName}
                     folderName={name}
