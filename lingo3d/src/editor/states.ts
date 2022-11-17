@@ -49,6 +49,7 @@ import {
     setEditorModeComputed
 } from "../states/useEditorModeComputed"
 import { getTimeline, setTimeline } from "../states/useTimeline"
+import preactStore from "./utils/preactStore"
 
 export const useTimeline = hook(setTimeline, getTimeline)
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
@@ -76,6 +77,10 @@ export const useSceneGraphExpanded = hook(
     setSceneGraphExpanded,
     getSceneGraphExpanded
 )
+
+export const [useTimelineScrollLeft] = preactStore(0)
+export const [useTimelineFrameNum] = preactStore(1000)
+
 export const useSetupStack = hook(setSetupStack, getSetupStack)
 export const useFiles = hook(setFiles, getFiles)
 export const useFileSelected = hook(setFileSelected, getFileSelected)
