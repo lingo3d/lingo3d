@@ -1,12 +1,14 @@
+import { CSSProperties } from "preact/compat"
 import { FRAME_WIDTH, LAYER_HEIGHT } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import { useTimelineScrollLeft, useTimelineFrameNum } from "../states"
 
 type FrameGridProps = {
     width: number
+    style?: CSSProperties
 }
 
-const FrameGrid = ({ width }: FrameGridProps) => {
+const FrameGrid = ({ width, style }: FrameGridProps) => {
     const [scrollLeft, setScrollLeft] = useTimelineScrollLeft()
     const [frameNum] = useTimelineFrameNum()
 
@@ -18,6 +20,7 @@ const FrameGrid = ({ width }: FrameGridProps) => {
             itemWidth={FRAME_WIDTH}
             containerWidth={width}
             containerHeight={LAYER_HEIGHT}
+            style={style}
             renderItem={({ index, style }) => (
                 <div
                     key={index}

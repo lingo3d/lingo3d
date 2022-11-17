@@ -1,23 +1,31 @@
 import { CSSProperties, useLayoutEffect, useRef, useState } from "preact/compat"
 
 type VirtualizedListHorizontalProps = {
-    itemNum: number
+    data?: Array<any>
+    itemNum?: number
     itemWidth: number
     containerWidth: number
     containerHeight: number
-    renderItem: (data: { index: number; style: CSSProperties }) => any
+    renderItem: (data: {
+        index: number
+        style: CSSProperties
+        data: any
+    }) => any
     scrollLeft?: number
     onScrollLeft?: (scrollLeft: number) => void
+    style?: CSSProperties
 }
 
 const VirtualizedListHorizontal = ({
-    itemNum,
+    data,
+    itemNum = data?.length ?? 0,
     itemWidth,
     containerWidth,
     containerHeight,
     renderItem,
     scrollLeft,
-    onScrollLeft
+    onScrollLeft,
+    style
 }: VirtualizedListHorizontalProps) => {
     const [scroll, setScroll] = useState(0)
 
@@ -40,7 +48,8 @@ const VirtualizedListHorizontal = ({
         items.push(
             renderItem({
                 index: i,
-                style: { position: "absolute", left: `${i * itemWidth}px` }
+                style: { position: "absolute", left: `${i * itemWidth}px` },
+                data: data?.[i]
             })
         )
 
@@ -49,7 +58,8 @@ const VirtualizedListHorizontal = ({
             style={{
                 overflow: "hidden",
                 width: containerWidth,
-                height: containerHeight
+                height: containerHeight,
+                ...style
             }}
         >
             <div
