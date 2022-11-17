@@ -6,6 +6,8 @@ import { useTimelineScrollLeft, useTimelineFrameNum } from "../states"
 type FrameGridProps = {
     width: number
     style?: CSSProperties
+    property: string
+    frames: Array<number>
 }
 
 const FrameGrid = ({ width, style }: FrameGridProps) => {

@@ -1,7 +1,8 @@
+import { valueof } from "@lincode/utils"
 import { CSSProperties, useLayoutEffect, useRef, useState } from "preact/compat"
 
-type VirtualizedListProps = {
-    data?: Array<any>
+interface VirtualizedListProps<T extends Array<any>> {
+    data?: T
     itemNum?: number
     itemHeight: number
     containerWidth: number
@@ -9,14 +10,14 @@ type VirtualizedListProps = {
     renderItem: (data: {
         index: number
         style: CSSProperties
-        data: any
+        data: valueof<T>
     }) => any
     scrollTop?: number
     onScrollTop?: (scrollTop: number) => void
     style?: CSSProperties
 }
 
-const VirtualizedList = ({
+const VirtualizedList = <T extends Array<any>>({
     data,
     itemNum = data?.length ?? 0,
     itemHeight,
@@ -26,7 +27,7 @@ const VirtualizedList = ({
     scrollTop,
     onScrollTop,
     style
-}: VirtualizedListProps) => {
+}: VirtualizedListProps<T>) => {
     const [scroll, setScroll] = useState(scrollTop ?? 0)
 
     const firstRef = useRef(true)
