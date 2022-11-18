@@ -8,13 +8,12 @@ type RulerProps = {
 }
 
 const Ruler = ({ width }: RulerProps) => {
-    const [scrollLeft, setScrollLeft] = useTimelineScrollLeft()
+    const [scrollLeft] = useTimelineScrollLeft()
     const [frameNum] = useTimelineFrameNum()
 
     return (
         <VirtualizedListHorizontal
             scrollLeft={scrollLeft}
-            onScrollLeft={setScrollLeft}
             itemNum={frameNum / 5 + 3}
             itemWidth={FRAME_WIDTH * 5}
             containerWidth={width}

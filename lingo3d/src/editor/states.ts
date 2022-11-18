@@ -77,7 +77,11 @@ export const useFileCurrent = hook(setFileCurrent, getFileCurrent)
 export const [useSceneGraphExpanded, setSceneGraphExpanded] = preactStore<
     Set<Object3D> | undefined
 >(undefined)
-export const [useTimelineScrollLeft] = preactStore(0)
+export const [
+    useTimelineScrollLeft,
+    setTimelineScrollLeft,
+    getTimelineScrollLeft
+] = preactStore(0)
 export const [useTimelineFrameNum] = preactStore(1000)
 const [
     useTimelineExpandedUUIDs,

@@ -12,7 +12,7 @@ type FrameGridProps = {
 }
 
 const FrameRow = ({ width, style, layer, frames }: FrameGridProps) => {
-    const [scrollLeft, setScrollLeft] = useTimelineScrollLeft()
+    const [scrollLeft] = useTimelineScrollLeft()
     const [frameNum] = useTimelineFrameNum()
 
     const framesSorted = useMemo(() => [...frames].sort(), [frames])
@@ -20,7 +20,6 @@ const FrameRow = ({ width, style, layer, frames }: FrameGridProps) => {
     return (
         <VirtualizedListHorizontal
             scrollLeft={scrollLeft}
-            onScrollLeft={setScrollLeft}
             itemNum={frameNum}
             itemWidth={FRAME_WIDTH}
             containerWidth={width}
