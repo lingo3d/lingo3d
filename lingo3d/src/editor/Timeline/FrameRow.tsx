@@ -1,5 +1,5 @@
 import { CSSProperties } from "preact/compat"
-import { FRAME_WIDTH, LAYER_HEIGHT } from "../../globals"
+import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import { useTimelineScrollLeft, useTimelineFrameNum } from "../states"
 
@@ -10,7 +10,7 @@ type FrameGridProps = {
     frames: Array<number>
 }
 
-const FrameGrid = ({ width, style }: FrameGridProps) => {
+const FrameRow = ({ width, style, property, frames }: FrameGridProps) => {
     const [scrollLeft, setScrollLeft] = useTimelineScrollLeft()
     const [frameNum] = useTimelineFrameNum()
 
@@ -21,7 +21,7 @@ const FrameGrid = ({ width, style }: FrameGridProps) => {
             itemNum={frameNum}
             itemWidth={FRAME_WIDTH}
             containerWidth={width}
-            containerHeight={LAYER_HEIGHT}
+            containerHeight={FRAME_HEIGHT}
             style={style}
             renderItem={({ index, style }) => (
                 <div
@@ -29,7 +29,7 @@ const FrameGrid = ({ width, style }: FrameGridProps) => {
                     style={{
                         ...style,
                         width: FRAME_WIDTH,
-                        height: LAYER_HEIGHT - 4,
+                        height: FRAME_HEIGHT - 4,
                         border: "1px solid rgba(255, 255, 255, 0.1)",
                         borderLeft: "none"
                     }}
@@ -39,4 +39,4 @@ const FrameGrid = ({ width, style }: FrameGridProps) => {
     )
 }
 
-export default FrameGrid
+export default FrameRow

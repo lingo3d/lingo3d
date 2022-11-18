@@ -1,10 +1,10 @@
 import { dedupe } from "@lincode/utils"
 import { useMemo } from "preact/hooks"
-import { LAYER_HEIGHT } from "../../globals"
+import { FRAME_HEIGHT } from "../../globals"
 import VirtualizedList from "../component/VirtualizedList"
 import useResizeObserver from "../hooks/useResizeObserver"
 import { useTimeline, useTimelineExpandedUUIDs } from "../states"
-import FrameGrid from "./FrameGrid"
+import FrameRow from "./FrameRow"
 
 type FrameGridProps = {}
 
@@ -41,11 +41,11 @@ const Frames = ({}: FrameGridProps) => {
         <div ref={ref} className="lingo3d-absfull">
             <VirtualizedList
                 data={Object.entries(keyframes)}
-                itemHeight={LAYER_HEIGHT}
+                itemHeight={FRAME_HEIGHT}
                 containerWidth={width}
                 containerHeight={height}
                 renderItem={({ index, style, data: [property, frames] }) => (
-                    <FrameGrid
+                    <FrameRow
                         key={index}
                         width={width}
                         style={style}

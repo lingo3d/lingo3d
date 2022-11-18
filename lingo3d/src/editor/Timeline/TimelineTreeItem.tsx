@@ -1,7 +1,7 @@
 import { ComponentChildren } from "preact"
 import { useLayoutEffect } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
-import { LAYER_HEIGHT } from "../../globals"
+import { FRAME_HEIGHT } from "../../globals"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import { addTimelineExpandedUUID, deleteTimelineExpandedUUID } from "../states"
 import getComponentName from "../utils/getComponentName"
@@ -20,7 +20,7 @@ const TimelineTreeItem = ({ children, uuid }: TimelineTreeItemProps) => {
 
     return (
         <BaseTreeItem
-            height={LAYER_HEIGHT}
+            height={FRAME_HEIGHT}
             label={getComponentName(uuidMap.get(uuid))}
             onExpand={() => addTimelineExpandedUUID(uuid)}
             onCollapse={() => deleteTimelineExpandedUUID(uuid)}

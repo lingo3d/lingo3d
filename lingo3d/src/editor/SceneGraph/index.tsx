@@ -29,7 +29,7 @@ const SceneGraph = () => {
                 }}
             >
                 <PanelSceneGraph />
-                <PanelTimelines />
+                {/* <PanelTimelines /> */}
             </div>
             <SceneGraphContextMenu />
         </>

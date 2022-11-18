@@ -1,4 +1,4 @@
-import { LAYER_HEIGHT } from "../../globals"
+import { FRAME_HEIGHT } from "../../globals"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import { useTimeline } from "../states"
 import TimelineTreeItem from "./TimelineTreeItem"
@@ -13,7 +13,7 @@ const TimelineGraph = () => {
                     <TimelineTreeItem uuid={uuid}>
                         {Object.keys(data).map((property) => (
                             <BaseTreeItem
-                                height={LAYER_HEIGHT}
+                                height={FRAME_HEIGHT}
                                 label={property}
                             />
                         ))}
