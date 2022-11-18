@@ -1,4 +1,5 @@
 import useResizeObserver from "../hooks/useResizeObserver"
+import { addTimelineScrollLeft } from "../states"
 import Ruler from "./Ruler"
 
 const RulerBar = () => {
@@ -12,6 +13,10 @@ const RulerBar = () => {
                 display: "flex",
                 alignItems: "center",
                 borderTop: "1px solid rgba(255, 255, 255, 0.1)"
+            }}
+            onWheel={(e) => {
+                e.preventDefault()
+                addTimelineScrollLeft(e.deltaX)
             }}
         >
             <Ruler width={width} />
