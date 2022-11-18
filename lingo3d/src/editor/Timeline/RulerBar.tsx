@@ -1,5 +1,6 @@
 import useResizeObserver from "../hooks/useResizeObserver"
 import { addTimelineScrollLeft } from "../states"
+import Needle from "./Needle"
 import Ruler from "./Ruler"
 
 const RulerBar = () => {
@@ -20,6 +21,7 @@ const RulerBar = () => {
             }}
         >
             <Ruler width={width} />
+            <Needle />
         </div>
     )
 }
