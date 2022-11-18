@@ -13,8 +13,8 @@ const Frames = ({}: FrameGridProps) => {
     const [expandedUUIDs] = expandedUUIDsWrapper
     const [timeline] = useTimeline()
 
-    const keyframes = useMemo(() => {
-        if (!timeline?.data) return {}
+    const keyframesEntries = useMemo(() => {
+        if (!timeline?.data) return []
 
         const keyframes: Record<string, Set<number>> = {}
         for (const [uuid, data] of Object.entries(timeline.data)) {
@@ -30,13 +30,13 @@ const Frames = ({}: FrameGridProps) => {
                 for (const [frame] of frames) propertyFrameList.add(frame)
             }
         }
-        return keyframes
+        return Object.entries(keyframes)
     }, [expandedUUIDsWrapper])
 
     return (
         <div ref={ref} className="lingo3d-absfull">
             <VirtualizedList
-                data={Object.entries(keyframes)}
+                data={keyframesEntries}
                 itemHeight={FRAME_HEIGHT}
                 containerWidth={width}
                 containerHeight={height}

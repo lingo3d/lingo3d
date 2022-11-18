@@ -10,6 +10,36 @@ type FrameGridProps = {
     frames: Set<number>
 }
 
+const getIndex = (
+    num: number,
+    range: number,
+    interval: number,
+    list: Array<number>
+) => {
+    const idx = Math.trunc((num + interval / 2) / interval)
+    return Math.abs(list[idx] - num) <= range ? idx : -1
+}
+
+const findRange = (list: Array<number>) => {
+    const interval = list[1]
+    const range = 2
+
+    // Test for all numbers within the list
+    for (var i = 0; i < list[list.length - 1]; i++) {
+        const res = getIndex(i, range, interval, list)
+
+        if (res === -1) {
+            console.log(`${i} is out of range ${range}`)
+        } else {
+            console.log(`${i} is within range ${range} of index ${res}`)
+        }
+
+        if (i % interval === interval - 1) {
+            console.log("---------------------")
+        }
+    }
+}
+
 const FrameRow = ({ width, style, property, frames }: FrameGridProps) => {
     const [scrollLeft, setScrollLeft] = useTimelineScrollLeft()
     const [frameNum] = useTimelineFrameNum()
@@ -31,16 +61,19 @@ const FrameRow = ({ width, style, property, frames }: FrameGridProps) => {
                         ...style,
                         width: FRAME_WIDTH,
                         height: FRAME_HEIGHT - 4,
-                        border: "1px solid rgba(255, 255, 255, 0.1)",
-                        borderLeft: "none"
+                        border: "1px solid rgba(255, 255, 255, 0.05)",
+                        borderLeft: "none",
+                        background: frames.has(index)
+                            ? "rgba(255 ,255, 255, 0.1)"
+                            : undefined
                     }}
                 >
                     {frames.has(index) && (
                         <div
                             style={{
-                                background: "yellow",
                                 width: 4,
-                                height: 4
+                                height: 4,
+                                background: "rgba(255, 255, 255, 0.2)"
                             }}
                         />
                     )}
