@@ -20,7 +20,7 @@ const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
             style={{
                 ...style,
                 width: FRAME_WIDTH,
-                height: FRAME_HEIGHT - 4,
+                height: FRAME_HEIGHT,
                 border: "1px solid rgba(255, 255, 255, 0.05)",
                 borderLeft: "none",
                 background: keyframe ? "rgba(255 ,255, 255, 0.1)" : undefined
