@@ -6,12 +6,13 @@ import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import { addTimelineExpandedUUID, deleteTimelineExpandedUUID } from "../states"
 import getComponentName from "../utils/getComponentName"
 
-type TimelineTreeItemProps = {
+type LayerTreeItemProps = {
     children: ComponentChildren
     uuid: string
+    selected: boolean
 }
 
-const TimelineTreeItem = ({ children, uuid }: TimelineTreeItemProps) => {
+const LayerTreeItem = ({ children, uuid, selected }: LayerTreeItemProps) => {
     useLayoutEffect(() => {
         return () => {
             deleteTimelineExpandedUUID(uuid)
@@ -24,10 +25,11 @@ const TimelineTreeItem = ({ children, uuid }: TimelineTreeItemProps) => {
             label={getComponentName(uuidMap.get(uuid))}
             onExpand={() => addTimelineExpandedUUID(uuid)}
             onCollapse={() => deleteTimelineExpandedUUID(uuid)}
+            selected={selected}
         >
             {children}
         </BaseTreeItem>
     )
 }
 
-export default TimelineTreeItem
+export default LayerTreeItem
