@@ -61,10 +61,9 @@ const FileButton = ({ file }: FileButtonProps) => {
             onDblClick={() => loadFile(file)}
         >
             <div
+                className="lingo3d-flexcenter"
                 style={{
-                    display: "flex",
                     width: "100%",
-                    justifyContent: "center",
                     paddingTop: 10,
                     paddingBottom: 4
                 }}
@@ -72,10 +71,9 @@ const FileButton = ({ file }: FileButtonProps) => {
                 <FileIcon />
             </div>
             <div
+                className="lingo3d-flexcenter"
                 style={{
-                    display: "flex",
                     width: "100%",
-                    justifyContent: "center",
                     paddingLeft: 10,
                     paddingRight: 10
                 }}
