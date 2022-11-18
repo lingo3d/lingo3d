@@ -25,9 +25,9 @@ const Frames = ({}: FrameGridProps) => {
             if (!expandedUUIDs.has(uuid)) continue
 
             for (const [property, frames] of Object.entries(data)) {
-                const propertyFrameList = (keyframes[uuid + " " + property] =
+                const layerFrameList = (keyframes[uuid + " " + property] =
                     new Set<number>())
-                for (const [frame] of frames) propertyFrameList.add(frame)
+                for (const [frame] of frames) layerFrameList.add(frame)
             }
         }
         return Object.entries(keyframes)
@@ -40,12 +40,12 @@ const Frames = ({}: FrameGridProps) => {
                 itemHeight={FRAME_HEIGHT}
                 containerWidth={width}
                 containerHeight={height}
-                renderItem={({ index, style, data: [property, frames] }) => (
+                renderItem={({ index, style, data: [layer, frames] }) => (
                     <FrameRow
                         key={index}
                         width={width}
                         style={style}
-                        property={property}
+                        layer={layer}
                         frames={frames}
                     />
                 )}

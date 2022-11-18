@@ -2,11 +2,13 @@ import { CSSProperties } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 
 type FrameProps = {
-    style?: CSSProperties
-    keyframe?: boolean
+    style: CSSProperties
+    keyframe: boolean
+    layer: string
+    index: number
 }
 
-const Frame = ({ style, keyframe }: FrameProps) => {
+const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
     return (
         <div
             className="lingo3d-flexcenter"

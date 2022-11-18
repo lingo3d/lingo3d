@@ -7,11 +7,11 @@ import Frame from "./Frame"
 type FrameGridProps = {
     width: number
     style?: CSSProperties
-    property: string
+    layer: string
     frames: Set<number>
 }
 
-const FrameRow = ({ width, style, property, frames }: FrameGridProps) => {
+const FrameRow = ({ width, style, layer, frames }: FrameGridProps) => {
     const [scrollLeft, setScrollLeft] = useTimelineScrollLeft()
     const [frameNum] = useTimelineFrameNum()
 
@@ -27,7 +27,13 @@ const FrameRow = ({ width, style, property, frames }: FrameGridProps) => {
             containerHeight={FRAME_HEIGHT}
             style={style}
             renderItem={({ index, style }) => (
-                <Frame key={index} style={style} keyframe={frames.has(index)} />
+                <Frame
+                    key={index}
+                    style={style}
+                    keyframe={frames.has(index)}
+                    layer={layer}
+                    index={index}
+                />
             )}
         />
     )
