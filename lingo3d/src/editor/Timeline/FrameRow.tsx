@@ -25,7 +25,7 @@ const FrameRow = ({ width, style, layer, frames }: FrameGridProps) => {
             itemWidth={FRAME_WIDTH}
             containerWidth={width}
             containerHeight={FRAME_HEIGHT}
-            style={style}
+            style={{ ...style, overflowX: "hidden" }}
             renderItem={({ index, style }) => (
                 <Frame
                     key={index}

@@ -19,6 +19,7 @@ const Ruler = ({ width }: RulerProps) => {
             itemWidth={FRAME_WIDTH * 5}
             containerWidth={width}
             containerHeight={APPBAR_HEIGHT}
+            style={{ overflowX: "hidden" }}
             renderItem={({ index, style }) => (
                 <Metric key={index} index={index} style={style} />
             )}
