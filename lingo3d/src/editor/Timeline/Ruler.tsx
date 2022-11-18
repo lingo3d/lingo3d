@@ -15,7 +15,7 @@ const Ruler = ({ width }: RulerProps) => {
         <VirtualizedListHorizontal
             scrollLeft={scrollLeft}
             onScrollLeft={setScrollLeft}
-            itemNum={frameNum / 5 + 1}
+            itemNum={frameNum / 5 + 3}
             itemWidth={FRAME_WIDTH * 5}
             containerWidth={width}
             containerHeight={APPBAR_HEIGHT}
