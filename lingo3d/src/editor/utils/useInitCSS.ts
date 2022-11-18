@@ -54,6 +54,11 @@ const initCSS = () => {
                 width: 100%;
                 height: 100%;
             }
+            .lingo3d-flexcenter {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
 
             .tp-lblv_l {
                 overflow: hidden;

@@ -20,14 +20,7 @@ export default ({ hotkey, description }: HotKeysProps) => {
                     padding: "2px 4px 2px 4px"
                 }}
             >
-                <div
-                    style={{
-                        minWidth: 10,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}
-                >
+                <div className="lingo3d-flexcenter" style={{ minWidth: 10 }}>
                     {hotkey}
                 </div>
             </div>

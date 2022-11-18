@@ -15,12 +15,10 @@ const IconButton = ({
 }: IconButtonProps) => {
     return (
         <div
+            className="lingo3d-flexcenter"
             style={{
                 width: 30,
                 height: 30,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
                 margin: 6,
                 borderRadius: 4,
                 background: active ? "rgba(255, 255, 255, 0.1)" : undefined,

@@ -12,14 +12,12 @@ const Tab = ({ children, selected, disabled, half }: TabProps) => {
 
     return (
         <div
-            className="lingo3d-bg"
+            className="lingo3d-bg lingo3d-flexcenter"
             style={{
                 width: half ? "50%" : undefined,
                 opacity: disabled ? 0.1 : 1,
                 height: 20,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+
                 padding: half ? undefined : 12,
                 background:
                     context.selected === children

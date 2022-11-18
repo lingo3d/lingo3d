@@ -22,12 +22,10 @@ const TitleBarButton = ({
                           onClick?.()
                       }
             }
+            className="lingo3d-flexcenter"
             style={{
                 width: APPBAR_HEIGHT,
                 height: APPBAR_HEIGHT,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
                 marginRight: 2,
                 opacity: disabled ? 0.1 : 0.5,
                 cursor: disabled ? "default" : "pointer"

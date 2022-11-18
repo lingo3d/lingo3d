@@ -26,6 +26,7 @@ const FrameRow = ({ width, style, property, frames }: FrameGridProps) => {
             renderItem={({ index, style }) => (
                 <div
                     key={index}
+                    className="lingo3d-flexcenter"
                     style={{
                         ...style,
                         width: FRAME_WIDTH,
@@ -36,8 +37,11 @@ const FrameRow = ({ width, style, property, frames }: FrameGridProps) => {
                 >
                     {frames.has(index) && (
                         <div
-                            className="lingo3d-absfull"
-                            style={{ background: "yellow" }}
+                            style={{
+                                background: "yellow",
+                                width: 4,
+                                height: 4
+                            }}
                         />
                     )}
                 </div>

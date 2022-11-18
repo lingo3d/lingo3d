@@ -20,13 +20,8 @@ const IconImage = ({ iconName }: IconImageProps) => {
         <div style={{ width: 50, height: 50 }}>
             {!loaded && (
                 <div
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}
+                    className="lingo3d-flexcenter"
+                    style={{ width: "100%", height: "100%" }}
                 >
                     <Spinner color="rgba(255, 255, 255, 0.1)" />
                 </div>
