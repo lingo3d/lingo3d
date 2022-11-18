@@ -1,4 +1,4 @@
-import { useTimeline, useTimelineSelectedLayer } from "../states"
+import { useTimeline } from "../states"
 import LayerTreeItem from "./LayerTreeItem"
 import PropertyTreeItem from "./PropertyTreeItem"
 
