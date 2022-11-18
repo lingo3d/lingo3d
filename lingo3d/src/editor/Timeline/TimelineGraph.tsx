@@ -1,7 +1,6 @@
-import { FRAME_HEIGHT } from "../../globals"
-import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import { useTimeline, useTimelineSelectedLayer } from "../states"
 import LayerTreeItem from "./LayerTreeItem"
+import PropertyTreeItem from "./PropertyTreeItem"
 
 const TimelineGraph = () => {
     const [timeline] = useTimeline()
@@ -12,16 +11,15 @@ const TimelineGraph = () => {
             {timeline?.data &&
                 Object.entries(timeline.data).map(([uuid, data]) => (
                     <LayerTreeItem
+                        key={uuid}
                         uuid={uuid}
                         selected={selectedLayer === uuid}
                     >
                         {Object.keys(data).map((property) => (
-                            <BaseTreeItem
-                                height={FRAME_HEIGHT}
-                                label={property}
-                                selected={
-                                    selectedLayer === uuid + " " + property
-                                }
+                            <PropertyTreeItem
+                                key={uuid + " " + property}
+                                property={property}
+                                uuid={uuid}
                             />
                         ))}
                     </LayerTreeItem>

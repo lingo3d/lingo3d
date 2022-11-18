@@ -74,7 +74,7 @@ const FileBrowser = () => {
                     onMouseDown={() => setFileSelected(undefined)}
                 >
                     {filteredFiles?.map((file) => (
-                        <FileButton file={file} />
+                        <FileButton key={file.name} file={file} />
                     ))}
                 </div>
             </div>
