@@ -1,6 +1,6 @@
 import { CSSProperties } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
-import { setITmelineSelectedFrame, setTimelineSelectedLayer } from "../states"
+import { useTimelineSelectedFrame, useTimelineSelectedLayer } from "../states"
 
 type FrameProps = {
     style: CSSProperties
@@ -10,6 +10,10 @@ type FrameProps = {
 }
 
 const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
+    const [selectedFrame, setSelectedFrame] = useTimelineSelectedFrame()
+    const [selectedLayer, setSelectedLayer] = useTimelineSelectedLayer()
+    const selected = selectedFrame === index && selectedLayer === layer
+
     return (
         <div
             className="lingo3d-flexcenter"
@@ -22,8 +26,8 @@ const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
                 background: keyframe ? "rgba(255 ,255, 255, 0.1)" : undefined
             }}
             onClick={() => {
-                setTimelineSelectedLayer(layer)
-                setITmelineSelectedFrame(index)
+                setSelectedLayer(layer)
+                setSelectedFrame(index)
             }}
         >
             {keyframe && (
@@ -33,6 +37,12 @@ const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
                         height: 4,
                         background: "rgba(255, 255, 255, 0.2)"
                     }}
+                />
+            )}
+            {selected && (
+                <div
+                    className="lingo3d-absfull"
+                    style={{ background: "blue", opacity: 0.25 }}
                 />
             )}
         </div>
