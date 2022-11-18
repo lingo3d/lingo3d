@@ -1,4 +1,3 @@
-import { dedupe } from "@lincode/utils"
 import { useMemo } from "preact/hooks"
 import { FRAME_HEIGHT } from "../../globals"
 import VirtualizedList from "../component/VirtualizedList"
@@ -17,21 +16,18 @@ const Frames = ({}: FrameGridProps) => {
     const keyframes = useMemo(() => {
         if (!timeline?.data) return {}
 
-        const keyframes: Record<string, Array<number>> = {}
+        const keyframes: Record<string, Set<number>> = {}
         for (const [uuid, data] of Object.entries(timeline.data)) {
-            const frameList: Array<number> = []
+            const frameList = (keyframes[uuid] = new Set<number>())
             for (const frames of Object.values(data))
-                for (const [frame] of frames) frameList.push(frame)
-
-            keyframes[uuid] = dedupe(frameList)
+                for (const [frame] of frames) frameList.add(frame)
 
             if (!expandedUUIDs.has(uuid)) continue
 
             for (const [property, frames] of Object.entries(data)) {
-                const propertyFrameList: Array<number> = (keyframes[
-                    uuid + " " + property
-                ] = [])
-                for (const [frame] of frames) propertyFrameList.push(frame)
+                const propertyFrameList = (keyframes[uuid + " " + property] =
+                    new Set<number>())
+                for (const [frame] of frames) propertyFrameList.add(frame)
             }
         }
         return keyframes

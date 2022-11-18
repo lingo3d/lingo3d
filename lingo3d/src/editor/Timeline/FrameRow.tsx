@@ -7,7 +7,7 @@ type FrameGridProps = {
     width: number
     style?: CSSProperties
     property: string
-    frames: Array<number>
+    frames: Set<number>
 }
 
 const FrameRow = ({ width, style, property, frames }: FrameGridProps) => {
@@ -33,7 +33,14 @@ const FrameRow = ({ width, style, property, frames }: FrameGridProps) => {
                         border: "1px solid rgba(255, 255, 255, 0.1)",
                         borderLeft: "none"
                     }}
-                ></div>
+                >
+                    {frames.has(index) && (
+                        <div
+                            className="lingo3d-absfull"
+                            style={{ background: "yellow" }}
+                        />
+                    )}
+                </div>
             )}
         />
     )
