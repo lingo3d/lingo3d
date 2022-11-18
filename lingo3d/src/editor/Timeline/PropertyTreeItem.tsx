@@ -8,13 +8,15 @@ type PropertyTreeItemProps = {
 }
 
 const PropertyTreeItem = ({ property, uuid }: PropertyTreeItemProps) => {
-    const [selectedLayer] = useTimelineSelectedLayer()
+    const [selectedLayer, setSelectedLayer] = useTimelineSelectedLayer()
+    const layer = uuid + " " + property
 
     return (
         <BaseTreeItem
             height={FRAME_HEIGHT}
             label={property}
-            selected={selectedLayer === uuid + " " + property}
+            selected={selectedLayer === layer}
+            onClick={() => setSelectedLayer(layer)}
         />
     )
 }

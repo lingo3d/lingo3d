@@ -3,16 +3,21 @@ import { useLayoutEffect } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import { FRAME_HEIGHT } from "../../globals"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
-import { addTimelineExpandedUUID, deleteTimelineExpandedUUID } from "../states"
+import {
+    addTimelineExpandedUUID,
+    deleteTimelineExpandedUUID,
+    useTimelineSelectedLayer
+} from "../states"
 import getComponentName from "../utils/getComponentName"
 
 type LayerTreeItemProps = {
     children: ComponentChildren
     uuid: string
-    selected: boolean
 }
 
-const LayerTreeItem = ({ children, uuid, selected }: LayerTreeItemProps) => {
+const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
+    const [selectedLayer, setSelectedLayer] = useTimelineSelectedLayer()
+
     useLayoutEffect(() => {
         return () => {
             deleteTimelineExpandedUUID(uuid)
@@ -25,7 +30,8 @@ const LayerTreeItem = ({ children, uuid, selected }: LayerTreeItemProps) => {
             label={getComponentName(uuidMap.get(uuid))}
             onExpand={() => addTimelineExpandedUUID(uuid)}
             onCollapse={() => deleteTimelineExpandedUUID(uuid)}
-            selected={selected}
+            selected={selectedLayer === uuid}
+            onClick={() => setSelectedLayer(uuid)}
         >
             {children}
         </BaseTreeItem>
