@@ -82,7 +82,7 @@ export const [
     setTimelineScrollLeft,
     getTimelineScrollLeft
 ] = preactStore(0)
-export const [useTimelineFrameNum] = preactStore(1000)
+export const [useTimelineFrameNum, , getTimelineFrameNum] = preactStore(1000)
 const [
     useTimelineExpandedUUIDs,
     setTimelineExpandedUUIDs,

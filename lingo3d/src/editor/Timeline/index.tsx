@@ -1,5 +1,10 @@
 import register from "preact-custom-element"
-import { APPBAR_HEIGHT } from "../../globals"
+import { APPBAR_HEIGHT, FRAME_WIDTH } from "../../globals"
+import {
+    getTimelineFrameNum,
+    getTimelineScrollLeft,
+    setTimelineScrollLeft
+} from "../states"
 import useInitCSS from "../utils/useInitCSS"
 import Frames from "./Frames"
 import TimelineGraph from "./TimelineGraph"
@@ -16,7 +21,18 @@ const Timeline = () => {
             }}
         >
             <TimelineGraph />
-            <div style={{ flexGrow: 1 }}>
+            <div
+                style={{ flexGrow: 1 }}
+                onWheel={(e) => {
+                    e.preventDefault()
+                    setTimelineScrollLeft(
+                        Math.min(
+                            Math.max(getTimelineScrollLeft() + e.deltaX, 0),
+                            getTimelineFrameNum() * FRAME_WIDTH - 520
+                        )
+                    )
+                }}
+            >
                 <Frames />
             </div>
         </div>
