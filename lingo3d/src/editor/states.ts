@@ -41,6 +41,7 @@ import {
 import { getTimeline, setTimeline } from "../states/useTimeline"
 import preactStore from "./utils/preactStore"
 import { Object3D } from "three"
+import { FRAME_WIDTH } from "../globals"
 
 export const useTimeline = hook(setTimeline, getTimeline)
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
@@ -77,11 +78,17 @@ export const useFileCurrent = hook(setFileCurrent, getFileCurrent)
 export const [useSceneGraphExpanded, setSceneGraphExpanded] = preactStore<
     Set<Object3D> | undefined
 >(undefined)
-export const [
-    useTimelineScrollLeft,
-    setTimelineScrollLeft,
-    getTimelineScrollLeft
-] = preactStore(0)
+const [useTimelineScrollLeft, _setTimelineScrollLeft, getTimelineScrollLeft] =
+    preactStore(0)
+export { useTimelineScrollLeft }
+export const addTimelineScrollLeft = (deltaX: number) => {
+    _setTimelineScrollLeft(
+        Math.min(
+            Math.max(getTimelineScrollLeft() + deltaX, 0),
+            getTimelineFrameNum() * FRAME_WIDTH - 520
+        )
+    )
+}
 export const [useTimelineFrameNum, , getTimelineFrameNum] = preactStore(1000)
 const [
     useTimelineExpandedUUIDs,
