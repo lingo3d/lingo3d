@@ -68,6 +68,7 @@ const VirtualizedList = <T extends Array<any>>({
             ref={scrollRef}
             style={{
                 overflowY: "scroll",
+                overflowX: "hidden",
                 width: containerWidth,
                 height: containerHeight,
                 ...style
