@@ -1,6 +1,11 @@
-import { CSSProperties, memo } from "preact/compat"
+import { CSSProperties, memo, useState } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
-import { setTimelineSelectedFrame, setTimelineSelectedLayer } from "../states"
+import {
+    getTimelineSelectedFrame,
+    getTimelineSelectedLayer,
+    setTimelineSelectedFrame,
+    setTimelineSelectedLayer
+} from "../states"
 
 type FrameProps = {
     style: CSSProperties
@@ -9,7 +14,13 @@ type FrameProps = {
     index: number
 }
 
+let prevSetSelected: ((val: boolean) => void) | undefined
+getTimelineSelectedFrame(() => prevSetSelected?.(false))
+getTimelineSelectedLayer(() => prevSetSelected?.(false))
+
 const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
+    const [selected, setSelected] = useState(false)
+
     return (
         <div
             className="lingo3d-flexcenter"
@@ -24,6 +35,8 @@ const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
             onClick={() => {
                 setTimelineSelectedLayer(layer)
                 setTimelineSelectedFrame(index)
+                setSelected(true)
+                prevSetSelected = setSelected
             }}
         >
             {keyframe && (
@@ -33,6 +46,12 @@ const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
                         height: 4,
                         background: "rgba(255, 255, 255, 0.2)"
                     }}
+                />
+            )}
+            {selected && (
+                <div
+                    className="lingo3d-absfull"
+                    style={{ background: "white", opacity: 0.1 }}
                 />
             )}
         </div>

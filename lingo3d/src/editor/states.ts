@@ -105,12 +105,16 @@ export const deleteTimelineExpandedUUID = (uuid: string) => {
     expandedUUIDs.delete(uuid)
     setTimelineExpandedUUIDs([expandedUUIDs])
 }
-export const [useTimelineSelectedFrame, setTimelineSelectedFrame] = preactStore<
-    number | undefined
->(undefined)
-export const [useTimelineSelectedLayer, setTimelineSelectedLayer] = preactStore<
-    string | undefined
->(undefined)
+export const [
+    useTimelineSelectedFrame,
+    setTimelineSelectedFrame,
+    getTimelineSelectedFrame
+] = preactStore<number | undefined>(undefined)
+export const [
+    useTimelineSelectedLayer,
+    setTimelineSelectedLayer,
+    getTimelineSelectedLayer
+] = preactStore<string | undefined>(undefined)
 export const [useFileSelected, setFileSelected] = preactStore<File | undefined>(
     undefined
 )
