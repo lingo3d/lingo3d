@@ -4,8 +4,8 @@ import SceneGraphContextMenu from "./SceneGraphContextMenu"
 import "./retargetBones"
 import useInitCSS from "../utils/useInitCSS"
 import useClickable from "../utils/useClickable"
-import PanelSceneGraph from "./PanelSceneGraph"
-import PanelTimelines from "./PanelTimelines"
+import AccordionSceneGraph from "./AccordionSceneGraph"
+import AccordionTimelines from "./AccordionTimelines"
 
 const SceneGraph = () => {
     useInitCSS(true)
@@ -28,8 +28,8 @@ const SceneGraph = () => {
                     gridTemplateRows: "1fr auto"
                 }}
             >
-                <PanelSceneGraph />
-                {/* <PanelTimelines /> */}
+                <AccordionSceneGraph />
+                {/* <AccordionTimelines /> */}
             </div>
             <SceneGraphContextMenu />
         </>

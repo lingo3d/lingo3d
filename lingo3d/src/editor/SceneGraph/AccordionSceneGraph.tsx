@@ -27,7 +27,7 @@ import GroupIcon from "./icons/GroupIcon"
 import ModelTreeItem from "./ModelTreeItem"
 import TreeItem from "./TreeItem"
 
-const PanelSceneGraph = () => {
+const AccordionSceneGraph = () => {
     const [r, render] = useState({})
     useLayoutEffect(() => {
         const cb = () => render({})
@@ -118,4 +118,4 @@ const PanelSceneGraph = () => {
     )
 }
 
-export default PanelSceneGraph
+export default AccordionSceneGraph

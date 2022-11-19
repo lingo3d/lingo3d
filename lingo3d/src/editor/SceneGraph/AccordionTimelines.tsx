@@ -5,7 +5,7 @@ import deleteSelected from "../Editor/deleteSelected"
 import { useSelectionTarget } from "../states"
 import DeleteIcon from "./icons/DeleteIcon"
 
-const PanelTimelines = () => {
+const AccordionTimelines = () => {
     const [selectionTarget] = useSelectionTarget()
 
     return (
@@ -29,4 +29,4 @@ const PanelTimelines = () => {
     )
 }
 
-export default PanelTimelines
+export default AccordionTimelines
