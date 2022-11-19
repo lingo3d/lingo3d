@@ -6,7 +6,7 @@ import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem"
 import pathMap from "./pathMap"
 import useInitCSS from "../utils/useInitCSS"
-import { APPBAR_HEIGHT } from "../../globals"
+import { APPBAR_HEIGHT, PANELS_HEIGHT } from "../../globals"
 
 interface FileStructure {
     [key: string]: FileStructure | File
@@ -52,7 +52,7 @@ const FileBrowser = () => {
         <div
             className="lingo3d-ui lingo3d-bg lingo3d-panels"
             style={{
-                height: 200 - APPBAR_HEIGHT,
+                height: PANELS_HEIGHT - APPBAR_HEIGHT,
                 width: "100%",
                 display: "flex"
             }}

@@ -7,6 +7,7 @@ import FileBrowser from "../FileBrowser"
 import { useState } from "preact/hooks"
 import Timeline from "../Timeline"
 import RulerBar from "../Timeline/RulerBar"
+import { PANELS_HEIGHT } from "../../globals"
 
 const Panels = () => {
     useInitCSS(true)
@@ -18,7 +19,7 @@ const Panels = () => {
         <div
             className="lingo3d-ui lingo3d-bg lingo3d-panels"
             style={{
-                height: 200,
+                height: PANELS_HEIGHT,
                 width: "100%",
                 display: "flex",
                 flexDirection: "column"
