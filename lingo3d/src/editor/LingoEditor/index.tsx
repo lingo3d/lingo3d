@@ -1,4 +1,3 @@
-import register from "preact-custom-element"
 import Toolbar from "../Toolbar"
 import SceneGraph from "../SceneGraph"
 import Editor from "../Editor"
@@ -41,5 +40,3 @@ const LingoEditor = () => {
     )
 }
 export default LingoEditor
-
-register(LingoEditor, "lingo3d-lingoeditor")

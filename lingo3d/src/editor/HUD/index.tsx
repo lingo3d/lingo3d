@@ -1,4 +1,3 @@
-import register from "preact-custom-element"
 import HotKey from "./HotKey"
 import { useCameraRendered, useLoadingUnpkgCount, usePaused } from "../states"
 import mainCamera from "../../engine/mainCamera"
@@ -61,5 +60,3 @@ const HUD = () => {
     )
 }
 export default HUD
-
-register(HUD, "lingo3d-hud")

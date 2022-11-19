@@ -1,4 +1,3 @@
-import register from "preact-custom-element"
 import { APPBAR_HEIGHT, PANELS_HEIGHT } from "../../globals"
 import { addTimelineScrollLeft } from "../states/useTimelineScrollLeft"
 import useInitCSS from "../utils/useInitCSS"
@@ -31,5 +30,3 @@ const TimelineEditor = () => {
     )
 }
 export default TimelineEditor
-
-register(TimelineEditor, "lingo3d-timeline-editor")

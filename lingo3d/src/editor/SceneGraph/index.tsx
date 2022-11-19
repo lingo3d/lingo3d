@@ -1,4 +1,3 @@
-import register from "preact-custom-element"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import SceneGraphContextMenu from "./SceneGraphContextMenu"
 import "./retargetBones"
@@ -36,5 +35,3 @@ const SceneGraph = () => {
     )
 }
 export default SceneGraph
-
-register(SceneGraph, "lingo3d-scenegraph")

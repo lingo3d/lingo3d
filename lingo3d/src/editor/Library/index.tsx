@@ -1,4 +1,3 @@
-import register from "preact-custom-element"
 import ObjectGroup from "./ObjectGroup"
 import { DEBUG } from "../../globals"
 import useInitCSS from "../utils/useInitCSS"
@@ -71,5 +70,3 @@ const Library = () => {
     )
 }
 export default Library
-
-register(Library, "lingo3d-library")

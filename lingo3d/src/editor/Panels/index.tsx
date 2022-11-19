@@ -1,4 +1,3 @@
-import register from "preact-custom-element"
 import CloseableTab from "../component/tabs/CloseableTab"
 import AppBar from "../component/bars/AppBar"
 import useInitCSS from "../utils/useInitCSS"
@@ -48,5 +47,3 @@ const Panels = () => {
     )
 }
 export default Panels
-
-register(Panels, "lingo3d-panels")

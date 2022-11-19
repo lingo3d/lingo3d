@@ -33,8 +33,6 @@
         "postprocessing": "6.29.1",
         "preact": "*",
         "preact-compat": "*",
-        "preact-custom-element": "*",
-        "preact-tiny-virtual-list": "^2.2.0",
         "prettier": "2.7.1",
         "stats.js": "*",
         "three": "0.146.0",

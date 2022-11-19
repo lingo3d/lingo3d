@@ -2,7 +2,6 @@ import { last } from "@lincode/utils"
 import { FolderApi, Pane } from "./tweakpane"
 import { setOrbitControls } from "../../states/useOrbitControls"
 import { useLayoutEffect, useState } from "preact/hooks"
-import register from "preact-custom-element"
 import {
     useSelectionTarget,
     useMultipleSelectionTargets,
@@ -378,5 +377,3 @@ const Editor = () => {
     )
 }
 export default Editor
-
-register(Editor, "lingo3d-editor")

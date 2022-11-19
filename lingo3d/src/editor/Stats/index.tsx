@@ -1,4 +1,3 @@
-import register from "preact-custom-element"
 import { createPortal, useLayoutEffect, useRef } from "preact/compat"
 import { container } from "../../engine/renderLoop/renderSetup"
 import { onAfterRender } from "../../events/onAfterRender"
@@ -35,5 +34,3 @@ const Stats = ({ mode = "fps" }: StatsProps) => {
     return createPortal(<div ref={divRef} />, container)
 }
 export default Stats
-
-register(Stats, "lingo3d-stats")

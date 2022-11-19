@@ -1,5 +1,4 @@
 import { useMemo } from "preact/hooks"
-import register from "preact-custom-element"
 import { get, set, traverse } from "@lincode/utils"
 import { useFiles } from "../states"
 import FileButton from "./FileButton"
@@ -84,5 +83,3 @@ const FileBrowser = () => {
     )
 }
 export default FileBrowser
-
-register(FileBrowser, "lingo3d-filebrowser")

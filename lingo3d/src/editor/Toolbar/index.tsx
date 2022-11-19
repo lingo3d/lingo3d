@@ -1,4 +1,3 @@
-import register from "preact-custom-element"
 import TranslateIcon from "./icons/TranslateIcon"
 import RotateIcon from "./icons/RotateIcon"
 import ScaleIcon from "./icons/ScaleIcon"
@@ -166,5 +165,3 @@ const Toolbar = () => {
     )
 }
 export default Toolbar
-
-register(Toolbar, "lingo3d-toolbar")

@@ -1,4 +1,3 @@
-import register from "preact-custom-element"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
 import { useFileCurrent } from "../states"
@@ -20,5 +19,3 @@ const Tabs = () => {
     )
 }
 export default Tabs
-
-register(Tabs, "lingo3d-tabs")
