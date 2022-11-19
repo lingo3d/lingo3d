@@ -3,7 +3,7 @@ import { splitFileName } from "@lincode/utils"
 import loadFile from "../../api/files/loadFile"
 import { createObjectURL } from "../../display/core/utils/objectURL"
 import Model from "../../display/Model"
-import { useFileSelected } from "../states"
+import { useFileSelected } from "../states/useFileSelected"
 import drag, { setDragImage } from "../utils/drag"
 import FileIcon from "./icons/FileIcon"
 

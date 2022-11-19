@@ -2,12 +2,8 @@ import { createEffect } from "@lincode/reactivity"
 import { CSSProperties, memo, useState } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 import { getTimeline } from "../../states/useTimeline"
-import {
-    getTimelineFrame,
-    getTimelineLayer,
-    setTimelineFrame,
-    setTimelineLayer
-} from "../states"
+import { getTimelineFrame, setTimelineFrame } from "../states/useTimelineFrame"
+import { getTimelineLayer, setTimelineLayer } from "../states/useTimelineLayer"
 
 type FrameProps = {
     style: CSSProperties

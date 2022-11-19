@@ -1,7 +1,8 @@
 import { CSSProperties, memo } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
-import { useTimelineScrollLeft, useTimelineTotalFrames } from "../states"
+import { useTimelineScrollLeft } from "../states/useTimelineScrollLeft"
+import { useTimelineTotalFrames } from "../states/useTimelineTotalFrames"
 import Frame from "./Frame"
 
 type FrameGridProps = {

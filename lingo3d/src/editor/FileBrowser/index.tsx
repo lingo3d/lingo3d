@@ -1,12 +1,14 @@
 import { useMemo } from "preact/hooks"
 import register from "preact-custom-element"
 import { get, set, traverse } from "@lincode/utils"
-import { setFileSelected, useFileBrowserDir, useFiles } from "../states"
+import { useFiles } from "../states"
 import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem"
 import pathMap from "./pathMap"
 import useInitCSS from "../utils/useInitCSS"
 import { APPBAR_HEIGHT, PANELS_HEIGHT } from "../../globals"
+import { useFileBrowserDir } from "../states/useFileBrowserDir"
+import { setFileSelected } from "../states/useFileSelected"
 
 interface FileStructure {
     [key: string]: FileStructure | File

@@ -1,5 +1,5 @@
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
-import { useFileBrowserDir } from "../states"
+import { useFileBrowserDir } from "../states/useFileBrowserDir"
 import FolderIcon from "./icons/FolderIcon"
 import pathMap from "./pathMap"
 

@@ -1,5 +1,5 @@
 import useResizeObserver from "../hooks/useResizeObserver"
-import { addTimelineScrollLeft } from "../states"
+import { addTimelineScrollLeft } from "../states/useTimelineScrollLeft"
 import Needle from "./Needle"
 import Ruler from "./Ruler"
 

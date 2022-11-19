@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "preact/hooks"
 import { Bone, Object3D } from "three"
 import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
-import { useSceneGraphExpanded, useSelectionNativeTarget } from "../states"
+import { useSelectionNativeTarget } from "../states"
 import ComponentIcon from "./icons/ComponentIcon"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import BoneIcon from "./icons/BoneIcon"
+import { useSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 
 type NativeTreeItemProps = TreeItemProps & {
     object3d: Object3D | Bone

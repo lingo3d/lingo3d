@@ -1,11 +1,7 @@
 import { ComponentChildren } from "preact"
 import { useMemo } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
-import {
-    useMultipleSelectionTargets,
-    useSceneGraphExpanded,
-    useSelectionTarget
-} from "../states"
+import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
@@ -23,6 +19,7 @@ import AnimationManager from "../../display/core/AnimatedObjectManager/Animation
 import PlayIcon from "./icons/PlayIcon"
 import BasicMaterialManager from "../../display/material/BasicMaterialManager"
 import ImageIcon from "./icons/ImageIcon"
+import { useSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 
 export type TreeItemProps = {
     appendable: Appendable

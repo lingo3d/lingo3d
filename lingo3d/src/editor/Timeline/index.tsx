@@ -1,6 +1,6 @@
 import register from "preact-custom-element"
 import { APPBAR_HEIGHT, PANELS_HEIGHT } from "../../globals"
-import { addTimelineScrollLeft } from "../states"
+import { addTimelineScrollLeft } from "../states/useTimelineScrollLeft"
 import useInitCSS from "../utils/useInitCSS"
 import Frames from "./Frames"
 import TimelineGraph from "./TimelineGraph"

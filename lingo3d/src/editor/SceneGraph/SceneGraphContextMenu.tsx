@@ -12,14 +12,11 @@ import {
 } from "../../states/useSelectionFrozen"
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
-import {
-    setSceneGraphExpanded,
-    useSelectionFrozen,
-    useSelectionTarget
-} from "../states"
+import { useSelectionFrozen, useSelectionTarget } from "../states"
 import { Point } from "@lincode/math"
 import Timeline from "../../display/Timeline"
 import { setTimeline } from "../../states/useTimeline"
+import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)

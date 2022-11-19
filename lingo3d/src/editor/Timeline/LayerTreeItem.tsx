@@ -4,10 +4,10 @@ import { uuidMap } from "../../api/core/collections"
 import { FRAME_HEIGHT } from "../../globals"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import {
-    addTimelineExpandedUUID,
     deleteTimelineExpandedUUID,
-    useTimelineLayer
-} from "../states"
+    addTimelineExpandedUUID
+} from "../states/useTimelineExpandedUUIDs"
+import { useTimelineLayer } from "../states/useTimelineLayer"
 import getComponentName from "../utils/getComponentName"
 
 type LayerTreeItemProps = {

@@ -1,6 +1,6 @@
 import { FRAME_HEIGHT } from "../../globals"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
-import { useTimelineLayer } from "../states"
+import { useTimelineLayer } from "../states/useTimelineLayer"
 
 type PropertyTreeItemProps = {
     property: string

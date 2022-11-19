@@ -2,12 +2,12 @@ import register from "preact-custom-element"
 import CloseableTab from "../component/tabs/CloseableTab"
 import AppBar from "../component/bars/AppBar"
 import useInitCSS from "../utils/useInitCSS"
-import { useFileBrowser } from "../states"
 import FileBrowser from "../FileBrowser"
 import { useState } from "preact/hooks"
 import Timeline from "../Timeline"
 import RulerBar from "../Timeline/RulerBar"
 import { PANELS_HEIGHT } from "../../globals"
+import { useFileBrowser } from "../states/useFileBrowser"
 
 const Panels = () => {
     useInitCSS(true)

@@ -2,7 +2,8 @@ import { useMemo } from "preact/hooks"
 import { FRAME_HEIGHT } from "../../globals"
 import VirtualizedList from "../component/VirtualizedList"
 import useResizeObserver from "../hooks/useResizeObserver"
-import { useTimeline, useTimelineExpandedUUIDs } from "../states"
+import { useTimeline } from "../states"
+import { useTimelineExpandedUUIDs } from "../states/useTimelineExpandedUUIDs"
 import FrameRow from "./FrameRow"
 
 const Frames = () => {

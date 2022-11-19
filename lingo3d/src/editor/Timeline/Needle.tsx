@@ -1,5 +1,6 @@
 import { APPBAR_HEIGHT, FRAME_WIDTH, PANELS_HEIGHT } from "../../globals"
-import { useTimelineScrollLeft, useTimelineFrame } from "../states"
+import { useTimelineFrame } from "../states/useTimelineFrame"
+import { useTimelineScrollLeft } from "../states/useTimelineScrollLeft"
 
 const Needle = () => {
     const [scrollLeft] = useTimelineScrollLeft()
