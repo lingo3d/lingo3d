@@ -1,9 +1,9 @@
 import { APPBAR_HEIGHT, FRAME_WIDTH, PANELS_HEIGHT } from "../../globals"
-import { useTimelineScrollLeft, useTimelineSelectedFrame } from "../states"
+import { useTimelineScrollLeft, useTimelineFrame } from "../states"
 
 const Needle = () => {
     const [scrollLeft] = useTimelineScrollLeft()
-    const [frame] = useTimelineSelectedFrame()
+    const [frame] = useTimelineFrame()
 
     return (
         <div
@@ -18,7 +18,7 @@ const Needle = () => {
             <div
                 style={{
                     position: "absolute",
-                    left: -scrollLeft + (frame ?? 0) * FRAME_WIDTH,
+                    left: -scrollLeft + frame * FRAME_WIDTH,
                     top: 0,
                     width: FRAME_WIDTH,
                     height: APPBAR_HEIGHT,
