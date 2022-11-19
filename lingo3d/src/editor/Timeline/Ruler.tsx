@@ -1,6 +1,6 @@
 import { APPBAR_HEIGHT, FRAME_WIDTH } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
-import { useTimelineScrollLeft, useTimelineFrameNum } from "../states"
+import { useTimelineScrollLeft, useTimelineTotalFrames } from "../states"
 import Metric from "./Metric"
 
 type RulerProps = {
@@ -9,12 +9,12 @@ type RulerProps = {
 
 const Ruler = ({ width }: RulerProps) => {
     const [scrollLeft] = useTimelineScrollLeft()
-    const [frameNum] = useTimelineFrameNum()
+    const [totalFrames] = useTimelineTotalFrames()
 
     return (
         <VirtualizedListHorizontal
             scrollLeft={scrollLeft}
-            itemNum={frameNum / 5 + 3}
+            itemNum={totalFrames / 5 + 3}
             itemWidth={FRAME_WIDTH * 5}
             containerWidth={width}
             containerHeight={APPBAR_HEIGHT}

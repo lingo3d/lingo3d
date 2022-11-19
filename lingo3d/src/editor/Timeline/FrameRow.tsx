@@ -1,7 +1,7 @@
 import { CSSProperties, memo } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
-import { useTimelineScrollLeft, useTimelineFrameNum } from "../states"
+import { useTimelineScrollLeft, useTimelineTotalFrames } from "../states"
 import Frame from "./Frame"
 
 type FrameGridProps = {
@@ -13,12 +13,12 @@ type FrameGridProps = {
 
 const FrameRow = ({ width, style, layer, frames }: FrameGridProps) => {
     const [scrollLeft] = useTimelineScrollLeft()
-    const [frameNum] = useTimelineFrameNum()
+    const [totalFrames] = useTimelineTotalFrames()
 
     return (
         <VirtualizedListHorizontal
             scrollLeft={scrollLeft}
-            itemNum={frameNum}
+            itemNum={totalFrames}
             itemWidth={FRAME_WIDTH}
             containerWidth={width}
             containerHeight={FRAME_HEIGHT}

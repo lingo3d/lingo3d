@@ -85,10 +85,13 @@ export const addTimelineScrollLeft = (deltaX: number) =>
     _setTimelineScrollLeft(
         Math.min(
             Math.max(getTimelineScrollLeft() + deltaX, 0),
-            getTimelineFrameNum() * FRAME_WIDTH - 520
+            getTimelineTotalFrames() * FRAME_WIDTH - 520
         )
     )
-export const [useTimelineFrameNum, , getTimelineFrameNum] = preactStore(1000)
+const [useTimelineTotalFrames, , getTimelineTotalFrames] = preactStore(
+    Number.MAX_SAFE_INTEGER
+)
+export { useTimelineTotalFrames }
 const [
     useTimelineExpandedUUIDs,
     setTimelineExpandedUUIDs,
