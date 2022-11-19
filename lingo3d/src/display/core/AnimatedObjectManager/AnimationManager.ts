@@ -47,6 +47,7 @@ export default class AnimationManager
     private actionState = new Reactive<AnimationAction | undefined>(undefined)
     private clipState = new Reactive<AnimationClip | undefined>(undefined)
     private dataState = new Reactive<[AnimationData | undefined]>([undefined])
+    private gotoFrameState = new Reactive<number | undefined>(undefined)
 
     protected pausedState = new Reactive(true)
     public get paused() {
@@ -143,7 +144,8 @@ export default class AnimationManager
             const action = this.actionState.get()
             if (!action) return
 
-            action.paused = this.pausedState.get()
+            const gotoFrame = this.gotoFrameState.get()
+            action.paused = this.pausedState.get() && gotoFrame === undefined
             if (action.paused) return
 
             const prevManager = mixerManagerMap.get(mixer)
@@ -161,11 +163,20 @@ export default class AnimationManager
             action.enabled = true
             action.play()
 
+            if (gotoFrame !== undefined) {
+                mixer.setTime(gotoFrame * DEFAULT_SPF)
+                this.gotoFrameState.set(undefined)
+                return
+            }
             const handle = onBeforeRender(() => mixer.update(dt[0]))
             return () => {
                 handle.cancel()
             }
-        }, [this.actionState.get, this.pausedState.get])
+        }, [
+            this.actionState.get,
+            this.pausedState.get,
+            this.gotoFrameState.get
+        ])
     }
 
     public retarget(
@@ -206,5 +217,9 @@ export default class AnimationManager
         }
         merge(prevData, data)
         this.dataState.set([prevData])
+    }
+
+    public gotoFrame(frame: number) {
+        this.gotoFrameState.set(frame)
     }
 }
