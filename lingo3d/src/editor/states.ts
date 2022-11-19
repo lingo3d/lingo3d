@@ -107,11 +107,8 @@ export const deleteTimelineExpandedUUID = (uuid: string) => {
 }
 export const [useTimelineFrame, setTimelineFrame, getTimelineFrame] =
     preactStore(0)
-export const [
-    useTimelineSelectedLayer,
-    setTimelineSelectedLayer,
-    getTimelineSelectedLayer
-] = preactStore<string | undefined>(undefined)
+export const [useTimelineLayer, setTimelineLayer, getTimelineLayer] =
+    preactStore<string | undefined>(undefined)
 export const [useFileSelected, setFileSelected] = preactStore<File | undefined>(
     undefined
 )

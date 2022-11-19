@@ -2,9 +2,9 @@ import { CSSProperties, memo, useState } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 import {
     getTimelineFrame,
-    getTimelineSelectedLayer,
+    getTimelineLayer,
     setTimelineFrame,
-    setTimelineSelectedLayer
+    setTimelineLayer
 } from "../states"
 
 type FrameProps = {
@@ -21,7 +21,7 @@ const deselect = () => {
     prevSetSelected = undefined
 }
 getTimelineFrame(deselect)
-getTimelineSelectedLayer(deselect)
+getTimelineLayer(deselect)
 
 const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
     const [selected, setSelected] = useState(false)
@@ -38,7 +38,7 @@ const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
                 background: keyframe ? "rgba(255 ,255, 255, 0.1)" : undefined
             }}
             onClick={() => {
-                setTimelineSelectedLayer(layer)
+                setTimelineLayer(layer)
                 setTimelineFrame(index)
                 setSelected(true)
                 prevSetSelected = setSelected

@@ -6,7 +6,7 @@ import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import {
     addTimelineExpandedUUID,
     deleteTimelineExpandedUUID,
-    useTimelineSelectedLayer
+    useTimelineLayer
 } from "../states"
 import getComponentName from "../utils/getComponentName"
 
@@ -16,7 +16,7 @@ type LayerTreeItemProps = {
 }
 
 const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
-    const [selectedLayer, setSelectedLayer] = useTimelineSelectedLayer()
+    const [layer, setLayer] = useTimelineLayer()
 
     useLayoutEffect(() => {
         return () => {
@@ -30,8 +30,8 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
             label={getComponentName(uuidMap.get(uuid))}
             onExpand={() => addTimelineExpandedUUID(uuid)}
             onCollapse={() => deleteTimelineExpandedUUID(uuid)}
-            selected={selectedLayer === uuid}
-            onClick={() => setSelectedLayer(uuid)}
+            selected={layer === uuid}
+            onClick={() => setLayer(uuid)}
         >
             {children}
         </BaseTreeItem>

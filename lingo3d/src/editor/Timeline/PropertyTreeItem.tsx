@@ -1,6 +1,6 @@
 import { FRAME_HEIGHT } from "../../globals"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
-import { useTimelineSelectedLayer } from "../states"
+import { useTimelineLayer } from "../states"
 
 type PropertyTreeItemProps = {
     property: string
@@ -8,15 +8,15 @@ type PropertyTreeItemProps = {
 }
 
 const PropertyTreeItem = ({ property, uuid }: PropertyTreeItemProps) => {
-    const [selectedLayer, setSelectedLayer] = useTimelineSelectedLayer()
-    const layer = uuid + " " + property
+    const [layer, setLayer] = useTimelineLayer()
+    const myLayer = uuid + " " + property
 
     return (
         <BaseTreeItem
             height={FRAME_HEIGHT}
             label={property}
-            selected={selectedLayer === layer}
-            onClick={() => setSelectedLayer(layer)}
+            selected={layer === myLayer}
+            onClick={() => setLayer(myLayer)}
         />
     )
 }
