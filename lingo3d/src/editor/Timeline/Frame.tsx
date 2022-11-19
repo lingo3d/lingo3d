@@ -1,7 +1,5 @@
-import { createEffect } from "@lincode/reactivity"
 import { CSSProperties, memo, useState } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
-import { getTimeline } from "../../states/useTimeline"
 import { getTimelineFrame, setTimelineFrame } from "../states/useTimelineFrame"
 import { getTimelineLayer, setTimelineLayer } from "../states/useTimelineLayer"
 
@@ -20,10 +18,6 @@ const deselect = () => {
 }
 getTimelineFrame(deselect)
 getTimelineLayer(deselect)
-
-createEffect(() => {
-    getTimeline()?.gotoFrame(getTimelineFrame())
-}, [getTimelineFrame, getTimeline])
 
 const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
     const [selected, setSelected] = useState(false)
