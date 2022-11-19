@@ -5,8 +5,9 @@ import useInitCSS from "../utils/useInitCSS"
 import Frames from "./Frames"
 import TimelineGraph from "./TimelineGraph"
 
-const Timeline = () => {
+const TimelineEditor = () => {
     useInitCSS(true)
+
     return (
         <div
             className="lingo3d-ui lingo3d-bg lingo3d-panels"
@@ -29,6 +30,6 @@ const Timeline = () => {
         </div>
     )
 }
-export default Timeline
+export default TimelineEditor
 
-register(Timeline, "lingo3d-timeline")
+register(TimelineEditor, "lingo3d-timeline-editor")

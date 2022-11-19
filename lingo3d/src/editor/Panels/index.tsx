@@ -4,8 +4,8 @@ import AppBar from "../component/bars/AppBar"
 import useInitCSS from "../utils/useInitCSS"
 import FileBrowser from "../FileBrowser"
 import { useState } from "preact/hooks"
-import Timeline from "../Timeline"
-import RulerBar from "../Timeline/RulerBar"
+import TimelineEditor from "../TimelineEditor"
+import RulerBar from "../TimelineEditor/RulerBar"
 import { PANELS_HEIGHT } from "../../globals"
 import { useFileBrowser } from "../states/useFileBrowser"
 
@@ -42,7 +42,7 @@ const Panels = () => {
             </div>
             <div style={{ flexGrow: 1 }}>
                 {tab === "files" && fileBrowser && <FileBrowser />}
-                {tab === "timeline" && <Timeline />}
+                {tab === "timeline" && <TimelineEditor />}
             </div>
         </div>
     )
