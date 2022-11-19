@@ -1,4 +1,4 @@
-import { CSSProperties } from "preact/compat"
+import { CSSProperties, memo } from "preact/compat"
 import { DEFAULT_SPF, FRAME_WIDTH } from "../../globals"
 
 const round = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100
@@ -39,4 +39,4 @@ const Metric = ({ index, style }: MetricProps) => {
     )
 }
 
-export default Metric
+export default memo(Metric, () => true)

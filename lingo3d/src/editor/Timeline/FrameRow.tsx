@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo } from "preact/compat"
+import { CSSProperties, memo } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import { useTimelineScrollLeft, useTimelineFrameNum } from "../states"
@@ -14,8 +14,6 @@ type FrameGridProps = {
 const FrameRow = ({ width, style, layer, frames }: FrameGridProps) => {
     const [scrollLeft] = useTimelineScrollLeft()
     const [frameNum] = useTimelineFrameNum()
-
-    const framesSorted = useMemo(() => [...frames].sort(), [frames])
 
     return (
         <VirtualizedListHorizontal
@@ -38,4 +36,4 @@ const FrameRow = ({ width, style, layer, frames }: FrameGridProps) => {
     )
 }
 
-export default FrameRow
+export default memo(FrameRow, () => true)

@@ -1,4 +1,4 @@
-import { CSSProperties } from "preact/compat"
+import { CSSProperties, memo } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 import { setTimelineSelectedFrame, setTimelineSelectedLayer } from "../states"
 
@@ -39,4 +39,4 @@ const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
     )
 }
 
-export default Frame
+export default memo(Frame, () => true)

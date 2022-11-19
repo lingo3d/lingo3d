@@ -5,9 +5,7 @@ import useResizeObserver from "../hooks/useResizeObserver"
 import { useTimeline, useTimelineExpandedUUIDs } from "../states"
 import FrameRow from "./FrameRow"
 
-type FrameGridProps = {}
-
-const Frames = ({}: FrameGridProps) => {
+const Frames = () => {
     const [ref, { width, height }] = useResizeObserver()
     const [expandedUUIDsWrapper] = useTimelineExpandedUUIDs()
     const [expandedUUIDs] = expandedUUIDsWrapper
@@ -31,7 +29,7 @@ const Frames = ({}: FrameGridProps) => {
             }
         }
         return Object.entries(keyframes)
-    }, [expandedUUIDsWrapper])
+    }, [expandedUUIDsWrapper, timeline])
 
     return (
         <div ref={ref} className="lingo3d-absfull">

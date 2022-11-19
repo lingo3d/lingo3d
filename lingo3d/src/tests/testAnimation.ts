@@ -23,4 +23,3 @@ timeline.data = {
         ]
     }
 }
-timeline.paused = false
