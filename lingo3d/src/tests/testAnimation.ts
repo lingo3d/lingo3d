@@ -11,15 +11,15 @@ const box = new Cube()
 const timeline = new Timeline()
 timeline.data = {
     [box.uuid]: {
-        x: [
-            [0, 0],
-            [60, 100],
-            [120, 0]
-        ],
-        rotationX: [
-            [0, 0],
-            [60, 180],
-            [80, 0]
-        ]
+        x: {
+            0: 0,
+            60: 100,
+            120: 0
+        },
+        rotationX: {
+            0: 0,
+            60: 180,
+            80: 0
+        }
     }
 }

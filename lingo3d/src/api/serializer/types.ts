@@ -72,11 +72,9 @@ export type AnimationData = Record<
     string, //uuid
     Record<
         string, //property name
-        Array<
-            [
-                number, //frame number
-                number | Point | Point3d //frame value
-            ]
+        Record<
+            number, //frame number
+            number | Point | Point3d //frame value
         >
     >
 >

@@ -20,14 +20,16 @@ const Frames = () => {
         for (const [uuid, data] of Object.entries(timeline.data)) {
             const frameList = (keyframes[uuid] = new Set<number>())
             for (const frames of Object.values(data))
-                for (const [frame] of frames) frameList.add(frame)
+                for (const frame of Object.keys(frames))
+                    frameList.add(Number(frame))
 
             if (!expandedUUIDs.has(uuid)) continue
 
             for (const [property, frames] of Object.entries(data)) {
                 const layerFrameList = (keyframes[uuid + " " + property] =
                     new Set<number>())
-                for (const [frame] of frames) layerFrameList.add(frame)
+                for (const frame of Object.values(frames))
+                    layerFrameList.add(Number(frame))
             }
         }
         return Object.entries(keyframes)
@@ -47,17 +49,22 @@ const Frames = () => {
                     : false
                 userData[propertyOld] = val
 
-                if (changed) {
-                    console.log("lol")
-                }
+                // timeline.assignData({
+                //     [instance.uuid]: {
+                //         [property]:
+                //     }
+                // })
+
+                // if (changed) {
+                //     console.log("lol")
+                // }
             }
         }, MONITOR_INTERVAL)
 
         for (const [uuid, data] of Object.entries(timeline.data)) {
             const instance = uuidMap.get(uuid) as any
-            for (const [property, frames] of Object.entries(data)) {
+            for (const property of Object.keys(data))
                 properties.push([instance, property])
-            }
         }
         return () => {
             clearInterval(interval)

@@ -23,10 +23,9 @@ const animationValueToData = (val: AnimationValue) => {
     const data: AnimationData = {}
     const result = (data[""] ??= {})
     for (const [name, values] of entries)
-        result[name] = values.map((v, i) => [
-            Number((i * timeStep * DEFAULT_FPS).toFixed(2)),
-            v
-        ])
+        result[name] = Object.fromEntries(
+            values.map((v, i) => [(i * timeStep * DEFAULT_FPS).toFixed(2), v])
+        )
     return data
 }
 

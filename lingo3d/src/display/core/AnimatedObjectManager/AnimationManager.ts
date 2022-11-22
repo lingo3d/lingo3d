@@ -27,12 +27,12 @@ const mixerManagerMap = new WeakMap<AnimationMixer, AnimationManager>()
 const framesToKeyframeTrack = (
     targetName: string,
     property: string,
-    frames: Array<[number, number | Point | Point3d]>
+    frames: Record<number, number | Point | Point3d>
 ) => {
     return new NumberKeyframeTrack(
         targetName + "." + property,
-        frames.map(([frameNum]) => frameNum * DEFAULT_SPF),
-        frames.map(([, frameValue]) => frameValue)
+        Object.keys(frames).map((frameNum) => Number(frameNum) * DEFAULT_SPF),
+        Object.values(frames).map((frameValue) => frameValue)
     )
 }
 
@@ -209,7 +209,7 @@ export default class AnimationManager
         this.dataState.set([val])
     }
 
-    public assignData(data: AnimationData) {
+    public mergeData(data: AnimationData) {
         const [prevData] = this.dataState.get()
         if (!prevData) {
             this.dataState.set([data])
