@@ -1,6 +1,7 @@
 import store, { createEffect } from "@lincode/reactivity"
 import { merge } from "@lincode/utils"
 import { useEffect, useMemo } from "preact/hooks"
+import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
 import { AnimationData } from "../../api/serializer/types"
 import { onBeforeRender } from "../../events/onBeforeRender"
@@ -37,6 +38,8 @@ createEffect(() => {
         handle.cancel()
     }
 }, [getTimeline, getPaused])
+
+const valuePrevMap = new WeakMap<Appendable, number>()
 
 createEffect(() => {
     const timeline = getTimeline()
@@ -92,10 +95,16 @@ const Frames = () => {
         }
 
         const handle = onTransformControls((val) => {
+            if (val === "start") {
+                for (const [instance, property] of properties)
+                    valuePrevMap.set(instance, instance[property])
+                return
+            }
             if (val !== "stop") return
 
             const changeData: AnimationData = {}
-            for (const [instance, property] of properties)
+            for (const [instance, property] of properties) {
+                if (valuePrevMap.get(instance) === instance[property]) continue
                 merge(changeData, {
                     [instance.uuid]: {
                         [property]: {
@@ -103,6 +112,7 @@ const Frames = () => {
                         }
                     }
                 })
+            }
             console.log(JSON.stringify(timeline.data))
             timeline.mergeData(changeData)
             console.log(JSON.stringify(timeline.data))
