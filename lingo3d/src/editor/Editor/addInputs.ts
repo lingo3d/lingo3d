@@ -5,6 +5,7 @@ import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import { Cancellable } from "@lincode/promiselikes"
 import { isPoint } from "../../api/serializer/isPoint"
+import { MONITOR_INTERVAL } from "../../globals"
 
 let skipApply = false
 
@@ -67,7 +68,7 @@ export default async (
                     resetButton.style.opacity = unchanged ? "0.1" : "0.5"
                     resetButton.style.cursor = unchanged ? "auto" : "pointer"
                 },
-                100,
+                MONITOR_INTERVAL,
                 "trailing"
             )
             updateResetButton()
@@ -100,7 +101,7 @@ export default async (
             skipApplyValue()
             pane.refresh()
         }
-    }, 100)
+    }, MONITOR_INTERVAL)
     handle.then(() => clearInterval(interval))
 
     return result

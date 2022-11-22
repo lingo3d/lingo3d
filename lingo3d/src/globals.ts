@@ -1,6 +1,6 @@
 export const WIDTH = 375
 export const HEIGHT = 667
-export const SHADOW_BIAS = -0.0055
+export const MONITOR_INTERVAL = 100
 
 export const DEFAULT_FPS = 60
 export const DEFAULT_SPF = 1 / DEFAULT_FPS
@@ -10,6 +10,7 @@ export const MAX_POLAR_ANGLE = 175
 export const ORTHOGRAPHIC_FRUSTUM = 5.7
 export const NEAR = 0.1
 export const FAR = 1000
+export const SHADOW_BIAS = -0.0055
 
 export const DUMMY_URL = "https://unpkg.com/lingo3d-dummy@1.0.4/assets/"
 export const YBOT_URL = DUMMY_URL + "ybot.fbx"

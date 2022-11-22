@@ -1,5 +1,6 @@
-import { useMemo } from "preact/hooks"
-import { FRAME_HEIGHT } from "../../globals"
+import { useEffect, useMemo } from "preact/hooks"
+import { uuidMap } from "../../api/core/collections"
+import { FRAME_HEIGHT, MONITOR_INTERVAL } from "../../globals"
 import VirtualizedList from "../component/VirtualizedList"
 import useResizeObserver from "../hooks/useResizeObserver"
 import { useTimeline } from "../states"
@@ -31,6 +32,37 @@ const Frames = () => {
         }
         return Object.entries(keyframes)
     }, [expandedUUIDsWrapper, timeline])
+
+    useEffect(() => {
+        if (!timeline?.data) return
+
+        const properties: Array<[any, string]> = []
+        const interval = setInterval(() => {
+            for (const [instance, property] of properties) {
+                const { userData } = instance.outerObject3d
+                const val = instance[property]
+                const propertyOld = property + "_old"
+                const changed = userData[propertyOld]
+                    ? val !== userData[propertyOld]
+                    : false
+                userData[propertyOld] = val
+
+                if (changed) {
+                    console.log("lol")
+                }
+            }
+        }, MONITOR_INTERVAL)
+
+        for (const [uuid, data] of Object.entries(timeline.data)) {
+            const instance = uuidMap.get(uuid) as any
+            for (const [property, frames] of Object.entries(data)) {
+                properties.push([instance, property])
+            }
+        }
+        return () => {
+            clearInterval(interval)
+        }
+    }, [timeline])
 
     return (
         <div ref={ref} className="lingo3d-absfull">
