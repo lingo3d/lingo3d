@@ -28,9 +28,9 @@ import ModelTreeItem from "./ModelTreeItem"
 import TreeItem from "./TreeItem"
 
 const AccordionSceneGraph = () => {
-    const [r, render] = useState({})
+    const [refresh, setRefresh] = useState({})
     useLayoutEffect(() => {
-        const cb = () => render({})
+        const cb = () => setRefresh({})
         const handle0 = onSceneGraphChange(cb)
         const handle1 = onSceneGraphNameChange(cb)
 
@@ -47,7 +47,7 @@ const AccordionSceneGraph = () => {
                     !multipleSelectionGroupManagers.has(item) &&
                     !hiddenAppendables.has(item)
             ),
-        [r]
+        [refresh]
     )
 
     const [multipleSelectionTargets] = useMultipleSelectionTargets()

@@ -1,6 +1,6 @@
 import store, { createEffect } from "@lincode/reactivity"
 import { merge } from "@lincode/utils"
-import { useEffect, useMemo } from "preact/hooks"
+import { useEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
 import { AnimationData } from "../../api/serializer/types"
@@ -61,12 +61,28 @@ const Frames = () => {
     const [expandedUUIDsWrapper] = useTimelineExpandedUUIDs()
     const [expandedUUIDs] = expandedUUIDsWrapper
     const [timeline] = useTimeline()
+    const [timelineDataWrapper, setTimelineDataWrapper] = useState<
+        [AnimationData | undefined]
+    >([undefined])
+
+    useEffect(() => {
+        if (!timeline) return
+        //@ts-ignore
+        const handle = timeline.dataState.get((data) =>
+            setTimelineDataWrapper(data)
+        )
+        return () => {
+            setTimelineDataWrapper([undefined])
+            handle.cancel()
+        }
+    }, [timeline])
 
     const keyframesEntries = useMemo(() => {
-        if (!timeline?.data) return []
+        const [timelineData] = timelineDataWrapper
+        if (!timelineData) return []
 
         const keyframes: Record<string, Set<number>> = {}
-        for (const [uuid, data] of Object.entries(timeline.data)) {
+        for (const [uuid, data] of Object.entries(timelineData)) {
             const frameList = (keyframes[uuid] = new Set<number>())
             for (const frames of Object.values(data))
                 for (const frame of Object.keys(frames))
@@ -82,13 +98,14 @@ const Frames = () => {
             }
         }
         return Object.entries(keyframes)
-    }, [expandedUUIDsWrapper, timeline])
+    }, [expandedUUIDsWrapper, timelineDataWrapper])
 
     useEffect(() => {
-        if (!timeline?.data) return
+        const [timelineData] = timelineDataWrapper
+        if (!timelineData || !timeline) return
 
         const properties: Array<[any, string]> = []
-        for (const [uuid, data] of Object.entries(timeline.data)) {
+        for (const [uuid, data] of Object.entries(timelineData)) {
             const instance = uuidMap.get(uuid)
             for (const property of Object.keys(data))
                 properties.push([instance, property])
@@ -113,15 +130,13 @@ const Frames = () => {
                     }
                 })
             }
-            console.log(JSON.stringify(timeline.data))
             timeline.mergeData(changeData)
-            console.log(JSON.stringify(timeline.data))
         })
 
         return () => {
             handle.cancel()
         }
-    }, [timeline])
+    }, [timelineDataWrapper])
 
     return (
         <div ref={ref} className="lingo3d-absfull">
