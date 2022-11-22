@@ -1,6 +1,7 @@
 import { APPBAR_HEIGHT, PANELS_HEIGHT } from "../../globals"
 import { addTimelineScrollLeft } from "../states/useTimelineScrollLeft"
 import useInitCSS from "../utils/useInitCSS"
+import Controls from "./Controls"
 import Frames from "./Frames"
 import TimelineGraph from "./TimelineGraph"
 
@@ -25,6 +26,7 @@ const TimelineEditor = () => {
                 }}
             >
                 <Frames />
+                <Controls />
             </div>
         </div>
     )
