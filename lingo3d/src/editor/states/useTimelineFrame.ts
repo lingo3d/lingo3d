@@ -6,5 +6,9 @@ export const [useTimelineFrame, setTimelineFrame, getTimelineFrame] =
     preactStore(0)
 
 createEffect(() => {
-    getTimeline()?.gotoFrame(getTimelineFrame())
+    const timeline = getTimeline()
+    if (!timeline) return
+
+    timeline.gotoFrame(getTimelineFrame())
+    timeline.paused = true
 }, [getTimelineFrame, getTimeline])
