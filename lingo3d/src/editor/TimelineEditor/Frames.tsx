@@ -146,13 +146,13 @@ const Frames = () => {
                 containerWidth={width}
                 containerHeight={height}
                 style={{ overflowY: "hidden" }}
-                renderItem={({ index, style, data: [layer, frames] }) => (
+                renderItem={({ index, style, data: [layer, keyframes] }) => (
                     <FrameRow
                         key={index}
                         width={width}
                         style={style}
                         layer={layer}
-                        frames={frames}
+                        keyframes={keyframes}
                     />
                 )}
             />

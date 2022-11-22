@@ -9,10 +9,10 @@ type FrameGridProps = {
     width: number
     style?: CSSProperties
     layer: string
-    frames: Set<number>
+    keyframes: Set<number>
 }
 
-const FrameRow = ({ width, style, layer, frames }: FrameGridProps) => {
+const FrameRow = ({ width, style, layer, keyframes }: FrameGridProps) => {
     const [scrollLeft] = useTimelineScrollLeft()
     const [totalFrames] = useTimelineTotalFrames()
 
@@ -28,7 +28,7 @@ const FrameRow = ({ width, style, layer, frames }: FrameGridProps) => {
                 <Frame
                     key={index}
                     style={style}
-                    keyframe={frames.has(index)}
+                    keyframe={keyframes.has(index)}
                     layer={layer}
                     index={index}
                 />
@@ -37,4 +37,4 @@ const FrameRow = ({ width, style, layer, frames }: FrameGridProps) => {
     )
 }
 
-export default memo(FrameRow, () => true)
+export default memo(FrameRow, (prev, next) => prev.keyframes === next.keyframes)

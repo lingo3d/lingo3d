@@ -59,4 +59,4 @@ const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
     )
 }
 
-export default memo(Frame, () => true)
+export default memo(Frame, (prev, next) => prev.keyframe === next.keyframe)
