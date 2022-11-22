@@ -127,9 +127,11 @@ export default class AnimationManager
             const clip = this.clipState.get()
             if (!clip) return
 
-            this.actionState.set(mixer.clipAction(clip))
+            const action = mixer.clipAction(clip)
+            this.actionState.set(action)
 
             return () => {
+                action.stop()
                 mixer.uncacheClip(clip)
             }
         }, [this.clipState.get])
