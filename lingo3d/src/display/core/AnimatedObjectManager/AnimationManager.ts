@@ -28,20 +28,12 @@ const framesToKeyframeTrack = (
     targetName: string,
     property: string,
     frames: Record<number, number | Point | Point3d>
-) => {
-    const entries = Object.entries(frames)
-        .map(
-            ([frameNum, frameValue]) =>
-                <const>[Number(frameNum) * FRAME2SEC, frameValue]
-        )
-        .sort(([a], [b]) => a - b)
-
-    return new NumberKeyframeTrack(
+) =>
+    new NumberKeyframeTrack(
         targetName + "." + property,
-        entries.map(([frameNum]) => frameNum),
-        entries.map(([, frameValue]) => frameValue)
+        Object.keys(frames).map((frameNum) => Number(frameNum) * FRAME2SEC),
+        Object.values(frames)
     )
-}
 
 export default class AnimationManager
     extends Appendable
