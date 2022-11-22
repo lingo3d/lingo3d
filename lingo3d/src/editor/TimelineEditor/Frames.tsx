@@ -1,11 +1,36 @@
+import { createEffect } from "@lincode/reactivity"
 import { useEffect, useMemo } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
+import { AnimationData } from "../../api/serializer/types"
 import { FRAME_HEIGHT, MONITOR_INTERVAL } from "../../globals"
+import { getTimeline } from "../../states/useTimeline"
 import VirtualizedList from "../component/VirtualizedList"
 import useResizeObserver from "../hooks/useResizeObserver"
 import { useTimeline } from "../states"
 import { useTimelineExpandedUUIDs } from "../states/useTimelineExpandedUUIDs"
+import { getTimelineFrame } from "../states/useTimelineFrame"
 import FrameRow from "./FrameRow"
+
+let skipTimelineChange = false
+
+createEffect(() => {
+    const timeline = getTimeline()
+    if (!timeline) return
+
+    timeline.gotoFrame(getTimelineFrame())
+    skipTimelineChange = true
+}, [getTimelineFrame, getTimeline])
+
+createEffect(() => {
+    const timeline = getTimeline()
+    if (!timeline) return
+
+    
+
+    return () => {
+
+    }
+}, [getTimeline])
 
 const Frames = () => {
     const [ref, { width, height }] = useResizeObserver()
@@ -39,33 +64,35 @@ const Frames = () => {
         if (!timeline?.data) return
 
         const properties: Array<[any, string]> = []
-        const interval = setInterval(() => {
-            for (const [instance, property] of properties) {
-                const { userData } = instance.outerObject3d
-                const val = instance[property]
-                const propertyOld = property + "_old"
-                const changed = userData[propertyOld]
-                    ? val !== userData[propertyOld]
-                    : false
-                userData[propertyOld] = val
-
-                // timeline.assignData({
-                //     [instance.uuid]: {
-                //         [property]:
-                //     }
-                // })
-
-                // if (changed) {
-                //     console.log("lol")
-                // }
-            }
-        }, MONITOR_INTERVAL)
-
         for (const [uuid, data] of Object.entries(timeline.data)) {
-            const instance = uuidMap.get(uuid) as any
+            const instance = uuidMap.get(uuid)
             for (const property of Object.keys(data))
                 properties.push([instance, property])
         }
+
+        const interval = setInterval(() => {
+            let changeData: AnimationData | undefined = undefined
+
+            for (const [instance, property] of properties) {
+                const { userData } = instance.outerObject3d
+                const value = instance[property]
+                const propertyOld = property + "_old"
+                const changed = userData[propertyOld]
+                    ? value !== userData[propertyOld]
+                    : false
+                userData[propertyOld] = value
+
+                if (changed && !skipTimelineChange)
+                    (changeData ??= {})[instance.uuid] = {
+                        [property]: {
+                            [getTimelineFrame()]: value
+                        }
+                    }
+            }
+            if (changeData) timeline.mergeData(changeData)
+            skipTimelineChange = false
+        }, MONITOR_INTERVAL)
+
         return () => {
             clearInterval(interval)
         }
