@@ -123,6 +123,7 @@ export default class AnimationManager
             )
         }, [this.dataState.get])
 
+        let frame: number | undefined
         this.createEffect(() => {
             const clip = this.clipState.get()
             if (!clip) return
@@ -130,8 +131,16 @@ export default class AnimationManager
             const action = mixer.clipAction(clip)
             this.actionState.set(action)
 
+            if (frame !== undefined) {
+                this.frame = frame
+                frame = undefined
+            }
+
             return () => {
+                frame = this.frame
+                mixer.setTime(0)
                 action.stop()
+                action.enabled = false
                 mixer.uncacheClip(clip)
             }
         }, [this.clipState.get])
@@ -159,10 +168,9 @@ export default class AnimationManager
 
             const prevAction = mixerActionMap.get(mixer)
             mixerActionMap.set(mixer, action)
-            if (prevAction && action !== prevAction) {
+            if (prevAction?.enabled && action !== prevAction)
                 action.crossFadeFrom(prevAction, 0.25, true)
-                action.time = 0
-            }
+
             action.clampWhenFinished = true
             action.enabled = true
             action.play()

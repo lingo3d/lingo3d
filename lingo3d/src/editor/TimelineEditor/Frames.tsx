@@ -51,6 +51,7 @@ createEffect(() => {
     })
     return () => {
         handle.cancel()
+        skip = false
     }
 }, [getTimeline, getPaused])
 
