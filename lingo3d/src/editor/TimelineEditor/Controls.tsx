@@ -10,7 +10,7 @@ import PrevFrameIcon from "./icons/PrevFrameIcon"
 const Controls = () => {
     const [timeline] = useTimeline()
     const [paused, setPaused] = useState(true)
-    const [frame] = useTimelineFrame()
+    const [frame, setFrame] = useTimelineFrame()
 
     useEffect(() => {
         //@ts-ignore
@@ -28,17 +28,34 @@ const Controls = () => {
                 display: "flex"
             }}
         >
-            <TitleBarButton disabled={!timeline || !paused}>
-                <PlayIcon />
-            </TitleBarButton>
-            <TitleBarButton disabled={!timeline || paused}>
-                <PauseIcon />
-            </TitleBarButton>
-            <TitleBarButton disabled={!timeline || frame < 1}>
+            {paused ? (
+                <TitleBarButton
+                    disabled={!timeline}
+                    onClick={() => {
+                        if (timeline!.frame >= timeline!.totalFrames)
+                            timeline!.frame = 0
+                        timeline!.paused = false
+                    }}
+                >
+                    <PlayIcon />
+                </TitleBarButton>
+            ) : (
+                <TitleBarButton
+                    disabled={!timeline}
+                    onClick={() => (timeline!.paused = true)}
+                >
+                    <PauseIcon />
+                </TitleBarButton>
+            )}
+            <TitleBarButton
+                disabled={!timeline || frame < 1}
+                onClick={() => setFrame(frame - 1)}
+            >
                 <PrevFrameIcon />
             </TitleBarButton>
             <TitleBarButton
                 disabled={!timeline || frame >= timeline.totalFrames}
+                onClick={() => setFrame(frame + 1)}
             >
                 <NextFrameIcon />
             </TitleBarButton>
