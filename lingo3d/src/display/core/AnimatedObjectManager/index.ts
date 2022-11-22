@@ -9,7 +9,7 @@ import StaticObjectManager from "../StaticObjectManager"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { event, EventFunctions } from "@lincode/events"
-import { DEFAULT_FPS } from "../../../globals"
+import { SEC2FRAME } from "../../../globals"
 
 const animationValueToData = (val: AnimationValue) => {
     const entries = Object.entries(val)
@@ -24,7 +24,7 @@ const animationValueToData = (val: AnimationValue) => {
     const result = (data[""] ??= {})
     for (const [name, values] of entries)
         result[name] = Object.fromEntries(
-            values.map((v, i) => [(i * timeStep * DEFAULT_FPS).toFixed(2), v])
+            values.map((v, i) => [(i * timeStep * SEC2FRAME).toFixed(2), v])
         )
     return data
 }

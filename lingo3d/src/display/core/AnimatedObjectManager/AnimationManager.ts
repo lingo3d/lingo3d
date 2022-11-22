@@ -18,7 +18,7 @@ import IAnimationManager, {
 import Appendable from "../../../api/core/Appendable"
 import FoundManager from "../FoundManager"
 import { Point, Point3d } from "@lincode/math"
-import { DEFAULT_SPF, DEFAULT_FPS } from "../../../globals"
+import { FRAME2SEC, SEC2FRAME } from "../../../globals"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
@@ -31,7 +31,7 @@ const framesToKeyframeTrack = (
 ) => {
     return new NumberKeyframeTrack(
         targetName + "." + property,
-        Object.keys(frames).map((frameNum) => Number(frameNum) * DEFAULT_SPF),
+        Object.keys(frames).map((frameNum) => Number(frameNum) * FRAME2SEC),
         Object.values(frames).map((frameValue) => frameValue)
     )
 }
@@ -166,7 +166,7 @@ export default class AnimationManager
             action.play()
 
             if (gotoFrame !== undefined) {
-                mixer.setTime(gotoFrame * DEFAULT_SPF)
+                mixer.setTime(gotoFrame * FRAME2SEC)
                 this.gotoFrameState.set(undefined)
                 return
             }
@@ -226,13 +226,13 @@ export default class AnimationManager
     }
 
     public get totalFrames() {
-        return this.duration * DEFAULT_FPS
+        return this.duration * SEC2FRAME
     }
 
     public set frame(frame: number) {
         this.gotoFrameState.set(frame)
     }
     public get frame() {
-        return Math.min(this.mixer.time, this.duration) * DEFAULT_FPS
+        return Math.min(this.mixer.time, this.duration) * SEC2FRAME
     }
 }
