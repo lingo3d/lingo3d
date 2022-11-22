@@ -24,7 +24,7 @@ const animationValueToData = (val: AnimationValue) => {
     const result = (data[""] ??= {})
     for (const [name, values] of entries)
         result[name] = Object.fromEntries(
-            values.map((v, i) => [(i * timeStep * SEC2FRAME).toFixed(2), v])
+            values.map((v, i) => [Math.ceil(i * timeStep * SEC2FRAME), v])
         )
     return data
 }

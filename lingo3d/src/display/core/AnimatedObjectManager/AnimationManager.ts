@@ -243,13 +243,13 @@ export default class AnimationManager
     }
 
     public get totalFrames() {
-        return this.duration * SEC2FRAME
+        return Math.ceil(this.duration * SEC2FRAME)
     }
 
     public set frame(frame: number) {
         this.gotoFrameState.set(frame)
     }
     public get frame() {
-        return Math.min(this.mixer.time, this.duration) * SEC2FRAME
+        return Math.ceil(Math.min(this.mixer.time, this.duration) * SEC2FRAME)
     }
 }
