@@ -18,7 +18,7 @@ import IAnimationManager, {
 import Appendable from "../../../api/core/Appendable"
 import FoundManager from "../FoundManager"
 import { Point, Point3d } from "@lincode/math"
-import { DEFAULT_SPF } from "../../../globals"
+import { DEFAULT_SPF, DEFAULT_FPS } from "../../../globals"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
@@ -57,6 +57,8 @@ export default class AnimationManager
         this.pausedState.set(val)
     }
 
+    private mixer: AnimationMixer
+
     public constructor(
         public name: string,
         clip: AnimationClip | undefined,
@@ -69,11 +71,11 @@ export default class AnimationManager
         super()
         !serialized && nonSerializedAppendables.add(this)
 
-        const mixer = forceGet(
+        const mixer = (this.mixer = forceGet(
             targetMixerMap,
             target ?? this,
             () => new AnimationMixer(target as any)
-        )
+        ))
         this.createEffect(() => {
             if (this.pausedState.get()) return
 
@@ -219,7 +221,18 @@ export default class AnimationManager
         this.dataState.set([prevData])
     }
 
-    public gotoFrame(frame: number) {
+    public get duration() {
+        return this.clipState.get()?.duration ?? 0
+    }
+
+    public get totalFrames() {
+        return this.duration * DEFAULT_FPS
+    }
+
+    public set frame(frame: number) {
         this.gotoFrameState.set(frame)
+    }
+    public get frame() {
+        return Math.min(this.mixer.time, this.duration) * DEFAULT_FPS
     }
 }

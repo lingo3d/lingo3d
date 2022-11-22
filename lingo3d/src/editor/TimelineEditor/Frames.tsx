@@ -1,14 +1,15 @@
-import { createEffect } from "@lincode/reactivity"
+import store, { createEffect } from "@lincode/reactivity"
 import { useEffect, useMemo } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import { AnimationData } from "../../api/serializer/types"
+import { onBeforeRender } from "../../events/onBeforeRender"
 import { FRAME_HEIGHT, MONITOR_INTERVAL } from "../../globals"
 import { getTimeline } from "../../states/useTimeline"
 import VirtualizedList from "../component/VirtualizedList"
 import useResizeObserver from "../hooks/useResizeObserver"
 import { useTimeline } from "../states"
 import { useTimelineExpandedUUIDs } from "../states/useTimelineExpandedUUIDs"
-import { getTimelineFrame } from "../states/useTimelineFrame"
+import { getTimelineFrame, setTimelineFrame } from "../states/useTimelineFrame"
 import FrameRow from "./FrameRow"
 
 let skipTimelineChange = false
@@ -17,20 +18,37 @@ createEffect(() => {
     const timeline = getTimeline()
     if (!timeline) return
 
-    timeline.gotoFrame(getTimelineFrame())
+    timeline.frame = getTimelineFrame()
     skipTimelineChange = true
 }, [getTimelineFrame, getTimeline])
+
+const [setPaused, getPaused] = store(false)
 
 createEffect(() => {
     const timeline = getTimeline()
     if (!timeline) return
 
-    
-
+    //@ts-ignore
+    const handle = timeline.pausedState.get(setPaused)
     return () => {
-
+        handle.cancel()
     }
-}, [getTimeline])
+}, [getTimeline, getPaused])
+
+createEffect(() => {
+    const timeline = getTimeline()
+    if (!timeline || getPaused()) return
+
+    const handle = onBeforeRender(() => {
+        const { frame } = timeline
+        setTimelineFrame(frame)
+        console.log(frame, timeline.totalFrames)
+        if (frame === timeline.totalFrames) timeline.paused = true
+    })
+    return () => {
+        handle.cancel()
+    }
+}, [getTimeline, getPaused])
 
 const Frames = () => {
     const [ref, { width, height }] = useResizeObserver()
