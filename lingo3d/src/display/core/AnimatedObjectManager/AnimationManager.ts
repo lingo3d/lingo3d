@@ -29,10 +29,17 @@ const framesToKeyframeTrack = (
     property: string,
     frames: Record<number, number | Point | Point3d>
 ) => {
+    const entries = Object.entries(frames)
+        .map(
+            ([frameNum, frameValue]) =>
+                <const>[Number(frameNum) * FRAME2SEC, frameValue]
+        )
+        .sort(([a], [b]) => a - b)
+
     return new NumberKeyframeTrack(
         targetName + "." + property,
-        Object.keys(frames).map((frameNum) => Number(frameNum) * FRAME2SEC),
-        Object.values(frames).map((frameValue) => frameValue)
+        entries.map(([frameNum]) => frameNum),
+        entries.map(([, frameValue]) => frameValue)
     )
 }
 
