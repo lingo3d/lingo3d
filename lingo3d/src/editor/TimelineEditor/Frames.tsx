@@ -28,7 +28,7 @@ const Frames = () => {
             for (const [property, frames] of Object.entries(data)) {
                 const layerFrameList = (keyframes[uuid + " " + property] =
                     new Set<number>())
-                for (const frame of Object.values(frames))
+                for (const frame of Object.keys(frames))
                     layerFrameList.add(Number(frame))
             }
         }
