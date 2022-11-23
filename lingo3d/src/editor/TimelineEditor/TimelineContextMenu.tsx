@@ -1,11 +1,24 @@
-import { Point } from "@lincode/math"
-import { useState } from "preact/hooks"
+import { emitTimelineClearKeyframe } from "../../events/onTimelineClearKeyframe"
 import ContextMenu from "../component/ContextMenu"
+import MenuItem from "../component/ContextMenu/MenuItem"
+import { useTimelineContextMenu } from "../states/useTimelineContextMenu"
 
 const TimelineContextMenu = () => {
-    const [position, setPosition] = useState<Point>()
+    const [menu, setMenu] = useTimelineContextMenu()
 
-    return <ContextMenu position={position} setPosition={setPosition} />
+    return (
+        <ContextMenu position={menu} setPosition={setMenu}>
+            <MenuItem
+                disabled={!menu?.keyframe}
+                onClick={() => {
+                    emitTimelineClearKeyframe()
+                    setMenu(undefined)
+                }}
+            >
+                clear keyframe
+            </MenuItem>
+        </ContextMenu>
+    )
 }
 
 export default TimelineContextMenu

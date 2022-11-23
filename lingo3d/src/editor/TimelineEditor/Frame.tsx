@@ -1,5 +1,6 @@
 import { CSSProperties, memo, useState } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
+import { setTimelineContextMenu } from "../states/useTimelineContextMenu"
 import { getTimelineFrame, setTimelineFrame } from "../states/useTimelineFrame"
 import { getTimelineLayer, setTimelineLayer } from "../states/useTimelineLayer"
 
@@ -22,6 +23,13 @@ getTimelineLayer(deselect)
 const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
     const [selected, setSelected] = useState(false)
 
+    const handleClick = () => {
+        setTimelineLayer(layer)
+        setTimelineFrame(index)
+        setSelected(true)
+        prevSetSelected = setSelected
+    }
+
     return (
         <div
             className="lingo3d-flexcenter"
@@ -33,11 +41,11 @@ const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
                 borderLeft: "none",
                 background: keyframe ? "rgba(255 ,255, 255, 0.1)" : undefined
             }}
-            onClick={() => {
-                setTimelineLayer(layer)
-                setTimelineFrame(index)
-                setSelected(true)
-                prevSetSelected = setSelected
+            onClick={handleClick}
+            onContextMenu={(e) => {
+                e.preventDefault()
+                setTimelineContextMenu({ x: e.clientX, y: e.clientY, keyframe })
+                handleClick()
             }}
         >
             {keyframe && (

@@ -19,6 +19,7 @@ const ContextMenu = ({ position, setPosition, children }: ContextMenuProps) => {
             ref={elRef}
             className="lingo3d-ui lingo3d-absfull"
             style={{ zIndex: 2 }}
+            onContextMenu={(e) => e.preventDefault()}
         >
             <div
                 className="lingo3d-absfull"
