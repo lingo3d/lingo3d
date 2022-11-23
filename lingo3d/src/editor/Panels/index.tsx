@@ -12,7 +12,7 @@ const Panels = () => {
     useInitCSS(true)
 
     const [fileBrowser, setFileBrowser] = useFileBrowser()
-    const [tab, setTab] = useState<string | undefined>(undefined)
+    const [tab, setTab] = useState<string>()
 
     return (
         <div

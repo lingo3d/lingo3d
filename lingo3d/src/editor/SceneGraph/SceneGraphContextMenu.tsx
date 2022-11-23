@@ -46,7 +46,7 @@ const search = (n: string, target: Loaded | Appendable) => {
 }
 
 const SceneGraphContextMenu = () => {
-    const [position, setPosition] = useState<Point | undefined>(undefined)
+    const [position, setPosition] = useState<Point>()
     const [showSearch, setShowSearch] = useState(false)
     const [selectionTarget] = useSelectionTarget()
     const [[selectionFrozen]] = useSelectionFrozen()

@@ -64,7 +64,7 @@ const Editor = () => {
     const [selectionTarget] = useSelectionTarget()
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
 
-    const [tab, setTab] = useState<string | undefined>(undefined)
+    const [tab, setTab] = useState<string>()
 
     useCameraPanel(pane, cameraFolder)
 
