@@ -109,7 +109,16 @@ const SceneGraphContextMenu = () => {
                                 Create timeline
                             </MenuItem>
 
-                            <MenuItem disabled={!timeline}>
+                            <MenuItem
+                                disabled={!timeline}
+                                onClick={
+                                    timeline
+                                        ? () => {
+                                              console.log(timeline)
+                                          }
+                                        : undefined
+                                }
+                            >
                                 Add to timeline
                             </MenuItem>
 

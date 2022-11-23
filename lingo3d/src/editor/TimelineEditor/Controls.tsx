@@ -12,6 +12,9 @@ const Controls = () => {
     const [paused, setPaused] = useState(true)
     const [frame, setFrame] = useTimelineFrame()
 
+    //mark
+    console.log("refresh")
+
     useEffect(() => {
         //@ts-ignore
         timeline?.pausedState.get(setPaused)
@@ -31,18 +34,24 @@ const Controls = () => {
             {paused ? (
                 <TitleBarButton
                     disabled={!timeline}
-                    onClick={() => {
-                        if (timeline!.frame >= timeline!.totalFrames)
-                            timeline!.frame = 0
-                        timeline!.paused = false
-                    }}
+                    onClick={
+                        timeline
+                            ? () => {
+                                  if (timeline.frame >= timeline.totalFrames)
+                                      timeline.frame = 0
+                                  timeline.paused = false
+                              }
+                            : undefined
+                    }
                 >
                     <PlayIcon />
                 </TitleBarButton>
             ) : (
                 <TitleBarButton
                     disabled={!timeline}
-                    onClick={() => (timeline!.paused = true)}
+                    onClick={
+                        timeline ? () => (timeline.paused = true) : undefined
+                    }
                 >
                     <PauseIcon />
                 </TitleBarButton>
