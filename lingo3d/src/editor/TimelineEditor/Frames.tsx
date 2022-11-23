@@ -14,6 +14,7 @@ import { useTimeline } from "../states"
 import { useTimelineExpandedUUIDs } from "../states/useTimelineExpandedUUIDs"
 import { getTimelineFrame, setTimelineFrame } from "../states/useTimelineFrame"
 import FrameRow from "./FrameRow"
+import useTimelineData from "./useTimelineData"
 
 let skip = false
 createEffect(() => {
@@ -91,21 +92,7 @@ const Frames = () => {
     const [expandedUUIDsWrapper] = useTimelineExpandedUUIDs()
     const [expandedUUIDs] = expandedUUIDsWrapper
     const [timeline] = useTimeline()
-    const [timelineDataWrapper, setTimelineDataWrapper] = useState<
-        [AnimationData | undefined]
-    >([undefined])
-
-    useEffect(() => {
-        if (!timeline) return
-        //@ts-ignore
-        const handle = timeline.dataState.get((data) =>
-            setTimelineDataWrapper(data)
-        )
-        return () => {
-            setTimelineDataWrapper([undefined])
-            handle.cancel()
-        }
-    }, [timeline])
+    const timelineDataWrapper = useTimelineData()
 
     const keyframesEntries = useMemo(() => {
         const [timelineData] = timelineDataWrapper
