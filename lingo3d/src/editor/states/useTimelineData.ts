@@ -6,11 +6,14 @@ import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
 import { onTransformControls } from "../../events/onTransformControls"
 import { getTimelineFrame } from "./useTimelineFrame"
-import { forceGet, merge } from "@lincode/utils"
+import { forceGet, merge, unset } from "@lincode/utils"
+import { onTimelineClearKeyframe } from "../../events/onTimelineClearKeyframe"
+import { getTimelineLayer } from "./useTimelineLayer"
 
-export const [useTimelineData, setTimelineData, getTimelineData] = preactStore<
+const [useTimelineData, setTimelineData, getTimelineData] = preactStore<
     [AnimationData | undefined]
 >([undefined])
+export { useTimelineData }
 
 createEffect(() => {
     const timeline = getTimeline()
@@ -90,3 +93,14 @@ createEffect(() => {
         handle.cancel()
     }
 }, [getTimelineData])
+
+onTimelineClearKeyframe(() => {
+    const [timelineData] = getTimelineData()
+    const timeline = getTimeline()
+    if (!timelineData || !timeline) return
+
+    const path = getTimelineLayer()!.split(" ")
+    path.push(getTimelineFrame() + "")
+    unset(timelineData, path)
+    timeline.data = timelineData
+})
