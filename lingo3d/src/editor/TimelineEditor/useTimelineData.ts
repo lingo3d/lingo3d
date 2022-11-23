@@ -11,9 +11,7 @@ export default () => {
     useEffect(() => {
         if (!timeline) return
         //@ts-ignore
-        const handle = timeline.dataState.get((data) =>
-            setTimelineDataWrapper(data)
-        )
+        const handle = timeline.dataState.get(setTimelineDataWrapper)
         return () => {
             setTimelineDataWrapper([undefined])
             handle.cancel()

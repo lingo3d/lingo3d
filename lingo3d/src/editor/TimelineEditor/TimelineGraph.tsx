@@ -1,14 +1,14 @@
-import { useTimeline } from "../states"
 import LayerTreeItem from "./LayerTreeItem"
 import PropertyTreeItem from "./PropertyTreeItem"
+import useTimelineData from "./useTimelineData"
 
 const TimelineGraph = () => {
-    const [timeline] = useTimeline()
+    const [timelineData] = useTimelineData()
 
     return (
         <div style={{ overflow: "scroll", width: 200 }}>
-            {timeline?.data &&
-                Object.entries(timeline.data).map(([uuid, data]) => (
+            {timelineData &&
+                Object.entries(timelineData).map(([uuid, data]) => (
                     <LayerTreeItem key={uuid} uuid={uuid}>
                         {Object.keys(data).map((property) => (
                             <PropertyTreeItem
