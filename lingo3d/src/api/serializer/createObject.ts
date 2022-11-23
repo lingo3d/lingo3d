@@ -34,6 +34,7 @@ import OrbitCamera from "../../display/cameras/OrbitCamera"
 import Skybox from "../../display/Skybox"
 import Environment from "../../display/Environment"
 import Setup from "../../display/Setup"
+import Timeline from "../../display/Timeline"
 import Trigger from "../../display/Trigger"
 import SpawnPoint from "../../display/SpawnPoint"
 import Audio from "../../display/Audio"
@@ -74,7 +75,8 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     torus: () => new Torus(),
     skybox: () => new Skybox() as any,
     environment: () => new Environment() as any,
-    setup: () => new Setup() as any
+    setup: () => new Setup() as any,
+    timeline: () => new Timeline() as any
 })
 
 export default (type: GameObjectType) => record[type]()
