@@ -99,8 +99,10 @@ onTimelineClearKeyframe(() => {
     const timeline = getTimeline()
     if (!timelineData || !timeline) return
 
-    const layer = getTimelineLayer()!
     const frame = getTimelineFrame() + ""
+    if (frame === "0") return
+
+    const layer = getTimelineLayer()!
     const path = layer.split(" ")
 
     if (path.length === 1)
