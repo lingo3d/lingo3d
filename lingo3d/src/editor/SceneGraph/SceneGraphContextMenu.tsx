@@ -48,7 +48,7 @@ const search = (n: string, target: Loaded | Appendable) => {
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<Point>()
-    const [showSearch, setShowSearch] = useState(false)
+    const [input, setInput] = useState<"search" | "timeline">()
     const [selectionTarget] = useSelectionTarget()
     const [[selectionFrozen]] = useSelectionFrozen()
     const [timeline] = useTimeline()
@@ -63,26 +63,35 @@ const SceneGraphContextMenu = () => {
     }, [])
 
     useEffect(() => {
-        !position && setShowSearch(false)
+        !position && setInput(undefined)
     }, [position])
 
     if (!position) return null
 
     return (
         <ContextMenu position={position} setPosition={setPosition}>
-            {showSearch ? (
+            {input ? (
                 <input
                     ref={(el) => el?.focus()}
                     style={{ all: "unset", padding: 6 }}
+                    placeholder={
+                        input === "search"
+                            ? "Search child"
+                            : "New timeline name"
+                    }
                     onKeyDown={(e) => {
                         e.stopPropagation()
                         if (e.key !== "Enter" && e.key !== "Escape") return
-                        e.key === "Enter" &&
-                            selectionTarget &&
-                            search(
-                                (e.target as HTMLInputElement).value,
-                                selectionTarget
-                            )
+                        if (e.key === "Enter")
+                            if (input === "search")
+                                selectionTarget &&
+                                    search(
+                                        (e.target as HTMLInputElement).value,
+                                        selectionTarget
+                                    )
+                            else if (input === "timeline") {
+                                console.log("here")
+                            }
                         setPosition(undefined)
                     }}
                 />
@@ -90,11 +99,13 @@ const SceneGraphContextMenu = () => {
                 <>
                     {isMeshItem(selectionTarget) && (
                         <>
-                            <MenuItem onClick={() => setShowSearch(true)}>
+                            <MenuItem onClick={() => setInput("search")}>
                                 Search children
                             </MenuItem>
 
-                            <MenuItem>Create timeline</MenuItem>
+                            <MenuItem onClick={() => setInput("timeline")}>
+                                Create timeline
+                            </MenuItem>
 
                             <MenuItem disabled={!timeline}>
                                 Add to timeline
