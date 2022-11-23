@@ -1,5 +1,5 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { merge } from "@lincode/utils"
+import { forceGet, merge } from "@lincode/utils"
 import { useEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
@@ -39,8 +39,6 @@ createEffect(() => {
     }
 }, [getTimeline, getPaused])
 
-const valuePrevMap = new WeakMap<Appendable, number>()
-
 createEffect(() => {
     const timeline = getTimeline()
     if (!timeline || getPaused()) return
@@ -56,6 +54,36 @@ createEffect(() => {
         skip = false
     }
 }, [getTimeline, getPaused])
+
+const timelinePropertiesMap = new WeakMap<Appendable, Array<string>>()
+const getTimelineProperties = (instance: any) =>
+    forceGet(timelinePropertiesMap, instance.constructor, () => {
+        const result: Array<string> = []
+        for (const [property, type] of Object.entries(
+            instance.constructor.schema
+        ))
+            type === Number &&
+                property !== "rotation" &&
+                property !== "scale" &&
+                result.push(property)
+
+        return result
+    })
+
+const saveMap = new WeakMap<Appendable, Record<string, number>>()
+const saveProperties = (instance: any) => {
+    const saved: Record<string, number> = {}
+    for (const property of getTimelineProperties(instance))
+        saved[property] = instance[property]
+    saveMap.set(instance, saved)
+}
+const diffProperties = (instance: any) => {
+    const changed: Array<string> = []
+    const saved = saveMap.get(instance)!
+    for (const property of getTimelineProperties(instance))
+        saved[property] !== instance[property] && changed.push(property)
+    return changed
+}
 
 const Frames = () => {
     const [ref, { width, height }] = useResizeObserver()
@@ -105,33 +133,28 @@ const Frames = () => {
         const [timelineData] = timelineDataWrapper
         if (!timelineData || !timeline) return
 
-        const properties: Array<[any, string]> = []
-        for (const [uuid, data] of Object.entries(timelineData)) {
-            const instance = uuidMap.get(uuid)
-            for (const property of Object.keys(data))
-                properties.push([instance, property])
-        }
+        const instances: Array<any> = Object.keys(timelineData).map(
+            (uuid) => uuidMap.get(uuid)!
+        )
 
         const handle = onTransformControls((val) => {
             if (val === "start") {
-                for (const [instance, property] of properties)
-                    valuePrevMap.set(instance, instance[property])
+                for (const instance of instances) saveProperties(instance)
                 return
             }
             if (val !== "stop") return
 
             const changeData: AnimationData = {}
-            for (const [instance, property] of properties) {
-                if (valuePrevMap.get(instance) === instance[property]) continue
-                merge(changeData, {
-                    [instance.uuid]: {
-                        [property]: {
-                            [getTimelineFrame()]: instance[property]
+            for (const instance of instances)
+                for (const property of diffProperties(instance))
+                    merge(changeData, {
+                        [instance.uuid]: {
+                            [property]: {
+                                [getTimelineFrame()]: instance[property]
+                            }
                         }
-                    }
-                })
-            }
-            timeline.mergeData(changeData)
+                    })
+            Object.keys(changeData) && timeline.mergeData(changeData)
         })
 
         return () => {
