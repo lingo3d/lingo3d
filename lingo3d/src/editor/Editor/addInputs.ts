@@ -1,4 +1,4 @@
-import { debounce } from "@lincode/utils"
+import { debounce, debounceTrailing } from "@lincode/utils"
 import { Pane } from "./tweakpane"
 import resetIcon from "./resetIcon"
 import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
@@ -8,9 +8,8 @@ import { isPoint } from "../../api/serializer/isPoint"
 import { MONITOR_INTERVAL } from "../../globals"
 
 let skipApply = false
-
 let leading = true
-export const skipApplyValue = debounce(
+const skipApplyValue = debounce(
     () => {
         skipApply = leading
         leading = !leading
@@ -62,15 +61,12 @@ export default async (
             input.element.prepend(resetButton)
             resetButton.style.opacity = "0.1"
 
-            const updateResetButton = debounce(
-                () => {
-                    const unchanged = isEqual(params[key], paramsDefault[key])
-                    resetButton.style.opacity = unchanged ? "0.1" : "0.5"
-                    resetButton.style.cursor = unchanged ? "auto" : "pointer"
-                },
-                MONITOR_INTERVAL,
-                "trailing"
-            )
+            //mark
+            const updateResetButton = debounceTrailing(() => {
+                const unchanged = isEqual(params[key], paramsDefault[key])
+                resetButton.style.opacity = unchanged ? "0.1" : "0.5"
+                resetButton.style.cursor = unchanged ? "auto" : "pointer"
+            }, MONITOR_INTERVAL)
             updateResetButton()
 
             resetButton.onclick = () => {

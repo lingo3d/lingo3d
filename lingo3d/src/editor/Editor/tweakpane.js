@@ -1,3 +1,8 @@
+import { emitEditorEdit } from "../../events/onEditorEdit"
+
+const handleDown = () => emitEditorEdit("start")
+const handleUp = () => emitEditorEdit("stop")
+
 /***
  * A simple semantic versioning perser.
  */
@@ -3150,6 +3155,7 @@ class PointerHandler {
             sender: this,
             shiftKey: ev.shiftKey
         })
+        handleDown()
     }
     onDocumentMouseMove_(ev) {
         this.emitter.emit("move", {
@@ -3169,6 +3175,7 @@ class PointerHandler {
             sender: this,
             shiftKey: ev.shiftKey
         })
+        handleUp()
     }
     onTouchStart_(ev) {
         ev.preventDefault()
@@ -3187,6 +3194,7 @@ class PointerHandler {
             sender: this,
             shiftKey: ev.shiftKey
         })
+        handleDown()
         this.lastTouch_ = touch
     }
     onTouchMove_(ev) {
@@ -3227,6 +3235,7 @@ class PointerHandler {
             sender: this,
             shiftKey: ev.shiftKey
         })
+        handleUp()
     }
 }
 

@@ -9,6 +9,7 @@ import { getTimelineFrame } from "./useTimelineFrame"
 import { forceGet, merge, unset } from "@lincode/utils"
 import { onTimelineClearKeyframe } from "../../events/onTimelineClearKeyframe"
 import { getTimelineLayer } from "./useTimelineLayer"
+import { onEditorEdit } from "../../events/onEditorEdit"
 
 const [useTimelineData, setTimelineData, getTimelineData] = preactStore<
     [AnimationData | undefined]
@@ -66,13 +67,10 @@ createEffect(() => {
     const instances: Array<any> = Object.keys(timelineData).map(
         (uuid) => uuidMap.get(uuid)!
     )
-    const handle = onTransformControls((val) => {
-        if (val === "start") {
-            for (const instance of instances) saveProperties(instance)
-            return
-        }
-        if (val !== "stop") return
-
+    const handleStart = () => {
+        for (const instance of instances) saveProperties(instance)
+    }
+    const handleFinish = () => {
         const changeData: AnimationData = {}
         for (const instance of instances)
             for (const [property, value] of diffProperties(instance))
@@ -87,10 +85,20 @@ createEffect(() => {
                     }
                 })
         Object.keys(changeData) && timeline.mergeData(changeData)
+    }
+
+    const handle0 = onTransformControls((val) => {
+        if (val === "start") handleStart()
+        else if (val === "stop") handleFinish()
+    })
+    const handle1 = onEditorEdit((val) => {
+        if (val === "start") handleStart()
+        else if (val === "stop") handleFinish()
     })
 
     return () => {
-        handle.cancel()
+        handle0.cancel()
+        handle1.cancel()
     }
 }, [getTimelineData])
 
