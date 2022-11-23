@@ -4,7 +4,6 @@ import {
     NumberKeyframeTrack,
     AnimationAction
 } from "three"
-import { AnimationData } from "../../../api/serializer/types"
 import { forceGet, merge } from "@lincode/utils"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import { dt } from "../../../engine/eventLoop"
@@ -12,6 +11,7 @@ import { Reactive } from "@lincode/reactivity"
 import { EventFunctions } from "@lincode/events"
 import { nonSerializedAppendables } from "../../../api/core/collections"
 import IAnimationManager, {
+    AnimationData,
     animationManagerDefaults,
     animationManagerSchema
 } from "../../../interface/IAnimationManager"

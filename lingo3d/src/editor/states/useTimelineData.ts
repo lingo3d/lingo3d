@@ -1,5 +1,4 @@
 import preactStore from "../utils/preactStore"
-import { AnimationData } from "../../api/serializer/types"
 import { createEffect } from "@lincode/reactivity"
 import { getTimeline } from "../../states/useTimeline"
 import Appendable from "../../api/core/Appendable"
@@ -10,6 +9,7 @@ import { forceGet, merge, unset } from "@lincode/utils"
 import { onTimelineClearKeyframe } from "../../events/onTimelineClearKeyframe"
 import { getTimelineLayer } from "./useTimelineLayer"
 import { onEditorEdit } from "../../events/onEditorEdit"
+import { AnimationData } from "../../interface/IAnimationManager"
 
 const [useTimelineData, setTimelineData, getTimelineData] = preactStore<
     [AnimationData | undefined]

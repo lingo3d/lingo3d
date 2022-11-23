@@ -6,6 +6,7 @@ import getDefaultValue from "../../interface/utils/getDefaultValue"
 import { Cancellable } from "@lincode/promiselikes"
 import { isPoint } from "../../api/serializer/isPoint"
 import { MONITOR_INTERVAL } from "../../globals"
+import { emitEditorEdit } from "../../events/onEditorEdit"
 
 let skipApply = false
 let leading = true
@@ -75,7 +76,10 @@ export default async (
 
             input.on("change", ({ value }: any) => {
                 updateResetButton()
-                if (!skipApply) target[key] = value
+                if (skipApply) return
+                emitEditorEdit("start")
+                target[key] = value
+                emitEditorEdit("stop")
             })
             return [key, input] as const
         })

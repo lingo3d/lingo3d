@@ -1,5 +1,4 @@
 import { Object3D } from "three"
-import { AnimationData } from "../../../api/serializer/types"
 import IAnimatedObjectManager, {
     Animation,
     AnimationValue
@@ -10,6 +9,7 @@ import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { event, EventFunctions } from "@lincode/events"
 import { SEC2FRAME } from "../../../globals"
+import { AnimationData } from "../../../interface/IAnimationManager"
 
 const animationValueToData = (val: AnimationValue) => {
     const entries = Object.entries(val)
