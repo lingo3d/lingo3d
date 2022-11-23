@@ -61,7 +61,6 @@ export default async (
             input.element.prepend(resetButton)
             resetButton.style.opacity = "0.1"
 
-            //mark
             const updateResetButton = debounceTrailing(() => {
                 const unchanged = isEqual(params[key], paramsDefault[key])
                 resetButton.style.opacity = unchanged ? "0.1" : "0.5"
