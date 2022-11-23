@@ -78,10 +78,11 @@ const saveProperties = (instance: any) => {
     saveMap.set(instance, saved)
 }
 const diffProperties = (instance: any) => {
-    const changed: Array<string> = []
+    const changed: Array<[string, number]> = []
     const saved = saveMap.get(instance)!
     for (const property of getTimelineProperties(instance))
-        saved[property] !== instance[property] && changed.push(property)
+        if (saved[property] !== instance[property])
+            changed.push([property, saved[property]])
     return changed
 }
 
@@ -146,10 +147,14 @@ const Frames = () => {
 
             const changeData: AnimationData = {}
             for (const instance of instances)
-                for (const property of diffProperties(instance))
+                for (const [property, value] of diffProperties(instance))
                     merge(changeData, {
                         [instance.uuid]: {
                             [property]: {
+                                0:
+                                    timelineData[instance.uuid][
+                                        property
+                                    ]?.[0] ?? value,
                                 [getTimelineFrame()]: instance[property]
                             }
                         }
