@@ -49,7 +49,7 @@ const search = (n: string, target: Loaded | Appendable) => {
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<Point>()
     const [input, setInput] = useState<"search" | "timeline">()
-    const [selectionTarget] = useSelectionTarget()
+    const [selectionTarget, setSelectionTarget] = useSelectionTarget()
     const [[selectionFrozen]] = useSelectionFrozen()
     const [timeline] = useTimeline()
 
@@ -82,16 +82,18 @@ const SceneGraphContextMenu = () => {
                     onKeyDown={(e) => {
                         e.stopPropagation()
                         if (e.key !== "Enter" && e.key !== "Escape") return
-                        if (e.key === "Enter")
+                        if (e.key === "Enter") {
+                            const { value } = e.target as HTMLInputElement
                             if (input === "search")
                                 selectionTarget &&
-                                    search(
-                                        (e.target as HTMLInputElement).value,
-                                        selectionTarget
-                                    )
+                                    search(value, selectionTarget)
                             else if (input === "timeline") {
-                                console.log("here")
+                                const timeline = new Timeline()
+                                timeline.name = value
+                                setTimeline(timeline)
+                                setSelectionTarget(timeline)
                             }
+                        }
                         setPosition(undefined)
                     }}
                 />
