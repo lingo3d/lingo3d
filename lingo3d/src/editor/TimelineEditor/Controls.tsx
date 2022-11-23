@@ -12,9 +12,6 @@ const Controls = () => {
     const [paused, setPaused] = useState(true)
     const [frame, setFrame] = useTimelineFrame()
 
-    //mark
-    console.log("refresh")
-
     useEffect(() => {
         //@ts-ignore
         timeline?.pausedState.get(setPaused)
