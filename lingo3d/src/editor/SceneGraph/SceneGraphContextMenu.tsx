@@ -18,6 +18,7 @@ import Timeline from "../../display/Timeline"
 import { setTimeline } from "../../states/useTimeline"
 import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 import mousePosition from "../utils/mousePosition"
+import { useTimelineData } from "../states/useTimelineData"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)
@@ -52,6 +53,7 @@ const SceneGraphContextMenu = () => {
     const [selectionTarget, setSelectionTarget] = useSelectionTarget()
     const [[selectionFrozen]] = useSelectionFrozen()
     const [timeline] = useTimeline()
+    const [[timelineData]] = useTimelineData()
 
     useEffect(() => {
         const handle = onSelectionTarget(
@@ -82,14 +84,16 @@ const SceneGraphContextMenu = () => {
                     onKeyDown={(e) => {
                         e.stopPropagation()
                         if (e.key !== "Enter" && e.key !== "Escape") return
-                        if (e.key === "Enter") {
+                        if (e.key === "Enter" && selectionTarget) {
                             const { value } = e.target as HTMLInputElement
                             if (input === "search")
-                                selectionTarget &&
-                                    search(value, selectionTarget)
+                                search(value, selectionTarget)
                             else if (input === "timeline") {
                                 const timeline = new Timeline()
                                 timeline.name = value
+                                timeline.data = {
+                                    [selectionTarget.uuid]: {}
+                                }
                                 setTimeline(timeline)
                                 setSelectionTarget(timeline)
                             }
@@ -110,11 +114,17 @@ const SceneGraphContextMenu = () => {
                             </MenuItem>
 
                             <MenuItem
-                                disabled={!timeline}
+                                disabled={
+                                    !timelineData ||
+                                    selectionTarget.uuid in timelineData
+                                }
                                 onClick={
                                     timeline
                                         ? () => {
-                                              console.log(timeline)
+                                              timeline.mergeData({
+                                                  [selectionTarget.uuid]: {}
+                                              })
+                                              setPosition(undefined)
                                           }
                                         : undefined
                                 }
