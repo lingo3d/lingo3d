@@ -12,7 +12,7 @@ import {
 } from "../../states/useSelectionFrozen"
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
-import { useSelectionFrozen, useSelectionTarget } from "../states"
+import { useSelectionFrozen, useSelectionTarget, useTimeline } from "../states"
 import { Point } from "@lincode/math"
 import Timeline from "../../display/Timeline"
 import { setTimeline } from "../../states/useTimeline"
@@ -51,6 +51,7 @@ const SceneGraphContextMenu = () => {
     const [showSearch, setShowSearch] = useState(false)
     const [selectionTarget] = useSelectionTarget()
     const [[selectionFrozen]] = useSelectionFrozen()
+    const [timeline] = useTimeline()
 
     useEffect(() => {
         const handle = onSelectionTarget(
@@ -92,6 +93,13 @@ const SceneGraphContextMenu = () => {
                             <MenuItem onClick={() => setShowSearch(true)}>
                                 Search children
                             </MenuItem>
+
+                            <MenuItem>Create timeline</MenuItem>
+
+                            <MenuItem disabled={!timeline}>
+                                Add to timeline
+                            </MenuItem>
+
                             <MenuItem
                                 onClick={() => {
                                     selectionFrozen.has(selectionTarget)
