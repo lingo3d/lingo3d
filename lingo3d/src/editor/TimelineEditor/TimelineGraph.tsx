@@ -1,9 +1,9 @@
+import { useTimelineData } from "../states/useTimelineData"
 import LayerTreeItem from "./LayerTreeItem"
 import PropertyTreeItem from "./PropertyTreeItem"
-import useTimelineData from "./useTimelineData"
 
 const TimelineGraph = () => {
-    const [timelineData] = useTimelineData()
+    const [[timelineData]] = useTimelineData()
 
     return (
         <div style={{ overflow: "scroll", width: 200 }}>

@@ -1,6 +1,6 @@
 import store, { createEffect } from "@lincode/reactivity"
 import { forceGet, merge } from "@lincode/utils"
-import { useEffect, useMemo, useState } from "preact/hooks"
+import { useEffect, useMemo } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
 import { AnimationData } from "../../api/serializer/types"
@@ -14,7 +14,7 @@ import { useTimeline } from "../states"
 import { useTimelineExpandedUUIDs } from "../states/useTimelineExpandedUUIDs"
 import { getTimelineFrame, setTimelineFrame } from "../states/useTimelineFrame"
 import FrameRow from "./FrameRow"
-import useTimelineData from "./useTimelineData"
+import { useTimelineData } from "../states/useTimelineData"
 
 let skip = false
 createEffect(() => {
@@ -92,7 +92,7 @@ const Frames = () => {
     const [expandedUUIDsWrapper] = useTimelineExpandedUUIDs()
     const [expandedUUIDs] = expandedUUIDsWrapper
     const [timeline] = useTimeline()
-    const timelineDataWrapper = useTimelineData()
+    const [timelineDataWrapper] = useTimelineData()
 
     const keyframesEntries = useMemo(() => {
         const [timelineData] = timelineDataWrapper
