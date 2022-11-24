@@ -4,11 +4,11 @@ import useInitCSS from "../utils/useInitCSS"
 import FileBrowser from "../FileBrowser"
 import { useEffect } from "preact/hooks"
 import TimelineEditor from "../TimelineEditor"
-import RulerBar from "../TimelineEditor/RulerBar"
 import { PANELS_HEIGHT } from "../../globals"
 import { useFileBrowser } from "../states/useFileBrowser"
 import { setTimeline, useTimeline } from "../states/useTimeline"
 import { useSignal } from "@preact/signals"
+import Controls from "../TimelineEditor/Controls"
 
 const Panels = () => {
     useInitCSS(true)
@@ -52,9 +52,9 @@ const Panels = () => {
                         files
                     </CloseableTab>
                 </AppBar>
-                <AppBar style={{ flexGrow: 1 }}>
-                    {selectedSignal.value === "timeline" && <RulerBar />}
-                </AppBar>
+                <div style={{ flexGrow: 1 }}>
+                    {selectedSignal.value === "timeline" && <Controls />}
+                </div>
             </div>
             <div style={{ flexGrow: 1 }}>
                 {selectedSignal.value === "files" && fileBrowser && (

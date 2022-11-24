@@ -16,12 +16,7 @@ const Controls = () => {
     const [paused] = useTimelinePaused()
 
     return (
-        <AppBar
-            style={{
-                borderTop: "1px solid rgba(255, 255, 255, 0.1)",
-                zIndex: 1
-            }}
-        >
+        <AppBar style={{ borderTop: "1px solid rgba(255, 255, 255, 0.1)" }}>
             {paused ? (
                 <TitleBarButton
                     disabled={!timeline}
