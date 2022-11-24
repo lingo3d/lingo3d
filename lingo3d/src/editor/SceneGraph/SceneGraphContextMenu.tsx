@@ -126,7 +126,7 @@ const SceneGraphContextMenu = () => {
                     }}
                 >
                     {selectionTarget === timeline
-                        ? "Already editing"
+                        ? "Currently editing"
                         : "Edit timeline"}
                 </MenuItem>
             )}
