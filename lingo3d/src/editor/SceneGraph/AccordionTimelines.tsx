@@ -1,6 +1,6 @@
 import { APPBAR_HEIGHT } from "../../globals"
 import TitleBar from "../component/bars/TitleBar"
-import AppBarButton from "../component/bars/AppBarButton"
+import IconButton from "../component/IconButton"
 import deleteSelected from "../Editor/deleteSelected"
 import { useSelectionTarget } from "../states"
 import DeleteIcon from "./icons/DeleteIcon"
@@ -17,12 +17,12 @@ const AccordionTimelines = () => {
             }}
         >
             <TitleBar title="timelines">
-                <AppBarButton
+                <IconButton
                     disabled={!selectionTarget}
                     onClick={deleteSelected}
                 >
                     <DeleteIcon />
-                </AppBarButton>
+                </IconButton>
             </TitleBar>
             <div style={{ overflow: "scroll", flexGrow: 1 }}></div>
         </div>

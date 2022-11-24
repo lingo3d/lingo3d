@@ -12,7 +12,7 @@ import { onSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { multipleSelectionGroupManagers } from "../../states/useMultipleSelectionTargets"
 import TitleBar from "../component/bars/TitleBar"
-import AppBarButton from "../component/bars/AppBarButton"
+import IconButton from "../component/IconButton"
 import EmptyTreeItem from "../component/treeItems/EmptyTreeItem"
 import TreeItemContextProvider from "../component/treeItems/TreeItemContextProviter"
 import deleteSelected from "../Editor/deleteSelected"
@@ -68,21 +68,21 @@ const AccordionSceneGraph = () => {
                 style={{ display: "flex", flexDirection: "column" }}
             >
                 <TitleBar title="scenegraph">
-                    <AppBarButton disabled={!nativeTarget} onClick={handleFind}>
+                    <IconButton disabled={!nativeTarget} onClick={handleFind}>
                         <FindIcon />
-                    </AppBarButton>
-                    <AppBarButton
+                    </IconButton>
+                    <IconButton
                         disabled={!multipleSelectionTargets.length}
                         onClick={emitEditorGroupItems}
                     >
                         <GroupIcon />
-                    </AppBarButton>
-                    <AppBarButton
+                    </IconButton>
+                    <IconButton
                         disabled={!selectionTarget}
                         onClick={deleteSelected}
                     >
                         <DeleteIcon />
-                    </AppBarButton>
+                    </IconButton>
                 </TitleBar>
                 <div style={{ overflow: "scroll", flexGrow: 1 }}>
                     <TreeItemContextProvider>

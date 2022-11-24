@@ -1,19 +1,14 @@
 import { ComponentChildren } from "preact"
-import { APPBAR_HEIGHT } from "../../../globals"
+import { APPBAR_HEIGHT } from "../../globals"
 
-type AppBarButtonProps = {
+type IconButtonProps = {
     children?: ComponentChildren
     onClick?: () => void
     disabled?: boolean
     fill?: boolean
 }
 
-const AppBarButton = ({
-    children,
-    onClick,
-    disabled,
-    fill
-}: AppBarButtonProps) => {
+const IconButton = ({ children, onClick, disabled, fill }: IconButtonProps) => {
     return (
         <div
             onClick={
@@ -39,4 +34,4 @@ const AppBarButton = ({
     )
 }
 
-export default AppBarButton
+export default IconButton

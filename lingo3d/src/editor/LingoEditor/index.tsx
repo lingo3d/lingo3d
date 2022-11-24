@@ -9,6 +9,7 @@ import { useFileCurrent, useStats } from "../states"
 import Stats from "../Stats"
 import Tabs from "../Tabs"
 import Panels from "../Panels"
+import { DEBUG } from "../../globals"
 
 const LingoEditor = () => {
     const elRef = useRef<HTMLDivElement>(null)
@@ -24,7 +25,7 @@ const LingoEditor = () => {
     return (
         <div
             className="lingo3d-ui lingo3d-lingoeditor lingo3d-absfull"
-            onContextMenu={(e) => e.preventDefault()}
+            onContextMenu={DEBUG ? undefined : (e) => e.preventDefault()}
         >
             <Toolbar />
             <SceneGraph />

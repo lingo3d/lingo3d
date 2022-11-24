@@ -1,5 +1,5 @@
 import AppBar from "../component/bars/AppBar"
-import AppBarButton from "../component/bars/AppBarButton"
+import IconButton from "../component/IconButton"
 import { useTimeline } from "../states/useTimeline"
 import {
     decreaseTimelineFrame,
@@ -22,7 +22,7 @@ const Controls = () => {
     return (
         <AppBar noPadding>
             {paused ? (
-                <AppBarButton
+                <IconButton
                     fill
                     disabled={!timeline}
                     onClick={
@@ -36,9 +36,9 @@ const Controls = () => {
                     }
                 >
                     <PlayIcon />
-                </AppBarButton>
+                </IconButton>
             ) : (
-                <AppBarButton
+                <IconButton
                     fill
                     disabled={!timeline}
                     onClick={
@@ -46,34 +46,34 @@ const Controls = () => {
                     }
                 >
                     <PauseIcon />
-                </AppBarButton>
+                </IconButton>
             )}
 
-            <AppBarButton
+            <IconButton
                 fill
                 disabled={!timeline}
                 onClick={decreaseTimelineFrame}
             >
                 <PrevFrameIcon />
-            </AppBarButton>
-            <AppBarButton
+            </IconButton>
+            <IconButton
                 fill
                 disabled={!timeline}
                 onClick={increaseTimelineFrame}
             >
                 <NextFrameIcon />
-            </AppBarButton>
+            </IconButton>
 
-            <AppBarButton
+            <IconButton
                 fill
                 disabled={!timeline}
                 onClick={firstTimelineFrame}
             >
                 <FirstFrameIcon />
-            </AppBarButton>
-            <AppBarButton fill disabled={!timeline} onClick={lastTimelineFrame}>
+            </IconButton>
+            <IconButton fill disabled={!timeline} onClick={lastTimelineFrame}>
                 <LastFrameIcon />
-            </AppBarButton>
+            </IconButton>
         </AppBar>
     )
 }

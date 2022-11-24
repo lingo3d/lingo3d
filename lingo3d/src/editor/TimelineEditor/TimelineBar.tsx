@@ -1,7 +1,6 @@
 import AppBar from "../component/bars/AppBar"
-import AppBarButton from "../component/bars/AppBarButton"
+import IconButton from "../component/IconButton"
 import Button from "../component/Button"
-import Tab from "../component/tabs/Tab"
 import AudioIcon from "./icons/AudioIcon"
 
 const TimelineBar = () => {
