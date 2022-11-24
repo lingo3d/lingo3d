@@ -6,6 +6,8 @@ import {
     increaseTimelineFrame
 } from "../states/useTimelineFrame"
 import { useTimelinePaused } from "../states/useTimelinePaused"
+import FirstFrameIcon from "./icons/FirstFrameIcon"
+import LastFrameIcon from "./icons/LastFrameIcon"
 import NextFrameIcon from "./icons/NextFrameIcon"
 import PauseIcon from "./icons/PauseIcon"
 import PlayIcon from "./icons/PlayIcon"
@@ -16,7 +18,7 @@ const Controls = () => {
     const [paused] = useTimelinePaused()
 
     return (
-        <AppBar style={{ borderTop: "1px solid rgba(255, 255, 255, 0.1)" }}>
+        <AppBar>
             {paused ? (
                 <TitleBarButton
                     disabled={!timeline}
@@ -42,6 +44,7 @@ const Controls = () => {
                     <PauseIcon />
                 </TitleBarButton>
             )}
+
             <TitleBarButton
                 disabled={!timeline}
                 onClick={decreaseTimelineFrame}
@@ -53,6 +56,19 @@ const Controls = () => {
                 onClick={increaseTimelineFrame}
             >
                 <NextFrameIcon />
+            </TitleBarButton>
+
+            <TitleBarButton
+                disabled={!timeline}
+                onClick={decreaseTimelineFrame}
+            >
+                <FirstFrameIcon />
+            </TitleBarButton>
+            <TitleBarButton
+                disabled={!timeline}
+                onClick={increaseTimelineFrame}
+            >
+                <LastFrameIcon />
             </TitleBarButton>
         </AppBar>
     )
