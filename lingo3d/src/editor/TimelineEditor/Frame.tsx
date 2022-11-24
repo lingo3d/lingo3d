@@ -24,7 +24,7 @@ getTimelineLayer(deselect)
 const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
     const [selected, setSelected] = useState(false)
 
-    const handleClick = () => {
+    const handleMouseDown = () => {
         setTimelineLayer(layer)
         setTimelineFrame(index)
         getTimeline()!.paused = true
@@ -43,11 +43,11 @@ const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
                 borderLeft: "none",
                 background: keyframe ? "rgba(255 ,255, 255, 0.1)" : undefined
             }}
-            onClick={handleClick}
+            onMouseDown={handleMouseDown}
             onContextMenu={(e) => {
                 e.preventDefault()
                 setTimelineContextMenu({ x: e.clientX, y: e.clientY, keyframe })
-                handleClick()
+                handleMouseDown()
             }}
         >
             {keyframe && (

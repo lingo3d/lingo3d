@@ -1,3 +1,4 @@
+import TimelineAudio from "../../display/TimelineAudio"
 import AppBar from "../component/bars/AppBar"
 import Button from "../component/Button"
 import AudioIcon from "./icons/AudioIcon"
@@ -5,9 +6,13 @@ import AudioIcon from "./icons/AudioIcon"
 const TimelineBar = () => {
     return (
         <AppBar>
-            <Button>
+            <Button
+                onClick={() => {
+                    const audio = new TimelineAudio()
+                }}
+            >
                 <AudioIcon />
-                Add timeline audio
+                Add audio
             </Button>
         </AppBar>
     )
