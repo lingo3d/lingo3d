@@ -20,7 +20,7 @@ export default class Timeline extends AnimationManager implements ITimeline {
 
     public constructor() {
         super(
-            "timeline",
+            "",
             undefined,
             {},
             new Reactive(0),

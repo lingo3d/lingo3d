@@ -24,8 +24,7 @@ const TimelineContextMenu = () => {
             input={menu?.addAudio && "Audio name"}
             onInput={(value) => {
                 const timeline = getTimeline()!
-                const audio = new TimelineAudio()
-                audio.name = value
+                const audio = new TimelineAudio(value)
                 timeline.append(audio)
                 setSceneGraphExpanded(new Set([timeline.outerObject3d]))
                 emitSelectionTarget(audio)
