@@ -11,3 +11,5 @@ export const increaseTimelineFrame = () =>
 
 export const decreaseTimelineFrame = () =>
     setTimelineFrame(Math.max(getTimelineFrame() - 1, 0))
+
+getTimeline((timeline) => !timeline && setTimelineFrame(0))

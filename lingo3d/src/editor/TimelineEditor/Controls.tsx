@@ -50,10 +50,16 @@ const Controls = () => {
                     <PauseIcon />
                 </TitleBarButton>
             )}
-            <TitleBarButton onClick={decreaseTimelineFrame}>
+            <TitleBarButton
+                disabled={!timeline}
+                onClick={decreaseTimelineFrame}
+            >
                 <PrevFrameIcon />
             </TitleBarButton>
-            <TitleBarButton onClick={increaseTimelineFrame}>
+            <TitleBarButton
+                disabled={!timeline}
+                onClick={increaseTimelineFrame}
+            >
                 <NextFrameIcon />
             </TitleBarButton>
         </div>
