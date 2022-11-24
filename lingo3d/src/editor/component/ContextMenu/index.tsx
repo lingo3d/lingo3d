@@ -45,7 +45,7 @@ const ContextMenu = ({
             >
                 {input ? (
                     <input
-                        ref={(el) => el?.focus()}
+                        ref={(el) => setTimeout(() => el?.focus())}
                         style={{ all: "unset", padding: 6 }}
                         placeholder={input}
                         onKeyDown={(e) => {
