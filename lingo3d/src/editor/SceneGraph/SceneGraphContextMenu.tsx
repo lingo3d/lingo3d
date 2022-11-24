@@ -70,99 +70,86 @@ const SceneGraphContextMenu = () => {
     if (!position) return null
 
     return (
-        <ContextMenu position={position} setPosition={setPosition}>
-            {input ? (
-                <input
-                    ref={(el) => el?.focus()}
-                    style={{ all: "unset", padding: 6 }}
-                    placeholder={
-                        input === "search"
-                            ? "Search child"
-                            : "New timeline name"
+        <ContextMenu
+            position={position}
+            setPosition={setPosition}
+            input={input}
+            inputPlaceholder={
+                input === "search" ? "Search child" : "New timeline name"
+            }
+            onInput={(value) => {
+                if (!selectionTarget) return
+                if (input === "search") search(value, selectionTarget)
+                else if (input === "timeline") {
+                    const timeline = new Timeline()
+                    timeline.name = value
+                    timeline.data = {
+                        [selectionTarget.uuid]: {}
                     }
-                    onKeyDown={(e) => {
-                        e.stopPropagation()
-                        if (e.key !== "Enter" && e.key !== "Escape") return
-                        if (e.key === "Enter" && selectionTarget) {
-                            const { value } = e.target as HTMLInputElement
-                            if (input === "search")
-                                search(value, selectionTarget)
-                            else if (input === "timeline") {
-                                const timeline = new Timeline()
-                                timeline.name = value
-                                timeline.data = {
-                                    [selectionTarget.uuid]: {}
-                                }
-                                setTimeline(timeline)
-                                setSelectionTarget(timeline)
-                            }
-                        }
-                        setPosition(undefined)
-                    }}
-                />
-            ) : (
+                    setTimeline(timeline)
+                    setSelectionTarget(timeline)
+                }
+            }}
+        >
+            {isMeshItem(selectionTarget) && (
                 <>
-                    {isMeshItem(selectionTarget) && (
-                        <>
-                            <MenuItem onClick={() => setInput("search")}>
-                                Search children
-                            </MenuItem>
+                    <MenuItem onClick={() => setInput("search")}>
+                        Search children
+                    </MenuItem>
 
-                            <MenuItem
-                                disabled={
-                                    !timelineData ||
-                                    selectionTarget.uuid in timelineData
-                                }
-                                onClick={() => {
-                                    const timeline = getTimeline()
-                                    timeline?.mergeData({
-                                        [selectionTarget.uuid]: {}
-                                    })
-                                    setPosition(undefined)
-                                }}
-                            >
-                                Add to timeline
-                            </MenuItem>
-
-                            <MenuItem onClick={() => setInput("timeline")}>
-                                Create timeline
-                            </MenuItem>
-
-                            <MenuItem
-                                onClick={() => {
-                                    selectionFrozen.has(selectionTarget)
-                                        ? removeSelectionFrozen(selectionTarget)
-                                        : addSelectionFrozen(selectionTarget)
-                                    setPosition(undefined)
-                                }}
-                            >
-                                {selectionFrozen.has(selectionTarget)
-                                    ? "Unfreeze selection"
-                                    : "Freeze selection"}
-                            </MenuItem>
-                        </>
-                    )}
-                    {selectionTarget instanceof Timeline && (
-                        <MenuItem
-                            onClick={() => {
-                                setTimeline(selectionTarget)
-                                setPosition(undefined)
-                            }}
-                        >
-                            Edit timeline
-                        </MenuItem>
-                    )}
                     <MenuItem
-                        disabled={!selectionFrozen.size}
+                        disabled={
+                            !timelineData ||
+                            selectionTarget.uuid in timelineData
+                        }
                         onClick={() => {
-                            clearSelectionFrozen()
+                            const timeline = getTimeline()
+                            timeline?.mergeData({
+                                [selectionTarget.uuid]: {}
+                            })
                             setPosition(undefined)
                         }}
                     >
-                        Unfreeze all
+                        Add to timeline
+                    </MenuItem>
+
+                    <MenuItem onClick={() => setInput("timeline")}>
+                        Create timeline
+                    </MenuItem>
+
+                    <MenuItem
+                        onClick={() => {
+                            selectionFrozen.has(selectionTarget)
+                                ? removeSelectionFrozen(selectionTarget)
+                                : addSelectionFrozen(selectionTarget)
+                            setPosition(undefined)
+                        }}
+                    >
+                        {selectionFrozen.has(selectionTarget)
+                            ? "Unfreeze selection"
+                            : "Freeze selection"}
                     </MenuItem>
                 </>
             )}
+            {selectionTarget instanceof Timeline && (
+                <MenuItem
+                    onClick={() => {
+                        setTimeline(selectionTarget)
+                        setPosition(undefined)
+                    }}
+                >
+                    Edit timeline
+                </MenuItem>
+            )}
+            <MenuItem
+                disabled={!selectionFrozen.size}
+                onClick={() => {
+                    clearSelectionFrozen()
+                    setPosition(undefined)
+                }}
+            >
+                Unfreeze all
+            </MenuItem>
         </ContextMenu>
     )
 }
