@@ -25,7 +25,7 @@ const Panels = () => {
         if (timeline) selectedSignal.value = "timeline"
     }, [timeline])
 
-    if (!fileBrowser && !timeline) return null
+    // if (!fileBrowser && !timeline) return null
 
     return (
         <div
@@ -40,8 +40,9 @@ const Panels = () => {
             <div style={{ display: "flex" }}>
                 <AppBar selectedSignal={selectedSignal} style={{ width: 200 }}>
                     <CloseableTab
-                        disabled={!timeline}
-                        onClose={() => setTimeline(undefined)}
+                        onClose={
+                            timeline ? () => setTimeline(undefined) : undefined
+                        }
                     >
                         timeline
                     </CloseableTab>
@@ -53,14 +54,13 @@ const Panels = () => {
                     </CloseableTab>
                 </AppBar>
                 <div style={{ flexGrow: 1 }}>
-                    {selectedSignal.value === "timeline" && <Controls />}
+                    {selectedSignal.value !== "files" && <Controls />}
                 </div>
             </div>
             <div style={{ flexGrow: 1 }}>
-                {selectedSignal.value === "files" && fileBrowser && (
+                {selectedSignal.value === "files" ? (
                     <FileBrowser />
-                )}
-                {selectedSignal.value === "timeline" && timeline && (
+                ) : (
                     <TimelineEditor />
                 )}
             </div>
