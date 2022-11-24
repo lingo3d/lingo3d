@@ -5,7 +5,6 @@ import IAppendable, {
     appendableSchema
 } from "./IAppendable"
 import Nullable from "./utils/Nullable"
-import { Point, Point3d } from "@lincode/math"
 
 export type AnimationData = Record<
     string, //uuid
@@ -13,7 +12,7 @@ export type AnimationData = Record<
         string, //property name
         Record<
             number, //frame number
-            number | Point | Point3d //frame value
+            number //frame value
         >
     >
 >
