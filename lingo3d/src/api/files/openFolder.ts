@@ -13,5 +13,7 @@ export default async () => {
     })
     setFiles(files)
     setFileBrowser(true)
-    for (const file of files) if (await loadFile(file)) return
+    for (const file of files)
+        if (file.webkitRelativePath.split("/").length < 3)
+            if (await loadFile(file)) return
 }

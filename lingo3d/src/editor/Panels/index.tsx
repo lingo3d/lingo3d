@@ -7,7 +7,7 @@ import TimelineEditor from "../TimelineEditor"
 import RulerBar from "../TimelineEditor/RulerBar"
 import { PANELS_HEIGHT } from "../../globals"
 import { useFileBrowser } from "../states/useFileBrowser"
-import { useTimeline } from "../states/useTimeline"
+import { setTimeline, useTimeline } from "../states/useTimeline"
 
 const Panels = () => {
     useInitCSS(true)
@@ -30,11 +30,17 @@ const Panels = () => {
         >
             <div style={{ display: "flex" }}>
                 <AppBar onSelectTab={setTab} style={{ width: 200 }}>
-                    <CloseableTab>timeline</CloseableTab>
+                    <CloseableTab
+                        disabled={!timeline}
+                        onClose={() => setTimeline(undefined)}
+                        selected={tab === "timeline"}
+                    >
+                        timeline
+                    </CloseableTab>
                     <CloseableTab
                         disabled={!fileBrowser}
                         onClose={() => setFileBrowser(false)}
-                        selected={!!fileBrowser}
+                        selected={tab === "files"}
                     >
                         files
                     </CloseableTab>
