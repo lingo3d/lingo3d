@@ -1,6 +1,7 @@
 import { get, set } from "@lincode/utils"
 import { useState } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
+import Timeline from "../../display/Timeline"
 import TimelineAudio from "../../display/TimelineAudio"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { emitTimelineClearKeyframe } from "../../events/onTimelineClearKeyframe"
@@ -8,7 +9,7 @@ import { AnimationData } from "../../interface/IAnimationManager"
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
 import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
-import { getTimeline } from "../states/useTimeline"
+import { getTimeline, setTimeline } from "../states/useTimeline"
 import { useTimelineContextMenu } from "../states/useTimelineContextMenu"
 import { processKeyframe } from "../states/useTimelineData"
 import { getTimelineFrame } from "../states/useTimelineFrame"
@@ -21,13 +22,25 @@ const TimelineContextMenu = () => {
         <ContextMenu
             position={menu}
             setPosition={setMenu}
-            input={menu?.addAudio && "Audio name"}
+            input={
+                menu?.create &&
+                (menu.create === "audio" ? "Audio name" : "Timeline name")
+            }
             onInput={(value) => {
-                const timeline = getTimeline()!
-                const audio = new TimelineAudio(value)
-                timeline.append(audio)
-                setSceneGraphExpanded(new Set([timeline.outerObject3d]))
-                emitSelectionTarget(audio)
+                if (menu?.create === "audio") {
+                    const timeline = getTimeline()
+                    if (!timeline) return
+                    
+                    const audio = new TimelineAudio(value)
+                    timeline.append(audio)
+                    setSceneGraphExpanded(new Set([timeline.outerObject3d]))
+                    emitSelectionTarget(audio)
+                    return
+                }
+                const timeline = new Timeline()
+                timeline.name = value
+                setTimeline(timeline)
+                emitSelectionTarget(timeline)
             }}
         >
             <MenuItem

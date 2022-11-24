@@ -14,7 +14,7 @@ const TimelineBar = () => {
                     setTimelineContextMenu({
                         x: e.clientX,
                         y: e.clientY,
-                        addAudio: true
+                        create: "timeline"
                     })
                 }
             >
@@ -27,7 +27,7 @@ const TimelineBar = () => {
                     setTimelineContextMenu({
                         x: e.clientX,
                         y: e.clientY,
-                        addAudio: true
+                        create: "audio"
                     })
                 }
             >

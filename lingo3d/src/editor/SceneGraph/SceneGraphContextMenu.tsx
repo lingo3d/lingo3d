@@ -3,10 +3,7 @@ import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
 import Loaded from "../../display/core/Loaded"
 import { isMeshItem } from "../../display/core/MeshItem"
-import {
-    emitSelectionTarget,
-    onSelectionTarget
-} from "../../events/onSelectionTarget"
+import { onSelectionTarget } from "../../events/onSelectionTarget"
 import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import {
     addSelectionFrozen,
@@ -51,8 +48,7 @@ const search = (n: string, target: Loaded | Appendable) => {
 }
 
 const SceneGraphContextMenu = () => {
-    const [position, setPosition] = useState<Point>()
-    const [input, setInput] = useState<"search" | "timeline">()
+    const [position, setPosition] = useState<Point & { search?: boolean }>()
     const [selectionTarget] = useSelectionTarget()
     const [[selectionFrozen]] = useSelectionFrozen()
     const [[timelineData]] = useTimelineData()
@@ -66,37 +62,28 @@ const SceneGraphContextMenu = () => {
         }
     }, [])
 
-    useEffect(() => {
-        !position && setInput(undefined)
-    }, [position])
-
     if (!position) return null
 
     return (
         <ContextMenu
             position={position}
             setPosition={setPosition}
-            input={
-                input &&
-                (input === "search" ? "Search child" : "New timeline name")
+            input={position.search && "Search child"}
+            onInput={(value) =>
+                selectionTarget && search(value, selectionTarget)
             }
-            onInput={(value) => {
-                if (!selectionTarget) return
-                if (input === "search") search(value, selectionTarget)
-                else if (input === "timeline") {
-                    const timeline = new Timeline()
-                    timeline.name = value
-                    timeline.data = {
-                        [selectionTarget.uuid]: {}
-                    }
-                    setTimeline(timeline)
-                    emitSelectionTarget(timeline)
-                }
-            }}
         >
             {isMeshItem(selectionTarget) && (
                 <>
-                    <MenuItem onClick={() => setInput("search")}>
+                    <MenuItem
+                        onClick={(e) =>
+                            setPosition({
+                                x: e.clientX,
+                                y: e.clientY,
+                                search: true
+                            })
+                        }
+                    >
                         Search children
                     </MenuItem>
 

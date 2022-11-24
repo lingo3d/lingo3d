@@ -2,7 +2,7 @@ import { useState } from "preact/hooks"
 
 type MenuItemProps = {
     disabled?: boolean
-    onClick?: () => void
+    onClick?: (e: MouseEvent) => void
     children: string
 }
 
