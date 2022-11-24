@@ -102,7 +102,14 @@ createEffect(() => {
     }
 }, [getTimelineData])
 
-onTimelineClearKeyframe(() => {
+export const processFrame = (
+    cb: (
+        timelineData: AnimationData,
+        uuid: string,
+        property: string,
+        frame: string
+    ) => void
+) => {
     const [timelineData] = getTimelineData()
     const timeline = getTimeline()
     if (!timelineData || !timeline) return
@@ -113,10 +120,14 @@ onTimelineClearKeyframe(() => {
 
     if (path.length === 1)
         for (const property of Object.keys(timelineData[layer]))
-            unset(timelineData, [layer, property, frame])
-    else {
-        path.push(frame)
-        unset(timelineData, path)
-    }
+            cb(timelineData, layer, property, frame)
+    else cb(timelineData, path[0], path[1], frame)
+
     timeline.data = timelineData
-})
+}
+
+onTimelineClearKeyframe(() =>
+    processFrame((timelineData, uuid, property, frame) =>
+        unset(timelineData, [uuid, property, frame])
+    )
+)
