@@ -113,11 +113,9 @@ const SceneGraphContextMenu = () => {
                             setPosition(undefined)
                         }}
                     >
-                        Add to timeline
-                    </MenuItem>
-
-                    <MenuItem onClick={() => setInput("timeline")}>
-                        Create timeline
+                        {timelineData && selectionTarget.uuid in timelineData
+                            ? "Already in timeline"
+                            : "Add to timeline"}
                     </MenuItem>
 
                     <MenuItem
