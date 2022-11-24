@@ -2,13 +2,25 @@ import AppBar from "../component/bars/AppBar"
 import Button from "../component/Button"
 import { useTimeline } from "../states/useTimeline"
 import { setTimelineContextMenu } from "../states/useTimelineContextMenu"
-import AudioIcon from "./icons/AudioIcon"
+import AddIcon from "./icons/AddIcon"
 
 const TimelineBar = () => {
     const [timeline] = useTimeline()
 
     return (
         <AppBar>
+            <Button
+                onClick={(e) =>
+                    setTimelineContextMenu({
+                        x: e.clientX,
+                        y: e.clientY,
+                        addAudio: true
+                    })
+                }
+            >
+                <AddIcon />
+                New timeline
+            </Button>
             <Button
                 disabled={!timeline}
                 onClick={(e) =>
@@ -19,8 +31,8 @@ const TimelineBar = () => {
                     })
                 }
             >
-                <AudioIcon />
-                Add audio
+                <AddIcon />
+                Audio
             </Button>
         </AppBar>
     )

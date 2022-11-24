@@ -17,7 +17,6 @@ const Tab = ({ children, selected, disabled, half }: TabProps) => {
                 width: half ? "50%" : undefined,
                 opacity: disabled ? 0.1 : 1,
                 height: 20,
-
                 padding: half ? undefined : 12,
                 background:
                     selectedSignal.value === children

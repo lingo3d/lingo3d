@@ -61,7 +61,6 @@ const Toolbar = () => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    opacity: 0.75,
                     paddingTop: 12
                 }}
             >

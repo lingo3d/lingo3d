@@ -12,12 +12,11 @@ const Button = ({ children, disabled, onClick }: ButtonProps) => {
             className="lingo3d-bg lingo3d-flexcenter"
             style={{
                 opacity: disabled ? 0.1 : 1,
+                marginLeft: 4,
+                marginRight: 14,
                 height: 20,
-                padding: 12,
-                background: "rgba(255, 255, 255, 0.05)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
                 display: "flex",
-                gap: 10,
+                gap: 4,
                 cursor: "pointer"
             }}
             onClick={disabled ? undefined : onClick}

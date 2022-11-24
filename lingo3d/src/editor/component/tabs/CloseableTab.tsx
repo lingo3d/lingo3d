@@ -17,15 +17,13 @@ const CloseableTab = ({
 
     return (
         <div
-            className="lingo3d-bg"
+            className="lingo3d-bg lingo3d-flexcenter"
             style={{
                 opacity: disabled ? 0.1 : 1,
                 pointerEvents: disabled ? "none" : "auto",
                 marginLeft: 4,
                 marginRight: 4,
                 height: 20,
-                display: "flex",
-                alignItems: "center",
                 paddingLeft: 12,
                 background:
                     selectedSignal.value === children
