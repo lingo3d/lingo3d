@@ -1,6 +1,9 @@
 import TitleBarButton from "../component/bars/TitleBarButton"
 import { useTimeline } from "../states/useTimeline"
-import { useTimelineFrame } from "../states/useTimelineFrame"
+import {
+    decreaseTimelineFrame,
+    increaseTimelineFrame
+} from "../states/useTimelineFrame"
 import { useTimelinePaused } from "../states/useTimelinePaused"
 import NextFrameIcon from "./icons/NextFrameIcon"
 import PauseIcon from "./icons/PauseIcon"
@@ -9,7 +12,6 @@ import PrevFrameIcon from "./icons/PrevFrameIcon"
 
 const Controls = () => {
     const [timeline] = useTimeline()
-    const [frame, setFrame] = useTimelineFrame()
     const [paused] = useTimelinePaused()
 
     return (
@@ -48,16 +50,10 @@ const Controls = () => {
                     <PauseIcon />
                 </TitleBarButton>
             )}
-            <TitleBarButton
-                disabled={!timeline || frame < 1}
-                onClick={() => setFrame(frame - 1)}
-            >
+            <TitleBarButton onClick={decreaseTimelineFrame}>
                 <PrevFrameIcon />
             </TitleBarButton>
-            <TitleBarButton
-                disabled={!timeline || frame >= timeline.totalFrames}
-                onClick={() => setFrame(frame + 1)}
-            >
+            <TitleBarButton onClick={increaseTimelineFrame}>
                 <NextFrameIcon />
             </TitleBarButton>
         </div>
