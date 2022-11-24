@@ -7,12 +7,16 @@ import TimelineEditor from "../TimelineEditor"
 import RulerBar from "../TimelineEditor/RulerBar"
 import { PANELS_HEIGHT } from "../../globals"
 import { useFileBrowser } from "../states/useFileBrowser"
+import { useTimeline } from "../states/useTimeline"
 
 const Panels = () => {
     useInitCSS(true)
 
     const [fileBrowser, setFileBrowser] = useFileBrowser()
+    const [timeline] = useTimeline()
     const [tab, setTab] = useState<string>()
+
+    if (!fileBrowser && !timeline) return null
 
     return (
         <div
