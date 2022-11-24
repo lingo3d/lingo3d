@@ -37,4 +37,8 @@ const FrameRow = ({ width, style, layer, keyframes }: FrameGridProps) => {
     )
 }
 
-export default memo(FrameRow, (prev, next) => prev.keyframes === next.keyframes)
+export default memo(
+    FrameRow,
+    (prev, next) =>
+        prev.keyframes === next.keyframes && prev.width === next.width
+)

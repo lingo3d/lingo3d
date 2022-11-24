@@ -1,5 +1,6 @@
 import { CSSProperties, memo, useState } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
+import { getTimeline } from "../states/useTimeline"
 import { setTimelineContextMenu } from "../states/useTimelineContextMenu"
 import { getTimelineFrame, setTimelineFrame } from "../states/useTimelineFrame"
 import { getTimelineLayer, setTimelineLayer } from "../states/useTimelineLayer"
@@ -26,6 +27,7 @@ const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
     const handleClick = () => {
         setTimelineLayer(layer)
         setTimelineFrame(index)
+        getTimeline()!.paused = true
         setSelected(true)
         prevSetSelected = setSelected
     }
