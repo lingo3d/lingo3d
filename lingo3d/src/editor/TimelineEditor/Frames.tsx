@@ -9,6 +9,7 @@ import { useTimelineExpandedUUIDs } from "../states/useTimelineExpandedUUIDs"
 import { getTimelineFrame, setTimelineFrame } from "../states/useTimelineFrame"
 import FrameRow from "./FrameRow"
 import { useTimelineData } from "../states/useTimelineData"
+import { getTimelinePaused } from "../states/useTimelinePaused"
 
 let skip = false
 createEffect(() => {
@@ -21,22 +22,9 @@ createEffect(() => {
     timeline.frame = getTimelineFrame()
 }, [getTimelineFrame, getTimeline])
 
-const [setPaused, getPaused] = store(false)
-
 createEffect(() => {
     const timeline = getTimeline()
-    if (!timeline) return
-
-    //@ts-ignore
-    const handle = timeline.pausedState.get(setPaused)
-    return () => {
-        handle.cancel()
-    }
-}, [getTimeline, getPaused])
-
-createEffect(() => {
-    const timeline = getTimeline()
-    if (!timeline || getPaused()) return
+    if (!timeline || getTimelinePaused()) return
 
     const handle = onBeforeRender(() => {
         skip = true
@@ -48,7 +36,7 @@ createEffect(() => {
         handle.cancel()
         skip = false
     }
-}, [getTimeline, getPaused])
+}, [getTimeline, getTimelinePaused])
 
 const Frames = () => {
     const [ref, { width, height }] = useResizeObserver()

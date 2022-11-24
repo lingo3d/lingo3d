@@ -12,10 +12,10 @@ import {
 } from "../../states/useSelectionFrozen"
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
-import { useSelectionFrozen, useSelectionTarget, useTimeline } from "../states"
+import { useSelectionFrozen, useSelectionTarget } from "../states"
 import { Point } from "@lincode/math"
 import Timeline from "../../display/Timeline"
-import { setTimeline } from "../../states/useTimeline"
+import { getTimeline, setTimeline } from "../../states/useTimeline"
 import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 import mousePosition from "../utils/mousePosition"
 import { useTimelineData } from "../states/useTimelineData"
@@ -52,7 +52,6 @@ const SceneGraphContextMenu = () => {
     const [input, setInput] = useState<"search" | "timeline">()
     const [selectionTarget, setSelectionTarget] = useSelectionTarget()
     const [[selectionFrozen]] = useSelectionFrozen()
-    const [timeline] = useTimeline()
     const [[timelineData]] = useTimelineData()
 
     useEffect(() => {
@@ -109,27 +108,24 @@ const SceneGraphContextMenu = () => {
                                 Search children
                             </MenuItem>
 
-                            <MenuItem onClick={() => setInput("timeline")}>
-                                Create timeline
-                            </MenuItem>
-
                             <MenuItem
                                 disabled={
                                     !timelineData ||
                                     selectionTarget.uuid in timelineData
                                 }
-                                onClick={
-                                    timeline
-                                        ? () => {
-                                              timeline.mergeData({
-                                                  [selectionTarget.uuid]: {}
-                                              })
-                                              setPosition(undefined)
-                                          }
-                                        : undefined
-                                }
+                                onClick={() => {
+                                    const timeline = getTimeline()
+                                    timeline?.mergeData({
+                                        [selectionTarget.uuid]: {}
+                                    })
+                                    setPosition(undefined)
+                                }}
                             >
                                 Add to timeline
+                            </MenuItem>
+
+                            <MenuItem onClick={() => setInput("timeline")}>
+                                Create timeline
                             </MenuItem>
 
                             <MenuItem

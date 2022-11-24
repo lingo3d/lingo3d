@@ -9,13 +9,21 @@ const TimelineContextMenu = () => {
     return (
         <ContextMenu position={menu} setPosition={setMenu}>
             <MenuItem
+                disabled={menu?.keyframe}
+                onClick={() => {
+                    setMenu(undefined)
+                }}
+            >
+                Add keyframe
+            </MenuItem>
+            <MenuItem
                 disabled={!menu?.keyframe}
                 onClick={() => {
                     emitTimelineClearKeyframe()
                     setMenu(undefined)
                 }}
             >
-                clear keyframe
+                Clear keyframe
             </MenuItem>
         </ContextMenu>
     )

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "preact/hooks"
 import TitleBarButton from "../component/bars/TitleBarButton"
 import { useTimeline } from "../states"
 import { useTimelineFrame } from "../states/useTimelineFrame"
+import { useTimelinePaused } from "../states/useTimelinePaused"
 import NextFrameIcon from "./icons/NextFrameIcon"
 import PauseIcon from "./icons/PauseIcon"
 import PlayIcon from "./icons/PlayIcon"
@@ -9,13 +9,8 @@ import PrevFrameIcon from "./icons/PrevFrameIcon"
 
 const Controls = () => {
     const [timeline] = useTimeline()
-    const [paused, setPaused] = useState(true)
     const [frame, setFrame] = useTimelineFrame()
-
-    useEffect(() => {
-        //@ts-ignore
-        timeline?.pausedState.get(setPaused)
-    }, [timeline])
+    const [paused] = useTimelinePaused()
 
     return (
         <div
