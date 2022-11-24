@@ -33,14 +33,12 @@ import {
 } from "../../states/useSelectionTarget"
 import { setSetupStack, getSetupStack } from "../../states/useSetupStack"
 import { setStats, getStats } from "../../states/useStats"
-import { setTimeline, getTimeline } from "../../states/useTimeline"
 import {
     setTransformControlsSpaceComputed,
     getTransformControlsSpaceComputed
 } from "../../states/useTransformControlsSpaceComputed"
 import hook from "../utils/hook"
 
-export const useTimeline = hook(setTimeline, getTimeline)
 export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(
     setMultipleSelectionTargets,

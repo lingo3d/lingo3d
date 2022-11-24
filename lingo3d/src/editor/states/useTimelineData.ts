@@ -1,6 +1,5 @@
 import preactStore from "../utils/preactStore"
 import { createEffect } from "@lincode/reactivity"
-import { getTimeline } from "../../states/useTimeline"
 import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
 import { onTransformControls } from "../../events/onTransformControls"
@@ -10,6 +9,7 @@ import { onTimelineClearKeyframe } from "../../events/onTimelineClearKeyframe"
 import { getTimelineLayer } from "./useTimelineLayer"
 import { onEditorEdit } from "../../events/onEditorEdit"
 import { AnimationData } from "../../interface/IAnimationManager"
+import { getTimeline } from "./useTimeline"
 
 const [useTimelineData, setTimelineData, getTimelineData] = preactStore<
     [AnimationData | undefined]

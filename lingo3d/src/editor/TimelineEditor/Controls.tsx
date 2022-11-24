@@ -1,5 +1,5 @@
 import TitleBarButton from "../component/bars/TitleBarButton"
-import { useTimeline } from "../states"
+import { useTimeline } from "../states/useTimeline"
 import { useTimelineFrame } from "../states/useTimelineFrame"
 import { useTimelinePaused } from "../states/useTimelinePaused"
 import NextFrameIcon from "./icons/NextFrameIcon"

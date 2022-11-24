@@ -1,6 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
-import { getTimeline } from "../../states/useTimeline"
 import preactStore from "../utils/preactStore"
+import { getTimeline } from "./useTimeline"
 
 const [useTimelinePaused, setTimelinePaused, getTimelinePaused] =
     preactStore(true)

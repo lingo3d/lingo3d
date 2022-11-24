@@ -1,8 +1,7 @@
-import store, { createEffect } from "@lincode/reactivity"
+import { createEffect } from "@lincode/reactivity"
 import { useMemo } from "preact/hooks"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { FRAME_HEIGHT } from "../../globals"
-import { getTimeline } from "../../states/useTimeline"
 import VirtualizedList from "../component/VirtualizedList"
 import useResizeObserver from "../hooks/useResizeObserver"
 import { useTimelineExpandedUUIDs } from "../states/useTimelineExpandedUUIDs"
@@ -10,6 +9,7 @@ import { getTimelineFrame, setTimelineFrame } from "../states/useTimelineFrame"
 import FrameRow from "./FrameRow"
 import { useTimelineData } from "../states/useTimelineData"
 import { getTimelinePaused } from "../states/useTimelinePaused"
+import { getTimeline } from "../states/useTimeline"
 
 let skip = false
 createEffect(() => {

@@ -15,10 +15,10 @@ import MenuItem from "../component/ContextMenu/MenuItem"
 import { useSelectionFrozen, useSelectionTarget } from "../states"
 import { Point } from "@lincode/math"
 import Timeline from "../../display/Timeline"
-import { getTimeline, setTimeline } from "../../states/useTimeline"
 import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 import mousePosition from "../utils/mousePosition"
 import { useTimelineData } from "../states/useTimelineData"
+import { setTimeline, getTimeline } from "../states/useTimeline"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)
