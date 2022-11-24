@@ -18,7 +18,7 @@ import Timeline from "../../display/Timeline"
 import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 import mousePosition from "../utils/mousePosition"
 import { useTimelineData } from "../states/useTimelineData"
-import { setTimeline, getTimeline } from "../states/useTimeline"
+import { useTimeline } from "../states/useTimeline"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)
@@ -52,6 +52,7 @@ const SceneGraphContextMenu = () => {
     const [selectionTarget] = useSelectionTarget()
     const [[selectionFrozen]] = useSelectionFrozen()
     const [[timelineData]] = useTimelineData()
+    const [timeline, setTimeline] = useTimeline()
 
     useEffect(() => {
         const handle = onSelectionTarget(
@@ -93,9 +94,7 @@ const SceneGraphContextMenu = () => {
                             selectionTarget.uuid in timelineData
                         }
                         onClick={() => {
-                            getTimeline()?.mergeData({
-                                [selectionTarget.uuid]: {}
-                            })
+                            timeline?.mergeData({ [selectionTarget.uuid]: {} })
                             setPosition(undefined)
                         }}
                     >
@@ -120,12 +119,15 @@ const SceneGraphContextMenu = () => {
             )}
             {selectionTarget instanceof Timeline && (
                 <MenuItem
+                    disabled={selectionTarget === timeline}
                     onClick={() => {
                         setTimeline(selectionTarget)
                         setPosition(undefined)
                     }}
                 >
-                    Edit timeline
+                    {selectionTarget === timeline
+                        ? "Already editing"
+                        : "Edit timeline"}
                 </MenuItem>
             )}
             <MenuItem

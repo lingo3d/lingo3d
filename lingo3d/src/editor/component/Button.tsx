@@ -17,7 +17,7 @@ const Button = ({ children, disabled, onClick }: ButtonProps) => {
                 height: 20,
                 display: "flex",
                 gap: 4,
-                cursor: "pointer"
+                cursor: disabled ? undefined : "pointer"
             }}
             onClick={disabled ? undefined : onClick}
         >

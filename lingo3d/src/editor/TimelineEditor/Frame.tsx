@@ -25,9 +25,12 @@ const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
     const [selected, setSelected] = useState(false)
 
     const handleMouseDown = () => {
+        const timeline = getTimeline()
+        if (!timeline) return
+
         setTimelineLayer(layer)
         setTimelineFrame(index)
-        getTimeline()!.paused = true
+        timeline.paused = true
         setSelected(true)
         prevSetSelected = setSelected
     }

@@ -152,7 +152,6 @@ const BaseTreeItem = ({
                             : undefined,
                     width: highlightWidth,
                     minWidth: "100%",
-                    cursor: "default",
                     height
                 }}
             >
