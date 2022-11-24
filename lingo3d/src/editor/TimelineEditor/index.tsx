@@ -21,13 +21,19 @@ const TimelineEditor = () => {
             >
                 <TimelineGraph />
                 <div
-                    style={{ flexGrow: 1 }}
+                    style={{
+                        flexGrow: 1,
+                        display: "flex",
+                        flexDirection: "column"
+                    }}
                     onWheel={(e) => {
                         e.preventDefault()
                         addTimelineScrollLeft(e.deltaX)
                     }}
                 >
-                    <Frames />
+                    <div style={{ flexGrow: 1 }}>
+                        <Frames />
+                    </div>
                     <Controls />
                 </div>
             </div>

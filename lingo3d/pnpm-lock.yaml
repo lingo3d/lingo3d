@@ -14,6 +14,7 @@ specifiers:
   '@types/randomcolor': ^0.5.6
   '@types/stats.js': ^0.17.0
   '@types/three': 0.146.0
+  '@types/wavesurfer.js': ^6.0.3
   browser-fs-access: 0.31.1
   lil-gui: ^0.17.0
   nanoid: ^4.0.0
@@ -30,6 +31,7 @@ specifiers:
   tweakpane: '*'
   typescript: ^4.9.3
   vite: ^3.2.4
+  wavesurfer.js: ^6.4.0
   xstate: '*'
 
 dependencies:
@@ -51,6 +53,7 @@ dependencies:
   stats.js: 0.17.0
   three: 0.146.0
   three-mesh-bvh: 0.5.17_three@0.146.0
+  wavesurfer.js: 6.4.0
   xstate: 4.34.0
 
 devDependencies:
@@ -59,6 +62,7 @@ devDependencies:
   '@types/prettier': 2.7.1
   '@types/randomcolor': 0.5.6
   '@types/stats.js': 0.17.0
+  '@types/wavesurfer.js': 6.0.3
   lil-gui: 0.17.0
   randomcolor: 0.6.2
   rimraf: 3.0.2
@@ -480,6 +484,10 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /@types/debounce/1.2.1:
+    resolution: {integrity: sha512-epMsEE85fi4lfmJUH/89/iV/LI+F5CvNIvmgs5g5jYFPfhO2S/ae8WSsLOKWdwtoaZw9Q2IhJ4tQ5tFCcS/4HA==}
+    dev: true
+
   /@types/lodash/4.14.189:
     resolution: {integrity: sha512-kb9/98N6X8gyME9Cf7YaqIMvYGnBSWqEci6tiettE6iJWH1XdJz/PO8LB0GtLCG7x8dU3KWhZT+lA1a35127tA==}
     dev: false
@@ -507,6 +515,12 @@ packages:
     dependencies:
       '@types/webxr': 0.5.0
     dev: false
+
+  /@types/wavesurfer.js/6.0.3:
+    resolution: {integrity: sha512-5Sb5s3pEkOmDosaaP1DWp1Unnx8HhVorm5608TIVdT5jCMvJ6eqM19UD8n7DEbJ7rzreS9RqHmzR8TlcdQBvbA==}
+    dependencies:
+      '@types/debounce': 1.2.1
+    dev: true
 
   /@types/webxr/0.5.0:
     resolution: {integrity: sha512-IUMDPSXnYIbEO2IereEFcgcqfDREOgmbGqtrMpVPpACTU6pltYLwHgVkrnYv0XhWEcjio9sYEfIEzgn3c7nDqA==}
@@ -1203,6 +1217,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /wavesurfer.js/6.4.0:
+    resolution: {integrity: sha512-+i9GkYdMTm998goOWvycWqCgxfbolnuGTPgrdGss7ZbQDuu+n6AHdnJwYnqxW8RZo5A2ck6ztzXbrXGuCi0m5g==}
+    dev: false
 
   /wrappy/1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}

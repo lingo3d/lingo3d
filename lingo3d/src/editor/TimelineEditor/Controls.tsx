@@ -1,3 +1,4 @@
+import AppBar from "../component/bars/AppBar"
 import TitleBarButton from "../component/bars/TitleBarButton"
 import { useTimeline } from "../states/useTimeline"
 import {
@@ -15,14 +16,10 @@ const Controls = () => {
     const [paused] = useTimelinePaused()
 
     return (
-        <div
-            className="lingo3d-bg"
+        <AppBar
             style={{
-                position: "absolute",
-                bottom: 8,
-                border: "1px solid rgba(100, 100, 100, 0.1)",
-                zIndex: 1,
-                display: "flex"
+                borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+                zIndex: 1
             }}
         >
             {paused ? (
@@ -62,7 +59,7 @@ const Controls = () => {
             >
                 <NextFrameIcon />
             </TitleBarButton>
-        </div>
+        </AppBar>
     )
 }
 

@@ -34,7 +34,7 @@ const AppBar = ({
                 paddingRight: 4,
                 paddingLeft: 4,
                 flexShrink: 0,
-                background: "rgba(0, 0, 0, 0.1)",
+                background: "rgb(16, 17, 20)",
                 ...style
             }}
         >
