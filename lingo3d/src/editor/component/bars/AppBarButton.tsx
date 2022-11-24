@@ -1,17 +1,19 @@
 import { ComponentChildren } from "preact"
 import { APPBAR_HEIGHT } from "../../../globals"
 
-type TitleBarButtonProps = {
+type AppBarButtonProps = {
     children?: ComponentChildren
     onClick?: () => void
     disabled?: boolean
+    fill?: boolean
 }
 
-const TitleBarButton = ({
+const AppBarButton = ({
     children,
     onClick,
-    disabled
-}: TitleBarButtonProps) => {
+    disabled,
+    fill
+}: AppBarButtonProps) => {
     return (
         <div
             onClick={
@@ -28,7 +30,8 @@ const TitleBarButton = ({
                 height: APPBAR_HEIGHT,
                 marginRight: 2,
                 opacity: disabled ? 0.1 : 0.5,
-                cursor: disabled ? "default" : "pointer"
+                cursor: disabled ? "default" : "pointer",
+                background: fill ? "rgba(255, 255, 255, 0.1)" : undefined
             }}
         >
             {children}
@@ -36,4 +39,4 @@ const TitleBarButton = ({
     )
 }
 
-export default TitleBarButton
+export default AppBarButton

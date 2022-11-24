@@ -1,7 +1,7 @@
 import CloseIcon from "../icons/CloseIcon"
 import { TabProps } from "./Tab"
 import useTab from "./useTab"
-import TitleBarButton from "../bars/TitleBarButton"
+import AppBarButton from "../bars/AppBarButton"
 
 type CloseableTabProps = TabProps & {
     onClose?: (selected: boolean) => void
@@ -49,12 +49,12 @@ const CloseableTab = ({
                 {children}
             </div>
             <div style={{ width: 4 }} />
-            <TitleBarButton
+            <AppBarButton
                 disabled={!onClose}
                 onClick={() => onClose?.(selectedSignal.value === children)}
             >
                 <CloseIcon />
-            </TitleBarButton>
+            </AppBarButton>
         </div>
     )
 }

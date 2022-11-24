@@ -1,5 +1,5 @@
 import AppBar from "../component/bars/AppBar"
-import TitleBarButton from "../component/bars/TitleBarButton"
+import AppBarButton from "../component/bars/AppBarButton"
 import { useTimeline } from "../states/useTimeline"
 import {
     decreaseTimelineFrame,
@@ -20,7 +20,7 @@ const Controls = () => {
     return (
         <AppBar>
             {paused ? (
-                <TitleBarButton
+                <AppBarButton
                     disabled={!timeline}
                     onClick={
                         timeline
@@ -33,43 +33,31 @@ const Controls = () => {
                     }
                 >
                     <PlayIcon />
-                </TitleBarButton>
+                </AppBarButton>
             ) : (
-                <TitleBarButton
+                <AppBarButton
                     disabled={!timeline}
                     onClick={
                         timeline ? () => (timeline.paused = true) : undefined
                     }
                 >
                     <PauseIcon />
-                </TitleBarButton>
+                </AppBarButton>
             )}
 
-            <TitleBarButton
-                disabled={!timeline}
-                onClick={decreaseTimelineFrame}
-            >
+            <AppBarButton disabled={!timeline} onClick={decreaseTimelineFrame}>
                 <PrevFrameIcon />
-            </TitleBarButton>
-            <TitleBarButton
-                disabled={!timeline}
-                onClick={increaseTimelineFrame}
-            >
+            </AppBarButton>
+            <AppBarButton disabled={!timeline} onClick={increaseTimelineFrame}>
                 <NextFrameIcon />
-            </TitleBarButton>
+            </AppBarButton>
 
-            <TitleBarButton
-                disabled={!timeline}
-                onClick={decreaseTimelineFrame}
-            >
+            <AppBarButton disabled={!timeline} onClick={decreaseTimelineFrame}>
                 <FirstFrameIcon />
-            </TitleBarButton>
-            <TitleBarButton
-                disabled={!timeline}
-                onClick={increaseTimelineFrame}
-            >
+            </AppBarButton>
+            <AppBarButton disabled={!timeline} onClick={increaseTimelineFrame}>
                 <LastFrameIcon />
-            </TitleBarButton>
+            </AppBarButton>
         </AppBar>
     )
 }
