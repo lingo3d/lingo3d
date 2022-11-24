@@ -28,7 +28,7 @@ const AppBarButton = ({
             style={{
                 width: APPBAR_HEIGHT,
                 height: APPBAR_HEIGHT,
-                marginRight: 2,
+                marginRight: fill ? 8 : 2,
                 opacity: disabled ? 0.1 : 0.5,
                 cursor: disabled ? "default" : "pointer",
                 background: fill ? "rgba(255, 255, 255, 0.1)" : undefined

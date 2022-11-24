@@ -18,9 +18,10 @@ const Controls = () => {
     const [paused] = useTimelinePaused()
 
     return (
-        <AppBar>
+        <AppBar noPadding>
             {paused ? (
                 <AppBarButton
+                    fill
                     disabled={!timeline}
                     onClick={
                         timeline
@@ -36,6 +37,7 @@ const Controls = () => {
                 </AppBarButton>
             ) : (
                 <AppBarButton
+                    fill
                     disabled={!timeline}
                     onClick={
                         timeline ? () => (timeline.paused = true) : undefined
@@ -45,17 +47,33 @@ const Controls = () => {
                 </AppBarButton>
             )}
 
-            <AppBarButton disabled={!timeline} onClick={decreaseTimelineFrame}>
+            <AppBarButton
+                fill
+                disabled={!timeline}
+                onClick={decreaseTimelineFrame}
+            >
                 <PrevFrameIcon />
             </AppBarButton>
-            <AppBarButton disabled={!timeline} onClick={increaseTimelineFrame}>
+            <AppBarButton
+                fill
+                disabled={!timeline}
+                onClick={increaseTimelineFrame}
+            >
                 <NextFrameIcon />
             </AppBarButton>
 
-            <AppBarButton disabled={!timeline} onClick={decreaseTimelineFrame}>
+            <AppBarButton
+                fill
+                disabled={!timeline}
+                onClick={decreaseTimelineFrame}
+            >
                 <FirstFrameIcon />
             </AppBarButton>
-            <AppBarButton disabled={!timeline} onClick={increaseTimelineFrame}>
+            <AppBarButton
+                fill
+                disabled={!timeline}
+                onClick={increaseTimelineFrame}
+            >
                 <LastFrameIcon />
             </AppBarButton>
         </AppBar>
