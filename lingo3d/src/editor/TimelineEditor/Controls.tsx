@@ -3,7 +3,9 @@ import AppBarButton from "../component/bars/AppBarButton"
 import { useTimeline } from "../states/useTimeline"
 import {
     decreaseTimelineFrame,
-    increaseTimelineFrame
+    firstTimelineFrame,
+    increaseTimelineFrame,
+    lastTimelineFrame
 } from "../states/useTimelineFrame"
 import { useTimelinePaused } from "../states/useTimelinePaused"
 import FirstFrameIcon from "./icons/FirstFrameIcon"
@@ -65,15 +67,11 @@ const Controls = () => {
             <AppBarButton
                 fill
                 disabled={!timeline}
-                onClick={decreaseTimelineFrame}
+                onClick={firstTimelineFrame}
             >
                 <FirstFrameIcon />
             </AppBarButton>
-            <AppBarButton
-                fill
-                disabled={!timeline}
-                onClick={increaseTimelineFrame}
-            >
+            <AppBarButton fill disabled={!timeline} onClick={lastTimelineFrame}>
                 <LastFrameIcon />
             </AppBarButton>
         </AppBar>
