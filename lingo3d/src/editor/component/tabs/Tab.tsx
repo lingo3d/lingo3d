@@ -5,10 +5,17 @@ export type TabProps = {
     selected?: boolean
     disabled?: boolean
     half?: boolean
+    id?: string
 }
 
-const Tab = ({ children, selected, disabled, half }: TabProps) => {
-    const { selectedSignal } = useTab(children, selected, disabled)
+const Tab = ({
+    children,
+    selected,
+    disabled,
+    half,
+    id = children
+}: TabProps) => {
+    const { selectedSignal } = useTab(id, selected, disabled)
 
     return (
         <div
@@ -19,13 +26,11 @@ const Tab = ({ children, selected, disabled, half }: TabProps) => {
                 height: 20,
                 padding: half ? undefined : 12,
                 background:
-                    selectedSignal.value === children
+                    selectedSignal.value === id
                         ? "rgba(255, 255, 255, 0.1)"
                         : undefined
             }}
-            onClick={
-                disabled ? undefined : () => (selectedSignal.value = children)
-            }
+            onClick={disabled ? undefined : () => (selectedSignal.value = id)}
         >
             <div style={{ marginTop: -2 }}>{children}</div>
         </div>

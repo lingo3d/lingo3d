@@ -11,9 +11,10 @@ const CloseableTab = ({
     onClose,
     children,
     selected,
-    disabled
+    disabled,
+    id = children
 }: CloseableTabProps) => {
-    const { selectedSignal } = useTab(children, selected, disabled)
+    const { selectedSignal } = useTab(id, selected, disabled)
 
     return (
         <div
@@ -26,13 +27,11 @@ const CloseableTab = ({
                 height: 20,
                 paddingLeft: 12,
                 background:
-                    selectedSignal.value === children
+                    selectedSignal.value === id
                         ? "rgba(255, 255, 255, 0.1)"
                         : undefined
             }}
-            onClick={
-                disabled ? undefined : () => (selectedSignal.value = children)
-            }
+            onClick={disabled ? undefined : () => (selectedSignal.value = id)}
         >
             <div
                 style={{
@@ -49,7 +48,7 @@ const CloseableTab = ({
             <div style={{ width: 4 }} />
             <IconButton
                 disabled={!onClose}
-                onClick={() => onClose?.(selectedSignal.value === children)}
+                onClick={() => onClose?.(selectedSignal.value === id)}
             >
                 <CloseIcon />
             </IconButton>
