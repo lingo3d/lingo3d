@@ -1,40 +1,35 @@
 import { pull } from "@lincode/utils"
+import { Signal } from "@preact/signals"
 import { createContext } from "preact"
 import { useContext, useLayoutEffect } from "preact/hooks"
 
 export const TabContext = createContext<{
-    selected: string | undefined
-    setSelected: (val: string | undefined) => void
+    selectedSignal: Signal<string | undefined>
     tabs: Array<string>
-}>({ selected: "", setSelected: () => {}, tabs: [] })
+}>({} as any)
 
 export default (children?: string, selected?: boolean, disabled?: boolean) => {
     const context = useContext(TabContext)
+    const { selectedSignal, tabs } = context
 
     useLayoutEffect(() => {
         if (!children) return
-        context.tabs.push(children)
+        tabs.push(children)
         return () => {
-            context.selected === children &&
-                context.setSelected(
-                    (context.selected =
-                        context.tabs[context.tabs.indexOf(children) - 1])
-                )
-            pull(context.tabs, children)
+            if (selectedSignal.value === children)
+                selectedSignal.value = tabs[tabs.indexOf(children) - 1]
+            pull(tabs, children)
         }
     }, [])
 
     useLayoutEffect(() => {
         if (!disabled || !children) return
-        context.selected === children &&
-            context.setSelected(
-                (context.selected =
-                    context.tabs[context.tabs.indexOf(children) - 1])
-            )
+        if (selectedSignal.value === children)
+            selectedSignal.value = tabs[tabs.indexOf(children) - 1]
     }, [disabled])
 
     useLayoutEffect(() => {
-        selected && context.setSelected((context.selected = children))
+        if (selected) selectedSignal.value = children
     }, [selected])
 
     return context

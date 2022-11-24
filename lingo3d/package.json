@@ -26,6 +26,7 @@
         "@lincode/promiselikes": "*",
         "@lincode/reactivity": "*",
         "@lincode/utils": "*",
+        "@preact/signals": "^1.1.2",
         "@types/three": "0.146.0",
         "browser-fs-access": "0.31.1",
         "nanoid": "^4.0.0",

@@ -1,26 +1,27 @@
 import { ComponentChildren } from "preact"
-import { CSSProperties, useEffect, useMemo, useState } from "preact/compat"
+import { CSSProperties, useEffect, useMemo } from "preact/compat"
 import { APPBAR_HEIGHT } from "../../../globals"
 import { TabContext } from "../tabs/useTab"
+import { Signal, useSignal } from "@preact/signals"
 
 type AppBarProps = {
     className?: string
     children?: ComponentChildren
     style?: CSSProperties
-    onSelectTab?: (tab: string | undefined) => void
+    selectedSignal?: Signal<string | undefined>
 }
 
-const AppBar = ({ className, style, children, onSelectTab }: AppBarProps) => {
-    const [selected, setSelected] = useState<string>()
+const AppBar = ({
+    className,
+    style,
+    children,
+    selectedSignal = useSignal<string | undefined>(undefined)
+}: AppBarProps) => {
     const tabs = useMemo<Array<string>>(() => [], [])
 
     useEffect(() => {
-        setSelected(tabs[0])
+        selectedSignal.value ??= tabs[0]
     }, [])
-
-    useEffect(() => {
-        onSelectTab?.(selected)
-    }, [selected])
 
     return (
         <div
@@ -37,7 +38,7 @@ const AppBar = ({ className, style, children, onSelectTab }: AppBarProps) => {
                 ...style
             }}
         >
-            <TabContext.Provider value={{ selected, setSelected, tabs }}>
+            <TabContext.Provider value={{ selectedSignal, tabs }}>
                 {children}
             </TabContext.Provider>
         </div>

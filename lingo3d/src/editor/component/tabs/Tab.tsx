@@ -8,7 +8,7 @@ export type TabProps = {
 }
 
 const Tab = ({ children, selected, disabled, half }: TabProps) => {
-    const context = useTab(children, selected, disabled)
+    const { selectedSignal } = useTab(children, selected, disabled)
 
     return (
         <div
@@ -20,14 +20,12 @@ const Tab = ({ children, selected, disabled, half }: TabProps) => {
 
                 padding: half ? undefined : 12,
                 background:
-                    context.selected === children
+                    selectedSignal.value === children
                         ? "rgba(255, 255, 255, 0.1)"
                         : undefined
             }}
             onClick={
-                disabled
-                    ? undefined
-                    : () => context.setSelected((context.selected = children))
+                disabled ? undefined : () => (selectedSignal.value = children)
             }
         >
             <div style={{ marginTop: -2 }}>{children}</div>

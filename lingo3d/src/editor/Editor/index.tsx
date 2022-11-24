@@ -26,6 +26,7 @@ import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
 import useInitCSS from "../utils/useInitCSS"
 import useClickable from "../utils/useClickable"
 import { setEditorMounted } from "../../states/useEditorMounted"
+import { useSignal } from "@preact/signals"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -64,7 +65,7 @@ const Editor = () => {
     const [selectionTarget] = useSelectionTarget()
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
 
-    const [tab, setTab] = useState<string>()
+    const selectedSignal = useSignal<string | undefined>(undefined)
 
     useCameraPanel(pane, cameraFolder)
 
@@ -77,7 +78,7 @@ const Editor = () => {
         const handle = new Cancellable()
 
         if (
-            tab === "World" ||
+            selectedSignal.value === "World" ||
             !selectionTarget ||
             selectionTarget instanceof Setup
         ) {
@@ -339,7 +340,12 @@ const Editor = () => {
             handle.cancel()
             pane.dispose()
         }
-    }, [selectionTarget, multipleSelectionTargets, targetSetup, tab])
+    }, [
+        selectionTarget,
+        multipleSelectionTargets,
+        targetSetup,
+        selectedSignal.value
+    ])
 
     return (
         <div
@@ -351,7 +357,7 @@ const Editor = () => {
                 flexDirection: "column"
             }}
         >
-            <AppBar onSelectTab={setTab}>
+            <AppBar selectedSignal={selectedSignal}>
                 <CloseableTab>World</CloseableTab>
                 {selectionTarget && (
                     <CloseableTab

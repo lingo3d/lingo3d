@@ -2,19 +2,28 @@ import CloseableTab from "../component/tabs/CloseableTab"
 import AppBar from "../component/bars/AppBar"
 import useInitCSS from "../utils/useInitCSS"
 import FileBrowser from "../FileBrowser"
-import { useState } from "preact/hooks"
+import { useEffect } from "preact/hooks"
 import TimelineEditor from "../TimelineEditor"
 import RulerBar from "../TimelineEditor/RulerBar"
 import { PANELS_HEIGHT } from "../../globals"
 import { useFileBrowser } from "../states/useFileBrowser"
 import { setTimeline, useTimeline } from "../states/useTimeline"
+import { useSignal } from "@preact/signals"
 
 const Panels = () => {
     useInitCSS(true)
 
     const [fileBrowser, setFileBrowser] = useFileBrowser()
     const [timeline] = useTimeline()
-    const [tab, setTab] = useState<string>()
+    const selectedSignal = useSignal<string | undefined>(undefined)
+
+    useEffect(() => {
+        if (fileBrowser) selectedSignal.value = "files"
+    }, [fileBrowser])
+
+    useEffect(() => {
+        if (timeline) selectedSignal.value = "timeline"
+    }, [timeline])
 
     if (!fileBrowser && !timeline) return null
 
@@ -29,29 +38,31 @@ const Panels = () => {
             }}
         >
             <div style={{ display: "flex" }}>
-                <AppBar onSelectTab={setTab} style={{ width: 200 }}>
+                <AppBar selectedSignal={selectedSignal} style={{ width: 200 }}>
                     <CloseableTab
                         disabled={!timeline}
                         onClose={() => setTimeline(undefined)}
-                        selected={tab === "timeline"}
                     >
                         timeline
                     </CloseableTab>
                     <CloseableTab
                         disabled={!fileBrowser}
                         onClose={() => setFileBrowser(false)}
-                        selected={tab === "files"}
                     >
                         files
                     </CloseableTab>
                 </AppBar>
                 <AppBar style={{ flexGrow: 1 }}>
-                    {tab === "timeline" && <RulerBar />}
+                    {selectedSignal.value === "timeline" && <RulerBar />}
                 </AppBar>
             </div>
             <div style={{ flexGrow: 1 }}>
-                {tab === "files" && fileBrowser && <FileBrowser />}
-                {tab === "timeline" && <TimelineEditor />}
+                {selectedSignal.value === "files" && fileBrowser && (
+                    <FileBrowser />
+                )}
+                {selectedSignal.value === "timeline" && timeline && (
+                    <TimelineEditor />
+                )}
             </div>
         </div>
     )
