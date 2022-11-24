@@ -3,7 +3,7 @@ import RotateIcon from "./icons/RotateIcon"
 import ScaleIcon from "./icons/ScaleIcon"
 import AbsoluteIcon from "./icons/AbsoluteIcon"
 import RelativeIcon from "./icons/RelativeIcon"
-import IconButton from "./IconButton"
+import ToolbarButton from "./ToolbarButton"
 import {
     useEditorModeComputed,
     useSelectionTarget,
@@ -66,44 +66,44 @@ const Toolbar = () => {
                 }}
             >
                 <Section>
-                    <IconButton
+                    <ToolbarButton
                         active={mode === "select"}
                         onClick={() => setEditorMode("select")}
                     >
                         <CursorIcon />
-                    </IconButton>
-                    <IconButton
+                    </ToolbarButton>
+                    <ToolbarButton
                         active={mode === "translate"}
                         onClick={() => setEditorMode("translate")}
                         disabled={selectOnly}
                     >
                         <TranslateIcon />
-                    </IconButton>
-                    <IconButton
+                    </ToolbarButton>
+                    <ToolbarButton
                         active={mode === "rotate"}
                         disabled={translateOnly || selectOnly}
                         onClick={() => setEditorMode("rotate")}
                     >
                         <RotateIcon />
-                    </IconButton>
-                    <IconButton
+                    </ToolbarButton>
+                    <ToolbarButton
                         active={mode === "scale"}
                         disabled={translateOnly || selectOnly}
                         onClick={() => setEditorMode("scale")}
                     >
                         <ScaleIcon />
-                    </IconButton>
+                    </ToolbarButton>
                 </Section>
 
                 <Section>
-                    <IconButton
+                    <ToolbarButton
                         active={space === "world"}
                         onClick={() => setTransformControlsSpace("world")}
                         disabled={mode !== "translate" && mode !== "rotate"}
                     >
                         <AbsoluteIcon />
-                    </IconButton>
-                    <IconButton
+                    </ToolbarButton>
+                    <ToolbarButton
                         active={space === "local"}
                         onClick={() => setTransformControlsSpace("local")}
                         disabled={
@@ -113,52 +113,52 @@ const Toolbar = () => {
                         }
                     >
                         <RelativeIcon />
-                    </IconButton>
+                    </ToolbarButton>
                 </Section>
 
                 <Section>
-                    {/* <IconButton
+                    {/* <ToolbarButton
                         active={mode === "mesh"}
                         onClick={() => setEditorMode("mesh")}
                     >
                         <MeshIcon />
-                    </IconButton> */}
-                    <IconButton
+                    </ToolbarButton> */}
+                    <ToolbarButton
                         active={mode === "curve"}
                         onClick={() => setEditorMode("curve")}
                     >
                         <PathIcon />
-                    </IconButton>
-                    <IconButton
+                    </ToolbarButton>
+                    <ToolbarButton
                         active={mode === "play"}
                         onClick={() => setEditorMode("play")}
                     >
                         <PlayIcon />
-                    </IconButton>
+                    </ToolbarButton>
                 </Section>
 
                 <Section>
-                    <IconButton onClick={openFolder}>
+                    <ToolbarButton onClick={openFolder}>
                         <FolderIcon />
-                    </IconButton>
-                    <IconButton onClick={openJSON}>
+                    </ToolbarButton>
+                    <ToolbarButton onClick={openJSON}>
                         <OpenIcon />
-                    </IconButton>
-                    <IconButton onClick={saveJSON}>
+                    </ToolbarButton>
+                    <ToolbarButton onClick={saveJSON}>
                         <SaveIcon />
-                    </IconButton>
+                    </ToolbarButton>
                 </Section>
 
                 <Section>
-                    <IconButton onClick={exportJSON}>
+                    <ToolbarButton onClick={exportJSON}>
                         <JSONIcon />
-                    </IconButton>
-                    <IconButton onClick={exportReact}>
+                    </ToolbarButton>
+                    <ToolbarButton onClick={exportReact}>
                         <ReactIcon />
-                    </IconButton>
-                    <IconButton onClick={exportVue}>
+                    </ToolbarButton>
+                    <ToolbarButton onClick={exportVue}>
                         <VueIcon />
-                    </IconButton>
+                    </ToolbarButton>
                 </Section>
             </div>
         </div>

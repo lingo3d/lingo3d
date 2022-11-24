@@ -1,18 +1,18 @@
 import { ComponentChildren } from "preact"
 
-export type IconButtonProps = {
+export type ToolbarButtonProps = {
     children: ComponentChildren
     onClick?: () => void
     active?: boolean
     disabled?: boolean
 }
 
-const IconButton = ({
+const ToolbarButton = ({
     children,
     onClick,
     active,
     disabled
-}: IconButtonProps) => {
+}: ToolbarButtonProps) => {
     return (
         <div
             className="lingo3d-flexcenter"
@@ -32,4 +32,4 @@ const IconButton = ({
     )
 }
 
-export default IconButton
+export default ToolbarButton
