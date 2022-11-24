@@ -93,8 +93,7 @@ const SceneGraphContextMenu = () => {
                             selectionTarget.uuid in timelineData
                         }
                         onClick={() => {
-                            const timeline = getTimeline()
-                            timeline?.mergeData({
+                            getTimeline()?.mergeData({
                                 [selectionTarget.uuid]: {}
                             })
                             setPosition(undefined)
