@@ -3,7 +3,10 @@ import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
 import Loaded from "../../display/core/Loaded"
 import { isMeshItem } from "../../display/core/MeshItem"
-import { onSelectionTarget } from "../../events/onSelectionTarget"
+import {
+    emitSelectionTarget,
+    onSelectionTarget
+} from "../../events/onSelectionTarget"
 import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import {
     addSelectionFrozen,
@@ -50,7 +53,7 @@ const search = (n: string, target: Loaded | Appendable) => {
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<Point>()
     const [input, setInput] = useState<"search" | "timeline">()
-    const [selectionTarget, setSelectionTarget] = useSelectionTarget()
+    const [selectionTarget] = useSelectionTarget()
     const [[selectionFrozen]] = useSelectionFrozen()
     const [[timelineData]] = useTimelineData()
 
@@ -73,9 +76,9 @@ const SceneGraphContextMenu = () => {
         <ContextMenu
             position={position}
             setPosition={setPosition}
-            input={input}
-            inputPlaceholder={
-                input === "search" ? "Search child" : "New timeline name"
+            input={
+                input &&
+                (input === "search" ? "Search child" : "New timeline name")
             }
             onInput={(value) => {
                 if (!selectionTarget) return
@@ -87,7 +90,7 @@ const SceneGraphContextMenu = () => {
                         [selectionTarget.uuid]: {}
                     }
                     setTimeline(timeline)
-                    setSelectionTarget(timeline)
+                    emitSelectionTarget(timeline)
                 }
             }}
         >

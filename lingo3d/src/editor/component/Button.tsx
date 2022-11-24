@@ -3,7 +3,7 @@ import { ComponentChildren } from "preact"
 export type ButtonProps = {
     children?: ComponentChildren
     disabled?: boolean
-    onClick?: () => void
+    onClick?: (e: MouseEvent) => void
 }
 
 const Button = ({ children, disabled, onClick }: ButtonProps) => {

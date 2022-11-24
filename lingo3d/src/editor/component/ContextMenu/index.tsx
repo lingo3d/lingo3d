@@ -7,8 +7,7 @@ interface ContextMenuProps {
     position?: Point
     setPosition: (val: Point | undefined) => void
     children?: ComponentChildren
-    input?: string
-    inputPlaceholder?: string
+    input?: string | false
     onInput?: (val: string) => void
 }
 
@@ -17,7 +16,6 @@ const ContextMenu = ({
     setPosition,
     children,
     input,
-    inputPlaceholder,
     onInput
 }: ContextMenuProps) => {
     const elRef = useClickable()
@@ -49,7 +47,7 @@ const ContextMenu = ({
                     <input
                         ref={(el) => el?.focus()}
                         style={{ all: "unset", padding: 6 }}
-                        placeholder={inputPlaceholder}
+                        placeholder={input}
                         onKeyDown={(e) => {
                             e.stopPropagation()
                             if (e.key !== "Enter" && e.key !== "Escape") return

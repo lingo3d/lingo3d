@@ -1,10 +1,13 @@
 import { get, set } from "@lincode/utils"
 import { useState } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
+import TimelineAudio from "../../display/TimelineAudio"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { emitTimelineClearKeyframe } from "../../events/onTimelineClearKeyframe"
 import { AnimationData } from "../../interface/IAnimationManager"
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
+import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 import { getTimeline } from "../states/useTimeline"
 import { useTimelineContextMenu } from "../states/useTimelineContextMenu"
 import { processKeyframe } from "../states/useTimelineData"
@@ -15,7 +18,19 @@ const TimelineContextMenu = () => {
     const [dataCopied, setDataCopied] = useState<AnimationData>()
 
     return (
-        <ContextMenu position={menu} setPosition={setMenu}>
+        <ContextMenu
+            position={menu}
+            setPosition={setMenu}
+            input={menu?.addAudio && "Audio name"}
+            onInput={(value) => {
+                const timeline = getTimeline()!
+                const audio = new TimelineAudio()
+                audio.name = value
+                timeline.append(audio)
+                setSceneGraphExpanded(new Set([timeline.outerObject3d]))
+                emitSelectionTarget(audio)
+            }}
+        >
             <MenuItem
                 disabled={menu?.keyframe}
                 onClick={() => {

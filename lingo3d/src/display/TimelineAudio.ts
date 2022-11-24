@@ -9,6 +9,8 @@ export default class TimelineAudio extends Appendable {
     public static defaults = timelineAudioDefaults
     public static schema = timelineAudioSchema
 
+    public name?: string
+
     public constructor() {
         super()
     }
