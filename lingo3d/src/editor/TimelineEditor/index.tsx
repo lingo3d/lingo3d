@@ -1,4 +1,3 @@
-import { APPBAR_HEIGHT, PANELS_HEIGHT } from "../../globals"
 import { addTimelineScrollLeft } from "../states/useTimelineScrollLeft"
 import useInitCSS from "../utils/useInitCSS"
 import Controls from "./Controls"
@@ -14,12 +13,22 @@ const TimelineEditor = () => {
             <div
                 className="lingo3d-ui lingo3d-bg lingo3d-panels"
                 style={{
-                    height: PANELS_HEIGHT - APPBAR_HEIGHT,
+                    height: "100%",
                     width: "100%",
                     display: "flex"
                 }}
             >
-                <TimelineGraph />
+                <div
+                    style={{
+                        width: 200,
+                        display: "flex",
+                        flexDirection: "column"
+                    }}
+                >
+                    <div style={{ flexGrow: 1 }}>
+                        <TimelineGraph />
+                    </div>
+                </div>
                 <div
                     style={{
                         flexGrow: 1,

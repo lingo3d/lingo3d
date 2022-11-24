@@ -6,7 +6,7 @@ const TimelineGraph = () => {
     const [[timelineData]] = useTimelineData()
 
     return (
-        <div style={{ overflow: "scroll", width: 200 }}>
+        <div className="lingo3d-absfull" style={{ overflow: "scroll" }}>
             {timelineData &&
                 Object.entries(timelineData).map(([uuid, data]) => (
                     <LayerTreeItem key={uuid} uuid={uuid}>
