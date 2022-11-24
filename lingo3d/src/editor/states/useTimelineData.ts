@@ -102,13 +102,14 @@ createEffect(() => {
     }
 }, [getTimelineData])
 
-export const processFrame = (
+export const processKeyframe = (
     cb: (
         timelineData: AnimationData,
         uuid: string,
         property: string,
         frame: string
-    ) => void
+    ) => void,
+    skipRefresh?: boolean
 ) => {
     const [timelineData] = getTimelineData()
     const timeline = getTimeline()
@@ -123,11 +124,11 @@ export const processFrame = (
             cb(timelineData, layer, property, frame)
     else cb(timelineData, path[0], path[1], frame)
 
-    timeline.data = timelineData
+    if (!skipRefresh) timeline.data = timelineData
 }
 
 onTimelineClearKeyframe(() =>
-    processFrame((timelineData, uuid, property, frame) =>
+    processKeyframe((timelineData, uuid, property, frame) =>
         unset(timelineData, [uuid, property, frame])
     )
 )
