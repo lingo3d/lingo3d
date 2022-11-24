@@ -22,7 +22,10 @@ const LingoEditor = () => {
     const [stats] = useStats()
 
     return (
-        <div className="lingo3d-ui lingo3d-lingoeditor">
+        <div
+            className="lingo3d-ui lingo3d-lingoeditor lingo3d-absfull"
+            onContextMenu={(e) => e.preventDefault()}
+        >
             <Toolbar />
             <SceneGraph />
             <Editor />
