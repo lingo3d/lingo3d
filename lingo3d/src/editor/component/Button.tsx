@@ -17,7 +17,8 @@ const Button = ({ children, disabled, onClick }: ButtonProps) => {
                 background: "rgba(255, 255, 255, 0.05)",
                 border: "1px solid rgba(255, 255, 255, 0.1)",
                 display: "flex",
-                gap: 10
+                gap: 10,
+                cursor: "pointer"
             }}
             onClick={disabled ? undefined : onClick}
         >

@@ -1,5 +1,4 @@
 import AppBar from "../component/bars/AppBar"
-import IconButton from "../component/IconButton"
 import Button from "../component/Button"
 import AudioIcon from "./icons/AudioIcon"
 
@@ -8,7 +7,7 @@ const TimelineBar = () => {
         <AppBar>
             <Button>
                 <AudioIcon />
-                Add audio
+                Add timeline audio
             </Button>
         </AppBar>
     )
