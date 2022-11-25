@@ -230,7 +230,7 @@ export default class AnimationManager
         this.dataState.set([prevData])
     }
 
-    public get duration() {
+    private get duration() {
         return this.clipState.get()?.duration ?? 0
     }
 
@@ -242,6 +242,6 @@ export default class AnimationManager
         this.gotoFrameState.set(frame)
     }
     public get frame() {
-        return Math.ceil(Math.min(this.mixer.time, this.duration) * SEC2FRAME)
+        return Math.ceil(this.mixer.time * SEC2FRAME)
     }
 }
