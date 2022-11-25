@@ -1,4 +1,4 @@
-import { CSSProperties, memo } from "preact/compat"
+import { CSSProperties, memo, useEffect } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import { useTimelineScrollLeft } from "../states/useTimelineScrollLeft"
@@ -9,7 +9,7 @@ type FrameGridProps = {
     width: number
     style?: CSSProperties
     layer: string
-    keyframes: Set<number>
+    keyframes: Record<number, true>
 }
 
 const FrameRow = ({ width, style, layer, keyframes }: FrameGridProps) => {
@@ -28,7 +28,7 @@ const FrameRow = ({ width, style, layer, keyframes }: FrameGridProps) => {
                 <Frame
                     key={index}
                     style={style}
-                    keyframe={keyframes.has(index)}
+                    keyframe={index in keyframes}
                     layer={layer}
                     index={index}
                 />

@@ -51,20 +51,21 @@ const Frames = () => {
         const [timelineData] = timelineDataWrapper
         if (!timelineData) return []
 
-        const keyframes: Record<string, Set<number>> = {}
+        const keyframes: Record<string, Record<number, true>> = {}
         for (const [uuid, data] of Object.entries(timelineData)) {
-            const frameList = (keyframes[uuid] = new Set<number>())
+            const frameRecord: Record<string, true> = (keyframes[uuid] = {})
             for (const frames of Object.values(data))
                 for (const frame of Object.keys(frames))
-                    frameList.add(Number(frame))
+                    frameRecord[frame] = true
 
             if (!expandedUUIDs.has(uuid)) continue
 
             for (const [property, frames] of Object.entries(data)) {
-                const layerFrameList = (keyframes[uuid + " " + property] =
-                    new Set<number>())
+                const layerFrameList: Record<string, true> = (keyframes[
+                    uuid + " " + property
+                ] = {})
                 for (const frame of Object.keys(frames))
-                    layerFrameList.add(Number(frame))
+                    layerFrameList[frame] = true
             }
         }
         return Object.entries(keyframes)
