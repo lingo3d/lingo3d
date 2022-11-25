@@ -10,6 +10,7 @@ import FrameRow from "./FrameRow"
 import { useTimelineData } from "../states/useTimelineData"
 import { getTimelinePaused } from "../states/useTimelinePaused"
 import { getTimeline } from "../states/useTimeline"
+import FrameTweens from "./FrameTweens"
 
 let skip = false
 createEffect(() => {
@@ -72,7 +73,12 @@ const Frames = () => {
     }, [expandedUUIDsWrapper, timelineDataWrapper])
 
     return (
-        <div ref={ref} className="lingo3d-absfull">
+        <div
+            ref={ref}
+            className="lingo3d-absfull"
+            style={{ overflow: "hidden" }}
+        >
+            <FrameTweens keyframesEntries={keyframesEntries} />
             <VirtualizedList
                 data={keyframesEntries}
                 itemHeight={FRAME_HEIGHT}
