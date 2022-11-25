@@ -24,7 +24,7 @@ const HUD = () => {
             </InfoScreen>
             <InfoScreen
                 mounted={paused}
-                style={{ background: "rgba(0, 0, 0, 0.5)" }}
+                style={{ background: "rgba(18, 19, 22, 0.75)" }}
                 fadeIn
             >
                 paused
