@@ -28,9 +28,12 @@ createEffect(() => {
 
     const handle = onBeforeRender(() => {
         skip = true
-        const { frame } = timeline
+        let { frame, totalFrames } = timeline
+        if (frame >= totalFrames) {
+            frame = timeline.frame = totalFrames
+            timeline.paused = true
+        }
         setTimelineFrame(frame)
-        if (frame >= timeline.totalFrames) timeline.paused = true
     })
     return () => {
         handle.cancel()

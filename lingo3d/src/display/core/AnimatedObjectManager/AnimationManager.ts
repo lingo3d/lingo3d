@@ -238,10 +238,10 @@ export default class AnimationManager
         return Math.ceil(this.duration * SEC2FRAME)
     }
 
-    public set frame(frame: number) {
-        this.gotoFrameState.set(frame)
-    }
     public get frame() {
         return Math.ceil(this.mixer.time * SEC2FRAME)
+    }
+    public set frame(val) {
+        this.gotoFrameState.set(val)
     }
 }
