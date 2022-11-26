@@ -35,9 +35,9 @@ const AudioRow = ({ instance }: AudioRowProps) => {
                 waveSurfer.pause()
             }
         }
-        const handle = getTimelineFrame((frame) => {
+        const handle = getTimelineFrame((frame) =>
             waveSurfer.setCurrentTime(frame * FRAME2SEC)
-        })
+        )
         return () => {
             handle.cancel()
         }
@@ -54,11 +54,23 @@ const AudioRow = ({ instance }: AudioRowProps) => {
                 container: div,
                 waveColor: "violet",
                 progressColor: "purple",
-                height: FRAME_HEIGHT
+                height: FRAME_HEIGHT,
+                backend: "MediaElement"
             })
             waveSurfer.load(src)
-            handle.then(() => waveSurfer.destroy())
-            setWaveSurfer(waveSurfer)
+            waveSurfer.once("ready", () => setWaveSurfer(waveSurfer))
+
+            //mark
+            const audio = div.lastElementChild as HTMLAudioElement
+            audio.addEventListener("play", () => {
+                console.log("play")
+            })
+            audio.addEventListener("pause", () => {
+                console.log("pause")
+            })
+            handle.then(() => {
+                waveSurfer.destroy()
+            })
         })
         return () => {
             handle.cancel()
