@@ -1,8 +1,9 @@
+import { Cancellable } from "@lincode/promiselikes"
 import { memo } from "preact/compat"
-import { useEffect, useState } from "preact/hooks"
+import { useEffect, useRef, useState } from "preact/hooks"
 import TimelineAudio from "../../display/TimelineAudio"
-import { FRAME_HEIGHT } from "../../globals"
-import WaveSurfer from "./WaveSurfer"
+import { FRAME_HEIGHT, SEC2FRAME, FRAME_WIDTH } from "../../globals"
+import { getTimelineFrame } from "../states/useTimelineFrame"
 
 type AudioRowProps = {
     instance: TimelineAudio
@@ -19,15 +20,50 @@ const AudioRow = ({ instance }: AudioRowProps) => {
         }
     }, [instance])
 
+    const ref = useRef<HTMLDivElement>(null)
+    const [width, setWidth] = useState(0)
+
+    useEffect(() => {
+        const div = ref.current
+        if (!div || !src || !width) return
+
+        const handle = new Cancellable()
+        import("wavesurfer.js").then(({ default: WaveSurfer }) => {
+            if (handle.done) return
+            const wavesurfer = WaveSurfer.create({
+                container: div,
+                // waveColor: "violet",
+                // progressColor: "purple",
+                height: FRAME_HEIGHT
+            })
+            wavesurfer.load(src)
+
+            const handle2 = getTimelineFrame((frame) => {
+                console.log(frame)
+            })
+
+            handle.then(() => {
+                wavesurfer.destroy()
+                handle2.cancel()
+            })
+        })
+        return () => {
+            handle.cancel()
+            setWidth(0)
+        }
+    }, [src, width])
+
     return (
-        <div
-            style={{
-                height: FRAME_HEIGHT,
-                width: 5000
-            }}
-        >
-            <WaveSurfer src={src} />
-        </div>
+        <>
+            <div ref={ref} style={{ width }} />
+            <audio
+                src={src}
+                hidden
+                onDurationChange={(e) =>
+                    setWidth(e.currentTarget.duration * SEC2FRAME * FRAME_WIDTH)
+                }
+            />
+        </>
     )
 }
 
