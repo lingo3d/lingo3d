@@ -1,3 +1,4 @@
+import { getExtensionType } from "@lincode/filetypes"
 import { get, set } from "@lincode/utils"
 import { useState } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
@@ -32,6 +33,7 @@ const TimelineContextMenu = () => {
                     if (!timeline) return
 
                     const audio = new TimelineAudio(value)
+                    if (getExtensionType(value) === "audio") audio.src = value
                     timeline.mergeData({ [audio.uuid]: {} })
                     timeline.append(audio)
                     setSceneGraphExpanded(new Set([timeline.outerObject3d]))
