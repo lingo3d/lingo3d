@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { memo } from "preact/compat"
-import { useEffect, useRef, useState } from "preact/hooks"
+import { useLayoutEffect, useRef, useState } from "preact/hooks"
 import TimelineAudio from "../../display/TimelineAudio"
 import { FRAME_HEIGHT, SEC2FRAME, FRAME_WIDTH, FRAME2SEC } from "../../globals"
 import { getTimelineFrame } from "../states/useTimelineFrame"
@@ -14,7 +14,7 @@ type AudioRowProps = {
 const AudioRow = ({ instance }: AudioRowProps) => {
     const [src, setSrc] = useState<string>()
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         //@ts-ignore
         const handle = instance.srcState.get(setSrc)
         return () => {
@@ -27,7 +27,7 @@ const AudioRow = ({ instance }: AudioRowProps) => {
     const [waveSurfer, setWaveSurfer] = useState<WaveSurfer>()
     const [paused] = useTimelinePaused()
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!waveSurfer) return
         if (!paused) {
             waveSurfer.play(getTimelineFrame() * FRAME2SEC)
@@ -43,34 +43,23 @@ const AudioRow = ({ instance }: AudioRowProps) => {
         }
     }, [waveSurfer, paused])
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const div = ref.current
         if (!div || !src || !width) return
 
         const handle = new Cancellable()
         import("wavesurfer.js").then(({ default: WaveSurfer }) => {
             if (handle.done) return
+
             const waveSurfer = WaveSurfer.create({
                 container: div,
                 waveColor: "violet",
                 progressColor: "purple",
-                height: FRAME_HEIGHT,
-                backend: "MediaElement"
+                height: FRAME_HEIGHT
             })
+            handle.then(() => waveSurfer.destroy())
             waveSurfer.load(src)
-            waveSurfer.once("ready", () => setWaveSurfer(waveSurfer))
-
-            //mark
-            const audio = div.lastElementChild as HTMLAudioElement
-            audio.addEventListener("play", () => {
-                console.log("play")
-            })
-            audio.addEventListener("pause", () => {
-                console.log("pause")
-            })
-            handle.then(() => {
-                waveSurfer.destroy()
-            })
+            setWaveSurfer(waveSurfer)
         })
         return () => {
             handle.cancel()
