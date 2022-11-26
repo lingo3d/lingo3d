@@ -1,14 +1,22 @@
 import { memo } from "preact/compat"
-import { useMemo } from "preact/hooks"
+import { useCallback, useMemo } from "preact/hooks"
+import { uuidMap } from "../../api/core/collections"
+import TimelineAudio from "../../display/TimelineAudio"
 import { FRAME_HEIGHT } from "../../globals"
+import AudioRow from "./AudioRow"
 import FrameTween from "./FrameTween"
 
 type FrameTweenRowProps = {
     frames: Record<number, true>
+    uuid: string
 }
 
-const FrameTweenRow = ({ frames }: FrameTweenRowProps) => {
+const FrameTweenRow = ({ frames, uuid }: FrameTweenRowProps) => {
     const frameNums = useMemo(() => Object.keys(frames).map(Number), [frames])
+    const instance = useMemo(() => uuidMap.get(uuid), [uuid])
+
+    if (instance instanceof TimelineAudio)
+        return <AudioRow instance={instance} />
 
     return (
         <div style={{ height: FRAME_HEIGHT }}>

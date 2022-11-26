@@ -16,7 +16,7 @@ const FrameTweens = ({ keyframesEntries }: FrameTweensProps) => {
             }}
         >
             {keyframesEntries.map(([uuid, frames]) => (
-                <FrameTweenRow key={uuid} frames={frames} />
+                <FrameTweenRow key={uuid} uuid={uuid} frames={frames} />
             ))}
         </div>
     )

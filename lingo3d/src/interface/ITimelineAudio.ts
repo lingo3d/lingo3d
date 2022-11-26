@@ -7,14 +7,16 @@ import IAppendable, {
 
 export default interface ITimelineAudio extends IAppendable {
     name: string
+    src?: string
 }
 
 export const timelineAudioSchema: Required<ExtractProps<ITimelineAudio>> = {
     ...appendableSchema,
-    name: String
+    name: String,
+    src: String
 }
 
 export const timelineAudioDefaults = extendDefaults<ITimelineAudio>(
     [appendableDefaults],
-    { name: "" }
+    { name: "", src: undefined }
 )
