@@ -6,6 +6,7 @@ import { FRAME_HEIGHT, SEC2FRAME, FRAME_WIDTH, FRAME2SEC } from "../../globals"
 import { getTimelineFrame } from "../states/useTimelineFrame"
 import { useTimelinePaused } from "../states/useTimelinePaused"
 import WaveSurfer from "wavesurfer.js"
+import { getTimeline } from "../states/useTimeline"
 
 type AudioRowProps = {
     instance: TimelineAudio
@@ -31,8 +32,21 @@ const AudioRow = ({ instance }: AudioRowProps) => {
         if (!waveSurfer) return
         if (!paused) {
             waveSurfer.play(getTimelineFrame() * FRAME2SEC)
+
+            let awaitCount = 1
+            const timeline = getTimeline()!
+            timeline.await += awaitCount
+
+            const audioContext = waveSurfer.backend.getAudioContext()
+            const timeout = setTimeout(() => {
+                timeline.await -= awaitCount
+                awaitCount = 0
+            }, audioContext.baseLatency + audioContext.outputLatency * 1000)
+
             return () => {
+                clearTimeout(timeout)
                 waveSurfer.pause()
+                timeline.await -= awaitCount
             }
         }
         const handle = getTimelineFrame((frame) =>

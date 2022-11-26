@@ -48,6 +48,14 @@ export default class AnimationManager
     private dataState = new Reactive<[AnimationData | undefined]>([undefined])
     private gotoFrameState = new Reactive<number | undefined>(undefined)
 
+    private awaitState = new Reactive(0)
+    public get await() {
+        return this.awaitState.get()
+    }
+    public set await(val) {
+        this.awaitState.set(val)
+    }
+
     protected pausedState = new Reactive(true)
     public get paused() {
         return this.pausedState.get()
@@ -157,7 +165,9 @@ export default class AnimationManager
             if (!action) return
 
             const gotoFrame = this.gotoFrameState.get()
-            action.paused = this.pausedState.get() && gotoFrame === undefined
+            action.paused =
+                (this.pausedState.get() || !!this.awaitState.get()) &&
+                gotoFrame === undefined
             if (action.paused) return
 
             const prevManager = mixerManagerMap.get(mixer)
@@ -186,6 +196,7 @@ export default class AnimationManager
         }, [
             this.actionState.get,
             this.pausedState.get,
+            this.awaitState.get,
             this.gotoFrameState.get
         ])
     }
