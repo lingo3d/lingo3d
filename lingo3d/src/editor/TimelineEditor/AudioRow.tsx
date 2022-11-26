@@ -16,7 +16,13 @@ const AudioRow = ({ instance }: AudioRowProps) => {
         [instance]
     )
     return (
-        <div ref={setContainer} style={{ height: FRAME_HEIGHT, width: 500 }} />
+        <div
+            ref={setContainer}
+            style={{
+                height: FRAME_HEIGHT,
+                width: 5000
+            }}
+        />
     )
 }
 

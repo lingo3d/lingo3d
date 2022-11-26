@@ -1,6 +1,7 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
+import { FRAME_HEIGHT } from "../globals"
 import {
     timelineAudioDefaults,
     timelineAudioSchema
@@ -25,11 +26,17 @@ export default class TimelineAudio extends Appendable {
                 const wavesurfer = WaveSurfer.create({
                     container,
                     waveColor: "violet",
-                    progressColor: "purple"
+                    progressColor: "purple",
+                    height: FRAME_HEIGHT
                 })
                 wavesurfer.load(src)
+
+                const listener = wavesurfer.once("ready", () => {
+                    console.log("ready")
+                })
                 handle.then(() => {
                     wavesurfer.destroy()
+                    listener.un()
                 })
             })
             return () => {
