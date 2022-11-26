@@ -1,18 +1,19 @@
 import { Reactive } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
-import {
+import ITimelineAudio, {
     timelineAudioDefaults,
     timelineAudioSchema
 } from "../interface/ITimelineAudio"
 
-export default class TimelineAudio extends Appendable {
+export default class TimelineAudio
+    extends Appendable
+    implements ITimelineAudio
+{
     public static componentName = "timelineAudio"
     public static defaults = timelineAudioDefaults
     public static schema = timelineAudioSchema
 
-    public constructor(public name: string) {
-        super()
-    }
+    public name = ""
 
     private srcState = new Reactive<string | undefined>(undefined)
     public get src() {

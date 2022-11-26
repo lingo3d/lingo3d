@@ -4,10 +4,11 @@ import IAppendable, {
     appendableDefaults,
     appendableSchema
 } from "./IAppendable"
+import Nullable from "./utils/Nullable"
 
 export default interface ITimelineAudio extends IAppendable {
     name: string
-    src?: string
+    src: Nullable<string>
 }
 
 export const timelineAudioSchema: Required<ExtractProps<ITimelineAudio>> = {

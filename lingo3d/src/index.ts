@@ -29,6 +29,7 @@ import Skybox from "./display/Skybox"
 import Environment from "./display/Environment"
 import Setup from "./display/Setup"
 import Timeline from "./display/Timeline"
+import TimelineAudio from "./display/TimelineAudio"
 import Sky from "./display/Sky"
 import Camera from "./display/cameras/Camera"
 import ThirdPersonCamera from "./display/cameras/ThirdPersonCamera"
@@ -112,6 +113,7 @@ export {
     Environment,
     Setup,
     Timeline,
+    TimelineAudio,
     Sky,
     Camera,
     ThirdPersonCamera,

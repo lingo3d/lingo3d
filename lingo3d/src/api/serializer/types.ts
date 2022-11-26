@@ -24,6 +24,7 @@ import ISkybox from "../../interface/ISkybox"
 import IEnvironment from "../../interface/IEnvironment"
 import ISetup from "../../interface/ISetup"
 import ITimeline from "../../interface/ITimeline"
+import ITimelineAudio from "../../interface/ITimelineAudio"
 import { AnimationData } from "../../interface/IAnimationManager"
 
 export type GameObjectType =
@@ -64,6 +65,7 @@ export type GameObjectType =
     | "environment"
     | "setup"
     | "timeline"
+    | "timelineAudio"
 
 export type VersionNode = {
     type: "lingo3d"
@@ -167,6 +169,8 @@ export type SetupNode = TypedPropsNode<ISetup, "setup">
 
 export type TimelineNode = TypedPropsNode<ITimeline, "timeline">
 
+export type TimelineAudioNode = TypedPropsNode<ITimelineAudio, "timelineAudio">
+
 export type BaseSceneGraphNode =
     | GroupNode
     | ModelNode
@@ -202,5 +206,6 @@ export type BaseSceneGraphNode =
     | EnvironmentNode
     | SetupNode
     | TimelineNode
+    | TimelineAudioNode
 
 export type SceneGraphNode = BaseSceneGraphNode | AnimationNode | VersionNode

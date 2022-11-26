@@ -35,6 +35,7 @@ import Skybox from "../../display/Skybox"
 import Environment from "../../display/Environment"
 import Setup from "../../display/Setup"
 import Timeline from "../../display/Timeline"
+import TimelineAudio from "../../display/TimelineAudio"
 import Trigger from "../../display/Trigger"
 import SpawnPoint from "../../display/SpawnPoint"
 import Audio from "../../display/Audio"
@@ -76,7 +77,8 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     skybox: () => new Skybox() as any,
     environment: () => new Environment() as any,
     setup: () => new Setup() as any,
-    timeline: () => new Timeline() as any
+    timeline: () => new Timeline() as any,
+    timelineAudio: () => new TimelineAudio() as any
 })
 
 export default (type: GameObjectType) => record[type]()

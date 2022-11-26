@@ -32,7 +32,8 @@ const TimelineContextMenu = () => {
                     const timeline = getTimeline()
                     if (!timeline) return
 
-                    const audio = new TimelineAudio(value)
+                    const audio = new TimelineAudio()
+                    audio.name = value
                     if (getExtensionType(value) === "audio") audio.src = value
                     timeline.mergeData({ [audio.uuid]: {} })
                     timeline.append(audio)
