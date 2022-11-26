@@ -28,8 +28,16 @@ const AudioRow = ({ instance }: AudioRowProps) => {
     const [paused] = useTimelinePaused()
 
     useEffect(() => {
-        if (!waveSurfer || !paused) return
+        if (!waveSurfer) return
 
+        if (!paused) {
+            const frame = getTimelineFrame()
+            waveSurfer.setCurrentTime(frame * FRAME2SEC)
+            waveSurfer.play()
+            return () => {
+                waveSurfer.pause()
+            }
+        }
         const handle = getTimelineFrame((frame) => {
             waveSurfer.setCurrentTime(frame * FRAME2SEC)
         })
