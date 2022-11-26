@@ -2,8 +2,10 @@ import { Cancellable } from "@lincode/promiselikes"
 import { memo } from "preact/compat"
 import { useEffect, useRef, useState } from "preact/hooks"
 import TimelineAudio from "../../display/TimelineAudio"
-import { FRAME_HEIGHT, SEC2FRAME, FRAME_WIDTH } from "../../globals"
+import { FRAME_HEIGHT, SEC2FRAME, FRAME_WIDTH, FRAME2SEC } from "../../globals"
 import { getTimelineFrame } from "../states/useTimelineFrame"
+import { useTimelinePaused } from "../states/useTimelinePaused"
+import WaveSurfer from "wavesurfer.js"
 
 type AudioRowProps = {
     instance: TimelineAudio
@@ -22,6 +24,19 @@ const AudioRow = ({ instance }: AudioRowProps) => {
 
     const ref = useRef<HTMLDivElement>(null)
     const [width, setWidth] = useState(0)
+    const [waveSurfer, setWaveSurfer] = useState<WaveSurfer>()
+    const [paused] = useTimelinePaused()
+
+    useEffect(() => {
+        if (!waveSurfer || !paused) return
+
+        const handle = getTimelineFrame((frame) => {
+            waveSurfer.setCurrentTime(frame * FRAME2SEC)
+        })
+        return () => {
+            handle.cancel()
+        }
+    }, [waveSurfer, paused])
 
     useEffect(() => {
         const div = ref.current
@@ -30,26 +45,20 @@ const AudioRow = ({ instance }: AudioRowProps) => {
         const handle = new Cancellable()
         import("wavesurfer.js").then(({ default: WaveSurfer }) => {
             if (handle.done) return
-            const wavesurfer = WaveSurfer.create({
+            const waveSurfer = WaveSurfer.create({
                 container: div,
                 // waveColor: "violet",
                 // progressColor: "purple",
                 height: FRAME_HEIGHT
             })
-            wavesurfer.load(src)
-
-            const handle2 = getTimelineFrame((frame) => {
-                console.log(frame)
-            })
-
-            handle.then(() => {
-                wavesurfer.destroy()
-                handle2.cancel()
-            })
+            waveSurfer.load(src)
+            handle.then(() => waveSurfer.destroy())
+            setWaveSurfer(waveSurfer)
         })
         return () => {
             handle.cancel()
             setWidth(0)
+            setWaveSurfer(undefined)
         }
     }, [src, width])
 
