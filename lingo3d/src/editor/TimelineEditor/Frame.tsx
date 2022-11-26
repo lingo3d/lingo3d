@@ -1,4 +1,3 @@
-import { debounceTrailing } from "@lincode/utils"
 import { CSSProperties, memo, useState } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 import { getTimeline } from "../states/useTimeline"
@@ -22,21 +21,12 @@ const deselect = () => {
 getTimelineFrame(deselect)
 getTimelineLayer(deselect)
 
-export const timelineSeekPtr = [false]
-const unsetTimelineSeek = debounceTrailing(
-    () => (timelineSeekPtr[0] = false),
-    1
-)
-
 const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
     const [selected, setSelected] = useState(false)
 
     const handleMouseDown = () => {
         const timeline = getTimeline()
         if (!timeline) return
-
-        timelineSeekPtr[0] = true
-        unsetTimelineSeek()
 
         setTimelineLayer(layer)
         setTimelineFrame(index)

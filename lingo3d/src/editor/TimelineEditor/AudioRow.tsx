@@ -2,7 +2,7 @@ import { memo } from "preact/compat"
 import { useEffect, useState } from "preact/hooks"
 import TimelineAudio from "../../display/TimelineAudio"
 import { FRAME_HEIGHT } from "../../globals"
-import WaveSurfer from "../component/WaveSurfer"
+import WaveSurfer from "./WaveSurfer"
 
 type AudioRowProps = {
     instance: TimelineAudio
