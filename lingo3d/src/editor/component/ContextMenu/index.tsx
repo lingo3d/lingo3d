@@ -51,8 +51,8 @@ const ContextMenu = ({
                         onKeyDown={(e) => {
                             e.stopPropagation()
                             if (e.key !== "Enter" && e.key !== "Escape") return
-                            if (e.key === "Enter")
-                                onInput?.((e.target as HTMLInputElement).value)
+                            e.key === "Enter" &&
+                                onInput?.(e.currentTarget.value)
                             setPosition(undefined)
                         }}
                     />

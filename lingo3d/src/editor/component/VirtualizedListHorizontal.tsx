@@ -73,10 +73,7 @@ const VirtualizedListHorizontal = <T extends Array<any>>({
                 height: containerHeight + 4,
                 ...style
             }}
-            onScroll={(e) => {
-                const { scrollLeft } = e.currentTarget as HTMLDivElement
-                setScroll(scrollLeft)
-            }}
+            onScroll={(e) => setScroll(e.currentTarget.scrollLeft)}
         >
             <div style={{ position: "relative", width: innerWidth }}>
                 {items}

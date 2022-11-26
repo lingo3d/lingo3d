@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
-import { useEffect, useRef } from "preact/hooks"
-import { FRAME_HEIGHT } from "../../globals"
+import { useEffect, useRef, useState } from "preact/hooks"
+import { FRAME_HEIGHT, FRAME_WIDTH, SEC2FRAME } from "../../globals"
 
 type WaveSurferProps = {
     src?: string
@@ -8,10 +8,11 @@ type WaveSurferProps = {
 
 const WaveSurfer = ({ src }: WaveSurferProps) => {
     const ref = useRef<HTMLDivElement>(null)
+    const [width, setWidth] = useState(0)
 
     useEffect(() => {
         const div = ref.current
-        if (!div || !src) return
+        if (!div || !src || !width) return
 
         const handle = new Cancellable()
         import("wavesurfer.js").then(({ default: WaveSurfer }) => {
@@ -22,23 +23,26 @@ const WaveSurfer = ({ src }: WaveSurferProps) => {
                 progressColor: "purple",
                 height: FRAME_HEIGHT
             })
+            handle.then(() => wavesurfer.destroy())
             wavesurfer.load(src)
-
-            const listener = wavesurfer.once("ready", () => {
-                console.log("ready")
-            })
-            handle.then(() => {
-                wavesurfer.destroy()
-                listener.un()
-            })
         })
         return () => {
             handle.cancel()
+            setWidth(0)
         }
-    }, [src])
-    
+    }, [src, width])
+
     return (
-        <div ref={ref} />
+        <>
+            <div ref={ref} style={{ width }} />
+            <audio
+                src={src}
+                hidden
+                onDurationChange={(e) =>
+                    setWidth(e.currentTarget.duration * SEC2FRAME * FRAME_WIDTH)
+                }
+            />
+        </>
     )
 }
 

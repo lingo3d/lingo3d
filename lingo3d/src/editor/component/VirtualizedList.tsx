@@ -73,10 +73,7 @@ const VirtualizedList = <T extends Array<any>>({
                 height: containerHeight,
                 ...style
             }}
-            onScroll={(e) => {
-                const { scrollTop } = e.currentTarget as HTMLDivElement
-                setScroll(scrollTop)
-            }}
+            onScroll={(e) => setScroll(e.currentTarget.scrollTop)}
         >
             <div style={{ position: "relative", height: innerHeight }}>
                 {items}
