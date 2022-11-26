@@ -19,8 +19,8 @@ const WaveSurfer = ({ src }: WaveSurferProps) => {
             if (handle.done) return
             const wavesurfer = WaveSurfer.create({
                 container: div,
-                waveColor: "violet",
-                progressColor: "purple",
+                // waveColor: "violet",
+                // progressColor: "purple",
                 height: FRAME_HEIGHT
             })
             handle.then(() => wavesurfer.destroy())

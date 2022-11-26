@@ -5,30 +5,18 @@ import { FRAME_HEIGHT } from "../../globals"
 import VirtualizedList from "../component/VirtualizedList"
 import useResizeObserver from "../hooks/useResizeObserver"
 import { useTimelineExpandedUUIDs } from "../states/useTimelineExpandedUUIDs"
-import { getTimelineFrame, setTimelineFrame } from "../states/useTimelineFrame"
+import { setTimelineFrame } from "../states/useTimelineFrame"
 import FrameRow from "./FrameRow"
 import { useTimelineData } from "../states/useTimelineData"
 import { getTimelinePaused } from "../states/useTimelinePaused"
 import { getTimeline } from "../states/useTimeline"
 import FrameTweens from "./FrameTweens"
 
-let skip = false
-createEffect(() => {
-    const timeline = getTimeline()
-    if (!timeline) return
-    if (skip) {
-        skip = false
-        return
-    }
-    timeline.frame = getTimelineFrame()
-}, [getTimelineFrame, getTimeline])
-
 createEffect(() => {
     const timeline = getTimeline()
     if (!timeline || getTimelinePaused()) return
 
     const handle = onBeforeRender(() => {
-        skip = true
         let { frame, totalFrames } = timeline
         if (frame >= totalFrames) {
             frame = timeline.frame = totalFrames
@@ -38,7 +26,6 @@ createEffect(() => {
     })
     return () => {
         handle.cancel()
-        skip = false
     }
 }, [getTimeline, getTimelinePaused])
 
