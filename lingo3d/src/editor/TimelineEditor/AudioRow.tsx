@@ -29,11 +29,8 @@ const AudioRow = ({ instance }: AudioRowProps) => {
 
     useEffect(() => {
         if (!waveSurfer) return
-
         if (!paused) {
-            const frame = getTimelineFrame()
-            waveSurfer.setCurrentTime(frame * FRAME2SEC)
-            waveSurfer.play()
+            waveSurfer.play(getTimelineFrame() * FRAME2SEC)
             return () => {
                 waveSurfer.pause()
             }
@@ -55,8 +52,8 @@ const AudioRow = ({ instance }: AudioRowProps) => {
             if (handle.done) return
             const waveSurfer = WaveSurfer.create({
                 container: div,
-                // waveColor: "violet",
-                // progressColor: "purple",
+                waveColor: "violet",
+                progressColor: "purple",
                 height: FRAME_HEIGHT
             })
             waveSurfer.load(src)
