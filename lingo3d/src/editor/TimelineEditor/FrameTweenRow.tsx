@@ -15,6 +15,8 @@ const FrameTweenRow = ({ frames, uuid }: FrameTweenRowProps) => {
     const frameNums = useMemo(() => Object.keys(frames).map(Number), [frames])
     const instance = useMemo(() => uuidMap.get(uuid), [uuid])
 
+    if (!instance) return null
+
     if (instance instanceof TimelineAudio)
         return <AudioRow instance={instance} />
 

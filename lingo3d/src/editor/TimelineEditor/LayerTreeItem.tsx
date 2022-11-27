@@ -1,5 +1,5 @@
 import { ComponentChildren } from "preact"
-import { useLayoutEffect } from "preact/hooks"
+import { useLayoutEffect, useMemo } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import { FRAME_HEIGHT } from "../../globals"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
@@ -24,10 +24,13 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
         }
     }, [])
 
+    const instance = useMemo(() => uuidMap.get(uuid), [uuid])
+    if (!instance) return null
+
     return (
         <BaseTreeItem
             height={FRAME_HEIGHT}
-            label={getComponentName(uuidMap.get(uuid)!)}
+            label={getComponentName(instance)}
             onExpand={() => addTimelineExpandedUUID(uuid)}
             onCollapse={() => deleteTimelineExpandedUUID(uuid)}
             selected={layer === uuid}
