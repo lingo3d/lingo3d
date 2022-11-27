@@ -9,6 +9,7 @@ import {
     emitSelectionTarget
 } from "../../../../events/onSelectionTarget"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
+import unsafeGetValue from "../../../../utils/unsafeGetValue"
 import VisibleObjectManager from "../../VisibleObjectManager"
 
 const selectionCandidates = new Set<Object3D>()
@@ -22,8 +23,7 @@ export const addSelectionHelper = (
     helper: VisibleObjectManager,
     manager: Appendable
 ) => {
-    //@ts-ignore
-    manager._append(helper)
+    unsafeGetValue(manager, "_append")(helper)
     manager.outerObject3d.add(helper.outerObject3d)
     manager.outerObject3d
     additionalSelectionCandidates.add(helper.nativeObject3d)
@@ -48,8 +48,7 @@ const traverse = (
         if (frozenSet.has(manager)) continue
 
         if ("addToRaycastSet" in manager && !unselectableSet.has(manager))
-            //@ts-ignore
-            manager.addToRaycastSet(selectionCandidates)
+            unsafeGetValue(manager, "addToRaycastSet")(selectionCandidates)
 
         manager.children && traverse(manager.children, frozenSet)
     }

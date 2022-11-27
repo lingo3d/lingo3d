@@ -1,5 +1,11 @@
 import { Cancellable } from "@lincode/promiselikes"
-import { Color, Texture, WebGLCubeRenderTarget, CubeCamera } from "three"
+import {
+    Color,
+    Texture,
+    WebGLCubeRenderTarget,
+    CubeCamera,
+    Material
+} from "three"
 import Appendable from "../../../api/core/Appendable"
 import { NEAR } from "../../../globals"
 import IAdjustMaterial from "../../../interface/IAdjustMaterial"
@@ -7,30 +13,39 @@ import {
     pushReflectionPairs,
     pullReflectionPairs
 } from "../../../states/useReflectionPairs"
+import unsafeGetValue from "../../../utils/unsafeGetValue"
+import unsafeSetValue from "../../../utils/unsafeSetValue"
 import { attachStandardMaterialManager } from "../../material/attachMaterialManager"
 import StandardMaterialManager from "../../material/StandardMaterialManager"
 
 const setNumber = (
-    material: any,
+    material: Material,
     property: string,
     factor: number | undefined
 ) => {
     const defaultValue: number | undefined = (material.userData[property] ??=
-        material[property])
-    material[property] =
+        unsafeGetValue(material, property))
+    unsafeSetValue(
+        material,
+        property,
         factor === undefined
             ? defaultValue
             : Math.max(defaultValue || 0, 0.25) * factor
+    )
 }
 
 const setProperty = (
-    material: any,
+    material: Material,
     property: string,
     value: boolean | Color | Texture | undefined
 ) => {
     const defaultValue: boolean | Color | Texture | undefined =
-        (material.userData[property] ??= material[property])
-    material[property] = value === undefined ? defaultValue : value
+        (material.userData[property] ??= unsafeGetValue(material, property))
+    unsafeSetValue(
+        material,
+        property,
+        value === undefined ? defaultValue : value
+    )
 }
 
 export default abstract class AdjustMaterialMixin

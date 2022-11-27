@@ -1,3 +1,7 @@
+import { Material } from "three"
+import unsafeGetValue from "../../../../utils/unsafeGetValue"
+import unsafeSetValue from "../../../../utils/unsafeSetValue"
+
 const properties = [
     "name",
     "blending",
@@ -38,10 +42,10 @@ const properties = [
     "toneMapped"
 ]
 
-export default (from: any, to: any) => {
+export default (from: Material, to: Material) => {
     for (const prop of properties) {
-        const value = from[prop]
-        value != null && (to[prop] = value)
+        const value = unsafeGetValue(from, prop)
+        value != null && unsafeSetValue(to, prop, value)
     }
 
     const srcPlanes = from.clippingPlanes

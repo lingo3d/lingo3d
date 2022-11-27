@@ -4,6 +4,7 @@ import { getBloom } from "../../../states/useBloom"
 import { getBloomRadius } from "../../../states/useBloomRadius"
 import { getBloomIntensity } from "../../../states/useBloomIntensity"
 import { getBloomThreshold } from "../../../states/useBloomThreshold"
+import unsafeGetValue from "../../../utils/unsafeGetValue"
 
 const [setBloomEffect, getBloomEffect] = store<BloomEffect | undefined>(
     undefined
@@ -24,8 +25,11 @@ createEffect(() => {
         (val) => (effect.luminanceMaterial.threshold = val)
     )
     const handle2 = getBloomRadius(
-        //@ts-ignore
-        (val) => (effect.mipmapBlurPass.radius = Math.min(val, 0.9))
+        (val) =>
+            (unsafeGetValue(effect, "mipmapBlurPass").radius = Math.min(
+                val,
+                0.9
+            ))
     )
     return () => {
         setBloomEffect(undefined)

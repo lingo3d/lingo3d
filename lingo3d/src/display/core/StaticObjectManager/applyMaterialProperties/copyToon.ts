@@ -1,3 +1,6 @@
+import { Material, MeshStandardMaterial, MeshToonMaterial } from "three"
+import unsafeGetValue from "../../../../utils/unsafeGetValue"
+import unsafeSetValue from "../../../../utils/unsafeSetValue"
 import copyMaterial from "./copyMaterial"
 
 const properties = [
@@ -24,15 +27,18 @@ const properties = [
     "fog"
 ]
 
-export default (source: any, target: any) => {
+export default (
+    source: Material | MeshStandardMaterial,
+    target: MeshToonMaterial
+) => {
     copyMaterial(source, target)
 
     for (const prop of properties) {
-        const value = source[prop]
-        value != null && (target[prop] = value)
+        const value = unsafeGetValue(source, prop)
+        value != null && unsafeSetValue(target, prop, value)
     }
 
-    source.color && target.color.copy(source.color)
-    source.emissive && target.emissive.copy(source.emissive)
-    source.normalScale && target.normalScale.copy(source.normalScale)
+    "color" in source && target.color.copy(source.color)
+    "emissive" in source && target.emissive.copy(source.emissive)
+    "normalScale" in source && target.normalScale.copy(source.normalScale)
 }

@@ -9,6 +9,7 @@ import {
     getSelectiveBloom,
     setSelectiveBloom
 } from "../../../states/useSelectiveBloom"
+import unsafeGetValue from "../../../utils/unsafeGetValue"
 import scene from "../../scene"
 
 let objectSet = new Set<Object3D>()
@@ -42,8 +43,11 @@ createEffect(() => {
         (val) => (effect.luminanceMaterial.threshold = val)
     )
     const handle2 = getBloomRadius(
-        //@ts-ignore
-        (val) => (effect.mipmapBlurPass.radius = Math.min(val, 0.9))
+        (val) =>
+            (unsafeGetValue(effect, "mipmapBlurPass").radius = Math.min(
+                val,
+                0.9
+            ))
     )
     return () => {
         setSelectiveBloomEffect(undefined)

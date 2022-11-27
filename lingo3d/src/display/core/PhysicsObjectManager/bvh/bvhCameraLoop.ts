@@ -40,7 +40,7 @@ createEffect(() => {
             for (const boundsTree of bvhArray)
                 boundsTree.shapecast({
                     intersectsBounds: (box: Box3) => box.intersectsBox(box3),
-                    intersectsTriangle: (tri: any) => {
+                    intersectsTriangle: (tri) => {
                         distance = tri.closestPointToSegment(
                             line3,
                             triPoint,

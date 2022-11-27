@@ -5,6 +5,7 @@ import {
     decreaseBVHComputing,
     increaseBVHComputing
 } from "../../../../states/useBVHComputingCount"
+import unsafeGetValue from "../../../../utils/unsafeGetValue"
 import Reflector from "../../../Reflector"
 import Primitive from "../../Primitive"
 import { bvhManagerMap } from "./bvhManagerMap"
@@ -36,17 +37,18 @@ export default async (item: PhysicsObjectManager) => {
     item.outerObject3d.updateMatrixWorld(true)
 
     const geometries: Array<BufferGeometry> = []
-    item.outerObject3d.traverse((c: any) => {
+    item.outerObject3d.traverse((c) => {
+        const childGeom = unsafeGetValue(c, "geometry")
         if (
-            !c.geometry ||
+            !childGeom ||
             (c === item.nativeObject3d &&
                 !(item instanceof Primitive) &&
                 !(item instanceof Reflector))
         )
             return
 
-        geometries.push(c.geometry)
-        geometryMeshMap.set(c.geometry, c)
+        geometries.push(childGeom)
+        geometryMeshMap.set(childGeom, c)
     })
     const bvhArray = await computeBVHFromGeometries(geometries)
     for (const bvh of bvhArray) bvhManagerMap.set(bvh, item)

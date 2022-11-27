@@ -11,6 +11,7 @@ import IVisible from "../../interface/IVisible"
 import VisibleMixin from "./mixins/VisibleMixin"
 import SimpleObjectManager from "./SimpleObjectManager"
 import { appendableRoot } from "../../api/core/collections"
+import unsafeGetValue from "../../utils/unsafeGetValue"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -26,8 +27,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
 
     public model?: Model
     private retargetAnimations() {
-        //@ts-ignore
-        const state = this.model?.lazyStates()
+        const state = this.model && unsafeGetValue(this.model, "lazyStates")()
         if (!state) return
 
         const {

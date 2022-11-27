@@ -1,3 +1,6 @@
+import { MeshStandardMaterial } from "three"
+import unsafeGetValue from "../../../../utils/unsafeGetValue"
+import unsafeSetValue from "../../../../utils/unsafeSetValue"
 import copyMaterial from "./copyMaterial"
 
 const properties = [
@@ -30,12 +33,12 @@ const properties = [
     "fog"
 ]
 
-export default (source: any, target: any) => {
+export default (source: MeshStandardMaterial, target: MeshStandardMaterial) => {
     copyMaterial(source, target)
 
     for (const prop of properties) {
-        const value = source[prop]
-        value != null && (target[prop] = value)
+        const value = unsafeGetValue(source, prop)
+        value != null && unsafeSetValue(target, prop, value)
     }
 
     target.defines = { STANDARD: "" }

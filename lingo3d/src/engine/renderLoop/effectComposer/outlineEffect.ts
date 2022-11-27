@@ -9,6 +9,7 @@ import { getOutlineHiddenColor } from "../../../states/useOutlineHiddenColor"
 import { getOutlinePattern } from "../../../states/useOutlinePattern"
 import { getOutlinePulse } from "../../../states/useOutlinePulse"
 import { getOutlineStrength } from "../../../states/useOutlineStrength"
+import unsafeSetValue from "../../../utils/unsafeSetValue"
 import scene from "../../scene"
 
 const [setOutlineEffect, getOutlineEffect] = store<OutlineEffect | undefined>(
@@ -37,9 +38,8 @@ createEffect(() => {
     const handle1 = getOutlineHiddenColor((val) =>
         effect.hiddenEdgeColor.set(val)
     )
-    const handle2 = getOutlinePattern(
-        //@ts-ignore
-        (val) => (effect.patternTexture = val ? loadTexture(val) : null)
+    const handle2 = getOutlinePattern((val) =>
+        unsafeSetValue(effect, "patternTexture", val ? loadTexture(val) : null)
     )
     const handle3 = getOutlinePulse((val) => (effect.pulseSpeed = val))
     const handle4 = getOutlineStrength((val) => (effect.edgeStrength = val))

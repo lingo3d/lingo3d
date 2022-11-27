@@ -20,8 +20,7 @@ createEffect(() => {
     // uniforms.bias.value = 0
     effect.radius = 0.05
     effect.samples = 32
-    //@ts-ignore
-    effect.uniforms.get("luminanceInfluence").value = 0
+    effect.uniforms.get("luminanceInfluence")!.value = 0
     effect.ssaoMaterial.distanceFalloff =
         effect.ssaoMaterial.distanceThreshold = 1
     effect.ssaoMaterial.proximityThreshold =

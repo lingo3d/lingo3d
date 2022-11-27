@@ -2,6 +2,7 @@ import store, { createEffect } from "@lincode/reactivity"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { getSSR } from "../../../../states/useSSR"
 import { getSSRIntensity } from "../../../../states/useSSRIntensity"
+import unsafeSetValue from "../../../../utils/unsafeSetValue"
 import scene from "../../../scene"
 import { SSREffect } from "./SSREffect"
 
@@ -14,9 +15,8 @@ createEffect(() => {
     const effect = new SSREffect(scene, getCameraRendered())
     setSSREffect(effect)
 
-    const handle = getSSRIntensity(
-        //@ts-ignore
-        (val) => (effect.intensity = val)
+    const handle = getSSRIntensity((val) =>
+        unsafeSetValue(effect, "intensity", val)
     )
     return () => {
         setSSREffect(undefined)
