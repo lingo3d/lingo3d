@@ -10,7 +10,6 @@ import {
 } from "../../../../events/onSelectionTarget"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
 import callPrivateMethod from "../../../../utils/callPrivateMethod"
-import unsafeGetValue from "../../../../utils/unsafeGetValue"
 import VisibleObjectManager from "../../VisibleObjectManager"
 
 const selectionCandidates = new Set<Object3D>()

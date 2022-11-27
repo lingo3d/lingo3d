@@ -7,7 +7,7 @@ import { getTimelineFrame } from "../states/useTimelineFrame"
 import { useTimelinePaused } from "../states/useTimelinePaused"
 import WaveSurfer from "wavesurfer.js"
 import { getTimeline } from "../states/useTimeline"
-import unsafeGetValue from "../../utils/unsafeGetValue"
+import getPrivateValue from "../../utils/getPrivateValue"
 
 type AudioRowProps = {
     instance: TimelineAudio
@@ -17,7 +17,7 @@ const AudioRow = ({ instance }: AudioRowProps) => {
     const [src, setSrc] = useState<string>()
 
     useLayoutEffect(() => {
-        const handle = unsafeGetValue(instance, "srcState").get(setSrc)
+        const handle = getPrivateValue(instance, "srcState").get(setSrc)
         return () => {
             handle.cancel()
         }

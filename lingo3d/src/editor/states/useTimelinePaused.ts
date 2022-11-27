@@ -1,5 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
-import unsafeGetValue from "../../utils/unsafeGetValue"
+import getPrivateValue from "../../utils/getPrivateValue"
 import preactStore from "../utils/preactStore"
 import { getTimeline } from "./useTimeline"
 
@@ -11,7 +11,7 @@ createEffect(() => {
     const timeline = getTimeline()
     if (!timeline) return
 
-    const handle = unsafeGetValue(timeline, "pausedState").get(
+    const handle = getPrivateValue(timeline, "pausedState").get(
         setTimelinePaused
     )
     return () => {

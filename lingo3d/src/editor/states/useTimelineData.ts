@@ -12,6 +12,7 @@ import { AnimationData } from "../../interface/IAnimationManager"
 import { getTimeline } from "./useTimeline"
 import { onDispose } from "../../events/onDispose"
 import unsafeGetValue from "../../utils/unsafeGetValue"
+import getPrivateValue from "../../utils/getPrivateValue"
 
 const [useTimelineData, setTimelineData, getTimelineData] = preactStore<
     [AnimationData | undefined]
@@ -22,7 +23,7 @@ createEffect(() => {
     const timeline = getTimeline()
     if (!timeline) return
 
-    const handle = unsafeGetValue(timeline, "dataState").get(setTimelineData)
+    const handle = getPrivateValue(timeline, "dataState").get(setTimelineData)
     return () => {
         handle.cancel()
         setTimelineData([undefined])
