@@ -11,7 +11,7 @@ import { onEditorEdit } from "../../events/onEditorEdit"
 import { AnimationData } from "../../interface/IAnimationManager"
 import { getTimeline } from "./useTimeline"
 import { onDispose } from "../../events/onDispose"
-import getValue from "../../utils/getValue"
+import unsafeGetValue from "../../utils/unsafeGetValue"
 
 const [useTimelineData, setTimelineData, getTimelineData] = preactStore<
     [AnimationData | undefined]
@@ -22,7 +22,7 @@ createEffect(() => {
     const timeline = getTimeline()
     if (!timeline) return
 
-    const handle = getValue(timeline, "dataState").get(setTimelineData)
+    const handle = unsafeGetValue(timeline, "dataState").get(setTimelineData)
     return () => {
         handle.cancel()
         setTimelineData([undefined])
@@ -31,31 +31,35 @@ createEffect(() => {
 
 const timelinePropertiesMap = new WeakMap<Appendable, Array<string>>()
 const getTimelineProperties = (instance: Appendable) =>
-    forceGet(timelinePropertiesMap, getValue(instance, "constructor"), () => {
-        const result: Array<string> = []
-        for (const [property, type] of Object.entries(
-            getValue(instance.constructor, "schema")
-        ))
-            type === Number &&
-                property !== "rotation" &&
-                property !== "scale" &&
-                result.push(property)
+    forceGet(
+        timelinePropertiesMap,
+        unsafeGetValue(instance, "constructor"),
+        () => {
+            const result: Array<string> = []
+            for (const [property, type] of Object.entries(
+                unsafeGetValue(instance.constructor, "schema")
+            ))
+                type === Number &&
+                    property !== "rotation" &&
+                    property !== "scale" &&
+                    result.push(property)
 
-        return result
-    })
+            return result
+        }
+    )
 
 const saveMap = new WeakMap<Appendable, Record<string, number>>()
 const saveProperties = (instance: Appendable) => {
     const saved: Record<string, number> = {}
     for (const property of getTimelineProperties(instance))
-        saved[property] = getValue(instance, property)
+        saved[property] = unsafeGetValue(instance, property)
     saveMap.set(instance, saved)
 }
 const diffProperties = (instance: Appendable) => {
     const changed: Array<[string, number]> = []
     const saved = saveMap.get(instance)!
     for (const property of getTimelineProperties(instance))
-        if (saved[property] !== getValue(instance, property))
+        if (saved[property] !== unsafeGetValue(instance, property))
             changed.push([property, saved[property]])
     return changed
 }
@@ -81,7 +85,10 @@ createEffect(() => {
                             0:
                                 timelineData[instance.uuid][property]?.[0] ??
                                 value,
-                            [getTimelineFrame()]: getValue(instance, property)
+                            [getTimelineFrame()]: unsafeGetValue(
+                                instance,
+                                property
+                            )
                         }
                     }
                 })
