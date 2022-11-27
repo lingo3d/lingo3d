@@ -105,7 +105,11 @@ createEffect(() => {
         else if (val === "stop") handleFinish()
     })
 
-    const handle2 = onDispose(() => {})
+    const handle2 = onDispose((item) => {
+        if (!instances.has(item)) return
+        delete timelineData[item.uuid]
+        timeline.data = timelineData
+    })
 
     return () => {
         handle0.cancel()
