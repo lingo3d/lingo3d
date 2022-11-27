@@ -1,5 +1,7 @@
 import { Reactive } from "@lincode/reactivity"
+import { PropertyBinding } from "three"
 import Appendable from "../api/core/Appendable"
+import { emitSceneGraphNameChange } from "../events/onSceneGraphNameChange"
 import ITimelineAudio, {
     timelineAudioDefaults,
     timelineAudioSchema
@@ -13,7 +15,13 @@ export default class TimelineAudio
     public static defaults = timelineAudioDefaults
     public static schema = timelineAudioSchema
 
-    public name = ""
+    public get name() {
+        return this.outerObject3d.name
+    }
+    public set name(val) {
+        this.outerObject3d.name = PropertyBinding.sanitizeNodeName(val)
+        emitSceneGraphNameChange()
+    }
 
     private srcState = new Reactive<string | undefined>(undefined)
     public get src() {

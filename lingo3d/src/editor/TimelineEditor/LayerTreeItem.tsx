@@ -1,6 +1,7 @@
 import { ComponentChildren } from "preact"
-import { useLayoutEffect, useMemo } from "preact/hooks"
+import { useLayoutEffect, useState } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
+import { onSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 import { FRAME_HEIGHT } from "../../globals"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import {
@@ -17,6 +18,7 @@ type LayerTreeItemProps = {
 
 const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
     const [layer, setLayer] = useTimelineLayer()
+    const [name, setName] = useState("")
 
     useLayoutEffect(() => {
         return () => {
@@ -24,13 +26,23 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
         }
     }, [])
 
-    const instance = useMemo(() => uuidMap.get(uuid), [uuid])
-    if (!instance) return null
+    useLayoutEffect(() => {
+        const instance = uuidMap.get(uuid)
+        if (!instance) return
+
+        setName(getComponentName(instance))
+        const handle = onSceneGraphNameChange(() =>
+            setName(getComponentName(instance))
+        )
+        return () => {
+            handle.cancel()
+        }
+    }, [uuid])
 
     return (
         <BaseTreeItem
             height={FRAME_HEIGHT}
-            label={getComponentName(instance)}
+            label={name}
             onExpand={() => addTimelineExpandedUUID(uuid)}
             onCollapse={() => deleteTimelineExpandedUUID(uuid)}
             selected={layer === uuid}
