@@ -7,6 +7,7 @@ import TimelineAudio from "../../display/TimelineAudio"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { emitTimelineClearKeyframe } from "../../events/onTimelineClearKeyframe"
 import { AnimationData } from "../../interface/IAnimationManager"
+import unsafeGetValue from "../../utils/unsafeGetValue"
 import ContextMenu from "../component/ContextMenu"
 import MenuItem from "../component/ContextMenu/MenuItem"
 import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
@@ -55,7 +56,7 @@ const TimelineContextMenu = () => {
                         set(
                             timelineData,
                             [uuid, property, frame],
-                            (uuidMap.get(uuid) as any)[property]
+                            unsafeGetValue(uuidMap.get(uuid)!, property)
                         )
                     )
                     setMenu(undefined)

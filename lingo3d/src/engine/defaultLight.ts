@@ -14,6 +14,7 @@ import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import { getRenderer } from "../states/useRenderer"
 import scene from "./scene"
 import { appendableRoot } from "../api/core/collections"
+import unsafeGetValue from "../utils/unsafeGetValue"
 
 const defaultEnvironment = new Environment()
 defaultEnvironment.texture = undefined
@@ -22,7 +23,7 @@ appendableRoot.delete(defaultEnvironment)
 
 export const mapEnvironmentPreset = (value: string) =>
     value in environmentPreset
-        ? TEXTURES_URL + (environmentPreset as any)[value]
+        ? TEXTURES_URL + unsafeGetValue(environmentPreset, value)
         : value
 
 createEffect(() => {

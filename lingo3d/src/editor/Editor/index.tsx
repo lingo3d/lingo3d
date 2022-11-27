@@ -27,6 +27,7 @@ import useInitCSS from "../utils/useInitCSS"
 import useClickable from "../utils/useClickable"
 import { setEditorMounted } from "../../states/useEditorMounted"
 import { useSignal } from "@preact/signals"
+import unsafeGetValue from "../../utils/unsafeGetValue"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -95,13 +96,13 @@ const Editor = () => {
             }
         }
 
-        const target = selectionTarget as any
-
         if (!multipleSelectionTargets.length) {
-            const { schema, defaults, componentName } = target.constructor
-
+            const { schema, defaults, componentName } = unsafeGetValue(
+                selectionTarget,
+                "constructor"
+            )
             const [ownParams, ownRest] = splitObject(
-                getParams(schema, defaults, target),
+                getParams(schema, defaults, selectionTarget),
                 Object.keys(defaultsOwnKeysRecordMap.get(defaults) ?? {})
             )
 
@@ -116,7 +117,7 @@ const Editor = () => {
                     handle,
                     pane,
                     "general",
-                    target,
+                    selectionTarget,
                     defaults,
                     generalParams,
                     true
@@ -162,7 +163,7 @@ const Editor = () => {
                     handle,
                     pane,
                     "transform",
-                    target,
+                    selectionTarget,
                     defaults,
                     transformParams
                 )
@@ -171,7 +172,7 @@ const Editor = () => {
                         handle,
                         pane,
                         "inner transform",
-                        target,
+                        selectionTarget,
                         defaults,
                         innerTransformParams
                     )
@@ -186,7 +187,7 @@ const Editor = () => {
                     handle,
                     pane,
                     "animation",
-                    target,
+                    selectionTarget,
                     defaults,
                     animationParams
                 )
@@ -203,7 +204,7 @@ const Editor = () => {
                     handle,
                     pane,
                     "display",
-                    target,
+                    selectionTarget,
                     defaults,
                     displayParams
                 )
@@ -217,7 +218,7 @@ const Editor = () => {
                     handle,
                     pane,
                     "effects",
-                    target,
+                    selectionTarget,
                     defaults,
                     effectsParams
                 )
@@ -237,7 +238,7 @@ const Editor = () => {
                     handle,
                     pane,
                     "adjust material",
-                    target,
+                    selectionTarget,
                     defaults,
                     adjustMaterialParams
                 )
@@ -260,7 +261,7 @@ const Editor = () => {
                     handle,
                     pane,
                     "material",
-                    target,
+                    selectionTarget,
                     defaults,
                     materialParams
                 )
@@ -295,7 +296,7 @@ const Editor = () => {
                     handle,
                     pane,
                     "pbr material",
-                    target,
+                    selectionTarget,
                     defaults,
                     pbrMaterialParams
                 )
@@ -304,14 +305,14 @@ const Editor = () => {
 
             if (componentName === "dummy") {
                 pbrMaterialRest.stride = {
-                    x: target.strideRight,
-                    y: -target.strideForward
+                    x: unsafeGetValue(selectionTarget, "strideRight"),
+                    y: -unsafeGetValue(selectionTarget, "strideForward")
                 }
                 addInputs(
                     handle,
                     pane,
                     componentName,
-                    target,
+                    selectionTarget,
                     defaults,
                     pbrMaterialRest,
                     true
@@ -329,7 +330,7 @@ const Editor = () => {
                     handle,
                     pane,
                     componentName,
-                    target,
+                    selectionTarget,
                     defaults,
                     pbrMaterialRest,
                     true

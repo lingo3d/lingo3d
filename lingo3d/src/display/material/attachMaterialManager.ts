@@ -1,6 +1,8 @@
 import { forceGet } from "@lincode/utils"
 import { MeshStandardMaterial, Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
+import unsafeGetValue from "../../utils/unsafeGetValue"
+import unsafeSetValue from "../../utils/unsafeSetValue"
 import BasicMaterialManager from "./BasicMaterialManager"
 import StandardMaterialManager from "./StandardMaterialManager"
 
@@ -15,7 +17,10 @@ export const attachStandardMaterialManager = (
     recursive?: boolean,
     result: Array<StandardMaterialManager> = [],
     recursiveClonedMap?: WeakMap<MeshStandardMaterial, MeshStandardMaterial>,
-    material: MeshStandardMaterial | undefined = (target as any).material
+    material: MeshStandardMaterial | undefined = unsafeGetValue(
+        target,
+        "material"
+    )
 ) =>
     forceGet(materialManagerMap, target, () => {
         if (recursive) {
@@ -37,13 +42,13 @@ export const attachStandardMaterialManager = (
             material = material[0] as MeshStandardMaterial
 
         if (recursiveClonedMap?.has(material)) {
-            ;(target as any).material = recursiveClonedMap.get(material)
+            unsafeSetValue(target, "material", recursiveClonedMap.get(material))
             return result
         }
 
         const clone = material.clone()
-        if (material === (target as any).material)
-            (target as any).material = clone
+        if (material === unsafeGetValue(target, "material"))
+            unsafeSetValue(target, "material", clone)
 
         recursiveClonedMap?.set(material, clone)
 
@@ -61,11 +66,11 @@ export const attachBasicMaterialManager = (
     manager: Appendable
 ) =>
     forceGet(materialManagerMap, target, () => {
-        const { material } = target as any
+        const material = unsafeGetValue(target, "material")
         if (!material) return []
 
         const materialManager = new BasicMaterialManager(
-            ((target as any).material = material.clone())
+            unsafeSetValue(target, "material", material.clone())
         )
         material.dispose()
 
