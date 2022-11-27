@@ -10,6 +10,8 @@ import { getTimelineLayer } from "./useTimelineLayer"
 import { onEditorEdit } from "../../events/onEditorEdit"
 import { AnimationData } from "../../interface/IAnimationManager"
 import { getTimeline } from "./useTimeline"
+import { onDispose } from "../../events/onDispose"
+import getValue from "../../utils/getValue"
 
 const [useTimelineData, setTimelineData, getTimelineData] = preactStore<
     [AnimationData | undefined]
@@ -20,8 +22,7 @@ createEffect(() => {
     const timeline = getTimeline()
     if (!timeline) return
 
-    //@ts-ignore
-    const handle = timeline.dataState.get(setTimelineData)
+    const handle = getValue(timeline, "dataState").get(setTimelineData)
     return () => {
         handle.cancel()
         setTimelineData([undefined])
@@ -29,11 +30,11 @@ createEffect(() => {
 }, [getTimeline])
 
 const timelinePropertiesMap = new WeakMap<Appendable, Array<string>>()
-const getTimelineProperties = (instance: any) =>
-    forceGet(timelinePropertiesMap, instance.constructor, () => {
+const getTimelineProperties = (instance: Appendable) =>
+    forceGet(timelinePropertiesMap, getValue(instance, "constructor"), () => {
         const result: Array<string> = []
         for (const [property, type] of Object.entries(
-            instance.constructor.schema
+            getValue(instance.constructor, "schema")
         ))
             type === Number &&
                 property !== "rotation" &&
@@ -44,17 +45,17 @@ const getTimelineProperties = (instance: any) =>
     })
 
 const saveMap = new WeakMap<Appendable, Record<string, number>>()
-const saveProperties = (instance: any) => {
+const saveProperties = (instance: Appendable) => {
     const saved: Record<string, number> = {}
     for (const property of getTimelineProperties(instance))
-        saved[property] = instance[property]
+        saved[property] = getValue(instance, property)
     saveMap.set(instance, saved)
 }
-const diffProperties = (instance: any) => {
+const diffProperties = (instance: Appendable) => {
     const changed: Array<[string, number]> = []
     const saved = saveMap.get(instance)!
     for (const property of getTimelineProperties(instance))
-        if (saved[property] !== instance[property])
+        if (saved[property] !== getValue(instance, property))
             changed.push([property, saved[property]])
     return changed
 }
@@ -64,8 +65,8 @@ createEffect(() => {
     const timeline = getTimeline()
     if (!timelineData || !timeline) return
 
-    const instances: Array<any> = Object.keys(timelineData).map(
-        (uuid) => uuidMap.get(uuid)!
+    const instances = new Set(
+        Object.keys(timelineData).map((uuid) => uuidMap.get(uuid)!)
     )
     const handleStart = () => {
         for (const instance of instances) saveProperties(instance)
@@ -80,7 +81,7 @@ createEffect(() => {
                             0:
                                 timelineData[instance.uuid][property]?.[0] ??
                                 value,
-                            [getTimelineFrame()]: instance[property]
+                            [getTimelineFrame()]: getValue(instance, property)
                         }
                     }
                 })
@@ -96,9 +97,12 @@ createEffect(() => {
         else if (val === "stop") handleFinish()
     })
 
+    const handle2 = onDispose(() => {})
+
     return () => {
         handle0.cancel()
         handle1.cancel()
+        handle2.cancel()
     }
 }, [getTimelineData])
 
