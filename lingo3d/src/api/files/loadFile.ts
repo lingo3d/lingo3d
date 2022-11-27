@@ -19,7 +19,7 @@ export default async (file: FileWithDirectoryAndFileHandle) => {
         mainOrbitCamera.rotationZ = 0
 
         setFileCurrent(file)
-        await Promise.resolve()
+        await new Promise((resolve) => setTimeout(resolve))
         deserialize(JSON.parse(text))
         return true
     } catch {
