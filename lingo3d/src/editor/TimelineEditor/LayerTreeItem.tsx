@@ -1,7 +1,7 @@
 import { ComponentChildren } from "preact"
 import { useLayoutEffect, useState } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
-import { onSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
+import { onName } from "../../events/onName"
 import { FRAME_HEIGHT } from "../../globals"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import {
@@ -31,8 +31,8 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
         if (!instance) return
 
         setName(getComponentName(instance))
-        const handle = onSceneGraphNameChange(() =>
-            setName(getComponentName(instance))
+        const handle = onName(
+            (item) => item === instance && setName(getComponentName(instance))
         )
         return () => {
             handle.cancel()

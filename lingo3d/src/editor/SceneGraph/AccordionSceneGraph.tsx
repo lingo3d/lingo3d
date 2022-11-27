@@ -8,7 +8,6 @@ import {
     emitSceneGraphChange,
     onSceneGraphChange
 } from "../../events/onSceneGraphChange"
-import { onSceneGraphNameChange } from "../../events/onSceneGraphNameChange"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { multipleSelectionGroupManagers } from "../../states/useMultipleSelectionTargets"
 import TitleBar from "../component/bars/TitleBar"
@@ -30,13 +29,9 @@ import TreeItem from "./TreeItem"
 const AccordionSceneGraph = () => {
     const [refresh, setRefresh] = useState({})
     useLayoutEffect(() => {
-        const cb = () => setRefresh({})
-        const handle0 = onSceneGraphChange(cb)
-        const handle1 = onSceneGraphNameChange(cb)
-
+        const handle = onSceneGraphChange(() => setRefresh({}))
         return () => {
-            handle0.cancel()
-            handle1.cancel()
+            handle.cancel()
         }
     }, [])
 

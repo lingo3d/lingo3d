@@ -1,5 +1,5 @@
 import { ComponentChildren } from "preact"
-import { useMemo } from "preact/hooks"
+import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
 import Model from "../../display/Model"
@@ -20,6 +20,7 @@ import PlayIcon from "./icons/PlayIcon"
 import BasicMaterialManager from "../../display/material/BasicMaterialManager"
 import ImageIcon from "./icons/ImageIcon"
 import { useSceneGraphExpanded } from "../states/useSceneGraphExpanded"
+import { onName } from "../../events/onName"
 
 export type TreeItemProps = {
     appendable: Appendable
@@ -67,9 +68,21 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
         return CubeIcon
     }, [appendable])
 
+    const [name, setName] = useState("")
+    useLayoutEffect(() => {
+        setName(getComponentName(appendable))
+        const handle = onName(
+            (item) =>
+                item === appendable && setName(getComponentName(appendable))
+        )
+        return () => {
+            handle.cancel()
+        }
+    }, [appendable])
+
     return (
         <BaseTreeItem
-            label={getComponentName(appendable)}
+            label={name}
             selected={selected}
             draggable
             myDraggingItem={appendable}
