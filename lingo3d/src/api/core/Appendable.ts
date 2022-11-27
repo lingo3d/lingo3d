@@ -6,6 +6,7 @@ import { timer } from "../../engine/eventLoop"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { emitDispose } from "../../events/onDispose"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
+import unsafeSetValue from "../../utils/unsafeSetValue"
 import { appendableRoot, uuidMap } from "./collections"
 
 export default class Appendable<
@@ -98,11 +99,9 @@ export default class Appendable<
         return this._proxy
     }
     public set proxy(val) {
-        //@ts-ignore
-        this._proxy && (this._proxy.__target = undefined)
+        this._proxy && unsafeSetValue(this._proxy, "__target", undefined)
         this._proxy = val
-        //@ts-ignore
-        val && (val.__target = this)
+        val && unsafeSetValue(val, "__target", this)
     }
 
     public timer(time: number, repeat: number, cb: () => void) {

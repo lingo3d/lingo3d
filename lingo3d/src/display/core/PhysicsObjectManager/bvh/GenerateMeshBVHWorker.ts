@@ -2,6 +2,8 @@ import { Box3, BufferAttribute, BufferGeometry } from "three"
 import { MeshBVH } from "three-mesh-bvh"
 import code from "./workerString"
 import { Queue } from "@lincode/promiselikes"
+import unsafeSetValue from "../../../../utils/unsafeSetValue"
+import unsafeGetValue from "../../../../utils/unsafeGetValue"
 
 const queue = new Queue()
 
@@ -67,8 +69,11 @@ export class GenerateMeshBVHWorker {
                         options
                     )
 
-                    //@ts-ignore
-                    geometry.attributes.position.array = position
+                    unsafeSetValue(
+                        geometry.attributes.position,
+                        "array",
+                        position
+                    )
                     if (geometry.index) {
                         geometry.index.array = serialized.index
                     } else {
@@ -112,8 +117,7 @@ export class GenerateMeshBVHWorker {
                         groups: [...geometry.groups]
                     }
                 },
-                //@ts-ignore
-                transferrables.map((arr) => arr.buffer)
+                transferrables.map((arr) => unsafeGetValue(arr, "buffer"))
             )
         })
     }

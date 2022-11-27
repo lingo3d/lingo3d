@@ -6,6 +6,7 @@ import {
     setFirstLoadBeforeRender
 } from "../states/useFirstLoadBeforeRender"
 import { refreshSetupStack } from "../states/useSetupStack"
+import unsafeGetValue from "../utils/unsafeGetValue"
 
 const settings: Partial<ISetup> & {
     autoMount: AutoMount
@@ -31,8 +32,7 @@ export const finalSetup: Record<string, any> = {}
 for (const key of Object.keys(setupSchema))
     Object.defineProperty(settings, key, {
         get() {
-            // @ts-ignore
-            return setupStruct[key]
+            return unsafeGetValue(setupStruct, key)
         },
         set(value) {
             finalSetup[key] = value

@@ -1,5 +1,6 @@
 import serialize from "../serializer/serialize"
 import { getFileCurrent, setFileCurrent } from "../../states/useFileCurrent"
+import unsafeSetValue from "../../utils/unsafeSetValue"
 
 export default async () => {
     const { default: prettier } = await import("prettier/standalone")
@@ -26,7 +27,6 @@ export default async () => {
     const file = await fileHandle?.getFile()
     if (!file) return
 
-    //@ts-ignore
-    file.handle = fileHandle
+    unsafeSetValue(file, "handle", fileHandle)
     setFileCurrent(file)
 }

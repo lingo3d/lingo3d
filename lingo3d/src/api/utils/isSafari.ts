@@ -1,2 +1,3 @@
-//@ts-ignore
-export default !!window.safari
+import unsafeGetValue from "../../utils/unsafeGetValue"
+
+export default !!unsafeGetValue(window, "safari")
