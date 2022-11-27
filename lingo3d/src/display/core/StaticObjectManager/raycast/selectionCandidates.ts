@@ -49,7 +49,7 @@ const traverse = (
         if (frozenSet.has(manager)) continue
 
         if ("addToRaycastSet" in manager && !unselectableSet.has(manager))
-            unsafeGetValue(manager, "addToRaycastSet")(selectionCandidates)
+            callPrivateMethod(manager, "addToRaycastSet", selectionCandidates)
 
         manager.children && traverse(manager.children, frozenSet)
     }
