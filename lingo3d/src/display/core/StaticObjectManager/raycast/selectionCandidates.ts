@@ -9,6 +9,7 @@ import {
     emitSelectionTarget
 } from "../../../../events/onSelectionTarget"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
+import callPrivateMethod from "../../../../utils/callPrivateMethod"
 import unsafeGetValue from "../../../../utils/unsafeGetValue"
 import VisibleObjectManager from "../../VisibleObjectManager"
 
@@ -23,7 +24,7 @@ export const addSelectionHelper = (
     helper: VisibleObjectManager,
     manager: Appendable
 ) => {
-    unsafeGetValue(manager, "_append")(helper)
+    callPrivateMethod(manager, "_append", helper)
     manager.outerObject3d.add(helper.outerObject3d)
     manager.outerObject3d
     additionalSelectionCandidates.add(helper.nativeObject3d)
