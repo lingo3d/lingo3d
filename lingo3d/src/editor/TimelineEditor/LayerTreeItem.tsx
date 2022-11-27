@@ -27,7 +27,7 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
     return (
         <BaseTreeItem
             height={FRAME_HEIGHT}
-            label={getComponentName(uuidMap.get(uuid))}
+            label={getComponentName(uuidMap.get(uuid)!)}
             onExpand={() => addTimelineExpandedUUID(uuid)}
             onCollapse={() => deleteTimelineExpandedUUID(uuid)}
             selected={layer === uuid}

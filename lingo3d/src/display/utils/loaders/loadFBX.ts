@@ -21,11 +21,11 @@ export default async (url: string, clone: boolean) => {
                 unpkg && increaseLoadingUnpkgCount()
                 loader.load(
                     url,
-                    (group: any) => {
+                    (group: Group) => {
                         const lights: Array<Light> = []
 
                         let noBone = true
-                        group.traverse((child: any) => {
+                        group.traverse((child) => {
                             if (child instanceof Light) lights.push(child)
                             else if (noBone && child instanceof Bone)
                                 noBone = false

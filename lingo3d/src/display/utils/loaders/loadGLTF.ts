@@ -28,12 +28,12 @@ export default async (url: string, clone: boolean) => {
                 unpkg && increaseLoadingUnpkgCount()
                 loader.load(
                     url,
-                    (gltf: any) => {
+                    (gltf: GLTF) => {
                         const lights: Array<Light> = []
 
                         let noBone = true
                         for (const scene of gltf.scenes)
-                            scene.traverse((child: any) => {
+                            scene.traverse((child) => {
                                 if (child instanceof Light) lights.push(child)
                                 else if (noBone && child instanceof Bone)
                                     noBone = false
