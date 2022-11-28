@@ -30,4 +30,12 @@ export default class TimelineAudio
     public set src(value) {
         this.srcState.set(value)
     }
+
+    private startFrameState = new Reactive(0)
+    public get startFrame() {
+        return this.startFrameState.get()
+    }
+    public set startFrame(val) {
+        this.startFrameState.set(val)
+    }
 }
