@@ -74,8 +74,8 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
 
             const waveSurfer = WaveSurfer.create({
                 container: div,
-                waveColor: "violet",
-                progressColor: "purple",
+                waveColor: "rgb(255, 0, 255)",
+                progressColor: "rgb(63, 0, 63)",
                 height: FRAME_HEIGHT
             })
             handle.then(() => waveSurfer.destroy())

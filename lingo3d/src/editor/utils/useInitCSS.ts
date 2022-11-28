@@ -78,16 +78,19 @@ const initCSS = () => {
 
             .lingo3d-lingoeditor {
                 display: grid;
+                grid-template:  "toolbar scenegraph editor library tabs"
+                                "toolbar scenegraph editor library world"
+                                "toolbar panels     panels panels  world";
                 grid-template-columns: auto auto auto auto 1fr;
                 grid-template-rows: auto 1fr auto;
             }
-            .lingo3d-scenegraph { grid-area: 1 / 2 / 3 / 3; }
-            .lingo3d-editor { grid-area: 1 / 3 / 3 / 4; }
-            .lingo3d-library { grid-area: 1 / 4 / 3 / 5; }
-            .lingo3d-tabs { grid-area: 1 / 5 / 2 / 6; }
-            .lingo3d-panels { grid-area: 3 / 2 / 4 / 5; }
-            .lingo3d-toolbar { grid-area: 1 / 1 / 4 / 2; }
-            .lingo3d-world { grid-area: 2 / 5 / 4 / 6; }
+            .lingo3d-scenegraph { grid-area: scenegraph; }
+            .lingo3d-editor { grid-area: editor; }
+            .lingo3d-library { grid-area: library; }
+            .lingo3d-tabs { grid-area: tabs; }
+            .lingo3d-panels { grid-area: panels; }
+            .lingo3d-toolbar { grid-area: toolbar; }
+            .lingo3d-world { grid-area: world; }
 
             .lingo3d-sk-cube-grid {
                 width: 20px;
