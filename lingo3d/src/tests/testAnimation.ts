@@ -26,7 +26,5 @@ timeline.data = {
             80: 0
         }
     },
-    [audio.uuid]: {
-        startFrame: { 10: 0 }
-    }
+    [audio.uuid]: {}
 }

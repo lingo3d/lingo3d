@@ -1,5 +1,5 @@
 import { memo } from "preact/compat"
-import { useCallback, useMemo } from "preact/hooks"
+import { useMemo } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import TimelineAudio from "../../display/TimelineAudio"
 import { FRAME_HEIGHT } from "../../globals"
