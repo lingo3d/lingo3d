@@ -1,5 +1,8 @@
 import { createEffect } from "@lincode/reactivity"
-import { emitTransformControls } from "../events/onTransformControls"
+import {
+    emitTransformControls,
+    onTransformControls
+} from "../events/onTransformControls"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import { getTransformControlsSnap } from "../states/useTransformControlsSnap"
 import { container } from "./renderLoop/renderSetup"
@@ -87,6 +90,21 @@ createEffect(() => {
             ssrExcludeSet.delete(transformControls)
         })
     })
+    mode === "rotate" &&
+        handle.watch(
+            onTransformControls((val) => {
+                const { rotation } = target
+                if (
+                    (rotation.x === -Math.PI && rotation.z === -Math.PI) ||
+                    (rotation.x === Math.PI && rotation.z === Math.PI)
+                ) {
+                    rotation.x = 0
+                    rotation.y = Math.PI - rotation.y
+                    rotation.z = 0
+                }
+            })
+        )
+
     return () => {
         handle.cancel()
     }
