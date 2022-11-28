@@ -27,6 +27,6 @@ timeline.data = {
         }
     },
     [audio.uuid]: {
-        startFrame: { 10: 10 }
+        startFrame: { 10: 0 }
     }
 }

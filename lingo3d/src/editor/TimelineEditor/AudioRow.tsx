@@ -11,9 +11,10 @@ import getPrivateValue from "../../utils/getPrivateValue"
 
 type AudioRowProps = {
     instance: TimelineAudio
+    startFrame: number
 }
 
-const AudioRow = ({ instance }: AudioRowProps) => {
+const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
     const [src, setSrc] = useState<string>()
 
     useLayoutEffect(() => {
@@ -32,7 +33,7 @@ const AudioRow = ({ instance }: AudioRowProps) => {
         if (!waveSurfer) return
         if (!paused) {
             const handle = getTimelineFrame((frame, handle) => {
-                if (frame < instance.startFrame) return
+                if (frame < startFrame) return
                 waveSurfer.play(getTimelineFrame() * FRAME2SEC)
                 handle.cancel()
             })
