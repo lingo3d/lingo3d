@@ -34,7 +34,7 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
         if (!paused) {
             const handle = getTimelineFrame((frame, handle) => {
                 if (frame < startFrame) return
-                waveSurfer.play(getTimelineFrame() * FRAME2SEC)
+                waveSurfer.play(Math.max(frame - startFrame, 0) * FRAME2SEC)
                 handle.cancel()
             })
             let awaitCount = 1
@@ -54,9 +54,11 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
                 handle.cancel()
             }
         }
-        const handle = getTimelineFrame((frame) =>
-            waveSurfer.setCurrentTime(frame * FRAME2SEC)
-        )
+        const handle = getTimelineFrame((frame) => {
+            waveSurfer.setCurrentTime(
+                Math.max(frame - startFrame, 0) * FRAME2SEC
+            )
+        })
         return () => {
             handle.cancel()
         }

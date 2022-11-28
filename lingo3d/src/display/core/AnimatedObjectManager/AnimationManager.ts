@@ -9,7 +9,10 @@ import { onBeforeRender } from "../../../events/onBeforeRender"
 import { dt } from "../../../engine/eventLoop"
 import { Reactive } from "@lincode/reactivity"
 import { EventFunctions } from "@lincode/events"
-import { nonSerializedAppendables } from "../../../api/core/collections"
+import {
+    nonSerializedAppendables,
+    uuidMap
+} from "../../../api/core/collections"
 import IAnimationManager, {
     AnimationData,
     animationManagerDefaults,
@@ -19,6 +22,7 @@ import Appendable from "../../../api/core/Appendable"
 import FoundManager from "../FoundManager"
 import { Point, Point3d } from "@lincode/math"
 import { FRAME2SEC, SEC2FRAME } from "../../../globals"
+import TimelineAudio from "../../TimelineAudio"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
@@ -115,8 +119,12 @@ export default class AnimationManager
                     undefined,
                     undefined,
                     Object.entries(data)
-                        .map(([targetName, targetTracks]) =>
-                            Object.entries(targetTracks).map(
+                        .map(([targetName, targetTracks]) => {
+                            const instance = uuidMap.get(targetName)
+                            if (!instance || instance instanceof TimelineAudio)
+                                return []
+
+                            return Object.entries(targetTracks).map(
                                 ([property, frames]) =>
                                     framesToKeyframeTrack(
                                         targetName,
@@ -124,7 +132,7 @@ export default class AnimationManager
                                         frames
                                     )
                             )
-                        )
+                        })
                         .flat()
                 )
             )
