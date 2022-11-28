@@ -34,7 +34,7 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
         if (!paused) {
             const handle = getTimelineFrame((frame, handle) => {
                 if (frame < startFrame) return
-                waveSurfer.play(Math.max(frame - startFrame, 0) * FRAME2SEC)
+                waveSurfer.play((frame - startFrame) * FRAME2SEC)
                 handle.cancel()
             })
             let awaitCount = 1
@@ -91,7 +91,7 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
 
     return (
         <>
-            <div ref={ref} style={{ width }} />
+            <div ref={ref} style={{ width, left: startFrame * FRAME_WIDTH }} />
             <audio
                 src={src}
                 hidden
@@ -103,4 +103,8 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
     )
 }
 
-export default memo(AudioRow, (prev, next) => prev.instance === next.instance)
+export default memo(
+    AudioRow,
+    (prev, next) =>
+        prev.instance === next.instance && prev.startFrame === next.startFrame
+)
