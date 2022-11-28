@@ -31,8 +31,11 @@ const AudioRow = ({ instance }: AudioRowProps) => {
     useLayoutEffect(() => {
         if (!waveSurfer) return
         if (!paused) {
-            waveSurfer.play(getTimelineFrame() * FRAME2SEC)
-
+            const handle = getTimelineFrame((frame, handle) => {
+                if (frame < instance.startFrame) return
+                waveSurfer.play(getTimelineFrame() * FRAME2SEC)
+                handle.cancel()
+            })
             let awaitCount = 1
             const timeline = getTimeline()!
             timeline.await += awaitCount
@@ -47,6 +50,7 @@ const AudioRow = ({ instance }: AudioRowProps) => {
                 clearTimeout(timeout)
                 waveSurfer.pause()
                 timeline.await -= awaitCount
+                handle.cancel()
             }
         }
         const handle = getTimelineFrame((frame) =>
