@@ -15,6 +15,10 @@ export default class TimelineAudio
     public static defaults = timelineAudioDefaults
     public static schema = timelineAudioSchema
 
+    public constructor() {
+        super()
+    }
+
     public get name() {
         return this.outerObject3d.name
     }
