@@ -2,14 +2,22 @@ import { memo, useMemo } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 
 const colors = [
-    "#880E4F",
-    "#311B92",
-    "#0D47A1",
-    "#006064",
-    "#1B5E20",
-    "#827717",
-    "#FF6F00",
-    "#BF360C"
+    "#D50000",
+    "#C51162",
+    "#AA00FF",
+    "#6200EA",
+    "#304FFE",
+    "#2962FF",
+    "#0091EA",
+    "#00B8D4",
+    "#00BFA5",
+    "#00C853",
+    "#64DD17",
+    "#AEEA00",
+    "#FFD600",
+    "#FFAB00",
+    "#FF6D00",
+    "#DD2C00"
 ]
 let colorIndex = 0
 
@@ -41,7 +49,7 @@ const FrameTween = ({ frameNum, frameNums, index }: FrameTweenProps) => {
             <div
                 style={{
                     width: "100%",
-                    height: 10,
+                    height: 4,
                     borderRadius: 999,
                     background
                 }}

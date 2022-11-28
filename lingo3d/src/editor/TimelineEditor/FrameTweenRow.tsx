@@ -13,7 +13,7 @@ type FrameTweenRowProps = {
 
 const FrameTweenRow = ({ frames, uuid }: FrameTweenRowProps) => {
     const frameNums = useMemo(() => Object.keys(frames).map(Number), [frames])
-    const instance = useMemo(() => uuidMap.get(uuid), [uuid])
+    const instance = useMemo(() => uuidMap.get(uuid.split(" ")[0]), [uuid])
 
     if (!instance) return null
 
