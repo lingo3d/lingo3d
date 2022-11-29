@@ -2,7 +2,10 @@ import { event } from "@lincode/events"
 import { createEffect } from "@lincode/reactivity"
 import { debounceTrailing } from "@lincode/utils"
 import Appendable from "../api/core/Appendable"
-import { getSelectionTarget } from "../states/useSelectionTarget"
+import {
+    getSelectionTarget,
+    setSelectionTarget
+} from "../states/useSelectionTarget"
 import { onDispose } from "./onDispose"
 
 type Event = {
@@ -26,7 +29,7 @@ createEffect(() => {
     if (!target) return
 
     const handle = onDispose(
-        (item) => item === target && emitSelectionTarget(undefined)
+        (item) => item === target && setSelectionTarget(undefined)
     )
     return () => {
         handle.cancel()
