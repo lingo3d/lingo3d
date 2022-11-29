@@ -3,6 +3,7 @@ import {
     createNestedEffect,
     createRef
 } from "@lincode/reactivity"
+import { hiddenAppendables } from "../../../../api/core/collections"
 import { isPositionedItem } from "../../../../api/core/PositionedItem"
 import { mouseEvents } from "../../../../api/mouse"
 import { onSceneGraphChange } from "../../../../events/onSceneGraphChange"
@@ -16,8 +17,7 @@ import {
     pushMultipleSelectionTargets,
     getMultipleSelectionTargets,
     pullMultipleSelectionTargets,
-    resetMultipleSelectionTargets,
-    multipleSelectionGroupManagers
+    resetMultipleSelectionTargets
 } from "../../../../states/useMultipleSelectionTargets"
 import {
     getSelectionTarget,
@@ -68,14 +68,14 @@ createEffect(() => {
             if (firstMultipleSelection.current) {
                 const currentTarget = getSelectionTarget()
                 isPositionedItem(currentTarget) &&
-                    !multipleSelectionGroupManagers.has(currentTarget) &&
+                    !hiddenAppendables.has(currentTarget) &&
                     pushMultipleSelectionTargets(currentTarget)
             }
             firstMultipleSelection.current = false
 
             if (getMultipleSelectionTargets().includes(target))
                 pullMultipleSelectionTargets(target)
-            else if (!multipleSelectionGroupManagers.has(target))
+            else if (!hiddenAppendables.has(target))
                 pushMultipleSelectionTargets(target)
 
             return

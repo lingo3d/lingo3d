@@ -9,7 +9,6 @@ import {
     onSceneGraphChange
 } from "../../events/onSceneGraphChange"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import { multipleSelectionGroupManagers } from "../../states/useMultipleSelectionTargets"
 import TitleBar from "../component/bars/TitleBar"
 import IconButton from "../component/IconButton"
 import EmptyTreeItem from "../component/treeItems/EmptyTreeItem"
@@ -37,11 +36,7 @@ const AccordionSceneGraph = () => {
 
     const appendables = useMemo(
         () =>
-            [...appendableRoot].filter(
-                (item) =>
-                    !multipleSelectionGroupManagers.has(item) &&
-                    !hiddenAppendables.has(item)
-            ),
+            [...appendableRoot].filter((item) => !hiddenAppendables.has(item)),
         [refresh]
     )
 

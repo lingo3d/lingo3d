@@ -1,13 +1,11 @@
 import { createEffect } from "@lincode/reactivity"
 import { Group as ThreeGroup, Object3D } from "three"
+import { hiddenAppendables } from "../api/core/collections"
 import scene from "../engine/scene"
 import { onEditorGroupItems } from "../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 import IGroup, { groupDefaults, groupSchema } from "../interface/IGroup"
-import {
-    getMultipleSelectionTargets,
-    multipleSelectionGroupManagers
-} from "../states/useMultipleSelectionTargets"
+import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { setSelectionTarget } from "../states/useSelectionTarget"
 import SimpleObjectManager from "./core/SimpleObjectManager"
 import VisibleObjectManager from "./core/VisibleObjectManager"
@@ -34,7 +32,7 @@ createEffect(() => {
     scene.add(group)
 
     const groupManager = new SimpleObjectManager(group)
-    multipleSelectionGroupManagers.add(groupManager)
+    hiddenAppendables.add(groupManager)
     setSelectionTarget(groupManager)
 
     const parentEntries: Array<[Object3D, Object3D]> = []
