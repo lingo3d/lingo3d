@@ -54,7 +54,7 @@ export default () => {
                             //todo: copy multiple
                         } else {
                             const [item] = deserialize(
-                                await serialize(false, target)
+                                await serialize(false, target, true)
                             )
                             if (target.parent && item) {
                                 target.parent.attach(item)

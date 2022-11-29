@@ -15,7 +15,7 @@ import {
 } from "../core/collections"
 import { isPoint } from "./isPoint"
 
-const serialize = async (children: Array<any>) => {
+const serialize = async (children: Array<any>, skipUUID?: boolean) => {
     const dataParent: Array<SceneGraphNode> = []
     for (const child of children) {
         if (hiddenAppendables.has(child) || nonSerializedAppendables.has(child))
@@ -28,7 +28,8 @@ const serialize = async (children: Array<any>) => {
             if (
                 type === Function ||
                 (Array.isArray(type) && type.includes(Function)) ||
-                nonSerializedProperties.includes(key)
+                nonSerializedProperties.includes(key) ||
+                (skipUUID && key === "uuid")
             )
                 continue
 
@@ -64,7 +65,7 @@ const serialize = async (children: Array<any>) => {
             data[key] = value
         }
         if (child.children) {
-            const dataChildren = await serialize(child.children)
+            const dataChildren = await serialize(child.children, skipUUID)
             if (dataChildren.length) data.children = dataChildren
         }
         dataParent.push(data as SceneGraphNode)
@@ -74,9 +75,10 @@ const serialize = async (children: Array<any>) => {
 
 export default async (
     versionStamp?: boolean,
-    children: Array<Appendable> | Set<Appendable> | Appendable = appendableRoot
+    children: Array<Appendable> | Set<Appendable> | Appendable = appendableRoot,
+    skipUUID?: boolean
 ) => {
-    if (children instanceof Appendable) return serialize([children])
+    if (children instanceof Appendable) return serialize([children], skipUUID)
 
     const childs: Array<Appendable> = []
     for (const child of children)
@@ -86,7 +88,7 @@ export default async (
     Object.assign(setup, settings)
     childs.push(setup)
 
-    const result = await serialize(childs)
+    const result = await serialize(childs, skipUUID)
     versionStamp && result.unshift({ type: "lingo3d", version: VERSION })
 
     setup.dispose()
