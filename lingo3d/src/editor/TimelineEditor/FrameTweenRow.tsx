@@ -3,6 +3,7 @@ import { useMemo } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import TimelineAudio from "../../display/TimelineAudio"
 import { FRAME_HEIGHT } from "../../globals"
+import diffProps from "../utils/diffProps"
 import AudioRow from "./AudioRow"
 import FrameTween from "./FrameTween"
 
@@ -39,4 +40,4 @@ const FrameTweenRow = ({ frames, uuid }: FrameTweenRowProps) => {
     )
 }
 
-export default memo(FrameTweenRow, (prev, next) => prev.frames === next.frames)
+export default memo(FrameTweenRow, diffProps)

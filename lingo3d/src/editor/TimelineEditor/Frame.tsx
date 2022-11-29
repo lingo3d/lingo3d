@@ -4,13 +4,7 @@ import { getTimeline } from "../states/useTimeline"
 import { setTimelineContextMenu } from "../states/useTimelineContextMenu"
 import { getTimelineFrame, setTimelineFrame } from "../states/useTimelineFrame"
 import { getTimelineLayer, setTimelineLayer } from "../states/useTimelineLayer"
-
-type FrameProps = {
-    style: CSSProperties
-    keyframe: boolean
-    layer: string
-    index: number
-}
+import diffProps from "../utils/diffProps"
 
 let prevSetSelected: ((val: boolean) => void) | undefined
 const deselect = () => {
@@ -20,6 +14,13 @@ const deselect = () => {
 }
 getTimelineFrame(deselect)
 getTimelineLayer(deselect)
+
+type FrameProps = {
+    style: CSSProperties
+    keyframe: boolean
+    layer: string
+    index: number
+}
 
 const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
     const [selected, setSelected] = useState(false)
@@ -75,4 +76,4 @@ const Frame = ({ style, keyframe, layer, index }: FrameProps) => {
     )
 }
 
-export default memo(Frame, (prev, next) => prev.keyframe === next.keyframe)
+export default memo(Frame, diffProps)

@@ -1,8 +1,9 @@
-import { CSSProperties, memo, useEffect } from "preact/compat"
+import { CSSProperties, memo } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import { useTimelineScrollLeft } from "../states/useTimelineScrollLeft"
 import { useTimelineTotalFrames } from "../states/useTimelineTotalFrames"
+import diffProps from "../utils/diffProps"
 import Frame from "./Frame"
 
 type FrameGridProps = {
@@ -37,8 +38,4 @@ const FrameRow = ({ width, style, layer, keyframes }: FrameGridProps) => {
     )
 }
 
-export default memo(
-    FrameRow,
-    (prev, next) =>
-        prev.keyframes === next.keyframes && prev.width === next.width
-)
+export default memo(FrameRow, diffProps)

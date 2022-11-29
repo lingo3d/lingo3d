@@ -8,6 +8,7 @@ import { useTimelinePaused } from "../states/useTimelinePaused"
 import WaveSurfer from "wavesurfer.js"
 import { getTimeline } from "../states/useTimeline"
 import getPrivateValue from "../../utils/getPrivateValue"
+import diffProps from "../utils/diffProps"
 
 type AudioRowProps = {
     instance: TimelineAudio
@@ -104,8 +105,4 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
     )
 }
 
-export default memo(
-    AudioRow,
-    (prev, next) =>
-        prev.instance === next.instance && prev.startFrame === next.startFrame
-)
+export default memo(AudioRow, diffProps)

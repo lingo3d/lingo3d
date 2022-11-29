@@ -1,5 +1,6 @@
 import { memo, useMemo } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
+import diffProps from "../utils/diffProps"
 
 const colors = [
     "#D50000",
@@ -58,7 +59,4 @@ const FrameTween = ({ frameNum, frameNums, index }: FrameTweenProps) => {
     )
 }
 
-export default memo(
-    FrameTween,
-    (prev, next) => prev.frameNums === next.frameNums
-)
+export default memo(FrameTween, diffProps)
