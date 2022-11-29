@@ -92,7 +92,7 @@ createEffect(() => {
     })
     mode === "rotate" &&
         handle.watch(
-            onTransformControls((val) => {
+            onTransformControls(() => {
                 const { rotation } = target
                 if (
                     (rotation.x === -Math.PI && rotation.z === -Math.PI) ||

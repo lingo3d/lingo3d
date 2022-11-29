@@ -2,17 +2,21 @@ import preactStore from "../utils/preactStore"
 import { createEffect } from "@lincode/reactivity"
 import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
-import { onTransformControls } from "../../events/onTransformControls"
 import { getTimelineFrame } from "./useTimelineFrame"
 import { forceGet, merge, unset } from "@lincode/utils"
 import { onTimelineClearKeyframe } from "../../events/onTimelineClearKeyframe"
 import { getTimelineLayer } from "./useTimelineLayer"
-import { onEditorEdit } from "../../events/onEditorEdit"
 import { AnimationData } from "../../interface/IAnimationManager"
 import { getTimeline } from "./useTimeline"
 import { onDispose } from "../../events/onDispose"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import getPrivateValue from "../../utils/getPrivateValue"
+import { onTransformControls } from "../../events/onTransformControls"
+import { onEditorEdit } from "../../events/onEditorEdit"
+import {
+    getMultipleSelectionTargets,
+    setMultipleSelectionTargets
+} from "../../states/useMultipleSelectionTargets"
 
 const [useTimelineData, setTimelineData, getTimelineData] = preactStore<
     [AnimationData | undefined]
@@ -76,7 +80,12 @@ createEffect(() => {
     const handleStart = () => {
         for (const instance of instances) saveProperties(instance)
     }
-    const handleFinish = () => {
+    const handleFinish = async () => {
+        const targets = getMultipleSelectionTargets()
+        setMultipleSelectionTargets([])
+
+        await Promise.resolve()
+
         const changeData: AnimationData = {}
         for (const instance of instances)
             for (const [property, value] of diffProperties(instance))
@@ -94,6 +103,11 @@ createEffect(() => {
                     }
                 })
         Object.keys(changeData) && timeline.mergeData(changeData)
+
+        await Promise.resolve()
+        await Promise.resolve()
+
+        setMultipleSelectionTargets(targets)
     }
 
     const handle0 = onTransformControls((val) => {
@@ -103,6 +117,9 @@ createEffect(() => {
     const handle1 = onEditorEdit((val) => {
         if (val === "start") handleStart()
         else if (val === "stop") handleFinish()
+    })
+    const handle3 = getMultipleSelectionTargets((targets) => {
+        for (const target of targets) saveProperties(target)
     })
 
     const handle2 = onDispose((item) => {
@@ -115,6 +132,7 @@ createEffect(() => {
         handle0.cancel()
         handle1.cancel()
         handle2.cancel()
+        handle3.cancel()
     }
 }, [getTimelineData])
 
