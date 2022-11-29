@@ -71,5 +71,5 @@ export const getSelectionCandidates = debounceTrailing(
 
 getSelectionFrozen(() => {
     getSelectionCandidates()
-    emitSelectionTarget()
+    emitSelectionTarget(undefined)
 })

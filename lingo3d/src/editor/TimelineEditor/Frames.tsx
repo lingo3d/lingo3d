@@ -1,35 +1,13 @@
-import { createEffect } from "@lincode/reactivity"
 import { useMemo } from "preact/hooks"
-import { onBeforeRender } from "../../events/onBeforeRender"
 import { FRAME_HEIGHT } from "../../globals"
 import VirtualizedList from "../component/VirtualizedList"
 import useResizeObserver from "../hooks/useResizeObserver"
 import { useTimelineExpandedUUIDs } from "../states/useTimelineExpandedUUIDs"
-import { setTimelineFrame } from "../states/useTimelineFrame"
 import FrameRow from "./FrameRow"
 import { useTimelineData } from "../states/useTimelineData"
-import { getTimelinePaused } from "../states/useTimelinePaused"
-import { getTimeline } from "../states/useTimeline"
 import FrameTweens from "./FrameTweens"
 import { uuidMap } from "../../api/core/collections"
 import TimelineAudio from "../../display/TimelineAudio"
-
-createEffect(() => {
-    const timeline = getTimeline()
-    if (!timeline || getTimelinePaused()) return
-
-    const handle = onBeforeRender(() => {
-        let { frame, totalFrames } = timeline
-        if (frame >= totalFrames) {
-            frame = timeline.frame = totalFrames
-            timeline.paused = true
-        }
-        setTimelineFrame(frame)
-    })
-    return () => {
-        handle.cancel()
-    }
-}, [getTimeline, getTimelinePaused])
 
 const Frames = () => {
     const [ref, { width, height }] = useResizeObserver()

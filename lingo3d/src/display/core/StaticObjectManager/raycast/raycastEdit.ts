@@ -41,8 +41,9 @@ createEffect(() => {
 
     getSelectionCandidates()
     const handle0 = onSceneGraphChange(() => getSelectionCandidates())
-    const handle1 = mouseEvents.on("click", () => emitSelectionTarget())
-
+    const handle1 = mouseEvents.on("click", () =>
+        emitSelectionTarget(undefined)
+    )
     let rightClick = false
     const handle2 = mouseEvents.on("rightClick", () => {
         rightClick = true

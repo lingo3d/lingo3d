@@ -15,7 +15,7 @@ const SceneGraph = () => {
             <div
                 ref={elRef}
                 className="lingo3d-ui lingo3d-bg lingo3d-scenegraph"
-                onClick={() => emitSelectionTarget()}
+                onClick={() => emitSelectionTarget(undefined)}
                 onContextMenu={(el) => {
                     el.preventDefault()
                     emitSelectionTarget(undefined, true)

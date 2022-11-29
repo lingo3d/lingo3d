@@ -13,7 +13,7 @@ const [_emitSelectionTarget, onSelectionTarget] = event<Event>()
 export { onSelectionTarget }
 
 export const emitSelectionTarget = debounceTrailing(
-    (target?: Appendable, rightClick?: boolean) =>
+    (target: Appendable | undefined, rightClick?: boolean) =>
         _emitSelectionTarget({ target, rightClick })
 )
 
@@ -21,7 +21,9 @@ createEffect(() => {
     const target = getSelectionTarget()
     if (!target) return
 
-    const handle = onDispose((item) => item === target && emitSelectionTarget())
+    const handle = onDispose(
+        (item) => item === target && emitSelectionTarget(undefined)
+    )
     return () => {
         handle.cancel()
     }

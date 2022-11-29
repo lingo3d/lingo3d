@@ -69,7 +69,8 @@ export default () => {
                 }
             } else if (keyLowerCase === "c")
                 isPositionedItem(target) && emitEditorCenterView(target)
-            else if (keyLowerCase === "escape") target && emitSelectionTarget()
+            else if (keyLowerCase === "escape")
+                target && emitSelectionTarget(undefined)
         }
         const handleKeyUp = (e: KeyboardEvent) => {
             if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
