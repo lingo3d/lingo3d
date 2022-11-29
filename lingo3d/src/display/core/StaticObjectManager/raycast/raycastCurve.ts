@@ -1,6 +1,7 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { mouseEvents } from "../../../../api/mouse"
+import { onSelectionTarget } from "../../../../events/onSelectionTarget"
 import { getEditorCurve } from "../../../../states/useEditorCurve"
 import { setEditorMode } from "../../../../states/useEditorMode"
 import {
@@ -42,7 +43,7 @@ createEffect(() => {
             })
         )
     })
-    const handle1 = getSelectionTarget((target) => {
+    const handle1 = onSelectionTarget(({ target }) => {
         if (
             !target ||
             overrideSelectionCandidates.has(target.outerObject3d) ||
