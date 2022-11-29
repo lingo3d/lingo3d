@@ -28,3 +28,4 @@ export const FRAME_WIDTH = 12
 export const FRAME_HEIGHT = FRAME_WIDTH * 2
 export const APPBAR_HEIGHT = 28
 export const PANELS_HEIGHT = 200
+export const CONTEXT_MENU_ITEM_HEIGHT = 25

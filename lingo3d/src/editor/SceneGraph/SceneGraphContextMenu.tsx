@@ -11,7 +11,7 @@ import {
     removeSelectionFrozen
 } from "../../states/useSelectionFrozen"
 import ContextMenu from "../component/ContextMenu"
-import MenuItem from "../component/ContextMenu/MenuItem"
+import ContextMenuItem from "../component/ContextMenu/ContextMenuItem"
 import { useSelectionFrozen, useSelectionTarget } from "../states"
 import { Point } from "@lincode/math"
 import Timeline from "../../display/Timeline"
@@ -76,7 +76,7 @@ const SceneGraphContextMenu = () => {
         >
             {isMeshItem(selectionTarget) && (
                 <>
-                    <MenuItem
+                    <ContextMenuItem
                         onClick={(e) =>
                             setPosition({
                                 x: e.clientX,
@@ -86,9 +86,9 @@ const SceneGraphContextMenu = () => {
                         }
                     >
                         Search children
-                    </MenuItem>
+                    </ContextMenuItem>
 
-                    <MenuItem
+                    <ContextMenuItem
                         disabled={
                             !timelineData ||
                             selectionTarget.uuid in timelineData
@@ -101,9 +101,9 @@ const SceneGraphContextMenu = () => {
                         {timelineData && selectionTarget.uuid in timelineData
                             ? "Already in timeline"
                             : "Add to timeline"}
-                    </MenuItem>
+                    </ContextMenuItem>
 
-                    <MenuItem
+                    <ContextMenuItem
                         onClick={() => {
                             selectionFrozen.has(selectionTarget)
                                 ? removeSelectionFrozen(selectionTarget)
@@ -114,11 +114,11 @@ const SceneGraphContextMenu = () => {
                         {selectionFrozen.has(selectionTarget)
                             ? "Unfreeze selection"
                             : "Freeze selection"}
-                    </MenuItem>
+                    </ContextMenuItem>
                 </>
             )}
             {selectionTarget instanceof Timeline && (
-                <MenuItem
+                <ContextMenuItem
                     onClick={() => {
                         setTimeline(
                             selectionTarget === timeline
@@ -131,9 +131,9 @@ const SceneGraphContextMenu = () => {
                     {selectionTarget === timeline
                         ? "Close timeline"
                         : "Edit timeline"}
-                </MenuItem>
+                </ContextMenuItem>
             )}
-            <MenuItem
+            <ContextMenuItem
                 disabled={!selectionFrozen.size}
                 onClick={() => {
                     clearSelectionFrozen()
@@ -141,7 +141,7 @@ const SceneGraphContextMenu = () => {
                 }}
             >
                 Unfreeze all
-            </MenuItem>
+            </ContextMenuItem>
         </ContextMenu>
     )
 }

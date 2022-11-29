@@ -1,4 +1,5 @@
 import { useState } from "preact/hooks"
+import { CONTEXT_MENU_ITEM_HEIGHT } from "../../../globals"
 
 type MenuItemProps = {
     disabled?: boolean
@@ -6,18 +7,20 @@ type MenuItemProps = {
     children: string
 }
 
-const MenuItem = ({ disabled, onClick, children }: MenuItemProps) => {
+const ContextMenuItem = ({ disabled, onClick, children }: MenuItemProps) => {
     const [hover, setHover] = useState(false)
 
     return (
         <div
+            className="lingo3d-flexcenter"
             style={{
                 padding: 6,
                 whiteSpace: "nowrap",
                 background:
                     !disabled && hover ? "rgba(255, 255, 255, 0.1)" : undefined,
                 opacity: disabled ? 0.5 : 1,
-                cursor: disabled ? undefined : "pointer"
+                cursor: disabled ? undefined : "pointer",
+                height: CONTEXT_MENU_ITEM_HEIGHT
             }}
             onClick={disabled ? undefined : onClick}
             onMouseEnter={disabled ? undefined : () => setHover(true)}
@@ -27,4 +30,4 @@ const MenuItem = ({ disabled, onClick, children }: MenuItemProps) => {
         </div>
     )
 }
-export default MenuItem
+export default ContextMenuItem

@@ -9,7 +9,7 @@ import { emitTimelineClearKeyframe } from "../../events/onTimelineClearKeyframe"
 import { AnimationData } from "../../interface/IAnimationManager"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import ContextMenu from "../component/ContextMenu"
-import MenuItem from "../component/ContextMenu/MenuItem"
+import ContextMenuItem from "../component/ContextMenu/ContextMenuItem"
 import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 import { getTimeline, setTimeline } from "../states/useTimeline"
 import { useTimelineContextMenu } from "../states/useTimelineContextMenu"
@@ -49,7 +49,7 @@ const TimelineContextMenu = () => {
                 emitSelectionTarget(timeline)
             }}
         >
-            <MenuItem
+            <ContextMenuItem
                 disabled={menu?.keyframe}
                 onClick={() => {
                     processKeyframe((timelineData, uuid, property, frame) =>
@@ -63,8 +63,8 @@ const TimelineContextMenu = () => {
                 }}
             >
                 Add keyframe
-            </MenuItem>
-            <MenuItem
+            </ContextMenuItem>
+            <ContextMenuItem
                 disabled={!menu?.keyframe}
                 onClick={() => {
                     const data: AnimationData = {}
@@ -82,8 +82,8 @@ const TimelineContextMenu = () => {
                 }}
             >
                 Copy keyframe
-            </MenuItem>
-            <MenuItem
+            </ContextMenuItem>
+            <ContextMenuItem
                 disabled={!dataCopied}
                 onClick={
                     dataCopied
@@ -110,8 +110,8 @@ const TimelineContextMenu = () => {
                 }
             >
                 Paste keyframe
-            </MenuItem>
-            <MenuItem
+            </ContextMenuItem>
+            <ContextMenuItem
                 disabled={!menu?.keyframe}
                 onClick={() => {
                     emitTimelineClearKeyframe()
@@ -119,7 +119,7 @@ const TimelineContextMenu = () => {
                 }}
             >
                 Clear keyframe
-            </MenuItem>
+            </ContextMenuItem>
         </ContextMenu>
     )
 }

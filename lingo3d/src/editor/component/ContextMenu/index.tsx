@@ -1,6 +1,7 @@
 import { Point } from "@lincode/math"
 import { ComponentChildren } from "preact"
 import { createPortal } from "preact/compat"
+import { CONTEXT_MENU_ITEM_HEIGHT } from "../../../globals"
 import useClickable from "../../hooks/useClickable"
 
 interface ContextMenuProps {
@@ -22,6 +23,11 @@ const ContextMenu = ({
 
     if (!position) return null
 
+    const height =
+        (Array.isArray(children) ? children.length : 1) *
+            CONTEXT_MENU_ITEM_HEIGHT +
+        16
+
     return createPortal(
         <div
             ref={elRef}
@@ -38,7 +44,10 @@ const ContextMenu = ({
                 style={{
                     position: "absolute",
                     left: position.x,
-                    top: position.y,
+                    top:
+                        position.y + height > window.innerHeight
+                            ? window.innerHeight - height
+                            : position.y,
                     padding: 6,
                     border: "1px solid rgba(255, 255, 255, 0.2)"
                 }}
