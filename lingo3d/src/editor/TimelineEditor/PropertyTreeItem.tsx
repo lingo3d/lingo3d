@@ -21,7 +21,7 @@ const PropertyTreeItem = ({ property, uuid }: PropertyTreeItemProps) => {
             label={property}
             selected={layer === myLayer}
             onClick={() => setLayer(myLayer)}
-            onSelect={() => emitSelectionTarget(instance)}
+            onSelect={() => emitSelectionTarget(instance, false, true)}
         />
     )
 }

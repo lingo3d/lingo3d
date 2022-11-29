@@ -47,7 +47,7 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
             onCollapse={() => deleteTimelineExpandedUUID(uuid)}
             selected={layer === uuid}
             onClick={() => setLayer(uuid)}
-            onSelect={() => emitSelectionTarget(instance)}
+            onSelect={() => emitSelectionTarget(instance, false, true)}
         >
             {children}
         </BaseTreeItem>

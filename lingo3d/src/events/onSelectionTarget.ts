@@ -8,13 +8,17 @@ import { onDispose } from "./onDispose"
 type Event = {
     target?: Appendable
     rightClick?: boolean
+    noDeselect?: boolean
 }
 const [_emitSelectionTarget, onSelectionTarget] = event<Event>()
 export { onSelectionTarget }
 
 export const emitSelectionTarget = debounceTrailing(
-    (target: Appendable | undefined, rightClick?: boolean) =>
-        _emitSelectionTarget({ target, rightClick })
+    (
+        target: Appendable | undefined,
+        rightClick?: boolean,
+        noDeselect?: boolean
+    ) => _emitSelectionTarget({ target, rightClick, noDeselect })
 )
 
 createEffect(() => {

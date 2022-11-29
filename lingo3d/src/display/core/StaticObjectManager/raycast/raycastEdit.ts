@@ -61,7 +61,7 @@ createEffect(() => {
             rightClick = false
         }
     )
-    const handle4 = onSelectionTarget(({ target, rightClick }) => {
+    const handle4 = onSelectionTarget(({ target, rightClick, noDeselect }) => {
         if (multipleSelection) {
             if (!isPositionedItem(target) || rightClick) return
 
@@ -82,7 +82,7 @@ createEffect(() => {
         }
         resetMultipleSelectionTargets()
         setSelectionTarget(
-            rightClick
+            rightClick || noDeselect
                 ? target
                 : target === getSelectionTarget()
                 ? undefined
