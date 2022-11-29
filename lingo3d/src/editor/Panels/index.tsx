@@ -1,6 +1,6 @@
 import CloseableTab from "../component/tabs/CloseableTab"
 import AppBar from "../component/bars/AppBar"
-import useInitCSS from "../utils/useInitCSS"
+import useInitCSS from "../hooks/useInitCSS"
 import FileBrowser from "../FileBrowser"
 import { useEffect } from "preact/hooks"
 import TimelineEditor from "../TimelineEditor"

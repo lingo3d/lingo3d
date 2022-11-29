@@ -1,7 +1,7 @@
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
 import { useFileCurrent } from "../states"
-import useInitCSS from "../utils/useInitCSS"
+import useInitCSS from "../hooks/useInitCSS"
 
 const Tabs = () => {
     useInitCSS(true)

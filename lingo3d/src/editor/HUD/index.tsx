@@ -3,7 +3,7 @@ import { useCameraRendered, useLoadingUnpkgCount, usePaused } from "../states"
 import mainCamera from "../../engine/mainCamera"
 import { createPortal } from "preact/compat"
 import { container } from "../../engine/renderLoop/renderSetup"
-import useInitCSS from "../utils/useInitCSS"
+import useInitCSS from "../hooks/useInitCSS"
 import Spinner from "../component/Spinner"
 import InfoScreen from "./InfoScreen"
 

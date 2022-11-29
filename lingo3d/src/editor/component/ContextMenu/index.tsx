@@ -1,7 +1,7 @@
 import { Point } from "@lincode/math"
 import { ComponentChildren } from "preact"
 import { createPortal } from "preact/compat"
-import useClickable from "../../utils/useClickable"
+import useClickable from "../../hooks/useClickable"
 
 interface ContextMenuProps {
     position?: Point

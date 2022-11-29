@@ -29,8 +29,8 @@ import saveJSON from "../../api/files/saveJSON"
 import openFolder from "../../api/files/openFolder"
 import exportJSON from "../../api/files/exportJSON"
 import JSONIcon from "./icons/JSONIcon"
-import useInitCSS from "../utils/useInitCSS"
-import useClickable from "../utils/useClickable"
+import useInitCSS from "../hooks/useInitCSS"
+import useClickable from "../hooks/useClickable"
 import { setEditorMode } from "../../states/useEditorMode"
 
 const Toolbar = () => {

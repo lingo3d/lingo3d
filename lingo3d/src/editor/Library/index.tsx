@@ -1,7 +1,7 @@
 import ObjectGroup from "./ObjectGroup"
 import { DEBUG } from "../../globals"
-import useInitCSS from "../utils/useInitCSS"
-import useClickable from "../utils/useClickable"
+import useInitCSS from "../hooks/useInitCSS"
+import useClickable from "../hooks/useClickable"
 import AppBar from "../component/bars/AppBar"
 import Tab from "../component/tabs/Tab"
 
