@@ -1,10 +1,10 @@
 import { useLayoutEffect, useMemo } from "preact/hooks"
-import { uuidMap } from "../../api/core/collections"
-import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import { FRAME_HEIGHT } from "../../globals"
-import BaseTreeItem from "../component/treeItems/BaseTreeItem"
-import { useSelectionTarget } from "../states"
-import { getTimelineLayer, useTimelineLayer } from "../states/useTimelineLayer"
+import { uuidMap } from "../../../api/core/collections"
+import { emitSelectionTarget } from "../../../events/onSelectionTarget"
+import { FRAME_HEIGHT } from "../../../globals"
+import BaseTreeItem from "../../component/treeItems/BaseTreeItem"
+import { useSelectionTarget } from "../../states"
+import { getTimelineLayer, useTimelineLayer } from "../../states/useTimelineLayer"
 
 type PropertyTreeItemProps = {
     property: string

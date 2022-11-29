@@ -1,6 +1,6 @@
 import { useTimelineData } from "../states/useTimelineData"
-import LayerTreeItem from "./LayerTreeItem"
-import PropertyTreeItem from "./PropertyTreeItem"
+import LayerTreeItem from "./treeItems/LayerTreeItem"
+import PropertyTreeItem from "./treeItems/PropertyTreeItem"
 
 const TimelineGraph = () => {
     const [[timelineData]] = useTimelineData()
