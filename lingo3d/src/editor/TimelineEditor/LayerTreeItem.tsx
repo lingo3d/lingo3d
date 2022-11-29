@@ -5,11 +5,12 @@ import { onName } from "../../events/onName"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { FRAME_HEIGHT } from "../../globals"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
+import { useSelectionTarget } from "../states"
 import {
     deleteTimelineExpandedUUID,
     addTimelineExpandedUUID
 } from "../states/useTimelineExpandedUUIDs"
-import { useTimelineLayer } from "../states/useTimelineLayer"
+import { getTimelineLayer, useTimelineLayer } from "../states/useTimelineLayer"
 import getComponentName from "../utils/getComponentName"
 
 type LayerTreeItemProps = {
@@ -21,6 +22,15 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
     const [layer, setLayer] = useTimelineLayer()
     const [name, setName] = useState("")
     const instance = useMemo(() => uuidMap.get(uuid), [uuid])
+    const [selectionTarget] = useSelectionTarget()
+    const selected = layer === uuid
+
+    useLayoutEffect(() => {
+        if (selectionTarget === instance && selected)
+            return () => {
+                getTimelineLayer() === layer && setLayer("")
+            }
+    }, [selectionTarget, selected])
 
     useLayoutEffect(() => {
         return () => {
@@ -45,7 +55,7 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
             label={name}
             onExpand={() => addTimelineExpandedUUID(uuid)}
             onCollapse={() => deleteTimelineExpandedUUID(uuid)}
-            selected={layer === uuid}
+            selected={selected}
             onClick={() => setLayer(uuid)}
             onSelect={() => emitSelectionTarget(instance, false, true)}
         >
