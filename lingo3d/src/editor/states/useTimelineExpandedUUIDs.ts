@@ -1,11 +1,9 @@
-import preactStore from "../utils/preactStore"
+import store from "@lincode/reactivity"
 
-const [
-    useTimelineExpandedUUIDs,
-    setTimelineExpandedUUIDs,
-    getTimelineExpandedUUIDs
-] = preactStore([new Set<string>()])
-export { useTimelineExpandedUUIDs }
+const [setTimelineExpandedUUIDs, getTimelineExpandedUUIDs] = store([
+    new Set<string>()
+])
+export { getTimelineExpandedUUIDs }
 export const addTimelineExpandedUUID = (uuid: string) => {
     const [expandedUUIDs] = getTimelineExpandedUUIDs()
     expandedUUIDs.add(uuid)

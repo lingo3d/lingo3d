@@ -17,11 +17,12 @@ import {
     getMultipleSelectionTargets,
     setMultipleSelectionTargets
 } from "../../states/useMultipleSelectionTargets"
+import { keyframesPtr } from "./useTimelineKeyframeEntries"
 
 const [useTimelineData, setTimelineData, getTimelineData] = preactStore<
     [AnimationData | undefined]
 >([undefined])
-export { useTimelineData }
+export { useTimelineData, getTimelineData }
 
 createEffect(() => {
     const timeline = getTimeline()
@@ -60,7 +61,7 @@ const saveProperties = (instance: Appendable) => {
         saved[property] = unsafeGetValue(instance, property)
     saveMap.set(instance, saved)
 }
-const diffProperties = (instance: Appendable) => {
+const getChangedProperties = (instance: Appendable) => {
     const changed: Array<[string, number]> = []
     const saved = saveMap.get(instance)!
     for (const property of getTimelineProperties(instance))
@@ -87,21 +88,28 @@ createEffect(() => {
         await Promise.resolve()
 
         const changeData: AnimationData = {}
-        for (const instance of instances)
-            for (const [property, value] of diffProperties(instance))
+        const frame = getTimelineFrame()
+        const [keyframes] = keyframesPtr
+        for (const instance of instances) {
+            const { uuid } = instance
+            const uuidData = timelineData[uuid]
+            const keyframeNums = Object.keys(keyframes[uuid]).map(Number)
+            for (const [property, saved] of getChangedProperties(instance)) {
+                let frameOld = 0
+                for (const frameNum of keyframeNums) {
+                    if (frameNum > frame) break
+                    frameOld = frameNum
+                }
                 merge(changeData, {
-                    [instance.uuid]: {
+                    [uuid]: {
                         [property]: {
-                            0:
-                                timelineData[instance.uuid][property]?.[0] ??
-                                value,
-                            [getTimelineFrame()]: unsafeGetValue(
-                                instance,
-                                property
-                            )
+                            [frameOld]: uuidData[frameOld] ?? saved,
+                            [frame]: unsafeGetValue(instance, property)
                         }
                     }
                 })
+            }
+        }
         Object.keys(changeData) && timeline.mergeData(changeData)
 
         await Promise.resolve()
