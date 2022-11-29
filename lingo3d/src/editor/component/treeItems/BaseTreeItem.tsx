@@ -5,7 +5,6 @@ import ExpandIcon from "../icons/ExpandIcon"
 import { TreeItemContext } from "./TreeItemContextProviter"
 import useClick from "../../hooks/useClick"
 import Appendable from "../../../api/core/Appendable"
-import mergeRefs from "../../hooks/mergeRefs"
 import { setDragImage } from "../../utils/drag"
 
 export type BaseTreeItemProps = {
@@ -59,7 +58,7 @@ const BaseTreeItem = ({
         selected && onSelect?.()
     }, [selected])
 
-    const startRef = useRef<HTMLDivElement>(null)
+    const startRef = useClick(onClick)
     const endRef = useRef<HTMLDivElement>(null)
 
     const highlightWidth = useMemo(() => {
@@ -86,7 +85,6 @@ const BaseTreeItem = ({
         context.draggingItem !== myDraggingItem
 
     const [dragOver, setDragOver] = useState(false)
-    const clickRef = useClick(onClick)
 
     return (
         <div
@@ -135,7 +133,7 @@ const BaseTreeItem = ({
             }}
         >
             <div
-                ref={mergeRefs(startRef, clickRef)}
+                ref={startRef}
                 onDblClick={(e: MouseEvent) => {
                     e.stopPropagation()
                     expanded ? collapse() : expand()

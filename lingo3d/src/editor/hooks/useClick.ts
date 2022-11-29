@@ -1,9 +1,10 @@
-import { useEffect, useState } from "preact/hooks"
+import { useEffect, useRef } from "preact/hooks"
 
 export default (cb?: (e: MouseEvent) => void) => {
-    const [el, setEl] = useState<HTMLDivElement | null>(null)
+    const elRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
+        const el = elRef.current
         if (!el || !cb) return
 
         let downTime = 0
@@ -44,7 +45,7 @@ export default (cb?: (e: MouseEvent) => void) => {
             el.removeEventListener("mouseup", handleMouseUp)
             el.removeEventListener("click", handleClick)
         }
-    }, [el])
+    }, [])
 
-    return setEl
+    return elRef
 }
