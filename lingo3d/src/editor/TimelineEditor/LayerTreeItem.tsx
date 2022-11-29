@@ -1,7 +1,8 @@
 import { ComponentChildren } from "preact"
-import { useLayoutEffect, useState } from "preact/hooks"
+import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import { onName } from "../../events/onName"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { FRAME_HEIGHT } from "../../globals"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import {
@@ -19,6 +20,7 @@ type LayerTreeItemProps = {
 const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
     const [layer, setLayer] = useTimelineLayer()
     const [name, setName] = useState("")
+    const instance = useMemo(() => uuidMap.get(uuid), [uuid])
 
     useLayoutEffect(() => {
         return () => {
@@ -27,9 +29,7 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
     }, [])
 
     useLayoutEffect(() => {
-        const instance = uuidMap.get(uuid)
         if (!instance) return
-
         setName(getComponentName(instance))
         const handle = onName(
             (item) => item === instance && setName(getComponentName(instance))
@@ -37,7 +37,7 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
         return () => {
             handle.cancel()
         }
-    }, [uuid])
+    }, [instance])
 
     return (
         <BaseTreeItem
@@ -47,6 +47,7 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
             onCollapse={() => deleteTimelineExpandedUUID(uuid)}
             selected={layer === uuid}
             onClick={() => setLayer(uuid)}
+            onSelect={() => emitSelectionTarget(instance)}
         >
             {children}
         </BaseTreeItem>
