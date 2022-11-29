@@ -95,15 +95,21 @@ createEffect(() => {
             const uuidData = timelineData[uuid]
             const keyframeNums = Object.keys(keyframes[uuid]).map(Number)
             for (const [property, saved] of getChangedProperties(instance)) {
-                let frameOld = 0
+                let prevFrame = 0
+                let nextFrame = frame
                 for (const frameNum of keyframeNums) {
-                    if (frameNum > frame) break
-                    frameOld = frameNum
+                    if (frameNum > frame) {
+                        nextFrame = frameNum
+                        break
+                    }
+                    prevFrame = frameNum
                 }
+                const propertyData = uuidData[property] ?? {}
                 merge(changeData, {
                     [uuid]: {
                         [property]: {
-                            [frameOld]: uuidData[frameOld] ?? saved,
+                            [prevFrame]: propertyData[prevFrame] ?? saved,
+                            [nextFrame]: propertyData[nextFrame] ?? saved,
                             [frame]: unsafeGetValue(instance, property)
                         }
                     }
