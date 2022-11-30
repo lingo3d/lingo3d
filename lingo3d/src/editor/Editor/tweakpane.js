@@ -1,7 +1,15 @@
 import { emitEditorEdit } from "../../events/onEditorEdit"
 
-const handleDown = () => emitEditorEdit("start")
-const handleUp = () => emitEditorEdit("stop")
+export const downPtr = [false]
+
+const handleDown = () => {
+    downPtr[0] = true
+    emitEditorEdit("start")
+}
+const handleUp = () => {
+    downPtr[0] = false
+    emitEditorEdit("stop")
+}
 
 /***
  * A simple semantic versioning perser.

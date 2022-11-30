@@ -1,5 +1,5 @@
 import { debounce, debounceTrailing } from "@lincode/utils"
-import { Pane } from "./tweakpane"
+import { downPtr, Pane } from "./tweakpane"
 import resetIcon from "./resetIcon"
 import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
@@ -77,9 +77,9 @@ export default async (
             input.on("change", ({ value }: any) => {
                 updateResetButton()
                 if (skipApply) return
-                emitEditorEdit("start")
+                !downPtr[0] && emitEditorEdit("start")
                 target[key] = value
-                emitEditorEdit("stop")
+                !downPtr[0] && emitEditorEdit("stop")
             })
             return [key, input] as const
         })
