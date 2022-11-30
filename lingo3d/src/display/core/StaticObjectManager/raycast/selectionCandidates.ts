@@ -23,9 +23,7 @@ export const addSelectionHelper = (
     helper: VisibleObjectManager,
     manager: Appendable
 ) => {
-    callPrivateMethod(manager, "_append", helper)
     manager.outerObject3d.add(helper.outerObject3d)
-    manager.outerObject3d
     additionalSelectionCandidates.add(helper.nativeObject3d)
 
     const handle = onSelectionTarget(
