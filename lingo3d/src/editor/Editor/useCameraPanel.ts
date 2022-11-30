@@ -40,27 +40,28 @@ export default (pane?: Pane, cameraFolder?: FolderApi) => {
             cameraList[value].userData.manager.active = true
         })
 
-        // const secondaryOptions: any = {
-        //     none: 0,
-        //     ...omit(options, mainCameraName)
-        // }
-        // const secondaryCameraInput = pane.addInput(
-        //     {
-        //         "secondary camera": cameraList.indexOf(
-        //             getSecondaryCamera() ?? mainCamera
-        //         )
-        //     },
-        //     "secondary camera",
-        //     { options: secondaryOptions }
-        // )
-        // cameraFolder.add(secondaryCameraInput)
-        // secondaryCameraInput.on("change", ({ value }: any) =>
-        //     setSecondaryCamera(value === 0 ? undefined : cameraList[value])
-        // )
+        const secondaryCameraInput = pane.addInput(
+            {
+                "secondary camera": cameraList.indexOf(
+                    getSecondaryCamera() ?? mainCamera
+                )
+            },
+            "secondary camera",
+            {
+                options: {
+                    none: 0,
+                    ...omit(options, mainCameraName)
+                }
+            }
+        )
+        cameraFolder.add(secondaryCameraInput)
+        secondaryCameraInput.on("change", ({ value }: any) =>
+            setSecondaryCamera(value === 0 ? undefined : cameraList[value])
+        )
 
         return () => {
             cameraInput.dispose()
-            // secondaryCameraInput.dispose()
+            secondaryCameraInput.dispose()
         }
     }, [pane, cameraFolder, cameraList, camera])
 }

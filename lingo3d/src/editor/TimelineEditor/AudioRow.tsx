@@ -46,7 +46,7 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
             const timeout = setTimeout(() => {
                 timeline.await -= awaitCount
                 awaitCount = 0
-            }, audioContext.baseLatency + audioContext.outputLatency * 1000)
+            }, (audioContext.baseLatency + audioContext.outputLatency) * 1000)
 
             return () => {
                 clearTimeout(timeout)
