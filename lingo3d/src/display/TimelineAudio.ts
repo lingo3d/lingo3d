@@ -23,7 +23,7 @@ export default class TimelineAudio
         return this.outerObject3d.name
     }
     public set name(val) {
-        this.outerObject3d.name = PropertyBinding.sanitizeNodeName(val)
+        this.outerObject3d.name = val
         emitName(this)
     }
 
