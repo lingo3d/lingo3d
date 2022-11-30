@@ -7,8 +7,8 @@ const handleDown = () => {
     emitEditorEdit("start")
 }
 const handleUp = () => {
-    downPtr[0] = false
     emitEditorEdit("stop")
+    queueMicrotask(() => (downPtr[0] = false))
 }
 
 /***
@@ -3157,13 +3157,13 @@ class PointerHandler {
         const doc = this.elem_.ownerDocument
         doc.addEventListener("mousemove", this.onDocumentMouseMove_)
         doc.addEventListener("mouseup", this.onDocumentMouseUp_)
+        handleDown()
         this.emitter.emit("down", {
             altKey: ev.altKey,
             data: this.computePosition_(computeOffset$1(ev, this.elem_)),
             sender: this,
             shiftKey: ev.shiftKey
         })
-        handleDown()
     }
     onDocumentMouseMove_(ev) {
         this.emitter.emit("move", {
@@ -3177,18 +3177,19 @@ class PointerHandler {
         const doc = this.elem_.ownerDocument
         doc.removeEventListener("mousemove", this.onDocumentMouseMove_)
         doc.removeEventListener("mouseup", this.onDocumentMouseUp_)
+        handleUp()
         this.emitter.emit("up", {
             altKey: ev.altKey,
             data: this.computePosition_(computeOffset$1(ev, this.elem_)),
             sender: this,
             shiftKey: ev.shiftKey
         })
-        handleUp()
     }
     onTouchStart_(ev) {
         ev.preventDefault()
         const touch = ev.targetTouches.item(0)
         const rect = this.elem_.getBoundingClientRect()
+        handleDown()
         this.emitter.emit("down", {
             altKey: ev.altKey,
             data: this.computePosition_(
@@ -3202,7 +3203,6 @@ class PointerHandler {
             sender: this,
             shiftKey: ev.shiftKey
         })
-        handleDown()
         this.lastTouch_ = touch
     }
     onTouchMove_(ev) {
@@ -3230,6 +3230,7 @@ class PointerHandler {
                 ? _a
                 : this.lastTouch_
         const rect = this.elem_.getBoundingClientRect()
+        handleUp()
         this.emitter.emit("up", {
             altKey: ev.altKey,
             data: this.computePosition_(
@@ -3243,7 +3244,6 @@ class PointerHandler {
             sender: this,
             shiftKey: ev.shiftKey
         })
-        handleUp()
     }
 }
 
