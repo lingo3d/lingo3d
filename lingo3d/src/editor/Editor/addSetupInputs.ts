@@ -53,6 +53,8 @@ export default (
     )
 
     const [effectsParams, effectsRest] = splitObject(sceneRest, [
+        "bokeh",
+        "bokehScale",
         "bloom",
         "bloomIntensity",
         "bloomThreshold",

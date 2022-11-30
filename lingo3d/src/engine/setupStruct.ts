@@ -65,6 +65,8 @@ import { getEnvironment, setEnvironment } from "../states/useEnvironment"
 import { getStats, setStats } from "../states/useStats"
 import { getDefaultShadow, setDefaultShadow } from "../states/useDefaultShadow"
 import { appendableRoot } from "../api/core/collections"
+import { getBokeh, setBokeh } from "../states/useBokeh"
+import { getBokehScale, setBokehScale } from "../states/useBokehScale"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -194,6 +196,20 @@ export default {
     },
     set pbr(value) {
         setPBR(value)
+    },
+
+    get bokeh() {
+        return getBokeh()
+    },
+    set bokeh(value) {
+        setBokeh(value)
+    },
+
+    get bokehScale() {
+        return getBokehScale()
+    },
+    set bokehScale(value) {
+        setBokehScale(value)
     },
 
     get bloom() {

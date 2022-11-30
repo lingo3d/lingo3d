@@ -5,6 +5,7 @@ import { getRenderer } from "../../../states/useRenderer"
 import { getResolution } from "../../../states/useResolution"
 import scene from "../../scene"
 import { getBloomEffect } from "./bloomEffect"
+import { getBokehEffect } from "./bokehEffect"
 import { getNormalPass } from "./normalPass"
 import { getOutlineEffect } from "./outlineEffect"
 import { getSelectiveBloomEffect } from "./selectiveBloomEffect"
@@ -43,6 +44,7 @@ createEffect(() => {
     const effectPass = new EffectPass(
         getCameraRendered(),
         ...([
+            getBokehEffect(),
             getBloomEffect(),
             getSelectiveBloomEffect(),
             getSSREffect(),
@@ -60,6 +62,7 @@ createEffect(() => {
 }, [
     getCameraRendered,
     getRenderer,
+    getBokehEffect,
     getBloomEffect,
     getSelectiveBloomEffect,
     getSSREffect,

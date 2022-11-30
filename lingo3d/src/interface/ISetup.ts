@@ -1,8 +1,4 @@
 import setupStruct from "../engine/setupStruct"
-import IAppendable, {
-    appendableDefaults,
-    appendableSchema
-} from "./IAppendable"
 import { shadowDistanceChoices } from "./IDirectionalLight"
 import { shadowResolutionChoices } from "./ILightBase"
 import Choices from "./utils/Choices"
@@ -34,6 +30,8 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     shadowResolution: String,
     shadowDistance: String,
     pbr: Boolean,
+    bokeh: Boolean,
+    bokehScale: Number,
     bloom: Boolean,
     bloomIntensity: Number,
     bloomThreshold: Number,
@@ -76,6 +74,7 @@ export const setupDefaults = extendDefaults<ISetup>(
         exposure: new Range(0, 2),
         shadowResolution: shadowResolutionChoices,
         shadowDistance: shadowDistanceChoices,
+        bokehScale: new Range(0, 20),
         bloomIntensity: new Range(0, 10),
         bloomThreshold: new Range(0, 1),
         bloomRadius: new Range(0, 1),
