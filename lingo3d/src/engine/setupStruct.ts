@@ -67,6 +67,7 @@ import { getDefaultShadow, setDefaultShadow } from "../states/useDefaultShadow"
 import { appendableRoot } from "../api/core/collections"
 import { getBokeh, setBokeh } from "../states/useBokeh"
 import { getBokehScale, setBokehScale } from "../states/useBokehScale"
+import { getVignette, setVignette } from "../states/useVignette"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -198,13 +199,6 @@ export default {
         setPBR(value)
     },
 
-    get bokeh() {
-        return getBokeh()
-    },
-    set bokeh(value) {
-        setBokeh(value)
-    },
-
     get bokehScale() {
         return getBokehScale()
     },
@@ -301,6 +295,20 @@ export default {
     },
     set outlineStrength(value) {
         setOutlineStrength(value)
+    },
+
+    get bokeh() {
+        return getBokeh()
+    },
+    set bokeh(value) {
+        setBokeh(value)
+    },
+
+    get vignette() {
+        return getVignette()
+    },
+    set vignette(value) {
+        setVignette(value)
     },
 
     get texture() {

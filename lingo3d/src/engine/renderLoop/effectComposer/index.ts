@@ -11,6 +11,7 @@ import { getOutlineEffect } from "./outlineEffect"
 import { getSelectiveBloomEffect } from "./selectiveBloomEffect"
 import { getSSAOEffect } from "./ssaoEffect"
 import { getSSREffect } from "./ssrEffect"
+import { getVignetteEffect } from "./vignetteEffect"
 
 const effectComposer = new EffectComposer(undefined)
 export default effectComposer
@@ -44,12 +45,13 @@ createEffect(() => {
     const effectPass = new EffectPass(
         getCameraRendered(),
         ...([
-            getBokehEffect(),
             getBloomEffect(),
             getSelectiveBloomEffect(),
             getSSREffect(),
             getSSAOEffect(),
-            getOutlineEffect()
+            getOutlineEffect(),
+            getBokehEffect(),
+            getVignetteEffect()
         ].filter(Boolean) as Array<Effect>)
     )
     effectComposer.addPass(effectPass)
@@ -62,11 +64,12 @@ createEffect(() => {
 }, [
     getCameraRendered,
     getRenderer,
-    getBokehEffect,
     getBloomEffect,
     getSelectiveBloomEffect,
     getSSREffect,
     getSSAOEffect,
     getOutlineEffect,
+    getBokehEffect,
+    getVignetteEffect,
     getNormalPass
 ])

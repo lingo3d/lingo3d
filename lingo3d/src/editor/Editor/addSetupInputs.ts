@@ -53,8 +53,6 @@ export default (
     )
 
     const [effectsParams, effectsRest] = splitObject(sceneRest, [
-        "bokeh",
-        "bokehScale",
         "bloom",
         "bloomIntensity",
         "bloomThreshold",
@@ -62,7 +60,10 @@ export default (
         "ssr",
         "ssrIntensity",
         "ssao",
-        "ssaoIntensity"
+        "ssaoIntensity",
+        "bokeh",
+        "bokehScale",
+        "vignette"
     ])
     addInputs(
         handle,

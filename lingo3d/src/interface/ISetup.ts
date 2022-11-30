@@ -30,8 +30,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     shadowResolution: String,
     shadowDistance: String,
     pbr: Boolean,
-    bokeh: Boolean,
-    bokehScale: Number,
     bloom: Boolean,
     bloomIntensity: Number,
     bloomThreshold: Number,
@@ -45,6 +43,9 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     outlinePattern: String,
     outlinePulse: Number,
     outlineStrength: Number,
+    bokeh: Boolean,
+    bokehScale: Number,
+    vignette: Boolean,
     texture: String,
     color: String
 }
