@@ -53,7 +53,6 @@ import {
     SkinnedMesh,
     Sphere,
     SpotLight,
-    TangentSpaceNormalMap,
     Texture,
     TextureLoader,
     TriangleFanDrawMode,
@@ -92,9 +91,9 @@ class GLTFLoader extends Loader {
 
         this.pluginCallbacks = []
 
-        // this.register(function (parser) {
-        //     return new GLTFMaterialsClearcoatExtension(parser)
-        // })
+        this.register(function (parser) {
+            return new GLTFMaterialsClearcoatExtension(parser)
+        })
 
         this.register(function (parser) {
             return new GLTFTextureBasisUExtension(parser)
@@ -316,11 +315,6 @@ class GLTFLoader extends Loader {
                             new GLTFMaterialsUnlitExtension()
                         break
 
-                    case EXTENSIONS.KHR_MATERIALS_PBR_SPECULAR_GLOSSINESS:
-                        extensions[extensionName] =
-                            new GLTFMaterialsPbrSpecularGlossinessExtension()
-                        break
-
                     case EXTENSIONS.KHR_DRACO_MESH_COMPRESSION:
                         extensions[extensionName] =
                             new GLTFDracoMeshCompressionExtension(
@@ -402,8 +396,6 @@ const EXTENSIONS = {
     KHR_LIGHTS_PUNCTUAL: "KHR_lights_punctual",
     KHR_MATERIALS_CLEARCOAT: "KHR_materials_clearcoat",
     KHR_MATERIALS_IOR: "KHR_materials_ior",
-    KHR_MATERIALS_PBR_SPECULAR_GLOSSINESS:
-        "KHR_materials_pbrSpecularGlossiness",
     KHR_MATERIALS_SHEEN: "KHR_materials_sheen",
     KHR_MATERIALS_SPECULAR: "KHR_materials_specular",
     KHR_MATERIALS_TRANSMISSION: "KHR_materials_transmission",
@@ -521,6 +513,8 @@ class GLTFLightsExtension {
 
         lightNode.decay = 2
 
+        assignExtrasToUserData(lightNode, lightDef)
+
         if (lightDef.intensity !== undefined)
             lightNode.intensity = lightDef.intensity
 
@@ -533,6 +527,12 @@ class GLTFLightsExtension {
         parser.cache.add(cacheKey, dependency)
 
         return dependency
+    }
+
+    getDependency(type, index) {
+        if (type !== "light") return
+
+        return this._loadLight(index)
     }
 
     createNodeAttachment(nodeIndex) {
@@ -646,7 +646,7 @@ class GLTFMaterialsClearcoatExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshPhysicalMaterial
+        return MeshStandardMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -1028,7 +1028,7 @@ class GLTFMaterialsSpecularExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshStandardMaterial
+        return MeshPhysicalMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -1079,6 +1079,7 @@ class GLTFMaterialsSpecularExtension {
         return Promise.all(pending)
     }
 }
+
 /**
  * BasisU Texture Extension
  *
@@ -1601,99 +1602,6 @@ class GLTFTextureTransformExtension {
     }
 }
 
-class GLTFMaterialsPbrSpecularGlossinessExtension {
-    constructor() {
-        this.name = EXTENSIONS.KHR_MATERIALS_PBR_SPECULAR_GLOSSINESS
-    }
-
-    getMaterialType() {
-        return MeshStandardMaterial
-    }
-
-    extendParams(materialParams, materialDef, parser) {
-        const pbrSpecularGlossiness = materialDef.extensions[this.name]
-
-        materialParams.color = new Color(1.0, 1.0, 1.0)
-        materialParams.opacity = 1.0
-
-        const pending = []
-
-        if (Array.isArray(pbrSpecularGlossiness.diffuseFactor)) {
-            const array = pbrSpecularGlossiness.diffuseFactor
-
-            materialParams.color.fromArray(array)
-            materialParams.opacity = array[3]
-        }
-
-        if (pbrSpecularGlossiness.diffuseTexture !== undefined) {
-            pending.push(
-                parser.assignTexture(
-                    materialParams,
-                    "map",
-                    pbrSpecularGlossiness.diffuseTexture,
-                    LinearEncoding
-                )
-            )
-        }
-
-        materialParams.emissive = new Color(0.0, 0.0, 0.0)
-
-        return Promise.all(pending)
-    }
-
-    createMaterial(materialParams) {
-        const material = new MeshStandardMaterial(materialParams)
-        material.fog = true
-
-        material.color = materialParams.color
-
-        material.map =
-            materialParams.map === undefined ? null : materialParams.map
-
-        material.lightMap = null
-        material.lightMapIntensity = 1.0
-
-        material.aoMap =
-            materialParams.aoMap === undefined ? null : materialParams.aoMap
-        material.aoMapIntensity = 1.0
-
-        material.emissive = materialParams.emissive
-        material.emissiveIntensity =
-            materialParams.emissiveIntensity === undefined
-                ? 1.0
-                : materialParams.emissiveIntensity
-        material.emissiveMap =
-            materialParams.emissiveMap === undefined
-                ? null
-                : materialParams.emissiveMap
-
-        material.bumpMap =
-            materialParams.bumpMap === undefined ? null : materialParams.bumpMap
-        material.bumpScale = 1
-
-        material.normalMap =
-            materialParams.normalMap === undefined
-                ? null
-                : materialParams.normalMap
-        material.normalMapType = TangentSpaceNormalMap
-
-        if (materialParams.normalScale)
-            material.normalScale = materialParams.normalScale
-
-        material.displacementMap = null
-        material.displacementScale = 1
-        material.displacementBias = 0
-
-        material.alphaMap = null
-
-        material.envMap =
-            materialParams.envMap === undefined ? null : materialParams.envMap
-        material.envMapIntensity = 1.0
-
-        return material
-    }
-}
-
 /**
  * Mesh Quantization Extension
  *
@@ -2140,12 +2048,19 @@ class GLTFParser {
         // Use an ImageBitmapLoader if imageBitmaps are supported. Moves much of the
         // expensive work of uploading a texture to the GPU off the main thread.
 
-        const isSafari =
-            /^((?!chrome|android).)*safari/i.test(navigator.userAgent) === true
-        const isFirefox = navigator.userAgent.indexOf("Firefox") > -1
-        const firefoxVersion = isFirefox
-            ? navigator.userAgent.match(/Firefox\/([0-9]+)\./)[1]
-            : -1
+        let isSafari = false
+        let isFirefox = false
+        let firefoxVersion = -1
+
+        if (typeof navigator !== "undefined") {
+            isSafari =
+                /^((?!chrome|android).)*safari/i.test(navigator.userAgent) ===
+                true
+            isFirefox = navigator.userAgent.indexOf("Firefox") > -1
+            firefoxVersion = isFirefox
+                ? navigator.userAgent.match(/Firefox\/([0-9]+)\./)[1]
+                : -1
+        }
 
         if (
             typeof createImageBitmap === "undefined" ||
@@ -2352,7 +2267,7 @@ class GLTFParser {
      * Requests the specified dependency asynchronously, with caching.
      * @param {string} type
      * @param {number} index
-     * @return {Promise<Object3D|Material|THREE.Texture|AnimationClip|ArrayBuffer|Object>}
+     * @return {Promise<Object3D|Material|Texture|AnimationClip|ArrayBuffer|Object>}
      */
     getDependency(type, index) {
         const cacheKey = type + ":" + index
@@ -2415,7 +2330,19 @@ class GLTFParser {
                     break
 
                 default:
-                    throw new Error("Unknown type: " + type)
+                    dependency = this._invokeOne(function (ext) {
+                        return (
+                            ext != this &&
+                            ext.getDependency &&
+                            ext.getDependency(type, index)
+                        )
+                    })
+
+                    if (!dependency) {
+                        throw new Error("Unknown type: " + type)
+                    }
+
+                    break
             }
 
             this.cache.add(cacheKey, dependency)
@@ -2524,10 +2451,14 @@ class GLTFParser {
             accessorDef.bufferView === undefined &&
             accessorDef.sparse === undefined
         ) {
-            // Ignore empty accessors, which may be used to declare runtime
-            // information about attributes coming from another source (e.g. Draco
-            // compression extension).
-            return Promise.resolve(null)
+            const itemSize = WEBGL_TYPE_SIZES[accessorDef.type]
+            const TypedArray = WEBGL_COMPONENT_TYPES[accessorDef.componentType]
+            const normalized = accessorDef.normalized === true
+
+            const array = new TypedArray(accessorDef.count * itemSize)
+            return Promise.resolve(
+                new BufferAttribute(array, itemSize, normalized)
+            )
         }
 
         const pendingBufferViews = []
@@ -2691,7 +2622,7 @@ class GLTFParser {
     /**
      * Specification: https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#textures
      * @param {number} textureIndex
-     * @return {Promise<THREE.Texture>}
+     * @return {Promise<Texture|null>}
      */
     loadTexture(textureIndex) {
         const json = this.json
@@ -2729,7 +2660,7 @@ class GLTFParser {
             .then(function (texture) {
                 texture.flipY = false
 
-                if (textureDef.name) texture.name = textureDef.name
+                texture.name = textureDef.name || sourceDef.name || ""
 
                 const samplers = json.samplers || {}
                 const sampler = samplers[textureDef.sampler] || {}
@@ -2849,6 +2780,8 @@ class GLTFParser {
         return this.getDependency("texture", mapDef.index).then(function (
             texture
         ) {
+            if (!texture) return null
+
             // Materials sample aoMap from UV set 1 and other maps from UV set 0 - this can't be configured
             // However, we will copy UV set 0 to UV set 1 on demand for aoMap
             if (
@@ -2942,8 +2875,6 @@ class GLTFParser {
         if (useDerivativeTangents || useVertexColors || useFlatShading) {
             let cacheKey = "ClonedMaterial:" + material.uuid + ":"
 
-            if (material.isGLTFSpecularGlossinessMaterial)
-                cacheKey += "specular-glossiness:"
             if (useDerivativeTangents) cacheKey += "derivative-tangents:"
             if (useVertexColors) cacheKey += "vertex-colors:"
             if (useFlatShading) cacheKey += "flat-shading:"
@@ -3009,16 +2940,7 @@ class GLTFParser {
 
         const pending = []
 
-        if (
-            materialExtensions[EXTENSIONS.KHR_MATERIALS_PBR_SPECULAR_GLOSSINESS]
-        ) {
-            const sgExtension =
-                extensions[EXTENSIONS.KHR_MATERIALS_PBR_SPECULAR_GLOSSINESS]
-            materialType = sgExtension.getMaterialType()
-            pending.push(
-                sgExtension.extendParams(materialParams, materialDef, parser)
-            )
-        } else if (materialExtensions[EXTENSIONS.KHR_MATERIALS_UNLIT]) {
+        if (materialExtensions[EXTENSIONS.KHR_MATERIALS_UNLIT]) {
             const kmuExtension = extensions[EXTENSIONS.KHR_MATERIALS_UNLIT]
             materialType = kmuExtension.getMaterialType()
             pending.push(
@@ -3181,7 +3103,7 @@ class GLTFParser {
         }
 
         return Promise.all(pending).then(function () {
-            let material = new materialType(materialParams)
+            const material = new materialType(materialParams)
 
             if (materialDef.name) material.name = materialDef.name
 
@@ -3416,7 +3338,7 @@ class GLTFParser {
     /**
      * Specification: https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#cameras
      * @param {number} cameraIndex
-     * @return {Promise<THREE.Camera>}
+     * @return {Promise<Camera>}
      */
     loadCamera(cameraIndex) {
         let camera
@@ -3456,24 +3378,55 @@ class GLTFParser {
     /**
      * Specification: https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#skins
      * @param {number} skinIndex
-     * @return {Promise<Object>}
+     * @return {Promise<Skeleton>}
      */
     loadSkin(skinIndex) {
         const skinDef = this.json.skins[skinIndex]
 
-        const skinEntry = { joints: skinDef.joints }
+        const pending = []
 
-        if (skinDef.inverseBindMatrices === undefined) {
-            return Promise.resolve(skinEntry)
+        for (let i = 0, il = skinDef.joints.length; i < il; i++) {
+            pending.push(this.getDependency("node", skinDef.joints[i]))
         }
 
-        return this.getDependency("accessor", skinDef.inverseBindMatrices).then(
-            function (accessor) {
-                skinEntry.inverseBindMatrices = accessor
+        if (skinDef.inverseBindMatrices !== undefined) {
+            pending.push(
+                this.getDependency("accessor", skinDef.inverseBindMatrices)
+            )
+        } else {
+            pending.push(null)
+        }
 
-                return skinEntry
+        return Promise.all(pending).then(function (results) {
+            const inverseBindMatrices = results.pop()
+            const jointNodes = results
+
+            const bones = []
+            const boneInverses = []
+
+            for (let i = 0, il = jointNodes.length; i < il; i++) {
+                const jointNode = jointNodes[i]
+
+                if (jointNode) {
+                    bones.push(jointNode)
+
+                    const mat = new Matrix4()
+
+                    if (inverseBindMatrices !== null) {
+                        mat.fromArray(inverseBindMatrices.array, i * 16)
+                    }
+
+                    boneInverses.push(mat)
+                } else {
+                    console.warn(
+                        'GLTFLoader: Joint "%s" could not be found.',
+                        skinDef.joints[i]
+                    )
+                }
             }
-        )
+
+            return new Skeleton(bones, boneInverses)
+        })
     }
 
     /**
@@ -3850,60 +3803,13 @@ function buildNodeHierarchy(nodeId, parentObject, json, parser) {
 
             // build skeleton here as well
 
-            let skinEntry
-
             return parser
                 .getDependency("skin", nodeDef.skin)
-                .then(function (skin) {
-                    skinEntry = skin
-
-                    const pendingJoints = []
-
-                    for (let i = 0, il = skinEntry.joints.length; i < il; i++) {
-                        pendingJoints.push(
-                            parser.getDependency("node", skinEntry.joints[i])
-                        )
-                    }
-
-                    return Promise.all(pendingJoints)
-                })
-                .then(function (jointNodes) {
+                .then(function (skeleton) {
                     node.traverse(function (mesh) {
-                        if (!mesh.isMesh) return
+                        if (!mesh.isSkinnedMesh) return
 
-                        const bones = []
-                        const boneInverses = []
-
-                        for (let j = 0, jl = jointNodes.length; j < jl; j++) {
-                            const jointNode = jointNodes[j]
-
-                            if (jointNode) {
-                                bones.push(jointNode)
-
-                                const mat = new Matrix4()
-
-                                if (
-                                    skinEntry.inverseBindMatrices !== undefined
-                                ) {
-                                    mat.fromArray(
-                                        skinEntry.inverseBindMatrices.array,
-                                        j * 16
-                                    )
-                                }
-
-                                boneInverses.push(mat)
-                            } else {
-                                console.warn(
-                                    'GLTFLoader: Joint "%s" could not be found.',
-                                    skinEntry.joints[j]
-                                )
-                            }
-                        }
-
-                        mesh.bind(
-                            new Skeleton(bones, boneInverses),
-                            mesh.matrixWorld
-                        )
+                        mesh.bind(skeleton, mesh.matrixWorld)
                     })
 
                     return node

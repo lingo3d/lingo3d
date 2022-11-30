@@ -8,7 +8,7 @@ specifiers:
   '@lincode/reactivity': '*'
   '@lincode/utils': '*'
   '@preact/preset-vite': ^2.4.0
-  '@preact/signals': ^1.1.2
+  '@preact/signals': '1'
   '@types/preact-custom-element': ^4.0.1
   '@types/prettier': ^2.7.1
   '@types/randomcolor': ^0.5.6
@@ -17,21 +17,21 @@ specifiers:
   '@types/wavesurfer.js': ^6.0.3
   browser-fs-access: 0.31.1
   lil-gui: ^0.17.0
-  nanoid: ^4.0.0
+  nanoid: '4'
   nipplejs: 0.10.0
-  postprocessing: ^6.29.1
+  postprocessing: '6'
   preact: '*'
   preact-compat: '*'
-  prettier: 2.7.1
+  prettier: '2'
   randomcolor: '*'
   rimraf: ^3.0.2
   stats.js: '*'
-  three: 0.146.0
-  three-mesh-bvh: 0.5.17
+  three: 0.147.0
+  three-mesh-bvh: 0.5.19
   tweakpane: '*'
   typescript: ^4.9.3
   vite: ^3.2.4
-  wavesurfer.js: ^6.4.0
+  wavesurfer.js: '6'
   xstate: '*'
 
 dependencies:
@@ -46,13 +46,13 @@ dependencies:
   browser-fs-access: 0.31.1
   nanoid: 4.0.0
   nipplejs: 0.10.0
-  postprocessing: 6.29.1_three@0.146.0
+  postprocessing: 6.29.1_three@0.147.0
   preact: 10.11.3
   preact-compat: 3.19.0_preact@10.11.3
   prettier: 2.7.1
   stats.js: 0.17.0
-  three: 0.146.0
-  three-mesh-bvh: 0.5.17_three@0.146.0
+  three: 0.147.0
+  three-mesh-bvh: 0.5.19_three@0.147.0
   wavesurfer.js: 6.4.0
   xstate: 4.34.0
 
@@ -1016,13 +1016,13 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing/6.29.1_three@0.146.0:
+  /postprocessing/6.29.1_three@0.147.0:
     resolution: {integrity: sha512-w+XoL2Z7YpVDsHbIeg6sldMMmDqZS4Hul1FDq3TjOeXZ0Wnp0Qy1EvR7QmYJxyWBux1cKQx/k3XO7LxfvPsZyg==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
       three: '>= 0.125.0 < 0.147.0'
     dependencies:
-      three: 0.146.0
+      three: 0.147.0
     dev: false
 
   /preact-compat/3.19.0_preact@10.11.3:
@@ -1147,16 +1147,16 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /three-mesh-bvh/0.5.17_three@0.146.0:
-    resolution: {integrity: sha512-0iyqZe0Op6tH7nqVI4L2Ae1tACiYliJvx0cFvehrVzzfZRW8p4c9GYnqGPPN5+x7Q8L5WjJC8kgoA8Z+/+1oAQ==}
+  /three-mesh-bvh/0.5.19_three@0.147.0:
+    resolution: {integrity: sha512-Q8huT0NautyR4afW0oMlOz8a4qm3b1jQ1ccMLF/TZ0rA4i58HljsnBjCLEDLQtIINZyLtZPdw60mrD81V/TZDA==}
     peerDependencies:
       three: '>= 0.123.0'
     dependencies:
-      three: 0.146.0
+      three: 0.147.0
     dev: false
 
-  /three/0.146.0:
-    resolution: {integrity: sha512-1lvNfLezN6OJ9NaFAhfX4sm5e9YCzHtaRgZ1+B4C+Hv6TibRMsuBAM5/wVKzxjpYIlMymvgsHEFrrigEfXnb2A==}
+  /three/0.147.0:
+    resolution: {integrity: sha512-LPTOslYQXFkmvceQjFTNnVVli2LaVF6C99Pv34fJypp8NbQLbTlu3KinZ0zURghS5zEehK+VQyvWuPZ/Sm8fzw==}
     dev: false
 
   /to-fast-properties/2.0.0:

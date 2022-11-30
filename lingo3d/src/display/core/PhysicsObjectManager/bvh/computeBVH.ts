@@ -14,15 +14,15 @@ import { GenerateMeshBVHWorker, geometryMeshMap } from "./GenerateMeshBVHWorker"
 
 Mesh.prototype.raycast = acceleratedRaycast
 
-const bvhWorker = new GenerateMeshBVHWorker()
+// const bvhWorker = new GenerateMeshBVHWorker()
 
-// const bvhWorker = {
-//     generate: async (geom: BufferGeometry) => {
-//         const geometry = geom.clone()
-//         geometry.applyMatrix4(geometryMeshMap.get(geom).matrixWorld)
-//         return new MeshBVH(geometry)
-//     }
-// }
+const bvhWorker = {
+    generate: async (geom: BufferGeometry) => {
+        const geometry = geom.clone()
+        geometry.applyMatrix4(geometryMeshMap.get(geom).matrixWorld)
+        return new MeshBVH(geometry)
+    }
+}
 
 const computeBVHFromGeometries = async (geometries: Array<BufferGeometry>) => {
     const result: Array<MeshBVH> = []
