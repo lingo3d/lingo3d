@@ -8,15 +8,17 @@ import Range from "./utils/Range"
 
 export default interface ISplashScreen extends IAppendable {
     opacity: number
+    textCenter: boolean
 }
 
 export const splashScreenSchema: Required<ExtractProps<ISplashScreen>> = {
     ...appendableSchema,
-    opacity: Number
+    opacity: Number,
+    textCenter: Boolean
 }
 
 export const splashScreenDefaults = extendDefaults<ISplashScreen>(
     [appendableDefaults],
-    { opacity: 0.75 },
+    { opacity: 0.75, textCenter: false },
     { opacity: new Range(0, 1) }
 )

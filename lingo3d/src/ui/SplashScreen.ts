@@ -59,6 +59,13 @@ export default class SplashScreen extends Appendable implements ISplashScreen {
         this.splashScreen.style.opacity = value + ""
     }
 
+    public get textCenter() {
+        return this.container.style.textAlign === "center"
+    }
+    public set textCenter(value) {
+        this.container.style.textAlign = value ? "center" : ""
+    }
+
     public override append(child: Text) {
         this._append(child)
         this.container.appendChild(getPrivateValue(child, "el"))
