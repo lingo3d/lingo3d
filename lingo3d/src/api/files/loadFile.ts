@@ -3,6 +3,9 @@ import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import { setFileCurrent } from "../../states/useFileCurrent"
 import { appendableRoot } from "../core/collections"
 import deserialize from "../serializer/deserialize"
+import settings from "../settings"
+
+export const firstLoadPtr = [false]
 
 export default async (file: FileWithDirectoryAndFileHandle) => {
     if (!file.name.toLowerCase().endsWith(".json")) return false
@@ -21,6 +24,9 @@ export default async (file: FileWithDirectoryAndFileHandle) => {
         setFileCurrent(file)
         await new Promise((resolve) => setTimeout(resolve))
         deserialize(JSON.parse(text))
+
+        settings.gridHelper = false
+        firstLoadPtr[0] = true
         return true
     } catch {
         return false

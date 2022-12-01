@@ -2,7 +2,6 @@ import { useEffect, useState } from "preact/hooks"
 import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
 import Loaded from "../../display/core/Loaded"
-import { isMeshItem } from "../../display/core/MeshItem"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
 import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import {
@@ -74,7 +73,7 @@ const SceneGraphContextMenu = () => {
                 selectionTarget && search(value, selectionTarget)
             }
         >
-            {isMeshItem(selectionTarget) && (
+            {selectionTarget && !(selectionTarget instanceof Timeline) && (
                 <>
                     <ContextMenuItem
                         onClick={(e) =>

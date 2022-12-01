@@ -28,6 +28,7 @@ import useClickable from "../hooks/useClickable"
 import { setEditorMounted } from "../../states/useEditorMounted"
 import { useSignal } from "@preact/signals"
 import unsafeGetValue from "../../utils/unsafeGetValue"
+import { firstLoadPtr } from "../../api/files/loadFile"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -46,7 +47,7 @@ const Editor = () => {
 
         mainOrbitCamera.active = true
         setOrbitControls(true)
-        settings.gridHelper = true
+        settings.gridHelper = !firstLoadPtr[0]
         setEditorMounted(true)
 
         return () => {
