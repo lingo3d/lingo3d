@@ -2,10 +2,10 @@ import { Reactive } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
 import { container } from "../engine/renderLoop/renderSetup"
 import { TEXTURES_URL } from "../globals"
-import { reticleDefaults, reticleSchema } from "../interface/IReticle"
+import IReticle, { reticleDefaults, reticleSchema } from "../interface/IReticle"
 import createElement from "../utils/createElement"
 
-export default class Reticle extends Appendable {
+export default class Reticle extends Appendable implements IReticle {
     public static componentName = "reticle"
     public static defaults = reticleDefaults
     public static schema = reticleSchema

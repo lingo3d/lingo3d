@@ -7,6 +7,7 @@ import SvgMesh from "../../display/SvgMesh"
 import HTMLMesh from "../../display/HTMLMesh"
 import Joystick from "../../ui/Joystick"
 import Reticle from "../../ui/Reticle"
+import SplashScreen from "../../ui/SplashScreen"
 import Reflector from "../../display/Reflector"
 import Water from "../../display/Water"
 import Curve from "../../display/Curve"
@@ -49,6 +50,7 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     htmlMesh: () => new HTMLMesh(),
     joystick: () => new Joystick() as any,
     reticle: () => new Reticle() as any,
+    splashScreen: () => new SplashScreen() as any,
     dummy: () => new Dummy(),
     building: () => new Building(),
     tree: () => new Tree(),

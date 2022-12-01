@@ -10,6 +10,7 @@ export type GameObjectType =
     | "htmlMesh"
     | "joystick"
     | "reticle"
+    | "splashScreen"
     | "reflector"
     | "water"
     | "curve"
