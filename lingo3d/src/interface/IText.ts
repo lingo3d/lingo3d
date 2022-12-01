@@ -19,6 +19,6 @@ export const textSchema: Required<ExtractProps<IText>> = {
 
 export const textDefaults = extendDefaults<IText>(
     [appendableDefaults],
-    { value: "", opacity: 0.75 },
+    { value: "", opacity: 1 },
     { opacity: new Range(0, 1) }
 )
