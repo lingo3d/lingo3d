@@ -17,10 +17,6 @@ export const reticleSchema: Required<ExtractProps<IReticle>> = {
 
 export const reticleDefaults = extendDefaults<IReticle>(
     [appendableDefaults],
-    {
-        variant: 1
-    },
-    {
-        variant: new Choices({ 1: 1, 2: 2, 3: 3, 4: 4 })
-    }
+    { variant: 1 },
+    { variant: new Choices({ 1: 1, 2: 2, 3: 3, 4: 4 }) }
 )

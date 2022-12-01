@@ -19,6 +19,7 @@ import HTMLMesh from "./display/HTMLMesh"
 import Joystick from "./ui/Joystick"
 import Reticle from "./ui/Reticle"
 import SplashScreen from "./ui/SplashScreen"
+import Text from "./ui/Text"
 import Reflector from "./display/Reflector"
 import Water from "./display/Water"
 import Curve from "./display/Curve"
@@ -103,6 +104,7 @@ export {
     Joystick,
     Reticle,
     SplashScreen,
+    Text,
     Reflector,
     Water,
     Curve,

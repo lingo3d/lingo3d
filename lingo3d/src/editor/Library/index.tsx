@@ -39,6 +39,7 @@ const Library = () => {
                         { joystick: "htmlMesh" },
                         // { reticle: "htmlMesh" },
                         { splashScreen: "htmlMesh" },
+                        { text: "htmlMesh" },
                         "trigger",
                         "spawnPoint",
                         "audio",

@@ -6,17 +6,19 @@ import IAppendable, {
 } from "./IAppendable"
 import Range from "./utils/Range"
 
-export default interface ISplashScreen extends IAppendable {
+export default interface IText extends IAppendable {
+    value: string
     opacity: number
 }
 
-export const splashScreenSchema: Required<ExtractProps<ISplashScreen>> = {
+export const textSchema: Required<ExtractProps<IText>> = {
     ...appendableSchema,
+    value: String,
     opacity: Number
 }
 
-export const splashScreenDefaults = extendDefaults<ISplashScreen>(
+export const textDefaults = extendDefaults<IText>(
     [appendableDefaults],
-    { opacity: 0.75 },
+    { value: "", opacity: 0.75 },
     { opacity: new Range(0, 1) }
 )

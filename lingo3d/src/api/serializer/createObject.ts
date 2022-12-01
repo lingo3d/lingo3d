@@ -8,6 +8,7 @@ import HTMLMesh from "../../display/HTMLMesh"
 import Joystick from "../../ui/Joystick"
 import Reticle from "../../ui/Reticle"
 import SplashScreen from "../../ui/SplashScreen"
+import Text from "../../ui/Text"
 import Reflector from "../../display/Reflector"
 import Water from "../../display/Water"
 import Curve from "../../display/Curve"
@@ -51,6 +52,7 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     joystick: () => new Joystick() as any,
     reticle: () => new Reticle() as any,
     splashScreen: () => new SplashScreen() as any,
+    text: () => new Text() as any,
     dummy: () => new Dummy(),
     building: () => new Building(),
     tree: () => new Tree(),

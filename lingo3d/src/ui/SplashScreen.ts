@@ -5,6 +5,8 @@ import ISplashScreen, {
     splashScreenSchema
 } from "../interface/ISplashScreen"
 import createElement from "../utils/createElement"
+import getPrivateValue from "../utils/getPrivateValue"
+import Text from "./Text"
 
 let initialized = false
 
@@ -39,20 +41,15 @@ export default class SplashScreen extends Appendable implements ISplashScreen {
     private splashScreen = createElement<HTMLDivElement>(
         '<div class="lingo3d-splashscreen" style="opacity: 0.75"></div>'
     )
+    private container = document.createElement("div")
 
     public constructor() {
         super()
 
         initCSS()
         container.appendChild(this.splashScreen)
-        this.then(() => container.removeChild(this.splashScreen))
-    }
-
-    public get innerHTML() {
-        return this.splashScreen.innerHTML
-    }
-    public set innerHTML(value) {
-        this.splashScreen.innerHTML = value
+        this.splashScreen.appendChild(this.container)
+        this.then(() => this.splashScreen.remove())
     }
 
     public get opacity() {
@@ -60,5 +57,14 @@ export default class SplashScreen extends Appendable implements ISplashScreen {
     }
     public set opacity(value) {
         this.splashScreen.style.opacity = value + ""
+    }
+
+    public override append(child: Text) {
+        this._append(child)
+        this.container.appendChild(getPrivateValue(child, "el"))
+    }
+
+    public override attach(child: Text) {
+        this.append(child)
     }
 }
