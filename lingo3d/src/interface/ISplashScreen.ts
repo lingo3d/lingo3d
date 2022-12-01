@@ -4,20 +4,24 @@ import IAppendable, {
     appendableDefaults,
     appendableSchema
 } from "./IAppendable"
-import Nullable from "./utils/Nullable"
+import Range from "./utils/Range"
 
 export default interface ISplashScreen extends IAppendable {
-    innerHTML: Nullable<string>
+    innerHTML: string
+    opacity: number
 }
 
 export const splashScreenSchema: Required<ExtractProps<ISplashScreen>> = {
     ...appendableSchema,
-    innerHTML: String
+    innerHTML: String,
+    opacity: Number
 }
 
 export const splashScreenDefaults = extendDefaults<ISplashScreen>(
     [appendableDefaults],
     {
-        innerHTML: undefined
-    }
+        innerHTML: "",
+        opacity: 0.75
+    },
+    { opacity: new Range(0, 1) }
 )
