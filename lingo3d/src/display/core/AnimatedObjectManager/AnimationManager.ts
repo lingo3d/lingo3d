@@ -32,12 +32,15 @@ const framesToKeyframeTrack = (
     targetName: string,
     property: string,
     frames: Record<number, number | Point | Point3d>
-) =>
-    new NumberKeyframeTrack(
+) => {
+    const keys = Object.keys(frames)
+    if (!keys.length) return
+    return new NumberKeyframeTrack(
         targetName + "." + property,
-        Object.keys(frames).map((frameNum) => Number(frameNum) * FRAME2SEC),
+        keys.map((frameNum) => Number(frameNum) * FRAME2SEC),
         Object.values(frames)
     )
+}
 
 export default class AnimationManager
     extends Appendable
@@ -124,14 +127,16 @@ export default class AnimationManager
                             if (!instance || instance instanceof TimelineAudio)
                                 return []
 
-                            return Object.entries(targetTracks).map(
-                                ([property, frames]) =>
-                                    framesToKeyframeTrack(
-                                        targetName,
-                                        property,
-                                        frames
-                                    )
-                            )
+                            return Object.entries(targetTracks)
+                                .map(
+                                    ([property, frames]) =>
+                                        framesToKeyframeTrack(
+                                            targetName,
+                                            property,
+                                            frames
+                                        )!
+                                )
+                                .filter(Boolean)
                         })
                         .flat()
                 )

@@ -3,6 +3,7 @@ import IObjectManager, {
     objectManagerDefaults,
     objectManagerSchema
 } from "./IObjectManager"
+import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
@@ -83,6 +84,7 @@ export const cameraBaseDefaults = extendDefaults<ICameraBase>(
         enableDamping: false
     },
     {
+        mouseControl: new Choices({ true: true, false: false, drag: "drag" }),
         fov: new Range(30, 120, 5),
         zoom: new Range(0.1, 10),
         near: new Range(0.1, 10000),
