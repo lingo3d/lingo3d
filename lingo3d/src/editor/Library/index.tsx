@@ -36,6 +36,8 @@ const Library = () => {
                             : []),
                         "svgMesh",
                         "htmlMesh",
+                        { joystick: "htmlMesh" },
+                        { reticle: "htmlMesh" },
                         "trigger",
                         "spawnPoint",
                         "audio",

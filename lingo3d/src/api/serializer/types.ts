@@ -8,6 +8,8 @@ export type GameObjectType =
     | "tree"
     | "svgMesh"
     | "htmlMesh"
+    | "joystick"
+    | "reticle"
     | "reflector"
     | "water"
     | "curve"

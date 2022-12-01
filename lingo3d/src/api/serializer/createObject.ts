@@ -5,6 +5,8 @@ import Building from "../../display/Building"
 import Tree from "../../display/Tree"
 import SvgMesh from "../../display/SvgMesh"
 import HTMLMesh from "../../display/HTMLMesh"
+import Joystick from "../../ui/Joystick"
+import Reticle from "../../ui/Reticle"
 import Reflector from "../../display/Reflector"
 import Water from "../../display/Water"
 import Curve from "../../display/Curve"
@@ -45,6 +47,8 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     model: () => new Model(),
     svgMesh: () => new SvgMesh(),
     htmlMesh: () => new HTMLMesh(),
+    joystick: () => new Joystick() as any,
+    reticle: () => new Reticle() as any,
     dummy: () => new Dummy(),
     building: () => new Building(),
     tree: () => new Tree(),

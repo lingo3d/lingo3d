@@ -16,6 +16,8 @@ import Building from "./display/Building"
 import Tree from "./display/Tree"
 import SvgMesh from "./display/SvgMesh"
 import HTMLMesh from "./display/HTMLMesh"
+import Joystick from "./ui/Joystick"
+import Reticle from "./ui/Reticle"
 import Reflector from "./display/Reflector"
 import Water from "./display/Water"
 import Curve from "./display/Curve"
@@ -49,9 +51,6 @@ import createProxy from "./api/createProxy"
 import settings from "./api/settings"
 import preload from "./api/preload"
 import screenshot from "./api/screenshot"
-
-import Reticle from "./ui/Reticle"
-import Joystick from "./ui/Joystick"
 
 import serialize from "./api/serializer/serialize"
 import deserialize from "./api/serializer/deserialize"
@@ -100,6 +99,8 @@ export {
     Tree,
     SvgMesh,
     HTMLMesh,
+    Joystick,
+    Reticle,
     Reflector,
     Water,
     Curve,
@@ -134,8 +135,6 @@ export {
     settings,
     preload,
     screenshot,
-    Joystick,
-    Reticle,
     serialize,
     deserialize,
     downloadBlob,
