@@ -66,6 +66,8 @@ export default class Joystick extends Appendable implements IJoystick {
             const handle = new Cancellable()
 
             setTimeout(() => {
+                if (handle.done) return
+
                 const manager = nipplejs.create({
                     zone,
                     mode: "static",

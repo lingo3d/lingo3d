@@ -6,7 +6,7 @@ import Appendable from "../core/Appendable"
 import settings from "../settings"
 import relativePath from "../path/relativePath"
 import toFixed, { toFixedPoint } from "./toFixed"
-import { nonSerializedProperties, SceneGraphNode } from "./types"
+import { SceneGraphNode } from "./types"
 import { VERSION } from "../../globals"
 import {
     hiddenAppendables,
@@ -14,6 +14,7 @@ import {
     appendableRoot
 } from "../core/collections"
 import { isPoint } from "./isPoint"
+import nonSerializedProperties from "./nonSerializedProperties"
 
 const serialize = async (children: Array<any>, skipUUID?: boolean) => {
     const dataParent: Array<SceneGraphNode> = []
