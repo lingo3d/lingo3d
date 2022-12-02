@@ -1,13 +1,14 @@
 import Appendable from "../api/core/Appendable"
 import { container } from "../engine/renderLoop/renderSetup"
 import IText, { textDefaults, textSchema } from "../interface/IText"
+import createElement from "../utils/createElement"
 
 export default class Text extends Appendable implements IText {
     public static componentName = "text"
     public static defaults = textDefaults
     public static schema = textSchema
 
-    private el = document.createElement("div")
+    private el = createElement<HTMLDivElement>(`<div style="opacity: 1"></div>`)
 
     public constructor() {
         super()
@@ -17,8 +18,7 @@ export default class Text extends Appendable implements IText {
     }
 
     public get opacity() {
-        const { opacity } = this.el.style
-        return opacity === "0" ? 0 : Number(opacity || 1)
+        return Number(this.el.style.opacity)
     }
     public set opacity(value) {
         this.el.style.opacity = value + ""

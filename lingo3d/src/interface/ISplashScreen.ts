@@ -19,6 +19,6 @@ export const splashScreenSchema: Required<ExtractProps<ISplashScreen>> = {
 
 export const splashScreenDefaults = extendDefaults<ISplashScreen>(
     [appendableDefaults],
-    { opacity: 0.75, textCenter: false },
+    { opacity: 1, textCenter: false },
     { opacity: new Range(0, 1) }
 )

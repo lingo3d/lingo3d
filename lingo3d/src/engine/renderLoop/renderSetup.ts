@@ -11,23 +11,27 @@ import { getAutoMount } from "../../states/useAutoMount"
 import { debounce } from "@lincode/utils"
 import { getPixelRatio } from "../../states/usePixelRatio"
 import { onEditorLayout } from "../../events/onEditorLayout"
+import createElement from "../../utils/createElement"
 
-const rootContainer = document.createElement("div")
-Object.assign(rootContainer.style, {
-    position: "absolute",
-    left: "0px",
-    top: "0px",
-    width: "100%",
-    height: "100%"
-})
+const style = createElement(`
+    <style>
+        .lingo3d-container {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+`)
+document.head.appendChild(style)
 
-export const container = document.createElement("div")
-Object.assign(container.style, {
-    position: "absolute",
-    left: "0px",
-    top: "0px",
-    width: "100%"
-})
+const rootContainer = createElement<HTMLDivElement>(
+    `<div class="lingo3d-container"></div>`
+)
+export const container = createElement<HTMLDivElement>(
+    `<div class="lingo3d-container"></div>`
+)
 rootContainer.appendChild(container)
 getSecondaryCamera((cam) => (container.style.height = cam ? "50%" : "100%"))
 

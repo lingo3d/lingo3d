@@ -39,7 +39,7 @@ export default class SplashScreen extends Appendable implements ISplashScreen {
     public static schema = splashScreenSchema
 
     private splashScreen = createElement<HTMLDivElement>(
-        '<div class="lingo3d-splashscreen" style="opacity: 0.75"></div>'
+        `<div class="lingo3d-splashscreen" style="opacity: 1"></div>`
     )
     private container = document.createElement("div")
 
