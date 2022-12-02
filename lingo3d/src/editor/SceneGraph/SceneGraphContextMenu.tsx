@@ -16,10 +16,10 @@ import { Point } from "@lincode/math"
 import Timeline from "../../display/Timeline"
 import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 import mousePosition from "../utils/mousePosition"
-import { useTimelineData } from "../states/useTimelineData"
-import { useTimeline } from "../states/useTimeline"
+import { getTimeline, setTimeline } from "../states/useTimeline"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
+import { getTimelineData } from "../states/useTimelineData"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)
@@ -52,8 +52,8 @@ const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<Point & { search?: boolean }>()
     const selectionTarget = useSyncState(getSelectionTarget)
     const [selectionFrozen] = useSyncState(getSelectionFrozen)
-    const [[timelineData]] = useTimelineData()
-    const [timeline, setTimeline] = useTimeline()
+    const [timelineData] = useSyncState(getTimelineData)
+    const timeline = useSyncState(getTimeline)
 
     useEffect(() => {
         const handle = onSelectionTarget(

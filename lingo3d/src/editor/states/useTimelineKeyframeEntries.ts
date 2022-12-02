@@ -1,14 +1,11 @@
-import { createEffect } from "@lincode/reactivity"
+import store, { createEffect } from "@lincode/reactivity"
 import { uuidMap } from "../../api/core/collections"
 import TimelineAudio from "../../display/TimelineAudio"
-import preactStore from "../utils/preactStore"
 import { getTimelineExpandedUUIDs } from "./useTimelineExpandedUUIDs"
 
-export const [
-    useTimelineKeyframeEntries,
-    setTimelineKeyframeEntries,
-    getTimelineKeyframeEntries
-] = preactStore<Array<[string, Record<number, true>]>>([])
+export const [setTimelineKeyframeEntries, getTimelineKeyframeEntries] = store<
+    Array<[string, Record<number, true>]>
+>([])
 
 type Keyframes = Record<string, Record<number, true>>
 export const keyframesPtr: [Keyframes] = [{}]

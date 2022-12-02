@@ -10,20 +10,24 @@ import { AnimationData } from "../../interface/IAnimationManager"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import ContextMenu from "../component/ContextMenu"
 import ContextMenuItem from "../component/ContextMenu/ContextMenuItem"
+import useSyncState from "../hooks/useSyncState"
 import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 import { getTimeline, setTimeline } from "../states/useTimeline"
-import { useTimelineContextMenu } from "../states/useTimelineContextMenu"
+import {
+    getTimelineContextMenu,
+    setTimelineContextMenu
+} from "../states/useTimelineContextMenu"
 import { processKeyframe } from "../states/useTimelineData"
 import { getTimelineFrame } from "../states/useTimelineFrame"
 
 const TimelineContextMenu = () => {
-    const [menu, setMenu] = useTimelineContextMenu()
+    const menu = useSyncState(getTimelineContextMenu)
     const [dataCopied, setDataCopied] = useState<AnimationData>()
 
     return (
         <ContextMenu
             position={menu}
-            setPosition={setMenu}
+            setPosition={setTimelineContextMenu}
             input={
                 menu?.create &&
                 (menu.create === "audio" ? "Audio name" : "Timeline name")
@@ -59,7 +63,7 @@ const TimelineContextMenu = () => {
                             unsafeGetValue(uuidMap.get(uuid)!, property)
                         )
                     )
-                    setMenu(undefined)
+                    setTimelineContextMenu(undefined)
                 }}
             >
                 Add keyframe
@@ -78,7 +82,7 @@ const TimelineContextMenu = () => {
                         true
                     )
                     setDataCopied(data)
-                    setMenu(undefined)
+                    setTimelineContextMenu(undefined)
                 }}
             >
                 Copy keyframe
@@ -104,7 +108,7 @@ const TimelineContextMenu = () => {
                                               value
                                           )
                               getTimeline()?.mergeData(data)
-                              setMenu(undefined)
+                              setTimelineContextMenu(undefined)
                           }
                         : undefined
                 }
@@ -115,7 +119,7 @@ const TimelineContextMenu = () => {
                 disabled={!menu?.keyframe}
                 onClick={() => {
                     emitTimelineClearKeyframe()
-                    setMenu(undefined)
+                    setTimelineContextMenu(undefined)
                 }}
             >
                 Clear keyframe

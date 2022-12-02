@@ -1,11 +1,8 @@
-import { createEffect } from "@lincode/reactivity"
+import store, { createEffect } from "@lincode/reactivity"
 import Timeline from "../../display/Timeline"
 import { onDispose } from "../../events/onDispose"
-import preactStore from "../utils/preactStore"
 
-export const [useTimeline, setTimeline, getTimeline] = preactStore<
-    Timeline | undefined
->(undefined)
+export const [setTimeline, getTimeline] = store<Timeline | undefined>(undefined)
 
 createEffect(() => {
     const timeline = getTimeline()

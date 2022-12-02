@@ -1,7 +1,7 @@
 import { Point } from "@lincode/math"
-import preactStore from "../utils/preactStore"
+import store from "@lincode/reactivity"
 
-export const [useTimelineContextMenu, setTimelineContextMenu] = preactStore<
+export const [setTimelineContextMenu, getTimelineContextMenu] = store<
     | (Point & {
           keyframe?: boolean
           create?: "audio" | "timeline"

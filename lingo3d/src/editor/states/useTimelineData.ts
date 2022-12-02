@@ -1,5 +1,4 @@
-import preactStore from "../utils/preactStore"
-import { createEffect } from "@lincode/reactivity"
+import store, { createEffect } from "@lincode/reactivity"
 import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
 import { getTimelineFrame } from "./useTimelineFrame"
@@ -19,10 +18,10 @@ import {
 } from "../../states/useMultipleSelectionTargets"
 import { keyframesPtr } from "./useTimelineKeyframeEntries"
 
-const [useTimelineData, setTimelineData, getTimelineData] = preactStore<
-    [AnimationData | undefined]
->([undefined])
-export { useTimelineData, getTimelineData }
+const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([
+    undefined
+])
+export { getTimelineData }
 
 createEffect(() => {
     const timeline = getTimeline()

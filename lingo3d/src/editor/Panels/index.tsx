@@ -5,7 +5,7 @@ import FileBrowser from "../FileBrowser"
 import { useEffect } from "preact/hooks"
 import TimelineEditor from "../TimelineEditor"
 import { PANELS_HEIGHT } from "../../globals"
-import { setTimeline, useTimeline } from "../states/useTimeline"
+import { getTimeline, setTimeline } from "../states/useTimeline"
 import { useSignal } from "@preact/signals"
 import Controls from "../TimelineEditor/Controls"
 import useSyncState from "../hooks/useSyncState"
@@ -15,7 +15,7 @@ const Panels = () => {
     useInitCSS(true)
 
     const fileBrowser = useSyncState(getFileBrowser)
-    const [timeline] = useTimeline()
+    const timeline = useSyncState(getTimeline)
     const selectedSignal = useSignal<string | undefined>(undefined)
 
     useEffect(() => {

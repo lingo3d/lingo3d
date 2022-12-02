@@ -1,13 +1,14 @@
 import { FRAME_HEIGHT } from "../../globals"
 import VirtualizedList from "../component/VirtualizedList"
 import useResizeObserver from "../hooks/useResizeObserver"
-import { useTimelineKeyframeEntries } from "../states/useTimelineKeyframeEntries"
+import useSyncState from "../hooks/useSyncState"
+import { getTimelineKeyframeEntries } from "../states/useTimelineKeyframeEntries"
 import FrameRow from "./FrameRow"
 import FrameTweens from "./FrameTweens"
 
 const Frames = () => {
     const [ref, { width, height }] = useResizeObserver()
-    const [keyframesEntries] = useTimelineKeyframeEntries()
+    const keyframesEntries = useSyncState(getTimelineKeyframeEntries)
 
     return (
         <div

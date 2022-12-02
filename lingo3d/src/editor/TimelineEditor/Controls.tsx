@@ -1,6 +1,7 @@
 import AppBar from "../component/bars/AppBar"
 import IconButton from "../component/IconButton"
-import { useTimeline } from "../states/useTimeline"
+import useSyncState from "../hooks/useSyncState"
+import { getTimeline } from "../states/useTimeline"
 import {
     decreaseTimelineFrame,
     firstTimelineFrame,
@@ -16,7 +17,7 @@ import PlayIcon from "./icons/PlayIcon"
 import PrevFrameIcon from "./icons/PrevFrameIcon"
 
 const Controls = () => {
-    const [timeline] = useTimeline()
+    const timeline = useSyncState(getTimeline)
     const [paused] = useTimelinePaused()
 
     return (
@@ -64,11 +65,7 @@ const Controls = () => {
                 <NextFrameIcon />
             </IconButton>
 
-            <IconButton
-                fill
-                disabled={!timeline}
-                onClick={firstTimelineFrame}
-            >
+            <IconButton fill disabled={!timeline} onClick={firstTimelineFrame}>
                 <FirstFrameIcon />
             </IconButton>
             <IconButton fill disabled={!timeline} onClick={lastTimelineFrame}>

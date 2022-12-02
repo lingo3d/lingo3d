@@ -1,13 +1,14 @@
 import AppBar from "../component/bars/AppBar"
 import useResizeObserver from "../hooks/useResizeObserver"
-import { useTimeline } from "../states/useTimeline"
+import useSyncState from "../hooks/useSyncState"
+import { getTimeline } from "../states/useTimeline"
 import { addTimelineScrollLeft } from "../states/useTimelineScrollLeft"
 import Needle from "./Needle"
 import Ruler from "./Ruler"
 
 const RulerBar = () => {
     const [ref, { width }] = useResizeObserver()
-    const [timeline] = useTimeline()
+    const timeline = useSyncState(getTimeline)
 
     return (
         <AppBar>
