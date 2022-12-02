@@ -1,5 +1,4 @@
 import HotKey from "./HotKey"
-import { useLoadingUnpkgCount, usePaused } from "../states"
 import mainCamera from "../../engine/mainCamera"
 import { createPortal } from "preact/compat"
 import { container } from "../../engine/renderLoop/renderSetup"
@@ -8,12 +7,14 @@ import Spinner from "../component/Spinner"
 import InfoScreen from "./InfoScreen"
 import useSyncState from "../hooks/useSyncState"
 import { getCameraRendered } from "../../states/useCameraRendered"
+import { getLoadingUnpkgCount } from "../../states/useLoadingUnpkgCount"
+import { getPaused } from "../../states/usePaused"
 
 const HUD = () => {
     useInitCSS(false)
     const cameraRendered = useSyncState(getCameraRendered)
-    const [loadingUnpkgCount] = useLoadingUnpkgCount()
-    const [paused] = usePaused()
+    const loadingUnpkgCount = useSyncState(getLoadingUnpkgCount)
+    const paused = useSyncState(getPaused)
 
     return createPortal(
         <div
