@@ -4,10 +4,10 @@ import {
     NumberKeyframeTrack,
     AnimationAction
 } from "three"
-import { forceGet, merge } from "@lincode/utils"
+import { debounceTrailing, forceGet, merge } from "@lincode/utils"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import { dt } from "../../../engine/eventLoop"
-import { Reactive } from "@lincode/reactivity"
+import { GetGlobalState, Reactive } from "@lincode/reactivity"
 import { EventFunctions } from "@lincode/events"
 import {
     nonSerializedAppendables,
@@ -23,6 +23,8 @@ import FoundManager from "../FoundManager"
 import { Point, Point3d } from "@lincode/math"
 import { FRAME2SEC, SEC2FRAME } from "../../../globals"
 import TimelineAudio from "../../TimelineAudio"
+import { Cancellable } from "@lincode/promiselikes"
+import getPrivateValue from "../../../utils/getPrivateValue"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
@@ -73,7 +75,11 @@ export default class AnimationManager
 
     private mixer: AnimationMixer
 
-    public totalFrames = 0
+    private clipTotalFrames = 0
+    private audioTotalFrames = 0
+    public get totalFrames() {
+        return Math.max(this.clipTotalFrames, this.audioTotalFrames)
+    }
 
     public constructor(
         public name: string,
@@ -117,8 +123,10 @@ export default class AnimationManager
             const [data] = this.dataState.get()
             if (!data) {
                 this.clipState.set(clip)
+                this.audioTotalFrames = 0
                 return
             }
+            const audioDurationGetters: Array<GetGlobalState<number>> = []
             this.clipState.set(
                 new AnimationClip(
                     undefined,
@@ -126,9 +134,14 @@ export default class AnimationManager
                     Object.entries(data)
                         .map(([targetName, targetTracks]) => {
                             const instance = uuidMap.get(targetName)
-                            if (!instance || instance instanceof TimelineAudio)
+                            if (!instance) return []
+                            if (instance instanceof TimelineAudio) {
+                                audioDurationGetters.push(
+                                    getPrivateValue(instance, "durationState")
+                                        .get
+                                )
                                 return []
-
+                            }
                             return Object.entries(targetTracks)
                                 .map(
                                     ([property, frames]) =>
@@ -143,16 +156,30 @@ export default class AnimationManager
                         .flat()
                 )
             )
+            const handle = new Cancellable()
+            const computeAudioDuration = debounceTrailing(() => {
+                if (handle.done) return
+                const maxDuration = Math.max(
+                    ...audioDurationGetters.map((getter) => getter())
+                )
+                this.audioTotalFrames = maxDuration * SEC2FRAME
+            })
+            for (const getAudioDuration of audioDurationGetters)
+                handle.watch(getAudioDuration(computeAudioDuration))
+
+            return () => {
+                handle.cancel()
+            }
         }, [this.dataState.get])
 
         let frame: number | undefined
         this.createEffect(() => {
             const clip = this.clipState.get()
             if (!clip) {
-                this.totalFrames = 0
+                this.clipTotalFrames = 0
                 return
             }
-            this.totalFrames = Math.ceil(clip.duration * SEC2FRAME)
+            this.clipTotalFrames = Math.ceil(clip.duration * SEC2FRAME)
 
             const action = mixer.clipAction(clip)
             this.actionState.set(action)
