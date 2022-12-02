@@ -1,5 +1,5 @@
 import Appendable from "../api/core/Appendable"
-import { container } from "../engine/renderLoop/renderSetup"
+import { uiContainer } from "../engine/renderLoop/renderSetup"
 import ISplashScreen, {
     splashScreenDefaults,
     splashScreenSchema
@@ -41,14 +41,14 @@ export default class SplashScreen extends Appendable implements ISplashScreen {
     private splashScreen = createElement<HTMLDivElement>(
         `<div class="lingo3d-splashscreen" style="opacity: 1"></div>`
     )
-    private container = document.createElement("div")
+    private textContainer = document.createElement("div")
 
     public constructor() {
         super()
 
         initCSS()
-        container.appendChild(this.splashScreen)
-        this.splashScreen.appendChild(this.container)
+        uiContainer.appendChild(this.splashScreen)
+        this.splashScreen.appendChild(this.textContainer)
         this.then(() => this.splashScreen.remove())
     }
 
@@ -60,15 +60,15 @@ export default class SplashScreen extends Appendable implements ISplashScreen {
     }
 
     public get textCenter() {
-        return this.container.style.textAlign === "center"
+        return this.textContainer.style.textAlign === "center"
     }
     public set textCenter(value) {
-        this.container.style.textAlign = value ? "center" : ""
+        this.textContainer.style.textAlign = value ? "center" : ""
     }
 
     public override append(child: Text) {
         this._append(child)
-        this.container.appendChild(getPrivateValue(child, "el"))
+        this.textContainer.appendChild(getPrivateValue(child, "el"))
     }
 
     public override attach(child: Text) {

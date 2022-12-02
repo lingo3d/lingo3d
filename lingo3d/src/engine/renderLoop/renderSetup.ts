@@ -22,6 +22,12 @@ const style = createElement(`
             width: 100%;
             height: 100%;
         }
+        .lingo3d-uicontainer {
+            pointer-events: none;
+        }
+        .lingo3d-uicontainer > * {
+            pointer-events: auto;
+        }
     </style>
 `)
 document.head.appendChild(style)
@@ -32,8 +38,15 @@ const rootContainer = createElement<HTMLDivElement>(
 export const container = createElement<HTMLDivElement>(
     `<div class="lingo3d-container"></div>`
 )
+export const uiContainer = createElement<HTMLDivElement>(
+    `<div class="lingo3d-container lingo3d-uicontainer"></div>`
+)
 rootContainer.appendChild(container)
-getSecondaryCamera((cam) => (container.style.height = cam ? "50%" : "100%"))
+container.appendChild(uiContainer)
+getSecondaryCamera((cam) => {
+    container.style.height = cam ? "50%" : "100%"
+    uiContainer.style.display = cam ? "none" : "block"
+})
 
 export const containerBounds = [container.getBoundingClientRect()]
 
@@ -143,12 +156,12 @@ createEffect(() => {
     renderer.xr.enabled = true
 
     const button = VRButton.createButton(renderer)
-    container.appendChild(button)
+    uiContainer.appendChild(button)
 
     button.ontouchstart = () => button.onclick?.(new MouseEvent("click"))
 
     return () => {
         renderer.xr.enabled = false
-        container.removeChild(button)
+        button.remove()
     }
 }, [getWebXR, getRenderer])

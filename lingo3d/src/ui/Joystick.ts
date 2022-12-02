@@ -1,5 +1,4 @@
 import nipplejs from "nipplejs"
-import { container } from "../engine/renderLoop/renderSetup"
 import IJoystick, {
     joystickDefaults,
     joystickSchema
@@ -11,6 +10,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import store, { Reactive } from "@lincode/reactivity"
 import { onBeforeRender } from "../events/onBeforeRender"
 import Appendable from "../api/core/Appendable"
+import { uiContainer } from "../engine/renderLoop/renderSetup"
 
 export default class Joystick extends Appendable implements IJoystick {
     public static componentName = "joystick"
@@ -53,7 +53,7 @@ export default class Joystick extends Appendable implements IJoystick {
             const zone = createElement<HTMLDivElement>(`
                 <div style="width: 150px; height: 150px; position: absolute; bottom: 25px; left: 25px;"></div>
             `)
-            container.appendChild(zone)
+            uiContainer.appendChild(zone)
 
             const prevent = (e: Event) => {
                 e.preventDefault()
@@ -64,7 +64,6 @@ export default class Joystick extends Appendable implements IJoystick {
             zone.onpointerdown = prevent
 
             const handle = new Cancellable()
-
             setTimeout(() => {
                 if (handle.done) return
 
@@ -92,6 +91,7 @@ export default class Joystick extends Appendable implements IJoystick {
             })
             return () => {
                 handle.cancel()
+                zone.remove()
             }
         }, [])
     }
