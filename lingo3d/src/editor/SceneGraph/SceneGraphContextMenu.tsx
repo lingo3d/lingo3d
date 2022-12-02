@@ -11,13 +11,15 @@ import {
 } from "../../states/useSelectionFrozen"
 import ContextMenu from "../component/ContextMenu"
 import ContextMenuItem from "../component/ContextMenu/ContextMenuItem"
-import { useSelectionFrozen, useSelectionTarget } from "../states"
+import { useSelectionFrozen } from "../states"
 import { Point } from "@lincode/math"
 import Timeline from "../../display/Timeline"
 import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 import mousePosition from "../utils/mousePosition"
 import { useTimelineData } from "../states/useTimelineData"
 import { useTimeline } from "../states/useTimeline"
+import useSyncState from "../hooks/useSyncState"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)
@@ -48,7 +50,7 @@ const search = (n: string, target: Loaded | Appendable) => {
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<Point & { search?: boolean }>()
-    const [selectionTarget] = useSelectionTarget()
+    const selectionTarget = useSyncState(getSelectionTarget)
     const [[selectionFrozen]] = useSelectionFrozen()
     const [[timelineData]] = useTimelineData()
     const [timeline, setTimeline] = useTimeline()

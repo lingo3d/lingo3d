@@ -27,10 +27,6 @@ import {
     setSelectionNativeTarget,
     getSelectionNativeTarget
 } from "../../states/useSelectionNativeTarget"
-import {
-    setSelectionTarget,
-    getSelectionTarget
-} from "../../states/useSelectionTarget"
 import { setSetupStack, getSetupStack } from "../../states/useSetupStack"
 import { setStats, getStats } from "../../states/useStats"
 import {
@@ -39,7 +35,6 @@ import {
 } from "../../states/useTransformControlsSpaceComputed"
 import hook from "../utils/hook"
 
-export const useSelectionTarget = hook(setSelectionTarget, getSelectionTarget)
 export const useMultipleSelectionTargets = hook(
     setMultipleSelectionTargets,
     getMultipleSelectionTargets

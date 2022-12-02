@@ -1,7 +1,7 @@
 import { ComponentChildren } from "preact"
 import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
-import { useMultipleSelectionTargets, useSelectionTarget } from "../states"
+import { useMultipleSelectionTargets } from "../states"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
@@ -21,6 +21,7 @@ import BasicMaterialManager from "../../display/material/BasicMaterialManager"
 import ImageIcon from "./icons/ImageIcon"
 import { useSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 import { onName } from "../../events/onName"
+import useSyncState from "../hooks/useSyncState"
 
 export type TreeItemProps = {
     appendable: Appendable
@@ -52,7 +53,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
             : undefined
     }, [appendable.children?.size])
 
-    const [selectionTarget] = useSelectionTarget()
+    const selectionTarget = useSyncState(getSelectionTarget)
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
     const selected =
         selectionTarget === appendable ||

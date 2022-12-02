@@ -6,7 +6,6 @@ import RelativeIcon from "./icons/RelativeIcon"
 import ToolbarButton from "./ToolbarButton"
 import {
     useEditorModeComputed,
-    useSelectionTarget,
     useTransformControlsSpaceComputed
 } from "../states"
 import CursorIcon from "./icons/CursorIcon"
@@ -32,6 +31,8 @@ import JSONIcon from "./icons/JSONIcon"
 import useInitCSS from "../hooks/useInitCSS"
 import useClickable from "../hooks/useClickable"
 import { setEditorMode } from "../../states/useEditorMode"
+import useSyncState from "../hooks/useSyncState"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
 
 const Toolbar = () => {
     useInitCSS(true)
@@ -39,7 +40,7 @@ const Toolbar = () => {
 
     const [mode] = useEditorModeComputed()
     const [space] = useTransformControlsSpaceComputed()
-    const [target] = useSelectionTarget()
+    const target = useSyncState(getSelectionTarget)
     const selectOnly = target && !isPositionedItem(target)
     const translateOnly =
         target &&

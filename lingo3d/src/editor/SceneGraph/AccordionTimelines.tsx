@@ -1,12 +1,13 @@
 import { APPBAR_HEIGHT } from "../../globals"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
 import TitleBar from "../component/bars/TitleBar"
 import IconButton from "../component/IconButton"
 import deleteSelected from "../Editor/deleteSelected"
-import { useSelectionTarget } from "../states"
+import useSyncState from "../hooks/useSyncState"
 import DeleteIcon from "./icons/DeleteIcon"
 
 const AccordionTimelines = () => {
-    const [selectionTarget] = useSelectionTarget()
+    const selectionTarget = useSyncState(getSelectionTarget)
 
     return (
         <div

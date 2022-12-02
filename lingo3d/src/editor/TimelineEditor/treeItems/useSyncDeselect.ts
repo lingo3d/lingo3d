@@ -1,6 +1,7 @@
 import { useLayoutEffect } from "preact/hooks"
 import Appendable from "../../../api/core/Appendable"
-import { useSelectionTarget } from "../../states"
+import { getSelectionTarget } from "../../../states/useSelectionTarget"
+import useSyncState from "../../hooks/useSyncState"
 import {
     getTimelineLayer,
     setTimelineLayer
@@ -11,7 +12,7 @@ export default (
     instance: Appendable | undefined,
     layer: string | undefined
 ) => {
-    const [selectionTarget] = useSelectionTarget()
+    const selectionTarget = useSyncState(getSelectionTarget)
 
     useLayoutEffect(() => {
         if (selectionTarget === instance && selected)

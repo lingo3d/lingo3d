@@ -2,11 +2,7 @@ import { last } from "@lincode/utils"
 import { FolderApi, Pane } from "./tweakpane"
 import { setOrbitControls } from "../../states/useOrbitControls"
 import { useLayoutEffect, useState } from "preact/hooks"
-import {
-    useSelectionTarget,
-    useMultipleSelectionTargets,
-    useSetupStack
-} from "../states"
+import { useMultipleSelectionTargets, useSetupStack } from "../states"
 import { Cancellable } from "@lincode/promiselikes"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../utils/getComponentName"
@@ -29,6 +25,8 @@ import { setEditorMounted } from "../../states/useEditorMounted"
 import { useSignal } from "@preact/signals"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import { firstLoadPtr } from "../../api/files/loadFile"
+import useSyncState from "../hooks/useSyncState"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -64,7 +62,7 @@ const Editor = () => {
     const lastSetup = last(setupStack)
     const targetSetup = (lastSetup && dataSetupMap.get(lastSetup)) ?? settings
 
-    const [selectionTarget] = useSelectionTarget()
+    const selectionTarget = useSyncState(getSelectionTarget)
     const [multipleSelectionTargets] = useMultipleSelectionTargets()
 
     const selectedSignal = useSignal<string | undefined>(undefined)
