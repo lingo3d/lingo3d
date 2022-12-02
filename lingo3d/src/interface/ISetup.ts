@@ -16,6 +16,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     defaultLight: [String, Boolean],
     environment: String,
     skybox: [String, Array],
+    uiLayer: Boolean,
     gridHelper: Boolean,
     gridHelperSize: Number,
     stats: Boolean,

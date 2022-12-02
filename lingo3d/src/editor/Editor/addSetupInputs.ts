@@ -12,7 +12,7 @@ export default (
 ) => {
     const [editorParams, editorRest] = splitObject(
         getParams(setupSchema, setupDefaults, targetSetup),
-        ["gridHelper", "gridHelperSize", "stats"]
+        ["uiLayer", "gridHelper", "gridHelperSize", "stats"]
     )
     addInputs(handle, pane, "editor", targetSetup, setupDefaults, editorParams)
 

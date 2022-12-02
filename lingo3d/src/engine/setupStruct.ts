@@ -68,6 +68,7 @@ import { appendableRoot } from "../api/core/collections"
 import { getBokeh, setBokeh } from "../states/useBokeh"
 import { getBokehScale, setBokehScale } from "../states/useBokehScale"
 import { getVignette, setVignette } from "../states/useVignette"
+import { getUILayer, setUILayer } from "../states/useUILayer"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -99,6 +100,13 @@ export default {
     },
     set skybox(value) {
         defaultSkybox.texture = value
+    },
+
+    get uiLayer() {
+        return getUILayer()
+    },
+    set uiLayer(value) {
+        setUILayer(value)
     },
 
     get gridHelper() {

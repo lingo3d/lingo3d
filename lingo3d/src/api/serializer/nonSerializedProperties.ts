@@ -6,6 +6,7 @@ export default [
     "velocity",
     "target",
     "proxy",
+    "uiLayer",
     "gridHelper",
     "gridHelperSize",
     "stats"

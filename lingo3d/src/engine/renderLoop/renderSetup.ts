@@ -12,6 +12,7 @@ import { debounce } from "@lincode/utils"
 import { getPixelRatio } from "../../states/usePixelRatio"
 import { onEditorLayout } from "../../events/onEditorLayout"
 import createElement from "../../utils/createElement"
+import { getUILayer } from "../../states/useUILayer"
 
 const style = createElement(`
     <style>
@@ -45,8 +46,11 @@ rootContainer.appendChild(container)
 container.appendChild(uiContainer)
 getSecondaryCamera((cam) => {
     container.style.height = cam ? "50%" : "100%"
-    uiContainer.style.display = cam ? "none" : "block"
 })
+createEffect(() => {
+    uiContainer.style.display =
+        getSecondaryCamera() || !getUILayer() ? "none" : "block"
+}, [getSecondaryCamera, getUILayer])
 
 export const containerBounds = [container.getBoundingClientRect()]
 
