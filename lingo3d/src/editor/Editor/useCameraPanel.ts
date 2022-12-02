@@ -6,13 +6,15 @@ import {
     getSecondaryCamera,
     setSecondaryCamera
 } from "../../states/useSecondaryCamera"
-import { useCameraStack, useCameraList } from "../states"
 import getComponentName from "../utils/getComponentName"
+import useSyncState from "../hooks/useSyncState"
+import { getCameraList } from "../../states/useCameraList"
+import { getCameraStack } from "../../states/useCameraStack"
 
 export default (pane?: Pane, cameraFolder?: FolderApi) => {
-    const [cameraStack] = useCameraStack()
+    const cameraStack = useSyncState(getCameraStack)
     const camera = last(cameraStack)!
-    const [cameraList] = useCameraList()
+    const cameraList = useSyncState(getCameraList)
 
     useLayoutEffect(() => {
         if (!pane || !cameraFolder) return

@@ -7,11 +7,11 @@ import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import {
     addSelectionFrozen,
     clearSelectionFrozen,
+    getSelectionFrozen,
     removeSelectionFrozen
 } from "../../states/useSelectionFrozen"
 import ContextMenu from "../component/ContextMenu"
 import ContextMenuItem from "../component/ContextMenu/ContextMenuItem"
-import { useSelectionFrozen } from "../states"
 import { Point } from "@lincode/math"
 import Timeline from "../../display/Timeline"
 import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
@@ -51,7 +51,7 @@ const search = (n: string, target: Loaded | Appendable) => {
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<Point & { search?: boolean }>()
     const selectionTarget = useSyncState(getSelectionTarget)
-    const [[selectionFrozen]] = useSelectionFrozen()
+    const [selectionFrozen] = useSyncState(getSelectionFrozen)
     const [[timelineData]] = useTimelineData()
     const [timeline, setTimeline] = useTimeline()
 

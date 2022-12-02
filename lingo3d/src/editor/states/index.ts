@@ -1,13 +1,4 @@
-import { setCameraList, getCameraList } from "../../states/useCameraList"
-import {
-    setCameraRendered,
-    getCameraRendered
-} from "../../states/useCameraRendered"
-import { setCameraStack, getCameraStack } from "../../states/useCameraStack"
-import {
-    setEditorModeComputed,
-    getEditorModeComputed
-} from "../../states/useEditorModeComputed"
+
 import { setFileCurrent, getFileCurrent } from "../../states/useFileCurrent"
 import { setFiles, getFiles } from "../../states/useFiles"
 import {
@@ -15,10 +6,6 @@ import {
     getLoadingUnpkgCount
 } from "../../states/useLoadingUnpkgCount"
 import { setPaused, getPaused } from "../../states/usePaused"
-import {
-    setSelectionFrozen,
-    getSelectionFrozen
-} from "../../states/useSelectionFrozen"
 import {
     setSelectionNativeTarget,
     getSelectionNativeTarget
@@ -31,14 +18,6 @@ import {
 } from "../../states/useTransformControlsSpaceComputed"
 import hook from "../utils/hook"
 
-export const useSelectionFrozen = hook(setSelectionFrozen, getSelectionFrozen)
-export const useCameraList = hook(setCameraList, getCameraList)
-export const useCameraStack = hook(setCameraStack, getCameraStack)
-export const useCameraRendered = hook(setCameraRendered, getCameraRendered)
-export const useEditorModeComputed = hook(
-    setEditorModeComputed,
-    getEditorModeComputed
-)
 export const useTransformControlsSpaceComputed = hook(
     setTransformControlsSpaceComputed,
     getTransformControlsSpaceComputed

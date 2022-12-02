@@ -1,15 +1,17 @@
 import HotKey from "./HotKey"
-import { useCameraRendered, useLoadingUnpkgCount, usePaused } from "../states"
+import { useLoadingUnpkgCount, usePaused } from "../states"
 import mainCamera from "../../engine/mainCamera"
 import { createPortal } from "preact/compat"
 import { container } from "../../engine/renderLoop/renderSetup"
 import useInitCSS from "../hooks/useInitCSS"
 import Spinner from "../component/Spinner"
 import InfoScreen from "./InfoScreen"
+import useSyncState from "../hooks/useSyncState"
+import { getCameraRendered } from "../../states/useCameraRendered"
 
 const HUD = () => {
     useInitCSS(false)
-    const [cameraRendered] = useCameraRendered()
+    const cameraRendered = useSyncState(getCameraRendered)
     const [loadingUnpkgCount] = useLoadingUnpkgCount()
     const [paused] = usePaused()
 
