@@ -1,5 +1,4 @@
 import { Reactive } from "@lincode/reactivity"
-import { PropertyBinding } from "three"
 import Appendable from "../api/core/Appendable"
 import { emitName } from "../events/onName"
 import ITimelineAudio, {
@@ -15,8 +14,12 @@ export default class TimelineAudio
     public static defaults = timelineAudioDefaults
     public static schema = timelineAudioSchema
 
+    private audio = new Audio()
+
     public constructor() {
         super()
+        this.audio.ondurationchange = () =>
+            this.durationState.set(this.audio.duration)
     }
 
     public get name() {
@@ -33,5 +36,12 @@ export default class TimelineAudio
     }
     public set src(value) {
         this.srcState.set(value)
+        this.audio.src = value ?? ""
+        this.durationState.set(0)
+    }
+
+    private durationState = new Reactive(0)
+    public get duration() {
+        return this.durationState.get()
     }
 }

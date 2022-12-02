@@ -19,9 +19,13 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
     const [src, setSrc] = useState<string>()
 
     useLayoutEffect(() => {
-        const handle = getPrivateValue(instance, "srcState").get(setSrc)
+        const handle0 = getPrivateValue(instance, "srcState").get(setSrc)
+        const handle1 = getPrivateValue(instance, "durationState").get(
+            (duration) => setWidth(duration * SEC2FRAME * FRAME_WIDTH)
+        )
         return () => {
-            handle.cancel()
+            handle0.cancel()
+            handle1.cancel()
         }
     }, [instance])
 
@@ -91,18 +95,7 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
         }
     }, [src, width])
 
-    return (
-        <>
-            <div ref={ref} style={{ width, left: startFrame * FRAME_WIDTH }} />
-            <audio
-                src={src}
-                hidden
-                onDurationChange={(e) =>
-                    setWidth(e.currentTarget.duration * SEC2FRAME * FRAME_WIDTH)
-                }
-            />
-        </>
-    )
+    return <div ref={ref} style={{ width, left: startFrame * FRAME_WIDTH }} />
 }
 
 export default memo(AudioRow, diffProps)
