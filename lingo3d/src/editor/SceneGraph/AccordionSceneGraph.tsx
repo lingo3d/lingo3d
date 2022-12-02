@@ -9,6 +9,7 @@ import {
     onSceneGraphChange
 } from "../../events/onSceneGraphChange"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
+import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import TitleBar from "../component/bars/TitleBar"
 import IconButton from "../component/IconButton"
@@ -16,10 +17,7 @@ import EmptyTreeItem from "../component/treeItems/EmptyTreeItem"
 import TreeItemContextProvider from "../component/treeItems/TreeItemContextProviter"
 import deleteSelected from "../Editor/deleteSelected"
 import useSyncState from "../hooks/useSyncState"
-import {
-    useMultipleSelectionTargets,
-    useSelectionNativeTarget
-} from "../states"
+import { useSelectionNativeTarget } from "../states"
 import DeleteIcon from "./icons/DeleteIcon"
 import FindIcon from "./icons/FindIcon"
 import GroupIcon from "./icons/GroupIcon"
@@ -41,7 +39,7 @@ const AccordionSceneGraph = () => {
         [refresh]
     )
 
-    const [multipleSelectionTargets] = useMultipleSelectionTargets()
+    const multipleSelectionTargets = useSyncState(getMultipleSelectionTargets)
     const selectionTarget = useSyncState(getSelectionTarget)
     const [nativeTarget] = useSelectionNativeTarget()
 

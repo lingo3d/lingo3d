@@ -14,10 +14,6 @@ import {
     setLoadingUnpkgCount,
     getLoadingUnpkgCount
 } from "../../states/useLoadingUnpkgCount"
-import {
-    setMultipleSelectionTargets,
-    getMultipleSelectionTargets
-} from "../../states/useMultipleSelectionTargets"
 import { setPaused, getPaused } from "../../states/usePaused"
 import {
     setSelectionFrozen,
@@ -35,10 +31,6 @@ import {
 } from "../../states/useTransformControlsSpaceComputed"
 import hook from "../utils/hook"
 
-export const useMultipleSelectionTargets = hook(
-    setMultipleSelectionTargets,
-    getMultipleSelectionTargets
-)
 export const useSelectionFrozen = hook(setSelectionFrozen, getSelectionFrozen)
 export const useCameraList = hook(setCameraList, getCameraList)
 export const useCameraStack = hook(setCameraStack, getCameraStack)
