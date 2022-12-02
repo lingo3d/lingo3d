@@ -2,7 +2,6 @@ import { last } from "@lincode/utils"
 import { FolderApi, Pane } from "./tweakpane"
 import { setOrbitControls } from "../../states/useOrbitControls"
 import { useLayoutEffect, useState } from "preact/hooks"
-import { useSetupStack } from "../states"
 import { Cancellable } from "@lincode/promiselikes"
 import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../utils/getComponentName"
@@ -28,6 +27,7 @@ import { firstLoadPtr } from "../../api/files/loadFile"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
+import { getSetupStack } from "../../states/useSetupStack"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -59,7 +59,7 @@ const Editor = () => {
     const [pane, setPane] = useState<Pane>()
     const [cameraFolder, setCameraFolder] = useState<FolderApi>()
 
-    const [setupStack] = useSetupStack()
+    const setupStack = useSyncState(getSetupStack)
     const lastSetup = last(setupStack)
     const targetSetup = (lastSetup && dataSetupMap.get(lastSetup)) ?? settings
 
