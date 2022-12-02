@@ -1,5 +1,5 @@
 import useSyncState from "../hooks/useSyncState"
-import { getTimelineData } from "../states/useTimelineData"
+import { getTimelineData } from "../../states/useTimelineData"
 import LayerTreeItem from "./treeItems/LayerTreeItem"
 import PropertyTreeItem from "./treeItems/PropertyTreeItem"
 

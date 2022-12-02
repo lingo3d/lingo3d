@@ -5,13 +5,13 @@ import FileTreeItem from "./FileTreeItem"
 import pathMap from "./pathMap"
 import useInitCSS from "../hooks/useInitCSS"
 import { APPBAR_HEIGHT, PANELS_HEIGHT } from "../../globals"
-import { setFileSelected } from "../states/useFileSelected"
+import { setFileSelected } from "../../states/useFileSelected"
 import useSyncState from "../hooks/useSyncState"
 import { getFiles } from "../../states/useFiles"
 import {
     getFileBrowserDir,
     setFileBrowserDir
-} from "../states/useFileBrowserDir"
+} from "../../states/useFileBrowserDir"
 
 interface FileStructure {
     [key: string]: FileStructure | File

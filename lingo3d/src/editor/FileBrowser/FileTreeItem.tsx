@@ -3,7 +3,7 @@ import useSyncState from "../hooks/useSyncState"
 import {
     getFileBrowserDir,
     setFileBrowserDir
-} from "../states/useFileBrowserDir"
+} from "../../states/useFileBrowserDir"
 import FolderIcon from "./icons/FolderIcon"
 import pathMap from "./pathMap"
 

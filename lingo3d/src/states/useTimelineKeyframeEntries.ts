@@ -1,6 +1,6 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { uuidMap } from "../../api/core/collections"
-import TimelineAudio from "../../display/TimelineAudio"
+import { uuidMap } from "../api/core/collections"
+import TimelineAudio from "../display/TimelineAudio"
 import { getTimelineExpandedUUIDs } from "./useTimelineExpandedUUIDs"
 
 export const [setTimelineKeyframeEntries, getTimelineKeyframeEntries] = store<

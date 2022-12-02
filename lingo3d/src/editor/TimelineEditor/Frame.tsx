@@ -1,9 +1,9 @@
 import { CSSProperties, memo, useState } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
-import { getTimeline } from "../states/useTimeline"
-import { setTimelineContextMenu } from "../states/useTimelineContextMenu"
-import { getTimelineFrame, setTimelineFrame } from "../states/useTimelineFrame"
-import { getTimelineLayer, setTimelineLayer } from "../states/useTimelineLayer"
+import { getTimeline } from "../../states/useTimeline"
+import { setTimelineContextMenu } from "../../states/useTimelineContextMenu"
+import { getTimelineFrame, setTimelineFrame } from "../../states/useTimelineFrame"
+import { getTimelineLayer, setTimelineLayer } from "../../states/useTimelineLayer"
 import diffProps from "../utils/diffProps"
 
 let prevSetSelected: ((val: boolean) => void) | undefined

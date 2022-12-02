@@ -7,7 +7,7 @@ import useSyncState from "../../hooks/useSyncState"
 import {
     getTimelineLayer,
     setTimelineLayer
-} from "../../states/useTimelineLayer"
+} from "../../../states/useTimelineLayer"
 import useSyncDeselect from "./useSyncDeselect"
 
 type PropertyTreeItemProps = {

@@ -1,4 +1,4 @@
-import { addTimelineScrollLeft } from "../states/useTimelineScrollLeft"
+import { addTimelineScrollLeft } from "../../states/useTimelineScrollLeft"
 import useInitCSS from "../hooks/useInitCSS"
 import Frames from "./Frames"
 import RulerBar from "./RulerBar"

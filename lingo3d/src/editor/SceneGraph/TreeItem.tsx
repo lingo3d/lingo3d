@@ -24,7 +24,7 @@ import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTa
 import {
     getSceneGraphExpanded,
     setSceneGraphExpanded
-} from "../states/useSceneGraphExpanded"
+} from "../../states/useSceneGraphExpanded"
 
 export type TreeItemProps = {
     appendable: Appendable

@@ -1,5 +1,5 @@
 import store from "@lincode/reactivity"
-import { FRAME_WIDTH } from "../../globals"
+import { FRAME_WIDTH } from "../globals"
 import { getTimelineTotalFrames } from "./useTimelineTotalFrames"
 
 const [_setTimelineScrollLeft, getTimelineScrollLeft] = store(0)

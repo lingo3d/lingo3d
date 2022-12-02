@@ -1,14 +1,14 @@
 import AppBar from "../component/bars/AppBar"
 import IconButton from "../component/IconButton"
 import useSyncState from "../hooks/useSyncState"
-import { getTimeline } from "../states/useTimeline"
+import { getTimeline } from "../../states/useTimeline"
 import {
     decreaseTimelineFrame,
     firstTimelineFrame,
     increaseTimelineFrame,
     lastTimelineFrame
-} from "../states/useTimelineFrame"
-import { getTimelinePaused } from "../states/useTimelinePaused"
+} from "../../states/useTimelineFrame"
+import { getTimelinePaused } from "../../states/useTimelinePaused"
 import FirstFrameIcon from "./icons/FirstFrameIcon"
 import LastFrameIcon from "./icons/LastFrameIcon"
 import NextFrameIcon from "./icons/NextFrameIcon"

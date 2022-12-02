@@ -9,7 +9,7 @@ import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import {
     getSceneGraphExpanded,
     setSceneGraphExpanded
-} from "../states/useSceneGraphExpanded"
+} from "../../states/useSceneGraphExpanded"
 
 type NativeTreeItemProps = TreeItemProps & {
     object3d: Object3D | Bone

@@ -5,7 +5,7 @@ import useSyncState from "../../hooks/useSyncState"
 import {
     getTimelineLayer,
     setTimelineLayer
-} from "../../states/useTimelineLayer"
+} from "../../../states/useTimelineLayer"
 
 export default (
     selected: boolean,

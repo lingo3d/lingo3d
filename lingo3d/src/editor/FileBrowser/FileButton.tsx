@@ -4,7 +4,7 @@ import loadFile from "../../api/files/loadFile"
 import { createObjectURL } from "../../display/core/utils/objectURL"
 import Model from "../../display/Model"
 import useSyncState from "../hooks/useSyncState"
-import { getFileSelected, setFileSelected } from "../states/useFileSelected"
+import { getFileSelected, setFileSelected } from "../../states/useFileSelected"
 import drag, { setDragImage } from "../utils/drag"
 import FileIcon from "./icons/FileIcon"
 

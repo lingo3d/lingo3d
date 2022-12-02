@@ -14,12 +14,12 @@ import ContextMenu from "../component/ContextMenu"
 import ContextMenuItem from "../component/ContextMenu/ContextMenuItem"
 import { Point } from "@lincode/math"
 import Timeline from "../../display/Timeline"
-import { setSceneGraphExpanded } from "../states/useSceneGraphExpanded"
+import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import mousePosition from "../utils/mousePosition"
-import { getTimeline, setTimeline } from "../states/useTimeline"
+import { getTimeline, setTimeline } from "../../states/useTimeline"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import { getTimelineData } from "../states/useTimelineData"
+import { getTimelineData } from "../../states/useTimelineData"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)

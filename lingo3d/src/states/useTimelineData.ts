@@ -1,21 +1,21 @@
 import store, { createEffect } from "@lincode/reactivity"
-import Appendable from "../../api/core/Appendable"
-import { uuidMap } from "../../api/core/collections"
+import Appendable from "../api/core/Appendable"
+import { uuidMap } from "../api/core/collections"
 import { getTimelineFrame } from "./useTimelineFrame"
 import { forceGet, merge, unset } from "@lincode/utils"
-import { onTimelineClearKeyframe } from "../../events/onTimelineClearKeyframe"
+import { onTimelineClearKeyframe } from "../events/onTimelineClearKeyframe"
 import { getTimelineLayer } from "./useTimelineLayer"
-import { AnimationData } from "../../interface/IAnimationManager"
+import { AnimationData } from "../interface/IAnimationManager"
 import { getTimeline } from "./useTimeline"
-import { onDispose } from "../../events/onDispose"
-import unsafeGetValue from "../../utils/unsafeGetValue"
-import getPrivateValue from "../../utils/getPrivateValue"
-import { onTransformControls } from "../../events/onTransformControls"
-import { onEditorEdit } from "../../events/onEditorEdit"
+import { onDispose } from "../events/onDispose"
+import unsafeGetValue from "../utils/unsafeGetValue"
+import getPrivateValue from "../utils/getPrivateValue"
+import { onTransformControls } from "../events/onTransformControls"
+import { onEditorEdit } from "../events/onEditorEdit"
 import {
     getMultipleSelectionTargets,
     setMultipleSelectionTargets
-} from "../../states/useMultipleSelectionTargets"
+} from "./useMultipleSelectionTargets"
 import { keyframesPtr } from "./useTimelineKeyframeEntries"
 
 const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([

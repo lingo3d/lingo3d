@@ -1,7 +1,7 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { onBeforeRender } from "../../events/onBeforeRender"
-import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import getPrivateValue from "../../utils/getPrivateValue"
+import { onBeforeRender } from "../events/onBeforeRender"
+import { emitSelectionTarget } from "../events/onSelectionTarget"
+import getPrivateValue from "../utils/getPrivateValue"
 import { getTimeline } from "./useTimeline"
 import { setTimelineFrame } from "./useTimelineFrame"
 

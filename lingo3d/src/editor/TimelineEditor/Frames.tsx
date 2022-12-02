@@ -2,7 +2,7 @@ import { FRAME_HEIGHT } from "../../globals"
 import VirtualizedList from "../component/VirtualizedList"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
-import { getTimelineKeyframeEntries } from "../states/useTimelineKeyframeEntries"
+import { getTimelineKeyframeEntries } from "../../states/useTimelineKeyframeEntries"
 import FrameRow from "./FrameRow"
 import FrameTweens from "./FrameTweens"
 

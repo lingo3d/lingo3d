@@ -1,5 +1,5 @@
 import useSyncState from "../hooks/useSyncState"
-import { getTimelineScrollLeft } from "../states/useTimelineScrollLeft"
+import { getTimelineScrollLeft } from "../../states/useTimelineScrollLeft"
 import FrameTweenRow from "./FrameTweenRow"
 
 type FrameTweensProps = {

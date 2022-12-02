@@ -1,8 +1,8 @@
 import AppBar from "../component/bars/AppBar"
 import Button from "../component/Button"
 import useSyncState from "../hooks/useSyncState"
-import { getTimeline } from "../states/useTimeline"
-import { setTimelineContextMenu } from "../states/useTimelineContextMenu"
+import { getTimeline } from "../../states/useTimeline"
+import { setTimelineContextMenu } from "../../states/useTimelineContextMenu"
 import AddIcon from "./icons/AddIcon"
 
 const TimelineBar = () => {

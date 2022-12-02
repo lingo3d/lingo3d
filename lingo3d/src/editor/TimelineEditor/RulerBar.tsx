@@ -1,8 +1,8 @@
 import AppBar from "../component/bars/AppBar"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
-import { getTimeline } from "../states/useTimeline"
-import { addTimelineScrollLeft } from "../states/useTimelineScrollLeft"
+import { getTimeline } from "../../states/useTimeline"
+import { addTimelineScrollLeft } from "../../states/useTimelineScrollLeft"
 import Needle from "./Needle"
 import Ruler from "./Ruler"
 

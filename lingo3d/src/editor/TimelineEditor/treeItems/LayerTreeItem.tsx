@@ -9,11 +9,11 @@ import useSyncState from "../../hooks/useSyncState"
 import {
     deleteTimelineExpandedUUID,
     addTimelineExpandedUUID
-} from "../../states/useTimelineExpandedUUIDs"
+} from "../../../states/useTimelineExpandedUUIDs"
 import {
     getTimelineLayer,
     setTimelineLayer
-} from "../../states/useTimelineLayer"
+} from "../../../states/useTimelineLayer"
 import getComponentName from "../../utils/getComponentName"
 import useSyncDeselect from "./useSyncDeselect"
 
