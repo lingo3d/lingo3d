@@ -1,5 +1,5 @@
-import preactStore from "../utils/preactStore"
+import store from "@lincode/reactivity"
 
-export const [useTimelineTotalFrames, , getTimelineTotalFrames] = preactStore(
+export const [setTimelineTotalFrames, getTimelineTotalFrames] = store(
     Number.MAX_SAFE_INTEGER
 )

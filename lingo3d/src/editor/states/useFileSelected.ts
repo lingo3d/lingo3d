@@ -1,5 +1,5 @@
-import preactStore from "../utils/preactStore"
+import store from "@lincode/reactivity"
 
-export const [useFileSelected, setFileSelected] = preactStore<File | undefined>(
+export const [setFileSelected, getFileSelected] = store<File | undefined>(
     undefined
 )
