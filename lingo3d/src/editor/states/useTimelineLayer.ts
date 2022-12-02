@@ -1,4 +1,5 @@
-import preactStore from "../utils/preactStore"
+import store from "@lincode/reactivity"
 
-export const [useTimelineLayer, setTimelineLayer, getTimelineLayer] =
-    preactStore<string | undefined>(undefined)
+export const [setTimelineLayer, getTimelineLayer] = store<string | undefined>(
+    undefined
+)

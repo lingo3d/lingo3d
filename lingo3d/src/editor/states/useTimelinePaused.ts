@@ -1,14 +1,12 @@
-import { createEffect } from "@lincode/reactivity"
+import store, { createEffect } from "@lincode/reactivity"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import getPrivateValue from "../../utils/getPrivateValue"
-import preactStore from "../utils/preactStore"
 import { getTimeline } from "./useTimeline"
 import { setTimelineFrame } from "./useTimelineFrame"
 
-const [useTimelinePaused, setTimelinePaused, getTimelinePaused] =
-    preactStore(true)
-export { useTimelinePaused, getTimelinePaused }
+const [setTimelinePaused, getTimelinePaused] = store(true)
+export { getTimelinePaused }
 
 createEffect(() => {
     const timeline = getTimeline()

@@ -1,10 +1,11 @@
 import { APPBAR_HEIGHT, FRAME_WIDTH, PANELS_HEIGHT } from "../../globals"
-import { useTimelineFrame } from "../states/useTimelineFrame"
-import { useTimelineScrollLeft } from "../states/useTimelineScrollLeft"
+import useSyncState from "../hooks/useSyncState"
+import { getTimelineFrame } from "../states/useTimelineFrame"
+import { getTimelineScrollLeft } from "../states/useTimelineScrollLeft"
 
 const Needle = () => {
-    const [scrollLeft] = useTimelineScrollLeft()
-    const [frame] = useTimelineFrame()
+    const scrollLeft = useSyncState(getTimelineScrollLeft)
+    const frame = useSyncState(getTimelineFrame)
 
     return (
         <div

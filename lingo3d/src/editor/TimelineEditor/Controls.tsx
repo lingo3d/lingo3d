@@ -8,7 +8,7 @@ import {
     increaseTimelineFrame,
     lastTimelineFrame
 } from "../states/useTimelineFrame"
-import { useTimelinePaused } from "../states/useTimelinePaused"
+import { getTimelinePaused } from "../states/useTimelinePaused"
 import FirstFrameIcon from "./icons/FirstFrameIcon"
 import LastFrameIcon from "./icons/LastFrameIcon"
 import NextFrameIcon from "./icons/NextFrameIcon"
@@ -18,7 +18,7 @@ import PrevFrameIcon from "./icons/PrevFrameIcon"
 
 const Controls = () => {
     const timeline = useSyncState(getTimeline)
-    const [paused] = useTimelinePaused()
+    const paused = useSyncState(getTimelinePaused)
 
     return (
         <AppBar noPadding>

@@ -4,7 +4,7 @@ import { useLayoutEffect, useRef, useState } from "preact/hooks"
 import TimelineAudio from "../../display/TimelineAudio"
 import { FRAME_HEIGHT, SEC2FRAME, FRAME_WIDTH, FRAME2SEC } from "../../globals"
 import { getTimelineFrame } from "../states/useTimelineFrame"
-import { useTimelinePaused } from "../states/useTimelinePaused"
+import { getTimelinePaused } from "../states/useTimelinePaused"
 import WaveSurfer from "wavesurfer.js"
 import { getTimeline } from "../states/useTimeline"
 import getPrivateValue from "../../utils/getPrivateValue"
@@ -24,7 +24,7 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
     const width = duration * SEC2FRAME * FRAME_WIDTH
     const ref = useRef<HTMLDivElement>(null)
     const [waveSurfer, setWaveSurfer] = useState<WaveSurfer>()
-    const [paused] = useTimelinePaused()
+    const paused = useSyncState(getTimelinePaused)
 
     useLayoutEffect(() => {
         if (!waveSurfer) return

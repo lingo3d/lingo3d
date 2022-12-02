@@ -1,4 +1,5 @@
-import { useTimelineScrollLeft } from "../states/useTimelineScrollLeft"
+import useSyncState from "../hooks/useSyncState"
+import { getTimelineScrollLeft } from "../states/useTimelineScrollLeft"
 import FrameTweenRow from "./FrameTweenRow"
 
 type FrameTweensProps = {
@@ -6,7 +7,7 @@ type FrameTweensProps = {
 }
 
 const FrameTweens = ({ keyframesEntries }: FrameTweensProps) => {
-    const [scrollLeft] = useTimelineScrollLeft()
+    const scrollLeft = useSyncState(getTimelineScrollLeft)
 
     return (
         <div

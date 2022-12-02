@@ -1,10 +1,9 @@
+import store from "@lincode/reactivity"
 import { FRAME_WIDTH } from "../../globals"
-import preactStore from "../utils/preactStore"
 import { getTimelineTotalFrames } from "./useTimelineTotalFrames"
 
-const [useTimelineScrollLeft, _setTimelineScrollLeft, getTimelineScrollLeft] =
-    preactStore(0)
-export { useTimelineScrollLeft }
+const [_setTimelineScrollLeft, getTimelineScrollLeft] = store(0)
+export { getTimelineScrollLeft }
 export const addTimelineScrollLeft = (deltaX: number) =>
     _setTimelineScrollLeft(
         Math.min(

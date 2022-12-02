@@ -1,8 +1,7 @@
-import preactStore from "../utils/preactStore"
+import store from "@lincode/reactivity"
 import { getTimeline } from "./useTimeline"
 
-export const [useTimelineFrame, setTimelineFrame, getTimelineFrame] =
-    preactStore(0)
+export const [setTimelineFrame, getTimelineFrame] = store(0)
 
 export const increaseTimelineFrame = () => {
     const timeline = getTimeline()

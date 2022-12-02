@@ -2,7 +2,7 @@ import { CSSProperties, memo } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import useSyncState from "../hooks/useSyncState"
-import { useTimelineScrollLeft } from "../states/useTimelineScrollLeft"
+import { getTimelineScrollLeft } from "../states/useTimelineScrollLeft"
 import { getTimelineTotalFrames } from "../states/useTimelineTotalFrames"
 import diffProps from "../utils/diffProps"
 import Frame from "./Frame"
@@ -15,7 +15,7 @@ type FrameGridProps = {
 }
 
 const FrameRow = ({ width, style, layer, keyframes }: FrameGridProps) => {
-    const [scrollLeft] = useTimelineScrollLeft()
+    const scrollLeft = useSyncState(getTimelineScrollLeft)
     const totalFrames = useSyncState(getTimelineTotalFrames)
 
     return (

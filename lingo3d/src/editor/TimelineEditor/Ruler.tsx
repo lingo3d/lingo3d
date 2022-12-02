@@ -1,7 +1,7 @@
 import { APPBAR_HEIGHT, FRAME_WIDTH } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import useSyncState from "../hooks/useSyncState"
-import { useTimelineScrollLeft } from "../states/useTimelineScrollLeft"
+import { getTimelineScrollLeft } from "../states/useTimelineScrollLeft"
 import { getTimelineTotalFrames } from "../states/useTimelineTotalFrames"
 import Metric from "./Metric"
 
@@ -10,7 +10,7 @@ type RulerProps = {
 }
 
 const Ruler = ({ width }: RulerProps) => {
-    const [scrollLeft] = useTimelineScrollLeft()
+    const scrollLeft = useSyncState(getTimelineScrollLeft)
     const totalFrames = useSyncState(getTimelineTotalFrames)
 
     return (
