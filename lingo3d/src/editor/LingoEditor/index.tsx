@@ -5,11 +5,13 @@ import Library from "../Library"
 import HUD from "../HUD"
 import { useEffect, useRef } from "preact/hooks"
 import settings from "../../api/settings"
-import { useFileCurrent, useStats } from "../states"
+import { useStats } from "../states"
 import Stats from "../Stats"
 import Tabs from "../Tabs"
 import Panels from "../Panels"
 import { DEBUG } from "../../globals"
+import useSyncState from "../hooks/useSyncState"
+import { getFileCurrent } from "../../states/useFileCurrent"
 
 const LingoEditor = () => {
     const elRef = useRef<HTMLDivElement>(null)
@@ -19,7 +21,7 @@ const LingoEditor = () => {
         if (el) settings.autoMount = el
     }, [])
 
-    const [fileCurrent] = useFileCurrent()
+    const fileCurrent = useSyncState(getFileCurrent)
     const [stats] = useStats()
 
     return (

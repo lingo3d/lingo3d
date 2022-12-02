@@ -4,7 +4,6 @@ import ScaleIcon from "./icons/ScaleIcon"
 import AbsoluteIcon from "./icons/AbsoluteIcon"
 import RelativeIcon from "./icons/RelativeIcon"
 import ToolbarButton from "./ToolbarButton"
-import { useTransformControlsSpaceComputed } from "../states"
 import CursorIcon from "./icons/CursorIcon"
 import OpenIcon from "./icons/OpenIcont"
 import ReactIcon from "./icons/ReactIcon"
@@ -31,13 +30,14 @@ import { setEditorMode } from "../../states/useEditorMode"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
+import { getTransformControlsSpaceComputed } from "../../states/useTransformControlsSpaceComputed"
 
 const Toolbar = () => {
     useInitCSS(true)
     const elRef = useClickable()
 
     const mode = useSyncState(getEditorModeComputed)
-    const [space] = useTransformControlsSpaceComputed()
+    const space = useSyncState(getTransformControlsSpaceComputed)
     const target = useSyncState(getSelectionTarget)
     const selectOnly = target && !isPositionedItem(target)
     const translateOnly =

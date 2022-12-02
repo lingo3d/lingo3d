@@ -1,11 +1,12 @@
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
-import { useFileCurrent } from "../states"
 import useInitCSS from "../hooks/useInitCSS"
+import useSyncState from "../hooks/useSyncState"
+import { getFileCurrent } from "../../states/useFileCurrent"
 
 const Tabs = () => {
     useInitCSS(true)
-    const [fileCurrent] = useFileCurrent()
+    const fileCurrent = useSyncState(getFileCurrent)
 
     return (
         <div

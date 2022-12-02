@@ -1,5 +1,3 @@
-
-import { setFileCurrent, getFileCurrent } from "../../states/useFileCurrent"
 import { setFiles, getFiles } from "../../states/useFiles"
 import {
     setLoadingUnpkgCount,
@@ -12,16 +10,8 @@ import {
 } from "../../states/useSelectionNativeTarget"
 import { setSetupStack, getSetupStack } from "../../states/useSetupStack"
 import { setStats, getStats } from "../../states/useStats"
-import {
-    setTransformControlsSpaceComputed,
-    getTransformControlsSpaceComputed
-} from "../../states/useTransformControlsSpaceComputed"
 import hook from "../utils/hook"
 
-export const useTransformControlsSpaceComputed = hook(
-    setTransformControlsSpaceComputed,
-    getTransformControlsSpaceComputed
-)
 export const useSelectionNativeTarget = hook(
     setSelectionNativeTarget,
     getSelectionNativeTarget
@@ -34,4 +24,3 @@ export const useLoadingUnpkgCount = hook(
     getLoadingUnpkgCount
 )
 export const useFiles = hook(setFiles, getFiles)
-export const useFileCurrent = hook(setFileCurrent, getFileCurrent)
