@@ -4,9 +4,12 @@ import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
 import ComponentIcon from "./icons/ComponentIcon"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import BoneIcon from "./icons/BoneIcon"
-import { useSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
+import {
+    getSceneGraphExpanded,
+    setSceneGraphExpanded
+} from "../states/useSceneGraphExpanded"
 
 type NativeTreeItemProps = TreeItemProps & {
     object3d: Object3D | Bone
@@ -21,7 +24,7 @@ const NativeTreeItem = ({ appendable, object3d }: NativeTreeItemProps) => {
         []
     )
 
-    const [sceneGraphExpanded, setSceneGraphExpanded] = useSceneGraphExpanded()
+    const sceneGraphExpanded = useSyncState(getSceneGraphExpanded)
     useEffect(() => {
         sceneGraphExpanded?.has(object3d) && setExpanded(true)
     }, [sceneGraphExpanded])

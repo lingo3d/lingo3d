@@ -18,10 +18,13 @@ import AnimationManager from "../../display/core/AnimatedObjectManager/Animation
 import PlayIcon from "./icons/PlayIcon"
 import BasicMaterialManager from "../../display/material/BasicMaterialManager"
 import ImageIcon from "./icons/ImageIcon"
-import { useSceneGraphExpanded } from "../states/useSceneGraphExpanded"
 import { onName } from "../../events/onName"
 import useSyncState from "../hooks/useSyncState"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
+import {
+    getSceneGraphExpanded,
+    setSceneGraphExpanded
+} from "../states/useSceneGraphExpanded"
 
 export type TreeItemProps = {
     appendable: Appendable
@@ -61,7 +64,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
 
     const handleClick = useMemo(() => makeTreeItemCallbacks(appendable), [])
 
-    const [sceneGraphExpanded, setSceneGraphExpanded] = useSceneGraphExpanded()
+    const sceneGraphExpanded = useSyncState(getSceneGraphExpanded)
 
     const IconComponent = useMemo(() => {
         if (appendable instanceof AnimationManager) return PlayIcon
