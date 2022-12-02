@@ -5,10 +5,13 @@ import FileTreeItem from "./FileTreeItem"
 import pathMap from "./pathMap"
 import useInitCSS from "../hooks/useInitCSS"
 import { APPBAR_HEIGHT, PANELS_HEIGHT } from "../../globals"
-import { useFileBrowserDir } from "../states/useFileBrowserDir"
 import { setFileSelected } from "../states/useFileSelected"
 import useSyncState from "../hooks/useSyncState"
 import { getFiles } from "../../states/useFiles"
+import {
+    getFileBrowserDir,
+    setFileBrowserDir
+} from "../states/useFileBrowserDir"
 
 interface FileStructure {
     [key: string]: FileStructure | File
@@ -17,7 +20,7 @@ interface FileStructure {
 const FileBrowser = () => {
     useInitCSS(true)
     const files = useSyncState(getFiles)
-    const [fileBrowserDir, setFileBrowserDir] = useFileBrowserDir()
+    const fileBrowserDir = useSyncState(getFileBrowserDir)
 
     const [fileStructure, firstFolderName] = useMemo(() => {
         const fileStructure: FileStructure = {}

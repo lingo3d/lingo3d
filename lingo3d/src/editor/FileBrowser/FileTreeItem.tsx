@@ -1,5 +1,9 @@
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
-import { useFileBrowserDir } from "../states/useFileBrowserDir"
+import useSyncState from "../hooks/useSyncState"
+import {
+    getFileBrowserDir,
+    setFileBrowserDir
+} from "../states/useFileBrowserDir"
 import FolderIcon from "./icons/FolderIcon"
 import pathMap from "./pathMap"
 
@@ -17,7 +21,7 @@ const FileTreeItem = ({
     myPath
 }: FileTreeItemProps) => {
     const fileEntries = Object.entries<any>(fileStructure)
-    const [fileBrowserDir, setFileBrowserDir] = useFileBrowserDir()
+    const fileBrowserDir = useSyncState(getFileBrowserDir)
 
     const children = () =>
         fileEntries.map(([name, fileOrFolder]) =>

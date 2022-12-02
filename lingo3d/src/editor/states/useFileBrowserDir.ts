@@ -1,3 +1,3 @@
-import preactStore from "../utils/preactStore"
+import store from "@lincode/reactivity"
 
-export const [useFileBrowserDir] = preactStore("")
+export const [setFileBrowserDir, getFileBrowserDir] = store("")
