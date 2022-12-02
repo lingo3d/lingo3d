@@ -44,7 +44,7 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
 
         timeline.mergeData({
             [instance.uuid]: {
-                startFrame: { 0: 0, [endFrame]: 0 }
+                frames: { 0: 0, [endFrame]: 0 }
             }
         })
     }, [duration, frameKeys, timeline, endFrame])
