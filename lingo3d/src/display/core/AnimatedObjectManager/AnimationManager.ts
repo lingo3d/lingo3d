@@ -127,42 +127,40 @@ export default class AnimationManager
                 return
             }
             const audioDurationGetters: Array<GetGlobalState<number>> = []
-            this.clipState.set(
-                new AnimationClip(
-                    undefined,
-                    undefined,
-                    Object.entries(data)
-                        .map(([targetName, targetTracks]) => {
-                            const instance = uuidMap.get(targetName)
-                            if (!instance) return []
-                            if (instance instanceof TimelineAudio) {
-                                audioDurationGetters.push(
-                                    getPrivateValue(instance, "durationState")
-                                        .get
-                                )
-                                return []
-                            }
-                            return Object.entries(targetTracks)
-                                .map(
-                                    ([property, frames]) =>
-                                        framesToKeyframeTrack(
-                                            targetName,
-                                            property,
-                                            frames
-                                        )!
-                                )
-                                .filter(Boolean)
-                        })
-                        .flat()
-                )
+            const newClip = new AnimationClip(
+                undefined,
+                undefined,
+                Object.entries(data)
+                    .map(([targetName, targetTracks]) => {
+                        const instance = uuidMap.get(targetName)
+                        if (!instance) return []
+                        if (instance instanceof TimelineAudio) {
+                            audioDurationGetters.push(
+                                getPrivateValue(instance, "durationState").get
+                            )
+                            return []
+                        }
+                        return Object.entries(targetTracks)
+                            .map(
+                                ([property, frames]) =>
+                                    framesToKeyframeTrack(
+                                        targetName,
+                                        property,
+                                        frames
+                                    )!
+                            )
+                            .filter(Boolean)
+                    })
+                    .flat()
             )
+            this.clipState.set(newClip)
             const handle = new Cancellable()
             const computeAudioDuration = debounceTrailing(() => {
                 if (handle.done) return
                 const maxDuration = Math.max(
                     ...audioDurationGetters.map((getter) => getter())
                 )
-                this.audioTotalFrames = maxDuration * SEC2FRAME
+                this.audioTotalFrames = Math.ceil(maxDuration * SEC2FRAME)
             })
             for (const getAudioDuration of audioDurationGetters)
                 handle.watch(getAudioDuration(computeAudioDuration))
