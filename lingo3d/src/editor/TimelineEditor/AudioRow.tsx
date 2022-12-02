@@ -32,6 +32,7 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
                 : Number(last(frameKeys))
         ] as const
     }, [frameKeys, duration])
+
     const width = endFrame * FRAME_WIDTH
     const ref = useRef<HTMLDivElement>(null)
     const [waveSurfer, setWaveSurfer] = useState<WaveSurfer>()
@@ -43,7 +44,7 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
 
         timeline.mergeData({
             [instance.uuid]: {
-                startFrame: { [endFrame]: 0 }
+                startFrame: { 0: 0, [endFrame]: 0 }
             }
         })
     }, [duration, frameKeys, timeline, endFrame])

@@ -1,6 +1,4 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { uuidMap } from "../api/core/collections"
-import TimelineAudio from "../display/TimelineAudio"
 import { getTimelineExpandedUUIDs } from "./useTimelineExpandedUUIDs"
 
 export const [setTimelineKeyframeEntries, getTimelineKeyframeEntries] = store<
@@ -20,10 +18,6 @@ import("./useTimelineData").then(({ getTimelineData }) => {
         }
         const keyframes: Keyframes = (keyframesPtr[0] = {})
         for (const [uuid, data] of Object.entries(timelineData)) {
-            const instance = uuidMap.get(uuid)
-            if (instance instanceof TimelineAudio && !("startFrame" in data))
-                data.startFrame = { 0: 0 }
-
             const frameRecord: Record<string, true> = (keyframes[uuid] = {})
             for (const frames of Object.values(data))
                 for (const frame of Object.keys(frames))
