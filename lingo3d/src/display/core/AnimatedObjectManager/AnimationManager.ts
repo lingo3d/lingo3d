@@ -73,6 +73,8 @@ export default class AnimationManager
 
     private mixer: AnimationMixer
 
+    public totalFrames = 0
+
     public constructor(
         public name: string,
         clip: AnimationClip | undefined,
@@ -146,7 +148,11 @@ export default class AnimationManager
         let frame: number | undefined
         this.createEffect(() => {
             const clip = this.clipState.get()
-            if (!clip) return
+            if (!clip) {
+                this.totalFrames = 0
+                return
+            }
+            this.totalFrames = Math.ceil(clip.duration * SEC2FRAME)
 
             const action = mixer.clipAction(clip)
             this.actionState.set(action)
@@ -252,14 +258,6 @@ export default class AnimationManager
         }
         merge(prevData, data)
         this.dataState.set([prevData])
-    }
-
-    private get duration() {
-        return this.clipState.get()?.duration ?? 0
-    }
-
-    public get totalFrames() {
-        return Math.ceil(this.duration * SEC2FRAME)
     }
 
     public get frame() {
