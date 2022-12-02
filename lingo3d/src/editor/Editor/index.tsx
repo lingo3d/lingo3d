@@ -77,14 +77,14 @@ const Editor = () => {
 
         const pane = new Pane({ container: el })
         setPane(pane)
-        const handle = new Cancellable()
+        setCameraFolder(pane.addFolder({ title: "camera" }))
 
+        const handle = new Cancellable()
         if (
             selectedSignal.value === "World" ||
             !selectionTarget ||
             selectionTarget instanceof Setup
         ) {
-            setCameraFolder(pane.addFolder({ title: "camera" }))
             addSetupInputs(
                 handle,
                 pane,
