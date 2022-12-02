@@ -1,33 +1,55 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { memo } from "preact/compat"
-import { useLayoutEffect, useRef, useState } from "preact/hooks"
+import { useLayoutEffect, useMemo, useRef, useState } from "preact/hooks"
 import TimelineAudio from "../../display/TimelineAudio"
 import { FRAME_HEIGHT, SEC2FRAME, FRAME_WIDTH, FRAME2SEC } from "../../globals"
 import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { getTimelinePaused } from "../../states/useTimelinePaused"
 import WaveSurfer from "wavesurfer.js"
-import { getTimeline } from "../../states/useTimeline"
 import getPrivateValue from "../../utils/getPrivateValue"
 import diffProps from "../utils/diffProps"
 import useSyncState from "../hooks/useSyncState"
+import { last } from "@lincode/utils"
+import { getTimeline } from "../../states/useTimeline"
 
 type AudioRowProps = {
     instance: TimelineAudio
-    startFrame: number
+    frames: Record<number, true>
 }
 
-const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
+const AudioRow = ({ instance, frames }: AudioRowProps) => {
     const src = useSyncState(getPrivateValue(instance, "srcState").get)
     const duration = useSyncState(
         getPrivateValue(instance, "durationState").get
     )
-    const width = duration * SEC2FRAME * FRAME_WIDTH
+    const frameKeys = useMemo(() => Object.keys(frames), [frames])
+    const [startFrame, endFrame] = useMemo(() => {
+        const startFrame = Number(frameKeys[0] ?? 0)
+        return [
+            startFrame,
+            frameKeys.length < 2
+                ? startFrame + Math.ceil(duration * SEC2FRAME)
+                : Number(last(frameKeys))
+        ] as const
+    }, [frameKeys, duration])
+    const width = endFrame * FRAME_WIDTH
     const ref = useRef<HTMLDivElement>(null)
     const [waveSurfer, setWaveSurfer] = useState<WaveSurfer>()
     const paused = useSyncState(getTimelinePaused)
+    const timeline = useSyncState(getTimeline)
 
     useLayoutEffect(() => {
-        if (!waveSurfer) return
+        if (!duration || frameKeys.length >= 2 || !timeline) return
+
+        timeline.mergeData({
+            [instance.uuid]: {
+                startFrame: { [endFrame]: 0 }
+            }
+        })
+    }, [duration, frameKeys, timeline, endFrame])
+
+    useLayoutEffect(() => {
+        if (!waveSurfer || !timeline) return
         if (!paused) {
             const handle = getTimelineFrame((frame, handle) => {
                 if (frame < startFrame) return
@@ -35,7 +57,6 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
                 handle.cancel()
             })
             let awaitCount = 1
-            const timeline = getTimeline()!
             timeline.await += awaitCount
 
             const audioContext = waveSurfer.backend.getAudioContext()
@@ -59,7 +80,7 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
         return () => {
             handle.cancel()
         }
-    }, [waveSurfer, paused])
+    }, [waveSurfer, paused, timeline])
 
     useLayoutEffect(() => {
         const div = ref.current

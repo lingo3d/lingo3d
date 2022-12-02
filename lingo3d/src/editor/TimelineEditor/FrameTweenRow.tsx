@@ -19,12 +19,7 @@ const FrameTweenRow = ({ frames, uuid }: FrameTweenRowProps) => {
     if (!instance) return null
 
     if (instance instanceof TimelineAudio)
-        return (
-            <AudioRow
-                instance={instance}
-                startFrame={Number(Object.keys(frames)[0] ?? 0)}
-            />
-        )
+        return <AudioRow instance={instance} frames={frames} />
 
     return (
         <div style={{ height: FRAME_HEIGHT }}>
