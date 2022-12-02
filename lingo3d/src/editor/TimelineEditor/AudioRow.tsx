@@ -9,6 +9,7 @@ import WaveSurfer from "wavesurfer.js"
 import { getTimeline } from "../states/useTimeline"
 import getPrivateValue from "../../utils/getPrivateValue"
 import diffProps from "../utils/diffProps"
+import useSyncState from "../hooks/useSyncState"
 
 type AudioRowProps = {
     instance: TimelineAudio
@@ -16,21 +17,12 @@ type AudioRowProps = {
 }
 
 const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
-    const [src, setSrc] = useState<string>()
-
-    useLayoutEffect(() => {
-        const handle0 = getPrivateValue(instance, "srcState").get(setSrc)
-        const handle1 = getPrivateValue(instance, "durationState").get(
-            (duration) => setWidth(duration * SEC2FRAME * FRAME_WIDTH)
-        )
-        return () => {
-            handle0.cancel()
-            handle1.cancel()
-        }
-    }, [instance])
-
+    const src = useSyncState(getPrivateValue(instance, "srcState").get)
+    const duration = useSyncState(
+        getPrivateValue(instance, "durationState").get
+    )
+    const width = duration * SEC2FRAME * FRAME_WIDTH
     const ref = useRef<HTMLDivElement>(null)
-    const [width, setWidth] = useState(0)
     const [waveSurfer, setWaveSurfer] = useState<WaveSurfer>()
     const [paused] = useTimelinePaused()
 
@@ -90,7 +82,6 @@ const AudioRow = ({ instance, startFrame }: AudioRowProps) => {
         })
         return () => {
             handle.cancel()
-            setWidth(0)
             setWaveSurfer(undefined)
         }
     }, [src, width])
