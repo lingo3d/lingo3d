@@ -1,6 +1,6 @@
 import { CameraHelper, PerspectiveCamera, Quaternion } from "three"
 import ObjectManager from "../ObjectManager"
-import { debounceInstance, last } from "@lincode/utils"
+import { debounceInstance } from "@lincode/utils"
 import { scaleDown } from "../../../engine/constants"
 import {
     ray,
@@ -21,7 +21,6 @@ import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import {
     pullCameraStack,
-    getCameraStack,
     pushCameraStack
 } from "../../../states/useCameraStack"
 import getWorldPosition from "../../utils/getWorldPosition"
@@ -110,10 +109,12 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
         this.camera.updateProjectionMatrix?.()
     }
 
+    private _active?: boolean
     public get active() {
-        return last(getCameraStack()) === this.camera
+        return !!this._active
     }
     public set active(val) {
+        this._active = val
         pullCameraStack(this.camera)
         val && pushCameraStack(this.camera)
     }
