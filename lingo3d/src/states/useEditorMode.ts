@@ -15,6 +15,9 @@ type Mode =
 export const [setEditorMode, getEditorMode] = store<Mode>("play")
 
 createEffect(() => {
-    if (getCameraRendered() === mainCamera && getEditorMounted())
-        setEditorMode("translate")
+    setEditorMode(
+        getCameraRendered() === mainCamera && getEditorMounted()
+            ? "translate"
+            : "play"
+    )
 }, [getCameraRendered, getEditorMounted])

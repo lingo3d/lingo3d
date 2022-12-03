@@ -38,12 +38,13 @@ export const makeTreeItemCallbacks = (
 ) => {
     return (rightClick?: boolean) => {
         getEditorPlay() && setEditorMode("translate")
-        isPositionedItem(parent) &&
-            getSelectionTarget() !== parent &&
-            emitSelectionTarget(parent, rightClick)
-        if (target instanceof Object3D)
-            queueMicrotask(() => setSelectionNativeTarget(target))
-        else emitSelectionTarget(target, rightClick)
+        queueMicrotask(() => {
+            if (isPositionedItem(parent) && getSelectionTarget() !== parent)
+                emitSelectionTarget(parent, rightClick)
+            if (target instanceof Object3D)
+                queueMicrotask(() => setSelectionNativeTarget(target))
+            else emitSelectionTarget(target, rightClick)
+        })
     }
 }
 
