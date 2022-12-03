@@ -4,6 +4,9 @@ import useSyncState from "../hooks/useSyncState"
 import { getTimelineScrollLeft } from "../../states/useTimelineScrollLeft"
 import { getTimelineTotalFrames } from "../../states/useTimelineTotalFrames"
 import Metric from "./Metric"
+import { useMemo } from "preact/hooks"
+import { CSSProperties, memo } from "preact/compat"
+import diffProps from "../utils/diffProps"
 
 type RulerProps = {
     width: number
@@ -13,6 +16,16 @@ const Ruler = ({ width }: RulerProps) => {
     const scrollLeft = useSyncState(getTimelineScrollLeft)
     const totalFrames = useSyncState(getTimelineTotalFrames)
 
+    const RenderComponent = useMemo(
+        () =>
+            memo(
+                ({ index, style }: { index: number; style: CSSProperties }) => {
+                    return <Metric key={index} index={index} style={style} />
+                },
+                diffProps
+            ),
+        []
+    )
     return (
         <VirtualizedListHorizontal
             scrollLeft={scrollLeft}
@@ -21,9 +34,7 @@ const Ruler = ({ width }: RulerProps) => {
             containerWidth={width}
             containerHeight={APPBAR_HEIGHT}
             style={{ overflowX: "hidden" }}
-            renderItem={({ index, style }) => (
-                <Metric key={index} index={index} style={style} />
-            )}
+            RenderComponent={RenderComponent}
         />
     )
 }

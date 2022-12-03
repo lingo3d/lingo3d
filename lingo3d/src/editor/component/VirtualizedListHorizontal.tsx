@@ -7,7 +7,7 @@ interface VirtualizedListHorizontalProps<T extends Array<any>> {
     itemWidth: number
     containerWidth: number
     containerHeight: number
-    renderItem: (data: {
+    RenderComponent: (data: {
         index: number
         style: CSSProperties
         data: valueof<T>
@@ -17,13 +17,19 @@ interface VirtualizedListHorizontalProps<T extends Array<any>> {
     style?: CSSProperties
 }
 
+const makeArray = (start: number, end: number) => {
+    const result: Array<number> = []
+    for (let i = start; i <= end; i++) result.push(i)
+    return result
+}
+
 const VirtualizedListHorizontal = <T extends Array<any>>({
     data,
     itemNum = data?.length ?? 0,
     itemWidth,
     containerWidth,
     containerHeight,
-    renderItem,
+    RenderComponent,
     scrollLeft,
     onScrollLeft,
     style
@@ -53,16 +59,6 @@ const VirtualizedListHorizontal = <T extends Array<any>>({
         Math.floor((scroll + containerWidth) / itemWidth)
     )
 
-    const items = []
-    for (let i = startIndex; i <= endIndex; i++)
-        items.push(
-            renderItem({
-                index: i,
-                style: { position: "absolute", left: `${i * itemWidth}px` },
-                data: data?.[i]
-            })
-        )
-
     return (
         <div
             ref={scrollRef}
@@ -76,7 +72,14 @@ const VirtualizedListHorizontal = <T extends Array<any>>({
             onScroll={(e) => setScroll(e.currentTarget.scrollLeft)}
         >
             <div style={{ position: "relative", width: innerWidth }}>
-                {items}
+                {makeArray(startIndex, endIndex).map((i) => (
+                    <RenderComponent
+                        key={i}
+                        index={i}
+                        style={{ position: "absolute", left: i * itemWidth }}
+                        data={data?.[i]}
+                    />
+                ))}
             </div>
         </div>
     )
