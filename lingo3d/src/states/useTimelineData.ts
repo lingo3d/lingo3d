@@ -5,7 +5,7 @@ import { getTimelineFrame } from "./useTimelineFrame"
 import { forceGet, merge, unset } from "@lincode/utils"
 import { onTimelineClearKeyframe } from "../events/onTimelineClearKeyframe"
 import { getTimelineLayer } from "./useTimelineLayer"
-import { AnimationData } from "../interface/IAnimationManager"
+import { AnimationData, FrameValue } from "../interface/IAnimationManager"
 import { getTimeline } from "./useTimeline"
 import { onDispose } from "../events/onDispose"
 import unsafeGetValue from "../utils/unsafeGetValue"
@@ -44,24 +44,27 @@ const getTimelineProperties = (instance: Appendable) =>
             for (const [property, type] of Object.entries(
                 unsafeGetValue(instance.constructor, "schema")
             ))
-                type === Number &&
-                    property !== "rotation" &&
-                    property !== "scale" &&
+                if (
+                    type === Boolean ||
+                    (type === Number &&
+                        property !== "rotation" &&
+                        property !== "scale")
+                )
                     result.push(property)
 
             return result
         }
     )
 
-const saveMap = new WeakMap<Appendable, Record<string, number>>()
+const saveMap = new WeakMap<Appendable, Record<string, FrameValue>>()
 const saveProperties = (instance: Appendable) => {
-    const saved: Record<string, number> = {}
+    const saved: Record<string, FrameValue> = {}
     for (const property of getTimelineProperties(instance))
         saved[property] = unsafeGetValue(instance, property)
     saveMap.set(instance, saved)
 }
 const getChangedProperties = (instance: Appendable) => {
-    const changed: Array<[string, number]> = []
+    const changed: Array<[string, FrameValue]> = []
     const saved = saveMap.get(instance)!
     for (const property of getTimelineProperties(instance))
         if (saved[property] !== unsafeGetValue(instance, property))

@@ -2,7 +2,8 @@ import {
     AnimationMixer,
     AnimationClip,
     NumberKeyframeTrack,
-    AnimationAction
+    AnimationAction,
+    BooleanKeyframeTrack
 } from "three"
 import { debounceTrailing, forceGet, merge } from "@lincode/utils"
 import { onBeforeRender } from "../../../events/onBeforeRender"
@@ -16,11 +17,11 @@ import {
 import IAnimationManager, {
     AnimationData,
     animationManagerDefaults,
-    animationManagerSchema
+    animationManagerSchema,
+    FrameData
 } from "../../../interface/IAnimationManager"
 import Appendable from "../../../api/core/Appendable"
 import FoundManager from "../FoundManager"
-import { Point, Point3d } from "@lincode/math"
 import { FRAME2SEC, SEC2FRAME } from "../../../globals"
 import TimelineAudio from "../../TimelineAudio"
 import { Cancellable } from "@lincode/promiselikes"
@@ -33,15 +34,19 @@ const mixerManagerMap = new WeakMap<AnimationMixer, AnimationManager>()
 const framesToKeyframeTrack = (
     targetName: string,
     property: string,
-    frames: Record<number, number | Point | Point3d>
+    frames: FrameData
 ) => {
     const keys = Object.keys(frames)
     if (!keys.length) return
-    return new NumberKeyframeTrack(
-        targetName + "." + property,
-        keys.map((frameNum) => Number(frameNum) * FRAME2SEC),
-        Object.values(frames)
-    )
+
+    const values = Object.values(frames)
+    const name = targetName + "." + property
+    const frameNums = keys.map((frameNum) => Number(frameNum) * FRAME2SEC)
+
+    if (typeof values[0] === "boolean")
+        return new BooleanKeyframeTrack(name, frameNums, values)
+
+    return new NumberKeyframeTrack(name, frameNums, values)
 }
 
 export default class AnimationManager
