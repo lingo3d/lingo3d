@@ -7,7 +7,7 @@ interface VirtualizedListProps<T extends Array<any>> {
     itemHeight: number
     containerWidth: number
     containerHeight: number
-    renderItem: (data: {
+    RenderComponent: (data: {
         index: number
         style: CSSProperties
         data: valueof<T>
@@ -23,7 +23,7 @@ const VirtualizedList = <T extends Array<any>>({
     itemHeight,
     containerWidth,
     containerHeight,
-    renderItem,
+    RenderComponent,
     scrollTop,
     onScrollTop,
     style
@@ -54,13 +54,14 @@ const VirtualizedList = <T extends Array<any>>({
     )
 
     const items = []
-    for (let i = startIndex; i <= endIndex; i++)
+    for (let i = startIndex; i <= endIndex; ++i)
         items.push(
-            renderItem({
-                index: i,
-                style: { position: "absolute", top: `${i * itemHeight}px` },
-                data: data?.[i]
-            })
+            <RenderComponent
+                key={i}
+                index={i}
+                style={{ position: "absolute", top: i * itemHeight }}
+                data={data?.[i]}
+            />
         )
 
     return (

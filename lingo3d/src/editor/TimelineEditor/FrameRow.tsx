@@ -22,8 +22,6 @@ const FrameRow = ({ width, style, layer, keyframes }: FrameGridProps) => {
         () =>
             memo(
                 ({ index, style }: { index: number; style: CSSProperties }) => {
-                    console.log("rerender")
-
                     return (
                         <Frame
                             key={index}
