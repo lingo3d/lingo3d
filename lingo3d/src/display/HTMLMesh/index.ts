@@ -69,7 +69,7 @@ export default class HTMLMesh
                 })
             })
             return () => {
-                document.body.removeChild(elementContainer)
+                elementContainer.remove()
                 handle.cancel()
             }
         }, [

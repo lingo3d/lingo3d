@@ -1,7 +1,7 @@
 import HotKey from "./HotKey"
 import mainCamera from "../../engine/mainCamera"
 import { createPortal } from "preact/compat"
-import { container } from "../../engine/renderLoop/renderSetup"
+import { uiContainer } from "../../engine/renderLoop/renderSetup"
 import useInitCSS from "../hooks/useInitCSS"
 import Spinner from "../component/Spinner"
 import InfoScreen from "./InfoScreen"
@@ -59,7 +59,7 @@ const HUD = () => {
                 </div>
             )}
         </div>,
-        container
+        uiContainer
     )
 }
 export default HUD

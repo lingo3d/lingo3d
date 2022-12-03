@@ -4,6 +4,6 @@ export default (filename: string, blob: Blob) => {
     elem.download = filename
     document.body.appendChild(elem)
     elem.click()
-    document.body.removeChild(elem)
+    elem.remove()
     URL.revokeObjectURL(objectURL)
 }

@@ -33,16 +33,12 @@ const style = createElement(`
 `)
 document.head.appendChild(style)
 
-const rootContainer = createElement<HTMLDivElement>(
-    `<div class="lingo3d-container"></div>`
-)
 export const container = createElement<HTMLDivElement>(
     `<div class="lingo3d-container"></div>`
 )
 export const uiContainer = createElement<HTMLDivElement>(
     `<div class="lingo3d-container lingo3d-uicontainer"></div>`
 )
-rootContainer.appendChild(container)
 container.appendChild(uiContainer)
 getSecondaryCamera((cam) => {
     container.style.height = cam ? "50%" : "100%"
@@ -85,28 +81,28 @@ createEffect(() => {
         const el = document.querySelector(autoMount)
         if (!el) return
 
-        el.prepend(rootContainer)
+        el.prepend(container)
         useResize(el)
 
         return () => {
-            el.removeChild(rootContainer)
+            container.remove()
         }
     }
 
     if (autoMount === true) {
-        document.body.prepend(rootContainer)
+        document.body.prepend(container)
         useResize(document.body)
 
         return () => {
-            document.body.removeChild(rootContainer)
+            container.remove()
         }
     }
 
-    autoMount.prepend(rootContainer)
+    autoMount.prepend(container)
     useResize(autoMount)
 
     return () => {
-        autoMount.removeChild(rootContainer)
+        container.remove()
     }
 }, [getAutoMount])
 
@@ -115,14 +111,14 @@ createEffect(() => {
     if (!renderer) return
 
     const canvas = renderer.domElement
-    rootContainer.prepend(canvas)
+    container.prepend(canvas)
     Object.assign(canvas.style, {
         position: "absolute",
         left: "0px",
         top: "0px"
     })
     return () => {
-        rootContainer.removeChild(canvas)
+        canvas.remove()
     }
 }, [getRenderer])
 

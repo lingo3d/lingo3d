@@ -17,7 +17,7 @@ export default class extends Disposable {
         render(<LingoEditor />, el)
 
         this.then(() => {
-            document.body.removeChild(el)
+            el.remove()
             render(undefined, el)
         })
     }
