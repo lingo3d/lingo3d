@@ -36,6 +36,10 @@ export default () => {
                 settings.gridHelper = !settings.gridHelper
                 return
             }
+            if (keyLowerCase === "u") {
+                settings.uiLayer = !settings.uiLayer
+                return
+            }
 
             const target = getSelectionTarget()
 
