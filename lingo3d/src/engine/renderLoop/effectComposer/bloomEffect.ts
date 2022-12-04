@@ -16,7 +16,8 @@ createEffect(() => {
 
     const effect = new BloomEffect({
         blendFunction: BlendFunction.ADD,
-        mipmapBlur: true
+        mipmapBlur: true,
+        luminanceSmoothing: 0.3
     })
     setBloomEffect(effect)
 

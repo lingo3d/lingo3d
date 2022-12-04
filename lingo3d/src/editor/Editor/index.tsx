@@ -1,5 +1,5 @@
 import { last } from "@lincode/utils"
-import { FolderApi, Pane } from "./tweakpane"
+import { FolderApi, Pane } from "../TweakPane/tweakpane"
 import { setOrbitControls } from "../../states/useOrbitControls"
 import { useLayoutEffect, useState } from "preact/hooks"
 import { Cancellable } from "@lincode/promiselikes"

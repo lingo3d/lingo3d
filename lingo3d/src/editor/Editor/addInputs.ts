@@ -1,5 +1,5 @@
 import { debounce, debounceTrailing } from "@lincode/utils"
-import { downPtr, Pane } from "./tweakpane"
+import { downPtr, Pane } from "../TweakPane/tweakpane"
 import resetIcon from "./resetIcon"
 import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"

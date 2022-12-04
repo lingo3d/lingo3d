@@ -1,6 +1,6 @@
 import { last, omit } from "@lincode/utils"
 import { useLayoutEffect } from "preact/hooks"
-import { FolderApi, Pane } from "./tweakpane"
+import { FolderApi, Pane } from "../TweakPane/tweakpane"
 import mainCamera from "../../engine/mainCamera"
 import {
     getSecondaryCamera,

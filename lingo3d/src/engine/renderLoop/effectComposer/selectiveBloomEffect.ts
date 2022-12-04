@@ -31,7 +31,8 @@ createEffect(() => {
 
     const effect = new SelectiveBloomEffect(scene, getCameraRendered(), {
         blendFunction: BlendFunction.ADD,
-        mipmapBlur: true
+        mipmapBlur: true,
+        luminanceSmoothing: 0.3
     })
     setSelectiveBloomEffect(effect)
 
