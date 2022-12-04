@@ -1,17 +1,4 @@
-import { debounce } from "@lincode/utils"
 import { Pane } from "./tweakpane"
-
-let programmatic = false
-
-let leading = true
-export const setProgrammatic = debounce(
-    () => {
-        programmatic = leading
-        leading = !leading
-    },
-    100,
-    "both"
-)
 
 const toFixed = (v: any) => (typeof v === "number" ? Number(v.toFixed(2)) : v)
 
@@ -58,8 +45,6 @@ export default (
         Object.keys(params).map((key) => {
             const input = folder.addInput(params, key, options[key])
             input.on("change", ({ value }: any) => {
-                if (programmatic) return
-
                 if (typeof value === "string") {
                     if (value === "true" || value === "false") {
                         onChange(key, value === "true" ? true : false)
