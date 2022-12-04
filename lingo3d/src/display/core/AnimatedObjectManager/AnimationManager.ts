@@ -194,7 +194,6 @@ export default class AnimationManager
 
             return () => {
                 frame = this.frame
-                mixer.setTime(0)
                 action.stop()
                 action.enabled = false
                 mixer.uncacheClip(clip)
