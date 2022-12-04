@@ -17,6 +17,7 @@ import {
     setMultipleSelectionTargets
 } from "./useMultipleSelectionTargets"
 import { keyframesPtr } from "./useTimelineKeyframeEntries"
+import { getTimelineRecord } from "./useTimelineRecord"
 
 const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([
     undefined
@@ -75,7 +76,7 @@ const getChangedProperties = (instance: Appendable) => {
 createEffect(() => {
     const [timelineData] = getTimelineData()
     const timeline = getTimeline()
-    if (!timelineData || !timeline) return
+    if (!timelineData || !timeline || !getTimelineRecord()) return
 
     const instances = new Set(
         Object.keys(timelineData).map((uuid) => uuidMap.get(uuid)!)
@@ -150,7 +151,7 @@ createEffect(() => {
         handle2.cancel()
         handle3.cancel()
     }
-}, [getTimelineData])
+}, [getTimelineData, getTimelineRecord])
 
 export const processKeyframe = (
     cb: (

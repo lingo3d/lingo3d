@@ -15,10 +15,15 @@ import NextFrameIcon from "./icons/NextFrameIcon"
 import PauseIcon from "./icons/PauseIcon"
 import PlayIcon from "./icons/PlayIcon"
 import PrevFrameIcon from "./icons/PrevFrameIcon"
+import {
+    getTimelineRecord,
+    setTimelineRecord
+} from "../../states/useTimelineRecord"
 
 const Controls = () => {
     const timeline = useSyncState(getTimeline)
     const paused = useSyncState(getTimelinePaused)
+    const record = useSyncState(getTimelineRecord)
 
     return (
         <AppBar noPadding>
@@ -70,6 +75,20 @@ const Controls = () => {
             </IconButton>
             <IconButton fill disabled={!timeline} onClick={lastTimelineFrame}>
                 <LastFrameIcon />
+            </IconButton>
+            <IconButton
+                fill
+                disabled={!timeline}
+                onClick={() => setTimelineRecord(!record)}
+            >
+                <div
+                    style={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: 10,
+                        background: record ? "red" : "white"
+                    }}
+                />
             </IconButton>
         </AppBar>
     )
