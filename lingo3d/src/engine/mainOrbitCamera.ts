@@ -14,6 +14,7 @@ import { appendableRoot } from "../api/core/collections"
 const mainOrbitCamera = new OrbitCamera(mainCamera)
 export default mainOrbitCamera
 
+mainOrbitCamera.name = "default"
 mainOrbitCamera.enableZoom = true
 mainOrbitCamera.enableFly = true
 mainOrbitCamera.mouseControl = false
