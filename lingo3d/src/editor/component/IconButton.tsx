@@ -5,10 +5,17 @@ type IconButtonProps = {
     children?: ComponentChildren
     onClick?: () => void
     disabled?: boolean
+    outline?: boolean
     fill?: boolean
 }
 
-const IconButton = ({ children, onClick, disabled, fill }: IconButtonProps) => {
+const IconButton = ({
+    children,
+    onClick,
+    disabled,
+    outline,
+    fill
+}: IconButtonProps) => {
     return (
         <div
             onClick={
@@ -23,11 +30,16 @@ const IconButton = ({ children, onClick, disabled, fill }: IconButtonProps) => {
             style={{
                 width: APPBAR_HEIGHT,
                 height: APPBAR_HEIGHT - 4,
-                marginRight: fill ? 8 : 2,
+                marginRight: outline ? 8 : 2,
                 opacity: disabled ? 0.1 : 0.5,
                 cursor: disabled ? undefined : "pointer",
-                background: fill ? "rgba(255, 255, 255, 0.1)" : undefined,
-                border: fill ? "1px solid rgba(255, 255, 255, 0.2)" : undefined
+                background:
+                    outline || fill
+                        ? `rgba(255, 255, 255, ${fill ? 0.2 : 0.1})`
+                        : undefined,
+                border: outline
+                    ? "1px solid rgba(255, 255, 255, 0.2)"
+                    : undefined
             }}
         >
             {children}

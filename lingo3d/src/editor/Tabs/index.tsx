@@ -3,6 +3,9 @@ import CloseableTab from "../component/tabs/CloseableTab"
 import useInitCSS from "../hooks/useInitCSS"
 import useSyncState from "../hooks/useSyncState"
 import { getFileCurrent } from "../../states/useFileCurrent"
+import IconButton from "../component/IconButton"
+import PlayIcon from "../TimelineEditor/icons/PlayIcon"
+import PauseIcon from "../TimelineEditor/icons/PauseIcon"
 
 const Tabs = () => {
     useInitCSS()
@@ -18,6 +21,13 @@ const Tabs = () => {
                 <CloseableTab key={title} selected>
                     {title}
                 </CloseableTab>
+                <div style={{ flexGrow: 1, minWidth: 4 }} />
+                <IconButton fill>
+                    <PlayIcon />
+                </IconButton>
+                <IconButton fill disabled>
+                    <PauseIcon />
+                </IconButton>
             </AppBar>
         </div>
     )

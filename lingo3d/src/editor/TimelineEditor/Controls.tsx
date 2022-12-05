@@ -29,7 +29,7 @@ const Controls = () => {
         <AppBar noPadding>
             {paused ? (
                 <IconButton
-                    fill
+                    outline
                     disabled={!timeline}
                     onClick={
                         timeline
@@ -45,7 +45,7 @@ const Controls = () => {
                 </IconButton>
             ) : (
                 <IconButton
-                    fill
+                    outline
                     disabled={!timeline}
                     onClick={
                         timeline ? () => (timeline.paused = true) : undefined
@@ -56,28 +56,36 @@ const Controls = () => {
             )}
 
             <IconButton
-                fill
+                outline
                 disabled={!timeline}
                 onClick={decreaseTimelineFrame}
             >
                 <PrevFrameIcon />
             </IconButton>
             <IconButton
-                fill
+                outline
                 disabled={!timeline}
                 onClick={increaseTimelineFrame}
             >
                 <NextFrameIcon />
             </IconButton>
 
-            <IconButton fill disabled={!timeline} onClick={firstTimelineFrame}>
+            <IconButton
+                outline
+                disabled={!timeline}
+                onClick={firstTimelineFrame}
+            >
                 <FirstFrameIcon />
             </IconButton>
-            <IconButton fill disabled={!timeline} onClick={lastTimelineFrame}>
+            <IconButton
+                outline
+                disabled={!timeline}
+                onClick={lastTimelineFrame}
+            >
                 <LastFrameIcon />
             </IconButton>
             <IconButton
-                fill
+                outline
                 disabled={!timeline}
                 onClick={() => setTimelineRecord(!record)}
             >
