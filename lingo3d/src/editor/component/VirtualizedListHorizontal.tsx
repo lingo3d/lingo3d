@@ -1,5 +1,5 @@
 import { valueof } from "@lincode/utils"
-import { effect, signal, Signal } from "@preact/signals"
+import { signal, Signal } from "@preact/signals"
 import { CSSProperties, useLayoutEffect, useRef } from "preact/compat"
 
 interface VirtualizedListHorizontalProps<T extends Array<any>> {
@@ -30,8 +30,7 @@ const VirtualizedListHorizontal = <T extends Array<any>>({
     const ref = useRef<HTMLDivElement>(null)
     useLayoutEffect(() => {
         const div = ref.current
-        if (!div) return
-        return effect(() => (div.scrollLeft = scrollSignal.value))
+        if (div) return scrollSignal.subscribe((val) => (div.scrollLeft = val))
     }, [])
 
     const innerWidth = itemNum * itemWidth

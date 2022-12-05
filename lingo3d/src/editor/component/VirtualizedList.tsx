@@ -1,5 +1,6 @@
 import { valueof } from "@lincode/utils"
-import { CSSProperties, useLayoutEffect, useRef, useState } from "preact/compat"
+import { signal, Signal } from "@preact/signals"
+import { CSSProperties, useLayoutEffect, useRef } from "preact/compat"
 
 interface VirtualizedListProps<T extends Array<any>> {
     data?: T
@@ -12,8 +13,7 @@ interface VirtualizedListProps<T extends Array<any>> {
         style: CSSProperties
         data: valueof<T>
     }) => any
-    scrollTop?: number
-    onScrollTop?: (scrollTop: number) => void
+    scrollSignal: Signal<number>
     style?: CSSProperties
 }
 
@@ -24,33 +24,20 @@ const VirtualizedList = <T extends Array<any>>({
     containerWidth,
     containerHeight,
     RenderComponent,
-    scrollTop,
-    onScrollTop,
+    scrollSignal = signal(0),
     style
 }: VirtualizedListProps<T>) => {
-    const [scroll, setScroll] = useState(scrollTop ?? 0)
-
-    const firstRef = useRef(true)
+    const ref = useRef<HTMLDivElement>(null)
     useLayoutEffect(() => {
-        if (firstRef.current) {
-            firstRef.current = false
-            return
-        }
-        onScrollTop?.(scroll)
-    }, [scroll])
-
-    const scrollRef = useRef<HTMLDivElement>(null)
-    useLayoutEffect(() => {
-        const div = scrollRef.current
-        if (scrollTop === undefined || !div) return
-        div.scrollTop = scrollTop
-    }, [scrollTop])
+        const div = ref.current
+        if (div) return scrollSignal.subscribe((val) => (div.scrollTop = val))
+    }, [])
 
     const innerHeight = itemNum * itemHeight
-    const startIndex = Math.floor(scroll / itemHeight)
+    const startIndex = Math.floor(scrollSignal.value / itemHeight)
     const endIndex = Math.min(
         itemNum - 1,
-        Math.floor((scroll + containerHeight) / itemHeight)
+        Math.floor((scrollSignal.value + containerHeight) / itemHeight)
     )
 
     const items = []
@@ -66,7 +53,7 @@ const VirtualizedList = <T extends Array<any>>({
 
     return (
         <div
-            ref={scrollRef}
+            ref={ref}
             style={{
                 overflowY: "scroll",
                 overflowX: "hidden",
@@ -74,7 +61,7 @@ const VirtualizedList = <T extends Array<any>>({
                 height: containerHeight,
                 ...style
             }}
-            onScroll={(e) => setScroll(e.currentTarget.scrollTop)}
+            onScroll={(e) => (scrollSignal.value = e.currentTarget.scrollTop)}
         >
             <div style={{ position: "relative", height: innerHeight }}>
                 {items}
