@@ -120,17 +120,14 @@ const SceneGraphContextMenu = () => {
             )}
             {selectionTarget instanceof Timeline && (
                 <ContextMenuItem
+                    disabled={selectionTarget === timeline}
                     onClick={() => {
-                        setTimeline(
-                            selectionTarget === timeline
-                                ? undefined
-                                : selectionTarget
-                        )
+                        setTimeline(selectionTarget)
                         setPosition(undefined)
                     }}
                 >
                     {selectionTarget === timeline
-                        ? "Close timeline"
+                        ? "Already editing"
                         : "Edit timeline"}
                 </ContextMenuItem>
             )}
