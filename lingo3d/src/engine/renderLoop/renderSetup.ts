@@ -8,7 +8,7 @@ import { getPBR } from "../../states/usePBR"
 import { getSecondaryCamera } from "../../states/useSecondaryCamera"
 import { VRButton } from "./VRButton"
 import { getAutoMount } from "../../states/useAutoMount"
-import { debounce } from "@lincode/utils"
+import { debounceTrailing } from "@lincode/utils"
 import { getPixelRatio } from "../../states/usePixelRatio"
 import createElement from "../../utils/createElement"
 import { getUILayer } from "../../states/useUILayer"
@@ -62,7 +62,7 @@ const useResize = (el: Element) => {
         handleResize()
 
         const resizeObserver = new ResizeObserver(
-            debounce(handleResize, 100, "both")
+            debounceTrailing(handleResize, 100)
         )
         resizeObserver.observe(container)
 
