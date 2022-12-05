@@ -10,7 +10,6 @@ import Tabs from "../Tabs"
 import Panels from "../Panels"
 import { DEBUG } from "../../globals"
 import useSyncState from "../hooks/useSyncState"
-import { getFileCurrent } from "../../states/useFileCurrent"
 import { getStats } from "../../states/useStats"
 
 const LingoEditor = () => {
@@ -21,7 +20,6 @@ const LingoEditor = () => {
         if (el) settings.autoMount = el
     }, [])
 
-    const fileCurrent = useSyncState(getFileCurrent)
     const stats = useSyncState(getStats)
 
     return (
@@ -34,7 +32,7 @@ const LingoEditor = () => {
             <Editor />
             <Library />
             <Panels />
-            {fileCurrent && <Tabs />}
+            <Tabs />
             {stats && <Stats />}
             <HUD />
             <div

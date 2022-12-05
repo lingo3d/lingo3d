@@ -7,6 +7,7 @@ import { getFileCurrent } from "../../states/useFileCurrent"
 const Tabs = () => {
     useInitCSS()
     const fileCurrent = useSyncState(getFileCurrent)
+    const title = fileCurrent?.name ?? "untitled"
 
     return (
         <div
@@ -14,7 +15,9 @@ const Tabs = () => {
             style={{ width: "100%" }}
         >
             <AppBar>
-                <CloseableTab>{fileCurrent?.name ?? "untitled"}</CloseableTab>
+                <CloseableTab key={title} selected>
+                    {title}
+                </CloseableTab>
             </AppBar>
         </div>
     )
