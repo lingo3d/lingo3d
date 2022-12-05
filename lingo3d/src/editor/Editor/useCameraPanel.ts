@@ -35,7 +35,7 @@ export default (pane?: Pane, cameraFolder?: FolderApi) => {
                 return cameraList.indexOf(getSecondaryCamera() ?? mainCamera)
             },
             set secondary(val) {
-                setSecondaryCamera(val === 0 ? undefined : cameraList[val])
+                setSecondaryCamera(cameraList[val])
             },
             get split() {
                 return splitView
