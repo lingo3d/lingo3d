@@ -1,12 +1,18 @@
-import { last } from "@lincode/utils"
+import { last, omit } from "@lincode/utils"
 import { useLayoutEffect } from "preact/hooks"
 import { FolderApi, Pane } from "../TweakPane/tweakpane"
+import mainCamera from "../../engine/mainCamera"
+import {
+    getSecondaryCamera,
+    setSecondaryCamera
+} from "../../states/useSecondaryCamera"
 import getComponentName from "../utils/getComponentName"
 import useSyncState from "../hooks/useSyncState"
 import { getCameraList } from "../../states/useCameraList"
 import { getCameraStack } from "../../states/useCameraStack"
 import { getManager } from "../../api/utils/manager"
 import Camera from "../../display/cameras/Camera"
+import { getSplitView, setSplitView } from "../../states/useSplitView"
 
 export default (pane?: Pane, cameraFolder?: FolderApi) => {
     const cameraStack = useSyncState(getCameraStack)
@@ -16,39 +22,53 @@ export default (pane?: Pane, cameraFolder?: FolderApi) => {
     useLayoutEffect(() => {
         if (!pane || !cameraFolder) return
 
-        const mainCameraName = "editor camera"
-
-        const options = cameraList.reduce<Record<string, any>>(
-            (acc, cam, i) => {
-                acc[
-                    i === 0 ? mainCameraName : getComponentName(getManager(cam))
-                ] = i
-                return acc
+        const cameraSettings = {
+            get camera() {
+                return cameraList.indexOf(camera)
             },
-            {}
-        )
-        const cameraInput = pane.addInput(
-            { camera: cameraList.indexOf(camera) },
-            "camera",
-            { options }
-        )
-        cameraFolder.add(cameraInput)
-        cameraInput.on("change", ({ value }: any) => {
-            getManager<Camera>(cameraList[value]).active = true
-        })
+            set camera(val) {
+                getManager<Camera>(cameraList[val]).active = true
+            },
+            get secondary() {
+                return cameraList.indexOf(getSecondaryCamera() ?? mainCamera)
+            },
+            set secondary(val) {
+                setSecondaryCamera(val === 0 ? undefined : cameraList[val])
+            },
+            get split() {
+                return getSplitView()
+            },
+            set split(val) {
+                setSplitView(val)
+            }
+        }
 
-        const splitViewInput = pane.addInput(
-            { "split view": false },
-            "split view"
+        const mainCameraName = "editor camera"
+        const options: Record<string, number> = {}
+        let i = 0
+        for (const cam of cameraList) {
+            options[
+                i === 0 ? mainCameraName : getComponentName(getManager(cam))
+            ] = i
+            ++i
+        }
+        const input0 = cameraFolder.add(
+            pane.addInput(cameraSettings, "camera", { options })
         )
-        cameraFolder.add(splitViewInput)
-        splitViewInput.on("change", ({ value }: any) => {
-            console.log(value)
-        })
+        const input1 = cameraFolder.add(
+            pane.addInput(cameraSettings, "secondary", {
+                options: {
+                    none: 0,
+                    ...omit(options, mainCameraName)
+                }
+            })
+        )
+        const input2 = cameraFolder.add(pane.addInput(cameraSettings, "split"))
 
         return () => {
-            cameraInput.dispose()
-            splitViewInput.dispose()
+            input0.dispose()
+            input1.dispose()
+            input2.dispose()
         }
     }, [pane, cameraFolder, cameraList, camera])
 }
