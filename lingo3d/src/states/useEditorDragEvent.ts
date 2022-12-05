@@ -21,7 +21,7 @@ export const [setEditorDragEvent, getEditorDragEvent] = store<
 createEffect(() => {
     const e = getEditorDragEvent()
     const pointRef = createRef<Point3d>({ x: 0, y: 0, z: 0 })
-    const hitManagerRef = createRef<ObjectManager>()
+    const hitManagerRef = createRef<ObjectManager | undefined>()
 
     const isDragEvent = e instanceof DragEvent
     const indicator = createMemo(() => {
@@ -43,7 +43,7 @@ createEffect(() => {
 
     const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
     const hit = raycast(xNorm, yNorm, selectionCandidates)
-    hitManagerRef.current = getManager(hit?.object)
+    hitManagerRef.current = hit && getManager<ObjectManager>(hit.object)
     const result = hit?.point ?? point2Vec(clientToWorld(e.clientX, e.clientY))
 
     const point = vec2Point(result)

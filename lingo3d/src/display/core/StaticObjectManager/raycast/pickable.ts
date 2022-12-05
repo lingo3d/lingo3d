@@ -13,7 +13,11 @@ raycaster.firstHitOnly = true
 const filterUnselectable = (item: Intersection) =>
     !item.object.userData.unselectable
 
-export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
+export const raycast = (
+    x: number,
+    y: number,
+    candidates: Set<Object3D>
+): Intersection | undefined => {
     raycaster.setFromCamera({ x, y }, getCameraRendered())
     return raycaster
         .intersectObjects([...candidates])
