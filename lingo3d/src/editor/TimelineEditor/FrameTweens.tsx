@@ -1,5 +1,4 @@
-import useSyncState from "../hooks/useSyncState"
-import { getTimelineScrollLeft } from "../../states/useTimelineScrollLeft"
+import { timelineScrollLeftSignal } from "../../states/useTimelineScrollLeft"
 import FrameTweenRow from "./FrameTweenRow"
 
 type FrameTweensProps = {
@@ -7,13 +6,11 @@ type FrameTweensProps = {
 }
 
 const FrameTweens = ({ keyframesEntries }: FrameTweensProps) => {
-    const scrollLeft = useSyncState(getTimelineScrollLeft)
-
     return (
         <div
             style={{
                 position: "absolute",
-                left: -scrollLeft
+                left: -timelineScrollLeftSignal.value
             }}
         >
             {keyframesEntries.map(([uuid, frames]) => (

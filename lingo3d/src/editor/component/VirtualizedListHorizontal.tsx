@@ -1,5 +1,6 @@
 import { valueof } from "@lincode/utils"
-import { CSSProperties, useLayoutEffect, useRef, useState } from "preact/compat"
+import { effect, signal, Signal } from "@preact/signals"
+import { CSSProperties, useLayoutEffect, useRef } from "preact/compat"
 
 interface VirtualizedListHorizontalProps<T extends Array<any>> {
     data?: T
@@ -12,8 +13,7 @@ interface VirtualizedListHorizontalProps<T extends Array<any>> {
         style: CSSProperties
         data: valueof<T>
     }) => any
-    scrollLeft?: number
-    onScrollLeft?: (scrollLeft: number) => void
+    scrollSignal: Signal<number>
     style?: CSSProperties
 }
 
@@ -24,33 +24,21 @@ const VirtualizedListHorizontal = <T extends Array<any>>({
     containerWidth,
     containerHeight,
     RenderComponent,
-    scrollLeft,
-    onScrollLeft,
+    scrollSignal = signal(0),
     style
 }: VirtualizedListHorizontalProps<T>) => {
-    const [scroll, setScroll] = useState(scrollLeft ?? 0)
-
-    const firstRef = useRef(true)
+    const ref = useRef<HTMLDivElement>(null)
     useLayoutEffect(() => {
-        if (firstRef.current) {
-            firstRef.current = false
-            return
-        }
-        onScrollLeft?.(scroll)
-    }, [scroll])
-
-    const scrollRef = useRef<HTMLDivElement>(null)
-    useLayoutEffect(() => {
-        const div = scrollRef.current
-        if (scrollLeft === undefined || !div) return
-        div.scrollLeft = scrollLeft
-    }, [scrollLeft])
+        const div = ref.current
+        if (!div) return
+        return effect(() => (div.scrollLeft = scrollSignal.value))
+    }, [])
 
     const innerWidth = itemNum * itemWidth
-    const startIndex = Math.floor(scroll / itemWidth)
+    const startIndex = Math.floor(scrollSignal.value / itemWidth)
     const endIndex = Math.min(
         itemNum - 1,
-        Math.floor((scroll + containerWidth) / itemWidth)
+        Math.floor((scrollSignal.value + containerWidth) / itemWidth)
     )
 
     const items = []
@@ -66,7 +54,7 @@ const VirtualizedListHorizontal = <T extends Array<any>>({
 
     return (
         <div
-            ref={scrollRef}
+            ref={ref}
             style={{
                 overflowX: "scroll",
                 overflowY: "hidden",
@@ -74,7 +62,7 @@ const VirtualizedListHorizontal = <T extends Array<any>>({
                 height: containerHeight + 4,
                 ...style
             }}
-            onScroll={(e) => setScroll(e.currentTarget.scrollLeft)}
+            onScroll={(e) => (scrollSignal.value = e.currentTarget.scrollLeft)}
         >
             <div style={{ position: "relative", width: innerWidth }}>
                 {items}

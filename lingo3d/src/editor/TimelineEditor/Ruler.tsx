@@ -1,7 +1,7 @@
 import { APPBAR_HEIGHT, FRAME_WIDTH } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import useSyncState from "../hooks/useSyncState"
-import { getTimelineScrollLeft } from "../../states/useTimelineScrollLeft"
+import { timelineScrollLeftSignal } from "../../states/useTimelineScrollLeft"
 import { getTimelineTotalFrames } from "../../states/useTimelineTotalFrames"
 import Metric from "./Metric"
 import { useMemo } from "preact/hooks"
@@ -13,7 +13,6 @@ type RulerProps = {
 }
 
 const Ruler = ({ width }: RulerProps) => {
-    const scrollLeft = useSyncState(getTimelineScrollLeft)
     const totalFrames = useSyncState(getTimelineTotalFrames)
 
     const RenderComponent = useMemo(
@@ -28,7 +27,7 @@ const Ruler = ({ width }: RulerProps) => {
     )
     return (
         <VirtualizedListHorizontal
-            scrollLeft={scrollLeft}
+            scrollSignal={timelineScrollLeftSignal}
             itemNum={totalFrames / 5 + 3}
             itemWidth={FRAME_WIDTH * 5}
             containerWidth={width}
