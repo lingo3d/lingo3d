@@ -28,6 +28,7 @@ import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import getWorldDirection from "../../utils/getWorldDirection"
 import { addSelectionHelper } from "../StaticObjectManager/raycast/selectionCandidates"
 import HelperSprite from "../utils/HelperSprite"
+import { setManager } from "../../../api/utils/manager"
 
 export default abstract class CameraBase<T extends PerspectiveCamera>
     extends ObjectManager
@@ -38,7 +39,7 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
     public constructor(protected camera: T) {
         super()
         this.object3d.add(camera)
-        camera.userData.manager = this
+        setManager(camera, this)
 
         pushCameraList(camera)
         this.then(() => {

@@ -1,5 +1,6 @@
 import { Point3d } from "@lincode/math"
 import store, { createEffect, createMemo, createRef } from "@lincode/reactivity"
+import { getManager } from "../api/utils/manager"
 import ObjectManager from "../display/core/ObjectManager"
 import { raycast } from "../display/core/StaticObjectManager/raycast/pickable"
 import selectionCandidates, {
@@ -42,7 +43,7 @@ createEffect(() => {
 
     const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
     const hit = raycast(xNorm, yNorm, selectionCandidates)
-    hitManagerRef.current = hit?.object.userData.manager
+    hitManagerRef.current = getManager(hit?.object)
     const result = hit?.point ?? point2Vec(clientToWorld(e.clientX, e.clientY))
 
     const point = vec2Point(result)

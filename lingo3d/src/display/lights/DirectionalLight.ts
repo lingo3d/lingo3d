@@ -2,6 +2,7 @@ import { mapRange } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
 import { assertExhaustive } from "@lincode/utils"
 import { DirectionalLight as ThreeDirectionalLight } from "three"
+import { getManager } from "../../api/utils/manager"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { SHADOW_BIAS } from "../../globals"
@@ -18,6 +19,7 @@ import {
     getShadowResolution,
     ShadowResolution
 } from "../../states/useShadowResolution"
+import Camera from "../cameras/Camera"
 import LightBase from "../core/LightBase"
 import getWorldPosition from "../utils/getWorldPosition"
 import { vec2Point } from "../utils/vec2Point"
@@ -74,7 +76,7 @@ export default class DirectionalLight
             const light = this.lightState.get()
             if (!light) return
 
-            const camManager = getCameraRendered().userData.manager
+            const camManager = getManager<Camera>(getCameraRendered())
             const offset = camManager
                 ? Math.max(
                       mapRange(

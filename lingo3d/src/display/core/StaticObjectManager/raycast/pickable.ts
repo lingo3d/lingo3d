@@ -1,6 +1,7 @@
 import { Raycaster, Object3D, Intersection } from "three"
 import StaticObjectManager from ".."
 import { MouseEventName, mouseEvents } from "../../../../api/mouse"
+import { getManager } from "../../../../api/utils/manager"
 import { scaleUp } from "../../../../engine/constants"
 import { LingoMouseEvent } from "../../../../interface/IMouse"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
@@ -35,8 +36,10 @@ export default (
         const point = vec2Point(result.point)
         const distance = result.distance * scaleUp
 
+        const manager = getManager<StaticObjectManager>(result.object)
+
         then(
-            result.object.userData.manager,
+            manager,
             new LingoMouseEvent(
                 e.clientX,
                 e.clientY,
@@ -44,7 +47,7 @@ export default (
                 e.yNorm,
                 point,
                 distance,
-                result.object.userData.manager
+                manager
             )
         )
     })

@@ -16,6 +16,7 @@ import {
     deleteSelectiveBloom
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import VisibleObjectManager from "./VisibleObjectManager"
+import { setManager } from "../../api/utils/manager"
 
 export default abstract class Loaded<T = Object3D>
     extends VisibleObjectManager<Mesh>
@@ -243,9 +244,7 @@ export default abstract class Loaded<T = Object3D>
                     this.loaded.then((loaded) => {
                         if (!this.managerSet) {
                             this.managerSet = true
-                            loaded.traverse(
-                                (child) => (child.userData.manager ??= this)
-                            )
+                            loaded.traverse((child) => setManager(child, this))
                         }
                         set.add(loaded)
                         return () => {

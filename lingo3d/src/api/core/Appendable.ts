@@ -7,6 +7,7 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 import { emitDispose } from "../../events/onDispose"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import unsafeSetValue from "../../utils/unsafeSetValue"
+import { setManager } from "../utils/manager"
 import { appendableRoot, uuidMap } from "./collections"
 
 export default class Appendable<
@@ -16,7 +17,7 @@ export default class Appendable<
 
     public constructor(public outerObject3d: T = new Object3D() as T) {
         super()
-        outerObject3d.userData.manager = this
+        setManager(outerObject3d, this)
         this.nativeObject3d = outerObject3d
 
         appendableRoot.add(this)

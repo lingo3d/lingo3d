@@ -5,6 +5,7 @@ import { scaleDown, scaleUp } from "../../engine/constants"
 import IObjectManager from "../../interface/IObjectManager"
 import FoundManager from "./FoundManager"
 import PhysicsObjectManager from "./PhysicsObjectManager"
+import { setManager } from "../../api/utils/manager"
 
 export default abstract class ObjectManager<T extends Object3D = Object3D>
     extends PhysicsObjectManager<T>
@@ -18,7 +19,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         this.nativeObject3d = object3d
 
         const outerObject3d = (this.outerObject3d = new Object3D() as T)
-        outerObject3d.userData.manager = this
+        setManager(outerObject3d, this)
 
         !unmounted && scene.add(outerObject3d)
         outerObject3d.add(object3d)
@@ -110,7 +111,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         )
         if (!child) return
 
-        const result = (child.userData.manager ??= new FoundManager(child))
+        const result = setManager(child, new FoundManager(child))
         !hiddenFromSceneGraph && this._append(result)
 
         return result
@@ -122,30 +123,22 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         const result: Array<FoundManager> = []
         if (name === undefined)
             this.outerObject3d.traverse((child) => {
-                result.push(
-                    (child.userData.manager ??= new FoundManager(child))
-                )
+                result.push(setManager(child, new FoundManager(child)))
             })
         else if (typeof name === "string")
             this.outerObject3d.traverse((child) => {
                 child.name === name &&
-                    result.push(
-                        (child.userData.manager ??= new FoundManager(child))
-                    )
+                    result.push(setManager(child, new FoundManager(child)))
             })
         else if (typeof name === "function")
             this.outerObject3d.traverse((child) => {
                 name(child.name) &&
-                    result.push(
-                        (child.userData.manager ??= new FoundManager(child))
-                    )
+                    result.push(setManager(child, new FoundManager(child)))
             })
         else
             this.outerObject3d.traverse((child) => {
                 name.test(child.name) &&
-                    result.push(
-                        (child.userData.manager ??= new FoundManager(child))
-                    )
+                    result.push(setManager(child, new FoundManager(child)))
             })
         return result
     }

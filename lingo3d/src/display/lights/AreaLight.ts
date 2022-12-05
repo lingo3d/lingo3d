@@ -20,6 +20,7 @@ import selectionCandidates, {
     additionalSelectionCandidates
 } from "../core/StaticObjectManager/raycast/selectionCandidates"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
+import { setManager } from "../../api/utils/manager"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -78,7 +79,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
                 const helper = new RectAreaLightHelper(light)
                 scene.add(helper)
                 ssrExcludeSet.add(helper)
-                helper.userData.manager = this
+                setManager(helper, this)
 
                 selectionCandidates.add(helper)
                 additionalSelectionCandidates.add(helper)

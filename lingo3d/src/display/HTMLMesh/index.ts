@@ -8,6 +8,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "../core/VisibleObjectManager"
 import { addSelectionHelper } from "../core/StaticObjectManager/raycast/selectionCandidates"
 import HelperCube from "../core/utils/HelperCube"
+import { setManager } from "../../api/utils/manager"
 
 const elementContainerTemplate = createElement(`
     <div style="position: absolute; visibility: hidden; pointer-events: none;"></div>
@@ -55,7 +56,7 @@ export default class HTMLMesh
                     ? new HTMLSprite(element)
                     : new HTMLMesh(element)
                 this.object3d.add(mesh)
-                mesh.userData.manager = this
+                setManager(mesh, this)
 
                 handle.watch(
                     this.cssColorState.get((color) => {

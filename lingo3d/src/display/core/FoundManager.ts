@@ -12,6 +12,7 @@ import VisibleMixin from "./mixins/VisibleMixin"
 import SimpleObjectManager from "./SimpleObjectManager"
 import { appendableRoot } from "../../api/core/collections"
 import callPrivateMethod from "../../utils/callPrivateMethod"
+import { setManager } from "../../api/utils/manager"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -60,9 +61,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     protected override addToRaycastSet(set: Set<Object3D>) {
         if (!this.managerSet) {
             this.managerSet = true
-            this.nativeObject3d.traverse(
-                (child) => (child.userData.manager = this)
-            )
+            this.nativeObject3d.traverse((child) => setManager(child, this))
         }
         return super.addToRaycastSet(set)
     }

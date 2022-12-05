@@ -8,6 +8,7 @@ import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import { WATERNORMALS_URL } from "../globals"
 import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "./core/VisibleObjectManager"
+import { setManager } from "../api/utils/manager"
 
 export default class Water extends VisibleObjectManager implements IWater {
     public static componentName = "water"
@@ -81,7 +82,7 @@ export default class Water extends VisibleObjectManager implements IWater {
                     waterColor: 0x001e0f,
                     distortionScale: 3.7
                 })
-                water.userData.manager = this
+                setManager(water, this)
 
                 return () => {
                     handle.cancel()

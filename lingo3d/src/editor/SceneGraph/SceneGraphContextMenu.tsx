@@ -20,10 +20,11 @@ import { getTimeline, setTimeline } from "../../states/useTimeline"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTimelineData } from "../../states/useTimelineData"
+import { getManager } from "../../api/utils/manager"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)
-    const nextParent = obj.userData.manager?.parent?.outerObject3d ?? obj.parent
+    const nextParent = getManager(obj)?.parent?.outerObject3d ?? obj.parent
     nextParent && traverseUp(nextParent, expandedSet)
 }
 
