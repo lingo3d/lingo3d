@@ -12,7 +12,7 @@ export default (
 ) => {
     const [editorParams, editorRest] = splitObject(
         getParams(setupSchema, setupDefaults, targetSetup),
-        ["uiLayer", "gridHelper", "gridHelperSize", "stats"]
+        ["gridHelper", "gridHelperSize", "stats"]
     )
     addInputs(handle, pane, "editor", targetSetup, setupDefaults, editorParams)
 
@@ -21,6 +21,7 @@ export default (
         "pixelRatio",
         "fps",
         "logarithmicDepth",
+        "uiLayer",
         "pbr"
     ])
     addInputs(

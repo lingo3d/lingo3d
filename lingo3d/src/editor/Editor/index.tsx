@@ -76,7 +76,6 @@ const Editor = () => {
 
         const pane = new Pane({ container: el })
         setPane(pane)
-        setCameraFolder(pane.addFolder({ title: "camera" }))
 
         const handle = new Cancellable()
         if (
@@ -84,6 +83,8 @@ const Editor = () => {
             !selectionTarget ||
             selectionTarget instanceof Setup
         ) {
+            setCameraFolder(pane.addFolder({ title: "camera" }))
+
             addSetupInputs(
                 handle,
                 pane,
