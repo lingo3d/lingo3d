@@ -1,11 +1,26 @@
 import { APPBAR_HEIGHT, FRAME_WIDTH, PANELS_HEIGHT } from "../../globals"
-import useSyncState from "../hooks/useSyncState"
 import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { getTimelineScrollLeft } from "../../states/useTimelineScrollLeft"
+import { useEffect, useRef } from "preact/hooks"
+import { createEffect } from "@lincode/reactivity"
 
 const Needle = () => {
-    const scrollLeft = useSyncState(getTimelineScrollLeft)
-    const frame = useSyncState(getTimelineFrame)
+    const ref = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        const div = ref.current
+        if (!div) return
+
+        const handle = createEffect(() => {
+            const frame = getTimelineFrame()
+            const scrollLeft = getTimelineScrollLeft()
+            div.style.left = `${-scrollLeft + frame * FRAME_WIDTH}px`
+        }, [getTimelineFrame, getTimelineScrollLeft])
+
+        return () => {
+            handle.cancel()
+        }
+    }, [])
 
     return (
         <div
@@ -18,9 +33,9 @@ const Needle = () => {
             }}
         >
             <div
+                ref={ref}
                 style={{
                     position: "absolute",
-                    left: -scrollLeft + frame * FRAME_WIDTH,
                     top: 0,
                     width: FRAME_WIDTH,
                     height: APPBAR_HEIGHT,
