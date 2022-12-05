@@ -6,7 +6,7 @@ import HUD from "../HUD"
 import { useEffect, useRef } from "preact/hooks"
 import settings from "../../api/settings"
 import Stats from "../Stats"
-import Tabs from "../Tabs"
+import WorldBar from "../WorldBar"
 import Panels from "../Panels"
 import { DEBUG } from "../../globals"
 import useSyncState from "../hooks/useSyncState"
@@ -32,14 +32,14 @@ const LingoEditor = () => {
             <Editor />
             <Library />
             <Panels />
-            <Tabs />
-            {stats && <Stats />}
-            <HUD />
+            <WorldBar />
             <div
                 className="lingo3d-world"
                 ref={elRef}
                 style={{ height: "100%", flexGrow: 1, position: "relative" }}
             />
+            {stats && <Stats />}
+            <HUD />
         </div>
     )
 }
