@@ -12,8 +12,8 @@ import { getTimelinePaused } from "../../states/useTimelinePaused"
 import FirstFrameIcon from "./icons/FirstFrameIcon"
 import LastFrameIcon from "./icons/LastFrameIcon"
 import NextFrameIcon from "./icons/NextFrameIcon"
-import PauseIcon from "./icons/PauseIcon"
-import PlayIcon from "./icons/PlayIcon"
+import PauseIcon from "../component/icons/PauseIcon"
+import PlayIcon from "../component/icons/PlayIcon"
 import PrevFrameIcon from "./icons/PrevFrameIcon"
 import {
     getTimelineRecord,
