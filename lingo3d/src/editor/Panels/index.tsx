@@ -12,7 +12,7 @@ import useSyncState from "../hooks/useSyncState"
 import { getFileBrowser, setFileBrowser } from "../../states/useFileBrowser"
 
 const Panels = () => {
-    useInitCSS(true)
+    useInitCSS()
 
     const fileBrowser = useSyncState(getFileBrowser)
     const timeline = useSyncState(getTimeline)

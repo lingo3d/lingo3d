@@ -6,7 +6,7 @@ import AppBar from "../component/bars/AppBar"
 import Tab from "../component/tabs/Tab"
 
 const Library = () => {
-    useInitCSS(true)
+    useInitCSS()
     const elRef = useClickable()
 
     return (

@@ -5,7 +5,7 @@ import useSyncState from "../hooks/useSyncState"
 import { getFileCurrent } from "../../states/useFileCurrent"
 
 const Tabs = () => {
-    useInitCSS(true)
+    useInitCSS()
     const fileCurrent = useSyncState(getFileCurrent)
 
     return (

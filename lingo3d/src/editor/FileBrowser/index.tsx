@@ -18,7 +18,7 @@ interface FileStructure {
 }
 
 const FileBrowser = () => {
-    useInitCSS(true)
+    useInitCSS()
     const files = useSyncState(getFiles)
     const fileBrowserDir = useSyncState(getFileBrowserDir)
 

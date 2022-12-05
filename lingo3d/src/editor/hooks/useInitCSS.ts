@@ -1,10 +1,8 @@
-import { useLayoutEffect } from "preact/hooks"
-import { emitEditorLayout } from "../../events/onEditorLayout"
 import createElement from "../../utils/createElement"
 
 let initialized = false
 
-const initCSS = () => {
+export default () => {
     if (initialized) return
     initialized = true
 
@@ -168,15 +166,4 @@ const initCSS = () => {
         </style>
     `)
     document.head.appendChild(style)
-}
-
-export default (editorLayout: boolean) => {
-    useLayoutEffect(() => {
-        initCSS()
-        if (!editorLayout) return
-        emitEditorLayout()
-        return () => {
-            emitEditorLayout()
-        }
-    }, [])
 }

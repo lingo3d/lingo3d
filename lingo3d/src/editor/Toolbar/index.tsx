@@ -33,7 +33,7 @@ import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { getTransformControlsSpaceComputed } from "../../states/useTransformControlsSpaceComputed"
 
 const Toolbar = () => {
-    useInitCSS(true)
+    useInitCSS()
     const elRef = useClickable()
 
     const mode = useSyncState(getEditorModeComputed)

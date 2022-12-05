@@ -7,7 +7,7 @@ import AccordionSceneGraph from "./AccordionSceneGraph"
 import AccordionTimelines from "./AccordionTimelines"
 
 const SceneGraph = () => {
-    useInitCSS(true)
+    useInitCSS()
     const elRef = useClickable()
 
     return (

@@ -11,7 +11,7 @@ import { getLoadingUnpkgCount } from "../../states/useLoadingUnpkgCount"
 import { getPaused } from "../../states/usePaused"
 
 const HUD = () => {
-    useInitCSS(false)
+    useInitCSS()
     const cameraRendered = useSyncState(getCameraRendered)
     const loadingUnpkgCount = useSyncState(getLoadingUnpkgCount)
     const paused = useSyncState(getPaused)

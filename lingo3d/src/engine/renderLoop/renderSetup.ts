@@ -10,7 +10,6 @@ import { VRButton } from "./VRButton"
 import { getAutoMount } from "../../states/useAutoMount"
 import { debounce } from "@lincode/utils"
 import { getPixelRatio } from "../../states/usePixelRatio"
-import { onEditorLayout } from "../../events/onEditorLayout"
 import createElement from "../../utils/createElement"
 import { getUILayer } from "../../states/useUILayer"
 
@@ -62,13 +61,13 @@ const useResize = (el: Element) => {
         }
         handleResize()
 
-        const handleResizeDebounced = debounce(handleResize, 100, "both")
-        window.addEventListener("resize", handleResizeDebounced)
-        const handle = onEditorLayout(handleResizeDebounced)
+        const resizeObserver = new ResizeObserver(
+            debounce(handleResize, 100, "both")
+        )
+        resizeObserver.observe(container)
 
         return () => {
-            window.removeEventListener("resize", handleResize)
-            handle.cancel()
+            resizeObserver.disconnect()
         }
     }, [el])
 }

@@ -34,7 +34,7 @@ Object.assign(dummyDefaults, {
 })
 
 const Editor = () => {
-    useInitCSS(true)
+    useInitCSS()
     useHotkeys()
     const elRef = useClickable()
 

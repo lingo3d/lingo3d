@@ -7,7 +7,7 @@ import TimelineContextMenu from "./TimelineContextMenu"
 import TimelineGraph from "./TimelineGraph"
 
 const TimelineEditor = () => {
-    useInitCSS(true)
+    useInitCSS()
 
     return (
         <>
