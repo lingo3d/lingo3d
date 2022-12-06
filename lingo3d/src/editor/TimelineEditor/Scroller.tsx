@@ -10,6 +10,7 @@ import { timelineScrollHeightSignal } from "../../states/useTimelineScrollHeight
 import { timelineScrollLeftSignal } from "../../states/useTimelineScrollLeft"
 import useSyncState from "../hooks/useSyncState"
 import FrameGrid from "./FrameGrid"
+import FrameIndicator, { frameIndicatorSignal } from "./FrameIndicator"
 import FrameTweenRow from "./FrameTweenRow"
 import useSyncScrollTop from "./useSyncScrollTop"
 
@@ -55,6 +56,10 @@ const Scroller = () => {
                 }
 
                 const frame = (timeline.frame = Math.floor(relX / FRAME_WIDTH))
+                frameIndicatorSignal.value = {
+                    x: frame * FRAME_WIDTH,
+                    y: Math.floor(relY / FRAME_HEIGHT) * FRAME_HEIGHT
+                }
                 setTimelineFrame(frame)
                 timeline.paused = true
             }}
@@ -73,6 +78,7 @@ const Scroller = () => {
                 {keyframesEntries.map(([uuid, frames]) => (
                     <FrameTweenRow key={uuid} uuid={uuid} frames={frames} />
                 ))}
+                <FrameIndicator />
             </div>
         </div>
     )

@@ -76,9 +76,11 @@ const FrameTween = ({ frameNum, frameNums, index }: FrameTweenProps) => {
             >
                 <div
                     style={{
-                        width: 10,
-                        height: 10,
-                        background: "rgba(255, 255, 255, 0.5)"
+                        width: 8,
+                        height: 8,
+                        border: "1px solid rgba(255, 255, 255, 1)",
+                        background,
+                        borderRadius: 8
                     }}
                 />
             </div>
