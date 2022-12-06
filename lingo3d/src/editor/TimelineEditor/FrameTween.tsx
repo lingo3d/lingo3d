@@ -51,10 +51,27 @@ const FrameTween = ({ frameNum, frameNums, index }: FrameTweenProps) => {
                 style={{
                     width: "100%",
                     height: 4,
-                    borderRadius: 999,
                     background
                 }}
             />
+            <div
+                className="lingo3d-flexcenter"
+                style={{
+                    position: "absolute",
+                    width: FRAME_WIDTH,
+                    height: FRAME_HEIGHT,
+                    left: 0,
+                    top: 0
+                }}
+            >
+                <div
+                    style={{
+                        width: 10,
+                        height: 10,
+                        background: "rgba(255, 255, 255, 0.5)"
+                    }}
+                />
+            </div>
         </div>
     )
 }
