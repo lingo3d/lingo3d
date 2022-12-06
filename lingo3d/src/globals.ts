@@ -26,8 +26,7 @@ export const VERSION = "2.0.3"
 
 export const FRAME_WIDTH = 12
 export const FRAME_HEIGHT = FRAME_WIDTH * 2
-export const FRAME_MAX = 999
-// export const FRAME_MAX = Number.MAX_SAFE_INTEGER / FRAME_WIDTH
+export const FRAME_MAX = Number.MAX_SAFE_INTEGER / FRAME_WIDTH
 export const APPBAR_HEIGHT = 28
 export const PANELS_HEIGHT = 200
 export const CONTEXT_MENU_ITEM_HEIGHT = 25
