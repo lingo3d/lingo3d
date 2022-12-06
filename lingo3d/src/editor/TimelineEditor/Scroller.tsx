@@ -5,13 +5,11 @@ import { getTimelineData } from "../../states/useTimelineData"
 import { getTimelineExpandedUUIDs } from "../../states/useTimelineExpandedUUIDs"
 import { setTimelineFrame } from "../../states/useTimelineFrame"
 import { getTimelineKeyframeEntries } from "../../states/useTimelineKeyframeEntries"
-import {
-    getTimelineLayer,
-    setTimelineLayer
-} from "../../states/useTimelineLayer"
+import { setTimelineLayer } from "../../states/useTimelineLayer"
 import { timelineScrollHeightSignal } from "../../states/useTimelineScrollHeight"
 import { timelineScrollLeftSignal } from "../../states/useTimelineScrollLeft"
 import useSyncState from "../hooks/useSyncState"
+import FrameGrid from "./FrameGrid"
 import FrameTweenRow from "./FrameTweenRow"
 import useSyncScrollTop from "./useSyncScrollTop"
 
@@ -71,6 +69,7 @@ const Scroller = () => {
                     height: timelineScrollHeightSignal.value
                 }}
             >
+                <FrameGrid />
                 {keyframesEntries.map(([uuid, frames]) => (
                     <FrameTweenRow key={uuid} uuid={uuid} frames={frames} />
                 ))}
