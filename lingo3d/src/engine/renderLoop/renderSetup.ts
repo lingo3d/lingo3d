@@ -41,11 +41,9 @@ export const uiContainer = createElement<HTMLDivElement>(
 container.appendChild(uiContainer)
 getSplitView((val) => {
     container.style.height = val ? "50%" : "100%"
+    uiContainer.style.top = val ? "100%" : "0px"
 })
-createEffect(() => {
-    uiContainer.style.display =
-        getSplitView() || !getUILayer() ? "none" : "block"
-}, [getSplitView, getUILayer])
+getUILayer((val) => (uiContainer.style.display = val ? "block" : "none"))
 
 export const containerBounds = [container.getBoundingClientRect()]
 
