@@ -16,7 +16,7 @@ import {
 } from "../../states/useMultipleSelection"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import { setSplitView } from "../../states/useSplitView"
+import { getSplitView, setSplitView } from "../../states/useSplitView"
 import { setTransformControlsSpace } from "../../states/useTransformControlsSpace"
 import deleteSelected from "./deleteSelected"
 
@@ -41,8 +41,12 @@ export default () => {
                 settings.uiLayer = !settings.uiLayer
                 return
             }
-            if (keyLowerCase === "1" || keyLowerCase === "2") {
-                setSplitView(keyLowerCase === "2")
+            if (keyLowerCase === "1") {
+                setSplitView(false)
+                return
+            }
+            if (keyLowerCase === "2") {
+                setSplitView(true)
                 return
             }
 
