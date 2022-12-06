@@ -11,6 +11,7 @@ import getWorldPosition from "../display/utils/getWorldPosition"
 import getWorldQuaternion from "../display/utils/getWorldQuaternion"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import { getWebXR } from "./useWebXR"
+import { getSplitView } from "./useSplitView"
 
 export const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
@@ -40,12 +41,16 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 let cameraLast: PerspectiveCamera | undefined
 
 createEffect(() => {
+    if (getSplitView()) {
+        setCameraRendered(mainCamera)
+        return
+    }
     const cameraFrom =
         getCameraRendered() === interpolationCamera
             ? interpolationCamera
             : cameraLast
 
-    const cameraTo = (cameraLast = last(getCameraStack())!)
+    const cameraTo = (cameraLast = last(getCameraStack()) ?? mainCamera)
     const transition = cameraTo.userData.transition
     if (
         !cameraFrom ||
@@ -97,4 +102,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getCameraStack])
+}, [getCameraStack, getSplitView])

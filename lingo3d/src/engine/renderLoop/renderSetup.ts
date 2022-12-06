@@ -5,13 +5,13 @@ import { createEffect, createNestedEffect } from "@lincode/reactivity"
 import { getWebXR } from "../../states/useWebXR"
 import { getRenderer } from "../../states/useRenderer"
 import { getPBR } from "../../states/usePBR"
-import { getSecondaryCamera } from "../../states/useSecondaryCamera"
 import { VRButton } from "./VRButton"
 import { getAutoMount } from "../../states/useAutoMount"
 import { debounceTrailing } from "@lincode/utils"
 import { getPixelRatio } from "../../states/usePixelRatio"
 import createElement from "../../utils/createElement"
 import { getUILayer } from "../../states/useUILayer"
+import { getSplitView } from "../../states/useSplitView"
 
 const style = createElement(`
     <style>
@@ -39,13 +39,13 @@ export const uiContainer = createElement<HTMLDivElement>(
     `<div class="lingo3d-container lingo3d-uicontainer"></div>`
 )
 container.appendChild(uiContainer)
-getSecondaryCamera((cam) => {
-    container.style.height = cam ? "50%" : "100%"
+getSplitView((val) => {
+    container.style.height = val ? "50%" : "100%"
 })
 createEffect(() => {
     uiContainer.style.display =
-        getSecondaryCamera() || !getUILayer() ? "none" : "block"
-}, [getSecondaryCamera, getUILayer])
+        getSplitView() || !getUILayer() ? "none" : "block"
+}, [getSplitView, getUILayer])
 
 export const containerBounds = [container.getBoundingClientRect()]
 

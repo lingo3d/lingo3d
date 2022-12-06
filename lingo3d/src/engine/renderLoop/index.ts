@@ -3,7 +3,6 @@ import { emitAfterRender } from "../../events/onAfterRender"
 import { emitBeforeRender } from "../../events/onBeforeRender"
 import { getRenderer } from "../../states/useRenderer"
 import { getResolution } from "../../states/useResolution"
-import { getSecondaryCamera } from "../../states/useSecondaryCamera"
 import { getWebXR } from "../../states/useWebXR"
 import { dt, loop } from "../eventLoop"
 import scene from "../scene"
@@ -11,19 +10,23 @@ import "./resize"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { emitRender } from "../../events/onRender"
 import effectComposer from "./effectComposer"
+import { getSplitView } from "../../states/useSplitView"
+import { getCameraStack } from "../../states/useCameraStack"
+import mainCamera from "../mainCamera"
+import { last } from "@lincode/utils"
 
 createEffect(() => {
     const renderer = getRenderer()
     if (!renderer) return
 
     const camera = getCameraRendered()
-    const secondaryCamera = getSecondaryCamera()
 
-    if (secondaryCamera) {
+    if (getSplitView()) {
         const [resX, resY] = getResolution()
         const width = resX * 1
         const height = resY * 0.5
 
+        const secondaryCamera = last(getCameraStack()) ?? mainCamera
         secondaryCamera.aspect = camera.aspect = width / height
         camera.updateProjectionMatrix()
         secondaryCamera.updateProjectionMatrix()
@@ -79,7 +82,8 @@ createEffect(() => {
 }, [
     getWebXR,
     getCameraRendered,
-    getSecondaryCamera,
+    getCameraStack,
+    getSplitView,
     getResolution,
     getRenderer
 ])
