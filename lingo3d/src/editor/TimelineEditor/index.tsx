@@ -1,5 +1,4 @@
 import useInitCSS from "../hooks/useInitCSS"
-import Frames from "./Frames"
 import RulerBar from "./RulerBar"
 import Scroller from "./Scroller"
 import TimelineBar from "./TimelineBar"
@@ -40,7 +39,6 @@ const TimelineEditor = () => {
                 >
                     <RulerBar />
                     <div style={{ flexGrow: 1 }}>
-                        <Frames />
                         <Scroller />
                     </div>
                 </div>
