@@ -1,10 +1,14 @@
 import { FRAME_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
 import { getTimeline } from "../../states/useTimeline"
+import { setTimelineContextMenu } from "../../states/useTimelineContextMenu"
 import { getTimelineData } from "../../states/useTimelineData"
 import { getTimelineExpandedUUIDs } from "../../states/useTimelineExpandedUUIDs"
 import { setTimelineFrame } from "../../states/useTimelineFrame"
 import { getTimelineKeyframeEntries } from "../../states/useTimelineKeyframeEntries"
-import { setTimelineLayer } from "../../states/useTimelineLayer"
+import {
+    getTimelineLayer,
+    setTimelineLayer
+} from "../../states/useTimelineLayer"
 import { timelineScrollHeightSignal } from "../../states/useTimelineScrollHeight"
 import { timelineScrollLeftSignal } from "../../states/useTimelineScrollLeft"
 import useSyncState from "../hooks/useSyncState"
@@ -23,7 +27,7 @@ const Scroller = () => {
             onScroll={(e) =>
                 (timelineScrollLeftSignal.value = e.currentTarget.scrollLeft)
             }
-            onClick={(e) => {
+            onMouseDown={(e) => {
                 const el = scrollRef.current
                 const [timelineData] = getTimelineData()
                 const [expandedUUIDs] = getTimelineExpandedUUIDs()
@@ -55,6 +59,10 @@ const Scroller = () => {
                 const frame = (timeline.frame = Math.floor(relX / FRAME_WIDTH))
                 setTimelineFrame(frame)
                 timeline.paused = true
+            }}
+            onContextMenu={(e) => {
+                e.preventDefault()
+                setTimelineContextMenu({ x: e.clientX, y: e.clientY })
             }}
         >
             <div
