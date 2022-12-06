@@ -1,7 +1,6 @@
 import store from "@lincode/reactivity"
 import { signal } from "@preact/signals"
-import { FRAME_WIDTH } from "../globals"
-import { getTimelineTotalFrames } from "./useTimelineTotalFrames"
+import { FRAME_MAX, FRAME_WIDTH } from "../globals"
 
 const [setTimelineScrollLeft, getTimelineScrollLeft] = store(0)
 export { getTimelineScrollLeft }
@@ -13,6 +12,6 @@ export const addTimelineScrollLeft = (deltaX: number) =>
     setTimelineScrollLeft(
         Math.min(
             Math.max(getTimelineScrollLeft() + deltaX, 0),
-            getTimelineTotalFrames() * FRAME_WIDTH - 520
+            FRAME_MAX * FRAME_WIDTH - 520
         )
     )

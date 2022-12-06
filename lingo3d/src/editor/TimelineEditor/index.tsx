@@ -1,7 +1,7 @@
-import { addTimelineScrollLeft } from "../../states/useTimelineScrollLeft"
 import useInitCSS from "../hooks/useInitCSS"
 import Frames from "./Frames"
 import RulerBar from "./RulerBar"
+import Scroller from "./Scroller"
 import TimelineBar from "./TimelineBar"
 import TimelineContextMenu from "./TimelineContextMenu"
 import TimelineGraph from "./TimelineGraph"
@@ -37,15 +37,12 @@ const TimelineEditor = () => {
                         display: "flex",
                         flexDirection: "column"
                     }}
-                    onWheel={(e) => {
-                        e.preventDefault()
-                        addTimelineScrollLeft(e.deltaX)
-                    }}
                 >
                     <RulerBar />
                     <div style={{ flexGrow: 1 }}>
                         <Frames />
                     </div>
+                    <Scroller />
                 </div>
             </div>
             <TimelineContextMenu />

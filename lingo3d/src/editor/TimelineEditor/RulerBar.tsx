@@ -2,7 +2,6 @@ import AppBar from "../component/bars/AppBar"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
 import { getTimeline } from "../../states/useTimeline"
-import { addTimelineScrollLeft } from "../../states/useTimelineScrollLeft"
 import Needle from "./Needle"
 import Ruler from "./Ruler"
 
@@ -16,10 +15,6 @@ const RulerBar = () => {
                 ref={ref}
                 className="lingo3d-absfull"
                 style={{ opacity: timeline ? 1 : 0.2 }}
-                onWheel={(e) => {
-                    e.preventDefault()
-                    addTimelineScrollLeft(e.deltaX)
-                }}
             >
                 <Ruler width={width} />
                 <Needle />
