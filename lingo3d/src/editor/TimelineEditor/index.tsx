@@ -41,8 +41,8 @@ const TimelineEditor = () => {
                     <RulerBar />
                     <div style={{ flexGrow: 1 }}>
                         <Frames />
+                        <Scroller />
                     </div>
-                    <Scroller />
                 </div>
             </div>
             <TimelineContextMenu />
