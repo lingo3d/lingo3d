@@ -13,7 +13,7 @@ interface VirtualizedListProps<T extends Array<any>> {
         style: CSSProperties
         data: valueof<T>
     }) => any
-    scrollSignal: Signal<number>
+    scrollSignal?: Signal<number>
     style?: CSSProperties
 }
 

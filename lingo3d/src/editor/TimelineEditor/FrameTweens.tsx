@@ -1,4 +1,5 @@
 import { timelineScrollLeftSignal } from "../../states/useTimelineScrollLeft"
+import { timelineScrollTopSignal } from "../../states/useTimelineScrollTop"
 import FrameTweenRow from "./FrameTweenRow"
 
 type FrameTweensProps = {
@@ -10,7 +11,8 @@ const FrameTweens = ({ keyframesEntries }: FrameTweensProps) => {
         <div
             style={{
                 position: "absolute",
-                left: -timelineScrollLeftSignal.value
+                left: -timelineScrollLeftSignal.value,
+                top: -timelineScrollTopSignal.value
             }}
         >
             {keyframesEntries.map(([uuid, frames]) => (

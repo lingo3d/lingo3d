@@ -9,6 +9,7 @@ import { useMemo } from "preact/hooks"
 import { CSSProperties, memo } from "preact/compat"
 import { valueof } from "@lincode/utils"
 import diffProps from "../utils/diffProps"
+import { timelineScrollTopSignal } from "../../states/useTimelineScrollTop"
 
 const Frames = () => {
     const [ref, { width, height }] = useResizeObserver()
@@ -49,6 +50,7 @@ const Frames = () => {
         >
             <FrameTweens keyframesEntries={keyframesEntries} />
             <VirtualizedList
+                scrollSignal={timelineScrollTopSignal}
                 data={keyframesEntries}
                 itemHeight={FRAME_HEIGHT}
                 containerWidth={width}
