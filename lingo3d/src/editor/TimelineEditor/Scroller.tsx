@@ -1,3 +1,5 @@
+import { uuidMap } from "../../api/core/collections"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { FRAME_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
 import { getTimeline } from "../../states/useTimeline"
 import { setTimelineContextMenu } from "../../states/useTimelineContextMenu"
@@ -42,6 +44,11 @@ const Scroller = () => {
                     const end = start + FRAME_HEIGHT
                     if (start > relY || end < relY) return false
                     setTimelineLayer(layer)
+                    emitSelectionTarget(
+                        uuidMap.get(layer.split(" ")[0]),
+                        false,
+                        true
+                    )
                     return true
                 }
                 let i = 0

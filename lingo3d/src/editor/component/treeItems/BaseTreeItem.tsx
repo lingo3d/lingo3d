@@ -10,7 +10,6 @@ import { setDragImage } from "../../utils/drag"
 export type BaseTreeItemProps = {
     label?: string
     selected?: boolean
-    onSelect?: () => void
     children?: ComponentChildren
     onCollapse?: () => void
     onExpand?: () => void
@@ -30,7 +29,6 @@ const BaseTreeItem = ({
     label,
     children,
     selected,
-    onSelect,
     onCollapse,
     onExpand,
     onClick,
@@ -53,10 +51,6 @@ const BaseTreeItem = ({
     useEffect(() => {
         setExpanded(!!expandedProp)
     }, [expandedProp])
-
-    useEffect(() => {
-        selected && onSelect?.()
-    }, [selected])
 
     const startRef = useClick(onClick)
     const endRef = useRef<HTMLDivElement>(null)

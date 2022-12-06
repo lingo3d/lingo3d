@@ -15,7 +15,6 @@ import {
     setTimelineLayer
 } from "../../../states/useTimelineLayer"
 import getComponentName from "../../utils/getComponentName"
-import useSyncDeselect from "./useSyncDeselect"
 
 type LayerTreeItemProps = {
     children: ComponentChildren
@@ -27,8 +26,6 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
     const [name, setName] = useState("")
     const instance = useMemo(() => uuidMap.get(uuid), [uuid])
     const selected = layer === uuid
-
-    useSyncDeselect(selected, instance, layer)
 
     useLayoutEffect(() => {
         return () => {
@@ -54,8 +51,10 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
             onExpand={() => addTimelineExpandedUUID(uuid)}
             onCollapse={() => deleteTimelineExpandedUUID(uuid)}
             selected={selected}
-            onClick={() => setTimelineLayer(uuid)}
-            onSelect={() => emitSelectionTarget(instance, false, true)}
+            onClick={() => {
+                setTimelineLayer(uuid)
+                emitSelectionTarget(instance, false, true)
+            }}
         >
             {children}
         </BaseTreeItem>

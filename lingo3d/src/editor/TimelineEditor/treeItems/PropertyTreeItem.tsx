@@ -8,7 +8,6 @@ import {
     getTimelineLayer,
     setTimelineLayer
 } from "../../../states/useTimelineLayer"
-import useSyncDeselect from "./useSyncDeselect"
 
 type PropertyTreeItemProps = {
     property: string
@@ -21,15 +20,15 @@ const PropertyTreeItem = ({ property, uuid }: PropertyTreeItemProps) => {
     const instance = useMemo(() => uuidMap.get(uuid), [uuid])
     const selected = layer === myLayer
 
-    useSyncDeselect(selected, instance, layer)
-
     return (
         <BaseTreeItem
             height={FRAME_HEIGHT}
             label={property}
             selected={selected}
-            onClick={() => setTimelineLayer(myLayer)}
-            onSelect={() => emitSelectionTarget(instance, false, true)}
+            onClick={() => {
+                setTimelineLayer(myLayer)
+                emitSelectionTarget(instance, false, true)
+            }}
         />
     )
 }
