@@ -9,22 +9,24 @@ const Controls = () => {
     const mode = useSyncState(getEditorModeComputed)
 
     return (
-        <>
-            <IconButton
-                fill
-                disabled={mode === "play"}
-                onClick={() => setEditorMode("play")}
-            >
-                <PlayIcon />
-            </IconButton>
-            <IconButton
-                fill
-                disabled={mode !== "play"}
-                onClick={() => setEditorMode("translate")}
-            >
-                <PauseIcon />
-            </IconButton>
-        </>
+        <div style={{ display: "flex", gap: 10 }}>
+            <div style={{ display: "flex" }}>
+                <IconButton
+                    fill
+                    disabled={mode === "play"}
+                    onClick={() => setEditorMode("play")}
+                >
+                    <PlayIcon />
+                </IconButton>
+                <IconButton
+                    fill
+                    disabled={mode !== "play"}
+                    onClick={() => setEditorMode("translate")}
+                >
+                    <PauseIcon />
+                </IconButton>
+            </div>
+        </div>
     )
 }
 export default Controls
