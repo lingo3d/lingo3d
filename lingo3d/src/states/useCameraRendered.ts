@@ -2,8 +2,6 @@ import store, { createEffect } from "@lincode/reactivity"
 import { Camera, OrthographicCamera, PerspectiveCamera } from "three"
 import interpolationCamera from "../engine/interpolationCamera"
 import mainCamera from "../engine/mainCamera"
-import { getCameraStack } from "./useCameraStack"
-import { last } from "@lincode/utils"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { getResolution } from "./useResolution"
 import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
@@ -12,6 +10,7 @@ import getWorldQuaternion from "../display/utils/getWorldQuaternion"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import { getWebXR } from "./useWebXR"
 import { getSplitView } from "./useSplitView"
+import { getCameraComputed } from "./useCameraComputed"
 
 export const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
@@ -50,7 +49,7 @@ createEffect(() => {
             ? interpolationCamera
             : cameraLast
 
-    const cameraTo = (cameraLast = last(getCameraStack()) ?? mainCamera)
+    const cameraTo = (cameraLast = getCameraComputed())
     const transition = cameraTo.userData.transition
     if (
         !cameraFrom ||
@@ -102,4 +101,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getCameraStack, getSplitView])
+}, [getSplitView, getCameraComputed])

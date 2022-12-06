@@ -1,17 +1,15 @@
-import { last } from "@lincode/utils"
 import { useLayoutEffect } from "preact/hooks"
 import { FolderApi, Pane } from "../TweakPane/tweakpane"
 import getComponentName from "../utils/getComponentName"
 import useSyncState from "../hooks/useSyncState"
 import { getCameraList } from "../../states/useCameraList"
-import { getCameraStack } from "../../states/useCameraStack"
 import { getManager } from "../../api/utils/manager"
-import Camera from "../../display/cameras/Camera"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
+import { setEditorCamera } from "../../states/useEditorCamera"
+import { getCameraComputed } from "../../states/useCameraComputed"
 
 export default (pane?: Pane, cameraFolder?: FolderApi) => {
-    const cameraStack = useSyncState(getCameraStack)
-    const camera = last(cameraStack)!
+    const camera = useSyncState(getCameraComputed)
     const cameraList = useSyncState(getCameraList)
     const splitView = useSyncState(getSplitView)
 
@@ -23,7 +21,7 @@ export default (pane?: Pane, cameraFolder?: FolderApi) => {
                 return cameraList.indexOf(camera)
             },
             set camera(val) {
-                getManager<Camera>(cameraList[val]).active = true
+                setEditorCamera(cameraList[val])
             },
             get split() {
                 return splitView

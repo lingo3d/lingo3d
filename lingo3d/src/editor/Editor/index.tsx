@@ -3,7 +3,6 @@ import { FolderApi, Pane } from "../TweakPane/tweakpane"
 import { setOrbitControls } from "../../states/useOrbitControls"
 import { useLayoutEffect, useState } from "preact/hooks"
 import { Cancellable } from "@lincode/promiselikes"
-import mainOrbitCamera from "../../engine/mainOrbitCamera"
 import getComponentName from "../utils/getComponentName"
 import addInputs from "./addInputs"
 import getParams from "./getParams"
@@ -28,6 +27,8 @@ import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getSetupStack } from "../../states/useSetupStack"
+import { setEditorCamera } from "../../states/useEditorCamera"
+import mainCamera from "../../engine/mainCamera"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -44,12 +45,13 @@ const Editor = () => {
             return "Are you sure you want to close the current page?"
         }
 
-        mainOrbitCamera.active = true
+        setEditorCamera(mainCamera)
         setOrbitControls(true)
         settings.gridHelper = !firstLoadPtr[0]
         setEditorMounted(true)
 
         return () => {
+            setEditorCamera(undefined)
             setOrbitControls(false)
             settings.gridHelper = false
             setEditorMounted(false)

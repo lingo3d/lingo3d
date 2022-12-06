@@ -11,9 +11,7 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { emitRender } from "../../events/onRender"
 import effectComposer from "./effectComposer"
 import { getSplitView } from "../../states/useSplitView"
-import { getCameraStack } from "../../states/useCameraStack"
-import mainCamera from "../mainCamera"
-import { last } from "@lincode/utils"
+import { getCameraComputed } from "../../states/useCameraComputed"
 
 createEffect(() => {
     const renderer = getRenderer()
@@ -26,7 +24,7 @@ createEffect(() => {
         const width = resX * 1
         const height = resY * 0.5
 
-        const secondaryCamera = last(getCameraStack()) ?? mainCamera
+        const secondaryCamera = getCameraComputed()
         secondaryCamera.aspect = camera.aspect = width / height
         camera.updateProjectionMatrix()
         secondaryCamera.updateProjectionMatrix()
@@ -82,7 +80,7 @@ createEffect(() => {
 }, [
     getWebXR,
     getCameraRendered,
-    getCameraStack,
+    getCameraComputed,
     getSplitView,
     getResolution,
     getRenderer
