@@ -1,6 +1,5 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
-import { last } from "@lincode/utils"
 import { EquirectangularReflectionMapping } from "three"
 import Environment from "../display/Environment"
 import loadTexture from "../display/utils/loaders/loadTexture"
@@ -27,7 +26,7 @@ export const mapEnvironmentPreset = (value: string) =>
         : value
 
 createEffect(() => {
-    const environment = last(getEnvironmentStack())
+    const environment = getEnvironmentStack().at(-1)
     const renderer = getRenderer()
 
     if (!environment?.texture || !renderer || environment.texture === "dynamic")

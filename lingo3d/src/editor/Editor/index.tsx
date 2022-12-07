@@ -1,4 +1,3 @@
-import { last } from "@lincode/utils"
 import { FolderApi, Pane } from "../TweakPane/tweakpane"
 import { setOrbitControls } from "../../states/useOrbitControls"
 import { useLayoutEffect, useState } from "preact/hooks"
@@ -62,7 +61,7 @@ const Editor = () => {
     const [cameraFolder, setCameraFolder] = useState<FolderApi>()
 
     const setupStack = useSyncState(getSetupStack)
-    const lastSetup = last(setupStack)
+    const lastSetup = setupStack.at(-1)
     const targetSetup = (lastSetup && dataSetupMap.get(lastSetup)) ?? settings
 
     const selectionTarget = useSyncState(getSelectionTarget)

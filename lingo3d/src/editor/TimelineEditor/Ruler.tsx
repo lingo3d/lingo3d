@@ -2,7 +2,7 @@ import { APPBAR_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
 import { timelineScrollLeftSignal } from "../../states/useTimelineScrollLeft"
 import Metric from "./Metric"
-import { useMemo } from "preact/hooks"
+import { useEffect, useMemo } from "preact/hooks"
 import { CSSProperties, memo } from "preact/compat"
 import diffProps from "../utils/diffProps"
 
@@ -10,14 +10,32 @@ type RulerProps = {
     width: number
 }
 
-export const maxFramePtr = [45]
+export const maxFramePtr = [Infinity]
+export const minFramePtr = [0]
+const renderedFrames: Record<number, true> = {}
+
+const getMinMaxFrames = () => {
+    const keys = Object.keys(renderedFrames)
+    maxFramePtr[0] = Number(keys.at(-1))
+    minFramePtr[0] = Number(keys[0])
+}
 
 const Ruler = ({ width }: RulerProps) => {
     const RenderComponent = useMemo(
         () =>
             memo(
                 ({ index, style }: { index: number; style: CSSProperties }) => {
-                    maxFramePtr[0] = Math.max(index * 5, 45)
+                    useEffect(() => {
+                        const frame = index * 5
+                        renderedFrames[frame] = true
+                        getMinMaxFrames()
+
+                        return () => {
+                            delete renderedFrames[frame]
+                            getMinMaxFrames()
+                        }
+                    }, [])
+
                     return <Metric key={index} index={index} style={style} />
                 },
                 diffProps

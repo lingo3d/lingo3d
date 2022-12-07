@@ -9,7 +9,6 @@ import WaveSurfer from "wavesurfer.js"
 import getPrivateValue from "../../utils/getPrivateValue"
 import diffProps from "../utils/diffProps"
 import useSyncState from "../hooks/useSyncState"
-import { last } from "@lincode/utils"
 import { getTimeline } from "../../states/useTimeline"
 
 type AudioRowProps = {
@@ -29,7 +28,7 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
             startFrame,
             frameKeys.length < 2
                 ? startFrame + Math.ceil(duration * SEC2FRAME)
-                : Number(last(frameKeys))
+                : Number(frameKeys.at(-1))
         ] as const
     }, [frameKeys, duration])
 

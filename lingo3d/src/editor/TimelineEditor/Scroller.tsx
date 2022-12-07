@@ -2,6 +2,7 @@ import { createEffect } from "@lincode/reactivity"
 import { useEffect } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
+import { onTimelineSeekScrollLeft } from "../../events/onTimelineSeekScrollLeft"
 import { FRAME_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
 import { getTimeline } from "../../states/useTimeline"
 import { setTimelineContextMenu } from "../../states/useTimelineContextMenu"
@@ -43,8 +44,14 @@ const Scroller = () => {
             }
         }, [getTimelinePaused, getTimelineFrame])
 
+        const seekHandle = onTimelineSeekScrollLeft(() => {
+            const frame = getTimelineFrame()
+            if (frame >= maxFramePtr[0] - 3) el.scrollLeft = frame * FRAME_WIDTH
+        })
+
         return () => {
             handle.cancel()
+            seekHandle.cancel
         }
     }, [])
 

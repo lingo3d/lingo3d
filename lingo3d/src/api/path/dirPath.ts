@@ -1,8 +1,6 @@
-import { last } from "@lincode/utils"
-
 export default (url: string) => {
     const parts = url.split("/")
-    if (last(parts)?.includes(".")) {
+    if (parts.at(-1)?.includes(".")) {
         parts.pop()
         return parts.join("/")
     }

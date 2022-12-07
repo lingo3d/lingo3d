@@ -1,5 +1,6 @@
 import store from "@lincode/reactivity"
 import { deselectFrameIndicator } from "../editor/TimelineEditor/FrameIndicator"
+import { emitTimelineSeekScrollLeft } from "../events/onTimelineSeekScrollLeft"
 import { getTimeline } from "./useTimeline"
 
 export const [setTimelineFrame, getTimelineFrame] = store(0)
@@ -9,6 +10,7 @@ export const increaseTimelineFrame = () => {
     if (!timeline) return
     setTimelineFrame((timeline.frame = getTimelineFrame() + 1))
     deselectFrameIndicator()
+    emitTimelineSeekScrollLeft()
 }
 
 export const decreaseTimelineFrame = () => {
@@ -16,6 +18,7 @@ export const decreaseTimelineFrame = () => {
     if (!timeline) return
     setTimelineFrame((timeline.frame = Math.max(getTimelineFrame() - 1, 0)))
     deselectFrameIndicator()
+    emitTimelineSeekScrollLeft()
 }
 
 export const firstTimelineFrame = () => {
@@ -23,6 +26,7 @@ export const firstTimelineFrame = () => {
     if (!timeline) return
     setTimelineFrame((timeline.frame = 0))
     deselectFrameIndicator()
+    emitTimelineSeekScrollLeft()
 }
 
 export const lastTimelineFrame = () => {
@@ -30,6 +34,7 @@ export const lastTimelineFrame = () => {
     if (!timeline) return
     setTimelineFrame((timeline.frame = timeline.clipTotalFrames))
     deselectFrameIndicator()
+    emitTimelineSeekScrollLeft()
 }
 
 getTimeline((timeline) => !timeline && setTimelineFrame(0))
