@@ -56,7 +56,7 @@ const Scroller = () => {
 
         return () => {
             handle.cancel()
-            seekHandle.cancel
+            seekHandle.cancel()
         }
     }, [])
 
