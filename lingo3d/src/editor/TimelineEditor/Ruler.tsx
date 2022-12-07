@@ -10,11 +10,14 @@ type RulerProps = {
     width: number
 }
 
+export const maxFramePtr = [45]
+
 const Ruler = ({ width }: RulerProps) => {
     const RenderComponent = useMemo(
         () =>
             memo(
                 ({ index, style }: { index: number; style: CSSProperties }) => {
+                    maxFramePtr[0] = Math.max(index * 5, 45)
                     return <Metric key={index} index={index} style={style} />
                 },
                 diffProps

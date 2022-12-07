@@ -1,3 +1,5 @@
+import { createEffect } from "@lincode/reactivity"
+import { useEffect } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { FRAME_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
@@ -5,20 +7,46 @@ import { getTimeline } from "../../states/useTimeline"
 import { setTimelineContextMenu } from "../../states/useTimelineContextMenu"
 import { getTimelineData } from "../../states/useTimelineData"
 import { getTimelineExpandedUUIDs } from "../../states/useTimelineExpandedUUIDs"
-import { setTimelineFrame } from "../../states/useTimelineFrame"
+import {
+    getTimelineFrame,
+    setTimelineFrame
+} from "../../states/useTimelineFrame"
 import { getTimelineKeyframeEntries } from "../../states/useTimelineKeyframeEntries"
 import { setTimelineLayer } from "../../states/useTimelineLayer"
+import { getTimelinePaused } from "../../states/useTimelinePaused"
 import { timelineScrollHeightSignal } from "../../states/useTimelineScrollHeight"
 import { timelineScrollLeftSignal } from "../../states/useTimelineScrollLeft"
 import useSyncState from "../hooks/useSyncState"
 import FrameGrid from "./FrameGrid"
 import FrameIndicator, { frameIndicatorSignal } from "./FrameIndicator"
 import FrameTweenRow from "./FrameTweenRow"
+import { maxFramePtr } from "./Ruler"
 import useSyncScrollTop from "./useSyncScrollTop"
 
 const Scroller = () => {
     const scrollRef = useSyncScrollTop()
     const keyframesEntries = useSyncState(getTimelineKeyframeEntries)
+
+    useEffect(() => {
+        const el = scrollRef.current
+        if (!el) return
+
+        const handle = createEffect(() => {
+            const paused = getTimelinePaused()
+            if (paused) return
+
+            const frameHandle = getTimelineFrame((frame) => {
+                if (frame > maxFramePtr[0]) el.scrollLeft = frame * FRAME_WIDTH
+            })
+            return () => {
+                frameHandle.cancel()
+            }
+        }, [getTimelinePaused, getTimelineFrame])
+
+        return () => {
+            handle.cancel()
+        }
+    }, [])
 
     return (
         <div
