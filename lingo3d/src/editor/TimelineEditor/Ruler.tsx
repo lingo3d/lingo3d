@@ -12,6 +12,7 @@ type RulerProps = {
 
 export const maxFramePtr = [Infinity]
 export const minFramePtr = [0]
+export const framesWidthPtr = [0]
 const renderedFrames: Record<number, true> = {}
 
 const getMinMaxFrames = () => {
@@ -21,6 +22,8 @@ const getMinMaxFrames = () => {
 }
 
 const Ruler = ({ width }: RulerProps) => {
+    framesWidthPtr[0] = Math.floor(width / 5) * 5
+
     const RenderComponent = useMemo(
         () =>
             memo(

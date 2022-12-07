@@ -21,7 +21,7 @@ import useSyncState from "../hooks/useSyncState"
 import FrameGrid from "./FrameGrid"
 import FrameIndicator, { frameIndicatorSignal } from "./FrameIndicator"
 import FrameTweenRow from "./FrameTweenRow"
-import { maxFramePtr } from "./Ruler"
+import { framesWidthPtr, maxFramePtr, minFramePtr } from "./Ruler"
 import useSyncScrollTop from "./useSyncScrollTop"
 
 const Scroller = () => {
@@ -45,8 +45,13 @@ const Scroller = () => {
         }, [getTimelinePaused, getTimelineFrame])
 
         const seekHandle = onTimelineSeekScrollLeft(() => {
-            const frame = getTimelineFrame()
-            if (frame >= maxFramePtr[0] - 3) el.scrollLeft = frame * FRAME_WIDTH
+            const frameDiv = getTimelineFrame() / 5
+            const ceilFrame = Math.ceil(frameDiv) * 5
+            const floorFrame = Math.floor(frameDiv) * 5
+            if (ceilFrame > maxFramePtr[0])
+                el.scrollLeft = floorFrame * FRAME_WIDTH
+            else if (floorFrame < minFramePtr[0])
+                el.scrollLeft = ceilFrame * FRAME_WIDTH - framesWidthPtr[0]
         })
 
         return () => {
