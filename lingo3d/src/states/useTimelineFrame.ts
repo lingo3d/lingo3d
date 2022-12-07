@@ -28,7 +28,7 @@ export const firstTimelineFrame = () => {
 export const lastTimelineFrame = () => {
     const timeline = getTimeline()
     if (!timeline) return
-    setTimelineFrame((timeline.frame = timeline.totalFrames))
+    setTimelineFrame((timeline.frame = timeline.clipTotalFrames))
     deselectFrameIndicator()
 }
 

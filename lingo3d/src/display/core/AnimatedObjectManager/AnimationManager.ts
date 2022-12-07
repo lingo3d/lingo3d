@@ -80,8 +80,8 @@ export default class AnimationManager
 
     private mixer: AnimationMixer
 
-    private clipTotalFrames = 0
-    private audioTotalFrames = 0
+    public clipTotalFrames = 0
+    public audioTotalFrames = 0
     public get totalFrames() {
         return Math.max(this.clipTotalFrames, this.audioTotalFrames)
     }
