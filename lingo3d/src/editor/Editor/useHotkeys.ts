@@ -6,10 +6,12 @@ import deserialize from "../../api/serializer/deserialize"
 import serialize from "../../api/serializer/serialize"
 import settings from "../../api/settings"
 import applyCentripetalQuaternion from "../../display/utils/applyCentripetalQuaternion"
+import mainCamera from "../../engine/mainCamera"
 import { emitEditorCenterView } from "../../events/onEditorCenterView"
 import { onKeyClear } from "../../events/onKeyClear"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getCentripetal } from "../../states/useCentripetal"
+import { getEditorCamera, setEditorCamera } from "../../states/useEditorCamera"
 import {
     setMultipleSelection,
     getMultipleSelection
@@ -42,11 +44,18 @@ export default () => {
                 return
             }
             if (keyLowerCase === "1") {
+                !getSplitView() &&
+                    setEditorCamera(
+                        getEditorCamera() === mainCamera
+                            ? undefined
+                            : mainCamera
+                    )
                 setSplitView(false)
                 return
             }
             if (keyLowerCase === "2") {
                 setSplitView(true)
+                setEditorCamera(undefined)
                 return
             }
 
