@@ -1,3 +1,4 @@
+import "./polyfill"
 import "./boxHelper"
 import "./skeletonHelper"
 import "./mainOrbitCamera"
