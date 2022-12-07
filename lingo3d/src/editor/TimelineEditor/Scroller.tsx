@@ -32,19 +32,7 @@ const Scroller = () => {
         const el = scrollRef.current
         if (!el) return
 
-        const handle = createEffect(() => {
-            const paused = getTimelinePaused()
-            if (paused) return
-
-            const frameHandle = getTimelineFrame((frame) => {
-                if (frame > maxFramePtr[0]) el.scrollLeft = frame * FRAME_WIDTH
-            })
-            return () => {
-                frameHandle.cancel()
-            }
-        }, [getTimelinePaused, getTimelineFrame])
-
-        const seekHandle = onTimelineSeekScrollLeft(() => {
+        const seek = () => {
             const frameDiv = getTimelineFrame() / 5
             const ceilFrame = Math.ceil(frameDiv) * 5
             const floorFrame = Math.floor(frameDiv) * 5
@@ -52,7 +40,19 @@ const Scroller = () => {
                 el.scrollLeft = floorFrame * FRAME_WIDTH
             else if (floorFrame < minFramePtr[0])
                 el.scrollLeft = ceilFrame * FRAME_WIDTH - framesWidthPtr[0]
-        })
+        }
+
+        const handle = createEffect(() => {
+            const paused = getTimelinePaused()
+            if (paused) return
+
+            const frameHandle = getTimelineFrame(seek)
+            return () => {
+                frameHandle.cancel()
+            }
+        }, [getTimelinePaused, getTimelineFrame])
+
+        const seekHandle = onTimelineSeekScrollLeft(seek)
 
         return () => {
             handle.cancel()
