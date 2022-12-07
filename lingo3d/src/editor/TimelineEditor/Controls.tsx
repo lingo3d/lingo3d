@@ -19,6 +19,7 @@ import {
     getTimelineRecord,
     setTimelineRecord
 } from "../../states/useTimelineRecord"
+import { deselectFrameIndicator } from "./FrameIndicator"
 
 const Controls = () => {
     const timeline = useSyncState(getTimeline)
@@ -36,6 +37,7 @@ const Controls = () => {
                             ? () => {
                                   if (timeline.frame >= timeline.totalFrames)
                                       timeline.frame = 0
+                                  deselectFrameIndicator()
                                   timeline.paused = false
                               }
                             : undefined
@@ -47,9 +49,7 @@ const Controls = () => {
                 <IconButton
                     outline
                     disabled={!timeline}
-                    onClick={
-                        timeline ? () => (timeline.paused = true) : undefined
-                    }
+                    onClick={timeline ? deselectFrameIndicator : undefined}
                 >
                     <PauseIcon />
                 </IconButton>
@@ -87,7 +87,10 @@ const Controls = () => {
             <IconButton
                 outline
                 disabled={!timeline}
-                onClick={() => setTimelineRecord(!record)}
+                onClick={() => {
+                    setTimelineRecord(!record)
+                    deselectFrameIndicator()
+                }}
             >
                 <div
                     style={{
