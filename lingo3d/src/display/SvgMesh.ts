@@ -13,6 +13,7 @@ import {
 } from "../states/useLoadingCount"
 import { standardMaterial } from "./utils/reusables"
 import { attachStandardMaterialManager } from "./material/attachMaterialManager"
+import toResolvable from "./utils/toResolvable"
 
 const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()
 
@@ -20,6 +21,41 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     public static componentName = "svgMesh"
     public static defaults = svgMeshDefaults
     public static schema = svgMeshSchema
+
+    private _innerHTML?: string
+    public get innerHTML() {
+        return this._innerHTML
+    }
+    public set innerHTML(val: string | undefined) {
+        this._innerHTML = val
+        if (!val) return
+
+        this._src = val
+        this.loaded.done && this.loadedGroup.clear()
+
+        this.cancelHandle(
+            "src",
+            val &&
+                (() =>
+                    toResolvable(
+                        new Promise<SVGResult>((resolve) => {
+                            increaseLoadingCount()
+                            import("./utils/loaders/loadSVG").then(
+                                ({ loader }) => {
+                                    decreaseLoadingCount()
+                                    resolve(loader.parse(val))
+                                }
+                            )
+                        })
+                    ).then((loaded) => {
+                        const loadedObject3d = this.resolveLoaded(loaded, val)
+                        this.loadedGroup.add(loadedObject3d)
+                        this.loaded.resolve(loadedObject3d)
+
+                        this.object3d.visible = !!this._boxVisible
+                    }))
+        )
+    }
 
     protected async load(url: string) {
         increaseLoadingCount()

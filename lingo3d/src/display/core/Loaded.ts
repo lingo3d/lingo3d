@@ -187,7 +187,7 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    private _boxVisible?: boolean
+    protected _boxVisible?: boolean
     public get boxVisible() {
         return this._boxVisible ?? this.object3d.visible
     }

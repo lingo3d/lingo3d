@@ -7,7 +7,7 @@ import {
 } from "../../../states/useLoadingUnpkgCount"
 
 const cache = new Map<string, Promise<SVGResult>>()
-const loader = new SVGLoader()
+export const loader = new SVGLoader()
 
 export default (url: string) =>
     forceGet(
