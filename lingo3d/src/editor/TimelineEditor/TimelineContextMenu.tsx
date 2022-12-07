@@ -23,6 +23,7 @@ import { getTimelineFrame } from "../../states/useTimelineFrame"
 const TimelineContextMenu = () => {
     const menu = useSyncState(getTimelineContextMenu)
     const [dataCopied, setDataCopied] = useState<AnimationData>()
+    const timeline = useSyncState(getTimeline)
 
     return (
         <ContextMenu
@@ -54,7 +55,7 @@ const TimelineContextMenu = () => {
             }}
         >
             <ContextMenuItem
-                disabled={menu?.keyframe}
+                disabled={menu?.keyframe || !timeline}
                 onClick={() => {
                     processKeyframe((timelineData, uuid, property, frame) =>
                         set(
