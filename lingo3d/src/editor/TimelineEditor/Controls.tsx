@@ -20,11 +20,15 @@ import {
     setTimelineRecord
 } from "../../states/useTimelineRecord"
 import { deselectFrameIndicator } from "./FrameIndicator"
+import AudioIcon from "./icons/AudioIcon"
+import { getTimelineMute, setTimelineMute } from "../../states/useTimelineMute"
+import MuteIcon from "./icons/MuteIcon"
 
 const Controls = () => {
     const timeline = useSyncState(getTimeline)
     const paused = useSyncState(getTimelinePaused)
     const record = useSyncState(getTimelineRecord)
+    const mute = useSyncState(getTimelineMute)
 
     return (
         <AppBar noPadding>
@@ -100,6 +104,13 @@ const Controls = () => {
                         background: record ? "red" : "white"
                     }}
                 />
+            </IconButton>
+            <IconButton
+                outline
+                disabled={!timeline}
+                onClick={() => setTimelineMute(!mute)}
+            >
+                {mute ? <MuteIcon /> : <AudioIcon />}
             </IconButton>
         </AppBar>
     )
