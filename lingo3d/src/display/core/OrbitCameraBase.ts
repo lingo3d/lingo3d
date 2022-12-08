@@ -8,7 +8,7 @@ import { onId } from "../../events/onId"
 import { onSceneGraphChange } from "../../events/onSceneGraphChange"
 
 export default class OrbitCameraBase
-    extends CameraBase<PerspectiveCamera>
+    extends CameraBase
     implements IOrbitCameraBase
 {
     private getChild() {

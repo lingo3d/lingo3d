@@ -1,6 +1,5 @@
 import CameraBase from "."
 import { container } from "../../../engine/renderLoop/renderSetup"
-import { PerspectiveCamera } from "three"
 import {
     getCameraPointerLock,
     setCameraPointerLock
@@ -10,7 +9,7 @@ import { getCameraRendered } from "../../../states/useCameraRendered"
 import isMobile from "../../../api/utils/isMobile"
 import { getEditorPlay } from "../../../states/useEditorPlay"
 
-export default function (this: CameraBase<PerspectiveCamera>) {
+export default function (this: CameraBase) {
     if (this.done) return
 
     this.createEffect(() => {

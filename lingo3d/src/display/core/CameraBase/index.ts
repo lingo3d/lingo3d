@@ -30,7 +30,9 @@ import { addSelectionHelper } from "../StaticObjectManager/raycast/selectionCand
 import HelperSprite from "../utils/HelperSprite"
 import { setManager } from "../../../api/utils/manager"
 
-export default abstract class CameraBase<T extends PerspectiveCamera>
+export default abstract class CameraBase<
+        T extends PerspectiveCamera = PerspectiveCamera
+    >
     extends ObjectManager
     implements ICameraBase
 {
@@ -217,8 +219,8 @@ export default abstract class CameraBase<T extends PerspectiveCamera>
         }))
     }
 
-    private static updateAngle = debounceInstance(
-        (target: CameraBase<PerspectiveCamera>) => target.gyrate(0, 0)
+    private static updateAngle = debounceInstance((target: CameraBase) =>
+        target.gyrate(0, 0)
     )
     protected updateAngle() {
         CameraBase.updateAngle(this, this)
