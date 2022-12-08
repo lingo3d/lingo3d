@@ -39,10 +39,7 @@ export default () => {
                 settings.gridHelper = !settings.gridHelper
                 return
             }
-            if (keyLowerCase === "u") {
-                settings.uiLayer = !settings.uiLayer
-                return
-            }
+
             if (keyLowerCase === "1") {
                 !getSplitView() &&
                     setEditorCamera(
@@ -56,6 +53,10 @@ export default () => {
             if (keyLowerCase === "2") {
                 setSplitView(true)
                 setEditorCamera(undefined)
+                return
+            }
+            if (keyLowerCase === "3") {
+                settings.uiLayer = !settings.uiLayer
                 return
             }
 
