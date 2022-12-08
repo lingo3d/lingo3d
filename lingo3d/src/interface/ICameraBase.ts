@@ -58,7 +58,7 @@ export const cameraBaseSchema: Required<ExtractProps<ICameraBase>> = {
 
     enableDamping: Boolean
 }
-hideSchema(["minAzimuthAngle", "maxAzimuthAngle"])
+hideSchema(["minAzimuthAngle", "maxAzimuthAngle", "near", "far"])
 
 export const cameraBaseDefaults = extendDefaults<ICameraBase>(
     [objectManagerDefaults],
