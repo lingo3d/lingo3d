@@ -13,13 +13,16 @@ import { onTransformControls } from "../events/onTransformControls"
 import { onEditorEdit } from "../events/onEditorEdit"
 import {
     flushMultipleSelectionTargets,
-    getMultipleSelectionTargets
+    getMultipleSelectionTargets,
+    multipleSelectionTargetsFlushingPtr
 } from "./useMultipleSelectionTargets"
 import { keyframesPtr } from "./useTimelineKeyframeEntries"
 import { getTimelineRecord } from "./useTimelineRecord"
 import getChangedProperties, {
     saveProperties
 } from "../display/utils/getChangedProperties"
+import Appendable from "../api/core/Appendable"
+import { getSelectionTarget } from "./useSelectionTarget"
 
 const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([
     undefined
@@ -42,9 +45,24 @@ createEffect(() => {
     const timeline = getTimeline()
     if (!timelineData || !timeline || !getTimelineRecord()) return
 
-    const instances = new Set(
+    const timelineInstances = new WeakSet(
         Object.keys(timelineData).map((uuid) => uuidMap.get(uuid)!)
     )
+
+    const instances = new Set<Appendable>()
+    const getInstances = () => {
+        if (multipleSelectionTargetsFlushingPtr[0]) return
+        instances.clear()
+        for (const target of getMultipleSelectionTargets())
+            timelineInstances.has(target) && instances.add(target)
+
+        if (instances.size) return
+        const target = getSelectionTarget()
+        target && timelineInstances.has(target) && instances.add(target)
+    }
+    const handle4 = getSelectionTarget(getInstances)
+    const handle5 = getMultipleSelectionTargets(getInstances)
+
     const handleStart = () => {
         for (const instance of instances) saveProperties(instance)
     }
@@ -67,7 +85,7 @@ createEffect(() => {
                             nextFrame = frameNum
                             break
                         }
-                        prevFrame = frameNum
+                        if (frameNum < frame) prevFrame = frameNum
                     }
                     const propertyData = uuidData[property] ?? {}
                     merge(changeData, {
@@ -97,7 +115,7 @@ createEffect(() => {
     })
 
     const handle2 = onDispose((item) => {
-        if (!instances.has(item)) return
+        if (!timelineInstances.has(item)) return
         delete timelineData[item.uuid]
         timeline.data = timelineData
     })
@@ -107,6 +125,8 @@ createEffect(() => {
         handle1.cancel()
         handle2.cancel()
         handle3.cancel()
+        handle4.cancel()
+        handle5.cancel()
     }
 }, [getTimelineData, getTimelineRecord])
 

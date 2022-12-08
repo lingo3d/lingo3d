@@ -1,3 +1,3 @@
 import store from "@lincode/reactivity"
 
-export const [setTimelineRecord, getTimelineRecord] = store(false)
+export const [setTimelineRecord, getTimelineRecord] = store(true)

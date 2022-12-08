@@ -18,16 +18,22 @@ export const resetMultipleSelectionTargets = reset(
     getMultipleSelectionTargets
 )
 
-export const flushMultipleSelectionTargets = async (cb: () => void) => {
+export const multipleSelectionTargetsFlushingPtr = [false]
+
+export const flushMultipleSelectionTargets = async (onFlush: () => void) => {
+    multipleSelectionTargetsFlushingPtr[0] = true
+
     const targets = getMultipleSelectionTargets()
     setMultipleSelectionTargets([])
 
     await Promise.resolve()
 
-    cb()
+    onFlush()
 
     await Promise.resolve()
     await Promise.resolve()
 
     setMultipleSelectionTargets(targets)
+
+    multipleSelectionTargetsFlushingPtr[0] = false
 }
