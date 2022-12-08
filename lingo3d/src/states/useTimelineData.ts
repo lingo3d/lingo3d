@@ -12,8 +12,8 @@ import getPrivateValue from "../utils/getPrivateValue"
 import { onTransformControls } from "../events/onTransformControls"
 import { onEditorEdit } from "../events/onEditorEdit"
 import {
-    getMultipleSelectionTargets,
-    setMultipleSelectionTargets
+    flushMultipleSelectionTargets,
+    getMultipleSelectionTargets
 } from "./useMultipleSelectionTargets"
 import { keyframesPtr } from "./useTimelineKeyframeEntries"
 import { getTimelineRecord } from "./useTimelineRecord"
@@ -48,48 +48,41 @@ createEffect(() => {
     const handleStart = () => {
         for (const instance of instances) saveProperties(instance)
     }
-    const handleFinish = async () => {
-        const targets = getMultipleSelectionTargets()
-        setMultipleSelectionTargets([])
-
-        await Promise.resolve()
-
-        const changeData: AnimationData = {}
-        const frame = getTimelineFrame()
-        const [keyframes] = keyframesPtr
-        for (const instance of instances) {
-            const { uuid } = instance
-            const uuidData = timelineData[uuid]
-            const keyframeNums = Object.keys(keyframes[uuid]).map(Number)
-            for (const [property, saved] of getChangedProperties(instance)) {
-                let prevFrame = 0
-                let nextFrame = frame
-                for (const frameNum of keyframeNums) {
-                    if (frameNum > frame) {
-                        nextFrame = frameNum
-                        break
-                    }
-                    prevFrame = frameNum
-                }
-                const propertyData = uuidData[property] ?? {}
-                merge(changeData, {
-                    [uuid]: {
-                        [property]: {
-                            [prevFrame]: propertyData[prevFrame] ?? saved,
-                            [nextFrame]: propertyData[nextFrame] ?? saved,
-                            [frame]: unsafeGetValue(instance, property)
+    const handleFinish = () =>
+        flushMultipleSelectionTargets(() => {
+            const changeData: AnimationData = {}
+            const frame = getTimelineFrame()
+            const [keyframes] = keyframesPtr
+            for (const instance of instances) {
+                const { uuid } = instance
+                const uuidData = timelineData[uuid]
+                const keyframeNums = Object.keys(keyframes[uuid]).map(Number)
+                for (const [property, saved] of getChangedProperties(
+                    instance
+                )) {
+                    let prevFrame = 0
+                    let nextFrame = frame
+                    for (const frameNum of keyframeNums) {
+                        if (frameNum > frame) {
+                            nextFrame = frameNum
+                            break
                         }
+                        prevFrame = frameNum
                     }
-                })
+                    const propertyData = uuidData[property] ?? {}
+                    merge(changeData, {
+                        [uuid]: {
+                            [property]: {
+                                [prevFrame]: propertyData[prevFrame] ?? saved,
+                                [nextFrame]: propertyData[nextFrame] ?? saved,
+                                [frame]: unsafeGetValue(instance, property)
+                            }
+                        }
+                    })
+                }
             }
-        }
-        Object.keys(changeData) && timeline.mergeData(changeData)
-
-        await Promise.resolve()
-        await Promise.resolve()
-
-        setMultipleSelectionTargets(targets)
-    }
+            Object.keys(changeData) && timeline.mergeData(changeData)
+        })
 
     const handle0 = onTransformControls((val) => {
         if (val === "start") handleStart()
