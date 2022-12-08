@@ -93,9 +93,11 @@ export default () => {
                         setTransformControlsSpace("local")
                     }
                 }
-            } else if (keyLowerCase === "c")
+            } else if (keyLowerCase === "c") {
+                setEditorCameraManual(true)
+                setEditorCamera(mainCamera)
                 isPositionedItem(target) && emitEditorCenterView(target)
-            else if (keyLowerCase === "escape")
+            } else if (keyLowerCase === "escape")
                 target && emitSelectionTarget(undefined)
         }
         const handleKeyUp = (e: KeyboardEvent) => {
