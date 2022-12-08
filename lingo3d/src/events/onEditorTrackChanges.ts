@@ -14,6 +14,7 @@ import { getSelectionTarget } from "../states/useSelectionTarget"
 import { onEditorEdit } from "./onEditorEdit"
 import { onTransformControls } from "./onTransformControls"
 import { event } from "@lincode/events"
+import { debounceTrailing } from "@lincode/utils"
 
 export const [emitEditorTrackChanges, onEditorTrackChanges] =
     event<Array<readonly [Appendable, ChangedProperties]>>()
@@ -22,7 +23,7 @@ createEffect(() => {
     if (!getEditorMounted()) return
 
     const instances = new Set<Appendable>()
-    const getInstances = () => {
+    const getInstances = debounceTrailing(() => {
         if (multipleSelectionTargetsFlushingPtr[0]) return
         instances.clear()
         for (const target of getMultipleSelectionTargets())
@@ -31,7 +32,7 @@ createEffect(() => {
         if (instances.size) return
         const target = getSelectionTarget()
         target && instances.add(target)
-    }
+    })
     const handle0 = getSelectionTarget(getInstances)
     const handle1 = getMultipleSelectionTargets(getInstances)
 
