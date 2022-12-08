@@ -28,9 +28,6 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     }
     public set innerHTML(val: string | undefined) {
         this._innerHTML = val
-        if (!val) return
-
-        this._src = val
         this.loaded.done && this.loadedGroup.clear()
 
         this.cancelHandle(
