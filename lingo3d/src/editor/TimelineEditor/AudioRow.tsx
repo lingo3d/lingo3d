@@ -10,6 +10,7 @@ import getPrivateValue from "../../utils/getPrivateValue"
 import diffProps from "../utils/diffProps"
 import useSyncState from "../hooks/useSyncState"
 import { getTimeline } from "../../states/useTimeline"
+import { getTimelineMute } from "../../states/useTimelineMute"
 
 type AudioRowProps = {
     instance: TimelineAudio
@@ -100,6 +101,7 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
             handle.then(() => waveSurfer.destroy())
             waveSurfer.load(src)
             setWaveSurfer(waveSurfer)
+            handle.watch(getTimelineMute((val) => waveSurfer.setMute(val)))
         })
         return () => {
             handle.cancel()
