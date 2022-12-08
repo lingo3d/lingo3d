@@ -9,20 +9,9 @@ import { getTimeline } from "./useTimeline"
 import { onDispose } from "../events/onDispose"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import getPrivateValue from "../utils/getPrivateValue"
-import { onTransformControls } from "../events/onTransformControls"
-import { onEditorEdit } from "../events/onEditorEdit"
-import {
-    flushMultipleSelectionTargets,
-    getMultipleSelectionTargets,
-    multipleSelectionTargetsFlushingPtr
-} from "./useMultipleSelectionTargets"
 import { keyframesPtr } from "./useTimelineKeyframeEntries"
 import { getTimelineRecord } from "./useTimelineRecord"
-import getChangedProperties, {
-    saveProperties
-} from "../display/utils/getChangedProperties"
-import Appendable from "../api/core/Appendable"
-import { getSelectionTarget } from "./useSelectionTarget"
+import { onEditorTrackChanges } from "../events/onEditorTrackChanges"
 
 const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([
     undefined
@@ -49,72 +38,42 @@ createEffect(() => {
         Object.keys(timelineData).map((uuid) => uuidMap.get(uuid)!)
     )
 
-    const instances = new Set<Appendable>()
-    const getInstances = () => {
-        if (multipleSelectionTargetsFlushingPtr[0]) return
-        instances.clear()
-        for (const target of getMultipleSelectionTargets())
-            timelineInstances.has(target) && instances.add(target)
+    const handle0 = onEditorTrackChanges((changes) => {
+        const changeData: AnimationData = {}
+        const frame = getTimelineFrame()
+        const [keyframes] = keyframesPtr
+        for (const [instance, changedProperties] of changes) {
+            if (!timelineInstances.has(instance)) continue
 
-        if (instances.size) return
-        const target = getSelectionTarget()
-        target && timelineInstances.has(target) && instances.add(target)
-    }
-    const handle4 = getSelectionTarget(getInstances)
-    const handle5 = getMultipleSelectionTargets(getInstances)
-
-    const handleStart = () => {
-        for (const instance of instances) saveProperties(instance)
-    }
-    const handleFinish = () =>
-        flushMultipleSelectionTargets(() => {
-            const changeData: AnimationData = {}
-            const frame = getTimelineFrame()
-            const [keyframes] = keyframesPtr
-            for (const instance of instances) {
-                const { uuid } = instance
-                const uuidData = timelineData[uuid]
-                const keyframeNums = Object.keys(keyframes[uuid]).map(Number)
-                for (const [property, saved] of getChangedProperties(
-                    instance
-                )) {
-                    let prevFrame = 0
-                    let nextFrame = frame
-                    for (const frameNum of keyframeNums) {
-                        if (frameNum > frame) {
-                            nextFrame = frameNum
-                            break
-                        }
-                        if (frameNum < frame) prevFrame = frameNum
+            const { uuid } = instance
+            const uuidData = timelineData[uuid]
+            const keyframeNums = Object.keys(keyframes[uuid]).map(Number)
+            for (const [property, saved] of changedProperties) {
+                let prevFrame = 0
+                let nextFrame = frame
+                for (const frameNum of keyframeNums) {
+                    if (frameNum > frame) {
+                        nextFrame = frameNum
+                        break
                     }
-                    const propertyData = uuidData[property] ?? {}
-                    merge(changeData, {
-                        [uuid]: {
-                            [property]: {
-                                [prevFrame]: propertyData[prevFrame] ?? saved,
-                                [nextFrame]: propertyData[nextFrame] ?? saved,
-                                [frame]: unsafeGetValue(instance, property)
-                            }
-                        }
-                    })
+                    if (frameNum < frame) prevFrame = frameNum
                 }
+                const propertyData = uuidData[property] ?? {}
+                merge(changeData, {
+                    [uuid]: {
+                        [property]: {
+                            [prevFrame]: propertyData[prevFrame] ?? saved,
+                            [nextFrame]: propertyData[nextFrame] ?? saved,
+                            [frame]: unsafeGetValue(instance, property)
+                        }
+                    }
+                })
             }
-            Object.keys(changeData) && timeline.mergeData(changeData)
-        })
-
-    const handle0 = onTransformControls((val) => {
-        if (val === "start") handleStart()
-        else if (val === "stop") handleFinish()
-    })
-    const handle1 = onEditorEdit((val) => {
-        if (val === "start") handleStart()
-        else if (val === "stop") handleFinish()
-    })
-    const handle3 = getMultipleSelectionTargets((targets) => {
-        for (const target of targets) saveProperties(target)
+        }
+        Object.keys(changeData) && timeline.mergeData(changeData)
     })
 
-    const handle2 = onDispose((item) => {
+    const handle1 = onDispose((item) => {
         if (!timelineInstances.has(item)) return
         delete timelineData[item.uuid]
         timeline.data = timelineData
@@ -123,10 +82,6 @@ createEffect(() => {
     return () => {
         handle0.cancel()
         handle1.cancel()
-        handle2.cancel()
-        handle3.cancel()
-        handle4.cancel()
-        handle5.cancel()
     }
 }, [getTimelineData, getTimelineRecord])
 

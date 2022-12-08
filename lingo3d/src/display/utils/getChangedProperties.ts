@@ -29,8 +29,10 @@ export const saveProperties = (instance: Appendable) => {
     saveMap.set(instance, saved)
 }
 
+export type ChangedProperties = Array<[string, FrameValue]>
+
 export default (instance: Appendable) => {
-    const changed: Array<[string, FrameValue]> = []
+    const changed: ChangedProperties = []
     const saved = saveMap.get(instance)
     if (!saved) return changed
 
