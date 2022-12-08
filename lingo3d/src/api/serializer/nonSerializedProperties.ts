@@ -9,5 +9,6 @@ export default [
     "uiLayer",
     "gridHelper",
     "gridHelperSize",
-    "stats"
+    "stats",
+    "paused"
 ]
