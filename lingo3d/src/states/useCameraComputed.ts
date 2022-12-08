@@ -18,13 +18,12 @@ const changeCam = () => {
     setEditorCamera(getCameraStack().at(-1) ?? getEditorCamera() ?? mainCamera)
 }
 
+getTimelinePaused((val) => !val && changeCam())
+
 createEffect(() => {
-    if (getEditorCameraManual()) return
-    if (getTimelinePaused()) {
-        const handle = getTimelineFrame(changeCam)
-        return () => {
-            handle.cancel()
-        }
+    if (getEditorCameraManual() || !getTimelinePaused()) return
+    const handle = getTimelineFrame(changeCam)
+    return () => {
+        handle.cancel()
     }
-    changeCam()
 }, [getTimelinePaused, getEditorCameraManual])
