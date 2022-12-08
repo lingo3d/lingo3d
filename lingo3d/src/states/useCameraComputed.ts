@@ -2,6 +2,7 @@ import store, { createEffect } from "@lincode/reactivity"
 import mainCamera from "../engine/mainCamera"
 import { getCameraStack } from "./useCameraStack"
 import { getEditorCamera, setEditorCamera } from "./useEditorCamera"
+import { getEditorCameraManual } from "./useEditorCameraManual"
 import { getTimelineFrame } from "./useTimelineFrame"
 import { getTimelinePaused } from "./useTimelinePaused"
 
@@ -18,6 +19,7 @@ const changeCam = () => {
 }
 
 createEffect(() => {
+    if (getEditorCameraManual()) return
     if (getTimelinePaused()) {
         const handle = getTimelineFrame(changeCam)
         return () => {
@@ -25,4 +27,4 @@ createEffect(() => {
         }
     }
     changeCam()
-}, [getTimelinePaused])
+}, [getTimelinePaused, getEditorCameraManual])
