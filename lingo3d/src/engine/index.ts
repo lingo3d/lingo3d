@@ -1,7 +1,7 @@
 import "./polyfill"
 import "./boxHelper"
 import "./skeletonHelper"
-import "./mainOrbitCamera"
+import "./mainCameraManager"
 import "./transformControls"
 import "./gridHelper"
 import "./referencePlane"

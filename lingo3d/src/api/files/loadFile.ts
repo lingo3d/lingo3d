@@ -1,5 +1,5 @@
 import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
-import mainOrbitCamera from "../../engine/mainOrbitCamera"
+import mainCameraManager from "../../engine/mainCameraManager"
 import { setFileCurrent } from "../../states/useFileCurrent"
 import { appendableRoot } from "../core/collections"
 import deserialize from "../serializer/deserialize"
@@ -14,12 +14,12 @@ export default async (file: FileWithDirectoryAndFileHandle) => {
         if (!text.includes(`"type": "lingo3d"`)) return false
 
         for (const child of appendableRoot) child.dispose()
-        mainOrbitCamera.x = 0
-        mainOrbitCamera.y = 0
-        mainOrbitCamera.z = 0
-        mainOrbitCamera.rotationX = 0
-        mainOrbitCamera.rotationY = 0
-        mainOrbitCamera.rotationZ = 0
+        mainCameraManager.x = 0
+        mainCameraManager.y = 0
+        mainCameraManager.z = 0
+        mainCameraManager.rotationX = 0
+        mainCameraManager.rotationY = 0
+        mainCameraManager.rotationZ = 0
 
         setFileCurrent(file)
         await new Promise((resolve) => setTimeout(resolve))

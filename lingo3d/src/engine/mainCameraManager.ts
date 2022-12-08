@@ -11,29 +11,30 @@ import getActualScale from "../display/utils/getActualScale"
 import { scaleUp } from "./constants"
 import { appendableRoot } from "../api/core/collections"
 
-const mainOrbitCamera = new OrbitCamera(mainCamera)
-export default mainOrbitCamera
+const mainCameraManager = new OrbitCamera(mainCamera)
+export default mainCameraManager
 
-mainOrbitCamera.name = "default"
-mainOrbitCamera.enableZoom = true
-mainOrbitCamera.enableFly = true
-mainOrbitCamera.mouseControl = false
-appendableRoot.delete(mainOrbitCamera)
+mainCameraManager.name = "default"
+mainCameraManager.enableZoom = true
+mainCameraManager.enableFly = true
+mainCameraManager.mouseControl = false
+appendableRoot.delete(mainCameraManager)
 
 onEditorCenterView((manager) => {
     const pos = manager.getWorldPosition()
-    mainOrbitCamera.x = pos.x
-    mainOrbitCamera.y = pos.y
-    mainOrbitCamera.z = pos.z
+    mainCameraManager.x = pos.x
+    mainCameraManager.y = pos.y
+    mainCameraManager.z = pos.z
 
     const size = getActualScale(manager)
-    mainOrbitCamera.innerZ = Math.max(size.x, size.y, size.z, 1) * scaleUp + 50
+    mainCameraManager.innerZ =
+        Math.max(size.x, size.y, size.z, 1) * scaleUp + 50
 })
 
 getOrbitControls((val) => {
     if (val) return
-    mainOrbitCamera.setPolarAngle(90)
-    mainOrbitCamera.setAzimuthAngle(90)
+    mainCameraManager.setPolarAngle(90)
+    mainCameraManager.setAzimuthAngle(90)
 })
 
 createEffect(() => {
@@ -44,11 +45,11 @@ createEffect(() => {
     )
         return
 
-    mainOrbitCamera.mouseControl = "drag"
+    mainCameraManager.mouseControl = "drag"
     container.style.cursor = "grab"
 
     return () => {
-        mainOrbitCamera.mouseControl = false
+        mainCameraManager.mouseControl = false
         container.style.cursor = "auto"
     }
 }, [getOrbitControls, getTransformControlsDragging, getCameraRendered])
@@ -57,7 +58,7 @@ createEffect(() => {
     if (getCameraRendered() !== mainCamera || getOrbitControls()) return
 
     const handle = getCameraDistance(
-        (cameraDistance) => (mainOrbitCamera.innerZ = cameraDistance)
+        (cameraDistance) => (mainCameraManager.innerZ = cameraDistance)
     )
 
     return () => {

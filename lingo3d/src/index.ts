@@ -67,7 +67,6 @@ import openJSON from "./api/files/openJSON"
 import saveJSON from "./api/files/saveJSON"
 
 import { loop, timer } from "./engine/eventLoop"
-import mainOrbitCamera from "./engine/mainOrbitCamera"
 
 import ObjectManager from "./display/core/ObjectManager"
 import FoundManager from "./display/core/FoundManager"
@@ -151,7 +150,6 @@ export {
     saveJSON,
     loop,
     timer,
-    mainOrbitCamera,
     ObjectManager as Object,
     FoundManager as Found,
     onAfterRender,
