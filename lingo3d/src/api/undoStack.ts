@@ -3,8 +3,7 @@ import { Changes, onEditorTrackChanges } from "../events/onEditorTrackChanges"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import { getEditorMounted } from "../states/useEditorMounted"
 import { setTimeline } from "../states/useTimeline"
-import diffObjects from "../utils/diffObjects"
-import { set, unset } from "@lincode/utils"
+import { userSetTimelineFrame } from "../states/useTimelineFrame"
 
 let index = 0
 const undoStack: Array<Changes> = []
@@ -37,15 +36,9 @@ export const undo = () => {
         ] = changes
         setTimeline(timeline)
 
-        const timelineData = timeline?.data
-        if (timelineDataSnapshot && timelineData) {
-            const { changes, deletes } = diffObjects(
-                timelineData,
-                timelineDataSnapshot
-            )
-            for (const [path, value] of changes) set(timelineData, path, value)
-            for (const path of deletes) unset(timelineData, path)
-            timeline.data = timelineData
+        if (timeline) {
+            userSetTimelineFrame(frame)
+            timeline.data = timelineDataSnapshot
         }
         for (const [property, saved] of changedProperties)
             unsafeSetValue(instance, property, saved)
