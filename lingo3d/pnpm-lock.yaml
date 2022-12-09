@@ -20,6 +20,7 @@ specifiers:
   nanoid: ^4.0.0
   nipplejs: 0.10.0
   object-sizeof: ^1.6.3
+  physx-js-webidl: ^2.0.0
   postprocessing: ^6.29.1
   preact: ^10.11.3
   preact-compat: ^3.19.0
@@ -46,6 +47,7 @@ dependencies:
   browser-fs-access: 0.31.1
   nanoid: 4.0.0
   nipplejs: 0.10.0
+  physx-js-webidl: 2.0.0
   postprocessing: 6.29.1_three@0.147.0
   preact: 10.11.3
   preact-compat: 3.19.0_preact@10.11.3
@@ -1016,6 +1018,10 @@ packages:
   /path-parse/1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
     dev: true
+
+  /physx-js-webidl/2.0.0:
+    resolution: {integrity: sha512-dc/B1haKr7LGdTTtcJSH9pzIO1R1NzrIuPmIklnou4JmlPs6dRkmM7hjTYrRmrEug4OaAvTla7CGVRB11ZrWHQ==}
+    dev: false
 
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
