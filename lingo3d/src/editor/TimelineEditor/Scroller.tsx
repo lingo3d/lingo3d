@@ -10,7 +10,8 @@ import { getTimelineData } from "../../states/useTimelineData"
 import { getTimelineExpandedUUIDs } from "../../states/useTimelineExpandedUUIDs"
 import {
     getTimelineFrame,
-    setTimelineFrame
+    setTimelineFrame,
+    userSetTimelineFrame
 } from "../../states/useTimelineFrame"
 import { getTimelineKeyframeEntries } from "../../states/useTimelineKeyframeEntries"
 import { setTimelineLayer } from "../../states/useTimelineLayer"
@@ -102,13 +103,12 @@ const Scroller = () => {
                             break loop1
                 }
 
-                const frame = (timeline.frame = Math.floor(relX / FRAME_WIDTH))
+                const frame = Math.floor(relX / FRAME_WIDTH)
+                userSetTimelineFrame(frame)
                 frameIndicatorSignal.value = {
                     x: frame * FRAME_WIDTH,
                     y: Math.floor(relY / FRAME_HEIGHT) * FRAME_HEIGHT
                 }
-                setTimelineFrame(frame)
-                timeline.paused = true
             }}
             onContextMenu={(e) => {
                 e.preventDefault()

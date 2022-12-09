@@ -30,4 +30,4 @@ export const firstTimelineFrame = () => userSetTimelineFrame(0)
 export const lastTimelineFrame = () =>
     userSetTimelineFrame((timeline) => timeline.clipTotalFrames)
 
-getTimeline((timeline) => setTimelineFrame(timeline ? 0 : -1))
+getTimeline((timeline) => userSetTimelineFrame(timeline ? 0 : -1))
