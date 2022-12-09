@@ -12,6 +12,7 @@ import { getPixelRatio } from "../../states/usePixelRatio"
 import createElement from "../../utils/createElement"
 import { getUILayer } from "../../states/useUILayer"
 import { getSplitView } from "../../states/useSplitView"
+import { getTimelinePaused } from "../../states/useTimelinePaused"
 
 const style = createElement(`
     <style>
@@ -43,7 +44,10 @@ getSplitView((val) => {
     container.style.height = val ? "50%" : "100%"
     uiContainer.style.top = val ? "100%" : "0px"
 })
-getUILayer((val) => (uiContainer.style.display = val ? "block" : "none"))
+createEffect(() => {
+    uiContainer.style.display =
+        getUILayer() || !getTimelinePaused() ? "block" : "none"
+}, [getUILayer, getTimelinePaused])
 
 export const containerBounds = [container.getBoundingClientRect()]
 
