@@ -40,9 +40,8 @@ createEffect(() => {
 
     const handle0 = onEditorTrackChanges((changes) => {
         const changeData: AnimationData = {}
-        const frame = getTimelineFrame()
         const [keyframes] = keyframesPtr
-        for (const [instance, changedProperties] of changes) {
+        for (const [instance, changedProperties, frame] of changes) {
             if (!timelineInstances.has(instance)) continue
 
             const { uuid } = instance

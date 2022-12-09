@@ -16,9 +16,13 @@ import { onTransformControls } from "./onTransformControls"
 import { event } from "@lincode/events"
 import { debounceTrailing } from "@lincode/utils"
 import { getTimelineFrame } from "../states/useTimelineFrame"
+import Timeline from "../display/Timeline"
+import { getTimeline } from "../states/useTimeline"
 
-// appendable, changed properties, timeline frame
-export type Changes = Array<readonly [Appendable, ChangedProperties, number]>
+// appendable, changed properties, timeline frame, timeline instance
+export type Changes = Array<
+    readonly [Appendable, ChangedProperties, number, Timeline?]
+>
 
 export const [emitEditorTrackChanges, onEditorTrackChanges] = event<Changes>()
 
@@ -45,11 +49,17 @@ createEffect(() => {
     const handleFinish = () =>
         flushMultipleSelectionTargets(() => {
             const frame = getTimelineFrame()
+            const timeline = getTimeline()
             emitEditorTrackChanges(
                 //todo: optimize array spread in the future
                 [...instances].map(
                     (instance) =>
-                        <const>[instance, getChangedProperties(instance), frame]
+                        <const>[
+                            instance,
+                            getChangedProperties(instance),
+                            frame,
+                            timeline
+                        ]
                 )
             )
         })
