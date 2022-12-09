@@ -21,13 +21,13 @@ import useClickable from "../hooks/useClickable"
 import { setEditorMounted } from "../../states/useEditorMounted"
 import { useSignal } from "@preact/signals"
 import unsafeGetValue from "../../utils/unsafeGetValue"
-import { firstLoadPtr } from "../../api/files/loadFile"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getSetupStack } from "../../states/useSetupStack"
 import { setEditorCamera } from "../../states/useEditorCamera"
 import mainCamera from "../../engine/mainCamera"
+import { onLoadFile } from "../../events/onLoadFile"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -46,14 +46,18 @@ const Editor = () => {
 
         setEditorCamera(mainCamera)
         setOrbitControls(true)
-        settings.gridHelper = !firstLoadPtr[0]
         setEditorMounted(true)
+
+        settings.gridHelper = true
+        const handle = onLoadFile(() => (settings.gridHelper = false))
 
         return () => {
             setEditorCamera(undefined)
             setOrbitControls(false)
             settings.gridHelper = false
             setEditorMounted(false)
+
+            handle.cancel()
         }
     }, [])
 
