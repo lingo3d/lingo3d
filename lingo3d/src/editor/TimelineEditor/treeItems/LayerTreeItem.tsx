@@ -2,7 +2,6 @@ import { ComponentChildren } from "preact"
 import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import { uuidMap } from "../../../api/core/collections"
 import { onName } from "../../../events/onName"
-import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { FRAME_HEIGHT } from "../../../globals"
 import BaseTreeItem from "../../component/treeItems/BaseTreeItem"
 import useSyncState from "../../hooks/useSyncState"
@@ -15,6 +14,7 @@ import {
     setTimelineLayer
 } from "../../../states/useTimelineLayer"
 import getComponentName from "../../utils/getComponentName"
+import { handleTreeItemClick } from "../../SceneGraph/TreeItem"
 
 type LayerTreeItemProps = {
     children: ComponentChildren
@@ -53,7 +53,7 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
             selected={selected}
             onClick={() => {
                 setTimelineLayer(uuid)
-                emitSelectionTarget(instance, false, true)
+                handleTreeItemClick(instance)
             }}
         >
             {children}

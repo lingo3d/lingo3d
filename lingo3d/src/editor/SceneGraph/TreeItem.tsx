@@ -32,20 +32,19 @@ export type TreeItemProps = {
     expandable?: boolean
 }
 
-export const makeTreeItemCallbacks = (
-    target: Appendable | Object3D,
+export const handleTreeItemClick = (
+    target?: Appendable | Object3D,
+    rightClick?: boolean,
     parent?: Appendable
 ) => {
-    return (rightClick?: boolean) => {
-        getEditorPlay() && setEditorMode("translate")
-        queueMicrotask(() => {
-            if (isPositionedItem(parent) && getSelectionTarget() !== parent)
-                emitSelectionTarget(parent, rightClick, true)
-            if (target instanceof Object3D)
-                queueMicrotask(() => setSelectionNativeTarget(target))
-            else emitSelectionTarget(target, rightClick, true)
-        })
-    }
+    getEditorPlay() && setEditorMode("translate")
+    queueMicrotask(() => {
+        if (isPositionedItem(parent) && getSelectionTarget() !== parent)
+            emitSelectionTarget(parent, rightClick, true)
+        if (target instanceof Object3D)
+            queueMicrotask(() => setSelectionNativeTarget(target))
+        else emitSelectionTarget(target, rightClick, true)
+    })
 }
 
 const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
@@ -62,8 +61,6 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
     const selected =
         selectionTarget === appendable ||
         multipleSelectionTargets.includes(appendable as any)
-
-    const handleClick = useMemo(() => makeTreeItemCallbacks(appendable), [])
 
     const sceneGraphExpanded = useSyncState(getSceneGraphExpanded)
 
@@ -95,8 +92,8 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
             expanded={sceneGraphExpanded?.has(appendable.outerObject3d)}
             onCollapse={() => setSceneGraphExpanded(undefined)}
             expandable={expandable ?? !!appendableChildren?.length}
-            onClick={() => handleClick()}
-            onContextMenu={() => handleClick(true)}
+            onClick={() => handleTreeItemClick(appendable)}
+            onContextMenu={() => handleTreeItemClick(appendable, true)}
             IconComponent={IconComponent}
         >
             {() => (

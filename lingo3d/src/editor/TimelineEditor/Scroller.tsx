@@ -1,7 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import { useEffect } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
-import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { onTimelineSeekScrollLeft } from "../../events/onTimelineSeekScrollLeft"
 import { FRAME_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
 import { getTimeline } from "../../states/useTimeline"
@@ -10,7 +9,6 @@ import { getTimelineData } from "../../states/useTimelineData"
 import { getTimelineExpandedUUIDs } from "../../states/useTimelineExpandedUUIDs"
 import {
     getTimelineFrame,
-    setTimelineFrame,
     userSetTimelineFrame
 } from "../../states/useTimelineFrame"
 import { getTimelineKeyframeEntries } from "../../states/useTimelineKeyframeEntries"
@@ -19,6 +17,7 @@ import { getTimelinePaused } from "../../states/useTimelinePaused"
 import { timelineScrollHeightSignal } from "../../states/useTimelineScrollHeight"
 import { timelineScrollLeftSignal } from "../../states/useTimelineScrollLeft"
 import useSyncState from "../hooks/useSyncState"
+import { handleTreeItemClick } from "../SceneGraph/TreeItem"
 import FrameGrid from "./FrameGrid"
 import FrameIndicator, { frameIndicatorSignal } from "./FrameIndicator"
 import FrameTweenRow from "./FrameTweenRow"
@@ -85,11 +84,7 @@ const Scroller = () => {
                     const end = start + FRAME_HEIGHT
                     if (start > relY || end < relY) return false
                     setTimelineLayer(layer)
-                    emitSelectionTarget(
-                        uuidMap.get(layer.split(" ")[0]),
-                        false,
-                        true
-                    )
+                    handleTreeItemClick(uuidMap.get(layer.split(" ")[0]))
                     return true
                 }
                 let i = 0

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "preact/hooks"
 import { Bone, Object3D } from "three"
-import { makeTreeItemCallbacks, TreeItemProps } from "./TreeItem"
+import { handleTreeItemClick, TreeItemProps } from "./TreeItem"
 import ComponentIcon from "./icons/ComponentIcon"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import BoneIcon from "./icons/BoneIcon"
@@ -19,11 +19,6 @@ const NativeTreeItem = ({ appendable, object3d }: NativeTreeItemProps) => {
     const [expanded, setExpanded] = useState(false)
     const nativeTarget = useSyncState(getSelectionNativeTarget)
 
-    const handleClick = useMemo(
-        () => makeTreeItemCallbacks(object3d, appendable),
-        []
-    )
-
     const sceneGraphExpanded = useSyncState(getSceneGraphExpanded)
     useEffect(() => {
         sceneGraphExpanded?.has(object3d) && setExpanded(true)
@@ -41,8 +36,10 @@ const NativeTreeItem = ({ appendable, object3d }: NativeTreeItemProps) => {
             label={object3d.name}
             selected={selected}
             onCollapse={() => setSceneGraphExpanded(undefined)}
-            onClick={() => handleClick()}
-            onContextMenu={() => handleClick(true)}
+            onClick={() => handleTreeItemClick(object3d, false, appendable)}
+            onContextMenu={() =>
+                handleTreeItemClick(object3d, true, appendable)
+            }
             expanded={expanded}
             expandable={!!object3d.children.length}
             outlined
