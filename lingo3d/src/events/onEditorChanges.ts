@@ -25,7 +25,7 @@ export type Changes = Array<
     readonly [Appendable, ChangedProperties, number, Timeline?, AnimationData?]
 >
 
-export const [emitEditorTrackChanges, onEditorTrackChanges] = event<Changes>()
+export const [emitEditorChanges, onEditorChanges] = event<Changes>()
 
 createEffect(() => {
     if (!getEditorMounted()) return
@@ -53,7 +53,7 @@ createEffect(() => {
             const timeline = getTimeline()
             const timelineDataSnapshot = structuredClone(timeline?.data)
 
-            emitEditorTrackChanges(
+            emitEditorChanges(
                 //todo: optimize array spread in the future
                 [...instances].map(
                     (instance) =>

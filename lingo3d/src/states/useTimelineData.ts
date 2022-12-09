@@ -11,7 +11,7 @@ import unsafeGetValue from "../utils/unsafeGetValue"
 import getPrivateValue from "../utils/getPrivateValue"
 import { keyframesPtr } from "./useTimelineKeyframeEntries"
 import { getTimelineRecord } from "./useTimelineRecord"
-import { onEditorTrackChanges } from "../events/onEditorTrackChanges"
+import { onEditorChanges } from "../events/onEditorChanges"
 
 const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([
     undefined
@@ -38,7 +38,7 @@ createEffect(() => {
         Object.keys(timelineData).map((uuid) => uuidMap.get(uuid)!)
     )
 
-    const handle0 = onEditorTrackChanges((changes) => {
+    const handle0 = onEditorChanges((changes) => {
         const changeData: AnimationData = {}
         const [keyframes] = keyframesPtr
         for (const [instance, changedProperties, frame] of changes) {

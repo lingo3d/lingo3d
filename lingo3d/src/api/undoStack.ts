@@ -1,5 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
-import { Changes, onEditorTrackChanges } from "../events/onEditorTrackChanges"
+import { Changes, onEditorChanges } from "../events/onEditorChanges"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import { getEditorMounted } from "../states/useEditorMounted"
 import { setTimeline } from "../states/useTimeline"
@@ -11,7 +11,7 @@ const undoStack: Array<Changes> = []
 createEffect(() => {
     if (!getEditorMounted()) return
 
-    const handle = onEditorTrackChanges((changes) => {
+    const handle = onEditorChanges((changes) => {
         undoStack.length = index
         undoStack.push(changes)
         index = undoStack.length
