@@ -15,14 +15,12 @@ import { onEditorEdit } from "./onEditorEdit"
 import { onTransformControls } from "./onTransformControls"
 import { event } from "@lincode/events"
 import { debounceTrailing } from "@lincode/utils"
-import { getTimelineFrame } from "../states/useTimelineFrame"
 import Timeline from "../display/Timeline"
 import { getTimeline } from "../states/useTimeline"
 import { AnimationData } from "../interface/IAnimationManager"
 
-// appendable, changed properties, timeline frame, timeline instance
 export type Changes = Array<
-    readonly [Appendable, ChangedProperties, number, Timeline?, AnimationData?]
+    readonly [Appendable, ChangedProperties, Timeline?, AnimationData?]
 >
 
 export const [emitEditorChanges, onEditorChanges] = event<Changes>()
@@ -49,7 +47,6 @@ createEffect(() => {
     }
     const handleFinish = () =>
         flushMultipleSelectionTargets(() => {
-            const frame = getTimelineFrame()
             const timeline = getTimeline()
             const timelineDataSnapshot = structuredClone(timeline?.data)
 
@@ -60,7 +57,6 @@ createEffect(() => {
                         <const>[
                             instance,
                             getChangedProperties(instance),
-                            frame,
                             timeline,
                             timelineDataSnapshot
                         ]

@@ -3,15 +3,17 @@ import { Changes, onEditorChanges } from "../events/onEditorChanges"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import { getEditorMounted } from "../states/useEditorMounted"
 import { setTimeline } from "../states/useTimeline"
-import { userSetTimelineFrame } from "../states/useTimelineFrame"
+import { AnimationData } from "../interface/IAnimationManager"
 
 let index = 0
 const undoStack: Array<Changes> = []
+let timelineDataRedoStack: Array<AnimationData> = []
 
 createEffect(() => {
     if (!getEditorMounted()) return
 
     const handle = onEditorChanges((changes) => {
+        timelineDataRedoStack = []
         undoStack.length = index
         undoStack.push(changes)
         index = undoStack.length
@@ -27,19 +29,13 @@ export const undo = () => {
         return
     }
     for (const changes of undoStack[index]) {
-        const [
-            instance,
-            changedProperties,
-            frame,
-            timeline,
-            timelineDataSnapshot
-        ] = changes
-        setTimeline(timeline)
+        const [instance, changedProperties, timeline, timelineDataSnapshot] =
+            changes
 
-        if (timeline) {
-            userSetTimelineFrame(frame)
-            timeline.data = timelineDataSnapshot
-        }
+        setTimeline(timeline)
+        timelineDataRedoStack.push(structuredClone(timeline?.data))
+        if (timeline) timeline.data = timelineDataSnapshot
+
         for (const [property, saved] of changedProperties)
             unsafeSetValue(instance, property, saved)
     }
@@ -48,8 +44,12 @@ export const undo = () => {
 export const redo = () => {
     if (++index > undoStack.length) index = undoStack.length
     for (const changes of undoStack[index - 1]) {
-        const [instance, changedProperties, frame, timeline] = changes
+        const [instance, changedProperties, timeline] = changes
+
         setTimeline(timeline)
+        const timelineDataSnapshot = timelineDataRedoStack.pop()
+        if (timeline) timeline.data = timelineDataSnapshot
+
         for (const [property, , saved] of changedProperties)
             unsafeSetValue(instance, property, saved)
     }
