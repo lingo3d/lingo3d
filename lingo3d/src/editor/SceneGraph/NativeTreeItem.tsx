@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "preact/hooks"
 import { Bone, Object3D } from "three"
-import { handleTreeItemClick, TreeItemProps } from "./TreeItem"
+import { TreeItemProps } from "./TreeItem"
 import ComponentIcon from "./icons/ComponentIcon"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import BoneIcon from "./icons/BoneIcon"
@@ -10,6 +10,7 @@ import {
     getSceneGraphExpanded,
     setSceneGraphExpanded
 } from "../../states/useSceneGraphExpanded"
+import handleTreeItemClick from "../utils/handleTreeItemClick"
 
 type NativeTreeItemProps = TreeItemProps & {
     object3d: Object3D | Bone

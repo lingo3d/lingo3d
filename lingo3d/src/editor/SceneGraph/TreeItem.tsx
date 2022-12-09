@@ -3,17 +3,11 @@ import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import Model from "../../display/Model"
 import ModelTreeItem from "./ModelTreeItem"
-import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import { isPositionedItem } from "../../api/core/PositionedItem"
-import { Object3D } from "three"
-import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import getComponentName from "../utils/getComponentName"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import CubeIcon from "./icons/CubeIcon"
-import { setEditorMode } from "../../states/useEditorMode"
 import { hiddenAppendables } from "../../api/core/collections"
-import { getEditorPlay } from "../../states/useEditorPlay"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import PlayIcon from "./icons/PlayIcon"
 import BasicMaterialManager from "../../display/material/BasicMaterialManager"
@@ -25,26 +19,12 @@ import {
     getSceneGraphExpanded,
     setSceneGraphExpanded
 } from "../../states/useSceneGraphExpanded"
+import handleTreeItemClick from "../utils/handleTreeItemClick"
 
 export type TreeItemProps = {
     appendable: Appendable
     children?: ComponentChildren
     expandable?: boolean
-}
-
-export const handleTreeItemClick = (
-    target?: Appendable | Object3D,
-    rightClick?: boolean,
-    parent?: Appendable
-) => {
-    getEditorPlay() && setEditorMode("translate")
-    queueMicrotask(() => {
-        if (isPositionedItem(parent) && getSelectionTarget() !== parent)
-            emitSelectionTarget(parent, rightClick, true)
-        if (target instanceof Object3D)
-            queueMicrotask(() => setSelectionNativeTarget(target))
-        else emitSelectionTarget(target, rightClick, true)
-    })
 }
 
 const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {

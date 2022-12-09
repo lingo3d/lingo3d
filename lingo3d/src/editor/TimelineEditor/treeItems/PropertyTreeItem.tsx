@@ -6,7 +6,7 @@ import {
     getTimelineLayer,
     setTimelineLayer
 } from "../../../states/useTimelineLayer"
-import { handleTreeItemClick } from "../../SceneGraph/TreeItem"
+import handleTreeItemClick from "../../utils/handleTreeItemClick"
 
 type PropertyTreeItemProps = {
     property: string

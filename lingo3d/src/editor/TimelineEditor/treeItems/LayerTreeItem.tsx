@@ -14,7 +14,7 @@ import {
     setTimelineLayer
 } from "../../../states/useTimelineLayer"
 import getComponentName from "../../utils/getComponentName"
-import { handleTreeItemClick } from "../../SceneGraph/TreeItem"
+import handleTreeItemClick from "../../utils/handleTreeItemClick"
 
 type LayerTreeItemProps = {
     children: ComponentChildren
