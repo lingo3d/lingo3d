@@ -4,11 +4,16 @@ import { memo } from "preact/compat"
 import { FRAME_HEIGHT, FRAME_WIDTH } from "../../globals"
 import { getTimelineLayer } from "../../states/useTimelineLayer"
 
-export const deselectFrameIndicator = () =>
-    (frameIndicatorSignal.value = undefined)
+export const highlightFrame = (pt?: Point) => {
+    if (pt) {
+        setTimeout(() => (frameIndicatorSignal.value = pt))
+        return
+    }
+    frameIndicatorSignal.value = undefined
+}
 
-export const frameIndicatorSignal = signal<Point | undefined>(undefined)
-getTimelineLayer(deselectFrameIndicator)
+const frameIndicatorSignal = signal<Point | undefined>(undefined)
+getTimelineLayer(() => highlightFrame())
 
 const FrameIndicator = () => {
     const pt = frameIndicatorSignal.value

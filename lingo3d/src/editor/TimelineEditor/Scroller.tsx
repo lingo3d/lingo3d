@@ -19,7 +19,7 @@ import { timelineScrollLeftSignal } from "../../states/useTimelineScrollLeft"
 import useSyncState from "../hooks/useSyncState"
 import handleTreeItemClick from "../utils/handleTreeItemClick"
 import FrameGrid from "./FrameGrid"
-import FrameIndicator, { frameIndicatorSignal } from "./FrameIndicator"
+import FrameIndicator, { highlightFrame } from "./FrameIndicator"
 import FrameTweenRow from "./FrameTweenRow"
 import { framesWidthPtr, maxFramePtr, minFramePtr } from "./Ruler"
 import useSyncScrollTop from "./useSyncScrollTop"
@@ -99,10 +99,10 @@ const Scroller = () => {
 
                 const frame = Math.floor(relX / FRAME_WIDTH)
                 userSetTimelineFrame(frame)
-                frameIndicatorSignal.value = {
+                highlightFrame({
                     x: frame * FRAME_WIDTH,
                     y: Math.floor(relY / FRAME_HEIGHT) * FRAME_HEIGHT
-                }
+                })
             }}
             onContextMenu={(e) => {
                 e.preventDefault()
