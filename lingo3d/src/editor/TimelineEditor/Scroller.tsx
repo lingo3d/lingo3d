@@ -43,14 +43,13 @@ const Scroller = () => {
         }
 
         const handle = createEffect(() => {
-            const paused = getTimelinePaused()
-            if (paused) return
+            if (getTimelinePaused()) return
 
             const frameHandle = getTimelineFrame(seek)
             return () => {
                 frameHandle.cancel()
             }
-        }, [getTimelinePaused, getTimelineFrame])
+        }, [getTimelinePaused])
 
         const seekHandle = onTimelineSeekScrollLeft(seek)
 
