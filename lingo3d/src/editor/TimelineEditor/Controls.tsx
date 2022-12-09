@@ -53,7 +53,14 @@ const Controls = () => {
                 <IconButton
                     outline
                     disabled={!timeline}
-                    onClick={timeline ? deselectFrameIndicator : undefined}
+                    onClick={
+                        timeline
+                            ? () => {
+                                  deselectFrameIndicator()
+                                  timeline.paused = true
+                              }
+                            : undefined
+                    }
                 >
                     <PauseIcon />
                 </IconButton>
@@ -91,10 +98,15 @@ const Controls = () => {
             <IconButton
                 outline
                 disabled={!timeline}
-                onClick={() => {
-                    setTimelineRecord(!record)
-                    deselectFrameIndicator()
-                }}
+                onClick={
+                    timeline
+                        ? () => {
+                              setTimelineRecord(!record)
+                              deselectFrameIndicator()
+                              timeline.paused = true
+                          }
+                        : undefined
+                }
             >
                 <div
                     style={{

@@ -16,6 +16,7 @@ export const userSetTimelineFrame = (
         (timeline.frame = typeof frame === "function" ? frame(timeline) : frame)
     )
     deselectFrameIndicator()
+    timeline.paused = true
     emitTimelineSeekScrollLeft()
 }
 
