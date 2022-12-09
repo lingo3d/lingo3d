@@ -3,7 +3,7 @@ import { deselectFrameIndicator } from "../editor/TimelineEditor/FrameIndicator"
 import { emitTimelineSeekScrollLeft } from "../events/onTimelineSeekScrollLeft"
 import { getTimeline } from "./useTimeline"
 
-export const [setTimelineFrame, getTimelineFrame] = store(0)
+export const [setTimelineFrame, getTimelineFrame] = store(-1)
 
 export const increaseTimelineFrame = () => {
     const timeline = getTimeline()
@@ -37,4 +37,4 @@ export const lastTimelineFrame = () => {
     emitTimelineSeekScrollLeft()
 }
 
-getTimeline((timeline) => !timeline && setTimelineFrame(0))
+getTimeline((timeline) => setTimelineFrame(timeline ? 0 : -1))
