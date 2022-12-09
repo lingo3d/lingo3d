@@ -1,4 +1,5 @@
 import store, { createEffect } from "@lincode/reactivity"
+import settings from "../api/settings"
 import mainCamera from "../engine/mainCamera"
 import { getCameraStack } from "./useCameraStack"
 import { getEditorCamera, setEditorCamera } from "./useEditorCamera"
@@ -18,7 +19,11 @@ const changeCam = () => {
     setEditorCamera(getCameraStack().at(-1) ?? getEditorCamera() ?? mainCamera)
 }
 
-getTimelinePaused((val) => !val && changeCam())
+getTimelinePaused((val) => {
+    if (val) return
+    changeCam()
+    settings.uiLayer = true
+})
 
 createEffect(() => {
     if (getEditorCameraManual() || !getTimelinePaused()) return
