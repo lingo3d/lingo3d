@@ -15,12 +15,11 @@ import { onEditorEdit } from "./onEditorEdit"
 import { onTransformControls } from "./onTransformControls"
 import { event } from "@lincode/events"
 import { debounceTrailing } from "@lincode/utils"
-import Timeline from "../display/Timeline"
 import { getTimeline } from "../states/useTimeline"
 import { AnimationData } from "../interface/IAnimationManager"
 
 export type Changes = Array<
-    readonly [Appendable, ChangedProperties, Timeline?, AnimationData?]
+    readonly [Appendable, ChangedProperties, AnimationData?]
 >
 
 export const [emitEditorChanges, onEditorChanges] = event<Changes>()
@@ -57,7 +56,6 @@ createEffect(() => {
                         <const>[
                             instance,
                             getChangedProperties(instance),
-                            timeline,
                             timelineDataSnapshot
                         ]
                 )

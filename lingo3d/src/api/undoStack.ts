@@ -2,7 +2,7 @@ import { createEffect } from "@lincode/reactivity"
 import { Changes, onEditorChanges } from "../events/onEditorChanges"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import { getEditorMounted } from "../states/useEditorMounted"
-import { setTimeline } from "../states/useTimeline"
+import { getTimeline } from "../states/useTimeline"
 import { AnimationData } from "../interface/IAnimationManager"
 
 let index = 0
@@ -28,12 +28,11 @@ export const undo = () => {
         index = 0
         return
     }
-    for (const changes of undoStack[index]) {
-        const [instance, changedProperties, timeline, timelineDataSnapshot] =
-            changes
+    const timeline = getTimeline()
+    timelineDataRedoStack.push(structuredClone(timeline?.data))
 
-        setTimeline(timeline)
-        timelineDataRedoStack.push(structuredClone(timeline?.data))
+    for (const changes of undoStack[index]) {
+        const [instance, changedProperties, timelineDataSnapshot] = changes
         if (timeline) timeline.data = timelineDataSnapshot
 
         for (const [property, saved] of changedProperties)
@@ -43,12 +42,13 @@ export const undo = () => {
 
 export const redo = () => {
     if (++index > undoStack.length) index = undoStack.length
-    for (const changes of undoStack[index - 1]) {
-        const [instance, changedProperties, timeline] = changes
 
-        setTimeline(timeline)
-        const timelineDataSnapshot = timelineDataRedoStack.pop()
-        if (timeline) timeline.data = timelineDataSnapshot
+    const timeline = getTimeline()
+    if (timeline && timelineDataRedoStack.length)
+        timeline.data = timelineDataRedoStack.pop()
+
+    for (const changes of undoStack[index - 1]) {
+        const [instance, changedProperties] = changes
 
         for (const [property, , saved] of changedProperties)
             unsafeSetValue(instance, property, saved)
