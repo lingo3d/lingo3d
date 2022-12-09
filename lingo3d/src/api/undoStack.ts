@@ -32,13 +32,10 @@ export const undo = () => {
 }
 
 export const redo = () => {
-    if (++index >= undoStack.length) {
-        index = undoStack.length
-        return
-    }
-    for (const changes of undoStack[index]) {
+    if (++index > undoStack.length) index = undoStack.length
+    for (const changes of undoStack[index - 1]) {
         const [instance, changedProperties] = changes
-        for (const [property, saved] of changedProperties)
+        for (const [property, , saved] of changedProperties)
             unsafeSetValue(instance, property, saved)
     }
 }

@@ -29,16 +29,19 @@ export const saveProperties = (instance: Appendable) => {
     saveMap.set(instance, saved)
 }
 
-export type ChangedProperties = Array<[string, FrameValue]>
+//property name, from value, to value
+export type ChangedProperties = Array<[string, FrameValue, FrameValue]>
 
 export default (instance: Appendable) => {
     const changed: ChangedProperties = []
     const saved = saveMap.get(instance)
     if (!saved) return changed
 
-    for (const property of getProperties(instance))
-        if (saved[property] !== unsafeGetValue(instance, property))
-            changed.push([property, saved[property]])
+    for (const property of getProperties(instance)) {
+        const value = unsafeGetValue(instance, property)
+        saved[property] !== value &&
+            changed.push([property, saved[property], value])
+    }
 
     return changed
 }
