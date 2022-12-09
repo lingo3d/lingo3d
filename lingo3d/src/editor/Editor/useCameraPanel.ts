@@ -7,7 +7,6 @@ import { getManager } from "../../api/utils/manager"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
 import { setEditorCamera } from "../../states/useEditorCamera"
 import { getCameraComputed } from "../../states/useCameraComputed"
-import { setEditorCameraManual } from "../../states/useEditorCameraManual"
 
 export default (pane?: Pane, cameraFolder?: FolderApi) => {
     const camera = useSyncState(getCameraComputed)
@@ -22,7 +21,6 @@ export default (pane?: Pane, cameraFolder?: FolderApi) => {
                 return cameraList.indexOf(camera)
             },
             set camera(val) {
-                setEditorCameraManual(true)
                 setEditorCamera(cameraList[val])
             },
             get split() {

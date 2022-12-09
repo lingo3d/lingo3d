@@ -1,3 +1,9 @@
+import structuredClone from "@ungap/structured-clone"
+import unsafeSetValue from "../utils/unsafeSetValue"
+
+if (!("structuredClone" in window))
+    unsafeSetValue(window, "structuredClone", structuredClone)
+
 function at(n) {
     // ToInteger() abstract op
     n = Math.trunc(n) || 0
@@ -11,6 +17,7 @@ function at(n) {
 
 const TypedArray = Reflect.getPrototypeOf(Int8Array)
 for (const C of [Array, String, TypedArray]) {
+    if ("at" in C.prototype) continue
     Object.defineProperty(C.prototype, "at", {
         value: at,
         writable: true,

@@ -12,7 +12,6 @@ import { onKeyClear } from "../../events/onKeyClear"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getCentripetal } from "../../states/useCentripetal"
 import { getEditorCamera, setEditorCamera } from "../../states/useEditorCamera"
-import { setEditorCameraManual } from "../../states/useEditorCameraManual"
 import { redo, undo } from "../../api/undoStack"
 import {
     setMultipleSelection,
@@ -44,7 +43,6 @@ export default () => {
 
             if (keyLowerCase === "1") {
                 if (!getSplitView()) {
-                    setEditorCameraManual(true)
                     setEditorCamera(
                         getEditorCamera() === mainCamera
                             ? undefined
@@ -104,7 +102,6 @@ export default () => {
                     }
                 }
             } else if (keyLowerCase === "c") {
-                setEditorCameraManual(true)
                 setEditorCamera(mainCamera)
                 settings.uiLayer = false
                 isPositionedItem(target) && emitEditorCenterView(target)
