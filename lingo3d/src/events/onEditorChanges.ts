@@ -15,12 +15,8 @@ import { onEditorEdit } from "./onEditorEdit"
 import { onTransformControls } from "./onTransformControls"
 import { event } from "@lincode/events"
 import { debounceTrailing } from "@lincode/utils"
-import { getTimeline } from "../states/useTimeline"
-import { AnimationData } from "../interface/IAnimationManager"
 
-export type Changes = Array<
-    readonly [Appendable, ChangedProperties, AnimationData?]
->
+export type Changes = Array<readonly [Appendable, ChangedProperties]>
 
 export const [emitEditorChanges, onEditorChanges] = event<Changes>()
 
@@ -45,22 +41,15 @@ createEffect(() => {
         for (const instance of instances) saveProperties(instance)
     }
     const handleFinish = () =>
-        flushMultipleSelectionTargets(() => {
-            const timeline = getTimeline()
-            const timelineDataSnapshot = structuredClone(timeline?.data)
-
+        flushMultipleSelectionTargets(() =>
             emitEditorChanges(
                 //todo: optimize array spread in the future
                 [...instances].map(
                     (instance) =>
-                        <const>[
-                            instance,
-                            getChangedProperties(instance),
-                            timelineDataSnapshot
-                        ]
+                        <const>[instance, getChangedProperties(instance)]
                 )
             )
-        })
+        )
     const handle2 = onTransformControls((val) => {
         if (val === "start") handleStart()
         else if (val === "stop") handleFinish()
