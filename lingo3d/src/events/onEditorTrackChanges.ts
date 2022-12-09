@@ -18,10 +18,11 @@ import { debounceTrailing } from "@lincode/utils"
 import { getTimelineFrame } from "../states/useTimelineFrame"
 import Timeline from "../display/Timeline"
 import { getTimeline } from "../states/useTimeline"
+import { AnimationData } from "../interface/IAnimationManager"
 
 // appendable, changed properties, timeline frame, timeline instance
 export type Changes = Array<
-    readonly [Appendable, ChangedProperties, number, Timeline?]
+    readonly [Appendable, ChangedProperties, number, Timeline?, AnimationData?]
 >
 
 export const [emitEditorTrackChanges, onEditorTrackChanges] = event<Changes>()
@@ -50,6 +51,8 @@ createEffect(() => {
         flushMultipleSelectionTargets(() => {
             const frame = getTimelineFrame()
             const timeline = getTimeline()
+            const timelineDataSnapshot = structuredClone(timeline?.data)
+
             emitEditorTrackChanges(
                 //todo: optimize array spread in the future
                 [...instances].map(
@@ -58,7 +61,8 @@ createEffect(() => {
                             instance,
                             getChangedProperties(instance),
                             frame,
-                            timeline
+                            timeline,
+                            timelineDataSnapshot
                         ]
                 )
             )

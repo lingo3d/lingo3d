@@ -2,8 +2,8 @@ import { get, has } from "@lincode/utils"
 import traverseObject from "./traverseObject"
 
 export default (objOld: Record<string, any>, obj: Record<string, any>) => {
-    const changes: Array<[Array<string | number>, any]> = []
-    const deletes: Array<Array<string | number>> = []
+    const changes: Array<[Array<string>, any]> = []
+    const deletes: Array<Array<string>> = []
 
     traverseObject(
         obj,

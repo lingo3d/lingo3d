@@ -106,6 +106,7 @@ export default () => {
             } else if (keyLowerCase === "c") {
                 setEditorCameraManual(true)
                 setEditorCamera(mainCamera)
+                settings.uiLayer = false
                 isPositionedItem(target) && emitEditorCenterView(target)
             } else if (keyLowerCase === "escape")
                 target && emitSelectionTarget(undefined)

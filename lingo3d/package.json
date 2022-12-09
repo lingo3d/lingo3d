@@ -48,6 +48,7 @@
         "@types/stats.js": "^0.17.0",
         "@types/wavesurfer.js": "^6.0.3",
         "lil-gui": "^0.17.0",
+        "object-sizeof": "^1.6.3",
         "rimraf": "^3.0.2",
         "typescript": "^4.9.3",
         "vite": "^3.2.4"

@@ -1,13 +1,13 @@
 const traverseObject = (
     obj: unknown,
     cb: (
-        k: string | number,
+        k: string,
         v: any,
         parent: Record<any, any> | Array<any>,
-        path: Array<string | number>
+        path: Array<string>
     ) => void,
     traversed = new WeakSet(),
-    currentPath: Array<string | number> = []
+    currentPath: Array<string> = []
 ) => {
     if (Array.isArray(obj)) {
         if (traversed.has(obj)) return
@@ -15,8 +15,9 @@ const traverseObject = (
 
         for (let i = 0; i < obj.length; ++i) {
             const v = obj[i]
-            const newPath = [...currentPath, i]
-            cb(i, v, obj, newPath)
+            const istr = i + ""
+            const newPath = [...currentPath, istr]
+            cb(istr, v, obj, newPath)
             traverseObject(v, cb, traversed, newPath)
         }
     } else if (obj && typeof obj === "object") {
