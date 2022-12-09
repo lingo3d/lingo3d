@@ -15,16 +15,18 @@ const traverseObject = (
 
         for (let i = 0; i < obj.length; ++i) {
             const v = obj[i]
-            cb(i, v, obj, currentPath)
-            traverseObject(v, cb, traversed, [...currentPath, i])
+            const newPath = [...currentPath, i]
+            cb(i, v, obj, newPath)
+            traverseObject(v, cb, traversed, newPath)
         }
     } else if (obj && typeof obj === "object") {
         if (traversed.has(obj)) return
         traversed.add(obj)
 
         for (const [k, v] of Object.entries(obj)) {
-            cb(k, v, obj, currentPath)
-            traverseObject(v, cb, traversed, [...currentPath, k])
+            const newPath = [...currentPath, k]
+            cb(k, v, obj, newPath)
+            traverseObject(v, cb, traversed, newPath)
         }
     }
 }
