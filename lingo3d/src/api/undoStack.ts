@@ -13,7 +13,15 @@ const changesTimelineDataSnapshotMap = new WeakMap<Changes, AnimationData>()
 createEffect(() => {
     if (!getEditorMounted()) return
 
-    const handle = onEditorChanges((changes) => {
+    let timelineOpenIndex = 0
+    const handle0 = getTimeline((timeline) => {
+        if (timeline) timelineOpenIndex = index
+        else index = timelineOpenIndex
+        undoStack.length = index
+        timelineDataRedoStack = []
+    })
+
+    const handle1 = onEditorChanges((changes) => {
         timelineDataRedoStack = []
         changesTimelineDataSnapshotMap.set(
             changes,
@@ -24,7 +32,8 @@ createEffect(() => {
         index = undoStack.length
     })
     return () => {
-        handle.cancel()
+        handle0.cancel()
+        handle1.cancel()
     }
 }, [getEditorMounted])
 
