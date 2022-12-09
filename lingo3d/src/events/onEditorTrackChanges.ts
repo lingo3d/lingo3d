@@ -16,8 +16,9 @@ import { onTransformControls } from "./onTransformControls"
 import { event } from "@lincode/events"
 import { debounceTrailing } from "@lincode/utils"
 
-export const [emitEditorTrackChanges, onEditorTrackChanges] =
-    event<Array<readonly [Appendable, ChangedProperties]>>()
+export type Changes = Array<readonly [Appendable, ChangedProperties]>
+
+export const [emitEditorTrackChanges, onEditorTrackChanges] = event<Changes>()
 
 createEffect(() => {
     if (!getEditorMounted()) return

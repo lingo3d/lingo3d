@@ -13,6 +13,7 @@ import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getCentripetal } from "../../states/useCentripetal"
 import { getEditorCamera, setEditorCamera } from "../../states/useEditorCamera"
 import { setEditorCameraManual } from "../../states/useEditorCameraManual"
+import { redo, undo } from "../../api/undoStack"
 import {
     setMultipleSelection,
     getMultipleSelection
@@ -66,6 +67,15 @@ export default () => {
             const target = getSelectionTarget()
 
             if (e.metaKey || e.ctrlKey) {
+                if (keyLowerCase === "z") {
+                    e.preventDefault()
+                    if (e.shiftKey) redo()
+                    else undo()
+                }
+                if (keyLowerCase === "y") {
+                    e.preventDefault()
+                    redo()
+                }
                 if (keyLowerCase === "s") {
                     e.preventDefault()
                     saveJSON()
