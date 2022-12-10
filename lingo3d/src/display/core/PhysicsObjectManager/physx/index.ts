@@ -4,8 +4,7 @@ import { setPhysX } from "../../../../states/usePhysX"
 import "./physxLoop"
 
 PhysX().then((PhysX: any) => {
-    console.log("PhysX loaded")
-
+    // create PxFoundation
     const version = PhysX.PxTopLevelFunctions.prototype.PHYSICS_VERSION
     const allocator = new PhysX.PxDefaultAllocator()
     const errorCb = new PhysX.PxDefaultErrorCallback()
@@ -14,15 +13,17 @@ PhysX().then((PhysX: any) => {
         allocator,
         errorCb
     )
-    console.log("Created PxFoundation")
 
+    //create PxPhysics
     const tolerances = new PhysX.PxTolerancesScale()
     const physics = PhysX.PxTopLevelFunctions.prototype.CreatePhysics(
         version,
         foundation,
         tolerances
     )
-    console.log("Created PxPhysics")
+
+    //create PxCooking
+    PhysX.PxTopLevelFunctions.prototype.CreateCooking()
 
     // create scene
     const tmpVec = new PhysX.PxVec3(0, -9.81, 0)
@@ -35,7 +36,6 @@ PhysX().then((PhysX: any) => {
         PhysX.PxTopLevelFunctions.prototype.DefaultFilterShader()
     )
     const scene = physics.createScene(sceneDesc)
-    console.log("Created scene")
 
     // create a default material
     const material = physics.createMaterial(0.5, 0.5, 0.5)
@@ -58,7 +58,6 @@ PhysX().then((PhysX: any) => {
     // PhysX.destroy(shapeFlags)
     PhysX.destroy(sceneDesc)
     PhysX.destroy(tolerances)
-    console.log("Created scene objects")
 
     setPhysX({
         PhysX,
