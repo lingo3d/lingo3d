@@ -30,7 +30,7 @@ import AnimatedObjectManager from "../AnimatedObjectManager"
 import Nullable from "../../../interface/utils/Nullable"
 import SpawnPoint from "../../SpawnPoint"
 import getActualScale from "../../utils/getActualScale"
-import { fpsRatio } from "../../../engine/eventLoop"
+import { fpsRatioPtr } from "../../../engine/eventLoop"
 import fpsAlpha from "../../utils/fpsAlpha"
 
 const ptDistCache = new WeakMap<Point3d, number>()
@@ -235,15 +235,15 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
 
     public translateX(val: number) {
-        this.outerObject3d.translateX(val * scaleDown * fpsRatio[0])
+        this.outerObject3d.translateX(val * scaleDown * fpsRatioPtr[0])
     }
 
     public translateY(val: number) {
-        this.outerObject3d.translateY(val * scaleDown * fpsRatio[0])
+        this.outerObject3d.translateY(val * scaleDown * fpsRatioPtr[0])
     }
 
     public translateZ(val: number) {
-        this.outerObject3d.translateZ(val * scaleDown * fpsRatio[0])
+        this.outerObject3d.translateZ(val * scaleDown * fpsRatioPtr[0])
     }
 
     public placeAt(object: MeshItem | Point3d | SpawnPoint | string) {
@@ -271,7 +271,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
             vector3.crossVectors(this.outerObject3d.up, vector3)
             this.outerObject3d.position.addScaledVector(
                 vector3,
-                distance * scaleDown * fpsRatio[0]
+                distance * scaleDown * fpsRatioPtr[0]
             )
         }
     }
@@ -282,7 +282,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
             vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
             this.outerObject3d.position.addScaledVector(
                 vector3,
-                distance * scaleDown * fpsRatio[0]
+                distance * scaleDown * fpsRatioPtr[0]
             )
         }
     }
@@ -347,9 +347,9 @@ class SimpleObjectManager<T extends Object3D = Object3D>
 
         this.cancelHandle("lerpTo", () =>
             onBeforeRender(() => {
-                this.x += sx * fpsRatio[0]
-                y !== undefined && (this.y += sy * fpsRatio[0])
-                this.z += sz * fpsRatio[0]
+                this.x += sx * fpsRatioPtr[0]
+                y !== undefined && (this.y += sy * fpsRatioPtr[0])
+                this.z += sz * fpsRatioPtr[0]
 
                 const angle = vertexAngle(
                     new Point(this.x, this.z),

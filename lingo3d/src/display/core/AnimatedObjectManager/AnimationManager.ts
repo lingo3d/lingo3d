@@ -7,7 +7,7 @@ import {
 } from "three"
 import { debounceTrailing, forceGet, merge } from "@lincode/utils"
 import { onBeforeRender } from "../../../events/onBeforeRender"
-import { dt } from "../../../engine/eventLoop"
+import { dtPtr } from "../../../engine/eventLoop"
 import { GetGlobalState, Reactive } from "@lincode/reactivity"
 import { EventFunctions } from "@lincode/events"
 import {
@@ -237,7 +237,7 @@ export default class AnimationManager
                 this.gotoFrameState.set(undefined)
                 return
             }
-            const handle = onBeforeRender(() => mixer.update(dt[0]))
+            const handle = onBeforeRender(() => mixer.update(dtPtr[0]))
             return () => {
                 handle.cancel()
             }

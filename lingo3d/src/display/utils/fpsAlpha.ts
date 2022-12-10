@@ -1,3 +1,3 @@
-import { fpsRatio } from "../../engine/eventLoop"
+import { fpsRatioPtr } from "../../engine/eventLoop"
 
-export default (alpha: number) => Math.min(alpha * fpsRatio[0], 1)
+export default (alpha: number) => Math.min(alpha * fpsRatioPtr[0], 1)

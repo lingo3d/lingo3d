@@ -2,7 +2,7 @@ import { Reactive } from "@lincode/reactivity"
 import { planeGeometry } from "./primitives/Plane"
 import { sphereGeometry } from "./primitives/Sphere"
 import loadTexture from "./utils/loaders/loadTexture"
-import { dt } from "../engine/eventLoop"
+import { dtPtr } from "../engine/eventLoop"
 import { onBeforeRender } from "../events/onBeforeRender"
 import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import { WATERNORMALS_URL } from "../globals"
@@ -70,7 +70,7 @@ export default class Water extends VisibleObjectManager implements IWater {
                         this.object3d.add(water)
                         const updateHandle = onBeforeRender(() => {
                             water.material.uniforms["time"].value +=
-                                dt[0] * speed
+                                dtPtr[0] * speed
                         })
                         handle.then(() => {
                             this.object3d.remove(water)

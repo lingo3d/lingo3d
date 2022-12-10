@@ -56,8 +56,8 @@ const callbacks = new Set<() => void>()
 const clock = new Clock()
 let delta = 0
 
-export const fpsRatio = [1]
-export const dt = [0]
+export const fpsRatioPtr = [1]
+export const dtPtr = [0]
 
 let renderSlowCount = 0
 
@@ -71,8 +71,8 @@ createEffect(() => {
         if (paused) return
         delta += clock.getDelta()
         if (delta < targetDelta) return
-        fpsRatio[0] = delta * SEC2FRAME
-        dt[0] = delta
+        fpsRatioPtr[0] = delta * SEC2FRAME
+        dtPtr[0] = delta
         delta = 0
         for (const cb of callbacks) cb()
         if (++renderSlowCount === 2) {

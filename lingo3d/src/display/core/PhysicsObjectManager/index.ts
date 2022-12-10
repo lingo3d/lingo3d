@@ -13,6 +13,7 @@ import scene from "../../../engine/scene"
 import { getPhysX } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
 import { Reactive } from "@lincode/reactivity"
+import physxMap from "./physx/physxMap"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -90,11 +91,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             scene.addActor(body)
 
             PhysX.destroy(geometry)
+            physxMap.set(this.outerObject3d, body)
 
             return () => {
                 scene.removeActor(body)
                 body.release()
                 shape.release()
+                physxMap.delete(this.outerObject3d)
             }
         }, [getPhysics, getPhysX])
     }

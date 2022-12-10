@@ -4,7 +4,7 @@ import { emitBeforeRender } from "../../events/onBeforeRender"
 import { getRenderer } from "../../states/useRenderer"
 import { getResolution } from "../../states/useResolution"
 import { getWebXR } from "../../states/useWebXR"
-import { dt, loop } from "../eventLoop"
+import { dtPtr, loop } from "../eventLoop"
 import scene from "../scene"
 import "./resize"
 import { getCameraRendered } from "../../states/useCameraRendered"
@@ -71,7 +71,7 @@ createEffect(() => {
     const handle = loop(() => {
         emitBeforeRender()
         emitRender()
-        effectComposer.render(dt[0])
+        effectComposer.render(dtPtr[0])
         emitAfterRender()
     })
     return () => {

@@ -19,7 +19,7 @@ import getWorldPosition from "../../../utils/getWorldPosition"
 import PhysicsObjectManager from ".."
 import { bvhCharacterSet } from "./bvhCharacterSet"
 import { bvhManagerMap } from "./bvhManagerMap"
-import { fpsRatio } from "../../../../engine/eventLoop"
+import { fpsRatioPtr } from "../../../../engine/eventLoop"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
 import { getBVHComputing } from "../../../../states/useBVHComputingCount"
 import { getEditorPlay } from "../../../../states/useEditorPlay"
@@ -58,7 +58,7 @@ createEffect(
                             : getWorldPosition(player)
                                   .normalize()
                                   .multiplyScalar(
-                                      delta * -gravity * fpsRatio[0]
+                                      delta * -gravity * fpsRatioPtr[0]
                                   )
                     )
                 } else
@@ -66,7 +66,7 @@ createEffect(
                         characterManager.bvhOnGround ||
                         characterManager._gravity === false
                             ? 0
-                            : delta * -gravity * fpsRatio[0]
+                            : delta * -gravity * fpsRatioPtr[0]
 
                 const updatePosition = characterManager.positionUpdate!
                 updatePosition.x && (playerVelocity.x = 0)
