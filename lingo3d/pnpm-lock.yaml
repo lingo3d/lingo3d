@@ -11,6 +11,7 @@ specifiers:
   '@preact/signals': ^1.1.2
   '@types/preact-custom-element': ^4.0.1
   '@types/prettier': ^2.7.1
+  '@types/randomcolor': ^0.5.7
   '@types/stats.js': ^0.17.0
   '@types/three': 0.146.0
   '@types/wavesurfer.js': ^6.0.3
@@ -25,6 +26,7 @@ specifiers:
   preact: ^10.11.3
   preact-compat: ^3.19.0
   prettier: ^2.8.1
+  randomcolor: ^0.6.2
   rimraf: ^3.0.2
   stats.js: ^0.17.0
   three: 0.147.0
@@ -62,10 +64,12 @@ devDependencies:
   '@preact/preset-vite': 2.4.0_preact@10.11.3+vite@4.0.0
   '@types/preact-custom-element': 4.0.1
   '@types/prettier': 2.7.1
+  '@types/randomcolor': 0.5.7
   '@types/stats.js': 0.17.0
   '@types/wavesurfer.js': 6.0.3
   lil-gui: 0.17.0
   object-sizeof: 1.6.3
+  randomcolor: 0.6.2
   rimraf: 3.0.2
   typescript: 4.9.4
   vite: 4.0.0
@@ -682,6 +686,10 @@ packages:
     resolution: {integrity: sha512-ri0UmynRRvZiiUJdiz38MmIblKK+oH30MztdBVR95dv/Ubw6neWSb8u1XpRb72L4qsZOhz+L+z9JD40SJmfWow==}
     dev: true
 
+  /@types/randomcolor/0.5.7:
+    resolution: {integrity: sha512-LPcG96dGYRCsXlk1fslUNIg6ebEi+bKNyn84uBL/pu2cRSf5i/djD3ArJZOyzszVMVV/DB87va6pMZP+tRSl/w==}
+    dev: true
+
   /@types/stats.js/0.17.0:
     resolution: {integrity: sha512-9w+a7bR8PeB0dCT/HBULU2fMqf6BAzvKbxFboYhmDtDkKPiyXYbjoe2auwsXlEFI7CFNMF1dCv3dFH5Poy9R1w==}
     dev: true
@@ -1109,6 +1117,10 @@ packages:
       object-assign: 4.1.1
       react-is: 16.13.1
     dev: false
+
+  /randomcolor/0.6.2:
+    resolution: {integrity: sha512-Mn6TbyYpFgwFuQ8KJKqf3bqqY9O1y37/0jgSK/61PUxV4QfIMv0+K2ioq8DfOjkBslcjwSzRfIDEXfzA9aCx7A==}
+    dev: true
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}

@@ -1,3 +1,3 @@
-import { signal } from "@preact/signals"
+import { Signal, signal } from "@preact/signals"
 
-export const timelineScrollTopSignal = signal(0)
+export const timelineScrollTopSignal: Signal<number> = signal(0)
