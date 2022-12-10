@@ -11,7 +11,8 @@ createEffect(() => {
 
     // simulate scene for a bit
     const handle = onBeforeRender(() => {
-        scene.simulate(dtPtr[0])
+        scene.simulate(1 / 60)
+        // scene.simulate(dtPtr[0])
         scene.fetchResults(true)
 
         for (const [target, body] of physxMap) {

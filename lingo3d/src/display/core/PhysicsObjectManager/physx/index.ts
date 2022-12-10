@@ -55,7 +55,7 @@ PhysX().then((PhysX: any) => {
     PhysX.destroy(tmpFilterData)
     PhysX.destroy(tmpPose)
     PhysX.destroy(tmpVec)
-    PhysX.destroy(shapeFlags)
+    // PhysX.destroy(shapeFlags)
     PhysX.destroy(sceneDesc)
     PhysX.destroy(tolerances)
     console.log("Created scene objects")
