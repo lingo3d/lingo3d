@@ -28,7 +28,8 @@ export default class OrbitCameraBase
             if (targetItem) {
                 this.foundState.set(targetItem)
                 const handle = onSceneGraphChange(
-                    () => targetItem.parent !== this && this.refresh.set({})
+                    () =>
+                        targetItem.parent !== this && this.refreshState.set({})
                 )
                 return () => {
                     handle.cancel()
@@ -36,11 +37,13 @@ export default class OrbitCameraBase
             }
             if (typeof target !== "string") return
 
-            const handle = onId((id) => id === target && this.refresh.set({}))
+            const handle = onId(
+                (id) => id === target && this.refreshState.set({})
+            )
             return () => {
                 handle.cancel()
             }
-        }, [this.targetState.get, this.refresh.get])
+        }, [this.targetState.get, this.refreshState.get])
     }
 
     private targetState = new Reactive<string | MeshItem | undefined>(undefined)
@@ -52,17 +55,17 @@ export default class OrbitCameraBase
     }
 
     protected foundState = new Reactive<MeshItem | undefined>(undefined)
-    private refresh = new Reactive({})
+    private refreshState = new Reactive({})
 
     public override append(object: MeshItem) {
         this._append(object)
         this.parent?.outerObject3d.add(object.outerObject3d)
-        this.refresh.set({})
+        this.refreshState.set({})
     }
 
     public override attach(object: MeshItem) {
         this._append(object)
         this.parent?.outerObject3d.attach(object.outerObject3d)
-        this.refresh.set({})
+        this.refreshState.set({})
     }
 }

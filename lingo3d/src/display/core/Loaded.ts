@@ -3,7 +3,6 @@ import { boxGeometry } from "../primitives/Cube"
 import { wireframeMaterial } from "../utils/reusables"
 import ILoaded from "../../interface/ILoaded"
 import Reresolvable from "./utils/Reresolvable"
-import { Cancellable } from "@lincode/promiselikes"
 import toResolvable from "../utils/toResolvable"
 import MeshItem from "./MeshItem"
 import { Point3d } from "@lincode/math"
@@ -17,6 +16,8 @@ import {
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import VisibleObjectManager from "./VisibleObjectManager"
 import { setManager } from "../../api/utils/manager"
+import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
+import { Reactive } from "@lincode/reactivity"
 
 export default abstract class Loaded<T = Object3D>
     extends VisibleObjectManager<Mesh>
@@ -234,26 +235,32 @@ export default abstract class Loaded<T = Object3D>
 
     private managerSet?: boolean
     protected override addToRaycastSet(set: Set<Object3D>) {
-        const handle = new Cancellable()
+        const { get: getPhysics } = (this.physicsState ??=
+            new Reactive<PhysicsOptions>(false))
 
-        queueMicrotask(() => {
-            if (handle.done) return
+        const handle = this.createEffect(() => {
+            const physics = getPhysics()
+            if (physics === "map" || physics === "map-debug") {
+                const handle0 = this.loaded.then((loaded) => {
+                    if (!this.managerSet) {
+                        this.managerSet = true
+                        loaded.traverse((child) => setManager(child, this))
+                    }
+                    set.add(loaded)
+                    return () => {
+                        set.delete(loaded)
+                    }
+                })
+                return () => {
+                    handle0.cancel()
+                }
+            }
+            const handle0 = super.addToRaycastSet(set)
+            return () => {
+                handle0.cancel()
+            }
+        }, [getPhysics])
 
-            if (this._physics === "map" || this._physics === "map-debug")
-                handle.watch(
-                    this.loaded.then((loaded) => {
-                        if (!this.managerSet) {
-                            this.managerSet = true
-                            loaded.traverse((child) => setManager(child, this))
-                        }
-                        set.add(loaded)
-                        return () => {
-                            set.delete(loaded)
-                        }
-                    })
-                )
-            else handle.watch(super.addToRaycastSet(set))
-        })
         return handle
     }
 
@@ -263,9 +270,9 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    protected override refreshPhysics() {
+    protected override refreshPhysics(val: PhysicsOptions) {
         this.cancelHandle("refreshPhysics", () =>
-            this.loaded.then(() => void super.refreshPhysics())
+            this.loaded.then(() => void super.refreshPhysics(val))
         )
     }
 }

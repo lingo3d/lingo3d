@@ -9,9 +9,10 @@ import bvhContactMap from "./bvh/bvhContactMap"
 import MeshItem from "../MeshItem"
 import characterCameraPlaced from "../CharacterCamera/characterCameraPlaced"
 import PhysicsUpdate from "./PhysicsUpdate"
-import { Reactive } from "@lincode/reactivity"
 import scene from "../../../engine/scene"
-import { Cancellable } from "@lincode/promiselikes"
+import { getPhysX } from "../../../states/usePhysX"
+import getActualScale from "../../utils/getActualScale"
+import { Reactive } from "@lincode/reactivity"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -28,34 +29,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected positionUpdate?: PhysicsUpdate
     protected rotationUpdate?: PhysicsUpdate
 
-    private refreshPhysicsState?: Reactive<{}>
-    protected refreshPhysics() {
-        if (this.refreshPhysicsState) {
-            this.refreshPhysicsState.set({})
-            return
-        }
-        this.createEffect(() => {
-            const { _physics } = this
-            if (!_physics) return
-
-            this.outerObject3d.parent !== scene &&
-                scene.attach(this.outerObject3d)
-
-            const handle = new Cancellable()
-            if (_physics === "map" || _physics === "map-debug")
-                import("./enableBVHMap").then((module) => {
-                    module.default.call(this, handle, _physics === "map-debug")
-                })
-            else if (_physics === "character")
-                import("./enableBVHCharacter").then((module) => {
-                    module.default.call(this, handle)
-                })
-            return () => {
-                handle.cancel()
-            }
-        }, [(this.refreshPhysicsState = new Reactive({})).get])
-    }
-
     protected bvhVelocity?: Vector3
     protected bvhOnGround?: boolean
     protected bvhRadius?: number
@@ -63,13 +36,74 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected bvhMap?: boolean
     protected bvhCharacter?: boolean
 
-    protected _physics?: PhysicsOptions
+    protected physicsState?: Reactive<PhysicsOptions>
+    protected refreshPhysics(val: PhysicsOptions) {
+        if (this.physicsState) {
+            this.physicsState.set(val)
+            return
+        }
+        const { get: getPhysics } = (this.physicsState = new Reactive(val))
+
+        import("./physx")
+        this.outerObject3d.parent !== scene && scene.attach(this.outerObject3d)
+
+        this.createEffect(() => {
+            const option = getPhysics()
+            const {
+                PhysX,
+                physics,
+                material,
+                shapeFlags,
+                tmpVec,
+                tmpPose,
+                tmpFilterData,
+                scene
+            } = getPhysX()
+            if (!PhysX) return
+
+            const { x, y, z } = this.outerObject3d.position
+            const halfScale = getActualScale(this).multiplyScalar(0.5)
+
+            tmpVec.set_x(x)
+            tmpVec.set_y(y)
+            tmpVec.set_z(z)
+            tmpPose.set_p(tmpVec)
+
+            const geometry = new PhysX.PxBoxGeometry(
+                halfScale.x,
+                halfScale.y,
+                halfScale.z
+            )
+            const shape = physics.createShape(
+                geometry,
+                material,
+                true,
+                shapeFlags
+            )
+            const body =
+                option === "map" || option === "map-debug"
+                    ? physics.createRigidStatic(tmpPose)
+                    : physics.createRigidDynamic(tmpPose)
+
+            shape.setSimulationFilterData(tmpFilterData)
+            body.attachShape(shape)
+            scene.addActor(body)
+
+            PhysX.destroy(geometry)
+
+            return () => {
+                scene.removeActor(body)
+                body.release()
+                shape.release()
+            }
+        }, [getPhysics, getPhysX])
+    }
+
     public get physics() {
-        return this._physics ?? false
+        return this.physicsState?.get() ?? false
     }
     public set physics(val) {
-        this._physics = val
-        this.refreshPhysics()
+        this.refreshPhysics(val)
     }
 
     protected _gravity?: boolean

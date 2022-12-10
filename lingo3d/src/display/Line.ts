@@ -41,10 +41,10 @@ export default class Line extends Appendable {
                 material.dispose()
                 bloom && deleteSelectiveBloom(line)
             }
-        }, [this.refresh.get])
+        }, [this.refreshState.get])
     }
 
-    private refresh = new Reactive({})
+    private refreshState = new Reactive({})
 
     private _bloom?: boolean
     public get bloom() {
@@ -52,7 +52,7 @@ export default class Line extends Appendable {
     }
     public set bloom(value) {
         this._bloom = value
-        this.refresh.set({})
+        this.refreshState.set({})
     }
 
     private _from?: Point3d
@@ -61,7 +61,7 @@ export default class Line extends Appendable {
     }
     public set from(value) {
         this._from = value
-        this.refresh.set({})
+        this.refreshState.set({})
     }
 
     private _to?: Point3d
@@ -70,7 +70,7 @@ export default class Line extends Appendable {
     }
     public set to(value) {
         this._to = value
-        this.refresh.set({})
+        this.refreshState.set({})
     }
 
     private _thickness = 1
@@ -79,6 +79,6 @@ export default class Line extends Appendable {
     }
     public set thickness(value) {
         this._thickness = value
-        this.refresh.set({})
+        this.refreshState.set({})
     }
 }

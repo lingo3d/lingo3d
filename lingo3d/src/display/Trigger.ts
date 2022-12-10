@@ -20,7 +20,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
     public static defaults = triggerDefaults
     public static schema = triggerSchema
 
-    private refresh = new Reactive({})
+    private refreshState = new Reactive({})
 
     public onEnter: ((target: MeshItem) => void) | undefined
 
@@ -32,7 +32,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
     }
     public set pad(val) {
         this._pad = val
-        this.refresh.set({})
+        this.refreshState.set({})
     }
 
     private _radius = 50
@@ -41,7 +41,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
     }
     public set radius(val) {
         this._radius = val
-        this.refresh.set({})
+        this.refreshState.set({})
     }
 
     private _interval = 300
@@ -50,7 +50,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
     }
     public set interval(val) {
         this._interval = val
-        this.refresh.set({})
+        this.refreshState.set({})
     }
 
     private _helper = true
@@ -59,7 +59,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
     }
     public set helper(val) {
         this._helper = val
-        this.refresh.set({})
+        this.refreshState.set({})
     }
 
     private _target?: string | Array<string> | StaticObjectManager
@@ -68,7 +68,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
     }
     public set target(val) {
         this._target = val
-        this.refresh.set({})
+        this.refreshState.set({})
     }
 
     public constructor() {
@@ -128,7 +128,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
             return () => {
                 handle.cancel()
             }
-        }, [this.refresh.get])
+        }, [this.refreshState.get])
 
         this.createEffect(() => {
             const { _radius, _helper, _pad } = this
@@ -144,6 +144,6 @@ export default class Trigger extends PositionedItem implements ITrigger {
                 helper = undefined
                 handle.cancel()
             }
-        }, [this.refresh.get, getCameraRendered])
+        }, [this.refreshState.get, getCameraRendered])
     }
 }
