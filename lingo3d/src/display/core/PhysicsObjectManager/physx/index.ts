@@ -1,7 +1,7 @@
 //@ts-ignore
 import PhysX from "physx-js-webidl"
-import { onBeforeRender } from "../../../../events/onBeforeRender"
 import { setPhysX } from "../../../../states/usePhysX"
+import "./physxLoop"
 
 PhysX().then((PhysX: any) => {
     console.log("PhysX loaded")
@@ -59,14 +59,6 @@ PhysX().then((PhysX: any) => {
     PhysX.destroy(sceneDesc)
     PhysX.destroy(tolerances)
     console.log("Created scene objects")
-
-    // simulate scene for a bit
-    onBeforeRender(() => {
-        scene.simulate(1.0 / 60.0)
-        scene.fetchResults(true)
-        // const boxHeight = box.getGlobalPose().get_p().get_y()
-        // console.log("Sim step " + i + ": h = " + boxHeight)
-    })
 
     setPhysX({
         PhysX,
