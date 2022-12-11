@@ -23,7 +23,11 @@ PhysX().then((PhysX: any) => {
     )
 
     //create PxCooking
-    PhysX.PxTopLevelFunctions.prototype.CreateCooking()
+    const cooking = PhysX.PxTopLevelFunctions.prototype.CreateCooking(
+        version,
+        foundation,
+        PhysX.PxCookingParams(tolerances)
+    )
 
     // create scene
     const tmpVec = new PhysX.PxVec3(0, -9.81, 0)
@@ -67,13 +71,15 @@ PhysX().then((PhysX: any) => {
         tmpVec,
         tmpPose,
         tmpFilterData,
-        scene
+        scene,
+        cooking
     })
 
     // scene.release()
     // material.release()
     // physics.release()
     // foundation.release()
+    // cooking.release()
     // PhysX.destroy(errorCb)
     // PhysX.destroy(allocator)
     // console.log("Cleaned up")
