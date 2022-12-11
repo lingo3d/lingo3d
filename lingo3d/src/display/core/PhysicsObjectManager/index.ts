@@ -49,7 +49,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.parent !== scene && scene.attach(this.outerObject3d)
 
         this.createEffect(() => {
-            const option = getPhysics()
+            const mode = getPhysics()
             const {
                 PhysX,
                 physics,
@@ -58,7 +58,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 tmpVec,
                 tmpPose,
                 tmpFilterData,
-                scene
+                scene,
+                cooking,
+                convexFlags
             } = getPhysX()
             if (!PhysX) return
 
@@ -82,9 +84,20 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 shapeFlags
             )
             const body =
-                option === "map"
+                mode === "map"
                     ? physics.createRigidStatic(tmpPose)
                     : physics.createRigidDynamic(tmpPose)
+
+            if (mode === "convex") {
+                const desc = new PhysX.PxConvexMeshDesc()
+                desc.flags = convexFlags
+
+                // const convexMesh = cooking.createConvexMesh(
+                //     geometry,
+                //     physics.getPhysicsInsertionCallback()
+                // )
+                // shape.setGeometry(convexMesh)
+            }
 
             shape.setSimulationFilterData(tmpFilterData)
             body.attachShape(shape)

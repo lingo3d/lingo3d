@@ -29,6 +29,11 @@ PhysX().then((PhysX: any) => {
         PhysX.PxCookingParams(tolerances)
     )
 
+    //create default convex flags
+    const convexFlags = new PhysX.PxConvexFlags(
+        PhysX._emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX
+    )
+
     // create scene
     const tmpVec = new PhysX.PxVec3(0, -9.81, 0)
     const sceneDesc = new PhysX.PxSceneDesc(tolerances)
@@ -60,6 +65,7 @@ PhysX().then((PhysX: any) => {
     PhysX.destroy(tmpPose)
     PhysX.destroy(tmpVec)
     // PhysX.destroy(shapeFlags)
+    // PhysX.destroy(convexFlags)
     PhysX.destroy(sceneDesc)
     PhysX.destroy(tolerances)
 
@@ -72,7 +78,8 @@ PhysX().then((PhysX: any) => {
         tmpPose,
         tmpFilterData,
         scene,
-        cooking
+        cooking,
+        convexFlags
     })
 
     // scene.release()
