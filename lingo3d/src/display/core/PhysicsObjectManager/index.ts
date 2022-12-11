@@ -89,22 +89,21 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     : physics.createRigidDynamic(tmpPose)
 
             if (mode === "convex" && this.nativeObject3d instanceof Mesh) {
-                const vertices =
-                    this.nativeObject3d.geometry.attributes.position.array
+                const { position } = this.nativeObject3d.geometry.attributes
+                const vertices = position.array
+                const vec3Vector = new PhysX.Vector_PxVec3(position.count)
 
-                const count = vertices.length / 3
-                const vec3Vector = new PhysX.Vector_PxVec3(count)
-
-                for (let i = 0; i < vertices.length; i += 3) {
-                    const item = vec3Vector.at(i / 3)
-                    item.set_x(vertices[i])
-                    item.set_y(vertices[i + 1])
-                    item.set_z(vertices[i + 2])
+                for (let i = 0; i < position.count; i++) {
+                    const pxVec3 = vec3Vector.at(i)
+                    const offset = i * 3
+                    pxVec3.set_x(vertices[offset])
+                    pxVec3.set_y(vertices[offset + 1])
+                    pxVec3.set_z(vertices[offset + 2])
                 }
 
                 const desc = new PhysX.PxConvexMeshDesc()
                 desc.flags = convexFlags
-                desc.points.count = count
+                desc.points.count = position.count
                 desc.points.stride = 12
                 desc.points.data = vec3Vector.data()
                 const pxConvexMesh = cooking.createConvexMesh(
@@ -112,7 +111,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     physics.physicsInsertionCallback
                 )
 
-                vec3Vector.destroy()
+                // vec3Vector.destroy()
 
                 // const convexHull = makeConvexHull
 
@@ -123,7 +122,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             body.attachShape(shape)
             scene.addActor(body)
 
-            PhysX.destroy(geometry)
+            // PhysX.destroy(geometry)
             physxMap.set(this.outerObject3d, body)
 
             return () => {

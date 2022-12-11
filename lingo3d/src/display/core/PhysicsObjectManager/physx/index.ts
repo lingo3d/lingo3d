@@ -61,13 +61,13 @@ PhysX().then((PhysX: any) => {
     const tmpFilterData = new PhysX.PxFilterData(1, 1, 0, 0)
 
     // clean up temp objects
-    PhysX.destroy(tmpFilterData)
-    PhysX.destroy(tmpPose)
-    PhysX.destroy(tmpVec)
+    // PhysX.destroy(tmpFilterData)
+    // PhysX.destroy(tmpPose)
+    // PhysX.destroy(tmpVec)
     // PhysX.destroy(shapeFlags)
     // PhysX.destroy(convexFlags)
-    PhysX.destroy(sceneDesc)
-    PhysX.destroy(tolerances)
+    // PhysX.destroy(sceneDesc)
+    // PhysX.destroy(tolerances)
 
     setPhysX({
         PhysX,
