@@ -31,7 +31,7 @@ PhysX().then((PhysX: any) => {
 
     //create default convex flags
     const convexFlags = new PhysX.PxConvexFlags(
-        PhysX._emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX
+        PhysX._emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX()
     )
 
     // create scene
