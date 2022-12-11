@@ -1,4 +1,4 @@
-import { Object3D, Vector3 } from "three"
+import { Mesh, Object3D, Vector3 } from "three"
 import { Point3d } from "@lincode/math"
 import SimpleObjectManager from "../SimpleObjectManager"
 import IPhysicsObjectManager, {
@@ -88,14 +88,34 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     ? physics.createRigidStatic(tmpPose)
                     : physics.createRigidDynamic(tmpPose)
 
-            if (mode === "convex") {
+            if (mode === "convex" && this.nativeObject3d instanceof Mesh) {
+                const vertices =
+                    this.nativeObject3d.geometry.attributes.position.array
+
+                const count = vertices.length / 3
+                const vec3Vector = new PhysX.Vector_PxVec3(count)
+
+                for (let i = 0; i < vertices.length; i += 3) {
+                    const item = vec3Vector.at(i / 3)
+                    item.set_x(vertices[i])
+                    item.set_y(vertices[i + 1])
+                    item.set_z(vertices[i + 2])
+                }
+
                 const desc = new PhysX.PxConvexMeshDesc()
                 desc.flags = convexFlags
+                desc.points.count = count
+                desc.points.stride = 12
+                desc.points.data = vec3Vector.data()
+                const pxConvexMesh = cooking.createConvexMesh(
+                    desc,
+                    physics.physicsInsertionCallback
+                )
 
-                // const convexMesh = cooking.createConvexMesh(
-                //     geometry,
-                //     physics.getPhysicsInsertionCallback()
-                // )
+                vec3Vector.destroy()
+
+                // const convexHull = makeConvexHull
+
                 // shape.setGeometry(convexMesh)
             }
 
