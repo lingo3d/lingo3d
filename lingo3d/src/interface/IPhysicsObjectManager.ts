@@ -7,7 +7,7 @@ import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import { extendDefaults } from "./utils/Defaults"
 
-export type PhysicsOptions = boolean | "map" | "character"
+export type PhysicsOptions = boolean | "map" | "character" | "convex"
 
 export default interface IPhysicsObjectManager extends ISimpleObjectManager {
     velocity: Point3d
