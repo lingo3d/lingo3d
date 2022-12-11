@@ -82,7 +82,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 shapeFlags
             )
             const body =
-                option === "map" || option === "map-debug"
+                option === "map"
                     ? physics.createRigidStatic(tmpPose)
                     : physics.createRigidDynamic(tmpPose)
 

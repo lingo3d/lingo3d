@@ -240,7 +240,7 @@ export default abstract class Loaded<T = Object3D>
 
         const handle = this.createEffect(() => {
             const physics = getPhysics()
-            if (physics === "map" || physics === "map-debug") {
+            if (physics === "map") {
                 const handle0 = this.loaded.then((loaded) => {
                     if (!this.managerSet) {
                         this.managerSet = true
