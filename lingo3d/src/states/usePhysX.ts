@@ -11,6 +11,7 @@ type PhysX = {
     scene: any
     cooking: any
     convexFlags: any
+    insertionCallback: any
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -23,5 +24,6 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     tmpFilterData: undefined,
     scene: undefined,
     cooking: undefined,
-    convexFlags: undefined
+    convexFlags: undefined,
+    insertionCallback: undefined
 })

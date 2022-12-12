@@ -4,46 +4,42 @@ import { setPhysX } from "../../../../states/usePhysX"
 import "./physxLoop"
 
 PhysX().then((PhysX: any) => {
+    const Px = PhysX.PxTopLevelFunctions.prototype
+
     // create PxFoundation
-    const version = PhysX.PxTopLevelFunctions.prototype.PHYSICS_VERSION
+    const version = Px.PHYSICS_VERSION
     const allocator = new PhysX.PxDefaultAllocator()
     const errorCb = new PhysX.PxDefaultErrorCallback()
-    const foundation = PhysX.PxTopLevelFunctions.prototype.CreateFoundation(
-        version,
-        allocator,
-        errorCb
-    )
+    const foundation = Px.CreateFoundation(version, allocator, errorCb)
 
     //create PxPhysics
-    const tolerances = new PhysX.PxTolerancesScale()
-    const physics = PhysX.PxTopLevelFunctions.prototype.CreatePhysics(
-        version,
-        foundation,
-        tolerances
-    )
+    const scale = new PhysX.PxTolerancesScale()
+    const physics = Px.CreatePhysics(version, foundation, scale)
+
+    //init extensions
+    Px.InitExtensions(physics)
 
     //create PxCooking
-    const cooking = PhysX.PxTopLevelFunctions.prototype.CreateCooking(
-        version,
-        foundation,
-        PhysX.PxCookingParams(tolerances)
-    )
+    const cookingParams = new PhysX.PxCookingParams(scale)
+    cookingParams.suppressTriangleMeshRemapTable = true
+    const cooking = Px.CreateCooking(version, foundation, cookingParams)
 
     //create default convex flags
     const convexFlags = new PhysX.PxConvexFlags(
-        PhysX._emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX()
+        PhysX._emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX() |
+            PhysX._emscripten_enum_PxConvexFlagEnum_eDISABLE_MESH_VALIDATION() |
+            PhysX._emscripten_enum_PxConvexFlagEnum_eFAST_INERTIA_COMPUTATION()
     )
+
+    //create insertion callback
+    const insertionCallback = physics.getPhysicsInsertionCallback()
 
     // create scene
     const tmpVec = new PhysX.PxVec3(0, -9.81, 0)
-    const sceneDesc = new PhysX.PxSceneDesc(tolerances)
+    const sceneDesc = new PhysX.PxSceneDesc(scale)
     sceneDesc.set_gravity(tmpVec)
-    sceneDesc.set_cpuDispatcher(
-        PhysX.PxTopLevelFunctions.prototype.DefaultCpuDispatcherCreate(0)
-    )
-    sceneDesc.set_filterShader(
-        PhysX.PxTopLevelFunctions.prototype.DefaultFilterShader()
-    )
+    sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
+    sceneDesc.set_filterShader(Px.DefaultFilterShader())
     const scene = physics.createScene(sceneDesc)
 
     // create a default material
@@ -79,7 +75,8 @@ PhysX().then((PhysX: any) => {
         tmpFilterData,
         scene,
         cooking,
-        convexFlags
+        convexFlags,
+        insertionCallback
     })
 
     // scene.release()
