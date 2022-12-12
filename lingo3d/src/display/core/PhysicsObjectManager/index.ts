@@ -79,7 +79,21 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     : physics.createRigidDynamic(tmpPose)
 
             let shape: any
-            if (mode === "convex" && this.nativeObject3d instanceof Mesh) {
+
+            if (mode === "character") {
+                const geometry = new PhysX.PxCapsuleGeometry(
+                    halfScale.x,
+                    halfScale.y
+                )
+                shape = PhysX.PxRigidActorExt.prototype.createExclusiveShape(
+                    actor,
+                    geometry,
+                    material
+                )
+            } else if (
+                mode === "convex" &&
+                this.nativeObject3d instanceof Mesh
+            ) {
                 // const { position } = this.nativeObject3d.geometry.attributes
                 // const vertices = position.array
                 const count = 5
@@ -87,9 +101,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
                 let i = 0
                 const add = (x: number, y: number, z: number) => {
-                    vec3Vector.at(i).set_x(x + 0.1)
-                    vec3Vector.at(i).set_y(y + 0.1)
-                    vec3Vector.at(i).set_z(z + 0.1)
+                    vec3Vector.at(i).set_x(x)
+                    vec3Vector.at(i).set_y(y)
+                    vec3Vector.at(i).set_z(z)
                     i++
                 }
                 add(0, 1, 0)
@@ -119,10 +133,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
                 // vec3Vector.destroy()
 
+                const geometry = new PhysX.PxConvexMeshGeometry(convexMesh)
                 shape = PhysX.PxRigidActorExt.prototype.createExclusiveShape(
                     actor,
-                    PhysX.PxConvexMeshGeometry(convexMesh),
-                    material
+                    geometry,
+                    material,
+                    shapeFlags
                 )
             } else {
                 const geometry = new PhysX.PxBoxGeometry(
@@ -130,19 +146,19 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     halfScale.y,
                     halfScale.z
                 )
+                // PhysX.destroy(geometry)
                 shape = physics.createShape(
                     geometry,
                     material,
                     true,
                     shapeFlags
                 )
-                shape.setSimulationFilterData(tmpFilterData)
                 actor.attachShape(shape)
             }
 
+            shape.setSimulationFilterData(tmpFilterData)
             scene.addActor(actor)
 
-            // PhysX.destroy(geometry)
             physxMap.set(this.outerObject3d, actor)
 
             return () => {
