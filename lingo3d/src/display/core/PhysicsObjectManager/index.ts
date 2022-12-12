@@ -73,22 +73,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             tmpVec.set_z(z)
             tmpPose.set_p(tmpVec)
 
-            const geometry = new PhysX.PxBoxGeometry(
-                halfScale.x,
-                halfScale.y,
-                halfScale.z
-            )
-            const shape = physics.createShape(
-                geometry,
-                material,
-                true,
-                shapeFlags
-            )
-            const body =
+            const actor =
                 mode === "map"
                     ? physics.createRigidStatic(tmpPose)
                     : physics.createRigidDynamic(tmpPose)
 
+            let shape: any
             if (mode === "convex" && this.nativeObject3d instanceof Mesh) {
                 // const { position } = this.nativeObject3d.geometry.attributes
                 // const vertices = position.array
@@ -122,29 +112,42 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 desc.points.stride = 12
                 desc.points.data = vec3Vector.data()
 
-                const pxConvexMesh = cooking.createConvexMesh(
+                const convexMesh = cooking.createConvexMesh(
                     desc,
                     insertionCallback
                 )
-                console.log(pxConvexMesh)
 
                 // vec3Vector.destroy()
 
-                // const convexHull = makeConvexHull
-
-                // shape.setGeometry(convexMesh)
+                shape = PhysX.PxRigidActorExt.prototype.createExclusiveShape(
+                    actor,
+                    PhysX.PxConvexMeshGeometry(convexMesh),
+                    material
+                )
+            } else {
+                const geometry = new PhysX.PxBoxGeometry(
+                    halfScale.x,
+                    halfScale.y,
+                    halfScale.z
+                )
+                shape = physics.createShape(
+                    geometry,
+                    material,
+                    true,
+                    shapeFlags
+                )
+                shape.setSimulationFilterData(tmpFilterData)
+                actor.attachShape(shape)
             }
 
-            shape.setSimulationFilterData(tmpFilterData)
-            body.attachShape(shape)
-            scene.addActor(body)
+            scene.addActor(actor)
 
             // PhysX.destroy(geometry)
-            physxMap.set(this.outerObject3d, body)
+            physxMap.set(this.outerObject3d, actor)
 
             return () => {
-                scene.removeActor(body)
-                body.release()
+                scene.removeActor(actor)
+                actor.release()
                 shape.release()
                 physxMap.delete(this.outerObject3d)
             }
