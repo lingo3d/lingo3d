@@ -94,35 +94,21 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 mode === "convex" &&
                 this.nativeObject3d instanceof Mesh
             ) {
-                // const { position } = this.nativeObject3d.geometry.attributes
-                // const vertices = position.array
-                const count = 5
-                const vec3Vector = new PhysX.Vector_PxVec3(count)
+                const { position } = this.nativeObject3d.geometry.attributes
+                const vertices = position.array
+                const vec3Vector = new PhysX.Vector_PxVec3(position.count)
 
-                let i = 0
-                const add = (x: number, y: number, z: number) => {
-                    vec3Vector.at(i).set_x(x)
-                    vec3Vector.at(i).set_y(y)
-                    vec3Vector.at(i).set_z(z)
-                    i++
+                for (let i = 0; i < position.count; i++) {
+                    const pxVec3 = vec3Vector.at(i)
+                    const offset = i * 3
+                    pxVec3.set_x(vertices[offset])
+                    pxVec3.set_y(vertices[offset + 1])
+                    pxVec3.set_z(vertices[offset + 2])
                 }
-                add(0, 1, 0)
-                add(1, 0, 0)
-                add(-1, 0, 0)
-                add(0, 0, 1)
-                add(0, 0, -1)
-
-                // for (let i = 0; i < position.count; i++) {
-                //     const pxVec3 = vec3Vector.at(i)
-                //     const offset = i * 3
-                //     pxVec3.set_x(vertices[offset])
-                //     pxVec3.set_y(vertices[offset + 1])
-                //     pxVec3.set_z(vertices[offset + 2])
-                // }
 
                 const desc = new PhysX.PxConvexMeshDesc()
                 desc.flags = convexFlags
-                desc.points.count = count
+                desc.points.count = position.count
                 desc.points.stride = 12
                 desc.points.data = vec3Vector.data()
 
