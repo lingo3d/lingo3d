@@ -235,8 +235,7 @@ export default abstract class Loaded<T = Object3D>
 
     private managerSet?: boolean
     protected override addToRaycastSet(set: Set<Object3D>) {
-        const { get: getPhysics } = (this.physicsState ??=
-            new Reactive<PhysicsOptions>(false))
+        const { get: getPhysics } = this.physicsState
 
         const handle = this.createEffect(() => {
             const physics = getPhysics()

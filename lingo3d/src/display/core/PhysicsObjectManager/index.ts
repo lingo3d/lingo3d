@@ -43,16 +43,18 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected bvhMap?: boolean
     protected bvhCharacter?: boolean
 
-    protected physicsState?: Reactive<PhysicsOptions>
+    private _physicsState?: Reactive<PhysicsOptions>
+    protected get physicsState() {
+        return (this._physicsState ??= new Reactive<PhysicsOptions>(false))
+    }
     protected physicsMeshGroup?: Object3D
     private physicsInitialized?: boolean
     protected refreshPhysics(val: PhysicsOptions) {
-        if (this.physicsInitialized) {
-            this.physicsState!.set(val)
-            return
-        }
+        const { physicsState } = this
+        physicsState.set(val)
+
+        if (this.physicsInitialized) return
         this.physicsInitialized = true
-        const { get: getPhysics } = (this.physicsState ??= new Reactive(val))
 
         import("./physx")
         this.outerObject3d.parent !== scene && scene.attach(this.outerObject3d)
@@ -73,7 +75,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             } = getPhysX()
             if (!PhysX) return
 
-            const mode = getPhysics()
+            const mode = physicsState.get()
             const { x, y, z } = this.outerObject3d.position
 
             tmpVec.set_x(x)
@@ -103,6 +105,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     BufferAttribute | InterleavedBufferAttribute
                 > = []
                 let vertexCount = 0
+                console.log(this.physicsMeshGroup)
                 ;(this.physicsMeshGroup ?? this.nativeObject3d)?.traverse(
                     (c: Object3D | Mesh) => {
                         if (!("geometry" in c)) return
@@ -173,7 +176,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 shape.release()
                 objectActorMap.delete(this.outerObject3d)
             }
-        }, [getPhysics, getPhysX])
+        }, [physicsState.get, getPhysX])
     }
 
     public get physics() {
