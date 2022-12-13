@@ -5,6 +5,7 @@ import Loaded from "../../display/core/Loaded"
 import { Object3D } from "three"
 import Reresolvable from "../../display/core/utils/Reresolvable"
 import nonSerializedProperties from "./nonSerializedProperties"
+import getPrivateValue from "../../utils/getPrivateValue"
 
 const nodeToObjectManager = (
     node: SceneGraphNode,
@@ -15,7 +16,7 @@ const nodeToObjectManager = (
     const object = createObject(node.type)
     loadedResolvables &&
         object instanceof Loaded &&
-        loadedResolvables.push(object.loaded)
+        loadedResolvables.push(getPrivateValue(object, "loaded"))
     Object.assign(object, omit(node, nonSerializedProperties))
     node.children
         ?.map((n) => nodeToObjectManager(n, loadedResolvables))

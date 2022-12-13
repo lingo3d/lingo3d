@@ -1,7 +1,6 @@
 import store from "@lincode/reactivity"
 
 type PhysX = {
-    PhysX: any
     physics: any
     material: any
     shapeFlags: any
@@ -12,10 +11,15 @@ type PhysX = {
     cooking: any
     convexFlags: any
     insertionCallback: any
+    Vector_PxVec3: any
+    PxConvexMeshDesc: any
+    PxConvexMeshGeometry: any
+    PxRigidActorExt: any
+    PxCapsuleGeometry: any
+    PxBoxGeometry: any
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
-    PhysX: undefined,
     physics: undefined,
     material: undefined,
     shapeFlags: undefined,
@@ -25,5 +29,11 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     scene: undefined,
     cooking: undefined,
     convexFlags: undefined,
-    insertionCallback: undefined
+    insertionCallback: undefined,
+    Vector_PxVec3: undefined,
+    PxConvexMeshDesc: undefined,
+    PxConvexMeshGeometry: undefined,
+    PxRigidActorExt: undefined,
+    PxCapsuleGeometry: undefined,
+    PxBoxGeometry: undefined
 })

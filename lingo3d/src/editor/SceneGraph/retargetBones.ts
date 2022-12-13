@@ -2,6 +2,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { Bone as ThreeBone } from "three"
 import { getRetargetBones } from "../../states/useRetargetBones"
+import getPrivateValue from "../../utils/getPrivateValue"
 
 createEffect(() => {
     const dummy = getRetargetBones()
@@ -10,7 +11,7 @@ createEffect(() => {
     const handle = new Cancellable()
 
     handle.watch(
-        dummy.loaded.then((loadedGroup) => {
+        getPrivateValue(dummy, "loaded").then((loadedGroup) => {
             const bone = loadedGroup.getObjectByProperty(
                 "type",
                 "Bone"

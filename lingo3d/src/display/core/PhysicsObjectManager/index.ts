@@ -38,28 +38,32 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected bvhCharacter?: boolean
 
     protected getPxShape(mode: PhysicsOptions, actor: any) {
-        const { PhysX, material, shapeFlags, physics } = getPhysX()
+        const {
+            material,
+            shapeFlags,
+            physics,
+            PxCapsuleGeometry,
+            PxRigidActorExt,
+            PxBoxGeometry
+        } = getPhysX()
 
         let shape: any
         if (mode === "character") {
             const halfScale = getActualScale(this).multiplyScalar(0.5)
-            const pxGeometry = new PhysX.PxCapsuleGeometry(
-                halfScale.x,
-                halfScale.y
-            )
-            shape = PhysX.PxRigidActorExt.prototype.createExclusiveShape(
+            const pxGeometry = new PxCapsuleGeometry(halfScale.x, halfScale.y)
+            shape = PxRigidActorExt.prototype.createExclusiveShape(
                 actor,
                 pxGeometry,
                 material
             )
         } else {
             const halfScale = getActualScale(this).multiplyScalar(0.5)
-            const pxGeometry = new PhysX.PxBoxGeometry(
+            const pxGeometry = new PxBoxGeometry(
                 halfScale.x,
                 halfScale.y,
                 halfScale.z
             )
-            // PhysX.destroy(geometry)
+            // destroy(geometry)
             shape = physics.createShape(pxGeometry, material, true, shapeFlags)
             actor.attachShape(shape)
         }
@@ -82,9 +86,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.parent !== scene && scene.attach(this.outerObject3d)
 
         this.createEffect(() => {
-            const { PhysX, physics, tmpVec, tmpPose, tmpFilterData, scene } =
+            const { physics, tmpVec, tmpPose, tmpFilterData, scene } =
                 getPhysX()
-            if (!PhysX) return
+            if (!physics) return
 
             const mode = physicsState.get()
             const { x, y, z } = this.outerObject3d.position

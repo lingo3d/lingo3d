@@ -6,8 +6,8 @@ import { dtPtr } from "../../../../engine/eventLoop"
 import objectActorMap from "./objectActorMap"
 
 createEffect(() => {
-    const { PhysX, scene } = getPhysX()
-    if (!PhysX) return
+    const { scene } = getPhysX()
+    if (!scene) return
 
     // simulate scene for a bit
     const handle = onBeforeRender(() => {

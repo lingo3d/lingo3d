@@ -3,6 +3,7 @@ import Model from "../../display/Model"
 import { Object3D } from "three"
 import TreeItem, { TreeItemProps } from "./TreeItem"
 import NativeTreeItem from "./NativeTreeItem"
+import getPrivateValue from "../../utils/getPrivateValue"
 
 type ModelTreeItemProps = TreeItemProps & {
     appendable: Model
@@ -10,7 +11,7 @@ type ModelTreeItemProps = TreeItemProps & {
 
 const ModelTreeItem = ({ appendable }: ModelTreeItemProps) => {
     const [loadedObject3d, setLoadedObject3d] = useState<Object3D>()
-    const { loaded } = appendable
+    const loaded = getPrivateValue(appendable, "loaded")
 
     useEffect(() => {
         setLoadedObject3d(undefined)
