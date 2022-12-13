@@ -19,7 +19,7 @@ import scene from "../../../engine/scene"
 import { getPhysX } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
 import { Reactive } from "@lincode/reactivity"
-import physxMap from "./physx/physxMap"
+import objectActorMap from "./physx/objectActorMap"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -164,13 +164,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             shape.setSimulationFilterData(tmpFilterData)
             scene.addActor(actor)
 
-            physxMap.set(this.outerObject3d, actor)
+            objectActorMap.set(this.outerObject3d, actor)
 
             return () => {
                 scene.removeActor(actor)
                 actor.release()
                 shape.release()
-                physxMap.delete(this.outerObject3d)
+                objectActorMap.delete(this.outerObject3d)
             }
         }, [getPhysics, getPhysX])
     }

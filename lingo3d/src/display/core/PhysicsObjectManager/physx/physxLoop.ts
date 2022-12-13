@@ -3,7 +3,7 @@ import { onBeforeRender } from "../../../../events/onBeforeRender"
 import { getPhysX } from "../../../../states/usePhysX"
 import "../../../../engine/eventLoop"
 import { dtPtr } from "../../../../engine/eventLoop"
-import physxMap from "./physxMap"
+import objectActorMap from "./objectActorMap"
 
 createEffect(() => {
     const { PhysX, scene } = getPhysX()
@@ -15,7 +15,7 @@ createEffect(() => {
         // scene.simulate(dtPtr[0])
         scene.fetchResults(true)
 
-        for (const [target, body] of physxMap) {
+        for (const [target, body] of objectActorMap) {
             const { p, q } = body.getGlobalPose()
             target.position.copy(p)
             target.quaternion.copy(q)
