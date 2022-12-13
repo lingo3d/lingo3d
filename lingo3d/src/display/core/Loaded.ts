@@ -21,10 +21,15 @@ import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUti
 import { getPhysX } from "../../states/usePhysX"
 
 const pxGeometryCache = new Map<string | undefined, any>()
-const mergedGeometryCache = new Map<string | undefined, BufferGeometry>()
+const mergedPxVerticesCache = new Map<
+    string | undefined,
+    readonly [any, number]
+>()
 
-const getMergedGeometry = (src: string | undefined, loaded: Object3D) => {
-    if (mergedGeometryCache.has(src)) return mergedGeometryCache.get(src)!
+const getMergedPxVertices = (src: string | undefined, loaded: Object3D) => {
+    if (mergedPxVerticesCache.has(src)) return mergedPxVerticesCache.get(src)!
+
+    const { Vector_PxVec3 } = getPhysX()
 
     const geometries: Array<BufferGeometry> = []
     loaded.traverse(
@@ -36,23 +41,6 @@ const getMergedGeometry = (src: string | undefined, loaded: Object3D) => {
     geometry.scale(x, y, z)
     geometry.dispose()
 
-    mergedGeometryCache.set(src, geometry)
-    return geometry
-}
-
-const getConvexGeometry = (src: string | undefined, loaded: Object3D) => {
-    if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
-
-    const {
-        convexFlags,
-        cooking,
-        insertionCallback,
-        Vector_PxVec3,
-        PxConvexMeshDesc,
-        PxConvexMeshGeometry
-    } = getPhysX()
-
-    const geometry = getMergedGeometry(src, loaded)
     const buffer = geometry.attributes.position
     const vertices = buffer.array
 
@@ -66,9 +54,27 @@ const getConvexGeometry = (src: string | undefined, loaded: Object3D) => {
     }
     // vec3Vector.destroy()
 
+    const result = <const>[vec3Vector, buffer.count]
+    mergedPxVerticesCache.set(src, result)
+    return result
+}
+
+const getConvexGeometry = (src: string | undefined, loaded: Object3D) => {
+    if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
+
+    const {
+        convexFlags,
+        cooking,
+        insertionCallback,
+        PxConvexMeshDesc,
+        PxConvexMeshGeometry
+    } = getPhysX()
+
+    const [vec3Vector, count] = getMergedPxVertices(src, loaded)
+
     const desc = new PxConvexMeshDesc()
     desc.flags = convexFlags
-    desc.points.count = buffer.count
+    desc.points.count = count
     desc.points.stride = 12
     desc.points.data = vec3Vector.data()
 
