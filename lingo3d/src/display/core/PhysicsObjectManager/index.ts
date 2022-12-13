@@ -75,7 +75,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
             const mode = getPhysics()
             const { x, y, z } = this.outerObject3d.position
-            const halfScale = getActualScale(this).multiplyScalar(0.5)
 
             tmpVec.set_x(x)
             tmpVec.set_y(y)
@@ -89,6 +88,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
             let shape: any
             if (mode === "character") {
+                const halfScale = getActualScale(this).multiplyScalar(0.5)
                 const geometry = new PhysX.PxCapsuleGeometry(
                     halfScale.x,
                     halfScale.y
@@ -146,6 +146,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     shapeFlags
                 )
             } else {
+                const halfScale = getActualScale(this).multiplyScalar(0.5)
                 const geometry = new PhysX.PxBoxGeometry(
                     halfScale.x,
                     halfScale.y,
