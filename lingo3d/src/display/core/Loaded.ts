@@ -88,9 +88,12 @@ const getConvexGeometry = (src: string | undefined, loaded: Object3D) => {
 const getTrimeshGeometry = (src: string | undefined, loaded: Object3D) => {
     if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
 
-    const { PxBoundedData } = getPhysX()
+    const { PxBoundedData, Vector_PxU32 } = getPhysX()
 
     const [vec3Vector, count] = getMergedPxVertices(src, loaded)
+
+    const indexVector = new Vector_PxU32()
+
     const points = new PxBoundedData()
     points.count = count
     points.stride = 12
