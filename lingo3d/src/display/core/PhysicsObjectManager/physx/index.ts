@@ -27,7 +27,9 @@ PhysX().then(
         PxConvexMeshDesc,
         PxConvexMeshGeometry,
         PxRigidActorExt,
-        Vector_PxVec3
+        Vector_PxVec3,
+        PxBoundedData,
+        Vector_PxU32
     }: any) => {
         const Px = PxTopLevelFunctions.prototype
 
@@ -101,13 +103,14 @@ PhysX().then(
             cooking,
             convexFlags,
             insertionCallback,
-
             PxBoxGeometry,
             PxCapsuleGeometry,
             PxConvexMeshDesc,
             PxConvexMeshGeometry,
             PxRigidActorExt,
-            Vector_PxVec3
+            Vector_PxVec3,
+            PxBoundedData,
+            Vector_PxU32
         })
 
         // scene.release()

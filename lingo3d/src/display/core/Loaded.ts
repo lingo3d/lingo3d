@@ -85,6 +85,21 @@ const getConvexGeometry = (src: string | undefined, loaded: Object3D) => {
     return pxGeometry
 }
 
+const getTrimeshGeometry = (src: string | undefined, loaded: Object3D) => {
+    if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
+
+    const { PxBoundedData } = getPhysX()
+
+    const [vec3Vector, count] = getMergedPxVertices(src, loaded)
+    const points = new PxBoundedData()
+    points.count = count
+    points.stride = 12
+    points.data = vec3Vector.data()
+
+    // pxGeometryCache.set(src, pxGeometry)
+    // return pxGeometry
+}
+
 export default abstract class Loaded<T = Object3D>
     extends VisibleObjectManager<Mesh>
     implements ILoaded
