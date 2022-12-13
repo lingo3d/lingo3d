@@ -45,12 +45,14 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
     protected physicsState?: Reactive<PhysicsOptions>
     protected physicsMeshGroup?: Object3D
+    private physicsInitialized?: boolean
     protected refreshPhysics(val: PhysicsOptions) {
-        if (this.physicsState) {
-            this.physicsState.set(val)
+        if (this.physicsInitialized) {
+            this.physicsState!.set(val)
             return
         }
-        const { get: getPhysics } = (this.physicsState = new Reactive(val))
+        this.physicsInitialized = true
+        const { get: getPhysics } = (this.physicsState ??= new Reactive(val))
 
         import("./physx")
         this.outerObject3d.parent !== scene && scene.attach(this.outerObject3d)

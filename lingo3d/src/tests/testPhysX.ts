@@ -1,6 +1,7 @@
 import settings from "../api/settings"
+import Dummy from "../display/Dummy"
+import Model from "../display/Model"
 import Cube from "../display/primitives/Cube"
-import Octahedron from "../display/primitives/Octahedron"
 
 const ground = new Cube()
 ground.width = 9999
@@ -12,10 +13,8 @@ ground.roughness = 0
 settings.ssr = true
 
 // setInterval(() => {
-const box = new Octahedron()
+const box = new Model()
+box.src = "parrot.glb"
 box.y = 200
-box.color = "red"
 box.physics = "convex"
-box.roughness = 0
-box.metalness = 0.5
 // }, 100)
