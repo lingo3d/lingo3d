@@ -20,6 +20,48 @@ import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
 import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils"
 import { getPhysX } from "../../states/usePhysX"
 
+const pxCache = new Map<string | undefined, any>()
+const getPxGeometry = (src: string | undefined, loaded: Object3D) => {
+    if (pxCache.has(src)) return pxCache.get(src)
+
+    const { PhysX, convexFlags, cooking, insertionCallback } = getPhysX()
+
+    const geometries: Array<BufferGeometry> = []
+    loaded.traverse(
+        (c: Object3D | Mesh) => "geometry" in c && geometries.push(c.geometry)
+    )
+    const geometry = BufferGeometryUtils.mergeBufferGeometries(geometries)
+
+    const { x, y, z } = loaded.scale
+    geometry.scale(x, y, z)
+    geometry.dispose()
+
+    const buffer = geometry.attributes.position
+    const vertices = buffer.array
+
+    const vec3Vector = new PhysX.Vector_PxVec3(buffer.count)
+    for (let i = 0; i < buffer.count; i++) {
+        const pxVec3 = vec3Vector.at(i)
+        const offset = i * 3
+        pxVec3.set_x(vertices[offset])
+        pxVec3.set_y(vertices[offset + 1])
+        pxVec3.set_z(vertices[offset + 2])
+    }
+    // vec3Vector.destroy()
+
+    const desc = new PhysX.PxConvexMeshDesc()
+    desc.flags = convexFlags
+    desc.points.count = buffer.count
+    desc.points.stride = 12
+    desc.points.data = vec3Vector.data()
+
+    const convexMesh = cooking.createConvexMesh(desc, insertionCallback)
+    const pxGeometry = new PhysX.PxConvexMeshGeometry(convexMesh)
+
+    pxCache.set(src, pxGeometry)
+    return pxGeometry
+}
+
 export default abstract class Loaded<T = Object3D>
     extends VisibleObjectManager<Mesh>
     implements ILoaded
@@ -278,51 +320,12 @@ export default abstract class Loaded<T = Object3D>
 
     protected override getPxShape(mode: PhysicsOptions, actor: any) {
         if (mode === "convex") {
-            const {
-                PhysX,
-                material,
-                convexFlags,
-                cooking,
-                insertionCallback,
-                shapeFlags
-            } = getPhysX()
+            const { PhysX, material, shapeFlags } = getPhysX()
 
-            const geometries: Array<BufferGeometry> = []
-            const loaded = this.loadedGroup.children[0]
-            loaded.traverse(
-                (c: Object3D | Mesh) =>
-                    "geometry" in c && geometries.push(c.geometry)
+            const pxGeometry = getPxGeometry(
+                this._src,
+                this.loadedGroup.children[0]
             )
-            const geometry =
-                BufferGeometryUtils.mergeBufferGeometries(geometries)
-
-            const { x, y, z } = loaded.scale
-            geometry.scale(x, y, z)
-            geometry.dispose()
-
-            const buffer = geometry.attributes.position
-            const vertices = buffer.array
-
-            const vec3Vector = new PhysX.Vector_PxVec3(buffer.count)
-            for (let i = 0; i < buffer.count; i++) {
-                const pxVec3 = vec3Vector.at(i)
-                const offset = i * 3
-                pxVec3.set_x(vertices[offset])
-                pxVec3.set_y(vertices[offset + 1])
-                pxVec3.set_z(vertices[offset + 2])
-            }
-
-            const desc = new PhysX.PxConvexMeshDesc()
-            desc.flags = convexFlags
-            desc.points.count = buffer.count
-            desc.points.stride = 12
-            desc.points.data = vec3Vector.data()
-
-            const convexMesh = cooking.createConvexMesh(desc, insertionCallback)
-
-            // vec3Vector.destroy()
-
-            const pxGeometry = new PhysX.PxConvexMeshGeometry(convexMesh)
             return PhysX.PxRigidActorExt.prototype.createExclusiveShape(
                 actor,
                 pxGeometry,
