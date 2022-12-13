@@ -1,4 +1,10 @@
-import { Mesh, Object3D, Vector3 } from "three"
+import {
+    BufferAttribute,
+    InterleavedBufferAttribute,
+    Mesh,
+    Object3D,
+    Vector3
+} from "three"
 import { Point3d } from "@lincode/math"
 import SimpleObjectManager from "../SimpleObjectManager"
 import IPhysicsObjectManager, {
@@ -38,6 +44,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected bvhCharacter?: boolean
 
     protected physicsState?: Reactive<PhysicsOptions>
+    protected physicsMeshGroup?: Object3D
     protected refreshPhysics(val: PhysicsOptions) {
         if (this.physicsState) {
             this.physicsState.set(val)
@@ -49,7 +56,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.parent !== scene && scene.attach(this.outerObject3d)
 
         this.createEffect(() => {
-            const mode = getPhysics()
             const {
                 PhysX,
                 physics,
@@ -65,6 +71,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             } = getPhysX()
             if (!PhysX) return
 
+            const mode = getPhysics()
             const { x, y, z } = this.outerObject3d.position
             const halfScale = getActualScale(this).multiplyScalar(0.5)
 
@@ -79,7 +86,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     : physics.createRigidDynamic(tmpPose)
 
             let shape: any
-
             if (mode === "character") {
                 const geometry = new PhysX.PxCapsuleGeometry(
                     halfScale.x,
@@ -90,25 +96,36 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     geometry,
                     material
                 )
-            } else if (
-                mode === "convex" &&
-                this.nativeObject3d instanceof Mesh
-            ) {
-                const { position } = this.nativeObject3d.geometry.attributes
-                const vertices = position.array
-                const vec3Vector = new PhysX.Vector_PxVec3(position.count)
-
-                for (let i = 0; i < position.count; i++) {
-                    const pxVec3 = vec3Vector.at(i)
-                    const offset = i * 3
-                    pxVec3.set_x(vertices[offset])
-                    pxVec3.set_y(vertices[offset + 1])
-                    pxVec3.set_z(vertices[offset + 2])
+            } else if (mode === "convex") {
+                const buffers: Array<
+                    BufferAttribute | InterleavedBufferAttribute
+                > = []
+                let vertexCount = 0
+                ;(this.physicsMeshGroup ?? this.nativeObject3d)?.traverse(
+                    (c: Object3D | Mesh) => {
+                        if (!("geometry" in c)) return
+                        const buffer = c.geometry.attributes.position
+                        buffers.push(buffer)
+                        vertexCount += buffer.count
+                    }
+                )
+                const vec3Vector = new PhysX.Vector_PxVec3(vertexCount)
+                let vectorOffset = 0
+                for (const buffer of buffers) {
+                    const vertices = buffer.array
+                    for (let i = 0; i < buffer.count; i++) {
+                        const pxVec3 = vec3Vector.at(i + vectorOffset)
+                        const offset = i * 3
+                        pxVec3.set_x(vertices[offset])
+                        pxVec3.set_y(vertices[offset + 1])
+                        pxVec3.set_z(vertices[offset + 2])
+                    }
+                    vectorOffset += buffer.count
                 }
 
                 const desc = new PhysX.PxConvexMeshDesc()
                 desc.flags = convexFlags
-                desc.points.count = position.count
+                desc.points.count = vertexCount
                 desc.points.stride = 12
                 desc.points.data = vec3Vector.data()
 
