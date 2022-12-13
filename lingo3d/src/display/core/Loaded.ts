@@ -30,7 +30,7 @@ export default abstract class Loaded<T = Object3D>
         this.outerObject3d.add(this.loadedGroup)
     }
 
-    public loaded = new Reresolvable<Object3D>()
+    protected loaded = new Reresolvable<Object3D>()
 
     protected abstract load(src: string): Promise<T>
 
@@ -272,7 +272,10 @@ export default abstract class Loaded<T = Object3D>
 
     protected override refreshPhysics(val: PhysicsOptions) {
         this.cancelHandle("refreshPhysics", () =>
-            this.loaded.then(() => void super.refreshPhysics(val))
+            this.loaded.then((loaded) => {
+                this.physicsMeshGroup = loaded
+                super.refreshPhysics(val)
+            })
         )
     }
 }
