@@ -1,5 +1,4 @@
 import settings from "../api/settings"
-import Dummy from "../display/Dummy"
 import Model from "../display/Model"
 import Cube from "../display/primitives/Cube"
 
@@ -13,9 +12,14 @@ ground.roughness = 0
 settings.ssr = true
 
 // setInterval(() => {
-const box = new Model()
+let box = new Model()
 box.src = "parrot.glb"
-box.y = 10000
-box.scale = 20
+box.y = 200
+box.physics = "convex"
+
+box = new Model()
+box.src = "parrot.glb"
+box.y = 200
+box.x = 100
 box.physics = "convex"
 // }, 100)

@@ -14,7 +14,7 @@ import { getPhysX } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
 import { Reactive } from "@lincode/reactivity"
 import objectActorMap from "./physx/objectActorMap"
-import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils"
+
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
     implements IPhysicsObjectManager
@@ -37,11 +37,39 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected bvhMap?: boolean
     protected bvhCharacter?: boolean
 
+    protected getPxShape(mode: PhysicsOptions, actor: any) {
+        const { PhysX, material, shapeFlags, physics } = getPhysX()
+
+        let shape: any
+        if (mode === "character") {
+            const halfScale = getActualScale(this).multiplyScalar(0.5)
+            const pxGeometry = new PhysX.PxCapsuleGeometry(
+                halfScale.x,
+                halfScale.y
+            )
+            shape = PhysX.PxRigidActorExt.prototype.createExclusiveShape(
+                actor,
+                pxGeometry,
+                material
+            )
+        } else {
+            const halfScale = getActualScale(this).multiplyScalar(0.5)
+            const pxGeometry = new PhysX.PxBoxGeometry(
+                halfScale.x,
+                halfScale.y,
+                halfScale.z
+            )
+            // PhysX.destroy(geometry)
+            shape = physics.createShape(pxGeometry, material, true, shapeFlags)
+            actor.attachShape(shape)
+        }
+        return shape
+    }
+
     private _physicsState?: Reactive<PhysicsOptions>
     protected get physicsState() {
         return (this._physicsState ??= new Reactive<PhysicsOptions>(false))
     }
-    protected physicsMeshGroup?: Object3D
     private physicsInitialized?: boolean
     protected refreshPhysics(val: PhysicsOptions) {
         const { physicsState } = this
@@ -54,19 +82,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.parent !== scene && scene.attach(this.outerObject3d)
 
         this.createEffect(() => {
-            const {
-                PhysX,
-                physics,
-                material,
-                shapeFlags,
-                tmpVec,
-                tmpPose,
-                tmpFilterData,
-                scene,
-                cooking,
-                convexFlags,
-                insertionCallback
-            } = getPhysX()
+            const { PhysX, physics, tmpVec, tmpPose, tmpFilterData, scene } =
+                getPhysX()
             if (!PhysX) return
 
             const mode = physicsState.get()
@@ -82,80 +99,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     ? physics.createRigidStatic(tmpPose)
                     : physics.createRigidDynamic(tmpPose)
 
-            let shape: any
-            if (mode === "character") {
-                const halfScale = getActualScale(this).multiplyScalar(0.5)
-                const pxGeometry = new PhysX.PxCapsuleGeometry(
-                    halfScale.x,
-                    halfScale.y
-                )
-                shape = PhysX.PxRigidActorExt.prototype.createExclusiveShape(
-                    actor,
-                    pxGeometry,
-                    material
-                )
-            } else if (mode === "convex" && this.physicsMeshGroup) {
-                const geometries: Array<BufferGeometry> = []
-                this.physicsMeshGroup.traverse(
-                    (c: Object3D | Mesh) =>
-                        "geometry" in c && geometries.push(c.geometry)
-                )
-                const geometry =
-                    BufferGeometryUtils.mergeBufferGeometries(geometries)
-
-                const { x, y, z } = this.physicsMeshGroup.scale
-                geometry.scale(x, y, z)
-                geometry.dispose()
-
-                const buffer = geometry.attributes.position
-                const vertices = buffer.array
-
-                const vec3Vector = new PhysX.Vector_PxVec3(buffer.count)
-                for (let i = 0; i < buffer.count; i++) {
-                    const pxVec3 = vec3Vector.at(i)
-                    const offset = i * 3
-                    pxVec3.set_x(vertices[offset])
-                    pxVec3.set_y(vertices[offset + 1])
-                    pxVec3.set_z(vertices[offset + 2])
-                }
-
-                const desc = new PhysX.PxConvexMeshDesc()
-                desc.flags = convexFlags
-                desc.points.count = buffer.count
-                desc.points.stride = 12
-                desc.points.data = vec3Vector.data()
-
-                const convexMesh = cooking.createConvexMesh(
-                    desc,
-                    insertionCallback
-                )
-
-                // vec3Vector.destroy()
-
-                const pxGeometry = new PhysX.PxConvexMeshGeometry(convexMesh)
-                shape = PhysX.PxRigidActorExt.prototype.createExclusiveShape(
-                    actor,
-                    pxGeometry,
-                    material,
-                    shapeFlags
-                )
-            } else {
-                const halfScale = getActualScale(this).multiplyScalar(0.5)
-                const pxGeometry = new PhysX.PxBoxGeometry(
-                    halfScale.x,
-                    halfScale.y,
-                    halfScale.z
-                )
-                // PhysX.destroy(geometry)
-                shape = physics.createShape(
-                    pxGeometry,
-                    material,
-                    true,
-                    shapeFlags
-                )
-                actor.attachShape(shape)
-            }
-
+            const shape = this.getPxShape(mode, actor)
             shape.setSimulationFilterData(tmpFilterData)
             scene.addActor(actor)
 
