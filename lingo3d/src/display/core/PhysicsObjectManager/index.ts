@@ -1,10 +1,4 @@
-import {
-    BufferAttribute,
-    InterleavedBufferAttribute,
-    Mesh,
-    Object3D,
-    Vector3
-} from "three"
+import { BufferAttribute, BufferGeometry, Mesh, Object3D, Vector3 } from "three"
 import { Point3d } from "@lincode/math"
 import SimpleObjectManager from "../SimpleObjectManager"
 import IPhysicsObjectManager, {
@@ -20,7 +14,7 @@ import { getPhysX } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
 import { Reactive } from "@lincode/reactivity"
 import objectActorMap from "./physx/objectActorMap"
-
+import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils"
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
     implements IPhysicsObjectManager
@@ -91,46 +85,43 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             let shape: any
             if (mode === "character") {
                 const halfScale = getActualScale(this).multiplyScalar(0.5)
-                const geometry = new PhysX.PxCapsuleGeometry(
+                const pxGeometry = new PhysX.PxCapsuleGeometry(
                     halfScale.x,
                     halfScale.y
                 )
                 shape = PhysX.PxRigidActorExt.prototype.createExclusiveShape(
                     actor,
-                    geometry,
+                    pxGeometry,
                     material
                 )
-            } else if (mode === "convex") {
-                const buffers: Array<
-                    BufferAttribute | InterleavedBufferAttribute
-                > = []
-                let vertexCount = 0
-                console.log(this.physicsMeshGroup)
-                ;(this.physicsMeshGroup ?? this.nativeObject3d)?.traverse(
-                    (c: Object3D | Mesh) => {
-                        if (!("geometry" in c)) return
-                        const buffer = c.geometry.attributes.position
-                        buffers.push(buffer)
-                        vertexCount += buffer.count
-                    }
+            } else if (mode === "convex" && this.physicsMeshGroup) {
+                const geometries: Array<BufferGeometry> = []
+                this.physicsMeshGroup.traverse(
+                    (c: Object3D | Mesh) =>
+                        "geometry" in c && geometries.push(c.geometry)
                 )
-                const vec3Vector = new PhysX.Vector_PxVec3(vertexCount)
-                let vectorOffset = 0
-                for (const buffer of buffers) {
-                    const vertices = buffer.array
-                    for (let i = 0; i < buffer.count; i++) {
-                        const pxVec3 = vec3Vector.at(i + vectorOffset)
-                        const offset = i * 3
-                        pxVec3.set_x(vertices[offset])
-                        pxVec3.set_y(vertices[offset + 1])
-                        pxVec3.set_z(vertices[offset + 2])
-                    }
-                    vectorOffset += buffer.count
+                const geometry =
+                    BufferGeometryUtils.mergeBufferGeometries(geometries)
+
+                const { x, y, z } = this.physicsMeshGroup.scale
+                geometry.scale(x, y, z)
+                geometry.dispose()
+
+                const buffer = geometry.attributes.position
+                const vertices = buffer.array
+
+                const vec3Vector = new PhysX.Vector_PxVec3(buffer.count)
+                for (let i = 0; i < buffer.count; i++) {
+                    const pxVec3 = vec3Vector.at(i)
+                    const offset = i * 3
+                    pxVec3.set_x(vertices[offset])
+                    pxVec3.set_y(vertices[offset + 1])
+                    pxVec3.set_z(vertices[offset + 2])
                 }
 
                 const desc = new PhysX.PxConvexMeshDesc()
                 desc.flags = convexFlags
-                desc.points.count = vertexCount
+                desc.points.count = buffer.count
                 desc.points.stride = 12
                 desc.points.data = vec3Vector.data()
 
@@ -141,23 +132,23 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
                 // vec3Vector.destroy()
 
-                const geometry = new PhysX.PxConvexMeshGeometry(convexMesh)
+                const pxGeometry = new PhysX.PxConvexMeshGeometry(convexMesh)
                 shape = PhysX.PxRigidActorExt.prototype.createExclusiveShape(
                     actor,
-                    geometry,
+                    pxGeometry,
                     material,
                     shapeFlags
                 )
             } else {
                 const halfScale = getActualScale(this).multiplyScalar(0.5)
-                const geometry = new PhysX.PxBoxGeometry(
+                const pxGeometry = new PhysX.PxBoxGeometry(
                     halfScale.x,
                     halfScale.y,
                     halfScale.z
                 )
                 // PhysX.destroy(geometry)
                 shape = physics.createShape(
-                    geometry,
+                    pxGeometry,
                     material,
                     true,
                     shapeFlags

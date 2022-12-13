@@ -15,6 +15,7 @@ settings.ssr = true
 // setInterval(() => {
 const box = new Model()
 box.src = "parrot.glb"
-box.y = 200
+box.y = 10000
+box.scale = 20
 box.physics = "convex"
 // }, 100)
