@@ -90,27 +90,34 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
         this.createEffect(() => {
             const mode = physicsState.get()
-            const { physics, tmpVec, tmpPose, tmpFilterData, pxScene } =
+            const { physics, pxVec, pxPose, pxFilterData, pxScene, pxQuat } =
                 getPhysX()
             if (!physics || !mode) return
 
             this.outerObject3d.parent !== scene &&
                 scene.attach(this.outerObject3d)
 
-            const { x, y, z } = this.outerObject3d.position
+            const { position, quaternion } = this.outerObject3d
 
-            tmpVec.set_x(x)
-            tmpVec.set_y(y)
-            tmpVec.set_z(z)
-            tmpPose.set_p(tmpVec)
+            pxQuat.set_x(quaternion.x)
+            pxQuat.set_y(quaternion.y)
+            pxQuat.set_z(quaternion.z)
+            pxQuat.set_w(quaternion.w)
+
+            pxVec.set_x(position.x)
+            pxVec.set_y(position.y)
+            pxVec.set_z(position.z)
+
+            pxPose.set_p(pxVec)
+            pxPose.set_q(pxQuat)
 
             const actor =
                 mode === "map"
-                    ? physics.createRigidStatic(tmpPose)
-                    : physics.createRigidDynamic(tmpPose)
+                    ? physics.createRigidStatic(pxPose)
+                    : physics.createRigidDynamic(pxPose)
 
             const shape = this.getPxShape(mode, actor)
-            shape.setSimulationFilterData(tmpFilterData)
+            shape.setSimulationFilterData(pxFilterData)
             pxScene.addActor(actor)
 
             objectActorMap.set(this.outerObject3d, actor)

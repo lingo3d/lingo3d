@@ -31,7 +31,8 @@ PhysX().then(
         PxBoundedData,
         Vector_PxU32,
         PxTriangleMeshDesc,
-        PxTriangleMeshGeometry
+        PxTriangleMeshGeometry,
+        PxQuat
     }: any) => {
         const Px = PxTopLevelFunctions.prototype
 
@@ -64,9 +65,9 @@ PhysX().then(
         const insertionCallback = physics.getPhysicsInsertionCallback()
 
         // create scene
-        const tmpVec = new PxVec3(0, -9.81, 0)
+        const pxVec = new PxVec3(0, -9.81, 0)
         const sceneDesc = new PxSceneDesc(scale)
-        sceneDesc.set_gravity(tmpVec)
+        sceneDesc.set_gravity(pxVec)
         sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
         sceneDesc.set_filterShader(Px.DefaultFilterShader())
         const pxScene = physics.createScene(sceneDesc)
@@ -80,27 +81,19 @@ PhysX().then(
         )
 
         // create a few temporary objects used during setup
-        const tmpPose = new PxTransform(
+        const pxPose = new PxTransform(
             _emscripten_enum_PxIDENTITYEnum_PxIdentity()
         )
-        const tmpFilterData = new PxFilterData(1, 1, 0, 0)
-
-        // clean up temp objects
-        // destroy(tmpFilterData)
-        // destroy(tmpPose)
-        // destroy(tmpVec)
-        // destroy(shapeFlags)
-        // destroy(convexFlags)
-        // destroy(sceneDesc)
-        // destroy(tolerances)
+        const pxFilterData = new PxFilterData(1, 1, 0, 0)
+        const pxQuat = new PxQuat(0, 0, 0, 1)
 
         setPhysX({
             physics,
             material,
             shapeFlags,
-            tmpVec,
-            tmpPose,
-            tmpFilterData,
+            pxVec,
+            pxPose,
+            pxFilterData,
             pxScene,
             cooking,
             convexFlags,
@@ -114,7 +107,8 @@ PhysX().then(
             PxBoundedData,
             Vector_PxU32,
             PxTriangleMeshDesc,
-            PxTriangleMeshGeometry
+            PxTriangleMeshGeometry,
+            pxQuat
         })
 
         // scene.release()

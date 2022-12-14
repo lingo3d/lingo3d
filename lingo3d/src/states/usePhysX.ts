@@ -4,9 +4,9 @@ type PhysX = {
     physics: any
     material: any
     shapeFlags: any
-    tmpVec: any
-    tmpPose: any
-    tmpFilterData: any
+    pxVec: any
+    pxPose: any
+    pxFilterData: any
     pxScene: any
     cooking: any
     convexFlags: any
@@ -21,15 +21,16 @@ type PhysX = {
     Vector_PxU32: any
     PxTriangleMeshDesc: any
     PxTriangleMeshGeometry: any
+    pxQuat: any
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
     physics: undefined,
     material: undefined,
     shapeFlags: undefined,
-    tmpVec: undefined,
-    tmpPose: undefined,
-    tmpFilterData: undefined,
+    pxVec: undefined,
+    pxPose: undefined,
+    pxFilterData: undefined,
     pxScene: undefined,
     cooking: undefined,
     convexFlags: undefined,
@@ -43,5 +44,6 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxBoundedData: undefined,
     Vector_PxU32: undefined,
     PxTriangleMeshDesc: undefined,
-    PxTriangleMeshGeometry: undefined
+    PxTriangleMeshGeometry: undefined,
+    pxQuat: undefined
 })
