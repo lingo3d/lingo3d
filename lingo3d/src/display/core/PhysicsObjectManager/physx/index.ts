@@ -1,3 +1,4 @@
+import { deg2Rad } from "@lincode/math"
 //@ts-ignore
 import PhysX from "physx-js-webidl"
 import { setPhysX } from "../../../../states/usePhysX"
@@ -32,7 +33,20 @@ PhysX().then(
         Vector_PxU32,
         PxTriangleMeshDesc,
         PxTriangleMeshGeometry,
-        PxQuat
+        PxQuat,
+        PxCapsuleControllerDesc,
+        _emscripten_enum_PxCapsuleClimbingModeEnum_eEASY,
+        _emscripten_enum_PxCapsuleClimbingModeEnum_eCONSTRAINED,
+        _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_CAN_RIDE_ON_OBJECT,
+        _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_SLIDE,
+        _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_USER_DEFINED_RIDE,
+        _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_SIDES,
+        _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_UP,
+        _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_DOWN,
+        _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING,
+        _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING_AND_FORCE_SLIDING,
+        _emscripten_enum_PxControllerShapeTypeEnum_eBOX,
+        _emscripten_enum_PxControllerShapeTypeEnum_eCAPSULE
     }: any) => {
         const Px = PxTopLevelFunctions.prototype
 
@@ -70,7 +84,7 @@ PhysX().then(
         sceneDesc.set_gravity(pxVec)
         sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
         sceneDesc.set_filterShader(Px.DefaultFilterShader())
-        const pxScene = physics.createScene(sceneDesc)
+        const scene = physics.createScene(sceneDesc)
 
         // create a default material
         const material = physics.createMaterial(0.5, 0.5, 0.5)
@@ -87,6 +101,25 @@ PhysX().then(
         const pxFilterData = new PxFilterData(1, 1, 0, 0)
         const pxQuat = new PxQuat(0, 0, 0, 1)
 
+        // create PxController
+        const controllerManager = Px.CreateControllerManager(scene)
+        const desc = new PxCapsuleControllerDesc()
+        // const capsuleController = controllerManager.createController(
+        //     capsuleControllerDesc
+        // )
+
+        desc.height = 1.7
+        desc.radius = 0.5
+        desc.climbingMode = _emscripten_enum_PxCapsuleClimbingModeEnum_eEASY()
+        desc.nonWalkableMode =
+            _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING
+        desc.slopeLimit = Math.cos(50 * deg2Rad)
+        desc.material = material
+        desc.contactOffset = 0.1
+        // desc.reportCallback = hitCallback.callback
+        // desc.behaviorCallback = behaviorCallback.callback
+        const pxCharacter = controllerManager.createController(desc)
+
         setPhysX({
             physics,
             material,
@@ -94,7 +127,7 @@ PhysX().then(
             pxVec,
             pxPose,
             pxFilterData,
-            pxScene,
+            scene: scene,
             cooking,
             convexFlags,
             insertionCallback,

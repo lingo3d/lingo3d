@@ -7,7 +7,7 @@ type PhysX = {
     pxVec: any
     pxPose: any
     pxFilterData: any
-    pxScene: any
+    scene: any
     cooking: any
     convexFlags: any
     insertionCallback: any
@@ -31,7 +31,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     pxVec: undefined,
     pxPose: undefined,
     pxFilterData: undefined,
-    pxScene: undefined,
+    scene: undefined,
     cooking: undefined,
     convexFlags: undefined,
     insertionCallback: undefined,

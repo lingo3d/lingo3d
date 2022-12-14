@@ -6,13 +6,13 @@ import { dtPtr } from "../../../../engine/eventLoop"
 import objectActorMap from "./objectActorMap"
 
 createEffect(() => {
-    const { pxScene } = getPhysX()
-    if (!pxScene) return
+    const { scene } = getPhysX()
+    if (!scene) return
 
     const handle = onBeforeRender(() => {
-        pxScene.simulate(1 / 60)
-        // pxScene.simulate(dtPtr[0])
-        pxScene.fetchResults(true)
+        scene.simulate(1 / 60)
+        // scene.simulate(dtPtr[0])
+        scene.fetchResults(true)
 
         for (const [target, body] of objectActorMap) {
             const { p, q } = body.getGlobalPose()
