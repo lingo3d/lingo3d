@@ -19,7 +19,5 @@ box.physics = "convex"
 
 box = new Model()
 box.src = "parrot.glb"
-box.y = 200
-box.x = 100
-box.physics = "convex"
+box.physics = "map"
 // }, 100)

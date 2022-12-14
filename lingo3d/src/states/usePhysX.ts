@@ -19,6 +19,8 @@ type PhysX = {
     PxBoxGeometry: any
     PxBoundedData: any
     Vector_PxU32: any
+    PxTriangleMeshDesc: any
+    PxTriangleMeshGeometry: any
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -39,5 +41,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxCapsuleGeometry: undefined,
     PxBoxGeometry: undefined,
     PxBoundedData: undefined,
-    Vector_PxU32: undefined
+    Vector_PxU32: undefined,
+    PxTriangleMeshDesc: undefined,
+    PxTriangleMeshGeometry: undefined
 })

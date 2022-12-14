@@ -1,4 +1,4 @@
-import { BufferGeometry, Group, Mesh, Object3D } from "three"
+import { BufferAttribute, BufferGeometry, Group, Mesh, Object3D } from "three"
 import { boxGeometry } from "../primitives/Cube"
 import { wireframeMaterial } from "../utils/reusables"
 import ILoaded from "../../interface/ILoaded"
@@ -23,7 +23,7 @@ import { getPhysX } from "../../states/usePhysX"
 const pxGeometryCache = new Map<string | undefined, any>()
 const mergedPxVerticesCache = new Map<
     string | undefined,
-    readonly [any, number]
+    readonly [any, number, BufferAttribute]
 >()
 
 const getMergedPxVertices = (src: string | undefined, loaded: Object3D) => {
@@ -54,7 +54,7 @@ const getMergedPxVertices = (src: string | undefined, loaded: Object3D) => {
     }
     // vec3Vector.destroy()
 
-    const result = <const>[vec3Vector, buffer.count]
+    const result = <const>[vec3Vector, buffer.count, geometry.index!]
     mergedPxVerticesCache.set(src, result)
     return result
 }
@@ -88,19 +88,43 @@ const getConvexGeometry = (src: string | undefined, loaded: Object3D) => {
 const getTrimeshGeometry = (src: string | undefined, loaded: Object3D) => {
     if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
 
-    const { PxBoundedData, Vector_PxU32 } = getPhysX()
+    const {
+        PxBoundedData,
+        Vector_PxU32,
+        PxTriangleMeshDesc,
+        cooking,
+        insertionCallback,
+        PxTriangleMeshGeometry
+    } = getPhysX()
 
-    const [vec3Vector, count] = getMergedPxVertices(src, loaded)
-
+    const [pointVector, count, index] = getMergedPxVertices(src, loaded)
     const indexVector = new Vector_PxU32()
+
+    const { array } = index
+    for (let i = 0; i < index.count; i++) indexVector.push_back(array[i])
 
     const points = new PxBoundedData()
     points.count = count
     points.stride = 12
-    points.data = vec3Vector.data()
+    points.data = pointVector.data()
 
-    // pxGeometryCache.set(src, pxGeometry)
-    // return pxGeometry
+    const triangles = new PxBoundedData()
+    triangles.count = indexVector.size() / 3
+    triangles.stride = 12
+    triangles.data = indexVector.data()
+
+    const desc = new PxTriangleMeshDesc()
+    desc.points = points
+    desc.triangles = triangles
+
+    const triangleMesh = cooking.createTriangleMesh(desc, insertionCallback)
+    const pxGeometry = new PxTriangleMeshGeometry(triangleMesh)
+
+    // pointVector.destroy()
+    // indexVector.destroy()
+
+    pxGeometryCache.set(src, pxGeometry)
+    return pxGeometry
 }
 
 export default abstract class Loaded<T = Object3D>
@@ -364,6 +388,20 @@ export default abstract class Loaded<T = Object3D>
             const { material, shapeFlags, PxRigidActorExt } = getPhysX()
 
             const pxGeometry = getConvexGeometry(
+                this._src,
+                this.loadedGroup.children[0]
+            )
+            return PxRigidActorExt.prototype.createExclusiveShape(
+                actor,
+                pxGeometry,
+                material,
+                shapeFlags
+            )
+        }
+        if (mode === "map") {
+            const { material, shapeFlags, PxRigidActorExt } = getPhysX()
+
+            const pxGeometry = getTrimeshGeometry(
                 this._src,
                 this.loadedGroup.children[0]
             )

@@ -29,7 +29,9 @@ PhysX().then(
         PxRigidActorExt,
         Vector_PxVec3,
         PxBoundedData,
-        Vector_PxU32
+        Vector_PxU32,
+        PxTriangleMeshDesc,
+        PxTriangleMeshGeometry
     }: any) => {
         const Px = PxTopLevelFunctions.prototype
 
@@ -110,7 +112,9 @@ PhysX().then(
             PxRigidActorExt,
             Vector_PxVec3,
             PxBoundedData,
-            Vector_PxU32
+            Vector_PxU32,
+            PxTriangleMeshDesc,
+            PxTriangleMeshGeometry
         })
 
         // scene.release()
