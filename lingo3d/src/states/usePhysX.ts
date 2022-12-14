@@ -22,6 +22,7 @@ type PhysX = {
     PxTriangleMeshDesc: any
     PxTriangleMeshGeometry: any
     pxQuat: any
+    controllerManager: any
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -45,5 +46,6 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     Vector_PxU32: undefined,
     PxTriangleMeshDesc: undefined,
     PxTriangleMeshGeometry: undefined,
-    pxQuat: undefined
+    pxQuat: undefined,
+    controllerManager: undefined
 })

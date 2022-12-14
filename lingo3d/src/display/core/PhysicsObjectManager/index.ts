@@ -9,7 +9,6 @@ import bvhContactMap from "./bvh/bvhContactMap"
 import MeshItem from "../MeshItem"
 import characterCameraPlaced from "../CharacterCamera/characterCameraPlaced"
 import PhysicsUpdate from "./PhysicsUpdate"
-import scene from "../../../engine/scene"
 import { getPhysX } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
 import { Reactive } from "@lincode/reactivity"
@@ -37,41 +36,20 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected bvhMap?: boolean
     protected bvhCharacter?: boolean
 
-    protected getPxShape(mode: PhysicsOptions, actor: any) {
-        const {
-            material,
-            shapeFlags,
-            physics,
-            PxCapsuleGeometry,
-            PxRigidActorExt,
-            PxBoxGeometry
-        } = getPhysX()
+    protected getPxShape(_: PhysicsOptions, actor: any) {
+        const { material, shapeFlags, physics, PxBoxGeometry } = getPhysX()
 
-        if (mode === "character") {
-            const halfScale = getActualScale(this).multiplyScalar(0.5)
-            const pxGeometry = new PxCapsuleGeometry(halfScale.x, halfScale.y)
-            return PxRigidActorExt.prototype.createExclusiveShape(
-                actor,
-                pxGeometry,
-                material
-            )
-        } else {
-            const halfScale = getActualScale(this).multiplyScalar(0.5)
-            const pxGeometry = new PxBoxGeometry(
-                halfScale.x,
-                halfScale.y,
-                halfScale.z
-            )
-            // destroy(geometry)
-            const shape = physics.createShape(
-                pxGeometry,
-                material,
-                true,
-                shapeFlags
-            )
-            actor.attachShape(shape)
-            return shape
-        }
+        const { x, y, z } = getActualScale(this).multiplyScalar(0.5)
+        const pxGeometry = new PxBoxGeometry(x, y, z)
+        // destroy(geometry)
+        const shape = physics.createShape(
+            pxGeometry,
+            material,
+            true,
+            shapeFlags
+        )
+        actor.attachShape(shape)
+        return shape
     }
 
     private _physicsState?: Reactive<PhysicsOptions>

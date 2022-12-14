@@ -1,4 +1,3 @@
-import { deg2Rad } from "@lincode/math"
 //@ts-ignore
 import PhysX from "physx-js-webidl"
 import { setPhysX } from "../../../../states/usePhysX"
@@ -103,22 +102,6 @@ PhysX().then(
 
         // create PxController
         const controllerManager = Px.CreateControllerManager(scene)
-        const desc = new PxCapsuleControllerDesc()
-        // const capsuleController = controllerManager.createController(
-        //     capsuleControllerDesc
-        // )
-
-        desc.height = 1.7
-        desc.radius = 0.5
-        desc.climbingMode = _emscripten_enum_PxCapsuleClimbingModeEnum_eEASY()
-        desc.nonWalkableMode =
-            _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING
-        desc.slopeLimit = Math.cos(50 * deg2Rad)
-        desc.material = material
-        desc.contactOffset = 0.1
-        // desc.reportCallback = hitCallback.callback
-        // desc.behaviorCallback = behaviorCallback.callback
-        const pxCharacter = controllerManager.createController(desc)
 
         setPhysX({
             physics,
@@ -141,7 +124,8 @@ PhysX().then(
             Vector_PxU32,
             PxTriangleMeshDesc,
             PxTriangleMeshGeometry,
-            pxQuat
+            pxQuat,
+            controllerManager
         })
 
         // scene.release()
