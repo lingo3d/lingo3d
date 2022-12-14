@@ -19,6 +19,7 @@ export default (src: string | undefined, loaded: Object3D) => {
         if (!("geometry" in c)) return
         const clone = c.geometry.clone()
         clone.applyMatrix4(c.matrixWorld)
+        clone.dispose()
         geometries.push(clone)
         vertexCount += clone.attributes.position.count
     })

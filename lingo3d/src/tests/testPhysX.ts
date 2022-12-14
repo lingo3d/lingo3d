@@ -17,7 +17,7 @@ box.src = "parrot.glb"
 box.y = 200
 box.physics = "convex"
 
-// box = new Model()
-// box.src = "parrot.glb"
-// box.physics = "map"
+box = new Model()
+box.src = "parrot.glb"
+box.physics = "map"
 // }, 100)
