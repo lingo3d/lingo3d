@@ -1,4 +1,4 @@
-import { BufferAttribute, BufferGeometry, Mesh, Object3D, Vector3 } from "three"
+import { Object3D, Vector3 } from "three"
 import { Point3d } from "@lincode/math"
 import SimpleObjectManager from "../SimpleObjectManager"
 import IPhysicsObjectManager, {
@@ -47,11 +47,10 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             PxBoxGeometry
         } = getPhysX()
 
-        let shape: any
         if (mode === "character") {
             const halfScale = getActualScale(this).multiplyScalar(0.5)
             const pxGeometry = new PxCapsuleGeometry(halfScale.x, halfScale.y)
-            shape = PxRigidActorExt.prototype.createExclusiveShape(
+            return PxRigidActorExt.prototype.createExclusiveShape(
                 actor,
                 pxGeometry,
                 material
@@ -64,10 +63,15 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 halfScale.z
             )
             // destroy(geometry)
-            shape = physics.createShape(pxGeometry, material, true, shapeFlags)
+            const shape = physics.createShape(
+                pxGeometry,
+                material,
+                true,
+                shapeFlags
+            )
             actor.attachShape(shape)
+            return shape
         }
-        return shape
     }
 
     private _physicsState?: Reactive<PhysicsOptions>
