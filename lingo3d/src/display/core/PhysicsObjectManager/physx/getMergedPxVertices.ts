@@ -13,13 +13,17 @@ export default (src: string | undefined, loaded: Object3D) => {
     const { Vector_PxVec3 } = getPhysX()
 
     const geometries: Array<BufferGeometry> = []
-    loaded.traverse(
-        (c: Object3D | Mesh) => "geometry" in c && geometries.push(c.geometry)
+    const geometriesUV2: Array<BufferGeometry> = []
+    loaded.updateMatrixWorld()
+    loaded.traverse((c: Object3D | Mesh) => {
+        if (!("geometry" in c)) return
+        const clone = c.geometry.clone()
+        clone.applyMatrix4(c.matrixWorld)
+        ;(c.geometry.attributes.uv2 ? geometriesUV2 : geometries).push(clone)
+    })
+    const geometry = BufferGeometryUtils.mergeBufferGeometries(
+        geometriesUV2.length > geometries.length ? geometriesUV2 : geometries
     )
-    const geometry = BufferGeometryUtils.mergeBufferGeometries(geometries)
-
-    const { x, y, z } = loaded.scale
-    geometry.scale(x, y, z)
     geometry.dispose()
 
     const buffer = geometry.attributes.position
