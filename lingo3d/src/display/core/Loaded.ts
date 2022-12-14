@@ -278,27 +278,16 @@ export default abstract class Loaded<T = Object3D>
     }
 
     protected override getPxShape(mode: PhysicsOptions, actor: any) {
-        if (mode === "convex") {
+        if (mode === "convex" || mode === "map") {
             const { material, shapeFlags, PxRigidActorExt } = getPhysX()
 
-            const pxGeometry = getConvexGeometry(
-                this._src,
-                this.loadedGroup.children[0]
-            )
-            return PxRigidActorExt.prototype.createExclusiveShape(
-                actor,
-                pxGeometry,
-                material,
-                shapeFlags
-            )
-        }
-        if (mode === "map") {
-            const { material, shapeFlags, PxRigidActorExt } = getPhysX()
-
-            const pxGeometry = getTrimeshGeometry(
-                this._src,
-                this.loadedGroup.children[0]
-            )
+            const pxGeometry =
+                mode === "convex"
+                    ? getConvexGeometry(this._src, this.loadedGroup.children[0])
+                    : getTrimeshGeometry(
+                          this._src,
+                          this.loadedGroup.children[0]
+                      )
             return PxRigidActorExt.prototype.createExclusiveShape(
                 actor,
                 pxGeometry,
