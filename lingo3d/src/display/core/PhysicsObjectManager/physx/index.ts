@@ -69,7 +69,7 @@ PhysX().then(
         sceneDesc.set_gravity(tmpVec)
         sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
         sceneDesc.set_filterShader(Px.DefaultFilterShader())
-        const scene = physics.createScene(sceneDesc)
+        const pxScene = physics.createScene(sceneDesc)
 
         // create a default material
         const material = physics.createMaterial(0.5, 0.5, 0.5)
@@ -101,7 +101,7 @@ PhysX().then(
             tmpVec,
             tmpPose,
             tmpFilterData,
-            scene,
+            pxScene,
             cooking,
             convexFlags,
             insertionCallback,

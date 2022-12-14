@@ -16,4 +16,5 @@ let box = new Model()
 box.src = "parrot.glb"
 box.y = 200
 box.physics = "convex"
+
 // }, 100)

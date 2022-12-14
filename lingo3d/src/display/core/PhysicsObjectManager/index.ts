@@ -87,14 +87,16 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.physicsInitialized = true
 
         import("./physx")
-        this.outerObject3d.parent !== scene && scene.attach(this.outerObject3d)
 
         this.createEffect(() => {
-            const { physics, tmpVec, tmpPose, tmpFilterData, scene } =
-                getPhysX()
-            if (!physics) return
-
             const mode = physicsState.get()
+            const { physics, tmpVec, tmpPose, tmpFilterData, pxScene } =
+                getPhysX()
+            if (!physics || !mode) return
+
+            this.outerObject3d.parent !== scene &&
+                scene.attach(this.outerObject3d)
+
             const { x, y, z } = this.outerObject3d.position
 
             tmpVec.set_x(x)
@@ -109,12 +111,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
             const shape = this.getPxShape(mode, actor)
             shape.setSimulationFilterData(tmpFilterData)
-            scene.addActor(actor)
+            pxScene.addActor(actor)
 
             objectActorMap.set(this.outerObject3d, actor)
 
             return () => {
-                scene.removeActor(actor)
+                pxScene.removeActor(actor)
                 actor.release()
                 shape.release()
                 objectActorMap.delete(this.outerObject3d)
