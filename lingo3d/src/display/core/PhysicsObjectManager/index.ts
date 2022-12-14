@@ -13,6 +13,9 @@ import { getPhysX } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
 import { Reactive } from "@lincode/reactivity"
 import objectActorMap from "./physx/objectActorMap"
+import threeScene from "../../../engine/scene"
+import { dtPtr } from "../../../engine/eventLoop"
+import { onBeforeRender } from "../../../events/onBeforeRender"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -79,12 +82,19 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 PxCapsuleClimbingModeEnum,
                 PxControllerNonWalkableModeEnum,
                 material,
-                controllerManager
+                controllerManager,
+                pxControllerFilters
             } = getPhysX()
             if (!physics || !mode) return
 
-            this.outerObject3d.parent !== scene &&
-                scene.attach(this.outerObject3d)
+            this.outerObject3d.parent !== threeScene &&
+                threeScene.attach(this.outerObject3d)
+
+            const { position, quaternion } = this.outerObject3d
+
+            pxVec.set_x(position.x)
+            pxVec.set_y(position.y)
+            pxVec.set_z(position.z)
 
             if (mode === "character") {
                 const desc = new PxCapsuleControllerDesc()
@@ -99,19 +109,30 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 // desc.reportCallback = hitCallback.callback
                 // desc.behaviorCallback = behaviorCallback.callback
                 const pxCharacter = controllerManager.createController(desc)
-                return
-            }
 
-            const { position, quaternion } = this.outerObject3d
+                objectActorMap.set(this.outerObject3d, pxCharacter.getActor())
+
+                const handle = onBeforeRender(() => {
+                    pxVec.set_x(0.1)
+                    pxVec.set_y(0.1)
+                    pxVec.set_z(0.1)
+
+                    pxCharacter.move(
+                        pxVec,
+                        0.001,
+                        dtPtr[0],
+                        pxControllerFilters
+                    )
+                })
+                return () => {
+                    handle.cancel()
+                }
+            }
 
             pxQuat.set_x(quaternion.x)
             pxQuat.set_y(quaternion.y)
             pxQuat.set_z(quaternion.z)
             pxQuat.set_w(quaternion.w)
-
-            pxVec.set_x(position.x)
-            pxVec.set_y(position.y)
-            pxVec.set_z(position.z)
 
             pxPose.set_p(pxVec)
             pxPose.set_q(pxQuat)

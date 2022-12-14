@@ -14,8 +14,8 @@ createEffect(() => {
         // scene.simulate(dtPtr[0])
         scene.fetchResults(true)
 
-        for (const [target, body] of objectActorMap) {
-            const { p, q } = body.getGlobalPose()
+        for (const [target, actor] of objectActorMap) {
+            const { p, q } = actor.getGlobalPose()
             target.position.copy(p)
             target.quaternion.copy(q)
         }

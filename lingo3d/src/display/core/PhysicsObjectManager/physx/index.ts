@@ -46,7 +46,8 @@ PhysX().then(
         _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING,
         _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING_AND_FORCE_SLIDING,
         _emscripten_enum_PxControllerShapeTypeEnum_eBOX,
-        _emscripten_enum_PxControllerShapeTypeEnum_eCAPSULE
+        _emscripten_enum_PxControllerShapeTypeEnum_eCAPSULE,
+        PxControllerFilters
     }: any) => {
         const Px = PxTopLevelFunctions.prototype
 
@@ -148,6 +149,7 @@ PhysX().then(
                 _emscripten_enum_PxControllerShapeTypeEnum_eCAPSULE()
             )
         }
+        const pxControllerFilters = new PxControllerFilters()
 
         setPhysX({
             physics,
@@ -177,7 +179,8 @@ PhysX().then(
             PxControllerBehaviorFlagEnum,
             PxControllerCollisionFlagEnum,
             PxControllerNonWalkableModeEnum,
-            PxControllerShapeTypeEnum
+            PxControllerShapeTypeEnum,
+            pxControllerFilters
         })
 
         // scene.release()

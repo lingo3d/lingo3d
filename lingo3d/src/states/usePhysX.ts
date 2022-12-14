@@ -46,6 +46,7 @@ type PhysX = {
         eBOX: any
         eCAPSULE: any
     }
+    pxControllerFilters: any
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -93,5 +94,6 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxControllerShapeTypeEnum: {
         eBOX: undefined,
         eCAPSULE: undefined
-    }
+    },
+    pxControllerFilters: undefined
 })
