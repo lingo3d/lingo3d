@@ -1,3 +1,4 @@
+import { lazy } from "@lincode/utils"
 //@ts-ignore
 import PhysX from "physx-js-webidl"
 import { setPhysX } from "../../../../states/usePhysX"
@@ -103,6 +104,51 @@ PhysX().then(
         // create PxController
         const controllerManager = Px.CreateControllerManager(scene)
 
+        const PxCapsuleClimbingModeEnum = {
+            eEASY: lazy(() =>
+                _emscripten_enum_PxCapsuleClimbingModeEnum_eEASY()
+            ),
+            eCONSTRAINED: lazy(() =>
+                _emscripten_enum_PxCapsuleClimbingModeEnum_eCONSTRAINED()
+            )
+        }
+        const PxControllerBehaviorFlagEnum = {
+            eCCT_CAN_RIDE_ON_OBJECT: lazy(() =>
+                _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_CAN_RIDE_ON_OBJECT()
+            ),
+            eCCT_SLIDE: lazy(() =>
+                _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_SLIDE()
+            ),
+            eCCT_USER_DEFINED_RIDE: lazy(() =>
+                _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_USER_DEFINED_RIDE()
+            )
+        }
+        const PxControllerCollisionFlagEnum = {
+            eCOLLISION_SIDES: lazy(() =>
+                _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_SIDES()
+            ),
+            eCOLLISION_UP: lazy(() =>
+                _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_UP()
+            ),
+            eCOLLISION_DOWN: lazy(() =>
+                _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_DOWN()
+            )
+        }
+        const PxControllerNonWalkableModeEnum = {
+            ePREVENT_CLIMBING: lazy(() =>
+                _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING()
+            ),
+            ePREVENT_CLIMBING_AND_FORCE_SLIDING: lazy(() =>
+                _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING_AND_FORCE_SLIDING()
+            )
+        }
+        const PxControllerShapeTypeEnum = {
+            eBOX: lazy(() => _emscripten_enum_PxControllerShapeTypeEnum_eBOX()),
+            eCAPSULE: lazy(() =>
+                _emscripten_enum_PxControllerShapeTypeEnum_eCAPSULE()
+            )
+        }
+
         setPhysX({
             physics,
             material,
@@ -125,7 +171,13 @@ PhysX().then(
             PxTriangleMeshDesc,
             PxTriangleMeshGeometry,
             pxQuat,
-            controllerManager
+            controllerManager,
+            PxCapsuleControllerDesc,
+            PxCapsuleClimbingModeEnum,
+            PxControllerBehaviorFlagEnum,
+            PxControllerCollisionFlagEnum,
+            PxControllerNonWalkableModeEnum,
+            PxControllerShapeTypeEnum
         })
 
         // scene.release()

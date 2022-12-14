@@ -1,5 +1,5 @@
 import { Object3D, Vector3 } from "three"
-import { Point3d } from "@lincode/math"
+import { deg2Rad, Point3d } from "@lincode/math"
 import SimpleObjectManager from "../SimpleObjectManager"
 import IPhysicsObjectManager, {
     PhysicsOptions
@@ -68,12 +68,39 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
         this.createEffect(() => {
             const mode = physicsState.get()
-            const { physics, pxVec, pxPose, pxFilterData, scene, pxQuat } =
-                getPhysX()
+            const {
+                physics,
+                pxVec,
+                pxPose,
+                pxFilterData,
+                scene,
+                pxQuat,
+                PxCapsuleControllerDesc,
+                PxCapsuleClimbingModeEnum,
+                PxControllerNonWalkableModeEnum,
+                material,
+                controllerManager
+            } = getPhysX()
             if (!physics || !mode) return
 
             this.outerObject3d.parent !== scene &&
                 scene.attach(this.outerObject3d)
+
+            if (mode === "character") {
+                const desc = new PxCapsuleControllerDesc()
+                desc.height = 1.7
+                desc.radius = 0.5
+                desc.climbingMode = PxCapsuleClimbingModeEnum.eEASY()
+                desc.nonWalkableMode =
+                    PxControllerNonWalkableModeEnum.ePREVENT_CLIMBING()
+                desc.slopeLimit = Math.cos(50 * deg2Rad)
+                desc.material = material
+                desc.contactOffset = 0.1
+                // desc.reportCallback = hitCallback.callback
+                // desc.behaviorCallback = behaviorCallback.callback
+                const pxCharacter = controllerManager.createController(desc)
+                return
+            }
 
             const { position, quaternion } = this.outerObject3d
 

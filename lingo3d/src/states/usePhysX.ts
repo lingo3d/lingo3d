@@ -23,6 +23,29 @@ type PhysX = {
     PxTriangleMeshGeometry: any
     pxQuat: any
     controllerManager: any
+    PxCapsuleControllerDesc: any
+    PxCapsuleClimbingModeEnum: {
+        eEASY: any
+        eCONSTRAINED: any
+    }
+    PxControllerBehaviorFlagEnum: {
+        eCCT_CAN_RIDE_ON_OBJECT: any
+        eCCT_SLIDE: any
+        eCCT_USER_DEFINED_RIDE: any
+    }
+    PxControllerCollisionFlagEnum: {
+        eCOLLISION_SIDES: any
+        eCOLLISION_UP: any
+        eCOLLISION_DOWN: any
+    }
+    PxControllerNonWalkableModeEnum: {
+        ePREVENT_CLIMBING: any
+        ePREVENT_CLIMBING_AND_FORCE_SLIDING: any
+    }
+    PxControllerShapeTypeEnum: {
+        eBOX: any
+        eCAPSULE: any
+    }
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -47,5 +70,28 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxTriangleMeshDesc: undefined,
     PxTriangleMeshGeometry: undefined,
     pxQuat: undefined,
-    controllerManager: undefined
+    controllerManager: undefined,
+    PxCapsuleControllerDesc: undefined,
+    PxCapsuleClimbingModeEnum: {
+        eEASY: undefined,
+        eCONSTRAINED: undefined
+    },
+    PxControllerBehaviorFlagEnum: {
+        eCCT_CAN_RIDE_ON_OBJECT: undefined,
+        eCCT_SLIDE: undefined,
+        eCCT_USER_DEFINED_RIDE: undefined
+    },
+    PxControllerCollisionFlagEnum: {
+        eCOLLISION_SIDES: undefined,
+        eCOLLISION_UP: undefined,
+        eCOLLISION_DOWN: undefined
+    },
+    PxControllerNonWalkableModeEnum: {
+        ePREVENT_CLIMBING: undefined,
+        ePREVENT_CLIMBING_AND_FORCE_SLIDING: undefined
+    },
+    PxControllerShapeTypeEnum: {
+        eBOX: undefined,
+        eCAPSULE: undefined
+    }
 })
