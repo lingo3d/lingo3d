@@ -1,5 +1,6 @@
 import { BufferAttribute, Object3D, BufferGeometry, Mesh } from "three"
 import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils"
+import Appendable from "../../../../api/core/Appendable"
 import { getPhysX } from "../../../../states/usePhysX"
 
 const mergedPxVerticesCache = new Map<
@@ -7,18 +8,25 @@ const mergedPxVerticesCache = new Map<
     readonly [any, number, BufferAttribute]
 >()
 
-export default (src: string | undefined, loaded: Object3D) => {
+export default (
+    src: string | undefined,
+    loaded: Object3D,
+    manager: Appendable
+) => {
     if (mergedPxVerticesCache.has(src)) return mergedPxVerticesCache.get(src)!
 
     const { Vector_PxVec3 } = getPhysX()
 
     const geometries: Array<BufferGeometry> = []
     const geometriesUV2: Array<BufferGeometry> = []
+
     loaded.updateMatrixWorld()
+    const { x, y, z } = manager.outerObject3d.position
     loaded.traverse((c: Object3D | Mesh) => {
         if (!("geometry" in c)) return
         const clone = c.geometry.clone()
         clone.applyMatrix4(c.matrixWorld)
+        clone.translate(-x, -y, -z)
         clone.dispose()
         ;(c.geometry.attributes.uv2 ? geometriesUV2 : geometries).push(clone)
     })

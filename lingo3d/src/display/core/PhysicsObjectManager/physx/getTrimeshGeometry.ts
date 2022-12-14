@@ -1,9 +1,14 @@
 import { Object3D } from "three"
+import Appendable from "../../../../api/core/Appendable"
 import { getPhysX } from "../../../../states/usePhysX"
 import { pxGeometryCache } from "./getConvexGeometry"
 import getMergedPxVertices from "./getMergedPxVertices"
 
-export default (src: string | undefined, loaded: Object3D) => {
+export default (
+    src: string | undefined,
+    loaded: Object3D,
+    manager: Appendable
+) => {
     if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
 
     const {
@@ -15,7 +20,11 @@ export default (src: string | undefined, loaded: Object3D) => {
         PxTriangleMeshGeometry
     } = getPhysX()
 
-    const [pointVector, count, index] = getMergedPxVertices(src, loaded)
+    const [pointVector, count, index] = getMergedPxVertices(
+        src,
+        loaded,
+        manager
+    )
     const indexVector = new Vector_PxU32()
 
     const { array } = index

@@ -283,10 +283,15 @@ export default abstract class Loaded<T = Object3D>
 
             const pxGeometry =
                 mode === "convex"
-                    ? getConvexGeometry(this._src, this.loadedGroup.children[0])
+                    ? getConvexGeometry(
+                          this._src,
+                          this.loadedGroup.children[0],
+                          this
+                      )
                     : getTrimeshGeometry(
                           this._src,
-                          this.loadedGroup.children[0]
+                          this.loadedGroup.children[0],
+                          this
                       )
             return PxRigidActorExt.prototype.createExclusiveShape(
                 actor,

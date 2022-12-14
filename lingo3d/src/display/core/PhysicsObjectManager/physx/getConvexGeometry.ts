@@ -1,10 +1,15 @@
 import { Object3D } from "three"
+import Appendable from "../../../../api/core/Appendable"
 import { getPhysX } from "../../../../states/usePhysX"
 import getPxVertices from "./getPxVertices"
 
 export const pxGeometryCache = new Map<string | undefined, any>()
 
-export default (src: string | undefined, loaded: Object3D) => {
+export default (
+    src: string | undefined,
+    loaded: Object3D,
+    manager: Appendable
+) => {
     if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
 
     const {
@@ -15,7 +20,7 @@ export default (src: string | undefined, loaded: Object3D) => {
         PxConvexMeshGeometry
     } = getPhysX()
 
-    const [vec3Vector, count] = getPxVertices(src, loaded)
+    const [vec3Vector, count] = getPxVertices(src, loaded, manager)
 
     const desc = new PxConvexMeshDesc()
     desc.flags = convexFlags
