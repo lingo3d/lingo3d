@@ -1,6 +1,6 @@
 import { Object3D } from "three"
 import { getPhysX } from "../../../../states/usePhysX"
-import getMergedPxVertices from "./getMergedPxVertices"
+import getPxVertices from "./getPxVertices"
 
 export const pxGeometryCache = new Map<string | undefined, any>()
 
@@ -15,7 +15,7 @@ export default (src: string | undefined, loaded: Object3D) => {
         PxConvexMeshGeometry
     } = getPhysX()
 
-    const [vec3Vector, count] = getMergedPxVertices(src, loaded)
+    const [vec3Vector, count] = getPxVertices(src, loaded)
 
     const desc = new PxConvexMeshDesc()
     desc.flags = convexFlags
