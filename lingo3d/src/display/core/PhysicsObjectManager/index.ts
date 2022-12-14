@@ -12,7 +12,7 @@ import PhysicsUpdate from "./PhysicsUpdate"
 import { getPhysX } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
 import { Reactive } from "@lincode/reactivity"
-import objectActorMap from "./physx/objectActorMap"
+import objectActorMap, { objectCharacterActorMap } from "./physx/objectActorMap"
 import threeScene from "../../../engine/scene"
 import { dtPtr } from "../../../engine/eventLoop"
 import { onBeforeRender } from "../../../events/onBeforeRender"
@@ -109,23 +109,25 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 // desc.reportCallback = hitCallback.callback
                 // desc.behaviorCallback = behaviorCallback.callback
                 const pxCharacter = controllerManager.createController(desc)
+                objectCharacterActorMap.set(
+                    this.outerObject3d,
+                    pxCharacter.getActor()
+                )
 
-                objectActorMap.set(this.outerObject3d, pxCharacter.getActor())
+                // const handle = onBeforeRender(() => {
+                //     pxVec.set_x(0.1)
+                //     pxVec.set_y(0.1)
+                //     pxVec.set_z(0.1)
 
-                const handle = onBeforeRender(() => {
-                    pxVec.set_x(0.1)
-                    pxVec.set_y(0.1)
-                    pxVec.set_z(0.1)
-
-                    pxCharacter.move(
-                        pxVec,
-                        0.001,
-                        dtPtr[0],
-                        pxControllerFilters
-                    )
-                })
+                //     pxCharacter.move(
+                //         pxVec,
+                //         0.001,
+                //         dtPtr[0],
+                //         pxControllerFilters
+                //     )
+                // })
                 return () => {
-                    handle.cancel()
+                    // handle.cancel()
                 }
             }
 
