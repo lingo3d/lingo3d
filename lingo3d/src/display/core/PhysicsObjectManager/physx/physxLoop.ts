@@ -9,7 +9,6 @@ createEffect(() => {
     const { scene } = getPhysX()
     if (!scene) return
 
-    // simulate scene for a bit
     const handle = onBeforeRender(() => {
         scene.simulate(1 / 60)
         // scene.simulate(dtPtr[0])
@@ -20,9 +19,6 @@ createEffect(() => {
             target.position.copy(p)
             target.quaternion.copy(q)
         }
-
-        // const boxHeight = box.getGlobalPose().get_p().get_y()
-        // console.log("Sim step " + i + ": h = " + boxHeight)
     })
     return () => {
         handle.cancel()
