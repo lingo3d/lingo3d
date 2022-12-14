@@ -1,4 +1,4 @@
-import { BufferAttribute, BufferGeometry, Group, Mesh, Object3D } from "three"
+import { Group, Mesh, Object3D } from "three"
 import { boxGeometry } from "../primitives/Cube"
 import { wireframeMaterial } from "../utils/reusables"
 import ILoaded from "../../interface/ILoaded"
@@ -17,115 +17,9 @@ import {
 import VisibleObjectManager from "./VisibleObjectManager"
 import { setManager } from "../../api/utils/manager"
 import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
-import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils"
 import { getPhysX } from "../../states/usePhysX"
-
-const pxGeometryCache = new Map<string | undefined, any>()
-const mergedPxVerticesCache = new Map<
-    string | undefined,
-    readonly [any, number, BufferAttribute]
->()
-
-const getMergedPxVertices = (src: string | undefined, loaded: Object3D) => {
-    if (mergedPxVerticesCache.has(src)) return mergedPxVerticesCache.get(src)!
-
-    const { Vector_PxVec3 } = getPhysX()
-
-    const geometries: Array<BufferGeometry> = []
-    loaded.traverse(
-        (c: Object3D | Mesh) => "geometry" in c && geometries.push(c.geometry)
-    )
-    const geometry = BufferGeometryUtils.mergeBufferGeometries(geometries)
-
-    const { x, y, z } = loaded.scale
-    geometry.scale(x, y, z)
-    geometry.dispose()
-
-    const buffer = geometry.attributes.position
-    const vertices = buffer.array
-
-    const vec3Vector = new Vector_PxVec3(buffer.count)
-    for (let i = 0; i < buffer.count; i++) {
-        const pxVec3 = vec3Vector.at(i)
-        const offset = i * 3
-        pxVec3.set_x(vertices[offset])
-        pxVec3.set_y(vertices[offset + 1])
-        pxVec3.set_z(vertices[offset + 2])
-    }
-    // vec3Vector.destroy()
-
-    const result = <const>[vec3Vector, buffer.count, geometry.index!]
-    mergedPxVerticesCache.set(src, result)
-    return result
-}
-
-const getConvexGeometry = (src: string | undefined, loaded: Object3D) => {
-    if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
-
-    const {
-        convexFlags,
-        cooking,
-        insertionCallback,
-        PxConvexMeshDesc,
-        PxConvexMeshGeometry
-    } = getPhysX()
-
-    const [vec3Vector, count] = getMergedPxVertices(src, loaded)
-
-    const desc = new PxConvexMeshDesc()
-    desc.flags = convexFlags
-    desc.points.count = count
-    desc.points.stride = 12
-    desc.points.data = vec3Vector.data()
-
-    const convexMesh = cooking.createConvexMesh(desc, insertionCallback)
-    const pxGeometry = new PxConvexMeshGeometry(convexMesh)
-
-    pxGeometryCache.set(src, pxGeometry)
-    return pxGeometry
-}
-
-const getTrimeshGeometry = (src: string | undefined, loaded: Object3D) => {
-    if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
-
-    const {
-        PxBoundedData,
-        Vector_PxU32,
-        PxTriangleMeshDesc,
-        cooking,
-        insertionCallback,
-        PxTriangleMeshGeometry
-    } = getPhysX()
-
-    const [pointVector, count, index] = getMergedPxVertices(src, loaded)
-    const indexVector = new Vector_PxU32()
-
-    const { array } = index
-    for (let i = 0; i < index.count; i++) indexVector.push_back(array[i])
-
-    const points = new PxBoundedData()
-    points.count = count
-    points.stride = 12
-    points.data = pointVector.data()
-
-    const triangles = new PxBoundedData()
-    triangles.count = indexVector.size() / 3
-    triangles.stride = 12
-    triangles.data = indexVector.data()
-
-    const desc = new PxTriangleMeshDesc()
-    desc.points = points
-    desc.triangles = triangles
-
-    const triangleMesh = cooking.createTriangleMesh(desc, insertionCallback)
-    const pxGeometry = new PxTriangleMeshGeometry(triangleMesh)
-
-    // pointVector.destroy()
-    // indexVector.destroy()
-
-    pxGeometryCache.set(src, pxGeometry)
-    return pxGeometry
-}
+import getConvexGeometry from "./PhysicsObjectManager/physx/getConvexGeometry"
+import getTrimeshGeometry from "./PhysicsObjectManager/physx/getTrimeshGeometry"
 
 export default abstract class Loaded<T = Object3D>
     extends VisibleObjectManager<Mesh>
