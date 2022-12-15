@@ -6,7 +6,7 @@ import {
     increasePhysXCookingCount
 } from "../../../../states/usePhysXCookingCount"
 import destroy from "./destroy"
-import { pxGeometryCache } from "./getConvexGeometry"
+import { pxGeometryCache } from "./cookConvexGeometry"
 import computeMergedPxVertices from "./computeMergedPxVertices"
 
 export default (

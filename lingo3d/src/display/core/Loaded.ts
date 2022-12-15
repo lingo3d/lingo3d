@@ -18,8 +18,8 @@ import VisibleObjectManager from "./VisibleObjectManager"
 import { setManager } from "../../api/utils/manager"
 import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
 import { getPhysX } from "../../states/usePhysX"
-import getConvexGeometry from "./PhysicsObjectManager/physx/getConvexGeometry"
-import getTrimeshGeometry from "./PhysicsObjectManager/physx/getTrimeshGeometry"
+import cookConvexGeometry from "./PhysicsObjectManager/physx/cookConvexGeometry"
+import cookTrimeshGeometry from "./PhysicsObjectManager/physx/cookTrimeshGeometry"
 
 export default abstract class Loaded<T = Object3D>
     extends VisibleObjectManager<Mesh>
@@ -283,12 +283,12 @@ export default abstract class Loaded<T = Object3D>
 
             const pxGeometry =
                 mode === "convex"
-                    ? getConvexGeometry(
+                    ? cookConvexGeometry(
                           this._src,
                           this.loadedGroup.children[0],
                           this
                       )
-                    : getTrimeshGeometry(
+                    : cookTrimeshGeometry(
                           this._src,
                           this.loadedGroup.children[0],
                           this
