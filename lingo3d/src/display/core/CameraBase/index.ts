@@ -184,15 +184,12 @@ export default abstract class CameraBase<
             halfPi - this._maxAzimuthAngle * deg2Rad,
             Math.min(halfPi - this._minAzimuthAngle * deg2Rad, euler.y)
         )
-
         euler.x -= movementY * 0.002
         euler.x = Math.max(
             halfPi - this._maxPolarAngle * deg2Rad,
             Math.min(halfPi - this._minPolarAngle * deg2Rad, euler.x)
         )
-
         manager.setRotationFromEuler(euler)
-        !inner && this.rotationUpdate?.updateXYZ()
     }
 
     private gyrateHandle?: Cancellable

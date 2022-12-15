@@ -39,8 +39,6 @@
         "prettier": "^2.8.1",
         "stats.js": "^0.17.0",
         "three": "0.147.0",
-        "three-geometry-welder": "^0.1.0",
-        "three-mesh-bvh": "0.5.19",
         "wavesurfer.js": "^6.4.0",
         "xstate": "^4.35.0"
     },

@@ -30,8 +30,6 @@ specifiers:
   rimraf: ^3.0.2
   stats.js: ^0.17.0
   three: 0.147.0
-  three-geometry-welder: ^0.1.0
-  three-mesh-bvh: 0.5.19
   typescript: ^4.9.4
   vite: ^4.0.0
   wavesurfer.js: ^6.4.0
@@ -57,8 +55,6 @@ dependencies:
   prettier: 2.8.1
   stats.js: 0.17.0
   three: 0.147.0
-  three-geometry-welder: 0.1.0_three@0.147.0
-  three-mesh-bvh: 0.5.19_three@0.147.0
   wavesurfer.js: 6.4.0
   xstate: 4.35.0
 
@@ -1181,22 +1177,6 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
-
-  /three-geometry-welder/0.1.0_three@0.147.0:
-    resolution: {integrity: sha512-R4X3B/fdc1mERh4/YzWQi7WqAJDILhFdeqRgfjW3iTjNy0tzAC02BiIczwGCq9J3d6W0ZwHroe4I+WYUQV5ypg==}
-    peerDependencies:
-      three: ^0.145.0
-    dependencies:
-      three: 0.147.0
-    dev: false
-
-  /three-mesh-bvh/0.5.19_three@0.147.0:
-    resolution: {integrity: sha512-Q8huT0NautyR4afW0oMlOz8a4qm3b1jQ1ccMLF/TZ0rA4i58HljsnBjCLEDLQtIINZyLtZPdw60mrD81V/TZDA==}
-    peerDependencies:
-      three: '>= 0.123.0'
-    dependencies:
-      three: 0.147.0
-    dev: false
 
   /three/0.147.0:
     resolution: {integrity: sha512-LPTOslYQXFkmvceQjFTNnVVli2LaVF6C99Pv34fJypp8NbQLbTlu3KinZ0zURghS5zEehK+VQyvWuPZ/Sm8fzw==}

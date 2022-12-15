@@ -8,7 +8,6 @@ import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { vec2Point } from "../../../utils/vec2Point"
 
 const raycaster = new Raycaster()
-raycaster.firstHitOnly = true
 
 const filterUnselectable = (item: Intersection) =>
     !item.object.userData.unselectable
