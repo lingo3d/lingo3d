@@ -120,7 +120,7 @@ PhysX().then((PhysX: any) => {
     const pxQuat = new PxQuat(0, 0, 0, 1)
 
     // create PxController
-    const controllerManager = Px.CreateControllerManager(scene)
+    const getPxControllerManager = lazy(() => Px.CreateControllerManager(scene))
     const pxControllerFilters = new PxControllerFilters()
 
     // controller enums
@@ -217,7 +217,7 @@ PhysX().then((PhysX: any) => {
         PxTriangleMeshDesc,
         PxTriangleMeshGeometry,
         pxQuat,
-        controllerManager,
+        getPxControllerManager,
         pxControllerFilters,
         PxCapsuleControllerDesc,
         PxCapsuleClimbingModeEnum,

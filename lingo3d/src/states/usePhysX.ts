@@ -22,7 +22,7 @@ type PhysX = {
     PxTriangleMeshDesc: any
     PxTriangleMeshGeometry: any
     pxQuat: any
-    controllerManager: any
+    getPxControllerManager: any
     pxControllerFilters: any
     PxCapsuleControllerDesc: any
     PxCapsuleClimbingModeEnum: {
@@ -83,7 +83,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxTriangleMeshDesc: undefined,
     PxTriangleMeshGeometry: undefined,
     pxQuat: undefined,
-    controllerManager: undefined,
+    getPxControllerManager: undefined,
     pxControllerFilters: undefined,
     PxCapsuleControllerDesc: undefined,
     PxCapsuleClimbingModeEnum: {

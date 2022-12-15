@@ -84,7 +84,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 PxCapsuleClimbingModeEnum,
                 PxControllerNonWalkableModeEnum,
                 material,
-                controllerManager,
+                getPxControllerManager,
                 pxControllerFilters
             } = getPhysX()
             if (!physics || !mode) return
@@ -110,7 +110,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 desc.contactOffset = 0.1
                 // desc.reportCallback = hitCallback.callback
                 // desc.behaviorCallback = behaviorCallback.callback
-                const controller = controllerManager.createController(desc)
+                const controller =
+                    getPxControllerManager().createController(desc)
                 const actor = controller.getActor()
                 objectCharacterActorMap.set(this.outerObject3d, actor)
 
