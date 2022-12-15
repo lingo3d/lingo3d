@@ -4,8 +4,8 @@ import PhysX from "physx-js-webidl"
 import { setPhysX } from "../../../../states/usePhysX"
 import "./physxLoop"
 
-PhysX().then(
-    ({
+PhysX().then((PhysX: any) => {
+    const {
         PxTopLevelFunctions,
         PxDefaultAllocator,
         PxDefaultErrorCallback,
@@ -51,165 +51,182 @@ PhysX().then(
         _emscripten_enum_PxForceModeEnum_eFORCE,
         _emscripten_enum_PxForceModeEnum_eIMPULSE,
         _emscripten_enum_PxForceModeEnum_eVELOCITY_CHANGE,
-        _emscripten_enum_PxForceModeEnum_eACCELERATION
-    }: any) => {
-        const Px = PxTopLevelFunctions.prototype
+        _emscripten_enum_PxForceModeEnum_eACCELERATION,
+        _emscripten_enum_PxActorFlagEnum_eVISUALIZATION,
+        _emscripten_enum_PxActorFlagEnum_eDISABLE_GRAVITY,
+        _emscripten_enum_PxActorFlagEnum_eSEND_SLEEP_NOTIFIES,
+        _emscripten_enum_PxActorFlagEnum_eDISABLE_SIMULATION
+    } = PhysX
 
-        // create PxFoundation
-        const version = Px.PHYSICS_VERSION
-        const allocator = new PxDefaultAllocator()
-        const errorCb = new PxDefaultErrorCallback()
-        const foundation = Px.CreateFoundation(version, allocator, errorCb)
+    const Px = PxTopLevelFunctions.prototype
 
-        //create PxPhysics
-        const scale = new PxTolerancesScale()
-        const physics = Px.CreatePhysics(version, foundation, scale)
+    // create PxFoundation
+    const version = Px.PHYSICS_VERSION
+    const allocator = new PxDefaultAllocator()
+    const errorCb = new PxDefaultErrorCallback()
+    const foundation = Px.CreateFoundation(version, allocator, errorCb)
 
-        //init extensions
-        Px.InitExtensions(physics)
+    //create PxPhysics
+    const scale = new PxTolerancesScale()
+    const physics = Px.CreatePhysics(version, foundation, scale)
 
-        //create PxCooking
-        const cookingParams = new PxCookingParams(scale)
-        cookingParams.suppressTriangleMeshRemapTable = true
-        const cooking = Px.CreateCooking(version, foundation, cookingParams)
+    //init extensions
+    Px.InitExtensions(physics)
 
-        //create default convex flags
-        const convexFlags = new PxConvexFlags(
-            _emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX() |
-                _emscripten_enum_PxConvexFlagEnum_eDISABLE_MESH_VALIDATION() |
-                _emscripten_enum_PxConvexFlagEnum_eFAST_INERTIA_COMPUTATION()
+    //create PxCooking
+    const cookingParams = new PxCookingParams(scale)
+    cookingParams.suppressTriangleMeshRemapTable = true
+    const cooking = Px.CreateCooking(version, foundation, cookingParams)
+
+    //create default convex flags
+    const convexFlags = new PxConvexFlags(
+        _emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX() |
+            _emscripten_enum_PxConvexFlagEnum_eDISABLE_MESH_VALIDATION() |
+            _emscripten_enum_PxConvexFlagEnum_eFAST_INERTIA_COMPUTATION()
+    )
+
+    //create insertion callback
+    const insertionCallback = physics.getPhysicsInsertionCallback()
+
+    // create scene
+    const pxVec = new PxVec3(0, 0, 0)
+    const pxGravityVec = new PxVec3(0, -9.81, 0)
+    const sceneDesc = new PxSceneDesc(scale)
+    sceneDesc.set_gravity(pxGravityVec)
+    sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
+    sceneDesc.set_filterShader(Px.DefaultFilterShader())
+    const scene = physics.createScene(sceneDesc)
+
+    // create a default material
+    const material = physics.createMaterial(0.5, 0.5, 0.5)
+    // create default simulation shape flags
+    const shapeFlags = new PxShapeFlags(
+        _emscripten_enum_PxShapeFlagEnum_eSCENE_QUERY_SHAPE() |
+            _emscripten_enum_PxShapeFlagEnum_eSIMULATION_SHAPE()
+    )
+
+    // create a few temporary objects used during setup
+    const pxPose = new PxTransform(_emscripten_enum_PxIDENTITYEnum_PxIdentity())
+    const pxFilterData = new PxFilterData(1, 1, 0, 0)
+    const pxQuat = new PxQuat(0, 0, 0, 1)
+
+    // create PxController
+    const controllerManager = Px.CreateControllerManager(scene)
+
+    // controller enums
+    const PxCapsuleClimbingModeEnum = {
+        eEASY: lazy(() => _emscripten_enum_PxCapsuleClimbingModeEnum_eEASY()),
+        eCONSTRAINED: lazy(() =>
+            _emscripten_enum_PxCapsuleClimbingModeEnum_eCONSTRAINED()
         )
-
-        //create insertion callback
-        const insertionCallback = physics.getPhysicsInsertionCallback()
-
-        // create scene
-        const pxVec = new PxVec3(0, 0, 0)
-        const pxGravityVec = new PxVec3(0, -9.81, 0)
-        const sceneDesc = new PxSceneDesc(scale)
-        sceneDesc.set_gravity(pxGravityVec)
-        sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
-        sceneDesc.set_filterShader(Px.DefaultFilterShader())
-        const scene = physics.createScene(sceneDesc)
-
-        // create a default material
-        const material = physics.createMaterial(0.5, 0.5, 0.5)
-        // create default simulation shape flags
-        const shapeFlags = new PxShapeFlags(
-            _emscripten_enum_PxShapeFlagEnum_eSCENE_QUERY_SHAPE() |
-                _emscripten_enum_PxShapeFlagEnum_eSIMULATION_SHAPE()
-        )
-
-        // create a few temporary objects used during setup
-        const pxPose = new PxTransform(
-            _emscripten_enum_PxIDENTITYEnum_PxIdentity()
-        )
-        const pxFilterData = new PxFilterData(1, 1, 0, 0)
-        const pxQuat = new PxQuat(0, 0, 0, 1)
-
-        // create PxController
-        const controllerManager = Px.CreateControllerManager(scene)
-
-        // controller enums
-        const PxCapsuleClimbingModeEnum = {
-            eEASY: lazy(() =>
-                _emscripten_enum_PxCapsuleClimbingModeEnum_eEASY()
-            ),
-            eCONSTRAINED: lazy(() =>
-                _emscripten_enum_PxCapsuleClimbingModeEnum_eCONSTRAINED()
-            )
-        }
-        const PxControllerBehaviorFlagEnum = {
-            eCCT_CAN_RIDE_ON_OBJECT: lazy(() =>
-                _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_CAN_RIDE_ON_OBJECT()
-            ),
-            eCCT_SLIDE: lazy(() =>
-                _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_SLIDE()
-            ),
-            eCCT_USER_DEFINED_RIDE: lazy(() =>
-                _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_USER_DEFINED_RIDE()
-            )
-        }
-        const PxControllerCollisionFlagEnum = {
-            eCOLLISION_SIDES: lazy(() =>
-                _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_SIDES()
-            ),
-            eCOLLISION_UP: lazy(() =>
-                _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_UP()
-            ),
-            eCOLLISION_DOWN: lazy(() =>
-                _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_DOWN()
-            )
-        }
-        const PxControllerNonWalkableModeEnum = {
-            ePREVENT_CLIMBING: lazy(() =>
-                _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING()
-            ),
-            ePREVENT_CLIMBING_AND_FORCE_SLIDING: lazy(() =>
-                _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING_AND_FORCE_SLIDING()
-            )
-        }
-        const PxControllerShapeTypeEnum = {
-            eBOX: lazy(() => _emscripten_enum_PxControllerShapeTypeEnum_eBOX()),
-            eCAPSULE: lazy(() =>
-                _emscripten_enum_PxControllerShapeTypeEnum_eCAPSULE()
-            )
-        }
-        const pxControllerFilters = new PxControllerFilters()
-
-        // force mode enums
-        const PxForceModeEnum = {
-            eFORCE: lazy(() => _emscripten_enum_PxForceModeEnum_eFORCE()),
-            eIMPULSE: lazy(() => _emscripten_enum_PxForceModeEnum_eIMPULSE()),
-            eVELOCITY_CHANGE: lazy(() =>
-                _emscripten_enum_PxForceModeEnum_eVELOCITY_CHANGE()
-            ),
-            eACCELERATION: lazy(() =>
-                _emscripten_enum_PxForceModeEnum_eACCELERATION()
-            )
-        }
-
-        setPhysX({
-            physics,
-            material,
-            shapeFlags,
-            pxVec,
-            pxGravityVec,
-            pxPose,
-            pxFilterData,
-            scene: scene,
-            cooking,
-            convexFlags,
-            insertionCallback,
-            PxBoxGeometry,
-            PxCapsuleGeometry,
-            PxConvexMeshDesc,
-            PxConvexMeshGeometry,
-            PxRigidActorExt,
-            Vector_PxVec3,
-            PxBoundedData,
-            Vector_PxU32,
-            PxTriangleMeshDesc,
-            PxTriangleMeshGeometry,
-            pxQuat,
-            controllerManager,
-            PxCapsuleControllerDesc,
-            PxCapsuleClimbingModeEnum,
-            PxControllerBehaviorFlagEnum,
-            PxControllerCollisionFlagEnum,
-            PxControllerNonWalkableModeEnum,
-            PxControllerShapeTypeEnum,
-            pxControllerFilters,
-            PxForceModeEnum
-        })
-
-        // scene.release()
-        // material.release()
-        // physics.release()
-        // foundation.release()
-        // cooking.release()
-        // destroy(errorCb)
-        // destroy(allocator)
-        // console.log("Cleaned up")
     }
-)
+    const PxControllerBehaviorFlagEnum = {
+        eCCT_CAN_RIDE_ON_OBJECT: lazy(() =>
+            _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_CAN_RIDE_ON_OBJECT()
+        ),
+        eCCT_SLIDE: lazy(() =>
+            _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_SLIDE()
+        ),
+        eCCT_USER_DEFINED_RIDE: lazy(() =>
+            _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_USER_DEFINED_RIDE()
+        )
+    }
+    const PxControllerCollisionFlagEnum = {
+        eCOLLISION_SIDES: lazy(() =>
+            _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_SIDES()
+        ),
+        eCOLLISION_UP: lazy(() =>
+            _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_UP()
+        ),
+        eCOLLISION_DOWN: lazy(() =>
+            _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_DOWN()
+        )
+    }
+    const PxControllerNonWalkableModeEnum = {
+        ePREVENT_CLIMBING: lazy(() =>
+            _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING()
+        ),
+        ePREVENT_CLIMBING_AND_FORCE_SLIDING: lazy(() =>
+            _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING_AND_FORCE_SLIDING()
+        )
+    }
+    const PxControllerShapeTypeEnum = {
+        eBOX: lazy(() => _emscripten_enum_PxControllerShapeTypeEnum_eBOX()),
+        eCAPSULE: lazy(() =>
+            _emscripten_enum_PxControllerShapeTypeEnum_eCAPSULE()
+        )
+    }
+    const pxControllerFilters = new PxControllerFilters()
+
+    // force mode enums
+    const PxForceModeEnum = {
+        eFORCE: lazy(() => _emscripten_enum_PxForceModeEnum_eFORCE()),
+        eIMPULSE: lazy(() => _emscripten_enum_PxForceModeEnum_eIMPULSE()),
+        eVELOCITY_CHANGE: lazy(() =>
+            _emscripten_enum_PxForceModeEnum_eVELOCITY_CHANGE()
+        ),
+        eACCELERATION: lazy(() =>
+            _emscripten_enum_PxForceModeEnum_eACCELERATION()
+        )
+    }
+
+    // actor flag enums
+    const PxActorFlagEnum = {
+        eDISABLE_GRAVITY: lazy(() =>
+            _emscripten_enum_PxActorFlagEnum_eDISABLE_GRAVITY()
+        ),
+        eSEND_SLEEP_NOTIFIES: lazy(() =>
+            _emscripten_enum_PxActorFlagEnum_eSEND_SLEEP_NOTIFIES()
+        ),
+        eDISABLE_SIMULATION: lazy(() =>
+            _emscripten_enum_PxActorFlagEnum_eDISABLE_SIMULATION()
+        ),
+        eVISUALIZATION: lazy(() =>
+            _emscripten_enum_PxActorFlagEnum_eVISUALIZATION()
+        )
+    }
+
+    setPhysX({
+        physics,
+        material,
+        shapeFlags,
+        pxVec,
+        pxGravityVec,
+        pxPose,
+        pxFilterData,
+        scene: scene,
+        cooking,
+        convexFlags,
+        insertionCallback,
+        PxBoxGeometry,
+        PxCapsuleGeometry,
+        PxConvexMeshDesc,
+        PxConvexMeshGeometry,
+        PxRigidActorExt,
+        Vector_PxVec3,
+        PxBoundedData,
+        Vector_PxU32,
+        PxTriangleMeshDesc,
+        PxTriangleMeshGeometry,
+        pxQuat,
+        controllerManager,
+        PxCapsuleControllerDesc,
+        PxCapsuleClimbingModeEnum,
+        PxControllerBehaviorFlagEnum,
+        PxControllerCollisionFlagEnum,
+        PxControllerNonWalkableModeEnum,
+        PxControllerShapeTypeEnum,
+        pxControllerFilters,
+        PxForceModeEnum,
+        PxActorFlagEnum
+    })
+
+    // scene.release()
+    // material.release()
+    // physics.release()
+    // foundation.release()
+    // cooking.release()
+    // destroy(errorCb)
+    // destroy(allocator)
+    // console.log("Cleaned up")
+})

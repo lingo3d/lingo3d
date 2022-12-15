@@ -112,8 +112,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 const controller = controllerManager.createController(desc)
                 const actor = controller.getActor()
                 objectCharacterActorMap.set(this.outerObject3d, actor)
-                console.log(actor.addForce)
-                actor.addForce(pxGravityVec, PxForceModeEnum.eACCELERATION)
+                //mark
 
                 // const handle = onBeforeRender(() => {
                 //     pxVec.set_x(0.1)

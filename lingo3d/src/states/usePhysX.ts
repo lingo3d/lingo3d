@@ -54,6 +54,12 @@ type PhysX = {
         eVELOCITY_CHANGE: any
         eACCELERATION: any
     }
+    PxActorFlagEnum: {
+        eDISABLE_GRAVITY: any
+        eSEND_SLEEP_NOTIFIES: any
+        eDISABLE_SIMULATION: any
+        eVISUALIZATION: any
+    }
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -109,5 +115,11 @@ export const [setPhysX, getPhysX] = store<PhysX>({
         eIMPULSE: undefined,
         eVELOCITY_CHANGE: undefined,
         eACCELERATION: undefined
+    },
+    PxActorFlagEnum: {
+        eDISABLE_GRAVITY: undefined,
+        eSEND_SLEEP_NOTIFIES: undefined,
+        eDISABLE_SIMULATION: undefined,
+        eVISUALIZATION: undefined
     }
 })
