@@ -7,7 +7,7 @@ import {
 } from "../../../../states/usePhysXCookingCount"
 import destroy from "./destroy"
 import { pxGeometryCache } from "./getConvexGeometry"
-import getMergedPxVertices from "./getMergedPxVertices"
+import computeMergedPxVertices from "./computeMergedPxVertices"
 
 export default (
     src: string | undefined,
@@ -27,7 +27,7 @@ export default (
         PxTriangleMeshGeometry
     } = getPhysX()
 
-    const [pointVector, count, index] = getMergedPxVertices(loaded, manager)
+    const [pointVector, count, index] = computeMergedPxVertices(loaded, manager)
     const indexVector = new Vector_PxU32()
 
     const { array } = index
