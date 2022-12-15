@@ -8,10 +8,14 @@ import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
 import { emitRenderHalfRate } from "../events/onRenderHalfRate"
 import { setPaused } from "../states/usePaused"
 import { SEC2FRAME } from "../globals"
+import { getEditorPlay } from "../states/useEditorPlay"
 
 let paused = false
 const checkPaused = (val?: boolean) =>
     setPaused((paused = val ?? (document.hidden || !document.hasFocus())))
+
+let play = true
+getEditorPlay((val) => (play = val))
 
 const [setLocked, getLocked] = store(false)
 createEffect(() => {
@@ -44,7 +48,7 @@ createEffect(() => {
 export const timer = (time: number, repeat: number, cb: () => void) => {
     let count = 0
     const handle = setInterval(() => {
-        if (paused) return
+        if (paused || !play) return
         cb()
         if (repeat !== -1 && ++count >= repeat) clearInterval(handle)
     }, time)

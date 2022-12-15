@@ -1,6 +1,7 @@
 import settings from "../api/settings"
 import Model from "../display/Model"
 import Cube from "../display/primitives/Cube"
+import { timer } from "../engine/eventLoop"
 
 const ground = new Cube()
 ground.width = 9999
@@ -11,11 +12,9 @@ ground.metalness = 0.5
 ground.roughness = 0
 settings.ssr = true
 
-// setInterval(() => {
-let box = new Model()
-box.src = "parrot.glb"
-box.y = 200
-box.physics = "convex"
-box.scale = 20
-
-// }, 100)
+timer(100, -1, () => {
+    let box = new Model()
+    box.src = "parrot.glb"
+    box.y = 200
+    box.physics = "convex"
+})
