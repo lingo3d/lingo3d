@@ -22,7 +22,7 @@ export default (
     const {
         getConvexFlags,
         getCooking,
-        insertionCallback,
+        getInsertionCallback,
         PxConvexMeshDesc,
         PxConvexMeshGeometry
     } = getPhysX()
@@ -35,7 +35,10 @@ export default (
     desc.points.stride = 12
     desc.points.data = vec3Vector.data()
 
-    const convexMesh = getCooking().createConvexMesh(desc, insertionCallback)
+    const convexMesh = getCooking().createConvexMesh(
+        desc,
+        getInsertionCallback()
+    )
     const pxGeometry = new PxConvexMeshGeometry(convexMesh)
 
     destroy(desc)

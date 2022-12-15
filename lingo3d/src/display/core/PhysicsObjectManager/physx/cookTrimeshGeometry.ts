@@ -23,7 +23,7 @@ export default (
         Vector_PxU32,
         PxTriangleMeshDesc,
         getCooking,
-        insertionCallback,
+        getInsertionCallback,
         PxTriangleMeshGeometry
     } = getPhysX()
 
@@ -49,7 +49,7 @@ export default (
 
     const triangleMesh = getCooking().createTriangleMesh(
         desc,
-        insertionCallback
+        getInsertionCallback()
     )
     const pxGeometry = new PxTriangleMeshGeometry(triangleMesh)
 

@@ -94,7 +94,9 @@ PhysX().then((PhysX: any) => {
     )
 
     //create insertion callback
-    const insertionCallback = physics.getPhysicsInsertionCallback()
+    const getInsertionCallback = lazy(() =>
+        physics.getPhysicsInsertionCallback()
+    )
 
     // create scene
     const pxVec = new PxVec3(0, -9.81, 0)
@@ -203,7 +205,7 @@ PhysX().then((PhysX: any) => {
         scene: scene,
         getCooking,
         getConvexFlags,
-        insertionCallback,
+        getInsertionCallback,
         PxBoxGeometry,
         PxCapsuleGeometry,
         PxConvexMeshDesc,

@@ -10,7 +10,7 @@ type PhysX = {
     scene: any
     getCooking: any
     getConvexFlags: any
-    insertionCallback: any
+    getInsertionCallback: any
     Vector_PxVec3: any
     PxConvexMeshDesc: any
     PxConvexMeshGeometry: any
@@ -71,7 +71,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     scene: undefined,
     getCooking: undefined,
     getConvexFlags: undefined,
-    insertionCallback: undefined,
+    getInsertionCallback: undefined,
     Vector_PxVec3: undefined,
     PxConvexMeshDesc: undefined,
     PxConvexMeshGeometry: undefined,
