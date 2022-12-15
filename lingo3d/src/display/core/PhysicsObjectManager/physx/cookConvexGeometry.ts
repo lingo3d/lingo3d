@@ -20,7 +20,7 @@ export default (
     increasePhysXCookingCount()
 
     const {
-        convexFlags,
+        getConvexFlags,
         getCooking,
         insertionCallback,
         PxConvexMeshDesc,
@@ -30,7 +30,7 @@ export default (
     const [vec3Vector, count] = computePxVertices(loaded, manager)
 
     const desc = new PxConvexMeshDesc()
-    desc.flags = convexFlags
+    desc.flags = getConvexFlags()
     desc.points.count = count
     desc.points.stride = 12
     desc.points.data = vec3Vector.data()

@@ -74,7 +74,7 @@ PhysX().then((PhysX: any) => {
     const physics = Px.CreatePhysics(version, foundation, scale)
 
     //init extensions
-    Px.InitExtensions(physics)
+    // Px.InitExtensions(physics)
 
     //create PxCooking
     const getCooking = lazy(() => {
@@ -84,10 +84,13 @@ PhysX().then((PhysX: any) => {
     })
 
     //create default convex flags
-    const convexFlags = new PxConvexFlags(
-        _emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX() |
-            _emscripten_enum_PxConvexFlagEnum_eDISABLE_MESH_VALIDATION() |
-            _emscripten_enum_PxConvexFlagEnum_eFAST_INERTIA_COMPUTATION()
+    const getConvexFlags = lazy(
+        () =>
+            new PxConvexFlags(
+                _emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX() |
+                    _emscripten_enum_PxConvexFlagEnum_eDISABLE_MESH_VALIDATION() |
+                    _emscripten_enum_PxConvexFlagEnum_eFAST_INERTIA_COMPUTATION()
+            )
     )
 
     //create insertion callback
@@ -199,7 +202,7 @@ PhysX().then((PhysX: any) => {
         pxFilterData,
         scene: scene,
         getCooking,
-        convexFlags,
+        getConvexFlags,
         insertionCallback,
         PxBoxGeometry,
         PxCapsuleGeometry,
