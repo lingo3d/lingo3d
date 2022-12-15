@@ -114,7 +114,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
                 const handle = onBeforeRender(() => {
                     pxVec.set_x(0)
-                    pxVec.set_y(-9.81 * FRAME2SEC)
+                    pxVec.set_y(-9.81 * FRAME2SEC * FRAME2SEC)
                     pxVec.set_z(0)
                     controller.move(pxVec, 0.001, dtPtr[0], pxControllerFilters)
                 })
