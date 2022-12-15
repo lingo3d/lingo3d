@@ -17,6 +17,7 @@ import threeScene from "../../../engine/scene"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import { FRAME2SEC } from "../../../globals"
 import { dtPtr } from "../../../engine/eventLoop"
+import destroy from "./physx/destroy"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -121,6 +122,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 })
                 return () => {
                     handle.cancel()
+                    destroy(desc)
+                    destroy(controller)
+                    objectCharacterActorMap.delete(this.outerObject3d)
                 }
             }
 
@@ -148,9 +152,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             objectActorMap.set(this.outerObject3d, actor)
 
             return () => {
-                shape.release()
+                destroy(shape)
                 scene.removeActor(actor)
-                actor.release()
+                destroy(actor)
                 objectActorMap.delete(this.outerObject3d)
             }
         }, [physicsState.get, getPhysX])
