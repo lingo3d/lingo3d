@@ -9,7 +9,7 @@ export const [setEditorModeComputed, getEditorModeComputed] = store(
 Promise.all([
     import("../api/core/PositionedItem"),
     import("../display/core/SimpleObjectManager")
-]).then(([{ isPositionedItem }, SimpleObjectManager]) => {
+]).then(([{ isPositionedItem }, { default: SimpleObjectManager }]) => {
     createEffect(() => {
         const target = getSelectionTarget()
         const mode = getEditorMode()
