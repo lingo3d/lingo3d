@@ -1,6 +1,7 @@
 import { Object3D } from "three"
 import Appendable from "../../../../api/core/Appendable"
 import { getPhysX } from "../../../../states/usePhysX"
+import { decreasePhysXCookingCount, increasePhysXCookingCount } from "../../../../states/usePhysXCookingCount"
 import { pxGeometryCache } from "./getConvexGeometry"
 import getMergedPxVertices from "./getMergedPxVertices"
 
@@ -10,6 +11,8 @@ export default (
     manager: Appendable
 ) => {
     if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
+
+    increasePhysXCookingCount()
 
     const {
         PxBoundedData,
@@ -51,5 +54,7 @@ export default (
     // indexVector.destroy()
 
     pxGeometryCache.set(src, pxGeometry)
+    decreasePhysXCookingCount()
+
     return pxGeometry
 }

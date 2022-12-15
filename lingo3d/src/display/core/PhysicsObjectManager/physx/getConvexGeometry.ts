@@ -1,6 +1,10 @@
 import { Object3D } from "three"
 import Appendable from "../../../../api/core/Appendable"
 import { getPhysX } from "../../../../states/usePhysX"
+import {
+    decreasePhysXCookingCount,
+    increasePhysXCookingCount
+} from "../../../../states/usePhysXCookingCount"
 import getPxVertices from "./getPxVertices"
 
 export const pxGeometryCache = new Map<string | undefined, any>()
@@ -11,6 +15,8 @@ export default (
     manager: Appendable
 ) => {
     if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
+
+    increasePhysXCookingCount()
 
     const {
         convexFlags,
@@ -32,5 +38,7 @@ export default (
     const pxGeometry = new PxConvexMeshGeometry(convexMesh)
 
     pxGeometryCache.set(src, pxGeometry)
+    decreasePhysXCookingCount()
+
     return pxGeometry
 }

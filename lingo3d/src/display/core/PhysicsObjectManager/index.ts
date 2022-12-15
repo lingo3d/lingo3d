@@ -14,9 +14,8 @@ import getActualScale from "../../utils/getActualScale"
 import { Reactive } from "@lincode/reactivity"
 import objectActorMap, { objectCharacterActorMap } from "./physx/objectActorMap"
 import threeScene from "../../../engine/scene"
-import { dtPtr } from "../../../engine/eventLoop"
 import { onBeforeRender } from "../../../events/onBeforeRender"
-import { FRAME2SEC, SEC2FRAME } from "../../../globals"
+import { DT, FRAME2SEC } from "../../../globals"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -116,8 +115,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     pxVec.set_x(0)
                     pxVec.set_y(-9.81 * FRAME2SEC)
                     pxVec.set_z(0)
-
-                    controller.move(pxVec, 0.001, dtPtr[0], pxControllerFilters)
+                    controller.move(pxVec, 0.001, DT, pxControllerFilters)
                 })
                 return () => {
                     handle.cancel()

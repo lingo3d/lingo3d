@@ -2,16 +2,16 @@ import { createEffect } from "@lincode/reactivity"
 import { onBeforeRender } from "../../../../events/onBeforeRender"
 import { getPhysX } from "../../../../states/usePhysX"
 import "../../../../engine/eventLoop"
-import { dtPtr } from "../../../../engine/eventLoop"
 import objectActorMap, { objectCharacterActorMap } from "./objectActorMap"
+import { getPhysXCookingCount } from "../../../../states/usePhysXCookingCount"
+import { DT } from "../../../../globals"
 
 createEffect(() => {
     const { scene } = getPhysX()
-    if (!scene) return
+    if (!scene || getPhysXCookingCount()) return
 
     const handle = onBeforeRender(() => {
-        scene.simulate(1 / 60)
-        // scene.simulate(dtPtr[0])
+        scene.simulate(DT)
         scene.fetchResults(true)
 
         for (const [target, actor] of objectActorMap) {
@@ -27,4 +27,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getPhysX])
+}, [getPhysX, getPhysXCookingCount])

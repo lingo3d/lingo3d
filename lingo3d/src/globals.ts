@@ -4,6 +4,7 @@ export const MONITOR_INTERVAL = 100
 
 export const SEC2FRAME = 60
 export const FRAME2SEC = 1 / SEC2FRAME
+export const DT = 1 / 60
 
 export const MIN_POLAR_ANGLE = 5
 export const MAX_POLAR_ANGLE = 175
