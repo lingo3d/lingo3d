@@ -77,9 +77,11 @@ PhysX().then((PhysX: any) => {
     Px.InitExtensions(physics)
 
     //create PxCooking
-    const cookingParams = new PxCookingParams(scale)
-    cookingParams.suppressTriangleMeshRemapTable = true
-    const cooking = Px.CreateCooking(version, foundation, cookingParams)
+    const getCooking = lazy(() => {
+        const cookingParams = new PxCookingParams(scale)
+        cookingParams.suppressTriangleMeshRemapTable = true
+        return Px.CreateCooking(version, foundation, cookingParams)
+    })
 
     //create default convex flags
     const convexFlags = new PxConvexFlags(
@@ -196,7 +198,7 @@ PhysX().then((PhysX: any) => {
         pxPose,
         pxFilterData,
         scene: scene,
-        cooking,
+        getCooking,
         convexFlags,
         insertionCallback,
         PxBoxGeometry,

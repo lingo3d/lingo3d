@@ -22,7 +22,7 @@ export default (
         PxBoundedData,
         Vector_PxU32,
         PxTriangleMeshDesc,
-        cooking,
+        getCooking,
         insertionCallback,
         PxTriangleMeshGeometry
     } = getPhysX()
@@ -47,7 +47,10 @@ export default (
     desc.points = points
     desc.triangles = triangles
 
-    const triangleMesh = cooking.createTriangleMesh(desc, insertionCallback)
+    const triangleMesh = getCooking().createTriangleMesh(
+        desc,
+        insertionCallback
+    )
     const pxGeometry = new PxTriangleMeshGeometry(triangleMesh)
 
     pointVector.clear()
