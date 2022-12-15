@@ -95,8 +95,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
             if (mode === "character") {
                 const desc = new PxCapsuleControllerDesc()
-                desc.height = 1.7
-                desc.radius = 0.5
+                const { x, y } = getActualScale(this).multiplyScalar(0.5)
+                desc.height = y * 1.2
+                desc.radius = x
                 desc.position.x = position.x
                 desc.position.y = position.y
                 desc.position.z = position.z
@@ -114,7 +115,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
                 const handle = onBeforeRender(() => {
                     pxVec.set_x(0)
-                    pxVec.set_y(-9.81 * FRAME2SEC * FRAME2SEC)
+                    pxVec.set_y(-9.81 * FRAME2SEC * FRAME2SEC * 10)
                     pxVec.set_z(0)
                     controller.move(pxVec, 0.001, dtPtr[0], pxControllerFilters)
                 })
