@@ -7,10 +7,12 @@ import IPhysicsObjectManager, {
 import { getPhysX } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
 import { Reactive } from "@lincode/reactivity"
-import objectActorMap, { objectCharacterActorMap } from "./physx/objectActorMap"
+import {
+    objectActorMap,
+    managerControllerMap,
+    objectCharacterActorMap
+} from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
-import { onBeforeRender } from "../../../events/onBeforeRender"
-import { FRAME2SEC } from "../../../globals"
 import { dtPtr, fpsRatioPtr } from "../../../engine/eventLoop"
 import destroy from "./physx/destroy"
 import { scaleDown } from "../../../engine/constants"
@@ -21,17 +23,6 @@ let filters: any
 getPhysX((val) => {
     pxVec = val.pxVec
     filters = val.getPxControllerFilters?.()
-})
-
-const managerControllerMap = new Map<PhysicsObjectManager, any>()
-onBeforeRender(() => {
-    if (!managerControllerMap.size) return
-
-    pxVec.set_x(0)
-    pxVec.set_y(-9.81 * FRAME2SEC * FRAME2SEC * 10)
-    pxVec.set_z(0)
-    for (const controller of managerControllerMap.values())
-        controller.move(pxVec, 0.001, dtPtr[0], filters)
 })
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
