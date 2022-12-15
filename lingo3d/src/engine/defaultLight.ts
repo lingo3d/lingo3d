@@ -6,7 +6,6 @@ import loadTexture from "../display/utils/loaders/loadTexture"
 import { FAR, TEXTURES_URL } from "../globals"
 import { environmentPreset } from "../interface/IEnvironment"
 import { getDefaultShadow } from "../states/useDefaultShadow"
-import { getCentripetal } from "../states/useCentripetal"
 import { getDefaultLight } from "../states/useDefaultLight"
 import { getEnvironment } from "../states/useEnvironment"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
@@ -64,7 +63,7 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getDefaultLight, getCentripetal])
+}, [getDefaultLight])
 
 createEffect(() => {
     const defaultLight = getDefaultLight()

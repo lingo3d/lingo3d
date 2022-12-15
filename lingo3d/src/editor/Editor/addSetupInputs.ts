@@ -93,8 +93,7 @@ export default (
 
     const [physicsParams, physicsRest] = splitObject(outlineRest, [
         "gravity",
-        "repulsion",
-        "centripetal"
+        "repulsion"
     ])
     addInputs(
         handle,

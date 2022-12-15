@@ -25,7 +25,6 @@ import MeshItem from "../MeshItem"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
-import { getCentripetal } from "../../../states/useCentripetal"
 import AnimatedObjectManager from "../AnimatedObjectManager"
 import Nullable from "../../../interface/utils/Nullable"
 import SpawnPoint from "../../SpawnPoint"
@@ -265,26 +264,20 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
 
     public moveForward(distance: number) {
-        if (getCentripetal()) this.translateZ(-distance)
-        else {
-            vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
-            vector3.crossVectors(this.outerObject3d.up, vector3)
-            this.outerObject3d.position.addScaledVector(
-                vector3,
-                distance * scaleDown * fpsRatioPtr[0]
-            )
-        }
+        vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
+        vector3.crossVectors(this.outerObject3d.up, vector3)
+        this.outerObject3d.position.addScaledVector(
+            vector3,
+            distance * scaleDown * fpsRatioPtr[0]
+        )
     }
 
     public moveRight(distance: number) {
-        if (getCentripetal()) this.translateX(distance)
-        else {
-            vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
-            this.outerObject3d.position.addScaledVector(
-                vector3,
-                distance * scaleDown * fpsRatioPtr[0]
-            )
-        }
+        vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
+        this.outerObject3d.position.addScaledVector(
+            vector3,
+            distance * scaleDown * fpsRatioPtr[0]
+        )
     }
 
     public onMoveToEnd: Nullable<() => void>

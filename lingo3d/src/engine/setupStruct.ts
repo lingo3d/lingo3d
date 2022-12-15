@@ -17,7 +17,6 @@ import {
     getBloomThreshold,
     setBloomThreshold
 } from "../states/useBloomThreshold"
-import { getCentripetal, setCentripetal } from "../states/useCentripetal"
 import { getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
 import { getExposure, setExposure } from "../states/useExposure"
 import { getGravity, setGravity } from "../states/useGravity"
@@ -142,13 +141,6 @@ export default {
     },
     set repulsion(value) {
         setRepulsion(value)
-    },
-
-    get centripetal() {
-        return getCentripetal()
-    },
-    set centripetal(value) {
-        setCentripetal(value)
     },
 
     get antiAlias() {

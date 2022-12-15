@@ -22,7 +22,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     stats: Boolean,
     gravity: Number,
     repulsion: Number,
-    centripetal: Boolean,
     antiAlias: [Boolean, String],
     logarithmicDepth: Boolean,
     pixelRatio: Number,
@@ -55,7 +54,6 @@ hideSchema([
     "pixelRatio",
     "gravity",
     "repulsion",
-    "centripetal",
     "pbr",
     "ssaoIntensity"
 ])

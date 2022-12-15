@@ -1,4 +1,4 @@
-import { Object3D, PerspectiveCamera, Quaternion } from "three"
+import { Object3D, PerspectiveCamera } from "three"
 import scene from "../../../engine/scene"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import ICharacterCamera, {
@@ -11,12 +11,8 @@ import { getTransformControlsDragging } from "../../../states/useTransformContro
 import OrbitCameraBase from "../OrbitCameraBase"
 import { euler, quaternion } from "../../utils/reusables"
 import MeshItem from "../MeshItem"
-import { getLoadedObject } from "../Loaded"
-import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import characterCameraPlaced from "./characterCameraPlaced"
 import { FAR, NEAR } from "../../../globals"
-import { getCentripetal } from "../../../states/useCentripetal"
-import applyCentripetalQuaternion from "../../utils/applyCentripetalQuaternion"
 import fpsAlpha from "../../utils/fpsAlpha"
 import { positionChanged } from "../../utils/trackObject"
 import { getEditorModeComputed } from "../../../states/useEditorModeComputed"
@@ -58,28 +54,11 @@ export default class CharacterCamera
             this.updateAngle()
         }
 
-        const lockTargetRotation = (
-            target: MeshItem,
-            slerp: boolean,
-            quat: Quaternion | undefined
-        ) => {
+        const lockTargetRotation = (target: MeshItem, slerp: boolean) => {
             euler.setFromQuaternion(this.midObject3d.quaternion)
             euler.x = 0
             euler.z = 0
             euler.y += Math.PI
-
-            if (quat) {
-                const innerObject = getLoadedObject(target)
-                quaternion.copy(target.outerObject3d.quaternion)
-                const innerRotationY = innerObject.rotation.y
-
-                target.outerObject3d.quaternion.copy(quat)
-                innerObject.rotation.y = euler.y
-                euler.setFromQuaternion(getWorldQuaternion(innerObject))
-
-                innerObject.rotation.y = innerRotationY
-                target.outerObject3d.quaternion.copy(quaternion)
-            }
 
             const placed = characterCameraPlaced.has(target)
             if (slerp && !placed) {
@@ -88,7 +67,6 @@ export default class CharacterCamera
                 return
             }
             target.outerObject3d.setRotationFromEuler(euler)
-            quat && placed && characterCameraPlaced.delete(target)
         }
 
         let transformControlRotating = false
@@ -99,14 +77,8 @@ export default class CharacterCamera
 
             followTargetRotation(found, false)
 
-            const centripetal = getCentripetal()
-
             const handle = onBeforeRender(() => {
                 this.outerObject3d.position.copy(found.outerObject3d.position)
-
-                const quat = centripetal
-                    ? applyCentripetalQuaternion(this)
-                    : undefined
 
                 if (!this.lockTargetRotation) return
 
@@ -119,7 +91,7 @@ export default class CharacterCamera
                 }
                 if (this.lockTargetRotation === "dynamic-lock") {
                     positionChanged(found.outerObject3d) &&
-                        lockTargetRotation(found, true, quat)
+                        lockTargetRotation(found, true)
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-follow") {
@@ -127,12 +99,12 @@ export default class CharacterCamera
                         followTargetRotation(found, true)
                     return
                 }
-                lockTargetRotation(found, false, quat)
+                lockTargetRotation(found, false)
             })
             return () => {
                 handle.cancel()
             }
-        }, [this.foundState.get, getCentripetal])
+        }, [this.foundState.get])
 
         this.createEffect(() => {
             const target = this.foundState.get()

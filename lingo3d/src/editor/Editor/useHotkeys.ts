@@ -5,12 +5,10 @@ import saveJSON from "../../api/files/saveJSON"
 import deserialize from "../../api/serializer/deserialize"
 import serialize from "../../api/serializer/serialize"
 import settings from "../../api/settings"
-import applyCentripetalQuaternion from "../../display/utils/applyCentripetalQuaternion"
 import mainCamera from "../../engine/mainCamera"
 import { emitEditorCenterView } from "../../events/onEditorCenterView"
 import { onKeyClear } from "../../events/onKeyClear"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import { getCentripetal } from "../../states/useCentripetal"
 import { getEditorCamera, setEditorCamera } from "../../states/useEditorCamera"
 import { redo, undo } from "../../api/undoStack"
 import {
@@ -95,10 +93,6 @@ export default () => {
                                 emitSelectionTarget(item)
                             }
                         }
-                    } else if (e.key === "ArrowUp" && getCentripetal()) {
-                        e.preventDefault()
-                        applyCentripetalQuaternion(target)
-                        setTransformControlsSpace("local")
                     }
                 }
             } else if (keyLowerCase === "c") {
