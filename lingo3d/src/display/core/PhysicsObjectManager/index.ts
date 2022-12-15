@@ -92,14 +92,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
             const { position, quaternion } = this.outerObject3d
 
-            pxVec.set_x(position.x)
-            pxVec.set_y(position.y)
-            pxVec.set_z(position.z)
-
             if (mode === "character") {
                 const desc = new PxCapsuleControllerDesc()
                 desc.height = 1.7
                 desc.radius = 0.5
+                desc.position.x = position.x
+                desc.position.y = position.y
+                desc.position.z = position.z
                 desc.climbingMode = PxCapsuleClimbingModeEnum.eEASY()
                 desc.nonWalkableMode =
                     PxControllerNonWalkableModeEnum.ePREVENT_CLIMBING()
@@ -108,11 +107,10 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 desc.contactOffset = 0.1
                 // desc.reportCallback = hitCallback.callback
                 // desc.behaviorCallback = behaviorCallback.callback
-                const pxCharacter = controllerManager.createController(desc)
-                objectCharacterActorMap.set(
-                    this.outerObject3d,
-                    pxCharacter.getActor()
-                )
+                const controller = controllerManager.createController(desc)
+                const actor = controller.getActor()
+                objectCharacterActorMap.set(this.outerObject3d, actor)
+                console.log(actor.addForce)
 
                 // const handle = onBeforeRender(() => {
                 //     pxVec.set_x(0.1)
@@ -130,6 +128,10 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     // handle.cancel()
                 }
             }
+
+            pxVec.set_x(position.x)
+            pxVec.set_y(position.y)
+            pxVec.set_z(position.z)
 
             pxQuat.set_x(quaternion.x)
             pxQuat.set_y(quaternion.y)

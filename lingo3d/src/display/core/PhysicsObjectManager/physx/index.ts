@@ -47,7 +47,11 @@ PhysX().then(
         _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING_AND_FORCE_SLIDING,
         _emscripten_enum_PxControllerShapeTypeEnum_eBOX,
         _emscripten_enum_PxControllerShapeTypeEnum_eCAPSULE,
-        PxControllerFilters
+        PxControllerFilters,
+        _emscripten_enum_PxForceModeEnum_eFORCE,
+        _emscripten_enum_PxForceModeEnum_eIMPULSE,
+        _emscripten_enum_PxForceModeEnum_eVELOCITY_CHANGE,
+        _emscripten_enum_PxForceModeEnum_eACCELERATION
     }: any) => {
         const Px = PxTopLevelFunctions.prototype
 
@@ -105,6 +109,7 @@ PhysX().then(
         // create PxController
         const controllerManager = Px.CreateControllerManager(scene)
 
+        // controller enums
         const PxCapsuleClimbingModeEnum = {
             eEASY: lazy(() =>
                 _emscripten_enum_PxCapsuleClimbingModeEnum_eEASY()
@@ -151,6 +156,18 @@ PhysX().then(
         }
         const pxControllerFilters = new PxControllerFilters()
 
+        // force mode enums
+        const PxForceModeEnum = {
+            eFORCE: lazy(() => _emscripten_enum_PxForceModeEnum_eFORCE()),
+            eIMPULSE: lazy(() => _emscripten_enum_PxForceModeEnum_eIMPULSE()),
+            eVELOCITY_CHANGE: lazy(() =>
+                _emscripten_enum_PxForceModeEnum_eVELOCITY_CHANGE()
+            ),
+            eACCELERATION: lazy(() =>
+                _emscripten_enum_PxForceModeEnum_eACCELERATION()
+            )
+        }
+
         setPhysX({
             physics,
             material,
@@ -180,7 +197,8 @@ PhysX().then(
             PxControllerCollisionFlagEnum,
             PxControllerNonWalkableModeEnum,
             PxControllerShapeTypeEnum,
-            pxControllerFilters
+            pxControllerFilters,
+            PxForceModeEnum
         })
 
         // scene.release()

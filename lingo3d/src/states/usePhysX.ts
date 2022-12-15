@@ -47,6 +47,12 @@ type PhysX = {
         eCAPSULE: any
     }
     pxControllerFilters: any
+    PxForceModeEnum: {
+        eFORCE: any
+        eIMPULSE: any
+        eVELOCITY_CHANGE: any
+        eACCELERATION: any
+    }
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -95,5 +101,11 @@ export const [setPhysX, getPhysX] = store<PhysX>({
         eBOX: undefined,
         eCAPSULE: undefined
     },
-    pxControllerFilters: undefined
+    pxControllerFilters: undefined,
+    PxForceModeEnum: {
+        eFORCE: undefined,
+        eIMPULSE: undefined,
+        eVELOCITY_CHANGE: undefined,
+        eACCELERATION: undefined
+    }
 })
