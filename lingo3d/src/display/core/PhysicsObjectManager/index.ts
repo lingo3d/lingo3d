@@ -175,12 +175,14 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         if (controller) {
             vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
             vector3.crossVectors(this.outerObject3d.up, vector3)
-            const { x, z } = this.outerObject3d.position
+            const { position } = this.outerObject3d
+            const targetPos = position
                 .clone()
                 .addScaledVector(vector3, distance * scaleDown * fpsRatioPtr[0])
 
-            pxVec.set_x(x)
-            pxVec.set_z(z)
+            pxVec.set_x(targetPos.x - position.x)
+            pxVec.set_y(0)
+            pxVec.set_z(targetPos.z - position.z)
             controller.move(pxVec, 0.001, dtPtr[0], filters)
             return
         }
