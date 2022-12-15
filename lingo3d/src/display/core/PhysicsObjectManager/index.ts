@@ -85,7 +85,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 PxControllerNonWalkableModeEnum,
                 material,
                 getPxControllerManager,
-                pxControllerFilters
+                getPxControllerFilters
             } = getPhysX()
             if (!physics || !mode) return
 
@@ -119,7 +119,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     pxVec.set_x(0)
                     pxVec.set_y(-9.81 * FRAME2SEC * FRAME2SEC * 10)
                     pxVec.set_z(0)
-                    controller.move(pxVec, 0.001, dtPtr[0], pxControllerFilters)
+                    controller.move(
+                        pxVec,
+                        0.001,
+                        dtPtr[0],
+                        getPxControllerFilters()
+                    )
                 })
                 return () => {
                     handle.cancel()
