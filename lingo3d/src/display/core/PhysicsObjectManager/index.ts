@@ -16,13 +16,22 @@ import destroy from "./physx/destroy"
 import { scaleDown } from "../../../engine/constants"
 import { vector3 } from "../../utils/reusables"
 
-const managerControllerMap = new WeakMap<PhysicsObjectManager, any>()
-
 let pxVec: any
 let filters: any
 getPhysX((val) => {
     pxVec = val.pxVec
     filters = val.getPxControllerFilters?.()
+})
+
+const managerControllerMap = new Map<PhysicsObjectManager, any>()
+onBeforeRender(() => {
+    if (!managerControllerMap.size) return
+
+    pxVec.set_x(0)
+    pxVec.set_y(-9.81 * FRAME2SEC * FRAME2SEC * 10)
+    pxVec.set_z(0)
+    for (const controller of managerControllerMap.values())
+        controller.move(pxVec, 0.001, dtPtr[0], filters)
 })
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
@@ -108,15 +117,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
                 managerControllerMap.set(this, controller)
 
-                const handle = onBeforeRender(() => {
-                    pxVec.set_x(0)
-                    pxVec.set_y(-9.81 * FRAME2SEC * FRAME2SEC * 10)
-                    pxVec.set_z(0)
-                    controller.move(pxVec, 0.001, dtPtr[0], filters)
-                })
                 return () => {
                     managerControllerMap.delete(this)
-                    handle.cancel()
                     destroy(desc)
                     destroy(controller)
                     objectCharacterActorMap.delete(this.outerObject3d)
@@ -204,7 +206,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             controller.move(pxVec, 0.001, dtPtr[0], filters)
             return
         }
-
         super.moveRight(distance)
     }
 }

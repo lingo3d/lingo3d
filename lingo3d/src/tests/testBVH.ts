@@ -44,7 +44,7 @@ const boxes = [
     model.x = x
     model.y = y
     model.z = z
-    model.physics = "map"
+    model.physics = true
 })
 
 settings.skybox = [

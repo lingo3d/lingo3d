@@ -108,6 +108,7 @@ PhysX().then((PhysX: any) => {
 
     // create a default material
     const material = physics.createMaterial(0.5, 0.5, 0.5)
+
     // create default simulation shape flags
     const shapeFlags = new PxShapeFlags(
         _emscripten_enum_PxShapeFlagEnum_eSCENE_QUERY_SHAPE() |
