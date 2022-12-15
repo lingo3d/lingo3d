@@ -28,13 +28,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
         const { x, y, z } = getActualScale(this).multiplyScalar(0.5)
         const pxGeometry = new PxBoxGeometry(x, y, z)
-        // destroy(geometry)
         const shape = physics.createShape(
             pxGeometry,
             material,
             true,
             shapeFlags
         )
+        destroy(pxGeometry)
         actor.attachShape(shape)
         return shape
     }
@@ -159,11 +159,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this._gravity = val
     }
 
-    public override moveForward(distance: number) {
-        
-    }
+    public override moveForward(distance: number) {}
 
-    public override moveRight(distance: number) {
-        
-    }
+    public override moveRight(distance: number) {}
 }
