@@ -74,6 +74,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             const {
                 physics,
                 pxVec,
+                pxGravityVec,
                 pxPose,
                 pxFilterData,
                 scene,
@@ -83,7 +84,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 PxControllerNonWalkableModeEnum,
                 material,
                 controllerManager,
-                pxControllerFilters
+                pxControllerFilters,
+                PxForceModeEnum
             } = getPhysX()
             if (!physics || !mode) return
 
@@ -111,6 +113,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 const actor = controller.getActor()
                 objectCharacterActorMap.set(this.outerObject3d, actor)
                 console.log(actor.addForce)
+                actor.addForce(pxGravityVec, PxForceModeEnum.eACCELERATION)
 
                 // const handle = onBeforeRender(() => {
                 //     pxVec.set_x(0.1)

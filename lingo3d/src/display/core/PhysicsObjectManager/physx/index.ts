@@ -84,9 +84,10 @@ PhysX().then(
         const insertionCallback = physics.getPhysicsInsertionCallback()
 
         // create scene
-        const pxVec = new PxVec3(0, -9.81, 0)
+        const pxVec = new PxVec3(0, 0, 0)
+        const pxGravityVec = new PxVec3(0, -9.81, 0)
         const sceneDesc = new PxSceneDesc(scale)
-        sceneDesc.set_gravity(pxVec)
+        sceneDesc.set_gravity(pxGravityVec)
         sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
         sceneDesc.set_filterShader(Px.DefaultFilterShader())
         const scene = physics.createScene(sceneDesc)
@@ -173,6 +174,7 @@ PhysX().then(
             material,
             shapeFlags,
             pxVec,
+            pxGravityVec,
             pxPose,
             pxFilterData,
             scene: scene,
