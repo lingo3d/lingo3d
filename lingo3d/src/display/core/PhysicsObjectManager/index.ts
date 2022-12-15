@@ -15,7 +15,8 @@ import { Reactive } from "@lincode/reactivity"
 import objectActorMap, { objectCharacterActorMap } from "./physx/objectActorMap"
 import threeScene from "../../../engine/scene"
 import { onBeforeRender } from "../../../events/onBeforeRender"
-import { DT, FRAME2SEC } from "../../../globals"
+import { FRAME2SEC } from "../../../globals"
+import { dtPtr } from "../../../engine/eventLoop"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -115,7 +116,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     pxVec.set_x(0)
                     pxVec.set_y(-9.81 * FRAME2SEC)
                     pxVec.set_z(0)
-                    controller.move(pxVec, 0.001, DT, pxControllerFilters)
+                    controller.move(pxVec, 0.001, dtPtr[0], pxControllerFilters)
                 })
                 return () => {
                     handle.cancel()

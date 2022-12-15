@@ -4,14 +4,17 @@ import { getPhysX } from "../../../../states/usePhysX"
 import "../../../../engine/eventLoop"
 import objectActorMap, { objectCharacterActorMap } from "./objectActorMap"
 import { getPhysXCookingCount } from "../../../../states/usePhysXCookingCount"
-import { DT } from "../../../../globals"
+import { getEditorPlay } from "../../../../states/useEditorPlay"
+import { getFirstLoad } from "../../../../states/useFirstLoad"
+import { dtPtr } from "../../../../engine/eventLoop"
 
 createEffect(() => {
     const { scene } = getPhysX()
-    if (!scene || getPhysXCookingCount()) return
+    if (!scene || getPhysXCookingCount() || !getEditorPlay() || !getFirstLoad())
+        return
 
     const handle = onBeforeRender(() => {
-        scene.simulate(DT)
+        scene.simulate(dtPtr[0])
         scene.fetchResults(true)
 
         for (const [target, actor] of objectActorMap) {
@@ -27,4 +30,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getPhysX, getPhysXCookingCount])
+}, [getPhysX, getPhysXCookingCount, getEditorPlay, getFirstLoad])
