@@ -1,6 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
 import mainCamera from "../../engine/mainCamera"
-import { onBeforeCameraLoop } from "../../events/onBeforeCameraLoop"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import IThirdPersonCamera, {
     thirdPersonCameraDefaults,
@@ -58,7 +57,7 @@ export default class ThirdPersonCamera
             setVisible(found, !tooCloseOld)
 
             let first = true
-            const handle = onBeforeCameraLoop(() => {
+            const handle = onBeforeRender(() => {
                 const origin = getWorldPosition(this.outerObject3d)
                 const camPos = getWorldPosition(this.object3d)
                 const dist = camPos.distanceTo(origin)
