@@ -70,6 +70,7 @@ createEffect(() => {
     renderer.setAnimationLoop(() => {
         if (paused) return
         delta += clock.getDelta()
+        if (delta > 0.2) delta = 0
         if (delta < targetDelta) return
         fpsRatioPtr[0] = delta * SEC2FRAME
         dtPtr[0] = delta
