@@ -112,6 +112,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 // desc.behaviorCallback = behaviorCallback.callback
                 const controller =
                     getPxControllerManager().createController(desc)
+                const filters = getPxControllerFilters()
                 const actor = controller.getActor()
                 objectCharacterActorMap.set(this.outerObject3d, actor)
 
@@ -119,12 +120,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     pxVec.set_x(0)
                     pxVec.set_y(-9.81 * FRAME2SEC * FRAME2SEC * 10)
                     pxVec.set_z(0)
-                    controller.move(
-                        pxVec,
-                        0.001,
-                        dtPtr[0],
-                        getPxControllerFilters()
-                    )
+                    controller.move(pxVec, 0.001, dtPtr[0], filters)
                 })
                 return () => {
                     handle.cancel()
