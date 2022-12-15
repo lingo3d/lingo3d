@@ -148,9 +148,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             objectActorMap.set(this.outerObject3d, actor)
 
             return () => {
+                shape.release()
                 scene.removeActor(actor)
                 actor.release()
-                shape.release()
                 objectActorMap.delete(this.outerObject3d)
             }
         }, [physicsState.get, getPhysX])

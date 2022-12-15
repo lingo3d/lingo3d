@@ -17,4 +17,8 @@ timer(100, -1, () => {
     box.src = "parrot.glb"
     box.y = 200
     box.physics = "convex"
+
+    setTimeout(() => {
+        box.dispose()
+    }, 1000)
 })
