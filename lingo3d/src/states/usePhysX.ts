@@ -5,7 +5,6 @@ type PhysX = {
     material: any
     shapeFlags: any
     pxVec: any
-    pxGravityVec: any
     pxPose: any
     pxFilterData: any
     scene: any
@@ -67,7 +66,6 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     material: undefined,
     shapeFlags: undefined,
     pxVec: undefined,
-    pxGravityVec: undefined,
     pxPose: undefined,
     pxFilterData: undefined,
     scene: undefined,

@@ -16,6 +16,7 @@ import objectActorMap, { objectCharacterActorMap } from "./physx/objectActorMap"
 import threeScene from "../../../engine/scene"
 import { dtPtr } from "../../../engine/eventLoop"
 import { onBeforeRender } from "../../../events/onBeforeRender"
+import { FRAME2SEC, SEC2FRAME } from "../../../globals"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -74,7 +75,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             const {
                 physics,
                 pxVec,
-                pxGravityVec,
                 pxPose,
                 pxFilterData,
                 scene,
@@ -84,8 +84,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 PxControllerNonWalkableModeEnum,
                 material,
                 controllerManager,
-                pxControllerFilters,
-                PxForceModeEnum
+                pxControllerFilters
             } = getPhysX()
             if (!physics || !mode) return
 
@@ -112,22 +111,16 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 const controller = controllerManager.createController(desc)
                 const actor = controller.getActor()
                 objectCharacterActorMap.set(this.outerObject3d, actor)
-                //mark
 
-                // const handle = onBeforeRender(() => {
-                //     pxVec.set_x(0.1)
-                //     pxVec.set_y(0.1)
-                //     pxVec.set_z(0.1)
+                const handle = onBeforeRender(() => {
+                    pxVec.set_x(0)
+                    pxVec.set_y(-9.81 * FRAME2SEC)
+                    pxVec.set_z(0)
 
-                //     pxCharacter.move(
-                //         pxVec,
-                //         0.001,
-                //         dtPtr[0],
-                //         pxControllerFilters
-                //     )
-                // })
+                    controller.move(pxVec, 0.001, dtPtr[0], pxControllerFilters)
+                })
                 return () => {
-                    // handle.cancel()
+                    handle.cancel()
                 }
             }
 
