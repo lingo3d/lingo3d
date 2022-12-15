@@ -158,4 +158,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public set gravity(val) {
         this._gravity = val
     }
+
+    public override moveForward(distance: number) {
+        
+    }
+
+    public override moveRight(distance: number) {
+        
+    }
 }
