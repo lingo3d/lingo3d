@@ -14,6 +14,10 @@ import { FRAME2SEC } from "../../../globals"
 import { dtPtr } from "../../../engine/eventLoop"
 import destroy from "./physx/destroy"
 
+const managerControllerMap = new WeakMap<PhysicsObjectManager, [any, any]>()
+let pxVec: any
+getPhysX((val) => (pxVec = val.pxVec))
+
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
     implements IPhysicsObjectManager
@@ -57,7 +61,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             const mode = physicsState.get()
             const {
                 physics,
-                pxVec,
                 pxPose,
                 pxFilterData,
                 scene,
