@@ -5,6 +5,7 @@ import {
     decreasePhysXCookingCount,
     increasePhysXCookingCount
 } from "../../../../states/usePhysXCookingCount"
+import destroy from "./destroy"
 import getPxVertices from "./getPxVertices"
 
 export const pxGeometryCache = new Map<string | undefined, any>()
@@ -26,7 +27,7 @@ export default (
         PxConvexMeshGeometry
     } = getPhysX()
 
-    const [vec3Vector, count] = getPxVertices(src, loaded, manager)
+    const [vec3Vector, count] = getPxVertices(loaded, manager)
 
     const desc = new PxConvexMeshDesc()
     desc.flags = convexFlags
@@ -36,6 +37,10 @@ export default (
 
     const convexMesh = cooking.createConvexMesh(desc, insertionCallback)
     const pxGeometry = new PxConvexMeshGeometry(convexMesh)
+
+    destroy(desc)
+    vec3Vector.clear()
+    destroy(vec3Vector)
 
     pxGeometryCache.set(src, pxGeometry)
     decreasePhysXCookingCount()

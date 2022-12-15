@@ -2,18 +2,7 @@ import { Object3D, BufferGeometry, Mesh } from "three"
 import Appendable from "../../../../api/core/Appendable"
 import { getPhysX } from "../../../../states/usePhysX"
 
-const mergedPxVerticesCache = new Map<
-    string | undefined,
-    readonly [any, number]
->()
-
-export default (
-    src: string | undefined,
-    loaded: Object3D,
-    manager: Appendable
-) => {
-    if (mergedPxVerticesCache.has(src)) return mergedPxVerticesCache.get(src)!
-
+export default (loaded: Object3D, manager: Appendable) => {
     const { Vector_PxVec3 } = getPhysX()
 
     let vertexCount = 0
@@ -45,9 +34,5 @@ export default (
             pxVec3.set_z(vertices[offset + 2])
         }
     }
-    // vec3Vector.destroy()
-
-    const result = <const>[vec3Vector, vertexCount]
-    mergedPxVerticesCache.set(src, result)
-    return result
+    return <const>[vec3Vector, vertexCount]
 }

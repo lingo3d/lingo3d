@@ -20,5 +20,5 @@ timer(100, -1, () => {
 
     setTimeout(() => {
         box.dispose()
-    }, 1000)
+    }, 5000)
 })

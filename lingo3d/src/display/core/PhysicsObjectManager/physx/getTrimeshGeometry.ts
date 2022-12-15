@@ -1,7 +1,11 @@
 import { Object3D } from "three"
 import Appendable from "../../../../api/core/Appendable"
 import { getPhysX } from "../../../../states/usePhysX"
-import { decreasePhysXCookingCount, increasePhysXCookingCount } from "../../../../states/usePhysXCookingCount"
+import {
+    decreasePhysXCookingCount,
+    increasePhysXCookingCount
+} from "../../../../states/usePhysXCookingCount"
+import destroy from "./destroy"
 import { pxGeometryCache } from "./getConvexGeometry"
 import getMergedPxVertices from "./getMergedPxVertices"
 
@@ -23,11 +27,7 @@ export default (
         PxTriangleMeshGeometry
     } = getPhysX()
 
-    const [pointVector, count, index] = getMergedPxVertices(
-        src,
-        loaded,
-        manager
-    )
+    const [pointVector, count, index] = getMergedPxVertices(loaded, manager)
     const indexVector = new Vector_PxU32()
 
     const { array } = index
@@ -50,8 +50,13 @@ export default (
     const triangleMesh = cooking.createTriangleMesh(desc, insertionCallback)
     const pxGeometry = new PxTriangleMeshGeometry(triangleMesh)
 
-    // pointVector.destroy()
-    // indexVector.destroy()
+    pointVector.clear()
+    destroy(pointVector)
+    indexVector.clear()
+    destroy(indexVector)
+    destroy(points)
+    destroy(triangles)
+    destroy(desc)
 
     pxGeometryCache.set(src, pxGeometry)
     decreasePhysXCookingCount()
