@@ -11,12 +11,19 @@ import objectActorMap, { objectCharacterActorMap } from "./physx/objectActorMap"
 import threeScene from "../../../engine/scene"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import { FRAME2SEC } from "../../../globals"
-import { dtPtr } from "../../../engine/eventLoop"
+import { dtPtr, fpsRatioPtr } from "../../../engine/eventLoop"
 import destroy from "./physx/destroy"
+import { scaleDown } from "../../../engine/constants"
+import { vector3 } from "../../utils/reusables"
 
-const managerControllerMap = new WeakMap<PhysicsObjectManager, [any, any]>()
+const managerControllerMap = new WeakMap<PhysicsObjectManager, any>()
+
 let pxVec: any
-getPhysX((val) => (pxVec = val.pxVec))
+let filters: any
+getPhysX((val) => {
+    pxVec = val.pxVec
+    filters = val.getPxControllerFilters?.()
+})
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -69,8 +76,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 PxCapsuleClimbingModeEnum,
                 PxControllerNonWalkableModeEnum,
                 material,
-                getPxControllerManager,
-                getPxControllerFilters
+                getPxControllerManager
             } = getPhysX()
             if (!physics || !mode) return
 
@@ -97,9 +103,10 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 // desc.behaviorCallback = behaviorCallback.callback
                 const controller =
                     getPxControllerManager().createController(desc)
-                const filters = getPxControllerFilters()
                 const actor = controller.getActor()
                 objectCharacterActorMap.set(this.outerObject3d, actor)
+
+                managerControllerMap.set(this, controller)
 
                 const handle = onBeforeRender(() => {
                     pxVec.set_x(0)
@@ -108,6 +115,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     controller.move(pxVec, 0.001, dtPtr[0], filters)
                 })
                 return () => {
+                    managerControllerMap.delete(this)
                     handle.cancel()
                     destroy(desc)
                     destroy(controller)
@@ -162,7 +170,22 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this._gravity = val
     }
 
-    public override moveForward(distance: number) {}
+    public override moveForward(distance: number) {
+        const controller = managerControllerMap.get(this)
+        if (controller) {
+            vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
+            vector3.crossVectors(this.outerObject3d.up, vector3)
+            const { x, z } = this.outerObject3d.position
+                .clone()
+                .addScaledVector(vector3, distance * scaleDown * fpsRatioPtr[0])
+
+            pxVec.set_x(x)
+            pxVec.set_z(z)
+            controller.move(pxVec, 0.001, dtPtr[0], filters)
+            return
+        }
+        super.moveForward(distance)
+    }
 
     public override moveRight(distance: number) {}
 }
