@@ -2,10 +2,12 @@ import { lazy } from "@lincode/utils"
 //@ts-ignore
 import PhysX from "physx-js-webidl"
 import { setPhysX } from "../../../../states/usePhysX"
+import { destroyPtr } from "./destroy"
 import "./physxLoop"
 
 PhysX().then((PhysX: any) => {
     const {
+        destroy,
         PxTopLevelFunctions,
         PxDefaultAllocator,
         PxDefaultErrorCallback,
@@ -58,6 +60,7 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxActorFlagEnum_eDISABLE_SIMULATION
     } = PhysX
 
+    destroyPtr[0] = destroy
     const Px = PxTopLevelFunctions.prototype
 
     // create PxFoundation
@@ -111,6 +114,7 @@ PhysX().then((PhysX: any) => {
 
     // create PxController
     const controllerManager = Px.CreateControllerManager(scene)
+    const pxControllerFilters = new PxControllerFilters()
 
     // controller enums
     const PxCapsuleClimbingModeEnum = {
@@ -155,7 +159,6 @@ PhysX().then((PhysX: any) => {
             _emscripten_enum_PxControllerShapeTypeEnum_eCAPSULE()
         )
     }
-    const pxControllerFilters = new PxControllerFilters()
 
     // force mode enums
     const PxForceModeEnum = {
@@ -208,23 +211,14 @@ PhysX().then((PhysX: any) => {
         PxTriangleMeshGeometry,
         pxQuat,
         controllerManager,
+        pxControllerFilters,
         PxCapsuleControllerDesc,
         PxCapsuleClimbingModeEnum,
         PxControllerBehaviorFlagEnum,
         PxControllerCollisionFlagEnum,
         PxControllerNonWalkableModeEnum,
         PxControllerShapeTypeEnum,
-        pxControllerFilters,
         PxForceModeEnum,
         PxActorFlagEnum
     })
-
-    // scene.release()
-    // material.release()
-    // physics.release()
-    // foundation.release()
-    // cooking.release()
-    // destroy(errorCb)
-    // destroy(allocator)
-    // console.log("Cleaned up")
 })

@@ -23,6 +23,7 @@ type PhysX = {
     PxTriangleMeshGeometry: any
     pxQuat: any
     controllerManager: any
+    pxControllerFilters: any
     PxCapsuleControllerDesc: any
     PxCapsuleClimbingModeEnum: {
         eEASY: any
@@ -46,7 +47,6 @@ type PhysX = {
         eBOX: any
         eCAPSULE: any
     }
-    pxControllerFilters: any
     PxForceModeEnum: {
         eFORCE: any
         eIMPULSE: any
@@ -84,6 +84,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxTriangleMeshGeometry: undefined,
     pxQuat: undefined,
     controllerManager: undefined,
+    pxControllerFilters: undefined,
     PxCapsuleControllerDesc: undefined,
     PxCapsuleClimbingModeEnum: {
         eEASY: undefined,
@@ -107,7 +108,6 @@ export const [setPhysX, getPhysX] = store<PhysX>({
         eBOX: undefined,
         eCAPSULE: undefined
     },
-    pxControllerFilters: undefined,
     PxForceModeEnum: {
         eFORCE: undefined,
         eIMPULSE: undefined,
