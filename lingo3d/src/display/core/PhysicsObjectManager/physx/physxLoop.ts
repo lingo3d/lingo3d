@@ -2,7 +2,7 @@ import { createEffect } from "@lincode/reactivity"
 import { onBeforeRender } from "../../../../events/onBeforeRender"
 import { getPhysX } from "../../../../states/usePhysX"
 import "../../../../engine/eventLoop"
-import { objectActorMap, managerControllerMap } from "./pxMaps"
+import { managerActorMap, managerControllerMap } from "./pxMaps"
 import { getPhysXCookingCount } from "../../../../states/usePhysXCookingCount"
 import { getEditorPlay } from "../../../../states/useEditorPlay"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
@@ -34,10 +34,10 @@ createEffect(() => {
                 manager.outerObject3d.position.copy(actor.getGlobalPose().p)
             }
         }
-        for (const [target, actor] of objectActorMap) {
+        for (const [manager, actor] of managerActorMap) {
             const { p, q } = actor.getGlobalPose()
-            target.position.copy(p)
-            target.quaternion.copy(q)
+            manager.outerObject3d.position.copy(p)
+            manager.outerObject3d.quaternion.copy(q)
         }
     })
     return () => {
