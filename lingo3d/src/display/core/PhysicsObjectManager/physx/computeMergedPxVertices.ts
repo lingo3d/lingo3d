@@ -7,7 +7,6 @@ export default (loaded: Object3D, manager: Appendable) => {
     const { Vector_PxVec3 } = getPhysX()
 
     const geometries: Array<BufferGeometry> = []
-    const geometriesUV2: Array<BufferGeometry> = []
 
     loaded.updateMatrixWorld()
     const { x, y, z } = manager.outerObject3d.position
@@ -16,12 +15,11 @@ export default (loaded: Object3D, manager: Appendable) => {
         const clone = c.geometry.clone()
         clone.applyMatrix4(c.matrixWorld)
         clone.translate(-x, -y, -z)
+        clone.deleteAttribute("uv2")
         clone.dispose()
-        ;(c.geometry.attributes.uv2 ? geometriesUV2 : geometries).push(clone)
+        geometries.push(clone)
     })
-    const geometry = BufferGeometryUtils.mergeBufferGeometries(
-        geometriesUV2.length > geometries.length ? geometriesUV2 : geometries
-    )
+    const geometry = BufferGeometryUtils.mergeBufferGeometries(geometries)
     geometry.dispose()
 
     const buffer = geometry.attributes.position
