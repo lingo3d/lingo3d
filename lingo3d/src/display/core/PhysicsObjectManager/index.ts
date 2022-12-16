@@ -100,6 +100,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 threeScene.attach(this.outerObject3d)
 
             const { position, quaternion } = this.outerObject3d
+            this.positionUpdate = new PhysicsUpdate()
 
             if (mode === "character") {
                 const desc = new PxCapsuleControllerDesc()
@@ -129,6 +130,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     destroy(controller)
                     managerControllerMap.delete(this)
                     this.actor = undefined
+                    this.positionUpdate = undefined
                 }
             }
 
@@ -158,6 +160,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 destroy(actor)
                 managerActorMap.delete(this)
                 this.actor = undefined
+                this.positionUpdate = undefined
             }
         }, [physicsState.get, getPhysX])
     }
