@@ -15,35 +15,29 @@ createEffect(() => {
         return
 
     const handle = onBeforeRender(() => {
-        if (managerControllerMap.size) {
-            for (const [manager, controller] of managerControllerMap) {
-                const vy = controller.getActor().getLinearVelocity().get_y()
-                // (vy - 9.81 * dtPtr[0]) * dtPtr[0]
-                const dy = (vy - 1) * dtPtr[0]
+        for (const [manager, controller] of managerControllerMap) {
+            const vy = controller.getActor().getLinearVelocity().get_y()
+            // (vy - 9.81 * dtPtr[0]) * dtPtr[0]
+            const dy = (vy - 1) * dtPtr[0]
 
-                if (manager.pxUpdate) {
-                    manager.pxUpdate = false
-                    const {
-                        x: px,
-                        y: py,
-                        z: pz
-                    } = manager.outerObject3d.position
-                    const { x: cx, y: cy, z: cz } = controller.getPosition()
+            if (manager.pxUpdate) {
+                manager.pxUpdate = false
+                const { x: px, y: py, z: pz } = manager.outerObject3d.position
+                const { x: cx, y: cy, z: cz } = controller.getPosition()
 
-                    controller.move(
-                        setPxVec(px - cx, py - cy + dy, pz - cz),
-                        0.001,
-                        dtPtr[0],
-                        pxControllerFilters
-                    )
-                } else
-                    controller.move(
-                        setPxVec(0, dy, 0),
-                        0.001,
-                        dtPtr[0],
-                        pxControllerFilters
-                    )
-            }
+                controller.move(
+                    setPxVec(px - cx, py - cy + dy, pz - cz),
+                    0.001,
+                    dtPtr[0],
+                    pxControllerFilters
+                )
+            } else
+                controller.move(
+                    setPxVec(0, dy, 0),
+                    0.001,
+                    dtPtr[0],
+                    pxControllerFilters
+                )
         }
         scene.simulate(dtPtr[0])
         scene.fetchResults(true)
