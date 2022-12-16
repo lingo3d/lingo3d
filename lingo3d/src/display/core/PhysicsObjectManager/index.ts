@@ -14,6 +14,9 @@ import destroy from "./physx/destroy"
 import { scaleDown } from "../../../engine/constants"
 import { vector3 } from "../../utils/reusables"
 import { assignPxVec, setPxVec } from "./physx/updatePxVec"
+import PhysicsUpdate from "./PhysicsUpdate"
+import SpawnPoint from "../../SpawnPoint"
+import MeshItem from "../MeshItem"
 
 let filters: any
 getPhysX((val) => (filters = val.getPxControllerFilters?.()))
@@ -174,6 +177,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this._gravity = val
     }
 
+    private positionUpdate?: PhysicsUpdate
+
     public override moveForward(distance: number) {
         const controller = managerControllerMap.get(this)
         if (controller) {
@@ -193,6 +198,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             return
         }
         super.moveForward(distance)
+        this.positionUpdate?.updateXZ()
     }
 
     public override moveRight(distance: number) {
@@ -213,6 +219,29 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             return
         }
         super.moveRight(distance)
+        this.positionUpdate?.updateXZ()
+    }
+
+    public override placeAt(target: string | Point3d | MeshItem | SpawnPoint) {
+        super.placeAt(target)
+        this.positionUpdate?.updateXYZ()
+    }
+
+    public override lerpTo(x: number, y: number, z: number, alpha: number) {
+        super.lerpTo(x, y, z, alpha, () => this.positionUpdate?.updateXYZ())
+    }
+
+    public override moveTo(
+        x: number,
+        y: number | undefined,
+        z: number,
+        speed: number
+    ) {
+        super.moveTo(x, y, z, speed, (y) =>
+            y === undefined
+                ? this.positionUpdate?.updateXZ()
+                : this.positionUpdate?.updateXYZ()
+        )
     }
 
     public override get x() {
@@ -220,5 +249,22 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set x(val) {
         super.x = val
+        this.positionUpdate?.updateX()
+    }
+
+    public override get y() {
+        return super.y
+    }
+    public override set y(val) {
+        super.y = val
+        this.positionUpdate?.updateY()
+    }
+
+    public override get z() {
+        return super.z
+    }
+    public override set z(val) {
+        super.z = val
+        this.positionUpdate?.updateZ()
     }
 }

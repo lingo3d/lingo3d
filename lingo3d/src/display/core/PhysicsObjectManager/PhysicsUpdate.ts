@@ -8,11 +8,11 @@ export default class PhysicsUpdate {
     }
 
     public updateY() {
-        this.x = true
+        this.y = true
     }
 
     public updateZ() {
-        this.x = true
+        this.z = true
     }
 
     public updateXYZ() {

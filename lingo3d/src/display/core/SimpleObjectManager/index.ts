@@ -245,22 +245,22 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.translateZ(val * scaleDown * fpsRatioPtr[0])
     }
 
-    public placeAt(object: MeshItem | Point3d | SpawnPoint | string) {
-        if (typeof object === "string") {
-            const [found] = idMap.get(object) ?? [undefined]
+    public placeAt(target: MeshItem | Point3d | SpawnPoint | string) {
+        if (typeof target === "string") {
+            const [found] = idMap.get(target) ?? [undefined]
             if (!found) return
-            object = found
+            target = found
         }
-        if ("outerObject3d" in object) {
-            if ("isSpawnPoint" in object)
-                object.object3d.position.y = getActualScale(this).y * 0.5
-            this.outerObject3d.position.copy(getCenter(object.nativeObject3d))
+        if ("outerObject3d" in target) {
+            if ("isSpawnPoint" in target)
+                target.object3d.position.y = getActualScale(this).y * 0.5
+            this.outerObject3d.position.copy(getCenter(target.nativeObject3d))
             this.outerObject3d.quaternion.copy(
-                getWorldQuaternion(object.outerObject3d)
+                getWorldQuaternion(target.outerObject3d)
             )
             return
         }
-        this.outerObject3d.position.copy(point2Vec(object))
+        this.outerObject3d.position.copy(point2Vec(target))
     }
 
     public moveForward(distance: number) {
