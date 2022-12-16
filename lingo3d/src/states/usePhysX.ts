@@ -85,7 +85,6 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxBoundedData: undefined,
     PxTriangleMeshDesc: undefined,
     PxTriangleMeshGeometry: undefined,
-
     PxCapsuleControllerDesc: undefined,
     PxCapsuleClimbingModeEnum: {
         eEASY: undefined,

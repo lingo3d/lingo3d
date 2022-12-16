@@ -112,6 +112,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 // desc.behaviorCallback = behaviorCallback.callback
                 const controller =
                     getPxControllerManager().createController(desc)
+                destroy(desc)
                 const actor = (this.actor = controller.getActor())
 
                 objectCharacterActorMap.set(this.outerObject3d, actor)
@@ -119,7 +120,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 controllerActorMap.set(controller, actor)
 
                 return () => {
-                    destroy(desc)
                     destroy(controller)
                     objectCharacterActorMap.delete(this.outerObject3d)
                     managerControllerMap.delete(this)
