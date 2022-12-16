@@ -9,11 +9,8 @@ import getActualScale from "../../utils/getActualScale"
 import { Reactive } from "@lincode/reactivity"
 import { managerActorMap, managerControllerMap } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
-import { dtPtr, fpsRatioPtr } from "../../../engine/eventLoop"
 import destroy from "./physx/destroy"
-import { scaleDown } from "../../../engine/constants"
-import { vector3 } from "../../utils/reusables"
-import { assignPxVec, setPxVec } from "./physx/updatePxVec"
+import { assignPxVec } from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
 import MeshItem from "../MeshItem"
 
@@ -179,44 +176,11 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public pxUpdate?: boolean
 
     public override moveForward(distance: number) {
-        const controller = managerControllerMap.get(this)
-        if (controller) {
-            vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
-            vector3.crossVectors(this.outerObject3d.up, vector3)
-            const { position } = this.outerObject3d
-            const targetPos = position
-                .clone()
-                .addScaledVector(vector3, distance * scaleDown * fpsRatioPtr[0])
-
-            controller.move(
-                setPxVec(targetPos.x - position.x, 0, targetPos.z - position.z),
-                0.001,
-                dtPtr[0],
-                filters
-            )
-            return
-        }
         super.moveForward(distance)
         this.pxUpdate = true
     }
 
     public override moveRight(distance: number) {
-        const controller = managerControllerMap.get(this)
-        if (controller) {
-            vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
-            const { position } = this.outerObject3d
-            const targetPos = position
-                .clone()
-                .addScaledVector(vector3, distance * scaleDown * fpsRatioPtr[0])
-
-            controller.move(
-                setPxVec(targetPos.x - position.x, 0, targetPos.z - position.z),
-                0.001,
-                dtPtr[0],
-                filters
-            )
-            return
-        }
         super.moveRight(distance)
         this.pxUpdate = true
     }

@@ -318,7 +318,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         y: number | undefined,
         z: number,
         speed: number,
-        onFrame?: (y?: number) => void
+        onFrame?: () => void
     ) {
         if (x === this.x) x += 0.01
         if (z === this.z) z += 0.01
@@ -341,7 +341,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         this.cancelHandle("lerpTo", () =>
             onBeforeRender(() => {
                 this.x += sx * fpsRatioPtr[0]
-                y !== undefined && (this.y += sy * fpsRatioPtr[0])
+                if (y !== undefined) this.y += sy * fpsRatioPtr[0]
                 this.z += sz * fpsRatioPtr[0]
 
                 const angle = vertexAngle(
@@ -359,7 +359,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
                     this.cancelHandle("lerpTo", undefined)
                     this.onMoveToEnd?.()
                 }
-                onFrame?.(y)
+                onFrame?.()
             })
         )
     }
