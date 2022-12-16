@@ -15,6 +15,10 @@ createEffect(() => {
         return
 
     const handle = onBeforeRender(() => {
+        for (const [manager, actor] of managerActorMap) {
+            if (!manager.pxUpdate) continue
+            manager.pxUpdate = false
+        }
         for (const [manager, controller] of managerControllerMap) {
             const vy = controller.getActor().getLinearVelocity().get_y()
             // (vy - 9.81 * dtPtr[0]) * dtPtr[0]
@@ -22,6 +26,7 @@ createEffect(() => {
 
             if (manager.pxUpdate) {
                 manager.pxUpdate = false
+
                 const { x: px, y: py, z: pz } = manager.outerObject3d.position
                 const { x: cx, y: cy, z: cz } = controller.getPosition()
 

@@ -10,7 +10,7 @@ import { Reactive } from "@lincode/reactivity"
 import { managerActorMap, managerControllerMap } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import destroy from "./physx/destroy"
-import { assignPxVec } from "./physx/updatePxVec"
+import { assignPxVec, setPxPose } from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
 import MeshItem from "../MeshItem"
 
@@ -77,10 +77,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             const mode = physicsState.get()
             const {
                 physics,
-                pxPose,
                 pxFilterData,
                 scene,
-                pxQuat,
                 PxCapsuleControllerDesc,
                 PxCapsuleClimbingModeEnum,
                 PxControllerNonWalkableModeEnum,
@@ -92,16 +90,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             this.outerObject3d.parent !== threeScene &&
                 threeScene.attach(this.outerObject3d)
 
-            const { position, quaternion } = this.outerObject3d
-
             if (mode === "character") {
                 const desc = new PxCapsuleControllerDesc()
                 const { x, y } = getActualScale(this).multiplyScalar(0.5)
                 desc.height = y * 1.2
                 desc.radius = x
-                desc.position.x = position.x
-                desc.position.y = position.y
-                desc.position.z = position.z
+                Object.assign(desc.position, this.outerObject3d.position)
                 desc.climbingMode = PxCapsuleClimbingModeEnum.eEASY()
                 desc.nonWalkableMode =
                     PxControllerNonWalkableModeEnum.ePREVENT_CLIMBING()
@@ -125,20 +119,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 }
             }
 
-            pxQuat.set_x(quaternion.x)
-            pxQuat.set_y(quaternion.y)
-            pxQuat.set_z(quaternion.z)
-            pxQuat.set_w(quaternion.w)
-
-            pxPose.set_p(assignPxVec(position))
-            pxPose.set_q(pxQuat)
-
+            const pxPose = setPxPose(this.outerObject3d)
             const actor = this.initActor(
                 mode === "map"
                     ? physics.createRigidStatic(pxPose)
                     : physics.createRigidDynamic(pxPose)
             )
-
             const shape = this.getPxShape(mode, actor)
             shape.setSimulationFilterData(pxFilterData)
             scene.addActor(actor)
