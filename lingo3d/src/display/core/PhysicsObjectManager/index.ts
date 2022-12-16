@@ -124,6 +124,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 const controller =
                     getPxControllerManager().createController(desc)
                 destroy(desc)
+
                 this.initActor(controller.getActor())
 
                 managerControllerMap.set(this, controller)
