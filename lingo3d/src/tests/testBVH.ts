@@ -5,6 +5,7 @@ import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import settings from "../api/settings"
 import Dummy from "../display/Dummy"
 import Cube from "../display/primitives/Cube"
+import { onBeforeRender } from "../events/onBeforeRender"
 
 const player = new Dummy()
 player.src = "ready.glb"
@@ -14,7 +15,13 @@ player.physics = "character"
 player.rotationY = 90
 player.strideMove = true
 
+const handle = onBeforeRender(() => {
+    player.x += 1
+})
+
 keyboard.onKeyPress = (_, key) => {
+    handle.cancel()
+
     if (key.has("w")) player.strideForward = -5
     else if (key.has("s")) player.strideForward = 5
     else player.strideForward = 0

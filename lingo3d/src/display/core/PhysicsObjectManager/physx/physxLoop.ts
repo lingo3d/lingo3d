@@ -25,12 +25,26 @@ createEffect(() => {
                 const actor = controller.getActor()
                 const vy = actor.getLinearVelocity().get_y()
                 // (vy - 9.81 * dtPtr[0]) * dtPtr[0]
-                controller.move(
-                    setPxVec(0, (vy - 1) * dtPtr[0], 0),
-                    0.001,
-                    dtPtr[0],
-                    filters
-                )
+                const dy = (vy - 1) * dtPtr[0]
+
+                if (manager.pxUpdate) {
+                    manager.pxUpdate = false
+                    const {
+                        x: px,
+                        y: py,
+                        z: pz
+                    } = manager.outerObject3d.position
+                    const { x: cx, y: cy, z: cz } = controller.getPosition()
+
+                    controller.move(
+                        setPxVec(px - cx, py - cy + dy, pz - cz),
+                        0.001,
+                        dtPtr[0],
+                        filters
+                    )
+                    continue
+                }
+                controller.move(setPxVec(0, dy, 0), 0.001, dtPtr[0], filters)
                 manager.outerObject3d.position.copy(actor.getGlobalPose().p)
             }
         }

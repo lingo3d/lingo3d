@@ -14,7 +14,6 @@ import destroy from "./physx/destroy"
 import { scaleDown } from "../../../engine/constants"
 import { vector3 } from "../../utils/reusables"
 import { assignPxVec, setPxVec } from "./physx/updatePxVec"
-import PhysicsUpdate from "./PhysicsUpdate"
 import SpawnPoint from "../../SpawnPoint"
 import MeshItem from "../MeshItem"
 
@@ -100,7 +99,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 threeScene.attach(this.outerObject3d)
 
             const { position, quaternion } = this.outerObject3d
-            this.positionUpdate = new PhysicsUpdate()
 
             if (mode === "character") {
                 const desc = new PxCapsuleControllerDesc()
@@ -130,7 +128,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     destroy(controller)
                     managerControllerMap.delete(this)
                     this.actor = undefined
-                    this.positionUpdate = undefined
                 }
             }
 
@@ -160,7 +157,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 destroy(actor)
                 managerActorMap.delete(this)
                 this.actor = undefined
-                this.positionUpdate = undefined
             }
         }, [physicsState.get, getPhysX])
     }
@@ -180,7 +176,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this._gravity = val
     }
 
-    private positionUpdate?: PhysicsUpdate
+    public pxUpdate?: boolean
 
     public override moveForward(distance: number) {
         const controller = managerControllerMap.get(this)
@@ -201,7 +197,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             return
         }
         super.moveForward(distance)
-        this.positionUpdate?.updateXZ()
+        this.pxUpdate = true
     }
 
     public override moveRight(distance: number) {
@@ -222,16 +218,16 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             return
         }
         super.moveRight(distance)
-        this.positionUpdate?.updateXZ()
+        this.pxUpdate = true
     }
 
     public override placeAt(target: string | Point3d | MeshItem | SpawnPoint) {
         super.placeAt(target)
-        this.positionUpdate?.updateXYZ()
+        this.pxUpdate = true
     }
 
     public override lerpTo(x: number, y: number, z: number, alpha: number) {
-        super.lerpTo(x, y, z, alpha, () => this.positionUpdate?.updateXYZ())
+        super.lerpTo(x, y, z, alpha, () => (this.pxUpdate = true))
     }
 
     public override moveTo(
@@ -240,11 +236,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         z: number,
         speed: number
     ) {
-        super.moveTo(x, y, z, speed, (y) =>
-            y === undefined
-                ? this.positionUpdate?.updateXZ()
-                : this.positionUpdate?.updateXYZ()
-        )
+        super.moveTo(x, y, z, speed, () => (this.pxUpdate = true))
     }
 
     public override get x() {
@@ -252,7 +244,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set x(val) {
         super.x = val
-        this.positionUpdate?.updateX()
+        this.pxUpdate = true
     }
 
     public override get y() {
@@ -260,7 +252,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set y(val) {
         super.y = val
-        this.positionUpdate?.updateY()
+        this.pxUpdate = true
     }
 
     public override get z() {
@@ -268,6 +260,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set z(val) {
         super.z = val
-        this.positionUpdate?.updateZ()
+        this.pxUpdate = true
     }
 }
