@@ -31,7 +31,6 @@ PhysX().then((PhysX: any) => {
         PxTriangleMeshGeometry,
         PxQuat,
         PxCapsuleControllerDesc,
-        PxFilterFlags,
         _emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX,
         _emscripten_enum_PxConvexFlagEnum_eDISABLE_MESH_VALIDATION,
         _emscripten_enum_PxConvexFlagEnum_eFAST_INERTIA_COMPUTATION,

@@ -226,4 +226,11 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         }
         super.moveRight(distance)
     }
+
+    public override get x() {
+        return super.x
+    }
+    public override set x(val) {
+        super.x = val
+    }
 }

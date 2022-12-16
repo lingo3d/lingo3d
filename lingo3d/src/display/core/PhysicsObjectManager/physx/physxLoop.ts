@@ -18,30 +18,27 @@ createEffect(() => {
         return
 
     const handle = onBeforeRender(() => {
+        scene.simulate(dtPtr[0])
+        scene.fetchResults(true)
+
         if (managerControllerMap.size) {
             const filters = getPxControllerFilters()
 
-            for (const controller of managerControllerMap.values()) {
-                const vy = controller.getActor().getLinearVelocity().get_y()
+            for (const [manager, controller] of managerControllerMap) {
+                const actor = controller.getActor()
+                const vy = actor.getLinearVelocity().get_y()
                 pxVec.set_x(0)
                 // pxVec.set_y((vy - 9.81 * dtPtr[0]) * dtPtr[0])
                 pxVec.set_y((vy - 1) * dtPtr[0])
                 pxVec.set_z(0)
                 controller.move(pxVec, 0.001, dtPtr[0], filters)
+                manager.outerObject3d.position.copy(actor.getGlobalPose().p)
             }
         }
-
-        scene.simulate(dtPtr[0])
-        scene.fetchResults(true)
-
         for (const [target, actor] of objectActorMap) {
             const { p, q } = actor.getGlobalPose()
             target.position.copy(p)
             target.quaternion.copy(q)
-        }
-        for (const [target, actor] of objectCharacterActorMap) {
-            const { p } = actor.getGlobalPose()
-            target.position.copy(p)
         }
     })
     return () => {
