@@ -10,14 +10,12 @@ import { dtPtr } from "../../../../engine/eventLoop"
 import { setPxVec } from "./updatePxVec"
 
 createEffect(() => {
-    const { scene, getPxControllerFilters } = getPhysX()
+    const { scene, pxControllerFilters } = getPhysX()
     if (!scene || getPhysXCookingCount() || !getEditorPlay() || !getFirstLoad())
         return
 
     const handle = onBeforeRender(() => {
         if (managerControllerMap.size) {
-            const filters = getPxControllerFilters()
-
             for (const [manager, controller] of managerControllerMap) {
                 const vy = controller.getActor().getLinearVelocity().get_y()
                 // (vy - 9.81 * dtPtr[0]) * dtPtr[0]
@@ -36,14 +34,14 @@ createEffect(() => {
                         setPxVec(px - cx, py - cy + dy, pz - cz),
                         0.001,
                         dtPtr[0],
-                        filters
+                        pxControllerFilters
                     )
                 } else
                     controller.move(
                         setPxVec(0, dy, 0),
                         0.001,
                         dtPtr[0],
-                        filters
+                        pxControllerFilters
                     )
             }
         }

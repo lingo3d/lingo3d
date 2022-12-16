@@ -31,6 +31,7 @@ PhysX().then((PhysX: any) => {
         PxTriangleMeshGeometry,
         PxQuat,
         PxCapsuleControllerDesc,
+        PxControllerFilters,
         _emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX,
         _emscripten_enum_PxConvexFlagEnum_eDISABLE_MESH_VALIDATION,
         _emscripten_enum_PxConvexFlagEnum_eFAST_INERTIA_COMPUTATION,
@@ -49,7 +50,6 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING_AND_FORCE_SLIDING,
         _emscripten_enum_PxControllerShapeTypeEnum_eBOX,
         _emscripten_enum_PxControllerShapeTypeEnum_eCAPSULE,
-        PxControllerFilters,
         _emscripten_enum_PxForceModeEnum_eFORCE,
         _emscripten_enum_PxForceModeEnum_eIMPULSE,
         _emscripten_enum_PxForceModeEnum_eVELOCITY_CHANGE,
@@ -122,7 +122,7 @@ PhysX().then((PhysX: any) => {
 
     // create PxController
     const getPxControllerManager = lazy(() => Px.CreateControllerManager(scene))
-    const getPxControllerFilters = lazy(() => new PxControllerFilters())
+    const pxControllerFilters = new PxControllerFilters()
 
     // controller enums
     const PxCapsuleClimbingModeEnum = {
@@ -204,12 +204,12 @@ PhysX().then((PhysX: any) => {
         pxVec,
         pxPose,
         pxFilterData,
+        pxControllerFilters,
         scene,
         getCooking,
         getConvexFlags,
         getInsertionCallback,
         getPxControllerManager,
-        getPxControllerFilters,
         Vector_PxVec3,
         Vector_PxU32,
         PxBoxGeometry,

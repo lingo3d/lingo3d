@@ -8,12 +8,12 @@ type PhysX = {
     pxVec: any
     pxPose: any
     pxFilterData: any
+    pxControllerFilters: any
     scene: any
     getCooking: any
     getConvexFlags: any
     getInsertionCallback: any
     getPxControllerManager: any
-    getPxControllerFilters: any
     Vector_PxVec3: any
     Vector_PxU32: any
     PxConvexMeshDesc: any
@@ -69,12 +69,12 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     pxVec: undefined,
     pxPose: undefined,
     pxFilterData: undefined,
+    pxControllerFilters: undefined,
     scene: undefined,
     getCooking: undefined,
     getConvexFlags: undefined,
     getInsertionCallback: undefined,
     getPxControllerManager: undefined,
-    getPxControllerFilters: undefined,
     Vector_PxVec3: undefined,
     Vector_PxU32: undefined,
     PxConvexMeshDesc: undefined,

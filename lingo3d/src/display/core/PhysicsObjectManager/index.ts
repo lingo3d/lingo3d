@@ -14,9 +14,6 @@ import { assignPxVec } from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
 import MeshItem from "../MeshItem"
 
-let filters: any
-getPhysX((val) => (filters = val.getPxControllerFilters?.()))
-
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
     implements IPhysicsObjectManager
