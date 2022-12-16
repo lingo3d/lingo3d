@@ -44,10 +44,6 @@ const boxes = [
     model.y = y
     model.z = z
     model.physics = true
-
-    model.onLoop = () => {
-        model.y += 1
-    }
 })
 
 settings.skybox = [
