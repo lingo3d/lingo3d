@@ -52,6 +52,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.actor?.setMass(val)
     }
 
+    private initActor(actor: any) {
+        this.actor = actor
+        if (this._mass !== undefined) actor.mass = this._mass
+        return actor
+    }
+
     protected getPxShape(_: PhysicsOptions, actor: any) {
         const { material, shapeFlags, physics, PxBoxGeometry } = getPhysX()
 
@@ -122,7 +128,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 const controller =
                     getPxControllerManager().createController(desc)
                 destroy(desc)
-                const actor = (this.actor = controller.getActor())
+                const actor = this.initActor(controller.getActor())
 
                 objectCharacterActorMap.set(this.outerObject3d, actor)
                 managerControllerMap.set(this, controller)
@@ -147,10 +153,11 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             pxPose.set_p(pxVec)
             pxPose.set_q(pxQuat)
 
-            const actor = (this.actor =
+            const actor = this.initActor(
                 mode === "map"
                     ? physics.createRigidStatic(pxPose)
-                    : physics.createRigidDynamic(pxPose))
+                    : physics.createRigidDynamic(pxPose)
+            )
 
             const shape = this.getPxShape(mode, actor)
             shape.setSimulationFilterData(pxFilterData)
