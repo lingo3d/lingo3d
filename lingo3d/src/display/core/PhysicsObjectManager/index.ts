@@ -10,7 +10,8 @@ import { Reactive } from "@lincode/reactivity"
 import {
     objectActorMap,
     managerControllerMap,
-    objectCharacterActorMap
+    objectCharacterActorMap,
+    controllerActorMap
 } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import { dtPtr, fpsRatioPtr } from "../../../engine/eventLoop"
@@ -104,15 +105,16 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 const controller =
                     getPxControllerManager().createController(desc)
                 const actor = controller.getActor()
-                objectCharacterActorMap.set(this.outerObject3d, actor)
 
+                objectCharacterActorMap.set(this.outerObject3d, actor)
                 managerControllerMap.set(this, controller)
+                controllerActorMap.set(controller, actor)
 
                 return () => {
-                    managerControllerMap.delete(this)
                     destroy(desc)
                     destroy(controller)
                     objectCharacterActorMap.delete(this.outerObject3d)
+                    managerControllerMap.delete(this)
                 }
             }
 
