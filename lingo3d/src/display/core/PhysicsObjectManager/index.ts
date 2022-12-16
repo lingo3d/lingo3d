@@ -13,12 +13,13 @@ import destroy from "./physx/destroy"
 import { assignPxVec, setPxPose } from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
 import MeshItem from "../MeshItem"
+import { pxUpdateSet } from "./physx/physxLoop"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
     implements IPhysicsObjectManager
 {
-    private actor?: any
+    public actor?: any
 
     public get velocity(): Point3d {
         if (this.actor) return this.actor.getLinearVelocity()
@@ -156,25 +157,27 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this._gravity = val
     }
 
-    public pxUpdate?: boolean
+    private pxUpdate() {
+        this.actor && pxUpdateSet.add(this)
+    }
 
     public override moveForward(distance: number) {
         super.moveForward(distance)
-        this.pxUpdate = true
+        this.pxUpdate()
     }
 
     public override moveRight(distance: number) {
         super.moveRight(distance)
-        this.pxUpdate = true
+        this.pxUpdate()
     }
 
     public override placeAt(target: string | Point3d | MeshItem | SpawnPoint) {
         super.placeAt(target)
-        this.pxUpdate = true
+        this.pxUpdate()
     }
 
     public override lerpTo(x: number, y: number, z: number, alpha: number) {
-        super.lerpTo(x, y, z, alpha, () => (this.pxUpdate = true))
+        super.lerpTo(x, y, z, alpha, () => this.pxUpdate())
     }
 
     public override moveTo(
@@ -183,7 +186,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         z: number,
         speed: number
     ) {
-        super.moveTo(x, y, z, speed, () => (this.pxUpdate = true))
+        super.moveTo(x, y, z, speed, () => this.pxUpdate())
     }
 
     public override get x() {
@@ -191,7 +194,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set x(val) {
         super.x = val
-        this.pxUpdate = true
+        this.pxUpdate()
     }
 
     public override get y() {
@@ -199,7 +202,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set y(val) {
         super.y = val
-        this.pxUpdate = true
+        this.pxUpdate()
     }
 
     public override get z() {
@@ -207,6 +210,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set z(val) {
         super.z = val
-        this.pxUpdate = true
+        this.pxUpdate()
     }
 }

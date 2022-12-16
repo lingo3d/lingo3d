@@ -8,6 +8,9 @@ import { getEditorPlay } from "../../../../states/useEditorPlay"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
 import { dtPtr } from "../../../../engine/eventLoop"
 import { setPxPose, setPxVec } from "./updatePxVec"
+import PhysicsObjectManager from ".."
+
+export const pxUpdateSet = new Set<PhysicsObjectManager>()
 
 createEffect(() => {
     const { scene, pxControllerFilters } = getPhysX()
@@ -15,20 +18,14 @@ createEffect(() => {
         return
 
     const handle = onBeforeRender(() => {
-        for (const [manager, actor] of managerActorMap) {
-            if (!manager.pxUpdate) continue
-            manager.pxUpdate = false
-
-            actor.setGlobalPose(setPxPose(manager.outerObject3d))
-        }
         for (const [manager, controller] of managerControllerMap) {
-            const vy = controller.getActor().getLinearVelocity().get_y()
+            const vy = manager.actor.getLinearVelocity().get_y()
             // (vy - 9.81 * dtPtr[0]) * dtPtr[0]
             const dy = (vy - 1) * dtPtr[0]
 
-            if (manager.pxUpdate) {
-                manager.pxUpdate = false
-
+            if (pxUpdateSet.has(manager)) {
+                pxUpdateSet.delete(manager)
+                
                 const { x: px, y: py, z: pz } = manager.outerObject3d.position
                 const { x: cx, y: cy, z: cz } = controller.getPosition()
 
@@ -46,6 +43,11 @@ createEffect(() => {
                     pxControllerFilters
                 )
         }
+        for (const manager of pxUpdateSet)
+            manager.actor.setGlobalPose(setPxPose(manager.outerObject3d))
+
+        pxUpdateSet.clear()
+
         scene.simulate(dtPtr[0])
         scene.fetchResults(true)
 
@@ -54,10 +56,8 @@ createEffect(() => {
             manager.outerObject3d.position.copy(p)
             manager.outerObject3d.quaternion.copy(q)
         }
-        for (const [manager, controller] of managerControllerMap)
-            manager.outerObject3d.position.copy(
-                controller.getActor().getGlobalPose().p
-            )
+        for (const manager of managerControllerMap.keys())
+            manager.outerObject3d.position.copy(manager.actor.getGlobalPose().p)
     })
     return () => {
         handle.cancel()
