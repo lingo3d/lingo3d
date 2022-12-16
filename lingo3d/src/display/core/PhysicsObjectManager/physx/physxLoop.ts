@@ -24,7 +24,8 @@ createEffect(() => {
             for (const controller of managerControllerMap.values()) {
                 const vy = controller.getActor().getLinearVelocity().get_y()
                 pxVec.set_x(0)
-                pxVec.set_y((vy - 9.81 * dtPtr[0]) * dtPtr[0])
+                // pxVec.set_y((vy - 9.81 * dtPtr[0]) * dtPtr[0])
+                pxVec.set_y((vy - 1) * dtPtr[0])
                 pxVec.set_z(0)
                 controller.move(pxVec, 0.001, dtPtr[0], filters)
             }
