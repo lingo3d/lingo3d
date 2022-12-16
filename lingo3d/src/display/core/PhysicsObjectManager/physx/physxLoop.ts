@@ -5,8 +5,7 @@ import "../../../../engine/eventLoop"
 import {
     objectActorMap,
     managerControllerMap,
-    objectCharacterActorMap,
-    controllerActorMap
+    objectCharacterActorMap
 } from "./pxMaps"
 import { getPhysXCookingCount } from "../../../../states/usePhysXCookingCount"
 import { getEditorPlay } from "../../../../states/useEditorPlay"
@@ -23,8 +22,7 @@ createEffect(() => {
             const filters = getPxControllerFilters()
 
             for (const controller of managerControllerMap.values()) {
-                const actor = controllerActorMap.get(controller)
-                const vy = actor.getLinearVelocity().get_y()
+                const vy = controller.getActor().getLinearVelocity().get_y()
                 pxVec.set_x(0)
                 pxVec.set_y((vy - 9.81 * dtPtr[0]) * dtPtr[0])
                 pxVec.set_z(0)

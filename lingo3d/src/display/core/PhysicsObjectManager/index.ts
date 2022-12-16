@@ -10,8 +10,7 @@ import { Reactive } from "@lincode/reactivity"
 import {
     objectActorMap,
     managerControllerMap,
-    objectCharacterActorMap,
-    controllerActorMap
+    objectCharacterActorMap
 } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import { dtPtr, fpsRatioPtr } from "../../../engine/eventLoop"
@@ -31,6 +30,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     implements IPhysicsObjectManager
 {
     private actor?: any
+
     public get velocity(): Point3d {
         if (this.actor) return this.actor.getLinearVelocity()
         return new Point3d(0, 0, 0)
@@ -41,6 +41,15 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         pxVec.set_y(val.y)
         pxVec.set_z(val.z)
         this.actor.setLinearVelocity(pxVec)
+    }
+
+    private _mass?: number
+    public get mass(): number {
+        return this.actor?.getMass() ?? this._mass ?? 0
+    }
+    public set mass(val) {
+        this._mass = val
+        this.actor?.setMass(val)
     }
 
     protected getPxShape(_: PhysicsOptions, actor: any) {
@@ -117,7 +126,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
                 objectCharacterActorMap.set(this.outerObject3d, actor)
                 managerControllerMap.set(this, controller)
-                controllerActorMap.set(controller, actor)
 
                 return () => {
                     destroy(controller)
