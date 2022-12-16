@@ -7,9 +7,10 @@ import { getPhysXCookingCount } from "../../../../states/usePhysXCookingCount"
 import { getEditorPlay } from "../../../../states/useEditorPlay"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
 import { dtPtr } from "../../../../engine/eventLoop"
+import { setPxVec } from "./updatePxVec"
 
 createEffect(() => {
-    const { scene, pxVec, getPxControllerFilters } = getPhysX()
+    const { scene, getPxControllerFilters } = getPhysX()
     if (!scene || getPhysXCookingCount() || !getEditorPlay() || !getFirstLoad())
         return
 
@@ -23,11 +24,13 @@ createEffect(() => {
             for (const [manager, controller] of managerControllerMap) {
                 const actor = controller.getActor()
                 const vy = actor.getLinearVelocity().get_y()
-                pxVec.set_x(0)
-                // pxVec.set_y((vy - 9.81 * dtPtr[0]) * dtPtr[0])
-                pxVec.set_y((vy - 1) * dtPtr[0])
-                pxVec.set_z(0)
-                controller.move(pxVec, 0.001, dtPtr[0], filters)
+                // (vy - 9.81 * dtPtr[0]) * dtPtr[0]
+                controller.move(
+                    setPxVec(0, (vy - 1) * dtPtr[0], 0),
+                    0.001,
+                    dtPtr[0],
+                    filters
+                )
                 manager.outerObject3d.position.copy(actor.getGlobalPose().p)
             }
         }

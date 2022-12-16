@@ -13,13 +13,10 @@ import { dtPtr, fpsRatioPtr } from "../../../engine/eventLoop"
 import destroy from "./physx/destroy"
 import { scaleDown } from "../../../engine/constants"
 import { vector3 } from "../../utils/reusables"
+import { assignPxVec, setPxVec } from "./physx/updatePxVec"
 
-let pxVec: any
 let filters: any
-getPhysX((val) => {
-    pxVec = val.pxVec
-    filters = val.getPxControllerFilters?.()
-})
+getPhysX((val) => (filters = val.getPxControllerFilters?.()))
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -32,11 +29,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return new Point3d(0, 0, 0)
     }
     public set velocity(val) {
-        if (!this.actor) return
-        pxVec.set_x(val.x)
-        pxVec.set_y(val.y)
-        pxVec.set_z(val.z)
-        this.actor.setLinearVelocity(pxVec)
+        this.actor?.setLinearVelocity(assignPxVec(val))
     }
 
     private _mass?: number
@@ -136,16 +129,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 }
             }
 
-            pxVec.set_x(position.x)
-            pxVec.set_y(position.y)
-            pxVec.set_z(position.z)
-
             pxQuat.set_x(quaternion.x)
             pxQuat.set_y(quaternion.y)
             pxQuat.set_z(quaternion.z)
             pxQuat.set_w(quaternion.w)
 
-            pxPose.set_p(pxVec)
+            pxPose.set_p(assignPxVec(position))
             pxPose.set_q(pxQuat)
 
             const actor = this.initActor(
@@ -195,10 +184,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 .clone()
                 .addScaledVector(vector3, distance * scaleDown * fpsRatioPtr[0])
 
-            pxVec.set_x(targetPos.x - position.x)
-            pxVec.set_y(0)
-            pxVec.set_z(targetPos.z - position.z)
-            controller.move(pxVec, 0.001, dtPtr[0], filters)
+            controller.move(
+                setPxVec(targetPos.x - position.x, 0, targetPos.z - position.z),
+                0.001,
+                dtPtr[0],
+                filters
+            )
             return
         }
         super.moveForward(distance)
@@ -213,10 +204,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 .clone()
                 .addScaledVector(vector3, distance * scaleDown * fpsRatioPtr[0])
 
-            pxVec.set_x(targetPos.x - position.x)
-            pxVec.set_y(0)
-            pxVec.set_z(targetPos.z - position.z)
-            controller.move(pxVec, 0.001, dtPtr[0], filters)
+            controller.move(
+                setPxVec(targetPos.x - position.x, 0, targetPos.z - position.z),
+                0.001,
+                dtPtr[0],
+                filters
+            )
             return
         }
         super.moveRight(distance)
