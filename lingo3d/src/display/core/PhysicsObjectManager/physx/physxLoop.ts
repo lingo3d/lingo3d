@@ -12,7 +12,6 @@ import { getPhysXCookingCount } from "../../../../states/usePhysXCookingCount"
 import { getEditorPlay } from "../../../../states/useEditorPlay"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
 import { dtPtr } from "../../../../engine/eventLoop"
-import { FRAME2SEC } from "../../../../globals"
 
 createEffect(() => {
     const { scene, pxVec, getPxControllerFilters } = getPhysX()
@@ -21,15 +20,15 @@ createEffect(() => {
 
     const handle = onBeforeRender(() => {
         if (managerControllerMap.size) {
-            pxVec.set_x(0)
-            pxVec.set_y(-9.81 * FRAME2SEC * FRAME2SEC * 10)
-            pxVec.set_z(0)
             const filters = getPxControllerFilters()
 
             for (const controller of managerControllerMap.values()) {
-                controller.move(pxVec, 0.001, dtPtr[0], filters)
                 const actor = controllerActorMap.get(controller)
-                console.log(actor)
+                const vy = actor.getLinearVelocity().get_y()
+                pxVec.set_x(0)
+                pxVec.set_y((vy - 9.81 * dtPtr[0]) * dtPtr[0])
+                pxVec.set_z(0)
+                controller.move(pxVec, 0.001, dtPtr[0], filters)
             }
         }
 

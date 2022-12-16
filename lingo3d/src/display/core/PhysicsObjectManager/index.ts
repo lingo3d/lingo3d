@@ -30,10 +30,18 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
     implements IPhysicsObjectManager
 {
+    private actor?: any
     public get velocity(): Point3d {
+        if (this.actor) return this.actor.getLinearVelocity()
         return new Point3d(0, 0, 0)
     }
-    public set velocity(val) {}
+    public set velocity(val) {
+        if (!this.actor) return
+        pxVec.set_x(val.x)
+        pxVec.set_y(val.y)
+        pxVec.set_z(val.z)
+        this.actor.setLinearVelocity(pxVec)
+    }
 
     protected getPxShape(_: PhysicsOptions, actor: any) {
         const { material, shapeFlags, physics, PxBoxGeometry } = getPhysX()
@@ -104,7 +112,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 // desc.behaviorCallback = behaviorCallback.callback
                 const controller =
                     getPxControllerManager().createController(desc)
-                const actor = controller.getActor()
+                const actor = (this.actor = controller.getActor())
 
                 objectCharacterActorMap.set(this.outerObject3d, actor)
                 managerControllerMap.set(this, controller)
@@ -115,6 +123,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     destroy(controller)
                     objectCharacterActorMap.delete(this.outerObject3d)
                     managerControllerMap.delete(this)
+                    this.actor = undefined
                 }
             }
 
@@ -130,10 +139,10 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             pxPose.set_p(pxVec)
             pxPose.set_q(pxQuat)
 
-            const actor =
+            const actor = (this.actor =
                 mode === "map"
                     ? physics.createRigidStatic(pxPose)
-                    : physics.createRigidDynamic(pxPose)
+                    : physics.createRigidDynamic(pxPose))
 
             const shape = this.getPxShape(mode, actor)
             shape.setSimulationFilterData(pxFilterData)
@@ -146,6 +155,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 scene.removeActor(actor)
                 destroy(actor)
                 objectActorMap.delete(this.outerObject3d)
+                this.actor = undefined
             }
         }, [physicsState.get, getPhysX])
     }
