@@ -97,13 +97,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 desc.height = y * 1.2
                 desc.radius = x
                 Object.assign(desc.position, this.outerObject3d.position)
-                desc.climbingMode = PxCapsuleClimbingModeEnum.eEASY()
+                desc.climbingMode = PxCapsuleClimbingModeEnum.eCONSTRAINED()
                 desc.nonWalkableMode =
-                    PxControllerNonWalkableModeEnum.ePREVENT_CLIMBING()
+                    PxControllerNonWalkableModeEnum.ePREVENT_CLIMBING_AND_FORCE_SLIDING()
                 desc.slopeLimit = Math.cos(45 * deg2Rad)
                 desc.material = material
                 desc.contactOffset = 0.1
-                desc.stepOffset = 0.3
+                desc.stepOffset = y * 0.4
                 desc.maxJumpHeight = 0.1
 
                 // desc.reportCallback = hitCallback.callback
