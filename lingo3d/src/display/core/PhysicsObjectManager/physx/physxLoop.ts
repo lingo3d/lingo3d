@@ -20,12 +20,12 @@ createEffect(() => {
     const handle = onBeforeRender(() => {
         for (const [manager, controller] of managerControllerMap) {
             const vy = manager.actor.getLinearVelocity().get_y()
-            // (vy - 9.81 * dtPtr[0]) * dtPtr[0]
+            // const dy = (vy - 9.81 * dtPtr[0]) * dtPtr[0]
             const dy = (vy - 1) * dtPtr[0]
 
             if (pxUpdateSet.has(manager)) {
                 pxUpdateSet.delete(manager)
-                
+
                 const { x: px, y: py, z: pz } = manager.outerObject3d.position
                 const { x: cx, y: cy, z: cz } = controller.getPosition()
 
