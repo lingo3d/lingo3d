@@ -107,6 +107,7 @@ PhysX().then((PhysX: any) => {
     const scene = physics.createScene(sceneDesc)
 
     // create a default material
+    // static friction, dynamic friction, restitution
     const material = physics.createMaterial(0.5, 0.5, 0.5)
 
     // create default simulation shape flags
