@@ -29,6 +29,7 @@ import { setEditorCamera } from "../../states/useEditorCamera"
 import mainCamera from "../../engine/mainCamera"
 import { onLoadFile } from "../../events/onLoadFile"
 import { DEBUG } from "../../globals"
+import { setWorldPlay } from "../../states/useWorldPlay"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -49,6 +50,7 @@ const Editor = () => {
         setEditorCamera(mainCamera)
         setOrbitControls(true)
         setEditorMounted(true)
+        setWorldPlay(false)
 
         settings.gridHelper = true
         const handle = onLoadFile(() => (settings.gridHelper = false))
@@ -58,6 +60,7 @@ const Editor = () => {
             setOrbitControls(false)
             settings.gridHelper = false
             setEditorMounted(false)
+            setWorldPlay(true)
 
             handle.cancel()
         }
