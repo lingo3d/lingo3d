@@ -100,7 +100,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 desc.climbingMode = PxCapsuleClimbingModeEnum.eEASY()
                 desc.nonWalkableMode =
                     PxControllerNonWalkableModeEnum.ePREVENT_CLIMBING()
-                desc.slopeLimit = Math.cos(50 * deg2Rad)
+                desc.slopeLimit = Math.cos(45 * deg2Rad)
                 desc.material = material
                 desc.contactOffset = 0.1
                 desc.stepOffset = 0.3

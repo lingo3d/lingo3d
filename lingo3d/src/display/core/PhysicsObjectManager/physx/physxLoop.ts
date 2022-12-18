@@ -21,7 +21,7 @@ createEffect(() => {
         for (const [manager, controller] of managerControllerMap) {
             const vy = manager.actor.getLinearVelocity().get_y()
             // const dy = (vy - 9.81 * dtPtr[0]) * dtPtr[0]
-            const dy = (vy - 1) * dtPtr[0]
+            const dy = (vy - 3) * dtPtr[0]
 
             if (pxUpdateSet.has(manager)) {
                 pxUpdateSet.delete(manager)
