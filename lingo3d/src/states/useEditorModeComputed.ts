@@ -1,6 +1,7 @@
 import store, { createEffect } from "@lincode/reactivity"
 import { getEditorMode } from "./useEditorMode"
 import { getSelectionTarget } from "./useSelectionTarget"
+import { getWorldPlay } from "./useWorldPlay"
 
 export const [setEditorModeComputed, getEditorModeComputed] = store(
     getEditorMode()
@@ -14,6 +15,10 @@ Promise.all([
         const target = getSelectionTarget()
         const mode = getEditorMode()
 
+        if (getWorldPlay()) {
+            setEditorModeComputed("play")
+            return
+        }
         if (
             !target ||
             (mode !== "rotate" && mode !== "scale" && mode !== "translate")
@@ -30,5 +35,5 @@ Promise.all([
             return
         }
         setEditorModeComputed(mode)
-    }, [getEditorMode, getSelectionTarget])
+    }, [getEditorMode, getSelectionTarget, getWorldPlay])
 })
