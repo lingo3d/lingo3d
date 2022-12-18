@@ -28,6 +28,7 @@ import { getSetupStack } from "../../states/useSetupStack"
 import { setEditorCamera } from "../../states/useEditorCamera"
 import mainCamera from "../../engine/mainCamera"
 import { onLoadFile } from "../../events/onLoadFile"
+import { DEBUG } from "../../globals"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -39,11 +40,12 @@ const Editor = () => {
     const elRef = useClickable()
 
     useLayoutEffect(() => {
-        window.onbeforeunload = confirmExit
-        function confirmExit() {
-            return "Are you sure you want to close the current page?"
+        if (!DEBUG) {
+            window.onbeforeunload = confirmExit
+            function confirmExit() {
+                return "Are you sure you want to close the current page?"
+            }
         }
-
         setEditorCamera(mainCamera)
         setOrbitControls(true)
         setEditorMounted(true)

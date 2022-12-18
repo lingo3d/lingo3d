@@ -21,7 +21,7 @@ export const FOREST_URL = "https://unpkg.com/lingo3d-forest@1.0.0/assets/"
 export const EDITOR_URL = "https://unpkg.com/lingo3d-editor@1.0.5/assets/"
 export const WASM_URL = "https://unpkg.com/lingo3d-wasm@1.0.1/assets/"
 
-export const DEBUG = false
+export const DEBUG = true
 export const VERSION = "2.0.3"
 
 export const FRAME_WIDTH = 12
