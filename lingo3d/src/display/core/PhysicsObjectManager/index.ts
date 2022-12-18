@@ -103,6 +103,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 desc.slopeLimit = Math.cos(50 * deg2Rad)
                 desc.material = material
                 desc.contactOffset = 0.1
+                desc.stepOffset = 0.3
+                desc.maxJumpHeight = 0.1
+
                 // desc.reportCallback = hitCallback.callback
                 // desc.behaviorCallback = behaviorCallback.callback
                 const controller =
