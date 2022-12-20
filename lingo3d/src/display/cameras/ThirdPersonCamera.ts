@@ -11,7 +11,7 @@ import { getEditorPlay } from "../../states/useEditorPlay"
 import { getPhysX } from "../../states/usePhysX"
 import CharacterCamera from "../core/CharacterCamera"
 import MeshItem from "../core/MeshItem"
-import { actorPtrManagerMap } from "../core/PhysicsObjectManager/physx/pxMaps"
+import { managerActorPtrMap } from "../core/PhysicsObjectManager/physx/pxMaps"
 import {
     assignPxVec,
     assignPxVec_
@@ -69,11 +69,10 @@ export default class ThirdPersonCamera
                 const pxHit = getPhysX().pxRaycast?.(
                     assignPxVec(origin),
                     assignPxVec_(getWorldDirection(this.object3d)),
-                    position.distanceTo(origin)
+                    position.distanceTo(origin),
+                    managerActorPtrMap.get(found)
                 )
-                const manager = pxHit && actorPtrManagerMap.get(pxHit.actor.ptr)
-                if (manager && manager !== found)
-                    position.lerpVectors(position, pxHit.position, 1.1)
+                pxHit && position.lerpVectors(position, pxHit.position, 1.1)
 
                 cam.position.copy(position)
                 cam.quaternion.copy(getWorldQuaternion(this.object3d))

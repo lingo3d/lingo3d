@@ -10,6 +10,7 @@ import { Reactive } from "@lincode/reactivity"
 import {
     actorPtrManagerMap,
     managerActorMap,
+    managerActorPtrMap,
     managerControllerMap
 } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
@@ -46,6 +47,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.actor = actor
         if (this._mass !== undefined) actor.mass = this._mass
         actorPtrManagerMap.set(actor.ptr, this)
+        managerActorPtrMap.set(this, actor.ptr)
         return actor
     }
 

@@ -30,8 +30,8 @@ createEffect(() => {
         for (const [manager, controller] of managerControllerMap) {
             const { x: px, y: py, z: pz } = manager.outerObject3d.position
             const hit = pxRaycast!(
-                setPxVec(px, py - 1, pz),
-                setPxVec_(0, 1, 0),
+                setPxVec(px, py, pz),
+                setPxVec_(0, -1, 0),
                 10,
                 manager.actor.ptr
             )
