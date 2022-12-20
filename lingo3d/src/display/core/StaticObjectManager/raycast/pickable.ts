@@ -3,6 +3,7 @@ import StaticObjectManager from ".."
 import { MouseEventName, mouseEvents } from "../../../../api/mouse"
 import { getManager } from "../../../../api/utils/manager"
 import { scaleUp } from "../../../../engine/constants"
+import { FAR } from "../../../../globals"
 import { LingoMouseEvent } from "../../../../interface/IMouse"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { getPhysX } from "../../../../states/usePhysX"
@@ -28,7 +29,7 @@ export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     const pxBlock = getPhysX().getRaycast?.()(
         assignPxVec(raycaster.ray.origin),
         assignPxVec_(raycaster.ray.direction),
-        9999
+        FAR
     )
     if (
         (pxBlock && intersection && pxBlock.distance < intersection.distance) ||
