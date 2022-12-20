@@ -14,6 +14,7 @@ type PhysX = {
     getConvexFlags: any
     getInsertionCallback: any
     getPxControllerManager: any
+    getRaycast: any
     Vector_PxVec3: any
     Vector_PxU32: any
     PxConvexMeshDesc: any
@@ -75,6 +76,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     getConvexFlags: undefined,
     getInsertionCallback: undefined,
     getPxControllerManager: undefined,
+    getRaycast: undefined,
     Vector_PxVec3: undefined,
     Vector_PxU32: undefined,
     PxConvexMeshDesc: undefined,

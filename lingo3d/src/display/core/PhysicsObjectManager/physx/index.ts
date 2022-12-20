@@ -123,31 +123,33 @@ PhysX().then((PhysX: any) => {
     const pxQuat = new PxQuat(0, 0, 0, 1)
 
     // create raycaster
-    const raycastResult = new PxRaycastBuffer10()
+    const getRaycast = lazy(() => {
+        const raycastResult = new PxRaycastBuffer10()
 
-    const raycast = (origin: any, direction: any, maxDistance: number) => {
-        if (!scene.raycast(origin, direction, maxDistance, raycastResult))
-            return
+        return (origin: any, direction: any, maxDistance: number) => {
+            if (!scene.raycast(origin, direction, maxDistance, raycastResult))
+                return
 
-        let hitDistance = maxDistance
-        let nearestHit = undefined
-        let nearestActor = undefined
-        const hitActors: Array<any> = []
+            let hitDistance = maxDistance
+            let nearestHit = undefined
+            let nearestActor = undefined
+            const hitActors: Array<any> = []
 
-        for (let i = 0; i < raycastResult.nbAnyHits; ++i) {
-            const hit = raycastResult.getAnyHit(i)
-            const { actor } = hit
-            if (actor && hit.distance < hitDistance) {
-                hitActors.push(actor)
-                hitDistance = hit.distance
-                nearestHit = hit
-                nearestActor = actor
+            for (let i = 0; i < raycastResult.nbAnyHits; ++i) {
+                const hit = raycastResult.getAnyHit(i)
+                const { actor } = hit
+                if (actor && hit.distance < hitDistance) {
+                    hitActors.push(actor)
+                    hitDistance = hit.distance
+                    nearestHit = hit
+                    nearestActor = actor
+                }
             }
-        }
-        if (!nearestHit) return
+            if (!nearestHit) return
 
-        console.log({ hitDistance, nearestHit, nearestActor, hitActors })
-    }
+            console.log({ hitDistance, nearestHit, nearestActor, hitActors })
+        }
+    })
 
     // create PxController
     const getPxControllerManager = lazy(() => Px.CreateControllerManager(scene))
@@ -239,6 +241,7 @@ PhysX().then((PhysX: any) => {
         getConvexFlags,
         getInsertionCallback,
         getPxControllerManager,
+        getRaycast,
         Vector_PxVec3,
         Vector_PxU32,
         PxBoxGeometry,
