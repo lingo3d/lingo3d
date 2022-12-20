@@ -25,6 +25,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     implements IPhysicsObjectManager
 {
     public actor?: any
+    public pxHeight?: number
 
     public get velocity(): Point3d {
         if (this.actor) return this.actor.getLinearVelocity()
@@ -98,7 +99,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             if (mode === "character") {
                 const desc = new PxCapsuleControllerDesc()
                 const { x, y } = getActualScale(this).multiplyScalar(0.5)
-                desc.height = y * 1.2
+                this.pxHeight = desc.height = y * 1.2
                 desc.radius = x
                 Object.assign(desc.position, this.outerObject3d.position)
                 desc.climbingMode = PxCapsuleClimbingModeEnum.eCONSTRAINED()

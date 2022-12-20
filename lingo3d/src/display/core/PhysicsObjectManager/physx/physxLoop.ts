@@ -7,17 +7,8 @@ import { getPhysXCookingCount } from "../../../../states/usePhysXCookingCount"
 import { getEditorPlay } from "../../../../states/useEditorPlay"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
 import { dtPtr } from "../../../../engine/eventLoop"
-import {
-    assignPxVec,
-    assignPxVec_,
-    setPxPose,
-    setPxVec,
-    setPxVec_
-} from "./updatePxVec"
+import { setPxPose, setPxVec, setPxVec_ } from "./updatePxVec"
 import PhysicsObjectManager from ".."
-import { FAR } from "../../../../globals"
-import visualize from "../../../utils/visualize"
-import { vec2Point } from "../../../utils/vec2Point"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
 
@@ -32,16 +23,13 @@ createEffect(() => {
             const hit = pxRaycast!(
                 setPxVec(px, py, pz),
                 setPxVec_(0, -1, 0),
-                10,
+                manager.pxHeight! * 1.5,
                 manager.actor.ptr
             )
-            if (hit) {
-                visualize("hit", vec2Point(hit.position))
-            }
-
             const vy = manager.actor.getLinearVelocity().get_y()
-            const dy = (vy - 9.81 * dtPtr[0]) * dtPtr[0]
-            // const dy = (vy - 3) * dtPtr[0]
+            const dy = hit
+                ? (vy - 10) * dtPtr[0]
+                : (vy - 9.81 * dtPtr[0]) * dtPtr[0]
 
             if (pxUpdateSet.has(manager)) {
                 pxUpdateSet.delete(manager)
