@@ -13,6 +13,11 @@ player.physics = "character"
 player.rotationY = 90
 player.strideMove = true
 
+const box = new Cube()
+box.z = -300
+box.y = 500
+box.physics = true
+
 keyboard.onKeyPress = (_, key) => {
     if (key.has("w")) player.strideForward = -5
     else if (key.has("s")) player.strideForward = 5

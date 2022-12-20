@@ -13,12 +13,22 @@ import PhysicsObjectManager from ".."
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
 
 createEffect(() => {
-    const { scene, pxControllerFilters } = getPhysX()
+    const { scene, pxControllerFilters, pxRaycast, pxDownVec } = getPhysX()
     if (!scene || getPhysXCookingCount() || !getEditorPlay() || !getFirstLoad())
         return
 
     const handle = onBeforeRender(() => {
         for (const [manager, controller] of managerControllerMap) {
+            const position = controller.getPosition()
+            const footPosition = controller.getFootPosition()
+            const hit = pxRaycast!(
+                position,
+                pxDownVec,
+                position.y - footPosition.y,
+                true
+            )
+            console.log(hit)
+
             const vy = manager.actor.getLinearVelocity().get_y()
             // const dy = (vy - 9.81 * dtPtr[0]) * dtPtr[0]
             const dy = (vy - 3) * dtPtr[0]
