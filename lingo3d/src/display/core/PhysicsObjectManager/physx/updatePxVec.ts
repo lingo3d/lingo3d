@@ -20,6 +20,13 @@ export const setPxVec = (x: number, y: number, z: number) => {
     return pxVec
 }
 
+export const setPxVec_ = (x: number, y: number, z: number) => {
+    pxVec_.set_x(x)
+    pxVec_.set_y(y)
+    pxVec_.set_z(z)
+    return pxVec_
+}
+
 export const assignPxVec = (pt: Point3d) => {
     pxVec.set_x(pt.x)
     pxVec.set_y(pt.y)

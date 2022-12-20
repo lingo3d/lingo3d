@@ -8,12 +8,11 @@ type PhysX = {
         origin: any,
         direction: any,
         maxDistance: number,
-        block?: boolean
+        excludePtr?: number
     ) => any
     pxQuat: any
     pxVec: any
     pxVec_: any
-    pxDownVec: any
     pxPose: any
     pxFilterData: any
     pxControllerFilters: any
@@ -77,7 +76,6 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     pxQuat: undefined,
     pxVec: undefined,
     pxVec_: undefined,
-    pxDownVec: undefined,
     pxPose: undefined,
     pxFilterData: undefined,
     pxControllerFilters: undefined,

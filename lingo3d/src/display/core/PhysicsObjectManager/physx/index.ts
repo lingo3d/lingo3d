@@ -102,7 +102,6 @@ PhysX().then((PhysX: any) => {
     // create scene
     const pxVec = new PxVec3(0, -9.81, 0)
     const pxVec_ = new PxVec3(0, 0, 0)
-    const pxDownVec = new PxVec3(0, -1, 0)
     const sceneDesc = new PxSceneDesc(scale)
     sceneDesc.set_gravity(pxVec)
     sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
@@ -130,11 +129,20 @@ PhysX().then((PhysX: any) => {
         origin: any,
         direction: any,
         maxDistance: number,
-        block?: boolean
+        excludePtr?: number
     ) => {
-        if (scene.raycast(origin, direction, maxDistance, raycastResult))
-            if (block) return raycastResult.block
-            else return raycastResult.getAnyHit()
+        if (!scene.raycast(origin, direction, maxDistance, raycastResult))
+            return
+
+        if (excludePtr) {
+            const iMax = raycastResult.getNbAnyHits()
+            for (let i = 0; i < iMax; ++i) {
+                const hit = raycastResult.getAnyHit(i)
+                if (hit.actor.ptr !== excludePtr) return hit
+            }
+            return
+        }
+        return raycastResult.getAnyHit()
     }
 
     // create PxController
@@ -221,7 +229,6 @@ PhysX().then((PhysX: any) => {
         pxQuat,
         pxVec,
         pxVec_,
-        pxDownVec,
         pxPose,
         pxFilterData,
         pxControllerFilters,

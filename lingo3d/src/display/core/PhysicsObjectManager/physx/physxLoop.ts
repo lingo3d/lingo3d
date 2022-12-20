@@ -7,36 +7,45 @@ import { getPhysXCookingCount } from "../../../../states/usePhysXCookingCount"
 import { getEditorPlay } from "../../../../states/useEditorPlay"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
 import { dtPtr } from "../../../../engine/eventLoop"
-import { setPxPose, setPxVec } from "./updatePxVec"
+import {
+    assignPxVec,
+    assignPxVec_,
+    setPxPose,
+    setPxVec,
+    setPxVec_
+} from "./updatePxVec"
 import PhysicsObjectManager from ".."
+import { FAR } from "../../../../globals"
+import visualize from "../../../utils/visualize"
+import { vec2Point } from "../../../utils/vec2Point"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
 
 createEffect(() => {
-    const { scene, pxControllerFilters, pxRaycast, pxDownVec } = getPhysX()
+    const { scene, pxControllerFilters, pxRaycast } = getPhysX()
     if (!scene || getPhysXCookingCount() || !getEditorPlay() || !getFirstLoad())
         return
 
     const handle = onBeforeRender(() => {
         for (const [manager, controller] of managerControllerMap) {
-            const position = controller.getPosition()
-            const footPosition = controller.getFootPosition()
+            const { x: px, y: py, z: pz } = manager.outerObject3d.position
             const hit = pxRaycast!(
-                position,
-                pxDownVec,
-                position.y - footPosition.y,
-                true
+                setPxVec(px, py - 1, pz),
+                setPxVec_(0, 1, 0),
+                10,
+                manager.actor.ptr
             )
-            console.log(hit)
+            if (hit) {
+                visualize("hit", vec2Point(hit.position))
+            }
 
             const vy = manager.actor.getLinearVelocity().get_y()
-            // const dy = (vy - 9.81 * dtPtr[0]) * dtPtr[0]
-            const dy = (vy - 3) * dtPtr[0]
+            const dy = (vy - 9.81 * dtPtr[0]) * dtPtr[0]
+            // const dy = (vy - 3) * dtPtr[0]
 
             if (pxUpdateSet.has(manager)) {
                 pxUpdateSet.delete(manager)
 
-                const { x: px, y: py, z: pz } = manager.outerObject3d.position
                 const { x: cx, y: cy, z: cz } = controller.getPosition()
 
                 controller.move(
