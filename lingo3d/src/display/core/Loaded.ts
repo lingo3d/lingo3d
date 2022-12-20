@@ -235,36 +235,6 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    private managerSet?: boolean
-    protected override addToRaycastSet(set: Set<Object3D>) {
-        const { get: getPhysics } = this.physicsState
-
-        const handle = this.createEffect(() => {
-            const physics = getPhysics()
-            if (physics === "map") {
-                const handle0 = this.loaded.then((loaded) => {
-                    if (!this.managerSet) {
-                        this.managerSet = true
-                        loaded.traverse((child) => setManager(child, this))
-                    }
-                    set.add(loaded)
-                    return () => {
-                        set.delete(loaded)
-                    }
-                })
-                return () => {
-                    handle0.cancel()
-                }
-            }
-            const handle0 = super.addToRaycastSet(set)
-            return () => {
-                handle0.cancel()
-            }
-        }, [getPhysics])
-
-        return handle
-    }
-
     public override placeAt(object: MeshItem | Point3d | string) {
         this.cancelHandle("placeAt", () =>
             this.loaded.then(() => void super.placeAt(object))

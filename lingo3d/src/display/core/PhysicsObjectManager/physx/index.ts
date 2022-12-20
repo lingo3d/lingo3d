@@ -101,6 +101,7 @@ PhysX().then((PhysX: any) => {
 
     // create scene
     const pxVec = new PxVec3(0, -9.81, 0)
+    const pxVec_ = new PxVec3(0, 0, 0)
     const sceneDesc = new PxSceneDesc(scale)
     sceneDesc.set_gravity(pxVec)
     sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
@@ -127,27 +128,8 @@ PhysX().then((PhysX: any) => {
         const raycastResult = new PxRaycastBuffer10()
 
         return (origin: any, direction: any, maxDistance: number) => {
-            if (!scene.raycast(origin, direction, maxDistance, raycastResult))
-                return
-
-            let hitDistance = maxDistance
-            let nearestHit = undefined
-            let nearestActor = undefined
-            const hitActors: Array<any> = []
-
-            for (let i = 0; i < raycastResult.nbAnyHits; ++i) {
-                const hit = raycastResult.getAnyHit(i)
-                const { actor } = hit
-                if (actor && hit.distance < hitDistance) {
-                    hitActors.push(actor)
-                    hitDistance = hit.distance
-                    nearestHit = hit
-                    nearestActor = actor
-                }
-            }
-            if (!nearestHit) return
-
-            console.log({ hitDistance, nearestHit, nearestActor, hitActors })
+            if (scene.raycast(origin, direction, maxDistance, raycastResult))
+                return raycastResult.block
         }
     })
 
@@ -233,6 +215,7 @@ PhysX().then((PhysX: any) => {
         shapeFlags,
         pxQuat,
         pxVec,
+        pxVec_,
         pxPose,
         pxFilterData,
         pxControllerFilters,

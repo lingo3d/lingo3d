@@ -7,7 +7,11 @@ import IPhysicsObjectManager, {
 import { getPhysX } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
 import { Reactive } from "@lincode/reactivity"
-import { managerActorMap, managerControllerMap } from "./physx/pxMaps"
+import {
+    actorManagerMap,
+    managerActorMap,
+    managerControllerMap
+} from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import destroy from "./physx/destroy"
 import { assignPxVec, setPxPose } from "./physx/updatePxVec"
@@ -41,6 +45,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     private initActor(actor: any) {
         this.actor = actor
         if (this._mass !== undefined) actor.mass = this._mass
+        actorManagerMap.set(actor, this)
         return actor
     }
 
@@ -60,18 +65,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return shape
     }
 
-    private _physicsState?: Reactive<PhysicsOptions>
-    protected get physicsState() {
-        return (this._physicsState ??= new Reactive<PhysicsOptions>(false))
-    }
-    private physicsInitialized?: boolean
+    private physicsState?: Reactive<PhysicsOptions>
     protected refreshPhysics(val: PhysicsOptions) {
-        const { physicsState } = this
-        physicsState.set(val)
-
-        if (this.physicsInitialized) return
-        this.physicsInitialized = true
-
+        if (this.physicsState) {
+            this.physicsState.set(val)
+            return
+        }
+        const physicsState = (this.physicsState = new Reactive(val))
         import("./physx")
 
         this.createEffect(() => {
@@ -90,6 +90,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
             this.outerObject3d.parent !== threeScene &&
                 threeScene.attach(this.outerObject3d)
+
+            this.nativeObject3d.userData.physx = true
 
             if (mode === "character") {
                 const desc = new PxCapsuleControllerDesc()
@@ -119,6 +121,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     destroy(controller)
                     managerControllerMap.delete(this)
                     this.actor = undefined
+                    this.nativeObject3d.userData.physx = false
                 }
             }
 
@@ -140,6 +143,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 destroy(actor)
                 managerActorMap.delete(this)
                 this.actor = undefined
+                this.nativeObject3d.userData.physx = false
             }
         }, [physicsState.get, getPhysX])
     }
