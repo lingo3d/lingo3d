@@ -4,7 +4,6 @@ import PhysX from "physx-js-webidl"
 import { setPhysX } from "../../../../states/usePhysX"
 import { destroyPtr } from "./destroy"
 import "./physxLoop"
-import { ptrActorMap } from "./pxMaps"
 
 PhysX().then((PhysX: any) => {
     const {
@@ -126,32 +125,28 @@ PhysX().then((PhysX: any) => {
     // create raycaster
     const raycastResult = new PxRaycastBuffer10()
 
-    const pxVec_ = new PxVec3(0, 0, 0)
-    const raycast = (ray: any, maxDistance: number, result: any) => {
-        const ori = ray.origin.toPxVec3(pxVec)
-        const dir = ray.direction.toPxVec3(pxVec_)
-        if (scene.raycast(ori, dir, maxDistance, raycastResult)) {
-            let minDist = maxDistance
-            let nearestHit = undefined
-            let nearestActor = undefined
+    const raycast = (origin: any, direction: any, maxDistance: number) => {
+        if (!scene.raycast(origin, direction, maxDistance, raycastResult))
+            return
 
-            for (let i = 0; i < raycastResult.nbAnyHits; ++i) {
-                const hit = raycastResult.getAnyHit(i)
-                const actor = ptrActorMap.get(hit.actor.ptr)
-                if (actor != null && hit.distance < minDist) {
-                    result.hitActors += actor
-                    minDist = hit.distance
-                    nearestHit = hit
-                    nearestActor = actor
-                }
-            }
-            if (nearestHit != null) {
-                result.nearestActor = nearestActor
-                result.hitDistance = minDist
-                nearestHit.position.toVec3f(result.hitPosition)
-                nearestHit.normal.toVec3f(result.hitNormal)
+        let hitDistance = maxDistance
+        let nearestHit = undefined
+        let nearestActor = undefined
+        const hitActors: Array<any> = []
+
+        for (let i = 0; i < raycastResult.nbAnyHits; ++i) {
+            const hit = raycastResult.getAnyHit(i)
+            const { actor } = hit
+            if (actor && hit.distance < hitDistance) {
+                hitActors.push(actor)
+                hitDistance = hit.distance
+                nearestHit = hit
+                nearestActor = actor
             }
         }
+        if (!nearestHit) return
+
+        console.log({ hitDistance, nearestHit, nearestActor, hitActors })
     }
 
     // create PxController
