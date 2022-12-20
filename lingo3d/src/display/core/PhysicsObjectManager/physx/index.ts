@@ -124,14 +124,11 @@ PhysX().then((PhysX: any) => {
     const pxQuat = new PxQuat(0, 0, 0, 1)
 
     // create raycaster
-    const getRaycast = lazy(() => {
-        const raycastResult = new PxRaycastBuffer10()
-
-        return (origin: any, direction: any, maxDistance: number) => {
-            if (scene.raycast(origin, direction, maxDistance, raycastResult))
-                return raycastResult.getAnyHit()
-        }
-    })
+    const raycastResult = new PxRaycastBuffer10()
+    const pxRaycast = (origin: any, direction: any, maxDistance: number) => {
+        if (scene.raycast(origin, direction, maxDistance, raycastResult))
+            return raycastResult.getAnyHit()
+    }
 
     // create PxController
     const getPxControllerManager = lazy(() => Px.CreateControllerManager(scene))
@@ -213,6 +210,7 @@ PhysX().then((PhysX: any) => {
         physics,
         material,
         shapeFlags,
+        pxRaycast,
         pxQuat,
         pxVec,
         pxVec_,
@@ -224,7 +222,6 @@ PhysX().then((PhysX: any) => {
         getConvexFlags,
         getInsertionCallback,
         getPxControllerManager,
-        getRaycast,
         Vector_PxVec3,
         Vector_PxU32,
         PxBoxGeometry,

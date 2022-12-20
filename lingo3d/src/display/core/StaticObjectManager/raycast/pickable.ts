@@ -26,7 +26,7 @@ export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     const intersection = raycaster.intersectObjects(
         [...candidates].filter(filterUnselectable)
     )[0]
-    const pxBlock = getPhysX().getRaycast?.()(
+    const pxBlock = getPhysX().pxRaycast?.(
         assignPxVec(raycaster.ray.origin),
         assignPxVec_(raycaster.ray.direction),
         FAR
