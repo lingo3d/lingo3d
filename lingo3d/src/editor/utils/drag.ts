@@ -1,6 +1,7 @@
 import TexturedBasicMixin from "../../display/core/mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "../../display/core/mixins/TexturedStandardMixin"
 import ObjectManager from "../../display/core/ObjectManager"
+import StaticObjectManager from "../../display/core/StaticObjectManager"
 import { container } from "../../engine/renderLoop/renderSetup"
 import { setEditorDragEvent } from "../../states/useEditorDragEvent"
 
@@ -13,7 +14,10 @@ document.addEventListener("drop", (e) => e.preventDefault())
 export default <T>(
     onDrop: (
         draggingItem: T,
-        hitManager?: ObjectManager | TexturedBasicMixin | TexturedStandardMixin
+        hitManager?:
+            | StaticObjectManager
+            | TexturedBasicMixin
+            | TexturedStandardMixin
     ) => ObjectManager | undefined
 ) => {
     let draggingItem: T | undefined
@@ -26,7 +30,9 @@ export default <T>(
         "drop",
         () =>
             draggingItem &&
-            setEditorDragEvent((hitManager) => onDrop(draggingItem!, hitManager))
+            setEditorDragEvent((hitManager) =>
+                onDrop(draggingItem!, hitManager)
+            )
     )
     return (val: T | undefined) => (draggingItem = val)
 }
