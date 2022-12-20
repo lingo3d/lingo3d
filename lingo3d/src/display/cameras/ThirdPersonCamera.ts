@@ -8,13 +8,17 @@ import IThirdPersonCamera, {
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorMounted } from "../../states/useEditorMounted"
 import { getEditorPlay } from "../../states/useEditorPlay"
+import { getPhysX } from "../../states/usePhysX"
 import CharacterCamera from "../core/CharacterCamera"
 import MeshItem from "../core/MeshItem"
-import fpsAlpha from "../utils/fpsAlpha"
+import { actorPtrManagerMap } from "../core/PhysicsObjectManager/physx/pxMaps"
+import {
+    assignPxVec,
+    assignPxVec_
+} from "../core/PhysicsObjectManager/physx/updatePxVec"
 import getWorldDirection from "../utils/getWorldDirection"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
-import { point2Vec } from "../utils/vec2Point"
 
 const setVisible = (target: MeshItem, visible: boolean) => {
     "visible" in target && (target.visible = visible)
@@ -55,17 +59,22 @@ export default class ThirdPersonCamera
                 }
             }
 
-            let tooCloseOld = true
-            setVisible(found, !tooCloseOld)
+            let tooCloseOld = false
+            setVisible(found, true)
 
-            let first = true
             const handle = onBeforeRender(() => {
                 const origin = getWorldPosition(this.outerObject3d)
                 const position = getWorldPosition(this.object3d)
-                const direction = getWorldDirection(this.object3d)
-                //mark
 
-                // cam.position.lerp(position, first ? 1 : fpsAlpha(0.1))
+                const pxHit = getPhysX().pxRaycast?.(
+                    assignPxVec(origin),
+                    assignPxVec_(getWorldDirection(this.object3d)),
+                    position.distanceTo(origin)
+                )
+                const manager = pxHit && actorPtrManagerMap.get(pxHit.actor.ptr)
+                if (manager && manager !== found)
+                    position.lerpVectors(position, pxHit.position, 1.1)
+
                 cam.position.copy(position)
                 cam.quaternion.copy(getWorldQuaternion(this.object3d))
 
@@ -74,8 +83,6 @@ export default class ThirdPersonCamera
                     : cam.position.distanceTo(origin) < 1
                 tooClose !== tooCloseOld && setVisible(found, !tooClose)
                 tooCloseOld = tooClose
-
-                first = false
             })
             return () => {
                 handle.cancel()

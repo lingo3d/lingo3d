@@ -27,16 +27,16 @@ export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     const intersection = raycaster.intersectObjects(
         [...candidates].filter(filterUnselectable)
     )[0]
-    const pxBlock = getPhysX().pxRaycast?.(
+    const pxHit = getPhysX().pxRaycast?.(
         assignPxVec(raycaster.ray.origin),
         assignPxVec_(raycaster.ray.direction),
         FAR
     )
     if (
-        (pxBlock && intersection && pxBlock.distance < intersection.distance) ||
-        (pxBlock && !intersection)
+        (pxHit && intersection && pxHit.distance < intersection.distance) ||
+        (pxHit && !intersection)
     ) {
-        const manager = actorPtrManagerMap.get(pxBlock.actor.ptr)!
+        const manager = actorPtrManagerMap.get(pxHit.actor.ptr)!
         const { nativeObject3d } = manager
         if (
             unselectableSet.has(nativeObject3d) ||
@@ -45,14 +45,14 @@ export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
             return
 
         return {
-            point: vec2Point(pxBlock.position),
-            distance: pxBlock.distance * scaleUp,
+            point: vec2Point(pxHit.position),
+            distance: pxHit.distance * scaleUp,
             manager
         }
     }
     if (
-        (pxBlock && intersection && pxBlock.distance > intersection.distance) ||
-        (!pxBlock && intersection)
+        (pxHit && intersection && pxHit.distance > intersection.distance) ||
+        (!pxHit && intersection)
     )
         return {
             point: vec2Point(intersection.point),
