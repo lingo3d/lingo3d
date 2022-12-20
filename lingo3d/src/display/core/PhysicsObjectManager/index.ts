@@ -7,7 +7,11 @@ import IPhysicsObjectManager, {
 import { getPhysX } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
 import { Reactive } from "@lincode/reactivity"
-import { managerActorMap, managerControllerMap } from "./physx/pxMaps"
+import {
+    managerActorMap,
+    managerControllerMap,
+    ptrActorMap
+} from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import destroy from "./physx/destroy"
 import { assignPxVec, setPxPose } from "./physx/updatePxVec"
@@ -112,12 +116,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     getPxControllerManager().createController(desc)
                 destroy(desc)
 
-                this.initActor(controller.getActor())
-
+                const actor = this.initActor(controller.getActor())
+                ptrActorMap.set(actor.ptr, actor)
                 managerControllerMap.set(this, controller)
 
                 return () => {
                     destroy(controller)
+                    ptrActorMap.delete(actor.ptr)
                     managerControllerMap.delete(this)
                     this.actor = undefined
                 }
@@ -129,6 +134,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     ? physics.createRigidStatic(pxPose)
                     : physics.createRigidDynamic(pxPose)
             )
+            ptrActorMap.set(actor.ptr, actor)
             const shape = this.getPxShape(mode, actor)
             shape.setSimulationFilterData(pxFilterData)
             scene.addActor(actor)
@@ -139,6 +145,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 destroy(shape)
                 scene.removeActor(actor)
                 destroy(actor)
+                ptrActorMap.delete(actor.ptr)
                 managerActorMap.delete(this)
                 this.actor = undefined
             }
