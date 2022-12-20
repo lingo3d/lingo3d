@@ -6,8 +6,6 @@ import { scaleUp } from "../../../../engine/constants"
 import { LingoMouseEvent } from "../../../../interface/IMouse"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { getPhysX } from "../../../../states/usePhysX"
-import getWorldDirection from "../../../utils/getWorldDirection"
-import getWorldPosition from "../../../utils/getWorldPosition"
 import { vec2Point } from "../../../utils/vec2Point"
 import { actorManagerMap } from "../../PhysicsObjectManager/physx/pxMaps"
 import {
@@ -22,25 +20,16 @@ const filterUnselectable = (target: Object3D) => {
     return true
 }
 
-const pxRaycast = () => {
-    const { getRaycast } = getPhysX()
-    if (!getRaycast) return
-
-    const raycast = getRaycast()
-    const camera = getCameraRendered()
-    return raycast(
-        assignPxVec(getWorldPosition(camera)),
-        assignPxVec_(getWorldDirection(camera)),
-        9999
-    )
-}
-
 export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     raycaster.setFromCamera({ x, y }, getCameraRendered())
     const intersection = raycaster.intersectObjects(
         [...candidates].filter(filterUnselectable)
     )[0]
-    const pxBlock = pxRaycast()
+    const pxBlock = getPhysX().getRaycast?.()(
+        assignPxVec(raycaster.ray.origin),
+        assignPxVec_(raycaster.ray.direction),
+        9999
+    )
     if (
         (pxBlock && intersection && pxBlock.distance < intersection.distance) ||
         (pxBlock && !intersection)
