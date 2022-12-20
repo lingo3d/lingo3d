@@ -15,7 +15,7 @@ import VisibleObjectManager from "../../VisibleObjectManager"
 const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates
 
-export const unselectableSet = new WeakSet<StaticObjectManager>()
+export const unselectableSet = new WeakSet<Object3D>()
 export const additionalSelectionCandidates = new Set<Object3D>()
 export const overrideSelectionCandidates = new Set<Object3D>()
 
@@ -45,7 +45,10 @@ const traverse = (
     for (const manager of targets) {
         if (frozenSet.has(manager)) continue
 
-        if ("addToRaycastSet" in manager && !unselectableSet.has(manager))
+        if (
+            "addToRaycastSet" in manager &&
+            !unselectableSet.has(manager.nativeObject3d)
+        )
             callPrivateMethod(manager, "addToRaycastSet", selectionCandidates)
 
         manager.children && traverse(manager.children, frozenSet)

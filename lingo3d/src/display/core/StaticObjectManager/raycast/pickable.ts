@@ -13,11 +13,12 @@ import {
     assignPxVec,
     assignPxVec_
 } from "../../PhysicsObjectManager/physx/updatePxVec"
+import { unselectableSet } from "./selectionCandidates"
 
 const raycaster = new Raycaster()
 
 const filterUnselectable = (target: Object3D) => {
-    if (target.userData.unselectable || target.userData.physx) return false
+    if (unselectableSet.has(target) || target.userData.physx) return false
     return true
 }
 
@@ -35,10 +36,18 @@ export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
         (pxBlock && intersection && pxBlock.distance < intersection.distance) ||
         (pxBlock && !intersection)
     ) {
+        const manager = actorPtrManagerMap.get(pxBlock.actor.ptr)!
+        const { nativeObject3d } = manager
+        if (
+            unselectableSet.has(nativeObject3d) ||
+            !candidates.has(nativeObject3d)
+        )
+            return
+
         return {
             point: vec2Point(pxBlock.position),
             distance: pxBlock.distance * scaleUp,
-            manager: actorPtrManagerMap.get(pxBlock.actor.ptr)!
+            manager
         }
     }
     if (

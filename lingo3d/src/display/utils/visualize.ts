@@ -9,7 +9,7 @@ const sphereMap = new Map<string, Sphere>()
 export default (name: string, pt: Point3d, properties?: IPrimitive) => {
     const sphere = forceGet(sphereMap, name, () => {
         const sphere = Object.assign(new Sphere(), properties)
-        unselectableSet.add(sphere)
+        unselectableSet.add(sphere.nativeObject3d)
         return sphere
     })
     sphere.placeAt(pt)

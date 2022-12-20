@@ -6,7 +6,10 @@ import { point2Vec } from "./utils/vec2Point"
 import ICurve, { curveDefaults, curveSchema } from "../interface/ICurve"
 import { createMemo, createNestedEffect, Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
-import { overrideSelectionCandidates } from "./core/StaticObjectManager/raycast/selectionCandidates"
+import {
+    overrideSelectionCandidates,
+    unselectableSet
+} from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
@@ -66,7 +69,7 @@ export default class Curve extends Appendable implements ICurve {
             const material = new LineBasicMaterial({ color: 0xff0000 })
             const curveMesh = new Line(geometry, material)
             curveMesh.frustumCulled = false
-            curveMesh.userData.unselectable = true
+            unselectableSet.add(curveMesh)
             this.outerObject3d.add(curveMesh)
 
             if (this._points.length < 2)
