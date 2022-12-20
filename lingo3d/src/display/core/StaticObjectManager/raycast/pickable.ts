@@ -7,7 +7,7 @@ import { LingoMouseEvent } from "../../../../interface/IMouse"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { getPhysX } from "../../../../states/usePhysX"
 import { vec2Point } from "../../../utils/vec2Point"
-import { actorManagerMap } from "../../PhysicsObjectManager/physx/pxMaps"
+import { actorPtrManagerMap } from "../../PhysicsObjectManager/physx/pxMaps"
 import {
     assignPxVec,
     assignPxVec_
@@ -37,7 +37,7 @@ export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
         return {
             point: vec2Point(pxBlock.position),
             distance: pxBlock.distance * scaleUp,
-            manager: actorManagerMap.get(pxBlock.actor)!
+            manager: actorPtrManagerMap.get(pxBlock.actor.ptr)!
         }
     }
     if (

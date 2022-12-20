@@ -8,7 +8,7 @@ import { getPhysX } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
 import { Reactive } from "@lincode/reactivity"
 import {
-    actorManagerMap,
+    actorPtrManagerMap,
     managerActorMap,
     managerControllerMap
 } from "./physx/pxMaps"
@@ -45,7 +45,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     private initActor(actor: any) {
         this.actor = actor
         if (this._mass !== undefined) actor.mass = this._mass
-        actorManagerMap.set(actor, this)
+        actorPtrManagerMap.set(actor.ptr, this)
         return actor
     }
 
@@ -114,10 +114,11 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     getPxControllerManager().createController(desc)
                 destroy(desc)
 
-                this.initActor(controller.getActor())
+                const actor = this.initActor(controller.getActor())
                 managerControllerMap.set(this, controller)
 
                 return () => {
+                    actorPtrManagerMap.delete(actor.ptr)
                     destroy(controller)
                     managerControllerMap.delete(this)
                     this.actor = undefined
@@ -138,6 +139,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             managerActorMap.set(this, actor)
 
             return () => {
+                actorPtrManagerMap.delete(actor.ptr)
                 destroy(shape)
                 scene.removeActor(actor)
                 destroy(actor)

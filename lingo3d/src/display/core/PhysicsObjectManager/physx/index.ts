@@ -129,7 +129,7 @@ PhysX().then((PhysX: any) => {
 
         return (origin: any, direction: any, maxDistance: number) => {
             if (scene.raycast(origin, direction, maxDistance, raycastResult))
-                return raycastResult.block
+                return raycastResult.getAnyHit()
         }
     })
 
