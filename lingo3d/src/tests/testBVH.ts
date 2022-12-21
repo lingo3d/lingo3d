@@ -24,6 +24,8 @@ keyboard.onKeyPress = (_, key) => {
     }
     if (key.has("Shift")) {
         box.velocityY = 10
+        box.velocityX = 10
+        box.velocityZ = 10
     }
 
     if (key.has("w")) player.strideForward = -5
