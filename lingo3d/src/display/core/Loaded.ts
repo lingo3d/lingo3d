@@ -15,7 +15,6 @@ import {
     deleteSelectiveBloom
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import VisibleObjectManager from "./VisibleObjectManager"
-import { setManager } from "../../api/utils/manager"
 import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
 import { getPhysX } from "../../states/usePhysX"
 import cookConvexGeometry from "./PhysicsObjectManager/physx/cookConvexGeometry"
