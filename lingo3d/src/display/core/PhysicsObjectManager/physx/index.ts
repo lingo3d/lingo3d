@@ -1,6 +1,7 @@
 import { lazy } from "@lincode/utils"
 //@ts-ignore
 import PhysX from "physx-js-webidl"
+import { getGravity } from "../../../../states/useGravity"
 import { setPhysX } from "../../../../states/usePhysX"
 import { destroyPtr } from "./destroy"
 import "./physxLoop"
@@ -100,7 +101,7 @@ PhysX().then((PhysX: any) => {
     )
 
     // create scene
-    const pxVec = new PxVec3(0, -9.81, 0)
+    const pxVec = new PxVec3(0, getGravity(), 0)
     const pxVec_ = new PxVec3(0, 0, 0)
     const sceneDesc = new PxSceneDesc(scale)
     sceneDesc.set_gravity(pxVec)
