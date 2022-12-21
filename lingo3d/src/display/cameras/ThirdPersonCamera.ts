@@ -1,6 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import mainCamera from "../../engine/mainCamera"
-import { onBeforeRender } from "../../events/onBeforeRender"
+import { onRender } from "../../events/onRender"
 import IThirdPersonCamera, {
     thirdPersonCameraDefaults,
     thirdPersonCameraSchema
@@ -50,7 +50,7 @@ export default class ThirdPersonCamera
         this.createEffect(() => {
             const found = this.foundState.get()
             if (!found) {
-                const handle = onBeforeRender(() => {
+                const handle = onRender(() => {
                     cam.position.copy(getWorldPosition(this.object3d))
                     cam.quaternion.copy(getWorldQuaternion(this.object3d))
                 })
@@ -62,7 +62,7 @@ export default class ThirdPersonCamera
             let tooCloseOld = false
             setVisible(found, true)
 
-            const handle = onBeforeRender(() => {
+            const handle = onRender(() => {
                 const origin = getWorldPosition(this.outerObject3d)
                 const position = getWorldPosition(this.object3d)
 

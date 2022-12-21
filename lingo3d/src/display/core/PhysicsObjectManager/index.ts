@@ -15,7 +15,7 @@ import {
 } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import destroy from "./physx/destroy"
-import { assignPxVec, setPxPose } from "./physx/updatePxVec"
+import { setPxPose } from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
 import MeshItem from "../MeshItem"
 import { pxUpdateSet } from "./physx/physxLoop"
@@ -27,14 +27,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 {
     public actor?: any
     public capsuleHeight?: number
-
-    public get velocity(): Point3d {
-        if (this.actor) return this.actor.getLinearVelocity()
-        return new Point3d(0, 0, 0)
-    }
-    public set velocity(val) {
-        this.actor?.setLinearVelocity(assignPxVec(val))
-    }
 
     private _mass?: number
     public get mass(): number {
