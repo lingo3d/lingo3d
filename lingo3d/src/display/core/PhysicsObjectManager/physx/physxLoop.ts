@@ -70,11 +70,13 @@ createEffect(() => {
             manager.outerObject3d.position.copy(p)
             manager.outerObject3d.quaternion.copy(q)
         }
-        for (const manager of managerControllerMap.keys())
-            manager.outerObject3d.position.lerp(
-                manager.actor.getGlobalPose().p,
-                fpsAlpha(hitMap.get(manager) ? 0.2 : 1)
-            )
+        for (const manager of managerControllerMap.keys()) {
+            const { position } = manager.outerObject3d
+            const { p } = manager.actor.getGlobalPose()
+            position.lerp(p, fpsAlpha(hitMap.get(manager) ? 0.2 : 1))
+            position.x = p.x
+            position.z = p.z
+        }
     })
     return () => {
         handle.cancel()
