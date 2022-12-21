@@ -21,7 +21,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     gridHelperSize: Number,
     stats: Boolean,
     gravity: Number,
-    repulsion: Number,
     antiAlias: [Boolean, String],
     logarithmicDepth: Boolean,
     pixelRatio: Number,
@@ -49,14 +48,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     texture: String,
     color: String
 }
-hideSchema([
-    "antiAlias",
-    "pixelRatio",
-    "gravity",
-    "repulsion",
-    "pbr",
-    "ssaoIntensity"
-])
+hideSchema(["antiAlias", "pixelRatio", "gravity", "pbr", "ssaoIntensity"])
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],
@@ -83,7 +75,6 @@ export const setupDefaults = extendDefaults<ISetup>(
         outlinePulse: new Range(0, 2),
         outlineStrength: new Range(0, 4),
         gravity: new Range(0, 20),
-        repulsion: new Range(0, 10),
         antiAlias: new Choices({ MSAA: "MSAA", SMAA: "SMAA", false: false }),
         gridHelperSize: new Range(10, 1000, 10)
     }

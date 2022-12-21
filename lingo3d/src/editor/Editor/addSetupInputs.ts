@@ -91,10 +91,7 @@ export default (
         outlineParams
     )
 
-    const [physicsParams, physicsRest] = splitObject(outlineRest, [
-        "gravity",
-        "repulsion"
-    ])
+    const [physicsParams, physicsRest] = splitObject(outlineRest, ["gravity"])
     addInputs(
         handle,
         pane,

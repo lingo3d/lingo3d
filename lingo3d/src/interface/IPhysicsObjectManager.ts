@@ -6,12 +6,14 @@ import ISimpleObjectManager, {
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import { extendDefaults } from "./utils/Defaults"
+import Nullable from "./utils/Nullable"
+import NullableDefault from "./utils/NullableDefault"
 
 export type PhysicsOptions = boolean | "map" | "character" | "convex"
 
 export default interface IPhysicsObjectManager extends ISimpleObjectManager {
     velocity: Point3d
-    gravity: boolean
+    gravity: Nullable<boolean>
     physics: PhysicsOptions
 }
 
@@ -28,6 +30,6 @@ hideSchema(["velocity"])
 export const physicsObjectManagerDefaults =
     extendDefaults<IPhysicsObjectManager>([simpleObjectManagerDefaults], {
         velocity: { x: 0, y: 0, z: 0 },
-        gravity: true,
+        gravity: new NullableDefault(true),
         physics: false
     })

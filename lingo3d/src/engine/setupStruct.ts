@@ -45,7 +45,6 @@ import {
 } from "../states/useOutlineStrength"
 import { getPBR, setPBR } from "../states/usePBR"
 import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
-import { getRepulsion, setRepulsion } from "../states/useRepulsion"
 import { getFps, setFps } from "../states/useFps"
 import { getSSR, setSSR } from "../states/useSSR"
 import { getSSRIntensity, setSSRIntensity } from "../states/useSSRIntensity"
@@ -134,13 +133,6 @@ export default {
     },
     set gravity(value) {
         setGravity(value)
-    },
-
-    get repulsion() {
-        return getRepulsion()
-    },
-    set repulsion(value) {
-        setRepulsion(value)
     },
 
     get antiAlias() {

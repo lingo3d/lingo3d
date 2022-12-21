@@ -19,6 +19,7 @@ import { assignPxVec, setPxPose } from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
 import MeshItem from "../MeshItem"
 import { pxUpdateSet } from "./physx/physxLoop"
+import Nullable from "../../../interface/utils/Nullable"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -43,6 +44,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this._mass = val
         this.actor?.setMass(val)
     }
+
+    public gravity: Nullable<boolean>
 
     private initActor(actor: any) {
         this.actor = actor
@@ -159,14 +162,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set physics(val) {
         this.refreshPhysics(val)
-    }
-
-    protected _gravity?: boolean
-    public get gravity() {
-        return this._gravity ?? true
-    }
-    public set gravity(val) {
-        this._gravity = val
     }
 
     private pxUpdate() {
