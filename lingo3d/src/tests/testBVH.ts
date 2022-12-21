@@ -20,8 +20,10 @@ box.physics = true
 
 keyboard.onKeyPress = (_, key) => {
     if (key.has("Space")) {
-        player.velocityY = 100
-        console.log("here")
+        player.velocityY = 10
+    }
+    if (key.has("Shift")) {
+        box.velocityY = 10
     }
 
     if (key.has("w")) player.strideForward = -5
