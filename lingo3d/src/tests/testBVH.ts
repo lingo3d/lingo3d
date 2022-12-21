@@ -8,14 +8,14 @@ import Cube from "../display/primitives/Cube"
 const player = new Dummy()
 player.src = "ready.glb"
 player.z = -100
-player.y = 2000
+player.y = 500
 player.physics = "character"
 player.rotationY = 90
 player.strideMove = true
 
 const box = new Cube()
 box.z = -300
-box.y = 2000
+box.y = 500
 box.physics = true
 
 keyboard.onKeyPress = (_, key) => {

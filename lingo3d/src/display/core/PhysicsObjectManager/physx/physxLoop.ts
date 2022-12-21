@@ -10,7 +10,7 @@ import { dtPtr } from "../../../../engine/eventLoop"
 import { setPxPose, setPxVec, setPxVec_ } from "./updatePxVec"
 import PhysicsObjectManager from ".."
 import fpsAlpha from "../../../utils/fpsAlpha"
-import { getGravity, gravityPtr } from "../../../../states/useGravity"
+import { gravityPtr } from "../../../../states/useGravity"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
@@ -24,20 +24,22 @@ createEffect(() => {
     const handle = onBeforeRender(() => {
         for (const [manager, controller] of managerControllerMap) {
             const { x: px, y: py, z: pz } = manager.outerObject3d.position
-            const capsuleHeight = manager.capsuleHeight!
-            const hit = !!pxRaycast!(
-                setPxVec(px, py, pz),
-                setPxVec_(0, -1, 0),
-                capsuleHeight,
-                manager.actor.ptr
-            )
-            hitMap.set(manager, hit)
-            const vy = hit
-                ? 0
-                : (vyMap.get(manager) ?? 0) + gravityPtr[0] * dtPtr[0]
-            vyMap.set(manager, vy)
-            const dy = hit ? -capsuleHeight : vy * dtPtr[0]
-
+            let dy = 0
+            if (manager.gravity !== false) {
+                const capsuleHeight = manager.capsuleHeight!
+                const hit = !!pxRaycast!(
+                    setPxVec(px, py, pz),
+                    setPxVec_(0, -1, 0),
+                    capsuleHeight,
+                    manager.actor.ptr
+                )
+                hitMap.set(manager, hit)
+                const vy = hit
+                    ? 0
+                    : (vyMap.get(manager) ?? 0) + gravityPtr[0] * dtPtr[0]
+                vyMap.set(manager, vy)
+                dy = hit ? -capsuleHeight : vy * dtPtr[0]
+            }
             if (pxUpdateSet.has(manager)) {
                 pxUpdateSet.delete(manager)
 
