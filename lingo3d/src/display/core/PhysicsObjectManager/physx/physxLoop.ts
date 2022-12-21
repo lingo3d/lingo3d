@@ -9,6 +9,7 @@ import { getFirstLoad } from "../../../../states/useFirstLoad"
 import { dtPtr } from "../../../../engine/eventLoop"
 import { setPxPose, setPxVec, setPxVec_ } from "./updatePxVec"
 import PhysicsObjectManager from ".."
+import { FAR } from "../../../../globals"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
 
@@ -23,32 +24,19 @@ createEffect(() => {
             const hit = pxRaycast!(
                 setPxVec(px, py, pz),
                 setPxVec_(0, -1, 0),
-                manager.pxHeight! * 1.5,
+                FAR,
                 manager.actor.ptr
             )
-            const vy = manager.actor.getLinearVelocity().get_y()
-            const dy = hit
-                ? (vy - 10) * dtPtr[0]
-                : (vy - 9.81 * dtPtr[0]) * dtPtr[0]
 
-            if (pxUpdateSet.has(manager)) {
-                pxUpdateSet.delete(manager)
+            const dy = hit ? hit.position.y + manager.pxHeight - py : 0
+            const { x: cx, y: cy, z: cz } = controller.getPosition()
 
-                const { x: cx, y: cy, z: cz } = controller.getPosition()
-
-                controller.move(
-                    setPxVec(px - cx, py - cy + dy, pz - cz),
-                    0.001,
-                    dtPtr[0],
-                    pxControllerFilters
-                )
-            } else
-                controller.move(
-                    setPxVec(0, dy, 0),
-                    0.001,
-                    dtPtr[0],
-                    pxControllerFilters
-                )
+            controller.move(
+                setPxVec(px - cx, py - cy + dy, pz - cz),
+                0.001,
+                dtPtr[0],
+                pxControllerFilters
+            )
         }
         for (const manager of pxUpdateSet)
             manager.actor.setGlobalPose(setPxPose(manager.outerObject3d))
