@@ -10,8 +10,14 @@ import { dtPtr } from "../../../../engine/eventLoop"
 import { setPxPose, setPxVec, setPxVec_ } from "./updatePxVec"
 import PhysicsObjectManager from ".."
 import { FAR } from "../../../../globals"
+import { Vector3 } from "three"
+import { forceGet } from "@lincode/utils"
+import { vector3 } from "../../../utils/reusables"
+import fpsAlpha from "../../../utils/fpsAlpha"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
+
+const managerVectorMap = new WeakMap<PhysicsObjectManager, Vector3>()
 
 createEffect(() => {
     const { scene, pxControllerFilters, pxRaycast } = getPhysX()
@@ -28,7 +34,13 @@ createEffect(() => {
                 manager.actor.ptr
             )
 
-            const dy = hit ? hit.position.y + manager.pxHeight - py : 0
+            let dy = hit ? hit.position.y + manager.pxHeight - py : 0
+            dy = forceGet(
+                managerVectorMap,
+                manager,
+                () => new Vector3(0, dy, 0)
+            ).lerp(vector3.set(0, dy, 0), fpsAlpha(dy < 0 ? 0.05 : 1)).y
+
             const { x: cx, y: cy, z: cz } = controller.getPosition()
 
             controller.move(
