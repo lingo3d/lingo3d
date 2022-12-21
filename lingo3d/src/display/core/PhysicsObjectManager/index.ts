@@ -15,10 +15,10 @@ import {
 } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import destroy from "./physx/destroy"
-import { setPxPose } from "./physx/updatePxVec"
+import { setPxPose, setPxVec } from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
 import MeshItem from "../MeshItem"
-import { pxUpdateSet } from "./physx/physxLoop"
+import { pxUpdateSet, pxVYUpdateMap } from "./physx/physxLoop"
 import Nullable from "../../../interface/utils/Nullable"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
@@ -38,6 +38,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
 
     public gravity: Nullable<boolean>
+
+    public get velocityY(): number {
+        return this.actor.getLinearVelocity().y
+    }
+    public set velocityY(val) {
+        pxVYUpdateMap.set(this, val)
+    }
 
     private initActor(actor: any) {
         this.actor = actor

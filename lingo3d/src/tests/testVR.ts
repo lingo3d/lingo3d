@@ -19,7 +19,7 @@ keyboard.onKeyPress = (k) => {
     if (k === "s") player.moveForward(10)
     if (k === "a") player.moveRight(10)
     if (k === "d") player.moveRight(-10)
-    if (k === " ") player.velocity.y = 10
+    if (k === "Space") player.velocityY = 10
 }
 
 const cam = new FirstPersonCamera()

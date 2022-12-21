@@ -19,6 +19,11 @@ box.y = 2000
 box.physics = true
 
 keyboard.onKeyPress = (_, key) => {
+    if (key.has("Space")) {
+        player.velocityY = 100
+        console.log("here")
+    }
+
     if (key.has("w")) player.strideForward = -5
     else if (key.has("s")) player.strideForward = 5
     else player.strideForward = 0
@@ -49,10 +54,6 @@ const boxes = [
     model.y = y
     model.z = z
     model.physics = true
-
-    model.onLoop = () => {
-        model.y += 10
-    }
 })
 
 settings.skybox = [

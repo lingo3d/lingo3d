@@ -15,7 +15,7 @@ cam.physics = "character"
 cam.height = 200
 
 keyboard.onKeyPress = (key) => {
-    if (key === " ") cam.velocity.y = 10
+    if (key === "Space") cam.velocityY = 10
     if (key === "w") cam.moveForward(10)
     if (key === "s") cam.moveForward(-10)
     if (key === "a") cam.moveRight(-10)

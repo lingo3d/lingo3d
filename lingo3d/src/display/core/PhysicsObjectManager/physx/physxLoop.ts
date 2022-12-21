@@ -13,6 +13,8 @@ import fpsAlpha from "../../../utils/fpsAlpha"
 import { gravityPtr } from "../../../../states/useGravity"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
+export const pxVYUpdateMap = new Map<PhysicsObjectManager, number>()
+
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
 const vyMap = new WeakMap<PhysicsObjectManager, number>()
 
@@ -23,9 +25,12 @@ createEffect(() => {
 
     const handle = onBeforeRender(() => {
         for (const [manager, controller] of managerControllerMap) {
+            const vyUpdate = pxVYUpdateMap.get(manager)
+            pxVYUpdateMap.delete(manager)
+
             const { x: px, y: py, z: pz } = manager.outerObject3d.position
-            let dy = 0
-            if (manager.gravity !== false) {
+            let dy = vyUpdate === undefined ? 0 : vyUpdate * dtPtr[0]
+            if (manager.gravity !== false && vyUpdate === undefined) {
                 const capsuleHeight = manager.capsuleHeight!
                 const hit = !!pxRaycast!(
                     setPxVec(px, py, pz),

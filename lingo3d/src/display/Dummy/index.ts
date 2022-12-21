@@ -12,7 +12,7 @@ import IDummy, {
 import FoundManager from "../core/FoundManager"
 import AnimationManager from "../core/AnimatedObjectManager/AnimationManager"
 import Model from "../Model"
-import { euler, vector3 } from "../utils/reusables"
+import { euler } from "../utils/reusables"
 import poseMachine from "./poseMachine"
 import fpsAlpha from "../utils/fpsAlpha"
 import { Animation } from "../../interface/IAnimatedObjectManager"
@@ -129,10 +129,10 @@ export default class Dummy extends Model implements IDummy {
             this.poseAnimationState.set(pose)
             if (pose !== "jumping") return
 
-            this.velocity.y = this.jumpHeight
+            this.velocityY = this.jumpHeight
 
             const handle = onBeforeRender(() => {
-                this.velocity.y === 0 && poseService.send("JUMP_STOP")
+                this.velocityY === 0 && poseService.send("JUMP_STOP")
             })
             return () => {
                 handle.cancel()
