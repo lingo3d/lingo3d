@@ -38,8 +38,6 @@ createEffect(() => {
     const handle = onBeforeRender(() => {
         for (const [manager, controller] of managerControllerMap) {
             const vyUpdate = pxVYUpdateMap.get(manager)
-            pxVYUpdateMap.delete(manager)
-
             const { x: px, y: py, z: pz } = manager.outerObject3d.position
 
             let dy = 0
@@ -87,12 +85,6 @@ createEffect(() => {
         }
         for (const manager of pxUpdateSet)
             manager.actor.setGlobalPose(setPxPose(manager.outerObject3d))
-
-        for (const [{ actor }, vyUpdate] of pxVYUpdateMap) {
-            const velocity = actor.getLinearVelocity()
-            velocity.set_y(vyUpdate)
-            actor.setLinearVelocity(velocity)
-        }
 
         pxUpdateSet.clear()
         pxVYUpdateMap.clear()

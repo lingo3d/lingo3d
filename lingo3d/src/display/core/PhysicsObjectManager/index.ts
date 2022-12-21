@@ -40,10 +40,19 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public gravity: Nullable<boolean>
 
     public get velocityY(): number {
-        return this.actor.getLinearVelocity().y
+        return this.actor?.getLinearVelocity().get_y() ?? 0
     }
     public set velocityY(val) {
-        pxVYUpdateMap.set(this, val)
+        const { actor } = this
+        if (!actor) return
+
+        if (this._physics === "character") {
+            pxVYUpdateMap.set(this, val)
+            return
+        }
+        const velocity = actor.getLinearVelocity()
+        velocity.set_y(val)
+        actor.setLinearVelocity(velocity)
     }
 
     private initActor(actor: any) {
@@ -156,10 +165,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         }, [physicsState.get, getPhysX])
     }
 
+    private _physics?: PhysicsOptions
     public get physics() {
-        return this.physicsState?.get() ?? false
+        return this._physics ?? false
     }
     public set physics(val) {
+        this._physics = val
         this.refreshPhysics(val)
     }
 
