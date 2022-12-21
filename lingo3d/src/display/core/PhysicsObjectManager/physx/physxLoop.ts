@@ -37,10 +37,10 @@ createEffect(() => {
 
     const handle = onBeforeRender(() => {
         for (const [manager, controller] of managerControllerMap) {
-            const vyUpdate = pxVYUpdateMap.get(manager)
             const { x: px, y: py, z: pz } = manager.outerObject3d.position
 
             let dy = 0
+            const vyUpdate = pxVYUpdateMap.get(manager)
             if (manager.gravity !== false) {
                 const hit = lockHit(manager, vyUpdate !== undefined)
                     ? false

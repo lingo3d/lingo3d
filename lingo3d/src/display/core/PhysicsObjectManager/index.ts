@@ -15,7 +15,7 @@ import {
 } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import destroy from "./physx/destroy"
-import { setPxPose, setPxVec } from "./physx/updatePxVec"
+import { setPxPose } from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
 import MeshItem from "../MeshItem"
 import { pxUpdateSet, pxVYUpdateMap } from "./physx/physxLoop"
@@ -39,6 +39,18 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
     public gravity: Nullable<boolean>
 
+    public get velocityX(): number {
+        return this.actor?.getLinearVelocity().get_x() ?? 0
+    }
+    public set velocityX(val) {
+        const { actor } = this
+        if (!actor) return
+        if (this._physics === "character") return
+        const velocity = actor.getLinearVelocity()
+        velocity.set_x(val)
+        actor.setLinearVelocity(velocity)
+    }
+
     public get velocityY(): number {
         return this.actor?.getLinearVelocity().get_y() ?? 0
     }
@@ -52,6 +64,18 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         }
         const velocity = actor.getLinearVelocity()
         velocity.set_y(val)
+        actor.setLinearVelocity(velocity)
+    }
+
+    public get velocityZ(): number {
+        return this.actor?.getLinearVelocity().get_z() ?? 0
+    }
+    public set velocityZ(val) {
+        const { actor } = this
+        if (!actor) return
+        if (this._physics === "character") return
+        const velocity = actor.getLinearVelocity()
+        velocity.set_z(val)
         actor.setLinearVelocity(velocity)
     }
 
