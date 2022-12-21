@@ -10,7 +10,7 @@ import { dtPtr } from "../../../../engine/eventLoop"
 import { setPxPose, setPxVec, setPxVec_ } from "./updatePxVec"
 import PhysicsObjectManager from ".."
 import fpsAlpha from "../../../utils/fpsAlpha"
-import { getGravity } from "../../../../states/useGravity"
+import { getGravity, gravityPtr } from "../../../../states/useGravity"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
@@ -34,7 +34,7 @@ createEffect(() => {
             hitMap.set(manager, hit)
             const vy = hit
                 ? 0
-                : (vyMap.get(manager) ?? 0) + getGravity() * dtPtr[0]
+                : (vyMap.get(manager) ?? 0) + gravityPtr[0] * dtPtr[0]
             vyMap.set(manager, vy)
             const dy = hit ? -capsuleHeight : vy * dtPtr[0]
 
