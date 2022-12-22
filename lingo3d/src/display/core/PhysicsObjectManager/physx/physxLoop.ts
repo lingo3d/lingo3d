@@ -30,12 +30,16 @@ const lockHit = (manager: StaticObjectManager, lock: boolean) => {
     return false
 }
 
+export const groundedControllerManagers = new Set<PhysicsObjectManager>()
+
 createEffect(() => {
     const { scene, pxControllerFilters, pxRaycast } = getPhysX()
     if (!scene || getPhysXCookingCount() || !getEditorPlay() || !getFirstLoad())
         return
 
     const handle = onBeforeRender(() => {
+        groundedControllerManagers.clear()
+
         for (const [manager, controller] of managerControllerMap) {
             const { x: px, y: py, z: pz } = manager.outerObject3d.position
 
@@ -55,6 +59,7 @@ createEffect(() => {
                 if (hit) {
                     dy = -manager.capsuleHeight!
                     vyMap.set(manager, 0)
+                    groundedControllerManagers.add(manager)
                 } else {
                     const vy =
                         (vyUpdate ?? vyMap.get(manager) ?? 0) +

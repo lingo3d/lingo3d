@@ -16,6 +16,7 @@ import { euler } from "../utils/reusables"
 import poseMachine from "./poseMachine"
 import fpsAlpha from "../utils/fpsAlpha"
 import { Animation } from "../../interface/IAnimatedObjectManager"
+import { groundedControllerManagers } from "../core/PhysicsObjectManager/physx/physxLoop"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -131,9 +132,11 @@ export default class Dummy extends Model implements IDummy {
 
             this.velocityY = this.jumpHeight
 
-            const handle = onBeforeRender(() => {
-                this.velocityY === 0 && poseService.send("JUMP_STOP")
-            })
+            const handle = onBeforeRender(
+                () =>
+                    groundedControllerManagers.has(this) &&
+                    poseService.send("JUMP_STOP")
+            )
             return () => {
                 handle.cancel()
             }
