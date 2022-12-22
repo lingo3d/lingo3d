@@ -20,9 +20,10 @@ import {
     setSceneGraphExpanded
 } from "../../states/useSceneGraphExpanded"
 import handleTreeItemClick from "../utils/handleTreeItemClick"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
 export type TreeItemProps = {
-    appendable: Appendable
+    appendable: Appendable | MeshAppendable
     children?: ComponentChildren
     expandable?: boolean
 }
@@ -68,8 +69,15 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
             selected={selected}
             draggable
             myDraggingItem={appendable}
-            onDrop={(draggingItem) => appendable.attach(draggingItem)}
-            expanded={sceneGraphExpanded?.has(appendable.outerObject3d)}
+            onDrop={(draggingItem) =>
+                "attach" in appendable
+                    ? appendable.attach(draggingItem)
+                    : appendable.append(draggingItem)
+            }
+            expanded={
+                "outerObject3d" in appendable &&
+                sceneGraphExpanded?.has(appendable.outerObject3d)
+            }
             onCollapse={() => setSceneGraphExpanded(undefined)}
             expandable={expandable ?? !!appendableChildren?.length}
             onClick={() => handleTreeItemClick(appendable)}

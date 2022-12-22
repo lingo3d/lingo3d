@@ -34,8 +34,8 @@ import "./raycast"
 import fpsAlpha from "../../utils/fpsAlpha"
 import { emitId } from "../../../events/onId"
 import { emitName } from "../../../events/onName"
-import Appendable from "../../../api/core/Appendable"
 import { CM2M, M2CM } from "../../../globals"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -70,7 +70,7 @@ export const getMeshItemSets = (id: string | Array<string> | MeshItem) => {
 }
 
 export default class StaticObjectManager<T extends Object3D = Object3D>
-    extends Appendable<T>
+    extends MeshAppendable<T>
     implements IStaticObjectManager
 {
     public override dispose() {

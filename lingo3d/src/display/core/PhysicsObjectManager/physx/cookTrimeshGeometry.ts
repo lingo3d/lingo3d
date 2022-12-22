@@ -1,5 +1,4 @@
 import { Object3D } from "three"
-import Appendable from "../../../../api/core/Appendable"
 import { getPhysX } from "../../../../states/usePhysX"
 import {
     decreasePhysXCookingCount,
@@ -8,11 +7,12 @@ import {
 import destroy from "./destroy"
 import { pxGeometryCache } from "./cookConvexGeometry"
 import computeMergedPxVertices from "./computeMergedPxVertices"
+import MeshAppendable from "../../../../api/core/MeshAppendable"
 
 export default (
     src: string | undefined,
     loaded: Object3D,
-    manager: Appendable
+    manager: MeshAppendable
 ) => {
     if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
 

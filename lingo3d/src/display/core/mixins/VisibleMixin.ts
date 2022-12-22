@@ -1,5 +1,5 @@
 import { Object3D } from "three"
-import Appendable from "../../../api/core/Appendable"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 import {
     addOutline,
     deleteOutline
@@ -11,7 +11,7 @@ import {
 import IVisible from "../../../interface/IVisible"
 
 export default abstract class VisibleMixin<T extends Object3D = Object3D>
-    extends Appendable<T>
+    extends MeshAppendable<T>
     implements IVisible
 {
     protected _bloom?: boolean

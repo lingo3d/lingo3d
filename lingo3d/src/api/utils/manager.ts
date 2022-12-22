@@ -1,8 +1,8 @@
 import { Object3D } from "three"
-import Appendable from "../core/Appendable"
+import MeshAppendable from "../core/MeshAppendable"
 
-export const getManager = <T extends Appendable>(target: Object3D): T =>
+export const getManager = <T extends MeshAppendable>(target: Object3D): T =>
     target.userData.manager
 
-export const setManager = (target: Object3D, appendable: Appendable) =>
+export const setManager = (target: Object3D, appendable: MeshAppendable) =>
     (target.userData.manager ??= appendable)

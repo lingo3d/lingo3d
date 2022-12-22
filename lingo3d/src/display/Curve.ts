@@ -13,7 +13,7 @@ import {
 import HelperSphere from "./core/utils/HelperSphere"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
-import Appendable from "../api/core/Appendable"
+import MeshAppendable from "../api/core/MeshAppendable"
 
 const createFor = <Result, Data>(
     dataList: Array<Data>,
@@ -48,7 +48,7 @@ const createFor = <Result, Data>(
     return dataResultMap
 }
 
-export default class Curve extends Appendable implements ICurve {
+export default class Curve extends MeshAppendable implements ICurve {
     public static componentName = "curve"
     public static defaults = curveDefaults
     public static schema = curveSchema

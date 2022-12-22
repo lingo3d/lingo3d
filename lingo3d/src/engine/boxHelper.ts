@@ -7,7 +7,7 @@ import scene from "./scene"
 
 createEffect(() => {
     const target = getSelectionTarget()
-    if (!target) return
+    if (!target || !("nativeObject3d" in target)) return
 
     const boxHelper = new BoxHelper(target.nativeObject3d)
     const frame = requestAnimationFrame(() => scene.add(boxHelper))

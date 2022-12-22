@@ -2,6 +2,7 @@ import { event } from "@lincode/events"
 import { createEffect } from "@lincode/reactivity"
 import { debounceTrailing } from "@lincode/utils"
 import Appendable from "../api/core/Appendable"
+import MeshAppendable from "../api/core/MeshAppendable"
 import {
     getSelectionTarget,
     setSelectionTarget
@@ -9,7 +10,7 @@ import {
 import { onDispose } from "./onDispose"
 
 type Event = {
-    target?: Appendable
+    target?: Appendable | MeshAppendable
     rightClick?: boolean
     noDeselect?: boolean
 }

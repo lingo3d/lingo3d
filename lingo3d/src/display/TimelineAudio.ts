@@ -1,6 +1,5 @@
 import { Reactive } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
-import { emitName } from "../events/onName"
 import ITimelineAudio, {
     timelineAudioDefaults,
     timelineAudioSchema
@@ -22,13 +21,7 @@ export default class TimelineAudio
             this.durationState.set(this.audio.duration)
     }
 
-    public get name() {
-        return this.outerObject3d.name
-    }
-    public set name(val) {
-        this.outerObject3d.name = val
-        emitName(this)
-    }
+    public name = ""
 
     private srcState = new Reactive<string | undefined>(undefined)
     public get src() {

@@ -21,14 +21,17 @@ import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTimelineData } from "../../states/useTimelineData"
 import { getManager } from "../../api/utils/manager"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)
-    const nextParent = getManager(obj)?.parent?.outerObject3d ?? obj.parent
+    const parent = getManager(obj)?.parent
+    const nextParent =
+        parent && "outerObject3d" in parent ? parent.outerObject3d : obj.parent
     nextParent && traverseUp(nextParent, expandedSet)
 }
 
-const search = (n: string, target: Loaded | Appendable) => {
+const search = (n: string, target: Loaded | Appendable | MeshAppendable) => {
     const name = n.toLowerCase()
     let found: Object3D | undefined
     if (target instanceof Loaded)
@@ -36,7 +39,7 @@ const search = (n: string, target: Loaded | Appendable) => {
             if (found) return
             item.name.toLowerCase().includes(name) && (found = item)
         })
-    else
+    else if ("outerObject3d" in target)
         target.outerObject3d.traverse((item) => {
             if (found) return
             item.name.toLowerCase().includes(name) && (found = item)

@@ -4,6 +4,7 @@ import { Object3D } from "three"
 import StaticObjectManager from ".."
 import Appendable from "../../../../api/core/Appendable"
 import { appendableRoot } from "../../../../api/core/collections"
+import MeshAppendable from "../../../../api/core/MeshAppendable"
 import {
     onSelectionTarget,
     emitSelectionTarget
@@ -21,7 +22,7 @@ export const overrideSelectionCandidates = new Set<Object3D>()
 
 export const addSelectionHelper = (
     helper: VisibleObjectManager,
-    manager: Appendable
+    manager: MeshAppendable
 ) => {
     manager.outerObject3d.add(helper.outerObject3d)
     additionalSelectionCandidates.add(helper.nativeObject3d)

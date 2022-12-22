@@ -43,7 +43,8 @@ const TimelineContextMenu = () => {
                     if (getExtensionType(value) === "audio") audio.src = value
                     timeline.mergeData({ [audio.uuid]: {} })
                     timeline.append(audio)
-                    setSceneGraphExpanded(new Set([timeline.outerObject3d]))
+                    //todo: refactor sceneGraphExpanded to make below work
+                    // setSceneGraphExpanded(new Set([timeline.outerObject3d]))
                     emitSelectionTarget(audio)
                     return
                 }

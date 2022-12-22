@@ -46,7 +46,8 @@ createEffect(() => {
     const handle1 = onSelectionTarget(({ target }) => {
         if (
             !target ||
-            overrideSelectionCandidates.has(target.outerObject3d) ||
+            ("outerObject3d" in target &&
+                overrideSelectionCandidates.has(target.outerObject3d)) ||
             getMultipleSelectionTargets().length
         )
             return

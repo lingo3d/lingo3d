@@ -1,4 +1,4 @@
-import Appendable from "../../../api/core/Appendable"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 import ITexturedBasic, {
     texturedBasicSchema
 } from "../../../interface/ITexturedBasic"
@@ -6,7 +6,7 @@ import { attachBasicMaterialManager } from "../../material/attachMaterialManager
 
 abstract class TexturedBasicMixin {}
 Object.assign(TexturedBasicMixin.prototype, {
-    getMaterial(this: Appendable) {
+    getMaterial(this: MeshAppendable) {
         return attachBasicMaterialManager(this.nativeObject3d, this)[0]
     }
 })

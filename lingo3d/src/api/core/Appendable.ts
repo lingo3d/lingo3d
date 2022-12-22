@@ -1,30 +1,22 @@
 import { Cancellable, Disposable } from "@lincode/promiselikes"
 import { GetGlobalState, createEffect } from "@lincode/reactivity"
 import { nanoid } from "nanoid"
-import { Object3D } from "three"
 import { timer } from "../../engine/eventLoop"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { emitDispose } from "../../events/onDispose"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import unsafeSetValue from "../../utils/unsafeSetValue"
-import { setManager } from "../utils/manager"
 import { appendableRoot, uuidMap } from "./collections"
+import MeshAppendable from "./MeshAppendable"
 
-export default class Appendable<
-    T extends Object3D = Object3D
-> extends Disposable {
-    public nativeObject3d: Object3D
-
-    public constructor(public outerObject3d: T = new Object3D() as T) {
+export default class Appendable extends Disposable {
+    public constructor() {
         super()
-        setManager(outerObject3d, this)
-        this.nativeObject3d = outerObject3d
-
         appendableRoot.add(this)
         emitSceneGraphChange()
     }
 
-    public parent?: Appendable
+    public parent?: Appendable | MeshAppendable
     public children?: Set<Appendable>
 
     protected _append(child: Appendable) {
@@ -38,12 +30,6 @@ export default class Appendable<
 
     public append(child: Appendable) {
         this._append(child)
-        this.outerObject3d.add(child.outerObject3d)
-    }
-
-    public attach(child: Appendable) {
-        this._append(child)
-        this.outerObject3d.attach(child.outerObject3d)
     }
 
     public override dispose() {
@@ -60,8 +46,6 @@ export default class Appendable<
 
         emitSceneGraphChange()
         emitDispose(this)
-
-        this.outerObject3d.parent?.remove(this.outerObject3d)
 
         if (this.children) for (const child of this.children) child.dispose()
         return this

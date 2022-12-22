@@ -89,7 +89,9 @@ export default () => {
                                 await serialize(false, target, true)
                             )
                             if (target.parent && item) {
-                                target.parent.attach(item)
+                                "attach" in target.parent
+                                    ? target.parent.attach(item)
+                                    : target.parent.append(item)
                                 emitSelectionTarget(item)
                             }
                         }

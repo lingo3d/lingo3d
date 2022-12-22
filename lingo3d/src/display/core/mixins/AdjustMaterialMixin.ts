@@ -6,7 +6,7 @@ import {
     CubeCamera,
     Material
 } from "three"
-import Appendable from "../../../api/core/Appendable"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 import { NEAR } from "../../../globals"
 import IAdjustMaterial from "../../../interface/IAdjustMaterial"
 import {
@@ -49,7 +49,7 @@ const setProperty = (
 }
 
 export default abstract class AdjustMaterialMixin
-    extends Appendable
+    extends MeshAppendable
     implements IAdjustMaterial
 {
     protected _refreshFactors(
