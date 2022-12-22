@@ -61,7 +61,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     protected override addToRaycastSet(set: Set<Object3D>) {
         if (!this.managerSet) {
             this.managerSet = true
-            this.nativeObject3d.traverse((child) => setManager(child, this))
+            this.object3d.traverse((child) => setManager(child, this))
         }
         return super.addToRaycastSet(set)
     }

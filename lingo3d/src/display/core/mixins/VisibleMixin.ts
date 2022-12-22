@@ -21,8 +21,8 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     public set bloom(val) {
         this._bloom = val
         val
-            ? addSelectiveBloom(this.nativeObject3d)
-            : deleteSelectiveBloom(this.nativeObject3d)
+            ? addSelectiveBloom(this.object3d)
+            : deleteSelectiveBloom(this.object3d)
     }
 
     protected _outline?: boolean
@@ -31,9 +31,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     }
     public set outline(val) {
         this._outline = val
-        val
-            ? addOutline(this.nativeObject3d)
-            : deleteOutline(this.nativeObject3d)
+        val ? addOutline(this.object3d) : deleteOutline(this.object3d)
     }
 
     private _visible?: boolean

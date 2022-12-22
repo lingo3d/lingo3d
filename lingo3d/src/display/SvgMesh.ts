@@ -119,7 +119,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
 
     protected getMaterial() {
         return attachStandardMaterialManager(
-            this.nativeObject3d,
+            this.object3d,
             this,
             undefined,
             undefined,

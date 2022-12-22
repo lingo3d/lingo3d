@@ -153,15 +153,16 @@ PhysX().then((PhysX: any) => {
         if (!scene.raycast(origin, direction, maxDistance, raycastResult))
             return
 
-        if (excludePtr) {
-            const iMax = raycastResult.getNbAnyHits()
-            for (let i = 0; i < iMax; ++i) {
-                const hit = raycastResult.getAnyHit(i)
-                if (hit.actor.ptr !== excludePtr) return hit
-            }
-            return
+        let distMin = Infinity
+        let hitDistMin: any
+        const iMax = raycastResult.getNbAnyHits()
+        for (let i = 0; i < iMax; ++i) {
+            const hit = raycastResult.getAnyHit(i)
+            if (hit.actor.ptr === excludePtr || hit.distance > distMin) continue
+            distMin = hit.distance
+            hitDistMin = hit
         }
-        return raycastResult.getAnyHit()
+        return hitDistMin
     }
 
     // create PxController

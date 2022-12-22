@@ -124,7 +124,7 @@ export default abstract class AdjustMaterialMixin
                 if (handle.done) return
                 this._refreshFactors(
                     handle,
-                    attachStandardMaterialManager(this.nativeObject3d, this)
+                    attachStandardMaterialManager(this.object3d, this)
                 )
             })
             return handle

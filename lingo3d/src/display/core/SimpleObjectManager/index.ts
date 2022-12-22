@@ -60,7 +60,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
             const pt = this.rayIntersectsAt(target, maxDistance)
             pt && result.push([target, pt])
         }
-        const vec = getWorldPosition(this.nativeObject3d)
+        const vec = getWorldPosition(this.object3d)
         return result.sort((a, b) => {
             return distance3dCached(a[1], vec) - distance3dCached(b[1], vec)
         })
@@ -254,7 +254,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         if ("outerObject3d" in target) {
             if ("isSpawnPoint" in target)
                 target.object3d.position.y = getActualScale(this).y * 0.5
-            this.outerObject3d.position.copy(getCenter(target.nativeObject3d))
+            this.outerObject3d.position.copy(getCenter(target.object3d))
             this.outerObject3d.quaternion.copy(
                 getWorldQuaternion(target.outerObject3d)
             )

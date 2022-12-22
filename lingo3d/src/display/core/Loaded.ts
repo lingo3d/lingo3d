@@ -275,6 +275,5 @@ export default abstract class Loaded<T = Object3D>
 
 export const getLoadedObject = (item: Loaded | MeshItem) => {
     if ("loadedGroup" in item) return item.loadedGroup
-    if ("object3d" in item) return item.object3d
-    return item.outerObject3d
+    return item.object3d
 }

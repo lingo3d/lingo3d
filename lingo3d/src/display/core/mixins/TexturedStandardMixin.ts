@@ -9,7 +9,7 @@ abstract class TexturedStandardMixin extends TexturedBasicMixin {}
 
 Object.assign(TexturedBasicMixin.prototype, {
     getMaterial(this: MeshAppendable) {
-        return attachStandardMaterialManager(this.nativeObject3d, this)[0]
+        return attachStandardMaterialManager(this.object3d, this)[0]
     }
 })
 

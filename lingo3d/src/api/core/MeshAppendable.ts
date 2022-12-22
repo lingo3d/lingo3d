@@ -5,12 +5,12 @@ import Appendable from "./Appendable"
 export default class MeshAppendable<
     T extends Object3D = Object3D
 > extends Appendable {
-    public nativeObject3d: Object3D
+    public object3d: Object3D
 
     public constructor(public outerObject3d: T = new Object3D() as T) {
         super()
         setManager(outerObject3d, this)
-        this.nativeObject3d = outerObject3d
+        this.object3d = outerObject3d
     }
 
     public declare parent?: MeshAppendable

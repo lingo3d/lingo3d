@@ -38,7 +38,7 @@ export default class OrbitCamera
             if (!found) return
 
             const handle = onBeforeRender(() => {
-                this.placeAt(vec2Point(getCenter(found.nativeObject3d)))
+                this.placeAt(vec2Point(getCenter(found.object3d)))
             })
             return () => {
                 handle.cancel()

@@ -25,14 +25,14 @@ export const addSelectionHelper = (
     manager: MeshAppendable
 ) => {
     manager.outerObject3d.add(helper.outerObject3d)
-    additionalSelectionCandidates.add(helper.nativeObject3d)
+    additionalSelectionCandidates.add(helper.object3d)
 
     const handle = onSelectionTarget(
         ({ target }) => target === helper && emitSelectionTarget(manager)
     )
     return new Cancellable(() => {
         helper.dispose()
-        additionalSelectionCandidates.delete(helper.nativeObject3d)
+        additionalSelectionCandidates.delete(helper.object3d)
         handle.cancel()
     })
 }
@@ -48,7 +48,7 @@ const traverse = (
 
         if (
             "addToRaycastSet" in manager &&
-            !unselectableSet.has(manager.nativeObject3d)
+            !unselectableSet.has(manager.object3d)
         )
             callPrivateMethod(manager, "addToRaycastSet", selectionCandidates)
 

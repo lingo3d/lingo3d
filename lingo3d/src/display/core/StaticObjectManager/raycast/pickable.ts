@@ -36,12 +36,8 @@ export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
         (pxHit && !intersection)
     ) {
         const manager = actorPtrManagerMap.get(pxHit.actor.ptr)!
-        const { nativeObject3d } = manager
-        if (
-            unselectableSet.has(nativeObject3d) ||
-            !candidates.has(nativeObject3d)
-        )
-            return
+        const { object3d } = manager
+        if (unselectableSet.has(object3d) || !candidates.has(object3d)) return
 
         return {
             point: vec2Point(pxHit.position),

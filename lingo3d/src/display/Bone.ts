@@ -1,6 +1,6 @@
 import { distance3d } from "@lincode/math"
 import randomColor from "randomcolor"
-import { Object3D } from "three"
+import { Material, Object3D } from "three"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import Octahedron from "./primitives/Octahedron"
@@ -16,7 +16,10 @@ export default class Bone extends Octahedron {
         const color = randomColor()
 
         this.wireframe = true
-        const thisMaterial = unsafeGetValue(this.nativeObject3d, "material")
+        const thisMaterial = unsafeGetValue(
+            this.object3d,
+            "material"
+        ) as Material
         thisMaterial.depthTest = false
         this.color = color
         this.width = 2
@@ -27,7 +30,10 @@ export default class Bone extends Octahedron {
         this.append(joint)
         joint.scale = 0.05
         joint.wireframe = true
-        const jointMaterial = unsafeGetValue(joint.nativeObject3d, "material")
+        const jointMaterial = unsafeGetValue(
+            joint.object3d,
+            "material"
+        ) as Material
         jointMaterial.depthTest = false
         joint.color = color
 

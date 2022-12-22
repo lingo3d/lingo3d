@@ -7,7 +7,7 @@ import { attachBasicMaterialManager } from "../../material/attachMaterialManager
 abstract class TexturedBasicMixin {}
 Object.assign(TexturedBasicMixin.prototype, {
     getMaterial(this: MeshAppendable) {
-        return attachBasicMaterialManager(this.nativeObject3d, this)[0]
+        return attachBasicMaterialManager(this.object3d, this)[0]
     }
 })
 

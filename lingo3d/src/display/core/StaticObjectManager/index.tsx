@@ -93,8 +93,8 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
 
     protected addToRaycastSet(set: Set<Object3D>) {
-        set.add(this.nativeObject3d)
-        return new Cancellable(() => set.delete(this.nativeObject3d))
+        set.add(this.object3d)
+        return new Cancellable(() => set.delete(this.object3d))
     }
 
     private _onClick?: (e: LingoMouseEvent) => void
@@ -179,8 +179,8 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
     protected getRay() {
         return ray.set(
-            getWorldPosition(this.nativeObject3d),
-            getWorldDirection(this.nativeObject3d)
+            getWorldPosition(this.object3d),
+            getWorldDirection(this.object3d)
         )
     }
 
@@ -194,16 +194,16 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         if (this === target) return undefined
 
         targetOBB.set(
-            getWorldPosition(target.nativeObject3d),
+            getWorldPosition(target.object3d),
             vector3_half,
-            new Matrix3().setFromMatrix4(target.nativeObject3d.matrixWorld)
+            new Matrix3().setFromMatrix4(target.object3d.matrixWorld)
         )
 
         const vec = targetOBB.intersectRay(this.getRay(), vector3)
         if (!vec) return
 
         if (maxDistance) {
-            const { x, y, z } = getWorldPosition(this.nativeObject3d)
+            const { x, y, z } = getWorldPosition(this.object3d)
             if (distance3d(vec.x, vec.y, vec.z, x, y, z) * M2CM > maxDistance)
                 return
         }
@@ -220,33 +220,33 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         if (this === target) return false
 
         thisOBB.set(
-            getWorldPosition(this.nativeObject3d),
+            getWorldPosition(this.object3d),
             vector3_1.clone(),
             new Matrix3()
         )
-        thisOBB.applyMatrix4(this.nativeObject3d.matrixWorld)
+        thisOBB.applyMatrix4(this.object3d.matrixWorld)
 
         targetOBB.set(
-            getWorldPosition(target.nativeObject3d),
+            getWorldPosition(target.object3d),
             vector3_1.clone(),
             new Matrix3()
         )
-        targetOBB.applyMatrix4(target.nativeObject3d.matrixWorld)
+        targetOBB.applyMatrix4(target.object3d.matrixWorld)
 
         return thisOBB.intersectsOBB(targetOBB, 0)
     }
 
     public get clientX() {
-        return worldToClient(this.nativeObject3d).x
+        return worldToClient(this.object3d).x
     }
 
     public get clientY() {
-        return worldToClient(this.nativeObject3d).y
+        return worldToClient(this.object3d).y
     }
 
     public get frustumVisible() {
         updateFrustum()
-        return frustum.containsPoint(getCenter(this.nativeObject3d))
+        return frustum.containsPoint(getCenter(this.object3d))
     }
 
     public lookAt(target: MeshItem | Point3d): void
@@ -265,7 +265,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
             return
         }
         if ("outerObject3d" in a0)
-            this.outerObject3d.lookAt(getWorldPosition(a0.nativeObject3d))
+            this.outerObject3d.lookAt(getWorldPosition(a0.object3d))
         else this.outerObject3d.lookAt(point2Vec(a0))
     }
 
@@ -320,6 +320,6 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
 
     public getWorldPosition(): Point3d {
-        return vec2Point(getWorldPosition(this.nativeObject3d))
+        return vec2Point(getWorldPosition(this.object3d))
     }
 }

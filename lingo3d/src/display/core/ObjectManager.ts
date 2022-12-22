@@ -11,18 +11,12 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     extends PhysicsObjectManager<T>
     implements IObjectManager
 {
-    public constructor(
-        public object3d = new Object3D() as T,
-        unmounted?: boolean
-    ) {
-        super(object3d)
-        this.nativeObject3d = object3d
-
-        const outerObject3d = (this.outerObject3d = new Object3D() as T)
-        setManager(outerObject3d, this)
-
-        !unmounted && scene.add(outerObject3d)
-        outerObject3d.add(object3d)
+    public constructor(object3d = new Object3D() as T, unmounted?: boolean) {
+        super(new Object3D() as T)
+        this.object3d = object3d
+        setManager(object3d, this)
+        !unmounted && scene.add(this.outerObject3d)
+        this.outerObject3d.add(object3d)
     }
 
     public get innerRotationX() {

@@ -62,7 +62,7 @@ export default abstract class PositionedItem<T extends Object3D = Object3D>
     }
 
     public getWorldPosition(): Point3d {
-        return vec2Point(getWorldPosition(this.nativeObject3d))
+        return vec2Point(getWorldPosition(this.object3d))
     }
 
     private _onMove?: () => void
