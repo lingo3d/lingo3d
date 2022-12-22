@@ -20,7 +20,7 @@ box.physics = true
 
 keyboard.onKeyPress = (_, key) => {
     if (key.has("Space")) {
-        player.velocityY = 10
+        player.jump()
     }
     if (key.has("Shift")) {
         box.velocityY = 10

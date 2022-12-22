@@ -11,7 +11,6 @@ import { getTransformControlsDragging } from "../../../states/useTransformContro
 import OrbitCameraBase from "../OrbitCameraBase"
 import { euler, quaternion } from "../../utils/reusables"
 import MeshItem from "../MeshItem"
-import characterCameraPlaced from "./characterCameraPlaced"
 import { FAR, NEAR } from "../../../globals"
 import fpsAlpha from "../../utils/fpsAlpha"
 import { positionChanged } from "../../utils/trackObject"
@@ -60,8 +59,7 @@ export default class CharacterCamera
             euler.z = 0
             euler.y += Math.PI
 
-            const placed = characterCameraPlaced.has(target)
-            if (slerp && !placed) {
+            if (slerp) {
                 quaternion.setFromEuler(euler)
                 target.outerObject3d.quaternion.slerp(quaternion, fpsAlpha(0.1))
                 return
