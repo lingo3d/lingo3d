@@ -1,30 +1,31 @@
 import { onAfterRender } from "../events/onAfterRender"
 
-export const computeValuePerFrame = <Item extends Object, Return>(
-    cb: (item: Item) => Return
+const caches: Array<Map<object, any>> = []
+onAfterRender(() => {
+    for (const cache of caches) cache.clear()
+})
+
+export default <Item extends object, Return>(
+    cb: (item: Item) => Return,
+    clone = true
 ) => {
     const cache = new Map<Item, Return>()
-    let blocked = false
-    const clearCacheDebounced = () => {
-        if (blocked) return
-        blocked = true
-        onAfterRender(() => {
-            blocked = false
-            cache.clear()
-        }, true)
-    }
+    caches.push(cache)
+
+    if (clone)
+        return (item: Item): Return => {
+            if (cache.has(item)) return cache.get(item)!
+            const result = cb(item)
+            //@ts-ignore
+            cache.set(item, result.clone())
+            //@ts-ignore
+            return result.clone()
+        }
+
     return (item: Item): Return => {
         if (cache.has(item)) return cache.get(item)!
         const result = cb(item)
         cache.set(item, result)
-        clearCacheDebounced()
         return result
     }
-}
-
-export default <Item extends Object, Return extends { clone: () => Return }>(
-    cb: (item: Item) => Return
-) => {
-    const compute = computeValuePerFrame(cb)
-    return (item: Item) => compute(item).clone()
 }

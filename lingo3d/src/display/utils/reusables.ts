@@ -8,9 +8,12 @@ import {
     Line3,
     Frustum,
     Matrix4,
-    MeshStandardMaterial
+    MeshStandardMaterial,
+    Vector2
 } from "three"
 import { diameterScaled, radiusScaled } from "../../engine/constants"
+
+export const vector2 = new Vector2()
 
 export const vector3 = new Vector3()
 export const vector3_ = new Vector3()

@@ -13,7 +13,7 @@ import { euler, quaternion } from "../../utils/reusables"
 import MeshItem from "../MeshItem"
 import { FAR, NEAR } from "../../../globals"
 import fpsAlpha from "../../utils/fpsAlpha"
-import { positionChanged } from "../../utils/trackObject"
+import { positionChangedXZ } from "../../utils/trackObject"
 import { getEditorModeComputed } from "../../../states/useEditorModeComputed"
 
 export default class CharacterCamera
@@ -53,7 +53,7 @@ export default class CharacterCamera
             this.updateAngle()
         }
 
-        const lockTargetRotation = (target: MeshItem, slerp: boolean) => {
+        const rotateTarget = (target: MeshItem, slerp: boolean) => {
             euler.setFromQuaternion(this.midObject3d.quaternion)
             euler.x = 0
             euler.z = 0
@@ -88,16 +88,16 @@ export default class CharacterCamera
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-lock") {
-                    positionChanged(found.outerObject3d) &&
-                        lockTargetRotation(found, true)
+                    positionChangedXZ(found.outerObject3d) &&
+                        rotateTarget(found, true)
                     return
                 }
                 if (this.lockTargetRotation === "dynamic-follow") {
-                    positionChanged(found.outerObject3d) &&
+                    positionChangedXZ(found.outerObject3d) &&
                         followTargetRotation(found, true)
                     return
                 }
-                lockTargetRotation(found, false)
+                rotateTarget(found, false)
             })
             return () => {
                 handle.cancel()

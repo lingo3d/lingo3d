@@ -1,9 +1,9 @@
 import { Object3D } from "three"
-import { computeValuePerFrame } from "../../utils/computePerFrame"
+import computePerFrame from "../../utils/computePerFrame"
 import getWorldPosition from "./getWorldPosition"
 import getWorldQuaternion from "./getWorldQuaternion"
 
-export const positionChanged = computeValuePerFrame((target: Object3D) => {
+export const positionChanged = computePerFrame((target: Object3D) => {
     const { userData } = target
     const position = getWorldPosition(target)
     const result = userData.positionOld
@@ -11,9 +11,20 @@ export const positionChanged = computeValuePerFrame((target: Object3D) => {
         : false
     userData.positionOld = position
     return result
-})
+}, false)
 
-export const quaternionChanged = computeValuePerFrame((target: Object3D) => {
+export const positionChangedXZ = computePerFrame((target: Object3D) => {
+    const { userData } = target
+    const position = getWorldPosition(target)
+    const result = userData.positionOldXZ
+        ? position.x !== userData.positionOldXZ.x ||
+          position.z !== userData.positionOldXZ.z
+        : false
+    userData.positionOldXZ = position
+    return result
+}, false)
+
+export const quaternionChanged = computePerFrame((target: Object3D) => {
     const { userData } = target
     const quaternion = getWorldQuaternion(target)
     const result = userData.quaternionOld
@@ -21,4 +32,4 @@ export const quaternionChanged = computeValuePerFrame((target: Object3D) => {
         : false
     userData.quaternionOld = quaternion
     return result
-})
+}, false)
