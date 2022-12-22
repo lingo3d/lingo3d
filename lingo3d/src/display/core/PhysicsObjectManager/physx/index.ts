@@ -9,6 +9,7 @@ import "./physxLoop"
 PhysX().then((PhysX: any) => {
     const {
         destroy,
+        PxSimulationEventCallback,
         PxTopLevelFunctions,
         PxDefaultAllocator,
         PxDefaultErrorCallback,
@@ -59,7 +60,10 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxActorFlagEnum_eVISUALIZATION,
         _emscripten_enum_PxActorFlagEnum_eDISABLE_GRAVITY,
         _emscripten_enum_PxActorFlagEnum_eSEND_SLEEP_NOTIFIES,
-        _emscripten_enum_PxActorFlagEnum_eDISABLE_SIMULATION
+        _emscripten_enum_PxActorFlagEnum_eDISABLE_SIMULATION,
+        _emscripten_enum_PxPairFlagEnum_eNOTIFY_TOUCH_FOUND,
+        _emscripten_enum_PxPairFlagEnum_eNOTIFY_TOUCH_LOST,
+        _emscripten_enum_PxPairFlagEnum_eNOTIFY_CONTACT_POINTS
     } = PhysX
 
     destroyPtr[0] = destroy
@@ -107,6 +111,20 @@ PhysX().then((PhysX: any) => {
     sceneDesc.set_gravity(pxVec)
     sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
     sceneDesc.set_filterShader(Px.DefaultFilterShader())
+    // sceneDesc.set_simulationEventCallback(
+    //     Object.create(PxSimulationEventCallback.prototype, {
+    //         onContact: {
+    //             value: (pairHeader: any, pairs: any, nbPairs: any) => {
+    //                 console.log("onContact")
+    //             }
+    //         },
+    //         onTrigger: {
+    //             value: (pairs: any, nbPairs: any) => {
+    //                 console.log("onTrigger")
+    //             }
+    //         }
+    //     })
+    // )
     const scene = physics.createScene(sceneDesc)
 
     // create a default material
