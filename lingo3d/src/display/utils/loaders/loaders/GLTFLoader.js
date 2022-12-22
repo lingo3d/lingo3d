@@ -91,9 +91,9 @@ class GLTFLoader extends Loader {
 
         this.pluginCallbacks = []
 
-        this.register(function (parser) {
-            return new GLTFMaterialsClearcoatExtension(parser)
-        })
+        // this.register(function (parser) {
+        //     return new GLTFMaterialsClearcoatExtension(parser)
+        // })
 
         this.register(function (parser) {
             return new GLTFTextureBasisUExtension(parser)
@@ -646,7 +646,7 @@ class GLTFMaterialsClearcoatExtension {
         if (!materialDef.extensions || !materialDef.extensions[this.name])
             return null
 
-        return MeshStandardMaterial
+        return MeshPhysicalMaterial
     }
 
     extendMaterialParams(materialIndex, materialParams) {
@@ -2016,6 +2016,8 @@ function getImageURIMimeType(uri) {
     return "image/png"
 }
 
+const _identityMatrix = new Matrix4()
+
 /* GLTF PARSER */
 
 class GLTFParser {
@@ -2267,7 +2269,7 @@ class GLTFParser {
      * Requests the specified dependency asynchronously, with caching.
      * @param {string} type
      * @param {number} index
-     * @return {Promise<Object3D|Material|Texture|AnimationClip|ArrayBuffer|Object>}
+     * @return {Promise<Object3D|Material|THREE.Texture|AnimationClip|ArrayBuffer|Object>}
      */
     getDependency(type, index) {
         const cacheKey = type + ":" + index
@@ -2280,7 +2282,9 @@ class GLTFParser {
                     break
 
                 case "node":
-                    dependency = this.loadNode(index)
+                    dependency = this._invokeOne(function (ext) {
+                        return ext.loadNode && ext.loadNode(index)
+                    })
                     break
 
                 case "mesh":
@@ -2622,7 +2626,7 @@ class GLTFParser {
     /**
      * Specification: https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#textures
      * @param {number} textureIndex
-     * @return {Promise<Texture|null>}
+     * @return {Promise<THREE.Texture|null>}
      */
     loadTexture(textureIndex) {
         const json = this.json
@@ -3338,7 +3342,7 @@ class GLTFParser {
     /**
      * Specification: https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#cameras
      * @param {number} cameraIndex
-     * @return {Promise<Camera>}
+     * @return {Promise<THREE.Camera>}
      */
     loadCamera(cameraIndex) {
         let camera
@@ -3640,18 +3644,18 @@ class GLTFParser {
             : ""
 
         return (function () {
-            const pending = []
+            const objectPending = []
 
             const meshPromise = parser._invokeOne(function (ext) {
                 return ext.createNodeMesh && ext.createNodeMesh(nodeIndex)
             })
 
             if (meshPromise) {
-                pending.push(meshPromise)
+                objectPending.push(meshPromise)
             }
 
             if (nodeDef.camera !== undefined) {
-                pending.push(
+                objectPending.push(
                     parser
                         .getDependency("camera", nodeDef.camera)
                         .then(function (camera) {
@@ -3672,11 +3676,31 @@ class GLTFParser {
                     )
                 })
                 .forEach(function (promise) {
-                    pending.push(promise)
+                    objectPending.push(promise)
                 })
 
-            return Promise.all(pending)
-        })().then(function (objects) {
+            const childPending = []
+            const childrenDef = nodeDef.children || []
+
+            for (let i = 0, il = childrenDef.length; i < il; i++) {
+                childPending.push(parser.getDependency("node", childrenDef[i]))
+            }
+
+            const skeletonPending =
+                nodeDef.skin === undefined
+                    ? Promise.resolve(null)
+                    : parser.getDependency("skin", nodeDef.skin)
+
+            return Promise.all([
+                Promise.all(objectPending),
+                Promise.all(childPending),
+                skeletonPending
+            ])
+        })().then(function (results) {
+            const objects = results[0]
+            const children = results[1]
+            const skeleton = results[2]
+
             let node
 
             // .isBone isn't in glTF spec. See ._markDefs
@@ -3730,6 +3754,20 @@ class GLTFParser {
 
             parser.associations.get(node).nodes = nodeIndex
 
+            if (skeleton !== null) {
+                // This full traverse should be fine because
+                // child glTF nodes have not been added to this node yet.
+                node.traverse(function (mesh) {
+                    if (!mesh.isSkinnedMesh) return
+
+                    mesh.bind(skeleton, _identityMatrix)
+                })
+            }
+
+            for (let i = 0, il = children.length; i < il; i++) {
+                node.add(children[i])
+            }
+
             return node
         })
     }
@@ -3740,7 +3778,6 @@ class GLTFParser {
      * @return {Promise<Group>}
      */
     loadScene(sceneIndex) {
-        const json = this.json
         const extensions = this.extensions
         const sceneDef = this.json.scenes[sceneIndex]
         const parser = this
@@ -3760,10 +3797,14 @@ class GLTFParser {
         const pending = []
 
         for (let i = 0, il = nodeIds.length; i < il; i++) {
-            pending.push(buildNodeHierarchy(nodeIds[i], scene, json, parser))
+            pending.push(parser.getDependency("node", nodeIds[i]))
         }
 
-        return Promise.all(pending).then(function () {
+        return Promise.all(pending).then(function (nodes) {
+            for (let i = 0, il = nodes.length; i < il; i++) {
+                scene.add(nodes[i])
+            }
+
             // Removes dangling associations, associations that reference a node that
             // didn't make it into the scene.
             const reduceAssociations = (node) => {
@@ -3791,48 +3832,6 @@ class GLTFParser {
             return scene
         })
     }
-}
-
-function buildNodeHierarchy(nodeId, parentObject, json, parser) {
-    const nodeDef = json.nodes[nodeId]
-
-    return parser
-        .getDependency("node", nodeId)
-        .then(function (node) {
-            if (nodeDef.skin === undefined) return node
-
-            // build skeleton here as well
-
-            return parser
-                .getDependency("skin", nodeDef.skin)
-                .then(function (skeleton) {
-                    node.traverse(function (mesh) {
-                        if (!mesh.isSkinnedMesh) return
-
-                        mesh.bind(skeleton, mesh.matrixWorld)
-                    })
-
-                    return node
-                })
-        })
-        .then(function (node) {
-            // build node hierachy
-
-            parentObject.add(node)
-
-            const pending = []
-
-            if (nodeDef.children) {
-                const children = nodeDef.children
-
-                for (let i = 0, il = children.length; i < il; i++) {
-                    const child = children[i]
-                    pending.push(buildNodeHierarchy(child, node, json, parser))
-                }
-            }
-
-            return Promise.all(pending)
-        })
 }
 
 /**
