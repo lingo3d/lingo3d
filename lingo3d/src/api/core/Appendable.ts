@@ -5,11 +5,12 @@ import { timer } from "../../engine/eventLoop"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { emitDispose } from "../../events/onDispose"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
+import IAppendable from "../../interface/IAppendable"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { appendableRoot, uuidMap } from "./collections"
 import MeshAppendable from "./MeshAppendable"
 
-export default class Appendable extends Disposable {
+export default class Appendable extends Disposable implements IAppendable {
     public constructor() {
         super()
         appendableRoot.add(this)
