@@ -109,10 +109,6 @@ export default class Appendable<
         return this.watch(timer(time, repeat, cb))
     }
 
-    public beforeRender(cb: () => void) {
-        return this.watch(onBeforeRender(cb))
-    }
-
     public queueMicrotask(cb: () => void) {
         queueMicrotask(() => !this.done && cb())
     }
@@ -150,5 +146,8 @@ export default class Appendable<
     public set onLoop(cb) {
         this._onLoop = cb
         this.cancelHandle("onLoop", cb && (() => onBeforeRender(cb)))
+    }
+    public registerOnLoop(cb: () => void) {
+        return this.watch(onBeforeRender(cb))
     }
 }

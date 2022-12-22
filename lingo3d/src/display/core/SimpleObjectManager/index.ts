@@ -77,7 +77,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         cb: (target: StaticObjectManager, pt: Point3d) => void,
         maxDistance?: number
     ) {
-        return this.beforeRender(() => {
+        return this.registerOnLoop(() => {
             for (const [target, pt] of this.getRayIntersectionsAt(
                 id,
                 maxDistance
@@ -100,7 +100,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     ) {
         let intersectionsOld = new Set<StaticObjectManager>()
 
-        return this.beforeRender(() => {
+        return this.registerOnLoop(() => {
             const intersections = this.getIntersections(id)
 
             if (cb)
