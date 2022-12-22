@@ -10,7 +10,6 @@ import {
 } from "../../utils/reusables"
 import { forceGet, throttle } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
-import { scaleDown, scaleUp } from "../../../engine/constants"
 import worldToClient from "../../utils/worldToClient"
 import { Cancellable } from "@lincode/promiselikes"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
@@ -36,6 +35,7 @@ import fpsAlpha from "../../utils/fpsAlpha"
 import { emitId } from "../../../events/onId"
 import { emitName } from "../../../events/onName"
 import Appendable from "../../../api/core/Appendable"
+import { CM2M, M2CM } from "../../../globals"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -185,7 +185,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
 
     public pointAt(distance: number) {
-        return vec2Point(this.getRay().at(distance * scaleDown, vector3))
+        return vec2Point(this.getRay().at(distance * CM2M, vector3))
     }
 
     public rayIntersectsAt(target: StaticObjectManager, maxDistance?: number) {
@@ -204,10 +204,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
         if (maxDistance) {
             const { x, y, z } = getWorldPosition(this.nativeObject3d)
-            if (
-                distance3d(vec.x, vec.y, vec.z, x, y, z) * scaleUp >
-                maxDistance
-            )
+            if (distance3d(vec.x, vec.y, vec.z, x, y, z) * M2CM > maxDistance)
                 return
         }
         return vec2Point(vec)
@@ -260,7 +257,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                 new Point3d(
                     a0,
                     a1 === undefined
-                        ? this.outerObject3d.position.y * scaleUp
+                        ? this.outerObject3d.position.y * M2CM
                         : a1,
                     a2!
                 )
@@ -292,7 +289,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                 new Point3d(
                     a0,
                     a1 === undefined
-                        ? this.outerObject3d.position.y * scaleUp
+                        ? this.outerObject3d.position.y * M2CM
                         : a1,
                     a2!
                 ),

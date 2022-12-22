@@ -1,7 +1,6 @@
 import { CameraHelper, PerspectiveCamera, Quaternion } from "three"
 import ObjectManager from "../ObjectManager"
 import { debounceInstance } from "@lincode/utils"
-import { scaleDown } from "../../../engine/constants"
 import {
     ray,
     euler,
@@ -144,33 +143,6 @@ export default abstract class CameraBase<
     public override attach(object: MeshItem) {
         this._append(object)
         this.camera.attach(object.outerObject3d)
-    }
-
-    public override get width() {
-        return super.width
-    }
-    public override set width(val) {
-        const num = val * scaleDown
-        this.object3d.scale.x = num
-        this.camera.scale.x = 1 / num
-    }
-
-    public override get height() {
-        return super.height
-    }
-    public override set height(val) {
-        const num = val * scaleDown
-        this.object3d.scale.y = num
-        this.camera.scale.y = 1 / num
-    }
-
-    public override get depth() {
-        return super.depth
-    }
-    public override set depth(val) {
-        const num = val * scaleDown
-        this.object3d.scale.z = num
-        this.camera.scale.z = 1 / num
     }
 
     protected orbitMode?: boolean

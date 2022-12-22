@@ -2,8 +2,7 @@ import { Raycaster, Object3D } from "three"
 import StaticObjectManager from ".."
 import { MouseEventName, mouseEvents } from "../../../../api/mouse"
 import { getManager } from "../../../../api/utils/manager"
-import { scaleUp } from "../../../../engine/constants"
-import { FAR } from "../../../../globals"
+import { FAR, M2CM } from "../../../../globals"
 import { LingoMouseEvent } from "../../../../interface/IMouse"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { getPhysX } from "../../../../states/usePhysX"
@@ -46,7 +45,7 @@ export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
 
         return {
             point: vec2Point(pxHit.position),
-            distance: pxHit.distance * scaleUp,
+            distance: pxHit.distance * M2CM,
             manager
         }
     }
@@ -56,7 +55,7 @@ export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     )
         return {
             point: vec2Point(intersection.point),
-            distance: intersection.distance * scaleUp,
+            distance: intersection.distance * M2CM,
             manager: getManager<StaticObjectManager>(intersection.object)
         }
 }

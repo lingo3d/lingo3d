@@ -5,9 +5,9 @@ import { Object3D } from "three"
 import getWorldPosition from "../../display/utils/getWorldPosition"
 import { positionChanged } from "../../display/utils/trackObject"
 import { vec2Point } from "../../display/utils/vec2Point"
-import { scaleUp, scaleDown } from "../../engine/constants"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
+import { CM2M, M2CM } from "../../globals"
 import IPositioned from "../../interface/IPositioned"
 import Appendable from "./Appendable"
 
@@ -41,24 +41,24 @@ export default abstract class PositionedItem<T extends Object3D = Object3D>
     }
 
     public get x() {
-        return this.outerObject3d.position.x * scaleUp
+        return this.outerObject3d.position.x * M2CM
     }
     public set x(val) {
-        this.outerObject3d.position.x = val * scaleDown
+        this.outerObject3d.position.x = val * CM2M
     }
 
     public get y() {
-        return this.outerObject3d.position.y * scaleUp
+        return this.outerObject3d.position.y * M2CM
     }
     public set y(val) {
-        this.outerObject3d.position.y = val * scaleDown
+        this.outerObject3d.position.y = val * CM2M
     }
 
     public get z() {
-        return this.outerObject3d.position.z * scaleUp
+        return this.outerObject3d.position.z * M2CM
     }
     public set z(val) {
-        this.outerObject3d.position.z = val * scaleDown
+        this.outerObject3d.position.z = val * CM2M
     }
 
     public getWorldPosition(): Point3d {

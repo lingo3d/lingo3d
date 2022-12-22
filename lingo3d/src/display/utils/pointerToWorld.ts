@@ -1,5 +1,5 @@
 import { Point3d } from "@lincode/math"
-import { scaleDown } from "../../engine/constants"
+import { CM2M } from "../../globals"
 import { LingoMouseEvent } from "../../interface/IMouse"
 import { getCameraPointerLock } from "../../states/useCameraPointerLock"
 import { getCameraRendered } from "../../states/useCameraRendered"
@@ -32,7 +32,7 @@ export default (ev: { clientX: number; clientY: number }) => {
 
     const cameraPosition = getWorldPosition(camera)
     vector3.sub(cameraPosition).normalize()
-    const vec = cameraPosition.add(vector3.multiplyScalar(distance * scaleDown))
+    const vec = cameraPosition.add(vector3.multiplyScalar(distance * CM2M))
 
     return new LingoMouseEvent(
         clientX,

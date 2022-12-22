@@ -3,13 +3,13 @@ import { Reactive } from "@lincode/reactivity"
 import { LineGeometry } from "three/examples/jsm/lines/LineGeometry"
 import { Line2 } from "three/examples/jsm/lines/Line2"
 import { LineMaterial } from "three/examples/jsm/lines/LineMaterial"
-import { scaleDown } from "../engine/constants"
 import scene from "../engine/scene"
 import {
     addSelectiveBloom,
     deleteSelectiveBloom
 } from "../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import Appendable from "../api/core/Appendable"
+import { CM2M } from "../globals"
 
 export default class Line extends Appendable {
     public constructor() {
@@ -20,15 +20,15 @@ export default class Line extends Appendable {
             if (!from || !to) return
 
             const geometry = new LineGeometry().setPositions([
-                from.x * scaleDown,
-                from.y * scaleDown,
-                from.z * scaleDown,
-                to.x * scaleDown,
-                to.y * scaleDown,
-                to.z * scaleDown
+                from.x * CM2M,
+                from.y * CM2M,
+                from.z * CM2M,
+                to.x * CM2M,
+                to.y * CM2M,
+                to.z * CM2M
             ])
             const material = new LineMaterial({
-                linewidth: this._thickness * scaleDown
+                linewidth: this._thickness * CM2M
             })
             const line = new Line2(geometry, material)
             scene.add(line)

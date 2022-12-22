@@ -1,9 +1,8 @@
 import { CircleGeometry } from "three"
 import Primitive from "../core/Primitive"
-import { flatGeomScaleZ, radiusScaled } from "../../engine/constants"
 import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 
-const circleGeometry = new CircleGeometry(radiusScaled, 32)
+const circleGeometry = new CircleGeometry(0.5, 32)
 
 export default class Circle extends Primitive implements ICircle {
     public static componentName = "circle"
@@ -12,7 +11,7 @@ export default class Circle extends Primitive implements ICircle {
 
     public constructor() {
         super(circleGeometry)
-        this.object3d.scale.z = flatGeomScaleZ
+        this.object3d.scale.z = Number.EPSILON
     }
 
     public override get depth() {

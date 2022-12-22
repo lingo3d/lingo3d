@@ -1,4 +1,4 @@
-import { scaleDown } from "../../engine/constants"
+import { CM2M } from "../../globals"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import getWorldPosition from "./getWorldPosition"
 import normalizeClientPosition from "./normalizeClientPosition"
@@ -14,7 +14,6 @@ export default (clientX: number, clientY: number, distance = 500) => {
 
     const cameraPosition = getWorldPosition(camera)
     vector3.sub(cameraPosition).normalize()
-    const vec = cameraPosition.add(vector3.multiplyScalar(distance * scaleDown))
-
+    const vec = cameraPosition.add(vector3.multiplyScalar(distance * CM2M))
     return vec2Point(vec)
 }

@@ -52,7 +52,7 @@ ground.y = -50
 const groundMesh = ground.object3d
 
 // const groundMesh = new THREE.Mesh(
-//     new THREE.PlaneGeometry(999 * scaleDown, 999 * scaleDown),
+//     new THREE.PlaneGeometry(999 * CM2M, 999 * CM2M),
 //     new THREE.MeshStandardMaterial({ color: 0xffffff, depthWrite: true })
 // )
 lightmapObjects.push(groundMesh)

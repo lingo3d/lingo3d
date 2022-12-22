@@ -1,3 +1,6 @@
+export const CM2M = 1 / 100
+export const M2CM = 100
+
 export const WIDTH = 375
 export const HEIGHT = 667
 export const MONITOR_INTERVAL = 100

@@ -8,8 +8,8 @@ import { onEditorCenterView } from "../events/onEditorCenterView"
 import { getCameraDistance } from "../states/useCameraDistance"
 import { getCameraRendered } from "../states/useCameraRendered"
 import getActualScale from "../display/utils/getActualScale"
-import { scaleUp } from "./constants"
 import { appendableRoot } from "../api/core/collections"
+import { M2CM } from "../globals"
 
 const mainCameraManager = new OrbitCamera(mainCamera)
 export default mainCameraManager
@@ -27,8 +27,7 @@ onEditorCenterView((manager) => {
     mainCameraManager.z = pos.z
 
     const size = getActualScale(manager)
-    mainCameraManager.innerZ =
-        Math.max(size.x, size.y, size.z, 1) * scaleUp + 50
+    mainCameraManager.innerZ = Math.max(size.x, size.y, size.z, 1) * M2CM + 50
 })
 
 getOrbitControls((val) => {

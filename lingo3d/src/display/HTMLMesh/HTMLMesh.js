@@ -8,14 +8,14 @@ import {
     Sprite,
     SpriteMaterial
 } from "three"
-import { scaleDown } from "../../engine/constants"
+import { CM2M } from "../../globals"
 
 export class HTMLMesh extends Mesh {
     constructor(dom) {
         const texture = new HTMLTexture(dom)
         const geometry = new PlaneGeometry(
-            texture.image.width * scaleDown,
-            texture.image.height * scaleDown
+            texture.image.width * CM2M,
+            texture.image.height * CM2M
         )
         const material = new MeshBasicMaterial({
             map: texture,
@@ -61,8 +61,8 @@ export class HTMLSprite extends Sprite {
         super(material)
 
         this.scale.set(
-            texture.image.width * scaleDown,
-            texture.image.height * scaleDown,
+            texture.image.width * CM2M,
+            texture.image.height * CM2M,
             0
         )
 

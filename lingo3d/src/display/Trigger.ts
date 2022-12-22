@@ -1,7 +1,6 @@
 import { Reactive } from "@lincode/reactivity"
 import getActualScale from "./utils/getActualScale"
 import getWorldPosition from "./utils/getWorldPosition"
-import { scaleDown } from "../engine/constants"
 import { timer } from "../engine/eventLoop"
 import mainCamera from "../engine/mainCamera"
 import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
@@ -14,6 +13,7 @@ import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selection
 import MeshItem from "./core/MeshItem"
 import HelperCylinder from "./core/utils/HelperCylinder"
 import HelperSphere from "./core/utils/HelperSphere"
+import { CM2M } from "../globals"
 
 export default class Trigger extends PositionedItem implements ITrigger {
     public static componentName = "trigger"
@@ -82,7 +82,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
 
             const targetSets = getMeshItemSets(_target)
 
-            const r = _radius * scaleDown
+            const r = _radius * CM2M
             const pr = r * 0.2
 
             let hitOld = false
@@ -136,7 +136,7 @@ export default class Trigger extends PositionedItem implements ITrigger {
 
             helper = _pad ? new HelperCylinder() : new HelperSphere()
             const handle = addSelectionHelper(helper, this)
-            helper.scale = _radius * scaleDown * 2
+            helper.scale = _radius * CM2M * 2
             helper.height = _pad ? 10 : 100
 
             return () => {

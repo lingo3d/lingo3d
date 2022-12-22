@@ -1,8 +1,7 @@
 import { TorusGeometry } from "three"
-import { scaleDown } from "../../engine/constants"
 import Primitive from "../core/Primitive"
 
-const geometry = new TorusGeometry(40 * scaleDown, 1 * scaleDown, 8, 32)
+const geometry = new TorusGeometry(0.4, 0.01, 8, 32)
 
 export default class Torus extends Primitive {
     public static componentName = "torus"

@@ -11,7 +11,6 @@ import {
     MeshStandardMaterial,
     Vector2
 } from "three"
-import { diameterScaled, radiusScaled } from "../../engine/constants"
 
 export const vector2 = new Vector2()
 
@@ -23,18 +22,8 @@ export const quaternion = new Quaternion()
 export const quaternion_ = new Quaternion()
 
 export const vector3_0 = new Vector3(0, 0, 0)
-
-export const vector3_1 = new Vector3(
-    diameterScaled,
-    diameterScaled,
-    diameterScaled
-)
-
-export const vector3_half = new Vector3(
-    radiusScaled,
-    radiusScaled,
-    radiusScaled
-)
+export const vector3_1 = new Vector3(1, 1, 1)
+export const vector3_half = new Vector3(0.5, 0.5, 0.5)
 
 export const box3 = new Box3()
 export const ray = new Ray()

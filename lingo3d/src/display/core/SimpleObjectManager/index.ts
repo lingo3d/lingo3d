@@ -10,7 +10,6 @@ import {
 } from "@lincode/math"
 import { Object3D, Vector3 } from "three"
 import { vector3 } from "../../utils/reusables"
-import { scaleDown, scaleUp } from "../../../engine/constants"
 import { point2Vec } from "../../utils/vec2Point"
 import ISimpleObjectManager, {
     OnIntersectValue
@@ -31,6 +30,7 @@ import SpawnPoint from "../../SpawnPoint"
 import getActualScale from "../../utils/getActualScale"
 import { fpsRatioPtr } from "../../../engine/eventLoop"
 import fpsAlpha from "../../utils/fpsAlpha"
+import { CM2M, M2CM } from "../../../globals"
 
 const ptDistCache = new WeakMap<Point3d, number>()
 const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
@@ -41,9 +41,9 @@ const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
         pt.x,
         pt.y,
         pt.z,
-        vecSelf.x * scaleUp,
-        vecSelf.y * scaleUp,
-        vecSelf.z * scaleUp
+        vecSelf.x * M2CM,
+        vecSelf.y * M2CM,
+        vecSelf.z * M2CM
     )
     ptDistCache.set(pt, result)
     return result
@@ -234,15 +234,15 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
 
     public translateX(val: number) {
-        this.outerObject3d.translateX(val * scaleDown * fpsRatioPtr[0])
+        this.outerObject3d.translateX(val * CM2M * fpsRatioPtr[0])
     }
 
     public translateY(val: number) {
-        this.outerObject3d.translateY(val * scaleDown * fpsRatioPtr[0])
+        this.outerObject3d.translateY(val * CM2M * fpsRatioPtr[0])
     }
 
     public translateZ(val: number) {
-        this.outerObject3d.translateZ(val * scaleDown * fpsRatioPtr[0])
+        this.outerObject3d.translateZ(val * CM2M * fpsRatioPtr[0])
     }
 
     public placeAt(target: MeshItem | Point3d | SpawnPoint | string) {
@@ -268,7 +268,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         vector3.crossVectors(this.outerObject3d.up, vector3)
         this.outerObject3d.position.addScaledVector(
             vector3,
-            distance * scaleDown * fpsRatioPtr[0]
+            distance * CM2M * fpsRatioPtr[0]
         )
     }
 
@@ -276,7 +276,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
         this.outerObject3d.position.addScaledVector(
             vector3,
-            distance * scaleDown * fpsRatioPtr[0]
+            distance * CM2M * fpsRatioPtr[0]
         )
     }
 

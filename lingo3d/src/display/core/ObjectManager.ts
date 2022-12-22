@@ -1,11 +1,11 @@
 import { Object3D, PropertyBinding } from "three"
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import scene from "../../engine/scene"
-import { scaleDown, scaleUp } from "../../engine/constants"
 import IObjectManager from "../../interface/IObjectManager"
 import FoundManager from "./FoundManager"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import { setManager } from "../../api/utils/manager"
+import { CM2M, M2CM } from "../../globals"
 
 export default abstract class ObjectManager<T extends Object3D = Object3D>
     extends PhysicsObjectManager<T>
@@ -54,45 +54,45 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     }
 
     public get innerX() {
-        return this.object3d.position.x * scaleUp
+        return this.object3d.position.x * M2CM
     }
     public set innerX(val) {
-        this.object3d.position.x = val * scaleDown
+        this.object3d.position.x = val * CM2M
     }
 
     public get innerY() {
-        return this.object3d.position.y * scaleUp
+        return this.object3d.position.y * M2CM
     }
     public set innerY(val) {
-        this.object3d.position.y = val * scaleDown
+        this.object3d.position.y = val * CM2M
     }
 
     public get innerZ() {
-        return this.object3d.position.z * scaleUp
+        return this.object3d.position.z * M2CM
     }
     public set innerZ(val) {
-        this.object3d.position.z = val * scaleDown
+        this.object3d.position.z = val * CM2M
     }
 
     public get width() {
-        return this.object3d.scale.x * scaleUp
+        return this.object3d.scale.x * M2CM
     }
     public set width(val) {
-        this.object3d.scale.x = val * scaleDown
+        this.object3d.scale.x = val * CM2M
     }
 
     public get height() {
-        return this.object3d.scale.y * scaleUp
+        return this.object3d.scale.y * M2CM
     }
     public set height(val) {
-        this.object3d.scale.y = val * scaleDown
+        this.object3d.scale.y = val * CM2M
     }
 
     public get depth() {
-        return this.object3d.scale.z * scaleUp
+        return this.object3d.scale.z * M2CM
     }
     public set depth(val) {
-        this.object3d.scale.z = val * scaleDown
+        this.object3d.scale.z = val * CM2M
     }
 
     public get innerVisible() {
