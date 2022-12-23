@@ -9,8 +9,6 @@ import {
     Joystick
 } from ".."
 
-export default {}
-
 settings.gridHelper = true
 
 const reflector = new Reflector()
