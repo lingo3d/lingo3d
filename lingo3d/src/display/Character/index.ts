@@ -20,16 +20,11 @@ export default class Character extends Model implements IModel {
 
         this.src = YBOT_URL
 
-        this.loaded.then((loaded) => {
-            let arm: Object3D | undefined
-            let foreArm: Object3D | undefined
-            let hand: Object3D | undefined
-            loaded.traverse((child) => {
-                if (child.name === "mixamorigLeftArm" && !arm) arm = child
-                if (child.name === "mixamorigLeftForeArm" && !foreArm)
-                    foreArm = child
-                if (child.name === "mixamorigLeftHand" && !hand) hand = child
-            })
+        this.loaded.then(() => {
+            const arm = this.find("mixamorigLeftArm")?.outerObject3d
+            const foreArm = this.find("mixamorigLeftForeArm")?.outerObject3d
+            const hand = this.find("mixamorigLeftHand")?.outerObject3d
+
             if (!arm || !foreArm || !hand) return
 
             const data: Array<[Bone, Object3D, Quaternion]> = []
