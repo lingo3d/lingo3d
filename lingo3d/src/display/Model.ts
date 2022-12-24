@@ -56,15 +56,13 @@ class Model extends Loaded<Group> implements IModel {
 
         const { onFinishState, repeatState, finishEventState } =
             this.lazyStates()
-        const animation = (this.animations[name] = this.watch(
-            new AnimationManager(
-                name,
-                clip,
-                await this.loaded,
-                repeatState,
-                onFinishState,
-                finishEventState
-            )
+        const animation = (this.animations[name] = new AnimationManager(
+            name,
+            clip,
+            await this.loaded,
+            repeatState,
+            onFinishState,
+            finishEventState
         ))
         this.append(animation)
     }
@@ -129,7 +127,7 @@ class Model extends Loaded<Group> implements IModel {
         const { onFinishState, repeatState, finishEventState } =
             this.lazyStates()
         for (const clip of loadedObject3d.animations) {
-            const animation = (this.animations[clip.name] = this.watch(
+            const animation = (this.animations[clip.name] =
                 new AnimationManager(
                     clip.name,
                     clip,
@@ -137,8 +135,7 @@ class Model extends Loaded<Group> implements IModel {
                     repeatState,
                     onFinishState,
                     finishEventState
-                )
-            ))
+                ))
             this.append(animation)
         }
         const measuredSize =
