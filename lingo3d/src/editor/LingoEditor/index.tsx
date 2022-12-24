@@ -32,14 +32,8 @@ const LingoEditor = () => {
         >
             <Toolbar />
             <SceneGraph />
-            {retargeter ? (
-                <Retargeter />
-            ) : (
-                <>
-                    <Editor />
-                    <Library />
-                </>
-            )}
+            {retargeter ? <Retargeter /> : <Editor />}
+            <Library />
             <Panels />
 
             <WorldBar />
