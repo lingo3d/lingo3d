@@ -4,11 +4,12 @@ import { Material, Object3D } from "three"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import Octahedron from "./primitives/Octahedron"
-import diffQuaternions from "./utils/diffQuaternions"
 import getWorldPosition from "./utils/getWorldPosition"
 import { vec2Point } from "./utils/vec2Point"
 
 export default class Bone extends Octahedron {
+    public end: Octahedron
+
     public constructor(target: Object3D, child: Object3D) {
         super()
         // hiddenAppendables.add(this)
@@ -37,15 +38,25 @@ export default class Bone extends Octahedron {
         jointMaterial.depthTest = false
         joint.color = color
 
+        const end = (this.end = new Octahedron())
+        this.append(end)
+        end.scale = 0.05
+        end.wireframe = true
+        const endMaterial = unsafeGetValue(end.object3d, "material") as Material
+        endMaterial.depthTest = false
+        end.color = color
+
         this.createEffect(() => {
             if (getSelectionTarget() !== this) return
 
             this.color = "blue"
             joint.color = "blue"
+            end.color = "blue"
 
             return () => {
                 this.color = color
                 joint.color = color
+                end.color = color
             }
         }, [getSelectionTarget])
 
@@ -61,17 +72,10 @@ export default class Bone extends Octahedron {
 
         const h = (this.depth = distance3d(x0, y0, z0, x1, y1, z1))
         this.innerZ = h * 0.5
+        end.z = h
         const t = (this.width = this.height = h * 0.2)
         joint.scale = t * 0.01
 
-        // this.lookAt(to)
-
-        const targetQuat = target.quaternion.clone()
-        const myQuat = this.outerObject3d.quaternion.clone()
-
-        this.onLoop = () => {
-            const diff = diffQuaternions(this.outerObject3d.quaternion, myQuat)
-            target.quaternion.copy(targetQuat.clone().multiply(diff))
-        }
+        this.lookAt(to)
     }
 }
