@@ -1,7 +1,6 @@
 import { distance3d } from "@lincode/math"
 import randomColor from "randomcolor"
 import { Material, Object3D } from "three"
-import { getSelectionTarget } from "../states/useSelectionTarget"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import Octahedron from "./primitives/Octahedron"
 import getWorldPosition from "./utils/getWorldPosition"
@@ -45,20 +44,6 @@ export default class Bone extends Octahedron {
         const endMaterial = unsafeGetValue(end.object3d, "material") as Material
         endMaterial.depthTest = false
         end.color = color
-
-        this.createEffect(() => {
-            if (getSelectionTarget() !== this) return
-
-            this.color = "blue"
-            joint.color = "blue"
-            end.color = "blue"
-
-            return () => {
-                this.color = color
-                joint.color = color
-                end.color = color
-            }
-        }, [getSelectionTarget])
 
         const from = vec2Point(getWorldPosition(target))
         const to = vec2Point(getWorldPosition(child))
