@@ -28,7 +28,7 @@ import { getSetupStack } from "../../states/useSetupStack"
 import { setEditorCamera } from "../../states/useEditorCamera"
 import mainCamera from "../../engine/mainCamera"
 import { onLoadFile } from "../../events/onLoadFile"
-import { DEBUG } from "../../globals"
+import { DEBUG, EDITOR_WIDTH } from "../../globals"
 import { setWorldPlay } from "../../states/useWorldPlay"
 
 Object.assign(dummyDefaults, {
@@ -363,7 +363,7 @@ const Editor = () => {
         <div
             className="lingo3d-ui lingo3d-bg lingo3d-editor"
             style={{
-                width: 300,
+                width: EDITOR_WIDTH,
                 height: "100%",
                 display: "flex",
                 flexDirection: "column"

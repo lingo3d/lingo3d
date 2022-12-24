@@ -11,6 +11,7 @@ import Panels from "../Panels"
 import { DEBUG } from "../../globals"
 import useSyncState from "../hooks/useSyncState"
 import { getStats } from "../../states/useStats"
+import Retargeter from "../Retargeter"
 
 const LingoEditor = () => {
     const elRef = useRef<HTMLDivElement>(null)
@@ -22,6 +23,8 @@ const LingoEditor = () => {
 
     const stats = useSyncState(getStats)
 
+    const retargeter = true
+
     return (
         <div
             className="lingo3d-ui lingo3d-lingoeditor lingo3d-absfull"
@@ -29,9 +32,16 @@ const LingoEditor = () => {
         >
             <Toolbar />
             <SceneGraph />
-            <Editor />
-            <Library />
+            {retargeter ? (
+                <Retargeter />
+            ) : (
+                <>
+                    <Editor />
+                    <Library />
+                </>
+            )}
             <Panels />
+
             <WorldBar />
             <div
                 className="lingo3d-world"

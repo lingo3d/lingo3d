@@ -1,5 +1,5 @@
 import ObjectGroup from "./ObjectGroup"
-import { DEBUG } from "../../globals"
+import { DEBUG, LIBRARY_WIDTH } from "../../globals"
 import useInitCSS from "../hooks/useInitCSS"
 import useClickable from "../hooks/useClickable"
 import AppBar from "../component/bars/AppBar"
@@ -14,7 +14,7 @@ const Library = () => {
             ref={elRef}
             className="lingo3d-ui lingo3d-bg lingo3d-library"
             style={{
-                width: 200,
+                width: LIBRARY_WIDTH,
                 height: "100%",
                 display: "flex",
                 flexDirection: "column"
