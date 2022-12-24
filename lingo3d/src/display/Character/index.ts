@@ -1,10 +1,37 @@
-import { Object3D, Quaternion } from "three"
+import { Matrix4, Object3D, Quaternion, Vector3 } from "three"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { YBOT_URL } from "../../globals"
 import IModel, { modelDefaults, modelSchema } from "../../interface/IModel"
 import Bone from "../Bone"
 import Model from "../Model"
+import getWorldPosition from "../utils/getWorldPosition"
+import localToLocal from "../utils/localToLocal"
 import { subQuaternions } from "../utils/quaternions"
+
+const ComputeWorldMatrixRecursive = (
+    entity: Object3D,
+    localMatrix: Matrix4
+) => {
+    let parentID = entity.parent
+    while (parentID) {
+        localMatrix.multiply(parentID.matrix)
+        parentID = parentID.parent
+    }
+    return localMatrix
+}
+
+const ComputeInverseParentMatrixRecursive = (entity: Object3D) => {
+    const inverseParentMatrix = new Matrix4()
+    let parentID = entity.parent
+    if (parentID) {
+        while (parentID) {
+            inverseParentMatrix.multiply(parentID.matrix)
+            parentID = parentID.parent
+        }
+        inverseParentMatrix.invert()
+    }
+    return inverseParentMatrix
+}
 
 export default class Character extends Model implements IModel {
     public static override componentName = "character"
@@ -31,27 +58,22 @@ export default class Character extends Model implements IModel {
             })
             if (!arm || !foreArm || !hand) return
 
-            const data: Array<[Bone, Object3D, Quaternion]> = []
-            const attachBone = (arm: Object3D, foreArm: Object3D) => {
-                const bone = new Bone(arm, foreArm)
-                const qDiff = subQuaternions(
-                    bone.outerObject3d.quaternion.clone(),
-                    arm.quaternion
-                )
-                data.push([bone, arm, qDiff])
-            }
-            attachBone(arm, foreArm)
-            attachBone(foreArm, hand)
+            const bone = new Bone(arm, foreArm)
 
-            const handle = onBeforeRender(() => {
-                for (const [bone, arm, qDiff] of data) {
-                    arm.quaternion.copy(bone.outerObject3d.quaternion)
-                    subQuaternions(arm.quaternion, qDiff)
-                }
-            })
-            return () => {
-                handle.cancel()
-            }
+            const bone_source = bone.outerObject3d
+            const bone_dest = arm
+
+            const bindMatrix = ComputeWorldMatrixRecursive(
+                bone_source,
+                bone_source.matrix.clone()
+            )
+            const inverseBindMatrix = bindMatrix.clone().invert()
+            const targetMatrix = ComputeWorldMatrixRecursive(
+                bone_dest,
+                bone_dest.matrix.clone()
+            )
+            const inverseParentMatrix =
+                ComputeInverseParentMatrixRecursive(bone_dest)
         })
     }
 }
