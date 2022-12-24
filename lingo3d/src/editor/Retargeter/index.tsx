@@ -1,8 +1,10 @@
 import { EDITOR_WIDTH } from "../../globals"
 import useInitCSS from "../hooks/useInitCSS"
+import useInitEditor from "../hooks/useInitEditor"
 
 const Retargeter = () => {
     useInitCSS()
+    useInitEditor()
 
     return (
         <div

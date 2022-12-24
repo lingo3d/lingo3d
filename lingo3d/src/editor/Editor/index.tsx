@@ -1,5 +1,4 @@
 import { FolderApi, Pane } from "../TweakPane/tweakpane"
-import { setOrbitControls } from "../../states/useOrbitControls"
 import { useLayoutEffect, useState } from "preact/hooks"
 import { Cancellable } from "@lincode/promiselikes"
 import getComponentName from "../utils/getComponentName"
@@ -18,18 +17,14 @@ import useCameraPanel from "./useCameraPanel"
 import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
 import useInitCSS from "../hooks/useInitCSS"
 import useClickable from "../hooks/useClickable"
-import { setEditorMounted } from "../../states/useEditorMounted"
 import { useSignal } from "@preact/signals"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getSetupStack } from "../../states/useSetupStack"
-import { setEditorCamera } from "../../states/useEditorCamera"
-import mainCamera from "../../engine/mainCamera"
-import { onLoadFile } from "../../events/onLoadFile"
 import { DEBUG, EDITOR_WIDTH } from "../../globals"
-import { setWorldPlay } from "../../states/useWorldPlay"
+import useInitEditor from "../hooks/useInitEditor"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -38,7 +33,7 @@ Object.assign(dummyDefaults, {
 const Editor = () => {
     useInitCSS()
     useHotkeys()
-    const elRef = useClickable()
+    useInitEditor()
 
     useLayoutEffect(() => {
         if (!DEBUG) {
@@ -47,25 +42,9 @@ const Editor = () => {
                 return "Are you sure you want to close the current page?"
             }
         }
-        setEditorCamera(mainCamera)
-        setOrbitControls(true)
-        setEditorMounted(true)
-        setWorldPlay(false)
-
-        settings.gridHelper = true
-        const handle = onLoadFile(() => (settings.gridHelper = false))
-
-        return () => {
-            setEditorCamera(undefined)
-            setOrbitControls(false)
-            settings.gridHelper = false
-            setEditorMounted(false)
-            setWorldPlay(true)
-
-            handle.cancel()
-        }
     }, [])
 
+    const elRef = useClickable()
     const [pane, setPane] = useState<Pane>()
     const [cameraFolder, setCameraFolder] = useState<FolderApi>()
 
