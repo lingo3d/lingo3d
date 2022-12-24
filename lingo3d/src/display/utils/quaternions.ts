@@ -1,4 +1,4 @@
-import { Quaternion } from "three"
+import { Object3D, Quaternion } from "three"
 
 export const addQuaternions = (a: Quaternion, b: Quaternion) => {
     const qax = a.x,
@@ -34,4 +34,17 @@ export const subQuaternions = (a: Quaternion, b: Quaternion) => {
     a.w = qaw * qbw + qax * qbx + qay * qby + qaz * qbz
 
     return a
+}
+
+export const worldToLocal = (
+    object3d: Object3D,
+    worldQuaternion: Quaternion
+) => {
+    const localQuaternion = worldQuaternion.clone()
+    let parent = object3d.parent
+    while (parent) {
+        localQuaternion.premultiply(parent.quaternion.clone().invert())
+        parent = parent.parent
+    }
+    return localQuaternion
 }
