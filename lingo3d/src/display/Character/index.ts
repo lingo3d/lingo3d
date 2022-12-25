@@ -21,9 +21,9 @@ export default class Character extends Model implements IModel {
         this.src = YBOT_URL
 
         this.loaded.then(() => {
-            const arm = this.find("mixamorigLeftArm")?.outerObject3d
-            const foreArm = this.find("mixamorigLeftForeArm")?.outerObject3d
-            const hand = this.find("mixamorigLeftHand")?.outerObject3d
+            const arm = this.find("LeftArm")?.outerObject3d
+            const foreArm = this.find("LeftForeArm")?.outerObject3d
+            const hand = this.find("LeftHand")?.outerObject3d
 
             if (!arm || !foreArm || !hand) return
 

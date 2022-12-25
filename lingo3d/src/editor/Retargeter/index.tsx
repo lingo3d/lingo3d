@@ -1,6 +1,7 @@
 import { EDITOR_WIDTH } from "../../globals"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
+import Joint from "./Joint"
 
 const Retargeter = () => {
     useInitCSS()
@@ -18,9 +19,40 @@ const Retargeter = () => {
                     backgroundSize: "contain",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
-                    opacity: 0.2
+                    opacity: 0.2,
+                    transform: "translateX(3%)"
                 }}
             />
+            <Joint x={0} y={30} />
+
+            <Joint x={-6} y={33} />
+            <Joint x={6} y={33} />
+
+            <Joint x={-14} y={34} />
+            <Joint x={14} y={34} />
+
+            <Joint x={-27} y={34} />
+            <Joint x={27} y={34} />
+
+            <Joint x={-41} y={34} />
+            <Joint x={41} y={34} />
+
+            <Joint x={0} y={34} />
+            <Joint x={0} y={38} />
+            <Joint x={0} y={43} />
+            <Joint x={0} y={47} />
+
+            <Joint x={-6} y={48} />
+            <Joint x={6} y={48} />
+
+            <Joint x={-5} y={59} />
+            <Joint x={5} y={59} />
+
+            <Joint x={-5} y={68} />
+            <Joint x={5} y={68} />
+
+            <Joint x={-6} y={72} />
+            <Joint x={6} y={72} />
         </div>
     )
 }
