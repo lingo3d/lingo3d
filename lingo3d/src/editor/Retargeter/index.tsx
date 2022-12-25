@@ -37,8 +37,8 @@ const Retargeter = () => {
             <Joint x={-41} y={34} />
             <Joint x={41} y={34} />
 
-            <Joint x={0} y={34} />
-            <Joint x={0} y={38} />
+            <Joint x={0} y={35} />
+            <Joint x={0} y={38.5} />
             <Joint x={0} y={43} />
             <Joint x={0} y={47} />
 
