@@ -15,7 +15,7 @@ import {
 } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import destroy from "./physx/destroy"
-import { setPxPose } from "./physx/updatePxVec"
+import { setPxPose, setPxVec } from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
 import MeshItem from "../MeshItem"
 import {
@@ -92,9 +92,18 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         actor.setLinearVelocity(velocity)
     }
 
+    public addForce(x: number, y: number, z: number) {
+        this.actor?.addForce(setPxVec(x, y, z))
+    }
+
+    public addTorque(x: number, y: number, z: number) {
+        this.actor?.addTorque(setPxVec(x, y, z))
+    }
+
     private initActor(actor: any) {
         this.actor = actor
-        if (this._mass !== undefined) actor.mass = this._mass
+        const { _mass } = this
+        if (_mass !== undefined) actor.mass = _mass
         actorPtrManagerMap.set(actor.ptr, this)
         managerActorPtrMap.set(this, actor.ptr)
         return actor
