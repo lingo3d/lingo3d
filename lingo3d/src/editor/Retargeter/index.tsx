@@ -23,36 +23,43 @@ const Retargeter = () => {
                     transform: "translateX(3%)"
                 }}
             />
-            <Joint x={0} y={30} />
+            <div
+                style={{
+                    aspectRatio: "1 / 2.1",
+                    width: "100%"
+                }}
+            >
+                <Joint x={0} y={30} />
 
-            <Joint x={-6} y={33} />
-            <Joint x={6} y={33} />
+                <Joint x={-6} y={33} />
+                <Joint x={6} y={33} />
 
-            <Joint x={-14} y={34} />
-            <Joint x={14} y={34} />
+                <Joint x={-14} y={34} />
+                <Joint x={14} y={34} />
 
-            <Joint x={-27} y={34} />
-            <Joint x={27} y={34} />
+                <Joint x={-27} y={34} />
+                <Joint x={27} y={34} />
 
-            <Joint x={-41} y={34} />
-            <Joint x={41} y={34} />
+                <Joint x={-41} y={34} />
+                <Joint x={41} y={34} />
 
-            <Joint x={0} y={35} />
-            <Joint x={0} y={38.5} />
-            <Joint x={0} y={43} />
-            <Joint x={0} y={47} />
+                <Joint x={0} y={35} />
+                <Joint x={0} y={38.5} />
+                <Joint x={0} y={43} />
+                <Joint x={0} y={47} />
 
-            <Joint x={-6} y={48} />
-            <Joint x={6} y={48} />
+                <Joint x={-6} y={48} />
+                <Joint x={6} y={48} />
 
-            <Joint x={-5} y={59} />
-            <Joint x={5} y={59} />
+                <Joint x={-5} y={59} />
+                <Joint x={5} y={59} />
 
-            <Joint x={-5} y={68} />
-            <Joint x={5} y={68} />
+                <Joint x={-5} y={68} />
+                <Joint x={5} y={68} />
 
-            <Joint x={-6} y={72} />
-            <Joint x={6} y={72} />
+                <Joint x={-6} y={72} />
+                <Joint x={6} y={72} />
+            </div>
         </div>
     )
 }
