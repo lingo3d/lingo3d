@@ -324,4 +324,8 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     public getWorldPosition(): Point3d {
         return vec2Point(getWorldPosition(this.object3d))
     }
+
+    public getWorldDirection(): Point3d {
+        return getWorldDirection(this.object3d)
+    }
 }
