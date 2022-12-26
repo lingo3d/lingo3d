@@ -5,7 +5,11 @@ import IModel, { modelDefaults, modelSchema } from "../../interface/IModel"
 import Bone from "../Bone"
 import Model from "../Model"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
-import { subQuaternions, worldToLocal } from "../utils/quaternions"
+import {
+    complementQuaternion,
+    diffQuaternions,
+    worldToLocalQuaternion
+} from "../utils/quaternions"
 
 export default class Character extends Model implements IModel {
     public static override componentName = "character"
@@ -33,24 +37,31 @@ export default class Character extends Model implements IModel {
                 const bone = new Bone(arm, foreArm)
                 boneMap.set(foreArm, bone)
                 boneMap.get(arm)?.attach(bone)
-                const qDiff = subQuaternions(
-                    getWorldQuaternion(bone.outerObject3d),
-                    arm.quaternion
+
+                const from = arm.quaternion.clone()
+                arm.quaternion.copy(
+                    worldToLocalQuaternion(
+                        arm,
+                        getWorldQuaternion(bone.outerObject3d)
+                    )
                 )
-                data.push([bone, arm, qDiff])
+                const diff = diffQuaternions(from, arm.quaternion)
+                complementQuaternion(arm.quaternion, diff)
+
+                data.push([bone, arm, diff])
             }
             attachBone(arm, foreArm)
             attachBone(foreArm, hand)
 
             const handle = onBeforeRender(() => {
-                for (const [bone, arm, qDiff] of data) {
+                for (const [bone, arm, diff] of data) {
                     arm.quaternion.copy(
-                        worldToLocal(
+                        worldToLocalQuaternion(
                             arm,
                             getWorldQuaternion(bone.outerObject3d)
                         )
                     )
-                    subQuaternions(arm.quaternion, qDiff)
+                    complementQuaternion(arm.quaternion, diff)
                 }
             })
             return () => {

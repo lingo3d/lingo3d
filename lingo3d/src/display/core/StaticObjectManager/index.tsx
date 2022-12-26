@@ -19,7 +19,6 @@ import IStaticObjectManager from "../../../interface/IStaticObjectManager"
 import MeshItem from "../MeshItem"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { onBeforeRender } from "../../../events/onBeforeRender"
-import diffQuaternions from "../../utils/diffQuaternions"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldDirection from "../../utils/getWorldDirection"
 import {
@@ -36,6 +35,7 @@ import { emitId } from "../../../events/onId"
 import { emitName } from "../../../events/onName"
 import { CM2M, M2CM } from "../../../globals"
 import MeshAppendable from "../../../api/core/MeshAppendable"
+import { diffQuaternions } from "../../utils/quaternions"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
