@@ -1,5 +1,4 @@
 import { createEffect } from "@lincode/reactivity"
-import { onBeforeRender } from "../../../../events/onBeforeRender"
 import { getPhysX } from "../../../../states/usePhysX"
 import "../../../../engine/eventLoop"
 import { managerActorMap, managerControllerMap } from "./pxMaps"
@@ -12,6 +11,7 @@ import PhysicsObjectManager from ".."
 import fpsAlpha from "../../../utils/fpsAlpha"
 import { gravityPtr } from "../../../../states/useGravity"
 import StaticObjectManager from "../../StaticObjectManager"
+import { onPhysXLoop } from "../../../../events/onPhysXLoop"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
 export const pxVXUpdateMap = new WeakMap<PhysicsObjectManager, number>()
@@ -39,7 +39,7 @@ createEffect(() => {
     if (!scene || getPhysXCookingCount() || !getEditorPlay() || !getFirstLoad())
         return
 
-    const handle = onBeforeRender(() => {
+    const handle = onPhysXLoop(() => {
         groundedControllerManagers.clear()
 
         for (const [manager, controller] of managerControllerMap) {

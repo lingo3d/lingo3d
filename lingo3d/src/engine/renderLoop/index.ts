@@ -12,6 +12,7 @@ import { emitRender } from "../../events/onRender"
 import effectComposer from "./effectComposer"
 import { getSplitView } from "../../states/useSplitView"
 import { getCameraComputed } from "../../states/useCameraComputed"
+import { emitPhysXLoop } from "../../events/onPhysXLoop"
 
 createEffect(() => {
     const renderer = getRenderer()
@@ -30,6 +31,7 @@ createEffect(() => {
         secondaryCamera.updateProjectionMatrix()
 
         const handle = loop(() => {
+            emitPhysXLoop()
             emitBeforeRender()
             emitRender()
 
@@ -58,6 +60,7 @@ createEffect(() => {
 
     if (getWebXR()) {
         const handle = loop(() => {
+            emitPhysXLoop()
             emitBeforeRender()
             emitRender()
             renderer.render(scene, camera)
@@ -69,6 +72,7 @@ createEffect(() => {
     }
 
     const handle = loop(() => {
+        emitPhysXLoop()
         emitBeforeRender()
         emitRender()
         effectComposer.render(dtPtr[0])

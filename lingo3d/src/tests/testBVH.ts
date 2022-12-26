@@ -21,7 +21,6 @@ box.physics = true
 keyboard.onKeyPress = (_, key) => {
     if (key.has("Space")) {
         player.jump()
-        player.velocityZ = 0.1
     }
     if (key.has("Shift")) {
         box.addLocalForceAtLocalPos(100, 100, 100)
