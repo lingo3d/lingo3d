@@ -35,7 +35,6 @@ import { emitId } from "../../../events/onId"
 import { emitName } from "../../../events/onName"
 import { CM2M, M2CM } from "../../../globals"
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import { diffQuaternions } from "../../utils/quaternions"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -308,8 +307,11 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
             onBeforeRender(() => {
                 quaternion.slerp(quaternionNew, fpsAlpha(a1!))
 
-                const { x, y, z } = diffQuaternions(quaternion, quaternionNew)
-                if (Math.abs(x) + Math.abs(y) + Math.abs(z) < 0.001) {
+                const x = Math.abs(quaternion.x - quaternionNew.x)
+                const y = Math.abs(quaternion.y - quaternionNew.y)
+                const z = Math.abs(quaternion.z - quaternionNew.z)
+                const w = Math.abs(quaternion.w - quaternionNew.w)
+                if (x + y + z + w < 0.001) {
                     this.cancelHandle("lookTo", undefined)
                     this.onLookToEnd?.()
 
