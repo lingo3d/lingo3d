@@ -38,7 +38,7 @@ const Retargeter = () => {
                     <Joint
                         x={0}
                         y={30}
-                        onMouseEnter={(e) =>
+                        onMouseMove={(e) =>
                             setPosition({ x: e.clientX, y: e.clientY })
                         }
                         onMouseLeave={() => setPosition(undefined)}
