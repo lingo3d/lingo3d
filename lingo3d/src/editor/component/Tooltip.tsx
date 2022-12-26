@@ -1,7 +1,6 @@
 import { ComponentChildren } from "preact"
 import { createPortal } from "preact/compat"
 import { Point } from "../.."
-import { CONTEXT_MENU_ITEM_HEIGHT } from "../../globals"
 
 type TooltipProps = {
     position?: Point
@@ -11,14 +10,11 @@ type TooltipProps = {
 const Tooltip = ({ position, children }: TooltipProps) => {
     if (!position) return null
 
-    const height =
-        (Array.isArray(children) ? children.length : 1) *
-            CONTEXT_MENU_ITEM_HEIGHT +
-        16
+    const height = 13
 
     return createPortal(
         <div
-            className="lingo3d-bg"
+            className="lingo3d-ui"
             style={{
                 zIndex: 2,
                 position: "absolute",
@@ -27,11 +23,13 @@ const Tooltip = ({ position, children }: TooltipProps) => {
                     position.y + height > window.innerHeight
                         ? window.innerHeight - height
                         : position.y,
-                padding: 6,
-                border: "1px solid rgba(255, 255, 255, 0.2)"
+
+                pointerEvents: "none"
             }}
         >
-            hello world
+            <div className="lingo3d-bg" style={{ marginLeft: 50 }}>
+                hello world
+            </div>
         </div>,
         document.body
     )

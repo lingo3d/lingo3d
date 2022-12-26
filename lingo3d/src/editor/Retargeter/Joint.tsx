@@ -1,9 +1,11 @@
 type JointProps = {
     x: number
     y: number
+    onMouseEnter?: (e: MouseEvent) => void
+    onMouseLeave?: (e: MouseEvent) => void
 }
 
-const Joint = ({ x, y }: JointProps) => {
+const Joint = ({ x, y, onMouseEnter, onMouseLeave }: JointProps) => {
     return (
         <div
             style={{
@@ -16,6 +18,8 @@ const Joint = ({ x, y }: JointProps) => {
                 border: "1px solid rgba(255, 255, 255, 0.5)",
                 background: "rgba(255, 255, 255, 0.2)"
             }}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
         />
     )
 }
