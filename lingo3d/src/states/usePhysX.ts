@@ -26,6 +26,7 @@ type PhysX = {
     PxConvexMeshDesc: any
     PxConvexMeshGeometry: any
     PxRigidActorExt: any
+    PxRigidBodyExt: any
     PxCapsuleGeometry: any
     PxBoxGeometry: any
     PxBoundedData: any
@@ -89,6 +90,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxConvexMeshDesc: undefined,
     PxConvexMeshGeometry: undefined,
     PxRigidActorExt: undefined,
+    PxRigidBodyExt: undefined,
     PxCapsuleGeometry: undefined,
     PxBoxGeometry: undefined,
     PxBoundedData: undefined,

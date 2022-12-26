@@ -15,7 +15,7 @@ import {
 } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import destroy from "./physx/destroy"
-import { setPxPose, setPxVec } from "./physx/updatePxVec"
+import { setPxPose, setPxVec, setPxVec_ } from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
 import MeshItem from "../MeshItem"
 import {
@@ -94,6 +94,42 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
     public addForce(x: number, y: number, z: number) {
         this.actor?.addForce(setPxVec(x, y, z))
+    }
+
+    public addLocalForceAtPos(
+        x: number,
+        y: number,
+        z: number,
+        posX = 0,
+        posY = 0,
+        posZ = 0
+    ) {
+        const { PxRigidBodyExt } = getPhysX()
+        if (!PxRigidBodyExt || !this.actor) return
+
+        PxRigidBodyExt.prototype.addLocalForceAtPos(
+            this.actor,
+            setPxVec(x, y, z),
+            setPxVec_(posX, posY, posZ)
+        )
+    }
+
+    public addLocalForceAtLocalPos(
+        x: number,
+        y: number,
+        z: number,
+        posX = 0,
+        posY = 0,
+        posZ = 0
+    ) {
+        const { PxRigidBodyExt } = getPhysX()
+        if (!PxRigidBodyExt || !this.actor) return
+
+        PxRigidBodyExt.prototype.addLocalForceAtLocalPos(
+            this.actor,
+            setPxVec(x, y, z),
+            setPxVec_(posX, posY, posZ)
+        )
     }
 
     public addTorque(x: number, y: number, z: number) {
