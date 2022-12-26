@@ -7,7 +7,7 @@ import IThirdPersonCamera, {
 } from "../../interface/IThirdPersonCamera"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorMounted } from "../../states/useEditorMounted"
-import { getEditorPlay } from "../../states/useEditorPlay"
+import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import { getPhysX } from "../../states/usePhysX"
 import CharacterCamera from "../core/CharacterCamera"
 import MeshItem from "../core/MeshItem"
@@ -28,7 +28,7 @@ let alwaysVisible = false
 
 createEffect(() => {
     alwaysVisible =
-        !getEditorPlay() ||
+        !getWorldPlayComputed() ||
         (getEditorMounted() && getCameraRendered() === mainCamera)
 }, [getEditorMounted, getEditorMounted, getCameraRendered])
 

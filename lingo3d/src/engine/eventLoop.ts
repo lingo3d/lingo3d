@@ -8,14 +8,14 @@ import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
 import { emitRenderHalfRate } from "../events/onRenderHalfRate"
 import { setPaused } from "../states/usePaused"
 import { SEC2FRAME } from "../globals"
-import { getEditorPlay } from "../states/useEditorPlay"
+import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 
 let paused = false
 const checkPaused = (val?: boolean) =>
     setPaused((paused = val ?? (document.hidden || !document.hasFocus())))
 
 let play = true
-getEditorPlay((val) => (play = val))
+getWorldPlayComputed((val) => (play = val))
 
 const [setLocked, getLocked] = store(false)
 createEffect(() => {

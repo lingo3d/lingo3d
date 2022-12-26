@@ -3,7 +3,7 @@ import { getPhysX } from "../../../../states/usePhysX"
 import "../../../../engine/eventLoop"
 import { managerActorMap, managerControllerMap } from "./pxMaps"
 import { getPhysXCookingCount } from "../../../../states/usePhysXCookingCount"
-import { getEditorPlay } from "../../../../states/useEditorPlay"
+import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
 import { dtPtr } from "../../../../engine/eventLoop"
 import { setPxPose, setPxVec, setPxVec_ } from "./updatePxVec"
@@ -36,7 +36,12 @@ export const groundedControllerManagers = new Set<PhysicsObjectManager>()
 
 createEffect(() => {
     const { scene, pxControllerFilters, pxRaycast } = getPhysX()
-    if (!scene || getPhysXCookingCount() || !getEditorPlay() || !getFirstLoad())
+    if (
+        !scene ||
+        getPhysXCookingCount() ||
+        !getWorldPlayComputed() ||
+        !getFirstLoad()
+    )
         return
 
     const handle = onPhysXLoop(() => {
@@ -120,4 +125,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getPhysX, getPhysXCookingCount, getEditorPlay, getFirstLoad])
+}, [getPhysX, getPhysXCookingCount, getWorldPlayComputed, getFirstLoad])

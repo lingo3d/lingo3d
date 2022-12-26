@@ -15,7 +15,7 @@ import { getEditorMounted } from "../states/useEditorMounted"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
 import { appendableRoot } from "./core/collections"
-import { getEditorPlay } from "../states/useEditorPlay"
+import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import Appendable from "./core/Appendable"
 
 export type MouseEventName = "click" | "rightClick" | "move" | "down" | "up"
@@ -107,7 +107,7 @@ export class Mouse extends Appendable implements IMouse {
 
         this.createEffect(() => {
             if (
-                !getEditorPlay() ||
+                !getWorldPlayComputed() ||
                 (getEditorMounted() && getCameraRendered() === mainCamera)
             )
                 return
@@ -142,7 +142,7 @@ export class Mouse extends Appendable implements IMouse {
                 handle3.cancel()
                 handle4.cancel()
             }
-        }, [getEditorPlay, getEditorMounted, getCameraRendered])
+        }, [getWorldPlayComputed, getEditorMounted, getCameraRendered])
     }
 }
 

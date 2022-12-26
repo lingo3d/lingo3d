@@ -11,7 +11,7 @@ import {
     emitSelectionTarget,
     onSelectionTarget
 } from "../../../../events/onSelectionTarget"
-import { getEditorPlay } from "../../../../states/useEditorPlay"
+import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
 import { getMultipleSelection } from "../../../../states/useMultipleSelection"
 import {
     pushMultipleSelectionTargets,
@@ -37,7 +37,7 @@ createEffect(() => {
         !multipleSelection && (firstMultipleSelection.current = true)
     }, [multipleSelection])
 
-    if (getEditorPlay() || getTransformControlsDragging()) return
+    if (getWorldPlayComputed() || getTransformControlsDragging()) return
 
     getSelectionCandidates()
     const handle0 = onSceneGraphChange(() => getSelectionCandidates())
@@ -96,4 +96,4 @@ createEffect(() => {
         handle3.cancel()
         handle4.cancel()
     }
-}, [getEditorPlay, getTransformControlsDragging, getMultipleSelection])
+}, [getWorldPlayComputed, getTransformControlsDragging, getMultipleSelection])

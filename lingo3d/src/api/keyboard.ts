@@ -11,7 +11,7 @@ import { getEditorMounted } from "../states/useEditorMounted"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
 import { appendableRoot } from "./core/collections"
-import { getEditorPlay } from "../states/useEditorPlay"
+import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import Appendable from "./core/Appendable"
 
 const [emitDown, onDown] = event<string>()
@@ -28,7 +28,7 @@ const processKey = (str: string) => {
 
 createEffect(() => {
     if (
-        !getEditorPlay() ||
+        !getWorldPlayComputed() ||
         (getEditorMounted() && getCameraRendered() === mainCamera)
     )
         return
@@ -65,7 +65,7 @@ createEffect(() => {
         document.removeEventListener("keydown", handleKeyDown)
         document.removeEventListener("keyup", handleKeyUp)
     }
-}, [getEditorPlay, getEditorMounted, getCameraRendered])
+}, [getWorldPlayComputed, getEditorMounted, getCameraRendered])
 
 export class Keyboard extends Appendable implements IKeyboard {
     public static componentName = "keyboard"
