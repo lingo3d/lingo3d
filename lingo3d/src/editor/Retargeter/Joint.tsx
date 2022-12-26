@@ -10,10 +10,11 @@ const Joint = ({ x, y }: JointProps) => {
                 position: "absolute",
                 width: 14,
                 height: 14,
-                left: 50.7 + x + "%",
-                top: 0.5 + y + "%",
+                left: 50 - 2 + x + "%",
+                top: y + "%",
                 borderRadius: 20,
-                border: "2px solid blue"
+                border: "1px solid rgba(255, 255, 255, 0.5)",
+                background: "rgba(255, 255, 255, 0.2)"
             }}
         />
     )

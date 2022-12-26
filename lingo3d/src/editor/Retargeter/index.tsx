@@ -13,22 +13,21 @@ const Retargeter = () => {
             style={{ width: EDITOR_WIDTH }}
         >
             <div
-                className="lingo3d-absfull"
                 style={{
-                    backgroundImage: "url(retargeter.png)",
-                    backgroundSize: "contain",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                    opacity: 0.2,
-                    transform: "translateX(3%)"
-                }}
-            />
-            <div
-                style={{
-                    aspectRatio: "1 / 2.1",
+                    aspectRatio: "1 / 2",
                     width: "100%"
                 }}
             >
+                <img
+                    className="lingo3d-absfull"
+                    style={{
+                        opacity: 0.2,
+                        height: "auto",
+                        top: "50%",
+                        transform: "translateY(-50%)"
+                    }}
+                    src="retargeter.png"
+                />
                 <Joint x={0} y={30} />
 
                 <Joint x={-6} y={33} />
