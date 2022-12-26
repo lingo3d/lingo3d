@@ -14,7 +14,9 @@ import { gravityPtr } from "../../../../states/useGravity"
 import StaticObjectManager from "../../StaticObjectManager"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
-export const pxVYUpdateMap = new Map<PhysicsObjectManager, number>()
+export const pxVXUpdateMap = new WeakMap<PhysicsObjectManager, number>()
+export const pxVYUpdateMap = new WeakMap<PhysicsObjectManager, number>()
+export const pxVZUpdateMap = new WeakMap<PhysicsObjectManager, number>()
 
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
 const vyMap = new WeakMap<PhysicsObjectManager, number>()
@@ -45,6 +47,11 @@ createEffect(() => {
 
             let dy = 0
             const vyUpdate = pxVYUpdateMap.get(manager)
+            pxVYUpdateMap.delete(manager)
+
+            const dx = pxVXUpdateMap.get(manager) ?? 0
+            const dz = pxVZUpdateMap.get(manager) ?? 0
+
             if (manager.gravity !== false) {
                 const hit = lockHit(manager, vyUpdate !== undefined)
                     ? false
@@ -60,6 +67,8 @@ createEffect(() => {
                     dy = -manager.capsuleHeight!
                     vyMap.set(manager, 0)
                     groundedControllerManagers.add(manager)
+                    pxVXUpdateMap.delete(manager)
+                    pxVZUpdateMap.delete(manager)
                 } else {
                     const vy =
                         (vyUpdate ?? vyMap.get(manager) ?? 0) +
@@ -75,14 +84,14 @@ createEffect(() => {
                 const { x: cx, y: cy, z: cz } = controller.getPosition()
 
                 controller.move(
-                    setPxVec(px - cx, py - cy + dy, pz - cz),
+                    setPxVec(px - cx + dx, py - cy + dy, pz - cz + dz),
                     0.001,
                     dtPtr[0],
                     pxControllerFilters
                 )
             } else
                 controller.move(
-                    setPxVec(0, dy, 0),
+                    setPxVec(dx, dy, dz),
                     0.001,
                     dtPtr[0],
                     pxControllerFilters
@@ -90,9 +99,7 @@ createEffect(() => {
         }
         for (const manager of pxUpdateSet)
             manager.actor.setGlobalPose(setPxPose(manager.outerObject3d))
-
         pxUpdateSet.clear()
-        pxVYUpdateMap.clear()
 
         scene.simulate(dtPtr[0])
         scene.fetchResults(true)
@@ -105,7 +112,7 @@ createEffect(() => {
         for (const manager of managerControllerMap.keys()) {
             const { position } = manager.outerObject3d
             const { p } = manager.actor.getGlobalPose()
-            position.lerp(p, fpsAlpha(hitMap.get(manager) ? 0.4 : 1))
+            position.lerp(p, fpsAlpha(hitMap.get(manager) ? 0.3 : 1))
             position.x = p.x
             position.z = p.z
         }

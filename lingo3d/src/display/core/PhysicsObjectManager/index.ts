@@ -18,7 +18,12 @@ import destroy from "./physx/destroy"
 import { setPxPose } from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
 import MeshItem from "../MeshItem"
-import { pxUpdateSet, pxVYUpdateMap } from "./physx/physxLoop"
+import {
+    pxUpdateSet,
+    pxVXUpdateMap,
+    pxVYUpdateMap,
+    pxVZUpdateMap
+} from "./physx/physxLoop"
 import Nullable from "../../../interface/utils/Nullable"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
@@ -45,7 +50,11 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public set velocityX(val) {
         const { actor } = this
         if (!actor) return
-        if (this._physics === "character") return
+
+        if (this._physics === "character") {
+            pxVXUpdateMap.set(this, val)
+            return
+        }
         const velocity = actor.getLinearVelocity()
         velocity.set_x(val)
         actor.setLinearVelocity(velocity)
@@ -73,7 +82,11 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public set velocityZ(val) {
         const { actor } = this
         if (!actor) return
-        if (this._physics === "character") return
+
+        if (this._physics === "character") {
+            pxVZUpdateMap.set(this, val)
+            return
+        }
         const velocity = actor.getLinearVelocity()
         velocity.set_z(val)
         actor.setLinearVelocity(velocity)
