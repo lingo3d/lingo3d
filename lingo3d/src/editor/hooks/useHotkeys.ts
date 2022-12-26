@@ -19,7 +19,7 @@ import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTa
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
 import { setTransformControlsSpace } from "../../states/useTransformControlsSpace"
-import deleteSelected from "./deleteSelected"
+import deleteSelected from "../Editor/deleteSelected"
 
 export default () => {
     useEffect(() => {

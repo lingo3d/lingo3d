@@ -1,10 +1,12 @@
 import { EDITOR_WIDTH } from "../../globals"
+import useHotkeys from "../hooks/useHotkeys"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
 import Joint from "./Joint"
 
 const Retargeter = () => {
     useInitCSS()
+    useHotkeys()
     useInitEditor()
 
     return (
@@ -18,15 +20,15 @@ const Retargeter = () => {
                     width: "100%"
                 }}
             >
-                <img
+                <div
                     className="lingo3d-absfull"
                     style={{
-                        opacity: 0.2,
-                        height: "auto",
-                        top: "50%",
-                        transform: "translateY(-50%)"
+                        backgroundImage: "url(retargeter.png)",
+                        backgroundSize: "contain",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center",
+                        opacity: 0.2
                     }}
-                    src="retargeter.png"
                 />
                 <Joint x={0} y={30} />
 
