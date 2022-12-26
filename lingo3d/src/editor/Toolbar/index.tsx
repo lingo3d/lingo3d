@@ -15,7 +15,6 @@ import Section from "./Section"
 import { setTransformControlsSpace } from "../../states/useTransformControlsSpace"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
-import PlayIcon from "./icons/PlayIcon"
 import MeshIcon from "./icons/MeshIcon"
 import PathIcon from "./icons/PathIcon"
 import FolderIcon from "./icons/FolderIcon"
@@ -127,12 +126,6 @@ const Toolbar = () => {
                         onClick={() => setEditorMode("curve")}
                     >
                         <PathIcon />
-                    </ToolbarButton>
-                    <ToolbarButton
-                        active={mode === "play"}
-                        onClick={() => setEditorMode("play")}
-                    >
-                        <PlayIcon />
                     </ToolbarButton>
                 </Section>
 

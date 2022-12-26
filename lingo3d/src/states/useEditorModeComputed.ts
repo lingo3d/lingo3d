@@ -1,11 +1,11 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { getEditorMode } from "./useEditorMode"
+import { EditorMode, getEditorMode } from "./useEditorMode"
 import { getSelectionTarget } from "./useSelectionTarget"
 import { getWorldPlay } from "./useWorldPlay"
 
-export const [setEditorModeComputed, getEditorModeComputed] = store(
-    getEditorMode()
-)
+export const [setEditorModeComputed, getEditorModeComputed] = store<
+    EditorMode | "play"
+>(getEditorMode())
 
 Promise.all([
     import("../api/core/PositionedItem"),

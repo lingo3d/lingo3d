@@ -1,23 +1,11 @@
-import store, { createEffect } from "@lincode/reactivity"
-import mainCamera from "../engine/mainCamera"
-import { getCameraRendered } from "./useCameraRendered"
-import { getEditorMounted } from "./useEditorMounted"
+import store from "@lincode/reactivity"
 
-type Mode =
+export type EditorMode =
     | "translate"
     | "rotate"
     | "scale"
     | "select"
-    | "play"
     | "mesh"
     | "curve"
 
-export const [setEditorMode, getEditorMode] = store<Mode>("play")
-
-createEffect(() => {
-    setEditorMode(
-        getCameraRendered() === mainCamera && getEditorMounted()
-            ? "translate"
-            : "play"
-    )
-}, [getCameraRendered, getEditorMounted])
+export const [setEditorMode, getEditorMode] = store<EditorMode>("translate")

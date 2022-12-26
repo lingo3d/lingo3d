@@ -6,8 +6,6 @@ type SectionOptions = {
 }
 
 const Section = ({ children }: SectionOptions) => {
-    if (!Array.isArray(children) || !children.length) return null
-
     return (
         <>
             {children}
