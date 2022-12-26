@@ -64,7 +64,11 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxActorFlagEnum_eDISABLE_SIMULATION,
         _emscripten_enum_PxPairFlagEnum_eNOTIFY_TOUCH_FOUND,
         _emscripten_enum_PxPairFlagEnum_eNOTIFY_TOUCH_LOST,
-        _emscripten_enum_PxPairFlagEnum_eNOTIFY_CONTACT_POINTS
+        _emscripten_enum_PxPairFlagEnum_eNOTIFY_CONTACT_POINTS,
+        _emscripten_enum_PxArticulationFlagEnum_eFIX_BASE,
+        _emscripten_enum_PxArticulationFlagEnum_eDRIVE_LIMITS_ARE_FORCES,
+        _emscripten_enum_PxArticulationFlagEnum_eDISABLE_SELF_COLLISION,
+        _emscripten_enum_PxArticulationFlagEnum_eCOMPUTE_JOINT_FORCES
     } = PhysX
 
     destroyPtr[0] = destroy
