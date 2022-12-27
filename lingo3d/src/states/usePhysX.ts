@@ -14,6 +14,7 @@ type PhysX = {
     pxVec: any
     pxVec_: any
     pxPose: any
+    pxPose_: any
     pxFilterData: any
     pxControllerFilters: any
     scene: any
@@ -78,6 +79,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     pxVec: undefined,
     pxVec_: undefined,
     pxPose: undefined,
+    pxPose_: undefined,
     pxFilterData: undefined,
     pxControllerFilters: undefined,
     scene: undefined,

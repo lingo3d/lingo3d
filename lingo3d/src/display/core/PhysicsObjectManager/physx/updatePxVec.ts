@@ -1,16 +1,18 @@
 import { Point3d } from "@lincode/math"
-import { Object3D } from "three"
+import { Object3D, Quaternion } from "three"
 import { getPhysX } from "../../../../states/usePhysX"
 
 let pxVec: any
 let pxVec_: any
 let pxQuat: any
 let pxPose: any
+let pxPose_: any
 getPhysX((val) => {
     pxVec = val.pxVec
     pxVec_ = val.pxVec_
     pxQuat = val.pxQuat
     pxPose = val.pxPose
+    pxPose_ = val.pxPose_
 })
 
 export const setPxVec = (x: number, y: number, z: number) => {
@@ -27,30 +29,36 @@ export const setPxVec_ = (x: number, y: number, z: number) => {
     return pxVec_
 }
 
-export const assignPxVec = (pt: Point3d) => {
-    pxVec.set_x(pt.x)
-    pxVec.set_y(pt.y)
-    pxVec.set_z(pt.z)
-    return pxVec
+export const assignPxVec = (pt: Point3d) => setPxVec(pt.x, pt.y, pt.z)
+
+export const assignPxVec_ = (pt: Point3d) => setPxVec_(pt.x, pt.y, pt.z)
+
+export const setPxQuat = (x: number, y: number, z: number, w: number) => {
+    pxQuat.set_x(x)
+    pxQuat.set_y(y)
+    pxQuat.set_z(z)
+    pxQuat.set_w(w)
+    return pxQuat
 }
 
-export const assignPxVec_ = (pt: Point3d) => {
-    pxVec_.set_x(pt.x)
-    pxVec_.set_y(pt.y)
-    pxVec_.set_z(pt.z)
-    return pxVec_
-}
+export const assignPxQuat = (q: Quaternion) => setPxQuat(q.x, q.y, q.z, q.w)
 
-export const setPxPose = (target: Object3D) => {
-    const { position, quaternion } = target
-
-    pxQuat.set_x(quaternion.x)
-    pxQuat.set_y(quaternion.y)
-    pxQuat.set_z(quaternion.z)
-    pxQuat.set_w(quaternion.w)
-
-    pxPose.set_p(assignPxVec(position))
-    pxPose.set_q(pxQuat)
-
+export const assignPxPose = (target: Object3D) => {
+    pxPose.set_p(assignPxVec(target.position))
+    pxPose.set_q(assignPxQuat(target.quaternion))
     return pxPose
+}
+
+export const setPxPose_ = (
+    x: number,
+    y: number,
+    z: number,
+    qx = 0,
+    qy = 0,
+    qz = 0,
+    qw = 0
+) => {
+    pxPose_.set_p(setPxVec(x, y, z))
+    pxPose_.set_q(setPxQuat(qx, qy, qz, qw))
+    return pxPose_
 }
