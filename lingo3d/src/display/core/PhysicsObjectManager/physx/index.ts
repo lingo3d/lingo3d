@@ -364,6 +364,7 @@ PhysX().then((PhysX: any) => {
         getPxControllerManager,
         Vector_PxVec3,
         Vector_PxU32,
+        Px,
         PxBoxGeometry,
         PxCapsuleGeometry,
         PxConvexMeshDesc,

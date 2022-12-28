@@ -2,6 +2,7 @@ import { createEffect } from "@lincode/reactivity"
 import { managerActorMap } from "../display/core/PhysicsObjectManager/physx/pxMaps"
 import {
     assignPxPose,
+    setPxPose,
     setPxPose_
 } from "../display/core/PhysicsObjectManager/physx/updatePxVec"
 import Cube from "../display/primitives/Cube"
@@ -39,45 +40,54 @@ createEffect(() => {
         PxArticulationJointTypeEnum,
         PxArticulationAxisEnum,
         PxArticulationMotionEnum,
+        PxRigidBodyFlagEnum,
+        Px
     } = getPhysX()
     if (!physics) return
 
     const pose = setPxPose_(0, 0, 0)
+    const createIdentity = () => setPxPose(0, 0, 0)
 
     // Create the root body
-    const root = physics.createRigidDynamic(pose);
-    // root->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+    const root = physics.createRigidDynamic(pose)
+    root.setRigidBodyFlag(PxRigidBodyFlagEnum.eKINEMATIC(), true)
 
-    // // Create an articulation to hold the ragdoll bodies
-    // PxArticulation* articulation = physics->createArticulation();
-
+    // Create an articulation to hold the ragdoll bodies
     const articulation = physics.createArticulationReducedCoordinate()
 
-    const torso = articulation.createLink(null, pose)
+    // Add the root body to the articulation
+    const link = articulation.createLink(null, createIdentity())
     //@ts-ignore
-    torsoCube.getPxShape(true, torso)
-    PxRigidBodyExt.prototype.setMassAndUpdateInertia(torso, 20)
-    managerActorMap.set(torsoCube, torso)
+    torsoCube.getPxShape(true, link)
+    link.setMass(1)
+    link.setCMassLocalPose(createIdentity())
+    root.setGlobalPose(pose)
+    managerActorMap.set(torsoCube, root)
 
-    const head = articulation.createLink(torso, pose)
-    //@ts-ignore
-    headCube.getPxShape(true, head)
-    PxRigidBodyExt.prototype.setMassAndUpdateInertia(head, 5)
-    managerActorMap.set(headCube, head)
+    const parent = link
+    // Create a new body
+    const localTm = assignPxPose(headCube.outerObject3d)
+    const body = physics.createRigidDynamic(localTm)
+    body.setMass(1)
 
-    const joint = head.getInboundJoint()
-    joint.setParentPose(assignPxPose(torsoCube.outerObject3d))
-    joint.setChildPose(assignPxPose(headCube.outerObject3d))
-
-    joint.setJointType(PxArticulationJointTypeEnum.eREVOLUTE())
-    joint.setMotion(
-        PxArticulationAxisEnum.eTWIST() |
-            PxArticulationAxisEnum.eSWING1() |
-            PxArticulationAxisEnum.eSWING2(),
-        PxArticulationMotionEnum.eLIMITED()
+    // Create a joint between the parent and the new body
+    const joint = Px.SphericalJointCreate(
+        physics,
+        parent,
+        createIdentity(),
+        body,
+        localTm
     )
+    // joint->setSphericalJointFlag(PxSphericalJointFlag::eLIMIT_ENABLED, true);
+    // joint->setLimitCone(PxJointLimitCone(PxPi / 2, PxPi / 2, 0.05f));
 
-    console.log(joint)
+    // // Add the body to the articulation and set it as the new parent
+    // link = articulation->createLink(parent, PxTransform::createIdentity());
+    // link->attachShape(*physics->createShape(PxBoxGeometry(dimensions.x, dimensions.y, dimensions.z),
+    //                                         *physics->createMaterial(0.5f, 0.5f, 0.5f)));
+    // link->setMass(1.0f);
+    // link->setCMassLocalPose(PxTransform::createIdentity());
 
+    // Add the articulation to the scene
     scene.addArticulation(articulation)
 }, [getPhysX])
