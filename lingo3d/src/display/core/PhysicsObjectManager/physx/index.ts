@@ -84,7 +84,11 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxArticulationAxisEnum_eX,
         _emscripten_enum_PxArticulationAxisEnum_eY,
         _emscripten_enum_PxArticulationAxisEnum_eZ,
-        _emscripten_enum_PxArticulationAxisEnum_eCOUNT
+        _emscripten_enum_PxArticulationAxisEnum_eCOUNT,
+
+        _emscripten_enum_PxArticulationMotionEnum_eLOCKED,
+        _emscripten_enum_PxArticulationMotionEnum_eLIMITED,
+        _emscripten_enum_PxArticulationMotionEnum_eFREE
     } = PhysX
 
     destroyPtr[0] = destroy
@@ -293,6 +297,17 @@ PhysX().then((PhysX: any) => {
         eCOUNT: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eCOUNT())
     }
 
+    // articulation motion enum
+    const PxArticulationMotionEnum = {
+        eLOCKED: lazy(() =>
+            _emscripten_enum_PxArticulationMotionEnum_eLOCKED()
+        ),
+        eLIMITED: lazy(() =>
+            _emscripten_enum_PxArticulationMotionEnum_eLIMITED()
+        ),
+        eFREE: lazy(() => _emscripten_enum_PxArticulationMotionEnum_eFREE())
+    }
+
     setPhysX({
         physics,
         material,
@@ -329,6 +344,8 @@ PhysX().then((PhysX: any) => {
         PxControllerShapeTypeEnum,
         PxForceModeEnum,
         PxActorFlagEnum,
-        PxArticulationJointTypeEnum
+        PxArticulationJointTypeEnum,
+        PxArticulationAxisEnum,
+        PxArticulationMotionEnum
     })
 })

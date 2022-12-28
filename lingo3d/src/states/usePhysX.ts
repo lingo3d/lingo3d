@@ -84,6 +84,11 @@ type PhysX = {
         eZ: any
         eCOUNT: any
     }
+    PxArticulationMotionEnum: {
+        eLOCKED: any
+        eLIMITED: any
+        eFREE: any
+    }
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -164,5 +169,10 @@ export const [setPhysX, getPhysX] = store<PhysX>({
         eY: undefined,
         eZ: undefined,
         eCOUNT: undefined
+    },
+    PxArticulationMotionEnum: {
+        eLOCKED: undefined,
+        eLIMITED: undefined,
+        eFREE: undefined
     }
 })

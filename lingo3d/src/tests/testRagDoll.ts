@@ -30,7 +30,14 @@ torsoCube.scaleZ = 0.2
 // hipCube.y = -30
 
 createEffect(() => {
-    const { physics, PxRigidBodyExt, scene } = getPhysX()
+    const {
+        physics,
+        PxRigidBodyExt,
+        scene,
+        PxArticulationJointTypeEnum,
+        PxArticulationAxisEnum,
+        PxArticulationMotionEnum
+    } = getPhysX()
     if (!physics) return
 
     const pose = setPxPose_(0, 0, 0)
@@ -50,6 +57,12 @@ createEffect(() => {
     const joint = head.getInboundJoint()
     joint.setParentPose(assignPxPose(torsoCube.outerObject3d))
     joint.setChildPose(assignPxPose(headCube.outerObject3d))
+
+    joint.setJointType(PxArticulationJointTypeEnum.eREVOLUTE)
+    joint.setMotion(
+        PxArticulationAxisEnum.eSWING2,
+        PxArticulationMotionEnum.eLIMITED
+    )
 
     scene.addArticulation(articulation)
 }, [getPhysX])
