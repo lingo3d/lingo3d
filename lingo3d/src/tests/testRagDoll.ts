@@ -1,18 +1,20 @@
 import { createEffect } from "@lincode/reactivity"
+import { managerActorMap } from "../display/core/PhysicsObjectManager/physx/pxMaps"
 import {
     assignPxPose,
     setPxPose_
 } from "../display/core/PhysicsObjectManager/physx/updatePxVec"
 import Cube from "../display/primitives/Cube"
 import { getPhysX } from "../states/usePhysX"
+import "../display/core/PhysicsObjectManager/physx"
 
-const ground = new Cube()
-ground.width = 1000
-ground.height = 10
-ground.depth = 1000
-ground.y = -300
-ground.color = "black"
-ground.physics = "map"
+// const ground = new Cube()
+// ground.width = 1000
+// ground.height = 10
+// ground.depth = 1000
+// ground.y = -300
+// ground.color = "black"
+// ground.physics = "map"
 
 const headCube = new Cube()
 headCube.scaleX = headCube.scaleY = headCube.scaleZ = 0.25
@@ -48,21 +50,25 @@ createEffect(() => {
     //@ts-ignore
     torsoCube.getPxShape(true, torso)
     PxRigidBodyExt.prototype.setMassAndUpdateInertia(torso, 20)
+    managerActorMap.set(torsoCube, torso)
 
     const head = articulation.createLink(torso, pose)
     //@ts-ignore
     headCube.getPxShape(true, head)
     PxRigidBodyExt.prototype.setMassAndUpdateInertia(head, 5)
+    managerActorMap.set(headCube, head)
 
     const joint = head.getInboundJoint()
     joint.setParentPose(assignPxPose(torsoCube.outerObject3d))
     joint.setChildPose(assignPxPose(headCube.outerObject3d))
 
-    joint.setJointType(PxArticulationJointTypeEnum.eREVOLUTE)
+    joint.setJointType(PxArticulationJointTypeEnum.eREVOLUTE())
     joint.setMotion(
-        PxArticulationAxisEnum.eSWING2,
-        PxArticulationMotionEnum.eLIMITED
+        PxArticulationAxisEnum.eSWING2(),
+        PxArticulationMotionEnum.eLIMITED()
     )
+
+    console.log(joint)
 
     scene.addArticulation(articulation)
 }, [getPhysX])
