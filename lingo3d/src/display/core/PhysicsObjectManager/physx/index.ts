@@ -97,7 +97,9 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_POSE_INTEGRATION_PREVIEW,
         _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_SPECULATIVE_CCD,
         _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD_MAX_CONTACT_IMPULSE,
-        _emscripten_enum_PxRigidBodyFlagEnum_eRETAIN_ACCELERATIONS
+        _emscripten_enum_PxRigidBodyFlagEnum_eRETAIN_ACCELERATIONS,
+
+        _emscripten_enum_PxSphericalJointFlagEnum_eLIMIT_ENABLED
     } = PhysX
 
     destroyPtr[0] = destroy
@@ -345,6 +347,13 @@ PhysX().then((PhysX: any) => {
         )
     }
 
+    // spherical joint flag enum
+    const PxSphericalJointFlagEnum = {
+        eLIMIT_ENABLED: lazy(() =>
+            _emscripten_enum_PxSphericalJointFlagEnum_eLIMIT_ENABLED()
+        )
+    }
+
     setPhysX({
         physics,
         material,
@@ -385,6 +394,7 @@ PhysX().then((PhysX: any) => {
         PxArticulationJointTypeEnum,
         PxArticulationAxisEnum,
         PxArticulationMotionEnum,
-        PxRigidBodyFlagEnum
+        PxRigidBodyFlagEnum,
+        PxSphericalJointFlagEnum
     })
 })

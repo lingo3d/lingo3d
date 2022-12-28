@@ -100,6 +100,9 @@ type PhysX = {
         eENABLE_CCD_MAX_CONTACT_IMPULSE: any
         eRETAIN_ACCELERATIONS: any
     }
+    PxSphericalJointFlagEnum: {
+        eLIMIT_ENABLED: any
+    }
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -196,5 +199,8 @@ export const [setPhysX, getPhysX] = store<PhysX>({
         eENABLE_SPECULATIVE_CCD: undefined,
         eENABLE_CCD_MAX_CONTACT_IMPULSE: undefined,
         eRETAIN_ACCELERATIONS: undefined
+    },
+    PxSphericalJointFlagEnum: {
+        eLIMIT_ENABLED: undefined
     }
 })
