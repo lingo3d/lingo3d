@@ -88,7 +88,16 @@ PhysX().then((PhysX: any) => {
 
         _emscripten_enum_PxArticulationMotionEnum_eLOCKED,
         _emscripten_enum_PxArticulationMotionEnum_eLIMITED,
-        _emscripten_enum_PxArticulationMotionEnum_eFREE
+        _emscripten_enum_PxArticulationMotionEnum_eFREE,
+
+        _emscripten_enum_PxRigidBodyFlagEnum_eKINEMATIC,
+        _emscripten_enum_PxRigidBodyFlagEnum_eUSE_KINEMATIC_TARGET_FOR_SCENE_QUERIES,
+        _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD,
+        _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD_FRICTION,
+        _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_POSE_INTEGRATION_PREVIEW,
+        _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_SPECULATIVE_CCD,
+        _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD_MAX_CONTACT_IMPULSE,
+        _emscripten_enum_PxRigidBodyFlagEnum_eRETAIN_ACCELERATIONS
     } = PhysX
 
     destroyPtr[0] = destroy
@@ -308,6 +317,34 @@ PhysX().then((PhysX: any) => {
         eFREE: lazy(() => _emscripten_enum_PxArticulationMotionEnum_eFREE())
     }
 
+    // rigid body flag enum
+    const PxRigidBodyFlagEnum = {
+        eKINEMATIC: lazy(() =>
+            _emscripten_enum_PxRigidBodyFlagEnum_eKINEMATIC()
+        ),
+        eUSE_KINEMATIC_TARGET_FOR_SCENE_QUERIES: lazy(() =>
+            _emscripten_enum_PxRigidBodyFlagEnum_eUSE_KINEMATIC_TARGET_FOR_SCENE_QUERIES()
+        ),
+        eENABLE_CCD: lazy(() =>
+            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD()
+        ),
+        eENABLE_CCD_FRICTION: lazy(() =>
+            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD_FRICTION()
+        ),
+        eENABLE_POSE_INTEGRATION_PREVIEW: lazy(() =>
+            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_POSE_INTEGRATION_PREVIEW()
+        ),
+        eENABLE_SPECULATIVE_CCD: lazy(() =>
+            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_SPECULATIVE_CCD()
+        ),
+        eENABLE_CCD_MAX_CONTACT_IMPULSE: lazy(() =>
+            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD_MAX_CONTACT_IMPULSE()
+        ),
+        eRETAIN_ACCELERATIONS: lazy(() =>
+            _emscripten_enum_PxRigidBodyFlagEnum_eRETAIN_ACCELERATIONS()
+        )
+    }
+
     setPhysX({
         physics,
         material,
@@ -346,6 +383,7 @@ PhysX().then((PhysX: any) => {
         PxActorFlagEnum,
         PxArticulationJointTypeEnum,
         PxArticulationAxisEnum,
-        PxArticulationMotionEnum
+        PxArticulationMotionEnum,
+        PxRigidBodyFlagEnum
     })
 })

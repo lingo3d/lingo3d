@@ -38,11 +38,18 @@ createEffect(() => {
         scene,
         PxArticulationJointTypeEnum,
         PxArticulationAxisEnum,
-        PxArticulationMotionEnum
+        PxArticulationMotionEnum,
     } = getPhysX()
     if (!physics) return
 
     const pose = setPxPose_(0, 0, 0)
+
+    // Create the root body
+    const root = physics.createRigidDynamic(pose);
+    // root->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+
+    // // Create an articulation to hold the ragdoll bodies
+    // PxArticulation* articulation = physics->createArticulation();
 
     const articulation = physics.createArticulationReducedCoordinate()
 
@@ -64,7 +71,9 @@ createEffect(() => {
 
     joint.setJointType(PxArticulationJointTypeEnum.eREVOLUTE())
     joint.setMotion(
-        PxArticulationAxisEnum.eSWING2(),
+        PxArticulationAxisEnum.eTWIST() |
+            PxArticulationAxisEnum.eSWING1() |
+            PxArticulationAxisEnum.eSWING2(),
         PxArticulationMotionEnum.eLIMITED()
     )
 

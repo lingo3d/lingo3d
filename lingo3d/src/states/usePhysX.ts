@@ -89,6 +89,16 @@ type PhysX = {
         eLIMITED: any
         eFREE: any
     }
+    PxRigidBodyFlagEnum: {
+        eKINEMATIC: any
+        eUSE_KINEMATIC_TARGET_FOR_SCENE_QUERIES: any
+        eENABLE_CCD: any
+        eENABLE_CCD_FRICTION: any
+        eENABLE_POSE_INTEGRATION_PREVIEW: any
+        eENABLE_SPECULATIVE_CCD: any
+        eENABLE_CCD_MAX_CONTACT_IMPULSE: any
+        eRETAIN_ACCELERATIONS: any
+    }
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -174,5 +184,15 @@ export const [setPhysX, getPhysX] = store<PhysX>({
         eLOCKED: undefined,
         eLIMITED: undefined,
         eFREE: undefined
+    },
+    PxRigidBodyFlagEnum: {
+        eKINEMATIC: undefined,
+        eUSE_KINEMATIC_TARGET_FOR_SCENE_QUERIES: undefined,
+        eENABLE_CCD: undefined,
+        eENABLE_CCD_FRICTION: undefined,
+        eENABLE_POSE_INTEGRATION_PREVIEW: undefined,
+        eENABLE_SPECULATIVE_CCD: undefined,
+        eENABLE_CCD_MAX_CONTACT_IMPULSE: undefined,
+        eRETAIN_ACCELERATIONS: undefined
     }
 })
