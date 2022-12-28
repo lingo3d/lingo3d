@@ -210,147 +210,131 @@ PhysX().then((PhysX: any) => {
 
     // controller enum
     const PxCapsuleClimbingModeEnum = {
-        eEASY: lazy(() => _emscripten_enum_PxCapsuleClimbingModeEnum_eEASY()),
-        eCONSTRAINED: lazy(() =>
-            _emscripten_enum_PxCapsuleClimbingModeEnum_eCONSTRAINED()
+        eEASY: lazy(_emscripten_enum_PxCapsuleClimbingModeEnum_eEASY),
+        eCONSTRAINED: lazy(
+            _emscripten_enum_PxCapsuleClimbingModeEnum_eCONSTRAINED
         )
     }
     const PxControllerBehaviorFlagEnum = {
-        eCCT_CAN_RIDE_ON_OBJECT: lazy(() =>
-            _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_CAN_RIDE_ON_OBJECT()
+        eCCT_CAN_RIDE_ON_OBJECT: lazy(
+            _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_CAN_RIDE_ON_OBJECT
         ),
-        eCCT_SLIDE: lazy(() =>
-            _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_SLIDE()
+        eCCT_SLIDE: lazy(
+            _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_SLIDE
         ),
-        eCCT_USER_DEFINED_RIDE: lazy(() =>
-            _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_USER_DEFINED_RIDE()
+        eCCT_USER_DEFINED_RIDE: lazy(
+            _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_USER_DEFINED_RIDE
         )
     }
     const PxControllerCollisionFlagEnum = {
-        eCOLLISION_SIDES: lazy(() =>
-            _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_SIDES()
+        eCOLLISION_SIDES: lazy(
+            _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_SIDES
         ),
-        eCOLLISION_UP: lazy(() =>
-            _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_UP()
+        eCOLLISION_UP: lazy(
+            _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_UP
         ),
-        eCOLLISION_DOWN: lazy(() =>
-            _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_DOWN()
+        eCOLLISION_DOWN: lazy(
+            _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_DOWN
         )
     }
     const PxControllerNonWalkableModeEnum = {
-        ePREVENT_CLIMBING: lazy(() =>
-            _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING()
+        ePREVENT_CLIMBING: lazy(
+            _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING
         ),
-        ePREVENT_CLIMBING_AND_FORCE_SLIDING: lazy(() =>
-            _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING_AND_FORCE_SLIDING()
+        ePREVENT_CLIMBING_AND_FORCE_SLIDING: lazy(
+            _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING_AND_FORCE_SLIDING
         )
     }
     const PxControllerShapeTypeEnum = {
-        eBOX: lazy(() => _emscripten_enum_PxControllerShapeTypeEnum_eBOX()),
-        eCAPSULE: lazy(() =>
-            _emscripten_enum_PxControllerShapeTypeEnum_eCAPSULE()
-        )
+        eBOX: lazy(_emscripten_enum_PxControllerShapeTypeEnum_eBOX),
+        eCAPSULE: lazy(_emscripten_enum_PxControllerShapeTypeEnum_eCAPSULE)
     }
 
     // force mode enum
     const PxForceModeEnum = {
-        eFORCE: lazy(() => _emscripten_enum_PxForceModeEnum_eFORCE()),
-        eIMPULSE: lazy(() => _emscripten_enum_PxForceModeEnum_eIMPULSE()),
-        eVELOCITY_CHANGE: lazy(() =>
-            _emscripten_enum_PxForceModeEnum_eVELOCITY_CHANGE()
+        eFORCE: lazy(_emscripten_enum_PxForceModeEnum_eFORCE),
+        eIMPULSE: lazy(_emscripten_enum_PxForceModeEnum_eIMPULSE),
+        eVELOCITY_CHANGE: lazy(
+            _emscripten_enum_PxForceModeEnum_eVELOCITY_CHANGE
         ),
-        eACCELERATION: lazy(() =>
-            _emscripten_enum_PxForceModeEnum_eACCELERATION()
-        )
+        eACCELERATION: lazy(_emscripten_enum_PxForceModeEnum_eACCELERATION)
     }
 
     // actor flag enum
     const PxActorFlagEnum = {
-        eDISABLE_GRAVITY: lazy(() =>
-            _emscripten_enum_PxActorFlagEnum_eDISABLE_GRAVITY()
+        eDISABLE_GRAVITY: lazy(
+            _emscripten_enum_PxActorFlagEnum_eDISABLE_GRAVITY
         ),
-        eSEND_SLEEP_NOTIFIES: lazy(() =>
-            _emscripten_enum_PxActorFlagEnum_eSEND_SLEEP_NOTIFIES()
+        eSEND_SLEEP_NOTIFIES: lazy(
+            _emscripten_enum_PxActorFlagEnum_eSEND_SLEEP_NOTIFIES
         ),
-        eDISABLE_SIMULATION: lazy(() =>
-            _emscripten_enum_PxActorFlagEnum_eDISABLE_SIMULATION()
+        eDISABLE_SIMULATION: lazy(
+            _emscripten_enum_PxActorFlagEnum_eDISABLE_SIMULATION
         ),
-        eVISUALIZATION: lazy(() =>
-            _emscripten_enum_PxActorFlagEnum_eVISUALIZATION()
-        )
+        eVISUALIZATION: lazy(_emscripten_enum_PxActorFlagEnum_eVISUALIZATION)
     }
 
     // articulation joint type enum
     const PxArticulationJointTypeEnum = {
-        ePRISMATIC: lazy(() =>
-            _emscripten_enum_PxArticulationJointTypeEnum_ePRISMATIC()
+        ePRISMATIC: lazy(
+            _emscripten_enum_PxArticulationJointTypeEnum_ePRISMATIC
         ),
-        eREVOLUTE: lazy(() =>
-            _emscripten_enum_PxArticulationJointTypeEnum_eREVOLUTE()
+        eREVOLUTE: lazy(_emscripten_enum_PxArticulationJointTypeEnum_eREVOLUTE),
+        eSPHERICAL: lazy(
+            _emscripten_enum_PxArticulationJointTypeEnum_eSPHERICAL
         ),
-        eSPHERICAL: lazy(() =>
-            _emscripten_enum_PxArticulationJointTypeEnum_eSPHERICAL()
-        ),
-        eFIX: lazy(() => _emscripten_enum_PxArticulationJointTypeEnum_eFIX()),
-        eUNDEFINED: lazy(() =>
-            _emscripten_enum_PxArticulationJointTypeEnum_eUNDEFINED()
+        eFIX: lazy(_emscripten_enum_PxArticulationJointTypeEnum_eFIX),
+        eUNDEFINED: lazy(
+            _emscripten_enum_PxArticulationJointTypeEnum_eUNDEFINED
         )
     }
 
     // articulation axis enum
     const PxArticulationAxisEnum = {
-        eTWIST: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eTWIST()),
-        eSWING1: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eSWING1()),
-        eSWING2: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eSWING2()),
-        eX: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eX()),
-        eY: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eY()),
-        eZ: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eZ()),
-        eCOUNT: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eCOUNT())
+        eTWIST: lazy(_emscripten_enum_PxArticulationAxisEnum_eTWIST),
+        eSWING1: lazy(_emscripten_enum_PxArticulationAxisEnum_eSWING1),
+        eSWING2: lazy(_emscripten_enum_PxArticulationAxisEnum_eSWING2),
+        eX: lazy(_emscripten_enum_PxArticulationAxisEnum_eX),
+        eY: lazy(_emscripten_enum_PxArticulationAxisEnum_eY),
+        eZ: lazy(_emscripten_enum_PxArticulationAxisEnum_eZ),
+        eCOUNT: lazy(_emscripten_enum_PxArticulationAxisEnum_eCOUNT)
     }
 
     // articulation motion enum
     const PxArticulationMotionEnum = {
-        eLOCKED: lazy(() =>
-            _emscripten_enum_PxArticulationMotionEnum_eLOCKED()
-        ),
-        eLIMITED: lazy(() =>
-            _emscripten_enum_PxArticulationMotionEnum_eLIMITED()
-        ),
-        eFREE: lazy(() => _emscripten_enum_PxArticulationMotionEnum_eFREE())
+        eLOCKED: lazy(_emscripten_enum_PxArticulationMotionEnum_eLOCKED),
+        eLIMITED: lazy(_emscripten_enum_PxArticulationMotionEnum_eLIMITED),
+        eFREE: lazy(_emscripten_enum_PxArticulationMotionEnum_eFREE)
     }
 
     // rigid body flag enum
     const PxRigidBodyFlagEnum = {
-        eKINEMATIC: lazy(() =>
-            _emscripten_enum_PxRigidBodyFlagEnum_eKINEMATIC()
+        eKINEMATIC: lazy(_emscripten_enum_PxRigidBodyFlagEnum_eKINEMATIC),
+        eUSE_KINEMATIC_TARGET_FOR_SCENE_QUERIES: lazy(
+            _emscripten_enum_PxRigidBodyFlagEnum_eUSE_KINEMATIC_TARGET_FOR_SCENE_QUERIES
         ),
-        eUSE_KINEMATIC_TARGET_FOR_SCENE_QUERIES: lazy(() =>
-            _emscripten_enum_PxRigidBodyFlagEnum_eUSE_KINEMATIC_TARGET_FOR_SCENE_QUERIES()
+        eENABLE_CCD: lazy(_emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD),
+        eENABLE_CCD_FRICTION: lazy(
+            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD_FRICTION
         ),
-        eENABLE_CCD: lazy(() =>
-            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD()
+        eENABLE_POSE_INTEGRATION_PREVIEW: lazy(
+            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_POSE_INTEGRATION_PREVIEW
         ),
-        eENABLE_CCD_FRICTION: lazy(() =>
-            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD_FRICTION()
+        eENABLE_SPECULATIVE_CCD: lazy(
+            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_SPECULATIVE_CCD
         ),
-        eENABLE_POSE_INTEGRATION_PREVIEW: lazy(() =>
-            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_POSE_INTEGRATION_PREVIEW()
+        eENABLE_CCD_MAX_CONTACT_IMPULSE: lazy(
+            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD_MAX_CONTACT_IMPULSE
         ),
-        eENABLE_SPECULATIVE_CCD: lazy(() =>
-            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_SPECULATIVE_CCD()
-        ),
-        eENABLE_CCD_MAX_CONTACT_IMPULSE: lazy(() =>
-            _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD_MAX_CONTACT_IMPULSE()
-        ),
-        eRETAIN_ACCELERATIONS: lazy(() =>
-            _emscripten_enum_PxRigidBodyFlagEnum_eRETAIN_ACCELERATIONS()
+        eRETAIN_ACCELERATIONS: lazy(
+            _emscripten_enum_PxRigidBodyFlagEnum_eRETAIN_ACCELERATIONS
         )
     }
 
     // spherical joint flag enum
     const PxSphericalJointFlagEnum = {
-        eLIMIT_ENABLED: lazy(() =>
-            _emscripten_enum_PxSphericalJointFlagEnum_eLIMIT_ENABLED()
+        eLIMIT_ENABLED: lazy(
+            _emscripten_enum_PxSphericalJointFlagEnum_eLIMIT_ENABLED
         )
     }
 
