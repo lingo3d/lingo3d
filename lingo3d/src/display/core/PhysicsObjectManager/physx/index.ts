@@ -62,13 +62,21 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxActorFlagEnum_eDISABLE_GRAVITY,
         _emscripten_enum_PxActorFlagEnum_eSEND_SLEEP_NOTIFIES,
         _emscripten_enum_PxActorFlagEnum_eDISABLE_SIMULATION,
+
         _emscripten_enum_PxPairFlagEnum_eNOTIFY_TOUCH_FOUND,
         _emscripten_enum_PxPairFlagEnum_eNOTIFY_TOUCH_LOST,
         _emscripten_enum_PxPairFlagEnum_eNOTIFY_CONTACT_POINTS,
+
         _emscripten_enum_PxArticulationFlagEnum_eFIX_BASE,
         _emscripten_enum_PxArticulationFlagEnum_eDRIVE_LIMITS_ARE_FORCES,
         _emscripten_enum_PxArticulationFlagEnum_eDISABLE_SELF_COLLISION,
-        _emscripten_enum_PxArticulationFlagEnum_eCOMPUTE_JOINT_FORCES
+        _emscripten_enum_PxArticulationFlagEnum_eCOMPUTE_JOINT_FORCES,
+
+        _emscripten_enum_PxArticulationJointTypeEnum_ePRISMATIC,
+        _emscripten_enum_PxArticulationJointTypeEnum_eREVOLUTE,
+        _emscripten_enum_PxArticulationJointTypeEnum_eSPHERICAL,
+        _emscripten_enum_PxArticulationJointTypeEnum_eFIX,
+        _emscripten_enum_PxArticulationJointTypeEnum_eUNDEFINED
     } = PhysX
 
     destroyPtr[0] = destroy
@@ -177,7 +185,7 @@ PhysX().then((PhysX: any) => {
     const getPxControllerManager = lazy(() => Px.CreateControllerManager(scene))
     const pxControllerFilters = new PxControllerFilters()
 
-    // controller enums
+    // controller enum
     const PxCapsuleClimbingModeEnum = {
         eEASY: lazy(() => _emscripten_enum_PxCapsuleClimbingModeEnum_eEASY()),
         eCONSTRAINED: lazy(() =>
@@ -221,7 +229,7 @@ PhysX().then((PhysX: any) => {
         )
     }
 
-    // force mode enums
+    // force mode enum
     const PxForceModeEnum = {
         eFORCE: lazy(() => _emscripten_enum_PxForceModeEnum_eFORCE()),
         eIMPULSE: lazy(() => _emscripten_enum_PxForceModeEnum_eIMPULSE()),
@@ -233,7 +241,7 @@ PhysX().then((PhysX: any) => {
         )
     }
 
-    // actor flag enums
+    // actor flag enum
     const PxActorFlagEnum = {
         eDISABLE_GRAVITY: lazy(() =>
             _emscripten_enum_PxActorFlagEnum_eDISABLE_GRAVITY()
@@ -246,6 +254,23 @@ PhysX().then((PhysX: any) => {
         ),
         eVISUALIZATION: lazy(() =>
             _emscripten_enum_PxActorFlagEnum_eVISUALIZATION()
+        )
+    }
+
+    // articulation joint type enum
+    const PxArticulationJointTypeEnum = {
+        ePRISMATIC: lazy(() =>
+            _emscripten_enum_PxArticulationJointTypeEnum_ePRISMATIC()
+        ),
+        eREVOLUTE: lazy(() =>
+            _emscripten_enum_PxArticulationJointTypeEnum_eREVOLUTE()
+        ),
+        eSPHERICAL: lazy(() =>
+            _emscripten_enum_PxArticulationJointTypeEnum_eSPHERICAL()
+        ),
+        eFIX: lazy(() => _emscripten_enum_PxArticulationJointTypeEnum_eFIX()),
+        eUNDEFINED: lazy(() =>
+            _emscripten_enum_PxArticulationJointTypeEnum_eUNDEFINED()
         )
     }
 
@@ -284,6 +309,7 @@ PhysX().then((PhysX: any) => {
         PxControllerNonWalkableModeEnum,
         PxControllerShapeTypeEnum,
         PxForceModeEnum,
-        PxActorFlagEnum
+        PxActorFlagEnum,
+        PxArticulationJointTypeEnum
     })
 })

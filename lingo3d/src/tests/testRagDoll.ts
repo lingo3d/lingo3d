@@ -1,5 +1,4 @@
 import { createEffect } from "@lincode/reactivity"
-import { log } from "@lincode/utils"
 import {
     assignPxPose,
     setPxPose_

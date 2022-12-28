@@ -68,6 +68,13 @@ type PhysX = {
         eDISABLE_SIMULATION: any
         eVISUALIZATION: any
     }
+    PxArticulationJointTypeEnum: {
+        ePRISMATIC: any
+        eREVOLUTE: any
+        eSPHERICAL: any
+        eFIX: any
+        eUNDEFINED: any
+    }
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -132,5 +139,12 @@ export const [setPhysX, getPhysX] = store<PhysX>({
         eSEND_SLEEP_NOTIFIES: undefined,
         eDISABLE_SIMULATION: undefined,
         eVISUALIZATION: undefined
+    },
+    PxArticulationJointTypeEnum: {
+        ePRISMATIC: undefined,
+        eREVOLUTE: undefined,
+        eSPHERICAL: undefined,
+        eFIX: undefined,
+        eUNDEFINED: undefined
     }
 })
