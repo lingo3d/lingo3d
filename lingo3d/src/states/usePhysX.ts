@@ -75,6 +75,15 @@ type PhysX = {
         eFIX: any
         eUNDEFINED: any
     }
+    PxArticulationAxisEnum: {
+        eTWIST: any
+        eSWING1: any
+        eSWING2: any
+        eX: any
+        eY: any
+        eZ: any
+        eCOUNT: any
+    }
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -146,5 +155,14 @@ export const [setPhysX, getPhysX] = store<PhysX>({
         eSPHERICAL: undefined,
         eFIX: undefined,
         eUNDEFINED: undefined
+    },
+    PxArticulationAxisEnum: {
+        eTWIST: undefined,
+        eSWING1: undefined,
+        eSWING2: undefined,
+        eX: undefined,
+        eY: undefined,
+        eZ: undefined,
+        eCOUNT: undefined
     }
 })

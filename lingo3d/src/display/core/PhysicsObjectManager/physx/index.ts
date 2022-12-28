@@ -76,7 +76,15 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxArticulationJointTypeEnum_eREVOLUTE,
         _emscripten_enum_PxArticulationJointTypeEnum_eSPHERICAL,
         _emscripten_enum_PxArticulationJointTypeEnum_eFIX,
-        _emscripten_enum_PxArticulationJointTypeEnum_eUNDEFINED
+        _emscripten_enum_PxArticulationJointTypeEnum_eUNDEFINED,
+
+        _emscripten_enum_PxArticulationAxisEnum_eTWIST,
+        _emscripten_enum_PxArticulationAxisEnum_eSWING1,
+        _emscripten_enum_PxArticulationAxisEnum_eSWING2,
+        _emscripten_enum_PxArticulationAxisEnum_eX,
+        _emscripten_enum_PxArticulationAxisEnum_eY,
+        _emscripten_enum_PxArticulationAxisEnum_eZ,
+        _emscripten_enum_PxArticulationAxisEnum_eCOUNT
     } = PhysX
 
     destroyPtr[0] = destroy
@@ -272,6 +280,17 @@ PhysX().then((PhysX: any) => {
         eUNDEFINED: lazy(() =>
             _emscripten_enum_PxArticulationJointTypeEnum_eUNDEFINED()
         )
+    }
+
+    // articulation axis enum
+    const PxArticulationAxisEnum = {
+        eTWIST: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eTWIST()),
+        eSWING1: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eSWING1()),
+        eSWING2: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eSWING2()),
+        eX: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eX()),
+        eY: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eY()),
+        eZ: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eZ()),
+        eCOUNT: lazy(() => _emscripten_enum_PxArticulationAxisEnum_eCOUNT())
     }
 
     setPhysX({
