@@ -36,6 +36,7 @@ PhysX().then((PhysX: any) => {
         PxCapsuleControllerDesc,
         PxControllerFilters,
         PxRaycastBuffer10,
+        PxJointLimitCone,
         _emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX,
         _emscripten_enum_PxConvexFlagEnum_eDISABLE_MESH_VALIDATION,
         _emscripten_enum_PxConvexFlagEnum_eFAST_INERTIA_COMPUTATION,
@@ -99,7 +100,10 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxRigidBodyFlagEnum_eENABLE_CCD_MAX_CONTACT_IMPULSE,
         _emscripten_enum_PxRigidBodyFlagEnum_eRETAIN_ACCELERATIONS,
 
-        _emscripten_enum_PxSphericalJointFlagEnum_eLIMIT_ENABLED
+        _emscripten_enum_PxSphericalJointFlagEnum_eLIMIT_ENABLED,
+
+        _emscripten_enum_PxArticulationCacheFlagEnum_eALL,
+        _emscripten_enum_PxArticulationCacheFlagEnum_ePOSITION
     } = PhysX
 
     destroyPtr[0] = destroy
@@ -338,6 +342,12 @@ PhysX().then((PhysX: any) => {
         )
     }
 
+    // cache flag enum
+    const PxArticulationCacheFlagEnum = {
+        eALL: lazy(_emscripten_enum_PxArticulationCacheFlagEnum_eALL),
+        ePOSITION: lazy(_emscripten_enum_PxArticulationCacheFlagEnum_ePOSITION)
+    }
+
     setPhysX({
         physics,
         material,
@@ -368,6 +378,7 @@ PhysX().then((PhysX: any) => {
         PxTriangleMeshDesc,
         PxTriangleMeshGeometry,
         PxCapsuleControllerDesc,
+        PxJointLimitCone,
         PxCapsuleClimbingModeEnum,
         PxControllerBehaviorFlagEnum,
         PxControllerCollisionFlagEnum,
@@ -379,6 +390,7 @@ PhysX().then((PhysX: any) => {
         PxArticulationAxisEnum,
         PxArticulationMotionEnum,
         PxRigidBodyFlagEnum,
-        PxSphericalJointFlagEnum
+        PxSphericalJointFlagEnum,
+        PxArticulationCacheFlagEnum
     })
 })

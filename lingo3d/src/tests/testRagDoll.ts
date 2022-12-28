@@ -1,5 +1,4 @@
 import { createEffect } from "@lincode/reactivity"
-import { managerActorMap } from "../display/core/PhysicsObjectManager/physx/pxMaps"
 import {
     assignPxPose,
     setPxPose,
@@ -8,6 +7,7 @@ import {
 import Cube from "../display/primitives/Cube"
 import { getPhysX } from "../states/usePhysX"
 import "../display/core/PhysicsObjectManager/physx"
+import { onBeforeRender } from "../events/onBeforeRender"
 
 // const ground = new Cube()
 // ground.width = 1000
@@ -35,13 +35,12 @@ torsoCube.scaleZ = 0.2
 createEffect(() => {
     const {
         physics,
-        PxRigidBodyExt,
         scene,
-        PxArticulationJointTypeEnum,
-        PxArticulationAxisEnum,
-        PxArticulationMotionEnum,
         PxRigidBodyFlagEnum,
-        Px
+        Px,
+        PxSphericalJointFlagEnum,
+        PxJointLimitCone,
+        PxArticulationCacheFlagEnum
     } = getPhysX()
     if (!physics) return
 
@@ -56,15 +55,14 @@ createEffect(() => {
     const articulation = physics.createArticulationReducedCoordinate()
 
     // Add the root body to the articulation
-    const link = articulation.createLink(null, createIdentity())
+    const rootLink = articulation.createLink(null, createIdentity())
     //@ts-ignore
-    torsoCube.getPxShape(true, link)
-    link.setMass(1)
-    link.setCMassLocalPose(createIdentity())
+    torsoCube.getPxShape(true, rootLink)
+    rootLink.setMass(1)
+    rootLink.setCMassLocalPose(createIdentity())
     root.setGlobalPose(pose)
-    managerActorMap.set(torsoCube, root)
 
-    const parent = link
+    const parent = rootLink
     // Create a new body
     const localTm = assignPxPose(headCube.outerObject3d)
     const body = physics.createRigidDynamic(localTm)
@@ -78,16 +76,27 @@ createEffect(() => {
         body,
         localTm
     )
-    // joint->setSphericalJointFlag(PxSphericalJointFlag::eLIMIT_ENABLED, true);
-    // joint->setLimitCone(PxJointLimitCone(PxPi / 2, PxPi / 2, 0.05f));
+    joint.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
+    joint.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
 
-    // // Add the body to the articulation and set it as the new parent
-    // link = articulation->createLink(parent, PxTransform::createIdentity());
-    // link->attachShape(*physics->createShape(PxBoxGeometry(dimensions.x, dimensions.y, dimensions.z),
-    //                                         *physics->createMaterial(0.5f, 0.5f, 0.5f)));
-    // link->setMass(1.0f);
-    // link->setCMassLocalPose(PxTransform::createIdentity());
+    // Add the body to the articulation and set it as the new parent
+    const headLink = articulation.createLink(parent, createIdentity())
+    //@ts-ignore
+    headCube.getPxShape(true, headLink)
+    headLink.setMass(1)
+    headLink.setCMassLocalPose(createIdentity())
 
     // Add the articulation to the scene
     scene.addArticulation(articulation)
+
+    // Read the articulation cache
+    const cache = articulation.createCache()
+    onBeforeRender(() => {
+        articulation.copyInternalStateToCache(
+            cache,
+            PxArticulationCacheFlagEnum.ePOSITION
+        )
+        console.log(cache)
+        // console.log(rootLink.getLinkIndex(), headLink.getLinkIndex())
+    })
 }, [getPhysX])

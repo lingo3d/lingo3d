@@ -35,6 +35,7 @@ type PhysX = {
     PxTriangleMeshDesc: any
     PxTriangleMeshGeometry: any
     PxCapsuleControllerDesc: any
+    PxJointLimitCone: any
     PxCapsuleClimbingModeEnum: {
         eEASY: any
         eCONSTRAINED: any
@@ -103,6 +104,10 @@ type PhysX = {
     PxSphericalJointFlagEnum: {
         eLIMIT_ENABLED: any
     }
+    PxArticulationCacheFlagEnum: {
+        eALL: any
+        ePOSITION: any
+    }
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -135,6 +140,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxTriangleMeshDesc: undefined,
     PxTriangleMeshGeometry: undefined,
     PxCapsuleControllerDesc: undefined,
+    PxJointLimitCone: undefined,
     PxCapsuleClimbingModeEnum: {
         eEASY: undefined,
         eCONSTRAINED: undefined
@@ -202,5 +208,9 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     },
     PxSphericalJointFlagEnum: {
         eLIMIT_ENABLED: undefined
+    },
+    PxArticulationCacheFlagEnum: {
+        eALL: undefined,
+        ePOSITION: undefined
     }
 })
