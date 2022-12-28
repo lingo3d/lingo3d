@@ -2,7 +2,6 @@ import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
 import { isPositionedItem } from "../../api/core/PositionedItem"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { setWorldPlay } from "../../states/useWorldPlay"
@@ -12,7 +11,7 @@ export default (
     rightClick?: boolean,
     parent?: Appendable
 ) => {
-    getWorldPlayComputed() && setWorldPlay(false)
+    setWorldPlay(false)
     queueMicrotask(() => {
         if (isPositionedItem(parent) && getSelectionTarget() !== parent)
             emitSelectionTarget(parent, rightClick, true)

@@ -1,9 +1,11 @@
 import { createEffect } from "@lincode/reactivity"
 import { log } from "@lincode/utils"
-import { assignPxPose } from "../display/core/PhysicsObjectManager/physx/updatePxVec"
+import {
+    assignPxPose,
+    setPxPose_
+} from "../display/core/PhysicsObjectManager/physx/updatePxVec"
 import Cube from "../display/primitives/Cube"
 import { getPhysX } from "../states/usePhysX"
-import callPrivateMethod from "../utils/callPrivateMethod"
 
 const ground = new Cube()
 ground.width = 1000
@@ -32,24 +34,23 @@ createEffect(() => {
     const { physics, PxRigidBodyExt, scene } = getPhysX()
     if (!physics) return
 
+    const pose = setPxPose_(0, 0, 0)
+
     const articulation = physics.createArticulationReducedCoordinate()
 
-    const torsoPose = assignPxPose(torsoCube.outerObject3d)
-    const torso = articulation.createLink(null, torsoPose)
+    const torso = articulation.createLink(null, pose)
     //@ts-ignore
     torsoCube.getPxShape(true, torso)
     PxRigidBodyExt.prototype.setMassAndUpdateInertia(torso, 20)
 
-    const headPose = assignPxPose(headCube.outerObject3d)
-    const head = articulation.createLink(torso, headPose)
+    const head = articulation.createLink(torso, pose)
     //@ts-ignore
     headCube.getPxShape(true, head)
     PxRigidBodyExt.prototype.setMassAndUpdateInertia(head, 5)
 
     const joint = head.getInboundJoint()
+    joint.setParentPose(assignPxPose(torsoCube.outerObject3d))
+    joint.setChildPose(assignPxPose(headCube.outerObject3d))
 
-    // joint.setParentPose(parentAttachment);
-    // joint->setChildPose(childAttachment);
-
-    // scene.addArticulation(articulation)
+    scene.addArticulation(articulation)
 }, [getPhysX])

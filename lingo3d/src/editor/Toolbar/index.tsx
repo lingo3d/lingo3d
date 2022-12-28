@@ -30,6 +30,7 @@ import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { getTransformControlsSpaceComputed } from "../../states/useTransformControlsSpaceComputed"
+import { setWorldPlay } from "../../states/useWorldPlay"
 
 const Toolbar = () => {
     useInitCSS()
@@ -66,13 +67,19 @@ const Toolbar = () => {
                 <Section>
                     <ToolbarButton
                         active={mode === "select"}
-                        onClick={() => setEditorMode("select")}
+                        onClick={() => {
+                            setWorldPlay(false)
+                            setEditorMode("select")
+                        }}
                     >
                         <CursorIcon />
                     </ToolbarButton>
                     <ToolbarButton
                         active={mode === "translate"}
-                        onClick={() => setEditorMode("translate")}
+                        onClick={() => {
+                            setWorldPlay(false)
+                            setEditorMode("translate")
+                        }}
                         disabled={selectOnly}
                     >
                         <TranslateIcon />
@@ -80,14 +87,20 @@ const Toolbar = () => {
                     <ToolbarButton
                         active={mode === "rotate"}
                         disabled={translateOnly || selectOnly}
-                        onClick={() => setEditorMode("rotate")}
+                        onClick={() => {
+                            setWorldPlay(false)
+                            setEditorMode("rotate")
+                        }}
                     >
                         <RotateIcon />
                     </ToolbarButton>
                     <ToolbarButton
                         active={mode === "scale"}
                         disabled={translateOnly || selectOnly}
-                        onClick={() => setEditorMode("scale")}
+                        onClick={() => {
+                            setWorldPlay(false)
+                            setEditorMode("scale")
+                        }}
                     >
                         <ScaleIcon />
                     </ToolbarButton>
@@ -117,13 +130,19 @@ const Toolbar = () => {
                 <Section>
                     {/* <ToolbarButton
                         active={mode === "mesh"}
-                        onClick={() => setEditorMode("mesh")}
+                        onClick={() => {
+                            setWorldPlay(false)
+                            setEditorMode("mesh")
+                        }}
                     >
                         <MeshIcon />
                     </ToolbarButton> */}
                     <ToolbarButton
                         active={mode === "curve"}
-                        onClick={() => setEditorMode("curve")}
+                        onClick={() => {
+                            setWorldPlay(false)
+                            setEditorMode("curve")
+                        }}
                     >
                         <PathIcon />
                     </ToolbarButton>
