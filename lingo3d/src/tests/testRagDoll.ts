@@ -6,13 +6,13 @@ import "../display/core/PhysicsObjectManager/physx"
 import { onLoop } from "../events/onLoop"
 import { managerShapeLinkMap } from "../display/core/PhysicsObjectManager/physx/pxMaps"
 
-// const ground = new Cube()
-// ground.width = 1000
-// ground.height = 10
-// ground.depth = 1000
-// ground.y = -300
-// ground.color = "black"
-// ground.physics = "map"
+const ground = new Cube()
+ground.width = 1000
+ground.height = 10
+ground.depth = 1000
+ground.y = -300
+ground.color = "black"
+ground.physics = "map"
 
 const headCube = new Cube()
 headCube.scaleX = headCube.scaleY = headCube.scaleZ = 0.25
