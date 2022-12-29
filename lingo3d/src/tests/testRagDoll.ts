@@ -4,6 +4,7 @@ import Cube from "../display/primitives/Cube"
 import { getPhysX } from "../states/usePhysX"
 import "../display/core/PhysicsObjectManager/physx"
 import { onLoop } from "../events/onLoop"
+import { managerShapeLinkMap } from "../display/core/PhysicsObjectManager/physx/pxMaps"
 
 // const ground = new Cube()
 // ground.width = 1000
@@ -35,32 +36,31 @@ createEffect(() => {
         scene,
         PxArticulationJointTypeEnum,
         PxArticulationAxisEnum,
-        PxArticulationMotionEnum,
-        PxArticulationCacheFlagEnum,
-        NativeArrayHelpers,
-        PxShapeExt
+        PxArticulationMotionEnum
     } = getPhysX()
     if (!physics) return
 
     const articulation = physics.createArticulationReducedCoordinate()
 
-    const torso = articulation.createLink(
+    const torsoLink = articulation.createLink(
         null,
         assignPxPose(torsoCube.outerObject3d)
     )
     //@ts-ignore
-    const torsoShape = torsoCube.getPxShape(true, torso)
-    PxRigidBodyExt.prototype.setMassAndUpdateInertia(torso, 20)
+    const torsoShape = torsoCube.getPxShape(true, torsoLink)
+    PxRigidBodyExt.prototype.setMassAndUpdateInertia(torsoLink, 20)
+    managerShapeLinkMap.set(torsoCube, [torsoShape, torsoLink])
 
-    const head = articulation.createLink(
-        torso,
+    const headLink = articulation.createLink(
+        torsoLink,
         assignPxPose(headCube.outerObject3d)
     )
     //@ts-ignore
-    const headShape = headCube.getPxShape(true, head)
-    PxRigidBodyExt.prototype.setMassAndUpdateInertia(head, 5)
+    const headShape = headCube.getPxShape(true, headLink)
+    PxRigidBodyExt.prototype.setMassAndUpdateInertia(headLink, 5)
+    managerShapeLinkMap.set(headCube, [headShape, headLink])
 
-    const joint = head.getInboundJoint()
+    const joint = headLink.getInboundJoint()
     joint.setJointType(PxArticulationJointTypeEnum.eREVOLUTE())
     joint.setMotion(
         PxArticulationAxisEnum.eTWIST() |
@@ -70,13 +70,4 @@ createEffect(() => {
     )
 
     scene.addArticulation(articulation)
-
-    // Read the articulation cache
-    const handle = onLoop(() => {
-        const { p, q } = PxShapeExt.prototype.getGlobalPose(headShape, head)
-        console.log(p)
-    })
-    return () => {
-        handle.cancel()
-    }
 }, [getPhysX])

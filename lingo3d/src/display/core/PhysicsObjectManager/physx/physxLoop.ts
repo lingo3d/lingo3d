@@ -1,7 +1,11 @@
 import { createEffect } from "@lincode/reactivity"
 import { getPhysX } from "../../../../states/usePhysX"
 import "../../../../engine/eventLoop"
-import { managerActorMap, managerControllerMap } from "./pxMaps"
+import {
+    managerActorMap,
+    managerControllerMap,
+    managerShapeLinkMap
+} from "./pxMaps"
 import { getPhysXCookingCount } from "../../../../states/usePhysXCookingCount"
 import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
@@ -35,7 +39,7 @@ const lockHit = (manager: StaticObjectManager, lock: boolean) => {
 export const groundedControllerManagers = new Set<PhysicsObjectManager>()
 
 createEffect(() => {
-    const { scene, pxControllerFilters, pxRaycast } = getPhysX()
+    const { scene, pxControllerFilters, pxRaycast, PxShapeExt } = getPhysX()
     if (
         !scene ||
         getPhysXCookingCount() ||
@@ -120,6 +124,11 @@ createEffect(() => {
             position.lerp(p, fpsAlpha(hitMap.get(manager) ? 0.3 : 1))
             position.x = p.x
             position.z = p.z
+        }
+        for (const [manager, [shape, link]] of managerShapeLinkMap) {
+            const { p, q } = PxShapeExt.prototype.getGlobalPose(shape, link)
+            manager.outerObject3d.position.copy(p)
+            manager.outerObject3d.quaternion.copy(q)
         }
     })
     return () => {
