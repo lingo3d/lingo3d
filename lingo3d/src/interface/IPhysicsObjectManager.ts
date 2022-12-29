@@ -13,6 +13,7 @@ export type PhysicsOptions = boolean | "map" | "character" | "convex"
 export default interface IPhysicsObjectManager extends ISimpleObjectManager {
     gravity: Nullable<boolean>
     physics: Nullable<PhysicsOptions>
+    linkId: Nullable<string>
 }
 
 export const physicsObjectManagerSchema: Required<
@@ -20,12 +21,14 @@ export const physicsObjectManagerSchema: Required<
 > = {
     ...simpleObjectManagerSchema,
     gravity: Boolean,
-    physics: [String, Boolean]
+    physics: [String, Boolean],
+    linkId: String
 }
 hideSchema(["velocity"])
 
 export const physicsObjectManagerDefaults =
     extendDefaults<IPhysicsObjectManager>([simpleObjectManagerDefaults], {
         gravity: new NullableDefault(true),
-        physics: new NullableDefault(false)
+        physics: new NullableDefault(false),
+        linkId: undefined
     })
