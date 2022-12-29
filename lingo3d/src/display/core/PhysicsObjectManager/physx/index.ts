@@ -9,6 +9,7 @@ import "./physxLoop"
 PhysX().then((PhysX: any) => {
     const {
         destroy,
+        NativeArrayHelpers,
         PxSimulationEventCallback,
         PxTopLevelFunctions,
         PxDefaultAllocator,
@@ -28,8 +29,9 @@ PhysX().then((PhysX: any) => {
         PxRigidActorExt,
         PxRigidBodyExt,
         Vector_PxVec3,
-        PxBoundedData,
+        Vector_PxReal,
         Vector_PxU32,
+        PxBoundedData,
         PxTriangleMeshDesc,
         PxTriangleMeshGeometry,
         PxQuat,
@@ -349,6 +351,7 @@ PhysX().then((PhysX: any) => {
     }
 
     setPhysX({
+        NativeArrayHelpers,
         physics,
         material,
         shapeFlags,
@@ -366,6 +369,7 @@ PhysX().then((PhysX: any) => {
         getInsertionCallback,
         getPxControllerManager,
         Vector_PxVec3,
+        Vector_PxReal,
         Vector_PxU32,
         Px,
         PxBoxGeometry,

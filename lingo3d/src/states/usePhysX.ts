@@ -1,6 +1,7 @@
 import store from "@lincode/reactivity"
 
 type PhysX = {
+    NativeArrayHelpers: any
     physics: any
     material: any
     shapeFlags: any
@@ -23,6 +24,7 @@ type PhysX = {
     getInsertionCallback: any
     getPxControllerManager: any
     Vector_PxVec3: any
+    Vector_PxReal: any
     Vector_PxU32: any
     Px: any
     PxConvexMeshDesc: any
@@ -111,6 +113,7 @@ type PhysX = {
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
+    NativeArrayHelpers: undefined,
     physics: undefined,
     material: undefined,
     shapeFlags: undefined,
@@ -128,6 +131,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     getInsertionCallback: undefined,
     getPxControllerManager: undefined,
     Vector_PxVec3: undefined,
+    Vector_PxReal: undefined,
     Vector_PxU32: undefined,
     Px: undefined,
     PxConvexMeshDesc: undefined,

@@ -2,8 +2,8 @@ import { Cancellable, Disposable } from "@lincode/promiselikes"
 import { GetGlobalState, createEffect } from "@lincode/reactivity"
 import { nanoid } from "nanoid"
 import { timer } from "../../engine/eventLoop"
-import { onBeforeRender } from "../../events/onBeforeRender"
 import { emitDispose } from "../../events/onDispose"
+import { onLoop } from "../../events/onLoop"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import IAppendable from "../../interface/IAppendable"
 import unsafeSetValue from "../../utils/unsafeSetValue"
@@ -130,9 +130,9 @@ export default class Appendable extends Disposable implements IAppendable {
     }
     public set onLoop(cb) {
         this._onLoop = cb
-        this.cancelHandle("onLoop", cb && (() => onBeforeRender(cb)))
+        this.cancelHandle("onLoop", cb && (() => onLoop(cb)))
     }
     public registerOnLoop(cb: () => void) {
-        return this.watch(onBeforeRender(cb))
+        return this.watch(onLoop(cb))
     }
 }
