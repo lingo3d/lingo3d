@@ -240,15 +240,16 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    protected override refreshPhysics(val: PhysicsOptions) {
+    protected override refreshPhysics() {
         this.cancelHandle("refreshPhysics", () =>
-            this.loaded.then(() => void super.refreshPhysics(val))
+            this.loaded.then(() => super.refreshPhysics())
         )
     }
 
     public override getPxShape(mode: PhysicsOptions, actor: any) {
         if (mode === "convex" || mode === "map") {
-            const { material, shapeFlags, PxRigidActorExt } = getPhysX()
+            const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
+                getPhysX()
 
             const pxGeometry =
                 mode === "convex"
@@ -262,12 +263,14 @@ export default abstract class Loaded<T = Object3D>
                           this.loadedGroup.children[0],
                           this
                       )
-            return PxRigidActorExt.prototype.createExclusiveShape(
+            const shape = PxRigidActorExt.prototype.createExclusiveShape(
                 actor,
                 pxGeometry,
                 material,
                 shapeFlags
             )
+            shape.setSimulationFilterData(pxFilterData)
+            return shape
         }
         return super.getPxShape(mode, actor)
     }

@@ -163,20 +163,19 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return shape
     }
 
-    private physicsState?: Reactive<PhysicsOptions>
-    protected refreshPhysics(val: PhysicsOptions) {
-        if (this.physicsState) {
-            this.physicsState.set(val)
+    private refreshPhysicsState?: Reactive<{}>
+    protected refreshPhysics() {
+        if (this.refreshPhysicsState) {
+            this.refreshPhysicsState.set({})
             return
         }
-        const physicsState = (this.physicsState = new Reactive(val))
+        this.refreshPhysicsState = new Reactive({})
         import("./physx")
 
         this.createEffect(() => {
-            const mode = physicsState.get()
+            const { _physics } = this
             const {
                 physics,
-                pxFilterData,
                 scene,
                 PxCapsuleControllerDesc,
                 PxCapsuleClimbingModeEnum,
@@ -184,14 +183,14 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 material,
                 getPxControllerManager
             } = getPhysX()
-            if (!physics || !mode) return
+            if (!physics || !_physics) return
 
             this.outerObject3d.parent !== threeScene &&
                 threeScene.attach(this.outerObject3d)
 
             this.object3d.userData.physx = true
 
-            if (mode === "character") {
+            if (_physics === "character") {
                 const desc = new PxCapsuleControllerDesc()
                 const { x, y } = getActualScale(this).multiplyScalar(0.5)
                 this.capsuleHeight = y * 2
@@ -227,11 +226,11 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
             const pxPose = assignPxPose(this.outerObject3d)
             const actor = this.initActor(
-                mode === "map"
+                _physics === "map"
                     ? physics.createRigidStatic(pxPose)
                     : physics.createRigidDynamic(pxPose)
             )
-            const shape = this.getPxShape(mode, actor)
+            const shape = this.getPxShape(_physics, actor)
             scene.addActor(actor)
 
             managerActorMap.set(this, actor)
@@ -245,16 +244,16 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 this.actor = undefined
                 this.object3d.userData.physx = false
             }
-        }, [physicsState.get, getPhysX])
+        }, [this.refreshPhysicsState.get, getPhysX])
     }
 
     private _physics?: PhysicsOptions
     public get physics() {
-        return this._physics ?? false
+        return this._physics
     }
     public set physics(val) {
         this._physics = val
-        this.refreshPhysics(val)
+        this.refreshPhysics()
     }
 
     private pxUpdate() {

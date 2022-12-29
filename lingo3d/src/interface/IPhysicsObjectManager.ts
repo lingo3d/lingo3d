@@ -1,4 +1,3 @@
-import { Point3d } from "@lincode/math"
 import ISimpleObjectManager, {
     simpleObjectManagerDefaults,
     simpleObjectManagerSchema
@@ -13,7 +12,7 @@ export type PhysicsOptions = boolean | "map" | "character" | "convex"
 
 export default interface IPhysicsObjectManager extends ISimpleObjectManager {
     gravity: Nullable<boolean>
-    physics: PhysicsOptions
+    physics: Nullable<PhysicsOptions>
 }
 
 export const physicsObjectManagerSchema: Required<
@@ -28,5 +27,5 @@ hideSchema(["velocity"])
 export const physicsObjectManagerDefaults =
     extendDefaults<IPhysicsObjectManager>([simpleObjectManagerDefaults], {
         gravity: new NullableDefault(true),
-        physics: false
+        physics: new NullableDefault(false)
     })
