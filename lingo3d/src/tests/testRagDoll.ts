@@ -45,18 +45,16 @@ createEffect(() => {
         null,
         assignPxPose(torsoCube.outerObject3d)
     )
-    //@ts-ignore
     const torsoShape = torsoCube.getPxShape(true, torsoLink)
-    PxRigidBodyExt.prototype.setMassAndUpdateInertia(torsoLink, 20)
+    PxRigidBodyExt.prototype.updateMassAndInertia(torsoLink, 3)
     managerShapeLinkMap.set(torsoCube, [torsoShape, torsoLink])
 
     const headLink = articulation.createLink(
         torsoLink,
         assignPxPose(headCube.outerObject3d)
     )
-    //@ts-ignore
     const headShape = headCube.getPxShape(true, headLink)
-    PxRigidBodyExt.prototype.setMassAndUpdateInertia(headLink, 5)
+    PxRigidBodyExt.prototype.updateMassAndInertia(headLink, 1)
     managerShapeLinkMap.set(headCube, [headShape, headLink])
 
     const joint = headLink.getInboundJoint()
@@ -65,7 +63,7 @@ createEffect(() => {
         PxArticulationAxisEnum.eTWIST() |
             PxArticulationAxisEnum.eSWING1() |
             PxArticulationAxisEnum.eSWING2(),
-        PxArticulationMotionEnum.eFREE()
+        PxArticulationMotionEnum.eLIMITED()
     )
 
     scene.addArticulation(articulation)

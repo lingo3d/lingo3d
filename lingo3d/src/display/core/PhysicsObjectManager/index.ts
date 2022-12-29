@@ -145,8 +145,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return actor
     }
 
-    protected getPxShape(_: PhysicsOptions, actor: any) {
-        const { material, shapeFlags, physics, PxBoxGeometry } = getPhysX()
+    public getPxShape(_: PhysicsOptions, actor: any) {
+        const { material, shapeFlags, physics, PxBoxGeometry, pxFilterData } =
+            getPhysX()
 
         const { x, y, z } = getActualScale(this).multiplyScalar(0.5)
         const pxGeometry = new PxBoxGeometry(x, y, z)
@@ -156,6 +157,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             true,
             shapeFlags
         )
+        shape.setSimulationFilterData(pxFilterData)
         destroy(pxGeometry)
         actor.attachShape(shape)
         return shape
@@ -230,7 +232,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     : physics.createRigidDynamic(pxPose)
             )
             const shape = this.getPxShape(mode, actor)
-            shape.setSimulationFilterData(pxFilterData)
             scene.addActor(actor)
 
             managerActorMap.set(this, actor)
