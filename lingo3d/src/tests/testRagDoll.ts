@@ -60,11 +60,16 @@ createEffect(() => {
     const joint = headLink.getInboundJoint()
     joint.setJointType(PxArticulationJointTypeEnum.eREVOLUTE())
     joint.setMotion(
-        PxArticulationAxisEnum.eTWIST() |
-            PxArticulationAxisEnum.eSWING1() |
-            PxArticulationAxisEnum.eSWING2(),
-        PxArticulationMotionEnum.eLIMITED()
+        PxArticulationAxisEnum.eTWIST(),
+        PxArticulationMotionEnum.eFREE()
     )
-
+    joint.setMotion(
+        PxArticulationAxisEnum.eSWING1(),
+        PxArticulationMotionEnum.eFREE()
+    )
+    joint.setMotion(
+        PxArticulationAxisEnum.eSWING2(),
+        PxArticulationMotionEnum.eFREE()
+    )
     scene.addArticulation(articulation)
 }, [getPhysX])
