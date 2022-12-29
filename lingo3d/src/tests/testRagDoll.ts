@@ -3,7 +3,6 @@ import { assignPxPose } from "../display/core/PhysicsObjectManager/physx/updateP
 import Cube from "../display/primitives/Cube"
 import { getPhysX } from "../states/usePhysX"
 import "../display/core/PhysicsObjectManager/physx"
-import { onLoop } from "../events/onLoop"
 import { managerShapeLinkMap } from "../display/core/PhysicsObjectManager/physx/pxMaps"
 
 const ground = new Cube()
