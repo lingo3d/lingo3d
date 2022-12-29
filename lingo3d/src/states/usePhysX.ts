@@ -38,6 +38,7 @@ type PhysX = {
     PxTriangleMeshGeometry: any
     PxCapsuleControllerDesc: any
     PxJointLimitCone: any
+    PxShapeExt: any
     PxCapsuleClimbingModeEnum: {
         eEASY: any
         eCONSTRAINED: any
@@ -145,6 +146,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxTriangleMeshGeometry: undefined,
     PxCapsuleControllerDesc: undefined,
     PxJointLimitCone: undefined,
+    PxShapeExt: undefined,
     PxCapsuleClimbingModeEnum: {
         eEASY: undefined,
         eCONSTRAINED: undefined

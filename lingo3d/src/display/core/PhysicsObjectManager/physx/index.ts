@@ -10,6 +10,9 @@ PhysX().then((PhysX: any) => {
     const {
         destroy,
         NativeArrayHelpers,
+        Vector_PxVec3,
+        Vector_PxReal,
+        Vector_PxU32,
         PxSimulationEventCallback,
         PxTopLevelFunctions,
         PxDefaultAllocator,
@@ -28,9 +31,6 @@ PhysX().then((PhysX: any) => {
         PxConvexMeshGeometry,
         PxRigidActorExt,
         PxRigidBodyExt,
-        Vector_PxVec3,
-        Vector_PxReal,
-        Vector_PxU32,
         PxBoundedData,
         PxTriangleMeshDesc,
         PxTriangleMeshGeometry,
@@ -39,6 +39,7 @@ PhysX().then((PhysX: any) => {
         PxControllerFilters,
         PxRaycastBuffer10,
         PxJointLimitCone,
+        PxShapeExt,
         _emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX,
         _emscripten_enum_PxConvexFlagEnum_eDISABLE_MESH_VALIDATION,
         _emscripten_enum_PxConvexFlagEnum_eFAST_INERTIA_COMPUTATION,
@@ -122,7 +123,7 @@ PhysX().then((PhysX: any) => {
     const physics = Px.CreatePhysics(version, foundation, scale)
 
     //init extensions
-    // Px.InitExtensions(physics)
+    Px.InitExtensions(physics)
 
     //create PxCooking
     const getCooking = lazy(() => {
@@ -383,6 +384,7 @@ PhysX().then((PhysX: any) => {
         PxTriangleMeshGeometry,
         PxCapsuleControllerDesc,
         PxJointLimitCone,
+        PxShapeExt,
         PxCapsuleClimbingModeEnum,
         PxControllerBehaviorFlagEnum,
         PxControllerCollisionFlagEnum,

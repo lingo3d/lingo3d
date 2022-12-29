@@ -1,13 +1,8 @@
 import { createEffect } from "@lincode/reactivity"
-import { managerActorMap } from "../display/core/PhysicsObjectManager/physx/pxMaps"
-import {
-    assignPxPose,
-    setPxPose_
-} from "../display/core/PhysicsObjectManager/physx/updatePxVec"
+import { assignPxPose } from "../display/core/PhysicsObjectManager/physx/updatePxVec"
 import Cube from "../display/primitives/Cube"
 import { getPhysX } from "../states/usePhysX"
 import "../display/core/PhysicsObjectManager/physx"
-import { onBeforeRender } from ".."
 import { onLoop } from "../events/onLoop"
 
 // const ground = new Cube()
@@ -65,7 +60,6 @@ createEffect(() => {
     PxRigidBodyExt.prototype.setMassAndUpdateInertia(head, 5)
 
     const joint = head.getInboundJoint()
-    console.log(joint)
 
     // joint.setJointType(PxArticulationJointTypeEnum.eSPHERICAL())
     // joint.setMotion(
@@ -84,7 +78,8 @@ createEffect(() => {
             cache,
             PxArticulationCacheFlagEnum.eALL()
         )
-        console.log(cache)
+        console.log(articulation.computeGeneralizedMassMatrix())
+        // console.log(NativeArrayHelpers.prototype.getRealAt(cache.jointPosition, 1))
     })
     return () => {
         handle.cancel()
