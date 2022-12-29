@@ -37,7 +37,8 @@ createEffect(() => {
         PxArticulationAxisEnum,
         PxArticulationMotionEnum,
         PxArticulationCacheFlagEnum,
-        NativeArrayHelpers
+        NativeArrayHelpers,
+        PxShapeExt
     } = getPhysX()
     if (!physics) return
 
@@ -48,7 +49,7 @@ createEffect(() => {
         assignPxPose(torsoCube.outerObject3d)
     )
     //@ts-ignore
-    torsoCube.getPxShape(true, torso)
+    const torsoShape = torsoCube.getPxShape(true, torso)
     PxRigidBodyExt.prototype.setMassAndUpdateInertia(torso, 20)
 
     const head = articulation.createLink(
@@ -56,30 +57,24 @@ createEffect(() => {
         assignPxPose(headCube.outerObject3d)
     )
     //@ts-ignore
-    headCube.getPxShape(true, head)
+    const headShape = headCube.getPxShape(true, head)
     PxRigidBodyExt.prototype.setMassAndUpdateInertia(head, 5)
 
     const joint = head.getInboundJoint()
-
-    // joint.setJointType(PxArticulationJointTypeEnum.eSPHERICAL())
-    // joint.setMotion(
-    //     PxArticulationAxisEnum.eTWIST() |
-    //         PxArticulationAxisEnum.eSWING1() |
-    //         PxArticulationAxisEnum.eSWING2(),
-    //     PxArticulationMotionEnum.eFREE()
-    // )
+    joint.setJointType(PxArticulationJointTypeEnum.eREVOLUTE())
+    joint.setMotion(
+        PxArticulationAxisEnum.eTWIST() |
+            PxArticulationAxisEnum.eSWING1() |
+            PxArticulationAxisEnum.eSWING2(),
+        PxArticulationMotionEnum.eFREE()
+    )
 
     scene.addArticulation(articulation)
 
     // Read the articulation cache
-    const cache = articulation.createCache()
     const handle = onLoop(() => {
-        articulation.copyInternalStateToCache(
-            cache,
-            PxArticulationCacheFlagEnum.eALL()
-        )
-        console.log(articulation.computeGeneralizedMassMatrix())
-        // console.log(NativeArrayHelpers.prototype.getRealAt(cache.jointPosition, 1))
+        const { p, q } = PxShapeExt.prototype.getGlobalPose(headShape, head)
+        console.log(p)
     })
     return () => {
         handle.cancel()
