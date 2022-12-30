@@ -1,3 +1,4 @@
+import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
 import threeScene from "../engine/scene"
@@ -21,41 +22,48 @@ export default class Articulation extends Appendable {
             } = getPhysX()
             if (!physics) return
 
-            const [torsoCube] = this.children ?? []
-            if (!(torsoCube instanceof PhysicsObjectManager)) return
+            const [rootManager] = this.children ?? []
+            if (!(rootManager instanceof PhysicsObjectManager)) return
 
-            threeScene.attach(torsoCube.outerObject3d)
-            torsoCube.physics = false
+            threeScene.attach(rootManager.outerObject3d)
+            rootManager.physics = false
 
             const articulation = physics.createArticulationReducedCoordinate()
 
-            const torsoLink = articulation.createLink(
+            const rootLink = articulation.createLink(
                 null,
-                assignPxPose(torsoCube.outerObject3d)
+                assignPxPose(rootManager.outerObject3d)
             )
-            const torsoShape = torsoCube.getPxShape(true, torsoLink)
-            // PxRigidBodyExt.prototype.updateMassAndInertia(torsoLink, 3)
-            managerShapeLinkMap.set(torsoCube, [torsoShape, torsoLink])
+            const rootShape = rootManager.getPxShape(true, rootLink)
+            PxRigidBodyExt.prototype.updateMassAndInertia(
+                rootLink,
+                rootManager.mass
+            )
+            managerShapeLinkMap.set(rootManager, [rootShape, rootLink])
 
+            const handle = new Cancellable()
             const traverse = (
                 parent: PhysicsObjectManager,
                 parentLink: any
             ) => {
-                const [headCube] = parent.children ?? []
-                if (!(headCube instanceof PhysicsObjectManager)) return
+                const [childManager] = parent.children ?? []
+                if (!(childManager instanceof PhysicsObjectManager)) return
 
-                threeScene.attach(headCube.outerObject3d)
-                headCube.physics = false
+                threeScene.attach(childManager.outerObject3d)
+                childManager.physics = false
 
-                const headLink = articulation.createLink(
+                const childLink = articulation.createLink(
                     parentLink,
-                    assignPxPose(headCube.outerObject3d)
+                    assignPxPose(childManager.outerObject3d)
                 )
-                const headShape = headCube.getPxShape(true, headLink)
-                // PxRigidBodyExt.prototype.updateMassAndInertia(headLink, 1)
-                managerShapeLinkMap.set(headCube, [headShape, headLink])
+                const childShape = childManager.getPxShape(true, childLink)
+                PxRigidBodyExt.prototype.updateMassAndInertia(
+                    childLink,
+                    childManager.mass
+                )
+                managerShapeLinkMap.set(childManager, [childShape, childLink])
 
-                const joint = headLink.getInboundJoint()
+                const joint = childLink.getInboundJoint()
                 joint.setJointType(PxArticulationJointTypeEnum.eREVOLUTE())
                 joint.setMotion(
                     PxArticulationAxisEnum.eTWIST(),
@@ -69,13 +77,26 @@ export default class Articulation extends Appendable {
                     PxArticulationAxisEnum.eSWING2(),
                     PxArticulationMotionEnum.eFREE()
                 )
-                traverse(headCube, headLink)
+                handle.then(() => {
+                    destroy(joint)
+                    destroy(childLink)
+                    destroy(childShape)
+                    managerShapeLinkMap.delete(childManager)
+                })
+                traverse(childManager, childLink)
             }
-            traverse(torsoCube, torsoLink)
+            traverse(rootManager, rootLink)
 
             scene.addArticulation(articulation)
 
             return () => {
+                handle.cancel()
+
+                destroy(rootLink)
+                destroy(rootShape)
+                managerShapeLinkMap.delete(rootManager)
+
+                scene.removeActor(articulation)
                 destroy(articulation)
             }
         }, [this.refreshState.get, getPhysX])
