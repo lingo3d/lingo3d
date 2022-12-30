@@ -1,80 +1,176 @@
+import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import { debounceTrailing, forceGet } from "@lincode/utils"
+import threeScene from "../engine/scene"
+import { getPhysX } from "../states/usePhysX"
 import MeshManager from "./core/MeshManager"
+import PhysicsObjectManager from "./core/PhysicsObjectManager"
+import destroy from "./core/PhysicsObjectManager/physx/destroy"
+import {
+    managerShapeLinkMap,
+    actorPtrManagerMap
+} from "./core/PhysicsObjectManager/physx/pxMaps"
+import {
+    assignPxPose,
+    setPxPose
+} from "./core/PhysicsObjectManager/physx/updatePxVec"
 import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
+import { vector3 } from "./utils/reusables"
 
-const articulationMap = new WeakMap<MeshManager, MeshManager>()
-const articulationManagers = new Set<MeshManager>()
+const childParentMap = new WeakMap<MeshManager, MeshManager>()
+const parentChildrenMap = new WeakMap<MeshManager, Set<MeshManager>>()
+const allManagers = new Set<MeshManager>()
 
-const createSet = () => new Set<MeshManager>()
+const create = (rootManager: PhysicsObjectManager) => {
+    const {
+        physics,
+        scene,
+        PxRigidBodyExt,
+        PxArticulationJointTypeEnum,
+        PxArticulationAxisEnum,
+        PxArticulationMotionEnum
+    } = getPhysX()
+
+    const ogParent = rootManager.outerObject3d.parent
+    ogParent !== threeScene && threeScene.attach(rootManager.outerObject3d)
+
+    const articulation = physics.createArticulationReducedCoordinate()
+
+    const rootLink = articulation.createLink(
+        null,
+        assignPxPose(rootManager.outerObject3d)
+    )
+    const rootShape = rootManager.getPxShape(true, rootLink)
+    PxRigidBodyExt.prototype.updateMassAndInertia(rootLink, rootManager.mass)
+    managerShapeLinkMap.set(rootManager, [rootShape, rootLink])
+    actorPtrManagerMap.set(rootLink.ptr, rootManager)
+
+    const handle = new Cancellable()
+    const traverse = (parentManager: PhysicsObjectManager, parentLink: any) => {
+        for (const childManager of parentChildrenMap.get(parentManager) ?? []) {
+            if (!(childManager instanceof PhysicsObjectManager)) continue
+
+            const ogChildParent = childManager.outerObject3d.parent
+            ogChildParent !== threeScene &&
+                threeScene.attach(childManager.outerObject3d)
+
+            const childLink = articulation.createLink(
+                parentLink,
+                assignPxPose(childManager.outerObject3d)
+            )
+            const childShape = childManager.getPxShape(true, childLink)
+            PxRigidBodyExt.prototype.updateMassAndInertia(
+                childLink,
+                childManager.mass
+            )
+            managerShapeLinkMap.set(childManager, [childShape, childLink])
+            actorPtrManagerMap.set(childLink.ptr, childManager)
+
+            const joint = childLink.getInboundJoint()
+
+            const { x, y, z } = vector3
+                .copy(childManager.outerObject3d.position)
+                .sub(parentManager.outerObject3d.position)
+            joint.setParentPose(setPxPose(x, y, z))
+            joint.setChildPose(setPxPose(0, 0, 0))
+
+            joint.setJointType(PxArticulationJointTypeEnum.eSPHERICAL())
+            joint.setMotion(
+                PxArticulationAxisEnum.eTWIST(),
+                PxArticulationMotionEnum.eFREE()
+            )
+            joint.setMotion(
+                PxArticulationAxisEnum.eSWING1(),
+                PxArticulationMotionEnum.eFREE()
+            )
+            joint.setMotion(
+                PxArticulationAxisEnum.eSWING2(),
+                PxArticulationMotionEnum.eFREE()
+            )
+            handle.then(() => {
+                destroy(joint)
+                destroy(childLink)
+                destroy(childShape)
+                managerShapeLinkMap.delete(childManager)
+                actorPtrManagerMap.delete(childLink.ptr)
+
+                ogChildParent !== threeScene &&
+                    ogChildParent?.attach(childManager.outerObject3d)
+            })
+            traverse(childManager, childLink)
+        }
+    }
+    traverse(rootManager, rootLink)
+
+    scene.addArticulation(articulation)
+
+    handle.then(() => {
+        destroy(rootLink)
+        destroy(rootShape)
+        managerShapeLinkMap.delete(rootManager)
+        actorPtrManagerMap.delete(rootLink.ptr)
+
+        scene.removeActor(articulation)
+        destroy(articulation)
+
+        ogParent !== threeScene && ogParent?.attach(rootManager.outerObject3d)
+    })
+    return handle
+}
 
 const createArticulations = debounceTrailing(() => {
-    let connectedCount = 0
-    const idManagerSetMap = new Map<number, Set<MeshManager>>()
-    const managerIdMap = new WeakMap<MeshManager, number>()
-    const baseToSetMap = new WeakMap<MeshManager, Set<MeshManager>>()
-
-    for (const baseManager of articulationManagers) {
-        const toManager = articulationMap.get(baseManager)
-        if (!toManager) {
-            //root found
-            console.log("root found")
-            continue
-        }
-        const id =
-            managerIdMap.get(baseManager) ??
-            managerIdMap.get(toManager) ??
-            connectedCount++
-
-        managerIdMap.set(baseManager, id)
-        managerIdMap.set(toManager, id)
-
-        const managerSet = forceGet(idManagerSetMap, id, createSet)
-        managerSet.add(baseManager)
-        managerSet.add(toManager)
-
-        const toSet = forceGet(baseToSetMap, baseManager, createSet)
-        toSet.add(toManager)
+    for (const manager of allManagers) {
+        if (childParentMap.has(manager)) continue
+        manager instanceof PhysicsObjectManager && create(manager)
     }
-    console.log(idManagerSetMap)
+    allManagers.clear()
 })
+
+const makeSet = () => new Set<MeshManager>()
 
 export default class ArticulationJoint extends PositionedManager {
     public constructor() {
         super()
 
         this.createEffect(() => {
-            const base = this.baseState.get()
-            const to = this.toState.get()
-            if (!base || !to) return
+            if (!getPhysX().physics) return
 
-            const [[baseManager]] = getMeshManagerSets(base)
-            const [[toManager]] = getMeshManagerSets(to)
-            if (!baseManager || !toManager) return
+            const child = this.childState.get()
+            const parent = this.parentState.get()
+            if (!child || !parent) return
 
-            articulationMap.set(baseManager, toManager)
-            articulationManagers.add(baseManager)
-            articulationManagers.add(toManager)
+            const [[childManager]] = getMeshManagerSets(child)
+            const [[parentManager]] = getMeshManagerSets(parent)
+            if (!childManager || !parentManager) return
+
+            childParentMap.set(childManager, parentManager)
+            forceGet(parentChildrenMap, parentManager, makeSet).add(
+                childManager
+            )
+            allManagers.add(childManager)
+            allManagers.add(parentManager)
             createArticulations()
-        }, [this.baseState.get, this.toState.get])
+        }, [this.childState.get, this.parentState.get, getPhysX])
     }
 
-    private baseState = new Reactive<string | MeshManager | undefined>(
+    private childState = new Reactive<string | MeshManager | undefined>(
         undefined
     )
-    public get base() {
-        return this.baseState.get()
+    public get jointChild() {
+        return this.childState.get()
     }
-    public set base(val) {
-        this.baseState.set(val)
+    public set jointChild(val) {
+        this.childState.set(val)
     }
 
-    private toState = new Reactive<string | MeshManager | undefined>(undefined)
-    public get to() {
-        return this.toState.get()
+    private parentState = new Reactive<string | MeshManager | undefined>(
+        undefined
+    )
+    public get jointParent() {
+        return this.parentState.get()
     }
-    public set to(val) {
-        this.toState.set(val)
+    public set jointParent(val) {
+        this.parentState.set(val)
     }
 }
