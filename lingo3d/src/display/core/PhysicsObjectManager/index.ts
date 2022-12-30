@@ -147,7 +147,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return actor
     }
 
-    public getPxShape(_: PhysicsOptions, actor: any) {
+    protected getPxShape(_: PhysicsOptions, actor: any) {
         const { material, shapeFlags, physics, PxBoxGeometry, pxFilterData } =
             getPhysX()
 
@@ -210,6 +210,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     this.mass
                 )
                 managerShapeLinkMap.set(this, [rootShape, rootLink])
+                actorPtrManagerMap.set(rootLink.ptr, this)
 
                 const handle = new Cancellable()
                 const traverse = (
@@ -236,6 +237,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                         childShape,
                         childLink
                     ])
+                    actorPtrManagerMap.set(childLink.ptr, childManager)
 
                     const joint = childLink.getInboundJoint()
                     // joint.setParentPose(
@@ -262,6 +264,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                         destroy(childLink)
                         destroy(childShape)
                         managerShapeLinkMap.delete(childManager)
+                        actorPtrManagerMap.delete(childLink.ptr)
 
                         ogParent !== threeScene &&
                             ogParent?.attach(childManager.outerObject3d)
@@ -278,6 +281,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     destroy(rootLink)
                     destroy(rootShape)
                     managerShapeLinkMap.delete(this)
+                    actorPtrManagerMap.delete(rootLink.ptr)
 
                     scene.removeActor(articulation)
                     destroy(articulation)
