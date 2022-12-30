@@ -256,15 +256,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.refreshPhysics()
     }
 
-    private _linkId?: string
-    public get linkId() {
-        return this._linkId
-    }
-    public set linkId(val) {
-        this._linkId = val
-        this.refreshPhysics()
-    }
-
     private pxUpdate() {
         this.actor && pxUpdateSet.add(this)
     }
