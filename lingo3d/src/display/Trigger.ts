@@ -140,7 +140,6 @@ export default class Trigger extends PositionedManager implements ITrigger {
             helper.height = _pad ? 10 : 100
 
             return () => {
-                helper!.dispose()
                 helper = undefined
                 handle.cancel()
             }

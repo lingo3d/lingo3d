@@ -35,10 +35,8 @@ export default class HTMLMesh
                         : `<div>${innerHTML}</div>`
                 )
             if (!element) {
-                const helper = new HelperCube()
-                const handle = addSelectionHelper(helper, this)
+                const handle = addSelectionHelper(new HelperCube(), this)
                 return () => {
-                    helper.dispose()
                     handle.cancel()
                 }
             }

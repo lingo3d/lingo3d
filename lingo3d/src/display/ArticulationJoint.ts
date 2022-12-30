@@ -1,7 +1,9 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import { debounceTrailing, forceGet } from "@lincode/utils"
+import mainCamera from "../engine/mainCamera"
 import threeScene from "../engine/scene"
+import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
@@ -16,6 +18,9 @@ import {
 } from "./core/PhysicsObjectManager/physx/updatePxVec"
 import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
+import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
+import HelperSphere from "./core/utils/HelperCylinder"
+import HelperSprite from "./core/utils/HelperSprite"
 import { vector3 } from "./utils/reusables"
 
 const childParentMap = new WeakMap<MeshManager, MeshManager>()
@@ -132,6 +137,15 @@ const makeSet = () => new Set<MeshManager>()
 export default class ArticulationJoint extends PositionedManager {
     public constructor() {
         super()
+
+        this.createEffect(() => {
+            if (getCameraRendered() !== mainCamera) return
+
+            const handle = addSelectionHelper(new HelperSphere(), this)
+            return () => {
+                handle.cancel()
+            }
+        }, [getCameraRendered])
 
         this.createEffect(() => {
             if (!getPhysX().physics) return
