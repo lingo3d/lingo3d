@@ -38,6 +38,7 @@ export default class Character extends Model implements IModel {
                 boneMap.set(foreArm, bone)
                 boneMap.get(arm)?.attach(bone)
 
+                //todo: change clone to vector3.copy
                 const from = arm.quaternion.clone()
                 arm.quaternion.copy(
                     worldToLocalQuaternion(

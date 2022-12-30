@@ -16,7 +16,12 @@ import {
 } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import destroy from "./physx/destroy"
-import { assignPxPose, setPxVec, setPxVec_ } from "./physx/updatePxVec"
+import {
+    assignPxPose,
+    setPxPose,
+    setPxVec,
+    setPxVec_
+} from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
 import MeshItem from "../MeshItem"
 import {
@@ -27,6 +32,7 @@ import {
 } from "./physx/physxLoop"
 import Nullable from "../../../interface/utils/Nullable"
 import { Cancellable } from "@lincode/promiselikes"
+import { vector3 } from "../../utils/reusables"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -217,59 +223,69 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     parentManager: PhysicsObjectManager,
                     parentLink: any
                 ) => {
-                    const [childManager] = parentManager.children ?? []
-                    if (!(childManager instanceof PhysicsObjectManager)) return
+                    for (const childManager of parentManager.children ?? []) {
+                        if (!(childManager instanceof PhysicsObjectManager))
+                            continue
 
-                    const ogParent = childManager.outerObject3d.parent
-                    ogParent !== threeScene &&
-                        threeScene.attach(childManager.outerObject3d)
+                        const ogChildParent = childManager.outerObject3d.parent
+                        ogChildParent !== threeScene &&
+                            threeScene.attach(childManager.outerObject3d)
 
-                    const childLink = articulation.createLink(
-                        parentLink,
-                        assignPxPose(childManager.outerObject3d)
-                    )
-                    const childShape = childManager.getPxShape(true, childLink)
-                    PxRigidBodyExt.prototype.updateMassAndInertia(
-                        childLink,
-                        childManager.mass
-                    )
-                    managerShapeLinkMap.set(childManager, [
-                        childShape,
-                        childLink
-                    ])
-                    actorPtrManagerMap.set(childLink.ptr, childManager)
+                        const childLink = articulation.createLink(
+                            parentLink,
+                            assignPxPose(childManager.outerObject3d)
+                        )
+                        const childShape = childManager.getPxShape(
+                            true,
+                            childLink
+                        )
+                        PxRigidBodyExt.prototype.updateMassAndInertia(
+                            childLink,
+                            childManager.mass
+                        )
+                        managerShapeLinkMap.set(childManager, [
+                            childShape,
+                            childLink
+                        ])
+                        actorPtrManagerMap.set(childLink.ptr, childManager)
 
-                    const joint = childLink.getInboundJoint()
-                    // joint.setParentPose(
-                    //     assignPxPose(childManager.outerObject3d)
-                    // )
-                    // joint.setChildPose(
-                    //     assignPxPose(parentManager.outerObject3d)
-                    // )
-                    joint.setJointType(PxArticulationJointTypeEnum.eREVOLUTE())
-                    joint.setMotion(
-                        PxArticulationAxisEnum.eTWIST(),
-                        PxArticulationMotionEnum.eFREE()
-                    )
-                    joint.setMotion(
-                        PxArticulationAxisEnum.eSWING1(),
-                        PxArticulationMotionEnum.eFREE()
-                    )
-                    joint.setMotion(
-                        PxArticulationAxisEnum.eSWING2(),
-                        PxArticulationMotionEnum.eFREE()
-                    )
-                    handle.then(() => {
-                        destroy(joint)
-                        destroy(childLink)
-                        destroy(childShape)
-                        managerShapeLinkMap.delete(childManager)
-                        actorPtrManagerMap.delete(childLink.ptr)
+                        const joint = childLink.getInboundJoint()
 
-                        ogParent !== threeScene &&
-                            ogParent?.attach(childManager.outerObject3d)
-                    })
-                    traverse(childManager, childLink)
+                        const { x, y, z } = vector3
+                            .copy(childManager.outerObject3d.position)
+                            .sub(parentManager.outerObject3d.position)
+                        joint.setParentPose(setPxPose(x, y, z))
+                        joint.setChildPose(setPxPose(0, 0, 0))
+
+                        joint.setJointType(
+                            PxArticulationJointTypeEnum.eSPHERICAL()
+                        )
+                        joint.setMotion(
+                            PxArticulationAxisEnum.eTWIST(),
+                            PxArticulationMotionEnum.eFREE()
+                        )
+                        joint.setMotion(
+                            PxArticulationAxisEnum.eSWING1(),
+                            PxArticulationMotionEnum.eFREE()
+                        )
+                        joint.setMotion(
+                            PxArticulationAxisEnum.eSWING2(),
+                            PxArticulationMotionEnum.eFREE()
+                        )
+                        handle.then(() => {
+                            destroy(joint)
+                            destroy(childLink)
+                            destroy(childShape)
+                            managerShapeLinkMap.delete(childManager)
+                            actorPtrManagerMap.delete(childLink.ptr)
+
+                            ogChildParent !== threeScene &&
+                                ogChildParent?.attach(
+                                    childManager.outerObject3d
+                                )
+                        })
+                        traverse(childManager, childLink)
+                    }
                 }
                 traverse(this, rootLink)
 

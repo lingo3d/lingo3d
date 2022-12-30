@@ -46,3 +46,17 @@ export const assignPxPose = (target: Object3D) => {
     pxPose.set_q(assignPxQuat(target.quaternion))
     return pxPose
 }
+
+export const setPxPose = (
+    x: number,
+    y: number,
+    z: number,
+    qx = 0,
+    qy = 0,
+    qz = 0,
+    qw = 1
+) => {
+    pxPose.set_p(setPxVec(x, y, z))
+    pxPose.set_q(setPxQuat(qx, qy, qz, qw))
+    return pxPose
+}
