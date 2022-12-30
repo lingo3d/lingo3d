@@ -11,7 +11,8 @@ import {
     actorPtrManagerMap,
     managerActorMap,
     managerActorPtrMap,
-    managerControllerMap
+    managerControllerMap,
+    managerShapeLinkMap
 } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import destroy from "./physx/destroy"
@@ -25,6 +26,7 @@ import {
     pxVZUpdateMap
 } from "./physx/physxLoop"
 import Nullable from "../../../interface/utils/Nullable"
+import { Cancellable } from "@lincode/promiselikes"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -181,14 +183,105 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 PxCapsuleClimbingModeEnum,
                 PxControllerNonWalkableModeEnum,
                 material,
-                getPxControllerManager
+                getPxControllerManager,
+                PxRigidBodyExt,
+                PxArticulationJointTypeEnum,
+                PxArticulationAxisEnum,
+                PxArticulationMotionEnum
             } = getPhysX()
             if (!physics || !_physics) return
 
-            this.outerObject3d.parent !== threeScene &&
-                threeScene.attach(this.outerObject3d)
+            const ogParent = this.outerObject3d.parent
+            ogParent !== threeScene && threeScene.attach(this.outerObject3d)
 
             this.object3d.userData.physx = true
+
+            if (_physics === "articulation") {
+                const rootManager = this
+
+                const articulation =
+                    physics.createArticulationReducedCoordinate()
+
+                const rootLink = articulation.createLink(
+                    null,
+                    assignPxPose(rootManager.outerObject3d)
+                )
+                const rootShape = rootManager.getPxShape(true, rootLink)
+                PxRigidBodyExt.prototype.updateMassAndInertia(
+                    rootLink,
+                    rootManager.mass
+                )
+                managerShapeLinkMap.set(rootManager, [rootShape, rootLink])
+
+                const handle = new Cancellable()
+                const traverse = (
+                    parent: PhysicsObjectManager,
+                    parentLink: any
+                ) => {
+                    const [childManager] = parent.children ?? []
+                    if (!(childManager instanceof PhysicsObjectManager)) return
+
+                    const ogParent = childManager.outerObject3d.parent
+                    ogParent !== threeScene &&
+                        threeScene.attach(childManager.outerObject3d)
+
+                    const childLink = articulation.createLink(
+                        parentLink,
+                        assignPxPose(childManager.outerObject3d)
+                    )
+                    const childShape = childManager.getPxShape(true, childLink)
+                    PxRigidBodyExt.prototype.updateMassAndInertia(
+                        childLink,
+                        childManager.mass
+                    )
+                    managerShapeLinkMap.set(childManager, [
+                        childShape,
+                        childLink
+                    ])
+
+                    const joint = childLink.getInboundJoint()
+                    joint.setJointType(PxArticulationJointTypeEnum.eREVOLUTE())
+                    joint.setMotion(
+                        PxArticulationAxisEnum.eTWIST(),
+                        PxArticulationMotionEnum.eFREE()
+                    )
+                    joint.setMotion(
+                        PxArticulationAxisEnum.eSWING1(),
+                        PxArticulationMotionEnum.eFREE()
+                    )
+                    joint.setMotion(
+                        PxArticulationAxisEnum.eSWING2(),
+                        PxArticulationMotionEnum.eFREE()
+                    )
+                    handle.then(() => {
+                        destroy(joint)
+                        destroy(childLink)
+                        destroy(childShape)
+                        managerShapeLinkMap.delete(childManager)
+
+                        ogParent !== threeScene &&
+                            ogParent?.attach(childManager.outerObject3d)
+                    })
+                    traverse(childManager, childLink)
+                }
+                traverse(rootManager, rootLink)
+
+                scene.addArticulation(articulation)
+
+                return () => {
+                    handle.cancel()
+
+                    destroy(rootLink)
+                    destroy(rootShape)
+                    managerShapeLinkMap.delete(rootManager)
+
+                    scene.removeActor(articulation)
+                    destroy(articulation)
+
+                    ogParent !== threeScene &&
+                        ogParent?.attach(this.outerObject3d)
+                }
+            }
 
             if (_physics === "character") {
                 const desc = new PxCapsuleControllerDesc()

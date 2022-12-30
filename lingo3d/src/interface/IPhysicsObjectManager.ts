@@ -8,7 +8,12 @@ import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
 import NullableDefault from "./utils/NullableDefault"
 
-export type PhysicsOptions = boolean | "map" | "character" | "convex"
+export type PhysicsOptions =
+    | boolean
+    | "map"
+    | "character"
+    | "convex"
+    | "articulation"
 
 export default interface IPhysicsObjectManager extends ISimpleObjectManager {
     mass: number
