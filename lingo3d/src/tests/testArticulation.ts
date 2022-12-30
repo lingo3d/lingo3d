@@ -26,6 +26,7 @@ headCube.y = 40
 const joint = new ArticulationJoint()
 joint.jointChild = torsoCube
 joint.jointParent = headCube
+joint.y = 23
 
 // const hatCube = new Cube()
 // hatCube.scaleX = hatCube.scaleY = hatCube.scaleZ = 0.25

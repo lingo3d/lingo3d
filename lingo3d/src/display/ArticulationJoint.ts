@@ -28,6 +28,7 @@ import { vector3 } from "./utils/reusables"
 
 const childParentMap = new WeakMap<MeshManager, MeshManager>()
 const parentChildrenMap = new WeakMap<MeshManager, Set<MeshManager>>()
+const managerJointMap = new WeakMap<MeshManager, ArticulationJoint>()
 const allManagers = new Set<MeshManager>()
 
 const create = (rootManager: PhysicsObjectManager) => {
@@ -57,7 +58,12 @@ const create = (rootManager: PhysicsObjectManager) => {
     const handle = new Cancellable()
     const traverse = (parentManager: PhysicsObjectManager, parentLink: any) => {
         for (const childManager of parentChildrenMap.get(parentManager) ?? []) {
-            if (!(childManager instanceof PhysicsObjectManager)) continue
+            const articulationJoint = managerJointMap.get(childManager)
+            if (
+                !(childManager instanceof PhysicsObjectManager) ||
+                !articulationJoint
+            )
+                continue
 
             const ogChildParent = childManager.outerObject3d.parent
             ogChildParent !== threeScene &&
@@ -166,6 +172,8 @@ export default class ArticulationJoint extends PositionedManager {
             const [[childManager]] = getMeshManagerSets(child)
             const [[parentManager]] = getMeshManagerSets(parent)
             if (!childManager || !parentManager) return
+
+            managerJointMap.set(childManager, this)
 
             childParentMap.set(childManager, parentManager)
             forceGet(parentChildrenMap, parentManager, makeSet).add(

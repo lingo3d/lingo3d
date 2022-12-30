@@ -23,7 +23,7 @@ const LingoEditor = () => {
 
     const stats = useSyncState(getStats)
 
-    const retargeter = true
+    const retargeter = false
 
     return (
         <div
