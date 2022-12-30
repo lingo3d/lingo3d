@@ -24,12 +24,13 @@ export default class OrbitCameraBase
             const target = this.getChild() ?? this.targetState.get()
             if (!target) return
 
-            const [[targetItem]] = getMeshManagerSets(target)
-            if (targetItem) {
-                this.foundState.set(targetItem)
+            const [[targetManager]] = getMeshManagerSets(target)
+            if (targetManager) {
+                this.foundState.set(targetManager)
                 const handle = onSceneGraphChange(
                     () =>
-                        targetItem.parent !== this && this.refreshState.set({})
+                        targetManager.parent !== this &&
+                        this.refreshState.set({})
                 )
                 return () => {
                     handle.cancel()
@@ -46,7 +47,9 @@ export default class OrbitCameraBase
         }, [this.targetState.get, this.refreshState.get])
     }
 
-    private targetState = new Reactive<string | MeshManager | undefined>(undefined)
+    private targetState = new Reactive<string | MeshManager | undefined>(
+        undefined
+    )
     public get target() {
         return this.targetState.get()
     }

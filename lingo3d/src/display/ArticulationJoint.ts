@@ -1,30 +1,73 @@
 import { Reactive } from "@lincode/reactivity"
-import Appendable from "../api/core/Appendable"
+import { debounceTrailing, forceGet } from "@lincode/utils"
 import MeshManager from "./core/MeshManager"
+import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 
-export default class ArticulationJoint extends Appendable {
+const articulationMap = new WeakMap<MeshManager, MeshManager>()
+const articulationManagers = new Set<MeshManager>()
+
+const createSet = () => new Set<MeshManager>()
+
+const createArticulations = debounceTrailing(() => {
+    let connectedCount = 0
+    const idManagerSetMap = new Map<number, Set<MeshManager>>()
+    const managerIdMap = new WeakMap<MeshManager, number>()
+    const baseToSetMap = new WeakMap<MeshManager, Set<MeshManager>>()
+
+    for (const baseManager of articulationManagers) {
+        const toManager = articulationMap.get(baseManager)
+        if (!toManager) {
+            //root found
+            console.log("root found")
+            continue
+        }
+        const id =
+            managerIdMap.get(baseManager) ??
+            managerIdMap.get(toManager) ??
+            connectedCount++
+
+        managerIdMap.set(baseManager, id)
+        managerIdMap.set(toManager, id)
+
+        const managerSet = forceGet(idManagerSetMap, id, createSet)
+        managerSet.add(baseManager)
+        managerSet.add(toManager)
+
+        const toSet = forceGet(baseToSetMap, baseManager, createSet)
+        toSet.add(toManager)
+    }
+    console.log(idManagerSetMap)
+})
+
+export default class ArticulationJoint extends PositionedManager {
     public constructor() {
         super()
 
         this.createEffect(() => {
-            const from = this.fromState.get()
+            const base = this.baseState.get()
             const to = this.toState.get()
-            if (!from || !to) return
+            if (!base || !to) return
 
-            const [[fromManager]] = getMeshManagerSets(from)
-            const [[toManager]] = getMeshManagerSets(from)
-        }, [this.fromState.get, this.toState.get])
+            const [[baseManager]] = getMeshManagerSets(base)
+            const [[toManager]] = getMeshManagerSets(to)
+            if (!baseManager || !toManager) return
+
+            articulationMap.set(baseManager, toManager)
+            articulationManagers.add(baseManager)
+            articulationManagers.add(toManager)
+            createArticulations()
+        }, [this.baseState.get, this.toState.get])
     }
 
-    private fromState = new Reactive<string | MeshManager | undefined>(
+    private baseState = new Reactive<string | MeshManager | undefined>(
         undefined
     )
-    public get from() {
-        return this.fromState.get()
+    public get base() {
+        return this.baseState.get()
     }
-    public set from(val) {
-        this.fromState.set(val)
+    public set base(val) {
+        this.baseState.set(val)
     }
 
     private toState = new Reactive<string | MeshManager | undefined>(undefined)
