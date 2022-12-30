@@ -1,14 +1,16 @@
-import PositionedManager, { isPositionedManager } from "../../api/core/PositionedManager"
+import PositionedManager, {
+    isPositionedManager
+} from "../../api/core/PositionedManager"
 import ObjectManager from "./ObjectManager"
 import StaticObjectManager from "./StaticObjectManager"
 import VisibleObjectManager from "./VisibleObjectManager"
 
-type MeshItem =
+type MeshManager =
     | PositionedManager
     | StaticObjectManager
     | ObjectManager
     | VisibleObjectManager
-export default MeshItem
+export default MeshManager
 
-export const isMeshItem = (item: any): item is MeshItem =>
+export const isMeshManager = (item: any): item is MeshManager =>
     !!item && (isPositionedManager(item) || item instanceof StaticObjectManager)

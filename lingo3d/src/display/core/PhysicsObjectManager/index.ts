@@ -23,7 +23,7 @@ import {
     setPxVec_
 } from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
-import MeshItem from "../MeshItem"
+import MeshManager from "../MeshManager"
 import {
     pxUpdateSet,
     pxVXUpdateMap,
@@ -387,7 +387,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.pxUpdate()
     }
 
-    public override placeAt(target: string | Point3d | MeshItem | SpawnPoint) {
+    public override placeAt(target: string | Point3d | MeshManager | SpawnPoint) {
         super.placeAt(target)
         this.pxUpdate()
     }

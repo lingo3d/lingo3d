@@ -12,7 +12,7 @@ import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
 import { deg2Rad, Point3d } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
-import MeshItem from "../MeshItem"
+import MeshManager from "../MeshManager"
 import { Cancellable } from "@lincode/promiselikes"
 import mainCamera from "../../../engine/mainCamera"
 import scene from "../../../engine/scene"
@@ -69,7 +69,7 @@ export default abstract class CameraBase<
         }, [getCameraRendered])
     }
 
-    public override lookAt(target: MeshItem | Point3d): void
+    public override lookAt(target: MeshManager | Point3d): void
     public override lookAt(x: number, y: number | undefined, z: number): void
     public override lookAt(a0: any, a1?: any, a2?: any) {
         super.lookAt(a0, a1, a2)
@@ -135,12 +135,12 @@ export default abstract class CameraBase<
         )
     }
 
-    public override append(object: MeshItem) {
+    public override append(object: MeshManager) {
         this._append(object)
         this.camera.add(object.outerObject3d)
     }
 
-    public override attach(object: MeshItem) {
+    public override attach(object: MeshManager) {
         this._append(object)
         this.camera.attach(object.outerObject3d)
     }

@@ -20,7 +20,7 @@ import StaticObjectManager, { idMap } from "../StaticObjectManager"
 import { applyMixins } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
-import MeshItem from "../MeshItem"
+import MeshManager from "../MeshManager"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
@@ -245,7 +245,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.translateZ(val * CM2M * fpsRatioPtr[0])
     }
 
-    public placeAt(target: MeshItem | Point3d | SpawnPoint | string) {
+    public placeAt(target: MeshManager | Point3d | SpawnPoint | string) {
         if (typeof target === "string") {
             const [found] = idMap.get(target) ?? [undefined]
             if (!found) return

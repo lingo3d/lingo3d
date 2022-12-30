@@ -6,12 +6,12 @@ import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
-import MeshItem from "../display/core/MeshItem"
+import MeshManager from "../display/core/MeshManager"
 
 export default interface ITrigger extends IPositioned {
-    onEnter: Nullable<(target: MeshItem) => void>
+    onEnter: Nullable<(target: MeshManager) => void>
     onExit: Nullable<() => void>
-    target: Nullable<string | Array<string> | MeshItem>
+    target: Nullable<string | Array<string> | MeshManager>
     pad: boolean
     radius: number
     interval: number

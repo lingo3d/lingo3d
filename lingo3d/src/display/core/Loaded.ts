@@ -4,7 +4,7 @@ import { wireframeMaterial } from "../utils/reusables"
 import ILoaded from "../../interface/ILoaded"
 import Reresolvable from "./utils/Reresolvable"
 import toResolvable from "../utils/toResolvable"
-import MeshItem from "./MeshItem"
+import MeshManager from "./MeshManager"
 import { Point3d } from "@lincode/math"
 import {
     addOutline,
@@ -234,7 +234,7 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    public override placeAt(object: MeshItem | Point3d | string) {
+    public override placeAt(object: MeshManager | Point3d | string) {
         this.cancelHandle("placeAt", () =>
             this.loaded.then(() => void super.placeAt(object))
         )
@@ -276,7 +276,7 @@ export default abstract class Loaded<T = Object3D>
     }
 }
 
-export const getLoadedObject = (item: Loaded | MeshItem) => {
+export const getLoadedObject = (item: Loaded | MeshManager) => {
     if ("loadedGroup" in item) return item.loadedGroup
     return item.object3d
 }

@@ -1,7 +1,7 @@
 import { Reactive } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
-import MeshItem from "./core/MeshItem"
-import { getMeshItemSets } from "./core/StaticObjectManager"
+import MeshManager from "./core/MeshManager"
+import { getMeshManagerSets } from "./core/StaticObjectManager"
 
 export default class ArticulationJoint extends Appendable {
     public constructor() {
@@ -12,13 +12,14 @@ export default class ArticulationJoint extends Appendable {
             const to = this.toState.get()
             if (!from || !to) return
 
-            const [[fromManager]] = getMeshItemSets(from)
-            const [[toManager]] = getMeshItemSets(from)
-
+            const [[fromManager]] = getMeshManagerSets(from)
+            const [[toManager]] = getMeshManagerSets(from)
         }, [this.fromState.get, this.toState.get])
     }
 
-    private fromState = new Reactive<string | MeshItem | undefined>(undefined)
+    private fromState = new Reactive<string | MeshManager | undefined>(
+        undefined
+    )
     public get from() {
         return this.fromState.get()
     }
@@ -26,7 +27,7 @@ export default class ArticulationJoint extends Appendable {
         this.fromState.set(val)
     }
 
-    private toState = new Reactive<string | MeshItem | undefined>(undefined)
+    private toState = new Reactive<string | MeshManager | undefined>(undefined)
     public get to() {
         return this.toState.get()
     }

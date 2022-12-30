@@ -1,8 +1,8 @@
 import { Reactive } from "@lincode/reactivity"
 import { PerspectiveCamera } from "three"
 import CameraBase from "./CameraBase"
-import MeshItem, { isMeshItem } from "./MeshItem"
-import { getMeshItemSets } from "../core/StaticObjectManager"
+import MeshManager, { isMeshManager } from "./MeshManager"
+import { getMeshManagerSets } from "../core/StaticObjectManager"
 import IOrbitCameraBase from "../../interface/IOrbitCameraBase"
 import { onId } from "../../events/onId"
 import { onSceneGraphChange } from "../../events/onSceneGraphChange"
@@ -14,7 +14,7 @@ export default class OrbitCameraBase
     private getChild() {
         if (!this.children) return
         const [firstChild] = this.children
-        return isMeshItem(firstChild) ? firstChild : undefined
+        return isMeshManager(firstChild) ? firstChild : undefined
     }
 
     public constructor(camera: PerspectiveCamera) {
@@ -24,7 +24,7 @@ export default class OrbitCameraBase
             const target = this.getChild() ?? this.targetState.get()
             if (!target) return
 
-            const [[targetItem]] = getMeshItemSets(target)
+            const [[targetItem]] = getMeshManagerSets(target)
             if (targetItem) {
                 this.foundState.set(targetItem)
                 const handle = onSceneGraphChange(
@@ -46,7 +46,7 @@ export default class OrbitCameraBase
         }, [this.targetState.get, this.refreshState.get])
     }
 
-    private targetState = new Reactive<string | MeshItem | undefined>(undefined)
+    private targetState = new Reactive<string | MeshManager | undefined>(undefined)
     public get target() {
         return this.targetState.get()
     }
@@ -54,16 +54,16 @@ export default class OrbitCameraBase
         this.targetState.set(value)
     }
 
-    protected foundState = new Reactive<MeshItem | undefined>(undefined)
+    protected foundState = new Reactive<MeshManager | undefined>(undefined)
     private refreshState = new Reactive({})
 
-    public override append(object: MeshItem) {
+    public override append(object: MeshManager) {
         this._append(object)
         this.parent?.outerObject3d.add(object.outerObject3d)
         this.refreshState.set({})
     }
 
-    public override attach(object: MeshItem) {
+    public override attach(object: MeshManager) {
         this._append(object)
         this.parent?.outerObject3d.attach(object.outerObject3d)
         this.refreshState.set({})
