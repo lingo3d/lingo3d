@@ -14,7 +14,10 @@ type PhysX = {
     pxQuat: any
     pxVec: any
     pxVec_: any
+    pxVec__: any
     pxPose: any
+    pxPose_: any
+    pxPose__: any
     pxFilterData: any
     pxControllerFilters: any
     scene: any
@@ -38,6 +41,7 @@ type PhysX = {
     PxCapsuleControllerDesc: any
     PxJointLimitCone: any
     PxShapeExt: any
+    PxCreateDynamic: any
     PxCapsuleClimbingModeEnum: {
         eEASY: any
         eCONSTRAINED: any
@@ -121,7 +125,10 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     pxQuat: undefined,
     pxVec: undefined,
     pxVec_: undefined,
+    pxVec__: undefined,
     pxPose: undefined,
+    pxPose_: undefined,
+    pxPose__: undefined,
     pxFilterData: undefined,
     pxControllerFilters: undefined,
     scene: undefined,
@@ -145,6 +152,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxCapsuleControllerDesc: undefined,
     PxJointLimitCone: undefined,
     PxShapeExt: undefined,
+    PxCreateDynamic: undefined,
     PxCapsuleClimbingModeEnum: {
         eEASY: undefined,
         eCONSTRAINED: undefined

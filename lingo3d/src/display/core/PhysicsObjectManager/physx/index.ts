@@ -106,7 +106,12 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxSphericalJointFlagEnum_eLIMIT_ENABLED,
 
         _emscripten_enum_PxArticulationCacheFlagEnum_eALL,
-        _emscripten_enum_PxArticulationCacheFlagEnum_ePOSITION
+        _emscripten_enum_PxArticulationCacheFlagEnum_ePOSITION,
+
+        _emscripten_enum_PxGeometryTypeEnum_eBOX,
+        _emscripten_enum_PxGeometryTypeEnum_eSPHERE,
+        _emscripten_enum_PxGeometryTypeEnum_eCAPSULE,
+        _emscripten_enum_PxGeometryTypeEnum_eCONVEXMESH
     } = PhysX
 
     destroyPtr[0] = destroy
@@ -150,6 +155,7 @@ PhysX().then((PhysX: any) => {
     // create scene
     const pxVec = new PxVec3(0, gravityPtr[0], 0)
     const pxVec_ = new PxVec3(0, 0, 0)
+    const pxVec__ = new PxVec3(0, 0, 0)
     const sceneDesc = new PxSceneDesc(scale)
     sceneDesc.set_gravity(pxVec)
     sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
@@ -181,7 +187,10 @@ PhysX().then((PhysX: any) => {
     )
 
     // create a few temporary objects used during setup
-    const pxPose = new PxTransform(_emscripten_enum_PxIDENTITYEnum_PxIdentity())
+    const pxIdentity = _emscripten_enum_PxIDENTITYEnum_PxIdentity()
+    const pxPose = new PxTransform(pxIdentity)
+    const pxPose_ = new PxTransform(pxIdentity)
+    const pxPose__ = new PxTransform(pxIdentity)
     const pxFilterData = new PxFilterData(1, 1, 0, 0)
     const pxQuat = new PxQuat(0, 0, 0, 1)
 
@@ -211,6 +220,52 @@ PhysX().then((PhysX: any) => {
     // create PxController
     const getPxControllerManager = lazy(() => Px.CreateControllerManager(scene))
     const pxControllerFilters = new PxControllerFilters()
+
+    const PxGeometryTypeEnum = {
+        eBOX: lazy(_emscripten_enum_PxGeometryTypeEnum_eBOX),
+        eSPHERE: lazy(_emscripten_enum_PxGeometryTypeEnum_eSPHERE),
+        eCAPSULE: lazy(_emscripten_enum_PxGeometryTypeEnum_eCAPSULE),
+        eCONVEXMESH: lazy(_emscripten_enum_PxGeometryTypeEnum_eCONVEXMESH)
+    }
+
+    //port PxCreateDynamic
+    const isDynamicGeometry = (type: any) =>
+        type == PxGeometryTypeEnum.eBOX() ||
+        type == PxGeometryTypeEnum.eSPHERE() ||
+        type == PxGeometryTypeEnum.eCAPSULE() ||
+        type == PxGeometryTypeEnum.eCONVEXMESH()
+
+    const PxCreateDynamic2 = (
+        sdk: any,
+        transform: any,
+        shape: any,
+        density: number
+    ) => {
+        const actor = sdk.createRigidDynamic(transform)
+        if (actor) {
+            actor.attachShape(shape)
+            actor.setMass(density)
+            // PxRigidBodyExt.prototype.updateMassAndInertia(actor, density)
+        }
+        return actor
+    }
+
+    const PxCreateDynamic = (
+        sdk: any,
+        transform: any,
+        geometry: any,
+        material: any,
+        density: any,
+        shapeOffset: any
+    ) => {
+        if (!isDynamicGeometry(geometry.getType()) || density <= 0) return null
+        const shape = sdk.createShape(geometry, material, true)
+        if (!shape) return null
+        shape.setLocalPose(shapeOffset)
+        const body = PxCreateDynamic2(sdk, transform, shape, density)
+        shape.release()
+        return body
+    }
 
     // controller enum
     const PxCapsuleClimbingModeEnum = {
@@ -357,7 +412,10 @@ PhysX().then((PhysX: any) => {
         pxQuat,
         pxVec,
         pxVec_,
+        pxVec__,
         pxPose,
+        pxPose_,
+        pxPose__,
         pxFilterData,
         pxControllerFilters,
         scene,
@@ -381,6 +439,7 @@ PhysX().then((PhysX: any) => {
         PxCapsuleControllerDesc,
         PxJointLimitCone,
         PxShapeExt,
+        PxCreateDynamic,
         PxCapsuleClimbingModeEnum,
         PxControllerBehaviorFlagEnum,
         PxControllerCollisionFlagEnum,
