@@ -35,6 +35,5 @@ torsoCube.attach(headCube)
 // hipCube.y = -30
 // torsoCube.attach(hipCube)
 
-// torsoCube.y = 100
+torsoCube.y = 100
 torsoCube.physics = "articulation"
-// torsoCube.rotationX = 45
