@@ -4,7 +4,7 @@ import getWorldPosition from "./utils/getWorldPosition"
 import { timer } from "../engine/eventLoop"
 import mainCamera from "../engine/mainCamera"
 import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
-import PositionedManager from "../api/core/PositionedManager"
+import PositionedManager from "./core/PositionedManager"
 import { getCameraRendered } from "../states/useCameraRendered"
 import StaticObjectManager, {
     getMeshManagerSets

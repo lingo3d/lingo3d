@@ -4,7 +4,7 @@ import {
     createRef
 } from "@lincode/reactivity"
 import { hiddenAppendables } from "../../../../api/core/collections"
-import { isPositionedManager } from "../../../../api/core/PositionedManager"
+import { isPositionedManager } from "../../PositionedManager"
 import { mouseEvents } from "../../../../api/mouse"
 import { onSceneGraphChange } from "../../../../events/onSceneGraphChange"
 import {

@@ -15,7 +15,7 @@ import ISimpleObjectManager, {
     OnIntersectValue
 } from "../../../interface/ISimpleObjectManager"
 import getCenter from "../../utils/getCenter"
-import PositionedManager from "../../../api/core/PositionedManager"
+import PositionedManager from "../PositionedManager"
 import StaticObjectManager, { idMap } from "../StaticObjectManager"
 import { applyMixins } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"

@@ -1,5 +1,5 @@
 import store, { pull, push, reset } from "@lincode/reactivity"
-import PositionedManager from "../api/core/PositionedManager"
+import PositionedManager from "../display/core/PositionedManager"
 
 export const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store<
     Array<PositionedManager>

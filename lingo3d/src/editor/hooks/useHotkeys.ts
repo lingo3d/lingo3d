@@ -1,5 +1,5 @@
 import { useEffect } from "preact/hooks"
-import { isPositionedManager } from "../../api/core/PositionedManager"
+import { isPositionedManager } from "../../display/core/PositionedManager"
 import openFolder from "../../api/files/openFolder"
 import saveJSON from "../../api/files/saveJSON"
 import deserialize from "../../api/serializer/deserialize"

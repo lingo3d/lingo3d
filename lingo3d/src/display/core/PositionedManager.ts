@@ -2,14 +2,14 @@ import { Point3d } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { forceGet, lazy } from "@lincode/utils"
 import { Object3D } from "three"
-import getWorldPosition from "../../display/utils/getWorldPosition"
-import { positionChanged } from "../../display/utils/trackObject"
-import { vec2Point } from "../../display/utils/vec2Point"
+import getWorldPosition from "../utils/getWorldPosition"
+import { positionChanged } from "../utils/trackObject"
+import { vec2Point } from "../utils/vec2Point"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { CM2M, M2CM } from "../../globals"
 import IPositioned from "../../interface/IPositioned"
-import MeshAppendable from "./MeshAppendable"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
 const lazyObjectLoop = lazy(() =>
     onBeforeRender(() => {

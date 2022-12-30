@@ -15,7 +15,7 @@ import { getCameraRendered } from "../states/useCameraRendered"
 import { getSelectionNativeTarget } from "../states/useSelectionNativeTarget"
 import { ssrExcludeSet } from "./renderLoop/effectComposer/ssrEffect/renderSetup"
 import { getEditorModeComputed } from "../states/useEditorModeComputed"
-import { isPositionedManager } from "../api/core/PositionedManager"
+import { isPositionedManager } from "../display/core/PositionedManager"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import(

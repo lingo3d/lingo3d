@@ -8,7 +8,7 @@ export const [setEditorModeComputed, getEditorModeComputed] = store<
 >(getEditorMode())
 
 Promise.all([
-    import("../api/core/PositionedManager"),
+    import("../display/core/PositionedManager"),
     import("../display/core/SimpleObjectManager")
 ]).then(([{ isPositionedManager }, { default: SimpleObjectManager }]) => {
     createEffect(() => {

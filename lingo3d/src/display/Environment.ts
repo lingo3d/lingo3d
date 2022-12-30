@@ -8,7 +8,7 @@ import IEnvironment, {
     EnvironmentPreset,
     environmentSchema
 } from "../interface/IEnvironment"
-import PositionedManager from "../api/core/PositionedManager"
+import PositionedManager from "./core/PositionedManager"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
 import { Reactive } from "@lincode/reactivity"

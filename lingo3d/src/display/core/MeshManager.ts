@@ -1,6 +1,6 @@
 import PositionedManager, {
     isPositionedManager
-} from "../../api/core/PositionedManager"
+} from "./PositionedManager"
 import ObjectManager from "./ObjectManager"
 import StaticObjectManager from "./StaticObjectManager"
 import VisibleObjectManager from "./VisibleObjectManager"

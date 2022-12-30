@@ -1,6 +1,6 @@
 import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
-import { isPositionedManager } from "../../api/core/PositionedManager"
+import { isPositionedManager } from "../../display/core/PositionedManager"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
