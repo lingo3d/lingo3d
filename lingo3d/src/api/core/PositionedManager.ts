@@ -31,7 +31,7 @@ export const onObjectMove = (item: Object3D, cb: () => void) => {
 
 const makeSet = () => new Set<() => void>()
 
-export default abstract class PositionedItem<T extends Object3D = Object3D>
+export default abstract class PositionedManager<T extends Object3D = Object3D>
     extends MeshAppendable<T>
     implements IPositioned
 {
@@ -78,5 +78,5 @@ export default abstract class PositionedItem<T extends Object3D = Object3D>
     }
 }
 
-export const isPositionedItem = (item: any): item is PositionedItem =>
+export const isPositionedManager = (item: any): item is PositionedManager =>
     item instanceof MeshAppendable && "x" in item

@@ -8,9 +8,9 @@ export const [setEditorModeComputed, getEditorModeComputed] = store<
 >(getEditorMode())
 
 Promise.all([
-    import("../api/core/PositionedItem"),
+    import("../api/core/PositionedManager"),
     import("../display/core/SimpleObjectManager")
-]).then(([{ isPositionedItem }, { default: SimpleObjectManager }]) => {
+]).then(([{ isPositionedManager }, { default: SimpleObjectManager }]) => {
     createEffect(() => {
         const target = getSelectionTarget()
         const mode = getEditorMode()
@@ -26,7 +26,7 @@ Promise.all([
             setEditorModeComputed(mode)
             return
         }
-        if (!isPositionedItem(target)) {
+        if (!isPositionedManager(target)) {
             setEditorModeComputed("select")
             return
         }

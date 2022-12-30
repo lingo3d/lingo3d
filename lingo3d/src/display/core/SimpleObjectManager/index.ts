@@ -15,7 +15,7 @@ import ISimpleObjectManager, {
     OnIntersectValue
 } from "../../../interface/ISimpleObjectManager"
 import getCenter from "../../utils/getCenter"
-import PositionedItem from "../../../api/core/PositionedItem"
+import PositionedManager from "../../../api/core/PositionedManager"
 import StaticObjectManager, { idMap } from "../StaticObjectManager"
 import { applyMixins } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"
@@ -366,6 +366,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
 }
 interface SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>,
-        PositionedItem<T> {}
-applyMixins(SimpleObjectManager, [PositionedItem])
+        PositionedManager<T> {}
+applyMixins(SimpleObjectManager, [PositionedManager])
 export default SimpleObjectManager

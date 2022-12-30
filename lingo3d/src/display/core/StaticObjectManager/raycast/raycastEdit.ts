@@ -4,7 +4,7 @@ import {
     createRef
 } from "@lincode/reactivity"
 import { hiddenAppendables } from "../../../../api/core/collections"
-import { isPositionedItem } from "../../../../api/core/PositionedItem"
+import { isPositionedManager } from "../../../../api/core/PositionedManager"
 import { mouseEvents } from "../../../../api/mouse"
 import { onSceneGraphChange } from "../../../../events/onSceneGraphChange"
 import {
@@ -63,11 +63,11 @@ createEffect(() => {
     )
     const handle4 = onSelectionTarget(({ target, rightClick, noDeselect }) => {
         if (multipleSelection) {
-            if (!isPositionedItem(target) || rightClick) return
+            if (!isPositionedManager(target) || rightClick) return
 
             if (firstMultipleSelection.current) {
                 const currentTarget = getSelectionTarget()
-                isPositionedItem(currentTarget) &&
+                isPositionedManager(currentTarget) &&
                     !hiddenAppendables.has(currentTarget) &&
                     pushMultipleSelectionTargets(currentTarget)
             }

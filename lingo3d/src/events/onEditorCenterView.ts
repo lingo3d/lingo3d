@@ -1,5 +1,5 @@
 import { event } from "@lincode/events"
-import PositionedItem from "../api/core/PositionedItem"
+import PositionedManager from "../api/core/PositionedManager"
 
 export const [emitEditorCenterView, onEditorCenterView] =
-    event<PositionedItem>()
+    event<PositionedManager>()

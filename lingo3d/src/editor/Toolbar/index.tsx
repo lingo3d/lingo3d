@@ -13,7 +13,7 @@ import exportVue from "../../api/files/exportVue"
 import openJSON from "../../api/files/openJSON"
 import Section from "./Section"
 import { setTransformControlsSpace } from "../../states/useTransformControlsSpace"
-import { isPositionedItem } from "../../api/core/PositionedItem"
+import { isPositionedManager } from "../../api/core/PositionedManager"
 import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import MeshIcon from "./icons/MeshIcon"
 import PathIcon from "./icons/PathIcon"
@@ -39,10 +39,10 @@ const Toolbar = () => {
     const mode = useSyncState(getEditorModeComputed)
     const space = useSyncState(getTransformControlsSpaceComputed)
     const target = useSyncState(getSelectionTarget)
-    const selectOnly = target && !isPositionedItem(target)
+    const selectOnly = target && !isPositionedManager(target)
     const translateOnly =
         target &&
-        isPositionedItem(target) &&
+        isPositionedManager(target) &&
         !(target instanceof SimpleObjectManager)
 
     return (

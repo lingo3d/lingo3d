@@ -8,7 +8,7 @@ import IEnvironment, {
     EnvironmentPreset,
     environmentSchema
 } from "../interface/IEnvironment"
-import PositionedItem from "../api/core/PositionedItem"
+import PositionedManager from "../api/core/PositionedManager"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
 import { Reactive } from "@lincode/reactivity"
@@ -16,7 +16,7 @@ import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selection
 import HelperSprite from "./core/utils/HelperSprite"
 
 export default class Environment
-    extends PositionedItem
+    extends PositionedManager
     implements IEnvironment
 {
     public static componentName = "environment"

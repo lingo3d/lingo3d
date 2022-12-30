@@ -1,6 +1,6 @@
 import store, { createEffect, Reactive } from "@lincode/reactivity"
 import { AudioListener, PositionalAudio } from "three"
-import PositionedItem from "../api/core/PositionedItem"
+import PositionedManager from "../api/core/PositionedManager"
 import mainCamera from "../engine/mainCamera"
 import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
 import { getCameraRendered } from "../states/useCameraRendered"
@@ -25,7 +25,7 @@ createEffect(() => {
 }, [getCameraRendered, getAudioListener])
 
 export default class Audio
-    extends PositionedItem<PositionalAudio>
+    extends PositionedManager<PositionalAudio>
     implements IAudio
 {
     public static componentName = "audio"

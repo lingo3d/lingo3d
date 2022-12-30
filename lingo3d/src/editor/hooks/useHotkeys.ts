@@ -1,5 +1,5 @@
 import { useEffect } from "preact/hooks"
-import { isPositionedItem } from "../../api/core/PositionedItem"
+import { isPositionedManager } from "../../api/core/PositionedManager"
 import openFolder from "../../api/files/openFolder"
 import saveJSON from "../../api/files/saveJSON"
 import deserialize from "../../api/serializer/deserialize"
@@ -100,7 +100,7 @@ export default () => {
             } else if (keyLowerCase === "c") {
                 setEditorCamera(mainCamera)
                 settings.uiLayer = false
-                isPositionedItem(target) && emitEditorCenterView(target)
+                isPositionedManager(target) && emitEditorCenterView(target)
             } else if (keyLowerCase === "escape")
                 target && emitSelectionTarget(undefined)
         }
