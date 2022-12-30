@@ -197,21 +197,19 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             this.object3d.userData.physx = true
 
             if (_physics === "articulation") {
-                const rootManager = this
-
                 const articulation =
                     physics.createArticulationReducedCoordinate()
 
                 const rootLink = articulation.createLink(
                     null,
-                    assignPxPose(rootManager.outerObject3d)
+                    assignPxPose(this.outerObject3d)
                 )
-                const rootShape = rootManager.getPxShape(true, rootLink)
+                const rootShape = this.getPxShape(true, rootLink)
                 PxRigidBodyExt.prototype.updateMassAndInertia(
                     rootLink,
-                    rootManager.mass
+                    this.mass
                 )
-                managerShapeLinkMap.set(rootManager, [rootShape, rootLink])
+                managerShapeLinkMap.set(this, [rootShape, rootLink])
 
                 const handle = new Cancellable()
                 const traverse = (
@@ -270,7 +268,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     })
                     traverse(childManager, childLink)
                 }
-                traverse(rootManager, rootLink)
+                traverse(this, rootLink)
 
                 scene.addArticulation(articulation)
 
@@ -279,7 +277,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
                     destroy(rootLink)
                     destroy(rootShape)
-                    managerShapeLinkMap.delete(rootManager)
+                    managerShapeLinkMap.delete(this)
 
                     scene.removeActor(articulation)
                     destroy(articulation)
