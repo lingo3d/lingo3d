@@ -35,7 +35,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
     private _mass?: number
     public get mass(): number {
-        return this.actor?.getMass() ?? this._mass ?? 1
+        return this.actor?.getMass?.() ?? this._mass ?? 1
     }
     public set mass(val) {
         this._mass = val

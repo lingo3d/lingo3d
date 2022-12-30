@@ -23,6 +23,8 @@ const headCube = new Cube()
 headCube.scaleX = headCube.scaleY = headCube.scaleZ = 0.25
 headCube.y = 40
 
+torsoCube.rotationX = 45
+
 const joint = new ArticulationJoint()
 joint.jointChild = torsoCube
 joint.jointParent = headCube

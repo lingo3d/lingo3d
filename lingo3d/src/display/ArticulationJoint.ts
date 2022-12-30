@@ -18,13 +18,13 @@ import {
 } from "./core/PhysicsObjectManager/physx/pxMaps"
 import {
     assignPxPose,
-    setPxPose
+    assignPxPoseFromVector
 } from "./core/PhysicsObjectManager/physx/updatePxVec"
 import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
-import { vector3 } from "./utils/reusables"
+import { quaternion, vector3 } from "./utils/reusables"
 
 const childParentMap = new WeakMap<MeshManager, MeshManager>()
 const parentChildrenMap = new WeakMap<MeshManager, Set<MeshManager>>()
@@ -82,13 +82,26 @@ const create = (rootManager: PhysicsObjectManager) => {
             actorPtrManagerMap.set(childLink.ptr, childManager)
 
             const joint = childLink.getInboundJoint()
-
-            const { x, y, z } = vector3
-                .copy(childManager.outerObject3d.position)
-                .sub(parentManager.outerObject3d.position)
-            joint.setParentPose(setPxPose(x, y, z))
-            joint.setChildPose(setPxPose(0, 0, 0))
-
+            joint.setParentPose(
+                assignPxPoseFromVector(
+                    vector3
+                        .copy(articulationJoint.outerObject3d.position)
+                        .sub(parentManager.outerObject3d.position),
+                    quaternion
+                        .copy(parentManager.outerObject3d.quaternion)
+                        .invert()
+                )
+            )
+            joint.setChildPose(
+                assignPxPoseFromVector(
+                    vector3
+                        .copy(articulationJoint.outerObject3d.position)
+                        .sub(childManager.outerObject3d.position),
+                    quaternion
+                        .copy(childManager.outerObject3d.quaternion)
+                        .invert()
+                )
+            )
             joint.setJointType(PxArticulationJointTypeEnum.eSPHERICAL())
             joint.setMotion(
                 PxArticulationAxisEnum.eTWIST(),
