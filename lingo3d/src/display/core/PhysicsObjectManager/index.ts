@@ -215,10 +215,10 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
                 const handle = new Cancellable()
                 const traverse = (
-                    parent: PhysicsObjectManager,
+                    parentManager: PhysicsObjectManager,
                     parentLink: any
                 ) => {
-                    const [childManager] = parent.children ?? []
+                    const [childManager] = parentManager.children ?? []
                     if (!(childManager instanceof PhysicsObjectManager)) return
 
                     const ogParent = childManager.outerObject3d.parent
@@ -240,6 +240,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     ])
 
                     const joint = childLink.getInboundJoint()
+                    // joint.setParentPose(
+                    //     assignPxPose(childManager.outerObject3d)
+                    // )
+                    // joint.setChildPose(
+                    //     assignPxPose(parentManager.outerObject3d)
+                    // )
                     joint.setJointType(PxArticulationJointTypeEnum.eREVOLUTE())
                     joint.setMotion(
                         PxArticulationAxisEnum.eTWIST(),

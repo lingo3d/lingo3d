@@ -6,13 +6,11 @@ let pxVec: any
 let pxVec_: any
 let pxQuat: any
 let pxPose: any
-let pxPose_: any
 getPhysX((val) => {
     pxVec = val.pxVec
     pxVec_ = val.pxVec_
     pxQuat = val.pxQuat
     pxPose = val.pxPose
-    pxPose_ = val.pxPose_
 })
 
 export const setPxVec = (x: number, y: number, z: number) => {
@@ -47,32 +45,4 @@ export const assignPxPose = (target: Object3D) => {
     pxPose.set_p(assignPxVec(target.position))
     pxPose.set_q(assignPxQuat(target.quaternion))
     return pxPose
-}
-
-export const setPxPose = (
-    x: number,
-    y: number,
-    z: number,
-    qx = 0,
-    qy = 0,
-    qz = 0,
-    qw = 0
-) => {
-    pxPose.set_p(setPxVec(x, y, z))
-    pxPose.set_q(setPxQuat(qx, qy, qz, qw))
-    return pxPose
-}
-
-export const setPxPose_ = (
-    x: number,
-    y: number,
-    z: number,
-    qx = 0,
-    qy = 0,
-    qz = 0,
-    qw = 0
-) => {
-    pxPose_.set_p(setPxVec(x, y, z))
-    pxPose_.set_q(setPxQuat(qx, qy, qz, qw))
-    return pxPose_
 }

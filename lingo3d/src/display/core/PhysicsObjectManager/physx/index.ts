@@ -182,9 +182,6 @@ PhysX().then((PhysX: any) => {
 
     // create a few temporary objects used during setup
     const pxPose = new PxTransform(_emscripten_enum_PxIDENTITYEnum_PxIdentity())
-    const pxPose_ = new PxTransform(
-        _emscripten_enum_PxIDENTITYEnum_PxIdentity()
-    )
     const pxFilterData = new PxFilterData(1, 1, 0, 0)
     const pxQuat = new PxQuat(0, 0, 0, 1)
 
@@ -361,7 +358,6 @@ PhysX().then((PhysX: any) => {
         pxVec,
         pxVec_,
         pxPose,
-        pxPose_,
         pxFilterData,
         pxControllerFilters,
         scene,
