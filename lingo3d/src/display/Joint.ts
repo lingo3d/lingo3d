@@ -51,7 +51,7 @@ export default class Joint extends PositionedManager {
         }, [getCameraRendered])
 
         this.createEffect(() => {
-            const { physics } = getPhysX()
+            const { physics, PxRigidBodyExt } = getPhysX()
             if (!physics) return
 
             const to = this.toState.get()
@@ -82,6 +82,15 @@ export default class Joint extends PositionedManager {
                     computeJointPxTransform_(this, fromManager),
                     toManager.actor,
                     computeJointPxTransform(this, toManager)
+                )
+
+                PxRigidBodyExt.prototype.updateMassAndInertia(
+                    fromManager.actor,
+                    fromManager.mass
+                )
+                PxRigidBodyExt.prototype.updateMassAndInertia(
+                    toManager.actor,
+                    toManager.mass
                 )
             })
         }, [this.toState.get, this.fromState.get, getPhysX])
