@@ -142,7 +142,5 @@ const quatMult = (q0: any, q: any) => {
     )
 }
 
-const transform = (t0: any, src: any) =>
-    setPxTransformPQ(vecPlus(rotate(t0.q, src.p), t0.p), quatMult(t0.q, src.q))
-
-export const multPxTransform = (t0: any, t1: any) => transform(t0, t1)
+export const multPxTransform = (t0: any, t1: any) =>
+    setPxTransformPQ(vecPlus(rotate(t0.q, t1.p), t0.p), quatMult(t0.q, t1.q))
