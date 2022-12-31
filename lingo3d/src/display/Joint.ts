@@ -8,15 +8,13 @@ import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
-import {
-    setPxTransform,
-    setPxTransform_
-} from "./core/PhysicsObjectManager/physx/pxMath"
 import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
-import computeJointPxTransform from "./utils/computeJointPxTransform"
+import computeJointPxTransform, {
+    computeJointPxTransform_
+} from "./utils/computeJointPxTransform"
 
 const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
@@ -49,8 +47,7 @@ export default class Joint extends PositionedManager {
         }, [getCameraRendered])
 
         this.createEffect(() => {
-            const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
-                getPhysX()
+            const { physics } = getPhysX()
             if (!physics) return
 
             const to = this.toState.get()
@@ -77,9 +74,9 @@ export default class Joint extends PositionedManager {
                 // )
                 createLimitedSpherical(
                     fromManager.actor,
-                    setPxTransform_(0, 0, 0),
+                    computeJointPxTransform_(this, fromManager),
                     toManager.actor,
-                    computeJointPxTransform(toManager, fromManager)
+                    computeJointPxTransform(this, toManager)
                 )
             })
         }, [this.toState.get, this.fromState.get, getPhysX])

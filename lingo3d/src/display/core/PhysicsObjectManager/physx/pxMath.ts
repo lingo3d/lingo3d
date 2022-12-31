@@ -1,7 +1,7 @@
 import { Point3d } from "@lincode/math"
 import { Quaternion } from "three"
-import PhysicsObjectManager from ".."
 import { getPhysX } from "../../../../states/usePhysX"
+import MeshManager from "../../MeshManager"
 
 let pxVec: any
 let pxVec_: any
@@ -55,13 +55,13 @@ export const setPxQuat = (x: number, y: number, z: number, w: number) => {
 
 export const assignPxQuat = (q: Quaternion) => setPxQuat(q.x, q.y, q.z, q.w)
 
-export const assignPxTransform = ({ outerObject3d }: PhysicsObjectManager) => {
+export const assignPxTransform = ({ outerObject3d }: MeshManager) => {
     pxTransform.set_p(assignPxVec(outerObject3d.position))
     pxTransform.set_q(assignPxQuat(outerObject3d.quaternion))
     return pxTransform
 }
 
-export const assignPxTransform_ = ({ outerObject3d }: PhysicsObjectManager) => {
+export const assignPxTransform_ = ({ outerObject3d }: MeshManager) => {
     pxTransform_.set_p(assignPxVec(outerObject3d.position))
     pxTransform_.set_q(assignPxQuat(outerObject3d.quaternion))
     return pxTransform_
@@ -113,6 +113,12 @@ export const setPxTransformPQ = (p: any, q: any) => {
     pxTransform.set_p(p)
     pxTransform.set_q(q)
     return pxTransform
+}
+
+export const setPxTransformPQ_ = (p: any, q: any) => {
+    pxTransform_.set_p(p)
+    pxTransform_.set_q(q)
+    return pxTransform_
 }
 
 const rotate = (q0: any, v: any) => {
