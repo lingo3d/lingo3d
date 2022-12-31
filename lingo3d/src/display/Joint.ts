@@ -8,6 +8,7 @@ import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
+import { setPxTransform } from "./core/PhysicsObjectManager/physx/pxMath"
 import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
@@ -66,12 +67,12 @@ export default class Joint extends PositionedManager {
             fromManager.physics = true
 
             queueMicrotask(() => {
-                // createLimitedSpherical(
-                //     null,
-                //     setPxTransform(0, 0, 0),
-                //     fromManager.actor,
-                //     setPxTransform(0, 0, 0)
-                // )
+                createLimitedSpherical(
+                    null,
+                    null,
+                    fromManager.actor,
+                    setPxTransform(0, 0, 0)
+                )
                 createLimitedSpherical(
                     fromManager.actor,
                     computeJointPxTransform_(this, fromManager),

@@ -10,18 +10,18 @@ ground.color = "blue"
 ground.physics = "map"
 
 const cube0 = new Cube()
-cube0.y = 100
 cube0.scale = 0.5
 
 const cube1 = new Cube()
-cube1.y = 200
 cube1.x = -110
 cube1.z = 100
+// cube1.rotationX = 45
+// cube1.rotationY = 45
+// cube1.rotationZ = 45
 cube1.scale = 0.5
 cube1.color = "red"
 
 const joint0 = new Joint()
-joint0.y = 100
 joint0.x = -50
 joint0.from = cube0
 joint0.to = cube1
