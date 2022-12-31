@@ -1,10 +1,9 @@
 import { Reactive } from "@lincode/reactivity"
-import mainCamera from "../engine/mainCamera"
+import Appendable from "../api/core/Appendable"
 import {
     articulationJointDefaults,
     articulationJointSchema
 } from "../interface/IArticulationJoint"
-import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
@@ -13,10 +12,7 @@ import {
     setPxTransform,
     setPxTransform_
 } from "./core/PhysicsObjectManager/physx/pxMath"
-import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
-import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
-import HelperSphere from "./core/utils/HelperSphere"
 import { vector3 } from "./utils/reusables"
 
 const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
@@ -24,12 +20,12 @@ const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
         getPhysX()
 
     const j = Px.SphericalJointCreate(physics, a0, t0, a1, t1)
-    // j.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
-    // j.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
+    j.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
+    j.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
     return j
 }
 
-export default class Joint extends PositionedManager {
+export default class Joint extends Appendable {
     public static componentName = "Joint"
     public static defaults = articulationJointDefaults
     public static schema = articulationJointSchema
@@ -37,17 +33,6 @@ export default class Joint extends PositionedManager {
     public constructor() {
         super()
         import("./core/PhysicsObjectManager/physx")
-
-        this.createEffect(() => {
-            if (getCameraRendered() !== mainCamera) return
-
-            const sphere = new HelperSphere()
-            sphere.scale = 0.1
-            const handle = addSelectionHelper(sphere, this)
-            return () => {
-                handle.cancel()
-            }
-        }, [getCameraRendered])
 
         this.createEffect(() => {
             const { physics, PxRigidBodyExt } = getPhysX()
@@ -65,16 +50,18 @@ export default class Joint extends PositionedManager {
             )
                 return
 
-            toManager.physics = true
-            fromManager.physics = true
+            if (fromManager.physics !== true) fromManager.physics = true
+            if (toManager.physics !== true) toManager.physics = true
 
             queueMicrotask(() => {
-                createLimitedSpherical(
-                    null,
-                    setPxTransform(0, 0, 0),
-                    fromManager.actor,
-                    assignPxTransform_(fromManager)
-                )
+                if (this.fixed)
+                    createLimitedSpherical(
+                        null,
+                        setPxTransform(0, 0, 0),
+                        fromManager.actor,
+                        assignPxTransform_(fromManager)
+                    )
+
                 const { x, y, z } = vector3
                     .copy(toManager.position)
                     .sub(fromManager.position)
@@ -86,7 +73,6 @@ export default class Joint extends PositionedManager {
                     toManager.actor,
                     setPxTransform_(-x, -y, -z)
                 )
-
                 PxRigidBodyExt.prototype.updateMassAndInertia(
                     fromManager.actor,
                     fromManager.mass
@@ -98,6 +84,8 @@ export default class Joint extends PositionedManager {
             })
         }, [this.toState.get, this.fromState.get, getPhysX])
     }
+
+    public fixed?: boolean
 
     private toState = new Reactive<string | MeshManager | undefined>(undefined)
     public get to() {
