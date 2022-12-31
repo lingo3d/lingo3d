@@ -10,7 +10,7 @@ import { getPhysXCookingCount } from "../../../../states/usePhysXCookingCount"
 import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
 import { dtPtr } from "../../../../engine/eventLoop"
-import { assignPxPose, setPxVec, setPxVec_ } from "./updatePxVec"
+import { assignPxTransform, setPxVec, setPxVec_ } from "./updatePxVec"
 import PhysicsObjectManager from ".."
 import fpsAlpha from "../../../utils/fpsAlpha"
 import { gravityPtr } from "../../../../states/useGravity"
@@ -107,7 +107,9 @@ createEffect(() => {
                 )
         }
         for (const manager of pxUpdateSet)
-            manager.actor.setGlobalPose(assignPxPose(manager.outerObject3d))
+            manager.actor.setGlobalPose(
+                assignPxTransform(manager.outerObject3d)
+            )
         pxUpdateSet.clear()
 
         scene.simulate(dtPtr[0])

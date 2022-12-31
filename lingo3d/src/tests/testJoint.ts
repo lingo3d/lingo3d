@@ -3,10 +3,10 @@ import "../display/core/PhysicsObjectManager/physx"
 import { managerActorMap } from "../display/core/PhysicsObjectManager/physx/pxMaps"
 import {
     multPxTransform,
-    setPxPose,
-    setPxPosePQ,
-    setPxPosePQ_,
-    setPxPosePQ__,
+    setPxTransform,
+    setPxTransformPQ,
+    setPxTransformPQ_,
+    setPxTransformPQ__,
     setPxVec_,
     setPxVec__
 } from "../display/core/PhysicsObjectManager/physx/updatePxVec"
@@ -18,7 +18,7 @@ const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
         getPhysX()
 
     const j = Px.SphericalJointCreate(physics, a0, t0, a1, t1)
-    j.setLimitCone(new PxJointLimitCone(Math.PI / 4, Math.PI / 4, 0.05))
+    j.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
     j.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
     return j
 }
@@ -33,7 +33,7 @@ const createChain = (
     const { PxCreateDynamic, physics, material, scene } = getPhysX()
 
     const offset = setPxVec__(separation * 0.5, 0, 0)
-    const localTm = setPxPosePQ__(offset)
+    const localTm = setPxTransformPQ__(offset)
     let prev = null
 
     for (let i = 0; i < length; i++) {
@@ -46,9 +46,9 @@ const createChain = (
         )
         createJoint(
             prev,
-            prev ? setPxPosePQ(offset) : t,
+            prev ? setPxTransformPQ(offset) : t,
             current,
-            setPxPosePQ_(setPxVec_(-separation * 0.5, 0, 0))
+            setPxTransformPQ_(setPxVec_(-separation * 0.5, 0, 0))
         )
         scene.addActor(current)
 
@@ -65,7 +65,7 @@ createEffect(() => {
     if (!physics) return
 
     createChain(
-        setPxPose(0, 20, 0),
+        setPxTransform(0, 20, 0),
         5,
         new PxBoxGeometry(2, 0, 0),
         4,

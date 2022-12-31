@@ -17,8 +17,8 @@ import {
     actorPtrManagerMap
 } from "./core/PhysicsObjectManager/physx/pxMaps"
 import {
-    assignPxPose,
-    assignPxPoseFromVector
+    assignPxTransform,
+    assignPxTransformFromVector
 } from "./core/PhysicsObjectManager/physx/updatePxVec"
 import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
@@ -48,7 +48,7 @@ const create = (rootManager: PhysicsObjectManager) => {
 
     const rootLink = articulation.createLink(
         null,
-        assignPxPose(rootManager.outerObject3d)
+        assignPxTransform(rootManager.outerObject3d)
     )
     const rootShape = rootManager.getPxShape(true, rootLink)
     PxRigidBodyExt.prototype.updateMassAndInertia(rootLink, rootManager.mass)
@@ -71,7 +71,7 @@ const create = (rootManager: PhysicsObjectManager) => {
 
             const childLink = articulation.createLink(
                 parentLink,
-                assignPxPose(childManager.outerObject3d)
+                assignPxTransform(childManager.outerObject3d)
             )
             const childShape = childManager.getPxShape(true, childLink)
             PxRigidBodyExt.prototype.updateMassAndInertia(
@@ -83,7 +83,7 @@ const create = (rootManager: PhysicsObjectManager) => {
 
             const joint = childLink.getInboundJoint()
             joint.setParentPose(
-                assignPxPoseFromVector(
+                assignPxTransformFromVector(
                     vector3
                         .copy(articulationJoint.outerObject3d.position)
                         .sub(parentManager.outerObject3d.position),
@@ -93,7 +93,7 @@ const create = (rootManager: PhysicsObjectManager) => {
                 )
             )
             joint.setChildPose(
-                assignPxPoseFromVector(
+                assignPxTransformFromVector(
                     vector3
                         .copy(articulationJoint.outerObject3d.position)
                         .sub(childManager.outerObject3d.position),

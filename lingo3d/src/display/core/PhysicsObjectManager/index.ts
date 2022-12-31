@@ -15,7 +15,7 @@ import {
 } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import destroy from "./physx/destroy"
-import { assignPxPose, setPxVec, setPxVec_ } from "./physx/updatePxVec"
+import { assignPxTransform, setPxVec, setPxVec_ } from "./physx/updatePxVec"
 import SpawnPoint from "../../SpawnPoint"
 import MeshManager from "../MeshManager"
 import {
@@ -225,11 +225,11 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 }
             }
 
-            const pxPose = assignPxPose(this.outerObject3d)
+            const pxTransform = assignPxTransform(this.outerObject3d)
             const actor = this.initActor(
                 _physics === "map"
-                    ? physics.createRigidStatic(pxPose)
-                    : physics.createRigidDynamic(pxPose)
+                    ? physics.createRigidStatic(pxTransform)
+                    : physics.createRigidDynamic(pxTransform)
             )
             const shape = this.getPxShape(_physics, actor)
             scene.addActor(actor)

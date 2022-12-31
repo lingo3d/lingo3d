@@ -6,17 +6,17 @@ let pxVec: any
 let pxVec_: any
 let pxVec__: any
 let pxQuat: any
-let pxPose: any
-let pxPose_: any
-let pxPose__: any
+let pxTransform: any
+let pxTransform_: any
+let pxTransform__: any
 getPhysX((val) => {
     pxVec = val.pxVec
     pxVec_ = val.pxVec_
     pxVec__ = val.pxVec__
     pxQuat = val.pxQuat
-    pxPose = val.pxPose
-    pxPose_ = val.pxPose_
-    pxPose__ = val.pxPose__
+    pxTransform = val.pxTransform
+    pxTransform_ = val.pxTransform_
+    pxTransform__ = val.pxTransform__
 })
 
 export const setPxVec = (x: number, y: number, z: number) => {
@@ -54,19 +54,19 @@ export const setPxQuat = (x: number, y: number, z: number, w: number) => {
 
 export const assignPxQuat = (q: Quaternion) => setPxQuat(q.x, q.y, q.z, q.w)
 
-export const assignPxPose = (target: Object3D) => {
-    pxPose.set_p(assignPxVec(target.position))
-    pxPose.set_q(assignPxQuat(target.quaternion))
-    return pxPose
+export const assignPxTransform = (target: Object3D) => {
+    pxTransform.set_p(assignPxVec(target.position))
+    pxTransform.set_q(assignPxQuat(target.quaternion))
+    return pxTransform
 }
 
-export const assignPxPoseFromVector = (vec: Vector3, quat: Quaternion) => {
-    pxPose.set_p(assignPxVec(vec))
-    pxPose.set_q(assignPxQuat(quat))
-    return pxPose
+export const assignPxTransformFromVector = (vec: Vector3, quat: Quaternion) => {
+    pxTransform.set_p(assignPxVec(vec))
+    pxTransform.set_q(assignPxQuat(quat))
+    return pxTransform
 }
 
-export const setPxPose = (
+export const setPxTransform = (
     x: number,
     y: number,
     z: number,
@@ -75,27 +75,27 @@ export const setPxPose = (
     qz = 0,
     qw = 1
 ) => {
-    pxPose.set_p(setPxVec(x, y, z))
-    pxPose.set_q(setPxQuat(qx, qy, qz, qw))
-    return pxPose
+    pxTransform.set_p(setPxVec(x, y, z))
+    pxTransform.set_q(setPxQuat(qx, qy, qz, qw))
+    return pxTransform
 }
 
-export const setPxPosePQ = (p: any, q?: any) => {
-    pxPose.set_p(p)
-    pxPose.set_q(q ?? setPxQuat(0, 0, 0, 1))
-    return pxPose
+export const setPxTransformPQ = (p: any, q?: any) => {
+    pxTransform.set_p(p)
+    pxTransform.set_q(q ?? setPxQuat(0, 0, 0, 1))
+    return pxTransform
 }
 
-export const setPxPosePQ_ = (p: any, q?: any) => {
-    pxPose_.set_p(p)
-    pxPose_.set_q(q ?? setPxQuat(0, 0, 0, 1))
-    return pxPose_
+export const setPxTransformPQ_ = (p: any, q?: any) => {
+    pxTransform_.set_p(p)
+    pxTransform_.set_q(q ?? setPxQuat(0, 0, 0, 1))
+    return pxTransform_
 }
 
-export const setPxPosePQ__ = (p: any, q?: any) => {
-    pxPose__.set_p(p)
-    pxPose__.set_q(q ?? setPxQuat(0, 0, 0, 1))
-    return pxPose__
+export const setPxTransformPQ__ = (p: any, q?: any) => {
+    pxTransform__.set_p(p)
+    pxTransform__.set_q(q ?? setPxQuat(0, 0, 0, 1))
+    return pxTransform__
 }
 
 const rotate = (q0: any, v: any) => {
@@ -126,6 +126,6 @@ const quatMult = (q0: any, q: any) => {
 }
 
 const transform = (t0: any, src: any) =>
-    setPxPosePQ(vecPlus(rotate(t0.q, src.p), t0.p), quatMult(t0.q, src.q))
+    setPxTransformPQ(vecPlus(rotate(t0.q, src.p), t0.p), quatMult(t0.q, src.q))
 
 export const multPxTransform = (t0: any, t1: any) => transform(t0, t1)
