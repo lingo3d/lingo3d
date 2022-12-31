@@ -109,18 +109,6 @@ export const setPxTransform__ = (
     return pxTransform__
 }
 
-export const setPxTransformPQ = (p: any, q: any) => {
-    pxTransform.set_p(p)
-    pxTransform.set_q(q)
-    return pxTransform
-}
-
-export const setPxTransformPQ_ = (p: any, q: any) => {
-    pxTransform_.set_p(p)
-    pxTransform_.set_q(q)
-    return pxTransform_
-}
-
 const rotate = (q0: any, v: any) => {
     const { w, x, y, z } = q0
     const vx = 2.0 * v.x
@@ -148,5 +136,8 @@ const quatMult = (q0: any, q: any) => {
     )
 }
 
-export const multPxTransform = (t0: any, t1: any) =>
-    setPxTransformPQ(vecPlus(rotate(t0.q, t1.p), t0.p), quatMult(t0.q, t1.q))
+export const multPxTransform = (t0: any, t1: any) => {
+    pxTransform.set_p(vecPlus(rotate(t0.q, t1.p), t0.p))
+    pxTransform.set_q(quatMult(t0.q, t1.q))
+    return pxTransform
+}

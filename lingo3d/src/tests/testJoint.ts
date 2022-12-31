@@ -4,7 +4,6 @@ import { managerActorMap } from "../display/core/PhysicsObjectManager/physx/pxMa
 import {
     multPxTransform,
     setPxTransform,
-    setPxTransformPQ,
     setPxTransform_,
     setPxTransform__,
     setPxVec__

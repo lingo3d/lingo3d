@@ -15,9 +15,9 @@ cube0.scale = 0.5
 const cube1 = new Cube()
 cube1.x = -110
 cube1.z = 100
-// cube1.rotationX = 45
-// cube1.rotationY = 45
-// cube1.rotationZ = 45
+cube1.rotationX = 45
+cube1.rotationY = 45
+cube1.rotationZ = 45
 cube1.scale = 0.5
 cube1.color = "red"
 

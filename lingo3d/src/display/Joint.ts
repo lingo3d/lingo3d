@@ -8,7 +8,10 @@ import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
-import { setPxTransform } from "./core/PhysicsObjectManager/physx/pxMath"
+import {
+    assignPxTransform_,
+    setPxTransform
+} from "./core/PhysicsObjectManager/physx/pxMath"
 import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
@@ -22,8 +25,8 @@ const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
         getPhysX()
 
     const j = Px.SphericalJointCreate(physics, a0, t0, a1, t1)
-    j.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
-    j.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
+    // j.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
+    // j.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
     return j
 }
 
@@ -67,11 +70,12 @@ export default class Joint extends PositionedManager {
             fromManager.physics = true
 
             queueMicrotask(() => {
+                const identityTransform = setPxTransform(0, 0, 0)
                 createLimitedSpherical(
                     null,
-                    null,
+                    identityTransform,
                     fromManager.actor,
-                    setPxTransform(0, 0, 0)
+                    assignPxTransform_(fromManager)
                 )
                 createLimitedSpherical(
                     fromManager.actor,
