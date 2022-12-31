@@ -10,15 +10,14 @@ import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import {
     assignPxTransform_,
-    setPxTransform
+    setPxTransform,
+    setPxTransform_
 } from "./core/PhysicsObjectManager/physx/pxMath"
 import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
-import computeJointPxTransform, {
-    computeJointPxTransform_
-} from "./utils/computeJointPxTransform"
+import { vector3 } from "./utils/reusables"
 
 const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
@@ -70,18 +69,22 @@ export default class Joint extends PositionedManager {
             fromManager.physics = true
 
             queueMicrotask(() => {
-                const identityTransform = setPxTransform(0, 0, 0)
                 createLimitedSpherical(
                     null,
-                    identityTransform,
+                    setPxTransform(0, 0, 0),
                     fromManager.actor,
                     assignPxTransform_(fromManager)
                 )
+                const { x, y, z } = vector3
+                    .copy(toManager.position)
+                    .sub(fromManager.position)
+                    .multiplyScalar(0.5)
+
                 createLimitedSpherical(
                     fromManager.actor,
-                    computeJointPxTransform_(this, fromManager),
+                    setPxTransform(x, y, z),
                     toManager.actor,
-                    computeJointPxTransform(this, toManager)
+                    setPxTransform_(-x, -y, -z)
                 )
 
                 PxRigidBodyExt.prototype.updateMassAndInertia(
