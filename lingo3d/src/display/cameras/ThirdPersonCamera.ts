@@ -15,7 +15,7 @@ import { managerActorPtrMap } from "../core/PhysicsObjectManager/physx/pxMaps"
 import {
     assignPxVec,
     assignPxVec_
-} from "../core/PhysicsObjectManager/physx/updatePxVec"
+} from "../core/PhysicsObjectManager/physx/pxMath"
 import getWorldDirection from "../utils/getWorldDirection"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"

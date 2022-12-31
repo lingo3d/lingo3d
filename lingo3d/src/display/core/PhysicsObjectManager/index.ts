@@ -15,7 +15,7 @@ import {
 } from "./physx/pxMaps"
 import threeScene from "../../../engine/scene"
 import destroy from "./physx/destroy"
-import { assignPxTransform, setPxVec, setPxVec_ } from "./physx/updatePxVec"
+import { assignPxTransform, setPxVec, setPxVec_ } from "./physx/pxMath"
 import SpawnPoint from "../../SpawnPoint"
 import MeshManager from "../MeshManager"
 import {

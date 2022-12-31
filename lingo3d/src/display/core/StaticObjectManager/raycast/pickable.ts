@@ -11,7 +11,7 @@ import { actorPtrManagerMap } from "../../PhysicsObjectManager/physx/pxMaps"
 import {
     assignPxVec,
     assignPxVec_
-} from "../../PhysicsObjectManager/physx/updatePxVec"
+} from "../../PhysicsObjectManager/physx/pxMath"
 import { unselectableSet } from "./selectionCandidates"
 
 const raycaster = new Raycaster()

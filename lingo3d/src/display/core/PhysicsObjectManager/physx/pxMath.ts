@@ -81,22 +81,38 @@ export const setPxTransform = (
     return pxTransform
 }
 
+export const setPxTransform_ = (
+    x: number,
+    y: number,
+    z: number,
+    qx = 0,
+    qy = 0,
+    qz = 0,
+    qw = 1
+) => {
+    pxTransform_.set_p(setPxVec(x, y, z))
+    pxTransform_.set_q(setPxQuat(qx, qy, qz, qw))
+    return pxTransform_
+}
+
+export const setPxTransform__ = (
+    x: number,
+    y: number,
+    z: number,
+    qx = 0,
+    qy = 0,
+    qz = 0,
+    qw = 1
+) => {
+    pxTransform__.set_p(setPxVec(x, y, z))
+    pxTransform__.set_q(setPxQuat(qx, qy, qz, qw))
+    return pxTransform__
+}
+
 export const setPxTransformPQ = (p: any, q?: any) => {
     pxTransform.set_p(p)
     pxTransform.set_q(q ?? setPxQuat(0, 0, 0, 1))
     return pxTransform
-}
-
-export const setPxTransformPQ_ = (p: any, q?: any) => {
-    pxTransform_.set_p(p)
-    pxTransform_.set_q(q ?? setPxQuat(0, 0, 0, 1))
-    return pxTransform_
-}
-
-export const setPxTransformPQ__ = (p: any, q?: any) => {
-    pxTransform__.set_p(p)
-    pxTransform__.set_q(q ?? setPxQuat(0, 0, 0, 1))
-    return pxTransform__
 }
 
 const rotate = (q0: any, v: any) => {

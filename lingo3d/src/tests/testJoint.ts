@@ -5,11 +5,11 @@ import {
     multPxTransform,
     setPxTransform,
     setPxTransformPQ,
-    setPxTransformPQ_,
-    setPxTransformPQ__,
+    setPxTransform_,
+    setPxTransform__,
     setPxVec_,
     setPxVec__
-} from "../display/core/PhysicsObjectManager/physx/updatePxVec"
+} from "../display/core/PhysicsObjectManager/physx/pxMath"
 import Cube from "../display/primitives/Cube"
 import { getPhysX } from "../states/usePhysX"
 
@@ -33,7 +33,7 @@ const createChain = (
     const { PxCreateDynamic, physics, material, scene } = getPhysX()
 
     const offset = setPxVec__(separation * 0.5, 0, 0)
-    const localTm = setPxTransformPQ__(offset)
+    const localTm = setPxTransform__(offset.x, 0, 0)
     let prev = null
 
     for (let i = 0; i < length; i++) {
@@ -48,7 +48,7 @@ const createChain = (
             prev,
             prev ? setPxTransformPQ(offset) : t,
             current,
-            setPxTransformPQ_(setPxVec_(-separation * 0.5, 0, 0))
+            setPxTransform_(-offset.x, 0, 0)
         )
         scene.addActor(current)
 

@@ -19,7 +19,7 @@ import {
 import {
     assignPxTransform,
     assignPxTransformFromVector
-} from "./core/PhysicsObjectManager/physx/updatePxVec"
+} from "./core/PhysicsObjectManager/physx/pxMath"
 import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
