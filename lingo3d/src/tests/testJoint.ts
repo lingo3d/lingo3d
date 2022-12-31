@@ -22,13 +22,7 @@ const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
     return j
 }
 
-const createChain = (
-    t: any,
-    length: number,
-    g: any,
-    separation: number,
-    createJoint: Function
-) => {
+const createChain = (t: any, length: number, g: any, separation: number) => {
     const { PxCreateDynamic, physics, material, scene } = getPhysX()
 
     const offset = setPxVec__(separation * 0.5, 0, 0)
@@ -43,7 +37,7 @@ const createChain = (
             material,
             1
         )
-        createJoint(
+        createLimitedSpherical(
             prev,
             prev ? setPxTransformPQ(offset) : t,
             current,
@@ -60,14 +54,8 @@ const createChain = (
 }
 
 createEffect(() => {
-    const { physics, Px, PxBoxGeometry } = getPhysX()
+    const { physics, PxBoxGeometry } = getPhysX()
     if (!physics) return
 
-    createChain(
-        setPxTransform(0, 20, 0),
-        5,
-        new PxBoxGeometry(2, 0, 0),
-        4,
-        createLimitedSpherical
-    )
+    createChain(setPxTransform(0, 20, 0), 5, new PxBoxGeometry(2, 0, 0), 4)
 }, [getPhysX])

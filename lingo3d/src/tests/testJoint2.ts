@@ -1,6 +1,14 @@
 import Joint from "../display/Joint"
 import Cube from "../display/primitives/Cube"
 
+const ground = new Cube()
+ground.width = 999
+ground.height = 10
+ground.depth = 999
+ground.y = -300
+ground.color = "blue"
+ground.physics = "map"
+
 const cube0 = new Cube()
 cube0.y = 100
 cube0.scale = 0.5
