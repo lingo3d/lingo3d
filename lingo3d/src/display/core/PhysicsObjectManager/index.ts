@@ -225,7 +225,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 }
             }
 
-            const pxTransform = assignPxTransform(this.outerObject3d)
+            const pxTransform = assignPxTransform(this)
             const actor = this.initActor(
                 _physics === "map"
                     ? physics.createRigidStatic(pxTransform)

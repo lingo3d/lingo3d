@@ -107,9 +107,8 @@ createEffect(() => {
                 )
         }
         for (const manager of pxUpdateSet)
-            manager.actor.setGlobalPose(
-                assignPxTransform(manager.outerObject3d)
-            )
+            manager.actor.setGlobalPose(assignPxTransform(manager))
+
         pxUpdateSet.clear()
 
         scene.simulate(dtPtr[0])

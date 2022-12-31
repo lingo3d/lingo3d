@@ -48,7 +48,7 @@ const create = (rootManager: PhysicsObjectManager) => {
 
     const rootLink = articulation.createLink(
         null,
-        assignPxTransform(rootManager.outerObject3d)
+        assignPxTransform(rootManager)
     )
     const rootShape = rootManager.getPxShape(true, rootLink)
     PxRigidBodyExt.prototype.updateMassAndInertia(rootLink, rootManager.mass)
@@ -71,7 +71,7 @@ const create = (rootManager: PhysicsObjectManager) => {
 
             const childLink = articulation.createLink(
                 parentLink,
-                assignPxTransform(childManager.outerObject3d)
+                assignPxTransform(childManager)
             )
             const childShape = childManager.getPxShape(true, childLink)
             PxRigidBodyExt.prototype.updateMassAndInertia(
