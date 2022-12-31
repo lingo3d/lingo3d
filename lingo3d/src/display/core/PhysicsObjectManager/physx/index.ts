@@ -221,6 +221,7 @@ PhysX().then((PhysX: any) => {
     const getPxControllerManager = lazy(() => Px.CreateControllerManager(scene))
     const pxControllerFilters = new PxControllerFilters()
 
+    //port PxCreateDynamic
     const PxGeometryTypeEnum = {
         eBOX: lazy(_emscripten_enum_PxGeometryTypeEnum_eBOX),
         eSPHERE: lazy(_emscripten_enum_PxGeometryTypeEnum_eSPHERE),
@@ -228,7 +229,6 @@ PhysX().then((PhysX: any) => {
         eCONVEXMESH: lazy(_emscripten_enum_PxGeometryTypeEnum_eCONVEXMESH)
     }
 
-    //port PxCreateDynamic
     const isDynamicGeometry = (type: any) =>
         type == PxGeometryTypeEnum.eBOX() ||
         type == PxGeometryTypeEnum.eSPHERE() ||
