@@ -9,10 +9,21 @@ import { emitRenderHalfRate } from "../events/onRenderHalfRate"
 import { setPaused } from "../states/usePaused"
 import { SEC2FRAME } from "../globals"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
+import { onAfterRender } from "../events/onAfterRender"
+
+let firstRender = false
+const handle = onAfterRender(() => {
+    firstRender = true
+    handle.cancel()
+})
 
 let paused = false
 const checkPaused = (val?: boolean) =>
-    setPaused((paused = val ?? (document.hidden || !document.hasFocus())))
+    setPaused(
+        (paused = firstRender
+            ? val ?? (document.hidden || !document.hasFocus())
+            : false)
+    )
 
 let play = true
 getWorldPlayComputed((val) => (play = val))
