@@ -67,7 +67,6 @@ export default class Joint extends PositionedManager {
 
             toManager.physics = true
             fromManager.physics = true
-            fromManager.gravity = false
 
             queueMicrotask(() => {
                 // createLimitedSpherical(
@@ -78,9 +77,9 @@ export default class Joint extends PositionedManager {
                 // )
                 createLimitedSpherical(
                     fromManager.actor,
-                    setPxTransform(0, 0, 0),
+                    setPxTransform_(0, 0, 0),
                     toManager.actor,
-                    setPxTransform_(-1, 0, 0)
+                    computeJointPxTransform(toManager, fromManager)
                 )
             })
         }, [this.toState.get, this.fromState.get, getPhysX])

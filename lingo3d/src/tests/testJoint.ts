@@ -39,7 +39,7 @@ const createChain = (t: any, length: number, g: any, separation: number) => {
         )
         createLimitedSpherical(
             prev,
-            prev ? setPxTransformPQ(offset) : t,
+            prev ? setPxTransform(offset.x, offset.y, offset.z) : t,
             current,
             setPxTransform_(-offset.x, 0, 0)
         )

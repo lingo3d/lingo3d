@@ -1,5 +1,5 @@
 import { Point3d } from "@lincode/math"
-import { Quaternion, Vector3 } from "three"
+import { Quaternion } from "three"
 import PhysicsObjectManager from ".."
 import { getPhysX } from "../../../../states/usePhysX"
 
@@ -61,10 +61,10 @@ export const assignPxTransform = ({ outerObject3d }: PhysicsObjectManager) => {
     return pxTransform
 }
 
-export const assignPxTransformFromVector = (vec: Vector3, quat: Quaternion) => {
-    pxTransform.set_p(assignPxVec(vec))
-    pxTransform.set_q(assignPxQuat(quat))
-    return pxTransform
+export const assignPxTransform_ = ({ outerObject3d }: PhysicsObjectManager) => {
+    pxTransform_.set_p(assignPxVec(outerObject3d.position))
+    pxTransform_.set_q(assignPxQuat(outerObject3d.quaternion))
+    return pxTransform_
 }
 
 export const setPxTransform = (
@@ -109,9 +109,9 @@ export const setPxTransform__ = (
     return pxTransform__
 }
 
-export const setPxTransformPQ = (p: any, q?: any) => {
+export const setPxTransformPQ = (p: any, q: any) => {
     pxTransform.set_p(p)
-    pxTransform.set_q(q ?? setPxQuat(0, 0, 0, 1))
+    pxTransform.set_q(q)
     return pxTransform
 }
 
