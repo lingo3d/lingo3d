@@ -7,7 +7,6 @@ import {
     setPxTransformPQ,
     setPxTransform_,
     setPxTransform__,
-    setPxVec_,
     setPxVec__
 } from "../display/core/PhysicsObjectManager/physx/pxMath"
 import Cube from "../display/primitives/Cube"

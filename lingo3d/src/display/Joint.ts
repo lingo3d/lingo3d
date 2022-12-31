@@ -8,12 +8,21 @@ import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
-import { assignPxTransformFromVector } from "./core/PhysicsObjectManager/physx/pxMath"
 import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
-import { vector3, quaternion } from "./utils/reusables"
+import computeJointPxTransform from "./utils/computeJointPxTransform"
+
+const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
+    const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
+        getPhysX()
+
+    const j = Px.SphericalJointCreate(physics, a0, t0, a1, t1)
+    j.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
+    j.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
+    return j
+}
 
 export default class Joint extends PositionedManager {
     public static componentName = "Joint"
@@ -56,33 +65,11 @@ export default class Joint extends PositionedManager {
             fromManager.physics = true
 
             queueMicrotask(() => {
-                const joint = Px.SphericalJointCreate(
-                    physics,
-                    toManager.actor,
-                    assignPxTransformFromVector(
-                        vector3
-                            .copy(this.outerObject3d.position)
-                            .sub(toManager.outerObject3d.position),
-                        quaternion
-                            .copy(toManager.outerObject3d.quaternion)
-                            .invert()
-                    ),
+                createLimitedSpherical(
                     fromManager.actor,
-                    assignPxTransformFromVector(
-                        vector3
-                            .copy(this.outerObject3d.position)
-                            .sub(fromManager.outerObject3d.position),
-                        quaternion
-                            .copy(fromManager.outerObject3d.quaternion)
-                            .invert()
-                    )
-                )
-                joint.setLimitCone(
-                    new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05)
-                )
-                joint.setSphericalJointFlag(
-                    PxSphericalJointFlagEnum.eLIMIT_ENABLED(),
-                    true
+                    computeJointPxTransform(this, fromManager),
+                    toManager.actor,
+                    computeJointPxTransform(this, toManager)
                 )
             })
         }, [this.toState.get, this.fromState.get, getPhysX])

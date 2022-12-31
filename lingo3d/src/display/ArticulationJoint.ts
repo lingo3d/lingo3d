@@ -16,15 +16,12 @@ import {
     managerShapeLinkMap,
     actorPtrManagerMap
 } from "./core/PhysicsObjectManager/physx/pxMaps"
-import {
-    assignPxTransform,
-    assignPxTransformFromVector
-} from "./core/PhysicsObjectManager/physx/pxMath"
+import { assignPxTransform } from "./core/PhysicsObjectManager/physx/pxMath"
 import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
-import { quaternion, vector3 } from "./utils/reusables"
+import computeJointPxTransform from "./utils/computeJointPxTransform"
 
 const childParentMap = new WeakMap<MeshManager, MeshManager>()
 const parentChildrenMap = new WeakMap<MeshManager, Set<MeshManager>>()
@@ -83,24 +80,10 @@ const create = (rootManager: PhysicsObjectManager) => {
 
             const joint = childLink.getInboundJoint()
             joint.setParentPose(
-                assignPxTransformFromVector(
-                    vector3
-                        .copy(articulationJoint.outerObject3d.position)
-                        .sub(parentManager.outerObject3d.position),
-                    quaternion
-                        .copy(parentManager.outerObject3d.quaternion)
-                        .invert()
-                )
+                computeJointPxTransform(articulationJoint, parentManager)
             )
             joint.setChildPose(
-                assignPxTransformFromVector(
-                    vector3
-                        .copy(articulationJoint.outerObject3d.position)
-                        .sub(childManager.outerObject3d.position),
-                    quaternion
-                        .copy(childManager.outerObject3d.quaternion)
-                        .invert()
-                )
+                computeJointPxTransform(articulationJoint, childManager)
             )
             joint.setJointType(PxArticulationJointTypeEnum.eSPHERICAL())
             joint.setMotion(
