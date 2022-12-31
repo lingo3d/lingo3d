@@ -9,7 +9,7 @@ export default (loaded: Object3D, manager: MeshAppendable) => {
     const geometries: Array<BufferGeometry> = []
 
     loaded.updateMatrixWorld()
-    const { x, y, z } = manager.outerObject3d.position
+    const { x, y, z } = manager.position
     loaded.traverse((c: Object3D | Mesh) => {
         if (!("geometry" in c)) return
         const clone = c.geometry.clone()

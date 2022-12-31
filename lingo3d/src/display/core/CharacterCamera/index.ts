@@ -42,7 +42,7 @@ export default class CharacterCamera
         }, [this.foundState.get])
 
         const followTargetRotation = (target: MeshManager, slerp: boolean) => {
-            euler.setFromQuaternion(target.outerObject3d.quaternion)
+            euler.setFromQuaternion(target.quaternion)
             euler.y += Math.PI
 
             if (slerp) {
@@ -61,7 +61,7 @@ export default class CharacterCamera
 
             if (slerp) {
                 quaternion.setFromEuler(euler)
-                target.outerObject3d.quaternion.slerp(quaternion, fpsAlpha(0.1))
+                target.quaternion.slerp(quaternion, fpsAlpha(0.1))
                 return
             }
             target.outerObject3d.setRotationFromEuler(euler)
@@ -76,7 +76,7 @@ export default class CharacterCamera
             followTargetRotation(found, false)
 
             const handle = onBeforeRender(() => {
-                this.outerObject3d.position.copy(found.outerObject3d.position)
+                this.position.copy(found.position)
 
                 if (!this.lockTargetRotation) return
 

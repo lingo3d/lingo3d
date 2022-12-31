@@ -197,7 +197,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 this.capsuleHeight = y * 2
                 desc.height = y * 1.2
                 desc.radius = x
-                Object.assign(desc.position, this.outerObject3d.position)
+                Object.assign(desc.position, this.position)
                 desc.climbingMode = PxCapsuleClimbingModeEnum.eEASY()
                 desc.nonWalkableMode =
                     PxControllerNonWalkableModeEnum.ePREVENT_CLIMBING()

@@ -73,7 +73,7 @@ export default abstract class CameraBase<
     public override lookAt(x: number, y: number | undefined, z: number): void
     public override lookAt(a0: any, a1?: any, a2?: any) {
         super.lookAt(a0, a1, a2)
-        const angle = euler.setFromQuaternion(this.outerObject3d.quaternion)
+        const angle = euler.setFromQuaternion(this.quaternion)
         angle.x += Math.PI
         angle.z += Math.PI
         this.outerObject3d.setRotationFromEuler(angle)

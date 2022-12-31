@@ -52,7 +52,7 @@ createEffect(() => {
         groundedControllerManagers.clear()
 
         for (const [manager, controller] of managerControllerMap) {
-            const { x: px, y: py, z: pz } = manager.outerObject3d.position
+            const { x: px, y: py, z: pz } = manager.position
 
             let dy = 0
             const vyUpdate = pxVYUpdateMap.get(manager)
@@ -116,8 +116,8 @@ createEffect(() => {
 
         for (const [manager, actor] of managerActorMap) {
             const { p, q } = actor.getGlobalPose()
-            manager.outerObject3d.position.copy(p)
-            manager.outerObject3d.quaternion.copy(q)
+            manager.position.copy(p)
+            manager.quaternion.copy(q)
         }
         for (const manager of managerControllerMap.keys()) {
             const { position } = manager.outerObject3d
@@ -128,8 +128,8 @@ createEffect(() => {
         }
         for (const [manager, [shape, link]] of managerShapeLinkMap) {
             const { p, q } = PxShapeExt.prototype.getGlobalPose(shape, link)
-            manager.outerObject3d.position.copy(p)
-            manager.outerObject3d.quaternion.copy(q)
+            manager.position.copy(p)
+            manager.quaternion.copy(q)
         }
     })
     return () => {

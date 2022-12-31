@@ -41,24 +41,24 @@ export default abstract class PositionedManager<T extends Object3D = Object3D>
     }
 
     public get x() {
-        return this.outerObject3d.position.x * M2CM
+        return this.position.x * M2CM
     }
     public set x(val) {
-        this.outerObject3d.position.x = val * CM2M
+        this.position.x = val * CM2M
     }
 
     public get y() {
-        return this.outerObject3d.position.y * M2CM
+        return this.position.y * M2CM
     }
     public set y(val) {
-        this.outerObject3d.position.y = val * CM2M
+        this.position.y = val * CM2M
     }
 
     public get z() {
-        return this.outerObject3d.position.z * M2CM
+        return this.position.z * M2CM
     }
     public set z(val) {
-        this.outerObject3d.position.z = val * CM2M
+        this.position.z = val * CM2M
     }
 
     public getWorldPosition(): Point3d {

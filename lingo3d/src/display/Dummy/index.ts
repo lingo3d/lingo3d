@@ -174,7 +174,7 @@ export default class Dummy extends Model implements IDummy {
             const angle = 90 - Math.atan2(-sf, -sr) * rad2Deg
 
             const spine = getSpine()
-            const spineQuaternion = spine?.outerObject3d.quaternion.clone()
+            const spineQuaternion = spine?.quaternion.clone()
             const loadedItemQuaternion = loadedItem.quaternion.clone()
 
             const handle = onRender(() => {
@@ -187,7 +187,7 @@ export default class Dummy extends Model implements IDummy {
                 let spinePoint: Point3d | undefined
                 if (strideMode === "aim" && spine && spineQuaternion) {
                     loadedItem.quaternion.copy(loadedItemQuaternion)
-                    spine.outerObject3d.quaternion.copy(spineQuaternion)
+                    spine.quaternion.copy(spineQuaternion)
                     spinePoint = spine.pointAt(1000)
                 }
 

@@ -55,15 +55,15 @@ export const setPxQuat = (x: number, y: number, z: number, w: number) => {
 
 export const assignPxQuat = (q: Quaternion) => setPxQuat(q.x, q.y, q.z, q.w)
 
-export const assignPxTransform = ({ outerObject3d }: MeshManager) => {
-    pxTransform.set_p(assignPxVec(outerObject3d.position))
-    pxTransform.set_q(assignPxQuat(outerObject3d.quaternion))
+export const assignPxTransform = (manager: MeshManager) => {
+    pxTransform.set_p(assignPxVec(manager.position))
+    pxTransform.set_q(assignPxQuat(manager.quaternion))
     return pxTransform
 }
 
-export const assignPxTransform_ = ({ outerObject3d }: MeshManager) => {
-    pxTransform_.set_p(assignPxVec(outerObject3d.position))
-    pxTransform_.set_q(assignPxQuat(outerObject3d.quaternion))
+export const assignPxTransform_ = (manager: MeshManager) => {
+    pxTransform_.set_p(assignPxVec(manager.position))
+    pxTransform_.set_q(assignPxQuat(manager.quaternion))
     return pxTransform_
 }
 

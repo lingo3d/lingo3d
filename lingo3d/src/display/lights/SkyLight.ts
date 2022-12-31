@@ -87,7 +87,7 @@ export default class Skylight
             })
 
             const handle0 = onBeforeRender(() => {
-                const lightDirection = this.outerObject3d.position
+                const lightDirection = this.position
                     .clone()
                     .normalize()
                     .multiplyScalar(-1)

@@ -1,4 +1,4 @@
-import { Object3D } from "three"
+import { Object3D, Quaternion, Vector3 } from "three"
 import { setManager } from "../utils/manager"
 import Appendable from "./Appendable"
 
@@ -6,11 +6,15 @@ export default class MeshAppendable<
     T extends Object3D = Object3D
 > extends Appendable {
     public object3d: Object3D
+    public position: Vector3
+    public quaternion: Quaternion
 
     public constructor(public outerObject3d: T = new Object3D() as T) {
         super()
         setManager(outerObject3d, this)
         this.object3d = outerObject3d
+        this.position = outerObject3d.position
+        this.quaternion = outerObject3d.quaternion
     }
 
     public declare parent?: MeshAppendable

@@ -261,9 +261,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
             this.lookAt(
                 new Point3d(
                     a0,
-                    a1 === undefined
-                        ? this.outerObject3d.position.y * M2CM
-                        : a1,
+                    a1 === undefined ? this.position.y * M2CM : a1,
                     a2!
                 )
             )
@@ -293,9 +291,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
             this.lookTo(
                 new Point3d(
                     a0,
-                    a1 === undefined
-                        ? this.outerObject3d.position.y * M2CM
-                        : a1,
+                    a1 === undefined ? this.position.y * M2CM : a1,
                     a2!
                 ),
                 a3!

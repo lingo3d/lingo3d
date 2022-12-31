@@ -54,7 +54,7 @@ createEffect(() => {
         consolidated = true
 
         const consolidatedGroup = new Group()
-        consolidatedGroup.outerObject3d.position.copy(group.position)
+        consolidatedGroup.position.copy(group.position)
         for (const target of targets) consolidatedGroup.attach(target)
 
         emitSelectionTarget(consolidatedGroup)
