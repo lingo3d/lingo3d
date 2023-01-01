@@ -1,7 +1,6 @@
 import HotKey from "./HotKey"
 import mainCamera from "../../engine/mainCamera"
 import { createPortal } from "preact/compat"
-import { uiContainer } from "../../engine/renderLoop/renderSetup"
 import useInitCSS from "../hooks/useInitCSS"
 import Spinner from "../component/Spinner"
 import InfoScreen from "./InfoScreen"
@@ -10,6 +9,7 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { getLoadingUnpkgCount } from "../../states/useLoadingUnpkgCount"
 import { getPaused } from "../../states/usePaused"
 import useInitEditor from "../hooks/useInitEditor"
+import { overlayContainer } from "../../engine/renderLoop/renderSetup"
 
 const HUD = () => {
     useInitCSS()
@@ -62,7 +62,7 @@ const HUD = () => {
                 </div>
             )}
         </div>,
-        uiContainer
+        overlayContainer
     )
 }
 export default HUD

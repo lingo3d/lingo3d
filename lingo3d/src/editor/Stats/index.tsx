@@ -1,5 +1,5 @@
 import { createPortal, useLayoutEffect, useRef } from "preact/compat"
-import { uiContainer } from "../../engine/renderLoop/renderSetup"
+import { overlayContainer } from "../../engine/renderLoop/renderSetup"
 import { onAfterRender } from "../../events/onAfterRender"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import StatsJS from "stats.js"
@@ -31,6 +31,6 @@ const Stats = ({ mode = "fps" }: StatsProps) => {
         }
     }, [])
 
-    return createPortal(<div ref={divRef} />, uiContainer)
+    return createPortal(<div ref={divRef} />, overlayContainer)
 }
 export default Stats

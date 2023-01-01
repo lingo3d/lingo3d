@@ -17,7 +17,7 @@ import { getTimelinePaused } from "../../states/useTimelinePaused"
 const style = createElement(`
     <style>
         .lingo3d-container {
-            position: absolute;
+            position: absolute !important;
             top: 0px;
             left: 0px;
             width: 100%;
@@ -39,7 +39,11 @@ export const container = createElement<HTMLDivElement>(
 export const uiContainer = createElement<HTMLDivElement>(
     `<div class="lingo3d-container lingo3d-uicontainer"></div>`
 )
+export const overlayContainer = createElement<HTMLDivElement>(
+    `<div class="lingo3d-container lingo3d-uicontainer"></div>`
+)
 container.appendChild(uiContainer)
+container.appendChild(overlayContainer)
 getSplitView((val) => {
     container.style.height = val ? "50%" : "100%"
     uiContainer.style.top = val ? "100%" : "0px"
