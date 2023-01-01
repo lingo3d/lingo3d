@@ -2,14 +2,12 @@ import { Point } from "@lincode/math"
 import { useState } from "preact/hooks"
 import { EDITOR_WIDTH } from "../../globals"
 import Tooltip from "../component/Tooltip"
-import useHotkeys from "../hooks/useHotkeys"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
 import Joint from "./Joint"
 
 const Retargeter = () => {
     useInitCSS()
-    useHotkeys()
     useInitEditor()
     const [position, setPosition] = useState<Point | undefined>(undefined)
 

@@ -6,7 +6,6 @@ import addInputs from "./addInputs"
 import getParams from "./getParams"
 import splitObject from "./splitObject"
 import { dummyDefaults } from "../../interface/IDummy"
-import useHotkeys from "../hooks/useHotkeys"
 import settings from "../../api/settings"
 import Setup, { dataSetupMap } from "../../display/Setup"
 import addSetupInputs from "./addSetupInputs"
@@ -32,7 +31,6 @@ Object.assign(dummyDefaults, {
 
 const Editor = () => {
     useInitCSS()
-    useHotkeys()
     useInitEditor()
 
     useLayoutEffect(() => {
