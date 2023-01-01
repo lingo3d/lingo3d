@@ -31,6 +31,7 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { getTransformControlsSpaceComputed } from "../../states/useTransformControlsSpaceComputed"
 import { setWorldPlay } from "../../states/useWorldPlay"
+import JointIcon from "./icons/JointIcon"
 
 const Toolbar = () => {
     useInitCSS()
@@ -145,6 +146,15 @@ const Toolbar = () => {
                         }}
                     >
                         <PathIcon />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        active={mode === "joint"}
+                        onClick={() => {
+                            setWorldPlay(false)
+                            setEditorMode("joint")
+                        }}
+                    >
+                        <JointIcon />
                     </ToolbarButton>
                 </Section>
 

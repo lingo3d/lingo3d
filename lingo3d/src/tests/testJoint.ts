@@ -28,11 +28,11 @@ cube2.rotationX = 45
 cube2.rotationY = 45
 cube2.rotationZ = 45
 
-const joint0 = new Joint()
-joint0.from = cube0
-joint0.to = cube1
-joint0.fixed = true
+// const joint0 = new Joint()
+// joint0.from = cube0
+// joint0.to = cube1
+// joint0.fixed = true
 
-const joint1 = new Joint()
-joint1.from = cube1
-joint1.to = cube2
+// const joint1 = new Joint()
+// joint1.from = cube1
+// joint1.to = cube2
