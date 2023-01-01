@@ -14,16 +14,14 @@ import {
 } from "./core/PhysicsObjectManager/physx/pxMath"
 import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
-import { vector3 } from "./utils/reusables"
-import { point2Vec } from "./utils/vec2Point"
 
 const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
         getPhysX()
 
     const j = Px.SphericalJointCreate(physics, a0, t0, a1, t1)
-    j.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
-    j.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
+    // j.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
+    // j.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
     return j
 }
 
@@ -52,9 +50,7 @@ export default class Joint extends PositionedManager {
             )
                 return
 
-            const center = centroid3d([fromManager, toManager])
-            const centerVec = point2Vec(center)
-            Object.assign(this, center)
+            Object.assign(this, centroid3d([fromManager, toManager]))
 
             if (fromManager.physics !== true) fromManager.physics = true
             if (toManager.physics !== true) toManager.physics = true
@@ -68,26 +64,44 @@ export default class Joint extends PositionedManager {
                         assignPxTransform_(fromManager)
                     )
 
-                const offsetFrom = vector3
-                    .copy(centerVec)
-                    .sub(fromManager.position)
+                const p = this.position
+                const q = this.quaternion
 
-                const offsetTo = centerVec.sub(toManager.position)
+                fromManager.outerObject3d.attach(this.outerObject3d)
+                const pxTransform = setPxTransform(
+                    p.x,
+                    p.y,
+                    p.z,
+                    q.x,
+                    q.y,
+                    q.z,
+                    q.w
+                )
+                toManager.outerObject3d.attach(this.outerObject3d)
+                const pxTransform_ = setPxTransform_(
+                    p.x,
+                    p.y,
+                    p.z,
+                    q.x,
+                    q.y,
+                    q.z,
+                    q.w
+                )
 
                 createLimitedSpherical(
                     fromManager.actor,
-                    setPxTransform(offsetFrom.x, offsetFrom.y, offsetFrom.z),
+                    pxTransform,
                     toManager.actor,
-                    setPxTransform_(offsetTo.x, offsetTo.y, offsetTo.z)
+                    pxTransform_
                 )
-                PxRigidBodyExt.prototype.updateMassAndInertia(
-                    fromManager.actor,
-                    fromManager.mass
-                )
-                PxRigidBodyExt.prototype.updateMassAndInertia(
-                    toManager.actor,
-                    toManager.mass
-                )
+                // PxRigidBodyExt.prototype.updateMassAndInertia(
+                //     fromManager.actor,
+                //     fromManager.mass
+                // )
+                // PxRigidBodyExt.prototype.updateMassAndInertia(
+                //     toManager.actor,
+                //     toManager.mass
+                // )
             })
         }, [this.toState.get, this.fromState.get, getPhysX])
     }

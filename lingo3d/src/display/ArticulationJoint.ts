@@ -21,7 +21,7 @@ import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
-import computeJointPxTransform from "./utils/computeJointPxTransform"
+// import computeJointPxTransform from "./utils/computeJointPxTransform"
 
 const childParentMap = new WeakMap<MeshManager, MeshManager>()
 const parentChildrenMap = new WeakMap<MeshManager, Set<MeshManager>>()
@@ -80,10 +80,10 @@ const create = (rootManager: PhysicsObjectManager) => {
 
             const joint = childLink.getInboundJoint()
             joint.setParentPose(
-                computeJointPxTransform(articulationJoint, parentManager)
+                // computeJointPxTransform(articulationJoint, parentManager)
             )
             joint.setChildPose(
-                computeJointPxTransform(articulationJoint, childManager)
+                // computeJointPxTransform(articulationJoint, childManager)
             )
             joint.setJointType(PxArticulationJointTypeEnum.eSPHERICAL())
             joint.setMotion(
