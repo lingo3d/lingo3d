@@ -9,6 +9,7 @@ import Joint from "./Joint"
 const Retargeter = () => {
     useInitCSS()
     useInitEditor()
+    
     const [position, setPosition] = useState<Point | undefined>(undefined)
 
     return (

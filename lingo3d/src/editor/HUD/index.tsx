@@ -9,9 +9,12 @@ import useSyncState from "../hooks/useSyncState"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getLoadingUnpkgCount } from "../../states/useLoadingUnpkgCount"
 import { getPaused } from "../../states/usePaused"
+import useInitEditor from "../hooks/useInitEditor"
 
 const HUD = () => {
     useInitCSS()
+    useInitEditor()
+
     const cameraRendered = useSyncState(getCameraRendered)
     const loadingUnpkgCount = useSyncState(getLoadingUnpkgCount)
     const paused = useSyncState(getPaused)

@@ -12,6 +12,7 @@ import {
     getFileBrowserDir,
     setFileBrowserDir
 } from "../../states/useFileBrowserDir"
+import useInitEditor from "../hooks/useInitEditor"
 
 interface FileStructure {
     [key: string]: FileStructure | File
@@ -19,6 +20,8 @@ interface FileStructure {
 
 const FileBrowser = () => {
     useInitCSS()
+    useInitEditor()
+
     const files = useSyncState(getFiles)
     const fileBrowserDir = useSyncState(getFileBrowserDir)
 

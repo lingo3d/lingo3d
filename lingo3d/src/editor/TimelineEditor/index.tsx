@@ -1,4 +1,5 @@
 import useInitCSS from "../hooks/useInitCSS"
+import useInitEditor from "../hooks/useInitEditor"
 import RulerBar from "./RulerBar"
 import Scroller from "./Scroller"
 import TimelineBar from "./TimelineBar"
@@ -7,6 +8,7 @@ import TimelineGraph from "./TimelineGraph"
 
 const TimelineEditor = () => {
     useInitCSS()
+    useInitEditor()
 
     return (
         <>

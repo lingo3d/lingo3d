@@ -32,9 +32,12 @@ import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { getTransformControlsSpaceComputed } from "../../states/useTransformControlsSpaceComputed"
 import { setWorldPlay } from "../../states/useWorldPlay"
 import JointIcon from "./icons/JointIcon"
+import useInitEditor from "../hooks/useInitEditor"
 
 const Toolbar = () => {
     useInitCSS()
+    useInitEditor()
+
     const elRef = useClickable()
 
     const mode = useSyncState(getEditorModeComputed)

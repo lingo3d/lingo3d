@@ -1,12 +1,14 @@
 import { useLayoutEffect } from "preact/hooks"
-import { setEditorBehavior } from "../../states/useEditorBehavior"
+import {
+    decreaseEditorCount,
+    increaseEditorCount
+} from "../../states/useEditorCount"
 
 export default () => {
     useLayoutEffect(() => {
-        setEditorBehavior(true)
-
+        increaseEditorCount()
         return () => {
-            setEditorBehavior(false)
+            decreaseEditorCount()
         }
     }, [])
 }

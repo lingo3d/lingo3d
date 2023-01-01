@@ -5,9 +5,12 @@ import useInitCSS from "../hooks/useInitCSS"
 import useClickable from "../hooks/useClickable"
 import AccordionSceneGraph from "./AccordionSceneGraph"
 import AccordionTimelines from "./AccordionTimelines"
+import useInitEditor from "../hooks/useInitEditor"
 
 const SceneGraph = () => {
     useInitCSS()
+    useInitEditor()
+    
     const elRef = useClickable()
 
     return (

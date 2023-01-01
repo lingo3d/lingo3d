@@ -10,9 +10,11 @@ import { useSignal } from "@preact/signals"
 import Controls from "../TimelineEditor/Controls"
 import useSyncState from "../hooks/useSyncState"
 import { getFileBrowser, setFileBrowser } from "../../states/useFileBrowser"
+import useInitEditor from "../hooks/useInitEditor"
 
 const Panels = () => {
     useInitCSS()
+    useInitEditor()
 
     const fileBrowser = useSyncState(getFileBrowser)
     const timeline = useSyncState(getTimeline)

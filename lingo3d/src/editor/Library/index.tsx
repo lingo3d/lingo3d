@@ -4,9 +4,12 @@ import useInitCSS from "../hooks/useInitCSS"
 import useClickable from "../hooks/useClickable"
 import AppBar from "../component/bars/AppBar"
 import Tab from "../component/tabs/Tab"
+import useInitEditor from "../hooks/useInitEditor"
 
 const Library = () => {
     useInitCSS()
+    useInitEditor()
+
     const elRef = useClickable()
 
     return (

@@ -4,9 +4,12 @@ import useInitCSS from "../hooks/useInitCSS"
 import useSyncState from "../hooks/useSyncState"
 import { getFileCurrent } from "../../states/useFileCurrent"
 import Controls from "./Controls"
+import useInitEditor from "../hooks/useInitEditor"
 
 const Tabs = () => {
     useInitCSS()
+    useInitEditor()
+
     const fileCurrent = useSyncState(getFileCurrent)
     const title = fileCurrent?.name ?? "untitled"
 
