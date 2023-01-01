@@ -1,9 +1,5 @@
 import { useEffect, useState } from "preact/hooks"
-import { Object3D } from "three"
-import Appendable from "../../api/core/Appendable"
-import Loaded from "../../display/core/Loaded"
 import { onSelectionTarget } from "../../events/onSelectionTarget"
-import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import {
     addSelectionFrozen,
     clearSelectionFrozen,
@@ -14,41 +10,13 @@ import ContextMenu from "../component/ContextMenu"
 import ContextMenuItem from "../component/ContextMenu/ContextMenuItem"
 import { Point } from "@lincode/math"
 import Timeline from "../../display/Timeline"
-import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import mousePosition from "../utils/mousePosition"
 import { getTimeline, setTimeline } from "../../states/useTimeline"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTimelineData } from "../../states/useTimelineData"
-import MeshAppendable from "../../api/core/MeshAppendable"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
-
-const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
-    expandedSet.add(obj)
-    const { parent } = obj
-    parent && traverseUp(parent, expandedSet)
-}
-
-const search = (n: string, target: Loaded | Appendable | MeshAppendable) => {
-    const name = n.toLowerCase()
-    let found: Object3D | undefined
-    if (target instanceof Loaded)
-        target.loadedGroup.traverse((item) => {
-            if (found || !item.name.toLowerCase().includes(name)) return
-            found = item
-        })
-    else if ("outerObject3d" in target)
-        target.outerObject3d.traverse((item) => {
-            if (found || !item.name.toLowerCase().includes(name)) return
-            found = item
-        })
-    if (!found) return
-
-    const expandedSet = new Set<Object3D>()
-    traverseUp(found, expandedSet)
-    setSceneGraphExpanded(expandedSet)
-    setSelectionNativeTarget(found)
-}
+import search from "./utils/search"
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<Point & { search?: boolean }>()
@@ -79,7 +47,10 @@ const SceneGraphContextMenu = () => {
             }
         >
             {multipleSelectionTargets.length ? (
-                <ContextMenuItem onClick={() => {}}>
+                <ContextMenuItem
+                    disabled={multipleSelectionTargets.length !== 2}
+                    onClick={() => {}}
+                >
                     Create joint
                 </ContextMenuItem>
             ) : selectionTarget instanceof Timeline ? (
