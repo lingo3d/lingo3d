@@ -150,15 +150,6 @@ const Toolbar = () => {
                     >
                         <PathIcon />
                     </ToolbarButton>
-                    <ToolbarButton
-                        active={mode === "joint"}
-                        onClick={() => {
-                            setWorldPlay(false)
-                            setEditorMode("joint")
-                        }}
-                    >
-                        <JointIcon />
-                    </ToolbarButton>
                 </Section>
 
                 <Section>

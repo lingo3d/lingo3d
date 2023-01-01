@@ -7,6 +7,5 @@ export type EditorMode =
     | "select"
     | "mesh"
     | "curve"
-    | "joint"
 
 export const [setEditorMode, getEditorMode] = store<EditorMode>("translate")
