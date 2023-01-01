@@ -2,8 +2,8 @@ import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { mouseEvents } from "../../../../api/mouse"
 import { onSelectionTarget } from "../../../../events/onSelectionTarget"
-import { getEditorCurve } from "../../../../states/useEditorCurve"
 import { setEditorMode } from "../../../../states/useEditorMode"
+import { getEditorModeComputed } from "../../../../states/useEditorModeComputed"
 import {
     getMultipleSelectionTargets,
     resetMultipleSelectionTargets
@@ -15,7 +15,7 @@ import {
 import { overrideSelectionCandidates } from "./selectionCandidates"
 
 createEffect(() => {
-    if (!getEditorCurve()) return
+    if (getEditorModeComputed() !== "curve") return
 
     resetMultipleSelectionTargets()
     setSelectionTarget(undefined)
@@ -26,10 +26,8 @@ createEffect(() => {
 
         const curve = new Curve()
         curve.helper = true
-        overrideSelectionCandidates.add(curve.outerObject3d)
         handle0.then(() => {
             curve.helper = false
-            overrideSelectionCandidates.delete(curve.outerObject3d)
             curve.points.length < 2 && curve.dispose()
         })
 
@@ -58,4 +56,4 @@ createEffect(() => {
         handle0.cancel()
         handle1.cancel()
     }
-}, [getEditorCurve])
+}, [getEditorModeComputed])
