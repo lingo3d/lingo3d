@@ -17,6 +17,7 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTimelineData } from "../../states/useTimelineData"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import search from "./utils/search"
+import createJoint from "./utils/createJoint"
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<Point & { search?: boolean }>()
@@ -49,7 +50,12 @@ const SceneGraphContextMenu = () => {
             {multipleSelectionTargets.length ? (
                 <ContextMenuItem
                     disabled={multipleSelectionTargets.length !== 2}
-                    onClick={() => {}}
+                    onClick={() =>
+                        createJoint(
+                            multipleSelectionTargets[0],
+                            multipleSelectionTargets[1]
+                        )
+                    }
                 >
                     Create joint
                 </ContextMenuItem>
