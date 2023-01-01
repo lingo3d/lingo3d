@@ -1,5 +1,5 @@
+import { centroid3d } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
-import Appendable from "../api/core/Appendable"
 import {
     articulationJointDefaults,
     articulationJointSchema
@@ -12,8 +12,10 @@ import {
     setPxTransform,
     setPxTransform_
 } from "./core/PhysicsObjectManager/physx/pxMath"
+import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { vector3 } from "./utils/reusables"
+import { point2Vec } from "./utils/vec2Point"
 
 const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
@@ -25,7 +27,7 @@ const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
     return j
 }
 
-export default class Joint extends Appendable {
+export default class Joint extends PositionedManager {
     public static componentName = "Joint"
     public static defaults = articulationJointDefaults
     public static schema = articulationJointSchema
@@ -50,6 +52,10 @@ export default class Joint extends Appendable {
             )
                 return
 
+            const center = centroid3d([fromManager, toManager])
+            const centerVec = point2Vec(center)
+            Object.assign(this, center)
+
             if (fromManager.physics !== true) fromManager.physics = true
             if (toManager.physics !== true) toManager.physics = true
 
@@ -62,16 +68,17 @@ export default class Joint extends Appendable {
                         assignPxTransform_(fromManager)
                     )
 
-                const { x, y, z } = vector3
-                    .copy(toManager.position)
+                const offsetFrom = vector3
+                    .copy(centerVec)
                     .sub(fromManager.position)
-                    .multiplyScalar(0.5)
+
+                const offsetTo = centerVec.sub(toManager.position)
 
                 createLimitedSpherical(
                     fromManager.actor,
-                    setPxTransform(x, y, z),
+                    setPxTransform(offsetFrom.x, offsetFrom.y, offsetFrom.z),
                     toManager.actor,
-                    setPxTransform_(-x, -y, -z)
+                    setPxTransform_(offsetTo.x, offsetTo.y, offsetTo.z)
                 )
                 PxRigidBodyExt.prototype.updateMassAndInertia(
                     fromManager.actor,
