@@ -1,9 +1,6 @@
 import { centroid3d } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
-import {
-    articulationJointDefaults,
-    articulationJointSchema
-} from "../interface/IArticulationJoint"
+import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
 import { getPhysX } from "../states/usePhysX"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
@@ -25,10 +22,10 @@ const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
     return j
 }
 
-export default class Joint extends PositionedManager {
-    public static componentName = "Joint"
-    public static defaults = articulationJointDefaults
-    public static schema = articulationJointSchema
+export default class Joint extends PositionedManager implements IJoint {
+    public static componentName = "joint"
+    public static defaults = jointDefaults
+    public static schema = jointSchema
 
     public constructor() {
         super()
