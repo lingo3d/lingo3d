@@ -21,6 +21,7 @@ import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTimelineData } from "../../states/useTimelineData"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 
 const traverseUp = (obj: Object3D, expandedSet: Set<Object3D>) => {
     expandedSet.add(obj)
@@ -55,6 +56,7 @@ const SceneGraphContextMenu = () => {
     const [selectionFrozen] = useSyncState(getSelectionFrozen)
     const [timelineData] = useSyncState(getTimelineData)
     const timeline = useSyncState(getTimeline)
+    const multipleSelectionTargets = useSyncState(getMultipleSelectionTargets)
 
     useEffect(() => {
         const handle = onSelectionTarget(
@@ -76,50 +78,11 @@ const SceneGraphContextMenu = () => {
                 selectionTarget && search(value, selectionTarget)
             }
         >
-            {selectionTarget && !(selectionTarget instanceof Timeline) && (
-                <>
-                    <ContextMenuItem
-                        onClick={(e) =>
-                            setPosition({
-                                x: e.clientX,
-                                y: e.clientY,
-                                search: true
-                            })
-                        }
-                    >
-                        Search children
-                    </ContextMenuItem>
-
-                    <ContextMenuItem
-                        disabled={
-                            !timelineData ||
-                            selectionTarget.uuid in timelineData
-                        }
-                        onClick={() => {
-                            timeline?.mergeData({ [selectionTarget.uuid]: {} })
-                            setPosition(undefined)
-                        }}
-                    >
-                        {timelineData && selectionTarget.uuid in timelineData
-                            ? "Already in timeline"
-                            : "Add to timeline"}
-                    </ContextMenuItem>
-
-                    <ContextMenuItem
-                        onClick={() => {
-                            selectionFrozen.has(selectionTarget)
-                                ? removeSelectionFrozen(selectionTarget)
-                                : addSelectionFrozen(selectionTarget)
-                            setPosition(undefined)
-                        }}
-                    >
-                        {selectionFrozen.has(selectionTarget)
-                            ? "Unfreeze selection"
-                            : "Freeze selection"}
-                    </ContextMenuItem>
-                </>
-            )}
-            {selectionTarget instanceof Timeline && (
+            {multipleSelectionTargets.length ? (
+                <ContextMenuItem onClick={() => {}}>
+                    Create joint
+                </ContextMenuItem>
+            ) : selectionTarget instanceof Timeline ? (
                 <ContextMenuItem
                     disabled={selectionTarget === timeline}
                     onClick={() => {
@@ -131,6 +94,53 @@ const SceneGraphContextMenu = () => {
                         ? "Already editing"
                         : "Edit timeline"}
                 </ContextMenuItem>
+            ) : (
+                selectionTarget && (
+                    <>
+                        <ContextMenuItem
+                            onClick={(e) =>
+                                setPosition({
+                                    x: e.clientX,
+                                    y: e.clientY,
+                                    search: true
+                                })
+                            }
+                        >
+                            Search children
+                        </ContextMenuItem>
+
+                        <ContextMenuItem
+                            disabled={
+                                !timelineData ||
+                                selectionTarget.uuid in timelineData
+                            }
+                            onClick={() => {
+                                timeline?.mergeData({
+                                    [selectionTarget.uuid]: {}
+                                })
+                                setPosition(undefined)
+                            }}
+                        >
+                            {timelineData &&
+                            selectionTarget.uuid in timelineData
+                                ? "Already in timeline"
+                                : "Add to timeline"}
+                        </ContextMenuItem>
+
+                        <ContextMenuItem
+                            onClick={() => {
+                                selectionFrozen.has(selectionTarget)
+                                    ? removeSelectionFrozen(selectionTarget)
+                                    : addSelectionFrozen(selectionTarget)
+                                setPosition(undefined)
+                            }}
+                        >
+                            {selectionFrozen.has(selectionTarget)
+                                ? "Unfreeze selection"
+                                : "Freeze selection"}
+                        </ContextMenuItem>
+                    </>
+                )
             )}
             <ContextMenuItem
                 disabled={!selectionFrozen.size}

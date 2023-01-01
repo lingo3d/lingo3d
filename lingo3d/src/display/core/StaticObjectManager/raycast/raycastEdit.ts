@@ -47,6 +47,7 @@ createEffect(() => {
     let rightClick = false
     const handle2 = mouseEvents.on("rightClick", () => {
         rightClick = true
+        emitSelectionTarget(undefined, true)
         queueMicrotask(() => (rightClick = false))
     })
     const handle3 = pickable(
@@ -75,6 +76,8 @@ createEffect(() => {
 
             return
         }
+        if (rightClick && getMultipleSelectionTargets().length) return
+
         resetMultipleSelectionTargets()
         setSelectionTarget(
             rightClick || noDeselect
