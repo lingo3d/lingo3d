@@ -20,8 +20,8 @@ const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
         getPhysX()
 
     const j = Px.SphericalJointCreate(physics, a0, t0, a1, t1)
-    // j.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
-    // j.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
+    j.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
+    j.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
     return j
 }
 
@@ -35,7 +35,7 @@ export default class Joint extends PositionedManager {
         import("./core/PhysicsObjectManager/physx")
 
         this.createEffect(() => {
-            const { physics, PxRigidBodyExt } = getPhysX()
+            const { physics } = getPhysX()
             if (!physics) return
 
             const to = this.toState.get()
@@ -69,9 +69,9 @@ export default class Joint extends PositionedManager {
 
                 fromManager.outerObject3d.attach(this.outerObject3d)
                 const pxTransform = setPxTransform(
-                    p.x,
-                    p.y,
-                    p.z,
+                    p.x * 0.5,
+                    p.y * 0.5,
+                    p.z * 0.5,
                     q.x,
                     q.y,
                     q.z,
@@ -79,29 +79,20 @@ export default class Joint extends PositionedManager {
                 )
                 toManager.outerObject3d.attach(this.outerObject3d)
                 const pxTransform_ = setPxTransform_(
-                    p.x,
-                    p.y,
-                    p.z,
+                    p.x * 0.5,
+                    p.y * 0.5,
+                    p.z * 0.5,
                     q.x,
                     q.y,
                     q.z,
                     q.w
                 )
-
                 createLimitedSpherical(
                     fromManager.actor,
                     pxTransform,
                     toManager.actor,
                     pxTransform_
                 )
-                // PxRigidBodyExt.prototype.updateMassAndInertia(
-                //     fromManager.actor,
-                //     fromManager.mass
-                // )
-                // PxRigidBodyExt.prototype.updateMassAndInertia(
-                //     toManager.actor,
-                //     toManager.mass
-                // )
             })
         }, [this.toState.get, this.fromState.get, getPhysX])
     }
