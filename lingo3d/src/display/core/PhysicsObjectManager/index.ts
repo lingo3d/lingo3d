@@ -189,8 +189,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             const ogParent = this.outerObject3d.parent
             ogParent !== threeScene && threeScene.attach(this.outerObject3d)
 
-            this.object3d.userData.physx = true
-
             if (_physics === "character") {
                 const desc = new PxCapsuleControllerDesc()
                 const { x, y } = getActualScale(this).multiplyScalar(0.5)
@@ -221,7 +219,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     destroy(controller)
                     managerControllerMap.delete(this)
                     this.actor = undefined
-                    this.object3d.userData.physx = false
                 }
             }
 
@@ -243,7 +240,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 destroy(actor)
                 managerActorMap.delete(this)
                 this.actor = undefined
-                this.object3d.userData.physx = false
             }
         }, [this.refreshPhysicsState.get, getPhysX])
     }

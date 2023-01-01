@@ -16,10 +16,7 @@ import { unselectableSet } from "./selectionCandidates"
 
 const raycaster = new Raycaster()
 
-const filterUnselectable = (target: Object3D) => {
-    if (unselectableSet.has(target) || target.userData.physx) return false
-    return true
-}
+const filterUnselectable = (target: Object3D) => !unselectableSet.has(target)
 
 export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     raycaster.setFromCamera({ x, y }, getCameraRendered())
