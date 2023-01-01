@@ -27,19 +27,18 @@ export default (ev: { clientX: number; clientY: number }) => {
         )
 
     const camera = getCameraRendered()
+    const cameraPosition = getWorldPosition(camera)
+
     vector3.set(xNorm, yNorm, 0.5)
     vector3.unproject(camera)
-
-    const cameraPosition = getWorldPosition(camera)
     vector3.sub(cameraPosition).normalize()
-    const vec = cameraPosition.add(vector3.multiplyScalar(distance * CM2M))
 
     return new LingoMouseEvent(
         clientX,
         clientY,
         xNorm,
         yNorm,
-        vec2Point(vec),
+        vec2Point(cameraPosition.add(vector3.multiplyScalar(distance * CM2M))),
         distance,
         undefined
     )

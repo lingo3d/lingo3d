@@ -14,7 +14,8 @@ export default (clientX: number, clientY: number, distance = 500) => {
     vector3.set(xNorm, yNorm, 0.5)
     vector3.unproject(camera)
     vector3.sub(cameraPosition).normalize()
-    
-    const vec = cameraPosition.add(vector3.multiplyScalar(distance * CM2M))
-    return vec2Point(vec)
+
+    return vec2Point(
+        cameraPosition.add(vector3.multiplyScalar(distance * CM2M))
+    )
 }
