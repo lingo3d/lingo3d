@@ -47,18 +47,13 @@ createEffect(() => {
     let rightClick = false
     const handle2 = mouseEvents.on("rightClick", () => {
         rightClick = true
-        queueMicrotask(() => {
-            if (!rightClick) return
-            rightClick = false
-            emitSelectionTarget(undefined, true)
-        })
+        queueMicrotask(() => (rightClick = false))
     })
     const handle3 = pickable(
         ["click", "rightClick"],
         selectionCandidates,
         (target) => {
             emitSelectionTarget(target, rightClick)
-            rightClick = false
         }
     )
     const handle4 = onSelectionTarget(({ target, rightClick, noDeselect }) => {
