@@ -11,7 +11,7 @@ import pointerToWorld from "../display/utils/pointerToWorld"
 import store from "@lincode/reactivity"
 import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
-import { getEditorMounted } from "../states/useEditorMounted"
+import { getEditorBehavior } from "../states/useEditorBehavior"
 import { getCameraRendered } from "../states/useCameraRendered"
 import mainCamera from "../engine/mainCamera"
 import { appendableRoot } from "./core/collections"
@@ -108,7 +108,7 @@ export class Mouse extends Appendable implements IMouse {
         this.createEffect(() => {
             if (
                 !getWorldPlayComputed() ||
-                (getEditorMounted() && getCameraRendered() === mainCamera)
+                (getEditorBehavior() && getCameraRendered() === mainCamera)
             )
                 return
 
@@ -142,7 +142,7 @@ export class Mouse extends Appendable implements IMouse {
                 handle3.cancel()
                 handle4.cancel()
             }
-        }, [getWorldPlayComputed, getEditorMounted, getCameraRendered])
+        }, [getWorldPlayComputed, getEditorBehavior, getCameraRendered])
     }
 }
 

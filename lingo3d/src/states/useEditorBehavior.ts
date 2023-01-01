@@ -6,10 +6,10 @@ import { setEditorCamera } from "./useEditorCamera"
 import { setOrbitControls } from "./useOrbitControls"
 import { setWorldPlay } from "./useWorldPlay"
 
-export const [setEditorMounted, getEditorMounted] = store(false)
+export const [setEditorBehavior, getEditorBehavior] = store(false)
 
 createEffect(() => {
-    if (!getEditorMounted()) return
+    if (!getEditorBehavior()) return
 
     setEditorCamera(mainCamera)
     setOrbitControls(true)
@@ -26,4 +26,4 @@ createEffect(() => {
 
         handle.cancel()
     }
-}, [getEditorMounted])
+}, [getEditorBehavior])

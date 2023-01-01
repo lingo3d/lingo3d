@@ -1,7 +1,7 @@
 import { createEffect } from "@lincode/reactivity"
 import { Changes, onEditorChanges } from "../events/onEditorChanges"
 import unsafeSetValue from "../utils/unsafeSetValue"
-import { getEditorMounted } from "../states/useEditorMounted"
+import { getEditorBehavior } from "../states/useEditorBehavior"
 import { getTimeline } from "../states/useTimeline"
 import { AnimationData } from "../interface/IAnimationManager"
 
@@ -11,7 +11,7 @@ let timelineDataRedoStack: Array<AnimationData> = []
 const changesTimelineDataSnapshotMap = new WeakMap<Changes, AnimationData>()
 
 createEffect(() => {
-    if (!getEditorMounted()) return
+    if (!getEditorBehavior()) return
 
     let timelineOpenIndex = 0
     const handle0 = getTimeline((timeline) => {
@@ -35,7 +35,7 @@ createEffect(() => {
         handle0.cancel()
         handle1.cancel()
     }
-}, [getEditorMounted])
+}, [getEditorBehavior])
 
 export const undo = () => {
     if (--index < 0) {

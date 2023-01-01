@@ -1,12 +1,12 @@
 import { useLayoutEffect } from "preact/hooks"
-import { setEditorMounted } from "../../states/useEditorMounted"
+import { setEditorBehavior } from "../../states/useEditorBehavior"
 
 export default () => {
     useLayoutEffect(() => {
-        setEditorMounted(true)
+        setEditorBehavior(true)
 
         return () => {
-            setEditorMounted(false)
+            setEditorBehavior(false)
         }
     }, [])
 }

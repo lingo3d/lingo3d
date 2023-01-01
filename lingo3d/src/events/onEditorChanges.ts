@@ -4,7 +4,7 @@ import getChangedProperties, {
     ChangedProperties,
     saveProperties
 } from "../display/utils/getChangedProperties"
-import { getEditorMounted } from "../states/useEditorMounted"
+import { getEditorBehavior } from "../states/useEditorBehavior"
 import {
     multipleSelectionTargetsFlushingPtr,
     getMultipleSelectionTargets,
@@ -21,7 +21,7 @@ export type Changes = Array<readonly [Appendable, ChangedProperties]>
 export const [emitEditorChanges, onEditorChanges] = event<Changes>()
 
 createEffect(() => {
-    if (!getEditorMounted()) return
+    if (!getEditorBehavior()) return
 
     const instances = new Set<Appendable>()
     const getInstances = debounceTrailing(() => {
@@ -68,4 +68,4 @@ createEffect(() => {
         handle3.cancel()
         handle4.cancel()
     }
-}, [getEditorMounted])
+}, [getEditorBehavior])
