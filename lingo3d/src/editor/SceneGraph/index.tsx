@@ -1,6 +1,5 @@
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import SceneGraphContextMenu from "./SceneGraphContextMenu"
-import "./retargetBones"
 import useInitCSS from "../hooks/useInitCSS"
 import useClickable from "../hooks/useClickable"
 import AccordionSceneGraph from "./AccordionSceneGraph"
@@ -10,7 +9,7 @@ import useInitEditor from "../hooks/useInitEditor"
 const SceneGraph = () => {
     useInitCSS()
     useInitEditor()
-    
+
     const elRef = useClickable()
 
     return (
