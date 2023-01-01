@@ -5,7 +5,7 @@ specifiers:
   '@lincode/filetypes': ^1.0.1
   '@lincode/math': ^1.0.8
   '@lincode/promiselikes': ^1.0.23
-  '@lincode/reactivity': ^1.0.75
+  '@lincode/reactivity': ^1.0.76
   '@lincode/utils': ^1.3.3
   '@preact/preset-vite': ^2.5.0
   '@preact/signals': ^1.1.3
@@ -40,7 +40,7 @@ dependencies:
   '@lincode/filetypes': 1.0.1
   '@lincode/math': 1.0.8
   '@lincode/promiselikes': 1.0.23
-  '@lincode/reactivity': 1.0.75
+  '@lincode/reactivity': 1.0.76
   '@lincode/utils': 1.3.3
   '@preact/signals': 1.1.3_preact@10.11.3
   '@types/three': 0.147.1
@@ -111,7 +111,7 @@ packages:
       convert-source-map: 1.9.0
       debug: 4.3.4
       gensync: 1.0.0-beta.2
-      json5: 2.2.2
+      json5: 2.2.3
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
@@ -578,8 +578,8 @@ packages:
       '@lincode/utils': 1.3.3
     dev: false
 
-  /@lincode/reactivity/1.0.75:
-    resolution: {integrity: sha512-UdMcfD1Ls5G+J023OxfjoULpok6fJNj1krpOcaTS/9W4xGfwLX9zDtMVUo4/hZ+rTv6wGl4AyEXTeOlUPCSaOw==}
+  /@lincode/reactivity/1.0.76:
+    resolution: {integrity: sha512-puBShWsJL5nnNpC65mgAvDE8UtaFTd5vnLRCbYR/UALrRKQcrbp5nSP9lD5EIRLx/uxh+TLCG2kYYqOK+fJpwQ==}
     dependencies:
       '@lincode/events': 1.0.27
       '@lincode/promiselikes': 1.0.23
@@ -945,8 +945,8 @@ packages:
     hasBin: true
     dev: true
 
-  /json5/2.2.2:
-    resolution: {integrity: sha512-46Tk9JiOL2z7ytNQWFLpj99RZkVgeHf87yGQKsIkaPz1qSH9UczKH1rO7K3wgRselo0tYMUNfecYpm/p1vC7tQ==}
+  /json5/2.2.3:
+    resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
     hasBin: true
     dev: true

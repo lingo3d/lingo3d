@@ -78,6 +78,7 @@ import { Point3d, Point } from "@lincode/math"
 import clientToWorld from "./display/utils/clientToWorld"
 
 import { setWasmPath } from "./states/useWasmPath"
+import { setEditorBehavior } from "./states/useEditorBehavior"
 
 export type {
     SimpleMouseEvent,
@@ -157,5 +158,6 @@ export {
     Point3d,
     Point,
     clientToWorld,
-    setWasmPath
+    setWasmPath,
+    setEditorBehavior
 }

@@ -1,8 +1,15 @@
-import store from "@lincode/reactivity"
+import store, { decrease, increase } from "@lincode/reactivity"
 
-export const [setLoadingUnpkgCount, getLoadingUnpkgCount] = store(0)
+const [setLoadingUnpkgCount, getLoadingUnpkgCount] = store(0)
+export { getLoadingUnpkgCount }
 
-export const increaseLoadingUnpkgCount = () =>
-    setLoadingUnpkgCount(getLoadingUnpkgCount() + 1)
+export const increaseLoadingUnpkgCount = increase(
+    setLoadingUnpkgCount,
+    getLoadingUnpkgCount
+)
+const _decreaseLoadingUnpkgCount = decrease(
+    setLoadingUnpkgCount,
+    getLoadingUnpkgCount
+)
 export const decreaseLoadingUnpkgCount = () =>
-    setTimeout(() => setLoadingUnpkgCount(getLoadingUnpkgCount() - 1))
+    setTimeout(_decreaseLoadingUnpkgCount)

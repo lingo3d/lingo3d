@@ -1,7 +1,8 @@
-import store from "@lincode/reactivity"
+import store, { decrease, increase } from "@lincode/reactivity"
 
-export const [setLoadingCount, getLoadingCount] = store(0)
+const [setLoadingCount, getLoadingCount] = store(0)
+export { getLoadingCount }
 
-export const increaseLoadingCount = () => setLoadingCount(getLoadingCount() + 1)
-export const decreaseLoadingCount = () =>
-    setTimeout(() => setLoadingCount(getLoadingCount() - 1))
+export const increaseLoadingCount = increase(setLoadingCount, getLoadingCount)
+const _decreaseLoadingCount = decrease(setLoadingCount, getLoadingCount)
+export const decreaseLoadingCount = () => setTimeout(_decreaseLoadingCount)
