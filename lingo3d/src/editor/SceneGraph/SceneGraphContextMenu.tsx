@@ -20,7 +20,9 @@ import search from "./utils/search"
 import createJoint from "./utils/createJoint"
 
 const SceneGraphContextMenu = () => {
-    const [position, setPosition] = useState<Point & { search?: boolean }>()
+    const [position, setPosition] = useState<
+        Point & { search?: boolean; createJoint?: boolean }
+    >()
     const selectionTarget = useSyncState(getSelectionTarget)
     const [selectionFrozen] = useSyncState(getSelectionFrozen)
     const [timelineData] = useSyncState(getTimelineData)
@@ -42,19 +44,32 @@ const SceneGraphContextMenu = () => {
         <ContextMenu
             position={position}
             setPosition={setPosition}
-            input={position.search && "Search child"}
-            onInput={(value) =>
-                selectionTarget && search(value, selectionTarget)
+            input={
+                position.createJoint
+                    ? "Joint name"
+                    : position.search && "Search child"
             }
+            onInput={(value) => {
+                if (position.createJoint) {
+                    createJoint(
+                        value,
+                        multipleSelectionTargets[0],
+                        multipleSelectionTargets[1]
+                    )
+                    return
+                }
+                selectionTarget && search(value, selectionTarget)
+            }}
         >
             {multipleSelectionTargets.length ? (
                 <ContextMenuItem
                     disabled={multipleSelectionTargets.length !== 2}
-                    onClick={() =>
-                        createJoint(
-                            multipleSelectionTargets[0],
-                            multipleSelectionTargets[1]
-                        )
+                    onClick={(e) =>
+                        setPosition({
+                            x: e.clientX,
+                            y: e.clientY,
+                            createJoint: true
+                        })
                     }
                 >
                     Create joint

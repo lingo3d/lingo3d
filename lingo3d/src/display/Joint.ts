@@ -94,6 +94,8 @@ export default class Joint extends PositionedManager implements IJoint {
         }, [this.toState.get, this.fromState.get, getPhysX])
     }
 
+    public name?: string
+
     public fixed?: boolean
 
     private toState = new Reactive<string | MeshManager | undefined>(undefined)
