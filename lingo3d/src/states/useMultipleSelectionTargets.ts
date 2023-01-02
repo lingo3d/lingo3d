@@ -1,5 +1,8 @@
-import store, { pull, push, reset } from "@lincode/reactivity"
-import PositionedManager from "../display/core/PositionedManager"
+import store, { createEffect, pull, push, reset } from "@lincode/reactivity"
+import PositionedManager, {
+    isPositionedManager
+} from "../display/core/PositionedManager"
+import { onDispose } from "../events/onDispose"
 
 export const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store<
     Array<PositionedManager>
@@ -41,3 +44,18 @@ export const flushMultipleSelectionTargets = async (
 
     multipleSelectionTargetsFlushingPtr[0] = false
 }
+
+createEffect(() => {
+    const targets = getMultipleSelectionTargets()
+    if (!targets.length) return
+
+    const handle = onDispose(
+        (item) =>
+            isPositionedManager(item) &&
+            targets.includes(item) &&
+            pullMultipleSelectionTargets(item)
+    )
+    return () => {
+        handle.cancel()
+    }
+}, [getMultipleSelectionTargets])
