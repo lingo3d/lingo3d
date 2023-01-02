@@ -2,46 +2,42 @@ import { createEffect } from "@lincode/reactivity"
 import {
     emitTransformControls,
     onTransformControls
-} from "../events/onTransformControls"
-import { getSelectionTarget } from "../states/useSelectionTarget"
-import { getTransformControlsSnap } from "../states/useTransformControlsSnap"
-import { container } from "./renderLoop/renderSetup"
-import scene from "./scene"
+} from "../../events/onTransformControls"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
+import { getTransformControlsSnap } from "../../states/useTransformControlsSnap"
+import { container } from "../renderLoop/renderSetup"
+import scene from "../scene"
 import { lazy } from "@lincode/utils"
 import { Cancellable } from "@lincode/promiselikes"
-import { setTransformControlsDragging } from "../states/useTransformControlsDragging"
-import { getTransformControlsSpaceComputed } from "../states/useTransformControlsSpaceComputed"
-import { getCameraRendered } from "../states/useCameraRendered"
-import { getSelectionNativeTarget } from "../states/useSelectionNativeTarget"
-import { ssrExcludeSet } from "./renderLoop/effectComposer/ssrEffect/renderSetup"
-import { getEditorModeComputed } from "../states/useEditorModeComputed"
-import { isPositionedManager } from "../display/core/PositionedManager"
+import { setTransformControlsDragging } from "../../states/useTransformControlsDragging"
+import { getTransformControlsSpaceComputed } from "../../states/useTransformControlsSpaceComputed"
+import { getCameraRendered } from "../../states/useCameraRendered"
+import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
+import { ssrExcludeSet } from "../renderLoop/effectComposer/ssrEffect/renderSetup"
+import { getEditorModeComputed } from "../../states/useEditorModeComputed"
+import { isPositionedManager } from "../../display/core/PositionedManager"
 
 const lazyTransformControls = lazy(async () => {
-    const { TransformControls } = await import(
-        "three/examples/jsm/controls/TransformControls"
-    )
-
+    const { TransformControls } = await import("./TransformControls")
     const transformControls = new TransformControls(
         getCameraRendered(),
         container
     )
+    //@ts-ignore
     getCameraRendered((camera) => (transformControls.camera = camera))
+    //@ts-ignore
     transformControls.enabled = false
 
     let dragging = false
-
     transformControls.addEventListener("dragging-changed", ({ value }) => {
         dragging = value
         setTransformControlsDragging(dragging)
         emitTransformControls(dragging ? "start" : "stop")
     })
-
     transformControls.addEventListener(
         "change",
         () => dragging && emitTransformControls("move")
     )
-
     return transformControls
 })
 
@@ -79,6 +75,7 @@ createEffect(() => {
 
         scene.add(transformControls)
         transformControls.attach(target)
+        //@ts-ignore
         transformControls.enabled = true
 
         ssrExcludeSet.add(transformControls)
@@ -86,6 +83,7 @@ createEffect(() => {
         handle.then(() => {
             scene.remove(transformControls)
             transformControls.detach()
+            //@ts-ignore
             transformControls.enabled = false
             ssrExcludeSet.delete(transformControls)
         })
