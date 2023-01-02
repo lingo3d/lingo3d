@@ -6,7 +6,7 @@ import { setEditorMode } from "../../../../states/useEditorMode"
 import { getEditorModeComputed } from "../../../../states/useEditorModeComputed"
 import {
     getMultipleSelectionTargets,
-    resetMultipleSelectionTargets
+    clearMultipleSelectionTargets
 } from "../../../../states/useMultipleSelectionTargets"
 import {
     getSelectionTarget,
@@ -17,7 +17,7 @@ import { overrideSelectionCandidates } from "./selectionCandidates"
 createEffect(() => {
     if (getEditorModeComputed() !== "curve") return
 
-    resetMultipleSelectionTargets()
+    clearMultipleSelectionTargets()
     setSelectionTarget(undefined)
 
     const handle0 = new Cancellable()
@@ -46,7 +46,7 @@ createEffect(() => {
             !target ||
             ("outerObject3d" in target &&
                 overrideSelectionCandidates.has(target.outerObject3d)) ||
-            getMultipleSelectionTargets().length
+            getMultipleSelectionTargets()[0].size
         )
             return
 

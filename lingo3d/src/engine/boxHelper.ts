@@ -21,8 +21,8 @@ createEffect(() => {
 }, [getSelectionTarget])
 
 createEffect(() => {
-    const targets = getMultipleSelectionTargets()
-    if (!targets.length) return
+    const [targets] = getMultipleSelectionTargets()
+    if (!targets.size) return
 
     const boxHelpers: Array<BoxHelper> = []
     for (const target of targets) {

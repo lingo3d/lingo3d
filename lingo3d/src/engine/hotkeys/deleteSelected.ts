@@ -7,7 +7,7 @@ export default () => {
     if (getTransformControlsDragging() || getMultipleSelection()) return
 
     const selectionTarget = getSelectionTarget()
-    const multipleSelectionTargets = getMultipleSelectionTargets()
+    const [multipleSelectionTargets] = getMultipleSelectionTargets()
 
     selectionTarget?.dispose()
     for (const target of multipleSelectionTargets) target.dispose()

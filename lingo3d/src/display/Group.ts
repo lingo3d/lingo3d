@@ -25,8 +25,8 @@ export default class Group
 }
 
 createEffect(() => {
-    const targets = getMultipleSelectionTargets()
-    if (!targets.length) return
+    const [targets] = getMultipleSelectionTargets()
+    if (!targets.size) return
 
     const group = new ThreeGroup()
     scene.add(group)
@@ -36,10 +36,10 @@ createEffect(() => {
     setSelectionTarget(groupManager)
 
     const parentEntries: Array<[Object3D, Object3D]> = []
-    for (const { outerObject3d: target } of targets) {
-        if (!target.parent) continue
-        parentEntries.push([target, target.parent])
-        group.attach(target)
+    for (const { outerObject3d } of targets) {
+        if (!outerObject3d.parent) continue
+        parentEntries.push([outerObject3d, outerObject3d.parent])
+        group.attach(outerObject3d)
     }
 
     box3.setFromObject(group)
@@ -50,7 +50,7 @@ createEffect(() => {
 
     let consolidated = false
     const handle = onEditorGroupItems(() => {
-        if (!targets.length || consolidated) return
+        if (!targets.size || consolidated) return
         consolidated = true
 
         const consolidatedGroup = new Group()

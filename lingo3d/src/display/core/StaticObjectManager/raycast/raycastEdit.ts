@@ -14,10 +14,10 @@ import {
 import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
 import { getMultipleSelection } from "../../../../states/useMultipleSelection"
 import {
-    pushMultipleSelectionTargets,
+    addMultipleSelectionTargets,
     getMultipleSelectionTargets,
-    pullMultipleSelectionTargets,
-    resetMultipleSelectionTargets
+    deleteMultipleSelectionTargets,
+    clearMultipleSelectionTargets
 } from "../../../../states/useMultipleSelectionTargets"
 import {
     getSelectionTarget,
@@ -65,20 +65,20 @@ createEffect(() => {
                 const currentTarget = getSelectionTarget()
                 isPositionedManager(currentTarget) &&
                     !hiddenAppendables.has(currentTarget) &&
-                    pushMultipleSelectionTargets(currentTarget)
+                    addMultipleSelectionTargets(currentTarget)
             }
             firstMultipleSelection.current = false
 
-            if (getMultipleSelectionTargets().includes(target))
-                pullMultipleSelectionTargets(target)
+            if (getMultipleSelectionTargets()[0].has(target))
+                deleteMultipleSelectionTargets(target)
             else if (!hiddenAppendables.has(target))
-                pushMultipleSelectionTargets(target)
+                addMultipleSelectionTargets(target)
 
             return
         }
-        if (rightClick && getMultipleSelectionTargets().length) return
+        if (rightClick && getMultipleSelectionTargets()[0].size) return
 
-        resetMultipleSelectionTargets()
+        clearMultipleSelectionTargets()
         setSelectionTarget(
             rightClick || noDeselect
                 ? target

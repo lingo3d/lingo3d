@@ -21,8 +21,8 @@ const copy = async (target: Appendable | MeshAppendable) => {
 
 export default () => {
     const target = getSelectionTarget()
-    const targets = getMultipleSelectionTargets()
-    if (targets.length) {
+    const [targets] = getMultipleSelectionTargets()
+    if (targets.size) {
         flushMultipleSelectionTargets((targets) => {
             for (const target of targets) copy(target)
         })

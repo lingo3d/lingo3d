@@ -2,7 +2,7 @@ import { createEffect } from "@lincode/reactivity"
 import StaticObjectManager from ".."
 import { mouseEvents } from "../../../../api/mouse"
 import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
-import { resetMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
+import { clearMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
 import { setSelectionTarget } from "../../../../states/useSelectionTarget"
 import pickable from "./pickable"
 import {
@@ -17,7 +17,7 @@ import {
 createEffect(() => {
     if (!getWorldPlayComputed()) return
 
-    resetMultipleSelectionTargets()
+    clearMultipleSelectionTargets()
     setSelectionTarget(undefined)
 
     const handle0 = pickable("click", clickSet, (obj, e) => obj.onClick?.(e))

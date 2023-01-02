@@ -25,7 +25,7 @@ const SceneGraphContextMenu = () => {
     const [selectionFrozen] = useSyncState(getSelectionFrozen)
     const [timelineData] = useSyncState(getTimelineData)
     const timeline = useSyncState(getTimeline)
-    const multipleSelectionTargets = useSyncState(getMultipleSelectionTargets)
+    const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
 
     useEffect(() => {
         const handle = onSelectionTarget(
@@ -49,9 +49,9 @@ const SceneGraphContextMenu = () => {
                 search(value, selectionTarget)
             }
         >
-            {multipleSelectionTargets.length ? (
+            {multipleSelectionTargets.size ? (
                 <ContextMenuItem
-                    disabled={multipleSelectionTargets.length === 1}
+                    disabled={multipleSelectionTargets.size === 1}
                     onClick={() => {
                         createJoint()
                         setPosition(undefined)

@@ -27,7 +27,7 @@ createEffect(() => {
     const getInstances = debounceTrailing(() => {
         if (multipleSelectionTargetsFlushingPtr[0]) return
         instances.clear()
-        for (const target of getMultipleSelectionTargets())
+        for (const target of getMultipleSelectionTargets()[0])
             instances.add(target)
 
         if (instances.size) return
@@ -58,7 +58,7 @@ createEffect(() => {
         if (val === "start") handleStart()
         else if (val === "stop") handleFinish()
     })
-    const handle4 = getMultipleSelectionTargets((targets) => {
+    const handle4 = getMultipleSelectionTargets(([targets]) => {
         for (const target of targets) saveProperties(target)
     })
     return () => {

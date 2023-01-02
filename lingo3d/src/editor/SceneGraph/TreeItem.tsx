@@ -38,10 +38,10 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
     }, [appendable.children?.size])
 
     const selectionTarget = useSyncState(getSelectionTarget)
-    const multipleSelectionTargets = useSyncState(getMultipleSelectionTargets)
+    const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selected =
         selectionTarget === appendable ||
-        multipleSelectionTargets.includes(appendable as any)
+        multipleSelectionTargets.has(appendable as any)
 
     const sceneGraphExpanded = useSyncState(getSceneGraphExpanded)
 

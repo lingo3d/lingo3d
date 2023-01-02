@@ -51,7 +51,7 @@ const Editor = () => {
     const targetSetup = (lastSetup && dataSetupMap.get(lastSetup)) ?? settings
 
     const selectionTarget = useSyncState(getSelectionTarget)
-    const multipleSelectionTargets = useSyncState(getMultipleSelectionTargets)
+    const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
 
     const selectedSignal = useSignal<string | undefined>(undefined)
 
@@ -83,7 +83,7 @@ const Editor = () => {
             }
         }
 
-        if (!multipleSelectionTargets.length) {
+        if (!multipleSelectionTargets.size) {
             const { schema, defaults, componentName } = unsafeGetValue(
                 selectionTarget,
                 "constructor"

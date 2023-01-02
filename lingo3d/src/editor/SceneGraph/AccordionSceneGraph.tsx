@@ -39,7 +39,7 @@ const AccordionSceneGraph = () => {
         [refresh]
     )
 
-    const multipleSelectionTargets = useSyncState(getMultipleSelectionTargets)
+    const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionTarget = useSyncState(getSelectionTarget)
     const nativeTarget = useSyncState(getSelectionNativeTarget)
 
@@ -61,7 +61,7 @@ const AccordionSceneGraph = () => {
                         <FindIcon />
                     </IconButton>
                     <IconButton
-                        disabled={!multipleSelectionTargets.length}
+                        disabled={!multipleSelectionTargets.size}
                         onClick={emitEditorGroupItems}
                     >
                         <GroupIcon />

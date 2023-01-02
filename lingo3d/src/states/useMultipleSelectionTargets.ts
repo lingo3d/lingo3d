@@ -1,22 +1,22 @@
-import store, { createEffect, pull, push, reset } from "@lincode/reactivity"
+import store, { add, createEffect, remove, clear } from "@lincode/reactivity"
 import PositionedManager, {
     isPositionedManager
 } from "../display/core/PositionedManager"
 import { onDispose } from "../events/onDispose"
 
-export const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store<
-    Array<PositionedManager>
->([])
-
-export const pushMultipleSelectionTargets = push(
+const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store([
+    new Set<PositionedManager>()
+])
+export { getMultipleSelectionTargets }
+export const addMultipleSelectionTargets = add(
     setMultipleSelectionTargets,
     getMultipleSelectionTargets
 )
-export const pullMultipleSelectionTargets = pull(
+export const deleteMultipleSelectionTargets = remove(
     setMultipleSelectionTargets,
     getMultipleSelectionTargets
 )
-export const resetMultipleSelectionTargets = reset(
+export const clearMultipleSelectionTargets = clear(
     setMultipleSelectionTargets,
     getMultipleSelectionTargets
 )
@@ -24,36 +24,37 @@ export const resetMultipleSelectionTargets = reset(
 export const multipleSelectionTargetsFlushingPtr = [false]
 
 export const flushMultipleSelectionTargets = async (
-    onFlush: (targets: Array<PositionedManager>) => void,
+    onFlush: (targets: Set<PositionedManager>) => void,
     deselect?: boolean
 ) => {
     multipleSelectionTargetsFlushingPtr[0] = true
 
-    const targets = getMultipleSelectionTargets()
-    setMultipleSelectionTargets([])
+    const [targets] = getMultipleSelectionTargets()
+    setMultipleSelectionTargets([new Set()])
 
     await Promise.resolve()
 
     onFlush(targets)
-    if (deselect) return
-
+    if (deselect) {
+        multipleSelectionTargetsFlushingPtr[0] = false
+        return
+    }
     await Promise.resolve()
     await Promise.resolve()
 
-    setMultipleSelectionTargets(targets)
-
+    setMultipleSelectionTargets([targets])
     multipleSelectionTargetsFlushingPtr[0] = false
 }
 
 createEffect(() => {
-    const targets = getMultipleSelectionTargets()
-    if (!targets.length) return
+    const [targets] = getMultipleSelectionTargets()
+    if (!targets.size) return
 
     const handle = onDispose(
         (item) =>
             isPositionedManager(item) &&
-            targets.includes(item) &&
-            pullMultipleSelectionTargets(item)
+            targets.has(item) &&
+            deleteMultipleSelectionTargets(item)
     )
     return () => {
         handle.cancel()
