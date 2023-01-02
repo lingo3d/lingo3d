@@ -1,5 +1,6 @@
 import MeshManager from "../../../display/core/MeshManager"
 import Joint from "../../../display/Joint"
+import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { flushMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
 
 export default (name: string, manager0: MeshManager, manager1: MeshManager) =>
@@ -8,4 +9,5 @@ export default (name: string, manager0: MeshManager, manager1: MeshManager) =>
         if (name) joint.name = name
         joint.from = manager0
         joint.to = manager1
-    })
+        emitSelectionTarget(joint)
+    }, true)
