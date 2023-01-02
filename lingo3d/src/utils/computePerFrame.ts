@@ -14,7 +14,11 @@ export default <Item extends object, Return>(
 
     if (clone)
         return (item: Item): Return => {
-            if (cache.has(item)) return cache.get(item)!
+            const cached = cache.get(item)
+            if (cached) {
+                //@ts-ignore
+                return cached.clone()
+            }
             const result = cb(item)
             //@ts-ignore
             cache.set(item, result.clone())
