@@ -11,7 +11,8 @@ import {
 } from "../../../../events/onSelectionTarget"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
 import callPrivateMethod from "../../../../utils/callPrivateMethod"
-import VisibleObjectManager from "../../VisibleObjectManager"
+import HelperPrimitive from "../../utils/HelperPrimitive"
+import HelperSprite from "../../utils/HelperSprite"
 
 const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates
@@ -21,9 +22,11 @@ export const additionalSelectionCandidates = new Set<Object3D>()
 export const overrideSelectionCandidates = new Set<Object3D>()
 
 export const addSelectionHelper = (
-    helper: VisibleObjectManager,
+    helper: HelperSprite | HelperPrimitive,
     manager: MeshAppendable
 ) => {
+    helper.target = manager
+
     manager.outerObject3d.add(helper.outerObject3d)
     additionalSelectionCandidates.add(helper.object3d)
 

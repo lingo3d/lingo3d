@@ -1,6 +1,8 @@
 import { centroid3d } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
+import mainCamera from "../engine/mainCamera"
 import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
+import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
@@ -11,6 +13,8 @@ import {
 } from "./core/PhysicsObjectManager/physx/pxMath"
 import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
+import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
+import HelperSphere from "./core/utils/HelperSphere"
 
 const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
@@ -30,6 +34,22 @@ export default class Joint extends PositionedManager implements IJoint {
     public constructor() {
         super()
         import("./core/PhysicsObjectManager/physx")
+
+        this.createEffect(() => {
+            if (getCameraRendered() !== mainCamera) return
+
+            const sphere = new HelperSphere()
+            sphere.scale = 0.1
+            const handle = addSelectionHelper(sphere, this)
+
+            sphere.onTranslateControl = () => {
+                console.log(sphere)
+            }
+
+            return () => {
+                handle.cancel()
+            }
+        }, [getCameraRendered])
 
         this.createEffect(() => {
             const { physics } = getPhysX()
