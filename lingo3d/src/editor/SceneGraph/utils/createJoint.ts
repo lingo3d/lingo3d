@@ -3,11 +3,17 @@ import Joint from "../../../display/Joint"
 import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { flushMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
 
-export default (name: string, manager0: MeshManager, manager1: MeshManager) =>
+export default (managers: Array<MeshManager>) =>
     flushMultipleSelectionTargets(() => {
-        const joint = new Joint()
-        if (name) joint.name = name
-        joint.from = manager0.uuid
-        joint.to = manager1.uuid
+        let managerOld: MeshManager | undefined
+        let joint: Joint | undefined
+        for (const manager of managers) {
+            if (managerOld) {
+                joint = new Joint()
+                joint.from = manager.uuid
+                joint.to = managerOld.uuid
+            }
+            managerOld = manager
+        }
         emitSelectionTarget(joint)
     }, true)
