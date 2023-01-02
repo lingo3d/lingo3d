@@ -20,11 +20,11 @@
         "clean": "node node_modules/rimraf/bin lib"
     },
     "dependencies": {
-        "@lincode/events": "^1.0.28",
+        "@lincode/events": "^1.0.30",
         "@lincode/filetypes": "^1.0.2",
         "@lincode/math": "^1.0.8",
         "@lincode/promiselikes": "^1.0.24",
-        "@lincode/reactivity": "^1.0.77",
+        "@lincode/reactivity": "^1.0.78",
         "@lincode/utils": "^1.3.5",
         "@preact/signals": "^1.1.3",
         "@types/three": "0.147.1",

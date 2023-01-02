@@ -1,11 +1,11 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@lincode/events': ^1.0.28
+  '@lincode/events': ^1.0.30
   '@lincode/filetypes': ^1.0.2
   '@lincode/math': ^1.0.8
   '@lincode/promiselikes': ^1.0.24
-  '@lincode/reactivity': ^1.0.77
+  '@lincode/reactivity': ^1.0.78
   '@lincode/utils': ^1.3.5
   '@preact/preset-vite': ^2.5.0
   '@preact/signals': ^1.1.3
@@ -36,11 +36,11 @@ specifiers:
   xstate: ^4.35.1
 
 dependencies:
-  '@lincode/events': 1.0.28
+  '@lincode/events': 1.0.30
   '@lincode/filetypes': 1.0.2
   '@lincode/math': 1.0.8
   '@lincode/promiselikes': 1.0.24
-  '@lincode/reactivity': 1.0.77
+  '@lincode/reactivity': 1.0.78
   '@lincode/utils': 1.3.5
   '@preact/signals': 1.1.3_preact@10.11.3
   '@types/three': 0.147.1
@@ -555,8 +555,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@lincode/events/1.0.28:
-    resolution: {integrity: sha512-36ouCV9Na2Y9gC1WNXwCQRtmFMgKQgOAqQsjuLDCN3zsE/F7LOPSwqQjhOo02eIT4lGb+40cVIBHmxtSRh8XMg==}
+  /@lincode/events/1.0.30:
+    resolution: {integrity: sha512-eHfmK8+5EjGPlKrx4RjOX97LvroPyGS1Pwj9NPvwmwjmavdPuD92YqfCssrNGh0IdS+dmi8WyjR8t5TAA53fQw==}
     dependencies:
       '@lincode/promiselikes': 1.0.24
       '@lincode/utils': 1.3.5
@@ -578,10 +578,10 @@ packages:
       '@lincode/utils': 1.3.5
     dev: false
 
-  /@lincode/reactivity/1.0.77:
-    resolution: {integrity: sha512-l7U40xlIb+jE6jOsJNZeHKGG+JKGHGXQ2fZhYKhYSfqe1f+FvEgw4fOtol7u6vfbq3QQ+W+YnqDCFcBsxyx6vw==}
+  /@lincode/reactivity/1.0.78:
+    resolution: {integrity: sha512-mKWZYUKXO967h8DBCG6BRSQfptpPIVqSIdQaxA3B0hRHHhbOe4jaktKOzVe81/xWL/urb8P3hZrwJH/xvhwMVA==}
     dependencies:
-      '@lincode/events': 1.0.28
+      '@lincode/events': 1.0.30
       '@lincode/promiselikes': 1.0.24
       '@lincode/utils': 1.3.5
     dev: false
