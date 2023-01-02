@@ -1,5 +1,5 @@
 import ObjectGroup from "./ObjectGroup"
-import { DEBUG, LIBRARY_WIDTH } from "../../globals"
+import { LIBRARY_WIDTH } from "../../globals"
 import useInitCSS from "../hooks/useInitCSS"
 import useClickable from "../hooks/useClickable"
 import AppBar from "../component/bars/AppBar"
@@ -34,9 +34,6 @@ const Library = () => {
                     names={[
                         "model",
                         "dummy",
-                        ...(DEBUG
-                            ? [{ building: "cube" }, { tree: "cylinder" }]
-                            : []),
                         "svgMesh",
                         "htmlMesh",
                         { joystick: "htmlMesh" },
