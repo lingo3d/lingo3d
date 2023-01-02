@@ -1,4 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
+import Appendable from "../api/core/Appendable"
+import MeshAppendable from "../api/core/MeshAppendable"
 import openFolder from "../api/files/openFolder"
 import saveJSON from "../api/files/saveJSON"
 import deserialize from "../api/serializer/deserialize"
@@ -23,6 +25,16 @@ import { getSelectionTarget } from "../states/useSelectionTarget"
 import { getSplitView, setSplitView } from "../states/useSplitView"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import mainCamera from "./mainCamera"
+
+const copy = async (target: Appendable | MeshAppendable) => {
+    const [item] = deserialize(await serialize(false, target, true))
+    if (target.parent && item) {
+        "attach" in target.parent
+            ? target.parent.attach(item)
+            : target.parent.append(item)
+        emitSelectionTarget(item)
+    }
+}
 
 createEffect(() => {
     if (getWorldPlayComputed()) return
@@ -85,20 +97,10 @@ createEffect(() => {
                     e.preventDefault()
                     const targets = getMultipleSelectionTargets()
                     if (targets.length) {
-                        flushMultipleSelectionTargets(() => {
-                            //mark
+                        flushMultipleSelectionTargets((targets) => {
+                            for (const target of targets) copy(target)
                         })
-                    } else {
-                        const [item] = deserialize(
-                            await serialize(false, target, true)
-                        )
-                        if (target.parent && item) {
-                            "attach" in target.parent
-                                ? target.parent.attach(item)
-                                : target.parent.append(item)
-                            emitSelectionTarget(item)
-                        }
-                    }
+                    } else copy(target)
                 }
             }
         } else if (keyLowerCase === "c") {
