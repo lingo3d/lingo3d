@@ -1,40 +1,20 @@
 import { createEffect } from "@lincode/reactivity"
-import Appendable from "../api/core/Appendable"
-import MeshAppendable from "../api/core/MeshAppendable"
-import openFolder from "../api/files/openFolder"
-import saveJSON from "../api/files/saveJSON"
-import deserialize from "../api/serializer/deserialize"
-import serialize from "../api/serializer/serialize"
-import settings from "../api/settings"
-import { redo, undo } from "../api/undoStack"
-import { isPositionedManager } from "../display/core/PositionedManager"
-import deleteSelected from "../editor/Editor/deleteSelected"
-import { emitEditorCenterView } from "../events/onEditorCenterView"
-import { onKeyClear } from "../events/onKeyClear"
-import { emitSelectionTarget } from "../events/onSelectionTarget"
-import { setEditorCamera, getEditorCamera } from "../states/useEditorCamera"
-import {
-    setMultipleSelection,
-    getMultipleSelection
-} from "../states/useMultipleSelection"
-import {
-    flushMultipleSelectionTargets,
-    getMultipleSelectionTargets
-} from "../states/useMultipleSelectionTargets"
-import { getSelectionTarget } from "../states/useSelectionTarget"
-import { getSplitView, setSplitView } from "../states/useSplitView"
-import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
-import mainCamera from "./mainCamera"
-
-const copy = async (target: Appendable | MeshAppendable) => {
-    const [item] = deserialize(await serialize(false, target, true))
-    if (target.parent && item) {
-        "attach" in target.parent
-            ? target.parent.attach(item)
-            : target.parent.append(item)
-        emitSelectionTarget(item)
-    }
-}
+import openFolder from "../../api/files/openFolder"
+import saveJSON from "../../api/files/saveJSON"
+import settings from "../../api/settings"
+import { redo, undo } from "../../api/undoStack"
+import { isPositionedManager } from "../../display/core/PositionedManager"
+import deleteSelected from "./deleteSelected"
+import { emitEditorCenterView } from "../../events/onEditorCenterView"
+import { onKeyClear } from "../../events/onKeyClear"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
+import { setEditorCamera, getEditorCamera } from "../../states/useEditorCamera"
+import { setMultipleSelection } from "../../states/useMultipleSelection"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
+import { getSplitView, setSplitView } from "../../states/useSplitView"
+import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
+import mainCamera from "../mainCamera"
+import copySelected from "./copySelected"
 
 createEffect(() => {
     if (getWorldPlayComputed()) return
@@ -45,7 +25,7 @@ createEffect(() => {
 
         if (e.key === "Backspace" || e.key === "Delete") {
             e.preventDefault()
-            !getMultipleSelection() && deleteSelected()
+            deleteSelected()
             return
         }
 
@@ -92,16 +72,9 @@ createEffect(() => {
             } else if (keyLowerCase === "o") {
                 e.preventDefault()
                 openFolder()
-            } else if (target) {
-                if (keyLowerCase === "c") {
-                    e.preventDefault()
-                    const targets = getMultipleSelectionTargets()
-                    if (targets.length) {
-                        flushMultipleSelectionTargets((targets) => {
-                            for (const target of targets) copy(target)
-                        })
-                    } else copy(target)
-                }
+            } else if (keyLowerCase === "c") {
+                e.preventDefault()
+                copySelected()
             }
         } else if (keyLowerCase === "c") {
             setEditorCamera(mainCamera)
