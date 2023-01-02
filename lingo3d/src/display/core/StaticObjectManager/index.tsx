@@ -35,6 +35,7 @@ import { emitId } from "../../../events/onId"
 import { emitName } from "../../../events/onName"
 import { CM2M, M2CM } from "../../../globals"
 import MeshAppendable from "../../../api/core/MeshAppendable"
+import { uuidMap } from "../../../api/core/collections"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -56,7 +57,11 @@ const updateFrustum = throttle(
 export const idMap = new Map<string, Set<StaticObjectManager>>()
 
 const makeSet = () => new Set<StaticObjectManager>()
-const allocateSet = (id: string) => forceGet(idMap, id, makeSet)
+const allocateSet = (id: string) => {
+    const found = uuidMap.get(id)
+    if (found instanceof StaticObjectManager) return new Set([found])
+    return forceGet(idMap, id, makeSet)
+}
 
 export const getMeshManagerSets = (
     id: string | Array<string> | MeshManager
