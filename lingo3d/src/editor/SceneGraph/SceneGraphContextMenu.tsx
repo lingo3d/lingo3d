@@ -50,15 +50,14 @@ const SceneGraphContextMenu = () => {
                     : position.search && "Search child"
             }
             onInput={(value) => {
-                if (position.createJoint) {
+                if (position.createJoint)
                     createJoint(
                         value,
                         multipleSelectionTargets[0],
                         multipleSelectionTargets[1]
                     )
-                    return
-                }
-                selectionTarget && search(value, selectionTarget)
+                else if (position.search && selectionTarget)
+                    search(value, selectionTarget)
             }}
         >
             {multipleSelectionTargets.length ? (
