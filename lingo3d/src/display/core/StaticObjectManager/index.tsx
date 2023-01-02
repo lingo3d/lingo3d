@@ -16,7 +16,7 @@ import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import getCenter from "../../utils/getCenter"
 import IStaticObjectManager from "../../../interface/IStaticObjectManager"
-import MeshManager from "../MeshManager"
+import MeshManager, { isMeshManager } from "../MeshManager"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import getWorldPosition from "../../utils/getWorldPosition"
@@ -59,7 +59,7 @@ export const idMap = new Map<string, Set<StaticObjectManager>>()
 const makeSet = () => new Set<StaticObjectManager>()
 const allocateSet = (id: string) => {
     const found = uuidMap.get(id)
-    if (found instanceof StaticObjectManager) return new Set([found])
+    if (isMeshManager(found)) return new Set([found])
     return forceGet(idMap, id, makeSet)
 }
 

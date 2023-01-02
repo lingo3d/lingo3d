@@ -1,6 +1,4 @@
-import PositionedManager, {
-    isPositionedManager
-} from "./PositionedManager"
+import PositionedManager, { isPositionedManager } from "./PositionedManager"
 import ObjectManager from "./ObjectManager"
 import StaticObjectManager from "./StaticObjectManager"
 import VisibleObjectManager from "./VisibleObjectManager"
@@ -13,4 +11,4 @@ type MeshManager =
 export default MeshManager
 
 export const isMeshManager = (item: any): item is MeshManager =>
-    !!item && (isPositionedManager(item) || item instanceof StaticObjectManager)
+    isPositionedManager(item) || item instanceof StaticObjectManager
