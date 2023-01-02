@@ -17,7 +17,7 @@ export default abstract class HelperPrimitive extends Primitive {
     public static override defaults = positionedDefaults
     public static override schema = positionedSchema
 
-    public target: MeshAppendable | undefined
+    public target: MeshAppendable = this
 
     public constructor(geometry: BufferGeometry) {
         super(geometry)
@@ -40,7 +40,7 @@ export default abstract class HelperPrimitive extends Primitive {
                     createEffect(() => {
                         if (
                             getEditorModeComputed() !== "translate" ||
-                            getSelectionTarget() !== (this.target ?? this)
+                            getSelectionTarget() !== this.target
                         )
                             return
 
