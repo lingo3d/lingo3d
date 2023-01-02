@@ -44,7 +44,7 @@ import Trigger from "../../display/Trigger"
 import SpawnPoint from "../../display/SpawnPoint"
 import Audio from "../../display/Audio"
 
-const record = type<Record<GameObjectType, () => ObjectManager>>({
+const record = {
     group: () => new Group(),
     model: () => new Model(),
     svgMesh: () => new SvgMesh(),
@@ -87,6 +87,6 @@ const record = type<Record<GameObjectType, () => ObjectManager>>({
     setup: () => new Setup() as any,
     timeline: () => new Timeline() as any,
     timelineAudio: () => new TimelineAudio() as any
-})
+} satisfies Record<GameObjectType, () => ObjectManager>
 
 export default (type: GameObjectType) => record[type]()
