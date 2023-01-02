@@ -31,7 +31,6 @@ import PointLight from "../../display/lights/PointLight"
 import SpotLight from "../../display/lights/SpotLight"
 import Group from "../../display/Group"
 import { GameObjectType } from "./types"
-import { type } from "@lincode/utils"
 import ThirdPersonCamera from "../../display/cameras/ThirdPersonCamera"
 import FirstPersonCamera from "../../display/cameras/FirstPersonCamera"
 import OrbitCamera from "../../display/cameras/OrbitCamera"
@@ -42,6 +41,7 @@ import Timeline from "../../display/Timeline"
 import TimelineAudio from "../../display/TimelineAudio"
 import Trigger from "../../display/Trigger"
 import SpawnPoint from "../../display/SpawnPoint"
+import Joint from "../../display/Joint"
 import Audio from "../../display/Audio"
 
 const record = {
@@ -62,6 +62,7 @@ const record = {
     sprite: () => new Sprite(),
     trigger: () => new Trigger() as any,
     spawnPoint: () => new SpawnPoint() as any,
+    joint: () => new Joint() as any,
     audio: () => new Audio() as any,
     camera: () => new Camera(),
     thirdPersonCamera: () => new ThirdPersonCamera(),
