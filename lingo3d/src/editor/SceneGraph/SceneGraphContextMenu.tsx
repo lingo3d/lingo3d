@@ -53,7 +53,7 @@ const SceneGraphContextMenu = () => {
                 <ContextMenuItem
                     disabled={multipleSelectionTargets.length === 1}
                     onClick={() => {
-                        createJoint(multipleSelectionTargets)
+                        createJoint()
                         setPosition(undefined)
                     }}
                 >

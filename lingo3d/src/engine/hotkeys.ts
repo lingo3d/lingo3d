@@ -15,7 +15,10 @@ import {
     setMultipleSelection,
     getMultipleSelection
 } from "../states/useMultipleSelection"
-import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
+import {
+    flushMultipleSelectionTargets,
+    getMultipleSelectionTargets
+} from "../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import { getSplitView, setSplitView } from "../states/useSplitView"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
@@ -82,7 +85,9 @@ createEffect(() => {
                     e.preventDefault()
                     const targets = getMultipleSelectionTargets()
                     if (targets.length) {
-                        //todo: copy multiple
+                        flushMultipleSelectionTargets(() => {
+                            //mark
+                        })
                     } else {
                         const [item] = deserialize(
                             await serialize(false, target, true)
