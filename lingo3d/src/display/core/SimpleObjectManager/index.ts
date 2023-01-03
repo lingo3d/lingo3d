@@ -355,6 +355,20 @@ class SimpleObjectManager<T extends Object3D = Object3D>
             })
         )
     }
+
+    public get onScaleControl() {
+        return this.outerObject3d.userData.onScaleControl
+    }
+    public set onScaleControl(cb: () => void) {
+        this.outerObject3d.userData.onScaleControl = cb
+    }
+
+    public get onRotateControl() {
+        return this.outerObject3d.userData.onRotateControl
+    }
+    public set onRotateControl(cb: () => void) {
+        this.outerObject3d.userData.onRotateControl = cb
+    }
 }
 interface SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>,

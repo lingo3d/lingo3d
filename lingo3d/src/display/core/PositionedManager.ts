@@ -76,6 +76,13 @@ export default abstract class PositionedManager<T extends Object3D = Object3D>
             cb && (() => onObjectMove(this.outerObject3d, cb))
         )
     }
+
+    public get onTranslateControl() {
+        return this.outerObject3d.userData.onTranslateControl
+    }
+    public set onTranslateControl(cb: () => void) {
+        this.outerObject3d.userData.onTranslateControl = cb
+    }
 }
 
 export const isPositionedManager = (item: any): item is PositionedManager =>

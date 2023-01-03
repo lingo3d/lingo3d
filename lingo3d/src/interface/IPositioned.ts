@@ -11,6 +11,7 @@ export default interface IPositioned extends IAppendable {
     y: number
     z: number
     onMove: Nullable<() => void>
+    onTranslateControl: Nullable<() => void>
 }
 
 export const positionedSchema: Required<ExtractProps<IPositioned>> = {
@@ -18,10 +19,11 @@ export const positionedSchema: Required<ExtractProps<IPositioned>> = {
     x: Number,
     y: Number,
     z: Number,
-    onMove: Function
+    onMove: Function,
+    onTranslateControl: Function
 }
 
 export const positionedDefaults = extendDefaults<IPositioned>(
     [appendableDefaults],
-    { x: 0, y: 0, z: 0, onMove: undefined }
+    { x: 0, y: 0, z: 0, onMove: undefined, onTranslateControl: undefined }
 )

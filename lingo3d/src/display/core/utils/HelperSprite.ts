@@ -15,10 +15,10 @@ export default class HelperSprite extends Sprite {
         hiddenAppendables.add(this)
     }
 
-    public get onTranslateControl() {
+    public override get onTranslateControl() {
         return this.outerObject3d.userData.onTranslateControl
     }
-    public set onTranslateControl(cb) {
+    public override set onTranslateControl(cb: () => void) {
         this.outerObject3d.userData.onTranslateControl = cb
         if (this.target)
             this.target.outerObject3d.userData.onTranslateControl = cb

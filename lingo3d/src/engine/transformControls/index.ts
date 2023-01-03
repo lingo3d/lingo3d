@@ -89,10 +89,20 @@ createEffect(() => {
         })
     })
 
-    const { onTranslateControl } = target.userData
+    const { onTranslateControl, onScaleControl, onRotateControl } =
+        target.userData
+
     mode === "translate" &&
         onTranslateControl &&
         handle.watch(onTransformControls(onTranslateControl))
+
+    mode === "scale" &&
+        onScaleControl &&
+        handle.watch(onTransformControls(onScaleControl))
+
+    mode === "rotate" &&
+        onRotateControl &&
+        handle.watch(onTransformControls(onRotateControl))
 
     mode === "rotate" &&
         handle.watch(

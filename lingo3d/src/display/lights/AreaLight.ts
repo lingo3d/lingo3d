@@ -52,22 +52,11 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
 
             this.then(() => light.dispose())
 
-            this.createEffect(() => {
-                if (
-                    getEditorModeComputed() !== "scale" ||
-                    getSelectionTarget() !== this
-                )
-                    return
-
-                const handle = onTransformControls(() => {
-                    const { x, y } = this.outerObject3d.scale
-                    this.scaleX = x
-                    this.scaleY = y
-                })
-                return () => {
-                    handle.cancel()
-                }
-            }, [getEditorModeComputed, getSelectionTarget])
+            this.onScaleControl = () => {
+                const { x, y } = this.outerObject3d.scale
+                this.scaleX = x
+                this.scaleY = y
+            }
 
             this.createEffect(() => {
                 if (
