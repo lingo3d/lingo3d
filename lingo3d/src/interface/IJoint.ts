@@ -10,15 +10,18 @@ import Nullable from "./utils/Nullable"
 export default interface IJoint extends IPositioned {
     from: Nullable<string | MeshManager>
     to: Nullable<string | MeshManager>
+    fixed: Nullable<boolean>
 }
 
 export const jointSchema: Required<ExtractProps<IJoint>> = {
     ...positionedSchema,
     from: [String, Object],
-    to: [String, Object]
+    to: [String, Object],
+    fixed: Boolean
 }
 
 export const jointDefaults = extendDefaults<IJoint>([positionedDefaults], {
     from: undefined,
-    to: undefined
+    to: undefined,
+    fixed: undefined
 })

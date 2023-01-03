@@ -53,14 +53,11 @@ export default class Joint extends PositionedManager implements IJoint {
 
         this.createEffect(() => {
             const { physics } = getPhysX()
-            if (!physics) return
+            const { _to, _from, _fixed } = this
+            if (!physics || !_to || !_from) return
 
-            const to = this.toState.get()
-            const from = this.fromState.get()
-            if (!to || !from) return
-
-            const [[toManager]] = getMeshManagerSets(to)
-            const [[fromManager]] = getMeshManagerSets(from)
+            const [[toManager]] = getMeshManagerSets(_to)
+            const [[fromManager]] = getMeshManagerSets(_from)
             if (
                 !(toManager instanceof PhysicsObjectManager) ||
                 !(fromManager instanceof PhysicsObjectManager)
@@ -73,7 +70,7 @@ export default class Joint extends PositionedManager implements IJoint {
             if (toManager.physics !== true) toManager.physics = true
 
             queueMicrotask(() => {
-                if (this.fixed)
+                if (_fixed)
                     createLimitedSpherical(
                         null,
                         setPxTransform(0, 0, 0),
@@ -111,28 +108,37 @@ export default class Joint extends PositionedManager implements IJoint {
                     pxTransform_
                 )
             })
-        }, [this.toState.get, this.fromState.get, getPhysX])
+        }, [this.refreshState.get, getPhysX])
     }
 
     public name?: string
 
-    public fixed?: boolean
+    private refreshState = new Reactive({})
 
-    private toState = new Reactive<string | MeshManager | undefined>(undefined)
+    private _to?: string | MeshManager
     public get to() {
-        return this.toState.get()
+        return this._to
     }
     public set to(val) {
-        this.toState.set(val)
+        this._to = val
+        this.refreshState.set({})
     }
 
-    private fromState = new Reactive<string | MeshManager | undefined>(
-        undefined
-    )
+    private _from?: string | MeshManager
     public get from() {
-        return this.fromState.get()
+        return this._from
     }
     public set from(val) {
-        this.fromState.set(val)
+        this._from = val
+        this.refreshState.set({})
+    }
+
+    private _fixed?: boolean
+    public get fixed() {
+        return this._fixed
+    }
+    public set fixed(val) {
+        this._fixed = val
+        this.refreshState.set({})
     }
 }
