@@ -52,11 +52,11 @@ createEffect(() => {
         )
     const handle2 = onTransformControls((val) => {
         if (val === "start") handleStart()
-        else if (val === "stop") handleFinish()
+        else if (val === "end") handleFinish()
     })
     const handle3 = onEditorEdit((val) => {
         if (val === "start") handleStart()
-        else if (val === "stop") handleFinish()
+        else if (val === "end") handleFinish()
     })
     const handle4 = getMultipleSelectionTargets(([targets]) => {
         for (const target of targets) saveProperties(target)

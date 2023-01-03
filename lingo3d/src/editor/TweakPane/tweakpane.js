@@ -7,7 +7,7 @@ const handleDown = () => {
     emitEditorEdit("start")
 }
 const handleUp = () => {
-    emitEditorEdit("stop")
+    emitEditorEdit("end")
     queueMicrotask(() => (downPtr[0] = false))
 }
 

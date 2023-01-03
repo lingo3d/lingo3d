@@ -32,7 +32,7 @@ const lazyTransformControls = lazy(async () => {
     transformControls.addEventListener("dragging-changed", ({ value }) => {
         dragging = value
         setTransformControlsDragging(dragging)
-        emitTransformControls(dragging ? "start" : "stop")
+        emitTransformControls(dragging ? "start" : "end")
     })
     transformControls.addEventListener(
         "change",

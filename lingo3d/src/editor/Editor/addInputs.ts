@@ -79,7 +79,7 @@ export default async (
                 if (skipApply) return
                 !downPtr[0] && emitEditorEdit("start")
                 target[key] = value
-                !downPtr[0] && emitEditorEdit("stop")
+                !downPtr[0] && emitEditorEdit("end")
             })
             return [key, input] as const
         })
