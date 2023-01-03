@@ -10,6 +10,7 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 import { CM2M, M2CM } from "../../globals"
 import IPositioned from "../../interface/IPositioned"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import { TransformControlsPhase } from "../../events/onTransformControls"
 
 const lazyObjectLoop = lazy(() =>
     onBeforeRender(() => {
@@ -80,7 +81,7 @@ export default abstract class PositionedManager<T extends Object3D = Object3D>
     public get onTranslateControl() {
         return this.outerObject3d.userData.onTranslateControl
     }
-    public set onTranslateControl(cb: () => void) {
+    public set onTranslateControl(cb: (phase: TransformControlsPhase) => void) {
         this.outerObject3d.userData.onTranslateControl = cb
     }
 }

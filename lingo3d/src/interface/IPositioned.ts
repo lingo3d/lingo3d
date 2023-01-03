@@ -5,13 +5,14 @@ import IAppendable, {
     appendableDefaults,
     appendableSchema
 } from "./IAppendable"
+import { TransformControlsPhase } from "../events/onTransformControls"
 
 export default interface IPositioned extends IAppendable {
     x: number
     y: number
     z: number
     onMove: Nullable<() => void>
-    onTranslateControl: Nullable<() => void>
+    onTranslateControl: Nullable<(phase: TransformControlsPhase) => void>
 }
 
 export const positionedSchema: Required<ExtractProps<IPositioned>> = {

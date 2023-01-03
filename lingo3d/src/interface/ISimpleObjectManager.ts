@@ -13,6 +13,7 @@ import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
+import { TransformControlsPhase } from "../events/onTransformControls"
 
 export type OnIntersectValue = (target: StaticObjectManager) => void
 
@@ -22,8 +23,8 @@ export default interface ISimpleObjectManager
     onIntersect: Nullable<OnIntersectValue>
     onIntersectOut: Nullable<OnIntersectValue>
     onMoveToEnd: Nullable<() => void>
-    onScaleControl: Nullable<() => void>
-    onRotateControl: Nullable<() => void>
+    onScaleControl: Nullable<(phase: TransformControlsPhase) => void>
+    onRotateControl: Nullable<(phase: TransformControlsPhase) => void>
 
     moveTo: Function | Array<any>
     lerpTo: Function | Array<any>

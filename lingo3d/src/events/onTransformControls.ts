@@ -1,5 +1,6 @@
 import { event } from "@lincode/events"
 
-export const [emitTransformControls, onTransformControls] = event<
-    "start" | "end" | "move"
->()
+export type TransformControlsPhase = "start" | "end" | "move"
+
+export const [emitTransformControls, onTransformControls] =
+    event<TransformControlsPhase>()
