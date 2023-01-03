@@ -4,7 +4,7 @@ import { EDITOR_URL } from "../../../globals"
 import Sprite from "../../Sprite"
 
 export default class HelperSprite extends Sprite {
-    public target: MeshAppendable | undefined
+    public target?: MeshAppendable
 
     public constructor(type: "camera" | "target" | "light" | "audio") {
         super()
@@ -13,5 +13,14 @@ export default class HelperSprite extends Sprite {
         this.castShadow = false
         this.receiveShadow = false
         hiddenAppendables.add(this)
+    }
+
+    public get onTranslateControl() {
+        return this.outerObject3d.userData.onTranslateControl
+    }
+    public set onTranslateControl(cb) {
+        this.outerObject3d.userData.onTranslateControl = cb
+        if (this.target)
+            this.target.outerObject3d.userData.onTranslateControl = cb
     }
 }
