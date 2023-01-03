@@ -88,9 +88,12 @@ createEffect(() => {
             ssrExcludeSet.delete(transformControls)
         })
     })
+
     const { onTranslateControl } = target.userData
-    mode === "translate" && onTranslateControl
-    handle.watch(onTransformControls(onTranslateControl))
+    mode === "translate" &&
+        onTranslateControl &&
+        handle.watch(onTransformControls(onTranslateControl))
+
     mode === "rotate" &&
         handle.watch(
             onTransformControls(() => {
@@ -105,7 +108,6 @@ createEffect(() => {
                 }
             })
         )
-
     return () => {
         handle.cancel()
     }
