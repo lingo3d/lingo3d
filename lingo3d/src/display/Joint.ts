@@ -16,14 +16,19 @@ import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
 
-const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
+const createLimitedSpherical = (
+    actor0: any,
+    pose0: any,
+    actor1: any,
+    pose1: any
+) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
         getPhysX()
 
-    const j = Px.SphericalJointCreate(physics, a0, t0, a1, t1)
-    j.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
-    j.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
-    return j
+    const joint = Px.SphericalJointCreate(physics, actor0, pose0, actor1, pose1)
+    joint.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
+    joint.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
+    return joint
 }
 
 export default class Joint extends PositionedManager implements IJoint {
@@ -42,8 +47,8 @@ export default class Joint extends PositionedManager implements IJoint {
             sphere.scale = 0.1
             const handle = addSelectionHelper(sphere, this)
 
-            sphere.onTranslateControl = () => {
-                console.log(sphere)
+            sphere.onTranslateControl = (phase) => {
+                if (phase === "end") console.log(sphere)
             }
 
             return () => {
