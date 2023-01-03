@@ -101,7 +101,7 @@ export default class Curve extends MeshAppendable implements ICurve {
                     this.append(helper)
                     helper.scale = 0.1
                     overrideSelectionCandidates.add(helper.outerObject3d)
-                    helper.onMove = () => {
+                    helper.onTranslateControl = () => {
                         move = true
                         Object.assign(pt, helper.getWorldPosition())
                         this.refreshState.set({})
