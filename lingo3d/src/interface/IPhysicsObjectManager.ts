@@ -43,8 +43,8 @@ export const physicsObjectManagerDefaults =
         },
         {
             physics: new Choices({
-                true: true,
                 false: false,
+                true: true,
                 map: "map",
                 character: "character",
                 convex: "convex",
