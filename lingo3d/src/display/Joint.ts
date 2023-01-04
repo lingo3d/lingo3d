@@ -1,4 +1,5 @@
 import { centroid3d } from "@lincode/math"
+import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import mainCamera from "../engine/mainCamera"
 import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
@@ -6,6 +7,7 @@ import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
+import destroy from "./core/PhysicsObjectManager/physx/destroy"
 import {
     assignPxTransform_,
     setPxTransform,
@@ -47,9 +49,8 @@ export default class Joint extends PositionedManager implements IJoint {
             sphere.scale = 0.1
             const handle = addSelectionHelper(sphere, this)
 
-            sphere.onTranslateControl = (phase) => {
-                if (phase === "end") console.log(sphere)
-            }
+            sphere.onTranslateControl = (phase) =>
+                phase === "end" && this.refreshState.set({})
 
             return () => {
                 handle.cancel()
@@ -74,15 +75,20 @@ export default class Joint extends PositionedManager implements IJoint {
             if (fromManager.physics !== true) fromManager.physics = true
             if (toManager.physics !== true) toManager.physics = true
 
+            const handle = new Cancellable()
+
             queueMicrotask(() => {
-                if (_fixed)
-                    createLimitedSpherical(
+                if (handle.done) return
+
+                if (_fixed) {
+                    const joint = createLimitedSpherical(
                         null,
                         setPxTransform(0, 0, 0),
                         fromManager.actor,
                         assignPxTransform_(fromManager)
                     )
-
+                    handle.then(() => destroy(joint))
+                }
                 const p = this.position
                 const q = this.quaternion
 
@@ -113,6 +119,9 @@ export default class Joint extends PositionedManager implements IJoint {
                     pxTransform_
                 )
             })
+            return () => {
+                handle.cancel()
+            }
         }, [this.refreshState.get, getPhysX])
     }
 

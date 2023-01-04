@@ -6,6 +6,7 @@ import IPositioned, {
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
+import NullableDefault from "./utils/NullableDefault"
 
 export default interface IJoint extends IPositioned {
     from: Nullable<string | MeshManager>
@@ -23,5 +24,5 @@ export const jointSchema: Required<ExtractProps<IJoint>> = {
 export const jointDefaults = extendDefaults<IJoint>([positionedDefaults], {
     from: undefined,
     to: undefined,
-    fixed: undefined
+    fixed: new NullableDefault(false)
 })
