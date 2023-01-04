@@ -1,7 +1,9 @@
 import { centroid3d } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
+import { extendFunction, omitFunction } from "@lincode/utils"
 import mainCamera from "../engine/mainCamera"
+import { TransformControlsPhase } from "../events/onTransformControls"
 import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
@@ -88,7 +90,6 @@ export default class Joint extends PositionedManager implements IJoint {
                 fromPhysics = fromManager.physics
                 this.refreshState.set({})
             })
-
             let toPhysics = toManager.physics
             const handle1 = getPrivateValue(
                 toManager,
@@ -98,6 +99,19 @@ export default class Joint extends PositionedManager implements IJoint {
                 toPhysics = toManager.physics
                 this.refreshState.set({})
             })
+
+            const onMove = (phase: TransformControlsPhase) => {
+                if (phase === "start") parent!.attach(this.outerObject3d)
+                else if (phase === "end") this.refreshState.set({})
+            }
+            fromManager.onTranslateControl = extendFunction(
+                fromManager.onTranslateControl,
+                onMove
+            )
+            toManager.onTranslateControl = extendFunction(
+                toManager.onTranslateControl,
+                onMove
+            )
 
             const handle = new Cancellable()
             const timeout = setTimeout(() => {
@@ -136,10 +150,18 @@ export default class Joint extends PositionedManager implements IJoint {
                 clearTimeout(timeout)
                 handle0.cancel()
                 handle1.cancel()
+                fromManager.onTranslateControl = omitFunction(
+                    fromManager.onTranslateControl,
+                    onMove
+                )
+                toManager.onTranslateControl = omitFunction(
+                    toManager.onTranslateControl,
+                    onMove
+                )
                 handle.cancel()
                 fromManager.jointCount--
                 toManager.jointCount--
-                parent?.attach(this.outerObject3d)
+                parent!.attach(this.outerObject3d)
             }
         }, [this.refreshState.get, getPhysX])
     }
