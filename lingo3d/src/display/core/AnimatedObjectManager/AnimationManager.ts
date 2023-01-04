@@ -5,7 +5,12 @@ import {
     AnimationAction,
     BooleanKeyframeTrack
 } from "three"
-import { debounceTrailing, forceGet, merge } from "@lincode/utils"
+import {
+    debounceTrailing,
+    filterBoolean,
+    forceGet,
+    merge
+} from "@lincode/utils"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import { dtPtr } from "../../../engine/eventLoop"
 import { GetGlobalState, Reactive } from "@lincode/reactivity"
@@ -154,7 +159,7 @@ export default class AnimationManager
                                         frames
                                     )!
                             )
-                            .filter(Boolean)
+                            .filter(filterBoolean)
                     })
                     .flat()
             )

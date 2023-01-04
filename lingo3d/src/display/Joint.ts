@@ -102,11 +102,7 @@ export default class Joint extends PositionedManager implements IJoint {
 
             const onMove = (phase: TransformControlsPhase) => {
                 if (phase === "start") parent!.attach(this.outerObject3d)
-                else if (phase === "end") {
-                    this.refreshState.set({})
-                    fromManager.updatePhysics()
-                    toManager.updatePhysics()
-                }
+                else if (phase === "end") this.refreshState.set({})
             }
             fromManager.onTranslateControl = extendFunction(
                 fromManager.onTranslateControl,

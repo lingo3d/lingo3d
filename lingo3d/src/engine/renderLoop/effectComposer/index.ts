@@ -1,5 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
-import { Effect, EffectComposer, EffectPass, RenderPass } from "postprocessing"
+import { filterBoolean } from "@lincode/utils"
+import { EffectComposer, EffectPass, RenderPass } from "postprocessing"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getRenderer } from "../../../states/useRenderer"
 import { getResolution } from "../../../states/useResolution"
@@ -44,7 +45,7 @@ createEffect(() => {
 
     const effectPass = new EffectPass(
         getCameraRendered(),
-        ...([
+        ...[
             getBloomEffect(),
             getSelectiveBloomEffect(),
             getSSREffect(),
@@ -52,7 +53,7 @@ createEffect(() => {
             getOutlineEffect(),
             getBokehEffect(),
             getVignetteEffect()
-        ].filter(Boolean) as Array<Effect>)
+        ].filter(filterBoolean)
     )
     effectComposer.addPass(effectPass)
 
