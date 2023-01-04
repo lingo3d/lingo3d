@@ -28,7 +28,9 @@ const createLimitedSpherical = (
         getPhysX()
 
     const joint = Px.SphericalJointCreate(physics, actor0, pose0, actor1, pose1)
-    joint.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
+    const cone = new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05)
+    joint.setLimitCone(cone)
+    destroy(cone)
     joint.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
     return joint
 }
@@ -72,6 +74,10 @@ export default class Joint extends PositionedManager implements IJoint {
 
             Object.assign(this, centroid3d([fromManager, toManager]))
 
+            const fromPhysics = fromManager.physics
+            const toPhysics = toManager.physics
+            const { parent } = this.outerObject3d
+
             if (fromManager.physics !== true) fromManager.physics = true
             if (toManager.physics !== true) toManager.physics = true
 
@@ -112,15 +118,19 @@ export default class Joint extends PositionedManager implements IJoint {
                     q.z,
                     q.w
                 )
-                createLimitedSpherical(
+                const joint = createLimitedSpherical(
                     fromManager.actor,
                     pxTransform,
                     toManager.actor,
                     pxTransform_
                 )
+                handle.then(() => destroy(joint))
             })
             return () => {
                 handle.cancel()
+                fromManager.physics = fromPhysics
+                toManager.physics = toPhysics
+                parent?.attach(this.outerObject3d)
             }
         }, [this.refreshState.get, getPhysX])
     }
