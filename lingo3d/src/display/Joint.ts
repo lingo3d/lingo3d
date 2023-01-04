@@ -9,7 +9,6 @@ import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import destroy from "./core/PhysicsObjectManager/physx/destroy"
 import {
-    assignPxTransform_,
     setPxTransform,
     setPxTransform_
 } from "./core/PhysicsObjectManager/physx/pxMath"
@@ -61,7 +60,7 @@ export default class Joint extends PositionedManager implements IJoint {
 
         this.createEffect(() => {
             const { physics } = getPhysX()
-            const { _to, _from, _fixed } = this
+            const { _to, _from } = this
             if (!physics || !_to || !_from) return
 
             const [[toManager]] = getMeshManagerSets(_to)
@@ -88,15 +87,6 @@ export default class Joint extends PositionedManager implements IJoint {
             queueMicrotask(() => {
                 if (handle.done) return
 
-                if (_fixed) {
-                    const joint = createLimitedSpherical(
-                        null,
-                        setPxTransform(0, 0, 0),
-                        fromManager.actor,
-                        assignPxTransform_(fromManager)
-                    )
-                    handle.then(() => destroy(joint))
-                }
                 const p = this.position
                 const q = this.quaternion
 
@@ -156,15 +146,6 @@ export default class Joint extends PositionedManager implements IJoint {
     }
     public set from(val) {
         this._from = val
-        this.refreshState.set({})
-    }
-
-    private _fixed?: boolean
-    public get fixed() {
-        return this._fixed
-    }
-    public set fixed(val) {
-        this._fixed = val
         this.refreshState.set({})
     }
 }
