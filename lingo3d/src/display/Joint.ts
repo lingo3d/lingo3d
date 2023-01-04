@@ -5,6 +5,7 @@ import mainCamera from "../engine/mainCamera"
 import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
+import getPrivateValue from "../utils/getPrivateValue"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import destroy from "./core/PhysicsObjectManager/physx/destroy"
@@ -78,6 +79,26 @@ export default class Joint extends PositionedManager implements IJoint {
             fromManager.jointCount++
             toManager.jointCount++
 
+            let fromPhysics = fromManager.physics
+            const handle0 = getPrivateValue(
+                fromManager,
+                "refreshPhysicsState"
+            )!.get(() => {
+                if (fromPhysics === fromManager.physics) return
+                fromPhysics = fromManager.physics
+                this.refreshState.set({})
+            })
+
+            let toPhysics = toManager.physics
+            const handle1 = getPrivateValue(
+                toManager,
+                "refreshPhysicsState"
+            )!.get(() => {
+                if (toPhysics === toManager.physics) return
+                toPhysics = toManager.physics
+                this.refreshState.set({})
+            })
+
             const handle = new Cancellable()
             queueMicrotask(() => {
                 if (handle.done) return
@@ -114,6 +135,8 @@ export default class Joint extends PositionedManager implements IJoint {
                 handle.then(() => destroy(joint))
             })
             return () => {
+                handle0.cancel()
+                handle1.cancel()
                 handle.cancel()
                 fromManager.jointCount--
                 toManager.jointCount--
