@@ -173,9 +173,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.refreshPhysicsState = new Reactive({})
         import("./physx")
 
-        const [setMode, getMode] = store<PhysicsOptions>(undefined)
+        const [setMode, getMode] = store<PhysicsOptions>(false)
         this.createEffect(() => {
-            setMode(this._jointCount ? true : this._physics)
+            setMode(this._physics || !!this._jointCount)
         }, [this.refreshPhysicsState.get])
 
         this.createEffect(() => {
