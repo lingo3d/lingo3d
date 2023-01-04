@@ -165,7 +165,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
 
     private refreshPhysicsState?: Reactive<{}>
-    protected refreshPhysics() {
+    public refreshPhysics() {
         if (this.refreshPhysicsState) {
             this.refreshPhysicsState.set({})
             return

@@ -78,8 +78,10 @@ export default class Joint extends PositionedManager implements IJoint {
             const toPhysics = toManager.physics
             const { parent } = this.outerObject3d
 
-            if (fromManager.physics !== true) fromManager.physics = true
-            if (toManager.physics !== true) toManager.physics = true
+            if (fromManager.physics === true) fromManager.refreshPhysics()
+            else fromManager.physics = true
+            if (toManager.physics === true) toManager.refreshPhysics()
+            else toManager.physics = true
 
             const handle = new Cancellable()
 
