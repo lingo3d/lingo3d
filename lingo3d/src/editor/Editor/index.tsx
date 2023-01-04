@@ -108,7 +108,22 @@ const Editor = () => {
                     true
                 )
 
-            const [transformParams0, transformRest] = splitObject(generalRest, [
+            const [physicsParams, physicsRest] = splitObject(generalRest, [
+                "physics",
+                "mass",
+                "gravity"
+            ])
+            physicsParams &&
+                addInputs(
+                    handle,
+                    pane,
+                    "physics",
+                    selectionTarget,
+                    defaults,
+                    physicsParams
+                )
+
+            const [transformParams0, transformRest] = splitObject(physicsRest, [
                 "x",
                 "y",
                 "z",
