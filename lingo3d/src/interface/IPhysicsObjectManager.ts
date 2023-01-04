@@ -7,6 +7,7 @@ import { hideSchema } from "./utils/nonEditorSchemaSet"
 import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
 import NullableDefault from "./utils/NullableDefault"
+import Choices from "./utils/Choices"
 
 export type PhysicsOptions =
     | undefined
@@ -33,8 +34,21 @@ export const physicsObjectManagerSchema: Required<
 hideSchema(["velocity"])
 
 export const physicsObjectManagerDefaults =
-    extendDefaults<IPhysicsObjectManager>([simpleObjectManagerDefaults], {
-        mass: 1,
-        gravity: new NullableDefault(true),
-        physics: new NullableDefault(false)
-    })
+    extendDefaults<IPhysicsObjectManager>(
+        [simpleObjectManagerDefaults],
+        {
+            mass: 1,
+            gravity: new NullableDefault(true),
+            physics: new NullableDefault(false)
+        },
+        {
+            physics: new Choices({
+                true: true,
+                false: false,
+                map: "map",
+                character: "character",
+                convex: "convex",
+                static: "static"
+            })
+        }
+    )
