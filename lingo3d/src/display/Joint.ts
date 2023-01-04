@@ -28,10 +28,10 @@ const createLimitedSpherical = (
         getPhysX()
 
     const joint = Px.SphericalJointCreate(physics, actor0, pose0, actor1, pose1)
-    const cone = new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05)
-    joint.setLimitCone(cone)
-    destroy(cone)
-    joint.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
+    // const cone = new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05)
+    // joint.setLimitCone(cone)
+    // destroy(cone)
+    // joint.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
     return joint
 }
 
@@ -100,9 +100,7 @@ export default class Joint extends PositionedManager implements IJoint {
             })
 
             const handle = new Cancellable()
-            queueMicrotask(() => {
-                if (handle.done) return
-
+            const timeout = setTimeout(() => {
                 const p = this.position
                 const q = this.quaternion
 
@@ -135,6 +133,7 @@ export default class Joint extends PositionedManager implements IJoint {
                 handle.then(() => destroy(joint))
             })
             return () => {
+                clearTimeout(timeout)
                 handle0.cancel()
                 handle1.cancel()
                 handle.cancel()

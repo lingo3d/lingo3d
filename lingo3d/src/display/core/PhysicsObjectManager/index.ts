@@ -6,7 +6,7 @@ import IPhysicsObjectManager, {
 } from "../../../interface/IPhysicsObjectManager"
 import { getPhysX } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
-import { Reactive } from "@lincode/reactivity"
+import { Reactive, store } from "@lincode/reactivity"
 import {
     actorPtrManagerMap,
     managerActorMap,
@@ -173,8 +173,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.refreshPhysicsState = new Reactive({})
         import("./physx")
 
+        const [setMode, getMode] = store<PhysicsOptions>(undefined)
         this.createEffect(() => {
-            const { _physics, _jointCount } = this
+            setMode(this._jointCount ? true : this._physics)
+        }, [this.refreshPhysicsState.get])
+
+        this.createEffect(() => {
+            const mode = getMode()
             const {
                 physics,
                 scene,
@@ -184,12 +189,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 material,
                 getPxControllerManager
             } = getPhysX()
-            if (!physics || !(_physics || _jointCount)) return
+            if (!physics || !mode) return
 
             const ogParent = this.outerObject3d.parent
             ogParent !== threeScene && threeScene.attach(this.outerObject3d)
 
-            if (_physics === "character") {
+            if (mode === "character") {
                 const desc = new PxCapsuleControllerDesc()
                 const { x, y } = getActualScale(this).multiplyScalar(0.5)
                 this.capsuleHeight = y * 2
@@ -224,11 +229,11 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
             const pxTransform = assignPxTransform(this)
             const actor = this.initActor(
-                _physics === "map" || _physics === "static"
+                mode === "map" || mode === "static"
                     ? physics.createRigidStatic(pxTransform)
                     : physics.createRigidDynamic(pxTransform)
             )
-            const shape = this.getPxShape(_physics, actor)
+            const shape = this.getPxShape(mode, actor)
             scene.addActor(actor)
 
             managerActorMap.set(this, actor)
@@ -241,7 +246,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 managerActorMap.delete(this)
                 this.actor = undefined
             }
-        }, [this.refreshPhysicsState.get, getPhysX])
+        }, [getMode, getPhysX])
     }
 
     private _physics?: PhysicsOptions
