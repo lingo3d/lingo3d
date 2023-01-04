@@ -51,7 +51,7 @@ export default class Joint extends PositionedManager implements IJoint {
             const handle = addSelectionHelper(sphere, this)
 
             sphere.onTranslateControl = (phase) =>
-                phase === "end" && this.refreshState.set({})
+                phase === "end" && this.setManualPosition()
 
             return () => {
                 handle.cancel()
@@ -71,7 +71,8 @@ export default class Joint extends PositionedManager implements IJoint {
             )
                 return
 
-            Object.assign(this, centroid3d([fromManager, toManager]))
+            !this.manualPosition &&
+                Object.assign(this, centroid3d([fromManager, toManager]))
 
             const fromPhysics = fromManager.physics
             const toPhysics = toManager.physics
@@ -147,5 +148,35 @@ export default class Joint extends PositionedManager implements IJoint {
     public set from(val) {
         this._from = val
         this.refreshState.set({})
+    }
+
+    private manualPosition?: boolean
+    private setManualPosition() {
+        this.manualPosition = true
+        this.refreshState.set({})
+    }
+
+    public override get x() {
+        return super.x
+    }
+    public override set x(val) {
+        super.x = val
+        this.setManualPosition()
+    }
+
+    public override get y() {
+        return super.y
+    }
+    public override set y(val) {
+        super.y = val
+        this.setManualPosition()
+    }
+
+    public override get z() {
+        return super.z
+    }
+    public override set z(val) {
+        super.z = val
+        this.setManualPosition()
     }
 }
