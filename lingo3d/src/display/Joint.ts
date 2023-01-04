@@ -5,6 +5,7 @@ import mainCamera from "../engine/mainCamera"
 import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
+import unsafeSetValue from "../utils/unsafeSetValue"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import destroy from "./core/PhysicsObjectManager/physx/destroy"
@@ -71,20 +72,14 @@ export default class Joint extends PositionedManager implements IJoint {
             )
                 return
 
+            const { parent } = this.outerObject3d
             !this.manualPosition &&
                 Object.assign(this, centroid3d([fromManager, toManager]))
 
-            const fromPhysics = fromManager.physics
-            const toPhysics = toManager.physics
-            const { parent } = this.outerObject3d
-
-            if (fromManager.physics === true) fromManager.refreshPhysics()
-            else fromManager.physics = true
-            if (toManager.physics === true) toManager.refreshPhysics()
-            else toManager.physics = true
+            unsafeSetValue(fromManager, "joint", true)
+            unsafeSetValue(toManager, "joint", true)
 
             const handle = new Cancellable()
-
             queueMicrotask(() => {
                 if (handle.done) return
 
@@ -121,8 +116,8 @@ export default class Joint extends PositionedManager implements IJoint {
             })
             return () => {
                 handle.cancel()
-                fromManager.physics = fromPhysics
-                toManager.physics = toPhysics
+                unsafeSetValue(fromManager, "joint", false)
+                unsafeSetValue(toManager, "joint", false)
                 parent?.attach(this.outerObject3d)
             }
         }, [this.refreshState.get, getPhysX])

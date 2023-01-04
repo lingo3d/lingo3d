@@ -174,7 +174,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         import("./physx")
 
         this.createEffect(() => {
-            const { _physics } = this
+            const { _physics, _joint } = this
             const {
                 physics,
                 scene,
@@ -184,7 +184,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 material,
                 getPxControllerManager
             } = getPhysX()
-            if (!physics || !_physics) return
+            if (!physics || !(_physics || _joint)) return
 
             const ogParent = this.outerObject3d.parent
             ogParent !== threeScene && threeScene.attach(this.outerObject3d)
@@ -250,6 +250,15 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set physics(val) {
         this._physics = val
+        this.refreshPhysics()
+    }
+
+    private _joint?: boolean
+    protected get joint() {
+        return this._joint
+    }
+    protected set joint(val) {
+        this._joint = val
         this.refreshPhysics()
     }
 
