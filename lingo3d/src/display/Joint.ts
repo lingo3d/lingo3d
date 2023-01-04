@@ -5,7 +5,6 @@ import mainCamera from "../engine/mainCamera"
 import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
-import unsafeSetValue from "../utils/unsafeSetValue"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import destroy from "./core/PhysicsObjectManager/physx/destroy"
@@ -76,8 +75,8 @@ export default class Joint extends PositionedManager implements IJoint {
             !this.manualPosition &&
                 Object.assign(this, centroid3d([fromManager, toManager]))
 
-            unsafeSetValue(fromManager, "joint", true)
-            unsafeSetValue(toManager, "joint", true)
+            fromManager.jointCount++
+            toManager.jointCount++
 
             const handle = new Cancellable()
             queueMicrotask(() => {
@@ -116,8 +115,8 @@ export default class Joint extends PositionedManager implements IJoint {
             })
             return () => {
                 handle.cancel()
-                unsafeSetValue(fromManager, "joint", false)
-                unsafeSetValue(toManager, "joint", false)
+                fromManager.jointCount--
+                toManager.jointCount--
                 parent?.attach(this.outerObject3d)
             }
         }, [this.refreshState.get, getPhysX])
