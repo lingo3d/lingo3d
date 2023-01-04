@@ -95,9 +95,7 @@ const Editor = () => {
 
             const [generalParams, generalRest] = splitObject(ownRest, [
                 "name",
-                "id",
-                "physics",
-                "gravity"
+                "id"
             ])
             if (generalParams)
                 addInputs(
