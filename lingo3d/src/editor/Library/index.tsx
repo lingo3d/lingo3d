@@ -32,6 +32,16 @@ const Library = () => {
             <div style={{ padding: 10, overflowY: "scroll", flexGrow: 1 }}>
                 <ObjectGroup
                     names={[
+                        "cube",
+                        "sphere",
+                        "cone",
+                        "cylinder",
+                        "octahedron",
+                        "tetrahedron",
+                        "torus",
+                        "plane",
+                        "circle",
+
                         "model",
                         "dummy",
                         "svgMesh",
@@ -47,15 +57,7 @@ const Library = () => {
                         "reflector",
                         "water",
                         { sprite: "plane" },
-                        "cube",
-                        "sphere",
-                        "cone",
-                        "cylinder",
-                        "octahedron",
-                        "tetrahedron",
-                        "torus",
-                        "plane",
-                        "circle",
+
                         "areaLight",
                         "ambientLight",
                         "skyLight",
