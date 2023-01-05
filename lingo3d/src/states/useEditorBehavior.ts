@@ -1,5 +1,7 @@
 import store, { createEffect } from "@lincode/reactivity"
+import { appendableRoot } from "../api/core/collections"
 import settings from "../api/settings"
+import Setup from "../display/Setup"
 import mainCamera from "../engine/mainCamera"
 import { onLoadFile } from "../events/onLoadFile"
 import { setEditorCamera } from "./useEditorCamera"
@@ -18,7 +20,9 @@ createEffect(() => {
     setOrbitControls(true)
     setWorldPlay(false)
 
-    settings.gridHelper = true
+    settings.gridHelper = ![...appendableRoot].some(
+        (item) => !(item instanceof Setup)
+    )
     const handle = onLoadFile(() => (settings.gridHelper = false))
 
     return () => {
