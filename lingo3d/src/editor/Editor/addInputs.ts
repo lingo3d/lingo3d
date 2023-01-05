@@ -88,20 +88,20 @@ export default async (
     skipApplyValue()
     pane.refresh()
 
-    const interval = setInterval(() => {
-        let changed = false
-        for (const key of paramKeys)
-            if (!isEqual(target[key] ?? paramsDefault[key], params[key])) {
-                params[key] = target[key]
-                changed = true
-            }
+    // const interval = setInterval(() => {
+    //     let changed = false
+    //     for (const key of paramKeys)
+    //         if (!isEqual(target[key] ?? paramsDefault[key], params[key])) {
+    //             params[key] = target[key]
+    //             changed = true
+    //         }
 
-        if (changed) {
-            skipApplyValue()
-            pane.refresh()
-        }
-    }, MONITOR_INTERVAL)
-    handle.then(() => clearInterval(interval))
+    //     if (changed) {
+    //         skipApplyValue()
+    //         pane.refresh()
+    //     }
+    // }, MONITOR_INTERVAL)
+    // handle.then(() => clearInterval(interval))
 
     return result
 }

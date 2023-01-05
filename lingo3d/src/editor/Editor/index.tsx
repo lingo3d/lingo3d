@@ -51,8 +51,6 @@ const Editor = () => {
     const targetSetup = (lastSetup && dataSetupMap.get(lastSetup)) ?? settings
 
     const selectionTarget = useSyncState(getSelectionTarget)
-    const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
-
     const selectedSignal = useSignal<string | undefined>(undefined)
 
     useCameraPanel(pane, cameraFolder)
@@ -83,7 +81,7 @@ const Editor = () => {
             }
         }
 
-        if (!multipleSelectionTargets.size) {
+        if (!getMultipleSelectionTargets()[0].size) {
             const { schema, defaults, componentName } = unsafeGetValue(
                 selectionTarget,
                 "constructor"
@@ -342,12 +340,7 @@ const Editor = () => {
             handle.cancel()
             pane.dispose()
         }
-    }, [
-        selectionTarget,
-        multipleSelectionTargets,
-        targetSetup,
-        selectedSignal.value
-    ])
+    }, [selectionTarget, targetSetup, selectedSignal.value])
 
     return (
         <div
