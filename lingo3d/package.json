@@ -27,7 +27,7 @@
         "@lincode/reactivity": "^1.0.82",
         "@lincode/utils": "^1.3.9",
         "@preact/signals": "^1.1.3",
-        "@types/three": "0.147.1",
+        "@types/three": "0.148.0",
         "@ungap/structured-clone": "^1.0.1",
         "browser-fs-access": "0.31.1",
         "nanoid": "^4.0.0",
