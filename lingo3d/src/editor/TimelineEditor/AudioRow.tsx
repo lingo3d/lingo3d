@@ -30,7 +30,7 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
             frameKeys.length < 2
                 ? startFrame + Math.ceil(duration * SEC2FRAME)
                 : Number(frameKeys.at(-1))
-        ] as const
+        ]
     }, [frameKeys, duration])
 
     const width = endFrame * FRAME_WIDTH

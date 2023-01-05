@@ -7,5 +7,5 @@ export default (target: Record<string, any>, keys: Array<string>) => {
     for (const [key, value] of Object.entries(target))
         if (!keySet.has(key)) objectRest[key] = value
 
-    return <const>[objectWithKeys, objectRest]
+    return [objectWithKeys, objectRest]
 }

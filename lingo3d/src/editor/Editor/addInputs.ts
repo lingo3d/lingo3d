@@ -81,7 +81,7 @@ export default async (
                 target[key] = value
                 !downPtr[0] && emitEditorEdit("end")
             })
-            return [key, input] as const
+            return [key, input]
         })
     )
     Object.assign(params, paramsBackup)

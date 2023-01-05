@@ -40,7 +40,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public set mass(val) {
         this._mass = val
-        this.actor?.setMass(val)
+        this.actor?.setMass?.(val)
     }
 
     public gravity: Nullable<boolean>

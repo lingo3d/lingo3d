@@ -34,5 +34,5 @@ export default (loaded: Object3D, manager: MeshAppendable) => {
             pxVec3.set_z(vertices[offset + 2])
         }
     }
-    return <const>[vec3Vector, vertexCount]
+    return [vec3Vector, vertexCount]
 }

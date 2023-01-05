@@ -33,5 +33,5 @@ export default (loaded: Object3D, manager: MeshAppendable) => {
         pxVec3.set_y(vertices[offset + 1])
         pxVec3.set_z(vertices[offset + 2])
     }
-    return <const>[vec3Vector, buffer.count, geometry.index!]
+    return [vec3Vector, buffer.count, geometry.index]
 }

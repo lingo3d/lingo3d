@@ -44,10 +44,10 @@ createEffect(() => {
         flushMultipleSelectionTargets(() =>
             emitEditorChanges(
                 //todo: optimize array spread in the future
-                [...instances].map(
-                    (instance) =>
-                        <const>[instance, getChangedProperties(instance)]
-                )
+                [...instances].map((instance) => [
+                    instance,
+                    getChangedProperties(instance)
+                ])
             )
         )
     const handle2 = onTransformControls((val) => {
