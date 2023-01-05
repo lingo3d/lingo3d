@@ -23,7 +23,8 @@ import IAnimationManager, {
     AnimationData,
     animationManagerDefaults,
     animationManagerSchema,
-    FrameData
+    FrameData,
+    FrameValue
 } from "../../../interface/IAnimationManager"
 import Appendable from "../../../api/core/Appendable"
 import FoundManager from "../FoundManager"
@@ -35,6 +36,14 @@ import getPrivateValue from "../../../utils/getPrivateValue"
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
 const mixerManagerMap = new WeakMap<AnimationMixer, AnimationManager>()
+
+const isBooleanFrameData = (
+    values: Array<FrameValue>
+): values is Array<boolean> => typeof values[0] === "boolean"
+
+const isNumberFrameData = (
+    values: Array<FrameValue>
+): values is Array<number> => typeof values[0] === "number"
 
 const framesToKeyframeTrack = (
     targetName: string,
@@ -48,10 +57,11 @@ const framesToKeyframeTrack = (
     const name = targetName + "." + property
     const frameNums = keys.map((frameNum) => Number(frameNum) * FRAME2SEC)
 
-    if (typeof values[0] === "boolean")
+    if (isBooleanFrameData(values))
         return new BooleanKeyframeTrack(name, frameNums, values)
 
-    return new NumberKeyframeTrack(name, frameNums, values)
+    if (isNumberFrameData(values))
+        return new NumberKeyframeTrack(name, frameNums, values)
 }
 
 export default class AnimationManager
