@@ -7265,7 +7265,9 @@ function createInputBindingController(plugin, args) {
         initialValue: result.initialValue,
         params: result.params
     }
-    const reader = plugin.binding.reader(valueArgs)
+    const reader = args.params.options
+        ? formatString
+        : plugin.binding.reader(valueArgs)
     const constraint = plugin.binding.constraint
         ? plugin.binding.constraint(valueArgs)
         : undefined
