@@ -1,13 +1,15 @@
 import { CircleGeometry } from "three"
-import Primitive, { allocateDefaultInstance } from "../core/Primitive"
 import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 import { deg2Rad } from "@lincode/math"
+import ConfigurablePrimitive, {
+    allocateDefaultInstance
+} from "../core/ConfigurablePrimitive"
 
 const defaultParams = <const>[0.5, 32, 0, 360 * deg2Rad]
 allocateDefaultInstance(CircleGeometry, defaultParams)
 
 export default class Circle
-    extends Primitive<typeof CircleGeometry>
+    extends ConfigurablePrimitive<typeof CircleGeometry>
     implements ICircle
 {
     public static componentName = "circle"
