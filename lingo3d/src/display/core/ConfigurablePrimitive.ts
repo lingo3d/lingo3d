@@ -1,5 +1,6 @@
 import { Class, forceGet } from "@lincode/utils"
 import { BufferGeometry } from "three"
+import callPrivateMethod from "../../utils/callPrivateMethod"
 import debounceSystem from "../../utils/debounceSystem"
 import getPrivateValue from "../../utils/getPrivateValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
@@ -76,14 +77,17 @@ const decreaseCount = <T>(
 
 export const refreshParamsSystem = debounceSystem(
     <GeometryClass extends Class<BufferGeometry>>(
-        target: ConfigurablePrimitive<GeometryClass>,
-        params: Readonly<ConstructorParameters<GeometryClass>>
+        target: ConfigurablePrimitive<GeometryClass>
     ) => {
         const Geometry = getPrivateValue(target, "Geometry")
         decreaseCount(Geometry, getPrivateValue(target, "params"))
         target.object3d.geometry = increaseCount(
             Geometry,
-            unsafeSetValue(target, "params", params)
+            unsafeSetValue(
+                target,
+                "params",
+                callPrivateMethod(target, "getParams")
+            )
         )
     }
 )
@@ -98,6 +102,10 @@ export default abstract class ConfigurablePrimitive<
     ) {
         super(geometry)
     }
+
+    protected abstract getParams(): Readonly<
+        ConstructorParameters<GeometryClass>
+    >
 
     public override dispose() {
         if (this.done) return this
