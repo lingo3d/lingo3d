@@ -1,12 +1,13 @@
 import { deg2Rad } from "@lincode/math"
 import { ConeGeometry } from "three"
+import { PI2 } from "../../globals"
 import ICone, { coneDefaults, coneSchema } from "../../interface/ICone"
 import ConfigurablePrimitive, {
     allocateDefaultInstance,
     refreshParamsSystem
 } from "../core/ConfigurablePrimitive"
 
-const defaultParams = <const>[0.5, 1, 32, 1, false, 0, 360 * deg2Rad]
+const defaultParams = <const>[0.5, 1, 32, 1, false, 0, PI2]
 const geometry = allocateDefaultInstance(ConeGeometry, defaultParams)
 
 export default class Cone
@@ -22,7 +23,7 @@ export default class Cone
     }
 
     protected override getParams() {
-        return <const>[0.5, 1, this.segments, 1, false, 0, 360 * deg2Rad]
+        return <const>[0.5, 1, this.segments, 1, false, 0, PI2]
     }
 
     private _segments?: number

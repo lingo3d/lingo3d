@@ -1,3 +1,7 @@
+export const PI = Math.PI
+export const PI2 = PI * 2
+export const PI_HALF = PI * 0.5
+
 export const CM2M = 1 / 100
 export const M2CM = 100
 

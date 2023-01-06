@@ -4,6 +4,7 @@ import { Sky } from "three/examples/jsm/objects/Sky"
 import scene from "./scene"
 import { getSkyShader } from "../states/useSkyShader"
 import { vector3 } from "../display/utils/reusables"
+import { PI } from "../globals"
 
 const lazySky = lazy(() => {
     const sky = new Sky()
@@ -16,8 +17,8 @@ const lazySky = lazy(() => {
         uniforms["mieCoefficient"].value = effectController.mieCoefficient
         uniforms["mieDirectionalG"].value = effectController.mieDirectionalG
 
-        const theta = Math.PI * (effectController.inclination - 0.5)
-        const phi = 2 * Math.PI * (effectController.azimuth - 0.5)
+        const theta = PI * (effectController.inclination - 0.5)
+        const phi = 2 * PI * (effectController.azimuth - 0.5)
 
         vector3.x = Math.cos(phi)
         vector3.y = Math.sin(phi) * Math.sin(theta)

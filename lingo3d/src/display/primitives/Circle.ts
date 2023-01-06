@@ -5,8 +5,9 @@ import ConfigurablePrimitive, {
     allocateDefaultInstance,
     refreshParamsSystem
 } from "../core/ConfigurablePrimitive"
+import { PI2 } from "../../globals"
 
-const defaultParams = <const>[0.5, 32, 0, 360 * deg2Rad]
+const defaultParams = <const>[0.5, 32, 0, PI2]
 const geometry = allocateDefaultInstance(CircleGeometry, defaultParams)
 
 export default class Circle

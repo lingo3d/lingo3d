@@ -12,6 +12,7 @@ import Cube from "../display/primitives/Cube"
 import { vector3, vector3_ } from "../display/utils/reusables"
 import scene from "../engine/scene"
 import { onBeforeRender } from "../events/onBeforeRender"
+import { PI } from "../globals"
 
 const leavesMaterial = new ShaderMaterial({
     vertexShader: `
@@ -109,7 +110,7 @@ for (let i = 0; i < instanceNumber; i++) {
     _normal.add(_position)
     dummy.position.set(_position.x, 0, _position.z)
     dummy.scale.setScalar(0.5 + Math.random() * 0.5)
-    dummy.rotation.y = Math.random() * Math.PI
+    dummy.rotation.y = Math.random() * PI
     dummy.updateMatrix()
     instancedMesh.setMatrixAt(i, dummy.matrix)
 }

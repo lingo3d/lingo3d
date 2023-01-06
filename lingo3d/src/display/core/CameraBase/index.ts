@@ -1,15 +1,9 @@
 import { CameraHelper, PerspectiveCamera, Quaternion } from "three"
 import ObjectManager from "../ObjectManager"
-import {
-    ray,
-    euler,
-    quaternion,
-    quaternion_,
-    halfPi
-} from "../../utils/reusables"
+import { ray, euler, quaternion, quaternion_ } from "../../utils/reusables"
 import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
 import { deg2Rad, Point3d } from "@lincode/math"
-import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE } from "../../../globals"
+import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE, PI, PI_HALF } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
 import MeshManager from "../MeshManager"
 import { Cancellable } from "@lincode/promiselikes"
@@ -78,8 +72,8 @@ export default abstract class CameraBase<
     public override lookAt(a0: any, a1?: any, a2?: any) {
         super.lookAt(a0, a1, a2)
         const angle = euler.setFromQuaternion(this.quaternion)
-        angle.x += Math.PI
-        angle.z += Math.PI
+        angle.x += PI
+        angle.z += PI
         this.outerObject3d.setRotationFromEuler(angle)
     }
 
@@ -157,13 +151,13 @@ export default abstract class CameraBase<
 
         euler.y -= movementX * 0.002
         euler.y = Math.max(
-            halfPi - this._maxAzimuthAngle * deg2Rad,
-            Math.min(halfPi - this._minAzimuthAngle * deg2Rad, euler.y)
+            PI_HALF - this._maxAzimuthAngle * deg2Rad,
+            Math.min(PI_HALF - this._minAzimuthAngle * deg2Rad, euler.y)
         )
         euler.x -= movementY * 0.002
         euler.x = Math.max(
-            halfPi - this._maxPolarAngle * deg2Rad,
-            Math.min(halfPi - this._minPolarAngle * deg2Rad, euler.x)
+            PI_HALF - this._maxPolarAngle * deg2Rad,
+            Math.min(PI_HALF - this._minPolarAngle * deg2Rad, euler.x)
         )
         manager.setRotationFromEuler(euler)
     }

@@ -36,7 +36,5 @@ export const frustum = new Frustum()
 
 export const matrix4 = new Matrix4()
 
-export const halfPi = Math.PI * 0.5
-
 export const wireframeMaterial = new MeshBasicMaterial({ wireframe: true })
 export const standardMaterial = new MeshStandardMaterial({ side: DoubleSide })

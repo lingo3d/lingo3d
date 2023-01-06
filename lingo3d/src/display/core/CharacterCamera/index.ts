@@ -11,7 +11,7 @@ import { getTransformControlsDragging } from "../../../states/useTransformContro
 import OrbitCameraBase from "../OrbitCameraBase"
 import { euler, quaternion } from "../../utils/reusables"
 import MeshManager from "../MeshManager"
-import { FAR, NEAR } from "../../../globals"
+import { FAR, NEAR, PI } from "../../../globals"
 import fpsAlpha from "../../utils/fpsAlpha"
 import { positionChangedXZ } from "../../utils/trackObject"
 import { getEditorModeComputed } from "../../../states/useEditorModeComputed"
@@ -44,7 +44,7 @@ export default class CharacterCamera
 
         const followTargetRotation = (target: MeshManager, slerp: boolean) => {
             euler.setFromQuaternion(target.quaternion)
-            euler.y += Math.PI
+            euler.y += PI
 
             if (slerp) {
                 quaternion.setFromEuler(euler)
@@ -58,7 +58,7 @@ export default class CharacterCamera
             euler.setFromQuaternion(this.midObject3d.quaternion)
             euler.x = 0
             euler.z = 0
-            euler.y += Math.PI
+            euler.y += PI
 
             if (slerp) {
                 quaternion.setFromEuler(euler)

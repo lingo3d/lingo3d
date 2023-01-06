@@ -16,6 +16,7 @@ import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { ssrExcludeSet } from "../renderLoop/effectComposer/ssrEffect/renderSetup"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { isPositionedManager } from "../../display/core/PositionedManager"
+import { PI } from "../../globals"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -109,11 +110,11 @@ createEffect(() => {
             onTransformControls(() => {
                 const { rotation } = target
                 if (
-                    (rotation.x === -Math.PI && rotation.z === -Math.PI) ||
-                    (rotation.x === Math.PI && rotation.z === Math.PI)
+                    (rotation.x === -PI && rotation.z === -PI) ||
+                    (rotation.x === PI && rotation.z === PI)
                 ) {
                     rotation.x = 0
-                    rotation.y = Math.PI - rotation.y
+                    rotation.y = PI - rotation.y
                     rotation.z = 0
                 }
             })

@@ -4,6 +4,7 @@ import { Reactive } from "@lincode/reactivity"
 import { extendFunction, omitFunction } from "@lincode/utils"
 import mainCamera from "../engine/mainCamera"
 import { TransformControlsPhase } from "../events/onTransformControls"
+import { PI_HALF } from "../globals"
 import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
@@ -24,7 +25,7 @@ const createLimitedSpherical = (
     actor0: any,
     pose0: any,
     actor1: any,
-    pose1: any,
+    pose1: any
     // yLimitAngle: number,
     // zLimitAngle: number
 ) => {
@@ -32,7 +33,7 @@ const createLimitedSpherical = (
         getPhysX()
 
     const joint = Px.SphericalJointCreate(physics, actor0, pose0, actor1, pose1)
-    // const cone = new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05)
+    // const cone = new PxJointLimitCone(PI_HALF, PI_HALF, 0.05)
     // joint.setLimitCone(cone)
     // destroy(cone)
     // joint.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)

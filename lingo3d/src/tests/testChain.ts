@@ -9,6 +9,7 @@ import {
     setPxVec__
 } from "../display/core/PhysicsObjectManager/physx/pxMath"
 import Cube from "../display/primitives/Cube"
+import { PI_HALF } from "../globals"
 import { getPhysX } from "../states/usePhysX"
 
 const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
@@ -16,7 +17,7 @@ const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
         getPhysX()
 
     const j = Px.SphericalJointCreate(physics, a0, t0, a1, t1)
-    j.setLimitCone(new PxJointLimitCone(Math.PI / 2, Math.PI / 2, 0.05))
+    j.setLimitCone(new PxJointLimitCone(PI_HALF, PI_HALF, 0.05))
     j.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
     return j
 }
