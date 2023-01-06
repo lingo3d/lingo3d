@@ -1,4 +1,3 @@
-import Cone from "../display/primitives/Cone"
-import Cylinder from "../display/primitives/Cylinder"
+import Octahedron from "../display/primitives/Octahedron"
 
-const cone = new Cylinder()
+const cone = new Octahedron()

@@ -1,4 +1,3 @@
-import { deg2Rad } from "@lincode/math"
 import { ConeGeometry } from "three"
 import { PI2 } from "../../globals"
 import ICone, { coneDefaults, coneSchema } from "../../interface/ICone"
