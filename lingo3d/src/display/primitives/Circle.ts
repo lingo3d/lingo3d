@@ -9,16 +9,29 @@ const classMapsMap = new WeakMap<
     [Map<string, any>, Record<string, number>]
 >()
 
+const classDefaultParamsInstanceMap = new WeakMap<Class, [string, any]>()
+
+classDefaultParamsInstanceMap.set(CircleGeometry, [
+    JSON.stringify([0.5, 32, 0, 360 * deg2Rad]),
+    new CircleGeometry(0.5, 32, 0, 360 * deg2Rad)
+])
+
 const increaseCount = <T extends Class>(
     ClassVal: T,
     params: Readonly<ConstructorParameters<T>>
 ): InstanceType<T> => {
+    const paramString = JSON.stringify(params)
+
+    const defaultTuple = classDefaultParamsInstanceMap.get(ClassVal)
+    if (defaultTuple) {
+        const [defaultParams, defaultInstance] = defaultTuple
+        if (paramString === defaultParams) return defaultInstance
+    }
     const [paramsInstanceMap, paramCountRecord] = forceGet(
         classMapsMap,
         ClassVal,
         () => [new Map<string, any>(), {} as Record<string, number>]
     )
-    const paramString = JSON.stringify(params)
     if (
         (paramCountRecord[paramString] =
             (paramCountRecord[paramString] ?? 0) + 1) === 1
@@ -63,6 +76,7 @@ export default class Circle extends Primitive implements ICircle {
         super(increaseCount(CircleGeometry, params))
         this.params = params
         this.object3d.scale.z = Number.EPSILON
+        this.then(() => decreaseCount(CircleGeometry, this.params))
     }
 
     public override get depth() {
