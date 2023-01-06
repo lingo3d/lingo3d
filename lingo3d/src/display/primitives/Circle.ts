@@ -3,7 +3,8 @@ import Primitive, { allocateDefaultInstance } from "../core/Primitive"
 import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 import { deg2Rad } from "@lincode/math"
 
-allocateDefaultInstance(CircleGeometry, [0.5, 32, 0, 360 * deg2Rad])
+const defaultParams = <const>[0.5, 32, 0, 360 * deg2Rad]
+allocateDefaultInstance(CircleGeometry, defaultParams)
 
 export default class Circle
     extends Primitive<typeof CircleGeometry>
@@ -14,7 +15,7 @@ export default class Circle
     public static override schema = circleSchema
 
     public constructor() {
-        super(CircleGeometry, [0.5, 32, 0, 360 * deg2Rad])
+        super(CircleGeometry, defaultParams)
         this.object3d.scale.z = Number.EPSILON
     }
 

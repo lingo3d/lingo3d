@@ -14,12 +14,6 @@ export const circleSchema: Required<ExtractProps<ICircle>> = {
 
 export const circleDefaults = extendDefaults<ICircle>(
     [primitiveDefaults],
-    {
-        scaleZ: 0,
-        depth: 0,
-        theta: 360
-    },
-    {
-        theta: new Range(0, 360, 1)
-    }
+    { scaleZ: 0, depth: 0, theta: 360 },
+    { theta: new Range(0, 360, 1) }
 )
