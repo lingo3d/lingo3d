@@ -27,7 +27,7 @@ export const allocateDefaultInstance = <T extends Class>(
     return instance
 }
 
-export const increaseCount = <T extends Class>(
+const increaseCount = <T extends Class>(
     ClassVal: T,
     params: Readonly<ConstructorParameters<T>>
 ): InstanceType<T> => {
@@ -54,7 +54,7 @@ export const increaseCount = <T extends Class>(
     return paramsInstanceMap.get(paramString)
 }
 
-export const decreaseCount = <T extends Class>(
+const decreaseCount = <T extends Class>(
     ClassVal: T,
     params: Readonly<ConstructorParameters<T>>
 ) => {
@@ -75,21 +75,42 @@ export const decreaseCount = <T extends Class>(
     paramCountRecord[paramString] = count
 }
 
-abstract class Primitive
+abstract class Primitive<GeometryClass extends new () => BufferGeometry>
     extends VisibleObjectManager<Mesh>
     implements IPrimitive
 {
     public static defaults = primitiveDefaults
     public static schema = primitiveSchema
 
-    public constructor(geometry: BufferGeometry) {
-        const mesh = new Mesh(geometry, standardMaterial)
+    public constructor(
+        private Geometry: GeometryClass,
+        protected params: Readonly<ConstructorParameters<GeometryClass>>
+    ) {
+        increaseCount(Geometry, params)
+        const mesh = new Mesh(new Geometry(), standardMaterial)
         mesh.castShadow = true
         mesh.receiveShadow = true
         super(mesh)
     }
+
+    public override dispose() {
+        if (this.done) return this
+        super.dispose()
+        decreaseCount(this.Geometry, this.params)
+        return this
+    }
+
+    protected refreshParams(
+        params: Readonly<ConstructorParameters<GeometryClass>>
+    ) {
+        this.object3d.geometry = increaseCount(
+            this.Geometry,
+            (this.params = params)
+        )
+        decreaseCount(this.Geometry, this.params)
+    }
 }
-interface Primitive
+interface Primitive<GeometryClass extends new () => BufferGeometry>
     extends VisibleObjectManager<Mesh>,
         TexturedBasicMixin,
         TexturedStandardMixin {}
