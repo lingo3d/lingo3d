@@ -89,8 +89,7 @@ abstract class Primitive<GeometryClass extends Class<BufferGeometry>>
         private Geometry: GeometryClass,
         protected params: Readonly<ConstructorParameters<GeometryClass>>
     ) {
-        increaseCount(Geometry, params)
-        const mesh = new Mesh(new Geometry(), standardMaterial)
+        const mesh = new Mesh(increaseCount(Geometry, params), standardMaterial)
         mesh.castShadow = true
         mesh.receiveShadow = true
         super(mesh)
