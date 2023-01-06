@@ -8,13 +8,19 @@ const classMapsMap = new WeakMap<
     Class,
     [Map<string, any>, Record<string, number>]
 >()
-
 const classDefaultParamsInstanceMap = new WeakMap<Class, [string, any]>()
 
-classDefaultParamsInstanceMap.set(CircleGeometry, [
-    JSON.stringify([0.5, 32, 0, 360 * deg2Rad]),
-    new CircleGeometry(0.5, 32, 0, 360 * deg2Rad)
-])
+const allocateDefaultInstance = <T extends Class>(
+    ClassVal: T,
+    params: Readonly<ConstructorParameters<T>>
+) => {
+    const instance = new ClassVal(...params) as InstanceType<T>
+    classDefaultParamsInstanceMap.set(ClassVal, [
+        JSON.stringify(params),
+        instance
+    ])
+    return instance
+}
 
 const increaseCount = <T extends Class>(
     ClassVal: T,
@@ -63,6 +69,8 @@ const decreaseCount = <T extends Class>(
     }
     paramCountRecord[paramString] = count
 }
+
+allocateDefaultInstance(CircleGeometry, [0.5, 32, 0, 360 * deg2Rad])
 
 export default class Circle extends Primitive implements ICircle {
     public static componentName = "circle"
