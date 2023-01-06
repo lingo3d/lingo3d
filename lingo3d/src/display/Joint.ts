@@ -24,7 +24,9 @@ const createLimitedSpherical = (
     actor0: any,
     pose0: any,
     actor1: any,
-    pose1: any
+    pose1: any,
+    // yLimitAngle: number,
+    // zLimitAngle: number
 ) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
         getPhysX()
