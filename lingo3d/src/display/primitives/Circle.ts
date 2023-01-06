@@ -22,15 +22,6 @@ export default class Circle
         this.object3d.scale.z = Number.EPSILON
     }
 
-    public override get depth() {
-        return 0
-    }
-    public override set depth(_) {}
-    public override get scaleZ() {
-        return 0
-    }
-    public override set scaleZ(_) {}
-
     protected override getParams() {
         return <const>[0.5, this.segments, 0, this.theta * deg2Rad]
     }
@@ -52,4 +43,13 @@ export default class Circle
         this._segments = val
         refreshParamsSystem(this)
     }
+
+    public override get depth() {
+        return 0
+    }
+    public override set depth(_) {}
+    public override get scaleZ() {
+        return 0
+    }
+    public override set scaleZ(_) {}
 }
