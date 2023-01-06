@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
-import { debounceTrailing } from "@lincode/utils"
+import { debounceTrailing, forceGetInstance } from "@lincode/utils"
 import mainCamera from "../engine/mainCamera"
 import threeScene from "../engine/scene"
 import {
@@ -9,7 +9,6 @@ import {
 } from "../interface/IArticulationJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
-import { forceGetInstance } from "../utils/forceGetInstance"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import destroy from "./core/PhysicsObjectManager/physx/destroy"

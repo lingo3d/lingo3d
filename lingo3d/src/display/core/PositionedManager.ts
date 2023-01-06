@@ -1,6 +1,6 @@
 import { Point3d } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
-import { lazy } from "@lincode/utils"
+import { forceGetInstance, lazy } from "@lincode/utils"
 import { Object3D } from "three"
 import getWorldPosition from "../utils/getWorldPosition"
 import { positionChanged } from "../utils/trackObject"
@@ -11,7 +11,6 @@ import { CM2M, M2CM } from "../../globals"
 import IPositioned from "../../interface/IPositioned"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { TransformControlsPhase } from "../../events/onTransformControls"
-import { forceGetInstance } from "../../utils/forceGetInstance"
 
 const lazyObjectLoop = lazy(() =>
     onBeforeRender(() => {

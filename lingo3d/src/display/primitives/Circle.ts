@@ -2,7 +2,7 @@ import { CircleGeometry } from "three"
 import Primitive from "../core/Primitive"
 import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 import { deg2Rad } from "@lincode/math"
-import { forceGetInstance } from "../../utils/forceGetInstance"
+import { forceGetInstance } from "@lincode/utils"
 
 const circleGeometry = new CircleGeometry(0.5)
 

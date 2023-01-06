@@ -8,7 +8,7 @@ import {
     vector3_1,
     vector3_half
 } from "../../utils/reusables"
-import { throttle } from "@lincode/utils"
+import { throttle, forceGetInstance } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import worldToClient from "../../utils/worldToClient"
 import { Cancellable } from "@lincode/promiselikes"
@@ -36,7 +36,6 @@ import { emitName } from "../../../events/onName"
 import { CM2M, M2CM } from "../../../globals"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { uuidMap } from "../../../api/core/collections"
-import { forceGetInstance } from "../../../utils/forceGetInstance"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
