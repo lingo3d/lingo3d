@@ -2,8 +2,14 @@ import { CircleGeometry } from "three"
 import Primitive from "../core/Primitive"
 import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 import { deg2Rad } from "@lincode/math"
+import { forceGetInstance } from "../../utils/forceGetInstance"
 
 const circleGeometry = new CircleGeometry(0.5)
+
+const thetaGeometryMap = new Map<number, CircleGeometry>()
+const allocate = (theta: number) => {
+    return forceGetInstance(thetaGeometryMap, theta, CircleGeometry)
+}
 
 export default class Circle extends Primitive implements ICircle {
     public static componentName = "circle"

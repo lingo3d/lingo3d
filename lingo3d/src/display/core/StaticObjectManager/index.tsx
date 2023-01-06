@@ -8,7 +8,7 @@ import {
     vector3_1,
     vector3_half
 } from "../../utils/reusables"
-import { forceGet, throttle } from "@lincode/utils"
+import { throttle } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import worldToClient from "../../utils/worldToClient"
 import { Cancellable } from "@lincode/promiselikes"
@@ -36,6 +36,7 @@ import { emitName } from "../../../events/onName"
 import { CM2M, M2CM } from "../../../globals"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { uuidMap } from "../../../api/core/collections"
+import { forceGetInstance } from "../../../utils/forceGetInstance"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -56,11 +57,10 @@ const updateFrustum = throttle(
 
 export const idMap = new Map<string, Set<StaticObjectManager>>()
 
-const makeSet = () => new Set<StaticObjectManager>()
 const allocateSet = (id: string) => {
     const found = uuidMap.get(id)
     if (isMeshManager(found)) return new Set([found])
-    return forceGet(idMap, id, makeSet)
+    return forceGetInstance(idMap, id, Set<StaticObjectManager>)
 }
 
 export const getMeshManagerSets = (

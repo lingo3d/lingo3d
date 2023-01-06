@@ -5,12 +5,7 @@ import {
     AnimationAction,
     BooleanKeyframeTrack
 } from "three"
-import {
-    debounceTrailing,
-    filterBoolean,
-    forceGet,
-    merge
-} from "@lincode/utils"
+import { debounceTrailing, filterBoolean, merge } from "@lincode/utils"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import { dtPtr } from "../../../engine/eventLoop"
 import { GetGlobalState, Reactive } from "@lincode/reactivity"
@@ -32,6 +27,7 @@ import { FRAME2SEC, SEC2FRAME } from "../../../globals"
 import TimelineAudio from "../../TimelineAudio"
 import { Cancellable } from "@lincode/promiselikes"
 import getPrivateValue from "../../../utils/getPrivateValue"
+import { forceGetInstance } from "../../../utils/forceGetInstance"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
@@ -113,10 +109,11 @@ export default class AnimationManager
         super()
         !serialized && nonSerializedAppendables.add(this)
 
-        const mixer = (this.mixer = forceGet(
+        const mixer = (this.mixer = forceGetInstance(
             targetMixerMap,
             target ?? this,
-            () => new AnimationMixer(target as any)
+            AnimationMixer,
+            [target]
         ))
         this.createEffect(() => {
             if (this.pausedState.get()) return

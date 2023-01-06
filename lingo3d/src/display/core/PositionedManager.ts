@@ -1,6 +1,6 @@
 import { Point3d } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
-import { forceGet, lazy } from "@lincode/utils"
+import { lazy } from "@lincode/utils"
 import { Object3D } from "three"
 import getWorldPosition from "../utils/getWorldPosition"
 import { positionChanged } from "../utils/trackObject"
@@ -11,6 +11,7 @@ import { CM2M, M2CM } from "../../globals"
 import IPositioned from "../../interface/IPositioned"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { TransformControlsPhase } from "../../events/onTransformControls"
+import { forceGetInstance } from "../../utils/forceGetInstance"
 
 const lazyObjectLoop = lazy(() =>
     onBeforeRender(() => {
@@ -22,15 +23,13 @@ const lazyObjectLoop = lazy(() =>
 const onMoveMap = new Map<Object3D, Set<() => void>>()
 export const onObjectMove = (item: Object3D, cb: () => void) => {
     lazyObjectLoop()
-    const set = forceGet(onMoveMap, item, makeSet)
+    const set = forceGetInstance(onMoveMap, item, Set)
     set.add(cb)
     return new Cancellable(() => {
         set.delete(cb)
         !set.size && onMoveMap.delete(item)
     })
 }
-
-const makeSet = () => new Set<() => void>()
 
 export default abstract class PositionedManager<T extends Object3D = Object3D>
     extends MeshAppendable<T>

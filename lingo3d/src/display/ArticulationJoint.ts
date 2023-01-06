@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
-import { debounceTrailing, forceGet } from "@lincode/utils"
+import { debounceTrailing } from "@lincode/utils"
 import mainCamera from "../engine/mainCamera"
 import threeScene from "../engine/scene"
 import {
@@ -9,6 +9,7 @@ import {
 } from "../interface/IArticulationJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
+import { forceGetInstance } from "../utils/forceGetInstance"
 import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import destroy from "./core/PhysicsObjectManager/physx/destroy"
@@ -79,12 +80,14 @@ const create = (rootManager: PhysicsObjectManager) => {
             actorPtrManagerMap.set(childLink.ptr, childManager)
 
             const joint = childLink.getInboundJoint()
-            joint.setParentPose(
+            joint
+                .setParentPose
                 // computeJointPxTransform(articulationJoint, parentManager)
-            )
-            joint.setChildPose(
+                ()
+            joint
+                .setChildPose
                 // computeJointPxTransform(articulationJoint, childManager)
-            )
+                ()
             joint.setJointType(PxArticulationJointTypeEnum.eSPHERICAL())
             joint.setMotion(
                 PxArticulationAxisEnum.eTWIST(),
@@ -137,8 +140,6 @@ const createArticulations = debounceTrailing(() => {
     allManagers.clear()
 })
 
-const makeSet = () => new Set<MeshManager>()
-
 export default class ArticulationJoint extends PositionedManager {
     public static componentName = "articulationJoint"
     public static defaults = articulationJointDefaults
@@ -172,7 +173,7 @@ export default class ArticulationJoint extends PositionedManager {
             managerJointMap.set(childManager, this)
 
             childParentMap.set(childManager, parentManager)
-            forceGet(parentChildrenMap, parentManager, makeSet).add(
+            forceGetInstance(parentChildrenMap, parentManager, Set).add(
                 childManager
             )
             allManagers.add(childManager)
