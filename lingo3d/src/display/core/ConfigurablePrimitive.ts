@@ -1,5 +1,8 @@
 import { Class, forceGet } from "@lincode/utils"
 import { BufferGeometry } from "three"
+import debounceSystem from "../../utils/debounceSystem"
+import getPrivateValue from "../../utils/getPrivateValue"
+import unsafeSetValue from "../../utils/unsafeSetValue"
 import Primitive from "./Primitive"
 
 const classMapsMap = new WeakMap<
@@ -71,6 +74,20 @@ const decreaseCount = <T>(
     paramCountRecord[paramString] = count
 }
 
+export const refreshParamsSystem = debounceSystem(
+    <GeometryClass extends Class<BufferGeometry>>(
+        target: ConfigurablePrimitive<GeometryClass>,
+        params: Readonly<ConstructorParameters<GeometryClass>>
+    ) => {
+        const Geometry = getPrivateValue(target, "Geometry")
+        decreaseCount(Geometry, getPrivateValue(target, "params"))
+        target.object3d.geometry = increaseCount(
+            Geometry,
+            unsafeSetValue(target, "params", params)
+        )
+    }
+)
+
 export default abstract class ConfigurablePrimitive<
     GeometryClass extends Class<BufferGeometry>
 > extends Primitive {
@@ -87,15 +104,5 @@ export default abstract class ConfigurablePrimitive<
         super.dispose()
         decreaseCount(this.Geometry, this.params)
         return this
-    }
-
-    protected refreshParams(
-        params: Readonly<ConstructorParameters<GeometryClass>>
-    ) {
-        decreaseCount(this.Geometry, this.params)
-        this.object3d.geometry = increaseCount(
-            this.Geometry,
-            (this.params = params)
-        )
     }
 }

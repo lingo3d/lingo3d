@@ -2,7 +2,8 @@ import { CircleGeometry } from "three"
 import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 import { deg2Rad } from "@lincode/math"
 import ConfigurablePrimitive, {
-    allocateDefaultInstance
+    allocateDefaultInstance,
+    refreshParamsSystem
 } from "../core/ConfigurablePrimitive"
 
 const defaultParams = <const>[0.5, 32, 0, 360 * deg2Rad]
@@ -36,6 +37,6 @@ export default class Circle
     }
     public set theta(val) {
         this._theta = val
-        this.refreshParams([0.5, 32, 0, val * deg2Rad])
+        refreshParamsSystem(this, [0.5, 32, 0, val * deg2Rad])
     }
 }
