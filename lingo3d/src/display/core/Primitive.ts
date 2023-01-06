@@ -10,16 +10,19 @@ import { standardMaterial } from "../utils/reusables"
 import VisibleObjectManager from "./VisibleObjectManager"
 
 const classMapsMap = new WeakMap<
-    Class,
-    [Map<string, any>, Record<string, number>]
+    Class<unknown>,
+    [Map<string, unknown>, Record<string, number>]
 >()
-const classDefaultParamsInstanceMap = new WeakMap<Class, [string, any]>()
+const classDefaultParamsInstanceMap = new WeakMap<
+    Class<unknown>,
+    [string, any]
+>()
 
-export const allocateDefaultInstance = <T extends Class>(
-    ClassVal: T,
-    params: Readonly<ConstructorParameters<T>>
+export const allocateDefaultInstance = <T>(
+    ClassVal: Class<T>,
+    params: Readonly<ConstructorParameters<Class<T>>>
 ) => {
-    const instance = new ClassVal(...params) as InstanceType<T>
+    const instance = new ClassVal(...params)
     classDefaultParamsInstanceMap.set(ClassVal, [
         JSON.stringify(params),
         instance
@@ -27,10 +30,10 @@ export const allocateDefaultInstance = <T extends Class>(
     return instance
 }
 
-const increaseCount = <T extends Class>(
-    ClassVal: T,
-    params: Readonly<ConstructorParameters<T>>
-): InstanceType<T> => {
+const increaseCount = <T>(
+    ClassVal: Class<T>,
+    params: Readonly<ConstructorParameters<Class<T>>>
+): T => {
     const paramString = JSON.stringify(params)
 
     const defaultTuple = classDefaultParamsInstanceMap.get(ClassVal)
@@ -49,14 +52,14 @@ const increaseCount = <T extends Class>(
     ) {
         const result = new ClassVal(...params)
         paramsInstanceMap.set(paramString, result)
-        return result as InstanceType<T>
+        return result
     }
     return paramsInstanceMap.get(paramString)
 }
 
-const decreaseCount = <T extends Class>(
-    ClassVal: T,
-    params: Readonly<ConstructorParameters<T>>
+const decreaseCount = <T>(
+    ClassVal: Class<T>,
+    params: Readonly<ConstructorParameters<Class<T>>>
 ) => {
     const [paramsInstanceMap, paramCountRecord] = forceGet(
         classMapsMap,
@@ -75,7 +78,7 @@ const decreaseCount = <T extends Class>(
     paramCountRecord[paramString] = count
 }
 
-abstract class Primitive<GeometryClass extends new () => BufferGeometry>
+abstract class Primitive<GeometryClass extends Class<BufferGeometry>>
     extends VisibleObjectManager<Mesh>
     implements IPrimitive
 {
@@ -110,7 +113,7 @@ abstract class Primitive<GeometryClass extends new () => BufferGeometry>
         decreaseCount(this.Geometry, this.params)
     }
 }
-interface Primitive<GeometryClass extends new () => BufferGeometry>
+interface Primitive<GeometryClass extends Class<BufferGeometry>>
     extends VisibleObjectManager<Mesh>,
         TexturedBasicMixin,
         TexturedStandardMixin {}
