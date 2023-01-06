@@ -9,7 +9,8 @@ import {
     Frustum,
     Matrix4,
     MeshStandardMaterial,
-    Vector2
+    Vector2,
+    DoubleSide
 } from "three"
 
 export const vector2 = new Vector2()
@@ -38,4 +39,4 @@ export const matrix4 = new Matrix4()
 export const halfPi = Math.PI * 0.5
 
 export const wireframeMaterial = new MeshBasicMaterial({ wireframe: true })
-export const standardMaterial = new MeshStandardMaterial()
+export const standardMaterial = new MeshStandardMaterial({ side: DoubleSide })

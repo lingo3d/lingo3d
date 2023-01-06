@@ -1,8 +1,9 @@
 import { CircleGeometry } from "three"
 import Primitive from "../core/Primitive"
 import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
+import { deg2Rad } from "@lincode/math"
 
-const circleGeometry = new CircleGeometry(0.5, 32)
+const circleGeometry = new CircleGeometry(0.5)
 
 export default class Circle extends Primitive implements ICircle {
     public static componentName = "circle"
@@ -22,4 +23,18 @@ export default class Circle extends Primitive implements ICircle {
         return 0
     }
     public override set scaleZ(_) {}
+
+    private _theta?: number
+    public get theta() {
+        return this._theta ?? 360
+    }
+    public set theta(val) {
+        this._theta = val
+        const { geometry } = this.object3d
+        geometry !== circleGeometry && geometry.dispose()
+        this.object3d.geometry =
+            val === 360
+                ? circleGeometry
+                : new CircleGeometry(0.5, 32, 0, val * deg2Rad)
+    }
 }

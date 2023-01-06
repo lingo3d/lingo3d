@@ -5,7 +5,7 @@ import Appendable from "./Appendable"
 export default class MeshAppendable<
     T extends Object3D = Object3D
 > extends Appendable {
-    public object3d: Object3D
+    public object3d: T
     public position: Vector3
     public quaternion: Quaternion
 
