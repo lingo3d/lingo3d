@@ -6,7 +6,7 @@ import ConfigurablePrimitive, {
 } from "../core/ConfigurablePrimitive"
 
 const defaultParams = <const>[0.5, 32, 0, 360 * deg2Rad]
-allocateDefaultInstance(CircleGeometry, defaultParams)
+const geometry = allocateDefaultInstance(CircleGeometry, defaultParams)
 
 export default class Circle
     extends ConfigurablePrimitive<typeof CircleGeometry>
@@ -17,7 +17,7 @@ export default class Circle
     public static override schema = circleSchema
 
     public constructor() {
-        super(CircleGeometry, defaultParams)
+        super(CircleGeometry, defaultParams, geometry)
         this.object3d.scale.z = Number.EPSILON
     }
 

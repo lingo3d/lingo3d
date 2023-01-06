@@ -76,9 +76,10 @@ export default abstract class ConfigurablePrimitive<
 > extends Primitive {
     public constructor(
         private Geometry: GeometryClass,
-        protected params: Readonly<ConstructorParameters<GeometryClass>>
+        private params: Readonly<ConstructorParameters<GeometryClass>>,
+        geometry: InstanceType<GeometryClass>
     ) {
-        super(increaseCount(Geometry, params))
+        super(geometry)
     }
 
     public override dispose() {
