@@ -1,4 +1,4 @@
-import { applyMixins } from "@lincode/utils"
+import { applyMixins, Class, forceGet } from "@lincode/utils"
 import { Mesh, BufferGeometry } from "three"
 import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
@@ -8,6 +8,72 @@ import IPrimitive, {
 } from "../../interface/IPrimitive"
 import { standardMaterial } from "../utils/reusables"
 import VisibleObjectManager from "./VisibleObjectManager"
+
+const classMapsMap = new WeakMap<
+    Class,
+    [Map<string, any>, Record<string, number>]
+>()
+const classDefaultParamsInstanceMap = new WeakMap<Class, [string, any]>()
+
+export const allocateDefaultInstance = <T extends Class>(
+    ClassVal: T,
+    params: Readonly<ConstructorParameters<T>>
+) => {
+    const instance = new ClassVal(...params) as InstanceType<T>
+    classDefaultParamsInstanceMap.set(ClassVal, [
+        JSON.stringify(params),
+        instance
+    ])
+    return instance
+}
+
+export const increaseCount = <T extends Class>(
+    ClassVal: T,
+    params: Readonly<ConstructorParameters<T>>
+): InstanceType<T> => {
+    const paramString = JSON.stringify(params)
+
+    const defaultTuple = classDefaultParamsInstanceMap.get(ClassVal)
+    if (defaultTuple) {
+        const [defaultParams, defaultInstance] = defaultTuple
+        if (paramString === defaultParams) return defaultInstance
+    }
+    const [paramsInstanceMap, paramCountRecord] = forceGet(
+        classMapsMap,
+        ClassVal,
+        () => [new Map<string, any>(), {} as Record<string, number>]
+    )
+    if (
+        (paramCountRecord[paramString] =
+            (paramCountRecord[paramString] ?? 0) + 1) === 1
+    ) {
+        const result = new ClassVal(...params)
+        paramsInstanceMap.set(paramString, result)
+        return result as InstanceType<T>
+    }
+    return paramsInstanceMap.get(paramString)
+}
+
+export const decreaseCount = <T extends Class>(
+    ClassVal: T,
+    params: Readonly<ConstructorParameters<T>>
+) => {
+    const [paramsInstanceMap, paramCountRecord] = forceGet(
+        classMapsMap,
+        ClassVal,
+        () => [new Map<string, any>(), {} as Record<string, number>]
+    )
+    const paramString = JSON.stringify(params)
+    const count = (paramCountRecord[paramString] ?? 0) - 1
+    if (count === -1) return
+    if (count === 0) {
+        paramsInstanceMap.get(paramString).dispose()
+        paramsInstanceMap.delete(paramString)
+        delete paramCountRecord[paramString]
+        return
+    }
+    paramCountRecord[paramString] = count
+}
 
 abstract class Primitive
     extends VisibleObjectManager<Mesh>
