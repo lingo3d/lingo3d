@@ -1,9 +1,9 @@
 //@ts-ignore
-type Access<T, Key> = T[Key]
+type AccessReturn<T, Key> = T[Key] extends () => void ? T[Key] : never
 
 export default <T extends object, Key extends string>(
     target: T,
     property: Key,
     arg?: any
-): Access<T, Key> extends () => any ? ReturnType<Access<T, Key>> : never =>
+): ReturnType<AccessReturn<T, Key>> =>
     (target as any)[property].call(target, arg)
