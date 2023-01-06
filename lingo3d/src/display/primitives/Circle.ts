@@ -32,7 +32,7 @@ export default class Circle
     public override set scaleZ(_) {}
 
     protected override getParams() {
-        return <const>[0.5, 32, 0, (this._theta ?? 360) * deg2Rad]
+        return <const>[0.5, this.segments, 0, this.theta * deg2Rad]
     }
 
     private _theta?: number
@@ -41,6 +41,15 @@ export default class Circle
     }
     public set theta(val) {
         this._theta = val
+        refreshParamsSystem(this)
+    }
+
+    private _segments?: number
+    public get segments() {
+        return this._segments ?? 32
+    }
+    public set segments(val) {
+        this._segments = val
         refreshParamsSystem(this)
     }
 }

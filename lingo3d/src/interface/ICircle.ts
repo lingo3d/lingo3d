@@ -5,15 +5,17 @@ import Range from "./utils/Range"
 
 export default interface ICircle extends IPrimitive {
     theta: number
+    segments: number
 }
 
 export const circleSchema: Required<ExtractProps<ICircle>> = {
     ...primitiveSchema,
-    theta: Number
+    theta: Number,
+    segments: Number
 }
 
 export const circleDefaults = extendDefaults<ICircle>(
     [primitiveDefaults],
-    { scaleZ: 0, depth: 0, theta: 360 },
-    { theta: new Range(0, 360, 1) }
+    { scaleZ: 0, depth: 0, theta: 360, segments: 32 },
+    { theta: new Range(0, 360, 1), segments: new Range(3, 32, 1) }
 )
