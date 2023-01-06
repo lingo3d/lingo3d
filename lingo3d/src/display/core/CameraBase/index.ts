@@ -1,6 +1,5 @@
 import { CameraHelper, PerspectiveCamera, Quaternion } from "three"
 import ObjectManager from "../ObjectManager"
-import { debounceInstance } from "@lincode/utils"
 import {
     ray,
     euler,
@@ -28,6 +27,11 @@ import getWorldDirection from "../../utils/getWorldDirection"
 import { addSelectionHelper } from "../StaticObjectManager/raycast/selectionCandidates"
 import HelperSprite from "../utils/HelperSprite"
 import { setManager } from "../../../api/utils/manager"
+import debounceSystem from "../../../utils/debounceSystem"
+
+export const updateAngleSystem = debounceSystem((target: CameraBase) =>
+    target.gyrate(0, 0)
+)
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -188,20 +192,13 @@ export default abstract class CameraBase<
         }))
     }
 
-    private static updateAngle = debounceInstance((target: CameraBase) =>
-        target.gyrate(0, 0)
-    )
-    protected updateAngle() {
-        CameraBase.updateAngle(this, this)
-    }
-
     private _minPolarAngle = MIN_POLAR_ANGLE
     public get minPolarAngle() {
         return this._minPolarAngle
     }
     public set minPolarAngle(val) {
         this._minPolarAngle = val
-        this.updateAngle()
+        updateAngleSystem(this)
     }
 
     private _maxPolarAngle = MAX_POLAR_ANGLE
@@ -210,7 +207,7 @@ export default abstract class CameraBase<
     }
     public set maxPolarAngle(val) {
         this._maxPolarAngle = val
-        this.updateAngle()
+        updateAngleSystem(this)
     }
 
     private _minAzimuthAngle = -Infinity
@@ -219,7 +216,7 @@ export default abstract class CameraBase<
     }
     public set minAzimuthAngle(val) {
         this._minAzimuthAngle = val
-        this.updateAngle()
+        updateAngleSystem(this)
     }
 
     private _maxAzimuthAngle = Infinity
@@ -228,7 +225,7 @@ export default abstract class CameraBase<
     }
     public set maxAzimuthAngle(val) {
         this._maxAzimuthAngle = val
-        this.updateAngle()
+        updateAngleSystem(this)
     }
 
     public setPolarAngle(angle: number) {

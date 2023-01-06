@@ -15,6 +15,7 @@ import { FAR, NEAR } from "../../../globals"
 import fpsAlpha from "../../utils/fpsAlpha"
 import { positionChangedXZ } from "../../utils/trackObject"
 import { getEditorModeComputed } from "../../../states/useEditorModeComputed"
+import { updateAngleSystem } from "../CameraBase"
 
 export default class CharacterCamera
     extends OrbitCameraBase
@@ -50,7 +51,7 @@ export default class CharacterCamera
                 midObject3d.quaternion.slerp(quaternion, fpsAlpha(0.1))
             } else midObject3d.setRotationFromEuler(euler)
 
-            this.updateAngle()
+            updateAngleSystem(this)
         }
 
         const rotateTarget = (target: MeshManager, slerp: boolean) => {

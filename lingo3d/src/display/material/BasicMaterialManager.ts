@@ -22,10 +22,8 @@ import debounceSystem from "../../utils/debounceSystem"
 import loadTexture from "../utils/loaders/loadTexture"
 
 const mapNames = ["map", "alphaMap"]
-const debounceTextureSystem = debounceSystem(
+const applyTextureSystem = debounceSystem(
     (target: BasicMaterialManager<any>, mapNames: Array<string>) => {
-        console.log(mapNames)
-
         const repeat = getPrivateValue(target, "_textureRepeat")
         const flipY = getPrivateValue(target, "_textureFlipY")
         const rotation = getPrivateValue(target, "_textureRotation")
@@ -82,7 +80,7 @@ export default class BasicMaterialManager<
     }
 
     protected applyTexture(mapNames: Array<string>) {
-        debounceTextureSystem(this, mapNames)
+        applyTextureSystem(this, mapNames)
         this.nativeMaterial.needsUpdate = true
     }
 
