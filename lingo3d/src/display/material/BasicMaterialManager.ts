@@ -17,11 +17,30 @@ import IBasicMaterialManager, {
     basicMaterialManagerDefaults,
     basicMaterialManagerSchema
 } from "../../interface/IBasicMaterialManager"
-import queueDebounce from "../../utils/queueDebounce"
+import getPrivateValue from "../../utils/getPrivateValue"
+import debounceSystem from "../../utils/debounceSystem"
 import loadTexture from "../utils/loaders/loadTexture"
 
 const mapNames = ["map", "alphaMap"]
-const queueTextureRepeat = queueDebounce()
+const debounceTextureSystem = debounceSystem(
+    (target: BasicMaterialManager<any>, mapNames: Array<string>) => {
+        console.log(mapNames)
+
+        const repeat = getPrivateValue(target, "_textureRepeat")
+        const flipY = getPrivateValue(target, "_textureFlipY")
+        const rotation = getPrivateValue(target, "_textureRotation")
+        for (const name of mapNames) {
+            const map: Texture = target.nativeMaterial[name]
+            if (!map) return
+            repeat !== undefined && (map.repeat = repeat)
+            rotation !== undefined && (map.rotation = rotation * deg2Rad)
+            if (flipY !== undefined && flipY !== map.flipY) {
+                map.flipY = flipY
+                map.needsUpdate = true
+            }
+        }
+    }
+)
 
 export default class BasicMaterialManager<
         T extends MeshStandardMaterial | SpriteMaterial
@@ -63,23 +82,7 @@ export default class BasicMaterialManager<
     }
 
     protected applyTexture(mapNames: Array<string>) {
-        queueTextureRepeat(this, () => {
-            const repeat = this._textureRepeat
-            const flipY = this._textureFlipY
-            const rotation = this._textureRotation
-
-            for (const name of mapNames) {
-                //@ts-ignore
-                const map: Texture = this.nativeMaterial[name]
-                if (!map) return
-                repeat !== undefined && (map.repeat = repeat)
-                rotation !== undefined && (map.rotation = rotation * deg2Rad)
-                if (flipY !== undefined && flipY !== map.flipY) {
-                    map.flipY = flipY
-                    map.needsUpdate = true
-                }
-            }
-        })
+        debounceTextureSystem(this, mapNames)
         this.nativeMaterial.needsUpdate = true
     }
 
