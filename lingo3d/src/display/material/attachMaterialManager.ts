@@ -3,6 +3,7 @@ import { MeshStandardMaterial, Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
+import { standardMaterial } from "../utils/reusables"
 import BasicMaterialManager from "./BasicMaterialManager"
 import StandardMaterialManager from "./StandardMaterialManager"
 
@@ -53,7 +54,7 @@ export const attachStandardMaterialManager = (
         recursiveClonedMap?.set(material, clone)
 
         const materialManager = new StandardMaterialManager(clone)
-        material.dispose()
+        material !== standardMaterial && material.dispose()
 
         manager.append(materialManager)
         result.push(materialManager)
@@ -72,7 +73,7 @@ export const attachBasicMaterialManager = (
         const materialManager = new BasicMaterialManager(
             unsafeSetValue(target, "material", material.clone())
         )
-        material.dispose()
+        material !== standardMaterial && material.dispose()
 
         manager.append(materialManager)
 
