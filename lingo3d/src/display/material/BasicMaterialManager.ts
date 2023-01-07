@@ -121,27 +121,27 @@ export default class BasicMaterialManager<
                     RepeatWrapping
                 )
 
-                const { nativeMaterial: material } = this
-                const { map } = material
-                material.map = videoTexture
+                const { nativeMaterial } = this
+                const { map } = nativeMaterial
+                nativeMaterial.map = videoTexture
                 this.applyTexture(mapNames)
 
                 return () => {
                     video.pause()
                     videoTexture.dispose()
-                    material.map = map
+                    nativeMaterial.map = map
                 }
             }
 
             if (!url) return
 
-            const { nativeMaterial: material } = this
-            const { map } = material
-            material.map = loadTexture(url)
+            const { nativeMaterial } = this
+            const { map } = nativeMaterial
+            nativeMaterial.map = loadTexture(url)
             this.applyTexture(mapNames)
 
             return () => {
-                material.map = map
+                nativeMaterial.map = map
             }
         }, [videoTextureState.get, textureState.get])
     }
