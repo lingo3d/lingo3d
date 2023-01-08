@@ -1,6 +1,6 @@
 import { Class, forceGet } from "@lincode/utils"
 
-const classMapsMap = new WeakMap<
+export const classMapsMap = new WeakMap<
     Class,
     [Map<string, unknown>, Record<string, number>]
 >()
