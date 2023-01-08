@@ -2,7 +2,6 @@ import { applyMixins, forceGet } from "@lincode/utils"
 import { ExtrudeGeometry, Group, Mesh, Shape } from "three"
 import type { SVGResult } from "three/examples/jsm/loaders/SVGLoader"
 import Loaded from "./core/Loaded"
-import TexturedBasicMixin from "./core/mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./core/mixins/TexturedStandardMixin"
 import fit from "./utils/fit"
 import measure from "./utils/measure"
@@ -128,9 +127,6 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         )[0]
     }
 }
-interface SvgMesh
-    extends Loaded<SVGResult>,
-        TexturedBasicMixin,
-        TexturedStandardMixin {}
-applyMixins(SvgMesh, [TexturedStandardMixin, TexturedBasicMixin])
+interface SvgMesh extends Loaded<SVGResult>, TexturedStandardMixin {}
+applyMixins(SvgMesh, [TexturedStandardMixin])
 export default SvgMesh

@@ -1,4 +1,3 @@
-import TexturedBasicMixin from "../../display/core/mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "../../display/core/mixins/TexturedStandardMixin"
 import ObjectManager from "../../display/core/ObjectManager"
 import StaticObjectManager from "../../display/core/StaticObjectManager"
@@ -14,10 +13,7 @@ document.addEventListener("drop", (e) => e.preventDefault())
 export default <T>(
     onDrop: (
         draggingItem: T,
-        hitManager?:
-            | StaticObjectManager
-            | TexturedBasicMixin
-            | TexturedStandardMixin
+        hitManager?: StaticObjectManager | TexturedStandardMixin
     ) => ObjectManager | undefined
 ) => {
     let draggingItem: T | undefined

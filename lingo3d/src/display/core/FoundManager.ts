@@ -4,7 +4,6 @@ import IFoundManager, {
     foundManagerDefaults,
     foundManagerSchema
 } from "../../interface/IFoundManager"
-import TexturedBasicMixin from "./mixins/TexturedBasicMixin"
 import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
 import Model from "../Model"
 import IVisible from "../../interface/IVisible"
@@ -68,12 +67,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
 }
 interface FoundManager
     extends SimpleObjectManager,
-        TexturedBasicMixin,
         TexturedStandardMixin,
         IVisible {}
-applyMixins(FoundManager, [
-    VisibleMixin,
-    TexturedStandardMixin,
-    TexturedBasicMixin
-])
+applyMixins(FoundManager, [VisibleMixin, TexturedStandardMixin])
 export default FoundManager
