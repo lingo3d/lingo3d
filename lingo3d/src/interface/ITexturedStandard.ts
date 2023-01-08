@@ -1,3 +1,4 @@
+import { Point } from "@lincode/math"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
@@ -5,6 +6,15 @@ import NullableDefault from "./utils/NullableDefault"
 import Range from "./utils/Range"
 
 export default interface ITexturedStandard {
+    color: Nullable<string>
+    opacity: Nullable<number>
+    texture: Nullable<string | HTMLVideoElement>
+    videoTexture: Nullable<string | HTMLVideoElement>
+    alphaMap: Nullable<string>
+    textureRepeat: Nullable<Point | number>
+    textureFlipY: Nullable<boolean>
+    textureRotation: Nullable<number>
+
     wireframe: Nullable<boolean>
     envMap: Nullable<string>
     envMapIntensity: Nullable<number>
@@ -29,6 +39,15 @@ export default interface ITexturedStandard {
 
 export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
     {
+        color: String,
+        opacity: Number,
+        texture: [String, Object],
+        videoTexture: [String, Object],
+        alphaMap: String,
+        textureRepeat: [Object, Number],
+        textureFlipY: Boolean,
+        textureRotation: Number,
+
         wireframe: Boolean,
         envMap: String,
         envMapIntensity: Number,
@@ -54,6 +73,15 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
 export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
     [],
     {
+        color: new NullableDefault("#ffffff"),
+        opacity: new NullableDefault(1),
+        texture: undefined,
+        videoTexture: undefined,
+        alphaMap: undefined,
+        textureRepeat: new NullableDefault({ x: 1, y: 1 }),
+        textureFlipY: new NullableDefault(false),
+        textureRotation: new NullableDefault(0),
+
         wireframe: new NullableDefault(false),
         envMap: undefined,
         envMapIntensity: new NullableDefault(1),
@@ -76,6 +104,9 @@ export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
         normalScale: new NullableDefault(1)
     },
     {
+        opacity: new Range(0, 1),
+        textureRotation: new Range(0, 360),
+
         envMapIntensity: new Range(0, 4),
         aoMapIntensity: new Range(0, 4),
         bumpScale: new Range(0, 4),

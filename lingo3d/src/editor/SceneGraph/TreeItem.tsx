@@ -10,8 +10,6 @@ import CubeIcon from "./icons/CubeIcon"
 import { hiddenAppendables } from "../../api/core/collections"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import PlayIcon from "./icons/PlayIcon"
-import BasicMaterialManager from "../../display/material/BasicMaterialManager"
-import ImageIcon from "./icons/ImageIcon"
 import { onName } from "../../events/onName"
 import useSyncState from "../hooks/useSyncState"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
@@ -47,7 +45,6 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
 
     const IconComponent = useMemo(() => {
         if (appendable instanceof AnimationManager) return PlayIcon
-        if (appendable instanceof BasicMaterialManager) return ImageIcon
         return CubeIcon
     }, [appendable])
 
