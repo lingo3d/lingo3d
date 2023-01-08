@@ -10,8 +10,6 @@ import {
     decreaseLoadingCount,
     increaseLoadingCount
 } from "../states/useLoadingCount"
-import { standardMaterial } from "./utils/reusables"
-import { attachStandardMaterialManager } from "./material/attachMaterialManager"
 import toResolvable from "./utils/toResolvable"
 
 const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()
@@ -114,17 +112,6 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         !this.depthSet && (this.object3d.scale.z = measuredSize.z)
 
         return loadedObject3d
-    }
-
-    protected getMaterial() {
-        return attachStandardMaterialManager(
-            this.object3d,
-            this,
-            undefined,
-            undefined,
-            undefined,
-            standardMaterial
-        )[0]
     }
 }
 interface SvgMesh extends Loaded<SVGResult>, TexturedStandardMixin {}

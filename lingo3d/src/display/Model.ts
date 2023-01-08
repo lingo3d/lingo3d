@@ -12,7 +12,6 @@ import {
     increaseLoadingCount
 } from "../states/useLoadingCount"
 import AdjustMaterialMixin from "./core/mixins/AdjustMaterialMixin"
-import { attachStandardMaterialManager } from "./material/attachMaterialManager"
 import { applyMixins } from "@lincode/utils"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 
@@ -168,20 +167,20 @@ class Model extends Loaded<Group> implements IModel {
         return children
     }
 
-    protected refreshFactors() {
-        this.cancelHandle("refreshFactorsLoaded", () => {
-            const handle = this.loaded.then((loaded) =>
-                queueMicrotask(() => {
-                    if (handle.done) return
-                    this._refreshFactors(
-                        handle,
-                        attachStandardMaterialManager(loaded, this, true)
-                    )
-                })
-            )
-            return handle
-        })
-    }
+    // protected refreshFactors() {
+    //     this.cancelHandle("refreshFactorsLoaded", () => {
+    //         const handle = this.loaded.then((loaded) =>
+    //             queueMicrotask(() => {
+    //                 if (handle.done) return
+    //                 this._refreshFactors(
+    //                     handle,
+    //                     attachStandardMaterialManager(loaded, this, true)
+    //                 )
+    //             })
+    //         )
+    //         return handle
+    //     })
+    // }
 }
 //@ts-ignore
 interface Model extends Loaded<Group>, AdjustMaterialMixin {}
