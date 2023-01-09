@@ -1,30 +1,52 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
 import { DoubleSide, Mesh, MeshStandardMaterial } from "three"
+import { texturedStandardDefaults } from "../../../interface/ITexturedStandard"
+import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
 import createReferenceCounter, {
     classMapsMap
 } from "../utils/createReferenceCounter"
 
 //color, opacity
-type Params = [string | undefined, number | undefined]
+type Params = [
+    color: string | undefined,
+    opacity: number | undefined,
+    texture: string | undefined,
+    videoTexture: string | HTMLVideoElement | undefined
+]
+
+const assignParamsObj = (
+    paramsObj: Record<string, any>,
+    param: any,
+    prop: keyof typeof texturedStandardDefaults
+) => {
+    if (
+        param !== undefined &&
+        param !== getDefaultValue(texturedStandardDefaults, prop, true)
+    )
+        paramsObj[prop] = param
+}
 
 const [increaseCount, decreaseCount] = createReferenceCounter<
     MeshStandardMaterial,
     Params
->(
-    (_, params) =>
-        new MeshStandardMaterial(
-            filter(
-                {
-                    side: DoubleSide,
-                    color: params[0],
-                    opacity: params[1]
-                },
-                filterBoolean
-            )
+>((_, params) => {
+    const paramsObj: Record<string, any> = {}
+    assignParamsObj(paramsObj, params[0], "color")
+    assignParamsObj(paramsObj, params[1], "opacity")
+
+    return new MeshStandardMaterial(
+        filter(
+            {
+                side: DoubleSide,
+                color: params[0],
+                opacity: params[1]
+            },
+            filterBoolean
         )
-)
+    )
+})
 
 export const refreshParamsSystem = debounceSystem(
     (target: TexturedStandardMixin) => {
@@ -42,9 +64,9 @@ export const refreshParamsSystem = debounceSystem(
     }
 )
 
-setInterval(() => {
-    console.log(classMapsMap.get(MeshStandardMaterial)![0])
-}, 1000)
+// setInterval(() => {
+//     console.log(classMapsMap.get(MeshStandardMaterial)![0])
+// }, 1000)
 
 export default abstract class TexturedStandardMixin {
     public declare object3d: Mesh
@@ -56,7 +78,7 @@ export default abstract class TexturedStandardMixin {
 
     private _materialParams?: Params
     public get materialParams(): Params {
-        return (this._materialParams ??= new Array(2) as Params)
+        return (this._materialParams ??= new Array(4) as Params)
     }
     public materialParamsOld?: Params
 
