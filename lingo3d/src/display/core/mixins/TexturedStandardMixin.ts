@@ -1,18 +1,12 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
-import {
-    DoubleSide,
-    Mesh,
-    MeshStandardMaterial,
-    RepeatWrapping,
-    Texture,
-    VideoTexture
-} from "three"
+import { DoubleSide, Mesh, MeshStandardMaterial } from "three"
 import { texturedStandardDefaults } from "../../../interface/ITexturedStandard"
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
 import loadTexture from "../../utils/loaders/loadTexture"
+import loadVideoTexture from "../../utils/loaders/loadVideoTexture"
 import createReferenceCounter, {
     classMapsMap
 } from "../utils/createReferenceCounter"
@@ -39,35 +33,12 @@ const assignParamsObj = (
 const getMap = (params2?: string) => {
     if (!params2) return
 
-    if (params2[0] === "#" || params2[0] === ".") {
-        const video = document.querySelector(params2)
-        if (video instanceof HTMLVideoElement)
-            return new VideoTexture(
-                video,
-                undefined,
-                RepeatWrapping,
-                RepeatWrapping
-            )
-        return
-    }
+    if (params2[0] === "#" || params2[0] === ".")
+        return loadVideoTexture(params2)
+
     const filetype = getExtensionType(params2)
     if (filetype === "image") return loadTexture(params2)
-    if (filetype === "video") {
-        const video = document.createElement("video")
-        video.crossOrigin = "anonymous"
-        video.src = params2
-        video.loop = true
-        video.autoplay = true
-        video.muted = true
-        video.playsInline = true
-        video.play()
-        return new VideoTexture(
-            video,
-            undefined,
-            RepeatWrapping,
-            RepeatWrapping
-        )
-    }
+    if (filetype === "video") return loadVideoTexture(params2)
 }
 
 const [increaseCount, decreaseCount] = createReferenceCounter<
