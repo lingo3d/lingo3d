@@ -19,7 +19,8 @@ type Params = [
     texture: string | undefined,
     alphaMap: string | undefined,
     textureRepeat: number | Point | undefined,
-    textureFlipY: boolean | undefined
+    textureFlipY: boolean | undefined,
+    textureRotation: number | undefined
 ]
 
 const assignParamsObj = (
@@ -38,7 +39,7 @@ const initMap = (
     map: Texture | null,
     textureRepeat: number | Point | undefined,
     textureFlipY: boolean | undefined,
-    textureRotation?: number
+    textureRotation: number | undefined
 ) => {
     if (!map) return
 
@@ -57,18 +58,34 @@ const initMap = (
 const getMap = (
     texture: string | undefined,
     textureRepeat: number | Point | undefined,
-    textureFlipY: boolean | undefined
+    textureFlipY: boolean | undefined,
+    textureRotation: number | undefined
 ) => {
     if (!texture) return
 
     if (texture[0] === "#" || texture[0] === ".")
-        return initMap(loadVideoTexture(texture), textureRepeat, textureFlipY)
+        return initMap(
+            loadVideoTexture(texture),
+            textureRepeat,
+            textureFlipY,
+            textureRotation
+        )
 
     const filetype = getExtensionType(texture)
     if (filetype === "image")
-        return initMap(loadTexture(texture), textureRepeat, textureFlipY)
+        return initMap(
+            loadTexture(texture),
+            textureRepeat,
+            textureFlipY,
+            textureRotation
+        )
     if (filetype === "video")
-        return initMap(loadVideoTexture(texture), textureRepeat, textureFlipY)
+        return initMap(
+            loadVideoTexture(texture),
+            textureRepeat,
+            textureFlipY,
+            textureRotation
+        )
 }
 
 const [increaseCount, decreaseCount] = createReferenceCounter<
@@ -82,6 +99,7 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
     assignParamsObj(paramsObj, params[3], "alphaMap")
     assignParamsObj(paramsObj, params[4], "textureRepeat")
     assignParamsObj(paramsObj, params[5], "textureFlipY")
+    assignParamsObj(paramsObj, params[6], "textureRotation")
 
     return new MeshStandardMaterial(
         filter(
@@ -89,8 +107,8 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
                 side: DoubleSide,
                 color: params[0],
                 opacity: params[1],
-                map: getMap(params[2], params[4], params[5]),
-                alphaMap: getMap(params[3], params[4], params[5])
+                map: getMap(params[2], params[4], params[5], params[6]),
+                alphaMap: getMap(params[3], params[4], params[5], params[6])
             },
             filterBoolean
         )
@@ -178,6 +196,14 @@ export default abstract class TexturedStandardMixin {
     }
     public set textureFlipY(val) {
         this.materialParams[5] = val
+        refreshParamsSystem(this)
+    }
+
+    public get textureRotation() {
+        return this.material.map?.rotation
+    }
+    public set textureRotation(val) {
+        this.materialParams[6] = val
         refreshParamsSystem(this)
     }
 }
