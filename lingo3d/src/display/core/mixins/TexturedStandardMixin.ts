@@ -1,8 +1,8 @@
 import { getExtensionType } from "@lincode/filetypes"
-import { Point } from "@lincode/math"
+import { deg2Rad, Point } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
-import { DoubleSide, Mesh, MeshStandardMaterial } from "three"
+import { DoubleSide, Mesh, MeshStandardMaterial, Texture, Vector2 } from "three"
 import { texturedStandardDefaults } from "../../../interface/ITexturedStandard"
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
@@ -33,15 +33,33 @@ const assignParamsObj = (
         paramsObj[prop] = param
 }
 
-const getMap = (params2?: string) => {
-    if (!params2) return
+const initMap = (
+    map?: Texture | null,
+    repeat?: number | Point,
+    flipY?: boolean,
+    rotation?: number
+) => {
+    if (!map) return
+    if (repeat !== undefined)
+        typeof repeat === "number"
+            ? map.repeat.set(repeat, repeat)
+            : map.repeat.set(repeat.x, repeat.y)
+    if (rotation !== undefined) map.rotation = rotation * deg2Rad
+    if (flipY !== undefined) map.flipY = flipY
+    return map
+}
 
-    if (params2[0] === "#" || params2[0] === ".")
-        return loadVideoTexture(params2)
+const getMap = (texture?: string, textureRepeat?: number | Point) => {
+    if (!texture) return
 
-    const filetype = getExtensionType(params2)
-    if (filetype === "image") return loadTexture(params2)
-    if (filetype === "video") return loadVideoTexture(params2)
+    if (texture[0] === "#" || texture[0] === ".")
+        return initMap(loadVideoTexture(texture))
+
+    const filetype = getExtensionType(texture)
+    if (filetype === "image")
+        return initMap(loadTexture(texture), textureRepeat)
+    if (filetype === "video")
+        return initMap(loadVideoTexture(texture), textureRepeat)
 }
 
 const [increaseCount, decreaseCount] = createReferenceCounter<
@@ -61,9 +79,8 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
                 side: DoubleSide,
                 color: params[0],
                 opacity: params[1],
-                map: getMap(params[2]),
-                alphaMap: getMap(params[3]),
-                textureRepeat: params[4]
+                map: getMap(params[2], params[4]),
+                alphaMap: getMap(params[3], params[4])
             },
             filterBoolean
         )
@@ -135,6 +152,15 @@ export default abstract class TexturedStandardMixin {
     }
     public set alphaMap(val) {
         this.materialParams[3] = val
+        refreshParamsSystem(this)
+    }
+
+    private _textureRepeat?: number | Point
+    public get textureRepeat() {
+        return this._textureRepeat
+    }
+    public set textureRepeat(val) {
+        this.materialParams[4] = val
         refreshParamsSystem(this)
     }
 }
