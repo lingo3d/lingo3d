@@ -56,10 +56,15 @@ createEffect(() => {
     }
 }, [getLocked])
 
-export const timer = (time: number, repeat: number, cb: () => void) => {
+export const timer = (
+    time: number,
+    repeat: number,
+    cb: () => void,
+    editor?: boolean
+) => {
     let count = 0
     const handle = setInterval(() => {
-        if (paused || !play) return
+        if (paused || !(play || editor)) return
         cb()
         if (repeat !== -1 && ++count >= repeat) clearInterval(handle)
     }, time)

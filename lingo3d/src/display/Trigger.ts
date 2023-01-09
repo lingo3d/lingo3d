@@ -86,45 +86,50 @@ export default class Trigger extends PositionedManager implements ITrigger {
             const pr = r * 0.2
 
             let hitOld = false
-            const handle = timer(_interval, -1, () => {
-                const { x, y, z } = getWorldPosition(this.outerObject3d)
+            const handle = timer(
+                _interval,
+                -1,
+                () => {
+                    const { x, y, z } = getWorldPosition(this.outerObject3d)
 
-                let hit = false
-                let targetHit: MeshManager | undefined
-                for (const targetSet of targetSets)
-                    for (const target of targetSet) {
-                        const {
-                            x: tx,
-                            y: ty,
-                            z: tz
-                        } = getWorldPosition(target.object3d)
-                        if (_pad) {
-                            const { y: sy } = getActualScale(target)
-                            hit =
-                                Math.abs(x - tx) < r &&
-                                Math.abs(y - (ty - sy * 0.5)) < pr &&
-                                Math.abs(z - tz) < r
-                        } else
-                            hit =
-                                Math.abs(x - tx) < r &&
-                                Math.abs(y - ty) < r &&
-                                Math.abs(z - tz) < r
+                    let hit = false
+                    let targetHit: MeshManager | undefined
+                    for (const targetSet of targetSets)
+                        for (const target of targetSet) {
+                            const {
+                                x: tx,
+                                y: ty,
+                                z: tz
+                            } = getWorldPosition(target.object3d)
+                            if (_pad) {
+                                const { y: sy } = getActualScale(target)
+                                hit =
+                                    Math.abs(x - tx) < r &&
+                                    Math.abs(y - (ty - sy * 0.5)) < pr &&
+                                    Math.abs(z - tz) < r
+                            } else
+                                hit =
+                                    Math.abs(x - tx) < r &&
+                                    Math.abs(y - ty) < r &&
+                                    Math.abs(z - tz) < r
 
-                        if (hit) {
-                            targetHit = target
-                            break
+                            if (hit) {
+                                targetHit = target
+                                break
+                            }
                         }
-                    }
-                if (hitOld !== hit)
-                    if (hit && targetHit) {
-                        this.onEnter?.(targetHit)
-                        helper && (helper.color = "blue")
-                    } else {
-                        this.onExit?.()
-                        helper && (helper.color = "white")
-                    }
-                hitOld = hit
-            })
+                    if (hitOld !== hit)
+                        if (hit && targetHit) {
+                            this.onEnter?.(targetHit)
+                            helper && (helper.color = "blue")
+                        } else {
+                            this.onExit?.()
+                            helper && (helper.color = "white")
+                        }
+                    hitOld = hit
+                },
+                true
+            )
             return () => {
                 handle.cancel()
             }

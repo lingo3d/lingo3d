@@ -95,23 +95,30 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
 
 export const refreshParamsSystem = debounceSystem(
     (target: TexturedStandardMixin) => {
-        if (target.materialParamsOld)
-            decreaseCount(MeshStandardMaterial, target.materialParamsOld)
+        if (target.materialParamString)
+            decreaseCount(MeshStandardMaterial, target.materialParamString)
         else
             target.then(() =>
-                decreaseCount(MeshStandardMaterial, target.materialParams)
+                decreaseCount(MeshStandardMaterial, target.materialParamString!)
             )
+        const paramString = JSON.stringify(target.materialParams)
         target.object3d.material = increaseCount(
             MeshStandardMaterial,
-            target.materialParams
+            target.materialParams,
+            paramString
         )
-        target.materialParamsOld = [...target.materialParams]
+        target.materialParamString = paramString
     }
 )
 
-timer(1000, Infinity, () => {
-    console.log(classMapsMap.get(MeshStandardMaterial)![0])
-})
+timer(
+    1000,
+    Infinity,
+    () => {
+        console.log(classMapsMap.get(MeshStandardMaterial)![0])
+    },
+    true
+)
 
 export default abstract class TexturedStandardMixin {
     public declare object3d: Mesh
@@ -125,7 +132,7 @@ export default abstract class TexturedStandardMixin {
     public get materialParams(): Params {
         return (this._materialParams ??= new Array(27) as Params)
     }
-    public materialParamsOld?: Params
+    public materialParamString?: string
 
     public get color() {
         return (

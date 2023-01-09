@@ -104,19 +104,26 @@ export default async (
     pane.refresh()
 
     handle.watch(
-        timer(MONITOR_INTERVAL, Infinity, () => {
-            let changed = false
-            for (const key of paramKeys)
-                if (!isEqual(target[key] ?? paramsDefault[key], params[key])) {
-                    params[key] = target[key]
-                    changed = true
-                }
+        timer(
+            MONITOR_INTERVAL,
+            Infinity,
+            () => {
+                let changed = false
+                for (const key of paramKeys)
+                    if (
+                        !isEqual(target[key] ?? paramsDefault[key], params[key])
+                    ) {
+                        params[key] = target[key]
+                        changed = true
+                    }
 
-            if (changed) {
-                skipApplyValue()
-                pane.refresh()
-            }
-        })
+                if (changed) {
+                    skipApplyValue()
+                    pane.refresh()
+                }
+            },
+            true
+        )
     )
 
     return result
