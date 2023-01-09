@@ -58,7 +58,7 @@ const serialize = async (children: Array<any>, skipUUID?: boolean) => {
                     fileCurrent.webkitRelativePath,
                     file.webkitRelativePath
                 )
-            } else if (t === "number") value = toFixed(key, value)
+            } else if (t === "number") value = toFixed(value)
             else if (isPoint(value, t)) value = toFixedPoint(value)
             else if (Array.isArray(value) && value.some((v) => isPoint(v)))
                 value = value.map((v) => (isPoint(v) ? toFixedPoint(v) : v))

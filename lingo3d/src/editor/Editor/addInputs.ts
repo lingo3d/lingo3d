@@ -7,6 +7,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { isPoint } from "../../api/serializer/isPoint"
 import { MONITOR_INTERVAL } from "../../globals"
 import { emitEditorEdit } from "../../events/onEditorEdit"
+import toFixed, { toFixedPoint } from "../../api/serializer/toFixed"
 
 let skipApply = false
 let leading = true
@@ -30,6 +31,19 @@ const isEqual = (a: any, b: any) => {
     if (isFalse(a) && isFalse(b)) return true
 
     return a === b
+}
+
+export const processValue = (value: any) => {
+    if (typeof value === "string") {
+        if (value === "true" || value === "false")
+            return value === "true" ? true : false
+        const num = parseFloat(value)
+        if (!Number.isNaN(num)) return toFixed(num)
+        return value
+    }
+    if (typeof value === "number") return toFixed(value)
+    if (isPoint(value)) return toFixedPoint(value)
+    return value
 }
 
 export default async (
@@ -78,7 +92,7 @@ export default async (
                 updateResetButton()
                 if (skipApply) return
                 !downPtr[0] && emitEditorEdit("start")
-                target[key] = value
+                target[key] = processValue(value)
                 !downPtr[0] && emitEditorEdit("end")
             })
             return [key, input]

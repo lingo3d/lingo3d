@@ -1,6 +1,7 @@
+import { isPoint } from "../../api/serializer/isPoint"
+import toFixed, { toFixedPoint } from "../../api/serializer/toFixed"
+import { processValue } from "../Editor/addInputs"
 import { Pane } from "./tweakpane"
-
-const toFixed = (v: any) => (typeof v === "number" ? Number(v.toFixed(2)) : v)
 
 export default (
     pane: Pane,
@@ -35,29 +36,19 @@ export default (
                     }
                     break
                 }
-                typeof value?.x === "number" && (value.x = toFixed(value.x))
-                typeof value?.y === "number" && (value.y = toFixed(value.y))
-                typeof value?.z === "number" && (value.z = toFixed(value.z))
+                if (isPoint(value)) {
+                    params[key] = toFixedPoint(value)
+                    break
+                }
                 break
         }
 
     return Object.fromEntries(
         Object.keys(params).map((key) => {
             const input = folder.addInput(params, key, options[key])
-            input.on("change", ({ value }: any) => {
-                if (typeof value === "string") {
-                    if (value === "true" || value === "false") {
-                        onChange(key, value === "true" ? true : false)
-                        return
-                    }
-                    const num = parseFloat(value)
-                    if (!Number.isNaN(num)) {
-                        onChange(key, num)
-                        return
-                    }
-                }
-                onChange(key, toFixed(value))
-            })
+            input.on("change", ({ value }: any) =>
+                onChange(key, processValue(value))
+            )
             return [key, input] as const
         })
     )

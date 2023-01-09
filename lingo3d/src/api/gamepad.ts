@@ -1,4 +1,5 @@
 import { onBeforeRender } from "../events/onBeforeRender"
+import toFixed from "./serializer/toFixed"
 
 const gamepad = {}
 export default gamepad
@@ -16,8 +17,7 @@ export default gamepad
                     console.log(i, button.value, button.pressed, pct)
             }
             for (let i = 0; i < pad.axes.length; i++) {
-                const val = Number(pad.axes[i].toFixed(2))
-
+                const val = toFixed(pad.axes[i])
                 val !== 0 && console.log(i, val)
             }
         }
