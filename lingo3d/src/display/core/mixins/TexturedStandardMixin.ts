@@ -2,7 +2,7 @@ import { getExtensionType } from "@lincode/filetypes"
 import { deg2Rad, Point } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
-import { DoubleSide, Mesh, MeshStandardMaterial, Texture, Vector2 } from "three"
+import { DoubleSide, Mesh, MeshStandardMaterial, Texture } from "three"
 import { texturedStandardDefaults } from "../../../interface/ITexturedStandard"
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
@@ -18,7 +18,8 @@ type Params = [
     opacity: number | undefined,
     texture: string | undefined,
     alphaMap: string | undefined,
-    textureRepeat: number | Point | undefined
+    textureRepeat: number | Point | undefined,
+    textureFlipY: boolean | undefined
 ]
 
 const assignParamsObj = (
@@ -34,32 +35,40 @@ const assignParamsObj = (
 }
 
 const initMap = (
-    map?: Texture | null,
-    repeat?: number | Point,
-    flipY?: boolean,
-    rotation?: number
+    map: Texture | null,
+    textureRepeat: number | Point | undefined,
+    textureFlipY: boolean | undefined,
+    textureRotation?: number
 ) => {
     if (!map) return
-    if (repeat !== undefined)
-        typeof repeat === "number"
-            ? map.repeat.set(repeat, repeat)
-            : map.repeat.set(repeat.x, repeat.y)
-    if (rotation !== undefined) map.rotation = rotation * deg2Rad
-    if (flipY !== undefined) map.flipY = flipY
+
+    if (textureRepeat !== undefined)
+        typeof textureRepeat === "number"
+            ? map.repeat.set(textureRepeat, textureRepeat)
+            : map.repeat.set(textureRepeat.x, textureRepeat.y)
+    if (textureFlipY !== undefined) {
+        map.flipY = textureFlipY
+        map.needsUpdate = true
+    }
+    if (textureRotation !== undefined) map.rotation = textureRotation * deg2Rad
     return map
 }
 
-const getMap = (texture?: string, textureRepeat?: number | Point) => {
+const getMap = (
+    texture: string | undefined,
+    textureRepeat: number | Point | undefined,
+    textureFlipY: boolean | undefined
+) => {
     if (!texture) return
 
     if (texture[0] === "#" || texture[0] === ".")
-        return initMap(loadVideoTexture(texture))
+        return initMap(loadVideoTexture(texture), textureRepeat, textureFlipY)
 
     const filetype = getExtensionType(texture)
     if (filetype === "image")
-        return initMap(loadTexture(texture), textureRepeat)
+        return initMap(loadTexture(texture), textureRepeat, textureFlipY)
     if (filetype === "video")
-        return initMap(loadVideoTexture(texture), textureRepeat)
+        return initMap(loadVideoTexture(texture), textureRepeat, textureFlipY)
 }
 
 const [increaseCount, decreaseCount] = createReferenceCounter<
@@ -72,6 +81,7 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
     assignParamsObj(paramsObj, params[2], "texture")
     assignParamsObj(paramsObj, params[3], "alphaMap")
     assignParamsObj(paramsObj, params[4], "textureRepeat")
+    assignParamsObj(paramsObj, params[5], "textureFlipY")
 
     return new MeshStandardMaterial(
         filter(
@@ -79,8 +89,8 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
                 side: DoubleSide,
                 color: params[0],
                 opacity: params[1],
-                map: getMap(params[2], params[4]),
-                alphaMap: getMap(params[3], params[4])
+                map: getMap(params[2], params[4], params[5]),
+                alphaMap: getMap(params[3], params[4], params[5])
             },
             filterBoolean
         )
@@ -155,12 +165,19 @@ export default abstract class TexturedStandardMixin {
         refreshParamsSystem(this)
     }
 
-    private _textureRepeat?: number | Point
     public get textureRepeat() {
-        return this._textureRepeat
+        return this.material.map?.repeat
     }
     public set textureRepeat(val) {
         this.materialParams[4] = val
+        refreshParamsSystem(this)
+    }
+
+    public get textureFlipY() {
+        return this.material.map?.flipY
+    }
+    public set textureFlipY(val) {
+        this.materialParams[5] = val
         refreshParamsSystem(this)
     }
 }
