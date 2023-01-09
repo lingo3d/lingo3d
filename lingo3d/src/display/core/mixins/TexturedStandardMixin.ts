@@ -3,8 +3,6 @@ import { deg2Rad, Point } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
 import { DoubleSide, Mesh, MeshStandardMaterial, Texture } from "three"
-import { texturedStandardDefaults } from "../../../interface/ITexturedStandard"
-import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
 import loadTexture from "../../utils/loaders/loadTexture"
 import loadVideoTexture from "../../utils/loaders/loadVideoTexture"
@@ -22,18 +20,6 @@ type Params = [
     textureFlipY: boolean | undefined,
     textureRotation: number | undefined
 ]
-
-const assignParamsObj = (
-    paramsObj: Record<string, any>,
-    param: any,
-    prop: keyof typeof texturedStandardDefaults
-) => {
-    if (
-        param !== undefined &&
-        param !== getDefaultValue(texturedStandardDefaults, prop, true)
-    )
-        paramsObj[prop] = param
-}
 
 const initMap = (
     map: Texture | null,
@@ -92,15 +78,6 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
     MeshStandardMaterial,
     Params
 >((_, params) => {
-    const paramsObj: Record<string, any> = {}
-    assignParamsObj(paramsObj, params[0], "color")
-    assignParamsObj(paramsObj, params[1], "opacity")
-    assignParamsObj(paramsObj, params[2], "texture")
-    assignParamsObj(paramsObj, params[3], "alphaMap")
-    assignParamsObj(paramsObj, params[4], "textureRepeat")
-    assignParamsObj(paramsObj, params[5], "textureFlipY")
-    assignParamsObj(paramsObj, params[6], "textureRotation")
-
     return new MeshStandardMaterial(
         filter(
             {
@@ -131,9 +108,9 @@ export const refreshParamsSystem = debounceSystem(
     }
 )
 
-// setInterval(() => {
-//     console.log(classMapsMap.get(MeshStandardMaterial)![0])
-// }, 1000)
+setInterval(() => {
+    console.log(classMapsMap.get(MeshStandardMaterial)![0])
+}, 1000)
 
 export default abstract class TexturedStandardMixin {
     public declare object3d: Mesh
@@ -150,7 +127,9 @@ export default abstract class TexturedStandardMixin {
     public materialParamsOld?: Params
 
     public get color() {
-        return "#" + this.material.color.getHexString()
+        return (
+            this.materialParams[0] ?? "#" + this.material.color.getHexString()
+        )
     }
     public set color(val) {
         this.materialParams[0] = val
@@ -158,25 +137,23 @@ export default abstract class TexturedStandardMixin {
     }
 
     public get opacity() {
-        return this.material.opacity
+        return this.materialParams[1] ?? this.material.opacity
     }
     public set opacity(val) {
         this.materialParams[1] = val
         refreshParamsSystem(this)
     }
 
-    private _texture?: string
     public get texture() {
-        return this._texture
+        return this.materialParams[2]
     }
     public set texture(val) {
         this.materialParams[2] = val
         refreshParamsSystem(this)
     }
 
-    private _alphaMap?: string
     public get alphaMap() {
-        return this._alphaMap
+        return this.materialParams[3]
     }
     public set alphaMap(val) {
         this.materialParams[3] = val
@@ -184,7 +161,7 @@ export default abstract class TexturedStandardMixin {
     }
 
     public get textureRepeat() {
-        return this.material.map?.repeat
+        return this.materialParams[4] ?? this.material.map?.repeat
     }
     public set textureRepeat(val) {
         this.materialParams[4] = val
@@ -192,7 +169,7 @@ export default abstract class TexturedStandardMixin {
     }
 
     public get textureFlipY() {
-        return this.material.map?.flipY
+        return this.materialParams[5] ?? this.material.map?.flipY
     }
     public set textureFlipY(val) {
         this.materialParams[5] = val
@@ -200,7 +177,7 @@ export default abstract class TexturedStandardMixin {
     }
 
     public get textureRotation() {
-        return this.material.map?.rotation
+        return this.materialParams[6] ?? this.material.map?.rotation
     }
     public set textureRotation(val) {
         this.materialParams[6] = val
