@@ -3,6 +3,7 @@ import { deg2Rad, Point } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
 import { DoubleSide, Mesh, MeshStandardMaterial, Texture } from "three"
+import { timer } from "../../../engine/eventLoop"
 import debounceSystem from "../../../utils/debounceSystem"
 import loadTexture from "../../utils/loaders/loadTexture"
 import loadVideoTexture from "../../utils/loaders/loadVideoTexture"
@@ -108,9 +109,9 @@ export const refreshParamsSystem = debounceSystem(
     }
 )
 
-setInterval(() => {
+timer(1000, Infinity, () => {
     console.log(classMapsMap.get(MeshStandardMaterial)![0])
-}, 1000)
+})
 
 export default abstract class TexturedStandardMixin {
     public declare object3d: Mesh

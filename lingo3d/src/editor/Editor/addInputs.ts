@@ -8,6 +8,7 @@ import { isPoint } from "../../api/serializer/isPoint"
 import { MONITOR_INTERVAL } from "../../globals"
 import { emitEditorEdit } from "../../events/onEditorEdit"
 import toFixed, { toFixedPoint } from "../../api/serializer/toFixed"
+import { timer } from "../../engine/eventLoop"
 
 let skipApply = false
 let leading = true
@@ -102,20 +103,21 @@ export default async (
     skipApplyValue()
     pane.refresh()
 
-    const interval = setInterval(() => {
-        let changed = false
-        for (const key of paramKeys)
-            if (!isEqual(target[key] ?? paramsDefault[key], params[key])) {
-                params[key] = target[key]
-                changed = true
-            }
+    handle.watch(
+        timer(MONITOR_INTERVAL, Infinity, () => {
+            let changed = false
+            for (const key of paramKeys)
+                if (!isEqual(target[key] ?? paramsDefault[key], params[key])) {
+                    params[key] = target[key]
+                    changed = true
+                }
 
-        if (changed) {
-            skipApplyValue()
-            pane.refresh()
-        }
-    }, MONITOR_INTERVAL)
-    handle.then(() => clearInterval(interval))
+            if (changed) {
+                skipApplyValue()
+                pane.refresh()
+            }
+        })
+    )
 
     return result
 }
