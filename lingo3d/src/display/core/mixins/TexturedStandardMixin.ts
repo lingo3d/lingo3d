@@ -15,7 +15,8 @@ import createReferenceCounter, {
 type Params = [
     color: string | undefined,
     opacity: number | undefined,
-    texture: string | undefined
+    texture: string | undefined,
+    alphaMap: string | undefined
 ]
 
 const assignParamsObj = (
@@ -49,6 +50,7 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
     assignParamsObj(paramsObj, params[0], "color")
     assignParamsObj(paramsObj, params[1], "opacity")
     assignParamsObj(paramsObj, params[2], "texture")
+    assignParamsObj(paramsObj, params[3], "alphaMap")
 
     return new MeshStandardMaterial(
         filter(
@@ -56,7 +58,8 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
                 side: DoubleSide,
                 color: params[0],
                 opacity: params[1],
-                map: getMap(params[2])
+                map: getMap(params[2]),
+                alphaMap: getMap(params[3])
             },
             filterBoolean
         )
@@ -119,6 +122,15 @@ export default abstract class TexturedStandardMixin {
     }
     public set texture(val) {
         this.materialParams[2] = val
+        refreshParamsSystem(this)
+    }
+
+    private _alphaMap?: string
+    public get alphaMap() {
+        return this._alphaMap
+    }
+    public set alphaMap(val) {
+        this.materialParams[3] = val
         refreshParamsSystem(this)
     }
 }
