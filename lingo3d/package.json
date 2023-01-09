@@ -21,7 +21,7 @@
     },
     "dependencies": {
         "@lincode/events": "^1.0.32",
-        "@lincode/filetypes": "^1.0.2",
+        "@lincode/filetypes": "^1.0.3",
         "@lincode/math": "^1.0.8",
         "@lincode/promiselikes": "^1.0.25",
         "@lincode/reactivity": "^1.0.82",

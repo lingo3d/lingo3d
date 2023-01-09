@@ -1,9 +1,18 @@
+import { getExtensionType } from "@lincode/filetypes"
 import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
-import { DoubleSide, Mesh, MeshStandardMaterial } from "three"
+import {
+    DoubleSide,
+    Mesh,
+    MeshStandardMaterial,
+    RepeatWrapping,
+    Texture,
+    VideoTexture
+} from "three"
 import { texturedStandardDefaults } from "../../../interface/ITexturedStandard"
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
+import loadTexture from "../../utils/loaders/loadTexture"
 import createReferenceCounter, {
     classMapsMap
 } from "../utils/createReferenceCounter"
@@ -12,8 +21,7 @@ import createReferenceCounter, {
 type Params = [
     color: string | undefined,
     opacity: number | undefined,
-    texture: string | undefined,
-    videoTexture: string | HTMLVideoElement | undefined
+    texture: string | undefined
 ]
 
 const assignParamsObj = (
@@ -28,6 +36,40 @@ const assignParamsObj = (
         paramsObj[prop] = param
 }
 
+const getMap = (params2?: string) => {
+    if (!params2) return
+
+    if (params2[0] === "#" || params2[0] === ".") {
+        const video = document.querySelector(params2)
+        if (video instanceof HTMLVideoElement)
+            return new VideoTexture(
+                video,
+                undefined,
+                RepeatWrapping,
+                RepeatWrapping
+            )
+        return
+    }
+    const filetype = getExtensionType(params2)
+    if (filetype === "image") return loadTexture(params2)
+    if (filetype === "video") {
+        const video = document.createElement("video")
+        video.crossOrigin = "anonymous"
+        video.src = params2
+        video.loop = true
+        video.autoplay = true
+        video.muted = true
+        video.playsInline = true
+        video.play()
+        return new VideoTexture(
+            video,
+            undefined,
+            RepeatWrapping,
+            RepeatWrapping
+        )
+    }
+}
+
 const [increaseCount, decreaseCount] = createReferenceCounter<
     MeshStandardMaterial,
     Params
@@ -35,13 +77,15 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
     const paramsObj: Record<string, any> = {}
     assignParamsObj(paramsObj, params[0], "color")
     assignParamsObj(paramsObj, params[1], "opacity")
+    assignParamsObj(paramsObj, params[2], "texture")
 
     return new MeshStandardMaterial(
         filter(
             {
                 side: DoubleSide,
                 color: params[0],
-                opacity: params[1]
+                opacity: params[1],
+                map: getMap(params[2])
             },
             filterBoolean
         )
@@ -95,6 +139,15 @@ export default abstract class TexturedStandardMixin {
     }
     public set opacity(val) {
         this.materialParams[1] = val
+        refreshParamsSystem(this)
+    }
+
+    private _texture?: string
+    public get texture() {
+        return this._texture
+    }
+    public set texture(val) {
+        this.materialParams[2] = val
         refreshParamsSystem(this)
     }
 }

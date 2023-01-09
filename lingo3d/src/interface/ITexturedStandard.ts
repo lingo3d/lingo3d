@@ -8,8 +8,7 @@ import Range from "./utils/Range"
 export default interface ITexturedStandard {
     color: Nullable<string>
     opacity: Nullable<number>
-    texture: Nullable<string | HTMLVideoElement>
-    videoTexture: Nullable<string | HTMLVideoElement>
+    texture: Nullable<string>
     alphaMap: Nullable<string>
     textureRepeat: Nullable<Point | number>
     textureFlipY: Nullable<boolean>
@@ -41,8 +40,7 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
     {
         color: String,
         opacity: Number,
-        texture: [String, Object],
-        videoTexture: [String, Object],
+        texture: String,
         alphaMap: String,
         textureRepeat: [Object, Number],
         textureFlipY: Boolean,
@@ -76,7 +74,6 @@ export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
         color: new NullableDefault("#ffffff"),
         opacity: new NullableDefault(1),
         texture: undefined,
-        videoTexture: undefined,
         alphaMap: undefined,
         textureRepeat: new NullableDefault({ x: 1, y: 1 }),
         textureFlipY: new NullableDefault(false),
