@@ -1,4 +1,5 @@
 import { getExtensionType } from "@lincode/filetypes"
+import { Point } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
 import { DoubleSide, Mesh, MeshStandardMaterial } from "three"
@@ -16,7 +17,8 @@ type Params = [
     color: string | undefined,
     opacity: number | undefined,
     texture: string | undefined,
-    alphaMap: string | undefined
+    alphaMap: string | undefined,
+    textureRepeat: number | Point | undefined
 ]
 
 const assignParamsObj = (
@@ -51,6 +53,7 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
     assignParamsObj(paramsObj, params[1], "opacity")
     assignParamsObj(paramsObj, params[2], "texture")
     assignParamsObj(paramsObj, params[3], "alphaMap")
+    assignParamsObj(paramsObj, params[4], "textureRepeat")
 
     return new MeshStandardMaterial(
         filter(
@@ -59,7 +62,8 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
                 color: params[0],
                 opacity: params[1],
                 map: getMap(params[2]),
-                alphaMap: getMap(params[3])
+                alphaMap: getMap(params[3]),
+                textureRepeat: params[4]
             },
             filterBoolean
         )
@@ -96,7 +100,7 @@ export default abstract class TexturedStandardMixin {
 
     private _materialParams?: Params
     public get materialParams(): Params {
-        return (this._materialParams ??= new Array(4) as Params)
+        return (this._materialParams ??= new Array(27) as Params)
     }
     public materialParamsOld?: Params
 
