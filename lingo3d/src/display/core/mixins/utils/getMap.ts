@@ -13,10 +13,11 @@ const initMap = (
     typeof textureRepeat === "number"
         ? map.repeat.set(textureRepeat, textureRepeat)
         : map.repeat.set(textureRepeat.x, textureRepeat.y)
+    if (map.userData.needsUpdate) map.needsUpdate = true
+    map.userData.needsUpdate = true
     map.flipY = map.userData.flipY = map.userData.flipped
         ? !textureFlipY
         : textureFlipY
-    map.needsUpdate = true
     map.rotation = textureRotation * deg2Rad
     return map
 }
