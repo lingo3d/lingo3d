@@ -1,7 +1,6 @@
-import { getExtensionType } from "@lincode/filetypes"
-import { deg2Rad, Point } from "@lincode/math"
+import { Point } from "@lincode/math"
 import { filter } from "@lincode/utils"
-import { DoubleSide, Mesh, MeshStandardMaterial, Texture, Vector2 } from "three"
+import { DoubleSide, Mesh, MeshStandardMaterial, Vector2 } from "three"
 import ITexturedStandard, {
     texturedStandardDefaults,
     texturedStandardSchema
@@ -10,12 +9,9 @@ import getDefaultValue, {
     equalsDefaultValue
 } from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
-import loadTexture from "../../utils/loaders/loadTexture"
-import loadVideoTexture from "../../utils/loaders/loadVideoTexture"
 import { color } from "../../utils/reusables"
-import createReferenceCounter, {
-    classMapsMap
-} from "../utils/createReferenceCounter"
+import createReferenceCounter from "../utils/createReferenceCounter"
+import getMap from "./utils/getMap"
 
 type Params = [
     color: string,
@@ -46,54 +42,6 @@ type Params = [
     normalMap: string,
     normalScale: number
 ]
-
-const initMap = (
-    map: Texture,
-    textureRepeat: number | Point,
-    textureFlipY: boolean,
-    textureRotation: number
-) => {
-    typeof textureRepeat === "number"
-        ? map.repeat.set(textureRepeat, textureRepeat)
-        : map.repeat.set(textureRepeat.x, textureRepeat.y)
-    map.flipY = map.userData.flipY = map.userData.flipped
-        ? !textureFlipY
-        : textureFlipY
-    map.needsUpdate = true
-    map.rotation = textureRotation * deg2Rad
-    return map
-}
-
-const getMap = (
-    texture: string,
-    textureRepeat: number | Point,
-    textureFlipY: boolean,
-    textureRotation: number
-) => {
-    if (texture[0] === "#" || texture[0] === ".")
-        return initMap(
-            loadVideoTexture(texture),
-            textureRepeat,
-            textureFlipY,
-            textureRotation
-        )
-
-    const filetype = getExtensionType(texture)
-    if (filetype === "image")
-        return initMap(
-            loadTexture(texture),
-            textureRepeat,
-            textureFlipY,
-            textureRotation
-        )
-    if (filetype === "video")
-        return initMap(
-            loadVideoTexture(texture),
-            textureRepeat,
-            textureFlipY,
-            textureRotation
-        )
-}
 
 const filterNotDefaults = (value: any, key: string) =>
     !equalsDefaultValue(value, texturedStandardDefaults, key)
