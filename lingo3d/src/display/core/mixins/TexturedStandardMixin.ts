@@ -45,13 +45,11 @@ type Params = [
 ]
 
 const initMap = (
-    map: Texture | null,
+    map: Texture,
     textureRepeat: number | Point | undefined,
     textureFlipY: boolean | undefined,
     textureRotation: number | undefined
 ) => {
-    if (!map) return
-
     if (textureRepeat !== undefined)
         typeof textureRepeat === "number"
             ? map.repeat.set(textureRepeat, textureRepeat)
@@ -65,13 +63,11 @@ const initMap = (
 }
 
 const getMap = (
-    texture: string | undefined,
+    texture: string,
     textureRepeat: number | Point | undefined,
     textureFlipY: boolean | undefined,
     textureRotation: number | undefined
 ) => {
-    if (!texture) return
-
     if (texture[0] === "#" || texture[0] === ".")
         return initMap(
             loadVideoTexture(texture),
