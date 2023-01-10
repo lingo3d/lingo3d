@@ -173,10 +173,12 @@ export const refreshParamsSystem = debounceSystem(
     (target: TexturedStandardMixin) => {
         if (target.materialParamString)
             decreaseCount(MeshStandardMaterial, target.materialParamString)
-        else
+        else {
+            //@ts-ignore
             target.then(() =>
                 decreaseCount(MeshStandardMaterial, target.materialParamString!)
             )
+        }
         const paramString = JSON.stringify(target.materialParams)
         target.object3d.material = increaseCount(
             MeshStandardMaterial,
@@ -193,7 +195,6 @@ export default abstract class TexturedStandardMixin
     implements ITexturedStandard
 {
     public declare object3d: Mesh
-    public declare then: (cb: (val: any) => void) => Cancellable
 
     public get material() {
         return this.object3d.material as MeshStandardMaterial
