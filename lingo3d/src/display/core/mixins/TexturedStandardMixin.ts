@@ -2,7 +2,7 @@ import { getExtensionType } from "@lincode/filetypes"
 import { deg2Rad, Point } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
-import { DoubleSide, Mesh, MeshStandardMaterial, Texture } from "three"
+import { DoubleSide, Mesh, MeshStandardMaterial, Texture, Vector2 } from "three"
 import { timer } from "../../../engine/eventLoop"
 import ITexturedStandard, {
     texturedStandardSchema
@@ -39,7 +39,9 @@ type Params = [
     metalnessMap: string | undefined,
     metalness: number | undefined,
     roughnessMap: string | undefined,
-    roughness: number | undefined
+    roughness: number | undefined,
+    normalMap: string | undefined,
+    normalScale: number | undefined
 ]
 
 const initMap = (
@@ -101,50 +103,72 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
 >(
     (_, params) =>
         new MeshStandardMaterial(
-            // filter(
-            {
-                side: DoubleSide,
-                color: params[0],
-                opacity: params[1],
-                transparent: params[1] !== undefined && params[1] < 1,
-                map: getMap(params[2], params[4], params[5], params[6]),
-                alphaMap: getMap(params[3], params[4], params[5], params[6]),
-                wireframe: params[7],
-                envMap: getMap(params[8], params[4], params[5], params[6]),
-                envMapIntensity: params[9],
-                aoMap: getMap(params[10], params[4], params[5], params[6]),
-                aoMapIntensity: params[11],
-                bumpMap: getMap(params[12], params[4], params[5], params[6]),
-                bumpScale: params[13],
-                displacementMap: getMap(
-                    params[14],
-                    params[4],
-                    params[5],
-                    params[6]
-                ),
-                displacementScale: params[15],
-                displacementBias: params[16],
-                emissive: params[17] ? params[0] : undefined,
-                emissiveIntensity: params[18],
-                lightMap: getMap(params[19], params[4], params[5], params[6]),
-                lightMapIntensity: params[20],
-                metalnessMap: getMap(
-                    params[21],
-                    params[4],
-                    params[5],
-                    params[6]
-                ),
-                metalness: params[22],
-                roughnessMap: getMap(
-                    params[23],
-                    params[4],
-                    params[5],
-                    params[6]
-                ),
-                roughness: params[24]
-            }
-            // filterBoolean
-            // )
+            filter(
+                {
+                    side: DoubleSide,
+                    color: params[0],
+                    opacity: params[1],
+                    transparent: params[1] !== undefined && params[1] < 1,
+                    map: getMap(params[2], params[4], params[5], params[6]),
+                    alphaMap: getMap(
+                        params[3],
+                        params[4],
+                        params[5],
+                        params[6]
+                    ),
+                    wireframe: params[7],
+                    envMap: getMap(params[8], params[4], params[5], params[6]),
+                    envMapIntensity: params[9],
+                    aoMap: getMap(params[10], params[4], params[5], params[6]),
+                    aoMapIntensity: params[11],
+                    bumpMap: getMap(
+                        params[12],
+                        params[4],
+                        params[5],
+                        params[6]
+                    ),
+                    bumpScale: params[13],
+                    displacementMap: getMap(
+                        params[14],
+                        params[4],
+                        params[5],
+                        params[6]
+                    ),
+                    displacementScale: params[15],
+                    displacementBias: params[16],
+                    emissive: params[17] ? params[0] : undefined,
+                    emissiveIntensity: params[18],
+                    lightMap: getMap(
+                        params[19],
+                        params[4],
+                        params[5],
+                        params[6]
+                    ),
+                    lightMapIntensity: params[20],
+                    metalnessMap: getMap(
+                        params[21],
+                        params[4],
+                        params[5],
+                        params[6]
+                    ),
+                    metalness: params[22],
+                    roughnessMap: getMap(
+                        params[23],
+                        params[4],
+                        params[5],
+                        params[6]
+                    ),
+                    roughness: params[24],
+                    normalMap: getMap(
+                        params[25],
+                        params[4],
+                        params[5],
+                        params[6]
+                    ),
+                    normalScale: new Vector2(params[26], params[26])
+                },
+                filterBoolean
+            )
         )
 )
 
@@ -177,7 +201,9 @@ export const refreshParamsSystem = debounceSystem(
 
 const paramSize = Object.keys(texturedStandardSchema).length
 
-export default abstract class TexturedStandardMixin {
+export default abstract class TexturedStandardMixin
+    implements ITexturedStandard
+{
     public declare object3d: Mesh
     public declare then: (cb: (val: any) => void) => Cancellable
 
@@ -388,6 +414,22 @@ export default abstract class TexturedStandardMixin {
     }
     public set roughness(val) {
         this.materialParams[24] = val
+        refreshParamsSystem(this)
+    }
+
+    public get normalMap() {
+        return this.materialParams[25]
+    }
+    public set normalMap(val) {
+        this.materialParams[25] = val
+        refreshParamsSystem(this)
+    }
+
+    public get normalScale() {
+        return this.materialParams[26]
+    }
+    public set normalScale(val) {
+        this.materialParams[26] = val
         refreshParamsSystem(this)
     }
 }
