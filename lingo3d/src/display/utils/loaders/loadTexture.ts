@@ -36,5 +36,9 @@ export default (url: string, onLoad?: () => void) => {
             handleProgress(url)
         )
     })
-    return texture.constructor === DataTexture ? texture : texture.clone()
+    if (texture.constructor === DataTexture) {
+        cache.delete(url)
+        return texture
+    }
+    return texture.clone()
 }
