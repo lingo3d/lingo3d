@@ -10,7 +10,8 @@ import {
     Matrix4,
     MeshStandardMaterial,
     Vector2,
-    DoubleSide
+    DoubleSide,
+    Color
 } from "three"
 
 export const vector2 = new Vector2()
@@ -35,6 +36,8 @@ export const line3 = new Line3()
 export const frustum = new Frustum()
 
 export const matrix4 = new Matrix4()
+
+export const color = new Color()
 
 export const wireframeMaterial = new MeshBasicMaterial({ wireframe: true })
 export const standardMaterial = new MeshStandardMaterial({ side: DoubleSide })

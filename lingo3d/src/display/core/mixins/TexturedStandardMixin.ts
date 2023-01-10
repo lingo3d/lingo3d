@@ -3,16 +3,13 @@ import { deg2Rad, Point } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
 import { DoubleSide, Mesh, MeshStandardMaterial, Texture, Vector2 } from "three"
-import { timer } from "../../../engine/eventLoop"
 import ITexturedStandard, {
     texturedStandardSchema
 } from "../../../interface/ITexturedStandard"
 import debounceSystem from "../../../utils/debounceSystem"
 import loadTexture from "../../utils/loaders/loadTexture"
 import loadVideoTexture from "../../utils/loaders/loadVideoTexture"
-import createReferenceCounter, {
-    classMapsMap
-} from "../utils/createReferenceCounter"
+import createReferenceCounter from "../utils/createReferenceCounter"
 
 type Params = [
     color: string | undefined,
@@ -190,15 +187,6 @@ export const refreshParamsSystem = debounceSystem(
     }
 )
 
-// timer(
-//     1000,
-//     Infinity,
-//     () => {
-//         console.log(classMapsMap.get(MeshStandardMaterial)![0])
-//     },
-//     true
-// )
-
 const paramSize = Object.keys(texturedStandardSchema).length
 
 export default abstract class TexturedStandardMixin
@@ -226,7 +214,7 @@ export default abstract class TexturedStandardMixin
     }
 
     public get opacity() {
-        return this.materialParams[1] ?? this.material.opacity
+        return this.materialParams[1]
     }
     public set opacity(val) {
         this.materialParams[1] = val
@@ -274,7 +262,7 @@ export default abstract class TexturedStandardMixin
     }
 
     public get wireframe() {
-        return this.materialParams[7] ?? this.material.wireframe
+        return this.materialParams[7]
     }
     public set wireframe(val) {
         this.materialParams[7] = val
