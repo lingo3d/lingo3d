@@ -143,9 +143,7 @@ export default abstract class TexturedStandardMixin {
     public materialParamString?: string
 
     public get color() {
-        return (
-            this.materialParams[0] ?? "#" + this.material.color.getHexString()
-        )
+        return "#" + this.material.color.getHexString()
     }
     public set color(val) {
         this.materialParams[0] = val
