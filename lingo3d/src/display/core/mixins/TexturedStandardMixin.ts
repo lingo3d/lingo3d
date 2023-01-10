@@ -19,7 +19,8 @@ type Params = [
     textureRepeat: number | Point | undefined,
     textureFlipY: boolean | undefined,
     textureRotation: number | undefined,
-    wireframe: boolean | undefined
+    wireframe: boolean | undefined,
+    envMap: string | undefined
 ]
 
 const initMap = (
@@ -81,23 +82,19 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
 >(
     (_, params) =>
         new MeshStandardMaterial(
-            filter(
-                {
-                    side: DoubleSide,
-                    color: params[0],
-                    opacity: params[1],
-                    transparent: params[1] !== undefined && params[1] < 1,
-                    map: getMap(params[2], params[4], params[5], params[6]),
-                    alphaMap: getMap(
-                        params[3],
-                        params[4],
-                        params[5],
-                        params[6]
-                    ),
-                    wireframe: params[7]
-                },
-                filterBoolean
-            )
+            // filter(
+            {
+                side: DoubleSide,
+                color: params[0],
+                opacity: params[1],
+                transparent: params[1] !== undefined && params[1] < 1,
+                map: getMap(params[2], params[4], params[5], params[6]),
+                alphaMap: getMap(params[3], params[4], params[5], params[6]),
+                wireframe: params[7],
+                envMap: getMap(params[8], params[4], params[5], params[6])
+            }
+            // filterBoolean
+            // )
         )
 )
 
@@ -138,7 +135,7 @@ export default abstract class TexturedStandardMixin {
 
     private _materialParams?: Params
     public get materialParams(): Params {
-        return (this._materialParams ??= new Array(27) as Params)
+        return (this._materialParams ??= [, , , , , , , , ,])
     }
     public materialParamString?: string
 
@@ -203,6 +200,14 @@ export default abstract class TexturedStandardMixin {
     }
     public set wireframe(val) {
         this.materialParams[7] = val
+        refreshParamsSystem(this)
+    }
+
+    public get envMap() {
+        return this.materialParams[8]
+    }
+    public set envMap(val) {
+        this.materialParams[8] = val
         refreshParamsSystem(this)
     }
 }
