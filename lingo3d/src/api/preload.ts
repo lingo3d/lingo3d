@@ -2,7 +2,7 @@ import { getExtensionType } from "@lincode/filetypes"
 import {
     addLoadedBytesChangedEventListeners,
     removeLoadedBytesChangedEventListeners
-} from "../display/utils/loaders/bytesLoaded"
+} from "../display/utils/loaders/utils/bytesLoaded"
 import loadTexturePromise from "../display/utils/loaders/loadTexturePromise"
 import { getLoadingCount } from "../states/useLoadingCount"
 

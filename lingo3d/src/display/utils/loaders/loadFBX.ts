@@ -2,12 +2,12 @@ import { FBXLoader } from "./loaders/FBXLoader"
 import { Group } from "three"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
-import { handleProgress } from "./bytesLoaded"
+import { handleProgress } from "./utils/bytesLoaded"
 import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount
 } from "../../../states/useLoadingUnpkgCount"
-import processChildren from "./processChildren"
+import processChildren from "./utils/processChildren"
 
 const cache = new Map<string, Promise<[Group, boolean]>>()
 const loader = new FBXLoader()

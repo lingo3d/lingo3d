@@ -5,7 +5,7 @@ import isRelativePath from "../../../api/path/isRelativePath"
 import joinPaths from "../../../api/path/joinPaths"
 import { getFileCurrent } from "../../../states/useFileCurrent"
 import { getFiles } from "../../../states/useFiles"
-import setURLModifier from "../../utils/loaders/setURLModifier"
+import setURLModifier from "../../utils/loaders/utils/setURLModifier"
 
 const objectURLExtensionMap = new Map<string, string>()
 const fileObjectURLMap = new Map<File, string>()

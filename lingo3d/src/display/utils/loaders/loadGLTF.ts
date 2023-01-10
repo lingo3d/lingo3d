@@ -3,13 +3,13 @@ import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
-import { handleProgress } from "./bytesLoaded"
+import { handleProgress } from "./utils/bytesLoaded"
 import { getWasmPath } from "../../../states/useWasmPath"
 import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount
 } from "../../../states/useLoadingUnpkgCount"
-import processChildren from "./processChildren"
+import processChildren from "./utils/processChildren"
 
 const cache = new Map<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()

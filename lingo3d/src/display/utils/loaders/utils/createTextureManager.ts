@@ -1,11 +1,11 @@
 import { Point, rad2Deg } from "@lincode/math"
 import { BufferGeometry, Mesh, MeshStandardMaterial } from "three"
-import ITexturedStandard from "../../../interface/ITexturedStandard"
-import { equalsDefaultValue } from "../../../interface/utils/getDefaultValue"
-import debounceSystem from "../../../utils/debounceSystem"
-import getMap from "../../core/mixins/utils/getMap"
-import createReferenceCounter from "../../core/utils/createReferenceCounter"
-import { color } from "../reusables"
+import ITexturedStandard from "../../../../interface/ITexturedStandard"
+import { equalsDefaultValue } from "../../../../interface/utils/getDefaultValue"
+import debounceSystem from "../../../../utils/debounceSystem"
+import getMap from "../../../core/mixins/utils/getMap"
+import createReferenceCounter from "../../../core/utils/createReferenceCounter"
+import { color } from "../../reusables"
 
 type Params = [
     color: string,

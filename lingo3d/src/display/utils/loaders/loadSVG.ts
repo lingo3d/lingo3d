@@ -1,6 +1,6 @@
 import { SVGLoader, SVGResult } from "three/examples/jsm/loaders/SVGLoader"
 import { forceGet } from "@lincode/utils"
-import { handleProgress } from "./bytesLoaded"
+import { handleProgress } from "./utils/bytesLoaded"
 import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount

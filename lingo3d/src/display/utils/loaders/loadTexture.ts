@@ -1,6 +1,6 @@
 import { TextureLoader, Texture, RepeatWrapping, DataTexture } from "three"
 import { forceGet } from "@lincode/utils"
-import { handleProgress } from "./bytesLoaded"
+import { handleProgress } from "./utils/bytesLoaded"
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js"
 import Events from "@lincode/events"
 import {

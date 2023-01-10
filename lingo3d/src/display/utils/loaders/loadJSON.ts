@@ -4,7 +4,7 @@ import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount
 } from "../../../states/useLoadingUnpkgCount"
-import { handleProgress } from "./bytesLoaded"
+import { handleProgress } from "./utils/bytesLoaded"
 
 const cache = new Map<string, Promise<Record<string, any> | Array<any>>>()
 const loader = new FileLoader()
