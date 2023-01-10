@@ -20,7 +20,8 @@ type Params = [
     textureFlipY: boolean | undefined,
     textureRotation: number | undefined,
     wireframe: boolean | undefined,
-    envMap: string | undefined
+    envMap: string | undefined,
+    envMapIntensity: number | undefined
 ]
 
 const initMap = (
@@ -91,7 +92,8 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
                 map: getMap(params[2], params[4], params[5], params[6]),
                 alphaMap: getMap(params[3], params[4], params[5], params[6]),
                 wireframe: params[7],
-                envMap: getMap(params[8], params[4], params[5], params[6])
+                envMap: getMap(params[8], params[4], params[5], params[6]),
+                envMapIntensity: params[9]
             }
             // filterBoolean
             // )
@@ -135,7 +137,7 @@ export default abstract class TexturedStandardMixin {
 
     private _materialParams?: Params
     public get materialParams(): Params {
-        return (this._materialParams ??= [, , , , , , , , ,])
+        return (this._materialParams ??= [, , , , , , , , , ,])
     }
     public materialParamString?: string
 
@@ -208,6 +210,14 @@ export default abstract class TexturedStandardMixin {
     }
     public set envMap(val) {
         this.materialParams[8] = val
+        refreshParamsSystem(this)
+    }
+
+    public get envMapIntensity() {
+        return this.materialParams[9]
+    }
+    public set envMapIntensity(val) {
+        this.materialParams[9] = val
         refreshParamsSystem(this)
     }
 }
