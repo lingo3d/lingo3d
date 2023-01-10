@@ -33,7 +33,13 @@ type Params = [
     displacementScale: number | undefined,
     displacementBias: number | undefined,
     emissive: boolean | undefined,
-    emissiveIntensity: number | undefined
+    emissiveIntensity: number | undefined,
+    lightMap: string | undefined,
+    lightMapIntensity: number | undefined,
+    metalnessMap: string | undefined,
+    metalness: number | undefined,
+    roughnessMap: string | undefined,
+    roughness: number | undefined
 ]
 
 const initMap = (
@@ -119,7 +125,23 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
                 displacementScale: params[15],
                 displacementBias: params[16],
                 emissive: params[17] ? params[0] : undefined,
-                emissiveIntensity: params[18]
+                emissiveIntensity: params[18],
+                lightMap: getMap(params[19], params[4], params[5], params[6]),
+                lightMapIntensity: params[20],
+                metalnessMap: getMap(
+                    params[21],
+                    params[4],
+                    params[5],
+                    params[6]
+                ),
+                metalness: params[22],
+                roughnessMap: getMap(
+                    params[23],
+                    params[4],
+                    params[5],
+                    params[6]
+                ),
+                roughness: params[24]
             }
             // filterBoolean
             // )
@@ -318,6 +340,54 @@ export default abstract class TexturedStandardMixin {
     }
     public set emissiveIntensity(val) {
         this.materialParams[18] = val
+        refreshParamsSystem(this)
+    }
+
+    public get lightMap() {
+        return this.materialParams[19]
+    }
+    public set lightMap(val) {
+        this.materialParams[19] = val
+        refreshParamsSystem(this)
+    }
+
+    public get lightMapIntensity() {
+        return this.materialParams[20]
+    }
+    public set lightMapIntensity(val) {
+        this.materialParams[20] = val
+        refreshParamsSystem(this)
+    }
+
+    public get metalnessMap() {
+        return this.materialParams[21]
+    }
+    public set metalnessMap(val) {
+        this.materialParams[21] = val
+        refreshParamsSystem(this)
+    }
+
+    public get metalness() {
+        return this.materialParams[22]
+    }
+    public set metalness(val) {
+        this.materialParams[22] = val
+        refreshParamsSystem(this)
+    }
+
+    public get roughnessMap() {
+        return this.materialParams[23]
+    }
+    public set roughnessMap(val) {
+        this.materialParams[23] = val
+        refreshParamsSystem(this)
+    }
+
+    public get roughness() {
+        return this.materialParams[24]
+    }
+    public set roughness(val) {
+        this.materialParams[24] = val
         refreshParamsSystem(this)
     }
 }
