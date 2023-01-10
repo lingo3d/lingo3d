@@ -250,7 +250,9 @@ const Editor = () => {
                     "textureRepeat",
                     "textureFlipY",
                     "textureRotation",
-                    "wireframe"
+                    "wireframe",
+                    "emissive",
+                    "emissiveIntensity"
                 ]
             )
             materialParams &&
@@ -281,8 +283,6 @@ const Editor = () => {
                     "aoMapIntensity",
                     "lightMap",
                     "lightMapIntensity",
-                    "emissive",
-                    "emissiveIntensity",
                     "envMap",
                     "envMapIntensity",
                     "alphaMap"

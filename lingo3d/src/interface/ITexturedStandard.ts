@@ -109,7 +109,7 @@ export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
         bumpScale: new Range(0, 4),
         displacementScale: new Range(0, 4),
         displacementBias: new Range(0, 4),
-        emissiveIntensity: new Range(0, 4),
+        emissiveIntensity: new Range(0, 1),
         lightMapIntensity: new Range(0, 4),
         metalness: new Range(-2, 2),
         roughness: new Range(0, 4),

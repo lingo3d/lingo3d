@@ -4,7 +4,9 @@ import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
 import { DoubleSide, Mesh, MeshStandardMaterial, Texture } from "three"
 import { timer } from "../../../engine/eventLoop"
-import ITexturedStandard from "../../../interface/ITexturedStandard"
+import ITexturedStandard, {
+    texturedStandardSchema
+} from "../../../interface/ITexturedStandard"
 import debounceSystem from "../../../utils/debounceSystem"
 import loadTexture from "../../utils/loaders/loadTexture"
 import loadVideoTexture from "../../utils/loaders/loadVideoTexture"
@@ -29,7 +31,9 @@ type Params = [
     bumpScale: number | undefined,
     displacementMap: string | undefined,
     displacementScale: number | undefined,
-    displacementBias: number | undefined
+    displacementBias: number | undefined,
+    emissive: boolean | undefined,
+    emissiveIntensity: number | undefined
 ]
 
 const initMap = (
@@ -113,7 +117,9 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
                     params[6]
                 ),
                 displacementScale: params[15],
-                displacementBias: params[16]
+                displacementBias: params[16],
+                emissive: params[17] ? params[0] : undefined,
+                emissiveIntensity: params[18]
             }
             // filterBoolean
             // )
@@ -147,6 +153,8 @@ export const refreshParamsSystem = debounceSystem(
 //     true
 // )
 
+const paramSize = Object.keys(texturedStandardSchema).length
+
 export default abstract class TexturedStandardMixin {
     public declare object3d: Mesh
     public declare then: (cb: (val: any) => void) => Cancellable
@@ -157,7 +165,7 @@ export default abstract class TexturedStandardMixin {
 
     private _materialParams?: Params
     public get materialParams(): Params {
-        return (this._materialParams ??= [, , , , , , , , , , , , , , , , ,])
+        return (this._materialParams ??= new Array(paramSize) as Params)
     }
     public materialParamString?: string
 
@@ -289,11 +297,27 @@ export default abstract class TexturedStandardMixin {
         refreshParamsSystem(this)
     }
 
-    public get displacementbias() {
+    public get displacementBias() {
         return this.materialParams[16]
     }
-    public set displacementbias(val) {
+    public set displacementBias(val) {
         this.materialParams[16] = val
+        refreshParamsSystem(this)
+    }
+
+    public get emissive() {
+        return this.materialParams[17]
+    }
+    public set emissive(val) {
+        this.materialParams[17] = val
+        refreshParamsSystem(this)
+    }
+
+    public get emissiveIntensity() {
+        return this.materialParams[18]
+    }
+    public set emissiveIntensity(val) {
+        this.materialParams[18] = val
         refreshParamsSystem(this)
     }
 }
