@@ -13,6 +13,7 @@ import {
     pushReflectionPairs,
     pullReflectionPairs
 } from "../../../states/useReflectionPairs"
+import debounceSystem from "../../../utils/debounceSystem"
 import unsafeGetValue from "../../../utils/unsafeGetValue"
 import unsafeSetValue from "../../../utils/unsafeSetValue"
 
@@ -45,6 +46,8 @@ const setProperty = (
         value === undefined ? defaultValue : value
     )
 }
+
+const refreshFactorsSystem = debounceSystem((target: AdjustMaterialMixin) => {})
 
 export default abstract class AdjustMaterialMixin
     extends MeshAppendable
