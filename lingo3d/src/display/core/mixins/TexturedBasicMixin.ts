@@ -42,25 +42,23 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
         )
 )
 
-export const refreshParamsSystem = debounceSystem(
-    (target: TexturedBasicMixin) => {
-        if (target.materialParamString)
-            decreaseCount(SpriteMaterial, target.materialParamString)
-        else {
-            //@ts-ignore
-            target.then(() =>
-                decreaseCount(SpriteMaterial, target.materialParamString!)
-            )
-        }
-        const paramString = JSON.stringify(target.materialParams)
-        target.material = increaseCount(
-            SpriteMaterial,
-            target.materialParams,
-            paramString
+const refreshParamsSystem = debounceSystem((target: TexturedBasicMixin) => {
+    if (target.materialParamString)
+        decreaseCount(SpriteMaterial, target.materialParamString)
+    else {
+        //@ts-ignore
+        target.then(() =>
+            decreaseCount(SpriteMaterial, target.materialParamString!)
         )
-        target.materialParamString = paramString
     }
-)
+    const paramString = JSON.stringify(target.materialParams)
+    target.material = increaseCount(
+        SpriteMaterial,
+        target.materialParams,
+        paramString
+    )
+    target.materialParamString = paramString
+})
 
 const defaults = Object.fromEntries(
     Object.entries(texturedBasicSchema).map(([key]) => [
