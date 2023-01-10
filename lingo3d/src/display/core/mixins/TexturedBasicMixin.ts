@@ -1,77 +1,27 @@
-import { getExtensionType } from "@lincode/filetypes"
-import { deg2Rad, Point } from "@lincode/math"
-import { filter, filterBoolean } from "@lincode/utils"
-import { DoubleSide, Sprite, SpriteMaterial, Texture } from "three"
+import { Point } from "@lincode/math"
+import { filter } from "@lincode/utils"
+import { DoubleSide, Mesh, SpriteMaterial } from "three"
 import ITexturedBasic, {
+    texturedBasicDefaults,
     texturedBasicSchema
 } from "../../../interface/ITexturedBasic"
+import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
-import loadTexture from "../../utils/loaders/loadTexture"
-import loadVideoTexture from "../../utils/loaders/loadVideoTexture"
+import Sprite from "../../Sprite"
+import { color } from "../../utils/reusables"
 import createReferenceCounter from "../utils/createReferenceCounter"
+import filterNotDefault from "./utils/filterNotDefault"
+import getMap from "./utils/getMap"
 
 type Params = [
-    color: string | undefined,
-    opacity: number | undefined,
-    texture: string | undefined,
-    alphaMap: string | undefined,
-    textureRepeat: number | Point | undefined,
-    textureFlipY: boolean | undefined,
-    textureRotation: number | undefined
+    color: string,
+    opacity: number,
+    texture: string,
+    alphaMap: string,
+    textureRepeat: number | Point,
+    textureFlipY: boolean,
+    textureRotation: number
 ]
-
-const initMap = (
-    map: Texture | null,
-    textureRepeat: number | Point | undefined,
-    textureFlipY: boolean | undefined,
-    textureRotation: number | undefined
-) => {
-    if (!map) return
-
-    if (textureRepeat !== undefined)
-        typeof textureRepeat === "number"
-            ? map.repeat.set(textureRepeat, textureRepeat)
-            : map.repeat.set(textureRepeat.x, textureRepeat.y)
-    if (textureFlipY !== undefined) {
-        map.flipY = textureFlipY
-        map.needsUpdate = true
-    }
-    if (textureRotation !== undefined) map.rotation = textureRotation * deg2Rad
-    return map
-}
-
-const getMap = (
-    texture: string | undefined,
-    textureRepeat: number | Point | undefined,
-    textureFlipY: boolean | undefined,
-    textureRotation: number | undefined
-) => {
-    if (!texture) return
-
-    if (texture[0] === "#" || texture[0] === ".")
-        return initMap(
-            loadVideoTexture(texture),
-            textureRepeat,
-            textureFlipY,
-            textureRotation
-        )
-
-    const filetype = getExtensionType(texture)
-    if (filetype === "image")
-        return initMap(
-            loadTexture(texture),
-            textureRepeat,
-            textureFlipY,
-            textureRotation
-        )
-    if (filetype === "video")
-        return initMap(
-            loadVideoTexture(texture),
-            textureRepeat,
-            textureFlipY,
-            textureRotation
-        )
-}
 
 const [increaseCount, decreaseCount] = createReferenceCounter<
     SpriteMaterial,
@@ -88,7 +38,7 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
                     map: getMap(params[2], params[4], params[5], params[6]),
                     alphaMap: getMap(params[3], params[4], params[5], params[6])
                 },
-                filterBoolean
+                filterNotDefault
             )
         )
 )
@@ -104,7 +54,7 @@ export const refreshParamsSystem = debounceSystem(
             )
         }
         const paramString = JSON.stringify(target.materialParams)
-        target.object3d.material = increaseCount(
+        target.material = increaseCount(
             SpriteMaterial,
             target.materialParams,
             paramString
@@ -113,7 +63,13 @@ export const refreshParamsSystem = debounceSystem(
     }
 )
 
-const paramSize = Object.keys(texturedBasicSchema).length
+const defaults = Object.fromEntries(
+    Object.entries(texturedBasicSchema).map(([key]) => [
+        key,
+        getDefaultValue(texturedBasicDefaults, key, true)
+    ])
+)
+const defaultParams = Object.values(defaults) as Params
 
 export default abstract class TexturedBasicMixin implements ITexturedBasic {
     public declare object3d: Sprite
@@ -121,66 +77,71 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     public get material() {
         return this.object3d.material as SpriteMaterial
     }
+    public set material(val: SpriteMaterial) {
+        this.object3d.material = val
+    }
 
     private _materialParams?: Params
-    public get materialParams(): Params {
-        return (this._materialParams ??= new Array(paramSize) as Params)
+    public get materialParams() {
+        return (this._materialParams ??= Object.values(defaultParams) as Params)
     }
     public materialParamString?: string
 
     public get color() {
-        return "#" + this.material.color.getHexString()
+        return this.materialParams[0]
     }
-    public set color(val) {
+    public set color(val: string | undefined) {
         this.materialParams[0] = val
+            ? "#" + color.set(val).getHexString()
+            : defaults.color
         refreshParamsSystem(this)
     }
 
     public get opacity() {
         return this.materialParams[1]
     }
-    public set opacity(val) {
-        this.materialParams[1] = val
+    public set opacity(val: number | undefined) {
+        this.materialParams[1] = val ?? defaults.opacity
         refreshParamsSystem(this)
     }
 
     public get texture() {
         return this.materialParams[2]
     }
-    public set texture(val) {
-        this.materialParams[2] = val
+    public set texture(val: string | undefined) {
+        this.materialParams[2] = val ?? defaults.texture
         refreshParamsSystem(this)
     }
 
     public get alphaMap() {
         return this.materialParams[3]
     }
-    public set alphaMap(val) {
-        this.materialParams[3] = val
+    public set alphaMap(val: string | undefined) {
+        this.materialParams[3] = val ?? defaults.alphaMap
         refreshParamsSystem(this)
     }
 
     public get textureRepeat() {
-        return this.materialParams[4] ?? this.material.map?.repeat
+        return this.materialParams[4]
     }
-    public set textureRepeat(val) {
-        this.materialParams[4] = val
+    public set textureRepeat(val: number | Point | undefined) {
+        this.materialParams[4] = val ?? defaults.textureRepeat
         refreshParamsSystem(this)
     }
 
     public get textureFlipY() {
-        return this.materialParams[5] ?? this.material.map?.flipY
+        return this.materialParams[5]
     }
-    public set textureFlipY(val) {
-        this.materialParams[5] = val
+    public set textureFlipY(val: boolean | undefined) {
+        this.materialParams[5] = val ?? defaults.textureFlipY
         refreshParamsSystem(this)
     }
 
     public get textureRotation() {
-        return this.materialParams[6] ?? this.material.map?.rotation
+        return this.materialParams[6]
     }
-    public set textureRotation(val) {
-        this.materialParams[6] = val
+    public set textureRotation(val: number | undefined) {
+        this.materialParams[6] = val ?? defaults.textureRotation
         refreshParamsSystem(this)
     }
 }

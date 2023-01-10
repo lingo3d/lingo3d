@@ -5,12 +5,11 @@ import ITexturedStandard, {
     texturedStandardDefaults,
     texturedStandardSchema
 } from "../../../interface/ITexturedStandard"
-import getDefaultValue, {
-    equalsDefaultValue
-} from "../../../interface/utils/getDefaultValue"
+import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
 import { color } from "../../utils/reusables"
 import createReferenceCounter from "../utils/createReferenceCounter"
+import filterNotDefault from "./utils/filterNotDefault"
 import getMap from "./utils/getMap"
 
 type Params = [
@@ -42,9 +41,6 @@ type Params = [
     normalMap: string,
     normalScale: number
 ]
-
-const filterNotDefaults = (value: any, key: string) =>
-    !equalsDefaultValue(value, texturedStandardDefaults, key)
 
 const [increaseCount, decreaseCount] = createReferenceCounter<
     MeshStandardMaterial,
@@ -116,7 +112,7 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
                     ),
                     normalScale: new Vector2(params[26], params[26])
                 },
-                filterNotDefaults
+                filterNotDefault
             )
         )
 )
