@@ -21,17 +21,13 @@ const setDraggingItem = drag<File>((draggingItem, hitManager) => {
         return manager
     } else if (filetype === "image" && hitManager && "texture" in hitManager) {
         const name = filename.toLowerCase()
-        if ("roughness" in hitManager) {
-            if (name.includes("rough"))
-                hitManager.roughnessMap = lazyObjectURL()
-            else if (name.includes("metal"))
-                hitManager.metalnessMap = lazyObjectURL()
-            else if (name.includes("normal"))
-                hitManager.normalMap = lazyObjectURL()
-            else if (name.includes("disp"))
-                hitManager.displacementMap = lazyObjectURL()
-            else hitManager.texture = lazyObjectURL()
-        } else hitManager.texture = lazyObjectURL()
+        if (name.includes("rough")) hitManager.roughnessMap = lazyObjectURL()
+        else if (name.includes("metal"))
+            hitManager.metalnessMap = lazyObjectURL()
+        else if (name.includes("normal")) hitManager.normalMap = lazyObjectURL()
+        else if (name.includes("disp"))
+            hitManager.displacementMap = lazyObjectURL()
+        else hitManager.texture = lazyObjectURL()
     }
 })
 

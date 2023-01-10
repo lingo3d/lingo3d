@@ -7,7 +7,10 @@ import ConfigurablePrimitive, {
 } from "../core/ConfigurablePrimitive"
 
 const defaultParams = <const>[0.5, 1, 32, 1, false, 0, PI2]
-const geometry = allocateDefaultInstance(ConeGeometry, defaultParams)
+const geometry = allocateDefaultInstance(
+    ConeGeometry,
+    defaultParams
+) as ConeGeometry
 
 export default class Cone
     extends ConfigurablePrimitive<typeof ConeGeometry>

@@ -8,7 +8,10 @@ import ConfigurablePrimitive, {
 } from "../core/ConfigurablePrimitive"
 
 const defaultParams = <const>[0.5, 0.1, 16, 32, PI2]
-const geometry = allocateDefaultInstance(TorusGeometry, defaultParams)
+const geometry = allocateDefaultInstance(
+    TorusGeometry,
+    defaultParams
+) as TorusGeometry
 
 export default class Torus
     extends ConfigurablePrimitive<typeof TorusGeometry>

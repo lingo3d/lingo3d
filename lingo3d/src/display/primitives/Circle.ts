@@ -8,7 +8,10 @@ import ConfigurablePrimitive, {
 import { PI2 } from "../../globals"
 
 const defaultParams = <const>[0.5, 32, 0, PI2]
-const geometry = allocateDefaultInstance(CircleGeometry, defaultParams)
+const geometry = allocateDefaultInstance(
+    CircleGeometry,
+    defaultParams
+) as CircleGeometry
 
 export default class Circle
     extends ConfigurablePrimitive<typeof CircleGeometry>

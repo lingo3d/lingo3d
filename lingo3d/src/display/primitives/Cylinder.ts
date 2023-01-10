@@ -13,7 +13,7 @@ const defaultParams = <const>[0.5, 0.5, 1, 32, 1, false, 0, PI2]
 export const cylinderGeometry = allocateDefaultInstance(
     CylinderGeometry,
     defaultParams
-)
+) as CylinderGeometry
 
 export default class Cylinder
     extends ConfigurablePrimitive<typeof CylinderGeometry>

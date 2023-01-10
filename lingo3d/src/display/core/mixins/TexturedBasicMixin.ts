@@ -1,13 +1,12 @@
 import { Point } from "@lincode/math"
 import { filter } from "@lincode/utils"
-import { DoubleSide, Mesh, SpriteMaterial } from "three"
+import { DoubleSide, SpriteMaterial } from "three"
 import ITexturedBasic, {
     texturedBasicDefaults,
     texturedBasicSchema
 } from "../../../interface/ITexturedBasic"
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
-import Sprite from "../../Sprite"
 import { color } from "../../utils/reusables"
 import createReferenceCounter from "../utils/createReferenceCounter"
 import filterNotDefault from "./utils/filterNotDefault"
@@ -72,12 +71,12 @@ const defaults = Object.fromEntries(
 const defaultParams = Object.values(defaults) as Params
 
 export default abstract class TexturedBasicMixin implements ITexturedBasic {
-    public declare object3d: Sprite
-
     public get material() {
-        return this.object3d.material as SpriteMaterial
+        //@ts-ignore
+        return this.object3d.material
     }
     public set material(val: SpriteMaterial) {
+        //@ts-ignore
         this.object3d.material = val
     }
 
