@@ -11,7 +11,6 @@ import createReferenceCounter, {
     classMapsMap
 } from "../utils/createReferenceCounter"
 
-//color, opacity
 type Params = [
     color: string | undefined,
     opacity: number | undefined,
@@ -19,7 +18,8 @@ type Params = [
     alphaMap: string | undefined,
     textureRepeat: number | Point | undefined,
     textureFlipY: boolean | undefined,
-    textureRotation: number | undefined
+    textureRotation: number | undefined,
+    wireframe: boolean | undefined
 ]
 
 const initMap = (
@@ -78,20 +78,28 @@ const getMap = (
 const [increaseCount, decreaseCount] = createReferenceCounter<
     MeshStandardMaterial,
     Params
->((_, params) => {
-    return new MeshStandardMaterial(
-        filter(
-            {
-                side: DoubleSide,
-                color: params[0],
-                opacity: params[1],
-                map: getMap(params[2], params[4], params[5], params[6]),
-                alphaMap: getMap(params[3], params[4], params[5], params[6])
-            },
-            filterBoolean
+>(
+    (_, params) =>
+        new MeshStandardMaterial(
+            filter(
+                {
+                    side: DoubleSide,
+                    color: params[0],
+                    opacity: params[1],
+                    transparent: params[1] !== undefined && params[1] < 1,
+                    map: getMap(params[2], params[4], params[5], params[6]),
+                    alphaMap: getMap(
+                        params[3],
+                        params[4],
+                        params[5],
+                        params[6]
+                    ),
+                    wireframe: params[7]
+                },
+                filterBoolean
+            )
         )
-    )
-})
+)
 
 export const refreshParamsSystem = debounceSystem(
     (target: TexturedStandardMixin) => {
@@ -111,14 +119,14 @@ export const refreshParamsSystem = debounceSystem(
     }
 )
 
-timer(
-    1000,
-    Infinity,
-    () => {
-        console.log(classMapsMap.get(MeshStandardMaterial)![0])
-    },
-    true
-)
+// timer(
+//     1000,
+//     Infinity,
+//     () => {
+//         console.log(classMapsMap.get(MeshStandardMaterial)![0])
+//     },
+//     true
+// )
 
 export default abstract class TexturedStandardMixin {
     public declare object3d: Mesh
@@ -189,6 +197,14 @@ export default abstract class TexturedStandardMixin {
     }
     public set textureRotation(val) {
         this.materialParams[6] = val
+        refreshParamsSystem(this)
+    }
+
+    public get wireframe() {
+        return this.materialParams[7] ?? this.material.wireframe
+    }
+    public set wireframe(val) {
+        this.materialParams[7] = val
         refreshParamsSystem(this)
     }
 }
