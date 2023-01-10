@@ -27,7 +27,8 @@ export default (url: string, onLoad?: () => void) => {
             url,
             (texture) => {
                 texture.wrapS = texture.wrapT = RepeatWrapping
-                texture.flipY = texture.userData.flipY ?? true
+                texture.flipY = texture.userData.flipY ? false : true
+                texture.userData.flipped = true
                 loaded.setState(url)
 
                 unpkg && decreaseLoadingUnpkgCount()

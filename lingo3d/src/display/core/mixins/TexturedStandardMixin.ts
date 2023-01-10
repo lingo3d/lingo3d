@@ -13,7 +13,9 @@ import debounceSystem from "../../../utils/debounceSystem"
 import loadTexture from "../../utils/loaders/loadTexture"
 import loadVideoTexture from "../../utils/loaders/loadVideoTexture"
 import { color } from "../../utils/reusables"
-import createReferenceCounter from "../utils/createReferenceCounter"
+import createReferenceCounter, {
+    classMapsMap
+} from "../utils/createReferenceCounter"
 
 type Params = [
     color: string,
@@ -54,8 +56,10 @@ const initMap = (
     typeof textureRepeat === "number"
         ? map.repeat.set(textureRepeat, textureRepeat)
         : map.repeat.set(textureRepeat.x, textureRepeat.y)
-    if (map.userData.flipY !== textureFlipY) map.needsUpdate = true
-    map.flipY = map.userData.flipY = textureFlipY
+    map.flipY = map.userData.flipY = map.userData.flipped
+        ? !textureFlipY
+        : textureFlipY
+    map.needsUpdate = true
     map.rotation = textureRotation * deg2Rad
     return map
 }
