@@ -3,41 +3,45 @@ import { deg2Rad, Point } from "@lincode/math"
 import { filter, filterBoolean } from "@lincode/utils"
 import { DoubleSide, Mesh, MeshStandardMaterial, Texture, Vector2 } from "three"
 import ITexturedStandard, {
+    texturedStandardDefaults,
     texturedStandardSchema
 } from "../../../interface/ITexturedStandard"
+import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
+import unsafeSetValue from "../../../utils/unsafeSetValue"
 import loadTexture from "../../utils/loaders/loadTexture"
 import loadVideoTexture from "../../utils/loaders/loadVideoTexture"
+import { color } from "../../utils/reusables"
 import createReferenceCounter from "../utils/createReferenceCounter"
 
 type Params = [
-    color: string | undefined,
-    opacity: number | undefined,
-    texture: string | undefined,
-    alphaMap: string | undefined,
-    textureRepeat: number | Point | undefined,
-    textureFlipY: boolean | undefined,
-    textureRotation: number | undefined,
-    wireframe: boolean | undefined,
-    envMap: string | undefined,
-    envMapIntensity: number | undefined,
-    aoMap: string | undefined,
-    aoMapIntensity: number | undefined,
-    bumpMap: string | undefined,
-    bumpScale: number | undefined,
-    displacementMap: string | undefined,
-    displacementScale: number | undefined,
-    displacementBias: number | undefined,
-    emissive: boolean | undefined,
-    emissiveIntensity: number | undefined,
-    lightMap: string | undefined,
-    lightMapIntensity: number | undefined,
-    metalnessMap: string | undefined,
-    metalness: number | undefined,
-    roughnessMap: string | undefined,
-    roughness: number | undefined,
-    normalMap: string | undefined,
-    normalScale: number | undefined
+    color: string,
+    opacity: number,
+    texture: string,
+    alphaMap: string,
+    textureRepeat: number | Point,
+    textureFlipY: boolean,
+    textureRotation: number,
+    wireframe: boolean,
+    envMap: string,
+    envMapIntensity: number,
+    aoMap: string,
+    aoMapIntensity: number,
+    bumpMap: string,
+    bumpScale: number,
+    displacementMap: string,
+    displacementScale: number,
+    displacementBias: number,
+    emissive: boolean,
+    emissiveIntensity: number,
+    lightMap: string,
+    lightMapIntensity: number,
+    metalnessMap: string,
+    metalness: number,
+    roughnessMap: string,
+    roughness: number,
+    normalMap: string,
+    normalScale: number
 ]
 
 const initMap = (
@@ -188,7 +192,16 @@ export const refreshParamsSystem = debounceSystem(
     }
 )
 
-const paramSize = Object.keys(texturedStandardSchema).length
+const defaults = Object.fromEntries(
+    Object.entries(texturedStandardSchema).map(([key]) => [
+        key,
+        getDefaultValue(texturedStandardDefaults, key, true)
+    ])
+)
+const defaultParams = Object.values(defaults) as Params
+unsafeSetValue(defaultParams, 4, undefined)
+unsafeSetValue(defaultParams, 5, undefined)
+unsafeSetValue(defaultParams, 6, undefined)
 
 export default abstract class TexturedStandardMixin
     implements ITexturedStandard
@@ -203,224 +216,238 @@ export default abstract class TexturedStandardMixin
     }
 
     private _materialParams?: Params
-    public get materialParams(): Params {
-        return (this._materialParams ??= new Array(paramSize) as Params)
+    public get materialParams() {
+        return (this._materialParams ??= Object.values(defaultParams) as Params)
     }
     public materialParamString?: string
 
     public get color() {
-        return "#" + this.material.color.getHexString()
+        return this.materialParams[0]
     }
-    public set color(val) {
+    public set color(val: string | undefined) {
         this.materialParams[0] = val
+            ? "#" + color.set(val).getHexString()
+            : defaults.color
         refreshParamsSystem(this)
     }
 
     public get opacity() {
         return this.materialParams[1]
     }
-    public set opacity(val) {
-        this.materialParams[1] = val
+    public set opacity(val: number | undefined) {
+        this.materialParams[1] = val ?? defaults.opacity
         refreshParamsSystem(this)
     }
 
     public get texture() {
         return this.materialParams[2]
     }
-    public set texture(val) {
-        this.materialParams[2] = val
+    public set texture(val: string | undefined) {
+        this.materialParams[2] = val ?? defaults.texture
         refreshParamsSystem(this)
     }
 
     public get alphaMap() {
         return this.materialParams[3]
     }
-    public set alphaMap(val) {
-        this.materialParams[3] = val
+    public set alphaMap(val: string | undefined) {
+        this.materialParams[3] = val ?? defaults.alphaMap
         refreshParamsSystem(this)
     }
 
     public get textureRepeat() {
-        return this.materialParams[4] ?? this.material.map?.repeat
+        return (
+            this.materialParams[4] ??
+            this.material.map?.repeat ??
+            defaults.textureRepeat
+        )
     }
-    public set textureRepeat(val) {
-        this.materialParams[4] = val
+    public set textureRepeat(val: number | Point | undefined) {
+        this.materialParams[4] = val ?? defaults.textureRepeat
         refreshParamsSystem(this)
     }
 
     public get textureFlipY() {
-        return this.materialParams[5] ?? this.material.map?.flipY
+        return (
+            this.materialParams[5] ??
+            this.material.map?.flipY ??
+            defaults.textureFlipY
+        )
     }
-    public set textureFlipY(val) {
-        this.materialParams[5] = val
+    public set textureFlipY(val: boolean | undefined) {
+        this.materialParams[5] = val ?? defaults.textureFlipY
         refreshParamsSystem(this)
     }
 
     public get textureRotation() {
-        return this.materialParams[6] ?? this.material.map?.rotation
+        return (
+            this.materialParams[6] ??
+            this.material.map?.rotation ??
+            defaults.textureRotation
+        )
     }
-    public set textureRotation(val) {
-        this.materialParams[6] = val
+    public set textureRotation(val: number | undefined) {
+        this.materialParams[6] = val ?? defaults.textureRotation
         refreshParamsSystem(this)
     }
 
     public get wireframe() {
         return this.materialParams[7]
     }
-    public set wireframe(val) {
-        this.materialParams[7] = val
+    public set wireframe(val: boolean | undefined) {
+        this.materialParams[7] = val ?? defaults.wireframe
         refreshParamsSystem(this)
     }
 
     public get envMap() {
         return this.materialParams[8]
     }
-    public set envMap(val) {
-        this.materialParams[8] = val
+    public set envMap(val: string | undefined) {
+        this.materialParams[8] = val ?? defaults.envMap
         refreshParamsSystem(this)
     }
 
     public get envMapIntensity() {
         return this.materialParams[9]
     }
-    public set envMapIntensity(val) {
-        this.materialParams[9] = val
+    public set envMapIntensity(val: number | undefined) {
+        this.materialParams[9] = val ?? defaults.envMapIntensity
         refreshParamsSystem(this)
     }
 
     public get aoMap() {
         return this.materialParams[10]
     }
-    public set aoMap(val) {
-        this.materialParams[10] = val
+    public set aoMap(val: string | undefined) {
+        this.materialParams[10] = val ?? defaults.aoMap
         refreshParamsSystem(this)
     }
 
     public get aoMapIntensity() {
         return this.materialParams[11]
     }
-    public set aoMapIntensity(val) {
-        this.materialParams[11] = val
+    public set aoMapIntensity(val: number | undefined) {
+        this.materialParams[11] = val ?? defaults.aoMapIntensity
         refreshParamsSystem(this)
     }
 
     public get bumpMap() {
         return this.materialParams[12]
     }
-    public set bumpMap(val) {
-        this.materialParams[12] = val
+    public set bumpMap(val: string | undefined) {
+        this.materialParams[12] = val ?? defaults.bumpMap
         refreshParamsSystem(this)
     }
 
     public get bumpScale() {
         return this.materialParams[13]
     }
-    public set bumpScale(val) {
-        this.materialParams[13] = val
+    public set bumpScale(val: number | undefined) {
+        this.materialParams[13] = val ?? defaults.bumpScale
         refreshParamsSystem(this)
     }
 
     public get displacementMap() {
         return this.materialParams[14]
     }
-    public set displacementMap(val) {
-        this.materialParams[14] = val
+    public set displacementMap(val: string | undefined) {
+        this.materialParams[14] = val ?? defaults.displacementMap
         refreshParamsSystem(this)
     }
 
     public get displacementScale() {
         return this.materialParams[15]
     }
-    public set displacementScale(val) {
-        this.materialParams[15] = val
+    public set displacementScale(val: number | undefined) {
+        this.materialParams[15] = val ?? defaults.displacementScale
         refreshParamsSystem(this)
     }
 
     public get displacementBias() {
         return this.materialParams[16]
     }
-    public set displacementBias(val) {
-        this.materialParams[16] = val
+    public set displacementBias(val: number | undefined) {
+        this.materialParams[16] = val ?? defaults.displacementBias
         refreshParamsSystem(this)
     }
 
     public get emissive() {
         return this.materialParams[17]
     }
-    public set emissive(val) {
-        this.materialParams[17] = val
+    public set emissive(val: boolean | undefined) {
+        this.materialParams[17] = val ?? defaults.emissive
         refreshParamsSystem(this)
     }
 
     public get emissiveIntensity() {
         return this.materialParams[18]
     }
-    public set emissiveIntensity(val) {
-        this.materialParams[18] = val
+    public set emissiveIntensity(val: number | undefined) {
+        this.materialParams[18] = val ?? defaults.emissiveIntensity
         refreshParamsSystem(this)
     }
 
     public get lightMap() {
         return this.materialParams[19]
     }
-    public set lightMap(val) {
-        this.materialParams[19] = val
+    public set lightMap(val: string | undefined) {
+        this.materialParams[19] = val ?? defaults.lightMap
         refreshParamsSystem(this)
     }
 
     public get lightMapIntensity() {
         return this.materialParams[20]
     }
-    public set lightMapIntensity(val) {
-        this.materialParams[20] = val
+    public set lightMapIntensity(val: number | undefined) {
+        this.materialParams[20] = val ?? defaults.lightMapIntensity
         refreshParamsSystem(this)
     }
 
     public get metalnessMap() {
         return this.materialParams[21]
     }
-    public set metalnessMap(val) {
-        this.materialParams[21] = val
+    public set metalnessMap(val: string | undefined) {
+        this.materialParams[21] = val ?? defaults.metalnessMap
         refreshParamsSystem(this)
     }
 
     public get metalness() {
         return this.materialParams[22]
     }
-    public set metalness(val) {
-        this.materialParams[22] = val
+    public set metalness(val: number | undefined) {
+        this.materialParams[22] = val ?? defaults.metalness
         refreshParamsSystem(this)
     }
 
     public get roughnessMap() {
         return this.materialParams[23]
     }
-    public set roughnessMap(val) {
-        this.materialParams[23] = val
+    public set roughnessMap(val: string | undefined) {
+        this.materialParams[23] = val ?? defaults.roughnessMap
         refreshParamsSystem(this)
     }
 
     public get roughness() {
         return this.materialParams[24]
     }
-    public set roughness(val) {
-        this.materialParams[24] = val
+    public set roughness(val: number | undefined) {
+        this.materialParams[24] = val ?? defaults.roughness
         refreshParamsSystem(this)
     }
 
     public get normalMap() {
         return this.materialParams[25]
     }
-    public set normalMap(val) {
-        this.materialParams[25] = val
+    public set normalMap(val: string | undefined) {
+        this.materialParams[25] = val ?? defaults.normalMap
         refreshParamsSystem(this)
     }
 
     public get normalScale() {
         return this.materialParams[26]
     }
-    public set normalScale(val) {
-        this.materialParams[26] = val
+    public set normalScale(val: number | undefined) {
+        this.materialParams[26] = val ?? defaults.normalScale
         refreshParamsSystem(this)
     }
 }
