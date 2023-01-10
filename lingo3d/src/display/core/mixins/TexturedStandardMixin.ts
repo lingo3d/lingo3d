@@ -1,14 +1,15 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { deg2Rad, Point } from "@lincode/math"
-import { filter, filterBoolean } from "@lincode/utils"
+import { filter } from "@lincode/utils"
 import { DoubleSide, Mesh, MeshStandardMaterial, Texture, Vector2 } from "three"
 import ITexturedStandard, {
     texturedStandardDefaults,
     texturedStandardSchema
 } from "../../../interface/ITexturedStandard"
-import getDefaultValue from "../../../interface/utils/getDefaultValue"
+import getDefaultValue, {
+    equalsDefaultValue
+} from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
-import unsafeSetValue from "../../../utils/unsafeSetValue"
 import loadTexture from "../../utils/loaders/loadTexture"
 import loadVideoTexture from "../../utils/loaders/loadVideoTexture"
 import { color } from "../../utils/reusables"
@@ -46,27 +47,24 @@ type Params = [
 
 const initMap = (
     map: Texture,
-    textureRepeat: number | Point | undefined,
-    textureFlipY: boolean | undefined,
-    textureRotation: number | undefined
+    textureRepeat: number | Point,
+    textureFlipY: boolean,
+    textureRotation: number
 ) => {
-    if (textureRepeat !== undefined)
-        typeof textureRepeat === "number"
-            ? map.repeat.set(textureRepeat, textureRepeat)
-            : map.repeat.set(textureRepeat.x, textureRepeat.y)
-    if (textureFlipY !== undefined) {
-        map.flipY = textureFlipY
-        map.needsUpdate = true
-    }
-    if (textureRotation !== undefined) map.rotation = textureRotation * deg2Rad
+    typeof textureRepeat === "number"
+        ? map.repeat.set(textureRepeat, textureRepeat)
+        : map.repeat.set(textureRepeat.x, textureRepeat.y)
+    if (map.userData.flipY !== textureFlipY) map.needsUpdate = true
+    map.flipY = map.userData.flipY = textureFlipY
+    map.rotation = textureRotation * deg2Rad
     return map
 }
 
 const getMap = (
     texture: string,
-    textureRepeat: number | Point | undefined,
-    textureFlipY: boolean | undefined,
-    textureRotation: number | undefined
+    textureRepeat: number | Point,
+    textureFlipY: boolean,
+    textureRotation: number
 ) => {
     if (texture[0] === "#" || texture[0] === ".")
         return initMap(
@@ -92,6 +90,9 @@ const getMap = (
             textureRotation
         )
 }
+
+const filterNotDefaults = (value: any, key: string) =>
+    !equalsDefaultValue(value, texturedStandardDefaults, key)
 
 const [increaseCount, decreaseCount] = createReferenceCounter<
     MeshStandardMaterial,
@@ -163,7 +164,7 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
                     ),
                     normalScale: new Vector2(params[26], params[26])
                 },
-                filterBoolean
+                filterNotDefaults
             )
         )
 )
@@ -195,9 +196,6 @@ const defaults = Object.fromEntries(
     ])
 )
 const defaultParams = Object.values(defaults) as Params
-unsafeSetValue(defaultParams, 4, undefined)
-unsafeSetValue(defaultParams, 5, undefined)
-unsafeSetValue(defaultParams, 6, undefined)
 
 export default abstract class TexturedStandardMixin
     implements ITexturedStandard
@@ -252,11 +250,7 @@ export default abstract class TexturedStandardMixin
     }
 
     public get textureRepeat() {
-        return (
-            this.materialParams[4] ??
-            this.material.map?.repeat ??
-            defaults.textureRepeat
-        )
+        return this.materialParams[4]
     }
     public set textureRepeat(val: number | Point | undefined) {
         this.materialParams[4] = val ?? defaults.textureRepeat
@@ -264,11 +258,7 @@ export default abstract class TexturedStandardMixin
     }
 
     public get textureFlipY() {
-        return (
-            this.materialParams[5] ??
-            this.material.map?.flipY ??
-            defaults.textureFlipY
-        )
+        return this.materialParams[5]
     }
     public set textureFlipY(val: boolean | undefined) {
         this.materialParams[5] = val ?? defaults.textureFlipY
@@ -276,11 +266,7 @@ export default abstract class TexturedStandardMixin
     }
 
     public get textureRotation() {
-        return (
-            this.materialParams[6] ??
-            this.material.map?.rotation ??
-            defaults.textureRotation
-        )
+        return this.materialParams[6]
     }
     public set textureRotation(val: number | undefined) {
         this.materialParams[6] = val ?? defaults.textureRotation
