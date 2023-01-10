@@ -1,4 +1,5 @@
+import Model from "../display/Model"
 import Octahedron from "../display/primitives/Octahedron"
 
-const cone = new Octahedron()
-cone.color = "red"
+const cone = new Model()
+cone.src = "parrot.glb"

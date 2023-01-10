@@ -1,7 +1,6 @@
 import { GLTFLoader } from "./loaders/GLTFLoader"
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
-import { Bone, Light } from "three"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { handleProgress } from "./bytesLoaded"
@@ -10,6 +9,7 @@ import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount
 } from "../../../states/useLoadingUnpkgCount"
+import processChildren from "./processChildren"
 
 const cache = new Map<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()
@@ -29,22 +29,12 @@ export default async (url: string, clone: boolean) => {
                 loader.load(
                     url,
                     (gltf: GLTF) => {
-                        const lights: Array<Light> = []
-
-                        let noBone = true
+                        const noBonePtr: [boolean] = [true]
                         for (const scene of gltf.scenes)
-                            scene.traverse((child) => {
-                                if (child instanceof Light) lights.push(child)
-                                else if (noBone && child instanceof Bone)
-                                    noBone = false
-
-                                child.castShadow = true
-                                child.receiveShadow = true
-                            })
-                        for (const light of lights) light.parent?.remove(light)
+                            processChildren(scene, noBonePtr)
 
                         unpkg && decreaseLoadingUnpkgCount()
-                        resolve([gltf, noBone])
+                        resolve([gltf, noBonePtr[0]])
                     },
                     handleProgress(url),
                     reject
