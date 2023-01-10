@@ -1,6 +1,5 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { deg2Rad, Point } from "@lincode/math"
-import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
 import { DoubleSide, Sprite, SpriteMaterial, Texture } from "three"
 import ITexturedBasic, {

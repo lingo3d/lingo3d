@@ -1,6 +1,5 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { deg2Rad, Point } from "@lincode/math"
-import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
 import { DoubleSide, Mesh, MeshStandardMaterial, Texture, Vector2 } from "three"
 import ITexturedStandard, {
@@ -180,7 +179,7 @@ export const refreshParamsSystem = debounceSystem(
             )
         }
         const paramString = JSON.stringify(target.materialParams)
-        target.object3d.material = increaseCount(
+        target.material = increaseCount(
             MeshStandardMaterial,
             target.materialParams,
             paramString
@@ -198,6 +197,9 @@ export default abstract class TexturedStandardMixin
 
     public get material() {
         return this.object3d.material as MeshStandardMaterial
+    }
+    public set material(val) {
+        this.object3d.material = val
     }
 
     private _materialParams?: Params
