@@ -4,6 +4,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { filter, filterBoolean } from "@lincode/utils"
 import { DoubleSide, Mesh, MeshStandardMaterial, Texture } from "three"
 import { timer } from "../../../engine/eventLoop"
+import ITexturedStandard from "../../../interface/ITexturedStandard"
 import debounceSystem from "../../../utils/debounceSystem"
 import loadTexture from "../../utils/loaders/loadTexture"
 import loadVideoTexture from "../../utils/loaders/loadVideoTexture"
@@ -21,7 +22,14 @@ type Params = [
     textureRotation: number | undefined,
     wireframe: boolean | undefined,
     envMap: string | undefined,
-    envMapIntensity: number | undefined
+    envMapIntensity: number | undefined,
+    aoMap: string | undefined,
+    aoMapIntensity: number | undefined,
+    bumpMap: string | undefined,
+    bumpScale: number | undefined,
+    displacementMap: string | undefined,
+    displacementScale: number | undefined,
+    displacementBias: number | undefined
 ]
 
 const initMap = (
@@ -93,7 +101,19 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
                 alphaMap: getMap(params[3], params[4], params[5], params[6]),
                 wireframe: params[7],
                 envMap: getMap(params[8], params[4], params[5], params[6]),
-                envMapIntensity: params[9]
+                envMapIntensity: params[9],
+                aoMap: getMap(params[10], params[4], params[5], params[6]),
+                aoMapIntensity: params[11],
+                bumpMap: getMap(params[12], params[4], params[5], params[6]),
+                bumpScale: params[13],
+                displacementMap: getMap(
+                    params[14],
+                    params[4],
+                    params[5],
+                    params[6]
+                ),
+                displacementScale: params[15],
+                displacementBias: params[16]
             }
             // filterBoolean
             // )
@@ -137,7 +157,7 @@ export default abstract class TexturedStandardMixin {
 
     private _materialParams?: Params
     public get materialParams(): Params {
-        return (this._materialParams ??= [, , , , , , , , , ,])
+        return (this._materialParams ??= [, , , , , , , , , , , , , , , , ,])
     }
     public materialParamString?: string
 
@@ -218,6 +238,62 @@ export default abstract class TexturedStandardMixin {
     }
     public set envMapIntensity(val) {
         this.materialParams[9] = val
+        refreshParamsSystem(this)
+    }
+
+    public get aoMap() {
+        return this.materialParams[10]
+    }
+    public set aoMap(val) {
+        this.materialParams[10] = val
+        refreshParamsSystem(this)
+    }
+
+    public get aoMapIntensity() {
+        return this.materialParams[11]
+    }
+    public set aoMapIntensity(val) {
+        this.materialParams[11] = val
+        refreshParamsSystem(this)
+    }
+
+    public get bumpMap() {
+        return this.materialParams[12]
+    }
+    public set bumpMap(val) {
+        this.materialParams[12] = val
+        refreshParamsSystem(this)
+    }
+
+    public get bumpScale() {
+        return this.materialParams[13]
+    }
+    public set bumpScale(val) {
+        this.materialParams[13] = val
+        refreshParamsSystem(this)
+    }
+
+    public get displacementMap() {
+        return this.materialParams[14]
+    }
+    public set displacementMap(val) {
+        this.materialParams[14] = val
+        refreshParamsSystem(this)
+    }
+
+    public get displacementScale() {
+        return this.materialParams[15]
+    }
+    public set displacementScale(val) {
+        this.materialParams[15] = val
+        refreshParamsSystem(this)
+    }
+
+    public get displacementbias() {
+        return this.materialParams[16]
+    }
+    public set displacementbias(val) {
+        this.materialParams[16] = val
         refreshParamsSystem(this)
     }
 }
