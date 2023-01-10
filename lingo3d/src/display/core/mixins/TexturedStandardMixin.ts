@@ -140,7 +140,7 @@ export const refreshParamsSystem = debounceSystem(
 const defaults = Object.fromEntries(
     Object.entries(texturedStandardSchema).map(([key]) => [
         key,
-        getDefaultValue(texturedStandardDefaults, key, true)
+        structuredClone(getDefaultValue(texturedStandardDefaults, key, true))
     ])
 )
 const defaultParams = Object.values(defaults) as Params
