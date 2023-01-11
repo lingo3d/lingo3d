@@ -66,6 +66,9 @@ export default (standardMaterial: MeshStandardMaterial) => {
         createReferenceCounter<MeshStandardMaterial, StandardParams>(
             (_, params) => {
                 const material = standardMaterial.clone()
+
+                console.log(material.userData)
+
                 setMaterial(material, "color", params[0])
                 setMaterial(material, "opacity", params[1])
                 setMaterial(
@@ -144,7 +147,11 @@ export default (standardMaterial: MeshStandardMaterial) => {
             }
         )
 
-    allocateDefaultInstance(MeshStandardMaterial, defaultParams)
+    allocateDefaultInstance(
+        MeshStandardMaterial,
+        defaultParams,
+        standardMaterial
+    )
 
     const refreshParamsSystem = debounceSystem((target: MyTextureManager) => {
         if (target.materialParamString)

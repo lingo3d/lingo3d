@@ -18,8 +18,11 @@ export default <T, Params = Array<any> | ReadonlyArray<any>>(
             console.log(classMapsMap.get(VerboseConstructor)?.[0].size)
         }, 1000)
 
-    const allocateDefaultInstance = (ClassVal: Class<T>, params: Params) => {
-        const instance = factory(ClassVal, params)
+    const allocateDefaultInstance = (
+        ClassVal: Class<T>,
+        params: Params,
+        instance = factory(ClassVal, params)
+    ) => {
         classDefaultParamsInstanceMap.set(ClassVal, [
             JSON.stringify(params),
             instance

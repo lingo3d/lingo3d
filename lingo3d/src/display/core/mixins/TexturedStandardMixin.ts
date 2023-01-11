@@ -7,7 +7,7 @@ import ITexturedStandard, {
 } from "../../../interface/ITexturedStandard"
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
-import { color } from "../../utils/reusables"
+import { color, standardMaterial } from "../../utils/reusables"
 import createReferenceCounter from "../utils/createReferenceCounter"
 import filterNotDefault from "./utils/filterNotDefault"
 import getMap from "./utils/getMap"
@@ -153,7 +153,11 @@ export const standardDefaultParams = Object.values(
     standardDefaults
 ) as StandardParams
 
-allocateDefaultInstance(MeshStandardMaterial, standardDefaultParams)
+allocateDefaultInstance(
+    MeshStandardMaterial,
+    standardDefaultParams,
+    standardMaterial
+)
 
 export default abstract class TexturedStandardMixin
     implements ITexturedStandard
