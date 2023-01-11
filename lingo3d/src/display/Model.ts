@@ -1,10 +1,4 @@
-import {
-    BufferGeometry,
-    Group,
-    Mesh,
-    MeshStandardMaterial,
-    Object3D
-} from "three"
+import { Group, Mesh, Object3D } from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"

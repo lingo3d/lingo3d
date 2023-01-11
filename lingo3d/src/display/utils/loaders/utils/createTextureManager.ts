@@ -45,8 +45,12 @@ export default (standardMaterial: MeshStandardMaterial) => {
     const defaultParams = Object.values(defaults)
 
     const setMaterial = (material: any, key: string, value: any) => {
+        if (value == undefined) return
         if (equalsDefaultValue(value, defaults, key)) return
+
         const current = material[key]
+        if (current == value) return
+
         if (current && typeof current === "object" && "set" in current) {
             if ("x" in current) {
                 current.set(value.x ?? value, value.y ?? value)
