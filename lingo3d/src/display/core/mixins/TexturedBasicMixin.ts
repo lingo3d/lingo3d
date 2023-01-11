@@ -33,7 +33,8 @@ const [increaseCount, decreaseCount] = createReferenceCounter<
                     side: DoubleSide,
                     color: params[0],
                     opacity: params[1],
-                    transparent: params[1] !== undefined && params[1] < 1,
+                    transparent: true,
+                    // transparent: params[1] !== undefined && params[1] < 1,
                     map: getMap(params[2], params[4], params[5], params[6]),
                     alphaMap: getMap(params[3], params[4], params[5], params[6])
                 },

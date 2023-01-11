@@ -25,7 +25,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         appendableRoot.delete(this)
 
         if ("material" in mesh) {
-            //mark
+            console.log(mesh.userData.TextureManager)
         }
     }
 

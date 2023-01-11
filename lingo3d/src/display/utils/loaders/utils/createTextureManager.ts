@@ -2,7 +2,7 @@ import { rad2Deg } from "@lincode/math"
 import { BufferGeometry, Color, Mesh, MeshStandardMaterial } from "three"
 import { equalsDefaultValue } from "../../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../../utils/debounceSystem"
-import { TexturedStandardParams } from "../../../core/mixins/TexturedStandardMixin"
+import { StandardParams } from "../../../core/mixins/TexturedStandardMixin"
 import getMap from "../../../core/mixins/utils/getMap"
 import TextureManager from "../../../core/TextureManager"
 import createReferenceCounter from "../../../core/utils/createReferenceCounter"
@@ -42,7 +42,7 @@ export default (standardMaterial: MeshStandardMaterial) => {
         normalMap: "",
         normalScale: standardMaterial.normalScale?.x ?? 1
     }
-    const defaultParams = Object.values(defaults) as TexturedStandardParams
+    const defaultParams = Object.values(defaults) as StandardParams
 
     const setMaterial = (material: any, key: string, value: any) => {
         if (value == undefined) return
@@ -63,7 +63,7 @@ export default (standardMaterial: MeshStandardMaterial) => {
     }
 
     const [increaseCount, decreaseCount, allocateDefaultInstance] =
-        createReferenceCounter<MeshStandardMaterial, TexturedStandardParams>(
+        createReferenceCounter<MeshStandardMaterial, StandardParams>(
             (_, params) => {
                 const material = standardMaterial.clone()
                 setMaterial(material, "color", params[0])
@@ -170,9 +170,9 @@ export default (standardMaterial: MeshStandardMaterial) => {
             super()
         }
 
-        public defaults = defaults
+        public override defaults = defaults
 
-        public defaultParams = defaultParams
+        public override defaultParams = defaultParams
         public refreshParamsSystem = refreshParamsSystem
     }
 
