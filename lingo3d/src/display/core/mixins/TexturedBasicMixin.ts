@@ -8,7 +8,7 @@ import ITexturedBasic, {
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
 import { color } from "../../utils/reusables"
-import createReferenceCounter from "../utils/createReferenceCounter"
+import createInstancePool from "../utils/createInstancePool"
 import filterNotDefault from "./utils/filterNotDefault"
 import getMap from "./utils/getMap"
 
@@ -22,7 +22,7 @@ type Params = [
     textureRotation: number
 ]
 
-const [increaseCount, decreaseCount] = createReferenceCounter<
+const [increaseCount, decreaseCount] = createInstancePool<
     SpriteMaterial,
     Params
 >(

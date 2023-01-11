@@ -4,10 +4,10 @@ import debounceSystem from "../../utils/debounceSystem"
 import getPrivateValue from "../../utils/getPrivateValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import Primitive from "./Primitive"
-import createReferenceCounter from "./utils/createReferenceCounter"
+import createInstancePool from "./utils/createInstancePool"
 
 const [increaseCount, decreaseCount, allocateDefaultInstance] =
-    createReferenceCounter<BufferGeometry>(
+    createInstancePool<BufferGeometry>(
         (ClassVal, params) => new ClassVal(...params)
     )
 export { allocateDefaultInstance }

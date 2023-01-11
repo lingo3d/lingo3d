@@ -8,7 +8,7 @@ import ITexturedStandard, {
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../utils/debounceSystem"
 import { color, standardMaterial } from "../../utils/reusables"
-import createReferenceCounter from "../utils/createReferenceCounter"
+import createInstancePool from "../utils/createInstancePool"
 import filterNotDefault from "./utils/filterNotDefault"
 import getMap from "./utils/getMap"
 
@@ -43,7 +43,7 @@ export type StandardParams = [
 ]
 
 const [increaseCount, decreaseCount, allocateDefaultInstance] =
-    createReferenceCounter<MeshStandardMaterial, StandardParams>(
+    createInstancePool<MeshStandardMaterial, StandardParams>(
         (_, params) =>
             new MeshStandardMaterial(
                 filter(

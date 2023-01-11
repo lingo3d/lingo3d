@@ -5,7 +5,7 @@ import debounceSystem from "../../../../utils/debounceSystem"
 import { StandardParams } from "../../../core/mixins/TexturedStandardMixin"
 import getMap from "../../../core/mixins/utils/getMap"
 import TextureManager from "../../../core/TextureManager"
-import createReferenceCounter from "../../../core/utils/createReferenceCounter"
+import createInstancePool from "../../../core/utils/createInstancePool"
 import Model from "../../../Model"
 
 const blackColor = new Color("black")
@@ -63,7 +63,7 @@ export default (standardMaterial: MeshStandardMaterial) => {
     }
 
     const [increaseCount, decreaseCount, allocateDefaultInstance] =
-        createReferenceCounter<MeshStandardMaterial, StandardParams>(
+        createInstancePool<MeshStandardMaterial, StandardParams>(
             (_, params) => {
                 const material = standardMaterial.clone()
                 material.userData.TextureManager = MyTextureManager
