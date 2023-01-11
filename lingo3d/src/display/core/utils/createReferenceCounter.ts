@@ -1,17 +1,17 @@
 import { Class, forceGet } from "@lincode/utils"
 
-export const classMapsMap = new WeakMap<
-    Class,
-    [Map<string, unknown>, Record<string, number>]
->()
-const classDefaultParamsInstanceMap = new WeakMap<Class, [string, any]>()
-
 const makeTuple = () =>
     <const>[new Map<string, any>(), {} as Record<string, number>]
 
 export default <T, Params = Array<any> | ReadonlyArray<any>>(
     factory: (ClassVal: Class<T>, params: Params) => T
 ) => {
+    const classMapsMap = new WeakMap<
+        Class<T>,
+        [Map<string, unknown>, Record<string, number>]
+    >()
+    const classDefaultParamsInstanceMap = new WeakMap<Class<T>, [string, any]>()
+
     const allocateDefaultInstance = (ClassVal: Class<T>, params: Params) => {
         const instance = factory(ClassVal, params)
         classDefaultParamsInstanceMap.set(ClassVal, [
