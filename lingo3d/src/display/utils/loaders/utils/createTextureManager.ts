@@ -184,6 +184,8 @@ export default (standardMaterial: MeshStandardMaterial) => {
             public object3d: Mesh<BufferGeometry, MeshStandardMaterial>
         ) {}
 
+        public defaults = defaults
+
         public get material() {
             return this.object3d.material
         }

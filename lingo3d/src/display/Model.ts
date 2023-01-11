@@ -1,4 +1,10 @@
-import { Group } from "three"
+import {
+    BufferGeometry,
+    Group,
+    Mesh,
+    MeshStandardMaterial,
+    Object3D
+} from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
@@ -12,8 +18,52 @@ import {
     increaseLoadingCount
 } from "../states/useLoadingCount"
 import AdjustMaterialMixin from "./core/mixins/AdjustMaterialMixin"
-import { applyMixins } from "@lincode/utils"
+import { applyMixins, forceGet } from "@lincode/utils"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
+import debounceSystem from "../utils/debounceSystem"
+import ITexturedStandard from "../interface/ITexturedStandard"
+
+const modelTextureManagersMap = new WeakMap<Model, Array<ITexturedStandard>>()
+
+const setFactor = (
+    factor: number | undefined,
+    textureManager: any,
+    key: string
+) => {
+    textureManager[key] =
+        factor === undefined
+            ? textureManager.defaults[key]
+            : Math.max(textureManager.defaults[key], 0.25) * factor
+}
+
+const refreshFactorsSystem = debounceSystem((model: Model) => {
+    const {
+        metalnessFactor,
+        roughnessFactor,
+        opacityFactor,
+        envFactor,
+        reflection
+    } = model
+
+    const textureManagers = forceGet(modelTextureManagersMap, model, () => {
+        const result: Array<any> = []
+        model.outerObject3d.traverse(
+            (child: Object3D | Mesh<BufferGeometry, MeshStandardMaterial>) => {
+                if (!("material" in child)) return
+                const { TextureManager } = child.material.userData
+                if (!TextureManager) return
+                result.push(new TextureManager(child))
+            }
+        )
+        return result
+    })
+    for (const textureManager of textureManagers) {
+        setFactor(metalnessFactor, textureManager, "metalness")
+        setFactor(roughnessFactor, textureManager, "roughness")
+        setFactor(opacityFactor, textureManager, "opacity")
+        setFactor(envFactor, textureManager, "envMapIntensity")
+    }
+})
 
 class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
@@ -167,20 +217,56 @@ class Model extends Loaded<Group> implements IModel {
         return children
     }
 
-    // protected refreshFactors() {
-    //     this.cancelHandle("refreshFactorsLoaded", () => {
-    //         const handle = this.loaded.then((loaded) =>
-    //             queueMicrotask(() => {
-    //                 if (handle.done) return
-    //                 this._refreshFactors(
-    //                     handle,
-    //                     attachStandardMaterialManager(loaded, this, true)
-    //                 )
-    //             })
-    //         )
-    //         return handle
-    //     })
-    // }
+    private refreshFactors() {
+        this.cancelHandle("refreshFactors", () =>
+            this.loaded.then(() => refreshFactorsSystem(this))
+        )
+    }
+
+    private _metalnessFactor?: number
+    public get metalnessFactor() {
+        return this._metalnessFactor
+    }
+    public set metalnessFactor(val) {
+        this._metalnessFactor = val
+        this.refreshFactors()
+    }
+
+    private _roughnessFactor?: number
+    public get roughnessFactor() {
+        return this._roughnessFactor
+    }
+    public set roughnessFactor(val) {
+        this._roughnessFactor = val
+        this.refreshFactors()
+    }
+
+    private _opacityFactor?: number
+    public get opacityFactor() {
+        return this._opacityFactor
+    }
+    public set opacityFactor(val) {
+        this._opacityFactor = val
+        this.refreshFactors()
+    }
+
+    private _envFactor?: number
+    public get envFactor() {
+        return this._envFactor
+    }
+    public set envFactor(val) {
+        this._envFactor = val
+        this.refreshFactors()
+    }
+
+    private _reflection?: boolean
+    public get reflection() {
+        return this._reflection ?? false
+    }
+    public set reflection(val: boolean) {
+        this._reflection = val
+        this.refreshFactors()
+    }
 }
 //@ts-ignore
 interface Model extends Loaded<Group>, AdjustMaterialMixin {}
