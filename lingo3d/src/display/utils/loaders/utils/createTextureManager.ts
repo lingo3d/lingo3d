@@ -1,6 +1,5 @@
 import { Point, rad2Deg } from "@lincode/math"
 import { BufferGeometry, Color, Mesh, MeshStandardMaterial } from "three"
-import Appendable from "../../../../api/core/Appendable"
 import ITextureManager from "../../../../interface/ITextureManager"
 import { equalsDefaultValue } from "../../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../../utils/debounceSystem"
@@ -143,8 +142,7 @@ export default (standardMaterial: MeshStandardMaterial) => {
                 setMaterial(material, "normalScale", params[26])
 
                 return material
-            },
-            MeshStandardMaterial
+            }
         )
 
     allocateDefaultInstance(MeshStandardMaterial, defaultParams)
