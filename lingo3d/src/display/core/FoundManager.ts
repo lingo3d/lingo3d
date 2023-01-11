@@ -8,10 +8,11 @@ import Model from "../Model"
 import IVisible from "../../interface/IVisible"
 import VisibleMixin from "./mixins/VisibleMixin"
 import SimpleObjectManager from "./SimpleObjectManager"
-import { appendableRoot } from "../../api/core/collections"
 import callPrivateMethod from "../../utils/callPrivateMethod"
 import { setManager } from "../../api/utils/manager"
 import TextureManager from "./TextureManager"
+import MeshAppendable from "../../api/core/MeshAppendable"
+import { appendableRoot } from "../../api/core/collections"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -19,14 +20,18 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static schema = foundManagerSchema
 
     public constructor(
-        mesh: Object3D | Mesh<BufferGeometry, MeshStandardMaterial>
+        mesh: Object3D | Mesh<BufferGeometry, MeshStandardMaterial>,
+        public owner: MeshAppendable
     ) {
         super(mesh)
         appendableRoot.delete(this)
 
-        if ("material" in mesh) {
-            console.log(mesh.userData.TextureManager)
-        }
+        if (!("material" in mesh)) return
+        const { defaults, defaultParams, refreshParamSystem } =
+            mesh.material.userData.TextureManager
+        this.defaults = defaults
+        this.defaultParams = defaultParams
+        this.refreshParamsSystem = refreshParamSystem
     }
 
     public model?: Model

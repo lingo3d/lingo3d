@@ -105,7 +105,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         )
         if (!child) return
 
-        const result = setManager(child, new FoundManager(child))
+        const result = setManager(child, new FoundManager(child, this))
         !hiddenFromSceneGraph && this._append(result)
 
         return result
@@ -117,22 +117,28 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         const result: Array<FoundManager> = []
         if (name === undefined)
             this.outerObject3d.traverse((child) => {
-                result.push(setManager(child, new FoundManager(child)))
+                result.push(setManager(child, new FoundManager(child, this)))
             })
         else if (typeof name === "string")
             this.outerObject3d.traverse((child) => {
                 child.name === name &&
-                    result.push(setManager(child, new FoundManager(child)))
+                    result.push(
+                        setManager(child, new FoundManager(child, this))
+                    )
             })
         else if (typeof name === "function")
             this.outerObject3d.traverse((child) => {
                 name(child.name) &&
-                    result.push(setManager(child, new FoundManager(child)))
+                    result.push(
+                        setManager(child, new FoundManager(child, this))
+                    )
             })
         else
             this.outerObject3d.traverse((child) => {
                 name.test(child.name) &&
-                    result.push(setManager(child, new FoundManager(child)))
+                    result.push(
+                        setManager(child, new FoundManager(child, this))
+                    )
             })
         return result
     }

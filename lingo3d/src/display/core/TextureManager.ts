@@ -11,8 +11,7 @@ import {
 export default abstract class TextureManager implements ITextureManager {
     public defaults = standardDefaults
     public defaultParams = standardDefaultParams
-
-    public abstract refreshParamsSystem: any
+    public refreshParamsSystem(_: TextureManager) {}
 
     public get material() {
         //@ts-ignore

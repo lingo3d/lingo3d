@@ -171,9 +171,12 @@ export default (standardMaterial: MeshStandardMaterial) => {
         }
 
         public override defaults = defaults
-
         public override defaultParams = defaultParams
-        public refreshParamsSystem = refreshParamsSystem
+        public override refreshParamsSystem = refreshParamsSystem
+
+        public static defaults = defaults
+        public static defaultParams = defaultParams
+        public static refreshParamSystem = refreshParamsSystem
     }
 
     return MyTextureManager
