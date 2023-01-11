@@ -85,7 +85,9 @@ export default async (
             updateResetButton()
 
             resetButton.onclick = () => {
-                params[key] = JSON.parse(JSON.stringify(paramsDefault[key]))
+                params[key] = structuredClone(paramsDefault[key])
+                target[key] = structuredClone(getDefaultValue(defaults, key))
+                skipApplyValue()
                 input.refresh()
             }
 
