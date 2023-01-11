@@ -172,8 +172,8 @@ export default (standardMaterial: MeshStandardMaterial) => {
 
         public defaults = defaults
 
-        protected defaultParams = defaultParams
-        protected refreshParamsSystem = refreshParamsSystem
+        public defaultParams = defaultParams
+        public refreshParamsSystem = refreshParamsSystem
     }
 
     return MyTextureManager

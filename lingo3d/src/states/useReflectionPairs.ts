@@ -1,14 +1,14 @@
 import store, { createEffect, pull, push } from "@lincode/reactivity"
 import { CubeCamera } from "three"
 import Loaded from "../display/core/Loaded"
-import AdjustMaterialMixin from "../display/core/mixins/AdjustMaterialMixin"
+import Model from "../display/Model"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import scene from "../engine/scene"
 import { onRenderHalfRate } from "../events/onRenderHalfRate"
 import { getRenderer } from "./useRenderer"
 
 const [setReflectionPairs, getReflectionPairs] = store<
-    Array<[AdjustMaterialMixin | Loaded, CubeCamera]>
+    Array<[Model | Loaded, CubeCamera]>
 >([])
 
 export const pushReflectionPairs = push(setReflectionPairs, getReflectionPairs)

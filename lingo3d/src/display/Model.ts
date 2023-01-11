@@ -17,8 +17,7 @@ import {
     decreaseLoadingCount,
     increaseLoadingCount
 } from "../states/useLoadingCount"
-import AdjustMaterialMixin from "./core/mixins/AdjustMaterialMixin"
-import { applyMixins, forceGet } from "@lincode/utils"
+import { forceGet } from "@lincode/utils"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import debounceSystem from "../utils/debounceSystem"
 import ITextureManager from "../interface/ITextureManager"
@@ -67,7 +66,7 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
     }
 })
 
-class Model extends Loaded<Group> implements IModel {
+export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"
     public static defaults = modelDefaults
     public static schema = modelSchema
@@ -270,7 +269,3 @@ class Model extends Loaded<Group> implements IModel {
         this.refreshFactors()
     }
 }
-//@ts-ignore
-interface Model extends Loaded<Group>, AdjustMaterialMixin {}
-applyMixins(Model, [AdjustMaterialMixin])
-export default Model

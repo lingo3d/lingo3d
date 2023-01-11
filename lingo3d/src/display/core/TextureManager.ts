@@ -1,28 +1,27 @@
 import { Point } from "@lincode/math"
-import { BufferGeometry, Mesh, MeshStandardMaterial } from "three"
+import { MeshStandardMaterial } from "three"
 import ITextureManager from "../../interface/ITextureManager"
 import { color } from "../utils/reusables"
 import { TexturedStandardParams } from "./mixins/TexturedStandardMixin"
 
 export default abstract class TextureManager implements ITextureManager {
     public abstract defaults: Record<string, any>
-    public abstract object3d: Mesh<BufferGeometry, MeshStandardMaterial>
 
-    protected abstract defaultParams: TexturedStandardParams
-    protected abstract refreshParamsSystem: any
+    public abstract defaultParams: TexturedStandardParams
+    public abstract refreshParamsSystem: any
 
     public get material() {
+        //@ts-ignore
         return this.object3d.material
     }
     public set material(val: MeshStandardMaterial) {
+        //@ts-ignore
         this.object3d.material = val
     }
 
-    private _materialParams?: TexturedStandardParams
-    public get materialParams() {
-        return (this._materialParams ??= Object.values(
-            this.defaultParams
-        ) as TexturedStandardParams)
+    public get materialParams(): TexturedStandardParams {
+        //@ts-ignore
+        return (this._materialParams ??= Object.values(this.defaultParams))
     }
     public materialParamString?: string
 
