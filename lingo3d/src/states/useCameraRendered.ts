@@ -12,8 +12,9 @@ import { getWebXR } from "./useWebXR"
 import { getSplitView } from "./useSplitView"
 import { getCameraComputed } from "./useCameraComputed"
 
-export const [setCameraRendered, getCameraRendered] =
+const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
+export { getCameraRendered }
 
 export const updateCameraAspect = (camera: Camera) => {
     const [resX, resY] = getResolution()
