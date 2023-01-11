@@ -28,7 +28,9 @@ export const reflectorDefaults = extendDefaults<IReflector>(
         blur: 512,
         contrast: 1.5,
         mirror: 1,
-        rotationX: 270
+        rotationX: 270,
+        scaleZ: 0,
+        depth: 0
     },
     {
         resolution: new Range(256, 2048, 256),

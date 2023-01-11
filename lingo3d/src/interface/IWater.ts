@@ -29,7 +29,9 @@ export const waterDefaults = extendDefaults<IWater>(
         normalMap: WATERNORMALS_URL,
         resolution: 512,
         speed: 1,
-        rotationX: 270
+        rotationX: 270,
+        scaleZ: 0,
+        depth: 0
     },
     {
         resolution: new Range(256, 2048, 256)

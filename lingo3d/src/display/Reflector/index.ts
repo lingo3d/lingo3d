@@ -26,6 +26,7 @@ export default class Reflector
 
         super(mesh)
         this.rotationX = 270
+        this.object3d.scale.z = Number.EPSILON
 
         import("./MeshReflectorMaterial").then(
             ({ default: MeshReflectorMaterial }) => {
@@ -67,6 +68,15 @@ export default class Reflector
             }
         )
     }
+
+    public override get depth() {
+        return 0
+    }
+    public override set depth(_) {}
+    public override get scaleZ() {
+        return 0
+    }
+    public override set scaleZ(_) {}
 
     private resolutionState = new Reactive(256)
     public get resolution() {

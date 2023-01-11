@@ -50,6 +50,7 @@ export default class Water extends VisibleObjectManager implements IWater {
     public constructor() {
         super()
         this.rotationX = 270
+        this.object3d.scale.z = Number.EPSILON
 
         import("three/examples/jsm/objects/Water").then(({ Water }) => {
             this.createEffect(() => {
@@ -95,4 +96,13 @@ export default class Water extends VisibleObjectManager implements IWater {
             ])
         })
     }
+
+    public override get depth() {
+        return 0
+    }
+    public override set depth(_) {}
+    public override get scaleZ() {
+        return 0
+    }
+    public override set scaleZ(_) {}
 }
