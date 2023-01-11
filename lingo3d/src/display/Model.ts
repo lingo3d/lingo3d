@@ -1,4 +1,10 @@
-import { Group, Mesh, MeshStandardMaterial, Object3D } from "three"
+import {
+    BufferGeometry,
+    Group,
+    Mesh,
+    MeshStandardMaterial,
+    Object3D
+} from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
@@ -15,20 +21,23 @@ import AdjustMaterialMixin from "./core/mixins/AdjustMaterialMixin"
 import { applyMixins, forceGet } from "@lincode/utils"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import debounceSystem from "../utils/debounceSystem"
-import ITexturedStandard from "../interface/ITexturedStandard"
+import ITextureManager from "../interface/ITextureManager"
+import unsafeSetValue from "../utils/unsafeSetValue"
 
-const modelTextureManagersMap = new WeakMap<Model, Array<ITexturedStandard>>()
+const modelTextureManagersMap = new WeakMap<Model, Array<ITextureManager>>()
 
 const setFactor = (
     factor: number | undefined,
-    textureManager: any,
+    textureManager: ITextureManager,
     key: string
-) => {
-    textureManager[key] =
+) =>
+    unsafeSetValue(
+        textureManager,
+        key,
         factor === undefined
             ? textureManager.defaults[key]
             : Math.max(textureManager.defaults[key], 0.25) * factor
-}
+    )
 
 const refreshFactorsSystem = debounceSystem((model: Model) => {
     const {
@@ -40,9 +49,9 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
     } = model
 
     const textureManagers = forceGet(modelTextureManagersMap, model, () => {
-        const result: Array<any> = []
+        const result: Array<ITextureManager> = []
         model.outerObject3d.traverse(
-            (child: Object3D | Mesh<any, MeshStandardMaterial>) => {
+            (child: Object3D | Mesh<BufferGeometry, MeshStandardMaterial>) => {
                 if (!("material" in child)) return
                 const { TextureManager } = child.material.userData
                 TextureManager && result.push(new TextureManager(child))

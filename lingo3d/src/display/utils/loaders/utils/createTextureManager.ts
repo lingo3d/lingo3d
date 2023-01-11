@@ -1,11 +1,13 @@
 import { Point, rad2Deg } from "@lincode/math"
 import { BufferGeometry, Color, Mesh, MeshStandardMaterial } from "three"
-import ITexturedStandard from "../../../../interface/ITexturedStandard"
+import Appendable from "../../../../api/core/Appendable"
+import ITextureManager from "../../../../interface/ITextureManager"
 import { equalsDefaultValue } from "../../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../../utils/debounceSystem"
 import { TexturedStandardParams } from "../../../core/mixins/TexturedStandardMixin"
 import getMap from "../../../core/mixins/utils/getMap"
 import createReferenceCounter from "../../../core/utils/createReferenceCounter"
+import Model from "../../../Model"
 import { color } from "../../reusables"
 
 const blackColor = new Color("black")
@@ -150,12 +152,10 @@ export default (standardMaterial: MeshStandardMaterial) => {
     const refreshParamsSystem = debounceSystem((target: TextureManager) => {
         if (target.materialParamString)
             decreaseCount(MeshStandardMaterial, target.materialParamString)
-        else {
-            //@ts-ignore
-            // target.then(() =>
-            //     decreaseCount(MeshStandardMaterial, target.materialParamString!)
-            // )
-        }
+        else
+            target.owner.then(() =>
+                decreaseCount(MeshStandardMaterial, target.materialParamString!)
+            )
         const paramString = JSON.stringify(target.materialParams)
         target.material = increaseCount(
             MeshStandardMaterial,
@@ -165,9 +165,10 @@ export default (standardMaterial: MeshStandardMaterial) => {
         target.materialParamString = paramString
     })
 
-    class TextureManager implements ITexturedStandard {
+    class TextureManager implements ITextureManager {
         public constructor(
-            public object3d: Mesh<BufferGeometry, MeshStandardMaterial>
+            public object3d: Mesh<BufferGeometry, MeshStandardMaterial>,
+            public owner: Model
         ) {}
 
         public defaults = defaults
