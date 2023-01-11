@@ -6,7 +6,11 @@ import { unselectableSet } from "../core/StaticObjectManager/raycast/selectionCa
 
 const sphereMap = new Map<string, Sphere>()
 
-export default (name: string, pt: Point3d, properties?: IPrimitive) => {
+export default (
+    name: string,
+    pt: Point3d,
+    properties?: Partial<IPrimitive>
+) => {
     const sphere = forceGet(sphereMap, name, () => {
         const sphere = Object.assign(new Sphere(), properties)
         unselectableSet.add(sphere.object3d)
