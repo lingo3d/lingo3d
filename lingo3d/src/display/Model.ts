@@ -1,4 +1,4 @@
-import { Group, Mesh, Object3D } from "three"
+import { Group, Mesh, MeshStandardMaterial, Object3D } from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
@@ -41,12 +41,13 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
 
     const textureManagers = forceGet(modelTextureManagersMap, model, () => {
         const result: Array<any> = []
-        model.outerObject3d.traverse((child: Object3D | Mesh) => {
-            if (!("material" in child)) return
-            //@ts-ignore
-            const { TextureManager } = child.material.userData
-            TextureManager && result.push(new TextureManager(child))
-        })
+        model.outerObject3d.traverse(
+            (child: Object3D | Mesh<any, MeshStandardMaterial>) => {
+                if (!("material" in child)) return
+                const { TextureManager } = child.material.userData
+                TextureManager && result.push(new TextureManager(child))
+            }
+        )
         return result
     })
     for (const textureManager of textureManagers) {
