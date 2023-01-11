@@ -3,39 +3,10 @@ import { BufferGeometry, Color, Mesh, MeshStandardMaterial } from "three"
 import ITexturedStandard from "../../../../interface/ITexturedStandard"
 import { equalsDefaultValue } from "../../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../../utils/debounceSystem"
+import { TexturedStandardParams } from "../../../core/mixins/TexturedStandardMixin"
 import getMap from "../../../core/mixins/utils/getMap"
 import createReferenceCounter from "../../../core/utils/createReferenceCounter"
 import { color } from "../../reusables"
-
-type Params = [
-    color: string,
-    opacity: number,
-    texture: string,
-    alphaMap: string,
-    textureRepeat: number | Point,
-    textureFlipY: boolean,
-    textureRotation: number,
-    wireframe: boolean,
-    envMap: string,
-    envMapIntensity: number,
-    aoMap: string,
-    aoMapIntensity: number,
-    bumpMap: string,
-    bumpScale: number,
-    displacementMap: string,
-    displacementScale: number,
-    displacementBias: number,
-    emissive: boolean,
-    emissiveIntensity: number,
-    lightMap: string,
-    lightMapIntensity: number,
-    metalnessMap: string,
-    metalness: number,
-    roughnessMap: string,
-    roughness: number,
-    normalMap: string,
-    normalScale: number
-]
 
 const blackColor = new Color("black")
 
@@ -89,7 +60,7 @@ export default (standardMaterial: MeshStandardMaterial) => {
 
     const [increaseCount, decreaseCount] = createReferenceCounter<
         MeshStandardMaterial,
-        Params
+        TexturedStandardParams
     >((_, params) => {
         const material = standardMaterial.clone()
         setMaterial(material, "color", params[0])
@@ -197,11 +168,9 @@ export default (standardMaterial: MeshStandardMaterial) => {
             this.object3d.material = val
         }
 
-        public get materialParams() {
+        public get materialParams(): TexturedStandardParams {
             //@ts-ignore
-            return (this._materialParams ??= Object.values(
-                defaultParams
-            ) as Params)
+            return (this._materialParams ??= Object.values(defaultParams))
         }
         public materialParamString?: string
 

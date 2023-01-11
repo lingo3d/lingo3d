@@ -12,7 +12,7 @@ import createReferenceCounter from "../utils/createReferenceCounter"
 import filterNotDefault from "./utils/filterNotDefault"
 import getMap from "./utils/getMap"
 
-type Params = [
+export type TexturedStandardParams = [
     color: string,
     opacity: number,
     texture: string,
@@ -44,7 +44,7 @@ type Params = [
 
 const [increaseCount, decreaseCount] = createReferenceCounter<
     MeshStandardMaterial,
-    Params
+    TexturedStandardParams
 >(
     (_, params) =>
         new MeshStandardMaterial(
@@ -141,7 +141,7 @@ const defaults = Object.fromEntries(
         structuredClone(getDefaultValue(texturedStandardDefaults, key, true))
     ])
 )
-const defaultParams = Object.values(defaults) as Params
+const defaultParams = Object.values(defaults) as TexturedStandardParams
 
 export default abstract class TexturedStandardMixin
     implements ITexturedStandard
@@ -155,9 +155,11 @@ export default abstract class TexturedStandardMixin
         this.object3d.material = val
     }
 
-    private _materialParams?: Params
+    private _materialParams?: TexturedStandardParams
     public get materialParams() {
-        return (this._materialParams ??= Object.values(defaultParams) as Params)
+        return (this._materialParams ??= Object.values(
+            defaultParams
+        ) as TexturedStandardParams)
     }
     public materialParamString?: string
 
