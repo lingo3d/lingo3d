@@ -66,8 +66,7 @@ export default (standardMaterial: MeshStandardMaterial) => {
         createReferenceCounter<MeshStandardMaterial, StandardParams>(
             (_, params) => {
                 const material = standardMaterial.clone()
-
-                console.log(material.userData)
+                material.userData.TextureManager = MyTextureManager
 
                 setMaterial(material, "color", params[0])
                 setMaterial(material, "opacity", params[1])

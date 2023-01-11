@@ -83,6 +83,7 @@ export default abstract class TexturedBasicMixin implements ITexturedBasic {
     public get materialParams() {
         return (this._materialParams ??= Object.values(defaultParams) as Params)
     }
+
     public materialParamString?: string
 
     public get color() {

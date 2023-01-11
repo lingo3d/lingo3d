@@ -177,6 +177,7 @@ export default abstract class TexturedStandardMixin
             standardDefaultParams
         ) as StandardParams)
     }
+
     public materialParamString?: string
 
     public get color() {

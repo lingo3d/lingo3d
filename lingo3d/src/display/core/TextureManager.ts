@@ -26,6 +26,7 @@ export default abstract class TextureManager implements ITextureManager {
         //@ts-ignore
         return (this._materialParams ??= Object.values(this.defaultParams))
     }
+
     public materialParamString?: string
 
     public get color() {
