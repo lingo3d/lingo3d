@@ -275,8 +275,3 @@ export default abstract class Loaded<T = Object3D>
         return super.getPxShape(mode, actor)
     }
 }
-
-export const getLoadedObject = (item: Loaded | MeshManager) => {
-    if ("loadedGroup" in item) return item.loadedGroup
-    return item.object3d
-}
