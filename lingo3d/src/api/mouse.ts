@@ -36,19 +36,19 @@ container.addEventListener("touchstart", (e) => {
 
 mouseEvents.on("down", (e) => {
     downTime = Date.now()
-    downX = e.clientX
-    downY = e.clientY
+    downX = e.canvasX
+    downY = e.canvasY
 })
 mouseEvents.on("up", (e) => {
     const upTime = Date.now()
 
     const deltaTime = upTime - downTime
-    const deltaX = Math.abs(e.clientX - downX)
-    const deltaY = Math.abs(e.clientY - downY)
+    const deltaX = Math.abs(e.canvasX - downX)
+    const deltaY = Math.abs(e.canvasY - downY)
 
     downTime = upTime
-    downX = e.clientX
-    downY = e.clientY
+    downX = e.canvasX
+    downY = e.canvasY
 
     if (deltaTime < 300 && deltaX < 5 && deltaY < 5)
         mouseEvents.emit(rightClick ? "rightClick" : "click", e)
@@ -91,7 +91,7 @@ export class Mouse extends Appendable implements IMouse {
     public constructor() {
         super()
 
-        let currentPayload = { clientX: 0, clientY: 0 }
+        let currentPayload = { canvasX: 0, canvasY: 0, clientX: 0, clientY: 0 }
         const [setDown, getDown] = store(false)
 
         this.createEffect(() => {

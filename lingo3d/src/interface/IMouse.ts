@@ -10,6 +10,8 @@ import Nullable from "./utils/Nullable"
 
 export class LingoMouseEvent {
     public constructor(
+        public canvasX: number,
+        public canvasY: number,
         public clientX: number,
         public clientY: number,
         public xNorm: number,
@@ -21,6 +23,8 @@ export class LingoMouseEvent {
 }
 
 export type SimpleMouseEvent = {
+    canvasX: number
+    canvasY: number
     clientX: number
     clientY: number
 }

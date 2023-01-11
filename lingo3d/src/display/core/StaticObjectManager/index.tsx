@@ -10,7 +10,7 @@ import {
 } from "../../utils/reusables"
 import { throttle, forceGetInstance } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
-import worldToClient from "../../utils/worldToClient"
+import worldToCanvas from "../../utils/worldToCanvas"
 import { Cancellable } from "@lincode/promiselikes"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import { LingoMouseEvent } from "../../../interface/IMouse"
@@ -241,12 +241,12 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return thisOBB.intersectsOBB(targetOBB, 0)
     }
 
-    public get clientX() {
-        return worldToClient(this.object3d).x
+    public get canvasX() {
+        return worldToCanvas(this.object3d).x
     }
 
-    public get clientY() {
-        return worldToClient(this.object3d).y
+    public get canvasY() {
+        return worldToCanvas(this.object3d).y
     }
 
     public get frustumVisible() {

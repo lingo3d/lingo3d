@@ -10,15 +10,17 @@ import { vec2Point } from "./vec2Point"
 
 export default (ev: { clientX: number; clientY: number }) => {
     const distance = 500
-    const [xNorm, yNorm, clientX, clientY] = normalizeClientPosition(
+    const [xNorm, yNorm, canvasX, canvasY] = normalizeClientPosition(
         ev.clientX,
         ev.clientY
     )
 
     if (getCameraPointerLock())
         return new LingoMouseEvent(
-            clientX,
-            clientY,
+            canvasX,
+            canvasY,
+            ev.clientX,
+            ev.clientY,
             0,
             0,
             new Point3d(0, 0, 0),
@@ -34,8 +36,10 @@ export default (ev: { clientX: number; clientY: number }) => {
     vector3.sub(cameraPosition).normalize()
 
     return new LingoMouseEvent(
-        clientX,
-        clientY,
+        canvasX,
+        canvasY,
+        ev.clientX,
+        ev.clientY,
         xNorm,
         yNorm,
         vec2Point(cameraPosition.add(vector3.multiplyScalar(distance * CM2M))),
