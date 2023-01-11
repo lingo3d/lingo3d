@@ -54,7 +54,7 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
             (child: Object3D | Mesh<BufferGeometry, MeshStandardMaterial>) => {
                 if (!("material" in child)) return
                 const { TextureManager } = child.material.userData
-                TextureManager && result.push(new TextureManager(child))
+                TextureManager && result.push(new TextureManager(child, model))
             }
         )
         return result
