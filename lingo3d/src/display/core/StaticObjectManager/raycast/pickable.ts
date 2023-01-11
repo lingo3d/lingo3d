@@ -28,24 +28,24 @@ export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
         assignPxVec_(raycaster.ray.direction),
         FAR
     )
-    if (
-        (pxHit && intersection && pxHit.distance < intersection.distance) ||
-        (pxHit && !intersection)
-    ) {
+    if (pxHit && (!intersection || pxHit.distance < intersection.distance)) {
         const manager = actorPtrManagerMap.get(pxHit.actor.ptr)!
-        const { object3d } = manager
-        if (unselectableSet.has(object3d) || !candidates.has(object3d)) return
+        if (
+            (manager.physics === "map" || manager.physics === "convex") &&
+            "loadedGroup" in manager
+        ) {
+            const { object3d } = manager
+            if (unselectableSet.has(object3d) || !candidates.has(object3d))
+                return
 
-        return {
-            point: vec2Point(pxHit.position),
-            distance: pxHit.distance * M2CM,
-            manager
+            return {
+                point: vec2Point(pxHit.position),
+                distance: pxHit.distance * M2CM,
+                manager
+            }
         }
     }
-    if (
-        (pxHit && intersection && pxHit.distance > intersection.distance) ||
-        (!pxHit && intersection)
-    )
+    if (intersection)
         return {
             point: vec2Point(intersection.point),
             distance: intersection.distance * M2CM,
