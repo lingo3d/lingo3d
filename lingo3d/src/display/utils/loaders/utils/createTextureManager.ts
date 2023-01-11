@@ -1,5 +1,5 @@
 import { Point, rad2Deg } from "@lincode/math"
-import { BufferGeometry, Mesh, MeshStandardMaterial } from "three"
+import { BufferGeometry, Color, Mesh, MeshStandardMaterial } from "three"
 import ITexturedStandard from "../../../../interface/ITexturedStandard"
 import { equalsDefaultValue } from "../../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../../utils/debounceSystem"
@@ -37,9 +37,11 @@ type Params = [
     normalScale: number
 ]
 
+const blackColor = new Color("black")
+
 export default (standardMaterial: MeshStandardMaterial) => {
     const defaults = {
-        color: "#" + standardMaterial.color.getHexString(),
+        color: "#" + (standardMaterial.color?.getHexString() ?? "ffffff"),
         opacity: standardMaterial.opacity,
         texture: "",
         alphaMap: "",
@@ -56,7 +58,9 @@ export default (standardMaterial: MeshStandardMaterial) => {
         displacementMap: "",
         displacementScale: standardMaterial.displacementScale,
         displacementBias: standardMaterial.displacementBias,
-        emissive: !standardMaterial.emissive.equals(color.set("black")),
+        emissive: standardMaterial.emissive
+            ? !standardMaterial.emissive.equals(blackColor)
+            : false,
         emissiveIntensity: standardMaterial.emissiveIntensity,
         lightMap: "",
         lightMapIntensity: standardMaterial.lightMapIntensity,
@@ -65,7 +69,7 @@ export default (standardMaterial: MeshStandardMaterial) => {
         roughnessMap: "",
         roughness: standardMaterial.roughness,
         normalMap: "",
-        normalScale: standardMaterial.normalScale.x
+        normalScale: standardMaterial.normalScale?.x ?? 1
     }
     const defaultParams = Object.values(defaults)
 

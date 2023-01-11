@@ -47,14 +47,18 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
 
     const textureManagers = forceGet(modelTextureManagersMap, model, () => {
         const result: Array<any> = []
-        model.outerObject3d.traverse(
-            (child: Object3D | Mesh<BufferGeometry, MeshStandardMaterial>) => {
-                if (!("material" in child)) return
-                const { TextureManager } = child.material.userData
-                if (!TextureManager) return
-                result.push(new TextureManager(child))
+        model.outerObject3d.traverse((child: Object3D | Mesh) => {
+            if (!("material" in child)) return
+            if (Array.isArray(child.material)) {
+                for (const material of child.material) {
+                    const { TextureManager } = material.userData
+                    TextureManager && result.push(new TextureManager(child))
+                }
+                return
             }
-        )
+            const { TextureManager } = child.material.userData
+            TextureManager && result.push(new TextureManager(child))
+        })
         return result
     })
     for (const textureManager of textureManagers) {
