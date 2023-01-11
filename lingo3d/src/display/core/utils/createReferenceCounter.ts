@@ -4,13 +4,19 @@ const makeTuple = () =>
     <const>[new Map<string, any>(), {} as Record<string, number>]
 
 export default <T, Params = Array<any> | ReadonlyArray<any>>(
-    factory: (ClassVal: Class<T>, params: Params) => T
+    factory: (ClassVal: Class<T>, params: Params) => T,
+    VerboseConstructor?: Class<T>
 ) => {
     const classMapsMap = new WeakMap<
         Class<T>,
         [Map<string, unknown>, Record<string, number>]
     >()
     const classDefaultParamsInstanceMap = new WeakMap<Class<T>, [string, any]>()
+
+    if (VerboseConstructor)
+        setInterval(() => {
+            console.log(classMapsMap.get(VerboseConstructor)?.[0].size)
+        }, 1000)
 
     const allocateDefaultInstance = (ClassVal: Class<T>, params: Params) => {
         const instance = factory(ClassVal, params)

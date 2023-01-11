@@ -42,7 +42,7 @@ export default (standardMaterial: MeshStandardMaterial) => {
         normalMap: "",
         normalScale: standardMaterial.normalScale?.x ?? 1
     }
-    const defaultParams = Object.values(defaults)
+    const defaultParams = Object.values(defaults) as TexturedStandardParams
 
     const setMaterial = (material: any, key: string, value: any) => {
         if (value == undefined) return
@@ -62,83 +62,90 @@ export default (standardMaterial: MeshStandardMaterial) => {
         material[key] = value
     }
 
-    const [increaseCount, decreaseCount] = createReferenceCounter<
-        MeshStandardMaterial,
-        TexturedStandardParams
-    >((_, params) => {
-        const material = standardMaterial.clone()
-        setMaterial(material, "color", params[0])
-        setMaterial(material, "opacity", params[1])
-        setMaterial(
-            material,
-            "transparent",
-            params[1] !== undefined && params[1] < 1
-        )
-        setMaterial(
-            material,
-            "map",
-            getMap(params[2], params[4], params[5], params[6])
-        )
-        setMaterial(
-            material,
-            "alphaMap",
-            getMap(params[3], params[4], params[5], params[6])
-        )
-        setMaterial(material, "wireframe", params[7])
-        setMaterial(
-            material,
-            "envMap",
-            getMap(params[8], params[4], params[5], params[6])
-        )
-        setMaterial(material, "envMapIntensity", params[9])
-        setMaterial(
-            material,
-            "aoMap",
-            getMap(params[10], params[4], params[5], params[6])
-        )
-        setMaterial(material, "aoMapIntensity", params[11])
-        setMaterial(
-            material,
-            "bumpMap",
-            getMap(params[12], params[4], params[5], params[6])
-        )
-        setMaterial(material, "bumpScale", params[13])
-        setMaterial(
-            material,
-            "displacementMap",
-            getMap(params[14], params[4], params[5], params[6])
-        )
-        setMaterial(material, "displacementScale", params[15])
-        setMaterial(material, "displacementBias", params[16])
-        setMaterial(material, "emissive", params[17] ? params[0] : undefined)
-        setMaterial(material, "emissiveIntensity", params[18])
-        setMaterial(
-            material,
-            "lightMap",
-            getMap(params[19], params[4], params[5], params[6])
-        )
-        setMaterial(material, "lightMapIntensity", params[20])
-        setMaterial(
-            material,
-            "metalnessMap",
-            getMap(params[21], params[4], params[5], params[6])
-        )
-        setMaterial(material, "metalness", params[22])
-        setMaterial(
-            material,
-            "roughnessMap",
-            getMap(params[23], params[4], params[5], params[6])
-        )
-        setMaterial(material, "roughness", params[24])
-        setMaterial(
-            material,
-            "normalMap",
-            getMap(params[25], params[4], params[5], params[6])
-        )
-        setMaterial(material, "normalScale", params[26])
+    const [increaseCount, decreaseCount, allocateDefaultInstance] =
+        createReferenceCounter<MeshStandardMaterial, TexturedStandardParams>(
+            (_, params) => {
+                const material = standardMaterial.clone()
+                setMaterial(material, "color", params[0])
+                setMaterial(material, "opacity", params[1])
+                setMaterial(
+                    material,
+                    "transparent",
+                    params[1] !== undefined && params[1] < 1
+                )
+                setMaterial(
+                    material,
+                    "map",
+                    getMap(params[2], params[4], params[5], params[6])
+                )
+                setMaterial(
+                    material,
+                    "alphaMap",
+                    getMap(params[3], params[4], params[5], params[6])
+                )
+                setMaterial(material, "wireframe", params[7])
+                setMaterial(
+                    material,
+                    "envMap",
+                    getMap(params[8], params[4], params[5], params[6])
+                )
+                setMaterial(material, "envMapIntensity", params[9])
+                setMaterial(
+                    material,
+                    "aoMap",
+                    getMap(params[10], params[4], params[5], params[6])
+                )
+                setMaterial(material, "aoMapIntensity", params[11])
+                setMaterial(
+                    material,
+                    "bumpMap",
+                    getMap(params[12], params[4], params[5], params[6])
+                )
+                setMaterial(material, "bumpScale", params[13])
+                setMaterial(
+                    material,
+                    "displacementMap",
+                    getMap(params[14], params[4], params[5], params[6])
+                )
+                setMaterial(material, "displacementScale", params[15])
+                setMaterial(material, "displacementBias", params[16])
+                setMaterial(
+                    material,
+                    "emissive",
+                    params[17] ? params[0] : undefined
+                )
+                setMaterial(material, "emissiveIntensity", params[18])
+                setMaterial(
+                    material,
+                    "lightMap",
+                    getMap(params[19], params[4], params[5], params[6])
+                )
+                setMaterial(material, "lightMapIntensity", params[20])
+                setMaterial(
+                    material,
+                    "metalnessMap",
+                    getMap(params[21], params[4], params[5], params[6])
+                )
+                setMaterial(material, "metalness", params[22])
+                setMaterial(
+                    material,
+                    "roughnessMap",
+                    getMap(params[23], params[4], params[5], params[6])
+                )
+                setMaterial(material, "roughness", params[24])
+                setMaterial(
+                    material,
+                    "normalMap",
+                    getMap(params[25], params[4], params[5], params[6])
+                )
+                setMaterial(material, "normalScale", params[26])
 
-        return material
-    })
+                return material
+            },
+            MeshStandardMaterial
+        )
+
+    allocateDefaultInstance(MeshStandardMaterial, defaultParams)
 
     const refreshParamsSystem = debounceSystem((target: TextureManager) => {
         if (target.materialParamString)
