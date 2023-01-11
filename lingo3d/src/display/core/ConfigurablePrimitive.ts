@@ -13,7 +13,9 @@ const [increaseCount, decreaseCount, allocateDefaultInstance] =
 export { allocateDefaultInstance }
 
 export const refreshParamsSystem = debounceSystem(
-    (target: ConfigurablePrimitive<typeof BufferGeometry>) => {
+    <GeometryClass extends typeof BufferGeometry>(
+        target: ConfigurablePrimitive<GeometryClass>
+    ) => {
         const Geometry = getPrivateValue(target, "Geometry")
         decreaseCount(Geometry, getPrivateValue(target, "params"))
         target.object3d.geometry = increaseCount(

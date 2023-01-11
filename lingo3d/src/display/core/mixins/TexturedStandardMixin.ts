@@ -42,80 +42,88 @@ export type TexturedStandardParams = [
     normalScale: number
 ]
 
-const [increaseCount, decreaseCount] = createReferenceCounter<
-    MeshStandardMaterial,
-    TexturedStandardParams
->(
-    (_, params) =>
-        new MeshStandardMaterial(
-            filter(
-                {
-                    side: DoubleSide,
-                    color: params[0],
-                    opacity: params[1],
-                    transparent: params[1] !== undefined && params[1] < 1,
-                    map: getMap(params[2], params[4], params[5], params[6]),
-                    alphaMap: getMap(
-                        params[3],
-                        params[4],
-                        params[5],
-                        params[6]
-                    ),
-                    wireframe: params[7],
-                    envMap: getMap(params[8], params[4], params[5], params[6]),
-                    envMapIntensity: params[9],
-                    aoMap: getMap(params[10], params[4], params[5], params[6]),
-                    aoMapIntensity: params[11],
-                    bumpMap: getMap(
-                        params[12],
-                        params[4],
-                        params[5],
-                        params[6]
-                    ),
-                    bumpScale: params[13],
-                    displacementMap: getMap(
-                        params[14],
-                        params[4],
-                        params[5],
-                        params[6]
-                    ),
-                    displacementScale: params[15],
-                    displacementBias: params[16],
-                    emissive: params[17] ? params[0] : undefined,
-                    emissiveIntensity: params[18],
-                    lightMap: getMap(
-                        params[19],
-                        params[4],
-                        params[5],
-                        params[6]
-                    ),
-                    lightMapIntensity: params[20],
-                    metalnessMap: getMap(
-                        params[21],
-                        params[4],
-                        params[5],
-                        params[6]
-                    ),
-                    metalness: params[22],
-                    roughnessMap: getMap(
-                        params[23],
-                        params[4],
-                        params[5],
-                        params[6]
-                    ),
-                    roughness: params[24],
-                    normalMap: getMap(
-                        params[25],
-                        params[4],
-                        params[5],
-                        params[6]
-                    ),
-                    normalScale: new Vector2(params[26], params[26])
-                },
-                filterNotDefault
+const [increaseCount, decreaseCount, allocateDefaultInstance] =
+    createReferenceCounter<MeshStandardMaterial, TexturedStandardParams>(
+        (_, params) =>
+            new MeshStandardMaterial(
+                filter(
+                    {
+                        side: DoubleSide,
+                        color: params[0],
+                        opacity: params[1],
+                        transparent: params[1] !== undefined && params[1] < 1,
+                        map: getMap(params[2], params[4], params[5], params[6]),
+                        alphaMap: getMap(
+                            params[3],
+                            params[4],
+                            params[5],
+                            params[6]
+                        ),
+                        wireframe: params[7],
+                        envMap: getMap(
+                            params[8],
+                            params[4],
+                            params[5],
+                            params[6]
+                        ),
+                        envMapIntensity: params[9],
+                        aoMap: getMap(
+                            params[10],
+                            params[4],
+                            params[5],
+                            params[6]
+                        ),
+                        aoMapIntensity: params[11],
+                        bumpMap: getMap(
+                            params[12],
+                            params[4],
+                            params[5],
+                            params[6]
+                        ),
+                        bumpScale: params[13],
+                        displacementMap: getMap(
+                            params[14],
+                            params[4],
+                            params[5],
+                            params[6]
+                        ),
+                        displacementScale: params[15],
+                        displacementBias: params[16],
+                        emissive: params[17] ? params[0] : undefined,
+                        emissiveIntensity: params[18],
+                        lightMap: getMap(
+                            params[19],
+                            params[4],
+                            params[5],
+                            params[6]
+                        ),
+                        lightMapIntensity: params[20],
+                        metalnessMap: getMap(
+                            params[21],
+                            params[4],
+                            params[5],
+                            params[6]
+                        ),
+                        metalness: params[22],
+                        roughnessMap: getMap(
+                            params[23],
+                            params[4],
+                            params[5],
+                            params[6]
+                        ),
+                        roughness: params[24],
+                        normalMap: getMap(
+                            params[25],
+                            params[4],
+                            params[5],
+                            params[6]
+                        ),
+                        normalScale: new Vector2(params[26], params[26])
+                    },
+                    filterNotDefault
+                )
             )
-        )
-)
+    )
 
 const refreshParamsSystem = debounceSystem((target: TexturedStandardMixin) => {
     if (target.materialParamString)
@@ -142,6 +150,8 @@ const defaults = Object.fromEntries(
     ])
 )
 const defaultParams = Object.values(defaults) as TexturedStandardParams
+
+allocateDefaultInstance(MeshStandardMaterial, defaultParams)
 
 export default abstract class TexturedStandardMixin
     implements ITexturedStandard
