@@ -20,8 +20,6 @@ export default interface IObjectManager extends IPhysicsObjectManager {
     width: number
     height: number
     depth: number
-
-    innerVisible: boolean
 }
 
 export const objectManagerSchema: Required<ExtractProps<IObjectManager>> = {
@@ -38,9 +36,7 @@ export const objectManagerSchema: Required<ExtractProps<IObjectManager>> = {
 
     width: Number,
     height: Number,
-    depth: Number,
-
-    innerVisible: Boolean
+    depth: Number
 }
 hideSchema(["innerRotation"])
 
@@ -58,9 +54,7 @@ export const objectManagerDefaults = extendDefaults<IObjectManager>(
 
         width: 100,
         height: 100,
-        depth: 100,
-
-        innerVisible: true
+        depth: 100
     },
     {
         innerRotation: new Range(0, 360),

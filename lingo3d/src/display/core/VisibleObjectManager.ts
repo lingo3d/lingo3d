@@ -6,7 +6,15 @@ import ObjectManager from "./ObjectManager"
 
 abstract class VisibleObjectManager<T extends Object3D = Object3D>
     extends ObjectManager<T>
-    implements IVisibleObjectManager {}
+    implements IVisibleObjectManager
+{
+    public get innerVisible() {
+        return this.object3d.visible
+    }
+    public set innerVisible(val) {
+        this.object3d.visible = val
+    }
+}
 
 interface VisibleObjectManager<T extends Object3D = Object3D>
     extends ObjectManager<T>,

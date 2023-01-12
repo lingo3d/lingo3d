@@ -89,13 +89,6 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         this.object3d.scale.z = val * CM2M
     }
 
-    public get innerVisible() {
-        return this.object3d.visible
-    }
-    public set innerVisible(val) {
-        this.object3d.visible = val
-    }
-
     public find(
         name: string,
         hiddenFromSceneGraph?: boolean

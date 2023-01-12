@@ -11,5 +11,5 @@ export const defaultSkyLightSchema: Required<ExtractProps<IDefaultSkyLight>> = {
 
 export const defaultSkyLightDefaults = extendDefaults<IDefaultSkyLight>(
     [skyLightDefaults],
-    { y: FAR, z: FAR, intensity: 0.5 }
+    { y: FAR, z: FAR, intensity: 0.5, castShadow: true }
 )

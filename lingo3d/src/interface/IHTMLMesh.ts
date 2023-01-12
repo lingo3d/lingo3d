@@ -2,7 +2,7 @@ import IVisibleObjectManager, {
     visibleObjectManagerDefaults,
     visibleObjectManagerSchema
 } from "./IVisibleObjectManager"
-import Defaults, { extendDefaults } from "./utils/Defaults"
+import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"

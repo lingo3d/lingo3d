@@ -8,17 +8,22 @@ import { ExtractProps } from "./utils/extractProps"
 
 export default interface IVisibleObjectManager
     extends IObjectManager,
-        IVisible {}
+        IVisible {
+    innerVisible: boolean
+}
 
 export const visibleObjectManagerSchema: Required<
     ExtractProps<IVisibleObjectManager>
 > = {
     ...objectManagerSchema,
-    ...visibleSchema
+    ...visibleSchema,
+    innerVisible: Boolean
 }
 
 export const visibleObjectManagerDefaults =
     extendDefaults<IVisibleObjectManager>(
         [objectManagerDefaults, visibleDefaults],
-        {}
+        {
+            innerVisible: true
+        }
     )
