@@ -16,11 +16,9 @@ export default class Skybox extends Appendable implements ISkybox {
         pushSkyboxStack(this)
     }
 
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
+    protected override _dispose() {
+        super._dispose()
         pullSkyboxStack(this)
-        return this
     }
 
     private _texture?: string | Array<string>

@@ -33,10 +33,7 @@ export default class Appendable extends Disposable implements IAppendable {
         this._append(child)
     }
 
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
-
+    protected _dispose() {
         this._uuid !== undefined && uuidMap.delete(this._uuid)
         if (this.handles)
             for (const handle of this.handles.values()) handle.cancel()
@@ -47,7 +44,11 @@ export default class Appendable extends Disposable implements IAppendable {
 
         emitSceneGraphChange()
         emitDispose(this)
-
+    }
+    public override dispose() {
+        if (this.done) return this
+        super.dispose()
+        this._dispose()
         if (this.children) for (const child of this.children) child.dispose()
         return this
     }

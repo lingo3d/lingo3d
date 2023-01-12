@@ -39,10 +39,8 @@ export default class MeshAppendable<
             this.outerObject3d.attach(child.outerObject3d)
     }
 
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
+    protected override _dispose() {
+        super._dispose()
         this.outerObject3d.parent?.remove(this.outerObject3d)
-        return this
     }
 }

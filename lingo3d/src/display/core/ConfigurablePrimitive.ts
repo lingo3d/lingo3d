@@ -44,10 +44,8 @@ export default abstract class ConfigurablePrimitive<
         ConstructorParameters<GeometryClass>
     >
 
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
+    protected override _dispose() {
+        super._dispose()
         decreaseCount(this.Geometry, this.params)
-        return this
     }
 }

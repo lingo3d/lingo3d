@@ -86,11 +86,9 @@ export default class Audio
         ])
     }
 
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
+    protected override _dispose() {
+        super._dispose()
         this.outerObject3d.buffer && this.outerObject3d.disconnect()
-        return this
     }
 
     public play() {

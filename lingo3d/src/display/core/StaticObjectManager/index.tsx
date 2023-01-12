@@ -78,11 +78,9 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     extends MeshAppendable<T>
     implements IStaticObjectManager
 {
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
+    protected override _dispose() {
+        super._dispose()
         this._id !== undefined && idMap.get(this._id)!.delete(this)
-        return this
     }
 
     protected _id?: string

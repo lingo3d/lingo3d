@@ -18,12 +18,10 @@ class Setup extends Appendable {
         setup = this
     }
 
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
+    protected override _dispose() {
+        super._dispose()
         setup = undefined
         Object.assign(setupStruct, setupStructDefaults)
-        return this
     }
 }
 for (const key of Object.keys(setupSchema))

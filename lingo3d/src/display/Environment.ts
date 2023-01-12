@@ -38,11 +38,9 @@ export default class Environment
         }, [getCameraRendered, this.helperState.get])
     }
 
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
+    protected override _dispose() {
+        super._dispose()
         pullEnvironmentStack(this)
-        return this
     }
 
     private _texture?: string | EnvironmentPreset | "dynamic" = "studio"

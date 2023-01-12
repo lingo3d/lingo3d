@@ -26,12 +26,10 @@ export default class DefaultSkyLight
         setDefaultLight(true)
     }
 
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
+    protected override _dispose() {
+        super._dispose()
         defaultSkyLight = undefined
         setDefaultLight(false)
-        return this
     }
 }
 
