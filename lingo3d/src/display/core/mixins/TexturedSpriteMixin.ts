@@ -1,6 +1,6 @@
 import { Point } from "@lincode/math"
 import { filter } from "@lincode/utils"
-import { DoubleSide, SpriteMaterial } from "three"
+import { DoubleSide, Sprite, SpriteMaterial } from "three"
 import ITexturedBasic, {
     texturedBasicDefaults,
     texturedBasicSchema
@@ -48,7 +48,7 @@ const [increaseCount, decreaseCount] = createInstancePool<
         )
 )
 
-const refreshParamsSystem = debounceSystem((target: TexturedBasicMixin) => {
+const refreshParamsSystem = debounceSystem((target: TexturedSpriteMixin) => {
     if (target.materialParamString)
         decreaseCount(SpriteMaterial, target.materialParamString)
     else {
@@ -74,13 +74,13 @@ const defaults = Object.fromEntries(
 )
 const defaultParams = Object.values(defaults) as Params
 
-export default abstract class TexturedBasicMixin implements ITexturedBasic {
+export default abstract class TexturedSpriteMixin implements ITexturedBasic {
+    public declare object3d: Sprite
+
     public get material() {
-        //@ts-ignore
         return this.object3d.material
     }
-    public set material(val: SpriteMaterial) {
-        //@ts-ignore
+    public set material(val) {
         this.object3d.material = val
     }
 

@@ -5,7 +5,6 @@ import IFoundManager, {
     foundManagerSchema
 } from "../../interface/IFoundManager"
 import Model from "../Model"
-import IVisible from "../../interface/IVisible"
 import VisibleMixin from "./mixins/VisibleMixin"
 import SimpleObjectManager from "./SimpleObjectManager"
 import callPrivateMethod from "../../utils/callPrivateMethod"
@@ -74,6 +73,9 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         return super.addToRaycastSet(set)
     }
 }
-interface FoundManager extends SimpleObjectManager, TextureManager, IVisible {}
+interface FoundManager
+    extends SimpleObjectManager,
+        TextureManager,
+        VisibleMixin {}
 applyMixins(FoundManager, [VisibleMixin, TextureManager])
 export default FoundManager

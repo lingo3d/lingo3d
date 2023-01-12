@@ -1,6 +1,8 @@
 import { applyMixins } from "@lincode/utils"
 import { Mesh, BufferGeometry } from "three"
-import TexturedStandardMixin from "./mixins/TexturedStandardMixin"
+import TexturedStandardMixin, {
+    StandardMesh
+} from "./mixins/TexturedStandardMixin"
 import IPrimitive, {
     primitiveDefaults,
     primitiveSchema
@@ -9,7 +11,7 @@ import { standardMaterial } from "../utils/reusables"
 import VisibleObjectManager from "./VisibleObjectManager"
 
 abstract class Primitive
-    extends VisibleObjectManager<Mesh>
+    extends VisibleObjectManager<StandardMesh>
     implements IPrimitive
 {
     public static defaults = primitiveDefaults
@@ -22,6 +24,8 @@ abstract class Primitive
         super(mesh)
     }
 }
-interface Primitive extends VisibleObjectManager<Mesh>, TexturedStandardMixin {}
+interface Primitive
+    extends VisibleObjectManager<StandardMesh>,
+        TexturedStandardMixin {}
 applyMixins(Primitive, [TexturedStandardMixin])
 export default Primitive

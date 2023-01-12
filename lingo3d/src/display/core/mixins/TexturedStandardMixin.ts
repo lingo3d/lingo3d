@@ -1,6 +1,12 @@
 import { Point } from "@lincode/math"
 import { filter } from "@lincode/utils"
-import { DoubleSide, MeshStandardMaterial, Vector2 } from "three"
+import {
+    BufferGeometry,
+    DoubleSide,
+    Mesh,
+    MeshStandardMaterial,
+    Vector2
+} from "three"
 import ITexturedStandard, {
     texturedStandardDefaults,
     texturedStandardSchema
@@ -164,15 +170,17 @@ allocateDefaultInstance(
     standardMaterial
 )
 
+export type StandardMesh = Mesh<BufferGeometry, MeshStandardMaterial>
+
 export default abstract class TexturedStandardMixin
     implements ITexturedStandard
 {
+    public declare object3d: StandardMesh
+
     public get material() {
-        //@ts-ignore
         return this.object3d.material
     }
     public set material(val: MeshStandardMaterial) {
-        //@ts-ignore
         this.object3d.material = val
     }
 

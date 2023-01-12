@@ -19,9 +19,10 @@ import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
 import { getPhysX } from "../../states/usePhysX"
 import cookConvexGeometry from "./PhysicsObjectManager/physx/cookConvexGeometry"
 import cookTrimeshGeometry from "./PhysicsObjectManager/physx/cookTrimeshGeometry"
+import { StandardMesh } from "./mixins/TexturedStandardMixin"
 
 export default abstract class Loaded<T = Object3D>
-    extends VisibleObjectManager<Mesh>
+    extends VisibleObjectManager<StandardMesh>
     implements ILoaded
 {
     public loadedGroup = new Group()

@@ -1,6 +1,5 @@
 import {
     Box3,
-    MeshBasicMaterial,
     Quaternion,
     Vector3,
     Ray,
@@ -39,5 +38,5 @@ export const matrix4 = new Matrix4()
 
 export const color = new Color()
 
-export const wireframeMaterial = new MeshBasicMaterial({ wireframe: true })
+export const wireframeMaterial = new MeshStandardMaterial({ wireframe: true })
 export const standardMaterial = new MeshStandardMaterial({ side: DoubleSide })

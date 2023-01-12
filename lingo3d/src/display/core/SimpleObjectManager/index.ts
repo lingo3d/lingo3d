@@ -371,6 +371,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.userData.onRotateControl = cb
     }
 }
+//@ts-ignore
 interface SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>,
         PositionedManager<T> {}
