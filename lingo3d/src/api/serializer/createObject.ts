@@ -27,6 +27,7 @@ import AmbientLight from "../../display/lights/AmbientLight"
 import AreaLight from "../../display/lights/AreaLight"
 import DirectionalLight from "../../display/lights/DirectionalLight"
 import SkyLight from "../../display/lights/SkyLight"
+import DefaultSkyLight from "../../display/lights/DefaultSkyLight"
 import PointLight from "../../display/lights/PointLight"
 import SpotLight from "../../display/lights/SpotLight"
 import Group from "../../display/Group"
@@ -72,6 +73,7 @@ const record = {
     areaLight: () => new AreaLight(),
     directionalLight: () => new DirectionalLight(),
     skyLight: () => new SkyLight(),
+    defaultSkyLight: () => new DefaultSkyLight(),
     pointLight: () => new PointLight(),
     spotLight: () => new SpotLight(),
     circle: () => new Circle(),

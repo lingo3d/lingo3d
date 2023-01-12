@@ -44,6 +44,7 @@ import AmbientLight from "./display/lights/AmbientLight"
 import AreaLight from "./display/lights/AreaLight"
 import DirectionalLight from "./display/lights/DirectionalLight"
 import SkyLight from "./display/lights/SkyLight"
+import DefaultSkyLight from "./display/lights/DefaultSkyLight"
 import PointLight from "./display/lights/PointLight"
 import SpotLight from "./display/lights/SpotLight"
 
@@ -130,6 +131,7 @@ export {
     AreaLight,
     DirectionalLight,
     SkyLight,
+    DefaultSkyLight,
     PointLight,
     SpotLight,
     Keyboard,

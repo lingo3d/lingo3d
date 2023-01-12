@@ -1,18 +1,17 @@
-import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { EquirectangularReflectionMapping } from "three"
 import Environment from "../display/Environment"
 import loadTexture from "../display/utils/loaders/loadTexture"
-import { FAR, TEXTURES_URL } from "../globals"
+import { TEXTURES_URL } from "../globals"
 import { environmentPreset } from "../interface/IEnvironment"
-import { getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
+import { getDefaultLight } from "../states/useDefaultLight"
 import { getEnvironment } from "../states/useEnvironment"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import { getRenderer } from "../states/useRenderer"
 import scene from "./scene"
-import { appendableRoot, uuidMap } from "../api/core/collections"
+import { appendableRoot } from "../api/core/collections"
 import unsafeGetValue from "../utils/unsafeGetValue"
-import { forceGet } from "@lincode/utils"
+import("../display/lights/DefaultSkyLight")
 
 const defaultEnvironment = new Environment()
 defaultEnvironment.texture = undefined
@@ -43,30 +42,6 @@ createEffect(() => {
         scene.environment = null
     }
 }, [getEnvironmentStack, getRenderer])
-
-const defaultSkyLightUUID = "zDDAyoqedTCfVphSAIejf"
-
-createEffect(() => {
-    const defaultLight = getDefaultLight()
-    if (!defaultLight || typeof defaultLight === "string") return
-
-    const handle = new Cancellable()
-    import("../display/lights/SkyLight").then(({ default: SkyLight }) => {
-        forceGet(uuidMap, defaultSkyLightUUID, () => {
-            const light = new SkyLight()
-            light.uuid = defaultSkyLightUUID
-            light.name = "defaultSkyLight"
-            light.y = FAR
-            light.z = FAR
-            handle.then(() => light.dispose())
-            light.then(() => setDefaultLight(false))
-            return light
-        })
-    })
-    return () => {
-        handle.cancel()
-    }
-}, [getDefaultLight])
 
 createEffect(() => {
     const defaultLight = getDefaultLight()

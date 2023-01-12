@@ -24,6 +24,7 @@ export type GameObjectType =
     | "areaLight"
     | "directionalLight"
     | "skyLight"
+    | "defaultSkyLight"
     | "pointLight"
     | "spotLight"
     | "camera"
