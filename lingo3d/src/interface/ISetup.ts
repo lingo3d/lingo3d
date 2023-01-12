@@ -51,7 +51,7 @@ hideSchema(["antiAlias", "pixelRatio", "gravity", "pbr", "ssaoIntensity"])
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],
-    { ...setupStruct, defaultLight: true },
+    { ...setupStruct },
     {
         pixelRatio: new Range(1, 2, 1),
         fps: new Range(30, 60, 30),
