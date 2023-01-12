@@ -49,7 +49,7 @@ const mapCSMOptions = (
     }
 }
 
-export default class Skylight
+export default class SkyLight
     extends LightBase<typeof HemisphereLight>
     implements ISkyLight
 {
