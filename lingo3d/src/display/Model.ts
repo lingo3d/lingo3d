@@ -1,9 +1,12 @@
 import {
     BufferGeometry,
+    CubeCamera,
     Group,
     Mesh,
     MeshStandardMaterial,
-    Object3D
+    Object3D,
+    Texture,
+    WebGLCubeRenderTarget
 } from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
@@ -20,14 +23,19 @@ import {
 import { forceGet } from "@lincode/utils"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import debounceSystem from "../utils/debounceSystem"
-import ITextureManager from "../interface/ITextureManager"
 import unsafeSetValue from "../utils/unsafeSetValue"
+import { NEAR } from "../globals"
+import {
+    pushReflectionPairs,
+    pullReflectionPairs
+} from "../states/useReflectionPairs"
+import TextureManager from "./core/TextureManager"
 
-const modelTextureManagersMap = new WeakMap<Model, Array<ITextureManager>>()
+const modelTextureManagersMap = new WeakMap<Model, Array<TextureManager>>()
 
 const setFactor = (
     factor: number | undefined,
-    textureManager: ITextureManager,
+    textureManager: TextureManager,
     key: string
 ) =>
     unsafeSetValue(
@@ -47,8 +55,23 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
         reflection
     } = model
 
+    let reflectionTexture: Texture | undefined
+    if (reflection) {
+        const cubeRenderTarget = new WebGLCubeRenderTarget(256)
+        reflectionTexture = cubeRenderTarget.texture
+        const cubeCamera = new CubeCamera(NEAR, 10, cubeRenderTarget)
+        const pair: [Model, CubeCamera] = [model, cubeCamera]
+        pushReflectionPairs(pair)
+        console.log(reflectionTexture.uuid)
+        // handle.then(() => {
+        //     cubeRenderTarget.dispose()
+        //     reflectionTexture = undefined
+        //     pullReflectionPairs(pair)
+        // })
+    }
+
     const textureManagers = forceGet(modelTextureManagersMap, model, () => {
-        const result: Array<ITextureManager> = []
+        const result: Array<TextureManager> = []
         model.outerObject3d.traverse(
             (child: Object3D | Mesh<BufferGeometry, MeshStandardMaterial>) => {
                 if (!("material" in child)) return
@@ -63,6 +86,7 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
         setFactor(roughnessFactor, textureManager, "roughness")
         setFactor(opacityFactor, textureManager, "opacity")
         setFactor(envFactor, textureManager, "envMapIntensity")
+        textureManager.envMap = reflectionTexture?.uuid
     }
 })
 

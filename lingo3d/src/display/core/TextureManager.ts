@@ -1,6 +1,6 @@
 import { Point } from "@lincode/math"
 import { MeshStandardMaterial } from "three"
-import ITextureManager from "../../interface/ITextureManager"
+import ITexturedStandard from "../../interface/ITexturedStandard"
 import { color } from "../utils/reusables"
 import {
     standardDefaultParams,
@@ -8,7 +8,7 @@ import {
     StandardParams
 } from "./mixins/TexturedStandardMixin"
 
-export default abstract class TextureManager implements ITextureManager {
+export default abstract class TextureManager implements ITexturedStandard {
     public defaults = standardDefaults
     public defaultParams = standardDefaultParams
     public refreshParamsSystem(_: TextureManager) {}

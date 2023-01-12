@@ -28,6 +28,8 @@ export default (
     textureFlipY: boolean,
     textureRotation: number
 ) => {
+    if (!texture) return
+
     if (texture[0] === "#" || texture[0] === ".")
         return initMap(
             loadVideoTexture(texture),
