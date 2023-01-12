@@ -1,31 +1,9 @@
 import setupStruct from "../engine/setupStruct"
 import ISetup, { setupSchema } from "../interface/ISetup"
-import { AutoMount, getAutoMount, setAutoMount } from "../states/useAutoMount"
-import {
-    getFirstLoadBeforeRender,
-    setFirstLoadBeforeRender
-} from "../states/useFirstLoadBeforeRender"
 import { refreshSetupStack } from "../states/useSetupStack"
 import unsafeGetValue from "../utils/unsafeGetValue"
 
-const settings: Partial<ISetup> & {
-    autoMount: AutoMount
-    firstLoadBeforeRender: boolean
-} = {
-    get autoMount() {
-        return getAutoMount()
-    },
-    set autoMount(value) {
-        setAutoMount(value)
-    },
-
-    get firstLoadBeforeRender() {
-        return getFirstLoadBeforeRender()
-    },
-    set firstLoadBeforeRender(value) {
-        setFirstLoadBeforeRender(value)
-    }
-}
+const settings: Partial<ISetup> = {}
 export default settings
 
 export const finalSetup: Record<string, any> = {}

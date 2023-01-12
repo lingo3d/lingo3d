@@ -19,6 +19,8 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     gridHelper: Boolean,
     gridHelperSize: Number,
     stats: Boolean,
+    autoMount: [String, Boolean, Object],
+    firstLoadBeforeRender: Boolean,
     gravity: Number,
     antiAlias: [Boolean, String],
     logarithmicDepth: Boolean,
@@ -47,7 +49,15 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     texture: String,
     color: String
 }
-hideSchema(["antiAlias", "pixelRatio", "gravity", "pbr", "ssaoIntensity"])
+hideSchema([
+    "antiAlias",
+    "pixelRatio",
+    "gravity",
+    "pbr",
+    "ssaoIntensity",
+    "autoMount",
+    "firstLoadBeforeRender"
+])
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],
