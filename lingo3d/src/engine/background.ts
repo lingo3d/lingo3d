@@ -6,7 +6,7 @@ import loadTexture from "../display/utils/loaders/loadTexture"
 import { getBackgroundColor } from "../states/useBackgroundColor"
 import { getBackgroundImage } from "../states/useBackgroundImage"
 import { getSkyboxStack } from "../states/useSkyboxStack"
-import { mapEnvironmentPreset } from "./defaultLight"
+import { environmentToUrl } from "./defaultLight"
 
 createEffect(() => {
     const image = getBackgroundImage()
@@ -18,7 +18,7 @@ createEffect(() => {
         else {
             let proceed = true
             const texture = loadTexture(
-                mapEnvironmentPreset(skybox),
+                environmentToUrl(skybox),
                 () => proceed && (scene.background = texture)
             )
             texture.mapping = EquirectangularReflectionMapping

@@ -19,7 +19,7 @@ defaultEnvironment.texture = undefined
 defaultEnvironment.helper = false
 appendableRoot.delete(defaultEnvironment)
 
-export const mapEnvironmentPreset = (value: string) =>
+export const environmentToUrl = (value: string) =>
     value in environmentPreset
         ? TEXTURES_URL + unsafeGetValue(environmentPreset, value)
         : value
@@ -33,7 +33,7 @@ createEffect(() => {
 
     let proceed = true
     const texture = loadTexture(
-        mapEnvironmentPreset(environment.texture),
+        environmentToUrl(environment.texture),
         () => proceed && (scene.environment = texture)
     )
     texture.mapping = EquirectangularReflectionMapping
