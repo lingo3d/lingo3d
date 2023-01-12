@@ -73,7 +73,8 @@ export default (standardMaterial: MeshStandardMaterial) => {
                 setMaterial(
                     material,
                     "transparent",
-                    params[1] !== undefined && params[1] < 1
+                    standardMaterial.transparent ||
+                        (params[1] !== undefined && params[1] < 1)
                 )
                 setMaterial(
                     material,
