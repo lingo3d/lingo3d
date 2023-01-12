@@ -9,6 +9,7 @@ import { MONITOR_INTERVAL } from "../../globals"
 import { emitEditorEdit } from "../../events/onEditorEdit"
 import toFixed, { toFixedPoint } from "../../api/serializer/toFixed"
 import { timer } from "../../engine/eventLoop"
+import settings from "../../api/settings"
 
 let skipApply = false
 let leading = true
@@ -86,7 +87,9 @@ export default async (
 
             resetButton.onclick = () => {
                 params[key] = structuredClone(paramsDefault[key])
-                target[key] = structuredClone(getDefaultValue(defaults, key))
+                target[key] = structuredClone(
+                    getDefaultValue(defaults, key, target === settings)
+                )
                 skipApplyValue()
                 input.refresh()
             }
