@@ -30,6 +30,7 @@
         "@types/three": "0.148.0",
         "@ungap/structured-clone": "^1.0.1",
         "browser-fs-access": "0.31.1",
+        "lingo3d-forest": "^1.0.0",
         "nanoid": "^4.0.0",
         "nipplejs": "0.10.0",
         "physx-js-webidl": "^2.0.4",

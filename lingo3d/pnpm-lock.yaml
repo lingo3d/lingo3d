@@ -18,6 +18,7 @@ specifiers:
   '@ungap/structured-clone': ^1.0.1
   browser-fs-access: 0.31.1
   lil-gui: ^0.17.0
+  lingo3d-forest: ^1.0.0
   nanoid: ^4.0.0
   nipplejs: 0.10.0
   object-sizeof: ^1.6.3
@@ -46,6 +47,7 @@ dependencies:
   '@types/three': 0.148.0
   '@ungap/structured-clone': 1.0.1
   browser-fs-access: 0.31.1
+  lingo3d-forest: 1.0.0
   nanoid: 4.0.0
   nipplejs: 0.10.0
   physx-js-webidl: 2.0.4
@@ -958,6 +960,10 @@ packages:
   /lil-gui/0.17.0:
     resolution: {integrity: sha512-MVBHmgY+uEbmJNApAaPbtvNh1RCAeMnKym82SBjtp5rODTYKWtM+MXHCifLe2H2Ti1HuBGBtK/5SyG4ShQ3pUQ==}
     dev: true
+
+  /lingo3d-forest/1.0.0:
+    resolution: {integrity: sha512-s0KcCYw64Eix0mr3qSq1lFIGdZVdDSoU2OdUpzA9eN39/XYE3/6eu8xTX5ZwRqAi97O1xwGEjIpXd05MwEowgg==}
+    dev: false
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
