@@ -12,7 +12,6 @@ type Type = typeof setupStruct
 export default interface ISetup extends Type {}
 
 export const setupSchema: Required<ExtractProps<ISetup>> = {
-    defaultShadow: Boolean,
     defaultLight: [String, Boolean],
     environment: String,
     skybox: [String, Array],

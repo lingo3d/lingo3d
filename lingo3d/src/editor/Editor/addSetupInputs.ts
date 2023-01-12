@@ -40,7 +40,6 @@ export default (
         "skybox",
         "texture",
         "color",
-        "defaultShadow",
         "shadowResolution",
         "shadowDistance"
     ])

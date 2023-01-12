@@ -59,6 +59,7 @@ export default class Skylight
 
     public constructor() {
         super(HemisphereLight)
+        this.intensity = 0.5
 
         this.createEffect(() => {
             if (!this.castShadowState.get()) {

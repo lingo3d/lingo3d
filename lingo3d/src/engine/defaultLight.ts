@@ -5,7 +5,6 @@ import Environment from "../display/Environment"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import { FAR, TEXTURES_URL } from "../globals"
 import { environmentPreset } from "../interface/IEnvironment"
-import { getDefaultShadow } from "../states/useDefaultShadow"
 import { getDefaultLight } from "../states/useDefaultLight"
 import { getEnvironment } from "../states/useEnvironment"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
@@ -53,11 +52,9 @@ createEffect(() => {
         const SkyLight = module.default
         const light = new SkyLight()
         light.helper = false
-        light.intensity = 0.5
         light.y = FAR
         light.z = FAR
-        appendableRoot.delete(light)
-        handle.watch(getDefaultShadow((val) => (light.castShadow = val)))
+        light.name = "defaultSkyLight"
         handle.then(() => light.dispose())
     })
     return () => {
