@@ -10,7 +10,7 @@ import debounceSystem from "../../../utils/debounceSystem"
 import { color, standardMaterial } from "../../utils/reusables"
 import createInstancePool from "../utils/createInstancePool"
 import filterNotDefault from "./utils/filterNotDefault"
-import getMap from "./utils/getMap"
+import createMap from "./utils/createMap"
 
 export type StandardParams = [
     color: string,
@@ -52,36 +52,41 @@ const [increaseCount, decreaseCount, allocateDefaultInstance] =
                         color: params[0],
                         opacity: params[1],
                         transparent: params[1] !== undefined && params[1] < 1,
-                        map: getMap(params[2], params[4], params[5], params[6]),
-                        alphaMap: getMap(
+                        map: createMap(
+                            params[2],
+                            params[4],
+                            params[5],
+                            params[6]
+                        ),
+                        alphaMap: createMap(
                             params[3],
                             params[4],
                             params[5],
                             params[6]
                         ),
                         wireframe: params[7],
-                        envMap: getMap(
+                        envMap: createMap(
                             params[8],
                             params[4],
                             params[5],
                             params[6]
                         ),
                         envMapIntensity: params[9],
-                        aoMap: getMap(
+                        aoMap: createMap(
                             params[10],
                             params[4],
                             params[5],
                             params[6]
                         ),
                         aoMapIntensity: params[11],
-                        bumpMap: getMap(
+                        bumpMap: createMap(
                             params[12],
                             params[4],
                             params[5],
                             params[6]
                         ),
                         bumpScale: params[13],
-                        displacementMap: getMap(
+                        displacementMap: createMap(
                             params[14],
                             params[4],
                             params[5],
@@ -91,28 +96,28 @@ const [increaseCount, decreaseCount, allocateDefaultInstance] =
                         displacementBias: params[16],
                         emissive: params[17] ? params[0] : undefined,
                         emissiveIntensity: params[18],
-                        lightMap: getMap(
+                        lightMap: createMap(
                             params[19],
                             params[4],
                             params[5],
                             params[6]
                         ),
                         lightMapIntensity: params[20],
-                        metalnessMap: getMap(
+                        metalnessMap: createMap(
                             params[21],
                             params[4],
                             params[5],
                             params[6]
                         ),
                         metalness: params[22],
-                        roughnessMap: getMap(
+                        roughnessMap: createMap(
                             params[23],
                             params[4],
                             params[5],
                             params[6]
                         ),
                         roughness: params[24],
-                        normalMap: getMap(
+                        normalMap: createMap(
                             params[25],
                             params[4],
                             params[5],

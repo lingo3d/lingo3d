@@ -3,7 +3,7 @@ import { BufferGeometry, Color, Mesh, MeshStandardMaterial } from "three"
 import { equalsDefaultValue } from "../../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../../utils/debounceSystem"
 import { StandardParams } from "../../../core/mixins/TexturedStandardMixin"
-import getMap from "../../../core/mixins/utils/getMap"
+import createMap from "../../../core/mixins/utils/createMap"
 import TextureManager from "../../../core/TextureManager"
 import createInstancePool from "../../../core/utils/createInstancePool"
 import Model from "../../../Model"
@@ -78,36 +78,36 @@ export default (standardMaterial: MeshStandardMaterial) => {
                 setMaterial(
                     material,
                     "map",
-                    getMap(params[2], params[4], params[5], params[6])
+                    createMap(params[2], params[4], params[5], params[6])
                 )
                 setMaterial(
                     material,
                     "alphaMap",
-                    getMap(params[3], params[4], params[5], params[6])
+                    createMap(params[3], params[4], params[5], params[6])
                 )
                 setMaterial(material, "wireframe", params[7])
                 setMaterial(
                     material,
                     "envMap",
-                    getMap(params[8], params[4], params[5], params[6])
+                    createMap(params[8], params[4], params[5], params[6])
                 )
                 setMaterial(material, "envMapIntensity", params[9])
                 setMaterial(
                     material,
                     "aoMap",
-                    getMap(params[10], params[4], params[5], params[6])
+                    createMap(params[10], params[4], params[5], params[6])
                 )
                 setMaterial(material, "aoMapIntensity", params[11])
                 setMaterial(
                     material,
                     "bumpMap",
-                    getMap(params[12], params[4], params[5], params[6])
+                    createMap(params[12], params[4], params[5], params[6])
                 )
                 setMaterial(material, "bumpScale", params[13])
                 setMaterial(
                     material,
                     "displacementMap",
-                    getMap(params[14], params[4], params[5], params[6])
+                    createMap(params[14], params[4], params[5], params[6])
                 )
                 setMaterial(material, "displacementScale", params[15])
                 setMaterial(material, "displacementBias", params[16])
@@ -120,25 +120,25 @@ export default (standardMaterial: MeshStandardMaterial) => {
                 setMaterial(
                     material,
                     "lightMap",
-                    getMap(params[19], params[4], params[5], params[6])
+                    createMap(params[19], params[4], params[5], params[6])
                 )
                 setMaterial(material, "lightMapIntensity", params[20])
                 setMaterial(
                     material,
                     "metalnessMap",
-                    getMap(params[21], params[4], params[5], params[6])
+                    createMap(params[21], params[4], params[5], params[6])
                 )
                 setMaterial(material, "metalness", params[22])
                 setMaterial(
                     material,
                     "roughnessMap",
-                    getMap(params[23], params[4], params[5], params[6])
+                    createMap(params[23], params[4], params[5], params[6])
                 )
                 setMaterial(material, "roughness", params[24])
                 setMaterial(
                     material,
                     "normalMap",
-                    getMap(params[25], params[4], params[5], params[6])
+                    createMap(params[25], params[4], params[5], params[6])
                 )
                 setMaterial(material, "normalScale", params[26])
 

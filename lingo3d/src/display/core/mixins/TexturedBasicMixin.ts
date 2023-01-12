@@ -10,7 +10,7 @@ import debounceSystem from "../../../utils/debounceSystem"
 import { color } from "../../utils/reusables"
 import createInstancePool from "../utils/createInstancePool"
 import filterNotDefault from "./utils/filterNotDefault"
-import getMap from "./utils/getMap"
+import createMap from "./utils/createMap"
 
 type Params = [
     color: string,
@@ -35,8 +35,13 @@ const [increaseCount, decreaseCount] = createInstancePool<
                     opacity: params[1],
                     transparent: true,
                     // transparent: params[1] !== undefined && params[1] < 1,
-                    map: getMap(params[2], params[4], params[5], params[6]),
-                    alphaMap: getMap(params[3], params[4], params[5], params[6])
+                    map: createMap(params[2], params[4], params[5], params[6]),
+                    alphaMap: createMap(
+                        params[3],
+                        params[4],
+                        params[5],
+                        params[6]
+                    )
                 },
                 filterNotDefault
             )
