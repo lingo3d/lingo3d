@@ -30,6 +30,7 @@ import {
     pullReflectionPairs
 } from "../states/useReflectionPairs"
 import TextureManager from "./core/TextureManager"
+import { uuidTextureMap } from "./core/mixins/utils/createMap"
 
 const modelTextureManagersMap = new WeakMap<Model, Array<TextureManager>>()
 
@@ -46,7 +47,11 @@ const setFactor = (
             : Math.max(textureManager.defaults[key], 0.25) * factor
     )
 
+let resolvable = new Resolvable()
 const refreshFactorsSystem = debounceSystem((model: Model) => {
+    resolvable.resolve()
+    resolvable = new Resolvable()
+
     const {
         metalnessFactor,
         roughnessFactor,
@@ -62,12 +67,13 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
         const cubeCamera = new CubeCamera(NEAR, 10, cubeRenderTarget)
         const pair: [Model, CubeCamera] = [model, cubeCamera]
         pushReflectionPairs(pair)
-        console.log(reflectionTexture.uuid)
-        // handle.then(() => {
-        //     cubeRenderTarget.dispose()
-        //     reflectionTexture = undefined
-        //     pullReflectionPairs(pair)
-        // })
+        uuidTextureMap.set(reflectionTexture.uuid, reflectionTexture)
+
+        resolvable.then(() => {
+            cubeRenderTarget.dispose()
+            pullReflectionPairs(pair)
+            uuidTextureMap.delete(reflectionTexture!.uuid)
+        })
     }
 
     const textureManagers = forceGet(modelTextureManagersMap, model, () => {

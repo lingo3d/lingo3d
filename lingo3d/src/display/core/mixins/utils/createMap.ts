@@ -4,6 +4,8 @@ import { Texture } from "three"
 import loadTexture from "../../../utils/loaders/loadTexture"
 import loadVideoTexture from "../../../utils/loaders/loadVideoTexture"
 
+export const uuidTextureMap = new Map<string, Texture>()
+
 const initMap = (
     map: Texture,
     textureRepeat: number | Point,
@@ -29,6 +31,8 @@ export default (
     textureRotation: number
 ) => {
     if (!texture) return
+
+    if (uuidTextureMap.has(texture)) return uuidTextureMap.get(texture)
 
     if (texture[0] === "#" || texture[0] === ".")
         return initMap(
