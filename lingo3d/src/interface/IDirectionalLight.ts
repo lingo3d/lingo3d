@@ -18,11 +18,11 @@ export const directionalLightSchema: Required<ExtractProps<IDirectionalLight>> =
 
 export const shadowDistanceChoices = new Choices({
     near: "near",
-    middle: "middle",
+    medium: "medium",
     far: "far"
 })
 export const directionalLightDefaults = extendDefaults<IDirectionalLight>(
     [lightBaseDefaults],
-    { shadowDistance: new NullableDefault("middle") },
+    { shadowDistance: new NullableDefault("medium") },
     { shadowDistance: shadowDistanceChoices }
 )

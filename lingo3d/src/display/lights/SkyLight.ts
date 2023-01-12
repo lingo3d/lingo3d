@@ -32,7 +32,7 @@ const mapCSMOptions = (
                 shadowMapSize: mapShadowResolution(shadowResolution) * 2,
                 shadowBias: -0.000025
             }
-        case "middle":
+        case "medium":
             return {
                 maxFar: 30,
                 shadowMapSize: mapShadowResolution(shadowResolution) * 2,

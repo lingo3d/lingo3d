@@ -41,7 +41,7 @@ const mapShadowDistance = (val: ShadowDistance) => {
     switch (val) {
         case "near":
             return 1000
-        case "middle":
+        case "medium":
             return 3000
         case "far":
             return 10000
