@@ -1,10 +1,9 @@
-import { createEffect } from "@lincode/reactivity"
 import { FAR } from "../../globals"
 import IDefaultSkyLight, {
     defaultSkyLightDefaults,
     defaultSkyLightSchema
 } from "../../interface/IDefaultSkyLight"
-import { getDefaultLight } from "../../states/useDefaultLight"
+import { setDefaultLight, getDefaultLight } from "../../states/useDefaultLight"
 import SkyLight from "./SkyLight"
 
 let defaultSkyLight: DefaultSkyLight | undefined
@@ -23,16 +22,19 @@ export default class DefaultSkyLight
         this.z = FAR
         defaultSkyLight?.dispose()
         defaultSkyLight = this
+        setDefaultLight(true)
+    }
+
+    public override dispose() {
+        if (this.done) return this
+        super.dispose()
+        defaultSkyLight = undefined
+        setDefaultLight(false)
+        return this
     }
 }
 
-createEffect(() => {
-    const defaultLight = getDefaultLight()
-    if (!defaultLight) return
-
-    const light = new DefaultSkyLight()
-
-    return () => {
-        light.dispose()
-    }
-}, [getDefaultLight])
+getDefaultLight((val) => {
+    if (val) new DefaultSkyLight()
+    else defaultSkyLight?.dispose()
+})

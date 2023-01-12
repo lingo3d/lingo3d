@@ -12,7 +12,7 @@ type Type = typeof setupStruct
 export default interface ISetup extends Type {}
 
 export const setupSchema: Required<ExtractProps<ISetup>> = {
-    defaultLight: [String, Boolean],
+    defaultLight: Boolean,
     environment: String,
     skybox: [String, Array],
     uiLayer: Boolean,
@@ -51,15 +51,8 @@ hideSchema(["antiAlias", "pixelRatio", "gravity", "pbr", "ssaoIntensity"])
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],
-    { ...setupStruct },
+    { ...setupStruct, defaultLight: true },
     {
-        defaultLight: new Choices({
-            true: true,
-            false: false,
-            studio: "studio",
-            day: "day",
-            night: "night"
-        }),
         pixelRatio: new Range(1, 2, 1),
         fps: new Range(30, 60, 30),
         exposure: new Range(0, 2),
