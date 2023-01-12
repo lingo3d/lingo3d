@@ -2,6 +2,7 @@ import {
     BufferGeometry,
     CubeCamera,
     Group,
+    HalfFloatType,
     Mesh,
     MeshStandardMaterial,
     Object3D,
@@ -31,7 +32,6 @@ import {
 } from "../states/useReflectionPairs"
 import TextureManager from "./core/TextureManager"
 import { uuidTextureMap } from "./core/mixins/utils/createMap"
-import Plane from "./primitives/Plane"
 
 const modelTextureManagersMap = new WeakMap<Model, Array<TextureManager>>()
 
@@ -64,22 +64,21 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
     let reflectionTexture: Texture | undefined
     if (reflection) {
         const cubeRenderTarget = new WebGLCubeRenderTarget(128)
+        cubeRenderTarget.texture.type = HalfFloatType
         reflectionTexture = cubeRenderTarget.texture
-        const cubeCamera = new CubeCamera(NEAR, FAR, cubeRenderTarget)
-        const pair: [Model, CubeCamera] = [model, cubeCamera]
+        const cubeCamera = new CubeCamera(NEAR, 10, cubeRenderTarget)
+        const pair: [Model, CubeCamera, WebGLCubeRenderTarget] = [
+            model,
+            cubeCamera,
+            cubeRenderTarget
+        ]
         pushReflectionPairs(pair)
         uuidTextureMap.set(reflectionTexture.uuid, reflectionTexture)
-
-        const plane = new Plane()
-        plane.material.map = reflectionTexture
-        plane.scale = 10
-        plane.z = -200
 
         resolvable.then(() => {
             cubeRenderTarget.dispose()
             pullReflectionPairs(pair)
             uuidTextureMap.delete(reflectionTexture!.uuid)
-            plane.dispose()
         })
     }
 
