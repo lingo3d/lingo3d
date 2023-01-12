@@ -1,8 +1,7 @@
 import {
-    getSkyboxStack,
     pullSkyboxStack,
     pushSkyboxStack,
-    setSkyboxStack
+    refreshSkyboxStack
 } from "../states/useSkyboxStack"
 import ISkybox, { skyboxDefaults, skyboxSchema } from "../interface/ISkybox"
 import Appendable from "../api/core/Appendable"
@@ -30,6 +29,6 @@ export default class Skybox extends Appendable implements ISkybox {
     }
     public set texture(value) {
         this._texture = value
-        setSkyboxStack([...getSkyboxStack()])
+        refreshSkyboxStack()
     }
 }

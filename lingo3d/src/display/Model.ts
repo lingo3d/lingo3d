@@ -24,13 +24,14 @@ import { forceGet } from "@lincode/utils"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import debounceSystem from "../utils/debounceSystem"
 import unsafeSetValue from "../utils/unsafeSetValue"
-import { NEAR } from "../globals"
+import { FAR, NEAR } from "../globals"
 import {
     pushReflectionPairs,
     pullReflectionPairs
 } from "../states/useReflectionPairs"
 import TextureManager from "./core/TextureManager"
 import { uuidTextureMap } from "./core/mixins/utils/createMap"
+import Plane from "./primitives/Plane"
 
 const modelTextureManagersMap = new WeakMap<Model, Array<TextureManager>>()
 
@@ -62,17 +63,23 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
 
     let reflectionTexture: Texture | undefined
     if (reflection) {
-        const cubeRenderTarget = new WebGLCubeRenderTarget(256)
+        const cubeRenderTarget = new WebGLCubeRenderTarget(128)
         reflectionTexture = cubeRenderTarget.texture
-        const cubeCamera = new CubeCamera(NEAR, 10, cubeRenderTarget)
+        const cubeCamera = new CubeCamera(NEAR, FAR, cubeRenderTarget)
         const pair: [Model, CubeCamera] = [model, cubeCamera]
         pushReflectionPairs(pair)
         uuidTextureMap.set(reflectionTexture.uuid, reflectionTexture)
+
+        const plane = new Plane()
+        plane.material.map = reflectionTexture
+        plane.scale = 10
+        plane.z = -200
 
         resolvable.then(() => {
             cubeRenderTarget.dispose()
             pullReflectionPairs(pair)
             uuidTextureMap.delete(reflectionTexture!.uuid)
+            plane.dispose()
         })
     }
 
