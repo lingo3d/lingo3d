@@ -19,7 +19,7 @@ import {
     ShadowResolution
 } from "../../states/useShadowResolution"
 import DirectionalLight from "./DirectionalLight"
-import { hiddenAppendables } from "../../api/core/collections"
+import { eraseAppendable } from "../../api/core/collections"
 
 const mapCSMOptions = (
     val: ShadowDistance,
@@ -65,7 +65,7 @@ export default class SkyLight
                 const directionalLight = new DirectionalLight()
                 directionalLight.intensity = 0.5
                 this.append(directionalLight)
-                hiddenAppendables.add(directionalLight)
+                eraseAppendable(directionalLight)
                 const handle = this.helperState.get(
                     (val) => (directionalLight.helper = val)
                 )

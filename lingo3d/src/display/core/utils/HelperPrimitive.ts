@@ -1,5 +1,5 @@
 import { BufferGeometry } from "three"
-import { hiddenAppendables } from "../../../api/core/collections"
+import { eraseAppendable } from "../../../api/core/collections"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { TransformControlsPhase } from "../../../events/onTransformControls"
 import {
@@ -18,7 +18,7 @@ export default abstract class HelperPrimitive extends Primitive {
 
     public constructor(geometry: BufferGeometry) {
         super(geometry)
-        hiddenAppendables.add(this)
+        eraseAppendable(this)
         this.opacity = 0.5
         this.castShadow = false
         this.receiveShadow = false

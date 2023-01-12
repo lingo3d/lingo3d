@@ -7,3 +7,8 @@ export const nonSerializedAppendables = new WeakSet<
     Appendable | MeshAppendable
 >()
 export const uuidMap = new Map<string, Appendable | MeshAppendable>()
+
+export const eraseAppendable = (appendable: Appendable | MeshAppendable) => {
+    hiddenAppendables.add(appendable)
+    nonSerializedAppendables.add(appendable)
+}

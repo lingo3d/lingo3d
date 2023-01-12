@@ -4,7 +4,7 @@ import PositionedManager, {
 } from "../display/core/PositionedManager"
 import { onDispose } from "../events/onDispose"
 import { Group as ThreeGroup, Object3D } from "three"
-import { hiddenAppendables } from "../api/core/collections"
+import { eraseAppendable } from "../api/core/collections"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import { box3, vector3 } from "../display/utils/reusables"
 import scene from "../engine/scene"
@@ -66,7 +66,7 @@ createEffect(() => {
     scene.add(group)
 
     const groupManager = new SimpleObjectManager(group)
-    hiddenAppendables.add(groupManager)
+    eraseAppendable(groupManager)
     setSelectionTarget(groupManager)
 
     const parentEntries: Array<[Object3D, Object3D]> = []

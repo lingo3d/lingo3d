@@ -6,11 +6,7 @@ import relativePath from "../path/relativePath"
 import toFixed, { toFixedPoint } from "./toFixed"
 import { SceneGraphNode } from "./types"
 import { VERSION } from "../../globals"
-import {
-    hiddenAppendables,
-    nonSerializedAppendables,
-    appendableRoot
-} from "../core/collections"
+import { nonSerializedAppendables, appendableRoot } from "../core/collections"
 import { isPoint } from "./isPoint"
 import nonSerializedProperties from "./nonSerializedProperties"
 
@@ -20,8 +16,7 @@ const serialize = async (
 ) => {
     const dataParent: Array<SceneGraphNode> = []
     for (const child of children) {
-        if (hiddenAppendables.has(child) || nonSerializedAppendables.has(child))
-            continue
+        if (nonSerializedAppendables.has(child)) continue
 
         const { componentName, schema, defaults } = child.constructor
 

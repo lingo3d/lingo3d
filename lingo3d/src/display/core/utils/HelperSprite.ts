@@ -1,4 +1,4 @@
-import { hiddenAppendables } from "../../../api/core/collections"
+import { eraseAppendable } from "../../../api/core/collections"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { TransformControlsPhase } from "../../../events/onTransformControls"
 import { EDITOR_URL } from "../../../globals"
@@ -22,7 +22,7 @@ export default class HelperSprite extends Sprite {
         this.scale = 0.5
         this.castShadow = false
         this.receiveShadow = false
-        hiddenAppendables.add(this)
+        eraseAppendable(this)
     }
 
     public override get onTranslateControl() {

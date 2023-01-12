@@ -2,7 +2,7 @@ import { Reactive } from "@lincode/reactivity"
 import { range } from "@lincode/utils"
 import Building from "."
 import Appendable from "../../api/core/Appendable"
-import { hiddenAppendables } from "../../api/core/collections"
+import { eraseAppendable } from "../../api/core/collections"
 import { FACADE_URL } from "../../globals"
 import IFloor, { FacadePreset } from "../../interface/IFloor"
 import getPrivateValue from "../../utils/getPrivateValue"
@@ -47,7 +47,7 @@ export default class Floor extends VisibleObjectManager implements IFloor {
         super()
 
         parent.append(this)
-        hiddenAppendables.add(this)
+        eraseAppendable(this)
 
         this.createEffect(() => {
             const repeatX = Math.max(Math.floor(this.repeatXState.get()), 1)
