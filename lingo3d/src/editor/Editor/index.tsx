@@ -6,8 +6,7 @@ import addInputs from "./addInputs"
 import getParams from "./getParams"
 import splitObject from "./splitObject"
 import { dummyDefaults } from "../../interface/IDummy"
-import settings from "../../api/settings"
-import Setup, { dataSetupMap } from "../../display/Setup"
+import Setup from "../../display/Setup"
 import addSetupInputs from "./addSetupInputs"
 import CloseableTab from "../component/tabs/CloseableTab"
 import AppBar from "../component/bars/AppBar"
@@ -21,9 +20,9 @@ import unsafeGetValue from "../../utils/unsafeGetValue"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
-import { getSetupStack } from "../../states/useSetupStack"
 import { DEBUG, EDITOR_WIDTH } from "../../globals"
 import useInitEditor from "../hooks/useInitEditor"
+import setupStruct from "../../engine/setupStruct"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -46,10 +45,6 @@ const Editor = () => {
     const [pane, setPane] = useState<Pane>()
     const [cameraFolder, setCameraFolder] = useState<FolderApi>()
 
-    const setupStack = useSyncState(getSetupStack)
-    const lastSetup = setupStack.at(-1)
-    const targetSetup = (lastSetup && dataSetupMap.get(lastSetup)) ?? settings
-
     const selectionTarget = useSyncState(getSelectionTarget)
     const selectedSignal = useSignal<string | undefined>(undefined)
 
@@ -69,11 +64,7 @@ const Editor = () => {
             !selectionTarget ||
             selectionTarget instanceof Setup
         ) {
-            addSetupInputs(
-                handle,
-                pane,
-                selectionTarget instanceof Setup ? selectionTarget : targetSetup
-            )
+            addSetupInputs(handle, pane, setupStruct)
             return () => {
                 setCameraFolder(undefined)
                 handle.cancel()
@@ -339,7 +330,7 @@ const Editor = () => {
             handle.cancel()
             pane.dispose()
         }
-    }, [selectionTarget, targetSetup, selectedSignal.value])
+    }, [selectionTarget, selectedSignal.value])
 
     return (
         <div

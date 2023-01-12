@@ -7,5 +7,6 @@ map.scale = 150
 map.metalnessFactor = 0
 map.roughnessFactor = 0
 
-settings.defaultLight = "studio"
+settings.defaultLight = false
+settings.environment = "studio"
 settings.exposure = 0.7

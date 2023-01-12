@@ -1,36 +1,38 @@
 import Appendable from "../api/core/Appendable"
+import setupStruct from "../engine/setupStruct"
 import ISetup, { setupDefaults, setupSchema } from "../interface/ISetup"
-import {
-    pullSetupStack,
-    pushSetupStack,
-    refreshSetupStack
-} from "../states/useSetupStack"
+import unsafeGetValue from "../utils/unsafeGetValue"
+import unsafeSetValue from "../utils/unsafeSetValue"
 
-export const dataSetupMap = new WeakMap<Partial<ISetup>, Setup>()
+let setup: Setup | undefined
+const setupStructDefaults = { ...setupStruct }
 
 class Setup extends Appendable {
     public static componentName = "setup"
     public static defaults = setupDefaults
     public static schema = setupSchema
 
-    protected data: Partial<ISetup> = {}
-
-    public constructor(protected noEffect?: boolean) {
+    public constructor() {
         super()
-        if (noEffect) return
-        pushSetupStack(this.data)
-        this.then(() => pullSetupStack(this.data))
-        dataSetupMap.set(this.data, this)
+        setup?.dispose()
+        setup = this
+    }
+
+    public override dispose() {
+        if (this.done) return this
+        super.dispose()
+        setup = undefined
+        Object.assign(setupStruct, setupStructDefaults)
+        return this
     }
 }
 for (const key of Object.keys(setupSchema))
     Object.defineProperty(Setup.prototype, key, {
         get() {
-            return this.data[key]
+            return unsafeGetValue(setupStruct, key)
         },
         set(value) {
-            this.data[key] = value
-            !this.noEffect && refreshSetupStack()
+            unsafeSetValue(setupStruct, key, value)
         }
     })
 interface Setup extends Appendable, ISetup {}

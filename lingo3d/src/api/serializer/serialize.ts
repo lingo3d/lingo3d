@@ -1,9 +1,7 @@
 import { objectURLFileMap } from "../../display/core/utils/objectURL"
-import Setup from "../../display/Setup"
 import { equalsDefaultValue } from "../../interface/utils/getDefaultValue"
 import { getFileCurrent } from "../../states/useFileCurrent"
 import Appendable from "../core/Appendable"
-import settings from "../settings"
 import relativePath from "../path/relativePath"
 import toFixed, { toFixedPoint } from "./toFixed"
 import { SceneGraphNode } from "./types"
@@ -16,7 +14,10 @@ import {
 import { isPoint } from "./isPoint"
 import nonSerializedProperties from "./nonSerializedProperties"
 
-const serialize = async (children: Array<any>, skipUUID?: boolean) => {
+const serialize = async (
+    children: Array<any> | Set<any>,
+    skipUUID?: boolean
+) => {
     const dataParent: Array<SceneGraphNode> = []
     for (const child of children) {
         if (hiddenAppendables.has(child) || nonSerializedAppendables.has(child))
@@ -80,18 +81,7 @@ export default async (
     skipUUID?: boolean
 ) => {
     if (children instanceof Appendable) return serialize([children], skipUUID)
-
-    const childs: Array<Appendable> = []
-    for (const child of children)
-        !(child instanceof Setup) && childs.push(child)
-
-    const setup = new Setup(true)
-    Object.assign(setup, settings)
-    childs.push(setup)
-
-    const result = await serialize(childs, skipUUID)
+    const result = await serialize(children, skipUUID)
     versionStamp && result.unshift({ type: "lingo3d", version: VERSION })
-
-    setup.dispose()
     return result
 }

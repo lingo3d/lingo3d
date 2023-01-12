@@ -66,11 +66,6 @@ import { getBokeh, setBokeh } from "../states/useBokeh"
 import { getBokehScale, setBokehScale } from "../states/useBokehScale"
 import { getVignette, setVignette } from "../states/useVignette"
 import { getUILayer, setUILayer } from "../states/useUILayer"
-import { getAutoMount, setAutoMount } from "../states/useAutoMount"
-import {
-    getFirstLoadBeforeRender,
-    setFirstLoadBeforeRender
-} from "../states/useFirstLoadBeforeRender"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -123,20 +118,6 @@ export default {
     },
     set stats(value) {
         setStats(value)
-    },
-
-    get autoMount() {
-        return getAutoMount()
-    },
-    set autoMount(value) {
-        setAutoMount(value)
-    },
-
-    get firstLoadBeforeRender() {
-        return getFirstLoadBeforeRender()
-    },
-    set firstLoadBeforeRender(value) {
-        setFirstLoadBeforeRender(value)
     },
 
     get gravity() {

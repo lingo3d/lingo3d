@@ -6,4 +6,5 @@ model.scale = 5
 model.metalnessFactor = 2
 model.roughnessFactor = 0.5
 
-settings.defaultLight = "studio"
+settings.defaultLight = false
+settings.environment = "studio"

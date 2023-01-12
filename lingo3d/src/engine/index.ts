@@ -9,7 +9,6 @@ import "./skyShader"
 import "./renderLoop"
 import "./background"
 import "./defaultLight"
-import "./applySetup"
 import "./hotkeys"
 import { VERSION } from "../globals"
 
