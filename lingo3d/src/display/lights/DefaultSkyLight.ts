@@ -1,12 +1,17 @@
+import { debounceTrailing } from "@lincode/utils"
 import { FAR } from "../../globals"
 import IDefaultSkyLight, {
     defaultSkyLightDefaults,
     defaultSkyLightSchema
 } from "../../interface/IDefaultSkyLight"
-import { setDefaultLight, getDefaultLight } from "../../states/useDefaultLight"
+import { getDefaultLight, setDefaultLight } from "../../states/useDefaultLight"
 import SkyLight from "./SkyLight"
 
 let defaultSkyLight: DefaultSkyLight | undefined
+
+const checkDefaultLight = debounceTrailing(() => {
+    if (!defaultSkyLight) setDefaultLight(false)
+})
 
 export default class DefaultSkyLight
     extends SkyLight
@@ -23,17 +28,15 @@ export default class DefaultSkyLight
         this.intensity = 0.5
         defaultSkyLight?.dispose()
         defaultSkyLight = this
-        setDefaultLight(true)
     }
 
     protected override _dispose() {
         super._dispose()
         defaultSkyLight = undefined
-        setDefaultLight(false)
+        checkDefaultLight()
     }
 }
 
-getDefaultLight((val) => {
-    if (val) new DefaultSkyLight()
-    else defaultSkyLight?.dispose()
-})
+getDefaultLight((val) =>
+    val ? new DefaultSkyLight() : defaultSkyLight?.dispose()
+)
