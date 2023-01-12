@@ -7,7 +7,7 @@ import IDefaultSkyLight, {
 import { getDefaultLight } from "../../states/useDefaultLight"
 import SkyLight from "./SkyLight"
 
-export const defaultSkyLightPtr: [DefaultSkyLight | undefined] = [undefined]
+let defaultSkyLight: DefaultSkyLight | undefined
 
 export default class DefaultSkyLight
     extends SkyLight
@@ -21,6 +21,8 @@ export default class DefaultSkyLight
         super()
         this.y = FAR
         this.z = FAR
+        defaultSkyLight?.dispose()
+        defaultSkyLight = this
     }
 }
 

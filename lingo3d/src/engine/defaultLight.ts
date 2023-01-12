@@ -4,7 +4,6 @@ import Environment from "../display/Environment"
 import loadTexture from "../display/utils/loaders/loadTexture"
 import { TEXTURES_URL } from "../globals"
 import { environmentPreset } from "../interface/IEnvironment"
-import { getDefaultLight } from "../states/useDefaultLight"
 import { getEnvironment } from "../states/useEnvironment"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import { getRenderer } from "../states/useRenderer"
@@ -44,13 +43,11 @@ createEffect(() => {
 }, [getEnvironmentStack, getRenderer])
 
 createEffect(() => {
-    const defaultLight = getDefaultLight()
-    const environment =
-        typeof defaultLight === "string" ? defaultLight : getEnvironment()
+    const environment = getEnvironment()
     if (!environment) return
 
     defaultEnvironment.texture = environment
     return () => {
         defaultEnvironment.texture = undefined
     }
-}, [getEnvironment, getDefaultLight])
+}, [getEnvironment])
