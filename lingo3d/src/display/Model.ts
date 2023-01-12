@@ -25,7 +25,7 @@ import { forceGet } from "@lincode/utils"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import debounceSystem from "../utils/debounceSystem"
 import unsafeSetValue from "../utils/unsafeSetValue"
-import { FAR, NEAR } from "../globals"
+import { NEAR } from "../globals"
 import {
     pushReflectionPairs,
     pullReflectionPairs
@@ -58,12 +58,15 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
         roughnessFactor,
         opacityFactor,
         envFactor,
-        reflection
+        reflection,
+        illumination
     } = model
 
     let reflectionTexture: Texture | undefined
-    if (reflection) {
-        const cubeRenderTarget = new WebGLCubeRenderTarget(128)
+    if (reflection || illumination) {
+        const cubeRenderTarget = new WebGLCubeRenderTarget(
+            reflection ? 128 : 16
+        )
         cubeRenderTarget.texture.type = HalfFloatType
         reflectionTexture = cubeRenderTarget.texture
         const cubeCamera = new CubeCamera(NEAR, 10, cubeRenderTarget)
@@ -302,6 +305,15 @@ export default class Model extends Loaded<Group> implements IModel {
     }
     public set reflection(val: boolean) {
         this._reflection = val
+        this.refreshFactors()
+    }
+
+    private _illumination?: boolean
+    public get illumination() {
+        return this._illumination ?? false
+    }
+    public set illumination(val: boolean) {
+        this._illumination = val
         this.refreshFactors()
     }
 }

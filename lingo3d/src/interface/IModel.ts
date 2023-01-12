@@ -12,6 +12,7 @@ export default interface IModel extends ILoaded {
     opacityFactor: Nullable<number>
     envFactor: Nullable<number>
     reflection: Nullable<boolean>
+    illumination: Nullable<boolean>
 }
 
 export const modelSchema: Required<ExtractProps<IModel>> = {
@@ -21,7 +22,8 @@ export const modelSchema: Required<ExtractProps<IModel>> = {
     roughnessFactor: Number,
     opacityFactor: Number,
     envFactor: Number,
-    reflection: Boolean
+    reflection: Boolean,
+    illumination: Boolean
 }
 
 export const modelDefaults = extendDefaults<IModel>(
@@ -32,7 +34,8 @@ export const modelDefaults = extendDefaults<IModel>(
         roughnessFactor: new NullableDefault(1),
         opacityFactor: new NullableDefault(1),
         envFactor: new NullableDefault(1),
-        reflection: new NullableDefault(false)
+        reflection: new NullableDefault(false),
+        illumination: new NullableDefault(false)
     },
     {
         metalnessFactor: new Range(-2, 2),

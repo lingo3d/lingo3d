@@ -219,7 +219,8 @@ const Editor = () => {
                     "roughnessFactor",
                     "opacityFactor",
                     "envFactor",
-                    "reflection"
+                    "reflection",
+                    "illumination"
                 ]
             )
             adjustMaterialParams &&
