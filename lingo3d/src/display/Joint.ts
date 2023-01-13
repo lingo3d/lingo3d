@@ -70,18 +70,22 @@ export default class Joint extends PositionedManager implements IJoint {
                 phase === "end" && this.setManualPosition()
 
             const circle = new Circle()
-            circle.scale = 2
             sphere.append(circle)
+
+            circle.scale = 2
+            circle.innerRotationX = -90
+            const handle1 = this.refreshState.get(() => {
+                const theta = (circle.theta = this._yLimitAngle)
+                circle.innerRotationZ = -90 - theta * 0.5
+            })
 
             queueMicrotask(() => {
                 if (!_fromManager || !_toManager) return
                 scene.attach(circle.outerObject3d)
-                circle.lookAt(_fromManager)
-            })
+                circle.lookAt(_toManager)
+                console.log((_toManager as any).color)
 
-            const handle1 = this.refreshState.get(() => {
-                const theta = (circle.theta = this._yLimitAngle)
-                circle.innerRotationZ = -90 - theta * 0.5
+                
             })
             return () => {
                 handle0.cancel()
