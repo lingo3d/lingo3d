@@ -1,7 +1,8 @@
 import { centroid3d, deg2Rad } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
-import { Reactive, store } from "@lincode/reactivity"
+import { Reactive } from "@lincode/reactivity"
 import mainCamera from "../engine/mainCamera"
+import scene from "../engine/scene"
 import { TransformControlsPhase } from "../events/onTransformControls"
 import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
@@ -55,44 +56,38 @@ export default class Joint extends PositionedManager implements IJoint {
         this.yLimitAngle = 45
         this.zLimitAngle = 0
 
+        let _fromManager: MeshManager | undefined
+        let _toManager: MeshManager | undefined
+
         this.createEffect(() => {
             if (getCameraRendered() !== mainCamera) return
 
             const sphere = new HelperSphere()
             sphere.scale = 0.1
-            const handle = addSelectionHelper(sphere, this)
+            const handle0 = addSelectionHelper(sphere, this)
 
             sphere.onTranslateControl = (phase) =>
                 phase === "end" && this.setManualPosition()
 
-            return () => {
-                handle.cancel()
-            }
-        }, [getCameraRendered])
+            const circle = new Circle()
+            circle.scale = 2
+            sphere.append(circle)
 
-        const [setFromManager, getFromManager] = store<MeshManager | undefined>(
-            undefined
-        )
-        const [setToManager, getToManager] = store<MeshManager | undefined>(
-            undefined
-        )
-        this.createEffect(() => {
-            const fromManager = getFromManager()
-            const toManager = getToManager()
-            if (!fromManager || !toManager) return
+            queueMicrotask(() => {
+                if (!_fromManager || !_toManager) return
+                scene.attach(circle.outerObject3d)
+                circle.lookAt(_fromManager)
+            })
 
-            const limitConeHelper = new Circle()
-            //mark
-
-            console.log("here")
-
-            const handle = this.refreshState.get(() => {
-                limitConeHelper.theta = this._yLimitAngle
+            const handle1 = this.refreshState.get(() => {
+                const theta = (circle.theta = this._yLimitAngle)
+                circle.innerRotationZ = -90 - theta * 0.5
             })
             return () => {
-                handle.cancel()
+                handle0.cancel()
+                handle1.cancel()
             }
-        }, [getFromManager, getToManager])
+        }, [getCameraRendered])
 
         this.createEffect(() => {
             const { physics } = getPhysX()
@@ -176,8 +171,8 @@ export default class Joint extends PositionedManager implements IJoint {
                 handle.then(() => destroy(joint))
             })
 
-            setFromManager(fromManager)
-            setToManager(toManager)
+            _fromManager = fromManager
+            _toManager = toManager
 
             return () => {
                 clearTimeout(timeout)
@@ -189,8 +184,8 @@ export default class Joint extends PositionedManager implements IJoint {
                 fromManager.jointCount--
                 toManager.jointCount--
                 parent!.attach(this.outerObject3d)
-                setFromManager(undefined)
-                setToManager(undefined)
+                _fromManager = undefined
+                _toManager = undefined
             }
         }, [this.refreshState.get, getPhysX])
     }
