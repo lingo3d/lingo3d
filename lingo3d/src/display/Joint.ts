@@ -225,4 +225,22 @@ export default class Joint extends PositionedManager implements IJoint {
         super.z = val
         this.setManualPosition()
     }
+
+    private _xLimitAngle = 360
+    public get xLimitAngle() {
+        return this._xLimitAngle
+    }
+    public set xLimitAngle(val) {
+        this._xLimitAngle = val
+        this.refreshState.set({})
+    }
+
+    private _yLimitAngle = 360
+    public get yLimitAngle() {
+        return this._yLimitAngle
+    }
+    public set yLimitAngle(val) {
+        this._yLimitAngle = val
+        this.refreshState.set({})
+    }
 }
