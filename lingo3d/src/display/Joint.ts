@@ -1,8 +1,18 @@
-import { centroid3d, deg2Rad } from "@lincode/math"
+import {
+    centroid3d,
+    deg2Rad,
+    Point,
+    Point3d,
+    rad2Deg,
+    vertexAngle,
+    vertexAngle3d
+} from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
+import { Euler, Vector3 } from "three"
 import mainCamera from "../engine/mainCamera"
 import scene from "../engine/scene"
+import { onBeforeRender } from "../events/onBeforeRender"
 import { TransformControlsPhase } from "../events/onTransformControls"
 import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
@@ -20,6 +30,7 @@ import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
 import Circle from "./primitives/Circle"
+import { vector3 } from "./utils/reusables"
 
 const createLimitedSpherical = (
     actor0: any,
@@ -73,7 +84,6 @@ export default class Joint extends PositionedManager implements IJoint {
             sphere.append(circle)
 
             circle.scale = 2
-            circle.innerRotationX = -90
             const handle1 = this.refreshState.get(() => {
                 const theta = (circle.theta = this._yLimitAngle)
                 circle.innerRotationZ = -90 - theta * 0.5
@@ -82,10 +92,24 @@ export default class Joint extends PositionedManager implements IJoint {
             queueMicrotask(() => {
                 if (!_fromManager || !_toManager) return
                 scene.attach(circle.outerObject3d)
-                circle.lookAt(_toManager)
-                console.log((_toManager as any).color)
 
-                
+                onBeforeRender(() => {
+                    const origin = circle.position.clone()
+                    const down = circle.position
+                        .clone()
+                        .add(vector3.set(0, -1, 0))
+                    const to = _toManager!.position.clone()
+
+                    const rotationZ = vertexAngle(origin, down, to)
+                    const rotationX = vertexAngle(
+                        new Point(origin.z, origin.y),
+                        new Point(down.z, down.y),
+                        new Point(to.z, to.y)
+                    )
+
+                    circle.rotationZ = to.x < origin.x ? -rotationZ : rotationZ
+                    // circle.innerRotationX = to.z < origin.z ? rotationX : -rotationX
+                })
             })
             return () => {
                 handle0.cancel()
