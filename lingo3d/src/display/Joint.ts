@@ -1,18 +1,7 @@
-import {
-    centroid3d,
-    deg2Rad,
-    Point,
-    Point3d,
-    rad2Deg,
-    vertexAngle,
-    vertexAngle3d
-} from "@lincode/math"
+import { centroid3d, deg2Rad } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
-import { Euler, Vector3 } from "three"
 import mainCamera from "../engine/mainCamera"
-import scene from "../engine/scene"
-import { onBeforeRender } from "../events/onBeforeRender"
 import { TransformControlsPhase } from "../events/onTransformControls"
 import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
@@ -67,9 +56,6 @@ export default class Joint extends PositionedManager implements IJoint {
         this.yLimitAngle = 45
         this.zLimitAngle = 0
 
-        let _fromManager: MeshManager | undefined
-        let _toManager: MeshManager | undefined
-
         this.createEffect(() => {
             if (getCameraRendered() !== mainCamera) return
 
@@ -89,28 +75,6 @@ export default class Joint extends PositionedManager implements IJoint {
                 circle.innerRotationZ = -90 - theta * 0.5
             })
 
-            queueMicrotask(() => {
-                if (!_fromManager || !_toManager) return
-                scene.attach(circle.outerObject3d)
-
-                onBeforeRender(() => {
-                    const origin = circle.position.clone()
-                    const down = circle.position
-                        .clone()
-                        .add(vector3.set(0, -1, 0))
-                    const to = _toManager!.position.clone()
-
-                    const rotationZ = vertexAngle(origin, down, to)
-                    const rotationX = vertexAngle(
-                        new Point(origin.z, origin.y),
-                        new Point(down.z, down.y),
-                        new Point(to.z, to.y)
-                    )
-
-                    circle.rotationZ = to.x < origin.x ? -rotationZ : rotationZ
-                    // circle.innerRotationX = to.z < origin.z ? rotationX : -rotationX
-                })
-            })
             return () => {
                 handle0.cancel()
                 handle1.cancel()
@@ -199,9 +163,6 @@ export default class Joint extends PositionedManager implements IJoint {
                 handle.then(() => destroy(joint))
             })
 
-            _fromManager = fromManager
-            _toManager = toManager
-
             return () => {
                 clearTimeout(timeout)
                 handle0.cancel()
@@ -212,8 +173,6 @@ export default class Joint extends PositionedManager implements IJoint {
                 fromManager.jointCount--
                 toManager.jointCount--
                 parent!.attach(this.outerObject3d)
-                _fromManager = undefined
-                _toManager = undefined
             }
         }, [this.refreshState.get, getPhysX])
     }
