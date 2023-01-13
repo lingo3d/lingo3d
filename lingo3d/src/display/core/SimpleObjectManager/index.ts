@@ -15,7 +15,6 @@ import ISimpleObjectManager, {
     OnIntersectValue
 } from "../../../interface/ISimpleObjectManager"
 import getCenter from "../../utils/getCenter"
-import PositionedManager from "../PositionedManager"
 import StaticObjectManager, { idMap } from "../StaticObjectManager"
 import { applyMixins } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"
@@ -32,6 +31,7 @@ import { fpsRatioPtr } from "../../../engine/eventLoop"
 import fpsAlpha from "../../utils/fpsAlpha"
 import { CM2M, M2CM } from "../../../globals"
 import { TransformControlsPhase } from "../../../events/onTransformControls"
+import PositionedMixin from "../mixins/PositionedMixin"
 
 const ptDistCache = new WeakMap<Point3d, number>()
 const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
@@ -375,9 +375,8 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.userData.onRotateControl = cb
     }
 }
-//@ts-ignore
 interface SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>,
-        PositionedManager<T> {}
-applyMixins(SimpleObjectManager, [PositionedManager])
+        PositionedMixin<T> {}
+applyMixins(SimpleObjectManager, [PositionedMixin])
 export default SimpleObjectManager

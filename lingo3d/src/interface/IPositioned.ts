@@ -1,13 +1,9 @@
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
-import IAppendable, {
-    appendableDefaults,
-    appendableSchema
-} from "./IAppendable"
 import { TransformControlsPhase } from "../events/onTransformControls"
 
-export default interface IPositioned extends IAppendable {
+export default interface IPositioned {
     x: number
     y: number
     z: number
@@ -16,7 +12,6 @@ export default interface IPositioned extends IAppendable {
 }
 
 export const positionedSchema: Required<ExtractProps<IPositioned>> = {
-    ...appendableSchema,
     x: Number,
     y: Number,
     z: Number,
@@ -24,7 +19,10 @@ export const positionedSchema: Required<ExtractProps<IPositioned>> = {
     onTranslateControl: Function
 }
 
-export const positionedDefaults = extendDefaults<IPositioned>(
-    [appendableDefaults],
-    { x: 0, y: 0, z: 0, onMove: undefined, onTranslateControl: undefined }
-)
+export const positionedDefaults = extendDefaults<IPositioned>([], {
+    x: 0,
+    y: 0,
+    z: 0,
+    onMove: undefined,
+    onTranslateControl: undefined
+})
