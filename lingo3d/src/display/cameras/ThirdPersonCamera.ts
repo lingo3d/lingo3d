@@ -10,7 +10,6 @@ import { getEditorBehavior } from "../../states/useEditorBehavior"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import { getPhysX } from "../../states/usePhysX"
 import CharacterCamera from "../core/CharacterCamera"
-import MeshManager from "../core/MeshManager"
 import { managerActorPtrMap } from "../core/PhysicsObjectManager/physx/pxMaps"
 import {
     assignPxVec,
@@ -19,10 +18,10 @@ import {
 import getWorldDirection from "../utils/getWorldDirection"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
-const setVisible = (target: MeshManager, visible: boolean) => {
+const setVisible = (target: MeshAppendable, visible: boolean) =>
     "visible" in target && (target.visible = visible)
-}
 
 let alwaysVisible = false
 

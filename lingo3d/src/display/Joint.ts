@@ -8,7 +8,6 @@ import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
 import getPrivateValue from "../utils/getPrivateValue"
-import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import destroy from "./core/PhysicsObjectManager/physx/destroy"
 import {
@@ -21,6 +20,7 @@ import HelperSphere from "./core/utils/HelperSphere"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import scene from "../engine/scene"
 import PositionedDirectionedManager from "./core/PositionedDirectionedManager"
+import MeshAppendable from "../api/core/MeshAppendable"
 
 const createLimitedSpherical = (
     actor0: any,
@@ -236,7 +236,7 @@ export default class Joint
 
     private refreshState = new Reactive({})
 
-    private _to?: string | MeshManager
+    private _to?: string | MeshAppendable
     public get to() {
         return this._to
     }
@@ -245,7 +245,7 @@ export default class Joint
         this.refreshState.set({})
     }
 
-    private _from?: string | MeshManager
+    private _from?: string | MeshAppendable
     public get from() {
         return this._from
     }

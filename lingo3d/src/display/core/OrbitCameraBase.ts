@@ -1,11 +1,11 @@
 import { Reactive } from "@lincode/reactivity"
 import { PerspectiveCamera } from "three"
 import CameraBase from "./CameraBase"
-import MeshManager, { isMeshManager } from "./MeshManager"
 import { getMeshManagerSets } from "../core/StaticObjectManager"
 import IOrbitCameraBase from "../../interface/IOrbitCameraBase"
 import { onId } from "../../events/onId"
 import { onSceneGraphChange } from "../../events/onSceneGraphChange"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
 export default class OrbitCameraBase
     extends CameraBase
@@ -14,7 +14,7 @@ export default class OrbitCameraBase
     private getChild() {
         if (!this.children) return
         const [firstChild] = this.children
-        return isMeshManager(firstChild) ? firstChild : undefined
+        return firstChild instanceof MeshAppendable ? firstChild : undefined
     }
 
     public constructor(camera: PerspectiveCamera) {
@@ -47,7 +47,7 @@ export default class OrbitCameraBase
         }, [this.targetState.get, this.refreshState.get])
     }
 
-    private targetState = new Reactive<string | MeshManager | undefined>(
+    private targetState = new Reactive<string | MeshAppendable | undefined>(
         undefined
     )
     public get target() {
@@ -57,16 +57,16 @@ export default class OrbitCameraBase
         this.targetState.set(value)
     }
 
-    protected foundState = new Reactive<MeshManager | undefined>(undefined)
+    protected foundState = new Reactive<MeshAppendable | undefined>(undefined)
     private refreshState = new Reactive({})
 
-    public override append(object: MeshManager) {
+    public override append(object: MeshAppendable) {
         this._append(object)
         this.parent?.outerObject3d.add(object.outerObject3d)
         this.refreshState.set({})
     }
 
-    public override attach(object: MeshManager) {
+    public override attach(object: MeshAppendable) {
         this._append(object)
         this.parent?.outerObject3d.attach(object.outerObject3d)
         this.refreshState.set({})

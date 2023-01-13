@@ -5,7 +5,6 @@ import ICameraBase, { MouseControl } from "../../../interface/ICameraBase"
 import { deg2Rad, Point3d } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE, PI, PI_HALF } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
-import MeshManager from "../MeshManager"
 import { Cancellable } from "@lincode/promiselikes"
 import mainCamera from "../../../engine/mainCamera"
 import scene from "../../../engine/scene"
@@ -22,6 +21,7 @@ import { addSelectionHelper } from "../StaticObjectManager/raycast/selectionCand
 import HelperSprite from "../utils/HelperSprite"
 import { setManager } from "../../../api/utils/manager"
 import debounceSystem from "../../../utils/debounceSystem"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 
 export const updateAngleSystem = debounceSystem((target: CameraBase) =>
     target.gyrate(0, 0)
@@ -67,7 +67,7 @@ export default abstract class CameraBase<
         }, [getCameraRendered])
     }
 
-    public override lookAt(target: MeshManager | Point3d): void
+    public override lookAt(target: MeshAppendable | Point3d): void
     public override lookAt(x: number, y: number | undefined, z: number): void
     public override lookAt(a0: any, a1?: any, a2?: any) {
         super.lookAt(a0, a1, a2)
@@ -133,12 +133,12 @@ export default abstract class CameraBase<
         )
     }
 
-    public override append(object: MeshManager) {
+    public override append(object: MeshAppendable) {
         this._append(object)
         this.camera.add(object.outerObject3d)
     }
 
-    public override attach(object: MeshManager) {
+    public override attach(object: MeshAppendable) {
         this._append(object)
         this.camera.attach(object.outerObject3d)
     }

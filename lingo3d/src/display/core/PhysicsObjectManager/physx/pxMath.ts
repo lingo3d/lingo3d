@@ -1,7 +1,7 @@
 import { Point3d } from "@lincode/math"
 import { Quaternion } from "three"
+import MeshAppendable from "../../../../api/core/MeshAppendable"
 import { getPhysX } from "../../../../states/usePhysX"
-import MeshManager from "../../MeshManager"
 
 let pxVec: any
 let pxVec_: any
@@ -55,13 +55,13 @@ export const setPxQuat = (x: number, y: number, z: number, w: number) => {
 
 export const assignPxQuat = (q: Quaternion) => setPxQuat(q.x, q.y, q.z, q.w)
 
-export const assignPxTransform = (manager: MeshManager) => {
+export const assignPxTransform = (manager: MeshAppendable) => {
     pxTransform.set_p(assignPxVec(manager.position))
     pxTransform.set_q(assignPxQuat(manager.quaternion))
     return pxTransform
 }
 
-export const assignPxTransform_ = (manager: MeshManager) => {
+export const assignPxTransform_ = (manager: MeshAppendable) => {
     pxTransform_.set_p(assignPxVec(manager.position))
     pxTransform_.set_q(assignPxQuat(manager.quaternion))
     return pxTransform_

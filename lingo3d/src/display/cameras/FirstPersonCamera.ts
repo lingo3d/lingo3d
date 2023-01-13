@@ -3,6 +3,7 @@ import { Reactive } from "@lincode/reactivity"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
 import { onBeforeRender } from "../../events/onBeforeRender"
+import ObjectManager from "../core/ObjectManager"
 
 export default class FirstPersonCamera extends CharacterCamera {
     public static componentName = "firstPersonCamera"
@@ -19,7 +20,7 @@ export default class FirstPersonCamera extends CharacterCamera {
         this.createEffect(() => {
             const found = this.foundState.get()
             const innerYSet = this.innerYSetState.get()
-            if (!found || !("height" in found) || innerYSet) return
+            if (!(found instanceof ObjectManager) || innerYSet) return
             super.innerY = found.height * 0.4
 
             return () => {

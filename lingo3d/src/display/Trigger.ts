@@ -10,10 +10,10 @@ import StaticObjectManager, {
     getMeshManagerSets
 } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
-import MeshManager from "./core/MeshManager"
 import HelperCylinder from "./core/utils/HelperCylinder"
 import HelperSphere from "./core/utils/HelperSphere"
 import { CM2M } from "../globals"
+import MeshAppendable from "../api/core/MeshAppendable"
 
 export default class Trigger extends PositionedManager implements ITrigger {
     public static componentName = "trigger"
@@ -22,7 +22,7 @@ export default class Trigger extends PositionedManager implements ITrigger {
 
     private refreshState = new Reactive({})
 
-    public onEnter: ((target: MeshManager) => void) | undefined
+    public onEnter: ((target: MeshAppendable) => void) | undefined
 
     public onExit: (() => void) | undefined
 
@@ -93,7 +93,7 @@ export default class Trigger extends PositionedManager implements ITrigger {
                     const { x, y, z } = getWorldPosition(this.outerObject3d)
 
                     let hit = false
-                    let targetHit: MeshManager | undefined
+                    let targetHit: MeshAppendable | undefined
                     for (const targetSet of targetSets)
                         for (const target of targetSet) {
                             const {

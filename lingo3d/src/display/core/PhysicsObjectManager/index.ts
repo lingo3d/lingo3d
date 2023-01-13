@@ -17,7 +17,6 @@ import threeScene from "../../../engine/scene"
 import destroy from "./physx/destroy"
 import { assignPxTransform, setPxVec, setPxVec_ } from "./physx/pxMath"
 import SpawnPoint from "../../SpawnPoint"
-import MeshManager from "../MeshManager"
 import {
     pxUpdateSet,
     pxVXUpdateMap,
@@ -25,6 +24,7 @@ import {
     pxVZUpdateMap
 } from "./physx/physxLoop"
 import Nullable from "../../../interface/utils/Nullable"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -282,7 +282,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
 
     public override placeAt(
-        target: string | Point3d | MeshManager | SpawnPoint
+        target: string | Point3d | MeshAppendable | SpawnPoint
     ) {
         super.placeAt(target)
         this.updatePhysics()

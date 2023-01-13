@@ -4,7 +4,6 @@ import { wireframeMaterial } from "../utils/reusables"
 import ILoaded from "../../interface/ILoaded"
 import Reresolvable from "./utils/Reresolvable"
 import toResolvable from "../utils/toResolvable"
-import MeshManager from "./MeshManager"
 import { Point3d } from "@lincode/math"
 import {
     addOutline,
@@ -20,6 +19,7 @@ import { getPhysX } from "../../states/usePhysX"
 import cookConvexGeometry from "./PhysicsObjectManager/physx/cookConvexGeometry"
 import cookTrimeshGeometry from "./PhysicsObjectManager/physx/cookTrimeshGeometry"
 import { StandardMesh } from "./mixins/TexturedStandardMixin"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
 export default abstract class Loaded<T = Object3D>
     extends VisibleObjectManager<StandardMesh>
@@ -235,7 +235,7 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    public override placeAt(object: MeshManager | Point3d | string) {
+    public override placeAt(object: MeshAppendable | Point3d | string) {
         this.cancelHandle("placeAt", () =>
             this.loaded.then(() => void super.placeAt(object))
         )

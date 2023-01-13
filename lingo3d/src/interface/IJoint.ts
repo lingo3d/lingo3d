@@ -1,4 +1,4 @@
-import MeshManager from "../display/core/MeshManager"
+import MeshAppendable from "../api/core/MeshAppendable"
 import IPositionedDirectionedManager, {
     positionedDirectionedManagerDefaults,
     positionedDirectionedManagerSchema
@@ -9,8 +9,8 @@ import Nullable from "./utils/Nullable"
 import Range from "./utils/Range"
 
 export default interface IJoint extends IPositionedDirectionedManager {
-    from: Nullable<string | MeshManager>
-    to: Nullable<string | MeshManager>
+    from: Nullable<string | MeshAppendable>
+    to: Nullable<string | MeshAppendable>
     yLimitAngle: number
     zLimitAngle: number
 }

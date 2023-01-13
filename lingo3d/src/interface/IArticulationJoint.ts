@@ -1,4 +1,4 @@
-import MeshManager from "../display/core/MeshManager"
+import MeshAppendable from "../api/core/MeshAppendable"
 import IPositioned, {
     positionedDefaults,
     positionedSchema
@@ -8,8 +8,8 @@ import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
 export default interface IArticulationJoint extends IPositioned {
-    jointChild: Nullable<string | MeshManager>
-    jointParent: Nullable<string | MeshManager>
+    jointChild: Nullable<string | MeshAppendable>
+    jointParent: Nullable<string | MeshAppendable>
 }
 
 export const articulationJointSchema: Required<

@@ -19,7 +19,6 @@ import StaticObjectManager, { idMap } from "../StaticObjectManager"
 import { applyMixins } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
-import MeshManager from "../MeshManager"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
@@ -33,6 +32,7 @@ import { CM2M, M2CM } from "../../../globals"
 import { TransformControlsPhase } from "../../../events/onTransformControls"
 import PositionedMixin from "../mixins/PositionedMixin"
 import DirectionedMixin from "../mixins/DirectionedMixin"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 
 const ptDistCache = new WeakMap<Point3d, number>()
 const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
@@ -219,7 +219,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         this.outerObject3d.translateZ(val * CM2M * fpsRatioPtr[0])
     }
 
-    public placeAt(target: MeshManager | Point3d | SpawnPoint | string) {
+    public placeAt(target: MeshAppendable | Point3d | SpawnPoint | string) {
         if (typeof target === "string") {
             const [found] = idMap.get(target) ?? [undefined]
             if (!found) return

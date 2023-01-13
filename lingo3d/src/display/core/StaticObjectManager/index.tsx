@@ -16,7 +16,6 @@ import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import getCenter from "../../utils/getCenter"
 import IStaticObjectManager from "../../../interface/IStaticObjectManager"
-import MeshManager, { isMeshManager } from "../MeshManager"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import getWorldPosition from "../../utils/getWorldPosition"
@@ -58,14 +57,14 @@ export const idMap = new Map<string, Set<StaticObjectManager>>()
 
 const allocateSet = (id: string) => {
     const found = uuidMap.get(id)
-    if (isMeshManager(found)) return new Set([found])
+    if (found instanceof MeshAppendable) return new Set([found])
     return forceGetInstance(idMap, id, Set<StaticObjectManager>)
 }
 
 export const getMeshManagerSets = (
-    id: string | Array<string> | MeshManager
+    id: string | Array<string> | MeshAppendable
 ) => {
-    const targetSets: Array<Set<MeshManager>> = []
+    const targetSets: Array<Set<MeshAppendable>> = []
     if (Array.isArray(id))
         for (const target of id) targetSets.push(allocateSet(target))
     else if (typeof id === "string") targetSets.push(allocateSet(id))
@@ -252,10 +251,10 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return frustum.containsPoint(getCenter(this.object3d))
     }
 
-    public lookAt(target: MeshManager | Point3d): void
+    public lookAt(target: MeshAppendable | Point3d): void
     public lookAt(x: number, y: number | undefined, z: number): void
     public lookAt(
-        a0: MeshManager | Point3d | number,
+        a0: MeshAppendable | Point3d | number,
         a1?: number,
         a2?: number
     ) {
@@ -276,7 +275,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
     public onLookToEnd: (() => void) | undefined
 
-    public lookTo(target: MeshManager | Point3d, alpha: number): void
+    public lookTo(target: MeshAppendable | Point3d, alpha: number): void
     public lookTo(
         x: number,
         y: number | undefined,
@@ -284,7 +283,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         alpha: number
     ): void
     public lookTo(
-        a0: MeshManager | Point3d | number,
+        a0: MeshAppendable | Point3d | number,
         a1: number | undefined,
         a2?: number,
         a3?: number

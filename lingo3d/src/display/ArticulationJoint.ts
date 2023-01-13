@@ -1,6 +1,7 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import { debounceTrailing, forceGetInstance } from "@lincode/utils"
+import MeshAppendable from "../api/core/MeshAppendable"
 import mainCamera from "../engine/mainCamera"
 import threeScene from "../engine/scene"
 import {
@@ -9,7 +10,6 @@ import {
 } from "../interface/IArticulationJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
-import MeshManager from "./core/MeshManager"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import destroy from "./core/PhysicsObjectManager/physx/destroy"
 import {
@@ -23,10 +23,10 @@ import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selection
 import HelperSphere from "./core/utils/HelperSphere"
 // import computeJointPxTransform from "./utils/computeJointPxTransform"
 
-const childParentMap = new WeakMap<MeshManager, MeshManager>()
-const parentChildrenMap = new WeakMap<MeshManager, Set<MeshManager>>()
-const managerJointMap = new WeakMap<MeshManager, ArticulationJoint>()
-const allManagers = new Set<MeshManager>()
+const childParentMap = new WeakMap<MeshAppendable, MeshAppendable>()
+const parentChildrenMap = new WeakMap<MeshAppendable, Set<MeshAppendable>>()
+const managerJointMap = new WeakMap<MeshAppendable, ArticulationJoint>()
+const allManagers = new Set<MeshAppendable>()
 
 const create = (rootManager: PhysicsObjectManager) => {
     const {
@@ -181,7 +181,7 @@ export default class ArticulationJoint extends PositionedManager {
         }, [this.childState.get, this.parentState.get, getPhysX])
     }
 
-    private childState = new Reactive<string | MeshManager | undefined>(
+    private childState = new Reactive<string | MeshAppendable | undefined>(
         undefined
     )
     public get jointChild() {
@@ -191,7 +191,7 @@ export default class ArticulationJoint extends PositionedManager {
         this.childState.set(val)
     }
 
-    private parentState = new Reactive<string | MeshManager | undefined>(
+    private parentState = new Reactive<string | MeshAppendable | undefined>(
         undefined
     )
     public get jointParent() {

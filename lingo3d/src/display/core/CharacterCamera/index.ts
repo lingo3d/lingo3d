@@ -10,12 +10,12 @@ import { getSelectionTarget } from "../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../states/useTransformControlsDragging"
 import OrbitCameraBase from "../OrbitCameraBase"
 import { euler, quaternion } from "../../utils/reusables"
-import MeshManager from "../MeshManager"
 import { FAR, NEAR, PI } from "../../../globals"
 import fpsAlpha from "../../utils/fpsAlpha"
 import { positionChangedXZ } from "../../utils/trackObject"
 import { getEditorModeComputed } from "../../../states/useEditorModeComputed"
 import { updateAngleSystem } from "../CameraBase"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 
 export default class CharacterCamera
     extends OrbitCameraBase
@@ -42,7 +42,10 @@ export default class CharacterCamera
             if ("frustumCulled" in found) found.frustumCulled = false
         }, [this.foundState.get])
 
-        const followTargetRotation = (target: MeshManager, slerp: boolean) => {
+        const followTargetRotation = (
+            target: MeshAppendable,
+            slerp: boolean
+        ) => {
             euler.setFromQuaternion(target.quaternion)
             euler.y += PI
 
@@ -54,7 +57,7 @@ export default class CharacterCamera
             updateAngleSystem(this)
         }
 
-        const rotateTarget = (target: MeshManager, slerp: boolean) => {
+        const rotateTarget = (target: MeshAppendable, slerp: boolean) => {
             euler.setFromQuaternion(this.midObject3d.quaternion)
             euler.x = 0
             euler.z = 0
