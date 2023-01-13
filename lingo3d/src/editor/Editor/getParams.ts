@@ -3,6 +3,8 @@ import nonEditorSchemaSet from "../../interface/utils/nonEditorSchemaSet"
 
 export default (schema: any, defaults: any, target: any) => {
     const params: Record<string, any> = {}
+    if (!schema) return params
+
     for (const [key, value] of Object.entries(schema)) {
         if (nonEditorSchemaSet.has(key)) continue
 
