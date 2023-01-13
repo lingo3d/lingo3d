@@ -1,10 +1,9 @@
-import { centroid3d } from "@lincode/math"
+import { centroid3d, deg2Rad } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import { extendFunction, omitFunction } from "@lincode/utils"
 import mainCamera from "../engine/mainCamera"
 import { TransformControlsPhase } from "../events/onTransformControls"
-import { PI_HALF } from "../globals"
 import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysX } from "../states/usePhysX"
@@ -25,18 +24,22 @@ const createLimitedSpherical = (
     actor0: any,
     pose0: any,
     actor1: any,
-    pose1: any
-    // yLimitAngle: number,
-    // zLimitAngle: number
+    pose1: any,
+    yLimitAngle: number,
+    zLimitAngle: number
 ) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
         getPhysX()
 
     const joint = Px.SphericalJointCreate(physics, actor0, pose0, actor1, pose1)
-    // const cone = new PxJointLimitCone(PI_HALF, PI_HALF, 0.05)
-    // joint.setLimitCone(cone)
-    // destroy(cone)
-    // joint.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
+    const cone = new PxJointLimitCone(
+        yLimitAngle * deg2Rad,
+        zLimitAngle * deg2Rad,
+        0.05
+    )
+    joint.setLimitCone(cone)
+    destroy(cone)
+    joint.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
     return joint
 }
 
@@ -145,7 +148,9 @@ export default class Joint extends PositionedManager implements IJoint {
                     fromManager.actor,
                     pxTransform,
                     toManager.actor,
-                    pxTransform_
+                    pxTransform_,
+                    30,
+                    30
                 )
                 handle.then(() => destroy(joint))
             })
