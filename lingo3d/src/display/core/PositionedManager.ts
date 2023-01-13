@@ -1,14 +1,12 @@
 import { Object3D } from "three"
 import scene from "../../engine/scene"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import IPositionedObjectManager from "../../interface/IPositionedManager"
 import PositionedMixin from "./mixins/PositionedMixin"
 import { applyMixins } from "@lincode/utils"
 
-abstract class PositionedManager<T extends Object3D = Object3D>
-    extends MeshAppendable<T>
-    implements IPositionedObjectManager
-{
+abstract class PositionedManager<
+    T extends Object3D = Object3D
+> extends MeshAppendable<T> {
     public constructor(outerObject3d: T = new Object3D() as T) {
         super(outerObject3d)
         scene.add(outerObject3d)
