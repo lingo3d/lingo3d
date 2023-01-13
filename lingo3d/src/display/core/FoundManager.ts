@@ -12,6 +12,7 @@ import { setManager } from "../../api/utils/manager"
 import TextureManager from "./TextureManager"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { appendableRoot } from "../../api/core/collections"
+import { StandardMesh } from "./mixins/TexturedStandardMixin"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -19,7 +20,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static schema = foundManagerSchema
 
     public constructor(
-        mesh: Object3D | Mesh<BufferGeometry, MeshStandardMaterial>,
+        mesh: Object3D | StandardMesh,
         public owner: MeshAppendable
     ) {
         super(mesh)

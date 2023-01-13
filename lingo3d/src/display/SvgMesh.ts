@@ -1,14 +1,10 @@
 import { applyMixins, forceGet } from "@lincode/utils"
-import {
-    ExtrudeGeometry,
-    Group,
-    Mesh,
-    MeshStandardMaterial,
-    Shape
-} from "three"
+import { ExtrudeGeometry, Group, Mesh, Shape } from "three"
 import type { SVGResult } from "three/examples/jsm/loaders/SVGLoader"
 import Loaded from "./core/Loaded"
-import TexturedStandardMixin from "./core/mixins/TexturedStandardMixin"
+import TexturedStandardMixin, {
+    StandardMesh
+} from "./core/mixins/TexturedStandardMixin"
 import fit from "./utils/fit"
 import measure from "./utils/measure"
 import ISvgMesh, { svgMeshDefaults, svgMeshSchema } from "../interface/ISvgMesh"
@@ -128,7 +124,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     public set material(val) {
         this._material = val
         const children = (this.loadedGroup.children[0]?.children ??
-            []) as Array<Mesh<ExtrudeGeometry, MeshStandardMaterial>>
+            []) as Array<StandardMesh>
         for (const mesh of children) mesh.material = val
     }
 }

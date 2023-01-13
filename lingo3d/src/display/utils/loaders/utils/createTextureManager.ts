@@ -1,8 +1,11 @@
 import { rad2Deg } from "@lincode/math"
-import { BufferGeometry, Color, Mesh, MeshStandardMaterial } from "three"
+import { Color, MeshStandardMaterial } from "three"
 import { equalsDefaultValue } from "../../../../interface/utils/getDefaultValue"
 import debounceSystem from "../../../../utils/debounceSystem"
-import { StandardParams } from "../../../core/mixins/TexturedStandardMixin"
+import {
+    StandardMesh,
+    StandardParams
+} from "../../../core/mixins/TexturedStandardMixin"
 import createMap from "../../../core/mixins/utils/createMap"
 import TextureManager from "../../../core/TextureManager"
 import createInstancePool from "../../../core/utils/createInstancePool"
@@ -170,10 +173,7 @@ export default (standardMaterial: MeshStandardMaterial) => {
     })
 
     class MyTextureManager extends TextureManager {
-        public constructor(
-            public object3d: Mesh<BufferGeometry, MeshStandardMaterial>,
-            public owner: Model
-        ) {
+        public constructor(public object3d: StandardMesh, public owner: Model) {
             super()
         }
 

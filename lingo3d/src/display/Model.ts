@@ -1,10 +1,7 @@
 import {
-    BufferGeometry,
     CubeCamera,
     Group,
     HalfFloatType,
-    Mesh,
-    MeshStandardMaterial,
     Object3D,
     Texture,
     WebGLCubeRenderTarget
@@ -32,6 +29,7 @@ import {
 } from "../states/useReflectionPairs"
 import TextureManager from "./core/TextureManager"
 import { uuidTextureMap } from "./core/mixins/utils/createMap"
+import { StandardMesh } from "./core/mixins/TexturedStandardMixin"
 
 const modelTextureManagersMap = new WeakMap<Model, Array<TextureManager>>()
 
@@ -87,13 +85,11 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
 
     const textureManagers = forceGet(modelTextureManagersMap, model, () => {
         const result: Array<TextureManager> = []
-        model.outerObject3d.traverse(
-            (child: Object3D | Mesh<BufferGeometry, MeshStandardMaterial>) => {
-                if (!("material" in child)) return
-                const { TextureManager } = child.material.userData
-                TextureManager && result.push(new TextureManager(child, model))
-            }
-        )
+        model.outerObject3d.traverse((child: Object3D | StandardMesh) => {
+            if (!("material" in child)) return
+            const { TextureManager } = child.material.userData
+            TextureManager && result.push(new TextureManager(child, model))
+        })
         return result
     })
     for (const textureManager of textureManagers) {
