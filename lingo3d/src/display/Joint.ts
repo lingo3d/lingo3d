@@ -20,7 +20,7 @@ import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selection
 import HelperSphere from "./core/utils/HelperSphere"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import scene from "../engine/scene"
-import DirectionedManager from "./core/DirectionedManager"
+import PositionedDirectionedManager from "./core/PositionedDirectionedManager"
 
 const createLimitedSpherical = (
     actor0: any,
@@ -45,7 +45,10 @@ const createLimitedSpherical = (
     return joint
 }
 
-export default class Joint extends DirectionedManager implements IJoint {
+export default class Joint
+    extends PositionedDirectionedManager
+    implements IJoint
+{
     public static componentName = "joint"
     public static defaults = jointDefaults
     public static schema = jointSchema

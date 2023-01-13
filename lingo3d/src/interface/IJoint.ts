@@ -1,14 +1,14 @@
 import MeshManager from "../display/core/MeshManager"
-import IDirectioned, {
-    directionedDefaults,
-    directionedSchema
-} from "./IDirectioned"
+import IPositionedDirectionedManager, {
+    positionedDirectionedManagerDefaults,
+    positionedDirectionedManagerSchema
+} from "./IPositionedDirectionedManager"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import Range from "./utils/Range"
 
-export default interface IJoint extends IDirectioned {
+export default interface IJoint extends IPositionedDirectionedManager {
     from: Nullable<string | MeshManager>
     to: Nullable<string | MeshManager>
     yLimitAngle: number
@@ -16,7 +16,7 @@ export default interface IJoint extends IDirectioned {
 }
 
 export const jointSchema: Required<ExtractProps<IJoint>> = {
-    ...directionedSchema,
+    ...positionedDirectionedManagerSchema,
     from: [String, Object],
     to: [String, Object],
     yLimitAngle: Number,
@@ -24,7 +24,7 @@ export const jointSchema: Required<ExtractProps<IJoint>> = {
 }
 
 export const jointDefaults = extendDefaults<IJoint>(
-    [directionedDefaults],
+    [positionedDirectionedManagerDefaults],
     {
         from: undefined,
         to: undefined,
