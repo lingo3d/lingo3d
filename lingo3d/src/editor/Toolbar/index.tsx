@@ -13,8 +13,6 @@ import exportVue from "../../api/files/exportVue"
 import openJSON from "../../api/files/openJSON"
 import Section from "./Section"
 import { setTransformControlsSpace } from "../../states/useTransformControlsSpace"
-import { isPositionedManager } from "../../display/core/PositionedManager"
-import SimpleObjectManager from "../../display/core/SimpleObjectManager"
 import MeshIcon from "./icons/MeshIcon"
 import PathIcon from "./icons/PathIcon"
 import FolderIcon from "./icons/FolderIcon"
@@ -31,7 +29,6 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { getTransformControlsSpaceComputed } from "../../states/useTransformControlsSpaceComputed"
 import { setWorldPlay } from "../../states/useWorldPlay"
-import JointIcon from "./icons/JointIcon"
 import useInitEditor from "../hooks/useInitEditor"
 
 const Toolbar = () => {
@@ -43,11 +40,10 @@ const Toolbar = () => {
     const mode = useSyncState(getEditorModeComputed)
     const space = useSyncState(getTransformControlsSpaceComputed)
     const target = useSyncState(getSelectionTarget)
-    const selectOnly = target && !isPositionedManager(target)
-    const translateOnly =
-        target &&
-        isPositionedManager(target) &&
-        !(target instanceof SimpleObjectManager)
+
+    const canTranslate = target && "x" in target
+    const canRotate = target && "rotationX" in target
+    const canScale = target && "scaleX" in target
 
     return (
         <div
@@ -84,13 +80,13 @@ const Toolbar = () => {
                             setWorldPlay(false)
                             setEditorMode("translate")
                         }}
-                        disabled={selectOnly}
+                        disabled={!canTranslate}
                     >
                         <TranslateIcon />
                     </ToolbarButton>
                     <ToolbarButton
                         active={mode === "rotate"}
-                        disabled={translateOnly || selectOnly}
+                        disabled={!canRotate}
                         onClick={() => {
                             setWorldPlay(false)
                             setEditorMode("rotate")
@@ -100,7 +96,7 @@ const Toolbar = () => {
                     </ToolbarButton>
                     <ToolbarButton
                         active={mode === "scale"}
-                        disabled={translateOnly || selectOnly}
+                        disabled={!canScale}
                         onClick={() => {
                             setWorldPlay(false)
                             setEditorMode("scale")
