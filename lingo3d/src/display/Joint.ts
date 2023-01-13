@@ -76,6 +76,7 @@ export default class Joint
 
             const sphere = new HelperSphere()
             sphere.scale = 0.1
+            sphere.depthTest = false
             const handle = addSelectionHelper(sphere, this)
 
             sphere.onTranslateControl = (phase) =>

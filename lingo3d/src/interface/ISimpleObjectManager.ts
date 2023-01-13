@@ -100,9 +100,9 @@ export const simpleObjectManagerDefaults = extendDefaults<ISimpleObjectManager>(
         scale: 1
     },
     {
-        scale: new Range(0, 200),
-        scaleX: new Range(0, 200),
-        scaleY: new Range(0, 200),
-        scaleZ: new Range(0, 200)
+        scale: new Range(0, 10),
+        scaleX: new Range(0, 10),
+        scaleY: new Range(0, 10),
+        scaleZ: new Range(0, 10)
     }
 )
