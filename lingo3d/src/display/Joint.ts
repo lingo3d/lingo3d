@@ -192,6 +192,7 @@ export default class Joint extends PositionedManager implements IJoint {
     private thisPos: Vector3 | undefined
     private fromQuat: Quaternion | undefined
     private toQuat: Quaternion | undefined
+    private thisQuat: Quaternion | undefined
 
     private savePos() {
         const { fromManager, toManager } = this
@@ -205,6 +206,7 @@ export default class Joint extends PositionedManager implements IJoint {
         const { parent } = this.outerObject3d
         scene.attach(this.outerObject3d)
         this.thisPos = this.position.clone()
+        this.thisQuat = this.quaternion.clone()
         parent?.attach(this.outerObject3d)
     }
     private restorePos() {
@@ -219,7 +221,7 @@ export default class Joint extends PositionedManager implements IJoint {
         const { parent } = this.outerObject3d
         scene.attach(this.outerObject3d)
         this.thisPos && this.position.copy(this.thisPos)
-        this.quaternion.set(0, 0, 0, 1)
+        this.thisQuat && this.quaternion.copy(this.thisQuat)
         parent?.attach(this.outerObject3d)
 
         this.refreshState.set({})
