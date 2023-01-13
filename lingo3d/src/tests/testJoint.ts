@@ -1,5 +1,3 @@
-import LimitConeHelper from "../display/core/PhysicsObjectManager/LimitConeHelper"
-import Joint from "../display/Joint"
 import Cube from "../display/primitives/Cube"
 
 const ground = new Cube()
@@ -37,6 +35,3 @@ cube2.rotationZ = 45
 // const joint1 = new Joint()
 // joint1.from = cube1
 // joint1.to = cube2
-
-const helper = new LimitConeHelper()
-helper.y = 200

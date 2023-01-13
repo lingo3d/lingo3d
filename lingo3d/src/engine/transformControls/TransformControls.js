@@ -21,6 +21,7 @@ import {
 } from "three"
 
 const ratio = 0.5
+const translatePlaneSize = 0.2
 const hexRed = 0xcc4444
 const hexGreen = 0x44cc44
 const hexBlue = 0x4444cc
@@ -898,26 +899,26 @@ class TransformControlsGizmo extends Object3D {
                 [
                     new Mesh(
                         new BoxGeometry(
-                            0.15 * ratio,
-                            0.15 * ratio,
+                            translatePlaneSize * ratio,
+                            translatePlaneSize * ratio,
                             0.01 * ratio
                         ),
                         matBlueTransparent.clone()
                     ),
-                    [0.15 * ratio, 0.15 * ratio, 0]
+                    [translatePlaneSize * ratio, translatePlaneSize * ratio, 0]
                 ]
             ],
             YZ: [
                 [
                     new Mesh(
                         new BoxGeometry(
-                            0.15 * ratio,
-                            0.15 * ratio,
+                            translatePlaneSize * ratio,
+                            translatePlaneSize * ratio,
                             0.01 * ratio
                         ),
                         matRedTransparent.clone()
                     ),
-                    [0, 0.15 * ratio, 0.15 * ratio],
+                    [0, translatePlaneSize * ratio, translatePlaneSize * ratio],
                     [0, Math.PI / 2, 0]
                 ]
             ],
@@ -925,13 +926,13 @@ class TransformControlsGizmo extends Object3D {
                 [
                     new Mesh(
                         new BoxGeometry(
-                            0.15 * ratio,
-                            0.15 * ratio,
+                            translatePlaneSize * ratio,
+                            translatePlaneSize * ratio,
                             0.01 * ratio
                         ),
                         matGreenTransparent.clone()
                     ),
-                    [0.15 * ratio, 0, 0.15 * ratio],
+                    [translatePlaneSize * ratio, 0, translatePlaneSize * ratio],
                     [-Math.PI / 2, 0, 0]
                 ]
             ]
@@ -1000,7 +1001,7 @@ class TransformControlsGizmo extends Object3D {
                         new BoxGeometry(0.2 * ratio, 0.2 * ratio, 0.01 * ratio),
                         matInvisible
                     ),
-                    [0.15 * ratio, 0.15 * ratio, 0]
+                    [translatePlaneSize * ratio, translatePlaneSize * ratio, 0]
                 ]
             ],
             YZ: [
@@ -1009,7 +1010,7 @@ class TransformControlsGizmo extends Object3D {
                         new BoxGeometry(0.2 * ratio, 0.2 * ratio, 0.01 * ratio),
                         matInvisible
                     ),
-                    [0, 0.15 * ratio, 0.15 * ratio],
+                    [0, translatePlaneSize * ratio, translatePlaneSize * ratio],
                     [0, Math.PI / 2, 0]
                 ]
             ],
@@ -1019,7 +1020,7 @@ class TransformControlsGizmo extends Object3D {
                         new BoxGeometry(0.2 * ratio, 0.2 * ratio, 0.01 * ratio),
                         matInvisible
                     ),
-                    [0.15 * ratio, 0, 0.15 * ratio],
+                    [translatePlaneSize * ratio, 0, translatePlaneSize * ratio],
                     [-Math.PI / 2, 0, 0]
                 ]
             ]
