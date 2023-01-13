@@ -79,7 +79,7 @@ export default class Joint
             sphere.depthTest = false
             const handle = addSelectionHelper(sphere, this)
 
-            sphere.onTranslateControl = (phase) =>
+            sphere.onTranslateControl = sphere.onRotateControl = (phase) =>
                 phase === "end" && this.setManualPosition()
 
             return () => {
