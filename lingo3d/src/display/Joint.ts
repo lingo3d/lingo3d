@@ -61,10 +61,11 @@ export default class Joint extends PositionedManager implements IJoint {
         // this.zLimitAngle = 0
 
         this.createEffect(() => {
-            if (getWorldPlayComputed())
-                return () => {
-                    this.restorePos()
-                }
+            if (!getWorldPlayComputed()) return
+            this.savePos()
+            return () => {
+                this.restorePos()
+            }
         }, [getWorldPlayComputed])
 
         this.createEffect(() => {
@@ -162,7 +163,6 @@ export default class Joint extends PositionedManager implements IJoint {
                     this._zLimitAngle
                 )
                 handle.then(() => destroy(joint))
-                this.savePos()
             })
 
             this.fromManager = fromManager
