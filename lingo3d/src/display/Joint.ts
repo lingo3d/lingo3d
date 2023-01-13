@@ -20,7 +20,6 @@ import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
-import getWorldPosition from "./utils/getWorldPosition"
 import scene from "../engine/scene"
 
 const createLimitedSpherical = (
@@ -159,8 +158,8 @@ export default class Joint extends PositionedManager implements IJoint {
                     pxTransform,
                     toManager.actor,
                     pxTransform_,
-                    30,
-                    30
+                    this._yLimitAngle,
+                    this._zLimitAngle
                 )
                 handle.then(() => destroy(joint))
                 this.savePos()
