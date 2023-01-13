@@ -1,6 +1,7 @@
 import { centroid3d, deg2Rad } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
+import { Quaternion, Vector3 } from "three"
 import mainCamera from "../engine/mainCamera"
 import { TransformControlsPhase } from "../events/onTransformControls"
 import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
@@ -18,6 +19,9 @@ import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
+import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
+import getWorldPosition from "./utils/getWorldPosition"
+import scene from "../engine/scene"
 
 const createLimitedSpherical = (
     actor0: any,
@@ -47,12 +51,22 @@ export default class Joint extends PositionedManager implements IJoint {
     public static defaults = jointDefaults
     public static schema = jointSchema
 
+    private fromManager?: PhysicsObjectManager
+    private toManager?: PhysicsObjectManager
+
     public constructor() {
         super()
         import("./core/PhysicsObjectManager/physx")
 
-        this.yLimitAngle = 45
-        this.zLimitAngle = 0
+        // this.yLimitAngle = 45
+        // this.zLimitAngle = 0
+
+        this.createEffect(() => {
+            if (getWorldPlayComputed())
+                return () => {
+                    this.restorePos()
+                }
+        }, [getWorldPlayComputed])
 
         this.createEffect(() => {
             if (getCameraRendered() !== mainCamera) return
@@ -61,8 +75,11 @@ export default class Joint extends PositionedManager implements IJoint {
             sphere.scale = 0.1
             const handle = addSelectionHelper(sphere, this)
 
-            sphere.onTranslateControl = (phase) =>
-                phase === "end" && this.setManualPosition()
+            sphere.onTranslateControl = (phase) => {
+                if (phase !== "end") return
+                this.setManualPosition()
+                this.savePos()
+            }
 
             return () => {
                 handle.cancel()
@@ -110,7 +127,10 @@ export default class Joint extends PositionedManager implements IJoint {
 
             const onMove = (phase: TransformControlsPhase) => {
                 if (phase === "start") parent!.attach(this.outerObject3d)
-                else if (phase === "end") this.refreshState.set({})
+                else if (phase === "end") {
+                    this.refreshState.set({})
+                    this.savePos()
+                }
             }
             fromManager.onTranslateControl = onMove
             toManager.onTranslateControl = onMove
@@ -149,7 +169,11 @@ export default class Joint extends PositionedManager implements IJoint {
                     30
                 )
                 handle.then(() => destroy(joint))
+                this.savePos()
             })
+
+            this.fromManager = fromManager
+            this.toManager = toManager
 
             return () => {
                 clearTimeout(timeout)
@@ -161,8 +185,50 @@ export default class Joint extends PositionedManager implements IJoint {
                 fromManager.jointCount--
                 toManager.jointCount--
                 parent!.attach(this.outerObject3d)
+                this.fromManager = undefined
+                this.toManager = undefined
             }
         }, [this.refreshState.get, getPhysX])
+    }
+
+    private fromPos: Vector3 | undefined
+    private toPos: Vector3 | undefined
+    private thisPos: Vector3 | undefined
+    private fromQuat: Quaternion | undefined
+    private toQuat: Quaternion | undefined
+
+    private savePos() {
+        const { fromManager, toManager } = this
+        if (!fromManager || !toManager) return
+
+        this.fromPos = fromManager.position.clone()
+        this.toPos = toManager.position.clone()
+        this.fromQuat = fromManager.quaternion.clone()
+        this.toQuat = toManager.quaternion.clone()
+
+        const { parent } = this.outerObject3d
+        scene.attach(this.outerObject3d)
+        this.thisPos = this.position.clone()
+        parent?.attach(this.outerObject3d)
+    }
+    private restorePos() {
+        const { fromManager, toManager } = this
+        if (!fromManager || !toManager) return
+
+        this.fromPos && fromManager.position.copy(this.fromPos)
+        this.toPos && toManager.position.copy(this.toPos)
+        this.fromQuat && fromManager.quaternion.copy(this.fromQuat)
+        this.toQuat && toManager.quaternion.copy(this.toQuat)
+
+        const { parent } = this.outerObject3d
+        scene.attach(this.outerObject3d)
+        this.thisPos && this.position.copy(this.thisPos)
+        this.quaternion.set(0, 0, 0, 1)
+        parent?.attach(this.outerObject3d)
+
+        this.refreshState.set({})
+        fromManager.updatePhysics()
+        toManager.updatePhysics()
     }
 
     public name?: string
