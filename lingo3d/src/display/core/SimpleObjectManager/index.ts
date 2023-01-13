@@ -32,6 +32,7 @@ import fpsAlpha from "../../utils/fpsAlpha"
 import { CM2M, M2CM } from "../../../globals"
 import { TransformControlsPhase } from "../../../events/onTransformControls"
 import PositionedMixin from "../mixins/PositionedMixin"
+import DirectionedMixin from "../mixins/DirectionedMixin"
 
 const ptDistCache = new WeakMap<Point3d, number>()
 const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
@@ -206,34 +207,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         this.scaleZ = val
     }
 
-    public get rotationX() {
-        return this.outerObject3d.rotation.x * rad2Deg
-    }
-    public set rotationX(val) {
-        this.outerObject3d.rotation.x = val * deg2Rad
-    }
-
-    public get rotationY() {
-        return this.outerObject3d.rotation.y * rad2Deg
-    }
-    public set rotationY(val) {
-        this.outerObject3d.rotation.y = val * deg2Rad
-    }
-
-    public get rotationZ() {
-        return this.outerObject3d.rotation.z * rad2Deg
-    }
-    public set rotationZ(val) {
-        this.outerObject3d.rotation.z = val * deg2Rad
-    }
-
-    public get rotation() {
-        return this.rotationZ
-    }
-    public set rotation(val) {
-        this.rotationZ = val
-    }
-
     public translateX(val: number) {
         this.outerObject3d.translateX(val * CM2M * fpsRatioPtr[0])
     }
@@ -365,18 +338,10 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     ) {
         this.outerObject3d.userData.onScaleControl = cb
     }
-
-    public get onRotateControl() {
-        return this.outerObject3d.userData.onRotateControl
-    }
-    public set onRotateControl(
-        cb: ((phase: TransformControlsPhase) => void) | undefined
-    ) {
-        this.outerObject3d.userData.onRotateControl = cb
-    }
 }
 interface SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>,
-        PositionedMixin<T> {}
-applyMixins(SimpleObjectManager, [PositionedMixin])
+        PositionedMixin<T>,
+        DirectionedMixin<T> {}
+applyMixins(SimpleObjectManager, [DirectionedMixin, PositionedMixin])
 export default SimpleObjectManager

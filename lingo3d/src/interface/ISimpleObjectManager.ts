@@ -14,17 +14,21 @@ import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
 import { TransformControlsPhase } from "../events/onTransformControls"
+import IDirectioned, {
+    directionedDefaults,
+    directionedSchema
+} from "./IDirectioned"
 
 export type OnIntersectValue = (target: StaticObjectManager) => void
 
 export default interface ISimpleObjectManager
     extends IAnimatedObjectManager,
-        IPositioned {
+        IPositioned,
+        IDirectioned {
     onIntersect: Nullable<OnIntersectValue>
     onIntersectOut: Nullable<OnIntersectValue>
     onMoveToEnd: Nullable<() => void>
     onScaleControl: Nullable<(phase: TransformControlsPhase) => void>
-    onRotateControl: Nullable<(phase: TransformControlsPhase) => void>
 
     moveTo: Function | Array<any>
     lerpTo: Function | Array<any>
@@ -40,11 +44,6 @@ export default interface ISimpleObjectManager
     scaleY: number
     scaleZ: number
     scale: number
-
-    rotationX: number
-    rotationY: number
-    rotationZ: number
-    rotation: number
 }
 hideSchema(["rotation"])
 
@@ -53,12 +52,12 @@ export const simpleObjectManagerSchema: Required<
 > = {
     ...animatedObjectManagerSchema,
     ...positionedSchema,
+    ...directionedSchema,
 
     onIntersect: Function,
     onIntersectOut: Function,
     onMoveToEnd: Function,
     onScaleControl: Function,
-    onRotateControl: Function,
 
     moveTo: [Function, Array],
     lerpTo: [Function, Array],
@@ -73,23 +72,17 @@ export const simpleObjectManagerSchema: Required<
     scaleX: Number,
     scaleY: Number,
     scaleZ: Number,
-    scale: Number,
-
-    rotationX: Number,
-    rotationY: Number,
-    rotationZ: Number,
-    rotation: Number
+    scale: Number
 }
 hideSchema(["intersectIds"])
 
 export const simpleObjectManagerDefaults = extendDefaults<ISimpleObjectManager>(
-    [animatedObjectManagerDefaults, positionedDefaults],
+    [animatedObjectManagerDefaults, positionedDefaults, directionedDefaults],
     {
         onIntersect: undefined,
         onIntersectOut: undefined,
         onMoveToEnd: undefined,
         onScaleControl: undefined,
-        onRotateControl: undefined,
 
         moveTo: fn,
         lerpTo: fn,
@@ -104,18 +97,9 @@ export const simpleObjectManagerDefaults = extendDefaults<ISimpleObjectManager>(
         scaleX: 1,
         scaleY: 1,
         scaleZ: 1,
-        scale: 1,
-
-        rotationX: 0,
-        rotationY: 0,
-        rotationZ: 0,
-        rotation: 0
+        scale: 1
     },
     {
-        rotation: new Range(0, 360),
-        rotationX: new Range(0, 360),
-        rotationY: new Range(0, 360),
-        rotationZ: new Range(0, 360),
         scale: new Range(0, 200),
         scaleX: new Range(0, 200),
         scaleY: new Range(0, 200),
