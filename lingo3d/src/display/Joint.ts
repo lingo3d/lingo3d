@@ -1,7 +1,6 @@
 import { centroid3d, deg2Rad } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
-import { extendFunction, omitFunction } from "@lincode/utils"
 import mainCamera from "../engine/mainCamera"
 import { TransformControlsPhase } from "../events/onTransformControls"
 import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
@@ -61,23 +60,18 @@ export default class Joint extends PositionedManager implements IJoint {
 
             const sphere = new HelperSphere()
             sphere.scale = 0.1
-            const handle0 = addSelectionHelper(sphere, this)
+            const handle = addSelectionHelper(sphere, this)
 
             sphere.onTranslateControl = (phase) =>
                 phase === "end" && this.setManualPosition()
 
-            const limitConeHelper = new Circle()
-            sphere.append(limitConeHelper)
-            limitConeHelper.scale = 2
-
-            const handle1 = this.refreshState.get(() => {
-                limitConeHelper.theta = this._yLimitAngle
-            })
             return () => {
-                handle0.cancel()
-                handle1.cancel()
+                handle.cancel()
             }
         }, [getCameraRendered])
+
+        let _fromManager: MeshManager | undefined
+        let _toManager: MeshManager | undefined
 
         this.createEffect(() => {
             const { physics } = getPhysX()
@@ -122,14 +116,8 @@ export default class Joint extends PositionedManager implements IJoint {
                 if (phase === "start") parent!.attach(this.outerObject3d)
                 else if (phase === "end") this.refreshState.set({})
             }
-            fromManager.onTranslateControl = extendFunction(
-                fromManager.onTranslateControl,
-                onMove
-            )
-            toManager.onTranslateControl = extendFunction(
-                toManager.onTranslateControl,
-                onMove
-            )
+            fromManager.onTranslateControl = onMove
+            toManager.onTranslateControl = onMove
 
             const handle = new Cancellable()
             const timeout = setTimeout(() => {
@@ -170,19 +158,24 @@ export default class Joint extends PositionedManager implements IJoint {
                 clearTimeout(timeout)
                 handle0.cancel()
                 handle1.cancel()
-                fromManager.onTranslateControl = omitFunction(
-                    fromManager.onTranslateControl,
-                    onMove
-                )
-                toManager.onTranslateControl = omitFunction(
-                    toManager.onTranslateControl,
-                    onMove
-                )
+                fromManager.onTranslateControl = undefined
+                toManager.onTranslateControl = undefined
                 handle.cancel()
                 fromManager.jointCount--
                 toManager.jointCount--
                 parent!.attach(this.outerObject3d)
             }
+        }, [this.refreshState.get, getPhysX])
+
+        this.createEffect(() => {
+            if (!_fromManager || !_toManager) return
+
+            const limitConeHelper = new Circle()
+            //mark
+
+            const handle1 = this.refreshState.get(() => {
+                limitConeHelper.theta = this._yLimitAngle
+            })
         }, [this.refreshState.get, getPhysX])
     }
 

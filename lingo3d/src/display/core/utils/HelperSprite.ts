@@ -29,7 +29,7 @@ export default class HelperSprite extends Sprite {
         return this.outerObject3d.userData.onTranslateControl
     }
     public override set onTranslateControl(
-        cb: (phase: TransformControlsPhase) => void
+        cb: ((phase: TransformControlsPhase) => void) | undefined
     ) {
         super.onTranslateControl = cb
         if (this.target)
