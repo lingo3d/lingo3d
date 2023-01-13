@@ -11,16 +11,16 @@ import Range from "./utils/Range"
 export default interface IJoint extends IPositioned {
     from: Nullable<string | MeshManager>
     to: Nullable<string | MeshManager>
-    xLimitAngle: number
     yLimitAngle: number
+    zLimitAngle: number
 }
 
 export const jointSchema: Required<ExtractProps<IJoint>> = {
     ...positionedSchema,
     from: [String, Object],
     to: [String, Object],
-    xLimitAngle: Number,
-    yLimitAngle: Number
+    yLimitAngle: Number,
+    zLimitAngle: Number
 }
 
 export const jointDefaults = extendDefaults<IJoint>(
@@ -28,11 +28,11 @@ export const jointDefaults = extendDefaults<IJoint>(
     {
         from: undefined,
         to: undefined,
-        xLimitAngle: 360,
-        yLimitAngle: 360
+        yLimitAngle: 360,
+        zLimitAngle: 360
     },
     {
-        xLimitAngle: new Range(0, 360),
-        yLimitAngle: new Range(0, 360)
+        yLimitAngle: new Range(0, 360),
+        zLimitAngle: new Range(0, 360)
     }
 )

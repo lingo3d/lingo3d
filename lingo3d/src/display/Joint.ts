@@ -19,6 +19,7 @@ import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
+import Circle from "./primitives/Circle"
 
 const createLimitedSpherical = (
     actor0: any,
@@ -52,18 +53,29 @@ export default class Joint extends PositionedManager implements IJoint {
         super()
         import("./core/PhysicsObjectManager/physx")
 
+        this.yLimitAngle = 45
+        this.zLimitAngle = 0
+
         this.createEffect(() => {
             if (getCameraRendered() !== mainCamera) return
 
             const sphere = new HelperSphere()
             sphere.scale = 0.1
-            const handle = addSelectionHelper(sphere, this)
+            const handle0 = addSelectionHelper(sphere, this)
 
             sphere.onTranslateControl = (phase) =>
                 phase === "end" && this.setManualPosition()
 
+            const limitConeHelper = new Circle()
+            sphere.append(limitConeHelper)
+            limitConeHelper.scale = 2
+
+            const handle1 = this.refreshState.get(() => {
+                limitConeHelper.theta = this._yLimitAngle
+            })
             return () => {
-                handle.cancel()
+                handle0.cancel()
+                handle1.cancel()
             }
         }, [getCameraRendered])
 
@@ -226,21 +238,21 @@ export default class Joint extends PositionedManager implements IJoint {
         this.setManualPosition()
     }
 
-    private _xLimitAngle = 360
-    public get xLimitAngle() {
-        return this._xLimitAngle
-    }
-    public set xLimitAngle(val) {
-        this._xLimitAngle = val
-        this.refreshState.set({})
-    }
-
     private _yLimitAngle = 360
     public get yLimitAngle() {
         return this._yLimitAngle
     }
     public set yLimitAngle(val) {
         this._yLimitAngle = val
+        this.refreshState.set({})
+    }
+
+    private _zLimitAngle = 360
+    public get zLimitAngle() {
+        return this._zLimitAngle
+    }
+    public set zLimitAngle(val) {
+        this._zLimitAngle = val
         this.refreshState.set({})
     }
 }
