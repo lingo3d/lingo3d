@@ -43,7 +43,8 @@ export default (standardMaterial: MeshStandardMaterial) => {
         roughnessMap: "",
         roughness: standardMaterial.roughness,
         normalMap: "",
-        normalScale: standardMaterial.normalScale?.x ?? 1
+        normalScale: standardMaterial.normalScale?.x ?? 1,
+        depthTest: standardMaterial.depthTest
     }
     const defaultParams = Object.values(defaults) as StandardParams
 
@@ -145,6 +146,7 @@ export default (standardMaterial: MeshStandardMaterial) => {
                     createMap(params[25], params[4], params[5], params[6])
                 )
                 setMaterial(material, "normalScale", params[26])
+                setMaterial(material, "depthTest", params[27])
 
                 return material
             }

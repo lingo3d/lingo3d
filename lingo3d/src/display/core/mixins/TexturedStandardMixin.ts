@@ -45,7 +45,8 @@ export type StandardParams = [
     roughnessMap: string,
     roughness: number,
     normalMap: string,
-    normalScale: number
+    normalScale: number,
+    depthTest: boolean
 ]
 
 const [increaseCount, decreaseCount, allocateDefaultInstance] =
@@ -129,7 +130,8 @@ const [increaseCount, decreaseCount, allocateDefaultInstance] =
                             params[5],
                             params[6]
                         ),
-                        normalScale: new Vector2(params[26], params[26])
+                        normalScale: new Vector2(params[26], params[26]),
+                        depthTest: params[27]
                     },
                     filterNotDefault
                 )
@@ -408,6 +410,14 @@ export default abstract class TexturedStandardMixin
     }
     public set normalScale(val: number | undefined) {
         this.materialParams[26] = val ?? standardDefaults.normalScale
+        refreshParamsSystem(this)
+    }
+
+    public get depthTest() {
+        return this.materialParams[27]
+    }
+    public set depthTest(val: boolean | undefined) {
+        this.materialParams[27] = val ?? standardDefaults.depthTest
         refreshParamsSystem(this)
     }
 }

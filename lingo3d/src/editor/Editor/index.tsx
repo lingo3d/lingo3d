@@ -277,7 +277,8 @@ const Editor = () => {
                     "lightMapIntensity",
                     "envMap",
                     "envMapIntensity",
-                    "alphaMap"
+                    "alphaMap",
+                    "depthTest"
                 ]
             )
             pbrMaterialParams &&

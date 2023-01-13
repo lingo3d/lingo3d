@@ -246,4 +246,12 @@ export default abstract class TextureManager implements ITexturedStandard {
         this.materialParams[26] = val ?? this.defaults.normalScale
         this.refreshParamsSystem(this)
     }
+
+    public get depthTest() {
+        return this.materialParams[27]
+    }
+    public set depthTest(val: boolean | undefined) {
+        this.materialParams[27] = val ?? this.defaults.depthTest
+        this.refreshParamsSystem(this)
+    }
 }

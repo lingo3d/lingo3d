@@ -34,6 +34,7 @@ export default interface ITexturedStandard {
     roughness: Nullable<number>
     normalMap: Nullable<string>
     normalScale: Nullable<number>
+    depthTest: Nullable<boolean>
 }
 
 export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
@@ -65,7 +66,8 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
         roughnessMap: String,
         roughness: Number,
         normalMap: String,
-        normalScale: Number
+        normalScale: Number,
+        depthTest: Boolean
     }
 
 export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
@@ -98,7 +100,8 @@ export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
         roughnessMap: undefined,
         roughness: new NullableDefault(1),
         normalMap: undefined,
-        normalScale: new NullableDefault(1)
+        normalScale: new NullableDefault(1),
+        depthTest: new NullableDefault(true)
     },
     {
         opacity: new Range(0, 1),
