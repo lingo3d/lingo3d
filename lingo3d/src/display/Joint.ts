@@ -75,11 +75,8 @@ export default class Joint extends PositionedManager implements IJoint {
             sphere.scale = 0.1
             const handle = addSelectionHelper(sphere, this)
 
-            sphere.onTranslateControl = (phase) => {
-                if (phase !== "end") return
-                this.setManualPosition()
-                this.savePos()
-            }
+            sphere.onTranslateControl = (phase) =>
+                phase === "end" && this.setManualPosition()
 
             return () => {
                 handle.cancel()
@@ -127,10 +124,7 @@ export default class Joint extends PositionedManager implements IJoint {
 
             const onMove = (phase: TransformControlsPhase) => {
                 if (phase === "start") parent!.attach(this.outerObject3d)
-                else if (phase === "end") {
-                    this.refreshState.set({})
-                    this.savePos()
-                }
+                else if (phase === "end") this.refreshState.set({})
             }
             fromManager.onTranslateControl = onMove
             toManager.onTranslateControl = onMove
