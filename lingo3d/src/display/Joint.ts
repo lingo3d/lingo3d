@@ -18,8 +18,6 @@ import PositionedManager from "./core/PositionedManager"
 import { getMeshManagerSets } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
-import Circle from "./primitives/Circle"
-import { vector3 } from "./utils/reusables"
 
 const createLimitedSpherical = (
     actor0: any,
@@ -61,23 +59,13 @@ export default class Joint extends PositionedManager implements IJoint {
 
             const sphere = new HelperSphere()
             sphere.scale = 0.1
-            const handle0 = addSelectionHelper(sphere, this)
+            const handle = addSelectionHelper(sphere, this)
 
             sphere.onTranslateControl = (phase) =>
                 phase === "end" && this.setManualPosition()
 
-            const circle = new Circle()
-            sphere.append(circle)
-
-            circle.scale = 2
-            const handle1 = this.refreshState.get(() => {
-                const theta = (circle.theta = this._yLimitAngle)
-                circle.innerRotationZ = -90 - theta * 0.5
-            })
-
             return () => {
-                handle0.cancel()
-                handle1.cancel()
+                handle.cancel()
             }
         }, [getCameraRendered])
 
