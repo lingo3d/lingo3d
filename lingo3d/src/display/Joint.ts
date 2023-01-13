@@ -57,8 +57,8 @@ export default class Joint extends PositionedManager implements IJoint {
         super()
         import("./core/PhysicsObjectManager/physx")
 
-        // this.yLimitAngle = 45
-        // this.zLimitAngle = 0
+        this.yLimitAngle = 30
+        this.zLimitAngle = 30
 
         this.createEffect(() => {
             if (!getWorldPlayComputed()) return
@@ -134,11 +134,14 @@ export default class Joint extends PositionedManager implements IJoint {
                 const p = this.position
                 const q = this.quaternion
 
+                const fromScale = fromManager.outerObject3d.scale
+                const toScale = toManager.outerObject3d.scale
+
                 fromManager.outerObject3d.attach(this.outerObject3d)
                 const pxTransform = setPxTransform(
-                    p.x * 0.5,
-                    p.y * 0.5,
-                    p.z * 0.5,
+                    p.x * fromScale.x,
+                    p.y * fromScale.y,
+                    p.z * fromScale.z,
                     q.x,
                     q.y,
                     q.z,
@@ -146,9 +149,9 @@ export default class Joint extends PositionedManager implements IJoint {
                 )
                 toManager.outerObject3d.attach(this.outerObject3d)
                 const pxTransform_ = setPxTransform_(
-                    p.x * 0.5,
-                    p.y * 0.5,
-                    p.z * 0.5,
+                    p.x * toScale.x,
+                    p.y * toScale.y,
+                    p.z * toScale.z,
                     q.x,
                     q.y,
                     q.z,
