@@ -8,14 +8,14 @@ import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import Range from "./utils/Range"
 
-export default interface IJoint extends IPositionedDirectionedManager {
+export default interface ISphericalJoint extends IPositionedDirectionedManager {
     from: Nullable<string | MeshAppendable>
     to: Nullable<string | MeshAppendable>
     yLimitAngle: number
     zLimitAngle: number
 }
 
-export const jointSchema: Required<ExtractProps<IJoint>> = {
+export const sphericalJointSchema: Required<ExtractProps<ISphericalJoint>> = {
     ...positionedDirectionedManagerSchema,
     from: [String, Object],
     to: [String, Object],
@@ -23,7 +23,7 @@ export const jointSchema: Required<ExtractProps<IJoint>> = {
     zLimitAngle: Number
 }
 
-export const jointDefaults = extendDefaults<IJoint>(
+export const sphericalJointDefaults = extendDefaults<ISphericalJoint>(
     [positionedDirectionedManagerDefaults],
     {
         from: undefined,

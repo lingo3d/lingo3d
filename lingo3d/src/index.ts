@@ -27,7 +27,7 @@ import Line from "./display/Line"
 import Sprite from "./display/Sprite"
 import Trigger from "./display/Trigger"
 import SpawnPoint from "./display/SpawnPoint"
-import Joint from "./display/Joint"
+import SphericalJoint from "./display/SphericalJoint"
 import Audio from "./display/Audio"
 import Group from "./display/Group"
 import Skybox from "./display/Skybox"
@@ -114,7 +114,7 @@ export {
     Sprite,
     Trigger,
     SpawnPoint,
-    Joint,
+    SphericalJoint,
     Audio,
     Group,
     Skybox,

@@ -1,5 +1,8 @@
 import { deg2Rad } from "@lincode/math"
-import IJoint, { jointDefaults, jointSchema } from "../interface/IJoint"
+import ISphericalJoint, {
+    sphericalJointDefaults,
+    sphericalJointSchema
+} from "../interface/ISphericalJoint"
 import { getPhysX } from "../states/usePhysX"
 import JointBase from "./core/JointBase"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
@@ -28,16 +31,13 @@ const createLimitedSpherical = (
     return joint
 }
 
-export default class Joint extends JointBase implements IJoint {
-    public static componentName = "joint"
-    public static defaults = jointDefaults
-    public static schema = jointSchema
-
-    public constructor() {
-        super()
-        this.yLimitAngle = 30
-        this.zLimitAngle = 30
-    }
+export default class SphericalJoint
+    extends JointBase
+    implements ISphericalJoint
+{
+    public static componentName = "sphericalJoint"
+    public static defaults = sphericalJointDefaults
+    public static schema = sphericalJointSchema
 
     protected createJoint(
         fromPxTransform: any,

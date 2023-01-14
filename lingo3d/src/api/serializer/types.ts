@@ -18,7 +18,7 @@ export type GameObjectType =
     | "sprite"
     | "trigger"
     | "spawnPoint"
-    | "joint"
+    | "sphericalJoint"
     | "audio"
     | "ambientLight"
     | "areaLight"

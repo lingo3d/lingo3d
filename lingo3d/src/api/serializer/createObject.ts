@@ -42,7 +42,7 @@ import Timeline from "../../display/Timeline"
 import TimelineAudio from "../../display/TimelineAudio"
 import Trigger from "../../display/Trigger"
 import SpawnPoint from "../../display/SpawnPoint"
-import Joint from "../../display/Joint"
+import SphericalJoint from "../../display/SphericalJoint"
 import Audio from "../../display/Audio"
 
 const record = {
@@ -63,7 +63,7 @@ const record = {
     sprite: () => new Sprite(),
     trigger: () => new Trigger() as any,
     spawnPoint: () => new SpawnPoint() as any,
-    joint: () => new Joint() as any,
+    sphericalJoint: () => new SphericalJoint() as any,
     audio: () => new Audio() as any,
     camera: () => new Camera(),
     thirdPersonCamera: () => new ThirdPersonCamera(),
