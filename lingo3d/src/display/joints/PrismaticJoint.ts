@@ -1,4 +1,4 @@
-import {
+import IPrismaticJoint, {
     prismaticJointDefaults,
     prismaticJointSchema
 } from "../../interface/IPrismaticJoint"
@@ -12,7 +12,10 @@ const createPrismatic = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     return j
 }
 
-export default class PrismaticJoint extends JointBase {
+export default class PrismaticJoint
+    extends JointBase
+    implements IPrismaticJoint
+{
     public static componentName = "prismaticJoint"
     public static defaults = prismaticJointDefaults
     public static schema = prismaticJointSchema

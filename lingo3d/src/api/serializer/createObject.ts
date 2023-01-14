@@ -47,6 +47,7 @@ import FixedJoint from "../../display/joints/FixedJoint"
 import DistanceJoint from "../../display/joints/DistanceJoint"
 import RevoluteJoint from "../../display/joints/RevoluteJoint"
 import PrismaticJoint from "../../display/joints/PrismaticJoint"
+import D6Joint from "../../display/joints/D6Joint"
 import Audio from "../../display/Audio"
 import Appendable from "../core/Appendable"
 
@@ -73,6 +74,7 @@ const record = {
     distanceJoint: () => new DistanceJoint(),
     revoluteJoint: () => new RevoluteJoint(),
     prismaticJoint: () => new PrismaticJoint(),
+    d6Joint: () => new D6Joint(),
     audio: () => new Audio(),
     camera: () => new Camera(),
     thirdPersonCamera: () => new ThirdPersonCamera(),

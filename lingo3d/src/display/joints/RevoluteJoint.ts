@@ -1,4 +1,4 @@
-import {
+import IRevoluteJoint, {
     revoluteJointDefaults,
     revoluteJointSchema
 } from "../../interface/IRevoluteJoint"
@@ -12,7 +12,7 @@ const createRevolute = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     return j
 }
 
-export default class RevoluteJoint extends JointBase {
+export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     public static componentName = "revoluteJoint"
     public static defaults = revoluteJointDefaults
     public static schema = revoluteJointSchema

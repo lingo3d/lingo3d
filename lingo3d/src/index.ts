@@ -32,6 +32,7 @@ import FixedJoint from "./display/joints/FixedJoint"
 import DistanceJoint from "./display/joints/DistanceJoint"
 import RevoluteJoint from "./display/joints/RevoluteJoint"
 import PrismaticJoint from "./display/joints/PrismaticJoint"
+import D6Joint from "./display/joints/D6Joint"
 import Audio from "./display/Audio"
 import Group from "./display/Group"
 import Skybox from "./display/Skybox"
@@ -123,6 +124,7 @@ export {
     DistanceJoint,
     RevoluteJoint,
     PrismaticJoint,
+    D6Joint,
     Audio,
     Group,
     Skybox,

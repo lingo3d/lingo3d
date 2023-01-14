@@ -11,6 +11,7 @@ export default (
         | "sphericalJoint"
         | "revoluteJoint"
         | "prismaticJoint"
+        | "d6Joint"
 ) =>
     flushMultipleSelectionTargets((managers) => {
         let fromManager: MeshAppendable | undefined

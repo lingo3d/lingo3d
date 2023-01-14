@@ -1,4 +1,4 @@
-import {
+import IDistanceJoint, {
     distanceJointDefaults,
     distanceJointSchema
 } from "../../interface/IDistanceJoint"
@@ -12,7 +12,7 @@ const createDistance = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     return j
 }
 
-export default class DistanceJoint extends JointBase {
+export default class DistanceJoint extends JointBase implements IDistanceJoint {
     public static componentName = "distanceJoint"
     public static defaults = distanceJointDefaults
     public static schema = distanceJointSchema
