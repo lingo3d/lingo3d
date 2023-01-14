@@ -20,13 +20,14 @@ import search from "./utils/search"
 import createJoint from "./utils/createJoint"
 
 const SceneGraphContextMenu = () => {
-    const [position, setPosition] = useState<Point & { search?: boolean }>()
+    const [position, setPosition] = useState<
+        Point & { search?: boolean; createJoint?: boolean }
+    >()
     const selectionTarget = useSyncState(getSelectionTarget)
     const [selectionFrozen] = useSyncState(getSelectionFrozen)
     const [timelineData] = useSyncState(getTimelineData)
     const timeline = useSyncState(getTimeline)
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
-    const [showCreateJoint, setShowCreateJoint] = useState(false)
 
     useEffect(() => {
         const handle = onSelectionTarget(
@@ -50,7 +51,7 @@ const SceneGraphContextMenu = () => {
                 search(value, selectionTarget)
             }
         >
-            {showCreateJoint ? (
+            {position.createJoint ? (
                 <>
                     <ContextMenuItem
                         onClick={() => {
@@ -72,7 +73,9 @@ const SceneGraphContextMenu = () => {
                     {multipleSelectionTargets.size ? (
                         <ContextMenuItem
                             disabled={multipleSelectionTargets.size === 1}
-                            onClick={() => setShowCreateJoint(true)}
+                            onClick={() =>
+                                setPosition({ ...position, createJoint: true })
+                            }
                         >
                             Create joint
                         </ContextMenuItem>
@@ -92,10 +95,9 @@ const SceneGraphContextMenu = () => {
                         selectionTarget && (
                             <>
                                 <ContextMenuItem
-                                    onClick={(e) =>
+                                    onClick={() =>
                                         setPosition({
-                                            x: e.clientX,
-                                            y: e.clientY,
+                                            ...position,
                                             search: true
                                         })
                                     }
