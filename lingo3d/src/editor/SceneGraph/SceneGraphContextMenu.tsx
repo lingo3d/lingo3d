@@ -55,6 +55,7 @@ const SceneGraphContextMenu = () => {
                 <>
                     <ContextMenuItem
                         onClick={() => {
+                            createJoint("fixedJoint")
                             setPosition(undefined)
                         }}
                     >
@@ -62,6 +63,7 @@ const SceneGraphContextMenu = () => {
                     </ContextMenuItem>
                     <ContextMenuItem
                         onClick={() => {
+                            createJoint("sphericalJoint")
                             setPosition(undefined)
                         }}
                     >
