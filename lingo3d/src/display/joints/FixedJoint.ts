@@ -1,4 +1,7 @@
-import IFixedJoint from "../../interface/IFixedJoint"
+import IFixedJoint, {
+    fixedJointDefaults,
+    fixedJointSchema
+} from "../../interface/IFixedJoint"
 import { getPhysX } from "../../states/usePhysX"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
@@ -13,6 +16,10 @@ const createFixed = (actor0: any, pose0: any, actor1: any, pose1: any) => {
 }
 
 export default class FixedJoint extends JointBase implements IFixedJoint {
+    public static componentName = "fixedJoint"
+    public static defaults = fixedJointDefaults
+    public static schema = fixedJointSchema
+
     protected createJoint(
         fromPxTransform: any,
         toPxTransform: any,
