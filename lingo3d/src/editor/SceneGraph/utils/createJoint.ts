@@ -1,20 +1,20 @@
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import SphericalJoint from "../../../display/joints/SphericalJoint"
 import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { flushMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
 import createObject from "../../../api/serializer/createObject"
+import JointBase from "../../../display/core/JointBase"
 
 export default (type: "fixedJoint" | "sphericalJoint") =>
     flushMultipleSelectionTargets((managers) => {
-        let managerOld: MeshAppendable | undefined
-        let joint = createObject(type)
-        for (const manager of managers) {
-            if (managerOld) {
-                joint = new SphericalJoint()
-                joint.from = manager.uuid
-                joint.to = managerOld.uuid
+        let fromManager: MeshAppendable | undefined
+        let joint: JointBase | undefined
+        for (const toManager of managers) {
+            if (fromManager) {
+                joint = createObject(type)
+                joint.from = fromManager.uuid
+                joint.to = toManager.uuid
             }
-            managerOld = manager
+            fromManager = toManager
         }
         emitSelectionTarget(joint)
     }, true)
