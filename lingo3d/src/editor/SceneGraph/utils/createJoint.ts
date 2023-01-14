@@ -1,5 +1,5 @@
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import SphericalJoint from "../../../display/SphericalJoint"
+import SphericalJoint from "../../../display/joints/SphericalJoint"
 import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { flushMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
 

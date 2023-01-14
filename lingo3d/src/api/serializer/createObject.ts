@@ -42,7 +42,7 @@ import Timeline from "../../display/Timeline"
 import TimelineAudio from "../../display/TimelineAudio"
 import Trigger from "../../display/Trigger"
 import SpawnPoint from "../../display/SpawnPoint"
-import SphericalJoint from "../../display/SphericalJoint"
+import SphericalJoint from "../../display/joints/SphericalJoint"
 import Audio from "../../display/Audio"
 
 const record = {
