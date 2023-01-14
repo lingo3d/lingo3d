@@ -20,7 +20,7 @@ const nodeToObjectManager = (
     Object.assign(object, omit(node, nonSerializedProperties))
     node.children
         ?.map((n) => nodeToObjectManager(n, loadedResolvables))
-        .forEach((c) => c && object.append(c))
+        .forEach((c) => c && object.append(c as any))
     return object
 }
 

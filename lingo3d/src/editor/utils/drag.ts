@@ -1,6 +1,5 @@
+import Appendable from "../../api/core/Appendable"
 import TexturedStandardMixin from "../../display/core/mixins/TexturedStandardMixin"
-import ObjectManager from "../../display/core/ObjectManager"
-import StaticObjectManager from "../../display/core/StaticObjectManager"
 import { container } from "../../engine/renderLoop/renderSetup"
 import { setEditorDragEvent } from "../../states/useEditorDragEvent"
 
@@ -13,8 +12,8 @@ document.addEventListener("drop", (e) => e.preventDefault())
 export default <T>(
     onDrop: (
         draggingItem: T,
-        hitManager?: StaticObjectManager | TexturedStandardMixin
-    ) => ObjectManager | undefined
+        hitManager?: Appendable | TexturedStandardMixin
+    ) => Appendable | undefined
 ) => {
     let draggingItem: T | undefined
     container.addEventListener(

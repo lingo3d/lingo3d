@@ -1,5 +1,6 @@
 import { Point3d } from "@lincode/math"
 import store, { createEffect, createMemo, createRef } from "@lincode/reactivity"
+import Appendable from "../api/core/Appendable"
 import StaticObjectManager from "../display/core/StaticObjectManager"
 import { raycast } from "../display/core/StaticObjectManager/raycast/pickable"
 import selectionCandidates, {
@@ -12,7 +13,7 @@ import { emitSelectionTarget } from "../events/onSelectionTarget"
 
 export const [setEditorDragEvent, getEditorDragEvent] = store<
     | DragEvent
-    | ((hitManager?: StaticObjectManager) => StaticObjectManager | undefined)
+    | ((hitManager?: Appendable) => Appendable | undefined)
     | undefined
 >(undefined)
 

@@ -45,32 +45,33 @@ import SpawnPoint from "../../display/SpawnPoint"
 import SphericalJoint from "../../display/joints/SphericalJoint"
 import FixedJoint from "../../display/joints/FixedJoint"
 import Audio from "../../display/Audio"
+import Appendable from "../core/Appendable"
 
 const record = {
     group: () => new Group(),
     model: () => new Model(),
     svgMesh: () => new SvgMesh(),
     htmlMesh: () => new HTMLMesh(),
-    joystick: () => new Joystick() as any,
-    reticle: () => new Reticle() as any,
-    splashScreen: () => new SplashScreen() as any,
-    text: () => new Text() as any,
+    joystick: () => new Joystick(),
+    reticle: () => new Reticle(),
+    splashScreen: () => new SplashScreen(),
+    text: () => new Text(),
     dummy: () => new Dummy(),
     building: () => new Building(),
     tree: () => new Tree(),
     reflector: () => new Reflector(),
     water: () => new Water(),
-    curve: () => new Curve() as any,
+    curve: () => new Curve(),
     sprite: () => new Sprite(),
-    trigger: () => new Trigger() as any,
-    spawnPoint: () => new SpawnPoint() as any,
-    sphericalJoint: () => new SphericalJoint() as any,
-    fixedJoint: () => new FixedJoint() as any,
-    audio: () => new Audio() as any,
+    trigger: () => new Trigger(),
+    spawnPoint: () => new SpawnPoint(),
+    sphericalJoint: () => new SphericalJoint(),
+    fixedJoint: () => new FixedJoint(),
+    audio: () => new Audio(),
     camera: () => new Camera(),
     thirdPersonCamera: () => new ThirdPersonCamera(),
     firstPersonCamera: () => new FirstPersonCamera(),
-    orbitCamera: () => new OrbitCamera() as any,
+    orbitCamera: () => new OrbitCamera(),
     ambientLight: () => new AmbientLight(),
     areaLight: () => new AreaLight(),
     directionalLight: () => new DirectionalLight(),
@@ -87,11 +88,13 @@ const record = {
     sphere: () => new Sphere(),
     tetrahedron: () => new Tetrahedron(),
     torus: () => new Torus(),
-    skybox: () => new Skybox() as any,
-    environment: () => new Environment() as any,
-    setup: () => new Setup() as any,
-    timeline: () => new Timeline() as any,
-    timelineAudio: () => new TimelineAudio() as any
-} satisfies Record<GameObjectType, () => ObjectManager>
+    skybox: () => new Skybox(),
+    environment: () => new Environment(),
+    setup: () => new Setup(),
+    timeline: () => new Timeline(),
+    timelineAudio: () => new TimelineAudio()
+} satisfies Record<GameObjectType, () => Appendable>
 
-export default (type: GameObjectType) => record[type]()
+export default <T extends GameObjectType>(
+    type: T
+): ReturnType<(typeof record)[T]> => record[type]() as any
