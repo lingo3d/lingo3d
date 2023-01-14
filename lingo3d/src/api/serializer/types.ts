@@ -20,6 +20,7 @@ export type GameObjectType =
     | "spawnPoint"
     | "sphericalJoint"
     | "fixedJoint"
+    | "distanceJoint"
     | "audio"
     | "ambientLight"
     | "areaLight"

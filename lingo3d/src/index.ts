@@ -29,6 +29,7 @@ import Trigger from "./display/Trigger"
 import SpawnPoint from "./display/SpawnPoint"
 import SphericalJoint from "./display/joints/SphericalJoint"
 import FixedJoint from "./display/joints/FixedJoint"
+import DistanceJoint from "./display/joints/DistanceJoint"
 import Audio from "./display/Audio"
 import Group from "./display/Group"
 import Skybox from "./display/Skybox"
@@ -117,6 +118,7 @@ export {
     SpawnPoint,
     SphericalJoint,
     FixedJoint,
+    DistanceJoint,
     Audio,
     Group,
     Skybox,

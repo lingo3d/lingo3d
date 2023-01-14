@@ -69,6 +69,14 @@ const SceneGraphContextMenu = () => {
                     >
                         Spherical joint
                     </ContextMenuItem>
+                    <ContextMenuItem
+                        onClick={() => {
+                            createJoint("distanceJoint")
+                            setPosition(undefined)
+                        }}
+                    >
+                        Distance joint
+                    </ContextMenuItem>
                 </>
             ) : (
                 <>

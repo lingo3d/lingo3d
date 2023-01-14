@@ -4,7 +4,7 @@ import { flushMultipleSelectionTargets } from "../../../states/useMultipleSelect
 import createObject from "../../../api/serializer/createObject"
 import JointBase from "../../../display/core/JointBase"
 
-export default (type: "fixedJoint" | "sphericalJoint") =>
+export default (type: "fixedJoint" | "distanceJoint" | "sphericalJoint") =>
     flushMultipleSelectionTargets((managers) => {
         let fromManager: MeshAppendable | undefined
         let joint: JointBase | undefined
