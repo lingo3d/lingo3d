@@ -1,21 +1,21 @@
 import { Object3D, PerspectiveCamera } from "three"
-import scene from "../../../engine/scene"
-import { onBeforeRender } from "../../../events/onBeforeRender"
+import scene from "../../engine/scene"
+import { onBeforeRender } from "../../events/onBeforeRender"
 import ICharacterCamera, {
     characterCameraDefaults,
     characterCameraSchema,
     LockTargetRotationValue
-} from "../../../interface/ICharacterCamera"
-import { getSelectionTarget } from "../../../states/useSelectionTarget"
-import { getTransformControlsDragging } from "../../../states/useTransformControlsDragging"
-import OrbitCameraBase from "../OrbitCameraBase"
-import { euler, quaternion } from "../../utils/reusables"
-import { FAR, NEAR, PI } from "../../../globals"
-import fpsAlpha from "../../utils/fpsAlpha"
-import { positionChangedXZ } from "../../utils/trackObject"
-import { getEditorModeComputed } from "../../../states/useEditorModeComputed"
-import { updateAngleSystem } from "../CameraBase"
-import MeshAppendable from "../../../api/core/MeshAppendable"
+} from "../../interface/ICharacterCamera"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
+import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
+import OrbitCameraBase from "./OrbitCameraBase"
+import { euler, quaternion } from "../utils/reusables"
+import { FAR, NEAR, PI } from "../../globals"
+import fpsAlpha from "../utils/fpsAlpha"
+import { positionChangedXZ } from "../utils/trackObject"
+import { getEditorModeComputed } from "../../states/useEditorModeComputed"
+import { updateAngleSystem } from "./CameraBase"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
 export default class CharacterCamera
     extends OrbitCameraBase
