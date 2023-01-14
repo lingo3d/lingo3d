@@ -79,8 +79,11 @@ export default class Joint
             sphere.depthTest = false
             const handle = addSelectionHelper(sphere, this)
 
-            sphere.onTranslateControl = sphere.onRotateControl = (phase) =>
+            sphere.onTranslateControl = (phase) =>
                 phase === "end" && this.setManualPosition()
+
+            sphere.onRotateControl = (phase) =>
+                phase === "end" && this.setManualRotation()
 
             return () => {
                 handle.cancel()
@@ -142,6 +145,7 @@ export default class Joint
                 const toScale = toManager.outerObject3d.scale
 
                 fromManager.outerObject3d.attach(this.outerObject3d)
+                !this.manualRotation && this.quaternion.set(0, 0, 0, 1)
                 const pxTransform = setPxTransform(
                     p.x * fromScale.x,
                     p.y * fromScale.y,
@@ -152,6 +156,7 @@ export default class Joint
                     q.w
                 )
                 toManager.outerObject3d.attach(this.outerObject3d)
+                !this.manualRotation && this.quaternion.set(0, 0, 0, 1)
                 const pxTransform_ = setPxTransform_(
                     p.x * toScale.x,
                     p.y * toScale.y,
@@ -261,6 +266,12 @@ export default class Joint
         this.refreshState.set({})
     }
 
+    private manualRotation?: boolean
+    private setManualRotation() {
+        this.manualRotation = true
+        this.refreshState.set({})
+    }
+
     public override get x() {
         return super.x
     }
@@ -283,6 +294,30 @@ export default class Joint
     public override set z(val) {
         super.z = val
         this.setManualPosition()
+    }
+
+    public override get rotationX() {
+        return super.rotationX
+    }
+    public override set rotationX(val) {
+        super.rotationX = val
+        this.setManualRotation()
+    }
+
+    public override get rotationY() {
+        return super.rotationY
+    }
+    public override set rotationY(val) {
+        super.rotationY = val
+        this.setManualRotation()
+    }
+
+    public override get rotationZ() {
+        return super.rotationZ
+    }
+    public override set rotationZ(val) {
+        super.rotationZ = val
+        this.setManualRotation()
     }
 
     private _yLimitAngle = 360
