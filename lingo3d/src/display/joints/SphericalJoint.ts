@@ -13,21 +13,26 @@ const createLimitedSpherical = (
     pose0: any,
     actor1: any,
     pose1: any,
-    yLimitAngle: number,
-    zLimitAngle: number
+    yLimitAngle?: number,
+    zLimitAngle?: number
 ) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
         getPhysX()
 
     const joint = Px.SphericalJointCreate(physics, actor0, pose0, actor1, pose1)
-    const cone = new PxJointLimitCone(
-        yLimitAngle * deg2Rad,
-        zLimitAngle * deg2Rad,
-        0.05
-    )
-    joint.setLimitCone(cone)
-    destroy(cone)
-    joint.setSphericalJointFlag(PxSphericalJointFlagEnum.eLIMIT_ENABLED(), true)
+    if (yLimitAngle !== undefined && zLimitAngle !== undefined) {
+        const cone = new PxJointLimitCone(
+            yLimitAngle * deg2Rad,
+            zLimitAngle * deg2Rad,
+            0.05
+        )
+        joint.setLimitCone(cone)
+        destroy(cone)
+        joint.setSphericalJointFlag(
+            PxSphericalJointFlagEnum.eLIMIT_ENABLED(),
+            true
+        )
+    }
     return joint
 }
 
@@ -55,7 +60,7 @@ export default class SphericalJoint
         )
     }
 
-    private _yLimitAngle = 360
+    private _yLimitAngle?: number
     public get yLimitAngle() {
         return this._yLimitAngle
     }
@@ -64,7 +69,7 @@ export default class SphericalJoint
         this.refreshState.set({})
     }
 
-    private _zLimitAngle = 360
+    private _zLimitAngle?: number
     public get zLimitAngle() {
         return this._zLimitAngle
     }
