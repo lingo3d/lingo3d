@@ -1,4 +1,5 @@
 import MeshAppendable from "../../../api/core/MeshAppendable"
+import JointBase from "../../../display/core/JointBase"
 import SphericalJoint from "../../../display/joints/SphericalJoint"
 import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { flushMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
@@ -6,7 +7,7 @@ import { flushMultipleSelectionTargets } from "../../../states/useMultipleSelect
 export default () =>
     flushMultipleSelectionTargets((managers) => {
         let managerOld: MeshAppendable | undefined
-        let joint: SphericalJoint | undefined
+        let joint: JointBase | undefined
         for (const manager of managers) {
             if (managerOld) {
                 joint = new SphericalJoint()
