@@ -6,6 +6,7 @@ import MeshAppendable from "../../api/core/MeshAppendable"
 import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { TransformControlsPhase } from "../../events/onTransformControls"
+import IJointBase from "../../interface/IJointBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getPhysX } from "../../states/usePhysX"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
@@ -21,7 +22,10 @@ import { getMeshManagerSets } from "./StaticObjectManager"
 import { addSelectionHelper } from "./StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./utils/HelperSphere"
 
-export default abstract class JointBase extends PositionedDirectionedManager {
+export default abstract class JointBase
+    extends PositionedDirectionedManager
+    implements IJointBase
+{
     private fromManager?: PhysicsObjectManager
     private toManager?: PhysicsObjectManager
 

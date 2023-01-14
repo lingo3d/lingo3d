@@ -1,33 +1,22 @@
-import MeshAppendable from "../api/core/MeshAppendable"
-import IPositionedDirectionedManager, {
-    positionedDirectionedManagerDefaults,
-    positionedDirectionedManagerSchema
-} from "./IPositionedDirectionedManager"
+import IJointBase, { jointBaseDefaults, jointBaseSchema } from "./IJointBase"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import Nullable from "./utils/Nullable"
 import Range from "./utils/Range"
 
-export default interface ISphericalJoint extends IPositionedDirectionedManager {
-    from: Nullable<string | MeshAppendable>
-    to: Nullable<string | MeshAppendable>
+export default interface ISphericalJoint extends IJointBase {
     yLimitAngle: number
     zLimitAngle: number
 }
 
 export const sphericalJointSchema: Required<ExtractProps<ISphericalJoint>> = {
-    ...positionedDirectionedManagerSchema,
-    from: [String, Object],
-    to: [String, Object],
+    ...jointBaseSchema,
     yLimitAngle: Number,
     zLimitAngle: Number
 }
 
 export const sphericalJointDefaults = extendDefaults<ISphericalJoint>(
-    [positionedDirectionedManagerDefaults],
+    [jointBaseDefaults],
     {
-        from: undefined,
-        to: undefined,
         yLimitAngle: 360,
         zLimitAngle: 360
     },
