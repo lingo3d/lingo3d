@@ -71,6 +71,14 @@ const SceneGraphContextMenu = () => {
                     </ContextMenuItem>
                     <ContextMenuItem
                         onClick={() => {
+                            createJoint("revoluteJoint")
+                            setPosition(undefined)
+                        }}
+                    >
+                        Revolute joint
+                    </ContextMenuItem>
+                    <ContextMenuItem
+                        onClick={() => {
                             createJoint("distanceJoint")
                             setPosition(undefined)
                         }}

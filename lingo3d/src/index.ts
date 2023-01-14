@@ -30,6 +30,7 @@ import SpawnPoint from "./display/SpawnPoint"
 import SphericalJoint from "./display/joints/SphericalJoint"
 import FixedJoint from "./display/joints/FixedJoint"
 import DistanceJoint from "./display/joints/DistanceJoint"
+import RevoluteJoint from "./display/joints/RevoluteJoint"
 import Audio from "./display/Audio"
 import Group from "./display/Group"
 import Skybox from "./display/Skybox"
@@ -119,6 +120,7 @@ export {
     SphericalJoint,
     FixedJoint,
     DistanceJoint,
+    RevoluteJoint,
     Audio,
     Group,
     Skybox,

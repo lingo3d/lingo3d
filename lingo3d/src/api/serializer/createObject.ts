@@ -45,6 +45,7 @@ import SpawnPoint from "../../display/SpawnPoint"
 import SphericalJoint from "../../display/joints/SphericalJoint"
 import FixedJoint from "../../display/joints/FixedJoint"
 import DistanceJoint from "../../display/joints/DistanceJoint"
+import RevoluteJoint from "../../display/joints/RevoluteJoint"
 import Audio from "../../display/Audio"
 import Appendable from "../core/Appendable"
 
@@ -69,6 +70,7 @@ const record = {
     sphericalJoint: () => new SphericalJoint(),
     fixedJoint: () => new FixedJoint(),
     distanceJoint: () => new DistanceJoint(),
+    revoluteJoint: () => new RevoluteJoint(),
     audio: () => new Audio(),
     camera: () => new Camera(),
     thirdPersonCamera: () => new ThirdPersonCamera(),
