@@ -26,6 +26,7 @@ const SceneGraphContextMenu = () => {
     const [timelineData] = useSyncState(getTimelineData)
     const timeline = useSyncState(getTimeline)
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
+    const [showCreateJoint, setShowCreateJoint] = useState(false)
 
     useEffect(() => {
         const handle = onSelectionTarget(
@@ -49,85 +50,107 @@ const SceneGraphContextMenu = () => {
                 search(value, selectionTarget)
             }
         >
-            {multipleSelectionTargets.size ? (
-                <ContextMenuItem
-                    disabled={multipleSelectionTargets.size === 1}
-                    onClick={() => {
-                        createJoint()
-                        setPosition(undefined)
-                    }}
-                >
-                    Create joints
-                </ContextMenuItem>
-            ) : selectionTarget instanceof Timeline ? (
-                <ContextMenuItem
-                    disabled={selectionTarget === timeline}
-                    onClick={() => {
-                        setTimeline(selectionTarget)
-                        setPosition(undefined)
-                    }}
-                >
-                    {selectionTarget === timeline
-                        ? "Already editing"
-                        : "Edit timeline"}
-                </ContextMenuItem>
+            {showCreateJoint ? (
+                <>
+                    <ContextMenuItem
+                        onClick={() => {
+                            setPosition(undefined)
+                        }}
+                    >
+                        Fixed joint
+                    </ContextMenuItem>
+                    <ContextMenuItem
+                        onClick={() => {
+                            setPosition(undefined)
+                        }}
+                    >
+                        Spherical joint
+                    </ContextMenuItem>
+                </>
             ) : (
-                selectionTarget && (
-                    <>
+                <>
+                    {multipleSelectionTargets.size ? (
                         <ContextMenuItem
-                            onClick={(e) =>
-                                setPosition({
-                                    x: e.clientX,
-                                    y: e.clientY,
-                                    search: true
-                                })
-                            }
+                            disabled={multipleSelectionTargets.size === 1}
+                            onClick={() => setShowCreateJoint(true)}
                         >
-                            Search children
+                            Create joint
                         </ContextMenuItem>
-
+                    ) : selectionTarget instanceof Timeline ? (
                         <ContextMenuItem
-                            disabled={
-                                !timelineData ||
-                                selectionTarget.uuid in timelineData
-                            }
+                            disabled={selectionTarget === timeline}
                             onClick={() => {
-                                timeline?.mergeData({
-                                    [selectionTarget.uuid]: {}
-                                })
+                                setTimeline(selectionTarget)
                                 setPosition(undefined)
                             }}
                         >
-                            {timelineData &&
-                            selectionTarget.uuid in timelineData
-                                ? "Already in timeline"
-                                : "Add to timeline"}
+                            {selectionTarget === timeline
+                                ? "Already editing"
+                                : "Edit timeline"}
                         </ContextMenuItem>
+                    ) : (
+                        selectionTarget && (
+                            <>
+                                <ContextMenuItem
+                                    onClick={(e) =>
+                                        setPosition({
+                                            x: e.clientX,
+                                            y: e.clientY,
+                                            search: true
+                                        })
+                                    }
+                                >
+                                    Search children
+                                </ContextMenuItem>
 
-                        <ContextMenuItem
-                            onClick={() => {
-                                selectionFrozen.has(selectionTarget)
-                                    ? removeSelectionFrozen(selectionTarget)
-                                    : addSelectionFrozen(selectionTarget)
-                                setPosition(undefined)
-                            }}
-                        >
-                            {selectionFrozen.has(selectionTarget)
-                                ? "Unfreeze selection"
-                                : "Freeze selection"}
-                        </ContextMenuItem>
-                    </>
-                )
+                                <ContextMenuItem
+                                    disabled={
+                                        !timelineData ||
+                                        selectionTarget.uuid in timelineData
+                                    }
+                                    onClick={() => {
+                                        timeline?.mergeData({
+                                            [selectionTarget.uuid]: {}
+                                        })
+                                        setPosition(undefined)
+                                    }}
+                                >
+                                    {timelineData &&
+                                    selectionTarget.uuid in timelineData
+                                        ? "Already in timeline"
+                                        : "Add to timeline"}
+                                </ContextMenuItem>
+
+                                <ContextMenuItem
+                                    onClick={() => {
+                                        selectionFrozen.has(selectionTarget)
+                                            ? removeSelectionFrozen(
+                                                  selectionTarget
+                                              )
+                                            : addSelectionFrozen(
+                                                  selectionTarget
+                                              )
+                                        setPosition(undefined)
+                                    }}
+                                >
+                                    {selectionFrozen.has(selectionTarget)
+                                        ? "Unfreeze selection"
+                                        : "Freeze selection"}
+                                </ContextMenuItem>
+                            </>
+                        )
+                    )}
+                    <ContextMenuItem
+                        disabled={!selectionFrozen.size}
+                        onClick={() => {
+                            clearSelectionFrozen()
+                            setPosition(undefined)
+                        }}
+                    >
+                        Unfreeze all
+                    </ContextMenuItem>
+                </>
             )}
-            <ContextMenuItem
-                disabled={!selectionFrozen.size}
-                onClick={() => {
-                    clearSelectionFrozen()
-                    setPosition(undefined)
-                }}
-            >
-                Unfreeze all
-            </ContextMenuItem>
         </ContextMenu>
     )
 }
