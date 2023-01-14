@@ -79,6 +79,14 @@ const SceneGraphContextMenu = () => {
                     </ContextMenuItem>
                     <ContextMenuItem
                         onClick={() => {
+                            createJoint("prismaticJoint")
+                            setPosition(undefined)
+                        }}
+                    >
+                        Prismatic joint
+                    </ContextMenuItem>
+                    <ContextMenuItem
+                        onClick={() => {
                             createJoint("distanceJoint")
                             setPosition(undefined)
                         }}

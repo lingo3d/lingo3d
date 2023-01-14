@@ -5,7 +5,12 @@ import createObject from "../../../api/serializer/createObject"
 import JointBase from "../../../display/core/JointBase"
 
 export default (
-    type: "fixedJoint" | "distanceJoint" | "sphericalJoint" | "revoluteJoint"
+    type:
+        | "fixedJoint"
+        | "distanceJoint"
+        | "sphericalJoint"
+        | "revoluteJoint"
+        | "prismaticJoint"
 ) =>
     flushMultipleSelectionTargets((managers) => {
         let fromManager: MeshAppendable | undefined

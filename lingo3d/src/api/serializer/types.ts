@@ -22,6 +22,7 @@ export type GameObjectType =
     | "fixedJoint"
     | "distanceJoint"
     | "revoluteJoint"
+    | "prismaticJoint"
     | "audio"
     | "ambientLight"
     | "areaLight"
