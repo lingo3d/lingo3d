@@ -46,6 +46,9 @@ const Tabs = () => {
             const cameraInput = pane.add(
                 pane.addInput(cameraSettings, label, { options })
             )
+            el.querySelector<HTMLDivElement>(".tp-lblv_v")!.style.width =
+                "100px"
+
             return () => {
                 cameraInput.dispose()
             }

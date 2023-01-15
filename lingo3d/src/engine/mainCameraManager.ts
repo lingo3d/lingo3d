@@ -14,7 +14,7 @@ import { M2CM } from "../globals"
 const mainCameraManager = new OrbitCamera(mainCamera)
 export default mainCameraManager
 
-mainCameraManager.name = "defaultCamera"
+mainCameraManager.name = "camera"
 mainCameraManager.enableZoom = true
 mainCameraManager.enableFly = true
 mainCameraManager.mouseControl = false
