@@ -11,6 +11,7 @@ import { getCameraList } from "../../states/useCameraList"
 import { setEditorCamera } from "../../states/useEditorCamera"
 import getComponentName from "../utils/getComponentName"
 import { createEffect } from "@lincode/reactivity"
+import Switch from "../component/Switch"
 
 const Tabs = () => {
     useInitCSS()
@@ -46,8 +47,7 @@ const Tabs = () => {
             const cameraInput = pane.add(
                 pane.addInput(cameraSettings, label, { options })
             )
-            el.querySelector<HTMLDivElement>(".tp-lblv_v")!.style.width =
-                "100px"
+            el.querySelector<HTMLDivElement>(".tp-lblv_v")!.style.width = "100px"
 
             return () => {
                 cameraInput.dispose()
@@ -67,6 +67,7 @@ const Tabs = () => {
         >
             <AppBar>
                 <div ref={elRef} style={{ marginLeft: -20 }} />
+                <Switch />
                 <div style={{ flexGrow: 1, minWidth: 4 }} />
                 <Controls />
             </AppBar>
