@@ -61,8 +61,8 @@ const useResize = (el: Element) => {
             containerBounds[0] = container.getBoundingClientRect()
             setResolution(
                 el === document.body
-                    ? [window.innerWidth, window.innerHeight + 4]
-                    : [el.clientWidth, el.clientHeight + 4]
+                    ? [window.innerWidth, window.innerHeight]
+                    : [el.clientWidth, el.clientHeight]
             )
         }
         handleResize()
@@ -118,7 +118,6 @@ createEffect(() => {
     const canvas = renderer.domElement
     container.prepend(canvas)
     canvas.classList.add("lingo3d-container")
-    canvas.style.top = "-2px"
     return () => {
         canvas.remove()
     }

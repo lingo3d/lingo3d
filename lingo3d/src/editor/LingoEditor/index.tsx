@@ -38,7 +38,7 @@ const LingoEditor = () => {
 
             <WorldBar />
             <div
-                className="lingo3d-world"
+                className="lingo3d-world lingo3d-bg"
                 ref={elRef}
                 style={{ height: "100%", flexGrow: 1, position: "relative" }}
             />
