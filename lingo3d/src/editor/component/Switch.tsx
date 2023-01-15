@@ -1,8 +1,12 @@
+import { useState } from "preact/hooks"
+
 type SwitchProps = {
     label?: string
 }
 
 const Switch = ({ label }: SwitchProps) => {
+    const [on, setOn] = useState(false)
+
     return (
         <div
             style={{
@@ -11,6 +15,7 @@ const Switch = ({ label }: SwitchProps) => {
                 gap: 4,
                 marginLeft: 4
             }}
+            onClick={() => setOn(!on)}
         >
             <div
                 style={{
@@ -26,7 +31,9 @@ const Switch = ({ label }: SwitchProps) => {
                         width: 16,
                         height: 16,
                         background: "rgba(255, 255, 255, 0.5)",
-                        borderRadius: 999
+                        borderRadius: 999,
+                        left: on ? "calc(100% - 16px)" : 0,
+                        transition: "all 100ms"
                     }}
                 />
             </div>
