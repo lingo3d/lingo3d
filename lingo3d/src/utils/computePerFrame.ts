@@ -1,7 +1,7 @@
-import { onAfterRender } from "../events/onAfterRender"
+import debounceFrame from "./debounceFrame"
 
 const caches: Array<Map<object, any>> = []
-onAfterRender(() => {
+const queueClearCache = debounceFrame(() => {
     for (const cache of caches) cache.clear()
 })
 
@@ -22,6 +22,7 @@ export default <Item extends object, Return>(
             const result = cb(item)
             //@ts-ignore
             cache.set(item, result.clone())
+            queueClearCache()
             //@ts-ignore
             return result.clone()
         }
@@ -30,6 +31,7 @@ export default <Item extends object, Return>(
         if (cache.has(item)) return cache.get(item)!
         const result = cb(item)
         cache.set(item, result)
+        queueClearCache()
         return result
     }
 }
