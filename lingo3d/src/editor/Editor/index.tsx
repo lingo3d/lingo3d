@@ -1,5 +1,5 @@
-import { FolderApi, Pane } from "../TweakPane/tweakpane"
-import { useLayoutEffect, useState } from "preact/hooks"
+import { Pane } from "../TweakPane/tweakpane"
+import { useLayoutEffect } from "preact/hooks"
 import { Cancellable } from "@lincode/promiselikes"
 import getComponentName from "../utils/getComponentName"
 import addInputs from "./addInputs"
@@ -11,7 +11,6 @@ import addSetupInputs from "./addSetupInputs"
 import CloseableTab from "../component/tabs/CloseableTab"
 import AppBar from "../component/bars/AppBar"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import useCameraPanel from "./useCameraPanel"
 import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
 import useInitCSS from "../hooks/useInitCSS"
 import useClickable from "../hooks/useClickable"
@@ -42,21 +41,15 @@ const Editor = () => {
     }, [])
 
     const elRef = useClickable()
-    const [pane, setPane] = useState<Pane>()
-    const [cameraFolder, setCameraFolder] = useState<FolderApi>()
 
     const selectionTarget = useSyncState(getSelectionTarget)
     const selectedSignal = useSignal<string | undefined>(undefined)
-
-    useCameraPanel(pane, cameraFolder)
 
     useLayoutEffect(() => {
         const el = elRef.current
         if (!el) return
 
         const pane = new Pane({ container: el })
-        setPane(pane)
-        setCameraFolder(pane.addFolder({ title: "camera" }))
 
         const handle = new Cancellable()
         if (
@@ -66,7 +59,6 @@ const Editor = () => {
         ) {
             addSetupInputs(handle, pane, setupStruct)
             return () => {
-                setCameraFolder(undefined)
                 handle.cancel()
                 pane.dispose()
             }
@@ -328,7 +320,6 @@ const Editor = () => {
         }
 
         return () => {
-            setCameraFolder(undefined)
             handle.cancel()
             pane.dispose()
         }

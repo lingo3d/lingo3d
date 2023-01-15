@@ -75,7 +75,7 @@ createEffect(() => {
             } else if (keyLowerCase === "c") {
                 e.preventDefault()
                 copySelected()
-            }
+            } else if (keyLowerCase === "p") e.preventDefault()
         } else if (keyLowerCase === "c") {
             setEditorCamera(mainCamera)
             settings.uiLayer = false
