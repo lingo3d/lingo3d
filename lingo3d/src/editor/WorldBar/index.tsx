@@ -12,11 +12,14 @@ import { setEditorCamera } from "../../states/useEditorCamera"
 import getComponentName from "../utils/getComponentName"
 import { createEffect } from "@lincode/reactivity"
 import Switch from "../component/Switch"
+import useSyncState from "../hooks/useSyncState"
+import { getSplitView, setSplitView } from "../../states/useSplitView"
 
 const Tabs = () => {
     useInitCSS()
     useInitEditor()
 
+    const splitView = useSyncState(getSplitView)
     const elRef = useClickable()
 
     useLayoutEffect(() => {
@@ -47,7 +50,8 @@ const Tabs = () => {
             const cameraInput = pane.add(
                 pane.addInput(cameraSettings, label, { options })
             )
-            el.querySelector<HTMLDivElement>(".tp-lblv_v")!.style.width = "100px"
+            el.querySelector<HTMLDivElement>(".tp-lblv_v")!.style.width =
+                "100px"
 
             return () => {
                 cameraInput.dispose()
@@ -67,7 +71,11 @@ const Tabs = () => {
         >
             <AppBar>
                 <div ref={elRef} style={{ marginLeft: -20 }} />
-                <Switch label="split view" />
+                <Switch
+                    label="split view"
+                    on={splitView}
+                    onChange={(val) => setSplitView(val)}
+                />
                 <div style={{ flexGrow: 1, minWidth: 4 }} />
                 <Controls />
             </AppBar>

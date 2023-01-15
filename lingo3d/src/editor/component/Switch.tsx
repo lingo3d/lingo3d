@@ -2,10 +2,12 @@ import { useState } from "preact/hooks"
 
 type SwitchProps = {
     label?: string
+    onChange?: (on: boolean) => void
+    on?: boolean
 }
 
-const Switch = ({ label }: SwitchProps) => {
-    const [on, setOn] = useState(false)
+const Switch = ({ label, onChange, on: onProp }: SwitchProps) => {
+    const [on, setOn] = useState(!!onProp)
 
     return (
         <div
@@ -15,7 +17,10 @@ const Switch = ({ label }: SwitchProps) => {
                 gap: 4,
                 marginLeft: 4
             }}
-            onClick={() => setOn(!on)}
+            onClick={() => {
+                setOn(!on)
+                onChange?.(!on)
+            }}
         >
             <div
                 style={{
