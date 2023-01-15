@@ -165,12 +165,15 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
 
     private refreshPhysicsState?: Reactive<{}>
+    private refreshShapeState?: Reactive<{}>
     public refreshPhysics() {
         if (this.refreshPhysicsState) {
             this.refreshPhysicsState.set({})
             return
         }
         this.refreshPhysicsState = new Reactive({})
+        this.refreshShapeState = new Reactive({})
+
         import("./physx")
 
         const [setMode, getMode] = store<PhysicsOptions>(false)
@@ -246,7 +249,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 managerActorMap.delete(this)
                 this.actor = undefined
             }
-        }, [getMode, getPhysX])
+        }, [getMode, getPhysX, this.refreshShapeState.get])
     }
 
     private _physics?: PhysicsOptions
@@ -271,7 +274,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.actor && pxUpdateSet.add(this)
     }
     public updatePhysicsShape() {
-        this.refreshPhysicsState?.set({})
+        this.refreshShapeState?.set({})
     }
 
     public override moveForward(distance: number) {
