@@ -39,7 +39,13 @@ const lockHit = (manager: StaticObjectManager, lock: boolean) => {
 export const groundedControllerManagers = new Set<PhysicsObjectManager>()
 
 createEffect(() => {
-    const { scene, pxControllerFilters, pxRaycast, PxShapeExt } = getPhysX()
+    const {
+        scene,
+        pxControllerFilters,
+        pxRaycast,
+        PxShapeExt,
+        PxRigidBodyExt
+    } = getPhysX()
     if (
         !scene ||
         getPhysXCookingCount() ||
@@ -106,9 +112,14 @@ createEffect(() => {
                     pxControllerFilters
                 )
         }
-        for (const manager of pxUpdateSet)
+        for (const manager of pxUpdateSet) {
             manager.actor.setGlobalPose(assignPxTransform(manager))
-
+            manager.mass !== 0 &&
+                PxRigidBodyExt.prototype.updateMassAndInertia(
+                    manager.actor,
+                    manager.mass
+                )
+        }
         pxUpdateSet.clear()
 
         scene.simulate(dtPtr[0])
