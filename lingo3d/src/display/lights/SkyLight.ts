@@ -22,30 +22,30 @@ import DirectionalLight from "./DirectionalLight"
 import { eraseAppendable } from "../../api/core/collections"
 
 const mapCSMOptions = (
-    val: ShadowDistance,
+    shadowDistance: ShadowDistance,
     shadowResolution: ShadowResolution
 ) => {
-    switch (val) {
+    switch (shadowDistance) {
         case "near":
             return {
                 maxFar: 10,
                 shadowMapSize: mapShadowResolution(shadowResolution) * 2,
-                shadowBias: -0.000025
+                shadowBias: -0.00003
             }
         case "medium":
             return {
                 maxFar: 30,
                 shadowMapSize: mapShadowResolution(shadowResolution) * 2,
-                shadowBias: -0.000055
+                shadowBias: -0.0003
             }
         case "far":
             return {
                 maxFar: 100,
                 shadowMapSize: mapShadowResolution(shadowResolution) * 4,
-                shadowBias: -0.0001
+                shadowBias: -0.0002
             }
         default:
-            assertExhaustive(val)
+            assertExhaustive(shadowDistance)
     }
 }
 
