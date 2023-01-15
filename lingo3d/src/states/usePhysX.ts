@@ -114,6 +114,15 @@ type PhysX = {
         eALL: any
         ePOSITION: any
     }
+    PxD6AxisEnum: {
+        eX: any
+        eY: any
+        eZ: any
+        eSWING1: any
+        eSWING2: any
+        eTWIST: any
+        eCOUNT: any
+    }
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -224,5 +233,14 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxArticulationCacheFlagEnum: {
         eALL: undefined,
         ePOSITION: undefined
+    },
+    PxD6AxisEnum: {
+        eX: undefined,
+        eY: undefined,
+        eZ: undefined,
+        eSWING1: undefined,
+        eSWING2: undefined,
+        eTWIST: undefined,
+        eCOUNT: undefined
     }
 })

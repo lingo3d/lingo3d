@@ -111,7 +111,15 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxGeometryTypeEnum_eBOX,
         _emscripten_enum_PxGeometryTypeEnum_eSPHERE,
         _emscripten_enum_PxGeometryTypeEnum_eCAPSULE,
-        _emscripten_enum_PxGeometryTypeEnum_eCONVEXMESH
+        _emscripten_enum_PxGeometryTypeEnum_eCONVEXMESH,
+
+        _emscripten_enum_PxD6AxisEnum_eX,
+        _emscripten_enum_PxD6AxisEnum_eY,
+        _emscripten_enum_PxD6AxisEnum_eZ,
+        _emscripten_enum_PxD6AxisEnum_eTWIST,
+        _emscripten_enum_PxD6AxisEnum_eSWING1,
+        _emscripten_enum_PxD6AxisEnum_eSWING2,
+        _emscripten_enum_PxD6AxisEnum_eCOUNT
     } = PhysX
 
     destroyPtr[0] = destroy
@@ -403,6 +411,17 @@ PhysX().then((PhysX: any) => {
         ePOSITION: lazy(_emscripten_enum_PxArticulationCacheFlagEnum_ePOSITION)
     }
 
+    // d6 axis enum
+    const PxD6AxisEnum = {
+        eX: lazy(_emscripten_enum_PxD6AxisEnum_eX),
+        eY: lazy(_emscripten_enum_PxD6AxisEnum_eY),
+        eZ: lazy(_emscripten_enum_PxD6AxisEnum_eZ),
+        eSWING1: lazy(_emscripten_enum_PxD6AxisEnum_eSWING1),
+        eSWING2: lazy(_emscripten_enum_PxD6AxisEnum_eSWING2),
+        eTWIST: lazy(_emscripten_enum_PxD6AxisEnum_eTWIST),
+        eCOUNT: lazy(_emscripten_enum_PxD6AxisEnum_eCOUNT)
+    }
+
     setPhysX({
         NativeArrayHelpers,
         physics,
@@ -452,6 +471,7 @@ PhysX().then((PhysX: any) => {
         PxArticulationMotionEnum,
         PxRigidBodyFlagEnum,
         PxSphericalJointFlagEnum,
-        PxArticulationCacheFlagEnum
+        PxArticulationCacheFlagEnum,
+        PxD6AxisEnum
     })
 })
