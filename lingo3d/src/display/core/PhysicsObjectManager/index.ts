@@ -270,6 +270,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public updatePhysics() {
         this.actor && pxUpdateSet.add(this)
     }
+    public updatePhysicsShape() {
+        this.refreshPhysicsState?.set({})
+    }
 
     public override moveForward(distance: number) {
         super.moveForward(distance)
@@ -347,5 +350,29 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public override set rotationZ(val) {
         super.rotationZ = val
         this.updatePhysics()
+    }
+
+    public override get scaleX() {
+        return super.scaleX
+    }
+    public override set scaleX(val) {
+        super.scaleX = val
+        this.updatePhysicsShape()
+    }
+
+    public override get scaleY() {
+        return super.scaleY
+    }
+    public override set scaleY(val) {
+        super.scaleY = val
+        this.updatePhysicsShape()
+    }
+
+    public override get scaleZ() {
+        return super.scaleZ
+    }
+    public override set scaleZ(val) {
+        super.scaleZ = val
+        this.updatePhysicsShape()
     }
 }
