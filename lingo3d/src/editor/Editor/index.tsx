@@ -53,7 +53,7 @@ const Editor = () => {
 
         const handle = new Cancellable()
         if (
-            selectedSignal.value === "World" ||
+            selectedSignal.value === "Settings" ||
             !selectionTarget ||
             selectionTarget instanceof Setup
         ) {
@@ -336,7 +336,7 @@ const Editor = () => {
             }}
         >
             <AppBar selectedSignal={selectedSignal}>
-                <CloseableTab>World</CloseableTab>
+                <CloseableTab>Settings</CloseableTab>
                 {selectionTarget && (
                     <CloseableTab
                         key={selectionTarget.uuid}

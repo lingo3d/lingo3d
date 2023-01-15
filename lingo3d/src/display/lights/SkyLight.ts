@@ -13,7 +13,6 @@ import {
     getShadowDistance,
     ShadowDistance
 } from "../../states/useShadowDistance"
-import { assertExhaustive } from "@lincode/utils"
 import {
     getShadowResolution,
     ShadowResolution
@@ -45,7 +44,11 @@ const mapCSMOptions = (
                 shadowBias: -0.0002
             }
         default:
-            assertExhaustive(shadowDistance)
+            return {
+                maxFar: 30,
+                shadowMapSize: mapShadowResolution(shadowResolution) * 2,
+                shadowBias: -0.0003
+            }
     }
 }
 

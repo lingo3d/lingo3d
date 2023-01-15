@@ -1,6 +1,5 @@
 import { mapRange } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
-import { assertExhaustive } from "@lincode/utils"
 import { DirectionalLight as ThreeDirectionalLight } from "three"
 import { getManager } from "../../api/utils/manager"
 import scene from "../../engine/scene"
@@ -33,7 +32,7 @@ const mapShadowResolution = (val: ShadowResolution) => {
         case "high":
             return 2048
         default:
-            assertExhaustive(val)
+            return 1024
     }
 }
 
@@ -46,7 +45,7 @@ const mapShadowDistance = (val: ShadowDistance) => {
         case "far":
             return 10000
         default:
-            assertExhaustive(val)
+            return 3000
     }
 }
 

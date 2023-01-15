@@ -1,5 +1,4 @@
 import { Reactive } from "@lincode/reactivity"
-import { assertExhaustive } from "@lincode/utils"
 import {
     DirectionalLightHelper,
     Group,
@@ -31,7 +30,7 @@ export const mapShadowResolution = (val: ShadowResolution) => {
         case "high":
             return 1024
         default:
-            assertExhaustive(val)
+            return 512
     }
 }
 
