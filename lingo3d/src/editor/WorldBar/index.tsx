@@ -9,7 +9,6 @@ import { getManager } from "../../api/utils/manager"
 import { getCameraComputed } from "../../states/useCameraComputed"
 import { getCameraList } from "../../states/useCameraList"
 import { setEditorCamera } from "../../states/useEditorCamera"
-import { getSplitView, setSplitView } from "../../states/useSplitView"
 import getComponentName from "../utils/getComponentName"
 import { createEffect } from "@lincode/reactivity"
 
@@ -24,48 +23,37 @@ const Tabs = () => {
         if (!el) return
 
         const pane = new Pane({ container: el })
-        const cameraFolder = pane.addFolder({ title: "camera" })
 
         const handle = createEffect(() => {
             const cameraList = getCameraList()
             const camera = getCameraComputed()
-            const splitView = getSplitView()
+
+            const label = ""
 
             const cameraSettings = {
-                get camera() {
+                get [label]() {
                     return cameraList.indexOf(camera)
                 },
-                set camera(val) {
+                set [label](val) {
                     setEditorCamera(cameraList[val])
-                },
-                get split() {
-                    return splitView
-                },
-                set split(val) {
-                    setSplitView(val)
                 }
             }
-
             const options: Record<string, number> = {}
             let i = 0
             for (const cam of cameraList)
                 options[getComponentName(getManager(cam))] = i++
 
-            const cameraInput = cameraFolder.add(
-                pane.addInput(cameraSettings, "camera", { options })
+            const cameraInput = pane.add(
+                pane.addInput(cameraSettings, label, { options })
             )
-            const splitInput = cameraFolder.add(
-                pane.addInput(cameraSettings, "split")
-            )
-
             return () => {
                 cameraInput.dispose()
-                splitInput.dispose()
             }
-        }, [pane, cameraFolder, getCameraList, getCameraComputed, getSplitView])
+        }, [getCameraList, getCameraComputed])
 
         return () => {
             handle.cancel()
+            pane.dispose()
         }
     }, [])
 
