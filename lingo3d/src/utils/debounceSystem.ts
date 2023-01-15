@@ -1,10 +1,10 @@
-import { debounceTrailing } from "@lincode/utils"
+import debounceFrame from "./debounceFrame"
 
 export default <T, RestParams extends Array<unknown>>(
     cb: (target: T, ...restParams: RestParams) => void
 ) => {
     const queued = new Map<T, RestParams>()
-    const run = debounceTrailing(() => {
+    const run = debounceFrame(() => {
         for (const [target, restParams] of queued) cb(target, ...restParams)
         queued.clear()
     })
