@@ -123,6 +123,11 @@ type PhysX = {
         eTWIST: any
         eCOUNT: any
     }
+    PxD6MotionEnum: {
+        eLOCKED: any
+        eLIMITED: any
+        eFREE: any
+    }
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -242,5 +247,10 @@ export const [setPhysX, getPhysX] = store<PhysX>({
         eSWING2: undefined,
         eTWIST: undefined,
         eCOUNT: undefined
+    },
+    PxD6MotionEnum: {
+        eLOCKED: undefined,
+        eLIMITED: undefined,
+        eFREE: undefined
     }
 })

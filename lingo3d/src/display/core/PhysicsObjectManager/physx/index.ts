@@ -119,7 +119,11 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxD6AxisEnum_eTWIST,
         _emscripten_enum_PxD6AxisEnum_eSWING1,
         _emscripten_enum_PxD6AxisEnum_eSWING2,
-        _emscripten_enum_PxD6AxisEnum_eCOUNT
+        _emscripten_enum_PxD6AxisEnum_eCOUNT,
+
+        _emscripten_enum_PxD6MotionEnum_eLOCKED,
+        _emscripten_enum_PxD6MotionEnum_eLIMITED,
+        _emscripten_enum_PxD6MotionEnum_eFREE
     } = PhysX
 
     destroyPtr[0] = destroy
@@ -422,6 +426,13 @@ PhysX().then((PhysX: any) => {
         eCOUNT: lazy(_emscripten_enum_PxD6AxisEnum_eCOUNT)
     }
 
+    // d6 motion enum
+    const PxD6MotionEnum = {
+        eLOCKED: lazy(_emscripten_enum_PxD6MotionEnum_eLOCKED),
+        eLIMITED: lazy(_emscripten_enum_PxD6MotionEnum_eLIMITED),
+        eFREE: lazy(_emscripten_enum_PxD6MotionEnum_eFREE)
+    }
+
     setPhysX({
         NativeArrayHelpers,
         physics,
@@ -472,6 +483,7 @@ PhysX().then((PhysX: any) => {
         PxRigidBodyFlagEnum,
         PxSphericalJointFlagEnum,
         PxArticulationCacheFlagEnum,
-        PxD6AxisEnum
+        PxD6AxisEnum,
+        PxD6MotionEnum
     })
 })
