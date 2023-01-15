@@ -36,11 +36,10 @@ createEffect(() => {
         }
 
         if (keyLowerCase === "1") {
-            if (!getSplitView()) {
+            if (!getSplitView())
                 setEditorCamera(
                     getEditorCamera() === mainCamera ? undefined : mainCamera
                 )
-            }
             setSplitView(false)
             return
         }

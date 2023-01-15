@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks"
+import { useEffect, useState } from "preact/hooks"
 
 type SwitchProps = {
     label?: string
@@ -7,7 +7,11 @@ type SwitchProps = {
 }
 
 const Switch = ({ label, onChange, on: onProp }: SwitchProps) => {
-    const [on, setOn] = useState(!!onProp)
+    const [on, setOn] = useState(false)
+
+    useEffect(() => {
+        setOn(!!onProp)
+    }, [onProp])
 
     return (
         <div
