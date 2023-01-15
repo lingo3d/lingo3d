@@ -63,7 +63,7 @@ const Tabs = () => {
             style={{ width: "100%" }}
         >
             <AppBar>
-                <div ref={elRef} />
+                <div ref={elRef} style={{ marginLeft: -20 }} />
                 <div style={{ flexGrow: 1, minWidth: 4 }} />
                 <Controls />
             </AppBar>
