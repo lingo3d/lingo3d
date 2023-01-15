@@ -67,7 +67,7 @@ const Tabs = () => {
         >
             <AppBar>
                 <div ref={elRef} style={{ marginLeft: -20 }} />
-                <Switch />
+                <Switch label="split view" />
                 <div style={{ flexGrow: 1, minWidth: 4 }} />
                 <Controls />
             </AppBar>
