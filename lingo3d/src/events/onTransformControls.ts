@@ -10,7 +10,9 @@ export type TransformControlsPhase = "start" | "end" | "move"
 export const [emitTransformControls, onTransformControls] =
     event<TransformControlsPhase>()
 
-onTransformControls(() => {
+onTransformControls((phase) => {
+    if (phase !== "end") return
+
     const [_targets] = getMultipleSelectionTargets()
     const targets: Array<Appendable | PhysicsObjectManager> = [
         ..._targets,

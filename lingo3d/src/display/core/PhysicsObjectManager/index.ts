@@ -324,4 +324,28 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         super.z = val
         this.updatePhysics()
     }
+
+    public override get rotationX() {
+        return super.rotationX
+    }
+    public override set rotationX(val) {
+        super.rotationX = val
+        this.updatePhysics()
+    }
+
+    public override get rotationY() {
+        return super.rotationY
+    }
+    public override set rotationY(val) {
+        super.rotationY = val
+        this.updatePhysics()
+    }
+
+    public override get rotationZ() {
+        return super.rotationZ
+    }
+    public override set rotationZ(val) {
+        super.rotationZ = val
+        this.updatePhysics()
+    }
 }
