@@ -1,6 +1,7 @@
 import ID6Joint, {
     d6JointDefaults,
-    d6JointSchema
+    d6JointSchema,
+    D6Motion
 } from "../../interface/ID6Joint"
 import { physXPtr } from "../../states/usePhysX"
 import JointBase from "../core/JointBase"
@@ -12,7 +13,34 @@ const createD6 = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     return j
 }
 
-export default class D6Joint extends JointBase implements ID6Joint {
+const stringToMotion = (val?: D6Motion) => {
+    const { PxD6MotionEnum } = physXPtr[0]
+    switch (val) {
+        case "eLOCKED":
+            return PxD6MotionEnum.eLOCKED()
+        case "eLIMITED":
+            return PxD6MotionEnum.eLIMITED()
+        case "eFREE":
+            return PxD6MotionEnum.eFREE()
+        default:
+            return PxD6MotionEnum.eFREE()
+    }
+}
+const motionToString = (val?: number) => {
+    const { PxD6MotionEnum } = physXPtr[0]
+    switch (val) {
+        case PxD6MotionEnum.eLOCKED():
+            return "eLOCKED"
+        case PxD6MotionEnum.eLIMITED():
+            return "eLIMITED"
+        case PxD6MotionEnum.eFREE():
+            return "eFREE"
+        default:
+            return "eFREE"
+    }
+}
+
+export default class D6Joint extends JointBase {
     public static componentName = "D6Joint"
     public static defaults = d6JointDefaults
     public static schema = d6JointSchema
@@ -39,4 +67,24 @@ export default class D6Joint extends JointBase implements ID6Joint {
     public set distanceLimit(value) {
         this.joint?.setDistanceLimit(value)
     }
+
+    public get eX() {
+        return motionToString(
+            this.joint?.getMotion(physXPtr[0].PxD6AxisEnum.eX())
+        )
+    }
+    public set eX(value: D6Motion | undefined) {
+        this.joint?.setMotion(
+            physXPtr[0].PxD6AxisEnum.eX(),
+            stringToMotion(value)
+        )
+    }
 }
+
+// eX: String,
+//     eY: String,
+//     eZ: String,
+//     eSWING1: String,
+//     eSWING2: String,
+//     eTWIST: String,
+//     eCOUNT: String
