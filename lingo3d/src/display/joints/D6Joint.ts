@@ -31,12 +31,23 @@ const stringToMotion = (val?: D6Motion) => {
 const configJointSystem = debounceSystem((target: D6Joint) => {
     const { joint } = target
     const { PxD6AxisEnum } = physXPtr[0]
-    const { distanceLimit, eX } = target
+    const { distanceLimit, eX, eY, eZ, eSWING1, eSWING2, eTWIST, eCOUNT } =
+        target
     distanceLimit !== undefined && joint.setDistanceLimit(distanceLimit)
     eX !== undefined && joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(eX))
+    eY !== undefined && joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(eY))
+    eZ !== undefined && joint.setMotion(PxD6AxisEnum.eZ(), stringToMotion(eZ))
+    eSWING1 !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eSWING1(), stringToMotion(eSWING1))
+    eSWING2 !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eSWING2(), stringToMotion(eSWING2))
+    eTWIST !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eTWIST(), stringToMotion(eTWIST))
+    eCOUNT !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eCOUNT(), stringToMotion(eCOUNT))
 })
 
-export default class D6Joint extends JointBase {
+export default class D6Joint extends JointBase implements ID6Joint {
     public static componentName = "d6Joint"
     public static defaults = d6JointDefaults
     public static schema = d6JointSchema
@@ -78,12 +89,58 @@ export default class D6Joint extends JointBase {
         this._eX = val
         configJointSystem(this)
     }
-}
 
-// eX: String,
-//     eY: String,
-//     eZ: String,
-//     eSWING1: String,
-//     eSWING2: String,
-//     eTWIST: String,
-//     eCOUNT: String
+    private _eY?: D6Motion
+    public get eY() {
+        return this._eY
+    }
+    public set eY(val) {
+        this._eY = val
+        configJointSystem(this)
+    }
+
+    private _eZ?: D6Motion
+    public get eZ() {
+        return this._eZ
+    }
+    public set eZ(val) {
+        this._eZ = val
+        configJointSystem(this)
+    }
+
+    private _eSWING1?: D6Motion
+    public get eSWING1() {
+        return this._eSWING1
+    }
+    public set eSWING1(val) {
+        this._eSWING1 = val
+        configJointSystem(this)
+    }
+
+    private _eSWING2?: D6Motion
+    public get eSWING2() {
+        return this._eSWING2
+    }
+    public set eSWING2(val) {
+        this._eSWING2 = val
+        configJointSystem(this)
+    }
+
+    private _eTWIST?: D6Motion
+    public get eTWIST() {
+        return this._eTWIST
+    }
+    public set eTWIST(val) {
+        this._eTWIST = val
+        configJointSystem(this)
+    }
+
+    private _eCOUNT?: D6Motion
+    public get eCOUNT() {
+        return this._eCOUNT
+    }
+    public set eCOUNT(val) {
+        this._eCOUNT = val
+        configJointSystem(this)
+    }
+}
