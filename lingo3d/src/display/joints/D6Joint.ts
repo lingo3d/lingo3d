@@ -17,19 +17,26 @@ export default class D6Joint extends JointBase implements ID6Joint {
     public static defaults = d6JointDefaults
     public static schema = d6JointSchema
 
+    private joint?: any
+
     protected createJoint(
         fromPxTransform: any,
         toPxTransform: any,
         fromManager: PhysicsObjectManager,
         toManager: PhysicsObjectManager
     ) {
-        return createD6(
+        return (this.joint = createD6(
             fromManager.actor,
             fromPxTransform,
             toManager.actor,
             toPxTransform
-        )
+        ))
     }
 
-    public distanceLimit = 0
+    public get distanceLimit() {
+        return this.joint?.getDistanceLimit()
+    }
+    public set distanceLimit(value) {
+        this.joint?.setDistanceLimit(value)
+    }
 }
