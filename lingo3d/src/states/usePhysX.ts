@@ -36,6 +36,8 @@ type PhysX = {
     PxRigidBodyExt: any
     PxCapsuleGeometry: any
     PxBoxGeometry: any
+    PxSphereGeometry: any
+    PxPlaneGeometry: any
     PxBoundedData: any
     PxTriangleMeshDesc: any
     PxTriangleMeshGeometry: any
@@ -161,6 +163,8 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxRigidBodyExt: undefined,
     PxCapsuleGeometry: undefined,
     PxBoxGeometry: undefined,
+    PxSphereGeometry: undefined,
+    PxPlaneGeometry: undefined,
     PxBoundedData: undefined,
     PxTriangleMeshDesc: undefined,
     PxTriangleMeshGeometry: undefined,
