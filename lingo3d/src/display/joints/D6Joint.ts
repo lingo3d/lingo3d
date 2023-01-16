@@ -31,8 +31,7 @@ const stringToMotion = (val?: D6Motion) => {
 const configJointSystem = debounceSystem((target: D6Joint) => {
     const { joint } = target
     const { PxD6AxisEnum } = physXPtr[0]
-    const { distanceLimit, eX, eY, eZ, eSWING1, eSWING2, eTWIST, eCOUNT } =
-        target
+    const { distanceLimit, eX, eY, eZ, eSWING1, eSWING2, eTWIST } = target
     distanceLimit !== undefined && joint.setDistanceLimit(distanceLimit)
     eX !== undefined && joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(eX))
     eY !== undefined && joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(eY))
@@ -43,8 +42,6 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         joint.setMotion(PxD6AxisEnum.eSWING2(), stringToMotion(eSWING2))
     eTWIST !== undefined &&
         joint.setMotion(PxD6AxisEnum.eTWIST(), stringToMotion(eTWIST))
-    eCOUNT !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eCOUNT(), stringToMotion(eCOUNT))
 })
 
 export default class D6Joint extends JointBase implements ID6Joint {
@@ -132,15 +129,6 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set eTWIST(val) {
         this._eTWIST = val
-        configJointSystem(this)
-    }
-
-    private _eCOUNT?: D6Motion
-    public get eCOUNT() {
-        return this._eCOUNT
-    }
-    public set eCOUNT(val) {
-        this._eCOUNT = val
         configJointSystem(this)
     }
 }
