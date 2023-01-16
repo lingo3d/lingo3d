@@ -2,7 +2,7 @@ import ID6Joint, {
     d6JointDefaults,
     d6JointSchema
 } from "../../interface/ID6Joint"
-import { getPhysX, physXPtr } from "../../states/usePhysX"
+import { physXPtr } from "../../states/usePhysX"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 

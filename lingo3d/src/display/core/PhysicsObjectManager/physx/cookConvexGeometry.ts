@@ -1,5 +1,5 @@
 import { Object3D } from "three"
-import { getPhysX, physXPtr } from "../../../../states/usePhysX"
+import { physXPtr } from "../../../../states/usePhysX"
 import {
     decreasePhysXCookingCount,
     increasePhysXCookingCount

@@ -3,7 +3,7 @@ import ISphericalJoint, {
     sphericalJointDefaults,
     sphericalJointSchema
 } from "../../interface/ISphericalJoint"
-import { getPhysX, physXPtr } from "../../states/usePhysX"
+import { physXPtr } from "../../states/usePhysX"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"

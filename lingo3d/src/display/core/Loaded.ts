@@ -15,7 +15,7 @@ import {
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import VisibleObjectManager from "./VisibleObjectManager"
 import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
-import { getPhysX, physXPtr } from "../../states/usePhysX"
+import { physXPtr } from "../../states/usePhysX"
 import cookConvexGeometry from "./PhysicsObjectManager/physx/cookConvexGeometry"
 import cookTrimeshGeometry from "./PhysicsObjectManager/physx/cookTrimeshGeometry"
 import { StandardMesh } from "./mixins/TexturedStandardMixin"

@@ -5,7 +5,7 @@ import { getManager } from "../../../../api/utils/manager"
 import { FAR, M2CM } from "../../../../globals"
 import { LingoMouseEvent } from "../../../../interface/IMouse"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
-import { getPhysX, physXPtr } from "../../../../states/usePhysX"
+import { physXPtr } from "../../../../states/usePhysX"
 import { vec2Point } from "../../../utils/vec2Point"
 import { actorPtrManagerMap } from "../../PhysicsObjectManager/physx/pxMaps"
 import {

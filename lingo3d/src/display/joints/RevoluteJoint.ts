@@ -2,7 +2,7 @@ import IRevoluteJoint, {
     revoluteJointDefaults,
     revoluteJointSchema
 } from "../../interface/IRevoluteJoint"
-import { getPhysX, physXPtr } from "../../states/usePhysX"
+import { physXPtr } from "../../states/usePhysX"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 
