@@ -5,18 +5,13 @@ const makeTuple = () =>
 
 export default <T, Params = Array<any> | ReadonlyArray<any>>(
     factory: (ClassVal: Class<T>, params: Params) => T,
-    VerboseConstructor?: Class<T>
+    dispose = (target: any) => target.dispose()
 ) => {
     const classMapsMap = new WeakMap<
         Class<T>,
         [Map<string, unknown>, Record<string, number>]
     >()
     const classDefaultParamsInstanceMap = new WeakMap<Class<T>, [string, any]>()
-
-    if (VerboseConstructor)
-        setInterval(() => {
-            console.log(classMapsMap.get(VerboseConstructor)?.[0].size)
-        }, 1000)
 
     const allocateDefaultInstance = (
         ClassVal: Class<T>,
@@ -66,7 +61,7 @@ export default <T, Params = Array<any> | ReadonlyArray<any>>(
         const count = (paramCountRecord[paramString] ?? 0) - 1
         if (count === -1) return
         if (count === 0) {
-            paramsInstanceMap.get(paramString).dispose()
+            dispose(paramsInstanceMap.get(paramString))
             paramsInstanceMap.delete(paramString)
             delete paramCountRecord[paramString]
             return
