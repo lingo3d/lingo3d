@@ -4,6 +4,7 @@ import ID6Joint, {
     D6Motion
 } from "../../interface/ID6Joint"
 import { physXPtr } from "../../states/usePhysX"
+import debounceSystem from "../../utils/debounceSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 
@@ -26,26 +27,21 @@ const stringToMotion = (val?: D6Motion) => {
             return PxD6MotionEnum.eFREE()
     }
 }
-const motionToString = (val?: number) => {
-    const { PxD6MotionEnum } = physXPtr[0]
-    switch (val) {
-        case PxD6MotionEnum.eLOCKED():
-            return "eLOCKED"
-        case PxD6MotionEnum.eLIMITED():
-            return "eLIMITED"
-        case PxD6MotionEnum.eFREE():
-            return "eFREE"
-        default:
-            return "eFREE"
-    }
-}
+
+const configJointSystem = debounceSystem((target: D6Joint) => {
+    const { joint } = target
+    const { PxD6AxisEnum } = physXPtr[0]
+    const { distanceLimit, eX } = target
+    distanceLimit !== undefined && joint.setDistanceLimit(distanceLimit)
+    eX !== undefined && joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(eX))
+})
 
 export default class D6Joint extends JointBase {
-    public static componentName = "D6Joint"
+    public static componentName = "d6Joint"
     public static defaults = d6JointDefaults
     public static schema = d6JointSchema
 
-    private joint?: any
+    public joint: any
 
     protected createJoint(
         fromPxTransform: any,
@@ -53,6 +49,7 @@ export default class D6Joint extends JointBase {
         fromManager: PhysicsObjectManager,
         toManager: PhysicsObjectManager
     ) {
+        configJointSystem(this)
         return (this.joint = createD6(
             fromManager.actor,
             fromPxTransform,
@@ -61,23 +58,22 @@ export default class D6Joint extends JointBase {
         ))
     }
 
+    private _distanceLimit?: number
     public get distanceLimit() {
-        return this.joint?.getDistanceLimit()
+        return this._distanceLimit
     }
-    public set distanceLimit(value) {
-        this.joint?.setDistanceLimit(value)
+    public set distanceLimit(val) {
+        this._distanceLimit = val
+        configJointSystem(this)
     }
 
+    private _eX?: D6Motion
     public get eX() {
-        return motionToString(
-            this.joint?.getMotion(physXPtr[0].PxD6AxisEnum.eX())
-        )
+        return this._eX
     }
-    public set eX(value: D6Motion | undefined) {
-        this.joint?.setMotion(
-            physXPtr[0].PxD6AxisEnum.eX(),
-            stringToMotion(value)
-        )
+    public set eX(val) {
+        this._eX = val
+        configJointSystem(this)
     }
 }
 
