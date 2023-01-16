@@ -29,6 +29,8 @@ export default abstract class JointBase
     private fromManager?: PhysicsObjectManager
     private toManager?: PhysicsObjectManager
 
+    protected onCreateJoint() {}
+
     protected abstract createJoint(
         fromPxTransfrom: any,
         toPxTransform: any,
@@ -149,6 +151,7 @@ export default abstract class JointBase
                     toManager
                 )
                 handle.then(() => destroy(joint))
+                this.onCreateJoint()
             })
 
             this.fromManager = fromManager

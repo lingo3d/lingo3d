@@ -43,13 +43,16 @@ export default class D6Joint extends JointBase {
 
     public joint: any
 
+    protected override onCreateJoint() {
+        configJointSystem(this)
+    }
+
     protected createJoint(
         fromPxTransform: any,
         toPxTransform: any,
         fromManager: PhysicsObjectManager,
         toManager: PhysicsObjectManager
     ) {
-        configJointSystem(this)
         return (this.joint = createD6(
             fromManager.actor,
             fromPxTransform,
