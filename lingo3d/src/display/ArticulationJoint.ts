@@ -9,7 +9,7 @@ import {
     articulationJointSchema
 } from "../interface/IArticulationJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
-import { getPhysX } from "../states/usePhysX"
+import { getPhysX, physXPtr } from "../states/usePhysX"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import destroy from "./core/PhysicsObjectManager/physx/destroy"
 import {
@@ -36,7 +36,7 @@ const create = (rootManager: PhysicsObjectManager) => {
         PxArticulationJointTypeEnum,
         PxArticulationAxisEnum,
         PxArticulationMotionEnum
-    } = getPhysX()
+    } = physXPtr[0]
 
     const ogParent = rootManager.outerObject3d.parent
     ogParent !== threeScene && threeScene.attach(rootManager.outerObject3d)
@@ -159,7 +159,7 @@ export default class ArticulationJoint extends PositionedManager {
         }, [getCameraRendered])
 
         this.createEffect(() => {
-            if (!getPhysX().physics) return
+            if (!physXPtr[0].physics) return
 
             const child = this.childState.get()
             const parent = this.parentState.get()

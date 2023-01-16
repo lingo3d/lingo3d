@@ -15,7 +15,7 @@ import {
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import VisibleObjectManager from "./VisibleObjectManager"
 import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
-import { getPhysX } from "../../states/usePhysX"
+import { getPhysX, physXPtr } from "../../states/usePhysX"
 import cookConvexGeometry from "./PhysicsObjectManager/physx/cookConvexGeometry"
 import cookTrimeshGeometry from "./PhysicsObjectManager/physx/cookTrimeshGeometry"
 import { StandardMesh } from "./mixins/TexturedStandardMixin"
@@ -250,7 +250,7 @@ export default abstract class Loaded<T = Object3D>
     public override getPxShape(mode: PhysicsOptions, actor: any) {
         if (mode === "convex" || mode === "map") {
             const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
-                getPhysX()
+                physXPtr[0]
 
             const pxGeometry =
                 mode === "convex"

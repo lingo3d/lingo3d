@@ -10,11 +10,11 @@ import {
 } from "../display/core/PhysicsObjectManager/physx/pxMath"
 import Cube from "../display/primitives/Cube"
 import { PI_HALF } from "../globals"
-import { getPhysX } from "../states/usePhysX"
+import { getPhysX, physXPtr } from "../states/usePhysX"
 
 const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
-        getPhysX()
+        physXPtr[0]
 
     const j = Px.SphericalJointCreate(physics, a0, t0, a1, t1)
     j.setLimitCone(new PxJointLimitCone(PI_HALF, PI_HALF, 0.05))
@@ -23,7 +23,7 @@ const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
 }
 
 const createChain = (t: any, length: number, g: any, separation: number) => {
-    const { PxCreateDynamic, physics, material, scene } = getPhysX()
+    const { PxCreateDynamic, physics, material, scene } = physXPtr[0]
 
     const offset = setPxVec__(separation * 0.5, 0, 0)
     const localTm = setPxTransform__(offset.x, 0, 0)
@@ -54,7 +54,7 @@ const createChain = (t: any, length: number, g: any, separation: number) => {
 }
 
 createEffect(() => {
-    const { physics, PxBoxGeometry } = getPhysX()
+    const { physics, PxBoxGeometry } = physXPtr[0]
     if (!physics) return
 
     createChain(setPxTransform(0, 20, 0), 5, new PxBoxGeometry(2, 0, 0), 4)

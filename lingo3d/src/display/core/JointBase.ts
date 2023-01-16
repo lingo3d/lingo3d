@@ -8,7 +8,7 @@ import scene from "../../engine/scene"
 import { TransformControlsPhase } from "../../events/onTransformControls"
 import IJointBase from "../../interface/IJointBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { getPhysX } from "../../states/usePhysX"
+import { getPhysX, physXPtr } from "../../states/usePhysX"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import getPrivateValue from "../../utils/getPrivateValue"
 import PhysicsObjectManager from "./PhysicsObjectManager"
@@ -68,7 +68,7 @@ export default abstract class JointBase
         }, [getCameraRendered])
 
         this.createEffect(() => {
-            const { physics } = getPhysX()
+            const { physics } = physXPtr[0]
             const { _to, _from } = this
             if (!physics || !_to || !_from) return
 

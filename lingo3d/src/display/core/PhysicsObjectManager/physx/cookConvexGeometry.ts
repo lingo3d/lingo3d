@@ -1,5 +1,5 @@
 import { Object3D } from "three"
-import { getPhysX } from "../../../../states/usePhysX"
+import { getPhysX, physXPtr } from "../../../../states/usePhysX"
 import {
     decreasePhysXCookingCount,
     increasePhysXCookingCount
@@ -25,7 +25,7 @@ export default (
         getInsertionCallback,
         PxConvexMeshDesc,
         PxConvexMeshGeometry
-    } = getPhysX()
+    } = physXPtr[0]
 
     const [vec3Vector, count] = computePxVertices(loaded, manager)
 

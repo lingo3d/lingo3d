@@ -8,7 +8,7 @@ import IThirdPersonCamera, {
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorBehavior } from "../../states/useEditorBehavior"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
-import { getPhysX } from "../../states/usePhysX"
+import { physXPtr } from "../../states/usePhysX"
 import CharacterCamera from "../core/CharacterCamera"
 import { managerActorPtrMap } from "../core/PhysicsObjectManager/physx/pxMaps"
 import {
@@ -65,7 +65,7 @@ export default class ThirdPersonCamera
                 const origin = getWorldPosition(this.outerObject3d)
                 const position = getWorldPosition(this.object3d)
 
-                const pxHit = getPhysX().pxRaycast?.(
+                const pxHit = physXPtr[0].pxRaycast?.(
                     assignPxVec(origin),
                     assignPxVec_(getWorldDirection(this.object3d)),
                     position.distanceTo(origin),

@@ -2,12 +2,12 @@ import IPrismaticJoint, {
     prismaticJointDefaults,
     prismaticJointSchema
 } from "../../interface/IPrismaticJoint"
-import { getPhysX } from "../../states/usePhysX"
+import { getPhysX, physXPtr } from "../../states/usePhysX"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 
 const createPrismatic = (actor0: any, pose0: any, actor1: any, pose1: any) => {
-    const { physics, Px } = getPhysX()
+    const { physics, Px } = physXPtr[0]
     const j = Px.PrismaticJointCreate(physics, actor0, pose0, actor1, pose1)
     return j
 }

@@ -5,7 +5,7 @@ import { getManager } from "../../../../api/utils/manager"
 import { FAR, M2CM } from "../../../../globals"
 import { LingoMouseEvent } from "../../../../interface/IMouse"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
-import { getPhysX } from "../../../../states/usePhysX"
+import { getPhysX, physXPtr } from "../../../../states/usePhysX"
 import { vec2Point } from "../../../utils/vec2Point"
 import { actorPtrManagerMap } from "../../PhysicsObjectManager/physx/pxMaps"
 import {
@@ -23,7 +23,7 @@ export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
     const intersection = raycaster.intersectObjects(
         [...candidates].filter(filterUnselectable)
     )[0]
-    const pxHit = getPhysX().pxRaycast?.(
+    const pxHit = physXPtr[0].pxRaycast?.(
         assignPxVec(raycaster.ray.origin),
         assignPxVec_(raycaster.ray.direction),
         FAR

@@ -4,7 +4,7 @@ import SimpleObjectManager from "../SimpleObjectManager"
 import IPhysicsObjectManager, {
     PhysicsOptions
 } from "../../../interface/IPhysicsObjectManager"
-import { getPhysX } from "../../../states/usePhysX"
+import { getPhysX, physXPtr } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
 import { Reactive, store } from "@lincode/reactivity"
 import {
@@ -105,7 +105,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         posY = 0,
         posZ = 0
     ) {
-        const { PxRigidBodyExt } = getPhysX()
+        const { PxRigidBodyExt } = physXPtr[0]
         if (!PxRigidBodyExt || !this.actor) return
 
         PxRigidBodyExt.prototype.addLocalForceAtPos(
@@ -123,7 +123,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         posY = 0,
         posZ = 0
     ) {
-        const { PxRigidBodyExt } = getPhysX()
+        const { PxRigidBodyExt } = physXPtr[0]
         if (!PxRigidBodyExt || !this.actor) return
 
         PxRigidBodyExt.prototype.addLocalForceAtLocalPos(
@@ -148,7 +148,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
     public getPxShape(_: PhysicsOptions, actor: any) {
         const { material, shapeFlags, physics, PxBoxGeometry, pxFilterData } =
-            getPhysX()
+            physXPtr[0]
 
         const { x, y, z } = getActualScale(this).multiplyScalar(0.5)
         const pxGeometry = new PxBoxGeometry(x, y, z)
@@ -191,7 +191,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 PxControllerNonWalkableModeEnum,
                 material,
                 getPxControllerManager
-            } = getPhysX()
+            } = physXPtr[0]
             if (!physics || !mode) return
 
             const ogParent = this.outerObject3d.parent

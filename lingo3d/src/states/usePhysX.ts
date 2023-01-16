@@ -254,3 +254,6 @@ export const [setPhysX, getPhysX] = store<PhysX>({
         eFREE: undefined
     }
 })
+
+export const physXPtr = [getPhysX()]
+getPhysX((val) => (physXPtr[0] = val))

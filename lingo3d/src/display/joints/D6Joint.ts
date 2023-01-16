@@ -2,12 +2,12 @@ import ID6Joint, {
     d6JointDefaults,
     d6JointSchema
 } from "../../interface/ID6Joint"
-import { getPhysX } from "../../states/usePhysX"
+import { getPhysX, physXPtr } from "../../states/usePhysX"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 
 const createD6 = (actor0: any, pose0: any, actor1: any, pose1: any) => {
-    const { physics, Px } = getPhysX()
+    const { physics, Px } = physXPtr[0]
     const j = Px.D6JointCreate(physics, actor0, pose0, actor1, pose1)
     return j
 }
@@ -30,4 +30,6 @@ export default class D6Joint extends JointBase implements ID6Joint {
             toPxTransform
         )
     }
+
+    public distanceLimit = 0
 }

@@ -3,7 +3,7 @@ import ISphericalJoint, {
     sphericalJointDefaults,
     sphericalJointSchema
 } from "../../interface/ISphericalJoint"
-import { getPhysX } from "../../states/usePhysX"
+import { getPhysX, physXPtr } from "../../states/usePhysX"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
@@ -17,7 +17,7 @@ const createLimitedSpherical = (
     zLimitAngle?: number
 ) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
-        getPhysX()
+        physXPtr[0]
 
     const joint = Px.SphericalJointCreate(physics, actor0, pose0, actor1, pose1)
     if (yLimitAngle !== undefined && zLimitAngle !== undefined) {

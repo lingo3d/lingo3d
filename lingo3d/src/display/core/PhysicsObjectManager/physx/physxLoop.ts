@@ -1,5 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
-import { getPhysX } from "../../../../states/usePhysX"
+import { getPhysX, physXPtr } from "../../../../states/usePhysX"
 import "../../../../engine/eventLoop"
 import {
     managerActorMap,
@@ -39,7 +39,7 @@ const lockHit = (manager: StaticObjectManager, lock: boolean) => {
 export const groundedControllerManagers = new Set<PhysicsObjectManager>()
 
 createEffect(() => {
-    const { scene, pxControllerFilters, pxRaycast, PxShapeExt } = getPhysX()
+    const { scene, pxControllerFilters, pxRaycast, PxShapeExt } = physXPtr[0]
     if (
         !scene ||
         getPhysXCookingCount() ||
