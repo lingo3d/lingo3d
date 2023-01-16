@@ -68,9 +68,8 @@ export default abstract class JointBase
         }, [getCameraRendered])
 
         this.createEffect(() => {
-            const { physics } = physXPtr[0]
             const { _to, _from } = this
-            if (!physics || !_to || !_from) return
+            if (!physXPtr[0].physics || !_to || !_from) return
 
             const [[toManager]] = getMeshManagerSets(_to)
             const [[fromManager]] = getMeshManagerSets(_from)
