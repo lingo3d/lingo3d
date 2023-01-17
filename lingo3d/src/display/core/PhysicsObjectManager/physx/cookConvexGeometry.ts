@@ -34,10 +34,11 @@ const [increaseCount, decreaseCount] = createInstancePool<
 
     const [typeSrc, x, y, z] = params
     if (!manager || typeSrc === "cube")
-        return primitiveGeometriesAdd(new PxBoxGeometry(x, y, z))
-
+        return primitiveGeometriesAdd(
+            new PxBoxGeometry(x * 0.5, y * 0.5, z * 0.5)
+        )
     if (typeSrc === "sphere" && x === y && x === z)
-        return primitiveGeometriesAdd(new PxSphereGeometry(x))
+        return primitiveGeometriesAdd(new PxSphereGeometry(x * 0.5))
 
     increasePhysXCookingCount()
 
