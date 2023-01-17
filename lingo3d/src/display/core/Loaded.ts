@@ -16,9 +16,7 @@ import {
 import VisibleObjectManager from "./VisibleObjectManager"
 import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
 import { physXPtr } from "../../states/usePhysX"
-import cookConvexGeometry, {
-    ConvexGeometryParams
-} from "./PhysicsObjectManager/physx/cookConvexGeometry"
+import cookConvexGeometry from "./PhysicsObjectManager/physx/cookConvexGeometry"
 import cookTrimeshGeometry from "./PhysicsObjectManager/physx/cookTrimeshGeometry"
 import { StandardMesh } from "./mixins/TexturedStandardMixin"
 import MeshAppendable from "../../api/core/MeshAppendable"
@@ -254,7 +252,7 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    public convexParams?: ConvexGeometryParams
+    public convexParamString?: string
 
     public override getPxShape(mode: PhysicsOptions, actor: any): any {
         if (mode === "convex" || mode === "map") {

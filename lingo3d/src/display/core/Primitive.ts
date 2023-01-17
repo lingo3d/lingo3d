@@ -9,7 +9,6 @@ import IPrimitive, {
 } from "../../interface/IPrimitive"
 import { standardMaterial } from "../utils/reusables"
 import VisibleObjectManager from "./VisibleObjectManager"
-import { ConvexGeometryParams } from "./PhysicsObjectManager/physx/cookConvexGeometry"
 
 abstract class Primitive
     extends VisibleObjectManager<StandardMesh>
@@ -18,7 +17,7 @@ abstract class Primitive
     public static defaults = primitiveDefaults
     public static schema = primitiveSchema
 
-    public convexParams?: ConvexGeometryParams
+    public convexParamString?: string
 
     public constructor(geometry: BufferGeometry) {
         const mesh = new Mesh(geometry, standardMaterial)

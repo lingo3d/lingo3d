@@ -11,15 +11,10 @@ import getActualScale from "../../../utils/getActualScale"
 import Loaded from "../../Loaded"
 import Primitive from "../../Primitive"
 
-export type ConvexGeometryParams = [
-    typeSrc: string,
-    scaleX: number,
-    scaleY: number,
-    scaleZ: number
-]
+type Params = [typeSrc: string, scaleX: number, scaleY: number, scaleZ: number]
 
 const [increaseCount, decreaseCount, allocateDefaultConvexGeometryInstance] =
-    createInstancePool<any, ConvexGeometryParams>((_, params, manager) => {
+    createInstancePool<any, Params>((_, params, manager) => {
         const {
             getConvexFlags,
             getCooking,
@@ -87,10 +82,15 @@ export { allocateDefaultConvexGeometryInstance }
 
 export default (typeSrc: string, manager: Primitive | Loaded<any>) => {
     const { x, y, z } = getActualScale(manager)
+    const params: Params = [typeSrc, x, y, z]
+    const paramString = JSON.stringify(params)
     return increaseCount(
         MeshAppendable,
-        (manager.convexParams = [typeSrc, x, y, z]),
-        undefined,
+        params,
+        (manager.convexParamString = paramString),
         manager
     )
 }
+
+export const decreaseConvexGeometryCount = (manager: Primitive | Loaded<any>) =>
+    decreaseCount(MeshAppendable, manager.convexParamString!)
