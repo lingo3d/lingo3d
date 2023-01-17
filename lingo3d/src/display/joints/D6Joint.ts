@@ -39,7 +39,7 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         slideZ,
         swingY,
         swingZ,
-        twistX,
+        twist,
         twistLimitLow,
         twistLimitHigh,
         swingLimitY,
@@ -56,8 +56,8 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         joint.setMotion(PxD6AxisEnum.eSWING1(), stringToMotion(swingY))
     swingZ !== undefined &&
         joint.setMotion(PxD6AxisEnum.eSWING2(), stringToMotion(swingZ))
-    twistX !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eTWIST(), stringToMotion(twistX))
+    twist !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eTWIST(), stringToMotion(twist))
 
     if (swingY === "limited" || swingZ === "limited") {
         const limitCone = new PxJointLimitCone(
@@ -67,7 +67,7 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         joint.setSwingLimit(limitCone)
         destroy(limitCone)
     }
-    if (twistX === "limited") {
+    if (twist === "limited") {
         const limitPair = new PxJointAngularLimitPair(
             twistLimitLow * deg2Rad,
             twistLimitHigh * deg2Rad
@@ -147,12 +147,12 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
-    private _twistX?: D6Motion
-    public get twistX() {
-        return this._twistX
+    private _twist?: D6Motion
+    public get twist() {
+        return this._twist
     }
-    public set twistX(val) {
-        this._twistX = val
+    public set twist(val) {
+        this._twist = val
         configJointSystem(this)
     }
 
