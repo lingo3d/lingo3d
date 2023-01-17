@@ -14,6 +14,10 @@ export default interface ID6Joint extends IJointBase {
     eSWING1: Nullable<D6Motion>
     eSWING2: Nullable<D6Motion>
     eTWIST: Nullable<D6Motion>
+    twistLimitY: Nullable<number>
+    twistLimitZ: Nullable<number>
+    swingLimitY: Nullable<number>
+    swingLimitZ: Nullable<number>
 }
 
 export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
@@ -23,7 +27,11 @@ export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
     eZ: String,
     eSWING1: String,
     eSWING2: String,
-    eTWIST: String
+    eTWIST: String,
+    twistLimitY: Number,
+    twistLimitZ: Number,
+    swingLimitY: Number,
+    swingLimitZ: Number
 }
 
 const motionChoices = new Choices({
@@ -39,7 +47,11 @@ export const d6JointDefaults = extendDefaults<ID6Joint>(
         eZ: new NullableDefault("eLOCKED"),
         eSWING1: new NullableDefault("eLOCKED"),
         eSWING2: new NullableDefault("eLOCKED"),
-        eTWIST: new NullableDefault("eLOCKED")
+        eTWIST: new NullableDefault("eLOCKED"),
+        twistLimitY: new NullableDefault(0),
+        twistLimitZ: new NullableDefault(0),
+        swingLimitY: new NullableDefault(0),
+        swingLimitZ: new NullableDefault(0)
     },
     {
         eX: motionChoices,

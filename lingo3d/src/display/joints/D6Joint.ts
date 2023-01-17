@@ -120,4 +120,40 @@ export default class D6Joint extends JointBase implements ID6Joint {
         this._eTWIST = val
         configJointSystem(this)
     }
+
+    private _twistLimitY?: number
+    public get twistLimitY() {
+        return this._twistLimitY
+    }
+    public set twistLimitY(val) {
+        this._twistLimitY = val
+        configJointSystem(this)
+    }
+
+    private _twistLimitZ?: number
+    public get twistLimitZ() {
+        return this._twistLimitZ
+    }
+    public set twistLimitZ(val) {
+        this._twistLimitZ = val
+        configJointSystem(this)
+    }
+
+    private _swingLimitY?: number
+    public get swingLimitY() {
+        return this._swingLimitY
+    }
+    public set swingLimitY(val) {
+        this._swingLimitY = val
+        configJointSystem(this)
+    }
+
+    private _swingLimitZ?: number
+    public get swingLimitZ() {
+        return this._swingLimitZ
+    }
+    public set swingLimitZ(val) {
+        this._swingLimitZ = val
+        configJointSystem(this)
+    }
 }
