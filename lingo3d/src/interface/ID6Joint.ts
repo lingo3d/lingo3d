@@ -5,15 +5,15 @@ import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import NullableDefault from "./utils/NullableDefault"
 
-export type D6Motion = "eLOCKED" | "eLIMITED" | "eFREE"
+export type D6Motion = "locked" | "limited" | "free"
 
 export default interface ID6Joint extends IJointBase {
     slideX: Nullable<D6Motion>
     slideY: Nullable<D6Motion>
     slideZ: Nullable<D6Motion>
+    twistX: Nullable<D6Motion>
     swingY: Nullable<D6Motion>
     swingZ: Nullable<D6Motion>
-    twistX: Nullable<D6Motion>
     twistLimitY: Nullable<number>
     twistLimitZ: Nullable<number>
     swingLimitY: Nullable<number>
@@ -25,9 +25,9 @@ export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
     slideX: String,
     slideY: String,
     slideZ: String,
+    twistX: String,
     swingY: String,
     swingZ: String,
-    twistX: String,
     twistLimitY: Number,
     twistLimitZ: Number,
     swingLimitY: Number,
@@ -35,19 +35,19 @@ export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
 }
 
 const motionChoices = new Choices({
-    eLOCKED: "eLOCKED",
-    eLIMITED: "eLIMITED",
-    eFREE: "eFREE"
+    locked: "locked",
+    limited: "limited",
+    free: "free"
 })
 export const d6JointDefaults = extendDefaults<ID6Joint>(
     [jointBaseDefaults],
     {
-        slideX: new NullableDefault("eLOCKED"),
-        slideY: new NullableDefault("eLOCKED"),
-        slideZ: new NullableDefault("eLOCKED"),
-        swingY: new NullableDefault("eLOCKED"),
-        swingZ: new NullableDefault("eLOCKED"),
-        twistX: new NullableDefault("eLOCKED"),
+        slideX: new NullableDefault("locked"),
+        slideY: new NullableDefault("locked"),
+        slideZ: new NullableDefault("locked"),
+        twistX: new NullableDefault("locked"),
+        swingY: new NullableDefault("locked"),
+        swingZ: new NullableDefault("locked"),
         twistLimitY: new NullableDefault(0),
         twistLimitZ: new NullableDefault(0),
         swingLimitY: new NullableDefault(0),
@@ -57,8 +57,8 @@ export const d6JointDefaults = extendDefaults<ID6Joint>(
         slideX: motionChoices,
         slideY: motionChoices,
         slideZ: motionChoices,
+        twistX: motionChoices,
         swingY: motionChoices,
-        swingZ: motionChoices,
-        twistX: motionChoices
+        swingZ: motionChoices
     }
 )

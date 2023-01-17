@@ -16,11 +16,11 @@ const createD6 = (actor0: any, pose0: any, actor1: any, pose1: any) => {
 const stringToMotion = (val?: D6Motion) => {
     const { PxD6MotionEnum } = physXPtr[0]
     switch (val) {
-        case "eLOCKED":
+        case "locked":
             return PxD6MotionEnum.eLOCKED()
-        case "eLIMITED":
+        case "limited":
             return PxD6MotionEnum.eLIMITED()
-        case "eFREE":
+        case "free":
             return PxD6MotionEnum.eFREE()
         default:
             return PxD6MotionEnum.eFREE()
