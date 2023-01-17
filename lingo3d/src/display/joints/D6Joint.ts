@@ -31,8 +31,12 @@ const stringToMotion = (val?: D6Motion) => {
 
 const configJointSystem = debounceSystem((target: D6Joint) => {
     const { joint } = target
-    const { PxD6AxisEnum, PxJointLimitCone, PxJointAngularLimitPair } =
-        physXPtr[0]
+    const {
+        PxD6AxisEnum,
+        PxJointLimitCone,
+        PxJointAngularLimitPair,
+        PxJointLinearLimit
+    } = physXPtr[0]
     const {
         distanceX,
         distanceY,
@@ -46,18 +50,20 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         swingLimitZ
     } = target
 
-    distanceX !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(distanceX))
-    distanceY !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(distanceY))
-    distanceZ !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eZ(), stringToMotion(distanceZ))
-    swingY !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eSWING1(), stringToMotion(swingY))
-    swingZ !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eSWING2(), stringToMotion(swingZ))
-    twist !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eTWIST(), stringToMotion(twist))
+    joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(distanceX))
+    joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(distanceY))
+    joint.setMotion(PxD6AxisEnum.eZ(), stringToMotion(distanceZ))
+
+    if (
+        distanceX === "limited" ||
+        distanceY === "limited" ||
+        distanceZ === "limited"
+    ) {
+    }
+
+    joint.setMotion(PxD6AxisEnum.eSWING1(), stringToMotion(swingY))
+    joint.setMotion(PxD6AxisEnum.eSWING2(), stringToMotion(swingZ))
+    joint.setMotion(PxD6AxisEnum.eTWIST(), stringToMotion(twist))
 
     if (swingY === "limited" || swingZ === "limited") {
         const limitCone = new PxJointLimitCone(
@@ -104,7 +110,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
 
     private _distanceX?: D6Motion
     public get distanceX() {
-        return this._distanceX
+        return this._distanceX ?? "locked"
     }
     public set distanceX(val) {
         this._distanceX = val
@@ -113,7 +119,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
 
     private _distanceY?: D6Motion
     public get distanceY() {
-        return this._distanceY
+        return this._distanceY ?? "locked"
     }
     public set distanceY(val) {
         this._distanceY = val
@@ -122,7 +128,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
 
     private _distanceZ?: D6Motion
     public get distanceZ() {
-        return this._distanceZ
+        return this._distanceZ ?? "locked"
     }
     public set distanceZ(val) {
         this._distanceZ = val
@@ -131,7 +137,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
 
     private _swingY?: D6Motion
     public get swingY() {
-        return this._swingY
+        return this._swingY ?? "locked"
     }
     public set swingY(val) {
         this._swingY = val
@@ -140,7 +146,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
 
     private _swingZ?: D6Motion
     public get swingZ() {
-        return this._swingZ
+        return this._swingZ ?? "locked"
     }
     public set swingZ(val) {
         this._swingZ = val
@@ -149,7 +155,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
 
     private _twist?: D6Motion
     public get twist() {
-        return this._twist
+        return this._twist ?? "locked"
     }
     public set twist(val) {
         this._twist = val

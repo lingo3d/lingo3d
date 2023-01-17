@@ -2,21 +2,19 @@ import IJointBase, { jointBaseDefaults, jointBaseSchema } from "./IJointBase"
 import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import Nullable from "./utils/Nullable"
-import { nullableDefault } from "./utils/NullableDefault"
 import Range from "./utils/Range"
 
 export type D6Motion = "locked" | "limited" | "free"
 
 export default interface ID6Joint extends IJointBase {
-    distanceX: Nullable<D6Motion>
-    distanceY: Nullable<D6Motion>
-    distanceZ: Nullable<D6Motion>
-    swingY: Nullable<D6Motion>
+    distanceX: D6Motion
+    distanceY: D6Motion
+    distanceZ: D6Motion
+    swingY: D6Motion
     swingLimitY: number
-    swingZ: Nullable<D6Motion>
+    swingZ: D6Motion
     swingLimitZ: number
-    twist: Nullable<D6Motion>
+    twist: D6Motion
     twistLimitLow: number
     twistLimitHigh: number
 }
@@ -43,14 +41,14 @@ const motionChoices = new Choices({
 export const d6JointDefaults = extendDefaults<ID6Joint>(
     [jointBaseDefaults],
     {
-        distanceX: nullableDefault("locked"),
-        distanceY: nullableDefault("locked"),
-        distanceZ: nullableDefault("locked"),
-        swingY: nullableDefault("locked"),
+        distanceX: "locked",
+        distanceY: "locked",
+        distanceZ: "locked",
+        swingY: "locked",
         swingLimitY: 360,
-        swingZ: nullableDefault("locked"),
+        swingZ: "locked",
         swingLimitZ: 360,
-        twist: nullableDefault("locked"),
+        twist: "locked",
         twistLimitLow: -360,
         twistLimitHigh: 360
     },
