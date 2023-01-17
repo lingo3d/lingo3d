@@ -26,7 +26,8 @@ import {
 import Nullable from "../../../interface/utils/Nullable"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import cookConvexGeometry, {
-    decreaseConvexGeometryCount
+    decreaseConvexGeometryCount,
+    primitiveGeometries
 } from "./physx/cookConvexGeometry"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
@@ -155,12 +156,25 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         decreaseConvexGeometryCount(this)
     }
     public getPxShape(_: PhysicsOptions, actor: any) {
-        const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
+        const { material, shapeFlags, PxRigidActorExt, pxFilterData, physics } =
             physXPtr[0]
+
+        const pxGeometry: any = cookConvexGeometry(this.componentName, this)
+        if (primitiveGeometries.has(pxGeometry)) {
+            const shape = physics.createShape(
+                pxGeometry,
+                material,
+                true,
+                shapeFlags
+            )
+            shape.setSimulationFilterData(pxFilterData)
+            actor.attachShape(shape)
+            return shape
+        }
 
         const shape: any = PxRigidActorExt.prototype.createExclusiveShape(
             actor,
-            cookConvexGeometry(this.componentName, this),
+            pxGeometry,
             material,
             shapeFlags
         )

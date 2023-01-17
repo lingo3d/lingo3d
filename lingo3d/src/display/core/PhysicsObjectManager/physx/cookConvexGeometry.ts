@@ -11,6 +11,13 @@ import PhysicsObjectManager from ".."
 
 type Params = [typeSrc: string, scaleX: number, scaleY: number, scaleZ: number]
 
+export const primitiveGeometries = new WeakSet()
+
+const primitiveGeometriesAdd = (target: any) => {
+    primitiveGeometries.add(target)
+    return target
+}
+
 const [increaseCount, decreaseCount] = createInstancePool<
     PhysicsObjectManager,
     Params
@@ -26,10 +33,11 @@ const [increaseCount, decreaseCount] = createInstancePool<
     } = physXPtr[0]
 
     const [typeSrc, x, y, z] = params
-    if (!manager || typeSrc === "cube") return new PxBoxGeometry(x, y, z)
+    if (!manager || typeSrc === "cube")
+        return primitiveGeometriesAdd(new PxBoxGeometry(x, y, z))
 
     if (typeSrc === "sphere" && x === y && x === z)
-        return new PxSphereGeometry(x)
+        return primitiveGeometriesAdd(new PxSphereGeometry(x))
 
     increasePhysXCookingCount()
 
