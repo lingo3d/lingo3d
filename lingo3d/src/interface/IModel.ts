@@ -2,7 +2,7 @@ import ILoaded, { loadedDefaults, loadedSchema } from "./ILoaded"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
-import NullableDefault from "./utils/NullableDefault"
+import { nullableDefault } from "./utils/NullableDefault"
 import Range from "./utils/Range"
 
 export default interface IModel extends ILoaded {
@@ -30,12 +30,12 @@ export const modelDefaults = extendDefaults<IModel>(
     [loadedDefaults],
     {
         resize: true,
-        metalnessFactor: new NullableDefault(1),
-        roughnessFactor: new NullableDefault(1),
-        opacityFactor: new NullableDefault(1),
-        envFactor: new NullableDefault(1),
-        reflection: new NullableDefault(false),
-        illumination: new NullableDefault(false)
+        metalnessFactor: nullableDefault(1),
+        roughnessFactor: nullableDefault(1),
+        opacityFactor: nullableDefault(1),
+        envFactor: nullableDefault(1),
+        reflection: nullableDefault(false),
+        illumination: nullableDefault(false)
     },
     {
         metalnessFactor: new Range(-2, 2),

@@ -6,7 +6,7 @@ import IStaticObjectManager, {
     staticObjectManagerDefaults,
     staticObjectManagerSchema
 } from "./IStaticObjectManager"
-import NullableDefault from "./utils/NullableDefault"
+import { nullableDefault } from "./utils/NullableDefault"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 
 export type AnimationValue = Record<string, Array<number>>
@@ -42,7 +42,7 @@ export const animatedObjectManagerDefaults =
     extendDefaults<IAnimatedObjectManager>([staticObjectManagerDefaults], {
         animations: {},
         animation: undefined,
-        animationPaused: new NullableDefault(false),
-        animationRepeat: new NullableDefault(Infinity),
+        animationPaused: nullableDefault(false),
+        animationRepeat: nullableDefault(Infinity),
         onAnimationFinish: undefined
     })

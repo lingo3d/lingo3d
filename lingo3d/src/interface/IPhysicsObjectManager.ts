@@ -6,7 +6,7 @@ import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
-import NullableDefault from "./utils/NullableDefault"
+import { nullableDefault } from "./utils/NullableDefault"
 import Choices from "./utils/Choices"
 
 export type PhysicsOptions =
@@ -38,8 +38,8 @@ export const physicsObjectManagerDefaults =
         [simpleObjectManagerDefaults],
         {
             mass: 1,
-            gravity: new NullableDefault(true),
-            physics: new NullableDefault(false)
+            gravity: nullableDefault(true),
+            physics: nullableDefault(false)
         },
         {
             physics: new Choices({

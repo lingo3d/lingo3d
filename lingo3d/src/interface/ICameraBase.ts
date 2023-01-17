@@ -8,7 +8,7 @@ import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
-import NullableDefault from "./utils/NullableDefault"
+import { nullableDefault } from "./utils/NullableDefault"
 import Range from "./utils/Range"
 
 export type MouseControl = boolean | "drag"
@@ -70,7 +70,7 @@ export const cameraBaseDefaults = extendDefaults<ICameraBase>(
         near: NEAR,
         far: FAR,
         active: false,
-        transition: new NullableDefault(false),
+        transition: nullableDefault(false),
 
         minPolarAngle: MIN_POLAR_ANGLE,
         maxPolarAngle: MAX_POLAR_ANGLE,
@@ -78,8 +78,8 @@ export const cameraBaseDefaults = extendDefaults<ICameraBase>(
         minAzimuthAngle: -Infinity,
         maxAzimuthAngle: Infinity,
 
-        polarAngle: new NullableDefault(0),
-        azimuthAngle: new NullableDefault(0),
+        polarAngle: nullableDefault(0),
+        azimuthAngle: nullableDefault(0),
 
         enableDamping: false
     },

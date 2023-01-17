@@ -3,7 +3,7 @@ import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
-import NullableDefault from "./utils/NullableDefault"
+import { nullableDefault } from "./utils/NullableDefault"
 
 export type D6Motion = "locked" | "limited" | "free"
 
@@ -42,16 +42,16 @@ const motionChoices = new Choices({
 export const d6JointDefaults = extendDefaults<ID6Joint>(
     [jointBaseDefaults],
     {
-        slideX: new NullableDefault("locked"),
-        slideY: new NullableDefault("locked"),
-        slideZ: new NullableDefault("locked"),
-        twistX: new NullableDefault("locked"),
-        swingY: new NullableDefault("locked"),
-        swingZ: new NullableDefault("locked"),
-        twistLimitY: new NullableDefault(0),
-        twistLimitZ: new NullableDefault(0),
-        swingLimitY: new NullableDefault(0),
-        swingLimitZ: new NullableDefault(0)
+        slideX: nullableDefault("locked"),
+        slideY: nullableDefault("locked"),
+        slideZ: nullableDefault("locked"),
+        twistX: nullableDefault("locked"),
+        swingY: nullableDefault("locked"),
+        swingZ: nullableDefault("locked"),
+        twistLimitY: nullableDefault(0),
+        twistLimitZ: nullableDefault(0),
+        swingLimitY: nullableDefault(0),
+        swingLimitZ: nullableDefault(0)
     },
     {
         slideX: motionChoices,

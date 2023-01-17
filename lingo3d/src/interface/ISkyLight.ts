@@ -3,7 +3,7 @@ import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import { ShadowDistance } from "../states/useShadowDistance"
 import Nullable from "./utils/Nullable"
-import NullableDefault from "./utils/NullableDefault"
+import { nullableDefault } from "./utils/NullableDefault"
 import { shadowDistanceChoices } from "./IDirectionalLight"
 
 export default interface ISkyLight extends ILightBase {
@@ -21,7 +21,7 @@ export const skyLightDefaults = extendDefaults<ISkyLight>(
     [lightBaseDefaults],
     {
         groundColor: "#ffffff",
-        shadowDistance: new NullableDefault("medium")
+        shadowDistance: nullableDefault("medium")
     },
     {
         shadowDistance: shadowDistanceChoices

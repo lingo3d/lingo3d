@@ -2,7 +2,7 @@ import { Point } from "@lincode/math"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
-import NullableDefault from "./utils/NullableDefault"
+import { nullableDefault } from "./utils/NullableDefault"
 import Range from "./utils/Range"
 
 export default interface ITexturedStandard {
@@ -73,35 +73,35 @@ export const texturedStandardSchema: Required<ExtractProps<ITexturedStandard>> =
 export const texturedStandardDefaults = extendDefaults<ITexturedStandard>(
     [],
     {
-        color: new NullableDefault("#ffffff"),
-        opacity: new NullableDefault(1),
+        color: nullableDefault("#ffffff"),
+        opacity: nullableDefault(1),
         texture: undefined,
         alphaMap: undefined,
-        textureRepeat: new NullableDefault({ x: 1, y: 1 }),
-        textureFlipY: new NullableDefault(false),
-        textureRotation: new NullableDefault(0),
+        textureRepeat: nullableDefault({ x: 1, y: 1 }),
+        textureFlipY: nullableDefault(false),
+        textureRotation: nullableDefault(0),
 
-        wireframe: new NullableDefault(false),
+        wireframe: nullableDefault(false),
         envMap: undefined,
-        envMapIntensity: new NullableDefault(1),
+        envMapIntensity: nullableDefault(1),
         aoMap: undefined,
-        aoMapIntensity: new NullableDefault(1),
+        aoMapIntensity: nullableDefault(1),
         bumpMap: undefined,
-        bumpScale: new NullableDefault(1),
+        bumpScale: nullableDefault(1),
         displacementMap: undefined,
-        displacementScale: new NullableDefault(1),
-        displacementBias: new NullableDefault(0),
-        emissive: new NullableDefault(false),
-        emissiveIntensity: new NullableDefault(1),
+        displacementScale: nullableDefault(1),
+        displacementBias: nullableDefault(0),
+        emissive: nullableDefault(false),
+        emissiveIntensity: nullableDefault(1),
         lightMap: undefined,
-        lightMapIntensity: new NullableDefault(1),
+        lightMapIntensity: nullableDefault(1),
         metalnessMap: undefined,
-        metalness: new NullableDefault(0),
+        metalness: nullableDefault(0),
         roughnessMap: undefined,
-        roughness: new NullableDefault(1),
+        roughness: nullableDefault(1),
         normalMap: undefined,
-        normalScale: new NullableDefault(1),
-        depthTest: new NullableDefault(true)
+        normalScale: nullableDefault(1),
+        depthTest: nullableDefault(true)
     },
     {
         opacity: new Range(0, 1),

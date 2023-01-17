@@ -2,7 +2,7 @@ import { Point } from "@lincode/math"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
-import NullableDefault from "./utils/NullableDefault"
+import { nullableDefault } from "./utils/NullableDefault"
 import Range from "./utils/Range"
 
 export default interface ITexturedBasic {
@@ -28,13 +28,13 @@ export const texturedBasicSchema: Required<ExtractProps<ITexturedBasic>> = {
 export const texturedBasicDefaults = extendDefaults<ITexturedBasic>(
     [],
     {
-        color: new NullableDefault("#ffffff"),
-        opacity: new NullableDefault(1),
+        color: nullableDefault("#ffffff"),
+        opacity: nullableDefault(1),
         texture: undefined,
         alphaMap: undefined,
-        textureRepeat: new NullableDefault({ x: 1, y: 1 }),
-        textureFlipY: new NullableDefault(false),
-        textureRotation: new NullableDefault(0)
+        textureRepeat: nullableDefault({ x: 1, y: 1 }),
+        textureFlipY: nullableDefault(false),
+        textureRotation: nullableDefault(0)
     },
     {
         opacity: new Range(0, 1),

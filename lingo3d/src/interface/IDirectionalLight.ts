@@ -4,7 +4,7 @@ import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
-import NullableDefault from "./utils/NullableDefault"
+import { nullableDefault } from "./utils/NullableDefault"
 
 export default interface IDirectionalLight extends ILightBase {
     shadowDistance: Nullable<ShadowDistance>
@@ -23,6 +23,6 @@ export const shadowDistanceChoices = new Choices({
 })
 export const directionalLightDefaults = extendDefaults<IDirectionalLight>(
     [lightBaseDefaults],
-    { shadowDistance: new NullableDefault("medium") },
+    { shadowDistance: nullableDefault("medium") },
     { shadowDistance: shadowDistanceChoices }
 )
