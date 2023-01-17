@@ -13,8 +13,8 @@ import Primitive from "../../Primitive"
 
 type Params = [typeSrc: string, scaleX: number, scaleY: number, scaleZ: number]
 
-const [increaseCount, decreaseCount, allocateDefaultConvexGeometryInstance] =
-    createInstancePool<any, Params>((_, params, manager) => {
+const [increaseCount, decreaseCount] = createInstancePool<any, Params>(
+    (_, params, manager) => {
         const {
             getConvexFlags,
             getCooking,
@@ -22,32 +22,17 @@ const [increaseCount, decreaseCount, allocateDefaultConvexGeometryInstance] =
             PxConvexMeshDesc,
             PxConvexMeshGeometry,
             PxSphereGeometry,
-            PxBoxGeometry,
-            physics,
-            material,
-            shapeFlags,
-            pxFilterData
+            PxBoxGeometry
         } = physXPtr[0]
 
         const [typeSrc, x, y, z] = params
         if (
             !manager ||
             ((typeSrc === "cube" || typeSrc === "sphere") && x === y && x === z)
-        ) {
-            const pxGeometry: any =
-                typeSrc === "sphere"
-                    ? new PxSphereGeometry(x)
-                    : new PxBoxGeometry(x, y, z)
-            const shape = physics.createShape(
-                pxGeometry,
-                material,
-                true,
-                shapeFlags
-            )
-            shape.setSimulationFilterData(pxFilterData)
-            destroy(pxGeometry)
-            return shape
-        }
+        )
+            return typeSrc === "sphere"
+                ? new PxSphereGeometry(x)
+                : new PxBoxGeometry(x, y, z)
 
         increasePhysXCookingCount()
 
@@ -76,9 +61,9 @@ const [increaseCount, decreaseCount, allocateDefaultConvexGeometryInstance] =
         decreasePhysXCookingCount()
 
         return pxGeometry
-    }, destroy)
-
-export { allocateDefaultConvexGeometryInstance }
+    },
+    destroy
+)
 
 export default (typeSrc: string, manager: Primitive | Loaded<any>) => {
     const { x, y, z } = getActualScale(manager)

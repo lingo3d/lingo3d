@@ -6,6 +6,7 @@ import { emitDispose } from "../../events/onDispose"
 import { onLoop } from "../../events/onLoop"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import IAppendable from "../../interface/IAppendable"
+import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { appendableRoot, uuidMap } from "./collections"
 import MeshAppendable from "./MeshAppendable"
@@ -15,6 +16,10 @@ export default class Appendable extends Disposable implements IAppendable {
         super()
         appendableRoot.add(this)
         emitSceneGraphChange()
+    }
+
+    public get componentName(): string {
+        return unsafeGetValue(this.constructor, "componentName")
     }
 
     public parent?: Appendable | MeshAppendable

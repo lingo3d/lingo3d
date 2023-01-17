@@ -9,7 +9,11 @@ import IPrimitive, {
 } from "../../interface/IPrimitive"
 import { standardMaterial } from "../utils/reusables"
 import VisibleObjectManager from "./VisibleObjectManager"
-import { decreaseConvexGeometryCount } from "./PhysicsObjectManager/physx/cookConvexGeometry"
+import cookConvexGeometry, {
+    decreaseConvexGeometryCount
+} from "./PhysicsObjectManager/physx/cookConvexGeometry"
+import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
+import { physXPtr } from "../../states/usePhysX"
 
 abstract class Primitive
     extends VisibleObjectManager<StandardMesh>
@@ -22,6 +26,20 @@ abstract class Primitive
     protected override _dispose() {
         super._dispose()
         decreaseConvexGeometryCount(this)
+    }
+
+    public override getPxShape(_: PhysicsOptions, actor: any) {
+        const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
+            physXPtr[0]
+
+        const shape = PxRigidActorExt.prototype.createExclusiveShape(
+            actor,
+            cookConvexGeometry(this.componentName, this),
+            material,
+            shapeFlags
+        )
+        shape.setSimulationFilterData(pxFilterData)
+        return shape
     }
 
     public constructor(geometry: BufferGeometry) {
