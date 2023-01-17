@@ -1,5 +1,4 @@
 import { deg2Rad } from "@lincode/math"
-import { PI2 } from "../../globals"
 import ID6Joint, {
     d6JointDefaults,
     d6JointSchema,
@@ -41,8 +40,8 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         swingY,
         swingZ,
         twistX,
-        twistLimitY,
-        twistLimitZ,
+        twistLimitLow,
+        twistLimitHigh,
         swingLimitY,
         swingLimitZ
     } = target
@@ -70,8 +69,8 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
     }
     if (twistX === "limited") {
         const limitPair = new PxJointAngularLimitPair(
-            twistLimitY * deg2Rad,
-            twistLimitZ * deg2Rad
+            twistLimitLow * deg2Rad,
+            twistLimitHigh * deg2Rad
         )
         joint.setTwistLimit(limitPair)
         destroy(limitPair)
@@ -157,21 +156,21 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
-    private _twistLimitY?: number
-    public get twistLimitY() {
-        return this._twistLimitY ?? 360
+    private _twistLimitLow?: number
+    public get twistLimitLow() {
+        return this._twistLimitLow ?? -360
     }
-    public set twistLimitY(val) {
-        this._twistLimitY = val
+    public set twistLimitLow(val) {
+        this._twistLimitLow = val
         configJointSystem(this)
     }
 
-    private _twistLimitZ?: number
-    public get twistLimitZ() {
-        return this._twistLimitZ ?? 360
+    private _twistLimitHigh?: number
+    public get twistLimitHigh() {
+        return this._twistLimitHigh ?? 360
     }
-    public set twistLimitZ(val) {
-        this._twistLimitZ = val
+    public set twistLimitHigh(val) {
+        this._twistLimitHigh = val
         configJointSystem(this)
     }
 
