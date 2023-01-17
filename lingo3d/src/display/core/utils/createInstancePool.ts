@@ -1,10 +1,17 @@
 import { Class, forceGet } from "@lincode/utils"
+import Loaded from "../Loaded"
+import VisibleMixin from "../mixins/VisibleMixin"
+import Primitive from "../Primitive"
 
 const makeTuple = () =>
     <const>[new Map<string, any>(), {} as Record<string, number>]
 
-export default <T, Params = Array<any> | ReadonlyArray<any>>(
-    factory: (ClassVal: Class<T>, params: Params) => T,
+export default <
+    T,
+    Params = Array<any> | ReadonlyArray<any>,
+    Manager extends VisibleMixin = Primitive | Loaded
+>(
+    factory: (ClassVal: Class<T>, params: Params, manager?: Manager) => T,
     dispose = (target: any) => target.dispose()
 ) => {
     const classMapsMap = new WeakMap<
@@ -28,7 +35,8 @@ export default <T, Params = Array<any> | ReadonlyArray<any>>(
     const increaseCount = (
         ClassVal: Class<T>,
         params: Params,
-        paramString = JSON.stringify(params)
+        paramString = JSON.stringify(params),
+        manager?: Manager
     ): T => {
         const defaultTuple = classDefaultParamsInstanceMap.get(ClassVal)
         if (defaultTuple && paramString === defaultTuple[0])
@@ -43,7 +51,7 @@ export default <T, Params = Array<any> | ReadonlyArray<any>>(
             (paramCountRecord[paramString] =
                 (paramCountRecord[paramString] ?? 0) + 1) === 1
         ) {
-            const result = factory(ClassVal, params)
+            const result = factory(ClassVal, params, manager)
             paramsInstanceMap.set(paramString, result)
             return result
         }

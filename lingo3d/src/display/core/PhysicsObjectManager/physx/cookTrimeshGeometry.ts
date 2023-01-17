@@ -5,9 +5,10 @@ import {
     increasePhysXCookingCount
 } from "../../../../states/usePhysXCookingCount"
 import destroy from "./destroy"
-import { pxGeometryCache } from "./cookConvexGeometry"
 import computeMergedPxVertices from "./computeMergedPxVertices"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
+
+const pxGeometryCache = new Map<string | undefined, any>()
 
 export default (
     src: string | undefined,

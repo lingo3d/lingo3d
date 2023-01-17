@@ -13,7 +13,7 @@ export default {}
 // model.src = "tree1.glb"
 
 // model.onLoad = () => {
-//     const loaded = model.loadedGroup.children[0]
+//     const loaded = model.loadedObject3d
 //     loaded.traverse((child: Object3D | Mesh) => {
 //         if (!("geometry" in child)) return
 //         const instancedMesh = new InstancedMesh(

@@ -16,7 +16,7 @@ const ModelTreeItem = ({ appendable }: ModelTreeItemProps) => {
     useEffect(() => {
         setLoadedObject3d(undefined)
         const handle = loaded.then(() => {
-            setLoadedObject3d(appendable.loadedGroup.children[0])
+            setLoadedObject3d(appendable.loadedObject3d)
         })
         return () => {
             handle.cancel()

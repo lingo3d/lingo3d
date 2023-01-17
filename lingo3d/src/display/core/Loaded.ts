@@ -16,7 +16,9 @@ import {
 import VisibleObjectManager from "./VisibleObjectManager"
 import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
 import { physXPtr } from "../../states/usePhysX"
-import cookConvexGeometry from "./PhysicsObjectManager/physx/cookConvexGeometry"
+import cookConvexGeometry, {
+    ConvexGeometryParams
+} from "./PhysicsObjectManager/physx/cookConvexGeometry"
 import cookTrimeshGeometry from "./PhysicsObjectManager/physx/cookTrimeshGeometry"
 import { StandardMesh } from "./mixins/TexturedStandardMixin"
 import MeshAppendable from "../../api/core/MeshAppendable"
@@ -26,6 +28,7 @@ export default abstract class Loaded<T = Object3D>
     implements ILoaded
 {
     public loadedGroup = new Group()
+    public loadedObject3d?: Object3D
 
     public constructor(unmounted?: boolean) {
         super(new Mesh(boxGeometry, wireframeMaterial), unmounted)
@@ -44,15 +47,19 @@ export default abstract class Loaded<T = Object3D>
     }
     public set src(val) {
         this._src = val
-        this.loaded.done && this.loadedGroup.clear()
-
+        if (this.loaded.done) {
+            this.loadedGroup.clear()
+            this.loadedObject3d = undefined
+        }
         this.cancelHandle(
             "src",
             val &&
                 (() =>
                     toResolvable(this.load(val)).then((loaded) => {
                         const loadedObject3d = this.resolveLoaded(loaded, val)
-                        this.loadedGroup.add(loadedObject3d)
+                        this.loadedGroup.add(
+                            (this.loadedObject3d = loadedObject3d)
+                        )
                         this.loaded.resolve(loadedObject3d)
 
                         this.object3d.visible = !!this._boxVisible
@@ -247,23 +254,17 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    public override getPxShape(mode: PhysicsOptions, actor: any) {
+    public params?: ConvexGeometryParams
+
+    public override getPxShape(mode: PhysicsOptions, actor: any): any {
         if (mode === "convex" || mode === "map") {
             const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
                 physXPtr[0]
 
             const pxGeometry =
                 mode === "convex"
-                    ? cookConvexGeometry(
-                          this._src,
-                          this.loadedGroup.children[0],
-                          this
-                      )
-                    : cookTrimeshGeometry(
-                          this._src,
-                          this.loadedGroup.children[0],
-                          this
-                      )
+                    ? cookConvexGeometry(this._src!, this)
+                    : cookTrimeshGeometry(this._src, this.loadedObject3d!, this)
             const shape = PxRigidActorExt.prototype.createExclusiveShape(
                 actor,
                 pxGeometry,

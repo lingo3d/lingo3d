@@ -28,8 +28,10 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     }
     public set innerHTML(val: string | undefined) {
         this._innerHTML = val
-        this.loaded.done && this.loadedGroup.clear()
-
+        if (this.loaded.done) {
+            this.loadedGroup.clear()
+            this.loadedObject3d = undefined
+        }
         this.cancelHandle(
             "src",
             val &&
@@ -46,7 +48,9 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
                         })
                     ).then((loaded) => {
                         const loadedObject3d = this.resolveLoaded(loaded, val)
-                        this.loadedGroup.add(loadedObject3d)
+                        this.loadedGroup.add(
+                            (this.loadedObject3d = loadedObject3d)
+                        )
                         this.loaded.resolve(loadedObject3d)
 
                         this.object3d.visible = !!this._boxVisible
@@ -123,7 +127,7 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
     }
     public set material(val) {
         this._material = val
-        const children = (this.loadedGroup.children[0]?.children ??
+        const children = (this.loadedObject3d?.children ??
             []) as Array<StandardMesh>
         for (const mesh of children) mesh.material = val
     }

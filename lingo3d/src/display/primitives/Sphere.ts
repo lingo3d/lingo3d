@@ -40,11 +40,7 @@ export default class Sphere extends Primitive {
             return shape
         }
 
-        const pxGeometry = cookConvexGeometry(
-            `sphere(${x},${y},${z})`,
-            this.object3d,
-            this
-        )
+        const pxGeometry = cookConvexGeometry("sphere", this)
         const shape = PxRigidActorExt.prototype.createExclusiveShape(
             actor,
             pxGeometry,

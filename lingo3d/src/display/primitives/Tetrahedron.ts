@@ -4,7 +4,6 @@ import { deg2Rad } from "@lincode/math"
 import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
 import { physXPtr } from "../../states/usePhysX"
 import cookConvexGeometry from "../core/PhysicsObjectManager/physx/cookConvexGeometry"
-import getActualScale from "../utils/getActualScale"
 
 const geometry = new TetrahedronGeometry(0.61)
 geometry.rotateY(45 * deg2Rad)
@@ -22,12 +21,7 @@ export default class Tetrahedron extends Primitive {
         const { material, shapeFlags, pxFilterData, PxRigidActorExt } =
             physXPtr[0]
 
-        const { x, y, z } = getActualScale(this).multiplyScalar(0.5)
-        const pxGeometry = cookConvexGeometry(
-            `tetrahedron(${x},${y},${z})`,
-            this.object3d,
-            this
-        )
+        const pxGeometry = cookConvexGeometry("tetrahedron", this)
         const shape = PxRigidActorExt.prototype.createExclusiveShape(
             actor,
             pxGeometry,

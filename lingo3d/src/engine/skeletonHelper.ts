@@ -12,10 +12,10 @@ createEffect(() => {
     if (!(target instanceof Loaded) || getCameraRendered() !== mainCamera)
         return
 
-    const skinnedMesh = target.loadedGroup.children[0]
-    if (!skinnedMeshSet.has(skinnedMesh)) return
+    const { loadedObject3d } = target
+    if (!loadedObject3d || !skinnedMeshSet.has(loadedObject3d)) return
 
-    const helper = new SkeletonHelper(skinnedMesh)
+    const helper = new SkeletonHelper(loadedObject3d)
     scene.add(helper)
 
     return () => {

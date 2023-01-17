@@ -151,8 +151,8 @@ export default class Dummy extends Model implements IDummy {
         this.then(() => poseService.stop())
 
         this.createEffect(() => {
-            const loadedItem = this.loadedGroup.children[0]
-            if (!loadedItem) return
+            const { loadedObject3d } = this
+            if (!loadedObject3d) return
 
             const { strideForward, strideRight, strideMove } = this
             if (!strideForward && !strideRight) {
@@ -175,27 +175,27 @@ export default class Dummy extends Model implements IDummy {
 
             const spine = getSpine()
             const spineQuaternion = spine?.quaternion.clone()
-            const loadedItemQuaternion = loadedItem.quaternion.clone()
+            const loadedItemQuaternion = loadedObject3d.quaternion.clone()
 
             const handle = onRender(() => {
                 poseService.send(
                     backwards ? "RUN_BACKWARDS_START" : "RUN_START"
                 )
 
-                const quaternionOld = loadedItem.quaternion.clone()
+                const quaternionOld = loadedObject3d.quaternion.clone()
 
                 let spinePoint: Point3d | undefined
                 if (strideMode === "aim" && spine && spineQuaternion) {
-                    loadedItem.quaternion.copy(loadedItemQuaternion)
+                    loadedObject3d.quaternion.copy(loadedItemQuaternion)
                     spine.quaternion.copy(spineQuaternion)
                     spinePoint = spine.pointAt(1000)
                 }
 
-                loadedItem.quaternion.setFromEuler(
+                loadedObject3d.quaternion.setFromEuler(
                     euler.set(0, angle * deg2Rad, 0)
                 )
-                const quaternionNew = loadedItem.quaternion.clone()
-                loadedItem.quaternion
+                const quaternionNew = loadedObject3d.quaternion.clone()
+                loadedObject3d.quaternion
                     .copy(quaternionOld)
                     .slerp(quaternionNew, fpsAlpha(0.2))
 
@@ -218,7 +218,7 @@ export default class Dummy extends Model implements IDummy {
                     !this.strideForward &&
                     !this.strideRight
                 )
-                    loadedItem.quaternion.set(0, 0, 0, 0)
+                    loadedObject3d.quaternion.set(0, 0, 0, 0)
 
                 handle.cancel()
             }
