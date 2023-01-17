@@ -31,27 +31,30 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
     const { joint } = target
     const { PxD6AxisEnum } = physXPtr[0]
     const {
-        eX,
-        eY,
-        eZ,
-        eSWING1,
-        eSWING2,
-        eTWIST,
+        slideX,
+        slideY,
+        slideZ,
+        swingY,
+        swingZ,
+        twistX,
         twistLimitY,
         twistLimitZ,
         swingLimitY,
         swingLimitZ
     } = target
-    
-    eX !== undefined && joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(eX))
-    eY !== undefined && joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(eY))
-    eZ !== undefined && joint.setMotion(PxD6AxisEnum.eZ(), stringToMotion(eZ))
-    eSWING1 !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eSWING1(), stringToMotion(eSWING1))
-    eSWING2 !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eSWING2(), stringToMotion(eSWING2))
-    eTWIST !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eTWIST(), stringToMotion(eTWIST))
+
+    slideX !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(slideX))
+    slideY !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(slideY))
+    slideZ !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eZ(), stringToMotion(slideZ))
+    swingY !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eSWING1(), stringToMotion(swingY))
+    swingZ !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eSWING2(), stringToMotion(swingZ))
+    twistX !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eTWIST(), stringToMotion(twistX))
 })
 
 export default class D6Joint extends JointBase implements ID6Joint {
@@ -80,55 +83,55 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
 
     private _eX?: D6Motion
-    public get eX() {
+    public get slideX() {
         return this._eX
     }
-    public set eX(val) {
+    public set slideX(val) {
         this._eX = val
         configJointSystem(this)
     }
 
     private _eY?: D6Motion
-    public get eY() {
+    public get slideY() {
         return this._eY
     }
-    public set eY(val) {
+    public set slideY(val) {
         this._eY = val
         configJointSystem(this)
     }
 
     private _eZ?: D6Motion
-    public get eZ() {
+    public get slideZ() {
         return this._eZ
     }
-    public set eZ(val) {
+    public set slideZ(val) {
         this._eZ = val
         configJointSystem(this)
     }
 
     private _eSWING1?: D6Motion
-    public get eSWING1() {
+    public get swingY() {
         return this._eSWING1
     }
-    public set eSWING1(val) {
+    public set swingY(val) {
         this._eSWING1 = val
         configJointSystem(this)
     }
 
     private _eSWING2?: D6Motion
-    public get eSWING2() {
+    public get swingZ() {
         return this._eSWING2
     }
-    public set eSWING2(val) {
+    public set swingZ(val) {
         this._eSWING2 = val
         configJointSystem(this)
     }
 
     private _eTWIST?: D6Motion
-    public get eTWIST() {
+    public get twistX() {
         return this._eTWIST
     }
-    public set eTWIST(val) {
+    public set twistX(val) {
         this._eTWIST = val
         configJointSystem(this)
     }

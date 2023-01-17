@@ -8,12 +8,12 @@ import NullableDefault from "./utils/NullableDefault"
 export type D6Motion = "eLOCKED" | "eLIMITED" | "eFREE"
 
 export default interface ID6Joint extends IJointBase {
-    eX: Nullable<D6Motion>
-    eY: Nullable<D6Motion>
-    eZ: Nullable<D6Motion>
-    eSWING1: Nullable<D6Motion>
-    eSWING2: Nullable<D6Motion>
-    eTWIST: Nullable<D6Motion>
+    slideX: Nullable<D6Motion>
+    slideY: Nullable<D6Motion>
+    slideZ: Nullable<D6Motion>
+    swingY: Nullable<D6Motion>
+    swingZ: Nullable<D6Motion>
+    twistX: Nullable<D6Motion>
     twistLimitY: Nullable<number>
     twistLimitZ: Nullable<number>
     swingLimitY: Nullable<number>
@@ -22,12 +22,12 @@ export default interface ID6Joint extends IJointBase {
 
 export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
     ...jointBaseSchema,
-    eX: String,
-    eY: String,
-    eZ: String,
-    eSWING1: String,
-    eSWING2: String,
-    eTWIST: String,
+    slideX: String,
+    slideY: String,
+    slideZ: String,
+    swingY: String,
+    swingZ: String,
+    twistX: String,
     twistLimitY: Number,
     twistLimitZ: Number,
     swingLimitY: Number,
@@ -42,23 +42,23 @@ const motionChoices = new Choices({
 export const d6JointDefaults = extendDefaults<ID6Joint>(
     [jointBaseDefaults],
     {
-        eX: new NullableDefault("eLOCKED"),
-        eY: new NullableDefault("eLOCKED"),
-        eZ: new NullableDefault("eLOCKED"),
-        eSWING1: new NullableDefault("eLOCKED"),
-        eSWING2: new NullableDefault("eLOCKED"),
-        eTWIST: new NullableDefault("eLOCKED"),
+        slideX: new NullableDefault("eLOCKED"),
+        slideY: new NullableDefault("eLOCKED"),
+        slideZ: new NullableDefault("eLOCKED"),
+        swingY: new NullableDefault("eLOCKED"),
+        swingZ: new NullableDefault("eLOCKED"),
+        twistX: new NullableDefault("eLOCKED"),
         twistLimitY: new NullableDefault(0),
         twistLimitZ: new NullableDefault(0),
         swingLimitY: new NullableDefault(0),
         swingLimitZ: new NullableDefault(0)
     },
     {
-        eX: motionChoices,
-        eY: motionChoices,
-        eZ: motionChoices,
-        eSWING1: motionChoices,
-        eSWING2: motionChoices,
-        eTWIST: motionChoices
+        slideX: motionChoices,
+        slideY: motionChoices,
+        slideZ: motionChoices,
+        swingY: motionChoices,
+        swingZ: motionChoices,
+        twistX: motionChoices
     }
 )
