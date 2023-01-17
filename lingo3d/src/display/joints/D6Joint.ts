@@ -30,8 +30,7 @@ const stringToMotion = (val?: D6Motion) => {
 const configJointSystem = debounceSystem((target: D6Joint) => {
     const { joint } = target
     const { PxD6AxisEnum } = physXPtr[0]
-    const { distanceLimit, eX, eY, eZ, eSWING1, eSWING2, eTWIST } = target
-    distanceLimit !== undefined && joint.setDistanceLimit(distanceLimit)
+    const { eX, eY, eZ, eSWING1, eSWING2, eTWIST } = target
     eX !== undefined && joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(eX))
     eY !== undefined && joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(eY))
     eZ !== undefined && joint.setMotion(PxD6AxisEnum.eZ(), stringToMotion(eZ))
@@ -66,15 +65,6 @@ export default class D6Joint extends JointBase implements ID6Joint {
             toManager.actor,
             toPxTransform
         ))
-    }
-
-    private _distanceLimit?: number
-    public get distanceLimit() {
-        return this._distanceLimit
-    }
-    public set distanceLimit(val) {
-        this._distanceLimit = val
-        configJointSystem(this)
     }
 
     private _eX?: D6Motion

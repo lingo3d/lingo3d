@@ -8,7 +8,6 @@ import NullableDefault from "./utils/NullableDefault"
 export type D6Motion = "eLOCKED" | "eLIMITED" | "eFREE"
 
 export default interface ID6Joint extends IJointBase {
-    distanceLimit: Nullable<number>
     eX: Nullable<D6Motion>
     eY: Nullable<D6Motion>
     eZ: Nullable<D6Motion>
@@ -19,7 +18,6 @@ export default interface ID6Joint extends IJointBase {
 
 export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
     ...jointBaseSchema,
-    distanceLimit: Number,
     eX: String,
     eY: String,
     eZ: String,
@@ -36,7 +34,6 @@ const motionChoices = new Choices({
 export const d6JointDefaults = extendDefaults<ID6Joint>(
     [jointBaseDefaults],
     {
-        distanceLimit: new NullableDefault(0),
         eX: new NullableDefault("eLOCKED"),
         eY: new NullableDefault("eLOCKED"),
         eZ: new NullableDefault("eLOCKED"),
