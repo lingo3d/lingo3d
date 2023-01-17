@@ -34,7 +34,7 @@ const [increaseCount, decreaseCount, allocateDefaultConvexGeometryInstance] =
             !manager ||
             ((typeSrc === "cube" || typeSrc === "sphere") && x === y && x === z)
         ) {
-            const pxGeometry =
+            const pxGeometry: any =
                 typeSrc === "sphere"
                     ? new PxSphereGeometry(x)
                     : new PxBoxGeometry(x, y, z)
@@ -84,6 +84,7 @@ export default (typeSrc: string, manager: Primitive | Loaded<any>) => {
     const { x, y, z } = getActualScale(manager)
     const params: Params = [typeSrc, x, y, z]
     const paramString = JSON.stringify(params)
+    decreaseConvexGeometryCount(manager)
     return increaseCount(
         MeshAppendable,
         params,
@@ -93,4 +94,5 @@ export default (typeSrc: string, manager: Primitive | Loaded<any>) => {
 }
 
 export const decreaseConvexGeometryCount = (manager: Primitive | Loaded<any>) =>
-    decreaseCount(MeshAppendable, manager.convexParamString!)
+    manager.convexParamString &&
+    decreaseCount(MeshAppendable, manager.convexParamString)

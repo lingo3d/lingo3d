@@ -9,6 +9,7 @@ import IPrimitive, {
 } from "../../interface/IPrimitive"
 import { standardMaterial } from "../utils/reusables"
 import VisibleObjectManager from "./VisibleObjectManager"
+import { decreaseConvexGeometryCount } from "./PhysicsObjectManager/physx/cookConvexGeometry"
 
 abstract class Primitive
     extends VisibleObjectManager<StandardMesh>
@@ -18,6 +19,10 @@ abstract class Primitive
     public static schema = primitiveSchema
 
     public convexParamString?: string
+    protected override _dispose() {
+        super._dispose()
+        decreaseConvexGeometryCount(this)
+    }
 
     public constructor(geometry: BufferGeometry) {
         const mesh = new Mesh(geometry, standardMaterial)
