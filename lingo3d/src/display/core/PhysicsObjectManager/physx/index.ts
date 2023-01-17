@@ -43,6 +43,7 @@ PhysX().then((PhysX: any) => {
         PxJointLimitCone,
         PxJointAngularLimitPair,
         PxJointLinearLimit,
+        PxJointLinearLimitPair,
         PxShapeExt,
         _emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX,
         _emscripten_enum_PxConvexFlagEnum_eDISABLE_MESH_VALIDATION,
@@ -440,7 +441,6 @@ PhysX().then((PhysX: any) => {
     setPhysX({
         NativeArrayHelpers,
         physics,
-        scale,
         material,
         shapeFlags,
         pxRaycast,
@@ -477,6 +477,7 @@ PhysX().then((PhysX: any) => {
         PxJointLimitCone,
         PxJointAngularLimitPair,
         PxJointLinearLimit,
+        PxJointLinearLimitPair,
         PxShapeExt,
         PxCreateDynamic,
         PxCapsuleClimbingModeEnum,

@@ -9,7 +9,7 @@ export default class OrthographicCamera
     extends CameraBase<ThreeOrthographicCamera>
     implements ICamera
 {
-    public componentName = "orthographicCamera"
+    public static componentName = "orthographicCamera"
     public static defaults = {}
     public static schema = {}
 

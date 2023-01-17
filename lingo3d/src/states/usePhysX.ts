@@ -4,7 +4,6 @@ import fn from "../interface/utils/fn"
 type PhysX = {
     NativeArrayHelpers: any
     physics: any
-    scale: any
     material: any
     shapeFlags: any
     pxRaycast?: (
@@ -46,6 +45,7 @@ type PhysX = {
     PxJointLimitCone: any
     PxJointAngularLimitPair: any
     PxJointLinearLimit: any
+    PxJointLinearLimitPair: any
     PxShapeExt: any
     PxCreateDynamic: any
     PxCapsuleClimbingModeEnum: {
@@ -139,7 +139,6 @@ type PhysX = {
 export const [setPhysX, getPhysX] = store<PhysX>({
     NativeArrayHelpers: undefined,
     physics: undefined,
-    scale: undefined,
     material: undefined,
     shapeFlags: undefined,
     pxRaycast: undefined,
@@ -176,6 +175,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxJointLimitCone: undefined,
     PxJointAngularLimitPair: undefined,
     PxJointLinearLimit: undefined,
+    PxJointLinearLimitPair: undefined,
     PxShapeExt: undefined,
     PxCreateDynamic: undefined,
     PxCapsuleClimbingModeEnum: {

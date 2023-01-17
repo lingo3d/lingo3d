@@ -1,4 +1,5 @@
 import { deg2Rad } from "@lincode/math"
+import { CM2M } from "../../globals"
 import ID6Joint, {
     d6JointDefaults,
     d6JointSchema,
@@ -35,12 +36,15 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         PxD6AxisEnum,
         PxJointLimitCone,
         PxJointAngularLimitPair,
-        PxJointLinearLimit
+        PxJointLinearLimitPair
     } = physXPtr[0]
     const {
         distanceX,
         distanceY,
         distanceZ,
+        linearLimitX,
+        linearLimitY,
+        linearLimitZ,
         swingY,
         swingZ,
         twist,
@@ -54,11 +58,23 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
     joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(distanceY))
     joint.setMotion(PxD6AxisEnum.eZ(), stringToMotion(distanceZ))
 
-    if (
-        distanceX === "limited" ||
-        distanceY === "limited" ||
-        distanceZ === "limited"
-    ) {
+    if (distanceX === "limited") {
+        const val = linearLimitX * CM2M
+        const linearLimit = new PxJointLinearLimitPair(-val, val)
+        joint.setLinearLimit(PxD6AxisEnum.eX(), linearLimit)
+        destroy(linearLimit)
+    }
+    if (distanceY === "limited") {
+        const val = linearLimitY * CM2M
+        const linearLimit = new PxJointLinearLimitPair(-val, val)
+        joint.setLinearLimit(PxD6AxisEnum.eY(), linearLimit)
+        destroy(linearLimit)
+    }
+    if (distanceZ === "limited") {
+        const val = linearLimitZ * CM2M
+        const linearLimit = new PxJointLinearLimitPair(-val, val)
+        joint.setLinearLimit(PxD6AxisEnum.eZ(), linearLimit)
+        destroy(linearLimit)
     }
 
     joint.setMotion(PxD6AxisEnum.eSWING1(), stringToMotion(swingY))
@@ -117,6 +133,15 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
+    private _linearLimitX?: number
+    public get linearLimitX() {
+        return this._linearLimitX ?? 1000
+    }
+    public set linearLimitX(val) {
+        this._linearLimitX = val
+        configJointSystem(this)
+    }
+
     private _distanceY?: D6Motion
     public get distanceY() {
         return this._distanceY ?? "locked"
@@ -126,12 +151,30 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
+    private _linearLimitY?: number
+    public get linearLimitY() {
+        return this._linearLimitY ?? 1000
+    }
+    public set linearLimitY(val) {
+        this._linearLimitY = val
+        configJointSystem(this)
+    }
+
     private _distanceZ?: D6Motion
     public get distanceZ() {
         return this._distanceZ ?? "locked"
     }
     public set distanceZ(val) {
         this._distanceZ = val
+        configJointSystem(this)
+    }
+
+    private _linearLimitZ?: number
+    public get linearLimitZ() {
+        return this._linearLimitZ ?? 1000
+    }
+    public set linearLimitZ(val) {
+        this._linearLimitZ = val
         configJointSystem(this)
     }
 
