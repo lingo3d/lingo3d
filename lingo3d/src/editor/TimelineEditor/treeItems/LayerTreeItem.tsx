@@ -13,7 +13,7 @@ import {
     getTimelineLayer,
     setTimelineLayer
 } from "../../../states/useTimelineLayer"
-import getComponentName from "../../utils/getComponentName"
+import getDisplayName from "../../utils/getDisplayName"
 import handleTreeItemClick from "../../utils/handleTreeItemClick"
 
 type LayerTreeItemProps = {
@@ -35,9 +35,9 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
 
     useLayoutEffect(() => {
         if (!instance) return
-        setName(getComponentName(instance))
+        setName(getDisplayName(instance))
         const handle = onName(
-            (item) => item === instance && setName(getComponentName(instance))
+            (item) => item === instance && setName(getDisplayName(instance))
         )
         return () => {
             handle.cancel()

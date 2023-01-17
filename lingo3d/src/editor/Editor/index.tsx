@@ -1,7 +1,7 @@
 import { Pane } from "../TweakPane/tweakpane"
 import { useLayoutEffect } from "preact/hooks"
 import { Cancellable } from "@lincode/promiselikes"
-import getComponentName from "../utils/getComponentName"
+import getDisplayName from "../utils/getDisplayName"
 import addInputs from "./addInputs"
 import getParams from "./getParams"
 import splitObject from "./splitObject"
@@ -343,7 +343,7 @@ const Editor = () => {
                         selected
                         onClose={() => emitSelectionTarget(undefined)}
                     >
-                        {getComponentName(selectionTarget)}
+                        {getDisplayName(selectionTarget)}
                     </CloseableTab>
                 )}
             </AppBar>

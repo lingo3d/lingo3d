@@ -9,7 +9,7 @@ import { getManager } from "../../api/utils/manager"
 import { getCameraComputed } from "../../states/useCameraComputed"
 import { getCameraList } from "../../states/useCameraList"
 import { setEditorCamera } from "../../states/useEditorCamera"
-import getComponentName from "../utils/getComponentName"
+import getDisplayName from "../utils/getDisplayName"
 import { createEffect } from "@lincode/reactivity"
 import Switch from "../component/Switch"
 import useSyncState from "../hooks/useSyncState"
@@ -45,7 +45,7 @@ const Tabs = () => {
             const options: Record<string, number> = {}
             let i = 0
             for (const cam of cameraList)
-                options[getComponentName(getManager(cam))] = i++
+                options[getDisplayName(getManager(cam))] = i++
 
             const cameraInput = pane.add(
                 pane.addInput(cameraSettings, label, { options })

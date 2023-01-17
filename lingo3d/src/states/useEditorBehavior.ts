@@ -1,7 +1,6 @@
 import store, { createEffect } from "@lincode/reactivity"
 import { appendableRoot } from "../api/core/collections"
 import settings from "../api/settings"
-import getComponentName from "../editor/utils/getComponentName"
 import mainCamera from "../engine/mainCamera"
 import { onLoadFile } from "../events/onLoadFile"
 import { setEditorCamera } from "./useEditorCamera"
@@ -21,8 +20,8 @@ createEffect(() => {
     setWorldPlay(false)
 
     settings.gridHelper = ![...appendableRoot].some((item) => {
-        const componentName = getComponentName(item)
-        return componentName !== "Setup" && componentName !== "DefaultSkyLight"
+        const { componentName } = item
+        return componentName !== "setup" && componentName !== "defaultSkyLight"
     })
     const handle = onLoadFile(() => (settings.gridHelper = false))
 
