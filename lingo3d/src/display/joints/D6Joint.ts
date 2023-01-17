@@ -1,3 +1,5 @@
+import { deg2Rad } from "@lincode/math"
+import { PI2 } from "../../globals"
 import ID6Joint, {
     d6JointDefaults,
     d6JointSchema,
@@ -7,6 +9,7 @@ import { physXPtr } from "../../states/usePhysX"
 import debounceSystem from "../../utils/debounceSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
+import destroy from "../core/PhysicsObjectManager/physx/destroy"
 
 const createD6 = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     const { physics, Px } = physXPtr[0]
@@ -29,7 +32,7 @@ const stringToMotion = (val?: D6Motion) => {
 
 const configJointSystem = debounceSystem((target: D6Joint) => {
     const { joint } = target
-    const { PxD6AxisEnum } = physXPtr[0]
+    const { PxD6AxisEnum, PxJointLimitCone } = physXPtr[0]
     const {
         slideX,
         slideY,
@@ -55,6 +58,15 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         joint.setMotion(PxD6AxisEnum.eSWING2(), stringToMotion(swingZ))
     twistX !== undefined &&
         joint.setMotion(PxD6AxisEnum.eTWIST(), stringToMotion(twistX))
+
+    if (swingY === "limited" || swingZ === "limited") {
+        const limitCone = new PxJointLimitCone(
+            swingLimitY * deg2Rad,
+            swingLimitZ * deg2Rad
+        )
+        joint.setSwingLimit(limitCone)
+        destroy(limitCone)
+    }
 })
 
 export default class D6Joint extends JointBase implements ID6Joint {
@@ -109,36 +121,36 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
-    private _eSWING1?: D6Motion
+    private _swingY?: D6Motion
     public get swingY() {
-        return this._eSWING1
+        return this._swingY
     }
     public set swingY(val) {
-        this._eSWING1 = val
+        this._swingY = val
         configJointSystem(this)
     }
 
-    private _eSWING2?: D6Motion
+    private _swingZ?: D6Motion
     public get swingZ() {
-        return this._eSWING2
+        return this._swingZ
     }
     public set swingZ(val) {
-        this._eSWING2 = val
+        this._swingZ = val
         configJointSystem(this)
     }
 
-    private _eTWIST?: D6Motion
+    private _twistX?: D6Motion
     public get twistX() {
-        return this._eTWIST
+        return this._twistX
     }
     public set twistX(val) {
-        this._eTWIST = val
+        this._twistX = val
         configJointSystem(this)
     }
 
     private _twistLimitY?: number
     public get twistLimitY() {
-        return this._twistLimitY
+        return this._twistLimitY ?? 360
     }
     public set twistLimitY(val) {
         this._twistLimitY = val
@@ -147,7 +159,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
 
     private _twistLimitZ?: number
     public get twistLimitZ() {
-        return this._twistLimitZ
+        return this._twistLimitZ ?? 360
     }
     public set twistLimitZ(val) {
         this._twistLimitZ = val
@@ -156,7 +168,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
 
     private _swingLimitY?: number
     public get swingLimitY() {
-        return this._swingLimitY
+        return this._swingLimitY ?? 360
     }
     public set swingLimitY(val) {
         this._swingLimitY = val
@@ -165,7 +177,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
 
     private _swingLimitZ?: number
     public get swingLimitZ() {
-        return this._swingLimitZ
+        return this._swingLimitZ ?? 360
     }
     public set swingLimitZ(val) {
         this._swingLimitZ = val
