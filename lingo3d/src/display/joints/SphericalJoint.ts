@@ -13,17 +13,17 @@ const createLimitedSpherical = (
     pose0: any,
     actor1: any,
     pose1: any,
-    yLimitAngle?: number,
-    zLimitAngle?: number
+    limitY?: number,
+    limitZ?: number
 ) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
         physXPtr[0]
 
     const joint = Px.SphericalJointCreate(physics, actor0, pose0, actor1, pose1)
-    if (yLimitAngle !== undefined && zLimitAngle !== undefined) {
+    if (limitY !== undefined && limitZ !== undefined) {
         const cone = new PxJointLimitCone(
-            yLimitAngle * deg2Rad,
-            zLimitAngle * deg2Rad,
+            limitY * deg2Rad,
+            limitZ * deg2Rad,
             0.05
         )
         joint.setLimitCone(cone)
@@ -55,26 +55,26 @@ export default class SphericalJoint
             fromPxTransform,
             toManager.actor,
             toPxTransform,
-            this._yLimitAngle,
-            this._zLimitAngle
+            this._limitY,
+            this._limitZ
         )
     }
 
-    private _yLimitAngle?: number
-    public get yLimitAngle() {
-        return this._yLimitAngle
+    private _limitY?: number
+    public get limitY() {
+        return this._limitY
     }
-    public set yLimitAngle(val) {
-        this._yLimitAngle = val
+    public set limitY(val) {
+        this._limitY = val
         this.refreshState.set({})
     }
 
-    private _zLimitAngle?: number
-    public get zLimitAngle() {
-        return this._zLimitAngle
+    private _limitZ?: number
+    public get limitZ() {
+        return this._limitZ
     }
-    public set zLimitAngle(val) {
-        this._zLimitAngle = val
+    public set limitZ(val) {
+        this._limitZ = val
         this.refreshState.set({})
     }
 }

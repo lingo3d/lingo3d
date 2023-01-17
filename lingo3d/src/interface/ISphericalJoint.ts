@@ -6,24 +6,24 @@ import NullableDefault from "./utils/NullableDefault"
 import Range from "./utils/Range"
 
 export default interface ISphericalJoint extends IJointBase {
-    yLimitAngle: Nullable<number>
-    zLimitAngle: Nullable<number>
+    limitY: Nullable<number>
+    limitZ: Nullable<number>
 }
 
 export const sphericalJointSchema: Required<ExtractProps<ISphericalJoint>> = {
     ...jointBaseSchema,
-    yLimitAngle: Number,
-    zLimitAngle: Number
+    limitY: Number,
+    limitZ: Number
 }
 
 export const sphericalJointDefaults = extendDefaults<ISphericalJoint>(
     [jointBaseDefaults],
     {
-        yLimitAngle: new NullableDefault(360),
-        zLimitAngle: new NullableDefault(360)
+        limitY: new NullableDefault(360),
+        limitZ: new NullableDefault(360)
     },
     {
-        yLimitAngle: new Range(0, 360),
-        zLimitAngle: new Range(0, 360)
+        limitY: new Range(0, 360),
+        limitZ: new Range(0, 360)
     }
 )
