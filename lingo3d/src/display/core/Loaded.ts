@@ -254,7 +254,7 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    public params?: ConvexGeometryParams
+    public convexParams?: ConvexGeometryParams
 
     public override getPxShape(mode: PhysicsOptions, actor: any): any {
         if (mode === "convex" || mode === "map") {

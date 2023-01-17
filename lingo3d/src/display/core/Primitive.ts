@@ -18,7 +18,7 @@ abstract class Primitive
     public static defaults = primitiveDefaults
     public static schema = primitiveSchema
 
-    public params?: ConvexGeometryParams
+    public convexParams?: ConvexGeometryParams
 
     public constructor(geometry: BufferGeometry) {
         const mesh = new Mesh(geometry, standardMaterial)
