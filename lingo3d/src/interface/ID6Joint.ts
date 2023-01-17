@@ -7,11 +7,11 @@ import Range from "./utils/Range"
 export type D6Motion = "locked" | "limited" | "free"
 
 export default interface ID6Joint extends IJointBase {
-    distanceX: D6Motion
+    linearX: D6Motion
     linearLimitX: number
-    distanceY: D6Motion
+    linearY: D6Motion
     linearLimitY: number
-    distanceZ: D6Motion
+    linearZ: D6Motion
     linearLimitZ: number
     swingY: D6Motion
     swingLimitY: number
@@ -24,11 +24,11 @@ export default interface ID6Joint extends IJointBase {
 
 export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
     ...jointBaseSchema,
-    distanceX: String,
+    linearX: String,
     linearLimitX: Number,
-    distanceY: String,
+    linearY: String,
     linearLimitY: Number,
-    distanceZ: String,
+    linearZ: String,
     linearLimitZ: Number,
     swingY: String,
     swingLimitY: Number,
@@ -47,12 +47,12 @@ const motionChoices = new Choices({
 export const d6JointDefaults = extendDefaults<ID6Joint>(
     [jointBaseDefaults],
     {
-        distanceX: "locked",
-        linearLimitX: 1000,
-        distanceY: "locked",
-        linearLimitY: 1000,
-        distanceZ: "locked",
-        linearLimitZ: 1000,
+        linearX: "locked",
+        linearLimitX: 100,
+        linearY: "locked",
+        linearLimitY: 100,
+        linearZ: "locked",
+        linearLimitZ: 100,
         swingY: "locked",
         swingLimitY: 360,
         swingZ: "locked",
@@ -62,12 +62,12 @@ export const d6JointDefaults = extendDefaults<ID6Joint>(
         twistLimitHigh: 360
     },
     {
-        distanceX: motionChoices,
-        linearLimitX: new Range(0, 1000),
-        distanceY: motionChoices,
-        linearLimitY: new Range(0, 1000),
-        distanceZ: motionChoices,
-        linearLimitZ: new Range(0, 1000),
+        linearX: motionChoices,
+        linearLimitX: new Range(0, 200),
+        linearY: motionChoices,
+        linearLimitY: new Range(0, 200),
+        linearZ: motionChoices,
+        linearLimitZ: new Range(0, 200),
         swingY: motionChoices,
         swingLimitY: new Range(0, 360),
         swingZ: motionChoices,

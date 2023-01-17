@@ -39,9 +39,9 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         PxJointLinearLimitPair
     } = physXPtr[0]
     const {
-        distanceX,
-        distanceY,
-        distanceZ,
+        linearX,
+        linearY,
+        linearZ,
         linearLimitX,
         linearLimitY,
         linearLimitZ,
@@ -54,23 +54,23 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         swingLimitZ
     } = target
 
-    joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(distanceX))
-    joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(distanceY))
-    joint.setMotion(PxD6AxisEnum.eZ(), stringToMotion(distanceZ))
+    joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(linearX))
+    joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(linearY))
+    joint.setMotion(PxD6AxisEnum.eZ(), stringToMotion(linearZ))
 
-    if (distanceX === "limited") {
+    if (linearX === "limited") {
         const val = linearLimitX * CM2M
         const linearLimit = new PxJointLinearLimitPair(-val, val)
         joint.setLinearLimit(PxD6AxisEnum.eX(), linearLimit)
         destroy(linearLimit)
     }
-    if (distanceY === "limited") {
+    if (linearY === "limited") {
         const val = linearLimitY * CM2M
         const linearLimit = new PxJointLinearLimitPair(-val, val)
         joint.setLinearLimit(PxD6AxisEnum.eY(), linearLimit)
         destroy(linearLimit)
     }
-    if (distanceZ === "limited") {
+    if (linearZ === "limited") {
         const val = linearLimitZ * CM2M
         const linearLimit = new PxJointLinearLimitPair(-val, val)
         joint.setLinearLimit(PxD6AxisEnum.eZ(), linearLimit)
@@ -124,54 +124,54 @@ export default class D6Joint extends JointBase implements ID6Joint {
         ))
     }
 
-    private _distanceX?: D6Motion
-    public get distanceX() {
-        return this._distanceX ?? "locked"
+    private _linearX?: D6Motion
+    public get linearX() {
+        return this._linearX ?? "locked"
     }
-    public set distanceX(val) {
-        this._distanceX = val
+    public set linearX(val) {
+        this._linearX = val
         configJointSystem(this)
     }
 
     private _linearLimitX?: number
     public get linearLimitX() {
-        return this._linearLimitX ?? 1000
+        return this._linearLimitX ?? 100
     }
     public set linearLimitX(val) {
         this._linearLimitX = val
         configJointSystem(this)
     }
 
-    private _distanceY?: D6Motion
-    public get distanceY() {
-        return this._distanceY ?? "locked"
+    private _linearY?: D6Motion
+    public get linearY() {
+        return this._linearY ?? "locked"
     }
-    public set distanceY(val) {
-        this._distanceY = val
+    public set linearY(val) {
+        this._linearY = val
         configJointSystem(this)
     }
 
     private _linearLimitY?: number
     public get linearLimitY() {
-        return this._linearLimitY ?? 1000
+        return this._linearLimitY ?? 100
     }
     public set linearLimitY(val) {
         this._linearLimitY = val
         configJointSystem(this)
     }
 
-    private _distanceZ?: D6Motion
-    public get distanceZ() {
-        return this._distanceZ ?? "locked"
+    private _linearZ?: D6Motion
+    public get linearZ() {
+        return this._linearZ ?? "locked"
     }
-    public set distanceZ(val) {
-        this._distanceZ = val
+    public set linearZ(val) {
+        this._linearZ = val
         configJointSystem(this)
     }
 
     private _linearLimitZ?: number
     public get linearLimitZ() {
-        return this._linearLimitZ ?? 1000
+        return this._linearLimitZ ?? 100
     }
     public set linearLimitZ(val) {
         this._linearLimitZ = val
