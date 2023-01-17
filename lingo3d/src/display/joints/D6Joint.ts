@@ -10,8 +10,7 @@ import PhysicsObjectManager from "../core/PhysicsObjectManager"
 
 const createD6 = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     const { physics, Px } = physXPtr[0]
-    const j = Px.D6JointCreate(physics, actor0, pose0, actor1, pose1)
-    return j
+    return Px.D6JointCreate(physics, actor0, pose0, actor1, pose1)
 }
 
 const stringToMotion = (val?: D6Motion) => {

@@ -8,8 +8,7 @@ import PhysicsObjectManager from "../core/PhysicsObjectManager"
 
 const createRevolute = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     const { physics, Px } = physXPtr[0]
-    const j = Px.RevoluteJointCreate(physics, actor0, pose0, actor1, pose1)
-    return j
+    return Px.RevoluteJointCreate(physics, actor0, pose0, actor1, pose1)
 }
 
 export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
