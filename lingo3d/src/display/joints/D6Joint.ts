@@ -34,9 +34,9 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
     const { PxD6AxisEnum, PxJointLimitCone, PxJointAngularLimitPair } =
         physXPtr[0]
     const {
-        slideX,
-        slideY,
-        slideZ,
+        distanceX,
+        distanceY,
+        distanceZ,
         swingY,
         swingZ,
         twist,
@@ -46,12 +46,12 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         swingLimitZ
     } = target
 
-    slideX !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(slideX))
-    slideY !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(slideY))
-    slideZ !== undefined &&
-        joint.setMotion(PxD6AxisEnum.eZ(), stringToMotion(slideZ))
+    distanceX !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(distanceX))
+    distanceY !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(distanceY))
+    distanceZ !== undefined &&
+        joint.setMotion(PxD6AxisEnum.eZ(), stringToMotion(distanceZ))
     swingY !== undefined &&
         joint.setMotion(PxD6AxisEnum.eSWING1(), stringToMotion(swingY))
     swingZ !== undefined &&
@@ -102,30 +102,30 @@ export default class D6Joint extends JointBase implements ID6Joint {
         ))
     }
 
-    private _eX?: D6Motion
-    public get slideX() {
-        return this._eX
+    private _distanceX?: D6Motion
+    public get distanceX() {
+        return this._distanceX
     }
-    public set slideX(val) {
-        this._eX = val
+    public set distanceX(val) {
+        this._distanceX = val
         configJointSystem(this)
     }
 
-    private _eY?: D6Motion
-    public get slideY() {
-        return this._eY
+    private _distanceY?: D6Motion
+    public get distanceY() {
+        return this._distanceY
     }
-    public set slideY(val) {
-        this._eY = val
+    public set distanceY(val) {
+        this._distanceY = val
         configJointSystem(this)
     }
 
-    private _eZ?: D6Motion
-    public get slideZ() {
-        return this._eZ
+    private _distanceZ?: D6Motion
+    public get distanceZ() {
+        return this._distanceZ
     }
-    public set slideZ(val) {
-        this._eZ = val
+    public set distanceZ(val) {
+        this._distanceZ = val
         configJointSystem(this)
     }
 
