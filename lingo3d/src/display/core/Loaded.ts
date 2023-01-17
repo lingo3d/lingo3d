@@ -16,9 +16,6 @@ import {
 import VisibleObjectManager from "./VisibleObjectManager"
 import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
 import { physXPtr } from "../../states/usePhysX"
-import cookConvexGeometry, {
-    decreaseConvexGeometryCount
-} from "./PhysicsObjectManager/physx/cookConvexGeometry"
 import cookTrimeshGeometry from "./PhysicsObjectManager/physx/cookTrimeshGeometry"
 import { StandardMesh } from "./mixins/TexturedStandardMixin"
 import MeshAppendable from "../../api/core/MeshAppendable"
@@ -254,21 +251,16 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    public convexParamString?: string
-    protected override _dispose() {
-        super._dispose()
-        decreaseConvexGeometryCount(this)
-    }
-
     public override getPxShape(mode: PhysicsOptions, actor: any): any {
-        if (mode === "convex" || mode === "map") {
+        if (mode === "map") {
             const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
                 physXPtr[0]
 
-            const pxGeometry =
-                mode === "convex"
-                    ? cookConvexGeometry(this._src!, this)
-                    : cookTrimeshGeometry(this._src, this.loadedObject3d!, this)
+            const pxGeometry = cookTrimeshGeometry(
+                this._src,
+                this.loadedObject3d!,
+                this
+            )
             const shape = PxRigidActorExt.prototype.createExclusiveShape(
                 actor,
                 pxGeometry,
