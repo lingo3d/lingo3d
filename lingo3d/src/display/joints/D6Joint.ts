@@ -32,7 +32,8 @@ const stringToMotion = (val?: D6Motion) => {
 
 const configJointSystem = debounceSystem((target: D6Joint) => {
     const { joint } = target
-    const { PxD6AxisEnum, PxJointLimitCone } = physXPtr[0]
+    const { PxD6AxisEnum, PxJointLimitCone, PxJointAngularLimitPair } =
+        physXPtr[0]
     const {
         slideX,
         slideY,
@@ -66,6 +67,14 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         )
         joint.setSwingLimit(limitCone)
         destroy(limitCone)
+    }
+    if (twistX === "limited") {
+        const limitPair = new PxJointAngularLimitPair(
+            twistLimitY * deg2Rad,
+            twistLimitZ * deg2Rad
+        )
+        joint.setTwistLimit(limitPair)
+        destroy(limitPair)
     }
 })
 
