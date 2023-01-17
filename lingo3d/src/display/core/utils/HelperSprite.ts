@@ -26,33 +26,33 @@ export default class HelperSprite extends Sprite {
     }
 
     public override get onTranslateControl() {
-        return this.outerObject3d.userData.onTranslateControl
+        return this.userData.onTranslateControl
     }
     public override set onTranslateControl(
         cb: ((phase: TransformControlsPhase) => void) | undefined
     ) {
         super.onTranslateControl = cb
         if (this.target)
-            this.target.outerObject3d.userData.onTranslateControl = cb
+            this.target.userData.onTranslateControl = cb
     }
 
     public override get onRotateControl() {
-        return this.outerObject3d.userData.onRotateControl
+        return this.userData.onRotateControl
     }
     public override set onRotateControl(
         cb: ((phase: TransformControlsPhase) => void) | undefined
     ) {
         super.onRotateControl = cb
-        if (this.target) this.target.outerObject3d.userData.onRotateControl = cb
+        if (this.target) this.target.userData.onRotateControl = cb
     }
 
     public override get onScaleControl() {
-        return this.outerObject3d.userData.onScaleControl
+        return this.userData.onScaleControl
     }
     public override set onScaleControl(
         cb: ((phase: TransformControlsPhase) => void) | undefined
     ) {
         super.onScaleControl = cb
-        if (this.target) this.target.outerObject3d.userData.onScaleControl = cb
+        if (this.target) this.target.userData.onScaleControl = cb
     }
 }

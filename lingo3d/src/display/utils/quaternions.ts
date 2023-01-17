@@ -3,13 +3,13 @@ import scene from "../../engine/scene"
 import { quaternion } from "./reusables"
 
 export const worldToLocalQuaternion = (
-    object3d: Object3D,
+    target: Object3D,
     worldQuaternion: Quaternion
 ) => {
-    let parents: Array<Object3D> = object3d.userData.parents
+    let parents: Array<Object3D> = target.userData.parents
     if (!parents) {
-        parents = object3d.userData.parents = []
-        let parent = object3d.parent
+        parents = target.userData.parents = []
+        let parent = target.parent
         while (parent && parent !== scene) {
             parents.push(parent)
             parent = parent.parent

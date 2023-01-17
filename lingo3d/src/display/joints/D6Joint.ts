@@ -30,7 +30,19 @@ const stringToMotion = (val?: D6Motion) => {
 const configJointSystem = debounceSystem((target: D6Joint) => {
     const { joint } = target
     const { PxD6AxisEnum } = physXPtr[0]
-    const { eX, eY, eZ, eSWING1, eSWING2, eTWIST } = target
+    const {
+        eX,
+        eY,
+        eZ,
+        eSWING1,
+        eSWING2,
+        eTWIST,
+        twistLimitY,
+        twistLimitZ,
+        swingLimitY,
+        swingLimitZ
+    } = target
+    
     eX !== undefined && joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(eX))
     eY !== undefined && joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(eY))
     eZ !== undefined && joint.setMotion(PxD6AxisEnum.eZ(), stringToMotion(eZ))

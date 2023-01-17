@@ -1,6 +1,4 @@
 import {
-    rad2Deg,
-    deg2Rad,
     distance3d,
     Point3d,
     vertexAngle,
@@ -331,12 +329,12 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
 
     public get onScaleControl() {
-        return this.outerObject3d.userData.onScaleControl
+        return this.userData.onScaleControl
     }
     public set onScaleControl(
         cb: ((phase: TransformControlsPhase) => void) | undefined
     ) {
-        this.outerObject3d.userData.onScaleControl = cb
+        this.userData.onScaleControl = cb
     }
 }
 interface SimpleObjectManager<T extends Object3D = Object3D>

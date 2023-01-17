@@ -31,26 +31,24 @@ createEffect(() => {
 
     const handle3 = pickable("move", mouseOverSet, (obj, e) => {
         moveSet.add(obj)
-        obj.outerObject3d.userData.eMove = e
+        obj.userData.eMove = e
     })
     const handle4 = pickable("move", mouseOutSet, (obj, e) => {
         moveSet.add(obj)
-        obj.outerObject3d.userData.eMove = e
+        obj.userData.eMove = e
     })
     const handle5 = pickable("move", mouseMoveSet, (obj, e) => {
         moveSet.add(obj)
-        obj.outerObject3d.userData.eMove = e
+        obj.userData.eMove = e
     })
     const handle6 = mouseEvents.on("move", () => {
         for (const obj of moveSet) {
-            if (!moveSetOld.has(obj))
-                obj.onMouseOver?.(obj.outerObject3d.userData.eMove)
+            if (!moveSetOld.has(obj)) obj.onMouseOver?.(obj.userData.eMove)
 
-            obj.onMouseMove?.(obj.outerObject3d.userData.eMove)
+            obj.onMouseMove?.(obj.userData.eMove)
         }
         for (const obj of moveSetOld)
-            if (!moveSet.has(obj))
-                obj.onMouseOut?.(obj.outerObject3d.userData.eMove)
+            if (!moveSet.has(obj)) obj.onMouseOut?.(obj.userData.eMove)
 
         moveSetOld = moveSet
         moveSet = new Set()

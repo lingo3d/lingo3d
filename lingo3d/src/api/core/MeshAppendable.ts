@@ -8,6 +8,7 @@ export default class MeshAppendable<
     public object3d: T
     public position: Vector3
     public quaternion: Quaternion
+    public userData: Record<string, any>
 
     public constructor(public outerObject3d: T = new Object3D() as T) {
         super()
@@ -15,6 +16,7 @@ export default class MeshAppendable<
         this.object3d = outerObject3d
         this.position = outerObject3d.position
         this.quaternion = outerObject3d.quaternion
+        this.userData = outerObject3d.userData
     }
 
     public declare parent?: MeshAppendable
