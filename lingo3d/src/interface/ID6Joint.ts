@@ -5,6 +5,7 @@ import { ExtractProps } from "./utils/extractProps"
 import Range from "./utils/Range"
 
 export type D6Motion = "locked" | "limited" | "free"
+// export type D6Drive = "x" | "y" | "z" | "swing" | "twist" | "slerp"
 
 export default interface ID6Joint extends IJointBase {
     linearX: D6Motion

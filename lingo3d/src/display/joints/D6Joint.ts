@@ -16,7 +16,7 @@ const createD6 = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     return Px.D6JointCreate(physics, actor0, pose0, actor1, pose1)
 }
 
-const stringToMotion = (val?: D6Motion) => {
+const getMotion = (val?: D6Motion) => {
     const { PxD6MotionEnum } = physXPtr[0]
     switch (val) {
         case "locked":
@@ -54,9 +54,9 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         swingLimitZ
     } = target
 
-    joint.setMotion(PxD6AxisEnum.eX(), stringToMotion(linearX))
-    joint.setMotion(PxD6AxisEnum.eY(), stringToMotion(linearY))
-    joint.setMotion(PxD6AxisEnum.eZ(), stringToMotion(linearZ))
+    joint.setMotion(PxD6AxisEnum.eX(), getMotion(linearX))
+    joint.setMotion(PxD6AxisEnum.eY(), getMotion(linearY))
+    joint.setMotion(PxD6AxisEnum.eZ(), getMotion(linearZ))
 
     if (linearX === "limited") {
         const val = linearLimitX * CM2M
@@ -77,9 +77,9 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         destroy(linearLimit)
     }
 
-    joint.setMotion(PxD6AxisEnum.eSWING1(), stringToMotion(swingY))
-    joint.setMotion(PxD6AxisEnum.eSWING2(), stringToMotion(swingZ))
-    joint.setMotion(PxD6AxisEnum.eTWIST(), stringToMotion(twist))
+    joint.setMotion(PxD6AxisEnum.eSWING1(), getMotion(swingY))
+    joint.setMotion(PxD6AxisEnum.eSWING2(), getMotion(swingZ))
+    joint.setMotion(PxD6AxisEnum.eTWIST(), getMotion(twist))
 
     if (swingY === "limited" || swingZ === "limited") {
         const limitCone = new PxJointLimitCone(
