@@ -3,38 +3,30 @@ import ISphericalJoint, {
     sphericalJointDefaults,
     sphericalJointSchema
 } from "../../interface/ISphericalJoint"
+import debounceSystem from "../../utils/debounceSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
 import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
-const createLimitedSpherical = (
-    actor0: any,
-    pose0: any,
-    actor1: any,
-    pose1: any,
-    limitY?: number,
-    limitZ?: number
-) => {
-    const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
-        physxPtr[0]
-
-    const joint = Px.SphericalJointCreate(physics, actor0, pose0, actor1, pose1)
-    if (limitY !== undefined && limitZ !== undefined) {
-        const cone = new PxJointLimitCone(
-            limitY * deg2Rad,
-            limitZ * deg2Rad,
-            0.05
-        )
-        joint.setLimitCone(cone)
-        destroy(cone)
-        joint.setSphericalJointFlag(
-            PxSphericalJointFlagEnum.eLIMIT_ENABLED(),
-            true
-        )
-    }
-    return joint
+const createSpherical = (actor0: any, pose0: any, actor1: any, pose1: any) => {
+    const { physics, Px } = physxPtr[0]
+    return Px.SphericalJointCreate(physics, actor0, pose0, actor1, pose1)
 }
+
+const configJointSystem = debounceSystem((target: SphericalJoint) => {
+    const { pxJoint, limitY, limitZ } = target
+    if (!pxJoint) return
+
+    const { PxJointLimitCone, PxSphericalJointFlagEnum } = physxPtr[0]
+    const cone = new PxJointLimitCone(limitY * deg2Rad, limitZ * deg2Rad, 0.05)
+    pxJoint.setLimitCone(cone)
+    destroy(cone)
+    pxJoint.setSphericalJointFlag(
+        PxSphericalJointFlagEnum.eLIMIT_ENABLED(),
+        true
+    )
+})
 
 export default class SphericalJoint
     extends JointBase
@@ -50,31 +42,30 @@ export default class SphericalJoint
         fromManager: PhysicsObjectManager,
         toManager: PhysicsObjectManager
     ) {
-        return createLimitedSpherical(
+        configJointSystem(this)
+        return createSpherical(
             fromManager.actor,
             fromPxTransform,
             toManager.actor,
-            toPxTransform,
-            this._limitY,
-            this._limitZ
+            toPxTransform
         )
     }
 
     private _limitY?: number
     public get limitY() {
-        return this._limitY
+        return this._limitY ?? 360
     }
     public set limitY(val) {
         this._limitY = val
-        this.refreshState.set({})
+        configJointSystem(this)
     }
 
     private _limitZ?: number
     public get limitZ() {
-        return this._limitZ
+        return this._limitZ ?? 360
     }
     public set limitZ(val) {
         this._limitZ = val
-        this.refreshState.set({})
+        configJointSystem(this)
     }
 }
