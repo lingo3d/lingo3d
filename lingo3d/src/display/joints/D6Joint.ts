@@ -132,30 +132,30 @@ export default class D6Joint extends JointBase implements ID6Joint {
     public constructor() {
         super()
 
-        const [setDrive, getDrive] = store<any>(undefined)
+        const [setPxDrive, getPxDrive] = store<any>(undefined)
         this.createEffect(() => {
             const firstChild = this.firstChildState.get()
             if (!(firstChild instanceof D6Drive)) return
 
-            const handle = firstChild.driveState.get(setDrive)
+            const handle = firstChild.driveState.get(setPxDrive)
             return () => {
                 handle.cancel()
-                setDrive(undefined)
+                setPxDrive(undefined)
             }
         }, [this.firstChildState.get])
 
         this.createEffect(() => {
-            const drive = getDrive()
+            const pxDrive = getPxDrive()
             const joint = this.jointState.get()
-            if (!drive || !joint) return
+            if (!pxDrive || !joint) return
 
             const { PxD6DriveEnum } = physxPtr[0]
-            joint.setDrive(PxD6DriveEnum.eSLERP(), drive)
+            joint.setDrive(PxD6DriveEnum.eSLERP(), pxDrive)
 
             return () => {
                 this.refreshState.set({})
             }
-        }, [getDrive, this.jointState.get])
+        }, [getPxDrive, this.jointState.get])
     }
 
     public joint: any
