@@ -2,6 +2,7 @@ import { deg2Rad } from "@lincode/math"
 import { store } from "@lincode/reactivity"
 import { CM2M } from "../../globals"
 import ID6Joint, {
+    D6DriveOptions,
     d6JointDefaults,
     d6JointSchema,
     D6Motion
@@ -29,6 +30,26 @@ const getMotion = (val?: D6Motion) => {
             return PxD6MotionEnum.eFREE()
         default:
             return PxD6MotionEnum.eFREE()
+    }
+}
+
+const getD6Drive = (val?: D6DriveOptions) => {
+    const { PxD6DriveEnum } = physxPtr[0]
+    switch (val) {
+        case "x":
+            return PxD6DriveEnum.eX()
+        case "y":
+            return PxD6DriveEnum.eY()
+        case "z":
+            return PxD6DriveEnum.eZ()
+        case "swing":
+            return PxD6DriveEnum.eSWING()
+        case "twist":
+            return PxD6DriveEnum.eTWIST()
+        case "slerp":
+            return PxD6DriveEnum.eSLERP()
+        default:
+            return PxD6DriveEnum.eX()
     }
 }
 
@@ -269,6 +290,15 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set swingLimitZ(val) {
         this._swingLimitZ = val
+        configJointSystem(this)
+    }
+
+    private _drive?: D6DriveOptions
+    public get drive() {
+        return this._drive ?? false
+    }
+    public set drive(val) {
+        this._drive = val
         configJointSystem(this)
     }
 }

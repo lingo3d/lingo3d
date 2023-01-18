@@ -5,7 +5,14 @@ import { ExtractProps } from "./utils/extractProps"
 import Range from "./utils/Range"
 
 export type D6Motion = "locked" | "limited" | "free"
-// export type D6Drive = "x" | "y" | "z" | "swing" | "twist" | "slerp"
+export type D6DriveOptions =
+    | false
+    | "x"
+    | "y"
+    | "z"
+    | "swing"
+    | "twist"
+    | "slerp"
 
 export default interface ID6Joint extends IJointBase {
     linearX: D6Motion
@@ -14,13 +21,14 @@ export default interface ID6Joint extends IJointBase {
     linearLimitY: number
     linearZ: D6Motion
     linearLimitZ: number
+    twist: D6Motion
+    twistLimitLow: number
+    twistLimitHigh: number
     swingY: D6Motion
     swingLimitY: number
     swingZ: D6Motion
     swingLimitZ: number
-    twist: D6Motion
-    twistLimitLow: number
-    twistLimitHigh: number
+    drive: D6DriveOptions
 }
 
 export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
@@ -31,13 +39,14 @@ export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
     linearLimitY: Number,
     linearZ: String,
     linearLimitZ: Number,
+    twist: String,
+    twistLimitLow: Number,
+    twistLimitHigh: Number,
     swingY: String,
     swingLimitY: Number,
     swingZ: String,
     swingLimitZ: Number,
-    twist: String,
-    twistLimitLow: Number,
-    twistLimitHigh: Number
+    drive: [String, Boolean]
 }
 
 const motionChoices = new Choices({
@@ -54,13 +63,14 @@ export const d6JointDefaults = extendDefaults<ID6Joint>(
         linearLimitY: 100,
         linearZ: "locked",
         linearLimitZ: 100,
+        twist: "locked",
+        twistLimitLow: -360,
+        twistLimitHigh: 360,
         swingY: "locked",
         swingLimitY: 360,
         swingZ: "locked",
         swingLimitZ: 360,
-        twist: "locked",
-        twistLimitLow: -360,
-        twistLimitHigh: 360
+        drive: false
     },
     {
         linearX: motionChoices,
@@ -69,12 +79,21 @@ export const d6JointDefaults = extendDefaults<ID6Joint>(
         linearLimitY: new Range(0, 200),
         linearZ: motionChoices,
         linearLimitZ: new Range(0, 200),
+        twist: motionChoices,
+        twistLimitLow: new Range(-360, 360),
+        twistLimitHigh: new Range(-360, 360),
         swingY: motionChoices,
         swingLimitY: new Range(0, 360),
         swingZ: motionChoices,
         swingLimitZ: new Range(0, 360),
-        twist: motionChoices,
-        twistLimitLow: new Range(-360, 360),
-        twistLimitHigh: new Range(-360, 360)
+        drive: new Choices({
+            false: false,
+            x: "x",
+            y: "y",
+            z: "z",
+            swing: "swing",
+            twist: "twist",
+            slerp: "slerp"
+        })
     }
 )
