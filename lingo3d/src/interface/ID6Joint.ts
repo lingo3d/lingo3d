@@ -4,7 +4,7 @@ import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Range from "./utils/Range"
 
-export type D6Motion = "locked" | "limited" | "free"
+export type D6MotionOptions = "locked" | "limited" | "free"
 export type D6DriveOptions =
     | false
     | "x"
@@ -15,18 +15,18 @@ export type D6DriveOptions =
     | "slerp"
 
 export default interface ID6Joint extends IJointBase {
-    linearX: D6Motion
+    linearX: D6MotionOptions
     linearLimitX: number
-    linearY: D6Motion
+    linearY: D6MotionOptions
     linearLimitY: number
-    linearZ: D6Motion
+    linearZ: D6MotionOptions
     linearLimitZ: number
-    twist: D6Motion
+    twist: D6MotionOptions
     twistLimitLow: number
     twistLimitHigh: number
-    swingY: D6Motion
+    swingY: D6MotionOptions
     swingLimitY: number
-    swingZ: D6Motion
+    swingZ: D6MotionOptions
     swingLimitZ: number
     drive: D6DriveOptions
 }

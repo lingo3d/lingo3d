@@ -5,7 +5,7 @@ import ID6Joint, {
     D6DriveOptions,
     d6JointDefaults,
     d6JointSchema,
-    D6Motion
+    D6MotionOptions
 } from "../../interface/ID6Joint"
 import debounceSystem from "../../utils/debounceSystem"
 import JointBase from "../core/JointBase"
@@ -19,7 +19,7 @@ const createD6 = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     return Px.D6JointCreate(physics, actor0, pose0, actor1, pose1)
 }
 
-const getMotion = (val?: D6Motion) => {
+const getMotion = (val?: D6MotionOptions) => {
     const { PxD6MotionEnum } = physxPtr[0]
     switch (val) {
         case "locked":
@@ -176,7 +176,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
         return this.joint
     }
 
-    private _linearX?: D6Motion
+    private _linearX?: D6MotionOptions
     public get linearX() {
         return this._linearX ?? "locked"
     }
@@ -194,7 +194,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
-    private _linearY?: D6Motion
+    private _linearY?: D6MotionOptions
     public get linearY() {
         return this._linearY ?? "locked"
     }
@@ -212,7 +212,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
-    private _linearZ?: D6Motion
+    private _linearZ?: D6MotionOptions
     public get linearZ() {
         return this._linearZ ?? "locked"
     }
@@ -230,7 +230,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
-    private _swingY?: D6Motion
+    private _swingY?: D6MotionOptions
     public get swingY() {
         return this._swingY ?? "locked"
     }
@@ -239,7 +239,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
-    private _swingZ?: D6Motion
+    private _swingZ?: D6MotionOptions
     public get swingZ() {
         return this._swingZ ?? "locked"
     }
@@ -248,7 +248,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
-    private _twist?: D6Motion
+    private _twist?: D6MotionOptions
     public get twist() {
         return this._twist ?? "locked"
     }
