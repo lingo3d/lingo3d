@@ -45,6 +45,7 @@ PhysX().then((PhysX: any) => {
         PxJointLinearLimit,
         PxJointLinearLimitPair,
         PxShapeExt,
+        PxD6Drive,
         _emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX,
         _emscripten_enum_PxConvexFlagEnum_eDISABLE_MESH_VALIDATION,
         _emscripten_enum_PxConvexFlagEnum_eFAST_INERTIA_COMPUTATION,
@@ -128,7 +129,14 @@ PhysX().then((PhysX: any) => {
 
         _emscripten_enum_PxD6MotionEnum_eLOCKED,
         _emscripten_enum_PxD6MotionEnum_eLIMITED,
-        _emscripten_enum_PxD6MotionEnum_eFREE
+        _emscripten_enum_PxD6MotionEnum_eFREE,
+
+        _emscripten_enum_PxD6DriveEnum_eX,
+        _emscripten_enum_PxD6DriveEnum_eY,
+        _emscripten_enum_PxD6DriveEnum_eZ,
+        _emscripten_enum_PxD6DriveEnum_eSWING,
+        _emscripten_enum_PxD6DriveEnum_eTWIST,
+        _emscripten_enum_PxD6DriveEnum_eSLERP
     } = PhysX
 
     destroyPtr[0] = destroy
@@ -438,6 +446,16 @@ PhysX().then((PhysX: any) => {
         eFREE: lazy(_emscripten_enum_PxD6MotionEnum_eFREE)
     }
 
+    //d6 drive enum
+    const PxD6DriveEnum = {
+        eX: lazy(_emscripten_enum_PxD6DriveEnum_eX),
+        eY: lazy(_emscripten_enum_PxD6DriveEnum_eY),
+        eZ: lazy(_emscripten_enum_PxD6DriveEnum_eZ),
+        eSWING: lazy(_emscripten_enum_PxD6DriveEnum_eSWING),
+        eTWIST: lazy(_emscripten_enum_PxD6DriveEnum_eTWIST),
+        eSLERP: lazy(_emscripten_enum_PxD6DriveEnum_eSLERP)
+    }
+
     setPhysX({
         NativeArrayHelpers,
         physics,
@@ -479,6 +497,7 @@ PhysX().then((PhysX: any) => {
         PxJointLinearLimit,
         PxJointLinearLimitPair,
         PxShapeExt,
+        PxD6Drive,
         PxCreateDynamic,
         PxCapsuleClimbingModeEnum,
         PxControllerBehaviorFlagEnum,
@@ -494,6 +513,7 @@ PhysX().then((PhysX: any) => {
         PxSphericalJointFlagEnum,
         PxArticulationCacheFlagEnum,
         PxD6AxisEnum,
-        PxD6MotionEnum
+        PxD6MotionEnum,
+        PxD6DriveEnum
     })
 })

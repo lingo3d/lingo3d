@@ -47,6 +47,7 @@ type PhysX = {
     PxJointLinearLimit: any
     PxJointLinearLimitPair: any
     PxShapeExt: any
+    PxD6Drive: any
     PxCreateDynamic: any
     PxCapsuleClimbingModeEnum: {
         eEASY: () => any
@@ -134,6 +135,14 @@ type PhysX = {
         eLIMITED: () => any
         eFREE: () => any
     }
+    PxD6DriveEnum: {
+        eX: () => any
+        eY: () => any
+        eZ: () => any
+        eSWING: () => any
+        eTWIST: () => any
+        eSLERP: () => any
+    }
 }
 
 export const [setPhysX, getPhysX] = store<PhysX>({
@@ -177,6 +186,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxJointLinearLimit: undefined,
     PxJointLinearLimitPair: undefined,
     PxShapeExt: undefined,
+    PxD6Drive: undefined,
     PxCreateDynamic: undefined,
     PxCapsuleClimbingModeEnum: {
         eEASY: fn,
@@ -263,6 +273,14 @@ export const [setPhysX, getPhysX] = store<PhysX>({
         eLOCKED: fn,
         eLIMITED: fn,
         eFREE: fn
+    },
+    PxD6DriveEnum: {
+        eX: fn,
+        eY: fn,
+        eZ: fn,
+        eSWING: fn,
+        eTWIST: fn,
+        eSLERP: fn
     }
 })
 
