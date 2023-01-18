@@ -108,9 +108,9 @@ const SceneGraphContextMenu = () => {
                         <ContextMenuItem
                             disabled={multipleSelectionTargets.size === 1}
                             onClick={() => {
-                                createJoint("d6Joint")
-                                setPosition(undefined)
-                                // setPosition({ ...position, createJoint: true })
+                                // createJoint("d6Joint")
+                                // setPosition(undefined)
+                                setPosition({ ...position, createJoint: true })
                             }}
                         >
                             Create joint
