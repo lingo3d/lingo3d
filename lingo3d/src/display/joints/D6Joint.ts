@@ -1,8 +1,6 @@
 import { deg2Rad } from "@lincode/math"
-import { Reactive, store } from "@lincode/reactivity"
 import { CM2M } from "../../globals"
 import ID6Joint, {
-    D6DriveOptions,
     d6JointDefaults,
     d6JointSchema,
     D6MotionOptions
@@ -12,7 +10,6 @@ import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
 import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
-import D6Drive from "./D6Drive"
 
 const createD6 = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     const { physics, Px } = physxPtr[0]
@@ -30,26 +27,6 @@ const getMotion = (val: D6MotionOptions) => {
             return PxD6MotionEnum.eFREE()
         default:
             return PxD6MotionEnum.eFREE()
-    }
-}
-
-const getD6Drive = (val: D6DriveOptions) => {
-    const { PxD6DriveEnum } = physxPtr[0]
-    switch (val) {
-        case "x":
-            return PxD6DriveEnum.eX()
-        case "y":
-            return PxD6DriveEnum.eY()
-        case "z":
-            return PxD6DriveEnum.eZ()
-        case "swing":
-            return PxD6DriveEnum.eSWING()
-        case "twist":
-            return PxD6DriveEnum.eTWIST()
-        case "slerp":
-            return PxD6DriveEnum.eSLERP()
-        default:
-            return PxD6DriveEnum.eX()
     }
 }
 
@@ -128,36 +105,6 @@ export default class D6Joint extends JointBase implements ID6Joint {
     public static componentName = "d6Joint"
     public static defaults = d6JointDefaults
     public static schema = d6JointSchema
-
-    public constructor() {
-        super()
-
-        const [setPxDrive, getPxDrive] = store<any>(undefined)
-        this.createEffect(() => {
-            const firstChild = this.firstChildState.get()
-            if (!(firstChild instanceof D6Drive)) return
-
-            const handle = firstChild.driveState.get(setPxDrive)
-            return () => {
-                handle.cancel()
-                setPxDrive(undefined)
-            }
-        }, [this.firstChildState.get])
-
-        this.createEffect(() => {
-            const pxDrive = getPxDrive()
-            const joint = this.jointState.get()
-            const drive = this.driveState.get()
-            if (!pxDrive || !joint || !drive) return
-
-            joint.setDrive(getD6Drive(drive), pxDrive)
-
-            return () => {
-                if (!getPxDrive() || !this.driveState.get())
-                    this.refreshState.set({})
-            }
-        }, [getPxDrive, this.jointState.get, this.driveState.get])
-    }
 
     public joint: any
 
@@ -292,13 +239,5 @@ export default class D6Joint extends JointBase implements ID6Joint {
     public set swingLimitZ(val) {
         this._swingLimitZ = val
         configJointSystem(this)
-    }
-
-    private driveState = new Reactive<D6DriveOptions | undefined>(undefined)
-    public get drive() {
-        return this.driveState.get()
-    }
-    public set drive(val) {
-        this.driveState.set(val)
     }
 }
