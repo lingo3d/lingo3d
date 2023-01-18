@@ -13,7 +13,7 @@ export default interface ID6Joint extends IJointBase {
     linearLimitY: number
     linearZ: D6MotionOptions
     linearLimitZ: number
-    twist: D6MotionOptions
+    twistX: D6MotionOptions
     twistLimitLow: number
     twistLimitHigh: number
     swingY: D6MotionOptions
@@ -30,7 +30,7 @@ export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
     linearLimitY: Number,
     linearZ: String,
     linearLimitZ: Number,
-    twist: String,
+    twistX: String,
     twistLimitLow: Number,
     twistLimitHigh: Number,
     swingY: String,
@@ -53,7 +53,7 @@ export const d6JointDefaults = extendDefaults<ID6Joint>(
         linearLimitY: 100,
         linearZ: "locked",
         linearLimitZ: 100,
-        twist: "locked",
+        twistX: "locked",
         twistLimitLow: -360,
         twistLimitHigh: 360,
         swingY: "locked",
@@ -68,7 +68,7 @@ export const d6JointDefaults = extendDefaults<ID6Joint>(
         linearLimitY: new Range(0, 200),
         linearZ: motionChoices,
         linearLimitZ: new Range(0, 200),
-        twist: motionChoices,
+        twistX: motionChoices,
         twistLimitLow: new Range(-360, 360),
         twistLimitHigh: new Range(-360, 360),
         swingY: motionChoices,
