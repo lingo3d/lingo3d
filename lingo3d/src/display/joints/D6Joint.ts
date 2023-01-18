@@ -31,8 +31,8 @@ const getMotion = (val: D6MotionOptions) => {
 }
 
 const configJointSystem = debounceSystem((target: D6Joint) => {
-    const joint = target.pxJoint
-    if (!joint) return
+    const { pxJoint } = target
+    if (!pxJoint) return
 
     const {
         PxD6AxisEnum,
@@ -56,39 +56,39 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         swingLimitZ
     } = target
 
-    joint.setMotion(PxD6AxisEnum.eX(), getMotion(linearX))
-    joint.setMotion(PxD6AxisEnum.eY(), getMotion(linearY))
-    joint.setMotion(PxD6AxisEnum.eZ(), getMotion(linearZ))
+    pxJoint.setMotion(PxD6AxisEnum.eX(), getMotion(linearX))
+    pxJoint.setMotion(PxD6AxisEnum.eY(), getMotion(linearY))
+    pxJoint.setMotion(PxD6AxisEnum.eZ(), getMotion(linearZ))
 
     if (linearX === "limited") {
         const val = linearLimitX * CM2M
         const linearLimit = new PxJointLinearLimitPair(-val, val)
-        joint.setLinearLimit(PxD6AxisEnum.eX(), linearLimit)
+        pxJoint.setLinearLimit(PxD6AxisEnum.eX(), linearLimit)
         destroy(linearLimit)
     }
     if (linearY === "limited") {
         const val = linearLimitY * CM2M
         const linearLimit = new PxJointLinearLimitPair(-val, val)
-        joint.setLinearLimit(PxD6AxisEnum.eY(), linearLimit)
+        pxJoint.setLinearLimit(PxD6AxisEnum.eY(), linearLimit)
         destroy(linearLimit)
     }
     if (linearZ === "limited") {
         const val = linearLimitZ * CM2M
         const linearLimit = new PxJointLinearLimitPair(-val, val)
-        joint.setLinearLimit(PxD6AxisEnum.eZ(), linearLimit)
+        pxJoint.setLinearLimit(PxD6AxisEnum.eZ(), linearLimit)
         destroy(linearLimit)
     }
 
-    joint.setMotion(PxD6AxisEnum.eSWING1(), getMotion(swingY))
-    joint.setMotion(PxD6AxisEnum.eSWING2(), getMotion(swingZ))
-    joint.setMotion(PxD6AxisEnum.eTWIST(), getMotion(twist))
+    pxJoint.setMotion(PxD6AxisEnum.eSWING1(), getMotion(swingY))
+    pxJoint.setMotion(PxD6AxisEnum.eSWING2(), getMotion(swingZ))
+    pxJoint.setMotion(PxD6AxisEnum.eTWIST(), getMotion(twist))
 
     if (swingY === "limited" || swingZ === "limited") {
         const limitCone = new PxJointLimitCone(
             swingLimitY * deg2Rad,
             swingLimitZ * deg2Rad
         )
-        joint.setSwingLimit(limitCone)
+        pxJoint.setSwingLimit(limitCone)
         destroy(limitCone)
     }
     if (twist === "limited") {
@@ -96,7 +96,7 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
             twistLimitLow * deg2Rad,
             twistLimitHigh * deg2Rad
         )
-        joint.setTwistLimit(limitPair)
+        pxJoint.setTwistLimit(limitPair)
         destroy(limitPair)
     }
 })
