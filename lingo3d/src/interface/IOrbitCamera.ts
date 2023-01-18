@@ -1,18 +1,18 @@
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
-import IOrbitCameraBase, {
-    orbitCameraBaseDefaults,
-    orbitCameraBaseSchema
-} from "./IOrbitCameraBase"
+import ICameraBase, {
+    cameraBaseDefaults,
+    cameraBaseSchema
+} from "./ICameraBase"
 
-export default interface IOrbitCamera extends IOrbitCameraBase {
+export default interface IOrbitCamera extends ICameraBase {
     enableZoom: boolean
     enableFly: boolean
     autoRotate: boolean | number
 }
 
 export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
-    ...orbitCameraBaseSchema,
+    ...cameraBaseSchema,
 
     enableZoom: Boolean,
     enableFly: Boolean,
@@ -20,7 +20,7 @@ export const orbitCameraSchema: Required<ExtractProps<IOrbitCamera>> = {
 }
 
 export const orbitCameraDefaults = extendDefaults<IOrbitCamera>(
-    [orbitCameraBaseDefaults],
+    [cameraBaseDefaults],
     {
         innerZ: 500,
         mouseControl: "drag",

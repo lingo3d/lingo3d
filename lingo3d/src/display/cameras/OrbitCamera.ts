@@ -10,17 +10,14 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { Cancellable } from "@lincode/promiselikes"
 import { PerspectiveCamera } from "three"
-import OrbitCameraBase from "../core/OrbitCameraBase"
 import { vec2Point } from "../utils/vec2Point"
 import getWorldPosition from "../utils/getWorldPosition"
 import getCenter from "../utils/getCenter"
 import { FAR, NEAR } from "../../globals"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import CameraBase from "../core/CameraBase"
 
-export default class OrbitCamera
-    extends OrbitCameraBase
-    implements IOrbitCamera
-{
+export default class OrbitCamera extends CameraBase implements IOrbitCamera {
     public static componentName = "orbitCamera"
     public static defaults = orbitCameraDefaults
     public static schema = orbitCameraSchema

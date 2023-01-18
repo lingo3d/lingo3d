@@ -1,7 +1,7 @@
-import IOrbitCameraBase, {
-    orbitCameraBaseDefaults,
-    orbitCameraBaseSchema
-} from "./IOrbitCameraBase"
+import ICameraBase, {
+    cameraBaseDefaults,
+    cameraBaseSchema
+} from "./ICameraBase"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
@@ -12,16 +12,16 @@ export type LockTargetRotationValue =
     | "dynamic-lock"
     | "dynamic-follow"
 
-export default interface ICharacterCamera extends IOrbitCameraBase {
+export default interface ICharacterCamera extends ICameraBase {
     lockTargetRotation: LockTargetRotationValue
 }
 
 export const characterCameraSchema: Required<ExtractProps<ICharacterCamera>> = {
-    ...orbitCameraBaseSchema,
+    ...cameraBaseSchema,
     lockTargetRotation: [Boolean, String]
 }
 
 export const characterCameraDefaults = extendDefaults<ICharacterCamera>(
-    [orbitCameraBaseDefaults],
+    [cameraBaseDefaults],
     { lockTargetRotation: true }
 )
