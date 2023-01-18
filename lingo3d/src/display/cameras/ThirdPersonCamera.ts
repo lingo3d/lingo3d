@@ -8,7 +8,6 @@ import IThirdPersonCamera, {
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorBehavior } from "../../states/useEditorBehavior"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
-import { physXPtr } from "../../states/usePhysX"
 import CharacterCamera from "../core/CharacterCamera"
 import { managerActorPtrMap } from "../core/PhysicsObjectManager/physx/pxMaps"
 import {
@@ -19,6 +18,7 @@ import getWorldDirection from "../utils/getWorldDirection"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import { physXPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 const setVisible = (target: MeshAppendable, visible: boolean) =>
     "visible" in target && (target.visible = visible)

@@ -2,9 +2,10 @@ import { lazy } from "@lincode/utils"
 //@ts-ignore
 import PhysX from "physx-js-webidl"
 import { gravityPtr } from "../../../../states/useGravity"
-import { setPhysX } from "../../../../states/usePhysX"
+import { setPhysXLoaded } from "../../../../states/usePhysXLoaded"
 import { destroyPtr } from "./destroy"
 import "./physxLoop"
+import { physXPtr } from "./physxPtr"
 
 PhysX().then((PhysX: any) => {
     const {
@@ -457,7 +458,7 @@ PhysX().then((PhysX: any) => {
         eSLERP: lazy(_emscripten_enum_PxD6DriveEnum_eSLERP)
     }
 
-    setPhysX({
+    physXPtr[0] = {
         NativeArrayHelpers,
         physics,
         material,
@@ -517,5 +518,6 @@ PhysX().then((PhysX: any) => {
         PxD6AxisEnum,
         PxD6MotionEnum,
         PxD6DriveEnum
-    })
+    }
+    setPhysXLoaded(true)
 })

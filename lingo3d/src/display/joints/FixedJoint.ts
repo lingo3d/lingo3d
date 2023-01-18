@@ -2,9 +2,9 @@ import IFixedJoint, {
     fixedJointDefaults,
     fixedJointSchema
 } from "../../interface/IFixedJoint"
-import { physXPtr } from "../../states/usePhysX"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
+import { physXPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 const createFixed = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     const { physics, Px } = physXPtr[0]

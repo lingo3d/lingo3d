@@ -3,10 +3,10 @@ import ISphericalJoint, {
     sphericalJointDefaults,
     sphericalJointSchema
 } from "../../interface/ISphericalJoint"
-import { physXPtr } from "../../states/usePhysX"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
+import { physXPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 const createLimitedSpherical = (
     actor0: any,

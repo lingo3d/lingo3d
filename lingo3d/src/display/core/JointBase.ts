@@ -8,11 +8,12 @@ import scene from "../../engine/scene"
 import { TransformControlsPhase } from "../../events/onTransformControls"
 import IJointBase from "../../interface/IJointBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { getPhysX, physXPtr } from "../../states/usePhysX"
+import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import getPrivateValue from "../../utils/getPrivateValue"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import destroy from "./PhysicsObjectManager/physx/destroy"
+import { physXPtr } from "./PhysicsObjectManager/physx/physxPtr"
 import {
     setPxTransform,
     setPxTransform_
@@ -170,7 +171,7 @@ export default abstract class JointBase
                 this.fromManager = undefined
                 this.toManager = undefined
             }
-        }, [this.refreshState.get, getPhysX])
+        }, [this.refreshState.get, getPhysXLoaded])
     }
 
     private fromPos: Vector3 | undefined

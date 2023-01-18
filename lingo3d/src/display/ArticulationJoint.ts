@@ -9,9 +9,10 @@ import {
     articulationJointSchema
 } from "../interface/IArticulationJoint"
 import { getCameraRendered } from "../states/useCameraRendered"
-import { getPhysX, physXPtr } from "../states/usePhysX"
+import { getPhysXLoaded } from "../states/usePhysXLoaded"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import destroy from "./core/PhysicsObjectManager/physx/destroy"
+import { physXPtr } from "./core/PhysicsObjectManager/physx/physxPtr"
 import {
     managerShapeLinkMap,
     actorPtrManagerMap
@@ -178,7 +179,7 @@ export default class ArticulationJoint extends PositionedManager {
             allManagers.add(childManager)
             allManagers.add(parentManager)
             createArticulations()
-        }, [this.childState.get, this.parentState.get, getPhysX])
+        }, [this.childState.get, this.parentState.get, getPhysXLoaded])
     }
 
     private childState = new Reactive<string | MeshAppendable | undefined>(

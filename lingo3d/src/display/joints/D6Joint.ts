@@ -5,11 +5,11 @@ import ID6Joint, {
     d6JointSchema,
     D6Motion
 } from "../../interface/ID6Joint"
-import { physXPtr } from "../../states/usePhysX"
 import debounceSystem from "../../utils/debounceSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
+import { physXPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 const createD6 = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     const { physics, Px } = physXPtr[0]

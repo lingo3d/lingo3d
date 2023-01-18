@@ -1,4 +1,3 @@
-import { physXPtr } from "../../../../states/usePhysX"
 import {
     decreasePhysXCookingCount,
     increasePhysXCookingCount
@@ -8,6 +7,7 @@ import computePxVertices from "./computePxVertices"
 import createInstancePool from "../../utils/createInstancePool"
 import getActualScale from "../../../utils/getActualScale"
 import PhysicsObjectManager from ".."
+import { physXPtr } from "./physxPtr"
 
 type Params = [typeSrc: string, scaleX: number, scaleY: number, scaleZ: number]
 

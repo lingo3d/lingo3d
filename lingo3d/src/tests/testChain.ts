@@ -1,5 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import "../display/core/PhysicsObjectManager/physx"
+import { physXPtr } from "../display/core/PhysicsObjectManager/physx/physxPtr"
 import { managerActorMap } from "../display/core/PhysicsObjectManager/physx/pxMaps"
 import {
     multPxTransform,
@@ -10,7 +11,7 @@ import {
 } from "../display/core/PhysicsObjectManager/physx/pxMath"
 import Cube from "../display/primitives/Cube"
 import { PI_HALF } from "../globals"
-import { getPhysX, physXPtr } from "../states/usePhysX"
+import { getPhysXLoaded } from "../states/usePhysXLoaded"
 
 const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
@@ -58,4 +59,4 @@ createEffect(() => {
     if (!physics) return
 
     createChain(setPxTransform(0, 20, 0), 5, new PxBoxGeometry(2, 0, 0), 4)
-}, [getPhysX])
+}, [getPhysXLoaded])

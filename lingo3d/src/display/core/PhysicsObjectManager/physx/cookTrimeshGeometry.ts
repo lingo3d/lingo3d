@@ -1,5 +1,4 @@
 import { Object3D } from "three"
-import { physXPtr } from "../../../../states/usePhysX"
 import {
     decreasePhysXCookingCount,
     increasePhysXCookingCount
@@ -7,6 +6,7 @@ import {
 import destroy from "./destroy"
 import computeMergedPxVertices from "./computeMergedPxVertices"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
+import { physXPtr } from "./physxPtr"
 
 const pxGeometryCache = new Map<string | undefined, any>()
 

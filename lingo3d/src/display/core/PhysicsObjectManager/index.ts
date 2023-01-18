@@ -4,7 +4,6 @@ import SimpleObjectManager from "../SimpleObjectManager"
 import IPhysicsObjectManager, {
     PhysicsOptions
 } from "../../../interface/IPhysicsObjectManager"
-import { getPhysX, physXPtr } from "../../../states/usePhysX"
 import getActualScale from "../../utils/getActualScale"
 import { Reactive, store } from "@lincode/reactivity"
 import {
@@ -29,6 +28,8 @@ import cookConvexGeometry, {
     decreaseConvexGeometryCount,
     primitiveGeometries
 } from "./physx/cookConvexGeometry"
+import { physXPtr } from "./physx/physxPtr"
+import { getPhysXLoaded } from "../../../states/usePhysXLoaded"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -267,7 +268,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 managerActorMap.delete(this)
                 this.actor = undefined
             }
-        }, [getMode, getPhysX, this.refreshShapeState.get])
+        }, [getMode, getPhysXLoaded, this.refreshShapeState.get])
     }
 
     private _physics?: PhysicsOptions
