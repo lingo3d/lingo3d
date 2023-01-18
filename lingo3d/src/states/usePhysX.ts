@@ -48,6 +48,7 @@ type PhysX = {
     PxJointLinearLimitPair: any
     PxShapeExt: any
     PxD6Drive: any
+    PxD6JointDrive: any
     PxCreateDynamic: any
     PxCapsuleClimbingModeEnum: {
         eEASY: () => any
@@ -187,6 +188,7 @@ export const [setPhysX, getPhysX] = store<PhysX>({
     PxJointLinearLimitPair: undefined,
     PxShapeExt: undefined,
     PxD6Drive: undefined,
+    PxD6JointDrive: undefined,
     PxCreateDynamic: undefined,
     PxCapsuleClimbingModeEnum: {
         eEASY: fn,
