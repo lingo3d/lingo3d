@@ -47,13 +47,23 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         linearLimitX,
         linearLimitY,
         linearLimitZ,
+        linearStiffnessX,
+        linearStiffnessY,
+        linearStiffnessZ,
+        linearDampingX,
+        linearDampingY,
+        linearDampingZ,
+        twistX,
         swingY,
         swingZ,
-        twistX,
         twistLimitLow,
         twistLimitHigh,
         swingLimitY,
-        swingLimitZ
+        swingLimitZ,
+        twistStiffness,
+        twistDamping,
+        swingStiffness,
+        swingDamping
     } = target
 
     pxJoint.setMotion(PxD6AxisEnum.eX(), getMotion(linearX))
@@ -63,18 +73,24 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
     if (linearX === "limited") {
         const val = linearLimitX * CM2M
         const linearLimit = new PxJointLinearLimitPair(-val, val)
+        linearLimit.stiffness = linearStiffnessX
+        linearLimit.damping = linearDampingX
         pxJoint.setLinearLimit(PxD6AxisEnum.eX(), linearLimit)
         destroy(linearLimit)
     }
     if (linearY === "limited") {
         const val = linearLimitY * CM2M
         const linearLimit = new PxJointLinearLimitPair(-val, val)
+        linearLimit.stiffness = linearStiffnessY
+        linearLimit.damping = linearDampingY
         pxJoint.setLinearLimit(PxD6AxisEnum.eY(), linearLimit)
         destroy(linearLimit)
     }
     if (linearZ === "limited") {
         const val = linearLimitZ * CM2M
         const linearLimit = new PxJointLinearLimitPair(-val, val)
+        linearLimit.stiffness = linearStiffnessZ
+        linearLimit.damping = linearDampingZ
         pxJoint.setLinearLimit(PxD6AxisEnum.eZ(), linearLimit)
         destroy(linearLimit)
     }
@@ -88,6 +104,8 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
             swingLimitY * deg2Rad,
             swingLimitZ * deg2Rad
         )
+        limitCone.stiffness = swingStiffness
+        limitCone.damping = swingDamping
         pxJoint.setSwingLimit(limitCone)
         destroy(limitCone)
     }
@@ -96,6 +114,8 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
             twistLimitLow * deg2Rad,
             twistLimitHigh * deg2Rad
         )
+        limitPair.stiffness = twistStiffness
+        limitPair.damping = twistDamping
         pxJoint.setTwistLimit(limitPair)
         destroy(limitPair)
     }
@@ -139,6 +159,24 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
+    private _linearStiffnessX?: number
+    public get linearStiffnessX() {
+        return this._linearStiffnessX ?? 0
+    }
+    public set linearStiffnessX(val) {
+        this._linearStiffnessX = val
+        configJointSystem(this)
+    }
+
+    private _linearDampingX?: number
+    public get linearDampingX() {
+        return this._linearDampingX ?? 0
+    }
+    public set linearDampingX(val) {
+        this._linearDampingX = val
+        configJointSystem(this)
+    }
+
     private _linearY?: D6MotionOptions
     public get linearY() {
         return this._linearY ?? "locked"
@@ -154,6 +192,24 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearLimitY(val) {
         this._linearLimitY = val
+        configJointSystem(this)
+    }
+
+    private _linearStiffnessY?: number
+    public get linearStiffnessY() {
+        return this._linearStiffnessY ?? 0
+    }
+    public set linearStiffnessY(val) {
+        this._linearStiffnessY = val
+        configJointSystem(this)
+    }
+
+    private _linearDampingY?: number
+    public get linearDampingY() {
+        return this._linearDampingY ?? 0
+    }
+    public set linearDampingY(val) {
+        this._linearDampingY = val
         configJointSystem(this)
     }
 
@@ -175,21 +231,21 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
-    private _swingY?: D6MotionOptions
-    public get swingY() {
-        return this._swingY ?? "locked"
+    private _linearStiffnessZ?: number
+    public get linearStiffnessZ() {
+        return this._linearStiffnessZ ?? 0
     }
-    public set swingY(val) {
-        this._swingY = val
+    public set linearStiffnessZ(val) {
+        this._linearStiffnessZ = val
         configJointSystem(this)
     }
 
-    private _swingZ?: D6MotionOptions
-    public get swingZ() {
-        return this._swingZ ?? "locked"
+    private _linearDampingZ?: number
+    public get linearDampingZ() {
+        return this._linearDampingZ ?? 0
     }
-    public set swingZ(val) {
-        this._swingZ = val
+    public set linearDampingZ(val) {
+        this._linearDampingZ = val
         configJointSystem(this)
     }
 
@@ -217,6 +273,60 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set twistLimitHigh(val) {
         this._twistLimitHigh = val
+        configJointSystem(this)
+    }
+
+    private _twistStiffness?: number
+    public get twistStiffness() {
+        return this._twistStiffness ?? 0
+    }
+    public set twistStiffness(val) {
+        this._twistStiffness = val
+        configJointSystem(this)
+    }
+
+    private _twistDamping?: number
+    public get twistDamping() {
+        return this._twistDamping ?? 0
+    }
+    public set twistDamping(val) {
+        this._twistDamping = val
+        configJointSystem(this)
+    }
+
+    private _swingY?: D6MotionOptions
+    public get swingY() {
+        return this._swingY ?? "locked"
+    }
+    public set swingY(val) {
+        this._swingY = val
+        configJointSystem(this)
+    }
+
+    private _swingZ?: D6MotionOptions
+    public get swingZ() {
+        return this._swingZ ?? "locked"
+    }
+    public set swingZ(val) {
+        this._swingZ = val
+        configJointSystem(this)
+    }
+
+    private _swingStiffness?: number
+    public get swingStiffness() {
+        return this._swingStiffness ?? 0
+    }
+    public set swingStiffness(val) {
+        this._swingStiffness = val
+        configJointSystem(this)
+    }
+
+    private _swingDamping?: number
+    public get swingDamping() {
+        return this._swingDamping ?? 0
+    }
+    public set swingDamping(val) {
+        this._swingDamping = val
         configJointSystem(this)
     }
 
