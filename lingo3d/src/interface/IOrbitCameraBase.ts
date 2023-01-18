@@ -3,20 +3,15 @@ import ICameraBase, {
     cameraBaseSchema
 } from "./ICameraBase"
 import { ExtractProps } from "./utils/extractProps"
-import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
-import MeshAppendable from "../api/core/MeshAppendable"
 
-export default interface IOrbitCameraBase extends ICameraBase {
-    target: Nullable<string | MeshAppendable>
-}
+export default interface IOrbitCameraBase extends ICameraBase {}
 
 export const orbitCameraBaseSchema: Required<ExtractProps<IOrbitCameraBase>> = {
-    ...cameraBaseSchema,
-    target: [String, Object]
+    ...cameraBaseSchema
 }
 
 export const orbitCameraBaseDefaults = extendDefaults<IOrbitCameraBase>(
     [cameraBaseDefaults],
-    { target: undefined }
+    {}
 )

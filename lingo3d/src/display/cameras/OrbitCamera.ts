@@ -15,6 +15,7 @@ import { vec2Point } from "../utils/vec2Point"
 import getWorldPosition from "../utils/getWorldPosition"
 import getCenter from "../utils/getCenter"
 import { FAR, NEAR } from "../../globals"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
 export default class OrbitCamera
     extends OrbitCameraBase
@@ -34,8 +35,8 @@ export default class OrbitCamera
         this.camera.rotation.y = 0
 
         this.createEffect(() => {
-            const found = this.foundState.get()
-            if (!found) return
+            const found = this.firstChildState.get()
+            if (!(found instanceof MeshAppendable)) return
 
             const handle = onBeforeRender(() => {
                 this.placeAt(vec2Point(getCenter(found.object3d)))
@@ -43,7 +44,7 @@ export default class OrbitCamera
             return () => {
                 handle.cancel()
             }
-        }, [this.foundState.get])
+        }, [this.firstChildState.get])
 
         this.createEffect(() => {
             const autoRotate = this.autoRotateState.get()

@@ -36,11 +36,10 @@ export default class CharacterCamera
         this.then(() => scene.remove(cam))
 
         this.createEffect(() => {
-            const found = this.foundState.get()
+            const found = this.firstChildState.get()
             if (!found) return
-
             if ("frustumCulled" in found) found.frustumCulled = false
-        }, [this.foundState.get])
+        }, [this.firstChildState.get])
 
         const followTargetRotation = (
             target: MeshAppendable,
@@ -74,8 +73,8 @@ export default class CharacterCamera
         let transformControlRotating = false
 
         this.createEffect(() => {
-            const found = this.foundState.get()
-            if (!found) return
+            const found = this.firstChildState.get()
+            if (!(found instanceof MeshAppendable)) return
 
             followTargetRotation(found, false)
 
@@ -106,10 +105,10 @@ export default class CharacterCamera
             return () => {
                 handle.cancel()
             }
-        }, [this.foundState.get])
+        }, [this.firstChildState.get])
 
         this.createEffect(() => {
-            const target = this.foundState.get()
+            const target = this.firstChildState.get()
             const selectionTarget = getSelectionTarget()
             const dragging = getTransformControlsDragging()
             const mode = getEditorModeComputed()
@@ -127,7 +126,7 @@ export default class CharacterCamera
                 transformControlRotating = false
             }
         }, [
-            this.foundState.get,
+            this.firstChildState.get,
             getSelectionTarget,
             getTransformControlsDragging,
             getEditorModeComputed

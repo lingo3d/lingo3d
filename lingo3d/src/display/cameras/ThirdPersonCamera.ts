@@ -47,8 +47,8 @@ export default class ThirdPersonCamera
         const cam = this.camera
 
         this.createEffect(() => {
-            const found = this.foundState.get()
-            if (!found) {
+            const found = this.firstChildState.get()
+            if (!(found instanceof MeshAppendable)) {
                 const handle = onBeforeRender(() => {
                     cam.position.copy(getWorldPosition(this.object3d))
                     cam.quaternion.copy(getWorldQuaternion(this.object3d))
@@ -85,6 +85,6 @@ export default class ThirdPersonCamera
             return () => {
                 handle.cancel()
             }
-        }, [this.foundState.get])
+        }, [this.firstChildState.get])
     }
 }

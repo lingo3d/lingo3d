@@ -18,7 +18,7 @@ export default class FirstPersonCamera extends CharacterCamera {
             })
         )
         this.createEffect(() => {
-            const found = this.foundState.get()
+            const found = this.firstChildState.get()
             const innerYSet = this.innerYSetState.get()
             if (!(found instanceof ObjectManager) || innerYSet) return
             super.innerY = found.height * 0.4
@@ -26,7 +26,7 @@ export default class FirstPersonCamera extends CharacterCamera {
             return () => {
                 super.innerY = 0
             }
-        }, [this.foundState.get, this.innerYSetState.get])
+        }, [this.firstChildState, this.innerYSetState.get])
     }
 
     private innerYSetState = new Reactive(false)
