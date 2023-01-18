@@ -2,17 +2,11 @@ import IJointBase, { jointBaseDefaults, jointBaseSchema } from "./IJointBase"
 import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
 import Range from "./utils/Range"
 
 export type D6MotionOptions = "locked" | "limited" | "free"
-export type D6DriveOptions =
-    | false
-    | "x"
-    | "y"
-    | "z"
-    | "swing"
-    | "twist"
-    | "slerp"
+export type D6DriveOptions = "x" | "y" | "z" | "swing" | "twist" | "slerp"
 
 export default interface ID6Joint extends IJointBase {
     linearX: D6MotionOptions
@@ -28,7 +22,7 @@ export default interface ID6Joint extends IJointBase {
     swingLimitY: number
     swingZ: D6MotionOptions
     swingLimitZ: number
-    drive: D6DriveOptions
+    drive: Nullable<D6DriveOptions>
 }
 
 export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
@@ -46,7 +40,7 @@ export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
     swingLimitY: Number,
     swingZ: String,
     swingLimitZ: Number,
-    drive: [String, Boolean]
+    drive: String
 }
 
 const motionChoices = new Choices({
@@ -70,7 +64,7 @@ export const d6JointDefaults = extendDefaults<ID6Joint>(
         swingLimitY: 360,
         swingZ: "locked",
         swingLimitZ: 360,
-        drive: false
+        drive: undefined
     },
     {
         linearX: motionChoices,
@@ -87,7 +81,7 @@ export const d6JointDefaults = extendDefaults<ID6Joint>(
         swingZ: motionChoices,
         swingLimitZ: new Range(0, 360),
         drive: new Choices({
-            false: false,
+            none: undefined,
             x: "x",
             y: "y",
             z: "z",

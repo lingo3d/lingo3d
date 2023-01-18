@@ -1,5 +1,5 @@
 import { deg2Rad } from "@lincode/math"
-import { store } from "@lincode/reactivity"
+import { Reactive, store } from "@lincode/reactivity"
 import { CM2M } from "../../globals"
 import ID6Joint, {
     D6DriveOptions,
@@ -19,7 +19,7 @@ const createD6 = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     return Px.D6JointCreate(physics, actor0, pose0, actor1, pose1)
 }
 
-const getMotion = (val?: D6MotionOptions) => {
+const getMotion = (val: D6MotionOptions) => {
     const { PxD6MotionEnum } = physxPtr[0]
     switch (val) {
         case "locked":
@@ -33,7 +33,7 @@ const getMotion = (val?: D6MotionOptions) => {
     }
 }
 
-const getD6Drive = (val?: D6DriveOptions) => {
+const getD6Drive = (val: D6DriveOptions) => {
     const { PxD6DriveEnum } = physxPtr[0]
     switch (val) {
         case "x":
@@ -147,15 +147,16 @@ export default class D6Joint extends JointBase implements ID6Joint {
         this.createEffect(() => {
             const pxDrive = getPxDrive()
             const joint = this.jointState.get()
-            if (!pxDrive || !joint) return
+            const drive = this.driveState.get()
+            if (!pxDrive || !joint || !drive) return
 
-            const { PxD6DriveEnum } = physxPtr[0]
-            joint.setDrive(PxD6DriveEnum.eSLERP(), pxDrive)
+            joint.setDrive(getD6Drive(drive), pxDrive)
 
             return () => {
-                this.refreshState.set({})
+                if (!getPxDrive() || !this.driveState.get())
+                    this.refreshState.set({})
             }
-        }, [getPxDrive, this.jointState.get])
+        }, [getPxDrive, this.jointState.get, this.driveState.get])
     }
 
     public joint: any
@@ -293,12 +294,11 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
-    private _drive?: D6DriveOptions
+    private driveState = new Reactive<D6DriveOptions | undefined>(undefined)
     public get drive() {
-        return this._drive ?? false
+        return this.driveState.get()
     }
     public set drive(val) {
-        this._drive = val
-        configJointSystem(this)
+        this.driveState.set(val)
     }
 }
