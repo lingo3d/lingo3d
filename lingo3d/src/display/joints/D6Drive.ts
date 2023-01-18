@@ -16,7 +16,7 @@ export default class D6Drive extends Appendable implements ID6Drive {
             const { PxD6JointDrive } = physxPtr[0]
             if (!PxD6JointDrive) return
 
-            const drive = PxD6JointDrive(
+            const drive = new PxD6JointDrive(
                 this.stiffness,
                 this.damping,
                 sanitizeNumber(this.forceLimit),

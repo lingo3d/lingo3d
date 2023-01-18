@@ -34,6 +34,8 @@ const getMotion = (val?: D6Motion) => {
 
 const configJointSystem = debounceSystem((target: D6Joint) => {
     const { joint } = target
+    if (!joint) return
+
     const {
         PxD6AxisEnum,
         PxJointLimitCone,
@@ -123,22 +125,19 @@ export default class D6Joint extends JointBase implements ID6Joint {
 
         this.createEffect(() => {
             const drive = getDrive()
-            if (!drive) return
+            const joint = this.jointState.get()
+            if (!drive || !joint) return
 
             const { PxD6DriveEnum } = physxPtr[0]
-            this.joint.setDrive(PxD6DriveEnum.eSLERP(), drive)
+            joint.setDrive(PxD6DriveEnum.eSLERP(), drive)
 
             return () => {
                 this.refreshState.set({})
             }
-        }, [getDrive])
+        }, [getDrive, this.jointState.get])
     }
 
     public joint: any
-
-    protected override onCreateJoint() {
-        configJointSystem(this)
-    }
 
     protected createJoint(
         fromPxTransform: any,
@@ -146,12 +145,14 @@ export default class D6Joint extends JointBase implements ID6Joint {
         fromManager: PhysicsObjectManager,
         toManager: PhysicsObjectManager
     ) {
-        return (this.joint = createD6(
+        this.joint = createD6(
             fromManager.actor,
             fromPxTransform,
             toManager.actor,
             toPxTransform
-        ))
+        )
+        configJointSystem(this)
+        return this.joint
     }
 
     private _linearX?: D6Motion

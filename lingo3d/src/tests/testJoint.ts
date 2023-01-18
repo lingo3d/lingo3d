@@ -1,3 +1,5 @@
+import D6Drive from "../display/joints/D6Drive"
+import D6Joint from "../display/joints/D6Joint"
 import Cube from "../display/primitives/Cube"
 
 const ground = new Cube()
@@ -15,6 +17,11 @@ head.y = 110
 const body = new Cube()
 body.height = 150
 body.depth = 50
+
+const joint = new D6Joint()
+joint.from = head
+joint.to = body
+joint.append(new D6Drive())
 
 // const leftArm = new Cube()
 // leftArm.x = -70

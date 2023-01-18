@@ -30,8 +30,6 @@ export default abstract class JointBase
     private fromManager?: PhysicsObjectManager
     private toManager?: PhysicsObjectManager
 
-    protected onCreateJoint() {}
-
     protected abstract createJoint(
         fromPxTransfrom: any,
         toPxTransform: any,
@@ -151,8 +149,11 @@ export default abstract class JointBase
                     fromManager,
                     toManager
                 )
-                handle.then(() => destroy(joint))
-                this.onCreateJoint()
+                this.jointState.set(joint)
+                handle.then(() => {
+                    this.jointState.set(undefined)
+                    destroy(joint)
+                })
             })
 
             this.fromManager = fromManager
@@ -219,6 +220,7 @@ export default abstract class JointBase
     public name?: string
 
     protected refreshState = new Reactive({})
+    protected jointState = new Reactive<any>(undefined)
 
     private _to?: string | MeshAppendable
     public get to() {
