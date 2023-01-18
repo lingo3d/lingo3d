@@ -12,7 +12,7 @@ import { getCameraRendered } from "../states/useCameraRendered"
 import { getPhysXLoaded } from "../states/usePhysXLoaded"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import destroy from "./core/PhysicsObjectManager/physx/destroy"
-import { physXPtr } from "./core/PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "./core/PhysicsObjectManager/physx/physxPtr"
 import {
     managerShapeLinkMap,
     actorPtrManagerMap
@@ -37,7 +37,7 @@ const create = (rootManager: PhysicsObjectManager) => {
         PxArticulationJointTypeEnum,
         PxArticulationAxisEnum,
         PxArticulationMotionEnum
-    } = physXPtr[0]
+    } = physxPtr[0]
 
     const ogParent = rootManager.outerObject3d.parent
     ogParent !== threeScene && threeScene.attach(rootManager.outerObject3d)
@@ -160,7 +160,7 @@ export default class ArticulationJoint extends PositionedManager {
         }, [getCameraRendered])
 
         this.createEffect(() => {
-            if (!physXPtr[0].physics) return
+            if (!physxPtr[0].physics) return
 
             const child = this.childState.get()
             const parent = this.parentState.get()

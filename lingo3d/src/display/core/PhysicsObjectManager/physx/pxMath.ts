@@ -2,7 +2,7 @@ import { Point3d } from "@lincode/math"
 import { Quaternion } from "three"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
 import { getPhysXLoaded } from "../../../../states/usePhysXLoaded"
-import { physXPtr } from "./physxPtr"
+import { physxPtr } from "./physxPtr"
 
 let pxVec: any
 let pxVec_: any
@@ -13,7 +13,7 @@ let pxTransform_: any
 let pxTransform__: any
 getPhysXLoaded((loaded) => {
     if (!loaded) return
-    const val = physXPtr[0]
+    const val = physxPtr[0]
     pxVec = val.pxVec
     pxVec_ = val.pxVec_
     pxVec__ = val.pxVec__

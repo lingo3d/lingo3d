@@ -6,7 +6,7 @@ import ISphericalJoint, {
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
-import { physXPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 const createLimitedSpherical = (
     actor0: any,
@@ -17,7 +17,7 @@ const createLimitedSpherical = (
     limitZ?: number
 ) => {
     const { physics, Px, PxJointLimitCone, PxSphericalJointFlagEnum } =
-        physXPtr[0]
+        physxPtr[0]
 
     const joint = Px.SphericalJointCreate(physics, actor0, pose0, actor1, pose1)
     if (limitY !== undefined && limitZ !== undefined) {

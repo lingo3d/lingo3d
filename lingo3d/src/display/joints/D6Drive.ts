@@ -4,7 +4,7 @@ import ID6Drive from "../../interface/ID6Drive"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import sanitizeNumber from "../../utils/sanitizeNumber"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
-import { physXPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 export default class D6Drive extends Appendable implements ID6Drive {
     private refreshState = new Reactive({})
@@ -13,7 +13,7 @@ export default class D6Drive extends Appendable implements ID6Drive {
     public constructor() {
         super()
         this.createEffect(() => {
-            const { PxD6JointDrive } = physXPtr[0]
+            const { PxD6JointDrive } = physxPtr[0]
             const drive = PxD6JointDrive(
                 this.stiffness,
                 this.damping,

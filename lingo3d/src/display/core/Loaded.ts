@@ -18,7 +18,7 @@ import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
 import cookTrimeshGeometry from "./PhysicsObjectManager/physx/cookTrimeshGeometry"
 import { StandardMesh } from "./mixins/TexturedStandardMixin"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import { physXPtr } from "./PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "./PhysicsObjectManager/physx/physxPtr"
 
 export default abstract class Loaded<T = Object3D>
     extends VisibleObjectManager<StandardMesh>
@@ -254,7 +254,7 @@ export default abstract class Loaded<T = Object3D>
     public override getPxShape(mode: PhysicsOptions, actor: any): any {
         if (mode === "map") {
             const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
-                physXPtr[0]
+                physxPtr[0]
 
             const pxGeometry = cookTrimeshGeometry(
                 this._src,

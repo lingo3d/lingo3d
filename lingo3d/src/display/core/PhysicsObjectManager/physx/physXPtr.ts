@@ -143,4 +143,4 @@ type PhysX = {
     }
 }
 
-export const physXPtr: [PhysX] = [{} as any]
+export const physxPtr: [PhysX] = [{} as any]

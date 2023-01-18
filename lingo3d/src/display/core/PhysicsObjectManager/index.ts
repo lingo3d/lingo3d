@@ -28,7 +28,7 @@ import cookConvexGeometry, {
     decreaseConvexGeometryCount,
     primitiveGeometries
 } from "./physx/cookConvexGeometry"
-import { physXPtr } from "./physx/physxPtr"
+import { physxPtr } from "./physx/physxPtr"
 import { getPhysXLoaded } from "../../../states/usePhysXLoaded"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
@@ -110,7 +110,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         posY = 0,
         posZ = 0
     ) {
-        const { PxRigidBodyExt } = physXPtr[0]
+        const { PxRigidBodyExt } = physxPtr[0]
         if (!PxRigidBodyExt || !this.actor) return
 
         PxRigidBodyExt.prototype.addLocalForceAtPos(
@@ -128,7 +128,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         posY = 0,
         posZ = 0
     ) {
-        const { PxRigidBodyExt } = physXPtr[0]
+        const { PxRigidBodyExt } = physxPtr[0]
         if (!PxRigidBodyExt || !this.actor) return
 
         PxRigidBodyExt.prototype.addLocalForceAtLocalPos(
@@ -158,7 +158,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public getPxShape(_: PhysicsOptions, actor: any) {
         const { material, shapeFlags, PxRigidActorExt, pxFilterData, physics } =
-            physXPtr[0]
+            physxPtr[0]
 
         const pxGeometry: any = cookConvexGeometry(this.componentName, this)
         if (primitiveGeometries.has(pxGeometry)) {
@@ -210,7 +210,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 PxControllerNonWalkableModeEnum,
                 material,
                 getPxControllerManager
-            } = physXPtr[0]
+            } = physxPtr[0]
             if (!physics || !mode) return
 
             const ogParent = this.outerObject3d.parent

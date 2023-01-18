@@ -4,10 +4,10 @@ import IFixedJoint, {
 } from "../../interface/IFixedJoint"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
-import { physXPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 const createFixed = (actor0: any, pose0: any, actor1: any, pose1: any) => {
-    const { physics, Px } = physXPtr[0]
+    const { physics, Px } = physxPtr[0]
     const j = Px.FixedJointCreate(physics, actor0, pose0, actor1, pose1)
     // j->setBreakForce(1000, 100000);
     // j->setConstraintFlag(PxConstraintFlag::eDRIVE_LIMITS_ARE_FORCES, true);

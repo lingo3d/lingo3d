@@ -13,7 +13,7 @@ import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import getPrivateValue from "../../utils/getPrivateValue"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import destroy from "./PhysicsObjectManager/physx/destroy"
-import { physXPtr } from "./PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "./PhysicsObjectManager/physx/physxPtr"
 import {
     setPxTransform,
     setPxTransform_
@@ -72,7 +72,7 @@ export default abstract class JointBase
 
         this.createEffect(() => {
             const { _to, _from } = this
-            if (!physXPtr[0].physics || !_to || !_from) return
+            if (!physxPtr[0].physics || !_to || !_from) return
 
             const [[toManager]] = getMeshManagerSets(_to)
             const [[fromManager]] = getMeshManagerSets(_from)

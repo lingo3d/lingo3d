@@ -9,15 +9,15 @@ import debounceSystem from "../../utils/debounceSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
-import { physXPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 const createD6 = (actor0: any, pose0: any, actor1: any, pose1: any) => {
-    const { physics, Px } = physXPtr[0]
+    const { physics, Px } = physxPtr[0]
     return Px.D6JointCreate(physics, actor0, pose0, actor1, pose1)
 }
 
 const getMotion = (val?: D6Motion) => {
-    const { PxD6MotionEnum } = physXPtr[0]
+    const { PxD6MotionEnum } = physxPtr[0]
     switch (val) {
         case "locked":
             return PxD6MotionEnum.eLOCKED()
@@ -37,7 +37,7 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         PxJointLimitCone,
         PxJointAngularLimitPair,
         PxJointLinearLimitPair
-    } = physXPtr[0]
+    } = physxPtr[0]
     const {
         linearX,
         linearY,

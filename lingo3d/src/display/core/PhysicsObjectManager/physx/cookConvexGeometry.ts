@@ -7,7 +7,7 @@ import computePxVertices from "./computePxVertices"
 import createInstancePool from "../../utils/createInstancePool"
 import getActualScale from "../../../utils/getActualScale"
 import PhysicsObjectManager from ".."
-import { physXPtr } from "./physxPtr"
+import { physxPtr } from "./physxPtr"
 
 type Params = [typeSrc: string, scaleX: number, scaleY: number, scaleZ: number]
 
@@ -30,7 +30,7 @@ const [increaseCount, decreaseCount] = createInstancePool<
         PxConvexMeshGeometry,
         PxSphereGeometry,
         PxBoxGeometry
-    } = physXPtr[0]
+    } = physxPtr[0]
 
     const [typeSrc, x, y, z] = params
     if (!manager || typeSrc === "cube")

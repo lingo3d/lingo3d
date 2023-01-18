@@ -5,7 +5,7 @@ import { gravityPtr } from "../../../../states/useGravity"
 import { setPhysXLoaded } from "../../../../states/usePhysXLoaded"
 import { destroyPtr } from "./destroy"
 import "./physxLoop"
-import { physXPtr } from "./physxPtr"
+import { physxPtr } from "./physxPtr"
 
 PhysX().then((PhysX: any) => {
     const {
@@ -458,7 +458,7 @@ PhysX().then((PhysX: any) => {
         eSLERP: lazy(_emscripten_enum_PxD6DriveEnum_eSLERP)
     }
 
-    physXPtr[0] = {
+    physxPtr[0] = {
         NativeArrayHelpers,
         physics,
         material,

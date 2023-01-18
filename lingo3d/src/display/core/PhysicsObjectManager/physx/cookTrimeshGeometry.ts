@@ -6,7 +6,7 @@ import {
 import destroy from "./destroy"
 import computeMergedPxVertices from "./computeMergedPxVertices"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
-import { physXPtr } from "./physxPtr"
+import { physxPtr } from "./physxPtr"
 
 const pxGeometryCache = new Map<string | undefined, any>()
 
@@ -26,7 +26,7 @@ export default (
         getCooking,
         getInsertionCallback,
         PxTriangleMeshGeometry
-    } = physXPtr[0]
+    } = physxPtr[0]
 
     const [pointVector, count, index] = computeMergedPxVertices(loaded, manager)
     const indexVector = new Vector_PxU32()

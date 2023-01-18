@@ -15,7 +15,7 @@ import fpsAlpha from "../../../utils/fpsAlpha"
 import { gravityPtr } from "../../../../states/useGravity"
 import StaticObjectManager from "../../StaticObjectManager"
 import { onPhysXLoop } from "../../../../events/onPhysXLoop"
-import { physXPtr } from "./physxPtr"
+import { physxPtr } from "./physxPtr"
 import { getPhysXLoaded } from "../../../../states/usePhysXLoaded"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
@@ -40,7 +40,7 @@ const lockHit = (manager: StaticObjectManager, lock: boolean) => {
 export const groundedControllerManagers = new Set<PhysicsObjectManager>()
 
 createEffect(() => {
-    const { scene, pxControllerFilters, pxRaycast, PxShapeExt } = physXPtr[0]
+    const { scene, pxControllerFilters, pxRaycast, PxShapeExt } = physxPtr[0]
     if (
         !scene ||
         getPhysXCookingCount() ||

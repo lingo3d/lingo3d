@@ -18,7 +18,7 @@ import getWorldDirection from "../utils/getWorldDirection"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import { physXPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 const setVisible = (target: MeshAppendable, visible: boolean) =>
     "visible" in target && (target.visible = visible)
@@ -65,7 +65,7 @@ export default class ThirdPersonCamera
                 const origin = getWorldPosition(this.outerObject3d)
                 const position = getWorldPosition(this.object3d)
 
-                const pxHit = physXPtr[0].pxRaycast?.(
+                const pxHit = physxPtr[0].pxRaycast?.(
                     assignPxVec(origin),
                     assignPxVec_(getWorldDirection(this.object3d)),
                     position.distanceTo(origin),
