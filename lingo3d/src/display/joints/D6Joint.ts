@@ -31,7 +31,7 @@ const getMotion = (val: D6MotionOptions) => {
 }
 
 const configJointSystem = debounceSystem((target: D6Joint) => {
-    const { joint } = target
+    const joint = target.pxJoint
     if (!joint) return
 
     const {
@@ -106,22 +106,19 @@ export default class D6Joint extends JointBase implements ID6Joint {
     public static defaults = d6JointDefaults
     public static schema = d6JointSchema
 
-    public joint: any
-
     protected createJoint(
         fromPxTransform: any,
         toPxTransform: any,
         fromManager: PhysicsObjectManager,
         toManager: PhysicsObjectManager
     ) {
-        this.joint = createD6(
+        configJointSystem(this)
+        return createD6(
             fromManager.actor,
             fromPxTransform,
             toManager.actor,
             toPxTransform
         )
-        configJointSystem(this)
-        return this.joint
     }
 
     private _linearX?: D6MotionOptions

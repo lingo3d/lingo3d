@@ -37,6 +37,8 @@ export default abstract class JointBase
         toManager: PhysicsObjectManager
     ): any
 
+    public pxJoint: any
+
     public constructor() {
         super()
         import("./PhysicsObjectManager/physx")
@@ -143,15 +145,14 @@ export default abstract class JointBase
                     q.z,
                     q.w
                 )
-                const joint = this.createJoint(
+                const joint = (this.pxJoint = this.createJoint(
                     fromPxTransform,
                     toPxTransform,
                     fromManager,
                     toManager
-                )
-                this.jointState.set(joint)
+                ))
                 handle.then(() => {
-                    this.jointState.set(undefined)
+                    this.pxJoint = undefined
                     destroy(joint)
                 })
             })
@@ -220,7 +221,6 @@ export default abstract class JointBase
     public name?: string
 
     protected refreshState = new Reactive({})
-    protected jointState = new Reactive<any>(undefined)
 
     private _to?: string | MeshAppendable
     public get to() {
