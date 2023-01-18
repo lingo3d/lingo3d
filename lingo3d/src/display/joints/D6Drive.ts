@@ -8,12 +8,14 @@ import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 export default class D6Drive extends Appendable implements ID6Drive {
     private refreshState = new Reactive({})
-    private driveState = new Reactive<any>(undefined)
+    public driveState = new Reactive<any>(undefined)
 
     public constructor() {
         super()
         this.createEffect(() => {
             const { PxD6JointDrive } = physxPtr[0]
+            if (!PxD6JointDrive) return
+
             const drive = PxD6JointDrive(
                 this.stiffness,
                 this.damping,
@@ -26,7 +28,7 @@ export default class D6Drive extends Appendable implements ID6Drive {
                 this.driveState.set(undefined)
                 destroy(drive)
             }
-        }, [getPhysXLoaded])
+        }, [getPhysXLoaded, this.refreshState.get])
     }
 
     private _stiffness?: number

@@ -1,4 +1,5 @@
 import { deg2Rad } from "@lincode/math"
+import { store } from "@lincode/reactivity"
 import { CM2M } from "../../globals"
 import ID6Joint, {
     d6JointDefaults,
@@ -10,6 +11,7 @@ import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
 import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
+import D6Drive from "./D6Drive"
 
 const createD6 = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     const { physics, Px } = physxPtr[0]
@@ -103,6 +105,34 @@ export default class D6Joint extends JointBase implements ID6Joint {
     public static componentName = "d6Joint"
     public static defaults = d6JointDefaults
     public static schema = d6JointSchema
+
+    public constructor() {
+        super()
+
+        const [setDrive, getDrive] = store<any>(undefined)
+        this.createEffect(() => {
+            const firstChild = this.firstChildState.get()
+            if (!(firstChild instanceof D6Drive)) return
+
+            const handle = firstChild.driveState.get(setDrive)
+            return () => {
+                handle.cancel()
+                setDrive(undefined)
+            }
+        }, [this.firstChildState.get])
+
+        this.createEffect(() => {
+            const drive = getDrive()
+            if (!drive) return
+
+            const { PxD6DriveEnum } = physxPtr[0]
+            this.joint.setDrive(PxD6DriveEnum.eSLERP(), drive)
+
+            return () => {
+                this.refreshState.set({})
+            }
+        }, [getDrive])
+    }
 
     public joint: any
 
