@@ -7,6 +7,9 @@ import destroy from "../core/PhysicsObjectManager/physx/destroy"
 import { physXPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 export default class D6Drive extends Appendable implements ID6Drive {
+    private refreshState = new Reactive({})
+    private driveState = new Reactive<any>(undefined)
+
     public constructor() {
         super()
         this.createEffect(() => {
@@ -17,14 +20,14 @@ export default class D6Drive extends Appendable implements ID6Drive {
                 sanitizeNumber(this.forceLimit),
                 this.isAcceleration
             )
+            this.driveState.set(drive)
 
             return () => {
+                this.driveState.set(undefined)
                 destroy(drive)
             }
         }, [getPhysXLoaded])
     }
-
-    private refreshState = new Reactive({})
 
     private _stiffness?: number
     public get stiffness() {
