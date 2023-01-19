@@ -65,6 +65,12 @@ export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
     swingDamping: Number
 }
 
+export const limitRange = new Range(-200, 200)
+export const stiffnessRange = new Range(0, 500)
+export const dampingRange = new Range(0, 20)
+export const angularLimitRange = new Range(-360, 360)
+export const coneLimitRange = new Range(0, 360)
+
 const motionChoices = new Choices({
     locked: "locked",
     limited: "limited",
@@ -102,30 +108,30 @@ export const d6JointDefaults = extendDefaults<ID6Joint>(
     },
     {
         linearX: motionChoices,
-        linearLimitXLow: new Range(-200, 200),
-        linearLimitXHigh: new Range(-200, 200),
-        linearStiffnessX: new Range(0, 500),
-        linearDampingX: new Range(0, 20),
+        linearLimitXLow: limitRange,
+        linearLimitXHigh: limitRange,
+        linearStiffnessX: stiffnessRange,
+        linearDampingX: dampingRange,
         linearY: motionChoices,
-        linearLimitYLow: new Range(-200, 200),
-        linearLimitYHigh: new Range(-200, 200),
-        linearStiffnessY: new Range(0, 500),
-        linearDampingY: new Range(0, 20),
+        linearLimitYLow: limitRange,
+        linearLimitYHigh: limitRange,
+        linearStiffnessY: stiffnessRange,
+        linearDampingY: dampingRange,
         linearZ: motionChoices,
-        linearLimitZLow: new Range(-200, 200),
-        linearLimitZHigh: new Range(-200, 200),
-        linearStiffnessZ: new Range(0, 500),
-        linearDampingZ: new Range(0, 20),
+        linearLimitZLow: limitRange,
+        linearLimitZHigh: limitRange,
+        linearStiffnessZ: stiffnessRange,
+        linearDampingZ: dampingRange,
         twistX: motionChoices,
-        twistLimitLow: new Range(-360, 360),
-        twistLimitHigh: new Range(-360, 360),
-        twistStiffness: new Range(0, 500),
-        twistDamping: new Range(0, 20),
+        twistLimitLow: angularLimitRange,
+        twistLimitHigh: angularLimitRange,
+        twistStiffness: stiffnessRange,
+        twistDamping: dampingRange,
         swingY: motionChoices,
-        swingLimitY: new Range(0, 360),
+        swingLimitY: coneLimitRange,
         swingZ: motionChoices,
-        swingLimitZ: new Range(0, 360),
-        swingStiffness: new Range(0, 500),
-        swingDamping: new Range(0, 20)
+        swingLimitZ: coneLimitRange,
+        swingStiffness: stiffnessRange,
+        swingDamping: dampingRange
     }
 )

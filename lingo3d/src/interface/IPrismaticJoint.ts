@@ -1,7 +1,7 @@
+import { dampingRange, limitRange, stiffnessRange } from "./ID6Joint"
 import IJointBase, { jointBaseDefaults, jointBaseSchema } from "./IJointBase"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
-import Range from "./utils/Range"
 
 export default interface IPrismaticJoint extends IJointBase {
     limitLow: number
@@ -27,9 +27,9 @@ export const prismaticJointDefaults = extendDefaults<IPrismaticJoint>(
         damping: 0
     },
     {
-        limitLow: new Range(-200, 200),
-        limitHigh: new Range(-200, 200),
-        stiffness: new Range(0, 500),
-        damping: new Range(0, 100)
+        limitLow: limitRange,
+        limitHigh: limitRange,
+        stiffness: stiffnessRange,
+        damping: dampingRange
     }
 )
