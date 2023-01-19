@@ -15,8 +15,8 @@ const createPrismatic = (actor0: any, pose0: any, actor1: any, pose1: any) => {
 }
 
 const configJointSystem = debounceSystem((target: PrismaticJoint) => {
-    const { pxJoint, limitLow, limitHigh, stiffness, damping } = target
-    if (!pxJoint) return
+    const { pxJoint, limited, limitLow, limitHigh, stiffness, damping } = target
+    if (!pxJoint || !limited) return
 
     const { PxJointLinearLimitPair, PxPrismaticJointFlagEnum } = physxPtr[0]
 
@@ -55,6 +55,15 @@ export default class PrismaticJoint
             toManager.actor,
             toPxTransform
         )
+    }
+
+    private _limited?: boolean
+    public get limited() {
+        return this._limited ?? false
+    }
+    public set limited(val) {
+        this._limited = val
+        val ? configJointSystem(this) : this.refreshState.set({})
     }
 
     private _limitLow?: number

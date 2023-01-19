@@ -4,6 +4,7 @@ import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IPrismaticJoint extends IJointBase {
+    limited: boolean
     limitLow: number
     limitHigh: number
     stiffness: number
@@ -12,6 +13,7 @@ export default interface IPrismaticJoint extends IJointBase {
 
 export const prismaticJointSchema: Required<ExtractProps<IPrismaticJoint>> = {
     ...jointBaseSchema,
+    limited: Boolean,
     limitLow: Number,
     limitHigh: Number,
     stiffness: Number,
@@ -21,6 +23,7 @@ export const prismaticJointSchema: Required<ExtractProps<IPrismaticJoint>> = {
 export const prismaticJointDefaults = extendDefaults<IPrismaticJoint>(
     [jointBaseDefaults],
     {
+        limited: false,
         limitLow: -100,
         limitHigh: 100,
         stiffness: 0,
