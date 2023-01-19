@@ -16,15 +16,21 @@ const createSpherical = (actor0: any, pose0: any, actor1: any, pose1: any) => {
 
 const configJointSystem = debounceSystem((target: SphericalJoint) => {
     const { pxJoint, limited, limitY, limitZ } = target
-    if (!pxJoint || !limited) return
+    if (!pxJoint) return
 
     const { PxJointLimitCone, PxSphericalJointFlagEnum } = physxPtr[0]
-    const cone = new PxJointLimitCone(limitY * deg2Rad, limitZ * deg2Rad, 0.05)
-    pxJoint.setLimitCone(cone)
-    destroy(cone)
+    if (limited) {
+        const cone = new PxJointLimitCone(
+            limitY * deg2Rad,
+            limitZ * deg2Rad,
+            0.05
+        )
+        pxJoint.setLimitCone(cone)
+        destroy(cone)
+    }
     pxJoint.setSphericalJointFlag(
         PxSphericalJointFlagEnum.eLIMIT_ENABLED(),
-        true
+        limited
     )
 })
 
@@ -57,7 +63,7 @@ export default class SphericalJoint
     }
     public set limited(val) {
         this._limited = val
-        val ? configJointSystem(this) : this.refreshState.set({})
+        configJointSystem(this)
     }
 
     private _limitY?: number

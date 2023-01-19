@@ -16,19 +16,24 @@ const createRevolute = (actor0: any, pose0: any, actor1: any, pose1: any) => {
 
 const configJointSystem = debounceSystem((target: RevoluteJoint) => {
     const { pxJoint, limited, limitLow, limitHigh, stiffness, damping } = target
-    if (!pxJoint || !limited) return
+    if (!pxJoint) return
 
     const { PxJointAngularLimitPair, PxRevoluteJointFlagEnum } = physxPtr[0]
 
-    const limitPair = new PxJointAngularLimitPair(
-        limitLow * deg2Rad,
-        limitHigh * deg2Rad
+    if (limited) {
+        const limitPair = new PxJointAngularLimitPair(
+            limitLow * deg2Rad,
+            limitHigh * deg2Rad
+        )
+        limitPair.stiffness = stiffness
+        limitPair.damping = damping
+        pxJoint.setLimit(limitPair)
+        destroy(limitPair)
+    }
+    pxJoint.setRevoluteJointFlag(
+        PxRevoluteJointFlagEnum.eLIMIT_ENABLED(),
+        limited
     )
-    limitPair.stiffness = stiffness
-    limitPair.damping = damping
-    pxJoint.setLimit(limitPair)
-    destroy(limitPair)
-    pxJoint.setRevoluteJointFlag(PxRevoluteJointFlagEnum.eLIMIT_ENABLED(), true)
 })
 
 export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
@@ -55,7 +60,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set limited(val) {
         this._limited = val
-        val ? configJointSystem(this) : this.refreshState.set({})
+        configJointSystem(this)
     }
 
     private _limitLow?: number

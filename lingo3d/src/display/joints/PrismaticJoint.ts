@@ -16,21 +16,23 @@ const createPrismatic = (actor0: any, pose0: any, actor1: any, pose1: any) => {
 
 const configJointSystem = debounceSystem((target: PrismaticJoint) => {
     const { pxJoint, limited, limitLow, limitHigh, stiffness, damping } = target
-    if (!pxJoint || !limited) return
+    if (!pxJoint) return
 
     const { PxJointLinearLimitPair, PxPrismaticJointFlagEnum } = physxPtr[0]
 
-    const linearLimit = new PxJointLinearLimitPair(
-        limitLow * CM2M,
-        limitHigh * CM2M
-    )
-    linearLimit.stiffness = stiffness
-    linearLimit.damping = damping
-    pxJoint.setLimit(linearLimit)
-    destroy(linearLimit)
+    if (limited) {
+        const linearLimit = new PxJointLinearLimitPair(
+            limitLow * CM2M,
+            limitHigh * CM2M
+        )
+        linearLimit.stiffness = stiffness
+        linearLimit.damping = damping
+        pxJoint.setLimit(linearLimit)
+        destroy(linearLimit)
+    }
     pxJoint.setPrismaticJointFlag(
         PxPrismaticJointFlagEnum.eLIMIT_ENABLED(),
-        true
+        limited
     )
 })
 
@@ -63,7 +65,7 @@ export default class PrismaticJoint
     }
     public set limited(val) {
         this._limited = val
-        val ? configJointSystem(this) : this.refreshState.set({})
+        configJointSystem(this)
     }
 
     private _limitLow?: number
