@@ -15,7 +15,15 @@ const createRevolute = (actor0: any, pose0: any, actor1: any, pose1: any) => {
 }
 
 const configJointSystem = debounceSystem((target: RevoluteJoint) => {
-    const { pxJoint, limited, limitLow, limitHigh, stiffness, damping } = target
+    const {
+        pxJoint,
+        limited,
+        limitLow,
+        limitHigh,
+        stiffness,
+        damping,
+        driveVelocity
+    } = target
     if (!pxJoint) return
 
     const { PxJointAngularLimitPair, PxRevoluteJointFlagEnum } = physxPtr[0]
@@ -33,6 +41,11 @@ const configJointSystem = debounceSystem((target: RevoluteJoint) => {
     pxJoint.setRevoluteJointFlag(
         PxRevoluteJointFlagEnum.eLIMIT_ENABLED(),
         limited
+    )
+    pxJoint.setDriveVelocity(driveVelocity)
+    pxJoint.setRevoluteJointFlag(
+        PxRevoluteJointFlagEnum.eDRIVE_ENABLED(),
+        driveVelocity > 0
     )
 })
 
@@ -96,6 +109,15 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set damping(val) {
         this._damping = val
+        configJointSystem(this)
+    }
+
+    private _driveVelocity?: number
+    public get driveVelocity() {
+        return this._driveVelocity ?? 0
+    }
+    public set driveVelocity(val) {
+        this._driveVelocity = val
         configJointSystem(this)
     }
 }
