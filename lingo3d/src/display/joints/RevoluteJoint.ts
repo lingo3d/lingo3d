@@ -60,6 +60,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
         fromManager: PhysicsObjectManager,
         toManager: PhysicsObjectManager
     ) {
+        configJointSystem(this)
         return createRevolute(
             fromManager.actor,
             fromPxTransform,
