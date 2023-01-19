@@ -44,9 +44,12 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
         linearX,
         linearY,
         linearZ,
-        linearLimitX,
-        linearLimitY,
-        linearLimitZ,
+        linearLimitXLow,
+        linearLimitXHigh,
+        linearLimitYLow,
+        linearLimitYHigh,
+        linearLimitZLow,
+        linearLimitZHigh,
         linearStiffnessX,
         linearStiffnessY,
         linearStiffnessZ,
@@ -71,24 +74,30 @@ const configJointSystem = debounceSystem((target: D6Joint) => {
     pxJoint.setMotion(PxD6AxisEnum.eZ(), getMotion(linearZ))
 
     if (linearX === "limited") {
-        const val = linearLimitX * CM2M
-        const linearLimit = new PxJointLinearLimitPair(-val, val)
+        const linearLimit = new PxJointLinearLimitPair(
+            linearLimitXLow * CM2M,
+            linearLimitXHigh * CM2M
+        )
         linearLimit.stiffness = linearStiffnessX
         linearLimit.damping = linearDampingX
         pxJoint.setLinearLimit(PxD6AxisEnum.eX(), linearLimit)
         destroy(linearLimit)
     }
     if (linearY === "limited") {
-        const val = linearLimitY * CM2M
-        const linearLimit = new PxJointLinearLimitPair(-val, val)
+        const linearLimit = new PxJointLinearLimitPair(
+            linearLimitYLow * CM2M,
+            linearLimitYHigh * CM2M
+        )
         linearLimit.stiffness = linearStiffnessY
         linearLimit.damping = linearDampingY
         pxJoint.setLinearLimit(PxD6AxisEnum.eY(), linearLimit)
         destroy(linearLimit)
     }
     if (linearZ === "limited") {
-        const val = linearLimitZ * CM2M
-        const linearLimit = new PxJointLinearLimitPair(-val, val)
+        const linearLimit = new PxJointLinearLimitPair(
+            linearLimitZLow * CM2M,
+            linearLimitZHigh * CM2M
+        )
         linearLimit.stiffness = linearStiffnessZ
         linearLimit.damping = linearDampingZ
         pxJoint.setLinearLimit(PxD6AxisEnum.eZ(), linearLimit)
@@ -150,12 +159,21 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
-    private _linearLimitX?: number
-    public get linearLimitX() {
-        return this._linearLimitX ?? 100
+    private _linearLimitXLow?: number
+    public get linearLimitXLow() {
+        return this._linearLimitXLow ?? -100
     }
-    public set linearLimitX(val) {
-        this._linearLimitX = val
+    public set linearLimitXLow(val) {
+        this._linearLimitXLow = val
+        configJointSystem(this)
+    }
+
+    private _linearLimitXHigh?: number
+    public get linearLimitXHigh() {
+        return this._linearLimitXHigh ?? 100
+    }
+    public set linearLimitXHigh(val) {
+        this._linearLimitXHigh = val
         configJointSystem(this)
     }
 
@@ -186,12 +204,21 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
-    private _linearLimitY?: number
-    public get linearLimitY() {
-        return this._linearLimitY ?? 100
+    private _linearLimitYLow?: number
+    public get linearLimitYLow() {
+        return this._linearLimitYLow ?? -100
     }
-    public set linearLimitY(val) {
-        this._linearLimitY = val
+    public set linearLimitYLow(val) {
+        this._linearLimitYLow = val
+        configJointSystem(this)
+    }
+
+    private _linearLimitYHigh?: number
+    public get linearLimitYHigh() {
+        return this._linearLimitYHigh ?? 100
+    }
+    public set linearLimitYHigh(val) {
+        this._linearLimitYHigh = val
         configJointSystem(this)
     }
 
@@ -222,12 +249,21 @@ export default class D6Joint extends JointBase implements ID6Joint {
         configJointSystem(this)
     }
 
-    private _linearLimitZ?: number
-    public get linearLimitZ() {
-        return this._linearLimitZ ?? 100
+    private _linearLimitZLow?: number
+    public get linearLimitZLow() {
+        return this._linearLimitZLow ?? -100
     }
-    public set linearLimitZ(val) {
-        this._linearLimitZ = val
+    public set linearLimitZLow(val) {
+        this._linearLimitZLow = val
+        configJointSystem(this)
+    }
+
+    private _linearLimitZHigh?: number
+    public get linearLimitZHigh() {
+        return this._linearLimitZHigh ?? 100
+    }
+    public set linearLimitZHigh(val) {
+        this._linearLimitZHigh = val
         configJointSystem(this)
     }
 
