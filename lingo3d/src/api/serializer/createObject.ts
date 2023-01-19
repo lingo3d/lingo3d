@@ -44,7 +44,6 @@ import Trigger from "../../display/Trigger"
 import SpawnPoint from "../../display/SpawnPoint"
 import SphericalJoint from "../../display/joints/SphericalJoint"
 import FixedJoint from "../../display/joints/FixedJoint"
-import DistanceJoint from "../../display/joints/DistanceJoint"
 import RevoluteJoint from "../../display/joints/RevoluteJoint"
 import PrismaticJoint from "../../display/joints/PrismaticJoint"
 import D6Joint from "../../display/joints/D6Joint"
@@ -71,7 +70,6 @@ const record = {
     spawnPoint: () => new SpawnPoint(),
     sphericalJoint: () => new SphericalJoint(),
     fixedJoint: () => new FixedJoint(),
-    distanceJoint: () => new DistanceJoint(),
     revoluteJoint: () => new RevoluteJoint(),
     prismaticJoint: () => new PrismaticJoint(),
     d6Joint: () => new D6Joint(),

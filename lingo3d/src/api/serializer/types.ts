@@ -20,7 +20,6 @@ export type GameObjectType =
     | "spawnPoint"
     | "sphericalJoint"
     | "fixedJoint"
-    | "distanceJoint"
     | "revoluteJoint"
     | "prismaticJoint"
     | "d6Joint"

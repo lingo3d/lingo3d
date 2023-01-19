@@ -29,7 +29,6 @@ import Trigger from "./display/Trigger"
 import SpawnPoint from "./display/SpawnPoint"
 import SphericalJoint from "./display/joints/SphericalJoint"
 import FixedJoint from "./display/joints/FixedJoint"
-import DistanceJoint from "./display/joints/DistanceJoint"
 import RevoluteJoint from "./display/joints/RevoluteJoint"
 import PrismaticJoint from "./display/joints/PrismaticJoint"
 import D6Joint from "./display/joints/D6Joint"
@@ -121,7 +120,6 @@ export {
     SpawnPoint,
     SphericalJoint,
     FixedJoint,
-    DistanceJoint,
     RevoluteJoint,
     PrismaticJoint,
     D6Joint,

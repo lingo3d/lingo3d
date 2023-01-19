@@ -7,7 +7,6 @@ import JointBase from "../../../display/core/JointBase"
 export default (
     type:
         | "fixedJoint"
-        | "distanceJoint"
         | "sphericalJoint"
         | "revoluteJoint"
         | "prismaticJoint"
