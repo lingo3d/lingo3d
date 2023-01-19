@@ -1,4 +1,3 @@
-import { deg2Rad } from "@lincode/math"
 import { CM2M } from "../../globals"
 import IPrismaticJoint, {
     prismaticJointDefaults,
@@ -16,7 +15,7 @@ const createPrismatic = (actor0: any, pose0: any, actor1: any, pose1: any) => {
 }
 
 const configJointSystem = debounceSystem((target: PrismaticJoint) => {
-    const { pxJoint, limitLow, limitHigh } = target
+    const { pxJoint, limitLow, limitHigh, stiffness, damping } = target
     if (!pxJoint) return
 
     const { PxJointLinearLimitPair } = physxPtr[0]
@@ -25,9 +24,9 @@ const configJointSystem = debounceSystem((target: PrismaticJoint) => {
         limitLow * CM2M,
         limitHigh * CM2M
     )
-    // linearLimit.stiffness = linearStiffnessX
-    // linearLimit.damping = linearDampingX
-    // pxJoint.setLinearLimit(PxD6AxisEnum.eX(), linearLimit)
+    linearLimit.stiffness = stiffness
+    linearLimit.damping = damping
+    pxJoint.setLimit(linearLimit)
     destroy(linearLimit)
 })
 
@@ -64,10 +63,28 @@ export default class PrismaticJoint
 
     private _limitHigh?: number
     public get limitHigh() {
-        return this._limitHigh ?? -100
+        return this._limitHigh ?? 100
     }
     public set limitHigh(val) {
         this._limitHigh = val
+        configJointSystem(this)
+    }
+
+    private _stiffness?: number
+    public get stiffness() {
+        return this._stiffness ?? 0
+    }
+    public set stiffness(val) {
+        this._stiffness = val
+        configJointSystem(this)
+    }
+
+    private _damping?: number
+    public get damping() {
+        return this._damping ?? 0
+    }
+    public set damping(val) {
+        this._damping = val
         configJointSystem(this)
     }
 }
