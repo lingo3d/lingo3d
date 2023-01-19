@@ -112,6 +112,7 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxRigidBodyFlagEnum_eRETAIN_ACCELERATIONS,
 
         _emscripten_enum_PxSphericalJointFlagEnum_eLIMIT_ENABLED,
+        _emscripten_enum_PxPrismaticJointFlagEnum_eLIMIT_ENABLED,
 
         _emscripten_enum_PxArticulationCacheFlagEnum_eALL,
         _emscripten_enum_PxArticulationCacheFlagEnum_ePOSITION,
@@ -424,6 +425,13 @@ PhysX().then((PhysX: any) => {
         )
     }
 
+    // prismatic joint flag enum
+    const PxPrismaticJointFlagEnum = {
+        eLIMIT_ENABLED: lazy(
+            _emscripten_enum_PxPrismaticJointFlagEnum_eLIMIT_ENABLED
+        )
+    }
+
     // cache flag enum
     const PxArticulationCacheFlagEnum = {
         eALL: lazy(_emscripten_enum_PxArticulationCacheFlagEnum_eALL),
@@ -514,6 +522,7 @@ PhysX().then((PhysX: any) => {
         PxArticulationMotionEnum,
         PxRigidBodyFlagEnum,
         PxSphericalJointFlagEnum,
+        PxPrismaticJointFlagEnum,
         PxArticulationCacheFlagEnum,
         PxD6AxisEnum,
         PxD6MotionEnum,

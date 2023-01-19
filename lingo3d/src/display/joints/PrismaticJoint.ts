@@ -18,7 +18,7 @@ const configJointSystem = debounceSystem((target: PrismaticJoint) => {
     const { pxJoint, limitLow, limitHigh, stiffness, damping } = target
     if (!pxJoint) return
 
-    const { PxJointLinearLimitPair } = physxPtr[0]
+    const { PxJointLinearLimitPair, PxPrismaticJointFlagEnum } = physxPtr[0]
 
     const linearLimit = new PxJointLinearLimitPair(
         limitLow * CM2M,
@@ -28,6 +28,10 @@ const configJointSystem = debounceSystem((target: PrismaticJoint) => {
     linearLimit.damping = damping
     pxJoint.setLimit(linearLimit)
     destroy(linearLimit)
+    pxJoint.setPrismaticJointFlag(
+        PxPrismaticJointFlagEnum.eLIMIT_ENABLED(),
+        true
+    )
 })
 
 export default class PrismaticJoint
@@ -44,6 +48,7 @@ export default class PrismaticJoint
         fromManager: PhysicsObjectManager,
         toManager: PhysicsObjectManager
     ) {
+        configJointSystem(this)
         return createPrismatic(
             fromManager.actor,
             fromPxTransform,
