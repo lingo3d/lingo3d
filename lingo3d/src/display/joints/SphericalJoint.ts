@@ -15,8 +15,8 @@ const createSpherical = (actor0: any, pose0: any, actor1: any, pose1: any) => {
 }
 
 const configJointSystem = debounceSystem((target: SphericalJoint) => {
-    const { pxJoint, limitY, limitZ } = target
-    if (!pxJoint) return
+    const { pxJoint, limited, limitY, limitZ } = target
+    if (!pxJoint || !limited) return
 
     const { PxJointLimitCone, PxSphericalJointFlagEnum } = physxPtr[0]
     const cone = new PxJointLimitCone(limitY * deg2Rad, limitZ * deg2Rad, 0.05)
@@ -49,6 +49,15 @@ export default class SphericalJoint
             toManager.actor,
             toPxTransform
         )
+    }
+
+    private _limited?: boolean
+    public get limited() {
+        return this._limited ?? false
+    }
+    public set limited(val) {
+        this._limited = val
+        val ? configJointSystem(this) : this.refreshState.set({})
     }
 
     private _limitY?: number
