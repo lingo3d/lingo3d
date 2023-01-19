@@ -33,7 +33,6 @@
         "lingo3d-forest": "^1.0.0",
         "nanoid": "^4.0.0",
         "nipplejs": "0.10.0",
-        "physx-js-webidl": "^2.0.4",
         "postprocessing": "^6.29.3",
         "preact": "^10.11.3",
         "preact-compat": "^3.19.0",

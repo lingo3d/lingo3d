@@ -1,6 +1,5 @@
 import { lazy } from "@lincode/utils"
-//@ts-ignore
-import PhysX from "physx-js-webidl"
+import PhysX from "./physx-js-webidl"
 import { gravityPtr } from "../../../../states/useGravity"
 import { setPhysXLoaded } from "../../../../states/usePhysXLoaded"
 import { destroyPtr } from "./destroy"
