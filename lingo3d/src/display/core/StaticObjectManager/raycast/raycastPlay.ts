@@ -3,7 +3,10 @@ import StaticObjectManager from ".."
 import { mouseEvents } from "../../../../api/mouse"
 import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
 import { clearMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
-import { setSelectionTarget } from "../../../../states/useSelectionTarget"
+import {
+    getSelectionTarget,
+    setSelectionTarget
+} from "../../../../states/useSelectionTarget"
 import pickable from "./pickable"
 import {
     clickSet,
@@ -16,6 +19,8 @@ import {
 
 createEffect(() => {
     if (!getWorldPlayComputed()) return
+
+    const selectionTargetBackup = getSelectionTarget()
 
     clearMultipleSelectionTargets()
     setSelectionTarget(undefined)
@@ -62,5 +67,6 @@ createEffect(() => {
         handle4.cancel()
         handle5.cancel()
         handle6.cancel()
+        !getSelectionTarget() && setSelectionTarget(selectionTargetBackup)
     }
 }, [getWorldPlayComputed])
