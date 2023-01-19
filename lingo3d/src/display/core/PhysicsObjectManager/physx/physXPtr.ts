@@ -120,6 +120,7 @@ type PhysX = {
     }
     PxRevoluteJointFlagEnum: {
         eLIMIT_ENABLED: () => any
+        eDRIVE_ENABLED: () => any
     }
     PxArticulationCacheFlagEnum: {
         eALL: () => any

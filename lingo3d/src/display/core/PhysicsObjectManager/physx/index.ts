@@ -113,6 +113,7 @@ PhysX().then((PhysX: any) => {
         _emscripten_enum_PxSphericalJointFlagEnum_eLIMIT_ENABLED,
         _emscripten_enum_PxPrismaticJointFlagEnum_eLIMIT_ENABLED,
         _emscripten_enum_PxRevoluteJointFlagEnum_eLIMIT_ENABLED,
+        _emscripten_enum_PxRevoluteJointFlagEnum_eDRIVE_ENABLED,
 
         _emscripten_enum_PxArticulationCacheFlagEnum_eALL,
         _emscripten_enum_PxArticulationCacheFlagEnum_ePOSITION,
@@ -436,6 +437,9 @@ PhysX().then((PhysX: any) => {
     const PxRevoluteJointFlagEnum = {
         eLIMIT_ENABLED: lazy(
             _emscripten_enum_PxRevoluteJointFlagEnum_eLIMIT_ENABLED
+        ),
+        eDRIVE_ENABLED: lazy(
+            _emscripten_enum_PxRevoluteJointFlagEnum_eDRIVE_ENABLED
         )
     }
 
