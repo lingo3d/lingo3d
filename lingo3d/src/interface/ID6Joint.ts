@@ -8,15 +8,18 @@ export type D6MotionOptions = "locked" | "limited" | "free"
 
 export default interface ID6Joint extends IJointBase {
     linearX: D6MotionOptions
-    linearLimitX: number
+    linearLimitXLow: number
+    linearLimitXHigh: number
     linearStiffnessX: number
     linearDampingX: number
     linearY: D6MotionOptions
-    linearLimitY: number
+    linearLimitYLow: number
+    linearLimitYHigh: number
     linearStiffnessY: number
     linearDampingY: number
     linearZ: D6MotionOptions
-    linearLimitZ: number
+    linearLimitZLow: number
+    linearLimitZHigh: number
     linearStiffnessZ: number
     linearDampingZ: number
     twistX: D6MotionOptions
@@ -35,15 +38,18 @@ export default interface ID6Joint extends IJointBase {
 export const d6JointSchema: Required<ExtractProps<ID6Joint>> = {
     ...jointBaseSchema,
     linearX: String,
-    linearLimitX: Number,
+    linearLimitXLow: Number,
+    linearLimitXHigh: Number,
     linearStiffnessX: Number,
     linearDampingX: Number,
     linearY: String,
-    linearLimitY: Number,
+    linearLimitYLow: Number,
+    linearLimitYHigh: Number,
     linearStiffnessY: Number,
     linearDampingY: Number,
     linearZ: String,
-    linearLimitZ: Number,
+    linearLimitZLow: Number,
+    linearLimitZHigh: Number,
     linearStiffnessZ: Number,
     linearDampingZ: Number,
     twistX: String,
@@ -68,15 +74,18 @@ export const d6JointDefaults = extendDefaults<ID6Joint>(
     [jointBaseDefaults],
     {
         linearX: "locked",
-        linearLimitX: 100,
+        linearLimitXLow: -100,
+        linearLimitXHigh: 100,
         linearStiffnessX: 0,
         linearDampingX: 0,
         linearY: "locked",
-        linearLimitY: 100,
+        linearLimitYLow: -100,
+        linearLimitYHigh: 100,
         linearStiffnessY: 0,
         linearDampingY: 0,
         linearZ: "locked",
-        linearLimitZ: 100,
+        linearLimitZLow: -100,
+        linearLimitZHigh: 100,
         linearStiffnessZ: 0,
         linearDampingZ: 0,
         twistX: "locked",
@@ -93,15 +102,18 @@ export const d6JointDefaults = extendDefaults<ID6Joint>(
     },
     {
         linearX: motionChoices,
-        linearLimitX: new Range(0, 200),
+        linearLimitXLow: new Range(-200, 200),
+        linearLimitXHigh: new Range(-200, 200),
         linearStiffnessX: new Range(0, 500),
         linearDampingX: new Range(0, 20),
         linearY: motionChoices,
-        linearLimitY: new Range(0, 200),
+        linearLimitYLow: new Range(-200, 200),
+        linearLimitYHigh: new Range(-200, 200),
         linearStiffnessY: new Range(0, 500),
         linearDampingY: new Range(0, 20),
         linearZ: motionChoices,
-        linearLimitZ: new Range(0, 200),
+        linearLimitZLow: new Range(-200, 200),
+        linearLimitZHigh: new Range(-200, 200),
         linearStiffnessZ: new Range(0, 500),
         linearDampingZ: new Range(0, 20),
         twistX: motionChoices,
