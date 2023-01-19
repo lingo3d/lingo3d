@@ -118,6 +118,9 @@ type PhysX = {
     PxPrismaticJointFlagEnum: {
         eLIMIT_ENABLED: () => any
     }
+    PxRevoluteJointFlagEnum: {
+        eLIMIT_ENABLED: () => any
+    }
     PxArticulationCacheFlagEnum: {
         eALL: () => any
         ePOSITION: () => any

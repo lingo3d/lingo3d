@@ -112,6 +112,7 @@ PhysX().then((PhysX: any) => {
 
         _emscripten_enum_PxSphericalJointFlagEnum_eLIMIT_ENABLED,
         _emscripten_enum_PxPrismaticJointFlagEnum_eLIMIT_ENABLED,
+        _emscripten_enum_PxRevoluteJointFlagEnum_eLIMIT_ENABLED,
 
         _emscripten_enum_PxArticulationCacheFlagEnum_eALL,
         _emscripten_enum_PxArticulationCacheFlagEnum_ePOSITION,
@@ -431,6 +432,13 @@ PhysX().then((PhysX: any) => {
         )
     }
 
+    // revolute joint flag enum
+    const PxRevoluteJointFlagEnum = {
+        eLIMIT_ENABLED: lazy(
+            _emscripten_enum_PxRevoluteJointFlagEnum_eLIMIT_ENABLED
+        )
+    }
+
     // cache flag enum
     const PxArticulationCacheFlagEnum = {
         eALL: lazy(_emscripten_enum_PxArticulationCacheFlagEnum_eALL),
@@ -522,6 +530,7 @@ PhysX().then((PhysX: any) => {
         PxRigidBodyFlagEnum,
         PxSphericalJointFlagEnum,
         PxPrismaticJointFlagEnum,
+        PxRevoluteJointFlagEnum,
         PxArticulationCacheFlagEnum,
         PxD6AxisEnum,
         PxD6MotionEnum,
