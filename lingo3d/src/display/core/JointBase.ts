@@ -135,7 +135,6 @@ export default abstract class JointBase
                     q.w
                 )
                 toManager.outerObject3d.attach(this.outerObject3d)
-                !this.manualRotation && this.quaternion.set(0, 0, 0, 1)
                 const toPxTransform = setPxTransform_(
                     p.x * toScale.x,
                     p.y * toScale.y,
