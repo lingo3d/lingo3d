@@ -82,7 +82,6 @@ export default abstract class JointBase
             )
                 return
 
-            const { parent } = this.outerObject3d
             !this.manualPosition &&
                 Object.assign(this, centroid3d([fromManager, toManager]))
 
@@ -109,11 +108,16 @@ export default abstract class JointBase
             })
 
             const onMove = (phase: TransformControlsPhase) => {
-                if (phase === "start") parent!.attach(this.outerObject3d)
+                if (phase === "start") scene.attach(this.outerObject3d)
                 else if (phase === "end") this.refreshState.set({})
             }
-            fromManager.onTranslateControl = onMove
-            toManager.onTranslateControl = onMove
+            fromManager.onTranslateControl =
+                fromManager.onRotateControl =
+                fromManager.onScaleControl =
+                toManager.onTranslateControl =
+                toManager.onRotateControl =
+                toManager.onScaleControl =
+                    onMove
 
             const handle = new Cancellable()
             const timeout = setTimeout(() => {
@@ -135,6 +139,7 @@ export default abstract class JointBase
                     q.w
                 )
                 toManager.outerObject3d.attach(this.outerObject3d)
+                // !this.manualRotation && this.quaternion.set(0, 0, 0, 1)
                 const toPxTransform = setPxTransform_(
                     p.x * toScale.x,
                     p.y * toScale.y,
@@ -168,7 +173,7 @@ export default abstract class JointBase
                 handle.cancel()
                 fromManager.jointCount--
                 toManager.jointCount--
-                parent!.attach(this.outerObject3d)
+                scene.attach(this.outerObject3d)
                 this.fromManager = undefined
                 this.toManager = undefined
             }
