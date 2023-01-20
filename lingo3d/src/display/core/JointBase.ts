@@ -62,9 +62,6 @@ export default abstract class JointBase
             sphere.onTranslateControl = (phase) =>
                 phase === "end" && this.setManualPosition()
 
-            sphere.onRotateControl = (phase) =>
-                phase === "end" && this.setManualRotation()
-
             return () => {
                 handle.cancel()
             }
@@ -248,12 +245,6 @@ export default abstract class JointBase
         this.refreshState.set({})
     }
 
-    private manualRotation?: boolean
-    private setManualRotation() {
-        this.manualRotation = true
-        this.refreshState.set({})
-    }
-
     public override get x() {
         return super.x
     }
@@ -276,29 +267,5 @@ export default abstract class JointBase
     public override set z(val) {
         super.z = val
         this.setManualPosition()
-    }
-
-    public override get rotationX() {
-        return super.rotationX
-    }
-    public override set rotationX(val) {
-        super.rotationX = val
-        this.setManualRotation()
-    }
-
-    public override get rotationY() {
-        return super.rotationY
-    }
-    public override set rotationY(val) {
-        super.rotationY = val
-        this.setManualRotation()
-    }
-
-    public override get rotationZ() {
-        return super.rotationZ
-    }
-    public override set rotationZ(val) {
-        super.rotationZ = val
-        this.setManualRotation()
     }
 }
