@@ -256,14 +256,9 @@ export default abstract class Loaded<T = Object3D>
             const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
                 physxPtr[0]
 
-            const pxGeometry = cookTrimeshGeometry(
-                this._src,
-                this.loadedObject3d!,
-                this
-            )
             const shape = PxRigidActorExt.prototype.createExclusiveShape(
                 actor,
-                pxGeometry,
+                cookTrimeshGeometry(this._src, this.loadedObject3d!, this),
                 material,
                 shapeFlags
             )

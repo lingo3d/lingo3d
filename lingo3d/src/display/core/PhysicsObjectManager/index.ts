@@ -159,10 +159,9 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
             physxPtr[0]
 
-        const pxGeometry: any = cookConvexGeometry(this.componentName, this)
         const shape: any = PxRigidActorExt.prototype.createExclusiveShape(
             actor,
-            pxGeometry,
+            cookConvexGeometry(this.componentName, this),
             material,
             shapeFlags
         )
@@ -242,14 +241,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     ? physics.createRigidStatic(pxTransform)
                     : physics.createRigidDynamic(pxTransform)
             )
-            const shape = this.getPxShape(mode, actor)
+            this.getPxShape(mode, actor)
             scene.addActor(actor)
 
             managerActorMap.set(this, actor)
 
             return () => {
                 actorPtrManagerMap.delete(actor.ptr)
-                destroy(shape)
                 scene.removeActor(actor)
                 destroy(actor)
                 managerActorMap.delete(this)
