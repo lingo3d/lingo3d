@@ -42,12 +42,7 @@ const [increaseCount, decreaseCount] = createInstancePool<
 
     increasePhysXCookingCount()
 
-    const [vec3Vector, count] = computePxVertices(
-        "loadedObject3d" in manager
-            ? manager.loadedObject3d!
-            : manager.object3d,
-        manager
-    )
+    const [vec3Vector, count] = computePxVertices(manager)
     const desc = new PxConvexMeshDesc()
     desc.flags = getConvexFlags()
     desc.points.count = count
