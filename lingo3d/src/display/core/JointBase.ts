@@ -16,7 +16,8 @@ import destroy from "./PhysicsObjectManager/physx/destroy"
 import { physxPtr } from "./PhysicsObjectManager/physx/physxPtr"
 import {
     setPxTransform,
-    setPxTransform_
+    setPxTransform_,
+    setPxTransform__
 } from "./PhysicsObjectManager/physx/pxMath"
 import PositionedDirectionedManager from "./PositionedDirectionedManager"
 import { getMeshManagerSets } from "./StaticObjectManager"
@@ -125,7 +126,7 @@ export default abstract class JointBase
                 const toScale = toManager.outerObject3d.scale
 
                 fromManager.outerObject3d.attach(this.outerObject3d)
-                const fromPxTransform = setPxTransform(
+                const fromPxTransform = setPxTransform__(
                     p.x * fromScale.x,
                     p.y * fromScale.y,
                     p.z * fromScale.z,
