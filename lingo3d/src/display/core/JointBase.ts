@@ -15,7 +15,6 @@ import PhysicsObjectManager from "./PhysicsObjectManager"
 import destroy from "./PhysicsObjectManager/physx/destroy"
 import { physxPtr } from "./PhysicsObjectManager/physx/physxPtr"
 import {
-    setPxTransform,
     setPxTransform_,
     setPxTransform__
 } from "./PhysicsObjectManager/physx/pxMath"
