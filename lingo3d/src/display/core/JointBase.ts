@@ -52,7 +52,8 @@ export default abstract class JointBase
         }, [getWorldPlayComputed])
 
         this.createEffect(() => {
-            if (getCameraRendered() !== mainCamera) return
+            if (getCameraRendered() !== mainCamera || getWorldPlayComputed())
+                return
 
             const sphere = new HelperSphere()
             sphere.scale = 0.1
@@ -65,7 +66,7 @@ export default abstract class JointBase
             return () => {
                 handle.cancel()
             }
-        }, [getCameraRendered])
+        }, [getCameraRendered, getWorldPlayComputed])
 
         this.createEffect(() => {
             const { _to, _from } = this
