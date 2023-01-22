@@ -496,9 +496,16 @@ class TransformControls extends Object3D {
                     _tempVector.applyQuaternion(this.worldQuaternion)
                 }
 
+                _tempVector.cross(this.eye).normalize()
+                if (
+                    _tempVector.x === 0 &&
+                    _tempVector.y === 0 &&
+                    _tempVector.z === 0
+                )
+                    _tempVector.set(0, 1, 0)
+
                 this.rotationAngle =
-                    this._offset.dot(_tempVector.cross(this.eye).normalize()) *
-                    ROTATION_SPEED
+                    this._offset.dot(_tempVector) * ROTATION_SPEED
             }
 
             // Apply rotation snap
@@ -1165,15 +1172,15 @@ class TransformControlsGizmo extends Object3D {
                     [0, 0, 0],
                     [0, 0, -Math.PI / 2]
                 ]
-            ],
-            E: [
-                [
-                    new Mesh(
-                        new TorusGeometry(0.75 * ratio, 0.1 * ratio, 2, 24),
-                        matInvisible
-                    )
-                ]
             ]
+            // E: [
+            //     [
+            //         new Mesh(
+            //             new TorusGeometry(0.75 * ratio, 0.1 * ratio, 2, 24),
+            //             matInvisible
+            //         )
+            //     ]
+            // ]
         }
 
         const gizmoScale = {
