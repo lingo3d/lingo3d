@@ -1,7 +1,7 @@
 import { centroid3d } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
-import { Vector3, Quaternion } from "three"
+import { Vector3, Quaternion, Object3D } from "three"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import mainCamera from "../../engine/mainCamera"
 import { TransformControlsPhase } from "../../events/onTransformControls"
@@ -10,7 +10,6 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import getPrivateValue from "../../utils/getPrivateValue"
-import { StandardMesh } from "./mixins/TexturedStandardMixin"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import destroy from "./PhysicsObjectManager/physx/destroy"
 import { physxPtr } from "./PhysicsObjectManager/physx/physxPtr"
@@ -22,6 +21,29 @@ import PositionedDirectionedManager from "./PositionedDirectionedManager"
 import { getMeshManagerSets } from "./StaticObjectManager"
 import { addSelectionHelper } from "./StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./utils/HelperSphere"
+
+const getRelativeTransform = (
+    thisObject: Object3D,
+    fromObject: Object3D,
+    setPxTransform: typeof setPxTransform_
+) => {
+    const fromScale = fromObject.scale
+    const clone = new Object3D()
+    clone.position.copy(thisObject.position)
+    clone.quaternion.copy(thisObject.quaternion)
+    fromObject.attach(clone)
+    const fromPxTransform = setPxTransform(
+        clone.position.x * fromScale.x,
+        clone.position.y * fromScale.y,
+        clone.position.z * fromScale.z,
+        clone.quaternion.x,
+        clone.quaternion.y,
+        clone.quaternion.z,
+        clone.quaternion.w
+    )
+    fromObject.remove(clone)
+    return fromPxTransform
+}
 
 export default abstract class JointBase
     extends PositionedDirectionedManager
@@ -118,36 +140,17 @@ export default abstract class JointBase
 
             const handle = new Cancellable()
             const timeout = setTimeout(() => {
-                const fromScale = fromManager.outerObject3d.scale
-                const toScale = toManager.outerObject3d.scale
-
-                const fromP = (fromManager.outerObject3d as StandardMesh)
-                    .worldToLocal(this.position.clone())
-                    .multiply(fromScale)
-                const fromPxTransform = setPxTransform__(
-                    fromP.x,
-                    fromP.y,
-                    fromP.z,
-                    0,
-                    0,
-                    0,
-                    1
-                )
-                const toP = (toManager.outerObject3d as StandardMesh)
-                    .worldToLocal(this.position.clone())
-                    .multiply(toScale)
-                const toPxTransform = setPxTransform_(
-                    toP.x,
-                    toP.y,
-                    toP.z,
-                    0,
-                    0,
-                    0,
-                    1
-                )
                 const joint = (this.pxJoint = this.createJoint(
-                    fromPxTransform,
-                    toPxTransform,
+                    getRelativeTransform(
+                        this.outerObject3d,
+                        fromManager.outerObject3d,
+                        setPxTransform_
+                    ),
+                    getRelativeTransform(
+                        this.outerObject3d,
+                        toManager.outerObject3d,
+                        setPxTransform__
+                    ),
                     fromManager,
                     toManager
                 ))

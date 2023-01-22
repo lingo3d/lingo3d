@@ -1135,14 +1135,14 @@ class TransformControlsGizmo extends Object3D {
         }
 
         const pickerRotate = {
-            XYZE: [
-                [
-                    new Mesh(
-                        new SphereGeometry(0.25 * ratio, 10, 8),
-                        matInvisible
-                    )
-                ]
-            ],
+            // XYZE: [
+            //     [
+            //         new Mesh(
+            //             new SphereGeometry(0.25 * ratio, 10, 8),
+            //             matInvisible
+            //         )
+            //     ]
+            // ],
             X: [
                 [
                     new Mesh(
