@@ -15,7 +15,8 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { ssrExcludeSet } from "../renderLoop/effectComposer/ssrEffect/renderSetup"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
-import { PI } from "../../globals"
+import { CM2M, PI } from "../../globals"
+import { deg2Rad, rad2Deg } from "@lincode/math"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -69,9 +70,9 @@ createEffect(() => {
 
         transformControls.setMode(mode)
         transformControls.setSpace(space)
-        transformControls.setScaleSnap(snap)
-        transformControls.setRotationSnap(snap)
-        transformControls.setTranslationSnap(snap)
+        transformControls.setScaleSnap(snap ? 50 * CM2M : null)
+        transformControls.setRotationSnap(snap ? 45 * deg2Rad : null)
+        transformControls.setTranslationSnap(snap ? 50 * CM2M : null)
 
         scene.add(transformControls)
         transformControls.attach(target)
