@@ -105,20 +105,6 @@ createEffect(() => {
         onRotateControl &&
         handle.watch(onTransformControls(onRotateControl))
 
-    mode === "rotate" &&
-        handle.watch(
-            onTransformControls(() => {
-                const { rotation } = target
-                if (
-                    (rotation.x === -PI && rotation.z === -PI) ||
-                    (rotation.x === PI && rotation.z === PI)
-                ) {
-                    rotation.x = 0
-                    rotation.y = PI - rotation.y
-                    rotation.z = 0
-                }
-            })
-        )
     return () => {
         handle.cancel()
     }
