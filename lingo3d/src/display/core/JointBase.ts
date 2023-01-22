@@ -119,7 +119,6 @@ export default abstract class JointBase
             const handle = new Cancellable()
             const timeout = setTimeout(() => {
                 const p = this.position
-                const q = this.quaternion
 
                 const fromScale = fromManager.outerObject3d.scale
                 const toScale = toManager.outerObject3d.scale
@@ -129,20 +128,20 @@ export default abstract class JointBase
                     p.x * fromScale.x,
                     p.y * fromScale.y,
                     p.z * fromScale.z,
-                    q.x,
-                    q.y,
-                    q.z,
-                    q.w
+                    0,
+                    0,
+                    0,
+                    1
                 )
                 toManager.outerObject3d.attach(this.outerObject3d)
                 const toPxTransform = setPxTransform_(
                     p.x * toScale.x,
                     p.y * toScale.y,
                     p.z * toScale.z,
-                    q.x,
-                    q.y,
-                    q.z,
-                    q.w
+                    0,
+                    0,
+                    0,
+                    1
                 )
                 const joint = (this.pxJoint = this.createJoint(
                     fromPxTransform,
