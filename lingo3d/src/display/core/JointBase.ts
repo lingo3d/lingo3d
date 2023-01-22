@@ -4,13 +4,13 @@ import { Reactive } from "@lincode/reactivity"
 import { Vector3, Quaternion } from "three"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import mainCamera from "../../engine/mainCamera"
-import scene from "../../engine/scene"
 import { TransformControlsPhase } from "../../events/onTransformControls"
 import IJointBase from "../../interface/IJointBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import getPrivateValue from "../../utils/getPrivateValue"
+import { StandardMesh } from "./mixins/TexturedStandardMixin"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import destroy from "./PhysicsObjectManager/physx/destroy"
 import { physxPtr } from "./PhysicsObjectManager/physx/physxPtr"
@@ -105,8 +105,7 @@ export default abstract class JointBase
             })
 
             const onMove = (phase: TransformControlsPhase) => {
-                if (phase === "start") scene.attach(this.outerObject3d)
-                else if (phase === "end") this.refreshState.set({})
+                if (phase === "end") this.refreshState.set({})
             }
             fromManager.onTranslateControl =
                 fromManager.onRotateControl =
@@ -118,26 +117,28 @@ export default abstract class JointBase
 
             const handle = new Cancellable()
             const timeout = setTimeout(() => {
-                const p = this.position
-
                 const fromScale = fromManager.outerObject3d.scale
                 const toScale = toManager.outerObject3d.scale
 
-                fromManager.outerObject3d.attach(this.outerObject3d)
+                const fromP = (fromManager.outerObject3d as StandardMesh)
+                    .worldToLocal(this.position.clone())
+                    .multiply(fromScale)
                 const fromPxTransform = setPxTransform__(
-                    p.x * fromScale.x,
-                    p.y * fromScale.y,
-                    p.z * fromScale.z,
+                    fromP.x,
+                    fromP.y,
+                    fromP.z,
                     0,
                     0,
                     0,
                     1
                 )
-                toManager.outerObject3d.attach(this.outerObject3d)
+                const toP = (toManager.outerObject3d as StandardMesh)
+                    .worldToLocal(this.position.clone())
+                    .multiply(toScale)
                 const toPxTransform = setPxTransform_(
-                    p.x * toScale.x,
-                    p.y * toScale.y,
-                    p.z * toScale.z,
+                    toP.x,
+                    toP.y,
+                    toP.z,
                     0,
                     0,
                     0,
@@ -167,7 +168,6 @@ export default abstract class JointBase
                 handle.cancel()
                 fromManager.jointCount--
                 toManager.jointCount--
-                scene.attach(this.outerObject3d)
                 this.fromManager = undefined
                 this.toManager = undefined
             }
@@ -176,10 +176,8 @@ export default abstract class JointBase
 
     private fromPos: Vector3 | undefined
     private toPos: Vector3 | undefined
-    private thisPos: Vector3 | undefined
     private fromQuat: Quaternion | undefined
     private toQuat: Quaternion | undefined
-    private thisQuat: Quaternion | undefined
 
     private savePos() {
         const { fromManager, toManager } = this
@@ -189,12 +187,6 @@ export default abstract class JointBase
         this.toPos = toManager.position.clone()
         this.fromQuat = fromManager.quaternion.clone()
         this.toQuat = toManager.quaternion.clone()
-
-        const { parent } = this.outerObject3d
-        scene.attach(this.outerObject3d)
-        this.thisPos = this.position.clone()
-        this.thisQuat = this.quaternion.clone()
-        parent?.attach(this.outerObject3d)
     }
     private restorePos() {
         const { fromManager, toManager } = this
@@ -204,12 +196,6 @@ export default abstract class JointBase
         this.toPos && toManager.position.copy(this.toPos)
         this.fromQuat && fromManager.quaternion.copy(this.fromQuat)
         this.toQuat && toManager.quaternion.copy(this.toQuat)
-
-        const { parent } = this.outerObject3d
-        scene.attach(this.outerObject3d)
-        this.thisPos && this.position.copy(this.thisPos)
-        this.thisQuat && this.quaternion.copy(this.thisQuat)
-        parent?.attach(this.outerObject3d)
 
         this.refreshState.set({})
         fromManager.updatePhysics()
