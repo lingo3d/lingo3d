@@ -70,9 +70,9 @@ createEffect(() => {
 
         transformControls.setMode(mode)
         transformControls.setSpace(space)
-        transformControls.setScaleSnap(snap ? 50 * CM2M : null)
-        transformControls.setRotationSnap(snap ? 45 * deg2Rad : null)
-        transformControls.setTranslationSnap(snap ? 50 * CM2M : null)
+        transformControls.setScaleSnap(snap ? 20 * CM2M : null)
+        transformControls.setRotationSnap(snap ? 15 * deg2Rad : null)
+        transformControls.setTranslationSnap(snap ? 20 * CM2M : null)
 
         scene.add(transformControls)
         transformControls.attach(target)
