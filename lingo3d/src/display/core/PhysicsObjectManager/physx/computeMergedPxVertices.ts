@@ -8,13 +8,15 @@ export default (loaded: Object3D, manager: MeshAppendable) => {
 
     const geometries: Array<BufferGeometry> = []
 
-    loaded.updateMatrixWorld()
-    const { x, y, z } = manager.position
+    const { position, rotation } = manager.outerObject3d
     loaded.traverse((c: Object3D | Mesh) => {
         if (!("geometry" in c)) return
         const clone = c.geometry.clone()
         clone.applyMatrix4(c.matrixWorld)
-        clone.translate(-x, -y, -z)
+        clone.translate(-position.x, -position.y, -position.z)
+        clone.rotateX(-rotation.x)
+        clone.rotateY(-rotation.y)
+        clone.rotateZ(-rotation.z)
         clone.deleteAttribute("uv2")
         clone.dispose()
         geometries.push(clone)
