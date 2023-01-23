@@ -17,6 +17,11 @@ import mainCamera from "../mainCamera"
 import copySelected from "./copySelected"
 import { setTransformControlsSnap } from "../../states/useTransformControlsSnap"
 
+const metaHotKey = (e: KeyboardEvent) => {
+    e.preventDefault()
+    setMultipleSelection(false)
+}
+
 createEffect(() => {
     if (getWorldPlayComputed()) return
 
@@ -59,24 +64,24 @@ createEffect(() => {
 
         if (e.metaKey || e.ctrlKey) {
             if (keyLowerCase === "z") {
-                e.preventDefault()
+                metaHotKey(e)
                 if (e.shiftKey) redo()
                 else undo()
             }
             if (keyLowerCase === "y") {
-                e.preventDefault()
+                metaHotKey(e)
                 redo()
             }
             if (keyLowerCase === "s") {
-                e.preventDefault()
+                metaHotKey(e)
                 saveJSON()
             } else if (keyLowerCase === "o") {
-                e.preventDefault()
+                metaHotKey(e)
                 openFolder()
             } else if (keyLowerCase === "c") {
-                e.preventDefault()
+                metaHotKey(e)
                 copySelected()
-            } else if (keyLowerCase === "p") e.preventDefault()
+            } else if (keyLowerCase === "p") metaHotKey(e)
         } else if (keyLowerCase === "c") {
             setEditorCamera(mainCamera)
             settings.uiLayer = false
