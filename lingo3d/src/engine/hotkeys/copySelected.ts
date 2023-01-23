@@ -2,6 +2,7 @@ import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import deserialize from "../../api/serializer/deserialize"
 import serialize from "../../api/serializer/serialize"
+import PositionedManager from "../../display/core/PositionedManager"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import {
     getMultipleSelectionTargets,
@@ -9,14 +10,14 @@ import {
 } from "../../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 
-const copy = async (target: Appendable | MeshAppendable) => {
-    const [item] = deserialize(await serialize(false, target, true))
+const copy = <T extends Appendable | MeshAppendable>(target: T): T => {
+    const [item] = deserialize(serialize(false, target, true))
     if (target.parent && item) {
         "attach" in target.parent
             ? target.parent.attach(item)
             : target.parent.append(item)
-        emitSelectionTarget(item)
     }
+    return item as any
 }
 
 export default () => {
@@ -24,7 +25,9 @@ export default () => {
     const [targets] = getMultipleSelectionTargets()
     if (targets.size) {
         flushMultipleSelectionTargets((targets) => {
-            for (const target of targets) copy(target)
+            const newTargets: Array<PositionedManager> = []
+            for (const target of targets) newTargets.push(copy(target))
+            return newTargets
         })
-    } else if (target) copy(target)
+    } else if (target) emitSelectionTarget(copy(target))
 }

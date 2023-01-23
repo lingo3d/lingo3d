@@ -33,7 +33,9 @@ export const clearMultipleSelectionTargets = clear(
 export const multipleSelectionTargetsFlushingPtr = [false]
 
 export const flushMultipleSelectionTargets = async (
-    onFlush: (targets: Array<PositionedManager>) => void,
+    onFlush: (
+        targets: Array<PositionedManager>
+    ) => Array<PositionedManager> | void,
     deselect?: boolean
 ) => {
     multipleSelectionTargetsFlushingPtr[0] = true
@@ -45,7 +47,7 @@ export const flushMultipleSelectionTargets = async (
 
     await Promise.resolve()
 
-    onFlush(targetsBackup)
+    const newTargets = onFlush(targetsBackup)
     if (deselect) {
         multipleSelectionTargetsFlushingPtr[0] = false
         return
@@ -53,7 +55,7 @@ export const flushMultipleSelectionTargets = async (
     await Promise.resolve()
     await Promise.resolve()
 
-    for (const target of targetsBackup) targets.add(target)
+    for (const target of newTargets ?? targetsBackup) targets.add(target)
     setMultipleSelectionTargets([targets])
     multipleSelectionTargetsFlushingPtr[0] = false
 }
