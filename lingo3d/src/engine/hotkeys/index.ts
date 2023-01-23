@@ -21,7 +21,8 @@ createEffect(() => {
     if (getWorldPlayComputed()) return
 
     const handleKeyDown = async (e: KeyboardEvent) => {
-        if (e.key === "Meta" || e.key === "Control") setMultipleSelection(true)
+        if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
+            setMultipleSelection(true)
         if (e.key === "Shift") setTransformControlsSnap(true)
 
         if (e.key === "Backspace" || e.key === "Delete") {
@@ -84,7 +85,8 @@ createEffect(() => {
             target && emitSelectionTarget(undefined)
     }
     const handleKeyUp = (e: KeyboardEvent) => {
-        if (e.key === "Meta" || e.key === "Control") setMultipleSelection(false)
+        if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
+            setMultipleSelection(false)
         if (e.key === "Shift") setTransformControlsSnap(false)
     }
     document.addEventListener("keydown", handleKeyDown)
