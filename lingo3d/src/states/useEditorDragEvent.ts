@@ -17,6 +17,13 @@ export const [setEditorDragEvent, getEditorDragEvent] = store<
     | undefined
 >(undefined)
 
+const snap = (point: Point3d) => {
+    point.x = Math.round(point.x / 10) * 10
+    point.y = Math.round(point.y / 10) * 10
+    point.z = Math.round(point.z / 10) * 10
+    return point
+}
+
 createEffect(() => {
     const e = getEditorDragEvent()
     const pointRef = createRef<Point3d>({ x: 0, y: 0, z: 0 })
@@ -33,7 +40,7 @@ createEffect(() => {
     if (typeof e === "function") {
         const manager = e(hitManagerRef.current)
         if (!manager) return
-        Object.assign(manager, pointRef.current)
+        Object.assign(manager, snap(pointRef.current))
         emitSelectionTarget(manager)
         return
     }

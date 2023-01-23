@@ -15,8 +15,8 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { ssrExcludeSet } from "../renderLoop/effectComposer/ssrEffect/renderSetup"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
-import { CM2M, PI } from "../../globals"
-import { deg2Rad, rad2Deg } from "@lincode/math"
+import { CM2M } from "../../globals"
+import { deg2Rad } from "@lincode/math"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
