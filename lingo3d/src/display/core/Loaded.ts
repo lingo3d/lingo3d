@@ -251,7 +251,7 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    public override getPxShape(mode: PhysicsOptions, actor: any): any {
+    protected override getPxShape(mode: PhysicsOptions, actor: any): any {
         if (mode === "map") {
             const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
                 physxPtr[0]

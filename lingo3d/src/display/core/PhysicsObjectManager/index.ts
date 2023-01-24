@@ -29,6 +29,7 @@ import cookConvexGeometry, {
 } from "./physx/cookConvexGeometry"
 import { physxPtr } from "./physx/physxPtr"
 import { getPhysXLoaded } from "../../../states/usePhysXLoaded"
+import { Cancellable } from "@lincode/promiselikes"
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -155,7 +156,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         super._dispose()
         decreaseConvexGeometryCount(this)
     }
-    public getPxShape(_: PhysicsOptions, actor: any) {
+    protected getPxShape(_: PhysicsOptions, actor: any) {
         const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
             physxPtr[0]
 
@@ -241,15 +242,20 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     ? physics.createRigidStatic(pxTransform)
                     : physics.createRigidDynamic(pxTransform)
             )
-            this.getPxShape(mode, actor)
-            scene.addActor(actor)
-
-            managerActorMap.set(this, actor)
-
+            const handle = new Cancellable()
+            const timeout = setTimeout(() => {
+                this.getPxShape(mode, actor)
+                scene.addActor(actor)
+                managerActorMap.set(this, actor)
+                handle.then(() => {
+                    scene.removeActor(actor)
+                    destroy(actor)
+                })
+            })
             return () => {
+                clearTimeout(timeout)
+                handle.cancel()
                 actorPtrManagerMap.delete(actor.ptr)
-                scene.removeActor(actor)
-                destroy(actor)
                 managerActorMap.delete(this)
                 this.actor = undefined
             }
