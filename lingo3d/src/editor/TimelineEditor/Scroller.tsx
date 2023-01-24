@@ -112,7 +112,8 @@ const Scroller = () => {
             <div
                 style={{
                     width: FRAME_MAX * FRAME_WIDTH,
-                    height: timelineScrollHeightSignal.value
+                    height: timelineScrollHeightSignal.value,
+                    minHeight: "100%"
                 }}
             >
                 <FrameGrid />

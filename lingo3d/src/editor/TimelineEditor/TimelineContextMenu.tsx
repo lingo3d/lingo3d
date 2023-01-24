@@ -31,7 +31,7 @@ const TimelineContextMenu = () => {
             setPosition={setTimelineContextMenu}
             input={
                 menu?.create &&
-                (menu.create === "audio" ? "Audio name" : "Timeline name")
+                (menu.create === "audio" ? "Audio src" : "Timeline name")
             }
             onInput={(value) => {
                 if (menu?.create === "audio") {
