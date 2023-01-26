@@ -1,4 +1,4 @@
-import MeshAppendable from "../api/core/MeshAppendable"
+import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import IPositionedDirectionedManager, {
     positionedDirectionedManagerDefaults,
     positionedDirectionedManagerSchema
@@ -8,8 +8,8 @@ import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
 export default interface IJointBase extends IPositionedDirectionedManager {
-    from: Nullable<string | MeshAppendable>
-    to: Nullable<string | MeshAppendable>
+    from: Nullable<string | PhysicsObjectManager>
+    to: Nullable<string | PhysicsObjectManager>
 }
 
 export const jointBaseSchema: Required<ExtractProps<IJointBase>> = {

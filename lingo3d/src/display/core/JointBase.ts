@@ -2,7 +2,6 @@ import { centroid3d } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import { Vector3, Quaternion, Object3D } from "three"
-import MeshAppendable from "../../api/core/MeshAppendable"
 import mainCamera from "../../engine/mainCamera"
 import { TransformControlsPhase } from "../../events/onTransformControls"
 import IJointBase from "../../interface/IJointBase"
@@ -210,7 +209,7 @@ export default abstract class JointBase
 
     protected refreshState = new Reactive({})
 
-    private _to?: string | MeshAppendable
+    private _to?: string | PhysicsObjectManager
     public get to() {
         return this._to
     }
@@ -219,7 +218,7 @@ export default abstract class JointBase
         this.refreshState.set({})
     }
 
-    private _from?: string | MeshAppendable
+    private _from?: string | PhysicsObjectManager
     public get from() {
         return this._from
     }
