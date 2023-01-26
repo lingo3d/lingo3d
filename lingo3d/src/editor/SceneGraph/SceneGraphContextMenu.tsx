@@ -18,7 +18,7 @@ import { getTimelineData } from "../../states/useTimelineData"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import search from "./utils/search"
 import createJoint from "./utils/createJoint"
-import JointBase, { jointManagers } from "../../display/core/JointBase"
+import JointBase from "../../display/core/JointBase"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import selectAllJointed from "./utils/selectAllJointed"
 
@@ -159,11 +159,8 @@ const SceneGraphContextMenu = () => {
                                         !(
                                             selectionTarget instanceof
                                                 JointBase ||
-                                            (selectionTarget instanceof
-                                                PhysicsObjectManager &&
-                                                jointManagers.has(
-                                                    selectionTarget
-                                                ))
+                                            selectionTarget instanceof
+                                                PhysicsObjectManager
                                         )
                                     }
                                     onClick={() => {

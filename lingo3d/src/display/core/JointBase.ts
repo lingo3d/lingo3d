@@ -21,7 +21,6 @@ import { getMeshManagerSets } from "./StaticObjectManager"
 import { addSelectionHelper } from "./StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./utils/HelperSphere"
 
-export const jointManagers = new WeakSet<PhysicsObjectManager>()
 export const joints = new Set<JointBase>()
 
 const getRelativeTransform = (
@@ -172,8 +171,6 @@ export default abstract class JointBase
 
             this.fromManager = fromManager
             this.toManager = toManager
-            jointManagers.add(fromManager)
-            jointManagers.add(toManager)
 
             return () => {
                 clearTimeout(timeout)
@@ -186,8 +183,6 @@ export default abstract class JointBase
                 toManager.jointCount--
                 this.fromManager = undefined
                 this.toManager = undefined
-                jointManagers.delete(fromManager)
-                jointManagers.delete(toManager)
             }
         }, [this.refreshState.get, getPhysXLoaded])
     }
