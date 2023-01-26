@@ -76,7 +76,8 @@ export default abstract class JointBase
 
         this.createEffect(() => {
             if (!getWorldPlayComputed()) return
-            this.savePos()
+            // wait for multiple selection to flush
+            queueMicrotask(() => this.savePos())
             return () => {
                 this.restorePos()
             }
