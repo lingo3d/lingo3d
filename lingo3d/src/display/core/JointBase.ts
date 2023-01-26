@@ -6,6 +6,8 @@ import mainCamera from "../../engine/mainCamera"
 import { TransformControlsPhase } from "../../events/onTransformControls"
 import IJointBase from "../../interface/IJointBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
+import { getEditorBehavior } from "../../states/useEditorBehavior"
+import { flushMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import getPrivateValue from "../../utils/getPrivateValue"
@@ -74,13 +76,12 @@ export default abstract class JointBase
         joints.add(this)
 
         this.createEffect(() => {
-            if (!getWorldPlayComputed()) return
-            // wait for multiple selection to flush
-            queueMicrotask(() => this.savePos())
+            if (!getWorldPlayComputed() || !getEditorBehavior()) return
+            flushMultipleSelectionTargets(() => this.savePos())
             return () => {
-                this.restorePos()
+                flushMultipleSelectionTargets(() => this.restorePos())
             }
-        }, [getWorldPlayComputed])
+        }, [getWorldPlayComputed, getEditorBehavior])
 
         this.createEffect(() => {
             if (getCameraRendered() !== mainCamera || getWorldPlayComputed())
