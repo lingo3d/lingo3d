@@ -27,7 +27,8 @@ const findAllJointed = (
     return jointedSet
 }
 
-export default (target: PhysicsObjectManager) => {
+export default (target?: PhysicsObjectManager) => {
+    if (!target) return
     for (const manager of findAllJointed(target))
         addMultipleSelectionTargets(manager)
 }

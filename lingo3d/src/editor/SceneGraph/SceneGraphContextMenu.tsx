@@ -167,14 +167,16 @@ const SceneGraphContextMenu = () => {
                                         )
                                     }
                                     onClick={() => {
-                                        const manager =
+                                        selectAllJointed(
                                             selectionTarget instanceof JointBase
-                                                ? selectionTarget.fromManager
+                                                ? selectionTarget.fromManager ??
+                                                      selectionTarget.toManager
                                                 : selectionTarget instanceof
                                                   PhysicsObjectManager
                                                 ? selectionTarget
                                                 : undefined
-                                        manager && selectAllJointed(manager)
+                                        )
+                                        setPosition(undefined)
                                     }}
                                 >
                                     Select all jointed
