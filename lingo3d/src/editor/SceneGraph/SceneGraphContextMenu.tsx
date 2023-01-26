@@ -18,6 +18,9 @@ import { getTimelineData } from "../../states/useTimelineData"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import search from "./utils/search"
 import createJoint from "./utils/createJoint"
+import JointBase, { jointManagers } from "../../display/core/JointBase"
+import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
+import selectAllJointed from "./utils/selectAllJointed"
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<
@@ -149,6 +152,32 @@ const SceneGraphContextMenu = () => {
                                     selectionTarget.uuid in timelineData
                                         ? "Already in timeline"
                                         : "Add to timeline"}
+                                </ContextMenuItem>
+
+                                <ContextMenuItem
+                                    disabled={
+                                        !(
+                                            selectionTarget instanceof
+                                                JointBase ||
+                                            (selectionTarget instanceof
+                                                PhysicsObjectManager &&
+                                                jointManagers.has(
+                                                    selectionTarget
+                                                ))
+                                        )
+                                    }
+                                    onClick={() => {
+                                        const manager =
+                                            selectionTarget instanceof JointBase
+                                                ? selectionTarget.fromManager
+                                                : selectionTarget instanceof
+                                                  PhysicsObjectManager
+                                                ? selectionTarget
+                                                : undefined
+                                        manager && selectAllJointed(manager)
+                                    }}
+                                >
+                                    Select all jointed
                                 </ContextMenuItem>
 
                                 <ContextMenuItem

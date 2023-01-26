@@ -21,6 +21,9 @@ import { getMeshManagerSets } from "./StaticObjectManager"
 import { addSelectionHelper } from "./StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./utils/HelperSphere"
 
+export const jointManagers = new WeakSet<PhysicsObjectManager>()
+export const joints = new Set<JointBase>()
+
 const getRelativeTransform = (
     thisObject: Object3D,
     fromObject: Object3D,
@@ -48,8 +51,8 @@ export default abstract class JointBase
     extends PositionedDirectionedManager
     implements IJointBase
 {
-    private fromManager?: PhysicsObjectManager
-    private toManager?: PhysicsObjectManager
+    public fromManager?: PhysicsObjectManager
+    public toManager?: PhysicsObjectManager
 
     protected abstract createJoint(
         fromPxTransfrom: any,
@@ -60,9 +63,16 @@ export default abstract class JointBase
 
     public pxJoint: any
 
+    protected override _dispose() {
+        super._dispose()
+        joints.delete(this)
+    }
+
     public constructor() {
         super()
         import("./PhysicsObjectManager/physx")
+
+        joints.add(this)
 
         this.createEffect(() => {
             if (!getWorldPlayComputed()) return
@@ -161,6 +171,8 @@ export default abstract class JointBase
 
             this.fromManager = fromManager
             this.toManager = toManager
+            jointManagers.add(fromManager)
+            jointManagers.add(toManager)
 
             return () => {
                 clearTimeout(timeout)
@@ -173,6 +185,8 @@ export default abstract class JointBase
                 toManager.jointCount--
                 this.fromManager = undefined
                 this.toManager = undefined
+                jointManagers.delete(fromManager)
+                jointManagers.delete(toManager)
             }
         }, [this.refreshState.get, getPhysXLoaded])
     }
