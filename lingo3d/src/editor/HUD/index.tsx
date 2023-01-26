@@ -26,7 +26,7 @@ const HUD = () => {
         >
             <InfoScreen mounted={!!loadingUnpkgCount}>
                 <Spinner size={14} />
-                loading data from unpkg
+                loading remote data
             </InfoScreen>
             <InfoScreen
                 mounted={paused}
