@@ -44,13 +44,18 @@ export default class SpriteSheet extends Sprite {
             const [serialEnd] = scanSerial(_srcEnd)
             if (!serialEnd) return
 
+            const serialStrings: Array<string> = []
+
             const iMax = Number(serialEnd)
             if (serialStart[0] === "0")
                 for (let i = Number(serialStart); i <= iMax; ++i)
-                    console.log((i + "").padStart(serialEnd.length, "0"))
+                    serialStrings.push((i + "").padStart(serialEnd.length, "0"))
             else
                 for (let i = Number(serialStart); i <= iMax; ++i)
-                    console.log((i + ""))
+                    serialStrings.push(i + "")
+
+            const srcs = serialStrings.map((serial) => start + serial + end)
+            console.log(srcs)
         }, [this.refreshState.get])
 
         // satori(<div style={{ color: "black" }}></div>, {
