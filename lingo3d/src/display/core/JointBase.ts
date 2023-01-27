@@ -1,8 +1,10 @@
 import { centroid3d } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
+import { extendFunction, omitFunction } from "@lincode/utils"
 import { Vector3, Quaternion, Object3D } from "three"
 import mainCamera from "../../engine/mainCamera"
+import { TransformControlsPhase } from "../../events/onTransformControls"
 import IJointBase from "../../interface/IJointBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorBehavior } from "../../states/useEditorBehavior"
@@ -138,11 +140,15 @@ export default abstract class JointBase
                 this.refreshState.set({})
             })
 
-            fromManager.onTransformControls = toManager.onTransformControls = (
-                phase
-            ) => {
+            const cb = (phase: TransformControlsPhase) => {
                 if (phase === "end") this.refreshState.set({})
             }
+            const fromCaller = (fromManager.onTransformControls =
+                extendFunction(fromManager.onTransformControls, cb))
+            const toCaller = (toManager.onTransformControls = extendFunction(
+                toManager.onTransformControls,
+                cb
+            ))
 
             const handle = new Cancellable()
             const timeout = setTimeout(() => {
@@ -173,8 +179,8 @@ export default abstract class JointBase
                 clearTimeout(timeout)
                 handle0.cancel()
                 handle1.cancel()
-                fromManager.onTransformControls =
-                    toManager.onTransformControls = undefined
+                omitFunction(fromCaller, cb)
+                omitFunction(toCaller, cb)
                 handle.cancel()
                 fromManager.jointCount--
                 toManager.jointCount--
