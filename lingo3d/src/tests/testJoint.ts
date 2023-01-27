@@ -1,5 +1,10 @@
 import D6Joint from "../display/joints/D6Joint"
 import Cube from "../display/primitives/Cube"
+import SpriteSheet from "../display/SpriteSheet"
+
+const spriteSheet = new SpriteSheet()
+spriteSheet.srcStart = "explosion00-frame001.tga"
+spriteSheet.srcEnd = "explosion00-frame100.tga"
 
 const ground = new Cube()
 ground.width = 999

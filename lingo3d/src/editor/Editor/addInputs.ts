@@ -38,7 +38,7 @@ export const processValue = (value: any) => {
     if (typeof value === "string") {
         if (value === "true" || value === "false")
             return value === "true" ? true : false
-        const num = parseFloat(value)
+        const num = Number(value)
         if (!Number.isNaN(num)) return toFixed(num)
         return value
     }
