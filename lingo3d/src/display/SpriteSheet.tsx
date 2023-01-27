@@ -1,6 +1,6 @@
 import Sprite from "./Sprite"
-import { Reactive } from "@lincode/reactivity"
-import { Cancellable } from "@lincode/promiselikes"
+import { decrease, Reactive } from "@lincode/reactivity"
+import createInstancePool from "./core/utils/createInstancePool"
 
 const numbers = new Set("01234567890".split(""))
 
@@ -30,6 +30,60 @@ const scanSerial = (_srcStart: string) => {
     return [serial, start, end] as const
 }
 
+type Params = [srcStart: string, srcEnd: string]
+
+const [increaseCount, decreaseCount] = createInstancePool<
+    Promise<string>,
+    Params
+>(
+    async (_, [srcStart, srcEnd]) => {
+        const [serialStart, start, end] = scanSerial(srcStart)
+        if (!serialStart) return ""
+
+        const [serialEnd] = scanSerial(srcEnd)
+        if (!serialEnd) return ""
+
+        const serialStrings: Array<string> = []
+
+        const iMax = Number(serialEnd)
+        if (serialStart[0] === "0")
+            for (let i = Number(serialStart); i <= iMax; ++i)
+                serialStrings.push((i + "").padStart(serialEnd.length, "0"))
+        else
+            for (let i = Number(serialStart); i <= iMax; ++i)
+                serialStrings.push(i + "")
+
+        const imagePromises = serialStrings.map(
+            (serial) =>
+                new Promise<HTMLImageElement>((resolve) => {
+                    const image = new Image()
+                    image.onload = () => resolve(image)
+                    image.src = start + serial + end
+                })
+        )
+        const images = await Promise.all(imagePromises)
+        const [{ naturalWidth, naturalHeight }] = images
+
+        const canvas = document.createElement("canvas")
+        canvas.width = naturalWidth * 5
+        canvas.height = Math.ceil(imagePromises.length / 5) * naturalHeight
+        const ctx = canvas.getContext("2d")!
+
+        let x = 0
+        let y = 0
+        for (const image of images) {
+            ctx.drawImage(image, x * naturalWidth, y * naturalHeight)
+            if (++x === 5) {
+                x = 0
+                ++y
+            }
+        }
+        return new Promise<string>((resolve) =>
+            canvas.toBlob((blob) => resolve(URL.createObjectURL(blob!)))
+        )
+    },
+    (promise) => promise.then((url) => URL.revokeObjectURL(url))
+)
 export default class SpriteSheet extends Sprite {
     public constructor() {
         super()
@@ -38,59 +92,13 @@ export default class SpriteSheet extends Sprite {
             const { _srcStart, _srcEnd } = this
             if (!_srcStart || !_srcEnd) return
 
-            const [serialStart, start, end] = scanSerial(_srcStart)
-            if (!serialStart) return
-
-            const [serialEnd] = scanSerial(_srcEnd)
-            if (!serialEnd) return
-
-            const serialStrings: Array<string> = []
-
-            const iMax = Number(serialEnd)
-            if (serialStart[0] === "0")
-                for (let i = Number(serialStart); i <= iMax; ++i)
-                    serialStrings.push((i + "").padStart(serialEnd.length, "0"))
-            else
-                for (let i = Number(serialStart); i <= iMax; ++i)
-                    serialStrings.push(i + "")
-
-            const imagePromises = serialStrings.map(
-                (serial) =>
-                    new Promise<HTMLImageElement>((resolve) => {
-                        const image = new Image()
-                        image.onload = () => resolve(image)
-                        image.src = start + serial + end
-                    })
-            )
-            const handle = new Cancellable()
-            Promise.all(imagePromises).then((images) => {
-                if (handle.done) return
-                const [{ naturalWidth, naturalHeight }] = images
-
-                const canvas = document.createElement("canvas")
-                canvas.width = naturalWidth * 5
-                canvas.height =
-                    Math.ceil(imagePromises.length / 5) * naturalHeight
-                const ctx = canvas.getContext("2d")!
-
-                let x = 0
-                let y = 0
-                for (const image of images) {
-                    ctx.drawImage(image, x * naturalWidth, y * naturalHeight)
-                    if (++x === 5) {
-                        x = 0
-                        ++y
-                    }
-                }
-                canvas.toBlob((blob) => {
-                    const objectURL = (this.texture = URL.createObjectURL(
-                        blob!
-                    ))
-                    handle.then(() => URL.revokeObjectURL(objectURL))
-                })
+            const params: Params = [_srcStart, _srcEnd]
+            const paramString = JSON.stringify(params)
+            increaseCount(Promise, params, paramString).then((url) => {
+                this.texture = url
             })
             return () => {
-                handle.cancel()
+                decreaseCount(Promise, paramString)
             }
         }, [this.refreshState.get])
     }
