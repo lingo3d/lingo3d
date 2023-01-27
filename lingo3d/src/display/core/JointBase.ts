@@ -174,11 +174,17 @@ export default abstract class JointBase
             this.toManager = toManager
 
             return () => {
+                fromManager.onTranslateControl =
+                    fromManager.onRotateControl =
+                    fromManager.onScaleControl =
+                    toManager.onTranslateControl =
+                    toManager.onRotateControl =
+                    toManager.onScaleControl =
+                        undefined
+
                 clearTimeout(timeout)
                 handle0.cancel()
                 handle1.cancel()
-                fromManager.onTranslateControl = undefined
-                toManager.onTranslateControl = undefined
                 handle.cancel()
                 fromManager.jointCount--
                 toManager.jointCount--

@@ -1,7 +1,8 @@
 import { createEffect } from "@lincode/reactivity"
 import {
     emitTransformControls,
-    onTransformControls
+    onTransformControls,
+    TransformControlsPhase
 } from "../../events/onTransformControls"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsSnap } from "../../states/useTransformControlsSnap"
@@ -91,9 +92,10 @@ createEffect(() => {
         })
     })
 
-    const onTranslateControls: Array<() => void> = []
-    const onRotateControls: Array<() => void> = []
-    const onScaleControls: Array<() => void> = []
+    const onTranslateControls: Array<(phase: TransformControlsPhase) => void> =
+        []
+    const onRotateControls: Array<(phase: TransformControlsPhase) => void> = []
+    const onScaleControls: Array<(phase: TransformControlsPhase) => void> = []
 
     const { onTranslateControl, onRotateControl, onScaleControl } =
         target.userData
@@ -110,22 +112,23 @@ createEffect(() => {
     }
     mode === "translate" &&
         handle.watch(
-            onTransformControls(() => {
+            onTransformControls((phase) => {
                 for (const onTranslateControl of onTranslateControls)
-                    onTranslateControl()
+                    onTranslateControl(phase)
             })
         )
     mode === "rotate" &&
         handle.watch(
-            onTransformControls(() => {
+            onTransformControls((phase) => {
                 for (const onRotateControl of onRotateControls)
-                    onRotateControl()
+                    onRotateControl(phase)
             })
         )
     mode === "scale" &&
         handle.watch(
-            onTransformControls(() => {
-                for (const onScaleControl of onScaleControls) onScaleControl()
+            onTransformControls((phase) => {
+                for (const onScaleControl of onScaleControls)
+                    onScaleControl(phase)
             })
         )
     return () => {
