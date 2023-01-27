@@ -11,7 +11,7 @@ export default <
     Manager extends PhysicsObjectManager = PhysicsObjectManager | Loaded
 >(
     factory: (ClassVal: Class<T>, params: Params, manager?: Manager) => T,
-    dispose = (target: any) => target.dispose()
+    dispose: (instance: T) => void
 ) => {
     const classMapsMap = new WeakMap<
         Class<T>,

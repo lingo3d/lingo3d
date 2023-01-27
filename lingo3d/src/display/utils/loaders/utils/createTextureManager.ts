@@ -149,7 +149,8 @@ export default (standardMaterial: MeshStandardMaterial) => {
                 setMaterial(material, "depthTest", params[27])
 
                 return material
-            }
+            },
+            (material) => material.dispose()
         )
 
     allocateDefaultInstance(

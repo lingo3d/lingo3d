@@ -135,7 +135,8 @@ const [increaseCount, decreaseCount, allocateDefaultInstance] =
                     },
                     filterNotDefault
                 )
-            )
+            ),
+        (material) => material.dispose()
     )
 
 const refreshParamsSystem = debounceSystem((target: TexturedStandardMixin) => {

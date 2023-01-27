@@ -8,7 +8,8 @@ import createInstancePool from "./utils/createInstancePool"
 
 const [increaseCount, decreaseCount, allocateDefaultInstance] =
     createInstancePool<BufferGeometry>(
-        (ClassVal, params) => new ClassVal(...params)
+        (ClassVal, params) => new ClassVal(...params),
+        (geometry) => geometry.dispose()
     )
 export { allocateDefaultInstance }
 

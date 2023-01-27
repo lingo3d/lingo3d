@@ -45,7 +45,8 @@ const [increaseCount, decreaseCount] = createInstancePool<
                 },
                 filterNotDefault
             )
-        )
+        ),
+    (material) => material.dispose()
 )
 
 const refreshParamsSystem = debounceSystem((target: TexturedSpriteMixin) => {
