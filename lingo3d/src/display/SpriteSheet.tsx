@@ -1,5 +1,6 @@
 import Sprite from "./Sprite"
 import { Reactive } from "@lincode/reactivity"
+import { Cancellable } from "@lincode/promiselikes"
 
 const numbers = new Set("01234567890".split(""))
 
@@ -61,7 +62,9 @@ export default class SpriteSheet extends Sprite {
                         image.src = start + serial + end
                     })
             )
+            const handle = new Cancellable()
             Promise.all(imagePromises).then((images) => {
+                if (handle.done) return
                 const [{ naturalWidth, naturalHeight }] = images
 
                 const canvas = document.createElement("canvas")
@@ -79,15 +82,16 @@ export default class SpriteSheet extends Sprite {
                         ++y
                     }
                 }
-                const image = new Image()
-                image.src = canvas.toDataURL()
-                document.body.appendChild(image)
-                Object.assign(image.style, {
-                    position: "absolute",
-                    top: "0",
-                    left: "0"
+                canvas.toBlob((blob) => {
+                    const objectURL = (this.texture = URL.createObjectURL(
+                        blob!
+                    ))
+                    handle.then(() => URL.revokeObjectURL(objectURL))
                 })
             })
+            return () => {
+                handle.cancel()
+            }
         }, [this.refreshState.get])
     }
 

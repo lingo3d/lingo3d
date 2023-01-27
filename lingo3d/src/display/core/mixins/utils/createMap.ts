@@ -41,20 +41,17 @@ export default (
             textureFlipY,
             textureRotation
         )
-
-    const filetype = getExtensionType(texture)
-    if (filetype === "image")
-        return initMap(
-            loadTexture(texture),
-            textureRepeat,
-            textureFlipY,
-            textureRotation
-        )
-    if (filetype === "video")
+    if (getExtensionType(texture) === "video")
         return initMap(
             loadVideoTexture(texture),
             textureRepeat,
             textureFlipY,
             textureRotation
         )
+    return initMap(
+        loadTexture(texture),
+        textureRepeat,
+        textureFlipY,
+        textureRotation
+    )
 }
