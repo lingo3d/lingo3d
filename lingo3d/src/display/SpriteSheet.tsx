@@ -62,10 +62,12 @@ export default class SpriteSheet extends Sprite {
                     })
             )
             Promise.all(imagePromises).then((images) => {
-                const img = images[0]
+                const [firstImage] = images
                 const area =
-                    img.naturalWidth * img.naturalHeight * imagePromises.length
-                const width = img.naturalWidth * 5
+                    firstImage.naturalWidth *
+                    firstImage.naturalHeight *
+                    imagePromises.length
+                const width = firstImage.naturalWidth * 5
                 const height = area / width
 
                 const canvas = document.createElement("canvas")
@@ -84,15 +86,15 @@ export default class SpriteSheet extends Sprite {
                 let x = 0
                 let y = 0
                 for (const image of images) {
+                    ctx.drawImage(
+                        image,
+                        x * firstImage.naturalWidth,
+                        y * firstImage.naturalHeight
+                    )
                     if (++x === 5) {
                         x = 0
                         ++y
                     }
-                    ctx.drawImage(
-                        image,
-                        x * img.naturalWidth,
-                        y * img.naturalHeight
-                    )
                 }
             })
         }, [this.refreshState.get])
