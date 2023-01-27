@@ -1,6 +1,5 @@
 import { rad2Deg, deg2Rad } from "@lincode/math"
 import { Object3D, Quaternion } from "three"
-import { TransformControlsPhase } from "../../../events/onTransformControls"
 import IDirectioned from "../../../interface/IDirectioned"
 
 export default abstract class DirectionedMixin<T extends Object3D = Object3D>
@@ -36,14 +35,5 @@ export default abstract class DirectionedMixin<T extends Object3D = Object3D>
     }
     public set rotation(val) {
         this.rotationZ = val
-    }
-
-    public get onRotateControl() {
-        return this.outerObject3d.userData.onRotateControl
-    }
-    public set onRotateControl(
-        cb: ((phase: TransformControlsPhase) => void) | undefined
-    ) {
-        this.outerObject3d.userData.onRotateControl = cb
     }
 }

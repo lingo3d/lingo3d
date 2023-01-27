@@ -1,7 +1,5 @@
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
-import { TransformControlsPhase } from "../events/onTransformControls"
-import Nullable from "./utils/Nullable"
 import Range from "./utils/Range"
 
 export default interface IDirectioned {
@@ -9,17 +7,13 @@ export default interface IDirectioned {
     rotationY: number
     rotationZ: number
     rotation: number
-
-    onRotateControl: Nullable<(phase: TransformControlsPhase) => void>
 }
 
 export const directionedSchema: Required<ExtractProps<IDirectioned>> = {
     rotationX: Number,
     rotationY: Number,
     rotationZ: Number,
-    rotation: Number,
-
-    onRotateControl: Function
+    rotation: Number
 }
 
 export const directionedDefaults = extendDefaults<IDirectioned>(
@@ -28,9 +22,7 @@ export const directionedDefaults = extendDefaults<IDirectioned>(
         rotationX: 0,
         rotationY: 0,
         rotationZ: 0,
-        rotation: 0,
-
-        onRotateControl: undefined
+        rotation: 0
     },
     {
         rotationX: new Range(0, 360),

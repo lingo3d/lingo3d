@@ -7,6 +7,7 @@ import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTarge
 import { getSelectionTarget } from "../states/useSelectionTarget"
 
 export type TransformControlsPhase = "start" | "end" | "move"
+export type TransformControlsMode = "translate" | "rotate" | "scale"
 
 export const [emitTransformControls, onTransformControls] =
     event<TransformControlsPhase>()

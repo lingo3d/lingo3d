@@ -1,14 +1,19 @@
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
-import { TransformControlsPhase } from "../events/onTransformControls"
+import {
+    TransformControlsMode,
+    TransformControlsPhase
+} from "../events/onTransformControls"
 
 export default interface IPositioned {
     x: number
     y: number
     z: number
     onMove: Nullable<() => void>
-    onTranslateControl: Nullable<(phase: TransformControlsPhase) => void>
+    onTransformControls: Nullable<
+        (phase: TransformControlsPhase, mode: TransformControlsMode) => void
+    >
 }
 
 export const positionedSchema: Required<ExtractProps<IPositioned>> = {
@@ -16,7 +21,7 @@ export const positionedSchema: Required<ExtractProps<IPositioned>> = {
     y: Number,
     z: Number,
     onMove: Function,
-    onTranslateControl: Function
+    onTransformControls: Function
 }
 
 export const positionedDefaults = extendDefaults<IPositioned>([], {
@@ -24,5 +29,5 @@ export const positionedDefaults = extendDefaults<IPositioned>([], {
     y: 0,
     z: 0,
     onMove: undefined,
-    onTranslateControl: undefined
+    onTransformControls: undefined
 })

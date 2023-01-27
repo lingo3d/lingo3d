@@ -2,6 +2,7 @@ import { createEffect } from "@lincode/reactivity"
 import {
     emitTransformControls,
     onTransformControls,
+    TransformControlsMode,
     TransformControlsPhase
 } from "../../events/onTransformControls"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
@@ -54,21 +55,16 @@ createEffect(() => {
 
     if (!target) return
 
-    let mode = getEditorModeComputed()
-    if (mode === "curve") mode = "translate"
+    const _mode = getEditorModeComputed()
+    const mode = _mode === "curve" ? "translate" : _mode
+    if (mode !== "translate" && mode !== "rotate" && mode !== "scale") return
 
     const space = getTransformControlsSpaceComputed()
     const snap = !getTransformControlsSnap()
 
     const handle = new Cancellable()
-
     lazyTransformControls().then((transformControls) => {
-        if (
-            handle.done ||
-            !target.parent ||
-            (mode !== "translate" && mode !== "rotate" && mode !== "scale")
-        )
-            return
+        if (handle.done || !target.parent) return
 
         transformControls.setMode(mode)
         transformControls.setSpace(space)
@@ -92,47 +88,22 @@ createEffect(() => {
         })
     })
 
-    const onTranslateControls: Array<(phase: TransformControlsPhase) => void> =
-        []
-    const onRotateControls: Array<(phase: TransformControlsPhase) => void> = []
-    const onScaleControls: Array<(phase: TransformControlsPhase) => void> = []
+    const callbacks: Array<
+        (phase: TransformControlsPhase, mode: TransformControlsMode) => void
+    > = []
+    target.userData.onTransformControls &&
+        callbacks.push(target.userData.onTransformControls)
 
-    const { onTranslateControl, onRotateControl, onScaleControl } =
-        target.userData
-    onTranslateControl && onTranslateControls.push(onTranslateControl)
-    onRotateControl && onRotateControls.push(onRotateControl)
-    onScaleControl && onScaleControls.push(onScaleControl)
+    for (const target of getMultipleSelectionTargets()[0])
+        target.userData.onTransformControls &&
+            callbacks.push(target.userData.onTransformControls)
 
-    for (const target of getMultipleSelectionTargets()[0]) {
-        const { onTranslateControl, onRotateControl, onScaleControl } =
-            target.userData
-        onTranslateControl && onTranslateControls.push(onTranslateControl)
-        onRotateControl && onRotateControls.push(onRotateControl)
-        onScaleControl && onScaleControls.push(onScaleControl)
-    }
-    mode === "translate" &&
-        handle.watch(
-            onTransformControls((phase) => {
-                for (const onTranslateControl of onTranslateControls)
-                    onTranslateControl(phase)
-            })
-        )
-    mode === "rotate" &&
-        handle.watch(
-            onTransformControls((phase) => {
-                for (const onRotateControl of onRotateControls)
-                    onRotateControl(phase)
-            })
-        )
-    mode === "scale" &&
-        handle.watch(
-            onTransformControls((phase) => {
-                for (const onScaleControl of onScaleControls)
-                    onScaleControl(phase)
-            })
-        )
+    const handle1 = onTransformControls((phase) => {
+        for (const cb of callbacks) cb(phase, mode)
+    })
     return () => {
         handle.cancel()
+        handle1.cancel()
     }
 }, [
     getSelectionTarget,

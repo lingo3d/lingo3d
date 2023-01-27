@@ -52,7 +52,8 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
 
             this.then(() => light.dispose())
 
-            this.onScaleControl = () => {
+            this.onTransformControls = (_, mode) => {
+                if (mode !== "scale") return
                 const { x, y } = this.outerObject3d.scale
                 this.scaleX = x
                 this.scaleY = y

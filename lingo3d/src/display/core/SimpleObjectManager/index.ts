@@ -27,7 +27,6 @@ import getActualScale from "../../utils/getActualScale"
 import { fpsRatioPtr } from "../../../engine/eventLoop"
 import fpsAlpha from "../../utils/fpsAlpha"
 import { CM2M, M2CM } from "../../../globals"
-import { TransformControlsPhase } from "../../../events/onTransformControls"
 import PositionedMixin from "../mixins/PositionedMixin"
 import DirectionedMixin from "../mixins/DirectionedMixin"
 import MeshAppendable from "../../../api/core/MeshAppendable"
@@ -326,15 +325,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
                 onFrame?.()
             })
         )
-    }
-
-    public get onScaleControl() {
-        return this.userData.onScaleControl
-    }
-    public set onScaleControl(
-        cb: ((phase: TransformControlsPhase) => void) | undefined
-    ) {
-        this.userData.onScaleControl = cb
     }
 }
 interface SimpleObjectManager<T extends Object3D = Object3D>

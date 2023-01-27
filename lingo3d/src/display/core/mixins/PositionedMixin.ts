@@ -3,7 +3,10 @@ import { Cancellable } from "@lincode/promiselikes"
 import { lazy, forceGetInstance } from "@lincode/utils"
 import { Object3D, Vector3 } from "three"
 import { onBeforeRender } from "../../../events/onBeforeRender"
-import { TransformControlsPhase } from "../../../events/onTransformControls"
+import {
+    TransformControlsMode,
+    TransformControlsPhase
+} from "../../../events/onTransformControls"
 import { M2CM, CM2M } from "../../../globals"
 import IPositioned from "../../../interface/IPositioned"
 import getWorldPosition from "../../utils/getWorldPosition"
@@ -73,12 +76,17 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
         )
     }
 
-    public get onTranslateControl() {
-        return this.outerObject3d.userData.onTranslateControl
+    public get onTransformControls() {
+        return this.outerObject3d.userData.onTransformControls
     }
-    public set onTranslateControl(
-        cb: ((phase: TransformControlsPhase) => void) | undefined
+    public set onTransformControls(
+        cb:
+            | ((
+                  phase: TransformControlsPhase,
+                  mode: TransformControlsMode
+              ) => void)
+            | undefined
     ) {
-        this.outerObject3d.userData.onTranslateControl = cb
+        this.outerObject3d.userData.onTransformControls = cb
     }
 }

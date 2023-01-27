@@ -3,7 +3,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import { Vector3, Quaternion, Object3D } from "three"
 import mainCamera from "../../engine/mainCamera"
-import { TransformControlsPhase } from "../../events/onTransformControls"
 import IJointBase from "../../interface/IJointBase"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorBehavior } from "../../states/useEditorBehavior"
@@ -92,8 +91,10 @@ export default abstract class JointBase
             sphere.depthTest = false
             const handle = addSelectionHelper(sphere, this)
 
-            sphere.onTranslateControl = (phase) =>
-                phase === "end" && this.setManualPosition()
+            sphere.onTransformControls = (phase, mode) =>
+                mode === "translate" &&
+                phase === "end" &&
+                this.setManualPosition()
 
             return () => {
                 handle.cancel()
@@ -137,16 +138,11 @@ export default abstract class JointBase
                 this.refreshState.set({})
             })
 
-            const onMove = (phase: TransformControlsPhase) => {
+            fromManager.onTransformControls = toManager.onTransformControls = (
+                phase
+            ) => {
                 if (phase === "end") this.refreshState.set({})
             }
-            fromManager.onTranslateControl =
-                fromManager.onRotateControl =
-                fromManager.onScaleControl =
-                toManager.onTranslateControl =
-                toManager.onRotateControl =
-                toManager.onScaleControl =
-                    onMove
 
             const handle = new Cancellable()
             const timeout = setTimeout(() => {
@@ -174,17 +170,11 @@ export default abstract class JointBase
             this.toManager = toManager
 
             return () => {
-                fromManager.onTranslateControl =
-                    fromManager.onRotateControl =
-                    fromManager.onScaleControl =
-                    toManager.onTranslateControl =
-                    toManager.onRotateControl =
-                    toManager.onScaleControl =
-                        undefined
-
                 clearTimeout(timeout)
                 handle0.cancel()
                 handle1.cancel()
+                fromManager.onTransformControls =
+                    toManager.onTransformControls = undefined
                 handle.cancel()
                 fromManager.jointCount--
                 toManager.jointCount--

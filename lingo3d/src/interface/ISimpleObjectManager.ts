@@ -13,7 +13,6 @@ import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
-import { TransformControlsPhase } from "../events/onTransformControls"
 import IDirectioned, {
     directionedDefaults,
     directionedSchema
@@ -28,7 +27,6 @@ export default interface ISimpleObjectManager
     onIntersect: Nullable<OnIntersectValue>
     onIntersectOut: Nullable<OnIntersectValue>
     onMoveToEnd: Nullable<() => void>
-    onScaleControl: Nullable<(phase: TransformControlsPhase) => void>
 
     moveTo: Function | Array<any>
     lerpTo: Function | Array<any>
@@ -57,7 +55,6 @@ export const simpleObjectManagerSchema: Required<
     onIntersect: Function,
     onIntersectOut: Function,
     onMoveToEnd: Function,
-    onScaleControl: Function,
 
     moveTo: [Function, Array],
     lerpTo: [Function, Array],
@@ -82,7 +79,6 @@ export const simpleObjectManagerDefaults = extendDefaults<ISimpleObjectManager>(
         onIntersect: undefined,
         onIntersectOut: undefined,
         onMoveToEnd: undefined,
-        onScaleControl: undefined,
 
         moveTo: fn,
         lerpTo: fn,
