@@ -65,14 +65,6 @@ export default class SpriteSheet extends Sprite {
                 const [{ naturalWidth, naturalHeight }] = images
 
                 const canvas = document.createElement("canvas")
-                Object.assign(canvas.style, {
-                    position: "absolute",
-                    top: "0px",
-                    left: "0px",
-                    zIndex: "9999"
-                })
-                document.body.appendChild(canvas)
-
                 canvas.width = naturalWidth * 5
                 canvas.height =
                     Math.ceil(imagePromises.length / 5) * naturalHeight
@@ -87,6 +79,14 @@ export default class SpriteSheet extends Sprite {
                         ++y
                     }
                 }
+                const image = new Image()
+                image.src = canvas.toDataURL()
+                document.body.appendChild(image)
+                Object.assign(image.style, {
+                    position: "absolute",
+                    top: "0",
+                    left: "0"
+                })
             })
         }, [this.refreshState.get])
     }
