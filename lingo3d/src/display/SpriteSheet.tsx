@@ -1,5 +1,4 @@
 import Sprite from "./Sprite"
-import satori from "satori"
 import { Reactive } from "@lincode/reactivity"
 
 const numbers = new Set("01234567890".split(""))
@@ -54,18 +53,49 @@ export default class SpriteSheet extends Sprite {
                 for (let i = Number(serialStart); i <= iMax; ++i)
                     serialStrings.push(i + "")
 
-            const srcs = serialStrings.map((serial) => start + serial + end)
-            console.log(srcs)
-        }, [this.refreshState.get])
+            const imagePromises = serialStrings.map(
+                (serial) =>
+                    new Promise<HTMLImageElement>((resolve) => {
+                        const image = new Image()
+                        image.onload = () => resolve(image)
+                        image.src = start + serial + end
+                    })
+            )
+            Promise.all(imagePromises).then((images) => {
+                const img = images[0]
+                const area =
+                    img.naturalWidth * img.naturalHeight * imagePromises.length
+                const width = img.naturalWidth * 5
+                const height = area / width
 
-        // satori(<div style={{ color: "black" }}></div>, {
-        //     width: 600,
-        //     height: 400,
-        //     fonts: [],
-        //     embedFont: false
-        // }).then((svg) => {
-        //     console.log(svg)
-        // })
+                const canvas = document.createElement("canvas")
+                Object.assign(canvas.style, {
+                    position: "absolute",
+                    top: "0px",
+                    left: "0px",
+                    zIndex: "9999"
+                })
+                document.body.appendChild(canvas)
+
+                canvas.width = width
+                canvas.height = height
+                const ctx = canvas.getContext("2d")!
+
+                let x = 0
+                let y = 0
+                for (const image of images) {
+                    if (++x === 5) {
+                        x = 0
+                        ++y
+                    }
+                    ctx.drawImage(
+                        image,
+                        x * img.naturalWidth,
+                        y * img.naturalHeight
+                    )
+                }
+            })
+        }, [this.refreshState.get])
     }
 
     private refreshState = new Reactive({})
