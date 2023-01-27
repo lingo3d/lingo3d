@@ -17,6 +17,7 @@ import { ssrExcludeSet } from "../renderLoop/effectComposer/ssrEffect/renderSetu
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { CM2M } from "../../globals"
 import { deg2Rad } from "@lincode/math"
+import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
@@ -90,21 +91,43 @@ createEffect(() => {
         })
     })
 
-    const { onTranslateControl, onScaleControl, onRotateControl } =
+    const onTranslateControls: Array<() => void> = []
+    const onRotateControls: Array<() => void> = []
+    const onScaleControls: Array<() => void> = []
+
+    const { onTranslateControl, onRotateControl, onScaleControl } =
         target.userData
+    onTranslateControl && onTranslateControls.push(onTranslateControl)
+    onRotateControl && onRotateControls.push(onRotateControl)
+    onScaleControl && onScaleControls.push(onScaleControl)
 
+    for (const target of getMultipleSelectionTargets()[0]) {
+        const { onTranslateControl, onRotateControl, onScaleControl } =
+            target.userData
+        onTranslateControl && onTranslateControls.push(onTranslateControl)
+        onRotateControl && onRotateControls.push(onRotateControl)
+        onScaleControl && onScaleControls.push(onScaleControl)
+    }
     mode === "translate" &&
-        onTranslateControl &&
-        handle.watch(onTransformControls(onTranslateControl))
-
-    mode === "scale" &&
-        onScaleControl &&
-        handle.watch(onTransformControls(onScaleControl))
-
+        handle.watch(
+            onTransformControls(() => {
+                for (const onTranslateControl of onTranslateControls)
+                    onTranslateControl()
+            })
+        )
     mode === "rotate" &&
-        onRotateControl &&
-        handle.watch(onTransformControls(onRotateControl))
-
+        handle.watch(
+            onTransformControls(() => {
+                for (const onRotateControl of onRotateControls)
+                    onRotateControl()
+            })
+        )
+    mode === "scale" &&
+        handle.watch(
+            onTransformControls(() => {
+                for (const onScaleControl of onScaleControls) onScaleControl()
+            })
+        )
     return () => {
         handle.cancel()
     }
