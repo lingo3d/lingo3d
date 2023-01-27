@@ -62,13 +62,7 @@ export default class SpriteSheet extends Sprite {
                     })
             )
             Promise.all(imagePromises).then((images) => {
-                const [firstImage] = images
-                const area =
-                    firstImage.naturalWidth *
-                    firstImage.naturalHeight *
-                    imagePromises.length
-                const width = firstImage.naturalWidth * 5
-                const height = area / width
+                const [{ naturalWidth, naturalHeight }] = images
 
                 const canvas = document.createElement("canvas")
                 Object.assign(canvas.style, {
@@ -79,18 +73,15 @@ export default class SpriteSheet extends Sprite {
                 })
                 document.body.appendChild(canvas)
 
-                canvas.width = width
-                canvas.height = height
+                canvas.width = naturalWidth * 5
+                canvas.height =
+                    Math.ceil(imagePromises.length / 5) * naturalHeight
                 const ctx = canvas.getContext("2d")!
 
                 let x = 0
                 let y = 0
                 for (const image of images) {
-                    ctx.drawImage(
-                        image,
-                        x * firstImage.naturalWidth,
-                        y * firstImage.naturalHeight
-                    )
+                    ctx.drawImage(image, x * naturalWidth, y * naturalHeight)
                     if (++x === 5) {
                         x = 0
                         ++y
