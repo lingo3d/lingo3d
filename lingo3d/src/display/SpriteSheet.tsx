@@ -5,16 +5,17 @@ import loadTexture from "./utils/loaders/loadTexture"
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../events/onBeforeRender"
 import VisibleObjectManager from "./core/VisibleObjectManager"
+import ISpriteSheet from "../interface/ISpriteSheet"
 
 const numbers = new Set("01234567890".split(""))
 
-const scanSerial = (_srcStart: string) => {
+const scanSerial = (_textureStart: string) => {
     let isNumberOld = false
     let count = 0
     let startIndex = -1
     let endIndex = -1
-    for (let i = _srcStart.length - 1; i >= 0; --i) {
-        const isNumber = numbers.has(_srcStart[i])
+    for (let i = _textureStart.length - 1; i >= 0; --i) {
+        const isNumber = numbers.has(_textureStart[i])
         if (isNumberOld !== isNumber) {
             ++count
             if (count === 1) endIndex = i + 1
@@ -27,24 +28,24 @@ const scanSerial = (_srcStart: string) => {
     }
     if (startIndex === -1 || endIndex === -1) return []
 
-    const serial = _srcStart.substring(startIndex, endIndex)
-    const start = _srcStart.substring(0, startIndex)
-    const end = _srcStart.substring(endIndex)
+    const serial = _textureStart.substring(startIndex, endIndex)
+    const start = _textureStart.substring(0, startIndex)
+    const end = _textureStart.substring(endIndex)
 
     return [serial, start, end] as const
 }
 
-type Params = [srcStart: string, srcEnd: string]
+type Params = [textureStart: string, textureEnd: string]
 
 const [increaseCount, decreaseCount] = createInstancePool<
     Promise<[string, number, number, number]>,
     Params
 >(
-    async (_, [srcStart, srcEnd]) => {
-        const [serialStart, start, end] = scanSerial(srcStart)
+    async (_, [textureStart, textureEnd]) => {
+        const [serialStart, start, end] = scanSerial(textureStart)
         if (!serialStart) return ["", 0, 0, 0]
 
-        const [serialEnd] = scanSerial(srcEnd)
+        const [serialEnd] = scanSerial(textureEnd)
         if (!serialEnd) return ["", 0, 0, 0]
 
         const serialStrings: Array<string> = []
@@ -97,7 +98,10 @@ const [increaseCount, decreaseCount] = createInstancePool<
     },
     (promise) => promise.then(([url]) => URL.revokeObjectURL(url))
 )
-export default class SpriteSheet extends VisibleObjectManager {
+export default class SpriteSheet
+    extends VisibleObjectManager
+    implements ISpriteSheet
+{
     public constructor() {
         const material = new SpriteMaterial({
             transparent: true,
@@ -106,12 +110,12 @@ export default class SpriteSheet extends VisibleObjectManager {
         super(new Sprite(material))
 
         this.createEffect(() => {
-            const { _srcStart, _srcEnd } = this
-            if (!_srcStart || !_srcEnd) return
+            const { _textureStart, _textureEnd } = this
+            if (!_textureStart || !_textureEnd) return
 
             const handle = new Cancellable()
 
-            const params: Params = [_srcStart, _srcEnd]
+            const params: Params = [_textureStart, _textureEnd]
             const paramString = JSON.stringify(params)
             increaseCount(Promise, params, paramString).then(
                 ([url, columns, rows, length]) => {
@@ -148,21 +152,30 @@ export default class SpriteSheet extends VisibleObjectManager {
 
     private refreshState = new Reactive({})
 
-    private _srcStart?: string
-    public get srcStart() {
-        return this._srcStart
+    private _textureStart?: string
+    public get textureStart() {
+        return this._textureStart
     }
-    public set srcStart(value: string | undefined) {
-        this._srcStart = value
+    public set textureStart(value: string | undefined) {
+        this._textureStart = value
         this.refreshState.set({})
     }
 
-    private _srcEnd?: string
-    public get srcEnd() {
-        return this._srcEnd
+    private _textureEnd?: string
+    public get textureEnd() {
+        return this._textureEnd
     }
-    public set srcEnd(value: string | undefined) {
-        this._srcEnd = value
+    public set textureEnd(value: string | undefined) {
+        this._textureEnd = value
         this.refreshState.set({})
     }
+
+    public override get depth() {
+        return 0
+    }
+    public override set depth(_) {}
+    public override get scaleZ() {
+        return 0
+    }
+    public override set scaleZ(_) {}
 }
