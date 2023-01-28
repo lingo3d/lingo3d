@@ -15,7 +15,7 @@ export const environmentPreset = {
 export type EnvironmentPreset = keyof typeof environmentPreset
 
 export default interface IEnvironment extends IPositioned {
-    texture: Nullable<string | EnvironmentPreset | "dynamic">
+    texture: Nullable<string | EnvironmentPreset>
     helper: boolean
 }
 

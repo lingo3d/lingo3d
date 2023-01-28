@@ -26,8 +26,7 @@ createEffect(() => {
     const environment = getEnvironmentStack().at(-1)
     const renderer = getRenderer()
 
-    if (!environment?.texture || !renderer || environment.texture === "dynamic")
-        return
+    if (!environment?.texture || !renderer) return
 
     let proceed = true
     const texture = loadTexture(

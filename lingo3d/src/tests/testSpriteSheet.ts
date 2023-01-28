@@ -1,11 +1,12 @@
 import settings from "../api/settings"
 import SpriteSheet from "../display/SpriteSheet"
+import { TEXTURES_URL } from "../globals"
 
 const spriteSheet = new SpriteSheet()
 // spriteSheet.textureStart = "explosion/explosion00-frame004.png"
 // spriteSheet.textureEnd = "explosion/explosion00-frame100.png"
 
-spriteSheet.texture = "explosion.webp"
+spriteSheet.texture = TEXTURES_URL + "explosion0.webp"
 spriteSheet.columns = 5
 spriteSheet.length = 98
 

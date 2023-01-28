@@ -43,7 +43,7 @@ export default class Environment
         pullEnvironmentStack(this)
     }
 
-    private _texture?: string | EnvironmentPreset | "dynamic" = "studio"
+    private _texture?: string | EnvironmentPreset = "studio"
     public get texture() {
         return this._texture
     }
