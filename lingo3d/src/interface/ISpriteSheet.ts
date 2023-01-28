@@ -13,6 +13,7 @@ export default interface ISpriteSheet extends IVisibleObjectManager {
     texture: Nullable<string>
     columns: Nullable<number>
     length: Nullable<number>
+    loop: Nullable<boolean>
 }
 
 export const spriteSheetSchema: Required<ExtractProps<ISpriteSheet>> = {
@@ -21,7 +22,8 @@ export const spriteSheetSchema: Required<ExtractProps<ISpriteSheet>> = {
     textureEnd: String,
     texture: String,
     columns: Number,
-    length: Number
+    length: Number,
+    loop: Boolean
 }
 
 export const spriteSheetDefaults = extendDefaults<ISpriteSheet>(
@@ -33,6 +35,7 @@ export const spriteSheetDefaults = extendDefaults<ISpriteSheet>(
         textureEnd: undefined,
         texture: undefined,
         columns: nullableDefault(0),
-        length: nullableDefault(0)
+        length: nullableDefault(0),
+        loop: nullableDefault(false)
     }
 )
