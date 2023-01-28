@@ -69,10 +69,10 @@ const [increaseCount, decreaseCount] = createInstancePool<
         const [{ naturalWidth, naturalHeight }] = images
 
         const columns = 5
+        const rows = Math.ceil(imagePromises.length / columns)
         const canvas = document.createElement("canvas")
         canvas.width = naturalWidth * columns
-        canvas.height =
-            Math.round(imagePromises.length / columns) * naturalHeight
+        canvas.height = rows * naturalHeight
         const ctx = canvas.getContext("2d")!
 
         let x = 0
@@ -86,7 +86,7 @@ const [increaseCount, decreaseCount] = createInstancePool<
         }
         return new Promise<[string, number, number]>((resolve) =>
             canvas.toBlob((blob) =>
-                resolve([URL.createObjectURL(blob!), columns, y])
+                resolve([URL.createObjectURL(blob!), columns, rows])
             )
         )
     },
