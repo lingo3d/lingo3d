@@ -41,15 +41,15 @@ const scanSerial = (_textureStart: string) => {
 type Params = [textureStart: string, textureEnd: string]
 
 const [increaseCount, decreaseCount] = createInstancePool<
-    Promise<[string, number, number, number, Blob | undefined]>,
+    Promise<[string, number, number, Blob | undefined]>,
     Params
 >(
     async (_, [textureStart, textureEnd]) => {
         const [serialStart, start, end] = scanSerial(textureStart)
-        if (!serialStart) return ["", 0, 0, 0, undefined]
+        if (!serialStart) return ["", 0, 0, undefined]
 
         const [serialEnd] = scanSerial(textureEnd)
-        if (!serialEnd) return ["", 0, 0, 0, undefined]
+        if (!serialEnd) return ["", 0, 0, undefined]
 
         const serialStrings: Array<string> = []
 
@@ -88,13 +88,12 @@ const [increaseCount, decreaseCount] = createInstancePool<
                 ++y
             }
         }
-        return new Promise<[string, number, number, number, Blob | undefined]>(
+        return new Promise<[string, number, number, Blob | undefined]>(
             (resolve) =>
                 canvas.toBlob((blob) =>
                     resolve([
                         URL.createObjectURL(blob!),
                         columns,
-                        rows,
                         imagePromises.length,
                         blob!
                     ])
@@ -103,6 +102,39 @@ const [increaseCount, decreaseCount] = createInstancePool<
     },
     (promise) => promise.then(([url]) => URL.revokeObjectURL(url))
 )
+
+const loadSpriteSheet = (
+    material: SpriteMaterial,
+    url: string,
+    columns: number,
+    length: number,
+    handle?: Cancellable
+) => {
+    const map = (material.map = loadTexture(url, () => {
+        const rows = Math.ceil(length / columns)
+        map.repeat.set(1 / columns, 1 / rows)
+        material.visible = true
+
+        let x = 0
+        let y = rows - 1
+        let frame = 0
+        const handle0 = onBeforeRender(() => {
+            map.offset.set(x / columns, y / rows)
+            if (++x === columns) {
+                x = 0
+                --y
+            }
+            if (++frame === length) {
+                frame = 0
+                x = 0
+                y = rows - 1
+                handle0.cancel()
+            }
+        })
+        handle?.watch(handle0)
+    }))
+}
+
 export default class SpriteSheet
     extends VisibleObjectManager
     implements ISpriteSheet
@@ -119,37 +151,21 @@ export default class SpriteSheet
         super(new Sprite(material))
 
         this.createEffect(() => {
-            const { _textureStart, _textureEnd } = this
-            if (!_textureStart || !_textureEnd) return
-
+            const { _textureStart, _textureEnd, _texture, _columns, _length } =
+                this
+            if (!_textureStart || !_textureEnd) {
+                if (_texture && _columns && _length) {
+                    loadSpriteSheet(material, _texture, _columns, _length)
+                }
+                return
+            }
             const handle = new Cancellable()
-
             const params: Params = [_textureStart, _textureEnd]
             const paramString = JSON.stringify(params)
             increaseCount(Promise, params, paramString).then(
-                ([url, columns, rows, length, blob]) => {
+                ([url, columns, length, blob]) => {
                     this.blob = blob
-                    const map = (material.map = loadTexture(url))
-                    map.repeat.set(1 / columns, 1 / rows)
-                    material.visible = true
-
-                    let x = 0
-                    let y = rows - 1
-                    let frame = 0
-                    const handle0 = onBeforeRender(() => {
-                        map.offset.set(x / columns, y / rows)
-                        if (++x === columns) {
-                            x = 0
-                            --y
-                        }
-                        if (++frame === length) {
-                            frame = 0
-                            x = 0
-                            y = rows - 1
-                            handle0.cancel()
-                        }
-                    })
-                    handle.watch(handle0)
+                    loadSpriteSheet(material, url, columns, length, handle)
                 }
             )
             return () => {
@@ -181,6 +197,33 @@ export default class SpriteSheet
     }
     public set textureEnd(value: string | undefined) {
         this._textureEnd = value
+        this.refreshState.set({})
+    }
+
+    private _texture?: string
+    public get texture() {
+        return this._texture
+    }
+    public set texture(value: string | undefined) {
+        this._texture = value
+        this.refreshState.set({})
+    }
+
+    private _columns?: number
+    public get columns() {
+        return this._columns
+    }
+    public set columns(value: number | undefined) {
+        this._columns = value
+        this.refreshState.set({})
+    }
+
+    private _length?: number
+    public get length() {
+        return this._length
+    }
+    public set length(value: number | undefined) {
+        this._length = value
         this.refreshState.set({})
     }
 
