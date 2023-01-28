@@ -37,15 +37,15 @@ const scanSerial = (_srcStart: string) => {
 type Params = [srcStart: string, srcEnd: string]
 
 const [increaseCount, decreaseCount] = createInstancePool<
-    Promise<[string, number, number]>,
+    Promise<[string, number, number, number]>,
     Params
 >(
     async (_, [srcStart, srcEnd]) => {
         const [serialStart, start, end] = scanSerial(srcStart)
-        if (!serialStart) return ["", 0, 0]
+        if (!serialStart) return ["", 0, 0, 0]
 
         const [serialEnd] = scanSerial(srcEnd)
-        if (!serialEnd) return ["", 0, 0]
+        if (!serialEnd) return ["", 0, 0, 0]
 
         const serialStrings: Array<string> = []
 
@@ -84,9 +84,14 @@ const [increaseCount, decreaseCount] = createInstancePool<
                 ++y
             }
         }
-        return new Promise<[string, number, number]>((resolve) =>
+        return new Promise<[string, number, number, number]>((resolve) =>
             canvas.toBlob((blob) =>
-                resolve([URL.createObjectURL(blob!), columns, rows])
+                resolve([
+                    URL.createObjectURL(blob!),
+                    columns,
+                    rows,
+                    imagePromises.length
+                ])
             )
         )
     },
@@ -105,22 +110,23 @@ export default class SpriteSheet extends Sprite {
             const params: Params = [_srcStart, _srcEnd]
             const paramString = JSON.stringify(params)
             increaseCount(Promise, params, paramString).then(
-                ([url, columns, rows]) => {
+                ([url, columns, rows, length]) => {
                     const map = loadTexture(url)
                     this.material = new SpriteMaterial({ map })
                     map.repeat.set(1 / columns, 1 / rows)
 
                     let x = 0
                     let y = rows - 1
-                    handle.watch(
-                        onBeforeRender(() => {
-                            map.offset.set(x / columns, y / rows)
-                            if (++x === columns) {
-                                x = 0
-                                --y
-                            }
-                        })
-                    )
+                    let frame = 0
+                    const handle0 = onBeforeRender(() => {
+                        map.offset.set(x / columns, y / rows)
+                        if (++x === columns) {
+                            x = 0
+                            --y
+                        }
+                        ++frame === length && handle0.cancel()
+                    })
+                    handle.watch(handle0)
                 }
             )
             return () => {
