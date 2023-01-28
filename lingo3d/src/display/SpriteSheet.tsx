@@ -100,6 +100,7 @@ const [increaseCount, decreaseCount] = createInstancePool<
 export default class SpriteSheet extends Sprite {
     public constructor() {
         super()
+        this.visible = false
 
         this.createEffect(() => {
             const { _srcStart, _srcEnd } = this
@@ -111,6 +112,8 @@ export default class SpriteSheet extends Sprite {
             const paramString = JSON.stringify(params)
             increaseCount(Promise, params, paramString).then(
                 ([url, columns, rows, length]) => {
+                    this.visible = true
+
                     const map = loadTexture(url)
                     this.material = new SpriteMaterial({ map })
                     map.repeat.set(1 / columns, 1 / rows)
@@ -124,7 +127,12 @@ export default class SpriteSheet extends Sprite {
                             x = 0
                             --y
                         }
-                        ++frame === length && handle0.cancel()
+                        if (++frame === length) {
+                            frame = 0
+                            x = 0
+                            y = rows - 1
+                            handle0.cancel()
+                        }
                     })
                     handle.watch(handle0)
                 }
