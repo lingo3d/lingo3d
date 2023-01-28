@@ -1,6 +1,10 @@
 import Sprite from "./Sprite"
-import { decrease, Reactive } from "@lincode/reactivity"
+import { Reactive } from "@lincode/reactivity"
 import createInstancePool from "./core/utils/createInstancePool"
+import { SpriteMaterial } from "three"
+import loadTexture from "./utils/loaders/loadTexture"
+import { Cancellable } from "@lincode/promiselikes"
+import { onBeforeRender } from "../events/onBeforeRender"
 
 const numbers = new Set("01234567890".split(""))
 
@@ -33,15 +37,15 @@ const scanSerial = (_srcStart: string) => {
 type Params = [srcStart: string, srcEnd: string]
 
 const [increaseCount, decreaseCount] = createInstancePool<
-    Promise<string>,
+    Promise<[string, number, number]>,
     Params
 >(
     async (_, [srcStart, srcEnd]) => {
         const [serialStart, start, end] = scanSerial(srcStart)
-        if (!serialStart) return ""
+        if (!serialStart) return ["", 0, 0]
 
         const [serialEnd] = scanSerial(srcEnd)
-        if (!serialEnd) return ""
+        if (!serialEnd) return ["", 0, 0]
 
         const serialStrings: Array<string> = []
 
@@ -64,25 +68,29 @@ const [increaseCount, decreaseCount] = createInstancePool<
         const images = await Promise.all(imagePromises)
         const [{ naturalWidth, naturalHeight }] = images
 
+        const columns = 5
         const canvas = document.createElement("canvas")
-        canvas.width = naturalWidth * 5
-        canvas.height = Math.ceil(imagePromises.length / 5) * naturalHeight
+        canvas.width = naturalWidth * columns
+        canvas.height =
+            Math.round(imagePromises.length / columns) * naturalHeight
         const ctx = canvas.getContext("2d")!
 
         let x = 0
         let y = 0
         for (const image of images) {
             ctx.drawImage(image, x * naturalWidth, y * naturalHeight)
-            if (++x === 5) {
+            if (++x === columns) {
                 x = 0
                 ++y
             }
         }
-        return new Promise<string>((resolve) =>
-            canvas.toBlob((blob) => resolve(URL.createObjectURL(blob!)))
+        return new Promise<[string, number, number]>((resolve) =>
+            canvas.toBlob((blob) =>
+                resolve([URL.createObjectURL(blob!), columns, y])
+            )
         )
     },
-    (promise) => promise.then((url) => URL.revokeObjectURL(url))
+    (promise) => promise.then(([url]) => URL.revokeObjectURL(url))
 )
 export default class SpriteSheet extends Sprite {
     public constructor() {
@@ -92,13 +100,32 @@ export default class SpriteSheet extends Sprite {
             const { _srcStart, _srcEnd } = this
             if (!_srcStart || !_srcEnd) return
 
+            const handle = new Cancellable()
+
             const params: Params = [_srcStart, _srcEnd]
             const paramString = JSON.stringify(params)
-            increaseCount(Promise, params, paramString).then((url) => {
-                this.texture = url
-            })
+            increaseCount(Promise, params, paramString).then(
+                ([url, columns, rows]) => {
+                    const map = loadTexture(url)
+                    this.material = new SpriteMaterial({ map })
+                    map.repeat.set(1 / columns, 1 / rows)
+
+                    let x = 0
+                    let y = rows - 1
+                    handle.watch(
+                        onBeforeRender(() => {
+                            map.offset.set(x / columns, y / rows)
+                            if (++x === columns) {
+                                x = 0
+                                --y
+                            }
+                        })
+                    )
+                }
+            )
             return () => {
                 decreaseCount(Promise, paramString)
+                handle.cancel()
             }
         }, [this.refreshState.get])
     }
