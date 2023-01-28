@@ -16,6 +16,7 @@ export type GameObjectType =
     | "water"
     | "curve"
     | "sprite"
+    | "spriteSheet"
     | "trigger"
     | "spawnPoint"
     | "sphericalJoint"

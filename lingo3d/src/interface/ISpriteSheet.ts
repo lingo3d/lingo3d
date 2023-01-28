@@ -11,13 +11,13 @@ export default interface ISpriteSheet extends IVisibleObjectManager {
     textureEnd: Nullable<string>
 }
 
-export const spriteSchema: Required<ExtractProps<ISpriteSheet>> = {
+export const spriteSheetSchema: Required<ExtractProps<ISpriteSheet>> = {
     ...visibleObjectManagerSchema,
     textureStart: String,
     textureEnd: String
 }
 
-export const spriteDefaults = extendDefaults<ISpriteSheet>(
+export const spriteSheetDefaults = extendDefaults<ISpriteSheet>(
     [visibleObjectManagerDefaults],
     { scaleZ: 0, depth: 0, textureStart: undefined, textureEnd: undefined }
 )

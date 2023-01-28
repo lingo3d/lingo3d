@@ -1,4 +1,3 @@
-import ObjectManager from "../../display/core/ObjectManager"
 import Model from "../../display/Model"
 import Dummy from "../../display/Dummy"
 import Building from "../../display/Building"
@@ -13,6 +12,7 @@ import Reflector from "../../display/Reflector"
 import Water from "../../display/Water"
 import Curve from "../../display/Curve"
 import Sprite from "../../display/Sprite"
+import SpriteSheet from "../../display/SpriteSheet"
 import Circle from "../../display/primitives/Circle"
 import Cone from "../../display/primitives/Cone"
 import Cube from "../../display/primitives/Cube"
@@ -66,6 +66,7 @@ const record = {
     water: () => new Water(),
     curve: () => new Curve(),
     sprite: () => new Sprite(),
+    spriteSheet: () => new SpriteSheet(),
     trigger: () => new Trigger(),
     spawnPoint: () => new SpawnPoint(),
     sphericalJoint: () => new SphericalJoint(),

@@ -5,7 +5,10 @@ import loadTexture from "./utils/loaders/loadTexture"
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../events/onBeforeRender"
 import VisibleObjectManager from "./core/VisibleObjectManager"
-import ISpriteSheet from "../interface/ISpriteSheet"
+import ISpriteSheet, {
+    spriteSheetDefaults,
+    spriteSheetSchema
+} from "../interface/ISpriteSheet"
 
 const numbers = new Set("01234567890".split(""))
 
@@ -102,6 +105,10 @@ export default class SpriteSheet
     extends VisibleObjectManager
     implements ISpriteSheet
 {
+    public static componentName = "spriteSheet"
+    public static defaults = spriteSheetDefaults
+    public static schema = spriteSheetSchema
+
     public constructor() {
         const material = new SpriteMaterial({
             transparent: true,

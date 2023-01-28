@@ -57,6 +57,7 @@ const Library = () => {
                         "reflector",
                         "water",
                         { sprite: "plane" },
+                        { spriteSheet: "plane" },
 
                         "areaLight",
                         "ambientLight",

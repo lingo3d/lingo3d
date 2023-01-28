@@ -25,6 +25,7 @@ import Water from "./display/Water"
 import Curve from "./display/Curve"
 import Line from "./display/Line"
 import Sprite from "./display/Sprite"
+import SpriteSheet from "./display/SpriteSheet"
 import Trigger from "./display/Trigger"
 import SpawnPoint from "./display/SpawnPoint"
 import SphericalJoint from "./display/joints/SphericalJoint"
@@ -116,6 +117,7 @@ export {
     Curve,
     Line,
     Sprite,
+    SpriteSheet,
     Trigger,
     SpawnPoint,
     SphericalJoint,
