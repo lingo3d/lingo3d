@@ -120,7 +120,8 @@ const playSpriteSheet = (
     material: SpriteMaterial,
     columns: number,
     length: number,
-    handle?: Cancellable
+    loop: boolean | undefined,
+    handle: Cancellable
 ) => {
     const map = material.map!
     const rows = Math.ceil(length / columns)
@@ -139,10 +140,10 @@ const playSpriteSheet = (
             frame = 0
             x = 0
             y = rows - 1
-            handle0.cancel()
+            !loop && handle0.cancel()
         }
     })
-    handle?.watch(handle0)
+    handle.watch(handle0)
 }
 
 export default class SpriteSheet
@@ -161,8 +162,14 @@ export default class SpriteSheet
         super(new Sprite(material))
 
         this.createEffect(() => {
-            const { _textureStart, _textureEnd, _texture, _columns, _length } =
-                this
+            const {
+                _textureStart,
+                _textureEnd,
+                _texture,
+                _columns,
+                _length,
+                _loop
+            } = this
             if (_textureStart && _textureEnd) {
                 const handle = new Cancellable()
                 const params: Params = [_textureStart, _textureEnd]
@@ -171,7 +178,13 @@ export default class SpriteSheet
                     ([url, columns, length, blob]) => {
                         this.blob = blob
                         loadSpriteSheet(material, url, columns, length)
-                        playSpriteSheet(material, columns, length, handle)
+                        playSpriteSheet(
+                            material,
+                            columns,
+                            length,
+                            _loop,
+                            handle
+                        )
                     }
                 )
                 return () => {
@@ -184,7 +197,7 @@ export default class SpriteSheet
             const handle = new Cancellable()
             loadSpriteSheet(material, _texture, _columns, _length)
             const timeout = setTimeout(() => {
-                playSpriteSheet(material, _columns, _length, handle)
+                playSpriteSheet(material, _columns, _length, _loop, handle)
             }, 300)
             return () => {
                 clearTimeout(timeout)
@@ -204,7 +217,7 @@ export default class SpriteSheet
     public get textureStart() {
         return this._textureStart
     }
-    public set textureStart(value: string | undefined) {
+    public set textureStart(value) {
         this._textureStart = value
         this.refreshState.set({})
     }
@@ -213,7 +226,7 @@ export default class SpriteSheet
     public get textureEnd() {
         return this._textureEnd
     }
-    public set textureEnd(value: string | undefined) {
+    public set textureEnd(value) {
         this._textureEnd = value
         this.refreshState.set({})
     }
@@ -222,7 +235,7 @@ export default class SpriteSheet
     public get texture() {
         return this._texture
     }
-    public set texture(value: string | undefined) {
+    public set texture(value) {
         this._texture = value
         this.refreshState.set({})
     }
@@ -231,7 +244,7 @@ export default class SpriteSheet
     public get columns() {
         return this._columns
     }
-    public set columns(value: number | undefined) {
+    public set columns(value) {
         this._columns = value
         this.refreshState.set({})
     }
@@ -240,8 +253,17 @@ export default class SpriteSheet
     public get length() {
         return this._length
     }
-    public set length(value: number | undefined) {
+    public set length(value) {
         this._length = value
+        this.refreshState.set({})
+    }
+
+    private _loop?: boolean
+    public get loop() {
+        return this._loop
+    }
+    public set loop(value) {
+        this._loop = value
         this.refreshState.set({})
     }
 

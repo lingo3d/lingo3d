@@ -8,6 +8,7 @@ const spriteSheet = new SpriteSheet()
 spriteSheet.texture = "explosion.png"
 spriteSheet.columns = 5
 spriteSheet.length = 97
+spriteSheet.loop = true
 
 spriteSheet.scale = 4
 settings.bloom = true
