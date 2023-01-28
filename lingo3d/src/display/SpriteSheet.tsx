@@ -1,10 +1,10 @@
-import Sprite from "./Sprite"
 import { Reactive } from "@lincode/reactivity"
 import createInstancePool from "./core/utils/createInstancePool"
-import { SpriteMaterial } from "three"
+import { Sprite, SpriteMaterial } from "three"
 import loadTexture from "./utils/loaders/loadTexture"
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../events/onBeforeRender"
+import VisibleObjectManager from "./core/VisibleObjectManager"
 
 const numbers = new Set("01234567890".split(""))
 
@@ -97,10 +97,13 @@ const [increaseCount, decreaseCount] = createInstancePool<
     },
     (promise) => promise.then(([url]) => URL.revokeObjectURL(url))
 )
-export default class SpriteSheet extends Sprite {
+export default class SpriteSheet extends VisibleObjectManager {
     public constructor() {
-        super()
-        this.visible = false
+        const material = new SpriteMaterial({
+            transparent: true,
+            visible: false
+        })
+        super(new Sprite(material))
 
         this.createEffect(() => {
             const { _srcStart, _srcEnd } = this
@@ -112,11 +115,10 @@ export default class SpriteSheet extends Sprite {
             const paramString = JSON.stringify(params)
             increaseCount(Promise, params, paramString).then(
                 ([url, columns, rows, length]) => {
-                    this.visible = true
-
-                    const map = loadTexture(url)
-                    this.material = new SpriteMaterial({ map })
+                    const map = (material.map = loadTexture(url))
                     map.repeat.set(1 / columns, 1 / rows)
+
+                    material.visible = true
 
                     let x = 0
                     let y = rows - 1
