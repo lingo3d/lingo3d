@@ -107,35 +107,42 @@ const loadSpriteSheet = (
     material: SpriteMaterial,
     url: string,
     columns: number,
-    length: number,
-    handle?: Cancellable
+    length: number
 ) => {
     const map = (material.map = loadTexture(url, () => {
         const rows = Math.ceil(length / columns)
         map.repeat.set(1 / columns, 1 / rows)
-        //timeout to avoid flickering
-        setTimeout(() => {
-            material.visible = true
-
-            let x = 0
-            let y = rows - 1
-            let frame = 0
-            const handle0 = onBeforeRender(() => {
-                map.offset.set(x / columns, y / rows)
-                if (++x === columns) {
-                    x = 0
-                    --y
-                }
-                if (++frame === length) {
-                    frame = 0
-                    x = 0
-                    y = rows - 1
-                    handle0.cancel()
-                }
-            })
-            handle?.watch(handle0)
-        }, 100)
     }))
+    return map
+}
+
+const playSpriteSheet = (
+    material: SpriteMaterial,
+    columns: number,
+    length: number,
+    handle?: Cancellable
+) => {
+    const map = material.map!
+    const rows = Math.ceil(length / columns)
+    material.visible = true
+
+    let x = 0
+    let y = rows - 1
+    let frame = 0
+    const handle0 = onBeforeRender(() => {
+        map.offset.set(x / columns, y / rows)
+        if (++x === columns) {
+            x = 0
+            --y
+        }
+        if (++frame === length) {
+            frame = 0
+            x = 0
+            y = rows - 1
+            handle0.cancel()
+        }
+    })
+    handle?.watch(handle0)
 }
 
 export default class SpriteSheet
@@ -156,23 +163,31 @@ export default class SpriteSheet
         this.createEffect(() => {
             const { _textureStart, _textureEnd, _texture, _columns, _length } =
                 this
-            if (!_textureStart || !_textureEnd) {
-                if (_texture && _columns && _length) {
-                    loadSpriteSheet(material, _texture, _columns, _length)
+            if (_textureStart && _textureEnd) {
+                const handle = new Cancellable()
+                const params: Params = [_textureStart, _textureEnd]
+                const paramString = JSON.stringify(params)
+                increaseCount(Promise, params, paramString).then(
+                    ([url, columns, length, blob]) => {
+                        this.blob = blob
+                        loadSpriteSheet(material, url, columns, length)
+                        playSpriteSheet(material, columns, length, handle)
+                    }
+                )
+                return () => {
+                    decreaseCount(Promise, paramString)
+                    handle.cancel()
                 }
-                return
             }
+            if (!_texture || !_columns || !_length) return
+
             const handle = new Cancellable()
-            const params: Params = [_textureStart, _textureEnd]
-            const paramString = JSON.stringify(params)
-            increaseCount(Promise, params, paramString).then(
-                ([url, columns, length, blob]) => {
-                    this.blob = blob
-                    loadSpriteSheet(material, url, columns, length, handle)
-                }
-            )
+            loadSpriteSheet(material, _texture, _columns, _length)
+            const timeout = setTimeout(() => {
+                playSpriteSheet(material, _columns, _length, handle)
+            }, 300)
             return () => {
-                decreaseCount(Promise, paramString)
+                clearTimeout(timeout)
                 handle.cancel()
             }
         }, [this.refreshState.get])
