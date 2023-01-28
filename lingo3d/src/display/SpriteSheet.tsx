@@ -113,7 +113,8 @@ const loadSpriteSheet = (
     const map = (material.map = loadTexture(url, () => {
         const rows = Math.ceil(length / columns)
         map.repeat.set(1 / columns, 1 / rows)
-        material.visible = true
+        //timeout to avoid flashing
+        setTimeout(() => (material.visible = true), 100)
 
         let x = 0
         let y = rows - 1
