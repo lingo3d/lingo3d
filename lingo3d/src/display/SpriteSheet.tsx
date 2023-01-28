@@ -113,26 +113,28 @@ const loadSpriteSheet = (
     const map = (material.map = loadTexture(url, () => {
         const rows = Math.ceil(length / columns)
         map.repeat.set(1 / columns, 1 / rows)
-        //timeout to avoid flashing
-        setTimeout(() => (material.visible = true), 100)
+        //timeout to avoid flickering
+        setTimeout(() => {
+            material.visible = true
 
-        let x = 0
-        let y = rows - 1
-        let frame = 0
-        const handle0 = onBeforeRender(() => {
-            map.offset.set(x / columns, y / rows)
-            if (++x === columns) {
-                x = 0
-                --y
-            }
-            if (++frame === length) {
-                frame = 0
-                x = 0
-                y = rows - 1
-                handle0.cancel()
-            }
-        })
-        handle?.watch(handle0)
+            let x = 0
+            let y = rows - 1
+            let frame = 0
+            const handle0 = onBeforeRender(() => {
+                map.offset.set(x / columns, y / rows)
+                if (++x === columns) {
+                    x = 0
+                    --y
+                }
+                if (++frame === length) {
+                    frame = 0
+                    x = 0
+                    y = rows - 1
+                    handle0.cancel()
+                }
+            })
+            handle?.watch(handle0)
+        }, 100)
     }))
 }
 
