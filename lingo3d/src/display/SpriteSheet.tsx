@@ -41,15 +41,15 @@ const scanSerial = (_textureStart: string) => {
 type Params = [textureStart: string, textureEnd: string]
 
 const [increaseCount, decreaseCount] = createInstancePool<
-    Promise<[string, number, number, number]>,
+    Promise<[string, number, number, number, Blob | undefined]>,
     Params
 >(
     async (_, [textureStart, textureEnd]) => {
         const [serialStart, start, end] = scanSerial(textureStart)
-        if (!serialStart) return ["", 0, 0, 0]
+        if (!serialStart) return ["", 0, 0, 0, undefined]
 
         const [serialEnd] = scanSerial(textureEnd)
-        if (!serialEnd) return ["", 0, 0, 0]
+        if (!serialEnd) return ["", 0, 0, 0, undefined]
 
         const serialStrings: Array<string> = []
 
@@ -88,15 +88,17 @@ const [increaseCount, decreaseCount] = createInstancePool<
                 ++y
             }
         }
-        return new Promise<[string, number, number, number]>((resolve) =>
-            canvas.toBlob((blob) =>
-                resolve([
-                    URL.createObjectURL(blob!),
-                    columns,
-                    rows,
-                    imagePromises.length
-                ])
-            )
+        return new Promise<[string, number, number, number, Blob | undefined]>(
+            (resolve) =>
+                canvas.toBlob((blob) =>
+                    resolve([
+                        URL.createObjectURL(blob!),
+                        columns,
+                        rows,
+                        imagePromises.length,
+                        blob!
+                    ])
+                )
         )
     },
     (promise) => promise.then(([url]) => URL.revokeObjectURL(url))
@@ -125,10 +127,10 @@ export default class SpriteSheet
             const params: Params = [_textureStart, _textureEnd]
             const paramString = JSON.stringify(params)
             increaseCount(Promise, params, paramString).then(
-                ([url, columns, rows, length]) => {
+                ([url, columns, rows, length, blob]) => {
+                    this.blob = blob
                     const map = (material.map = loadTexture(url))
                     map.repeat.set(1 / columns, 1 / rows)
-
                     material.visible = true
 
                     let x = 0
@@ -155,6 +157,11 @@ export default class SpriteSheet
                 handle.cancel()
             }
         }, [this.refreshState.get])
+    }
+
+    private blob: Blob | undefined
+    public toBlob() {
+        return this.blob
     }
 
     private refreshState = new Reactive({})

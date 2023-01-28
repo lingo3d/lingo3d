@@ -21,6 +21,8 @@ import createJoint from "./utils/createJoint"
 import JointBase from "../../display/core/JointBase"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import selectAllJointed from "./utils/selectAllJointed"
+import SpriteSheet from "../../display/SpriteSheet"
+import downloadBlob from "../../api/files/downloadBlob"
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<
@@ -125,6 +127,20 @@ const SceneGraphContextMenu = () => {
                     ) : (
                         selectionTarget && (
                             <>
+                                {selectionTarget instanceof SpriteSheet && (
+                                    <ContextMenuItem
+                                        onClick={() => {
+                                            downloadBlob(
+                                                "spriteSheet.png",
+                                                selectionTarget.toBlob()
+                                            )
+                                            setPosition(undefined)
+                                        }}
+                                    >
+                                        Save image
+                                    </ContextMenuItem>
+                                )}
+
                                 <ContextMenuItem
                                     onClick={() =>
                                         setPosition({
