@@ -7,7 +7,7 @@ import computePxVertices from "./computePxVertices"
 import createInstancePool from "../../utils/createInstancePool"
 import getActualScale from "../../../utils/getActualScale"
 import PhysicsObjectManager from ".."
-import { physxPtr } from "./physxPtr"
+import { physxPtr } from "./physxPtrr"
 
 type Params = [typeSrc: string, scaleX: number, scaleY: number, scaleZ: number]
 

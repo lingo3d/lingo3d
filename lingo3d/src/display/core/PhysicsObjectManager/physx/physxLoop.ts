@@ -15,7 +15,7 @@ import fpsAlpha from "../../../utils/fpsAlpha"
 import { gravityPtr } from "../../../../states/useGravity"
 import StaticObjectManager from "../../StaticObjectManager"
 import { onPhysXLoop } from "../../../../events/onPhysXLoop"
-import { physxPtr } from "./physxPtr"
+import { physxPtr } from "./physxPtrr"
 import { getPhysXLoaded } from "../../../../states/usePhysXLoaded"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()

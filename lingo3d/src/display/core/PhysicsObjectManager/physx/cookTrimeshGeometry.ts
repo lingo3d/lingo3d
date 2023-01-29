@@ -6,7 +6,7 @@ import {
 import destroy from "./destroy"
 import computeMergedPxVertices from "./computeMergedPxVertices"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
-import { physxPtr } from "./physxPtr"
+import { physxPtr } from "./physxPtrr"
 
 const pxGeometryCache = new Map<string | undefined, any>()
 

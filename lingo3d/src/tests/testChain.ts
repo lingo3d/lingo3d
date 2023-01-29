@@ -1,6 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import "../display/core/PhysicsObjectManager/physx"
-import { physxPtr } from "../display/core/PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "../display/core/PhysicsObjectManager/physx/physxPtrr"
 import { managerActorMap } from "../display/core/PhysicsObjectManager/physx/pxMaps"
 import {
     multPxTransform,

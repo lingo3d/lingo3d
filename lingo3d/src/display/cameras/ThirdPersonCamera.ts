@@ -18,7 +18,7 @@ import getWorldDirection from "../utils/getWorldDirection"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtrr"
 
 const setVisible = (target: MeshAppendable, visible: boolean) =>
     "visible" in target && (target.visible = visible)

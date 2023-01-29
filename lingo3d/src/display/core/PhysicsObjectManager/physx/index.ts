@@ -4,7 +4,7 @@ import { gravityPtr } from "../../../../states/useGravity"
 import { setPhysXLoaded } from "../../../../states/usePhysXLoaded"
 import { destroyPtr } from "./destroy"
 import "./physxLoop"
-import { physxPtr } from "./physxPtr"
+import { physxPtr } from "./physxPtrr"
 
 PhysX().then((PhysX: any) => {
     const {
