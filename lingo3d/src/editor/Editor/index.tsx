@@ -231,9 +231,9 @@ const Editor = () => {
             const [materialParams, materialRest] = splitObject(
                 adjustMaterialRest,
                 [
-                    "opacity",
-                    "color",
-                    "texture",
+                    ...("textureRotation" in selectionTarget
+                        ? ["opacity", "color", "texture"]
+                        : []),
                     "textureRepeat",
                     "textureFlipY",
                     "textureRotation",
