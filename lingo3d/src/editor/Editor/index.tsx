@@ -3,7 +3,7 @@ import { useLayoutEffect } from "preact/hooks"
 import { Cancellable } from "@lincode/promiselikes"
 import getDisplayName from "../utils/getDisplayName"
 import addInputs from "./addInputs"
-import getParams from "./getParams"
+import createParams from "./createParams"
 import splitObject from "./splitObject"
 import { dummyDefaults } from "../../interface/IDummy"
 import Setup from "../../display/Setup"
@@ -70,7 +70,7 @@ const Editor = () => {
                 "constructor"
             )
             const [ownParams, ownRest] = splitObject(
-                getParams(schema, defaults, selectionTarget),
+                createParams(schema, defaults, selectionTarget),
                 Object.keys(defaultsOwnKeysRecordMap.get(defaults) ?? {})
             )
 

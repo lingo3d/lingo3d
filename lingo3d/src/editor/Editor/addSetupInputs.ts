@@ -1,7 +1,7 @@
 import { Pane } from "./tweakpane"
 import ISetup, { setupSchema, setupDefaults } from "../../interface/ISetup"
 import addInputs from "./addInputs"
-import getParams from "./getParams"
+import createParams from "./createParams"
 import splitObject from "./splitObject"
 import { Cancellable } from "@lincode/promiselikes"
 
@@ -11,7 +11,7 @@ export default (
     targetSetup: Partial<ISetup>
 ) => {
     const [editorParams, editorRest] = splitObject(
-        getParams(setupSchema, setupDefaults, targetSetup),
+        createParams(setupSchema, setupDefaults, targetSetup),
         ["gridHelper", "gridHelperSize", "stats"]
     )
     addInputs(handle, pane, "editor", targetSetup, setupDefaults, editorParams)
