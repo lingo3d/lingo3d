@@ -27,7 +27,7 @@ export const environmentSchema: Required<ExtractProps<IEnvironment>> = {
 }
 
 export const environmentChoices = new Choices(
-    { studio: "studio", day: "day", night: "night" },
+    { none: undefined, studio: "studio", day: "day", night: "night" },
     true
 )
 export const environmentDefaults = extendDefaults<IEnvironment>(

@@ -22,6 +22,7 @@ import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTa
 import { DEBUG, EDITOR_WIDTH } from "../../globals"
 import useInitEditor from "../hooks/useInitEditor"
 import setupStruct from "../../engine/setupStruct"
+import { getEditorPresets } from "../../states/useEditorPresets"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -44,6 +45,8 @@ const Editor = () => {
 
     const selectionTarget = useSyncState(getSelectionTarget)
     const selectedSignal = useSignal<string | undefined>(undefined)
+
+    const presets = useSyncState(getEditorPresets)
 
     useLayoutEffect(() => {
         const el = elRef.current
@@ -323,7 +326,7 @@ const Editor = () => {
             handle.cancel()
             pane.dispose()
         }
-    }, [selectionTarget, selectedSignal.value])
+    }, [selectionTarget, selectedSignal.value, presets])
 
     return (
         <div

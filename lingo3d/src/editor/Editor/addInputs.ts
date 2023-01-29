@@ -9,6 +9,10 @@ import { MONITOR_INTERVAL } from "../../globals"
 import { emitEditorEdit } from "../../events/onEditorEdit"
 import toFixed, { toFixedPoint } from "../../api/serializer/toFixed"
 import { timer } from "../../engine/eventLoop"
+import {
+    assignEditorPresets,
+    getEditorPresets
+} from "../../states/useEditorPresets"
 
 let skipApply = false
 let leading = true
@@ -64,8 +68,10 @@ export default async (
     const paramsBackup = { ...params }
     const paramsDefault: Record<string, any> = {}
     for (const key of paramKeys) {
-        if (key.startsWith("preset ")) params[key] = paramsDefault[key] = true
-        else
+        if (key.startsWith("preset ")) {
+            delete paramsBackup[key]
+            params[key] = getEditorPresets()[key] ?? true
+        } else
             params[key] = paramsDefault[key] = getDefaultValue(
                 defaults,
                 key,
@@ -78,7 +84,20 @@ export default async (
 
     const result = Object.fromEntries(
         Object.keys(params).map((key) => {
-            const input = folder.addInput(params, key, options?.[key])
+            const input = folder.addInput(
+                params,
+                key,
+                getEditorPresets()["preset " + key] !== false
+                    ? options?.[key]
+                    : undefined
+            )
+            if (key.startsWith("preset ")) {
+                input.on("change", ({ value }: any) => {
+                    if (skipApply) return
+                    assignEditorPresets({ [key]: value })
+                })
+                return [key, input]
+            }
 
             const resetButton = resetIcon.cloneNode(true) as HTMLElement
             input.element.prepend(resetButton)
@@ -123,12 +142,12 @@ export default async (
                 let changed = false
                 for (const key of paramKeys)
                     if (
+                        !key.startsWith("preset ") &&
                         !isEqual(target[key] ?? paramsDefault[key], params[key])
                     ) {
                         params[key] = target[key]
                         changed = true
                     }
-
                 if (changed) {
                     skipApplyValue()
                     pane.refresh()
