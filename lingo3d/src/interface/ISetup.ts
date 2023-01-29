@@ -1,5 +1,6 @@
 import setupStruct from "../engine/setupStruct"
 import { shadowDistanceChoices } from "./IDirectionalLight"
+import { environmentChoices } from "./IEnvironment"
 import { shadowResolutionChoices } from "./ILightBase"
 import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
@@ -53,6 +54,7 @@ export const setupDefaults = extendDefaults<ISetup>(
     [],
     { ...setupStruct },
     {
+        environment: environmentChoices,
         pixelRatio: new Range(1, 2, 1),
         fps: new Range(30, 60, 30),
         exposure: new Range(0, 2),

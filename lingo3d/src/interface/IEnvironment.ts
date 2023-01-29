@@ -2,6 +2,7 @@ import IPositioned, {
     positionedDefaults,
     positionedSchema
 } from "./IPositioned"
+import Choices from "./utils/Choices"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
@@ -25,7 +26,12 @@ export const environmentSchema: Required<ExtractProps<IEnvironment>> = {
     helper: Boolean
 }
 
+export const environmentChoices = new Choices(
+    { custom: undefined, studio: "studio", day: "day", night: "night" },
+    true
+)
 export const environmentDefaults = extendDefaults<IEnvironment>(
     [positionedDefaults],
-    { texture: "studio", helper: true }
+    { texture: "studio", helper: true },
+    { texture: environmentChoices }
 )

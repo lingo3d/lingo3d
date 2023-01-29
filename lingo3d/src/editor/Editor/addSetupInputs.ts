@@ -1,4 +1,4 @@
-import { Pane } from "../TweakPane/tweakpane"
+import { Pane } from "./tweakpane"
 import ISetup, { setupSchema, setupDefaults } from "../../interface/ISetup"
 import addInputs from "./addInputs"
 import getParams from "./getParams"

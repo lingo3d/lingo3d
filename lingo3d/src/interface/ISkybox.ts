@@ -1,7 +1,7 @@
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
-import { EnvironmentPreset } from "./IEnvironment"
+import { environmentChoices, EnvironmentPreset } from "./IEnvironment"
 import IAppendable, {
     appendableDefaults,
     appendableSchema
@@ -16,6 +16,8 @@ export const skyboxSchema: Required<ExtractProps<ISkybox>> = {
     texture: [String, Array]
 }
 
-export const skyboxDefaults = extendDefaults<ISkybox>([appendableDefaults], {
-    texture: undefined
-})
+export const skyboxDefaults = extendDefaults<ISkybox>(
+    [appendableDefaults],
+    { texture: undefined },
+    { texture: environmentChoices }
+)

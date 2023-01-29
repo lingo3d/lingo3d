@@ -1,4 +1,4 @@
-import { Pane } from "../TweakPane/tweakpane"
+import { Pane } from "./tweakpane"
 import { useLayoutEffect } from "preact/hooks"
 import { Cancellable } from "@lincode/promiselikes"
 import getDisplayName from "../utils/getDisplayName"
