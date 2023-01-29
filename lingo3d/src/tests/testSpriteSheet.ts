@@ -6,7 +6,7 @@ const spriteSheet = new SpriteSheet()
 // spriteSheet.textureStart = "explosion/explosion00-frame004.png"
 // spriteSheet.textureEnd = "explosion/explosion00-frame100.png"
 
-spriteSheet.texture = TEXTURES_URL + "explosion0.webp"
+spriteSheet.texture = "explosion0"
 spriteSheet.columns = 5
 spriteSheet.length = 98
 
