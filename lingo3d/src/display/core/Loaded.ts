@@ -18,7 +18,7 @@ import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
 import cookTrimeshGeometry from "./PhysicsObjectManager/physx/cookTrimeshGeometry"
 import { StandardMesh } from "./mixins/TexturedStandardMixin"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import { physxPtr } from "./PhysicsObjectManager/physx/physxPtrr"
+import { physxPtr } from "./PhysicsObjectManager/physx/physxPtr"
 
 export default abstract class Loaded<T = Object3D>
     extends VisibleObjectManager<StandardMesh>

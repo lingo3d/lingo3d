@@ -6,7 +6,7 @@ import { FAR, M2CM } from "../../../../globals"
 import { LingoMouseEvent } from "../../../../interface/IMouse"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { vec2Point } from "../../../utils/vec2Point"
-import { physxPtr } from "../../PhysicsObjectManager/physx/physxPtrr"
+import { physxPtr } from "../../PhysicsObjectManager/physx/physxPtr"
 import { actorPtrManagerMap } from "../../PhysicsObjectManager/physx/pxMaps"
 import {
     assignPxVec,

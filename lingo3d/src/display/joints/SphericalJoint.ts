@@ -7,7 +7,7 @@ import debounceSystem from "../../utils/debounceSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
-import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtrr"
+import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 const createSpherical = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     const { physics, Px } = physxPtr[0]

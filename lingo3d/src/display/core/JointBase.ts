@@ -14,7 +14,7 @@ import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import getPrivateValue from "../../utils/getPrivateValue"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import destroy from "./PhysicsObjectManager/physx/destroy"
-import { physxPtr } from "./PhysicsObjectManager/physx/physxPtrr"
+import { physxPtr } from "./PhysicsObjectManager/physx/physxPtr"
 import {
     setPxTransform_,
     setPxTransform__

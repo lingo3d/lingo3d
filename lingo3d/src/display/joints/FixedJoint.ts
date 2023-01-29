@@ -4,7 +4,7 @@ import IFixedJoint, {
 } from "../../interface/IFixedJoint"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
-import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtrr"
+import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 const createFixed = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     const { physics, Px } = physxPtr[0]

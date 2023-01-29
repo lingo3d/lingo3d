@@ -2,7 +2,7 @@ import { Point3d } from "@lincode/math"
 import { Quaternion } from "three"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
 import { getPhysXLoaded } from "../../../../states/usePhysXLoaded"
-import { physxPtr } from "./physxPtrr"
+import { physxPtr } from "./physxPtr"
 
 let pxVec: any
 let pxVec_: any

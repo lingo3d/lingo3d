@@ -27,7 +27,7 @@ import MeshAppendable from "../../../api/core/MeshAppendable"
 import cookConvexGeometry, {
     decreaseConvexGeometryCount
 } from "./physx/cookConvexGeometry"
-import { physxPtr } from "./physx/physxPtrr"
+import { physxPtr } from "./physx/physxPtr"
 import { getPhysXLoaded } from "../../../states/usePhysXLoaded"
 import { Cancellable } from "@lincode/promiselikes"
 
