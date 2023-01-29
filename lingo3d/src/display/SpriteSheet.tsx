@@ -9,7 +9,6 @@ import ISpriteSheet, {
     spriteSheetDefaults,
     spriteSheetSchema
 } from "../interface/ISpriteSheet"
-import { TEXTURES_URL } from "../globals"
 
 const numbers = new Set("01234567890".split(""))
 
@@ -147,12 +146,6 @@ const playSpriteSheet = (
     handle.watch(handle0)
 }
 
-const texturePresetMap = new Map(
-    Object.entries({
-        explosion0: TEXTURES_URL + "explosion0.webp"
-    })
-)
-
 export default class SpriteSheet
     extends VisibleObjectManager
     implements ISpriteSheet
@@ -202,12 +195,7 @@ export default class SpriteSheet
             if (!_texture || !_columns || !_length) return
 
             const handle = new Cancellable()
-            loadSpriteSheet(
-                material,
-                texturePresetMap.get(_texture) ?? _texture,
-                _columns,
-                _length
-            )
+            loadSpriteSheet(material, _texture, _columns, _length)
             const timeout = setTimeout(() => {
                 playSpriteSheet(material, _columns, _length, _loop, handle)
             }, 300)

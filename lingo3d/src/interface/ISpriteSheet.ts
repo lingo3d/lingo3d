@@ -6,7 +6,6 @@ import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
 import { nullableDefault } from "./utils/NullableDefault"
-import Choices from "./utils/Choices"
 
 export default interface ISpriteSheet extends IVisibleObjectManager {
     textureStart: Nullable<string>
@@ -38,11 +37,5 @@ export const spriteSheetDefaults = extendDefaults<ISpriteSheet>(
         columns: nullableDefault(0),
         length: nullableDefault(0),
         loop: nullableDefault(false)
-    },
-    {
-        texture: new Choices(
-            { none: undefined, explosion0: "explosion0" },
-            true
-        )
     }
 )
