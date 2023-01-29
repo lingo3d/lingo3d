@@ -63,8 +63,15 @@ export default async (
 
     const paramsBackup = { ...params }
     const paramsDefault: Record<string, any> = {}
-    for (const key of paramKeys)
-        params[key] = paramsDefault[key] = getDefaultValue(defaults, key, true)
+    for (const key of paramKeys) {
+        if (key.startsWith("preset ")) params[key] = paramsDefault[key] = true
+        else
+            params[key] = paramsDefault[key] = getDefaultValue(
+                defaults,
+                key,
+                true
+            )
+    }
 
     const folder = pane.addFolder({ title })
     const options = defaultsOptionsMap.get(defaults)

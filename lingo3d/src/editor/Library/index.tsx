@@ -50,7 +50,7 @@ const Library = () => {
                         "joystick",
                         // { reticle: "htmlMesh" },
                         { splashScreen: "screen" },
-                        { text: "htmlMesh" },
+                        "text",
                         "trigger",
                         "spawnPoint",
                         "audio",
