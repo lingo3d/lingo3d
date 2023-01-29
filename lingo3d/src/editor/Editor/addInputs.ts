@@ -34,7 +34,7 @@ const isEqual = (a: any, b: any) => {
     return a === b
 }
 
-export const processValue = (value: any) => {
+const processValue = (value: any) => {
     if (typeof value === "string") {
         if (value === "true" || value === "false")
             return value === "true" ? true : false
@@ -78,7 +78,10 @@ export default async (
             resetButton.style.opacity = "0.1"
 
             const updateResetButton = debounceTrailing(() => {
-                const unchanged = isEqual(params[key], paramsDefault[key])
+                const unchanged = isEqual(
+                    params[key] ?? paramsDefault[key],
+                    paramsDefault[key]
+                )
                 resetButton.style.opacity = unchanged ? "0.1" : "0.5"
                 resetButton.style.cursor = unchanged ? "auto" : "pointer"
             }, MONITOR_INTERVAL)
