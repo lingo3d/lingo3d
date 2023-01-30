@@ -56,6 +56,7 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
         illumination
     } = model
 
+    model.reflectionHandle?.cancel()
     let reflectionTexture: Texture | undefined
     if (reflection || illumination) {
         const cubeRenderTarget = new WebGLCubeRenderTarget(
@@ -72,7 +73,8 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
         pushReflectionPairs(pair)
         uuidTextureMap.set(reflectionTexture.uuid, reflectionTexture)
 
-        model.refreshFactorsHandle!.then(() => {
+        const handle = (model.reflectionHandle = new Cancellable())
+        handle.then(() => {
             cubeRenderTarget.dispose()
             pullReflectionPairs(pair)
             uuidTextureMap.delete(reflectionTexture!.uuid)
@@ -249,9 +251,14 @@ export default class Model extends Loaded<Group> implements IModel {
         return children
     }
 
-    public refreshFactorsHandle?: Cancellable
+    public reflectionHandle?: Cancellable
+    protected override _dispose() {
+        super._dispose()
+        this.reflectionHandle?.cancel()
+    }
+
     private refreshFactors() {
-        this.refreshFactorsHandle = this.cancelHandle("refreshFactors", () =>
+        this.cancelHandle("refreshFactors", () =>
             this.loaded.then(() => refreshFactorsSystem(this))
         )
     }
