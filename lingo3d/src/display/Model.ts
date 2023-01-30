@@ -9,7 +9,7 @@ import {
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
-import { Resolvable } from "@lincode/promiselikes"
+import { Cancellable, Resolvable } from "@lincode/promiselikes"
 import FoundManager from "./core/FoundManager"
 import { Reactive } from "@lincode/reactivity"
 import measure from "./utils/measure"
@@ -46,11 +46,7 @@ const setFactor = (
             : Math.max(textureManager.defaults[key], 0.25) * factor
     )
 
-let resolvable = new Resolvable()
 const refreshFactorsSystem = debounceSystem((model: Model) => {
-    resolvable.resolve()
-    resolvable = new Resolvable()
-
     const {
         metalnessFactor,
         roughnessFactor,
@@ -76,7 +72,7 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
         pushReflectionPairs(pair)
         uuidTextureMap.set(reflectionTexture.uuid, reflectionTexture)
 
-        resolvable.then(() => {
+        model.refreshFactorsHandle!.then(() => {
             cubeRenderTarget.dispose()
             pullReflectionPairs(pair)
             uuidTextureMap.delete(reflectionTexture!.uuid)
@@ -253,8 +249,9 @@ export default class Model extends Loaded<Group> implements IModel {
         return children
     }
 
+    public refreshFactorsHandle?: Cancellable
     private refreshFactors() {
-        this.cancelHandle("refreshFactors", () =>
+        this.refreshFactorsHandle = this.cancelHandle("refreshFactors", () =>
             this.loaded.then(() => refreshFactorsSystem(this))
         )
     }

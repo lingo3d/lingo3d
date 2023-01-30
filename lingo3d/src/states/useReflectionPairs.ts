@@ -22,7 +22,7 @@ createEffect(() => {
         for (const [manager] of pairs) manager.outerObject3d.visible = false
         for (const [manager, cubeCamera, cubeRenderTarget] of pairs) {
             cubeCamera.position.copy(getWorldPosition(manager.outerObject3d))
-            cubeRenderTarget.clear(renderer, true, true, true)
+            cubeRenderTarget.clear(renderer, false, true, false)
             cubeCamera.update(renderer, scene)
         }
         for (const [manager] of pairs) manager.outerObject3d.visible = true
