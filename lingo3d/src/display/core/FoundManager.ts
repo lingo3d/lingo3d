@@ -1,5 +1,5 @@
 import { applyMixins } from "@lincode/utils"
-import { BufferGeometry, Mesh, MeshStandardMaterial, Object3D } from "three"
+import { Object3D } from "three"
 import IFoundManager, {
     foundManagerDefaults,
     foundManagerSchema

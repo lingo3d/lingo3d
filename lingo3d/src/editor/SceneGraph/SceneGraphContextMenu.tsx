@@ -23,6 +23,7 @@ import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import selectAllJointed from "./utils/selectAllJointed"
 import SpriteSheet from "../../display/SpriteSheet"
 import downloadBlob from "../../api/files/downloadBlob"
+import { setSelectionFocus } from "../../states/useSelectionFocus"
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<
@@ -150,6 +151,15 @@ const SceneGraphContextMenu = () => {
                                     }
                                 >
                                     Search children
+                                </ContextMenuItem>
+
+                                <ContextMenuItem
+                                    onClick={() => {
+                                        setSelectionFocus(selectionTarget)
+                                        setPosition(undefined)
+                                    }}
+                                >
+                                    Focus selection
                                 </ContextMenuItem>
 
                                 <ContextMenuItem
