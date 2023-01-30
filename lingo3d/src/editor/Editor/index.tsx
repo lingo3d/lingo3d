@@ -80,7 +80,7 @@ const Editor = () => {
             const [generalParams, generalRest] = splitObject(ownRest, [
                 "name",
                 "id",
-                "uuid",
+                "uuid"
             ])
             if (generalParams)
                 addInputs(
@@ -215,8 +215,7 @@ const Editor = () => {
                     "roughnessFactor",
                     "opacityFactor",
                     "envFactor",
-                    "reflection",
-                    "illumination"
+                    "reflection"
                 ]
             )
             adjustMaterialParams &&

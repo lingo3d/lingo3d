@@ -58,8 +58,7 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
         roughnessFactor,
         opacityFactor,
         envFactor,
-        reflection,
-        illumination
+        reflection
     } = model
 
     if (reflectionChangedSet.has(model)) {
@@ -68,7 +67,7 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
         reflectionDataMap.get(model)?.[1].cancel()
         reflectionDataMap.delete(model)
 
-        if (reflection || illumination) {
+        if (reflection) {
             const reflectionHandle = new Cancellable()
             const cubeRenderTarget = new WebGLCubeRenderTarget(
                 reflection ? 128 : 16
@@ -343,16 +342,6 @@ export default class Model extends Loaded<Group> implements IModel {
     public set reflection(val: boolean) {
         val !== this._reflection && reflectionChangedSet.add(this)
         this._reflection = val
-        this.refreshFactors()
-    }
-
-    private _illumination?: boolean
-    public get illumination() {
-        return this._illumination ?? false
-    }
-    public set illumination(val: boolean) {
-        val !== this._illumination && reflectionChangedSet.add(this)
-        this._illumination = val
         this.refreshFactors()
     }
 }
