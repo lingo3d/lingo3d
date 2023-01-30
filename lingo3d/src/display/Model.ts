@@ -30,6 +30,8 @@ import {
 import TextureManager from "./core/TextureManager"
 import { uuidTextureMap } from "./core/mixins/utils/createMap"
 import { StandardMesh } from "./core/mixins/TexturedStandardMixin"
+import { uuidMap } from "../api/core/collections"
+import Primitive from "./core/Primitive"
 
 const modelTextureManagersMap = new WeakMap<Model, Array<TextureManager>>()
 
@@ -48,6 +50,7 @@ const setFactor = (
 
 const reflectionChangedSet = new WeakSet<Model>()
 const reflectionDataMap = new WeakMap<Model, [Texture, Cancellable]>()
+const supported = new Set(["fbx", "glb", "gltf"])
 
 const refreshFactorsSystem = debounceSystem((model: Model) => {
     const {
@@ -175,8 +178,34 @@ export default class Model extends Loaded<Group> implements IModel {
         const resolvable = new Resolvable()
         this.loadingState.set(this.loadingState.get() + 1)
 
+        if (uuidMap.has(url)) {
+            const instance = uuidMap.get(url)
+            if (
+                !(
+                    instance instanceof Model ||
+                    instance instanceof FoundManager ||
+                    instance instanceof Primitive
+                )
+            ) {
+                resolvable.resolve()
+                setTimeout(() =>
+                    this.loadingState.set(this.loadingState.get() - 1)
+                )
+                decreaseLoadingCount()
+                throw new Error("uuid doesn't point to a model or primitive")
+            }
+            const result = (
+                "loaded" in instance ? await instance.loaded : instance.object3d
+            ).clone() as Group
+
+            resolvable.resolve()
+            setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
+            decreaseLoadingCount()
+            return result
+        }
+
         const extension = getExtensionIncludingObjectURL(url)
-        if (!extension || !["fbx", "glb", "gltf"].includes(extension)) {
+        if (!extension || !supported.has(extension)) {
             resolvable.resolve()
             setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
             decreaseLoadingCount()

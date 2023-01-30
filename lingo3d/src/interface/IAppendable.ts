@@ -15,7 +15,7 @@ export const appendableSchema: Required<ExtractProps<IAppendable>> = {
     proxy: Object,
     uuid: String
 }
-hideSchema(["proxy", "uuid"])
+hideSchema(["proxy"])
 
 export const appendableDefaults = extendDefaults<IAppendable>([], {
     onLoop: undefined,

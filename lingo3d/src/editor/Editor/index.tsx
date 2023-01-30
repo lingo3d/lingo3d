@@ -79,7 +79,8 @@ const Editor = () => {
 
             const [generalParams, generalRest] = splitObject(ownRest, [
                 "name",
-                "id"
+                "id",
+                "uuid",
             ])
             if (generalParams)
                 addInputs(
