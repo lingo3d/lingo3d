@@ -11,6 +11,8 @@ export default (manager: MeshAppendable | Loaded) => {
 
     const loaded =
         "loadedObject3d" in manager ? manager.loadedObject3d! : manager.object3d
+    loaded.updateMatrixWorld()
+
     const { position, rotation } = manager.outerObject3d
     loaded.traverse((c: Object3D | Mesh) => {
         if (!("geometry" in c)) return
