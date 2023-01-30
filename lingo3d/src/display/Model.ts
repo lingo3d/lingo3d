@@ -46,6 +46,9 @@ const setFactor = (
             : Math.max(textureManager.defaults[key], 0.25) * factor
     )
 
+const reflectionChangedSet = new WeakSet<Model>()
+const reflectionDataMap = new WeakMap<Model, [Texture, Cancellable]>()
+
 const refreshFactorsSystem = debounceSystem((model: Model) => {
     const {
         metalnessFactor,
@@ -56,31 +59,36 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
         illumination
     } = model
 
-    model.reflectionHandle?.cancel()
-    let reflectionTexture: Texture | undefined
-    if (reflection || illumination) {
-        const cubeRenderTarget = new WebGLCubeRenderTarget(
-            reflection ? 128 : 16
-        )
-        cubeRenderTarget.texture.type = HalfFloatType
-        reflectionTexture = cubeRenderTarget.texture
-        const cubeCamera = new CubeCamera(NEAR, 10, cubeRenderTarget)
-        const pair: [Model, CubeCamera, WebGLCubeRenderTarget] = [
-            model,
-            cubeCamera,
-            cubeRenderTarget
-        ]
-        pushReflectionPairs(pair)
-        uuidTextureMap.set(reflectionTexture.uuid, reflectionTexture)
+    if (reflectionChangedSet.has(model)) {
+        reflectionChangedSet.delete(model)
 
-        const handle = (model.reflectionHandle = new Cancellable())
-        handle.then(() => {
-            cubeRenderTarget.dispose()
-            pullReflectionPairs(pair)
-            uuidTextureMap.delete(reflectionTexture!.uuid)
-        })
+        reflectionDataMap.get(model)?.[1].cancel()
+        reflectionDataMap.delete(model)
+
+        if (reflection || illumination) {
+            const reflectionHandle = new Cancellable()
+            const cubeRenderTarget = new WebGLCubeRenderTarget(
+                reflection ? 128 : 16
+            )
+            const { texture: reflectionTexture } = cubeRenderTarget
+            reflectionTexture.type = HalfFloatType
+            reflectionDataMap.set(model, [reflectionTexture, reflectionHandle])
+            const cubeCamera = new CubeCamera(NEAR, 10, cubeRenderTarget)
+            const pair: [Model, CubeCamera, WebGLCubeRenderTarget] = [
+                model,
+                cubeCamera,
+                cubeRenderTarget
+            ]
+            pushReflectionPairs(pair)
+            uuidTextureMap.set(reflectionTexture.uuid, reflectionTexture)
+
+            reflectionHandle.then(() => {
+                cubeRenderTarget.dispose()
+                pullReflectionPairs(pair)
+                uuidTextureMap.delete(reflectionTexture.uuid)
+            })
+        }
     }
-
     const textureManagers = forceGet(modelTextureManagersMap, model, () => {
         const result: Array<TextureManager> = []
         model.outerObject3d.traverse((child: Object3D | StandardMesh) => {
@@ -90,6 +98,7 @@ const refreshFactorsSystem = debounceSystem((model: Model) => {
         })
         return result
     })
+    const reflectionTexture = reflectionDataMap.get(model)?.[0]
     for (const textureManager of textureManagers) {
         setFactor(metalnessFactor, textureManager, "metalness")
         setFactor(roughnessFactor, textureManager, "roughness")
@@ -251,10 +260,9 @@ export default class Model extends Loaded<Group> implements IModel {
         return children
     }
 
-    public reflectionHandle?: Cancellable
     protected override _dispose() {
         super._dispose()
-        this.reflectionHandle?.cancel()
+        reflectionDataMap.get(this)?.[1].cancel()
     }
 
     private refreshFactors() {
@@ -304,6 +312,7 @@ export default class Model extends Loaded<Group> implements IModel {
         return this._reflection ?? false
     }
     public set reflection(val: boolean) {
+        val !== this._reflection && reflectionChangedSet.add(this)
         this._reflection = val
         this.refreshFactors()
     }
@@ -313,6 +322,7 @@ export default class Model extends Loaded<Group> implements IModel {
         return this._illumination ?? false
     }
     public set illumination(val: boolean) {
+        val !== this._illumination && reflectionChangedSet.add(this)
         this._illumination = val
         this.refreshFactors()
     }
