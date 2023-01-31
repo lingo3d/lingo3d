@@ -172,7 +172,7 @@ const SceneGraphContextMenu = () => {
                                             setPosition(undefined)
                                         }}
                                     >
-                                        Focus selection
+                                        Enter group
                                     </ContextMenuItem>
                                 )}
 
@@ -246,6 +246,16 @@ const SceneGraphContextMenu = () => {
                         }}
                     >
                         Unfreeze all
+                    </ContextMenuItem>
+
+                    <ContextMenuItem
+                        disabled={!selectionFocus}
+                        onClick={() => {
+                            setSelectionFocus(undefined)
+                            setPosition(undefined)
+                        }}
+                    >
+                        Exit group
                     </ContextMenuItem>
                 </>
             )}
