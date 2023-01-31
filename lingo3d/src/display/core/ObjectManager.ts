@@ -4,8 +4,23 @@ import scene from "../../engine/scene"
 import IObjectManager from "../../interface/IObjectManager"
 import FoundManager from "./FoundManager"
 import PhysicsObjectManager from "./PhysicsObjectManager"
-import { setManager } from "../../api/utils/manager"
+import { getManager, setManager } from "../../api/utils/manager"
 import { CM2M, M2CM } from "../../globals"
+
+const processFound = (
+    child: Object3D,
+    thisManager: ObjectManager,
+    hiddenFromSceneGraph?: boolean
+) => {
+    const childManager = getManager(child)
+    if (childManager instanceof FoundManager) return childManager
+
+    const result = setManager(child, new FoundManager(child, thisManager))
+    //@ts-ignore
+    !hiddenFromSceneGraph && thisManager._append(result)
+
+    return result
+}
 
 export default abstract class ObjectManager<T extends Object3D = Object3D>
     extends PhysicsObjectManager<T>
@@ -97,11 +112,7 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
             PropertyBinding.sanitizeNodeName(name)
         )
         if (!child) return
-
-        const result = setManager(child, new FoundManager(child, this))
-        !hiddenFromSceneGraph && this._append(result)
-
-        return result
+        return processFound(child, this, hiddenFromSceneGraph)
     }
 
     public findAll(
@@ -110,28 +121,19 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         const result: Array<FoundManager> = []
         if (name === undefined)
             this.outerObject3d.traverse((child) => {
-                result.push(setManager(child, new FoundManager(child, this)))
+                result.push(processFound(child, this))
             })
         else if (typeof name === "string")
             this.outerObject3d.traverse((child) => {
-                child.name === name &&
-                    result.push(
-                        setManager(child, new FoundManager(child, this))
-                    )
+                child.name === name && result.push(processFound(child, this))
             })
         else if (typeof name === "function")
             this.outerObject3d.traverse((child) => {
-                name(child.name) &&
-                    result.push(
-                        setManager(child, new FoundManager(child, this))
-                    )
+                name(child.name) && result.push(processFound(child, this))
             })
         else
             this.outerObject3d.traverse((child) => {
-                name.test(child.name) &&
-                    result.push(
-                        setManager(child, new FoundManager(child, this))
-                    )
+                name.test(child.name) && result.push(processFound(child, this))
             })
         return result
     }
