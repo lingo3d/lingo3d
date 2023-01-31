@@ -8,7 +8,7 @@ import { getManager, setManager } from "../../api/utils/getManager"
 import { CM2M, M2CM } from "../../globals"
 import MeshAppendable from "../../api/core/MeshAppendable"
 
-const getFoundManager = (
+export const getFoundManager = (
     child: Object3D,
     parentManager: MeshAppendable,
     hiddenFromSceneGraph?: boolean
@@ -124,11 +124,13 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
             this.outerObject3d.traverse((child) => {
                 result.push(getFoundManager(child, this))
             })
-        else if (typeof name === "string")
+        else if (typeof name === "string") {
+            const sanitized = PropertyBinding.sanitizeNodeName(name)
             this.outerObject3d.traverse((child) => {
-                child.name === name && result.push(getFoundManager(child, this))
+                child.name === sanitized &&
+                    result.push(getFoundManager(child, this))
             })
-        else if (typeof name === "function")
+        } else if (typeof name === "function")
             this.outerObject3d.traverse((child) => {
                 name(child.name) && result.push(getFoundManager(child, this))
             })

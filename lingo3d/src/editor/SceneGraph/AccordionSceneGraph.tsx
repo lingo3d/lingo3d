@@ -1,6 +1,8 @@
 import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import { appendableRoot, hiddenAppendables } from "../../api/core/collections"
-import ObjectManager from "../../display/core/ObjectManager"
+import ObjectManager, {
+    getFoundManager
+} from "../../display/core/ObjectManager"
 import Model from "../../display/Model"
 import scene from "../../engine/scene"
 import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
@@ -46,7 +48,9 @@ const AccordionSceneGraph = () => {
     const handleFind = () => {
         if (nativeTarget?.name && selectionTarget instanceof ObjectManager)
             setTimeout(() =>
-                emitSelectionTarget(selectionTarget.find(nativeTarget.name))
+                emitSelectionTarget(
+                    getFoundManager(nativeTarget, selectionTarget)
+                )
             )
     }
 

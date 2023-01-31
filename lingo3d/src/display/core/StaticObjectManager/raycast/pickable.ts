@@ -2,6 +2,7 @@ import { Raycaster, Object3D } from "three"
 import StaticObjectManager from ".."
 import { MouseEventName, mouseEvents } from "../../../../api/mouse"
 import { getManager } from "../../../../api/utils/getManager"
+import { emitSelectionTarget } from "../../../../events/onSelectionTarget"
 import { FAR, M2CM } from "../../../../globals"
 import { LingoMouseEvent } from "../../../../interface/IMouse"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
@@ -30,8 +31,12 @@ export const raycast = async (
         [...candidates].filter(filterUnselectable)
     )[0]
 
-    if (getSelectionFocus()) {
-        intersection && setSelectionNativeTarget(intersection.object)
+    const focusedManager = getSelectionFocus()
+    if (focusedManager) {
+        if (intersection) {
+            emitSelectionTarget(focusedManager, undefined, true)
+            setSelectionNativeTarget(intersection.object)
+        }
         return
     }
     const pxHit = physxPtr[0].pxRaycast?.(
