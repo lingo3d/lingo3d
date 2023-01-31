@@ -1,4 +1,4 @@
-import { useEffect, useState } from "preact/hooks"
+import { useEffect, useLayoutEffect, useState } from "preact/hooks"
 import {
     emitSelectionTarget,
     onSelectionTarget
@@ -31,7 +31,10 @@ import {
     setSelectionFocus
 } from "../../states/useSelectionFocus"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
+import {
+    getSelectionNativeTarget,
+    setSelectionNativeTarget
+} from "../../states/useSelectionNativeTarget"
 import { rightClickPtr } from "../../api/mouse"
 
 const SceneGraphContextMenu = () => {
@@ -39,6 +42,7 @@ const SceneGraphContextMenu = () => {
         Point & { search?: boolean; createJoint?: boolean }
     >()
     const selectionTarget = useSyncState(getSelectionTarget)
+    const nativeTarget = useSyncState(getSelectionNativeTarget)
     const [selectionFrozen] = useSyncState(getSelectionFrozen)
     const [timelineData] = useSyncState(getTimelineData)
     const timeline = useSyncState(getTimeline)
@@ -54,7 +58,18 @@ const SceneGraphContextMenu = () => {
         }
     }, [])
 
-    if (!position) return null
+    const [ready, setReady] = useState(false)
+
+    useLayoutEffect(() => {
+        setReady(false)
+        const timeout = setTimeout(() => setReady(true), 1)
+
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [selectionTarget, nativeTarget])
+
+    if (!position || !ready) return null
 
     return (
         <ContextMenu
@@ -136,7 +151,8 @@ const SceneGraphContextMenu = () => {
                                 : "Edit timeline"}
                         </ContextMenuItem>
                     ) : (
-                        selectionTarget && (
+                        selectionTarget &&
+                        !nativeTarget && (
                             <>
                                 {selectionTarget instanceof SpriteSheet && (
                                     <ContextMenuItem

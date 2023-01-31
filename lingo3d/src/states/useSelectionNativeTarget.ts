@@ -1,7 +1,7 @@
 import store from "@lincode/reactivity"
 import { debounceTrailing } from "@lincode/utils"
 import { Object3D } from "three"
-import { getSelectionTarget } from "./useSelectionTarget"
+import { onSelectionTarget } from "../events/onSelectionTarget"
 
 const [_setSelectionNativeTarget, getSelectionNativeTarget] = store<
     Object3D | undefined
@@ -14,4 +14,4 @@ export const setSelectionNativeTarget = debounceTrailing(
     1
 )
 
-getSelectionTarget(() => _setSelectionNativeTarget(undefined))
+onSelectionTarget(() => _setSelectionNativeTarget(undefined))
