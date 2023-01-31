@@ -31,6 +31,7 @@ import {
     setSelectionFocus
 } from "../../states/useSelectionFocus"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<
@@ -252,6 +253,8 @@ const SceneGraphContextMenu = () => {
                         disabled={!selectionFocus}
                         onClick={() => {
                             setSelectionFocus(undefined)
+                            emitSelectionTarget(undefined)
+                            setSelectionNativeTarget(undefined)
                             setPosition(undefined)
                         }}
                     >
