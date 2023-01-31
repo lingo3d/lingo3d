@@ -10,32 +10,32 @@ const undoStack: Array<Changes> = []
 let timelineDataRedoStack: Array<AnimationData> = []
 const changesTimelineDataSnapshotMap = new WeakMap<Changes, AnimationData>()
 
-createEffect(() => {
-    if (!getEditorBehavior()) return
+// createEffect(() => {
+//     if (!getEditorBehavior()) return
 
-    let timelineOpenIndex = 0
-    const handle0 = getTimeline((timeline) => {
-        if (timeline) timelineOpenIndex = index
-        else index = timelineOpenIndex
-        undoStack.length = index
-        timelineDataRedoStack = []
-    })
+//     let timelineOpenIndex = 0
+//     const handle0 = getTimeline((timeline) => {
+//         if (timeline) timelineOpenIndex = index
+//         else index = timelineOpenIndex
+//         undoStack.length = index
+//         timelineDataRedoStack = []
+//     })
 
-    const handle1 = onEditorChanges((changes) => {
-        timelineDataRedoStack = []
-        changesTimelineDataSnapshotMap.set(
-            changes,
-            structuredClone(getTimeline()?.data)
-        )
-        undoStack.length = index
-        undoStack.push(changes)
-        index = undoStack.length
-    })
-    return () => {
-        handle0.cancel()
-        handle1.cancel()
-    }
-}, [getEditorBehavior])
+//     const handle1 = onEditorChanges((changes) => {
+//         timelineDataRedoStack = []
+//         changesTimelineDataSnapshotMap.set(
+//             changes,
+//             structuredClone(getTimeline()?.data)
+//         )
+//         undoStack.length = index
+//         undoStack.push(changes)
+//         index = undoStack.length
+//     })
+//     return () => {
+//         handle0.cancel()
+//         handle1.cancel()
+//     }
+// }, [getEditorBehavior])
 
 export const undo = () => {
     if (--index < 0) {
