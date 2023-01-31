@@ -6,6 +6,7 @@ import { FAR, M2CM } from "../../../../globals"
 import { LingoMouseEvent } from "../../../../interface/IMouse"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
+import { setSelectionNativeTarget } from "../../../../states/useSelectionNativeTarget"
 import { vec2Point } from "../../../utils/vec2Point"
 import { physxPtr } from "../../PhysicsObjectManager/physx/physxPtr"
 import { actorPtrManagerMap } from "../../PhysicsObjectManager/physx/pxMaps"
@@ -29,19 +30,10 @@ export const raycast = async (
         [...candidates].filter(filterUnselectable)
     )[0]
 
-    const focusedManager = getSelectionFocus()
-    if (focusedManager) {
-        const { getFoundManager } = await import(
-            "../../../../api/utils/getFoundManager"
-        )
-        if (intersection)
-            return {
-                point: vec2Point(intersection.point),
-                distance: intersection.distance * M2CM,
-                manager: getFoundManager(intersection.object, focusedManager)
-            }
+    if (getSelectionFocus()) {
+        intersection && setSelectionNativeTarget(intersection.object)
+        return
     }
-
     const pxHit = physxPtr[0].pxRaycast?.(
         assignPxVec(raycaster.ray.origin),
         assignPxVec_(raycaster.ray.direction),
