@@ -45,7 +45,7 @@ const Tabs = () => {
             const options: Record<string, number> = {}
             let i = 0
             for (const cam of cameraList)
-                options[getDisplayName(getManager(cam))] = i++
+                options[getDisplayName(getManager(cam)!)] = i++
 
             const cameraInput = pane.add(
                 pane.addInput(cameraSettings, label, { options })

@@ -49,7 +49,7 @@ export const raycast = (x: number, y: number, candidates: Set<Object3D>) => {
         return {
             point: vec2Point(intersection.point),
             distance: intersection.distance * M2CM,
-            manager: getManager<StaticObjectManager>(intersection.object)
+            manager: getManager<StaticObjectManager>(intersection.object)!
         }
 }
 
