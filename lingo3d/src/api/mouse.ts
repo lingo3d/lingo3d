@@ -150,3 +150,10 @@ const mouse = new Mouse()
 appendableRoot.delete(mouse)
 
 export default mouse
+
+export const rightClickPtr = [false]
+export const toggleRightClickPtr = () => {
+    rightClickPtr[0] = true
+    setTimeout(() => (rightClickPtr[0] = false), 100)
+}
+mouseEvents.on("rightClick", toggleRightClickPtr)

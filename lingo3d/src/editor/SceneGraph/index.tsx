@@ -5,6 +5,7 @@ import useClickable from "../hooks/useClickable"
 import AccordionSceneGraph from "./AccordionSceneGraph"
 import AccordionTimelines from "./AccordionTimelines"
 import useInitEditor from "../hooks/useInitEditor"
+import { toggleRightClickPtr } from "../../api/mouse"
 
 const SceneGraph = () => {
     useInitCSS()
@@ -20,7 +21,8 @@ const SceneGraph = () => {
                 onClick={() => emitSelectionTarget(undefined)}
                 onContextMenu={(el) => {
                     el.preventDefault()
-                    emitSelectionTarget(undefined, true)
+                    toggleRightClickPtr()
+                    emitSelectionTarget(undefined)
                 }}
                 style={{
                     width: 200,

@@ -1,5 +1,6 @@
 import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
+import { toggleRightClickPtr } from "../../api/mouse"
 import { isPositionedManager } from "../../display/core/PositionedManager"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
@@ -13,9 +14,10 @@ export default (
 ) => {
     setWorldPlay(false)
     queueMicrotask(() => {
+        rightClick && toggleRightClickPtr()
         if (isPositionedManager(parent) && getSelectionTarget() !== parent)
-            emitSelectionTarget(parent, rightClick, true)
+            emitSelectionTarget(parent, true)
         if (target instanceof Object3D) setSelectionNativeTarget(target)
-        else emitSelectionTarget(target, rightClick, true)
+        else emitSelectionTarget(target, true)
     })
 }

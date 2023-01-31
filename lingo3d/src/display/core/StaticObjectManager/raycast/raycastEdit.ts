@@ -5,7 +5,7 @@ import {
 } from "@lincode/reactivity"
 import { hiddenAppendables } from "../../../../api/core/collections"
 import { isPositionedManager } from "../../PositionedManager"
-import { mouseEvents } from "../../../../api/mouse"
+import { mouseEvents, rightClickPtr } from "../../../../api/mouse"
 import { onSceneGraphChange } from "../../../../events/onSceneGraphChange"
 import {
     emitSelectionTarget,
@@ -45,18 +45,17 @@ createEffect(() => {
     const handle1 = mouseEvents.on("click", () =>
         emitSelectionTarget(undefined)
     )
-    const handleBlankSpaceRightClick = mouseEvents.on("rightClick", () =>
-        emitSelectionTarget(undefined, true)
+    const handle2 = mouseEvents.on("rightClick", () =>
+        emitSelectionTarget(undefined)
     )
-    const handle2 = pickable(["rightClick"], selectionCandidates, (target) =>
-        emitSelectionTarget(target, true)
+    const handle3 = pickable(
+        ["click", "rightClick"],
+        selectionCandidates,
+        (target) => emitSelectionTarget(target)
     )
-    const handle3 = pickable(["click"], selectionCandidates, (target) =>
-        emitSelectionTarget(target)
-    )
-    const handle4 = onSelectionTarget(({ target, rightClick, noDeselect }) => {
+    const handle4 = onSelectionTarget(({ target, noDeselect }) => {
         if (multipleSelection) {
-            if (!isPositionedManager(target) || rightClick) return
+            if (!isPositionedManager(target) || rightClickPtr[0]) return
 
             if (firstMultipleSelection.current) {
                 const currentTarget = getSelectionTarget()
@@ -73,11 +72,11 @@ createEffect(() => {
 
             return
         }
-        if (rightClick && getMultipleSelectionTargets()[0].size) return
+        if (rightClickPtr[0] && getMultipleSelectionTargets()[0].size) return
 
         clearMultipleSelectionTargets()
         setSelectionTarget(
-            rightClick || noDeselect
+            rightClickPtr[0] || noDeselect
                 ? target
                 : target === getSelectionTarget()
                 ? undefined
@@ -87,7 +86,6 @@ createEffect(() => {
     return () => {
         handle0.cancel()
         handle1.cancel()
-        handleBlankSpaceRightClick.cancel()
         handle2.cancel()
         handle3.cancel()
         handle4.cancel()

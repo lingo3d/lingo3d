@@ -34,7 +34,7 @@ export const raycast = async (
     const focusedManager = getSelectionFocus()
     if (focusedManager) {
         if (intersection) {
-            emitSelectionTarget(focusedManager, undefined, true)
+            emitSelectionTarget(focusedManager, true)
             setSelectionNativeTarget(intersection.object)
         }
         return

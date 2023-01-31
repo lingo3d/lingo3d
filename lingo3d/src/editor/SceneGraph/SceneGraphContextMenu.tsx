@@ -32,6 +32,7 @@ import {
 } from "../../states/useSelectionFocus"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
+import { rightClickPtr } from "../../api/mouse"
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<
@@ -46,7 +47,7 @@ const SceneGraphContextMenu = () => {
 
     useEffect(() => {
         const handle = onSelectionTarget(
-            ({ rightClick }) => rightClick && setPosition(mousePosition)
+            () => rightClickPtr[0] && setPosition(mousePosition)
         )
         return () => {
             handle.cancel()
