@@ -45,18 +45,14 @@ createEffect(() => {
     const handle1 = mouseEvents.on("click", () =>
         emitSelectionTarget(undefined)
     )
-    let rightClick = false
-    const handle2 = mouseEvents.on("rightClick", () => {
-        rightClick = true
+    const handleBlankSpaceRightClick = mouseEvents.on("rightClick", () =>
         emitSelectionTarget(undefined, true)
-        queueMicrotask(() => (rightClick = false))
-    })
-    const handle3 = pickable(
-        ["click", "rightClick"],
-        selectionCandidates,
-        (target) => {
-            emitSelectionTarget(target, rightClick)
-        }
+    )
+    const handle2 = pickable(["rightClick"], selectionCandidates, (target) =>
+        emitSelectionTarget(target, true)
+    )
+    const handle3 = pickable(["click"], selectionCandidates, (target) =>
+        emitSelectionTarget(target)
     )
     const handle4 = onSelectionTarget(({ target, rightClick, noDeselect }) => {
         if (multipleSelection) {
@@ -91,6 +87,7 @@ createEffect(() => {
     return () => {
         handle0.cancel()
         handle1.cancel()
+        handleBlankSpaceRightClick.cancel()
         handle2.cancel()
         handle3.cancel()
         handle4.cancel()
