@@ -1,5 +1,5 @@
 import { Object3D } from "three"
-import { getManager, setManager } from "./manager"
+import { getManager, setManager } from "./getManager"
 import FoundManager from "../../display/core/FoundManager"
 import ObjectManager from "../../display/core/ObjectManager"
 

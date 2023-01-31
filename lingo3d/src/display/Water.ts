@@ -8,7 +8,7 @@ import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import { WATERNORMALS_URL } from "../globals"
 import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "./core/VisibleObjectManager"
-import { setManager } from "../api/utils/manager"
+import { setManager } from "../api/utils/getManager"
 
 export default class Water extends VisibleObjectManager implements IWater {
     public static componentName = "water"

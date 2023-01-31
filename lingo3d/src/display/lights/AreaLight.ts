@@ -18,8 +18,7 @@ import { ssrExcludeSet } from "../../engine/renderLoop/effectComposer/ssrEffect/
 import selectionCandidates, {
     additionalSelectionCandidates
 } from "../core/StaticObjectManager/raycast/selectionCandidates"
-import { getEditorModeComputed } from "../../states/useEditorModeComputed"
-import { setManager } from "../../api/utils/manager"
+import { setManager } from "../../api/utils/getManager"
 import { CM2M } from "../../globals"
 
 const lazyInit = lazy(async () => {

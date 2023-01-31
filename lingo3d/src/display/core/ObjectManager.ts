@@ -4,7 +4,7 @@ import scene from "../../engine/scene"
 import IObjectManager from "../../interface/IObjectManager"
 import FoundManager from "./FoundManager"
 import PhysicsObjectManager from "./PhysicsObjectManager"
-import { setManager } from "../../api/utils/manager"
+import { setManager } from "../../api/utils/getManager"
 import { CM2M, M2CM } from "../../globals"
 import { getFoundManager } from "../../api/utils/getFoundManager"
 

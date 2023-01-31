@@ -8,7 +8,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "../core/VisibleObjectManager"
 import { addSelectionHelper } from "../core/StaticObjectManager/raycast/selectionCandidates"
 import HelperCube from "../core/utils/HelperCube"
-import { setManager } from "../../api/utils/manager"
+import { setManager } from "../../api/utils/getManager"
 
 const elementContainerTemplate = createElement(`
     <div style="position: absolute; visibility: hidden; pointer-events: none;"></div>

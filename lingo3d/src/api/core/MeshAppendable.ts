@@ -1,5 +1,5 @@
 import { Object3D, Quaternion, Vector3 } from "three"
-import { setManager } from "../utils/manager"
+import { setManager } from "../utils/getManager"
 import Appendable from "./Appendable"
 
 export default class MeshAppendable<

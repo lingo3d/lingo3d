@@ -1,7 +1,7 @@
 import { Raycaster, Object3D } from "three"
 import StaticObjectManager from ".."
 import { MouseEventName, mouseEvents } from "../../../../api/mouse"
-import { getManager } from "../../../../api/utils/manager"
+import { getManager } from "../../../../api/utils/getManager"
 import { FAR, M2CM } from "../../../../globals"
 import { LingoMouseEvent } from "../../../../interface/IMouse"
 import { getCameraRendered } from "../../../../states/useCameraRendered"

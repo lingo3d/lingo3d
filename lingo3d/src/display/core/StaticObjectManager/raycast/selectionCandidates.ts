@@ -12,6 +12,7 @@ import {
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
 import callPrivateMethod from "../../../../utils/callPrivateMethod"
+import { StandardMesh } from "../../mixins/TexturedStandardMixin"
 import HelperPrimitive from "../../utils/HelperPrimitive"
 import HelperSprite from "../../utils/HelperSprite"
 
@@ -66,8 +67,10 @@ export const getSelectionCandidates = debounceTrailing(
         const selectionFocus = getSelectionFocus()
         if (selectionFocus) {
             if (selectionFocus instanceof MeshAppendable)
-                selectionFocus.outerObject3d.traverse((children: Object3D) =>
-                    selectionCandidates.add(children)
+                selectionFocus.outerObject3d.traverse(
+                    (children: Object3D | StandardMesh) =>
+                        "material" in children &&
+                        selectionCandidates.add(children)
                 )
             return
         }

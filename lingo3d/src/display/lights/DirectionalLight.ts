@@ -1,7 +1,7 @@
 import { mapRange } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
 import { DirectionalLight as ThreeDirectionalLight } from "three"
-import { getManager } from "../../api/utils/manager"
+import { getManager } from "../../api/utils/getManager"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { SHADOW_BIAS } from "../../globals"

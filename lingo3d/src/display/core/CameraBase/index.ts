@@ -19,7 +19,7 @@ import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import getWorldDirection from "../../utils/getWorldDirection"
 import { addSelectionHelper } from "../StaticObjectManager/raycast/selectionCandidates"
 import HelperSprite from "../utils/HelperSprite"
-import { setManager } from "../../../api/utils/manager"
+import { setManager } from "../../../api/utils/getManager"
 import debounceSystem from "../../../utils/debounceSystem"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 
