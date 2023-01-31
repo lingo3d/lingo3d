@@ -68,9 +68,10 @@ export const getSelectionCandidates = debounceTrailing(
         if (selectionFocus) {
             if (selectionFocus instanceof MeshAppendable)
                 selectionFocus.outerObject3d.traverse(
-                    (children: Object3D | StandardMesh) =>
-                        "material" in children &&
-                        selectionCandidates.add(children)
+                    (child: Object3D | StandardMesh) =>
+                        "material" in child &&
+                        child.material.userData.TextureManager &&
+                        selectionCandidates.add(child)
                 )
             return
         }

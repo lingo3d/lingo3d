@@ -1,11 +1,11 @@
 import { Object3D } from "three"
 import { getManager, setManager } from "./getManager"
 import FoundManager from "../../display/core/FoundManager"
-import ObjectManager from "../../display/core/ObjectManager"
+import MeshAppendable from "../core/MeshAppendable"
 
 export const getFoundManager = (
     child: Object3D,
-    parentManager: ObjectManager,
+    parentManager: MeshAppendable,
     hiddenFromSceneGraph?: boolean
 ) => {
     const childManager = getManager(child)

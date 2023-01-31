@@ -1,6 +1,6 @@
 import store from "@lincode/reactivity"
-import Appendable from "../api/core/Appendable"
+import MeshAppendable from "../api/core/MeshAppendable"
 
 export const [setSelectionFocus, getSelectionFocus] = store<
-    Appendable | undefined
+    MeshAppendable | undefined
 >(undefined)

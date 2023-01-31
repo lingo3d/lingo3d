@@ -29,7 +29,8 @@ export const raycast = async (
         [...candidates].filter(filterUnselectable)
     )[0]
 
-    if (getSelectionFocus()) {
+    const focusedManager = getSelectionFocus()
+    if (focusedManager) {
         const { getFoundManager } = await import(
             "../../../../api/utils/getFoundManager"
         )
@@ -37,10 +38,7 @@ export const raycast = async (
             return {
                 point: vec2Point(intersection.point),
                 distance: intersection.distance * M2CM,
-                manager: getFoundManager(
-                    intersection.object,
-                    getManager(intersection.object)!
-                )
+                manager: getFoundManager(intersection.object, focusedManager)
             }
     }
 

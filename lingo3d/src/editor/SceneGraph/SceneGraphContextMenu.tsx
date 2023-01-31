@@ -1,5 +1,8 @@
 import { useEffect, useState } from "preact/hooks"
-import { onSelectionTarget } from "../../events/onSelectionTarget"
+import {
+    emitSelectionTarget,
+    onSelectionTarget
+} from "../../events/onSelectionTarget"
 import {
     addSelectionFrozen,
     clearSelectionFrozen,
@@ -27,6 +30,7 @@ import {
     getSelectionFocus,
     setSelectionFocus
 } from "../../states/useSelectionFocus"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<
@@ -157,20 +161,20 @@ const SceneGraphContextMenu = () => {
                                     Search children
                                 </ContextMenuItem>
 
-                                <ContextMenuItem
-                                    onClick={() => {
-                                        setSelectionFocus(
-                                            selectionFocus
-                                                ? undefined
-                                                : selectionTarget
-                                        )
-                                        setPosition(undefined)
-                                    }}
-                                >
-                                    {selectionFocus
-                                        ? "Unfocus selection"
-                                        : "Focus selection"}
-                                </ContextMenuItem>
+                                {selectionTarget instanceof MeshAppendable && (
+                                    <ContextMenuItem
+                                        disabled={!!selectionFocus}
+                                        onClick={() => {
+                                            setSelectionFocus(
+                                                selectionTarget as any
+                                            )
+                                            emitSelectionTarget(undefined)
+                                            setPosition(undefined)
+                                        }}
+                                    >
+                                        Focus selection
+                                    </ContextMenuItem>
+                                )}
 
                                 <ContextMenuItem
                                     disabled={
