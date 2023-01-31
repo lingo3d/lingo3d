@@ -23,7 +23,10 @@ import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import selectAllJointed from "./utils/selectAllJointed"
 import SpriteSheet from "../../display/SpriteSheet"
 import downloadBlob from "../../api/files/downloadBlob"
-import { setSelectionFocus } from "../../states/useSelectionFocus"
+import {
+    getSelectionFocus,
+    setSelectionFocus
+} from "../../states/useSelectionFocus"
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<
@@ -34,6 +37,7 @@ const SceneGraphContextMenu = () => {
     const [timelineData] = useSyncState(getTimelineData)
     const timeline = useSyncState(getTimeline)
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
+    const selectionFocus = useSyncState(getSelectionFocus)
 
     useEffect(() => {
         const handle = onSelectionTarget(
@@ -155,11 +159,17 @@ const SceneGraphContextMenu = () => {
 
                                 <ContextMenuItem
                                     onClick={() => {
-                                        setSelectionFocus(selectionTarget)
+                                        setSelectionFocus(
+                                            selectionFocus
+                                                ? undefined
+                                                : selectionTarget
+                                        )
                                         setPosition(undefined)
                                     }}
                                 >
-                                    Focus selection
+                                    {selectionFocus
+                                        ? "Unfocus selection"
+                                        : "Focus selection"}
                                 </ContextMenuItem>
 
                                 <ContextMenuItem

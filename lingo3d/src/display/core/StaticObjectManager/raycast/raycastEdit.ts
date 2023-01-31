@@ -28,6 +28,7 @@ import pickable from "./pickable"
 import selectionCandidates, {
     getSelectionCandidates
 } from "./selectionCandidates"
+import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 
 createEffect(() => {
     const multipleSelection = getMultipleSelection()
@@ -94,4 +95,9 @@ createEffect(() => {
         handle3.cancel()
         handle4.cancel()
     }
-}, [getWorldPlayComputed, getTransformControlsDragging, getMultipleSelection])
+}, [
+    getWorldPlayComputed,
+    getTransformControlsDragging,
+    getMultipleSelection,
+    getSelectionFocus
+])

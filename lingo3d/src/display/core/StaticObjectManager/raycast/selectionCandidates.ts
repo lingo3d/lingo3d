@@ -9,6 +9,7 @@ import {
     onSelectionTarget,
     emitSelectionTarget
 } from "../../../../events/onSelectionTarget"
+import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
 import callPrivateMethod from "../../../../utils/callPrivateMethod"
 import HelperPrimitive from "../../utils/HelperPrimitive"
@@ -62,6 +63,14 @@ const traverse = (
 export const getSelectionCandidates = debounceTrailing(
     (targets: Array<Appendable> | Set<Appendable> = appendableRoot) => {
         selectionCandidates.clear()
+        const selectionFocus = getSelectionFocus()
+        if (selectionFocus) {
+            if (selectionFocus instanceof MeshAppendable)
+                selectionFocus.outerObject3d.traverse((children: Object3D) =>
+                    selectionCandidates.add(children)
+                )
+            return
+        }
         if (overrideSelectionCandidates.size) {
             for (const candidate of overrideSelectionCandidates)
                 selectionCandidates.add(candidate)
