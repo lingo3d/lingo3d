@@ -15,8 +15,7 @@ export default (
     queueMicrotask(() => {
         if (isPositionedManager(parent) && getSelectionTarget() !== parent)
             emitSelectionTarget(parent, rightClick, true)
-        if (target instanceof Object3D)
-            queueMicrotask(() => setSelectionNativeTarget(target))
+        if (target instanceof Object3D) setSelectionNativeTarget(target)
         else emitSelectionTarget(target, rightClick, true)
     })
 }
