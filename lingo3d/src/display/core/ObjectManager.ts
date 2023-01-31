@@ -4,9 +4,24 @@ import scene from "../../engine/scene"
 import IObjectManager from "../../interface/IObjectManager"
 import FoundManager from "./FoundManager"
 import PhysicsObjectManager from "./PhysicsObjectManager"
-import { setManager } from "../../api/utils/getManager"
+import { getManager, setManager } from "../../api/utils/getManager"
 import { CM2M, M2CM } from "../../globals"
-import { getFoundManager } from "../../api/utils/getFoundManager"
+import MeshAppendable from "../../api/core/MeshAppendable"
+
+const getFoundManager = (
+    child: Object3D,
+    parentManager: MeshAppendable,
+    hiddenFromSceneGraph?: boolean
+) => {
+    const childManager = getManager(child)
+    if (childManager instanceof FoundManager) return childManager
+
+    const result = setManager(child, new FoundManager(child, parentManager))
+    //@ts-ignore
+    !hiddenFromSceneGraph && parentManager._append(result)
+
+    return result
+}
 
 export default abstract class ObjectManager<T extends Object3D = Object3D>
     extends PhysicsObjectManager<T>
