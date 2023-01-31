@@ -2,14 +2,21 @@ import { createEffect } from "@lincode/reactivity"
 import { BoxHelper } from "three"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
+import { getSelectionNativeTarget } from "../states/useSelectionNativeTarget"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import scene from "./scene"
 
 createEffect(() => {
-    const target = getSelectionTarget()
-    if (!target || !("object3d" in target)) return
+    const selectionTarget = getSelectionTarget()
+    const target =
+        getSelectionNativeTarget() ??
+        (selectionTarget && "object3d" in selectionTarget
+            ? selectionTarget.object3d
+            : undefined)
 
-    const boxHelper = new BoxHelper(target.object3d)
+    if (!target) return
+
+    const boxHelper = new BoxHelper(target)
     const frame = requestAnimationFrame(() => scene.add(boxHelper))
     const handle = onBeforeRender(() => boxHelper.update())
 
@@ -18,7 +25,7 @@ createEffect(() => {
         scene.remove(boxHelper)
         handle.cancel()
     }
-}, [getSelectionTarget])
+}, [getSelectionTarget, getSelectionNativeTarget])
 
 createEffect(() => {
     const [targets] = getMultipleSelectionTargets()
