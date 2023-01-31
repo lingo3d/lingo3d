@@ -6,6 +6,7 @@ import { emitSelectionTarget } from "../../../../events/onSelectionTarget"
 import { FAR, M2CM } from "../../../../globals"
 import { LingoMouseEvent } from "../../../../interface/IMouse"
 import { getCameraRendered } from "../../../../states/useCameraRendered"
+import { sceneGraphExpand } from "../../../../states/useSceneGraphExpanded"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { setSelectionNativeTarget } from "../../../../states/useSelectionNativeTarget"
 import { vec2Point } from "../../../utils/vec2Point"
@@ -36,6 +37,7 @@ export const raycast = async (
         if (intersection) {
             emitSelectionTarget(focusedManager, true)
             setSelectionNativeTarget(intersection.object)
+            sceneGraphExpand(intersection.object)
         }
         return
     }
