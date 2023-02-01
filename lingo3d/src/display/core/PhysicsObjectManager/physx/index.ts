@@ -5,12 +5,12 @@ import { destroyPtr } from "./destroy"
 import "./physxLoop"
 import { physxPtr } from "./physxPtr"
 import { simd } from "wasm-feature-detect"
-import wasmBinaryFilePtr from "./wasmBinaryFilePtr"
 
-if (await simd()) wasmBinaryFilePtr[0] = "physx-simd.wasm"
-else wasmBinaryFilePtr[0] = "physx.wasm"
+const simdSupported = await simd()
 
-const { default: physx } = await import("./physx-js-webidl")
+const { default: physx } = await (simdSupported
+    ? import("./physxSimd")
+    : import("./physx"))
 const PhysX = await physx()
 
 const {

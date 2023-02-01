@@ -2,7 +2,6 @@ import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount
 } from "../../../../states/useLoadingUnpkgCount"
-import wasmBinaryFilePtr from "./wasmBinaryFilePtr"
 
 var PhysX = (() => {
     var _scriptDir =
@@ -5437,7 +5436,7 @@ var PhysX = (() => {
             }
         }
 
-        var [wasmBinaryFile] = wasmBinaryFilePtr
+        var wasmBinaryFile = "physx-simd.wasm"
         if (!isDataURI(wasmBinaryFile)) {
             wasmBinaryFile = locateFile(wasmBinaryFile)
         }
