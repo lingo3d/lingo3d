@@ -1,3 +1,4 @@
+import { WASM_URL } from "../../../../globals"
 import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount
@@ -5436,7 +5437,7 @@ var PhysX = (() => {
             }
         }
 
-        var wasmBinaryFile = "physx-simd.wasm"
+        var wasmBinaryFile = WASM_URL + "physx-simd.wasm"
         if (!isDataURI(wasmBinaryFile)) {
             wasmBinaryFile = locateFile(wasmBinaryFile)
         }
