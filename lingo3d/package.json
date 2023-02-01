@@ -39,6 +39,7 @@
         "prettier": "^2.8.3",
         "stats.js": "^0.17.0",
         "three": "0.148.0",
+        "wasm-feature-detect": "^1.4.0",
         "wavesurfer.js": "^6.4.0",
         "xstate": "^4.35.2"
     },

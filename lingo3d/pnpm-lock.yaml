@@ -32,6 +32,7 @@ specifiers:
   three: 0.148.0
   typescript: ^4.9.4
   vite: ^4.0.4
+  wasm-feature-detect: ^1.4.0
   wavesurfer.js: ^6.4.0
   xstate: ^4.35.2
 
@@ -55,6 +56,7 @@ dependencies:
   prettier: 2.8.3
   stats.js: 0.17.0
   three: 0.148.0
+  wasm-feature-detect: 1.4.0
   wavesurfer.js: 6.4.0
   xstate: 4.35.2
 
@@ -1243,6 +1245,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /wasm-feature-detect/1.4.0:
+    resolution: {integrity: sha512-9z4Yk3SeHQdb7E4g6ywQYcUt1CHr9HFiCIA5h29rv0gmW4lCE5dnDhheiJI5qzVPSDnXHyXQPLGPyucsuIzacw==}
+    dev: false
 
   /wavesurfer.js/6.4.0:
     resolution: {integrity: sha512-+i9GkYdMTm998goOWvycWqCgxfbolnuGTPgrdGss7ZbQDuu+n6AHdnJwYnqxW8RZo5A2ck6ztzXbrXGuCi0m5g==}

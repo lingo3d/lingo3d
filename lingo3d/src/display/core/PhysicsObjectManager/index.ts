@@ -30,6 +30,17 @@ import cookConvexGeometry, {
 import { physxPtr } from "./physx/physxPtr"
 import { getPhysXLoaded } from "../../../states/usePhysXLoaded"
 import { Cancellable } from "@lincode/promiselikes"
+import { lazy } from "@lincode/utils"
+import {
+    decreaseLoadingUnpkgCount,
+    increaseLoadingUnpkgCount
+} from "../../../states/useLoadingUnpkgCount"
+
+const importPhysX = lazy(async () => {
+    increaseLoadingUnpkgCount()
+    await import("./physx")
+    decreaseLoadingUnpkgCount()
+})
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -180,7 +191,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.refreshPhysicsState = new Reactive({})
         this.refreshShapeState = new Reactive({})
 
-        import("./physx")
+        importPhysX()
 
         const [setMode, getMode] = store<PhysicsOptions>(false)
         this.createEffect(() => {
