@@ -5,7 +5,6 @@ import {
     managerControllerMap,
     managerShapeLinkMap
 } from "./pxMaps"
-import { getPhysXCookingCount } from "../../../../states/usePhysXCookingCount"
 import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
 import { dtPtr } from "../../../../engine/eventLoop"
@@ -41,13 +40,7 @@ export const groundedControllerManagers = new Set<PhysicsObjectManager>()
 
 createEffect(() => {
     const { scene, pxControllerFilters, pxRaycast, PxShapeExt } = physxPtr[0]
-    if (
-        !scene ||
-        getPhysXCookingCount() ||
-        !getWorldPlayComputed() ||
-        !getFirstLoad()
-    )
-        return
+    if (!scene || !getWorldPlayComputed() || !getFirstLoad()) return
 
     const handle = onPhysXLoop(() => {
         groundedControllerManagers.clear()
@@ -139,4 +132,4 @@ createEffect(() => {
     return () => {
         handle.cancel()
     }
-}, [getPhysXLoaded, getPhysXCookingCount, getWorldPlayComputed, getFirstLoad])
+}, [getPhysXLoaded, getWorldPlayComputed, getFirstLoad])

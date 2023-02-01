@@ -1,8 +1,4 @@
 import { Object3D } from "three"
-import {
-    decreasePhysXCookingCount,
-    increasePhysXCookingCount
-} from "../../../../states/usePhysXCookingCount"
 import destroy from "./destroy"
 import computeMergedPxVertices from "./computeMergedPxVertices"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
@@ -16,8 +12,6 @@ export default (
     manager: MeshAppendable
 ) => {
     if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
-
-    increasePhysXCookingCount()
 
     const {
         PxBoundedData,
@@ -63,7 +57,6 @@ export default (
     destroy(desc)
 
     pxGeometryCache.set(src, pxGeometry)
-    decreasePhysXCookingCount()
 
     return pxGeometry
 }

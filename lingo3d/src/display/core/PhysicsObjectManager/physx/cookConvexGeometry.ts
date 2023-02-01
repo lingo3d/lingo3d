@@ -1,7 +1,3 @@
-import {
-    decreasePhysXCookingCount,
-    increasePhysXCookingCount
-} from "../../../../states/usePhysXCookingCount"
 import destroy from "./destroy"
 import computePxVertices from "./computePxVertices"
 import createInstancePool from "../../utils/createInstancePool"
@@ -31,8 +27,6 @@ const [increaseCount, decreaseCount] = createInstancePool<
     if (typeSrc === "sphere" && x === y && x === z)
         return new PxSphereGeometry(x * 0.5)
 
-    increasePhysXCookingCount()
-
     const [vec3Vector, count] = computePxVertices(manager)
     const desc = new PxConvexMeshDesc()
     desc.flags = getConvexFlags()
@@ -49,8 +43,6 @@ const [increaseCount, decreaseCount] = createInstancePool<
     destroy(desc)
     vec3Vector.clear()
     destroy(vec3Vector)
-
-    decreasePhysXCookingCount()
 
     return pxGeometry
 }, destroy)
