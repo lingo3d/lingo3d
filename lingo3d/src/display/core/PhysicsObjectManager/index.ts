@@ -5,7 +5,7 @@ import IPhysicsObjectManager, {
     PhysicsOptions
 } from "../../../interface/IPhysicsObjectManager"
 import getActualScale from "../../utils/getActualScale"
-import { decrease, increase, Reactive, store } from "@lincode/reactivity"
+import { Reactive, store } from "@lincode/reactivity"
 import {
     actorPtrManagerMap,
     managerActorMap,
@@ -29,7 +29,6 @@ import cookConvexGeometry, {
 } from "./physx/cookConvexGeometry"
 import { physxPtr } from "./physx/physxPtr"
 import { getPhysXLoaded } from "../../../states/usePhysXLoaded"
-import { Cancellable } from "@lincode/promiselikes"
 import { lazy } from "@lincode/utils"
 import {
     decreaseLoadingUnpkgCount,
@@ -41,16 +40,6 @@ const importPhysX = lazy(async () => {
     await import("./physx")
     decreaseLoadingUnpkgCount()
 })
-
-const [setLoadingStaticCount, getLoadingStaticCount] = store(0)
-const increaseLoadingStaticCount = increase(
-    setLoadingStaticCount,
-    getLoadingStaticCount
-)
-const decreaseLoadingStaticCount = decrease(
-    setLoadingStaticCount,
-    getLoadingStaticCount
-)
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>

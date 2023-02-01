@@ -1,12 +1,17 @@
 import { Object3D, BufferGeometry, Mesh } from "three"
 import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
+import Loaded from "../../Loaded"
 import { physxPtr } from "./physxPtr"
 
-export default (loaded: Object3D, manager: MeshAppendable) => {
+export default (manager: MeshAppendable | Loaded) => {
     const { Vector_PxVec3 } = physxPtr[0]
 
     const geometries: Array<BufferGeometry> = []
+
+    const loaded =
+        "loadedObject3d" in manager ? manager.loadedObject3d! : manager.object3d
+    loaded.updateMatrixWorld()
 
     const { position, rotation } = manager.outerObject3d
     loaded.traverse((c: Object3D | Mesh) => {

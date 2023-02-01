@@ -1,4 +1,3 @@
-import { Object3D } from "three"
 import destroy from "./destroy"
 import computeMergedPxVertices from "./computeMergedPxVertices"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
@@ -6,11 +5,7 @@ import { physxPtr } from "./physxPtr"
 
 const pxGeometryCache = new Map<string | undefined, any>()
 
-export default (
-    src: string | undefined,
-    loaded: Object3D,
-    manager: MeshAppendable
-) => {
+export default (src: string | undefined, manager: MeshAppendable) => {
     if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
 
     const {
@@ -22,7 +17,7 @@ export default (
         PxTriangleMeshGeometry
     } = physxPtr[0]
 
-    const [pointVector, count, index] = computeMergedPxVertices(loaded, manager)
+    const [pointVector, count, index] = computeMergedPxVertices(manager)
     const indexVector = new Vector_PxU32()
 
     const { array } = index
