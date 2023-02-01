@@ -84,7 +84,7 @@ import { onBeforeRender } from "./events/onBeforeRender"
 import { Point3d, Point } from "@lincode/math"
 import clientToWorld from "./display/utils/clientToWorld"
 
-import { setWasmPath } from "./states/useWasmPath"
+import { setAssetsPath } from "./states/useAssetsPath"
 import { setEditorBehavior } from "./states/useEditorBehavior"
 
 export type {
@@ -172,6 +172,6 @@ export {
     Point3d,
     Point,
     clientToWorld,
-    setWasmPath,
+    setAssetsPath,
     setEditorBehavior
 }

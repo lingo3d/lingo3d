@@ -4,7 +4,7 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader"
 import { forceGet } from "@lincode/utils"
 import cloneSkinnedMesh from "../cloneSkinnedMesh"
 import { handleProgress } from "./utils/bytesLoaded"
-import { getWasmPath } from "../../../states/useWasmPath"
+import { getAssetsPath } from "../../../states/useAssetsPath"
 import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount
@@ -15,7 +15,7 @@ const cache = new Map<string, Promise<[GLTF, boolean]>>()
 const loader = new GLTFLoader()
 
 const dracoLoader = new DRACOLoader()
-getWasmPath((wasmPath) => dracoLoader.setDecoderPath(wasmPath))
+getAssetsPath((wasmPath) => dracoLoader.setDecoderPath(wasmPath))
 loader.setDRACOLoader(dracoLoader)
 
 export default async (url: string, clone: boolean) => {
