@@ -19,7 +19,8 @@ const {
     Vector_PxVec3,
     Vector_PxReal,
     Vector_PxU32,
-    PxSimulationEventCallback,
+    Vector_PxContactPairPoint,
+    PxSimulationEventCallbackImpl,
     PxTopLevelFunctions,
     PxDefaultAllocator,
     PxDefaultErrorCallback,
@@ -53,8 +54,6 @@ const {
     PxShapeExt,
     PxD6Drive,
     PxD6JointDrive,
-
-    _emscripten_bind_PxSimulationEventCallbackImpl_PxSimulationEventCallbackImpl_0,
 
     _emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX,
     _emscripten_enum_PxConvexFlagEnum_eDISABLE_MESH_VALIDATION,
@@ -152,15 +151,6 @@ const {
     _emscripten_enum_PxD6DriveEnum_eSLERP
 } = PhysX
 
-const simulationEventCallback =
-    new _emscripten_bind_PxSimulationEventCallbackImpl_PxSimulationEventCallbackImpl_0()
-simulationEventCallback.onTrigger = () => {
-    console.log("trigger")
-}
-simulationEventCallback.onContact = () => {
-    console.log("contact")
-}
-
 destroyPtr[0] = destroy
 const Px = PxTopLevelFunctions.prototype
 
@@ -197,6 +187,25 @@ const getConvexFlags = lazy(
 //create insertion callback
 const getInsertionCallback = lazy(() => physics.getPhysicsInsertionCallback())
 
+//create simulation event callback
+const simulationEvent = new PxSimulationEventCallbackImpl()
+simulationEvent.contacts = new Vector_PxContactPairPoint(64)
+simulationEvent.onContact = () => {
+    console.log("contact")
+}
+simulationEvent.onConstraintBreak = () => {
+    console.log("constraint break")
+}
+simulationEvent.onWake = () => {
+    console.log("wake")
+}
+simulationEvent.onSleep = () => {
+    console.log("sleep")
+}
+simulationEvent.onTrigger = () => {
+    console.log("trigger")
+}
+
 // create scene
 const pxVec = new PxVec3(0, gravityPtr[0], 0)
 const pxVec_ = new PxVec3(0, 0, 0)
@@ -205,20 +214,7 @@ const sceneDesc = new PxSceneDesc(scale)
 sceneDesc.set_gravity(pxVec)
 sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
 sceneDesc.set_filterShader(Px.DefaultFilterShader())
-// sceneDesc.set_simulationEventCallback(
-//     Object.create(PxSimulationEventCallback.prototype, {
-//         onContact: {
-//             value: (pairHeader: any, pairs: any, nbPairs: any) => {
-//                 console.log("onContact")
-//             }
-//         },
-//         onTrigger: {
-//             value: (pairs: any, nbPairs: any) => {
-//                 console.log("onTrigger")
-//             }
-//         }
-//     })
-// )
+sceneDesc.set_simulationEventCallback(simulationEvent)
 const scene = physics.createScene(sceneDesc)
 
 // create a default material
