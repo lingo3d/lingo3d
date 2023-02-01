@@ -18,7 +18,7 @@ type PhysX = {
     pxTransform__: any
     pxFilterData: any
     pxControllerFilters: any
-    scene: any
+    pxScene: any
     getCooking: any
     getConvexFlags: any
     getInsertionCallback: any

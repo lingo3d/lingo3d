@@ -39,8 +39,8 @@ const lockHit = (manager: StaticObjectManager, lock: boolean) => {
 export const groundedControllerManagers = new Set<PhysicsObjectManager>()
 
 createEffect(() => {
-    const { scene, pxControllerFilters, pxRaycast, PxShapeExt } = physxPtr[0]
-    if (!scene || !getWorldPlayComputed() || !getFirstLoad()) return
+    const { pxScene, pxControllerFilters, pxRaycast, PxShapeExt } = physxPtr[0]
+    if (!pxScene || !getWorldPlayComputed() || !getFirstLoad()) return
 
     const handle = onPhysXLoop(() => {
         groundedControllerManagers.clear()
@@ -108,8 +108,8 @@ createEffect(() => {
         }
         pxUpdateSet.clear()
 
-        scene.simulate(dtPtr[0])
-        scene.fetchResults(true)
+        pxScene.simulate(dtPtr[0])
+        pxScene.fetchResults(true)
 
         for (const [manager, actor] of managerActorMap) {
             const { p, q } = actor.getGlobalPose()

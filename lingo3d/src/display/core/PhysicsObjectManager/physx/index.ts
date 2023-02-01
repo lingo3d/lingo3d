@@ -215,7 +215,7 @@ sceneDesc.set_gravity(pxVec)
 sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
 sceneDesc.set_filterShader(Px.DefaultFilterShader())
 sceneDesc.set_simulationEventCallback(simulationEvent)
-const scene = physics.createScene(sceneDesc)
+const pxScene = physics.createScene(sceneDesc)
 
 // create a default material
 // static friction, dynamic friction, restitution
@@ -243,7 +243,7 @@ const pxRaycast = (
     maxDistance: number,
     excludePtr?: number
 ) => {
-    if (!scene.raycast(origin, direction, maxDistance, raycastResult)) return
+    if (!pxScene.raycast(origin, direction, maxDistance, raycastResult)) return
 
     let distMin = Infinity
     let hitDistMin: any
@@ -258,7 +258,7 @@ const pxRaycast = (
 }
 
 // create PxController
-const getPxControllerManager = lazy(() => Px.CreateControllerManager(scene))
+const getPxControllerManager = lazy(() => Px.CreateControllerManager(pxScene))
 const pxControllerFilters = new PxControllerFilters()
 
 //port PxCreateDynamic
@@ -489,7 +489,7 @@ physxPtr[0] = {
     pxTransform__,
     pxFilterData,
     pxControllerFilters,
-    scene,
+    pxScene,
     getCooking,
     getConvexFlags,
     getInsertionCallback,

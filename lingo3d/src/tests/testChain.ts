@@ -24,7 +24,7 @@ const createLimitedSpherical = (a0: any, t0: any, a1: any, t1: any) => {
 }
 
 const createChain = (t: any, length: number, g: any, separation: number) => {
-    const { PxCreateDynamic, physics, material, scene } = physxPtr[0]
+    const { PxCreateDynamic, physics, material, pxScene } = physxPtr[0]
 
     const offset = setPxVec__(separation * 0.5, 0, 0)
     const localTm = setPxTransform__(offset.x, 0, 0)
@@ -44,7 +44,7 @@ const createChain = (t: any, length: number, g: any, separation: number) => {
             current,
             setPxTransform_(-offset.x, 0, 0)
         )
-        scene.addActor(current)
+        pxScene.addActor(current)
 
         const manager = new Cube()
         managerActorMap.set(manager, current)

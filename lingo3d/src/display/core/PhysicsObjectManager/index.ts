@@ -12,7 +12,7 @@ import {
     managerActorPtrMap,
     managerControllerMap
 } from "./physx/pxMaps"
-import threeScene from "../../../engine/scene"
+import scene from "../../../engine/scene"
 import destroy from "./physx/destroy"
 import { assignPxTransform, setPxVec, setPxVec_ } from "./physx/pxMath"
 import SpawnPoint from "../../SpawnPoint"
@@ -202,7 +202,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             const mode = getMode()
             const {
                 physics,
-                scene,
+                pxScene,
                 PxCapsuleControllerDesc,
                 PxCapsuleClimbingModeEnum,
                 PxControllerNonWalkableModeEnum,
@@ -212,7 +212,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             if (!physics || !mode) return
 
             const ogParent = this.outerObject3d.parent
-            ogParent !== threeScene && threeScene.attach(this.outerObject3d)
+            ogParent !== scene && scene.attach(this.outerObject3d)
 
             if (mode === "character") {
                 const desc = new PxCapsuleControllerDesc()
@@ -256,10 +256,10 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             const handle = new Cancellable()
             const timeout = setTimeout(() => {
                 this.getPxShape(mode, actor)
-                scene.addActor(actor)
+                pxScene.addActor(actor)
                 managerActorMap.set(this, actor)
                 handle.then(() => {
-                    scene.removeActor(actor)
+                    pxScene.removeActor(actor)
                     destroy(actor)
                 })
             })

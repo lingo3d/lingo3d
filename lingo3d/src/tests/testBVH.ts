@@ -5,6 +5,11 @@ import settings from "../api/settings"
 import Dummy from "../display/Dummy"
 import Cube from "../display/primitives/Cube"
 
+const map = new Model()
+map.src = "fairy.glb"
+map.scale = 30
+map.physics = "map"
+
 const player = new Dummy()
 player.src = "ready.glb"
 player.z = -100
@@ -45,21 +50,16 @@ cam.mouseControl = "drag"
 cam.active = true
 cam.lockTargetRotation = "dynamic-lock"
 
-const map = new Model()
-map.src = "fairy.glb"
-map.scale = 30
-map.physics = "map"
-
-const boxes = [
-    { x: -1276.38, y: 2.63, z: -502.67 },
-    { x: -1471.26, y: 2.63, z: -321.88 }
-].map(({ x, y, z }) => {
-    const model = new Cube()
-    model.x = x
-    model.y = y
-    model.z = z
-    model.physics = true
-})
+// const boxes = [
+//     { x: -1276.38, y: 2.63, z: -502.67 },
+//     { x: -1471.26, y: 2.63, z: -321.88 }
+// ].map(({ x, y, z }) => {
+//     const model = new Cube()
+//     model.x = x
+//     model.y = y
+//     model.z = z
+//     model.physics = true
+// })
 
 settings.skybox = [
     "skybox/Left.png",
