@@ -20,7 +20,6 @@ const {
     Vector_PxReal,
     Vector_PxU32,
     Vector_PxContactPairPoint,
-    PxSimulationEventCallbackImpl,
     PxTopLevelFunctions,
     PxDefaultAllocator,
     PxDefaultErrorCallback,
@@ -54,29 +53,45 @@ const {
     PxShapeExt,
     PxD6Drive,
     PxD6JointDrive,
+    PxSimulationEventCallbackImpl,
+    PxMeshPreprocessingFlags,
+
+    _emscripten_enum_PxMeshPreprocessingFlagEnum_eDISABLE_CLEAN_MESH,
+    _emscripten_enum_PxMeshPreprocessingFlagEnum_eDISABLE_ACTIVE_EDGES_PRECOMPUTE,
+
+    _emscripten_enum_PxMeshCookingHintEnum_eCOOKING_PERFORMANCE,
 
     _emscripten_enum_PxConvexFlagEnum_eCOMPUTE_CONVEX,
     _emscripten_enum_PxConvexFlagEnum_eDISABLE_MESH_VALIDATION,
     _emscripten_enum_PxConvexFlagEnum_eFAST_INERTIA_COMPUTATION,
+
     _emscripten_enum_PxShapeFlagEnum_eSCENE_QUERY_SHAPE,
     _emscripten_enum_PxShapeFlagEnum_eSIMULATION_SHAPE,
+
     _emscripten_enum_PxIDENTITYEnum_PxIdentity,
+
     _emscripten_enum_PxCapsuleClimbingModeEnum_eEASY,
     _emscripten_enum_PxCapsuleClimbingModeEnum_eCONSTRAINED,
+
     _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_CAN_RIDE_ON_OBJECT,
     _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_SLIDE,
     _emscripten_enum_PxControllerBehaviorFlagEnum_eCCT_USER_DEFINED_RIDE,
+
     _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_SIDES,
     _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_UP,
     _emscripten_enum_PxControllerCollisionFlagEnum_eCOLLISION_DOWN,
+
     _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING,
     _emscripten_enum_PxControllerNonWalkableModeEnum_ePREVENT_CLIMBING_AND_FORCE_SLIDING,
+
     _emscripten_enum_PxControllerShapeTypeEnum_eBOX,
     _emscripten_enum_PxControllerShapeTypeEnum_eCAPSULE,
+
     _emscripten_enum_PxForceModeEnum_eFORCE,
     _emscripten_enum_PxForceModeEnum_eIMPULSE,
     _emscripten_enum_PxForceModeEnum_eVELOCITY_CHANGE,
     _emscripten_enum_PxForceModeEnum_eACCELERATION,
+
     _emscripten_enum_PxActorFlagEnum_eVISUALIZATION,
     _emscripten_enum_PxActorFlagEnum_eDISABLE_GRAVITY,
     _emscripten_enum_PxActorFlagEnum_eSEND_SLEEP_NOTIFIES,
@@ -171,6 +186,13 @@ Px.InitExtensions(physics)
 const getCooking = lazy(() => {
     const cookingParams = new PxCookingParams(scale)
     cookingParams.suppressTriangleMeshRemapTable = true
+    cookingParams.meshPreprocessParams = new PxMeshPreprocessingFlags(
+        _emscripten_enum_PxMeshPreprocessingFlagEnum_eDISABLE_CLEAN_MESH() |
+            _emscripten_enum_PxMeshPreprocessingFlagEnum_eDISABLE_ACTIVE_EDGES_PRECOMPUTE()
+    )
+    //todo: bind the following
+    cookingParams.meshCookingHint =
+        _emscripten_enum_PxMeshCookingHintEnum_eCOOKING_PERFORMANCE
     return Px.CreateCooking(version, foundation, cookingParams)
 })
 
