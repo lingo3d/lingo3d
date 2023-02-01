@@ -5,7 +5,7 @@ import IPhysicsObjectManager, {
     PhysicsOptions
 } from "../../../interface/IPhysicsObjectManager"
 import getActualScale from "../../utils/getActualScale"
-import { Reactive, store } from "@lincode/reactivity"
+import { decrease, increase, Reactive, store } from "@lincode/reactivity"
 import {
     actorPtrManagerMap,
     managerActorMap,
@@ -41,6 +41,16 @@ const importPhysX = lazy(async () => {
     await import("./physx")
     decreaseLoadingUnpkgCount()
 })
+
+const [setLoadingStaticCount, getLoadingStaticCount] = store(0)
+const increaseLoadingStaticCount = increase(
+    setLoadingStaticCount,
+    getLoadingStaticCount
+)
+const decreaseLoadingStaticCount = decrease(
+    setLoadingStaticCount,
+    getLoadingStaticCount
+)
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
     extends SimpleObjectManager<T>
@@ -248,13 +258,16 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
             }
 
             const pxTransform = assignPxTransform(this)
+            const isStatic = mode === "map" || mode === "static"
             const actor = this.initActor(
-                mode === "map" || mode === "static"
+                isStatic
                     ? physics.createRigidStatic(pxTransform)
                     : physics.createRigidDynamic(pxTransform)
             )
             const handle = new Cancellable()
-            const timeout = setTimeout(() => {
+
+            setTimeout(() => {
+                if (handle.done) return
                 this.getPxShape(mode, actor)
                 pxScene.addActor(actor)
                 managerActorMap.set(this, actor)
@@ -264,7 +277,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 })
             })
             return () => {
-                clearTimeout(timeout)
                 handle.cancel()
                 actorPtrManagerMap.delete(actor.ptr)
                 managerActorMap.delete(this)
