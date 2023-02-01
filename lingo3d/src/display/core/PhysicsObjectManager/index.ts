@@ -264,20 +264,15 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     ? physics.createRigidStatic(pxTransform)
                     : physics.createRigidDynamic(pxTransform)
             )
-            const handle = new Cancellable()
 
-            setTimeout(() => {
-                if (handle.done) return
-                this.getPxShape(mode, actor)
-                pxScene.addActor(actor)
-                managerActorMap.set(this, actor)
-                handle.then(() => {
-                    pxScene.removeActor(actor)
-                    destroy(actor)
-                })
-            })
+            this.getPxShape(mode, actor)
+            pxScene.addActor(actor)
+            managerActorMap.set(this, actor)
+
             return () => {
-                handle.cancel()
+                pxScene.removeActor(actor)
+                destroy(actor)
+
                 actorPtrManagerMap.delete(actor.ptr)
                 managerActorMap.delete(this)
                 this.actor = undefined

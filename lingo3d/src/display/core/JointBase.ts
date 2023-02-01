@@ -1,5 +1,4 @@
 import { centroid3d } from "@lincode/math"
-import { Cancellable } from "@lincode/promiselikes"
 import { Reactive } from "@lincode/reactivity"
 import { extendFunction, omitFunction } from "@lincode/utils"
 import { Vector3, Quaternion, Object3D } from "three"
@@ -150,38 +149,31 @@ export default abstract class JointBase
                 cb
             ))
 
-            const handle = new Cancellable()
-            const timeout = setTimeout(() => {
-                const joint = (this.pxJoint = this.createJoint(
-                    getRelativeTransform(
-                        this.outerObject3d,
-                        fromManager.outerObject3d,
-                        setPxTransform_
-                    ),
-                    getRelativeTransform(
-                        this.outerObject3d,
-                        toManager.outerObject3d,
-                        setPxTransform__
-                    ),
-                    fromManager,
-                    toManager
-                ))
-                handle.then(() => {
-                    this.pxJoint = undefined
-                    destroy(joint)
-                })
-            })
+            const joint = (this.pxJoint = this.createJoint(
+                getRelativeTransform(
+                    this.outerObject3d,
+                    fromManager.outerObject3d,
+                    setPxTransform_
+                ),
+                getRelativeTransform(
+                    this.outerObject3d,
+                    toManager.outerObject3d,
+                    setPxTransform__
+                ),
+                fromManager,
+                toManager
+            ))
 
             this.fromManager = fromManager
             this.toManager = toManager
 
             return () => {
-                clearTimeout(timeout)
                 handle0.cancel()
                 handle1.cancel()
                 omitFunction(fromCaller, cb)
                 omitFunction(toCaller, cb)
-                handle.cancel()
+                this.pxJoint = undefined
+                destroy(joint)
                 fromManager.jointCount--
                 toManager.jointCount--
                 this.fromManager = undefined
