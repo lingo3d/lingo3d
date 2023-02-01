@@ -1,4 +1,5 @@
 import { deg2Rad } from "@lincode/math"
+import { assertExhaustive } from "@lincode/utils"
 import { CM2M } from "../../globals"
 import ID6Joint, {
     d6JointDefaults,
@@ -26,7 +27,7 @@ const getMotion = (val: D6MotionOptions) => {
         case "free":
             return PxD6MotionEnum.eFREE()
         default:
-            return PxD6MotionEnum.eFREE()
+            assertExhaustive(val)
     }
 }
 

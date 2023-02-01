@@ -1,4 +1,5 @@
 import { Reactive } from "@lincode/reactivity"
+import { assertExhaustive } from "@lincode/utils"
 import {
     DirectionalLightHelper,
     Group,
@@ -24,13 +25,13 @@ import HelperSprite from "./utils/HelperSprite"
 export const mapShadowResolution = (val: ShadowResolution) => {
     switch (val) {
         case "low":
-            return 256
+            return 512
         case "medium":
-            return 512
-        case "high":
             return 1024
+        case "high":
+            return 2048
         default:
-            return 512
+            assertExhaustive(val)
     }
 }
 

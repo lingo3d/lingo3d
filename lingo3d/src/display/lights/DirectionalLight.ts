@@ -1,5 +1,6 @@
 import { mapRange } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
+import { assertExhaustive } from "@lincode/utils"
 import { DirectionalLight as ThreeDirectionalLight } from "three"
 import { getManager } from "../../api/utils/getManager"
 import scene from "../../engine/scene"
@@ -14,27 +15,11 @@ import {
     getShadowDistance,
     ShadowDistance
 } from "../../states/useShadowDistance"
-import {
-    getShadowResolution,
-    ShadowResolution
-} from "../../states/useShadowResolution"
+import { getShadowResolution } from "../../states/useShadowResolution"
 import Camera from "../cameras/Camera"
-import LightBase from "../core/LightBase"
+import LightBase, { mapShadowResolution } from "../core/LightBase"
 import getWorldPosition from "../utils/getWorldPosition"
 import { vec2Point } from "../utils/vec2Point"
-
-const mapShadowResolution = (val: ShadowResolution) => {
-    switch (val) {
-        case "low":
-            return 512
-        case "medium":
-            return 1024
-        case "high":
-            return 2048
-        default:
-            return 1024
-    }
-}
 
 const mapShadowDistance = (val: ShadowDistance) => {
     switch (val) {
@@ -45,7 +30,7 @@ const mapShadowDistance = (val: ShadowDistance) => {
         case "far":
             return 10000
         default:
-            return 3000
+            assertExhaustive(val)
     }
 }
 

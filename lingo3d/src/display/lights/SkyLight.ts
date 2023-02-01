@@ -19,6 +19,7 @@ import {
 } from "../../states/useShadowResolution"
 import DirectionalLight from "./DirectionalLight"
 import { eraseAppendable } from "../../api/core/collections"
+import { assertExhaustive } from "@lincode/utils"
 
 const mapCSMOptions = (
     shadowDistance: ShadowDistance,
@@ -35,20 +36,16 @@ const mapCSMOptions = (
             return {
                 maxFar: 30,
                 shadowMapSize: mapShadowResolution(shadowResolution) * 2,
-                shadowBias: -0.0003
+                shadowBias: -0.0001
             }
         case "far":
             return {
                 maxFar: 100,
-                shadowMapSize: mapShadowResolution(shadowResolution) * 4,
-                shadowBias: -0.0002
+                shadowMapSize: mapShadowResolution(shadowResolution) * 2,
+                shadowBias: -0.0001
             }
         default:
-            return {
-                maxFar: 30,
-                shadowMapSize: mapShadowResolution(shadowResolution) * 2,
-                shadowBias: -0.0003
-            }
+            assertExhaustive(shadowDistance)
     }
 }
 
