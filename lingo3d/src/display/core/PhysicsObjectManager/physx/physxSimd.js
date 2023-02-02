@@ -1,4 +1,4 @@
-import { WASM_URL } from "../../../../globals"
+import { WASM_URL } from "../../../../api/assetsPath"
 import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount
@@ -5437,7 +5437,7 @@ var PhysX = (() => {
             }
         }
 
-        var wasmBinaryFile = WASM_URL + "physx-simd.wasm"
+        var wasmBinaryFile = WASM_URL() + "physx-simd.wasm"
         if (!isDataURI(wasmBinaryFile)) {
             wasmBinaryFile = locateFile(wasmBinaryFile)
         }

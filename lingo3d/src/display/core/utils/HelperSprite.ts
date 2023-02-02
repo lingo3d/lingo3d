@@ -1,10 +1,10 @@
+import { EDITOR_URL } from "../../../api/assetsPath"
 import { eraseAppendable } from "../../../api/core/collections"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import {
     TransformControlsMode,
     TransformControlsPhase
 } from "../../../events/onTransformControls"
-import { EDITOR_URL } from "../../../globals"
 import {
     positionedDefaults,
     positionedSchema
@@ -21,7 +21,7 @@ export default class HelperSprite extends Sprite {
 
     public constructor(type: "camera" | "target" | "light" | "audio") {
         super()
-        this.texture = `${EDITOR_URL}${type}Sprite.png`
+        this.texture = `${EDITOR_URL()}${type}Sprite.png`
         this.scale = 0.5
         this.castShadow = false
         this.receiveShadow = false

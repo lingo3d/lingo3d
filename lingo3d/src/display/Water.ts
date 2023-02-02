@@ -5,10 +5,10 @@ import loadTexture from "./utils/loaders/loadTexture"
 import { dtPtr } from "../engine/eventLoop"
 import { onBeforeRender } from "../events/onBeforeRender"
 import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
-import { WATERNORMALS_URL } from "../globals"
 import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "./core/VisibleObjectManager"
 import { setManager } from "../api/utils/getManager"
+import { WATERNORMALS_URL } from "../api/assetsPath"
 
 export default class Water extends VisibleObjectManager implements IWater {
     public static componentName = "water"
@@ -23,7 +23,7 @@ export default class Water extends VisibleObjectManager implements IWater {
         this.shapeState.set(val)
     }
 
-    private normalMapState = new Reactive(WATERNORMALS_URL)
+    private normalMapState = new Reactive(WATERNORMALS_URL())
     public get normalMap() {
         return this.normalMapState.get()
     }

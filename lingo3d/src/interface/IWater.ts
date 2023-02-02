@@ -1,4 +1,3 @@
-import { WATERNORMALS_URL } from "../globals"
 import IVisibleObjectManager, {
     visibleObjectManagerDefaults,
     visibleObjectManagerSchema
@@ -26,7 +25,9 @@ export const waterDefaults = extendDefaults<IWater>(
     [visibleObjectManagerDefaults],
     {
         shape: "plane",
-        normalMap: WATERNORMALS_URL,
+        //mark
+        // normalMap: WATERNORMALS_URL,
+        normalMap: "",
         resolution: 512,
         speed: 1,
         rotationX: 270,

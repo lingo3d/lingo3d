@@ -60,6 +60,7 @@ import createProxy from "./api/createProxy"
 import settings from "./api/settings"
 import preload from "./api/preload"
 import screenshot from "./api/screenshot"
+import { setAssetsPath } from "./api/assetsPath"
 
 import serialize from "./api/serializer/serialize"
 import deserialize from "./api/serializer/deserialize"
@@ -84,7 +85,6 @@ import { onBeforeRender } from "./events/onBeforeRender"
 import { Point3d, Point } from "@lincode/math"
 import clientToWorld from "./display/utils/clientToWorld"
 
-import { setAssetsPath } from "./states/useAssetsPath"
 import { setEditorBehavior } from "./states/useEditorBehavior"
 
 export type {
@@ -153,6 +153,7 @@ export {
     settings,
     preload,
     screenshot,
+    setAssetsPath,
     serialize,
     deserialize,
     downloadBlob,
@@ -172,6 +173,5 @@ export {
     Point3d,
     Point,
     clientToWorld,
-    setAssetsPath,
     setEditorBehavior
 }

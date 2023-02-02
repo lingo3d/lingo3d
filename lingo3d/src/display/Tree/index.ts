@@ -1,4 +1,4 @@
-import { FOREST_URL } from "../../globals"
+import { FOREST_URL } from "../../api/assetsPath"
 import ITree, { treeDefaults, treeSchema } from "../../interface/ITree"
 import Model from "../Model"
 
@@ -18,6 +18,6 @@ export default class Tree extends Model implements ITree {
         return this._preset
     }
     public set preset(val) {
-        this.src = FOREST_URL + val + ".glb"
+        this.src = FOREST_URL() + val + ".glb"
     }
 }

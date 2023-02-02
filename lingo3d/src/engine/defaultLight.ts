@@ -2,7 +2,6 @@ import { createEffect } from "@lincode/reactivity"
 import { EquirectangularReflectionMapping } from "three"
 import Environment from "../display/Environment"
 import loadTexture from "../display/utils/loaders/loadTexture"
-import { TEXTURES_URL } from "../globals"
 import { environmentPreset } from "../interface/IEnvironment"
 import { getEnvironment } from "../states/useEnvironment"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
@@ -10,6 +9,7 @@ import { getRenderer } from "../states/useRenderer"
 import scene from "./scene"
 import { appendableRoot } from "../api/core/collections"
 import unsafeGetValue from "../utils/unsafeGetValue"
+import { TEXTURES_URL } from "../api/assetsPath"
 import("../display/lights/DefaultSkyLight")
 
 const defaultEnvironment = new Environment()
@@ -19,7 +19,7 @@ appendableRoot.delete(defaultEnvironment)
 
 export const environmentToUrl = (value: string) =>
     value in environmentPreset
-        ? TEXTURES_URL + unsafeGetValue(environmentPreset, value)
+        ? TEXTURES_URL() + unsafeGetValue(environmentPreset, value)
         : value
 
 createEffect(() => {

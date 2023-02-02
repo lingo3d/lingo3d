@@ -3,7 +3,6 @@ import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { onRender } from "../../events/onRender"
-import { DUMMY_URL, YBOT_URL } from "../../globals"
 import IDummy, {
     dummyDefaults,
     dummySchema,
@@ -17,6 +16,7 @@ import poseMachine from "./poseMachine"
 import fpsAlpha from "../utils/fpsAlpha"
 import { Animation } from "../../interface/IAnimatedObjectManager"
 import { groundedControllerManagers } from "../core/PhysicsObjectManager/physx/physxLoop"
+import { DUMMY_URL, YBOT_URL } from "../../api/assetsPath"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -94,8 +94,8 @@ export default class Dummy extends Model implements IDummy {
             parts.pop()
             let url = parts.join("/") + "/"
 
-            if (type === "readyplayerme") url = DUMMY_URL + "readyplayerme/"
-            else if (src !== YBOT_URL) {
+            if (type === "readyplayerme") url = DUMMY_URL() + "readyplayerme/"
+            else if (src !== YBOT_URL()) {
                 super.animations = this.animationsState.get()
                 this.poseAnimationState.set(getPose())
                 return () => {
@@ -254,7 +254,7 @@ export default class Dummy extends Model implements IDummy {
     }
     public override set resize(val) {}
 
-    private srcState = new Reactive(YBOT_URL)
+    private srcState = new Reactive(YBOT_URL())
     public override get src() {
         return this.srcState.get()
     }
