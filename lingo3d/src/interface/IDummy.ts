@@ -1,3 +1,4 @@
+import { YBOT_URL } from "../api/assetsPath"
 import IModel, { modelDefaults, modelSchema } from "./IModel"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
@@ -41,9 +42,7 @@ export const dummyDefaults = extendDefaults<IDummy>(
         width: 20,
         depth: 20,
         animation: "idle",
-        //mark
-        // src: YBOT_URL
-        src: undefined
+        src: YBOT_URL
     },
     {
         strideForward: new Range(-10, 10),

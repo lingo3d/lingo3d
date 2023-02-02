@@ -1,13 +1,17 @@
+import { isLazy } from "@lincode/utils"
 import { isPoint, PointType } from "../../api/serializer/isPoint"
 import Defaults from "./Defaults"
 import NullableDefault from "./NullableDefault"
+
+const readLazy = <T>(val: T | (() => T)): T =>
+    typeof val === "function" && isLazy(val) ? val() : val
 
 export default (
     defaults: Defaults<any>,
     key: string,
     fillNullableDefault?: boolean
 ) => {
-    const result = defaults[key]
+    const result = readLazy(defaults[key])
     if (result instanceof NullableDefault)
         return fillNullableDefault ? result.value : undefined
     if (fillNullableDefault) return result ?? ""
@@ -24,7 +28,7 @@ export const equalsDefaultValue = (
     defaults: Defaults<any>,
     key: string
 ) => {
-    const result = defaults[key]
+    const result = readLazy(defaults[key])
     if (result instanceof NullableDefault) {
         const { value } = result
         if (isPoint(value)) return pointEquals(value, val)
