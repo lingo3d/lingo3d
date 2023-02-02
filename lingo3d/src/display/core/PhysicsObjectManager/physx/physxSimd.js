@@ -5586,6 +5586,7 @@ var PhysX = (() => {
                             response,
                             info
                         )
+
                         return result.then(
                             receiveInstantiationResult,
                             function (reason) {
