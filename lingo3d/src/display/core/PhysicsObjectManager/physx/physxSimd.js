@@ -3003,6 +3003,7 @@ var PhysX = (() => {
             "_emscripten_bind_PxTolerancesScale_PxTolerancesScale_0",
             "_emscripten_bind_PxTolerancesScale___destroy___0",
             "_emscripten_bind_PxTopLevelFunctions_DefaultFilterShader_0",
+            "_emscripten_bind_PxTopLevelFunctions_ContactReportFilterShader_0",
             "_emscripten_bind_PxTopLevelFunctions_setupPassThroughFilterShader_2",
             "_emscripten_bind_PxTopLevelFunctions_CreateControllerManager_1",
             "_emscripten_bind_PxTopLevelFunctions_CreateControllerManager_2",
@@ -5437,7 +5438,8 @@ var PhysX = (() => {
             }
         }
 
-        var wasmBinaryFile = WASM_URL() + "physx-simd.wasm"
+        var wasmBinaryFile
+        wasmBinaryFile = WASM_URL() + "physx-simd.wasm"
         if (!isDataURI(wasmBinaryFile)) {
             wasmBinaryFile = locateFile(wasmBinaryFile)
         }
@@ -25822,6 +25824,14 @@ var PhysX = (() => {
                 "_emscripten_bind_PxTopLevelFunctions_DefaultFilterShader_0"
             ] = createExportWrapper(
                 "emscripten_bind_PxTopLevelFunctions_DefaultFilterShader_0"
+            ))
+
+        /** @type {function(...*):?} */
+        var _emscripten_bind_PxTopLevelFunctions_ContactReportFilterShader_0 =
+            (Module[
+                "_emscripten_bind_PxTopLevelFunctions_ContactReportFilterShader_0"
+            ] = createExportWrapper(
+                "emscripten_bind_PxTopLevelFunctions_ContactReportFilterShader_0"
             ))
 
         /** @type {function(...*):?} */
@@ -72430,6 +72440,18 @@ var PhysX = (() => {
                     var self = this.ptr
                     return wrapPointer(
                         _emscripten_bind_PxTopLevelFunctions_DefaultFilterShader_0(
+                            self
+                        ),
+                        PxSimulationFilterShader
+                    )
+                }
+
+        PxTopLevelFunctions.prototype["ContactReportFilterShader"] =
+            PxTopLevelFunctions.prototype.ContactReportFilterShader =
+                /** @suppress {undefinedVars, duplicate} @this{Object} */ function () {
+                    var self = this.ptr
+                    return wrapPointer(
+                        _emscripten_bind_PxTopLevelFunctions_ContactReportFilterShader_0(
                             self
                         ),
                         PxSimulationFilterShader

@@ -222,7 +222,7 @@ const pxVec__ = new PxVec3(0, 0, 0)
 const sceneDesc = new PxSceneDesc(scale)
 sceneDesc.set_gravity(pxVec)
 sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
-sceneDesc.set_filterShader(Px.DefaultFilterShader())
+sceneDesc.set_filterShader(Px.ContactReportFilterShader())
 sceneDesc.set_simulationEventCallback(simulationEventCallback)
 const pxScene = physics.createScene(sceneDesc)
 
