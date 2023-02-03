@@ -210,23 +210,23 @@ const getConvexFlags = lazy(
 const getInsertionCallback = lazy(() => physics.getPhysicsInsertionCallback())
 
 //create simulation event callback
-const simulationEvent = new PxSimulationEventCallbackImpl()
-simulationEvent.contacts = new Vector_PxContactPairPoint(64)
-simulationEvent.onContact = () => {
-    console.log("contact")
-}
-simulationEvent.onConstraintBreak = () => {
-    console.log("constraint break")
-}
-simulationEvent.onWake = () => {
-    console.log("wake")
-}
-simulationEvent.onSleep = () => {
-    console.log("sleep")
-}
-simulationEvent.onTrigger = () => {
-    console.log("trigger")
-}
+// const simulationEvent = new PxSimulationEventCallbackImpl()
+// simulationEvent.contacts = new Vector_PxContactPairPoint(64)
+// simulationEvent.onContact = () => {
+//     console.log("contact")
+// }
+// simulationEvent.onConstraintBreak = () => {
+//     console.log("constraint break")
+// }
+// simulationEvent.onWake = () => {
+//     console.log("wake")
+// }
+// simulationEvent.onSleep = () => {
+//     console.log("sleep")
+// }
+// simulationEvent.onTrigger = () => {
+//     console.log("trigger")
+// }
 
 // create scene
 const pxVec = new PxVec3(0, gravityPtr[0], 0)
@@ -236,7 +236,7 @@ const sceneDesc = new PxSceneDesc(scale)
 sceneDesc.set_gravity(pxVec)
 sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
 sceneDesc.set_filterShader(Px.DefaultFilterShader())
-sceneDesc.set_simulationEventCallback(simulationEvent)
+// sceneDesc.set_simulationEventCallback(simulationEvent)
 const pxScene = physics.createScene(sceneDesc)
 
 // create a default material
