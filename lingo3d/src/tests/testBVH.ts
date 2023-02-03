@@ -23,6 +23,11 @@ box.z = -300
 box.y = 2000
 box.physics = true
 
+const box2 = new Cube()
+box2.z = -300
+box2.y = 2100
+box2.physics = true
+
 keyboard.onKeyPress = (_, key) => {
     if (key.has("Space")) {
         player.jump()

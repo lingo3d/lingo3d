@@ -13,10 +13,9 @@ ground.roughness = 0
 settings.ssr = true
 
 timer(100, -1, () => {
-    let box = new Model()
-    box.src = "parrot.glb"
+    let box = new Cube()
     box.y = 200
-    box.physics = "convex"
+    box.physics = true
 
     setTimeout(() => {
         box.dispose()
