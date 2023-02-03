@@ -211,6 +211,9 @@ const getInsertionCallback = lazy(() => physics.getPhysicsInsertionCallback())
 
 //create simulation event callback
 const simulationEventCallback = new PxSimulationEventCallbackImpl()
+simulationEventCallback.onContact = (pairHeader: any, pairs: any, nbPairs: any) => {
+    console.log("here")
+}
 
 // create scene
 const pxVec = new PxVec3(0, gravityPtr[0], 0)
@@ -222,7 +225,6 @@ sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
 sceneDesc.set_filterShader(Px.DefaultFilterShader())
 sceneDesc.set_simulationEventCallback(simulationEventCallback)
 const pxScene = physics.createScene(sceneDesc)
-pxScene.setSimulationEventCallback(simulationEventCallback)
 
 // create a default material
 // static friction, dynamic friction, restitution
