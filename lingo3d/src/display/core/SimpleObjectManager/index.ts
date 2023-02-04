@@ -18,7 +18,6 @@ import { applyMixins } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../../../events/onBeforeRender"
-import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import AnimatedObjectManager from "../AnimatedObjectManager"
 import Nullable from "../../../interface/utils/Nullable"
@@ -52,39 +51,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>
     implements ISimpleObjectManager
 {
-    public getRayIntersectionsAt(id: string, maxDistance?: number) {
-        const result: Array<[StaticObjectManager, Point3d]> = []
-        for (const target of idMap.get(id) ?? []) {
-            if (target === this) continue
-            const pt = this.rayIntersectsAt(target, maxDistance)
-            pt && result.push([target, pt])
-        }
-        const vec = getWorldPosition(this.object3d)
-        return result.sort((a, b) => {
-            return distance3dCached(a[1], vec) - distance3dCached(b[1], vec)
-        })
-    }
-
-    public getRayIntersections(id: string, maxDistance?: number) {
-        return this.getRayIntersectionsAt(id, maxDistance).map(
-            (result) => result[0]
-        )
-    }
-
-    public listenToRayIntersection(
-        id: string,
-        cb: (target: StaticObjectManager, pt: Point3d) => void,
-        maxDistance?: number
-    ) {
-        return this.registerOnLoop(() => {
-            for (const [target, pt] of this.getRayIntersectionsAt(
-                id,
-                maxDistance
-            ))
-                cb(target, pt)
-        })
-    }
-
     public getIntersections(id: string) {
         const result = new Set<StaticObjectManager>()
         for (const target of idMap.get(id) ?? [])

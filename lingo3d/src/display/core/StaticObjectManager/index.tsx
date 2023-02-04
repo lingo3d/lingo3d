@@ -1,12 +1,11 @@
-import { distance3d, Point3d } from "@lincode/math"
+import { Point3d } from "@lincode/math"
 import { Matrix3, Object3D, PropertyBinding } from "three"
 import {
     frustum,
     matrix4,
     ray,
     vector3,
-    vector3_1,
-    vector3_half
+    vector3_1
 } from "../../utils/reusables"
 import { throttle, forceGetInstance } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
@@ -188,32 +187,6 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
     public pointAt(distance: number) {
         return vec2Point(this.getRay().at(distance * CM2M, vector3))
-    }
-
-    public rayIntersectsAt(target: StaticObjectManager, maxDistance?: number) {
-        if (this.done) return undefined
-        if (target.done) return undefined
-        if (this === target) return undefined
-
-        targetOBB.set(
-            getWorldPosition(target.object3d),
-            vector3_half,
-            new Matrix3().setFromMatrix4(target.object3d.matrixWorld)
-        )
-
-        const vec = targetOBB.intersectRay(this.getRay(), vector3)
-        if (!vec) return
-
-        if (maxDistance) {
-            const { x, y, z } = getWorldPosition(this.object3d)
-            if (distance3d(vec.x, vec.y, vec.z, x, y, z) * M2CM > maxDistance)
-                return
-        }
-        return vec2Point(vec)
-    }
-
-    public rayIntersects(target: StaticObjectManager) {
-        return !!this.rayIntersectsAt(target)
     }
 
     public intersects(target: StaticObjectManager) {
