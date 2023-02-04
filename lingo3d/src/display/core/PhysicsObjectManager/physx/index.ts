@@ -5,6 +5,7 @@ import { destroyPtr } from "./destroy"
 import "./physxLoop"
 import { physxPtr } from "./physxPtr"
 import { simd } from "wasm-feature-detect"
+import { actorPtrManagerMap } from "./pxMaps"
 
 const simdSupported = await simd()
 
@@ -15,6 +16,7 @@ const PhysX = await physx()
 
 const {
     destroy,
+    wrapPointer,
     NativeArrayHelpers,
     Vector_PxVec3,
     Vector_PxReal,
@@ -55,6 +57,8 @@ const {
     PxD6JointDrive,
     PxSimulationEventCallbackImpl,
     PxMeshPreprocessingFlags,
+    PxContactPair,
+    PxContactPairHeader,
 
     _emscripten_enum_PxMeshPreprocessingFlagEnum_eDISABLE_CLEAN_MESH,
     _emscripten_enum_PxMeshPreprocessingFlagEnum_eDISABLE_ACTIVE_EDGES_PRECOMPUTE,
@@ -216,7 +220,15 @@ simulationEventCallback.onContact = (
     pairs: any,
     nbPairs: any
 ) => {
-    console.log({ pairHeader, pairs, nbPairs })
+    const pairsWrapped = wrapPointer(pairs, PxContactPair)
+    const pairHeaderWrapped = wrapPointer(pairHeader, PxContactPairHeader)
+    const manager0 = actorPtrManagerMap.get(
+        pairHeaderWrapped.get_actors(0).ptr
+    )!
+    const manager1 = actorPtrManagerMap.get(
+        pairHeaderWrapped.get_actors(1).ptr
+    )!
+    //mark
 }
 
 // create scene
