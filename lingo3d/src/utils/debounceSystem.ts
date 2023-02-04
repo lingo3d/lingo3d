@@ -1,15 +1,13 @@
 import debounceFrame from "./debounceFrame"
 
-export default <T, RestParams extends Array<unknown>>(
-    cb: (target: T, ...restParams: RestParams) => void
-) => {
-    const queued = new Map<T, RestParams>()
+export default <T>(cb: (target: T) => void) => {
+    const queued = new Set<T>()
     const run = debounceFrame(() => {
-        for (const [target, restParams] of queued) cb(target, ...restParams)
+        for (const target of queued) cb(target)
         queued.clear()
     })
-    return (item: T, ...restParams: RestParams) => {
-        queued.set(item, restParams)
+    return (item: T) => {
+        queued.add(item)
         run()
     }
 }
