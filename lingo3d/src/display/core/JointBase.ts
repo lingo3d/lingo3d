@@ -83,7 +83,7 @@ export default abstract class JointBase
         }, [getWorldPlayComputed, getEditorBehavior])
 
         this.createEffect(() => {
-            if (!getEditorHelper() || getWorldPlayComputed()) return
+            if (!getEditorHelper()) return
 
             const sphere = new HelperSphere()
             sphere.scale = 0.1
@@ -98,7 +98,7 @@ export default abstract class JointBase
             return () => {
                 handle.cancel()
             }
-        }, [getEditorHelper, getWorldPlayComputed])
+        }, [getEditorHelper])
 
         this.createEffect(() => {
             const { _to, _from } = this

@@ -21,6 +21,7 @@ import { setManager } from "../../../api/utils/getManager"
 import debounceSystem from "../../../utils/debounceSystem"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { getEditorHelper } from "../../../states/useEditorHelper"
+import { getCameraRendered } from "../../../states/useCameraRendered"
 
 export const updateAngleSystem = debounceSystem((target: CameraBase) =>
     target.gyrate(0, 0)
@@ -46,7 +47,7 @@ export default abstract class CameraBase<
         })
 
         this.createEffect(() => {
-            if (!getEditorHelper()) return
+            if (!getEditorHelper() || getCameraRendered() === camera) return
 
             const helper = new CameraHelper(camera)
             scene.add(helper)
@@ -59,7 +60,7 @@ export default abstract class CameraBase<
                 scene.remove(helper)
                 handle.cancel()
             }
-        }, [getEditorHelper])
+        }, [getEditorHelper, getCameraRendered])
     }
 
     public override lookAt(target: MeshAppendable | Point3d): void

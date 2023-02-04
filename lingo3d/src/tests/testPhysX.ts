@@ -12,12 +12,12 @@ ground.metalness = 0.5
 ground.roughness = 0
 settings.ssr = true
 
-timer(100, -1, () => {
-    let box = new Cube()
-    box.y = 200
-    box.physics = true
+// timer(100, -1, () => {
+//     let box = new Cube()
+//     box.y = 200
+//     box.physics = true
 
-    setTimeout(() => {
-        box.dispose()
-    }, 5000)
-})
+//     setTimeout(() => {
+//         box.dispose()
+//     }, 5000)
+// })
