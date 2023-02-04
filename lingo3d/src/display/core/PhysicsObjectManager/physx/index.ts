@@ -211,8 +211,12 @@ const getInsertionCallback = lazy(() => physics.getPhysicsInsertionCallback())
 
 //create simulation event callback
 const simulationEventCallback = new PxSimulationEventCallbackImpl()
-simulationEventCallback.onContact = (pairHeader: any, pairs: any, nbPairs: any) => {
-    console.log("here")
+simulationEventCallback.onContact = (
+    pairHeader: any,
+    pairs: any,
+    nbPairs: any
+) => {
+    console.log({ pairHeader, pairs, nbPairs })
 }
 
 // create scene
