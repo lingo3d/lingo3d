@@ -85,8 +85,6 @@ import { onBeforeRender } from "./events/onBeforeRender"
 import { Point3d, Point } from "@lincode/math"
 import clientToWorld from "./display/utils/clientToWorld"
 
-import { setEditorBehavior } from "./states/useEditorBehavior"
-
 export type {
     SimpleMouseEvent,
     LingoMouseEvent as MouseEvent
@@ -172,6 +170,5 @@ export {
     onBeforeRender,
     Point3d,
     Point,
-    clientToWorld,
-    setEditorBehavior
+    clientToWorld
 }

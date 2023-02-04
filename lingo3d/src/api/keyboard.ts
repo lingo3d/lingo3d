@@ -7,9 +7,6 @@ import { createEffect } from "@lincode/reactivity"
 import { onKeyClear } from "../events/onKeyClear"
 import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
-import { getEditorBehavior } from "../states/useEditorBehavior"
-import { getCameraRendered } from "../states/useCameraRendered"
-import mainCamera from "../engine/mainCamera"
 import { appendableRoot } from "./core/collections"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import Appendable from "./core/Appendable"
@@ -27,11 +24,7 @@ const processKey = (str: string) => {
 }
 
 createEffect(() => {
-    if (
-        !getWorldPlayComputed() ||
-        (getEditorBehavior() && getCameraRendered() === mainCamera)
-    )
-        return
+    if (!getWorldPlayComputed()) return
 
     const handle = onBeforeRender(() => isPressed.size > 0 && emitPress())
 
@@ -65,7 +58,7 @@ createEffect(() => {
         document.removeEventListener("keydown", handleKeyDown)
         document.removeEventListener("keyup", handleKeyUp)
     }
-}, [getWorldPlayComputed, getEditorBehavior, getCameraRendered])
+}, [getWorldPlayComputed])
 
 export class Keyboard extends Appendable implements IKeyboard {
     public static componentName = "keyboard"

@@ -6,7 +6,6 @@ import IThirdPersonCamera, {
     thirdPersonCameraSchema
 } from "../../interface/IThirdPersonCamera"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { getEditorBehavior } from "../../states/useEditorBehavior"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import CharacterCamera from "../core/CharacterCamera"
 import { managerActorPtrMap } from "../core/PhysicsObjectManager/physx/pxMaps"
@@ -24,12 +23,10 @@ const setVisible = (target: MeshAppendable, visible: boolean) =>
     "visible" in target && (target.visible = visible)
 
 let alwaysVisible = false
-
 createEffect(() => {
     alwaysVisible =
-        !getWorldPlayComputed() ||
-        (getEditorBehavior() && getCameraRendered() === mainCamera)
-}, [getEditorBehavior, getEditorBehavior, getCameraRendered])
+        !getWorldPlayComputed() && getCameraRendered() === mainCamera
+}, [getWorldPlayComputed, getCameraRendered])
 
 export default class ThirdPersonCamera
     extends CharacterCamera
