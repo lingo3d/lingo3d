@@ -200,15 +200,13 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
             new Matrix3()
         )
         thisOBB.applyMatrix4(this.object3d.matrixWorld)
-
         targetOBB.set(
             getWorldPosition(target.object3d),
             vector3_1.clone(),
             new Matrix3()
         )
         targetOBB.applyMatrix4(target.object3d.matrixWorld)
-
-        return thisOBB.intersectsOBB(targetOBB, 0)
+        return thisOBB.intersectsOBB(targetOBB)
     }
 
     public get canvasX() {

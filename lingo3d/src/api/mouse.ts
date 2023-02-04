@@ -13,7 +13,6 @@ import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { getEditorBehavior } from "../states/useEditorBehavior"
 import { getCameraRendered } from "../states/useCameraRendered"
-import mainCamera from "../engine/mainCamera"
 import { appendableRoot } from "./core/collections"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import Appendable from "./core/Appendable"
@@ -106,11 +105,7 @@ export class Mouse extends Appendable implements IMouse {
         }, [getDown])
 
         this.createEffect(() => {
-            if (
-                !getWorldPlayComputed() ||
-                (getEditorBehavior() && getCameraRendered() === mainCamera)
-            )
-                return
+            if (!getWorldPlayComputed()) return
 
             const handle0 = mouseEvents.on("move", (e) => {
                 this.onMouseMove?.(e)
