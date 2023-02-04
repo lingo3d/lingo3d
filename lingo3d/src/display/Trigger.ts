@@ -2,10 +2,8 @@ import { Reactive } from "@lincode/reactivity"
 import getActualScale from "./utils/getActualScale"
 import getWorldPosition from "./utils/getWorldPosition"
 import { timer } from "../engine/eventLoop"
-import mainCamera from "../engine/mainCamera"
 import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
 import PositionedManager from "./core/PositionedManager"
-import { getCameraRendered } from "../states/useCameraRendered"
 import StaticObjectManager, {
     getMeshManagerSets
 } from "./core/StaticObjectManager"
@@ -14,6 +12,7 @@ import HelperCylinder from "./core/utils/HelperCylinder"
 import HelperSphere from "./core/utils/HelperSphere"
 import { CM2M } from "../globals"
 import MeshAppendable from "../api/core/MeshAppendable"
+import { getEditorHelper } from "../states/useEditorHelper"
 
 export default class Trigger extends PositionedManager implements ITrigger {
     public static componentName = "trigger"
@@ -137,7 +136,7 @@ export default class Trigger extends PositionedManager implements ITrigger {
 
         this.createEffect(() => {
             const { _radius, _helper, _pad } = this
-            if (!_helper || getCameraRendered() !== mainCamera) return
+            if (!_helper || !getEditorHelper()) return
 
             helper = _pad ? new HelperCylinder() : new HelperSphere()
             const handle = addSelectionHelper(helper, this)
@@ -148,6 +147,6 @@ export default class Trigger extends PositionedManager implements ITrigger {
                 helper = undefined
                 handle.cancel()
             }
-        }, [this.refreshState.get, getCameraRendered])
+        }, [this.refreshState.get, getEditorHelper])
     }
 }

@@ -6,12 +6,8 @@ import IAreaLight, {
 } from "../../interface/IAreaLight"
 import { lazy } from "@lincode/utils"
 import ObjectManager from "../core/ObjectManager"
-import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
-import { onTransformControls } from "../../events/onTransformControls"
 import { Reactive } from "@lincode/reactivity"
-import { getSelectionTarget } from "../../states/useSelectionTarget"
-import { getCameraRendered } from "../../states/useCameraRendered"
 import { ShadowResolution } from "../../states/useShadowResolution"
 import Nullable from "../../interface/utils/Nullable"
 import { ssrExcludeSet } from "../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
@@ -20,6 +16,7 @@ import selectionCandidates, {
 } from "../core/StaticObjectManager/raycast/selectionCandidates"
 import { setManager } from "../../api/utils/getManager"
 import { CM2M } from "../../globals"
+import { getEditorHelper } from "../../states/useEditorHelper"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(
@@ -59,11 +56,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
             }
 
             this.createEffect(() => {
-                if (
-                    getCameraRendered() !== mainCamera ||
-                    !this.helperState.get()
-                )
-                    return
+                if (!getEditorHelper() || !this.helperState.get()) return
 
                 const helper = new RectAreaLightHelper(light)
                 scene.add(helper)
@@ -81,7 +74,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
                     selectionCandidates.delete(helper)
                     additionalSelectionCandidates.delete(helper)
                 }
-            }, [getCameraRendered, this.helperState.get])
+            }, [this.helperState.get, getEditorHelper])
         })
     }
 

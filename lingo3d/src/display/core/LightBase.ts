@@ -8,12 +8,11 @@ import {
     SpotLightHelper
 } from "three"
 import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper"
-import mainCamera from "../../engine/mainCamera"
 import scene from "../../engine/scene"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import { SHADOW_BIAS } from "../../globals"
 import ILightBase from "../../interface/ILightBase"
-import { getCameraRendered } from "../../states/useCameraRendered"
+import { getEditorHelper } from "../../states/useEditorHelper"
 import {
     getShadowResolution,
     ShadowResolution
@@ -79,12 +78,7 @@ export default abstract class LightBase<T extends typeof Light>
 
         this.createEffect(() => {
             const light = this.lightState.get()
-            if (
-                getCameraRendered() !== mainCamera ||
-                !this.helperState.get() ||
-                !light
-            )
-                return
+            if (!getEditorHelper() || !this.helperState.get() || !light) return
 
             const sprite = new HelperSprite("light")
             const handle = addSelectionHelper(sprite, this)
@@ -104,7 +98,7 @@ export default abstract class LightBase<T extends typeof Light>
             return () => {
                 handle.cancel()
             }
-        }, [getCameraRendered, this.helperState.get, this.lightState.get])
+        }, [getEditorHelper, this.helperState.get, this.lightState.get])
     }
 
     protected helperState = new Reactive(true)

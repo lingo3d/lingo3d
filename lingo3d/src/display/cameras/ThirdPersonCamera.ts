@@ -1,12 +1,8 @@
-import { createEffect } from "@lincode/reactivity"
-import mainCamera from "../../engine/mainCamera"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import IThirdPersonCamera, {
     thirdPersonCameraDefaults,
     thirdPersonCameraSchema
 } from "../../interface/IThirdPersonCamera"
-import { getCameraRendered } from "../../states/useCameraRendered"
-import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import CharacterCamera from "../core/CharacterCamera"
 import { managerActorPtrMap } from "../core/PhysicsObjectManager/physx/pxMaps"
 import {
@@ -18,15 +14,10 @@ import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
+import { getEditorHelper } from "../../states/useEditorHelper"
 
 const setVisible = (target: MeshAppendable, visible: boolean) =>
     "visible" in target && (target.visible = visible)
-
-let alwaysVisible = false
-createEffect(() => {
-    alwaysVisible =
-        !getWorldPlayComputed() && getCameraRendered() === mainCamera
-}, [getWorldPlayComputed, getCameraRendered])
 
 export default class ThirdPersonCamera
     extends CharacterCamera
@@ -73,7 +64,7 @@ export default class ThirdPersonCamera
                 cam.position.copy(position)
                 cam.quaternion.copy(getWorldQuaternion(this.object3d))
 
-                const tooClose = alwaysVisible
+                const tooClose = getEditorHelper()
                     ? false
                     : cam.position.distanceTo(origin) < 1
                 tooClose !== tooCloseOld && setVisible(found, !tooClose)

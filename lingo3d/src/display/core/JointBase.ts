@@ -2,11 +2,10 @@ import { centroid3d } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
 import { extendFunction, omitFunction } from "@lincode/utils"
 import { Vector3, Quaternion, Object3D } from "three"
-import mainCamera from "../../engine/mainCamera"
 import { TransformControlsPhase } from "../../events/onTransformControls"
 import IJointBase from "../../interface/IJointBase"
-import { getCameraRendered } from "../../states/useCameraRendered"
 import { getEditorBehavior } from "../../states/useEditorBehavior"
+import { getEditorHelper } from "../../states/useEditorHelper"
 import { flushMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
@@ -84,8 +83,7 @@ export default abstract class JointBase
         }, [getWorldPlayComputed, getEditorBehavior])
 
         this.createEffect(() => {
-            if (getCameraRendered() !== mainCamera || getWorldPlayComputed())
-                return
+            if (!getEditorHelper() || getWorldPlayComputed()) return
 
             const sphere = new HelperSphere()
             sphere.scale = 0.1
@@ -100,7 +98,7 @@ export default abstract class JointBase
             return () => {
                 handle.cancel()
             }
-        }, [getCameraRendered, getWorldPlayComputed])
+        }, [getEditorHelper, getWorldPlayComputed])
 
         this.createEffect(() => {
             const { _to, _from } = this

@@ -1,6 +1,4 @@
 import { Reactive } from "@lincode/reactivity"
-import mainCamera from "../engine/mainCamera"
-import { getCameraRendered } from "../states/useCameraRendered"
 import ISpawnPoint, {
     spawnPointDefaults,
     spawnPointSchema
@@ -10,6 +8,7 @@ import SimpleObjectManager from "./core/SimpleObjectManager"
 import scene from "../engine/scene"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperCylinder from "./core/utils/HelperCylinder"
+import { getEditorHelper } from "../states/useEditorHelper"
 
 export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
     public static componentName = "spawnPoint"
@@ -30,8 +29,7 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
         super()
 
         this.createEffect(() => {
-            if (!this.helperState.get() || getCameraRendered() !== mainCamera)
-                return
+            if (!this.helperState.get() || !getEditorHelper()) return
 
             const helper = new HelperCylinder()
             const handle = addSelectionHelper(helper, this)
@@ -40,7 +38,7 @@ export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
             return () => {
                 handle.cancel()
             }
-        }, [this.helperState.get, getCameraRendered])
+        }, [this.helperState.get, getEditorHelper])
     }
 
     public override append(child: SimpleObjectManager) {

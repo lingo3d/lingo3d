@@ -6,10 +6,8 @@ import { deg2Rad, Point3d } from "@lincode/math"
 import { MIN_POLAR_ANGLE, MAX_POLAR_ANGLE, PI, PI_HALF } from "../../../globals"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
-import mainCamera from "../../../engine/mainCamera"
 import scene from "../../../engine/scene"
 import { pushCameraList, pullCameraList } from "../../../states/useCameraList"
-import { getCameraRendered } from "../../../states/useCameraRendered"
 import {
     pullCameraStack,
     pushCameraStack
@@ -22,6 +20,7 @@ import HelperSprite from "../utils/HelperSprite"
 import { setManager } from "../../../api/utils/getManager"
 import debounceSystem from "../../../utils/debounceSystem"
 import MeshAppendable from "../../../api/core/MeshAppendable"
+import { getEditorHelper } from "../../../states/useEditorHelper"
 
 export const updateAngleSystem = debounceSystem((target: CameraBase) =>
     target.gyrate(0, 0)
@@ -47,11 +46,7 @@ export default abstract class CameraBase<
         })
 
         this.createEffect(() => {
-            if (
-                getCameraRendered() !== mainCamera ||
-                getCameraRendered() === camera
-            )
-                return
+            if (!getEditorHelper()) return
 
             const helper = new CameraHelper(camera)
             scene.add(helper)
@@ -64,7 +59,7 @@ export default abstract class CameraBase<
                 scene.remove(helper)
                 handle.cancel()
             }
-        }, [getCameraRendered])
+        }, [getEditorHelper])
     }
 
     public override lookAt(target: MeshAppendable | Point3d): void

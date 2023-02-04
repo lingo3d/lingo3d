@@ -7,10 +7,10 @@ import { createEffect } from "@lincode/reactivity"
 import { getReferencePlane } from "../states/useReferencePlane"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { getResolution } from "../states/useResolution"
-import { getCameraRendered } from "../states/useCameraRendered"
 import { CM2M } from "../globals"
 import getWorldQuaternion from "../display/utils/getWorldQuaternion"
 import getWorldPosition from "../display/utils/getWorldPosition"
+import { getEditorHelper } from "../states/useEditorHelper"
 
 const referencePlane = new Mesh(
     new PlaneGeometry(1, 1, 4, 4),
@@ -19,7 +19,7 @@ const referencePlane = new Mesh(
 export default referencePlane
 
 createEffect(() => {
-    if (!getReferencePlane() || getCameraRendered() !== mainCamera) return
+    if (!getReferencePlane() || !getEditorHelper()) return
 
     scene.add(referencePlane)
 
@@ -36,4 +36,4 @@ createEffect(() => {
         handle.cancel()
         scene.remove(referencePlane)
     }
-}, [getReferencePlane, getViewportSize, getResolution, getCameraRendered])
+}, [getReferencePlane, getViewportSize, getResolution, getEditorHelper])

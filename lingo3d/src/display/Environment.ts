@@ -9,11 +9,10 @@ import IEnvironment, {
     environmentSchema
 } from "../interface/IEnvironment"
 import PositionedManager from "./core/PositionedManager"
-import { getCameraRendered } from "../states/useCameraRendered"
-import mainCamera from "../engine/mainCamera"
 import { Reactive } from "@lincode/reactivity"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSprite from "./core/utils/HelperSprite"
+import { getEditorHelper } from "../states/useEditorHelper"
 
 export default class Environment
     extends PositionedManager
@@ -28,14 +27,13 @@ export default class Environment
         pushEnvironmentStack(this)
 
         this.createEffect(() => {
-            if (getCameraRendered() !== mainCamera || !this.helperState.get())
-                return
+            if (!getEditorHelper() || !this.helperState.get()) return
 
             const handle = addSelectionHelper(new HelperSprite("light"), this)
             return () => {
                 handle.cancel()
             }
-        }, [getCameraRendered, this.helperState.get])
+        }, [getEditorHelper, this.helperState.get])
     }
 
     protected override _dispose() {

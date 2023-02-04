@@ -11,9 +11,8 @@ import {
     unselectableSet
 } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
-import { getCameraRendered } from "../states/useCameraRendered"
-import mainCamera from "../engine/mainCamera"
 import MeshAppendable from "../api/core/MeshAppendable"
+import { getEditorHelper } from "../states/useEditorHelper"
 
 const createFor = <Result, Data>(
     dataList: Array<Data>,
@@ -93,9 +92,7 @@ export default class Curve extends MeshAppendable implements ICurve {
         let move = false
         this.createEffect(() => {
             const helpers = createFor(
-                this.helperState.get() && getCameraRendered() === mainCamera
-                    ? this._points
-                    : [],
+                this.helperState.get() && getEditorHelper() ? this._points : [],
                 (pt, cleanup) => {
                     const helper = new HelperSphere()
                     this.append(helper)
@@ -119,7 +116,7 @@ export default class Curve extends MeshAppendable implements ICurve {
                 return
             }
             for (const [point, helper] of helpers) Object.assign(helper, point)
-        }, [this.helperState.get, this.refreshState.get, getCameraRendered])
+        }, [this.helperState.get, this.refreshState.get, getEditorHelper])
     }
 
     private refreshState = new Reactive({})

@@ -1,12 +1,12 @@
 import store, { createEffect, Reactive } from "@lincode/reactivity"
 import { AudioListener, PositionalAudio } from "three"
 import PositionedManager from "./core/PositionedManager"
-import mainCamera from "../engine/mainCamera"
 import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperSprite from "./core/utils/HelperSprite"
 import loadAudio from "./utils/loaders/loadAudio"
+import { getEditorHelper } from "../states/useEditorHelper"
 
 const [setAudioListener, getAudioListener] = store<AudioListener | undefined>(
     undefined
@@ -38,13 +38,13 @@ export default class Audio
         super(sound)
 
         this.createEffect(() => {
-            if (getCameraRendered() !== mainCamera) return
+            if (!getEditorHelper) return
 
             const handle = addSelectionHelper(new HelperSprite("audio"), this)
             return () => {
                 handle.cancel()
             }
-        }, [getCameraRendered])
+        }, [getEditorHelper])
 
         const [setReady, getReady] = store(false)
 
