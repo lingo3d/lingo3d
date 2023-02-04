@@ -9,6 +9,8 @@ import { onBeforeRender } from "../events/onBeforeRender"
 import { getResolution } from "../states/useResolution"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { CM2M } from "../globals"
+import getWorldQuaternion from "../display/utils/getWorldQuaternion"
+import getWorldPosition from "../display/utils/getWorldPosition"
 
 const referencePlane = new Mesh(
     new PlaneGeometry(1, 1, 4, 4),
@@ -26,8 +28,8 @@ createEffect(() => {
     referencePlane.scale.y = h * CM2M
 
     const handle = onBeforeRender(() => {
-        referencePlane.quaternion.copy(mainCamera.quaternion)
-        referencePlane.position.copy(mainCamera.position)
+        referencePlane.quaternion.copy(getWorldQuaternion(mainCamera))
+        referencePlane.position.copy(getWorldPosition(mainCamera))
         referencePlane.translateZ(-4.9)
     })
     return () => {
