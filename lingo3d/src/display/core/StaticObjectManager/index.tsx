@@ -189,7 +189,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return vec2Point(this.getRay().at(distance * CM2M, vector3))
     }
 
-    public intersects(target: StaticObjectManager) {
+    public hitTest(target: StaticObjectManager) {
         if (this.done) return false
         if (target.done) return false
         if (this === target) return false

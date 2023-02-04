@@ -9,14 +9,10 @@ import {
 import { Object3D, Vector3 } from "three"
 import { vector3 } from "../../utils/reusables"
 import { point2Vec } from "../../utils/vec2Point"
-import ISimpleObjectManager, {
-    OnIntersectValue
-} from "../../../interface/ISimpleObjectManager"
+import ISimpleObjectManager from "../../../interface/ISimpleObjectManager"
 import getCenter from "../../utils/getCenter"
-import StaticObjectManager, { idMap } from "../StaticObjectManager"
+import { idMap } from "../StaticObjectManager"
 import { applyMixins } from "@lincode/utils"
-import { Reactive } from "@lincode/reactivity"
-import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import AnimatedObjectManager from "../AnimatedObjectManager"
@@ -51,95 +47,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>
     implements ISimpleObjectManager
 {
-    public getIntersections(id: string) {
-        const result = new Set<StaticObjectManager>()
-        for (const target of idMap.get(id) ?? [])
-            target !== this && this.intersects(target) && result.add(target)
-        return result
-    }
-
-    public listenToIntersection(
-        id: string,
-        cb?: OnIntersectValue,
-        cbOut?: OnIntersectValue
-    ) {
-        let intersectionsOld = new Set<StaticObjectManager>()
-
-        return this.registerOnLoop(() => {
-            const intersections = this.getIntersections(id)
-
-            if (cb)
-                for (const target of intersections)
-                    !intersectionsOld.has(target) && cb(target)
-
-            if (cbOut)
-                for (const target of intersectionsOld)
-                    !intersections.has(target) && cbOut(target)
-
-            intersectionsOld = intersections
-        })
-    }
-
-    private onIntersectState?: Reactive<OnIntersectValue | undefined>
-    private onIntersectOutState?: Reactive<OnIntersectValue | undefined>
-    private intersectIdsState?: Reactive<Array<string> | undefined>
-
-    private initIntersect() {
-        if (this.onIntersectState) return
-
-        this.onIntersectState = new Reactive<OnIntersectValue | undefined>(
-            undefined
-        )
-        this.onIntersectOutState = new Reactive<OnIntersectValue | undefined>(
-            undefined
-        )
-        this.intersectIdsState = new Reactive<Array<string> | undefined>(
-            undefined
-        )
-
-        this.createEffect(() => {
-            const { onIntersect, onIntersectOut, intersectIds } = this
-            if (!intersectIds || (!onIntersect && !onIntersectOut)) return
-
-            const handles: Array<Cancellable> = []
-            for (const id of intersectIds)
-                handles.push(
-                    this.listenToIntersection(id, onIntersect, onIntersectOut)
-                )
-            return () => {
-                for (const handle of handles) handle.cancel()
-            }
-        }, [
-            this.onIntersectState.get,
-            this.onIntersectOutState.get,
-            this.intersectIdsState.get
-        ])
-    }
-
-    public get onIntersect() {
-        return this.onIntersectState?.get()
-    }
-    public set onIntersect(val) {
-        this.initIntersect()
-        this.onIntersectState?.set(val)
-    }
-
-    public get onIntersectOut() {
-        return this.onIntersectOutState?.get()
-    }
-    public set onIntersectOut(val) {
-        this.initIntersect()
-        this.onIntersectOutState?.set(val)
-    }
-
-    public get intersectIds() {
-        return this.intersectIdsState?.get()
-    }
-    public set intersectIds(val) {
-        this.initIntersect()
-        this.intersectIdsState?.set(val)
-    }
-
     public get scaleX() {
         return this.outerObject3d.scale.x
     }

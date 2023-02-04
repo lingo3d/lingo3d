@@ -1,4 +1,3 @@
-import StaticObjectManager from "../display/core/StaticObjectManager"
 import IAnimatedObjectManager, {
     animatedObjectManagerDefaults,
     animatedObjectManagerSchema
@@ -18,14 +17,10 @@ import IDirectioned, {
     directionedSchema
 } from "./IDirectioned"
 
-export type OnIntersectValue = (target: StaticObjectManager) => void
-
 export default interface ISimpleObjectManager
     extends IAnimatedObjectManager,
         IPositioned,
         IDirectioned {
-    onIntersect: Nullable<OnIntersectValue>
-    onIntersectOut: Nullable<OnIntersectValue>
     onMoveToEnd: Nullable<() => void>
 
     moveTo: Function | Array<any>
@@ -35,8 +30,6 @@ export default interface ISimpleObjectManager
     translateX: Function | Array<any>
     translateY: Function | Array<any>
     translateZ: Function | Array<any>
-
-    intersectIds: Nullable<Array<string>>
 
     scaleX: number
     scaleY: number
@@ -52,8 +45,6 @@ export const simpleObjectManagerSchema: Required<
     ...positionedSchema,
     ...directionedSchema,
 
-    onIntersect: Function,
-    onIntersectOut: Function,
     onMoveToEnd: Function,
 
     moveTo: [Function, Array],
@@ -64,20 +55,15 @@ export const simpleObjectManagerSchema: Required<
     translateY: [Function, Array],
     translateZ: [Function, Array],
 
-    intersectIds: Array,
-
     scaleX: Number,
     scaleY: Number,
     scaleZ: Number,
     scale: Number
 }
-hideSchema(["intersectIds"])
 
 export const simpleObjectManagerDefaults = extendDefaults<ISimpleObjectManager>(
     [animatedObjectManagerDefaults, positionedDefaults, directionedDefaults],
     {
-        onIntersect: undefined,
-        onIntersectOut: undefined,
         onMoveToEnd: undefined,
 
         moveTo: fn,
@@ -87,8 +73,6 @@ export const simpleObjectManagerDefaults = extendDefaults<ISimpleObjectManager>(
         translateX: fn,
         translateY: fn,
         translateZ: fn,
-
-        intersectIds: undefined,
 
         scaleX: 1,
         scaleY: 1,
