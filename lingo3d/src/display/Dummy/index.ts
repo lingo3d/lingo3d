@@ -1,7 +1,6 @@
 import { deg2Rad, endPoint, Point3d, rad2Deg } from "@lincode/math"
 import store, { Reactive } from "@lincode/reactivity"
 import { interpret } from "xstate"
-import { onBeforeRender } from "../../events/onBeforeRender"
 import { onRender } from "../../events/onRender"
 import IDummy, {
     dummyDefaults,
@@ -17,6 +16,14 @@ import fpsAlpha from "../utils/fpsAlpha"
 import { Animation } from "../../interface/IAnimatedObjectManager"
 import { groundedControllerManagers } from "../core/PhysicsObjectManager/physx/physxLoop"
 import { DUMMY_URL, YBOT_URL } from "../../api/assetsPath"
+import beforeRenderSystemWithData from "../../utils/beforeRenderSystemWithData"
+
+const [addGroundedSystem, deleteGroundedSystem] = beforeRenderSystemWithData(
+    (self: Dummy, data: { poseService: { send: (val: string) => void } }) => {
+        groundedControllerManagers.has(self) &&
+            data.poseService.send("JUMP_STOP")
+    }
+)
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -131,14 +138,9 @@ export default class Dummy extends Model implements IDummy {
             if (pose !== "jumping") return
 
             this.velocityY = this.jumpHeight
-
-            const handle = onBeforeRender(
-                () =>
-                    groundedControllerManagers.has(this) &&
-                    poseService.send("JUMP_STOP")
-            )
+            addGroundedSystem(this, { poseService })
             return () => {
-                handle.cancel()
+                deleteGroundedSystem(this)
             }
         }, [getPose])
 
