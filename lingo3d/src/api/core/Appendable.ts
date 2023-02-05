@@ -6,10 +6,18 @@ import { emitDispose } from "../../events/onDispose"
 import { onLoop } from "../../events/onLoop"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import IAppendable from "../../interface/IAppendable"
+import beforeRenderSystem from "../../utils/beforeRenderSystem"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { appendableRoot, uuidMap } from "./collections"
 import MeshAppendable from "./MeshAppendable"
+
+const [addLoopSystem, deleteLoopSystem] = beforeRenderSystem(
+    (cb: () => void) => {
+        cb()
+    },
+    onLoop
+)
 
 export default class Appendable extends Disposable implements IAppendable {
     public constructor() {
@@ -159,9 +167,17 @@ export default class Appendable extends Disposable implements IAppendable {
     }
     public set onLoop(cb) {
         this._onLoop = cb
-        this.cancelHandle("onLoop", cb && (() => onLoop(cb)))
+        this.cancelHandle(
+            "onLoop",
+            cb &&
+                (() => {
+                    addLoopSystem(cb)
+                    return new Cancellable(() => deleteLoopSystem(cb))
+                })
+        )
     }
     public registerOnLoop(cb: () => void) {
-        return this.watch(onLoop(cb))
+        addLoopSystem(cb)
+        return this.watch(new Cancellable(() => deleteLoopSystem(cb)))
     }
 }

@@ -2,13 +2,14 @@ import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../events/onBeforeRender"
 
 export default <T, Data extends Record<string, any>>(
-    cb: (target: T, data: Data) => void
+    cb: (target: T, data: Data) => void,
+    ticker = onBeforeRender
 ) => {
     const queued = new Map<T, Data>()
 
     let handle: Cancellable | undefined
     const start = () => {
-        handle = onBeforeRender(() => {
+        handle = ticker(() => {
             for (const [target, data] of queued) cb(target, data)
         })
     }

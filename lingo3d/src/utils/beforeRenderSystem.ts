@@ -1,12 +1,12 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { onBeforeRender } from "../events/onBeforeRender"
 
-export default <T>(cb: (target: T) => void) => {
+export default <T>(cb: (target: T) => void, ticker = onBeforeRender) => {
     const queued = new Set<T>()
 
     let handle: Cancellable | undefined
     const start = () => {
-        handle = onBeforeRender(() => {
+        handle = ticker(() => {
             for (const target of queued) cb(target)
         })
     }
