@@ -35,7 +35,7 @@ export default abstract class CameraBase<
 {
     protected midObject3d = this.outerObject3d
 
-    public constructor(protected camera: T) {
+    public constructor(public camera: T) {
         super()
         this.object3d.add(camera)
         setManager(camera, this)

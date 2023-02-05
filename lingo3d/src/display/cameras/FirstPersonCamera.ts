@@ -1,8 +1,8 @@
-import CharacterCamera from "../core/CharacterCamera"
+import CharacterCamera, {
+    addCharacterCameraSystem,
+    deleteCharacterCameraSystem
+} from "../core/CharacterCamera"
 import { Reactive } from "@lincode/reactivity"
-import getWorldPosition from "../utils/getWorldPosition"
-import getWorldQuaternion from "../utils/getWorldQuaternion"
-import { onBeforeRender } from "../../events/onBeforeRender"
 import ObjectManager from "../core/ObjectManager"
 
 export default class FirstPersonCamera extends CharacterCamera {
@@ -11,12 +11,9 @@ export default class FirstPersonCamera extends CharacterCamera {
     public constructor() {
         super()
 
-        this.watch(
-            onBeforeRender(() => {
-                this.camera.position.copy(getWorldPosition(this.object3d))
-                this.camera.quaternion.copy(getWorldQuaternion(this.object3d))
-            })
-        )
+        addCharacterCameraSystem(this)
+        this.then(() => deleteCharacterCameraSystem(this))
+
         this.createEffect(() => {
             const found = this.firstChildState.get()
             const innerYSet = this.innerYSetState.get()

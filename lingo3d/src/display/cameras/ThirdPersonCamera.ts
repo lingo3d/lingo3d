@@ -1,9 +1,11 @@
-import { onBeforeRender } from "../../events/onBeforeRender"
 import IThirdPersonCamera, {
     thirdPersonCameraDefaults,
     thirdPersonCameraSchema
 } from "../../interface/IThirdPersonCamera"
-import CharacterCamera from "../core/CharacterCamera"
+import CharacterCamera, {
+    addCharacterCameraSystem,
+    deleteCharacterCameraSystem
+} from "../core/CharacterCamera"
 import { managerActorPtrMap } from "../core/PhysicsObjectManager/physx/pxMaps"
 import {
     assignPxVec,
@@ -15,9 +17,38 @@ import getWorldQuaternion from "../utils/getWorldQuaternion"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 import { getEditorHelper } from "../../states/useEditorHelper"
+import beforeRenderSystemWithData from "../../utils/beforeRenderSystemWithData"
 
 const setVisible = (target: MeshAppendable, visible: boolean) =>
     "visible" in target && (target.visible = visible)
+
+const [addCameraSystem, deleteCameraSystem] = beforeRenderSystemWithData(
+    (
+        self: ThirdPersonCamera,
+        data: { found: MeshAppendable; tooClose: boolean }
+    ) => {
+        const cam = self.camera
+        const origin = getWorldPosition(self.outerObject3d)
+        const position = getWorldPosition(self.object3d)
+
+        const pxHit = physxPtr[0].pxRaycast?.(
+            assignPxVec(origin),
+            assignPxVec_(getWorldDirection(self.object3d)),
+            position.distanceTo(origin),
+            managerActorPtrMap.get(data.found)
+        )
+        pxHit && position.lerpVectors(position, pxHit.position, 1.1)
+
+        cam.position.copy(position)
+        cam.quaternion.copy(getWorldQuaternion(self.object3d))
+
+        const tooClose = getEditorHelper()
+            ? false
+            : cam.position.distanceTo(origin) < 1
+        tooClose !== data.tooClose && setVisible(data.found, !tooClose)
+        data.tooClose = tooClose
+    }
+)
 
 export default class ThirdPersonCamera
     extends CharacterCamera
@@ -32,46 +63,18 @@ export default class ThirdPersonCamera
         this.innerZ = 300
         this.orbitMode = true
 
-        const cam = this.camera
-
         this.createEffect(() => {
             const found = this.firstChildState.get()
             if (!(found instanceof MeshAppendable)) {
-                const handle = onBeforeRender(() => {
-                    cam.position.copy(getWorldPosition(this.object3d))
-                    cam.quaternion.copy(getWorldQuaternion(this.object3d))
-                })
+                addCharacterCameraSystem(this)
                 return () => {
-                    handle.cancel()
+                    deleteCharacterCameraSystem(this)
                 }
             }
-
-            let tooCloseOld = false
             setVisible(found, true)
-
-            const handle = onBeforeRender(() => {
-                const origin = getWorldPosition(this.outerObject3d)
-                const position = getWorldPosition(this.object3d)
-
-                const pxHit = physxPtr[0].pxRaycast?.(
-                    assignPxVec(origin),
-                    assignPxVec_(getWorldDirection(this.object3d)),
-                    position.distanceTo(origin),
-                    managerActorPtrMap.get(found)
-                )
-                pxHit && position.lerpVectors(position, pxHit.position, 1.1)
-
-                cam.position.copy(position)
-                cam.quaternion.copy(getWorldQuaternion(this.object3d))
-
-                const tooClose = getEditorHelper()
-                    ? false
-                    : cam.position.distanceTo(origin) < 1
-                tooClose !== tooCloseOld && setVisible(found, !tooClose)
-                tooCloseOld = tooClose
-            })
+            addCameraSystem(this, { found, tooClose: false })
             return () => {
-                handle.cancel()
+                deleteCameraSystem(this)
             }
         }, [this.firstChildState.get])
     }

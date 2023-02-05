@@ -3,12 +3,19 @@ import { planeGeometry } from "./primitives/Plane"
 import { sphereGeometry } from "./primitives/Sphere"
 import loadTexture from "./utils/loaders/loadTexture"
 import { dtPtr } from "../engine/eventLoop"
-import { onBeforeRender } from "../events/onBeforeRender"
 import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "./core/VisibleObjectManager"
 import { setManager } from "../api/utils/getManager"
 import { WATERNORMALS_URL } from "../api/assetsPath"
+import beforeRenderSystemWithData from "../utils/beforeRenderSystemWithData"
+import type { Water as ThreeWater } from "three/examples/jsm/objects/Water"
+
+const [addWaterSystem, deleteWaterSystem] = beforeRenderSystemWithData(
+    (water: ThreeWater, data: { speed: number }) => {
+        water.material.uniforms["time"].value += dtPtr[0] * data.speed
+    }
+)
 
 export default class Water extends VisibleObjectManager implements IWater {
     public static componentName = "water"
@@ -69,13 +76,10 @@ export default class Water extends VisibleObjectManager implements IWater {
                     textureHeight: res,
                     waterNormals: loadTexture(normalMap, () => {
                         this.object3d.add(water)
-                        const updateHandle = onBeforeRender(() => {
-                            water.material.uniforms["time"].value +=
-                                dtPtr[0] * speed
-                        })
+                        addWaterSystem(water, { speed })
                         handle.then(() => {
                             this.object3d.remove(water)
-                            updateHandle.cancel()
+                            deleteWaterSystem(water)
                         })
                     }),
                     // sunDirection: new Vector3(),

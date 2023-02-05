@@ -15,6 +15,16 @@ import { positionChangedXZ } from "../utils/trackObject"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import CameraBase, { updateAngleSystem } from "./CameraBase"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import beforeRenderSystem from "../../utils/beforeRenderSystem"
+import ThirdPersonCamera from "../cameras/ThirdPersonCamera"
+import getWorldPosition from "../utils/getWorldPosition"
+import getWorldQuaternion from "../utils/getWorldQuaternion"
+
+export const [addCharacterCameraSystem, deleteCharacterCameraSystem] =
+    beforeRenderSystem((self: ThirdPersonCamera) => {
+        self.camera.position.copy(getWorldPosition(self.object3d))
+        self.camera.quaternion.copy(getWorldQuaternion(self.object3d))
+    })
 
 export default class CharacterCamera
     extends CameraBase

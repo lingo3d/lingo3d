@@ -7,7 +7,6 @@ import IOrbitCamera, {
 import { getTransformControlsDragging } from "../../states/useTransformControlsDragging"
 import { onKeyClear } from "../../events/onKeyClear"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { onBeforeRender } from "../../events/onBeforeRender"
 import { Cancellable } from "@lincode/promiselikes"
 import { PerspectiveCamera } from "three"
 import { vec2Point } from "../utils/vec2Point"
@@ -16,6 +15,49 @@ import getCenter from "../utils/getCenter"
 import { FAR, NEAR } from "../../globals"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import CameraBase from "../core/CameraBase"
+import beforeRenderSystemWithData from "../../utils/beforeRenderSystemWithData"
+
+const [addPlaceAtSystem, deletePlaceAtSystem] = beforeRenderSystemWithData(
+    (cam: OrbitCamera, data: { found: MeshAppendable }) => {
+        cam.placeAt(vec2Point(getCenter(data.found.object3d)))
+    }
+)
+
+const [addGyrateSystem, deleteGyrateSystem] = beforeRenderSystemWithData(
+    (cam: OrbitCamera, data: { speed: number }) => {
+        cam.gyrate(data.speed, 0, true)
+    }
+)
+
+const [addFlySystem, deleteFlySystem] = beforeRenderSystemWithData(
+    (cam: OrbitCamera, { downSet }: { downSet: Set<string> }) => {
+        if (downSet.has("Meta") || downSet.has("Control")) return
+
+        const speed = downSet.has("Shift") ? 50 : 10
+
+        if (downSet.has("w")) cam.translateZ(-speed)
+        else if (downSet.has("s")) cam.translateZ(speed)
+
+        if (downSet.has("a") || downSet.has("ArrowLeft")) cam.moveRight(-speed)
+        else if (downSet.has("d") || downSet.has("ArrowRight"))
+            cam.moveRight(speed)
+
+        if (
+            downSet.has("w") ||
+            downSet.has("s") ||
+            downSet.has("a") ||
+            downSet.has("d")
+        ) {
+            const worldPos = vec2Point(getWorldPosition(cam.object3d))
+            cam.innerZ = 0
+            cam.placeAt(worldPos)
+        }
+        if (downSet.has("Meta") || downSet.has("Control")) return
+
+        if (downSet.has("ArrowDown")) cam.y -= speed
+        else if (downSet.has("ArrowUp")) cam.y += speed
+    }
+)
 
 export default class OrbitCamera extends CameraBase implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -35,11 +77,9 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
             const found = this.firstChildState.get()
             if (!(found instanceof MeshAppendable)) return
 
-            const handle = onBeforeRender(() => {
-                this.placeAt(vec2Point(getCenter(found.object3d)))
-            })
+            addPlaceAtSystem(this, { found })
             return () => {
-                handle.cancel()
+                deletePlaceAtSystem(this)
             }
         }, [this.firstChildState.get])
 
@@ -47,12 +87,11 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
             const autoRotate = this.autoRotateState.get()
             if (getCameraRendered() !== camera || !autoRotate) return
 
-            const speed = typeof autoRotate === "number" ? autoRotate : 2
-            const handle = onBeforeRender(() => {
-                this.gyrate(speed, 0, true)
+            addGyrateSystem(this, {
+                speed: typeof autoRotate === "number" ? autoRotate : 2
             })
             return () => {
-                handle.cancel()
+                deleteGyrateSystem(this)
             }
         }, [getCameraRendered, this.autoRotateState.get])
 
@@ -78,41 +117,7 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
 
             if (this.enableFlyState.get()) {
                 const downSet = new Set<string>()
-
-                handle.watch(
-                    onBeforeRender(() => {
-                        if (downSet.has("Meta") || downSet.has("Control"))
-                            return
-
-                        const speed = downSet.has("Shift") ? 50 : 10
-
-                        if (downSet.has("w")) this.translateZ(-speed)
-                        else if (downSet.has("s")) this.translateZ(speed)
-
-                        if (downSet.has("a") || downSet.has("ArrowLeft"))
-                            this.moveRight(-speed)
-                        else if (downSet.has("d") || downSet.has("ArrowRight"))
-                            this.moveRight(speed)
-
-                        if (
-                            downSet.has("w") ||
-                            downSet.has("s") ||
-                            downSet.has("a") ||
-                            downSet.has("d")
-                        ) {
-                            const worldPos = vec2Point(
-                                getWorldPosition(this.object3d)
-                            )
-                            this.innerZ = 0
-                            this.placeAt(worldPos)
-                        }
-                        if (downSet.has("Meta") || downSet.has("Control"))
-                            return
-
-                        if (downSet.has("ArrowDown")) this.y -= speed
-                        else if (downSet.has("ArrowUp")) this.y += speed
-                    })
-                )
+                addFlySystem(this, { downSet })
 
                 const handleKeyDown = (e: KeyboardEvent) => {
                     downSet.add(
@@ -129,6 +134,7 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
                 handle.watch(onKeyClear(() => downSet.clear()))
 
                 handle.then(() => {
+                    deleteFlySystem(this)
                     document.removeEventListener("keydown", handleKeyDown)
                     document.removeEventListener("keyup", handleKeyUp)
                 })
