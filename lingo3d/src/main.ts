@@ -1,5 +1,5 @@
 import { settings } from "."
-import "./tests/testHit"
+import "./tests/testSpriteSheet"
 import LingoEditor from "./editor"
 
 settings.autoMount = true
