@@ -28,3 +28,8 @@ box.onLoop = () => {
         box2.color = "white"
     }
 }
+
+box2.moveTo(300, 300, -300)
+box2.onMoveToEnd = () => {
+    console.log("done")
+}

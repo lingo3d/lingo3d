@@ -139,7 +139,7 @@ export default class Appendable extends Disposable implements IAppendable {
     }
 
     private handles?: Map<string, Cancellable>
-    protected cancelHandle(
+    public cancelHandle(
         name: string,
         lazyHandle: undefined | false | "" | (() => Cancellable)
     ) {

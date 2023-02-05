@@ -11,7 +11,6 @@ import { point2Vec } from "../../utils/vec2Point"
 import ISimpleObjectManager from "../../../interface/ISimpleObjectManager"
 import getCenter from "../../utils/getCenter"
 import { applyMixins } from "@lincode/utils"
-import { onBeforeRender } from "../../../events/onBeforeRender"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import AnimatedObjectManager from "../AnimatedObjectManager"
 import Nullable from "../../../interface/utils/Nullable"
@@ -24,6 +23,73 @@ import PositionedMixin from "../mixins/PositionedMixin"
 import DirectionedMixin from "../mixins/DirectionedMixin"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { getMeshAppendablesById } from "../StaticObjectManager"
+import beforeRenderSystemWithData from "../../../utils/beforeRenderSystemWithData"
+import { Cancellable } from "@lincode/promiselikes"
+
+const [addLerpSystem, deleteLerpSystem] = beforeRenderSystemWithData(
+    (
+        self: SimpleObjectManager,
+        data: {
+            from: Vector3
+            to: Vector3
+            alpha: number
+            onFrame?: () => void
+        }
+    ) => {
+        const { x, y, z } = data.from.lerp(data.to, fpsAlpha(data.alpha))
+
+        if (
+            Math.abs(self.x - x) < 0.1 &&
+            Math.abs(self.y - y) < 0.1 &&
+            Math.abs(self.z - z) < 0.1
+        ) {
+            self.cancelHandle("lerpTo", undefined)
+            self.onMoveToEnd?.()
+        }
+        self.x = x
+        self.y = y
+        self.z = z
+
+        data.onFrame?.()
+    }
+)
+
+const [addMoveSystem, deleteMoveSystem] = beforeRenderSystemWithData(
+    (
+        self: SimpleObjectManager,
+        data: {
+            sx: number
+            sy: number
+            sz: number
+            x: number
+            y: number | undefined
+            z: number
+            quad: number
+            onFrame?: () => void
+        }
+    ) => {
+        self.x += data.sx * fpsRatioPtr[0]
+        if (data.y !== undefined) self.y += data.sy * fpsRatioPtr[0]
+        self.z += data.sz * fpsRatioPtr[0]
+
+        const angle = vertexAngle(
+            new Point(self.x, self.z),
+            new Point(data.x, data.z),
+            new Point(self.x, data.z)
+        )
+        const rotated = rotatePoint(
+            new Point(data.x, data.z),
+            new Point(self.x, self.z),
+            data.quad === 1 || data.quad === 4 ? angle : -angle
+        )
+
+        if (data.z > rotated.y) {
+            self.cancelHandle("lerpTo", undefined)
+            self.onMoveToEnd?.()
+        }
+        data.onFrame?.()
+    }
+)
 
 class SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>
@@ -104,38 +170,23 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         x: number,
         y: number,
         z: number,
-        alpha: number,
+        alpha = 0.01,
         onFrame?: () => void
     ) {
         const from = new Vector3(this.x, this.y, this.z)
         const to = new Vector3(x, y, z)
 
-        this.cancelHandle("lerpTo", () =>
-            onBeforeRender(() => {
-                const { x, y, z } = from.lerp(to, fpsAlpha(alpha))
-
-                if (
-                    Math.abs(this.x - x) < 0.1 &&
-                    Math.abs(this.y - y) < 0.1 &&
-                    Math.abs(this.z - z) < 0.1
-                ) {
-                    this.cancelHandle("lerpTo", undefined)
-                    this.onMoveToEnd?.()
-                }
-                this.x = x
-                this.y = y
-                this.z = z
-
-                onFrame?.()
-            })
-        )
+        this.cancelHandle("lerpTo", () => {
+            addLerpSystem(this, { from, to, alpha, onFrame })
+            return new Cancellable(() => deleteLerpSystem(this))
+        })
     }
 
     public moveTo(
         x: number,
         y: number | undefined,
         z: number,
-        speed: number,
+        speed = 1,
         onFrame?: () => void
     ) {
         if (x === this.x) x += 0.01
@@ -156,30 +207,10 @@ class SimpleObjectManager<T extends Object3D = Object3D>
 
         const quad = quadrant(x, z, this.x, this.z)
 
-        this.cancelHandle("lerpTo", () =>
-            onBeforeRender(() => {
-                this.x += sx * fpsRatioPtr[0]
-                if (y !== undefined) this.y += sy * fpsRatioPtr[0]
-                this.z += sz * fpsRatioPtr[0]
-
-                const angle = vertexAngle(
-                    new Point(this.x, this.z),
-                    new Point(x, z),
-                    new Point(this.x, z)
-                )
-                const rotated = rotatePoint(
-                    new Point(x, z),
-                    new Point(this.x, this.z),
-                    quad === 1 || quad === 4 ? angle : -angle
-                )
-
-                if (z > rotated.y) {
-                    this.cancelHandle("lerpTo", undefined)
-                    this.onMoveToEnd?.()
-                }
-                onFrame?.()
-            })
-        )
+        this.cancelHandle("lerpTo", () => {
+            addMoveSystem(this, { sx, sy, sz, x, y, z, quad, onFrame })
+            return new Cancellable(() => deleteMoveSystem(this))
+        })
     }
 }
 interface SimpleObjectManager<T extends Object3D = Object3D>

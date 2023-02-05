@@ -311,7 +311,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.updatePhysics()
     }
 
-    public override lerpTo(x: number, y: number, z: number, alpha: number) {
+    public override lerpTo(x: number, y: number, z: number, alpha?: number) {
         super.lerpTo(x, y, z, alpha, () => this.updatePhysics())
     }
 
@@ -319,7 +319,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         x: number,
         y: number | undefined,
         z: number,
-        speed: number
+        speed?: number
     ) {
         super.moveTo(x, y, z, speed, () => this.updatePhysics())
     }
