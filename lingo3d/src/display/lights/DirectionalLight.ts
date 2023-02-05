@@ -18,7 +18,7 @@ import {
     ShadowDistance
 } from "../../states/useShadowDistance"
 import { getShadowResolution } from "../../states/useShadowResolution"
-import beforeRenderSystemWithData from "../../utils/beforeRenderSystemWithData"
+import renderSystemWithData from "../../utils/renderSystemWithData"
 import Camera from "../cameras/Camera"
 import LightBase, { mapShadowResolution } from "../core/LightBase"
 import getWorldPosition from "../utils/getWorldPosition"
@@ -37,7 +37,7 @@ const mapShadowDistance = (val: ShadowDistance) => {
     }
 }
 
-const [addLightSystem, deleteLightSystem] = beforeRenderSystemWithData(
+const [addLightSystem, deleteLightSystem] = renderSystemWithData(
     (
         self: DirectionalLight,
         data: { light: ThreeDirectionalLight; cam: PerspectiveCamera }

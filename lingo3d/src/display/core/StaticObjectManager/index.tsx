@@ -32,8 +32,8 @@ import { emitName } from "../../../events/onName"
 import { CM2M, M2CM } from "../../../globals"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { uuidMap } from "../../../api/core/collections"
-import beforeRenderSystem from "../../../utils/beforeRenderSystem"
-import beforeRenderSystemWithData from "../../../utils/beforeRenderSystemWithData"
+import renderSystem from "../../../utils/renderSystem"
+import renderSystemWithData from "../../../utils/renderSystemWithData"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -81,11 +81,11 @@ export const getMeshAppendables = (
     return [val]
 }
 
-const [addHitTestSystem, deleteHitTestSystem] = beforeRenderSystem(
+const [addHitTestSystem, deleteHitTestSystem] = renderSystem(
     (manager: StaticObjectManager) => {}
 )
 
-const [addLookSystem, deleteLookSystem] = beforeRenderSystemWithData(
+const [addLookSystem, deleteLookSystem] = renderSystemWithData(
     (
         self: StaticObjectManager,
         data: { quaternion: Quaternion; quaternionNew: Quaternion; a1?: number }

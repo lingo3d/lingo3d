@@ -10,7 +10,7 @@ import { CM2M } from "../globals"
 import getWorldQuaternion from "../display/utils/getWorldQuaternion"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import { getEditorHelper } from "../states/useEditorHelper"
-import beforeRenderSystem from "../utils/beforeRenderSystem"
+import renderSystem from "../utils/renderSystem"
 
 const referencePlane = new Mesh(
     new PlaneGeometry(1, 1, 4, 4),
@@ -19,7 +19,7 @@ const referencePlane = new Mesh(
 export default referencePlane
 
 const [addReferencePlaneSystem, deleteReferencePlaneSystem] =
-    beforeRenderSystem((referencePlane: Mesh) => {
+    renderSystem((referencePlane: Mesh) => {
         referencePlane.quaternion.copy(getWorldQuaternion(mainCamera))
         referencePlane.position.copy(getWorldPosition(mainCamera))
         referencePlane.translateZ(-4.9)

@@ -7,12 +7,12 @@ import {
 } from "../../../events/onTransformControls"
 import { M2CM, CM2M } from "../../../globals"
 import IPositioned from "../../../interface/IPositioned"
-import beforeRenderSystemWithData from "../../../utils/beforeRenderSystemWithData"
+import renderSystemWithData from "../../../utils/renderSystemWithData"
 import getWorldPosition from "../../utils/getWorldPosition"
 import { positionChanged } from "../../utils/trackObject"
 import { vec2Point } from "../../utils/vec2Point"
 
-const [addTrackingSystem, deleteTrackingSystem] = beforeRenderSystemWithData(
+const [addTrackingSystem, deleteTrackingSystem] = renderSystemWithData(
     (item: Object3D, data: { cb: () => void }) => {
         positionChanged(item) && data.cb()
     }

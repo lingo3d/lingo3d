@@ -6,13 +6,13 @@ import { emitDispose } from "../../events/onDispose"
 import { onLoop } from "../../events/onLoop"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import IAppendable from "../../interface/IAppendable"
-import beforeRenderSystem from "../../utils/beforeRenderSystem"
+import renderSystem from "../../utils/renderSystem"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { appendableRoot, uuidMap } from "./collections"
 import MeshAppendable from "./MeshAppendable"
 
-const [addLoopSystem, deleteLoopSystem] = beforeRenderSystem(
+const [addLoopSystem, deleteLoopSystem] = renderSystem(
     (cb: () => void) => {
         cb()
     },

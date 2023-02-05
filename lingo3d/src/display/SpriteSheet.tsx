@@ -8,7 +8,7 @@ import ISpriteSheet, {
     spriteSheetDefaults,
     spriteSheetSchema
 } from "../interface/ISpriteSheet"
-import beforeRenderSystemWithData from "../utils/beforeRenderSystemWithData"
+import renderSystemWithData from "../utils/renderSystemWithData"
 
 const numbers = new Set("01234567890".split(""))
 
@@ -116,7 +116,7 @@ const loadSpriteSheet = (
     return map
 }
 
-const [addPlaySystem, deletePlaySystem] = beforeRenderSystemWithData(
+const [addPlaySystem, deletePlaySystem] = renderSystemWithData(
     (
         material: SpriteMaterial,
         data: {

@@ -19,9 +19,9 @@ import {
 import DirectionalLight from "./DirectionalLight"
 import { eraseAppendable } from "../../api/core/collections"
 import { assertExhaustive } from "@lincode/utils"
-import beforeRenderSystemWithData from "../../utils/beforeRenderSystemWithData"
+import renderSystemWithData from "../../utils/renderSystemWithData"
 
-const [addLightSystem, deleteLightSystem] = beforeRenderSystemWithData(
+const [addLightSystem, deleteLightSystem] = renderSystemWithData(
     (self: SkyLight, data: { csm: CSM }) => {
         const lightDirection = self.position
             .clone()

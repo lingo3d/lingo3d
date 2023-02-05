@@ -16,7 +16,7 @@ import fpsAlpha from "../display/utils/fpsAlpha"
 import { getWebXR } from "./useWebXR"
 import { getSplitView } from "./useSplitView"
 import { getCameraComputed } from "./useCameraComputed"
-import beforeRenderSystemWithData from "../utils/beforeRenderSystemWithData"
+import renderSystemWithData from "../utils/renderSystemWithData"
 
 const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
@@ -47,7 +47,7 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 let cameraLast: PerspectiveCamera | undefined
 
 const [addInterpolationSystem, deleteInterpolationSystem] =
-    beforeRenderSystemWithData(
+    renderSystemWithData(
         (
             cameraTo: PerspectiveCamera,
             data: {

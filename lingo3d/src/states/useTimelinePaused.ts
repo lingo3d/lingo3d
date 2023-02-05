@@ -1,7 +1,7 @@
 import store, { createEffect } from "@lincode/reactivity"
 import Timeline from "../display/Timeline"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
-import beforeRenderSystem from "../utils/beforeRenderSystem"
+import renderSystem from "../utils/renderSystem"
 import { getTimeline } from "./useTimeline"
 import { setTimelineFrame } from "./useTimelineFrame"
 
@@ -19,7 +19,7 @@ createEffect(() => {
     }
 }, [getTimeline])
 
-const [addSyncFrameSystem, deleteSyncFrameSystem] = beforeRenderSystem(
+const [addSyncFrameSystem, deleteSyncFrameSystem] = renderSystem(
     (timeline: Timeline) => {
         let { frame, totalFrames } = timeline
         if (frame >= totalFrames) {

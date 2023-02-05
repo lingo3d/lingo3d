@@ -15,21 +15,21 @@ import getCenter from "../utils/getCenter"
 import { FAR, NEAR } from "../../globals"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import CameraBase from "../core/CameraBase"
-import beforeRenderSystemWithData from "../../utils/beforeRenderSystemWithData"
+import renderSystemWithData from "../../utils/renderSystemWithData"
 
-const [addPlaceAtSystem, deletePlaceAtSystem] = beforeRenderSystemWithData(
+const [addPlaceAtSystem, deletePlaceAtSystem] = renderSystemWithData(
     (cam: OrbitCamera, data: { found: MeshAppendable }) => {
         cam.placeAt(vec2Point(getCenter(data.found.object3d)))
     }
 )
 
-const [addGyrateSystem, deleteGyrateSystem] = beforeRenderSystemWithData(
+const [addGyrateSystem, deleteGyrateSystem] = renderSystemWithData(
     (cam: OrbitCamera, data: { speed: number }) => {
         cam.gyrate(data.speed, 0, true)
     }
 )
 
-const [addFlySystem, deleteFlySystem] = beforeRenderSystemWithData(
+const [addFlySystem, deleteFlySystem] = renderSystemWithData(
     (cam: OrbitCamera, { downSet }: { downSet: Set<string> }) => {
         if (downSet.has("Meta") || downSet.has("Control")) return
 

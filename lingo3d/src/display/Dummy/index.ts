@@ -16,9 +16,9 @@ import fpsAlpha from "../utils/fpsAlpha"
 import { Animation } from "../../interface/IAnimatedObjectManager"
 import { groundedControllerManagers } from "../core/PhysicsObjectManager/physx/physxLoop"
 import { DUMMY_URL, YBOT_URL } from "../../api/assetsPath"
-import beforeRenderSystemWithData from "../../utils/beforeRenderSystemWithData"
+import renderSystemWithData from "../../utils/renderSystemWithData"
 
-const [addGroundedSystem, deleteGroundedSystem] = beforeRenderSystemWithData(
+const [addGroundedSystem, deleteGroundedSystem] = renderSystemWithData(
     (self: Dummy, data: { poseService: { send: (val: string) => void } }) => {
         groundedControllerManagers.has(self) &&
             data.poseService.send("JUMP_STOP")

@@ -17,12 +17,12 @@ import getWorldQuaternion from "../utils/getWorldQuaternion"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 import { getEditorHelper } from "../../states/useEditorHelper"
-import beforeRenderSystemWithData from "../../utils/beforeRenderSystemWithData"
+import renderSystemWithData from "../../utils/renderSystemWithData"
 
 const setVisible = (target: MeshAppendable, visible: boolean) =>
     "visible" in target && (target.visible = visible)
 
-const [addCameraSystem, deleteCameraSystem] = beforeRenderSystemWithData(
+const [addCameraSystem, deleteCameraSystem] = renderSystemWithData(
     (
         self: ThirdPersonCamera,
         data: { found: MeshAppendable; tooClose: boolean }

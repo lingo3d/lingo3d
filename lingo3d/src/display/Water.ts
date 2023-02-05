@@ -8,10 +8,10 @@ import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "./core/VisibleObjectManager"
 import { setManager } from "../api/utils/getManager"
 import { WATERNORMALS_URL } from "../api/assetsPath"
-import beforeRenderSystemWithData from "../utils/beforeRenderSystemWithData"
+import renderSystemWithData from "../utils/renderSystemWithData"
 import type { Water as ThreeWater } from "three/examples/jsm/objects/Water"
 
-const [addWaterSystem, deleteWaterSystem] = beforeRenderSystemWithData(
+const [addWaterSystem, deleteWaterSystem] = renderSystemWithData(
     (water: ThreeWater, data: { speed: number }) => {
         water.material.uniforms["time"].value += dtPtr[0] * data.speed
     }

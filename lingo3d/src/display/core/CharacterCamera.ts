@@ -11,14 +11,14 @@ import fpsAlpha from "../utils/fpsAlpha"
 import { positionChangedXZ } from "../utils/trackObject"
 import CameraBase, { updateAngleSystem } from "./CameraBase"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import beforeRenderSystem from "../../utils/beforeRenderSystem"
+import renderSystem from "../../utils/renderSystem"
 import getWorldPosition from "../utils/getWorldPosition"
 import getWorldQuaternion from "../utils/getWorldQuaternion"
-import beforeRenderSystemWithData from "../../utils/beforeRenderSystemWithData"
+import renderSystemWithData from "../../utils/renderSystemWithData"
 import { isPositionedManager } from "./PositionedManager"
 
 export const [addCharacterCameraSystem, deleteCharacterCameraSystem] =
-    beforeRenderSystem((self: CharacterCamera) => {
+    renderSystem((self: CharacterCamera) => {
         self.camera.position.copy(getWorldPosition(self.object3d))
         self.camera.quaternion.copy(getWorldQuaternion(self.object3d))
     })
@@ -57,7 +57,7 @@ const followTargetRotation = (
     updateAngleSystem(self)
 }
 
-const [addCameraSystem, deleteCameraSystem] = beforeRenderSystemWithData(
+const [addCameraSystem, deleteCameraSystem] = renderSystemWithData(
     (self: CharacterCamera, { found }: { found: MeshAppendable }) => {
         self.position.copy(found.position)
 

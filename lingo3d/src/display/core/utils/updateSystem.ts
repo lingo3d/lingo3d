@@ -1,6 +1,6 @@
-import beforeRenderSystem from "../../../utils/beforeRenderSystem"
+import renderSystem from "../../../utils/renderSystem"
 
-export const [addUpdateSystem, deleteUpdateSystem] = beforeRenderSystem(
+export const [addUpdateSystem, deleteUpdateSystem] = renderSystem(
     (helper: { update: () => void }) => {
         helper.update()
     }

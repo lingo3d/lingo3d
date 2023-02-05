@@ -23,10 +23,10 @@ import PositionedMixin from "../mixins/PositionedMixin"
 import DirectionedMixin from "../mixins/DirectionedMixin"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { getMeshAppendablesById } from "../StaticObjectManager"
-import beforeRenderSystemWithData from "../../../utils/beforeRenderSystemWithData"
+import renderSystemWithData from "../../../utils/renderSystemWithData"
 import { Cancellable } from "@lincode/promiselikes"
 
-const [addLerpSystem, deleteLerpSystem] = beforeRenderSystemWithData(
+const [addLerpSystem, deleteLerpSystem] = renderSystemWithData(
     (
         self: SimpleObjectManager,
         data: {
@@ -54,7 +54,7 @@ const [addLerpSystem, deleteLerpSystem] = beforeRenderSystemWithData(
     }
 )
 
-const [addMoveSystem, deleteMoveSystem] = beforeRenderSystemWithData(
+const [addMoveSystem, deleteMoveSystem] = renderSystemWithData(
     (
         self: SimpleObjectManager,
         data: {
