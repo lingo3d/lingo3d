@@ -1,8 +1,13 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { Camera, OrthographicCamera, PerspectiveCamera } from "three"
+import {
+    Camera,
+    OrthographicCamera,
+    PerspectiveCamera,
+    Quaternion,
+    Vector3
+} from "three"
 import interpolationCamera from "../engine/interpolationCamera"
 import mainCamera from "../engine/mainCamera"
-import { onBeforeRender } from "../events/onBeforeRender"
 import { getResolution } from "./useResolution"
 import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
 import getWorldPosition from "../display/utils/getWorldPosition"
@@ -11,6 +16,7 @@ import fpsAlpha from "../display/utils/fpsAlpha"
 import { getWebXR } from "./useWebXR"
 import { getSplitView } from "./useSplitView"
 import { getCameraComputed } from "./useCameraComputed"
+import beforeRenderSystemWithData from "../utils/beforeRenderSystemWithData"
 
 const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
@@ -39,6 +45,52 @@ export const updateCameraAspect = (camera: Camera) => {
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
 let cameraLast: PerspectiveCamera | undefined
+
+const [addInterpolationSystem, deleteInterpolationSystem] =
+    beforeRenderSystemWithData(
+        (
+            cameraTo: PerspectiveCamera,
+            data: {
+                positionFrom: Vector3
+                quaternionFrom: Quaternion
+                cameraFrom: PerspectiveCamera
+                ratio: number
+                diffMax: number
+            }
+        ) => {
+            const { positionFrom, quaternionFrom, cameraFrom, ratio, diffMax } =
+                data
+
+            const positionTo = getWorldPosition(cameraTo)
+            const quaternionTo = getWorldQuaternion(cameraTo)
+
+            interpolationCamera.position.lerpVectors(
+                positionFrom,
+                positionTo,
+                ratio
+            )
+            interpolationCamera.quaternion.slerpQuaternions(
+                quaternionFrom,
+                quaternionTo,
+                ratio
+            )
+
+            interpolationCamera.zoom = lerp(
+                cameraFrom.zoom,
+                cameraTo.zoom,
+                ratio
+            )
+            interpolationCamera.fov = lerp(cameraFrom.fov, cameraTo.fov, ratio)
+            interpolationCamera.updateProjectionMatrix()
+
+            data.ratio = Math.min((1 - ratio) * fpsAlpha(0.1), diffMax) + ratio
+            if (data.ratio < 0.9999) return
+
+            setCameraRendered(cameraTo)
+            updateCameraAspect(cameraTo)
+            deleteInterpolationSystem(cameraTo)
+        }
+    )
 
 createEffect(() => {
     if (getSplitView()) {
@@ -73,33 +125,14 @@ createEffect(() => {
 
     let ratio = 0
     const diffMax = typeof transition === "number" ? transition : Infinity
-    const handle = onBeforeRender(() => {
-        const positionTo = getWorldPosition(cameraTo)
-        const quaternionTo = getWorldQuaternion(cameraTo)
-
-        interpolationCamera.position.lerpVectors(
-            positionFrom,
-            positionTo,
-            ratio
-        )
-        interpolationCamera.quaternion.slerpQuaternions(
-            quaternionFrom,
-            quaternionTo,
-            ratio
-        )
-
-        interpolationCamera.zoom = lerp(cameraFrom.zoom, cameraTo.zoom, ratio)
-        interpolationCamera.fov = lerp(cameraFrom.fov, cameraTo.fov, ratio)
-        interpolationCamera.updateProjectionMatrix()
-
-        ratio = Math.min((1 - ratio) * fpsAlpha(0.1), diffMax) + ratio
-        if (ratio < 0.9999) return
-
-        setCameraRendered(cameraTo)
-        updateCameraAspect(cameraTo)
-        handle.cancel()
+    addInterpolationSystem(cameraTo, {
+        positionFrom,
+        quaternionFrom,
+        cameraFrom,
+        ratio,
+        diffMax
     })
     return () => {
-        handle.cancel()
+        deleteInterpolationSystem(cameraTo)
     }
 }, [getSplitView, getCameraComputed])

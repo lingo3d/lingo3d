@@ -1,6 +1,7 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { onBeforeRender } from "../events/onBeforeRender"
+import Timeline from "../display/Timeline"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
+import beforeRenderSystem from "../utils/beforeRenderSystem"
 import getPrivateValue from "../utils/getPrivateValue"
 import { getTimeline } from "./useTimeline"
 import { setTimelineFrame } from "./useTimelineFrame"
@@ -21,21 +22,25 @@ createEffect(() => {
     }
 }, [getTimeline])
 
-createEffect(() => {
-    const timeline = getTimeline()
-    if (!timeline || getTimelinePaused()) return
-
-    emitSelectionTarget(undefined)
-
-    const handle = onBeforeRender(() => {
+const [addSyncFrameSystem, deleteSyncFrameSystem] = beforeRenderSystem(
+    (timeline: Timeline) => {
         let { frame, totalFrames } = timeline
         if (frame >= totalFrames) {
             frame = timeline.frame = totalFrames
             timeline.paused = true
         }
         setTimelineFrame(frame)
-    })
+    }
+)
+
+createEffect(() => {
+    const timeline = getTimeline()
+    if (!timeline || getTimelinePaused()) return
+
+    emitSelectionTarget(undefined)
+
+    addSyncFrameSystem(timeline)
     return () => {
-        handle.cancel()
+        deleteSyncFrameSystem(timeline)
     }
 }, [getTimeline, getTimelinePaused])
