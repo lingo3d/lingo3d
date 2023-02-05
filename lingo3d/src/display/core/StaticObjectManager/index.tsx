@@ -52,14 +52,14 @@ const updateFrustum = throttle(
     "leading"
 )
 
-const idMap = new Map<string, Set<StaticObjectManager>>()
+const userIdMap = new Map<string, Set<StaticObjectManager>>()
 
 export const getMeshAppendablesById = (
     id: string
 ): Array<MeshAppendable> | Set<MeshAppendable> => {
     const uuidInstance = uuidMap.get(id)
     if (uuidInstance && "object3d" in uuidInstance) return [uuidInstance]
-    return idMap.get(id) ?? []
+    return userIdMap.get(id) ?? []
 }
 
 export const getMeshAppendables = (
@@ -82,7 +82,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 {
     protected override _dispose() {
         super._dispose()
-        this._id !== undefined && idMap.get(this._id)!.delete(this)
+        this._id !== undefined && userIdMap.get(this._id)!.delete(this)
     }
 
     protected _id?: string
@@ -90,10 +90,10 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return this._id
     }
     public set id(val) {
-        this._id !== undefined && idMap.get(this._id)!.delete(this)
+        this._id !== undefined && userIdMap.get(this._id)!.delete(this)
         this._id = val
         if (val === undefined) return
-        forceGetInstance(idMap, val, Set).add(this)
+        forceGetInstance(userIdMap, val, Set).add(this)
         emitId(val)
     }
 
