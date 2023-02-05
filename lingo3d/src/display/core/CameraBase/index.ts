@@ -33,7 +33,7 @@ export default abstract class CameraBase<
     extends ObjectManager
     implements ICameraBase
 {
-    protected midObject3d = this.outerObject3d
+    public midObject3d = this.outerObject3d
 
     public constructor(public camera: T) {
         super()
