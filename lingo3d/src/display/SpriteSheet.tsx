@@ -3,12 +3,12 @@ import createInstancePool from "./core/utils/createInstancePool"
 import { Sprite, SpriteMaterial } from "three"
 import loadTexture from "./utils/loaders/loadTexture"
 import { Cancellable } from "@lincode/promiselikes"
-import { onBeforeRender } from "../events/onBeforeRender"
 import VisibleObjectManager from "./core/VisibleObjectManager"
 import ISpriteSheet, {
     spriteSheetDefaults,
     spriteSheetSchema
 } from "../interface/ISpriteSheet"
+import beforeRenderSystemWithData from "../utils/beforeRenderSystemWithData"
 
 const numbers = new Set("01234567890".split(""))
 
@@ -116,6 +116,32 @@ const loadSpriteSheet = (
     return map
 }
 
+const [addPlaySystem, deletePlaySystem] = beforeRenderSystemWithData(
+    (
+        material: SpriteMaterial,
+        data: {
+            x: number
+            y: number
+            columns: number
+            rows: number
+            frame: number
+            length: number
+            loop: boolean | undefined
+        }
+    ) => {
+        material.map!.offset.set(data.x / data.columns, data.y / data.rows)
+        if (++data.x === data.columns) {
+            data.x = 0
+            --data.y
+        }
+        if (++data.frame < data.length) return
+        data.frame = 0
+        data.x = 0
+        data.y = data.rows - 1
+        !data.loop && deletePlaySystem(material)
+    }
+)
+
 const playSpriteSheet = (
     material: SpriteMaterial,
     columns: number,
@@ -123,27 +149,18 @@ const playSpriteSheet = (
     loop: boolean | undefined,
     handle: Cancellable
 ) => {
-    const map = material.map!
-    const rows = Math.ceil(length / columns)
     material.visible = true
-
-    let x = 0
-    let y = rows - 1
-    let frame = 0
-    const handle0 = onBeforeRender(() => {
-        map.offset.set(x / columns, y / rows)
-        if (++x === columns) {
-            x = 0
-            --y
-        }
-        if (++frame === length) {
-            frame = 0
-            x = 0
-            y = rows - 1
-            !loop && handle0.cancel()
-        }
+    const rows = Math.ceil(length / columns)
+    addPlaySystem(material, {
+        x: 0,
+        y: rows - 1,
+        columns,
+        rows,
+        frame: 0,
+        length,
+        loop
     })
-    handle.watch(handle0)
+    handle.then(() => deletePlaySystem(material))
 }
 
 export default class SpriteSheet
