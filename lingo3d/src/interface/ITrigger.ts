@@ -11,7 +11,7 @@ import MeshAppendable from "../api/core/MeshAppendable"
 export default interface ITrigger extends IPositioned {
     onEnter: Nullable<(target: MeshAppendable) => void>
     onExit: Nullable<() => void>
-    target: Nullable<string | Array<string> | MeshAppendable>
+    target: Nullable<string | Array<string> | MeshAppendable | Array<MeshAppendable>>
     pad: boolean
     radius: number
     interval: number

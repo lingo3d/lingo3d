@@ -15,25 +15,12 @@ mouse.onMouseMove = (e) => {
 
 const box2 = new Cube()
 
+box.hitTarget = [box2.uuid]
+box.onHit = () => {
+
+}
+
 box.onLoop = () => {
     box.rotationZ += 1
     box2.rotationZ -= 1
-
-    if (box.hitTest(box2)) {
-        box.color = "red"
-        box2.color = "red"
-    }
-    else {
-        box.color = "white"
-        box2.color = "white"
-    }
-}
-
-box2.moveTo(300, 300, -300)
-box2.onMoveToEnd = () => {
-    console.log("done")
-}
-box2.lookTo(100, 100, 100, 0.05)
-box2.onLookToEnd = () => {
-    console.log("look done")
 }

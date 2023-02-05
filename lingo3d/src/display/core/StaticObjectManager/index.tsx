@@ -62,22 +62,27 @@ export const getMeshAppendablesById = (
     return userIdMap.get(id) ?? []
 }
 
+const isStringArray = (array: Array<unknown>): array is Array<string> =>
+    typeof array[0] === "string"
+
 export const getMeshAppendables = (
-    val: string | Array<string> | MeshAppendable
+    val: string | Array<string> | MeshAppendable | Array<MeshAppendable>
 ): Array<MeshAppendable> | Set<MeshAppendable> => {
     if (typeof val === "string") return getMeshAppendablesById(val)
     if (Array.isArray(val)) {
         const result: Array<MeshAppendable> = []
-        for (const id of val)
-            for (const meshAppendable of getMeshAppendablesById(id))
-                result.push(meshAppendable)
+        if (isStringArray(val))
+            for (const id of val)
+                for (const meshAppendable of getMeshAppendablesById(id))
+                    result.push(meshAppendable)
+        else for (const meshAppendable of val) result.push(meshAppendable)
         return result
     }
     return [val]
 }
 
 const [addHitTestSystem, deleteHitTestSystem] = beforeRenderSystem(
-    (val: StaticObjectManager) => {}
+    (manager: StaticObjectManager) => {}
 )
 
 const [addLookSystem, deleteLookSystem] = beforeRenderSystemWithData(

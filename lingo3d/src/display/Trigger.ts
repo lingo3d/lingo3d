@@ -4,9 +4,7 @@ import getWorldPosition from "./utils/getWorldPosition"
 import { timer } from "../engine/eventLoop"
 import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
 import PositionedManager from "./core/PositionedManager"
-import StaticObjectManager, {
-    getMeshAppendables
-} from "./core/StaticObjectManager"
+import { getMeshAppendables } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperCylinder from "./core/utils/HelperCylinder"
 import HelperSphere from "./core/utils/HelperSphere"
@@ -61,7 +59,11 @@ export default class Trigger extends PositionedManager implements ITrigger {
         this.refreshState.set({})
     }
 
-    private _target?: string | Array<string> | StaticObjectManager
+    private _target?:
+        | string
+        | Array<string>
+        | MeshAppendable
+        | Array<MeshAppendable>
     public get target() {
         return this._target
     }
