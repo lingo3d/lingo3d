@@ -33,3 +33,7 @@ box2.moveTo(300, 300, -300)
 box2.onMoveToEnd = () => {
     console.log("done")
 }
+box2.lookTo(100, 100, 100, 0.05)
+box2.onLookToEnd = () => {
+    console.log("look done")
+}

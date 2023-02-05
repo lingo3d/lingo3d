@@ -1,5 +1,5 @@
 import { Point3d } from "@lincode/math"
-import { Matrix3, Object3D, PropertyBinding } from "three"
+import { Matrix3, Object3D, PropertyBinding, Quaternion } from "three"
 import {
     frustum,
     matrix4,
@@ -16,7 +16,6 @@ import { LingoMouseEvent } from "../../../interface/IMouse"
 import getCenter from "../../utils/getCenter"
 import IStaticObjectManager from "../../../interface/IStaticObjectManager"
 import { getCameraRendered } from "../../../states/useCameraRendered"
-import { onBeforeRender } from "../../../events/onBeforeRender"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldDirection from "../../utils/getWorldDirection"
 import {
@@ -34,6 +33,7 @@ import { CM2M, M2CM } from "../../../globals"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { uuidMap } from "../../../api/core/collections"
 import beforeRenderSystem from "../../../utils/beforeRenderSystem"
+import beforeRenderSystemWithData from "../../../utils/beforeRenderSystemWithData"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -78,6 +78,27 @@ export const getMeshAppendables = (
 
 const [addHitTestSystem, deleteHitTestSystem] = beforeRenderSystem(
     (val: StaticObjectManager) => {}
+)
+
+const [addLookSystem, deleteLookSystem] = beforeRenderSystemWithData(
+    (
+        self: StaticObjectManager,
+        data: { quaternion: Quaternion; quaternionNew: Quaternion; a1?: number }
+    ) => {
+        const { quaternion, quaternionNew, a1 } = data
+        quaternion.slerp(quaternionNew, fpsAlpha(a1 ?? 0.05))
+
+        const x = Math.abs(quaternion.x - quaternionNew.x)
+        const y = Math.abs(quaternion.y - quaternionNew.y)
+        const z = Math.abs(quaternion.z - quaternionNew.z)
+        const w = Math.abs(quaternion.w - quaternionNew.w)
+        if (x + y + z + w < 0.001) {
+            self.cancelHandle("lookTo", undefined)
+            self.onLookToEnd?.()
+
+            quaternion.copy(quaternionNew)
+        }
+    }
 )
 
 export default class StaticObjectManager<T extends Object3D = Object3D>
@@ -264,12 +285,12 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
     public onLookToEnd: (() => void) | undefined
 
-    public lookTo(target: MeshAppendable | Point3d, alpha: number): void
+    public lookTo(target: MeshAppendable | Point3d, alpha?: number): void
     public lookTo(
         x: number,
         y: number | undefined,
         z: number,
-        alpha: number
+        alpha?: number
     ): void
     public lookTo(
         a0: MeshAppendable | Point3d | number,
@@ -284,7 +305,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
                     a1 === undefined ? this.position.y * M2CM : a1,
                     a2!
                 ),
-                a3!
+                a3
             )
             return
         }
@@ -295,22 +316,10 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
 
         quaternion.copy(quaternionOld)
 
-        this.cancelHandle("lookTo", () =>
-            onBeforeRender(() => {
-                quaternion.slerp(quaternionNew, fpsAlpha(a1!))
-
-                const x = Math.abs(quaternion.x - quaternionNew.x)
-                const y = Math.abs(quaternion.y - quaternionNew.y)
-                const z = Math.abs(quaternion.z - quaternionNew.z)
-                const w = Math.abs(quaternion.w - quaternionNew.w)
-                if (x + y + z + w < 0.001) {
-                    this.cancelHandle("lookTo", undefined)
-                    this.onLookToEnd?.()
-
-                    quaternion.copy(quaternionNew)
-                }
-            })
-        )
+        this.cancelHandle("lookTo", () => {
+            addLookSystem(this, { quaternion, quaternionNew, a1 })
+            return new Cancellable(() => deleteLookSystem(this))
+        })
     }
 
     public getWorldPosition(): Point3d {

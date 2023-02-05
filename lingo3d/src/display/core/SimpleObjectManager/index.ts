@@ -170,7 +170,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         x: number,
         y: number,
         z: number,
-        alpha = 0.01,
+        alpha = 0.05,
         onFrame?: () => void
     ) {
         const from = new Vector3(this.x, this.y, this.z)
@@ -186,7 +186,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
         x: number,
         y: number | undefined,
         z: number,
-        speed = 1,
+        speed = 5,
         onFrame?: () => void
     ) {
         if (x === this.x) x += 0.01
