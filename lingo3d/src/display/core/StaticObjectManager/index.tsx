@@ -242,7 +242,11 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return thisOBB.intersectsOBB(targetOBB)
     }
 
-    private _hitTarget?: string | Array<string> | StaticObjectManager
+    private _hitTarget?:
+        | string
+        | Array<string>
+        | StaticObjectManager
+        | Array<StaticObjectManager>
     public get hitTarget() {
         return this._hitTarget
     }

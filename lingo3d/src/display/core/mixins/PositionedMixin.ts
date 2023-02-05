@@ -17,10 +17,6 @@ const [addTrackingSystem, deleteTrackingSystem] = beforeRenderSystemWithData(
         positionChanged(item) && data.cb()
     }
 )
-export const onObjectMove = (item: Object3D, cb: () => void) => {
-    addTrackingSystem(item, { cb })
-    return new Cancellable(() => deleteTrackingSystem(item))
-}
 
 export default abstract class PositionedMixin<T extends Object3D = Object3D>
     implements IPositioned
@@ -63,7 +59,13 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
         //@ts-ignore
         this.cancelHandle(
             "onMove",
-            cb && (() => onObjectMove(this.outerObject3d, cb))
+            cb &&
+                (() => {
+                    addTrackingSystem(this.outerObject3d, { cb })
+                    return new Cancellable(() =>
+                        deleteTrackingSystem(this.outerObject3d)
+                    )
+                })
         )
     }
 

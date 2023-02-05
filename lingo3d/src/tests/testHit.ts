@@ -15,7 +15,7 @@ mouse.onMouseMove = (e) => {
 
 const box2 = new Cube()
 
-box.hitTarget = [box2.uuid]
+box.hitTarget = [box2]
 box.onHit = () => {
 
 }
