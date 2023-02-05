@@ -1,34 +1,25 @@
 import { Point3d } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
-import { lazy, forceGetInstance } from "@lincode/utils"
 import { Object3D, Vector3 } from "three"
-import { onBeforeRender } from "../../../events/onBeforeRender"
 import {
     TransformControlsMode,
     TransformControlsPhase
 } from "../../../events/onTransformControls"
 import { M2CM, CM2M } from "../../../globals"
 import IPositioned from "../../../interface/IPositioned"
+import beforeRenderSystemWithData from "../../../utils/beforeRenderSystemWithData"
 import getWorldPosition from "../../utils/getWorldPosition"
 import { positionChanged } from "../../utils/trackObject"
 import { vec2Point } from "../../utils/vec2Point"
 
-const lazyObjectLoop = lazy(() =>
-    onBeforeRender(() => {
-        for (const [item, cbs] of onMoveMap)
-            if (positionChanged(item)) for (const cb of cbs) cb()
-    })
+const [addTrackingSystem, deleteTrackingSystem] = beforeRenderSystemWithData(
+    (item: Object3D, data: { cb: () => void }) => {
+        positionChanged(item) && data.cb()
+    }
 )
-
-const onMoveMap = new Map<Object3D, Set<() => void>>()
 export const onObjectMove = (item: Object3D, cb: () => void) => {
-    lazyObjectLoop()
-    const set = forceGetInstance(onMoveMap, item, Set)
-    set.add(cb)
-    return new Cancellable(() => {
-        set.delete(cb)
-        !set.size && onMoveMap.delete(item)
-    })
+    addTrackingSystem(item, { cb })
+    return new Cancellable(() => deleteTrackingSystem(item))
 }
 
 export default abstract class PositionedMixin<T extends Object3D = Object3D>

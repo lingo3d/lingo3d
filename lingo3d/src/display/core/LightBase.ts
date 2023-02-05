@@ -9,7 +9,6 @@ import {
 } from "three"
 import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper"
 import scene from "../../engine/scene"
-import { onBeforeRender } from "../../events/onBeforeRender"
 import { SHADOW_BIAS } from "../../globals"
 import ILightBase from "../../interface/ILightBase"
 import { getEditorHelper } from "../../states/useEditorHelper"
@@ -20,6 +19,7 @@ import {
 import ObjectManager from "./ObjectManager"
 import { addSelectionHelper } from "./StaticObjectManager/raycast/selectionCandidates"
 import HelperSprite from "./utils/HelperSprite"
+import { addUpdateSystem, deleteUpdateSystem } from "./utils/updateSystem"
 
 export const mapShadowResolution = (val: ShadowResolution) => {
     switch (val) {
@@ -87,12 +87,12 @@ export default abstract class LightBase<T extends typeof Light>
                 scene.add(helper)
                 helper.add(sprite.outerObject3d)
 
-                if ("update" in helper)
-                    handle.watch(onBeforeRender(() => helper.update()))
+                "update" in helper && addUpdateSystem(helper)
 
                 handle.then(() => {
                     helper.dispose()
                     scene.remove(helper)
+                    "update" in helper && deleteUpdateSystem(helper)
                 })
             }
             return () => {
