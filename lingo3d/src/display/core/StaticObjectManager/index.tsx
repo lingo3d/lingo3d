@@ -251,9 +251,18 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return this._hitTarget
     }
     public set hitTarget(val) {
-        //mark
         this._hitTarget = val
-        val ? addHitTestSystem(this) : deleteHitTestSystem(this)
+        //todo: flatten cancelHandle into delete first and add back
+        this.cancelHandle(
+            "hitTarget",
+            val &&
+                (() => {
+                    addHitTestSystem(this)
+                    return new Cancellable(() => {
+                        deleteHitTestSystem(this)
+                    })
+                })
+        )
     }
 
     public onHit?: (instance: StaticObjectManager, id: string) => void
