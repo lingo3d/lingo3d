@@ -6,7 +6,6 @@ import { FRAME_HEIGHT, SEC2FRAME, FRAME_WIDTH, FRAME2SEC } from "../../globals"
 import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { getTimelinePaused } from "../../states/useTimelinePaused"
 import WaveSurfer from "wavesurfer.js"
-import getPrivateValue from "../../utils/getPrivateValue"
 import diffProps from "../utils/diffProps"
 import useSyncState from "../hooks/useSyncState"
 import { getTimeline } from "../../states/useTimeline"
@@ -18,10 +17,8 @@ type AudioRowProps = {
 }
 
 const AudioRow = ({ instance, frames }: AudioRowProps) => {
-    const src = useSyncState(getPrivateValue(instance, "srcState").get)
-    const duration = useSyncState(
-        getPrivateValue(instance, "durationState").get
-    )
+    const src = useSyncState(instance.srcState.get)
+    const duration = useSyncState(instance.durationState.get)
     const frameKeys = useMemo(() => Object.keys(frames), [frames])
     const [startFrame, endFrame] = useMemo(() => {
         const startFrame = Number(frameKeys[0] ?? 0)

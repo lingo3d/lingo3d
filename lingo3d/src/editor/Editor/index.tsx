@@ -23,6 +23,7 @@ import { DEBUG, EDITOR_WIDTH } from "../../globals"
 import useInitEditor from "../hooks/useInitEditor"
 import setupStruct from "../../engine/setupStruct"
 import { getEditorPresets } from "../../states/useEditorPresets"
+import Dummy from "../../display/Dummy"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -288,10 +289,10 @@ const Editor = () => {
 
             Object.assign(pbrMaterialRest, ownParams)
 
-            if (componentName === "dummy") {
+            if (selectionTarget instanceof Dummy) {
                 pbrMaterialRest.stride = {
-                    x: unsafeGetValue(selectionTarget, "strideRight"),
-                    y: -unsafeGetValue(selectionTarget, "strideForward")
+                    x: selectionTarget.strideRight,
+                    y: -selectionTarget.strideForward
                 }
                 addInputs(
                     handle,

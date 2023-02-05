@@ -26,7 +26,7 @@ export default class Circle
         this.object3d.scale.z = Number.EPSILON
     }
 
-    protected override getParams() {
+    public override getParams() {
         return <const>[0.5, this.segments, 0, this.theta * deg2Rad]
     }
 

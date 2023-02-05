@@ -9,7 +9,6 @@ import { getEditorHelper } from "../../states/useEditorHelper"
 import { flushMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
-import getPrivateValue from "../../utils/getPrivateValue"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import destroy from "./PhysicsObjectManager/physx/destroy"
 import { physxPtr } from "./PhysicsObjectManager/physx/physxPtr"
@@ -119,19 +118,13 @@ export default abstract class JointBase
             toManager.jointCount++
 
             let fromPhysics = fromManager.physics
-            const handle0 = getPrivateValue(
-                fromManager,
-                "refreshPhysicsState"
-            )!.get(() => {
+            const handle0 = fromManager.refreshPhysicsState!.get(() => {
                 if (fromPhysics === fromManager.physics) return
                 fromPhysics = fromManager.physics
                 this.refreshState.set({})
             })
             let toPhysics = toManager.physics
-            const handle1 = getPrivateValue(
-                toManager,
-                "refreshPhysicsState"
-            )!.get(() => {
+            const handle1 = toManager.refreshPhysicsState!.get(() => {
                 if (toPhysics === toManager.physics) return
                 toPhysics = toManager.physics
                 this.refreshState.set({})

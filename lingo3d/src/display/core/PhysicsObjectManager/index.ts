@@ -180,7 +180,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return shape
     }
 
-    private refreshPhysicsState?: Reactive<{}>
+    public refreshPhysicsState?: Reactive<{}>
     private refreshShapeState?: Reactive<{}>
     public refreshPhysics() {
         if (this.refreshPhysicsState) {

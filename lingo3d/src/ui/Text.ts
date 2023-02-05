@@ -8,7 +8,7 @@ export default class Text extends Appendable implements IText {
     public static defaults = textDefaults
     public static schema = textSchema
 
-    private el = createElement<HTMLDivElement>(
+    public el = createElement<HTMLDivElement>(
         `<div style="opacity: 1">text</div>`
     )
 

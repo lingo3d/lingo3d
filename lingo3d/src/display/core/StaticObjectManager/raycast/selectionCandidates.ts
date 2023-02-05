@@ -11,7 +11,6 @@ import {
 } from "../../../../events/onSelectionTarget"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
-import callPrivateMethod from "../../../../utils/callPrivateMethod"
 import { StandardMesh } from "../../mixins/TexturedStandardMixin"
 import HelperPrimitive from "../../utils/HelperPrimitive"
 import HelperSprite from "../../utils/HelperSprite"
@@ -55,7 +54,7 @@ const traverse = (
             "addToRaycastSet" in manager &&
             !unselectableSet.has(manager.object3d)
         )
-            callPrivateMethod(manager, "addToRaycastSet", selectionCandidates)
+            manager.addToRaycastSet(selectionCandidates)
 
         manager.children && traverse(manager.children, frozenSet)
     }

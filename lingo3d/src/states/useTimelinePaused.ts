@@ -2,7 +2,6 @@ import store, { createEffect } from "@lincode/reactivity"
 import Timeline from "../display/Timeline"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 import beforeRenderSystem from "../utils/beforeRenderSystem"
-import getPrivateValue from "../utils/getPrivateValue"
 import { getTimeline } from "./useTimeline"
 import { setTimelineFrame } from "./useTimelineFrame"
 
@@ -13,9 +12,7 @@ createEffect(() => {
     const timeline = getTimeline()
     if (!timeline) return
 
-    const handle = getPrivateValue(timeline, "pausedState").get(
-        setTimelinePaused
-    )
+    const handle = timeline.pausedState.get(setTimelinePaused)
     return () => {
         handle.cancel()
         setTimelinePaused(true)

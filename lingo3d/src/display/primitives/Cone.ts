@@ -24,7 +24,7 @@ export default class Cone
         super(ConeGeometry, defaultParams, geometry)
     }
 
-    protected override getParams() {
+    public override getParams() {
         return <const>[0.5, 1, this.segments, 1, false, 0, PI2]
     }
 

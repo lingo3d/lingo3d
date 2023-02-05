@@ -23,7 +23,7 @@ export default class TimelineAudio
 
     public name = ""
 
-    private srcState = new Reactive<string | undefined>(undefined)
+    public srcState = new Reactive<string | undefined>(undefined)
     public get src() {
         return this.srcState.get()
     }
@@ -33,7 +33,7 @@ export default class TimelineAudio
         this.durationState.set(0)
     }
 
-    private durationState = new Reactive(0)
+    public durationState = new Reactive(0)
     public get duration() {
         return this.durationState.get()
     }

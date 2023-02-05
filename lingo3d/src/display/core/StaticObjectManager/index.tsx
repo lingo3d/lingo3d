@@ -121,7 +121,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         val && forceGetInstance(userIdMap, val, Set).add(this)
     }
 
-    protected addToRaycastSet(set: Set<Object3D>) {
+    public addToRaycastSet(set: Set<Object3D>) {
         set.add(this.object3d)
         return new Cancellable(() => set.delete(this.object3d))
     }

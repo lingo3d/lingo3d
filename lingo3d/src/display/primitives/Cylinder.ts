@@ -27,7 +27,7 @@ export default class Cylinder
         super(CylinderGeometry, defaultParams, cylinderGeometry)
     }
 
-    protected override getParams() {
+    public override getParams() {
         return <const>[
             this.radiusTop,
             this.radiusBottom,

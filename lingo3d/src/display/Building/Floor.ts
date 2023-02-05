@@ -5,7 +5,6 @@ import { FACADE_URL } from "../../api/assetsPath"
 import Appendable from "../../api/core/Appendable"
 import { eraseAppendable } from "../../api/core/collections"
 import IFloor, { FacadePreset } from "../../interface/IFloor"
-import getPrivateValue from "../../utils/getPrivateValue"
 import VisibleObjectManager from "../core/VisibleObjectManager"
 import Model from "../Model"
 
@@ -60,7 +59,7 @@ export default class Floor extends VisibleObjectManager implements IFloor {
             const facade1 = range(repeatZ).map(() => makeFacade(src, this, 90))
             const facade3 = range(repeatZ).map(() => makeFacade(src, this, 270))
 
-            const handle = getPrivateValue(facade0[0], "loaded").then(() => {
+            const handle = facade0[0].loaded.then(() => {
                 const diameter = facade0[0].depth
                 const radius = diameter * 0.5
 

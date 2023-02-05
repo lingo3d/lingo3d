@@ -8,7 +8,6 @@ import { AnimationData } from "../interface/IAnimationManager"
 import { getTimeline } from "./useTimeline"
 import { onDispose } from "../events/onDispose"
 import unsafeGetValue from "../utils/unsafeGetValue"
-import getPrivateValue from "../utils/getPrivateValue"
 import { keyframesPtr } from "./useTimelineKeyframeEntries"
 import { getTimelineRecord } from "./useTimelineRecord"
 import { onEditorChanges } from "../events/onEditorChanges"
@@ -22,7 +21,7 @@ createEffect(() => {
     const timeline = getTimeline()
     if (!timeline) return
 
-    const handle = getPrivateValue(timeline, "dataState").get(setTimelineData)
+    const handle = timeline.dataState.get(setTimelineData)
     return () => {
         handle.cancel()
         setTimelineData([undefined])

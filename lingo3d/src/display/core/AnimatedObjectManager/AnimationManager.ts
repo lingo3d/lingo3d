@@ -31,7 +31,6 @@ import FoundManager from "../FoundManager"
 import { FRAME2SEC, SEC2FRAME } from "../../../globals"
 import TimelineAudio from "../../TimelineAudio"
 import { Cancellable } from "@lincode/promiselikes"
-import getPrivateValue from "../../../utils/getPrivateValue"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
@@ -74,7 +73,7 @@ export default class AnimationManager
 
     private actionState = new Reactive<AnimationAction | undefined>(undefined)
     private clipState = new Reactive<AnimationClip | undefined>(undefined)
-    private dataState = new Reactive<[AnimationData | undefined]>([undefined])
+    public dataState = new Reactive<[AnimationData | undefined]>([undefined])
     private gotoFrameState = new Reactive<number | undefined>(undefined)
 
     private awaitState = new Reactive(0)
@@ -85,7 +84,7 @@ export default class AnimationManager
         this.awaitState.set(val)
     }
 
-    protected pausedState = new Reactive(true)
+    public pausedState = new Reactive(true)
     public get paused() {
         return this.pausedState.get()
     }
@@ -157,7 +156,7 @@ export default class AnimationManager
                         if (!instance) return []
                         if (instance instanceof TimelineAudio) {
                             audioDurationGetters.push(
-                                getPrivateValue(instance, "durationState").get
+                                instance.durationState.get
                             )
                             return []
                         }

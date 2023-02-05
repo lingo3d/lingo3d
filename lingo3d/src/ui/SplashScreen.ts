@@ -5,7 +5,6 @@ import ISplashScreen, {
     splashScreenSchema
 } from "../interface/ISplashScreen"
 import createElement from "../utils/createElement"
-import getPrivateValue from "../utils/getPrivateValue"
 import Text from "./Text"
 
 let initialized = false
@@ -68,6 +67,6 @@ export default class SplashScreen extends Appendable implements ISplashScreen {
 
     public override append(child: Text) {
         this._append(child)
-        this.textContainer.appendChild(getPrivateValue(child, "el"))
+        this.textContainer.appendChild(child.el)
     }
 }

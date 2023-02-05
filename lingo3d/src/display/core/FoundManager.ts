@@ -7,7 +7,6 @@ import IFoundManager, {
 import Model from "../Model"
 import VisibleMixin from "./mixins/VisibleMixin"
 import SimpleObjectManager from "./SimpleObjectManager"
-import callPrivateMethod from "../../utils/callPrivateMethod"
 import { setManager } from "../../api/utils/getManager"
 import TextureManager from "./TextureManager"
 import MeshAppendable from "../../api/core/MeshAppendable"
@@ -36,7 +35,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
 
     public model?: Model
     private retargetAnimations() {
-        const state = this.model && callPrivateMethod(this.model, "lazyStates")
+        const state = this.model?.lazyStates()
         if (!state) return
 
         const {
@@ -66,7 +65,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     }
 
     private managerSet?: boolean
-    protected override addToRaycastSet(set: Set<Object3D>) {
+    public override addToRaycastSet(set: Set<Object3D>) {
         if (!this.managerSet) {
             this.managerSet = true
             this.object3d.traverse((child) => setManager(child, this))

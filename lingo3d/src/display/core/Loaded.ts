@@ -32,7 +32,7 @@ export default abstract class Loaded<T = Object3D>
         this.outerObject3d.add(this.loadedGroup)
     }
 
-    protected loaded = new Reresolvable<Object3D>()
+    public loaded = new Reresolvable<Object3D>()
 
     protected abstract load(src: string): Promise<T>
 

@@ -25,7 +25,7 @@ export default class Torus
         super(TorusGeometry, defaultParams, geometry)
     }
 
-    protected override getParams() {
+    public override getParams() {
         return <const>[
             0.5,
             this.thickness,

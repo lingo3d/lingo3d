@@ -43,7 +43,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
     implements IAnimatedObjectManager
 {
     private states?: States
-    protected lazyStates() {
+    public lazyStates() {
         if (this.states) return this.states
 
         const { managerState, pausedState } = (this.states = {
