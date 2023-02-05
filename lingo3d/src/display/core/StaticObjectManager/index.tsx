@@ -29,11 +29,11 @@ import {
 } from "./raycast/sets"
 import "./raycast"
 import fpsAlpha from "../../utils/fpsAlpha"
-import { emitId } from "../../../events/onId"
 import { emitName } from "../../../events/onName"
 import { CM2M, M2CM } from "../../../globals"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { uuidMap } from "../../../api/core/collections"
+import beforeRenderSystem from "../../../utils/beforeRenderSystem"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -76,13 +76,18 @@ export const getMeshAppendables = (
     return [val]
 }
 
+const [addHitTestSystem, deleteHitTestSystem] = beforeRenderSystem(
+    (val: StaticObjectManager) => {}
+)
+
 export default class StaticObjectManager<T extends Object3D = Object3D>
     extends MeshAppendable<T>
     implements IStaticObjectManager
 {
     protected override _dispose() {
         super._dispose()
-        this._id !== undefined && userIdMap.get(this._id)!.delete(this)
+        this._id && userIdMap.get(this._id)!.delete(this)
+        deleteHitTestSystem(this)
     }
 
     protected _id?: string
@@ -90,11 +95,9 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return this._id
     }
     public set id(val) {
-        this._id !== undefined && userIdMap.get(this._id)!.delete(this)
+        this._id && userIdMap.get(this._id)!.delete(this)
         this._id = val
-        if (val === undefined) return
-        forceGetInstance(userIdMap, val, Set).add(this)
-        emitId(val)
+        val && forceGetInstance(userIdMap, val, Set).add(this)
     }
 
     protected addToRaycastSet(set: Set<Object3D>) {
@@ -213,7 +216,16 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return thisOBB.intersectsOBB(targetOBB)
     }
 
-    public set hitId(val: string | Array<string>) {}
+    private _hitTarget?: string | Array<string> | StaticObjectManager
+    public get hitTarget() {
+        return this._hitTarget
+    }
+    public set hitTarget(val) {
+        this._hitTarget = val
+        val ? addHitTestSystem(this) : deleteHitTestSystem(this)
+    }
+
+    public onHit?: (instance: StaticObjectManager, id: string) => void
 
     public get canvasX() {
         return worldToCanvas(this.object3d).x
