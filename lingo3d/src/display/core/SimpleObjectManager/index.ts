@@ -1,5 +1,4 @@
 import {
-    distance3d,
     Point3d,
     vertexAngle,
     Point,
@@ -11,7 +10,6 @@ import { vector3 } from "../../utils/reusables"
 import { point2Vec } from "../../utils/vec2Point"
 import ISimpleObjectManager from "../../../interface/ISimpleObjectManager"
 import getCenter from "../../utils/getCenter"
-import { idMap } from "../StaticObjectManager"
 import { applyMixins } from "@lincode/utils"
 import { onBeforeRender } from "../../../events/onBeforeRender"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
@@ -21,27 +19,11 @@ import SpawnPoint from "../../SpawnPoint"
 import getActualScale from "../../utils/getActualScale"
 import { fpsRatioPtr } from "../../../engine/eventLoop"
 import fpsAlpha from "../../utils/fpsAlpha"
-import { CM2M, M2CM } from "../../../globals"
+import { CM2M } from "../../../globals"
 import PositionedMixin from "../mixins/PositionedMixin"
 import DirectionedMixin from "../mixins/DirectionedMixin"
 import MeshAppendable from "../../../api/core/MeshAppendable"
-
-const ptDistCache = new WeakMap<Point3d, number>()
-const distance3dCached = (pt: Point3d, vecSelf: Vector3) => {
-    const cached = ptDistCache.get(pt)
-    if (cached) return cached
-
-    const result = distance3d(
-        pt.x,
-        pt.y,
-        pt.z,
-        vecSelf.x * M2CM,
-        vecSelf.y * M2CM,
-        vecSelf.z * M2CM
-    )
-    ptDistCache.set(pt, result)
-    return result
-}
+import { getMeshAppendablesById } from "../StaticObjectManager"
 
 class SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>
@@ -91,7 +73,7 @@ class SimpleObjectManager<T extends Object3D = Object3D>
 
     public placeAt(target: MeshAppendable | Point3d | SpawnPoint | string) {
         if (typeof target === "string") {
-            const [found] = idMap.get(target) ?? [undefined]
+            const [found] = getMeshAppendablesById(target)
             if (!found) return
             target = found
         }

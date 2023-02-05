@@ -5,7 +5,7 @@ import { timer } from "../engine/eventLoop"
 import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
 import PositionedManager from "./core/PositionedManager"
 import StaticObjectManager, {
-    getMeshManagerSets
+    getMeshAppendables
 } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
 import HelperCylinder from "./core/utils/HelperCylinder"
@@ -79,7 +79,7 @@ export default class Trigger extends PositionedManager implements ITrigger {
             const { _radius, _interval, _target, _pad } = this
             if (!_target) return
 
-            const targetSets = getMeshManagerSets(_target)
+            const found = getMeshAppendables(_target)
 
             const r = _radius * CM2M
             const pr = r * 0.2
@@ -93,30 +93,29 @@ export default class Trigger extends PositionedManager implements ITrigger {
 
                     let hit = false
                     let targetHit: MeshAppendable | undefined
-                    for (const targetSet of targetSets)
-                        for (const target of targetSet) {
-                            const {
-                                x: tx,
-                                y: ty,
-                                z: tz
-                            } = getWorldPosition(target.object3d)
-                            if (_pad) {
-                                const { y: sy } = getActualScale(target)
-                                hit =
-                                    Math.abs(x - tx) < r &&
-                                    Math.abs(y - (ty - sy * 0.5)) < pr &&
-                                    Math.abs(z - tz) < r
-                            } else
-                                hit =
-                                    Math.abs(x - tx) < r &&
-                                    Math.abs(y - ty) < r &&
-                                    Math.abs(z - tz) < r
+                    for (const target of found) {
+                        const {
+                            x: tx,
+                            y: ty,
+                            z: tz
+                        } = getWorldPosition(target.object3d)
+                        if (_pad) {
+                            const { y: sy } = getActualScale(target)
+                            hit =
+                                Math.abs(x - tx) < r &&
+                                Math.abs(y - (ty - sy * 0.5)) < pr &&
+                                Math.abs(z - tz) < r
+                        } else
+                            hit =
+                                Math.abs(x - tx) < r &&
+                                Math.abs(y - ty) < r &&
+                                Math.abs(z - tz) < r
 
-                            if (hit) {
-                                targetHit = target
-                                break
-                            }
+                        if (hit) {
+                            targetHit = target
+                            break
                         }
+                    }
                     if (hitOld !== hit)
                         if (hit && targetHit) {
                             this.onEnter?.(targetHit)

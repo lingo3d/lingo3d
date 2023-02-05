@@ -52,24 +52,28 @@ const updateFrustum = throttle(
     "leading"
 )
 
-export const idMap = new Map<string, Set<StaticObjectManager>>()
+const idMap = new Map<string, Set<StaticObjectManager>>()
 
-const allocateSet = (id: string) => {
-    const found = uuidMap.get(id)
-    if (found instanceof MeshAppendable) return new Set([found])
-    return forceGetInstance(idMap, id, Set<StaticObjectManager>)
+export const getMeshAppendablesById = (
+    id: string
+): Array<MeshAppendable> | Set<MeshAppendable> => {
+    const uuidInstance = uuidMap.get(id)
+    if (uuidInstance && "object3d" in uuidInstance) return [uuidInstance]
+    return idMap.get(id) ?? []
 }
 
-export const getMeshManagerSets = (
-    id: string | Array<string> | MeshAppendable
-) => {
-    const targetSets: Array<Set<MeshAppendable>> = []
-    if (Array.isArray(id))
-        for (const target of id) targetSets.push(allocateSet(target))
-    else if (typeof id === "string") targetSets.push(allocateSet(id))
-    else targetSets.push(new Set([id]))
-
-    return targetSets
+export const getMeshAppendables = (
+    val: string | Array<string> | MeshAppendable
+): Array<MeshAppendable> | Set<MeshAppendable> => {
+    if (typeof val === "string") return getMeshAppendablesById(val)
+    if (Array.isArray(val)) {
+        const result: Array<MeshAppendable> = []
+        for (const id of val)
+            for (const meshAppendable of getMeshAppendablesById(id))
+                result.push(meshAppendable)
+        return result
+    }
+    return [val]
 }
 
 export default class StaticObjectManager<T extends Object3D = Object3D>
@@ -89,7 +93,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         this._id !== undefined && idMap.get(this._id)!.delete(this)
         this._id = val
         if (val === undefined) return
-        allocateSet(val).add(this)
+        forceGetInstance(idMap, val, Set).add(this)
         emitId(val)
     }
 
@@ -208,6 +212,8 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         targetOBB.applyMatrix4(target.object3d.matrixWorld)
         return thisOBB.intersectsOBB(targetOBB)
     }
+
+    public set hitId(val: string | Array<string>) {}
 
     public get canvasX() {
         return worldToCanvas(this.object3d).x
