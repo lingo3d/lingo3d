@@ -1,10 +1,12 @@
 import { mapRange } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
 import { assertExhaustive } from "@lincode/utils"
-import { DirectionalLight as ThreeDirectionalLight } from "three"
+import {
+    DirectionalLight as ThreeDirectionalLight,
+    PerspectiveCamera
+} from "three"
 import { getManager } from "../../api/utils/getManager"
 import scene from "../../engine/scene"
-import { onBeforeRender } from "../../events/onBeforeRender"
 import { SHADOW_BIAS } from "../../globals"
 import IDirectionalLight, {
     directionalLightDefaults,
@@ -16,6 +18,7 @@ import {
     ShadowDistance
 } from "../../states/useShadowDistance"
 import { getShadowResolution } from "../../states/useShadowResolution"
+import beforeRenderSystemWithData from "../../utils/beforeRenderSystemWithData"
 import Camera from "../cameras/Camera"
 import LightBase, { mapShadowResolution } from "../core/LightBase"
 import getWorldPosition from "../utils/getWorldPosition"
@@ -33,6 +36,18 @@ const mapShadowDistance = (val: ShadowDistance) => {
             assertExhaustive(val)
     }
 }
+
+const [addLightSystem, deleteLightSystem] = beforeRenderSystemWithData(
+    (
+        self: DirectionalLight,
+        data: { light: ThreeDirectionalLight; cam: PerspectiveCamera }
+    ) => {
+        const camPos = getWorldPosition(data.cam)
+        const lightPos = getWorldPosition(self.outerObject3d)
+        data.light.position.copy(camPos).add(lightPos)
+        data.light.target.position.copy(camPos).sub(lightPos)
+    }
+)
 
 export default class DirectionalLight
     extends LightBase<typeof ThreeDirectionalLight>
@@ -100,16 +115,9 @@ export default class DirectionalLight
             const light = this.lightState.get()
             if (!light) return
 
-            const cam = getCameraRendered()
-
-            const handle = onBeforeRender(() => {
-                const camPos = getWorldPosition(cam)
-                const lightPos = getWorldPosition(this.outerObject3d)
-                light.position.copy(camPos).add(lightPos)
-                light.target.position.copy(camPos).sub(lightPos)
-            })
+            addLightSystem(this, { light, cam: getCameraRendered() })
             return () => {
-                handle.cancel()
+                deleteLightSystem(this)
             }
         }, [getCameraRendered, this.lightState.get])
 

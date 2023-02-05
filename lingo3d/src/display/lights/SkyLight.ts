@@ -8,7 +8,6 @@ import { Reactive } from "@lincode/reactivity"
 import { CSM } from "three/examples/jsm/csm/CSM"
 import scene from "../../engine/scene"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { onBeforeRender } from "../../events/onBeforeRender"
 import {
     getShadowDistance,
     ShadowDistance
@@ -20,6 +19,19 @@ import {
 import DirectionalLight from "./DirectionalLight"
 import { eraseAppendable } from "../../api/core/collections"
 import { assertExhaustive } from "@lincode/utils"
+import beforeRenderSystemWithData from "../../utils/beforeRenderSystemWithData"
+
+const [addLightSystem, deleteLightSystem] = beforeRenderSystemWithData(
+    (self: SkyLight, data: { csm: CSM }) => {
+        const lightDirection = self.position
+            .clone()
+            .normalize()
+            .multiplyScalar(-1)
+
+        data.csm.lightDirection = lightDirection
+        data.csm.update()
+    }
+)
 
 const mapCSMOptions = (
     shadowDistance: ShadowDistance,
@@ -86,21 +98,11 @@ export default class SkyLight
                 lightIntensity: 0.5
             })
 
-            const handle0 = onBeforeRender(() => {
-                const lightDirection = this.position
-                    .clone()
-                    .normalize()
-                    .multiplyScalar(-1)
-
-                csm.lightDirection = lightDirection
-                csm.update()
-            })
-            const handle1 = getCameraRendered((val) => {
-                csm.camera = val
-            })
+            addLightSystem(this, { csm })
+            const handle = getCameraRendered((val) => (csm.camera = val))
             return () => {
-                handle0.cancel()
-                handle1.cancel()
+                deleteLightSystem(this)
+                handle.cancel()
                 csm.dispose()
                 for (const light of csm.lights) {
                     light.dispose()
