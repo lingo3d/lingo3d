@@ -18,7 +18,7 @@ import {
     setPxTransform__
 } from "./PhysicsObjectManager/physx/pxMath"
 import PositionedDirectionedManager from "./PositionedDirectionedManager"
-import { getMeshManagerSets } from "./StaticObjectManager"
+import { getMeshAppendables } from "./StaticObjectManager"
 import { addSelectionHelper } from "./StaticObjectManager/raycast/selectionCandidates"
 import HelperSphere from "./utils/HelperSphere"
 
@@ -104,8 +104,8 @@ export default abstract class JointBase
             const { _to, _from } = this
             if (!physxPtr[0].physics || !_to || !_from) return
 
-            const [[toManager]] = getMeshManagerSets(_to)
-            const [[fromManager]] = getMeshManagerSets(_from)
+            const [toManager] = getMeshAppendables(_to)
+            const [fromManager] = getMeshAppendables(_from)
             if (
                 !(toManager instanceof PhysicsObjectManager) ||
                 !(fromManager instanceof PhysicsObjectManager)
