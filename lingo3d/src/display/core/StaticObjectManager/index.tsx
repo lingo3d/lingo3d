@@ -1,5 +1,5 @@
 import { Point3d } from "@lincode/math"
-import { Matrix3, Object3D, PropertyBinding, Quaternion } from "three"
+import { Matrix3, Object3D, PropertyBinding } from "three"
 import {
     frustum,
     matrix4,
@@ -11,7 +11,7 @@ import { throttle, forceGetInstance } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import worldToCanvas from "../../utils/worldToCanvas"
 import { Cancellable } from "@lincode/promiselikes"
-import { point2Vec, vec2Point } from "../../utils/vec2Point"
+import { vec2Point } from "../../utils/vec2Point"
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import getCenter from "../../utils/getCenter"
 import IStaticObjectManager from "../../../interface/IStaticObjectManager"
@@ -27,13 +27,11 @@ import {
     mouseMoveSet
 } from "./raycast/sets"
 import "./raycast"
-import fpsAlpha from "../../utils/fpsAlpha"
 import { emitName } from "../../../events/onName"
-import { CM2M, M2CM } from "../../../globals"
+import { CM2M } from "../../../globals"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { uuidMap } from "../../../api/core/collections"
 import renderSystem from "../../../utils/renderSystem"
-import renderSystemWithData from "../../../utils/renderSystemWithData"
 import Nullable from "../../../interface/utils/Nullable"
 
 const thisOBB = new OBB()
@@ -101,27 +99,6 @@ const [addHitTestSystem, deleteHitTestSystem] = renderSystem(
             if (!cache.has(target)) continue
             cache.delete(target)
             manager.onHitEnd?.(target)
-        }
-    }
-)
-
-const [addLookSystem, deleteLookSystem] = renderSystemWithData(
-    (
-        self: StaticObjectManager,
-        data: { quaternion: Quaternion; quaternionNew: Quaternion; a1?: number }
-    ) => {
-        const { quaternion, quaternionNew, a1 } = data
-        quaternion.slerp(quaternionNew, fpsAlpha(a1 ?? 0.05))
-
-        const x = Math.abs(quaternion.x - quaternionNew.x)
-        const y = Math.abs(quaternion.y - quaternionNew.y)
-        const z = Math.abs(quaternion.z - quaternionNew.z)
-        const w = Math.abs(quaternion.w - quaternionNew.w)
-        if (x + y + z + w < 0.001) {
-            self.cancelHandle("lookTo", undefined)
-            self.onLookToEnd?.()
-
-            quaternion.copy(quaternionNew)
         }
     }
 )
@@ -299,67 +276,6 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     public get frustumVisible() {
         updateFrustum()
         return frustum.containsPoint(getCenter(this.object3d))
-    }
-
-    public lookAt(target: MeshAppendable | Point3d): void
-    public lookAt(x: number, y: number | undefined, z: number): void
-    public lookAt(
-        a0: MeshAppendable | Point3d | number,
-        a1?: number,
-        a2?: number
-    ) {
-        if (typeof a0 === "number") {
-            this.lookAt(
-                new Point3d(
-                    a0,
-                    a1 === undefined ? this.position.y * M2CM : a1,
-                    a2!
-                )
-            )
-            return
-        }
-        if ("outerObject3d" in a0)
-            this.outerObject3d.lookAt(getWorldPosition(a0.object3d))
-        else this.outerObject3d.lookAt(point2Vec(a0))
-    }
-
-    public onLookToEnd: (() => void) | undefined
-
-    public lookTo(target: MeshAppendable | Point3d, alpha?: number): void
-    public lookTo(
-        x: number,
-        y: number | undefined,
-        z: number,
-        alpha?: number
-    ): void
-    public lookTo(
-        a0: MeshAppendable | Point3d | number,
-        a1: number | undefined,
-        a2?: number,
-        a3?: number
-    ) {
-        if (typeof a0 === "number") {
-            this.lookTo(
-                new Point3d(
-                    a0,
-                    a1 === undefined ? this.position.y * M2CM : a1,
-                    a2!
-                ),
-                a3
-            )
-            return
-        }
-        const { quaternion } = this.outerObject3d
-        const quaternionOld = quaternion.clone()
-        this.lookAt(a0)
-        const quaternionNew = quaternion.clone()
-
-        quaternion.copy(quaternionOld)
-
-        this.cancelHandle("lookTo", () => {
-            addLookSystem(this, { quaternion, quaternionNew, a1 })
-            return new Cancellable(() => deleteLookSystem(this))
-        })
     }
 
     public getWorldPosition(): Point3d {
