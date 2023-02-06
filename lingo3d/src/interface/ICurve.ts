@@ -1,21 +1,21 @@
 import { Point3d } from "@lincode/math"
-import IAppendable, {
-    appendableDefaults,
-    appendableSchema
-} from "./IAppendable"
+import IMeshAppendable, {
+    meshAppendableDefaults,
+    meshAppendableSchema
+} from "./IMeshAppendable"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Range from "./utils/Range"
 
-export default interface ICurve extends IAppendable {
+export default interface ICurve extends IMeshAppendable {
     points: Array<Point3d>
     helper: boolean
     subdivide: number
 }
 
 export const curveSchema: Required<ExtractProps<ICurve>> = {
-    ...appendableSchema,
+    ...meshAppendableSchema,
     points: Array,
     helper: Boolean,
     subdivide: Number
@@ -23,7 +23,7 @@ export const curveSchema: Required<ExtractProps<ICurve>> = {
 hideSchema(["points"])
 
 export const curveDefaults = extendDefaults<ICurve>(
-    [appendableDefaults],
+    [meshAppendableDefaults],
     {
         points: [],
         helper: false,

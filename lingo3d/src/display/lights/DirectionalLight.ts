@@ -156,7 +156,7 @@ export default class DirectionalLight
         ])
     }
 
-    public override getWorldPosition() {
+    public override get worldPosition() {
         return vec2Point(getWorldPosition(this.outerObject3d))
     }
 

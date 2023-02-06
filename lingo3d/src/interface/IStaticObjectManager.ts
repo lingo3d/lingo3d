@@ -2,13 +2,13 @@ import { LingoMouseEvent } from "./IMouse"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
-import IAppendable, {
-    appendableDefaults,
-    appendableSchema
-} from "./IAppendable"
 import MeshAppendable from "../api/core/MeshAppendable"
+import IMeshAppendable, {
+    meshAppendableDefaults,
+    meshAppendableSchema
+} from "./IMeshAppendable"
 
-export default interface IStaticObjectManager extends IAppendable {
+export default interface IStaticObjectManager extends IMeshAppendable {
     onClick: Nullable<(e: LingoMouseEvent) => void>
     onMouseDown: Nullable<(e: LingoMouseEvent) => void>
     onMouseUp: Nullable<(e: LingoMouseEvent) => void>
@@ -30,7 +30,7 @@ export default interface IStaticObjectManager extends IAppendable {
 export const staticObjectManagerSchema: Required<
     ExtractProps<IStaticObjectManager>
 > = {
-    ...appendableSchema,
+    ...meshAppendableSchema,
 
     onClick: Function,
     onMouseDown: Function,
@@ -49,7 +49,7 @@ export const staticObjectManagerSchema: Required<
 }
 
 export const staticObjectManagerDefaults = extendDefaults<IStaticObjectManager>(
-    [appendableDefaults],
+    [meshAppendableDefaults],
     {
         onClick: undefined,
         onMouseDown: undefined,

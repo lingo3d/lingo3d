@@ -1,5 +1,4 @@
-import { Point3d } from "@lincode/math"
-import { Matrix3, Object3D, PropertyBinding } from "three"
+import { Matrix3, Object3D } from "three"
 import {
     frustum,
     matrix4,
@@ -27,7 +26,6 @@ import {
     mouseMoveSet
 } from "./raycast/sets"
 import "./raycast"
-import { emitName } from "../../../events/onName"
 import { CM2M } from "../../../globals"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { uuidMap } from "../../../api/core/collections"
@@ -198,14 +196,6 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
             "onMouseMove",
             cb && (() => this.addToRaycastSet(mouseMoveSet))
         )
-    }
-
-    public get name() {
-        return this.outerObject3d.name
-    }
-    public set name(val) {
-        this.outerObject3d.name = PropertyBinding.sanitizeNodeName(val)
-        emitName(this)
     }
 
     protected getRay() {

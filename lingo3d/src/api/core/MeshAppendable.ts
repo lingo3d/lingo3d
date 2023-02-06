@@ -1,10 +1,13 @@
-import { Object3D, Quaternion, Vector3 } from "three"
+import { Object3D, PropertyBinding, Quaternion, Vector3 } from "three"
+import { emitName } from "../../events/onName"
+import IMeshAppendable from "../../interface/IMeshAppendable"
 import { setManager } from "../utils/getManager"
 import Appendable from "./Appendable"
 
-export default class MeshAppendable<
-    T extends Object3D = Object3D
-> extends Appendable {
+export default class MeshAppendable<T extends Object3D = Object3D>
+    extends Appendable
+    implements IMeshAppendable
+{
     public object3d: T
     public position: Vector3
     public quaternion: Quaternion
@@ -44,5 +47,13 @@ export default class MeshAppendable<
     protected override _dispose() {
         super._dispose()
         this.outerObject3d.parent?.remove(this.outerObject3d)
+    }
+
+    public get name() {
+        return this.outerObject3d.name
+    }
+    public set name(val) {
+        this.outerObject3d.name = PropertyBinding.sanitizeNodeName(val)
+        emitName(this)
     }
 }

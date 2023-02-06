@@ -201,8 +201,6 @@ export default abstract class JointBase
         toManager.updatePhysics()
     }
 
-    public name?: string
-
     protected refreshState = new Reactive({})
 
     private _to?: string | PhysicsObjectManager
