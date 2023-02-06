@@ -272,7 +272,6 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     }
     public set hitTarget(val) {
         this._hitTarget = val
-        //todo: flatten cancelHandle into delete first and add back
         this.cancelHandle(
             "hitTarget",
             val &&
