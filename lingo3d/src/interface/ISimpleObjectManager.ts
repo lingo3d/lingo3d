@@ -7,9 +7,7 @@ import IPositioned, {
     positionedSchema
 } from "./IPositioned"
 import { ExtractProps } from "./utils/extractProps"
-import fn from "./utils/fn"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
-import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
 import IDirectioned, {
@@ -21,16 +19,6 @@ export default interface ISimpleObjectManager
     extends IAnimatedObjectManager,
         IPositioned,
         IDirectioned {
-    onMoveToEnd: Nullable<() => void>
-
-    moveTo: Function | Array<any>
-    lerpTo: Function | Array<any>
-    placeAt: Function | Array<any>
-
-    translateX: Function | Array<any>
-    translateY: Function | Array<any>
-    translateZ: Function | Array<any>
-
     scaleX: number
     scaleY: number
     scaleZ: number
@@ -45,16 +33,6 @@ export const simpleObjectManagerSchema: Required<
     ...positionedSchema,
     ...directionedSchema,
 
-    onMoveToEnd: Function,
-
-    moveTo: [Function, Array],
-    lerpTo: [Function, Array],
-    placeAt: [Function, Array],
-
-    translateX: [Function, Array],
-    translateY: [Function, Array],
-    translateZ: [Function, Array],
-
     scaleX: Number,
     scaleY: Number,
     scaleZ: Number,
@@ -64,16 +42,6 @@ export const simpleObjectManagerSchema: Required<
 export const simpleObjectManagerDefaults = extendDefaults<ISimpleObjectManager>(
     [animatedObjectManagerDefaults, positionedDefaults, directionedDefaults],
     {
-        onMoveToEnd: undefined,
-
-        moveTo: fn,
-        lerpTo: fn,
-        placeAt: fn,
-
-        translateX: fn,
-        translateY: fn,
-        translateZ: fn,
-
         scaleX: 1,
         scaleY: 1,
         scaleZ: 1,
