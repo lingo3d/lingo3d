@@ -35,6 +35,9 @@ import { uuidMap } from "../../../api/core/collections"
 import renderSystem from "../../../utils/renderSystem"
 import renderSystemWithData from "../../../utils/renderSystemWithData"
 import Nullable from "../../../interface/utils/Nullable"
+// import Nearby from "./nearby"
+
+// const nearby = new Nearby(1000, 1000, 1000, 50)
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
