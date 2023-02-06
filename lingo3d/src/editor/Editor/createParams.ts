@@ -32,7 +32,8 @@ export default (schema: any, defaults: any, target: any) => {
 
         currentVal ??= getDefaultValue(defaults, key, true)
 
-        if (Array.isArray(currentVal)) currentVal = JSON.stringify(currentVal)
+        if (Array.isArray(currentVal) && typeof currentVal[0] === "string")
+            currentVal = JSON.stringify(currentVal)
 
         const choices = options?.[key]
         if (choices && "options" in choices && choices.acceptAny)
