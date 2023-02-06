@@ -6,6 +6,7 @@ import { M2CM } from "../../../globals"
 import IDirectioned from "../../../interface/IDirectioned"
 import renderSystemWithData from "../../../utils/renderSystemWithData"
 import fpsAlpha from "../../utils/fpsAlpha"
+import getWorldDirection from "../../utils/getWorldDirection"
 import getWorldPosition from "../../utils/getWorldPosition"
 import { point2Vec } from "../../utils/vec2Point"
 import PositionedMixin from "./PositionedMixin"
@@ -122,5 +123,9 @@ export default abstract class DirectionedMixin<T extends Object3D = Object3D>
             addLookSystem(this, { quaternion, quaternionNew, a1 })
             return new Cancellable(() => deleteLookSystem(this))
         })
+    }
+
+    public getWorldDirection(): Point3d {
+        return getWorldDirection(this.object3d)
     }
 }
