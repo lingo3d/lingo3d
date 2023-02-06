@@ -34,6 +34,7 @@ import MeshAppendable from "../../../api/core/MeshAppendable"
 import { uuidMap } from "../../../api/core/collections"
 import renderSystem from "../../../utils/renderSystem"
 import renderSystemWithData from "../../../utils/renderSystemWithData"
+import Nullable from "../../../interface/utils/Nullable"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -81,8 +82,15 @@ export const getMeshAppendables = (
     return [val]
 }
 
+const hitPair = new Map<StaticObjectManager, StaticObjectManager>()
+
 const [addHitTestSystem, deleteHitTestSystem] = renderSystem(
-    (manager: StaticObjectManager) => {}
+    (manager: StaticObjectManager) => {
+        for (const target of getMeshAppendables(manager.hitTarget!))
+            if (manager.hitTest(target)) {
+                manager.onHit?.(target)
+            }
+    }
 )
 
 const [addLookSystem, deleteLookSystem] = renderSystemWithData(
@@ -222,7 +230,7 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         return vec2Point(this.getRay().at(distance * CM2M, vector3))
     }
 
-    public hitTest(target: StaticObjectManager) {
+    public hitTest(target: MeshAppendable) {
         if (this.done) return false
         if (target.done) return false
         if (this === target) return false
@@ -245,8 +253,8 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     private _hitTarget?:
         | string
         | Array<string>
-        | StaticObjectManager
-        | Array<StaticObjectManager>
+        | MeshAppendable
+        | Array<MeshAppendable>
     public get hitTarget() {
         return this._hitTarget
     }
@@ -265,7 +273,9 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
         )
     }
 
-    public onHit?: (instance: StaticObjectManager, id: string) => void
+    public onHit: Nullable<(instance: MeshAppendable) => void>
+    public onHitStart: Nullable<(instance: MeshAppendable) => void>
+    public onHitEnd: Nullable<(instance: MeshAppendable) => void>
 
     public get canvasX() {
         return worldToCanvas(this.object3d).x

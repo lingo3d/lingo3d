@@ -17,7 +17,7 @@ const box2 = new Cube()
 
 box.hitTarget = [box2]
 box.onHit = () => {
-
+    console.log("hit")
 }
 
 box.onLoop = () => {
