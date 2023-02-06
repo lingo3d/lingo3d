@@ -21,11 +21,7 @@ mainCameraManager.mouseControl = false
 appendableRoot.delete(mainCameraManager)
 
 onEditorCenterView((manager) => {
-    const pos = manager.getWorldPosition()
-    mainCameraManager.x = pos.x
-    mainCameraManager.y = pos.y
-    mainCameraManager.z = pos.z
-
+    Object.assign(mainCameraManager, manager.worldPosition)
     const size = getActualScale(manager)
     mainCameraManager.innerZ = Math.max(size.x, size.y, size.z, 1) * M2CM + 50
 })

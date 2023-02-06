@@ -129,7 +129,7 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
         this.position.z = val * CM2M
     }
 
-    public getWorldPosition(): Point3d {
+    public get worldPosition() {
         return vec2Point(getWorldPosition(this.object3d))
     }
 

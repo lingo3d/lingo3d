@@ -125,7 +125,7 @@ export default abstract class DirectionedMixin<T extends Object3D = Object3D>
         })
     }
 
-    public getWorldDirection(): Point3d {
+    public get worldDirection() {
         return getWorldDirection(this.object3d)
     }
 }
