@@ -82,14 +82,24 @@ export const getMeshAppendables = (
     return [val]
 }
 
-const hitPair = new Map<StaticObjectManager, StaticObjectManager>()
+const hitUUIDs = new Set<string>()
 
 const [addHitTestSystem, deleteHitTestSystem] = renderSystem(
     (manager: StaticObjectManager) => {
-        for (const target of getMeshAppendables(manager.hitTarget!))
+        for (const target of getMeshAppendables(manager.hitTarget!)) {
+            const hitUUID = manager.uuid + " " + target.uuid
             if (manager.hitTest(target)) {
+                if (!hitUUIDs.has(hitUUID)) {
+                    hitUUIDs.add(hitUUID)
+                    manager.onHitStart?.(target)
+                }
                 manager.onHit?.(target)
+                continue
             }
+            if (!hitUUIDs.has(hitUUID)) continue
+            hitUUIDs.delete(hitUUID)
+            manager.onHitEnd?.(target)
+        }
     }
 )
 

@@ -19,6 +19,16 @@ box.hitTarget = [box2]
 box.onHit = () => {
     console.log("hit")
 }
+box.onHitStart = () => {
+    box.color = "red"
+    box2.color = "red"
+    console.log("start")
+}
+box.onHitEnd = () => {
+    box.color = "white"
+    box2.color = "white"
+    console.log("end")
+}
 
 box.onLoop = () => {
     box.rotationZ += 1
