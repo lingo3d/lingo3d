@@ -82,22 +82,24 @@ export const getMeshAppendables = (
     return [val]
 }
 
-const hitUUIDs = new Set<string>()
-
+const hitCache = new WeakMap<
+    StaticObjectManager,
+    WeakSet<StaticObjectManager>
+>()
 const [addHitTestSystem, deleteHitTestSystem] = renderSystem(
     (manager: StaticObjectManager) => {
         for (const target of getMeshAppendables(manager.hitTarget!)) {
-            const hitUUID = manager.uuid + " " + target.uuid
+            const cache = forceGetInstance(hitCache, manager, WeakSet)
             if (manager.hitTest(target)) {
-                if (!hitUUIDs.has(hitUUID)) {
-                    hitUUIDs.add(hitUUID)
+                if (!cache.has(target)) {
+                    cache.add(target)
                     manager.onHitStart?.(target)
                 }
                 manager.onHit?.(target)
                 continue
             }
-            if (!hitUUIDs.has(hitUUID)) continue
-            hitUUIDs.delete(hitUUID)
+            if (!cache.has(target)) continue
+            cache.delete(target)
             manager.onHitEnd?.(target)
         }
     }
