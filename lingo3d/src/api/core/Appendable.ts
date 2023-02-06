@@ -12,12 +12,9 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import { appendableRoot, uuidMap } from "./collections"
 import MeshAppendable from "./MeshAppendable"
 
-const [addLoopSystem, deleteLoopSystem] = renderSystem(
-    (cb: () => void) => {
-        cb()
-    },
-    onLoop
-)
+const [addLoopSystem, deleteLoopSystem] = renderSystem((cb: () => void) => {
+    cb()
+}, onLoop)
 
 export default class Appendable extends Disposable implements IAppendable {
     public constructor() {
