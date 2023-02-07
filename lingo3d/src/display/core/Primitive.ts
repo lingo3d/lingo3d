@@ -9,6 +9,7 @@ import IPrimitive, {
 } from "../../interface/IPrimitive"
 import { standardMaterial } from "../utils/reusables"
 import VisibleObjectManager from "./VisibleObjectManager"
+import MixinType from "./mixins/utils/MixinType"
 
 abstract class Primitive
     extends VisibleObjectManager<StandardMesh>
@@ -26,6 +27,6 @@ abstract class Primitive
 }
 interface Primitive
     extends VisibleObjectManager<StandardMesh>,
-        TexturedStandardMixin {}
+        MixinType<TexturedStandardMixin> {}
 applyMixins(Primitive, [TexturedStandardMixin])
 export default Primitive

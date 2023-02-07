@@ -14,6 +14,7 @@ import {
 } from "../states/useLoadingCount"
 import toResolvable from "./utils/toResolvable"
 import { standardMaterial } from "./utils/reusables"
+import MixinType from "./core/mixins/utils/MixinType"
 
 const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()
 
@@ -132,6 +133,6 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
         for (const mesh of children) mesh.material = val
     }
 }
-interface SvgMesh extends Loaded<SVGResult>, TexturedStandardMixin {}
+interface SvgMesh extends Loaded<SVGResult>, MixinType<TexturedStandardMixin> {}
 applyMixins(SvgMesh, [TexturedStandardMixin])
 export default SvgMesh

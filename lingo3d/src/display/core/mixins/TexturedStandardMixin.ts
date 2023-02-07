@@ -17,6 +17,7 @@ import { color, standardMaterial } from "../../utils/reusables"
 import createInstancePool from "../utils/createInstancePool"
 import filterNotDefault from "./utils/filterNotDefault"
 import createMap from "./utils/createMap"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 
 export type StandardParams = [
     color: string,
@@ -142,12 +143,10 @@ const [increaseCount, decreaseCount, allocateDefaultInstance] =
 const refreshParamsSystem = throttleSystem((target: TexturedStandardMixin) => {
     if (target.materialParamString)
         decreaseCount(MeshStandardMaterial, target.materialParamString)
-    else {
-        //@ts-ignore
+    else
         target.then(() =>
             decreaseCount(MeshStandardMaterial, target.materialParamString!)
         )
-    }
     const paramString = JSON.stringify(target.materialParams)
     target.material = increaseCount(
         MeshStandardMaterial,
@@ -176,10 +175,9 @@ allocateDefaultInstance(
 export type StandardMesh = Mesh<BufferGeometry, MeshStandardMaterial>
 
 export default abstract class TexturedStandardMixin
+    extends MeshAppendable<StandardMesh>
     implements ITexturedStandard
 {
-    public declare object3d: StandardMesh
-
     public get material() {
         return this.object3d.material
     }
