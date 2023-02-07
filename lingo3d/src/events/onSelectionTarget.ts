@@ -1,6 +1,6 @@
 import { event } from "@lincode/events"
 import { createEffect } from "@lincode/reactivity"
-import { debounceTrailing } from "@lincode/utils"
+import { throttleTrailing } from "@lincode/utils"
 import Appendable from "../api/core/Appendable"
 import MeshAppendable from "../api/core/MeshAppendable"
 import {
@@ -16,7 +16,7 @@ type Event = {
 const [_emitSelectionTarget, onSelectionTarget] = event<Event>()
 export { onSelectionTarget }
 
-export const emitSelectionTarget = debounceTrailing(
+export const emitSelectionTarget = throttleTrailing(
     (target: Appendable | undefined, noDeselect?: boolean) =>
         _emitSelectionTarget({ target, noDeselect }),
     1

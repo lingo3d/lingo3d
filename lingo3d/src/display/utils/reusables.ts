@@ -5,7 +5,6 @@ import {
     Ray,
     Euler,
     Line3,
-    Frustum,
     Matrix4,
     MeshStandardMaterial,
     Vector2,
@@ -31,8 +30,6 @@ export const ray = new Ray()
 export const euler = new Euler(0, 0, 0, "YXZ")
 
 export const line3 = new Line3()
-
-export const frustum = new Frustum()
 
 export const matrix4 = new Matrix4()
 

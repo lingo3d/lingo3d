@@ -14,7 +14,7 @@ import { getSelectionTarget } from "../states/useSelectionTarget"
 import { onEditorEdit } from "./onEditorEdit"
 import { onTransformControls } from "./onTransformControls"
 import { event } from "@lincode/events"
-import { debounceTrailing } from "@lincode/utils"
+import { throttleTrailing } from "@lincode/utils"
 
 export type Changes = Array<readonly [Appendable, ChangedProperties]>
 
@@ -24,7 +24,7 @@ createEffect(() => {
     if (!getEditorBehavior()) return
 
     const instances = new Set<Appendable>()
-    const getInstances = debounceTrailing(() => {
+    const getInstances = throttleTrailing(() => {
         if (multipleSelectionTargetsFlushingPtr[0]) return
         instances.clear()
         for (const target of getMultipleSelectionTargets()[0])

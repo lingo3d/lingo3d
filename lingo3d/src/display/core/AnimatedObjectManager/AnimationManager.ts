@@ -6,7 +6,7 @@ import {
     BooleanKeyframeTrack
 } from "three"
 import {
-    debounceTrailing,
+    throttleTrailing,
     filterBoolean,
     forceGetInstance,
     merge
@@ -175,7 +175,7 @@ export default class AnimationManager
             )
             this.clipState.set(newClip)
             const handle = new Cancellable()
-            const computeAudioDuration = debounceTrailing(() => {
+            const computeAudioDuration = throttleTrailing(() => {
                 if (handle.done) return
                 const maxDuration = Math.max(
                     ...audioDurationGetters.map((getter) => getter())

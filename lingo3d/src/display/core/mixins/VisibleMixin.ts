@@ -1,5 +1,5 @@
 import { throttle } from "@lincode/utils"
-import { Object3D } from "three"
+import { Frustum, Object3D } from "three"
 import {
     addOutline,
     deleteOutline
@@ -11,7 +11,9 @@ import {
 import IVisible from "../../../interface/IVisible"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import getCenter from "../../utils/getCenter"
-import { frustum, matrix4 } from "../../utils/reusables"
+import { matrix4 } from "../../utils/reusables"
+
+const frustum = new Frustum()
 
 const updateFrustum = throttle(
     () => {

@@ -1,4 +1,4 @@
-import { debounce, debounceTrailing } from "@lincode/utils"
+import { debounce, throttleTrailing } from "@lincode/utils"
 import { downPtr, Pane } from "./tweakpane"
 import resetIcon from "./resetIcon"
 import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
@@ -103,7 +103,7 @@ export default async (
             input.element.prepend(resetButton)
             resetButton.style.opacity = "0.1"
 
-            const updateResetButton = debounceTrailing(() => {
+            const updateResetButton = throttleTrailing(() => {
                 const unchanged = isEqual(
                     params[key] ?? paramsDefault[key],
                     paramsDefault[key]

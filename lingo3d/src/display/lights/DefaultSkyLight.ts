@@ -1,4 +1,4 @@
-import { debounceTrailing } from "@lincode/utils"
+import { throttleTrailing } from "@lincode/utils"
 import { FAR } from "../../globals"
 import IDefaultSkyLight, {
     defaultSkyLightDefaults,
@@ -9,9 +9,9 @@ import SkyLight from "./SkyLight"
 
 let defaultSkyLight: DefaultSkyLight | undefined
 
-const checkDefaultLight = debounceTrailing(() => {
-    if (!defaultSkyLight) setDefaultLight(false)
-})
+const checkDefaultLight = throttleTrailing(
+    () => !defaultSkyLight && setDefaultLight(false)
+)
 
 export default class DefaultSkyLight
     extends SkyLight

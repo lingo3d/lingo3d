@@ -1,5 +1,5 @@
 import { Cancellable } from "@lincode/promiselikes"
-import { debounceTrailing } from "@lincode/utils"
+import { throttleTrailing } from "@lincode/utils"
 import { Object3D } from "three"
 import StaticObjectManager from ".."
 import Appendable from "../../../../api/core/Appendable"
@@ -60,7 +60,7 @@ const traverse = (
     }
 }
 
-export const getSelectionCandidates = debounceTrailing(
+export const getSelectionCandidates = throttleTrailing(
     (targets: Array<Appendable> | Set<Appendable> = appendableRoot) => {
         selectionCandidates.clear()
         const selectionFocus = getSelectionFocus()

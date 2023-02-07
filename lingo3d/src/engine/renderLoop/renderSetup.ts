@@ -7,7 +7,7 @@ import { getRenderer } from "../../states/useRenderer"
 import { getPBR } from "../../states/usePBR"
 import { VRButton } from "./VRButton"
 import { getAutoMount } from "../../states/useAutoMount"
-import { debounceTrailing } from "@lincode/utils"
+import { throttleTrailing } from "@lincode/utils"
 import { getPixelRatio } from "../../states/usePixelRatio"
 import createElement from "../../utils/createElement"
 import { getUILayer } from "../../states/useUILayer"
@@ -68,7 +68,7 @@ const useResize = (el: Element) => {
         handleResize()
 
         const resizeObserver = new ResizeObserver(
-            debounceTrailing(handleResize, 100)
+            throttleTrailing(handleResize, 100)
         )
         resizeObserver.observe(container)
 
