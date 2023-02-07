@@ -6,7 +6,7 @@ import ID6Joint, {
     d6JointSchema,
     D6MotionOptions
 } from "../../interface/ID6Joint"
-import debounceSystem from "../../utils/debounceSystem"
+import throttleSystem from "../../utils/throttleSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
@@ -31,7 +31,7 @@ const getMotion = (val: D6MotionOptions) => {
     }
 }
 
-const configJointSystem = debounceSystem((target: D6Joint) => {
+const configJointSystem = throttleSystem((target: D6Joint) => {
     const { pxJoint } = target
     if (!pxJoint) return
 

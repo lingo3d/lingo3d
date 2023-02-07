@@ -3,7 +3,7 @@ import ISphericalJoint, {
     sphericalJointDefaults,
     sphericalJointSchema
 } from "../../interface/ISphericalJoint"
-import debounceSystem from "../../utils/debounceSystem"
+import throttleSystem from "../../utils/throttleSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
@@ -14,7 +14,7 @@ const createSpherical = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     return Px.SphericalJointCreate(physics, actor0, pose0, actor1, pose1)
 }
 
-const configJointSystem = debounceSystem((target: SphericalJoint) => {
+const configJointSystem = throttleSystem((target: SphericalJoint) => {
     const { pxJoint, limited, limitY, limitZ } = target
     if (!pxJoint) return
 

@@ -3,7 +3,7 @@ import IRevoluteJoint, {
     revoluteJointDefaults,
     revoluteJointSchema
 } from "../../interface/IRevoluteJoint"
-import debounceSystem from "../../utils/debounceSystem"
+import throttleSystem from "../../utils/throttleSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
@@ -14,7 +14,7 @@ const createRevolute = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     return Px.RevoluteJointCreate(physics, actor0, pose0, actor1, pose1)
 }
 
-const configJointSystem = debounceSystem((target: RevoluteJoint) => {
+const configJointSystem = throttleSystem((target: RevoluteJoint) => {
     const {
         pxJoint,
         limited,

@@ -18,12 +18,12 @@ import getWorldDirection from "../../utils/getWorldDirection"
 import { addSelectionHelper } from "../StaticObjectManager/raycast/selectionCandidates"
 import HelperSprite from "../utils/HelperSprite"
 import { setManager } from "../../../api/utils/getManager"
-import debounceSystem from "../../../utils/debounceSystem"
+import throttleSystem from "../../../utils/throttleSystem"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { getEditorHelper } from "../../../states/useEditorHelper"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 
-export const updateAngleSystem = debounceSystem((target: CameraBase) =>
+export const updateAngleSystem = throttleSystem((target: CameraBase) =>
     target.gyrate(0, 0)
 )
 

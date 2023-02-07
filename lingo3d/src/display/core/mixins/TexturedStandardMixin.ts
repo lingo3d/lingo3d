@@ -12,7 +12,7 @@ import ITexturedStandard, {
     texturedStandardSchema
 } from "../../../interface/ITexturedStandard"
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
-import debounceSystem from "../../../utils/debounceSystem"
+import throttleSystem from "../../../utils/throttleSystem"
 import { color, standardMaterial } from "../../utils/reusables"
 import createInstancePool from "../utils/createInstancePool"
 import filterNotDefault from "./utils/filterNotDefault"
@@ -139,7 +139,7 @@ const [increaseCount, decreaseCount, allocateDefaultInstance] =
         (material) => material.dispose()
     )
 
-const refreshParamsSystem = debounceSystem((target: TexturedStandardMixin) => {
+const refreshParamsSystem = throttleSystem((target: TexturedStandardMixin) => {
     if (target.materialParamString)
         decreaseCount(MeshStandardMaterial, target.materialParamString)
     else {

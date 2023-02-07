@@ -20,7 +20,7 @@ import {
 } from "../states/useLoadingCount"
 import { forceGet } from "@lincode/utils"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
-import debounceSystem from "../utils/debounceSystem"
+import throttleSystem from "../utils/throttleSystem"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import { NEAR } from "../globals"
 import {
@@ -52,7 +52,7 @@ const reflectionChangedSet = new WeakSet<Model>()
 const reflectionDataMap = new WeakMap<Model, [Texture, Cancellable]>()
 const supported = new Set(["fbx", "glb", "gltf"])
 
-const refreshFactorsSystem = debounceSystem((model: Model) => {
+const refreshFactorsSystem = throttleSystem((model: Model) => {
     const {
         metalnessFactor,
         roughnessFactor,

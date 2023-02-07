@@ -6,7 +6,7 @@ import ITexturedBasic, {
     texturedBasicSchema
 } from "../../../interface/ITexturedBasic"
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
-import debounceSystem from "../../../utils/debounceSystem"
+import throttleSystem from "../../../utils/throttleSystem"
 import { color } from "../../utils/reusables"
 import createInstancePool from "../utils/createInstancePool"
 import filterNotDefault from "./utils/filterNotDefault"
@@ -49,7 +49,7 @@ const [increaseCount, decreaseCount] = createInstancePool<
     (material) => material.dispose()
 )
 
-const refreshParamsSystem = debounceSystem((target: TexturedSpriteMixin) => {
+const refreshParamsSystem = throttleSystem((target: TexturedSpriteMixin) => {
     if (target.materialParamString)
         decreaseCount(SpriteMaterial, target.materialParamString)
     else {

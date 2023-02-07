@@ -1,7 +1,7 @@
 import { rad2Deg } from "@lincode/math"
 import { Color, MeshStandardMaterial } from "three"
 import { equalsDefaultValue } from "../../../../interface/utils/getDefaultValue"
-import debounceSystem from "../../../../utils/debounceSystem"
+import throttleSystem from "../../../../utils/throttleSystem"
 import {
     StandardMesh,
     StandardParams
@@ -159,7 +159,7 @@ export default (standardMaterial: MeshStandardMaterial) => {
         standardMaterial
     )
 
-    const refreshParamsSystem = debounceSystem((target: MyTextureManager) => {
+    const refreshParamsSystem = throttleSystem((target: MyTextureManager) => {
         if (target.materialParamString)
             decreaseCount(MeshStandardMaterial, target.materialParamString)
         else

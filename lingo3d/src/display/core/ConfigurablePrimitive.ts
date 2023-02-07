@@ -1,5 +1,5 @@
 import { BufferGeometry } from "three"
-import debounceSystem from "../../utils/debounceSystem"
+import throttleSystem from "../../utils/throttleSystem"
 import Primitive from "./Primitive"
 import createInstancePool from "./utils/createInstancePool"
 
@@ -10,7 +10,7 @@ const [increaseCount, decreaseCount, allocateDefaultInstance] =
     )
 export { allocateDefaultInstance }
 
-export const refreshParamsSystem = debounceSystem(
+export const refreshParamsSystem = throttleSystem(
     <GeometryClass extends typeof BufferGeometry>(
         target: ConfigurablePrimitive<GeometryClass>
     ) => {
