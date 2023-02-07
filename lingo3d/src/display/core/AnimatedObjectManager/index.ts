@@ -4,12 +4,12 @@ import IAnimatedObjectManager, {
     AnimationValue
 } from "../../../interface/IAnimatedObjectManager"
 import AnimationManager from "./AnimationManager"
-import StaticObjectManager from "../StaticObjectManager"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { event, EventFunctions } from "@lincode/events"
 import { SEC2FRAME } from "../../../globals"
 import { AnimationData } from "../../../interface/IAnimationManager"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 
 const animationValueToData = (val: AnimationValue) => {
     const entries = Object.entries(val)
@@ -39,7 +39,7 @@ type States = {
 }
 
 export default class AnimatedObjectManager<T extends Object3D = Object3D>
-    extends StaticObjectManager<T>
+    extends MeshAppendable<T>
     implements IAnimatedObjectManager
 {
     private states?: States

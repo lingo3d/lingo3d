@@ -7,7 +7,9 @@ import {
 } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Object3D, Quaternion, Vector3 } from "three"
-import MeshAppendable from "../../../api/core/MeshAppendable"
+import MeshAppendable, {
+    getMeshAppendablesById
+} from "../../../api/core/MeshAppendable"
 import { fpsRatioPtr } from "../../../engine/eventLoop"
 import {
     TransformControlsMode,
@@ -27,7 +29,6 @@ import { vector3 } from "../../utils/reusables"
 import { positionChanged } from "../../utils/trackObject"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import worldToCanvas from "../../utils/worldToCanvas"
-import { getMeshAppendablesById } from "../StaticObjectManager"
 
 const [addTrackingSystem, deleteTrackingSystem] = renderSystemWithData(
     (item: Object3D, data: { cb: () => void }) => {

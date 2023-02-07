@@ -2,7 +2,9 @@ import { Cancellable } from "@lincode/promiselikes"
 import { forceGetInstance } from "@lincode/utils"
 import { Frustum, Matrix3, Object3D } from "three"
 import { OBB } from "three/examples/jsm/math/OBB"
-import MeshAppendable from "../../../../api/core/MeshAppendable"
+import MeshAppendable, {
+    getMeshAppendables
+} from "../../../../api/core/MeshAppendable"
 import {
     addOutline,
     deleteOutline
@@ -20,7 +22,6 @@ import throttleFrameLeading from "../../../../utils/throttleFrameLeading"
 import getCenter from "../../../utils/getCenter"
 import getWorldPosition from "../../../utils/getWorldPosition"
 import { matrix4, vector3_1 } from "../../../utils/reusables"
-import { getMeshAppendables } from "../../StaticObjectManager"
 import {
     clickSet,
     mouseDownSet,

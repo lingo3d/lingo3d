@@ -12,10 +12,10 @@ import { assignPxTransform, setPxVec, setPxVec_ } from "./pxMath"
 import PhysicsObjectManager from ".."
 import fpsAlpha from "../../../utils/fpsAlpha"
 import { gravityPtr } from "../../../../states/useGravity"
-import StaticObjectManager from "../../StaticObjectManager"
 import { onPhysXLoop } from "../../../../events/onPhysXLoop"
 import { physxPtr } from "./physxPtr"
 import { getPhysXLoaded } from "../../../../states/usePhysXLoaded"
+import MeshAppendable from "../../../../api/core/MeshAppendable"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
 export const pxVXUpdateMap = new WeakMap<PhysicsObjectManager, number>()
@@ -25,8 +25,8 @@ export const pxVZUpdateMap = new WeakMap<PhysicsObjectManager, number>()
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
 const vyMap = new WeakMap<PhysicsObjectManager, number>()
 
-const lockHitSet = new WeakSet<StaticObjectManager>()
-const lockHit = (manager: StaticObjectManager, lock: boolean) => {
+const lockHitSet = new WeakSet<MeshAppendable>()
+const lockHit = (manager: MeshAppendable, lock: boolean) => {
     if (lockHitSet.has(manager)) return true
     if (lock) {
         lockHitSet.add(manager)

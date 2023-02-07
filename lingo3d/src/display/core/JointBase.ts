@@ -17,9 +17,9 @@ import {
     setPxTransform__
 } from "./PhysicsObjectManager/physx/pxMath"
 import PositionedDirectionedManager from "./PositionedDirectionedManager"
-import { getMeshAppendables } from "./StaticObjectManager"
 import { addSelectionHelper } from "./mixins/VisibleMixin/raycast/selectionCandidates"
 import HelperSphere from "./utils/HelperSphere"
+import { getMeshAppendables } from "../../api/core/MeshAppendable"
 
 export const joints = new Set<JointBase>()
 

@@ -4,12 +4,11 @@ import getWorldPosition from "./utils/getWorldPosition"
 import { timer } from "../engine/eventLoop"
 import ITrigger, { triggerDefaults, triggerSchema } from "../interface/ITrigger"
 import PositionedManager from "./core/PositionedManager"
-import { getMeshAppendables } from "./core/StaticObjectManager"
 import { addSelectionHelper } from "./core/mixins/VisibleMixin/raycast/selectionCandidates"
 import HelperCylinder from "./core/utils/HelperCylinder"
 import HelperSphere from "./core/utils/HelperSphere"
 import { CM2M } from "../globals"
-import MeshAppendable from "../api/core/MeshAppendable"
+import MeshAppendable, { getMeshAppendables } from "../api/core/MeshAppendable"
 import { getEditorHelper } from "../states/useEditorHelper"
 
 export default class Trigger extends PositionedManager implements ITrigger {

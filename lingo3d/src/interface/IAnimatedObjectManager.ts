@@ -2,12 +2,12 @@ import AnimationManager from "../display/core/AnimatedObjectManager/AnimationMan
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
-import IStaticObjectManager, {
-    staticObjectManagerDefaults,
-    staticObjectManagerSchema
-} from "./IStaticObjectManager"
 import { nullableDefault } from "./utils/NullableDefault"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
+import IMeshAppendable, {
+    meshAppendableDefaults,
+    meshAppendableSchema
+} from "./IMeshAppendable"
 
 export type AnimationValue = Record<string, Array<number>>
 export type Animation =
@@ -17,7 +17,7 @@ export type Animation =
     | boolean
     | AnimationValue
 
-export default interface IAnimatedObjectManager extends IStaticObjectManager {
+export default interface IAnimatedObjectManager extends IMeshAppendable {
     animations: Record<string, string | AnimationManager>
     animation: Nullable<Animation>
     animationPaused: Nullable<boolean>
@@ -28,7 +28,7 @@ export default interface IAnimatedObjectManager extends IStaticObjectManager {
 export const animatedObjectManagerSchema: Required<
     ExtractProps<IAnimatedObjectManager>
 > = {
-    ...staticObjectManagerSchema,
+    ...meshAppendableSchema,
 
     animations: Object,
     animation: [String, Number, Array, Boolean, Object],
@@ -39,7 +39,7 @@ export const animatedObjectManagerSchema: Required<
 hideSchema(["animationRepeat"])
 
 export const animatedObjectManagerDefaults =
-    extendDefaults<IAnimatedObjectManager>([staticObjectManagerDefaults], {
+    extendDefaults<IAnimatedObjectManager>([meshAppendableDefaults], {
         animations: {},
         animation: undefined,
         animationPaused: nullableDefault(false),
