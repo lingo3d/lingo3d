@@ -4,6 +4,7 @@ import { applyMixins } from "@lincode/utils"
 import AnimatedObjectManager from "./AnimatedObjectManager"
 import PositionedMixin from "./mixins/PositionedMixin"
 import DirectionedMixin from "./mixins/DirectionedMixin"
+import MixinType from "./mixins/utils/MixinType"
 
 class SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>
@@ -42,6 +43,6 @@ class SimpleObjectManager<T extends Object3D = Object3D>
 interface SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>,
         PositionedMixin<T>,
-        DirectionedMixin<T> {}
+        MixinType<DirectionedMixin<T>> {}
 applyMixins(SimpleObjectManager, [DirectionedMixin, PositionedMixin])
 export default SimpleObjectManager

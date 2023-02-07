@@ -24,7 +24,6 @@ const [addLookSystem, deleteLookSystem] = renderSystemWithData(
         const z = Math.abs(quaternion.z - quaternionNew.z)
         const w = Math.abs(quaternion.w - quaternionNew.w)
         if (x + y + z + w < 0.001) {
-            //@ts-ignore
             self.cancelHandle("lookTo", undefined)
             self.onLookToEnd?.()
 
@@ -37,12 +36,9 @@ const getY = (manager: PositionedMixin | DirectionedMixin) =>
     "position" in manager ? manager.position.y : 0
 
 export default abstract class DirectionedMixin<T extends Object3D = Object3D>
+    extends MeshAppendable<T>
     implements IDirectioned
 {
-    public declare outerObject3d: T
-    public declare object3d: T
-    public declare quaternion: Quaternion
-
     public get rotationX() {
         return this.outerObject3d.rotation.x * rad2Deg
     }
@@ -118,7 +114,6 @@ export default abstract class DirectionedMixin<T extends Object3D = Object3D>
 
         quaternion.copy(quaternionOld)
 
-        //@ts-ignore
         this.cancelHandle("lookTo", () => {
             addLookSystem(this, { quaternion, quaternionNew, a1 })
             return new Cancellable(() => deleteLookSystem(this))
