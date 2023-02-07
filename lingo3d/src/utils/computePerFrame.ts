@@ -1,7 +1,7 @@
-import debounceFrame from "./debounceFrame"
+import throttleFrame from "./throttleFrame"
 
 const caches: Array<Map<object, any>> = []
-const queueClearCache = debounceFrame(() => {
+const queueClearCache = throttleFrame(() => {
     for (const cache of caches) cache.clear()
 })
 

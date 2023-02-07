@@ -1,8 +1,8 @@
-import debounceFrame from "./debounceFrame"
+import throttleFrame from "./throttleFrame"
 
 export default <T>(cb: (target: T) => void) => {
     const queued = new Set<T>()
-    const run = debounceFrame(() => {
+    const run = throttleFrame(() => {
         for (const target of queued) cb(target)
         queued.clear()
     })
