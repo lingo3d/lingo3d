@@ -1,5 +1,5 @@
 import { Point3d } from "@lincode/math"
-import StaticObjectManager from "../display/core/StaticObjectManager"
+import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import IAppendable, {
     appendableDefaults,
     appendableSchema
@@ -18,7 +18,7 @@ export class LingoMouseEvent {
         public yNorm: number,
         public point: Point3d,
         public distance: number,
-        public target: StaticObjectManager | undefined
+        public target: VisibleMixin | undefined
     ) {}
 }
 

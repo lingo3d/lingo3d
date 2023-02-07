@@ -1,4 +1,3 @@
-import { Point3d } from "@lincode/math"
 import { Raycaster, Object3D } from "three"
 import { MouseEventName, mouseEvents } from "../../../../api/mouse"
 import { getManager } from "../../../../api/utils/getManager"
@@ -23,19 +22,11 @@ const raycaster = new Raycaster()
 
 const filterUnselectable = (target: Object3D) => !unselectableSet.has(target)
 
-type Result =
-    | {
-          point: Point3d
-          distance: number
-          manager: VisibleMixin
-      }
-    | undefined
-
 export const raycast = async (
     x: number,
     y: number,
     candidates: Set<Object3D>
-): Promise<Result> => {
+) => {
     raycaster.setFromCamera({ x, y }, getCameraRendered())
     const intersection = raycaster.intersectObjects(
         [...candidates].filter(filterUnselectable)
@@ -68,8 +59,7 @@ export const raycast = async (
             return {
                 point: vec2Point(pxHit.position),
                 distance: pxHit.distance * M2CM,
-                //mark
-                manager: manager as any
+                manager
             }
         }
     }
@@ -105,8 +95,7 @@ export default (
                 e.yNorm,
                 point,
                 distance,
-                //mark
-                manager as any
+                manager
             )
         )
     })
