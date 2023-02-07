@@ -8,11 +8,11 @@ import IReflector, {
 } from "../../interface/IReflector"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getRenderer } from "../../states/useRenderer"
-import VisibleObjectManager from "../core/VisibleObjectManager"
+import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import { planeGeometry } from "../primitives/Plane"
 
 export default class Reflector
-    extends VisibleObjectManager
+    extends PhysicsObjectManager
     implements IReflector
 {
     public static componentName = "reflector"

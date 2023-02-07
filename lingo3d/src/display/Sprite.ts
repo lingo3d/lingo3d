@@ -3,11 +3,11 @@ import { Sprite as ThreeSprite, SpriteMaterial } from "three"
 import ISprite, { spriteDefaults, spriteSchema } from "../interface/ISprite"
 import TexturedSpriteMixin from "./core/mixins/TexturedSpriteMixin"
 import MixinType from "./core/mixins/utils/MixinType"
-import VisibleObjectManager from "./core/VisibleObjectManager"
+import PhysicsObjectManager from "./core/PhysicsObjectManager"
 
 const material = new SpriteMaterial({ transparent: true })
 
-class Sprite extends VisibleObjectManager<ThreeSprite> implements ISprite {
+class Sprite extends PhysicsObjectManager<ThreeSprite> implements ISprite {
     public static componentName = "sprite"
     public static defaults = spriteDefaults
     public static schema = spriteSchema
@@ -26,7 +26,7 @@ class Sprite extends VisibleObjectManager<ThreeSprite> implements ISprite {
     public override set scaleZ(_) {}
 }
 interface Sprite
-    extends VisibleObjectManager<ThreeSprite>,
+    extends PhysicsObjectManager<ThreeSprite>,
         MixinType<TexturedSpriteMixin> {}
 applyMixins(Sprite, [TexturedSpriteMixin])
 export default Sprite

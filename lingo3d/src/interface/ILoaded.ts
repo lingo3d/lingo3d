@@ -1,26 +1,26 @@
-import IVisibleObjectManager, {
-    visibleObjectManagerDefaults,
-    visibleObjectManagerSchema
-} from "./IVisibleObjectManager"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
+import IPhysicsObjectManager, {
+    physicsObjectManagerDefaults,
+    physicsObjectManagerSchema
+} from "./IPhysicsObjectManager"
 
-export default interface ILoaded extends IVisibleObjectManager {
+export default interface ILoaded extends IPhysicsObjectManager {
     src: Nullable<string>
     onLoad: Nullable<() => void>
     boxVisible: boolean
 }
 
 export const loadedSchema: Required<ExtractProps<ILoaded>> = {
-    ...visibleObjectManagerSchema,
+    ...physicsObjectManagerSchema,
     src: String,
     onLoad: Function,
     boxVisible: Boolean
 }
 
 export const loadedDefaults = extendDefaults<ILoaded>(
-    [visibleObjectManagerDefaults],
+    [physicsObjectManagerDefaults],
     {
         src: undefined,
         onLoad: undefined,

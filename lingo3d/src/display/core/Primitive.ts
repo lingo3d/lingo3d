@@ -8,11 +8,11 @@ import IPrimitive, {
     primitiveSchema
 } from "../../interface/IPrimitive"
 import { standardMaterial } from "../utils/reusables"
-import VisibleObjectManager from "./VisibleObjectManager"
 import MixinType from "./mixins/utils/MixinType"
+import PhysicsObjectManager from "./PhysicsObjectManager"
 
 abstract class Primitive
-    extends VisibleObjectManager<StandardMesh>
+    extends PhysicsObjectManager<StandardMesh>
     implements IPrimitive
 {
     public static defaults = primitiveDefaults
@@ -26,7 +26,7 @@ abstract class Primitive
     }
 }
 interface Primitive
-    extends VisibleObjectManager<StandardMesh>,
+    extends PhysicsObjectManager<StandardMesh>,
         MixinType<TexturedStandardMixin> {}
 applyMixins(Primitive, [TexturedStandardMixin])
 export default Primitive

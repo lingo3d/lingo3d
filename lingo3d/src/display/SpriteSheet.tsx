@@ -3,12 +3,12 @@ import createInstancePool from "./core/utils/createInstancePool"
 import { Sprite, SpriteMaterial } from "three"
 import loadTexture from "./utils/loaders/loadTexture"
 import { Cancellable } from "@lincode/promiselikes"
-import VisibleObjectManager from "./core/VisibleObjectManager"
 import ISpriteSheet, {
     spriteSheetDefaults,
     spriteSheetSchema
 } from "../interface/ISpriteSheet"
 import renderSystemWithData from "../utils/renderSystemWithData"
+import PhysicsObjectManager from "./core/PhysicsObjectManager"
 
 const numbers = new Set("01234567890".split(""))
 
@@ -164,7 +164,7 @@ const playSpriteSheet = (
 }
 
 export default class SpriteSheet
-    extends VisibleObjectManager
+    extends PhysicsObjectManager
     implements ISpriteSheet
 {
     public static componentName = "spriteSheet"

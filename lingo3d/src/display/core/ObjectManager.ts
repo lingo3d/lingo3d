@@ -3,10 +3,10 @@ import { deg2Rad, rad2Deg } from "@lincode/math"
 import scene from "../../engine/scene"
 import IObjectManager from "../../interface/IObjectManager"
 import FoundManager from "./FoundManager"
-import PhysicsObjectManager from "./PhysicsObjectManager"
 import { getManager, setManager } from "../../api/utils/getManager"
 import { CM2M, M2CM } from "../../globals"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import SimpleObjectManager from "./SimpleObjectManager"
 
 export const getFoundManager = (
     child: Object3D,
@@ -24,7 +24,7 @@ export const getFoundManager = (
 }
 
 export default abstract class ObjectManager<T extends Object3D = Object3D>
-    extends PhysicsObjectManager<T>
+    extends SimpleObjectManager<T>
     implements IObjectManager
 {
     public constructor(object3d = new Object3D() as T, unmounted?: boolean) {

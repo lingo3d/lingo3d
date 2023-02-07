@@ -1,13 +1,13 @@
-import ISimpleObjectManager, {
-    simpleObjectManagerDefaults,
-    simpleObjectManagerSchema
-} from "./ISimpleObjectManager"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
 import { nullableDefault } from "./utils/NullableDefault"
 import Choices from "./utils/Choices"
+import IVisibleObjectManager, {
+    visibleObjectManagerDefaults,
+    visibleObjectManagerSchema
+} from "./IVisibleObjectManager"
 
 export type PhysicsOptions =
     | undefined
@@ -17,7 +17,7 @@ export type PhysicsOptions =
     | "convex"
     | "static"
 
-export default interface IPhysicsObjectManager extends ISimpleObjectManager {
+export default interface IPhysicsObjectManager extends IVisibleObjectManager {
     mass: number
     gravity: Nullable<boolean>
     physics: Nullable<PhysicsOptions>
@@ -26,7 +26,7 @@ export default interface IPhysicsObjectManager extends ISimpleObjectManager {
 export const physicsObjectManagerSchema: Required<
     ExtractProps<IPhysicsObjectManager>
 > = {
-    ...simpleObjectManagerSchema,
+    ...visibleObjectManagerSchema,
     mass: Number,
     gravity: Boolean,
     physics: [String, Boolean]
@@ -35,7 +35,7 @@ hideSchema(["velocity"])
 
 export const physicsObjectManagerDefaults =
     extendDefaults<IPhysicsObjectManager>(
-        [simpleObjectManagerDefaults],
+        [visibleObjectManagerDefaults],
         {
             mass: 1,
             gravity: nullableDefault(true),

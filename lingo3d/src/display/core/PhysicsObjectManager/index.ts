@@ -1,6 +1,5 @@
 import { Object3D } from "three"
 import { deg2Rad, Point3d } from "@lincode/math"
-import SimpleObjectManager from "../SimpleObjectManager"
 import IPhysicsObjectManager, {
     PhysicsOptions
 } from "../../../interface/IPhysicsObjectManager"
@@ -34,6 +33,7 @@ import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount
 } from "../../../states/useLoadingUnpkgCount"
+import VisibleObjectManager from "../VisibleObjectManager"
 
 const importPhysX = lazy(async () => {
     increaseLoadingUnpkgCount()
@@ -42,7 +42,7 @@ const importPhysX = lazy(async () => {
 })
 
 export default class PhysicsObjectManager<T extends Object3D = Object3D>
-    extends SimpleObjectManager<T>
+    extends VisibleObjectManager<T>
     implements IPhysicsObjectManager
 {
     public actor?: any

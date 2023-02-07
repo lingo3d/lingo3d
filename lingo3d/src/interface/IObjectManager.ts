@@ -1,13 +1,13 @@
-import IPhysicsObjectManager, {
-    physicsObjectManagerDefaults,
-    physicsObjectManagerSchema
-} from "./IPhysicsObjectManager"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
+import ISimpleObjectManager, {
+    simpleObjectManagerDefaults,
+    simpleObjectManagerSchema
+} from "./ISimpleObjectManager"
 
-export default interface IObjectManager extends IPhysicsObjectManager {
+export default interface IObjectManager extends ISimpleObjectManager {
     innerRotationX: number
     innerRotationY: number
     innerRotationZ: number
@@ -23,7 +23,7 @@ export default interface IObjectManager extends IPhysicsObjectManager {
 }
 
 export const objectManagerSchema: Required<ExtractProps<IObjectManager>> = {
-    ...physicsObjectManagerSchema,
+    ...simpleObjectManagerSchema,
 
     innerRotationX: Number,
     innerRotationY: Number,
@@ -41,7 +41,7 @@ export const objectManagerSchema: Required<ExtractProps<IObjectManager>> = {
 hideSchema(["innerRotation"])
 
 export const objectManagerDefaults = extendDefaults<IObjectManager>(
-    [physicsObjectManagerDefaults],
+    [simpleObjectManagerDefaults],
     {
         innerRotationX: 0,
         innerRotationY: 0,

@@ -1,6 +1,6 @@
 import { Class, forceGet } from "@lincode/utils"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 import Loaded from "../Loaded"
-import PhysicsObjectManager from "../PhysicsObjectManager"
 
 const makeTuple = () =>
     <const>[new Map<string, any>(), {} as Record<string, number>]
@@ -8,7 +8,7 @@ const makeTuple = () =>
 export default <
     T,
     Params = Array<any> | ReadonlyArray<any>,
-    Manager extends PhysicsObjectManager = PhysicsObjectManager | Loaded
+    Manager extends MeshAppendable = MeshAppendable | Loaded
 >(
     factory: (ClassVal: Class<T>, params: Params, manager?: Manager) => T,
     dispose: (instance: T) => void

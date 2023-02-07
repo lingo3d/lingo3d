@@ -1,13 +1,13 @@
-import IVisibleObjectManager, {
-    visibleObjectManagerDefaults,
-    visibleObjectManagerSchema
-} from "./IVisibleObjectManager"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
 import { nullableDefault } from "./utils/NullableDefault"
+import IPhysicsObjectManager, {
+    physicsObjectManagerDefaults,
+    physicsObjectManagerSchema
+} from "./IPhysicsObjectManager"
 
-export default interface ISpriteSheet extends IVisibleObjectManager {
+export default interface ISpriteSheet extends IPhysicsObjectManager {
     textureStart: Nullable<string>
     textureEnd: Nullable<string>
     texture: Nullable<string>
@@ -17,7 +17,7 @@ export default interface ISpriteSheet extends IVisibleObjectManager {
 }
 
 export const spriteSheetSchema: Required<ExtractProps<ISpriteSheet>> = {
-    ...visibleObjectManagerSchema,
+    ...physicsObjectManagerSchema,
     textureStart: String,
     textureEnd: String,
     texture: String,
@@ -27,7 +27,7 @@ export const spriteSheetSchema: Required<ExtractProps<ISpriteSheet>> = {
 }
 
 export const spriteSheetDefaults = extendDefaults<ISpriteSheet>(
-    [visibleObjectManagerDefaults],
+    [physicsObjectManagerDefaults],
     {
         scaleZ: 0,
         depth: 0,

@@ -1,12 +1,12 @@
-import IVisibleObjectManager, {
-    visibleObjectManagerDefaults,
-    visibleObjectManagerSchema
-} from "./IVisibleObjectManager"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
+import IPhysicsObjectManager, {
+    physicsObjectManagerDefaults,
+    physicsObjectManagerSchema
+} from "./IPhysicsObjectManager"
 
-export default interface IReflector extends IVisibleObjectManager {
+export default interface IReflector extends IPhysicsObjectManager {
     resolution: number
     blur: number
     contrast: number
@@ -14,7 +14,7 @@ export default interface IReflector extends IVisibleObjectManager {
 }
 
 export const reflectorSchema: Required<ExtractProps<IReflector>> = {
-    ...visibleObjectManagerSchema,
+    ...physicsObjectManagerSchema,
     resolution: Number,
     blur: Number,
     contrast: Number,
@@ -22,7 +22,7 @@ export const reflectorSchema: Required<ExtractProps<IReflector>> = {
 }
 
 export const reflectorDefaults = extendDefaults<IReflector>(
-    [visibleObjectManagerDefaults],
+    [physicsObjectManagerDefaults],
     {
         resolution: 256,
         blur: 512,
