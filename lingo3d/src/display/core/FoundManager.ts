@@ -12,6 +12,7 @@ import TextureManager from "./TextureManager"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { appendableRoot } from "../../api/core/collections"
 import { StandardMesh } from "./mixins/TexturedStandardMixin"
+import MixinType from "./mixins/utils/MixinType"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -76,6 +77,6 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
 interface FoundManager
     extends SimpleObjectManager,
         TextureManager,
-        VisibleMixin {}
+        MixinType<VisibleMixin> {}
 applyMixins(FoundManager, [VisibleMixin, TextureManager])
 export default FoundManager
