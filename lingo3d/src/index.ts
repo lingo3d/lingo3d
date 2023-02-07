@@ -16,25 +16,24 @@ import Building from "./display/Building"
 import Tree from "./display/Tree"
 import SvgMesh from "./display/SvgMesh"
 import HTMLMesh from "./display/HTMLMesh"
-import Joystick from "./ui/Joystick"
-import Reticle from "./ui/Reticle"
-import SplashScreen from "./ui/SplashScreen"
-import Text from "./ui/Text"
 import Reflector from "./display/Reflector"
 import Water from "./display/Water"
-import Curve from "./display/Curve"
-import Line from "./display/Line"
 import Sprite from "./display/Sprite"
 import SpriteSheet from "./display/SpriteSheet"
+import Group from "./display/Group"
+
+import Curve from "./display/Curve"
+import Line from "./display/Line"
 import Trigger from "./display/Trigger"
 import SpawnPoint from "./display/SpawnPoint"
+
 import SphericalJoint from "./display/joints/SphericalJoint"
 import FixedJoint from "./display/joints/FixedJoint"
 import RevoluteJoint from "./display/joints/RevoluteJoint"
 import PrismaticJoint from "./display/joints/PrismaticJoint"
 import D6Joint from "./display/joints/D6Joint"
+
 import Audio from "./display/Audio"
-import Group from "./display/Group"
 import Skybox from "./display/Skybox"
 import Environment from "./display/Environment"
 import Setup from "./display/Setup"
@@ -52,6 +51,11 @@ import SkyLight from "./display/lights/SkyLight"
 import DefaultSkyLight from "./display/lights/DefaultSkyLight"
 import PointLight from "./display/lights/PointLight"
 import SpotLight from "./display/lights/SpotLight"
+
+import Joystick from "./ui/Joystick"
+import Reticle from "./ui/Reticle"
+import SplashScreen from "./ui/SplashScreen"
+import Text from "./ui/Text"
 
 import keyboard, { Keyboard } from "./api/keyboard"
 import mouse, { Mouse } from "./api/mouse"
@@ -106,16 +110,13 @@ export {
     Tree,
     SvgMesh,
     HTMLMesh,
-    Joystick,
-    Reticle,
-    SplashScreen,
-    Text,
     Reflector,
     Water,
-    Curve,
-    Line,
     Sprite,
     SpriteSheet,
+    Group,
+    Curve,
+    Line,
     Trigger,
     SpawnPoint,
     SphericalJoint,
@@ -124,7 +125,6 @@ export {
     PrismaticJoint,
     D6Joint,
     Audio,
-    Group,
     Skybox,
     Environment,
     Setup,
@@ -142,10 +142,14 @@ export {
     DefaultSkyLight,
     PointLight,
     SpotLight,
-    Keyboard,
+    Joystick,
+    Reticle,
+    SplashScreen,
+    Text,
     keyboard,
-    Mouse,
+    Keyboard,
     mouse,
+    Mouse,
     gamepad,
     createProxy,
     settings,
