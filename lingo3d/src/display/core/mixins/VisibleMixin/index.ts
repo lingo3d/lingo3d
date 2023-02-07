@@ -2,25 +2,25 @@ import { Cancellable } from "@lincode/promiselikes"
 import { forceGetInstance } from "@lincode/utils"
 import { Frustum, Matrix3, Object3D } from "three"
 import { OBB } from "three/examples/jsm/math/OBB"
-import MeshAppendable from "../../../api/core/MeshAppendable"
+import MeshAppendable from "../../../../api/core/MeshAppendable"
 import {
     addOutline,
     deleteOutline
-} from "../../../engine/renderLoop/effectComposer/outlineEffect"
+} from "../../../../engine/renderLoop/effectComposer/outlineEffect"
 import {
     addSelectiveBloom,
     deleteSelectiveBloom
-} from "../../../engine/renderLoop/effectComposer/selectiveBloomEffect"
-import { LingoMouseEvent } from "../../../interface/IMouse"
-import IVisible from "../../../interface/IVisible"
-import Nullable from "../../../interface/utils/Nullable"
-import { getCameraRendered } from "../../../states/useCameraRendered"
-import renderSystem from "../../../utils/renderSystem"
-import throttleFrameLeading from "../../../utils/throttleFrameLeading"
-import getCenter from "../../utils/getCenter"
-import getWorldPosition from "../../utils/getWorldPosition"
-import { matrix4, vector3_1 } from "../../utils/reusables"
-import { getMeshAppendables } from "../StaticObjectManager"
+} from "../../../../engine/renderLoop/effectComposer/selectiveBloomEffect"
+import { LingoMouseEvent } from "../../../../interface/IMouse"
+import IVisible from "../../../../interface/IVisible"
+import Nullable from "../../../../interface/utils/Nullable"
+import { getCameraRendered } from "../../../../states/useCameraRendered"
+import renderSystem from "../../../../utils/renderSystem"
+import throttleFrameLeading from "../../../../utils/throttleFrameLeading"
+import getCenter from "../../../utils/getCenter"
+import getWorldPosition from "../../../utils/getWorldPosition"
+import { matrix4, vector3_1 } from "../../../utils/reusables"
+import { getMeshAppendables } from "../../StaticObjectManager"
 import {
     clickSet,
     mouseDownSet,
@@ -28,7 +28,8 @@ import {
     mouseOverSet,
     mouseOutSet,
     mouseMoveSet
-} from "../StaticObjectManager/raycast/sets"
+} from "./raycast/sets"
+import "./raycast"
 
 const frustum = new Frustum()
 const updateFrustum = throttleFrameLeading(() => {

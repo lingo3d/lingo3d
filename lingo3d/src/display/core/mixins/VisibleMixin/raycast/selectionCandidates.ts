@@ -1,19 +1,19 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { throttleTrailing } from "@lincode/utils"
 import { Object3D } from "three"
-import Appendable from "../../../../api/core/Appendable"
-import { appendableRoot } from "../../../../api/core/collections"
-import MeshAppendable from "../../../../api/core/MeshAppendable"
+import Appendable from "../../../../../api/core/Appendable"
+import { appendableRoot } from "../../../../../api/core/collections"
+import MeshAppendable from "../../../../../api/core/MeshAppendable"
 import {
     onSelectionTarget,
     emitSelectionTarget
-} from "../../../../events/onSelectionTarget"
-import { getSelectionFocus } from "../../../../states/useSelectionFocus"
-import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
-import { StandardMesh } from "../../mixins/TexturedStandardMixin"
-import VisibleMixin from "../../mixins/VisibleMixin"
-import HelperPrimitive from "../../utils/HelperPrimitive"
-import HelperSprite from "../../utils/HelperSprite"
+} from "../../../../../events/onSelectionTarget"
+import { getSelectionFocus } from "../../../../../states/useSelectionFocus"
+import { getSelectionFrozen } from "../../../../../states/useSelectionFrozen"
+import { StandardMesh } from "../../TexturedStandardMixin"
+import VisibleMixin from ".."
+import HelperPrimitive from "../../../utils/HelperPrimitive"
+import HelperSprite from "../../../utils/HelperSprite"
 
 const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates

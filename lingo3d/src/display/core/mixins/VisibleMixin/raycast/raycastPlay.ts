@@ -1,11 +1,11 @@
 import { createEffect } from "@lincode/reactivity"
-import { mouseEvents } from "../../../../api/mouse"
-import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
-import { clearMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
+import { mouseEvents } from "../../../../../api/mouse"
+import { getWorldPlayComputed } from "../../../../../states/useWorldPlayComputed"
+import { clearMultipleSelectionTargets } from "../../../../../states/useMultipleSelectionTargets"
 import {
     getSelectionTarget,
     setSelectionTarget
-} from "../../../../states/useSelectionTarget"
+} from "../../../../../states/useSelectionTarget"
 import pickable from "./pickable"
 import {
     clickSet,
@@ -15,7 +15,7 @@ import {
     mouseOutSet,
     mouseMoveSet
 } from "./sets"
-import VisibleMixin from "../../mixins/VisibleMixin"
+import VisibleMixin from ".."
 
 createEffect(() => {
     if (!getWorldPlayComputed()) return

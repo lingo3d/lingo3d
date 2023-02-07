@@ -1,7 +1,7 @@
 import { Object3D } from "three"
 import { forceGetInstance } from "@lincode/utils"
 import IStaticObjectManager from "../../../interface/IStaticObjectManager"
-import "./raycast"
+import "../mixins/VisibleMixin/raycast"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { uuidMap } from "../../../api/core/collections"
 import { CM2M } from "../../../globals"

@@ -6,7 +6,7 @@ import IHTMLMesh, {
 import createElement from "../../utils/createElement"
 import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "../core/VisibleObjectManager"
-import { addSelectionHelper } from "../core/StaticObjectManager/raycast/selectionCandidates"
+import { addSelectionHelper } from "../core/mixins/VisibleMixin/raycast/selectionCandidates"
 import HelperCube from "../core/utils/HelperCube"
 import { setManager } from "../../api/utils/getManager"
 

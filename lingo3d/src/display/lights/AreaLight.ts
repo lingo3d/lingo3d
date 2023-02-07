@@ -13,7 +13,7 @@ import Nullable from "../../interface/utils/Nullable"
 import { ssrExcludeSet } from "../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
 import selectionCandidates, {
     additionalSelectionCandidates
-} from "../core/StaticObjectManager/raycast/selectionCandidates"
+} from "../core/mixins/VisibleMixin/raycast/selectionCandidates"
 import { setManager } from "../../api/utils/getManager"
 import { CM2M } from "../../globals"
 import { getEditorHelper } from "../../states/useEditorHelper"

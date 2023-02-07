@@ -10,7 +10,7 @@ import IEnvironment, {
 } from "../interface/IEnvironment"
 import PositionedManager from "./core/PositionedManager"
 import { Reactive } from "@lincode/reactivity"
-import { addSelectionHelper } from "./core/StaticObjectManager/raycast/selectionCandidates"
+import { addSelectionHelper } from "./core/mixins/VisibleMixin/raycast/selectionCandidates"
 import HelperSprite from "./core/utils/HelperSprite"
 import { getEditorHelper } from "../states/useEditorHelper"
 
