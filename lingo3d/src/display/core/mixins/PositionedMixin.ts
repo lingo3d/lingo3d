@@ -26,6 +26,7 @@ import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import { vector3 } from "../../utils/reusables"
 import { positionChanged } from "../../utils/trackObject"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
+import worldToCanvas from "../../utils/worldToCanvas"
 import { getMeshAppendablesById } from "../StaticObjectManager"
 
 const [addTrackingSystem, deleteTrackingSystem] = renderSystemWithData(
@@ -131,6 +132,14 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
 
     public get worldPosition() {
         return vec2Point(getWorldPosition(this.object3d))
+    }
+
+    public get canvasX() {
+        return worldToCanvas(this.object3d).x
+    }
+
+    public get canvasY() {
+        return worldToCanvas(this.object3d).y
     }
 
     private _onMove?: () => void
