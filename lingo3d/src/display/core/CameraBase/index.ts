@@ -63,6 +63,7 @@ export default abstract class CameraBase<
         }, [getEditorHelper, getCameraRendered])
     }
 
+    //@ts-ignore
     public override lookAt(target: MeshAppendable | Point3d): void
     public override lookAt(x: number, y: number | undefined, z: number): void
     public override lookAt(a0: any, a1?: any, a2?: any) {

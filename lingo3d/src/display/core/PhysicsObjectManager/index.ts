@@ -294,16 +294,19 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.refreshShapeState?.set({})
     }
 
+    //@ts-ignore
     public override moveForward(distance: number) {
         super.moveForward(distance)
         this.updatePhysics()
     }
 
+    //@ts-ignore
     public override moveRight(distance: number) {
         super.moveRight(distance)
         this.updatePhysics()
     }
 
+    //@ts-ignore
     public override placeAt(
         target: string | Point3d | MeshAppendable | SpawnPoint
     ) {
@@ -311,10 +314,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.updatePhysics()
     }
 
+    //@ts-ignore
     public override lerpTo(x: number, y: number, z: number, alpha?: number) {
         super.lerpTo(x, y, z, alpha, () => this.updatePhysics())
     }
 
+    //@ts-ignore
     public override moveTo(
         x: number,
         y: number | undefined,

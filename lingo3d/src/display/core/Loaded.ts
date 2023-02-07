@@ -174,6 +174,7 @@ export default abstract class Loaded<T = Object3D>
         return super.castShadow
     }
     public override set castShadow(val) {
+        //@ts-ignore
         this._castShadow = val
         this.cancelHandle("castShadow", () =>
             this.loaded.then(() => {
@@ -186,6 +187,7 @@ export default abstract class Loaded<T = Object3D>
         return super.receiveShadow
     }
     public override set receiveShadow(val) {
+        //@ts-ignore
         this._receiveShadow = val
         this.cancelHandle("receiveShadow", () =>
             this.loaded.then(() => {
@@ -207,6 +209,7 @@ export default abstract class Loaded<T = Object3D>
         return super.outline
     }
     public override set outline(val) {
+        //@ts-ignore
         this._outline = val
 
         this.cancelHandle("outline", () =>
@@ -225,6 +228,7 @@ export default abstract class Loaded<T = Object3D>
         return super.bloom
     }
     public override set bloom(val) {
+        //@ts-ignore
         this._bloom = val
 
         this.cancelHandle("bloom", () =>

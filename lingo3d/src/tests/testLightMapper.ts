@@ -1,6 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
 import * as THREE from "three"
-//@ts-ignore
 import { ProgressiveLightMap } from "three/examples/jsm/misc/ProgressiveLightMap"
 import Octahedron from "../display/primitives/Octahedron"
 import Plane from "../display/primitives/Plane"
