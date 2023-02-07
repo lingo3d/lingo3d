@@ -1,19 +1,11 @@
 import { Matrix3, Object3D } from "three"
-import {
-    frustum,
-    matrix4,
-    ray,
-    vector3,
-    vector3_1
-} from "../../utils/reusables"
-import { throttle, forceGetInstance } from "@lincode/utils"
+import { ray, vector3, vector3_1 } from "../../utils/reusables"
+import { forceGetInstance } from "@lincode/utils"
 import { OBB } from "three/examples/jsm/math/OBB"
 import { Cancellable } from "@lincode/promiselikes"
 import { vec2Point } from "../../utils/vec2Point"
 import { LingoMouseEvent } from "../../../interface/IMouse"
-import getCenter from "../../utils/getCenter"
 import IStaticObjectManager from "../../../interface/IStaticObjectManager"
-import { getCameraRendered } from "../../../states/useCameraRendered"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldDirection from "../../utils/getWorldDirection"
 import {
@@ -33,20 +25,6 @@ import Nullable from "../../../interface/utils/Nullable"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
-
-const updateFrustum = throttle(
-    () => {
-        const camera = getCameraRendered()
-        frustum.setFromProjectionMatrix(
-            matrix4.multiplyMatrices(
-                camera.projectionMatrix,
-                camera.matrixWorldInverse
-            )
-        )
-    },
-    200,
-    "leading"
-)
 
 const userIdMap = new Map<string, Set<StaticObjectManager>>()
 
@@ -253,9 +231,4 @@ export default class StaticObjectManager<T extends Object3D = Object3D>
     public onHit: Nullable<(instance: MeshAppendable) => void>
     public onHitStart: Nullable<(instance: MeshAppendable) => void>
     public onHitEnd: Nullable<(instance: MeshAppendable) => void>
-
-    public get frustumVisible() {
-        updateFrustum()
-        return frustum.containsPoint(getCenter(this.object3d))
-    }
 }

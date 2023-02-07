@@ -1,3 +1,4 @@
+import { throttle } from "@lincode/utils"
 import { Object3D } from "three"
 import {
     addOutline,
@@ -8,6 +9,23 @@ import {
     deleteSelectiveBloom
 } from "../../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import IVisible from "../../../interface/IVisible"
+import { getCameraRendered } from "../../../states/useCameraRendered"
+import getCenter from "../../utils/getCenter"
+import { frustum, matrix4 } from "../../utils/reusables"
+
+const updateFrustum = throttle(
+    () => {
+        const camera = getCameraRendered()
+        frustum.setFromProjectionMatrix(
+            matrix4.multiplyMatrices(
+                camera.projectionMatrix,
+                camera.matrixWorldInverse
+            )
+        )
+    },
+    200,
+    "leading"
+)
 
 export default abstract class VisibleMixin<T extends Object3D = Object3D>
     implements IVisible
@@ -50,6 +68,11 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     public set frustumCulled(val) {
         this.outerObject3d.frustumCulled = val
         this.outerObject3d.traverse((child) => (child.frustumCulled = val))
+    }
+
+    public get frustumVisible() {
+        updateFrustum()
+        return frustum.containsPoint(getCenter(this.object3d))
     }
 
     protected _castShadow?: boolean
