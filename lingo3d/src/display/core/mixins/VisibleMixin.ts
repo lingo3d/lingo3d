@@ -10,24 +10,20 @@ import {
 } from "../../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import IVisible from "../../../interface/IVisible"
 import { getCameraRendered } from "../../../states/useCameraRendered"
+import throttleFrameLeading from "../../../utils/throttleFrameLeading"
 import getCenter from "../../utils/getCenter"
 import { matrix4 } from "../../utils/reusables"
 
 const frustum = new Frustum()
-
-const updateFrustum = throttle(
-    () => {
-        const camera = getCameraRendered()
-        frustum.setFromProjectionMatrix(
-            matrix4.multiplyMatrices(
-                camera.projectionMatrix,
-                camera.matrixWorldInverse
-            )
+const updateFrustum = throttleFrameLeading(() => {
+    const camera = getCameraRendered()
+    frustum.setFromProjectionMatrix(
+        matrix4.multiplyMatrices(
+            camera.projectionMatrix,
+            camera.matrixWorldInverse
         )
-    },
-    200,
-    "leading"
-)
+    )
+})
 
 export default abstract class VisibleMixin<T extends Object3D = Object3D>
     implements IVisible
