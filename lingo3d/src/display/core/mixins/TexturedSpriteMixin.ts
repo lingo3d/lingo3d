@@ -11,6 +11,7 @@ import { color } from "../../utils/reusables"
 import createInstancePool from "../utils/createInstancePool"
 import filterNotDefault from "./utils/filterNotDefault"
 import createMap from "./utils/createMap"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 
 type Params = [
     color: string,
@@ -52,12 +53,10 @@ const [increaseCount, decreaseCount] = createInstancePool<
 const refreshParamsSystem = throttleSystem((target: TexturedSpriteMixin) => {
     if (target.materialParamString)
         decreaseCount(SpriteMaterial, target.materialParamString)
-    else {
-        //@ts-ignore
+    else
         target.then(() =>
             decreaseCount(SpriteMaterial, target.materialParamString!)
         )
-    }
     const paramString = JSON.stringify(target.materialParams)
     target.material = increaseCount(
         SpriteMaterial,
@@ -75,9 +74,10 @@ const defaults = Object.fromEntries(
 )
 const defaultParams = Object.values(defaults) as Params
 
-export default abstract class TexturedSpriteMixin implements ITexturedBasic {
-    public declare object3d: Sprite
-
+export default abstract class TexturedSpriteMixin
+    extends MeshAppendable<Sprite>
+    implements ITexturedBasic
+{
     public get material() {
         return this.object3d.material
     }

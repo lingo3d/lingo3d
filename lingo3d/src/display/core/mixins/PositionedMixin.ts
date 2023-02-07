@@ -52,7 +52,6 @@ const [addLerpSystem, deleteLerpSystem] = renderSystemWithData(
             Math.abs(self.y - y) < 0.1 &&
             Math.abs(self.z - z) < 0.1
         ) {
-            //@ts-ignore
             self.cancelHandle("lerpTo", undefined)
             self.onMoveToEnd?.()
         }
@@ -94,7 +93,6 @@ const [addMoveSystem, deleteMoveSystem] = renderSystemWithData(
         )
 
         if (data.z > rotated.y) {
-            //@ts-ignore
             self.cancelHandle("lerpTo", undefined)
             self.onMoveToEnd?.()
         }
@@ -103,12 +101,9 @@ const [addMoveSystem, deleteMoveSystem] = renderSystemWithData(
 )
 
 export default abstract class PositionedMixin<T extends Object3D = Object3D>
+    extends MeshAppendable<T>
     implements IPositioned
 {
-    public declare outerObject3d: T
-    public declare object3d: T
-    public declare position: Vector3
-
     public get x() {
         return this.position.x * M2CM
     }
@@ -148,7 +143,6 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
     }
     public set onMove(cb) {
         this._onMove = cb
-        //@ts-ignore
         this.cancelHandle(
             "onMove",
             cb &&
@@ -229,7 +223,6 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
         const from = new Vector3(this.x, this.y, this.z)
         const to = new Vector3(x, y, z)
 
-        //@ts-ignore
         this.cancelHandle("lerpTo", () => {
             addLerpSystem(this, { from, to, alpha, onFrame })
             return new Cancellable(() => deleteLerpSystem(this))
@@ -261,7 +254,6 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
 
         const quad = quadrant(x, z, this.x, this.z)
 
-        //@ts-ignore
         this.cancelHandle("lerpTo", () => {
             addMoveSystem(this, { sx, sy, sz, x, y, z, quad, onFrame })
             return new Cancellable(() => deleteMoveSystem(this))
