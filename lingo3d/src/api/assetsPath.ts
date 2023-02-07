@@ -5,7 +5,7 @@ let assetsPath =
 
 export const setAssetsPath = (val: string) => (assetsPath = val)
 
-setAssetsPath("assets/")
+// setAssetsPath("assets/")
 
 const STATIC_URL = lazy(() => assetsPath)
 
