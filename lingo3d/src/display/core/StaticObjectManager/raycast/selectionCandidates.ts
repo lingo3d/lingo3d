@@ -1,7 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { throttleTrailing } from "@lincode/utils"
 import { Object3D } from "three"
-import StaticObjectManager from ".."
 import Appendable from "../../../../api/core/Appendable"
 import { appendableRoot } from "../../../../api/core/collections"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
@@ -12,6 +11,7 @@ import {
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
 import { StandardMesh } from "../../mixins/TexturedStandardMixin"
+import VisibleMixin from "../../mixins/VisibleMixin"
 import HelperPrimitive from "../../utils/HelperPrimitive"
 import HelperSprite from "../../utils/HelperSprite"
 
@@ -42,9 +42,7 @@ export const addSelectionHelper = (
 }
 
 const traverse = (
-    targets:
-        | Array<Appendable | StaticObjectManager>
-        | Set<Appendable | StaticObjectManager>,
+    targets: Array<Appendable | VisibleMixin> | Set<Appendable | VisibleMixin>,
     frozenSet: Set<Appendable>
 ) => {
     for (const manager of targets) {

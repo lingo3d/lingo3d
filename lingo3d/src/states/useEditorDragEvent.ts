@@ -1,7 +1,7 @@
 import { Point3d } from "@lincode/math"
 import store, { createEffect, createMemo, createRef } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
-import StaticObjectManager from "../display/core/StaticObjectManager"
+import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { raycast } from "../display/core/StaticObjectManager/raycast/pickable"
 import selectionCandidates, {
     unselectableSet
@@ -27,7 +27,7 @@ const snap = (point: Point3d) => {
 createEffect(() => {
     const e = getEditorDragEvent()
     const pointRef = createRef<Point3d>({ x: 0, y: 0, z: 0 })
-    const hitManagerRef = createRef<StaticObjectManager | undefined>()
+    const hitManagerRef = createRef<VisibleMixin | undefined>()
 
     const isDragEvent = e instanceof DragEvent
     const indicator = createMemo(() => {

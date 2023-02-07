@@ -1,5 +1,5 @@
+import { Point3d } from "@lincode/math"
 import { Raycaster, Object3D } from "three"
-import StaticObjectManager from ".."
 import { MouseEventName, mouseEvents } from "../../../../api/mouse"
 import { getManager } from "../../../../api/utils/getManager"
 import { emitSelectionTarget } from "../../../../events/onSelectionTarget"
@@ -10,6 +10,7 @@ import { sceneGraphExpand } from "../../../../states/useSceneGraphExpanded"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { setSelectionNativeTarget } from "../../../../states/useSelectionNativeTarget"
 import { vec2Point } from "../../../utils/vec2Point"
+import VisibleMixin from "../../mixins/VisibleMixin"
 import { physxPtr } from "../../PhysicsObjectManager/physx/physxPtr"
 import { actorPtrManagerMap } from "../../PhysicsObjectManager/physx/pxMaps"
 import {
@@ -22,11 +23,19 @@ const raycaster = new Raycaster()
 
 const filterUnselectable = (target: Object3D) => !unselectableSet.has(target)
 
+type Result =
+    | {
+          point: Point3d
+          distance: number
+          manager: VisibleMixin
+      }
+    | undefined
+
 export const raycast = async (
     x: number,
     y: number,
     candidates: Set<Object3D>
-) => {
+): Promise<Result> => {
     raycaster.setFromCamera({ x, y }, getCameraRendered())
     const intersection = raycaster.intersectObjects(
         [...candidates].filter(filterUnselectable)
@@ -59,7 +68,8 @@ export const raycast = async (
             return {
                 point: vec2Point(pxHit.position),
                 distance: pxHit.distance * M2CM,
-                manager
+                //mark
+                manager: manager as any
             }
         }
     }
@@ -67,11 +77,11 @@ export const raycast = async (
         return {
             point: vec2Point(intersection.point),
             distance: intersection.distance * M2CM,
-            manager: getManager<StaticObjectManager>(intersection.object)!
+            manager: getManager<VisibleMixin>(intersection.object)!
         }
 }
 
-type Then = (obj: StaticObjectManager, e: LingoMouseEvent) => void
+type Then = (obj: VisibleMixin, e: LingoMouseEvent) => void
 
 export default (
     name: MouseEventName | Array<MouseEventName>,
@@ -95,7 +105,8 @@ export default (
                 e.yNorm,
                 point,
                 distance,
-                manager
+                //mark
+                manager as any
             )
         )
     })

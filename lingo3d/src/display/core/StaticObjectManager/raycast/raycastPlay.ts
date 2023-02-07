@@ -1,5 +1,4 @@
 import { createEffect } from "@lincode/reactivity"
-import StaticObjectManager from ".."
 import { mouseEvents } from "../../../../api/mouse"
 import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
 import { clearMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
@@ -16,6 +15,7 @@ import {
     mouseOutSet,
     mouseMoveSet
 } from "./sets"
+import VisibleMixin from "../../mixins/VisibleMixin"
 
 createEffect(() => {
     if (!getWorldPlayComputed()) return
@@ -31,8 +31,8 @@ createEffect(() => {
     )
     const handle2 = pickable("up", mouseUpSet, (obj, e) => obj.onMouseUp?.(e))
 
-    let moveSet = new Set<StaticObjectManager>()
-    let moveSetOld = new Set<StaticObjectManager>()
+    let moveSet = new Set<VisibleMixin>()
+    let moveSetOld = new Set<VisibleMixin>()
 
     const handle3 = pickable("move", mouseOverSet, (obj, e) => {
         moveSet.add(obj)

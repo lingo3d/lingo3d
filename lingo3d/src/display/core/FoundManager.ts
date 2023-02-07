@@ -13,6 +13,7 @@ import MeshAppendable from "../../api/core/MeshAppendable"
 import { appendableRoot } from "../../api/core/collections"
 import { StandardMesh } from "./mixins/TexturedStandardMixin"
 import MixinType from "./mixins/utils/MixinType"
+import { Cancellable } from "@lincode/promiselikes"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -66,12 +67,13 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     }
 
     private managerSet?: boolean
-    public override addToRaycastSet(set: Set<Object3D>) {
+    public addToRaycastSet(set: Set<Object3D>) {
         if (!this.managerSet) {
             this.managerSet = true
             this.object3d.traverse((child) => setManager(child, this))
         }
-        return super.addToRaycastSet(set)
+        set.add(this.object3d)
+        return new Cancellable(() => set.delete(this.object3d))
     }
 }
 interface FoundManager
