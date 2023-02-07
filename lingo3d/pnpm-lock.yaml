@@ -5,7 +5,7 @@ specifiers:
   '@lincode/filetypes': ^1.0.3
   '@lincode/math': ^1.0.8
   '@lincode/promiselikes': ^1.0.25
-  '@lincode/reactivity': ^1.0.82
+  '@lincode/reactivity': ^1.0.83
   '@lincode/utils': ^1.3.19
   '@preact/preset-vite': ^2.5.0
   '@preact/signals': ^1.1.3
@@ -41,7 +41,7 @@ dependencies:
   '@lincode/filetypes': 1.0.3
   '@lincode/math': 1.0.8
   '@lincode/promiselikes': 1.0.25
-  '@lincode/reactivity': 1.0.82
+  '@lincode/reactivity': 1.0.83
   '@lincode/utils': 1.3.19
   '@preact/signals': 1.1.3_preact@10.12.0
   '@types/three': 0.148.0
@@ -580,8 +580,8 @@ packages:
       '@lincode/utils': 1.3.19
     dev: false
 
-  /@lincode/reactivity/1.0.82:
-    resolution: {integrity: sha512-jxNAmUkUDy0RdrDuJQb2jJMt93yx8LvpVr3bcblFqmo/a5PgYsVP5k9xw4g7V7Z6sl3g0i26yVRiQG6Ici+c9g==}
+  /@lincode/reactivity/1.0.83:
+    resolution: {integrity: sha512-PQlUlrfRgCUzLwIT0DTJ8GXNrwGa2ch1c2xO9VDEh+GaF2zt0Akf3/u8CL2n4ObteZ6xKxT2RcJvchUZ7BhGDQ==}
     dependencies:
       '@lincode/events': 1.0.32
       '@lincode/promiselikes': 1.0.25

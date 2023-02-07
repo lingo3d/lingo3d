@@ -1,4 +1,3 @@
-import { throttle } from "@lincode/utils"
 import { Frustum, Object3D } from "three"
 import {
     addOutline,
