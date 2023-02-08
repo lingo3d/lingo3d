@@ -1,23 +1,27 @@
-import { applyMixins } from "@lincode/utils"
+import { applyMixins, forceGetInstance } from "@lincode/utils"
 import { Object3D } from "three"
+import { hiddenAppendables } from "../../api/core/collections"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { onRenderHalfRate } from "../../events/onRenderHalfRate"
 import IVisibleObjectManager from "../../interface/IVisibleObjectManager"
-import renderSystem from "../../utils/renderSystem"
+import renderSystemWithSetup from "../../utils/renderSystemWithSetup"
 import getActualScale from "../utils/getActualScale"
 import getWorldPosition from "../utils/getWorldPosition"
 import MixinType from "./mixins/utils/MixinType"
 import VisibleMixin from "./mixins/VisibleMixin"
 import ObjectManager from "./ObjectManager"
 
-const roundBin = (maxScale: number) => Math.round(maxScale / 50) * 50
+const binSize = 10
 
-const [addSpatialBinSystem, deleteSpatialBinSystem] = renderSystem(
+const roundBin = (maxScale: number) => Math.round(maxScale / binSize) * binSize
+const binKeyManagerMap = new Map<string, Array<VisibleObjectManager>>()
+
+const [addSpatialBinSystem, deleteSpatialBinSystem] = renderSystemWithSetup(
     (target: MeshAppendable) => {
         const scale = getActualScale(target)
+        const center = getWorldPosition(target.outerObject3d)
         const maxScale = roundBin(Math.max(scale.x, scale.y, scale.z))
 
-        const center = getWorldPosition(target.outerObject3d)
         const x = roundBin(center.x)
         const y = roundBin(center.y)
         const z = roundBin(center.z)
@@ -29,7 +33,15 @@ const [addSpatialBinSystem, deleteSpatialBinSystem] = renderSystem(
         const zMin = z - maxScale
         const zMax = z + maxScale
 
-        // return <const>[xMin, xMax, yMin, yMax, zMin, zMax]
+        forceGetInstance(
+            binKeyManagerMap,
+            `${xMin};${xMax};${yMin};${yMax};${zMin};${zMax}`,
+            Array<MeshAppendable>
+        ).push(target)
+    },
+    () => {
+        console.log([...binKeyManagerMap])
+        binKeyManagerMap.clear()
     },
     onRenderHalfRate
 )
@@ -38,9 +50,9 @@ abstract class VisibleObjectManager<T extends Object3D = Object3D>
     extends ObjectManager<T>
     implements IVisibleObjectManager
 {
-    public constructor() {
-        super()
-        addSpatialBinSystem(this)
+    public constructor(object3d?: T, unmounted?: boolean) {
+        super(object3d, unmounted)
+        !hiddenAppendables.has(this) && addSpatialBinSystem(this)
     }
 
     protected override _dispose() {
