@@ -7,7 +7,7 @@ import renderSystemWithSetup from "../../../utils/renderSystemWithSetup"
 import getActualScale from "../../utils/getActualScale"
 import getWorldPosition from "../../utils/getWorldPosition"
 
-const binSize = 10
+const binSize = 5
 
 const roundBin = (maxScale: number) => Math.round(maxScale / binSize) * binSize
 const binKeyManagerMap = new Map<string, Array<VisibleObjectManager>>()
