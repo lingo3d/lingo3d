@@ -66,9 +66,6 @@ const [addHitTestSystem, deleteHitTestSystem] = renderSystem(
     }
 )
 
-//mark
-// deleteHitTestSystem(this)
-
 export default abstract class VisibleMixin<T extends Object3D = Object3D>
     extends MeshAppendable<T>
     implements IVisible
