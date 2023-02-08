@@ -1,7 +1,7 @@
-import throttleFrame from "./throttleFrame"
+import { onAfterRender } from "../events/onAfterRender"
 
 const caches: Array<Map<object, any>> = []
-const queueClearCache = throttleFrame(() => {
+onAfterRender(() => {
     for (const cache of caches) cache.clear()
 })
 
@@ -22,7 +22,6 @@ export default <Item extends object, Return>(
             const result = cb(item)
             //@ts-ignore
             cache.set(item, result.clone())
-            queueClearCache()
             //@ts-ignore
             return result.clone()
         }
@@ -31,7 +30,6 @@ export default <Item extends object, Return>(
         if (cache.has(item)) return cache.get(item)!
         const result = cb(item)
         cache.set(item, result)
-        queueClearCache()
         return result
     }
 }
