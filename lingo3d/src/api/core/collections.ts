@@ -11,4 +11,8 @@ export const uuidMap = new Map<string, Appendable | MeshAppendable>()
 export const eraseAppendable = (appendable: Appendable | MeshAppendable) => {
     hiddenAppendables.add(appendable)
     nonSerializedAppendables.add(appendable)
+    if (!("object3d" in appendable)) return
+    import("../../display/core/VisibleObjectManager").then(
+        ({ deleteSpatialBinSystem }) => deleteSpatialBinSystem(appendable)
+    )
 }

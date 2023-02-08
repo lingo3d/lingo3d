@@ -1,6 +1,5 @@
 import { applyMixins, forceGetInstance } from "@lincode/utils"
 import { Object3D } from "three"
-import { hiddenAppendables } from "../../api/core/collections"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { onRenderHalfRate } from "../../events/onRenderHalfRate"
 import IVisibleObjectManager from "../../interface/IVisibleObjectManager"
@@ -45,6 +44,7 @@ const [addSpatialBinSystem, deleteSpatialBinSystem] = renderSystemWithSetup(
     },
     onRenderHalfRate
 )
+export { deleteSpatialBinSystem }
 
 abstract class VisibleObjectManager<T extends Object3D = Object3D>
     extends ObjectManager<T>
@@ -52,7 +52,7 @@ abstract class VisibleObjectManager<T extends Object3D = Object3D>
 {
     public constructor(object3d?: T, unmounted?: boolean) {
         super(object3d, unmounted)
-        !hiddenAppendables.has(this) && addSpatialBinSystem(this)
+        addSpatialBinSystem(this)
     }
 
     protected override _dispose() {
