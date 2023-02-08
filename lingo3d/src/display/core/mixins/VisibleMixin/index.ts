@@ -29,8 +29,8 @@ import {
     mouseOverSet,
     mouseOutSet,
     mouseMoveSet
-} from "./raycast/sets"
-import "./raycast"
+} from "../../utils/raycast/sets"
+import "../../utils/raycast"
 
 const frustum = new Frustum()
 const updateFrustum = throttleFrameLeading(() => {

@@ -1,17 +1,17 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
-import { mouseEvents } from "../../../../../api/mouse"
-import { onSelectionTarget } from "../../../../../events/onSelectionTarget"
-import { setEditorMode } from "../../../../../states/useEditorMode"
-import { getEditorModeComputed } from "../../../../../states/useEditorModeComputed"
+import { mouseEvents } from "../../../../api/mouse"
+import { onSelectionTarget } from "../../../../events/onSelectionTarget"
+import { setEditorMode } from "../../../../states/useEditorMode"
+import { getEditorModeComputed } from "../../../../states/useEditorModeComputed"
 import {
     getMultipleSelectionTargets,
     clearMultipleSelectionTargets
-} from "../../../../../states/useMultipleSelectionTargets"
+} from "../../../../states/useMultipleSelectionTargets"
 import {
     getSelectionTarget,
     setSelectionTarget
-} from "../../../../../states/useSelectionTarget"
+} from "../../../../states/useSelectionTarget"
 import { overrideSelectionCandidates } from "./selectionCandidates"
 
 createEffect(() => {
@@ -21,7 +21,7 @@ createEffect(() => {
     setSelectionTarget(undefined)
 
     const handle0 = new Cancellable()
-    import("../../../../Curve").then(({ default: Curve }) => {
+    import("../../../Curve").then(({ default: Curve }) => {
         if (handle0.done) return
 
         const curve = new Curve()

@@ -2,10 +2,10 @@ import { Point3d } from "@lincode/math"
 import store, { createEffect, createMemo, createRef } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
-import { raycast } from "../display/core/mixins/VisibleMixin/raycast/pickable"
+import { raycast } from "../display/core/utils/raycast/pickable"
 import selectionCandidates, {
     unselectableSet
-} from "../display/core/mixins/VisibleMixin/raycast/selectionCandidates"
+} from "../display/core/utils/raycast/selectionCandidates"
 import HelperSphere from "../display/core/utils/HelperSphere"
 import clientToWorld from "../display/utils/clientToWorld"
 import normalizeClientPosition from "../display/utils/normalizeClientPosition"

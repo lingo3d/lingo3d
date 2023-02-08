@@ -9,7 +9,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import {
     overrideSelectionCandidates,
     unselectableSet
-} from "./core/mixins/VisibleMixin/raycast/selectionCandidates"
+} from "./core/utils/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
 import MeshAppendable from "../api/core/MeshAppendable"
 import { getEditorHelper } from "../states/useEditorHelper"

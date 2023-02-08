@@ -6,7 +6,7 @@ import ISpawnPoint, {
 import ObjectManager from "./core/ObjectManager"
 import SimpleObjectManager from "./core/SimpleObjectManager"
 import scene from "../engine/scene"
-import { addSelectionHelper } from "./core/mixins/VisibleMixin/raycast/selectionCandidates"
+import { addSelectionHelper } from "./core/utils/raycast/selectionCandidates"
 import HelperCylinder from "./core/utils/HelperCylinder"
 import { getEditorHelper } from "../states/useEditorHelper"
 

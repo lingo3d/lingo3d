@@ -17,7 +17,7 @@ import {
     ShadowResolution
 } from "../../states/useShadowResolution"
 import ObjectManager from "./ObjectManager"
-import { addSelectionHelper } from "./mixins/VisibleMixin/raycast/selectionCandidates"
+import { addSelectionHelper } from "./utils/raycast/selectionCandidates"
 import HelperSprite from "./utils/HelperSprite"
 import { addUpdateSystem, deleteUpdateSystem } from "./utils/updateSystem"
 
