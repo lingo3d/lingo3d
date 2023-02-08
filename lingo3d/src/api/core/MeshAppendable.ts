@@ -1,12 +1,12 @@
 import { forceGetInstance } from "@lincode/utils"
 import { Object3D, PropertyBinding, Quaternion, Vector3 } from "three"
 import getActualScale from "../../display/utils/getActualScale"
-import getCenter from "../../display/utils/getCenter"
 import getWorldDirection from "../../display/utils/getWorldDirection"
 import getWorldPosition from "../../display/utils/getWorldPosition"
 import { ray, vector3 } from "../../display/utils/reusables"
 import { vec2Point } from "../../display/utils/vec2Point"
 import { emitName } from "../../events/onName"
+import { onRenderHalfRate } from "../../events/onRenderHalfRate"
 import { CM2M } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
 import renderSystem from "../../utils/renderSystem"
@@ -63,7 +63,8 @@ const [addSpatialBinSystem, deleteSpatialBinSystem] = renderSystem(
         const zMax = z + maxScale
 
         // return <const>[xMin, xMax, yMin, yMax, zMin, zMax]
-    }
+    },
+    onRenderHalfRate
 )
 
 export default class MeshAppendable<T extends Object3D = Object3D>
