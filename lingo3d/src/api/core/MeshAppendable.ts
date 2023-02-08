@@ -1,15 +1,12 @@
 import { forceGetInstance } from "@lincode/utils"
 import { Object3D, PropertyBinding, Quaternion, Vector3 } from "three"
-import getActualScale from "../../display/utils/getActualScale"
 import getWorldDirection from "../../display/utils/getWorldDirection"
 import getWorldPosition from "../../display/utils/getWorldPosition"
 import { ray, vector3 } from "../../display/utils/reusables"
 import { vec2Point } from "../../display/utils/vec2Point"
 import { emitName } from "../../events/onName"
-import { onRenderHalfRate } from "../../events/onRenderHalfRate"
 import { CM2M } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
-import renderSystem from "../../utils/renderSystem"
 import { setManager } from "../utils/getManager"
 import Appendable from "./Appendable"
 import { uuidMap } from "./collections"
@@ -43,30 +40,6 @@ export const getMeshAppendables = (
     return [val]
 }
 
-const roundBin = (maxScale: number) => Math.round(maxScale / 50) * 50
-
-const [addSpatialBinSystem, deleteSpatialBinSystem] = renderSystem(
-    (target: MeshAppendable) => {
-        const scale = getActualScale(target)
-        const maxScale = roundBin(Math.max(scale.x, scale.y, scale.z))
-
-        const center = getWorldPosition(target.outerObject3d)
-        const x = roundBin(center.x)
-        const y = roundBin(center.y)
-        const z = roundBin(center.z)
-
-        const xMin = x - maxScale
-        const xMax = x + maxScale
-        const yMin = y - maxScale
-        const yMax = y + maxScale
-        const zMin = z - maxScale
-        const zMax = z + maxScale
-
-        // return <const>[xMin, xMax, yMin, yMax, zMin, zMax]
-    },
-    onRenderHalfRate
-)
-
 export default class MeshAppendable<T extends Object3D = Object3D>
     extends Appendable
     implements IMeshAppendable
@@ -83,7 +56,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         this.position = outerObject3d.position
         this.quaternion = outerObject3d.quaternion
         this.userData = outerObject3d.userData
-        addSpatialBinSystem(this)
     }
 
     public declare parent?: MeshAppendable
@@ -112,7 +84,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         super._dispose()
         this._id && userIdMap.get(this._id)!.delete(this)
         this.outerObject3d.parent?.remove(this.outerObject3d)
-        deleteSpatialBinSystem(this)
     }
 
     public get name() {
