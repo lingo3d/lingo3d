@@ -1,11 +1,15 @@
-import { lazy } from "@lincode/utils"
+import { forceGetInstance, lazy } from "@lincode/utils"
 import { gravityPtr } from "../../../../states/useGravity"
 import { setPhysXLoaded } from "../../../../states/usePhysXLoaded"
 import { destroyPtr } from "./destroy"
 import "./physxLoop"
 import { physxPtr } from "./physxPtr"
 import { simd } from "wasm-feature-detect"
-import { actorPtrManagerMap } from "./pxMaps"
+import {
+    actorPtrManagerMap,
+    managerContactMap,
+    queueClearContactMap
+} from "./pxMaps"
 
 const simdSupported = await simd()
 
@@ -216,11 +220,11 @@ const getInsertionCallback = lazy(() => physics.getPhysicsInsertionCallback())
 //create simulation event callback
 const simulationEventCallback = new PxSimulationEventCallbackImpl()
 simulationEventCallback.onContact = (
-    pairHeader: any,
-    pairs: any,
-    nbPairs: any
+    pairHeader: any
+    // pairs: any,
+    // nbPairs: any
 ) => {
-    const pairsWrapped = wrapPointer(pairs, PxContactPair)
+    // const pairsWrapped = wrapPointer(pairs, PxContactPair)
     const pairHeaderWrapped = wrapPointer(pairHeader, PxContactPairHeader)
     const manager0 = actorPtrManagerMap.get(
         pairHeaderWrapped.get_actors(0).ptr
@@ -228,7 +232,9 @@ simulationEventCallback.onContact = (
     const manager1 = actorPtrManagerMap.get(
         pairHeaderWrapped.get_actors(1).ptr
     )!
-    //mark
+    forceGetInstance(managerContactMap, manager0, WeakSet).add(manager1)
+    forceGetInstance(managerContactMap, manager1, WeakSet).add(manager0)
+    queueClearContactMap()
 }
 
 // create scene

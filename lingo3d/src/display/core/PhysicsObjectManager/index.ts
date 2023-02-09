@@ -9,6 +9,7 @@ import {
     actorPtrManagerMap,
     managerActorMap,
     managerActorPtrMap,
+    managerContactMap,
     managerControllerMap
 } from "./physx/pxMaps"
 import scene from "../../../engine/scene"
@@ -399,5 +400,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     public override set scaleZ(val) {
         super.scaleZ = val
         this.updatePhysicsShape()
+    }
+
+    //@ts-ignore
+    public override hitTest(target: MeshAppendable | PhysicsObjectManager) {
+        if (this._physics && "_physics" in target && target._physics)
+            return !!managerContactMap.get(this)?.has(target)
+
+        return false
     }
 }
