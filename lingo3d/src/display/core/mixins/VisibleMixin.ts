@@ -33,7 +33,6 @@ import {
 import "../utils/raycast"
 import { xMinMap } from "../VisibleObjectManager/spatialBinSystem"
 import { CM2M } from "../../../globals"
-import VisibleObjectManager from "../VisibleObjectManager"
 
 const frustum = new Frustum()
 const updateFrustum = throttleFrameLeading(() => {
@@ -210,11 +209,11 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         )
     }
 
-    public findByDistance(distance: number) {
+    public spatialQuery(distance: number) {
         distance *= CM2M
         const { x, y, z } = getWorldPosition(this.outerObject3d)
 
-        const result: Array<VisibleObjectManager> = []
+        const result: Array<any> = []
 
         for (const [xMin, xMaxMap] of xMinMap) {
             if (xMin > x + distance) continue
@@ -229,7 +228,6 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
                             for (const [zMax, targets] of zMaxMap) {
                                 if (zMax < z - distance) continue
                                 for (const target of targets) {
-                                    //@ts-ignore
                                     if (target === this) continue
                                     result.push(target)
                                 }

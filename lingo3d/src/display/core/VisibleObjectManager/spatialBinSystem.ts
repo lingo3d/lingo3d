@@ -1,5 +1,4 @@
 import { forceGetInstance } from "@lincode/utils"
-import VisibleObjectManager from "."
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { onRenderHalfRate } from "../../../events/onRenderHalfRate"
 import renderSystemWithSetup from "../../../utils/renderSystemWithSetup"
@@ -8,7 +7,7 @@ import getWorldPosition from "../../utils/getWorldPosition"
 
 const binSize = 5
 
-type ZMaxMap = Map<number, Array<VisibleObjectManager>>
+type ZMaxMap = Map<number, Array<any>>
 type ZMinMap = Map<number, ZMaxMap>
 type YMaxMap = Map<number, ZMinMap>
 type YMinMap = Map<number, YMaxMap>
@@ -58,7 +57,7 @@ export const [addSpatialBinSystem, deleteSpatialBinSystem] =
             const zMaxMap = forceGetInstance(
                 zMinMap,
                 zMin,
-                Map<number, Array<VisibleObjectManager>>
+                Map<number, Array<any>>
             )
             forceGetInstance(zMaxMap, zMax, Array).push(target)
         },
