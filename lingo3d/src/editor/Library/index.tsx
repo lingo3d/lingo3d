@@ -51,7 +51,6 @@ const Library = () => {
                         // { reticle: "htmlMesh" },
                         { splashScreen: "screen" },
                         "text",
-                        "trigger",
                         "spawnPoint",
                         "audio",
                         "reflector",

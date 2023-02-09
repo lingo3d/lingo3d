@@ -17,7 +17,6 @@ export type GameObjectType =
     | "curve"
     | "sprite"
     | "spriteSheet"
-    | "trigger"
     | "spawnPoint"
     | "sphericalJoint"
     | "fixedJoint"

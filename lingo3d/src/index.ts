@@ -24,7 +24,6 @@ import Group from "./display/Group"
 
 import Curve from "./display/Curve"
 import Line from "./display/Line"
-import Trigger from "./display/Trigger"
 import SpawnPoint from "./display/SpawnPoint"
 
 import SphericalJoint from "./display/joints/SphericalJoint"
@@ -117,7 +116,6 @@ export {
     Group,
     Curve,
     Line,
-    Trigger,
     SpawnPoint,
     SphericalJoint,
     FixedJoint,

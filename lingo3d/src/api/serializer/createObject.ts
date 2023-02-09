@@ -40,7 +40,6 @@ import Environment from "../../display/Environment"
 import Setup from "../../display/Setup"
 import Timeline from "../../display/Timeline"
 import TimelineAudio from "../../display/TimelineAudio"
-import Trigger from "../../display/Trigger"
 import SpawnPoint from "../../display/SpawnPoint"
 import SphericalJoint from "../../display/joints/SphericalJoint"
 import FixedJoint from "../../display/joints/FixedJoint"
@@ -67,7 +66,6 @@ const record = {
     curve: () => new Curve(),
     sprite: () => new Sprite(),
     spriteSheet: () => new SpriteSheet(),
-    trigger: () => new Trigger(),
     spawnPoint: () => new SpawnPoint(),
     sphericalJoint: () => new SphericalJoint(),
     fixedJoint: () => new FixedJoint(),
