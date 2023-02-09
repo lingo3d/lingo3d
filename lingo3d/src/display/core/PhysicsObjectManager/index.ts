@@ -407,6 +407,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         if (this._physics && "_physics" in target && target._physics)
             return !!managerContactMap.get(this)?.has(target)
 
-        return false
+        return super.hitTest(target)
     }
 }
