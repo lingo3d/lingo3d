@@ -1,3 +1,4 @@
+import { Point3d } from "@lincode/math"
 import { Raycaster, Object3D } from "three"
 import { MouseEventName, mouseEvents } from "../../../../api/mouse"
 import { getManager } from "../../../../api/utils/getManager"
@@ -22,11 +23,18 @@ const raycaster = new Raycaster()
 
 const filterUnselectable = (target: Object3D) => !unselectableSet.has(target)
 
-export const raycast = async (
+type RaycastResult = {
+    point: Point3d
+    distance: number
+    normal: { x: number; y: number; z: number }
+    manager: VisibleMixin
+}
+
+export const raycast = (
     x: number,
     y: number,
     candidates: Set<Object3D>
-) => {
+): RaycastResult | undefined => {
     raycaster.setFromCamera({ x, y }, getCameraRendered())
     const intersection = raycaster.intersectObjects(
         [...candidates].filter(filterUnselectable)
@@ -46,16 +54,20 @@ export const raycast = async (
         assignPxVec_(raycaster.ray.direction),
         FAR
     )
-    if (pxHit && (!intersection || pxHit.distance < intersection.distance))
+    if (pxHit && (!intersection || pxHit.distance < intersection.distance)) {
+        const { x, y, z } = pxHit.normal
         return {
             point: vec2Point(pxHit.position),
             distance: pxHit.distance * M2CM,
+            normal: { x, y, z },
             manager: actorPtrManagerMap.get(pxHit.actor.ptr)!
         }
+    }
     if (intersection)
         return {
             point: vec2Point(intersection.point),
             distance: intersection.distance * M2CM,
+            normal: intersection.face!.normal,
             manager: getManager<VisibleMixin>(intersection.object)!
         }
 }
@@ -66,10 +78,10 @@ export default (
     name: MouseEventName | Array<MouseEventName>,
     candidates: Set<Object3D>,
     then: Then
-) => {
-    const handle = mouseEvents.on(name, async (e) => {
-        const result = await raycast(e.xNorm, e.yNorm, candidates)
-        if (!result || handle.done) return
+) =>
+    mouseEvents.on(name, (e) => {
+        const result = raycast(e.xNorm, e.yNorm, candidates)
+        if (!result) return
 
         const { point, distance, manager } = result
 
@@ -88,5 +100,3 @@ export default (
             )
         )
     })
-    return handle
-}

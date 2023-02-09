@@ -49,13 +49,11 @@ createEffect(() => {
 
     let done = false
     const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
-    raycast(xNorm, yNorm, selectionCandidates).then((hit) => {
-        if (done) return
-        hitManagerRef.current = hit?.manager
-        const point = hit?.point ?? clientToWorld(e.clientX, e.clientY)
-        Object.assign(indicator, point)
-        pointRef.current = point
-    })
+    const hit = raycast(xNorm, yNorm, selectionCandidates)
+    hitManagerRef.current = hit?.manager
+    const point = hit?.point ?? clientToWorld(e.clientX, e.clientY)
+    Object.assign(indicator, point)
+    pointRef.current = point
     return () => {
         done = true
         !(getEditorDragEvent() instanceof DragEvent) && indicator.dispose()

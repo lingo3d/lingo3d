@@ -25,7 +25,7 @@ timer(100, -1, () => {
     box.physics = true
     box.id = "box"
 
-    setTimeout(() => {
-        box.dispose()
-    }, 10000)
+    // setTimeout(() => {
+    //     box.dispose()
+    // }, 10000)
 })
