@@ -1,6 +1,5 @@
 import settings from "../api/settings"
 import Cube from "../display/primitives/Cube"
-import Sphere from "../display/primitives/Sphere"
 import { timer } from "../engine/eventLoop"
 
 const ground = new Cube()
@@ -21,21 +20,3 @@ timer(100, -1, () => {
         box.dispose()
     }, 10000)
 })
-
-const center = new Sphere()
-center.color = "red"
-center.scale = 0.5
-center.y = 600
-
-let foundOld: Array<any> = []
-
-setInterval(() => {
-    for (const old of foundOld) {
-        old.color = "white"
-    }
-    for (const found of (foundOld = center
-        .spatialQuery(200)
-        .filter((v) => v.physics !== "map"))) {
-        found.color = "red"
-    }
-}, 100)
