@@ -31,6 +31,9 @@ import {
     mouseMoveSet
 } from "../utils/raycast/sets"
 import "../utils/raycast"
+import { xMinMap } from "../VisibleObjectManager/spatialBinSystem"
+import { CM2M } from "../../../globals"
+import VisibleObjectManager from "../VisibleObjectManager"
 
 const frustum = new Frustum()
 const updateFrustum = throttleFrameLeading(() => {
@@ -205,6 +208,38 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
             "onMouseMove",
             cb && (() => this.addToRaycastSet(mouseMoveSet))
         )
+    }
+
+    public findByDistance(distance: number) {
+        distance *= CM2M
+        const { x, y, z } = getWorldPosition(this.outerObject3d)
+
+        const result: Array<VisibleObjectManager> = []
+
+        for (const [xMin, xMaxMap] of xMinMap) {
+            if (xMin > x + distance) continue
+            for (const [xMax, yMinMap] of xMaxMap) {
+                if (xMax < x - distance) continue
+                for (const [yMin, yMaxMap] of yMinMap) {
+                    if (yMin > y + distance) continue
+                    for (const [yMax, zMinMap] of yMaxMap) {
+                        if (yMax < y - distance) continue
+                        for (const [zMin, zMaxMap] of zMinMap) {
+                            if (zMin > z + distance) continue
+                            for (const [zMax, targets] of zMaxMap) {
+                                if (zMax < z - distance) continue
+                                for (const target of targets) {
+                                    //@ts-ignore
+                                    if (target === this) continue
+                                    result.push(target)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result
     }
 
     public hitTest(target: MeshAppendable) {

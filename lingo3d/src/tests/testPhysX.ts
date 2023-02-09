@@ -1,6 +1,7 @@
 import settings from "../api/settings"
-import Model from "../display/Model"
+import VisibleObjectManager from "../display/core/VisibleObjectManager"
 import Cube from "../display/primitives/Cube"
+import Sphere from "../display/primitives/Sphere"
 import { timer } from "../engine/eventLoop"
 
 const ground = new Cube()
@@ -19,5 +20,26 @@ timer(100, -1, () => {
 
     setTimeout(() => {
         box.dispose()
-    }, 5000)
+    }, 10000)
 })
+
+const center = new Sphere()
+center.color = "red"
+center.scale = 0.5
+center.y = 600
+
+let foundOld: Array<VisibleObjectManager> = []
+
+setInterval(() => {
+    for (const old of foundOld) {
+        //@ts-ignore
+        old.color = "white"
+    }
+    for (const found of (foundOld = center
+        .findByDistance(200)
+        //@ts-ignore
+        .filter((v) => v.physics !== "map"))) {
+        //@ts-ignore
+        found.color = "red"
+    }
+}, 100)
