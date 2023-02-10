@@ -17,6 +17,7 @@ export class LingoMouseEvent {
         public xNorm: number,
         public yNorm: number,
         public point: Point3d,
+        public normal: Point3d,
         public distance: number,
         public target: VisibleMixin | undefined
     ) {}

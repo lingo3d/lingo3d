@@ -83,7 +83,7 @@ export default (
         const result = raycast(e.xNorm, e.yNorm, candidates)
         if (!result) return
 
-        const { point, distance, manager } = result
+        const { point, distance, manager, normal } = result
 
         then(
             manager,
@@ -95,6 +95,7 @@ export default (
                 e.xNorm,
                 e.yNorm,
                 point,
+                normal,
                 distance,
                 manager
             )

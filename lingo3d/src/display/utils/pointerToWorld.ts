@@ -24,6 +24,7 @@ export default (ev: { clientX: number; clientY: number }) => {
             0,
             0,
             new Point3d(0, 0, 0),
+            new Point3d(0, 0, 0),
             distance,
             undefined
         )
@@ -43,6 +44,7 @@ export default (ev: { clientX: number; clientY: number }) => {
         xNorm,
         yNorm,
         vec2Point(cameraPosition.add(vector3.multiplyScalar(distance * CM2M))),
+        new Point3d(0, 0, 0),
         distance,
         undefined
     )
