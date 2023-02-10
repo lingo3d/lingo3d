@@ -21,7 +21,7 @@ createEffect(() => {
     const timeline = getTimeline()
     if (!timeline) return
 
-    const handle = timeline.animDataState.get(setTimelineData)
+    const handle = timeline.timelineDataState.get(setTimelineData)
     return () => {
         handle.cancel()
         setTimelineData([undefined])

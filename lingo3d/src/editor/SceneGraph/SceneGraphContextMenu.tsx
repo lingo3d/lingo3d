@@ -148,7 +148,7 @@ const SceneGraphContextMenu = () => {
                         >
                             {selectionTarget === timeline
                                 ? "Already editing"
-                                : "Edit timeline"}
+                                : "Edit Timeline"}
                         </ContextMenuItem>
                     ) : selectionTarget instanceof GameGraph ? (
                         <ContextMenuItem
@@ -220,8 +220,17 @@ const SceneGraphContextMenu = () => {
                                 >
                                     {timelineData &&
                                     selectionTarget.uuid in timelineData
-                                        ? "Already in timeline"
-                                        : "Add to timeline"}
+                                        ? "Already in Timeline"
+                                        : "Add to Timeline"}
+                                </ContextMenuItem>
+
+                                <ContextMenuItem
+                                    disabled={!gameGraph}
+                                    onClick={() => {
+                                        setPosition(undefined)
+                                    }}
+                                >
+                                    Add to GameGraph
                                 </ContextMenuItem>
 
                                 <ContextMenuItem

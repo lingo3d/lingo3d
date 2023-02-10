@@ -73,7 +73,7 @@ export default class AnimationManager
 
     private actionState = new Reactive<AnimationAction | undefined>(undefined)
     private clipState = new Reactive<AnimationClip | undefined>(undefined)
-    public animDataState = new Reactive<[AnimationData | undefined]>([
+    public timelineDataState = new Reactive<[AnimationData | undefined]>([
         undefined
     ])
     private gotoFrameState = new Reactive<number | undefined>(undefined)
@@ -144,7 +144,7 @@ export default class AnimationManager
         }, [onFinishState.get, this.pausedState.get, finishEventState?.get])
 
         this.createEffect(() => {
-            const [data] = this.animDataState.get()
+            const [data] = this.timelineDataState.get()
             if (!data) {
                 this.clipState.set(clip)
                 this.audioTotalFrames = 0
@@ -192,7 +192,7 @@ export default class AnimationManager
             return () => {
                 handle.cancel()
             }
-        }, [this.animDataState.get])
+        }, [this.timelineDataState.get])
 
         let frame: number | undefined
         this.createEffect(() => {
@@ -292,20 +292,20 @@ export default class AnimationManager
     }
 
     public get data() {
-        return this.animDataState.get()[0]
+        return this.timelineDataState.get()[0]
     }
     public set data(val: AnimationData | undefined) {
-        this.animDataState.set([val])
+        this.timelineDataState.set([val])
     }
 
     public mergeData(data: AnimationData) {
-        const [prevData] = this.animDataState.get()
+        const [prevData] = this.timelineDataState.get()
         if (!prevData) {
-            this.animDataState.set([data])
+            this.timelineDataState.set([data])
             return
         }
         merge(prevData, data)
-        this.animDataState.set([prevData])
+        this.timelineDataState.set([prevData])
     }
 
     public get frame() {
