@@ -18,7 +18,7 @@ const CloseableTab = ({
 
     return (
         <div
-            className="lingo3d-bg lingo3d-flexcenter"
+            className="lingo3d-flexcenter"
             style={{
                 opacity: disabled ? 0.1 : 1,
                 pointerEvents: disabled ? "none" : "auto",
@@ -28,8 +28,8 @@ const CloseableTab = ({
                 paddingLeft: 12,
                 background:
                     selectedSignal.value === id
-                        ? "rgba(255, 255, 255, 0.1)"
-                        : undefined
+                        ? "rgba(255, 255, 255, 0.05)"
+                        : "rgba(255, 255, 255, 0.02)"
             }}
             onClick={disabled ? undefined : () => (selectedSignal.value = id)}
         >

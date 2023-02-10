@@ -30,4 +30,3 @@ export const PANELS_HEIGHT = 200
 export const CONTEXT_MENU_ITEM_HEIGHT = 25
 export const LIBRARY_WIDTH = 200
 export const EDITOR_WIDTH = 300
-export const NODES_WIDTH = 500
