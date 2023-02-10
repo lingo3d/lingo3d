@@ -33,6 +33,8 @@ import {
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { rightClickPtr } from "../../api/mouse"
+import { getGameGraph, setGameGraph } from "../../states/useGameGraph"
+import GameGraph from "../../display/GameGraph"
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<
@@ -43,6 +45,7 @@ const SceneGraphContextMenu = () => {
     const [selectionFrozen] = useSyncState(getSelectionFrozen)
     const [timelineData] = useSyncState(getTimelineData)
     const timeline = useSyncState(getTimeline)
+    const gameGraph = useSyncState(getGameGraph)
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionFocus = useSyncState(getSelectionFocus)
 
@@ -146,6 +149,18 @@ const SceneGraphContextMenu = () => {
                             {selectionTarget === timeline
                                 ? "Already editing"
                                 : "Edit timeline"}
+                        </ContextMenuItem>
+                    ) : selectionTarget instanceof GameGraph ? (
+                        <ContextMenuItem
+                            disabled={selectionTarget === gameGraph}
+                            onClick={() => {
+                                setGameGraph(selectionTarget)
+                                setPosition(undefined)
+                            }}
+                        >
+                            {selectionTarget === gameGraph
+                                ? "Already editing"
+                                : "Edit GameGraph"}
                         </ContextMenuItem>
                     ) : (
                         selectionTarget &&

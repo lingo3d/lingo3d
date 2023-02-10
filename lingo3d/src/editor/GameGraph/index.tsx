@@ -1,6 +1,5 @@
-import timeline from "wavesurfer.js/src/plugin/timeline"
 import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
-import { setTimeline } from "../../states/useTimeline"
+import { setGameGraph } from "../../states/useGameGraph"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
 import useInitCSS from "../hooks/useInitCSS"
@@ -17,11 +16,7 @@ const GameGraph = () => {
                 style={{ width: EDITOR_WIDTH + LIBRARY_WIDTH }}
             >
                 <AppBar>
-                    <CloseableTab
-                        onClose={
-                            timeline ? () => setTimeline(undefined) : undefined
-                        }
-                    >
+                    <CloseableTab onClose={() => setGameGraph(undefined)}>
                         GameGraph
                     </CloseableTab>
                 </AppBar>

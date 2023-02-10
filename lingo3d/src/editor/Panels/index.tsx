@@ -43,9 +43,8 @@ const Panels = () => {
             <div style={{ display: "flex" }}>
                 <AppBar selectedSignal={selectedSignal} style={{ width: 200 }}>
                     <CloseableTab
-                        onClose={
-                            timeline ? () => setTimeline(undefined) : undefined
-                        }
+                        disabled={!timeline}
+                        onClose={() => setTimeline(undefined)}
                     >
                         timeline
                     </CloseableTab>
