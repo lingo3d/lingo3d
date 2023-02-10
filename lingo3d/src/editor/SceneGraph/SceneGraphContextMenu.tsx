@@ -35,6 +35,7 @@ import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { rightClickPtr } from "../../api/mouse"
 import { getGameGraph, setGameGraph } from "../../states/useGameGraph"
 import GameGraph from "../../display/GameGraph"
+import { getGameGraphData } from "../../states/useGameGraphData"
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<
@@ -44,6 +45,7 @@ const SceneGraphContextMenu = () => {
     const nativeTarget = useSyncState(getSelectionNativeTarget)
     const [selectionFrozen] = useSyncState(getSelectionFrozen)
     const [timelineData] = useSyncState(getTimelineData)
+    const [gameGraphData] = useSyncState(getGameGraphData)
     const timeline = useSyncState(getTimeline)
     const gameGraph = useSyncState(getGameGraph)
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
@@ -225,12 +227,24 @@ const SceneGraphContextMenu = () => {
                                 </ContextMenuItem>
 
                                 <ContextMenuItem
-                                    disabled={!gameGraph}
+                                    disabled={
+                                        !gameGraphData ||
+                                        selectionTarget.uuid in gameGraphData
+                                    }
                                     onClick={() => {
+                                        gameGraph?.mergeData({
+                                            [selectionTarget.uuid]: {
+                                                x: 0,
+                                                y: 0
+                                            }
+                                        })
                                         setPosition(undefined)
                                     }}
                                 >
-                                    Add to GameGraph
+                                    {gameGraphData &&
+                                    selectionTarget.uuid in gameGraphData
+                                        ? "Already in GameGraph"
+                                        : "Add to GameGraph"}
                                 </ContextMenuItem>
 
                                 <ContextMenuItem
