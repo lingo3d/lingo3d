@@ -1,7 +1,5 @@
 import { Reactive } from "@lincode/reactivity"
-import Appendable from "../api/core/Appendable"
-import { getMeshAppendables } from "../api/core/MeshAppendable"
-import PhysicsObjectManager from "./core/PhysicsObjectManager"
+import Appendable, { getAppendables } from "../api/core/Appendable"
 
 export default class Connector extends Appendable {
     public constructor() {
@@ -9,14 +7,10 @@ export default class Connector extends Appendable {
 
         this.createEffect(() => {
             const { _to, _from } = this
+            if (!_from || !_to) return
 
-            // const [toManager] = getMeshAppendables(_to)
-            // const [fromManager] = getMeshAppendables(_from)
-            // if (
-            //     !(toManager instanceof PhysicsObjectManager) ||
-            //     !(fromManager instanceof PhysicsObjectManager)
-            // )
-            //     return
+            const [toManager] = getAppendables(_to)
+            const [fromManager] = getAppendables(_from)
         }, [this.refreshState.get])
     }
 

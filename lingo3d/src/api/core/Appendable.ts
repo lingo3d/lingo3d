@@ -1,5 +1,6 @@
 import { Cancellable, Disposable } from "@lincode/promiselikes"
 import { GetGlobalState, createEffect, Reactive } from "@lincode/reactivity"
+import { forceGetInstance } from "@lincode/utils"
 import { nanoid } from "nanoid"
 import { timer } from "../../engine/eventLoop"
 import { emitDispose } from "../../events/onDispose"
@@ -10,11 +11,40 @@ import renderSystem from "../../utils/renderSystem"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { appendableRoot, uuidMap } from "./collections"
-import MeshAppendable from "./MeshAppendable"
+import type MeshAppendable from "./MeshAppendable"
 
 const [addLoopSystem, deleteLoopSystem] = renderSystem((cb: () => void) => {
     cb()
 }, onLoop)
+
+const userIdMap = new Map<string, Set<Appendable>>()
+
+export const getAppendablesById = (
+    id: string
+): Array<Appendable | MeshAppendable> | Set<Appendable | MeshAppendable> => {
+    const uuidInstance = uuidMap.get(id)
+    if (uuidInstance && "object3d" in uuidInstance) return [uuidInstance]
+    return userIdMap.get(id) ?? []
+}
+
+const isStringArray = (array: Array<unknown>): array is Array<string> =>
+    typeof array[0] === "string"
+
+export const getAppendables = (
+    val: string | Array<string> | Appendable | Array<Appendable>
+): Array<Appendable | MeshAppendable> | Set<Appendable | MeshAppendable> => {
+    if (typeof val === "string") return getAppendablesById(val)
+    if (Array.isArray(val)) {
+        const result: Array<Appendable> = []
+        if (isStringArray(val))
+            for (const id of val)
+                for (const appendable of getAppendablesById(id))
+                    result.push(appendable)
+        else for (const appendable of val) result.push(appendable)
+        return result
+    }
+    return [val]
+}
 
 export default class Appendable extends Disposable implements IAppendable {
     public constructor() {
@@ -63,7 +93,8 @@ export default class Appendable extends Disposable implements IAppendable {
     }
 
     protected _dispose() {
-        this._uuid !== undefined && uuidMap.delete(this._uuid)
+        this._uuid && uuidMap.delete(this._uuid)
+        this._id && userIdMap.get(this._id)!.delete(this)
         if (this.handles)
             for (const handle of this.handles.values()) handle.cancel()
 
@@ -101,15 +132,25 @@ export default class Appendable extends Disposable implements IAppendable {
         return false
     }
 
+    protected _id?: string
+    public get id() {
+        return this._id
+    }
+    public set id(val) {
+        this._id && userIdMap.get(this._id)!.delete(this)
+        this._id = val
+        val && forceGetInstance(userIdMap, val, Set).add(this)
+    }
+
     private _uuid?: string
     public get uuid() {
-        if (this._uuid !== undefined) return this._uuid
+        if (this._uuid) return this._uuid
         const val = (this._uuid = nanoid())
         uuidMap.set(val, this)
         return val
     }
     public set uuid(val) {
-        if (this._uuid !== undefined) return
+        if (this._uuid) return
         this._uuid = val
         uuidMap.set(val, this)
     }

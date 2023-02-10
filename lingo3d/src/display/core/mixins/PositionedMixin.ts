@@ -7,9 +7,8 @@ import {
 } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Object3D, Quaternion, Vector3 } from "three"
-import MeshAppendable, {
-    getMeshAppendablesById
-} from "../../../api/core/MeshAppendable"
+import { getAppendablesById } from "../../../api/core/Appendable"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 import { fpsRatioPtr } from "../../../engine/eventLoop"
 import {
     TransformControlsMode,
@@ -184,8 +183,8 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
 
     public placeAt(target: MeshAppendable | Point3d | SpawnPoint | string) {
         if (typeof target === "string") {
-            const [found] = getMeshAppendablesById(target)
-            if (!found) return
+            const [found] = getAppendablesById(target)
+            if (!(found instanceof MeshAppendable)) return
             target = found
         }
         if ("outerObject3d" in target) {

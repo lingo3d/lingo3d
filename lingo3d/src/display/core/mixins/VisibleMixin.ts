@@ -2,9 +2,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { forceGetInstance } from "@lincode/utils"
 import { Frustum, Matrix3, Object3D } from "three"
 import { OBB } from "three/examples/jsm/math/OBB"
-import MeshAppendable, {
-    getMeshAppendables
-} from "../../../api/core/MeshAppendable"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 import {
     addOutline,
     deleteOutline
@@ -31,6 +29,7 @@ import {
     mouseMoveSet
 } from "../utils/raycast/sets"
 import "../utils/raycast"
+import { getAppendables } from "../../../api/core/Appendable"
 
 const frustum = new Frustum()
 const updateFrustum = throttleFrameLeading(() => {
@@ -49,7 +48,8 @@ const targetOBB = new OBB()
 const hitCache = new WeakMap<VisibleMixin, WeakSet<VisibleMixin>>()
 const [addHitTestSystem, deleteHitTestSystem] = renderSystem(
     (manager: VisibleMixin) => {
-        for (const target of getMeshAppendables(manager.hitTarget!)) {
+        for (const target of getAppendables(manager.hitTarget!)) {
+            if (!("object3d" in target)) return
             const cache = forceGetInstance(hitCache, manager, WeakSet)
             if (manager.hitTest(target)) {
                 if (!cache.has(target)) {

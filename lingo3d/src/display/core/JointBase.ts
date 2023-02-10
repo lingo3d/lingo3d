@@ -19,7 +19,7 @@ import {
 import PositionedDirectionedManager from "./PositionedDirectionedManager"
 import { addSelectionHelper } from "./utils/raycast/selectionCandidates"
 import HelperSphere from "./utils/HelperSphere"
-import { getMeshAppendables } from "../../api/core/MeshAppendable"
+import { getAppendables } from "../../api/core/Appendable"
 
 export const joints = new Set<JointBase>()
 
@@ -103,8 +103,8 @@ export default abstract class JointBase
             const { _to, _from } = this
             if (!physxPtr[0].physics || !_to || !_from) return
 
-            const [toManager] = getMeshAppendables(_to)
-            const [fromManager] = getMeshAppendables(_from)
+            const [toManager] = getAppendables(_to)
+            const [fromManager] = getAppendables(_from)
             if (
                 !(toManager instanceof PhysicsObjectManager) ||
                 !(fromManager instanceof PhysicsObjectManager)
