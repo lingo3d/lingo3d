@@ -16,14 +16,12 @@ export default class GameGraph extends Appendable {
         super()
     }
 
-    public gameGraphDataState = new Reactive<[GameGraphData | undefined]>([
-        undefined
-    ])
+    public gameGraphDataState = new Reactive<[GameGraphData]>([{}])
 
     public get data() {
         return this.gameGraphDataState.get()[0]
     }
-    public set data(val: GameGraphData | undefined) {
+    public set data(val: GameGraphData) {
         this.gameGraphDataState.set([val])
     }
 
