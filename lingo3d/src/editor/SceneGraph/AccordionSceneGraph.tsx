@@ -56,10 +56,7 @@ const AccordionSceneGraph = () => {
 
     return (
         <div>
-            <div
-                className="lingo3d-absfull"
-                style={{ display: "flex", flexDirection: "column" }}
-            >
+            <div className="lingo3d-absfull lingo3d-flexcol">
                 <TitleBar title="scenegraph">
                     <IconButton disabled={!nativeTarget} onClick={handleFind}>
                         <FindIcon />

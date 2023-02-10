@@ -57,6 +57,10 @@ export default () => {
                 justify-content: center;
                 align-items: center;
             }
+            .lingo3d-flexcol {
+                display: flex;
+                flex-direction: column;
+            }
 
             .tp-lblv_l {
                 overflow: hidden;

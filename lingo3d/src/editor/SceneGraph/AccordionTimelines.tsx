@@ -11,11 +11,8 @@ const AccordionTimelines = () => {
 
     return (
         <div
-            style={{
-                maxHeight: 200 - APPBAR_HEIGHT,
-                display: "flex",
-                flexDirection: "column"
-            }}
+            className="lingo3d-flexcol"
+            style={{ maxHeight: 200 - APPBAR_HEIGHT }}
         >
             <TitleBar title="timelines">
                 <IconButton

@@ -15,13 +15,8 @@ const Library = () => {
     return (
         <div
             ref={elRef}
-            className="lingo3d-ui lingo3d-bg lingo3d-library"
-            style={{
-                width: LIBRARY_WIDTH,
-                height: "100%",
-                display: "flex",
-                flexDirection: "column"
-            }}
+            className="lingo3d-ui lingo3d-bg lingo3d-library lingo3d-flexcol"
+            style={{ width: LIBRARY_WIDTH, height: "100%" }}
         >
             <AppBar>
                 <Tab half>components</Tab>

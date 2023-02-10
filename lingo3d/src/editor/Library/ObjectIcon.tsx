@@ -33,14 +33,8 @@ const ObjectIcon = ({ name, iconName = name }: ObjectIconProps) => {
                 setDragImage(e)
             }}
             onDragEnd={() => setDraggingItem(undefined)}
-            style={{
-                width: "50%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                paddingTop: 20,
-                paddingBottom: 20
-            }}
+            className="lingo3d-flexcenter lingo3d-flexcol"
+            style={{ width: "50%", paddingTop: 20, paddingBottom: 20 }}
         >
             <IconImage iconName={iconName} />
             <div

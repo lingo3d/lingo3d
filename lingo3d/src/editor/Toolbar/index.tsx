@@ -56,13 +56,8 @@ const Toolbar = () => {
             }}
         >
             <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    opacity: 0.75,
-                    paddingTop: 12
-                }}
+                className="lingo3d-flexcenter lingo3d-flexcol"
+                style={{ opacity: 0.75, paddingTop: 12 }}
             >
                 <Section>
                     <ToolbarButton

@@ -20,25 +20,13 @@ const TimelineEditor = () => {
                     display: "flex"
                 }}
             >
-                <div
-                    style={{
-                        width: 200,
-                        display: "flex",
-                        flexDirection: "column"
-                    }}
-                >
+                <div className="lingo3d-flexcol" style={{ width: 200 }}>
                     <TimelineBar />
                     <div style={{ flexGrow: 1 }}>
                         <TimelineGraph />
                     </div>
                 </div>
-                <div
-                    style={{
-                        flexGrow: 1,
-                        display: "flex",
-                        flexDirection: "column"
-                    }}
-                >
+                <div className="lingo3d-flexcol" style={{ flexGrow: 1 }}>
                     <RulerBar />
                     <div style={{ flexGrow: 1 }}>
                         <Scroller />

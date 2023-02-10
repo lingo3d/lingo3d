@@ -32,13 +32,8 @@ const Panels = () => {
 
     return (
         <div
-            className="lingo3d-ui lingo3d-bg lingo3d-panels"
-            style={{
-                height: PANELS_HEIGHT,
-                width: "100%",
-                display: "flex",
-                flexDirection: "column"
-            }}
+            className="lingo3d-ui lingo3d-bg lingo3d-panels lingo3d-flexcol"
+            style={{ height: PANELS_HEIGHT, width: "100%" }}
         >
             <div style={{ display: "flex" }}>
                 <AppBar selectedSignal={selectedSignal} style={{ width: 200 }}>

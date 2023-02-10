@@ -20,6 +20,7 @@ const GameGraph = () => {
                         GameGraph
                     </CloseableTab>
                 </AppBar>
+                
             </div>
         </>
     )

@@ -73,13 +73,8 @@ const Editor = () => {
 
     return (
         <div
-            className="lingo3d-ui lingo3d-bg lingo3d-editor"
-            style={{
-                width: EDITOR_WIDTH,
-                height: "100%",
-                display: "flex",
-                flexDirection: "column"
-            }}
+            className="lingo3d-ui lingo3d-bg lingo3d-editor lingo3d-flexcol"
+            style={{ width: EDITOR_WIDTH, height: "100%" }}
         >
             <AppBar selectedSignal={selectedSignal}>
                 <CloseableTab>Settings</CloseableTab>
