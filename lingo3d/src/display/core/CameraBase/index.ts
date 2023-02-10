@@ -131,12 +131,12 @@ export default abstract class CameraBase<
     }
 
     public override append(object: MeshAppendable) {
-        this._append(object)
+        this.appendNode(object)
         this.camera.add(object.outerObject3d)
     }
 
     public override attach(object: MeshAppendable) {
-        this._append(object)
+        this.appendNode(object)
         this.camera.attach(object.outerObject3d)
     }
 

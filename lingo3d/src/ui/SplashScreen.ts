@@ -66,7 +66,7 @@ export default class SplashScreen extends Appendable implements ISplashScreen {
     }
 
     public override append(child: Text) {
-        this._append(child)
+        this.appendNode(child)
         this.textContainer.appendChild(child.el)
     }
 }

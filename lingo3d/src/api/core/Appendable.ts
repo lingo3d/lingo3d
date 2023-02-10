@@ -44,7 +44,7 @@ export default class Appendable extends Disposable implements IAppendable {
         this._firstChildState?.set(this.firstChild)
     }
 
-    protected _append(child: Appendable) {
+    public appendNode(child: Appendable) {
         appendableRoot.delete(child)
         emitSceneGraphChange()
 
@@ -59,7 +59,7 @@ export default class Appendable extends Disposable implements IAppendable {
     }
 
     public append(child: Appendable) {
-        this._append(child)
+        this.appendNode(child)
     }
 
     protected _dispose() {

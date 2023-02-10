@@ -17,8 +17,7 @@ export const getFoundManager = (
     if (childManager instanceof FoundManager) return childManager
 
     const result = setManager(child, new FoundManager(child, parentManager))
-    //@ts-ignore
-    !hiddenFromSceneGraph && parentManager._append(result)
+    !hiddenFromSceneGraph && parentManager.appendNode(result)
 
     return result
 }
