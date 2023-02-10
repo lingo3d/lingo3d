@@ -24,18 +24,16 @@ export type AnimationData = Record<
 export default interface IAimationManager extends IAppendable {
     paused: boolean
     data: Nullable<AnimationData>
-    name: string
 }
 
 export const animationManagerSchema: Required<ExtractProps<IAimationManager>> =
     {
         ...appendableSchema,
         paused: Boolean,
-        data: Object,
-        name: String
+        data: Object
     }
 
 export const animationManagerDefaults = extendDefaults<IAimationManager>(
     [appendableDefaults],
-    { paused: true, data: undefined, name: "" }
+    { paused: true, data: undefined }
 )

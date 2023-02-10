@@ -132,6 +132,14 @@ export default class Appendable extends Disposable implements IAppendable {
         return false
     }
 
+    private _name?: string
+    public get name() {
+        return this._name
+    }
+    public set name(val) {
+        this._name = val
+    }
+
     protected _id?: string
     public get id() {
         return this._id

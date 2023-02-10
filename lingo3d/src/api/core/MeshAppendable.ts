@@ -3,7 +3,6 @@ import getWorldDirection from "../../display/utils/getWorldDirection"
 import getWorldPosition from "../../display/utils/getWorldPosition"
 import { ray, vector3 } from "../../display/utils/reusables"
 import { vec2Point } from "../../display/utils/vec2Point"
-import { emitName } from "../../events/onName"
 import { CM2M } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
 import { setManager } from "../utils/getManager"
@@ -54,12 +53,11 @@ export default class MeshAppendable<T extends Object3D = Object3D>
         this.outerObject3d.parent?.remove(this.outerObject3d)
     }
 
-    public get name() {
+    public override get name() {
         return this.outerObject3d.name
     }
-    public set name(val) {
+    public override set name(val) {
         this.outerObject3d.name = PropertyBinding.sanitizeNodeName(val)
-        emitName(this)
     }
 
     protected getRay() {

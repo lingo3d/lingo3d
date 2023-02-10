@@ -5,16 +5,13 @@ import IAppendable, {
     appendableSchema
 } from "./IAppendable"
 
-export default interface IMeshAppendable extends IAppendable {
-    name: string
-}
+export default interface IMeshAppendable extends IAppendable {}
 
 export const meshAppendableSchema: Required<ExtractProps<IMeshAppendable>> = {
-    ...appendableSchema,
-    name: String
+    ...appendableSchema
 }
 
 export const meshAppendableDefaults = extendDefaults<IMeshAppendable>(
     [appendableDefaults],
-    { name: "" }
+    {}
 )

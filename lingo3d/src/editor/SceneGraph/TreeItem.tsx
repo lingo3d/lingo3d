@@ -10,7 +10,6 @@ import CubeIcon from "./icons/CubeIcon"
 import { hiddenAppendables } from "../../api/core/collections"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import PlayIcon from "./icons/PlayIcon"
-import { onName } from "../../events/onName"
 import useSyncState from "../hooks/useSyncState"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import {
@@ -51,12 +50,13 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
     const [name, setName] = useState("")
     useLayoutEffect(() => {
         setName(getDisplayName(appendable))
-        const handle = onName(
-            (item) => item === appendable && setName(getDisplayName(appendable))
-        )
-        return () => {
-            handle.cancel()
-        }
+        //mark
+        // const handle = onName(
+        //     (item) => item === appendable && setName(getDisplayName(appendable))
+        // )
+        // return () => {
+        //     handle.cancel()
+        // }
     }, [appendable])
 
     return (

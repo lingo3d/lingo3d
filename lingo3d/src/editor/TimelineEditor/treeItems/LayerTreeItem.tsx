@@ -1,7 +1,6 @@
 import { ComponentChildren } from "preact"
 import { useLayoutEffect, useMemo, useState } from "preact/hooks"
 import { uuidMap } from "../../../api/core/collections"
-import { onName } from "../../../events/onName"
 import { FRAME_HEIGHT } from "../../../globals"
 import BaseTreeItem from "../../component/treeItems/BaseTreeItem"
 import useSyncState from "../../hooks/useSyncState"
@@ -36,12 +35,13 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
     useLayoutEffect(() => {
         if (!instance) return
         setName(getDisplayName(instance))
-        const handle = onName(
-            (item) => item === instance && setName(getDisplayName(instance))
-        )
-        return () => {
-            handle.cancel()
-        }
+        //mark
+        // const handle = onName(
+        //     (item) => item === instance && setName(getDisplayName(instance))
+        // )
+        // return () => {
+        //     handle.cancel()
+        // }
     }, [instance])
 
     return (

@@ -103,7 +103,7 @@ export default class AnimationManager
     }
 
     public constructor(
-        public name: string,
+        name: string | undefined,
         clip: AnimationClip | undefined,
         target: object | undefined,
         repeatState: Reactive<number>,
@@ -113,6 +113,8 @@ export default class AnimationManager
     ) {
         super()
         !serialized && nonSerializedAppendables.add(this)
+
+        this.name = name
 
         const mixer = (this.mixer = forceGetInstance(
             targetMixerMap,

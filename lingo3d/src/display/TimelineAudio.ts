@@ -21,8 +21,6 @@ export default class TimelineAudio
             this.durationState.set(this.audio.duration)
     }
 
-    public name = ""
-
     public srcState = new Reactive<string | undefined>(undefined)
     public get src() {
         return this.srcState.get()
