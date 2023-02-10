@@ -24,7 +24,7 @@ const LingoEditor = () => {
 
     const stats = useSyncState(getStats)
 
-    let editor = "nodes"
+    let editor = "editor"
 
     return (
         <div
