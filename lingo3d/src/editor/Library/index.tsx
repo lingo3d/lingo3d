@@ -32,6 +32,8 @@ const Library = () => {
             <div style={{ padding: 10, overflowY: "scroll", flexGrow: 1 }}>
                 <ObjectGroup
                     names={[
+                        { gameGraph: "joystick" },
+
                         "cube",
                         "sphere",
                         "cone",
