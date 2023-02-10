@@ -14,7 +14,7 @@ export default ({ mounted, style, children, fadeIn }: InfoScreen) => {
         <Transition mounted={mounted}>
             {(enter) => (
                 <div
-                    className="lingo3d-absfull lingo3d-flexcenter lingo3d-flexcol"
+                    className="lingo3d-absfull lingo3d-flexcenter"
                     style={{
                         transition: "opacity 1s",
                         opacity: fadeIn && enter ? 0 : mounted ? 1 : 0,
