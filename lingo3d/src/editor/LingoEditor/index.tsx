@@ -12,6 +12,7 @@ import { DEBUG } from "../../globals"
 import useSyncState from "../hooks/useSyncState"
 import { getStats } from "../../states/useStats"
 import Retargeter from "../Retargeter"
+import Nodes from "../Nodes"
 
 const LingoEditor = () => {
     const elRef = useRef<HTMLDivElement>(null)
@@ -23,7 +24,7 @@ const LingoEditor = () => {
 
     const stats = useSyncState(getStats)
 
-    const retargeter = false
+    let editor = "nodes"
 
     return (
         <div
@@ -32,8 +33,14 @@ const LingoEditor = () => {
         >
             <Toolbar />
             <SceneGraph />
-            {retargeter ? <Retargeter /> : <Editor />}
-            <Library />
+            {editor === "retargeter" ? (
+                <Retargeter />
+            ) : editor === "nodes" ? (
+                <Nodes />
+            ) : (
+                <Editor />
+            )}
+            {editor !== "nodes" && <Library />}
             <Panels />
 
             <WorldBar />
