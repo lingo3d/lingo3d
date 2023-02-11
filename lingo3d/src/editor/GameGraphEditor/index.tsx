@@ -9,7 +9,7 @@ import treeContext from "../component/treeItems/treeContext"
 import mergeRefs from "../hooks/mergeRefs"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
-import usePan from "../hooks/usePan"
+import useMousePress from "../hooks/useMousePress"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
 import mousePosition from "../utils/mousePosition"
@@ -26,7 +26,7 @@ const GameGraphEditor = () => {
     const [sizeRef, { width, height }] = useResizeObserver()
     const originX = width * 0.5
     const originY = height * 0.5
-    const panRef = usePan(
+    const pressRef = useMousePress(
         () => setDragging(true),
         () => setDragging(false)
     )
@@ -61,7 +61,7 @@ const GameGraphEditor = () => {
                     </CloseableTab>
                 </AppBar>
                 <div
-                    ref={mergeRefs(sizeRef, panRef)}
+                    ref={mergeRefs(sizeRef, pressRef)}
                     style={{ flexGrow: 1, overflow: "hidden" }}
                     onWheel={(e) => {
                         e.preventDefault()
