@@ -19,6 +19,7 @@ import useInitEditor from "../hooks/useInitEditor"
 import setupStruct from "../../engine/setupStruct"
 import { getEditorPresets } from "../../states/useEditorPresets"
 import addTargetInputs from "./addTargetInputs"
+import SearchBox from "../component/SearchBox"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -88,6 +89,7 @@ const Editor = () => {
                     </CloseableTab>
                 )}
             </AppBar>
+            <SearchBox />
             <div
                 style={{
                     flexGrow: 1,

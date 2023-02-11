@@ -61,6 +61,9 @@ export default () => {
                 display: flex;
                 flex-direction: column;
             }
+            .lingo3d-unset {
+                all: unset;
+            }
 
             .tp-lblv_l {
                 overflow: hidden;
