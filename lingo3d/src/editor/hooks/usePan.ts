@@ -1,10 +1,11 @@
 import { useEffect, useRef } from "preact/hooks"
 
-type PanEvent = {
-    x: number
-    y: number
+export type PanEvent = {
+    clientX: number
+    clientY: number
     deltaX: number
     deltaY: number
+    currentTarget: HTMLDivElement
 }
 
 type Pan = {
@@ -33,13 +34,12 @@ export default ({ onPanStart, onPanEnd, onPan }: Pan = {}) => {
         const handleDown = (e: MouseEvent) => {
             e.stopPropagation()
             panning = true
-            clientX = e.clientX
-            clientY = e.clientY
             const evt = {
-                x: e.clientX,
-                y: e.clientY,
+                clientX: (clientX = e.clientX),
+                clientY: (clientY = e.clientY),
                 deltaX: 0,
-                deltaY: 0
+                deltaY: 0,
+                currentTarget: el
             }
             onPanStart?.(evt)
             onPan?.(evt)
@@ -49,10 +49,11 @@ export default ({ onPanStart, onPanEnd, onPan }: Pan = {}) => {
             panning = false
             const [deltaX, deltaY] = delta(e)
             const evt = {
-                x: e.clientX,
-                y: e.clientY,
+                clientX,
+                clientY,
                 deltaX,
-                deltaY
+                deltaY,
+                currentTarget: el
             }
             onPan?.(evt)
             onPanEnd?.(evt)
@@ -61,10 +62,11 @@ export default ({ onPanStart, onPanEnd, onPan }: Pan = {}) => {
             if (!panning) return
             const [deltaX, deltaY] = delta(e)
             onPan?.({
-                x: e.clientX,
-                y: e.clientY,
+                clientX,
+                clientY,
                 deltaX,
-                deltaY
+                deltaY,
+                currentTarget: el
             })
         }
 

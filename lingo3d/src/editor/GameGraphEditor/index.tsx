@@ -1,4 +1,5 @@
 import { useState } from "preact/hooks"
+import GameGraph from "../../display/GameGraph"
 import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
 import { getGameGraph, setGameGraph } from "../../states/useGameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
@@ -12,6 +13,27 @@ import usePan from "../hooks/usePan"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
 import Node from "./Node"
+
+const moveNode = (
+    el: HTMLDivElement,
+    clientX: number,
+    clientY: number,
+    tx: number,
+    ty: number,
+    originX: number,
+    originY: number,
+    zoom: number,
+    gameGraph: GameGraph,
+    uuid: string
+) => {
+    const bounds = el.getBoundingClientRect()
+    const x = (clientX - bounds.left - tx - originX) / zoom + originX
+    const y = (clientY - bounds.top - ty - originY) / zoom + originY
+
+    gameGraph.mergeData({
+        [uuid]: { x, y }
+    })
+}
 
 const GameGraphEditor = () => {
     useInitCSS()
@@ -83,17 +105,18 @@ const GameGraphEditor = () => {
                         e.preventDefault()
                         if (!treeContext.draggingItem) return
 
-                        const bounds = e.currentTarget.getBoundingClientRect()
-                        const x =
-                            (e.clientX - bounds.left - tx - originX) / zoom +
-                            originX
-                        const y =
-                            (e.clientY - bounds.top - ty - originY) / zoom +
-                            originY
-
-                        gameGraph.mergeData({
-                            [treeContext.draggingItem.uuid]: { x, y }
-                        })
+                        moveNode(
+                            e.currentTarget,
+                            e.clientX,
+                            e.clientY,
+                            tx,
+                            ty,
+                            originX,
+                            originY,
+                            zoom,
+                            gameGraph,
+                            treeContext.draggingItem.uuid
+                        )
                     }}
                     onDrop={(e) => {}}
                 >
@@ -107,7 +130,25 @@ const GameGraphEditor = () => {
                         }}
                     >
                         {Object.entries(gameGraphData).map(([uuid, data]) => (
-                            <Node key={uuid} uuid={uuid} data={data} />
+                            <Node
+                                key={uuid}
+                                uuid={uuid}
+                                data={data}
+                                onPan={(e) => {
+                                    moveNode(
+                                        e.currentTarget,
+                                        e.clientX,
+                                        e.clientY,
+                                        tx,
+                                        ty,
+                                        originX,
+                                        originY,
+                                        zoom,
+                                        gameGraph,
+                                        uuid
+                                    )
+                                }}
+                            />
                         ))}
                     </div>
                 </div>
