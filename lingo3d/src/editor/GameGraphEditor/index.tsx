@@ -97,7 +97,6 @@ const GameGraphEditor = () => {
                             [treeContext.draggingItem.uuid]: { x, y }
                         })
                     }}
-                    onDrop={(e) => {}}
                 >
                     <div
                         style={{

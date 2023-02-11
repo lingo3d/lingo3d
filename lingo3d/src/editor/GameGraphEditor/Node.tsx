@@ -1,7 +1,10 @@
+import { Cancellable } from "@lincode/promiselikes"
 import { valueof } from "@lincode/utils"
-import { useMemo } from "preact/hooks"
+import { useEffect, useMemo, useRef } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import { GameGraphData } from "../../interface/IGameGraph"
+import addTargetInputs from "../Editor/addTargetInputs"
+import { Pane } from "../Editor/tweakpane"
 import usePan, { PanEvent } from "../hooks/usePan"
 import getDisplayName from "../utils/getDisplayName"
 
@@ -18,13 +21,27 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
         [manager]
     )
     const pressRef = usePan({ onPan })
-    if (!manager) return null
+    const elRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        const el = elRef.current
+        if (!manager || !el) return
+
+        const pane = new Pane({ container: el })
+        const handle = new Cancellable()
+
+        addTargetInputs(handle, pane, manager)
+
+        return () => {
+            handle.cancel()
+        }
+    }, [manager])
 
     return (
         <div
             style={{
                 width: 200,
-                height: 300,
+                minHeight: 100,
                 background: "rgba(255, 255, 255, 0.1)",
                 position: "absolute",
                 left: data.x,
@@ -34,6 +51,7 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
             <div style={{ fontSize: 20, marginTop: -24 }} ref={pressRef}>
                 {displayName}
             </div>
+            <div ref={elRef} style={{ width: "100%" }} />
         </div>
     )
 }
