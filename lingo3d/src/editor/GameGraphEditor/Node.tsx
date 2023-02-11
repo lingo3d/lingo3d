@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphData } from "../../interface/IGameGraph"
+import SearchBox from "../component/SearchBox"
 import addTargetInputs from "../Editor/addTargetInputs"
 import { Pane } from "../Editor/tweakpane"
 import usePan, { PanEvent } from "../hooks/usePan"
@@ -43,7 +44,6 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
             style={{
                 width: EDITOR_WIDTH,
                 minHeight: 100,
-                background: "rgba(255, 255, 255, 0.1)",
                 position: "absolute",
                 left: data.x,
                 top: data.y
@@ -52,6 +52,7 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
             <div style={{ fontSize: 20, marginTop: -24 }} ref={pressRef}>
                 {displayName}
             </div>
+            <SearchBox fullWidth style={{ marginTop: 8 }} />
             <div ref={elRef} style={{ width: "100%" }} />
         </div>
     )
