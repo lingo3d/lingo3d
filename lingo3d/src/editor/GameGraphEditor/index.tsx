@@ -1,16 +1,11 @@
-import {
-    useCallback,
-    useEffect,
-    useLayoutEffect,
-    useRef,
-    useState
-} from "preact/hooks"
+import { useEffect, useState } from "preact/hooks"
 import { loop } from "../../engine/eventLoop"
 import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
 import { setGameGraph } from "../../states/useGameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
+import treeContext from "../component/treeItems/treeContext"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
 import useSyncState from "../hooks/useSyncState"
@@ -64,6 +59,11 @@ const GameGraphEditor = () => {
                         setZoom(
                             Math.min(Math.max(zoom - e.deltaY * 0.001, 0.1), 1)
                         )
+                    }}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={() => {
+                        if (!treeContext.draggingItem) return
+                        console.log(treeContext.draggingItem)
                     }}
                 >
                     <div
