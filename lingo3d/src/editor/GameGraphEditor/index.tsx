@@ -62,9 +62,35 @@ const GameGraphEditor = () => {
                     onMouseUp={() => setDragging(false)}
                     onWheel={(e) => {
                         e.preventDefault()
-                        setZoom(
-                            Math.min(Math.max(zoom - e.deltaY * 0.001, 0.1), 1)
+                        const scale = Math.min(
+                            Math.max(zoom - e.deltaY * 0.001, 0.1),
+                            1
                         )
+                        setZoom(scale)
+
+                        const bounds = e.currentTarget.getBoundingClientRect()
+
+                        const xOld =
+                            ((e.clientX - bounds.left - tx - originX) / zoom +
+                                originX) *
+                            scale
+                        const x =
+                            ((e.clientX - bounds.left - tx - originX) / scale +
+                                originX) *
+                            scale
+
+                        setTx(tx + x - xOld)
+
+                        const yOld =
+                            ((e.clientY - bounds.top - ty - originY) / zoom +
+                                originY) *
+                            scale
+                        const y =
+                            ((e.clientY - bounds.top - ty - originY) / scale +
+                                originY) *
+                            scale
+
+                        setTy(ty + y - yOld)
                     }}
                     onDragOver={(e) => {
                         e.preventDefault()
