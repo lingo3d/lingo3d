@@ -195,16 +195,20 @@ const SceneGraphContextMenu = () => {
 
                                 {selectionTarget instanceof MeshAppendable && (
                                     <ContextMenuItem
-                                        disabled={!!selectionFocus}
                                         onClick={() => {
                                             setSelectionFocus(
-                                                selectionTarget as any
+                                                selectionFocus ===
+                                                    selectionTarget
+                                                    ? undefined
+                                                    : selectionTarget
                                             )
                                             emitSelectionTarget(undefined)
                                             setPosition(undefined)
                                         }}
                                     >
-                                        Enter group
+                                        {selectionFocus === selectionTarget
+                                            ? "Exit group"
+                                            : "Enter group"}
                                     </ContextMenuItem>
                                 )}
 
@@ -309,7 +313,7 @@ const SceneGraphContextMenu = () => {
                             setPosition(undefined)
                         }}
                     >
-                        Exit group
+                        Exit all groups
                     </ContextMenuItem>
                 </>
             )}
