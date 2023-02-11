@@ -14,27 +14,6 @@ import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
 import Node from "./Node"
 
-const moveNode = (
-    el: HTMLDivElement,
-    clientX: number,
-    clientY: number,
-    tx: number,
-    ty: number,
-    originX: number,
-    originY: number,
-    zoom: number,
-    gameGraph: GameGraph,
-    uuid: string
-) => {
-    const bounds = el.getBoundingClientRect()
-    const x = (clientX - bounds.left - tx - originX) / zoom + originX
-    const y = (clientY - bounds.top - ty - originY) / zoom + originY
-
-    gameGraph.mergeData({
-        [uuid]: { x, y }
-    })
-}
-
 const GameGraphEditor = () => {
     useInitCSS()
     useInitEditor()
@@ -42,7 +21,7 @@ const GameGraphEditor = () => {
     const [tx, setTx] = useState(0)
     const [ty, setTy] = useState(0)
     const [zoom, setZoom] = useState(1)
-    const [sizeRef, { width, height }] = useResizeObserver()
+    const [containerRef, { width, height }] = useResizeObserver()
     const originX = width * 0.5
     const originY = height * 0.5
     const pressRef = usePan({
@@ -67,7 +46,7 @@ const GameGraphEditor = () => {
                     </CloseableTab>
                 </AppBar>
                 <div
-                    ref={mergeRefs(sizeRef, pressRef)}
+                    ref={mergeRefs(containerRef, pressRef)}
                     style={{ flexGrow: 1, overflow: "hidden" }}
                     onWheel={(e) => {
                         e.preventDefault()
@@ -105,18 +84,17 @@ const GameGraphEditor = () => {
                         e.preventDefault()
                         if (!treeContext.draggingItem) return
 
-                        moveNode(
-                            e.currentTarget,
-                            e.clientX,
-                            e.clientY,
-                            tx,
-                            ty,
-                            originX,
-                            originY,
-                            zoom,
-                            gameGraph,
-                            treeContext.draggingItem.uuid
-                        )
+                        const bounds = e.currentTarget.getBoundingClientRect()
+                        const x =
+                            (e.clientX - bounds.left - tx - originX) / zoom +
+                            originX
+                        const y =
+                            (e.clientY - bounds.top - ty - originY) / zoom +
+                            originY
+
+                        gameGraph.mergeData({
+                            [treeContext.draggingItem.uuid]: { x, y }
+                        })
                     }}
                     onDrop={(e) => {}}
                 >
@@ -135,18 +113,12 @@ const GameGraphEditor = () => {
                                 uuid={uuid}
                                 data={data}
                                 onPan={(e) => {
-                                    moveNode(
-                                        e.currentTarget,
-                                        e.clientX,
-                                        e.clientY,
-                                        tx,
-                                        ty,
-                                        originX,
-                                        originY,
-                                        zoom,
-                                        gameGraph,
-                                        uuid
-                                    )
+                                    gameGraph.mergeData({
+                                        [uuid]: {
+                                            x: data.x + e.deltaX,
+                                            y: data.y + e.deltaY
+                                        }
+                                    })
                                 }}
                             />
                         ))}
