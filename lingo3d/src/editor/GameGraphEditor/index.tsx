@@ -1,13 +1,14 @@
 import { useEffect, useState } from "preact/hooks"
 import { loop } from "../../engine/eventLoop"
 import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
-import { setGameGraph } from "../../states/useGameGraph"
+import { getGameGraph, setGameGraph } from "../../states/useGameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
 import treeContext from "../component/treeItems/treeContext"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
+import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
 import mousePosition from "../utils/mousePosition"
 import Node from "./Node"
@@ -20,6 +21,9 @@ const GameGraphEditor = () => {
     const [tx, setTx] = useState(0)
     const [ty, setTy] = useState(0)
     const [zoom, setZoom] = useState(1)
+    const [ref, { width, height }] = useResizeObserver()
+    const originX = width * 0.5
+    const originY = height * 0.5
 
     useEffect(() => {
         if (!dragging) return
@@ -36,8 +40,9 @@ const GameGraphEditor = () => {
         }
     }, [dragging])
 
+    const gameGraph = useSyncState(getGameGraph)
     const [gameGraphData] = useSyncState(getGameGraphData)
-    if (!gameGraphData) return null
+    if (!gameGraphData || !gameGraph) return null
 
     return (
         <>
@@ -51,6 +56,7 @@ const GameGraphEditor = () => {
                     </CloseableTab>
                 </AppBar>
                 <div
+                    ref={ref}
                     style={{ flexGrow: 1, overflow: "hidden" }}
                     onMouseDown={() => setDragging(true)}
                     onMouseUp={() => setDragging(false)}
@@ -60,19 +66,31 @@ const GameGraphEditor = () => {
                             Math.min(Math.max(zoom - e.deltaY * 0.001, 0.1), 1)
                         )
                     }}
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={() => {
+                    onDragOver={(e) => {
+                        e.preventDefault()
                         if (!treeContext.draggingItem) return
-                        console.log(treeContext.draggingItem)
+
+                        const bounds = e.currentTarget.getBoundingClientRect()
+                        const x =
+                            (e.clientX - bounds.left - tx - originX) / zoom +
+                            originX
+                        const y =
+                            (e.clientY - bounds.top - ty - originY) / zoom +
+                            originY
+
+                        gameGraph.mergeData({
+                            [treeContext.draggingItem.uuid]: { x, y }
+                        })
                     }}
+                    onDrop={(e) => {}}
                 >
                     <div
                         style={{
                             position: "absolute",
-                            width: "100%",
-                            height: "100%",
+                            width,
+                            height,
                             transform: `translate(${tx}px, ${ty}px) scale(${zoom})`,
-                            transformOrigin: "50% 50%"
+                            transformOrigin: `${originX}px ${originY}px`
                         }}
                     >
                         {Object.entries(gameGraphData).map(([uuid, data]) => (
