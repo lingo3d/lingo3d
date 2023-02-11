@@ -1,9 +1,18 @@
 import { useEffect, useRef } from "preact/hooks"
 
+type PanEvent = {
+    x: number
+    y: number
+    startX: number
+    startY: number
+    deltaX: number
+    deltaY: number
+}
+
 type Pan = {
-    onPanStart?: () => void
-    onPan?: () => void
-    onPanEnd?: () => void
+    onPanStart?: (e: PanEvent) => void
+    onPanEnd?: (e: PanEvent) => void
+    onPan?: (e: PanEvent) => void
 }
 
 export default ({ onPanStart, onPanEnd, onPan }: Pan = {}) => {
@@ -13,21 +22,70 @@ export default ({ onPanStart, onPanEnd, onPan }: Pan = {}) => {
         const el = elRef.current
         if (!el) return
 
-        const handleStart = (e: MouseEvent) => {
-            e.stopPropagation()
-            onPanStart?.()
+        let panning = false
+        let startX = 0
+        let startY = 0
+        let clientX = 0
+        let clientY = 0
+        const delta = (e: MouseEvent) => {
+            const deltaX = e.clientX - clientX
+            const deltaY = e.clientY - clientY
+            clientX = e.clientX
+            clientY = e.clientY
+            return [deltaX, deltaY]
         }
-        const handleEnd = (e: MouseEvent) => {
+        const handleDown = (e: MouseEvent) => {
             e.stopPropagation()
-            onPanEnd?.()
+            panning = true
+            clientX = e.clientX
+            clientY = e.clientY
+            const evt = {
+                x: (startX = e.clientX),
+                y: (startY = e.clientY),
+                startX,
+                startY,
+                deltaX: 0,
+                deltaY: 0
+            }
+            onPanStart?.(evt)
+            onPan?.(evt)
         }
-        el.addEventListener("mousedown", handleStart)
-        document.addEventListener("mouseup", handleEnd)
+        const handleUp = (e: MouseEvent) => {
+            panning = false
+            const [deltaX, deltaY] = delta(e)
+            const evt = {
+                x: e.clientX,
+                y: e.clientY,
+                startX,
+                startY,
+                deltaX,
+                deltaY
+            }
+            onPan?.(evt)
+            onPanEnd?.(evt)
+        }
+        const handleMove = (e: MouseEvent) => {
+            if (!panning) return
+            const [deltaX, deltaY] = delta(e)
+            onPan?.({
+                x: e.clientX,
+                y: e.clientY,
+                startX,
+                startY,
+                deltaX,
+                deltaY
+            })
+        }
+
+        el.addEventListener("mousedown", handleDown)
+        document.addEventListener("mouseup", handleUp)
+        document.addEventListener("mousemove", handleMove)
         return () => {
-            el.removeEventListener("mousedown", handleStart)
-            document.removeEventListener("mouseup", handleEnd)
+            el.removeEventListener("mousedown", handleDown)
+            document.removeEventListener("mouseup", handleUp)
+            document.removeEventListener("mousemove", handleMove)
         }
-    }, [onPanStart, onPanEnd])
+    }, [])
 
     return elRef
 }

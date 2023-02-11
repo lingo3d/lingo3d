@@ -1,5 +1,4 @@
-import { useEffect, useState } from "preact/hooks"
-import { loop } from "../../engine/eventLoop"
+import { useState } from "preact/hooks"
 import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
 import { getGameGraph, setGameGraph } from "../../states/useGameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
@@ -12,14 +11,12 @@ import useInitEditor from "../hooks/useInitEditor"
 import usePan from "../hooks/usePan"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
-import mousePosition from "../utils/mousePosition"
 import Node from "./Node"
 
 const GameGraphEditor = () => {
     useInitCSS()
     useInitEditor()
 
-    const [dragging, setDragging] = useState(false)
     const [tx, setTx] = useState(0)
     const [ty, setTy] = useState(0)
     const [zoom, setZoom] = useState(1)
@@ -27,24 +24,11 @@ const GameGraphEditor = () => {
     const originX = width * 0.5
     const originY = height * 0.5
     const pressRef = usePan({
-        onPanStart: () => setDragging(true),
-        onPanEnd: () => setDragging(false)
-    })
-    useEffect(() => {
-        if (!dragging) return
-        const { x, y } = mousePosition
-
-        const handle = loop(() => {
-            const diffX = mousePosition.x - x
-            const diffY = mousePosition.y - y
-            setTx(tx + diffX)
-            setTy(ty + diffY)
-        })
-        return () => {
-            handle.cancel()
+        onPan: ({ deltaX, deltaY }) => {
+            setTx((tx) => tx + deltaX)
+            setTy((ty) => ty + deltaY)
         }
-    }, [dragging])
-
+    })
     const gameGraph = useSyncState(getGameGraph)
     const [gameGraphData] = useSyncState(getGameGraphData)
     if (!gameGraphData || !gameGraph) return null
