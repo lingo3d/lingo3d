@@ -1,11 +1,11 @@
 import { ComponentChildren } from "preact"
-import { useState, useRef, useMemo, useContext, useEffect } from "preact/hooks"
+import { useState, useRef, useMemo, useEffect } from "preact/hooks"
 import CollapseIcon from "../icons/CollapseIcon"
 import ExpandIcon from "../icons/ExpandIcon"
-import { TreeItemContext } from "./TreeItemContextProviter"
 import useClick from "../../hooks/useClick"
 import Appendable from "../../../api/core/Appendable"
 import { setDragImage } from "../../utils/drag"
+import treeContext from "./treeContext"
 
 export type BaseTreeItemProps = {
     label?: string
@@ -72,11 +72,10 @@ const BaseTreeItem = ({
         onExpand?.()
     }
 
-    const context = useContext(TreeItemContext)
     const canSetDragOver = () =>
         draggable &&
-        context.draggingItem &&
-        context.draggingItem !== myDraggingItem
+        treeContext.draggingItem &&
+        treeContext.draggingItem !== myDraggingItem
 
     const [dragOver, setDragOver] = useState(false)
 
@@ -85,12 +84,12 @@ const BaseTreeItem = ({
             draggable={draggable}
             onDragStart={(e) => {
                 e.stopPropagation()
-                context.draggingItem = myDraggingItem
+                treeContext.draggingItem = myDraggingItem
                 setDragImage(e)
             }}
             onDragEnd={(e) => {
                 e.stopPropagation()
-                context.draggingItem = undefined
+                treeContext.draggingItem = undefined
             }}
             onDragOver={(e) => {
                 e.stopPropagation()
@@ -113,11 +112,11 @@ const BaseTreeItem = ({
                 setDragOver(false)
 
                 if (
-                    !context.draggingItem.traverseSome(
+                    !treeContext.draggingItem.traverseSome(
                         (child: Appendable) => myDraggingItem === child
                     )
                 )
-                    onDrop?.(context.draggingItem)
+                    onDrop?.(treeContext.draggingItem)
             }}
             style={{
                 color: "rgba(255, 255, 255, 0.75)",

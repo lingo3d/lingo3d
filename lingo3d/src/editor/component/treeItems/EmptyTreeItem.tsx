@@ -1,5 +1,5 @@
-import { useContext, useState } from "preact/hooks"
-import { TreeItemContext } from "./TreeItemContextProviter"
+import { useState } from "preact/hooks"
+import treeContext from "./treeContext"
 
 type EmptyTreeItemProps = {
     onDrop?: (draggingItem?: any) => void
@@ -7,19 +7,18 @@ type EmptyTreeItemProps = {
 
 const EmptyTreeItem = ({ onDrop }: EmptyTreeItemProps) => {
     const [dragOver, setDragOver] = useState(false)
-    const context = useContext(TreeItemContext)
 
     return (
         <div
             onDragOver={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
-                context.draggingItem && setDragOver(true)
+                treeContext.draggingItem && setDragOver(true)
             }}
             onDragEnter={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
-                context.draggingItem && setDragOver(true)
+                treeContext.draggingItem && setDragOver(true)
             }}
             onDragLeave={(e) => {
                 e.stopPropagation()
@@ -28,7 +27,7 @@ const EmptyTreeItem = ({ onDrop }: EmptyTreeItemProps) => {
             onDrop={(e) => {
                 e.stopPropagation()
                 setDragOver(false)
-                context.draggingItem && onDrop?.(context.draggingItem)
+                treeContext.draggingItem && onDrop?.(treeContext.draggingItem)
             }}
             style={{
                 background: dragOver ? "rgba(255, 255, 255, 0.5)" : "none",

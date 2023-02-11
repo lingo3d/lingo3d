@@ -17,7 +17,6 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import TitleBar from "../component/bars/TitleBar"
 import IconButton from "../component/IconButton"
 import EmptyTreeItem from "../component/treeItems/EmptyTreeItem"
-import TreeItemContextProvider from "../component/treeItems/TreeItemContextProviter"
 import deleteSelected from "../../engine/hotkeys/deleteSelected"
 import useSyncState from "../hooks/useSyncState"
 import DeleteIcon from "./icons/DeleteIcon"
@@ -75,30 +74,28 @@ const AccordionSceneGraph = () => {
                     </IconButton>
                 </TitleBar>
                 <div style={{ overflow: "scroll", flexGrow: 1 }}>
-                    <TreeItemContextProvider>
-                        {appendables.map((appendable) =>
-                            appendable instanceof Model ? (
-                                <ModelTreeItem
-                                    key={appendable.uuid}
-                                    appendable={appendable}
-                                />
-                            ) : (
-                                <TreeItem
-                                    key={appendable.uuid}
-                                    appendable={appendable}
-                                />
-                            )
-                        )}
-                        <EmptyTreeItem
-                            onDrop={(child) => {
-                                emitSceneGraphChange()
-                                appendableRoot.add(child)
-                                scene.attach(child.outerObject3d)
-                                child.parent?.children?.delete(child)
-                                child.parent = undefined
-                            }}
-                        />
-                    </TreeItemContextProvider>
+                    {appendables.map((appendable) =>
+                        appendable instanceof Model ? (
+                            <ModelTreeItem
+                                key={appendable.uuid}
+                                appendable={appendable}
+                            />
+                        ) : (
+                            <TreeItem
+                                key={appendable.uuid}
+                                appendable={appendable}
+                            />
+                        )
+                    )}
+                    <EmptyTreeItem
+                        onDrop={(child) => {
+                            emitSceneGraphChange()
+                            appendableRoot.add(child)
+                            scene.attach(child.outerObject3d)
+                            child.parent?.children?.delete(child)
+                            child.parent = undefined
+                        }}
+                    />
                 </div>
             </div>
         </div>
