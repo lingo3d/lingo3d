@@ -40,6 +40,14 @@ const GameGraphEditor = () => {
         }
     }, [dragging])
 
+    useEffect(() => {
+        const cb = () => setDragging(false)
+        document.addEventListener("mouseup", cb)
+        return () => {
+            document.removeEventListener("mouseup", cb)
+        }
+    }, [])
+
     const gameGraph = useSyncState(getGameGraph)
     const [gameGraphData] = useSyncState(getGameGraphData)
     if (!gameGraphData || !gameGraph) return null
@@ -59,7 +67,6 @@ const GameGraphEditor = () => {
                     ref={ref}
                     style={{ flexGrow: 1, overflow: "hidden" }}
                     onMouseDown={() => setDragging(true)}
-                    onMouseUp={() => setDragging(false)}
                     onWheel={(e) => {
                         e.preventDefault()
                         const scale = Math.min(
