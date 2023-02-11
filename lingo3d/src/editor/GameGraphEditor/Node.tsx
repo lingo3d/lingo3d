@@ -2,6 +2,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { valueof } from "@lincode/utils"
 import { useEffect, useMemo, useRef } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
+import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphData } from "../../interface/IGameGraph"
 import addTargetInputs from "../Editor/addTargetInputs"
 import { Pane } from "../Editor/tweakpane"
@@ -30,7 +31,7 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
         const pane = new Pane({ container: el })
         const handle = new Cancellable()
 
-        addTargetInputs(handle, pane, manager)
+        addTargetInputs(handle, pane, manager, ["x", "y", "z", "color"])
 
         return () => {
             handle.cancel()
@@ -40,7 +41,7 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
     return (
         <div
             style={{
-                width: 200,
+                width: EDITOR_WIDTH,
                 minHeight: 100,
                 background: "rgba(255, 255, 255, 0.1)",
                 position: "absolute",

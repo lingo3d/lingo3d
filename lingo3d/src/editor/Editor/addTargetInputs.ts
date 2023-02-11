@@ -12,12 +12,19 @@ import { Pane } from "./tweakpane"
 export default (
     handle: Cancellable,
     pane: Pane,
-    selectionTarget: Appendable | MeshAppendable
+    selectionTarget: Appendable | MeshAppendable,
+    includeKeys?: Array<string>
 ) => {
-    const { schema, defaults, componentName } = unsafeGetValue(
+    let { schema, defaults, componentName } = unsafeGetValue(
         selectionTarget,
         "constructor"
     )
+    if (includeKeys) {
+        const _schema: any = {}
+        for (const key of includeKeys) _schema[key] = schema[key]
+        schema = _schema
+    }
+
     const [ownParams, ownRest] = splitObject(
         createParams(schema, defaults, selectionTarget),
         Object.keys(defaultsOwnKeysRecordMap.get(defaults) ?? {})
