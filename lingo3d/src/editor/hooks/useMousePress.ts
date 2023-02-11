@@ -7,11 +7,19 @@ export default (onStart: () => void, onEnd: () => void) => {
         const el = elRef.current
         if (!el) return
 
-        el.addEventListener("mousedown", onStart)
-        document.addEventListener("mouseup", onEnd)
+        const handleStart = (e: MouseEvent) => {
+            e.stopPropagation()
+            onStart()
+        }
+        const handleEnd = (e: MouseEvent) => {
+            e.stopPropagation()
+            onEnd()
+        }
+        el.addEventListener("mousedown", handleStart)
+        document.addEventListener("mouseup", handleEnd)
         return () => {
-            el.removeEventListener("mousedown", onStart)
-            document.removeEventListener("mouseup", onEnd)
+            el.removeEventListener("mousedown", handleStart)
+            document.removeEventListener("mouseup", handleEnd)
         }
     }, [])
 
