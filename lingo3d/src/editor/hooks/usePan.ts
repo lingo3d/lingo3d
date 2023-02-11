@@ -3,8 +3,6 @@ import { useEffect, useRef } from "preact/hooks"
 type PanEvent = {
     x: number
     y: number
-    startX: number
-    startY: number
     deltaX: number
     deltaY: number
 }
@@ -23,8 +21,6 @@ export default ({ onPanStart, onPanEnd, onPan }: Pan = {}) => {
         if (!el) return
 
         let panning = false
-        let startX = 0
-        let startY = 0
         let clientX = 0
         let clientY = 0
         const delta = (e: MouseEvent) => {
@@ -40,10 +36,8 @@ export default ({ onPanStart, onPanEnd, onPan }: Pan = {}) => {
             clientX = e.clientX
             clientY = e.clientY
             const evt = {
-                x: (startX = e.clientX),
-                y: (startY = e.clientY),
-                startX,
-                startY,
+                x: e.clientX,
+                y: e.clientY,
                 deltaX: 0,
                 deltaY: 0
             }
@@ -51,13 +45,12 @@ export default ({ onPanStart, onPanEnd, onPan }: Pan = {}) => {
             onPan?.(evt)
         }
         const handleUp = (e: MouseEvent) => {
+            if (!panning) return
             panning = false
             const [deltaX, deltaY] = delta(e)
             const evt = {
                 x: e.clientX,
                 y: e.clientY,
-                startX,
-                startY,
                 deltaX,
                 deltaY
             }
@@ -70,8 +63,6 @@ export default ({ onPanStart, onPanEnd, onPan }: Pan = {}) => {
             onPan?.({
                 x: e.clientX,
                 y: e.clientY,
-                startX,
-                startY,
                 deltaX,
                 deltaY
             })
