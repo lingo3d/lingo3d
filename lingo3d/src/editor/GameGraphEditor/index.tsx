@@ -1,4 +1,10 @@
-import { useEffect, useState } from "preact/hooks"
+import {
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState
+} from "preact/hooks"
 import { loop } from "../../engine/eventLoop"
 import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
 import { setGameGraph } from "../../states/useGameGraph"
@@ -18,6 +24,7 @@ const GameGraphEditor = () => {
     const [dragging, setDragging] = useState(false)
     const [tx, setTx] = useState(0)
     const [ty, setTy] = useState(0)
+    const [zoom, setZoom] = useState(1)
 
     useEffect(() => {
         if (!dragging) return
@@ -49,11 +56,25 @@ const GameGraphEditor = () => {
                     </CloseableTab>
                 </AppBar>
                 <div
-                    style={{ flexGrow: 1 }}
+                    style={{ flexGrow: 1, overflow: "hidden" }}
                     onMouseDown={() => setDragging(true)}
                     onMouseUp={() => setDragging(false)}
+                    onWheel={(e) => {
+                        e.preventDefault()
+                        setZoom(
+                            Math.min(Math.max(zoom - e.deltaY * 0.001, 0.1), 1)
+                        )
+                    }}
                 >
-                    <div style={{ transform: `translate(${tx}px, ${ty}px)` }}>
+                    <div
+                        style={{
+                            position: "absolute",
+                            width: "100%",
+                            height: "100%",
+                            transform: `translate(${tx}px, ${ty}px) scale(${zoom})`,
+                            transformOrigin: "50% 50%"
+                        }}
+                    >
                         {Object.entries(gameGraphData).map(([uuid, data]) => (
                             <Node key={uuid} uuid={uuid} data={data} />
                         ))}
