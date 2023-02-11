@@ -40,7 +40,7 @@ export default class GameGraph extends Appendable implements IGameGraph {
         this.gameGraphDataState.set([prevData])
     }
 
-    private pausedState = new Reactive(true)
+    private pausedState = new Reactive(false)
     public get paused() {
         return this.pausedState.get()
     }

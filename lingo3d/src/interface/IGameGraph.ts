@@ -21,5 +21,5 @@ export const gameGraphSchema: Required<ExtractProps<IGameGraph>> = {
 
 export const gameGraphDefaults = extendDefaults<IGameGraph>(
     [appendableDefaults],
-    { paused: true }
+    { paused: false }
 )
