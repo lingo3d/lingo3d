@@ -1,6 +1,12 @@
 import { useEffect, useRef } from "preact/hooks"
 
-export default (onStart?: () => void, onEnd?: () => void) => {
+type Pan = {
+    onPanStart?: () => void
+    onPan?: () => void
+    onPanEnd?: () => void
+}
+
+export default ({ onPanStart, onPanEnd, onPan }: Pan = {}) => {
     const elRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -9,11 +15,11 @@ export default (onStart?: () => void, onEnd?: () => void) => {
 
         const handleStart = (e: MouseEvent) => {
             e.stopPropagation()
-            onStart?.()
+            onPanStart?.()
         }
         const handleEnd = (e: MouseEvent) => {
             e.stopPropagation()
-            onEnd?.()
+            onPanEnd?.()
         }
         el.addEventListener("mousedown", handleStart)
         document.addEventListener("mouseup", handleEnd)
@@ -21,7 +27,7 @@ export default (onStart?: () => void, onEnd?: () => void) => {
             el.removeEventListener("mousedown", handleStart)
             document.removeEventListener("mouseup", handleEnd)
         }
-    }, [onStart, onEnd])
+    }, [onPanStart, onPanEnd])
 
     return elRef
 }

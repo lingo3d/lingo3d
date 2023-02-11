@@ -9,7 +9,7 @@ import treeContext from "../component/treeItems/treeContext"
 import mergeRefs from "../hooks/mergeRefs"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
-import useMousePress from "../hooks/useMousePress"
+import usePan from "../hooks/usePan"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
 import mousePosition from "../utils/mousePosition"
@@ -26,10 +26,10 @@ const GameGraphEditor = () => {
     const [sizeRef, { width, height }] = useResizeObserver()
     const originX = width * 0.5
     const originY = height * 0.5
-    const pressRef = useMousePress(
-        () => setDragging(true),
-        () => setDragging(false)
-    )
+    const pressRef = usePan({
+        onPanStart: () => setDragging(true),
+        onPanEnd: () => setDragging(false)
+    })
     useEffect(() => {
         if (!dragging) return
         const { x, y } = mousePosition

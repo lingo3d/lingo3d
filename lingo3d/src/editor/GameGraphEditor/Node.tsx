@@ -2,7 +2,7 @@ import { valueof } from "@lincode/utils"
 import { useMemo } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import { GameGraphData } from "../../interface/IGameGraph"
-import useMousePress from "../hooks/useMousePress"
+import usePan from "../hooks/usePan"
 import getDisplayName from "../utils/getDisplayName"
 
 type NodeProps = {
@@ -16,10 +16,7 @@ const Node = ({ uuid, data }: NodeProps) => {
         () => manager && getDisplayName(manager),
         [manager]
     )
-    const pressRef = useMousePress(
-        () => {},
-        () => {}
-    )
+    const pressRef = usePan()
     if (!manager) return null
 
     return (
