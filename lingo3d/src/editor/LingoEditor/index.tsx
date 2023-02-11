@@ -12,7 +12,7 @@ import { DEBUG } from "../../globals"
 import useSyncState from "../hooks/useSyncState"
 import { getStats } from "../../states/useStats"
 import Retargeter from "../Retargeter"
-import GameGraph from "../GameGraph"
+import GameGraphEditor from "../GameGraphEditor"
 import { getGameGraph } from "../../states/useGameGraph"
 
 const LingoEditor = () => {
@@ -38,7 +38,7 @@ const LingoEditor = () => {
             {retargeter ? (
                 <Retargeter />
             ) : gameGraph ? (
-                <GameGraph />
+                <GameGraphEditor />
             ) : (
                 <Editor />
             )}

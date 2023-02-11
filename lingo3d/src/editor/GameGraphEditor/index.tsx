@@ -7,7 +7,7 @@ import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
 import useSyncState from "../hooks/useSyncState"
 
-const GameGraph = () => {
+const GameGraphEditor = () => {
     useInitCSS()
     useInitEditor()
 
@@ -45,4 +45,4 @@ const GameGraph = () => {
         </>
     )
 }
-export default GameGraph
+export default GameGraphEditor
