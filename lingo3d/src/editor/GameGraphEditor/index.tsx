@@ -1,5 +1,4 @@
 import { useState } from "preact/hooks"
-import GameGraph from "../../display/GameGraph"
 import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
 import { getGameGraph, setGameGraph } from "../../states/useGameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
@@ -9,6 +8,7 @@ import treeContext from "../component/treeItems/treeContext"
 import mergeRefs from "../hooks/mergeRefs"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
+import useLatest from "../hooks/useLatest"
 import usePan from "../hooks/usePan"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
@@ -21,6 +21,7 @@ const GameGraphEditor = () => {
     const [tx, setTx] = useState(0)
     const [ty, setTy] = useState(0)
     const [zoom, setZoom] = useState(1)
+    const latestZoom = useLatest(zoom)
     const [containerRef, { width, height }] = useResizeObserver()
     const originX = width * 0.5
     const originY = height * 0.5
@@ -112,14 +113,18 @@ const GameGraphEditor = () => {
                                 key={uuid}
                                 uuid={uuid}
                                 data={data}
-                                onPan={(e) => {
+                                onPan={(e) =>
                                     gameGraph.mergeData({
                                         [uuid]: {
-                                            x: data.x + e.deltaX,
-                                            y: data.y + e.deltaY
+                                            x:
+                                                data.x +
+                                                e.deltaX / latestZoom.current,
+                                            y:
+                                                data.y +
+                                                e.deltaY / latestZoom.current
                                         }
                                     })
-                                }}
+                                }
                             />
                         ))}
                     </div>
