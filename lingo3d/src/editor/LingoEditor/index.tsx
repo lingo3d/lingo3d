@@ -43,7 +43,7 @@ const LingoEditor = () => {
                 <Editor />
             )}
             {!gameGraph && <Library />}
-            <Panels />
+            {!gameGraph && <Panels />}
 
             <WorldBar />
             <div

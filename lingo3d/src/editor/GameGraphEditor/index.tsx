@@ -6,12 +6,14 @@ import CloseableTab from "../component/tabs/CloseableTab"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
 import useSyncState from "../hooks/useSyncState"
+import Node from "./Node"
 
 const GameGraphEditor = () => {
     useInitCSS()
     useInitEditor()
 
     const [gameGraphData] = useSyncState(getGameGraphData)
+    if (!gameGraphData) return null
 
     return (
         <>
@@ -25,21 +27,9 @@ const GameGraphEditor = () => {
                     </CloseableTab>
                 </AppBar>
                 <div style={{ flexGrow: 1 }}>
-                    {Object.entries(gameGraphData ?? {}).map(
-                        ([uuid, { x, y }]) => (
-                            <div
-                                key={uuid}
-                                style={{
-                                    width: 200,
-                                    height: 300,
-                                    background: "rgba(255, 255, 255, 0.1)",
-                                    position: "absolute",
-                                    left: x,
-                                    top: y
-                                }}
-                            />
-                        )
-                    )}
+                    {Object.entries(gameGraphData).map(([uuid, data]) => (
+                        <Node key={uuid} uuid={uuid} data={data} />
+                    ))}
                 </div>
             </div>
         </>
