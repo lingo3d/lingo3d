@@ -20,7 +20,7 @@ const GameGraphEditor = () => {
 
     const [tx, setTx] = useState(0)
     const [ty, setTy] = useState(0)
-    const [zoom, setZoom] = useState(1)
+    const [zoom, setZoom] = useState(0.5)
     const latestZoom = useLatest(zoom)
     const [containerRef, { width, height }] = useResizeObserver()
     const originX = width * 0.5
