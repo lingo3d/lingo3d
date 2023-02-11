@@ -6,8 +6,10 @@ import { getGameGraphData } from "../../states/useGameGraphData"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
 import treeContext from "../component/treeItems/treeContext"
+import mergeRefs from "../hooks/mergeRefs"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
+import usePan from "../hooks/usePan"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
 import mousePosition from "../utils/mousePosition"
@@ -21,10 +23,13 @@ const GameGraphEditor = () => {
     const [tx, setTx] = useState(0)
     const [ty, setTy] = useState(0)
     const [zoom, setZoom] = useState(1)
-    const [ref, { width, height }] = useResizeObserver()
+    const [sizeRef, { width, height }] = useResizeObserver()
     const originX = width * 0.5
     const originY = height * 0.5
-
+    const panRef = usePan(
+        () => setDragging(true),
+        () => setDragging(false)
+    )
     useEffect(() => {
         if (!dragging) return
         const { x, y } = mousePosition
@@ -39,14 +44,6 @@ const GameGraphEditor = () => {
             handle.cancel()
         }
     }, [dragging])
-
-    useEffect(() => {
-        const cb = () => setDragging(false)
-        document.addEventListener("mouseup", cb)
-        return () => {
-            document.removeEventListener("mouseup", cb)
-        }
-    }, [])
 
     const gameGraph = useSyncState(getGameGraph)
     const [gameGraphData] = useSyncState(getGameGraphData)
@@ -64,9 +61,8 @@ const GameGraphEditor = () => {
                     </CloseableTab>
                 </AppBar>
                 <div
-                    ref={ref}
+                    ref={mergeRefs(sizeRef, panRef)}
                     style={{ flexGrow: 1, overflow: "hidden" }}
-                    onMouseDown={() => setDragging(true)}
                     onWheel={(e) => {
                         e.preventDefault()
                         const scale = Math.min(

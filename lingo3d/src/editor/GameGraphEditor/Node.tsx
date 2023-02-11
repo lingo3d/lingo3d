@@ -28,7 +28,7 @@ const Node = ({ uuid, data }: NodeProps) => {
                 top: data.y
             }}
         >
-            <div>{displayName}</div>
+            <div style={{ fontSize: 20, marginTop: -24 }}>{displayName}</div>
         </div>
     )
 }
