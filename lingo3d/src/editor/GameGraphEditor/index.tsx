@@ -132,6 +132,7 @@ const GameGraphEditor = () => {
                                         }
                                     })
                                 }
+                                getContainerBounds={getContainerBounds}
                             />
                         ))}
                     </div>
