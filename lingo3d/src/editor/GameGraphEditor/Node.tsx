@@ -94,7 +94,7 @@ const Node = memo(
                     />
                     <div ref={setContainer} style={{ width: "100%" }} />
                 </div>
-                <Bezier bezierStart={bezierStart} bezierEnd={bezierEnd} />
+                <Bezier start={bezierStart} end={bezierEnd} />
             </>
         )
     },

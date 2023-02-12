@@ -2,25 +2,20 @@ import { Point, quadrant } from "@lincode/math"
 import { useMemo } from "preact/hooks"
 
 type BezierProps = {
-    bezierStart?: Point
-    bezierEnd?: Point
+    start?: Point
+    end?: Point
 }
 
-const Bezier = ({ bezierStart, bezierEnd }: BezierProps) => {
+const Bezier = ({ start, end }: BezierProps) => {
     const bezier = useMemo(() => {
-        if (!bezierStart || !bezierEnd) return
+        if (!start || !end) return
 
-        const xMin = Math.min(bezierStart.x, bezierEnd.x)
-        const xMax = Math.max(bezierStart.x, bezierEnd.x)
-        const yMin = Math.min(bezierStart.y, bezierEnd.y)
-        const yMax = Math.max(bezierStart.y, bezierEnd.y)
+        const xMin = Math.min(start.x, end.x)
+        const xMax = Math.max(start.x, end.x)
+        const yMin = Math.min(start.y, end.y)
+        const yMax = Math.max(start.y, end.y)
 
-        const quad = quadrant(
-            bezierEnd.x,
-            bezierEnd.y,
-            bezierStart.x,
-            bezierStart.y
-        )
+        const quad = quadrant(end.x, end.y, start.x, start.y)
 
         let x0 = 0
         let y0 = 0
@@ -65,7 +60,7 @@ const Bezier = ({ bezierStart, bezierEnd }: BezierProps) => {
             controlPoint0: [x0 + (x1 - x0) * 0.5, y0],
             controlPoint1: [x0 + (x1 - x0) * 0.5, y1]
         }
-    }, [bezierStart, bezierEnd])
+    }, [start, end])
 
     if (!bezier) return null
 
