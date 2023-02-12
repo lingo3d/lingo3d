@@ -33,7 +33,7 @@ const SearchBox = ({ style, fullWidth, onChange }: SearchBoxProps) => {
                     padding: 4
                 }}
                 onKeyDown={(e) => e.stopPropagation()}
-                placeholder="Search property"
+                placeholder="Search..."
                 onInput={(e) => setText(e.currentTarget.value)}
             />
         </div>

@@ -1,8 +1,10 @@
 import { GameObjectType } from "../../api/serializer/types"
 import ObjectIcon from "./ObjectIcon"
 
-interface ObjectGroupProps {
-    names: Array<GameObjectType | Partial<Record<GameObjectType, string>>>
+export type ObjectName = Array<GameObjectType | Partial<Record<GameObjectType, string>>>
+
+type ObjectGroupProps = {
+    names: ObjectName
 }
 
 const getIconName = (

@@ -98,15 +98,14 @@ const Editor = () => {
                         setIncludeKeys(undefined)
                         return
                     }
+                    val = val.toLowerCase()
                     setIncludeKeys(
                         Object.keys(
                             selectionTarget
                                 ? unsafeGetValue(selectionTarget, "constructor")
                                       .schema
                                 : setupSchema
-                        ).filter((key) =>
-                            key.toLowerCase().includes(val.toLowerCase())
-                        )
+                        ).filter((key) => key.toLowerCase().includes(val))
                     )
                 }}
             />
