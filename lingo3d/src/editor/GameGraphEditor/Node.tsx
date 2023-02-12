@@ -12,6 +12,7 @@ import addTargetInputs from "../Editor/addTargetInputs"
 import usePane from "../Editor/usePane"
 import usePan, { PanEvent } from "../hooks/usePan"
 import getDisplayName from "../utils/getDisplayName"
+import Bezier from "./Bezier"
 
 let panningUUID: string | undefined
 
@@ -39,24 +40,14 @@ const Node = memo(
         const [bezierStart, setBezierStart] = useState<Point>()
         const [bezierEnd, setBezierEnd] = useState<Point>()
 
-        const bezierBounds = useMemo(() => {
-            if (!bezierStart || !bezierEnd) return
-            return {
-                xMin: Math.min(bezierStart.x, bezierEnd.x),
-                xMax: Math.max(bezierStart.x, bezierEnd.x),
-                yMin: Math.min(bezierStart.y, bezierEnd.y),
-                yMax: Math.max(bezierStart.y, bezierEnd.y)
-            }
-        }, [bezierStart, bezierEnd])
-
         useEffect(() => {
             if (!manager || !pane) return
             const handle = addTargetInputs(pane, manager, includeKeys, true, {
                 onDragStart: (e) => setBezierStart(getPositionRef.current!(e)),
                 onDrag: (e) => setBezierEnd(getPositionRef.current!(e)),
-                onDragEnd: (e) => {
-                    // setBezierStart(undefined)
-                    // setBezierEnd(undefined)
+                onDragEnd: () => {
+                    setBezierStart(undefined)
+                    setBezierEnd(undefined)
                 },
                 onDrop: (e, draggingItem) => {}
             })
@@ -103,19 +94,7 @@ const Node = memo(
                     />
                     <div ref={setContainer} style={{ width: "100%" }} />
                 </div>
-                {bezierBounds && (
-                    <svg
-                        style={{
-                            left: bezierBounds.xMin,
-                            top: bezierBounds.yMin,
-                            position: "absolute",
-                            pointerEvents: "none",
-                            background: "yellow"
-                        }}
-                        width={bezierBounds.xMax - bezierBounds.xMin}
-                        height={bezierBounds.yMax - bezierBounds.yMin}
-                    />
-                )}
+                <Bezier bezierStart={bezierStart} bezierEnd={bezierEnd} />
             </>
         )
     },
