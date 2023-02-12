@@ -1,5 +1,5 @@
 import Model from "../display/Model"
+import Cube from "../display/primitives/Cube"
 import Octahedron from "../display/primitives/Octahedron"
 
-const cone = new Model()
-cone.src = "parrot.glb"
+const box = new Cube()

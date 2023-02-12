@@ -32,7 +32,7 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
         const pane = new Pane({ container: el })
         const handle = new Cancellable()
 
-        addTargetInputs(handle, pane, manager, ["x", "y", "z", "color"])
+        addTargetInputs(handle, pane, manager, ["x", "y", "z", "color"], true)
 
         return () => {
             handle.cancel()

@@ -13,7 +13,8 @@ export default (
     handle: Cancellable,
     pane: Pane,
     selectionTarget: Appendable | MeshAppendable,
-    includeKeys?: Array<string>
+    includeKeys?: Array<string>,
+    noMonitor?: boolean
 ) => {
     let { schema, defaults, componentName } = unsafeGetValue(
         selectionTarget,
@@ -43,7 +44,8 @@ export default (
             selectionTarget,
             defaults,
             generalParams,
-            true
+            true,
+            noMonitor
         )
 
     const [physicsParams, physicsRest] = splitObject(generalRest, [
@@ -58,7 +60,9 @@ export default (
             "physics",
             selectionTarget,
             defaults,
-            physicsParams
+            physicsParams,
+            false,
+            noMonitor
         )
 
     const [transformParams0, transformRest] = splitObject(physicsRest, [
@@ -103,7 +107,9 @@ export default (
             "transform",
             selectionTarget,
             defaults,
-            transformParams
+            transformParams,
+            false,
+            noMonitor
         )
         innerTransformParams &&
             addInputs(
@@ -112,7 +118,9 @@ export default (
                 "inner transform",
                 selectionTarget,
                 defaults,
-                innerTransformParams
+                innerTransformParams,
+                false,
+                noMonitor
             )
     }
 
@@ -128,7 +136,9 @@ export default (
             "animation",
             selectionTarget,
             defaults,
-            animationParams
+            animationParams,
+            false,
+            noMonitor
         )
 
     const [displayParams, displayRest] = splitObject(animationRest, [
@@ -145,7 +155,9 @@ export default (
             "display",
             selectionTarget,
             defaults,
-            displayParams
+            displayParams,
+            false,
+            noMonitor
         )
 
     const [effectsParams, effectsRest] = splitObject(displayRest, [
@@ -159,7 +171,9 @@ export default (
             "effects",
             selectionTarget,
             defaults,
-            effectsParams
+            effectsParams,
+            false,
+            noMonitor
         )
 
     const [adjustMaterialParams, adjustMaterialRest] = splitObject(
@@ -179,7 +193,9 @@ export default (
             "adjust material",
             selectionTarget,
             defaults,
-            adjustMaterialParams
+            adjustMaterialParams,
+            false,
+            noMonitor
         )
 
     const [materialParams, materialRest] = splitObject(adjustMaterialRest, [
@@ -200,7 +216,9 @@ export default (
             "material",
             selectionTarget,
             defaults,
-            materialParams
+            materialParams,
+            false,
+            noMonitor
         )
 
     const [pbrMaterialParams, pbrMaterialRest] = splitObject(materialRest, [
@@ -231,7 +249,9 @@ export default (
             "pbr material",
             selectionTarget,
             defaults,
-            pbrMaterialParams
+            pbrMaterialParams,
+            false,
+            noMonitor
         )
 
     Object.assign(pbrMaterialRest, ownParams)
@@ -248,7 +268,8 @@ export default (
             selectionTarget,
             defaults,
             pbrMaterialRest,
-            true
+            true,
+            noMonitor
         ).then((inputs) =>
             inputs.stride.on("change", ({ value }: any) => {
                 Object.assign(pbrMaterialRest, {
@@ -266,6 +287,7 @@ export default (
             selectionTarget,
             defaults,
             pbrMaterialRest,
-            true
+            true,
+            noMonitor
         )
 }

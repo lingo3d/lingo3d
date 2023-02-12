@@ -58,7 +58,8 @@ export default async (
     target: Record<string, any>,
     defaults: Defaults<any>,
     params: Record<string, any>,
-    prepend?: boolean
+    prepend?: boolean,
+    noMonitor?: boolean
 ) => {
     if (!prepend) await Promise.resolve()
 
@@ -99,33 +100,41 @@ export default async (
                 return [key, input]
             }
 
-            const resetButton = resetIcon.cloneNode(true) as HTMLElement
-            input.element.prepend(resetButton)
-            resetButton.style.opacity = "0.1"
+            if (!noMonitor) {
+                const resetButton = resetIcon.cloneNode(true) as HTMLElement
+                input.element.prepend(resetButton)
+                resetButton.style.opacity = "0.1"
 
-            const updateResetButton = throttleTrailing(() => {
-                const unchanged = isEqual(
-                    params[key] ?? paramsDefault[key],
-                    paramsDefault[key]
-                )
-                resetButton.style.opacity = unchanged ? "0.1" : "0.5"
-                resetButton.style.cursor = unchanged ? "auto" : "pointer"
-            }, MONITOR_INTERVAL)
-            updateResetButton()
+                const updateResetButton = throttleTrailing(() => {
+                    const unchanged = isEqual(
+                        params[key] ?? paramsDefault[key],
+                        paramsDefault[key]
+                    )
+                    resetButton.style.opacity = unchanged ? "0.1" : "0.5"
+                    resetButton.style.cursor = unchanged ? "auto" : "pointer"
+                }, MONITOR_INTERVAL)
+                updateResetButton()
 
-            resetButton.onclick = () => {
-                params[key] = structuredClone(paramsDefault[key])
-                target[key] = structuredClone(paramsDefault[key])
-                skipApplyValue()
-                input.refresh()
+                resetButton.onclick = () => {
+                    params[key] = structuredClone(paramsDefault[key])
+                    target[key] = structuredClone(paramsDefault[key])
+                    skipApplyValue()
+                    input.refresh()
+                }
+
+                input.on("change", ({ value }: any) => {
+                    updateResetButton()
+                    if (skipApply) return
+                    !downPtr[0] && emitEditorEdit("start")
+                    target[key] = processValue(value)
+                    !downPtr[0] && emitEditorEdit("end")
+                })
+                return [key, input]
             }
 
             input.on("change", ({ value }: any) => {
-                updateResetButton()
                 if (skipApply) return
-                !downPtr[0] && emitEditorEdit("start")
                 target[key] = processValue(value)
-                !downPtr[0] && emitEditorEdit("end")
             })
             return [key, input]
         })
@@ -133,6 +142,8 @@ export default async (
     Object.assign(params, paramsBackup)
     skipApplyValue()
     pane.refresh()
+
+    if (noMonitor) return result
 
     handle.watch(
         timer(
@@ -156,6 +167,5 @@ export default async (
             true
         )
     )
-
     return result
 }
