@@ -143,6 +143,10 @@ export default async (
     skipApplyValue()
     pane.refresh()
 
+    handle.then(() => {
+        folder.dispose()
+        for (const input of Object.values(result)) input.dispose()
+    })
     if (noMonitor) return result
 
     handle.watch(

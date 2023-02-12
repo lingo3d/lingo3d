@@ -29,11 +29,7 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
 
     useEffect(() => {
         if (!manager || !pane) return
-
-        const handle = new Cancellable()
-
-        addTargetInputs(handle, pane, manager, includeKeys, true)
-
+        const handle = addTargetInputs(pane, manager, includeKeys, true)
         return () => {
             handle.cancel()
         }

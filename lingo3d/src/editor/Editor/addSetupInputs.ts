@@ -6,11 +6,11 @@ import splitObject from "./splitObject"
 import { Cancellable } from "@lincode/promiselikes"
 
 export default (
-    handle: Cancellable,
     pane: Pane,
     targetSetup: Partial<ISetup>,
     includeKeys: Array<string> | undefined
 ) => {
+    const handle = new Cancellable()
     const [editorParams, editorRest] = splitObject(
         createParams(setupSchema, setupDefaults, targetSetup, includeKeys),
         ["gridHelper", "gridHelperSize", "stats"]
@@ -101,4 +101,6 @@ export default (
             setupDefaults,
             outlineRest
         )
+
+    return handle
 }

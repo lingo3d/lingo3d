@@ -50,23 +50,18 @@ const Editor = () => {
     const [includeKeys, setIncludeKeys] = useState<Array<string>>()
 
     useLayoutEffect(() => {
-        if (!pane) return
-
-        const handle = new Cancellable()
+        if (!pane || getMultipleSelectionTargets()[0].size) return
         if (
             selectedSignal.value === "Settings" ||
             !selectionTarget ||
             selectionTarget instanceof Setup
         ) {
-            addSetupInputs(handle, pane, setupStruct, includeKeys)
+            const handle = addSetupInputs(pane, setupStruct, includeKeys)
             return () => {
                 handle.cancel()
-                pane.dispose()
             }
         }
-        if (!getMultipleSelectionTargets()[0].size)
-            addTargetInputs(handle, pane, selectionTarget, includeKeys)
-
+        const handle = addTargetInputs(pane, selectionTarget, includeKeys)
         return () => {
             handle.cancel()
         }

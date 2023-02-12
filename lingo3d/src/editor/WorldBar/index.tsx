@@ -47,9 +47,9 @@ const Tabs = () => {
             for (const cam of cameraList)
                 options[getDisplayName(getManager(cam)!)] = i++
 
-            const cameraInput = pane.add(
-                pane.addInput(cameraSettings, label, { options })
-            )
+            const cameraInput = pane.addInput(cameraSettings, label, {
+                options
+            })
             el.querySelector<HTMLDivElement>(".tp-lblv_v")!.style.width =
                 "100px"
 

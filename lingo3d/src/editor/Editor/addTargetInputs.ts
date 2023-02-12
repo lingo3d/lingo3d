@@ -10,12 +10,12 @@ import splitObject from "./splitObject"
 import { Pane } from "./tweakpane"
 
 export default (
-    handle: Cancellable,
     pane: Pane,
     selectionTarget: Appendable | MeshAppendable,
     includeKeys: Array<string> | undefined,
     noMonitor?: boolean
 ) => {
+    const handle = new Cancellable()
     const { schema, defaults, componentName } = unsafeGetValue(
         selectionTarget,
         "constructor"
@@ -285,4 +285,6 @@ export default (
             true,
             noMonitor
         )
+
+    return handle
 }
