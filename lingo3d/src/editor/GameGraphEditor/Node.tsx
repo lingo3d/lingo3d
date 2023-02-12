@@ -1,3 +1,4 @@
+import { Point, Point3d } from "@lincode/math"
 import { valueof } from "@lincode/utils"
 import { useEffect, useMemo, useState } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
@@ -9,6 +10,11 @@ import addTargetInputs from "../Editor/addTargetInputs"
 import usePane from "../Editor/usePane"
 import usePan, { PanEvent } from "../hooks/usePan"
 import getDisplayName from "../utils/getDisplayName"
+
+const getPosition = (e: DragEvent, container: HTMLDivElement) => {
+    const bounds = container.getBoundingClientRect()
+    return new Point(e.clientX - bounds.left, e.clientY - bounds.top)
+}
 
 type NodeProps = {
     uuid: string
@@ -23,23 +29,21 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
         [manager]
     )
     const pressRef = usePan({ onPan })
-    const [pane, setContainer] = usePane()
+    const [pane, setContainer, container] = usePane()
     const [includeKeys, setIncludeKeys] = useState<Array<string>>([])
+    const [bezierStart, setBezierStart] = useState<Point>()
+    const [bezierEnd, setBezierEnd] = useState<Point>()
 
     useEffect(() => {
         if (!manager || !pane) return
         const handle = addTargetInputs(pane, manager, includeKeys, true, {
-            onDragStart: (e) => {
-                console.log("drag start")
-            },
-            onDrag: (e) => {
-                console.log("drag")
-            },
+            onDragStart: (e) => setBezierStart(getPosition(e, container)),
+            onDrag: (e) => setBezierEnd(getPosition(e, container)),
             onDragEnd: (e) => {
-                console.log("drag end")
+                setBezierStart(undefined)
+                setBezierEnd(undefined)
             },
             onDrop: (e, draggingItem) => {
-                console.log("drop")
             }
         })
         return () => {

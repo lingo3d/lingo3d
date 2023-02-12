@@ -17,5 +17,5 @@ export default () => {
         }
     }, [container])
 
-    return <const>[pane, setContainer]
+    return <const>[pane, setContainer, container]
 }
