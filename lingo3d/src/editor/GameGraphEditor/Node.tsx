@@ -7,6 +7,7 @@ import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphData } from "../../interface/IGameGraph"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import SearchBox from "../component/SearchBox"
+import treeContext from "../component/treeItems/treeContext"
 import addTargetInputs from "../Editor/addTargetInputs"
 import usePane from "../Editor/usePane"
 import usePan, { PanEvent } from "../hooks/usePan"
@@ -16,6 +17,8 @@ const getPosition = (e: DragEvent, container: HTMLDivElement) => {
     const bounds = container.getBoundingClientRect()
     return new Point(e.clientX - bounds.left, e.clientY - bounds.top)
 }
+
+let panningUUID: string | undefined
 
 type NodeProps = {
     uuid: string
@@ -33,7 +36,11 @@ const Node = memo(
             () => manager && getDisplayName(manager),
             [manager]
         )
-        const pressRef = usePan({ onPan })
+        const pressRef = usePan({
+            onPan,
+            onPanStart: () => (panningUUID = uuid),
+            onPanEnd: () => (panningUUID = undefined)
+        })
         const [pane, setContainer, container] = usePane()
         const [includeKeys, setIncludeKeys] = useState<Array<string>>([])
         const [bezierStart, setBezierStart] = useState<Point>()
@@ -118,6 +125,10 @@ const Node = memo(
             </>
         )
     },
-    () => true
+    (prev) => {
+        if (prev.uuid === panningUUID) return false
+        if (!treeContext.draggingItem) return true
+        return treeContext.draggingItem.uuid !== prev.uuid
+    }
 )
 export default Node
