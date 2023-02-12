@@ -1,4 +1,3 @@
-import { Cancellable } from "@lincode/promiselikes"
 import { valueof } from "@lincode/utils"
 import { useEffect, useMemo, useState } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
