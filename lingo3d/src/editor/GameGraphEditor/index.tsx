@@ -1,7 +1,8 @@
-import { useState } from "preact/hooks"
+import { useMemo, useState } from "preact/hooks"
 import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
 import { getGameGraph, setGameGraph } from "../../states/useGameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
+import throttleFrameLeading from "../../utils/throttleFrameLeading"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
 import treeContext from "../component/treeItems/treeContext"
@@ -31,6 +32,13 @@ const GameGraphEditor = () => {
             setTy((ty) => ty + deltaY)
         }
     })
+    const getContainerBounds = useMemo(
+        () =>
+            throttleFrameLeading(() =>
+                containerRef.current!.getBoundingClientRect()
+            ),
+        []
+    )
     const gameGraph = useSyncState(getGameGraph)
     const [gameGraphData] = useSyncState(getGameGraphData)
     if (!gameGraphData || !gameGraph) return null
@@ -57,7 +65,7 @@ const GameGraphEditor = () => {
                         )
                         setZoom(scale)
 
-                        const bounds = e.currentTarget.getBoundingClientRect()
+                        const bounds = getContainerBounds()
 
                         const xOld =
                             ((e.clientX - bounds.left - tx - originX) / zoom +
@@ -85,7 +93,7 @@ const GameGraphEditor = () => {
                         e.preventDefault()
                         if (!treeContext.draggingItem) return
 
-                        const bounds = e.currentTarget.getBoundingClientRect()
+                        const bounds = getContainerBounds()
                         const x =
                             (e.clientX - bounds.left - tx - originX) / zoom +
                             originX
