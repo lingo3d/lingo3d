@@ -2,11 +2,13 @@ import { emitEditorEdit } from "../../events/onEditorEdit"
 
 export const downPtr = [false]
 
-const handleDown = () => {
+const handleDown = (ev) => {
+    ev.stopPropagation()
     downPtr[0] = true
     emitEditorEdit("start")
 }
-const handleUp = () => {
+const handleUp = (ev) => {
+    ev.stopPropagation()
     emitEditorEdit("end")
     queueMicrotask(() => (downPtr[0] = false))
 }
@@ -3157,7 +3159,7 @@ class PointerHandler {
         const doc = this.elem_.ownerDocument
         doc.addEventListener("mousemove", this.onDocumentMouseMove_)
         doc.addEventListener("mouseup", this.onDocumentMouseUp_)
-        handleDown()
+        handleDown(ev)
         this.emitter.emit("down", {
             altKey: ev.altKey,
             data: this.computePosition_(computeOffset$1(ev, this.elem_)),
@@ -3177,7 +3179,7 @@ class PointerHandler {
         const doc = this.elem_.ownerDocument
         doc.removeEventListener("mousemove", this.onDocumentMouseMove_)
         doc.removeEventListener("mouseup", this.onDocumentMouseUp_)
-        handleUp()
+        handleUp(ev)
         this.emitter.emit("up", {
             altKey: ev.altKey,
             data: this.computePosition_(computeOffset$1(ev, this.elem_)),
@@ -3189,7 +3191,7 @@ class PointerHandler {
         ev.preventDefault()
         const touch = ev.targetTouches.item(0)
         const rect = this.elem_.getBoundingClientRect()
-        handleDown()
+        handleDown(ev)
         this.emitter.emit("down", {
             altKey: ev.altKey,
             data: this.computePosition_(
@@ -3230,7 +3232,7 @@ class PointerHandler {
                 ? _a
                 : this.lastTouch_
         const rect = this.elem_.getBoundingClientRect()
-        handleUp()
+        handleUp(ev)
         this.emitter.emit("up", {
             altKey: ev.altKey,
             data: this.computePosition_(

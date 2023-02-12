@@ -53,8 +53,6 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
                 fullWidth
                 style={{ marginTop: 8 }}
                 onChange={(val) => {
-                    console.log(val)
-
                     if (!val || !manager) {
                         setIncludeKeys([])
                         return
