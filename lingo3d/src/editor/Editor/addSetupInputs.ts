@@ -8,10 +8,11 @@ import { Cancellable } from "@lincode/promiselikes"
 export default (
     handle: Cancellable,
     pane: Pane,
-    targetSetup: Partial<ISetup>
+    targetSetup: Partial<ISetup>,
+    includeKeys: Array<string> | undefined
 ) => {
     const [editorParams, editorRest] = splitObject(
-        createParams(setupSchema, setupDefaults, targetSetup),
+        createParams(setupSchema, setupDefaults, targetSetup, includeKeys),
         ["gridHelper", "gridHelperSize", "stats"]
     )
     addInputs(handle, pane, "editor", targetSetup, setupDefaults, editorParams)

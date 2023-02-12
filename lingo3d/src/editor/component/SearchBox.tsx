@@ -1,11 +1,24 @@
-import { CSSProperties } from "preact/compat"
+import { CSSProperties, useEffect, useState } from "preact/compat"
 
 type SearchBoxProps = {
     style?: CSSProperties
     fullWidth?: boolean
+    onChange?: (val: string) => void
 }
 
-const SearchBox = ({ style, fullWidth }: SearchBoxProps) => {
+const SearchBox = ({ style, fullWidth, onChange }: SearchBoxProps) => {
+    const [text, setText] = useState<string | undefined>()
+
+    useEffect(() => {
+        const timeout = setTimeout(
+            () => text !== undefined && onChange?.(text),
+            500
+        )
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [text])
+
     return (
         <div
             className="lingo3d-flexcenter"
@@ -21,6 +34,7 @@ const SearchBox = ({ style, fullWidth }: SearchBoxProps) => {
                 }}
                 onKeyDown={(e) => e.stopPropagation()}
                 placeholder="Search property"
+                onInput={(e) => setText(e.currentTarget.value)}
             />
         </div>
     )

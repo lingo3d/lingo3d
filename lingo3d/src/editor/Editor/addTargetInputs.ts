@@ -13,21 +13,16 @@ export default (
     handle: Cancellable,
     pane: Pane,
     selectionTarget: Appendable | MeshAppendable,
-    includeKeys?: Array<string>,
+    includeKeys: Array<string> | undefined,
     noMonitor?: boolean
 ) => {
-    let { schema, defaults, componentName } = unsafeGetValue(
+    const { schema, defaults, componentName } = unsafeGetValue(
         selectionTarget,
         "constructor"
     )
-    if (includeKeys) {
-        const _schema: any = {}
-        for (const key of includeKeys) _schema[key] = schema[key]
-        schema = _schema
-    }
 
     const [ownParams, ownRest] = splitObject(
-        createParams(schema, defaults, selectionTarget),
+        createParams(schema, defaults, selectionTarget, includeKeys),
         Object.keys(defaultsOwnKeysRecordMap.get(defaults) ?? {})
     )
 

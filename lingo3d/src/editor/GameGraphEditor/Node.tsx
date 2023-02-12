@@ -49,7 +49,7 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
                 top: data.y
             }}
         >
-            <div style={{ fontSize: 20, marginTop: -24 }} ref={pressRef}>
+            <div style={{ fontSize: 16, marginTop: -24 }} ref={pressRef}>
                 {displayName}
             </div>
             <SearchBox fullWidth style={{ marginTop: 8 }} />

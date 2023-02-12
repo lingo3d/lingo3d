@@ -1,5 +1,5 @@
 import { Pane } from "./tweakpane"
-import { useLayoutEffect } from "preact/hooks"
+import { useLayoutEffect, useState } from "preact/hooks"
 import { Cancellable } from "@lincode/promiselikes"
 import getDisplayName from "../utils/getDisplayName"
 import { dummyDefaults } from "../../interface/IDummy"
@@ -20,6 +20,8 @@ import setupStruct from "../../engine/setupStruct"
 import { getEditorPresets } from "../../states/useEditorPresets"
 import addTargetInputs from "./addTargetInputs"
 import SearchBox from "../component/SearchBox"
+import unsafeGetValue from "../../utils/unsafeGetValue"
+import { setupSchema } from "../../interface/ISetup"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -44,6 +46,7 @@ const Editor = () => {
     const selectedSignal = useSignal<string | undefined>(undefined)
 
     const presets = useSyncState(getEditorPresets)
+    const [includeKeys, setIncludeKeys] = useState<Array<string> | undefined>()
 
     useLayoutEffect(() => {
         const el = elRef.current
@@ -57,20 +60,20 @@ const Editor = () => {
             !selectionTarget ||
             selectionTarget instanceof Setup
         ) {
-            addSetupInputs(handle, pane, setupStruct)
+            addSetupInputs(handle, pane, setupStruct, includeKeys)
             return () => {
                 handle.cancel()
                 pane.dispose()
             }
         }
         if (!getMultipleSelectionTargets()[0].size)
-            addTargetInputs(handle, pane, selectionTarget)
+            addTargetInputs(handle, pane, selectionTarget, includeKeys)
 
         return () => {
             handle.cancel()
             pane.dispose()
         }
-    }, [selectionTarget, selectedSignal.value, presets])
+    }, [selectionTarget, selectedSignal.value, presets, includeKeys])
 
     return (
         <div
@@ -89,7 +92,24 @@ const Editor = () => {
                     </CloseableTab>
                 )}
             </AppBar>
-            <SearchBox />
+            <SearchBox
+                onChange={(val) => {
+                    if (!val) {
+                        setIncludeKeys(undefined)
+                        return
+                    }
+                    setIncludeKeys(
+                        Object.keys(
+                            selectionTarget
+                                ? unsafeGetValue(selectionTarget, "constructor")
+                                      .schema
+                                : setupSchema
+                        ).filter((key) =>
+                            key.toLowerCase().includes(val.toLowerCase())
+                        )
+                    )
+                }}
+            />
             <div
                 style={{
                     flexGrow: 1,
