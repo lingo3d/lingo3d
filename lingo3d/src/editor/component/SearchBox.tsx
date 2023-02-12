@@ -7,7 +7,7 @@ type SearchBoxProps = {
 }
 
 const SearchBox = ({ style, fullWidth, onChange }: SearchBoxProps) => {
-    const [text, setText] = useState<string | undefined>()
+    const [text, setText] = useState<string>()
 
     useEffect(() => {
         const timeout = setTimeout(

@@ -55,7 +55,7 @@ const Library = () => {
     useInitEditor()
 
     const elRef = useClickable()
-    const [search, setSearch] = useState<string | undefined>()
+    const [search, setSearch] = useState<string>()
 
     const names = useMemo(
         () =>

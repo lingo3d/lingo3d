@@ -3,7 +3,7 @@ import { useLayoutEffect, useState } from "preact/hooks"
 import { Cancellable } from "@lincode/promiselikes"
 import getDisplayName from "../utils/getDisplayName"
 import { dummyDefaults } from "../../interface/IDummy"
-import Setup from "../../display/Setup"
+import Setup, { defaultSetup } from "../../display/Setup"
 import addSetupInputs from "./addSetupInputs"
 import CloseableTab from "../component/tabs/CloseableTab"
 import AppBar from "../component/bars/AppBar"
@@ -21,7 +21,6 @@ import { getEditorPresets } from "../../states/useEditorPresets"
 import addTargetInputs from "./addTargetInputs"
 import SearchBox from "../component/SearchBox"
 import unsafeGetValue from "../../utils/unsafeGetValue"
-import { setupSchema } from "../../interface/ISetup"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -46,7 +45,7 @@ const Editor = () => {
     const selectedSignal = useSignal<string | undefined>(undefined)
 
     const presets = useSyncState(getEditorPresets)
-    const [includeKeys, setIncludeKeys] = useState<Array<string> | undefined>()
+    const [includeKeys, setIncludeKeys] = useState<Array<string>>()
 
     useLayoutEffect(() => {
         const el = elRef.current
@@ -101,10 +100,10 @@ const Editor = () => {
                     val = val.toLowerCase()
                     setIncludeKeys(
                         Object.keys(
-                            selectionTarget
-                                ? unsafeGetValue(selectionTarget, "constructor")
-                                      .schema
-                                : setupSchema
+                            unsafeGetValue(
+                                selectionTarget ?? defaultSetup,
+                                "constructor"
+                            ).schema
                         ).filter((key) => key.toLowerCase().includes(val))
                     )
                 }}
