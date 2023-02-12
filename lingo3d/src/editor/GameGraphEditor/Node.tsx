@@ -29,7 +29,9 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
 
     useEffect(() => {
         if (!manager || !pane) return
-        const handle = addTargetInputs(pane, manager, includeKeys, true)
+        const handle = addTargetInputs(pane, manager, includeKeys, true, () => {
+            console.log("connect")
+        })
         return () => {
             handle.cancel()
         }

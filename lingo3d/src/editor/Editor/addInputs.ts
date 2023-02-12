@@ -1,6 +1,6 @@
 import { debounce, throttleTrailing } from "@lincode/utils"
 import { downPtr, Pane } from "./tweakpane"
-import resetIcon from "./resetIcon"
+import resetIcon from "./icons/resetIcon"
 import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import { Cancellable } from "@lincode/promiselikes"
@@ -13,6 +13,7 @@ import {
     assignEditorPresets,
     getEditorPresets
 } from "../../states/useEditorPresets"
+import connectorIcon from "./icons/connectorIcon"
 
 let skipApply = false
 let leading = true
@@ -59,7 +60,8 @@ export default async (
     defaults: Defaults<any>,
     params: Record<string, any>,
     prepend?: boolean,
-    noMonitor?: boolean
+    noMonitor?: boolean,
+    onConnect?: () => void
 ) => {
     if (!prepend) await Promise.resolve()
 
@@ -130,6 +132,11 @@ export default async (
                     !downPtr[0] && emitEditorEdit("end")
                 })
                 return [key, input]
+            }
+
+            if (onConnect) {
+                const connector = connectorIcon.cloneNode(true) as HTMLElement
+                input.element.prepend(connector)
             }
 
             input.on("change", ({ value }: any) => {
