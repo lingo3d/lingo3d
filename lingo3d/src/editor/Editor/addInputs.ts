@@ -52,6 +52,13 @@ const processValue = (value: any) => {
     return value
 }
 
+export type Connection = {
+    onDragStart?: (e: MouseEvent) => void
+    onDrop?: (manager: any, property: string) => void
+}
+
+let draggingItem: [any, string] | undefined
+
 export default async (
     handle: Cancellable,
     pane: Pane,
@@ -61,7 +68,7 @@ export default async (
     params: Record<string, any>,
     prepend?: boolean,
     noMonitor?: boolean,
-    onConnect?: () => void
+    connection?: Connection
 ) => {
     if (!prepend) await Promise.resolve()
 
@@ -134,9 +141,25 @@ export default async (
                 return [key, input]
             }
 
-            if (onConnect) {
+            if (connection) {
                 const connector = connectorIcon.cloneNode(true) as HTMLElement
                 input.element.prepend(connector)
+                connector.onmousedown = (e) => {
+                    e.stopPropagation()
+                    connection.onDragStart?.(e)
+                    draggingItem = [target, key]
+                }
+                connector.onmouseup = (e) => {
+                    e.stopPropagation()
+                    if (!draggingItem) return
+                    connection.onDrop?.(draggingItem[0], draggingItem[1])
+                    draggingItem = undefined
+                }
+                const handleMouseUp = () => (draggingItem = undefined)
+                document.addEventListener("mouseup", handleMouseUp)
+                handle.then(() =>
+                    document.removeEventListener("mouseup", handleMouseUp)
+                )
             }
 
             input.on("change", ({ value }: any) => {

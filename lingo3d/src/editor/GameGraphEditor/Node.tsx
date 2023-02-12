@@ -28,8 +28,13 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
 
     useEffect(() => {
         if (!manager || !pane) return
-        const handle = addTargetInputs(pane, manager, includeKeys, true, () => {
-            console.log("connect")
+        const handle = addTargetInputs(pane, manager, includeKeys, true, {
+            onDragStart: (e) => {
+                console.log("drag start")
+            },
+            onDrop: (manager, property) => {
+                console.log(manager, property)
+            }
         })
         return () => {
             handle.cancel()

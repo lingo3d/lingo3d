@@ -4,7 +4,7 @@ import MeshAppendable from "../../api/core/MeshAppendable"
 import Dummy from "../../display/Dummy"
 import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
 import unsafeGetValue from "../../utils/unsafeGetValue"
-import addInputs from "./addInputs"
+import addInputs, { Connection } from "./addInputs"
 import createParams from "./createParams"
 import splitObject from "./splitObject"
 import { Pane } from "./tweakpane"
@@ -14,7 +14,7 @@ export default (
     selectionTarget: Appendable | MeshAppendable,
     includeKeys: Array<string> | undefined,
     noMonitor?: boolean,
-    onConnect?: () => void
+    connection?: Connection
 ) => {
     const handle = new Cancellable()
     const { schema, defaults, componentName } = unsafeGetValue(
@@ -42,7 +42,7 @@ export default (
             generalParams,
             true,
             noMonitor,
-            onConnect
+            connection
         )
 
     const [physicsParams, physicsRest] = splitObject(generalRest, [
@@ -60,7 +60,7 @@ export default (
             physicsParams,
             false,
             noMonitor,
-            onConnect
+            connection
         )
 
     const [transformParams0, transformRest] = splitObject(physicsRest, [
@@ -108,7 +108,7 @@ export default (
             transformParams,
             false,
             noMonitor,
-            onConnect
+            connection
         )
         innerTransformParams &&
             addInputs(
@@ -120,7 +120,7 @@ export default (
                 innerTransformParams,
                 false,
                 noMonitor,
-                onConnect
+                connection
             )
     }
 
@@ -139,7 +139,7 @@ export default (
             animationParams,
             false,
             noMonitor,
-            onConnect
+            connection
         )
 
     const [displayParams, displayRest] = splitObject(animationRest, [
@@ -159,7 +159,7 @@ export default (
             displayParams,
             false,
             noMonitor,
-            onConnect
+            connection
         )
 
     const [effectsParams, effectsRest] = splitObject(displayRest, [
@@ -176,7 +176,7 @@ export default (
             effectsParams,
             false,
             noMonitor,
-            onConnect
+            connection
         )
 
     const [adjustMaterialParams, adjustMaterialRest] = splitObject(
@@ -199,7 +199,7 @@ export default (
             adjustMaterialParams,
             false,
             noMonitor,
-            onConnect
+            connection
         )
 
     const [materialParams, materialRest] = splitObject(adjustMaterialRest, [
@@ -223,7 +223,7 @@ export default (
             materialParams,
             false,
             noMonitor,
-            onConnect
+            connection
         )
 
     const [pbrMaterialParams, pbrMaterialRest] = splitObject(materialRest, [
@@ -257,7 +257,7 @@ export default (
             pbrMaterialParams,
             false,
             noMonitor,
-            onConnect
+            connection
         )
 
     Object.assign(pbrMaterialRest, ownParams)
@@ -276,7 +276,7 @@ export default (
             pbrMaterialRest,
             true,
             noMonitor,
-            onConnect
+            connection
         ).then((inputs) =>
             inputs.stride.on("change", ({ value }: any) => {
                 Object.assign(pbrMaterialRest, {
@@ -296,7 +296,7 @@ export default (
             pbrMaterialRest,
             true,
             noMonitor,
-            onConnect
+            connection
         )
 
     return handle
