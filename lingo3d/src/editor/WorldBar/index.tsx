@@ -14,6 +14,7 @@ import Switch from "../component/Switch"
 import useSyncState from "../hooks/useSyncState"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
 import usePane from "../Editor/usePane"
+import mergeRefs from "../hooks/mergeRefs"
 
 const Tabs = () => {
     useInitCSS()
@@ -21,7 +22,7 @@ const Tabs = () => {
 
     const splitView = useSyncState(getSplitView)
     const elRef = useClickable()
-    const pane = usePane(elRef)
+    const [pane, setContainer] = usePane()
 
     useLayoutEffect(() => {
         const el = elRef.current
@@ -68,7 +69,10 @@ const Tabs = () => {
             style={{ width: "100%" }}
         >
             <AppBar>
-                <div ref={elRef} style={{ marginLeft: -20 }} />
+                <div
+                    ref={mergeRefs(elRef, setContainer)}
+                    style={{ marginLeft: -20 }}
+                />
                 <Switch
                     label="split view"
                     on={splitView}

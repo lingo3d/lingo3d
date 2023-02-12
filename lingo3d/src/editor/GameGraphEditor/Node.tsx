@@ -1,6 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { valueof } from "@lincode/utils"
-import { useEffect, useMemo, useRef, useState } from "preact/hooks"
+import { useEffect, useMemo, useState } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphData } from "../../interface/IGameGraph"
@@ -24,8 +24,7 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
         [manager]
     )
     const pressRef = usePan({ onPan })
-    const elRef = useRef<HTMLDivElement>(null)
-    const pane = usePane(elRef)
+    const [pane, setContainer] = usePane()
     const [includeKeys, setIncludeKeys] = useState<Array<string>>([])
 
     useEffect(() => {
@@ -71,7 +70,7 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
                     )
                 }}
             />
-            <div ref={elRef} style={{ width: "100%" }} />
+            <div ref={setContainer} style={{ width: "100%" }} />
         </div>
     )
 }

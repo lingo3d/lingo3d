@@ -1,22 +1,21 @@
-import { RefObject } from "preact/compat"
 import { useLayoutEffect, useState } from "preact/hooks"
 import { Pane } from "./tweakpane"
 
-export default (containerRef: RefObject<HTMLDivElement>) => {
+export default () => {
     const [pane, setPane] = useState<Pane>()
+    const [container, setContainer] = useState<any>()
 
     useLayoutEffect(() => {
-        const el = containerRef.current
-        if (!el) return
-        
-        const pane = new Pane({ container: el })
+        if (!container) return
+
+        const pane = new Pane({ container })
         setPane(pane)
 
         return () => {
             pane.dispose()
             setPane(undefined)
         }
-    }, [])
+    }, [container])
 
-    return pane
+    return <const>[pane, setContainer]
 }

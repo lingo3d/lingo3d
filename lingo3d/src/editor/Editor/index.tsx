@@ -21,6 +21,7 @@ import addTargetInputs from "./addTargetInputs"
 import SearchBox from "../component/SearchBox"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import usePane from "./usePane"
+import mergeRefs from "../hooks/mergeRefs"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -40,7 +41,7 @@ const Editor = () => {
     }, [])
 
     const elRef = useClickable()
-    const pane = usePane(elRef)
+    const [pane, setContainer] = usePane()
 
     const selectionTarget = useSyncState(getSelectionTarget)
     const selectedSignal = useSignal<string | undefined>(undefined)
@@ -113,7 +114,7 @@ const Editor = () => {
                     paddingLeft: 8,
                     paddingRight: 8
                 }}
-                ref={elRef}
+                ref={mergeRefs(elRef, setContainer)}
             />
         </div>
     )
