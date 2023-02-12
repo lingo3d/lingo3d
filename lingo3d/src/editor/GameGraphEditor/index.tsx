@@ -39,6 +39,13 @@ const GameGraphEditor = () => {
             ),
         []
     )
+    const getPosition = (e: DragEvent) => {
+        const bounds = getContainerBounds()
+        const x = (e.clientX - bounds.left - tx - originX) / zoom + originX
+        const y = (e.clientY - bounds.top - ty - originY) / zoom + originY
+        return { x, y }
+    }
+    const getPositionRef = useLatest(getPosition)
     const gameGraph = useSyncState(getGameGraph)
     const [gameGraphData] = useSyncState(getGameGraphData)
     if (!gameGraphData || !gameGraph) return null
@@ -93,16 +100,8 @@ const GameGraphEditor = () => {
                         e.preventDefault()
                         if (!treeContext.draggingItem) return
 
-                        const bounds = getContainerBounds()
-                        const x =
-                            (e.clientX - bounds.left - tx - originX) / zoom +
-                            originX
-                        const y =
-                            (e.clientY - bounds.top - ty - originY) / zoom +
-                            originY
-
                         gameGraph.mergeData({
-                            [treeContext.draggingItem.uuid]: { x, y }
+                            [treeContext.draggingItem.uuid]: getPosition(e)
                         })
                     }}
                 >
@@ -132,7 +131,7 @@ const GameGraphEditor = () => {
                                         }
                                     })
                                 }
-                                getContainerBounds={getContainerBounds}
+                                getPositionRef={getPositionRef}
                             />
                         ))}
                     </div>

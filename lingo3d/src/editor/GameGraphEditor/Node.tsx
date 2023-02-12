@@ -1,6 +1,6 @@
 import { Point } from "@lincode/math"
 import { valueof } from "@lincode/utils"
-import { memo } from "preact/compat"
+import { memo, RefObject } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import { EDITOR_WIDTH } from "../../globals"
@@ -13,24 +13,17 @@ import usePane from "../Editor/usePane"
 import usePan, { PanEvent } from "../hooks/usePan"
 import getDisplayName from "../utils/getDisplayName"
 
-const getPosition = (e: DragEvent, container: HTMLDivElement) => {
-    const bounds = container.getBoundingClientRect()
-    return new Point(e.clientX - bounds.left, e.clientY - bounds.top)
-}
-
 let panningUUID: string | undefined
 
 type NodeProps = {
     uuid: string
     data: valueof<GameGraphData>
     onPan?: (e: PanEvent) => void
-    getContainerBounds: () => DOMRect
+    getPositionRef: RefObject<(e: DragEvent) => Point>
 }
 
 const Node = memo(
-    ({ uuid, data, onPan, getContainerBounds }: NodeProps) => {
-        console.log("rerender")
-
+    ({ uuid, data, onPan, getPositionRef }: NodeProps) => {
         const manager = useMemo(() => uuidMap.get(uuid), [uuid])
         const displayName = useMemo(
             () => manager && getDisplayName(manager),
@@ -41,7 +34,7 @@ const Node = memo(
             onPanStart: () => (panningUUID = uuid),
             onPanEnd: () => (panningUUID = undefined)
         })
-        const [pane, setContainer, container] = usePane()
+        const [pane, setContainer] = usePane()
         const [includeKeys, setIncludeKeys] = useState<Array<string>>([])
         const [bezierStart, setBezierStart] = useState<Point>()
         const [bezierEnd, setBezierEnd] = useState<Point>()
@@ -59,8 +52,8 @@ const Node = memo(
         useEffect(() => {
             if (!manager || !pane) return
             const handle = addTargetInputs(pane, manager, includeKeys, true, {
-                onDragStart: (e) => setBezierStart(getPosition(e, container)),
-                onDrag: (e) => setBezierEnd(getPosition(e, container)),
+                onDragStart: (e) => setBezierStart(getPositionRef.current!(e)),
+                onDrag: (e) => setBezierEnd(getPositionRef.current!(e)),
                 onDragEnd: (e) => {
                     // setBezierStart(undefined)
                     // setBezierEnd(undefined)
@@ -113,9 +106,10 @@ const Node = memo(
                 {bezierBounds && (
                     <svg
                         style={{
-                            left: bezierBounds.xMin + getContainerBounds().left,
-                            top: bezierBounds.yMin + getContainerBounds().top,
+                            left: bezierBounds.xMin,
+                            top: bezierBounds.yMin,
                             position: "absolute",
+                            pointerEvents: "none",
                             background: "yellow"
                         }}
                         width={bezierBounds.xMax - bezierBounds.xMin}
