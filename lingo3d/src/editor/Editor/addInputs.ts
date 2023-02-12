@@ -52,12 +52,14 @@ const processValue = (value: any) => {
     return value
 }
 
-export type Connection = {
-    onDragStart?: (e: MouseEvent) => void
-    onDrop?: (manager: any, property: string) => void
-}
-
 let draggingItem: [any, string] | undefined
+
+export type Connection = {
+    onDragStart?: (e: DragEvent) => void
+    onDrag?: (e: DragEvent) => void
+    onDragEnd?: (e: DragEvent) => void
+    onDrop?: (e: DragEvent, draggingItem: [any, string] | undefined) => void
+}
 
 export default async (
     handle: Cancellable,
@@ -142,24 +144,43 @@ export default async (
             }
 
             if (connection) {
+                let draggingItemCurrent: [any, string] | undefined
                 const connector = connectorIcon.cloneNode(true) as HTMLElement
                 input.element.prepend(connector)
-                connector.onmousedown = (e) => {
+                connector.draggable = true
+                connector.onmousedown = (e) => e.stopPropagation()
+                connector.ondragstart = (e) => {
                     e.stopPropagation()
+                    draggingItemCurrent = draggingItem = [target, key]
+                    connector.style.background = "rgba(255, 255, 255, 0.5)"
                     connection.onDragStart?.(e)
-                    draggingItem = [target, key]
                 }
-                connector.onmouseup = (e) => {
+                connector.ondrag = (e) => {
                     e.stopPropagation()
-                    if (!draggingItem) return
-                    connection.onDrop?.(draggingItem[0], draggingItem[1])
-                    draggingItem = undefined
+                    connection.onDrag?.(e)
                 }
-                const handleMouseUp = () => (draggingItem = undefined)
-                document.addEventListener("mouseup", handleMouseUp)
-                handle.then(() =>
-                    document.removeEventListener("mouseup", handleMouseUp)
-                )
+                connector.ondragend = (e) => {
+                    e.stopPropagation()
+                    draggingItem = undefined
+                    connector.style.background = ""
+                    connection.onDragEnd?.(e)
+                }
+                connector.ondragenter = (e) => {
+                    e.stopPropagation()
+                    if (draggingItem === draggingItemCurrent) return
+                    connector.style.background = "rgba(255, 255, 255, 0.5)"
+                }
+                connector.ondragleave = (e) => {
+                    e.stopPropagation()
+                    if (draggingItem === draggingItemCurrent) return
+                    connector.style.background = ""
+                }
+                connector.ondrop = (e) => {
+                    e.stopPropagation()
+                    if (draggingItem === draggingItemCurrent) return
+                    connector.style.background = ""
+                    draggingItem && connection.onDrop?.(e, draggingItem)
+                }
             }
 
             input.on("change", ({ value }: any) => {

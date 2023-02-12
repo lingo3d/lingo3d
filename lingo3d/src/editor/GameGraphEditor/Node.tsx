@@ -32,8 +32,14 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
             onDragStart: (e) => {
                 console.log("drag start")
             },
-            onDrop: (manager, property) => {
-                console.log(manager, property)
+            onDrag: (e) => {
+                console.log("drag")
+            },
+            onDragEnd: (e) => {
+                console.log("drag end")
+            },
+            onDrop: (e, draggingItem) => {
+                console.log("drop")
             }
         })
         return () => {
