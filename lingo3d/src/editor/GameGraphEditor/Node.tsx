@@ -7,7 +7,7 @@ import { GameGraphData } from "../../interface/IGameGraph"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import SearchBox from "../component/SearchBox"
 import addTargetInputs from "../Editor/addTargetInputs"
-import { Pane } from "../Editor/tweakpane"
+import usePane from "../Editor/usePane"
 import usePan, { PanEvent } from "../hooks/usePan"
 import getDisplayName from "../utils/getDisplayName"
 
@@ -25,13 +25,12 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
     )
     const pressRef = usePan({ onPan })
     const elRef = useRef<HTMLDivElement>(null)
+    const pane = usePane(elRef)
     const [includeKeys, setIncludeKeys] = useState<Array<string>>([])
 
     useEffect(() => {
-        const el = elRef.current
-        if (!manager || !el) return
+        if (!manager || !pane) return
 
-        const pane = new Pane({ container: el })
         const handle = new Cancellable()
 
         addTargetInputs(handle, pane, manager, includeKeys, true)
@@ -39,7 +38,7 @@ const Node = ({ uuid, data, onPan }: NodeProps) => {
         return () => {
             handle.cancel()
         }
-    }, [manager])
+    }, [manager, includeKeys, pane])
 
     return (
         <div

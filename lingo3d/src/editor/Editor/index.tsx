@@ -1,4 +1,3 @@
-import { Pane } from "./tweakpane"
 import { useLayoutEffect, useState } from "preact/hooks"
 import { Cancellable } from "@lincode/promiselikes"
 import getDisplayName from "../utils/getDisplayName"
@@ -21,6 +20,7 @@ import { getEditorPresets } from "../../states/useEditorPresets"
 import addTargetInputs from "./addTargetInputs"
 import SearchBox from "../component/SearchBox"
 import unsafeGetValue from "../../utils/unsafeGetValue"
+import usePane from "./usePane"
 
 Object.assign(dummyDefaults, {
     stride: { x: 0, y: 0 }
@@ -40,6 +40,7 @@ const Editor = () => {
     }, [])
 
     const elRef = useClickable()
+    const pane = usePane(elRef)
 
     const selectionTarget = useSyncState(getSelectionTarget)
     const selectedSignal = useSignal<string | undefined>(undefined)
@@ -48,10 +49,7 @@ const Editor = () => {
     const [includeKeys, setIncludeKeys] = useState<Array<string>>()
 
     useLayoutEffect(() => {
-        const el = elRef.current
-        if (!el) return
-
-        const pane = new Pane({ container: el })
+        if (!pane) return
 
         const handle = new Cancellable()
         if (
@@ -70,9 +68,8 @@ const Editor = () => {
 
         return () => {
             handle.cancel()
-            pane.dispose()
         }
-    }, [selectionTarget, selectedSignal.value, presets, includeKeys])
+    }, [selectionTarget, selectedSignal.value, presets, includeKeys, pane])
 
     return (
         <div

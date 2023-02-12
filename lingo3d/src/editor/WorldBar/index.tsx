@@ -3,7 +3,6 @@ import useInitCSS from "../hooks/useInitCSS"
 import Controls from "./Controls"
 import useInitEditor from "../hooks/useInitEditor"
 import { useLayoutEffect } from "preact/hooks"
-import { Pane } from "../Editor/tweakpane"
 import useClickable from "../hooks/useClickable"
 import { getManager } from "../../api/utils/getManager"
 import { getCameraComputed } from "../../states/useCameraComputed"
@@ -14,6 +13,7 @@ import { createEffect } from "@lincode/reactivity"
 import Switch from "../component/Switch"
 import useSyncState from "../hooks/useSyncState"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
+import usePane from "../Editor/usePane"
 
 const Tabs = () => {
     useInitCSS()
@@ -21,12 +21,11 @@ const Tabs = () => {
 
     const splitView = useSyncState(getSplitView)
     const elRef = useClickable()
+    const pane = usePane(elRef)
 
     useLayoutEffect(() => {
         const el = elRef.current
-        if (!el) return
-
-        const pane = new Pane({ container: el })
+        if (!pane || !el) return
 
         const handle = createEffect(() => {
             const cameraList = getCameraList()
@@ -60,9 +59,8 @@ const Tabs = () => {
 
         return () => {
             handle.cancel()
-            pane.dispose()
         }
-    }, [])
+    }, [pane])
 
     return (
         <div
