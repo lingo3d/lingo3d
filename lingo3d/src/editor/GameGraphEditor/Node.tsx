@@ -110,7 +110,7 @@ const Node = memo(
                     }}
                 >
                     <div
-                        style={{ fontSize: 16, marginTop: -24 }}
+                        style={{ fontSize: 16, marginTop: -24, zIndex: 1 }}
                         ref={pressRef}
                     >
                         {displayName}
