@@ -1,4 +1,5 @@
-import { CSSProperties, useEffect, useState } from "preact/compat"
+import { CSSProperties, useEffect, useRef, useState } from "preact/compat"
+import CloseIcon from "./icons/CloseIcon"
 
 type SearchBoxProps = {
     style?: CSSProperties
@@ -8,6 +9,7 @@ type SearchBoxProps = {
 
 const SearchBox = ({ style, fullWidth, onChange }: SearchBoxProps) => {
     const [text, setText] = useState<string>()
+    const inputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         const timeout = setTimeout(
@@ -22,21 +24,46 @@ const SearchBox = ({ style, fullWidth, onChange }: SearchBoxProps) => {
     return (
         <div
             className="lingo3d-flexcenter"
-            style={{ width: "100%", flexShrink: 0, marginBottom: 8, ...style }}
+            style={{
+                width: "100%",
+                flexShrink: 0,
+                marginBottom: 8,
+                ...style
+            }}
         >
-            <input
-                className="lingo3d-unset"
+            <div
                 style={{
+                    display: "flex",
                     outline: "1px solid rgba(255, 255, 255, 0.1)",
                     background: "rgba(255, 255, 255, 0.02)",
-                    width: fullWidth ? "100%" : "calc(100% - 28px)",
-                    padding: 4
+                    width: fullWidth ? "calc(100% - 2px)" : "calc(100% - 20px)"
                 }}
-                placeholder="Search..."
-                onKeyDown={(e) => e.stopPropagation()}
-                onMouseDown={(e) => e.stopPropagation()}
-                onInput={(e) => setText(e.currentTarget.value)}
-            />
+            >
+                <input
+                    ref={inputRef}
+                    className="lingo3d-unset"
+                    style={{ flexGrow: 1, paddingLeft: 4 }}
+                    placeholder="Search..."
+                    onKeyDown={(e) => e.stopPropagation()}
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onInput={(e) => setText(e.currentTarget.value)}
+                />
+                <div
+                    className="lingo3d-flexcenter"
+                    style={{
+                        background: "rgba(255, 255, 255, 0.1)",
+                        width: 22,
+                        height: 22,
+                        opacity: text ? 1 : 0.2
+                    }}
+                    onClick={() => {
+                        setText("")
+                        inputRef.current!.value = ""
+                    }}
+                >
+                    <CloseIcon />
+                </div>
+            </div>
         </div>
     )
 }

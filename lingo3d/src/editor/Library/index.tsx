@@ -75,7 +75,7 @@ const Library = () => {
             className="lingo3d-ui lingo3d-bg lingo3d-library lingo3d-flexcol"
             style={{ width: LIBRARY_WIDTH, height: "100%" }}
         >
-            <AppBar>
+            <AppBar style={{ padding: 10 }}>
                 <Tab half>components</Tab>
                 <Tab half disabled>
                     materials
