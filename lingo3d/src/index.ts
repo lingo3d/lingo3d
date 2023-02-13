@@ -39,6 +39,7 @@ import Setup from "./display/Setup"
 import Timeline from "./display/Timeline"
 import TimelineAudio from "./display/TimelineAudio"
 import GameGraph from "./display/GameGraph"
+import Connector from "./display/Connector"
 import Sky from "./display/Sky"
 import Camera from "./display/cameras/Camera"
 import ThirdPersonCamera from "./display/cameras/ThirdPersonCamera"
@@ -130,6 +131,7 @@ export {
     Timeline,
     TimelineAudio,
     GameGraph,
+    Connector,
     Sky,
     Camera,
     ThirdPersonCamera,

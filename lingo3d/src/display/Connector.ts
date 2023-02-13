@@ -1,9 +1,17 @@
 import { Reactive } from "@lincode/reactivity"
 import Appendable, { getAppendables } from "../api/core/Appendable"
+import IConnector, {
+    connectorDefaults,
+    connectorSchema
+} from "../interface/IConnector"
 import getReactive from "../utils/getReactive"
 import unsafeSetValue from "../utils/unsafeSetValue"
 
-export default class Connector extends Appendable {
+export default class Connector extends Appendable implements IConnector {
+    public static componentName = "connector"
+    public static defaults = connectorDefaults
+    public static schema = connectorSchema
+
     public constructor() {
         super()
 

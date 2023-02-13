@@ -1,0 +1,33 @@
+import Appendable from "../api/core/Appendable"
+import IAppendable, {
+    appendableDefaults,
+    appendableSchema
+} from "./IAppendable"
+import { extendDefaults } from "./utils/Defaults"
+import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
+
+export default interface IConnector extends IAppendable {
+    from: Nullable<string | Appendable>
+    to: Nullable<string | Appendable>
+    fromProp: Nullable<string>
+    toProp: Nullable<string>
+}
+
+export const connectorSchema: Required<ExtractProps<IConnector>> = {
+    ...appendableSchema,
+    from: [String, Object],
+    to: [String, Object],
+    fromProp: String,
+    toProp: String
+}
+
+export const connectorDefaults = extendDefaults<IConnector>(
+    [appendableDefaults],
+    {
+        from: undefined,
+        to: undefined,
+        fromProp: undefined,
+        toProp: undefined
+    }
+)
