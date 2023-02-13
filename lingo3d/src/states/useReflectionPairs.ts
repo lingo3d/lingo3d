@@ -1,6 +1,7 @@
 import store, { createEffect, pull, push } from "@lincode/reactivity"
 import { CubeCamera, WebGLCubeRenderTarget } from "three"
 import MeshAppendable from "../api/core/MeshAppendable"
+import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import scene from "../engine/scene"
 import { onRenderHalfRate } from "../events/onRenderHalfRate"
@@ -13,12 +14,16 @@ const [setReflectionPairs, getReflectionPairs] = store<
 export const pushReflectionPairs = push(setReflectionPairs, getReflectionPairs)
 export const pullReflectionPairs = pull(setReflectionPairs, getReflectionPairs)
 
+export const reflectionVisibleSet = new Set<VisibleMixin>()
+
 createEffect(() => {
     const renderer = getRenderer()
     const pairs = getReflectionPairs()
     if (!renderer || !pairs.length) return
 
     const handle = onRenderHalfRate(() => {
+        for (const manager of reflectionVisibleSet)
+            manager.outerObject3d.visible = true
         for (const [manager] of pairs) manager.outerObject3d.visible = false
         for (const [manager, cubeCamera, cubeRenderTarget] of pairs) {
             cubeCamera.position.copy(getWorldPosition(manager.outerObject3d))
@@ -26,6 +31,8 @@ createEffect(() => {
             cubeCamera.update(renderer, scene)
         }
         for (const [manager] of pairs) manager.outerObject3d.visible = true
+        for (const manager of reflectionVisibleSet)
+            manager.outerObject3d.visible = false
     })
     return () => {
         handle.cancel()

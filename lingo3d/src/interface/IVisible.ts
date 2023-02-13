@@ -3,12 +3,14 @@ import { LingoMouseEvent } from "./IMouse"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
+import { nullableDefault } from "./utils/NullableDefault"
 
 export default interface IVisible {
     bloom: boolean
     outline: boolean
 
     visible: boolean
+    reflectionVisible?: boolean
     frustumCulled: boolean
     castShadow: boolean
     receiveShadow: boolean
@@ -33,6 +35,7 @@ export const visibleSchema: Required<ExtractProps<IVisible>> = {
     outline: Boolean,
 
     visible: Boolean,
+    reflectionVisible: Boolean,
     frustumCulled: Boolean,
     castShadow: Boolean,
     receiveShadow: Boolean,
@@ -55,6 +58,7 @@ export const visibleDefaults = extendDefaults<IVisible>([], {
     outline: false,
 
     visible: true,
+    reflectionVisible: nullableDefault(false),
     frustumCulled: true,
     castShadow: true,
     receiveShadow: true,

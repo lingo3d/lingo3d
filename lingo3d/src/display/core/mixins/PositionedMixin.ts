@@ -156,7 +156,7 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
     }
 
     public get onTransformControls() {
-        return this.outerObject3d.userData.onTransformControls
+        return this.userData.onTransformControls
     }
     public set onTransformControls(
         cb:
@@ -166,7 +166,7 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
               ) => void)
             | undefined
     ) {
-        this.outerObject3d.userData.onTransformControls = cb
+        this.userData.onTransformControls = cb
     }
 
     public translateX(val: number) {

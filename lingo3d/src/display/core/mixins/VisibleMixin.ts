@@ -30,6 +30,7 @@ import {
 } from "../utils/raycast/sets"
 import "../utils/raycast"
 import { getAppendables } from "../../../api/core/Appendable"
+import { reflectionVisibleSet } from "../../../states/useReflectionPairs"
 
 const frustum = new Frustum()
 const updateFrustum = throttleFrameLeading(() => {
@@ -97,6 +98,24 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
     public set visible(val) {
         this._visible = val
         this.outerObject3d.visible = val
+    }
+
+    private _reflectionVisible?: boolean
+    public get reflectionVisible() {
+        return this._reflectionVisible
+    }
+    public set reflectionVisible(val) {
+        this._reflectionVisible = val
+        this.cancelHandle(
+            "reflectionVisible",
+            val &&
+                (() => {
+                    reflectionVisibleSet.add(this)
+                    return new Cancellable(() =>
+                        reflectionVisibleSet.delete(this)
+                    )
+                })
+        )
     }
 
     public get frustumCulled() {
