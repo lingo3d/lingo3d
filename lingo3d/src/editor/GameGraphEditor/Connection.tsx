@@ -18,6 +18,18 @@ const Connection = memo(
     ({ data, getPositionRef }: ConnectionProps) => {
         const [start, setStart] = useState({ x: 0, y: 0 })
         const [end, setEnd] = useState({ x: 0, y: 0 })
+        const [refresh, setRefresh] = useState({})
+
+        useEffect(() => {
+            //todo: refactor this with a map
+            const handle = onNodeMove(
+                (uuid) =>
+                    (uuid === data.from || uuid === data.to) && setRefresh({})
+            )
+            return () => {
+                handle.cancel()
+            }
+        }, [])
 
         useEffect(() => {
             const connectorFrom = unsafeGetValue(
@@ -30,33 +42,22 @@ const Connection = memo(
             )
             if (!connectorFrom || !connectorTo) return
 
-            const setPoints = () => {
-                const boundsFrom = connectorFrom.getBoundingClientRect()
-                const boundsTo = connectorTo.getBoundingClientRect()
+            const boundsFrom = connectorFrom.getBoundingClientRect()
+            const boundsTo = connectorTo.getBoundingClientRect()
 
-                setStart(
-                    getPositionRef.current!({
-                        clientX: boundsFrom.left + boundsFrom.width * 0.5,
-                        clientY: boundsFrom.top + boundsFrom.height * 0.5
-                    })
-                )
-                setEnd(
-                    getPositionRef.current!({
-                        clientX: boundsTo.left + boundsTo.width * 0.5,
-                        clientY: boundsTo.top + boundsTo.height * 0.5
-                    })
-                )
-            }
-            setPoints()
-            //todo: refactor this with a map
-            const handle = onNodeMove(
-                (uuid) =>
-                    (uuid === data.from || uuid === data.to) && setPoints()
+            setStart(
+                getPositionRef.current!({
+                    clientX: boundsFrom.left + boundsFrom.width * 0.5,
+                    clientY: boundsFrom.top + boundsFrom.height * 0.5
+                })
             )
-            return () => {
-                handle.cancel()
-            }
-        }, [])
+            setEnd(
+                getPositionRef.current!({
+                    clientX: boundsTo.left + boundsTo.width * 0.5,
+                    clientY: boundsTo.top + boundsTo.height * 0.5
+                })
+            )
+        }, [refresh])
 
         return <Bezier start={start} end={end} />
     },

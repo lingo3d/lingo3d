@@ -59,7 +59,7 @@ let draggingItem: DraggingItem | undefined
 export type Connection = {
     onDragStart?: (e: DragEvent) => void
     onDrag?: (e: DragEvent) => void
-    onDragEnd?: (e: DragEvent) => void
+    onDragEnd?: (e: DragEvent, draggingItem: DraggingItem) => void
     onDrop?: (e: DragEvent, draggingItem: DraggingItem, prop: string) => void
 }
 
@@ -175,9 +175,9 @@ export default async (
                 }
                 connectorOut.ondragend = (e) => {
                     e.stopPropagation()
-                    draggingItem = undefined
                     connectorOut.style.background = ""
-                    connection.onDragEnd?.(e)
+                    connection.onDragEnd?.(e, draggingItem!)
+                    draggingItem = undefined
                 }
 
                 connectorIn.ondragenter = (e) => {

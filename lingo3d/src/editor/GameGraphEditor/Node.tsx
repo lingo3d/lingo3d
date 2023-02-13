@@ -7,6 +7,7 @@ import { uuidMap } from "../../api/core/collections"
 import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
+import { getGameGraphData } from "../../states/useGameGraphData"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import SearchBox from "../component/SearchBox"
 import treeContext from "../component/treeItems/treeContext"
@@ -51,33 +52,51 @@ const Node = memo(
         })
         const [pane, setContainer] = usePane()
         const [includeKeys, setIncludeKeys] = useState<Array<string>>([])
+        const [connectedKeys, setConnectedKeys] = useState<Array<string>>([])
         const [bezierStart, setBezierStart] = useState<Point>()
         const [bezierEnd, setBezierEnd] = useState<Point>()
 
         useEffect(() => {
             if (!manager || !pane) return
-            const handle = addTargetInputs(pane, manager, includeKeys, true, {
-                onDragStart: (e) => setBezierStart(getPositionRef.current!(e)),
-                onDrag: (e) => setBezierEnd(getPositionRef.current!(e)),
-                onDragEnd: () => {
-                    setBezierStart(undefined)
-                    setBezierEnd(undefined)
-                },
-                onDrop: (_, draggingItem, prop) => {
-                    getGameGraph()!.mergeData({
-                        [nanoid()]: {
-                            from: draggingItem.manager.uuid,
-                            fromProp: draggingItem.prop,
-                            to: manager.uuid,
-                            toProp: prop
-                        }
-                    })
+            let size = 0
+            const handle = addTargetInputs(
+                pane,
+                manager,
+                [...includeKeys, ...connectedKeys],
+                true,
+                {
+                    onDragStart: (e) => {
+                        setBezierStart(getPositionRef.current!(e))
+                        size = Object.keys(getGameGraphData()[0]!).length
+                    },
+                    onDrag: (e) => setBezierEnd(getPositionRef.current!(e)),
+                    onDragEnd: (_, draggingItem) => {
+                        setBezierStart(undefined)
+                        setBezierEnd(undefined)
+                        const _size = Object.keys(getGameGraphData()[0]!).length
+                        _size > size &&
+                            setConnectedKeys([
+                                ...connectedKeys,
+                                draggingItem.prop
+                            ])
+                    },
+                    onDrop: (_, draggingItem, prop) => {
+                        getGameGraph()!.mergeData({
+                            [nanoid()]: {
+                                from: draggingItem.manager.uuid,
+                                fromProp: draggingItem.prop,
+                                to: manager.uuid,
+                                toProp: prop
+                            }
+                        })
+                        setConnectedKeys([...connectedKeys, prop])
+                    }
                 }
-            })
+            )
             return () => {
                 handle.cancel()
             }
-        }, [manager, includeKeys, pane])
+        }, [manager, includeKeys, connectedKeys, pane])
 
         return (
             <>
