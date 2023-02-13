@@ -147,6 +147,7 @@ export default async (
             if (connection) {
                 let draggingItemCurrent: DraggingItem | undefined
                 const connector = connectorIcon.cloneNode(true) as HTMLElement
+                connector.id = target.uuid + " " + key
                 input.element.prepend(connector)
                 connector.draggable = true
                 connector.onmousedown = (e) => e.stopPropagation()

@@ -21,7 +21,9 @@ type NodeProps = {
     uuid: string
     data: GameGraphNode
     onPan?: (e: PanEvent) => void
-    getPositionRef: RefObject<(e: DragEvent) => Point>
+    getPositionRef: RefObject<
+        (e: { clientX: number; clientY: number }) => Point
+    >
 }
 
 const Node = memo(

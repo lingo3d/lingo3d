@@ -13,7 +13,7 @@ import useLatest from "../hooks/useLatest"
 import usePan from "../hooks/usePan"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
-import Bezier from "./Bezier"
+import Connection from "./Connection"
 import Node from "./Node"
 
 const GameGraphEditor = () => {
@@ -40,7 +40,7 @@ const GameGraphEditor = () => {
             ),
         []
     )
-    const getPosition = (e: DragEvent) => {
+    const getPosition = (e: { clientX: number; clientY: number }) => {
         const bounds = getContainerBounds()
         const x = (e.clientX - bounds.left - tx - originX) / zoom + originX
         const y = (e.clientY - bounds.top - ty - originY) / zoom + originY
@@ -135,7 +135,11 @@ const GameGraphEditor = () => {
                                     getPositionRef={getPositionRef}
                                 />
                             ) : (
-                                <Bezier key={uuid} />
+                                <Connection
+                                    key={uuid}
+                                    data={data}
+                                    getPositionRef={getPositionRef}
+                                />
                             )
                         )}
                     </div>
