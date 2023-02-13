@@ -3,6 +3,16 @@ import Appendable, { getAppendables } from "../api/core/Appendable"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
 
+const getPropertyDescriptor = (
+    obj: any,
+    key: string
+): PropertyDescriptor | undefined => {
+    if (!obj) return
+    const desc = Object.getOwnPropertyDescriptor(obj, key)
+    if (desc) return desc
+    return getPropertyDescriptor(Object.getPrototypeOf(obj), key)
+}
+
 const getReactive = (manager: Appendable, key: string): Reactive<any> => {
     const stateKey = `${key}State`
     let reactive = unsafeGetValue(manager, stateKey)
@@ -14,7 +24,7 @@ const getReactive = (manager: Appendable, key: string): Reactive<any> => {
         (reactive = new Reactive<any>(unsafeGetValue(manager, key)))
     )
 
-    const desc = Object.getOwnPropertyDescriptor(manager, key)
+    const desc = getPropertyDescriptor(manager, key)
     if (!desc) return reactive
 
     if ("value" in desc)

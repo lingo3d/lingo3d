@@ -2,6 +2,7 @@ import { Point } from "@lincode/math"
 import { RefObject } from "preact"
 import { memo } from "preact/compat"
 import { useEffect, useState } from "preact/hooks"
+import Connector from "../../display/Connector"
 import { GameGraphConnection } from "../../interface/IGameGraph"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import Bezier from "./Bezier"
@@ -21,7 +22,17 @@ const Connection = memo(
         const [refresh, setRefresh] = useState({})
 
         useEffect(() => {
+            const connector = new Connector()
+            Object.assign(connector, data)
+
+            return () => {
+                connector.dispose()
+            }
+        }, [])
+
+        useEffect(() => {
             //todo: refactor this with a map
+            //todo: also other events like this one
             const handle = onNodeMove(
                 (uuid) =>
                     (uuid === data.from || uuid === data.to) && setRefresh({})
