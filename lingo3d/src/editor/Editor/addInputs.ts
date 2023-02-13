@@ -52,13 +52,14 @@ const processValue = (value: any) => {
     return value
 }
 
-let draggingItem: [any, string] | undefined
+type DraggingItem = { manager: any; property: string }
+let draggingItem: DraggingItem | undefined
 
 export type Connection = {
     onDragStart?: (e: DragEvent) => void
     onDrag?: (e: DragEvent) => void
     onDragEnd?: (e: DragEvent) => void
-    onDrop?: (e: DragEvent, draggingItem: [any, string] | undefined) => void
+    onDrop?: (e: DragEvent, draggingItem: DraggingItem | undefined) => void
 }
 
 export default async (
@@ -144,14 +145,17 @@ export default async (
             }
 
             if (connection) {
-                let draggingItemCurrent: [any, string] | undefined
+                let draggingItemCurrent: DraggingItem | undefined
                 const connector = connectorIcon.cloneNode(true) as HTMLElement
                 input.element.prepend(connector)
                 connector.draggable = true
                 connector.onmousedown = (e) => e.stopPropagation()
                 connector.ondragstart = (e) => {
                     e.stopPropagation()
-                    draggingItemCurrent = draggingItem = [target, key]
+                    draggingItemCurrent = draggingItem = {
+                        manager: target,
+                        property: key
+                    }
                     connector.style.background = "rgba(255, 255, 255, 0.5)"
                     connection.onDragStart?.(e)
                 }
