@@ -13,7 +13,6 @@ export default (
     pane: Pane,
     selectionTarget: Appendable | MeshAppendable,
     includeKeys: Array<string> | undefined,
-    noMonitor?: boolean,
     connection?: Connection
 ) => {
     const handle = new Cancellable()
@@ -41,7 +40,6 @@ export default (
             defaults,
             generalParams,
             true,
-            noMonitor,
             connection
         )
 
@@ -59,7 +57,6 @@ export default (
             defaults,
             physicsParams,
             false,
-            noMonitor,
             connection
         )
 
@@ -107,7 +104,6 @@ export default (
             defaults,
             transformParams,
             false,
-            noMonitor,
             connection
         )
         innerTransformParams &&
@@ -119,7 +115,6 @@ export default (
                 defaults,
                 innerTransformParams,
                 false,
-                noMonitor,
                 connection
             )
     }
@@ -138,7 +133,6 @@ export default (
             defaults,
             animationParams,
             false,
-            noMonitor,
             connection
         )
 
@@ -158,7 +152,6 @@ export default (
             defaults,
             displayParams,
             false,
-            noMonitor,
             connection
         )
 
@@ -175,7 +168,6 @@ export default (
             defaults,
             effectsParams,
             false,
-            noMonitor,
             connection
         )
 
@@ -198,7 +190,6 @@ export default (
             defaults,
             adjustMaterialParams,
             false,
-            noMonitor,
             connection
         )
 
@@ -222,7 +213,6 @@ export default (
             defaults,
             materialParams,
             false,
-            noMonitor,
             connection
         )
 
@@ -256,7 +246,6 @@ export default (
             defaults,
             pbrMaterialParams,
             false,
-            noMonitor,
             connection
         )
 
@@ -275,7 +264,6 @@ export default (
             defaults,
             pbrMaterialRest,
             true,
-            noMonitor,
             connection
         ).then((inputs) =>
             inputs.stride.on("change", ({ value }: any) => {
@@ -295,7 +283,6 @@ export default (
             defaults,
             pbrMaterialRest,
             true,
-            noMonitor,
             connection
         )
 

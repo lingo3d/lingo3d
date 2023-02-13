@@ -87,7 +87,6 @@ export default async (
     defaults: Defaults<any>,
     params: Record<string, any>,
     prepend?: boolean,
-    noMonitor?: boolean,
     connection?: Connection
 ) => {
     if (!prepend) await Promise.resolve()
@@ -131,7 +130,7 @@ export default async (
 
             addRefreshSystem(input, { key, paramsDefault, params, target })
 
-            if (!noMonitor) {
+            if (!connection) {
                 const resetButton = resetIcon.cloneNode(true) as HTMLElement
                 input.element.prepend(resetButton)
                 resetButton.style.opacity = "0.1"
@@ -162,8 +161,7 @@ export default async (
                 })
                 return [key, input]
             }
-
-            if (connection) {
+            else {
                 const connectorIn = connectorInIcon.cloneNode(
                     true
                 ) as HTMLElement
