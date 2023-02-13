@@ -149,13 +149,13 @@ export default async (
                 const connectorIn = connectorInIcon.cloneNode(
                     true
                 ) as HTMLElement
-                connectorIn.id = target.uuid + " " + key + " " + "in"
+                connectorIn.id = target.uuid + " " + key + " in"
                 input.element.prepend(connectorIn)
 
                 const connectorOut = connectorOutIcon.cloneNode(
                     true
                 ) as HTMLElement
-                connectorIn.id = target.uuid + " " + key + " " + "out"
+                connectorOut.id = target.uuid + " " + key + " out"
                 input.element.append(connectorOut)
 
                 connectorOut.draggable = true

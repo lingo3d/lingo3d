@@ -22,11 +22,11 @@ const Connection = memo(
         useEffect(() => {
             const connectorFrom = unsafeGetValue(
                 window,
-                data.from + " " + data.fromProp
+                data.from + " " + data.fromProp + " out"
             )
             const connectorTo = unsafeGetValue(
                 window,
-                data.to + " " + data.toProp
+                data.to + " " + data.toProp + " in"
             )
             if (!connectorFrom || !connectorTo) return
 
@@ -48,6 +48,7 @@ const Connection = memo(
                 )
             }
             setPoints()
+            //todo: refactor this with a map
             const handle = onNodeMove(
                 (uuid) =>
                     (uuid === data.from || uuid === data.to) && setPoints()
