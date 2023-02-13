@@ -1,3 +1,4 @@
+import { event } from "@lincode/events"
 import { Point } from "@lincode/math"
 import { nanoid } from "nanoid"
 import { memo, RefObject } from "preact/compat"
@@ -26,6 +27,8 @@ type NodeProps = {
     zoomRef: RefObject<number>
 }
 
+export const [emitNodeMove, onNodeMove] = event<string>()
+
 const Node = memo(
     ({ uuid, data, getPositionRef, zoomRef }: NodeProps) => {
         const manager = useMemo(() => uuidMap.get(uuid), [uuid])
@@ -41,6 +44,7 @@ const Node = memo(
                         y: data.y + e.deltaY / zoomRef.current!
                     }
                 })
+                emitNodeMove(uuid)
             },
             onPanStart: () => (panningUUID = uuid),
             onPanEnd: () => (panningUUID = undefined)

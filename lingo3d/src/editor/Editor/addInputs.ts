@@ -13,7 +13,8 @@ import {
     assignEditorPresets,
     getEditorPresets
 } from "../../states/useEditorPresets"
-import connectorIcon from "./icons/connectorIcon"
+import connectorInIcon from "./icons/connectorInIcon"
+import connectorOutIcon from "./icons/connectorOutIcon"
 
 let skipApply = false
 let leading = true
@@ -145,45 +146,51 @@ export default async (
             }
 
             if (connection) {
-                let draggingItemCurrent: DraggingItem | undefined
-                const connector = connectorIcon.cloneNode(true) as HTMLElement
-                connector.id = target.uuid + " " + key
-                input.element.prepend(connector)
-                connector.draggable = true
-                connector.onmousedown = (e) => e.stopPropagation()
-                connector.ondragstart = (e) => {
+                const connectorIn = connectorInIcon.cloneNode(
+                    true
+                ) as HTMLElement
+                connectorIn.id = target.uuid + " " + key + " " + "in"
+                input.element.prepend(connectorIn)
+
+                const connectorOut = connectorOutIcon.cloneNode(
+                    true
+                ) as HTMLElement
+                connectorIn.id = target.uuid + " " + key + " " + "out"
+                input.element.append(connectorOut)
+
+                connectorOut.draggable = true
+                connectorOut.onmousedown = (e) => e.stopPropagation()
+                connectorOut.ondragstart = (e) => {
                     e.stopPropagation()
-                    draggingItemCurrent = draggingItem = {
+                    draggingItem = {
                         manager: target,
                         prop: key
                     }
-                    connector.style.background = "rgba(255, 255, 255, 0.5)"
+                    connectorOut.style.background = "rgba(255, 255, 255, 0.5)"
                     connection.onDragStart?.(e)
                 }
-                connector.ondrag = (e) => {
+                connectorOut.ondrag = (e) => {
                     e.stopPropagation()
                     connection.onDrag?.(e)
                 }
-                connector.ondragend = (e) => {
+                connectorOut.ondragend = (e) => {
                     e.stopPropagation()
                     draggingItem = undefined
-                    connector.style.background = ""
+                    connectorOut.style.background = ""
                     connection.onDragEnd?.(e)
                 }
-                connector.ondragenter = (e) => {
+
+                connectorIn.ondragenter = (e) => {
                     e.stopPropagation()
-                    if (draggingItem === draggingItemCurrent) return
-                    connector.style.background = "rgba(255, 255, 255, 0.5)"
+                    connectorIn.style.background = "rgba(255, 255, 255, 0.5)"
                 }
-                connector.ondragleave = (e) => {
+                connectorIn.ondragleave = (e) => {
                     e.stopPropagation()
-                    if (draggingItem === draggingItemCurrent) return
-                    connector.style.background = ""
+                    connectorIn.style.background = ""
                 }
-                connector.ondrop = (e) => {
+                connectorIn.ondrop = (e) => {
                     e.stopPropagation()
-                    if (draggingItem === draggingItemCurrent) return
-                    connector.style.background = ""
+                    connectorIn.style.background = ""
                     draggingItem && connection.onDrop?.(e, draggingItem, key)
                 }
             }

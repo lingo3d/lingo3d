@@ -5,6 +5,7 @@ import { useEffect, useState } from "preact/hooks"
 import { GameGraphConnection } from "../../interface/IGameGraph"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import Bezier from "./Bezier"
+import { onNodeMove } from "./Node"
 
 type ConnectionProps = {
     data: GameGraphConnection
@@ -17,7 +18,6 @@ const Connection = memo(
     ({ data, getPositionRef }: ConnectionProps) => {
         const [start, setStart] = useState({ x: 0, y: 0 })
         const [end, setEnd] = useState({ x: 0, y: 0 })
-        const [refresh, setRefresh] = useState({})
 
         useEffect(() => {
             const connectorFrom = unsafeGetValue(
@@ -30,22 +30,32 @@ const Connection = memo(
             )
             if (!connectorFrom || !connectorTo) return
 
-            const boundsFrom = connectorFrom.getBoundingClientRect()
-            const boundsTo = connectorTo.getBoundingClientRect()
+            const setPoints = () => {
+                const boundsFrom = connectorFrom.getBoundingClientRect()
+                const boundsTo = connectorTo.getBoundingClientRect()
 
-            setStart(
-                getPositionRef.current!({
-                    clientX: boundsFrom.left + boundsFrom.width * 0.5,
-                    clientY: boundsFrom.top + boundsFrom.height * 0.5
-                })
+                setStart(
+                    getPositionRef.current!({
+                        clientX: boundsFrom.left + boundsFrom.width * 0.5,
+                        clientY: boundsFrom.top + boundsFrom.height * 0.5
+                    })
+                )
+                setEnd(
+                    getPositionRef.current!({
+                        clientX: boundsTo.left + boundsTo.width * 0.5,
+                        clientY: boundsTo.top + boundsTo.height * 0.5
+                    })
+                )
+            }
+            setPoints()
+            const handle = onNodeMove(
+                (uuid) =>
+                    (uuid === data.from || uuid === data.to) && setPoints()
             )
-            setEnd(
-                getPositionRef.current!({
-                    clientX: boundsTo.left + boundsTo.width * 0.5,
-                    clientY: boundsTo.top + boundsTo.height * 0.5
-                })
-            )
-        }, [refresh])
+            return () => {
+                handle.cancel()
+            }
+        }, [])
 
         return <Bezier start={start} end={end} />
     },
