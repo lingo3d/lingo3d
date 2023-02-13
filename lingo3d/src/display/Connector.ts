@@ -3,14 +3,22 @@ import Appendable, { getAppendables } from "../api/core/Appendable"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
 
+const prototypeDescriptorMap = new WeakMap<object, PropertyDescriptor>()
+
 const getPropertyDescriptor = (
-    obj: any,
-    key: string
+    obj: object,
+    key: string,
+    traversed: Array<object> = []
 ): PropertyDescriptor | undefined => {
     if (!obj) return
+    if (prototypeDescriptorMap.has(obj)) return prototypeDescriptorMap.get(obj)
+    traversed.push(obj)
     const desc = Object.getOwnPropertyDescriptor(obj, key)
-    if (desc) return desc
-    return getPropertyDescriptor(Object.getPrototypeOf(obj), key)
+    if (desc) {
+        for (const obj of traversed) prototypeDescriptorMap.set(obj, desc)
+        return desc
+    }
+    return getPropertyDescriptor(Object.getPrototypeOf(obj), key, traversed)
 }
 
 const getReactive = (manager: Appendable, key: string): Reactive<any> => {
