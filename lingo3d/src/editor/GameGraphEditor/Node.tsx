@@ -63,7 +63,6 @@ const Node = memo(
                 pane,
                 manager,
                 [...includeKeys, ...connectedKeys],
-                true,
                 {
                     onDragStart: (e) => {
                         setBezierStart(getPositionRef.current!(e))
