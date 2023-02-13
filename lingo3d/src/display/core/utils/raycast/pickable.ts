@@ -26,7 +26,7 @@ const filterUnselectable = (target: Object3D) => !unselectableSet.has(target)
 type RaycastResult = {
     point: Point3d
     distance: number
-    normal: { x: number; y: number; z: number }
+    normal: Point3d
     manager: VisibleMixin
 }
 
@@ -59,7 +59,7 @@ export const raycast = (
         return {
             point: vec2Point(pxHit.position),
             distance: pxHit.distance * M2CM,
-            normal: { x, y, z },
+            normal: new Point3d(x, y, z),
             manager: actorPtrManagerMap.get(pxHit.actor.ptr)!
         }
     }
@@ -67,7 +67,7 @@ export const raycast = (
         return {
             point: vec2Point(intersection.point),
             distance: intersection.distance * M2CM,
-            normal: intersection.face!.normal,
+            normal: intersection.face?.normal ?? new Point3d(0, 0, 0),
             manager: getManager<VisibleMixin>(intersection.object)!
         }
 }
