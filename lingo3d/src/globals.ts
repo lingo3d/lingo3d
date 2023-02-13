@@ -7,7 +7,6 @@ export const M2CM = 100
 
 export const WIDTH = 375
 export const HEIGHT = 667
-export const MONITOR_INTERVAL = 100
 
 export const SEC2FRAME = 60
 export const FRAME2SEC = 1 / SEC2FRAME

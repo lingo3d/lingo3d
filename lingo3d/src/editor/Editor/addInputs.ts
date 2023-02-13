@@ -5,16 +5,15 @@ import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import { Cancellable } from "@lincode/promiselikes"
 import { isPoint } from "../../api/serializer/isPoint"
-import { MONITOR_INTERVAL } from "../../globals"
 import { emitEditorEdit } from "../../events/onEditorEdit"
 import toFixed, { toFixedPoint } from "../../api/serializer/toFixed"
-import { timer } from "../../engine/eventLoop"
 import {
     assignEditorPresets,
     getEditorPresets
 } from "../../states/useEditorPresets"
 import connectorInIcon from "./icons/connectorInIcon"
 import connectorOutIcon from "./icons/connectorOutIcon"
+import renderSystemWithData from "../../utils/renderSystemWithData"
 
 let skipApply = false
 let leading = true
@@ -55,6 +54,23 @@ const processValue = (value: any) => {
 
 type DraggingItem = { manager: any; prop: string }
 let draggingItem: DraggingItem | undefined
+
+const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
+    (
+        input: any,
+        {
+            key,
+            paramsDefault,
+            params,
+            target
+        }: { key: string; paramsDefault: any; params: any; target: any }
+    ) => {
+        if (isEqual(target[key] ?? paramsDefault[key], params[key])) return
+        params[key] = target[key]
+        skipApplyValue()
+        input.refresh()
+    }
+)
 
 export type Connection = {
     onDragStart?: (e: DragEvent) => void
@@ -113,6 +129,8 @@ export default async (
                 return [key, input]
             }
 
+            addRefreshSystem(input, { key, paramsDefault, params, target })
+
             if (!noMonitor) {
                 const resetButton = resetIcon.cloneNode(true) as HTMLElement
                 input.element.prepend(resetButton)
@@ -125,7 +143,7 @@ export default async (
                     )
                     resetButton.style.opacity = unchanged ? "0.1" : "0.5"
                     resetButton.style.cursor = unchanged ? "auto" : "pointer"
-                }, MONITOR_INTERVAL)
+                }, 100)
                 updateResetButton()
 
                 resetButton.onclick = () => {
@@ -208,31 +226,10 @@ export default async (
 
     handle.then(() => {
         folder.dispose()
-        for (const input of Object.values(result)) input.dispose()
+        for (const input of Object.values(result)) {
+            deleteRefreshSystem(input)
+            input.dispose()
+        }
     })
-    if (noMonitor) return result
-
-    handle.watch(
-        timer(
-            MONITOR_INTERVAL,
-            Infinity,
-            () => {
-                let changed = false
-                for (const key of paramKeys)
-                    if (
-                        !key.startsWith("preset ") &&
-                        !isEqual(target[key] ?? paramsDefault[key], params[key])
-                    ) {
-                        params[key] = target[key]
-                        changed = true
-                    }
-                if (changed) {
-                    skipApplyValue()
-                    pane.refresh()
-                }
-            },
-            true
-        )
-    )
     return result
 }
