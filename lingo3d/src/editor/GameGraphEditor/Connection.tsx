@@ -4,6 +4,7 @@ import { memo } from "preact/compat"
 import { useEffect, useState } from "preact/hooks"
 import Connector from "../../display/Connector"
 import { GameGraphConnection } from "../../interface/IGameGraph"
+import { getGameGraph } from "../../states/useGameGraph"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import Bezier from "./Bezier"
 import { onNodeMove } from "./Node"
@@ -24,6 +25,7 @@ const Connection = memo(
         useEffect(() => {
             const connector = new Connector()
             Object.assign(connector, data)
+            getGameGraph()!.append(connector)
 
             return () => {
                 connector.dispose()
