@@ -11,7 +11,7 @@ import SearchBox from "../component/SearchBox"
 import treeContext from "../component/treeItems/treeContext"
 import addTargetInputs from "../Editor/addTargetInputs"
 import usePane from "../Editor/usePane"
-import usePan, { PanEvent } from "../hooks/usePan"
+import usePan from "../hooks/usePan"
 import getDisplayName from "../utils/getDisplayName"
 import Bezier from "./Bezier"
 
@@ -20,21 +20,28 @@ let panningUUID: string | undefined
 type NodeProps = {
     uuid: string
     data: GameGraphNode
-    onPan?: (e: PanEvent) => void
     getPositionRef: RefObject<
         (e: { clientX: number; clientY: number }) => Point
     >
+    zoomRef: RefObject<number>
 }
 
 const Node = memo(
-    ({ uuid, data, onPan, getPositionRef }: NodeProps) => {
+    ({ uuid, data, getPositionRef, zoomRef }: NodeProps) => {
         const manager = useMemo(() => uuidMap.get(uuid), [uuid])
         const displayName = useMemo(
             () => manager && getDisplayName(manager),
             [manager]
         )
         const pressRef = usePan({
-            onPan,
+            onPan: (e) => {
+                getGameGraph()!.mergeData({
+                    [uuid]: {
+                        x: data.x + e.deltaX / zoomRef.current!,
+                        y: data.y + e.deltaY / zoomRef.current!
+                    }
+                })
+            },
             onPanStart: () => (panningUUID = uuid),
             onPanEnd: () => (panningUUID = undefined)
         })

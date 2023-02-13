@@ -120,19 +120,8 @@ const GameGraphEditor = () => {
                                     key={uuid}
                                     uuid={uuid}
                                     data={data}
-                                    onPan={(e) =>
-                                        getGameGraph()!.mergeData({
-                                            [uuid]: {
-                                                x:
-                                                    data.x +
-                                                    e.deltaX / zoomRef.current,
-                                                y:
-                                                    data.y +
-                                                    e.deltaY / zoomRef.current
-                                            }
-                                        })
-                                    }
                                     getPositionRef={getPositionRef}
+                                    zoomRef={zoomRef}
                                 />
                             ) : (
                                 <Connection
