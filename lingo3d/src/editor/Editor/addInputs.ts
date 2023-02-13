@@ -52,14 +52,14 @@ const processValue = (value: any) => {
     return value
 }
 
-type DraggingItem = { manager: any; property: string }
+type DraggingItem = { manager: any; prop: string }
 let draggingItem: DraggingItem | undefined
 
 export type Connection = {
     onDragStart?: (e: DragEvent) => void
     onDrag?: (e: DragEvent) => void
     onDragEnd?: (e: DragEvent) => void
-    onDrop?: (e: DragEvent, draggingItem: DraggingItem | undefined) => void
+    onDrop?: (e: DragEvent, draggingItem: DraggingItem, prop: string) => void
 }
 
 export default async (
@@ -154,7 +154,7 @@ export default async (
                     e.stopPropagation()
                     draggingItemCurrent = draggingItem = {
                         manager: target,
-                        property: key
+                        prop: key
                     }
                     connector.style.background = "rgba(255, 255, 255, 0.5)"
                     connection.onDragStart?.(e)
@@ -183,7 +183,7 @@ export default async (
                     e.stopPropagation()
                     if (draggingItem === draggingItemCurrent) return
                     connector.style.background = ""
-                    draggingItem && connection.onDrop?.(e, draggingItem)
+                    draggingItem && connection.onDrop?.(e, draggingItem, key)
                 }
             }
 

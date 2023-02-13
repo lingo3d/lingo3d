@@ -5,9 +5,17 @@ import IAppendable, {
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
+export type GameGraphNode = { x: number; y: number }
+export type GameGraphConnection = {
+    from: string
+    to: string
+    fromProp: string
+    toProp: string
+}
+
 export type GameGraphData = Record<
     string, //uuid
-    { x: number; y: number }
+    GameGraphNode | GameGraphConnection
 >
 
 export default interface IGameGraph extends IAppendable {

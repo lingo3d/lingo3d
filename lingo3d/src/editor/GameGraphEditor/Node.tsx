@@ -1,10 +1,11 @@
 import { Point } from "@lincode/math"
-import { valueof } from "@lincode/utils"
+import { nanoid } from "nanoid"
 import { memo, RefObject } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
 import { EDITOR_WIDTH } from "../../globals"
-import { GameGraphData } from "../../interface/IGameGraph"
+import { GameGraphNode } from "../../interface/IGameGraph"
+import { getGameGraph } from "../../states/useGameGraph"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import SearchBox from "../component/SearchBox"
 import treeContext from "../component/treeItems/treeContext"
@@ -18,7 +19,7 @@ let panningUUID: string | undefined
 
 type NodeProps = {
     uuid: string
-    data: valueof<GameGraphData>
+    data: GameGraphNode
     onPan?: (e: PanEvent) => void
     getPositionRef: RefObject<(e: DragEvent) => Point>
 }
@@ -49,7 +50,16 @@ const Node = memo(
                     setBezierStart(undefined)
                     setBezierEnd(undefined)
                 },
-                onDrop: (e, draggingItem) => {}
+                onDrop: (_, draggingItem, prop) => {
+                    getGameGraph()!.mergeData({
+                        [nanoid()]: {
+                            from: draggingItem.manager.uuid,
+                            fromProp: draggingItem.prop,
+                            to: manager.uuid,
+                            toProp: prop
+                        }
+                    })
+                }
             })
             return () => {
                 handle.cancel()

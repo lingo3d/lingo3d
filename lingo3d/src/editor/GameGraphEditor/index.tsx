@@ -13,6 +13,7 @@ import useLatest from "../hooks/useLatest"
 import usePan from "../hooks/usePan"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
+import Bezier from "./Bezier"
 import Node from "./Node"
 
 const GameGraphEditor = () => {
@@ -22,7 +23,7 @@ const GameGraphEditor = () => {
     const [tx, setTx] = useState(0)
     const [ty, setTy] = useState(0)
     const [zoom, setZoom] = useState(0.75)
-    const latestZoom = useLatest(zoom)
+    const zoomRef = useLatest(zoom)
     const [containerRef, { width, height }] = useResizeObserver()
     const originX = width * 0.5
     const originY = height * 0.5
@@ -46,9 +47,8 @@ const GameGraphEditor = () => {
         return { x, y }
     }
     const getPositionRef = useLatest(getPosition)
-    const gameGraph = useSyncState(getGameGraph)
     const [gameGraphData] = useSyncState(getGameGraphData)
-    if (!gameGraphData || !gameGraph) return null
+    if (!gameGraphData) return null
 
     return (
         <>
@@ -100,7 +100,7 @@ const GameGraphEditor = () => {
                         e.preventDefault()
                         if (!treeContext.draggingItem) return
 
-                        gameGraph.mergeData({
+                        getGameGraph()!.mergeData({
                             [treeContext.draggingItem.uuid]: getPosition(e)
                         })
                     }}
@@ -114,26 +114,30 @@ const GameGraphEditor = () => {
                             transformOrigin: `${originX}px ${originY}px`
                         }}
                     >
-                        {Object.entries(gameGraphData).map(([uuid, data]) => (
-                            <Node
-                                key={uuid}
-                                uuid={uuid}
-                                data={data}
-                                onPan={(e) =>
-                                    gameGraph.mergeData({
-                                        [uuid]: {
-                                            x:
-                                                data.x +
-                                                e.deltaX / latestZoom.current,
-                                            y:
-                                                data.y +
-                                                e.deltaY / latestZoom.current
-                                        }
-                                    })
-                                }
-                                getPositionRef={getPositionRef}
-                            />
-                        ))}
+                        {Object.entries(gameGraphData).map(([uuid, data]) =>
+                            "x" in data ? (
+                                <Node
+                                    key={uuid}
+                                    uuid={uuid}
+                                    data={data}
+                                    onPan={(e) =>
+                                        getGameGraph()!.mergeData({
+                                            [uuid]: {
+                                                x:
+                                                    data.x +
+                                                    e.deltaX / zoomRef.current,
+                                                y:
+                                                    data.y +
+                                                    e.deltaY / zoomRef.current
+                                            }
+                                        })
+                                    }
+                                    getPositionRef={getPositionRef}
+                                />
+                            ) : (
+                                <Bezier key={uuid} />
+                            )
+                        )}
                     </div>
                 </div>
             </div>
