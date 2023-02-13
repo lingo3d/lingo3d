@@ -93,11 +93,11 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
 
     private _visible?: boolean
     public get visible() {
-        return this._visible !== false
+        return this._visible
     }
     public set visible(val) {
         this._visible = val
-        this.outerObject3d.visible = val
+        this.outerObject3d.visible = !!val
     }
 
     private _reflectionVisible?: boolean
@@ -111,9 +111,10 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
             val &&
                 (() => {
                     reflectionVisibleSet.add(this)
-                    return new Cancellable(() =>
+                    return new Cancellable(() => {
                         reflectionVisibleSet.delete(this)
-                    )
+                        this.outerObject3d.visible = !!this._visible
+                    })
                 })
         )
     }
@@ -133,20 +134,22 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
 
     protected _castShadow?: boolean
     public get castShadow() {
-        return this._castShadow ?? true
+        return this._castShadow
     }
     public set castShadow(val) {
         this._castShadow = val
-        this.outerObject3d.traverse((child) => (child.castShadow = val))
+        const bool = !!val
+        this.outerObject3d.traverse((child) => (child.castShadow = bool))
     }
 
     protected _receiveShadow?: boolean
     public get receiveShadow() {
-        return this._receiveShadow ?? true
+        return this._receiveShadow
     }
     public set receiveShadow(val) {
         this._receiveShadow = val
-        this.outerObject3d.traverse((child) => (child.receiveShadow = val))
+        const bool = !!val
+        this.outerObject3d.traverse((child) => (child.receiveShadow = bool))
     }
 
     public addToRaycastSet(set: Set<Object3D>) {

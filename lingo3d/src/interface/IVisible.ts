@@ -9,11 +9,11 @@ export default interface IVisible {
     bloom: boolean
     outline: boolean
 
-    visible: boolean
-    reflectionVisible?: boolean
+    visible: Nullable<boolean>
+    reflectionVisible: Nullable<boolean>
     frustumCulled: boolean
-    castShadow: boolean
-    receiveShadow: boolean
+    castShadow: Nullable<boolean>
+    receiveShadow: Nullable<boolean>
 
     onClick: Nullable<(e: LingoMouseEvent) => void>
     onMouseDown: Nullable<(e: LingoMouseEvent) => void>
@@ -57,11 +57,11 @@ export const visibleDefaults = extendDefaults<IVisible>([], {
     bloom: false,
     outline: false,
 
-    visible: true,
+    visible: nullableDefault(true),
     reflectionVisible: nullableDefault(false),
     frustumCulled: true,
-    castShadow: true,
-    receiveShadow: true,
+    castShadow: nullableDefault(true),
+    receiveShadow: nullableDefault(true),
 
     hitTarget: undefined,
 
