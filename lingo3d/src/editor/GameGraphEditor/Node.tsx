@@ -1,5 +1,6 @@
 import { event } from "@lincode/events"
 import { Point } from "@lincode/math"
+import { forceGetInstance } from "@lincode/utils"
 import { nanoid } from "nanoid"
 import { memo, RefObject } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
@@ -8,6 +9,7 @@ import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
+import throttleFrameLeading from "../../utils/throttleFrameLeading"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import SearchBox from "../component/SearchBox"
 import treeContext from "../component/treeItems/treeContext"
@@ -29,6 +31,18 @@ type NodeProps = {
 }
 
 export const [emitNodeMove, onNodeMove] = event<string>()
+
+const cacheUUIDConnectedKeys = throttleFrameLeading(() => {
+    const uuidConnectedKeys = new Map<string, Array<string>>()
+    for (const data of Object.values(getGameGraphData()[0]!)) {
+        if (!("from" in data)) continue
+        forceGetInstance(uuidConnectedKeys, data.from, Array).push(
+            data.fromProp
+        )
+        forceGetInstance(uuidConnectedKeys, data.to, Array).push(data.toProp)
+    }
+    return uuidConnectedKeys
+})
 
 const Node = memo(
     ({ uuid, data, getPositionRef, zoomRef }: NodeProps) => {
@@ -52,7 +66,9 @@ const Node = memo(
         })
         const [pane, setContainer] = usePane()
         const [includeKeys, setIncludeKeys] = useState<Array<string>>([])
-        const [connectedKeys, setConnectedKeys] = useState<Array<string>>([])
+        const [connectedKeys, setConnectedKeys] = useState(
+            () => cacheUUIDConnectedKeys().get(uuid) ?? []
+        )
         const [bezierStart, setBezierStart] = useState<Point>()
         const [bezierEnd, setBezierEnd] = useState<Point>()
 
