@@ -1,4 +1,5 @@
 import { Point } from "@lincode/math"
+import { forceGet } from "@lincode/utils"
 import { RefObject } from "preact"
 import { memo } from "preact/compat"
 import { useEffect, useState } from "preact/hooks"
@@ -16,6 +17,8 @@ type ConnectionProps = {
     >
 }
 
+const connectorMap = new Map<string, Connector>()
+
 const Connection = memo(
     ({ data, getPositionRef }: ConnectionProps) => {
         const [start, setStart] = useState({ x: 0, y: 0 })
@@ -23,13 +26,16 @@ const Connection = memo(
         const [refresh, setRefresh] = useState({})
 
         useEffect(() => {
-            const connector = new Connector()
-            Object.assign(connector, data)
-            getGameGraph()!.append(connector)
-
-            return () => {
-                connector.dispose()
-            }
+            forceGet(
+                connectorMap,
+                `${data.from} ${data.fromProp} ${data.to} ${data.toProp}`,
+                () => {
+                    const connector = new Connector()
+                    Object.assign(connector, data)
+                    getGameGraph()!.append(connector)
+                    return connector
+                }
+            )
         }, [])
 
         useEffect(() => {
