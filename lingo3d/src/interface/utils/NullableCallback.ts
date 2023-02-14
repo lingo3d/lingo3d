@@ -1,3 +1,3 @@
-export default class NullableCallback {
-    public constructor(public params: Record<string, any>) {}
+export default class NullableCallback<T> {
+    public constructor(public param: T) {}
 }

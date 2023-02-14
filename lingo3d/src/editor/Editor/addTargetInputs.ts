@@ -21,7 +21,7 @@ export default (
     )
 
     const [ownParams, ownRest] = splitObject(
-        createParams(schema, defaults, selectionTarget, includeKeys),
+        createParams(schema, defaults, includeKeys, false),
         Object.keys(defaultsOwnKeysRecordMap.get(defaults) ?? {})
     )
 

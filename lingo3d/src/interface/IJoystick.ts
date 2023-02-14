@@ -9,10 +9,10 @@ import Nullable from "./utils/Nullable"
 import NullableCallback from "./utils/NullableCallback"
 
 export default interface IJoystick extends IAppendable {
-    onMove: Nullable<(position: Point) => void>
-    onMoveStart: Nullable<(position: Point) => void>
-    onMoveEnd: Nullable<(position: Point) => void>
-    onPress: Nullable<(position: Point) => void>
+    onMove: Nullable<(e: Point) => void>
+    onMoveStart: Nullable<(e: Point) => void>
+    onMoveEnd: Nullable<(e: Point) => void>
+    onPress: Nullable<(e: Point) => void>
 }
 
 export const joystickSchema: Required<ExtractProps<IJoystick>> = {
@@ -23,12 +23,13 @@ export const joystickSchema: Required<ExtractProps<IJoystick>> = {
     onPress: Function
 }
 
+const pt = new Point(0, 0)
 export const joystickDefaults = extendDefaults<IJoystick>(
     [appendableDefaults],
     {
-        onMove: new NullableCallback({ position: Point }),
-        onMoveStart: new NullableCallback({ position: Point }),
-        onMoveEnd: new NullableCallback({ position: Point }),
-        onPress: new NullableCallback({ position: Point })
+        onMove: new NullableCallback(pt),
+        onMoveStart: new NullableCallback(pt),
+        onMoveEnd: new NullableCallback(pt),
+        onPress: new NullableCallback(pt)
     }
 )
