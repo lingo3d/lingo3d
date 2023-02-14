@@ -104,10 +104,9 @@ const Scroller = () => {
                     y: Math.floor(relY / FRAME_HEIGHT) * FRAME_HEIGHT
                 })
             }}
-            onContextMenu={(e) => {
-                e.preventDefault()
+            onContextMenu={(e) =>
                 setTimelineContextMenu({ x: e.clientX, y: e.clientY })
-            }}
+            }
         >
             <div
                 style={{

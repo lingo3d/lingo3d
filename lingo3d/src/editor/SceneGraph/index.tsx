@@ -19,8 +19,7 @@ const SceneGraph = () => {
                 ref={stopRef}
                 className="lingo3d-ui lingo3d-bg lingo3d-scenegraph"
                 onClick={() => emitSelectionTarget(undefined)}
-                onContextMenu={(el) => {
-                    el.preventDefault()
+                onContextMenu={() => {
                     toggleRightClickPtr()
                     emitSelectionTarget(undefined)
                 }}

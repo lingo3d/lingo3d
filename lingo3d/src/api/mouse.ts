@@ -23,13 +23,7 @@ let downX = 0
 let downY = 0
 let rightClick = false
 
-container.addEventListener("contextmenu", (e) => {
-    e.preventDefault()
-    rightClick = true
-})
-container.addEventListener("touchstart", (e) => {
-    e.preventDefault()
-})
+container.addEventListener("contextmenu", () => (rightClick = true))
 
 mouseEvents.on("down", (e) => {
     downTime = Date.now()

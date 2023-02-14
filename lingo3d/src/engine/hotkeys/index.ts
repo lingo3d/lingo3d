@@ -18,11 +18,11 @@ import copySelected from "./copySelected"
 import { setTransformControlsSnap } from "../../states/useTransformControlsSnap"
 import { container } from "../renderLoop/renderSetup"
 
-let containerFocus = false
+let focused = false
 let blurBlocked = false
 export const handleFocus = (e: Event) => {
     e.stopPropagation()
-    containerFocus = true
+    focused = true
     blurBlocked = true
     setTimeout(() => (blurBlocked = false))
     console.log("focus")
@@ -30,7 +30,7 @@ export const handleFocus = (e: Event) => {
 export const handleBlur = (e: Event) => {
     e.stopPropagation()
     if (blurBlocked) return
-    containerFocus = false
+    focused = false
     console.log("blur")
 }
 container.addEventListener("mousedown", handleFocus)
@@ -45,6 +45,8 @@ createEffect(() => {
     if (getWorldPlayComputed()) return
 
     const handleKeyDown = async (e: KeyboardEvent) => {
+        if (!focused) return
+
         if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
             setMultipleSelection(true)
         if (e.key === "Shift") setTransformControlsSnap(true)
