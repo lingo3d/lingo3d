@@ -127,15 +127,8 @@ const BaseTreeItem = ({
         >
             <div
                 ref={startRef}
-                onDblClick={(e: MouseEvent) => {
-                    e.stopPropagation()
-                    expanded ? collapse() : expand()
-                }}
-                onContextMenu={(e) => {
-                    e.stopPropagation()
-                    e.preventDefault()
-                    onContextMenu?.()
-                }}
+                onDblClick={expanded ? collapse : expand}
+                onContextMenu={onContextMenu}
                 style={{
                     display: "flex",
                     alignItems: "center",

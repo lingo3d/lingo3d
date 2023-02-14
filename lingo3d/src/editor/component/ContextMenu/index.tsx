@@ -2,7 +2,10 @@ import { Point } from "@lincode/math"
 import { ComponentChildren } from "preact"
 import { createPortal } from "preact/compat"
 import { CONTEXT_MENU_ITEM_HEIGHT } from "../../../globals"
+import mergeRefs from "../../hooks/mergeRefs"
 import useStopPropagation from "../../hooks/useStopPropagation"
+
+const setFocus = (el: HTMLInputElement | null) => setTimeout(() => el?.focus())
 
 interface ContextMenuProps {
     position?: Point
@@ -20,6 +23,7 @@ const ContextMenu = ({
     onInput
 }: ContextMenuProps) => {
     const stopRef = useStopPropagation()
+    const inputStopRef = useStopPropagation()
 
     if (!position) return null
 
@@ -54,11 +58,10 @@ const ContextMenu = ({
             >
                 {input ? (
                     <input
-                        ref={(el) => setTimeout(() => el?.focus())}
+                        ref={mergeRefs(setFocus, inputStopRef)}
                         style={{ all: "unset", padding: 6 }}
                         placeholder={input}
                         onKeyDown={(e) => {
-                            e.stopPropagation()
                             if (e.key !== "Enter" && e.key !== "Escape") return
                             e.key === "Enter" &&
                                 onInput?.(e.currentTarget.value)
