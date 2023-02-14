@@ -16,6 +16,25 @@ import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import mainCamera from "../mainCamera"
 import copySelected from "./copySelected"
 import { setTransformControlsSnap } from "../../states/useTransformControlsSnap"
+import { container } from "../renderLoop/renderSetup"
+
+let containerFocus = false
+let blurBlocked = false
+export const handleFocus = (e: Event) => {
+    e.stopPropagation()
+    containerFocus = true
+    blurBlocked = true
+    setTimeout(() => (blurBlocked = false))
+    console.log("focus")
+}
+export const handleBlur = (e: Event) => {
+    e.stopPropagation()
+    if (blurBlocked) return
+    containerFocus = false
+    console.log("blur")
+}
+container.addEventListener("mousedown", handleFocus)
+document.addEventListener("mousedown", handleBlur)
 
 const metaHotKey = (e: KeyboardEvent) => {
     e.preventDefault()
