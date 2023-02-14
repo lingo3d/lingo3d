@@ -130,38 +130,36 @@ export default async (
 
             addRefreshSystem(input, { key, paramsDefault, params, target })
 
-            if (!connection) {
-                const resetButton = resetIcon.cloneNode(true) as HTMLElement
-                input.element.prepend(resetButton)
-                resetButton.style.opacity = "0.1"
+            const resetButton = resetIcon.cloneNode(true) as HTMLElement
+            input.element.prepend(resetButton)
+            resetButton.style.opacity = "0.1"
 
-                const updateResetButton = throttleTrailing(() => {
-                    const unchanged = isEqual(
-                        params[key] ?? paramsDefault[key],
-                        paramsDefault[key]
-                    )
-                    resetButton.style.opacity = unchanged ? "0.1" : "0.5"
-                    resetButton.style.cursor = unchanged ? "auto" : "pointer"
-                }, 100)
-                updateResetButton()
+            const updateResetButton = throttleTrailing(() => {
+                const unchanged = isEqual(
+                    params[key] ?? paramsDefault[key],
+                    paramsDefault[key]
+                )
+                resetButton.style.opacity = unchanged ? "0.1" : "0.5"
+                resetButton.style.cursor = unchanged ? "auto" : "pointer"
+            }, 100)
+            updateResetButton()
 
-                resetButton.onclick = () => {
-                    params[key] = structuredClone(paramsDefault[key])
-                    target[key] = structuredClone(paramsDefault[key])
-                    skipApplyValue()
-                    input.refresh()
-                }
-
-                input.on("change", ({ value }: any) => {
-                    updateResetButton()
-                    if (skipApply) return
-                    !downPtr[0] && emitEditorEdit("start")
-                    target[key] = processValue(value)
-                    !downPtr[0] && emitEditorEdit("end")
-                })
-                return [key, input]
+            resetButton.onclick = () => {
+                params[key] = structuredClone(paramsDefault[key])
+                target[key] = structuredClone(paramsDefault[key])
+                skipApplyValue()
+                input.refresh()
             }
-            else {
+
+            input.on("change", ({ value }: any) => {
+                updateResetButton()
+                if (skipApply) return
+                !downPtr[0] && emitEditorEdit("start")
+                target[key] = processValue(value)
+                !downPtr[0] && emitEditorEdit("end")
+            })
+
+            if (connection) {
                 const connectorIn = connectorInIcon.cloneNode(
                     true
                 ) as HTMLElement
@@ -210,11 +208,6 @@ export default async (
                     draggingItem && connection.onDrop?.(e, draggingItem, key)
                 }
             }
-
-            input.on("change", ({ value }: any) => {
-                if (skipApply) return
-                target[key] = processValue(value)
-            })
             return [key, input]
         })
     )
