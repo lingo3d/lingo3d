@@ -1,7 +1,6 @@
 import { Cancellable } from "@lincode/promiselikes"
 import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import Dummy from "../../display/Dummy"
 import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import addInputs, { Connection } from "./addInputs"
@@ -251,30 +250,7 @@ export default (
 
     Object.assign(pbrMaterialRest, ownParams)
 
-    if (selectionTarget instanceof Dummy) {
-        pbrMaterialRest.stride = {
-            x: selectionTarget.strideRight,
-            y: -selectionTarget.strideForward
-        }
-        addInputs(
-            handle,
-            pane,
-            componentName,
-            selectionTarget,
-            defaults,
-            pbrMaterialRest,
-            true,
-            connection
-        ).then((inputs) =>
-            inputs.stride.on("change", ({ value }: any) => {
-                Object.assign(pbrMaterialRest, {
-                    strideForward: -value.y,
-                    strideRight: value.x
-                })
-                pane.refresh()
-            })
-        )
-    } else if (Object.keys(pbrMaterialRest).length)
+    if (Object.keys(pbrMaterialRest).length)
         addInputs(
             handle,
             pane,

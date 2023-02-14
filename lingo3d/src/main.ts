@@ -1,5 +1,5 @@
 import { setAssetsPath, settings } from "."
-import "./tests/testGeometry"
+import "./tests/testGameGraph"
 import LingoEditor from "./editor"
 
 setAssetsPath("assets/")
