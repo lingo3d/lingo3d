@@ -1,3 +1,4 @@
+import { useEffect, useState } from "preact/hooks"
 import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
 import { setGameGraph } from "../../states/useGameGraph"
 import AppBar from "../component/bars/AppBar"
@@ -10,6 +11,15 @@ import Stage from "./Stage"
 const GameGraphEditor = () => {
     useInitCSS()
     useInitEditor()
+
+    const [showLibrary, setShowLibrary] = useState(true)
+
+    useEffect(() => {
+        const timeout = setTimeout(() => setShowLibrary(false), 500)
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [])
 
     return (
         <>
@@ -28,7 +38,9 @@ const GameGraphEditor = () => {
                         height: "100%",
                         width: LIBRARY_WIDTH,
                         position: "absolute",
-                        right: 0
+                        right: 0,
+                        transition: "transform 500ms",
+                        transform: `translateX(${showLibrary ? 0 : 100}%)`
                     }}
                 >
                     <Library />
