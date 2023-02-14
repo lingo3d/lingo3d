@@ -4,12 +4,14 @@ import { memo } from "preact/compat"
 import { FRAME_HEIGHT, FRAME_WIDTH } from "../../globals"
 import { getTimelineLayer } from "../../states/useTimelineLayer"
 
+let blocked = false
 export const highlightFrame = (pt?: Point) => {
+    if (blocked) return
     if (pt) {
-        setTimeout(() => (frameIndicatorSignal.value = pt))
-        return
+        blocked = true
+        setTimeout(() => (blocked = false), 100)
     }
-    frameIndicatorSignal.value = undefined
+    frameIndicatorSignal.value = pt
 }
 
 const frameIndicatorSignal = signal<Point | undefined>(undefined)
