@@ -51,9 +51,9 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
             onExpand={() => addTimelineExpandedUUID(uuid)}
             onCollapse={() => deleteTimelineExpandedUUID(uuid)}
             selected={selected}
-            onClick={() => {
+            onClick={(e) => {
                 setTimelineLayer(uuid)
-                handleTreeItemClick(instance)
+                handleTreeItemClick(e, instance)
             }}
         >
             {children}

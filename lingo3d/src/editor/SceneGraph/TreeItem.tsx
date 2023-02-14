@@ -76,8 +76,8 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
             }
             onCollapse={() => setSceneGraphExpanded(undefined)}
             expandable={expandable ?? !!appendableChildren?.length}
-            onClick={() => handleTreeItemClick(appendable)}
-            onContextMenu={() => handleTreeItemClick(appendable, true)}
+            onClick={(e) => handleTreeItemClick(e, appendable)}
+            onContextMenu={(e) => handleTreeItemClick(e, appendable, true)}
             IconComponent={IconComponent}
         >
             {() => (

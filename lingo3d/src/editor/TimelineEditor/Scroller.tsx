@@ -83,7 +83,7 @@ const Scroller = () => {
                     const end = start + FRAME_HEIGHT
                     if (start > relY || end < relY) return false
                     setTimelineLayer(layer)
-                    handleTreeItemClick(uuidMap.get(layer.split(" ")[0]))
+                    handleTreeItemClick(e, uuidMap.get(layer.split(" ")[0]))
                     return true
                 }
                 let i = 0

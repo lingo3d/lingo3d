@@ -25,13 +25,11 @@ export const handleFocus = (e: Event) => {
     focused = true
     blurBlocked = true
     setTimeout(() => (blurBlocked = false))
-    console.log("focus")
 }
 export const handleBlur = (e: Event) => {
     e.stopPropagation()
     if (blurBlocked) return
     focused = false
-    console.log("blur")
 }
 container.addEventListener("mousedown", handleFocus)
 document.addEventListener("mousedown", handleBlur)
@@ -45,13 +43,11 @@ createEffect(() => {
     if (getWorldPlayComputed()) return
 
     const handleKeyDown = async (e: KeyboardEvent) => {
-        if (!focused) return
-
         if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
             setMultipleSelection(true)
         if (e.key === "Shift") setTransformControlsSnap(true)
 
-        if (e.key === "Backspace" || e.key === "Delete") {
+        if (focused && (e.key === "Backspace" || e.key === "Delete")) {
             e.preventDefault()
             deleteSelected()
             return

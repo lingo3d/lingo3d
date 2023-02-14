@@ -13,8 +13,8 @@ export type BaseTreeItemProps = {
     children?: ComponentChildren
     onCollapse?: () => void
     onExpand?: () => void
-    onClick?: () => void
-    onContextMenu?: () => void
+    onClick?: (e: MouseEvent) => void
+    onContextMenu?: (e: MouseEvent) => void
     onDrop?: (draggingItem?: any) => void
     myDraggingItem?: any
     draggable?: boolean

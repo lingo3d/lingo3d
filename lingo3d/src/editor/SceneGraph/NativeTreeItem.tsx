@@ -37,9 +37,9 @@ const NativeTreeItem = ({ appendable, object3d }: NativeTreeItemProps) => {
             label={object3d.name}
             selected={selected}
             onCollapse={() => setSceneGraphExpanded(undefined)}
-            onClick={() => handleTreeItemClick(object3d, false, appendable)}
-            onContextMenu={() =>
-                handleTreeItemClick(object3d, true, appendable)
+            onClick={(e) => handleTreeItemClick(e, object3d, false, appendable)}
+            onContextMenu={(e) =>
+                handleTreeItemClick(e, object3d, true, appendable)
             }
             expanded={expanded}
             expandable={!!object3d.children.length}

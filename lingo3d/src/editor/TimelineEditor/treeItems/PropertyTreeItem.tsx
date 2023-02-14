@@ -23,9 +23,9 @@ const PropertyTreeItem = ({ property, uuid }: PropertyTreeItemProps) => {
             height={FRAME_HEIGHT}
             label={property}
             selected={selected}
-            onClick={() => {
+            onClick={(e) => {
                 setTimelineLayer(myLayer)
-                handleTreeItemClick(uuidMap.get(uuid))
+                handleTreeItemClick(e, uuidMap.get(uuid))
             }}
         />
     )
