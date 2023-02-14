@@ -50,7 +50,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
     const [name, setName] = useState("")
     useLayoutEffect(() => {
         setName(getDisplayName(appendable))
-        //mark
+        //todo: reactive name
         // const handle = onName(
         //     (item) => item === appendable && setName(getDisplayName(appendable))
         // )

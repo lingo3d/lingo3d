@@ -35,7 +35,7 @@ const LayerTreeItem = ({ children, uuid }: LayerTreeItemProps) => {
     useLayoutEffect(() => {
         if (!instance) return
         setName(getDisplayName(instance))
-        //mark
+        //todo: reactive name
         // const handle = onName(
         //     (item) => item === instance && setName(getDisplayName(instance))
         // )
