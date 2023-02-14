@@ -1,4 +1,5 @@
 import { forceGet } from "@lincode/utils"
+import DefaultMethod from "./DefaultMethod"
 import NullableCallback from "./NullableCallback"
 import NullableDefault from "./NullableDefault"
 import Options from "./Options"
@@ -9,6 +10,7 @@ type Defaults<T> = {
         | NullableDefault<T[key]>
         //@ts-ignore
         | NullableCallback<Parameters<T[key]>[0]>
+        | DefaultMethod
         | (() => T[key])
 }
 export default Defaults

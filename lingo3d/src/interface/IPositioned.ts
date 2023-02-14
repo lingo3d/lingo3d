@@ -5,7 +5,8 @@ import {
     TransformControlsMode,
     TransformControlsPhase
 } from "../events/onTransformControls"
-import fn from "./utils/fn"
+import DefaultMethod from "./utils/DefaultMethod"
+import { Point3d } from "@lincode/math"
 
 export default interface IPositioned {
     x: number
@@ -54,11 +55,11 @@ export const positionedDefaults = extendDefaults<IPositioned>([], {
     onTransformControls: undefined,
     onMoveToEnd: undefined,
 
-    moveTo: fn,
-    lerpTo: fn,
-    placeAt: fn,
+    moveTo: new DefaultMethod([String, Point3d]),
+    lerpTo: new DefaultMethod([String, Point3d]),
+    placeAt: new DefaultMethod([String, Point3d]),
 
-    translateX: fn,
-    translateY: fn,
-    translateZ: fn
+    translateX: new DefaultMethod(Number),
+    translateY: new DefaultMethod(Number),
+    translateZ: new DefaultMethod(Number)
 })
