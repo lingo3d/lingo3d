@@ -1,6 +1,7 @@
 import { memo, useMemo } from "preact/compat"
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
 import { setTimelineContextMenu } from "../../states/useTimelineContextMenu"
+import useStopPropagation from "../hooks/useStopPropagation"
 import diffProps from "../utils/diffProps"
 
 const colors = [
@@ -35,6 +36,8 @@ const FrameTween = ({ frameNum, frameNums, index }: FrameTweenProps) => {
         return colors[colorIndex]
     }, [])
 
+    const stopRef = useStopPropagation()
+
     return (
         <div
             className="lingo3d-flexcenter"
@@ -56,6 +59,7 @@ const FrameTween = ({ frameNum, frameNums, index }: FrameTweenProps) => {
                 }}
             />
             <div
+                ref={stopRef}
                 className="lingo3d-flexcenter"
                 style={{
                     position: "absolute",
@@ -64,15 +68,13 @@ const FrameTween = ({ frameNum, frameNums, index }: FrameTweenProps) => {
                     left: 0,
                     top: 0
                 }}
-                onContextMenu={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
+                onContextMenu={(e) =>
                     setTimelineContextMenu({
                         x: e.clientX,
                         y: e.clientY,
                         keyframe: true
                     })
-                }}
+                }
             >
                 <div
                     style={{

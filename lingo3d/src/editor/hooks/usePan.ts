@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "preact/hooks"
+import { useEffect } from "preact/hooks"
+import useStopPropagation from "./useStopPropagation"
 
 export type PanEvent = {
     clientX: number
@@ -15,7 +16,7 @@ type Pan = {
 }
 
 export default ({ onPanStart, onPanEnd, onPan }: Pan = {}) => {
-    const elRef = useRef<HTMLDivElement>(null)
+    const elRef = useStopPropagation()
 
     useEffect(() => {
         const el = elRef.current
@@ -32,7 +33,6 @@ export default ({ onPanStart, onPanEnd, onPan }: Pan = {}) => {
             return [deltaX, deltaY]
         }
         const handleDown = (e: MouseEvent) => {
-            e.stopPropagation()
             panning = true
             const evt = {
                 clientX: (clientX = e.clientX),

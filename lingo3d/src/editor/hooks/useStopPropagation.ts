@@ -1,13 +1,13 @@
 import { useEffect, useRef } from "preact/hooks"
 
+const stop = (e: Event) => e.stopPropagation()
+
 export default <T extends HTMLElement | SVGSVGElement = HTMLDivElement>() => {
     const elRef = useRef<T>(null)
 
     useEffect(() => {
         const el = elRef.current
         if (!el) return
-
-        const stop = (e: Event) => e.stopPropagation()
 
         el.addEventListener("mousedown", stop)
         el.addEventListener("pointerdown", stop)
