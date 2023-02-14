@@ -10,12 +10,14 @@ const readLazy = <T>(val: T | (() => T)): T =>
 export default (
     defaults: Defaults<any>,
     key: string,
-    fillNullableDefault?: boolean
+    fillNullableDefault?: boolean,
+    fillCallbackParam?: boolean
 ) => {
     const result = readLazy(defaults[key])
     if (result instanceof NullableDefault)
         return fillNullableDefault ? result.value : undefined
-    if (result instanceof NullableCallback) return undefined
+    if (result instanceof NullableCallback)
+        return fillCallbackParam ? result.param : undefined
     if (fillNullableDefault) return result ?? ""
     return result
 }

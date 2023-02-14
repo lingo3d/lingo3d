@@ -65,10 +65,11 @@ const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
             target
         }: { key: string; paramsDefault: any; params: any; target: any }
     ) => {
-        if (isEqual(target[key] ?? paramsDefault[key], params[key])) return
-        params[key] = target[key]
-        skipApplyValue()
-        input.refresh()
+        //mark
+        // if (isEqual(target[key] ?? paramsDefault[key], params[key])) return
+        // params[key] = target[key]
+        // skipApplyValue()
+        // input.refresh()
     }
 )
 
@@ -104,6 +105,7 @@ export default async (
             params[key] = paramsDefault[key] = getDefaultValue(
                 defaults,
                 key,
+                true,
                 true
             )
     }

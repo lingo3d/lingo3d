@@ -1,7 +1,6 @@
 import { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import nonEditorSchemaSet from "../../interface/utils/nonEditorSchemaSet"
-import NullableCallback from "../../interface/utils/NullableCallback"
 
 const filterSchema = (schema: any, includeKeys: Array<string> | undefined) => {
     if (!includeKeys) return schema
@@ -13,33 +12,23 @@ const filterSchema = (schema: any, includeKeys: Array<string> | undefined) => {
 export default (
     schema: any,
     defaults: any,
-    includeKeys: Array<string> | undefined,
-    skipCallbacks: boolean
+    includeKeys: Array<string> | undefined
 ) => {
     const params: Record<string, any> = {}
     if (!schema) return params
 
     const options = defaultsOptionsMap.get(defaults)
 
-    for (let [schemaKey, schemaValue] of Object.entries(
-        filterSchema(schema, includeKeys)
-    )) {
+    for (const schemaKey of Object.keys(filterSchema(schema, includeKeys))) {
         if (nonEditorSchemaSet.has(schemaKey)) continue
 
-        let defaultValue: any
+        const defaultValue = getDefaultValue(defaults, schemaKey, true, true)
         if (
-            schemaValue === Function ||
-            (Array.isArray(schemaValue) && schemaValue.includes(Function))
-        ) {
-            if (skipCallbacks) continue
-
-            console.log(defaults)
-
-            const defaultVal: NullableCallback<any> | object | undefined =
-                defaults[schemaKey]
-            if (!defaultVal || !("param" in defaultVal)) continue
-            defaultValue = defaultVal.param
-        } else defaultValue = getDefaultValue(defaults, schemaKey, true)
+            defaultValue &&
+            typeof defaultValue === "object" &&
+            !Array.isArray(defaultValue)
+        )
+            continue
 
         const choices = options?.[schemaKey]
         if (choices && "options" in choices && choices.acceptAny)
