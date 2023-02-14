@@ -2,7 +2,7 @@ import { setAssetsPath, settings } from "."
 import "./tests/testGameGraph"
 import LingoEditor from "./editor"
 
-setAssetsPath("assets/")
+// setAssetsPath("assets/")
 
 settings.autoMount = true
 

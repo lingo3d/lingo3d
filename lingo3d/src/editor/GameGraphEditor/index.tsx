@@ -4,6 +4,7 @@ import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
+import Library from "../Library"
 import Stage from "./Stage"
 
 const GameGraphEditor = () => {
@@ -22,6 +23,16 @@ const GameGraphEditor = () => {
                     </CloseableTab>
                 </AppBar>
                 <Stage />
+                <div
+                    style={{
+                        height: "100%",
+                        width: LIBRARY_WIDTH,
+                        position: "absolute",
+                        right: 0
+                    }}
+                >
+                    <Library />
+                </div>
             </div>
         </>
     )
