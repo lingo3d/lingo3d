@@ -10,7 +10,6 @@ type AppBarProps = {
     style?: CSSProperties
     selectedSignal?: Signal<string | undefined>
     noPadding?: boolean
-    transparent?: boolean
 }
 
 const AppBar = ({
@@ -18,8 +17,7 @@ const AppBar = ({
     style,
     children,
     selectedSignal = useSignal<string | undefined>(undefined),
-    noPadding,
-    transparent
+    noPadding
 }: AppBarProps) => {
     const tabs = useMemo<Array<string>>(() => [], [])
 
@@ -38,7 +36,6 @@ const AppBar = ({
                 paddingRight: noPadding ? undefined : 4,
                 paddingLeft: noPadding ? undefined : 4,
                 flexShrink: 0,
-                background: transparent ? undefined : "rgb(16, 17, 20)",
                 ...style
             }}
         >
