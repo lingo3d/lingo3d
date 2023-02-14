@@ -1,11 +1,12 @@
 import { useEffect, useState } from "preact/hooks"
-import { EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
+import { APPBAR_HEIGHT, EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
 import { setGameGraph } from "../../states/useGameGraph"
 import AppBar from "../component/bars/AppBar"
 import CloseableTab from "../component/tabs/CloseableTab"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
 import Library from "../Library"
+import LibraryIcon from "./icons/LibraryIcon"
 import Stage from "./Stage"
 
 const GameGraphEditor = () => {
@@ -43,6 +44,19 @@ const GameGraphEditor = () => {
                         transform: `translateX(${showLibrary ? 0 : 100}%)`
                     }}
                 >
+                    <div
+                        className="lingo3d-flexcenter"
+                        style={{
+                            width: APPBAR_HEIGHT,
+                            height: APPBAR_HEIGHT + 8,
+                            position: "absolute",
+                            marginLeft: -APPBAR_HEIGHT,
+                            opacity: 0.75
+                        }}
+                        onClick={() => setShowLibrary(!showLibrary)}
+                    >
+                        <LibraryIcon />
+                    </div>
                     <Library />
                 </div>
             </div>
