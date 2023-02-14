@@ -7,6 +7,7 @@ import useSyncState from "../hooks/useSyncState"
 import { getFileSelected, setFileSelected } from "../../states/useFileSelected"
 import drag, { setDragImage } from "../utils/drag"
 import FileIcon from "./icons/FileIcon"
+import useStopPropagation from "../hooks/useStopPropagation"
 
 const setDraggingItem = drag<File>((draggingItem, hitManager) => {
     const filetype = getExtensionType(draggingItem.name)
@@ -37,9 +38,11 @@ type FileButtonProps = {
 
 const FileButton = ({ file }: FileButtonProps) => {
     const fileSelected = useSyncState(getFileSelected)
+    const stopRef = useStopPropagation()
 
     return (
         <div
+            ref={stopRef}
             style={{
                 width: 70,
                 height: 90,
@@ -54,7 +57,7 @@ const FileButton = ({ file }: FileButtonProps) => {
                 setDragImage(e)
             }}
             onDragEnd={() => setDraggingItem(undefined)}
-            onMouseDown={(e) => (e.stopPropagation(), setFileSelected(file))}
+            onMouseDown={() => setFileSelected(file)}
             onDblClick={() => loadFile(file)}
         >
             <div

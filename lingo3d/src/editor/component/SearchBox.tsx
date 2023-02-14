@@ -1,4 +1,5 @@
 import { CSSProperties, useEffect, useRef, useState } from "preact/compat"
+import useStopPropagation from "../hooks/useStopPropagation"
 import CloseIcon from "./icons/CloseIcon"
 
 type SearchBoxProps = {
@@ -9,7 +10,7 @@ type SearchBoxProps = {
 
 const SearchBox = ({ style, fullWidth, onChange }: SearchBoxProps) => {
     const [text, setText] = useState<string>()
-    const inputRef = useRef<HTMLInputElement>(null)
+    const inputRef = useStopPropagation<HTMLInputElement>()
 
     useEffect(() => {
         const timeout = setTimeout(
@@ -44,8 +45,6 @@ const SearchBox = ({ style, fullWidth, onChange }: SearchBoxProps) => {
                     className="lingo3d-unset"
                     style={{ flexGrow: 1, paddingLeft: 4 }}
                     placeholder="Search..."
-                    onKeyDown={(e) => e.stopPropagation()}
-                    onMouseDown={(e) => e.stopPropagation()}
                     onInput={(e) => setText(e.currentTarget.value)}
                 />
                 <div

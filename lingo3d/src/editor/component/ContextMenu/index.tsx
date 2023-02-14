@@ -2,7 +2,7 @@ import { Point } from "@lincode/math"
 import { ComponentChildren } from "preact"
 import { createPortal } from "preact/compat"
 import { CONTEXT_MENU_ITEM_HEIGHT } from "../../../globals"
-import useClickable from "../../hooks/useClickable"
+import useStopPropagation from "../../hooks/useStopPropagation"
 
 interface ContextMenuProps {
     position?: Point
@@ -19,7 +19,7 @@ const ContextMenu = ({
     input,
     onInput
 }: ContextMenuProps) => {
-    const elRef = useClickable()
+    const stopRef = useStopPropagation()
 
     if (!position) return null
 
@@ -30,7 +30,7 @@ const ContextMenu = ({
 
     return createPortal(
         <div
-            ref={elRef}
+            ref={stopRef}
             className="lingo3d-ui lingo3d-absfull"
             style={{ zIndex: 2 }}
             onContextMenu={(e) => e.preventDefault()}

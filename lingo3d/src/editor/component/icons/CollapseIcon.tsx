@@ -1,4 +1,5 @@
 import { CSSProperties } from "preact/compat"
+import useStopPropagation from "../../hooks/useStopPropagation"
 
 type CollapseIconProps = {
     style?: CSSProperties
@@ -6,15 +7,17 @@ type CollapseIconProps = {
 }
 
 const CollapseIcon = ({ style, onClick }: CollapseIconProps) => {
+    const stopRef = useStopPropagation<SVGSVGElement>()
+
     return (
         <svg
+            ref={stopRef}
             xmlns="http://www.w3.org/2000/svg"
             width="14"
             height="14"
             viewBox="0 0 1024 1024"
             style={{ margin: 2, flexShrink: 0, ...style }}
-            onMouseDown={(e) => e.stopPropagation()}
-            onClick={(e) => (e.stopPropagation(), onClick?.())}
+            onClick={onClick}
         >
             <path
                 fill="#fff"

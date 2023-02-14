@@ -1,7 +1,7 @@
 import ObjectGroup, { ObjectName } from "./ObjectGroup"
 import { LIBRARY_WIDTH } from "../../globals"
 import useInitCSS from "../hooks/useInitCSS"
-import useClickable from "../hooks/useClickable"
+import useStopPropagation from "../hooks/useStopPropagation"
 import AppBar from "../component/bars/AppBar"
 import Tab from "../component/tabs/Tab"
 import useInitEditor from "../hooks/useInitEditor"
@@ -54,7 +54,7 @@ const Library = () => {
     useInitCSS()
     useInitEditor()
 
-    const elRef = useClickable()
+    const stopRef = useStopPropagation()
     const [search, setSearch] = useState<string>()
 
     const names = useMemo(
@@ -71,7 +71,7 @@ const Library = () => {
 
     return (
         <div
-            ref={elRef}
+            ref={stopRef}
             className="lingo3d-ui lingo3d-bg lingo3d-library lingo3d-flexcol"
             style={{ width: LIBRARY_WIDTH, height: "100%" }}
         >

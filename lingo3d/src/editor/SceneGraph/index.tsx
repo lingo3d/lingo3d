@@ -1,7 +1,7 @@
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import SceneGraphContextMenu from "./SceneGraphContextMenu"
 import useInitCSS from "../hooks/useInitCSS"
-import useClickable from "../hooks/useClickable"
+import useStopPropagation from "../hooks/useStopPropagation"
 import AccordionSceneGraph from "./AccordionSceneGraph"
 import AccordionTimelines from "./AccordionTimelines"
 import useInitEditor from "../hooks/useInitEditor"
@@ -11,12 +11,12 @@ const SceneGraph = () => {
     useInitCSS()
     useInitEditor()
 
-    const elRef = useClickable()
+    const stopRef = useStopPropagation()
 
     return (
         <>
             <div
-                ref={elRef}
+                ref={stopRef}
                 className="lingo3d-ui lingo3d-bg lingo3d-scenegraph"
                 onClick={() => emitSelectionTarget(undefined)}
                 onContextMenu={(el) => {

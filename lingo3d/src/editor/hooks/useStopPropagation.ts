@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "preact/hooks"
 
-export default () => {
-    const elRef = useRef<HTMLDivElement>(null)
+export default <T extends HTMLElement | SVGSVGElement = HTMLDivElement>() => {
+    const elRef = useRef<T>(null)
 
     useEffect(() => {
         const el = elRef.current

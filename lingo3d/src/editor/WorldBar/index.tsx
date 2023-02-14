@@ -3,7 +3,7 @@ import useInitCSS from "../hooks/useInitCSS"
 import Controls from "./Controls"
 import useInitEditor from "../hooks/useInitEditor"
 import { useLayoutEffect } from "preact/hooks"
-import useClickable from "../hooks/useClickable"
+import useStopPropagation from "../hooks/useStopPropagation"
 import { getManager } from "../../api/utils/getManager"
 import { getCameraComputed } from "../../states/useCameraComputed"
 import { getCameraList } from "../../states/useCameraList"
@@ -21,7 +21,7 @@ const Tabs = () => {
     useInitEditor()
 
     const splitView = useSyncState(getSplitView)
-    const elRef = useClickable()
+    const elRef = useStopPropagation()
     const [pane, setContainer] = usePane()
 
     useLayoutEffect(() => {
