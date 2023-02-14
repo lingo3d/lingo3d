@@ -8,7 +8,7 @@ type TitleBarProps = {
 
 const TitleBar = ({ title, children }: TitleBarProps) => {
     return (
-        <AppBar style={{ paddingLeft: 12, background: undefined }}>
+        <AppBar transparent style={{ paddingLeft: 12 }}>
             <div style={{ marginTop: -2 }}>{title}</div>
             <div style={{ flexGrow: 1, minWidth: 4 }} />
             {children}

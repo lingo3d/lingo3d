@@ -16,12 +16,10 @@ const GameGraphEditor = () => {
                 className="lingo3d-ui lingo3d-bg lingo3d-editor lingo3d-flexcol"
                 style={{ width: EDITOR_WIDTH + LIBRARY_WIDTH }}
             >
-                <AppBar>
+                <AppBar transparent>
                     <CloseableTab onClose={() => setGameGraph(undefined)}>
                         GameGraph
                     </CloseableTab>
-                    <CloseableTab>components</CloseableTab>
-                    <CloseableTab disabled>materials</CloseableTab>
                 </AppBar>
                 <Stage />
             </div>
