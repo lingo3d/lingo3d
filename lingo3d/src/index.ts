@@ -40,6 +40,7 @@ import Timeline from "./display/Timeline"
 import TimelineAudio from "./display/TimelineAudio"
 import GameGraph from "./visualScripting/GameGraph"
 import Connector from "./visualScripting/Connector"
+import Point3dNode from "./visualScripting/Point3dNode"
 import Sky from "./display/Sky"
 import Camera from "./display/cameras/Camera"
 import ThirdPersonCamera from "./display/cameras/ThirdPersonCamera"
@@ -132,6 +133,7 @@ export {
     TimelineAudio,
     GameGraph,
     Connector,
+    Point3dNode,
     Sky,
     Camera,
     ThirdPersonCamera,
