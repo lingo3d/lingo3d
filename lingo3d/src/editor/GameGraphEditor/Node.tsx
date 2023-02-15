@@ -77,10 +77,16 @@ const Node = memo(
         useEffect(() => {
             if (!manager || !pane) return
             let size = 0
+
+            const forceIncludeKeys =
+                unsafeGetValue(manager.constructor, "includeKeys") ?? []
+
             const handle = addTargetInputs(
                 pane,
                 manager,
-                includeKeys ? [...includeKeys, ...connectedKeys] : undefined,
+                includeKeys
+                    ? [...forceIncludeKeys, ...includeKeys, ...connectedKeys]
+                    : undefined,
                 {
                     onDragStart: (e) => {
                         setBezierStart(getPositionRef.current!(e))

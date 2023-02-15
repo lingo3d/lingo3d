@@ -8,6 +8,7 @@ export default class Point3dNode extends Appendable implements IPoint3dNode {
     public static componentName = "point3dNode"
     public static defaults = point3dNodeDefaults
     public static schema = point3dNodeSchema
+    public static includeKeys = ["x", "y", "z", "position"]
 
     public position = { x: 0, y: 0, z: 0 }
 
