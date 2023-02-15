@@ -262,7 +262,7 @@ export default abstract class Loaded<T = Object3D>
 
             const shape = PxRigidActorExt.prototype.createExclusiveShape(
                 actor,
-                cookTrimeshGeometry(this._src, this),
+                cookTrimeshGeometry(this._src!, this),
                 material,
                 shapeFlags
             )

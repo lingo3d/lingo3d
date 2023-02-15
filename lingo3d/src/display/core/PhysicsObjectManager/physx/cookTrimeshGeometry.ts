@@ -1,11 +1,12 @@
 import destroy from "./destroy"
 import computeMergedPxVertices from "./computeMergedPxVertices"
-import MeshAppendable from "../../../../api/core/MeshAppendable"
 import { physxPtr } from "./physxPtr"
+import cookConvexGeometry from "./cookConvexGeometry"
+import PhysicsObjectManager from ".."
 
-const pxGeometryCache = new Map<string | undefined, any>()
+const pxGeometryCache = new Map<string, any>()
 
-export default (src: string | undefined, manager: MeshAppendable) => {
+export default (src: string, manager: PhysicsObjectManager) => {
     if (pxGeometryCache.has(src)) return pxGeometryCache.get(src)
 
     const {
@@ -18,9 +19,14 @@ export default (src: string | undefined, manager: MeshAppendable) => {
     } = physxPtr[0]
 
     const [pointVector, count, index] = computeMergedPxVertices(manager)
-    const indexVector = new Vector_PxU32()
+    if (!index) {
+        pointVector.clear()
+        destroy(pointVector)
+        return cookConvexGeometry(src, manager)
+    }
 
     const { array } = index
+    const indexVector = new Vector_PxU32()
     for (let i = 0; i < index.count; i++) indexVector.push_back(array[i])
 
     const points = new PxBoundedData()

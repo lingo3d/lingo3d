@@ -3,7 +3,7 @@ import MeshAppendable from "../../../../api/core/MeshAppendable"
 import Loaded from "../../Loaded"
 import { physxPtr } from "./physxPtr"
 
-export default (manager: MeshAppendable | Loaded) => {
+export default (manager: MeshAppendable | Loaded): [any, number] => {
     const { Vector_PxVec3 } = physxPtr[0]
 
     let vertexCount = 0

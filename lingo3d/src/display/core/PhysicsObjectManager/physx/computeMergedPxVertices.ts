@@ -1,10 +1,12 @@
-import { Object3D, BufferGeometry, Mesh } from "three"
+import { Object3D, BufferGeometry, Mesh, BufferAttribute } from "three"
 import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
 import Loaded from "../../Loaded"
 import { physxPtr } from "./physxPtr"
 
-export default (manager: MeshAppendable | Loaded) => {
+export default (
+    manager: MeshAppendable | Loaded
+): [any, number, BufferAttribute | null] => {
     const { Vector_PxVec3 } = physxPtr[0]
 
     const geometries: Array<BufferGeometry> = []
