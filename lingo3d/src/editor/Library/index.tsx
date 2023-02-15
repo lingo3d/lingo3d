@@ -10,6 +10,7 @@ import { useMemo, useState } from "preact/hooks"
 
 const objectNames = [
     { gameGraph: "joystick" },
+    { point3dNode: "joystick" },
 
     "cube",
     "sphere",
