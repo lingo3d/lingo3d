@@ -1,8 +1,12 @@
 import MeshAppendable from "../api/core/MeshAppendable"
-import { LingoMouseEvent } from "./IMouse"
+import { lingoMouseEvent, LingoMouseEvent } from "./IMouse"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
+import {
+    nullableCallback,
+    nullableCallbackMeshAppendableParam
+} from "./utils/NullableCallback"
 import { nullableDefault } from "./utils/NullableDefault"
 
 export default interface IVisible {
@@ -65,13 +69,13 @@ export const visibleDefaults = extendDefaults<IVisible>([], {
 
     hitTarget: undefined,
 
-    onClick: undefined,
-    onMouseDown: undefined,
-    onMouseUp: undefined,
-    onMouseOver: undefined,
-    onMouseOut: undefined,
-    onMouseMove: undefined,
-    onHit: undefined,
-    onHitStart: undefined,
-    onHitEnd: undefined
+    onClick: nullableCallback(lingoMouseEvent),
+    onMouseDown: nullableCallback(lingoMouseEvent),
+    onMouseUp: nullableCallback(lingoMouseEvent),
+    onMouseOver: nullableCallback(lingoMouseEvent),
+    onMouseOut: nullableCallback(lingoMouseEvent),
+    onMouseMove: nullableCallback(lingoMouseEvent),
+    onHit: nullableCallback(nullableCallbackMeshAppendableParam),
+    onHitStart: nullableCallback(nullableCallbackMeshAppendableParam),
+    onHitEnd: nullableCallback(nullableCallbackMeshAppendableParam)
 })

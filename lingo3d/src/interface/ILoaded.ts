@@ -5,6 +5,7 @@ import IPhysicsObjectManager, {
     physicsObjectManagerDefaults,
     physicsObjectManagerSchema
 } from "./IPhysicsObjectManager"
+import { nullableCallback } from "./utils/NullableCallback"
 
 export default interface ILoaded extends IPhysicsObjectManager {
     src: Nullable<string>
@@ -23,7 +24,7 @@ export const loadedDefaults = extendDefaults<ILoaded>(
     [physicsObjectManagerDefaults],
     {
         src: undefined,
-        onLoad: undefined,
+        onLoad: nullableCallback(undefined),
         boxVisible: false
     }
 )
