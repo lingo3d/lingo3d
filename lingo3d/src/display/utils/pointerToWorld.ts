@@ -5,7 +5,7 @@ import { getCameraPointerLock } from "../../states/useCameraPointerLock"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import getWorldPosition from "./getWorldPosition"
 import normalizeClientPosition from "./normalizeClientPosition"
-import { vector3 } from "./reusables"
+import { pt3d, vector3 } from "./reusables"
 import { vec2Point } from "./vec2Point"
 
 export default (ev: { clientX: number; clientY: number }) => {
@@ -23,8 +23,8 @@ export default (ev: { clientX: number; clientY: number }) => {
             ev.clientY,
             0,
             0,
-            new Point3d(0, 0, 0),
-            new Point3d(0, 0, 0),
+            pt3d,
+            pt3d,
             distance,
             undefined
         )

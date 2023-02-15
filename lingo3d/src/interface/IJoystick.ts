@@ -1,4 +1,5 @@
 import { Point } from "@lincode/math"
+import { pt } from "../display/utils/reusables"
 import IAppendable, {
     appendableDefaults,
     appendableSchema
@@ -23,7 +24,6 @@ export const joystickSchema: Required<ExtractProps<IJoystick>> = {
     onPress: Function
 }
 
-const pt = new Point(0, 0)
 export const joystickDefaults = extendDefaults<IJoystick>(
     [appendableDefaults],
     {

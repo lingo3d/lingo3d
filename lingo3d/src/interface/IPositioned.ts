@@ -8,16 +8,17 @@ import {
 import DefaultMethod from "./utils/DefaultMethod"
 import { Point3d } from "@lincode/math"
 import { nullableCallback } from "./utils/NullableCallback"
+import { hideSchema } from "./utils/nonEditorSchemaSet"
 
 export default interface IPositioned {
     x: number
     y: number
     z: number
 
-    onMove: Nullable<() => void>
     onTransformControls: Nullable<
         (phase: TransformControlsPhase, mode: TransformControlsMode) => void
     >
+    onMove: Nullable<() => void>
     onMoveToEnd: Nullable<() => void>
 
     moveTo: Function | Array<any>
@@ -34,8 +35,8 @@ export const positionedSchema: Required<ExtractProps<IPositioned>> = {
     y: Number,
     z: Number,
 
-    onMove: Function,
     onTransformControls: Function,
+    onMove: Function,
     onMoveToEnd: Function,
 
     moveTo: [Function, Array],
@@ -46,14 +47,15 @@ export const positionedSchema: Required<ExtractProps<IPositioned>> = {
     translateY: [Function, Array],
     translateZ: [Function, Array]
 }
+hideSchema(["onTransformControls"])
 
 export const positionedDefaults = extendDefaults<IPositioned>([], {
     x: 0,
     y: 0,
     z: 0,
 
-    onMove: undefined,
     onTransformControls: undefined,
+    onMove: nullableCallback(undefined),
     onMoveToEnd: nullableCallback(undefined),
 
     moveTo: new DefaultMethod([String, Point3d]),

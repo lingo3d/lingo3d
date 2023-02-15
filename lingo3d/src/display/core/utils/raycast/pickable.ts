@@ -9,6 +9,7 @@ import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { sceneGraphExpand } from "../../../../states/useSceneGraphExpanded"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { setSelectionNativeTarget } from "../../../../states/useSelectionNativeTarget"
+import { pt3d } from "../../../utils/reusables"
 import { vec2Point } from "../../../utils/vec2Point"
 import VisibleMixin from "../../mixins/VisibleMixin"
 import { physxPtr } from "../../PhysicsObjectManager/physx/physxPtr"
@@ -67,7 +68,7 @@ export const raycast = (
         return {
             point: vec2Point(intersection.point),
             distance: intersection.distance * M2CM,
-            normal: intersection.face?.normal ?? new Point3d(0, 0, 0),
+            normal: intersection.face?.normal ?? pt3d,
             manager: getManager<VisibleMixin>(intersection.object)!
         }
 }

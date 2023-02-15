@@ -1,3 +1,4 @@
+import { Point, Point3d } from "@lincode/math"
 import {
     Box3,
     Quaternion,
@@ -37,3 +38,9 @@ export const color = new Color()
 
 export const wireframeMaterial = new MeshStandardMaterial({ wireframe: true })
 export const standardMaterial = new MeshStandardMaterial({ side: DoubleSide })
+
+export const pt = new Point(0, 0)
+export const pt3d = new Point3d(0, 0, 0)
+
+Object.freeze(pt)
+Object.freeze(pt3d)
