@@ -65,7 +65,9 @@ const Node = memo(
             onPanEnd: () => (panningUUID = undefined)
         })
         const [pane, setContainer] = usePane()
-        const [includeKeys, setIncludeKeys] = useState<Array<string>>([])
+        const [includeKeys, setIncludeKeys] = useState<
+            Array<string> | undefined
+        >([])
         const [connectedKeys, setConnectedKeys] = useState(
             () => cacheUUIDConnectedKeys().get(uuid) ?? []
         )
@@ -78,7 +80,7 @@ const Node = memo(
             const handle = addTargetInputs(
                 pane,
                 manager,
-                [...includeKeys, ...connectedKeys],
+                includeKeys ? [...includeKeys, ...connectedKeys] : undefined,
                 {
                     onDragStart: (e) => {
                         setBezierStart(getPositionRef.current!(e))
@@ -134,6 +136,10 @@ const Node = memo(
                         fullWidth
                         style={{ marginTop: 8 }}
                         onChange={(val) => {
+                            if (val === "*") {
+                                setIncludeKeys(undefined)
+                                return
+                            }
                             if (!val || !manager) {
                                 setIncludeKeys([])
                                 return

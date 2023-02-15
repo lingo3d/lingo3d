@@ -14,7 +14,7 @@ const SearchBox = ({ style, fullWidth, onChange }: SearchBoxProps) => {
 
     useEffect(() => {
         const timeout = setTimeout(
-            () => text !== undefined && onChange?.(text),
+            () => text !== undefined && onChange?.(text.trim()),
             300
         )
         return () => {
