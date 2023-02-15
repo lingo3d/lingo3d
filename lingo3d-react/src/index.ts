@@ -1,7 +1,14 @@
 import * as Lingo from "lingo3d"
 export { Lingo }
 
-export { screenshot, keyboard, mouse, createProxy, setWasmPath, clientToWorld } from "lingo3d"
+export {
+  screenshot,
+  keyboard,
+  mouse,
+  createProxy,
+  setAssetsPath,
+  clientToWorld
+} from "lingo3d"
 
 export { default as globalState } from "./globalState"
 export { default as createPreload } from "./createPreload"
@@ -12,9 +19,6 @@ export { default as Editor } from "./components/editor/Editor"
 export { default as SceneGraph } from "./components/editor/SceneGraph"
 export { default as Toolbar } from "./components/editor/Toolbar"
 export { default as Library } from "./components/editor/Library"
-export { default as TweakPane } from "./components/editor/TweakPane"
-export { default as PaneInput } from "./components/editor/TweakPane/PaneInput"
-export { default as Stats } from "./components/Stats"
 
 export { default as Keyboard } from "./components/api/Keyboard"
 export { default as Mouse } from "./components/api/Mouse"
@@ -30,9 +34,14 @@ export { default as Skybox } from "./components/display/Skybox"
 export { default as Environment } from "./components/display/Environment"
 export { default as Setup } from "./components/display/Setup"
 export { default as Sprite } from "./components/display/Sprite"
+export { default as SpriteSheet } from "./components/display/SpriteSheet"
 export { default as Trigger } from "./components/display/Trigger"
 export { default as SpawnPoint } from "./components/display/SpawnPoint"
 export { default as Audio } from "./components/display/Audio"
+
+export { default as SphericalJoint } from "./components/display/SphericalJoint"
+export { default as FixedJoint } from "./components/display/FixedJoint"
+export { default as RevoluteJoint } from "./components/display/RevoluteJoint"
 
 export { default as Camera } from "./components/display/cameras/Camera"
 export { default as OrbitCamera } from "./components/display/cameras/OrbitCamera"

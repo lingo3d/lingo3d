@@ -12,8 +12,6 @@ import Circle from "./display/primitives/Circle"
 
 import Model from "./display/Model"
 import Dummy from "./display/Dummy"
-import Building from "./display/Building"
-import Tree from "./display/Tree"
 import SvgMesh from "./display/SvgMesh"
 import HTMLMesh from "./display/HTMLMesh"
 import Reflector from "./display/Reflector"
@@ -108,8 +106,6 @@ export {
     Circle,
     Model,
     Dummy,
-    Building,
-    Tree,
     SvgMesh,
     HTMLMesh,
     Reflector,
