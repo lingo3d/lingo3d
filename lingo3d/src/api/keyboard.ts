@@ -1,7 +1,8 @@
 import { event } from "@lincode/events"
 import IKeyboard, {
     keyboardDefaults,
-    keyboardSchema
+    keyboardSchema,
+    LingoKeyboardEvent
 } from "../interface/IKeyboard"
 import { createEffect } from "@lincode/reactivity"
 import { onKeyClear } from "../events/onKeyClear"
@@ -65,9 +66,9 @@ export class Keyboard extends Appendable implements IKeyboard {
     public static defaults = keyboardDefaults
     public static schema = keyboardSchema
 
-    public onKeyPress: Nullable<(key: string, keys: Set<string>) => void>
-    public onKeyUp: Nullable<(key: string, keys: Set<string>) => void>
-    public onKeyDown: Nullable<(key: string, keys: Set<string>) => void>
+    public onKeyPress: Nullable<(e: LingoKeyboardEvent) => void>
+    public onKeyUp: Nullable<(e: LingoKeyboardEvent) => void>
+    public onKeyDown: Nullable<(e: LingoKeyboardEvent) => void>
 
     public constructor() {
         super()
@@ -77,14 +78,23 @@ export class Keyboard extends Appendable implements IKeyboard {
                 if (!this.onKeyPress) return
 
                 if (!isPressed.size) {
-                    this.onKeyPress("", isPressed)
+                    this.onKeyPress(new LingoKeyboardEvent("", isPressed))
                     return
                 }
-                for (const key of isPressed) this.onKeyPress(key, isPressed)
+                for (const key of isPressed)
+                    this.onKeyPress(new LingoKeyboardEvent(key, isPressed))
             })
         )
-        this.watch(onUp((key) => this.onKeyUp?.(key, isPressed)))
-        this.watch(onDown((key) => this.onKeyDown?.(key, isPressed)))
+        this.watch(
+            onUp((key) =>
+                this.onKeyUp?.(new LingoKeyboardEvent(key, isPressed))
+            )
+        )
+        this.watch(
+            onDown((key) =>
+                this.onKeyDown?.(new LingoKeyboardEvent(key, isPressed))
+            )
+        )
     }
 }
 

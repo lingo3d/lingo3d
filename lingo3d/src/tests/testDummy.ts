@@ -35,14 +35,14 @@ cam.lockTargetRotation = "dynamic-lock"
 cam.innerX = 50
 cam.innerY = 50
 
-keyboard.onKeyPress = (_, pressed) => {
-    if (pressed.has("w")) dummy.strideForward = -5
-    else if (pressed.has("s")) dummy.strideForward = 5
+keyboard.onKeyPress = (e) => {
+    if (e.keys.has("w")) dummy.strideForward = -5
+    else if (e.keys.has("s")) dummy.strideForward = 5
     else dummy.strideForward = 0
 
-    if (pressed.has("a")) dummy.strideRight = 5
-    else if (pressed.has("d")) dummy.strideRight = -5
+    if (e.keys.has("a")) dummy.strideRight = 5
+    else if (e.keys.has("d")) dummy.strideRight = -5
     else dummy.strideRight = 0
 
-    if (pressed.has("Space")) dummy.jump(10)
+    if (e.keys.has("Space")) dummy.jump(10)
 }

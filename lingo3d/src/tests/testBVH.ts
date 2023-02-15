@@ -28,23 +28,23 @@ box2.z = -300
 box2.y = 2100
 box2.physics = true
 
-keyboard.onKeyPress = (_, key) => {
-    if (key.has("Space")) {
+keyboard.onKeyPress = ({ keys }) => {
+    if (keys.has("Space")) {
         player.jump()
     }
-    if (key.has("Shift")) {
+    if (keys.has("Shift")) {
         box.addLocalForceAtLocalPos(100, 100, 100)
         // box.velocityY = 10
         // box.velocityX = 10
         // box.velocityZ = 10
     }
 
-    if (key.has("w")) player.strideForward = -5
-    else if (key.has("s")) player.strideForward = 5
+    if (keys.has("w")) player.strideForward = -5
+    else if (keys.has("s")) player.strideForward = 5
     else player.strideForward = 0
 
-    if (key.has("a")) player.strideRight = 5
-    else if (key.has("d")) player.strideRight = -5
+    if (keys.has("a")) player.strideRight = 5
+    else if (keys.has("d")) player.strideRight = -5
     else player.strideRight = 0
 }
 
