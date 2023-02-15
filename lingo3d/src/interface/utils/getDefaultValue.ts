@@ -1,5 +1,6 @@
 import { isLazy } from "@lincode/utils"
 import { isPoint, PointType } from "../../api/serializer/isPoint"
+import DefaultMethod from "./DefaultMethod"
 import Defaults from "./Defaults"
 import NullableCallback from "./NullableCallback"
 import NullableDefault from "./NullableDefault"
@@ -11,13 +12,15 @@ export default (
     defaults: Defaults<any>,
     key: string,
     fillNullableDefault?: boolean,
-    fillCallbackParam?: boolean
+    fillFunctionArgs?: boolean
 ) => {
     const result = readLazy(defaults[key])
     if (result instanceof NullableDefault)
         return fillNullableDefault ? result.value : undefined
     if (result instanceof NullableCallback)
-        return fillCallbackParam ? result.param : undefined
+        return fillFunctionArgs ? result.param : undefined
+    if (result instanceof DefaultMethod)
+        return fillFunctionArgs ? result.arg : undefined
     if (fillNullableDefault) return result ?? ""
     return result
 }

@@ -3,8 +3,8 @@ import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
 import Nullable from "./utils/Nullable"
 import { nullableCallback } from "./utils/NullableCallback"
-import DefaultMethod from "./utils/DefaultMethod"
-import { Point3d } from "@lincode/math"
+import { defaultMethod } from "./utils/DefaultMethod"
+import { pt3d } from "../display/utils/reusables"
 
 export default interface IDirectioned {
     rotationX: number
@@ -40,8 +40,8 @@ export const directionedDefaults = extendDefaults<IDirectioned>(
 
         onLookToEnd: nullableCallback(undefined),
 
-        lookAt: new DefaultMethod([String, Point3d]),
-        lookTo: new DefaultMethod([String, Point3d])
+        lookAt: defaultMethod(pt3d),
+        lookTo: defaultMethod(pt3d)
     },
     {
         rotationX: new Range(0, 360),

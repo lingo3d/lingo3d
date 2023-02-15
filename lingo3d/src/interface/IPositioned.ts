@@ -5,10 +5,10 @@ import {
     TransformControlsMode,
     TransformControlsPhase
 } from "../events/onTransformControls"
-import DefaultMethod from "./utils/DefaultMethod"
-import { Point3d } from "@lincode/math"
+import { defaultMethod } from "./utils/DefaultMethod"
 import { nullableCallback } from "./utils/NullableCallback"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
+import { pt3d } from "../display/utils/reusables"
 
 export default interface IPositioned {
     x: number
@@ -58,11 +58,11 @@ export const positionedDefaults = extendDefaults<IPositioned>([], {
     onMove: nullableCallback(undefined),
     onMoveToEnd: nullableCallback(undefined),
 
-    moveTo: new DefaultMethod([String, Point3d]),
-    lerpTo: new DefaultMethod([String, Point3d]),
-    placeAt: new DefaultMethod([String, Point3d]),
+    moveTo: defaultMethod(pt3d),
+    lerpTo: defaultMethod(pt3d),
+    placeAt: defaultMethod(pt3d),
 
-    translateX: new DefaultMethod(Number),
-    translateY: new DefaultMethod(Number),
-    translateZ: new DefaultMethod(Number)
+    translateX: defaultMethod(0),
+    translateY: defaultMethod(0),
+    translateZ: defaultMethod(0)
 })

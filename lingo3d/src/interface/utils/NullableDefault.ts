@@ -5,6 +5,5 @@ export default class NullableDefault<T> {
 }
 
 const nullableDefaultMap = new Map<any, NullableDefault<any>>()
-
 export const nullableDefault = <T>(value: T) =>
     forceGet(nullableDefaultMap, value, () => new NullableDefault(value))
