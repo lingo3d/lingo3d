@@ -40,7 +40,8 @@
     "@types/three": "0.148.0",
     "lingo3d": "2.0.4",
     "nanoid": "^4.0.1",
-    "popmotion": "^11.0.5"
+    "popmotion": "^11.0.5",
+    "preact": "^10.12.1"
   },
   "peerDependencies": {
     "react": "^18.2.0",
