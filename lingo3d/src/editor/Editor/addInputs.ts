@@ -4,7 +4,7 @@ import resetIcon from "./icons/resetIcon"
 import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import { Cancellable } from "@lincode/promiselikes"
-import { isPoint } from "../../api/serializer/isPoint"
+import { isPoint } from "../../utils/isPoint"
 import { emitEditorEdit } from "../../events/onEditorEdit"
 import toFixed, { toFixedPoint } from "../../api/serializer/toFixed"
 import {

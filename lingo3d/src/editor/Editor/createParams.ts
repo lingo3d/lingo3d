@@ -1,3 +1,4 @@
+import { isPoint } from "../../utils/isPoint"
 import { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import nonEditorSchemaSet from "../../interface/utils/nonEditorSchemaSet"
@@ -8,6 +9,9 @@ const filterSchema = (schema: any, includeKeys: Array<string> | undefined) => {
     for (const key of includeKeys) _schema[key] = schema[key]
     return _schema
 }
+
+const isObject = (val: any): val is object =>
+    val && typeof val === "object" && !Array.isArray(val)
 
 export default (
     schema: any,
@@ -23,12 +27,7 @@ export default (
         if (nonEditorSchemaSet.has(schemaKey)) continue
 
         const defaultValue = getDefaultValue(defaults, schemaKey, true, true)
-        if (
-            defaultValue &&
-            typeof defaultValue === "object" &&
-            !Array.isArray(defaultValue)
-        )
-            continue
+        if (isObject(defaultValue) && !isPoint(defaultValue)) continue
 
         const choices = options?.[schemaKey]
         if (choices && "options" in choices && choices.acceptAny)

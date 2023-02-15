@@ -7,7 +7,7 @@ import toFixed, { toFixedPoint } from "./toFixed"
 import { SceneGraphNode } from "./types"
 import { VERSION } from "../../globals"
 import { nonSerializedAppendables, appendableRoot } from "../core/collections"
-import { isPoint } from "./isPoint"
+import { isPoint } from "../../utils/isPoint"
 import nonSerializedProperties from "./nonSerializedProperties"
 
 const serialize = (children: Array<any> | Set<any>, skipUUID?: boolean) => {

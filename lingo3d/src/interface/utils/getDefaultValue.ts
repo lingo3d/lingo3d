@@ -1,5 +1,5 @@
 import { isLazy } from "@lincode/utils"
-import { isPoint, PointType } from "../../api/serializer/isPoint"
+import { isPoint, PointType } from "../../utils/isPoint"
 import DefaultMethod from "./DefaultMethod"
 import Defaults from "./Defaults"
 import NullableCallback from "./NullableCallback"
