@@ -16,7 +16,8 @@ const isObject = (val: any): val is object =>
 export default (
     schema: any,
     defaults: any,
-    includeKeys: Array<string> | undefined
+    includeKeys: Array<string> | undefined,
+    skipFunctions: boolean
 ) => {
     const params: Record<string, any> = {}
     if (!schema) return params
@@ -26,8 +27,16 @@ export default (
     for (const schemaKey of Object.keys(filterSchema(schema, includeKeys))) {
         if (nonEditorSchemaSet.has(schemaKey)) continue
 
-        const defaultValue = getDefaultValue(defaults, schemaKey, true, true)
+        const isFunctionPtr: [boolean] = [false]
+        const defaultValue = getDefaultValue(
+            defaults,
+            schemaKey,
+            true,
+            true,
+            isFunctionPtr
+        )
         if (isObject(defaultValue) && !isPoint(defaultValue)) continue
+        if (skipFunctions && isFunctionPtr[0]) continue
 
         const choices = options?.[schemaKey]
         if (choices && "options" in choices && choices.acceptAny)

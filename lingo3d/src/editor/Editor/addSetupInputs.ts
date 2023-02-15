@@ -12,7 +12,7 @@ export default (
 ) => {
     const handle = new Cancellable()
     const [editorParams, editorRest] = splitObject(
-        createParams(setupSchema, setupDefaults, includeKeys),
+        createParams(setupSchema, setupDefaults, includeKeys, true),
         ["gridHelper", "gridHelperSize", "stats"]
     )
     addInputs(handle, pane, "editor", targetSetup, setupDefaults, editorParams)
