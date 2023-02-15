@@ -23,7 +23,7 @@ export const getAppendablesById = (
     id: string
 ): Array<Appendable | MeshAppendable> | Set<Appendable | MeshAppendable> => {
     const uuidInstance = uuidMap.get(id)
-    if (uuidInstance && "object3d" in uuidInstance) return [uuidInstance]
+    if (uuidInstance) return [uuidInstance]
     return userIdMap.get(id) ?? []
 }
 
