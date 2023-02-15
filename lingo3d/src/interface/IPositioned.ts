@@ -7,6 +7,7 @@ import {
 } from "../events/onTransformControls"
 import DefaultMethod from "./utils/DefaultMethod"
 import { Point3d } from "@lincode/math"
+import { nullableCallback } from "./utils/NullableCallback"
 
 export default interface IPositioned {
     x: number
@@ -53,7 +54,7 @@ export const positionedDefaults = extendDefaults<IPositioned>([], {
 
     onMove: undefined,
     onTransformControls: undefined,
-    onMoveToEnd: undefined,
+    onMoveToEnd: nullableCallback(undefined),
 
     moveTo: new DefaultMethod([String, Point3d]),
     lerpTo: new DefaultMethod([String, Point3d]),

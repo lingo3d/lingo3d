@@ -6,7 +6,7 @@ import IAppendable, {
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
-import NullableCallback from "./utils/NullableCallback"
+import { nullableCallback } from "./utils/NullableCallback"
 
 export default interface IJoystick extends IAppendable {
     onMove: Nullable<(e: Point) => void>
@@ -27,9 +27,9 @@ const pt = new Point(0, 0)
 export const joystickDefaults = extendDefaults<IJoystick>(
     [appendableDefaults],
     {
-        onMove: new NullableCallback(pt),
-        onMoveStart: new NullableCallback(pt),
-        onMoveEnd: new NullableCallback(pt),
-        onPress: new NullableCallback(pt)
+        onMove: nullableCallback(pt),
+        onMoveStart: nullableCallback(pt),
+        onMoveEnd: nullableCallback(pt),
+        onPress: nullableCallback(pt)
     }
 )

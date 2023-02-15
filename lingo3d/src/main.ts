@@ -1,8 +1,6 @@
-import { setAssetsPath, settings } from "."
+import { settings } from "."
 import "./tests/testGameGraph"
 import LingoEditor from "./editor"
-
-// setAssetsPath("assets/")
 
 settings.autoMount = true
 

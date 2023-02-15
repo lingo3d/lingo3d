@@ -2,7 +2,7 @@ import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
 import Nullable from "./utils/Nullable"
-import NullableCallback from "./utils/NullableCallback"
+import { nullableCallback } from "./utils/NullableCallback"
 import DefaultMethod from "./utils/DefaultMethod"
 import { Point3d } from "@lincode/math"
 
@@ -38,7 +38,7 @@ export const directionedDefaults = extendDefaults<IDirectioned>(
         rotationZ: 0,
         rotation: 0,
 
-        onLookToEnd: new NullableCallback(undefined),
+        onLookToEnd: nullableCallback(undefined),
 
         lookAt: new DefaultMethod([String, Point3d]),
         lookTo: new DefaultMethod([String, Point3d])

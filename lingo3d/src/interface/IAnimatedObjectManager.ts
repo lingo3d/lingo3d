@@ -8,6 +8,7 @@ import IMeshAppendable, {
     meshAppendableDefaults,
     meshAppendableSchema
 } from "./IMeshAppendable"
+import { nullableCallback } from "./utils/NullableCallback"
 
 export type AnimationValue = Record<string, Array<number>>
 export type Animation =
@@ -44,5 +45,5 @@ export const animatedObjectManagerDefaults =
         animation: undefined,
         animationPaused: nullableDefault(false),
         animationRepeat: nullableDefault(Infinity),
-        onAnimationFinish: undefined
+        onAnimationFinish: nullableCallback(undefined)
     })

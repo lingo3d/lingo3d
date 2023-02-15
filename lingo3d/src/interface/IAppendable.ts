@@ -3,7 +3,7 @@ import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
 import Nullable from "./utils/Nullable"
-import NullableCallback from "./utils/NullableCallback"
+import { nullableCallback } from "./utils/NullableCallback"
 
 export default interface IAppendable {
     onLoop: Nullable<() => void>
@@ -23,7 +23,7 @@ export const appendableSchema: Required<ExtractProps<IAppendable>> = {
 hideSchema(["proxy"])
 
 export const appendableDefaults = extendDefaults<IAppendable>([], {
-    onLoop: new NullableCallback(undefined),
+    onLoop: nullableCallback(undefined),
     proxy: undefined,
     uuid: "",
     id: undefined,
