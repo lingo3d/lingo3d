@@ -33,7 +33,7 @@ const GameGraphEditor = () => {
                         GameGraph
                     </CloseableTab>
                 </AppBar>
-                <Stage />
+                <Stage onPanStart={() => setShowLibrary(false)} />
                 <div
                     style={{
                         height: "100%",

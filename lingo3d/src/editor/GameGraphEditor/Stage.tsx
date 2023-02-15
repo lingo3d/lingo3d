@@ -11,7 +11,11 @@ import useSyncState from "../hooks/useSyncState"
 import Connection from "./Connection"
 import Node from "./Node"
 
-const Stage = () => {
+type StageProps = {
+    onPanStart?: () => void
+}
+
+const Stage = ({ onPanStart }: StageProps) => {
     const [tx, setTx] = useState(0)
     const [ty, setTy] = useState(0)
     const [zoom, setZoom] = useState(0.75)
@@ -20,6 +24,7 @@ const Stage = () => {
     const originX = width * 0.5
     const originY = height * 0.5
     const pressRef = usePan({
+        onPanStart,
         onPan: ({ deltaX, deltaY }) => {
             setTx((tx) => tx + deltaX)
             setTy((ty) => ty + deltaY)
