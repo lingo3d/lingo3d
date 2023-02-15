@@ -1,5 +1,5 @@
 import ObjectGroup, { ObjectName } from "./ObjectGroup"
-import { LIBRARY_WIDTH } from "../../globals"
+import { DEBUG, LIBRARY_WIDTH } from "../../globals"
 import useInitCSS from "../hooks/useInitCSS"
 import useStopPropagation from "../hooks/useStopPropagation"
 import AppBar from "../component/bars/AppBar"
@@ -9,8 +9,7 @@ import SearchBox from "../component/SearchBox"
 import { useMemo, useState } from "preact/hooks"
 
 const objectNames = [
-    { gameGraph: "joystick" },
-    { point3dNode: "joystick" },
+    ...(DEBUG ? [{ gameGraph: "joystick" }, { point3dNode: "joystick" }] : []),
 
     "cube",
     "sphere",
