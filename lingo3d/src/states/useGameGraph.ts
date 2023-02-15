@@ -1,5 +1,5 @@
 import store, { createEffect } from "@lincode/reactivity"
-import GameGraph from "../display/GameGraph"
+import GameGraph from "../visualScripting/GameGraph"
 import { onDispose } from "../events/onDispose"
 
 export const [setGameGraph, getGameGraph] = store<GameGraph | undefined>(

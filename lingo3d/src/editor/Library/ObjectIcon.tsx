@@ -1,7 +1,7 @@
 import { upperFirst } from "@lincode/utils"
 import createObject from "../../api/serializer/createObject"
 import { GameObjectType } from "../../api/serializer/types"
-import GameGraph from "../../display/GameGraph"
+import GameGraph from "../../visualScripting/GameGraph"
 import SpotLight from "../../display/lights/SpotLight"
 import { setGameGraph } from "../../states/useGameGraph"
 import drag, { setDragImage } from "../utils/drag"

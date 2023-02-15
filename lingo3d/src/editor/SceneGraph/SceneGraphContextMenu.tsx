@@ -34,7 +34,7 @@ import MeshAppendable from "../../api/core/MeshAppendable"
 import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { rightClickPtr } from "../../api/mouse"
 import { getGameGraph, setGameGraph } from "../../states/useGameGraph"
-import GameGraph from "../../display/GameGraph"
+import GameGraph from "../../visualScripting/GameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
 
 const SceneGraphContextMenu = () => {
