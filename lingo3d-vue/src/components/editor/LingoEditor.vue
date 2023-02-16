@@ -2,9 +2,9 @@
 import LingoEditor from "lingo3d/lib/editor/LingoEditor"
 import useEditor from "../../hooks/useEditor"
 
-const divRef = useEditor(LingoEditor, { embedded: true })
+const divRef = useEditor(LingoEditor)
 </script>
 
 <template>
-  <div ref="divRef" style="height: 100%" />
+  <div ref="divRef" style="width: 100vw; height: 100vh" />
 </template>
