@@ -4,9 +4,8 @@ import { forceGet } from "@lincode/utils"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
 import SimpleObjectManager from "lingo3d/lib/display/core/SimpleObjectManager"
 import { inject, onUnmounted, provide, Ref, ref, watchEffect, toRaw } from "vue"
-import processDefaults from "../props/utils/processDefaults"
+import processDefaults, { fn } from "../props/utils/processDefaults"
 import useDiffProps from "./useDiffProps"
-import fn from "lingo3d/lib/interface/utils/fn"
 
 const handleStore = new WeakMap<SimpleObjectManager, Map<string, Cancellable>>()
 const makeHandleMap = () => new Map<string, Cancellable>()
