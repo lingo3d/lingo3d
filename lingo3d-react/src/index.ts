@@ -56,6 +56,7 @@ export { default as AreaLight } from "./components/display/lights/AreaLight"
 export { default as DirectionalLight } from "./components/display/lights/DirectionalLight"
 export { default as PointLight } from "./components/display/lights/PointLight"
 export { default as SkyLight } from "./components/display/lights/SkyLight"
+export { default as DefaultSkyLight } from "./components/display/lights/DefaultSkyLight"
 export { default as SpotLight } from "./components/display/lights/SpotLight"
 
 export { default as Circle } from "./components/display/primitives/Circle"
