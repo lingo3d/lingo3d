@@ -1,3 +1,4 @@
+import { useSignal } from "@preact/signals"
 import { useEffect, useState } from "preact/hooks"
 import { APPBAR_HEIGHT, EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
 import { setGameGraph } from "../../states/useGameGraph"
@@ -22,6 +23,8 @@ const GameGraphEditor = () => {
         }
     }, [])
 
+    const selectedSignal = useSignal<string | undefined>(undefined)
+
     return (
         <>
             <div
@@ -29,7 +32,10 @@ const GameGraphEditor = () => {
                 style={{ width: EDITOR_WIDTH + LIBRARY_WIDTH }}
             >
                 <AppBar>
-                    <CloseableTab onClose={() => setGameGraph(undefined)}>
+                    <CloseableTab
+                        selectedSignal={selectedSignal}
+                        onClose={() => setGameGraph(undefined)}
+                    >
                         GameGraph
                     </CloseableTab>
                 </AppBar>

@@ -1,20 +1,29 @@
 import CloseIcon from "../icons/CloseIcon"
 import { TabProps } from "./Tab"
-import useTab from "./useTab"
 import IconButton from "../IconButton"
+import { Signal } from "@preact/signals"
+import { useEffect } from "preact/hooks"
 
 type CloseableTabProps = TabProps & {
     onClose?: (selected: boolean) => void
+    selectedSignal: Signal<string | undefined>
 }
 
 const CloseableTab = ({
     onClose,
     children,
     selected,
+    selectedSignal,
     disabled,
     id = children
 }: CloseableTabProps) => {
-    const { selectedSignal } = useTab(id, selected, disabled)
+    useEffect(() => {
+        if (children && !selectedSignal.value) selectedSignal.value = children
+    }, [children])
+
+    useEffect(() => {
+        if (selected) selectedSignal.value = children
+    }, [selected, children])
 
     return (
         <div

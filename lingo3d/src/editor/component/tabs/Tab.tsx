@@ -1,8 +1,10 @@
-import useTab from "./useTab"
+import { Signal } from "@preact/signals"
+import { useEffect } from "preact/hooks"
 
 export type TabProps = {
     children?: string
     selected?: boolean
+    selectedSignal: Signal<string | undefined>
     disabled?: boolean
     half?: boolean
     id?: string
@@ -11,11 +13,18 @@ export type TabProps = {
 const Tab = ({
     children,
     selected,
+    selectedSignal,
     disabled,
     half,
     id = children
 }: TabProps) => {
-    const { selectedSignal } = useTab(id, selected, disabled)
+    useEffect(() => {
+        if (children && !selectedSignal.value) selectedSignal.value = children
+    }, [children])
+
+    useEffect(() => {
+        if (selected) selectedSignal.value = children
+    }, [selected, children])
 
     return (
         <div

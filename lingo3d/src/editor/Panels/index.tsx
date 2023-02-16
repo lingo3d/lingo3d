@@ -36,14 +36,16 @@ const Panels = () => {
             style={{ height: PANELS_HEIGHT, width: "100%" }}
         >
             <div style={{ display: "flex" }}>
-                <AppBar selectedSignal={selectedSignal} style={{ width: 200 }}>
+                <AppBar style={{ width: 200 }}>
                     <CloseableTab
+                        selectedSignal={selectedSignal}
                         disabled={!timeline}
                         onClose={() => setTimeline(undefined)}
                     >
                         timeline
                     </CloseableTab>
                     <CloseableTab
+                        selectedSignal={selectedSignal}
                         disabled={!fileBrowser}
                         onClose={() => setFileBrowser(false)}
                     >

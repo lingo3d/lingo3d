@@ -66,10 +66,13 @@ const Editor = () => {
             className="lingo3d-ui lingo3d-bg lingo3d-editor lingo3d-flexcol"
             style={{ width: EDITOR_WIDTH, height: "100%" }}
         >
-            <AppBar selectedSignal={selectedSignal}>
-                <CloseableTab>Settings</CloseableTab>
+            <AppBar>
+                <CloseableTab selectedSignal={selectedSignal}>
+                    Settings
+                </CloseableTab>
                 {selectionTarget && (
                     <CloseableTab
+                        selectedSignal={selectedSignal}
                         key={selectionTarget.uuid}
                         selected
                         onClose={() => emitSelectionTarget(undefined)}

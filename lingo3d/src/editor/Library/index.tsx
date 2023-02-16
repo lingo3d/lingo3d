@@ -1,5 +1,5 @@
 import ObjectGroup, { ObjectName } from "./ObjectGroup"
-import { DEBUG, LIBRARY_WIDTH } from "../../globals"
+import { LIBRARY_WIDTH } from "../../globals"
 import useInitCSS from "../hooks/useInitCSS"
 import useStopPropagation from "../hooks/useStopPropagation"
 import AppBar from "../component/bars/AppBar"
@@ -7,9 +7,10 @@ import Tab from "../component/tabs/Tab"
 import useInitEditor from "../hooks/useInitEditor"
 import SearchBox from "../component/SearchBox"
 import { useMemo, useState } from "preact/hooks"
+import { useSignal } from "@preact/signals"
 
 const objectNames = [
-    ...(DEBUG ? [{ gameGraph: "joystick" }, { point3dNode: "joystick" }] : []),
+    ...(true ? [{ gameGraph: "joystick" }, { point3dNode: "joystick" }] : []),
 
     "cube",
     "sphere",
@@ -56,6 +57,7 @@ const Library = () => {
 
     const stopRef = useStopPropagation()
     const [search, setSearch] = useState<string>()
+    const selectedSignal = useSignal<string | undefined>(undefined)
 
     const names = useMemo(
         () =>
@@ -76,8 +78,10 @@ const Library = () => {
             style={{ width: LIBRARY_WIDTH, height: "100%" }}
         >
             <AppBar style={{ padding: 10 }}>
-                <Tab half>components</Tab>
-                <Tab half disabled>
+                <Tab half selectedSignal={selectedSignal}>
+                    components
+                </Tab>
+                <Tab half selectedSignal={selectedSignal} disabled>
                     materials
                 </Tab>
             </AppBar>

@@ -1,30 +1,15 @@
 import { ComponentChildren } from "preact"
-import { CSSProperties, useEffect, useMemo } from "preact/compat"
+import { CSSProperties } from "preact/compat"
 import { APPBAR_HEIGHT } from "../../../globals"
-import { TabContext } from "../tabs/useTab"
-import { Signal, useSignal } from "@preact/signals"
 
 type AppBarProps = {
     className?: string
     children?: ComponentChildren
     style?: CSSProperties
-    selectedSignal?: Signal<string | undefined>
     noPadding?: boolean
 }
 
-const AppBar = ({
-    className,
-    style,
-    children,
-    selectedSignal = useSignal<string | undefined>(undefined),
-    noPadding
-}: AppBarProps) => {
-    const tabs = useMemo<Array<string>>(() => [], [])
-
-    useEffect(() => {
-        selectedSignal.value ??= tabs[0]
-    }, [])
-
+const AppBar = ({ className, style, children, noPadding }: AppBarProps) => {
     return (
         <div
             className={className}
@@ -39,9 +24,7 @@ const AppBar = ({
                 ...style
             }}
         >
-            <TabContext.Provider value={{ selectedSignal, tabs }}>
-                {children}
-            </TabContext.Provider>
+            {children}
         </div>
     )
 }
