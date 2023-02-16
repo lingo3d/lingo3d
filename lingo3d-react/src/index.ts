@@ -19,6 +19,7 @@ export { default as Editor } from "./components/editor/Editor"
 export { default as SceneGraph } from "./components/editor/SceneGraph"
 export { default as Toolbar } from "./components/editor/Toolbar"
 export { default as Library } from "./components/editor/Library"
+export { default as HUD } from "./components/editor/HUD"
 
 export { default as Keyboard } from "./components/api/Keyboard"
 export { default as Mouse } from "./components/api/Mouse"

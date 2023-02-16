@@ -3,7 +3,7 @@ import { World, LingoEditor } from "./index"
 </script>
 
 <template>
-  <World default-light="studio">
+  <World>
     <LingoEditor />
   </World>
 </template>
