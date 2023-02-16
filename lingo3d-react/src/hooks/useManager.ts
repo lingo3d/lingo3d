@@ -1,5 +1,4 @@
 import React, { useContext, useLayoutEffect } from "react"
-import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
 import useDiffProps from "./useDiffProps"
 import { useMemoOnce } from "@lincode/hooks"
 import SimpleObjectManager from "lingo3d/lib/display/core/SimpleObjectManager"
@@ -8,9 +7,10 @@ import { forceGet } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"
 import Loaded from "lingo3d/lib/display/core/Loaded"
 import processDefaults, { fn } from "../props/utils/processDefaults"
+import VisibleObjectManager from "lingo3d/lib/display/core/VisibleObjectManager"
 
 export const ParentContext = React.createContext<
-  ObjectManager | Loaded | undefined
+  VisibleObjectManager | Loaded | undefined
 >(undefined)
 
 const handleStore = new WeakMap<SimpleObjectManager, Map<string, Cancellable>>()

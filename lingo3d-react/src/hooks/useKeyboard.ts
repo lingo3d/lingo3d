@@ -11,9 +11,9 @@ export default (cb?: (key: string) => void) => {
     const keyboard = new Keyboard()
     let latestKey = ""
 
-    keyboard.onKeyDown = (k) => {
-      if (latestKey === k) return
-      latestKey = k
+    keyboard.onKeyDown = (e) => {
+      if (latestKey === e.key) return
+      latestKey = e.key
       setKeys([...isPressed].join(" "))
     }
 
@@ -22,7 +22,7 @@ export default (cb?: (key: string) => void) => {
       setKeys([...isPressed].join(" "))
     }
 
-    keyboard.onKeyPress = (k) => cbCurrentRef.current?.(k)
+    keyboard.onKeyPress = (e) => cbCurrentRef.current?.(e.key)
 
     return () => {
       keyboard.dispose()

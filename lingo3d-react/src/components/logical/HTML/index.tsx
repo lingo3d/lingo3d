@@ -29,7 +29,7 @@ const HTML: React.FC<HTMLProps> = ({ children }) => {
 
       if (!frustumVisible) return
 
-      div.style.transform = `translateX(${parent.clientX}px) translateY(${parent.clientY}px)`
+      div.style.transform = `translateX(${parent.canvasX}px) translateY(${parent.canvasY}px)`
     })
     return () => {
       handle.cancel()
