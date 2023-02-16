@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { PropType, ref, toRaw, watchEffect } from "vue"
 import { settings } from "lingo3d"
-import setupProps from "../props/setupProps"
 import htmlContainer from "./logical/HTML/htmlContainer"
-import Setup from "./display/Setup.vue"
 
 const props = defineProps({
-  ...setupProps,
   position: String as PropType<"absolute" | "relative" | "fixed">
 })
 
@@ -44,5 +41,4 @@ document.head.appendChild(style)
       style="height: 100%; flex-grow: 1; position: relative; overflow: hidden"
     />
   </div>
-  <Setup v-bind="$props" />
 </template>
