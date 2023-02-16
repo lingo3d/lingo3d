@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Cone } from "lingo3d"
 import useManager from "../../../hooks/useManager"
-import primitiveProps from "../../../props/primitiveProps"
+import coneProps from "../../../props/coneProps"
 
-const props = defineProps(primitiveProps)
+const props = defineProps(coneProps)
 const manager = useManager(props, Cone)
 defineExpose(manager)
 </script>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Torus } from "lingo3d"
 import useManager from "../../../hooks/useManager"
-import primitiveProps from "../../../props/primitiveProps"
+import torusProps from "../../../props/torusProps"
 
-const props = defineProps(primitiveProps)
+const props = defineProps(torusProps)
 const manager = useManager(props, Torus)
 defineExpose(manager)
 </script>
