@@ -44,6 +44,8 @@ export { default as RevoluteJoint } from "./components/display/RevoluteJoint.vue
 export { default as PrismaticJoint } from "./components/display/PrismaticJoint.vue"
 export { default as D6Joint } from "./components/display/D6Joint.vue"
 
+export { default as Timeline } from "./components/display/Timeline.vue"
+export { default as TimelineAudio } from "./components/display/TimelineAudio.vue"
 export { default as Camera } from "./components/display/cameras/Camera.vue"
 export { default as OrbitCamera } from "./components/display/cameras/OrbitCamera.vue"
 export { default as ThirdPersonCamera } from "./components/display/cameras/ThirdPersonCamera.vue"
@@ -54,6 +56,7 @@ export { default as AreaLight } from "./components/display/lights/AreaLight.vue"
 export { default as DirectionalLight } from "./components/display/lights/DirectionalLight.vue"
 export { default as PointLight } from "./components/display/lights/PointLight.vue"
 export { default as SkyLight } from "./components/display/lights/SkyLight.vue"
+export { default as DefaultSkyLight } from "./components/display/lights/DefaultSkyLight.vue"
 export { default as SpotLight } from "./components/display/lights/SpotLight.vue"
 
 export { default as Circle } from "./components/display/primitives/Circle.vue"
