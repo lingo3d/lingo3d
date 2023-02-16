@@ -4,7 +4,7 @@ import getDefaultValue from "lingo3d/lib/interface/utils/getDefaultValue"
 const cache = new WeakMap<Record<string, any>, Record<string, any>>()
 const processed = new WeakSet<Record<string, any>>()
 
-export const fn = {}
+export const fn = () => {}
 
 export default (defaults: Record<string, any>) => {
   if (processed.has(defaults)) return defaults
