@@ -10,7 +10,7 @@ specifiers:
   '@types/stats.js': ^0.17.0
   '@types/three': 0.148.0
   '@vitejs/plugin-react': ^3.1.0
-  lingo3d: 2.0.6
+  lingo3d: 2.0.9
   nanoid: ^4.0.1
   popmotion: ^11.0.5
   preact: ^10.12.1
@@ -25,7 +25,7 @@ dependencies:
   '@lincode/reactivity': 1.0.83
   '@lincode/utils': 1.3.19
   '@types/three': 0.148.0
-  lingo3d: 2.0.6
+  lingo3d: 2.0.9
   nanoid: 4.0.1
   popmotion: 11.0.5
   preact: 10.12.1
@@ -644,14 +644,14 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001452
-      electron-to-chromium: 1.4.298
+      caniuse-lite: 1.0.30001453
+      electron-to-chromium: 1.4.299
       node-releases: 2.0.10
       update-browserslist-db: 1.0.10_browserslist@4.21.5
     dev: true
 
-  /caniuse-lite/1.0.30001452:
-    resolution: {integrity: sha512-Lkp0vFjMkBB3GTpLR8zk4NwW5EdRdnitwYJHDOOKIU85x4ckYCPQ+9WlVvSVClHxVReefkUMtWZH2l9KGlD51w==}
+  /caniuse-lite/1.0.30001453:
+    resolution: {integrity: sha512-R9o/uySW38VViaTrOtwfbFEiBFUh7ST3uIG4OEymIG3/uKdHDO4xk/FaqfUw0d+irSUyFPy3dZszf9VvSTPnsA==}
     dev: true
 
   /chalk/2.4.2:
@@ -693,8 +693,8 @@ packages:
       ms: 2.1.2
     dev: true
 
-  /electron-to-chromium/1.4.298:
-    resolution: {integrity: sha512-dJZurgxDeaqn90VmS23Xz+QPQQl84BxnlAfwCDFNjfEhqO2yLMDkeaDoJ1yPXAbmiqTi+hd5TpB5zi1N4hwBuQ==}
+  /electron-to-chromium/1.4.299:
+    resolution: {integrity: sha512-lQ7ijJghH6pCGbfWXr6EY+KYCMaRSjgsY925r1p/TlpSfVM1VjHTcn1gAc15VM4uwti283X6QtjPTXdpoSGiZQ==}
     dev: true
 
   /esbuild/0.16.17:
@@ -822,8 +822,8 @@ packages:
     resolution: {integrity: sha512-s0KcCYw64Eix0mr3qSq1lFIGdZVdDSoU2OdUpzA9eN39/XYE3/6eu8xTX5ZwRqAi97O1xwGEjIpXd05MwEowgg==}
     dev: false
 
-  /lingo3d/2.0.6:
-    resolution: {integrity: sha512-qAOkGgWVB+suRgv+rTrCkfoP6pyaPk358xded97WegixJYNrSviCcTJMJe11juGrRYiagTNIYqqrPdwyi26Qnw==}
+  /lingo3d/2.0.9:
+    resolution: {integrity: sha512-3dD5Dl2iKVsTKp8eOFnyv1yv+Vg3d/WK0pjIjUL2ys78QCMKiOsI9Xf94nI2aFxpspJLzFtLk5WaNadCBddh9g==}
     dependencies:
       '@lincode/events': 1.0.32
       '@lincode/filetypes': 1.0.3

@@ -11,7 +11,6 @@ import scene from "../engine/scene"
 import { onEditorGroupItems } from "../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 import { setSelectionTarget } from "./useSelectionTarget"
-import Group from "../display/Group"
 
 const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store([
     new Set<PositionedManager>()
@@ -89,11 +88,13 @@ createEffect(() => {
         if (!targets.size || consolidated) return
         consolidated = true
 
-        const consolidatedGroup = new Group()
-        consolidatedGroup.position.copy(group.position)
-        for (const target of targets) consolidatedGroup.attach(target)
-
-        emitSelectionTarget(consolidatedGroup)
+        import("../display/Group").then(({ default: Group }) => {
+            if (handle.done) return
+            const consolidatedGroup = new Group()
+            consolidatedGroup.position.copy(group.position)
+            for (const target of targets) consolidatedGroup.attach(target)
+            emitSelectionTarget(consolidatedGroup)
+        })
     })
 
     return () => {

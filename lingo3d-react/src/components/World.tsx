@@ -45,7 +45,7 @@ const World: React.FC<WorldProps> = ({
           ...style
         }}
       >
-        <div style={{ height: "100%" }}>{children}</div>
+        <div style={{ width: "100%", height: "100%" }}>{children}</div>
         <div
           ref={divRef}
           style={{
