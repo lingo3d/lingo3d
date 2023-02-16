@@ -27,7 +27,7 @@ export default (
     for (const schemaKey of Object.keys(filterSchema(schema, includeKeys))) {
         if (nonEditorSchemaSet.has(schemaKey)) continue
 
-        const isFunctionPtr: [boolean] = [false]
+        const isFunctionPtr: ["method" | "callback" | ""] = [""]
         const defaultValue = getDefaultValue(
             defaults,
             schemaKey,

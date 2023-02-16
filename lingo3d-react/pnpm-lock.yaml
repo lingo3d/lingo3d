@@ -10,7 +10,7 @@ specifiers:
   '@types/stats.js': ^0.17.0
   '@types/three': 0.148.0
   '@vitejs/plugin-react': ^2.2.0
-  lingo3d: 2.0.4
+  lingo3d: 2.0.5
   nanoid: ^4.0.1
   popmotion: ^11.0.5
   preact: ^10.12.1
@@ -25,7 +25,7 @@ dependencies:
   '@lincode/reactivity': 1.0.83
   '@lincode/utils': 1.3.19
   '@types/three': 0.148.0
-  lingo3d: 2.0.4
+  lingo3d: 2.0.5
   nanoid: 4.0.1
   popmotion: 11.0.5
   preact: 10.12.1
@@ -508,7 +508,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001452
-      electron-to-chromium: 1.4.296
+      electron-to-chromium: 1.4.298
       node-releases: 2.0.10
       update-browserslist-db: 1.0.10_browserslist@4.21.5
     dev: true
@@ -556,8 +556,8 @@ packages:
       ms: 2.1.2
     dev: true
 
-  /electron-to-chromium/1.4.296:
-    resolution: {integrity: sha512-i/6Q+Y9bluDa2a0NbMvdtG5TuS/1Fr3TKK8L+7UUL9QjRS5iFJzCC3r70xjyOnLiYG8qGV4/mMpe6HuAbdJW4w==}
+  /electron-to-chromium/1.4.298:
+    resolution: {integrity: sha512-dJZurgxDeaqn90VmS23Xz+QPQQl84BxnlAfwCDFNjfEhqO2yLMDkeaDoJ1yPXAbmiqTi+hd5TpB5zi1N4hwBuQ==}
     dev: true
 
   /esbuild-android-64/0.15.18:
@@ -865,8 +865,8 @@ packages:
     resolution: {integrity: sha512-s0KcCYw64Eix0mr3qSq1lFIGdZVdDSoU2OdUpzA9eN39/XYE3/6eu8xTX5ZwRqAi97O1xwGEjIpXd05MwEowgg==}
     dev: false
 
-  /lingo3d/2.0.4:
-    resolution: {integrity: sha512-0nWbdhKAxTgIZoSvbLL4N/lOH2vknZw2J3lSTakL7sozeKasj0x9W3sfsuks8BMSfrgv11cdvggf/HSS6COp5g==}
+  /lingo3d/2.0.5:
+    resolution: {integrity: sha512-x9avO79iYULs3I0d2U0a6UeyA28pf/hWoGOuvRijKbqy+Eethmxv5BsYfSUmaP5GBtDbVqmiCx56cSS72LFSyQ==}
     dependencies:
       '@lincode/events': 1.0.32
       '@lincode/filetypes': 1.0.3

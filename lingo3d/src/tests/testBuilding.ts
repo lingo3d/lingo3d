@@ -1,3 +1,3 @@
-import { ThirdPersonCamera, Dummy, Reflector, keyboard, settings, Building } from ".."
+import Building from "../display/Building"
 
 const building = new Building()

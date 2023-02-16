@@ -13,17 +13,17 @@ export default (
     key: string,
     fillNullableDefault?: boolean,
     fillFunctionArgs?: boolean,
-    isFunctionPtr?: [boolean]
+    isFunctionPtr?: ["method" | "callback" | ""]
 ) => {
     const result = readLazy(defaults[key])
     if (result instanceof NullableDefault)
         return fillNullableDefault ? result.value : undefined
     if (result instanceof NullableCallback) {
-        if (isFunctionPtr) isFunctionPtr[0] = true
+        if (isFunctionPtr) isFunctionPtr[0] = "callback"
         return fillFunctionArgs ? result.param : undefined
     }
     if (result instanceof DefaultMethod) {
-        if (isFunctionPtr) isFunctionPtr[0] = true
+        if (isFunctionPtr) isFunctionPtr[0] = "method"
         return fillFunctionArgs ? result.arg : undefined
     }
     if (fillNullableDefault) return result ?? ""

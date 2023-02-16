@@ -7,8 +7,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { forceGet } from "@lincode/utils"
 import { Reactive } from "@lincode/reactivity"
 import Loaded from "lingo3d/lib/display/core/Loaded"
-import processDefaults from "../props/utils/processDefaults"
-import fn from "lingo3d/lib/interface/utils/fn"
+import processDefaults, { fn } from "../props/utils/processDefaults"
 
 export const ParentContext = React.createContext<
   ObjectManager | Loaded | undefined
