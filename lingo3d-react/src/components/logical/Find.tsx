@@ -2,11 +2,11 @@ import FoundManager from "lingo3d/lib/display/core/FoundManager"
 import React, { useContext, useLayoutEffect, useState } from "react"
 import useDiffProps from "../../hooks/useDiffProps"
 import { applyChanges, ParentContext } from "../../hooks/useManager"
-import { FoundProps } from "../../props/FoundProps"
+import { FoundManagerProps } from "../../props/FoundManagerProps"
 
 const Find = React.forwardRef<
   FoundManager,
-  FoundProps & { onLoad?: (manager: FoundManager) => void }
+  FoundManagerProps & { onLoad?: (manager: FoundManager) => void }
 >(({ name, onLoad, ...p }, ref) => {
   const parent = useContext(ParentContext)
   const [manager, setManager] = useState<any>()

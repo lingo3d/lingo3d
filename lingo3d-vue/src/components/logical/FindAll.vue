@@ -2,7 +2,7 @@
 import FoundManager from "lingo3d/lib/display/core/FoundManager"
 import Loaded from "lingo3d/lib/display/core/Loaded"
 import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
-import { foundDefaults } from "lingo3d/lib/interface/IFound"
+import { foundManagerDefaults } from "lingo3d/lib/interface/IFoundManager"
 import {
   inject,
   ref,
@@ -15,18 +15,18 @@ import {
 } from "vue"
 import useDiffProps from "../../hooks/useDiffProps"
 import { applyChanges } from "../../hooks/useManager"
-import foundProps from "../../props/foundProps"
+import foundManagerProps from "../../props/foundManagerProps"
 import processDefaults from "../../props/utils/processDefaults"
 
 const props = defineProps({
-  ...foundProps,
+  ...foundManagerProps,
   name: {
     required: true,
     type: [String, RegExp, Function] as PropType<
       string | RegExp | ((name: string) => boolean)
     >
   },
-  onLoad: Function as PropType<(found: Array<FoundManager>) => void>
+  onLoad: Function as PropType<(foundManager: Array<FoundManager>) => void>
 })
 
 const parentRef = inject<Ref<ObjectManager | Loaded> | undefined>(
@@ -53,7 +53,7 @@ watchEffect((onCleanUp) => {
 })
 
 const paused = computed(() => !managerRef.value)
-const defaults = processDefaults(foundDefaults)
+const defaults = processDefaults(foundManagerDefaults)
 const diff = useDiffProps(props, defaults, paused)
 applyChanges(managerRef, undefined, diff, defaults)
 

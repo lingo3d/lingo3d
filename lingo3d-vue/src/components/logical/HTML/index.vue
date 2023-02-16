@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { onAfterRender } from "lingo3d"
-import ObjectManager from "lingo3d/lib/display/core/ObjectManager"
+import VisibleObjectManager from "lingo3d/lib/display/core/VisibleObjectManager"
 import { inject, Ref, ref, toRaw, watchEffect } from "vue"
 import htmlContainer from "./htmlContainer"
 
 const divRef = ref<HTMLDivElement>()
-const parentRef = inject<Ref<ObjectManager> | undefined>("parent", undefined)
+const parentRef = inject<Ref<VisibleObjectManager> | undefined>(
+  "parent",
+  undefined
+)
 
 watchEffect((cleanUp) => {
   const div = toRaw(divRef.value)
@@ -24,7 +27,7 @@ watchEffect((cleanUp) => {
 
     if (!frustumVisible) return
 
-    div.style.transform = `translateX(${parent.clientX}px) translateY(${parent.clientY}px)`
+    div.style.transform = `translateX(${parent.canvasX}px) translateY(${parent.canvasY}px)`
   })
   cleanUp(() => {
     handle.cancel()

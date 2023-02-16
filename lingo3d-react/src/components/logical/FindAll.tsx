@@ -2,11 +2,11 @@ import FoundManager from "lingo3d/lib/display/core/FoundManager"
 import React, { useContext, useLayoutEffect, useState } from "react"
 import useDiffProps from "../../hooks/useDiffProps"
 import { applyChanges, ParentContext } from "../../hooks/useManager"
-import { FoundProps } from "../../props/FoundProps"
+import { FoundManagerProps } from "../../props/FoundManagerProps"
 
 const FindAll = React.forwardRef<
   Array<FoundManager>,
-  Omit<FoundProps, "name"> & {
+  Omit<FoundManagerProps, "name"> & {
     name: string | RegExp | ((name: string) => boolean)
     onLoad?: (managers: Array<FoundManager>) => void
   }
