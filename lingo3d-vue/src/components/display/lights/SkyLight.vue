@@ -1,3 +1,6 @@
+<script lang="ts">
+export default { inheritAttrs: false }
+</script>
 <script setup lang="ts">
 import { SkyLight } from "lingo3d"
 import useManager from "../../../hooks/useManager"

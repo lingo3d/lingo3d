@@ -1,3 +1,6 @@
+<script lang="ts">
+export default { inheritAttrs: false }
+</script>
 <script setup lang="ts">
 import FoundManager from "lingo3d/lib/display/core/FoundManager"
 import Loaded from "lingo3d/lib/display/core/Loaded"
