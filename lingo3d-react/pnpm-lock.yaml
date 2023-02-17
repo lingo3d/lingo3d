@@ -10,7 +10,7 @@ specifiers:
   '@types/stats.js': ^0.17.0
   '@types/three': 0.148.0
   '@vitejs/plugin-react': ^3.1.0
-  lingo3d: 2.0.12
+  lingo3d: 2.0.13
   nanoid: ^4.0.1
   popmotion: ^11.0.5
   preact: ^10.12.1
@@ -25,7 +25,7 @@ dependencies:
   '@lincode/reactivity': 1.0.83
   '@lincode/utils': 1.3.19
   '@types/three': 0.148.0
-  lingo3d: 2.0.12
+  lingo3d: 2.0.13
   nanoid: 4.0.1
   popmotion: 11.0.5
   preact: 10.12.1
@@ -822,8 +822,8 @@ packages:
     resolution: {integrity: sha512-s0KcCYw64Eix0mr3qSq1lFIGdZVdDSoU2OdUpzA9eN39/XYE3/6eu8xTX5ZwRqAi97O1xwGEjIpXd05MwEowgg==}
     dev: false
 
-  /lingo3d/2.0.12:
-    resolution: {integrity: sha512-+Kr7MBOUrQMAQG89oTxSDqHYUWOvmrqhAz91UBXryage3jSV/3boU7boQOiuKUiyisb+3z7Qe21tTuY4XVDIbg==}
+  /lingo3d/2.0.13:
+    resolution: {integrity: sha512-YNGSv9zCQR9V4QKWT+ELH0h9+aHRXdE+Vi2KQ3GTy9ds0oyq/XpbDUd5q6f28Ss6cANDvPPLR0OXOYCmTqtbQA==}
     dependencies:
       '@lincode/events': 1.0.32
       '@lincode/filetypes': 1.0.3
