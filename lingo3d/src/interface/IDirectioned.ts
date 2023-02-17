@@ -4,7 +4,7 @@ import Range from "./utils/Range"
 import Nullable from "./utils/Nullable"
 import { nullableCallback } from "./utils/NullableCallback"
 import { defaultMethod } from "./utils/DefaultMethod"
-import { pt3d } from "../display/utils/reusables"
+import { pt3d0 } from "../display/utils/reusables"
 
 export default interface IDirectioned {
     rotationX: number
@@ -40,8 +40,8 @@ export const directionedDefaults = extendDefaults<IDirectioned>(
 
         onLookToEnd: nullableCallback(undefined),
 
-        lookAt: defaultMethod(pt3d),
-        lookTo: defaultMethod(pt3d)
+        lookAt: defaultMethod(pt3d0),
+        lookTo: defaultMethod(pt3d0)
     },
     {
         rotationX: new Range(0, 360),

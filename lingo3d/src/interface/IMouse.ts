@@ -1,6 +1,6 @@
 import { Point3d } from "@lincode/math"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
-import { pt3d } from "../display/utils/reusables"
+import { pt3d0 } from "../display/utils/reusables"
 import IAppendable, {
     appendableDefaults,
     appendableSchema
@@ -31,8 +31,8 @@ export const lingoMouseEvent = new LingoMouseEvent(
     0,
     0,
     0,
-    pt3d,
-    pt3d,
+    pt3d0,
+    pt3d0,
     0,
     undefined
 )

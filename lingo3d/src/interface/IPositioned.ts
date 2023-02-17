@@ -8,7 +8,7 @@ import {
 import { defaultMethod } from "./utils/DefaultMethod"
 import { nullableCallback } from "./utils/NullableCallback"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
-import { pt3d } from "../display/utils/reusables"
+import { pt3d0 } from "../display/utils/reusables"
 
 export default interface IPositioned {
     x: number
@@ -58,9 +58,9 @@ export const positionedDefaults = extendDefaults<IPositioned>([], {
     onMove: nullableCallback(undefined),
     onMoveToEnd: nullableCallback(undefined),
 
-    moveTo: defaultMethod(pt3d),
-    lerpTo: defaultMethod(pt3d),
-    placeAt: defaultMethod(pt3d),
+    moveTo: defaultMethod(pt3d0),
+    lerpTo: defaultMethod(pt3d0),
+    placeAt: defaultMethod(pt3d0),
 
     translateX: defaultMethod(0),
     translateY: defaultMethod(0),

@@ -1,5 +1,5 @@
 import { Point3d } from "@lincode/math"
-import { pt3d } from "../display/utils/reusables"
+import { pt3d0 } from "../display/utils/reusables"
 import IAppendable, {
     appendableDefaults,
     appendableSchema
@@ -28,6 +28,6 @@ export const point3dNodeDefaults = extendDefaults<IPoint3dNode>(
         x: 0,
         y: 0,
         z: 0,
-        position: pt3d
+        position: pt3d0
     }
 )

@@ -22,9 +22,9 @@ export const vector3__ = new Vector3()
 export const quaternion = new Quaternion()
 export const quaternion_ = new Quaternion()
 
-export const vector3_0 = new Vector3(0, 0, 0)
-export const vector3_1 = new Vector3(1, 1, 1)
-export const vector3_half = new Vector3(0.5, 0.5, 0.5)
+export const vector3_0 = Object.freeze(new Vector3(0, 0, 0))
+export const vector3_1 = Object.freeze(new Vector3(1, 1, 1))
+export const vector3_half = Object.freeze(new Vector3(0.5, 0.5, 0.5))
 
 export const box3 = new Box3()
 export const ray = new Ray()
@@ -39,8 +39,5 @@ export const color = new Color()
 export const wireframeMaterial = new MeshStandardMaterial({ wireframe: true })
 export const standardMaterial = new MeshStandardMaterial({ side: DoubleSide })
 
-export const pt = new Point(0, 0)
-export const pt3d = new Point3d(0, 0, 0)
-
-Object.freeze(pt)
-Object.freeze(pt3d)
+export const pt0 = Object.freeze(new Point(0, 0))
+export const pt3d0 = Object.freeze(new Point3d(0, 0, 0))

@@ -28,12 +28,8 @@ export default (
         if (nonEditorSchemaSet.has(schemaKey)) continue
 
         const isFunctionPtr: ["method" | "callback" | ""] = [""]
-        const defaultValue = getDefaultValue(
-            defaults,
-            schemaKey,
-            true,
-            true,
-            isFunctionPtr
+        const defaultValue = structuredClone(
+            getDefaultValue(defaults, schemaKey, true, true, isFunctionPtr)
         )
         if (isObject(defaultValue) && !isPoint(defaultValue)) continue
         if (skipFunctions && isFunctionPtr[0]) continue
