@@ -76,33 +76,6 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    protected widthSet?: boolean
-    public override get width() {
-        return super.width
-    }
-    public override set width(val) {
-        super.width = val
-        this.widthSet = true
-    }
-
-    protected heightSet?: boolean
-    public override get height() {
-        return super.height
-    }
-    public override set height(val) {
-        super.height = val
-        this.heightSet = true
-    }
-
-    protected depthSet?: boolean
-    public override get depth() {
-        return super.depth
-    }
-    public override set depth(val) {
-        super.depth = val
-        this.depthSet = true
-    }
-
     public override get innerRotationX() {
         return super.innerRotationX
     }
