@@ -84,13 +84,9 @@ export default async (
     const paramKeys = Object.keys(params)
     if (!paramKeys.length) return {}
 
-    const paramsBackup = { ...params }
-    for (const key of paramKeys) {
-        if (key.startsWith("preset ")) {
-            delete paramsBackup[key]
+    for (const key of paramKeys)
+        if (key.startsWith("preset "))
             params[key] = getEditorPresets()[key] ?? true
-        } else params[key] = getDefaultValue(defaults, key, true, true)
-    }
 
     const folder = pane.addFolder({ title })
     const options = defaultsOptionsMap.get(defaults)
@@ -126,8 +122,10 @@ export default async (
             updateResetButton()
 
             resetButton.onclick = () => {
-                params[key] = structuredClone(paramsBackup[key])
-                target[key] = structuredClone(paramsBackup[key])
+                params[key] = structuredClone(
+                    getDefaultValue(defaults, key, true, true)
+                )
+                target[key] = structuredClone(getDefaultValue(defaults, key))
                 skipApplyValue()
                 input.refresh()
             }
@@ -192,10 +190,6 @@ export default async (
             return [key, input]
         })
     )
-    Object.assign(params, paramsBackup)
-    skipApplyValue()
-    pane.refresh()
-
     handle.then(() => {
         folder.dispose()
         for (const input of Object.values(result)) {
