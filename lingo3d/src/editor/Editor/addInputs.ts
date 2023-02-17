@@ -2,7 +2,10 @@ import { debounce, throttleTrailing } from "@lincode/utils"
 import { downPtr, Pane } from "./tweakpane"
 import resetIcon from "./icons/resetIcon"
 import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
-import getDefaultValue from "../../interface/utils/getDefaultValue"
+import getDefaultValue, {
+    equalsDefaultValue,
+    equalsValue
+} from "../../interface/utils/getDefaultValue"
 import { Cancellable } from "@lincode/promiselikes"
 import { isPoint } from "../../utils/isPoint"
 import { emitEditorEdit } from "../../events/onEditorEdit"
@@ -26,19 +29,6 @@ const skipApplyValue = debounce(
     "both"
 )
 
-const isTrue = (v: any) => v === true || v === "true"
-const isFalse = (v: any) => v === false || v === "false"
-
-const isEqual = (a: any, b: any) => {
-    if (isPoint(a) && isPoint(b))
-        return a.x === b.x && a.y === b.y && a.z === b.z
-
-    if (isTrue(a) && isTrue(b)) return true
-    if (isFalse(a) && isFalse(b)) return true
-
-    return a === b
-}
-
 const processValue = (value: any) => {
     if (typeof value === "string") {
         if (value === "true" || value === "false")
@@ -60,16 +50,15 @@ const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
         input: any,
         {
             key,
-            paramsDefault,
+            defaults,
             params,
             target
-        }: { key: string; paramsDefault: any; params: any; target: any }
+        }: { key: string; defaults: any; params: any; target: any }
     ) => {
-        //mark
-        // if (isEqual(target[key] ?? paramsDefault[key], params[key])) return
-        // params[key] = target[key]
-        // skipApplyValue()
-        // input.refresh()
+        if (equalsValue(target[key], params[key], defaults, key)) return
+        params[key] = target[key]
+        skipApplyValue()
+        input.refresh()
     }
 )
 
@@ -96,18 +85,11 @@ export default async (
     if (!paramKeys.length) return {}
 
     const paramsBackup = { ...params }
-    const paramsDefault: Record<string, any> = {}
     for (const key of paramKeys) {
         if (key.startsWith("preset ")) {
             delete paramsBackup[key]
             params[key] = getEditorPresets()[key] ?? true
-        } else
-            params[key] = paramsDefault[key] = getDefaultValue(
-                defaults,
-                key,
-                true,
-                true
-            )
+        } else params[key] = getDefaultValue(defaults, key, true, true)
     }
 
     const folder = pane.addFolder({ title })
@@ -130,25 +112,22 @@ export default async (
                 return [key, input]
             }
 
-            addRefreshSystem(input, { key, paramsDefault, params, target })
+            addRefreshSystem(input, { key, defaults, params, target })
 
             const resetButton = resetIcon.cloneNode(true) as HTMLElement
             input.element.prepend(resetButton)
             resetButton.style.opacity = "0.1"
 
             const updateResetButton = throttleTrailing(() => {
-                const unchanged = isEqual(
-                    params[key] ?? paramsDefault[key],
-                    paramsDefault[key]
-                )
+                const unchanged = equalsDefaultValue(params[key], defaults, key)
                 resetButton.style.opacity = unchanged ? "0.1" : "0.5"
                 resetButton.style.cursor = unchanged ? "auto" : "pointer"
             }, 100)
             updateResetButton()
 
             resetButton.onclick = () => {
-                params[key] = structuredClone(paramsDefault[key])
-                target[key] = structuredClone(paramsDefault[key])
+                params[key] = structuredClone(paramsBackup[key])
+                target[key] = structuredClone(paramsBackup[key])
                 skipApplyValue()
                 input.refresh()
             }

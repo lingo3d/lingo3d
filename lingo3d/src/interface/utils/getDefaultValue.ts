@@ -1,5 +1,4 @@
 import { isLazy } from "@lincode/utils"
-import { isPoint, PointType } from "../../utils/isPoint"
 import DefaultMethod from "./DefaultMethod"
 import Defaults from "./Defaults"
 import NullableCallback from "./NullableCallback"
@@ -8,7 +7,7 @@ import NullableDefault from "./NullableDefault"
 const readLazy = <T>(val: T | (() => T)): T =>
     typeof val === "function" && isLazy(val) ? val() : val
 
-export default (
+const getDefaultValue = (
     defaults: Defaults<any>,
     key: string,
     fillNullableDefault?: boolean,
@@ -29,10 +28,21 @@ export default (
     if (fillNullableDefault) return result ?? ""
     return result
 }
+export default getDefaultValue
 
-const pointEquals = (a: PointType, b: PointType | number) => {
-    if (typeof b === "number") return a.x === b && a.y === b && (a.z ?? b) === b
-    return a.x === b.x && a.y === b.y && a.z === b.z
+const isEqual = (val0: any, val1: any) =>
+    val0 === val1 ||
+    (typeof val0 === typeof val1 &&
+        JSON.stringify(val0) === JSON.stringify(val1))
+
+export const equalsValue = (
+    val0: any,
+    val1: any,
+    defaults: Defaults<any>,
+    key: string
+) => {
+    const defaultValue = getDefaultValue(defaults, key, true)
+    return isEqual(val0 ?? defaultValue, val1 ?? defaultValue)
 }
 
 export const equalsDefaultValue = (
@@ -40,15 +50,6 @@ export const equalsDefaultValue = (
     defaults: Defaults<any>,
     key: string
 ) => {
-    const result = readLazy(defaults[key])
-    if (result instanceof NullableDefault) {
-        const { value } = result
-        if (isPoint(value)) return pointEquals(value, val)
-        if (isPoint(val)) return pointEquals(val, value)
-        return val === value || val === undefined
-    }
-    if (result instanceof NullableCallback) return val === undefined
-    if (isPoint(result)) return pointEquals(result, val)
-    if (isPoint(val)) return pointEquals(val, result)
-    return val === result || val === ""
+    const defaultValue = getDefaultValue(defaults, key, true)
+    return isEqual(val ?? defaultValue, defaultValue)
 }
