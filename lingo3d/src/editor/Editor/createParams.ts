@@ -2,6 +2,7 @@ import { isPoint } from "../../utils/isPoint"
 import { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue from "../../interface/utils/getDefaultValue"
 import nonEditorSchemaSet from "../../interface/utils/nonEditorSchemaSet"
+import Appendable from "../../api/core/Appendable"
 
 const filterSchema = (schema: any, includeKeys: Array<string> | undefined) => {
     if (!includeKeys) return schema
@@ -14,6 +15,7 @@ const isObject = (val: any): val is object =>
     val && typeof val === "object" && !Array.isArray(val)
 
 export default (
+    manager: Appendable,
     schema: any,
     defaults: any,
     includeKeys: Array<string> | undefined,
@@ -29,7 +31,14 @@ export default (
 
         const isFunctionPtr: ["method" | "callback" | ""] = [""]
         const defaultValue = structuredClone(
-            getDefaultValue(defaults, schemaKey, true, true, isFunctionPtr)
+            getDefaultValue(
+                defaults,
+                schemaKey,
+                true,
+                true,
+                isFunctionPtr,
+                manager
+            )
         )
         if (isObject(defaultValue) && !isPoint(defaultValue)) continue
         if (skipFunctions && isFunctionPtr[0]) continue
