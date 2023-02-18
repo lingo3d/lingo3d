@@ -57,6 +57,8 @@ export default class Appendable extends Disposable implements IAppendable {
         return unsafeGetValue(this.constructor, "componentName")
     }
 
+    public runtimeDefaults?: Record<string, any>
+
     public parent?: Appendable | MeshAppendable
     public children?: Set<Appendable>
 

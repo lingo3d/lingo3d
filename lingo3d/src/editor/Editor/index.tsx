@@ -50,7 +50,11 @@ const Editor = () => {
             !selectionTarget ||
             selectionTarget instanceof Setup
         ) {
-            const handle = addSetupInputs(pane, setupStruct, includeKeys)
+            const handle = addSetupInputs(
+                pane,
+                setupStruct as Setup,
+                includeKeys
+            )
             return () => {
                 handle.cancel()
             }

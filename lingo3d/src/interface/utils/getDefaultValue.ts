@@ -1,5 +1,5 @@
 import { isLazy } from "@lincode/utils"
-import Loaded from "../../display/core/Loaded"
+import Appendable from "../../api/core/Appendable"
 import DefaultMethod from "./DefaultMethod"
 import Defaults from "./Defaults"
 import NullableCallback from "./NullableCallback"
@@ -14,8 +14,14 @@ const getDefaultValue = (
     fillNullableDefault?: boolean,
     fillFunctionArgs?: boolean,
     isFunctionPtr?: ["method" | "callback" | ""],
-    runtimeManager?: Loaded
+    runtimeManager?: Appendable
 ) => {
+    if (
+        runtimeManager?.runtimeDefaults &&
+        key in runtimeManager.runtimeDefaults
+    )
+        return runtimeManager.runtimeDefaults[key]
+
     const result = readLazy(defaults[key])
     if (result instanceof NullableDefault)
         return fillNullableDefault ? result.value : undefined
@@ -50,8 +56,16 @@ export const equalsValue = (
 export const equalsDefaultValue = (
     val: any,
     defaults: Defaults<any>,
-    key: string
+    key: string,
+    runtimeManager?: Appendable
 ) => {
-    const defaultValue = getDefaultValue(defaults, key, true)
+    const defaultValue = getDefaultValue(
+        defaults,
+        key,
+        true,
+        false,
+        undefined,
+        runtimeManager
+    )
     return isEqual(val ?? defaultValue, defaultValue)
 }

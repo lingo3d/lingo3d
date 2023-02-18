@@ -1,13 +1,14 @@
 import { Pane } from "./tweakpane"
-import ISetup, { setupSchema, setupDefaults } from "../../interface/ISetup"
+import { setupSchema, setupDefaults } from "../../interface/ISetup"
 import addInputs from "./addInputs"
 import createParams from "./createParams"
 import splitObject from "./splitObject"
 import { Cancellable } from "@lincode/promiselikes"
+import Setup from "../../display/Setup"
 
 export default (
     pane: Pane,
-    targetSetup: Partial<ISetup>,
+    targetSetup: Setup,
     includeKeys: Array<string> | undefined
 ) => {
     const handle = new Cancellable()

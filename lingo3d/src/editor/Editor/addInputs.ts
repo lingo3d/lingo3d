@@ -17,6 +17,8 @@ import {
 import connectorInIcon from "./icons/connectorInIcon"
 import connectorOutIcon from "./icons/connectorOutIcon"
 import renderSystemWithData from "../../utils/renderSystemWithData"
+import Appendable from "../../api/core/Appendable"
+import unsafeSetValue from "../../utils/unsafeSetValue"
 
 let skipApply = false
 let leading = true
@@ -73,7 +75,7 @@ export default async (
     handle: Cancellable,
     pane: Pane,
     title: string,
-    target: Record<string, any>,
+    target: Appendable,
     defaults: Defaults<any>,
     params: Record<string, any>,
     prepend?: boolean,
@@ -123,9 +125,20 @@ export default async (
 
             resetButton.onclick = () => {
                 params[key] = structuredClone(
-                    getDefaultValue(defaults, key, true, true)
+                    getDefaultValue(
+                        defaults,
+                        key,
+                        true,
+                        true,
+                        undefined,
+                        target
+                    )
                 )
-                target[key] = structuredClone(getDefaultValue(defaults, key))
+                unsafeSetValue(
+                    target,
+                    key,
+                    structuredClone(getDefaultValue(defaults, key))
+                )
                 skipApplyValue()
                 input.refresh()
             }
@@ -134,7 +147,7 @@ export default async (
                 updateResetButton()
                 if (skipApply) return
                 !downPtr[0] && emitEditorEdit("start")
-                target[key] = processValue(value)
+                unsafeSetValue(target, key, processValue(value))
                 !downPtr[0] && emitEditorEdit("end")
             })
 
