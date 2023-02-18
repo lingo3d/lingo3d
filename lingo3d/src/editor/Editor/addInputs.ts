@@ -1,5 +1,5 @@
-import { debounce, throttleTrailing } from "@lincode/utils"
-import { downPtr, Pane } from "./tweakpane"
+import { throttleTrailing } from "@lincode/utils"
+import { downPtr, FolderApi, InputBindingApi, Pane } from "./tweakpane"
 import resetIcon from "./icons/resetIcon"
 import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue, {
@@ -20,17 +20,6 @@ import renderSystemWithData from "../../utils/renderSystemWithData"
 import Appendable from "../../api/core/Appendable"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 
-let skipApply = false
-let leading = true
-const skipApplyValue = debounce(
-    () => {
-        skipApply = leading
-        leading = !leading
-    },
-    0,
-    "both"
-)
-
 const processValue = (value: any) => {
     if (typeof value === "string") {
         if (value === "true" || value === "false")
@@ -47,9 +36,10 @@ const processValue = (value: any) => {
 type DraggingItem = { manager: any; prop: string }
 let draggingItem: DraggingItem | undefined
 
+const skipChangeSet = new WeakSet<InputBindingApi>()
 const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
     (
-        input: any,
+        input: InputBindingApi,
         {
             key,
             defaults,
@@ -59,7 +49,7 @@ const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
     ) => {
         if (equalsValue(target[key], params[key], defaults, key)) return
         params[key] = target[key]
-        skipApplyValue()
+        skipChangeSet.add(input)
         input.refresh()
     }
 )
@@ -90,7 +80,7 @@ export default async (
         if (key.startsWith("preset "))
             params[key] = getEditorPresets()[key] ?? true
 
-    const folder = pane.addFolder({ title })
+    const folder: FolderApi = pane.addFolder({ title })
     const options = defaultsOptionsMap.get(defaults)
 
     const result = Object.fromEntries(
@@ -103,10 +93,9 @@ export default async (
                     : undefined
             )
             if (key.startsWith("preset ")) {
-                input.on("change", ({ value }: any) => {
-                    if (skipApply) return
+                input.on("change", ({ value }: any) =>
                     assignEditorPresets({ [key]: value })
-                })
+                )
                 return [key, input]
             }
 
@@ -134,18 +123,15 @@ export default async (
                         target
                     )
                 )
-                unsafeSetValue(
-                    target,
-                    key,
-                    structuredClone(getDefaultValue(defaults, key))
-                )
-                skipApplyValue()
                 input.refresh()
             }
 
             input.on("change", ({ value }: any) => {
                 updateResetButton()
-                if (skipApply) return
+                if (skipChangeSet.has(input)) {
+                    skipChangeSet.delete(input)
+                    return
+                }
                 !downPtr[0] && emitEditorEdit("start")
                 unsafeSetValue(target, key, processValue(value))
                 !downPtr[0] && emitEditorEdit("end")
