@@ -113,7 +113,12 @@ export default async (
             resetButton.style.opacity = "0.1"
 
             const updateResetButton = throttleTrailing(() => {
-                const unchanged = equalsDefaultValue(params[key], defaults, key)
+                const unchanged = equalsDefaultValue(
+                    params[key],
+                    defaults,
+                    key,
+                    target
+                )
                 resetButton.style.opacity = unchanged ? "0.1" : "0.5"
                 resetButton.style.cursor = unchanged ? "auto" : "pointer"
             }, 100)

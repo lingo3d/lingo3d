@@ -9,12 +9,17 @@ import { VERSION } from "../../globals"
 import { nonSerializedAppendables, appendableRoot } from "../core/collections"
 import { isPoint } from "../../utils/isPoint"
 import nonSerializedProperties from "./nonSerializedProperties"
+import unsafeGetValue from "../../utils/unsafeGetValue"
+import Model from "../../display/Model"
 
-const serialize = (children: Array<any> | Set<any>, skipUUID?: boolean) => {
+const serialize = (
+    children: Array<Appendable | Model> | Set<Appendable | Model>,
+    skipUUID?: boolean
+) => {
     const dataParent: Array<SceneGraphNode> = []
     for (const child of children) {
         if (nonSerializedAppendables.has(child)) continue
-
+        //@ts-ignore
         const { componentName, schema, defaults } = child.constructor
 
         const data: Record<string, any> = { type: componentName }
@@ -28,16 +33,19 @@ const serialize = (children: Array<any> | Set<any>, skipUUID?: boolean) => {
                 continue
 
             let value: any
-            if (key === "animations") {
+            if (key === "animations" && "serializeAnimations" in child) {
                 value = child.serializeAnimations
                 if (!value) continue
-            } else if (key === "animation") {
+            } else if (key === "animation" && "serializeAnimation" in child) {
                 value = child.serializeAnimation
                 if (!value) continue
-            } else value = child[key]
+            } else value = unsafeGetValue(child, key)
 
             const t = typeof value
-            if (equalsDefaultValue(value, defaults, key) || t === "function")
+            if (
+                equalsDefaultValue(value, defaults, key, child) ||
+                t === "function"
+            )
                 continue
 
             const fileCurrent = getFileCurrent()

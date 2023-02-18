@@ -141,7 +141,7 @@ export default class Model extends Loaded<Group> implements IModel {
         )
     }
 
-    protected serializeAnimations?: Record<string, string>
+    public serializeAnimations?: Record<string, string>
     public async loadAnimation(url: string, name = url) {
         ;(this.serializeAnimations ??= {})[name] = url
 

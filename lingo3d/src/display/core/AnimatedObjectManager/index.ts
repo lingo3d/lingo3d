@@ -129,7 +129,7 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
         return animation
     }
 
-    protected get serializeAnimation() {
+    public get serializeAnimation() {
         return typeof this._animation !== "object" ? this._animation : undefined
     }
 
