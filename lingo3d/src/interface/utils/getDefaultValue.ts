@@ -44,12 +44,20 @@ const isEqual = (val0: any, val1: any) =>
         JSON.stringify(val0) === JSON.stringify(val1))
 
 export const equalsValue = (
+    manager: Appendable,
     val0: any,
     val1: any,
     defaults: Defaults<any>,
     key: string
 ) => {
-    const defaultValue = getDefaultValue(defaults, key, true)
+    const defaultValue = getDefaultValue(
+        defaults,
+        key,
+        true,
+        false,
+        undefined,
+        manager
+    )
     return isEqual(val0 ?? defaultValue, val1 ?? defaultValue)
 }
 

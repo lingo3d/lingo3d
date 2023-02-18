@@ -19,6 +19,7 @@ import connectorOutIcon from "./icons/connectorOutIcon"
 import renderSystemWithData from "../../utils/renderSystemWithData"
 import Appendable from "../../api/core/Appendable"
 import unsafeSetValue from "../../utils/unsafeSetValue"
+import unsafeGetValue from "../../utils/unsafeGetValue"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -45,10 +46,16 @@ const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
             defaults,
             params,
             target
-        }: { key: string; defaults: any; params: any; target: any }
+        }: {
+            key: string
+            defaults: Defaults<any>
+            params: any
+            target: Appendable
+        }
     ) => {
-        if (equalsValue(target[key], params[key], defaults, key)) return
-        params[key] = target[key]
+        const val = unsafeGetValue(target, key)
+        if (equalsValue(target, val, params[key], defaults, key)) return
+        params[key] = val
         skipChangeSet.add(input)
         input.refresh()
     }
