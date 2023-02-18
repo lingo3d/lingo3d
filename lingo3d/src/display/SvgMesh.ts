@@ -15,6 +15,7 @@ import {
 import toResolvable from "./utils/toResolvable"
 import { standardMaterial } from "./utils/reusables"
 import MixinType from "./core/mixins/utils/MixinType"
+import { M2CM } from "../globals"
 
 const svgGeometryCache = new WeakMap<SVGResult, Array<ExtrudeGeometry>>()
 
@@ -94,13 +95,12 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
                 testGroup.add(new Mesh(geom))
             }
 
-            const measuredSize = measure(testGroup, src)
-
+            const { y } = measure(testGroup, src)
             const result: Array<ExtrudeGeometry> = []
             for (const shape of shapes)
                 result.push(
                     new ExtrudeGeometry(shape, {
-                        depth: measuredSize.y,
+                        depth: y,
                         bevelEnabled: false
                     })
                 )
@@ -114,10 +114,15 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
             loadedObject3d.add(mesh)
         }
 
-        const measuredSize = fit(loadedObject3d, src)
-        !this.widthSet && (this.object3d.scale.x = measuredSize.x)
-        !this.heightSet && (this.object3d.scale.y = measuredSize.y)
-        !this.depthSet && (this.object3d.scale.z = measuredSize.z)
+        const { x, y, z } = fit(loadedObject3d, src)
+        this.runtimeDefaults = {
+            width: x * M2CM,
+            height: y * M2CM,
+            depth: z * M2CM
+        }
+        !this.widthSet && (this.object3d.scale.x = x)
+        !this.heightSet && (this.object3d.scale.y = y)
+        !this.depthSet && (this.object3d.scale.z = z)
 
         return loadedObject3d
     }

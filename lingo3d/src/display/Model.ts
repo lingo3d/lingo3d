@@ -22,7 +22,7 @@ import { forceGet } from "@lincode/utils"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import throttleSystem from "../utils/throttleSystem"
 import unsafeSetValue from "../utils/unsafeSetValue"
-import { NEAR } from "../globals"
+import { M2CM, NEAR } from "../globals"
 import {
     pushReflectionPairs,
     pullReflectionPairs
@@ -258,14 +258,19 @@ export default class Model extends Loaded<Group> implements IModel {
                 ))
             this.append(animation)
         }
-        const measuredSize =
+        const { x, y, z } =
             this._resize === false
                 ? measure(loadedObject3d, src)
                 : fit(loadedObject3d, src)
 
-        !this.widthSet && (this.object3d.scale.x = measuredSize.x)
-        !this.heightSet && (this.object3d.scale.y = measuredSize.y)
-        !this.depthSet && (this.object3d.scale.z = measuredSize.z)
+        this.runtimeDefaults = {
+            width: x * M2CM,
+            height: y * M2CM,
+            depth: z * M2CM
+        }
+        !this.widthSet && (this.object3d.scale.x = x)
+        !this.heightSet && (this.object3d.scale.y = y)
+        !this.depthSet && (this.object3d.scale.z = z)
 
         return loadedObject3d
     }

@@ -1,4 +1,5 @@
 import { isLazy } from "@lincode/utils"
+import Loaded from "../../display/core/Loaded"
 import DefaultMethod from "./DefaultMethod"
 import Defaults from "./Defaults"
 import NullableCallback from "./NullableCallback"
@@ -12,7 +13,8 @@ const getDefaultValue = (
     key: string,
     fillNullableDefault?: boolean,
     fillFunctionArgs?: boolean,
-    isFunctionPtr?: ["method" | "callback" | ""]
+    isFunctionPtr?: ["method" | "callback" | ""],
+    runtimeManager?: Loaded
 ) => {
     const result = readLazy(defaults[key])
     if (result instanceof NullableDefault)
