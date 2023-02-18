@@ -83,30 +83,24 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
         this.object3d.position.z = val * CM2M
     }
 
-    protected widthSet?: boolean
     public get width() {
         return this.object3d.scale.x * M2CM
     }
     public set width(val) {
-        this.widthSet = true
         this.object3d.scale.x = val * CM2M
     }
 
-    protected heightSet?: boolean
     public get height() {
         return this.object3d.scale.y * M2CM
     }
     public set height(val) {
-        this.heightSet = true
         this.object3d.scale.y = val * CM2M
     }
 
-    protected depthSet?: boolean
     public get depth() {
         return this.object3d.scale.z * M2CM
     }
     public set depth(val) {
-        this.depthSet = true
         this.object3d.scale.z = val * CM2M
     }
 
