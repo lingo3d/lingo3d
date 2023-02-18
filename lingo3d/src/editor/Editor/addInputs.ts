@@ -7,9 +7,7 @@ import getDefaultValue, {
     equalsValue
 } from "../../interface/utils/getDefaultValue"
 import { Cancellable } from "@lincode/promiselikes"
-import { isPoint } from "../../utils/isPoint"
 import { emitEditorEdit } from "../../events/onEditorEdit"
-import toFixed, { toFixedPoint } from "../../api/serializer/toFixed"
 import {
     assignEditorPresets,
     getEditorPresets
@@ -26,11 +24,8 @@ const processValue = (value: any) => {
         if (value === "true" || value === "false")
             return value === "true" ? true : false
         const num = Number(value)
-        if (!Number.isNaN(num)) return toFixed(num)
-        return value
+        if (!Number.isNaN(num)) return num
     }
-    if (typeof value === "number") return toFixed(value)
-    if (isPoint(value)) return toFixedPoint(value)
     return value
 }
 
