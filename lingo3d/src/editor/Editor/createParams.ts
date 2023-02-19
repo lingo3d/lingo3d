@@ -66,7 +66,8 @@ export default (
                 return unsafeGetValue(manager, prop)
             },
             set(_, prop: string, val) {
-                if (schemaKeyParamMap.has(prop))
+                //pass callback functions directly to manager
+                if (schemaKeyParamMap.has(prop) && typeof val !== "function")
                     schemaKeyParamMap.set(prop, val)
                 else unsafeSetValue(manager, prop, val)
                 return true

@@ -18,6 +18,7 @@ import renderSystemWithData from "../../utils/renderSystemWithData"
 import Appendable from "../../api/core/Appendable"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import unsafeGetValue from "../../utils/unsafeGetValue"
+import { nullableCallbackParams } from "../../interface/utils/NullableCallback"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -101,7 +102,13 @@ export default async (
                 return [key, input]
             }
 
-            addRefreshSystem(input, { key, defaults, params, target })
+            if (nullableCallbackParams.has(unsafeGetValue(target, key))) {
+                unsafeSetValue(target, key, (val: any) => {
+                    params[key] = val
+                    skipChangeSet.add(input)
+                    input.refresh()
+                })
+            } else addRefreshSystem(input, { key, defaults, params, target })
 
             const resetButton = resetIcon.cloneNode(true) as HTMLElement
             input.element.prepend(resetButton)
