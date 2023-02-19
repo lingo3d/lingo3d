@@ -6,11 +6,11 @@ import IJoystick, {
 import { Point } from "@lincode/math"
 import Nullable from "../interface/utils/Nullable"
 import createElement from "../utils/createElement"
-import { Cancellable } from "@lincode/promiselikes"
 import store, { Reactive } from "@lincode/reactivity"
 import { onBeforeRender } from "../events/onBeforeRender"
 import Appendable from "../api/core/Appendable"
 import { uiContainer } from "../engine/renderLoop/renderSetup"
+import { getAutoMount } from "../states/useAutoMount"
 
 export default class Joystick extends Appendable implements IJoystick {
     public static componentName = "joystick"
@@ -63,36 +63,30 @@ export default class Joystick extends Appendable implements IJoystick {
             zone.ontouchstart = prevent
             zone.onpointerdown = prevent
 
-            const handle = new Cancellable()
-            setTimeout(() => {
-                if (handle.done) return
+            const manager = nipplejs.create({
+                zone,
+                mode: "static",
+                position: { left: "75px", bottom: "75px" },
+                color: "white"
+            })
 
-                const manager = nipplejs.create({
-                    zone,
-                    mode: "static",
-                    position: { left: "75px", bottom: "75px" },
-                    color: "white"
-                })
-                handle.then(() => manager.destroy())
-
-                manager.on("start", () => {
-                    this.onMoveStart?.(new Point(0, 0))
-                    setDown(true)
-                })
-                manager.on("move", (_, nipple) => {
-                    this.onMove?.(nipple.vector)
-                    pt = nipple.vector
-                })
-                manager.on("end", () => {
-                    this.onMoveEnd?.(new Point(0, 0))
-                    pt = new Point(0, 0)
-                    setDown(false)
-                })
+            manager.on("start", () => {
+                this.onMoveStart?.(new Point(0, 0))
+                setDown(true)
+            })
+            manager.on("move", (_, nipple) => {
+                this.onMove?.(nipple.vector)
+                pt = nipple.vector
+            })
+            manager.on("end", () => {
+                this.onMoveEnd?.(new Point(0, 0))
+                pt = new Point(0, 0)
+                setDown(false)
             })
             return () => {
-                handle.cancel()
+                manager.destroy()
                 zone.remove()
             }
-        }, [])
+        }, [getAutoMount])
     }
 }
