@@ -5,6 +5,10 @@ import Defaults from "./Defaults"
 import NullableCallback from "./NullableCallback"
 import NullableDefault from "./NullableDefault"
 
+export type FunctionPtr = [
+    NullableCallback<any> | DefaultMethod<any> | undefined
+]
+
 const readLazy = <T>(val: T | (() => T)): T =>
     typeof val === "function" && isLazy(val) ? val() : val
 
@@ -13,7 +17,7 @@ const getDefaultValue = (
     key: string,
     fillNullableDefault?: boolean,
     fillFunctionArgs?: boolean,
-    isFunctionPtr?: ["method" | "callback" | ""],
+    functionPtr?: FunctionPtr,
     runtimeManager?: Appendable
 ) => {
     if (
@@ -26,11 +30,11 @@ const getDefaultValue = (
     if (result instanceof NullableDefault)
         return fillNullableDefault ? result.value : undefined
     if (result instanceof NullableCallback) {
-        if (isFunctionPtr) isFunctionPtr[0] = "callback"
+        if (functionPtr) functionPtr[0] = result
         return fillFunctionArgs ? result.param : undefined
     }
     if (result instanceof DefaultMethod) {
-        if (isFunctionPtr) isFunctionPtr[0] = "method"
+        if (functionPtr) functionPtr[0] = result
         return fillFunctionArgs ? result.arg : undefined
     }
     if (fillNullableDefault) return result ?? ""
