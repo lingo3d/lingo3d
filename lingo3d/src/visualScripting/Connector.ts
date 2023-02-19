@@ -1,10 +1,13 @@
 import { Reactive } from "@lincode/reactivity"
+import { extendFunction, omitFunction } from "@lincode/utils"
 import Appendable, { getAppendables } from "../api/core/Appendable"
 import IConnector, {
     connectorDefaults,
     connectorSchema
 } from "../interface/IConnector"
+import NullableCallback from "../interface/utils/NullableCallback"
 import getReactive from "../utils/getReactive"
+import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
 
 export default class Connector extends Appendable implements IConnector {
@@ -21,6 +24,25 @@ export default class Connector extends Appendable implements IConnector {
 
             const [fromManager] = getAppendables(_from)
             const [toManager] = getAppendables(_to)
+
+            if (
+                unsafeGetValue(fromManager.constructor, "defaults")[
+                    _fromProp
+                ] instanceof NullableCallback
+            ) {
+                const cb = (val: any) => {
+                    //mark
+                    console.log(val)
+                }
+                const extended = unsafeSetValue(
+                    fromManager,
+                    _fromProp,
+                    extendFunction(unsafeGetValue(fromManager, _fromProp), cb)
+                )
+                return () => {
+                    omitFunction(extended, cb)
+                }
+            }
 
             const fromReactive = getReactive(fromManager, _fromProp)
 

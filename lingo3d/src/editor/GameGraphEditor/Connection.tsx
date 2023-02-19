@@ -19,6 +19,9 @@ type ConnectionProps = {
 
 const connectorMap = new Map<string, Connector>()
 
+const formatFrom = (data: GameGraphConnection) =>
+    `${data.from} ${data.fromProp}${data.xyz ? `-${data.xyz}` : ""}`
+
 const Connection = memo(
     ({ data, getPositionRef }: ConnectionProps) => {
         const [start, setStart] = useState({ x: 0, y: 0 })
@@ -28,7 +31,7 @@ const Connection = memo(
         useEffect(() => {
             forceGet(
                 connectorMap,
-                `${data.from} ${data.fromProp} ${data.to} ${data.toProp}`,
+                `${formatFrom(data)} ${data.to} ${data.toProp}`,
                 () => {
                     const connector = new Connector()
                     Object.assign(connector, data)
@@ -53,9 +56,7 @@ const Connection = memo(
         useEffect(() => {
             const connectorFrom = unsafeGetValue(
                 window,
-                `${data.from} ${data.fromProp}${
-                    data.xyz ? `-${data.xyz}` : ""
-                } out`
+                `${formatFrom(data)} out`
             )
             const connectorTo = unsafeGetValue(
                 window,
