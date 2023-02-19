@@ -64,6 +64,13 @@ export type Connection = {
     onDrop?: (e: DragEvent, draggingItem: DraggingItem, prop: string) => void
 }
 
+export class PassthroughCallback {
+    public constructor(
+        public callback: (val: any) => void,
+        public handle: Cancellable
+    ) {}
+}
+
 export default async (
     handle: Cancellable,
     pane: Pane,
@@ -102,13 +109,17 @@ export default async (
                 return [key, input]
             }
 
-            if (nullableCallbackParams.has(unsafeGetValue(target, key))) {
-                unsafeSetValue(target, key, (val: any) => {
-                    params[key] = val
-                    skipChangeSet.add(input)
-                    input.refresh()
-                })
-            } else addRefreshSystem(input, { key, defaults, params, target })
+            if (nullableCallbackParams.has(unsafeGetValue(target, key)))
+                unsafeSetValue(
+                    target,
+                    key,
+                    new PassthroughCallback((val: any) => {
+                        params[key] = val
+                        skipChangeSet.add(input)
+                        input.refresh()
+                    }, handle)
+                )
+            else addRefreshSystem(input, { key, defaults, params, target })
 
             const resetButton = resetIcon.cloneNode(true) as HTMLElement
             input.element.prepend(resetButton)

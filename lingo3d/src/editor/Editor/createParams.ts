@@ -7,6 +7,8 @@ import nonEditorSchemaSet from "../../interface/utils/nonEditorSchemaSet"
 import Appendable from "../../api/core/Appendable"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
+import { PassthroughCallback } from "./addInputs"
+import { extendFunction, omitFunction } from "@lincode/utils"
 
 const filterSchema = (schema: any, includeKeys: Array<string> | undefined) => {
     if (!includeKeys) return schema
@@ -66,12 +68,22 @@ export default (
                 return unsafeGetValue(manager, prop)
             },
             set(_, prop: string, val) {
-                if (schemaKeyParamMap.has(prop)) {
-                    //pass callback functions directly to manager
-                    if (typeof val === "function")
-                        unsafeSetValue(manager, prop, val)
-                    else schemaKeyParamMap.set(prop, val)
-                } else unsafeSetValue(manager, prop, val)
+                if (
+                    schemaKeyParamMap.has(prop) &&
+                    val instanceof PassthroughCallback
+                ) {
+                    const extended = unsafeSetValue(
+                        manager,
+                        prop,
+                        extendFunction(
+                            unsafeGetValue(manager, prop),
+                            val.callback
+                        )
+                    )
+                    val.handle.then(() => omitFunction(extended, val.callback))
+                    return true
+                }
+                unsafeSetValue(manager, prop, val)
                 return true
             }
         })
