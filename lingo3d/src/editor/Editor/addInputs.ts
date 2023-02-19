@@ -195,6 +195,7 @@ export default async (
             if (connection) {
                 const els = input.element.querySelectorAll(".tp-pndtxtv_a")
                 if (els.length) {
+                    let i = 0
                     for (const el of els) {
                         const connectorOut = initConnectorOut(
                             connectorOutIcon.cloneNode(true) as HTMLElement,
@@ -202,6 +203,8 @@ export default async (
                             key,
                             connection
                         )
+                        connectorOut.id =
+                            target.uuid + " " + key + " " + "xyz"[i++] + " out"
                         connectorOut.style.marginTop = "5px"
                         connectorOut.style.marginRight = "4px"
                         connectorOut.style.marginLeft = "4px"
@@ -215,12 +218,6 @@ export default async (
                     }
                     return [key, input]
                 }
-                const connectorIn = connectorInIcon.cloneNode(
-                    true
-                ) as HTMLElement
-                connectorIn.id = target.uuid + " " + key + " in"
-                input.element.prepend(connectorIn)
-
                 const connectorOut = initConnectorOut(
                     connectorOutIcon.cloneNode(true) as HTMLElement,
                     target,
@@ -229,6 +226,12 @@ export default async (
                 )
                 connectorOut.id = target.uuid + " " + key + " out"
                 input.element.append(connectorOut)
+
+                const connectorIn = connectorInIcon.cloneNode(
+                    true
+                ) as HTMLElement
+                connectorIn.id = target.uuid + " " + key + " in"
+                input.element.prepend(connectorIn)
 
                 connectorIn.ondragenter = (e) => {
                     e.stopPropagation()
