@@ -53,7 +53,9 @@ const Connection = memo(
         useEffect(() => {
             const connectorFrom = unsafeGetValue(
                 window,
-                data.from + " " + data.fromProp + " out"
+                `${data.from} ${data.fromProp}${
+                    data.xyz ? `-${data.xyz}` : ""
+                } out`
             )
             const connectorTo = unsafeGetValue(
                 window,

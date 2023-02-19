@@ -11,6 +11,7 @@ export type GameGraphConnection = {
     to: string
     fromProp: string
     toProp: string
+    xyz?: string
 }
 
 export type GameGraphData = Record<

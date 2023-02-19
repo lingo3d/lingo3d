@@ -109,7 +109,8 @@ const Node = memo(
                                 from: draggingItem.manager.uuid,
                                 fromProp: draggingItem.prop,
                                 to: manager.uuid,
-                                toProp: prop
+                                toProp: prop,
+                                xyz: draggingItem.xyz
                             }
                         })
                         setConnectedKeys([...connectedKeys, prop])
