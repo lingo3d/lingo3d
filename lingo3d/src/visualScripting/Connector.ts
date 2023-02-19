@@ -7,6 +7,7 @@ import IConnector, {
 } from "../interface/IConnector"
 import NullableCallback from "../interface/utils/NullableCallback"
 import getReactive from "../utils/getReactive"
+import { PointType } from "../utils/isPoint"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
 
@@ -19,7 +20,7 @@ export default class Connector extends Appendable implements IConnector {
         super()
 
         this.createEffect(() => {
-            const { _from, _to, _fromProp, _toProp } = this
+            const { _from, _to, _fromProp, _toProp, _xyz } = this
             if (!_from || !_to || !_fromProp || !_toProp) return
 
             const [fromManager] = getAppendables(_from)
@@ -30,10 +31,11 @@ export default class Connector extends Appendable implements IConnector {
                     _fromProp
                 ] instanceof NullableCallback
             ) {
-                const cb = (val: any) => {
-                    //mark
-                    console.log(val)
-                }
+                const cb = _xyz
+                    ? (val: PointType) =>
+                          unsafeSetValue(toManager, _toProp, val[_xyz])
+                    : (val: any) => unsafeSetValue(toManager, _toProp, val)
+
                 const extended = unsafeSetValue(
                     fromManager,
                     _fromProp,
