@@ -71,6 +71,36 @@ export class PassthroughCallback {
     ) {}
 }
 
+const initConnectorOut = (
+    connectorOut: HTMLElement,
+    target: Appendable,
+    key: string,
+    connection: Connection
+) => {
+    connectorOut.draggable = true
+    connectorOut.onmousedown = (e) => e.stopPropagation()
+    connectorOut.ondragstart = (e) => {
+        e.stopPropagation()
+        draggingItem = {
+            manager: target,
+            prop: key
+        }
+        connectorOut.style.background = "rgba(255, 255, 255, 0.5)"
+        connection.onDragStart?.(e)
+    }
+    connectorOut.ondrag = (e) => {
+        e.stopPropagation()
+        connection.onDrag?.(e)
+    }
+    connectorOut.ondragend = (e) => {
+        e.stopPropagation()
+        connectorOut.style.background = ""
+        connection.onDragEnd?.(e, draggingItem!)
+        draggingItem = undefined
+    }
+    return connectorOut
+}
+
 export default async (
     handle: Cancellable,
     pane: Pane,
@@ -163,39 +193,42 @@ export default async (
             })
 
             if (connection) {
+                const els = input.element.querySelectorAll(".tp-pndtxtv_a")
+                if (els.length) {
+                    for (const el of els) {
+                        const connectorOut = initConnectorOut(
+                            connectorOutIcon.cloneNode(true) as HTMLElement,
+                            target,
+                            key,
+                            connection
+                        )
+                        connectorOut.style.marginTop = "5px"
+                        connectorOut.style.marginRight = "4px"
+                        connectorOut.style.marginLeft = "4px"
+                        const { nextElementSibling } = el
+                        if (nextElementSibling)
+                            el.parentElement.insertBefore(
+                                connectorOut,
+                                nextElementSibling
+                            )
+                        else el.parentElement.appendChild(connectorOut)
+                    }
+                    return [key, input]
+                }
                 const connectorIn = connectorInIcon.cloneNode(
                     true
                 ) as HTMLElement
                 connectorIn.id = target.uuid + " " + key + " in"
                 input.element.prepend(connectorIn)
 
-                const connectorOut = connectorOutIcon.cloneNode(
-                    true
-                ) as HTMLElement
+                const connectorOut = initConnectorOut(
+                    connectorOutIcon.cloneNode(true) as HTMLElement,
+                    target,
+                    key,
+                    connection
+                )
                 connectorOut.id = target.uuid + " " + key + " out"
                 input.element.append(connectorOut)
-
-                connectorOut.draggable = true
-                connectorOut.onmousedown = (e) => e.stopPropagation()
-                connectorOut.ondragstart = (e) => {
-                    e.stopPropagation()
-                    draggingItem = {
-                        manager: target,
-                        prop: key
-                    }
-                    connectorOut.style.background = "rgba(255, 255, 255, 0.5)"
-                    connection.onDragStart?.(e)
-                }
-                connectorOut.ondrag = (e) => {
-                    e.stopPropagation()
-                    connection.onDrag?.(e)
-                }
-                connectorOut.ondragend = (e) => {
-                    e.stopPropagation()
-                    connectorOut.style.background = ""
-                    connection.onDragEnd?.(e, draggingItem!)
-                    draggingItem = undefined
-                }
 
                 connectorIn.ondragenter = (e) => {
                     e.stopPropagation()
