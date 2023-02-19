@@ -19,15 +19,15 @@ export default (
         selectionTarget,
         "constructor"
     )
-
+    const [params, manager] = createParams(
+        selectionTarget,
+        schema,
+        defaults,
+        includeKeys,
+        !connection
+    )
     const [ownParams, ownRest] = splitObject(
-        createParams(
-            selectionTarget,
-            schema,
-            defaults,
-            includeKeys,
-            !connection
-        ),
+        params,
         Object.keys(defaultsOwnKeysRecordMap.get(defaults) ?? {})
     )
 
@@ -41,7 +41,7 @@ export default (
             handle,
             pane,
             "general",
-            selectionTarget,
+            manager,
             defaults,
             generalParams,
             true,
@@ -58,7 +58,7 @@ export default (
             handle,
             pane,
             "physics",
-            selectionTarget,
+            manager,
             defaults,
             physicsParams,
             false,
@@ -105,7 +105,7 @@ export default (
             handle,
             pane,
             "transform",
-            selectionTarget,
+            manager,
             defaults,
             transformParams,
             false,
@@ -116,7 +116,7 @@ export default (
                 handle,
                 pane,
                 "inner transform",
-                selectionTarget,
+                manager,
                 defaults,
                 innerTransformParams,
                 false,
@@ -134,7 +134,7 @@ export default (
             handle,
             pane,
             "animation",
-            selectionTarget,
+            manager,
             defaults,
             animationParams,
             false,
@@ -153,7 +153,7 @@ export default (
             handle,
             pane,
             "display",
-            selectionTarget,
+            manager,
             defaults,
             displayParams,
             false,
@@ -169,7 +169,7 @@ export default (
             handle,
             pane,
             "effects",
-            selectionTarget,
+            manager,
             defaults,
             effectsParams,
             false,
@@ -191,7 +191,7 @@ export default (
             handle,
             pane,
             "adjust material",
-            selectionTarget,
+            manager,
             defaults,
             adjustMaterialParams,
             false,
@@ -199,7 +199,7 @@ export default (
         )
 
     const [materialParams, materialRest] = splitObject(adjustMaterialRest, [
-        ...("textureRotation" in selectionTarget
+        ...("textureRotation" in manager
             ? ["opacity", "color", "texture"]
             : []),
         "textureRepeat",
@@ -214,7 +214,7 @@ export default (
             handle,
             pane,
             "material",
-            selectionTarget,
+            manager,
             defaults,
             materialParams,
             false,
@@ -247,7 +247,7 @@ export default (
             handle,
             pane,
             "pbr material",
-            selectionTarget,
+            manager,
             defaults,
             pbrMaterialParams,
             false,
@@ -261,7 +261,7 @@ export default (
             handle,
             pane,
             componentName,
-            selectionTarget,
+            manager,
             defaults,
             pbrMaterialRest,
             true,

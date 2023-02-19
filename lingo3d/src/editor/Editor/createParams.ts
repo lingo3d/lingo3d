@@ -22,7 +22,7 @@ export default (
     skipFunctions: boolean
 ) => {
     const params: Record<string, any> = {}
-    if (!schema) return params
+    if (!schema) return [params, manager] as const
 
     const options = defaultsOptionsMap.get(defaults)
 
@@ -49,5 +49,5 @@ export default (
 
         params[schemaKey] = defaultValue
     }
-    return params
+    return [params, manager] as const
 }

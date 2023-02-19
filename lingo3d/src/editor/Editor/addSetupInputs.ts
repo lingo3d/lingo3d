@@ -12,17 +12,19 @@ export default (
     includeKeys: Array<string> | undefined
 ) => {
     const handle = new Cancellable()
-    const [editorParams, editorRest] = splitObject(
-        createParams(
-            targetSetup,
-            setupSchema,
-            setupDefaults,
-            includeKeys,
-            true
-        ),
-        ["gridHelper", "gridHelperSize", "stats"]
+    const [params, manager] = createParams(
+        targetSetup,
+        setupSchema,
+        setupDefaults,
+        includeKeys,
+        true
     )
-    addInputs(handle, pane, "editor", targetSetup, setupDefaults, editorParams)
+    const [editorParams, editorRest] = splitObject(params, [
+        "gridHelper",
+        "gridHelperSize",
+        "stats"
+    ])
+    addInputs(handle, pane, "editor", manager, setupDefaults, editorParams)
 
     const [rendererParams, rendererRest] = splitObject(editorRest, [
         "antiAlias",
@@ -32,14 +34,7 @@ export default (
         "uiLayer",
         "pbr"
     ])
-    addInputs(
-        handle,
-        pane,
-        "renderer",
-        targetSetup,
-        setupDefaults,
-        rendererParams
-    )
+    addInputs(handle, pane, "renderer", manager, setupDefaults, rendererParams)
 
     const [sceneParams, sceneRest] = splitObject(rendererRest, [
         "exposure",
@@ -56,7 +51,7 @@ export default (
         handle,
         pane,
         "lighting & environment",
-        targetSetup,
+        manager,
         setupDefaults,
         sceneParams
     )
@@ -74,14 +69,7 @@ export default (
         "bokehScale",
         "vignette"
     ])
-    addInputs(
-        handle,
-        pane,
-        "effects",
-        targetSetup,
-        setupDefaults,
-        effectsParams
-    )
+    addInputs(handle, pane, "effects", manager, setupDefaults, effectsParams)
 
     const [outlineParams, outlineRest] = splitObject(effectsRest, [
         "outlineColor",
@@ -94,20 +82,13 @@ export default (
         handle,
         pane,
         "outline effect",
-        targetSetup,
+        manager,
         setupDefaults,
         outlineParams
     )
 
     Object.keys(outlineRest).length &&
-        addInputs(
-            handle,
-            pane,
-            "settings",
-            targetSetup,
-            setupDefaults,
-            outlineRest
-        )
+        addInputs(handle, pane, "settings", manager, setupDefaults, outlineRest)
 
     return handle
 }
