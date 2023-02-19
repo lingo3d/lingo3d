@@ -12,6 +12,7 @@ export default interface IConnector extends IAppendable {
     to: Nullable<string | Appendable>
     fromProp: Nullable<string>
     toProp: Nullable<string>
+    xyz: Nullable<"x" | "y" | "z">
 }
 
 export const connectorSchema: Required<ExtractProps<IConnector>> = {
@@ -19,7 +20,8 @@ export const connectorSchema: Required<ExtractProps<IConnector>> = {
     from: [String, Object],
     to: [String, Object],
     fromProp: String,
-    toProp: String
+    toProp: String,
+    xyz: String
 }
 
 export const connectorDefaults = extendDefaults<IConnector>(
@@ -28,6 +30,7 @@ export const connectorDefaults = extendDefaults<IConnector>(
         from: undefined,
         to: undefined,
         fromProp: undefined,
-        toProp: undefined
+        toProp: undefined,
+        xyz: undefined
     }
 )

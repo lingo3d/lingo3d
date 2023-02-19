@@ -92,4 +92,13 @@ export default class Connector extends Appendable implements IConnector {
         this._toProp = val
         this.refreshState.set({})
     }
+
+    private _xyz?: "x" | "y" | "z"
+    public get xyz() {
+        return this._xyz
+    }
+    public set xyz(val) {
+        this._xyz = val
+        this.refreshState.set({})
+    }
 }
