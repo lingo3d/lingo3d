@@ -30,7 +30,7 @@ const processValue = (value: any) => {
     return value
 }
 
-type DraggingItem = { manager: any; prop: string; xyz?: string }
+type DraggingItem = { manager: any; prop: string; xyz?: "x" | "y" | "z" }
 let draggingItem: DraggingItem | undefined
 
 const skipChangeSet = new WeakSet<InputBindingApi>()
@@ -76,7 +76,7 @@ const initConnectorOut = (
     target: Appendable,
     key: string,
     connection: Connection,
-    xyz?: string
+    xyz?: "x" | "y" | "z"
 ) => {
     connectorOut.draggable = true
     connectorOut.onmousedown = (e) => e.stopPropagation()
@@ -199,7 +199,7 @@ export default async (
                 if (els.length) {
                     let i = 0
                     for (const el of els) {
-                        const xyz = "xyz"[i++]
+                        const xyz = "xyz"[i++] as "x" | "y" | "z"
                         const connectorOut = initConnectorOut(
                             connectorOutIcon.cloneNode(true) as HTMLElement,
                             target,
