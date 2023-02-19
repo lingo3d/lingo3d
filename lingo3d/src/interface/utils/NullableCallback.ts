@@ -6,8 +6,12 @@ export const nullableCallbackVoidParam = nanoid() as any
 export const nullableCallbackMeshAppendableParam =
     nanoid() as any as MeshAppendable
 
+export const nullableCallbackParams = new Set<any>()
+
 export default class NullableCallback<T> {
-    public constructor(public param: T = nullableCallbackVoidParam) {}
+    public constructor(public param: T = nullableCallbackVoidParam) {
+        nullableCallbackParams.add(param)
+    }
 }
 
 const nullableCallbackMap = new Map<any, NullableCallback<any>>()

@@ -29,7 +29,7 @@ export default (
     if (!schema) return [params, manager] as const
 
     const options = defaultsOptionsMap.get(defaults)
-    const callbackParamMap = new Map<string, object>()
+    const schemaKeyParamMap = new Map<string, object>()
 
     for (const schemaKey of Object.keys(filterSchema(schema, includeKeys))) {
         if (nonEditorSchemaSet.has(schemaKey)) continue
@@ -49,7 +49,7 @@ export default (
         if (skipFunctions && functionPtr[0]) continue
 
         if (functionPtr[0] && "param" in functionPtr[0])
-            callbackParamMap.set(schemaKey, functionPtr[0].param)
+            schemaKeyParamMap.set(schemaKey, functionPtr[0].param)
 
         const choices = options?.[schemaKey]
         if (choices && "options" in choices && choices.acceptAny)
@@ -61,12 +61,13 @@ export default (
         params,
         new Proxy(manager, {
             get(_, prop: string) {
-                if (callbackParamMap.has(prop))
-                    return callbackParamMap.get(prop)
+                if (schemaKeyParamMap.has(prop))
+                    return schemaKeyParamMap.get(prop)
                 return unsafeGetValue(manager, prop)
             },
             set(_, prop: string, val) {
-                if (callbackParamMap.has(prop)) callbackParamMap.set(prop, val)
+                if (schemaKeyParamMap.has(prop))
+                    schemaKeyParamMap.set(prop, val)
                 else unsafeSetValue(manager, prop, val)
                 return true
             }
