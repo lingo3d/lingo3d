@@ -18,7 +18,7 @@ export const NEAR = 0.1
 export const FAR = 1000
 export const SHADOW_BIAS = -0.0055
 
-export const DEBUG = false
+export const DEBUG = true
 export const VERSION = "2.0.15"
 
 export const FRAME_WIDTH = 12

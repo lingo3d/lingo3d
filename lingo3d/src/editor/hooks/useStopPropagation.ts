@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "preact/hooks"
 import { handleBlur } from "../../engine/hotkeys"
+import { DEBUG } from "../../globals"
 
 const stop = (e: Event) => e.stopPropagation()
 const stopPrevent = (e: Event) => {
@@ -16,7 +17,7 @@ export default <T extends HTMLElement | SVGSVGElement = HTMLDivElement>() => {
 
         el.addEventListener("mousedown", handleBlur)
         el.addEventListener("click", stop)
-        el.addEventListener("contextmenu", stopPrevent)
+        !DEBUG && el.addEventListener("contextmenu", stopPrevent)
         el.addEventListener("pointerdown", stop)
         el.addEventListener("touchstart", stop)
         el.addEventListener("keydown", stop)
