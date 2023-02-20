@@ -7,10 +7,17 @@ import { physxPtr } from "./physxPtr"
 import { simd } from "wasm-feature-detect"
 import {
     actorPtrManagerMap,
+    controllerManagerContactMap,
     controllerManagerMap,
     managerContactMap
 } from "./pxMaps"
-import { Point3d } from "@lincode/math"
+import throttleSystem from "../../../../utils/throttleSystem"
+import PhysicsObjectManager from ".."
+
+const clearControllerContactMapSystem = throttleSystem(
+    (contacts: Set<PhysicsObjectManager>) => contacts.clear()
+)
+
 ;(async () => {
     const simdSupported = await simd()
 
@@ -236,7 +243,15 @@ import { Point3d } from "@lincode/math"
         // hit.worldPos
         const controllerManager = controllerManagerMap.get(hit.controller)
         const manager = actorPtrManagerMap.get(hit.actor.ptr)
-        console.log(controllerManager, manager)
+        if (!controllerManager || !manager) return
+
+        const contacts = forceGetInstance(
+            controllerManagerContactMap,
+            controllerManager,
+            Set<PhysicsObjectManager>
+        )
+        contacts.add(manager)
+        clearControllerContactMapSystem(contacts)
     }
 
     //create simulation event callback

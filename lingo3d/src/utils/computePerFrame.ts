@@ -1,16 +1,14 @@
-import { onAfterRender } from "../events/onAfterRender"
+import throttleSystem from "./throttleSystem"
 
-const caches: Array<Map<object, any>> = []
-onAfterRender(() => {
-    for (const cache of caches) cache.clear()
-})
+const clearCacheSystem = throttleSystem((cache: Map<object, any>) =>
+    cache.clear()
+)
 
 export default <Item extends object, Return>(
     cb: (item: Item) => Return,
     clone = true
 ) => {
     const cache = new Map<Item, Return>()
-    caches.push(cache)
 
     if (clone)
         return (item: Item): Return => {
@@ -22,6 +20,7 @@ export default <Item extends object, Return>(
             const result = cb(item)
             //@ts-ignore
             cache.set(item, result.clone())
+            clearCacheSystem(cache)
             //@ts-ignore
             return result.clone()
         }
@@ -30,6 +29,7 @@ export default <Item extends object, Return>(
         if (cache.has(item)) return cache.get(item)!
         const result = cb(item)
         cache.set(item, result)
+        clearCacheSystem(cache)
         return result
     }
 }
