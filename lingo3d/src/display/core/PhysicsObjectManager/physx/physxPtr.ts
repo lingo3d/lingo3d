@@ -1,4 +1,5 @@
 type PhysX = {
+    controllerHitCallback: any
     NativeArrayHelpers: any
     physics: any
     material: any

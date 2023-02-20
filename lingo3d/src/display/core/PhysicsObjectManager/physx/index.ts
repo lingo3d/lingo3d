@@ -5,7 +5,12 @@ import { destroyPtr } from "./destroy"
 import "./physxLoop"
 import { physxPtr } from "./physxPtr"
 import { simd } from "wasm-feature-detect"
-import { actorPtrManagerMap, managerContactMap } from "./pxMaps"
+import {
+    actorPtrManagerMap,
+    controllerManagerMap,
+    managerContactMap
+} from "./pxMaps"
+import { Point3d } from "@lincode/math"
 ;(async () => {
     const simdSupported = await simd()
 
@@ -56,9 +61,11 @@ import { actorPtrManagerMap, managerContactMap } from "./pxMaps"
         PxD6Drive,
         PxD6JointDrive,
         PxSimulationEventCallbackImpl,
+        PxUserControllerHitReportImpl,
         PxMeshPreprocessingFlags,
         PxContactPair,
         PxContactPairHeader,
+        PxControllerShapeHit,
 
         _emscripten_enum_PxMeshPreprocessingFlagEnum_eDISABLE_CLEAN_MESH,
         _emscripten_enum_PxMeshPreprocessingFlagEnum_eDISABLE_ACTIVE_EDGES_PRECOMPUTE,
@@ -219,6 +226,18 @@ import { actorPtrManagerMap, managerContactMap } from "./pxMaps"
     const getInsertionCallback = lazy(() =>
         physics.getPhysicsInsertionCallback()
     )
+
+    //create controller hit callback
+    const controllerHitCallback = new PxUserControllerHitReportImpl()
+    //onControllerHit, onObstacleHit
+    controllerHitCallback.onShapeHit = (h: any) => {
+        const hit = wrapPointer(h, PxControllerShapeHit)
+        // hit.worldNormal
+        // hit.worldPos
+        const controllerManager = controllerManagerMap.get(hit.controller)
+        const manager = actorPtrManagerMap.get(hit.actor.ptr)
+        console.log(controllerManager, manager)
+    }
 
     //create simulation event callback
     const simulationEventCallback = new PxSimulationEventCallbackImpl()
@@ -542,6 +561,7 @@ import { actorPtrManagerMap, managerContactMap } from "./pxMaps"
     }
 
     physxPtr[0] = {
+        controllerHitCallback,
         NativeArrayHelpers,
         physics,
         material,

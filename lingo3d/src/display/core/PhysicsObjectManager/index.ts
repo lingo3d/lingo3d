@@ -7,6 +7,7 @@ import getActualScale from "../../utils/getActualScale"
 import { Reactive, store } from "@lincode/reactivity"
 import {
     actorPtrManagerMap,
+    controllerManagerMap,
     managerActorMap,
     managerActorPtrMap,
     managerContactMap,
@@ -207,7 +208,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 PxCapsuleClimbingModeEnum,
                 PxControllerNonWalkableModeEnum,
                 material,
-                getPxControllerManager
+                getPxControllerManager,
+                controllerHitCallback
             } = physxPtr[0]
             if (!physics || !mode) return
 
@@ -230,7 +232,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                 // desc.stepOffset = y * 0.4
                 // desc.maxJumpHeight = 0.1
 
-                // desc.reportCallback = hitCallback.callback
+                desc.reportCallback = controllerHitCallback
                 // desc.behaviorCallback = behaviorCallback.callback
                 const controller =
                     getPxControllerManager().createController(desc)
@@ -238,11 +240,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
                 const actor = this.initActor(controller.getActor())
                 managerControllerMap.set(this, controller)
+                controllerManagerMap.set(controller, this)
 
                 return () => {
                     actorPtrManagerMap.delete(actor.ptr)
                     destroy(controller)
                     managerControllerMap.delete(this)
+                    controllerManagerMap.delete(controller)
                     pxUpdateSet.delete(this)
                     this.actor = undefined
                 }
