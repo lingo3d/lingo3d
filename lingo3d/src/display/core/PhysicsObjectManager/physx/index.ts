@@ -105,6 +105,11 @@ import { actorPtrManagerMap, managerContactMap } from "./pxMaps"
         _emscripten_enum_PxPairFlagEnum_eNOTIFY_TOUCH_LOST,
         _emscripten_enum_PxPairFlagEnum_eNOTIFY_CONTACT_POINTS,
 
+        _emscripten_enum_PxPairFilteringModeEnum_eKEEP,
+        _emscripten_enum_PxPairFilteringModeEnum_eKILL,
+        _emscripten_enum_PxPairFilteringModeEnum_eDEFAULT,
+        _emscripten_enum_PxPairFilteringModeEnum_eSUPPRESS,
+
         _emscripten_enum_PxArticulationFlagEnum_eFIX_BASE,
         _emscripten_enum_PxArticulationFlagEnum_eDRIVE_LIMITS_ARE_FORCES,
         _emscripten_enum_PxArticulationFlagEnum_eDISABLE_SELF_COLLISION,
@@ -254,6 +259,9 @@ import { actorPtrManagerMap, managerContactMap } from "./pxMaps"
     const pxVec__ = new PxVec3(0, 0, 0)
     const sceneDesc = new PxSceneDesc(scale)
     sceneDesc.set_gravity(pxVec)
+    // sceneDesc.set_staticKineFilteringMode(
+    //     _emscripten_enum_PxPairFilteringModeEnum_eKEEP()
+    // )
     sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
     sceneDesc.set_filterShader(Px.ContactReportFilterShader())
     sceneDesc.set_simulationEventCallback(simulationEventCallback)

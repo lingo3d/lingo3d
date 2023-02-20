@@ -9,6 +9,7 @@ const map = new Model()
 map.src = "fairy.glb"
 map.scale = 30
 map.physics = "map"
+map.id = "hello"
 
 const player = new Dummy()
 player.src = "ready.glb"
@@ -17,11 +18,15 @@ player.y = 2000
 player.physics = "character"
 player.rotationY = 90
 player.strideMove = true
+player.hitTarget = ["hello"]
+player.onHit = (target) => console.log(target)
 
 const box = new Cube()
 box.z = -300
 box.y = 2000
 box.physics = true
+box.id = "hello"
+box.color = "red"
 
 const box2 = new Cube()
 box2.z = -300
