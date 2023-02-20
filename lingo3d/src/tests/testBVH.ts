@@ -19,7 +19,8 @@ player.physics = "character"
 player.rotationY = 90
 player.strideMove = true
 player.hitTarget = ["hello"]
-player.onHit = (target) => console.log(target)
+player.onHitStart = () => console.log("start")
+player.onHitEnd = () => console.log("end")
 
 const box = new Cube()
 box.z = -300
