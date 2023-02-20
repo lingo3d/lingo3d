@@ -10,7 +10,7 @@ import { useMemo, useState } from "preact/hooks"
 import { useSignal } from "@preact/signals"
 
 const objectNames = [
-    ...(false ? [{ gameGraph: "joystick" }, { point3dNode: "joystick" }] : []),
+    ...(true ? [{ gameGraph: "joystick" }] : []),
 
     "cube",
     "sphere",

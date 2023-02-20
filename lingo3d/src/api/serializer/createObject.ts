@@ -42,7 +42,6 @@ import Timeline from "../../display/Timeline"
 import TimelineAudio from "../../display/TimelineAudio"
 import GameGraph from "../../visualScripting/GameGraph"
 import Connector from "../../visualScripting/Connector"
-import Point3dNode from "../../visualScripting/Point3dNode"
 import SpawnPoint from "../../display/SpawnPoint"
 import SphericalJoint from "../../display/joints/SphericalJoint"
 import FixedJoint from "../../display/joints/FixedJoint"
@@ -102,8 +101,7 @@ const record = {
     timeline: () => new Timeline(),
     timelineAudio: () => new TimelineAudio(),
     gameGraph: () => new GameGraph(),
-    connector: () => new Connector(),
-    point3dNode: () => new Point3dNode()
+    connector: () => new Connector()
 } satisfies Record<GameObjectType, () => Appendable>
 
 export default <T extends GameObjectType>(
