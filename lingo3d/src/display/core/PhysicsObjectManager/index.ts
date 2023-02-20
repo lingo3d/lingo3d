@@ -7,6 +7,7 @@ import getActualScale from "../../utils/getActualScale"
 import { Reactive, store } from "@lincode/reactivity"
 import {
     actorPtrManagerMap,
+    controllerManagerContactMap,
     controllerManagerMap,
     managerActorMap,
     managerActorPtrMap,
@@ -410,9 +411,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
     //@ts-ignore
     public override hitTest(target: MeshAppendable | PhysicsObjectManager) {
-        if (this._physics && "_physics" in target && target._physics)
+        if (this._physics && "_physics" in target && target._physics) {
+            if (this._physics === "character")
+                return !!controllerManagerContactMap.get(this)?.has(target)
+            if (target._physics === "character")
+                return !!controllerManagerContactMap.get(target)?.has(this)
             return !!managerContactMap.get(this)?.has(target)
-
+        }
         return super.hitTest(target)
     }
 }

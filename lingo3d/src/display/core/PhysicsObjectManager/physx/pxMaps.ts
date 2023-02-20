@@ -11,7 +11,7 @@ export const managerContactMap = new WeakMap<
     PhysicsObjectManager,
     WeakSet<PhysicsObjectManager>
 >()
-export const controllerManagerContactMap = new Map<
+export const controllerManagerContactMap = new WeakMap<
     PhysicsObjectManager,
     Set<PhysicsObjectManager>
 >()
