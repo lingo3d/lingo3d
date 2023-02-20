@@ -243,6 +243,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
                     actorPtrManagerMap.delete(actor.ptr)
                     destroy(controller)
                     managerControllerMap.delete(this)
+                    pxUpdateSet.delete(this)
                     this.actor = undefined
                 }
             }
@@ -265,6 +266,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
 
                 actorPtrManagerMap.delete(actor.ptr)
                 managerActorMap.delete(this)
+                pxUpdateSet.delete(this)
                 this.actor = undefined
             }
         }, [getMode, getPhysXLoaded, this.refreshShapeState.get])
