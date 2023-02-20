@@ -259,9 +259,9 @@ import { actorPtrManagerMap, managerContactMap } from "./pxMaps"
     const pxVec__ = new PxVec3(0, 0, 0)
     const sceneDesc = new PxSceneDesc(scale)
     sceneDesc.set_gravity(pxVec)
-    // sceneDesc.set_staticKineFilteringMode(
-    //     _emscripten_enum_PxPairFilteringModeEnum_eKEEP()
-    // )
+    // const filteringMode = _emscripten_enum_PxPairFilteringModeEnum_eKEEP()
+    // sceneDesc.set_staticKineFilteringMode(filteringMode)
+    // sceneDesc.set_kineKineFilteringMode(filteringMode)
     sceneDesc.set_cpuDispatcher(Px.DefaultCpuDispatcherCreate(0))
     sceneDesc.set_filterShader(Px.ContactReportFilterShader())
     sceneDesc.set_simulationEventCallback(simulationEventCallback)
