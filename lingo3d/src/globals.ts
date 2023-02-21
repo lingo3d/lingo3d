@@ -1,3 +1,5 @@
+import "./engine/polyfill"
+
 export const PI = Math.PI
 export const PI2 = PI * 2
 export const PI_HALF = PI * 0.5
@@ -19,7 +21,7 @@ export const FAR = 1000
 export const SHADOW_BIAS = -0.0055
 
 export const DEBUG = false
-export const VERSION = "2.0.23"
+export const VERSION = "2.0.24"
 
 export const FRAME_WIDTH = 12
 export const FRAME_HEIGHT = FRAME_WIDTH * 2
