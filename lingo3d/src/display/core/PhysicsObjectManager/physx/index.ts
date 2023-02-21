@@ -214,8 +214,8 @@ const clearControllerContactMapSystem = throttleSystem(
                 _emscripten_enum_PxMeshPreprocessingFlagEnum_eDISABLE_ACTIVE_EDGES_PRECOMPUTE()
         )
         //todo: bind the following
-        cookingParams.meshCookingHint =
-            _emscripten_enum_PxMeshCookingHintEnum_eCOOKING_PERFORMANCE()
+        // cookingParams.meshCookingHint =
+        //     _emscripten_enum_PxMeshCookingHintEnum_eCOOKING_PERFORMANCE()
         return Px.CreateCooking(version, foundation, cookingParams)
     })
 

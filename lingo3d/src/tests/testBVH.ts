@@ -63,6 +63,7 @@ cam.append(player)
 cam.mouseControl = "drag"
 cam.active = true
 cam.lockTargetRotation = "dynamic-lock"
+cam.innerX = 50
 
 // const boxes = [
 //     { x: -1276.38, y: 2.63, z: -502.67 },
