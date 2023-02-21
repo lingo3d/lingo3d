@@ -19,7 +19,7 @@ export const FAR = 1000
 export const SHADOW_BIAS = -0.0055
 
 export const DEBUG = false
-export const VERSION = "2.0.20"
+export const VERSION = "2.0.22"
 
 export const FRAME_WIDTH = 12
 export const FRAME_HEIGHT = FRAME_WIDTH * 2

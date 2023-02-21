@@ -5,11 +5,11 @@ import IVisibleObjectManager, {
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
-import { WATERNORMALS_URL } from "../api/assetsPath"
+import Nullable from "./utils/Nullable"
 
 export default interface IWater extends IVisibleObjectManager {
     shape: "plane" | "sphere"
-    normalMap: string
+    normalMap: Nullable<string>
     resolution: number
     speed: number
 }
@@ -26,7 +26,7 @@ export const waterDefaults = extendDefaults<IWater>(
     [visibleObjectManagerDefaults],
     {
         shape: "plane",
-        normalMap: WATERNORMALS_URL,
+        normalMap: undefined,
         resolution: 512,
         speed: 1,
         rotationX: 270,

@@ -50,7 +50,7 @@ export default class Dummy extends Model implements IDummy {
 
         this.createEffect(() => {
             const spineName = this.spineNameState.get()
-            super.src = this.srcState.get()
+            super.src = this.srcState.get() || YBOT_URL()
 
             setSpine(undefined)
             setType(undefined)
@@ -96,7 +96,7 @@ export default class Dummy extends Model implements IDummy {
             const preset = this.presetState.get()
             const prefix = preset === "rifle" ? "rifle-" : ""
 
-            const src = this.srcState.get()
+            const src = this.srcState.get() || YBOT_URL()
             const parts = src.split("/")
             parts.pop()
             let url = parts.join("/") + "/"
@@ -256,7 +256,7 @@ export default class Dummy extends Model implements IDummy {
     }
     public override set resize(val) {}
 
-    private srcState = new Reactive(YBOT_URL())
+    private srcState = new Reactive<string | undefined>(undefined)
     public override get src() {
         return this.srcState.get()
     }

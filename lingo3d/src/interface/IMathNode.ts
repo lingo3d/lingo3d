@@ -5,7 +5,6 @@ import IAppendable, {
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
-import { nullableDefault } from "./utils/NullableDefault"
 
 export default interface IMathNode extends IAppendable {
     expression: Nullable<string>
@@ -18,5 +17,5 @@ export const mathNodeSchema: Required<ExtractProps<IMathNode>> = {
 
 export const mathNodeDefaults = extendDefaults<IMathNode>(
     [appendableDefaults],
-    { expression: nullableDefault("") }
+    { expression: undefined }
 )

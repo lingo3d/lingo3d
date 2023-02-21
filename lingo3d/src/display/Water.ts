@@ -30,7 +30,7 @@ export default class Water extends VisibleObjectManager implements IWater {
         this.shapeState.set(val)
     }
 
-    private normalMapState = new Reactive(WATERNORMALS_URL())
+    private normalMapState = new Reactive<string | undefined>(undefined)
     public get normalMap() {
         return this.normalMapState.get()
     }
@@ -61,8 +61,8 @@ export default class Water extends VisibleObjectManager implements IWater {
 
         import("three/examples/jsm/objects/Water").then(({ Water }) => {
             this.createEffect(() => {
-                const normalMap = this.normalMapState.get()
-                if (!normalMap) return
+                const normalMap =
+                    this.normalMapState.get() || WATERNORMALS_URL()
 
                 const isPlane = this.shapeState.get() === "plane"
                 const waterGeometry = isPlane ? planeGeometry : sphereGeometry

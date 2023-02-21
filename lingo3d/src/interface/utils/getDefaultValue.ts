@@ -1,4 +1,3 @@
-import { isLazy } from "@lincode/utils"
 import Appendable from "../../api/core/Appendable"
 import DefaultMethod from "./DefaultMethod"
 import Defaults from "./Defaults"
@@ -8,9 +7,6 @@ import NullableDefault from "./NullableDefault"
 export type FunctionPtr = [
     NullableCallback<any> | DefaultMethod<any> | undefined
 ]
-
-const readLazy = <T>(val: T | (() => T)): T =>
-    typeof val === "function" && isLazy(val) ? val() : val
 
 const getDefaultValue = (
     defaults: Defaults<any>,
@@ -26,7 +22,7 @@ const getDefaultValue = (
     )
         return runtimeManager.runtimeDefaults[key]
 
-    const result = readLazy(defaults[key])
+    const result = defaults[key]
     if (result instanceof NullableDefault)
         return fillNullableDefault ? result.value : undefined
     if (result instanceof NullableCallback) {
