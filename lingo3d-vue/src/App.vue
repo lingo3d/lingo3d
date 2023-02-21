@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import { LingoEditor, World, Torus, SpotLight, Model, Reflector, Setup, setAssetsPath } from "."
-
-console.log("here")
-setAssetsPath("asdfkjhagsdfkjahsgd")
-
+import {
+  LingoEditor,
+  World,
+  Torus,
+  SpotLight,
+  Model,
+  Reflector,
+  Setup
+} from "."
 </script>
 
 <template>
