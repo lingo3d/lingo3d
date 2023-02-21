@@ -89,10 +89,9 @@ import { onBeforeRender } from "./events/onBeforeRender"
 import { Point3d, Point } from "@lincode/math"
 import clientToWorld from "./display/utils/clientToWorld"
 
-export type {
-    SimpleMouseEvent,
-    LingoMouseEvent as MouseEvent
-} from "./interface/IMouse"
+import { SimpleMouseEvent, LingoMouseEvent } from "./interface/IMouse"
+import { LingoKeyboardEvent } from "./interface/IKeyboard"
+import { HitEvent } from "./interface/IVisible"
 
 export {
     Cube,
@@ -174,5 +173,9 @@ export {
     onBeforeRender,
     Point3d,
     Point,
-    clientToWorld
+    clientToWorld,
+    SimpleMouseEvent,
+    LingoMouseEvent,
+    LingoKeyboardEvent,
+    HitEvent
 }

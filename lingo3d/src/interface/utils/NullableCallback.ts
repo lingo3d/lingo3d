@@ -1,10 +1,9 @@
 import { forceGet } from "@lincode/utils"
 import { nanoid } from "nanoid"
-import MeshAppendable from "../../api/core/MeshAppendable"
+import { HitEvent } from "../IVisible"
 
 export const nullableCallbackVoidParam = nanoid() as any
-export const nullableCallbackMeshAppendableParam =
-    nanoid() as any as MeshAppendable
+export const nullableCallbackHitEventParam = nanoid() as any as HitEvent
 
 export const nullableCallbackParams = new Set<any>()
 

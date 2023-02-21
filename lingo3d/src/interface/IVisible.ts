@@ -1,3 +1,4 @@
+import { Point3d } from "@lincode/math"
 import MeshAppendable from "../api/core/MeshAppendable"
 import { lingoMouseEvent, LingoMouseEvent } from "./IMouse"
 import { extendDefaults } from "./utils/Defaults"
@@ -5,9 +6,17 @@ import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import {
     nullableCallback,
-    nullableCallbackMeshAppendableParam
+    nullableCallbackHitEventParam
 } from "./utils/NullableCallback"
 import { nullableDefault } from "./utils/NullableDefault"
+
+export class HitEvent {
+    public constructor(
+        public target: MeshAppendable,
+        public point?: Point3d,
+        public normal?: Point3d
+    ) {}
+}
 
 export default interface IVisible {
     bloom: boolean
@@ -25,9 +34,9 @@ export default interface IVisible {
     onMouseOver: Nullable<(e: LingoMouseEvent) => void>
     onMouseOut: Nullable<(e: LingoMouseEvent) => void>
     onMouseMove: Nullable<(e: LingoMouseEvent) => void>
-    onHit: Nullable<(instance: MeshAppendable) => void>
-    onHitStart: Nullable<(instance: MeshAppendable) => void>
-    onHitEnd: Nullable<(instance: MeshAppendable) => void>
+    onHit: Nullable<(e: HitEvent) => void>
+    onHitStart: Nullable<(e: HitEvent) => void>
+    onHitEnd: Nullable<(e: HitEvent) => void>
 
     hitTarget: Nullable<
         string | Array<string> | MeshAppendable | Array<MeshAppendable>
@@ -75,7 +84,7 @@ export const visibleDefaults = extendDefaults<IVisible>([], {
     onMouseOver: nullableCallback(lingoMouseEvent),
     onMouseOut: nullableCallback(lingoMouseEvent),
     onMouseMove: nullableCallback(lingoMouseEvent),
-    onHit: nullableCallback(nullableCallbackMeshAppendableParam),
-    onHitStart: nullableCallback(nullableCallbackMeshAppendableParam),
-    onHitEnd: nullableCallback(nullableCallbackMeshAppendableParam)
+    onHit: nullableCallback(nullableCallbackHitEventParam),
+    onHitStart: nullableCallback(nullableCallbackHitEventParam),
+    onHitEnd: nullableCallback(nullableCallbackHitEventParam)
 })

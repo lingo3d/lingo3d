@@ -12,7 +12,7 @@ import {
     deleteSelectiveBloom
 } from "../../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import { LingoMouseEvent } from "../../../interface/IMouse"
-import IVisible from "../../../interface/IVisible"
+import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import renderSystem from "../../../utils/renderSystem"
@@ -55,14 +55,14 @@ const [addHitTestSystem, deleteHitTestSystem] = renderSystem(
             if (manager.hitTest(target)) {
                 if (!cache.has(target)) {
                     cache.add(target)
-                    manager.onHitStart?.(target)
+                    manager.onHitStart?.(new HitEvent(target))
                 }
-                manager.onHit?.(target)
+                manager.onHit?.(new HitEvent(target))
                 continue
             }
             if (!cache.has(target)) continue
             cache.delete(target)
-            manager.onHitEnd?.(target)
+            manager.onHitEnd?.(new HitEvent(target))
         }
     }
 )
@@ -271,7 +271,7 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         )
     }
 
-    public onHit: Nullable<(instance: MeshAppendable) => void>
-    public onHitStart: Nullable<(instance: MeshAppendable) => void>
-    public onHitEnd: Nullable<(instance: MeshAppendable) => void>
+    public onHit: Nullable<(instance: HitEvent) => void>
+    public onHitStart: Nullable<(instance: HitEvent) => void>
+    public onHitEnd: Nullable<(instance: HitEvent) => void>
 }
