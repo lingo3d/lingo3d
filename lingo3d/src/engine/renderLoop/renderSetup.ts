@@ -45,6 +45,7 @@ export const overlayContainer = createElement<HTMLDivElement>(
 )
 container.appendChild(uiContainer)
 container.appendChild(overlayContainer)
+container.addEventListener("touchstart", (e) => e.preventDefault())
 getSplitView((val) => {
     container.style.height = val ? "50%" : "100%"
     uiContainer.style.top = val ? "100%" : "0px"

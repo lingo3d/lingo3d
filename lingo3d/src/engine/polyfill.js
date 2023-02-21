@@ -1,8 +1,7 @@
 import structuredClone from "@ungap/structured-clone"
-import unsafeSetValue from "../utils/unsafeSetValue"
 
 if (!("structuredClone" in window))
-    unsafeSetValue(window, "structuredClone", structuredClone)
+    window.structuredClone = structuredClone
 
 function at(n) {
     // ToInteger() abstract op
