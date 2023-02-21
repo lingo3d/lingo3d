@@ -27,7 +27,7 @@ const setVisible = (target: MeshAppendable, visible: boolean) =>
 const [addCameraSystem, deleteCameraSystem] = renderSystemWithData(
     (
         self: ThirdPersonCamera,
-        data: { found: MeshAppendable; tooClose: boolean }
+        data: { found: MeshAppendable; tooClose: boolean; lerpCount: number }
     ) => {
         const cam = self.camera
 
@@ -45,15 +45,18 @@ const [addCameraSystem, deleteCameraSystem] = renderSystemWithData(
             managerActorPtrMap.get(data.found)
         )
         if (pxHit) {
-            pxHit.position.y += 0.1
             cam.position.lerp(pxHit.position, fpsAlpha(0.2))
+            data.lerpCount = 30
+        } else if (data.lerpCount) {
+            cam.position.lerp(position, fpsAlpha(0.5))
+            data.lerpCount--
         } else cam.position.copy(position)
 
         cam.quaternion.copy(getWorldQuaternion(self.object3d))
 
         const tooClose = getEditorHelper()
             ? false
-            : cam.position.distanceTo(origin) < 1
+            : cam.position.distanceTo(origin) < 0.8
         tooClose !== data.tooClose && setVisible(data.found, !tooClose)
         data.tooClose = tooClose
     }
@@ -81,7 +84,7 @@ export default class ThirdPersonCamera
                 }
             }
             setVisible(found, true)
-            addCameraSystem(this, { found, tooClose: false })
+            addCameraSystem(this, { found, tooClose: false, lerpCount: 0 })
             return () => {
                 deleteCameraSystem(this)
             }
