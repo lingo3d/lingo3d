@@ -137,4 +137,14 @@ export default class CharacterCamera
     }
 
     public lockTargetRotation: LockTargetRotationValue = true
+
+    public override append(object: MeshAppendable) {
+        this.appendNode(object)
+        object.outerObject3d.parent !== scene &&
+            scene.attach(object.outerObject3d)
+    }
+
+    public override attach(object: MeshAppendable) {
+        this.append(object)
+    }
 }

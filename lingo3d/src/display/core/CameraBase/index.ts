@@ -130,16 +130,6 @@ export default abstract class CameraBase<
         )
     }
 
-    public override append(object: MeshAppendable) {
-        this.appendNode(object)
-        this.camera.add(object.outerObject3d)
-    }
-
-    public override attach(object: MeshAppendable) {
-        this.appendNode(object)
-        this.camera.attach(object.outerObject3d)
-    }
-
     protected orbitMode?: boolean
 
     private _gyrate(movementX: number, movementY: number, inner?: boolean) {
