@@ -215,7 +215,7 @@ const clearControllerContactMapSystem = throttleSystem(
         )
         //todo: bind the following
         cookingParams.meshCookingHint =
-            _emscripten_enum_PxMeshCookingHintEnum_eCOOKING_PERFORMANCE
+            _emscripten_enum_PxMeshCookingHintEnum_eCOOKING_PERFORMANCE()
         return Px.CreateCooking(version, foundation, cookingParams)
     })
 
