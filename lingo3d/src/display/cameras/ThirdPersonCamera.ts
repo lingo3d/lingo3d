@@ -17,9 +17,11 @@ import getWorldQuaternion from "../utils/getWorldQuaternion"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 import { getEditorHelper } from "../../states/useEditorHelper"
+import { getFps } from "../../states/useFps"
 import renderSystemWithData from "../../utils/renderSystemWithData"
 import fpsAlpha from "../utils/fpsAlpha"
 import { vector3_ } from "../utils/reusables"
+import { mapRange } from "@lincode/math"
 
 const setVisible = (target: MeshAppendable, visible: boolean) =>
     "visible" in target && (target.visible = visible)
@@ -46,11 +48,14 @@ const [addCameraSystem, deleteCameraSystem] = renderSystemWithData(
         )
         if (pxHit) {
             cam.position.lerp(pxHit.position, fpsAlpha(0.2))
-            data.lerpCount = 30
-        } else if (data.lerpCount) {
-            cam.position.lerp(position, fpsAlpha(0.5))
-            data.lerpCount--
-        } else cam.position.copy(position)
+            data.lerpCount = getFps()
+        } else {
+            cam.position.lerp(
+                position,
+                fpsAlpha(mapRange(data.lerpCount, getFps(), 0, 0.2, 1))
+            )
+            if (data.lerpCount) data.lerpCount--
+        }
 
         cam.quaternion.copy(getWorldQuaternion(self.object3d))
 
