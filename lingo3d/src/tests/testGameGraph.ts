@@ -7,5 +7,5 @@ const dummy = new Dummy()
 
 const joystick = new Joystick()
 
-const mathnode = new MathNode()
-mathnode.expression = "hello.world = 3"
+// const mathnode = new MathNode()
+// mathnode.expression = "hello.world = 3"

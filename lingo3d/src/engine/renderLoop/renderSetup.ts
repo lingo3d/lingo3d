@@ -7,12 +7,13 @@ import { getRenderer } from "../../states/useRenderer"
 import { getPBR } from "../../states/usePBR"
 import { VRButton } from "./VRButton"
 import { getAutoMount } from "../../states/useAutoMount"
-import { throttleTrailing } from "@lincode/utils"
+import { debounce } from "@lincode/utils"
 import { getPixelRatio } from "../../states/usePixelRatio"
 import createElement from "../../utils/createElement"
 import { getUILayer } from "../../states/useUILayer"
 import { getSplitView } from "../../states/useSplitView"
 import { getTimelinePaused } from "../../states/useTimelinePaused"
+import { emitResize } from "../../events/onResize"
 
 const style = createElement(`
     <style>
@@ -64,11 +65,12 @@ const useResize = (el: Element) => {
                     ? [window.innerWidth, window.innerHeight]
                     : [el.clientWidth, el.clientHeight]
             )
+            emitResize()
         }
         handleResize()
 
         const resizeObserver = new ResizeObserver(
-            throttleTrailing(handleResize, 100)
+            debounce(handleResize, 100, "trailing")
         )
         resizeObserver.observe(container)
 
