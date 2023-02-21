@@ -3,7 +3,8 @@ import { lazy } from "@lincode/utils"
 let assetsPath =
     "http://ec2-69-230-242-89.cn-northwest-1.compute.amazonaws.com.cn:8080/"
 
-export const setAssetsPath = (val: string) => (assetsPath = val)
+export const setAssetsPath = (val: string) =>
+    (assetsPath = val.at(-1) === "/" ? val : val + "/")
 
 const STATIC_URL = lazy(() => assetsPath)
 
