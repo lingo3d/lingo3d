@@ -51,6 +51,7 @@ export type GameObjectType =
     | "timelineAudio"
     | "gameGraph"
     | "connector"
+    | "mathNode"
 
 type VersionNode = {
     type: "lingo3d"

@@ -1,9 +1,14 @@
 import Appendable from "../api/core/Appendable"
+import IMathNode, {
+    mathNodeDefaults,
+    mathNodeSchema
+} from "../interface/IMathNode"
 
-const alphabets = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-const numbers = "0123456789"
+export default class MathNode extends Appendable implements IMathNode {
+    public static componentName = "mathNode"
+    public static defaults = mathNodeDefaults
+    public static schema = mathNodeSchema
 
-export default class MathNode extends Appendable {
     private _expression?: string
     public get expression() {
         return this._expression
