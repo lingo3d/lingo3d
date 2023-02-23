@@ -318,8 +318,6 @@ export default class MathNode extends Appendable implements IMathNode {
     protected runtimeSchema?: Record<string, any>
     protected runtimeIncludeKeys?: Array<string>
 
-    public refreshState = new Reactive({})
-
     private compiled?: string
     private _expression?: string
     public get expression() {
@@ -345,7 +343,6 @@ export default class MathNode extends Appendable implements IMathNode {
             varTokens.map((token) => [token.value, Number])
         )
         this.runtimeIncludeKeys = varTokens.map((token) => token.value)
-        this.refreshState.set({})
     }
 
     public evaluate(scope?: Record<string, number>) {}
