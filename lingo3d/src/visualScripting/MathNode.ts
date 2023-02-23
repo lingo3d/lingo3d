@@ -325,6 +325,11 @@ export default class MathNode extends Appendable implements IMathNode {
         this.runtimeDefaults = runtimeDefaults
         this.runtimeSchema = runtimeSchema
         this.runtimeIncludeKeys = runtimeIncludeKeys
+        if (runtimeSchema) {
+            runtimeSchema.output = Number
+            runtimeDefaults!.output = 0
+            runtimeIncludeKeys!.push("output")
+        }
         this._propertyChangedEvent?.emit("runtimeSchema")
     }
 
