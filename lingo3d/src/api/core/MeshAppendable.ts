@@ -54,10 +54,12 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public override get name() {
-        return this.outerObject3d.name
+        return super.name
     }
     public override set name(val) {
-        this.outerObject3d.name = PropertyBinding.sanitizeNodeName(val)
+        super.name = this.outerObject3d.name = PropertyBinding.sanitizeNodeName(
+            val ?? ""
+        )
     }
 
     protected getRay() {

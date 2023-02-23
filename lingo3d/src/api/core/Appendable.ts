@@ -1,3 +1,4 @@
+import { Events } from "@lincode/events"
 import { Cancellable, Disposable } from "@lincode/promiselikes"
 import { GetGlobalState, createEffect, Reactive } from "@lincode/reactivity"
 import { forceGetInstance } from "@lincode/utils"
@@ -134,12 +135,18 @@ export default class Appendable extends Disposable implements IAppendable {
         return false
     }
 
+    protected _propertyChangedEvent?: Events<any, "name" | "runtimeSchema">
+    public get propertyChangedEvent() {
+        return (this._propertyChangedEvent ??= new Events())
+    }
+
     private _name?: string
     public get name() {
         return this._name
     }
     public set name(val) {
         this._name = val
+        this._propertyChangedEvent?.emit("name", val)
     }
 
     protected _id?: string

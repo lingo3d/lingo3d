@@ -343,6 +343,7 @@ export default class MathNode extends Appendable implements IMathNode {
             varTokens.map((token) => [token.value, Number])
         )
         this.runtimeIncludeKeys = varTokens.map((token) => token.value)
+        this._propertyChangedEvent?.emit("runtimeSchema", this.runtimeSchema)
     }
 
     public evaluate(scope?: Record<string, number>) {}
