@@ -315,9 +315,12 @@ export default class MathNode extends Appendable implements IMathNode {
     public static schema = mathNodeSchema
     public static includeKeys = ["expression"]
 
+    public runtimeSchema?: Record<string, any>
+
+    public refreshState = new Reactive({})
+
     private compiled?: string
     private _expression?: string
-    public varState = new Reactive<Array<string>>([])
     public get expression() {
         return this._expression
     }
@@ -334,7 +337,13 @@ export default class MathNode extends Appendable implements IMathNode {
         }
         const varTokens: Array<Token> = []
         this.compiled = compile(tokenList, varTokens)
-        this.varState.set(varTokens.map((token) => token.value))
+        this.runtimeDefaults = Object.fromEntries(
+            varTokens.map((token) => [token.value, 0])
+        )
+        this.runtimeSchema = Object.fromEntries(
+            varTokens.map((token) => [token.value, Number])
+        )
+        this.refreshState.set({})
     }
 
     public evaluate(scope?: Record<string, number>) {}
