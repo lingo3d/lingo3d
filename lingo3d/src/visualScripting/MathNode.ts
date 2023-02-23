@@ -1,5 +1,4 @@
 import { mapRange, Point3d } from "@lincode/math"
-import { Reactive } from "@lincode/reactivity"
 import { random } from "@lincode/utils"
 import Appendable from "../api/core/Appendable"
 import IMathNode, {
@@ -343,7 +342,7 @@ export default class MathNode extends Appendable implements IMathNode {
             varTokens.map((token) => [token.value, Number])
         )
         this.runtimeIncludeKeys = varTokens.map((token) => token.value)
-        this._propertyChangedEvent?.emit("runtimeSchema", this.runtimeSchema)
+        this._propertyChangedEvent?.emit("runtimeSchema")
     }
 
     public evaluate(scope?: Record<string, number>) {}

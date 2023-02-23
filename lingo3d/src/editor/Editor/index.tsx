@@ -41,6 +41,7 @@ const Editor = () => {
 
     const presets = useSyncState(getEditorPresets)
     const [includeKeys, setIncludeKeys] = useState<Array<string>>()
+    const [refresh, setRefresh] = useState({})
 
     useLayoutEffect(() => {
         if (!pane || getMultipleSelectionTargets()[0].size) return
@@ -54,11 +55,23 @@ const Editor = () => {
                 handle.cancel()
             }
         }
-        const handle = addTargetInputs(pane, selectionTarget, includeKeys)
+        const handle0 = addTargetInputs(pane, selectionTarget, includeKeys)
+        const handle1 = selectionTarget.propertyChangedEvent.on(
+            "runtimeSchema",
+            () => setRefresh({})
+        )
         return () => {
-            handle.cancel()
+            handle0.cancel()
+            handle1.cancel()
         }
-    }, [selectionTarget, selectedSignal.value, presets, includeKeys, pane])
+    }, [
+        selectionTarget,
+        selectedSignal.value,
+        presets,
+        includeKeys,
+        pane,
+        refresh
+    ])
 
     return (
         <div
