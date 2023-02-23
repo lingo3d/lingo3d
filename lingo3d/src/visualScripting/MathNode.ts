@@ -317,6 +317,17 @@ export default class MathNode extends Appendable implements IMathNode {
     protected runtimeSchema?: Record<string, any>
     protected runtimeIncludeKeys?: Array<string>
 
+    private setRuntimeData(
+        runtimeDefaults?: Record<string, any>,
+        runtimeSchema?: Record<string, any>,
+        runtimeIncludeKeys?: Array<string>
+    ) {
+        this.runtimeDefaults = runtimeDefaults
+        this.runtimeSchema = runtimeSchema
+        this.runtimeIncludeKeys = runtimeIncludeKeys
+        this._propertyChangedEvent?.emit("runtimeSchema")
+    }
+
     private compiled?: string
     private _expression?: string
     public get expression() {
@@ -324,25 +335,25 @@ export default class MathNode extends Appendable implements IMathNode {
     }
     public set expression(val) {
         this._expression = val
-        if (!val) return
-
+        if (!val) {
+            this.setRuntimeData()
+            return
+        }
         const tokenList = new TokenList()
         try {
             extractParenthesisTree(tokenize(val, tokenList))
         } catch (err) {
+            this.setRuntimeData()
             console.warn(err)
             return
         }
         const varTokens: Array<Token> = []
         this.compiled = compile(tokenList, varTokens)
-        this.runtimeDefaults = Object.fromEntries(
-            varTokens.map((token) => [token.value, 0])
+        this.setRuntimeData(
+            Object.fromEntries(varTokens.map((token) => [token.value, 0])),
+            Object.fromEntries(varTokens.map((token) => [token.value, Number])),
+            varTokens.map((token) => token.value)
         )
-        this.runtimeSchema = Object.fromEntries(
-            varTokens.map((token) => [token.value, Number])
-        )
-        this.runtimeIncludeKeys = varTokens.map((token) => token.value)
-        this._propertyChangedEvent?.emit("runtimeSchema")
     }
 
     public evaluate(scope?: Record<string, number>) {}
