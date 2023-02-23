@@ -22,6 +22,7 @@ import { nullableCallbackParams } from "../../interface/utils/NullableCallback"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
+        if (!value) return value
         if (value === "true" || value === "false")
             return value === "true" ? true : false
         const num = Number(value)
