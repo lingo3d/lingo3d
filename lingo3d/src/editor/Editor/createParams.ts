@@ -22,11 +22,10 @@ const isObject = (val: any): val is object =>
 
 export default (
     manager: Appendable,
-    schema: any,
-    defaults: any,
     includeKeys: Array<string> | undefined,
     skipFunctions: boolean
 ) => {
+    const { schema, defaults } = unsafeGetValue(manager, "constructor")
     const params: Record<string, any> = {}
     if (!schema) return [params, manager] as const
 

@@ -15,14 +15,12 @@ export default (
     connection?: Connection
 ) => {
     const handle = new Cancellable()
-    const { schema, defaults, componentName } = unsafeGetValue(
+    const { defaults, componentName } = unsafeGetValue(
         selectionTarget,
         "constructor"
     )
     const [params, manager] = createParams(
         selectionTarget,
-        schema,
-        defaults,
         includeKeys,
         !connection
     )

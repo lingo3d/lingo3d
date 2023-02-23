@@ -1,5 +1,5 @@
 import { Pane } from "./tweakpane"
-import { setupSchema, setupDefaults } from "../../interface/ISetup"
+import { setupDefaults } from "../../interface/ISetup"
 import addInputs from "./addInputs"
 import createParams from "./createParams"
 import splitObject from "./splitObject"
@@ -12,13 +12,7 @@ export default (
     includeKeys: Array<string> | undefined
 ) => {
     const handle = new Cancellable()
-    const [params, manager] = createParams(
-        targetSetup,
-        setupSchema,
-        setupDefaults,
-        includeKeys,
-        true
-    )
+    const [params, manager] = createParams(targetSetup, includeKeys, true)
     const [editorParams, editorRest] = splitObject(params, [
         "gridHelper",
         "gridHelperSize",
