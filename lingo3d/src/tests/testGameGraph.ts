@@ -10,4 +10,4 @@ setAssetsPath("assets")
 const joystick = new Joystick()
 
 const mathnode = new MathNode()
-mathnode.expression = "1--1"
+mathnode.expression = "radToDeg(acos(3.14 / 2))"
