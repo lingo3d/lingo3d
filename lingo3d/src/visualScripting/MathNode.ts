@@ -1,4 +1,5 @@
 import { mapRange, Point3d } from "@lincode/math"
+import { Reactive } from "@lincode/reactivity"
 import { random } from "@lincode/utils"
 import Appendable from "../api/core/Appendable"
 import IMathNode, {
@@ -296,13 +297,14 @@ const extractParenthesisTree = (
     }
 }
 
-const compile = (tokenList: TokenList) => {
+const compile = (tokenList: TokenList, varTokens: Array<Token>) => {
     let result = ""
     for (const token of tokenList) {
         if (token.type === "sign") result += " "
         else if (token.type === "function") result += "functions."
+        else if (token.type === "text") varTokens.push(token)
         result += token.value
-        if (token.linked) result += compile(token.linked)
+        if (token.linked) result += compile(token.linked, varTokens)
     }
     return result
 }
@@ -315,6 +317,7 @@ export default class MathNode extends Appendable implements IMathNode {
 
     private compiled?: string
     private _expression?: string
+    public varState = new Reactive<Array<string>>([])
     public get expression() {
         return this._expression
     }
@@ -329,10 +332,10 @@ export default class MathNode extends Appendable implements IMathNode {
             console.warn(err)
             return
         }
-        this.compiled = compile(tokenList)
-        console.log(this.compiled)
+        const varTokens: Array<Token> = []
+        this.compiled = compile(tokenList, varTokens)
+        this.varState.set(varTokens.map((token) => token.value))
     }
 
-    public evaluate(scope?: Record<string, number>) {
-    }
+    public evaluate(scope?: Record<string, number>) {}
 }
