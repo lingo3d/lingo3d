@@ -13,7 +13,6 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { DEBUG, EDITOR_WIDTH } from "../../globals"
 import useInitEditor from "../hooks/useInitEditor"
-import setupStruct from "../../engine/setupStruct"
 import { getEditorPresets } from "../../states/useEditorPresets"
 import addTargetInputs from "./addTargetInputs"
 import SearchBox from "../component/SearchBox"
@@ -50,11 +49,7 @@ const Editor = () => {
             !selectionTarget ||
             selectionTarget instanceof Setup
         ) {
-            const handle = addSetupInputs(
-                pane,
-                setupStruct as Setup,
-                includeKeys
-            )
+            const handle = addSetupInputs(pane, defaultSetup, includeKeys)
             return () => {
                 handle.cancel()
             }
