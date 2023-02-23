@@ -10,11 +10,16 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import { PassthroughCallback } from "./addInputs"
 import { extendFunction, omitFunction } from "@lincode/utils"
 
-const filterSchema = (schema: any, includeKeys: Array<string> | undefined) => {
-    if (!includeKeys) return schema
-    const _schema: any = {}
-    for (const key of includeKeys) _schema[key] = schema[key]
-    return _schema
+const filterSchema = (
+    schema: Record<string, any>,
+    runtimeSchema: Record<string, any> | undefined,
+    includeKeys: Array<string> | undefined
+) => {
+    if (!includeKeys) return { ...schema, ...runtimeSchema }
+    const result: any = {}
+    for (const key of includeKeys)
+        result[key] = schema[key] ?? runtimeSchema?.[key]
+    return result
 }
 
 const isObject = (val: any): val is object =>
@@ -32,7 +37,13 @@ export default (
     const options = defaultsOptionsMap.get(defaults)
     const schemaKeyParamMap = new Map<string, object>()
 
-    for (const schemaKey of Object.keys(filterSchema(schema, includeKeys))) {
+    for (const schemaKey of Object.keys(
+        filterSchema(
+            schema,
+            unsafeGetValue(manager, "runtimeSchema"),
+            includeKeys
+        )
+    )) {
         if (nonEditorSchemaSet.has(schemaKey)) continue
 
         const functionPtr: FunctionPtr = [undefined]

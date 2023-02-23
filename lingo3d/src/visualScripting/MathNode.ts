@@ -315,7 +315,8 @@ export default class MathNode extends Appendable implements IMathNode {
     public static schema = mathNodeSchema
     public static includeKeys = ["expression"]
 
-    public runtimeSchema?: Record<string, any>
+    protected runtimeSchema?: Record<string, any>
+    protected runtimeIncludeKeys?: Array<string>
 
     public refreshState = new Reactive({})
 
@@ -343,6 +344,7 @@ export default class MathNode extends Appendable implements IMathNode {
         this.runtimeSchema = Object.fromEntries(
             varTokens.map((token) => [token.value, Number])
         )
+        this.runtimeIncludeKeys = varTokens.map((token) => token.value)
         this.refreshState.set({})
     }
 

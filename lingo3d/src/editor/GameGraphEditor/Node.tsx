@@ -77,15 +77,20 @@ const Node = memo(
         useEffect(() => {
             if (!manager || !pane) return
             let size = 0
-
-            const forceIncludeKeys =
-                unsafeGetValue(manager.constructor, "includeKeys") ?? []
-
             const handle = addTargetInputs(
                 pane,
                 manager,
                 includeKeys
-                    ? [...forceIncludeKeys, ...includeKeys, ...connectedKeys]
+                    ? [
+                          ...(unsafeGetValue(
+                              manager.constructor,
+                              "includeKeys"
+                          ) ?? []),
+                          ...(unsafeGetValue(manager, "runtimeIncludeKeys") ??
+                              []),
+                          ...includeKeys,
+                          ...connectedKeys
+                      ]
                     : undefined,
                 {
                     onDragStart: (e) => {
