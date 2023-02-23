@@ -1,5 +1,5 @@
 import { mapRange, Point3d } from "@lincode/math"
-import { assert, random } from "@lincode/utils"
+import { random } from "@lincode/utils"
 import Appendable from "../api/core/Appendable"
 import IMathNode, {
     mathNodeDefaults,
@@ -216,7 +216,6 @@ const tokenize = (
     let typeOld: Type | undefined
     let tokenOld: Token | undefined
     let tokenValue = ""
-    let expectNumberOrTextOrParenthesis = false
     let openParentheses = 0
     const openParenthesisStack: Array<Token> = []
     for (const char of val + "(") {
@@ -246,6 +245,16 @@ const tokenize = (
                 )
                     throw new Error(`Unexpected token: ${tokenValue}`)
 
+                if (
+                    tokenOld?.type === "sign" &&
+                    !(
+                        token.type === "number" ||
+                        token.type === "parenthesis" ||
+                        token.type === "text"
+                    )
+                )
+                    throw new Error(`Unexpected token: ${tokenValue}`)
+
                 if (token.type === "parenthesis")
                     if (token.value === "(") {
                         if (tokenOld?.type === "number")
@@ -265,20 +274,15 @@ const tokenize = (
                             token
                         ])
                     }
-
-                if (expectNumberOrTextOrParenthesis) {
-                    if (
-                        token.type !== "number" &&
-                        token.type !== "text" &&
-                        token.value !== "("
-                    )
-                        throw new Error(`Expected number, got ${token.type}`)
-                    tokenOld!.type = "sign"
-                }
-                expectNumberOrTextOrParenthesis =
+                if (
                     token.type === "operator" &&
-                    tokenOld?.type === "operator" &&
-                    isPlusOrMinus(token.value)
+                    isPlusOrMinus(token.value) &&
+                    (!tokenOld ||
+                        tokenOld.type === "parenthesis" ||
+                        tokenOld.type === "operator")
+                )
+                    token.type = "sign"
+
                 if (tokenOld) tokenOld.next = token
                 tokenOld = token
                 tokenList.first ??= token
@@ -290,12 +294,15 @@ const tokenize = (
     if (openParentheses !== 0) throw new Error("Unbalanced parentheses")
 }
 
-// const traverse = (tokenList: TokenList) => {
-//     for (const token of tokenList) {
-//         console.log(token.value)
-//         if (token.linked) traverse(token.linked)
-//     }
-// }
+const compile = (tokenList: TokenList) => {
+    let result = ""
+    for (const token of tokenList) {
+        if (token.type === "sign") result += " "
+        result += token.value
+        if (token.linked) result += compile(token.linked)
+    }
+    return result
+}
 
 export default class MathNode extends Appendable implements IMathNode {
     public static componentName = "mathNode"
@@ -319,20 +326,21 @@ export default class MathNode extends Appendable implements IMathNode {
             console.warn(err)
             return
         }
-        openCloseParenthesisTokens.reverse()
-        for (const [
-            openParenthesisToken,
-            closeParenthesisToken
-        ] of openCloseParenthesisTokens) {
-            if (openParenthesisToken.next !== closeParenthesisToken)
-                openParenthesisToken.linked = new TokenList(
-                    openParenthesisToken.next
-                )
-            openParenthesisToken.next = closeParenthesisToken.next
-            closeParenthesisToken.prev = undefined
-            closeParenthesisToken.next = undefined
-        }
-        // traverse(tokenList)
+        // for (const [
+        //     openParenthesisToken,
+        //     closeParenthesisToken
+        // ] of openCloseParenthesisTokens) {
+        //     const { next } = closeParenthesisToken
+        //     closeParenthesisToken.prev = undefined
+        //     closeParenthesisToken.next = undefined
+        //     if (openParenthesisToken.next !== closeParenthesisToken)
+        //         openParenthesisToken.linked = new TokenList(
+        //             openParenthesisToken.next
+        //         )
+        //     openParenthesisToken.next = next
+        // }
+        console.log([...tokenList])
+        // console.log(compile(tokenList))
     }
 
     public evaluate(scope?: Record<string, number>) {}

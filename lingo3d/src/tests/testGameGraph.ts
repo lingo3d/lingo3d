@@ -5,9 +5,9 @@ import MathNode from "../visualScripting/MathNode"
 
 setAssetsPath("assets")
 
-const dummy = new Dummy()
+// const dummy = new Dummy()
 
 const joystick = new Joystick()
 
 const mathnode = new MathNode()
-mathnode.expression = "sin(x * cos(y))"
+mathnode.expression = "1--1"
