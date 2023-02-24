@@ -22,7 +22,7 @@ const getPropertyDescriptor = (
     return getPropertyDescriptor(Object.getPrototypeOf(obj), key, traversed)
 }
 
-export default (manager: Appendable, key: string): Reactive<any> => {
+export default (manager: Record<string, any>, key: string): Reactive<any> => {
     const stateKey = `${key}State`
     let reactive = unsafeGetValue(manager, stateKey)
     if (reactive) return reactive

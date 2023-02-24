@@ -45,8 +45,10 @@ export default class Connector extends Appendable implements IConnector {
                     omitFunction(extended, cb)
                 }
             }
-
-            const fromReactive = getReactive(fromManager, _fromProp)
+            const fromReactive =
+                fromManager.runtimeData && _fromProp in fromManager.runtimeData
+                    ? getReactive(fromManager.runtimeData, _fromProp)
+                    : getReactive(fromManager, _fromProp)
 
             const handle = fromReactive.get((val) =>
                 unsafeSetValue(toManager, _toProp, val)
