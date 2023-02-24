@@ -316,6 +316,7 @@ export default class MathNode extends Appendable implements IMathNode {
 
     protected runtimeSchema?: Record<string, any>
     protected runtimeIncludeKeys?: Array<string>
+    protected runtimeData?: Record<string, any>
 
     private setRuntimeData(
         runtimeDefaults?: Record<string, any>,
@@ -329,7 +330,11 @@ export default class MathNode extends Appendable implements IMathNode {
             runtimeSchema.output = Number
             runtimeDefaults!.output = 0
             runtimeIncludeKeys!.push("output")
-        }
+            this.runtimeData = Object.fromEntries(
+                Object.keys(runtimeSchema).map((key) => [key, 0])
+            )
+            this.runtimeData.output = 0
+        } else this.runtimeData = undefined
         this._propertyChangedEvent?.emit("runtimeSchema")
     }
 
