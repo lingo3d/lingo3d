@@ -333,10 +333,17 @@ export default class MathNode extends Appendable implements IMathNode {
             runtimeSchema.output = Number
             runtimeDefaults!.output = 0
             runtimeIncludeKeys!.push("output")
-            this.runtimeData = Object.fromEntries(
-                Object.keys(runtimeSchema).map((key) => [key, 0])
-            )
-            this.runtimeData.output = 0
+            const runtimeData = (this.runtimeData = { output: 0 })
+            const runtimeValues: Record<string, any> = {}
+            for (const key of Object.keys(runtimeSchema))
+                Object.defineProperty(runtimeData, key, {
+                    get() {
+                        return runtimeValues[key] ?? 0
+                    },
+                    set(value) {
+                        runtimeValues[key] = value
+                    }
+                })
         } else this.runtimeData = undefined
         this._propertyChangedEvent?.emit("runtimeSchema")
     }
