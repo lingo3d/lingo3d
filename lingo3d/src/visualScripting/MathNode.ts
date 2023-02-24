@@ -307,8 +307,11 @@ const compile = (tokenList: TokenList, varTokens: Array<Token>) => {
     let result = ""
     for (const token of tokenList) {
         if (token.type === "sign") result += " "
-        else if (token.type === "function") result += "functions."
-        else if (token.type === "text") varTokens.push(token)
+        else if (token.type === "function") result += "this.functions."
+        else if (token.type === "text") {
+            varTokens.push(token)
+            result += "this.runtimeData."
+        }
         result += token.value
         if (token.linked) result += compile(token.linked, varTokens)
     }
@@ -321,6 +324,8 @@ export default class MathNode extends Appendable implements IMathNode {
     public static schema = mathNodeSchema
     public static includeKeys = ["expression"]
 
+    protected functions = functions
+
     private setRuntimeData(
         runtimeDefaults?: Record<string, any>,
         runtimeSchema?: Record<string, any>,
@@ -330,20 +335,22 @@ export default class MathNode extends Appendable implements IMathNode {
         this.runtimeSchema = runtimeSchema
         this.runtimeIncludeKeys = runtimeIncludeKeys
         if (runtimeSchema) {
-            runtimeSchema.output = Number
-            runtimeDefaults!.output = 0
-            runtimeIncludeKeys!.push("output")
             const runtimeData = (this.runtimeData = { output: 0 })
             const runtimeValues: Record<string, any> = {}
             for (const key of Object.keys(runtimeSchema))
                 Object.defineProperty(runtimeData, key, {
-                    get() {
+                    get: () => {
                         return runtimeValues[key] ?? 0
                     },
-                    set(value) {
+                    set: (value) => {
                         runtimeValues[key] = value
+                        runtimeData.output = eval(this.compiled!)
                     }
                 })
+            runtimeData.output = eval(this.compiled!)
+            runtimeSchema.output = Number
+            runtimeDefaults!.output = 0
+            runtimeIncludeKeys!.push("output")
         } else this.runtimeData = undefined
         this._propertyChangedEvent?.emit("runtimeSchema")
     }

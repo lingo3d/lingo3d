@@ -8,4 +8,4 @@ import MathNode from "../visualScripting/MathNode"
 const joystick = new Joystick()
 
 const mathnode = new MathNode()
-mathnode.expression = "x + y"
+mathnode.expression = "sin(x) + cos(y)"
