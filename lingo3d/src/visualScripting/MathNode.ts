@@ -314,10 +314,6 @@ export default class MathNode extends Appendable implements IMathNode {
     public static schema = mathNodeSchema
     public static includeKeys = ["expression"]
 
-    protected runtimeSchema?: Record<string, any>
-    protected runtimeIncludeKeys?: Array<string>
-    protected runtimeData?: Record<string, any>
-
     private setRuntimeData(
         runtimeDefaults?: Record<string, any>,
         runtimeSchema?: Record<string, any>,
