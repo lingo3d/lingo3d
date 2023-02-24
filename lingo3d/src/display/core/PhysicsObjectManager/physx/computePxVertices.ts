@@ -1,4 +1,4 @@
-import { Object3D, BufferGeometry, Mesh } from "three"
+import { Object3D, BufferGeometry, Mesh, BufferAttribute } from "three"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
 import Loaded from "../../Loaded"
 import { physxPtr } from "./physxPtr"
@@ -31,7 +31,7 @@ export default (manager: MeshAppendable | Loaded): [any, number] => {
 
     let iTotal = 0
     for (const geometry of geometries) {
-        const buffer = geometry.attributes.position
+        const buffer = geometry.attributes.position as BufferAttribute
         const vertices = buffer.array
         for (let i = 0; i < buffer.count; i++) {
             const pxVec3 = vec3Vector.at(iTotal++)

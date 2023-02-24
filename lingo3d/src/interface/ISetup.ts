@@ -28,7 +28,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     exposure: Number,
     shadowResolution: String,
     shadowDistance: String,
-    pbr: Boolean,
     bloom: Boolean,
     bloomIntensity: Number,
     bloomThreshold: Number,
@@ -48,7 +47,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     texture: String,
     color: String
 }
-hideSchema(["antiAlias", "pixelRatio", "gravity", "pbr", "ssaoIntensity"])
+hideSchema(["antiAlias", "pixelRatio", "gravity", "ssaoIntensity"])
 
 export const setupDefaults = extendDefaults<ISetup>(
     [],

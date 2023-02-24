@@ -4,7 +4,6 @@ import { getResolution, setResolution } from "../../states/useResolution"
 import { createEffect, createNestedEffect } from "@lincode/reactivity"
 import { getWebXR } from "../../states/useWebXR"
 import { getRenderer } from "../../states/useRenderer"
-import { getPBR } from "../../states/usePBR"
 import { VRButton } from "./VRButton"
 import { getAutoMount } from "../../states/useAutoMount"
 import { debounce } from "@lincode/utils"
@@ -134,13 +133,6 @@ createEffect(() => {
     renderer.setSize(w, h)
     renderer.setPixelRatio(Math.min(getPixelRatio(), devicePixelRatio))
 }, [getRenderer, getResolution, getPixelRatio])
-
-createEffect(() => {
-    const renderer = getRenderer()
-    if (!renderer) return
-
-    renderer.physicallyCorrectLights = getPBR()
-}, [getRenderer, getPBR])
 
 createEffect(() => {
     const renderer = getRenderer()

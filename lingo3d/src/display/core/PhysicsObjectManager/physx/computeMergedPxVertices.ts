@@ -32,7 +32,7 @@ export default (
     const geometry = BufferGeometryUtils.mergeBufferGeometries(geometries)
     geometry.dispose()
 
-    const buffer = geometry.attributes.position
+    const buffer = geometry.attributes.position as BufferAttribute
     const vertices = buffer.array
 
     const vec3Vector = new Vector_PxVec3(buffer.count)

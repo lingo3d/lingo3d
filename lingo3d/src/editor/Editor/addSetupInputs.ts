@@ -24,8 +24,7 @@ export default (
         "pixelRatio",
         "fps",
         "logarithmicDepth",
-        "uiLayer",
-        "pbr"
+        "uiLayer"
     ])
     addInputs(handle, pane, "renderer", manager, rendererParams)
 

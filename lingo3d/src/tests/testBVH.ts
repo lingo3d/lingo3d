@@ -6,8 +6,6 @@ import Dummy from "../display/Dummy"
 import Cube from "../display/primitives/Cube"
 import { setAssetsPath } from "../api/assetsPath"
 
-setAssetsPath("assets")
-
 const map = new Model()
 map.src = "fairy.glb"
 map.scale = 30

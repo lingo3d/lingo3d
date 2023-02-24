@@ -3,8 +3,6 @@ import Dummy from "../display/Dummy"
 import Joystick from "../ui/Joystick"
 import MathNode from "../visualScripting/MathNode"
 
-setAssetsPath("assets")
-
 // const dummy = new Dummy()
 
 const joystick = new Joystick()

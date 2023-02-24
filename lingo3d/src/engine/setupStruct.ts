@@ -43,7 +43,6 @@ import {
     getOutlineStrength,
     setOutlineStrength
 } from "../states/useOutlineStrength"
-import { getPBR, setPBR } from "../states/usePBR"
 import { getPixelRatio, setPixelRatio } from "../states/usePixelRatio"
 import { getFps, setFps } from "../states/useFps"
 import { getSSR, setSSR } from "../states/useSSR"
@@ -174,13 +173,6 @@ export default {
     },
     set shadowDistance(value) {
         setShadowDistance(value)
-    },
-
-    get pbr() {
-        return getPBR()
-    },
-    set pbr(value) {
-        setPBR(value)
     },
 
     get bokehScale() {
