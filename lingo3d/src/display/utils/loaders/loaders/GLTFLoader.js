@@ -62,6 +62,7 @@ import {
     VectorKeyframeTrack,
     LinearEncoding
 } from "three"
+import { toTrianglesDrawMode } from "three/examples/jsm/utils/BufferGeometryUtils.js"
 import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount
@@ -91,9 +92,9 @@ class GLTFLoader extends Loader {
 
         this.pluginCallbacks = []
 
-        // this.register(function (parser) {
-        //     return new GLTFMaterialsClearcoatExtension(parser)
-        // })
+        this.register(function (parser) {
+            return new GLTFMaterialsClearcoatExtension(parser)
+        })
 
         this.register(function (parser) {
             return new GLTFTextureBasisUExtension(parser)
@@ -101,6 +102,10 @@ class GLTFLoader extends Loader {
 
         this.register(function (parser) {
             return new GLTFTextureWebPExtension(parser)
+        })
+
+        this.register(function (parser) {
+            return new GLTFTextureAVIFExtension(parser)
         })
 
         this.register(function (parser) {
@@ -247,11 +252,12 @@ class GLTFLoader extends Loader {
         let json
         const extensions = {}
         const plugins = {}
+        const textDecoder = new TextDecoder()
 
         if (typeof data === "string") {
             json = JSON.parse(data)
         } else if (data instanceof ArrayBuffer) {
-            const magic = LoaderUtils.decodeText(new Uint8Array(data, 0, 4))
+            const magic = textDecoder.decode(new Uint8Array(data, 0, 4))
 
             if (magic === BINARY_EXTENSION_HEADER_MAGIC) {
                 try {
@@ -266,7 +272,7 @@ class GLTFLoader extends Loader {
                     extensions[EXTENSIONS.KHR_BINARY_GLTF].content
                 )
             } else {
-                json = JSON.parse(LoaderUtils.decodeText(new Uint8Array(data)))
+                json = JSON.parse(textDecoder.decode(data))
             }
         } else {
             json = data
@@ -407,6 +413,7 @@ const EXTENSIONS = {
     KHR_MESH_QUANTIZATION: "KHR_mesh_quantization",
     KHR_MATERIALS_EMISSIVE_STRENGTH: "KHR_materials_emissive_strength",
     EXT_TEXTURE_WEBP: "EXT_texture_webp",
+    EXT_TEXTURE_AVIF: "EXT_texture_avif",
     EXT_MESHOPT_COMPRESSION: "EXT_meshopt_compression",
     EXT_MESH_GPU_INSTANCING: "EXT_mesh_gpu_instancing"
 }
@@ -1197,6 +1204,78 @@ class GLTFTextureWebPExtension {
 }
 
 /**
+ * AVIF Texture Extension
+ *
+ * Specification: https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/EXT_texture_avif
+ */
+class GLTFTextureAVIFExtension {
+    constructor(parser) {
+        this.parser = parser
+        this.name = EXTENSIONS.EXT_TEXTURE_AVIF
+        this.isSupported = null
+    }
+
+    loadTexture(textureIndex) {
+        const name = this.name
+        const parser = this.parser
+        const json = parser.json
+
+        const textureDef = json.textures[textureIndex]
+
+        if (!textureDef.extensions || !textureDef.extensions[name]) {
+            return null
+        }
+
+        const extension = textureDef.extensions[name]
+        const source = json.images[extension.source]
+
+        let loader = parser.textureLoader
+        if (source.uri) {
+            const handler = parser.options.manager.getHandler(source.uri)
+            if (handler !== null) loader = handler
+        }
+
+        return this.detectSupport().then(function (isSupported) {
+            if (isSupported)
+                return parser.loadTextureImage(
+                    textureIndex,
+                    extension.source,
+                    loader
+                )
+
+            if (
+                json.extensionsRequired &&
+                json.extensionsRequired.indexOf(name) >= 0
+            ) {
+                throw new Error(
+                    "GLTFLoader: AVIF required by asset but unsupported."
+                )
+            }
+
+            // Fall back to PNG or JPEG.
+            return parser.loadTexture(textureIndex)
+        })
+    }
+
+    detectSupport() {
+        if (!this.isSupported) {
+            this.isSupported = new Promise(function (resolve) {
+                const image = new Image()
+
+                // Lossy test image.
+                image.src =
+                    "data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAABcAAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAEAAAABAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQAMAAAAABNjb2xybmNseAACAAIABoAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAAB9tZGF0EgAKCBgABogQEDQgMgkQAAAAB8dSLfI="
+                image.onload = image.onerror = function () {
+                    resolve(image.height === 1)
+                }
+            })
+        }
+
+        return this.isSupported
+    }
+}
+
+/**
  * meshopt BufferView Compression Extension
  *
  * Specification: https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/EXT_meshopt_compression
@@ -1427,9 +1506,10 @@ class GLTFBinaryExtension {
         this.body = null
 
         const headerView = new DataView(data, 0, BINARY_EXTENSION_HEADER_LENGTH)
+        const textDecoder = new TextDecoder()
 
         this.header = {
-            magic: LoaderUtils.decodeText(new Uint8Array(data.slice(0, 4))),
+            magic: textDecoder.decode(new Uint8Array(data.slice(0, 4))),
             version: headerView.getUint32(4, true),
             length: headerView.getUint32(8, true)
         }
@@ -1458,7 +1538,7 @@ class GLTFBinaryExtension {
                     BINARY_EXTENSION_HEADER_LENGTH + chunkIndex,
                     chunkLength
                 )
-                this.content = LoaderUtils.decodeText(contentArray)
+                this.content = textDecoder.decode(contentArray)
             } else if (chunkType === BINARY_EXTENSION_CHUNK_TYPES.BIN) {
                 const byteOffset = BINARY_EXTENSION_HEADER_LENGTH + chunkIndex
                 this.body = data.slice(byteOffset, byteOffset + chunkLength)
@@ -2036,6 +2116,9 @@ class GLTFParser {
         // BufferGeometry caching
         this.primitiveCache = {}
 
+        // Node cache
+        this.nodeCache = {}
+
         // Object3D instance caches
         this.meshCache = { refs: {}, uses: {} }
         this.cameraCache = { refs: {}, uses: {} }
@@ -2100,6 +2183,7 @@ class GLTFParser {
 
         // Clear the loader cache
         this.cache.removeAll()
+        this.nodeCache = {}
 
         // Mark the special nodes/meshes in json for efficient parse
         this._invokeAll(function (ext) {
@@ -3261,12 +3345,8 @@ class GLTFParser {
                             ? new SkinnedMesh(geometry, material)
                             : new Mesh(geometry, material)
 
-                    if (
-                        mesh.isSkinnedMesh === true &&
-                        !mesh.geometry.attributes.skinWeight.normalized
-                    ) {
-                        // we normalize floating point skin weight array to fix malformed assets (see #15319)
-                        // it's important to skip this for non-float32 data since normalizeSkinWeights assumes non-normalized inputs
+                    if (mesh.isSkinnedMesh === true) {
+                        // normalize skin weights to fix malformed assets (see #15319)
                         mesh.normalizeSkinWeights()
                     }
 
@@ -3390,7 +3470,7 @@ class GLTFParser {
         const pending = []
 
         for (let i = 0, il = skinDef.joints.length; i < il; i++) {
-            pending.push(this.getDependency("node", skinDef.joints[i]))
+            pending.push(this._loadNodeShallow(skinDef.joints[i]))
         }
 
         if (skinDef.inverseBindMatrices !== undefined) {
@@ -3404,6 +3484,9 @@ class GLTFParser {
         return Promise.all(pending).then(function (results) {
             const inverseBindMatrices = results.pop()
             const jointNodes = results
+
+            // Note that bones (joint nodes) may or may not be in the
+            // scene graph at this time.
 
             const bones = []
             const boneInverses = []
@@ -3633,8 +3716,64 @@ class GLTFParser {
      */
     loadNode(nodeIndex) {
         const json = this.json
+        const parser = this
+
+        const nodeDef = json.nodes[nodeIndex]
+
+        const nodePending = parser._loadNodeShallow(nodeIndex)
+
+        const childPending = []
+        const childrenDef = nodeDef.children || []
+
+        for (let i = 0, il = childrenDef.length; i < il; i++) {
+            childPending.push(parser.getDependency("node", childrenDef[i]))
+        }
+
+        const skeletonPending =
+            nodeDef.skin === undefined
+                ? Promise.resolve(null)
+                : parser.getDependency("skin", nodeDef.skin)
+
+        return Promise.all([
+            nodePending,
+            Promise.all(childPending),
+            skeletonPending
+        ]).then(function (results) {
+            const node = results[0]
+            const children = results[1]
+            const skeleton = results[2]
+
+            if (skeleton !== null) {
+                // This full traverse should be fine because
+                // child glTF nodes have not been added to this node yet.
+                node.traverse(function (mesh) {
+                    if (!mesh.isSkinnedMesh) return
+
+                    mesh.bind(skeleton, _identityMatrix)
+                })
+            }
+
+            for (let i = 0, il = children.length; i < il; i++) {
+                node.add(children[i])
+            }
+
+            return node
+        })
+    }
+
+    // ._loadNodeShallow() parses a single node.
+    // skin and child nodes are created and added in .loadNode() (no '_' prefix).
+    _loadNodeShallow(nodeIndex) {
+        const json = this.json
         const extensions = this.extensions
         const parser = this
+
+        // This method is called from .loadNode() and .loadSkin().
+        // Cache a node to avoid duplication.
+
+        if (this.nodeCache[nodeIndex] !== undefined) {
+            return this.nodeCache[nodeIndex]
+        }
 
         const nodeDef = json.nodes[nodeIndex]
 
@@ -3643,64 +3782,44 @@ class GLTFParser {
             ? parser.createUniqueName(nodeDef.name)
             : ""
 
-        return (function () {
-            const objectPending = []
+        const pending = []
 
-            const meshPromise = parser._invokeOne(function (ext) {
-                return ext.createNodeMesh && ext.createNodeMesh(nodeIndex)
+        const meshPromise = parser._invokeOne(function (ext) {
+            return ext.createNodeMesh && ext.createNodeMesh(nodeIndex)
+        })
+
+        if (meshPromise) {
+            pending.push(meshPromise)
+        }
+
+        if (nodeDef.camera !== undefined) {
+            pending.push(
+                parser
+                    .getDependency("camera", nodeDef.camera)
+                    .then(function (camera) {
+                        return parser._getNodeRef(
+                            parser.cameraCache,
+                            nodeDef.camera,
+                            camera
+                        )
+                    })
+            )
+        }
+
+        parser
+            ._invokeAll(function (ext) {
+                return (
+                    ext.createNodeAttachment &&
+                    ext.createNodeAttachment(nodeIndex)
+                )
+            })
+            .forEach(function (promise) {
+                pending.push(promise)
             })
 
-            if (meshPromise) {
-                objectPending.push(meshPromise)
-            }
-
-            if (nodeDef.camera !== undefined) {
-                objectPending.push(
-                    parser
-                        .getDependency("camera", nodeDef.camera)
-                        .then(function (camera) {
-                            return parser._getNodeRef(
-                                parser.cameraCache,
-                                nodeDef.camera,
-                                camera
-                            )
-                        })
-                )
-            }
-
-            parser
-                ._invokeAll(function (ext) {
-                    return (
-                        ext.createNodeAttachment &&
-                        ext.createNodeAttachment(nodeIndex)
-                    )
-                })
-                .forEach(function (promise) {
-                    objectPending.push(promise)
-                })
-
-            const childPending = []
-            const childrenDef = nodeDef.children || []
-
-            for (let i = 0, il = childrenDef.length; i < il; i++) {
-                childPending.push(parser.getDependency("node", childrenDef[i]))
-            }
-
-            const skeletonPending =
-                nodeDef.skin === undefined
-                    ? Promise.resolve(null)
-                    : parser.getDependency("skin", nodeDef.skin)
-
-            return Promise.all([
-                Promise.all(objectPending),
-                Promise.all(childPending),
-                skeletonPending
-            ])
-        })().then(function (results) {
-            const objects = results[0]
-            const children = results[1]
-            const skeleton = results[2]
-
+        this.nodeCache[nodeIndex] = Promise.all(pending).then(function (
+            objects
+        ) {
             let node
 
             // .isBone isn't in glTF spec. See ._markDefs
@@ -3754,22 +3873,10 @@ class GLTFParser {
 
             parser.associations.get(node).nodes = nodeIndex
 
-            if (skeleton !== null) {
-                // This full traverse should be fine because
-                // child glTF nodes have not been added to this node yet.
-                node.traverse(function (mesh) {
-                    if (!mesh.isSkinnedMesh) return
-
-                    mesh.bind(skeleton, _identityMatrix)
-                })
-            }
-
-            for (let i = 0, il = children.length; i < il; i++) {
-                node.add(children[i])
-            }
-
             return node
         })
+
+        return this.nodeCache[nodeIndex]
     }
 
     /**
@@ -3985,79 +4092,6 @@ function addPrimitiveAttributes(geometry, primitiveDef, parser) {
             ? addMorphTargets(geometry, primitiveDef.targets, parser)
             : geometry
     })
-}
-
-/**
- * @param {BufferGeometry} geometry
- * @param {Number} drawMode
- * @return {BufferGeometry}
- */
-function toTrianglesDrawMode(geometry, drawMode) {
-    let index = geometry.getIndex()
-
-    // generate index if not present
-
-    if (index === null) {
-        const indices = []
-
-        const position = geometry.getAttribute("position")
-
-        if (position !== undefined) {
-            for (let i = 0; i < position.count; i++) {
-                indices.push(i)
-            }
-
-            geometry.setIndex(indices)
-            index = geometry.getIndex()
-        } else {
-            console.error(
-                "GLTFLoader.toTrianglesDrawMode(): Undefined position attribute. Processing not possible."
-            )
-            return geometry
-        }
-    }
-
-    //
-
-    const numberOfTriangles = index.count - 2
-    const newIndices = []
-
-    if (drawMode === TriangleFanDrawMode) {
-        // gl.TRIANGLE_FAN
-
-        for (let i = 1; i <= numberOfTriangles; i++) {
-            newIndices.push(index.getX(0))
-            newIndices.push(index.getX(i))
-            newIndices.push(index.getX(i + 1))
-        }
-    } else {
-        // gl.TRIANGLE_STRIP
-
-        for (let i = 0; i < numberOfTriangles; i++) {
-            if (i % 2 === 0) {
-                newIndices.push(index.getX(i))
-                newIndices.push(index.getX(i + 1))
-                newIndices.push(index.getX(i + 2))
-            } else {
-                newIndices.push(index.getX(i + 2))
-                newIndices.push(index.getX(i + 1))
-                newIndices.push(index.getX(i))
-            }
-        }
-    }
-
-    if (newIndices.length / 3 !== numberOfTriangles) {
-        console.error(
-            "GLTFLoader.toTrianglesDrawMode(): Unable to generate correct amount of triangles."
-        )
-    }
-
-    // build final geometry
-
-    const newGeometry = geometry.clone()
-    newGeometry.setIndex(newIndices)
-
-    return newGeometry
 }
 
 export { GLTFLoader }
