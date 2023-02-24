@@ -11,9 +11,14 @@ export default (group: Object3D, noBonePtr: [boolean]) => {
             if (Array.isArray(child.material))
                 child.material = child.material[0]
 
+            if (child.material.opacity === 1) {
+                child.castShadow = true
+                child.receiveShadow = true
+            }
             child.material.userData.TextureManager = createTextureManager(
                 child.material as MeshStandardMaterial
             )
+            return
         }
         child.castShadow = true
         child.receiveShadow = true
