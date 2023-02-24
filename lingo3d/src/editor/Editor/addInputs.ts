@@ -34,6 +34,18 @@ const processValue = (value: any) => {
 type DraggingItem = { manager: any; prop: string; xyz?: "x" | "y" | "z" }
 let draggingItem: DraggingItem | undefined
 
+const getTargetValue = (target: Appendable, key: string) => {
+    if (target.runtimeData && key in target.runtimeData)
+        return target.runtimeData[key]
+    return unsafeGetValue(target, key)
+}
+
+const setTargetValue = (target: Appendable, key: string, value: any) => {
+    if (target.runtimeData && key in target.runtimeData)
+        target.runtimeData[key] = value
+    else unsafeSetValue(target, key, value)
+}
+
 const skipChangeSet = new WeakSet<InputBindingApi>()
 const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
     (
@@ -48,7 +60,7 @@ const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
             target: Appendable
         }
     ) => {
-        const val = unsafeGetValue(target, key)
+        const val = getTargetValue(target, key)
         if (equalsValue(target, val, params[key], key)) return
         params[key] = val
         skipChangeSet.add(input)
@@ -121,9 +133,9 @@ export default async (
             params[key] = getEditorPresets()[key] ?? true
 
     const folder: FolderApi = pane.addFolder({ title })
-    const defaults = unsafeGetValue(target.constructor, "defaults")
-    const options = defaultsOptionsMap.get(defaults)
-
+    const options = defaultsOptionsMap.get(
+        unsafeGetValue(target.constructor, "defaults")
+    )
     const result = Object.fromEntries(
         Object.keys(params).map((key) => {
             const input = folder.addInput(
@@ -140,8 +152,8 @@ export default async (
                 return [key, input]
             }
 
-            if (nullableCallbackParams.has(unsafeGetValue(target, key)))
-                unsafeSetValue(
+            if (nullableCallbackParams.has(getTargetValue(target, key)))
+                setTargetValue(
                     target,
                     key,
                     new PassthroughCallback((val: any) => {
@@ -177,7 +189,7 @@ export default async (
                     return
                 }
                 !downPtr[0] && emitEditorEdit("start")
-                unsafeSetValue(target, key, processValue(value))
+                setTargetValue(target, key, processValue(value))
                 !downPtr[0] && emitEditorEdit("end")
             })
 
