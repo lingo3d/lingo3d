@@ -15,12 +15,14 @@ import useSyncState from "../hooks/useSyncState"
 import { getSplitView, setSplitView } from "../../states/useSplitView"
 import usePane from "../Editor/usePane"
 import mergeRefs from "../hooks/mergeRefs"
+import { getUILayer, setUILayer } from "../../states/useUILayer"
 
 const Tabs = () => {
     useInitCSS()
     useInitEditor()
 
     const splitView = useSyncState(getSplitView)
+    const uiLayer = useSyncState(getUILayer)
     const elRef = useStopPropagation()
     const [pane, setContainer] = usePane()
 
@@ -74,9 +76,14 @@ const Tabs = () => {
                     style={{ marginLeft: -20 }}
                 />
                 <Switch
-                    label="split view"
+                    label="split"
                     on={splitView}
                     onChange={(val) => setSplitView(val)}
+                />
+                <Switch
+                    label="ui"
+                    on={uiLayer}
+                    onChange={(val) => setUILayer(val)}
                 />
                 <div style={{ flexGrow: 1, minWidth: 4 }} />
                 <Controls />

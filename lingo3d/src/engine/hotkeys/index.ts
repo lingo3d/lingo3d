@@ -17,6 +17,7 @@ import mainCamera from "../mainCamera"
 import copySelected from "./copySelected"
 import { setTransformControlsSnap } from "../../states/useTransformControlsSnap"
 import { container } from "../renderLoop/renderSetup"
+import { getUILayer, setUILayer } from "../../states/useUILayer"
 
 let focused = false
 let blurBlocked = false
@@ -73,7 +74,7 @@ createEffect(() => {
             return
         }
         if (keyLowerCase === "3") {
-            settings.uiLayer = !settings.uiLayer
+            setUILayer(!getUILayer())
             return
         }
 
@@ -101,7 +102,7 @@ createEffect(() => {
             } else if (keyLowerCase === "p") metaHotKey(e)
         } else if (keyLowerCase === "c") {
             setEditorCamera(mainCamera)
-            settings.uiLayer = false
+            setUILayer(false)
             isPositionedManager(target) && emitEditorCenterView(target)
         } else if (keyLowerCase === "escape")
             target && emitSelectionTarget(undefined)

@@ -23,8 +23,7 @@ export default (
         "antiAlias",
         "pixelRatio",
         "fps",
-        "logarithmicDepth",
-        "uiLayer"
+        "logarithmicDepth"
     ])
     addInputs(handle, pane, "renderer", manager, rendererParams)
 
