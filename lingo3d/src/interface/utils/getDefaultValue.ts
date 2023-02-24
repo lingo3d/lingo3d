@@ -1,4 +1,5 @@
 import Appendable from "../../api/core/Appendable"
+import unsafeGetValue from "../../utils/unsafeGetValue"
 import DefaultMethod from "./DefaultMethod"
 import Defaults from "./Defaults"
 import NullableCallback from "./NullableCallback"
@@ -9,20 +10,21 @@ export type FunctionPtr = [
 ]
 
 const getDefaultValue = (
-    defaults: Defaults<any>,
+    manager: Appendable | Defaults<any>,
     key: string,
     fillNullableDefault?: boolean,
     fillFunctionArgs?: boolean,
-    functionPtr?: FunctionPtr,
-    runtimeManager?: Appendable
+    functionPtr?: FunctionPtr
 ) => {
+    const constructorDefaults = unsafeGetValue(manager.constructor, "defaults")
+    const runtimeManager = constructorDefaults ? manager : undefined
     if (
         runtimeManager?.runtimeDefaults &&
         key in runtimeManager.runtimeDefaults
     )
         return runtimeManager.runtimeDefaults[key]
 
-    const result = defaults[key]
+    const result = (constructorDefaults ?? manager)[key]
     if (result instanceof NullableDefault)
         return fillNullableDefault ? result.value : undefined
     if (result instanceof NullableCallback) {
@@ -44,36 +46,20 @@ const isEqual = (val0: any, val1: any) =>
         JSON.stringify(val0) === JSON.stringify(val1))
 
 export const equalsValue = (
-    manager: Appendable,
+    manager: Appendable | Defaults<any>,
     val0: any,
     val1: any,
-    defaults: Defaults<any>,
     key: string
 ) => {
-    const defaultValue = getDefaultValue(
-        defaults,
-        key,
-        true,
-        false,
-        undefined,
-        manager
-    )
+    const defaultValue = getDefaultValue(manager, key, true, false)
     return isEqual(val0 ?? defaultValue, val1 ?? defaultValue)
 }
 
 export const equalsDefaultValue = (
     val: any,
-    defaults: Defaults<any>,
-    key: string,
-    runtimeManager?: Appendable
+    manager: Appendable | Defaults<any>,
+    key: string
 ) => {
-    const defaultValue = getDefaultValue(
-        defaults,
-        key,
-        true,
-        false,
-        undefined,
-        runtimeManager
-    )
+    const defaultValue = getDefaultValue(manager, key, true, false)
     return isEqual(val ?? defaultValue, defaultValue)
 }

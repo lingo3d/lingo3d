@@ -48,14 +48,7 @@ export default (
 
         const functionPtr: FunctionPtr = [undefined]
         const defaultValue = structuredClone(
-            getDefaultValue(
-                defaults,
-                schemaKey,
-                true,
-                true,
-                functionPtr,
-                manager
-            )
+            getDefaultValue(manager, schemaKey, true, true, functionPtr)
         )
         if (isObject(defaultValue) && !isPoint(defaultValue)) continue
         if (skipFunctions && functionPtr[0]) continue

@@ -1,7 +1,7 @@
 import { throttleTrailing } from "@lincode/utils"
 import { downPtr, FolderApi, InputBindingApi, Pane } from "./tweakpane"
 import resetIcon from "./icons/resetIcon"
-import Defaults, { defaultsOptionsMap } from "../../interface/utils/Defaults"
+import { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue, {
     equalsDefaultValue,
     equalsValue
@@ -40,18 +40,16 @@ const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
         input: InputBindingApi,
         {
             key,
-            defaults,
             params,
             target
         }: {
             key: string
-            defaults: Defaults<any>
             params: any
             target: Appendable
         }
     ) => {
         const val = unsafeGetValue(target, key)
-        if (equalsValue(target, val, params[key], defaults, key)) return
+        if (equalsValue(target, val, params[key], key)) return
         params[key] = val
         skipChangeSet.add(input)
         input.refresh()
@@ -152,19 +150,14 @@ export default async (
                         input.refresh()
                     }, handle)
                 )
-            else addRefreshSystem(input, { key, defaults, params, target })
+            else addRefreshSystem(input, { key, params, target })
 
             const resetButton = resetIcon.cloneNode(true) as HTMLElement
             input.element.prepend(resetButton)
             resetButton.style.opacity = "0.1"
 
             const updateResetButton = throttleTrailing(() => {
-                const unchanged = equalsDefaultValue(
-                    params[key],
-                    defaults,
-                    key,
-                    target
-                )
+                const unchanged = equalsDefaultValue(params[key], target, key)
                 resetButton.style.opacity = unchanged ? "0.1" : "0.5"
                 resetButton.style.cursor = unchanged ? "auto" : "pointer"
             }, 100)
@@ -172,14 +165,7 @@ export default async (
 
             resetButton.onclick = () => {
                 params[key] = structuredClone(
-                    getDefaultValue(
-                        defaults,
-                        key,
-                        true,
-                        true,
-                        undefined,
-                        target
-                    )
+                    getDefaultValue(target, key, true, true)
                 )
                 input.refresh()
             }

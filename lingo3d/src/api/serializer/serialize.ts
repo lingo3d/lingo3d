@@ -20,7 +20,7 @@ const serialize = (
     for (const child of children) {
         if (nonSerializedAppendables.has(child)) continue
         //@ts-ignore
-        const { componentName, schema, defaults } = child.constructor
+        const { componentName, schema } = child.constructor
 
         const data: Record<string, any> = { type: componentName }
         for (const [key, type] of Object.entries(schema)) {
@@ -42,10 +42,7 @@ const serialize = (
             } else value = unsafeGetValue(child, key)
 
             const t = typeof value
-            if (
-                equalsDefaultValue(value, defaults, key, child) ||
-                t === "function"
-            )
+            if (equalsDefaultValue(value, child, key) || t === "function")
                 continue
 
             const fileCurrent = getFileCurrent()
