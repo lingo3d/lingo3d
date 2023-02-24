@@ -232,6 +232,13 @@ const tokenize = (val: string, tokenList: TokenList) => {
                 )
                     throw new Error(`Unexpected token: ${tokenValue}`)
 
+                if (
+                    tokenOld?.value === ")" &&
+                    token.type !== "operator" &&
+                    token.value !== ")"
+                )
+                    throw new Error(`Unexpected token: ${tokenValue}`)
+
                 if (token.type === "parenthesis")
                     if (token.value === "(") {
                         if (tokenOld?.type === "number")
