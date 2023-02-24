@@ -1,5 +1,4 @@
 import { Pane } from "./tweakpane"
-import { setupDefaults } from "../../interface/ISetup"
 import addInputs from "./addInputs"
 import createParams from "./createParams"
 import splitObject from "./splitObject"
@@ -18,7 +17,7 @@ export default (
         "gridHelperSize",
         "stats"
     ])
-    addInputs(handle, pane, "editor", manager, setupDefaults, editorParams)
+    addInputs(handle, pane, "editor", manager, editorParams)
 
     const [rendererParams, rendererRest] = splitObject(editorRest, [
         "antiAlias",
@@ -28,7 +27,7 @@ export default (
         "uiLayer",
         "pbr"
     ])
-    addInputs(handle, pane, "renderer", manager, setupDefaults, rendererParams)
+    addInputs(handle, pane, "renderer", manager, rendererParams)
 
     const [sceneParams, sceneRest] = splitObject(rendererRest, [
         "exposure",
@@ -41,14 +40,7 @@ export default (
         "shadowResolution",
         "shadowDistance"
     ])
-    addInputs(
-        handle,
-        pane,
-        "lighting & environment",
-        manager,
-        setupDefaults,
-        sceneParams
-    )
+    addInputs(handle, pane, "lighting & environment", manager, sceneParams)
 
     const [effectsParams, effectsRest] = splitObject(sceneRest, [
         "bloom",
@@ -63,7 +55,7 @@ export default (
         "bokehScale",
         "vignette"
     ])
-    addInputs(handle, pane, "effects", manager, setupDefaults, effectsParams)
+    addInputs(handle, pane, "effects", manager, effectsParams)
 
     const [outlineParams, outlineRest] = splitObject(effectsRest, [
         "outlineColor",
@@ -72,17 +64,10 @@ export default (
         "outlinePulse",
         "outlineStrength"
     ])
-    addInputs(
-        handle,
-        pane,
-        "outline effect",
-        manager,
-        setupDefaults,
-        outlineParams
-    )
+    addInputs(handle, pane, "outline effect", manager, outlineParams)
 
     Object.keys(outlineRest).length &&
-        addInputs(handle, pane, "settings", manager, setupDefaults, outlineRest)
+        addInputs(handle, pane, "settings", manager, outlineRest)
 
     return handle
 }

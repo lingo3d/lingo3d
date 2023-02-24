@@ -109,7 +109,6 @@ export default async (
     pane: Pane,
     title: string,
     target: Appendable,
-    defaults: Defaults<any>,
     params: Record<string, any>,
     prepend?: boolean,
     connection?: Connection
@@ -124,6 +123,7 @@ export default async (
             params[key] = getEditorPresets()[key] ?? true
 
     const folder: FolderApi = pane.addFolder({ title })
+    const defaults = unsafeGetValue(target.constructor, "defaults")
     const options = defaultsOptionsMap.get(defaults)
 
     const result = Object.fromEntries(

@@ -40,7 +40,6 @@ export default (
             pane,
             "general",
             manager,
-            defaults,
             generalParams,
             true,
             connection
@@ -57,7 +56,6 @@ export default (
             pane,
             "physics",
             manager,
-            defaults,
             physicsParams,
             false,
             connection
@@ -104,7 +102,6 @@ export default (
             pane,
             "transform",
             manager,
-            defaults,
             transformParams,
             false,
             connection
@@ -115,7 +112,6 @@ export default (
                 pane,
                 "inner transform",
                 manager,
-                defaults,
                 innerTransformParams,
                 false,
                 connection
@@ -133,7 +129,6 @@ export default (
             pane,
             "animation",
             manager,
-            defaults,
             animationParams,
             false,
             connection
@@ -152,7 +147,6 @@ export default (
             pane,
             "display",
             manager,
-            defaults,
             displayParams,
             false,
             connection
@@ -168,7 +162,6 @@ export default (
             pane,
             "effects",
             manager,
-            defaults,
             effectsParams,
             false,
             connection
@@ -190,7 +183,6 @@ export default (
             pane,
             "adjust material",
             manager,
-            defaults,
             adjustMaterialParams,
             false,
             connection
@@ -213,7 +205,6 @@ export default (
             pane,
             "material",
             manager,
-            defaults,
             materialParams,
             false,
             connection
@@ -246,7 +237,6 @@ export default (
             pane,
             "pbr material",
             manager,
-            defaults,
             pbrMaterialParams,
             false,
             connection
@@ -260,7 +250,6 @@ export default (
             pane,
             componentName,
             manager,
-            defaults,
             pbrMaterialRest,
             true,
             connection
