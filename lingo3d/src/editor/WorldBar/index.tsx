@@ -70,7 +70,7 @@ const Tabs = () => {
             className="lingo3d-ui lingo3d-bg lingo3d-tabs"
             style={{ width: "100%" }}
         >
-            <AppBar>
+            <AppBar style={{ gap: 4 }}>
                 <div
                     ref={mergeRefs(elRef, setContainer)}
                     style={{ marginLeft: -20 }}
