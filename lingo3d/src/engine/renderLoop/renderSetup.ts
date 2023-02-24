@@ -43,7 +43,7 @@ export const overlayContainer = createElement<HTMLDivElement>(
     `<div class="lingo3d-container lingo3d-uicontainer"></div>`
 )
 container.appendChild(uiContainer)
-container.appendChild(overlayContainer)
+uiContainer.appendChild(overlayContainer)
 container.addEventListener("touchstart", (e) => e.preventDefault())
 getSplitView((val) => {
     container.style.height = val ? "50%" : "100%"
