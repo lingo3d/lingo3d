@@ -1,6 +1,5 @@
 import { Reactive } from "@lincode/reactivity"
 import { assert } from "@lincode/utils"
-import Appendable from "../api/core/Appendable"
 import unsafeGetValue from "./unsafeGetValue"
 import unsafeSetValue from "./unsafeSetValue"
 

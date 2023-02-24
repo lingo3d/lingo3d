@@ -16,9 +16,10 @@ import connectorInIcon from "./icons/connectorInIcon"
 import connectorOutIcon from "./icons/connectorOutIcon"
 import renderSystemWithData from "../../utils/renderSystemWithData"
 import Appendable from "../../api/core/Appendable"
-import unsafeSetValue from "../../utils/unsafeSetValue"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import { nullableCallbackParams } from "../../interface/utils/NullableCallback"
+import { getRuntimeValue, setRuntimeValue } from "../../utils/getRuntimeValue"
+import unsafeSetValue from "../../utils/unsafeSetValue"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -34,18 +35,6 @@ const processValue = (value: any) => {
 type DraggingItem = { manager: any; prop: string; xyz?: "x" | "y" | "z" }
 let draggingItem: DraggingItem | undefined
 
-const getTargetValue = (target: Appendable, key: string) => {
-    if (target.runtimeData && key in target.runtimeData)
-        return target.runtimeData[key]
-    return unsafeGetValue(target, key)
-}
-
-const setTargetValue = (target: Appendable, key: string, value: any) => {
-    if (target.runtimeData && key in target.runtimeData)
-        target.runtimeData[key] = value
-    else unsafeSetValue(target, key, value)
-}
-
 const skipChangeSet = new WeakSet<InputBindingApi>()
 const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
     (
@@ -60,7 +49,7 @@ const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
             target: Appendable
         }
     ) => {
-        const val = getTargetValue(target, key)
+        const val = getRuntimeValue(target, key)
         if (equalsValue(target, val, params[key], key)) return
         params[key] = val
         skipChangeSet.add(input)
@@ -152,8 +141,9 @@ export default async (
                 return [key, input]
             }
 
-            if (nullableCallbackParams.has(getTargetValue(target, key)))
-                setTargetValue(
+            //mark
+            if (nullableCallbackParams.has(unsafeGetValue(target, key)))
+                unsafeSetValue(
                     target,
                     key,
                     new PassthroughCallback((val: any) => {
@@ -189,7 +179,7 @@ export default async (
                     return
                 }
                 !downPtr[0] && emitEditorEdit("start")
-                setTargetValue(target, key, processValue(value))
+                setRuntimeValue(target, key, processValue(value))
                 !downPtr[0] && emitEditorEdit("end")
             })
 

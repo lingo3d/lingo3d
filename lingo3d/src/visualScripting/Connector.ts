@@ -7,6 +7,7 @@ import IConnector, {
 } from "../interface/IConnector"
 import NullableCallback from "../interface/utils/NullableCallback"
 import getReactive from "../utils/getReactive"
+import { setRuntimeValue } from "../utils/getRuntimeValue"
 import { PointType } from "../utils/isPoint"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
@@ -33,8 +34,8 @@ export default class Connector extends Appendable implements IConnector {
             ) {
                 const cb = _xyz
                     ? (val: PointType) =>
-                          unsafeSetValue(toManager, _toProp, val[_xyz])
-                    : (val: any) => unsafeSetValue(toManager, _toProp, val)
+                          setRuntimeValue(toManager, _toProp, val[_xyz])
+                    : (val: any) => setRuntimeValue(toManager, _toProp, val)
 
                 const extended = unsafeSetValue(
                     fromManager,
@@ -51,7 +52,7 @@ export default class Connector extends Appendable implements IConnector {
                     : getReactive(fromManager, _fromProp)
 
             const handle = fromReactive.get((val) =>
-                unsafeSetValue(toManager, _toProp, val)
+                setRuntimeValue(toManager, _toProp, val)
             )
             return () => {
                 handle.cancel()
