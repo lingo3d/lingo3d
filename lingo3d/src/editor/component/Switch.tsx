@@ -19,7 +19,9 @@ const Switch = ({ label, onChange, on: onProp }: SwitchProps) => {
                 display: "flex",
                 alignItems: "center",
                 gap: 4,
-                marginLeft: 4
+                marginLeft: 4,
+                transition: "all 100ms",
+                opacity: on ? 1 : 0.5
             }}
             onClick={() => {
                 setOn(!on)
