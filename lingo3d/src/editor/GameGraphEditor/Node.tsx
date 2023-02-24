@@ -73,11 +73,12 @@ const Node = memo(
         )
         const [bezierStart, setBezierStart] = useState<Point>()
         const [bezierEnd, setBezierEnd] = useState<Point>()
+        const [refresh, setRefresh] = useState({})
 
         useEffect(() => {
             if (!manager || !pane) return
             let size = 0
-            const handle = addTargetInputs(
+            const handle0 = addTargetInputs(
                 pane,
                 manager,
                 includeKeys
@@ -122,10 +123,15 @@ const Node = memo(
                     }
                 }
             )
+            const handle1 = manager.propertyChangedEvent.on(
+                "runtimeSchema",
+                () => setRefresh({})
+            )
             return () => {
-                handle.cancel()
+                handle0.cancel()
+                handle1.cancel()
             }
-        }, [manager, includeKeys, connectedKeys, pane])
+        }, [manager, includeKeys, connectedKeys, pane, refresh])
 
         return (
             <>
