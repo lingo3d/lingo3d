@@ -141,7 +141,6 @@ export default async (
                 return [key, input]
             }
 
-            //mark
             if (nullableCallbackParams.has(unsafeGetValue(target, key)))
                 unsafeSetValue(
                     target,
