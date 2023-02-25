@@ -1,6 +1,5 @@
 import { event } from "@lincode/events"
 import { Point } from "@lincode/math"
-import { forceGetInstance } from "@lincode/utils"
 import { nanoid } from "nanoid"
 import { memo, RefObject } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
@@ -8,10 +7,7 @@ import { uuidMap } from "../../api/core/collections"
 import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
-import { getGameGraphData } from "../../states/useGameGraphData"
-import throttleFrameLeading from "../../utils/throttleFrameLeading"
 import unsafeGetValue from "../../utils/unsafeGetValue"
-import SearchBox from "../component/SearchBox"
 import treeContext from "../component/treeItems/treeContext"
 import addTargetInputs from "../Editor/addTargetInputs"
 import usePane from "../Editor/usePane"
@@ -31,18 +27,6 @@ type NodeProps = {
 }
 
 export const [emitNodeMove, onNodeMove] = event<string>()
-
-const cacheUUIDConnectedKeys = throttleFrameLeading(() => {
-    const uuidConnectedKeys = new Map<string, Array<string>>()
-    for (const data of Object.values(getGameGraphData()[0]!)) {
-        if (!("from" in data)) continue
-        forceGetInstance(uuidConnectedKeys, data.from, Array).push(
-            data.fromProp
-        )
-        forceGetInstance(uuidConnectedKeys, data.to, Array).push(data.toProp)
-    }
-    return uuidConnectedKeys
-})
 
 const Node = memo(
     ({ uuid, data, getPositionRef, zoomRef }: NodeProps) => {
@@ -65,33 +49,27 @@ const Node = memo(
             onPanEnd: () => (panningUUID = undefined)
         })
         const [pane, setContainer] = usePane()
-        const [includeKeys, setIncludeKeys] = useState<
-            Array<string> | undefined
-        >([])
-        const [connectedKeys, setConnectedKeys] = useState(
-            () => cacheUUIDConnectedKeys().get(uuid) ?? []
-        )
         const [bezierStart, setBezierStart] = useState<Point>()
         const [bezierEnd, setBezierEnd] = useState<Point>()
         const [refresh, setRefresh] = useState({})
 
         useEffect(() => {
             if (!manager || !pane) return
-            let size = 0
+
+            const includeKeys = [
+                ...(unsafeGetValue(manager.constructor, "includeKeys") ?? []),
+                ...(unsafeGetValue(manager, "runtimeIncludeKeys") ?? [])
+            ]
             const handle0 = addTargetInputs(pane, manager, includeKeys, {
                 onDragStart: (e) => {
                     setBezierStart(getPositionRef.current!(e))
-                    size = Object.keys(getGameGraphData()[0]!).length
                 },
                 onDrag: (e) => setBezierEnd(getPositionRef.current!(e)),
-                onDragEnd: (_, draggingItem) => {
+                onDragEnd: () => {
                     setBezierStart(undefined)
                     setBezierEnd(undefined)
-                    const _size = Object.keys(getGameGraphData()[0]!).length
-                    _size > size &&
-                        setConnectedKeys([...connectedKeys, draggingItem.prop])
                 },
-                onDrop: (_, draggingItem, prop) => {
+                onDrop: (_, draggingItem, prop) =>
                     getGameGraph()!.mergeData({
                         [nanoid()]: {
                             from: draggingItem.manager.uuid,
@@ -101,8 +79,6 @@ const Node = memo(
                             xyz: draggingItem.xyz
                         }
                     })
-                    setConnectedKeys([...connectedKeys, prop])
-                }
             })
             const handle1 = manager.propertyChangedEvent.on(
                 "runtimeSchema",
@@ -112,7 +88,7 @@ const Node = memo(
                 handle0.cancel()
                 handle1.cancel()
             }
-        }, [manager, includeKeys, connectedKeys, pane, refresh])
+        }, [manager, pane, refresh])
 
         return (
             <>
@@ -131,25 +107,6 @@ const Node = memo(
                     >
                         {displayName}
                     </div>
-                    <SearchBox
-                        fullWidth
-                        style={{ marginTop: 8 }}
-                        onChange={(val) => {
-                            if (!val || !manager) {
-                                setIncludeKeys([])
-                                return
-                            }
-                            val = val.toLowerCase()
-                            setIncludeKeys(
-                                Object.keys(
-                                    unsafeGetValue(manager, "constructor")
-                                        .schema
-                                ).filter((key) =>
-                                    key.toLowerCase().includes(val)
-                                )
-                            )
-                        }}
-                    />
                     <div ref={setContainer} style={{ width: "100%" }} />
                 </div>
                 <Bezier start={bezierStart} end={bezierEnd} />
