@@ -14,6 +14,7 @@ import usePane from "../Editor/usePane"
 import usePan from "../hooks/usePan"
 import getDisplayName from "../utils/getDisplayName"
 import Bezier from "./Bezier"
+import GearIcon from "./icons/GearIcon"
 
 let panningUUID: string | undefined
 
@@ -102,10 +103,27 @@ const Node = memo(
                     }}
                 >
                     <div
-                        style={{ fontSize: 16, marginTop: -24, zIndex: 1 }}
+                        style={{
+                            fontSize: 16,
+                            marginTop: -24,
+                            zIndex: 1,
+                            display: "flex",
+                            alignItems: "center"
+                        }}
                         ref={pressRef}
                     >
                         {displayName}
+                        <div
+                            className="lingo3d-flexcenter"
+                            style={{
+                                padding: 4,
+                                margin: 4,
+                                background: "rgba(255, 255, 255, 0.1)"
+                            }}
+                            onClick={() => console.log("here")}
+                        >
+                            <GearIcon />
+                        </div>
                     </div>
                     <div ref={setContainer} style={{ width: "100%" }} />
                 </div>
