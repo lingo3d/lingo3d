@@ -1,5 +1,6 @@
 import { useSignal } from "@preact/signals"
 import { useEffect, useState } from "preact/hooks"
+import Appendable from "../../api/core/Appendable"
 import { APPBAR_HEIGHT, EDITOR_WIDTH, LIBRARY_WIDTH } from "../../globals"
 import { setGameGraph } from "../../states/useGameGraph"
 import AppBar from "../component/bars/AppBar"
@@ -15,6 +16,8 @@ const GameGraphEditor = () => {
     useInitEditor()
 
     const [showLibrary, setShowLibrary] = useState(true)
+    const selectedSignal = useSignal<string | undefined>(undefined)
+    const [editTarget, setEditTarget] = useState<Appendable>()
 
     useEffect(() => {
         const timeout = setTimeout(() => setShowLibrary(false), 500)
@@ -22,8 +25,6 @@ const GameGraphEditor = () => {
             clearTimeout(timeout)
         }
     }, [])
-
-    const selectedSignal = useSignal<string | undefined>(undefined)
 
     return (
         <>
@@ -39,7 +40,10 @@ const GameGraphEditor = () => {
                         GameGraph
                     </CloseableTab>
                 </AppBar>
-                <Stage onPanStart={() => setShowLibrary(false)} />
+                <Stage
+                    onPanStart={() => setShowLibrary(false)}
+                    onEdit={setEditTarget}
+                />
                 <div
                     style={{
                         height: "100%",

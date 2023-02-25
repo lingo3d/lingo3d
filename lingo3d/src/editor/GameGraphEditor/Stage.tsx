@@ -1,4 +1,5 @@
 import { useState, useMemo } from "preact/hooks"
+import Appendable from "../../api/core/Appendable"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
 import throttleFrameLeading from "../../utils/throttleFrameLeading"
@@ -13,9 +14,10 @@ import Node from "./Node"
 
 type StageProps = {
     onPanStart?: () => void
+    onEdit?: (manager: Appendable) => void
 }
 
-const Stage = ({ onPanStart }: StageProps) => {
+const Stage = ({ onPanStart, onEdit }: StageProps) => {
     const [tx, setTx] = useState(0)
     const [ty, setTy] = useState(0)
     const [zoom, setZoom] = useState(0.75)
@@ -108,6 +110,7 @@ const Stage = ({ onPanStart }: StageProps) => {
                             data={data}
                             getPositionRef={getPositionRef}
                             zoomRef={zoomRef}
+                            onEdit={onEdit}
                         />
                     ) : (
                         <Connection

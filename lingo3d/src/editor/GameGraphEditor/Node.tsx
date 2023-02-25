@@ -3,6 +3,7 @@ import { Point } from "@lincode/math"
 import { nanoid } from "nanoid"
 import { memo, RefObject } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
+import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
 import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
@@ -25,12 +26,13 @@ type NodeProps = {
         (e: { clientX: number; clientY: number }) => Point
     >
     zoomRef: RefObject<number>
+    onEdit?: (manager: Appendable) => void
 }
 
 export const [emitNodeMove, onNodeMove] = event<string>()
 
 const Node = memo(
-    ({ uuid, data, getPositionRef, zoomRef }: NodeProps) => {
+    ({ uuid, data, getPositionRef, zoomRef, onEdit }: NodeProps) => {
         const manager = useMemo(() => uuidMap.get(uuid), [uuid])
         const displayName = useMemo(
             () => manager && getDisplayName(manager),
@@ -120,7 +122,11 @@ const Node = memo(
                                 margin: 4,
                                 background: "rgba(255, 255, 255, 0.1)"
                             }}
-                            onClick={() => console.log("here")}
+                            onClick={
+                                onEdit && manager
+                                    ? () => onEdit(manager)
+                                    : undefined
+                            }
                         >
                             <GearIcon />
                         </div>
