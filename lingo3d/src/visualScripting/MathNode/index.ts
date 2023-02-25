@@ -3,6 +3,7 @@ import IMathNode, {
     mathNodeDefaults,
     mathNodeSchema
 } from "../../interface/IMathNode"
+import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
 import { extractParenthesisTree, compile } from "./compile"
 import functions from "./functions"
 import { Token, TokenList, tokenize } from "./tokenize"
@@ -23,24 +24,31 @@ export default class MathNode extends Appendable implements IMathNode {
         this.runtimeDefaults = runtimeDefaults
         this.runtimeSchema = runtimeSchema
         this.runtimeIncludeKeys = runtimeIncludeKeys
-        if (runtimeSchema) {
-            const runtimeData = (this.runtimeData = { output: 0 })
-            const runtimeValues: Record<string, any> = {}
-            for (const key of Object.keys(runtimeSchema))
-                Object.defineProperty(runtimeData, key, {
-                    get: () => {
-                        return runtimeValues[key] ?? 0
-                    },
-                    set: (value) => {
-                        runtimeValues[key] = value
-                        runtimeData.output = eval(this.compiled!)
-                    }
-                })
-            runtimeData.output = eval(this.compiled!)
-            runtimeSchema.output = Number
-            runtimeDefaults!.output = 0
-            runtimeIncludeKeys!.push("output")
-        } else this.runtimeData = undefined
+        if (!runtimeSchema) {
+            this.runtimeData = undefined
+            this._propertyChangedEvent?.emit("runtimeSchema")
+            return
+        }
+        const runtimeData = (this.runtimeData = { output: 0 })
+        const runtimeValues: Record<string, any> = {}
+        const ownKeysRecord: Record<string, true> = {}
+        for (const key of Object.keys(runtimeSchema)) {
+            Object.defineProperty(runtimeData, key, {
+                get: () => {
+                    return runtimeValues[key] ?? 0
+                },
+                set: (value) => {
+                    runtimeValues[key] = value
+                    runtimeData.output = eval(this.compiled!)
+                }
+            })
+            ownKeysRecord[key] = true
+        }
+        defaultsOwnKeysRecordMap.set(mathNodeDefaults, ownKeysRecord)
+        runtimeData.output = eval(this.compiled!)
+        runtimeSchema.output = Number
+        runtimeDefaults!.output = 0
+        runtimeIncludeKeys!.push("output")
         this._propertyChangedEvent?.emit("runtimeSchema")
     }
 
