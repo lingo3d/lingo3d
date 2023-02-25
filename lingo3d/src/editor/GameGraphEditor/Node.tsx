@@ -78,51 +78,32 @@ const Node = memo(
         useEffect(() => {
             if (!manager || !pane) return
             let size = 0
-            const handle0 = addTargetInputs(
-                pane,
-                manager,
-                includeKeys
-                    ? [
-                          ...(unsafeGetValue(
-                              manager.constructor,
-                              "includeKeys"
-                          ) ?? []),
-                          ...(unsafeGetValue(manager, "runtimeIncludeKeys") ??
-                              []),
-                          ...includeKeys,
-                          ...connectedKeys
-                      ]
-                    : undefined,
-                {
-                    onDragStart: (e) => {
-                        setBezierStart(getPositionRef.current!(e))
-                        size = Object.keys(getGameGraphData()[0]!).length
-                    },
-                    onDrag: (e) => setBezierEnd(getPositionRef.current!(e)),
-                    onDragEnd: (_, draggingItem) => {
-                        setBezierStart(undefined)
-                        setBezierEnd(undefined)
-                        const _size = Object.keys(getGameGraphData()[0]!).length
-                        _size > size &&
-                            setConnectedKeys([
-                                ...connectedKeys,
-                                draggingItem.prop
-                            ])
-                    },
-                    onDrop: (_, draggingItem, prop) => {
-                        getGameGraph()!.mergeData({
-                            [nanoid()]: {
-                                from: draggingItem.manager.uuid,
-                                fromProp: draggingItem.prop,
-                                to: manager.uuid,
-                                toProp: prop,
-                                xyz: draggingItem.xyz
-                            }
-                        })
-                        setConnectedKeys([...connectedKeys, prop])
-                    }
+            const handle0 = addTargetInputs(pane, manager, includeKeys, {
+                onDragStart: (e) => {
+                    setBezierStart(getPositionRef.current!(e))
+                    size = Object.keys(getGameGraphData()[0]!).length
+                },
+                onDrag: (e) => setBezierEnd(getPositionRef.current!(e)),
+                onDragEnd: (_, draggingItem) => {
+                    setBezierStart(undefined)
+                    setBezierEnd(undefined)
+                    const _size = Object.keys(getGameGraphData()[0]!).length
+                    _size > size &&
+                        setConnectedKeys([...connectedKeys, draggingItem.prop])
+                },
+                onDrop: (_, draggingItem, prop) => {
+                    getGameGraph()!.mergeData({
+                        [nanoid()]: {
+                            from: draggingItem.manager.uuid,
+                            fromProp: draggingItem.prop,
+                            to: manager.uuid,
+                            toProp: prop,
+                            xyz: draggingItem.xyz
+                        }
+                    })
+                    setConnectedKeys([...connectedKeys, prop])
                 }
-            )
+            })
             const handle1 = manager.propertyChangedEvent.on(
                 "runtimeSchema",
                 () => setRefresh({})
@@ -154,10 +135,6 @@ const Node = memo(
                         fullWidth
                         style={{ marginTop: 8 }}
                         onChange={(val) => {
-                            if (val === "*") {
-                                setIncludeKeys(undefined)
-                                return
-                            }
                             if (!val || !manager) {
                                 setIncludeKeys([])
                                 return
