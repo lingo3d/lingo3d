@@ -3,7 +3,7 @@ import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
 import unsafeGetValue from "../../utils/unsafeGetValue"
-import addInputs, { Connection } from "./addInputs"
+import addInputs, { Connection, Toggle } from "./addInputs"
 import createParams from "./createParams"
 import splitObject from "./splitObject"
 import { Pane } from "./tweakpane"
@@ -12,7 +12,8 @@ export default (
     pane: Pane,
     selectionTarget: Appendable | MeshAppendable,
     includeKeys: Array<string> | undefined,
-    connection?: Connection
+    connection?: Connection,
+    toggle?: Toggle
 ) => {
     const handle = new Cancellable()
     const { defaults, componentName } = unsafeGetValue(
@@ -42,7 +43,8 @@ export default (
             manager,
             generalParams,
             true,
-            connection
+            connection,
+            toggle
         )
 
     const [physicsParams, physicsRest] = splitObject(generalRest, [
@@ -58,7 +60,8 @@ export default (
             manager,
             physicsParams,
             false,
-            connection
+            connection,
+            toggle
         )
 
     const [transformParams0, transformRest] = splitObject(physicsRest, [
@@ -104,7 +107,8 @@ export default (
             manager,
             transformParams,
             false,
-            connection
+            connection,
+            toggle
         )
         innerTransformParams &&
             addInputs(
@@ -114,7 +118,8 @@ export default (
                 manager,
                 innerTransformParams,
                 false,
-                connection
+                connection,
+                toggle
             )
     }
 
@@ -131,7 +136,8 @@ export default (
             manager,
             animationParams,
             false,
-            connection
+            connection,
+            toggle
         )
 
     const [displayParams, displayRest] = splitObject(animationRest, [
@@ -149,7 +155,8 @@ export default (
             manager,
             displayParams,
             false,
-            connection
+            connection,
+            toggle
         )
 
     const [effectsParams, effectsRest] = splitObject(displayRest, [
@@ -164,7 +171,8 @@ export default (
             manager,
             effectsParams,
             false,
-            connection
+            connection,
+            toggle
         )
 
     const [adjustMaterialParams, adjustMaterialRest] = splitObject(
@@ -185,7 +193,8 @@ export default (
             manager,
             adjustMaterialParams,
             false,
-            connection
+            connection,
+            toggle
         )
 
     const [materialParams, materialRest] = splitObject(adjustMaterialRest, [
@@ -207,7 +216,8 @@ export default (
             manager,
             materialParams,
             false,
-            connection
+            connection,
+            toggle
         )
 
     const [pbrMaterialParams, pbrMaterialRest] = splitObject(materialRest, [
@@ -239,7 +249,8 @@ export default (
             manager,
             pbrMaterialParams,
             false,
-            connection
+            connection,
+            toggle
         )
 
     Object.assign(pbrMaterialRest, ownParams)
@@ -252,7 +263,8 @@ export default (
             manager,
             pbrMaterialRest,
             true,
-            connection
+            connection,
+            toggle
         )
 
     return handle

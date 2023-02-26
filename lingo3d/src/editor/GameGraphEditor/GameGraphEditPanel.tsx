@@ -16,7 +16,17 @@ const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
     useEffect(() => {
         if (!targetSignal.value || !pane) return
 
-        const handle = addTargetInputs(pane, targetSignal.value, undefined)
+        const handle = addTargetInputs(
+            pane,
+            targetSignal.value,
+            undefined,
+            undefined,
+            {
+                onChange: (name, active) => {
+                    
+                }
+            }
+        )
         return () => {
             handle.cancel()
         }
