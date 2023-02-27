@@ -41,9 +41,7 @@ export default class Joystick extends Appendable implements IJoystick {
             const cb = this.onPressState.get()
             if (!cb || !getDown()) return
 
-            const handle = onBeforeRender(() => {
-                cb(pt)
-            })
+            const handle = onBeforeRender(() => cb(pt))
             return () => {
                 return handle.cancel()
             }
@@ -82,8 +80,9 @@ export default class Joystick extends Appendable implements IJoystick {
                 pt = nipple.vector
             })
             manager.on("end", () => {
-                this.onMoveEnd?.(new Point(0, 0))
                 pt = new Point(0, 0)
+                this.onMove?.(pt)
+                this.onMoveEnd?.(pt)
                 setDown(false)
             })
             return () => {
