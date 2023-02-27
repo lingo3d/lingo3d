@@ -32,15 +32,14 @@ const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
 
     return (
         <div
-            className="lingo3d-flexcol"
+            className="lingo3d-flexcol lingo3d-bg"
             style={{
                 height: "100%",
-                width: EDITOR_WIDTH,
+                width: EDITOR_WIDTH + 50,
                 position: "absolute",
                 left: 0,
                 transition: "transform 500ms",
-                transform: `translateX(${targetSignal.value ? 0 : -100}%)`,
-                background: `rgb(${18 * 0.75}, ${19 * 0.75}, ${22 * 0.75})`
+                transform: `translateX(${targetSignal.value ? 0 : -100}%)`
             }}
         >
             <SearchBox
