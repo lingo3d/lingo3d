@@ -3,6 +3,7 @@ import { useEffect, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import { EDITOR_WIDTH } from "../../globals"
 import unsafeGetValue from "../../utils/unsafeGetValue"
+import Drawer from "../component/Drawer"
 import SearchBox from "../component/SearchBox"
 import addTargetInputs from "../Editor/addTargetInputs"
 import usePane from "../Editor/usePane"
@@ -31,59 +32,39 @@ const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
     }, [targetSignal.value, pane, includeKeys])
 
     return (
-        <div className="lingo3d-absfull" style={{ pointerEvents: "none" }}>
-            <div
-                className="lingo3d-absfull"
-                style={{
-                    background: "black",
-                    opacity: targetSignal.value ? 0.5 : 0,
-                    transition: "opacity 500ms",
-                    pointerEvents: targetSignal.value ? "auto" : "none"
+        <Drawer
+            show={!!targetSignal.value}
+            onHide={() => (targetSignal.value = undefined)}
+            className="lingo3d-flexcol lingo3d-bg"
+            width={EDITOR_WIDTH + 50}
+        >
+            <SearchBox
+                style={{ marginTop: 8 }}
+                onChange={(val) => {
+                    if (!val || !targetSignal.value) {
+                        setIncludeKeys(undefined)
+                        return
+                    }
+                    val = val.toLowerCase()
+                    setIncludeKeys(
+                        Object.keys(
+                            unsafeGetValue(targetSignal.value, "constructor")
+                                .schema
+                        ).filter((key) => key.toLowerCase().includes(val))
+                    )
                 }}
-                onClick={() => (targetSignal.value = undefined)}
+                clearOnChange={targetSignal.value}
             />
             <div
-                className="lingo3d-flexcol lingo3d-bg"
+                ref={setContainer}
                 style={{
-                    height: "100%",
-                    width: EDITOR_WIDTH + 50,
-                    position: "absolute",
-                    left: 0,
-                    transition: "transform 500ms",
-                    transform: `translateX(${targetSignal.value ? 0 : -100}%)`,
-                    pointerEvents: "auto"
+                    overflowY: "scroll",
+                    flexGrow: 1,
+                    paddingLeft: 8,
+                    paddingRight: 8
                 }}
-            >
-                <SearchBox
-                    style={{ marginTop: 8 }}
-                    onChange={(val) => {
-                        if (!val || !targetSignal.value) {
-                            setIncludeKeys(undefined)
-                            return
-                        }
-                        val = val.toLowerCase()
-                        setIncludeKeys(
-                            Object.keys(
-                                unsafeGetValue(
-                                    targetSignal.value,
-                                    "constructor"
-                                ).schema
-                            ).filter((key) => key.toLowerCase().includes(val))
-                        )
-                    }}
-                    clearOnChange={targetSignal.value}
-                />
-                <div
-                    ref={setContainer}
-                    style={{
-                        overflowY: "scroll",
-                        flexGrow: 1,
-                        paddingLeft: 8,
-                        paddingRight: 8
-                    }}
-                />
-            </div>
-        </div>
+            />
+        </Drawer>
     )
 }
 
