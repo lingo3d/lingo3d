@@ -249,7 +249,7 @@ export default async (
             }
             if (toggle) {
                 const div = document.createElement("div")
-                render(<Toggle manager={target} />, div)
+                render(<Toggle manager={target} property={key} />, div)
                 handle.then(() => unmountComponentAtNode(div))
                 input.element.appendChild(div)
             }
