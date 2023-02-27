@@ -43,46 +43,23 @@ const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
                 background: `rgb(${18 * 0.75}, ${19 * 0.75}, ${22 * 0.75})`
             }}
         >
-            <div
-                style={{
-                    display: "flex",
-                    gap: 6,
-                    padding: 8,
-                    paddingBottom: 0
+            <SearchBox
+                style={{ marginTop: 8 }}
+                onChange={(val) => {
+                    if (!val || !targetSignal.value) {
+                        setIncludeKeys(undefined)
+                        return
+                    }
+                    val = val.toLowerCase()
+                    setIncludeKeys(
+                        Object.keys(
+                            unsafeGetValue(targetSignal.value, "constructor")
+                                .schema
+                        ).filter((key) => key.toLowerCase().includes(val))
+                    )
                 }}
-            >
-                <SearchBox
-                    fullWidth
-                    style={{ width: undefined, flexGrow: 1 }}
-                    onChange={(val) => {
-                        if (!val || !targetSignal.value) {
-                            setIncludeKeys(undefined)
-                            return
-                        }
-                        val = val.toLowerCase()
-                        setIncludeKeys(
-                            Object.keys(
-                                unsafeGetValue(
-                                    targetSignal.value,
-                                    "constructor"
-                                ).schema
-                            ).filter((key) => key.toLowerCase().includes(val))
-                        )
-                    }}
-                    clearOnChange={targetSignal.value}
-                />
-                <div
-                    className="lingo3d-flexcenter"
-                    style={{
-                        height: 22,
-                        padding: 4,
-                        background: "rgba(255, 255, 255, 0.1)"
-                    }}
-                    onClick={() => (targetSignal.value = undefined)}
-                >
-                    close
-                </div>
-            </div>
+                clearOnChange={targetSignal.value}
+            />
             <div
                 ref={setContainer}
                 style={{
