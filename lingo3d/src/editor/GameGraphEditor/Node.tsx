@@ -42,6 +42,7 @@ const Node = memo(
             onPan: (e) => {
                 getGameGraph()!.mergeData({
                     [uuid]: {
+                        type: "node",
                         x: data.x + e.deltaX / zoomRef.current!,
                         y: data.y + e.deltaY / zoomRef.current!
                     }

@@ -6,7 +6,7 @@ import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
-export type GameGraphNode = { x: number; y: number }
+export type GameGraphNode = { type: "node"; x: number; y: number }
 
 export type GameGraphData = Record<
     string, //uuid

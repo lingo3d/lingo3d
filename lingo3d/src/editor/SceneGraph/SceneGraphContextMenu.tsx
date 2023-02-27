@@ -238,6 +238,7 @@ const SceneGraphContextMenu = () => {
                                     onClick={() => {
                                         gameGraph?.mergeData({
                                             [selectionTarget.uuid]: {
+                                                type: "node",
                                                 x: 0,
                                                 y: 0
                                             }

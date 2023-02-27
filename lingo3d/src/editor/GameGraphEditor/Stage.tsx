@@ -89,7 +89,10 @@ const Stage = ({ onPanStart, onEdit }: StageProps) => {
                 if (!treeContext.draggingItem) return
 
                 getGameGraph()!.mergeData({
-                    [treeContext.draggingItem.uuid]: getPosition(e)
+                    [treeContext.draggingItem.uuid]: {
+                        type: "node",
+                        ...getPosition(e)
+                    }
                 })
             }}
         >
