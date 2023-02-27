@@ -18,11 +18,9 @@ const [addLoopSystem, deleteLoopSystem] = renderSystem((cb: () => void) => {
     cb()
 }, onLoop)
 
-const userIdMap = new Map<string, Set<Appendable>>()
+const userIdMap = new Map<string, Set<Appendable | MeshAppendable>>()
 
-export const getAppendablesById = (
-    id: string
-): Array<Appendable | MeshAppendable> | Set<Appendable | MeshAppendable> => {
+export const getAppendablesById = (id: string) => {
     const uuidInstance = uuidMap.get(id)
     if (uuidInstance) return [uuidInstance]
     return userIdMap.get(id) ?? []
@@ -32,11 +30,17 @@ const isStringArray = (array: Array<unknown>): array is Array<string> =>
     typeof array[0] === "string"
 
 export const getAppendables = (
-    val: string | Array<string> | Appendable | Array<Appendable>
-): Array<Appendable | MeshAppendable> | Set<Appendable | MeshAppendable> => {
+    val:
+        | string
+        | Array<string>
+        | Appendable
+        | MeshAppendable
+        | Array<Appendable | MeshAppendable>
+        | undefined
+) => {
     if (typeof val === "string") return getAppendablesById(val)
     if (Array.isArray(val)) {
-        const result: Array<Appendable> = []
+        const result: Array<Appendable | MeshAppendable> = []
         if (isStringArray(val))
             for (const id of val)
                 for (const appendable of getAppendablesById(id))

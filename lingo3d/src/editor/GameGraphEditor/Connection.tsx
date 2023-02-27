@@ -2,6 +2,7 @@ import { Point } from "@lincode/math"
 import { RefObject } from "preact"
 import { memo } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
+import { getAppendables } from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import Connector from "../../visualScripting/Connector"
@@ -23,7 +24,14 @@ const Connection = memo(
         const [start, setStart] = useState({ x: 0, y: 0 })
         const [end, setEnd] = useState({ x: 0, y: 0 })
         const [refresh, setRefresh] = useState({})
-        const data = useMemo(() => uuidMap.get(uuid) as Connector, [])
+        const data = useMemo(() => {
+            const connector = uuidMap.get(uuid) as Connector
+
+            const [from] = getAppendables(connector.from)
+            const [to] = getAppendables(connector.to)
+
+            return connector
+        }, [])
 
         useEffect(() => {
             //todo: refactor this with a map

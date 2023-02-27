@@ -22,10 +22,11 @@ export default class Connector extends Appendable implements IConnector {
 
         this.createEffect(() => {
             const { _from, _to, _fromProp, _toProp, _xyz } = this
-            if (!_from || !_to || !_fromProp || !_toProp) return
+            if (!_fromProp || !_toProp) return
 
             const [fromManager] = getAppendables(_from)
             const [toManager] = getAppendables(_to)
+            if (!fromManager || !toManager) return
 
             if (
                 unsafeGetValue(fromManager.constructor, "defaults")[

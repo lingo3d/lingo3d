@@ -50,7 +50,7 @@ const hitCache = new WeakMap<VisibleMixin, WeakSet<VisibleMixin>>()
 const [addHitTestSystem, deleteHitTestSystem] = renderSystem(
     (manager: VisibleMixin) => {
         for (const target of getAppendables(manager.hitTarget!)) {
-            if (!("object3d" in target)) return
+            if (!("object3d" in target!)) return
             const cache = forceGetInstance(hitCache, manager, WeakSet)
             if (manager.hitTest(target)) {
                 if (!cache.has(target)) {
