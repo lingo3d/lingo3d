@@ -55,12 +55,7 @@ const Editor = () => {
                 handle.cancel()
             }
         }
-        const handle0 = addTargetInputs(
-            pane,
-            selectionTarget,
-            includeKeys,
-            true
-        )
+        const handle0 = addTargetInputs(pane, selectionTarget, includeKeys)
         const handle1 = selectionTarget.propertyChangedEvent.on(
             "runtimeSchema",
             () => setRefresh({})

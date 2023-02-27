@@ -67,10 +67,6 @@ export type Connection = {
     onDrop?: (e: DragEvent, draggingItem: DraggingItem, prop: string) => void
 }
 
-export type Toggle = {
-    onChange?: (name: string, active: boolean) => void
-}
-
 export class PassthroughCallback {
     public constructor(
         public callback: (val: any) => void,
@@ -118,7 +114,7 @@ export default async (
     params: Record<string, any>,
     prepend?: boolean,
     connection?: Connection,
-    toggle?: Toggle
+    toggle?: boolean
 ) => {
     if (!prepend) await Promise.resolve()
 

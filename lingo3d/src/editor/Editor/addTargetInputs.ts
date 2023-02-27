@@ -3,7 +3,7 @@ import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
 import unsafeGetValue from "../../utils/unsafeGetValue"
-import addInputs, { Connection, Toggle } from "./addInputs"
+import addInputs, { Connection } from "./addInputs"
 import createParams from "./createParams"
 import splitObject from "./splitObject"
 import { Pane } from "./tweakpane"
@@ -12,9 +12,8 @@ export default (
     pane: Pane,
     selectionTarget: Appendable | MeshAppendable,
     includeKeys: Array<string> | undefined,
-    skipFunctions: boolean,
     connection?: Connection,
-    toggle?: Toggle
+    toggle?: boolean
 ) => {
     const handle = new Cancellable()
     const { defaults, componentName } = unsafeGetValue(
@@ -24,7 +23,7 @@ export default (
     const [params, manager] = createParams(
         selectionTarget,
         includeKeys,
-        skipFunctions
+        !connection && !toggle
     )
     const [ownParams, ownRest] = splitObject(
         params,

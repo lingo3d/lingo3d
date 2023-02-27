@@ -1,7 +1,8 @@
 import { Signal } from "@preact/signals"
-import { useEffect } from "preact/hooks"
+import { useEffect, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import { EDITOR_WIDTH } from "../../globals"
+import unsafeGetValue from "../../utils/unsafeGetValue"
 import SearchBox from "../component/SearchBox"
 import addTargetInputs from "../Editor/addTargetInputs"
 import usePane from "../Editor/usePane"
@@ -12,6 +13,7 @@ type GameGraphEditPanelProps = {
 
 const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
     const [pane, setContainer] = usePane()
+    const [includeKeys, setIncludeKeys] = useState<Array<string>>()
 
     useEffect(() => {
         if (!targetSignal.value || !pane) return
@@ -19,17 +21,14 @@ const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
         const handle = addTargetInputs(
             pane,
             targetSignal.value,
+            includeKeys,
             undefined,
-            false,
-            undefined,
-            {
-                onChange: (name, active) => {}
-            }
+            true
         )
         return () => {
             handle.cancel()
         }
-    }, [targetSignal.value, pane])
+    }, [targetSignal.value, pane, includeKeys])
 
     return (
         <div
@@ -55,6 +54,21 @@ const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
                 <SearchBox
                     fullWidth
                     style={{ width: undefined, flexGrow: 1 }}
+                    onChange={(val) => {
+                        if (!val || !targetSignal.value) {
+                            setIncludeKeys(undefined)
+                            return
+                        }
+                        val = val.toLowerCase()
+                        setIncludeKeys(
+                            Object.keys(
+                                unsafeGetValue(
+                                    targetSignal.value,
+                                    "constructor"
+                                ).schema
+                            ).filter((key) => key.toLowerCase().includes(val))
+                        )
+                    }}
                 />
                 <div
                     className="lingo3d-flexcenter"
