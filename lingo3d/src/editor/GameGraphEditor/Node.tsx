@@ -124,7 +124,8 @@ const Node = memo(
                             style={{
                                 padding: 4,
                                 margin: 4,
-                                background: "rgba(255, 255, 255, 0.1)"
+                                background: "rgba(255, 255, 255, 0.1)",
+                                zIndex: 1
                             }}
                             onClick={
                                 onEdit && manager
