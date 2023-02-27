@@ -1,12 +1,13 @@
 import { Point, quadrant } from "@lincode/math"
-import { useMemo } from "preact/hooks"
+import { useMemo, useState } from "preact/hooks"
 
 type BezierProps = {
     start?: Point
     end?: Point
+    onMouseOver?: (e: MouseEvent) => void
 }
 
-const Bezier = ({ start, end }: BezierProps) => {
+const Bezier = ({ start, end, onMouseOver }: BezierProps) => {
     const bezier = useMemo(() => {
         if (!start || !end) return
 
@@ -62,6 +63,8 @@ const Bezier = ({ start, end }: BezierProps) => {
         }
     }, [start, end])
 
+    const [over, setOver] = useState(false)
+
     if (!bezier) return null
 
     return (
@@ -75,6 +78,21 @@ const Bezier = ({ start, end }: BezierProps) => {
             width={bezier.width}
             height={bezier.height}
         >
+            {onMouseOver && (
+                <path
+                    d={`M ${bezier.startPoint} C ${bezier.controlPoint0} ${bezier.controlPoint1} ${bezier.endPoint}`}
+                    strokeWidth={10}
+                    stroke="white"
+                    strokeOpacity={over ? 0.3 : 0}
+                    fill="none"
+                    onMouseOver={(e) => {
+                        setOver(true)
+                        onMouseOver(e)
+                    }}
+                    onMouseOut={() => setOver(false)}
+                    style={{ pointerEvents: "auto" }}
+                />
+            )}
             <path
                 d={`M ${bezier.startPoint} C ${bezier.controlPoint0} ${bezier.controlPoint1} ${bezier.endPoint}`}
                 strokeWidth={1}

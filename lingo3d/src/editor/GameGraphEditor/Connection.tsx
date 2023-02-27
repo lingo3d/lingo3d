@@ -76,7 +76,13 @@ const Connection = memo(
             )
         }, [refresh])
 
-        return <Bezier start={start} end={end} />
+        return (
+            <Bezier
+                start={start}
+                end={end}
+                onMouseOver={() => console.log("here")}
+            />
+        )
     },
     () => true
 )
