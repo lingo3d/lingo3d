@@ -20,11 +20,10 @@ const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
             pane,
             targetSignal.value,
             undefined,
+            false,
             undefined,
             {
-                onChange: (name, active) => {
-                    
-                }
+                onChange: (name, active) => {}
             }
         )
         return () => {

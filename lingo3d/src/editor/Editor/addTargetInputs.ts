@@ -12,6 +12,7 @@ export default (
     pane: Pane,
     selectionTarget: Appendable | MeshAppendable,
     includeKeys: Array<string> | undefined,
+    skipFunctions: boolean,
     connection?: Connection,
     toggle?: Toggle
 ) => {
@@ -23,7 +24,7 @@ export default (
     const [params, manager] = createParams(
         selectionTarget,
         includeKeys,
-        !connection
+        skipFunctions
     )
     const [ownParams, ownRest] = splitObject(
         params,
