@@ -1,23 +1,29 @@
-import { Signal } from "@preact/signals"
+import { useSignal } from "@preact/signals"
+import { useEffect } from "preact/hooks"
 import { LIBRARY_WIDTH, APPBAR_HEIGHT } from "../../globals"
+import Drawer from "../component/Drawer"
 import Library from "../Library"
 import LibraryIcon from "./icons/LibraryIcon"
 
-type GameGraphLibraryProps = {
-    showSignal: Signal<boolean>
-}
+const GameGraphLibrary = () => {
+    const showSignal = useSignal(true)
 
-const GameGraphLibrary = ({ showSignal }: GameGraphLibraryProps) => {
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            showSignal.value = false
+        }, 500)
+
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [])
+
     return (
-        <div
-            style={{
-                height: "100%",
-                width: LIBRARY_WIDTH,
-                position: "absolute",
-                right: 0,
-                transition: "transform 500ms",
-                transform: `translateX(${showSignal.value ? 0 : 100}%)`
-            }}
+        <Drawer
+            width={LIBRARY_WIDTH}
+            anchor="right"
+            show={showSignal.value}
+            onHide={() => (showSignal.value = false)}
         >
             <div
                 className="lingo3d-flexcenter"
@@ -33,7 +39,7 @@ const GameGraphLibrary = ({ showSignal }: GameGraphLibraryProps) => {
                 <LibraryIcon />
             </div>
             <Library />
-        </div>
+        </Drawer>
     )
 }
 
