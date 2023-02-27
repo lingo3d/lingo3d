@@ -47,11 +47,6 @@ export const getAppendables = (
     return [val]
 }
 
-export const getIncludeKeys = (manager: Appendable) => [
-    ...(unsafeGetValue(manager.constructor, "includeKeys") ?? []),
-    ...(unsafeGetValue(manager, "runtimeIncludeKeys") ?? [])
-]
-
 export default class Appendable extends Disposable implements IAppendable {
     public constructor() {
         super()

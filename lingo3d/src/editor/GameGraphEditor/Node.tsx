@@ -3,11 +3,16 @@ import { Point } from "@lincode/math"
 import { nanoid } from "nanoid"
 import { memo, RefObject } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
-import Appendable, { getIncludeKeys } from "../../api/core/Appendable"
+import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
 import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
+import { getGameGraphData } from "../../states/useGameGraphData"
+import {
+    getIncludeKeys,
+    getUUIDConnectedKeysMap
+} from "../../visualScripting/utils/getIncludeKeys"
 import treeContext from "../component/treeItems/treeContext"
 import addTargetInputs from "../Editor/addTargetInputs"
 import usePane from "../Editor/usePane"
@@ -51,6 +56,9 @@ const Node = memo(
             onPanEnd: () => (panningUUID = undefined)
         })
         const [pane, setContainer] = usePane()
+        const [connectedKeys, setConnectedKeys] = useState(
+            () => getUUIDConnectedKeysMap().get(uuid) ?? []
+        )
         const [bezierStart, setBezierStart] = useState<Point>()
         const [bezierEnd, setBezierEnd] = useState<Point>()
         const [refresh, setRefresh] = useState({})
@@ -58,6 +66,7 @@ const Node = memo(
         useEffect(() => {
             if (!manager || !pane) return
 
+            let size = 0
             const handle0 = addTargetInputs(
                 pane,
                 manager,
@@ -65,13 +74,20 @@ const Node = memo(
                 {
                     onDragStart: (e) => {
                         setBezierStart(getPositionRef.current!(e))
+                        size = Object.keys(getGameGraphData()[0]!).length
                     },
                     onDrag: (e) => setBezierEnd(getPositionRef.current!(e)),
-                    onDragEnd: () => {
+                    onDragEnd: (_, draggingItem) => {
                         setBezierStart(undefined)
                         setBezierEnd(undefined)
+                        const _size = Object.keys(getGameGraphData()[0]!).length
+                        _size > size &&
+                            setConnectedKeys([
+                                ...connectedKeys,
+                                draggingItem.prop
+                            ])
                     },
-                    onDrop: (_, draggingItem, prop) =>
+                    onDrop: (_, draggingItem, prop) => {
                         getGameGraph()!.mergeData({
                             [nanoid()]: {
                                 from: draggingItem.manager.uuid,
@@ -81,6 +97,8 @@ const Node = memo(
                                 xyz: draggingItem.xyz
                             }
                         })
+                        setConnectedKeys([...connectedKeys, prop])
+                    }
                 }
             )
             const handle1 = manager.propertyChangedEvent.on(
