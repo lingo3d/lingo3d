@@ -113,13 +113,12 @@ const Node = memo(
                         style={{
                             fontSize: 16,
                             marginTop: -24,
-                            zIndex: 1,
                             display: "flex",
                             alignItems: "center"
                         }}
                         ref={pressRef}
                     >
-                        {displayName}
+                        <div style={{ zIndex: 1 }}>{displayName}</div>
                         <div
                             className="lingo3d-flexcenter"
                             style={{
