@@ -249,7 +249,7 @@ export default async (
             }
             if (toggle) {
                 const div = document.createElement("div")
-                render(<Switch />, div)
+                render(<Switch compact />, div)
                 handle.then(() => unmountComponentAtNode(div))
                 input.element.appendChild(div)
             }
