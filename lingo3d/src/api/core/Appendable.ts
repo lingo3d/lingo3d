@@ -138,7 +138,10 @@ export default class Appendable extends Disposable implements IAppendable {
         return false
     }
 
-    protected _propertyChangedEvent?: Events<void, "name" | "runtimeSchema">
+    protected _propertyChangedEvent?: Events<
+        void,
+        "name" | "runtimeSchema" | "runtimeIncludeKeys"
+    >
     public get propertyChangedEvent() {
         return (this._propertyChangedEvent ??= new Events())
     }

@@ -27,6 +27,7 @@ export default class MathNode extends Appendable implements IMathNode {
         if (!runtimeSchema) {
             this.runtimeData = undefined
             this._propertyChangedEvent?.emit("runtimeSchema")
+            this._propertyChangedEvent?.emit("runtimeIncludeKeys")
             return
         }
         const runtimeData = (this.runtimeData = { output: 0 })
@@ -50,6 +51,7 @@ export default class MathNode extends Appendable implements IMathNode {
         runtimeDefaults!.output = 0
         runtimeIncludeKeys!.push("output")
         this._propertyChangedEvent?.emit("runtimeSchema")
+        this._propertyChangedEvent?.emit("runtimeIncludeKeys")
     }
 
     private compiled?: string
