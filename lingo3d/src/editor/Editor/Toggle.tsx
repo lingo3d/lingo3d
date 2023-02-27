@@ -12,9 +12,6 @@ const getIncludeRecord = computePerFrame((manager: Appendable) => {
     const includeKeys = getIncludeKeys(manager)
     const result: Record<string, boolean> = {}
     for (const key of includeKeys) result[key] = true
-
-    console.log("getIncludeRecord")
-
     return result
 }, false)
 
@@ -25,14 +22,15 @@ const Toggle = memo(
                 compact
                 on={getIncludeRecord(manager)[property]}
                 onChange={(val) => {
+                    const runtimeIncludeKeys = (manager.runtimeIncludeKeys ??=
+                        [])
                     if (val)
-                        !manager.runtimeIncludeKeys!.includes(property) &&
-                            manager.runtimeIncludeKeys!.push(property)
+                        !runtimeIncludeKeys.includes(property) &&
+                            runtimeIncludeKeys.push(property)
                     else
-                        manager.runtimeIncludeKeys =
-                            manager.runtimeIncludeKeys!.filter(
-                                (key) => key !== property
-                            )
+                        manager.runtimeIncludeKeys = runtimeIncludeKeys.filter(
+                            (key) => key !== property
+                        )
                     manager.propertyChangedEvent.emit("runtimeSchema")
                 }}
             />
