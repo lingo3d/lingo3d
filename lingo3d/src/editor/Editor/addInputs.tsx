@@ -21,8 +21,8 @@ import { nullableCallbackParams } from "../../interface/utils/NullableCallback"
 import { getRuntimeValue, setRuntimeValue } from "../../utils/getRuntimeValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { render } from "preact"
-import Switch from "../component/Switch"
 import { unmountComponentAtNode } from "preact/compat"
+import Toggle from "./Toggle"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -249,7 +249,7 @@ export default async (
             }
             if (toggle) {
                 const div = document.createElement("div")
-                render(<Switch compact />, div)
+                render(<Toggle manager={target} />, div)
                 handle.then(() => unmountComponentAtNode(div))
                 input.element.appendChild(div)
             }
