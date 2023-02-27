@@ -24,14 +24,9 @@ const Toggle = memo(
                 on={getIncludeRecord(manager)[property]}
                 onChange={(val) => {
                     const runtimeIncludeKeys = (manager.runtimeIncludeKeys ??=
-                        [])
-                    if (val)
-                        !runtimeIncludeKeys.includes(property) &&
-                            runtimeIncludeKeys.push(property)
-                    else
-                        manager.runtimeIncludeKeys = runtimeIncludeKeys.filter(
-                            (key) => key !== property
-                        )
+                        new Set())
+                    if (val) runtimeIncludeKeys.add(property)
+                    else runtimeIncludeKeys.delete(property)
                     manager.propertyChangedEvent.emit("runtimeSchema")
                 }}
             />

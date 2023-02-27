@@ -29,6 +29,9 @@ const Connection = memo(
 
             const [from] = getAppendables(connector.from)
             const [to] = getAppendables(connector.to)
+            if (!from || !to) return connector
+
+            //mark
 
             return connector
         }, [])

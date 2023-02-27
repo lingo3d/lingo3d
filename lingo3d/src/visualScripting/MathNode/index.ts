@@ -19,7 +19,7 @@ export default class MathNode extends Appendable implements IMathNode {
     private setRuntimeData(
         runtimeDefaults?: Record<string, any>,
         runtimeSchema?: Record<string, any>,
-        runtimeIncludeKeys?: Array<string>
+        runtimeIncludeKeys?: Set<string>
     ) {
         this.runtimeDefaults = runtimeDefaults
         this.runtimeSchema = runtimeSchema
@@ -48,7 +48,7 @@ export default class MathNode extends Appendable implements IMathNode {
         runtimeData.output = eval(this.compiled!)
         runtimeSchema.output = Number
         runtimeDefaults!.output = 0
-        runtimeIncludeKeys!.push("output")
+        runtimeIncludeKeys!.add("output")
         this._propertyChangedEvent?.emit("runtimeSchema")
     }
 
@@ -76,7 +76,7 @@ export default class MathNode extends Appendable implements IMathNode {
         this.setRuntimeData(
             Object.fromEntries(varTokens.map((token) => [token.value, 0])),
             Object.fromEntries(varTokens.map((token) => [token.value, Number])),
-            varTokens.map((token) => token.value)
+            new Set(varTokens.map((token) => token.value))
         )
     }
 

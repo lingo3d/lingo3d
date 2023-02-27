@@ -64,7 +64,7 @@ export default class Appendable extends Disposable implements IAppendable {
 
     public runtimeDefaults?: Record<string, any>
     public runtimeSchema?: Record<string, any>
-    public runtimeIncludeKeys?: Array<string>
+    public runtimeIncludeKeys?: Set<string>
     public runtimeData?: Record<string, any>
 
     public parent?: Appendable | MeshAppendable
