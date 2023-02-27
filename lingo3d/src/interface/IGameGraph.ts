@@ -4,31 +4,27 @@ import IAppendable, {
 } from "./IAppendable"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import Nullable from "./utils/Nullable"
 
 export type GameGraphNode = { x: number; y: number }
-export type GameGraphConnection = {
-    from: string
-    to: string
-    fromProp: string
-    toProp: string
-    xyz?: "x" | "y" | "z"
-}
 
 export type GameGraphData = Record<
     string, //uuid
-    GameGraphNode | GameGraphConnection
+    GameGraphNode | { type: "connector" }
 >
 
 export default interface IGameGraph extends IAppendable {
     paused: boolean
+    data: Nullable<GameGraphData>
 }
 
 export const gameGraphSchema: Required<ExtractProps<IGameGraph>> = {
     ...appendableSchema,
-    paused: Boolean
+    paused: Boolean,
+    data: Object
 }
 
 export const gameGraphDefaults = extendDefaults<IGameGraph>(
     [appendableDefaults],
-    { paused: false }
+    { paused: false, data: undefined }
 )

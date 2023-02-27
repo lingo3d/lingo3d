@@ -115,7 +115,7 @@ const Stage = ({ onPanStart, onEdit }: StageProps) => {
                     ) : (
                         <Connection
                             key={uuid}
-                            data={data}
+                            uuid={uuid}
                             getPositionRef={getPositionRef}
                         />
                     )

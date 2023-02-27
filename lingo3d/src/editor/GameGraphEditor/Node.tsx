@@ -1,6 +1,5 @@
 import { event } from "@lincode/events"
 import { Point } from "@lincode/math"
-import { nanoid } from "nanoid"
 import { memo, RefObject } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
@@ -8,6 +7,7 @@ import { uuidMap } from "../../api/core/collections"
 import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
+import Connector from "../../visualScripting/Connector"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import treeContext from "../component/treeItems/treeContext"
 import addTargetInputs from "../Editor/addTargetInputs"
@@ -71,16 +71,20 @@ const Node = memo(
                         setBezierStart(undefined)
                         setBezierEnd(undefined)
                     },
-                    onDrop: (_, draggingItem, prop) =>
-                        getGameGraph()!.mergeData({
-                            [nanoid()]: {
-                                from: draggingItem.manager.uuid,
-                                fromProp: draggingItem.prop,
-                                to: manager.uuid,
-                                toProp: prop,
-                                xyz: draggingItem.xyz
-                            }
+                    onDrop: (_, draggingItem, prop) => {
+                        const connector = Object.assign(new Connector(), {
+                            from: draggingItem.manager.uuid,
+                            fromProp: draggingItem.prop,
+                            to: manager.uuid,
+                            toProp: prop,
+                            xyz: draggingItem.xyz
                         })
+                        const gameGraph = getGameGraph()!
+                        gameGraph.append(connector)
+                        gameGraph.mergeData({
+                            [connector.uuid]: { type: "connector" }
+                        })
+                    }
                 }
             )
             const handle1 = manager.propertyChangedEvent.on(

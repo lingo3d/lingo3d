@@ -1,45 +1,29 @@
 import { Point } from "@lincode/math"
-import { forceGet } from "@lincode/utils"
 import { RefObject } from "preact"
 import { memo } from "preact/compat"
-import { useEffect, useState } from "preact/hooks"
-import Connector from "../../visualScripting/Connector"
-import { GameGraphConnection } from "../../interface/IGameGraph"
-import { getGameGraph } from "../../states/useGameGraph"
+import { useEffect, useMemo, useState } from "preact/hooks"
+import { uuidMap } from "../../api/core/collections"
 import unsafeGetValue from "../../utils/unsafeGetValue"
+import Connector from "../../visualScripting/Connector"
 import Bezier from "./Bezier"
 import { onNodeMove } from "./Node"
 
 type ConnectionProps = {
-    data: GameGraphConnection
+    uuid: string
     getPositionRef: RefObject<
         (e: { clientX: number; clientY: number }) => Point
     >
 }
 
-const connectorMap = new Map<string, Connector>()
-
-const formatFrom = (data: GameGraphConnection) =>
+const formatFrom = (data: Connector) =>
     `${data.from} ${data.fromProp}${data.xyz ? `-${data.xyz}` : ""}`
 
 const Connection = memo(
-    ({ data, getPositionRef }: ConnectionProps) => {
+    ({ uuid, getPositionRef }: ConnectionProps) => {
         const [start, setStart] = useState({ x: 0, y: 0 })
         const [end, setEnd] = useState({ x: 0, y: 0 })
         const [refresh, setRefresh] = useState({})
-
-        useEffect(() => {
-            forceGet(
-                connectorMap,
-                `${formatFrom(data)} ${data.to} ${data.toProp}`,
-                () => {
-                    const connector = new Connector()
-                    Object.assign(connector, data)
-                    getGameGraph()!.append(connector)
-                    return connector
-                }
-            )
-        }, [])
+        const data = useMemo(() => uuidMap.get(uuid) as Connector, [])
 
         useEffect(() => {
             //todo: refactor this with a map
