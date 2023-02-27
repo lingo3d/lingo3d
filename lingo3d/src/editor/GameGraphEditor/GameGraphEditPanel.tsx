@@ -16,12 +16,24 @@ const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
     const [pane, setContainer] = usePane()
     const [includeKeys, setIncludeKeys] = useState<Array<string>>()
 
+    const [target, setTarget] = useState(targetSignal.value)
     useEffect(() => {
-        if (!targetSignal.value || !pane) return
+        if (targetSignal.value) {
+            setTarget(targetSignal.value)
+            return
+        }
+        const timeout = setTimeout(() => setTarget(undefined), 500)
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [targetSignal.value])
+
+    useEffect(() => {
+        if (!target || !pane) return
 
         const handle = addTargetInputs(
             pane,
-            targetSignal.value,
+            target,
             includeKeys,
             undefined,
             true
@@ -29,7 +41,7 @@ const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
         return () => {
             handle.cancel()
         }
-    }, [targetSignal.value, pane, includeKeys])
+    }, [target, pane, includeKeys])
 
     return (
         <Drawer
