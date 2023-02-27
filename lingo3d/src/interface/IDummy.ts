@@ -9,8 +9,8 @@ export type StrideMode = "aim" | "free"
 export default interface IDummy extends IModel {
     spineName: Nullable<string>
     preset: "default" | "rifle"
-    strideForward: number
     strideRight: number
+    strideForward: number
     strideMove: boolean
     strideMode: StrideMode
 }
@@ -19,8 +19,8 @@ export const dummySchema: Required<ExtractProps<IDummy>> = {
     ...modelSchema,
     spineName: String,
     preset: String,
-    strideForward: Number,
     strideRight: Number,
+    strideForward: Number,
     strideMove: Boolean,
     strideMode: String
 }
@@ -30,8 +30,8 @@ export const dummyDefaults = extendDefaults<IDummy>(
     {
         spineName: undefined,
         preset: "default",
-        strideForward: 0,
         strideRight: 0,
+        strideForward: 0,
         strideMove: false,
         strideMode: "aim",
         scale: 1.7,

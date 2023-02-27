@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useRef, useState } from "preact/compat"
+import { CSSProperties, useEffect, useState } from "preact/compat"
 import useStopPropagation from "../hooks/useStopPropagation"
 import CloseIcon from "./icons/CloseIcon"
 
@@ -6,11 +6,22 @@ type SearchBoxProps = {
     style?: CSSProperties
     fullWidth?: boolean
     onChange?: (val: string) => void
+    clearOnChange?: any
 }
 
-const SearchBox = ({ style, fullWidth, onChange }: SearchBoxProps) => {
+const SearchBox = ({
+    style,
+    fullWidth,
+    onChange,
+    clearOnChange
+}: SearchBoxProps) => {
     const [text, setText] = useState<string>()
     const inputRef = useStopPropagation<HTMLInputElement>()
+
+    useEffect(() => {
+        setText("")
+        inputRef.current!.value = ""
+    }, [clearOnChange])
 
     useEffect(() => {
         const timeout = setTimeout(

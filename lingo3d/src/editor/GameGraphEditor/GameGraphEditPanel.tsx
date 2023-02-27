@@ -69,6 +69,7 @@ const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
                             ).filter((key) => key.toLowerCase().includes(val))
                         )
                     }}
+                    clearOnChange={targetSignal.value}
                 />
                 <div
                     className="lingo3d-flexcenter"
