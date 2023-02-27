@@ -24,9 +24,17 @@ const Toggle = memo(
             <Switch
                 compact
                 on={getIncludeRecord(manager)[property]}
-                onChange={() =>
-                    manager.propertyChangedEvent.emit("runtimeIncludeKeys")
-                }
+                onChange={(val) => {
+                    if (val)
+                        !manager.runtimeIncludeKeys!.includes(property) &&
+                            manager.runtimeIncludeKeys!.push(property)
+                    else
+                        manager.runtimeIncludeKeys =
+                            manager.runtimeIncludeKeys!.filter(
+                                (key) => key !== property
+                            )
+                    manager.propertyChangedEvent.emit("runtimeSchema")
+                }}
             />
         )
     },
