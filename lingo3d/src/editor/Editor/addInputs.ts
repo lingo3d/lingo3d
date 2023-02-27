@@ -20,6 +20,7 @@ import unsafeGetValue from "../../utils/unsafeGetValue"
 import { nullableCallbackParams } from "../../interface/utils/NullableCallback"
 import { getRuntimeValue, setRuntimeValue } from "../../utils/getRuntimeValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
+import { render } from "preact"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -243,6 +244,11 @@ export default async (
                     connectorIn.style.background = ""
                     draggingItem && connection.onDrop?.(e, draggingItem, key)
                 }
+            }
+            if (toggle) {
+                const div = document.createElement("div")
+                //mark
+                input.element.appendChild(div)
             }
             return [key, input]
         })
