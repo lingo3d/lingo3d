@@ -8,6 +8,7 @@ import { emitDispose } from "../../events/onDispose"
 import { onLoop } from "../../events/onLoop"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import IAppendable from "../../interface/IAppendable"
+import computePerFrame from "../../utils/computePerFrame"
 import renderSystem from "../../utils/renderSystem"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
@@ -46,6 +47,14 @@ export const getAppendables = (
     }
     return [val]
 }
+
+export const getIncludeKeys = computePerFrame(
+    (manager: Appendable) => [
+        ...(unsafeGetValue(manager.constructor, "includeKeys") ?? []),
+        ...(unsafeGetValue(manager, "runtimeIncludeKeys") ?? [])
+    ],
+    false
+)
 
 export default class Appendable extends Disposable implements IAppendable {
     public constructor() {

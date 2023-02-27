@@ -3,12 +3,11 @@ import { Point } from "@lincode/math"
 import { nanoid } from "nanoid"
 import { memo, RefObject } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
-import Appendable from "../../api/core/Appendable"
+import Appendable, { getIncludeKeys } from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
 import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
-import unsafeGetValue from "../../utils/unsafeGetValue"
 import treeContext from "../component/treeItems/treeContext"
 import addTargetInputs from "../Editor/addTargetInputs"
 import usePane from "../Editor/usePane"
@@ -59,30 +58,31 @@ const Node = memo(
         useEffect(() => {
             if (!manager || !pane) return
 
-            const includeKeys = [
-                ...(unsafeGetValue(manager.constructor, "includeKeys") ?? []),
-                ...(unsafeGetValue(manager, "runtimeIncludeKeys") ?? [])
-            ]
-            const handle0 = addTargetInputs(pane, manager, includeKeys, {
-                onDragStart: (e) => {
-                    setBezierStart(getPositionRef.current!(e))
-                },
-                onDrag: (e) => setBezierEnd(getPositionRef.current!(e)),
-                onDragEnd: () => {
-                    setBezierStart(undefined)
-                    setBezierEnd(undefined)
-                },
-                onDrop: (_, draggingItem, prop) =>
-                    getGameGraph()!.mergeData({
-                        [nanoid()]: {
-                            from: draggingItem.manager.uuid,
-                            fromProp: draggingItem.prop,
-                            to: manager.uuid,
-                            toProp: prop,
-                            xyz: draggingItem.xyz
-                        }
-                    })
-            })
+            const handle0 = addTargetInputs(
+                pane,
+                manager,
+                getIncludeKeys(manager),
+                {
+                    onDragStart: (e) => {
+                        setBezierStart(getPositionRef.current!(e))
+                    },
+                    onDrag: (e) => setBezierEnd(getPositionRef.current!(e)),
+                    onDragEnd: () => {
+                        setBezierStart(undefined)
+                        setBezierEnd(undefined)
+                    },
+                    onDrop: (_, draggingItem, prop) =>
+                        getGameGraph()!.mergeData({
+                            [nanoid()]: {
+                                from: draggingItem.manager.uuid,
+                                fromProp: draggingItem.prop,
+                                to: manager.uuid,
+                                toProp: prop,
+                                xyz: draggingItem.xyz
+                            }
+                        })
+                }
+            )
             const handle1 = manager.propertyChangedEvent.on(
                 "runtimeSchema",
                 () => setRefresh({})
