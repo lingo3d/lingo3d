@@ -26,13 +26,13 @@ const Connection = memo(
         const [refresh, setRefresh] = useState({})
         const data = useMemo(() => {
             const connector = uuidMap.get(uuid) as Connector
+            if (!connector.fromProp || !connector.toProp) return connector
 
             const [from] = getAppendables(connector.from)
             const [to] = getAppendables(connector.to)
             if (!from || !to) return connector
-
-            //mark
-
+            ;(from.runtimeIncludeKeys ??= new Set()).add(connector.fromProp)
+            ;(to.runtimeIncludeKeys ??= new Set()).add(connector.toProp)
             return connector
         }, [])
 
