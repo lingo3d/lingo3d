@@ -1,10 +1,10 @@
 import { Point } from "@lincode/math"
-import { forceGetInstance } from "@lincode/utils"
 import { RefObject } from "preact"
 import { memo } from "preact/compat"
 import { useEffect, useLayoutEffect, useMemo, useState } from "preact/hooks"
 import { getAppendables } from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
+import { toggleRightClickPtr } from "../../api/mouse"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import unsafeGetValue from "../../utils/unsafeGetValue"
@@ -94,6 +94,10 @@ const Connection = memo(
                 onMouseOut={() => setOver(false)}
                 onMouseDown={(e) => {
                     e.stopPropagation()
+                    emitSelectionTarget(manager, true)
+                }}
+                onContextMenu={() => {
+                    toggleRightClickPtr()
                     emitSelectionTarget(manager, true)
                 }}
             />
