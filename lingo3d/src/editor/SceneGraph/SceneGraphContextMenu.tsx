@@ -233,28 +233,6 @@ const SceneGraphContextMenu = () => {
 
                                 <ContextMenuItem
                                     disabled={
-                                        !gameGraphData ||
-                                        selectionTarget.uuid in gameGraphData
-                                    }
-                                    onClick={() => {
-                                        gameGraph?.mergeData({
-                                            [selectionTarget.uuid]: {
-                                                type: "node",
-                                                x: 0,
-                                                y: 0
-                                            }
-                                        })
-                                        setPosition(undefined)
-                                    }}
-                                >
-                                    {gameGraphData &&
-                                    selectionTarget.uuid in gameGraphData
-                                        ? "Already in GameGraph"
-                                        : "Add to GameGraph"}
-                                </ContextMenuItem>
-
-                                <ContextMenuItem
-                                    disabled={
                                         !(
                                             selectionTarget instanceof
                                                 JointBase ||
@@ -319,6 +297,7 @@ const SceneGraphContextMenu = () => {
                     </ContextMenuItem>
 
                     <ContextMenuItem
+                        disabled={!selectionTarget}
                         onClick={() => {
                             setPosition(undefined)
                             deleteSelected()
