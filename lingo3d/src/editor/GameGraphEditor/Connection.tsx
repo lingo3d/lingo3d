@@ -2,11 +2,14 @@ import { Point } from "@lincode/math"
 import { forceGetInstance } from "@lincode/utils"
 import { RefObject } from "preact"
 import { memo } from "preact/compat"
-import { useEffect, useMemo, useState } from "preact/hooks"
+import { useEffect, useLayoutEffect, useMemo, useState } from "preact/hooks"
 import { getAppendables } from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import Connector from "../../visualScripting/Connector"
+import useSyncState from "../hooks/useSyncState"
 import Bezier from "./Bezier"
 import { onNodeMove } from "./Node"
 
@@ -19,30 +22,27 @@ type ConnectionProps = {
 
 export const uuidConnectorMap = new Map<string, Array<Connector>>()
 
-const formatFrom = (data: Connector) =>
-    `${data.from} ${data.fromProp}${data.xyz ? `-${data.xyz}` : ""}`
+const formatFrom = (manager: Connector) =>
+    `${manager.from} ${manager.fromProp}${manager.xyz ? `-${manager.xyz}` : ""}`
 
 const Connection = memo(
     ({ uuid, getPositionRef }: ConnectionProps) => {
         const [start, setStart] = useState({ x: 0, y: 0 })
         const [end, setEnd] = useState({ x: 0, y: 0 })
         const [refresh, setRefresh] = useState({})
-        const data = useMemo(() => {
-            const connector = uuidMap.get(uuid) as Connector
-            if (!connector.fromProp || !connector.toProp) return connector
+        const manager = useMemo(() => uuidMap.get(uuid) as Connector, [])
 
-            const [from] = getAppendables(connector.from)
-            const [to] = getAppendables(connector.to)
-            if (!from || !to) return connector
-            ;(from.runtimeIncludeKeys ??= new Set()).add(connector.fromProp)
-            ;(to.runtimeIncludeKeys ??= new Set()).add(connector.toProp)
-            forceGetInstance(uuidConnectorMap, connector.from, Array).push(
-                connector
+        useLayoutEffect(() => {
+            if (!manager.fromProp || !manager.toProp) return
+            const [from] = getAppendables(manager.from)
+            const [to] = getAppendables(manager.to)
+            if (!from || !to) return
+            ;(from.runtimeIncludeKeys ??= new Set()).add(manager.fromProp)
+            ;(to.runtimeIncludeKeys ??= new Set()).add(manager.toProp)
+            forceGetInstance(uuidConnectorMap, manager.from, Array).push(
+                manager
             )
-            forceGetInstance(uuidConnectorMap, connector.to, Array).push(
-                connector
-            )
-            return connector
+            forceGetInstance(uuidConnectorMap, manager.to, Array).push(manager)
         }, [])
 
         useEffect(() => {
@@ -50,7 +50,8 @@ const Connection = memo(
             //todo: also other events like this one
             const handle = onNodeMove(
                 (uuid) =>
-                    (uuid === data.from || uuid === data.to) && setRefresh({})
+                    (uuid === manager.from || uuid === manager.to) &&
+                    setRefresh({})
             )
             return () => {
                 handle.cancel()
@@ -60,11 +61,11 @@ const Connection = memo(
         useEffect(() => {
             const connectorFrom = unsafeGetValue(
                 window,
-                `${formatFrom(data)} out`
+                `${formatFrom(manager)} out`
             )
             const connectorTo = unsafeGetValue(
                 window,
-                data.to + " " + data.toProp + " in"
+                manager.to + " " + manager.toProp + " in"
             )
             if (!connectorFrom || !connectorTo) return
 
@@ -85,11 +86,22 @@ const Connection = memo(
             )
         }, [refresh])
 
+        const [over, setOver] = useState(false)
+        const selectionTarget = useSyncState(getSelectionTarget)
+
         return (
             <Bezier
                 start={start}
                 end={end}
-                onMouseOver={() => console.log("here")}
+                hoverOpacity={
+                    selectionTarget === manager ? 0.3 : over ? 0.2 : 0
+                }
+                onMouseOver={() => setOver(true)}
+                onMouseOut={() => setOver(false)}
+                onMouseDown={(e) => {
+                    e.stopPropagation()
+                    emitSelectionTarget(manager, true)
+                }}
             />
         )
     },

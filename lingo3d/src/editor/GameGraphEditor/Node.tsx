@@ -37,12 +37,8 @@ export const [emitNodeMove, onNodeMove] = event<string>()
 
 const Node = memo(
     ({ uuid, data, getPositionRef, zoomRef, onEdit }: NodeProps) => {
-        const manager = useMemo(() => uuidMap.get(uuid), [])
-
-        const displayName = useMemo(
-            () => manager && getDisplayName(manager),
-            [manager]
-        )
+        const manager = useMemo(() => uuidMap.get(uuid)!, [])
+        const displayName = useMemo(() => getDisplayName(manager), [])
         const pressRef = usePan({
             onPan: (e) => {
                 getGameGraph()!.mergeData({
@@ -67,7 +63,7 @@ const Node = memo(
         const selectionTarget = useSyncState(getSelectionTarget)
 
         useEffect(() => {
-            if (!manager || !pane) return
+            if (!pane) return
 
             const handle0 = addTargetInputs(
                 pane,
@@ -109,7 +105,7 @@ const Node = memo(
                 handle0.cancel()
                 handle1.cancel()
             }
-        }, [manager, pane, refresh])
+        }, [pane, refresh])
 
         return (
             <>

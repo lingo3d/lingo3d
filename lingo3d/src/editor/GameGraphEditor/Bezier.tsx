@@ -1,13 +1,25 @@
 import { Point, quadrant } from "@lincode/math"
-import { useMemo, useState } from "preact/hooks"
+import { useMemo } from "preact/hooks"
 
 type BezierProps = {
     start?: Point
     end?: Point
+    hoverOpacity?: number
+    onMouseDown?: (e: MouseEvent) => void
+    onContextMenu?: (e: MouseEvent) => void
     onMouseOver?: (e: MouseEvent) => void
+    onMouseOut?: (e: MouseEvent) => void
 }
 
-const Bezier = ({ start, end, onMouseOver }: BezierProps) => {
+const Bezier = ({
+    start,
+    end,
+    hoverOpacity,
+    onMouseDown,
+    onContextMenu,
+    onMouseOver,
+    onMouseOut
+}: BezierProps) => {
     const bezier = useMemo(() => {
         if (!start || !end) return
 
@@ -63,8 +75,6 @@ const Bezier = ({ start, end, onMouseOver }: BezierProps) => {
         }
     }, [start, end])
 
-    const [over, setOver] = useState(false)
-
     if (!bezier) return null
 
     return (
@@ -78,18 +88,17 @@ const Bezier = ({ start, end, onMouseOver }: BezierProps) => {
             width={bezier.width}
             height={bezier.height}
         >
-            {onMouseOver && (
+            {hoverOpacity !== undefined && (
                 <path
                     d={`M ${bezier.startPoint} C ${bezier.controlPoint0} ${bezier.controlPoint1} ${bezier.endPoint}`}
                     strokeWidth={10}
                     stroke="white"
-                    strokeOpacity={over ? 0.3 : 0}
+                    strokeOpacity={hoverOpacity}
                     fill="none"
-                    onMouseOver={(e) => {
-                        setOver(true)
-                        onMouseOver(e)
-                    }}
-                    onMouseOut={() => setOver(false)}
+                    onMouseOver={onMouseOver}
+                    onMouseOut={onMouseOut}
+                    onMouseDown={onMouseDown}
+                    onContextMenu={onContextMenu}
                     style={{ pointerEvents: "auto" }}
                 />
             )}
