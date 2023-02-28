@@ -36,6 +36,7 @@ import { rightClickPtr } from "../../api/mouse"
 import { getGameGraph, setGameGraph } from "../../states/useGameGraph"
 import GameGraph from "../../visualScripting/GameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
+import deleteSelected from "../../engine/hotkeys/deleteSelected"
 
 const SceneGraphContextMenu = () => {
     const [position, setPosition] = useState<
@@ -315,6 +316,15 @@ const SceneGraphContextMenu = () => {
                         }}
                     >
                         Exit all groups
+                    </ContextMenuItem>
+
+                    <ContextMenuItem
+                        onClick={() => {
+                            setPosition(undefined)
+                            deleteSelected()
+                        }}
+                    >
+                        Delete
                     </ContextMenuItem>
                 </>
             )}
