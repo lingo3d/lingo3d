@@ -1,3 +1,4 @@
+import { ComponentChild } from "preact"
 import { Object3D } from "three"
 import Appendable from "../../../api/core/Appendable"
 import MeshAppendable from "../../../api/core/MeshAppendable"
@@ -49,191 +50,183 @@ const MenuItems = ({
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionFocus = useSyncState(getSelectionFocus)
 
-    return (
-        <>
-            {position.createJoint ? (
-                <CreateJointItems setPosition={setPosition} />
-            ) : (
-                <>
-                    {multipleSelectionTargets.size ? (
-                        <ContextMenuItem
-                            disabled={multipleSelectionTargets.size === 1}
-                            onClick={() => {
-                                // createJoint("d6Joint")
-                                // setPosition(undefined)
-                                setPosition({ ...position, createJoint: true })
-                            }}
-                        >
-                            Create joint
-                        </ContextMenuItem>
-                    ) : selectionTarget instanceof Timeline ? (
-                        <ContextMenuItem
-                            disabled={selectionTarget === timeline}
-                            onClick={() => {
-                                setTimeline(selectionTarget)
-                                setPosition(undefined)
-                            }}
-                        >
-                            {selectionTarget === timeline
-                                ? "Already editing"
-                                : "Edit Timeline"}
-                        </ContextMenuItem>
-                    ) : selectionTarget instanceof GameGraph ? (
-                        <ContextMenuItem
-                            disabled={selectionTarget === gameGraph}
-                            onClick={() => {
-                                setGameGraph(selectionTarget)
-                                setPosition(undefined)
-                            }}
-                        >
-                            {selectionTarget === gameGraph
-                                ? "Already editing"
-                                : "Edit GameGraph"}
-                        </ContextMenuItem>
-                    ) : (
-                        selectionTarget &&
-                        !nativeTarget && (
-                            <>
-                                {selectionTarget instanceof SpriteSheet && (
-                                    <ContextMenuItem
-                                        onClick={() => {
-                                            downloadBlob(
-                                                "spriteSheet.png",
-                                                selectionTarget.toBlob()
-                                            )
-                                            setPosition(undefined)
-                                        }}
-                                    >
-                                        Save image
-                                    </ContextMenuItem>
-                                )}
+    if (position.createJoint)
+        return <CreateJointItems setPosition={setPosition} />
 
-                                <ContextMenuItem
-                                    onClick={() =>
-                                        setPosition({
-                                            ...position,
-                                            search: true
-                                        })
-                                    }
-                                >
-                                    Search children
-                                </ContextMenuItem>
-
-                                {selectionTarget instanceof MeshAppendable && (
-                                    <ContextMenuItem
-                                        onClick={() => {
-                                            setSelectionFocus(
-                                                selectionFocus ===
-                                                    selectionTarget
-                                                    ? undefined
-                                                    : selectionTarget
-                                            )
-                                            emitSelectionTarget(undefined)
-                                            setPosition(undefined)
-                                        }}
-                                    >
-                                        {selectionFocus === selectionTarget
-                                            ? "Exit group"
-                                            : "Enter group"}
-                                    </ContextMenuItem>
-                                )}
-
-                                <ContextMenuItem
-                                    disabled={
-                                        !timelineData ||
-                                        selectionTarget.uuid in timelineData
-                                    }
-                                    onClick={() => {
-                                        timeline?.mergeData({
-                                            [selectionTarget.uuid]: {}
-                                        })
-                                        setPosition(undefined)
-                                    }}
-                                >
-                                    {timelineData &&
-                                    selectionTarget.uuid in timelineData
-                                        ? "Already in Timeline"
-                                        : "Add to Timeline"}
-                                </ContextMenuItem>
-
-                                <ContextMenuItem
-                                    disabled={
-                                        !(
-                                            selectionTarget instanceof
-                                                JointBase ||
-                                            selectionTarget instanceof
-                                                PhysicsObjectManager
-                                        )
-                                    }
-                                    onClick={() => {
-                                        selectAllJointed(
-                                            selectionTarget instanceof JointBase
-                                                ? selectionTarget.fromManager ??
-                                                      selectionTarget.toManager
-                                                : selectionTarget instanceof
-                                                  PhysicsObjectManager
-                                                ? selectionTarget
-                                                : undefined
-                                        )
-                                        setPosition(undefined)
-                                    }}
-                                >
-                                    Select all jointed
-                                </ContextMenuItem>
-
-                                <ContextMenuItem
-                                    onClick={() => {
-                                        selectionFrozen.has(selectionTarget)
-                                            ? removeSelectionFrozen(
-                                                  selectionTarget
-                                              )
-                                            : addSelectionFrozen(
-                                                  selectionTarget
-                                              )
-                                        setPosition(undefined)
-                                    }}
-                                >
-                                    {selectionFrozen.has(selectionTarget)
-                                        ? "Unfreeze selection"
-                                        : "Freeze selection"}
-                                </ContextMenuItem>
-                            </>
+    const children: Array<ComponentChild> = []
+    if (multipleSelectionTargets.size)
+        children.push(
+            <ContextMenuItem
+                disabled={multipleSelectionTargets.size === 1}
+                onClick={() => {
+                    // createJoint("d6Joint")
+                    // setPosition(undefined)
+                    setPosition({ ...position, createJoint: true })
+                }}
+            >
+                Create joint
+            </ContextMenuItem>
+        )
+    else if (selectionTarget instanceof Timeline)
+        children.push(
+            <ContextMenuItem
+                disabled={selectionTarget === timeline}
+                onClick={() => {
+                    setTimeline(selectionTarget)
+                    setPosition(undefined)
+                }}
+            >
+                {selectionTarget === timeline
+                    ? "Already editing"
+                    : "Edit Timeline"}
+            </ContextMenuItem>
+        )
+    else if (selectionTarget instanceof GameGraph)
+        children.push(
+            <ContextMenuItem
+                disabled={selectionTarget === gameGraph}
+                onClick={() => {
+                    setGameGraph(selectionTarget)
+                    setPosition(undefined)
+                }}
+            >
+                {selectionTarget === gameGraph
+                    ? "Already editing"
+                    : "Edit GameGraph"}
+            </ContextMenuItem>
+        )
+    else if (selectionTarget instanceof SpriteSheet)
+        children.push(
+            <ContextMenuItem
+                onClick={() => {
+                    downloadBlob("spriteSheet.png", selectionTarget.toBlob())
+                    setPosition(undefined)
+                }}
+            >
+                Save image
+            </ContextMenuItem>
+        )
+    else if (selectionTarget && !nativeTarget) {
+        children.push(
+            <ContextMenuItem
+                onClick={() =>
+                    setPosition({
+                        ...position,
+                        search: true
+                    })
+                }
+            >
+                Search children
+            </ContextMenuItem>
+        )
+        if (selectionTarget instanceof MeshAppendable)
+            children.push(
+                <ContextMenuItem
+                    onClick={() => {
+                        setSelectionFocus(
+                            selectionFocus === selectionTarget
+                                ? undefined
+                                : selectionTarget
                         )
-                    )}
-                    <ContextMenuItem
-                        disabled={!selectionFrozen.size}
-                        onClick={() => {
-                            clearSelectionFrozen()
-                            setPosition(undefined)
-                        }}
-                    >
-                        Unfreeze all
-                    </ContextMenuItem>
+                        emitSelectionTarget(undefined)
+                        setPosition(undefined)
+                    }}
+                >
+                    {selectionFocus === selectionTarget
+                        ? "Exit selected"
+                        : "Enter selected"}
+                </ContextMenuItem>
+            )
+        children.push(
+            <ContextMenuItem
+                disabled={!timelineData || selectionTarget.uuid in timelineData}
+                onClick={() => {
+                    timeline?.mergeData({
+                        [selectionTarget.uuid]: {}
+                    })
+                    setPosition(undefined)
+                }}
+            >
+                {timelineData && selectionTarget.uuid in timelineData
+                    ? "Already in Timeline"
+                    : "Add to Timeline"}
+            </ContextMenuItem>
+        )
+        children.push(
+            <ContextMenuItem
+                disabled={
+                    !(
+                        selectionTarget instanceof JointBase ||
+                        selectionTarget instanceof PhysicsObjectManager
+                    )
+                }
+                onClick={() => {
+                    selectAllJointed(
+                        selectionTarget instanceof JointBase
+                            ? selectionTarget.fromManager ??
+                                  selectionTarget.toManager
+                            : selectionTarget instanceof PhysicsObjectManager
+                            ? selectionTarget
+                            : undefined
+                    )
+                    setPosition(undefined)
+                }}
+            >
+                Select all jointed
+            </ContextMenuItem>
+        )
+        children.push(
+            <ContextMenuItem
+                onClick={() => {
+                    selectionFrozen.has(selectionTarget)
+                        ? removeSelectionFrozen(selectionTarget)
+                        : addSelectionFrozen(selectionTarget)
+                    setPosition(undefined)
+                }}
+            >
+                {selectionFrozen.has(selectionTarget)
+                    ? "Unfreeze selection"
+                    : "Freeze selection"}
+            </ContextMenuItem>
+        )
+    }
+    if (!selectionTarget)
+        children.push(
+            <ContextMenuItem
+                disabled={!selectionFrozen.size}
+                onClick={() => {
+                    clearSelectionFrozen()
+                    setPosition(undefined)
+                }}
+            >
+                Unfreeze all
+            </ContextMenuItem>,
 
-                    <ContextMenuItem
-                        disabled={!selectionFocus}
-                        onClick={() => {
-                            setSelectionFocus(undefined)
-                            emitSelectionTarget(undefined)
-                            setPosition(undefined)
-                        }}
-                    >
-                        Exit all groups
-                    </ContextMenuItem>
+            <ContextMenuItem
+                disabled={!selectionFocus}
+                onClick={() => {
+                    setSelectionFocus(undefined)
+                    emitSelectionTarget(undefined)
+                    setPosition(undefined)
+                }}
+            >
+                Exit all
+            </ContextMenuItem>
+        )
+    else
+        children.push(
+            <ContextMenuItem
+                disabled={!selectionTarget}
+                onClick={() => {
+                    setPosition(undefined)
+                    deleteSelected()
+                }}
+            >
+                Delete
+            </ContextMenuItem>
+        )
 
-                    <ContextMenuItem
-                        disabled={!selectionTarget}
-                        onClick={() => {
-                            setPosition(undefined)
-                            deleteSelected()
-                        }}
-                    >
-                        Delete
-                    </ContextMenuItem>
-                </>
-            )}
-        </>
-    )
+    return <>{children}</>
 }
 
 export default MenuItems
