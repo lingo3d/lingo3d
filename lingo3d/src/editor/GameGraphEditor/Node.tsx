@@ -123,6 +123,7 @@ const Node = memo(
                                 ? "1px solid white"
                                 : undefined
                     }}
+                    onMouseDown={() => setSelectionTarget(manager)}
                 >
                     <div
                         style={{
