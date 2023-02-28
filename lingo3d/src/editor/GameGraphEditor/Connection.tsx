@@ -1,4 +1,5 @@
 import { Point } from "@lincode/math"
+import { forceGetInstance } from "@lincode/utils"
 import { RefObject } from "preact"
 import { memo } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
@@ -15,6 +16,8 @@ type ConnectionProps = {
         (e: { clientX: number; clientY: number }) => Point
     >
 }
+
+export const uuidConnectorMap = new Map<string, Array<Connector>>()
 
 const formatFrom = (data: Connector) =>
     `${data.from} ${data.fromProp}${data.xyz ? `-${data.xyz}` : ""}`
@@ -33,6 +36,12 @@ const Connection = memo(
             if (!from || !to) return connector
             ;(from.runtimeIncludeKeys ??= new Set()).add(connector.fromProp)
             ;(to.runtimeIncludeKeys ??= new Set()).add(connector.toProp)
+            forceGetInstance(uuidConnectorMap, connector.from, Array).push(
+                connector
+            )
+            forceGetInstance(uuidConnectorMap, connector.to, Array).push(
+                connector
+            )
             return connector
         }, [])
 

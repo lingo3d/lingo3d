@@ -56,7 +56,7 @@ const Node = memo(
             },
             onPanStart: () => {
                 panningUUID = uuid
-                emitSelectionTarget(manager)
+                emitSelectionTarget(manager, true)
             },
             onPanEnd: () => (panningUUID = undefined)
         })
@@ -124,7 +124,7 @@ const Node = memo(
                                 ? "1px solid white"
                                 : undefined
                     }}
-                    onMouseDown={() => emitSelectionTarget(manager)}
+                    onMouseDown={() => emitSelectionTarget(manager, true)}
                     onContextMenu={() => toggleRightClickPtr()}
                 >
                     <div

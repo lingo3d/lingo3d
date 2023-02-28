@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
-import { uuidMap } from "../../api/core/collections"
 import { onDispose } from "../../events/onDispose"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
@@ -11,7 +10,7 @@ import useLatest from "../hooks/useLatest"
 import usePan from "../hooks/usePan"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
-import Connection from "./Connection"
+import Connection, { uuidConnectorMap } from "./Connection"
 import Node from "./Node"
 
 type StageProps = {
@@ -54,19 +53,11 @@ const Stage = ({ onPanStart, onEdit }: StageProps) => {
     useEffect(() => {
         if (!gameGraphData) return
         const handle = onDispose((val) => {
-            const toDelete: Array<string> = []
-            for (const [key, value] of Object.entries(gameGraphData))
-                if (
-                    value.type === "connector" &&
-                    (value.from === val.uuid || value.to === val.uuid)
-                )
-                    toDelete.push(key)
-
-            for (const uuid of toDelete) {
-                getGameGraph()!.deleteData(uuid)
-                uuidMap.get(uuid)!.dispose()
-            }
             getGameGraph()!.deleteData(val.uuid)
+            if (!uuidConnectorMap.has(val.uuid)) return
+            for (const connector of uuidConnectorMap.get(val.uuid)!)
+                connector.dispose()
+            uuidConnectorMap.delete(val.uuid)
         })
         return () => {
             handle.cancel()
