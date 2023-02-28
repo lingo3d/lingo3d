@@ -1,7 +1,10 @@
 import { useSignal } from "@preact/signals"
 import { useEffect } from "preact/hooks"
+import createObject from "../../api/serializer/createObject"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { LIBRARY_WIDTH, APPBAR_HEIGHT } from "../../globals"
 import Drawer from "../component/Drawer"
+import treeContext from "../component/treeItems/treeContext"
 import Library from "../Library"
 import LibraryIcon from "./icons/LibraryIcon"
 
@@ -38,7 +41,14 @@ const GameGraphLibrary = () => {
             >
                 <LibraryIcon />
             </div>
-            <Library onDragStart={() => (showSignal.value = false)} />
+            <Library
+                onDragStart={(name) => {
+                    showSignal.value = false
+                    emitSelectionTarget(
+                        (treeContext.draggingItem = createObject(name))
+                    )
+                }}
+            />
         </Drawer>
     )
 }

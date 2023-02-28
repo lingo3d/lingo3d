@@ -20,9 +20,9 @@ const setDraggingItem = drag<GameObjectType>((val) => {
 })
 
 type Props = {
-    name: string
+    name: GameObjectType
     iconName?: string
-    onDragStart?: () => void
+    onDragStart?: (name: GameObjectType) => void
 }
 
 const ObjectIcon = ({ name, iconName = name, onDragStart }: Props) => {
@@ -32,7 +32,7 @@ const ObjectIcon = ({ name, iconName = name, onDragStart }: Props) => {
             onDragStart={(e) => {
                 setDraggingItem(name as GameObjectType)
                 setDragImage(e)
-                onDragStart?.()
+                onDragStart?.(name)
             }}
             onDragEnd={() => setDraggingItem(undefined)}
             className="lingo3d-flexcenter lingo3d-flexcol"

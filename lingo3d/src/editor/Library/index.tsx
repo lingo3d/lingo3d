@@ -8,6 +8,7 @@ import useInitEditor from "../hooks/useInitEditor"
 import SearchBox from "../component/SearchBox"
 import { useMemo, useState } from "preact/hooks"
 import { useSignal } from "@preact/signals"
+import { GameObjectType } from "../../api/serializer/types"
 
 const objectNames = [
     ...(true ? [{ gameGraph: "joystick" }] : []),
@@ -52,7 +53,7 @@ const objectNames = [
 ] satisfies ObjectName
 
 type Props = {
-    onDragStart?: () => void
+    onDragStart?: (name: GameObjectType) => void
 }
 
 const Library = ({ onDragStart }: Props) => {

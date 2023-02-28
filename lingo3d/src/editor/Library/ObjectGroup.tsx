@@ -18,11 +18,12 @@ const getIconName = (
 
 const getName = (
     name: GameObjectType | Partial<Record<GameObjectType, string>>
-) => (typeof name === "string" ? name : Object.keys(name)[0])
+) =>
+    typeof name === "string" ? name : (Object.keys(name)[0] as GameObjectType)
 
 type Props = {
     names: ObjectName
-    onDragStart?: () => void
+    onDragStart?: (name: GameObjectType) => void
 }
 
 const ObjectGroup = ({ names, onDragStart }: Props) => {
