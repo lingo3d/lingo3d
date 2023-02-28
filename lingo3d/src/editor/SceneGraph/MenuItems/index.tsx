@@ -98,18 +98,6 @@ const MenuItems = ({
         )
     else if (selectionTarget instanceof Connector) {
     } else if (selectionTarget && !nativeTarget) {
-        children.push(
-            <ContextMenuItem
-                onClick={() =>
-                    setPosition({
-                        ...position,
-                        search: true
-                    })
-                }
-            >
-                Search children
-            </ContextMenuItem>
-        )
         if (selectionTarget instanceof SpriteSheet)
             children.push(
                 <ContextMenuItem
@@ -124,47 +112,68 @@ const MenuItems = ({
                     Save image
                 </ContextMenuItem>
             )
-        else if (selectionTarget instanceof MeshAppendable)
+        else if (selectionTarget instanceof MeshAppendable) {
+            if (selectionTarget instanceof PhysicsObjectManager)
+                children.push(
+                    <ContextMenuItem
+                        onClick={() =>
+                            setPosition({
+                                ...position,
+                                search: true
+                            })
+                        }
+                    >
+                        Search children
+                    </ContextMenuItem>,
+
+                    <ContextMenuItem
+                        onClick={() => {
+                            setSelectionFocus(
+                                selectionFocus === selectionTarget
+                                    ? undefined
+                                    : selectionTarget
+                            )
+                            emitSelectionTarget(undefined)
+                            setPosition(undefined)
+                        }}
+                    >
+                        {selectionFocus === selectionTarget
+                            ? "Exit selected"
+                            : "Enter selected"}
+                    </ContextMenuItem>,
+
+                    <ContextMenuItem
+                        onClick={() => {
+                            selectAllJointed(
+                                selectionTarget instanceof JointBase
+                                    ? selectionTarget.fromManager ??
+                                          selectionTarget.toManager
+                                    : selectionTarget instanceof
+                                      PhysicsObjectManager
+                                    ? selectionTarget
+                                    : undefined
+                            )
+                            setPosition(undefined)
+                        }}
+                    >
+                        Select all jointed
+                    </ContextMenuItem>
+                )
             children.push(
                 <ContextMenuItem
                     onClick={() => {
-                        setSelectionFocus(
-                            selectionFocus === selectionTarget
-                                ? undefined
-                                : selectionTarget
-                        )
-                        emitSelectionTarget(undefined)
+                        selectionFrozen.has(selectionTarget)
+                            ? removeSelectionFrozen(selectionTarget)
+                            : addSelectionFrozen(selectionTarget)
                         setPosition(undefined)
                     }}
                 >
-                    {selectionFocus === selectionTarget
-                        ? "Exit selected"
-                        : "Enter selected"}
-                </ContextMenuItem>,
-
-                <ContextMenuItem
-                    disabled={
-                        !(
-                            selectionTarget instanceof JointBase ||
-                            selectionTarget instanceof PhysicsObjectManager
-                        )
-                    }
-                    onClick={() => {
-                        selectAllJointed(
-                            selectionTarget instanceof JointBase
-                                ? selectionTarget.fromManager ??
-                                      selectionTarget.toManager
-                                : selectionTarget instanceof
-                                  PhysicsObjectManager
-                                ? selectionTarget
-                                : undefined
-                        )
-                        setPosition(undefined)
-                    }}
-                >
-                    Select all jointed
+                    {selectionFrozen.has(selectionTarget)
+                        ? "Unfreeze selection"
+                        : "Freeze selection"}
                 </ContextMenuItem>
             )
+        }
         children.push(
             <ContextMenuItem
                 disabled={!timelineData || selectionTarget.uuid in timelineData}
@@ -178,20 +187,6 @@ const MenuItems = ({
                 {timelineData && selectionTarget.uuid in timelineData
                     ? "Already in Timeline"
                     : "Add to Timeline"}
-            </ContextMenuItem>
-        )
-        children.push(
-            <ContextMenuItem
-                onClick={() => {
-                    selectionFrozen.has(selectionTarget)
-                        ? removeSelectionFrozen(selectionTarget)
-                        : addSelectionFrozen(selectionTarget)
-                    setPosition(undefined)
-                }}
-            >
-                {selectionFrozen.has(selectionTarget)
-                    ? "Unfreeze selection"
-                    : "Freeze selection"}
             </ContextMenuItem>
         )
     }
