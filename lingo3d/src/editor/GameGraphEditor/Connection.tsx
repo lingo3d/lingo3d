@@ -20,8 +20,6 @@ type ConnectionProps = {
     >
 }
 
-export const uuidConnectorMap = new Map<string, Array<Connector>>()
-
 const formatFrom = (manager: Connector) =>
     `${manager.from} ${manager.fromProp}${manager.xyz ? `-${manager.xyz}` : ""}`
 
@@ -39,10 +37,6 @@ const Connection = memo(
             if (!from || !to) return
             ;(from.runtimeIncludeKeys ??= new Set()).add(manager.fromProp)
             ;(to.runtimeIncludeKeys ??= new Set()).add(manager.toProp)
-            forceGetInstance(uuidConnectorMap, manager.from, Array).push(
-                manager
-            )
-            forceGetInstance(uuidConnectorMap, manager.to, Array).push(manager)
         }, [])
 
         useEffect(() => {
