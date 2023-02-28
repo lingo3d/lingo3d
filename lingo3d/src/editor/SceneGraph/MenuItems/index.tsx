@@ -23,6 +23,7 @@ import {
 } from "../../../states/useSelectionFrozen"
 import { getTimeline, setTimeline } from "../../../states/useTimeline"
 import { getTimelineData } from "../../../states/useTimelineData"
+import Connector from "../../../visualScripting/Connector"
 import GameGraph from "../../../visualScripting/GameGraph"
 import ContextMenuItem from "../../component/ContextMenu/ContextMenuItem"
 import useSyncState from "../../hooks/useSyncState"
@@ -106,6 +107,9 @@ const MenuItems = ({
                 Save image
             </ContextMenuItem>
         )
+    else if (selectionTarget instanceof Connector) {
+        
+    }
     else if (selectionTarget && !nativeTarget) {
         children.push(
             <ContextMenuItem
