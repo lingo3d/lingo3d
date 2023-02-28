@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import { onDispose } from "../../events/onDispose"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
 import throttleFrameLeading from "../../utils/throttleFrameLeading"
@@ -27,7 +28,10 @@ const Stage = ({ onPanStart, onEdit }: StageProps) => {
     const originX = width * 0.5
     const originY = height * 0.5
     const pressRef = usePan({
-        onPanStart,
+        onPanStart: () => {
+            onPanStart?.()
+            emitSelectionTarget(undefined)
+        },
         onPan: ({ deltaX, deltaY }) => {
             setTx((tx) => tx + deltaX)
             setTy((ty) => ty + deltaY)

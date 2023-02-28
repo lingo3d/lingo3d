@@ -125,7 +125,10 @@ const Node = memo(
                                 : undefined
                     }}
                     onMouseDown={() => emitSelectionTarget(manager, true)}
-                    onContextMenu={() => toggleRightClickPtr()}
+                    onContextMenu={() => {
+                        toggleRightClickPtr()
+                        emitSelectionTarget(manager, true)
+                    }}
                 >
                     <div
                         style={{
@@ -135,7 +138,10 @@ const Node = memo(
                             alignItems: "center"
                         }}
                         ref={pressRef}
-                        onContextMenu={() => toggleRightClickPtr()}
+                        onContextMenu={() => {
+                            toggleRightClickPtr()
+                            emitSelectionTarget(manager, true)
+                        }}
                     >
                         <div style={{ zIndex: 1 }}>{displayName}</div>
                         <div
