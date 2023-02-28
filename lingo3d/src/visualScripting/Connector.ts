@@ -52,11 +52,21 @@ export default class Connector extends Appendable implements IConnector {
                     ? getReactive(fromManager.runtimeData, _fromProp)
                     : getReactive(fromManager, _fromProp)
 
-            const handle = fromReactive.get((val) =>
+            const handle0 = fromReactive.get((val) =>
                 setRuntimeValue(toManager, _toProp, val)
             )
+            const handle1 = fromManager.propertyChangedEvent.on(
+                "runtimeSchema",
+                () => this.refreshState.set({})
+            )
+            const handle2 = toManager.propertyChangedEvent.on(
+                "runtimeSchema",
+                () => this.refreshState.set({})
+            )
             return () => {
-                handle.cancel()
+                handle0.cancel()
+                handle1.cancel()
+                handle2.cancel()
             }
         }, [this.refreshState.get])
     }
