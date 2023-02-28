@@ -6,8 +6,9 @@ import useClick from "../../hooks/useClick"
 import Appendable from "../../../api/core/Appendable"
 import { setDragImage } from "../../utils/drag"
 import treeContext from "./treeContext"
+import MeshAppendable from "../../../api/core/MeshAppendable"
 
-export type BaseTreeItemProps = {
+export type Props = {
     label?: string
     selected?: boolean
     children?: ComponentChildren
@@ -15,8 +16,8 @@ export type BaseTreeItemProps = {
     onExpand?: () => void
     onClick?: (e: MouseEvent) => void
     onContextMenu?: (e: MouseEvent) => void
-    onDrop?: (draggingItem?: any) => void
-    myDraggingItem?: any
+    onDrop?: (draggingItem: Appendable | MeshAppendable) => void
+    myDraggingItem?: Appendable | MeshAppendable
     draggable?: boolean
     expanded?: boolean
     expandable?: boolean
@@ -41,7 +42,7 @@ const BaseTreeItem = ({
     outlined,
     IconComponent,
     height
-}: BaseTreeItemProps) => {
+}: Props) => {
     const expandIconStyle = {
         opacity: expandable ? 0.5 : 0.05,
         cursor: "pointer"
@@ -112,6 +113,7 @@ const BaseTreeItem = ({
                 setDragOver(false)
 
                 if (
+                    treeContext.draggingItem &&
                     !treeContext.draggingItem.traverseSome(
                         (child: Appendable) => myDraggingItem === child
                     )

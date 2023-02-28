@@ -16,12 +16,12 @@ import useSyncState from "../hooks/useSyncState"
 import Connection from "./Connection"
 import Node from "./Node"
 
-type StageProps = {
+type Props = {
     onPanStart?: () => void
     onEdit?: (manager: Appendable) => void
 }
 
-const Stage = ({ onPanStart, onEdit }: StageProps) => {
+const Stage = ({ onPanStart, onEdit }: Props) => {
     const [tx, setTx] = useState(0)
     const [ty, setTy] = useState(0)
     const [zoom, setZoom] = useState(0.75)

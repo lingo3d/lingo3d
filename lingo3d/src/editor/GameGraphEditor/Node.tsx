@@ -23,7 +23,7 @@ import GearIcon from "./icons/GearIcon"
 
 let panningUUID: string | undefined
 
-type NodeProps = {
+type Props = {
     uuid: string
     data: GameGraphNode
     getPositionRef: RefObject<
@@ -36,7 +36,7 @@ type NodeProps = {
 export const [emitNodeMove, onNodeMove] = event<string>()
 
 const Node = memo(
-    ({ uuid, data, getPositionRef, zoomRef, onEdit }: NodeProps) => {
+    ({ uuid, data, getPositionRef, zoomRef, onEdit }: Props) => {
         const manager = useMemo(() => uuidMap.get(uuid)!, [])
         const displayName = useMemo(() => getDisplayName(manager), [])
         const pressRef = usePan({

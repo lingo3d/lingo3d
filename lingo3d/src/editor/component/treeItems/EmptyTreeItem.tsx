@@ -1,11 +1,11 @@
 import { useState } from "preact/hooks"
 import treeContext from "./treeContext"
 
-type EmptyTreeItemProps = {
+type Props = {
     onDrop?: (draggingItem?: any) => void
 }
 
-const EmptyTreeItem = ({ onDrop }: EmptyTreeItemProps) => {
+const EmptyTreeItem = ({ onDrop }: Props) => {
     const [dragOver, setDragOver] = useState(false)
 
     return (
