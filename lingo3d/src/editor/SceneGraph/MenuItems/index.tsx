@@ -96,21 +96,8 @@ const MenuItems = ({
                     : "Edit GameGraph"}
             </ContextMenuItem>
         )
-    else if (selectionTarget instanceof SpriteSheet)
-        children.push(
-            <ContextMenuItem
-                onClick={() => {
-                    downloadBlob("spriteSheet.png", selectionTarget.toBlob())
-                    setPosition(undefined)
-                }}
-            >
-                Save image
-            </ContextMenuItem>
-        )
     else if (selectionTarget instanceof Connector) {
-        
-    }
-    else if (selectionTarget && !nativeTarget) {
+    } else if (selectionTarget && !nativeTarget) {
         children.push(
             <ContextMenuItem
                 onClick={() =>
@@ -123,7 +110,21 @@ const MenuItems = ({
                 Search children
             </ContextMenuItem>
         )
-        if (selectionTarget instanceof MeshAppendable)
+        if (selectionTarget instanceof SpriteSheet)
+            children.push(
+                <ContextMenuItem
+                    onClick={() => {
+                        downloadBlob(
+                            "spriteSheet.png",
+                            selectionTarget.toBlob()
+                        )
+                        setPosition(undefined)
+                    }}
+                >
+                    Save image
+                </ContextMenuItem>
+            )
+        else if (selectionTarget instanceof MeshAppendable)
             children.push(
                 <ContextMenuItem
                     onClick={() => {
@@ -139,6 +140,29 @@ const MenuItems = ({
                     {selectionFocus === selectionTarget
                         ? "Exit selected"
                         : "Enter selected"}
+                </ContextMenuItem>,
+
+                <ContextMenuItem
+                    disabled={
+                        !(
+                            selectionTarget instanceof JointBase ||
+                            selectionTarget instanceof PhysicsObjectManager
+                        )
+                    }
+                    onClick={() => {
+                        selectAllJointed(
+                            selectionTarget instanceof JointBase
+                                ? selectionTarget.fromManager ??
+                                      selectionTarget.toManager
+                                : selectionTarget instanceof
+                                  PhysicsObjectManager
+                                ? selectionTarget
+                                : undefined
+                        )
+                        setPosition(undefined)
+                    }}
+                >
+                    Select all jointed
                 </ContextMenuItem>
             )
         children.push(
@@ -154,29 +178,6 @@ const MenuItems = ({
                 {timelineData && selectionTarget.uuid in timelineData
                     ? "Already in Timeline"
                     : "Add to Timeline"}
-            </ContextMenuItem>
-        )
-        children.push(
-            <ContextMenuItem
-                disabled={
-                    !(
-                        selectionTarget instanceof JointBase ||
-                        selectionTarget instanceof PhysicsObjectManager
-                    )
-                }
-                onClick={() => {
-                    selectAllJointed(
-                        selectionTarget instanceof JointBase
-                            ? selectionTarget.fromManager ??
-                                  selectionTarget.toManager
-                            : selectionTarget instanceof PhysicsObjectManager
-                            ? selectionTarget
-                            : undefined
-                    )
-                    setPosition(undefined)
-                }}
-            >
-                Select all jointed
             </ContextMenuItem>
         )
         children.push(
