@@ -1,5 +1,6 @@
-import { useState, useMemo } from "preact/hooks"
+import { useState, useMemo, useEffect } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
+import { onDispose } from "../../events/onDispose"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
 import throttleFrameLeading from "../../utils/throttleFrameLeading"
@@ -46,6 +47,14 @@ const Stage = ({ onPanStart, onEdit }: StageProps) => {
         return { x, y }
     }
     const getPositionRef = useLatest(getPosition)
+
+    useEffect(() => {
+        const handle = onDispose((val) => getGameGraph()!.deleteData(val.uuid))
+        return () => {
+            handle.cancel()
+        }
+    }, [])
+
     const [gameGraphData] = useSyncState(getGameGraphData)
     if (!gameGraphData) return null
 

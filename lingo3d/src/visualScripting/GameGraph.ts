@@ -40,6 +40,13 @@ export default class GameGraph extends Appendable implements IGameGraph {
         this.gameGraphDataState.set([prevData])
     }
 
+    public deleteData(uuid: string) {
+        const [prevData] = this.gameGraphDataState.get()
+        if (!prevData) return
+        delete prevData[uuid]
+        this.gameGraphDataState.set([prevData])
+    }
+
     private pausedState = new Reactive(false)
     public get paused() {
         return this.pausedState.get()
