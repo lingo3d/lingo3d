@@ -54,7 +54,10 @@ const Node = memo(
                 })
                 emitNodeMove(uuid)
             },
-            onPanStart: () => (panningUUID = uuid),
+            onPanStart: () => {
+                panningUUID = uuid
+                emitSelectionTarget(manager)
+            },
             onPanEnd: () => (panningUUID = undefined)
         })
         const [pane, setContainer] = usePane()
@@ -128,7 +131,6 @@ const Node = memo(
                             alignItems: "center"
                         }}
                         ref={pressRef}
-                        onMouseDown={() => emitSelectionTarget(manager)}
                         onContextMenu={() => toggleRightClickPtr()}
                     >
                         <div style={{ zIndex: 1 }}>{displayName}</div>
