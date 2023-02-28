@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
+import { uuidMap } from "../../api/core/collections"
 import { onDispose } from "../../events/onDispose"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
@@ -61,7 +62,10 @@ const Stage = ({ onPanStart, onEdit }: StageProps) => {
                 )
                     toDelete.push(key)
 
-            for (const uuid of toDelete) getGameGraph()!.deleteData(uuid)
+            for (const uuid of toDelete) {
+                getGameGraph()!.deleteData(uuid)
+                uuidMap.get(uuid)!.dispose()
+            }
             getGameGraph()!.deleteData(val.uuid)
         })
         return () => {
