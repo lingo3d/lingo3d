@@ -120,11 +120,6 @@ const Node = memo(
                                 ? "1px solid white"
                                 : undefined
                     }}
-                    onMouseDown={() => emitSelectionTarget(manager, true)}
-                    onContextMenu={() => {
-                        toggleRightClickPtr()
-                        emitSelectionTarget(manager, true)
-                    }}
                 >
                     <div
                         style={{
@@ -133,13 +128,17 @@ const Node = memo(
                             display: "flex",
                             alignItems: "center"
                         }}
-                        ref={pressRef}
-                        onContextMenu={() => {
-                            toggleRightClickPtr()
-                            emitSelectionTarget(manager, true)
-                        }}
                     >
-                        <div style={{ zIndex: 1 }}>{displayName}</div>
+                        <div
+                            style={{ zIndex: 1 }}
+                            ref={pressRef}
+                            onContextMenu={() => {
+                                toggleRightClickPtr()
+                                emitSelectionTarget(manager, true)
+                            }}
+                        >
+                            {displayName}
+                        </div>
                         <div
                             className="lingo3d-flexcenter"
                             style={{
@@ -157,7 +156,18 @@ const Node = memo(
                             <GearIcon />
                         </div>
                     </div>
-                    <div ref={setContainer} style={{ width: "100%" }} />
+                    <div
+                        ref={setContainer}
+                        style={{ width: "100%" }}
+                        onMouseDown={(e) => {
+                            e.stopPropagation()
+                            emitSelectionTarget(manager, true)
+                        }}
+                        onContextMenu={() => {
+                            toggleRightClickPtr()
+                            emitSelectionTarget(manager, true)
+                        }}
+                    />
                 </div>
                 <Bezier start={bezierStart} end={bezierEnd} />
             </>
