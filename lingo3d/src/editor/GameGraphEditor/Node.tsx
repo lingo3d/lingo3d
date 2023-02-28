@@ -4,13 +4,12 @@ import { memo, RefObject } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
+import { toggleRightClickPtr } from "../../api/mouse"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
-import {
-    getSelectionTarget,
-    setSelectionTarget
-} from "../../states/useSelectionTarget"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
 import Connector from "../../visualScripting/Connector"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import treeContext from "../component/treeItems/treeContext"
@@ -38,11 +37,7 @@ export const [emitNodeMove, onNodeMove] = event<string>()
 
 const Node = memo(
     ({ uuid, data, getPositionRef, zoomRef, onEdit }: NodeProps) => {
-        const manager = useMemo(() => {
-            const manager = uuidMap.get(uuid)
-            setSelectionTarget(manager)
-            return manager
-        }, [])
+        const manager = useMemo(() => uuidMap.get(uuid), [])
 
         const displayName = useMemo(
             () => manager && getDisplayName(manager),
@@ -114,7 +109,6 @@ const Node = memo(
                 <div
                     style={{
                         width: EDITOR_WIDTH,
-                        minHeight: 100,
                         position: "absolute",
                         left: data.x,
                         top: data.y,
@@ -123,7 +117,8 @@ const Node = memo(
                                 ? "1px solid white"
                                 : undefined
                     }}
-                    onMouseDown={() => setSelectionTarget(manager)}
+                    onMouseDown={() => emitSelectionTarget(manager)}
+                    onContextMenu={() => toggleRightClickPtr()}
                 >
                     <div
                         style={{
@@ -133,7 +128,8 @@ const Node = memo(
                             alignItems: "center"
                         }}
                         ref={pressRef}
-                        onMouseDown={() => setSelectionTarget(manager)}
+                        onMouseDown={() => emitSelectionTarget(manager)}
+                        onContextMenu={() => toggleRightClickPtr()}
                     >
                         <div style={{ zIndex: 1 }}>{displayName}</div>
                         <div
