@@ -7,12 +7,17 @@ import { uuidMap } from "../../api/core/collections"
 import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
+import {
+    getSelectionTarget,
+    setSelectionTarget
+} from "../../states/useSelectionTarget"
 import Connector from "../../visualScripting/Connector"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import treeContext from "../component/treeItems/treeContext"
 import addTargetInputs from "../Editor/addTargetInputs"
 import usePane from "../Editor/usePane"
 import usePan from "../hooks/usePan"
+import useSyncState from "../hooks/useSyncState"
 import getDisplayName from "../utils/getDisplayName"
 import Bezier from "./Bezier"
 import GearIcon from "./icons/GearIcon"
@@ -33,7 +38,12 @@ export const [emitNodeMove, onNodeMove] = event<string>()
 
 const Node = memo(
     ({ uuid, data, getPositionRef, zoomRef, onEdit }: NodeProps) => {
-        const manager = useMemo(() => uuidMap.get(uuid), [uuid])
+        const manager = useMemo(() => {
+            const manager = uuidMap.get(uuid)
+            setSelectionTarget(manager)
+            return manager
+        }, [])
+
         const displayName = useMemo(
             () => manager && getDisplayName(manager),
             [manager]
@@ -56,6 +66,7 @@ const Node = memo(
         const [bezierStart, setBezierStart] = useState<Point>()
         const [bezierEnd, setBezierEnd] = useState<Point>()
         const [refresh, setRefresh] = useState({})
+        const selectionTarget = useSyncState(getSelectionTarget)
 
         useEffect(() => {
             if (!manager || !pane) return
@@ -106,7 +117,11 @@ const Node = memo(
                         minHeight: 100,
                         position: "absolute",
                         left: data.x,
-                        top: data.y
+                        top: data.y,
+                        outline:
+                            selectionTarget === manager
+                                ? "1px solid white"
+                                : undefined
                     }}
                 >
                     <div
@@ -117,6 +132,7 @@ const Node = memo(
                             alignItems: "center"
                         }}
                         ref={pressRef}
+                        onMouseDown={() => setSelectionTarget(manager)}
                     >
                         <div style={{ zIndex: 1 }}>{displayName}</div>
                         <div
