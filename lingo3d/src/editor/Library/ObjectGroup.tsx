@@ -1,11 +1,9 @@
 import { GameObjectType } from "../../api/serializer/types"
 import ObjectIcon from "./ObjectIcon"
 
-export type ObjectName = Array<GameObjectType | Partial<Record<GameObjectType, string>>>
-
-type ObjectGroupProps = {
-    names: ObjectName
-}
+export type ObjectName = Array<
+    GameObjectType | Partial<Record<GameObjectType, string>>
+>
 
 const getIconName = (
     name: GameObjectType | Partial<Record<GameObjectType, string>>
@@ -22,7 +20,12 @@ const getName = (
     name: GameObjectType | Partial<Record<GameObjectType, string>>
 ) => (typeof name === "string" ? name : Object.keys(name)[0])
 
-const ObjectGroup = ({ names }: ObjectGroupProps) => {
+type Props = {
+    names: ObjectName
+    onDragStart?: () => void
+}
+
+const ObjectGroup = ({ names, onDragStart }: Props) => {
     const groups: Array<
         Array<GameObjectType | Partial<Record<GameObjectType, string>>>
     > = []
@@ -44,11 +47,13 @@ const ObjectGroup = ({ names }: ObjectGroupProps) => {
                     <ObjectIcon
                         name={getName(name0)}
                         iconName={getIconName(name0)}
+                        onDragStart={onDragStart}
                     />
                     {name1 && (
                         <ObjectIcon
                             name={getName(name1)}
                             iconName={getIconName(name1)}
+                            onDragStart={onDragStart}
                         />
                     )}
                 </div>

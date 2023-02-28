@@ -32,11 +32,9 @@ const setDraggingItem = drag<File>((draggingItem, hitManager) => {
     }
 })
 
-type FileButtonProps = {
-    file: File
-}
+type Props = { file: File }
 
-const FileButton = ({ file }: FileButtonProps) => {
+const FileButton = ({ file }: Props) => {
     const fileSelected = useSyncState(getFileSelected)
     const stopRef = useStopPropagation()
 

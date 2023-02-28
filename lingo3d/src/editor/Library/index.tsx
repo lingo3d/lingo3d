@@ -51,7 +51,11 @@ const objectNames = [
     "orbitCamera"
 ] satisfies ObjectName
 
-const Library = () => {
+type Props = {
+    onDragStart?: () => void
+}
+
+const Library = ({ onDragStart }: Props) => {
     useInitCSS()
     useInitEditor()
 
@@ -87,7 +91,7 @@ const Library = () => {
             </AppBar>
             <SearchBox onChange={(val) => setSearch(val.toLowerCase())} />
             <div style={{ padding: 10, overflowY: "scroll", flexGrow: 1 }}>
-                <ObjectGroup names={names} />
+                <ObjectGroup names={names} onDragStart={onDragStart} />
             </div>
         </div>
     )

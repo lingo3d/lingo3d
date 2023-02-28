@@ -38,7 +38,7 @@ const GameGraphLibrary = () => {
             >
                 <LibraryIcon />
             </div>
-            <Library />
+            <Library onDragStart={() => (showSignal.value = false)} />
         </Drawer>
     )
 }
