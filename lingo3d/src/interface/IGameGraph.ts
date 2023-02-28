@@ -11,7 +11,7 @@ export type GameGraphNode = { type: "node"; x: number; y: number }
 
 export type GameGraphData = Record<
     string, //uuid
-    GameGraphNode | { type: "connector" }
+    GameGraphNode | { type: "connector"; from: string; to: string }
 >
 
 export default interface IGameGraph extends IAppendable {

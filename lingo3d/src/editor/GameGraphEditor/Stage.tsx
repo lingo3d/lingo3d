@@ -48,14 +48,27 @@ const Stage = ({ onPanStart, onEdit }: StageProps) => {
     }
     const getPositionRef = useLatest(getPosition)
 
+    const [gameGraphData] = useSyncState(getGameGraphData)
+
     useEffect(() => {
-        const handle = onDispose((val) => getGameGraph()!.deleteData(val.uuid))
+        if (!gameGraphData) return
+        const handle = onDispose((val) => {
+            const toDelete: Array<string> = []
+            for (const [key, value] of Object.entries(gameGraphData))
+                if (
+                    value.type === "connector" &&
+                    (value.from === val.uuid || value.to === val.uuid)
+                )
+                    toDelete.push(key)
+
+            for (const uuid of toDelete) getGameGraph()!.deleteData(uuid)
+            getGameGraph()!.deleteData(val.uuid)
+        })
         return () => {
             handle.cancel()
         }
     }, [])
 
-    const [gameGraphData] = useSyncState(getGameGraphData)
     if (!gameGraphData) return null
 
     return (

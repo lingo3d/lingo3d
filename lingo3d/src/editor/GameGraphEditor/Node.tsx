@@ -92,7 +92,11 @@ const Node = memo(
                         const gameGraph = getGameGraph()!
                         gameGraph.append(connector)
                         gameGraph.mergeData({
-                            [connector.uuid]: { type: "connector" }
+                            [connector.uuid]: {
+                                type: "connector",
+                                from: draggingItem.manager.uuid,
+                                to: manager.uuid
+                            }
                         })
                     }
                 }
