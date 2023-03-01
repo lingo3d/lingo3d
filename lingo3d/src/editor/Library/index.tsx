@@ -11,7 +11,8 @@ import { useSignal } from "@preact/signals"
 import { GameObjectType } from "../../api/serializer/types"
 
 const objectNames = [
-    ...(true ? [{ gameGraph: "joystick" }] : []),
+    { gameGraph: "joystick" },
+    { incrementNode: "joystick" },
 
     "cube",
     "sphere",
