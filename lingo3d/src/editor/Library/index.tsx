@@ -55,9 +55,10 @@ const objectNames = [
 
 type Props = {
     onDragStart?: (name: GameObjectType) => void
+    onDragEnd?: () => void
 }
 
-const Library = ({ onDragStart }: Props) => {
+const Library = ({ onDragStart, onDragEnd }: Props) => {
     useInitCSS()
     useInitEditor()
 
@@ -93,7 +94,11 @@ const Library = ({ onDragStart }: Props) => {
             </AppBar>
             <SearchBox onChange={(val) => setSearch(val.toLowerCase())} />
             <div style={{ padding: 10, overflowY: "scroll", flexGrow: 1 }}>
-                <ObjectGroup names={names} onDragStart={onDragStart} />
+                <ObjectGroup
+                    names={names}
+                    onDragStart={onDragStart}
+                    onDragEnd={onDragEnd}
+                />
             </div>
         </div>
     )

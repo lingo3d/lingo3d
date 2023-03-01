@@ -9,6 +9,7 @@ type DrawerProps = {
     className?: string
     width?: number
     anchor?: "left" | "right"
+    onDragOverMask?: () => void
 }
 
 const Drawer = ({
@@ -18,7 +19,8 @@ const Drawer = ({
     style,
     className,
     width = 200,
-    anchor = "left"
+    anchor = "left",
+    onDragOverMask
 }: DrawerProps) => {
     return (
         <div className="lingo3d-absfull" style={{ pointerEvents: "none" }}>
@@ -31,6 +33,7 @@ const Drawer = ({
                     pointerEvents: show ? "auto" : "none"
                 }}
                 onClick={onHide}
+                onDragEnter={onDragOverMask}
             />
             <div
                 className={className}

@@ -1,6 +1,7 @@
 import { useSignal } from "@preact/signals"
-import { useEffect } from "preact/hooks"
+import { useEffect, useRef } from "preact/hooks"
 import createObject from "../../api/serializer/createObject"
+import { GameObjectType } from "../../api/serializer/types"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { LIBRARY_WIDTH, APPBAR_HEIGHT } from "../../globals"
 import Drawer from "../component/Drawer"
@@ -10,6 +11,7 @@ import LibraryIcon from "./icons/LibraryIcon"
 
 const GameGraphLibrary = () => {
     const showSignal = useSignal(true)
+    const draggingName = useRef<GameObjectType>()
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -27,6 +29,15 @@ const GameGraphLibrary = () => {
             anchor="right"
             show={showSignal.value}
             onHide={() => (showSignal.value = false)}
+            onDragOverMask={() => {
+                if (!draggingName.current) return
+                showSignal.value = false
+                emitSelectionTarget(
+                    (treeContext.draggingItem = createObject(
+                        draggingName.current
+                    ))
+                )
+            }}
         >
             <div
                 className="lingo3d-flexcenter"
@@ -42,12 +53,8 @@ const GameGraphLibrary = () => {
                 <LibraryIcon />
             </div>
             <Library
-                onDragStart={(name) => {
-                    showSignal.value = false
-                    emitSelectionTarget(
-                        (treeContext.draggingItem = createObject(name))
-                    )
-                }}
+                onDragStart={(name) => (draggingName.current = name)}
+                onDragEnd={() => (draggingName.current = undefined)}
             />
         </Drawer>
     )

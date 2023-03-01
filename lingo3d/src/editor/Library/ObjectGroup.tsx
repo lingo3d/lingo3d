@@ -24,9 +24,10 @@ const getName = (
 type Props = {
     names: ObjectName
     onDragStart?: (name: GameObjectType) => void
+    onDragEnd?: () => void
 }
 
-const ObjectGroup = ({ names, onDragStart }: Props) => {
+const ObjectGroup = ({ names, onDragStart, onDragEnd }: Props) => {
     const groups: Array<
         Array<GameObjectType | Partial<Record<GameObjectType, string>>>
     > = []
@@ -49,12 +50,14 @@ const ObjectGroup = ({ names, onDragStart }: Props) => {
                         name={getName(name0)}
                         iconName={getIconName(name0)}
                         onDragStart={onDragStart}
+                        onDragEnd={onDragEnd}
                     />
                     {name1 && (
                         <ObjectIcon
                             name={getName(name1)}
                             iconName={getIconName(name1)}
                             onDragStart={onDragStart}
+                            onDragEnd={onDragEnd}
                         />
                     )}
                 </div>

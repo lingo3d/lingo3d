@@ -23,9 +23,15 @@ type Props = {
     name: GameObjectType
     iconName?: string
     onDragStart?: (name: GameObjectType) => void
+    onDragEnd?: () => void
 }
 
-const ObjectIcon = ({ name, iconName = name, onDragStart }: Props) => {
+const ObjectIcon = ({
+    name,
+    iconName = name,
+    onDragStart,
+    onDragEnd
+}: Props) => {
     return (
         <div
             draggable
@@ -34,7 +40,10 @@ const ObjectIcon = ({ name, iconName = name, onDragStart }: Props) => {
                 setDragImage(e)
                 onDragStart?.(name)
             }}
-            onDragEnd={() => setDraggingItem(undefined)}
+            onDragEnd={() => {
+                setDraggingItem(undefined)
+                onDragEnd?.()
+            }}
             className="lingo3d-flexcenter lingo3d-flexcol"
             style={{ width: "50%", paddingTop: 20, paddingBottom: 20 }}
         >
