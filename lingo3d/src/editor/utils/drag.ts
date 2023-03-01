@@ -2,6 +2,7 @@ import Appendable from "../../api/core/Appendable"
 import TexturedStandardMixin from "../../display/core/mixins/TexturedStandardMixin"
 import { container } from "../../engine/renderLoop/renderSetup"
 import { setEditorDragEvent } from "../../states/useEditorDragEvent"
+import treeContext from "../component/treeItems/treeContext"
 
 container.addEventListener("dragenter", (e) => e.preventDefault())
 container.addEventListener("dragover", (e) => e.preventDefault())
@@ -18,13 +19,15 @@ export default <T>(
     let draggingItem: T | undefined
     container.addEventListener(
         "dragover",
-        (e) => draggingItem && setEditorDragEvent(e)
+        (e) =>
+            draggingItem && !treeContext.draggingItem && setEditorDragEvent(e)
     )
     container.addEventListener("dragleave", () => setEditorDragEvent(undefined))
     container.addEventListener(
         "drop",
         () =>
             draggingItem &&
+            !treeContext.draggingItem &&
             setEditorDragEvent((hitManager) =>
                 onDrop(draggingItem!, hitManager)
             )

@@ -36,7 +36,7 @@ const ObjectIcon = ({
         <div
             draggable
             onDragStart={(e) => {
-                setDraggingItem(name as GameObjectType)
+                setDraggingItem(name)
                 setDragImage(e)
                 onDragStart?.(name)
             }}

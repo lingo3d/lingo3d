@@ -122,7 +122,6 @@ const Stage = ({ onPanStart, onEdit }: Props) => {
                     }
                 })
             }}
-            onDrop={() => (treeContext.draggingItem = undefined)}
         >
             <div
                 style={{

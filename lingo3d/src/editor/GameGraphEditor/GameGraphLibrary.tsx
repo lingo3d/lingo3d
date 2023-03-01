@@ -54,7 +54,10 @@ const GameGraphLibrary = () => {
             </div>
             <Library
                 onDragStart={(name) => (draggingName.current = name)}
-                onDragEnd={() => (draggingName.current = undefined)}
+                onDragEnd={() => {
+                    draggingName.current = undefined
+                    treeContext.draggingItem = undefined
+                }}
             />
         </Drawer>
     )
