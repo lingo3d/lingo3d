@@ -1,5 +1,4 @@
 import { ExtractProps } from "./utils/extractProps"
-import { hideSchema } from "./utils/nonEditorSchemaSet"
 import { extendDefaults } from "./utils/Defaults"
 import Nullable from "./utils/Nullable"
 import { nullableDefault } from "./utils/NullableDefault"
@@ -31,7 +30,6 @@ export const physicsObjectManagerSchema: Required<
     gravity: Boolean,
     physics: [String, Boolean]
 }
-hideSchema(["velocity"])
 
 export const physicsObjectManagerDefaults =
     extendDefaults<IPhysicsObjectManager>(

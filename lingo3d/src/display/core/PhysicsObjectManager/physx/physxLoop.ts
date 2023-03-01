@@ -11,11 +11,11 @@ import { dtPtr } from "../../../../engine/eventLoop"
 import { assignPxTransform, setPxVec, setPxVec_ } from "./pxMath"
 import PhysicsObjectManager from ".."
 import fpsAlpha from "../../../utils/fpsAlpha"
-import { gravityPtr } from "../../../../states/useGravity"
 import { onPhysXLoop } from "../../../../events/onPhysXLoop"
 import { physxPtr } from "./physxPtr"
 import { getPhysXLoaded } from "../../../../states/usePhysXLoaded"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
+import { GRAVITY } from "../../../../globals"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
 export const pxVXUpdateMap = new WeakMap<PhysicsObjectManager, number>()
@@ -75,7 +75,7 @@ createEffect(() => {
                 } else {
                     const vy =
                         (vyUpdate ?? vyMap.get(manager) ?? 0) +
-                        gravityPtr[0] * dtPtr[0]
+                        GRAVITY * dtPtr[0]
                     vyMap.set(manager, vy)
                     dy = vy * dtPtr[0]
                 }

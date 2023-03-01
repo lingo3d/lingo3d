@@ -6,19 +6,23 @@ import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
 export default interface IIncrementNode extends IAppendable {
+    step: number
     initial: number
-    amount: number
+    min: number
+    max: number
     output: number
 }
 
 export const incrementNodeSchema: Required<ExtractProps<IIncrementNode>> = {
     ...appendableSchema,
+    step: Number,
     initial: Number,
-    amount: Number,
+    min: Number,
+    max: Number,
     output: Number
 }
 
 export const incrementNodeDefaults = extendDefaults<IIncrementNode>(
     [appendableDefaults],
-    { initial: 0, amount: 0, output: 0 }
+    { step: 0, initial: 0, output: 0, min: -Infinity, max: Infinity }
 )

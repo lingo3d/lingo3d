@@ -19,7 +19,6 @@ import {
 } from "../states/useBloomThreshold"
 import { getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
 import { getExposure, setExposure } from "../states/useExposure"
-import { getGravity, setGravity } from "../states/useGravity"
 import { getGridHelper, setGridHelper } from "../states/useGridHelper"
 import {
     getGridHelperSize,
@@ -109,13 +108,6 @@ export default {
     },
     set stats(value) {
         setStats(value)
-    },
-
-    get gravity() {
-        return getGravity()
-    },
-    set gravity(value) {
-        setGravity(value)
     },
 
     get antiAlias() {

@@ -3,7 +3,6 @@ import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 import { extendDefaults } from "./utils/Defaults"
 import { nullableDefault } from "./utils/NullableDefault"
-import { hideSchema } from "./utils/nonEditorSchemaSet"
 import IMeshAppendable, {
     meshAppendableDefaults,
     meshAppendableSchema
@@ -37,7 +36,6 @@ export const animatedObjectManagerSchema: Required<
     animationRepeat: Number,
     onAnimationFinish: Function
 }
-hideSchema(["animationRepeat"])
 
 export const animatedObjectManagerDefaults =
     extendDefaults<IAnimatedObjectManager>([meshAppendableDefaults], {

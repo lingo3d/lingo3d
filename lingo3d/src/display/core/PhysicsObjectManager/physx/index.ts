@@ -1,5 +1,4 @@
 import { forceGetInstance, lazy } from "@lincode/utils"
-import { gravityPtr } from "../../../../states/useGravity"
 import { setPhysXLoaded } from "../../../../states/usePhysXLoaded"
 import { destroyPtr } from "./destroy"
 import "./physxLoop"
@@ -13,6 +12,7 @@ import {
 } from "./pxMaps"
 import throttleSystem from "../../../../utils/throttleSystem"
 import PhysicsObjectManager from ".."
+import { GRAVITY } from "../../../../globals"
 
 const clearControllerContactMapSystem = throttleSystem(
     (contacts: Set<PhysicsObjectManager>) => contacts.clear()
@@ -288,7 +288,7 @@ const clearControllerContactMapSystem = throttleSystem(
     }
 
     // create scene
-    const pxVec = new PxVec3(0, gravityPtr[0], 0)
+    const pxVec = new PxVec3(0, GRAVITY, 0)
     const pxVec_ = new PxVec3(0, 0, 0)
     const pxVec__ = new PxVec3(0, 0, 0)
     const sceneDesc = new PxSceneDesc(scale)
