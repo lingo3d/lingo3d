@@ -15,6 +15,7 @@ export type Props = {
     onCollapse?: () => void
     onExpand?: () => void
     onClick?: (e: MouseEvent) => void
+    onMouseDown?: (e: MouseEvent) => void
     onContextMenu?: (e: MouseEvent) => void
     onDrop?: (draggingItem: Appendable | MeshAppendable) => void
     myDraggingItem?: Appendable | MeshAppendable
@@ -33,6 +34,7 @@ const BaseTreeItem = ({
     onCollapse,
     onExpand,
     onClick,
+    onMouseDown,
     onContextMenu,
     onDrop,
     myDraggingItem,
@@ -129,6 +131,7 @@ const BaseTreeItem = ({
         >
             <div
                 ref={startRef}
+                onMouseDown={onMouseDown}
                 onDblClick={expanded ? collapse : expand}
                 onContextMenu={onContextMenu}
                 style={{

@@ -18,6 +18,7 @@ import {
 } from "../../states/useSceneGraphExpanded"
 import handleTreeItemClick from "../utils/handleTreeItemClick"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import { emitSelectionTarget } from "../../events/onSelectionTarget"
 
 export type TreeItemProps = {
     appendable: Appendable | MeshAppendable
@@ -75,6 +76,7 @@ const TreeItem = ({ appendable, children, expandable }: TreeItemProps) => {
             }
             onCollapse={() => setSceneGraphExpanded(undefined)}
             expandable={expandable ?? !!appendableChildren?.length}
+            onMouseDown={() => emitSelectionTarget(appendable, true)}
             onClick={(e) => handleTreeItemClick(e, appendable)}
             onContextMenu={(e) => handleTreeItemClick(e, appendable, true)}
             IconComponent={IconComponent}
