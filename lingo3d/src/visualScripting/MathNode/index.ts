@@ -44,6 +44,7 @@ export default class MathNode extends Appendable implements IMathNode {
             })
             ownKeysRecord[key] = true
         }
+        ownKeysRecord.output = true
         defaultsOwnKeysRecordMap.set(mathNodeDefaults, ownKeysRecord)
         runtimeData.output = eval(this.compiled!)
         runtimeSchema.output = Number
