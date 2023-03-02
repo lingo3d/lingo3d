@@ -1,3 +1,4 @@
+import { Reactive } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
 import { onBeforeRender } from "../events/onBeforeRender"
 import IIncrementNode, {
@@ -12,16 +13,78 @@ export default class IncrementNode
     public static componentName = "incrementNode"
     public static defaults = incrementNodeDefaults
     public static schema = incrementNodeSchema
-    public static includeKeys = ["initial", "step", "output", "min", "max"]
+    public static includeKeys = [
+        "paused",
+        "initial",
+        "step",
+        "min",
+        "max",
+        "output"
+    ]
 
-    public initial = 0
-    public step = 0
+    private refreshState = new Reactive({})
+
+    private _paused = false
+    public get paused() {
+        return this._paused
+    }
+    public set paused(value) {
+        this._paused = value
+        this.refreshState.set({})
+    }
+
+    private _initial = 0
+    public get initial() {
+        return this._initial
+    }
+    public set initial(value) {
+        this._initial = value
+        this.output = value
+        this.runtimeDefaults = { output: value }
+    }
+
+    private _step = 0
+    public get step() {
+        return this._step
+    }
+    public set step(value) {
+        this._step = value
+        this.refreshState.set({})
+    }
+
+    private _min = -Infinity
+    public get min() {
+        return this._min
+    }
+    public set min(value) {
+        this._min = value
+        this.refreshState.set({})
+    }
+
+    private _max = Infinity
+    public get max() {
+        return this._max
+    }
+    public set max(value) {
+        this._max = value
+        this.refreshState.set({})
+    }
+
     public output = 0
-    public min = -Infinity
-    public max = Infinity
 
     public constructor() {
         super()
-        this.watch(onBeforeRender(() => (this.output += this.step)))
+        this.createEffect(() => {
+            const { _paused, _initial, _step, _min, _max } = this
+            if (_paused || !_step) return
+
+            const handle = onBeforeRender(() => {
+                const val = (this.output += _step)
+                if (val > _max || val < _min) this.output = _initial
+            })
+            return () => {
+                handle.cancel()
+            }
+        }, [this.refreshState.get])
     }
 }

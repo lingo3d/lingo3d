@@ -4,8 +4,10 @@ import IAppendable, {
 } from "./IAppendable"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
+import Range from "./utils/Range"
 
 export default interface IIncrementNode extends IAppendable {
+    paused: boolean
     step: number
     initial: number
     min: number
@@ -15,6 +17,7 @@ export default interface IIncrementNode extends IAppendable {
 
 export const incrementNodeSchema: Required<ExtractProps<IIncrementNode>> = {
     ...appendableSchema,
+    paused: Boolean,
     step: Number,
     initial: Number,
     min: Number,
@@ -24,5 +27,13 @@ export const incrementNodeSchema: Required<ExtractProps<IIncrementNode>> = {
 
 export const incrementNodeDefaults = extendDefaults<IIncrementNode>(
     [appendableDefaults],
-    { step: 0, initial: 0, output: 0, min: -Infinity, max: Infinity }
+    {
+        paused: false,
+        step: 0,
+        initial: 0,
+        output: 0,
+        min: -Infinity,
+        max: Infinity
+    },
+    { step: new Range(0, 5, 1) }
 )
