@@ -12,6 +12,8 @@ export type GameObjectType =
     | "reticle"
     | "splashScreen"
     | "text"
+    | "mouse"
+    | "keyboard"
     | "reflector"
     | "water"
     | "curve"

@@ -8,6 +8,8 @@ import Joystick from "../../ui/Joystick"
 import Reticle from "../../ui/Reticle"
 import SplashScreen from "../../ui/SplashScreen"
 import Text from "../../ui/Text"
+import { Mouse } from "../mouse"
+import { Keyboard } from "../keyboard"
 import Reflector from "../../display/Reflector"
 import Water from "../../display/Water"
 import Curve from "../../display/Curve"
@@ -62,6 +64,8 @@ const record = {
     reticle: () => new Reticle(),
     splashScreen: () => new SplashScreen(),
     text: () => new Text(),
+    mouse: () => new Mouse(),
+    keyboard: () => new Keyboard(),
     dummy: () => new Dummy(),
     building: () => new Building(),
     tree: () => new Tree(),
