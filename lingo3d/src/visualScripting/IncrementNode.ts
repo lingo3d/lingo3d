@@ -12,7 +12,7 @@ export default class IncrementNode
     public static componentName = "incrementNode"
     public static defaults = incrementNodeDefaults
     public static schema = incrementNodeSchema
-    public static includeKeys = ["initial", "step", "output"]
+    public static includeKeys = ["initial", "step", "output", "min", "max"]
 
     public initial = 0
     public step = 0

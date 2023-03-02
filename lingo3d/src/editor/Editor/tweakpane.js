@@ -3440,9 +3440,9 @@ class NumberTextController {
     }
     onPointerMove_(ev) {
         const v = this.computeDraggingValue_(ev.data)
-        if (v === null) {
+        if (v === null || v === -Infinity || v === Infinity || Number.isNaN(v))
             return
-        }
+
         this.value.setRawValue(v, {
             forceEmit: false,
             last: false
