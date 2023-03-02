@@ -1,9 +1,24 @@
-import { Point3d } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
 import canvasToWorld from "../display/utils/canvasToWorld"
+import IProjectNode, {
+    projectNodeDefaults,
+    projectNodeSchema
+} from "../interface/IProjectNode"
 
-export default class CanvasToWorld extends Appendable {
+export default class ProjectNode extends Appendable implements IProjectNode {
+    public static componentName = "projectNode"
+    public static defaults = projectNodeDefaults
+    public static schema = projectNodeSchema
+    public static includeKeys = [
+        "x",
+        "y",
+        "distance",
+        "outputX",
+        "outputY",
+        "outputZ"
+    ]
+
     private refresh = new Reactive({})
 
     private _x = 0
@@ -33,13 +48,18 @@ export default class CanvasToWorld extends Appendable {
         this.refresh.set({})
     }
 
-    public output = new Point3d(0, 0, 0)
+    public outputX = 0
+    public outputY = 0
+    public outputZ = 0
 
     public constructor() {
         super()
 
         this.createEffect(() => {
-            this.output = canvasToWorld(this._x, this._y, this._distance)
+            const pt = canvasToWorld(this._x, this._y, this._distance)
+            this.outputX = pt.x
+            this.outputY = pt.y
+            this.outputZ = pt.z
         }, [this.refresh])
     }
 }

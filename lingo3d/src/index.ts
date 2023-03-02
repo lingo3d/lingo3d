@@ -34,6 +34,7 @@ import GameGraph from "./visualScripting/GameGraph"
 import Connector from "./visualScripting/Connector"
 import MathNode from "./visualScripting/MathNode"
 import IncrementNode from "./visualScripting/IncrementNode"
+import ProjectNode from "./visualScripting/ProjectNode"
 
 import Audio from "./display/Audio"
 import Skybox from "./display/Skybox"
@@ -126,6 +127,7 @@ export {
     Connector,
     MathNode,
     IncrementNode,
+    ProjectNode,
     Audio,
     Skybox,
     Environment,

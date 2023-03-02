@@ -13,6 +13,7 @@ import { GameObjectType } from "../../api/serializer/types"
 const objectNames = [
     { gameGraph: "joystick" },
     { incrementNode: "joystick" },
+    { projectNode: "joystick" },
     { mouse: "joystick" },
     { keyboard: "joystick" },
 
