@@ -8,7 +8,7 @@ import Appendable from "../../api/core/Appendable"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { PassthroughCallback } from "./addInputs"
-import { extendFunction, forceGet, omitFunction } from "@lincode/utils"
+import { extendFunction, omitFunction } from "@lincode/utils"
 
 const filterSchema = (
     schema: Record<string, any>,
@@ -24,8 +24,6 @@ const filterSchema = (
 
 const isObject = (val: any): val is object =>
     val && typeof val === "object" && !Array.isArray(val)
-
-const managerProxyMap = new WeakMap<Appendable, Appendable>()
 
 export default (
     manager: Appendable,
@@ -66,38 +64,31 @@ export default (
     }
     return [
         params,
-        forceGet(
-            managerProxyMap,
-            manager,
-            () =>
-                new Proxy(manager, {
-                    get(_, prop: string) {
-                        if (schemaKeyParamMap.has(prop))
-                            return schemaKeyParamMap.get(prop)
-                        return unsafeGetValue(manager, prop)
-                    },
-                    set(_, prop: string, val) {
-                        if (
-                            schemaKeyParamMap.has(prop) &&
-                            val instanceof PassthroughCallback
-                        ) {
-                            const extended = unsafeSetValue(
-                                manager,
-                                prop,
-                                extendFunction(
-                                    unsafeGetValue(manager, prop),
-                                    val.callback
-                                )
-                            )
-                            val.handle.then(() =>
-                                omitFunction(extended, val.callback)
-                            )
-                            return true
-                        }
-                        unsafeSetValue(manager, prop, val)
-                        return true
-                    }
-                })
-        )
+        new Proxy(manager, {
+            get(_, prop: string) {
+                if (schemaKeyParamMap.has(prop))
+                    return schemaKeyParamMap.get(prop)
+                return unsafeGetValue(manager, prop)
+            },
+            set(_, prop: string, val) {
+                if (
+                    schemaKeyParamMap.has(prop) &&
+                    val instanceof PassthroughCallback
+                ) {
+                    const extended = unsafeSetValue(
+                        manager,
+                        prop,
+                        extendFunction(
+                            unsafeGetValue(manager, prop),
+                            val.callback
+                        )
+                    )
+                    val.handle.then(() => omitFunction(extended, val.callback))
+                    return true
+                }
+                unsafeSetValue(manager, prop, val)
+                return true
+            }
+        })
     ] as const
 }
