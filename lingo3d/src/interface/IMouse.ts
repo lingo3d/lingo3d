@@ -12,8 +12,8 @@ import { nullableCallback } from "./utils/NullableCallback"
 
 export class LingoMouseEvent {
     public constructor(
-        public canvasX: number,
-        public canvasY: number,
+        public x: number,
+        public y: number,
         public clientX: number,
         public clientY: number,
         public xNorm: number,
@@ -39,8 +39,8 @@ export const lingoMouseEvent = new LingoMouseEvent(
 
 export class SimpleMouseEvent {
     public constructor(
-        public canvasX: number,
-        public canvasY: number,
+        public x: number,
+        public y: number,
         public clientX: number,
         public clientY: number
     ) {}

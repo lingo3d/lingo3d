@@ -27,19 +27,19 @@ container.addEventListener("contextmenu", () => (rightClick = true))
 
 mouseEvents.on("down", (e) => {
     downTime = Date.now()
-    downX = e.canvasX
-    downY = e.canvasY
+    downX = e.x
+    downY = e.y
 })
 mouseEvents.on("up", (e) => {
     const upTime = Date.now()
 
     const deltaTime = upTime - downTime
-    const deltaX = Math.abs(e.canvasX - downX)
-    const deltaY = Math.abs(e.canvasY - downY)
+    const deltaX = Math.abs(e.x - downX)
+    const deltaY = Math.abs(e.y - downY)
 
     downTime = upTime
-    downX = e.canvasX
-    downY = e.canvasY
+    downX = e.x
+    downY = e.y
 
     if (deltaTime < 300 && deltaX < 5 && deltaY < 5)
         mouseEvents.emit(rightClick ? "rightClick" : "click", e)
@@ -82,7 +82,7 @@ export class Mouse extends Appendable implements IMouse {
     public constructor() {
         super()
 
-        let currentPayload = { canvasX: 0, canvasY: 0, clientX: 0, clientY: 0 }
+        let currentPayload = new SimpleMouseEvent(0, 0, 0, 0)
         const [setDown, getDown] = store(false)
 
         this.createEffect(() => {

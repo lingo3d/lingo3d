@@ -89,8 +89,8 @@ export default (
         then(
             manager,
             new LingoMouseEvent(
-                e.canvasX,
-                e.canvasY,
+                e.x,
+                e.y,
                 e.clientX,
                 e.clientY,
                 e.xNorm,
