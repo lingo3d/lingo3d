@@ -60,6 +60,6 @@ export default class ProjectNode extends Appendable implements IProjectNode {
             this.outputX = pt.x
             this.outputY = pt.y
             this.outputZ = pt.z
-        }, [this.refresh])
+        }, [this.refresh.get])
     }
 }
