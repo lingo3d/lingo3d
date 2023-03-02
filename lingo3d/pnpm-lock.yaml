@@ -16,25 +16,25 @@ specifiers:
   '@types/three': 0.149.0
   '@types/wavesurfer.js': ^6.0.3
   '@ungap/structured-clone': ^1.0.2
-  browser-fs-access: 0.32.1
+  browser-fs-access: 0.33.0
   lil-gui: ^0.18.0
   lingo3d-forest: ^1.0.0
   nanoid: ^4.0.1
   nipplejs: 0.10.0
   object-sizeof: ^2.6.1
-  postprocessing: ^6.30.0
-  preact: ^10.12.1
+  postprocessing: ^6.30.1
+  preact: ^10.13.0
   preact-compat: ^3.19.0
   prettier: ^2.8.4
   randomcolor: ^0.6.2
   rimraf: ^3.0.2
   stats.js: ^0.17.0
-  three: 0.150.0
+  three: 0.150.1
   typescript: ^4.9.5
   vite: ^4.1.4
   wasm-feature-detect: ^1.5.1
   wavesurfer.js: ^6.4.0
-  xstate: ^4.36.0
+  xstate: ^4.37.0
 
 dependencies:
   '@lincode/events': 1.0.32
@@ -43,25 +43,25 @@ dependencies:
   '@lincode/promiselikes': 1.0.25
   '@lincode/reactivity': 1.0.83
   '@lincode/utils': 1.3.19
-  '@preact/signals': 1.1.3_preact@10.12.1
+  '@preact/signals': 1.1.3_preact@10.13.0
   '@types/three': 0.149.0
   '@ungap/structured-clone': 1.0.2
-  browser-fs-access: 0.32.1
+  browser-fs-access: 0.33.0
   lingo3d-forest: 1.0.0
   nanoid: 4.0.1
   nipplejs: 0.10.0
-  postprocessing: 6.30.0_three@0.150.0
-  preact: 10.12.1
-  preact-compat: 3.19.0_preact@10.12.1
+  postprocessing: 6.30.1_three@0.150.1
+  preact: 10.13.0
+  preact-compat: 3.19.0_preact@10.13.0
   prettier: 2.8.4
   stats.js: 0.17.0
-  three: 0.150.0
+  three: 0.150.1
   wasm-feature-detect: 1.5.1
   wavesurfer.js: 6.4.0
-  xstate: 4.36.0
+  xstate: 4.37.0
 
 devDependencies:
-  '@preact/preset-vite': 2.5.0_preact@10.12.1+vite@4.1.4
+  '@preact/preset-vite': 2.5.0_preact@10.13.0+vite@4.1.4
   '@types/preact-custom-element': 4.0.1
   '@types/prettier': 2.7.2
   '@types/randomcolor': 0.5.7
@@ -596,7 +596,7 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /@preact/preset-vite/2.5.0_preact@10.12.1+vite@4.1.4:
+  /@preact/preset-vite/2.5.0_preact@10.13.0+vite@4.1.4:
     resolution: {integrity: sha512-BUhfB2xQ6ex0yPkrT1Z3LbfPzjpJecOZwQ/xJrXGFSZD84+ObyS//41RdEoQCMWsM0t7UHGaujUxUBub7WM1Jw==}
     peerDependencies:
       '@babel/core': 7.x
@@ -604,7 +604,7 @@ packages:
     dependencies:
       '@babel/plugin-transform-react-jsx': 7.21.0
       '@babel/plugin-transform-react-jsx-development': 7.18.6
-      '@prefresh/vite': 2.2.9_preact@10.12.1+vite@4.1.4
+      '@prefresh/vite': 2.2.9_preact@10.13.0+vite@4.1.4
       '@rollup/pluginutils': 4.2.1
       babel-plugin-transform-hook-names: 1.0.2
       debug: 4.3.4
@@ -620,32 +620,32 @@ packages:
     resolution: {integrity: sha512-Kui4p7PMcEQevBgsTO0JBo3gyQ88Q3qzEvsVCuSp11t0JcN4DmGCTJcGRVSCq7Bn7lGxJBO+57jNSzDoDJ+QmA==}
     dev: false
 
-  /@preact/signals/1.1.3_preact@10.12.1:
+  /@preact/signals/1.1.3_preact@10.13.0:
     resolution: {integrity: sha512-N09DuAVvc90bBZVRwD+aFhtGyHAmJLhS3IFoawO/bYJRcil4k83nBOchpCEoS0s5+BXBpahgp0Mjf+IOqP57Og==}
     peerDependencies:
       preact: 10.x
     dependencies:
       '@preact/signals-core': 1.2.3
-      preact: 10.12.1
+      preact: 10.13.0
     dev: false
 
   /@prefresh/babel-plugin/0.4.4:
     resolution: {integrity: sha512-/EvgIFMDL+nd20WNvMO0JQnzIl1EJPgmSaSYrZUww7A+aSdKsi37aL07TljrZR1cBMuzFxcr4xvqsUQLFJEukw==}
     dev: true
 
-  /@prefresh/core/1.4.1_preact@10.12.1:
+  /@prefresh/core/1.4.1_preact@10.13.0:
     resolution: {integrity: sha512-og1vaBj3LMJagVncNrDb37Gqc0cWaUcDbpVt5hZtsN4i2Iwzd/5hyTsDHvlMirhSym3wL9ihU0Xa2VhSaOue7g==}
     peerDependencies:
       preact: ^10.0.0
     dependencies:
-      preact: 10.12.1
+      preact: 10.13.0
     dev: true
 
   /@prefresh/utils/1.1.3:
     resolution: {integrity: sha512-Mb9abhJTOV4yCfkXrMrcgFiFT7MfNOw8sDa+XyZBdq/Ai2p4Zyxqsb3EgHLOEdHpMj6J9aiZ54W8H6FTam1u+A==}
     dev: true
 
-  /@prefresh/vite/2.2.9_preact@10.12.1+vite@4.1.4:
+  /@prefresh/vite/2.2.9_preact@10.13.0+vite@4.1.4:
     resolution: {integrity: sha512-1ERBF85Ja9/lkrfaltmo4Gca7R2ClQPSHHDDysFgfvPzHmLUeyB0x9WHwhwov/AA1DnyPhsfYT54z3yQd8XrgA==}
     peerDependencies:
       preact: ^10.4.0
@@ -653,10 +653,10 @@ packages:
     dependencies:
       '@babel/core': 7.21.0
       '@prefresh/babel-plugin': 0.4.4
-      '@prefresh/core': 1.4.1_preact@10.12.1
+      '@prefresh/core': 1.4.1_preact@10.13.0
       '@prefresh/utils': 1.1.3
       '@rollup/pluginutils': 4.2.1
-      preact: 10.12.1
+      preact: 10.13.0
       vite: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -681,7 +681,7 @@ packages:
   /@types/preact-custom-element/4.0.1:
     resolution: {integrity: sha512-oduUzzxJAZ7qWJ5EsUffxvpRFnzgffilDlfxLR9Q2YkEzSfn3vudIrnDg0AiQgZJ0GkAjLzkxQyAxH6sS/EQdQ==}
     dependencies:
-      preact: 10.12.1
+      preact: 10.13.0
     dev: true
 
   /@types/prettier/2.7.2:
@@ -744,8 +744,8 @@ packages:
       concat-map: 0.0.1
     dev: true
 
-  /browser-fs-access/0.32.1:
-    resolution: {integrity: sha512-NGzbF/ZpAjmgJIS17rlBpv5kkoBzIAyALzT4GrJpj4OIZYQq3Gqrx8pube6mtfqksARw8YK40GpTZR2fKtFA4w==}
+  /browser-fs-access/0.33.0:
+    resolution: {integrity: sha512-OIroFiFdNcITJnLCJUoJBRWLf6lu/e7h24Ik0khWg7Ozn+sR+asYiSeiPpXmV32OgogSNiOqCoaI1/7vrl1T+Q==}
     dev: false
 
   /browserslist/4.21.5:
@@ -753,8 +753,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001457
-      electron-to-chromium: 1.4.310
+      caniuse-lite: 1.0.30001458
+      electron-to-chromium: 1.4.315
       node-releases: 2.0.10
       update-browserslist-db: 1.0.10_browserslist@4.21.5
     dev: true
@@ -766,8 +766,8 @@ packages:
       ieee754: 1.2.1
     dev: true
 
-  /caniuse-lite/1.0.30001457:
-    resolution: {integrity: sha512-SDIV6bgE1aVbK6XyxdURbUE89zY7+k1BBBaOwYwkNCglXlel/E7mELiHC64HQ+W0xSKlqWhV9Wh7iHxUjMs4fA==}
+  /caniuse-lite/1.0.30001458:
+    resolution: {integrity: sha512-lQ1VlUUq5q9ro9X+5gOEyH7i3vm+AYVT1WDCVB69XOZ17KZRhnZ9J0Sqz7wTHQaLBJccNCHq8/Ww5LlOIZbB0w==}
     dev: true
 
   /chalk/2.4.2:
@@ -809,8 +809,8 @@ packages:
       ms: 2.1.2
     dev: true
 
-  /electron-to-chromium/1.4.310:
-    resolution: {integrity: sha512-/xlATgfwkm5uDDwLw5nt/MNEf7c1oazLURMZLy39vOioGYyYzLWIDT8fZMJak6qTiAJ7udFTy7JG7ziyjNutiA==}
+  /electron-to-chromium/1.4.315:
+    resolution: {integrity: sha512-ndBQYz3Eyy3rASjjQ9poMJGoAlsZ/aZnq6GBsGL4w/4sWIAwiUHVSsMuADbxa8WJw7pZ0oxLpGbtoDt4vRTdCg==}
     dev: true
 
   /esbuild/0.16.17:
@@ -1057,56 +1057,56 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing/6.30.0_three@0.150.0:
-    resolution: {integrity: sha512-xbfqFQ1KoOSSGTOXDysUmXYxYIbjSMWtnySe0RH25ytvk5/HJ09I0kPs7/KX2n7eGjW6ITWgU37QXQKjJfgHJw==}
+  /postprocessing/6.30.1_three@0.150.1:
+    resolution: {integrity: sha512-GkBrQtX6KjNz+Pz3+ABvP1aXKCCW7h/tuE37wlM90WZLbaGfJ7eSIBN2gPgKExuK584IPde0YOoNiuWMr7PNCQ==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
-      three: '>= 0.138.0 < 0.150.0'
+      three: '>= 0.138.0 < 0.151.0'
     dependencies:
-      three: 0.150.0
+      three: 0.150.1
     dev: false
 
-  /preact-compat/3.19.0_preact@10.12.1:
+  /preact-compat/3.19.0_preact@10.13.0:
     resolution: {integrity: sha512-f83A4hIhH8Uzhb9GbIcGk8SM19ffWlwP9mDaYwQdRnMdekZwcCA7eIAbeV4EMQaV9C0Yuy8iKgBAtyTKPZQt/Q==}
     peerDependencies:
       preact: <10
     dependencies:
       immutability-helper: 2.9.1
-      preact: 10.12.1
-      preact-context: 1.1.4_preact@10.12.1
-      preact-render-to-string: 3.8.2_preact@10.12.1
-      preact-transition-group: 1.1.1_preact@10.12.1
+      preact: 10.13.0
+      preact-context: 1.1.4_preact@10.13.0
+      preact-render-to-string: 3.8.2_preact@10.13.0
+      preact-transition-group: 1.1.1_preact@10.13.0
       prop-types: 15.8.1
       standalone-react-addons-pure-render-mixin: 0.1.1
     dev: false
 
-  /preact-context/1.1.4_preact@10.12.1:
+  /preact-context/1.1.4_preact@10.13.0:
     resolution: {integrity: sha512-gcCjPJ65R0MiW9hDu8W/3WAmyTElIvwLyEO6oLQiM6/TbLKLxCpBCWV8GJjx52TTEyUr60HLDcmoCXZlslelzQ==}
     peerDependencies:
       preact: ^8.2.7
     dependencies:
-      preact: 10.12.1
+      preact: 10.13.0
     dev: false
 
-  /preact-render-to-string/3.8.2_preact@10.12.1:
+  /preact-render-to-string/3.8.2_preact@10.13.0:
     resolution: {integrity: sha512-przuZPajiurStGgxMoJP0EJeC4xj5CgHv+M7GfF3YxAdhGgEWAkhOSE0xympAFN20uMayntBZpttIZqqLl77fw==}
     peerDependencies:
       preact: '*'
     dependencies:
-      preact: 10.12.1
+      preact: 10.13.0
       pretty-format: 3.8.0
     dev: false
 
-  /preact-transition-group/1.1.1_preact@10.12.1:
+  /preact-transition-group/1.1.1_preact@10.13.0:
     resolution: {integrity: sha512-v89XLodCvylf5lMrhI+LqIhDsAjWfiDKV4keAU+L5yDtxmqn8uvjZXn+haKMEG0x0PZz81own19SuNJD5NlOFQ==}
     peerDependencies:
       preact: '*'
     dependencies:
-      preact: 10.12.1
+      preact: 10.13.0
     dev: false
 
-  /preact/10.12.1:
-    resolution: {integrity: sha512-l8386ixSsBdbreOAkqtrwqHwdvR35ID8c3rKPa8lCWuO86dBi32QWHV4vfsZK1utLLFMvw+Z5Ad4XLkZzchscg==}
+  /preact/10.13.0:
+    resolution: {integrity: sha512-ERdIdUpR6doqdaSIh80hvzebHB7O6JxycOhyzAeLEchqOq/4yueslQbfnPwXaNhAYacFTyCclhwkEbOumT0tHw==}
 
   /prettier/2.8.4:
     resolution: {integrity: sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==}
@@ -1150,8 +1150,8 @@ packages:
       glob: 7.2.3
     dev: true
 
-  /rollup/3.17.2:
-    resolution: {integrity: sha512-qMNZdlQPCkWodrAZ3qnJtvCAl4vpQ8q77uEujVCCbC/6CLB7Lcmvjq7HyiOSnf4fxTT9XgsE36oLHJBH49xjqA==}
+  /rollup/3.18.0:
+    resolution: {integrity: sha512-J8C6VfEBjkvYPESMQYxKHxNOh4A5a3FlP+0BETGo34HEcE4eTlgCrO2+eWzlu2a/sHs2QUkZco+wscH7jhhgWg==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
@@ -1188,8 +1188,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /three/0.150.0:
-    resolution: {integrity: sha512-12oqqBZom9fb5HtX3rD8qPVnamojuiN5Os7r0x8s3HQ+WHRwnEyzl2XU3aEKocsDkG++rkE9+HWzx77O59NXtw==}
+  /three/0.150.1:
+    resolution: {integrity: sha512-5C1MqKUWaHYo13BX0Q64qcdwImgnnjSOFgBscOzAo8MYCzEtqfQqorEKMcajnA3FHy1yVlIe9AmaMQ0OQracNA==}
     dev: false
 
   /to-fast-properties/2.0.0:
@@ -1242,7 +1242,7 @@ packages:
       esbuild: 0.16.17
       postcss: 8.4.21
       resolve: 1.22.1
-      rollup: 3.17.2
+      rollup: 3.18.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -1259,8 +1259,8 @@ packages:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: true
 
-  /xstate/4.36.0:
-    resolution: {integrity: sha512-AUI+KPgyy3g4PDpZWzUy/5ubd8VymbqikNmrJx5AQfqh+AQnemkBiabGROno+am1wUl2yeuT3UDrzUTSidfa6g==}
+  /xstate/4.37.0:
+    resolution: {integrity: sha512-YC+JCerRclKS9ixQTuw8l3vs3iFqWzNzOGR0ID5XsSlieMXIV9nNPE43h9CGr7VdxA1QYhMwhCZA0EdpOd17Bg==}
     dev: false
 
   /yallist/3.1.1:
