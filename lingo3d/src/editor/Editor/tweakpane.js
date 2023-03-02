@@ -3263,6 +3263,7 @@ function mapRange(value, start1, end1, start2, end2) {
     return start2 + p * (end2 - start2)
 }
 function getDecimalDigits(value) {
+    if (value === Infinity || value === -Infinity) return 0
     const text = String(value.toFixed(10))
     const frac = text.split(".")[1]
     return frac.replace(/0+$/, "").length
@@ -3327,8 +3328,11 @@ class NumberTextView {
             this.element.classList.remove(className$g(undefined, "drg"))
             return
         }
+        const draggingScale = this.props_.get("draggingScale")
+        if (draggingScale === Infinity || draggingScale === -Infinity) return
+
         this.element.classList.add(className$g(undefined, "drg"))
-        const x = ev.rawValue / this.props_.get("draggingScale")
+        const x = ev.rawValue / draggingScale
         const aox = x + (x > 0 ? -1 : x < 0 ? +1 : 0)
         const adx = constrainRange(-aox, -4, +4)
         this.guideHeadElem_.setAttributeNS(
