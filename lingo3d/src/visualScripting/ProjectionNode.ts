@@ -14,9 +14,9 @@ export default class ProjectionNode extends Appendable implements IProjectionNod
         "x",
         "y",
         "distance",
-        "outputX",
-        "outputY",
-        "outputZ"
+        "outX",
+        "outY",
+        "outZ"
     ]
 
     private refresh = new Reactive({})
@@ -48,18 +48,18 @@ export default class ProjectionNode extends Appendable implements IProjectionNod
         this.refresh.set({})
     }
 
-    public outputX = 0
-    public outputY = 0
-    public outputZ = 0
+    public outX = 0
+    public outY = 0
+    public outZ = 0
 
     public constructor() {
         super()
 
         this.createEffect(() => {
             const pt = canvasToWorld(this._x, this._y, this._distance)
-            this.outputX = pt.x
-            this.outputY = pt.y
-            this.outputZ = pt.z
+            this.outX = pt.x
+            this.outY = pt.y
+            this.outZ = pt.z
         }, [this.refresh.get])
     }
 }

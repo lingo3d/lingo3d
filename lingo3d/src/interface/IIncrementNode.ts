@@ -12,7 +12,7 @@ export default interface IIncrementNode extends IAppendable {
     initial: number
     min: number
     max: number
-    output: number
+    out: number
 }
 
 export const incrementNodeSchema: Required<ExtractProps<IIncrementNode>> = {
@@ -22,7 +22,7 @@ export const incrementNodeSchema: Required<ExtractProps<IIncrementNode>> = {
     initial: Number,
     min: Number,
     max: Number,
-    output: Number
+    out: Number
 }
 
 export const incrementNodeDefaults = extendDefaults<IIncrementNode>(
@@ -31,7 +31,7 @@ export const incrementNodeDefaults = extendDefaults<IIncrementNode>(
         paused: false,
         step: 0,
         initial: 0,
-        output: 0,
+        out: 0,
         min: -Infinity,
         max: Infinity
     },

@@ -9,9 +9,9 @@ export default interface IProjectionNode extends IAppendable {
     x: number
     y: number
     distance: number
-    outputX: number
-    outputY: number
-    outputZ: number
+    outX: number
+    outY: number
+    outZ: number
 }
 
 export const projectionNodeSchema: Required<ExtractProps<IProjectionNode>> = {
@@ -19,9 +19,9 @@ export const projectionNodeSchema: Required<ExtractProps<IProjectionNode>> = {
     x: Number,
     y: Number,
     distance: Number,
-    outputX: Number,
-    outputY: Number,
-    outputZ: Number
+    outX: Number,
+    outY: Number,
+    outZ: Number
 }
 
 export const projectionNodeDefaults = extendDefaults<IProjectionNode>(
@@ -30,8 +30,8 @@ export const projectionNodeDefaults = extendDefaults<IProjectionNode>(
         x: 0,
         y: 0,
         distance: 500,
-        outputX: 0,
-        outputY: 0,
-        outputZ: 0
+        outX: 0,
+        outY: 0,
+        outZ: 0
     }
 )

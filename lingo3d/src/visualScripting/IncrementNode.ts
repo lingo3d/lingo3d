@@ -19,7 +19,7 @@ export default class IncrementNode
         "step",
         "min",
         "max",
-        "output"
+        "out"
     ]
 
     private refreshState = new Reactive({})
@@ -39,8 +39,8 @@ export default class IncrementNode
     }
     public set initial(value) {
         this._initial = value
-        this.output = value
-        this.runtimeDefaults = { output: value }
+        this.out = value
+        this.runtimeDefaults = { out: value }
     }
 
     private _step = 0
@@ -70,7 +70,7 @@ export default class IncrementNode
         this.refreshState.set({})
     }
 
-    public output = 0
+    public out = 0
 
     public constructor() {
         super()
@@ -79,8 +79,8 @@ export default class IncrementNode
             if (_paused || !_step) return
 
             const handle = onBeforeRender(() => {
-                const val = (this.output += _step)
-                if (val > _max || val < _min) this.output = _initial
+                const val = (this.out += _step)
+                if (val > _max || val < _min) this.out = _initial
             })
             return () => {
                 handle.cancel()
