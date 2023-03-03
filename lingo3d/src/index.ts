@@ -71,6 +71,7 @@ import { setAssetsPath } from "./api/assetsPath"
 
 import serialize from "./api/serializer/serialize"
 import deserialize from "./api/serializer/deserialize"
+import spawn from "./api/spawn"
 
 import downloadBlob from "./api/files/downloadBlob"
 import downloadText from "./api/files/downloadText"
@@ -162,6 +163,7 @@ export {
     setAssetsPath,
     serialize,
     deserialize,
+    spawn,
     downloadBlob,
     downloadText,
     exportJSON,
