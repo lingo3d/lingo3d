@@ -5,7 +5,7 @@ specifiers:
   '@lincode/filetypes': ^1.0.3
   '@lincode/math': ^1.0.8
   '@lincode/promiselikes': ^1.0.25
-  '@lincode/reactivity': ^1.0.83
+  '@lincode/reactivity': ^1.0.85
   '@lincode/utils': ^1.3.19
   '@preact/preset-vite': ^2.5.0
   '@preact/signals': ^1.1.3
@@ -41,7 +41,7 @@ dependencies:
   '@lincode/filetypes': 1.0.3
   '@lincode/math': 1.0.8
   '@lincode/promiselikes': 1.0.25
-  '@lincode/reactivity': 1.0.83
+  '@lincode/reactivity': 1.0.85
   '@lincode/utils': 1.3.19
   '@preact/signals': 1.1.3_preact@10.13.0
   '@types/three': 0.149.0
@@ -581,8 +581,8 @@ packages:
       '@lincode/utils': 1.3.19
     dev: false
 
-  /@lincode/reactivity/1.0.83:
-    resolution: {integrity: sha512-PQlUlrfRgCUzLwIT0DTJ8GXNrwGa2ch1c2xO9VDEh+GaF2zt0Akf3/u8CL2n4ObteZ6xKxT2RcJvchUZ7BhGDQ==}
+  /@lincode/reactivity/1.0.85:
+    resolution: {integrity: sha512-ppxGSS2Du5nfCXjpbApYBuxcK/heyPy8XAyjekgeyabLYj1buezl/3APlXMmLYUBMTkqvF6cS78QNFICjQF+XQ==}
     dependencies:
       '@lincode/events': 1.0.32
       '@lincode/promiselikes': 1.0.25
@@ -754,7 +754,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001458
-      electron-to-chromium: 1.4.315
+      electron-to-chromium: 1.4.316
       node-releases: 2.0.10
       update-browserslist-db: 1.0.10_browserslist@4.21.5
     dev: true
@@ -809,8 +809,8 @@ packages:
       ms: 2.1.2
     dev: true
 
-  /electron-to-chromium/1.4.315:
-    resolution: {integrity: sha512-ndBQYz3Eyy3rASjjQ9poMJGoAlsZ/aZnq6GBsGL4w/4sWIAwiUHVSsMuADbxa8WJw7pZ0oxLpGbtoDt4vRTdCg==}
+  /electron-to-chromium/1.4.316:
+    resolution: {integrity: sha512-9urqVpdeJYAwVL/sBjsX2pSlgYI/b4nOqC6UaNa0xlq1VUbXLRhERWlxcQ4FWfUOQQxSSxN/taFtapEcwg5tVA==}
     dev: true
 
   /esbuild/0.16.17:

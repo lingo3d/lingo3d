@@ -5,7 +5,7 @@ import IAppendable, {
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IProjectNode extends IAppendable {
+export default interface IProjectionNode extends IAppendable {
     x: number
     y: number
     distance: number
@@ -14,7 +14,7 @@ export default interface IProjectNode extends IAppendable {
     outputZ: number
 }
 
-export const projectNodeSchema: Required<ExtractProps<IProjectNode>> = {
+export const projectionNodeSchema: Required<ExtractProps<IProjectionNode>> = {
     ...appendableSchema,
     x: Number,
     y: Number,
@@ -24,7 +24,7 @@ export const projectNodeSchema: Required<ExtractProps<IProjectNode>> = {
     outputZ: Number
 }
 
-export const projectNodeDefaults = extendDefaults<IProjectNode>(
+export const projectionNodeDefaults = extendDefaults<IProjectionNode>(
     [appendableDefaults],
     {
         x: 0,

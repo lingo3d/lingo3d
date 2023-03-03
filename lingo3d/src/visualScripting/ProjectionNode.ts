@@ -1,15 +1,15 @@
 import { Reactive } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
 import canvasToWorld from "../display/utils/canvasToWorld"
-import IProjectNode, {
-    projectNodeDefaults,
-    projectNodeSchema
+import IProjectionNode, {
+    projectionNodeDefaults,
+    projectionNodeSchema
 } from "../interface/IProjectNode"
 
-export default class ProjectNode extends Appendable implements IProjectNode {
+export default class ProjectionNode extends Appendable implements IProjectionNode {
     public static componentName = "projectNode"
-    public static defaults = projectNodeDefaults
-    public static schema = projectNodeSchema
+    public static defaults = projectionNodeDefaults
+    public static schema = projectionNodeSchema
     public static includeKeys = [
         "x",
         "y",
