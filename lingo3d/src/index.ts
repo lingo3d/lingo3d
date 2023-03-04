@@ -35,6 +35,7 @@ import Connector from "./visualScripting/Connector"
 import MathNode from "./visualScripting/MathNode"
 import IncrementNode from "./visualScripting/IncrementNode"
 import ProjectionNode from "./visualScripting/ProjectionNode"
+import SpawnNode from "./visualScripting/SpawnNode"
 
 import Audio from "./display/Audio"
 import Skybox from "./display/Skybox"
@@ -129,6 +130,7 @@ export {
     MathNode,
     IncrementNode,
     ProjectionNode,
+    SpawnNode,
     Audio,
     Skybox,
     Environment,

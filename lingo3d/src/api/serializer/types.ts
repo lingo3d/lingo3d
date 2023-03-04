@@ -56,6 +56,7 @@ export type GameObjectType =
     | "mathNode"
     | "incrementNode"
     | "projectionNode"
+    | "spawnNode"
 
 type VersionNode = {
     type: "lingo3d"

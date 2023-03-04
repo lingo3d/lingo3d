@@ -4,7 +4,7 @@ import canvasToWorld from "../display/utils/canvasToWorld"
 import IProjectionNode, {
     projectionNodeDefaults,
     projectionNodeSchema
-} from "../interface/IProjectNode"
+} from "../interface/IProjectionNode"
 
 export default class ProjectionNode extends Appendable implements IProjectionNode {
     public static componentName = "projectNode"

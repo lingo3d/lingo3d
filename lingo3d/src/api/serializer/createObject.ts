@@ -47,6 +47,7 @@ import Connector from "../../visualScripting/Connector"
 import MathNode from "../../visualScripting/MathNode"
 import IncrementNode from "../../visualScripting/IncrementNode"
 import ProjectionNode from "../../visualScripting/ProjectionNode"
+import SpawnNode from "../../visualScripting/SpawnNode"
 import SpawnPoint from "../../display/SpawnPoint"
 import SphericalJoint from "../../display/joints/SphericalJoint"
 import FixedJoint from "../../display/joints/FixedJoint"
@@ -111,7 +112,8 @@ const record = {
     connector: () => new Connector(),
     mathNode: () => new MathNode(),
     incrementNode: () => new IncrementNode(),
-    projectionNode: () => new ProjectionNode()
+    projectionNode: () => new ProjectionNode(),
+    spawnNode: () => new SpawnNode(),
 } satisfies Record<GameObjectType, () => Appendable>
 
 export default <T extends GameObjectType>(

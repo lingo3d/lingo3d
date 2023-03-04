@@ -14,6 +14,7 @@ const objectNames = [
     { gameGraph: "joystick" },
     { incrementNode: "joystick" },
     { projectionNode: "joystick" },
+    { spawnNode: "joystick" },
     { mouse: "joystick" },
     { keyboard: "joystick" },
 
