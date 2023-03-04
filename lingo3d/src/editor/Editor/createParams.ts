@@ -9,14 +9,15 @@ import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { PassthroughCallback } from "./addInputs"
 import { extendFunction, omitFunction } from "@lincode/utils"
+import NullableCallback from "../../interface/utils/NullableCallback"
 
 const filterSchema = (
-    schema: Record<string, any>,
-    runtimeSchema: Record<string, any> | undefined,
+    schema: Record<string, unknown>,
+    runtimeSchema: Record<string, unknown> | undefined,
     includeKeys: Array<string> | undefined
 ) => {
     if (!includeKeys) return { ...schema, ...runtimeSchema }
-    const result: any = {}
+    const result: Record<string, any> = {}
     for (const key of includeKeys)
         result[key] = schema[key] ?? runtimeSchema?.[key]
     return result
@@ -35,7 +36,8 @@ export default (
     if (!schema) return [params, manager] as const
 
     const options = defaultsOptionsMap.get(defaults)
-    const schemaKeyParamMap = new Map<string, object>()
+    const schemaKeyNullableCallbackParamMap = new Map<string, unknown>()
+    const schemaKeyDefaultMethodArgMap = new Map<string, unknown>()
 
     for (const schemaKey of Object.keys(
         filterSchema(
@@ -51,10 +53,15 @@ export default (
             getDefaultValue(manager, schemaKey, true, true, functionPtr)
         )
         if (isObject(defaultValue) && !isPoint(defaultValue)) continue
-        if (skipFunctions && functionPtr[0]) continue
 
-        if (functionPtr[0] && "param" in functionPtr[0])
-            schemaKeyParamMap.set(schemaKey, functionPtr[0].param)
+        const [fn] = functionPtr
+        if (skipFunctions && fn) continue
+
+        if (fn instanceof NullableCallback)
+            schemaKeyNullableCallbackParamMap.set(schemaKey, fn.param)
+        else if (fn) {
+            console.log(fn)
+        }
 
         const choices = options?.[schemaKey]
         if (choices && "options" in choices && choices.acceptAny)
@@ -66,13 +73,13 @@ export default (
         params,
         new Proxy(manager, {
             get(_, prop: string) {
-                if (schemaKeyParamMap.has(prop))
-                    return schemaKeyParamMap.get(prop)
+                if (schemaKeyNullableCallbackParamMap.has(prop))
+                    return schemaKeyNullableCallbackParamMap.get(prop)
                 return unsafeGetValue(manager, prop)
             },
             set(_, prop: string, val) {
                 if (
-                    schemaKeyParamMap.has(prop) &&
+                    schemaKeyNullableCallbackParamMap.has(prop) &&
                     val instanceof PassthroughCallback
                 ) {
                     const extended = unsafeSetValue(
