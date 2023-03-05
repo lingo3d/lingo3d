@@ -14,7 +14,7 @@ export class HitEvent {
         public normal?: Point3d
     ) {}
 }
-const hitEvent = new HitEvent(undefined as any)
+export const hitEvent = new HitEvent(undefined as any)
 
 export default interface IVisible {
     bloom: boolean
