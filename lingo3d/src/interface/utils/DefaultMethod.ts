@@ -1,12 +1,12 @@
 import { forceGet } from "@lincode/utils"
 
-export const defaultMethodVoidParam = {} as any
+export const defaultMethodVoidArg = {} as any
 
-export const defaultMethodParams = new Set<any>()
+export const defaultMethodArgs = new Set<any>()
 
 export default class DefaultMethod<T> {
-    public constructor(public arg: T = defaultMethodVoidParam) {
-        defaultMethodParams.add(arg)
+    public constructor(public arg: T = defaultMethodVoidArg) {
+        defaultMethodArgs.add(arg)
     }
 }
 
