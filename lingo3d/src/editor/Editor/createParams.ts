@@ -10,6 +10,7 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import { PassthroughCallback } from "./addInputs"
 import { extendFunction, omitFunction } from "@lincode/utils"
 import NullableCallback from "../../interface/utils/NullableCallback"
+import DefaultValue from "../../interface/utils/DefaultValue"
 
 const filterSchema = (
     schema: Record<string, unknown>,
@@ -25,6 +26,11 @@ const filterSchema = (
 
 const isObject = (val: any): val is object =>
     val && typeof val === "object" && !Array.isArray(val)
+
+const structuredCloneIfNotDefaultValue = <T>(val: T) => {
+    if (val instanceof DefaultValue) return <const>[val, true]
+    return <const>[structuredClone(val), false]
+}
 
 export default (
     manager: Appendable,
@@ -49,10 +55,11 @@ export default (
         if (nonEditorSchemaSet.has(schemaKey)) continue
 
         const functionPtr: FunctionPtr = [undefined]
-        const defaultValue = structuredClone(
+        const [defaultValue, isDefaultValue] = structuredCloneIfNotDefaultValue(
             getDefaultValue(manager, schemaKey, true, true, functionPtr)
         )
-        if (isObject(defaultValue) && !isPoint(defaultValue)) continue
+        if (isObject(defaultValue) && !isPoint(defaultValue) && !isDefaultValue)
+            continue
 
         const [fn] = functionPtr
         if (skipFunctions && fn) continue

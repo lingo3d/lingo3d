@@ -1,6 +1,4 @@
 import { emitEditorEdit } from "../../events/onEditorEdit"
-import { hitEvent } from "../../interface/IVisible"
-import { nullableCallbackVoidParam } from "../../interface/utils/NullableCallback"
 
 export const downPtr = [false]
 
@@ -2560,12 +2558,7 @@ class TextView {
     }
     refresh() {
         const formatter = this.props_.get("formatter")
-        this.inputElement.value = formatter(
-            this.value_.rawValue === nullableCallbackVoidParam ||
-                this.value_.rawValue === hitEvent
-                ? ""
-                : this.value_.rawValue
-        )
+        this.inputElement.value = formatter(this.value_.rawValue)
     }
     onChange_() {
         this.refresh()
