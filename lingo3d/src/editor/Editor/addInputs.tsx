@@ -23,6 +23,7 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import { render } from "preact"
 import { unmountComponentAtNode } from "preact/compat"
 import Toggle from "./Toggle"
+import { defaultMethodArgs } from "../../interface/utils/DefaultMethod"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -70,6 +71,13 @@ export type Connection = {
 export class PassthroughCallback {
     public constructor(
         public callback: (val: any) => void,
+        public handle: Cancellable
+    ) {}
+}
+
+export class PassthroughMethod {
+    public constructor(
+        public method: (val: any) => void,
         public handle: Cancellable
     ) {}
 }
@@ -145,16 +153,27 @@ export default async (
                 return [key, input]
             }
 
-            if (nullableCallbackParams.has(unsafeGetValue(target, key)))
+            const value = unsafeGetValue(target, key)
+            if (nullableCallbackParams.has(value))
                 unsafeSetValue(
                     target,
                     key,
-                    new PassthroughCallback((val: any) => {
+                    new PassthroughCallback((val) => {
                         params[key] = val
                         skipChangeSet.add(input)
                         input.refresh()
                     }, handle)
                 )
+            // else if (defaultMethodArgs.has(value))
+            //     unsafeSetValue(
+            //         target,
+            //         key,
+            //         new PassthroughMethod((val) => {
+            //             params[key] = val
+            //             skipChangeSet.add(input)
+            //             input.refresh()
+            //         }, handle)
+            //     )
             else addRefreshSystem(input, { key, params, target })
 
             const resetButton = resetIcon.cloneNode(true) as HTMLElement
