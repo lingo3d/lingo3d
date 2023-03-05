@@ -3,6 +3,7 @@ import { forceGet } from "@lincode/utils"
 import { LingoKeyboardEvent } from "../IKeyboard"
 import { LingoMouseEvent, SimpleMouseEvent } from "../IMouse"
 import { HitEvent } from "../IVisible"
+import DefaultValue from "./DefaultValue"
 
 type NullableCallbackParam =
     | Point3d
@@ -11,11 +12,9 @@ type NullableCallbackParam =
     | LingoMouseEvent
     | SimpleMouseEvent
     | LingoKeyboardEvent
-    | { value: string | number | boolean | undefined }
+    | DefaultValue
 
-export const nullableCallbackVoidParam: NullableCallbackParam = Object.freeze({
-    value: undefined
-})
+export const nullableCallbackVoidParam = new DefaultValue()
 export const nullableCallbackPtParam = Object.freeze(new Point(0, 0))
 
 const nullableCallbackParams = new Set<NullableCallbackParam>()

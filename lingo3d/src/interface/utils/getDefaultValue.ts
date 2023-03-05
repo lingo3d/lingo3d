@@ -2,6 +2,7 @@ import Appendable from "../../api/core/Appendable"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import DefaultMethod from "./DefaultMethod"
 import Defaults from "./Defaults"
+import DefaultValue from "./DefaultValue"
 import NullableCallback from "./NullableCallback"
 import NullableDefault from "./NullableDefault"
 
@@ -27,11 +28,19 @@ const getDefaultValue = (
         return fillNullableDefault ? result.value : undefined
     if (result instanceof NullableCallback) {
         if (functionPtr) functionPtr[0] = result
-        return fillFunctionArgs ? result.param : undefined
+        return fillFunctionArgs
+            ? result.param instanceof DefaultValue
+                ? result.param.value
+                : result.param
+            : undefined
     }
     if (result instanceof DefaultMethod) {
         if (functionPtr) functionPtr[0] = result
-        return fillFunctionArgs ? result.arg : undefined
+        return fillFunctionArgs
+            ? result.arg instanceof DefaultValue
+                ? result.arg.value
+                : result.arg
+            : undefined
     }
     if (fillNullableDefault) return result ?? ""
     return result
