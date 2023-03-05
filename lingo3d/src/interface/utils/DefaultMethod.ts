@@ -1,15 +1,26 @@
+import { Point3d } from "@lincode/math"
 import { forceGet } from "@lincode/utils"
 
-export const defaultMethodVoidArg = {} as any
+type DefaultMethodArg =
+    | Point3d
+    | { value: string | number | boolean | undefined }
 
-export const defaultMethodArgs = new Set<any>()
+export const defaultMethodVoidArg: DefaultMethodArg = Object.freeze({
+    value: undefined
+})
+export const defaultMethodNumberArg = Object.freeze({ value: 0 })
+export const defaultMethodPt3dArg = Object.freeze(new Point3d(0, 0, 0))
 
-export default class DefaultMethod<T> {
-    public constructor(public arg: T = defaultMethodVoidArg) {
+const defaultMethodArgs = new Set<DefaultMethodArg>()
+export const isDefaultMethodArg = (value: any): value is DefaultMethodArg =>
+    defaultMethodArgs.has(value)
+
+export default class DefaultMethod {
+    public constructor(public arg: DefaultMethodArg) {
         defaultMethodArgs.add(arg)
     }
 }
 
-const defaultMethodMap = new Map<any, DefaultMethod<any>>()
-export const defaultMethod = <T>(value: T): DefaultMethod<T> =>
+const defaultMethodMap = new Map<DefaultMethodArg, DefaultMethod>()
+export const defaultMethod = (value: DefaultMethodArg = defaultMethodVoidArg) =>
     forceGet(defaultMethodMap, value, () => new DefaultMethod(value))

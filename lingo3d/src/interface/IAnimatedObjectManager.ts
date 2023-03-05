@@ -43,5 +43,5 @@ export const animatedObjectManagerDefaults =
         animation: undefined,
         animationPaused: nullableDefault(false),
         animationRepeat: nullableDefault(Infinity),
-        onAnimationFinish: nullableCallback(undefined)
+        onAnimationFinish: nullableCallback()
     })

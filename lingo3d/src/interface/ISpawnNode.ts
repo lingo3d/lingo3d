@@ -23,6 +23,6 @@ export const spawnNodeDefaults = extendDefaults<ISpawnNode>(
     [appendableDefaults],
     {
         source: undefined,
-        spawn: defaultMethod(undefined)
+        spawn: defaultMethod()
     }
 )

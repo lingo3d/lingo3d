@@ -24,7 +24,7 @@ export const loadedDefaults = extendDefaults<ILoaded>(
     [physicsObjectManagerDefaults],
     {
         src: undefined,
-        onLoad: nullableCallback(undefined),
+        onLoad: nullableCallback(),
         boxVisible: false
     }
 )

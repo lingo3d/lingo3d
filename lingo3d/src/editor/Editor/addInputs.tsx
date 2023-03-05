@@ -17,13 +17,13 @@ import connectorOutIcon from "./icons/connectorOutIcon"
 import renderSystemWithData from "../../utils/renderSystemWithData"
 import Appendable from "../../api/core/Appendable"
 import unsafeGetValue from "../../utils/unsafeGetValue"
-import { nullableCallbackParams } from "../../interface/utils/NullableCallback"
 import { getRuntimeValue, setRuntimeValue } from "../../utils/getRuntimeValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { render } from "preact"
 import { unmountComponentAtNode } from "preact/compat"
 import Toggle from "./Toggle"
-import { defaultMethodArgs } from "../../interface/utils/DefaultMethod"
+import { isNullableCallbackParam } from "../../interface/utils/NullableCallback"
+import { isDefaultMethodArg } from "../../interface/utils/DefaultMethod"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -154,7 +154,7 @@ export default async (
             }
 
             const value = unsafeGetValue(target, key)
-            if (nullableCallbackParams.has(value))
+            if (isNullableCallbackParam(value))
                 unsafeSetValue(
                     target,
                     key,
@@ -164,7 +164,9 @@ export default async (
                         input.refresh()
                     }, handle)
                 )
-            // else if (defaultMethodArgs.has(value))
+            else if (isDefaultMethodArg(value)) {
+                console.log(key, value)
+            }
             //     unsafeSetValue(
             //         target,
             //         key,

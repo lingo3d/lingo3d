@@ -4,10 +4,7 @@ import { lingoMouseEvent, LingoMouseEvent } from "./IMouse"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
-import {
-    nullableCallback,
-    nullableCallbackHitEventParam
-} from "./utils/NullableCallback"
+import { nullableCallback } from "./utils/NullableCallback"
 import { nullableDefault } from "./utils/NullableDefault"
 
 export class HitEvent {
@@ -17,6 +14,7 @@ export class HitEvent {
         public normal?: Point3d
     ) {}
 }
+const hitEvent = new HitEvent(undefined as any)
 
 export default interface IVisible {
     bloom: boolean
@@ -84,7 +82,7 @@ export const visibleDefaults = extendDefaults<IVisible>([], {
     onMouseOver: nullableCallback(lingoMouseEvent),
     onMouseOut: nullableCallback(lingoMouseEvent),
     onMouseMove: nullableCallback(lingoMouseEvent),
-    onHit: nullableCallback(nullableCallbackHitEventParam),
-    onHitStart: nullableCallback(nullableCallbackHitEventParam),
-    onHitEnd: nullableCallback(nullableCallbackHitEventParam)
+    onHit: nullableCallback(hitEvent),
+    onHitStart: nullableCallback(hitEvent),
+    onHitEnd: nullableCallback(hitEvent)
 })

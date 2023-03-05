@@ -8,9 +8,8 @@ type Defaults<T> = {
     [key in keyof T]:
         | T[key]
         | NullableDefault<T[key]>
-        //@ts-ignore
-        | NullableCallback<Parameters<T[key]>[0]>
-        | DefaultMethod<any>
+        | NullableCallback
+        | DefaultMethod
         | (() => T[key])
 }
 export default Defaults

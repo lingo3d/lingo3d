@@ -5,10 +5,13 @@ import {
     TransformControlsMode,
     TransformControlsPhase
 } from "../events/onTransformControls"
-import { defaultMethod } from "./utils/DefaultMethod"
+import {
+    defaultMethod,
+    defaultMethodPt3dArg,
+    defaultMethodNumberArg
+} from "./utils/DefaultMethod"
 import { nullableCallback } from "./utils/NullableCallback"
 import { hideSchema } from "./utils/nonEditorSchemaSet"
-import { pt3d0 } from "../display/utils/reusables"
 
 export default interface IPositioned {
     x: number
@@ -55,14 +58,14 @@ export const positionedDefaults = extendDefaults<IPositioned>([], {
     z: 0,
 
     onTransformControls: undefined,
-    onMove: nullableCallback(undefined),
-    onMoveToEnd: nullableCallback(undefined),
+    onMove: nullableCallback(),
+    onMoveToEnd: nullableCallback(),
 
-    moveTo: defaultMethod(pt3d0),
-    lerpTo: defaultMethod(pt3d0),
-    placeAt: defaultMethod(pt3d0),
+    moveTo: defaultMethod(defaultMethodPt3dArg),
+    lerpTo: defaultMethod(defaultMethodPt3dArg),
+    placeAt: defaultMethod(defaultMethodPt3dArg),
 
-    translateX: defaultMethod(0),
-    translateY: defaultMethod(0),
-    translateZ: defaultMethod(0)
+    translateX: defaultMethod(defaultMethodNumberArg),
+    translateY: defaultMethod(defaultMethodNumberArg),
+    translateZ: defaultMethod(defaultMethodNumberArg)
 })

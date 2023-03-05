@@ -23,7 +23,7 @@ export const appendableSchema: Required<ExtractProps<IAppendable>> = {
 hideSchema(["proxy"])
 
 export const appendableDefaults = extendDefaults<IAppendable>([], {
-    onLoop: nullableCallback(undefined),
+    onLoop: nullableCallback(),
     proxy: undefined,
     uuid: "",
     id: undefined,

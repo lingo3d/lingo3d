@@ -5,9 +5,7 @@ import Defaults from "./Defaults"
 import NullableCallback from "./NullableCallback"
 import NullableDefault from "./NullableDefault"
 
-export type FunctionPtr = [
-    NullableCallback<any> | DefaultMethod<any> | undefined
-]
+export type FunctionPtr = [NullableCallback | DefaultMethod | undefined]
 
 const getDefaultValue = (
     manager: Appendable | Defaults<any>,
