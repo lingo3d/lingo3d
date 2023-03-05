@@ -53,31 +53,40 @@ const Connection = memo(
         }, [])
 
         useEffect(() => {
-            const connectorFrom = unsafeGetValue(
-                window,
-                `${formatFrom(manager)} out`
-            )
-            const connectorTo = unsafeGetValue(
-                window,
-                manager.to + " " + manager.toProp + " in"
-            )
-            if (!connectorFrom || !connectorTo) return
+            let done = false
+            queueMicrotask(() => {
+                if (done) return
 
-            const boundsFrom = connectorFrom.getBoundingClientRect()
-            const boundsTo = connectorTo.getBoundingClientRect()
+                const connectorFrom = unsafeGetValue(
+                    window,
+                    `${formatFrom(manager)} out`
+                )
+                const connectorTo = unsafeGetValue(
+                    window,
+                    manager.to + " " + manager.toProp + " in"
+                )
 
-            setStart(
-                getPositionRef.current!({
-                    clientX: boundsFrom.left + boundsFrom.width * 0.5,
-                    clientY: boundsFrom.top + boundsFrom.height * 0.5
-                })
-            )
-            setEnd(
-                getPositionRef.current!({
-                    clientX: boundsTo.left + boundsTo.width * 0.5,
-                    clientY: boundsTo.top + boundsTo.height * 0.5
-                })
-            )
+                if (!connectorFrom || !connectorTo) return
+
+                const boundsFrom = connectorFrom.getBoundingClientRect()
+                const boundsTo = connectorTo.getBoundingClientRect()
+
+                setStart(
+                    getPositionRef.current!({
+                        clientX: boundsFrom.left + boundsFrom.width * 0.5,
+                        clientY: boundsFrom.top + boundsFrom.height * 0.5
+                    })
+                )
+                setEnd(
+                    getPositionRef.current!({
+                        clientX: boundsTo.left + boundsTo.width * 0.5,
+                        clientY: boundsTo.top + boundsTo.height * 0.5
+                    })
+                )
+            })
+            return () => {
+                done = true
+            }
         }, [refresh])
 
         const [over, setOver] = useState(false)

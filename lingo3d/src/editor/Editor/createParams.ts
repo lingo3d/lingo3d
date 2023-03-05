@@ -59,9 +59,7 @@ export default (
 
         if (fn instanceof NullableCallback)
             schemaKeyNullableCallbackParamMap.set(schemaKey, fn.param)
-        else if (fn) {
-            console.log(fn)
-        }
+        else if (fn) schemaKeyDefaultMethodArgMap.set(schemaKey, fn.arg)
 
         const choices = options?.[schemaKey]
         if (choices && "options" in choices && choices.acceptAny)
@@ -74,6 +72,8 @@ export default (
         new Proxy(manager, {
             get(_, prop: string) {
                 if (schemaKeyNullableCallbackParamMap.has(prop))
+                    return schemaKeyNullableCallbackParamMap.get(prop)
+                if (schemaKeyDefaultMethodArgMap.has(prop))
                     return schemaKeyNullableCallbackParamMap.get(prop)
                 return unsafeGetValue(manager, prop)
             },
