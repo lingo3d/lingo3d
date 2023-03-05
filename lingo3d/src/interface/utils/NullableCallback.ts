@@ -1,9 +1,8 @@
 import { forceGet } from "@lincode/utils"
-import { nanoid } from "nanoid"
 import { HitEvent } from "../IVisible"
 
-export const nullableCallbackVoidParam = nanoid() as any
-export const nullableCallbackHitEventParam = nanoid() as any as HitEvent
+export const nullableCallbackVoidParam = {} as any
+export const nullableCallbackHitEventParam = {} as HitEvent
 
 export const nullableCallbackParams = new Set<any>()
 
