@@ -156,19 +156,26 @@ export default async (
             let input: any
             const paramValue = params[key]
             if (isDefaultMethodArg(paramValue)) {
-                if (paramValue instanceof DefaultMethodArg)
-                    params[key] = paramValue.value ?? ""
-                if (isPoint(paramValue))
+                const isDefaultValue = paramValue instanceof DefaultMethodArg
+                if (isDefaultValue) params[key] = paramValue.value ?? ""
+                if (
+                    (isDefaultValue && paramValue.value !== undefined) ||
+                    isPoint(paramValue)
+                ) {
                     input = lazyMethodsFolder().addInput(params, key)
-                else
+                } else
                     input = lazyMethodsFolder().addButton({
                         title: key,
                         label: key
                     })
             } else if (isNullableCallbackParam(paramValue)) {
-                if (paramValue instanceof NullableCallbackParam)
-                    params[key] = paramValue.value ?? ""
-                if (isPoint(paramValue)) {
+                const isDefaultValue =
+                    paramValue instanceof NullableCallbackParam
+                if (isDefaultValue) params[key] = paramValue.value ?? ""
+                if (
+                    (isDefaultValue && paramValue.value !== undefined) ||
+                    isPoint(paramValue)
+                ) {
                     input = lazyCallbacksFolder().addInput(params, key, {
                         disabled: true
                     })
