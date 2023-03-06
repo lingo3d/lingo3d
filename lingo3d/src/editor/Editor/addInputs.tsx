@@ -31,6 +31,7 @@ import {
     isDefaultMethodArg
 } from "../../interface/utils/DefaultMethod"
 import { isPoint } from "../../utils/isPoint"
+import executeIcon from "./icons/executeIcon"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -161,13 +162,15 @@ export default async (
                 if (
                     (isDefaultValue && paramValue.value !== undefined) ||
                     isPoint(paramValue)
-                ) {
+                )
                     input = lazyMethodsFolder().addInput(params, key)
-                } else
+                else
                     input = lazyMethodsFolder().addButton({
                         title: key,
                         label: key
                     })
+                const executeButton = executeIcon.cloneNode(true) as HTMLElement
+                input.element.appendChild(executeButton)
             } else if (isNullableCallbackParam(paramValue)) {
                 const isDefaultValue =
                     paramValue instanceof NullableCallbackParam
