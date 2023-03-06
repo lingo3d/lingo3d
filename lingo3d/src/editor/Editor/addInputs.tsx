@@ -30,8 +30,6 @@ import {
     DefaultMethodArg,
     isDefaultMethodArg
 } from "../../interface/utils/DefaultMethod"
-import { HitEvent } from "../../interface/IVisible"
-import { LingoKeyboardEvent } from "../../interface/IKeyboard"
 import { isPoint } from "../../utils/isPoint"
 
 const processValue = (value: any) => {
@@ -160,22 +158,17 @@ export default async (
             if (isDefaultMethodArg(paramValue)) {
                 if (paramValue instanceof DefaultMethodArg)
                     params[key] = paramValue.value ?? ""
-                if (!isPoint(paramValue))
+                if (isPoint(paramValue))
+                    input = lazyMethodsFolder().addInput(params, key)
+                else
                     input = lazyMethodsFolder().addButton({
                         title: key,
                         label: key
                     })
-                else input = lazyMethodsFolder().addInput(params, key)
             } else if (isNullableCallbackParam(paramValue)) {
                 if (paramValue instanceof NullableCallbackParam)
                     params[key] = paramValue.value ?? ""
-                if (!isPoint(paramValue))
-                    input = lazyCallbacksFolder().addButton({
-                        title: key,
-                        label: key,
-                        disabled: true
-                    })
-                else {
+                if (isPoint(paramValue)) {
                     input = lazyCallbacksFolder().addInput(params, key, {
                         disabled: true
                     })
@@ -190,7 +183,12 @@ export default async (
                             input.refresh()
                         }, handle)
                     )
-                }
+                } else
+                    input = lazyCallbacksFolder().addButton({
+                        title: key,
+                        label: key,
+                        disabled: true
+                    })
             } else {
                 input = lazyFolder().addInput(
                     params,
