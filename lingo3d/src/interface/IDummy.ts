@@ -1,4 +1,5 @@
 import IModel, { modelDefaults, modelSchema } from "./IModel"
+import { defaultMethod, defaultMethodNumberArg } from "./utils/DefaultMethod"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
@@ -13,6 +14,7 @@ export default interface IDummy extends IModel {
     strideForward: number
     strideMove: boolean
     strideMode: StrideMode
+    jump: (height?: number) => void
 }
 
 export const dummySchema: Required<ExtractProps<IDummy>> = {
@@ -22,7 +24,8 @@ export const dummySchema: Required<ExtractProps<IDummy>> = {
     strideRight: Number,
     strideForward: Number,
     strideMove: Boolean,
-    strideMode: String
+    strideMode: String,
+    jump: Function
 }
 
 export const dummyDefaults = extendDefaults<IDummy>(
@@ -34,6 +37,7 @@ export const dummyDefaults = extendDefaults<IDummy>(
         strideForward: 0,
         strideMove: false,
         strideMode: "aim",
+        jump: defaultMethod(defaultMethodNumberArg),
         scale: 1.7,
         scaleX: 1.7,
         scaleY: 1.7,

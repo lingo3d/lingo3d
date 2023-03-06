@@ -22,7 +22,10 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import { render } from "preact"
 import { unmountComponentAtNode } from "preact/compat"
 import Toggle from "./Toggle"
-import { isNullableCallbackParam } from "../../interface/utils/NullableCallback"
+import {
+    isNullableCallbackParam,
+    NullableCallbackParam
+} from "../../interface/utils/NullableCallback"
 import { isDefaultMethodArg } from "../../interface/utils/DefaultMethod"
 
 const processValue = (value: any) => {
@@ -139,13 +142,18 @@ export default async (
                     title: key,
                     label: key
                 })
-            else if (isNullableCallbackParam(value))
-                input = folder.addButton({
-                    title: key,
-                    label: key,
-                    disabled: true
-                })
-            else {
+            else if (isNullableCallbackParam(value)) {
+                if (
+                    value instanceof NullableCallbackParam &&
+                    value.value === undefined
+                )
+                    input = folder.addButton({
+                        title: key,
+                        label: key,
+                        disabled: true
+                    })
+                else input = folder.addInput(params, key, { disabled: true })
+            } else {
                 input = folder.addInput(
                     params,
                     key,
