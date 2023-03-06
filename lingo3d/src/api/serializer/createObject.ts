@@ -44,6 +44,7 @@ import Timeline from "../../display/Timeline"
 import TimelineAudio from "../../display/TimelineAudio"
 import GameGraph from "../../visualScripting/GameGraph"
 import Connector from "../../visualScripting/Connector"
+import SpawnConnector from "../../visualScripting/SpawnConnector"
 import MathNode from "../../visualScripting/MathNode"
 import IncrementNode from "../../visualScripting/IncrementNode"
 import ProjectionNode from "../../visualScripting/ProjectionNode"
@@ -110,10 +111,11 @@ const record = {
     timelineAudio: () => new TimelineAudio(),
     gameGraph: () => new GameGraph(),
     connector: () => new Connector(),
+    spawnConnector: () => new SpawnConnector(),
     mathNode: () => new MathNode(),
     incrementNode: () => new IncrementNode(),
     projectionNode: () => new ProjectionNode(),
-    spawnNode: () => new SpawnNode(),
+    spawnNode: () => new SpawnNode()
 } satisfies Record<GameObjectType, () => Appendable>
 
 export default <T extends GameObjectType>(

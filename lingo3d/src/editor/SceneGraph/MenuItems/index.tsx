@@ -99,6 +99,7 @@ const MenuItems = ({
             </ContextMenuItem>
         )
     else if (selectionTarget instanceof Connector) {
+        //todo: connector context menu
     } else if (selectionTarget && !nativeTarget) {
         if (selectionTarget instanceof SpriteSheet)
             children.push(
