@@ -10,7 +10,7 @@ export class NullableCallbackParam {
     }
 }
 
-type NullableCallbackParamType =
+export type NullableCallbackParamType =
     | Point3d
     | Point
     | HitEvent

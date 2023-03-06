@@ -7,7 +7,7 @@ export class DefaultMethodArg {
     }
 }
 
-type DefaultMethodArgType = Point3d | DefaultMethodArg
+export type DefaultMethodArgType = Point3d | DefaultMethodArg
 
 export const defaultMethodVoidArg = new DefaultMethodArg()
 export const defaultMethodNumberArg = new DefaultMethodArg(0)

@@ -10,9 +10,13 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import { PassthroughCallback } from "./addInputs"
 import { extendFunction, omitFunction } from "@lincode/utils"
 import NullableCallback, {
-    isNullableCallbackParam
+    isNullableCallbackParam,
+    NullableCallbackParamType
 } from "../../interface/utils/NullableCallback"
-import { isDefaultMethodArg } from "../../interface/utils/DefaultMethod"
+import {
+    DefaultMethodArgType,
+    isDefaultMethodArg
+} from "../../interface/utils/DefaultMethod"
 
 const filterSchema = (
     schema: Record<string, unknown>,
@@ -45,8 +49,11 @@ export default (
     if (!schema) return [params, manager] as const
 
     const options = defaultsOptionsMap.get(defaults)
-    const schemaKeyNullableCallbackParamMap = new Map<string, unknown>()
-    const schemaKeyDefaultMethodArgMap = new Map<string, unknown>()
+    const schemaKeyNullableCallbackParamMap = new Map<
+        string,
+        NullableCallbackParamType
+    >()
+    const schemaKeyDefaultMethodArgMap = new Map<string, DefaultMethodArgType>()
 
     for (const schemaKey of Object.keys(
         filterSchema(
