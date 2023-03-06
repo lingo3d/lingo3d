@@ -11,9 +11,12 @@ import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import Connector from "../../visualScripting/Connector"
+import SpawnConnector from "../../visualScripting/SpawnConnector"
+import SpawnNode from "../../visualScripting/SpawnNode"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import treeContext from "../component/treeItems/treeContext"
 import addTargetInputs from "../Editor/addTargetInputs"
+import { proxyInstanceMap } from "../Editor/createParams"
 import usePane from "../Editor/usePane"
 import usePan from "../hooks/usePan"
 import useSyncState from "../hooks/useSyncState"
@@ -78,6 +81,29 @@ const Node = memo(
                         setBezierEnd(undefined)
                     },
                     onDrop: (_, draggingItem, prop) => {
+                        const gameGraph = getGameGraph()!
+                        if (
+                            proxyInstanceMap.get(
+                                draggingItem.manager
+                            ) instanceof SpawnNode
+                        ) {
+                            const connector = Object.assign(
+                                new SpawnConnector(),
+                                {
+                                    from: draggingItem.manager.uuid,
+                                    to: manager.uuid
+                                }
+                            )
+                            gameGraph.append(connector)
+                            gameGraph.mergeData({
+                                [connector.uuid]: {
+                                    type: "spawnConnector",
+                                    from: draggingItem.manager.uuid,
+                                    to: manager.uuid
+                                }
+                            })
+                            return
+                        }
                         const connector = Object.assign(new Connector(), {
                             from: draggingItem.manager.uuid,
                             fromProp: draggingItem.prop,
@@ -85,7 +111,6 @@ const Node = memo(
                             toProp: prop,
                             xyz: draggingItem.xyz
                         })
-                        const gameGraph = getGameGraph()!
                         gameGraph.append(connector)
                         gameGraph.mergeData({
                             [connector.uuid]: {
