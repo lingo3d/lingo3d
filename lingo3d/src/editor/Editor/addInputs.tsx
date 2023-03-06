@@ -176,9 +176,7 @@ export default async (
                     (isDefaultValue && paramValue.value !== undefined) ||
                     isPoint(paramValue)
                 ) {
-                    input = lazyCallbacksFolder().addInput(params, key, {
-                        disabled: true
-                    })
+                    input = lazyCallbacksFolder().addInput(params, key)
                     unsafeSetValue(
                         target,
                         key,
@@ -193,8 +191,7 @@ export default async (
                 } else
                     input = lazyCallbacksFolder().addButton({
                         title: key,
-                        label: key,
-                        disabled: true
+                        label: key
                     })
             } else {
                 input = lazyFolder().addInput(
