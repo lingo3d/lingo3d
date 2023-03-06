@@ -20,7 +20,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     gridHelperSize: Number,
     stats: Boolean,
     antiAlias: [Boolean, String],
-    logarithmicDepth: Boolean,
     pixelRatio: Number,
     fps: Number,
     exposure: Number,

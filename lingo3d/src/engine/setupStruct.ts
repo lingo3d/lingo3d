@@ -24,10 +24,6 @@ import {
     getGridHelperSize,
     setGridHelperSize
 } from "../states/useGridHelperSize"
-import {
-    getLogarithmicDepth,
-    setLogarithmicDepth
-} from "../states/useLogarithmicDepth"
 import { getOutlineColor, setOutlineColor } from "../states/useOutlineColor"
 import {
     getOutlineHiddenColor,
@@ -129,13 +125,6 @@ export default {
     },
     set fps(value) {
         setFps(value)
-    },
-
-    get logarithmicDepth() {
-        return getLogarithmicDepth()
-    },
-    set logarithmicDepth(value) {
-        setLogarithmicDepth(value)
     },
 
     get exposure() {

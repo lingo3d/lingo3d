@@ -22,8 +22,7 @@ export default (
     const [rendererParams, rendererRest] = splitObject(editorRest, [
         "antiAlias",
         "pixelRatio",
-        "fps",
-        "logarithmicDepth"
+        "fps"
     ])
     addInputs(handle, pane, "renderer", manager, rendererParams)
 
