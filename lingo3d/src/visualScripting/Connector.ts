@@ -29,13 +29,6 @@ export default class Connector extends Appendable implements IConnector {
             if (!fromManager || !toManager) return
 
             if (_type === "spawn") {
-                if ("outerObject3d" in toManager) {
-                    const parent = toManager.outerObject3d.parent
-                    parent?.remove(toManager.outerObject3d)
-                    return () => {
-                        parent?.add(toManager.outerObject3d)
-                    }
-                }
                 return
             }
 

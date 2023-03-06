@@ -12,6 +12,7 @@ import { getGameGraph } from "../../states/useGameGraph"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import Connector from "../../visualScripting/Connector"
 import SpawnNode from "../../visualScripting/SpawnNode"
+import SpawnTemplate from "../../visualScripting/SpawnTemplate"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import treeContext from "../component/treeItems/treeContext"
 import addTargetInputs from "../Editor/addTargetInputs"
@@ -80,20 +81,24 @@ const Node = memo(
                         setBezierEnd(undefined)
                     },
                     onDrop: (_, draggingItem, prop) => {
+                        const gameGraph = getGameGraph()!
+                        const isSpawn =
+                            proxyInstanceMap.get(
+                                draggingItem.manager
+                            ) instanceof SpawnNode
+                        if (isSpawn) {
+                            manager.dispose()
+                            const template = new SpawnTemplate()
+                            gameGraph.append(template)
+                            return
+                        }
                         const connector = Object.assign(new Connector(), {
                             from: draggingItem.manager.uuid,
                             fromProp: draggingItem.prop,
                             to: manager.uuid,
                             toProp: prop,
-                            xyz: draggingItem.xyz,
-                            type:
-                                proxyInstanceMap.get(
-                                    draggingItem.manager
-                                ) instanceof SpawnNode
-                                    ? "spawn"
-                                    : undefined
+                            xyz: draggingItem.xyz
                         })
-                        const gameGraph = getGameGraph()!
                         gameGraph.append(connector)
                         gameGraph.mergeData({
                             [connector.uuid]: {
