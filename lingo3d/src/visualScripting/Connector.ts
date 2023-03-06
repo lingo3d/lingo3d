@@ -21,12 +21,23 @@ export default class Connector extends Appendable implements IConnector {
         super()
 
         this.createEffect(() => {
-            const { _from, _to, _fromProp, _toProp, _xyz } = this
+            const { _from, _to, _fromProp, _toProp, _xyz, _type } = this
             if (!_fromProp || !_toProp) return
 
             const [fromManager] = getAppendables(_from)
             const [toManager] = getAppendables(_to)
             if (!fromManager || !toManager) return
+
+            if (_type === "spawn") {
+                if ("outerObject3d" in toManager) {
+                    const parent = toManager.outerObject3d.parent
+                    parent?.remove(toManager.outerObject3d)
+                    return () => {
+                        parent?.add(toManager.outerObject3d)
+                    }
+                }
+                return
+            }
 
             if (
                 unsafeGetValue(fromManager.constructor, "defaults")[
