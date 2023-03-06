@@ -22,7 +22,8 @@ const Switch = ({ label, onChange, on: onProp, compact }: SwitchProps) => {
                 gap: 4,
                 marginLeft: 4,
                 transition: "all 100ms",
-                opacity: on ? 1 : 0.5
+                opacity: on ? 1 : 0.5,
+                cursor: "pointer"
             }}
             onClick={() => {
                 setOn(!on)

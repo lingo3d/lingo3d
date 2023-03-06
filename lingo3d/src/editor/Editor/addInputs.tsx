@@ -262,9 +262,6 @@ export default async (
                         )
                         connectorOut.id =
                             target.uuid + " " + key + "-" + xyz + " out"
-                        connectorOut.style.marginTop = "5px"
-                        connectorOut.style.marginRight = "4px"
-                        connectorOut.style.marginLeft = "4px"
                         const { nextElementSibling } = el
                         if (nextElementSibling)
                             el.parentElement.insertBefore(
@@ -272,6 +269,7 @@ export default async (
                                 nextElementSibling
                             )
                         else el.parentElement.appendChild(connectorOut)
+                        el.parentElement.classList.add("lingo3d-flexcenter")
                     }
                     return [key, input]
                 }

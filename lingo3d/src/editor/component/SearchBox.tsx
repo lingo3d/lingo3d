@@ -64,7 +64,8 @@ const SearchBox = ({
                         background: "rgba(255, 255, 255, 0.1)",
                         width: 22,
                         height: 22,
-                        opacity: text ? 1 : 0.2
+                        opacity: text ? 1 : 0.2,
+                        cursor: text ? "pointer" : undefined
                     }}
                     onClick={() => {
                         setText("")

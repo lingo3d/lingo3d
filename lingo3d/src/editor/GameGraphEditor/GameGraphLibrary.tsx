@@ -46,7 +46,8 @@ const GameGraphLibrary = () => {
                     height: APPBAR_HEIGHT + 8,
                     position: "absolute",
                     marginLeft: -APPBAR_HEIGHT,
-                    opacity: 0.75
+                    opacity: 0.75,
+                    cursor: "pointer"
                 }}
                 onClick={() => (showSignal.value = !showSignal.value)}
             >
