@@ -26,7 +26,10 @@ import {
     isNullableCallbackParam,
     NullableCallbackParam
 } from "../../interface/utils/NullableCallback"
-import { isDefaultMethodArg } from "../../interface/utils/DefaultMethod"
+import {
+    DefaultMethodArg,
+    isDefaultMethodArg
+} from "../../interface/utils/DefaultMethod"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -151,12 +154,17 @@ export default async (
         Object.keys(params).map((key) => {
             let input: any
             const value = unsafeGetValue(target, key)
-            if (isDefaultMethodArg(value))
-                input = lazyMethodsFolder().addButton({
-                    title: key,
-                    label: key
-                })
-            else if (isNullableCallbackParam(value)) {
+            if (isDefaultMethodArg(value)) {
+                if (
+                    value instanceof DefaultMethodArg &&
+                    value.value === undefined
+                )
+                    input = lazyMethodsFolder().addButton({
+                        title: key,
+                        label: key
+                    })
+                else input = lazyMethodsFolder().addInput(params, key)
+            } else if (isNullableCallbackParam(value)) {
                 if (
                     value instanceof NullableCallbackParam &&
                     value.value === undefined
