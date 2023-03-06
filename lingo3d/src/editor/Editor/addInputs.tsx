@@ -155,20 +155,19 @@ export default async (
             let input: any
             const paramValue = params[key]
             if (isDefaultMethodArg(paramValue)) {
-                if (
-                    paramValue instanceof DefaultMethodArg &&
-                    paramValue.value === undefined
-                )
+                const isDefaultValue = paramValue instanceof DefaultMethodArg
+                if (isDefaultValue) params[key] = paramValue.value
+                if (isDefaultValue && paramValue.value === undefined)
                     input = lazyMethodsFolder().addButton({
                         title: key,
                         label: key
                     })
                 else input = lazyMethodsFolder().addInput(params, key)
             } else if (isNullableCallbackParam(paramValue)) {
-                if (
-                    paramValue instanceof NullableCallbackParam &&
-                    paramValue.value === undefined
-                )
+                const isDefaultValue =
+                    paramValue instanceof NullableCallbackParam
+                if (isDefaultValue) params[key] = paramValue.value
+                if (isDefaultValue && paramValue.value === undefined)
                     input = lazyCallbacksFolder().addButton({
                         title: key,
                         label: key,
