@@ -279,7 +279,7 @@ export default async (
                     connection
                 )
                 connectorOut.id = target.uuid + " " + key + " out"
-                input.element.append(connectorOut)
+                input.element.appendChild(connectorOut)
 
                 const connectorIn = connectorInIcon.cloneNode(
                     true

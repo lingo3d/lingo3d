@@ -29,6 +29,7 @@ export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
     public static override defaults = dummyDefaults
     public static override schema = dummySchema
+    public static includeKeys = ["strideRight", "strideForward", "strideMove"]
 
     private poseService = interpret(poseMachine)
 
