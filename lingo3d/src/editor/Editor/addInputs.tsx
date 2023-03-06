@@ -1,4 +1,4 @@
-import { throttleTrailing } from "@lincode/utils"
+import { lazy, throttleTrailing } from "@lincode/utils"
 import { downPtr, FolderApi, InputBindingApi, Pane } from "./tweakpane"
 import resetIcon from "./icons/resetIcon"
 import { defaultsOptionsMap } from "../../interface/utils/Defaults"
@@ -133,12 +133,18 @@ export default async (
     const options = defaultsOptionsMap.get(
         unsafeGetValue(target.constructor, "defaults")
     )
+    const lazyCallbacksFolder = lazy(() =>
+        pane.addFolder({ title: "callbacks" } as FolderApi)
+    )
+    const lazyMethodsFolder = lazy(
+        () => pane.addFolder({ title: "methods" }) as FolderApi
+    )
     const result = Object.fromEntries(
         Object.keys(params).map((key) => {
             let input: any
             const value = unsafeGetValue(target, key)
             if (isDefaultMethodArg(value))
-                input = folder.addButton({
+                input = lazyMethodsFolder().addButton({
                     title: key,
                     label: key
                 })
@@ -147,12 +153,15 @@ export default async (
                     value instanceof NullableCallbackParam &&
                     value.value === undefined
                 )
-                    input = folder.addButton({
+                    input = lazyCallbacksFolder().addButton({
                         title: key,
                         label: key,
                         disabled: true
                     })
-                else input = folder.addInput(params, key, { disabled: true })
+                else
+                    input = lazyCallbacksFolder().addInput(params, key, {
+                        disabled: true
+                    })
             } else {
                 input = folder.addInput(
                     params,
