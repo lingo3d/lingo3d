@@ -23,9 +23,7 @@ export default (
     const [params, manager] = createParams(
         selectionTarget,
         includeKeys,
-        false
-        //mark
-        // !connection && !toggle
+        !connection && !toggle
     )
     const [ownParams, ownRest] = splitObject(
         params,
