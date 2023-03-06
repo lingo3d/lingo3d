@@ -147,13 +147,16 @@ export default async (
         Object.keys(params).map((key) => {
             let input: any
             const paramsValue = params[key]
-            if (
-                paramsValue instanceof NullableCallbackParam ||
-                paramsValue instanceof DefaultMethodArg
-            )
+            if (paramsValue instanceof DefaultMethodArg)
                 input = folder.addButton({
                     title: key,
                     label: key
+                })
+            else if (paramsValue instanceof NullableCallbackParam)
+                input = folder.addButton({
+                    title: key,
+                    label: key,
+                    disabled: true
                 })
             else {
                 input = folder.addInput(
@@ -181,6 +184,7 @@ export default async (
                             input.refresh()
                         }, handle)
                     )
+                //mark
                 else if (isDefaultMethodArg(value))
                     unsafeSetValue(
                         target,
