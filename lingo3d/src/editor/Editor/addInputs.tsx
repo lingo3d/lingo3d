@@ -133,12 +133,16 @@ export default async (
     const options = defaultsOptionsMap.get(
         unsafeGetValue(target.constructor, "defaults")
     )
-    const lazyCallbacksFolder = lazy(() =>
-        pane.addFolder({ title: "callbacks" } as FolderApi)
-    )
-    const lazyMethodsFolder = lazy(
-        () => pane.addFolder({ title: "methods" }) as FolderApi
-    )
+    const lazyCallbacksFolder = lazy(() => {
+        const folder: FolderApi = pane.addFolder({ title: "callbacks" })
+        handle.then(() => folder.dispose())
+        return folder
+    })
+    const lazyMethodsFolder = lazy(() => {
+        const folder: FolderApi = pane.addFolder({ title: "methods" })
+        handle.then(() => folder.dispose())
+        return folder
+    })
     const result = Object.fromEntries(
         Object.keys(params).map((key) => {
             let input: any
