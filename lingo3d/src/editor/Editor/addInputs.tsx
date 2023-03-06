@@ -171,6 +171,9 @@ export default async (
                     })
                 const executeButton = executeIcon.cloneNode(true) as HTMLElement
                 input.element.appendChild(executeButton)
+                executeButton.onclick = () => {
+                    console.log(params[key])
+                }
             } else if (isNullableCallbackParam(paramValue)) {
                 const isDefaultValue =
                     paramValue instanceof NullableCallbackParam

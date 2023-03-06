@@ -11,9 +11,11 @@ import { PassthroughCallback } from "./addInputs"
 import { extendFunction, omitFunction } from "@lincode/utils"
 import NullableCallback, {
     isNullableCallbackParam,
+    nullableCallbackParams,
     NullableCallbackParamType
 } from "../../interface/utils/NullableCallback"
 import {
+    defaultMethodArgs,
     DefaultMethodArgType,
     isDefaultMethodArg
 } from "../../interface/utils/DefaultMethod"
@@ -33,9 +35,17 @@ const filterSchema = (
 const isObject = (val: any): val is object =>
     val && typeof val === "object" && !Array.isArray(val)
 
-const structuredCloneIfNotDefaultValue = <T>(val: T) => {
-    if (isNullableCallbackParam(val) || isDefaultMethodArg(val))
-        return <const>[val, true]
+const structuredCloneDefaultValue = <T>(val: T) => {
+    if (isNullableCallbackParam(val)) {
+        const cloned = structuredClone(val)
+        nullableCallbackParams.add(cloned)
+        return <const>[cloned, true]
+    }
+    if (isDefaultMethodArg(val)) {
+        const cloned = structuredClone(val)
+        defaultMethodArgs.add(cloned)
+        return <const>[cloned, true]
+    }
     return <const>[structuredClone(val), false]
 }
 
@@ -65,7 +75,7 @@ export default (
         if (nonEditorSchemaSet.has(schemaKey)) continue
 
         const functionPtr: FunctionPtr = [undefined]
-        const [defaultValue, isDefaultValue] = structuredCloneIfNotDefaultValue(
+        const [defaultValue, isDefaultValue] = structuredCloneDefaultValue(
             getDefaultValue(manager, schemaKey, true, true, functionPtr)
         )
         if (isObject(defaultValue) && !isPoint(defaultValue) && !isDefaultValue)

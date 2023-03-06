@@ -13,7 +13,7 @@ export const defaultMethodVoidArg = new DefaultMethodArg()
 export const defaultMethodNumberArg = new DefaultMethodArg(0)
 export const defaultMethodPt3dArg = Object.freeze(new Point3d(0, 0, 0))
 
-const defaultMethodArgs = new Set<DefaultMethodArgType>()
+export const defaultMethodArgs = new WeakSet<DefaultMethodArgType>()
 export const isDefaultMethodArg = (value: any): value is DefaultMethodArgType =>
     defaultMethodArgs.has(value)
 
