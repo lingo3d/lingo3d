@@ -7,7 +7,6 @@ import nonEditorSchemaSet from "../../interface/utils/nonEditorSchemaSet"
 import Appendable from "../../api/core/Appendable"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
-import { PassthroughCallback } from "./addInputs"
 import { extendFunction, omitFunction } from "@lincode/utils"
 import NullableCallback, {
     isNullableCallbackParam,
@@ -19,6 +18,20 @@ import {
     DefaultMethodArgType,
     isDefaultMethodArg
 } from "../../interface/utils/DefaultMethod"
+import { Cancellable } from "@lincode/promiselikes"
+
+export class PassthroughCallback {
+    public constructor(
+        public callback: (val: any) => void,
+        public handle: Cancellable
+    ) {}
+}
+
+export const proxyInstanceMap = new WeakMap<any, any>()
+const setProxyInstance = (proxy: any, instance: any) => {
+    proxyInstanceMap.set(proxy, instance)
+    return proxy
+}
 
 const filterSchema = (
     schema: Record<string, unknown>,
@@ -96,33 +109,38 @@ export default (
     }
     return [
         params,
-        new Proxy(manager, {
-            get(_, prop: string) {
-                if (schemaKeyNullableCallbackParamMap.has(prop))
-                    return schemaKeyNullableCallbackParamMap.get(prop)
-                if (schemaKeyDefaultMethodArgMap.has(prop))
-                    return schemaKeyDefaultMethodArgMap.get(prop)
-                return unsafeGetValue(manager, prop)
-            },
-            set(_, prop: string, val) {
-                if (
-                    schemaKeyNullableCallbackParamMap.has(prop) &&
-                    val instanceof PassthroughCallback
-                ) {
-                    const extended = unsafeSetValue(
-                        manager,
-                        prop,
-                        extendFunction(
-                            unsafeGetValue(manager, prop),
-                            val.callback
+        setProxyInstance(
+            new Proxy(manager, {
+                get(_, prop: string) {
+                    if (schemaKeyNullableCallbackParamMap.has(prop))
+                        return schemaKeyNullableCallbackParamMap.get(prop)
+                    if (schemaKeyDefaultMethodArgMap.has(prop))
+                        return schemaKeyDefaultMethodArgMap.get(prop)
+                    return unsafeGetValue(manager, prop)
+                },
+                set(_, prop: string, val) {
+                    if (
+                        schemaKeyNullableCallbackParamMap.has(prop) &&
+                        val instanceof PassthroughCallback
+                    ) {
+                        const extended = unsafeSetValue(
+                            manager,
+                            prop,
+                            extendFunction(
+                                unsafeGetValue(manager, prop),
+                                val.callback
+                            )
                         )
-                    )
-                    val.handle.then(() => omitFunction(extended, val.callback))
+                        val.handle.then(() =>
+                            omitFunction(extended, val.callback)
+                        )
+                        return true
+                    }
+                    unsafeSetValue(manager, prop, val)
                     return true
                 }
-                unsafeSetValue(manager, prop, val)
-                return true
-            }
-        })
+            }),
+            manager
+        )
     ] as const
 }

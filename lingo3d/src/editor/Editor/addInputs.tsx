@@ -32,6 +32,7 @@ import {
 } from "../../interface/utils/DefaultMethod"
 import { isPoint } from "../../utils/isPoint"
 import executeIcon from "./icons/executeIcon"
+import { PassthroughCallback, proxyInstanceMap } from "./createParams"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -74,13 +75,6 @@ export type Connection = {
     onDrag?: (e: DragEvent) => void
     onDragEnd?: (e: DragEvent, draggingItem: DraggingItem) => void
     onDrop?: (e: DragEvent, draggingItem: DraggingItem, prop: string) => void
-}
-
-export class PassthroughCallback {
-    public constructor(
-        public callback: (val: any) => void,
-        public handle: Cancellable
-    ) {}
 }
 
 const initConnectorOut = (
@@ -172,7 +166,11 @@ export default async (
                 const executeButton = executeIcon.cloneNode(true) as HTMLElement
                 input.element.appendChild(executeButton)
                 executeButton.onclick = () => {
-                    console.log(params[key])
+                    const paramValue = params[key]
+                    const instance = proxyInstanceMap.get(target)
+                    if (isPoint(paramValue))
+                        instance[key](paramValue.x, paramValue.y, paramValue.z)
+                    else instance[key](paramValue)
                 }
             } else if (isNullableCallbackParam(paramValue)) {
                 const isDefaultValue =
