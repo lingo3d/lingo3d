@@ -129,10 +129,14 @@ export default async (
         if (key.startsWith("preset "))
             params[key] = getEditorPresets()[key] ?? true
 
-    const folder: FolderApi = pane.addFolder({ title })
     const options = defaultsOptionsMap.get(
         unsafeGetValue(target.constructor, "defaults")
     )
+    const lazyFolder = lazy(() => {
+        const folder: FolderApi = pane.addFolder({ title })
+        handle.then(() => folder.dispose())
+        return folder
+    })
     const lazyCallbacksFolder = lazy(() => {
         const folder: FolderApi = pane.addFolder({ title: "callbacks" })
         handle.then(() => folder.dispose())
@@ -167,7 +171,7 @@ export default async (
                         disabled: true
                     })
             } else {
-                input = folder.addInput(
+                input = lazyFolder().addInput(
                     params,
                     key,
                     getEditorPresets()["preset " + key] !== false
@@ -296,7 +300,6 @@ export default async (
         })
     )
     handle.then(() => {
-        folder.dispose()
         for (const input of Object.values(result)) {
             deleteRefreshSystem(input)
             input.dispose()
