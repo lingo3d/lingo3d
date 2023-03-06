@@ -20,7 +20,7 @@ specifiers:
   lil-gui: ^0.18.0
   lingo3d-forest: ^1.0.0
   nanoid: ^4.0.1
-  nipplejs: 0.10.0
+  nipplejs: 0.10.1
   object-sizeof: ^2.6.1
   postprocessing: ^6.30.1
   preact: ^10.13.0
@@ -49,7 +49,7 @@ dependencies:
   browser-fs-access: 0.33.0
   lingo3d-forest: 1.0.0
   nanoid: 4.0.1
-  nipplejs: 0.10.0
+  nipplejs: 0.10.1
   postprocessing: 6.30.1_three@0.150.1
   preact: 10.13.0
   preact-compat: 3.19.0_preact@10.13.0
@@ -1005,8 +1005,8 @@ packages:
     hasBin: true
     dev: false
 
-  /nipplejs/0.10.0:
-    resolution: {integrity: sha512-BYrPA2meyOrk59NZTwKpnbVWYE89kAuMy34hnmjNyW/JmmuQfUs/k7lJhdPgZUjI3ZU7xbASOjCeDLeIDD+8VQ==}
+  /nipplejs/0.10.1:
+    resolution: {integrity: sha512-BuKBDfdd7BVK6E7sivHwrRPh9TETsHuHEwuT95nAjRz2uJu5roYngNs+BdRe8nYf8mP6OZ9aRqdgMlqVsDMRcw==}
     dev: false
 
   /node-releases/2.0.10:
