@@ -10,9 +10,9 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import { PassthroughCallback } from "./addInputs"
 import { extendFunction, omitFunction } from "@lincode/utils"
 import NullableCallback, {
-    NullableCallbackParam
+    isNullableCallbackParam
 } from "../../interface/utils/NullableCallback"
-import { DefaultMethodArg } from "../../interface/utils/DefaultMethod"
+import { isDefaultMethodArg } from "../../interface/utils/DefaultMethod"
 
 const filterSchema = (
     schema: Record<string, unknown>,
@@ -30,7 +30,7 @@ const isObject = (val: any): val is object =>
     val && typeof val === "object" && !Array.isArray(val)
 
 const structuredCloneIfNotDefaultValue = <T>(val: T) => {
-    if (val instanceof NullableCallbackParam || val instanceof DefaultMethodArg)
+    if (isNullableCallbackParam(val) || isDefaultMethodArg(val))
         return <const>[val, true]
     return <const>[structuredClone(val), false]
 }

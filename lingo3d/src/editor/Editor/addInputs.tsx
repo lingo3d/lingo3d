@@ -153,31 +153,43 @@ export default async (
     const result = Object.fromEntries(
         Object.keys(params).map((key) => {
             let input: any
-            const value = unsafeGetValue(target, key)
-            if (isDefaultMethodArg(value)) {
+            const paramValue = params[key]
+            if (isDefaultMethodArg(paramValue)) {
                 if (
-                    value instanceof DefaultMethodArg &&
-                    value.value === undefined
+                    paramValue instanceof DefaultMethodArg &&
+                    paramValue.value === undefined
                 )
                     input = lazyMethodsFolder().addButton({
                         title: key,
                         label: key
                     })
                 else input = lazyMethodsFolder().addInput(params, key)
-            } else if (isNullableCallbackParam(value)) {
+            } else if (isNullableCallbackParam(paramValue)) {
                 if (
-                    value instanceof NullableCallbackParam &&
-                    value.value === undefined
+                    paramValue instanceof NullableCallbackParam &&
+                    paramValue.value === undefined
                 )
                     input = lazyCallbacksFolder().addButton({
                         title: key,
                         label: key,
                         disabled: true
                     })
-                else
+                else {
                     input = lazyCallbacksFolder().addInput(params, key, {
                         disabled: true
                     })
+                    unsafeSetValue(
+                        target,
+                        key,
+                        // in createParams, callbacks are extended with PassthroughCallback
+                        // so that when the callback is called, inputs will be refreshed
+                        new PassthroughCallback((val) => {
+                            params[key] = val
+                            skipChangeSet.add(input)
+                            input.refresh()
+                        }, handle)
+                    )
+                }
             } else {
                 input = lazyFolder().addInput(
                     params,
@@ -193,19 +205,7 @@ export default async (
                     return [key, input]
                 }
 
-                if (isNullableCallbackParam(value))
-                    unsafeSetValue(
-                        target,
-                        key,
-                        // in createParams, callbacks are extended with PassthroughCallback
-                        // so that when the callback is called, inputs will be refreshed
-                        new PassthroughCallback((val) => {
-                            params[key] = val
-                            skipChangeSet.add(input)
-                            input.refresh()
-                        }, handle)
-                    )
-                else addRefreshSystem(input, { key, params, target })
+                addRefreshSystem(input, { key, params, target })
 
                 const resetButton = resetIcon.cloneNode(true) as HTMLElement
                 input.element.prepend(resetButton)
