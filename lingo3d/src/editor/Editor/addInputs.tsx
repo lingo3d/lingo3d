@@ -22,14 +22,8 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import { render } from "preact"
 import { unmountComponentAtNode } from "preact/compat"
 import Toggle from "./Toggle"
-import {
-    isNullableCallbackParam,
-    NullableCallbackParam
-} from "../../interface/utils/NullableCallback"
-import {
-    DefaultMethodArg,
-    isDefaultMethodArg
-} from "../../interface/utils/DefaultMethod"
+import { isNullableCallbackParam } from "../../interface/utils/NullableCallback"
+import { isDefaultMethodArg } from "../../interface/utils/DefaultMethod"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -146,13 +140,13 @@ export default async (
     const result = Object.fromEntries(
         Object.keys(params).map((key) => {
             let input: any
-            const paramsValue = params[key]
-            if (paramsValue instanceof DefaultMethodArg)
+            const value = unsafeGetValue(target, key)
+            if (isDefaultMethodArg(value))
                 input = folder.addButton({
                     title: key,
                     label: key
                 })
-            else if (paramsValue instanceof NullableCallbackParam)
+            else if (isNullableCallbackParam(value))
                 input = folder.addButton({
                     title: key,
                     label: key,
@@ -173,7 +167,6 @@ export default async (
                     return [key, input]
                 }
 
-                const value = unsafeGetValue(target, key)
                 if (isNullableCallbackParam(value))
                     unsafeSetValue(
                         target,
