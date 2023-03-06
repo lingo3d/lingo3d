@@ -145,17 +145,17 @@ export default async (
     )
     const result = Object.fromEntries(
         Object.keys(params).map((key) => {
-            const value = unsafeGetValue(target, key)
             let input: any
+            const paramsValue = params[key]
             if (
-                value instanceof NullableCallbackParam ||
-                value instanceof DefaultMethodArg
-            ) {
+                paramsValue instanceof NullableCallbackParam ||
+                paramsValue instanceof DefaultMethodArg
+            )
                 input = folder.addButton({
                     title: key,
                     label: key
                 })
-            } else {
+            else {
                 input = folder.addInput(
                     params,
                     key,
@@ -170,6 +170,7 @@ export default async (
                     return [key, input]
                 }
 
+                const value = unsafeGetValue(target, key)
                 if (isNullableCallbackParam(value))
                     unsafeSetValue(
                         target,
