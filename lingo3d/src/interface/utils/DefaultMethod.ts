@@ -1,10 +1,8 @@
 import { Point3d } from "@lincode/math"
 import { forceGet } from "@lincode/utils"
-import { nanoid } from "nanoid"
 
-//mark
 export class DefaultMethodArg {
-    public constructor(public value: string | number | boolean = nanoid()) {
+    public constructor(public value?: string | number | boolean) {
         Object.freeze(this)
     }
 }

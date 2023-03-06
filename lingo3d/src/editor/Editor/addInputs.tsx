@@ -75,13 +75,6 @@ export class PassthroughCallback {
     ) {}
 }
 
-export class PassthroughMethod {
-    public constructor(
-        public method: (val: any) => void,
-        public handle: Cancellable
-    ) {}
-}
-
 const initConnectorOut = (
     connectorOut: HTMLElement,
     target: Appendable,
@@ -171,18 +164,9 @@ export default async (
                     unsafeSetValue(
                         target,
                         key,
+                        // in createParams, callbacks are extended with PassthroughCallback
+                        // so that when the callback is called, inputs will be refreshed
                         new PassthroughCallback((val) => {
-                            params[key] = val
-                            skipChangeSet.add(input)
-                            input.refresh()
-                        }, handle)
-                    )
-                //mark
-                else if (isDefaultMethodArg(value))
-                    unsafeSetValue(
-                        target,
-                        key,
-                        new PassthroughMethod((val) => {
                             params[key] = val
                             skipChangeSet.add(input)
                             input.refresh()

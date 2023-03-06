@@ -1,13 +1,11 @@
 import { Point, Point3d } from "@lincode/math"
 import { forceGet } from "@lincode/utils"
-import { nanoid } from "nanoid"
 import { LingoKeyboardEvent } from "../IKeyboard"
 import { LingoMouseEvent, SimpleMouseEvent } from "../IMouse"
 import { HitEvent } from "../IVisible"
 
-//mark
 export class NullableCallbackParam {
-    public constructor(public value: string | number | boolean = nanoid()) {
+    public constructor(public value?: string | number | boolean) {
         Object.freeze(this)
     }
 }
