@@ -53,7 +53,6 @@ export type GameObjectType =
     | "timelineAudio"
     | "gameGraph"
     | "connector"
-    | "spawnConnector"
     | "mathNode"
     | "incrementNode"
     | "projectionNode"

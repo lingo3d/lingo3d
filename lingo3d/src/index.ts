@@ -32,7 +32,6 @@ import D6Joint from "./display/joints/D6Joint"
 
 import GameGraph from "./visualScripting/GameGraph"
 import Connector from "./visualScripting/Connector"
-import SpawnConnector from "./visualScripting/SpawnConnector"
 import MathNode from "./visualScripting/MathNode"
 import IncrementNode from "./visualScripting/IncrementNode"
 import ProjectionNode from "./visualScripting/ProjectionNode"
@@ -128,7 +127,6 @@ export {
     D6Joint,
     GameGraph,
     Connector,
-    SpawnConnector,
     MathNode,
     IncrementNode,
     ProjectionNode,

@@ -117,4 +117,13 @@ export default class Connector extends Appendable implements IConnector {
         this._xyz = val
         this.refreshState.set({})
     }
+
+    private _type?: "spawn"
+    public get type() {
+        return this._type
+    }
+    public set type(val) {
+        this._type = val
+        this.refreshState.set({})
+    }
 }
