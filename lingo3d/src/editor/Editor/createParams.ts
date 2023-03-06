@@ -84,7 +84,7 @@ export default (
                 if (schemaKeyNullableCallbackParamMap.has(prop))
                     return schemaKeyNullableCallbackParamMap.get(prop)
                 if (schemaKeyDefaultMethodArgMap.has(prop))
-                    return schemaKeyNullableCallbackParamMap.get(prop)
+                    return schemaKeyDefaultMethodArgMap.get(prop)
                 return unsafeGetValue(manager, prop)
             },
             set(_, prop: string, val) {
