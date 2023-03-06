@@ -180,18 +180,16 @@ export default async (
                             input.refresh()
                         }, handle)
                     )
-                else if (isDefaultMethodArg(value)) {
-                    console.log(key, value)
-                }
-                //     unsafeSetValue(
-                //         target,
-                //         key,
-                //         new PassthroughMethod((val) => {
-                //             params[key] = val
-                //             skipChangeSet.add(input)
-                //             input.refresh()
-                //         }, handle)
-                //     )
+                else if (isDefaultMethodArg(value))
+                    unsafeSetValue(
+                        target,
+                        key,
+                        new PassthroughMethod((val) => {
+                            params[key] = val
+                            skipChangeSet.add(input)
+                            input.refresh()
+                        }, handle)
+                    )
                 else addRefreshSystem(input, { key, params, target })
 
                 const resetButton = resetIcon.cloneNode(true) as HTMLElement
