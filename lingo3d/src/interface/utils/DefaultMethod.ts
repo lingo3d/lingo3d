@@ -1,23 +1,31 @@
 import { Point3d } from "@lincode/math"
 import { forceGet } from "@lincode/utils"
-import DefaultValue from "./DefaultValue"
+import { nanoid } from "nanoid"
 
-type DefaultMethodArg = Point3d | DefaultValue
+//mark
+export class DefaultMethodArg {
+    public constructor(public value: string | number | boolean = nanoid()) {
+        Object.freeze(this)
+    }
+}
 
-export const defaultMethodVoidArg = new DefaultValue()
-export const defaultMethodNumberArg = new DefaultValue(0)
+type DefaultMethodArgType = Point3d | DefaultMethodArg
+
+export const defaultMethodVoidArg = new DefaultMethodArg()
+export const defaultMethodNumberArg = new DefaultMethodArg(0)
 export const defaultMethodPt3dArg = Object.freeze(new Point3d(0, 0, 0))
 
-const defaultMethodArgs = new Set<DefaultMethodArg>()
-export const isDefaultMethodArg = (value: any): value is DefaultMethodArg =>
+const defaultMethodArgs = new Set<DefaultMethodArgType>()
+export const isDefaultMethodArg = (value: any): value is DefaultMethodArgType =>
     defaultMethodArgs.has(value)
 
 export default class DefaultMethod {
-    public constructor(public arg: DefaultMethodArg) {
+    public constructor(public arg: DefaultMethodArgType) {
         defaultMethodArgs.add(arg)
     }
 }
 
-const defaultMethodMap = new Map<DefaultMethodArg, DefaultMethod>()
-export const defaultMethod = (value: DefaultMethodArg = defaultMethodVoidArg) =>
-    forceGet(defaultMethodMap, value, () => new DefaultMethod(value))
+const defaultMethodMap = new Map<DefaultMethodArgType, DefaultMethod>()
+export const defaultMethod = (
+    value: DefaultMethodArgType = defaultMethodVoidArg
+) => forceGet(defaultMethodMap, value, () => new DefaultMethod(value))

@@ -1,34 +1,44 @@
 import { Point, Point3d } from "@lincode/math"
 import { forceGet } from "@lincode/utils"
+import { nanoid } from "nanoid"
 import { LingoKeyboardEvent } from "../IKeyboard"
 import { LingoMouseEvent, SimpleMouseEvent } from "../IMouse"
 import { HitEvent } from "../IVisible"
-import DefaultValue from "./DefaultValue"
 
-type NullableCallbackParam =
+//mark
+export class NullableCallbackParam {
+    public constructor(public value: string | number | boolean = nanoid()) {
+        Object.freeze(this)
+    }
+}
+
+type NullableCallbackParamType =
     | Point3d
     | Point
     | HitEvent
     | LingoMouseEvent
     | SimpleMouseEvent
     | LingoKeyboardEvent
-    | DefaultValue
+    | NullableCallbackParam
 
-export const nullableCallbackVoidParam = new DefaultValue()
+export const nullableCallbackVoidParam = new NullableCallbackParam()
 export const nullableCallbackPtParam = Object.freeze(new Point(0, 0))
 
-const nullableCallbackParams = new Set<NullableCallbackParam>()
+const nullableCallbackParams = new Set<NullableCallbackParamType>()
 export const isNullableCallbackParam = (
     value: any
-): value is NullableCallbackParam => nullableCallbackParams.has(value)
+): value is NullableCallbackParamType => nullableCallbackParams.has(value)
 
 export default class NullableCallback {
-    public constructor(public param: NullableCallbackParam) {
+    public constructor(public param: NullableCallbackParamType) {
         nullableCallbackParams.add(param)
     }
 }
 
-const nullableCallbackMap = new Map<NullableCallbackParam, NullableCallback>()
+const nullableCallbackMap = new Map<
+    NullableCallbackParamType,
+    NullableCallback
+>()
 export const nullableCallback = (
-    value: NullableCallbackParam = nullableCallbackVoidParam
+    value: NullableCallbackParamType = nullableCallbackVoidParam
 ) => forceGet(nullableCallbackMap, value, () => new NullableCallback(value))

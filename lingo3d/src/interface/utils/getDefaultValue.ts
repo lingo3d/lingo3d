@@ -2,7 +2,6 @@ import Appendable from "../../api/core/Appendable"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import DefaultMethod from "./DefaultMethod"
 import Defaults from "./Defaults"
-import DefaultValue from "./DefaultValue"
 import NullableCallback from "./NullableCallback"
 import NullableDefault from "./NullableDefault"
 

@@ -22,8 +22,14 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import { render } from "preact"
 import { unmountComponentAtNode } from "preact/compat"
 import Toggle from "./Toggle"
-import { isNullableCallbackParam } from "../../interface/utils/NullableCallback"
-import { isDefaultMethodArg } from "../../interface/utils/DefaultMethod"
+import {
+    isNullableCallbackParam,
+    NullableCallbackParam
+} from "../../interface/utils/NullableCallback"
+import {
+    DefaultMethodArg,
+    isDefaultMethodArg
+} from "../../interface/utils/DefaultMethod"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -139,73 +145,88 @@ export default async (
     )
     const result = Object.fromEntries(
         Object.keys(params).map((key) => {
-            const input = folder.addInput(
-                params,
-                key,
-                getEditorPresets()["preset " + key] !== false
-                    ? options?.[key]
-                    : undefined
-            )
-            if (key.startsWith("preset ")) {
-                input.on("change", ({ value }: any) =>
-                    assignEditorPresets({ [key]: value })
-                )
-                return [key, input]
-            }
-
             const value = unsafeGetValue(target, key)
-            if (isNullableCallbackParam(value))
-                unsafeSetValue(
-                    target,
+            let input: any
+            if (
+                value instanceof NullableCallbackParam ||
+                value instanceof DefaultMethodArg
+            ) {
+                input = folder.addButton({
+                    title: key,
+                    label: key
+                })
+            } else {
+                input = folder.addInput(
+                    params,
                     key,
-                    new PassthroughCallback((val) => {
-                        params[key] = val
-                        skipChangeSet.add(input)
-                        input.refresh()
-                    }, handle)
+                    getEditorPresets()["preset " + key] !== false
+                        ? options?.[key]
+                        : undefined
                 )
-            else if (isDefaultMethodArg(value)) {
-                console.log(key, value)
-            }
-            //     unsafeSetValue(
-            //         target,
-            //         key,
-            //         new PassthroughMethod((val) => {
-            //             params[key] = val
-            //             skipChangeSet.add(input)
-            //             input.refresh()
-            //         }, handle)
-            //     )
-            else addRefreshSystem(input, { key, params, target })
-
-            const resetButton = resetIcon.cloneNode(true) as HTMLElement
-            input.element.prepend(resetButton)
-            resetButton.style.opacity = "0.1"
-
-            const updateResetButton = throttleTrailing(() => {
-                const unchanged = equalsDefaultValue(params[key], target, key)
-                resetButton.style.opacity = unchanged ? "0.1" : "0.5"
-                resetButton.style.cursor = unchanged ? "auto" : "pointer"
-            }, 100)
-            updateResetButton()
-
-            resetButton.onclick = () => {
-                params[key] = structuredClone(
-                    getDefaultValue(target, key, true, true)
-                )
-                input.refresh()
-            }
-
-            input.on("change", ({ value }: any) => {
-                updateResetButton()
-                if (skipChangeSet.has(input)) {
-                    skipChangeSet.delete(input)
-                    return
+                if (key.startsWith("preset ")) {
+                    input.on("change", ({ value }: any) =>
+                        assignEditorPresets({ [key]: value })
+                    )
+                    return [key, input]
                 }
-                !downPtr[0] && emitEditorEdit("start")
-                setRuntimeValue(target, key, processValue(value))
-                !downPtr[0] && emitEditorEdit("end")
-            })
+
+                if (isNullableCallbackParam(value))
+                    unsafeSetValue(
+                        target,
+                        key,
+                        new PassthroughCallback((val) => {
+                            params[key] = val
+                            skipChangeSet.add(input)
+                            input.refresh()
+                        }, handle)
+                    )
+                else if (isDefaultMethodArg(value)) {
+                    console.log(key, value)
+                }
+                //     unsafeSetValue(
+                //         target,
+                //         key,
+                //         new PassthroughMethod((val) => {
+                //             params[key] = val
+                //             skipChangeSet.add(input)
+                //             input.refresh()
+                //         }, handle)
+                //     )
+                else addRefreshSystem(input, { key, params, target })
+
+                const resetButton = resetIcon.cloneNode(true) as HTMLElement
+                input.element.prepend(resetButton)
+                resetButton.style.opacity = "0.1"
+
+                const updateResetButton = throttleTrailing(() => {
+                    const unchanged = equalsDefaultValue(
+                        params[key],
+                        target,
+                        key
+                    )
+                    resetButton.style.opacity = unchanged ? "0.1" : "0.5"
+                    resetButton.style.cursor = unchanged ? "auto" : "pointer"
+                }, 100)
+                updateResetButton()
+
+                resetButton.onclick = () => {
+                    params[key] = structuredClone(
+                        getDefaultValue(target, key, true, true)
+                    )
+                    input.refresh()
+                }
+
+                input.on("change", ({ value }: any) => {
+                    updateResetButton()
+                    if (skipChangeSet.has(input)) {
+                        skipChangeSet.delete(input)
+                        return
+                    }
+                    !downPtr[0] && emitEditorEdit("start")
+                    setRuntimeValue(target, key, processValue(value))
+                    !downPtr[0] && emitEditorEdit("end")
+                })
+            }
 
             if (connection) {
                 const els = input.element.querySelectorAll(".tp-pndtxtv_a")
