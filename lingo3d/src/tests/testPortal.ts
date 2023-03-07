@@ -7,18 +7,17 @@ map.scale = 10
 map.src = "cathedral.glb"
 
 const map2 = new Model()
-map2.scale = 4
+map2.scale = 10
 map2.src = "fangjian11.glb"
-map2.x = 2000
+map2.x = 2000 + 2000
 
 const portal = new Portal()
 portal.width = 200
 portal.height = 400
 
 const target = new Cube()
-target.x = 1950.00
+target.x = 1950.00 + 2000
 target.y = -60.00
 target.z = 180.00
-target.rotationY = 30
 
 portal.target = target
