@@ -9,6 +9,7 @@ import { emitDispose } from "../../events/onDispose"
 import { onLoop } from "../../events/onLoop"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import IAppendable from "../../interface/IAppendable"
+import Nullable from "../../interface/utils/Nullable"
 import renderSystem from "../../utils/renderSystem"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { appendableRoot, uuidMap } from "./collections"
@@ -62,10 +63,10 @@ export default class Appendable extends Disposable implements IAppendable {
         return getStaticProperties(this).componentName
     }
 
-    public runtimeDefaults?: Record<string, any>
-    public runtimeSchema?: Record<string, any>
-    public runtimeIncludeKeys?: Set<string>
-    public runtimeData?: Record<string, any>
+    public runtimeDefaults: Nullable<Record<string, any>>
+    public runtimeSchema: Nullable<Record<string, any>>
+    public runtimeIncludeKeys: Nullable<Set<string>>
+    public runtimeData: Nullable<Record<string, any>>
 
     public parent?: Appendable | MeshAppendable
     public children?: Set<Appendable>

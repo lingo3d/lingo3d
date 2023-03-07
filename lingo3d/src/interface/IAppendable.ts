@@ -11,6 +11,8 @@ export default interface IAppendable {
     uuid: string
     id: Nullable<string>
     name: Nullable<string>
+    runtimeDefaults: Nullable<Record<string, any>>
+    runtimeData: Nullable<Record<string, any>>
 }
 
 export const appendableSchema: Required<ExtractProps<IAppendable>> = {
@@ -18,7 +20,9 @@ export const appendableSchema: Required<ExtractProps<IAppendable>> = {
     proxy: Object,
     uuid: String,
     id: String,
-    name: String
+    name: String,
+    runtimeData: Object,
+    runtimeDefaults: Object
 }
 hideSchema(["proxy"])
 
@@ -27,5 +31,7 @@ export const appendableDefaults = extendDefaults<IAppendable>([], {
     proxy: undefined,
     uuid: "",
     id: undefined,
-    name: undefined
+    name: undefined,
+    runtimeData: undefined,
+    runtimeDefaults: undefined
 })
