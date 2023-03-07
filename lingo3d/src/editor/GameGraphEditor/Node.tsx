@@ -100,7 +100,6 @@ const Node = memo(
                                     y: managerNode.y
                                 }
                             })
-                            manager.dispose()
                             return
                         }
                         const connector = Object.assign(new Connector(), {

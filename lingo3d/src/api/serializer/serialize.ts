@@ -12,6 +12,7 @@ import nonSerializedProperties from "./nonSerializedProperties"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import Model from "../../display/Model"
 import getStaticProperties from "../../display/utils/getStaticProperties"
+import { isProxyNode } from "../../visualScripting/ProxyNode"
 
 const serialize = (
     children: Array<Appendable | Model> | Set<Appendable | Model>,
@@ -22,7 +23,9 @@ const serialize = (
         if (nonSerializedAppendables.has(child)) continue
         const { componentName, schema } = getStaticProperties(child)
 
-        const data: Record<string, any> = { type: componentName }
+        const data: Record<string, any> = isProxyNode(child)
+            ? { type: "proxyNode", source: componentName }
+            : { type: componentName }
         for (const [key, type] of Object.entries(schema)) {
             if (
                 type === Function ||
