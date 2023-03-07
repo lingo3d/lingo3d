@@ -1,6 +1,7 @@
 import { Reactive } from "@lincode/reactivity"
 import { extendFunction, omitFunction } from "@lincode/utils"
 import Appendable, { getAppendables } from "../api/core/Appendable"
+import getStaticProperties from "../display/utils/getStaticProperties"
 import IConnector, {
     connectorDefaults,
     connectorSchema
@@ -33,9 +34,8 @@ export default class Connector extends Appendable implements IConnector {
             }
 
             if (
-                unsafeGetValue(fromManager.constructor, "defaults")[
-                    _fromProp
-                ] instanceof NullableCallback
+                getStaticProperties(fromManager).defaults[_fromProp] instanceof
+                NullableCallback
             ) {
                 const cb = _xyz
                     ? (val: PointType) =>

@@ -33,6 +33,7 @@ import {
 import { isPoint } from "../../utils/isPoint"
 import executeIcon from "./icons/executeIcon"
 import { PassthroughCallback, proxyInstanceMap } from "./createParams"
+import getStaticProperties from "../../display/utils/getStaticProperties"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -128,9 +129,7 @@ export default async (
         if (key.startsWith("preset "))
             params[key] = getEditorPresets()[key] ?? true
 
-    const options = defaultsOptionsMap.get(
-        unsafeGetValue(target.constructor, "defaults")
-    )
+    const options = defaultsOptionsMap.get(getStaticProperties(target).defaults)
     const lazyFolder = lazy(() => {
         const folder: FolderApi = pane.addFolder({ title })
         handle.then(() => folder.dispose())

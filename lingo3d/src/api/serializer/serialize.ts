@@ -11,6 +11,7 @@ import { isPoint } from "../../utils/isPoint"
 import nonSerializedProperties from "./nonSerializedProperties"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import Model from "../../display/Model"
+import getStaticProperties from "../../display/utils/getStaticProperties"
 
 const serialize = (
     children: Array<Appendable | Model> | Set<Appendable | Model>,
@@ -19,8 +20,7 @@ const serialize = (
     const dataParent: Array<SceneGraphNode> = []
     for (const child of children) {
         if (nonSerializedAppendables.has(child)) continue
-        //@ts-ignore
-        const { componentName, schema } = child.constructor
+        const { componentName, schema } = getStaticProperties(child)
 
         const data: Record<string, any> = { type: componentName }
         for (const [key, type] of Object.entries(schema)) {

@@ -3,13 +3,13 @@ import { Cancellable, Disposable } from "@lincode/promiselikes"
 import { GetGlobalState, createEffect, Reactive } from "@lincode/reactivity"
 import { forceGetInstance } from "@lincode/utils"
 import { nanoid } from "nanoid"
+import getStaticProperties from "../../display/utils/getStaticProperties"
 import { timer } from "../../engine/eventLoop"
 import { emitDispose } from "../../events/onDispose"
 import { onLoop } from "../../events/onLoop"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import IAppendable from "../../interface/IAppendable"
 import renderSystem from "../../utils/renderSystem"
-import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { appendableRoot, uuidMap } from "./collections"
 import type MeshAppendable from "./MeshAppendable"
@@ -59,7 +59,7 @@ export default class Appendable extends Disposable implements IAppendable {
     }
 
     public get componentName(): string {
-        return unsafeGetValue(this.constructor, "componentName")
+        return getStaticProperties(this).componentName
     }
 
     public runtimeDefaults?: Record<string, any>

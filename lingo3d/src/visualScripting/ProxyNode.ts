@@ -1,6 +1,6 @@
 import Appendable from "../api/core/Appendable"
+import getStaticProperties from "../display/utils/getStaticProperties"
 import { proxyNodeDefaults, proxyNodeSchema } from "../interface/IProxyNode"
-import unsafeGetValue from "../utils/unsafeGetValue"
 
 export default class ProxyNode extends Appendable {
     public static componentName = "proxyNode"
@@ -9,12 +9,13 @@ export default class ProxyNode extends Appendable {
 
     public constructor(target: Appendable) {
         super()
+        const properties = getStaticProperties(target)
         this.runtimeIncludeKeys = new Set([
-            ...(unsafeGetValue(target.constructor, "includeKeys") ?? []),
+            ...(properties.includeKeys ?? []),
             ...(target.runtimeIncludeKeys ?? [])
         ])
-        this.runtimeSchema = unsafeGetValue(target.constructor, "schema")
-        this.runtimeDefaults = unsafeGetValue(target.constructor, "defaults")
+        this.runtimeSchema = properties.schema
+        this.runtimeDefaults = properties.defaults
         this.runtimeData = target
     }
 }
