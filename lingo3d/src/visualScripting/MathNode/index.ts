@@ -29,8 +29,8 @@ export default class MathNode extends Appendable implements IMathNode {
             this._propertyChangedEvent?.emit("runtimeSchema")
             return
         }
-        const runtimeData = (this.runtimeData = { out: 0 })
-        const runtimeValues: Record<string, any> = {}
+        const runtimeData = (this.runtimeData ??= { out: 0 })
+        const runtimeValues = { ...runtimeData }
         const ownKeysRecord: Record<string, true> = {}
         for (const key of Object.keys(runtimeSchema)) {
             Object.defineProperty(runtimeData, key, {
@@ -40,7 +40,8 @@ export default class MathNode extends Appendable implements IMathNode {
                 set: (value) => {
                     runtimeValues[key] = value
                     runtimeData.out = eval(this.compiled!)
-                }
+                },
+                enumerable: true
             })
             ownKeysRecord[key] = true
         }
@@ -80,6 +81,4 @@ export default class MathNode extends Appendable implements IMathNode {
             new Set(varTokens.map((token) => token.value))
         )
     }
-
-    public evaluate(scope?: Record<string, number>) {}
 }

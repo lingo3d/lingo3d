@@ -11,7 +11,6 @@ export default interface IAppendable {
     uuid: string
     id: Nullable<string>
     name: Nullable<string>
-    runtimeDefaults: Nullable<Record<string, any>>
     runtimeData: Nullable<Record<string, any>>
 }
 
@@ -21,10 +20,9 @@ export const appendableSchema: Required<ExtractProps<IAppendable>> = {
     uuid: String,
     id: String,
     name: String,
-    runtimeData: Object,
-    runtimeDefaults: Object
+    runtimeData: Object
 }
-hideSchema(["proxy"])
+hideSchema(["proxy", "runtimeData"])
 
 export const appendableDefaults = extendDefaults<IAppendable>([], {
     onLoop: nullableCallback(),
@@ -32,6 +30,5 @@ export const appendableDefaults = extendDefaults<IAppendable>([], {
     uuid: "",
     id: undefined,
     name: undefined,
-    runtimeData: undefined,
-    runtimeDefaults: undefined
+    runtimeData: undefined
 })
