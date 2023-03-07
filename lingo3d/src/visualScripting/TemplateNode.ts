@@ -2,13 +2,14 @@ import Appendable from "../api/core/Appendable"
 import createObject from "../api/serializer/createObject"
 import { GameObjectType } from "../api/serializer/types"
 
-const proxyNodeSet = new WeakSet<ProxyNode>()
-export const isProxyNode = (val: any): val is ProxyNode => proxyNodeSet.has(val)
+const templateNodeSet = new WeakSet<TemplateNode>()
+export const isTemplateNode = (val: any): val is TemplateNode =>
+    templateNodeSet.has(val)
 
-export default class ProxyNode extends Appendable {
+export default class TemplateNode extends Appendable {
     public constructor(target?: Appendable) {
         super()
-        proxyNodeSet.add(this)
+        templateNodeSet.add(this)
         if (!target) return
         target.dispose()
         Object.setPrototypeOf(this, target)

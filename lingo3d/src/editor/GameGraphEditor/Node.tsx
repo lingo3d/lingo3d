@@ -12,7 +12,7 @@ import { getGameGraph } from "../../states/useGameGraph"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import Connector from "../../visualScripting/Connector"
 import SpawnNode from "../../visualScripting/SpawnNode"
-import ProxyNode from "../../visualScripting/ProxyNode"
+import TemplateNode from "../../visualScripting/TemplateNode"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import treeContext from "../component/treeItems/treeContext"
 import addTargetInputs from "../Editor/addTargetInputs"
@@ -90,7 +90,7 @@ const Node = memo(
                             const managerNode = gameGraph.data[manager.uuid]
                             if (managerNode.type !== "node") return
 
-                            const template = new ProxyNode(manager)
+                            const template = new TemplateNode(manager)
                             gameGraph.append(template)
 
                             gameGraph.mergeData({
