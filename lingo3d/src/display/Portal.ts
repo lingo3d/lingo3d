@@ -8,9 +8,13 @@ import {
 import MeshAppendable from "../api/core/MeshAppendable"
 import scene from "../engine/scene"
 import { onBeforeRender } from "../events/onBeforeRender"
+import { getCameraRendered } from "../states/useCameraRendered"
 import { rendererPtr } from "../states/useRenderer"
 import VisibleObjectManager from "./core/VisibleObjectManager"
 import { planeGeometry } from "./primitives/Plane"
+import getWorldPosition from "./utils/getWorldPosition"
+import getWorldQuaternion from "./utils/getWorldQuaternion"
+import { complementQuaternion, diffQuaternions } from "./utils/quaternions"
 
 export default class Portal extends VisibleObjectManager {
     public constructor() {
@@ -33,7 +37,22 @@ export default class Portal extends VisibleObjectManager {
             const target = this.targetState.get()
             if (!target) return
 
+            const cameraRendererd = getCameraRendered()
+
+            camera.position.copy(getWorldPosition(target.outerObject3d))
+            camera.quaternion.copy(getWorldQuaternion(target.outerObject3d))
+
             const handle = onBeforeRender(() => {
+                camera.quaternion.copy(getWorldQuaternion(target.outerObject3d))
+                complementQuaternion(
+                    camera.quaternion,
+                    diffQuaternions(
+                        getWorldQuaternion(cameraRendererd),
+                        getWorldQuaternion(this.outerObject3d)
+                    )
+                )
+                camera.position.copy(getWorldPosition(target.outerObject3d))
+
                 mesh.visible = false
                 target.outerObject3d.visible = false
                 rendererPtr[0].setRenderTarget(renderTarget)
@@ -45,7 +64,7 @@ export default class Portal extends VisibleObjectManager {
             return () => {
                 handle.cancel()
             }
-        }, [this.targetState.get])
+        }, [this.targetState.get, getCameraRendered])
 
         this.then(() => {
             renderTarget.dispose()
