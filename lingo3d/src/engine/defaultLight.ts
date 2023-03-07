@@ -5,7 +5,6 @@ import loadTexture from "../display/utils/loaders/loadTexture"
 import { environmentPreset } from "../interface/IEnvironment"
 import { getEnvironment } from "../states/useEnvironment"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
-import { getRenderer } from "../states/useRenderer"
 import scene from "./scene"
 import { appendableRoot } from "../api/core/collections"
 import unsafeGetValue from "../utils/unsafeGetValue"
@@ -24,9 +23,7 @@ export const environmentToUrl = (value: string) =>
 
 createEffect(() => {
     const environment = getEnvironmentStack().at(-1)
-    const renderer = getRenderer()
-
-    if (!environment?.texture || !renderer) return
+    if (!environment?.texture) return
 
     let proceed = true
     const texture = loadTexture(
@@ -39,7 +36,7 @@ createEffect(() => {
         proceed = false
         scene.environment = null
     }
-}, [getEnvironmentStack, getRenderer])
+}, [getEnvironmentStack])
 
 createEffect(() => {
     const environment = getEnvironment()

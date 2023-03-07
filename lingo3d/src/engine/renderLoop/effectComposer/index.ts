@@ -18,7 +18,7 @@ const effectComposer = new EffectComposer()
 getRenderer((renderer) => renderer && effectComposer.setRenderer(renderer))
 export default effectComposer
 
-// effectComposer.multisampling = 4
+effectComposer.multisampling = 4
 
 createEffect(() => {
     const renderPass = new RenderPass(scene, getCameraRendered())

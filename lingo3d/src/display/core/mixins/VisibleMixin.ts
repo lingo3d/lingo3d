@@ -30,7 +30,8 @@ import {
 } from "../utils/raycast/sets"
 import "../utils/raycast"
 import { getAppendables } from "../../../api/core/Appendable"
-import { reflectionVisibleSet } from "../../../states/useReflectionPairs"
+
+export const reflectionVisibleSet = new Set<MeshAppendable>()
 
 const frustum = new Frustum()
 const updateFrustum = throttleFrameLeading(() => {

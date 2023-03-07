@@ -1,11 +1,11 @@
 import { onAfterRender } from "../events/onAfterRender"
-import { getRenderer } from "../states/useRenderer"
+import { rendererPtr } from "../states/useRenderer"
 
 export default {
     toBlob: async () => {
         return new Promise<Blob>((resolve) => {
             onAfterRender(() => {
-                getRenderer()?.domElement.toBlob(
+                rendererPtr[0].domElement.toBlob(
                     (blob) => blob && resolve(blob)
                 )
             }, true)
@@ -14,9 +14,7 @@ export default {
     toDataURL: async (type?: string, quality?: any) => {
         return new Promise<string>((resolve) => {
             onAfterRender(() => {
-                const renderer = getRenderer()
-                renderer &&
-                    resolve(renderer.domElement.toDataURL(type, quality))
+                resolve(rendererPtr[0].domElement.toDataURL(type, quality))
             }, true)
         })
     }

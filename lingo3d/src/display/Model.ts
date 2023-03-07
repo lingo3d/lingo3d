@@ -23,13 +23,37 @@ import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import throttleSystem from "../utils/throttleSystem"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import { M2CM, NEAR } from "../globals"
-import {
-    pushReflectionPairs,
-    pullReflectionPairs
-} from "../states/useReflectionPairs"
 import TextureManager from "./core/TextureManager"
 import { uuidTextureMap } from "./core/mixins/utils/createMap"
 import { StandardMesh } from "./core/mixins/TexturedStandardMixin"
+import MeshAppendable from "../api/core/MeshAppendable"
+import scene from "../engine/scene"
+import { onRenderHalfRate } from "../events/onRenderHalfRate"
+import { rendererPtr } from "../states/useRenderer"
+import renderSystemWithLifeCycle from "../utils/renderSystemWithLifeCycle"
+import { reflectionVisibleSet } from "./core/mixins/VisibleMixin"
+import getWorldPosition from "./utils/getWorldPosition"
+
+type Data = [MeshAppendable, CubeCamera, WebGLCubeRenderTarget]
+
+const [addReflectionSystem, deleteReflectionSystem] = renderSystemWithLifeCycle(
+    ([manager, cubeCamera, cubeRenderTarget]: Data) => {
+        cubeCamera.position.copy(getWorldPosition(manager.outerObject3d))
+        cubeRenderTarget.clear(rendererPtr[0], false, true, false)
+        cubeCamera.update(rendererPtr[0], scene)
+    },
+    (dataSet) => {
+        for (const manager of reflectionVisibleSet)
+            manager.outerObject3d.visible = true
+        for (const [manager] of dataSet) manager.outerObject3d.visible = false
+    },
+    (dataSet) => {
+        for (const manager of reflectionVisibleSet)
+            manager.outerObject3d.visible = false
+        for (const [manager] of dataSet) manager.outerObject3d.visible = true
+    },
+    onRenderHalfRate
+)
 
 const modelTextureManagersMap = new WeakMap<Model, Array<TextureManager>>()
 
@@ -74,17 +98,17 @@ const refreshFactorsSystem = throttleSystem((model: Model) => {
             reflectionTexture.type = HalfFloatType
             reflectionDataMap.set(model, [reflectionTexture, reflectionHandle])
             const cubeCamera = new CubeCamera(NEAR, 10, cubeRenderTarget)
-            const pair: [Model, CubeCamera, WebGLCubeRenderTarget] = [
+            const data: [Model, CubeCamera, WebGLCubeRenderTarget] = [
                 model,
                 cubeCamera,
                 cubeRenderTarget
             ]
-            pushReflectionPairs(pair)
+            addReflectionSystem(data)
             uuidTextureMap.set(reflectionTexture.uuid, reflectionTexture)
 
             reflectionHandle.then(() => {
                 cubeRenderTarget.dispose()
-                pullReflectionPairs(pair)
+                deleteReflectionSystem(data)
                 uuidTextureMap.delete(reflectionTexture.uuid)
             })
         }

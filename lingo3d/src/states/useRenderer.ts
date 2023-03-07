@@ -5,6 +5,8 @@ import { getBackgroundColor } from "./useBackgroundColor"
 const [setRenderer, getRenderer] = store<WebGLRenderer | undefined>(undefined)
 export { getRenderer }
 
+export const rendererPtr: [WebGLRenderer] = [undefined as any]
+
 createEffect(() => {
     const renderer = new WebGLRenderer({
         powerPreference: "high-performance",
@@ -13,6 +15,7 @@ createEffect(() => {
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = PCFSoftShadowMap
     setRenderer(renderer)
+    rendererPtr[0] = renderer
 
     return () => {
         renderer.dispose()
