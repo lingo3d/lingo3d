@@ -87,9 +87,20 @@ const Node = memo(
                                 draggingItem.manager
                             ) instanceof SpawnNode
                         if (isSpawn) {
-                            manager.dispose()
+                            const managerNode = gameGraph.data[manager.uuid]
+                            if (managerNode.type !== "node") return
+
                             const template = new SpawnTemplate()
                             gameGraph.append(template)
+
+                            gameGraph.mergeData({
+                                [template.uuid]: {
+                                    type: "node",
+                                    x: managerNode.x,
+                                    y: managerNode.y
+                                }
+                            })
+                            manager.dispose()
                             return
                         }
                         const connector = Object.assign(new Connector(), {
