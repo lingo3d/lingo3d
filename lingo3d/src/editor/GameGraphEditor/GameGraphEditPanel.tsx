@@ -1,8 +1,8 @@
 import { Signal } from "@preact/signals"
 import { useEffect, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
+import getStaticProperties from "../../display/utils/getStaticProperties"
 import { EDITOR_WIDTH } from "../../globals"
-import unsafeGetValue from "../../utils/unsafeGetValue"
 import Drawer from "../component/Drawer"
 import SearchBox from "../component/SearchBox"
 import addTargetInputs from "../Editor/addTargetInputs"
@@ -60,8 +60,7 @@ const GameGraphEditPanel = ({ targetSignal }: GameGraphEditPanelProps) => {
                     val = val.toLowerCase()
                     setIncludeKeys(
                         Object.keys(
-                            unsafeGetValue(targetSignal.value, "constructor")
-                                .schema
+                            getStaticProperties(targetSignal.value).schema
                         ).filter((key) => key.toLowerCase().includes(val))
                     )
                 }}

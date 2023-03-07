@@ -16,9 +16,9 @@ import useInitEditor from "../hooks/useInitEditor"
 import { getEditorPresets } from "../../states/useEditorPresets"
 import addTargetInputs from "./addTargetInputs"
 import SearchBox from "../component/SearchBox"
-import unsafeGetValue from "../../utils/unsafeGetValue"
 import usePane from "./usePane"
 import mergeRefs from "../hooks/mergeRefs"
+import getStaticProperties from "../../display/utils/getStaticProperties"
 
 const Editor = () => {
     useInitCSS()
@@ -102,10 +102,8 @@ const Editor = () => {
                     val = val.toLowerCase()
                     setIncludeKeys(
                         Object.keys(
-                            unsafeGetValue(
-                                selectionTarget ?? defaultSetup,
-                                "constructor"
-                            ).schema
+                            getStaticProperties(selectionTarget ?? defaultSetup)
+                                .schema
                         ).filter((key) => key.toLowerCase().includes(val))
                     )
                 }}

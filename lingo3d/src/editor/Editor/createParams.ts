@@ -19,6 +19,7 @@ import {
     isDefaultMethodArg
 } from "../../interface/utils/DefaultMethod"
 import { Cancellable } from "@lincode/promiselikes"
+import getStaticProperties from "../../display/utils/getStaticProperties"
 
 export class PassthroughCallback {
     public constructor(
@@ -67,7 +68,7 @@ export default (
     includeKeys: Array<string> | undefined,
     skipFunctions: boolean
 ) => {
-    const { schema, defaults } = unsafeGetValue(manager, "constructor")
+    const { schema, defaults } = getStaticProperties(manager)
     const params: Record<string, any> = {}
     if (!schema) return [params, manager] as const
 

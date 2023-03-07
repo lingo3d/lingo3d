@@ -1,8 +1,8 @@
 import { Cancellable } from "@lincode/promiselikes"
 import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import getStaticProperties from "../../display/utils/getStaticProperties"
 import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
-import unsafeGetValue from "../../utils/unsafeGetValue"
 import addInputs, { Connection } from "./addInputs"
 import createParams from "./createParams"
 import splitObject from "./splitObject"
@@ -16,10 +16,7 @@ export default (
     toggle?: boolean
 ) => {
     const handle = new Cancellable()
-    const { defaults, componentName } = unsafeGetValue(
-        selectionTarget,
-        "constructor"
-    )
+    const { defaults, componentName } = getStaticProperties(selectionTarget)
     const [params, manager] = createParams(
         selectionTarget,
         includeKeys,

@@ -1,12 +1,12 @@
-import { forceGet } from "@lincode/utils"
+import { Class, forceGet } from "@lincode/utils"
 import Appendable from "../../api/core/Appendable"
 import { FrameValue } from "../../interface/IAnimationManager"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import getStaticProperties from "./getStaticProperties"
 
-const propertiesMap = new WeakMap<Appendable, Array<string>>()
+const propertiesMap = new WeakMap<Class<Appendable>, Array<string>>()
 const getProperties = (instance: Appendable) =>
-    forceGet(propertiesMap, unsafeGetValue(instance, "constructor"), () => {
+    forceGet(propertiesMap, instance.constructor, () => {
         const result: Array<string> = []
         for (const [property, type] of Object.entries(
             getStaticProperties(instance).schema
