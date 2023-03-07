@@ -1,6 +1,7 @@
 import settings from "../api/settings"
 import Dummy from "../display/Dummy"
 import Joystick from "../ui/Joystick"
+import SpawnNode from "../visualScripting/SpawnNode"
 
 const dummy = new Dummy()
 dummy.roughnessFactor = 0.4
@@ -13,3 +14,4 @@ settings.defaultLight = false
 settings.ssao = true
 
 const joystick = new Joystick()
+const spawnNode = new SpawnNode()

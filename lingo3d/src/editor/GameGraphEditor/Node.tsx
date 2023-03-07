@@ -90,7 +90,7 @@ const Node = memo(
                             const managerNode = gameGraph.data[manager.uuid]
                             if (managerNode.type !== "node") return
 
-                            const template = new ProxyNode()
+                            const template = new ProxyNode(manager)
                             gameGraph.append(template)
 
                             gameGraph.mergeData({
