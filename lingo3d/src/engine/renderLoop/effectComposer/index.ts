@@ -14,12 +14,11 @@ import { getSSAOEffect } from "./ssaoEffect"
 import { getSSREffect } from "./ssrEffect"
 import { getVignetteEffect } from "./vignetteEffect"
 
-const effectComposer = new EffectComposer(undefined)
+const effectComposer = new EffectComposer()
+getRenderer((renderer) => renderer && effectComposer.setRenderer(renderer))
 export default effectComposer
 
-effectComposer.multisampling = 4
-
-getRenderer((renderer) => renderer && effectComposer.setRenderer(renderer))
+// effectComposer.multisampling = 4
 
 createEffect(() => {
     const renderPass = new RenderPass(scene, getCameraRendered())
