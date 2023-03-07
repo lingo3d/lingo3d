@@ -80,11 +80,7 @@ export default (
     const schemaKeyDefaultMethodArgMap = new Map<string, DefaultMethodArgType>()
 
     for (const schemaKey of Object.keys(
-        filterSchema(
-            schema,
-            unsafeGetValue(manager, "runtimeSchema"),
-            includeKeys
-        )
+        filterSchema(schema, manager.runtimeSchema, includeKeys)
     )) {
         if (nonEditorSchemaSet.has(schemaKey)) continue
 
