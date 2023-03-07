@@ -1,5 +1,4 @@
 import Appendable from "../../api/core/Appendable"
-import { getConstructor } from "../../display/utils/getStaticProperties"
 import DefaultMethod from "./DefaultMethod"
 import Defaults from "./Defaults"
 import NullableCallback from "./NullableCallback"
@@ -14,7 +13,7 @@ const getDefaultValue = (
     fillFunctionArgs?: boolean,
     functionPtr?: FunctionPtr
 ) => {
-    const constructorDefaults = getConstructor(manager).defaults
+    const constructorDefaults = (manager.constructor as any).defaults
     const runtimeManager = constructorDefaults ? manager : undefined
     if (
         runtimeManager?.runtimeDefaults &&
