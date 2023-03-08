@@ -16,7 +16,6 @@ import connectorInIcon from "./icons/connectorInIcon"
 import connectorOutIcon from "./icons/connectorOutIcon"
 import renderSystemWithData from "../../utils/renderSystemWithData"
 import Appendable from "../../api/core/Appendable"
-import unsafeGetValue from "../../utils/unsafeGetValue"
 import { getRuntimeValue, setRuntimeValue } from "../../utils/getRuntimeValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { render } from "preact"
@@ -46,8 +45,12 @@ const processValue = (value: any) => {
     return value
 }
 
-type DraggingItem = { manager: any; prop: string; xyz?: "x" | "y" | "z" }
-let draggingItem: DraggingItem | undefined
+export type ConnectionDraggingItem = {
+    manager: any
+    prop: string
+    xyz?: "x" | "y" | "z"
+}
+let draggingItem: ConnectionDraggingItem | undefined
 
 const skipChangeSet = new WeakSet<InputBindingApi>()
 const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
@@ -74,8 +77,12 @@ const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
 export type Connection = {
     onDragStart?: (e: DragEvent) => void
     onDrag?: (e: DragEvent) => void
-    onDragEnd?: (e: DragEvent, draggingItem: DraggingItem) => void
-    onDrop?: (e: DragEvent, draggingItem: DraggingItem, prop: string) => void
+    onDragEnd?: (e: DragEvent, draggingItem: ConnectionDraggingItem) => void
+    onDrop?: (
+        e: DragEvent,
+        draggingItem: ConnectionDraggingItem,
+        prop: string
+    ) => void
 }
 
 const initConnectorOut = (
@@ -108,6 +115,27 @@ const initConnectorOut = (
         draggingItem = undefined
     }
     return connectorOut
+}
+
+export const initConnectorIn = (
+    connectorIn: HTMLElement,
+    key: string,
+    connection: Connection
+) => {
+    connectorIn.ondragenter = (e) => {
+        e.stopPropagation()
+        connectorIn.style.background = "rgba(255, 255, 255, 0.5)"
+    }
+    connectorIn.ondragleave = (e) => {
+        e.stopPropagation()
+        connectorIn.style.background = ""
+    }
+    connectorIn.ondrop = (e) => {
+        e.stopPropagation()
+        connectorIn.style.background = ""
+        draggingItem && connection.onDrop?.(e, draggingItem, key)
+    }
+    return connectorIn
 }
 
 export default async (
@@ -282,25 +310,13 @@ export default async (
                 connectorOut.id = target.uuid + " " + key + " out"
                 input.element.appendChild(connectorOut)
 
-                const connectorIn = connectorInIcon.cloneNode(
-                    true
-                ) as HTMLElement
+                const connectorIn = initConnectorIn(
+                    connectorInIcon.cloneNode(true) as HTMLElement,
+                    key,
+                    connection
+                )
                 connectorIn.id = target.uuid + " " + key + " in"
                 input.element.prepend(connectorIn)
-
-                connectorIn.ondragenter = (e) => {
-                    e.stopPropagation()
-                    connectorIn.style.background = "rgba(255, 255, 255, 0.5)"
-                }
-                connectorIn.ondragleave = (e) => {
-                    e.stopPropagation()
-                    connectorIn.style.background = ""
-                }
-                connectorIn.ondrop = (e) => {
-                    e.stopPropagation()
-                    connectorIn.style.background = ""
-                    draggingItem && connection.onDrop?.(e, draggingItem, key)
-                }
             }
             if (toggle) {
                 const div = document.createElement("div")

@@ -1,7 +1,7 @@
 import { event } from "@lincode/events"
 import { Point } from "@lincode/math"
 import { memo, RefObject } from "preact/compat"
-import { useEffect, useMemo, useState } from "preact/hooks"
+import { useCallback, useEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
 import { toggleRightClickPtr } from "../../api/mouse"
@@ -15,6 +15,7 @@ import SpawnNode from "../../visualScripting/SpawnNode"
 import TemplateNode from "../../visualScripting/TemplateNode"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import treeContext from "../component/treeItems/treeContext"
+import { ConnectionDraggingItem, initConnectorIn } from "../Editor/addInputs"
 import addTargetInputs from "../Editor/addTargetInputs"
 import { proxyInstanceMap } from "../Editor/createParams"
 import usePane from "../Editor/usePane"
@@ -65,6 +66,54 @@ const Node = memo(
         const [refresh, setRefresh] = useState({})
         const selectionTarget = useSyncState(getSelectionTarget)
 
+        const [initConnector, onDrop] = useMemo(() => {
+            const onDrop = (
+                _: DragEvent,
+                draggingItem: ConnectionDraggingItem,
+                prop: string
+            ) => {
+                const gameGraph = getGameGraph()!
+                const isSpawn =
+                    proxyInstanceMap.get(draggingItem.manager) instanceof
+                    SpawnNode
+                if (isSpawn) {
+                    const managerNode = gameGraph.data[manager.uuid]
+                    if (managerNode.type !== "node") return
+
+                    const template = new TemplateNode(manager)
+                    gameGraph.append(template)
+
+                    gameGraph.mergeData({
+                        [template.uuid]: {
+                            type: "node",
+                            x: managerNode.x,
+                            y: managerNode.y
+                        }
+                    })
+                    return
+                }
+                const connector = Object.assign(new Connector(), {
+                    from: draggingItem.manager.uuid,
+                    fromProp: draggingItem.prop,
+                    to: manager.uuid,
+                    toProp: prop,
+                    xyz: draggingItem.xyz
+                })
+                gameGraph.append(connector)
+                gameGraph.mergeData({
+                    [connector.uuid]: {
+                        type: "connector",
+                        from: draggingItem.manager.uuid,
+                        to: manager.uuid
+                    }
+                })
+            }
+            const initConnector = (el: HTMLDivElement | null) =>
+                el && initConnectorIn(el, "uuid", { onDrop })
+
+            return [initConnector, onDrop] as const
+        }, [])
+
         useEffect(() => {
             if (!pane) return
 
@@ -80,44 +129,7 @@ const Node = memo(
                         setBezierStart(undefined)
                         setBezierEnd(undefined)
                     },
-                    onDrop: (_, draggingItem, prop) => {
-                        const gameGraph = getGameGraph()!
-                        const isSpawn =
-                            proxyInstanceMap.get(
-                                draggingItem.manager
-                            ) instanceof SpawnNode
-                        if (isSpawn) {
-                            const managerNode = gameGraph.data[manager.uuid]
-                            if (managerNode.type !== "node") return
-
-                            const template = new TemplateNode(manager)
-                            gameGraph.append(template)
-
-                            gameGraph.mergeData({
-                                [template.uuid]: {
-                                    type: "node",
-                                    x: managerNode.x,
-                                    y: managerNode.y
-                                }
-                            })
-                            return
-                        }
-                        const connector = Object.assign(new Connector(), {
-                            from: draggingItem.manager.uuid,
-                            fromProp: draggingItem.prop,
-                            to: manager.uuid,
-                            toProp: prop,
-                            xyz: draggingItem.xyz
-                        })
-                        gameGraph.append(connector)
-                        gameGraph.mergeData({
-                            [connector.uuid]: {
-                                type: "connector",
-                                from: draggingItem.manager.uuid,
-                                to: manager.uuid
-                            }
-                        })
-                    }
+                    onDrop
                 }
             )
             const handle1 = manager.propertyChangedEvent.on(
@@ -155,6 +167,7 @@ const Node = memo(
                         <div
                             className="lingo3d-flexcenter lingo3d-connector"
                             id={manager.uuid + " uuid in"}
+                            ref={initConnector}
                         >
                             <div
                                 className="lingo3d-connector-child"
