@@ -219,16 +219,18 @@ const MenuItems = ({
     else
         children.push(
             <>
-                {gameGraphData && selectionTarget.uuid in gameGraphData && (
-                    <ContextMenuItem
-                        onClick={() => {
-                            setPosition(undefined)
-                            gameGraph?.deleteData(selectionTarget.uuid)
-                        }}
-                    >
-                        Delete from GameGraph
-                    </ContextMenuItem>
-                )}
+                {gameGraphData &&
+                    selectionTarget.uuid in gameGraphData &&
+                    !(selectionTarget instanceof Connector) && (
+                        <ContextMenuItem
+                            onClick={() => {
+                                setPosition(undefined)
+                                gameGraph?.deleteData(selectionTarget.uuid)
+                            }}
+                        >
+                            Delete from GameGraph
+                        </ContextMenuItem>
+                    )}
                 <ContextMenuItem
                     disabled={!selectionTarget}
                     onClick={() => {

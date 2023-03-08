@@ -39,6 +39,31 @@ type Props = {
 
 export const [emitNodeMove, onNodeMove] = event<string>()
 
+const createConnector = (
+    fromManager: Appendable,
+    fromProp: string,
+    toManager: Appendable,
+    toProp: string,
+    xyz?: string
+) => {
+    const connector = Object.assign(new Connector(), {
+        from: fromManager.uuid,
+        fromProp,
+        to: toManager.uuid,
+        toProp,
+        xyz
+    })
+    const gameGraph = getGameGraph()!
+    gameGraph.append(connector)
+    gameGraph.mergeData({
+        [connector.uuid]: {
+            type: "connector",
+            from: fromManager.uuid,
+            to: toManager.uuid
+        }
+    })
+}
+
 const Node = memo(
     ({ uuid, data, getPositionRef, zoomRef, onEdit }: Props) => {
         const manager = useMemo(() => uuidMap.get(uuid)!, [])
@@ -75,26 +100,16 @@ const Node = memo(
                 if (
                     getOriginalInstance(draggingItem.manager) instanceof
                     SpawnNode
-                ) {
+                )
                     convertToTemplateNodes(manager)
-                    return
-                }
-                const connector = Object.assign(new Connector(), {
-                    from: draggingItem.manager.uuid,
-                    fromProp: draggingItem.prop,
-                    to: manager.uuid,
-                    toProp: prop,
-                    xyz: draggingItem.xyz
-                })
-                const gameGraph = getGameGraph()!
-                gameGraph.append(connector)
-                gameGraph.mergeData({
-                    [connector.uuid]: {
-                        type: "connector",
-                        from: draggingItem.manager.uuid,
-                        to: manager.uuid
-                    }
-                })
+                else
+                    createConnector(
+                        draggingItem.manager,
+                        draggingItem.prop,
+                        manager,
+                        prop,
+                        draggingItem.xyz
+                    )
             }
             const initConnector = (el: HTMLDivElement | null) =>
                 el && initConnectorIn(el, "uuid", { onDrop })

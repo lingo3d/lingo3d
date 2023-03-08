@@ -1,6 +1,9 @@
 import Appendable from "../../../api/core/Appendable"
 import { getGameGraph } from "../../../states/useGameGraph"
-import { connectedMap } from "../../../visualScripting/Connector"
+import {
+    connectedMap,
+    managerConnectorsMap
+} from "../../../visualScripting/Connector"
 import TemplateNode from "../../../visualScripting/TemplateNode"
 
 const findConnected = (manager: Appendable, result = new Set<Appendable>()) => {
@@ -20,6 +23,8 @@ export default (manager: Appendable) => {
     for (const connected of findConnected(manager)) {
         const connectedNode = gameGraph.data[connected.uuid]
         if (connectedNode.type !== "node") continue
+
+        console.log(managerConnectorsMap.get(connected))
 
         const template = new TemplateNode(connected)
         gameGraph.append(template)
