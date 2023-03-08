@@ -1,4 +1,3 @@
-import Appendable from "../api/core/Appendable"
 import IGameGraphChild, {
     gameGraphChildDefaults,
     gameGraphChildSchema
@@ -8,8 +7,8 @@ import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
 export default interface IConnector extends IGameGraphChild {
-    from: Nullable<string | Appendable>
-    to: Nullable<string | Appendable>
+    from: Nullable<string>
+    to: Nullable<string>
     fromProp: Nullable<string>
     toProp: Nullable<string>
     xyz: Nullable<"x" | "y" | "z">
@@ -18,8 +17,8 @@ export default interface IConnector extends IGameGraphChild {
 
 export const connectorSchema: Required<ExtractProps<IConnector>> = {
     ...gameGraphChildSchema,
-    from: [String, Object],
-    to: [String, Object],
+    from: String,
+    to: String,
     fromProp: String,
     toProp: String,
     xyz: String,

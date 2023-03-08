@@ -1,6 +1,7 @@
 import { Reactive } from "@lincode/reactivity"
 import { extendFunction, forceGetInstance, omitFunction } from "@lincode/utils"
-import Appendable, { getAppendables } from "../api/core/Appendable"
+import Appendable from "../api/core/Appendable"
+import { uuidMap } from "../api/core/collections"
 import getStaticProperties from "../display/utils/getStaticProperties"
 import IConnector, {
     connectorDefaults,
@@ -38,10 +39,10 @@ export default class Connector extends GameGraphChild implements IConnector {
 
         this.createEffect(() => {
             const { _from, _to, _fromProp, _toProp, _xyz, _type } = this
-            if (!_fromProp || !_toProp) return
+            if (!_fromProp || !_toProp || !_from || !_to) return
 
-            const [fromManager] = getAppendables(_from)
-            const [toManager] = getAppendables(_to)
+            const fromManager = uuidMap.get(_from)
+            const toManager = uuidMap.get(_to)
             if (!fromManager || !toManager) return
 
             forceGetInstance(connectedMap, fromManager, Set).add(toManager)
@@ -101,7 +102,7 @@ export default class Connector extends GameGraphChild implements IConnector {
 
     protected refreshState = new Reactive({})
 
-    private _to?: string | Appendable
+    private _to?: string
     public get to() {
         return this._to
     }
@@ -110,7 +111,7 @@ export default class Connector extends GameGraphChild implements IConnector {
         this.refreshState.set({})
     }
 
-    private _from?: string | Appendable
+    private _from?: string
     public get from() {
         return this._from
     }
