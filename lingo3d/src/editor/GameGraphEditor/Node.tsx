@@ -10,7 +10,6 @@ import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import Connector from "../../visualScripting/Connector"
 import SpawnNode from "../../visualScripting/SpawnNode"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import treeContext from "../component/treeItems/treeContext"
@@ -24,6 +23,7 @@ import getDisplayName from "../utils/getDisplayName"
 import Bezier from "./Bezier"
 import GearIcon from "./icons/GearIcon"
 import convertToTemplateNodes from "./utils/convertToTemplateNodes"
+import createConnector from "./utils/createConnector"
 
 let panningUUID: string | undefined
 
@@ -38,31 +38,6 @@ type Props = {
 }
 
 export const [emitNodeMove, onNodeMove] = event<string>()
-
-const createConnector = (
-    fromManager: Appendable,
-    fromProp: string,
-    toManager: Appendable,
-    toProp: string,
-    xyz?: string
-) => {
-    const connector = Object.assign(new Connector(), {
-        from: fromManager.uuid,
-        fromProp,
-        to: toManager.uuid,
-        toProp,
-        xyz
-    })
-    const gameGraph = getGameGraph()!
-    gameGraph.append(connector)
-    gameGraph.mergeData({
-        [connector.uuid]: {
-            type: "connector",
-            from: fromManager.uuid,
-            to: toManager.uuid
-        }
-    })
-}
 
 const Node = memo(
     ({ uuid, data, getPositionRef, zoomRef, onEdit }: Props) => {
