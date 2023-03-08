@@ -20,11 +20,12 @@ const findConnected = (manager: Appendable, result = new Set<Appendable>()) => {
 export default (manager: Appendable) => {
     const gameGraph = getGameGraph()!
     const managerNode = gameGraph.data[manager.uuid]
-    if (managerNode.type !== "node") return
+    assert(managerNode.type === "node")
 
     const sourceUUIDTemplateMap = new Map<string, TemplateNode>()
     const connectors = new Set<Connector>()
 
+    let managerTemplate: TemplateNode
     for (const connected of findConnected(manager)) {
         const connectedNode = gameGraph.data[connected.uuid]
         assert(connectedNode.type === "node")
@@ -42,6 +43,7 @@ export default (manager: Appendable) => {
             }
         })
         sourceUUIDTemplateMap.set(connected.uuid, template)
+        if (connected === manager) managerTemplate = template
     }
 
     for (const { from, to, fromProp, toProp, xyz } of connectors)
@@ -52,4 +54,5 @@ export default (manager: Appendable) => {
             toProp!,
             xyz
         )
+    return managerTemplate!
 }

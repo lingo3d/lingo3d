@@ -75,16 +75,23 @@ const Node = memo(
                 if (
                     getOriginalInstance(draggingItem.manager) instanceof
                     SpawnNode
-                )
-                    convertToTemplateNodes(manager)
-                else
+                ) {
                     createConnector(
                         draggingItem.manager,
                         draggingItem.prop,
-                        manager,
+                        convertToTemplateNodes(manager),
                         prop,
                         draggingItem.xyz
                     )
+                    return
+                }
+                createConnector(
+                    draggingItem.manager,
+                    draggingItem.prop,
+                    manager,
+                    prop,
+                    draggingItem.xyz
+                )
             }
             const initConnector = (el: HTMLDivElement | null) =>
                 el && initConnectorIn(el, "uuid", { onDrop })
