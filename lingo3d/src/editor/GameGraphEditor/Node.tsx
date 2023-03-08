@@ -157,7 +157,7 @@ const Node = memo(
                             <div
                                 className="lingo3d-connector-child"
                                 style={{ border: "1px solid white" }}
-                            ></div>
+                            />
                         </div>
                         <div
                             style={{ zIndex: 1 }}

@@ -105,6 +105,7 @@ export default () => {
                 flex-shrink: 0;
                 z-index: 1;
                 cursor: pointer;
+                z-index: 1;
             }
 
             .lingo3d-connector-child {
