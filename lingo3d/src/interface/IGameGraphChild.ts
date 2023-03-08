@@ -5,16 +5,13 @@ import IAppendable, {
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IGameGraphChild extends IAppendable {
-    isTemplate: boolean
-}
+export default interface IGameGraphChild extends IAppendable {}
 
 export const gameGraphChildSchema: Required<ExtractProps<IGameGraphChild>> = {
-    ...appendableSchema,
-    isTemplate: Boolean
+    ...appendableSchema
 }
 
 export const gameGraphChildDefaults = extendDefaults<IGameGraphChild>(
     [appendableDefaults],
-    { isTemplate: false }
+    {}
 )

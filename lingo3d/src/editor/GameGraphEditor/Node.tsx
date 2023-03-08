@@ -11,8 +11,8 @@ import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import Connector, { connectedMap } from "../../visualScripting/Connector"
-import GameGraphChild from "../../visualScripting/GameGraphChild"
 import SpawnNode from "../../visualScripting/SpawnNode"
+import TemplateNode from "../../visualScripting/TemplateNode"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import treeContext from "../component/treeItems/treeContext"
 import { ConnectionDraggingItem, initConnectorIn } from "../Editor/addInputs"
@@ -89,21 +89,20 @@ const Node = memo(
                     const managerNode = gameGraph.data[manager.uuid]
                     if (managerNode.type !== "node") return
 
-                    for (const connected of findConnected(manager))
-                        if (connected instanceof GameGraphChild) {
-                            //mark
-                        }
+                    for (const connected of findConnected(manager)) {
+                        const connectedNode = gameGraph.data[connected.uuid]
+                        if (connectedNode.type !== "node") continue
 
-                    // const template = new TemplateNode(manager)
-                    // gameGraph.append(template)
-
-                    // gameGraph.mergeData({
-                    //     [template.uuid]: {
-                    //         type: "node",
-                    //         x: managerNode.x,
-                    //         y: managerNode.y
-                    //     }
-                    // })
+                        const template = new TemplateNode(connected)
+                        gameGraph.append(template)
+                        gameGraph.mergeData({
+                            [template.uuid]: {
+                                type: "node",
+                                x: connectedNode.x,
+                                y: connectedNode.y
+                            }
+                        })
+                    }
                     return
                 }
                 const connector = Object.assign(new Connector(), {
