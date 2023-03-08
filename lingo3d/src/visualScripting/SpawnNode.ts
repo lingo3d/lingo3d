@@ -1,5 +1,4 @@
 import { omit } from "@lincode/utils"
-import Appendable from "../api/core/Appendable"
 import createObject from "../api/serializer/createObject"
 import nonSerializedProperties from "../api/serializer/nonSerializedProperties"
 import { serializeAppendable } from "../api/serializer/serialize"
@@ -8,7 +7,7 @@ import ISpawnNode, {
     spawnNodeDefaults,
     spawnNodeSchema
 } from "../interface/ISpawnNode"
-import { findConnected } from "./Connector"
+import Connector, { findConnected, managerConnectorsMap } from "./Connector"
 import GameGraphChild from "./GameGraphChild"
 
 export default class SpawnNode extends GameGraphChild implements ISpawnNode {
@@ -26,11 +25,25 @@ export default class SpawnNode extends GameGraphChild implements ISpawnNode {
             return
         }
         this.cache = []
+        const connectors = new Set<Connector>()
+        const connectedUUIDs = new Map<string, string>()
         for (const connected of findConnected(this)) {
+            for (const connector of managerConnectorsMap.get(connected) ?? [])
+                connectors.add(connector)
+
             const node = serializeAppendable(connected, true)
             const properties = omit(node, nonSerializedProperties)
-            Object.assign(createObject(node.type), properties)
+            const manager = Object.assign(createObject(node.type), properties)
+            connectedUUIDs.set(connected.uuid, manager.uuid)
             this.cache.push([node.type, properties])
         }
+        for (const { from, to, fromProp, toProp, xyz } of connectors)
+            Object.assign(new Connector(), {
+                from: connectedUUIDs.get(from!),
+                fromProp,
+                to: connectedUUIDs.get(to!),
+                toProp,
+                xyz
+            })
     }
 }
