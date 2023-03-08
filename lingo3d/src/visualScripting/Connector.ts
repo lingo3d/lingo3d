@@ -12,6 +12,7 @@ import { setRuntimeValue } from "../utils/getRuntimeValue"
 import { PointType } from "../utils/isPoint"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
+import GameGraphChild from "./GameGraphChild"
 
 export const connectedMap = new WeakMap<Appendable, Set<Appendable>>()
 export const managerConnectorsMap = new WeakMap<Appendable, Set<Connector>>()
@@ -27,7 +28,7 @@ const deleteConnected = (
     managerConnectorsMap.get(toManager)?.delete(connector)
 }
 
-export default class Connector extends Appendable implements IConnector {
+export default class Connector extends GameGraphChild implements IConnector {
     public static componentName = "connector"
     public static defaults = connectorDefaults
     public static schema = connectorSchema

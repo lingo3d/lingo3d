@@ -1,13 +1,13 @@
 import { Reactive } from "@lincode/reactivity"
-import Appendable from "../api/core/Appendable"
 import { onBeforeRender } from "../events/onBeforeRender"
 import IIncrementNode, {
     incrementNodeDefaults,
     incrementNodeSchema
 } from "../interface/IIncrementNode"
+import GameGraphChild from "./GameGraphChild"
 
 export default class IncrementNode
-    extends Appendable
+    extends GameGraphChild
     implements IIncrementNode
 {
     public static componentName = "incrementNode"

@@ -1,23 +1,19 @@
 import { Reactive } from "@lincode/reactivity"
-import Appendable from "../api/core/Appendable"
 import canvasToWorld from "../display/utils/canvasToWorld"
 import IProjectionNode, {
     projectionNodeDefaults,
     projectionNodeSchema
 } from "../interface/IProjectionNode"
+import GameGraphChild from "./GameGraphChild"
 
-export default class ProjectionNode extends Appendable implements IProjectionNode {
+export default class ProjectionNode
+    extends GameGraphChild
+    implements IProjectionNode
+{
     public static componentName = "projectNode"
     public static defaults = projectionNodeDefaults
     public static schema = projectionNodeSchema
-    public static includeKeys = [
-        "x",
-        "y",
-        "distance",
-        "outX",
-        "outY",
-        "outZ"
-    ]
+    public static includeKeys = ["x", "y", "distance", "outX", "outY", "outZ"]
 
     private refresh = new Reactive({})
 

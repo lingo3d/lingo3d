@@ -89,6 +89,7 @@ const Node = memo(
                     if (managerNode.type !== "node") return
 
                     const connected = findConnected(manager)
+                    connected.delete(manager)
                     console.log(connected)
 
                     // const template = new TemplateNode(manager)
