@@ -31,7 +31,7 @@ import {
 } from "../../interface/utils/DefaultMethod"
 import { isPoint } from "../../utils/isPoint"
 import executeIcon from "./icons/executeIcon"
-import { PassthroughCallback, proxyInstanceMap } from "./createParams"
+import { getOriginalInstance, PassthroughCallback } from "./createParams"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 
 const processValue = (value: any) => {
@@ -194,7 +194,7 @@ export default async (
                 input.element.appendChild(executeButton)
                 executeButton.onclick = () => {
                     const paramValue = params[key]
-                    const instance = proxyInstanceMap.get(target)
+                    const instance = getOriginalInstance(target)
                     if (isPoint(paramValue))
                         instance[key](paramValue.x, paramValue.y, paramValue.z)
                     else instance[key](paramValue)

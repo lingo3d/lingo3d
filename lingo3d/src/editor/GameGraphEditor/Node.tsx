@@ -10,20 +10,20 @@ import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import Connector, { connectedMap } from "../../visualScripting/Connector"
+import Connector from "../../visualScripting/Connector"
 import SpawnNode from "../../visualScripting/SpawnNode"
-import TemplateNode from "../../visualScripting/TemplateNode"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import treeContext from "../component/treeItems/treeContext"
 import { ConnectionDraggingItem, initConnectorIn } from "../Editor/addInputs"
 import addTargetInputs from "../Editor/addTargetInputs"
-import { proxyInstanceMap } from "../Editor/createParams"
+import { getOriginalInstance } from "../Editor/createParams"
 import usePane from "../Editor/usePane"
 import usePan from "../hooks/usePan"
 import useSyncState from "../hooks/useSyncState"
 import getDisplayName from "../utils/getDisplayName"
 import Bezier from "./Bezier"
 import GearIcon from "./icons/GearIcon"
+import convertToTemplateNodes from "./utils/convertToTemplateNodes"
 
 let panningUUID: string | undefined
 
@@ -38,15 +38,6 @@ type Props = {
 }
 
 export const [emitNodeMove, onNodeMove] = event<string>()
-
-const findConnected = (manager: Appendable, result = new Set<Appendable>()) => {
-    for (const connectedManager of connectedMap.get(manager) ?? []) {
-        if (result.has(connectedManager)) continue
-        result.add(connectedManager)
-        findConnected(connectedManager, result)
-    }
-    return result
-}
 
 const Node = memo(
     ({ uuid, data, getPositionRef, zoomRef, onEdit }: Props) => {
@@ -81,28 +72,11 @@ const Node = memo(
                 draggingItem: ConnectionDraggingItem,
                 prop: string
             ) => {
-                const gameGraph = getGameGraph()!
-                const isSpawn =
-                    proxyInstanceMap.get(draggingItem.manager) instanceof
+                if (
+                    getOriginalInstance(draggingItem.manager) instanceof
                     SpawnNode
-                if (isSpawn) {
-                    const managerNode = gameGraph.data[manager.uuid]
-                    if (managerNode.type !== "node") return
-
-                    for (const connected of findConnected(manager)) {
-                        const connectedNode = gameGraph.data[connected.uuid]
-                        if (connectedNode.type !== "node") continue
-
-                        const template = new TemplateNode(connected)
-                        gameGraph.append(template)
-                        gameGraph.mergeData({
-                            [template.uuid]: {
-                                type: "node",
-                                x: connectedNode.x,
-                                y: connectedNode.y
-                            }
-                        })
-                    }
+                ) {
+                    convertToTemplateNodes(manager)
                     return
                 }
                 const connector = Object.assign(new Connector(), {
@@ -112,6 +86,7 @@ const Node = memo(
                     toProp: prop,
                     xyz: draggingItem.xyz
                 })
+                const gameGraph = getGameGraph()!
                 gameGraph.append(connector)
                 gameGraph.mergeData({
                     [connector.uuid]: {

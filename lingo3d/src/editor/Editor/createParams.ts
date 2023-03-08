@@ -28,11 +28,13 @@ export class PassthroughCallback {
     ) {}
 }
 
-export const proxyInstanceMap = new WeakMap<any, any>()
+const proxyInstanceMap = new WeakMap<any, any>()
 const setProxyInstance = (proxy: any, instance: any) => {
     proxyInstanceMap.set(proxy, instance)
     return proxy
 }
+export const getOriginalInstance = (manager: any) =>
+    proxyInstanceMap.get(manager) ?? manager
 
 const filterSchema = (
     schema: Record<string, unknown>,
