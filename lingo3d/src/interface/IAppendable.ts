@@ -22,7 +22,7 @@ export const appendableSchema: Required<ExtractProps<IAppendable>> = {
     name: String,
     runtimeData: Object
 }
-hideSchema(["proxy", "runtimeData"])
+hideSchema(["proxy", "runtimeData", "uuid"])
 
 export const appendableDefaults = extendDefaults<IAppendable>([], {
     onLoop: nullableCallback(),

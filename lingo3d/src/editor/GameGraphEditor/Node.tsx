@@ -134,7 +134,7 @@ const Node = memo(
             <>
                 <div
                     style={{
-                        width: EDITOR_WIDTH,
+                        width: EDITOR_WIDTH + 10,
                         position: "absolute",
                         left: data.x,
                         top: data.y,
