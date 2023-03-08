@@ -8,7 +8,12 @@ import scene from "./scene"
 
 createEffect(() => {
     const target = getSelectionTarget()
-    if (!(target instanceof Loaded) || !getEditorHelper()) return
+    if (
+        !(target instanceof Loaded) ||
+        !("outerObject3d" in target) ||
+        !getEditorHelper()
+    )
+        return
 
     const { loadedObject3d } = target
     if (!loadedObject3d || !skinnedMeshSet.has(loadedObject3d)) return

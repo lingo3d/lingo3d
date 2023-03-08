@@ -11,11 +11,13 @@ import scene from "./scene"
 
 createEffect(() => {
     const selectionTarget = getSelectionTarget()
+    const isMeshAppendable =
+        selectionTarget && "outerObject3d" in selectionTarget
+    if (isMeshAppendable && !selectionTarget.outerObject3d.parent) return
+
     const target =
         getSelectionNativeTarget() ??
-        (selectionTarget && "object3d" in selectionTarget
-            ? selectionTarget.object3d
-            : undefined)
+        (isMeshAppendable ? selectionTarget.object3d : undefined)
 
     if (!target) return
 
