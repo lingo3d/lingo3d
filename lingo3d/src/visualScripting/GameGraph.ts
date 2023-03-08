@@ -47,6 +47,10 @@ export default class GameGraph extends Appendable implements IGameGraph {
         this.gameGraphDataState.set([prevData])
     }
 
+    public findConnected(uuid: string) {
+        const { data } = this
+    }
+
     private pausedState = new Reactive(false)
     public get paused() {
         return this.pausedState.get()

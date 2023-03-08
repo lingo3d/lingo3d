@@ -1,7 +1,7 @@
 import { event } from "@lincode/events"
 import { Point } from "@lincode/math"
 import { memo, RefObject } from "preact/compat"
-import { useCallback, useEffect, useMemo, useState } from "preact/hooks"
+import { useEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
 import { toggleRightClickPtr } from "../../api/mouse"

@@ -1,5 +1,5 @@
 import { Reactive } from "@lincode/reactivity"
-import { extendFunction, omitFunction } from "@lincode/utils"
+import { extendFunction, forceGetInstance, omitFunction } from "@lincode/utils"
 import Appendable, { getAppendables } from "../api/core/Appendable"
 import getStaticProperties from "../display/utils/getStaticProperties"
 import IConnector, {
@@ -12,6 +12,20 @@ import { setRuntimeValue } from "../utils/getRuntimeValue"
 import { PointType } from "../utils/isPoint"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
+
+export const connectedMap = new WeakMap<Appendable, Set<Appendable>>()
+export const managerConnectorsMap = new WeakMap<Appendable, Set<Connector>>()
+
+const deleteConnected = (
+    fromManager: Appendable,
+    toManager: Appendable,
+    connector: Connector
+) => {
+    connectedMap.get(fromManager)?.delete(toManager)
+    connectedMap.get(toManager)?.delete(fromManager)
+    managerConnectorsMap.get(fromManager)?.delete(connector)
+    managerConnectorsMap.get(toManager)?.delete(connector)
+}
 
 export default class Connector extends Appendable implements IConnector {
     public static componentName = "connector"
@@ -29,8 +43,15 @@ export default class Connector extends Appendable implements IConnector {
             const [toManager] = getAppendables(_to)
             if (!fromManager || !toManager) return
 
+            forceGetInstance(connectedMap, fromManager, Set).add(toManager)
+            forceGetInstance(connectedMap, toManager, Set).add(fromManager)
+            forceGetInstance(managerConnectorsMap, fromManager, Set).add(this)
+            forceGetInstance(managerConnectorsMap, toManager, Set).add(this)
+
             if (_type === "spawn") {
-                return
+                return () => {
+                    deleteConnected(fromManager, toManager, this)
+                }
             }
 
             if (
@@ -49,6 +70,7 @@ export default class Connector extends Appendable implements IConnector {
                 )
                 return () => {
                     omitFunction(extended, cb)
+                    deleteConnected(fromManager, toManager, this)
                 }
             }
             const fromReactive =
@@ -71,6 +93,7 @@ export default class Connector extends Appendable implements IConnector {
                 handle0.cancel()
                 handle1.cancel()
                 handle2.cancel()
+                deleteConnected(fromManager, toManager, this)
             }
         }, [this.refreshState.get])
     }
