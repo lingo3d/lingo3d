@@ -60,6 +60,7 @@ const Stage = ({ onPanStart, onEdit }: Props) => {
     useEffect(() => {
         if (!gameGraphData) return
         const handle = onDispose((val) => {
+            if (!(val.uuid in gameGraphData)) return
             const gameGraph = getGameGraph()!
             gameGraph.deleteData(val.uuid)
             if (val instanceof Connector) return
