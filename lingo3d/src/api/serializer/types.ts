@@ -68,6 +68,5 @@ type Node = {
     type: GameObjectType
     children?: Array<AppendableNode>
 }
-type AppendableNode = Partial<IModel> & Node
-
+export type AppendableNode = Partial<IModel> & Node
 export type SceneGraphNode = AppendableNode | VersionNode

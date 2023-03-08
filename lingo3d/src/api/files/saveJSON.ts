@@ -7,7 +7,7 @@ export default async () => {
     const { default: parser } = await import("prettier/parser-babel")
     const { fileSave } = await import("browser-fs-access")
 
-    const code = prettier.format(JSON.stringify(await serialize(true)), {
+    const code = prettier.format(JSON.stringify(serialize(true)), {
         parser: "json",
         plugins: [parser]
     })

@@ -1,3 +1,7 @@
+import { omit } from "@lincode/utils"
+import createObject from "../api/serializer/createObject"
+import nonSerializedProperties from "../api/serializer/nonSerializedProperties"
+import { serializeAppendable } from "../api/serializer/serialize"
 import ISpawnNode, {
     spawnNodeDefaults,
     spawnNodeSchema
@@ -12,6 +16,10 @@ export default class SpawnNode extends GameGraphChild implements ISpawnNode {
     public static includeKeys = ["spawn"]
 
     public spawn() {
-        console.log(findConnected(this))
+        for (const connected of findConnected(this)) {
+            const node = serializeAppendable(connected, true)
+            const object = createObject(node.type)
+            Object.assign(object, omit(node, nonSerializedProperties))
+        }
     }
 }

@@ -38,7 +38,7 @@ export default async () => {
     const code = prettier.format(
         `<template>
             <World>
-                ${serializeVue(await serialize())}
+                ${serializeVue(serialize())}
             </World>
         </template>`,
         { parser: "vue", plugins: [parser] }
