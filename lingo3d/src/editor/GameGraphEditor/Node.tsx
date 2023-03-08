@@ -10,9 +10,8 @@ import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
-import Connector from "../../visualScripting/Connector"
+import Connector, { connectedMap } from "../../visualScripting/Connector"
 import SpawnNode from "../../visualScripting/SpawnNode"
-import TemplateNode from "../../visualScripting/TemplateNode"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import treeContext from "../component/treeItems/treeContext"
 import { ConnectionDraggingItem, initConnectorIn } from "../Editor/addInputs"
@@ -38,6 +37,15 @@ type Props = {
 }
 
 export const [emitNodeMove, onNodeMove] = event<string>()
+
+const findConnected = (manager: Appendable, result = new Set<Appendable>()) => {
+    for (const connectedManager of connectedMap.get(manager) ?? []) {
+        if (result.has(connectedManager)) continue
+        result.add(connectedManager)
+        findConnected(connectedManager, result)
+    }
+    return result
+}
 
 const Node = memo(
     ({ uuid, data, getPositionRef, zoomRef, onEdit }: Props) => {
@@ -80,16 +88,19 @@ const Node = memo(
                     const managerNode = gameGraph.data[manager.uuid]
                     if (managerNode.type !== "node") return
 
-                    const template = new TemplateNode(manager)
-                    gameGraph.append(template)
+                    const connected = findConnected(manager)
+                    console.log(connected)
 
-                    gameGraph.mergeData({
-                        [template.uuid]: {
-                            type: "node",
-                            x: managerNode.x,
-                            y: managerNode.y
-                        }
-                    })
+                    // const template = new TemplateNode(manager)
+                    // gameGraph.append(template)
+
+                    // gameGraph.mergeData({
+                    //     [template.uuid]: {
+                    //         type: "node",
+                    //         x: managerNode.x,
+                    //         y: managerNode.y
+                    //     }
+                    // })
                     return
                 }
                 const connector = Object.assign(new Connector(), {
