@@ -21,7 +21,10 @@ const GameGraphEditor = () => {
         <>
             <div
                 className="lingo3d-ui lingo3d-bg lingo3d-editor lingo3d-flexcol"
-                style={{ width: EDITOR_WIDTH + LIBRARY_WIDTH }}
+                style={{
+                    minWidth: EDITOR_WIDTH + LIBRARY_WIDTH,
+                    width: "45vw"
+                }}
             >
                 <AppBar>
                     <CloseableTab
