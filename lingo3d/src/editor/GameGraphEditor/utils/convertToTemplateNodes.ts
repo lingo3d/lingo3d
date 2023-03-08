@@ -2,20 +2,11 @@ import { assert } from "@lincode/utils"
 import Appendable from "../../../api/core/Appendable"
 import { getGameGraph } from "../../../states/useGameGraph"
 import Connector, {
-    connectedMap,
+    findConnected,
     managerConnectorsMap
 } from "../../../visualScripting/Connector"
 import TemplateNode from "../../../visualScripting/TemplateNode"
 import createConnector from "./createConnector"
-
-const findConnected = (manager: Appendable, result = new Set<Appendable>()) => {
-    for (const connectedManager of connectedMap.get(manager) ?? []) {
-        if (result.has(connectedManager)) continue
-        result.add(connectedManager)
-        findConnected(connectedManager, result)
-    }
-    return result
-}
 
 export default (manager: Appendable) => {
     const gameGraph = getGameGraph()!

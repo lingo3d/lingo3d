@@ -2,6 +2,7 @@ import ISpawnNode, {
     spawnNodeDefaults,
     spawnNodeSchema
 } from "../interface/ISpawnNode"
+import { findConnected } from "./Connector"
 import GameGraphChild from "./GameGraphChild"
 
 export default class SpawnNode extends GameGraphChild implements ISpawnNode {
@@ -11,6 +12,6 @@ export default class SpawnNode extends GameGraphChild implements ISpawnNode {
     public static includeKeys = ["spawn"]
 
     public spawn() {
-        console.log("spawn")
+        console.log(findConnected(this))
     }
 }

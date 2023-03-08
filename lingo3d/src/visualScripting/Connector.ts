@@ -15,8 +15,17 @@ import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import GameGraphChild from "./GameGraphChild"
 
-export const connectedMap = new WeakMap<Appendable, Set<Appendable>>()
+const connectedMap = new WeakMap<Appendable, Set<Appendable>>()
 export const managerConnectorsMap = new WeakMap<Appendable, Set<Connector>>()
+
+export const findConnected = (manager: Appendable, result = new Set<Appendable>()) => {
+    for (const connectedManager of connectedMap.get(manager) ?? []) {
+        if (result.has(connectedManager)) continue
+        result.add(connectedManager)
+        findConnected(connectedManager, result)
+    }
+    return result
+}
 
 const deleteConnected = (
     fromManager: Appendable,
