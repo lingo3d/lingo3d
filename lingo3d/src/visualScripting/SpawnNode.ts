@@ -11,28 +11,26 @@ import ISpawnNode, {
 import { findConnected } from "./Connector"
 import GameGraphChild from "./GameGraphChild"
 
-const spawnCache = new WeakMap<
-    Appendable,
-    [GameObjectType, Partial<AppendableNode>]
->()
-
 export default class SpawnNode extends GameGraphChild implements ISpawnNode {
     public static componentName = "spawnNode"
     public static defaults = spawnNodeDefaults
     public static schema = spawnNodeSchema
     public static includeKeys = ["spawn"]
 
+    private cache?: Array<[GameObjectType, Partial<AppendableNode>]>
+
     public spawn() {
-        for (const connected of findConnected(this)) {
-            if (spawnCache.has(connected)) {
-                const [type, properties] = spawnCache.get(connected)!
+        if (this.cache) {
+            for (const [type, properties] of this.cache)
                 Object.assign(createObject(type), properties)
-                continue
-            }
+            return
+        }
+        this.cache = []
+        for (const connected of findConnected(this)) {
             const node = serializeAppendable(connected, true)
             const properties = omit(node, nonSerializedProperties)
             Object.assign(createObject(node.type), properties)
-            spawnCache.set(connected, [node.type, properties])
+            this.cache.push([node.type, properties])
         }
     }
 }
