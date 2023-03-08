@@ -1,12 +1,12 @@
-import IAppendable, {
-    appendableDefaults,
-    appendableSchema
-} from "./IAppendable"
+import IGameGraphChild, {
+    gameGraphChildDefaults,
+    gameGraphChildSchema
+} from "./IGameGraphChild"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Range from "./utils/Range"
 
-export default interface IIncrementNode extends IAppendable {
+export default interface IIncrementNode extends IGameGraphChild {
     paused: boolean
     step: number
     initial: number
@@ -16,7 +16,7 @@ export default interface IIncrementNode extends IAppendable {
 }
 
 export const incrementNodeSchema: Required<ExtractProps<IIncrementNode>> = {
-    ...appendableSchema,
+    ...gameGraphChildSchema,
     paused: Boolean,
     step: Number,
     initial: Number,
@@ -26,7 +26,7 @@ export const incrementNodeSchema: Required<ExtractProps<IIncrementNode>> = {
 }
 
 export const incrementNodeDefaults = extendDefaults<IIncrementNode>(
-    [appendableDefaults],
+    [gameGraphChildDefaults],
     {
         paused: false,
         step: 0,

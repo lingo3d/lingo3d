@@ -11,6 +11,7 @@ import { GameGraphNode } from "../../interface/IGameGraph"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import Connector, { connectedMap } from "../../visualScripting/Connector"
+import GameGraphChild from "../../visualScripting/GameGraphChild"
 import SpawnNode from "../../visualScripting/SpawnNode"
 import { getIncludeKeys } from "../../visualScripting/utils/getIncludeKeys"
 import treeContext from "../component/treeItems/treeContext"
@@ -88,9 +89,10 @@ const Node = memo(
                     const managerNode = gameGraph.data[manager.uuid]
                     if (managerNode.type !== "node") return
 
-                    const connected = findConnected(manager)
-                    connected.delete(manager)
-                    console.log(connected)
+                    for (const connected of findConnected(manager))
+                        if (connected instanceof GameGraphChild) {
+                            //mark
+                        }
 
                     // const template = new TemplateNode(manager)
                     // gameGraph.append(template)

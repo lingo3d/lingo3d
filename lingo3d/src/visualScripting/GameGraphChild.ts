@@ -1,3 +1,5 @@
 import Appendable from "../api/core/Appendable"
 
-export default class GameGraphChild extends Appendable {}
+export default class GameGraphChild extends Appendable {
+    public isTemplate = false
+}

@@ -1,14 +1,14 @@
-import Appendable from "../../api/core/Appendable"
 import IMathNode, {
     mathNodeDefaults,
     mathNodeSchema
 } from "../../interface/IMathNode"
 import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
+import GameGraphChild from "../GameGraphChild"
 import { extractParenthesisTree, compile } from "./compile"
 import functions from "./functions"
 import { Token, TokenList, tokenize } from "./tokenize"
 
-export default class MathNode extends Appendable implements IMathNode {
+export default class MathNode extends GameGraphChild implements IMathNode {
     public static componentName = "mathNode"
     public static defaults = mathNodeDefaults
     public static schema = mathNodeSchema

@@ -1,13 +1,13 @@
 import Appendable from "../api/core/Appendable"
-import IAppendable, {
-    appendableDefaults,
-    appendableSchema
-} from "./IAppendable"
+import IGameGraphChild, {
+    gameGraphChildDefaults,
+    gameGraphChildSchema
+} from "./IGameGraphChild"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
-export default interface IConnector extends IAppendable {
+export default interface IConnector extends IGameGraphChild {
     from: Nullable<string | Appendable>
     to: Nullable<string | Appendable>
     fromProp: Nullable<string>
@@ -17,7 +17,7 @@ export default interface IConnector extends IAppendable {
 }
 
 export const connectorSchema: Required<ExtractProps<IConnector>> = {
-    ...appendableSchema,
+    ...gameGraphChildSchema,
     from: [String, Object],
     to: [String, Object],
     fromProp: String,
@@ -27,7 +27,7 @@ export const connectorSchema: Required<ExtractProps<IConnector>> = {
 }
 
 export const connectorDefaults = extendDefaults<IConnector>(
-    [appendableDefaults],
+    [gameGraphChildDefaults],
     {
         from: undefined,
         to: undefined,

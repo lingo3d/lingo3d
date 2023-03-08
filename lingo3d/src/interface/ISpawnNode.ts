@@ -1,21 +1,21 @@
-import IAppendable, {
-    appendableDefaults,
-    appendableSchema
-} from "./IAppendable"
+import IGameGraphChild, {
+    gameGraphChildDefaults,
+    gameGraphChildSchema
+} from "./IGameGraphChild"
 import { defaultMethod } from "./utils/DefaultMethod"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface ISpawnNode extends IAppendable {
+export default interface ISpawnNode extends IGameGraphChild {
     spawn: () => void
 }
 
 export const spawnNodeSchema: Required<ExtractProps<ISpawnNode>> = {
-    ...appendableSchema,
+    ...gameGraphChildSchema,
     spawn: Function
 }
 
 export const spawnNodeDefaults = extendDefaults<ISpawnNode>(
-    [appendableDefaults],
+    [gameGraphChildDefaults],
     { spawn: defaultMethod() }
 )

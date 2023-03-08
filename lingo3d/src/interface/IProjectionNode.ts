@@ -1,11 +1,11 @@
-import IAppendable, {
-    appendableDefaults,
-    appendableSchema
-} from "./IAppendable"
+import IGameGraphChild, {
+    gameGraphChildDefaults,
+    gameGraphChildSchema
+} from "./IGameGraphChild"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 
-export default interface IProjectionNode extends IAppendable {
+export default interface IProjectionNode extends IGameGraphChild {
     x: number
     y: number
     distance: number
@@ -15,7 +15,7 @@ export default interface IProjectionNode extends IAppendable {
 }
 
 export const projectionNodeSchema: Required<ExtractProps<IProjectionNode>> = {
-    ...appendableSchema,
+    ...gameGraphChildSchema,
     x: Number,
     y: Number,
     distance: Number,
@@ -25,7 +25,7 @@ export const projectionNodeSchema: Required<ExtractProps<IProjectionNode>> = {
 }
 
 export const projectionNodeDefaults = extendDefaults<IProjectionNode>(
-    [appendableDefaults],
+    [gameGraphChildDefaults],
     {
         x: 0,
         y: 0,
