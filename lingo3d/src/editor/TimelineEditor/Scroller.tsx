@@ -15,7 +15,6 @@ import {
 import { getTimelineKeyframeEntries } from "../../states/useTimelineKeyframeEntries"
 import { setTimelineLayer } from "../../states/useTimelineLayer"
 import { getTimelinePaused } from "../../states/useTimelinePaused"
-import { timelineScrollLeftSignal } from "../../states/useTimelineScrollLeft"
 import useSyncState from "../hooks/useSyncState"
 import handleTreeItemClick from "../utils/handleTreeItemClick"
 import FrameGrid from "./FrameGrid"
@@ -23,6 +22,7 @@ import FrameIndicator, { highlightFrame } from "./FrameIndicator"
 import FrameTweenRow from "./FrameTweenRow"
 import { framesWidthPtr, maxFramePtr, minFramePtr } from "./Ruler"
 import { timelineScrollHeightSignal } from "./timelineScrollHeightSignal"
+import { timelineScrollLeftSignal } from "./timelineScrollLeftSignal"
 import useSyncScrollTop from "./useSyncScrollTop"
 
 type ScrollerProps = {

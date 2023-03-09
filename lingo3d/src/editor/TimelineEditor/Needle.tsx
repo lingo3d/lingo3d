@@ -2,7 +2,7 @@ import { APPBAR_HEIGHT, FRAME_WIDTH, PANELS_HEIGHT } from "../../globals"
 import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { useEffect, useRef } from "preact/hooks"
 import store, { createEffect } from "@lincode/reactivity"
-import { timelineScrollLeftSignal } from "../../states/useTimelineScrollLeft"
+import { timelineScrollLeftSignal } from "./timelineScrollLeftSignal"
 
 const Needle = () => {
     const ref = useRef<HTMLDivElement>(null)

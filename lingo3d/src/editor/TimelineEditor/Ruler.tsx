@@ -1,10 +1,10 @@
 import { APPBAR_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
 import VirtualizedListHorizontal from "../component/VirtualizedListHorizontal"
-import { timelineScrollLeftSignal } from "../../states/useTimelineScrollLeft"
 import Metric from "./Metric"
 import { useEffect, useMemo } from "preact/hooks"
 import { CSSProperties, memo } from "preact/compat"
 import diffProps from "../utils/diffProps"
+import { timelineScrollLeftSignal } from "./timelineScrollLeftSignal"
 
 type RulerProps = {
     width: number
