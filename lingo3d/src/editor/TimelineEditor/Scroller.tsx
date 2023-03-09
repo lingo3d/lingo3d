@@ -1,7 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
-import { Signal } from "@preact/signals"
 import { useEffect } from "preact/hooks"
-import { TimelineContextMenuPosition } from "."
 import { uuidMap } from "../../api/core/collections"
 import { onTimelineSeekScrollLeft } from "../../events/onTimelineSeekScrollLeft"
 import { FRAME_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
@@ -21,15 +19,12 @@ import FrameGrid from "./FrameGrid"
 import FrameIndicator, { highlightFrame } from "./FrameIndicator"
 import FrameTweenRow from "./FrameTweenRow"
 import { framesWidthPtr, maxFramePtr, minFramePtr } from "./Ruler"
+import timelineMenuSignal from "./TimelineContextMenu/timelineMenuSignal"
 import { timelineScrollHeightSignal } from "./timelineScrollHeightSignal"
 import { timelineScrollLeftSignal } from "./timelineScrollLeftSignal"
 import useSyncScrollTop from "./useSyncScrollTop"
 
-type ScrollerProps = {
-    positionSignal: Signal<TimelineContextMenuPosition>
-}
-
-const Scroller = ({ positionSignal }: ScrollerProps) => {
+const Scroller = () => {
     const scrollRef = useSyncScrollTop()
     const keyframesEntries = useSyncState(getTimelineKeyframeEntries)
 
@@ -113,7 +108,7 @@ const Scroller = ({ positionSignal }: ScrollerProps) => {
                 })
             }}
             onContextMenu={(e) =>
-                (positionSignal.value = { x: e.clientX, y: e.clientY })
+                (timelineMenuSignal.value = { x: e.clientX, y: e.clientY })
             }
         >
             <div
@@ -125,12 +120,7 @@ const Scroller = ({ positionSignal }: ScrollerProps) => {
             >
                 <FrameGrid />
                 {keyframesEntries.map(([uuid, frames]) => (
-                    <FrameTweenRow
-                        key={uuid}
-                        uuid={uuid}
-                        frames={frames}
-                        positionSignal={positionSignal}
-                    />
+                    <FrameTweenRow key={uuid} uuid={uuid} frames={frames} />
                 ))}
                 <FrameIndicator />
             </div>

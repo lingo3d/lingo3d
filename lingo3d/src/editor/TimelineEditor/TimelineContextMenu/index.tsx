@@ -1,44 +1,41 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { get, set } from "@lincode/utils"
 import { useState } from "preact/hooks"
-import { uuidMap } from "../../api/core/collections"
-import Timeline from "../../display/Timeline"
-import TimelineAudio from "../../display/TimelineAudio"
-import { emitSelectionTarget } from "../../events/onSelectionTarget"
-import { emitTimelineClearKeyframe } from "../../events/onTimelineClearKeyframe"
-import { AnimationData } from "../../interface/IAnimationManager"
-import unsafeGetValue from "../../utils/unsafeGetValue"
-import ContextMenu from "../component/ContextMenu"
-import ContextMenuItem from "../component/ContextMenu/ContextMenuItem"
-import useSyncState from "../hooks/useSyncState"
-import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
-import { getTimeline, setTimeline } from "../../states/useTimeline"
-import { getTimelineData, processKeyframe } from "../../states/useTimelineData"
-import { getTimelineFrame } from "../../states/useTimelineFrame"
-import { Signal } from "@preact/signals"
-import { getTimelineLayer } from "../../states/useTimelineLayer"
-import { TimelineContextMenuPosition } from "."
+import { uuidMap } from "../../../api/core/collections"
+import Timeline from "../../../display/Timeline"
+import TimelineAudio from "../../../display/TimelineAudio"
+import { emitSelectionTarget } from "../../../events/onSelectionTarget"
+import { emitTimelineClearKeyframe } from "../../../events/onTimelineClearKeyframe"
+import { AnimationData } from "../../../interface/IAnimationManager"
+import unsafeGetValue from "../../../utils/unsafeGetValue"
+import ContextMenu from "../../component/ContextMenu"
+import ContextMenuItem from "../../component/ContextMenu/ContextMenuItem"
+import useSyncState from "../../hooks/useSyncState"
+import { getTimeline, setTimeline } from "../../../states/useTimeline"
+import {
+    getTimelineData,
+    processKeyframe
+} from "../../../states/useTimelineData"
+import { getTimelineFrame } from "../../../states/useTimelineFrame"
+import { getTimelineLayer } from "../../../states/useTimelineLayer"
+import timelineMenuSignal from "./timelineMenuSignal"
 
-type TimelineContextMenuProps = {
-    positionSignal: Signal<TimelineContextMenuPosition>
-}
-
-const TimelineContextMenu = ({ positionSignal }: TimelineContextMenuProps) => {
+const TimelineContextMenu = () => {
     const [dataCopied, setDataCopied] = useState<AnimationData>()
     const [timelineData] = useSyncState(getTimelineData)
     const timelineLayer = useSyncState(getTimelineLayer)
 
     return (
         <ContextMenu
-            positionSignal={positionSignal}
+            positionSignal={timelineMenuSignal}
             input={
-                positionSignal.value?.create &&
-                (positionSignal.value.create === "audio"
+                timelineMenuSignal.value?.create &&
+                (timelineMenuSignal.value.create === "audio"
                     ? "Audio src"
                     : "Timeline name")
             }
             onInput={(value) => {
-                if (positionSignal.value?.create === "audio") {
+                if (timelineMenuSignal.value?.create === "audio") {
                     const timeline = getTimeline()
                     if (!timeline) return
 
@@ -61,7 +58,7 @@ const TimelineContextMenu = ({ positionSignal }: TimelineContextMenuProps) => {
         >
             <ContextMenuItem
                 disabled={
-                    positionSignal.value?.keyframe ||
+                    timelineMenuSignal.value?.keyframe ||
                     !timelineData ||
                     !timelineLayer ||
                     !(timelineLayer.split(" ")[0] in timelineData)
@@ -74,13 +71,13 @@ const TimelineContextMenu = ({ positionSignal }: TimelineContextMenuProps) => {
                             unsafeGetValue(uuidMap.get(uuid)!, property)
                         )
                     )
-                    positionSignal.value = undefined
+                    timelineMenuSignal.value = undefined
                 }}
             >
                 Add keyframe
             </ContextMenuItem>
             <ContextMenuItem
-                disabled={!positionSignal.value?.keyframe}
+                disabled={!timelineMenuSignal.value?.keyframe}
                 onClick={() => {
                     const data: AnimationData = {}
                     processKeyframe(
@@ -93,7 +90,7 @@ const TimelineContextMenu = ({ positionSignal }: TimelineContextMenuProps) => {
                         true
                     )
                     setDataCopied(data)
-                    positionSignal.value = undefined
+                    timelineMenuSignal.value = undefined
                 }}
             >
                 Copy keyframe
@@ -119,7 +116,7 @@ const TimelineContextMenu = ({ positionSignal }: TimelineContextMenuProps) => {
                                               value
                                           )
                               getTimeline()?.mergeData(data)
-                              positionSignal.value = undefined
+                              timelineMenuSignal.value = undefined
                           }
                         : undefined
                 }
@@ -127,10 +124,10 @@ const TimelineContextMenu = ({ positionSignal }: TimelineContextMenuProps) => {
                 Paste keyframe
             </ContextMenuItem>
             <ContextMenuItem
-                disabled={!positionSignal.value?.keyframe}
+                disabled={!timelineMenuSignal.value?.keyframe}
                 onClick={() => {
                     emitTimelineClearKeyframe()
-                    positionSignal.value = undefined
+                    timelineMenuSignal.value = undefined
                 }}
             >
                 Clear keyframe

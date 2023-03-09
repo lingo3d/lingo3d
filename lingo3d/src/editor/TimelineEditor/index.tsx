@@ -1,5 +1,3 @@
-import { Point } from "@lincode/math"
-import { useSignal } from "@preact/signals"
 import useInitCSS from "../hooks/useInitCSS"
 import useInitEditor from "../hooks/useInitEditor"
 import RulerBar from "./RulerBar"
@@ -8,18 +6,9 @@ import TimelineBar from "./TimelineBar"
 import TimelineContextMenu from "./TimelineContextMenu"
 import TimelineGraph from "./TimelineGraph"
 
-export type TimelineContextMenuPosition =
-    | (Point & {
-          keyframe?: boolean
-          create?: "audio" | "timeline"
-      })
-    | undefined
-
 const TimelineEditor = () => {
     useInitCSS()
     useInitEditor()
-
-    const positionSignal = useSignal<TimelineContextMenuPosition>(undefined)
 
     return (
         <>
@@ -32,7 +21,7 @@ const TimelineEditor = () => {
                 }}
             >
                 <div className="lingo3d-flexcol" style={{ width: 200 }}>
-                    <TimelineBar positionSignal={positionSignal} />
+                    <TimelineBar />
                     <div style={{ flexGrow: 1 }}>
                         <TimelineGraph />
                     </div>
@@ -40,11 +29,11 @@ const TimelineEditor = () => {
                 <div className="lingo3d-flexcol" style={{ flexGrow: 1 }}>
                     <RulerBar />
                     <div style={{ flexGrow: 1 }}>
-                        <Scroller positionSignal={positionSignal} />
+                        <Scroller />
                     </div>
                 </div>
             </div>
-            <TimelineContextMenu positionSignal={positionSignal} />
+            <TimelineContextMenu />
         </>
     )
 }
