@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "preact/hooks"
-import { timelineScrollTopSignal } from "../../states/useTimelineScrollTop"
+import { signal } from "@preact/signals"
+
+const timelineScrollTopSignal = signal(0)
 
 export default () => {
     const ref = useRef<HTMLDivElement>(null)
