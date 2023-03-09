@@ -1,4 +1,3 @@
-import { Signal } from "@preact/signals"
 import ContextMenu from "../../component/ContextMenu"
 import ContextMenuItem from "../../component/ContextMenu/ContextMenuItem"
 import gameGraphMenuSignal from "./gameGraphMenuSignal"

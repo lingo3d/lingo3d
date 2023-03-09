@@ -18,11 +18,10 @@ import Connection from "./Connection"
 import Node from "./Node"
 
 type Props = {
-    onPanStart?: () => void
     onEdit?: (manager: Appendable) => void
 }
 
-const Stage = ({ onPanStart, onEdit }: Props) => {
+const Stage = ({ onEdit }: Props) => {
     const [tx, setTx] = useState(0)
     const [ty, setTy] = useState(0)
     const [zoom, setZoom] = useState(0.75)
@@ -31,10 +30,7 @@ const Stage = ({ onPanStart, onEdit }: Props) => {
     const originX = width * 0.5
     const originY = height * 0.5
     const pressRef = usePan({
-        onPanStart: () => {
-            onPanStart?.()
-            emitSelectionTarget(undefined)
-        },
+        onPanStart: () => emitSelectionTarget(undefined),
         onPan: ({ deltaX, deltaY }) => {
             setTx((tx) => tx + deltaX)
             setTy((ty) => ty + deltaY)
