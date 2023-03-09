@@ -1,6 +1,7 @@
+import { Signal } from "@preact/signals"
 import { memo, useMemo } from "preact/compat"
+import { TimelineContextMenuPosition } from "."
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
-import { setTimelineContextMenu } from "../../states/useTimelineContextMenu"
 import useStopPropagation from "../hooks/useStopPropagation"
 import diffProps from "../utils/diffProps"
 
@@ -28,9 +29,15 @@ type FrameTweenProps = {
     frameNum: number
     frameNums: Array<number>
     index: number
+    positionSignal: Signal<TimelineContextMenuPosition>
 }
 
-const FrameTween = ({ frameNum, frameNums, index }: FrameTweenProps) => {
+const FrameTween = ({
+    frameNum,
+    frameNums,
+    index,
+    positionSignal
+}: FrameTweenProps) => {
     const background = useMemo(() => {
         if (++colorIndex === colors.length) colorIndex = 0
         return colors[colorIndex]
@@ -69,7 +76,7 @@ const FrameTween = ({ frameNum, frameNums, index }: FrameTweenProps) => {
                     top: 0
                 }}
                 onContextMenu={(e) =>
-                    setTimelineContextMenu({
+                    (positionSignal.value = {
                         x: e.clientX,
                         y: e.clientY,
                         keyframe: true

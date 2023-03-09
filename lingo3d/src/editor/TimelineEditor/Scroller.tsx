@@ -1,10 +1,11 @@
 import { createEffect } from "@lincode/reactivity"
+import { Signal } from "@preact/signals"
 import { useEffect } from "preact/hooks"
+import { TimelineContextMenuPosition } from "."
 import { uuidMap } from "../../api/core/collections"
 import { onTimelineSeekScrollLeft } from "../../events/onTimelineSeekScrollLeft"
 import { FRAME_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
 import { getTimeline } from "../../states/useTimeline"
-import { setTimelineContextMenu } from "../../states/useTimelineContextMenu"
 import { getTimelineData } from "../../states/useTimelineData"
 import { getTimelineExpandedUUIDs } from "../../states/useTimelineExpandedUUIDs"
 import {
@@ -24,7 +25,11 @@ import FrameTweenRow from "./FrameTweenRow"
 import { framesWidthPtr, maxFramePtr, minFramePtr } from "./Ruler"
 import useSyncScrollTop from "./useSyncScrollTop"
 
-const Scroller = () => {
+type ScrollerProps = {
+    positionSignal: Signal<TimelineContextMenuPosition>
+}
+
+const Scroller = ({ positionSignal }: ScrollerProps) => {
     const scrollRef = useSyncScrollTop()
     const keyframesEntries = useSyncState(getTimelineKeyframeEntries)
 
@@ -105,7 +110,7 @@ const Scroller = () => {
                 })
             }}
             onContextMenu={(e) =>
-                setTimelineContextMenu({ x: e.clientX, y: e.clientY })
+                (positionSignal.value = { x: e.clientX, y: e.clientY })
             }
         >
             <div
@@ -117,7 +122,12 @@ const Scroller = () => {
             >
                 <FrameGrid />
                 {keyframesEntries.map(([uuid, frames]) => (
-                    <FrameTweenRow key={uuid} uuid={uuid} frames={frames} />
+                    <FrameTweenRow
+                        key={uuid}
+                        uuid={uuid}
+                        frames={frames}
+                        positionSignal={positionSignal}
+                    />
                 ))}
                 <FrameIndicator />
             </div>

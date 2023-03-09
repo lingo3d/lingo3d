@@ -9,15 +9,16 @@ import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { rightClickPtr } from "../../api/mouse"
 import { Position } from "./MenuItems/Position"
 import MenuItems from "./MenuItems"
+import { useSignal } from "@preact/signals"
 
 const SceneGraphContextMenu = () => {
-    const [position, setPosition] = useState<Position>()
+    const positionSignal = useSignal<Position | undefined>(undefined)
     const selectionTarget = useSyncState(getSelectionTarget)
     const nativeTarget = useSyncState(getSelectionNativeTarget)
 
     useEffect(() => {
         const handle = onSelectionTarget(
-            () => rightClickPtr[0] && setPosition(mousePosition)
+            () => rightClickPtr[0] && (positionSignal.value = mousePosition)
         )
         return () => {
             handle.cancel()
@@ -35,22 +36,20 @@ const SceneGraphContextMenu = () => {
         }
     }, [selectionTarget, nativeTarget])
 
-    if (!position || !ready) return null
+    if (!positionSignal.value || !ready) return null
 
     return (
         <ContextMenu
-            position={position}
-            setPosition={setPosition}
-            input={position.search && "Child name"}
+            positionSignal={positionSignal}
+            input={positionSignal.value.search && "Child name"}
             onInput={(value) =>
-                position.search &&
+                positionSignal.value?.search &&
                 selectionTarget &&
                 search(value, selectionTarget)
             }
         >
             <MenuItems
-                position={position}
-                setPosition={setPosition}
+                positionSignal={positionSignal}
                 selectionTarget={selectionTarget}
                 nativeTarget={nativeTarget}
             />

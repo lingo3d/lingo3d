@@ -13,28 +13,32 @@ import ContextMenuItem from "../component/ContextMenu/ContextMenuItem"
 import useSyncState from "../hooks/useSyncState"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import { getTimeline, setTimeline } from "../../states/useTimeline"
-import {
-    getTimelineContextMenu,
-    setTimelineContextMenu
-} from "../../states/useTimelineContextMenu"
 import { processKeyframe } from "../../states/useTimelineData"
 import { getTimelineFrame } from "../../states/useTimelineFrame"
+import { Signal } from "@preact/signals"
+import { Point } from "@lincode/math"
 
-const TimelineContextMenu = () => {
-    const menu = useSyncState(getTimelineContextMenu)
+type TimelineContextMenuProps = {
+    positionSignal: Signal<
+        (Point & { create?: string; keyframe?: boolean }) | undefined
+    >
+}
+
+const TimelineContextMenu = ({ positionSignal }: TimelineContextMenuProps) => {
     const [dataCopied, setDataCopied] = useState<AnimationData>()
     const timeline = useSyncState(getTimeline)
 
     return (
         <ContextMenu
-            position={menu}
-            setPosition={setTimelineContextMenu}
+            positionSignal={positionSignal}
             input={
-                menu?.create &&
-                (menu.create === "audio" ? "Audio src" : "Timeline name")
+                positionSignal.value?.create &&
+                (positionSignal.value.create === "audio"
+                    ? "Audio src"
+                    : "Timeline name")
             }
             onInput={(value) => {
-                if (menu?.create === "audio") {
+                if (positionSignal.value?.create === "audio") {
                     const timeline = getTimeline()
                     if (!timeline) return
 
@@ -56,7 +60,7 @@ const TimelineContextMenu = () => {
             }}
         >
             <ContextMenuItem
-                disabled={menu?.keyframe || !timeline}
+                disabled={positionSignal.value?.keyframe || !timeline}
                 onClick={() => {
                     processKeyframe((timelineData, uuid, property, frame) =>
                         set(
@@ -65,13 +69,13 @@ const TimelineContextMenu = () => {
                             unsafeGetValue(uuidMap.get(uuid)!, property)
                         )
                     )
-                    setTimelineContextMenu(undefined)
+                    positionSignal.value = undefined
                 }}
             >
                 Add keyframe
             </ContextMenuItem>
             <ContextMenuItem
-                disabled={!menu?.keyframe}
+                disabled={!positionSignal.value?.keyframe}
                 onClick={() => {
                     const data: AnimationData = {}
                     processKeyframe(
@@ -84,7 +88,7 @@ const TimelineContextMenu = () => {
                         true
                     )
                     setDataCopied(data)
-                    setTimelineContextMenu(undefined)
+                    positionSignal.value = undefined
                 }}
             >
                 Copy keyframe
@@ -110,7 +114,7 @@ const TimelineContextMenu = () => {
                                               value
                                           )
                               getTimeline()?.mergeData(data)
-                              setTimelineContextMenu(undefined)
+                              positionSignal.value = undefined
                           }
                         : undefined
                 }
@@ -118,10 +122,10 @@ const TimelineContextMenu = () => {
                 Paste keyframe
             </ContextMenuItem>
             <ContextMenuItem
-                disabled={!menu?.keyframe}
+                disabled={!positionSignal.value?.keyframe}
                 onClick={() => {
                     emitTimelineClearKeyframe()
-                    setTimelineContextMenu(undefined)
+                    positionSignal.value = undefined
                 }}
             >
                 Clear keyframe

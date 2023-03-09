@@ -1,17 +1,19 @@
+import { Signal } from "@preact/signals"
 import ContextMenuItem from "../../component/ContextMenu/ContextMenuItem"
 import createJoint from "../utils/createJoint"
+import { Position } from "./Position"
 
 type Props = {
-    setPosition: (val: undefined) => void
+    positionSignal: Signal<Position | undefined>
 }
 
-const CreateJointItems = ({ setPosition }: Props) => {
+const CreateJointItems = ({ positionSignal }: Props) => {
     return (
         <>
             <ContextMenuItem
                 onClick={() => {
                     createJoint("fixedJoint")
-                    setPosition(undefined)
+                    positionSignal.value = undefined
                 }}
             >
                 Fixed joint
@@ -19,7 +21,7 @@ const CreateJointItems = ({ setPosition }: Props) => {
             <ContextMenuItem
                 onClick={() => {
                     createJoint("sphericalJoint")
-                    setPosition(undefined)
+                    positionSignal.value = undefined
                 }}
             >
                 Spherical joint
@@ -27,7 +29,7 @@ const CreateJointItems = ({ setPosition }: Props) => {
             <ContextMenuItem
                 onClick={() => {
                     createJoint("revoluteJoint")
-                    setPosition(undefined)
+                    positionSignal.value = undefined
                 }}
             >
                 Revolute joint
@@ -35,7 +37,7 @@ const CreateJointItems = ({ setPosition }: Props) => {
             <ContextMenuItem
                 onClick={() => {
                     createJoint("prismaticJoint")
-                    setPosition(undefined)
+                    positionSignal.value = undefined
                 }}
             >
                 Prismatic joint
@@ -43,7 +45,7 @@ const CreateJointItems = ({ setPosition }: Props) => {
             <ContextMenuItem
                 onClick={() => {
                     createJoint("d6Joint")
-                    setPosition(undefined)
+                    positionSignal.value = undefined
                 }}
             >
                 D6 joint

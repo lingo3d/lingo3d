@@ -1,4 +1,5 @@
 import { Point } from "@lincode/math"
+import { Signal } from "@preact/signals"
 import { ComponentChildren } from "preact"
 import { createPortal } from "preact/compat"
 import { CONTEXT_MENU_ITEM_HEIGHT } from "../../../globals"
@@ -8,16 +9,14 @@ import useStopPropagation from "../../hooks/useStopPropagation"
 const setFocus = (el: HTMLInputElement | null) => setTimeout(() => el?.focus())
 
 interface ContextMenuProps {
-    position?: Point
-    setPosition: (val: Point | undefined) => void
+    positionSignal?: Signal<Point | undefined>
     children?: ComponentChildren
     input?: string | false
     onInput?: (val: string) => void
 }
 
 const ContextMenu = ({
-    position,
-    setPosition,
+    positionSignal,
     children,
     input,
     onInput
@@ -25,7 +24,7 @@ const ContextMenu = ({
     const stopRef = useStopPropagation()
     const inputStopRef = useStopPropagation()
 
-    if (!position) return null
+    if (!positionSignal?.value) return null
 
     const height =
         (Array.isArray(children) ? children.length : 1) *
@@ -41,17 +40,17 @@ const ContextMenu = ({
         >
             <div
                 className="lingo3d-absfull"
-                onMouseDown={() => setPosition(undefined)}
+                onMouseDown={() => (positionSignal.value = undefined)}
             />
             <div
                 className="lingo3d-bg"
                 style={{
                     position: "absolute",
-                    left: position.x,
+                    left: positionSignal.value.x,
                     top:
-                        position.y + height > window.innerHeight
+                        positionSignal.value.y + height > window.innerHeight
                             ? window.innerHeight - height
-                            : position.y,
+                            : positionSignal.value.y,
                     padding: 6,
                     border: "1px solid rgba(255, 255, 255, 0.2)"
                 }}
@@ -65,7 +64,7 @@ const ContextMenu = ({
                             if (e.key !== "Enter" && e.key !== "Escape") return
                             e.key === "Enter" &&
                                 onInput?.(e.currentTarget.value)
-                            setPosition(undefined)
+                            positionSignal.value = undefined
                         }}
                     />
                 ) : (

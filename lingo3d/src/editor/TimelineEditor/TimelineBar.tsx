@@ -2,17 +2,22 @@ import AppBar from "../component/bars/AppBar"
 import Button from "../component/Button"
 import useSyncState from "../hooks/useSyncState"
 import { getTimeline } from "../../states/useTimeline"
-import { setTimelineContextMenu } from "../../states/useTimelineContextMenu"
 import AddIcon from "./icons/AddIcon"
+import { Signal } from "@preact/signals"
+import { Point } from "@lincode/math"
 
-const TimelineBar = () => {
+type TimelineBarProps = {
+    positionSignal: Signal<(Point & { create?: string }) | undefined>
+}
+
+const TimelineBar = ({ positionSignal }: TimelineBarProps) => {
     const timeline = useSyncState(getTimeline)
 
     return (
         <AppBar>
             <Button
                 onClick={(e) =>
-                    setTimelineContextMenu({
+                    (positionSignal.value = {
                         x: e.clientX,
                         y: e.clientY,
                         create: "timeline"
@@ -25,7 +30,7 @@ const TimelineBar = () => {
             <Button
                 disabled={!timeline}
                 onClick={(e) =>
-                    setTimelineContextMenu({
+                    (positionSignal.value = {
                         x: e.clientX,
                         y: e.clientY,
                         create: "audio"
