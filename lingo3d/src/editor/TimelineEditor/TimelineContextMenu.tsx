@@ -30,9 +30,6 @@ const TimelineContextMenu = ({ positionSignal }: TimelineContextMenuProps) => {
     const [timelineData] = useSyncState(getTimelineData)
     const timelineLayer = useSyncState(getTimelineLayer)
 
-    //mark
-    console.log(timelineLayer)
-
     return (
         <ContextMenu
             positionSignal={positionSignal}
@@ -69,7 +66,7 @@ const TimelineContextMenu = ({ positionSignal }: TimelineContextMenuProps) => {
                     positionSignal.value?.keyframe ||
                     !timelineData ||
                     !timelineLayer ||
-                    !(timelineLayer in timelineData)
+                    !(timelineLayer.split(" ")[0] in timelineData)
                 }
                 onClick={() => {
                     processKeyframe((timelineData, uuid, property, frame) =>
