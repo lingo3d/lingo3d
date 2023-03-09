@@ -1,15 +1,31 @@
-import store, { createEffect } from "@lincode/reactivity"
+import store from "@lincode/reactivity"
 import { getSelectionTarget } from "./useSelectionTarget"
+import { getTimelineData } from "./useTimelineData"
 
-export const [setTimelineLayer, getTimelineLayer] = store<string | undefined>(
+const [_setTimelineLayer, getTimelineLayer] = store<string | undefined>(
     undefined
 )
+export { getTimelineLayer }
 
-createEffect(() => {
-    const target = getSelectionTarget()
-    const layer = getTimelineLayer()
-    if (!layer && target) setTimelineLayer(target.uuid)
-    else if (layer && !target) setTimelineLayer(undefined)
-    else if (layer && target && layer.split(" ")[0] !== target.uuid)
-        setTimelineLayer(target.uuid)
-}, [getTimelineLayer, getSelectionTarget])
+let blocked = false
+let timeout: number | undefined
+export const setTimelineLayer = (val?: string) => {
+    _setTimelineLayer(val)
+    blocked = true
+    clearTimeout(timeout)
+    timeout = setTimeout(() => (blocked = false), 10)
+}
+
+getSelectionTarget((selectionTarget) => {
+    if (blocked) return
+    if (!selectionTarget) {
+        _setTimelineLayer(undefined)
+        return
+    }
+    const [timelineData] = getTimelineData()
+    if (!timelineData || !(selectionTarget.uuid in timelineData)) {
+        _setTimelineLayer(undefined)
+        return
+    }
+    _setTimelineLayer(selectionTarget.uuid)
+})

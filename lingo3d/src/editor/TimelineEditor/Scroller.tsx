@@ -86,7 +86,10 @@ const Scroller = ({ positionSignal }: ScrollerProps) => {
                 const testLayerClick = (i: number, layer: string) => {
                     const start = i * FRAME_HEIGHT
                     const end = start + FRAME_HEIGHT
-                    if (start > relY || end < relY) return false
+                    if (start > relY || end < relY) {
+                        setTimelineLayer(undefined)
+                        return false
+                    }
                     setTimelineLayer(layer)
                     handleTreeItemClick(e, uuidMap.get(layer.split(" ")[0]))
                     return true

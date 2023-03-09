@@ -21,11 +21,13 @@ import { getUILayer, setUILayer } from "../../states/useUILayer"
 
 let focused = false
 let blurBlocked = false
+let timeout: number | undefined
 export const handleFocus = (e: Event) => {
     e.stopPropagation()
     focused = true
     blurBlocked = true
-    setTimeout(() => (blurBlocked = false))
+    clearTimeout(timeout)
+    timeout = setTimeout(() => (blurBlocked = false))
 }
 export const handleBlur = (e: Event) => {
     e.stopPropagation()

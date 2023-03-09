@@ -13,10 +13,11 @@ import ContextMenuItem from "../component/ContextMenu/ContextMenuItem"
 import useSyncState from "../hooks/useSyncState"
 import { setSceneGraphExpanded } from "../../states/useSceneGraphExpanded"
 import { getTimeline, setTimeline } from "../../states/useTimeline"
-import { processKeyframe } from "../../states/useTimelineData"
+import { getTimelineData, processKeyframe } from "../../states/useTimelineData"
 import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { Signal } from "@preact/signals"
 import { Point } from "@lincode/math"
+import { getTimelineLayer } from "../../states/useTimelineLayer"
 
 type TimelineContextMenuProps = {
     positionSignal: Signal<
@@ -26,7 +27,11 @@ type TimelineContextMenuProps = {
 
 const TimelineContextMenu = ({ positionSignal }: TimelineContextMenuProps) => {
     const [dataCopied, setDataCopied] = useState<AnimationData>()
-    const timeline = useSyncState(getTimeline)
+    const [timelineData] = useSyncState(getTimelineData)
+    const timelineLayer = useSyncState(getTimelineLayer)
+
+    //mark
+    console.log(timelineLayer)
 
     return (
         <ContextMenu
@@ -60,7 +65,12 @@ const TimelineContextMenu = ({ positionSignal }: TimelineContextMenuProps) => {
             }}
         >
             <ContextMenuItem
-                disabled={positionSignal.value?.keyframe || !timeline}
+                disabled={
+                    positionSignal.value?.keyframe ||
+                    !timelineData ||
+                    !timelineLayer ||
+                    !(timelineLayer in timelineData)
+                }
                 onClick={() => {
                     processKeyframe((timelineData, uuid, property, frame) =>
                         set(
