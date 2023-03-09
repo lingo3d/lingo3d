@@ -1,4 +1,3 @@
-import { Signal } from "@preact/signals"
 import { ComponentChild } from "preact"
 import { Object3D } from "three"
 import Appendable from "../../../api/core/Appendable"
@@ -28,21 +27,16 @@ import Connector from "../../../visualScripting/Connector"
 import GameGraph from "../../../visualScripting/GameGraph"
 import ContextMenuItem from "../../component/ContextMenu/ContextMenuItem"
 import useSyncState from "../../hooks/useSyncState"
-import { SceneGraphContextMenuPosition } from "../SceneGraphContextMenu"
 import selectAllJointed from "../utils/selectAllJointed"
 import CreateJointItems from "./CreateJointItems"
+import sceneGraphMenuSignal from "./sceneGraphMenuSignal"
 
 type Props = {
-    positionSignal: Signal<SceneGraphContextMenuPosition>
     selectionTarget: Appendable | MeshAppendable | undefined
     nativeTarget: Object3D | undefined
 }
 
-const MenuItems = ({
-    positionSignal,
-    selectionTarget,
-    nativeTarget
-}: Props) => {
+const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
     const [selectionFrozen] = useSyncState(getSelectionFrozen)
     const [timelineData] = useSyncState(getTimelineData)
     const timeline = useSyncState(getTimeline)
@@ -50,8 +44,7 @@ const MenuItems = ({
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionFocus = useSyncState(getSelectionFocus)
 
-    if (positionSignal.value?.createJoint)
-        return <CreateJointItems positionSignal={positionSignal} />
+    if (sceneGraphMenuSignal.value?.createJoint) return <CreateJointItems />
 
     const children: Array<ComponentChild> = []
     if (multipleSelectionTargets.size)
@@ -61,9 +54,9 @@ const MenuItems = ({
                 onClick={() => {
                     // createJoint("d6Joint")
                     // setPosition(undefined)
-                    positionSignal.value = {
-                        x: positionSignal.value?.x ?? 0,
-                        y: positionSignal.value?.y ?? 0,
+                    sceneGraphMenuSignal.value = {
+                        x: sceneGraphMenuSignal.value?.x ?? 0,
+                        y: sceneGraphMenuSignal.value?.y ?? 0,
                         createJoint: true
                     }
                 }}
@@ -77,7 +70,7 @@ const MenuItems = ({
                 disabled={selectionTarget === timeline}
                 onClick={() => {
                     setTimeline(selectionTarget)
-                    positionSignal.value = undefined
+                    sceneGraphMenuSignal.value = undefined
                 }}
             >
                 {selectionTarget === timeline
@@ -91,7 +84,7 @@ const MenuItems = ({
                 disabled={selectionTarget === gameGraph}
                 onClick={() => {
                     setGameGraph(selectionTarget)
-                    positionSignal.value = undefined
+                    sceneGraphMenuSignal.value = undefined
                 }}
             >
                 {selectionTarget === gameGraph
@@ -110,7 +103,7 @@ const MenuItems = ({
                             "spriteSheet.png",
                             selectionTarget.toBlob()
                         )
-                        positionSignal.value = undefined
+                        sceneGraphMenuSignal.value = undefined
                     }}
                 >
                     Save image
@@ -121,9 +114,9 @@ const MenuItems = ({
                 children.push(
                     <ContextMenuItem
                         onClick={() =>
-                            (positionSignal.value = {
-                                x: positionSignal.value?.x ?? 0,
-                                y: positionSignal.value?.y ?? 0,
+                            (sceneGraphMenuSignal.value = {
+                                x: sceneGraphMenuSignal.value?.x ?? 0,
+                                y: sceneGraphMenuSignal.value?.y ?? 0,
                                 search: true
                             })
                         }
@@ -139,7 +132,7 @@ const MenuItems = ({
                                     : selectionTarget
                             )
                             emitSelectionTarget(undefined)
-                            positionSignal.value = undefined
+                            sceneGraphMenuSignal.value = undefined
                         }}
                     >
                         {selectionFocus === selectionTarget
@@ -158,7 +151,7 @@ const MenuItems = ({
                                     ? selectionTarget
                                     : undefined
                             )
-                            positionSignal.value = undefined
+                            sceneGraphMenuSignal.value = undefined
                         }}
                     >
                         Select all jointed
@@ -170,7 +163,7 @@ const MenuItems = ({
                         selectionFrozen.has(selectionTarget)
                             ? removeSelectionFrozen(selectionTarget)
                             : addSelectionFrozen(selectionTarget)
-                        positionSignal.value = undefined
+                        sceneGraphMenuSignal.value = undefined
                     }}
                 >
                     {selectionFrozen.has(selectionTarget)
@@ -186,7 +179,7 @@ const MenuItems = ({
                     timeline?.mergeData({
                         [selectionTarget.uuid]: {}
                     })
-                    positionSignal.value = undefined
+                    sceneGraphMenuSignal.value = undefined
                 }}
             >
                 {timelineData && selectionTarget.uuid in timelineData
@@ -201,7 +194,7 @@ const MenuItems = ({
                 disabled={!selectionFrozen.size}
                 onClick={() => {
                     clearSelectionFrozen()
-                    positionSignal.value = undefined
+                    sceneGraphMenuSignal.value = undefined
                 }}
             >
                 Unfreeze all
@@ -212,7 +205,7 @@ const MenuItems = ({
                 onClick={() => {
                     setSelectionFocus(undefined)
                     emitSelectionTarget(undefined)
-                    positionSignal.value = undefined
+                    sceneGraphMenuSignal.value = undefined
                 }}
             >
                 Exit all
@@ -223,7 +216,7 @@ const MenuItems = ({
             <ContextMenuItem
                 disabled={!selectionTarget}
                 onClick={() => {
-                    positionSignal.value = undefined
+                    sceneGraphMenuSignal.value = undefined
                     deleteSelected()
                 }}
             >

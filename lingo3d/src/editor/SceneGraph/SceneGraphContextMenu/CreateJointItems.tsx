@@ -1,19 +1,14 @@
-import { Signal } from "@preact/signals"
 import ContextMenuItem from "../../component/ContextMenu/ContextMenuItem"
-import { SceneGraphContextMenuPosition } from "../SceneGraphContextMenu"
 import createJoint from "../utils/createJoint"
+import sceneGraphMenuSignal from "./sceneGraphMenuSignal"
 
-type Props = {
-    positionSignal: Signal<SceneGraphContextMenuPosition>
-}
-
-const CreateJointItems = ({ positionSignal }: Props) => {
+const CreateJointItems = () => {
     return (
         <>
             <ContextMenuItem
                 onClick={() => {
                     createJoint("fixedJoint")
-                    positionSignal.value = undefined
+                    sceneGraphMenuSignal.value = undefined
                 }}
             >
                 Fixed joint
@@ -21,7 +16,7 @@ const CreateJointItems = ({ positionSignal }: Props) => {
             <ContextMenuItem
                 onClick={() => {
                     createJoint("sphericalJoint")
-                    positionSignal.value = undefined
+                    sceneGraphMenuSignal.value = undefined
                 }}
             >
                 Spherical joint
@@ -29,7 +24,7 @@ const CreateJointItems = ({ positionSignal }: Props) => {
             <ContextMenuItem
                 onClick={() => {
                     createJoint("revoluteJoint")
-                    positionSignal.value = undefined
+                    sceneGraphMenuSignal.value = undefined
                 }}
             >
                 Revolute joint
@@ -37,7 +32,7 @@ const CreateJointItems = ({ positionSignal }: Props) => {
             <ContextMenuItem
                 onClick={() => {
                     createJoint("prismaticJoint")
-                    positionSignal.value = undefined
+                    sceneGraphMenuSignal.value = undefined
                 }}
             >
                 Prismatic joint
@@ -45,7 +40,7 @@ const CreateJointItems = ({ positionSignal }: Props) => {
             <ContextMenuItem
                 onClick={() => {
                     createJoint("d6Joint")
-                    positionSignal.value = undefined
+                    sceneGraphMenuSignal.value = undefined
                 }}
             >
                 D6 joint
