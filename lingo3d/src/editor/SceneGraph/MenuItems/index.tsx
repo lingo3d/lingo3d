@@ -10,7 +10,6 @@ import Timeline from "../../../display/Timeline"
 import deleteSelected from "../../../engine/hotkeys/deleteSelected"
 import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { getGameGraph, setGameGraph } from "../../../states/useGameGraph"
-import { getGameGraphData } from "../../../states/useGameGraphData"
 import { getMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
 import {
     getSelectionFocus,
@@ -48,7 +47,6 @@ const MenuItems = ({
     const [selectionFrozen] = useSyncState(getSelectionFrozen)
     const [timelineData] = useSyncState(getTimelineData)
     const timeline = useSyncState(getTimeline)
-    const [gameGraphData] = useSyncState(getGameGraphData)
     const gameGraph = useSyncState(getGameGraph)
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionFocus = useSyncState(getSelectionFocus)
@@ -218,29 +216,15 @@ const MenuItems = ({
         )
     else
         children.push(
-            <>
-                {gameGraphData &&
-                    selectionTarget.uuid in gameGraphData &&
-                    !(selectionTarget instanceof Connector) && (
-                        <ContextMenuItem
-                            onClick={() => {
-                                setPosition(undefined)
-                                gameGraph?.deleteData(selectionTarget.uuid)
-                            }}
-                        >
-                            Delete from GameGraph
-                        </ContextMenuItem>
-                    )}
-                <ContextMenuItem
-                    disabled={!selectionTarget}
-                    onClick={() => {
-                        setPosition(undefined)
-                        deleteSelected()
-                    }}
-                >
-                    Delete selected
-                </ContextMenuItem>
-            </>
+            <ContextMenuItem
+                disabled={!selectionTarget}
+                onClick={() => {
+                    setPosition(undefined)
+                    deleteSelected()
+                }}
+            >
+                Delete selected
+            </ContextMenuItem>
         )
 
     return <>{children}</>
