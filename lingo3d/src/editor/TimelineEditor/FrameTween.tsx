@@ -2,7 +2,6 @@ import { Signal } from "@preact/signals"
 import { memo, useMemo } from "preact/compat"
 import { TimelineContextMenuPosition } from "."
 import { FRAME_WIDTH, FRAME_HEIGHT } from "../../globals"
-import useStopPropagation from "../hooks/useStopPropagation"
 import diffProps from "../utils/diffProps"
 
 const colors = [
@@ -43,8 +42,6 @@ const FrameTween = ({
         return colors[colorIndex]
     }, [])
 
-    const stopRef = useStopPropagation()
-
     return (
         <div
             className="lingo3d-flexcenter"
@@ -66,7 +63,6 @@ const FrameTween = ({
                 }}
             />
             <div
-                ref={stopRef}
                 className="lingo3d-flexcenter"
                 style={{
                     position: "absolute",
@@ -75,13 +71,15 @@ const FrameTween = ({
                     left: 0,
                     top: 0
                 }}
-                onContextMenu={(e) =>
-                    (positionSignal.value = {
+                onContextMenu={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    positionSignal.value = {
                         x: e.clientX,
                         y: e.clientY,
                         keyframe: true
-                    })
-                }
+                    }
+                }}
             >
                 <div
                     style={{
