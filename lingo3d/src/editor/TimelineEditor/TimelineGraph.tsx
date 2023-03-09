@@ -2,9 +2,9 @@ import useSyncState from "../hooks/useSyncState"
 import { getTimelineData } from "../../states/useTimelineData"
 import LayerTreeItem from "./treeItems/LayerTreeItem"
 import PropertyTreeItem from "./treeItems/PropertyTreeItem"
-import { timelineScrollHeightSignal } from "../../states/useTimelineScrollHeight"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncScrollTop from "./useSyncScrollTop"
+import { timelineScrollHeightSignal } from "./timelineScrollHeightSignal"
 
 const TimelineGraph = () => {
     const [timelineData] = useSyncState(getTimelineData)
