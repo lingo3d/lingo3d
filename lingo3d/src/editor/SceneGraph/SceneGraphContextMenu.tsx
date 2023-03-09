@@ -7,12 +7,19 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import search from "./utils/search"
 import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { rightClickPtr } from "../../api/mouse"
-import { Position } from "./MenuItems/Position"
 import MenuItems from "./MenuItems"
 import { useSignal } from "@preact/signals"
+import { Point } from "@lincode/math"
+
+export type SceneGraphContextMenuPosition =
+    | (Point & {
+          search?: boolean
+          createJoint?: boolean
+      })
+    | undefined
 
 const SceneGraphContextMenu = () => {
-    const positionSignal = useSignal<Position | undefined>(undefined)
+    const positionSignal = useSignal<SceneGraphContextMenuPosition>(undefined)
     const selectionTarget = useSyncState(getSelectionTarget)
     const nativeTarget = useSyncState(getSelectionNativeTarget)
 

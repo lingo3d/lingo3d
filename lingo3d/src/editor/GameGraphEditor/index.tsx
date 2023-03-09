@@ -9,6 +9,10 @@ import useInitEditor from "../hooks/useInitEditor"
 import Stage from "./Stage"
 import GameGraphLibrary from "./GameGraphLibrary"
 import GameGraphEditPanel from "./GameGraphEditPanel"
+import { Point } from "@lincode/math"
+import GameGraphContextMenu from "./GameGraphContextMenu"
+
+export type GameGraphEditorPosition = (Point & { create?: boolean }) | undefined
 
 const GameGraphEditor = () => {
     useInitCSS()
@@ -16,6 +20,7 @@ const GameGraphEditor = () => {
 
     const selectedSignal = useSignal<string | undefined>(undefined)
     const targetSignal = useSignal<Appendable | undefined>(undefined)
+    const positionSignal = useSignal<GameGraphEditorPosition>(undefined)
 
     return (
         <>
@@ -38,6 +43,7 @@ const GameGraphEditor = () => {
                 <GameGraphLibrary />
                 <GameGraphEditPanel targetSignal={targetSignal} />
             </div>
+            <GameGraphContextMenu positionSignal={positionSignal} />
         </>
     )
 }

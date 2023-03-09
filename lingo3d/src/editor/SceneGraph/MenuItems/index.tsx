@@ -28,12 +28,12 @@ import Connector from "../../../visualScripting/Connector"
 import GameGraph from "../../../visualScripting/GameGraph"
 import ContextMenuItem from "../../component/ContextMenu/ContextMenuItem"
 import useSyncState from "../../hooks/useSyncState"
+import { SceneGraphContextMenuPosition } from "../SceneGraphContextMenu"
 import selectAllJointed from "../utils/selectAllJointed"
 import CreateJointItems from "./CreateJointItems"
-import { Position } from "./Position"
 
 type Props = {
-    positionSignal: Signal<Position | undefined>
+    positionSignal: Signal<SceneGraphContextMenuPosition>
     selectionTarget: Appendable | MeshAppendable | undefined
     nativeTarget: Object3D | undefined
 }

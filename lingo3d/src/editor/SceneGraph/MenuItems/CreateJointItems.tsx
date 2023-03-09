@@ -1,10 +1,10 @@
 import { Signal } from "@preact/signals"
 import ContextMenuItem from "../../component/ContextMenu/ContextMenuItem"
+import { SceneGraphContextMenuPosition } from "../SceneGraphContextMenu"
 import createJoint from "../utils/createJoint"
-import { Position } from "./Position"
 
 type Props = {
-    positionSignal: Signal<Position | undefined>
+    positionSignal: Signal<SceneGraphContextMenuPosition>
 }
 
 const CreateJointItems = ({ positionSignal }: Props) => {

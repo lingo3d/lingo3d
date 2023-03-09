@@ -4,10 +4,10 @@ import useSyncState from "../hooks/useSyncState"
 import { getTimeline } from "../../states/useTimeline"
 import AddIcon from "./icons/AddIcon"
 import { Signal } from "@preact/signals"
-import { Point } from "@lincode/math"
+import { TimelineContextMenuPosition } from "."
 
 type TimelineBarProps = {
-    positionSignal: Signal<(Point & { create?: string }) | undefined>
+    positionSignal: Signal<TimelineContextMenuPosition>
 }
 
 const TimelineBar = ({ positionSignal }: TimelineBarProps) => {

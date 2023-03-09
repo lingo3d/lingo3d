@@ -16,13 +16,11 @@ import { getTimeline, setTimeline } from "../../states/useTimeline"
 import { getTimelineData, processKeyframe } from "../../states/useTimelineData"
 import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { Signal } from "@preact/signals"
-import { Point } from "@lincode/math"
 import { getTimelineLayer } from "../../states/useTimelineLayer"
+import { TimelineContextMenuPosition } from "."
 
 type TimelineContextMenuProps = {
-    positionSignal: Signal<
-        (Point & { create?: string; keyframe?: boolean }) | undefined
-    >
+    positionSignal: Signal<TimelineContextMenuPosition>
 }
 
 const TimelineContextMenu = ({ positionSignal }: TimelineContextMenuProps) => {
