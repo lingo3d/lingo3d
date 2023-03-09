@@ -105,7 +105,9 @@ const Connection = memo(
                     e.stopPropagation()
                     emitSelectionTarget(manager, true)
                 }}
-                onContextMenu={() => {
+                onContextMenu={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
                     toggleRightClickPtr()
                     emitSelectionTarget(manager, true)
                 }}

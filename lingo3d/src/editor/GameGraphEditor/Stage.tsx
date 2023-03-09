@@ -15,6 +15,7 @@ import usePan from "../hooks/usePan"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
 import Connection from "./Connection"
+import gameGraphMenuSignal from "./GameGraphContextMenu/gameGraphMenuSignal"
 import Node from "./Node"
 
 type Props = {
@@ -116,6 +117,9 @@ const Stage = ({ onEdit }: Props) => {
                     }
                 })
             }}
+            onContextMenu={(e) =>
+                (gameGraphMenuSignal.value = { x: e.clientX, y: e.clientY })
+            }
         >
             <div
                 style={{

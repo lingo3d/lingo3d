@@ -162,7 +162,9 @@ const Node = memo(
                         <div
                             style={{ zIndex: 1 }}
                             ref={pressRef}
-                            onContextMenu={() => {
+                            onContextMenu={(e) => {
+                                e.stopPropagation()
+                                e.preventDefault()
                                 toggleRightClickPtr()
                                 emitSelectionTarget(manager, true)
                             }}
@@ -194,7 +196,9 @@ const Node = memo(
                             e.stopPropagation()
                             emitSelectionTarget(manager, true)
                         }}
-                        onContextMenu={() => {
+                        onContextMenu={(e) => {
+                            e.stopPropagation()
+                            e.preventDefault()
                             toggleRightClickPtr()
                             emitSelectionTarget(manager, true)
                         }}
