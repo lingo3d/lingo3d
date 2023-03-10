@@ -1,4 +1,4 @@
-import { handleBlur } from "../../engine/hotkeys"
+import { handleStopPropagation } from "../../engine/hotkeys"
 import { DEBUG } from "../../globals"
 
 const stop = (e: Event) => e.stopPropagation()
@@ -9,7 +9,7 @@ const stopPrevent = (e: Event) => {
 
 export const stopPropagation = (el: HTMLElement | SVGSVGElement | null) => {
     if (!el) return
-    el.addEventListener("mousedown", handleBlur)
+    el.addEventListener("mousedown", handleStopPropagation)
     el.addEventListener("click", stop)
     !DEBUG && el.addEventListener("contextmenu", stopPrevent)
     el.addEventListener("pointerdown", stop)

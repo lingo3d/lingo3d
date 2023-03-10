@@ -19,23 +19,19 @@ import { setTransformControlsSnap } from "../../states/useTransformControlsSnap"
 import { container } from "../renderLoop/renderSetup"
 import { getUILayer, setUILayer } from "../../states/useUILayer"
 
-let focused = false
-let blurBlocked = false
-let timeout: number | undefined
-export const handleFocus = (e: Event) => {
+let focused = true
+const handleFocus = (e: Event) => {
     e.stopPropagation()
     focused = true
-    blurBlocked = true
-    clearTimeout(timeout)
-    timeout = setTimeout(() => (blurBlocked = false))
+    // console.log("focus")
 }
-export const handleBlur = (e: Event) => {
+export const handleStopPropagation = (e: Event) => {
     e.stopPropagation()
-    if (blurBlocked) return
     focused = false
+    // console.log("blur")
 }
 container.addEventListener("mousedown", handleFocus)
-document.addEventListener("mousedown", handleBlur)
+document.addEventListener("mousedown", handleStopPropagation)
 
 const metaHotKey = (e: KeyboardEvent) => {
     e.preventDefault()
