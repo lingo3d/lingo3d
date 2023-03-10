@@ -16,6 +16,7 @@ import { FAR, NEAR } from "../../globals"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import CameraBase from "../core/CameraBase"
 import renderSystemWithData from "../../utils/renderSystemWithData"
+import { getHotKeysEnabled } from "../../states/useHotKeysEnabled"
 
 const [addPlaceAtSystem, deletePlaceAtSystem] = renderSystemWithData(
     (cam: OrbitCamera, data: { found: MeshAppendable }) => {
@@ -97,6 +98,7 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
 
         this.createEffect(() => {
             if (
+                !getHotKeysEnabled() ||
                 getTransformControlsDragging() ||
                 getCameraRendered() !== camera ||
                 !this.mouseControlState.get()
@@ -143,6 +145,7 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
                 handle.cancel()
             }
         }, [
+            getHotKeysEnabled,
             getCameraRendered,
             getTransformControlsDragging,
             this.enableZoomState.get,

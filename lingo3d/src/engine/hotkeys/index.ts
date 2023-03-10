@@ -18,20 +18,25 @@ import copySelected from "./copySelected"
 import { setTransformControlsSnap } from "../../states/useTransformControlsSnap"
 import { container } from "../renderLoop/renderSetup"
 import { getUILayer, setUILayer } from "../../states/useUILayer"
+import {
+    getHotKeysEnabled,
+    setHotKeysEnabled
+} from "../../states/useHotKeysEnabled"
 
-let focused = true
-const handleFocus = (e: Event) => {
-    e.stopPropagation()
-    focused = true
-    // console.log("focus")
+const enabledSet = new Set<HTMLElement>()
+export const enableHotKeysOnElement = (el: HTMLElement) => {
+    el.addEventListener("mouseover", () => enabledSet.add(el))
+    el.addEventListener("mouseout", () => enabledSet.delete(el))
 }
+enableHotKeysOnElement(container)
+
 export const handleStopPropagation = (e: Event) => {
     e.stopPropagation()
-    focused = false
-    // console.log("blur")
+    setHotKeysEnabled(!!enabledSet.size)
 }
-container.addEventListener("mousedown", handleFocus)
-document.addEventListener("mousedown", handleStopPropagation)
+document.addEventListener("mousedown", () =>
+    setHotKeysEnabled(!!enabledSet.size)
+)
 
 const metaHotKey = (e: KeyboardEvent) => {
     e.preventDefault()
@@ -39,14 +44,14 @@ const metaHotKey = (e: KeyboardEvent) => {
 }
 
 createEffect(() => {
-    if (getWorldPlayComputed()) return
+    if (getWorldPlayComputed() || !getHotKeysEnabled()) return
 
-    const handleKeyDown = async (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === "Shift" || e.key === "Meta" || e.key === "Control")
             setMultipleSelection(true)
         if (e.key === "Shift") setTransformControlsSnap(true)
 
-        if (focused && (e.key === "Backspace" || e.key === "Delete")) {
+        if (e.key === "Backspace" || e.key === "Delete") {
             e.preventDefault()
             deleteSelected()
             return
@@ -119,4 +124,4 @@ createEffect(() => {
         document.removeEventListener("keyup", handleKeyUp)
         handle.cancel()
     }
-}, [getWorldPlayComputed])
+}, [getWorldPlayComputed, getHotKeysEnabled])
