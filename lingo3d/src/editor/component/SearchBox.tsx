@@ -1,7 +1,6 @@
 import { CSSProperties, useEffect, useRef, useState } from "preact/compat"
-import mergeRefs from "../hooks/mergeRefs"
-import { stopPropagation } from "../utils/stopPropagation"
 import CloseIcon from "./icons/CloseIcon"
+import SelectInput from "./SelectInput"
 
 type SearchBoxProps = {
     style?: CSSProperties
@@ -52,9 +51,8 @@ const SearchBox = ({
                     width: fullWidth ? "calc(100% - 2px)" : "calc(100% - 20px)"
                 }}
             >
-                <input
-                    ref={mergeRefs(inputRef, stopPropagation)}
-                    className="lingo3d-unset"
+                <SelectInput
+                    ref={inputRef}
                     style={{ flexGrow: 1, paddingLeft: 4 }}
                     placeholder="Search..."
                     onInput={(e) => setText(e.currentTarget.value)}

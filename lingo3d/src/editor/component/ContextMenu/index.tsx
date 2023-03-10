@@ -3,8 +3,8 @@ import { Signal } from "@preact/signals"
 import { ComponentChildren } from "preact"
 import { createPortal } from "preact/compat"
 import { CONTEXT_MENU_ITEM_HEIGHT } from "../../../globals"
-import mergeRefs from "../../hooks/mergeRefs"
 import { stopPropagation } from "../../utils/stopPropagation"
+import SelectInput from "../SelectInput"
 
 const setFocus = (el: HTMLInputElement | null) => setTimeout(() => el?.focus())
 
@@ -53,9 +53,9 @@ const ContextMenu = ({
                 }}
             >
                 {input ? (
-                    <input
-                        ref={mergeRefs(setFocus, stopPropagation)}
-                        style={{ all: "unset", padding: 6 }}
+                    <SelectInput
+                        ref={setFocus}
+                        style={{ padding: 6 }}
                         placeholder={input}
                         onKeyDown={(e) => {
                             if (e.key !== "Enter" && e.key !== "Escape") return
