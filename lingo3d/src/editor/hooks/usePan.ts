@@ -1,5 +1,5 @@
-import { useEffect } from "preact/hooks"
-import useStopPropagation from "./useStopPropagation"
+import { useEffect, useRef } from "preact/hooks"
+import { stopPropagation } from "../utils/stopPropagation"
 
 export type PanEvent = {
     clientX: number
@@ -16,11 +16,13 @@ type Pan = {
 }
 
 export default ({ onPanStart, onPanEnd, onPan }: Pan = {}) => {
-    const elRef = useStopPropagation()
+    const elRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const el = elRef.current
         if (!el) return
+
+        stopPropagation(el)
 
         let panning = false
         let clientX = 0

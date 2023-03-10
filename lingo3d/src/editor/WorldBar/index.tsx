@@ -2,8 +2,7 @@ import AppBar from "../component/bars/AppBar"
 import useInitCSS from "../hooks/useInitCSS"
 import Controls from "./Controls"
 import useInitEditor from "../hooks/useInitEditor"
-import { useLayoutEffect } from "preact/hooks"
-import useStopPropagation from "../hooks/useStopPropagation"
+import { useLayoutEffect, useRef } from "preact/hooks"
 import { getManager } from "../../api/utils/getManager"
 import { getCameraComputed } from "../../states/useCameraComputed"
 import { getCameraList } from "../../states/useCameraList"
@@ -16,6 +15,7 @@ import { getSplitView, setSplitView } from "../../states/useSplitView"
 import usePane from "../Editor/usePane"
 import mergeRefs from "../hooks/mergeRefs"
 import { getUILayer, setUILayer } from "../../states/useUILayer"
+import { stopPropagation } from "../utils/stopPropagation"
 
 const Tabs = () => {
     useInitCSS()
@@ -23,7 +23,7 @@ const Tabs = () => {
 
     const splitView = useSyncState(getSplitView)
     const uiLayer = useSyncState(getUILayer)
-    const elRef = useStopPropagation()
+    const elRef = useRef<HTMLDivElement>(null)
     const [pane, setContainer] = usePane()
 
     useLayoutEffect(() => {
@@ -72,7 +72,7 @@ const Tabs = () => {
         >
             <AppBar style={{ gap: 4 }}>
                 <div
-                    ref={mergeRefs(elRef, setContainer)}
+                    ref={mergeRefs(elRef, setContainer, stopPropagation)}
                     style={{ marginLeft: -20 }}
                 />
                 <Switch

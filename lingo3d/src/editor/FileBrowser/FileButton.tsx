@@ -7,7 +7,7 @@ import useSyncState from "../hooks/useSyncState"
 import { getFileSelected, setFileSelected } from "../../states/useFileSelected"
 import drag, { setDragImage } from "../utils/drag"
 import FileIcon from "./icons/FileIcon"
-import useStopPropagation from "../hooks/useStopPropagation"
+import { stopPropagation } from "../utils/stopPropagation"
 
 const setDraggingItem = drag<File>((draggingItem, hitManager) => {
     const filetype = getExtensionType(draggingItem.name)
@@ -36,11 +36,10 @@ type Props = { file: File }
 
 const FileButton = ({ file }: Props) => {
     const fileSelected = useSyncState(getFileSelected)
-    const stopRef = useStopPropagation()
 
     return (
         <div
-            ref={stopRef}
+            ref={stopPropagation}
             style={{
                 width: 70,
                 height: 90,

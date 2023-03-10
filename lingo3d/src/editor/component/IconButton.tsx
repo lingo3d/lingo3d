@@ -1,6 +1,6 @@
 import { ComponentChildren } from "preact"
 import { APPBAR_HEIGHT } from "../../globals"
-import useStopPropagation from "../hooks/useStopPropagation"
+import { stopPropagation } from "../utils/stopPropagation"
 
 type IconButtonProps = {
     children?: ComponentChildren
@@ -17,11 +17,9 @@ const IconButton = ({
     outline,
     fill
 }: IconButtonProps) => {
-    const stopRef = useStopPropagation()
-
     return (
         <div
-            ref={stopRef}
+            ref={stopPropagation}
             onClick={disabled ? undefined : onClick}
             className="lingo3d-flexcenter"
             style={{

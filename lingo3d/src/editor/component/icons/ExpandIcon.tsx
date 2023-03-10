@@ -1,5 +1,5 @@
 import { CSSProperties } from "preact/compat"
-import useStopPropagation from "../../hooks/useStopPropagation"
+import { stopPropagation } from "../../utils/stopPropagation"
 
 type ExpandIconProps = {
     style?: CSSProperties
@@ -7,11 +7,9 @@ type ExpandIconProps = {
 }
 
 const ExpandIcon = ({ style, onClick }: ExpandIconProps) => {
-    const stopRef = useStopPropagation<SVGSVGElement>()
-
     return (
         <svg
-            ref={stopRef}
+            ref={stopPropagation}
             xmlns="http://www.w3.org/2000/svg"
             width="14"
             height="14"

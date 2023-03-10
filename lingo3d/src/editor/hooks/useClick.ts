@@ -1,12 +1,14 @@
-import { useEffect } from "preact/hooks"
-import useStopPropagation from "./useStopPropagation"
+import { useEffect, useRef } from "preact/hooks"
+import { stopPropagation } from "../utils/stopPropagation"
 
 export default (cb?: (e: MouseEvent) => void) => {
-    const elRef = useStopPropagation<HTMLDivElement>()
+    const elRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const el = elRef.current
         if (!el || !cb) return
+
+        stopPropagation(el)
 
         let downTime = 0
         let downX = 0

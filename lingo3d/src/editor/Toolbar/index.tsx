@@ -22,7 +22,6 @@ import openFolder from "../../api/files/openFolder"
 import exportJSON from "../../api/files/exportJSON"
 import JSONIcon from "./icons/JSONIcon"
 import useInitCSS from "../hooks/useInitCSS"
-import useStopPropagation from "../hooks/useStopPropagation"
 import { setEditorMode } from "../../states/useEditorMode"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
@@ -30,12 +29,11 @@ import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { getTransformControlsSpaceComputed } from "../../states/useTransformControlsSpaceComputed"
 import { setWorldPlay } from "../../states/useWorldPlay"
 import useInitEditor from "../hooks/useInitEditor"
+import { stopPropagation } from "../utils/stopPropagation"
 
 const Toolbar = () => {
     useInitCSS()
     useInitEditor()
-
-    const stopRef = useStopPropagation()
 
     const mode = useSyncState(getEditorModeComputed)
     const space = useSyncState(getTransformControlsSpaceComputed)
@@ -47,7 +45,7 @@ const Toolbar = () => {
 
     return (
         <div
-            ref={stopRef}
+            ref={stopPropagation}
             className="lingo3d-ui lingo3d-bg lingo3d-toolbar"
             style={{
                 width: 50,

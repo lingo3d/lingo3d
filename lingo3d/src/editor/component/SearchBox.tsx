@@ -1,5 +1,6 @@
-import { CSSProperties, useEffect, useState } from "preact/compat"
-import useStopPropagation from "../hooks/useStopPropagation"
+import { CSSProperties, useEffect, useRef, useState } from "preact/compat"
+import mergeRefs from "../hooks/mergeRefs"
+import { stopPropagation } from "../utils/stopPropagation"
 import CloseIcon from "./icons/CloseIcon"
 
 type SearchBoxProps = {
@@ -16,7 +17,7 @@ const SearchBox = ({
     clearOnChange
 }: SearchBoxProps) => {
     const [text, setText] = useState<string>()
-    const inputRef = useStopPropagation<HTMLInputElement>()
+    const inputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         setText("")
@@ -52,7 +53,7 @@ const SearchBox = ({
                 }}
             >
                 <input
-                    ref={inputRef}
+                    ref={mergeRefs(inputRef, stopPropagation)}
                     className="lingo3d-unset"
                     style={{ flexGrow: 1, paddingLeft: 4 }}
                     placeholder="Search..."

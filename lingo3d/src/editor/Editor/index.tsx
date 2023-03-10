@@ -6,7 +6,6 @@ import CloseableTab from "../component/tabs/CloseableTab"
 import AppBar from "../component/bars/AppBar"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import useInitCSS from "../hooks/useInitCSS"
-import useStopPropagation from "../hooks/useStopPropagation"
 import { useSignal } from "@preact/signals"
 import useSyncState from "../hooks/useSyncState"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
@@ -19,6 +18,7 @@ import SearchBox from "../component/SearchBox"
 import usePane from "./usePane"
 import mergeRefs from "../hooks/mergeRefs"
 import getStaticProperties from "../../display/utils/getStaticProperties"
+import { stopPropagation } from "../utils/stopPropagation"
 
 const Editor = () => {
     useInitCSS()
@@ -33,7 +33,6 @@ const Editor = () => {
         }
     }, [])
 
-    const stopRef = useStopPropagation()
     const [pane, setContainer] = usePane()
 
     const selectionTarget = useSyncState(getSelectionTarget)
@@ -116,7 +115,7 @@ const Editor = () => {
                     paddingLeft: 8,
                     paddingRight: 8
                 }}
-                ref={mergeRefs(stopRef, setContainer)}
+                ref={mergeRefs(stopPropagation, setContainer)}
             />
         </div>
     )

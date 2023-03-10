@@ -1,7 +1,6 @@
 import ObjectGroup, { ObjectName } from "./ObjectGroup"
 import { LIBRARY_WIDTH } from "../../globals"
 import useInitCSS from "../hooks/useInitCSS"
-import useStopPropagation from "../hooks/useStopPropagation"
 import AppBar from "../component/bars/AppBar"
 import Tab from "../component/tabs/Tab"
 import useInitEditor from "../hooks/useInitEditor"
@@ -9,6 +8,7 @@ import SearchBox from "../component/SearchBox"
 import { useMemo, useState } from "preact/hooks"
 import { useSignal } from "@preact/signals"
 import { GameObjectType } from "../../api/serializer/types"
+import { stopPropagation } from "../utils/stopPropagation"
 
 const objectNames = [
     { gameGraph: "joystick" },
@@ -67,7 +67,6 @@ const Library = ({ onDragStart, onDragEnd }: Props) => {
     useInitCSS()
     useInitEditor()
 
-    const stopRef = useStopPropagation()
     const [search, setSearch] = useState<string>()
     const selectedSignal = useSignal<string | undefined>(undefined)
 
@@ -85,7 +84,7 @@ const Library = ({ onDragStart, onDragEnd }: Props) => {
 
     return (
         <div
-            ref={stopRef}
+            ref={stopPropagation}
             className="lingo3d-ui lingo3d-bg lingo3d-library lingo3d-flexcol"
             style={{ width: LIBRARY_WIDTH, height: "100%" }}
         >

@@ -4,7 +4,7 @@ import { ComponentChildren } from "preact"
 import { createPortal } from "preact/compat"
 import { CONTEXT_MENU_ITEM_HEIGHT } from "../../../globals"
 import mergeRefs from "../../hooks/mergeRefs"
-import useStopPropagation from "../../hooks/useStopPropagation"
+import { stopPropagation } from "../../utils/stopPropagation"
 
 const setFocus = (el: HTMLInputElement | null) => setTimeout(() => el?.focus())
 
@@ -21,9 +21,6 @@ const ContextMenu = ({
     input,
     onInput
 }: ContextMenuProps) => {
-    const stopRef = useStopPropagation()
-    const inputStopRef = useStopPropagation()
-
     if (!positionSignal?.value) return null
 
     const height =
@@ -33,7 +30,7 @@ const ContextMenu = ({
 
     return createPortal(
         <div
-            ref={stopRef}
+            ref={stopPropagation}
             className="lingo3d-ui lingo3d-absfull"
             style={{ zIndex: 2 }}
             onContextMenu={(e) => e.preventDefault()}
@@ -57,7 +54,7 @@ const ContextMenu = ({
             >
                 {input ? (
                     <input
-                        ref={mergeRefs(setFocus, inputStopRef)}
+                        ref={mergeRefs(setFocus, stopPropagation)}
                         style={{ all: "unset", padding: 6 }}
                         placeholder={input}
                         onKeyDown={(e) => {
