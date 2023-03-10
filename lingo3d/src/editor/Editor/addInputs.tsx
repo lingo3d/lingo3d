@@ -33,6 +33,7 @@ import { isPoint } from "../../utils/isPoint"
 import executeIcon from "./icons/executeIcon"
 import { getOriginalInstance, PassthroughCallback } from "./createParams"
 import getStaticProperties from "../../display/utils/getStaticProperties"
+import { stopPropagation } from "../utils/stopPropagation"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -92,8 +93,8 @@ const initConnectorOut = (
     connection: Connection,
     xyz?: "x" | "y" | "z"
 ) => {
+    stopPropagation(connectorOut)
     connectorOut.draggable = true
-    connectorOut.onmousedown = (e) => e.stopPropagation()
     connectorOut.ondragstart = (e) => {
         e.stopPropagation()
         draggingItem = {

@@ -17,9 +17,11 @@ import { ConnectionDraggingItem, initConnectorIn } from "../Editor/addInputs"
 import addTargetInputs from "../Editor/addTargetInputs"
 import { getOriginalInstance } from "../Editor/createParams"
 import usePane from "../Editor/usePane"
+import mergeRefs from "../hooks/mergeRefs"
 import usePan from "../hooks/usePan"
 import useSyncState from "../hooks/useSyncState"
 import getDisplayName from "../utils/getDisplayName"
+import { stopPropagation } from "../utils/stopPropagation"
 import Bezier from "./Bezier"
 import GearIcon from "./icons/GearIcon"
 import convertToTemplateNodes from "./utils/convertToTemplateNodes"
@@ -162,9 +164,7 @@ const Node = memo(
                         <div
                             style={{ zIndex: 1 }}
                             ref={pressRef}
-                            onContextMenu={(e) => {
-                                e.stopPropagation()
-                                e.preventDefault()
+                            onContextMenu={() => {
                                 toggleRightClickPtr()
                                 emitSelectionTarget(manager, true)
                             }}
@@ -190,15 +190,10 @@ const Node = memo(
                         </div>
                     </div>
                     <div
-                        ref={setContainer}
+                        ref={mergeRefs(setContainer, stopPropagation)}
                         style={{ width: "100%" }}
-                        onMouseDown={(e) => {
-                            e.stopPropagation()
-                            emitSelectionTarget(manager, true)
-                        }}
+                        onMouseDown={() => emitSelectionTarget(manager, true)}
                         onContextMenu={(e) => {
-                            e.stopPropagation()
-                            e.preventDefault()
                             toggleRightClickPtr()
                             emitSelectionTarget(manager, true)
                         }}

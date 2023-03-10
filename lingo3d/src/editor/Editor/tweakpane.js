@@ -1,14 +1,15 @@
+import { handleBlur } from "../../engine/hotkeys"
 import { emitEditorEdit } from "../../events/onEditorEdit"
 
 export const downPtr = [false]
 
 const handleDown = (ev) => {
-    ev.stopPropagation()
+    handleBlur(ev)
     downPtr[0] = true
     emitEditorEdit("start")
 }
 const handleUp = (ev) => {
-    ev.stopPropagation()
+    handleBlur(ev)
     emitEditorEdit("end")
     queueMicrotask(() => (downPtr[0] = false))
 }

@@ -1,5 +1,6 @@
 import { Point, quadrant } from "@lincode/math"
 import { useMemo } from "preact/hooks"
+import { stopPropagation } from "../utils/stopPropagation"
 
 type BezierProps = {
     start?: Point
@@ -79,6 +80,7 @@ const Bezier = ({
 
     return (
         <svg
+            ref={stopPropagation}
             style={{
                 left: bezier.xMin,
                 top: bezier.yMin,

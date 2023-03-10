@@ -101,13 +101,8 @@ const Connection = memo(
                 }
                 onMouseOver={() => setOver(true)}
                 onMouseOut={() => setOver(false)}
-                onMouseDown={(e) => {
-                    e.stopPropagation()
-                    emitSelectionTarget(manager, true)
-                }}
-                onContextMenu={(e) => {
-                    e.stopPropagation()
-                    e.preventDefault()
+                onMouseDown={() => emitSelectionTarget(manager, true)}
+                onContextMenu={() => {
                     toggleRightClickPtr()
                     emitSelectionTarget(manager, true)
                 }}
