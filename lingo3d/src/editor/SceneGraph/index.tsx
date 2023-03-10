@@ -6,6 +6,8 @@ import AccordionTimelines from "./AccordionTimelines"
 import useInitEditor from "../hooks/useInitEditor"
 import { toggleRightClickPtr } from "../../api/mouse"
 import { stopPropagation } from "../utils/stopPropagation"
+import mergeRefs from "../hooks/mergeRefs"
+import { enableHotKeysOnElement } from "../../engine/hotkeys"
 
 const SceneGraph = () => {
     useInitCSS()
@@ -14,7 +16,7 @@ const SceneGraph = () => {
     return (
         <>
             <div
-                ref={stopPropagation}
+                ref={mergeRefs(stopPropagation, enableHotKeysOnElement)}
                 className="lingo3d-ui lingo3d-bg lingo3d-scenegraph"
                 onClick={() => emitSelectionTarget(undefined)}
                 onContextMenu={() => {
