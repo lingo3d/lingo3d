@@ -1,84 +1,121 @@
-import keyboard from "../api/keyboard"
 import Model from "../display/Model"
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
-import settings from "../api/settings"
 import Dummy from "../display/Dummy"
-import Cube from "../display/primitives/Cube"
-import { setAssetsPath } from "../api/assetsPath"
+import stateMachine from "./stateMachine"
+import { interpret } from "xstate"
+import keyboard from "../api/keyboard"
+import { createEffect, store } from "@lincode/reactivity"
 
+//create map model
 const map = new Model()
 map.src = "fairy.glb"
 map.scale = 30
 map.physics = "map"
-map.id = "hello"
 
+//create player dummy
 const player = new Dummy()
 player.src = "ready.glb"
+player.animations = {
+    idle: "animations/idle.fbx",
+    running: "animations/running.fbx",
+    runningBackwards: "animations/running-backwards.fbx",
+    jumping: "animations/falling.fbx",
+    flip: "animations/flip.fbx"
+}
 player.z = -100
 player.y = 2000
 player.physics = "character"
-player.rotationY = 90
-player.strideMove = true
-player.hitTarget = ["hello"]
-player.onHitStart = () => console.log("start")
-player.onHitEnd = () => console.log("end")
 
-const box = new Cube()
-box.z = -300
-box.y = 2000
-box.physics = true
-box.id = "hello"
-box.color = "red"
+//set player and map hit detection
+//useful for detecting when player has landed
+player.hitTarget = map
 
-const box2 = new Cube()
-box2.z = -300
-box2.y = 2100
-box2.physics = true
+//instantiate state machine
+const service = interpret(stateMachine)
 
-keyboard.onKeyPress = ({ keys }) => {
-    if (keys.has("Space")) {
-        player.jump()
+//when player hits map, aka when player lands
+player.onHitStart = (ev) => {
+    if (ev.target === map) {
+        console.log("landed")
+        service.send("JUMP_STOP")
     }
-    if (keys.has("Shift")) {
-        box.addLocalForceAtLocalPos(100, 100, 100)
-        // box.velocityY = 10
-        // box.velocityX = 10
-        // box.velocityZ = 10
-    }
-
-    if (keys.has("w")) player.strideForward = -5
-    else if (keys.has("s")) player.strideForward = 5
-    else player.strideForward = 0
-
-    if (keys.has("a")) player.strideRight = 5
-    else if (keys.has("d")) player.strideRight = -5
-    else player.strideRight = 0
 }
 
+//when player is airborn
+//useless for now
+player.onHitEnd = (ev) => {
+    if (ev.target === map) {
+        console.log("airborn")
+    }
+}
+
+//react-like state for poses such as idle, jumping, doubleJumping, running, etc
+const [setPose, getPose] = store("idle")
+
+//react-like effect that runs when getPose changes
+createEffect(() => {
+    const pose = getPose()
+
+    if (pose === "idle") {
+        player.animation = "idle"
+
+    } else if (pose === "jumping") {
+        player.animation = "jumping"
+        player.velocityY = 10
+
+    } else if (pose === "double_jumping") {
+        player.animation = "flip"
+        player.velocityY = 10
+
+        //wait for 600ms to end double jumping animation
+        const timeout = setTimeout(() => {
+            player.animation = "jumping"
+        }, 600)
+
+        return () => {
+            clearTimeout(timeout)
+        }
+    } else if (pose === "running") {
+        player.animation = "running"
+
+    } else if (pose === "runningBackwards") {
+        player.animation = "runningBackwards"
+    }
+}, [getPose])
+
+//send pose state from state machine to react-like effect
+service.onTransition((state) => {
+    if (state.changed) setPose(state.value as any)
+})
+service.start()
+
+//detect space key for jump
+keyboard.onKeyDown = (ev) => {
+    if (ev.keys.has("Space")) {
+        service.send("DOUBLE_JUMP_START")
+        service.send("JUMP_START")
+    }
+}
+
+//detect w or s keyup for idle
+keyboard.onKeyUp = (ev) => {
+    if (ev.key === "w" || ev.key === "s") service.send("RUN_STOP")
+}
+
+//detect w or s keypress for running
+keyboard.onKeyPress = (ev) => {
+    if (ev.keys.has("w")) {
+        player.moveForward(-5)
+        service.send("RUN_START")
+    }
+    else if (ev.keys.has("s")) {
+        player.moveForward(5)
+        service.send("RUN_BACKWARDS_START")
+    }
+}
+
+//camera
 const cam = new ThirdPersonCamera()
-cam.transition = true
 cam.append(player)
 cam.mouseControl = "drag"
 cam.active = true
-cam.lockTargetRotation = "dynamic-lock"
-cam.innerX = 50
-
-// const boxes = [
-//     { x: -1276.38, y: 2.63, z: -502.67 },
-//     { x: -1471.26, y: 2.63, z: -321.88 }
-// ].map(({ x, y, z }) => {
-//     const model = new Cube()
-//     model.x = x
-//     model.y = y
-//     model.z = z
-//     model.physics = true
-// })
-
-settings.skybox = [
-    "skybox/Left.png",
-    "skybox/Right.png",
-    "skybox/Up.png",
-    "skybox/Down.png",
-    "skybox/Front.png",
-    "skybox/Back.png"
-]
