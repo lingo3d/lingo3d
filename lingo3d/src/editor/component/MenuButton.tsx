@@ -6,7 +6,7 @@ type MenuItemProps = {
     children: string
 }
 
-const ContextMenuItem = ({ disabled, onClick, children }: MenuItemProps) => {
+const MenuButton = ({ disabled, onClick, children }: MenuItemProps) => {
     const [hover, setHover] = useState(false)
 
     return (
@@ -29,4 +29,4 @@ const ContextMenuItem = ({ disabled, onClick, children }: MenuItemProps) => {
         </div>
     )
 }
-export default ContextMenuItem
+export default MenuButton

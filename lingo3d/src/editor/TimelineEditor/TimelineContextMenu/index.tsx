@@ -9,7 +9,7 @@ import { emitTimelineClearKeyframe } from "../../../events/onTimelineClearKeyfra
 import { AnimationData } from "../../../interface/IAnimationManager"
 import unsafeGetValue from "../../../utils/unsafeGetValue"
 import ContextMenu from "../../component/ContextMenu"
-import ContextMenuItem from "../../component/ContextMenu/ContextMenuItem"
+import MenuButton from "../../component/MenuButton"
 import useSyncState from "../../hooks/useSyncState"
 import { getTimeline, setTimeline } from "../../../states/useTimeline"
 import {
@@ -61,7 +61,7 @@ const TimelineContextMenu = () => {
                     : undefined
             }
         >
-            <ContextMenuItem
+            <MenuButton
                 disabled={
                     timelineMenuSignal.value?.keyframe ||
                     !timelineData ||
@@ -80,8 +80,8 @@ const TimelineContextMenu = () => {
                 }}
             >
                 Add keyframe
-            </ContextMenuItem>
-            <ContextMenuItem
+            </MenuButton>
+            <MenuButton
                 disabled={!timelineMenuSignal.value?.keyframe}
                 onClick={() => {
                     const data: AnimationData = {}
@@ -99,8 +99,8 @@ const TimelineContextMenu = () => {
                 }}
             >
                 Copy keyframe
-            </ContextMenuItem>
-            <ContextMenuItem
+            </MenuButton>
+            <MenuButton
                 disabled={!dataCopied}
                 onClick={
                     dataCopied
@@ -127,8 +127,8 @@ const TimelineContextMenu = () => {
                 }
             >
                 Paste keyframe
-            </ContextMenuItem>
-            <ContextMenuItem
+            </MenuButton>
+            <MenuButton
                 disabled={!timelineMenuSignal.value?.keyframe}
                 onClick={() => {
                     emitTimelineClearKeyframe()
@@ -136,7 +136,7 @@ const TimelineContextMenu = () => {
                 }}
             >
                 Clear keyframe
-            </ContextMenuItem>
+            </MenuButton>
         </ContextMenu>
     )
 }

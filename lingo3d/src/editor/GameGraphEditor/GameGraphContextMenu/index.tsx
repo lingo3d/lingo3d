@@ -1,6 +1,6 @@
 import { GameObjectType } from "../../../api/serializer/types"
 import ContextMenu from "../../component/ContextMenu"
-import ContextMenuItem from "../../component/ContextMenu/ContextMenuItem"
+import MenuButton from "../../component/MenuButton"
 import gameGraphMenuSignal from "./gameGraphMenuSignal"
 
 const GameGraphContextMenu = () => {
@@ -25,7 +25,7 @@ const GameGraphContextMenu = () => {
                 }
             }
         >
-            <ContextMenuItem
+            <MenuButton
                 onClick={() => {
                     gameGraphMenuSignal.value = {
                         x: gameGraphMenuSignal.value?.x ?? 0,
@@ -35,7 +35,7 @@ const GameGraphContextMenu = () => {
                 }}
             >
                 Create node
-            </ContextMenuItem>
+            </MenuButton>
         </ContextMenu>
     )
 }

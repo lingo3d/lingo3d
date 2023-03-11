@@ -25,7 +25,7 @@ import { getTimeline, setTimeline } from "../../../states/useTimeline"
 import { getTimelineData } from "../../../states/useTimelineData"
 import Connector from "../../../visualScripting/Connector"
 import GameGraph from "../../../visualScripting/GameGraph"
-import ContextMenuItem from "../../component/ContextMenu/ContextMenuItem"
+import MenuButton from "../../component/MenuButton"
 import useSyncState from "../../hooks/useSyncState"
 import selectAllJointed from "../utils/selectAllJointed"
 import CreateJointItems from "./CreateJointItems"
@@ -49,7 +49,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
     const children: Array<ComponentChild> = []
     if (multipleSelectionTargets.size)
         children.push(
-            <ContextMenuItem
+            <MenuButton
                 disabled={multipleSelectionTargets.size === 1}
                 onClick={() => {
                     // createJoint("d6Joint")
@@ -62,11 +62,11 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 }}
             >
                 Create joint
-            </ContextMenuItem>
+            </MenuButton>
         )
     else if (selectionTarget instanceof Timeline)
         children.push(
-            <ContextMenuItem
+            <MenuButton
                 disabled={selectionTarget === timeline}
                 onClick={() => {
                     setTimeline(selectionTarget)
@@ -76,11 +76,11 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 {selectionTarget === timeline
                     ? "Already editing"
                     : "Edit Timeline"}
-            </ContextMenuItem>
+            </MenuButton>
         )
     else if (selectionTarget instanceof GameGraph)
         children.push(
-            <ContextMenuItem
+            <MenuButton
                 disabled={selectionTarget === gameGraph}
                 onClick={() => {
                     setGameGraph(selectionTarget)
@@ -90,14 +90,14 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 {selectionTarget === gameGraph
                     ? "Already editing"
                     : "Edit GameGraph"}
-            </ContextMenuItem>
+            </MenuButton>
         )
     else if (selectionTarget instanceof Connector) {
         //todo: connector context menu
     } else if (selectionTarget && !nativeTarget) {
         if (selectionTarget instanceof SpriteSheet)
             children.push(
-                <ContextMenuItem
+                <MenuButton
                     onClick={() => {
                         downloadBlob(
                             "spriteSheet.png",
@@ -107,12 +107,12 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                     }}
                 >
                     Save image
-                </ContextMenuItem>
+                </MenuButton>
             )
         else if (selectionTarget instanceof MeshAppendable) {
             if (selectionTarget instanceof PhysicsObjectManager)
                 children.push(
-                    <ContextMenuItem
+                    <MenuButton
                         onClick={() =>
                             (sceneGraphMenuSignal.value = {
                                 x: sceneGraphMenuSignal.value?.x ?? 0,
@@ -122,9 +122,9 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                         }
                     >
                         Search children
-                    </ContextMenuItem>,
+                    </MenuButton>,
 
-                    <ContextMenuItem
+                    <MenuButton
                         onClick={() => {
                             setSelectionFocus(
                                 selectionFocus === selectionTarget
@@ -138,9 +138,9 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                         {selectionFocus === selectionTarget
                             ? "Exit selected"
                             : "Enter selected"}
-                    </ContextMenuItem>,
+                    </MenuButton>,
 
-                    <ContextMenuItem
+                    <MenuButton
                         onClick={() => {
                             selectAllJointed(
                                 selectionTarget instanceof JointBase
@@ -155,10 +155,10 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                         }}
                     >
                         Select all jointed
-                    </ContextMenuItem>
+                    </MenuButton>
                 )
             children.push(
-                <ContextMenuItem
+                <MenuButton
                     onClick={() => {
                         selectionFrozen.has(selectionTarget)
                             ? removeSelectionFrozen(selectionTarget)
@@ -169,11 +169,11 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                     {selectionFrozen.has(selectionTarget)
                         ? "Unfreeze selection"
                         : "Freeze selection"}
-                </ContextMenuItem>
+                </MenuButton>
             )
         }
         children.push(
-            <ContextMenuItem
+            <MenuButton
                 disabled={!timelineData || selectionTarget.uuid in timelineData}
                 onClick={() => {
                     timeline?.mergeData({
@@ -185,12 +185,12 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 {timelineData && selectionTarget.uuid in timelineData
                     ? "Already in Timeline"
                     : "Add to Timeline"}
-            </ContextMenuItem>
+            </MenuButton>
         )
     }
     if (!selectionTarget)
         children.push(
-            <ContextMenuItem
+            <MenuButton
                 disabled={!selectionFrozen.size}
                 onClick={() => {
                     clearSelectionFrozen()
@@ -198,9 +198,9 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 }}
             >
                 Unfreeze all
-            </ContextMenuItem>,
+            </MenuButton>,
 
-            <ContextMenuItem
+            <MenuButton
                 disabled={!selectionFocus}
                 onClick={() => {
                     setSelectionFocus(undefined)
@@ -209,11 +209,11 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 }}
             >
                 Exit all
-            </ContextMenuItem>
+            </MenuButton>
         )
     else
         children.push(
-            <ContextMenuItem
+            <MenuButton
                 disabled={!selectionTarget}
                 onClick={() => {
                     sceneGraphMenuSignal.value = undefined
@@ -221,7 +221,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 }}
             >
                 Delete selected
-            </ContextMenuItem>
+            </MenuButton>
         )
 
     return <>{children}</>

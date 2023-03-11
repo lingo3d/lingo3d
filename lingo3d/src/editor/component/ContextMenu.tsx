@@ -2,8 +2,8 @@ import { Point } from "@lincode/math"
 import { Signal } from "@preact/signals"
 import { ComponentChildren } from "preact"
 import { createPortal, useLayoutEffect, useRef, useState } from "preact/compat"
-import { stopPropagation } from "../../utils/stopPropagation"
-import TextOptionsInput from "../TextOptionsInput"
+import { stopPropagation } from "../utils/stopPropagation"
+import TextOptionsInput from "./TextOptionsInput"
 
 interface ContextMenuProps {
     positionSignal?: Signal<Point | undefined>
