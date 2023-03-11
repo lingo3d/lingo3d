@@ -58,6 +58,7 @@ const SearchBox = ({
                     style={{ flexGrow: 1, paddingLeft: 4 }}
                     placeholder="Search..."
                     textSignal={textSignal}
+                    inputPadding={6}
                 />
                 <div
                     className="lingo3d-flexcenter"

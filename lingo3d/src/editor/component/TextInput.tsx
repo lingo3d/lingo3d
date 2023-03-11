@@ -53,7 +53,7 @@ const TextInput = ({
                     paddingLeft: inputPadding,
                     paddingRight: inputPadding,
                     width: "100%",
-                    height: "100"
+                    height: "100%"
                 }}
             >
                 <input
