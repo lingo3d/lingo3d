@@ -59,7 +59,12 @@ const TextOptionsInput = ({
                     <div style={{ height: 10 }} />
                     <div style={{ width: "100%" }}>
                         {filteredOptions.map((option) => (
-                            <MenuButton key={option}>{option}</MenuButton>
+                            <MenuButton
+                                key={option}
+                                onClick={() => onEnter?.(option)}
+                            >
+                                {option}
+                            </MenuButton>
                         ))}
                     </div>
                 </>
