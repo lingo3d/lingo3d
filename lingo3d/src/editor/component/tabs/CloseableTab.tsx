@@ -1,6 +1,6 @@
 import CloseIcon from "../icons/CloseIcon"
 import { TabProps } from "./Tab"
-import IconButton from "../IconButton"
+import AppBarButton from "../AppBarButton"
 import { Signal } from "@preact/signals"
 import { useEffect, useLayoutEffect } from "preact/hooks"
 
@@ -55,12 +55,12 @@ const CloseableTab = ({
                 {children}
             </div>
             <div style={{ width: 4 }} />
-            <IconButton
+            <AppBarButton
                 disabled={!onClose}
                 onClick={() => onClose?.(selectedSignal.value === id)}
             >
                 <CloseIcon />
-            </IconButton>
+            </AppBarButton>
         </div>
     )
 }

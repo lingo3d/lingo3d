@@ -1,5 +1,5 @@
 import AppBar from "../component/bars/AppBar"
-import IconButton from "../component/IconButton"
+import AppBarButton from "../component/AppBarButton"
 import useSyncState from "../hooks/useSyncState"
 import { getTimeline } from "../../states/useTimeline"
 import {
@@ -33,7 +33,7 @@ const Controls = () => {
     return (
         <AppBar noPadding>
             {paused ? (
-                <IconButton
+                <AppBarButton
                     outline
                     disabled={!timeline}
                     onClick={
@@ -48,9 +48,9 @@ const Controls = () => {
                     }
                 >
                     <PlayIcon />
-                </IconButton>
+                </AppBarButton>
             ) : (
-                <IconButton
+                <AppBarButton
                     outline
                     disabled={!timeline}
                     onClick={
@@ -63,39 +63,39 @@ const Controls = () => {
                     }
                 >
                     <PauseIcon />
-                </IconButton>
+                </AppBarButton>
             )}
 
-            <IconButton
+            <AppBarButton
                 outline
                 disabled={!timeline}
                 onClick={decreaseTimelineFrame}
             >
                 <PrevFrameIcon />
-            </IconButton>
-            <IconButton
+            </AppBarButton>
+            <AppBarButton
                 outline
                 disabled={!timeline}
                 onClick={increaseTimelineFrame}
             >
                 <NextFrameIcon />
-            </IconButton>
+            </AppBarButton>
 
-            <IconButton
+            <AppBarButton
                 outline
                 disabled={!timeline}
                 onClick={firstTimelineFrame}
             >
                 <FirstFrameIcon />
-            </IconButton>
-            <IconButton
+            </AppBarButton>
+            <AppBarButton
                 outline
                 disabled={!timeline}
                 onClick={lastTimelineFrame}
             >
                 <LastFrameIcon />
-            </IconButton>
-            <IconButton
+            </AppBarButton>
+            <AppBarButton
                 outline
                 disabled={!timeline}
                 onClick={
@@ -116,14 +116,14 @@ const Controls = () => {
                         background: record ? "red" : "white"
                     }}
                 />
-            </IconButton>
-            <IconButton
+            </AppBarButton>
+            <AppBarButton
                 outline
                 disabled={!timeline}
                 onClick={() => setTimelineMute(!mute)}
             >
                 {mute ? <MuteIcon /> : <AudioIcon />}
-            </IconButton>
+            </AppBarButton>
         </AppBar>
     )
 }

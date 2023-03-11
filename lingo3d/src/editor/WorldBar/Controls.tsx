@@ -1,4 +1,4 @@
-import IconButton from "../component/IconButton"
+import AppBarButton from "../component/AppBarButton"
 import PlayIcon from "../component/icons/PlayIcon"
 import PauseIcon from "../component/icons/PauseIcon"
 import useSyncState from "../hooks/useSyncState"
@@ -10,20 +10,20 @@ const Controls = () => {
     return (
         <div style={{ display: "flex", gap: 10 }}>
             <div style={{ display: "flex" }}>
-                <IconButton
+                <AppBarButton
                     fill
                     disabled={play}
                     onClick={() => setWorldPlay(true)}
                 >
                     <PlayIcon />
-                </IconButton>
-                <IconButton
+                </AppBarButton>
+                <AppBarButton
                     fill
                     disabled={!play}
                     onClick={() => setWorldPlay(false)}
                 >
                     <PauseIcon />
-                </IconButton>
+                </AppBarButton>
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
 import { APPBAR_HEIGHT } from "../../globals"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import TitleBar from "../component/bars/TitleBar"
-import IconButton from "../component/IconButton"
+import AppBarButton from "../component/AppBarButton"
 import deleteSelected from "../../engine/hotkeys/deleteSelected"
 import useSyncState from "../hooks/useSyncState"
 import DeleteIcon from "./icons/DeleteIcon"
@@ -15,12 +15,12 @@ const AccordionTimelines = () => {
             style={{ maxHeight: 200 - APPBAR_HEIGHT }}
         >
             <TitleBar title="timelines">
-                <IconButton
+                <AppBarButton
                     disabled={!selectionTarget}
                     onClick={deleteSelected}
                 >
                     <DeleteIcon />
-                </IconButton>
+                </AppBarButton>
             </TitleBar>
             <div style={{ overflow: "scroll", flexGrow: 1 }}></div>
         </div>
