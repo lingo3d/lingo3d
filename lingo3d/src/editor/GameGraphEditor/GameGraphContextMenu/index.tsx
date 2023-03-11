@@ -1,7 +1,9 @@
-import { rightClickPtr } from "../../../api/mouse"
+import createObject from "../../../api/serializer/createObject"
 import { GameObjectType } from "../../../api/serializer/types"
+import { getGameGraph } from "../../../states/useGameGraph"
 import ContextMenu from "../../component/ContextMenu"
 import MenuButton from "../../component/MenuButton"
+import { getStagePosition } from "../Stage/stageSignals"
 import gameGraphMenuSignal from "./gameGraphMenuSignal"
 
 const GameGraphContextMenu = () => {
@@ -12,8 +14,16 @@ const GameGraphContextMenu = () => {
                 gameGraphMenuSignal.value?.create && {
                     label: "Node name",
                     onInput: (value) => {
-                        console.log(value)
-                        console.log(gameGraphMenuSignal.value)
+                        const gameGraph = getGameGraph()!
+                        const manager = createObject(value as GameObjectType)
+                        gameGraph.append(manager)
+                        const { x, y } = gameGraphMenuSignal.value!
+                        gameGraph.mergeData({
+                            [manager.uuid]: {
+                                type: "node",
+                                ...getStagePosition(x, y)
+                            }
+                        })
                     },
                     options: [
                         "incrementNode",
