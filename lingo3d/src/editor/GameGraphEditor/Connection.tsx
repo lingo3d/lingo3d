@@ -1,5 +1,3 @@
-import { Point } from "@lincode/math"
-import { RefObject } from "preact"
 import { memo } from "preact/compat"
 import { useEffect, useLayoutEffect, useMemo, useState } from "preact/hooks"
 import { getAppendables } from "../../api/core/Appendable"
@@ -12,19 +10,17 @@ import Connector from "../../visualScripting/Connector"
 import useSyncState from "../hooks/useSyncState"
 import Bezier from "./Bezier"
 import { onNodeMove } from "./Node"
+import { getStagePosition } from "./stageSignals"
 
 type ConnectionProps = {
     uuid: string
-    getPositionRef: RefObject<
-        (e: { clientX: number; clientY: number }) => Point
-    >
 }
 
 const formatFrom = (manager: Connector) =>
     `${manager.from} ${manager.fromProp}${manager.xyz ? `-${manager.xyz}` : ""}`
 
 const Connection = memo(
-    ({ uuid, getPositionRef }: ConnectionProps) => {
+    ({ uuid }: ConnectionProps) => {
         const [start, setStart] = useState({ x: 0, y: 0 })
         const [end, setEnd] = useState({ x: 0, y: 0 })
         const [refresh, setRefresh] = useState({})
@@ -72,13 +68,13 @@ const Connection = memo(
                 const boundsTo = connectorTo.getBoundingClientRect()
 
                 setStart(
-                    getPositionRef.current!({
+                    getStagePosition({
                         clientX: boundsFrom.left + boundsFrom.width * 0.5,
                         clientY: boundsFrom.top + boundsFrom.height * 0.5
                     })
                 )
                 setEnd(
-                    getPositionRef.current!({
+                    getStagePosition({
                         clientX: boundsTo.left + boundsTo.width * 0.5,
                         clientY: boundsTo.top + boundsTo.height * 0.5
                     })

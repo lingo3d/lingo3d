@@ -1,56 +1,44 @@
-import { useState, useMemo, useEffect } from "preact/hooks"
+import { useEffect } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import { onDispose } from "../../events/onDispose"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getGameGraph } from "../../states/useGameGraph"
 import { getGameGraphData } from "../../states/useGameGraphData"
-import throttleFrameLeading from "../../utils/throttleFrameLeading"
 import Connector, {
     managerConnectorsMap
 } from "../../visualScripting/Connector"
 import treeContext from "../component/treeItems/treeContext"
 import mergeRefs from "../hooks/mergeRefs"
-import useLatest from "../hooks/useLatest"
 import usePan from "../hooks/usePan"
 import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
 import Connection from "./Connection"
 import gameGraphMenuSignal from "./GameGraphContextMenu/gameGraphMenuSignal"
 import Node from "./Node"
+import {
+    zoomSignal,
+    boundsSignal,
+    txSignal,
+    tySignal,
+    originSignal,
+    getStagePosition
+} from "./stageSignals"
 
 type Props = {
     onEdit?: (manager: Appendable) => void
 }
 
 const Stage = ({ onEdit }: Props) => {
-    const [tx, setTx] = useState(0)
-    const [ty, setTy] = useState(0)
-    const [zoom, setZoom] = useState(0.75)
-    const zoomRef = useLatest(zoom)
-    const [containerRef, { width, height }] = useResizeObserver()
-    const originX = width * 0.5
-    const originY = height * 0.5
+    const [containerRef] = useResizeObserver(() => {
+        boundsSignal.value = containerRef.current!.getBoundingClientRect()
+    })
     const pressRef = usePan({
         onPanStart: () => emitSelectionTarget(undefined),
         onPan: ({ deltaX, deltaY }) => {
-            setTx((tx) => tx + deltaX)
-            setTy((ty) => ty + deltaY)
+            txSignal.value += deltaX
+            tySignal.value += deltaY
         }
     })
-    const getContainerBounds = useMemo(
-        () =>
-            throttleFrameLeading(() =>
-                containerRef.current!.getBoundingClientRect()
-            ),
-        []
-    )
-    const getPosition = (e: { clientX: number; clientY: number }) => {
-        const bounds = getContainerBounds()
-        const x = (e.clientX - bounds.left - tx - originX) / zoom + originX
-        const y = (e.clientY - bounds.top - ty - originY) / zoom + originY
-        return { x, y }
-    }
-    const getPositionRef = useLatest(getPosition)
 
     const [gameGraphData] = useSyncState(getGameGraphData)
 
@@ -78,33 +66,47 @@ const Stage = ({ onEdit }: Props) => {
             onWheel={(e) => {
                 e.preventDefault()
                 const scale = Math.min(
-                    Math.max(zoom - e.deltaY * 0.001, 0.1),
+                    Math.max(zoomSignal.value - e.deltaY * 0.001, 0.1),
                     1
                 )
-                setZoom(scale)
-
-                const bounds = getContainerBounds()
 
                 const xOld =
-                    ((e.clientX - bounds.left - tx - originX) / zoom +
-                        originX) *
+                    ((e.clientX -
+                        boundsSignal.value.left -
+                        txSignal.value -
+                        originSignal.value.x) /
+                        zoomSignal.value +
+                        originSignal.value.x) *
                     scale
                 const x =
-                    ((e.clientX - bounds.left - tx - originX) / scale +
-                        originX) *
+                    ((e.clientX -
+                        boundsSignal.value.left -
+                        txSignal.value -
+                        originSignal.value.x) /
+                        scale +
+                        originSignal.value.x) *
                     scale
-
-                setTx(tx + x - xOld)
+                txSignal.value += x - xOld
 
                 const yOld =
-                    ((e.clientY - bounds.top - ty - originY) / zoom + originY) *
+                    ((e.clientY -
+                        boundsSignal.value.top -
+                        tySignal.value -
+                        originSignal.value.y) /
+                        zoomSignal.value +
+                        originSignal.value.y) *
                     scale
                 const y =
-                    ((e.clientY - bounds.top - ty - originY) / scale +
-                        originY) *
+                    ((e.clientY -
+                        boundsSignal.value.top -
+                        tySignal.value -
+                        originSignal.value.y) /
+                        scale +
+                        originSignal.value.y) *
                     scale
+                tySignal.value += y - yOld
 
-                setTy(ty + y - yOld)
+                zoomSignal.value = scale
             }}
             onDragOver={(e) => {
                 e.preventDefault()
@@ -113,7 +115,7 @@ const Stage = ({ onEdit }: Props) => {
                 getGameGraph()!.mergeData({
                     [treeContext.draggingItem.uuid]: {
                         type: "node",
-                        ...getPosition(e)
+                        ...getStagePosition(e)
                     }
                 })
             }}
@@ -124,10 +126,10 @@ const Stage = ({ onEdit }: Props) => {
             <div
                 style={{
                     position: "absolute",
-                    width,
-                    height,
-                    transform: `translate(${tx}px, ${ty}px) scale(${zoom})`,
-                    transformOrigin: `${originX}px ${originY}px`
+                    width: boundsSignal.value.width,
+                    height: boundsSignal.value.height,
+                    transform: `translate(${txSignal.value}px, ${tySignal.value}px) scale(${zoomSignal.value})`,
+                    transformOrigin: `${originSignal.value.x}px ${originSignal.value.y}px`
                 }}
             >
                 {Object.entries(gameGraphData).map(([uuid, data]) =>
@@ -136,16 +138,10 @@ const Stage = ({ onEdit }: Props) => {
                             key={uuid}
                             uuid={uuid}
                             data={data}
-                            getPositionRef={getPositionRef}
-                            zoomRef={zoomRef}
                             onEdit={onEdit}
                         />
                     ) : (
-                        <Connection
-                            key={uuid}
-                            uuid={uuid}
-                            getPositionRef={getPositionRef}
-                        />
+                        <Connection key={uuid} uuid={uuid} />
                     )
                 )}
             </div>

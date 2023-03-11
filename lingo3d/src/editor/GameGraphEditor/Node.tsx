@@ -1,6 +1,6 @@
 import { event } from "@lincode/events"
 import { Point } from "@lincode/math"
-import { memo, RefObject } from "preact/compat"
+import { memo } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
@@ -24,6 +24,7 @@ import getDisplayName from "../utils/getDisplayName"
 import { stopPropagation } from "../utils/stopPropagation"
 import Bezier from "./Bezier"
 import GearIcon from "./icons/GearIcon"
+import { getStagePosition, zoomSignal } from "./stageSignals"
 import convertToTemplateNodes from "./utils/convertToTemplateNodes"
 import createConnector from "./utils/createConnector"
 
@@ -32,17 +33,13 @@ let panningUUID: string | undefined
 type Props = {
     uuid: string
     data: GameGraphNode
-    getPositionRef: RefObject<
-        (e: { clientX: number; clientY: number }) => Point
-    >
-    zoomRef: RefObject<number>
     onEdit?: (manager: Appendable) => void
 }
 
 export const [emitNodeMove, onNodeMove] = event<string>()
 
 const Node = memo(
-    ({ uuid, data, getPositionRef, zoomRef, onEdit }: Props) => {
+    ({ uuid, data, onEdit }: Props) => {
         const manager = useMemo(() => uuidMap.get(uuid)!, [])
         const displayName = useMemo(() => getDisplayName(manager), [])
         const pressRef = usePan({
@@ -50,8 +47,8 @@ const Node = memo(
                 getGameGraph()!.mergeData({
                     [uuid]: {
                         type: "node",
-                        x: data.x + e.deltaX / zoomRef.current!,
-                        y: data.y + e.deltaY / zoomRef.current!
+                        x: data.x + e.deltaX / zoomSignal.value,
+                        y: data.y + e.deltaY / zoomSignal.value
                     }
                 })
                 emitNodeMove(uuid)
@@ -109,9 +106,8 @@ const Node = memo(
                 manager,
                 getIncludeKeys(manager),
                 {
-                    onDragStart: (e) =>
-                        setBezierStart(getPositionRef.current!(e)),
-                    onDrag: (e) => setBezierEnd(getPositionRef.current!(e)),
+                    onDragStart: (e) => setBezierStart(getStagePosition(e)),
+                    onDrag: (e) => setBezierEnd(getStagePosition(e)),
                     onDragEnd: () => {
                         setBezierStart(undefined)
                         setBezierEnd(undefined)
