@@ -68,16 +68,16 @@ const Connection = memo(
                 const boundsTo = connectorTo.getBoundingClientRect()
 
                 setStart(
-                    getStagePosition({
-                        clientX: boundsFrom.left + boundsFrom.width * 0.5,
-                        clientY: boundsFrom.top + boundsFrom.height * 0.5
-                    })
+                    getStagePosition(
+                        boundsFrom.left + boundsFrom.width * 0.5,
+                        boundsFrom.top + boundsFrom.height * 0.5
+                    )
                 )
                 setEnd(
-                    getStagePosition({
-                        clientX: boundsTo.left + boundsTo.width * 0.5,
-                        clientY: boundsTo.top + boundsTo.height * 0.5
-                    })
+                    getStagePosition(
+                        boundsTo.left + boundsTo.width * 0.5,
+                        boundsTo.top + boundsTo.height * 0.5
+                    )
                 )
             })
             return () => {

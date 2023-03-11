@@ -115,7 +115,7 @@ const Stage = ({ onEdit }: Props) => {
                 getGameGraph()!.mergeData({
                     [treeContext.draggingItem.uuid]: {
                         type: "node",
-                        ...getStagePosition(e)
+                        ...getStagePosition(e.clientX, e.clientY)
                     }
                 })
             }}

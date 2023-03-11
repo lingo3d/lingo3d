@@ -106,8 +106,10 @@ const Node = memo(
                 manager,
                 getIncludeKeys(manager),
                 {
-                    onDragStart: (e) => setBezierStart(getStagePosition(e)),
-                    onDrag: (e) => setBezierEnd(getStagePosition(e)),
+                    onDragStart: (e) =>
+                        setBezierStart(getStagePosition(e.clientX, e.clientY)),
+                    onDrag: (e) =>
+                        setBezierEnd(getStagePosition(e.clientX, e.clientY)),
                     onDragEnd: () => {
                         setBezierStart(undefined)
                         setBezierEnd(undefined)

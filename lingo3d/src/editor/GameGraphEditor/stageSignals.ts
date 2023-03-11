@@ -9,16 +9,16 @@ export const txSignal = signal(0)
 export const tySignal = signal(0)
 export const zoomSignal = signal(0.75)
 
-export const getStagePosition = (e: { clientX: number; clientY: number }) => {
+export const getStagePosition = (clientX: number, clientY: number) => {
     const x =
-        (e.clientX -
+        (clientX -
             boundsSignal.value.left -
             txSignal.value -
             originSignal.value.x) /
             zoomSignal.value +
         originSignal.value.x
     const y =
-        (e.clientY -
+        (clientY -
             boundsSignal.value.top -
             tySignal.value -
             originSignal.value.y) /
