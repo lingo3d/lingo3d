@@ -29,32 +29,37 @@ const TimelineContextMenu = () => {
         <ContextMenu
             positionSignal={timelineMenuSignal}
             input={
-                timelineMenuSignal.value?.create &&
-                (timelineMenuSignal.value.create === "audio"
-                    ? "Audio src"
-                    : "Timeline name")
-            }
-            onInput={(value) => {
-                if (timelineMenuSignal.value?.create === "audio") {
-                    const timeline = getTimeline()
-                    if (!timeline) return
+                timelineMenuSignal.value?.create === "audio"
+                    ? {
+                          label: "Audio src",
+                          onInput: (value) => {
+                              const timeline = getTimeline()
+                              if (!timeline) return
 
-                    const audio = new TimelineAudio()
-                    audio.name = value
-                    if (getExtensionType(value) === "audio") audio.src = value
-                    timeline.mergeData({ [audio.uuid]: {} })
-                    timeline.append(audio)
-                    //todo: refactor sceneGraphExpanded to make below work
-                    // setSceneGraphExpanded(new Set([timeline.outerObject3d]))
-                    emitSelectionTarget(audio)
-                    return
-                }
-                const timeline = new Timeline()
-                timeline.name = value
-                timeline.data = {}
-                setTimeline(timeline)
-                emitSelectionTarget(timeline)
-            }}
+                              const audio = new TimelineAudio()
+                              audio.name = value
+                              if (getExtensionType(value) === "audio")
+                                  audio.src = value
+                              timeline.mergeData({ [audio.uuid]: {} })
+                              timeline.append(audio)
+                              //todo: refactor sceneGraphExpanded to make below work
+                              // setSceneGraphExpanded(new Set([timeline.outerObject3d]))
+                              emitSelectionTarget(audio)
+                          }
+                      }
+                    : timelineMenuSignal.value?.create === "timeline"
+                    ? {
+                          label: "Timeline name",
+                          onInput: (value) => {
+                              const timeline = new Timeline()
+                              timeline.name = value
+                              timeline.data = {}
+                              setTimeline(timeline)
+                              emitSelectionTarget(timeline)
+                          }
+                      }
+                    : undefined
+            }
         >
             <ContextMenuItem
                 disabled={

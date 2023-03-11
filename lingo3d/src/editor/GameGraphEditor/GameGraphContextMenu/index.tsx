@@ -6,10 +6,14 @@ const GameGraphContextMenu = () => {
     return (
         <ContextMenu
             positionSignal={gameGraphMenuSignal}
-            input={gameGraphMenuSignal.value?.create && "Node name"}
-            onInput={(value) => {
-                console.log(value)
-            }}
+            input={
+                gameGraphMenuSignal.value?.create && {
+                    label: "Node name",
+                    onInput: (value) => {
+                        console.log(value)
+                    }
+                }
+            }
         >
             <ContextMenuItem
                 onClick={() => {

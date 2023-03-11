@@ -25,21 +25,21 @@ const TextOptionsInput = ({
     const optionsRef = useLatest(options)
     const textSignal = useSignal("")
 
-    // useEffect(() => {
-    //     const options = optionsRef.current
-    //     if (!options || !textSignal.value) return
+    useEffect(() => {
+        const options = optionsRef.current
+        if (!options || !textSignal.value) return
 
-    //     const timeout = setTimeout(() => {
-    //         console.log(
-    //             options.filter((key) =>
-    //                 key.toLowerCase().includes(textSignal.value.toLowerCase())
-    //             )
-    //         )
-    //     })
-    //     return () => {
-    //         clearTimeout(timeout)
-    //     }
-    // }, [textSignal.value])
+        const timeout = setTimeout(() => {
+            console.log(
+                options.filter((key) =>
+                    key.toLowerCase().includes(textSignal.value.toLowerCase())
+                )
+            )
+        })
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [textSignal.value])
 
     return (
         <TextInput

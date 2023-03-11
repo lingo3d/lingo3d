@@ -40,11 +40,12 @@ const SceneGraphContextMenu = () => {
     return (
         <ContextMenu
             positionSignal={sceneGraphMenuSignal}
-            input={sceneGraphMenuSignal.value.search && "Child name"}
-            onInput={(value) =>
-                sceneGraphMenuSignal.value?.search &&
-                selectionTarget &&
-                search(value, selectionTarget)
+            input={
+                sceneGraphMenuSignal.value.search &&
+                selectionTarget && {
+                    label: "Child name",
+                    onInput: (value) => search(value, selectionTarget)
+                }
             }
         >
             <MenuItems

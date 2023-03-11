@@ -9,16 +9,16 @@ import TextOptionsInput from "../TextOptionsInput"
 interface ContextMenuProps {
     positionSignal?: Signal<Point | undefined>
     children?: ComponentChildren
-    input?: string | false
-    onInput?: (val: string) => void
+    input?:
+        | {
+              label?: string
+              onInput?: (val: string) => void
+              options?: Array<string>
+          }
+        | false
 }
 
-const ContextMenu = ({
-    positionSignal,
-    children,
-    input,
-    onInput
-}: ContextMenuProps) => {
+const ContextMenu = ({ positionSignal, children, input }: ContextMenuProps) => {
     if (!positionSignal?.value) return null
 
     const height =
@@ -54,9 +54,10 @@ const ContextMenu = ({
                     <TextOptionsInput
                         autoFocus
                         style={{ padding: 6 }}
-                        placeholder={input}
+                        placeholder={input.label}
+                        options={input.options}
                         onEnter={(value) => {
-                            onInput?.(value)
+                            input.onInput?.(value)
                             positionSignal.value = undefined
                         }}
                         onEscape={() => (positionSignal.value = undefined)}
