@@ -4,9 +4,7 @@ import { ComponentChildren } from "preact"
 import { createPortal } from "preact/compat"
 import { CONTEXT_MENU_ITEM_HEIGHT } from "../../../globals"
 import { stopPropagation } from "../../utils/stopPropagation"
-import SelectInput from "../SelectInput"
-
-const setFocus = (el: HTMLInputElement | null) => setTimeout(() => el?.focus())
+import TextOptionsInput from "../TextOptionsInput"
 
 interface ContextMenuProps {
     positionSignal?: Signal<Point | undefined>
@@ -53,16 +51,15 @@ const ContextMenu = ({
                 }}
             >
                 {input ? (
-                    <SelectInput
-                        ref={setFocus}
+                    <TextOptionsInput
+                        autoFocus
                         style={{ padding: 6 }}
                         placeholder={input}
-                        onKeyDown={(e) => {
-                            if (e.key !== "Enter" && e.key !== "Escape") return
-                            e.key === "Enter" &&
-                                onInput?.(e.currentTarget.value)
+                        onEnter={(value) => {
+                            onInput?.(value)
                             positionSignal.value = undefined
                         }}
+                        onEscape={() => (positionSignal.value = undefined)}
                     />
                 ) : (
                     children

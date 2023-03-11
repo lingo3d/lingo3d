@@ -7,10 +7,30 @@ type Props = {
     className?: string
     placeholder?: string
     textSignal?: Signal<string>
+    autoFocus?: boolean
+    onEnter?: (value: string) => void
+    onEscape?: (value: string) => void
 }
 
-const TextInput = ({ style, className, placeholder, textSignal }: Props) => {
+const TextInput = ({
+    style,
+    className,
+    placeholder,
+    textSignal,
+    autoFocus,
+    onEnter,
+    onEscape
+}: Props) => {
     const inputRef = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+        const el = inputRef.current
+        if (!autoFocus || !el) return
+        const timeout = setTimeout(() => el.focus())
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [autoFocus])
 
     useEffect(() => {
         if (textSignal?.value || !inputRef.current) return
@@ -31,6 +51,11 @@ const TextInput = ({ style, className, placeholder, textSignal }: Props) => {
                 onInput={(e) =>
                     textSignal && (textSignal.value = e.currentTarget.value)
                 }
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") onEnter?.(textSignal?.value ?? "")
+                    else if (e.key === "Escape")
+                        onEscape?.(textSignal?.value ?? "")
+                }}
             />
         </div>
     )
