@@ -142,6 +142,6 @@ export default mouse
 export const rightClickPtr: [Point | undefined] = [undefined]
 export const toggleRightClickPtr = (x: number, y: number) => {
     rightClickPtr[0] = new Point(x, y)
-    setTimeout(() => (rightClickPtr[0] = undefined), 100)
+    setTimeout(() => (rightClickPtr[0] = undefined), 10)
 }
 mouseEvents.on("rightClick", (e) => toggleRightClickPtr(e.clientX, e.clientY))

@@ -24,7 +24,7 @@ import getDisplayName from "../utils/getDisplayName"
 import { stopPropagation } from "../utils/stopPropagation"
 import Bezier from "./Bezier"
 import GearIcon from "./icons/GearIcon"
-import { getStagePosition, zoomSignal } from "./stageSignals"
+import { getStagePosition, zoomSignal } from "./Stage/stageSignals"
 import convertToTemplateNodes from "./utils/convertToTemplateNodes"
 import createConnector from "./utils/createConnector"
 

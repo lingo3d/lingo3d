@@ -10,7 +10,7 @@ import Connector from "../../visualScripting/Connector"
 import useSyncState from "../hooks/useSyncState"
 import Bezier from "./Bezier"
 import { onNodeMove } from "./Node"
-import { getStagePosition } from "./stageSignals"
+import { getStagePosition } from "./Stage/stageSignals"
 
 type ConnectionProps = {
     uuid: string
