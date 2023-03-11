@@ -12,6 +12,7 @@ type Props = {
     onEnter?: (value: string) => void
     onEscape?: (value: string) => void
     children?: ComponentChild
+    inputPadding?: number
 }
 
 const TextInput = ({
@@ -22,7 +23,8 @@ const TextInput = ({
     autoFocus,
     onEnter,
     onEscape,
-    children
+    children,
+    inputPadding
 }: Props) => {
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -46,20 +48,30 @@ const TextInput = ({
             style={{ minWidth: 50, minHeight: 20, ...style }}
             className={className}
         >
-            <input
-                ref={inputRef}
-                className="lingo3d-unset"
-                style={{ width: "100%", height: "100%" }}
-                placeholder={placeholder}
-                onInput={(e) =>
-                    textSignal && (textSignal.value = e.currentTarget.value)
-                }
-                onKeyDown={(e) => {
-                    if (e.key === "Enter") onEnter?.(textSignal?.value ?? "")
-                    else if (e.key === "Escape")
-                        onEscape?.(textSignal?.value ?? "")
+            <div
+                style={{
+                    paddingLeft: inputPadding,
+                    paddingRight: inputPadding,
+                    width: "100%",
+                    height: "100"
                 }}
-            />
+            >
+                <input
+                    ref={inputRef}
+                    className="lingo3d-unset"
+                    style={{ width: "100%", height: "100%" }}
+                    placeholder={placeholder}
+                    onInput={(e) =>
+                        textSignal && (textSignal.value = e.currentTarget.value)
+                    }
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter")
+                            onEnter?.(textSignal?.value ?? "")
+                        else if (e.key === "Escape")
+                            onEscape?.(textSignal?.value ?? "")
+                    }}
+                />
+            </div>
             {children}
         </div>
     )

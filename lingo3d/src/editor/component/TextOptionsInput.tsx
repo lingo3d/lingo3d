@@ -51,9 +51,10 @@ const TextOptionsInput = ({
             onEnter={onEnter}
             onEscape={onEscape}
             textSignal={textSignal}
+            inputPadding={options ? 20 : undefined}
         >
             {options && (
-                <div style={{ width: "100%" }}>
+                <div style={{ width: "100%", marginTop: 10 }}>
                     {options.map((option) => (
                         <MenuButton key={option}>{option}</MenuButton>
                     ))}
