@@ -9,8 +9,8 @@ import Connector, {
 } from "../../visualScripting/Connector"
 import treeContext from "../component/treeItems/treeContext"
 import mergeRefs from "../hooks/mergeRefs"
+import useBoundingClientRect from "../hooks/useBoundingClientRect"
 import usePan from "../hooks/usePan"
-import useResizeObserver from "../hooks/useResizeObserver"
 import useSyncState from "../hooks/useSyncState"
 import Connection from "./Connection"
 import gameGraphMenuSignal from "./GameGraphContextMenu/gameGraphMenuSignal"
@@ -29,9 +29,9 @@ type Props = {
 }
 
 const Stage = ({ onEdit }: Props) => {
-    const [containerRef] = useResizeObserver(() => {
-        boundsSignal.value = containerRef.current!.getBoundingClientRect()
-    })
+    const [containerRef, bounds] = useBoundingClientRect()
+    boundsSignal.value = bounds
+
     const pressRef = usePan({
         onPanStart: () => emitSelectionTarget(undefined),
         onPan: ({ deltaX, deltaY }) => {
