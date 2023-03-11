@@ -14,6 +14,7 @@ import { onBeforeRender } from "../events/onBeforeRender"
 import { appendableRoot } from "./core/collections"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import Appendable from "./core/Appendable"
+import { Point } from "@lincode/math"
 
 export type MouseEventName = "click" | "rightClick" | "move" | "down" | "up"
 export const mouseEvents = new Events<LingoMouseEvent, MouseEventName>()
@@ -138,9 +139,9 @@ appendableRoot.delete(mouse)
 
 export default mouse
 
-export const rightClickPtr = [false]
-export const toggleRightClickPtr = () => {
-    rightClickPtr[0] = true
-    setTimeout(() => (rightClickPtr[0] = false), 100)
+export const rightClickPtr: [Point | undefined] = [undefined]
+export const toggleRightClickPtr = (x: number, y: number) => {
+    rightClickPtr[0] = new Point(x, y)
+    setTimeout(() => (rightClickPtr[0] = undefined), 100)
 }
-mouseEvents.on("rightClick", toggleRightClickPtr)
+mouseEvents.on("rightClick", (e) => toggleRightClickPtr(e.clientX, e.clientY))

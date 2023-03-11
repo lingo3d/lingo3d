@@ -7,7 +7,7 @@ import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { setWorldPlay } from "../../states/useWorldPlay"
 
 export default (
-    e: Event,
+    e: MouseEvent,
     target?: Appendable | Object3D,
     rightClick?: boolean,
     nativeParent?: Appendable
@@ -15,7 +15,7 @@ export default (
     handleStopPropagation(e)
     setWorldPlay(false)
     queueMicrotask(() => {
-        rightClick && toggleRightClickPtr()
+        rightClick && toggleRightClickPtr(e.clientX, e.clientY)
         if (target instanceof Object3D) {
             emitSelectionTarget(nativeParent, true)
             setSelectionNativeTarget(target)

@@ -164,8 +164,8 @@ const Node = memo(
                         <div
                             style={{ zIndex: 1 }}
                             ref={pressRef}
-                            onContextMenu={() => {
-                                toggleRightClickPtr()
+                            onContextMenu={(e) => {
+                                toggleRightClickPtr(e.clientX, e.clientY)
                                 emitSelectionTarget(manager, true)
                             }}
                         >
@@ -194,7 +194,7 @@ const Node = memo(
                         style={{ width: "100%" }}
                         onMouseDown={() => emitSelectionTarget(manager, true)}
                         onContextMenu={(e) => {
-                            toggleRightClickPtr()
+                            toggleRightClickPtr(e.clientX, e.clientY)
                             emitSelectionTarget(manager, true)
                         }}
                     />

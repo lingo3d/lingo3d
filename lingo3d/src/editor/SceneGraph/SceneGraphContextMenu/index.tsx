@@ -1,7 +1,6 @@
 import { useEffect, useLayoutEffect, useState } from "preact/hooks"
 import { onSelectionTarget } from "../../../events/onSelectionTarget"
 import ContextMenu from "../../component/ContextMenu"
-import mousePosition from "../../utils/mousePosition"
 import useSyncState from "../../hooks/useSyncState"
 import { getSelectionTarget } from "../../../states/useSelectionTarget"
 import search from "../utils/search"
@@ -16,8 +15,7 @@ const SceneGraphContextMenu = () => {
 
     useEffect(() => {
         const handle = onSelectionTarget(
-            () =>
-                rightClickPtr[0] && (sceneGraphMenuSignal.value = mousePosition)
+            () => (sceneGraphMenuSignal.value = rightClickPtr[0])
         )
         return () => {
             handle.cancel()

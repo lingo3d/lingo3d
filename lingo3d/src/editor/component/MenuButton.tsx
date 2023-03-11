@@ -12,7 +12,7 @@ const MenuButton = ({ disabled, onClick, children }: MenuItemProps) => {
     return (
         <div
             style={{
-                padding: 10,
+                padding: 6,
                 paddingLeft: 20,
                 paddingRight: 20,
                 whiteSpace: "nowrap",
