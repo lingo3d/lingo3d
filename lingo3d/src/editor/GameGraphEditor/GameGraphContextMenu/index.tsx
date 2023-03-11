@@ -1,3 +1,4 @@
+import { GameObjectType } from "../../../api/serializer/types"
 import ContextMenu from "../../component/ContextMenu"
 import ContextMenuItem from "../../component/ContextMenu/ContextMenuItem"
 import gameGraphMenuSignal from "./gameGraphMenuSignal"
@@ -11,7 +12,16 @@ const GameGraphContextMenu = () => {
                     label: "Node name",
                     onInput: (value) => {
                         console.log(value)
-                    }
+                    },
+                    options: [
+                        "incrementNode",
+                        "mathNode",
+                        "projectionNode",
+                        "spawnNode",
+                        "mouse",
+                        "keyboard",
+                        "joystick"
+                    ] satisfies Array<GameObjectType>
                 }
             }
         >

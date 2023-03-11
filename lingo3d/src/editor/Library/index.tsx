@@ -12,12 +12,6 @@ import { stopPropagation } from "../utils/stopPropagation"
 
 const objectNames = [
     { gameGraph: "joystick" },
-    { incrementNode: "joystick" },
-    { mathNode: "joystick" },
-    { projectionNode: "joystick" },
-    { spawnNode: "joystick" },
-    { mouse: "joystick" },
-    { keyboard: "joystick" },
 
     "cube",
     "sphere",
@@ -34,7 +28,6 @@ const objectNames = [
     "dummy",
     "svgMesh",
     "htmlMesh",
-    "joystick",
     // { reticle: "htmlMesh" },
     { splashScreen: "screen" },
     "text",
