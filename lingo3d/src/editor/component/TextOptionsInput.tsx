@@ -1,5 +1,5 @@
 import { useSignal } from "@preact/signals"
-import { CSSProperties, useEffect } from "preact/compat"
+import { CSSProperties, useEffect, useState } from "preact/compat"
 import useLatest from "../hooks/useLatest"
 import MenuButton from "./MenuButton"
 import TextInput from "./TextInput"
@@ -25,21 +25,22 @@ const TextOptionsInput = ({
 }: Props) => {
     const optionsRef = useLatest(options)
     const textSignal = useSignal("")
+    const [includeKeys, setIncludeKeys] = useState<Array<string>>()
+    const filteredOptions = includeKeys ?? options
 
     useEffect(() => {
         const options = optionsRef.current
-        if (!options || !textSignal.value) return
+        if (!options) return
 
-        const timeout = setTimeout(() => {
-            console.log(
-                options.filter((key) =>
-                    key.toLowerCase().includes(textSignal.value.toLowerCase())
-                )
-            )
-        })
-        return () => {
-            clearTimeout(timeout)
+        if (!textSignal.value) {
+            setIncludeKeys(undefined)
+            return
         }
+        setIncludeKeys(
+            options.filter((key) =>
+                key.toLowerCase().includes(textSignal.value.toLowerCase())
+            )
+        )
     }, [textSignal.value])
 
     return (
@@ -53,12 +54,15 @@ const TextOptionsInput = ({
             textSignal={textSignal}
             inputPadding={options ? 20 : undefined}
         >
-            {options && (
-                <div style={{ width: "100%", marginTop: 10 }}>
-                    {options.map((option) => (
-                        <MenuButton key={option}>{option}</MenuButton>
-                    ))}
-                </div>
+            {!!filteredOptions?.length && (
+                <>
+                    <div style={{ height: 10 }} />
+                    <div style={{ width: "100%" }}>
+                        {filteredOptions.map((option) => (
+                            <MenuButton key={option}>{option}</MenuButton>
+                        ))}
+                    </div>
+                </>
             )}
         </TextInput>
     )
