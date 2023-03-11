@@ -1,3 +1,4 @@
+import { rightClickPtr } from "../../../api/mouse"
 import { GameObjectType } from "../../../api/serializer/types"
 import ContextMenu from "../../component/ContextMenu"
 import MenuButton from "../../component/MenuButton"
@@ -12,6 +13,7 @@ const GameGraphContextMenu = () => {
                     label: "Node name",
                     onInput: (value) => {
                         console.log(value)
+                        console.log(gameGraphMenuSignal.value)
                     },
                     options: [
                         "incrementNode",
