@@ -28,7 +28,6 @@ export const FRAME_HEIGHT = FRAME_WIDTH * 2
 export const FRAME_MAX = Number.MAX_SAFE_INTEGER / FRAME_WIDTH
 export const APPBAR_HEIGHT = 28
 export const PANELS_HEIGHT = 200
-export const CONTEXT_MENU_ITEM_HEIGHT = 25
 export const LIBRARY_WIDTH = 200
 export const EDITOR_WIDTH = 300
 

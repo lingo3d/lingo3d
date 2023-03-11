@@ -56,14 +56,14 @@ createEffect(() => {
 
 export const containerBounds = [container.getBoundingClientRect()]
 
-const useResize = (el: Element) => {
+const useResize = (el: HTMLElement) => {
     createNestedEffect(() => {
         const handleResize = () => {
             containerBounds[0] = container.getBoundingClientRect()
             setResolution(
                 el === document.body
                     ? [window.innerWidth, window.innerHeight]
-                    : [el.clientWidth, el.clientHeight]
+                    : [el.offsetWidth, el.offsetHeight]
             )
             emitResize()
         }
@@ -85,7 +85,7 @@ createEffect(() => {
     if (!autoMount) return
 
     if (typeof autoMount === "string") {
-        const el = document.querySelector(autoMount)
+        const el = document.querySelector<HTMLElement>(autoMount)
         if (!el) return
 
         el.prepend(container)

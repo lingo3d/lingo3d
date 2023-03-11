@@ -9,7 +9,7 @@ export default computePerFrame((target: Object3D) => {
     const center = getCenter(target)
     center.project(getCameraRendered())
     return vector2.set(
-        (center.x * 0.5 + 0.5) * container.clientWidth,
-        (center.y * -0.5 + 0.5) * container.clientHeight
+        (center.x * 0.5 + 0.5) * container.offsetWidth,
+        (center.y * -0.5 + 0.5) * container.offsetHeight
     )
 })

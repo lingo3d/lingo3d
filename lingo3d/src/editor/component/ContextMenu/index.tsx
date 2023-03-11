@@ -1,8 +1,7 @@
 import { Point } from "@lincode/math"
 import { Signal } from "@preact/signals"
 import { ComponentChildren } from "preact"
-import { createPortal } from "preact/compat"
-import { CONTEXT_MENU_ITEM_HEIGHT } from "../../../globals"
+import { createPortal, useLayoutEffect, useRef, useState } from "preact/compat"
 import { stopPropagation } from "../../utils/stopPropagation"
 import TextOptionsInput from "../TextOptionsInput"
 
@@ -21,10 +20,21 @@ interface ContextMenuProps {
 const ContextMenu = ({ positionSignal, children, input }: ContextMenuProps) => {
     if (!positionSignal?.value) return null
 
-    const height =
-        (Array.isArray(children) ? children.length : 1) *
-            CONTEXT_MENU_ITEM_HEIGHT +
-        16
+    const elRef = useRef<HTMLDivElement>(null)
+    const [xOverFlow, setXOverFlow] = useState(false)
+    const [yOverFlow, setYOverFlow] = useState(false)
+
+    useLayoutEffect(() => {
+        const el = elRef.current
+        if (!el || !positionSignal.value) return
+
+        setXOverFlow(
+            positionSignal.value.x + el.offsetWidth > window.innerWidth
+        )
+        setYOverFlow(
+            positionSignal.value.y + el.offsetHeight > window.innerHeight
+        )
+    }, [])
 
     return createPortal(
         <div
@@ -38,14 +48,14 @@ const ContextMenu = ({ positionSignal, children, input }: ContextMenuProps) => {
                 onMouseDown={() => (positionSignal.value = undefined)}
             />
             <div
+                ref={elRef}
                 className="lingo3d-bg"
                 style={{
                     position: "absolute",
-                    left: positionSignal.value.x,
-                    top:
-                        positionSignal.value.y + height > window.innerHeight
-                            ? window.innerHeight - height
-                            : positionSignal.value.y,
+                    left: xOverFlow ? undefined : positionSignal.value.x,
+                    right: xOverFlow ? 0 : undefined,
+                    top: yOverFlow ? undefined : positionSignal.value.y,
+                    bottom: yOverFlow ? 0 : undefined,
                     padding: 6,
                     border: "1px solid rgba(255, 255, 255, 0.2)"
                 }}
