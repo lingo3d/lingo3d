@@ -1,9 +1,9 @@
-import AppBar from "../component/bars/AppBar"
-import Button from "../component/Button"
-import useSyncState from "../hooks/useSyncState"
-import { getTimeline } from "../../states/useTimeline"
-import AddIcon from "./icons/AddIcon"
-import timelineMenuSignal from "./TimelineContextMenu/timelineMenuSignal"
+import AppBar from "../../component/bars/AppBar"
+import Button from "./Button"
+import useSyncState from "../../hooks/useSyncState"
+import { getTimeline } from "../../../states/useTimeline"
+import AddIcon from "../icons/AddIcon"
+import timelineMenuSignal from "../TimelineContextMenu/timelineMenuSignal"
 
 const TimelineBar = () => {
     const timeline = useSyncState(getTimeline)
