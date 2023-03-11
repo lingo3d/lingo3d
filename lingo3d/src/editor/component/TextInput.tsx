@@ -1,4 +1,5 @@
 import { Signal } from "@preact/signals"
+import { ComponentChild } from "preact"
 import { CSSProperties, useEffect, useRef } from "preact/compat"
 import { stopPropagation } from "../utils/stopPropagation"
 
@@ -10,6 +11,7 @@ type Props = {
     autoFocus?: boolean
     onEnter?: (value: string) => void
     onEscape?: (value: string) => void
+    children?: ComponentChild
 }
 
 const TextInput = ({
@@ -19,7 +21,8 @@ const TextInput = ({
     textSignal,
     autoFocus,
     onEnter,
-    onEscape
+    onEscape,
+    children
 }: Props) => {
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -57,6 +60,7 @@ const TextInput = ({
                         onEscape?.(textSignal?.value ?? "")
                 }}
             />
+            {children}
         </div>
     )
 }

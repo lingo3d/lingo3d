@@ -23,6 +23,10 @@ const SearchBox = ({
     }, [clearOnChange])
 
     useEffect(() => {
+        if (!textSignal.value) {
+            onChange?.("")
+            return
+        }
         const timeout = setTimeout(
             () => onChange?.(textSignal.value.trim()),
             300

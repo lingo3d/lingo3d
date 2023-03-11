@@ -1,6 +1,7 @@
 import { useSignal } from "@preact/signals"
 import { CSSProperties, useEffect } from "preact/compat"
 import useLatest from "../hooks/useLatest"
+import ContextMenuItem from "./ContextMenu/ContextMenuItem"
 import TextInput from "./TextInput"
 
 type Props = {
@@ -50,7 +51,15 @@ const TextOptionsInput = ({
             onEnter={onEnter}
             onEscape={onEscape}
             textSignal={textSignal}
-        />
+        >
+            {options && (
+                <div style={{ width: "100%" }}>
+                    {options.map((option) => (
+                        <ContextMenuItem key={option}>{option}</ContextMenuItem>
+                    ))}
+                </div>
+            )}
+        </TextInput>
     )
 }
 
