@@ -1,6 +1,7 @@
-import { CSSProperties, useEffect, useRef, useState } from "preact/compat"
+import { useSignal } from "@preact/signals"
+import { CSSProperties, useEffect } from "preact/compat"
 import CloseIcon from "./icons/CloseIcon"
-import SelectInput from "./SelectInput"
+import TextInput from "./TextInput"
 
 type SearchBoxProps = {
     style?: CSSProperties
@@ -15,23 +16,21 @@ const SearchBox = ({
     onChange,
     clearOnChange
 }: SearchBoxProps) => {
-    const [text, setText] = useState<string>()
-    const inputRef = useRef<HTMLInputElement>(null)
+    const textSignal = useSignal("")
 
     useEffect(() => {
-        setText("")
-        inputRef.current!.value = ""
+        textSignal.value = ""
     }, [clearOnChange])
 
     useEffect(() => {
         const timeout = setTimeout(
-            () => text !== undefined && onChange?.(text.trim()),
+            () => onChange?.(textSignal.value.trim()),
             300
         )
         return () => {
             clearTimeout(timeout)
         }
-    }, [text])
+    }, [textSignal.value])
 
     return (
         <div
@@ -51,11 +50,10 @@ const SearchBox = ({
                     width: fullWidth ? "calc(100% - 2px)" : "calc(100% - 20px)"
                 }}
             >
-                <SelectInput
-                    ref={inputRef}
+                <TextInput
                     style={{ flexGrow: 1, paddingLeft: 4 }}
                     placeholder="Search..."
-                    onInput={(e) => setText(e.currentTarget.value)}
+                    textSignal={textSignal}
                 />
                 <div
                     className="lingo3d-flexcenter"
@@ -63,13 +61,10 @@ const SearchBox = ({
                         background: "rgba(255, 255, 255, 0.1)",
                         width: 22,
                         height: 22,
-                        opacity: text ? 1 : 0.2,
-                        cursor: text ? "pointer" : undefined
+                        opacity: textSignal.value ? 1 : 0.2,
+                        cursor: textSignal.value ? "pointer" : undefined
                     }}
-                    onClick={() => {
-                        setText("")
-                        inputRef.current!.value = ""
-                    }}
+                    onClick={() => (textSignal.value = "")}
                 >
                     <CloseIcon />
                 </div>

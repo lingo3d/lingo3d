@@ -1,4 +1,11 @@
-import { CSSProperties, forwardRef, TargetedEvent } from "preact/compat"
+import {
+    CSSProperties,
+    forwardRef,
+    TargetedEvent,
+    useEffect,
+    useState
+} from "preact/compat"
+import useLatest from "../hooks/useLatest"
 import { stopPropagation } from "../utils/stopPropagation"
 
 type Props = {
@@ -7,10 +14,30 @@ type Props = {
     placeholder?: string
     onInput?: (e: TargetedEvent<HTMLInputElement, Event>) => void
     onKeyDown?: (e: TargetedEvent<HTMLInputElement, KeyboardEvent>) => void
+    options?: Array<string>
 }
 
 const SelectInput = forwardRef<HTMLInputElement, Props>(
-    ({ style, className, placeholder, onInput, onKeyDown }, ref) => {
+    ({ style, className, placeholder, onInput, onKeyDown, options }, ref) => {
+        const [text, setText] = useState<string>()
+        const optionsRef = useLatest(options)
+
+        useEffect(() => {
+            const options = optionsRef.current
+            if (!options || !text) return
+
+            const timeout = setTimeout(() => {
+                console.log(
+                    options.filter((key) =>
+                        key.toLowerCase().includes(text.toLowerCase())
+                    )
+                )
+            })
+            return () => {
+                clearTimeout(timeout)
+            }
+        }, [text])
+
         return (
             <div
                 ref={stopPropagation}
@@ -22,7 +49,10 @@ const SelectInput = forwardRef<HTMLInputElement, Props>(
                     className="lingo3d-unset"
                     style={{ width: "100%", height: "100%" }}
                     placeholder={placeholder}
-                    onInput={onInput}
+                    onInput={(e) => {
+                        setText(e.currentTarget.value)
+                        onInput?.(e)
+                    }}
                     onKeyDown={onKeyDown}
                 />
             </div>
