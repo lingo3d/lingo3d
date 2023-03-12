@@ -18,12 +18,14 @@ import GameGraphChild from "./GameGraphChild"
 const connectedMap = new WeakMap<Appendable, Set<Appendable>>()
 export const managerConnectorsMap = new WeakMap<Appendable, Set<Connector>>()
 
-export const findConnected = (manager: Appendable, result = new Set<Appendable>()) => {
-    for (const connectedManager of connectedMap.get(manager) ?? []) {
-        if (result.has(connectedManager)) continue
-        result.add(connectedManager)
+export const findConnected = (
+    manager: Appendable,
+    result = new Set<Appendable>()
+) => {
+    if (result.has(manager)) return result
+    result.add(manager)
+    for (const connectedManager of connectedMap.get(manager) ?? [])
         findConnected(connectedManager, result)
-    }
     return result
 }
 
