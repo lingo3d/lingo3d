@@ -16,7 +16,7 @@ const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()
 const [emitPress, onPress] = event()
 
-export const isPressed = new Set<string>()
+const isPressed = new Set<string>()
 
 const processKey = (str: string) => {
     str = str.length === 1 ? str.toLocaleLowerCase() : str
@@ -74,16 +74,14 @@ export class Keyboard extends Appendable implements IKeyboard {
         super()
 
         this.watch(
-            onPress(() => {
-                if (!this.onKeyPress) return
-
-                if (!isPressed.size) {
-                    this.onKeyPress(new LingoKeyboardEvent("", isPressed))
-                    return
-                }
-                for (const key of isPressed)
-                    this.onKeyPress(new LingoKeyboardEvent(key, isPressed))
-            })
+            onPress(() =>
+                this.onKeyPress?.(
+                    new LingoKeyboardEvent(
+                        [...isPressed].at(-1) ?? "",
+                        isPressed
+                    )
+                )
+            )
         )
         this.watch(
             onUp((key) =>
