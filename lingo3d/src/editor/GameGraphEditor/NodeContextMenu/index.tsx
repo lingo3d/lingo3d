@@ -1,6 +1,5 @@
 import { getGameGraph } from "../../../states/useGameGraph"
 import { getSelectionTarget } from "../../../states/useSelectionTarget"
-import GameGraphChild from "../../../visualScripting/GameGraphChild"
 import ContextMenu from "../../component/ContextMenu"
 import MenuButton from "../../component/MenuButton"
 import useSyncState from "../../hooks/useSyncState"
@@ -10,12 +9,11 @@ const NodeContextMenu = () => {
     const selectionTarget = useSyncState(getSelectionTarget)
     const gameGraph = useSyncState(getGameGraph)
 
-    if (!gameGraph) return
+    if (!gameGraph || !selectionTarget) return null
 
     return (
         <ContextMenu positionSignal={nodeMenuSignal}>
-            {selectionTarget instanceof GameGraphChild &&
-            gameGraph.children?.has(selectionTarget) ? (
+            {gameGraph.children?.has(selectionTarget) ? (
                 <MenuButton
                     onClick={() => {
                         selectionTarget.dispose()

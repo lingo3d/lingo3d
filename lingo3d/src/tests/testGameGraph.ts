@@ -11,6 +11,3 @@ dummy.scale = 5
 
 settings.environment = "studio"
 settings.defaultLight = false
-
-const joystick = new Joystick()
-const spawnNode = new SpawnNode()

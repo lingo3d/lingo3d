@@ -1,13 +1,11 @@
-import { ComponentChildren } from "preact"
 import { createPortal } from "preact/compat"
 import { Point } from "../.."
 
 type TooltipProps = {
     position?: Point
-    children?: ComponentChildren
 }
 
-const Tooltip = ({ position, children }: TooltipProps) => {
+const Tooltip = ({ position }: TooltipProps) => {
     if (!position) return null
 
     const height = 13
