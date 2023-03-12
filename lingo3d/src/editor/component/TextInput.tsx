@@ -11,6 +11,8 @@ type Props = {
     autoFocus?: boolean
     onEnter?: (value: string) => void
     onEscape?: (value: string) => void
+    onArrowDown?: () => void
+    onArrowUp?: () => void
     children?: ComponentChild
     inputPadding?: number
 }
@@ -23,6 +25,8 @@ const TextInput = ({
     autoFocus,
     onEnter,
     onEscape,
+    onArrowDown,
+    onArrowUp,
     children,
     inputPadding
 }: Props) => {
@@ -69,6 +73,8 @@ const TextInput = ({
                             onEnter?.(textSignal?.value ?? "")
                         else if (e.key === "Escape")
                             onEscape?.(textSignal?.value ?? "")
+                        else if (e.key === "ArrowDown") onArrowDown?.()
+                        else if (e.key === "ArrowUp") onArrowUp?.()
                     }}
                 />
             </div>
