@@ -10,6 +10,7 @@ import Stage from "./Stage"
 import GameGraphLibrary from "./GameGraphLibrary"
 import GameGraphEditPanel from "./GameGraphEditPanel"
 import StageContextMenu from "./StageContextMenu"
+import NodeContextMenu from "./NodeContextMenu"
 
 const GameGraphEditor = () => {
     useInitCSS()
@@ -40,6 +41,7 @@ const GameGraphEditor = () => {
                 <GameGraphEditPanel targetSignal={targetSignal} />
             </div>
             <StageContextMenu />
+            <NodeContextMenu />
         </>
     )
 }

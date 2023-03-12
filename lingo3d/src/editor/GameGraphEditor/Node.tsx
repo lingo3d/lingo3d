@@ -4,7 +4,6 @@ import { memo } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
 import { uuidMap } from "../../api/core/collections"
-import { toggleRightClickPtr } from "../../api/mouse"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
@@ -24,6 +23,7 @@ import getDisplayName from "../utils/getDisplayName"
 import { stopPropagation } from "../utils/stopPropagation"
 import Bezier from "./Bezier"
 import GearIcon from "./icons/GearIcon"
+import nodeMenuSignal from "./NodeContextMenu/nodeMenuSignal"
 import { getStagePosition, zoomSignal } from "./Stage/stageSignals"
 import convertToTemplateNodes from "./utils/convertToTemplateNodes"
 import createConnector from "./utils/createConnector"
@@ -127,6 +127,11 @@ const Node = memo(
             }
         }, [pane, refresh])
 
+        const handleContextMenu = (e: MouseEvent) => {
+            nodeMenuSignal.value = new Point(e.clientX, e.clientY)
+            emitSelectionTarget(manager, true)
+        }
+
         return (
             <>
                 <div
@@ -162,10 +167,7 @@ const Node = memo(
                         <div
                             style={{ zIndex: 1 }}
                             ref={pressRef}
-                            onContextMenu={(e) => {
-                                toggleRightClickPtr(e.clientX, e.clientY)
-                                emitSelectionTarget(manager, true)
-                            }}
+                            onContextMenu={handleContextMenu}
                         >
                             {displayName}
                         </div>
@@ -191,10 +193,7 @@ const Node = memo(
                         ref={mergeRefs(setContainer, stopPropagation)}
                         style={{ width: "100%" }}
                         onMouseDown={() => emitSelectionTarget(manager, true)}
-                        onContextMenu={(e) => {
-                            toggleRightClickPtr(e.clientX, e.clientY)
-                            emitSelectionTarget(manager, true)
-                        }}
+                        onContextMenu={handleContextMenu}
                     />
                 </div>
                 <Bezier start={bezierStart} end={bezierEnd} />
