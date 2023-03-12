@@ -59,6 +59,7 @@ import { appendableRoot } from "../api/core/collections"
 import { getBokeh, setBokeh } from "../states/useBokeh"
 import { getBokehScale, setBokehScale } from "../states/useBokehScale"
 import { getVignette, setVignette } from "../states/useVignette"
+import { getGravity, setGravity } from "../states/useGravity"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -125,6 +126,13 @@ export default {
     },
     set fps(value) {
         setFps(value)
+    },
+
+    get gravity() {
+        return getGravity()
+    },
+    set gravity(value) {
+        setGravity(value)
     },
 
     get exposure() {

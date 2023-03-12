@@ -12,7 +12,7 @@ import {
 } from "./pxMaps"
 import throttleSystem from "../../../../utils/throttleSystem"
 import PhysicsObjectManager from ".."
-import { GRAVITY } from "../../../../globals"
+import { getGravity } from "../../../../states/useGravity"
 
 const clearControllerContactMapSystem = throttleSystem(
     (contacts: Set<PhysicsObjectManager>) => contacts.clear()
@@ -288,11 +288,10 @@ const clearControllerContactMapSystem = throttleSystem(
     }
 
     // create scene
-    const pxVec = new PxVec3(0, GRAVITY, 0)
+    const pxVec = new PxVec3(0, 0, 0)
     const pxVec_ = new PxVec3(0, 0, 0)
     const pxVec__ = new PxVec3(0, 0, 0)
     const sceneDesc = new PxSceneDesc(scale)
-    sceneDesc.set_gravity(pxVec)
     // const filteringMode = _emscripten_enum_PxPairFilteringModeEnum_eKEEP()
     // sceneDesc.set_staticKineFilteringMode(filteringMode)
     // sceneDesc.set_kineKineFilteringMode(filteringMode)
@@ -300,6 +299,13 @@ const clearControllerContactMapSystem = throttleSystem(
     sceneDesc.set_filterShader(Px.ContactReportFilterShader())
     sceneDesc.set_simulationEventCallback(simulationEventCallback)
     const pxScene = physics.createScene(sceneDesc)
+
+    // set gravity
+    const gravityVec = new PxVec3(0, 0, 0)
+    getGravity((val) => {
+        gravityVec.set_y(val)
+        pxScene.setGravity(gravityVec)
+    })
 
     // create a default material
     // static friction, dynamic friction, restitution

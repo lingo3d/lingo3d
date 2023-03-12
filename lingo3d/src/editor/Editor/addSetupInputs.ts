@@ -26,7 +26,10 @@ export default (
     ])
     addInputs(handle, pane, "renderer", manager, rendererParams)
 
-    const [sceneParams, sceneRest] = splitObject(rendererRest, [
+    const [physicsParams, physicsRest] = splitObject(rendererRest, ["gravity"])
+    addInputs(handle, pane, "physics", manager, physicsParams)
+
+    const [sceneParams, sceneRest] = splitObject(physicsRest, [
         "exposure",
         "defaultLight",
         "preset environment",
