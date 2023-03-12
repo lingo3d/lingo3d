@@ -65,13 +65,13 @@ createEffect(() => {
 
     } else if (pose === "double_jumping") {
         player.animation = "flip"
-        player.animationFrame = 0
+        player.animationFrame = 10
         player.velocityY = 10
 
-        //wait for 600ms to end double jumping animation
+        //wait for 500ms to end double jumping animation
         const timeout = setTimeout(() => {
             player.animation = "jumping"
-        }, 600)
+        }, 500)
 
         return () => {
             clearTimeout(timeout)
@@ -92,7 +92,7 @@ service.start()
 
 //detect space key for jump
 keyboard.onKeyDown = (ev) => {
-    if (ev.keys.has("Space")) {
+    if (ev.key === "Space") {
         service.send("DOUBLE_JUMP_START")
         service.send("JUMP_START")
     }

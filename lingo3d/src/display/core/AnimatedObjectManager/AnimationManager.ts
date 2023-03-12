@@ -254,7 +254,9 @@ export default class AnimationManager
             action.play()
 
             if (gotoFrame !== undefined) {
-                mixer.setTime(gotoFrame * FRAME2SEC)
+                if (prevManager && prevManager !== this)
+                    action.time = gotoFrame * FRAME2SEC
+                else mixer.setTime(gotoFrame * FRAME2SEC)
                 this.gotoFrameState.set(undefined)
                 return
             }
