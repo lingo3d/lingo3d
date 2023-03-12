@@ -4,20 +4,20 @@ import { getGameGraph } from "../../../states/useGameGraph"
 import ContextMenu from "../../component/ContextMenu"
 import MenuButton from "../../component/MenuButton"
 import { getStagePosition } from "../Stage/stageSignals"
-import gameGraphMenuSignal from "./gameGraphMenuSignal"
+import stageMenuSignal from "./stageMenuSignal"
 
-const GameGraphContextMenu = () => {
+const StageContextMenu = () => {
     return (
         <ContextMenu
-            positionSignal={gameGraphMenuSignal}
+            positionSignal={stageMenuSignal}
             input={
-                gameGraphMenuSignal.value?.create && {
+                stageMenuSignal.value?.create && {
                     label: "Node name",
                     onInput: (value) => {
                         const gameGraph = getGameGraph()!
                         const manager = createObject(value as GameObjectType)
                         gameGraph.append(manager)
-                        const { x, y } = gameGraphMenuSignal.value!
+                        const { x, y } = stageMenuSignal.value!
                         gameGraph.mergeData({
                             [manager.uuid]: {
                                 type: "node",
@@ -39,9 +39,9 @@ const GameGraphContextMenu = () => {
         >
             <MenuButton
                 onClick={() => {
-                    gameGraphMenuSignal.value = {
-                        x: gameGraphMenuSignal.value?.x ?? 0,
-                        y: gameGraphMenuSignal.value?.y ?? 0,
+                    stageMenuSignal.value = {
+                        x: stageMenuSignal.value?.x ?? 0,
+                        y: stageMenuSignal.value?.y ?? 0,
                         create: true
                     }
                 }}
@@ -52,4 +52,4 @@ const GameGraphContextMenu = () => {
     )
 }
 
-export default GameGraphContextMenu
+export default StageContextMenu

@@ -9,7 +9,7 @@ import useInitEditor from "../hooks/useInitEditor"
 import Stage from "./Stage"
 import GameGraphLibrary from "./GameGraphLibrary"
 import GameGraphEditPanel from "./GameGraphEditPanel"
-import GameGraphContextMenu from "./GameGraphContextMenu"
+import StageContextMenu from "./StageContextMenu"
 
 const GameGraphEditor = () => {
     useInitCSS()
@@ -39,7 +39,7 @@ const GameGraphEditor = () => {
                 <GameGraphLibrary />
                 <GameGraphEditPanel targetSignal={targetSignal} />
             </div>
-            <GameGraphContextMenu />
+            <StageContextMenu />
         </>
     )
 }
