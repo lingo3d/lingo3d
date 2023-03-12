@@ -1,6 +1,5 @@
 import { useCurrentRef } from "@lincode/hooks"
 import { Keyboard } from "lingo3d"
-import { isPressed } from "lingo3d/lib/api/keyboard"
 import { useLayoutEffect, useState } from "react"
 
 export default (cb?: (key: string) => void) => {
@@ -14,12 +13,12 @@ export default (cb?: (key: string) => void) => {
     keyboard.onKeyDown = (e) => {
       if (latestKey === e.key) return
       latestKey = e.key
-      setKeys([...isPressed].join(" "))
+      setKeys([...e.keys].join(" "))
     }
 
-    keyboard.onKeyUp = () => {
+    keyboard.onKeyUp = (e) => {
       latestKey = ""
-      setKeys([...isPressed].join(" "))
+      setKeys([...e.keys].join(" "))
     }
 
     keyboard.onKeyPress = (e) => cbCurrentRef.current?.(e.key)

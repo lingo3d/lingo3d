@@ -1,6 +1,6 @@
 {
     "name": "lingo3d",
-    "version": "2.0.28",
+    "version": "2.0.29",
     "description": "Lingo3D is a React/Vue 3d game development framework that ships with a complete visual editor",
     "repository": "https://github.com/lingo3d/lingo3d",
     "homepage": "https://lingo3d.com",
@@ -34,13 +34,13 @@
         "nanoid": "^4.0.1",
         "nipplejs": "0.10.1",
         "postprocessing": "^6.30.1",
-        "preact": "^10.13.0",
+        "preact": "^10.13.1",
         "preact-compat": "^3.19.0",
         "prettier": "^2.8.4",
         "stats.js": "^0.17.0",
         "three": "0.150.1",
         "wasm-feature-detect": "^1.5.1",
-        "wavesurfer.js": "^6.4.0",
+        "wavesurfer.js": "^6.5.1",
         "xstate": "^4.37.0"
     },
     "devDependencies": {
