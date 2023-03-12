@@ -1,8 +1,8 @@
 import { Point } from "@lincode/math"
-import { signal, computed } from "@preact/signals"
+import { signal, computed, Signal, ReadonlySignal } from "@preact/signals"
 
-export const boundsSignal = signal(new DOMRect())
-export const originSignal = computed(
+export const boundsSignal: Signal<DOMRect> = signal(new DOMRect())
+export const originSignal: ReadonlySignal<Point> = computed(
     () => new Point(boundsSignal.value.x * 0.5, boundsSignal.value.y * 0.5)
 )
 export const txSignal = signal(0)
