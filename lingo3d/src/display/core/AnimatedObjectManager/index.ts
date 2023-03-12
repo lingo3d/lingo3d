@@ -190,4 +190,16 @@ export default class AnimatedObjectManager<T extends Object3D = Object3D>
                 : void this.setAnimation(val)
         )
     }
+
+    public get animationLength() {
+        return this.lazyStates().managerState.get()?.totalFrames ?? 0
+    }
+
+    public get animationFrame() {
+        return this.lazyStates().managerState.get()?.frame ?? 0
+    }
+    public set animationFrame(val) {
+        const manager = this.lazyStates().managerState.get()
+        if (manager) manager.frame = val
+    }
 }

@@ -36,7 +36,7 @@ const service = interpret(stateMachine)
 //when player hits map, aka when player lands
 player.onHitStart = (ev) => {
     if (ev.target === map) {
-        console.log("landed")
+        // console.log("landed")
         service.send("JUMP_STOP")
     }
 }
@@ -45,7 +45,7 @@ player.onHitStart = (ev) => {
 //useless for now
 player.onHitEnd = (ev) => {
     if (ev.target === map) {
-        console.log("airborn")
+        // console.log("airborn")
     }
 }
 
@@ -65,6 +65,7 @@ createEffect(() => {
 
     } else if (pose === "double_jumping") {
         player.animation = "flip"
+        player.animationFrame = 0
         player.velocityY = 10
 
         //wait for 600ms to end double jumping animation

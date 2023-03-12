@@ -13,7 +13,6 @@ import Model from "../Model"
 import { euler } from "../utils/reusables"
 import poseMachine from "./poseMachine"
 import fpsAlpha from "../utils/fpsAlpha"
-import { Animation } from "../../interface/IAnimatedObjectManager"
 import { groundedControllerManagers } from "../core/PhysicsObjectManager/physx/physxLoop"
 import { DUMMY_URL, YBOT_URL } from "../../api/assetsPath"
 import renderSystemWithData from "../../utils/renderSystemWithData"
@@ -38,11 +37,6 @@ export default class Dummy extends Model implements IDummy {
         this.width = 20
         this.depth = 20
         this.scale = 1.7
-
-        this.createEffect(() => {
-            super.animation =
-                this.animationState.get() ?? this.poseAnimationState.get()
-        }, [this.animationState.get, this.poseAnimationState.get])
 
         const [setType, getType] = store<
             "mixamo" | "readyplayerme" | "other" | undefined
@@ -105,10 +99,7 @@ export default class Dummy extends Model implements IDummy {
             if (type === "readyplayerme") url = DUMMY_URL() + "readyplayerme/"
             else if (src !== YBOT_URL()) {
                 super.animations = this.animationsState.get()
-                this.poseAnimationState.set(getPose())
-                return () => {
-                    this.poseAnimationState.set(undefined)
-                }
+                this.animation = getPose()
             }
             super.animations = {
                 idle: url + prefix + "idle.fbx",
@@ -118,10 +109,8 @@ export default class Dummy extends Model implements IDummy {
                 death: url + "death.fbx",
                 ...this.animationsState.get()
             }
-            this.poseAnimationState.set(getPose())
-
+            this.animation = getPose()
             return () => {
-                this.poseAnimationState.set(undefined)
                 super.animations = {}
             }
         }, [
@@ -135,7 +124,7 @@ export default class Dummy extends Model implements IDummy {
 
         this.createEffect(() => {
             const pose = getPose()
-            this.poseAnimationState.set(pose)
+            this.animation = pose
             if (pose !== "jumping") return
 
             this.velocityY = this.jumpHeight
@@ -233,15 +222,6 @@ export default class Dummy extends Model implements IDummy {
             this.strideRightState.get,
             getSpine
         ])
-    }
-
-    private poseAnimationState = new Reactive<Animation | undefined>(undefined)
-    private animationState = new Reactive<Animation | undefined>(undefined)
-    public override get animation() {
-        return this.animationState.get()
-    }
-    public override set animation(val) {
-        this.animationState.set(val)
     }
 
     private spineNameState = new Reactive<string | undefined>(undefined)

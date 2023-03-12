@@ -232,10 +232,12 @@ export default class AnimationManager
             if (!action) return
 
             const gotoFrame = this.gotoFrameState.get()
-            action.paused =
-                (this.pausedState.get() || !!this.awaitState.get()) &&
-                gotoFrame === undefined
-            if (action.paused) return
+            if (
+                (action.paused =
+                    (this.pausedState.get() || !!this.awaitState.get()) &&
+                    gotoFrame === undefined)
+            )
+                return
 
             const prevManager = mixerManagerMap.get(mixer)
             mixerManagerMap.set(mixer, this)
