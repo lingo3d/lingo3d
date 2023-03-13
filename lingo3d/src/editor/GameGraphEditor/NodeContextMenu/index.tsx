@@ -13,16 +13,7 @@ const NodeContextMenu = () => {
 
     return (
         <ContextMenu positionSignal={nodeMenuSignal}>
-            {gameGraph.children?.has(selectionTarget) ? (
-                <MenuButton
-                    onClick={() => {
-                        selectionTarget.dispose()
-                        nodeMenuSignal.value = undefined
-                    }}
-                >
-                    Delete node
-                </MenuButton>
-            ) : (
+            {!gameGraph.children?.has(selectionTarget) && (
                 <MenuButton
                     onClick={() => {
                         getGameGraph()!.deleteData(selectionTarget!.uuid)
@@ -32,6 +23,14 @@ const NodeContextMenu = () => {
                     Remove from GameGraph
                 </MenuButton>
             )}
+            <MenuButton
+                onClick={() => {
+                    selectionTarget.dispose()
+                    nodeMenuSignal.value = undefined
+                }}
+            >
+                Delete selected
+            </MenuButton>
         </ContextMenu>
     )
 }
