@@ -8,16 +8,13 @@ export const isTemplateNode = (val: any): val is TemplateNode =>
     templateNodeSet.has(val)
 
 export default class TemplateNode extends GameGraphChild {
-    public constructor(target?: Appendable) {
+    public constructor() {
         super()
         templateNodeSet.add(this)
-        if (!target) return
-        target.dispose()
-        Object.setPrototypeOf(this, target)
     }
 
-    public set source(type: GameObjectType) {
-        const target = createObject(type)
+    public set source(type: GameObjectType | Appendable) {
+        const target = typeof type === "string" ? createObject(type) : type
         target.dispose()
         Object.setPrototypeOf(this, target)
     }

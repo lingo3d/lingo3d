@@ -24,8 +24,8 @@ export default (manager: Appendable) => {
         for (const connector of managerConnectorsMap.get(connected) ?? [])
             connectors.add(connector)
 
-        const template = new TemplateNode(connected)
-        gameGraph.append(template)
+        const template = new TemplateNode()
+        template.source = connected
         gameGraph.mergeData({
             [template.uuid]: {
                 type: "node",
