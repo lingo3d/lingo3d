@@ -185,24 +185,28 @@ export default async (
             if (isDefaultMethodArg(paramValue)) {
                 const isDefaultValue = paramValue instanceof DefaultMethodArg
                 if (isDefaultValue) params[key] = paramValue.value ?? ""
-                if (
-                    (isDefaultValue && paramValue.value !== undefined) ||
-                    isPoint(paramValue)
-                )
-                    input = lazyMethodsFolder().addInput(params, key)
-                else
-                    input = lazyMethodsFolder().addButton({
-                        title: key,
-                        label: key
-                    })
-                const executeButton = executeIcon.cloneNode(true) as HTMLElement
-                input.element.appendChild(executeButton)
-                executeButton.onclick = () => {
+
+                const execute = () => {
                     const paramValue = params[key]
                     if (isPoint(paramValue))
                         instance[key](paramValue.x, paramValue.y, paramValue.z)
                     else instance[key](paramValue)
                 }
+                if (
+                    (isDefaultValue && paramValue.value !== undefined) ||
+                    isPoint(paramValue)
+                )
+                    input = lazyMethodsFolder().addInput(params, key)
+                else {
+                    input = lazyMethodsFolder().addButton({
+                        title: key,
+                        label: key
+                    })
+                    input.on("click", execute)
+                }
+                const executeButton = executeIcon.cloneNode(true) as HTMLElement
+                input.element.appendChild(executeButton)
+                executeButton.onclick = execute
             } else if (isNullableCallbackParam(paramValue)) {
                 const isDefaultValue =
                     paramValue instanceof NullableCallbackParam
