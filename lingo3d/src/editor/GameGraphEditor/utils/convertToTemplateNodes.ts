@@ -5,10 +5,11 @@ import Connector, {
     findConnected,
     managerConnectorsMap
 } from "../../../visualScripting/Connector"
+import SpawnNode from "../../../visualScripting/SpawnNode"
 import TemplateNode from "../../../visualScripting/TemplateNode"
 import createConnector from "./createConnector"
 
-export default (manager: Appendable) => {
+export default (manager: Appendable, spawnNode: SpawnNode) => {
     const gameGraph = getGameGraph()!
     const managerNode = gameGraph.data[manager.uuid]
     assert(managerNode.type === "node")
@@ -26,6 +27,7 @@ export default (manager: Appendable) => {
 
         const template = new TemplateNode()
         template.source = connected
+        template.spawnNode = spawnNode.uuid
         gameGraph.mergeData({
             [template.uuid]: {
                 type: "node",

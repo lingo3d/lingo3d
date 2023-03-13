@@ -78,7 +78,7 @@ const Node = memo(
                     createConnector(
                         draggingItem.manager,
                         draggingItem.prop,
-                        convertToTemplateNodes(manager),
+                        convertToTemplateNodes(manager, draggingItem.manager),
                         prop,
                         draggingItem.xyz
                     )

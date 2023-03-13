@@ -31,11 +31,15 @@ const spawnConnectors = (
         )
 }
 
-const spawnCached = (cache: Cache) => {
+const spawnCached = (cache: Cache, patch: Map<string, Record<string, any>>) => {
     const { data, connectors } = cache
     const connectedUUIDs = new Map<string, string>()
     for (const [connected, type, properties] of data) {
-        const manager = Object.assign(createObject(type), properties)
+        const manager = Object.assign(
+            createObject(type),
+            properties,
+            patch.get(connected.uuid)
+        )
         eraseAppendable(manager)
         connectedUUIDs.set(connected.uuid, manager.uuid)
     }
@@ -49,9 +53,10 @@ export default class SpawnNode extends GameGraphChild implements ISpawnNode {
     public static includeKeys = ["spawn"]
 
     private cache?: Cache
+    public patch = new Map<string, Record<string, any>>()
 
     public spawn() {
-        if (this.cache) return spawnCached(this.cache)
+        if (this.cache) return spawnCached(this.cache, this.patch)
         this.cache = { data: [], connectors: new Set<Connector>() }
 
         const { data, connectors } = this.cache
@@ -62,7 +67,11 @@ export default class SpawnNode extends GameGraphChild implements ISpawnNode {
 
             const node = serializeAppendable(connected, true)
             const properties = omit(node, nonSerializedProperties)
-            const manager = Object.assign(createObject(node.type), properties)
+            const manager = Object.assign(
+                createObject(node.type),
+                properties,
+                this.patch.get(connected.uuid)
+            )
             eraseAppendable(manager)
             connectedUUIDs.set(connected.uuid, manager.uuid)
             data.push([connected, node.type, properties])

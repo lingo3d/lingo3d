@@ -26,7 +26,11 @@ const serialize = (
 
         const data: Record<string, any> =
             !skipTemplateCheck && isTemplateNode(child)
-                ? { type: "templateNode", source: componentName }
+                ? {
+                      type: "templateNode",
+                      source: componentName,
+                      spawnNode: child.spawnNode
+                  }
                 : { type: componentName }
         for (const [key, type] of Object.entries(schema)) {
             if (

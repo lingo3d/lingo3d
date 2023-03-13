@@ -8,6 +8,8 @@ export const isTemplateNode = (val: any): val is TemplateNode =>
     templateNodeSet.has(val)
 
 export default class TemplateNode extends GameGraphChild {
+    public spawnNode!: string
+
     public constructor() {
         super()
         templateNodeSet.add(this)

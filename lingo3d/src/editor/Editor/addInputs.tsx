@@ -31,6 +31,9 @@ import { getOriginalInstance, PassthroughCallback } from "./createParams"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { stopPropagation } from "../utils/stopPropagation"
 import { emitEditorRefresh } from "../../events/onEditorRefresh"
+import { isTemplateNode } from "../../visualScripting/TemplateNode"
+import { uuidMap } from "../../api/core/collections"
+import SpawnNode from "../../visualScripting/SpawnNode"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -174,6 +177,7 @@ export default async (
         handle.then(() => folder.dispose())
         return folder
     })
+    const instance = getOriginalInstance(target)
     const result = Object.fromEntries(
         Object.keys(params).map((key) => {
             let input: any
@@ -195,7 +199,6 @@ export default async (
                 input.element.appendChild(executeButton)
                 executeButton.onclick = () => {
                     const paramValue = params[key]
-                    const instance = getOriginalInstance(target)
                     if (isPoint(paramValue))
                         instance[key](paramValue.x, paramValue.y, paramValue.z)
                     else instance[key](paramValue)
@@ -268,7 +271,22 @@ export default async (
                         return
                     }
                     !downPtr[0] && emitEditorEdit("start")
-                    setRuntimeValue(target, key, processValue(value))
+                    const processed = processValue(value)
+                    setRuntimeValue(target, key, processed)
+                    if (isTemplateNode(instance)) {
+                        const spawnNode = uuidMap.get(
+                            instance.spawnNode
+                        ) as SpawnNode
+                        unsafeSetValue(
+                            forceGetInstance(
+                                spawnNode.patch,
+                                instance.uuid,
+                                Object
+                            ),
+                            key,
+                            processed
+                        )
+                    }
                     !downPtr[0] && emitEditorEdit("end")
                 })
             }
