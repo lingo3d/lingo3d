@@ -26,10 +26,13 @@ export const environmentSchema: Required<ExtractProps<IEnvironment>> = {
     helper: Boolean
 }
 
-export const environmentChoices = new Choices(
-    { none: undefined, studio: "studio", day: "day", night: "night" },
-    true
-)
+export const environmentChoices = new Choices({
+    none: undefined,
+    studio: "studio",
+    day: "day",
+    night: "night",
+    custom: "custom"
+})
 export const environmentDefaults = extendDefaults<IEnvironment>(
     [positionedDefaults],
     { texture: "studio", helper: true },

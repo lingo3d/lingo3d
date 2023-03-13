@@ -32,7 +32,6 @@ export default (
     const [sceneParams, sceneRest] = splitObject(physicsRest, [
         "exposure",
         "defaultLight",
-        "preset environment",
         "environment",
         "skybox",
         "texture",

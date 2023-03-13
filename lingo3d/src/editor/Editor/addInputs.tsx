@@ -1,4 +1,10 @@
-import { lazy, throttleTrailing } from "@lincode/utils"
+import {
+    forceGetInstance,
+    lazy,
+    omit,
+    pull,
+    throttleTrailing
+} from "@lincode/utils"
 import { downPtr, FolderApi, InputBindingApi, Pane } from "./tweakpane"
 import resetIcon from "./icons/resetIcon"
 import { defaultsOptionsMap } from "../../interface/utils/Defaults"
@@ -8,10 +14,6 @@ import getDefaultValue, {
 } from "../../interface/utils/getDefaultValue"
 import { Cancellable } from "@lincode/promiselikes"
 import { emitEditorEdit } from "../../events/onEditorEdit"
-import {
-    assignEditorPresets,
-    getEditorPresets
-} from "../../states/useEditorPresets"
 import connectorInIcon from "./icons/connectorInIcon"
 import connectorOutIcon from "./icons/connectorOutIcon"
 import renderSystemWithData from "../../utils/renderSystemWithData"
@@ -34,6 +36,7 @@ import executeIcon from "./icons/executeIcon"
 import { getOriginalInstance, PassthroughCallback } from "./createParams"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { stopPropagation } from "../utils/stopPropagation"
+import { emitEditorRefresh } from "../../events/onEditorRefresh"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -139,6 +142,8 @@ export const initConnectorIn = (
     return connectorIn
 }
 
+const omitOptionsMap = new WeakMap<Record<string, any>, Array<string>>()
+
 export default async (
     handle: Cancellable,
     pane: Pane,
@@ -154,11 +159,12 @@ export default async (
     const paramKeys = Object.keys(params)
     if (!paramKeys.length) return {}
 
-    for (const key of paramKeys)
-        if (key.startsWith("preset "))
-            params[key] = getEditorPresets()[key] ?? true
-
     const options = defaultsOptionsMap.get(getStaticProperties(target).defaults)
+    const optionsOmitted =
+        options && omitOptionsMap.has(options)
+            ? omit(options, omitOptionsMap.get(options)!)
+            : options
+
     const lazyFolder = lazy(() => {
         const folder: FolderApi = pane.addFolder({ title })
         handle.then(() => folder.dispose())
@@ -229,17 +235,8 @@ export default async (
                 input = lazyFolder().addInput(
                     params,
                     key,
-                    getEditorPresets()["preset " + key] !== false
-                        ? options?.[key]
-                        : undefined
+                    optionsOmitted?.[key]
                 )
-                if (key.startsWith("preset ")) {
-                    input.on("change", ({ value }: any) =>
-                        assignEditorPresets({ [key]: value })
-                    )
-                    return [key, input]
-                }
-
                 addRefreshSystem(input, { key, params, target })
 
                 const resetButton = resetIcon.cloneNode(true) as HTMLElement
@@ -247,11 +244,9 @@ export default async (
                 resetButton.style.opacity = "0.1"
 
                 const updateResetButton = throttleTrailing(() => {
-                    const unchanged = equalsDefaultValue(
-                        params[key],
-                        target,
-                        key
-                    )
+                    const unchanged =
+                        equalsDefaultValue(params[key], target, key) &&
+                        !(options && omitOptionsMap.get(options)?.includes(key))
                     resetButton.style.opacity = unchanged ? "0.1" : "0.5"
                     resetButton.style.cursor = unchanged ? "auto" : "pointer"
                 }, 100)
@@ -262,12 +257,21 @@ export default async (
                         getDefaultValue(target, key, true, true)
                     )
                     input.refresh()
+                    const omitKeys = options && omitOptionsMap.get(options)
+                    omitKeys && pull(omitKeys, key) && emitEditorRefresh()
                 }
 
                 input.on("change", ({ value }: any) => {
                     updateResetButton()
                     if (skipChangeSet.has(input)) {
                         skipChangeSet.delete(input)
+                        return
+                    }
+                    if (value === "custom" && options) {
+                        forceGetInstance(omitOptionsMap, options, Array).push(
+                            key
+                        )
+                        emitEditorRefresh()
                         return
                     }
                     !downPtr[0] && emitEditorEdit("start")

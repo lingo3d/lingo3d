@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "preact/hooks"
+import { useEffect, useLayoutEffect, useState } from "preact/hooks"
 import getDisplayName from "../utils/getDisplayName"
 import Setup, { defaultSetup } from "../../display/Setup"
 import addSetupInputs from "./addSetupInputs"
@@ -12,13 +12,13 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { DEBUG, EDITOR_WIDTH } from "../../globals"
 import useInitEditor from "../hooks/useInitEditor"
-import { getEditorPresets } from "../../states/useEditorPresets"
 import addTargetInputs from "./addTargetInputs"
 import SearchBox from "../component/SearchBox"
 import usePane from "./usePane"
 import mergeRefs from "../hooks/mergeRefs"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { stopPropagation } from "../utils/stopPropagation"
+import { onEditorRefresh } from "../../events/onEditorRefresh"
 
 const Editor = () => {
     useInitCSS()
@@ -38,9 +38,15 @@ const Editor = () => {
     const selectionTarget = useSyncState(getSelectionTarget)
     const selectedSignal = useSignal<string | undefined>(undefined)
 
-    const presets = useSyncState(getEditorPresets)
     const [includeKeys, setIncludeKeys] = useState<Array<string>>()
     const [refresh, setRefresh] = useState({})
+
+    useEffect(() => {
+        const handle = onEditorRefresh(() => setRefresh({}))
+        return () => {
+            handle.cancel()
+        }
+    }, [])
 
     useLayoutEffect(() => {
         if (!pane || getMultipleSelectionTargets()[0].size) return
@@ -63,14 +69,7 @@ const Editor = () => {
             handle0.cancel()
             handle1.cancel()
         }
-    }, [
-        selectionTarget,
-        selectedSignal.value,
-        presets,
-        includeKeys,
-        pane,
-        refresh
-    ])
+    }, [selectionTarget, selectedSignal.value, includeKeys, pane, refresh])
 
     return (
         <div

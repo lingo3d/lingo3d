@@ -1,5 +1,4 @@
 import { isPoint } from "../../utils/isPoint"
-import { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue, {
     FunctionPtr
 } from "../../interface/utils/getDefaultValue"
@@ -70,11 +69,10 @@ export default (
     includeKeys: Array<string> | undefined,
     skipFunctions: boolean
 ) => {
-    const { schema, defaults } = getStaticProperties(manager)
+    const { schema } = getStaticProperties(manager)
     const params: Record<string, any> = {}
     if (!schema) return [params, manager] as const
 
-    const options = defaultsOptionsMap.get(defaults)
     const schemaKeyNullableCallbackParamMap = new Map<
         string,
         NullableCallbackParamType
@@ -99,10 +97,6 @@ export default (
         if (fn instanceof NullableCallback)
             schemaKeyNullableCallbackParamMap.set(schemaKey, fn.param)
         else if (fn) schemaKeyDefaultMethodArgMap.set(schemaKey, fn.arg)
-
-        const choices = options?.[schemaKey]
-        if (choices && "options" in choices && choices.acceptAny)
-            params["preset " + schemaKey] = true
 
         params[schemaKey] = defaultValue
     }
