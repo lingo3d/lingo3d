@@ -11,7 +11,8 @@ createEffect(() => {
     if (
         !(target instanceof Loaded) ||
         !("outerObject3d" in target) ||
-        !getEditorHelper()
+        !getEditorHelper() ||
+        !target.outerObject3d.parent
     )
         return
 

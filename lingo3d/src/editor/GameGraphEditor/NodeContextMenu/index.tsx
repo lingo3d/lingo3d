@@ -1,3 +1,4 @@
+import deleteSelected from "../../../engine/hotkeys/deleteSelected"
 import { getGameGraph } from "../../../states/useGameGraph"
 import { getSelectionTarget } from "../../../states/useSelectionTarget"
 import ContextMenu from "../../component/ContextMenu"
@@ -25,7 +26,7 @@ const NodeContextMenu = () => {
             )}
             <MenuButton
                 onClick={() => {
-                    selectionTarget.dispose()
+                    deleteSelected()
                     nodeMenuSignal.value = undefined
                 }}
             >

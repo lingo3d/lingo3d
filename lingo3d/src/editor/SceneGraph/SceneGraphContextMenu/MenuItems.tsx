@@ -216,8 +216,8 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
             <MenuButton
                 disabled={!selectionTarget}
                 onClick={() => {
-                    sceneGraphMenuSignal.value = undefined
                     deleteSelected()
+                    sceneGraphMenuSignal.value = undefined
                 }}
             >
                 Delete selected
