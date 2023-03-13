@@ -54,6 +54,7 @@ export type GameObjectType =
     | "gameGraph"
     | "connector"
     | "mathNode"
+    | "numberNode"
     | "incrementNode"
     | "projectionNode"
     | "spawnNode"

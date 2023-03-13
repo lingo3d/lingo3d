@@ -45,6 +45,7 @@ import TimelineAudio from "../../display/TimelineAudio"
 import GameGraph from "../../visualScripting/GameGraph"
 import Connector from "../../visualScripting/Connector"
 import MathNode from "../../visualScripting/MathNode"
+import NumberNode from "../../visualScripting/NumberNode"
 import IncrementNode from "../../visualScripting/IncrementNode"
 import ProjectionNode from "../../visualScripting/ProjectionNode"
 import SpawnNode from "../../visualScripting/SpawnNode"
@@ -112,6 +113,7 @@ const record = {
     gameGraph: () => new GameGraph(),
     connector: () => new Connector(),
     mathNode: () => new MathNode(),
+    numberNode: () => new NumberNode(),
     incrementNode: () => new IncrementNode(),
     projectionNode: () => new ProjectionNode(),
     spawnNode: () => new SpawnNode(),
