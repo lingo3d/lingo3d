@@ -1,10 +1,4 @@
-import {
-    forceGetInstance,
-    lazy,
-    omit,
-    pull,
-    throttleTrailing
-} from "@lincode/utils"
+import { forceGetInstance, lazy, omit, pull } from "@lincode/utils"
 import { downPtr, FolderApi, InputBindingApi, Pane } from "./tweakpane"
 import resetIcon from "./icons/resetIcon"
 import { defaultsOptionsMap } from "../../interface/utils/Defaults"
@@ -241,15 +235,14 @@ export default async (
 
                 const resetButton = resetIcon.cloneNode(true) as HTMLElement
                 input.element.prepend(resetButton)
-                resetButton.style.opacity = "0.1"
 
-                const updateResetButton = throttleTrailing(() => {
+                const updateResetButton = () => {
                     const unchanged =
                         equalsDefaultValue(params[key], target, key) &&
                         !(options && omitOptionsMap.get(options)?.includes(key))
                     resetButton.style.opacity = unchanged ? "0.1" : "0.5"
                     resetButton.style.cursor = unchanged ? "auto" : "pointer"
-                }, 100)
+                }
                 updateResetButton()
 
                 resetButton.onclick = () => {
