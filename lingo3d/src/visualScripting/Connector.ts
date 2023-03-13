@@ -49,7 +49,7 @@ export default class Connector extends GameGraphChild implements IConnector {
         super()
 
         this.createEffect(() => {
-            const { _from, _to, _fromProp, _toProp, _xyz, _type } = this
+            const { _from, _to, _fromProp, _toProp, _xyz } = this
             if (!_fromProp || !_toProp || !_from || !_to) return
 
             const fromManager = uuidMap.get(_from)
@@ -60,12 +60,6 @@ export default class Connector extends GameGraphChild implements IConnector {
             forceGetInstance(connectedMap, toManager, Set).add(fromManager)
             forceGetInstance(managerConnectorsMap, fromManager, Set).add(this)
             forceGetInstance(managerConnectorsMap, toManager, Set).add(this)
-
-            if (_type === "spawn") {
-                return () => {
-                    deleteConnected(fromManager, toManager, this)
-                }
-            }
 
             if (
                 getStaticProperties(fromManager).defaults[_fromProp] instanceof
@@ -155,15 +149,6 @@ export default class Connector extends GameGraphChild implements IConnector {
     }
     public set xyz(val) {
         this._xyz = val
-        this.refreshState.set({})
-    }
-
-    private _type?: "spawn"
-    public get type() {
-        return this._type
-    }
-    public set type(val) {
-        this._type = val
         this.refreshState.set({})
     }
 }
