@@ -23,7 +23,7 @@ export default class FirstPersonCamera extends CharacterCamera {
             return () => {
                 super.innerY = 0
             }
-        }, [this.firstChildState, this.innerYSetState.get])
+        }, [this.firstChildState.get, this.innerYSetState.get])
     }
 
     private innerYSetState = new Reactive(false)

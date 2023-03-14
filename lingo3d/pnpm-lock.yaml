@@ -17,7 +17,7 @@ specifiers:
   '@types/wavesurfer.js': ^6.0.3
   '@ungap/structured-clone': ^1.0.2
   browser-fs-access: 0.33.0
-  lil-gui: ^0.18.0
+  lil-gui: ^0.18.1
   lingo3d-forest: ^1.0.0
   nanoid: ^4.0.1
   nipplejs: 0.10.1
@@ -33,7 +33,7 @@ specifiers:
   typescript: ^4.9.5
   vite: ^4.1.4
   wasm-feature-detect: ^1.5.1
-  wavesurfer.js: ^6.5.1
+  wavesurfer.js: ^6.5.2
   xstate: ^4.37.0
 
 dependencies:
@@ -57,7 +57,7 @@ dependencies:
   stats.js: 0.17.0
   three: 0.150.1
   wasm-feature-detect: 1.5.1
-  wavesurfer.js: 6.5.1
+  wavesurfer.js: 6.5.2
   xstate: 4.37.0
 
 devDependencies:
@@ -67,7 +67,7 @@ devDependencies:
   '@types/randomcolor': 0.5.7
   '@types/stats.js': 0.17.0
   '@types/wavesurfer.js': 6.0.3
-  lil-gui: 0.18.0
+  lil-gui: 0.18.1
   object-sizeof: 2.6.1
   randomcolor: 0.6.2
   rimraf: 3.0.2
@@ -753,7 +753,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001464
+      caniuse-lite: 1.0.30001466
       electron-to-chromium: 1.4.328
       node-releases: 2.0.10
       update-browserslist-db: 1.0.10_browserslist@4.21.5
@@ -766,8 +766,8 @@ packages:
       ieee754: 1.2.1
     dev: true
 
-  /caniuse-lite/1.0.30001464:
-    resolution: {integrity: sha512-oww27MtUmusatpRpCGSOneQk2/l5czXANDSFvsc7VuOQ86s3ANhZetpwXNf1zY/zdfP63Xvjz325DAdAoES13g==}
+  /caniuse-lite/1.0.30001466:
+    resolution: {integrity: sha512-ewtFBSfWjEmxUgNBSZItFSmVtvk9zkwkl1OfRZlKA8slltRN+/C/tuGVrF9styXkN36Yu3+SeJ1qkXxDEyNZ5w==}
     dev: true
 
   /chalk/2.4.2:
@@ -958,8 +958,8 @@ packages:
     resolution: {integrity: sha512-ymToLHqL02udwVdbkowNpzjFd6UzozMtshPQKVi5k1EjKRqKqBrOnE9QbLEb0/pV76SAiIT13hdL8R6suc+f3g==}
     dev: true
 
-  /lil-gui/0.18.0:
-    resolution: {integrity: sha512-9Zt0oW8KDy8mT8QTXTjAEmNT9Je9KLoCWUYiJD5DaB6eHoZ3hQYGt2JRJbCUHcvYgpwgcTHtzS9JFmN37vGyzw==}
+  /lil-gui/0.18.1:
+    resolution: {integrity: sha512-nsDJLflFGro81hcGqaiDNBEKgkMKNF9okmMmW3Xc6sPXP1zyfD3oIftyctvBQD2iTIUgWDw6CuME1IQZD+OvLw==}
     dev: true
 
   /lingo3d-forest/1.0.0:
@@ -1251,8 +1251,8 @@ packages:
     resolution: {integrity: sha512-GHr23qmuehNXHY4902/hJ6EV5sUANIJC3R/yMfQ7hWDg3nfhlcJfnIL96R2ohpIwa62araN6aN4bLzzzq5GXkg==}
     dev: false
 
-  /wavesurfer.js/6.5.1:
-    resolution: {integrity: sha512-ye8wRJLR8kFWQu3gFSZlt9lYwJctFf7/8LwlWnf05dYCNM7e6fTxhXYDitSguKH3mxI/NbQn7kNr2+714PxM9w==}
+  /wavesurfer.js/6.5.2:
+    resolution: {integrity: sha512-1GfjeFlaaYnlOcwZ3M0MjYgmAVzL4dKARfJIlM9L/NVECFRwMsV7wtOWA1ZBukjFABt+DL+JiZOEIAtomqSMJg==}
     dev: false
 
   /wrappy/1.0.2:
