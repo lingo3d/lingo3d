@@ -4,7 +4,7 @@ import { GetGlobalState, createEffect, Reactive } from "@lincode/reactivity"
 import { forceGetInstance } from "@lincode/utils"
 import { nanoid } from "nanoid"
 import getStaticProperties from "../../display/utils/getStaticProperties"
-import { timer } from "../../engine/eventLoop"
+import { dtPtr, timer } from "../../engine/eventLoop"
 import { emitDispose } from "../../events/onDispose"
 import { onLoop } from "../../events/onLoop"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
@@ -15,9 +15,10 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import { appendableRoot, uuidMap } from "./collections"
 import type MeshAppendable from "./MeshAppendable"
 
-const [addLoopSystem, deleteLoopSystem] = renderSystem((cb: () => void) => {
-    cb()
-}, onLoop)
+const [addLoopSystem, deleteLoopSystem] = renderSystem(
+    (cb: (dt: number) => void) => cb(dtPtr[0]),
+    onLoop
+)
 
 const userIdMap = new Map<string, Set<Appendable | MeshAppendable>>()
 
@@ -224,7 +225,7 @@ export default class Appendable extends Disposable implements IAppendable {
         return handle
     }
 
-    private _onLoop?: () => void
+    private _onLoop?: (dt: number) => void
     public get onLoop() {
         return this._onLoop
     }

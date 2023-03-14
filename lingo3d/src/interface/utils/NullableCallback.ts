@@ -20,6 +20,7 @@ export type NullableCallbackParamType =
     | NullableCallbackParam
 
 export const nullableCallbackVoidParam = new NullableCallbackParam()
+export const nullableCallbackNumberParam = new NullableCallbackParam(0)
 export const nullableCallbackPtParam = Object.freeze(new Point(0, 0))
 
 export const nullableCallbackParams = new WeakSet<NullableCallbackParamType>()

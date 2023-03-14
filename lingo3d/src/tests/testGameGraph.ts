@@ -11,3 +11,7 @@ dummy.scale = 5
 
 settings.environment = "studio"
 settings.defaultLight = false
+
+dummy.onLoop = (dt) => {
+    console.log(dt)
+}
