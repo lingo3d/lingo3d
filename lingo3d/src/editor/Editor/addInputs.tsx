@@ -156,7 +156,8 @@ export default async (
     const paramKeys = Object.keys(params)
     if (!paramKeys.length) return {}
 
-    const options = defaultsOptionsMap.get(getStaticProperties(target).defaults)
+    const { defaults } = getStaticProperties(target)
+    const options = defaultsOptionsMap.get(defaults)
     const optionsOmitted =
         options && omitOptionsMap.has(options)
             ? omit(options, omitOptionsMap.get(options)!)
@@ -276,7 +277,7 @@ export default async (
                     }
                     !downPtr[0] && emitEditorEdit("start")
                     const processed = processValue(value)
-                    setRuntimeValue(target, key, processed)
+                    setRuntimeValue(target, defaults, key, processed)
                     if (isTemplateNode(instance)) {
                         const spawnNode = uuidMap.get(
                             instance.spawnNode

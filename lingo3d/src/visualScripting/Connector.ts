@@ -61,14 +61,21 @@ export default class Connector extends GameGraphChild implements IConnector {
             forceGetInstance(managerConnectorsMap, fromManager, Set).add(this)
             forceGetInstance(managerConnectorsMap, toManager, Set).add(this)
 
+            const { defaults } = getStaticProperties(toManager)
             if (
                 getStaticProperties(fromManager).defaults[_fromProp] instanceof
                 NullableCallback
             ) {
                 const cb = _xyz
                     ? (val: PointType) =>
-                          setRuntimeValue(toManager, _toProp, val[_xyz])
-                    : (val: any) => setRuntimeValue(toManager, _toProp, val)
+                          setRuntimeValue(
+                              toManager,
+                              defaults,
+                              _toProp,
+                              val[_xyz]
+                          )
+                    : (val: any) =>
+                          setRuntimeValue(toManager, defaults, _toProp, val)
 
                 const extended = unsafeSetValue(
                     fromManager,
@@ -86,7 +93,7 @@ export default class Connector extends GameGraphChild implements IConnector {
                     : getReactive(fromManager, _fromProp)
 
             const handle0 = fromReactive.get((val) =>
-                setRuntimeValue(toManager, _toProp, val)
+                setRuntimeValue(toManager, defaults, _toProp, val)
             )
             const handle1 = fromManager.propertyChangedEvent.on(
                 "runtimeSchema",
