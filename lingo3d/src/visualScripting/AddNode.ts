@@ -1,6 +1,5 @@
-import { INVERSE_STANDARD_FRAME } from "../globals"
+import { STANDARD_FRAME } from "../globals"
 import IAddNode, { addNodeDefaults, addNodeSchema } from "../interface/IAddNode"
-import { fpsPtr } from "../states/useFps"
 import GameGraphChild from "./GameGraphChild"
 
 export default class AddNode extends GameGraphChild implements IAddNode {
@@ -12,7 +11,7 @@ export default class AddNode extends GameGraphChild implements IAddNode {
     public add = 1
     public out = 0
 
-    public execute(dt = INVERSE_STANDARD_FRAME) {
-        this.out += this.add * dt * fpsPtr[0]
+    public execute(dt: number) {
+        this.out += this.add * STANDARD_FRAME * dt
     }
 }

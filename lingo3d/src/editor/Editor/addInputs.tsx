@@ -215,7 +215,9 @@ export default async (
                     isNullableCallbackParamInstance(paramValue)
                 if (isDefaultValue) params[key] = paramValue.value ?? ""
                 if (
-                    (isDefaultValue && paramValue.value !== undefined) ||
+                    (isDefaultValue &&
+                        paramValue.value !== undefined &&
+                        paramValue.allowInput) ||
                     isPoint(paramValue)
                 ) {
                     input = lazyCallbacksFolder().addInput(params, key)

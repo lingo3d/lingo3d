@@ -1,11 +1,15 @@
 import { Point, Point3d } from "@lincode/math"
 import { forceGet } from "@lincode/utils"
+import { INVERSE_STANDARD_FRAME } from "../../globals"
 import { LingoKeyboardEvent } from "../IKeyboard"
 import { LingoMouseEvent, SimpleMouseEvent } from "../IMouse"
 import { HitEvent } from "../IVisible"
 
 export class NullableCallbackParam {
-    public constructor(public value?: string | number | boolean) {
+    public constructor(
+        public value?: string | number | boolean,
+        public allowInput = true
+    ) {
         Object.freeze(this)
     }
 }
@@ -21,6 +25,10 @@ export type NullableCallbackParamType =
 
 export const nullableCallbackVoidParam = new NullableCallbackParam()
 export const nullableCallbackNumberParam = new NullableCallbackParam(0)
+export const nullableCallbackDtParam = new NullableCallbackParam(
+    INVERSE_STANDARD_FRAME,
+    false
+)
 export const nullableCallbackPtParam = Object.freeze(new Point(0, 0))
 
 export const nullableCallbackParams = new WeakSet<NullableCallbackParamType>()
