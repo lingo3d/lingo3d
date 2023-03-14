@@ -22,17 +22,15 @@ import { assertExhaustive } from "@lincode/utils"
 import renderSystemWithData from "../../utils/renderSystemWithData"
 import { positionChanged } from "../utils/trackObject"
 
-const [addLightSystem, deleteLightSystem] = renderSystemWithData(
-    (self: SkyLight, data: { csm: CSM }) => {
-        if (!positionChanged(self.outerObject3d)) return
-        const lightDirection = self.position
-            .clone()
-            .normalize()
-            .multiplyScalar(-1)
+const updateLightDirection = (self: SkyLight, csm: CSM) => {
+    csm.lightDirection = self.position.clone().normalize().multiplyScalar(-1)
+    csm.update()
+}
 
-        data.csm.lightDirection = lightDirection
-        data.csm.update()
-    }
+const [addLightSystem, deleteLightSystem] = renderSystemWithData(
+    (self: SkyLight, data: { csm: CSM }) =>
+        positionChanged(self.outerObject3d) &&
+        updateLightDirection(self, data.csm)
 )
 
 const mapCSMOptions = (
@@ -73,6 +71,7 @@ export default class SkyLight
 
     public constructor() {
         super(HemisphereLight)
+        this.ambientIntensity = 0.5
 
         this.createEffect(() => {
             if (!this.castShadowState.get()) {
@@ -88,7 +87,7 @@ export default class SkyLight
                     handle.cancel()
                 }
             }
-
+            const intensity = this.intensityState.get()
             const csm = new CSM({
                 ...mapCSMOptions(
                     this.shadowDistanceState.get() ?? getShadowDistance(),
@@ -97,9 +96,9 @@ export default class SkyLight
                 cascades: 1,
                 parent: scene,
                 camera: getCameraRendered(),
-                lightIntensity: 0.5
+                lightIntensity: Math.max(0.1, intensity)
             })
-
+            updateLightDirection(this, csm)
             addLightSystem(this, { csm })
             const handle = getCameraRendered((val) => (csm.camera = val))
             return () => {
@@ -114,6 +113,7 @@ export default class SkyLight
         }, [
             this.castShadowState.get,
             this.shadowDistanceState.get,
+            this.intensityState.get,
             getShadowDistance,
             getShadowResolution
         ])
@@ -141,5 +141,20 @@ export default class SkyLight
                 (light) => light && (light.groundColor = new Color(val))
             )
         )
+    }
+
+    private intensityState = new Reactive(0.5)
+    public override get intensity() {
+        return this.intensityState.get()
+    }
+    public override set intensity(val) {
+        this.intensityState.set(val)
+    }
+
+    public get ambientIntensity() {
+        return super.intensity
+    }
+    public set ambientIntensity(val) {
+        super.intensity = val
     }
 }

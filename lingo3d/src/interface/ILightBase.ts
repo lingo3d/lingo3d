@@ -27,6 +27,8 @@ export const lightBaseSchema: Required<ExtractProps<ILightBase>> = {
     shadowResolution: String
 }
 
+export const intensityRange = new Range(0, 2)
+
 export const shadowResolutionChoices = new Choices({
     low: "low",
     medium: "medium",
@@ -42,7 +44,7 @@ export const lightBaseDefaults = extendDefaults<ILightBase>(
         helper: true
     },
     {
-        intensity: new Range(0, 2),
+        intensity: intensityRange,
         shadowResolution: shadowResolutionChoices
     },
     { color: true, castShadow: true }
