@@ -10,7 +10,7 @@ export default class ProjectionNode
     extends GameGraphChild
     implements IProjectionNode
 {
-    public static componentName = "projectNode"
+    public static componentName = "projectionNode"
     public static defaults = projectionNodeDefaults
     public static schema = projectionNodeSchema
     public static includeKeys = ["x", "y", "distance", "outX", "outY", "outZ"]

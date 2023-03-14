@@ -49,6 +49,7 @@ import NumberNode from "../../visualScripting/NumberNode"
 import AddNode from "../../visualScripting/AddNode"
 import ProjectionNode from "../../visualScripting/ProjectionNode"
 import SpawnNode from "../../visualScripting/SpawnNode"
+import LoopNode from "../../visualScripting/LoopNode"
 import TemplateNode from "../../visualScripting/TemplateNode"
 import SpawnPoint from "../../display/SpawnPoint"
 import SphericalJoint from "../../display/joints/SphericalJoint"
@@ -117,6 +118,7 @@ const record = {
     addNode: () => new AddNode(),
     projectionNode: () => new ProjectionNode(),
     spawnNode: () => new SpawnNode(),
+    loopNode: () => new LoopNode(),
     templateNode: () => new TemplateNode()
 } satisfies Record<GameObjectType, () => Appendable>
 

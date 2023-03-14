@@ -8,18 +8,18 @@ import { ExtractProps } from "./utils/extractProps"
 
 export default interface IAddNode extends IGameGraphChild {
     add: number
-    value: number
+    out: number
     run: Function
 }
 
 export const addNodeSchema: Required<ExtractProps<IAddNode>> = {
     ...gameGraphChildSchema,
     add: Number,
-    value: Number,
+    out: Number,
     run: Function
 }
 
 export const addNodeDefaults = extendDefaults<IAddNode>(
     [gameGraphChildDefaults],
-    { add: 1, value: 0, run: defaultMethod() }
+    { add: 1, out: 0, run: defaultMethod() }
 )

@@ -58,6 +58,7 @@ export type GameObjectType =
     | "addNode"
     | "projectionNode"
     | "spawnNode"
+    | "loopNode"
     | "templateNode"
 
 type VersionNode = {

@@ -31,6 +31,7 @@ const StageContextMenu = () => {
                         "addNode",
                         "projectionNode",
                         "spawnNode",
+                        "loopNode",
                         "mouse",
                         "keyboard",
                         "joystick"
