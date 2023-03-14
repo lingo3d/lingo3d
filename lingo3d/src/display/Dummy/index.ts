@@ -100,6 +100,9 @@ export default class Dummy extends Model implements IDummy {
             else if (src !== YBOT_URL()) {
                 super.animations = this.animationsState.get()
                 this.animation = getPose()
+                return () => {
+                    super.animations = {}
+                }
             }
             super.animations = {
                 idle: url + prefix + "idle.fbx",
