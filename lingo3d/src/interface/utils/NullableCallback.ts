@@ -28,6 +28,11 @@ export const isNullableCallbackParam = (
     value: any
 ): value is NullableCallbackParamType => nullableCallbackParams.has(value)
 
+export const isNullableCallbackParamInstance = (
+    value: any
+): value is NullableCallbackParam =>
+    isNullableCallbackParam(value) && "value" in value
+
 export default class NullableCallback {
     public constructor(public param: NullableCallbackParamType) {
         nullableCallbackParams.add(param)

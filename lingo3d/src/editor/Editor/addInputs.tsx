@@ -19,11 +19,11 @@ import { unmountComponentAtNode } from "preact/compat"
 import Toggle from "./Toggle"
 import {
     isNullableCallbackParam,
-    NullableCallbackParam
+    isNullableCallbackParamInstance
 } from "../../interface/utils/NullableCallback"
 import {
-    DefaultMethodArg,
-    isDefaultMethodArg
+    isDefaultMethodArg,
+    isDefaultMethodArgInstance
 } from "../../interface/utils/DefaultMethod"
 import { isPoint } from "../../utils/isPoint"
 import executeIcon from "./icons/executeIcon"
@@ -184,7 +184,7 @@ export default async (
             let input: any
             const paramValue = params[key]
             if (isDefaultMethodArg(paramValue)) {
-                const isDefaultValue = paramValue instanceof DefaultMethodArg
+                const isDefaultValue = isDefaultMethodArgInstance(paramValue)
                 if (isDefaultValue) params[key] = paramValue.value ?? ""
 
                 const execute = () => {
@@ -210,7 +210,7 @@ export default async (
                 executeButton.onclick = execute
             } else if (isNullableCallbackParam(paramValue)) {
                 const isDefaultValue =
-                    paramValue instanceof NullableCallbackParam
+                    isNullableCallbackParamInstance(paramValue)
                 if (isDefaultValue) params[key] = paramValue.value ?? ""
                 if (
                     (isDefaultValue && paramValue.value !== undefined) ||

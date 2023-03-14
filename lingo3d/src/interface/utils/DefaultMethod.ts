@@ -17,6 +17,10 @@ export const defaultMethodArgs = new WeakSet<DefaultMethodArgType>()
 export const isDefaultMethodArg = (value: any): value is DefaultMethodArgType =>
     defaultMethodArgs.has(value)
 
+export const isDefaultMethodArgInstance = (
+    value: any
+): value is DefaultMethodArg => isDefaultMethodArg(value) && "value" in value
+
 export default class DefaultMethod {
     public constructor(public arg: DefaultMethodArgType) {
         defaultMethodArgs.add(arg)
