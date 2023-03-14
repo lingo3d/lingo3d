@@ -17,7 +17,7 @@ import getWorldQuaternion from "../utils/getWorldQuaternion"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 import { getEditorHelper } from "../../states/useEditorHelper"
-import { getFps } from "../../states/useFps"
+import { fpsPtr } from "../../states/useFps"
 import renderSystemWithData from "../../utils/renderSystemWithData"
 import fpsAlpha from "../utils/fpsAlpha"
 import { vector3_ } from "../utils/reusables"
@@ -48,11 +48,11 @@ const [addCameraSystem, deleteCameraSystem] = renderSystemWithData(
         )
         if (pxHit) {
             cam.position.lerp(pxHit.position, fpsAlpha(0.2))
-            data.lerpCount = getFps()
+            data.lerpCount = fpsPtr[0]
         } else {
             cam.position.lerp(
                 position,
-                fpsAlpha(mapRange(data.lerpCount, getFps(), 0, 0.2, 1))
+                fpsAlpha(mapRange(data.lerpCount, fpsPtr[0], 0, 0.2, 1))
             )
             if (data.lerpCount) data.lerpCount--
         }

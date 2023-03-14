@@ -10,8 +10,8 @@ export const M2CM = 100
 export const WIDTH = 375
 export const HEIGHT = 667
 
-export const SEC2FRAME = 60
-export const FRAME2SEC = 1 / SEC2FRAME
+export const STANDARD_FRAME = 60
+export const INVERSE_STANDARD_FRAME = 1 / STANDARD_FRAME
 
 export const MIN_POLAR_ANGLE = 5
 export const MAX_POLAR_ANGLE = 175

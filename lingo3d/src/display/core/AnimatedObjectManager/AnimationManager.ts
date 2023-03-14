@@ -28,7 +28,7 @@ import IAnimationManager, {
 } from "../../../interface/IAnimationManager"
 import Appendable from "../../../api/core/Appendable"
 import FoundManager from "../FoundManager"
-import { FRAME2SEC, SEC2FRAME } from "../../../globals"
+import { INVERSE_STANDARD_FRAME, STANDARD_FRAME } from "../../../globals"
 import TimelineAudio from "../../TimelineAudio"
 import { Cancellable } from "@lincode/promiselikes"
 
@@ -54,7 +54,9 @@ const framesToKeyframeTrack = (
 
     const values = Object.values(frames)
     const name = targetName + "." + property
-    const frameNums = keys.map((frameNum) => Number(frameNum) * FRAME2SEC)
+    const frameNums = keys.map(
+        (frameNum) => Number(frameNum) * INVERSE_STANDARD_FRAME
+    )
 
     if (isBooleanFrameData(values))
         return new BooleanKeyframeTrack(name, frameNums, values)
@@ -184,7 +186,7 @@ export default class AnimationManager
                 const maxDuration = Math.max(
                     ...audioDurationGetters.map((getter) => getter())
                 )
-                this.audioTotalFrames = Math.ceil(maxDuration * SEC2FRAME)
+                this.audioTotalFrames = Math.ceil(maxDuration * STANDARD_FRAME)
             })
             for (const getAudioDuration of audioDurationGetters)
                 handle.watch(getAudioDuration(computeAudioDuration))
@@ -201,7 +203,7 @@ export default class AnimationManager
                 this.clipTotalFrames = 0
                 return
             }
-            this.clipTotalFrames = Math.ceil(clip.duration * SEC2FRAME)
+            this.clipTotalFrames = Math.ceil(clip.duration * STANDARD_FRAME)
 
             const action = mixer.clipAction(clip)
             this.actionState.set(action)
@@ -255,8 +257,8 @@ export default class AnimationManager
 
             if (gotoFrame !== undefined) {
                 if (prevManager && prevManager !== this)
-                    action.time = gotoFrame * FRAME2SEC
-                else mixer.setTime(gotoFrame * FRAME2SEC)
+                    action.time = gotoFrame * INVERSE_STANDARD_FRAME
+                else mixer.setTime(gotoFrame * INVERSE_STANDARD_FRAME)
                 this.gotoFrameState.set(undefined)
                 return
             }
@@ -313,7 +315,7 @@ export default class AnimationManager
     }
 
     public get frame() {
-        return Math.ceil(this.mixer.time * SEC2FRAME)
+        return Math.ceil(this.mixer.time * STANDARD_FRAME)
     }
     public set frame(val) {
         this.gotoFrameState.set(val)

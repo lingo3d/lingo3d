@@ -2,11 +2,11 @@ import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { Clock } from "three"
 import { getRenderer } from "../states/useRenderer"
-import { getFps } from "../states/useFps"
+import { fpsPtr, getFps } from "../states/useFps"
 import { getFirstLoad } from "../states/useFirstLoad"
 import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
 import { emitRenderHalfRate } from "../events/onRenderHalfRate"
-import { SEC2FRAME } from "../globals"
+import { STANDARD_FRAME } from "../globals"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import { onAfterRender } from "../events/onAfterRender"
 
@@ -48,13 +48,13 @@ createEffect(() => {
     const renderer = getRenderer()
     if (!renderer || (getFirstLoadBeforeRender() && !getFirstLoad())) return
 
-    const targetDelta = (1 / getFps()) * 0.9
+    const targetDelta = (1 / fpsPtr[0]) * 0.9
 
     renderer.setAnimationLoop(() => {
         delta += clock.getDelta()
         if (delta > 0.2) delta = 0
         if (delta < targetDelta) return
-        fpsRatioPtr[0] = delta * SEC2FRAME
+        fpsRatioPtr[0] = delta * STANDARD_FRAME
         dtPtr[0] = delta
         delta = 0
         for (const cb of callbacks) cb()

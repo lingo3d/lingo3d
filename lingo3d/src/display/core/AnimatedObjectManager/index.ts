@@ -7,7 +7,7 @@ import AnimationManager from "./AnimationManager"
 import { Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import { event, EventFunctions } from "@lincode/events"
-import { SEC2FRAME } from "../../../globals"
+import { STANDARD_FRAME } from "../../../globals"
 import { AnimationData } from "../../../interface/IAnimationManager"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 
@@ -24,7 +24,7 @@ const animationValueToData = (val: AnimationValue) => {
     const result = (data[""] ??= {})
     for (const [name, values] of entries)
         result[name] = Object.fromEntries(
-            values.map((v, i) => [Math.ceil(i * timeStep * SEC2FRAME), v])
+            values.map((v, i) => [Math.ceil(i * timeStep * STANDARD_FRAME), v])
         )
     return data
 }

@@ -2,7 +2,12 @@ import { Cancellable } from "@lincode/promiselikes"
 import { memo } from "preact/compat"
 import { useLayoutEffect, useMemo, useRef, useState } from "preact/hooks"
 import TimelineAudio from "../../display/TimelineAudio"
-import { FRAME_HEIGHT, SEC2FRAME, FRAME_WIDTH, FRAME2SEC } from "../../globals"
+import {
+    FRAME_HEIGHT,
+    STANDARD_FRAME,
+    FRAME_WIDTH,
+    INVERSE_STANDARD_FRAME
+} from "../../globals"
 import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { getTimelinePaused } from "../../states/useTimelinePaused"
 import WaveSurfer from "wavesurfer.js"
@@ -25,7 +30,7 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
         return [
             startFrame,
             frameKeys.length < 2
-                ? startFrame + Math.ceil(duration * SEC2FRAME)
+                ? startFrame + Math.ceil(duration * STANDARD_FRAME)
                 : Number(frameKeys.at(-1))
         ]
     }, [frameKeys, duration])
@@ -51,7 +56,7 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
         if (!paused) {
             const handle = getTimelineFrame((frame, handle) => {
                 if (frame < startFrame) return
-                waveSurfer.play((frame - startFrame) * FRAME2SEC)
+                waveSurfer.play((frame - startFrame) * INVERSE_STANDARD_FRAME)
                 handle.cancel()
             })
             let awaitCount = 1
@@ -72,7 +77,7 @@ const AudioRow = ({ instance, frames }: AudioRowProps) => {
         }
         const handle = getTimelineFrame((frame) => {
             waveSurfer.setCurrentTime(
-                Math.max(frame - startFrame, 0) * FRAME2SEC
+                Math.max(frame - startFrame, 0) * INVERSE_STANDARD_FRAME
             )
         })
         return () => {
