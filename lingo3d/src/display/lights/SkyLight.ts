@@ -20,9 +20,11 @@ import DirectionalLight from "./DirectionalLight"
 import { eraseAppendable } from "../../api/core/collections"
 import { assertExhaustive } from "@lincode/utils"
 import renderSystemWithData from "../../utils/renderSystemWithData"
+import { positionChanged } from "../utils/trackObject"
 
 const [addLightSystem, deleteLightSystem] = renderSystemWithData(
     (self: SkyLight, data: { csm: CSM }) => {
+        if (!positionChanged(self.outerObject3d)) return
         const lightDirection = self.position
             .clone()
             .normalize()

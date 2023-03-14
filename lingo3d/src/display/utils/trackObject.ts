@@ -8,7 +8,7 @@ export const positionChanged = computePerFrame((target: Object3D) => {
     const position = getWorldPosition(target)
     const result = userData.positionOld
         ? !position.equals(userData.positionOld)
-        : false
+        : true
     userData.positionOld = position
     return result
 }, false)
