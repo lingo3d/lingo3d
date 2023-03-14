@@ -68,16 +68,19 @@ export default (
     manager: Appendable,
     includeKeys: Array<string> | undefined,
     skipFunctions: boolean
-) => {
+): [Record<string, any>, Appendable] => {
     const { schema } = getStaticProperties(manager)
-    const params: Record<string, any> = {}
-    if (!schema) return [params, manager] as const
+    if (!schema) return [{}, manager]
 
     const schemaKeyNullableCallbackParamMap = new Map<
         string,
         NullableCallbackParamType
     >()
     const schemaKeyDefaultMethodArgMap = new Map<string, DefaultMethodArgType>()
+
+    const rawParams: Record<string, any> = {}
+    const methodParams: Record<string, any> = {}
+    const callbackParams: Record<string, any> = {}
 
     for (const schemaKey of Object.keys(
         filterSchema(schema, manager.runtimeSchema, includeKeys)
@@ -94,14 +97,20 @@ export default (
         const [fn] = functionPtr
         if (skipFunctions && fn) continue
 
-        if (fn instanceof NullableCallback)
+        if (fn instanceof NullableCallback) {
             schemaKeyNullableCallbackParamMap.set(schemaKey, fn.param)
-        else if (fn) schemaKeyDefaultMethodArgMap.set(schemaKey, fn.arg)
-
-        params[schemaKey] = defaultValue
+            callbackParams[schemaKey] = defaultValue
+            continue
+        }
+        if (fn) {
+            schemaKeyDefaultMethodArgMap.set(schemaKey, fn.arg)
+            methodParams[schemaKey] = defaultValue
+            continue
+        }
+        rawParams[schemaKey] = defaultValue
     }
     return [
-        params,
+        { ...rawParams, ...callbackParams, ...methodParams },
         setProxyInstance(
             new Proxy(manager, {
                 get(_, prop: string) {
@@ -135,5 +144,5 @@ export default (
             }),
             manager
         )
-    ] as const
+    ]
 }
