@@ -35,7 +35,6 @@ import Connector from "./visualScripting/Connector"
 import MathNode from "./visualScripting/MathNode"
 import NumberNode from "./visualScripting/NumberNode"
 import AddNode from "./visualScripting/AddNode"
-import IncrementNode from "./visualScripting/IncrementNode"
 import ProjectionNode from "./visualScripting/ProjectionNode"
 import SpawnNode from "./visualScripting/SpawnNode"
 import TemplateNode from "./visualScripting/TemplateNode"
@@ -132,7 +131,6 @@ export {
     MathNode,
     NumberNode,
     AddNode,
-    IncrementNode,
     ProjectionNode,
     SpawnNode,
     TemplateNode,

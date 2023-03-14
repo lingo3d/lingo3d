@@ -26,7 +26,6 @@ const StageContextMenu = () => {
                         })
                     },
                     options: [
-                        "incrementNode",
                         "mathNode",
                         "numberNode",
                         "addNode",
