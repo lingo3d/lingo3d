@@ -194,7 +194,9 @@ export default async (
                     else instance[key](paramValue)
                 }
                 if (
-                    (isDefaultValue && paramValue.value !== undefined) ||
+                    (isDefaultValue &&
+                        paramValue.value !== undefined &&
+                        paramValue.allowInput) ||
                     isPoint(paramValue)
                 )
                     input = lazyMethodsFolder().addInput(params, key)

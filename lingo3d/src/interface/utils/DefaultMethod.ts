@@ -2,7 +2,10 @@ import { Point3d } from "@lincode/math"
 import { forceGet } from "@lincode/utils"
 
 export class DefaultMethodArg {
-    public constructor(public value?: string | number | boolean) {
+    public constructor(
+        public value?: string | number | boolean,
+        public allowInput = true
+    ) {
         Object.freeze(this)
     }
 }
@@ -11,6 +14,7 @@ export type DefaultMethodArgType = Point3d | DefaultMethodArg
 
 export const defaultMethodVoidArg = new DefaultMethodArg()
 export const defaultMethodNumberArg = new DefaultMethodArg(0)
+export const defaultMethodDtArg = new DefaultMethodArg(1, false)
 export const defaultMethodPt3dArg = Object.freeze(new Point3d(0, 0, 0))
 
 export const defaultMethodArgs = new WeakSet<DefaultMethodArgType>()
