@@ -967,11 +967,6 @@ react-is@^16.13.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-realism-effects@^1.0.13:
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/realism-effects/-/realism-effects-1.0.13.tgz#59a00d5e9372147b735987c823cfb160fa155a73"
-  integrity sha512-ZtEngGRPrMHUPHCxhRFF+5/5yzzqo5XnUpwURENq1d/iOLNnsGXcGNl1flW4r2ecqutVkQ2nTVkyQiazoIi/Ng==
-
 resolve@^1.20.0, resolve@^1.22.1:
   version "1.22.1"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.22.1.tgz#27cb2ebb53f91abb49470a928bba7558066ac177"
@@ -1072,7 +1067,7 @@ wasm-feature-detect@^1.5.1:
   resolved "https://registry.yarnpkg.com/wasm-feature-detect/-/wasm-feature-detect-1.5.1.tgz#0db57a7d7f8c26b743dde85386215ae2b135e78a"
   integrity sha512-GHr23qmuehNXHY4902/hJ6EV5sUANIJC3R/yMfQ7hWDg3nfhlcJfnIL96R2ohpIwa62araN6aN4bLzzzq5GXkg==
 
-wavesurfer.js@^6.5.2:
+wavesurfer.js@^6.6.0:
   version "6.6.0"
   resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-6.6.0.tgz#5e0ac6a0e75acfb3f3de87394b4dbfe31ff6d64a"
   integrity sha512-e+1mdjeLNQoZhZqrOV7e13OkCVilYc9JfcGJu7SxuMZAwHUgpUQH9h3ci3KUEIPV4jTTCvmddcBetrHmv3axgw==

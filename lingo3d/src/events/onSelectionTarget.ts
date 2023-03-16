@@ -17,8 +17,15 @@ const [_emitSelectionTarget, onSelectionTarget] = event<Event>()
 export { onSelectionTarget }
 
 export const emitSelectionTarget = throttleTrailing(
-    (target: Appendable | undefined, noDeselect?: boolean) =>
-        _emitSelectionTarget({ target, noDeselect }),
+    (target: Appendable | MeshAppendable | undefined, noDeselect?: boolean) =>
+        _emitSelectionTarget({
+            target:
+                (target &&
+                    "userData" in target &&
+                    target.userData.selectionPointer) ||
+                target,
+            noDeselect
+        }),
     1
 )
 

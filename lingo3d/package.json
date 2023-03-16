@@ -37,11 +37,10 @@
         "preact": "^10.13.1",
         "preact-compat": "^3.19.0",
         "prettier": "^2.8.4",
-        "realism-effects": "^1.0.13",
         "stats.js": "^0.17.0",
         "three": "0.150.1",
         "wasm-feature-detect": "^1.5.1",
-        "wavesurfer.js": "^6.5.2",
+        "wavesurfer.js": "^6.6.0",
         "xstate": "^4.37.0"
     },
     "devDependencies": {

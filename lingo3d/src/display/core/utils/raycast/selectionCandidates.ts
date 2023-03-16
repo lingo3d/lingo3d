@@ -4,13 +4,9 @@ import { Object3D } from "three"
 import Appendable from "../../../../api/core/Appendable"
 import { appendableRoot } from "../../../../api/core/collections"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
-import {
-    onSelectionTarget,
-    emitSelectionTarget
-} from "../../../../events/onSelectionTarget"
+import { emitSelectionTarget } from "../../../../events/onSelectionTarget"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
-import { setSelectionTarget } from "../../../../states/useSelectionTarget"
 import { StandardMesh } from "../../mixins/TexturedStandardMixin"
 import VisibleMixin from "../../mixins/VisibleMixin"
 import HelperPrimitive from "../HelperPrimitive"
@@ -28,18 +24,14 @@ export const addSelectionHelper = (
     manager: MeshAppendable
 ) => {
     helper.target = manager
+    helper.userData.selectionPointer = manager
 
     manager.outerObject3d.add(helper.outerObject3d)
     additionalSelectionCandidates.add(helper.object3d)
 
-    //todo: refactor this with pointer stored in userData
-    const handle = onSelectionTarget(
-        ({ target }) => target === helper && setSelectionTarget(manager)
-    )
     return new Cancellable(() => {
         helper.dispose()
         additionalSelectionCandidates.delete(helper.object3d)
-        handle.cancel()
     })
 }
 
