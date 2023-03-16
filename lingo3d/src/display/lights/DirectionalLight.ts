@@ -1,10 +1,7 @@
 import { mapRange } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
 import { assertExhaustive } from "@lincode/utils"
-import {
-    DirectionalLight as ThreeDirectionalLight,
-    PerspectiveCamera
-} from "three"
+import { DirectionalLight as ThreeDirectionalLight } from "three"
 import { getManager } from "../../api/utils/getManager"
 import scene from "../../engine/scene"
 import { SHADOW_BIAS } from "../../globals"
@@ -18,7 +15,6 @@ import {
     ShadowDistance
 } from "../../states/useShadowDistance"
 import { getShadowResolution } from "../../states/useShadowResolution"
-import renderSystemWithData from "../../utils/renderSystemWithData"
 import Camera from "../cameras/Camera"
 import LightBase, { mapShadowResolution } from "../core/LightBase"
 import getWorldPosition from "../utils/getWorldPosition"
@@ -36,18 +32,6 @@ const mapShadowDistance = (val: ShadowDistance) => {
             assertExhaustive(val)
     }
 }
-
-const [addLightSystem, deleteLightSystem] = renderSystemWithData(
-    (
-        self: DirectionalLight,
-        data: { light: ThreeDirectionalLight; cam: PerspectiveCamera }
-    ) => {
-        const camPos = getWorldPosition(data.cam)
-        const lightPos = getWorldPosition(self.outerObject3d)
-        data.light.position.copy(camPos).add(lightPos)
-        data.light.target.position.copy(camPos).sub(lightPos)
-    }
-)
 
 export default class DirectionalLight
     extends LightBase<typeof ThreeDirectionalLight>
@@ -110,16 +94,6 @@ export default class DirectionalLight
             getShadowDistance,
             getCameraRendered
         ])
-
-        this.createEffect(() => {
-            const light = this.lightState.get()
-            if (!light) return
-
-            addLightSystem(this, { light, cam: getCameraRendered() })
-            return () => {
-                deleteLightSystem(this)
-            }
-        }, [getCameraRendered, this.lightState.get])
 
         this.createEffect(() => {
             const light = this.lightState.get()
