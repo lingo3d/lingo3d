@@ -6,21 +6,21 @@ export default {}
 
 // for (let i = 0; i < 100; ++i) {
 //     const model = new Model()
-//     model.src = "tree1.glb"
+//     model.src = "cyberpunk/electronics.glb"
 // }
 
-// const model = new Model(true)
-// model.src = "tree1.glb"
+const model = new Model(true)
+model.src = "cyberpunk/electronics.glb"
 
-// model.onLoad = () => {
-//     const loaded = model.loadedObject3d
-//     loaded.traverse((child: Object3D | Mesh) => {
-//         if (!("geometry" in child)) return
-//         const instancedMesh = new InstancedMesh(
-//             child.geometry,
-//             child.material,
-//             100
-//         )
-//         scene.add(instancedMesh)
-//     })
-// }
+model.onLoad = () => {
+    const loaded = model.loadedObject3d!
+    loaded.traverse((child: Object3D | Mesh) => {
+        if (!("geometry" in child)) return
+        const instancedMesh = new InstancedMesh(
+            child.geometry,
+            child.material,
+            100
+        )
+        scene.add(instancedMesh)
+    })
+}

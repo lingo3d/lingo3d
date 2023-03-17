@@ -1,6 +1,5 @@
 import Model from "../../display/Model"
 import Dummy from "../../display/Dummy"
-import Building from "../../display/Building"
 import Tree from "../../display/Tree"
 import SvgMesh from "../../display/SvgMesh"
 import HTMLMesh from "../../display/HTMLMesh"
@@ -72,7 +71,6 @@ const record = {
     mouse: () => new Mouse(),
     keyboard: () => new Keyboard(),
     dummy: () => new Dummy(),
-    building: () => new Building(),
     tree: () => new Tree(),
     reflector: () => new Reflector(),
     water: () => new Water(),
