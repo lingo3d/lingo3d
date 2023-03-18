@@ -55,9 +55,9 @@
         "object-sizeof": "^2.6.1",
         "randomcolor": "^0.6.2",
         "rimraf": "^3.0.2",
-        "tweakpane": "^3.1.6",
+        "tweakpane": "^3.1.7",
         "typescript": "^5.0.2",
-        "vite": "^4.1.4"
+        "vite": "^4.2.0"
     },
     "private": false,
     "module": "lib/index.js",
