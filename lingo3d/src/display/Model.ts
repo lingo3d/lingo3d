@@ -33,6 +33,8 @@ import { rendererPtr } from "../states/useRenderer"
 import { reflectionVisibleSet } from "./core/mixins/VisibleMixin"
 import getWorldPosition from "./utils/getWorldPosition"
 import renderSystemWithLifeCycleAndData from "../utils/renderSystemWithLifeCycleAndData"
+import { uuidMap } from "../api/core/collections"
+import Primitive from "./core/Primitive"
 
 const [addReflectionSystem, deleteReflectionSystem] =
     renderSystemWithLifeCycleAndData(
@@ -203,6 +205,32 @@ export default class Model extends Loaded<Group> implements IModel {
         increaseLoadingCount()
         const resolvable = new Resolvable()
         this.loadingState.set(this.loadingState.get() + 1)
+
+        if (uuidMap.has(url)) {
+            const instance = uuidMap.get(url)
+            if (
+                !(
+                    instance instanceof Model ||
+                    instance instanceof FoundManager ||
+                    instance instanceof Primitive
+                )
+            ) {
+                resolvable.resolve()
+                setTimeout(() =>
+                    this.loadingState.set(this.loadingState.get() - 1)
+                )
+                decreaseLoadingCount()
+                throw new Error("uuid doesn't point to a model or primitive")
+            }
+            const result = (
+                "loaded" in instance ? await instance.loaded : instance.object3d
+            ).clone() as Group
+
+            resolvable.resolve()
+            setTimeout(() => this.loadingState.set(this.loadingState.get() - 1))
+            decreaseLoadingCount()
+            return result
+        }
 
         const extension = getExtensionIncludingObjectURL(url)
         if (!extension || !supported.has(extension)) {
