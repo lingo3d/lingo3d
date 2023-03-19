@@ -17,7 +17,7 @@ createEffect(() => {
 
     const target =
         getSelectionNativeTarget() ??
-        (isMeshAppendable ? selectionTarget.object3d : undefined)
+        (isMeshAppendable ? selectionTarget.outerObject3d : undefined)
 
     if (!target) return
 

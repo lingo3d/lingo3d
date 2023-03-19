@@ -8,6 +8,7 @@ import PhysicsObjectManager from "../../../display/core/PhysicsObjectManager"
 import SpriteSheet from "../../../display/SpriteSheet"
 import Timeline from "../../../display/Timeline"
 import deleteSelected from "../../../engine/hotkeys/deleteSelected"
+import { emitEditorGroupItems } from "../../../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { getGameGraph, setGameGraph } from "../../../states/useGameGraph"
 import { getMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
@@ -49,20 +50,28 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
     const children: Array<ComponentChild> = []
     if (multipleSelectionTargets.size)
         children.push(
-            <MenuButton
-                disabled={multipleSelectionTargets.size === 1}
-                onClick={() => {
-                    // createJoint("d6Joint")
-                    // setPosition(undefined)
-                    sceneGraphMenuSignal.value = {
-                        x: sceneGraphMenuSignal.value?.x ?? 0,
-                        y: sceneGraphMenuSignal.value?.y ?? 0,
-                        createJoint: true
-                    }
-                }}
-            >
-                Create joint
-            </MenuButton>
+            <>
+                <MenuButton
+                    disabled={multipleSelectionTargets.size === 1}
+                    onClick={() => {
+                        // createJoint("d6Joint")
+                        // setPosition(undefined)
+                        sceneGraphMenuSignal.value = {
+                            x: sceneGraphMenuSignal.value?.x ?? 0,
+                            y: sceneGraphMenuSignal.value?.y ?? 0,
+                            createJoint: true
+                        }
+                    }}
+                >
+                    Create joint
+                </MenuButton>
+                <MenuButton
+                    disabled={multipleSelectionTargets.size === 1}
+                    onClick={() => emitEditorGroupItems()}
+                >
+                    Group selected
+                </MenuButton>
+            </>
         )
     else if (selectionTarget instanceof Timeline)
         children.push(
