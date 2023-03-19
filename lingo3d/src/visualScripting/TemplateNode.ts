@@ -18,6 +18,7 @@ export default class TemplateNode extends GameGraphChild {
     public set source(type: GameObjectType | Appendable) {
         const target = typeof type === "string" ? createObject(type) : type
         target.dispose()
+        this.children = target.children
         Object.setPrototypeOf(this, target)
     }
 }

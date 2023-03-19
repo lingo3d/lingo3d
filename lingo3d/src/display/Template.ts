@@ -14,6 +14,7 @@ export default class Template extends Appendable {
     public set source(type: GameObjectType | Appendable) {
         const target = typeof type === "string" ? createObject(type) : type
         target.dispose()
+        this.children = target.children
         Object.setPrototypeOf(this, target)
     }
 }
