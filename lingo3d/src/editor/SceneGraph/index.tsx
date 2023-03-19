@@ -2,12 +2,12 @@ import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import SceneGraphContextMenu from "./SceneGraphContextMenu"
 import useInitCSS from "../hooks/useInitCSS"
 import AccordionSceneGraph from "./AccordionSceneGraph"
-import AccordionTimelines from "./AccordionTimelines"
 import useInitEditor from "../hooks/useInitEditor"
 import { toggleRightClickPtr } from "../../api/mouse"
 import { stopPropagation } from "../utils/stopPropagation"
 import mergeRefs from "../hooks/mergeRefs"
 import { enableHotKeysOnElement } from "../../engine/hotkeys"
+import ResizableRows from "../component/ResizableRows"
 
 const SceneGraph = () => {
     useInitCSS()
@@ -30,8 +30,10 @@ const SceneGraph = () => {
                     gridTemplateRows: "1fr auto"
                 }}
             >
-                <AccordionSceneGraph />
-                {/* <AccordionTimelines /> */}
+                <ResizableRows>
+                    <AccordionSceneGraph />
+                    <div>hello world</div>
+                </ResizableRows>
             </div>
             <SceneGraphContextMenu />
         </>
