@@ -1,5 +1,5 @@
 import MenuButton from "../../component/MenuButton"
-import createJoint from "../utils/createJoint"
+import createJoint from "./createJoint"
 import sceneGraphMenuSignal from "./sceneGraphMenuSignal"
 
 const CreateJointItems = () => {

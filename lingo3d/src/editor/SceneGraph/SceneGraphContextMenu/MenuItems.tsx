@@ -28,7 +28,7 @@ import Connector from "../../../visualScripting/Connector"
 import GameGraph from "../../../visualScripting/GameGraph"
 import MenuButton from "../../component/MenuButton"
 import useSyncState from "../../hooks/useSyncState"
-import selectAllJointed from "../utils/selectAllJointed"
+import selectAllJointed from "./selectAllJointed"
 import CreateJointItems from "./CreateJointItems"
 import sceneGraphMenuSignal from "./sceneGraphMenuSignal"
 
@@ -131,6 +131,14 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                         }
                     >
                         Search children
+                    </MenuButton>,
+
+                    <MenuButton
+                        onClick={() => {
+                            sceneGraphMenuSignal.value = undefined
+                        }}
+                    >
+                        Convert to Template
                     </MenuButton>,
 
                     <MenuButton

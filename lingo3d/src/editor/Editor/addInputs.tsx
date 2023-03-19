@@ -158,7 +158,7 @@ export default async (
 
     const { defaults } = getStaticProperties(target)
     const options = defaultsOptionsMap.get(defaults)
-    const optionsOmitted =
+    const optionsOmitted: Record<string, any> | undefined =
         options && omitOptionsMap.has(options)
             ? omit(options, omitOptionsMap.get(options)!)
             : options
