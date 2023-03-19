@@ -5,7 +5,7 @@ import GameGraph from "../../visualScripting/GameGraph"
 import SpotLight from "../../display/lights/SpotLight"
 import { setGameGraph } from "../../states/useGameGraph"
 import drag, { setDragImage } from "../utils/drag"
-import IconImage from "./IconImage"
+import ComponentIconImage from "./ComponentIconImage"
 
 const setDraggingItem = drag<GameObjectType>((val) => {
     const result = createObject(val)
@@ -26,7 +26,7 @@ type Props = {
     onDragEnd?: () => void
 }
 
-const ObjectIcon = ({
+const ComponentIcon = ({
     name,
     iconName = name,
     onDragStart,
@@ -47,7 +47,7 @@ const ObjectIcon = ({
             className="lingo3d-flexcenter lingo3d-flexcol"
             style={{ width: "50%", paddingTop: 20, paddingBottom: 20 }}
         >
-            <IconImage iconName={iconName} />
+            <ComponentIconImage iconName={iconName} />
             <div
                 style={{
                     marginTop: 6,
@@ -63,4 +63,4 @@ const ObjectIcon = ({
     )
 }
 
-export default ObjectIcon
+export default ComponentIcon

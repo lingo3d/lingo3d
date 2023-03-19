@@ -1,4 +1,4 @@
-import ObjectGroup, { ObjectName } from "./ObjectGroup"
+import Components, { ObjectName } from "./Components"
 import { LIBRARY_WIDTH } from "../../globals"
 import useInitCSS from "../hooks/useInitCSS"
 import AppBar from "../component/bars/AppBar"
@@ -85,17 +85,19 @@ const Library = ({ onDragStart, onDragEnd }: Props) => {
                 <Tab half selectedSignal={selectedSignal}>
                     components
                 </Tab>
-                <Tab half selectedSignal={selectedSignal} disabled>
-                    materials
+                <Tab half selectedSignal={selectedSignal}>
+                    templates
                 </Tab>
             </AppBar>
             <SearchBox onChange={(val) => setSearch(val.toLowerCase())} />
             <div style={{ padding: 10, overflowY: "scroll", flexGrow: 1 }}>
-                <ObjectGroup
-                    names={names}
-                    onDragStart={onDragStart}
-                    onDragEnd={onDragEnd}
-                />
+                {selectedSignal.value === "components" && (
+                    <Components
+                        names={names}
+                        onDragStart={onDragStart}
+                        onDragEnd={onDragEnd}
+                    />
+                )}
             </div>
         </div>
     )

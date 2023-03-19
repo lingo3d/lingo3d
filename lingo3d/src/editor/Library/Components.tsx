@@ -1,5 +1,5 @@
 import { GameObjectType } from "../../api/serializer/types"
-import ObjectIcon from "./ObjectIcon"
+import ComponentIcon from "./ComponentIcon"
 
 export type ObjectName = Array<
     GameObjectType | Partial<Record<GameObjectType, string>>
@@ -27,7 +27,7 @@ type Props = {
     onDragEnd?: () => void
 }
 
-const ObjectGroup = ({ names, onDragStart, onDragEnd }: Props) => {
+const Components = ({ names, onDragStart, onDragEnd }: Props) => {
     const groups: Array<
         Array<GameObjectType | Partial<Record<GameObjectType, string>>>
     > = []
@@ -46,14 +46,14 @@ const ObjectGroup = ({ names, onDragStart, onDragEnd }: Props) => {
         <>
             {groups.map(([name0, name1], i) => (
                 <div key={i} style={{ display: "flex" }}>
-                    <ObjectIcon
+                    <ComponentIcon
                         name={getName(name0)}
                         iconName={getIconName(name0)}
                         onDragStart={onDragStart}
                         onDragEnd={onDragEnd}
                     />
                     {name1 && (
-                        <ObjectIcon
+                        <ComponentIcon
                             name={getName(name1)}
                             iconName={getIconName(name1)}
                             onDragStart={onDragStart}
@@ -66,4 +66,4 @@ const ObjectGroup = ({ names, onDragStart, onDragEnd }: Props) => {
     )
 }
 
-export default ObjectGroup
+export default Components

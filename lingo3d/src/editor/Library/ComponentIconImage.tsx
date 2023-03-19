@@ -6,7 +6,7 @@ type IconImageProps = {
     iconName: string
 }
 
-const IconImage = ({ iconName }: IconImageProps) => {
+const ComponentIconImage = ({ iconName }: IconImageProps) => {
     const [loaded, setLoaded] = useState(false)
     const src = useMemo(() => `${EDITOR_URL()}${iconName}.png`, [iconName])
 
@@ -20,7 +20,7 @@ const IconImage = ({ iconName }: IconImageProps) => {
         <div style={{ width: 50, height: 50 }}>
             {!loaded && (
                 <div
-                    className="lingo3d-flexcenter"
+                    className="lingo3d-flexcenter lingo3d-fadein"
                     style={{ width: "100%", height: "100%" }}
                 >
                     <Spinner color="rgba(255, 255, 255, 0.1)" />
@@ -42,4 +42,4 @@ const IconImage = ({ iconName }: IconImageProps) => {
         </div>
     )
 }
-export default IconImage
+export default ComponentIconImage
