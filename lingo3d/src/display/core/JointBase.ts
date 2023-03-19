@@ -62,8 +62,8 @@ export default abstract class JointBase
 
     public pxJoint: any
 
-    protected override _dispose() {
-        super._dispose()
+    protected override disposeNode() {
+        super.disposeNode()
         joints.delete(this)
     }
 

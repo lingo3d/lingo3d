@@ -31,8 +31,8 @@ export default class DefaultSkyLight
         defaultSkyLight = this
     }
 
-    protected override _dispose() {
-        super._dispose()
+    protected override disposeNode() {
+        super.disposeNode()
         defaultSkyLight = undefined
         checkDefaultLight()
     }

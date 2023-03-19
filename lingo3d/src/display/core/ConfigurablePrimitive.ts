@@ -36,8 +36,8 @@ export default abstract class ConfigurablePrimitive<
 
     public abstract getParams(): Readonly<ConstructorParameters<GeometryClass>>
 
-    protected override _dispose() {
-        super._dispose()
+    protected override disposeNode() {
+        super.disposeNode()
         decreaseCount(this.Geometry, this.params)
     }
 }

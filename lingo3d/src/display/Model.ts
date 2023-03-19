@@ -322,8 +322,8 @@ export default class Model extends Loaded<Group> implements IModel {
         return children
     }
 
-    protected override _dispose() {
-        super._dispose()
+    protected override disposeNode() {
+        super.disposeNode()
         reflectionDataMap.get(this)?.[1].cancel()
     }
 

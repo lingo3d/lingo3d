@@ -165,8 +165,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
 
     public convexParamString?: string
-    protected override _dispose() {
-        super._dispose()
+    protected override disposeNode() {
+        super.disposeNode()
         decreaseConvexGeometryCount(this)
     }
     protected getPxShape(_: PhysicsOptions, actor: any) {

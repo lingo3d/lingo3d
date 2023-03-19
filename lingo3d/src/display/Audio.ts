@@ -86,8 +86,8 @@ export default class Audio
         ])
     }
 
-    protected override _dispose() {
-        super._dispose()
+    protected override disposeNode() {
+        super.disposeNode()
         this.outerObject3d.buffer && this.outerObject3d.disconnect()
     }
 

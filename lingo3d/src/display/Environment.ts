@@ -36,8 +36,8 @@ export default class Environment
         }, [getEditorHelper, this.helperState.get])
     }
 
-    protected override _dispose() {
-        super._dispose()
+    protected override disposeNode() {
+        super.disposeNode()
         pullEnvironmentStack(this)
     }
 

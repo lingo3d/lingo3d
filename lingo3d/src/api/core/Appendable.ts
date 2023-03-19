@@ -104,28 +104,33 @@ export default class Appendable extends Disposable implements IAppendable {
         this.appendNode(child)
     }
 
-    protected _dispose() {
+    protected disposeNode() {
         this._uuid && uuidMap.delete(this._uuid)
         this._id && userIdMap.get(this._id)!.delete(this)
         if (this.handles)
             for (const handle of this.handles.values()) handle.cancel()
 
-        appendableRoot.delete(this)
+        emitDispose(this)
+    }
+
+    private disposeChildren() {
+        super.dispose()
+        this.disposeNode()
+        if (this.children)
+            for (const child of this.children) child.disposeChildren()
+    }
+
+    public override dispose() {
+        if (this.done) return this
+        this.disposeChildren()
 
         const { parent } = this
         if (parent) {
             parent.children!.delete(this)
             parent.refreshFirstChildState()
-            this.parent = undefined
-        }
+        } else appendableRoot.delete(this)
+
         emitSceneGraphChange()
-        emitDispose(this)
-    }
-    public override dispose() {
-        if (this.done) return this
-        super.dispose()
-        this._dispose()
-        if (this.children) for (const child of this.children) child.dispose()
         return this
     }
 

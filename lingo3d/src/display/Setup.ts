@@ -20,8 +20,8 @@ class Setup extends Appendable {
         setup = this
     }
 
-    protected override _dispose() {
-        super._dispose()
+    protected override disposeNode() {
+        super.disposeNode()
         setup = undefined
         Object.assign(setupStruct, setupStructDefaults)
     }
