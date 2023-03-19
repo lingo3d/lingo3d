@@ -154,7 +154,7 @@ export default class Appendable extends Disposable implements IAppendable {
         return (this._propertyChangedEvent ??= new Events())
     }
 
-    private _name?: string
+    protected _name?: string
     public get name() {
         return this._name
     }

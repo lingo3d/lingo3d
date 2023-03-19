@@ -19,6 +19,8 @@ export default class TemplateNode extends GameGraphChild {
         const target = typeof type === "string" ? createObject(type) : type
         target.dispose()
         this.children = target.children
+        this._name = target.name
+        this._id = target.id
         Object.setPrototypeOf(this, target)
     }
 }
