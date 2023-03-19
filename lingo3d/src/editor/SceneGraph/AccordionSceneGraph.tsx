@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useState } from "preact/hooks"
+import { useMemo } from "preact/hooks"
 import { appendableRoot, hiddenAppendables } from "../../api/core/collections"
 import ObjectManager, {
     getFoundManager
@@ -6,10 +6,7 @@ import ObjectManager, {
 import Model from "../../display/Model"
 import scene from "../../engine/scene"
 import { emitEditorGroupItems } from "../../events/onEditorGroupItems"
-import {
-    emitSceneGraphChange,
-    onSceneGraphChange
-} from "../../events/onSceneGraphChange"
+import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
@@ -24,22 +21,15 @@ import FindIcon from "./icons/FindIcon"
 import GroupIcon from "./icons/GroupIcon"
 import ModelTreeItem from "./ModelTreeItem"
 import TreeItem from "./TreeItem"
+import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
 
 const AccordionSceneGraph = () => {
-    const [refresh, setRefresh] = useState({})
-    useLayoutEffect(() => {
-        const handle = onSceneGraphChange(() => setRefresh({}))
-        return () => {
-            handle.cancel()
-        }
-    }, [])
-
+    const refresh = useSceneGraphRefresh()
     const appendables = useMemo(
         () =>
             [...appendableRoot].filter((item) => !hiddenAppendables.has(item)),
         [refresh]
     )
-
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionTarget = useSyncState(getSelectionTarget)
     const nativeTarget = useSyncState(getSelectionNativeTarget)
