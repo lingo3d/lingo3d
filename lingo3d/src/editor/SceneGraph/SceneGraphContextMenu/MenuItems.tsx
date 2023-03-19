@@ -31,6 +31,8 @@ import useSyncState from "../../hooks/useSyncState"
 import selectAllJointed from "./selectAllJointed"
 import CreateJointItems from "./CreateJointItems"
 import sceneGraphMenuSignal from "./sceneGraphMenuSignal"
+import Template from "../../../display/Template"
+import VisibleObjectManager from "../../../display/core/VisibleObjectManager"
 
 type Props = {
     selectionTarget: Appendable | MeshAppendable | undefined
@@ -119,7 +121,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 </MenuButton>
             )
         else if (selectionTarget instanceof MeshAppendable) {
-            if (selectionTarget instanceof PhysicsObjectManager)
+            if (selectionTarget instanceof VisibleObjectManager) {
                 children.push(
                     <MenuButton
                         onClick={() =>
@@ -135,6 +137,8 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
 
                     <MenuButton
                         onClick={() => {
+                            const template = new Template()
+                            template.source = selectionTarget
                             sceneGraphMenuSignal.value = undefined
                         }}
                     >
@@ -155,25 +159,28 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                         {selectionFocus === selectionTarget
                             ? "Exit selected"
                             : "Enter selected"}
-                    </MenuButton>,
-
-                    <MenuButton
-                        onClick={() => {
-                            selectAllJointed(
-                                selectionTarget instanceof JointBase
-                                    ? selectionTarget.fromManager ??
-                                          selectionTarget.toManager
-                                    : selectionTarget instanceof
-                                      PhysicsObjectManager
-                                    ? selectionTarget
-                                    : undefined
-                            )
-                            sceneGraphMenuSignal.value = undefined
-                        }}
-                    >
-                        Select all jointed
                     </MenuButton>
                 )
+                if (selectionTarget instanceof PhysicsObjectManager)
+                    children.push(
+                        <MenuButton
+                            onClick={() => {
+                                selectAllJointed(
+                                    selectionTarget instanceof JointBase
+                                        ? selectionTarget.fromManager ??
+                                              selectionTarget.toManager
+                                        : selectionTarget instanceof
+                                          PhysicsObjectManager
+                                        ? selectionTarget
+                                        : undefined
+                                )
+                                sceneGraphMenuSignal.value = undefined
+                            }}
+                        >
+                            Select all jointed
+                        </MenuButton>
+                    )
+            }
             children.push(
                 <MenuButton
                     onClick={() => {
