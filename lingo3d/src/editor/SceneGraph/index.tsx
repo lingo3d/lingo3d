@@ -24,12 +24,7 @@ const SceneGraph = () => {
                     toggleRightClickPtr(e.clientX, e.clientY)
                     emitSelectionTarget(undefined)
                 }}
-                style={{
-                    width: 200,
-                    height: "100%",
-                    display: "grid",
-                    gridTemplateRows: "1fr auto"
-                }}
+                style={{ width: 200, height: "100%" }}
             >
                 <ResizableRows>
                     <AccordionSceneGraph />
