@@ -14,11 +14,9 @@ export default (
 ) => {
     handleStopPropagation(e)
     setWorldPlay(false)
-    queueMicrotask(() => {
-        rightClick && toggleRightClickPtr(e.clientX, e.clientY)
-        if (target instanceof Object3D) {
-            emitSelectionTarget(nativeParent, true)
-            setSelectionNativeTarget(target)
-        } else emitSelectionTarget(target, true)
-    })
+    rightClick && toggleRightClickPtr(e.clientX, e.clientY)
+    if (target instanceof Object3D) {
+        emitSelectionTarget(nativeParent, true)
+        setSelectionNativeTarget(target)
+    } else emitSelectionTarget(target, true)
 }
