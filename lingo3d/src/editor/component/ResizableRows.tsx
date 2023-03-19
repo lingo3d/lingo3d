@@ -19,25 +19,24 @@ const ResizableRows = ({ children }: Props) => {
     return (
         <div ref={elRef} className="lingo3d-absfull lingo3d-flexcol">
             {children.map((child, i) => (
-                <>
-                    <div
-                        key={i}
-                        style={{
-                            width: "100%",
-                            height:
-                                height / children.length +
-                                (sizeOffsets[i] ?? 0),
-                            minHeight: APPBAR_HEIGHT
-                        }}
-                    >
-                        {child}
-                    </div>
+                <div
+                    key={i}
+                    style={{
+                        width: "100%",
+                        height:
+                            height / children.length + (sizeOffsets[i] ?? 0),
+                        minHeight: APPBAR_HEIGHT
+                    }}
+                >
+                    {child}
                     {i < children.length - 1 && (
                         <PanDiv
                             style={{
                                 width: "100%",
-                                height: 4,
-                                cursor: "row-resize"
+                                height: 6,
+                                cursor: "row-resize",
+                                position: "absolute",
+                                bottom: 0
                             }}
                             onPan={({ deltaY }) => {
                                 sizeOffsets[i] ??= 0
@@ -48,7 +47,7 @@ const ResizableRows = ({ children }: Props) => {
                             }}
                         />
                     )}
-                </>
+                </div>
             ))}
         </div>
     )
