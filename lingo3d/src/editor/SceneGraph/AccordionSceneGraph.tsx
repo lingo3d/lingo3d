@@ -22,12 +22,15 @@ import GroupIcon from "./icons/GroupIcon"
 import ModelTreeItem from "./ModelTreeItem"
 import TreeItem from "./TreeItem"
 import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
+import { isTemplate } from "../../display/Template"
 
 const AccordionSceneGraph = () => {
     const refresh = useSceneGraphRefresh()
     const appendables = useMemo(
         () =>
-            [...appendableRoot].filter((item) => !hiddenAppendables.has(item)),
+            [...appendableRoot].filter(
+                (item) => !hiddenAppendables.has(item) && !isTemplate(item)
+            ),
         [refresh]
     )
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
@@ -44,49 +47,47 @@ const AccordionSceneGraph = () => {
     }
 
     return (
-        <div>
-            <div className="lingo3d-absfull lingo3d-flexcol">
-                <TitleBar title="scenegraph">
-                    <AppBarButton disabled={!nativeTarget} onClick={handleFind}>
-                        <FindIcon />
-                    </AppBarButton>
-                    <AppBarButton
-                        disabled={!multipleSelectionTargets.size}
-                        onClick={emitEditorGroupItems}
-                    >
-                        <GroupIcon />
-                    </AppBarButton>
-                    <AppBarButton
-                        disabled={!selectionTarget}
-                        onClick={deleteSelected}
-                    >
-                        <DeleteIcon />
-                    </AppBarButton>
-                </TitleBar>
-                <div style={{ overflow: "scroll", flexGrow: 1 }}>
-                    {appendables.map((appendable) =>
-                        appendable instanceof Model ? (
-                            <ModelTreeItem
-                                key={appendable.uuid}
-                                appendable={appendable}
-                            />
-                        ) : (
-                            <TreeItem
-                                key={appendable.uuid}
-                                appendable={appendable}
-                            />
-                        )
-                    )}
-                    <EmptyTreeItem
-                        onDrop={(child) => {
-                            emitSceneGraphChange()
-                            appendableRoot.add(child)
-                            scene.attach(child.outerObject3d)
-                            child.parent?.children?.delete(child)
-                            child.parent = undefined
-                        }}
-                    />
-                </div>
+        <div className="lingo3d-absfull lingo3d-flexcol">
+            <TitleBar title="scenegraph">
+                <AppBarButton disabled={!nativeTarget} onClick={handleFind}>
+                    <FindIcon />
+                </AppBarButton>
+                <AppBarButton
+                    disabled={!multipleSelectionTargets.size}
+                    onClick={emitEditorGroupItems}
+                >
+                    <GroupIcon />
+                </AppBarButton>
+                <AppBarButton
+                    disabled={!selectionTarget}
+                    onClick={deleteSelected}
+                >
+                    <DeleteIcon />
+                </AppBarButton>
+            </TitleBar>
+            <div style={{ overflow: "scroll", flexGrow: 1 }}>
+                {appendables.map((appendable) =>
+                    appendable instanceof Model ? (
+                        <ModelTreeItem
+                            key={appendable.uuid}
+                            appendable={appendable}
+                        />
+                    ) : (
+                        <TreeItem
+                            key={appendable.uuid}
+                            appendable={appendable}
+                        />
+                    )
+                )}
+                <EmptyTreeItem
+                    onDrop={(child) => {
+                        emitSceneGraphChange()
+                        appendableRoot.add(child)
+                        scene.attach(child.outerObject3d)
+                        child.parent?.children?.delete(child)
+                        child.parent = undefined
+                    }}
+                />
             </div>
         </div>
     )
