@@ -33,6 +33,7 @@ const SceneGraph = () => {
                 <ResizableRows>
                     <AccordionSceneGraph />
                     <div>hello world</div>
+                    <div>hello world</div>
                 </ResizableRows>
             </div>
             <SceneGraphContextMenu />

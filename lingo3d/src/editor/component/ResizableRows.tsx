@@ -1,5 +1,6 @@
 import { ComponentChild } from "preact"
 import { useMemo, useState } from "preact/hooks"
+import { APPBAR_HEIGHT } from "../../globals"
 import useResizeObserver from "../hooks/useResizeObserver"
 import PanDiv from "./PanDiv"
 
@@ -9,7 +10,10 @@ type Props = {
 
 const ResizableRows = ({ children }: Props) => {
     const [elRef, { height }] = useResizeObserver()
-    const sizeOffsets = useMemo(() => children.map(() => 0), [])
+    const sizeOffsets = useMemo<Record<number, number | undefined>>(
+        () => ({}),
+        []
+    )
     const [, setRefresh] = useState({})
 
     return (
@@ -20,7 +24,10 @@ const ResizableRows = ({ children }: Props) => {
                         key={i}
                         style={{
                             width: "100%",
-                            height: height / children.length + sizeOffsets[i]
+                            height:
+                                height / children.length +
+                                (sizeOffsets[i] ?? 0),
+                            minHeight: APPBAR_HEIGHT
                         }}
                     >
                         {child}
@@ -29,11 +36,14 @@ const ResizableRows = ({ children }: Props) => {
                         <PanDiv
                             style={{
                                 width: "100%",
-                                height: 6,
+                                height: 4,
                                 cursor: "row-resize"
                             }}
-                            onPan={(e) => {
-                                sizeOffsets[i] += e.deltaY
+                            onPan={({ deltaY }) => {
+                                sizeOffsets[i] ??= 0
+                                sizeOffsets[i + 1] ??= 0
+                                sizeOffsets[i]! += deltaY
+                                sizeOffsets[i + 1]! -= deltaY
                                 setRefresh({})
                             }}
                         />
