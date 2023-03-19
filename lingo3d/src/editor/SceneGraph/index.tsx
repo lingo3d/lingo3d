@@ -8,6 +8,7 @@ import { stopPropagation } from "../utils/stopPropagation"
 import mergeRefs from "../hooks/mergeRefs"
 import { enableHotKeysOnElement } from "../../engine/hotkeys"
 import ResizableRows from "../component/ResizableRows"
+import AccordionTemplates from "./AccordionTemplates"
 
 const SceneGraph = () => {
     useInitCSS()
@@ -32,8 +33,7 @@ const SceneGraph = () => {
             >
                 <ResizableRows>
                     <AccordionSceneGraph />
-                    <div>hello world</div>
-                    <div>hello world</div>
+                    <AccordionTemplates />
                 </ResizableRows>
             </div>
             <SceneGraphContextMenu />
