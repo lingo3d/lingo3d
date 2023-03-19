@@ -44,6 +44,7 @@ import Audio from "./display/Audio"
 import Skybox from "./display/Skybox"
 import Environment from "./display/Environment"
 import Setup from "./display/Setup"
+import Template from "./display/Template"
 import Timeline from "./display/Timeline"
 import TimelineAudio from "./display/TimelineAudio"
 import Sky from "./display/Sky"
@@ -140,6 +141,7 @@ export {
     Skybox,
     Environment,
     Setup,
+    Template,
     Timeline,
     TimelineAudio,
     Sky,

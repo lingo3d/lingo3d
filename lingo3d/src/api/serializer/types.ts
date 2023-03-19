@@ -48,6 +48,7 @@ export type GameObjectType =
     | "skybox"
     | "environment"
     | "setup"
+    | "template"
     | "timeline"
     | "timelineAudio"
     | "gameGraph"
