@@ -9,6 +9,7 @@ import { useMemo, useState } from "preact/hooks"
 import { useSignal } from "@preact/signals"
 import { GameObjectType } from "../../api/serializer/types"
 import { stopPropagation } from "../utils/stopPropagation"
+import Templates from "./Templates"
 
 const objectNames = [
     { gameGraph: "joystick" },
@@ -85,8 +86,8 @@ const Library = ({ onDragStart, onDragEnd }: Props) => {
                 <Tab half selectedSignal={selectedSignal}>
                     components
                 </Tab>
-                <Tab half selectedSignal={selectedSignal} disabled>
-                    materials
+                <Tab half selectedSignal={selectedSignal}>
+                    templates
                 </Tab>
             </AppBar>
             <SearchBox onChange={(val) => setSearch(val.toLowerCase())} />
@@ -98,6 +99,7 @@ const Library = ({ onDragStart, onDragEnd }: Props) => {
                         onDragEnd={onDragEnd}
                     />
                 )}
+                {selectedSignal.value === "templates" && <Templates />}
             </div>
         </div>
     )
