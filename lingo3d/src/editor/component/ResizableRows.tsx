@@ -10,6 +10,7 @@ type Props = {
 
 const ResizableRows = ({ children }: Props) => {
     const [elRef, { height }] = useResizeObserver()
+    const childrenFiltered = children.filter(Boolean)
     const sizeOffsets = useMemo<Record<number, number | undefined>>(
         () => ({}),
         []
@@ -18,18 +19,19 @@ const ResizableRows = ({ children }: Props) => {
 
     return (
         <div ref={elRef} className="lingo3d-absfull lingo3d-flexcol">
-            {children.map((child, i) => (
+            {childrenFiltered.map((child, i) => (
                 <div
                     key={i}
                     style={{
                         width: "100%",
                         height:
-                            height / children.length + (sizeOffsets[i] ?? 0),
+                            height / childrenFiltered.length +
+                            (sizeOffsets[i] ?? 0),
                         minHeight: APPBAR_HEIGHT
                     }}
                 >
                     {child}
-                    {i < children.length - 1 && (
+                    {i < childrenFiltered.length - 1 && (
                         <PanDiv
                             style={{
                                 width: "100%",
