@@ -6,10 +6,10 @@ import Tab from "../component/tabs/Tab"
 import useInitEditor from "../hooks/useInitEditor"
 import SearchBox from "../component/SearchBox"
 import { useMemo, useState } from "preact/hooks"
-import { useSignal } from "@preact/signals"
 import { GameObjectType } from "../../api/serializer/types"
 import { stopPropagation } from "../utils/stopPropagation"
 import Templates from "./Templates"
+import { librarySignal } from "./librarySignal"
 
 const objectNames = [
     { gameGraph: "joystick" },
@@ -62,7 +62,6 @@ const Library = ({ onDragStart, onDragEnd }: Props) => {
     useInitEditor()
 
     const [search, setSearch] = useState<string>()
-    const selectedSignal = useSignal<string | undefined>(undefined)
 
     const names = useMemo(
         () =>
@@ -83,23 +82,23 @@ const Library = ({ onDragStart, onDragEnd }: Props) => {
             style={{ width: LIBRARY_WIDTH, height: "100%" }}
         >
             <AppBar style={{ padding: 10 }}>
-                <Tab half selectedSignal={selectedSignal}>
+                <Tab half selectedSignal={librarySignal}>
                     components
                 </Tab>
-                <Tab half selectedSignal={selectedSignal}>
+                <Tab half selectedSignal={librarySignal}>
                     templates
                 </Tab>
             </AppBar>
             <SearchBox onChange={(val) => setSearch(val.toLowerCase())} />
             <div style={{ padding: 10, overflowY: "scroll", flexGrow: 1 }}>
-                {selectedSignal.value === "components" && (
+                {librarySignal.value === "components" && (
                     <Components
                         names={names}
                         onDragStart={onDragStart}
                         onDragEnd={onDragEnd}
                     />
                 )}
-                {selectedSignal.value === "templates" && <Templates />}
+                {librarySignal.value === "templates" && <Templates />}
             </div>
         </div>
     )

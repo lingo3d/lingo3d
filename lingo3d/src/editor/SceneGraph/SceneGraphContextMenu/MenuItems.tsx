@@ -33,6 +33,7 @@ import CreateJointItems from "./CreateJointItems"
 import sceneGraphMenuSignal from "./sceneGraphMenuSignal"
 import Template from "../../../display/Template"
 import VisibleObjectManager from "../../../display/core/VisibleObjectManager"
+import { librarySignal } from "../../Library/librarySignal"
 
 type Props = {
     selectionTarget: Appendable | MeshAppendable | undefined
@@ -139,6 +140,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                         onClick={() => {
                             const template = new Template()
                             template.source = selectionTarget
+                            librarySignal.value = "templates"
                             sceneGraphMenuSignal.value = undefined
                         }}
                     >

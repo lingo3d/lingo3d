@@ -9,16 +9,12 @@ import CubeIcon from "../SceneGraph/icons/CubeIcon"
 import PlayIcon from "../SceneGraph/icons/PlayIcon"
 import Template from "../../display/Template"
 import drag from "../utils/drag"
-import { omit } from "@lincode/utils"
-import createObject from "../../api/serializer/createObject"
-import nonSerializedProperties from "../../api/serializer/nonSerializedProperties"
 import { serializeAppendable } from "../../api/serializer/serialize"
+import deserialize from "../../api/serializer/deserialize"
 
-const setDraggingItem = drag<Template>((template) => {
-    const node = serializeAppendable(template, true)
-    const properties = omit(node, nonSerializedProperties)
-    return Object.assign(createObject(node.type), properties)
-})
+const setDraggingItem = drag<Template>(
+    (template) => deserialize([serializeAppendable(template, true)])[0]
+)
 
 export type TemplatesTreeItemProps = {
     template: Template
