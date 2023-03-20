@@ -8,6 +8,20 @@ import Dummy from "../display/Dummy"
 import Group from "../display/Group"
 import Model from "../display/Model"
 
+// const dummy = new Dummy()
+// dummy.roughnessFactor = 0.4
+// dummy.metalnessFactor = 1.5
+// dummy.envFactor = 1.5
+// dummy.scale = 5
+
+// settings.environment = "studio"
+// settings.defaultLight = false
+
+settings.skybox = "day"
+settings.ssr = true
+
+const scale = 10
+
 const [turnTemplate, straightTemplate, sideWalkTemplate] = deserialize([
     {
         type: "template",
@@ -15,6 +29,9 @@ const [turnTemplate, straightTemplate, sideWalkTemplate] = deserialize([
         uuid: "T5d3cWoQw4yJAI55Sw4gp",
         id: "turn",
         name: "turn",
+        scaleX: scale,
+        scaleY: scale,
+        scaleZ: scale,
         innerY: 45.9,
         children: [
             {
@@ -43,6 +60,9 @@ const [turnTemplate, straightTemplate, sideWalkTemplate] = deserialize([
         uuid: "-fiDbm6b-ArJf1SM4Z6DF",
         id: "straight",
         name: "straight",
+        scaleX: scale,
+        scaleY: scale,
+        scaleZ: scale,
         z: 148.57,
         innerY: 46.88,
         innerRotationY: 90,
@@ -76,23 +96,14 @@ const [turnTemplate, straightTemplate, sideWalkTemplate] = deserialize([
         id: "sideWalk",
         name: "sideWalk",
         z: -148.58,
-        scaleX: 1.46,
-        scaleY: 0.12,
-        scaleZ: 1.49,
+        scaleX: 1.46 * scale,
+        scaleY: 0.12 * scale,
+        scaleZ: 1.49 * scale,
         innerY: -18.7,
         texture: "road/sideWalk.png",
         roughness: 0.52
     }
 ]) as Array<Appendable>
-
-// const dummy = new Dummy()
-// dummy.roughnessFactor = 0.4
-// dummy.metalnessFactor = 1.5
-// dummy.envFactor = 1.5
-// dummy.scale = 5
-
-// settings.environment = "studio"
-// settings.defaultLight = false
 
 const sideWalk = 0
 const road = 1
@@ -161,7 +172,7 @@ for (let tile of Object.values(tiles)) {
 }
 
 const xMap = new Map<number, Map<number, Set<TileTuple>>>()
-const tilesPositionMap = new WeakMap<Set<TileTuple>, [number, number]>()
+const tilesPositionMap = new Map<Set<TileTuple>, [number, number]>()
 const getTiles = (x: number, y: number) => {
     const yMap = forceGetInstance(xMap, x, Map<number, Set<TileTuple>>)
     return forceGet(yMap, y, () => {
@@ -170,6 +181,12 @@ const getTiles = (x: number, y: number) => {
         return tiles
     })
 }
+
+const size = 10
+const outOfBounds = (x: number, z: number) =>
+    x < -size || x > size || z < -size || z > size
+
+const offset = 146 * scale
 
 const collapse = (x: number, z: number) => {
     const tilesCenter = getTiles(x, z)
@@ -183,8 +200,8 @@ const collapse = (x: number, z: number) => {
     ]
     const manager = spawn(tileTemplate) as Group
     manager.rotationY = tileAngle
-    manager.x = x * 146
-    manager.z = z * 146
+    manager.x = x * offset
+    manager.z = z * offset
     tilesCenter.clear()
 
     for (const tileBottom of tilesBottom)
@@ -197,19 +214,32 @@ const collapse = (x: number, z: number) => {
         if (tile["+x"] !== tileRight[0]["-x"]) tilesRight.delete(tileRight)
 
     let tilesMin: Set<TileTuple> | undefined
-    for (const tiles of [tilesTop, tilesBottom, tilesLeft, tilesRight])
-        if (tiles.size && tiles.size < (tilesMin?.size ?? Infinity)) {
-            const [xNext, yNext] = tilesPositionMap.get(tiles)!
-            if (xNext < -50 || xNext > 50 || yNext < -50 || yNext > 50) continue
-            tilesMin = tiles
+    for (const tiles of [tilesTop, tilesBottom, tilesLeft, tilesRight]) {
+        if (!tiles.size) {
+            tilesPositionMap.delete(tiles)
+            console.log("delete 0")
+        } else if (
+            tilesPositionMap.has(tiles) &&
+            tiles.size < (tilesMin?.size ?? Infinity)
+        ) {
+            const [xNext, zNext] = tilesPositionMap.get(tiles)!
+            if (outOfBounds(xNext, zNext)) tilesPositionMap.delete(tiles)
+            else tilesMin = tiles
         }
-    if (!tilesMin) return false
-
+    }
+    if (!tilesMin) return
     const [xNext, yNext] = tilesPositionMap.get(tilesMin)!
     collapse(xNext, yNext)
-    return true
 }
 
 collapse(0, 0)
-
-console.log("done")
+while (tilesPositionMap.size) {
+    const [[tiles, [x, z]]] = tilesPositionMap
+    if (!tiles.size) {
+        tilesPositionMap.delete(tiles)
+        console.log("delete")
+        continue
+    }
+    if (outOfBounds(x, z)) tilesPositionMap.delete(tiles)
+    collapse(x, z)
+}
