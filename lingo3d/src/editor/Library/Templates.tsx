@@ -1,8 +1,8 @@
 import { useMemo } from "preact/hooks"
 import { appendableRoot, hiddenAppendables } from "../../api/core/collections"
-import { isTemplate } from "../../display/Template"
+import Template, { isTemplate } from "../../display/Template"
 import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
-import TreeItem from "../SceneGraph/TreeItem"
+import TemplatesTreeItem from "./TemplatesTreeItem"
 
 const Templates = () => {
     const refresh = useSceneGraphRefresh()
@@ -17,7 +17,10 @@ const Templates = () => {
     return (
         <>
             {appendables.map((appendable) => (
-                <TreeItem key={appendable.uuid} appendable={appendable} />
+                <TemplatesTreeItem
+                    key={appendable.uuid}
+                    template={appendable as Template}
+                />
             ))}
         </>
     )

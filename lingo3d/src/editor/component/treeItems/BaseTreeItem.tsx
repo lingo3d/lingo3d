@@ -18,6 +18,8 @@ export type Props = {
     onMouseDown?: (e: MouseEvent) => void
     onContextMenu?: (e: MouseEvent) => void
     onDrop?: (draggingItem: Appendable | MeshAppendable) => void
+    onDragStart?: () => void
+    onDragEnd?: () => void
     myDraggingItem?: Appendable | MeshAppendable
     draggable?: boolean
     expanded?: boolean
@@ -37,6 +39,8 @@ const BaseTreeItem = ({
     onMouseDown,
     onContextMenu,
     onDrop,
+    onDragStart,
+    onDragEnd,
     myDraggingItem,
     draggable,
     expanded: expandedProp,
@@ -89,10 +93,12 @@ const BaseTreeItem = ({
                 e.stopPropagation()
                 treeContext.draggingItem = myDraggingItem
                 setDragImage(e)
+                onDragStart?.()
             }}
             onDragEnd={(e) => {
                 e.stopPropagation()
                 treeContext.draggingItem = undefined
+                onDragEnd?.()
             }}
             onDragOver={(e) => {
                 e.stopPropagation()
