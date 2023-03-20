@@ -1,4 +1,4 @@
-import { forceGet, forceGetInstance, random } from "@lincode/utils"
+import { assert, forceGet, forceGetInstance, random } from "@lincode/utils"
 import Appendable from "../api/core/Appendable"
 import MeshAppendable from "../api/core/MeshAppendable"
 import deserialize from "../api/serializer/deserialize"
@@ -188,6 +188,8 @@ const outOfBounds = (x: number, z: number) =>
 
 const offset = 146 * scale
 
+const collapsed = new WeakSet<Set<TileTuple>>()
+
 const collapse = (x: number, z: number) => {
     const tilesCenter = getTiles(x, z)
     const tilesTop = getTiles(x, z + 1)
@@ -195,14 +197,16 @@ const collapse = (x: number, z: number) => {
     const tilesLeft = getTiles(x - 1, z)
     const tilesRight = getTiles(x + 1, z)
 
-    const [tile, tileTemplate, tileAngle] = [...tilesCenter][
-        Math.round(random(0, tilesCenter.size - 1))
-    ]
+    const [tile, tileTemplate, tileAngle] = tilesCenter.size
+        ? [...tilesCenter][Math.round(random(0, tilesCenter.size - 1))]
+        : tiles.sideWalkTile
     const manager = spawn(tileTemplate) as Group
     manager.rotationY = tileAngle
     manager.x = x * offset
     manager.z = z * offset
     tilesCenter.clear()
+    collapsed.add(tilesCenter)
+    tilesPositionMap.delete(tilesCenter)
 
     for (const tileBottom of tilesBottom)
         if (tile["+z"] !== tileBottom[0]["-z"]) tilesBottom.delete(tileBottom)
@@ -215,17 +219,13 @@ const collapse = (x: number, z: number) => {
 
     let tilesMin: Set<TileTuple> | undefined
     for (const tiles of [tilesTop, tilesBottom, tilesLeft, tilesRight]) {
-        if (!tiles.size) {
+        if (!tilesPositionMap.has(tiles)) continue
+        const [xNext, zNext] = tilesPositionMap.get(tiles)!
+        if (outOfBounds(xNext, zNext)) {
             tilesPositionMap.delete(tiles)
-            console.log("delete 0")
-        } else if (
-            tilesPositionMap.has(tiles) &&
-            tiles.size < (tilesMin?.size ?? Infinity)
-        ) {
-            const [xNext, zNext] = tilesPositionMap.get(tiles)!
-            if (outOfBounds(xNext, zNext)) tilesPositionMap.delete(tiles)
-            else tilesMin = tiles
+            continue
         }
+        if (tiles.size < (tilesMin?.size ?? Infinity)) tilesMin = tiles
     }
     if (!tilesMin) return
     const [xNext, yNext] = tilesPositionMap.get(tilesMin)!
@@ -234,12 +234,6 @@ const collapse = (x: number, z: number) => {
 
 collapse(0, 0)
 while (tilesPositionMap.size) {
-    const [[tiles, [x, z]]] = tilesPositionMap
-    if (!tiles.size) {
-        tilesPositionMap.delete(tiles)
-        console.log("delete")
-        continue
-    }
-    if (outOfBounds(x, z)) tilesPositionMap.delete(tiles)
+    const [[x, z]] = tilesPositionMap.values()
     collapse(x, z)
 }
