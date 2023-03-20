@@ -1,4 +1,5 @@
 import IModel from "../../interface/IModel"
+import IPrimitive from "../../interface/IPrimitive"
 
 export type GameObjectType =
     | "group"
@@ -70,5 +71,6 @@ type Node = {
     type: GameObjectType
     children?: Array<AppendableNode>
 }
-export type AppendableNode = Partial<IModel> & Node
+export type AppendableNode = Partial<IModel & IPrimitive & { source: string }> &
+    Node
 export type SceneGraphNode = AppendableNode | VersionNode

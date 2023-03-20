@@ -1,8 +1,87 @@
 import { forceGet, forceGetInstance, random } from "@lincode/utils"
 import MeshAppendable from "../api/core/MeshAppendable"
+import deserialize from "../api/serializer/deserialize"
 import settings from "../api/settings"
 import Dummy from "../display/Dummy"
 import Model from "../display/Model"
+
+const templates = deserialize([
+    {
+        type: "template",
+        source: "group",
+        uuid: "T5d3cWoQw4yJAI55Sw4gp",
+        id: "turn",
+        name: "turn",
+        innerY: 45.9,
+        children: [
+            {
+                type: "cube",
+                uuid: "NSd69ZcVTi3yiaid1E1e3",
+                x: 0.07,
+                y: -48.01,
+                z: 0.31,
+                scaleX: 1.46,
+                scaleY: 0.12,
+                scaleZ: 1.49,
+                texture: "road/sideWalk.png",
+                roughness: 0.52
+            },
+            {
+                type: "model",
+                uuid: "DSfr0GqKalQmVpzkqqT4t",
+                y: 7.51,
+                src: "road/turn.glb"
+            }
+        ]
+    },
+    {
+        type: "template",
+        source: "group",
+        uuid: "-fiDbm6b-ArJf1SM4Z6DF",
+        id: "straight",
+        name: "straight",
+        z: 148.57,
+        innerY: 46.88,
+        children: [
+            {
+                type: "cube",
+                uuid: "VRctNqlqmqqne4dlldSeY",
+                x: 0.07,
+                y: -48.66,
+                z: -0.35,
+                scaleX: 1.46,
+                scaleY: 0.12,
+                scaleZ: 1.49,
+                texture: "road/sideWalk.png",
+                roughness: 0.52
+            },
+            {
+                type: "model",
+                uuid: "YPYFEFJOzStKOf06jg9xb",
+                y: 6.99,
+                z: -0.19,
+                scaleZ: 0.7,
+                src: "road/straight.glb"
+            }
+        ]
+    },
+    {
+        type: "template",
+        source: "cube",
+        uuid: "7YzzDpmyGQu2iMQ_KpzZe",
+        id: "sideWalk",
+        name: "sideWalk",
+        z: -148.58,
+        scaleX: 1.46,
+        scaleY: 0.12,
+        scaleZ: 1.49,
+        innerY: -18.7,
+        texture: "road/sideWalk.png",
+        roughness: 0.52
+    }
+])
+
+console.log(templates)
 
 // const dummy = new Dummy()
 // dummy.roughnessFactor = 0.4
@@ -12,12 +91,6 @@ import Model from "../display/Model"
 
 // settings.environment = "studio"
 // settings.defaultLight = false
-
-const straight = new Model()
-straight.src = "road/straight.glb"
-
-const turn = new Model()
-turn.src = "road/turn.glb"
 
 // const sideWalk = new Model()
 // sideWalk.src = "road/sideWalk.glb"

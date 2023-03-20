@@ -89,10 +89,8 @@ const serialize = (
     return dataParent
 }
 
-export const serializeAppendable = (
-    appendable: Appendable,
-    skipTemplateCheck?: boolean
-) => serialize([appendable], true, skipTemplateCheck)[0]
+export const serializeAppendable = (appendable: Appendable) =>
+    serialize([appendable], true, true)[0]
 
 export default (
     versionStamp?: boolean,

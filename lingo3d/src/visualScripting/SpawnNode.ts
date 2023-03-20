@@ -65,7 +65,7 @@ export default class SpawnNode extends GameGraphChild implements ISpawnNode {
             for (const connector of managerConnectorsMap.get(connected) ?? [])
                 connectors.add(connector)
 
-            const node = serializeAppendable(connected, true)
+            const node = serializeAppendable(connected)
             const properties = omit(node, nonSerializedProperties)
             const manager = Object.assign(
                 createObject(node.type),

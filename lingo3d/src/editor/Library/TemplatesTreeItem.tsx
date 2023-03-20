@@ -13,7 +13,7 @@ import { serializeAppendable } from "../../api/serializer/serialize"
 import deserialize from "../../api/serializer/deserialize"
 
 const setDraggingItem = drag<Template>(
-    (template) => deserialize([serializeAppendable(template, true)])[0]
+    (template) => deserialize([serializeAppendable(template)])[0]
 )
 
 export type TemplatesTreeItemProps = {
