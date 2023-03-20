@@ -1,6 +1,7 @@
 import Appendable from "../api/core/Appendable"
 import createObject from "../api/serializer/createObject"
 import { GameObjectType } from "../api/serializer/types"
+import { unselectableSet } from "./core/utils/raycast/selectionCandidates"
 
 export const templateSet = new WeakSet<Template>()
 export const isTemplate = (val: any): val is Template => templateSet.has(val)
@@ -9,6 +10,7 @@ export default class Template extends Appendable {
     public constructor() {
         super()
         templateSet.add(this)
+        unselectableSet.add(this)
     }
 
     public set source(type: GameObjectType | Appendable) {

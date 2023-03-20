@@ -15,7 +15,6 @@ import HelperSprite from "../HelperSprite"
 const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates
 
-export const unselectableNativeSet = new WeakSet<Object3D>()
 export const unselectableSet = new WeakSet<Appendable>()
 export const additionalSelectionCandidates = new Set<Object3D>()
 export const overrideSelectionCandidates = new Set<Object3D>()
@@ -40,18 +39,15 @@ const traverse = (
     targets: Array<Appendable | VisibleMixin> | Set<Appendable | VisibleMixin>,
     frozenSet: Set<Appendable>
 ) => {
-    for (const manager of targets) {
-        if (frozenSet.has(manager)) continue
-
+    for (const manager of targets)
         if (
+            !frozenSet.has(manager) &&
             "addToRaycastSet" in manager &&
-            !unselectableNativeSet.has(manager.object3d) &&
             !unselectableSet.has(manager)
-        )
+        ) {
             manager.addToRaycastSet(selectionCandidates)
-
-        manager.children && traverse(manager.children, frozenSet)
-    }
+            manager.children && traverse(manager.children, frozenSet)
+        }
 }
 
 export const getSelectionCandidates = throttleTrailing(

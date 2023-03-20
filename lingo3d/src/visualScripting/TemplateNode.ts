@@ -1,6 +1,7 @@
 import Appendable from "../api/core/Appendable"
 import createObject from "../api/serializer/createObject"
 import { GameObjectType } from "../api/serializer/types"
+import { unselectableSet } from "../display/core/utils/raycast/selectionCandidates"
 import GameGraphChild from "./GameGraphChild"
 
 const templateNodeSet = new WeakSet<TemplateNode>()
@@ -13,6 +14,7 @@ export default class TemplateNode extends GameGraphChild {
     public constructor() {
         super()
         templateNodeSet.add(this)
+        unselectableSet.add(this)
     }
 
     public set source(type: GameObjectType | Appendable) {
