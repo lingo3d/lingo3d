@@ -18,11 +18,8 @@ import {
     assignPxVec,
     assignPxVec_
 } from "../../PhysicsObjectManager/physx/pxMath"
-import { unselectableSet } from "./selectionCandidates"
 
 const raycaster = new Raycaster()
-
-const filterUnselectable = (target: Object3D) => !unselectableSet.has(target)
 
 type RaycastResult = {
     point: Point3d
@@ -37,9 +34,7 @@ export const raycast = (
     candidates: Set<Object3D>
 ): RaycastResult | undefined => {
     raycaster.setFromCamera({ x, y }, getCameraRendered())
-    const intersection = raycaster.intersectObjects(
-        [...candidates].filter(filterUnselectable)
-    )[0]
+    const intersection = raycaster.intersectObjects([...candidates])[0]
 
     const focusedManager = getSelectionFocus()
     if (focusedManager) {

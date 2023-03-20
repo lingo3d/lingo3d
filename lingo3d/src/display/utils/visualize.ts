@@ -13,7 +13,7 @@ export default (
 ) => {
     const sphere = forceGet(sphereMap, name, () => {
         const sphere = Object.assign(new Sphere(), properties)
-        unselectableSet.add(sphere.object3d)
+        unselectableSet.add(sphere)
         return sphere
     })
     sphere.placeAt(pt)

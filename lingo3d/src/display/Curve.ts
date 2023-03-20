@@ -8,7 +8,7 @@ import { createMemo, createNestedEffect, Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
 import {
     overrideSelectionCandidates,
-    unselectableSet
+    unselectableNativeSet
 } from "./core/utils/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
 import MeshAppendable from "../api/core/MeshAppendable"
@@ -68,7 +68,7 @@ export default class Curve extends MeshAppendable implements ICurve {
             const material = new LineBasicMaterial({ color: 0xff0000 })
             const curveMesh = new Line(geometry, material)
             curveMesh.frustumCulled = false
-            unselectableSet.add(curveMesh)
+            unselectableNativeSet.add(curveMesh)
             this.outerObject3d.add(curveMesh)
 
             if (this._points.length < 2)

@@ -15,7 +15,8 @@ import HelperSprite from "../HelperSprite"
 const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates
 
-export const unselectableSet = new WeakSet<Object3D>()
+export const unselectableNativeSet = new WeakSet<Object3D>()
+export const unselectableSet = new WeakSet<Appendable>()
 export const additionalSelectionCandidates = new Set<Object3D>()
 export const overrideSelectionCandidates = new Set<Object3D>()
 
@@ -44,7 +45,8 @@ const traverse = (
 
         if (
             "addToRaycastSet" in manager &&
-            !unselectableSet.has(manager.object3d)
+            !unselectableNativeSet.has(manager.object3d) &&
+            !unselectableSet.has(manager)
         )
             manager.addToRaycastSet(selectionCandidates)
 
