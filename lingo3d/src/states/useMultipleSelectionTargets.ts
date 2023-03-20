@@ -3,7 +3,7 @@ import PositionedManager, {
     isPositionedManager
 } from "../display/core/PositionedManager"
 import { onDispose } from "../events/onDispose"
-import { Group as ThreeGroup, Object3D } from "three"
+import { Object3D } from "three"
 import { eraseAppendable } from "../api/core/collections"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import { box3, vector3 } from "../display/utils/reusables"
@@ -63,7 +63,7 @@ createEffect(() => {
     const [targets] = getMultipleSelectionTargets()
     if (!targets.size) return
 
-    const group = new ThreeGroup()
+    const group = new Object3D()
     scene.add(group)
 
     const groupManager = new SimpleObjectManager(group)
