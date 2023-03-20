@@ -1,6 +1,4 @@
-import { Group, Mesh, Object3D } from "three"
-import { boxGeometry } from "../primitives/Cube"
-import { wireframeMaterial } from "../utils/reusables"
+import { Group, Mesh, MeshStandardMaterial, Object3D } from "three"
 import ILoaded from "../../interface/ILoaded"
 import Reresolvable from "./utils/Reresolvable"
 import toResolvable from "../utils/toResolvable"
@@ -28,7 +26,7 @@ export default abstract class Loaded<T = Object3D>
     public loadedObject3d?: Object3D
 
     public constructor(unmounted?: boolean) {
-        super(new Mesh(boxGeometry, wireframeMaterial), unmounted)
+        super(undefined, unmounted)
         this.outerObject3d.add(this.loadedGroup)
     }
 
@@ -58,8 +56,6 @@ export default abstract class Loaded<T = Object3D>
                             (this.loadedObject3d = loadedObject3d)
                         )
                         this.loaded.resolve(loadedObject3d)
-
-                        this.object3d.visible = !!this._boxVisible
                     }))
         )
     }
@@ -196,13 +192,11 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    protected _boxVisible?: boolean
     public get boxVisible() {
-        return this._boxVisible ?? this.object3d.visible
+        return false
     }
     public set boxVisible(val) {
-        this._boxVisible = val
-        this.object3d.visible = val
+        //todo: implement appending box to object3d
     }
 
     public override get outline() {

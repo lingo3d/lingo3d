@@ -54,8 +54,6 @@ class SvgMesh extends Loaded<SVGResult> implements ISvgMesh {
                             (this.loadedObject3d = loadedObject3d)
                         )
                         this.loaded.resolve(loadedObject3d)
-
-                        this.object3d.visible = !!this._boxVisible
                     }))
         )
     }
