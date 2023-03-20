@@ -9,12 +9,9 @@ import CubeIcon from "../SceneGraph/icons/CubeIcon"
 import PlayIcon from "../SceneGraph/icons/PlayIcon"
 import Template from "../../display/Template"
 import drag from "../utils/drag"
-import { serializeAppendable } from "../../api/serializer/serialize"
-import deserialize from "../../api/serializer/deserialize"
+import spawn from "../../api/spawn"
 
-const setDraggingItem = drag<Template>(
-    (template) => deserialize([serializeAppendable(template)])[0]
-)
+const setDraggingItem = drag<Template>(spawn)
 
 export type TemplatesTreeItemProps = {
     template: Template

@@ -1,7 +1,6 @@
 import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import deserialize from "../../api/serializer/deserialize"
-import { serializeAppendable } from "../../api/serializer/serialize"
+import spawn from "../../api/spawn"
 import PositionedManager from "../../display/core/PositionedManager"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import {
@@ -10,14 +9,10 @@ import {
 } from "../../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 
-const copy = <T extends Appendable | MeshAppendable>(target: T): T => {
-    const [item] = deserialize([serializeAppendable(target)])
-    if (target.parent && item) {
-        "attach" in target.parent
-            ? target.parent.attach(item)
-            : target.parent.append(item)
-    }
-    return item as any
+const copy = <T extends Appendable | MeshAppendable>(target: T) => {
+    const item = spawn(target)!
+    target.parent?.append(item)
+    return item as T
 }
 
 export default () => {
