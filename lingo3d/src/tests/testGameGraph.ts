@@ -1,11 +1,14 @@
 import { forceGet, forceGetInstance, random } from "@lincode/utils"
+import Appendable from "../api/core/Appendable"
 import MeshAppendable from "../api/core/MeshAppendable"
 import deserialize from "../api/serializer/deserialize"
 import settings from "../api/settings"
+import spawn from "../api/spawn"
 import Dummy from "../display/Dummy"
+import Group from "../display/Group"
 import Model from "../display/Model"
 
-const templates = deserialize([
+const [turnTemplate, straightTemplate, sideWalkTemplate] = deserialize([
     {
         type: "template",
         source: "group",
@@ -42,6 +45,7 @@ const templates = deserialize([
         name: "straight",
         z: 148.57,
         innerY: 46.88,
+        innerRotationY: 90,
         children: [
             {
                 type: "cube",
@@ -79,9 +83,7 @@ const templates = deserialize([
         texture: "road/sideWalk.png",
         roughness: 0.52
     }
-])
-
-console.log(templates)
+]) as Array<Appendable>
 
 // const dummy = new Dummy()
 // dummy.roughnessFactor = 0.4
@@ -92,106 +94,122 @@ console.log(templates)
 // settings.environment = "studio"
 // settings.defaultLight = false
 
-// const sideWalk = new Model()
-// sideWalk.src = "road/sideWalk.glb"
-// sideWalk.resize = false
+const sideWalk = 0
+const road = 1
 
-// const sideWalk = 0
-// const road = 1
+type Tile = {
+    "-x": number
+    "+x": number
+    "-z": number
+    "+z": number
+}
 
-// type Tile = {
-//     "-x": number
-//     "+x": number
-//     "-z": number
-//     "+z": number
-// }
+type TileTuple = [Tile, Appendable, number]
 
-// const tiles = {
-//     sideWalkTile: {
-//         "-x": sideWalk,
-//         "+x": sideWalk,
-//         "-z": sideWalk,
-//         "+z": sideWalk
-//     },
-//     straightTile: {
-//         "-x": road,
-//         "+x": road,
-//         "-z": sideWalk,
-//         "+z": sideWalk
-//     },
-//     turnTile: {
-//         "-x": road,
-//         "+x": sideWalk,
-//         "-z": road,
-//         "+z": sideWalk
-//     }
-// }
+const tiles: Record<string, TileTuple> = {
+    sideWalkTile: [
+        {
+            "-x": sideWalk,
+            "+x": sideWalk,
+            "-z": sideWalk,
+            "+z": sideWalk
+        },
+        sideWalkTemplate,
+        0
+    ],
+    straightTile: [
+        {
+            "-x": road,
+            "+x": road,
+            "-z": sideWalk,
+            "+z": sideWalk
+        },
+        straightTemplate,
+        0
+    ],
+    turnTile: [
+        {
+            "-x": road,
+            "+x": sideWalk,
+            "-z": road,
+            "+z": sideWalk
+        },
+        turnTemplate,
+        0
+    ]
+}
 
-// const rotateTile = (tile: any) => {
-//     const newTile: any = {}
-//     newTile["-x"] = tile["-z"]
-//     newTile["-z"] = tile["+x"]
-//     newTile["+x"] = tile["+z"]
-//     newTile["+z"] = tile["-x"]
-//     return newTile
-// }
+const rotateTile = ([tile, manager, angle]: TileTuple): TileTuple => {
+    return [
+        {
+            "-x": tile["-z"],
+            "-z": tile["+x"],
+            "+x": tile["+z"],
+            "+z": tile["-x"]
+        },
+        manager,
+        angle - 90
+    ]
+}
 
-// const tileArray: Array<Tile> = []
-// for (let tile of Object.values(tiles)) {
-//     tileArray.push(tile)
-//     tileArray.push((tile = rotateTile(tile)))
-//     tileArray.push((tile = rotateTile(tile)))
-//     tileArray.push((tile = rotateTile(tile)))
-// }
+const tileArray: Array<TileTuple> = []
+for (let tile of Object.values(tiles)) {
+    tileArray.push(tile)
+    tileArray.push((tile = rotateTile(tile)))
+    tileArray.push((tile = rotateTile(tile)))
+    tileArray.push((tile = rotateTile(tile)))
+}
 
-// const xMap = new Map<number, Map<number, Set<Tile>>>()
-// const tilesPositionMap = new WeakMap<Set<Tile>, [number, number]>()
-// const getTiles = (x: number, y: number) => {
-//     const yMap = forceGetInstance(xMap, x, Map<number, Set<Tile>>)
-//     return forceGet(yMap, y, () => {
-//         const tiles = new Set(tileArray)
-//         tilesPositionMap.set(tiles, [x, y])
-//         return tiles
-//     })
-// }
+const xMap = new Map<number, Map<number, Set<TileTuple>>>()
+const tilesPositionMap = new WeakMap<Set<TileTuple>, [number, number]>()
+const getTiles = (x: number, y: number) => {
+    const yMap = forceGetInstance(xMap, x, Map<number, Set<TileTuple>>)
+    return forceGet(yMap, y, () => {
+        const tiles = new Set(tileArray)
+        tilesPositionMap.set(tiles, [x, y])
+        return tiles
+    })
+}
 
-// const collapse = (x: number, y: number) => {
-//     const tilesCenter = getTiles(x, y)
-//     const tilesTop = getTiles(x, y + 1)
-//     const tilesBottom = getTiles(x, y - 1)
-//     const tilesLeft = getTiles(x - 1, y)
-//     const tilesRight = getTiles(x + 1, y)
+const collapse = (x: number, z: number) => {
+    const tilesCenter = getTiles(x, z)
+    const tilesTop = getTiles(x, z + 1)
+    const tilesBottom = getTiles(x, z - 1)
+    const tilesLeft = getTiles(x - 1, z)
+    const tilesRight = getTiles(x + 1, z)
 
-//     const tileCenter = [...tilesCenter][
-//         Math.round(random(0, tilesCenter.size - 1))
-//     ]
-//     console.log(tileCenter, x, y)
-//     tilesCenter.clear()
-//     for (const tileBottom of tilesBottom)
-//         if (tileCenter["+z"] !== tileBottom["-z"])
-//             tilesBottom.delete(tileBottom)
+    const [tile, tileTemplate, tileAngle] = [...tilesCenter][
+        Math.round(random(0, tilesCenter.size - 1))
+    ]
+    const manager = spawn(tileTemplate) as Group
+    manager.rotationY = tileAngle
+    manager.x = x * 146
+    manager.z = z * 146
+    tilesCenter.clear()
 
-//     for (const tileTop of tilesTop)
-//         if (tileCenter["-z"] !== tileTop["+z"]) tilesTop.delete(tileTop)
-//     for (const tileLeft of tilesLeft)
-//         if (tileCenter["-x"] !== tileLeft["+x"]) tilesLeft.delete(tileLeft)
-//     for (const tileRight of tilesRight)
-//         if (tileCenter["+x"] !== tileRight["-x"]) tilesRight.delete(tileRight)
+    for (const tileBottom of tilesBottom)
+        if (tile["+z"] !== tileBottom[0]["-z"]) tilesBottom.delete(tileBottom)
+    for (const tileTop of tilesTop)
+        if (tile["-z"] !== tileTop[0]["+z"]) tilesTop.delete(tileTop)
+    for (const tileLeft of tilesLeft)
+        if (tile["-x"] !== tileLeft[0]["+x"]) tilesLeft.delete(tileLeft)
+    for (const tileRight of tilesRight)
+        if (tile["+x"] !== tileRight[0]["-x"]) tilesRight.delete(tileRight)
 
-//     let tilesMin: Set<Tile> | undefined
-//     for (const tiles of [tilesTop, tilesBottom, tilesLeft, tilesRight])
-//         if (tiles.size && tiles.size < (tilesMin?.size ?? Infinity)) {
-//             const [xNext, yNext] = tilesPositionMap.get(tiles)!
-//             if (xNext < -50 || xNext > 50 || yNext < -50 || yNext > 50) continue
-//             tilesMin = tiles
-//         }
-//     if (!tilesMin) return false
+    let tilesMin: Set<TileTuple> | undefined
+    for (const tiles of [tilesTop, tilesBottom, tilesLeft, tilesRight])
+        if (tiles.size && tiles.size < (tilesMin?.size ?? Infinity)) {
+            const [xNext, yNext] = tilesPositionMap.get(tiles)!
+            if (xNext < -50 || xNext > 50 || yNext < -50 || yNext > 50) continue
+            tilesMin = tiles
+        }
+    if (!tilesMin) return false
 
-//     const [xNext, yNext] = tilesPositionMap.get(tilesMin)!
-//     collapse(xNext, yNext)
-//     return true
-// }
+    const [xNext, yNext] = tilesPositionMap.get(tilesMin)!
+    collapse(xNext, yNext)
+    return true
+}
 
-// collapse(0, 0)
+collapse(0, 0)
 
-// console.log("done")
+console.log("done")
