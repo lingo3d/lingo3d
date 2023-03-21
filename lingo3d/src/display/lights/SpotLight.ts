@@ -4,10 +4,11 @@ import ISpotLight, {
     spotLightDefaults,
     spotLightSchema
 } from "../../interface/ISpotLight"
-import { SHADOW_BIAS } from "../../globals"
+import { CM2M, M2CM, SHADOW_BIAS } from "../../globals"
 import mainCamera from "../../engine/mainCamera"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import HelperSprite from "../core/utils/HelperSprite"
+import { deg2Rad, rad2Deg } from "@lincode/math"
 
 export default class SpotLight
     extends LightBase<typeof ThreeSpotLight>
@@ -21,6 +22,8 @@ export default class SpotLight
 
     public constructor() {
         super(ThreeSpotLight, SpotLightHelper)
+        this.distance = 1000
+        this.angle = 45
 
         this.createEffect(() => {
             const light = this.lightState.get()
@@ -46,13 +49,15 @@ export default class SpotLight
 
     public get angle() {
         const light = this.lightState.get()
-        if (!light) return 1
+        if (!light) return 45
 
-        return light.angle
+        return light.angle * rad2Deg
     }
     public set angle(val) {
         this.cancelHandle("angle", () =>
-            this.lightState.get((light) => light && (light.angle = val))
+            this.lightState.get(
+                (light) => light && (light.angle = val * deg2Rad)
+            )
         )
     }
 
@@ -82,13 +87,15 @@ export default class SpotLight
 
     public get distance() {
         const light = this.lightState.get()
-        if (!light) return 0
+        if (!light) return 1000
 
-        return light.distance
+        return light.distance * M2CM
     }
     public set distance(val) {
         this.cancelHandle("distance", () =>
-            this.lightState.get((light) => light && (light.distance = val))
+            this.lightState.get(
+                (light) => light && (light.distance = val * CM2M)
+            )
         )
     }
 

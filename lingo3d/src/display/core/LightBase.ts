@@ -109,9 +109,7 @@ export default abstract class LightBase<T extends typeof Light>
     }
     public set enabled(val) {
         this.cancelHandle("enabled", () =>
-            this.lightState.get((light) => {
-                if (light) light.visible = val
-            })
+            this.lightState.get((light) => light && (light.visible = val))
         )
     }
 

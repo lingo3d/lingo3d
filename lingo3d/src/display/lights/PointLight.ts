@@ -40,7 +40,7 @@ export default class PointLight
 
     public get distance() {
         const light = this.lightState.get()
-        if (!light) return 0
+        if (!light) return 1000
 
         return light.distance * M2CM
     }

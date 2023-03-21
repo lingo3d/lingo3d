@@ -26,10 +26,10 @@ export const spotLightSchema: Required<ExtractProps<ISpotLight>> = {
 export const spotLightDefaults = extendDefaults<ISpotLight>(
     [lightBaseDefaults],
     {
-        angle: 1,
+        angle: 45,
         penumbra: 0,
-        decay: 1,
-        distance: 0,
+        decay: 2,
+        distance: 1000,
         targetX: 0,
         targetY: 0,
         targetZ: 0
