@@ -5,12 +5,6 @@ import stateMachine from "./stateMachine"
 import { interpret } from "xstate"
 import keyboard from "../api/keyboard"
 import { createEffect, store } from "@lincode/reactivity"
-import PointLight from "../display/lights/PointLight"
-
-for (let i = 0; i < 50; ++i) {
-    const light = new PointLight()
-    light.distance = 100
-}
 
 //create map model
 const map = new Model()
@@ -64,11 +58,9 @@ createEffect(() => {
 
     if (pose === "idle") {
         player.animation = "idle"
-
     } else if (pose === "jumping") {
         player.animation = "jumping"
         player.velocityY = 10
-
     } else if (pose === "double_jumping") {
         player.animation = "flip"
         player.animationFrame = 10
@@ -84,7 +76,6 @@ createEffect(() => {
         }
     } else if (pose === "running") {
         player.animation = "running"
-
     } else if (pose === "runningBackwards") {
         player.animation = "runningBackwards"
     }
@@ -114,8 +105,7 @@ keyboard.onKeyPress = (ev) => {
     if (ev.keys.has("w")) {
         player.moveForward(-5)
         service.send("RUN_START")
-    }
-    else if (ev.keys.has("s")) {
+    } else if (ev.keys.has("s")) {
         player.moveForward(5)
         service.send("RUN_BACKWARDS_START")
     }

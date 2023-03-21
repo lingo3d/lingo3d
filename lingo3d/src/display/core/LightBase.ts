@@ -101,6 +101,20 @@ export default abstract class LightBase<T extends typeof Light>
         }, [getEditorHelper, this.helperState.get, this.lightState.get])
     }
 
+    public get enabled() {
+        const light = this.lightState.get()
+        if (!light) return true
+
+        return light.visible
+    }
+    public set enabled(val) {
+        this.cancelHandle("enabled", () =>
+            this.lightState.get((light) => {
+                if (light) light.visible = val
+            })
+        )
+    }
+
     protected helperState = new Reactive(true)
     public get helper() {
         return this.helperState.get()

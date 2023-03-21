@@ -16,6 +16,7 @@ export default class PointLight
 
     public constructor() {
         super(ThreePointLight)
+        this.distance = 1000
 
         this.createEffect(() => {
             const light = this.lightState.get()

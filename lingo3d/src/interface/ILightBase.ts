@@ -15,19 +15,19 @@ export default interface ILightBase extends IObjectManager {
     intensity: number
     castShadow: boolean
     shadowResolution: Nullable<ShadowResolution>
+    enabled: boolean
     helper: boolean
 }
 
 export const lightBaseSchema: Required<ExtractProps<ILightBase>> = {
     ...objectManagerSchema,
+    enabled: Boolean,
     helper: Boolean,
     color: String,
     intensity: Number,
     castShadow: Boolean,
     shadowResolution: String
 }
-
-export const intensityRange = new Range(0, 2)
 
 export const shadowResolutionChoices = new Choices({
     low: "low",
@@ -41,10 +41,11 @@ export const lightBaseDefaults = extendDefaults<ILightBase>(
         intensity: 1,
         castShadow: false,
         shadowResolution: nullableDefault("medium"),
+        enabled: true,
         helper: true
     },
     {
-        intensity: intensityRange,
+        intensity: new Range(0, 10),
         shadowResolution: shadowResolutionChoices
     },
     { color: true, castShadow: true }
