@@ -5,9 +5,6 @@ import ISpotLight, {
     spotLightSchema
 } from "../../interface/ISpotLight"
 import { CM2M, M2CM, SHADOW_BIAS } from "../../globals"
-import mainCamera from "../../engine/mainCamera"
-import { getCameraRendered } from "../../states/useCameraRendered"
-import HelperSprite from "../core/utils/HelperSprite"
 import { deg2Rad, rad2Deg } from "@lincode/math"
 
 export default class SpotLight
@@ -18,8 +15,6 @@ export default class SpotLight
     public static defaults = spotLightDefaults
     public static schema = spotLightSchema
 
-    private targetSprite = new HelperSprite("target")
-
     public constructor() {
         super(ThreeSpotLight, SpotLightHelper)
         this.distance = 1000
@@ -29,22 +24,15 @@ export default class SpotLight
             const light = this.lightState.get()
             if (!light) return
 
+            this.outerObject3d.add(light.target)
+            light.position.y = 0
+            light.target.position.y = -0.1
             light.shadow.bias = SHADOW_BIAS * 1.5
-            light.position.y = -0.01
-            this.targetSprite.outerObject3d.add(light.target)
 
             return () => {
-                this.targetSprite.outerObject3d.remove(light.target)
+                this.outerObject3d.remove(light.target)
             }
         }, [this.lightState.get])
-
-        this.targetSprite.scale = 0.25
-        this.watch(
-            getCameraRendered(
-                (cam) => (this.targetSprite.visible = cam === mainCamera)
-            )
-        )
-        this.then(() => this.targetSprite.dispose())
     }
 
     public get angle() {
@@ -97,26 +85,5 @@ export default class SpotLight
                 (light) => light && (light.distance = val * CM2M)
             )
         )
-    }
-
-    public get targetX() {
-        return this.targetSprite.x
-    }
-    public set targetX(val) {
-        this.targetSprite.x = val
-    }
-
-    public get targetY() {
-        return this.targetSprite.y
-    }
-    public set targetY(val) {
-        this.targetSprite.y = val
-    }
-
-    public get targetZ() {
-        return this.targetSprite.z
-    }
-    public set targetZ(val) {
-        this.targetSprite.z = val
     }
 }

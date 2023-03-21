@@ -19,7 +19,7 @@ export default class HelperSprite extends Sprite {
 
     public target?: MeshAppendable
 
-    public constructor(type: "camera" | "target" | "light" | "audio") {
+    public constructor(type: "camera" | "light" | "audio") {
         super()
         this.texture = `${EDITOR_URL()}${type}Sprite.png`
         this.scale = 0.5
