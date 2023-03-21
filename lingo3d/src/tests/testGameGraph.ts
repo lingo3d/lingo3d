@@ -115,9 +115,9 @@ type Tile = {
     "+z": number
 }
 
-type TileTuple = [Tile, Appendable, number]
+type TileData = [Tile, Appendable, number]
 
-const tiles: Record<string, TileTuple> = {
+const tiles = {
     sideWalkTile: [
         {
             "-x": sideWalk,
@@ -148,9 +148,9 @@ const tiles: Record<string, TileTuple> = {
         turnTemplate,
         0
     ]
-}
+} satisfies Record<string, TileData>
 
-const rotateTile = ([tile, manager, angle]: TileTuple): TileTuple => {
+const rotateTile = ([tile, manager, angle]: TileData): TileData => {
     return [
         {
             "-x": tile["-z"],
@@ -163,7 +163,7 @@ const rotateTile = ([tile, manager, angle]: TileTuple): TileTuple => {
     ]
 }
 
-const tileArray: Array<TileTuple> = []
+const tileArray: Array<TileData> = []
 for (let tile of Object.values(tiles)) {
     tileArray.push(tile)
     tileArray.push((tile = rotateTile(tile)))
@@ -171,10 +171,10 @@ for (let tile of Object.values(tiles)) {
     tileArray.push((tile = rotateTile(tile)))
 }
 
-const xMap = new Map<number, Map<number, Set<TileTuple>>>()
-const tilesPositionMap = new Map<Set<TileTuple>, [number, number]>()
+const xMap = new Map<number, Map<number, Set<TileData>>>()
+const tilesPositionMap = new Map<Set<TileData>, [number, number]>()
 const getTiles = (x: number, y: number) => {
-    const yMap = forceGetInstance(xMap, x, Map<number, Set<TileTuple>>)
+    const yMap = forceGetInstance(xMap, x, Map<number, Set<TileData>>)
     return forceGet(yMap, y, () => {
         const tiles = new Set(tileArray)
         tilesPositionMap.set(tiles, [x, y])
@@ -188,7 +188,7 @@ const outOfBounds = (x: number, z: number) =>
 
 const offset = 146 * scale
 
-const collapsed = new WeakSet<Set<TileTuple>>()
+const collapsed = new WeakSet<Set<TileData>>()
 
 const collapse = (x: number, z: number) => {
     const tilesCenter = getTiles(x, z)
@@ -217,7 +217,7 @@ const collapse = (x: number, z: number) => {
     for (const tileRight of tilesRight)
         if (tile["+x"] !== tileRight[0]["-x"]) tilesRight.delete(tileRight)
 
-    let tilesMin: Set<TileTuple> | undefined
+    let tilesMin: Set<TileData> | undefined
     for (const tiles of [tilesTop, tilesBottom, tilesLeft, tilesRight]) {
         if (!tilesPositionMap.has(tiles)) continue
         const [xNext, zNext] = tilesPositionMap.get(tiles)!
@@ -231,7 +231,6 @@ const collapse = (x: number, z: number) => {
     const [xNext, yNext] = tilesPositionMap.get(tilesMin)!
     collapse(xNext, yNext)
 }
-
 collapse(0, 0)
 while (tilesPositionMap.size) {
     const [[x, z]] = tilesPositionMap.values()
