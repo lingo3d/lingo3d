@@ -60,6 +60,7 @@ import { getBokeh, setBokeh } from "../states/useBokeh"
 import { getBokehScale, setBokehScale } from "../states/useBokehScale"
 import { getVignette, setVignette } from "../states/useVignette"
 import { getGravity, setGravity } from "../states/useGravity"
+import { getSSRJitter, setSSRJitter } from "../states/useSSRJitter"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)
@@ -203,6 +204,13 @@ export default {
     },
     set ssrIntensity(value) {
         setSSRIntensity(value)
+    },
+
+    get ssrJitter() {
+        return getSSRJitter()
+    },
+    set ssrJitter(value) {
+        setSSRJitter(value)
     },
 
     get ssao() {

@@ -48,6 +48,7 @@ export default (
         "bloomRadius",
         "ssr",
         "ssrIntensity",
+        "ssrJitter",
         "ssao",
         "ssaoIntensity",
         "bokeh",
