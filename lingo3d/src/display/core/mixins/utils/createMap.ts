@@ -2,7 +2,9 @@ import { getExtensionType } from "@lincode/filetypes"
 import { deg2Rad, Point } from "@lincode/math"
 import { Texture } from "three"
 import loadTexture from "../../../utils/loaders/loadTexture"
-import loadVideoTexture from "../../../utils/loaders/loadVideoTexture"
+import loadVideoTexture, {
+    isSelector
+} from "../../../utils/loaders/loadVideoTexture"
 
 export const uuidTextureMap = new Map<string, Texture>()
 
@@ -34,7 +36,7 @@ export default (
 
     if (uuidTextureMap.has(texture)) return uuidTextureMap.get(texture)
 
-    if (texture[0] === "#" || texture[0] === ".")
+    if (isSelector(texture))
         return initMap(
             loadVideoTexture(texture),
             textureRepeat,

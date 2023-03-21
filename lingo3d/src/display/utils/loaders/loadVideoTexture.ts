@@ -3,9 +3,12 @@ import { forceGet } from "@lincode/utils"
 
 const cache = new Map<string, VideoTexture>()
 
+export const isSelector = (val: string) =>
+    val[0] === "#" || (val[0] === "." && val[1] !== "/")
+
 export default (url: string) =>
     forceGet(cache, url, () => {
-        if (url[0] === "#" || url[0] === ".") {
+        if (isSelector(url)) {
             const video = document.querySelector(url)
             if (video instanceof HTMLVideoElement)
                 return new VideoTexture(
