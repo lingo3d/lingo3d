@@ -5,6 +5,12 @@ import stateMachine from "./stateMachine"
 import { interpret } from "xstate"
 import keyboard from "../api/keyboard"
 import { createEffect, store } from "@lincode/reactivity"
+import PointLight from "../display/lights/PointLight"
+
+for (let i = 0; i < 50; ++i) {
+    const light = new PointLight()
+    light.distance = 100
+}
 
 //create map model
 const map = new Model()

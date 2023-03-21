@@ -1,5 +1,5 @@
 import { PointLight as ThreePointLight } from "three"
-import { SHADOW_BIAS } from "../../globals"
+import { CM2M, M2CM, SHADOW_BIAS } from "../../globals"
 import IPointLight, {
     pointLightDefaults,
     pointLightSchema
@@ -41,11 +41,13 @@ export default class PointLight
         const light = this.lightState.get()
         if (!light) return 0
 
-        return light.distance
+        return light.distance * M2CM
     }
     public set distance(val) {
         this.cancelHandle("distance", () =>
-            this.lightState.get((light) => light && (light.distance = val))
+            this.lightState.get(
+                (light) => light && (light.distance = val * CM2M)
+            )
         )
     }
 }

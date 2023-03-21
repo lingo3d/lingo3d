@@ -1,5 +1,4 @@
 import "./polyfill"
-import "./shaders"
 import "./boxHelper"
 import "./skeletonHelper"
 import "./mainCameraManager"
