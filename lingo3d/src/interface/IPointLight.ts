@@ -14,8 +14,11 @@ export const pointLightSchema: Required<ExtractProps<IPointLight>> = {
     distance: Number
 }
 
+export const lightDecayRange = new Range(0.1, 10)
+export const lightDistanceRange = new Range(100, 10000)
+
 export const pointLightDefaults = extendDefaults<IPointLight>(
     [lightBaseDefaults],
     { decay: 2, distance: 1000 },
-    { decay: new Range(0.1, 10), distance: new Range(100, 10000) }
+    { decay: lightDecayRange, distance: lightDistanceRange }
 )

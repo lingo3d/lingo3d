@@ -19,6 +19,7 @@ export default class SpotLight
         super(ThreeSpotLight, SpotLightHelper)
         this.distance = 1000
         this.angle = 45
+        this.penumbra = 0.2
 
         this.createEffect(() => {
             const light = this.lightState.get()
@@ -51,7 +52,7 @@ export default class SpotLight
 
     public get penumbra() {
         const light = this.lightState.get()
-        if (!light) return 0
+        if (!light) return 0.2
 
         return light.penumbra
     }
