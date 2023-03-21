@@ -17,6 +17,10 @@ import { StandardMesh } from "./mixins/TexturedStandardMixin"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { physxPtr } from "./PhysicsObjectManager/physx/physxPtr"
 import PhysicsObjectManager from "./PhysicsObjectManager"
+import { boxGeometry } from "../primitives/Cube"
+import { ssrExcludeSet } from "../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
+
+const material = new MeshStandardMaterial({ visible: false })
 
 export default abstract class Loaded<T = Object3D>
     extends PhysicsObjectManager<StandardMesh>
@@ -26,8 +30,14 @@ export default abstract class Loaded<T = Object3D>
     public loadedObject3d?: Object3D
 
     public constructor(unmounted?: boolean) {
-        super(undefined, unmounted)
+        super(new Mesh(boxGeometry, material), unmounted)
+        ssrExcludeSet.add(this.object3d)
         this.outerObject3d.add(this.loadedGroup)
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        ssrExcludeSet.delete(this.object3d)
     }
 
     public loaded = new Reresolvable<Object3D>()

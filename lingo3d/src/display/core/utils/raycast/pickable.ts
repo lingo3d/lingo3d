@@ -34,7 +34,7 @@ export const raycast = (
     candidates: Set<Object3D>
 ): RaycastResult | undefined => {
     raycaster.setFromCamera({ x, y }, getCameraRendered())
-    const intersection = raycaster.intersectObjects([...candidates])[0]
+    const intersection = raycaster.intersectObjects([...candidates], false)[0]
 
     const focusedManager = getSelectionFocus()
     if (focusedManager) {
