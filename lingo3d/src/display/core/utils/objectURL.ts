@@ -9,7 +9,6 @@ import setURLModifier from "../../utils/loaders/utils/setURLModifier"
 
 const objectURLExtensionMap = new Map<string, string>()
 const fileObjectURLMap = new Map<File, string>()
-export const objectURLFileMap = new Map<string, File>()
 
 export const getExtensionIncludingObjectURL = (src: string) =>
     objectURLExtensionMap.get(src) ?? splitFileName(src)[1]?.toLowerCase()
@@ -21,7 +20,6 @@ export const createObjectURL = (
     forceGet(fileObjectURLMap, file, () => {
         const url = URL.createObjectURL(file!)
         extension && objectURLExtensionMap.set(url, extension)
-        objectURLFileMap.set(url, file)
         return url
     })
 
@@ -39,7 +37,6 @@ createEffect(() => {
         pathFileMap.clear()
         objectURLExtensionMap.clear()
         fileObjectURLMap.clear()
-        objectURLFileMap.clear()
     }
 }, [getFiles])
 

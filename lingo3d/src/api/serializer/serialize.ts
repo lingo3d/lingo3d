@@ -1,8 +1,5 @@
-import { objectURLFileMap } from "../../display/core/utils/objectURL"
 import { equalsDefaultValue } from "../../interface/utils/getDefaultValue"
-import { getFileCurrent } from "../../states/useFileCurrent"
 import Appendable from "../core/Appendable"
-import relativePath from "../path/relativePath"
 import toFixed, { toFixedPoint } from "./toFixed"
 import { AppendableNode, SceneGraphNode } from "./types"
 import { VERSION } from "../../globals"
@@ -58,18 +55,7 @@ const serialize = (
             if (equalsDefaultValue(value, child, key) || t === "function")
                 continue
 
-            const fileCurrent = getFileCurrent()
-            if (
-                t === "string" &&
-                value.startsWith("blob:http") &&
-                fileCurrent
-            ) {
-                const file = objectURLFileMap.get(value)!
-                value = relativePath(
-                    fileCurrent.webkitRelativePath,
-                    file.webkitRelativePath
-                )
-            } else if (t === "number") value = toFixed(value)
+            if (t === "number") value = toFixed(value)
             else if (isPoint(value, t)) value = toFixedPoint(value)
             else if (Array.isArray(value) && value.some((v) => isPoint(v)))
                 value = value.map((v) => (isPoint(v) ? toFixedPoint(v) : v))

@@ -1,34 +1,33 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { splitFileName } from "@lincode/utils"
 import loadFile from "../../api/files/loadFile"
-import { createObjectURL } from "../../display/core/utils/objectURL"
 import Model from "../../display/Model"
 import useSyncState from "../hooks/useSyncState"
 import { getFileSelected, setFileSelected } from "../../states/useFileSelected"
 import drag, { setDragImage } from "../utils/drag"
 import FileIcon from "./icons/FileIcon"
 import { stopPropagation } from "../utils/stopPropagation"
+import { getFileCurrent } from "../../states/useFileCurrent"
+import relativePath from "../../api/path/relativePath"
 
 const setDraggingItem = drag<File>((draggingItem, hitManager) => {
     const filetype = getExtensionType(draggingItem.name)
-    const [filename, extension] = splitFileName(draggingItem.name)
-
-    const lazyObjectURL = () =>
-        createObjectURL(draggingItem, extension?.toLowerCase())
-
+    const url = relativePath(
+        getFileCurrent()?.webkitRelativePath ?? "",
+        draggingItem.webkitRelativePath
+    )
     if (filetype === "model") {
         const manager = new Model()
-        manager.src = lazyObjectURL()
+        manager.src = url
         return manager
     } else if (filetype === "image" && hitManager && "texture" in hitManager) {
+        const [filename] = splitFileName(draggingItem.name)
         const name = filename.toLowerCase()
-        if (name.includes("rough")) hitManager.roughnessMap = lazyObjectURL()
-        else if (name.includes("metal"))
-            hitManager.metalnessMap = lazyObjectURL()
-        else if (name.includes("normal")) hitManager.normalMap = lazyObjectURL()
-        else if (name.includes("disp"))
-            hitManager.displacementMap = lazyObjectURL()
-        else hitManager.texture = lazyObjectURL()
+        if (name.includes("rough")) hitManager.roughnessMap = url
+        else if (name.includes("metal")) hitManager.metalnessMap = url
+        else if (name.includes("normal")) hitManager.normalMap = url
+        else if (name.includes("disp")) hitManager.displacementMap = url
+        else hitManager.texture = url
     }
 })
 
