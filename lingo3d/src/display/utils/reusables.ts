@@ -40,3 +40,5 @@ export const wireframeMaterial = new MeshStandardMaterial({ wireframe: true })
 export const standardMaterial = new MeshStandardMaterial({ side: DoubleSide })
 
 export const pt3d0 = Object.freeze(new Point3d(0, 0, 0))
+
+export const whiteColor = new Color("white")

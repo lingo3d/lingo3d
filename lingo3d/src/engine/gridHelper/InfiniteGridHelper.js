@@ -1,14 +1,15 @@
-import { Color, DoubleSide, Mesh, ShaderMaterial } from "three"
+import { DoubleSide, Mesh, ShaderMaterial } from "three"
 import { planeGeometry } from "../../display/primitives/Plane"
+import { whiteColor } from "../../display/utils/reusables"
 
 export default class InfiniteGridHelper extends Mesh {
-    constructor(size1, size2, color, distance, axes = "xzy") {
-        color = color || new Color("white")
-        size1 = size1 || 10
-        size2 = size2 || 100
-
-        distance = distance || 8000
-
+    constructor(
+        size1 = 1,
+        size2 = 10,
+        color = whiteColor,
+        distance = 100,
+        axes = "xzy"
+    ) {
         const planeAxes = axes.substr(0, 2)
 
         const material = new ShaderMaterial({

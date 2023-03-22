@@ -1,8 +1,7 @@
-import { Vector3, Color, Vector2 } from "three"
+import { Vector3, Vector2 } from "three"
 import { shaderMaterial } from "@pmndrs/vanilla"
 import { FAR, NEAR } from "../../../globals"
-
-const whiteColor = new Color("white")
+import { whiteColor } from "../../utils/reusables"
 
 const SpotLightMaterial = shaderMaterial(
     {
