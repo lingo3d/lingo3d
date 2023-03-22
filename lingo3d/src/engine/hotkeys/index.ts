@@ -1,7 +1,6 @@
 import { createEffect } from "@lincode/reactivity"
 import openFolder from "../../api/files/openFolder"
 import saveJSON from "../../api/files/saveJSON"
-import settings from "../../api/settings"
 import { redo, undo } from "../../api/undoStack"
 import { isPositionedManager } from "../../display/core/PositionedManager"
 import deleteSelected from "./deleteSelected"
@@ -58,11 +57,6 @@ createEffect(() => {
         }
 
         const keyLowerCase = e.key.toLocaleLowerCase()
-        if (keyLowerCase === "g") {
-            settings.grid = !settings.grid
-            return
-        }
-
         if (keyLowerCase === "1") {
             if (!getSplitView())
                 setEditorCamera(

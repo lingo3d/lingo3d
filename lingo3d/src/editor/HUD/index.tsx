@@ -49,7 +49,6 @@ const HUD = () => {
                         <HotKey hotkey="⌘" />
                         <HotKey hotkey="S" description="save scene" />
                     </div>
-                    <HotKey hotkey="G" description="toggle grid" />
                 </div>
             )}
         </div>,
