@@ -2,6 +2,8 @@ import { Vector3, Color, Vector2 } from "three"
 import { shaderMaterial } from "@pmndrs/vanilla"
 import { FAR, NEAR } from "../../../globals"
 
+const whiteColor = new Color("white")
+
 const SpotLightMaterial = shaderMaterial(
     {
         depth: null,
@@ -9,7 +11,7 @@ const SpotLightMaterial = shaderMaterial(
         attenuation: 2.5,
         anglePower: 12,
         spotPosition: new Vector3(0, 0, 0),
-        lightColor: new Color("white"),
+        lightColor: whiteColor,
         cameraNear: NEAR,
         cameraFar: FAR,
         resolution: new Vector2(0, 0),

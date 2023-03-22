@@ -15,7 +15,7 @@ export const pointLightSchema: Required<ExtractProps<IPointLight>> = {
 }
 
 export const lightDecayRange = new Range(0.1, 10)
-export const lightDistanceRange = new Range(100, 10000)
+export const lightDistanceRange = new Range(100, 2000)
 
 export const pointLightDefaults = extendDefaults<IPointLight>(
     [lightBaseDefaults],
