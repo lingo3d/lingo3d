@@ -20,10 +20,6 @@ import {
 import { getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
 import { getExposure, setExposure } from "../states/useExposure"
 import { getGridHelper, setGridHelper } from "../states/useGridHelper"
-import {
-    getGridHelperSize,
-    setGridHelperSize
-} from "../states/useGridHelperSize"
 import { getOutlineColor, setOutlineColor } from "../states/useOutlineColor"
 import {
     getOutlineHiddenColor,
@@ -92,13 +88,6 @@ export default {
     },
     set gridHelper(value) {
         setGridHelper(value)
-    },
-
-    get gridHelperSize() {
-        return getGridHelperSize()
-    },
-    set gridHelperSize(value) {
-        setGridHelperSize(value)
     },
 
     get stats() {

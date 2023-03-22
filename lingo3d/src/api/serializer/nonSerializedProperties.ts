@@ -7,7 +7,6 @@ export default [
     "target",
     "proxy",
     "gridHelper",
-    "gridHelperSize",
     "stats",
     "paused"
 ]

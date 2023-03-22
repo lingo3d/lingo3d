@@ -17,7 +17,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     environment: String,
     skybox: [String, Array],
     gridHelper: Boolean,
-    gridHelperSize: Number,
     stats: Boolean,
     antiAlias: [Boolean, String],
     pixelRatio: Number,
@@ -68,7 +67,6 @@ export const setupDefaults = extendDefaults<ISetup>(
         ssaoIntensity: new Range(0, 4),
         outlinePulse: new Range(0, 2),
         outlineStrength: new Range(0, 4),
-        antiAlias: new Choices({ MSAA: "MSAA", SMAA: "SMAA", false: false }),
-        gridHelperSize: new Range(10, 1000, 10)
+        antiAlias: new Choices({ MSAA: "MSAA", SMAA: "SMAA", false: false })
     }
 )

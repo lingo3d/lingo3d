@@ -14,7 +14,6 @@ export default (
     const [params, manager] = createParams(targetSetup, includeKeys, true)
     const [editorParams, editorRest] = splitObject(params, [
         "gridHelper",
-        "gridHelperSize",
         "stats"
     ])
     addInputs(handle, pane, "editor", manager, editorParams)
