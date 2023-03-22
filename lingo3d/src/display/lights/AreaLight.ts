@@ -47,6 +47,7 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
             this.object3d.add(light)
 
             this.then(() => light.dispose())
+            this.watch(this.enabledState.get((val) => (light.visible = val)))
 
             this.onTransformControls = (_, mode) => {
                 if (mode !== "scale") return
@@ -157,5 +158,13 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
     }
     public set castShadow(val) {
         this._castShadow = val
+    }
+
+    private enabledState = new Reactive(true)
+    public get enabled() {
+        return this.enabledState.get()
+    }
+    public set enabled(val) {
+        this.enabledState.set(val)
     }
 }
