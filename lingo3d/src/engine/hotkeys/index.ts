@@ -21,6 +21,7 @@ import {
     getHotKeysEnabled,
     setHotKeysEnabled
 } from "../../states/useHotKeysEnabled"
+import settings from "../../api/settings"
 
 const enabledSet = new Set<HTMLElement>()
 export const enableHotKeysOnElement = (el: HTMLElement) => {
@@ -57,6 +58,10 @@ createEffect(() => {
         }
 
         const keyLowerCase = e.key.toLocaleLowerCase()
+        if (keyLowerCase === "g") {
+            settings.grid = !settings.grid
+            return
+        }
         if (keyLowerCase === "1") {
             if (!getSplitView())
                 setEditorCamera(

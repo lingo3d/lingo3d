@@ -13,6 +13,7 @@ import { emitSelectionTarget } from "../events/onSelectionTarget"
 import { Mesh, PlaneGeometry } from "three"
 import { standardMaterial } from "../display/utils/reusables"
 import scene from "../engine/scene"
+import { getGrid } from "./useGrid"
 
 export const [setEditorDragEvent, getEditorDragEvent] = store<
     | DragEvent
@@ -57,7 +58,12 @@ createEffect(() => {
 
     let done = false
     const [xNorm, yNorm] = normalizeClientPosition(e.clientX, e.clientY)
-    const hit = raycast(xNorm, yNorm, selectionCandidates, editorPlane)
+    const hit = raycast(
+        xNorm,
+        yNorm,
+        selectionCandidates,
+        getGrid() ? editorPlane : undefined
+    )
     hitManagerRef.current = hit?.manager
     const point = hit?.point ?? clientToWorld(e.clientX, e.clientY)
     Object.assign(indicator, point)
