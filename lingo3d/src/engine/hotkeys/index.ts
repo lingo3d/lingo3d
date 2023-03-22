@@ -27,6 +27,7 @@ const enabledSet = new Set<HTMLElement>()
 export const enableHotKeysOnElement = (el: HTMLElement) => {
     el.addEventListener("mouseover", () => enabledSet.add(el))
     el.addEventListener("mouseout", () => enabledSet.delete(el))
+    el.addEventListener("drop", () => setHotKeysEnabled(true))
 }
 enableHotKeysOnElement(container)
 
