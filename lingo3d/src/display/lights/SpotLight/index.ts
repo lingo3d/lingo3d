@@ -1,11 +1,22 @@
-import { SpotLight as ThreeSpotLight, SpotLightHelper } from "three"
-import LightBase from "../core/LightBase"
+import {
+    ConeGeometry,
+    Mesh,
+    SpotLight as ThreeSpotLight,
+    SpotLightHelper
+} from "three"
+import LightBase from "../../core/LightBase"
 import ISpotLight, {
     spotLightDefaults,
     spotLightSchema
-} from "../../interface/ISpotLight"
-import { CM2M, M2CM, SHADOW_BIAS } from "../../globals"
+} from "../../../interface/ISpotLight"
+import { CM2M, M2CM, SHADOW_BIAS } from "../../../globals"
 import { deg2Rad, rad2Deg } from "@lincode/math"
+import { Reactive } from "@lincode/reactivity"
+import { SpotLightMaterial } from "./SpotLightMaterial"
+import getWorldPosition from "../../utils/getWorldPosition"
+import { onBeforeRender } from "../../../events/onBeforeRender"
+
+const coneGeometry = new ConeGeometry(0.5, 1, 256)
 
 export default class SpotLight
     extends LightBase<typeof ThreeSpotLight>
@@ -34,6 +45,37 @@ export default class SpotLight
                 this.outerObject3d.remove(light.target)
             }
         }, [this.lightState.get])
+
+        this.createEffect(() => {
+            const light = this.lightState.get()
+            const volumetric = this.volumetricState.get()
+            if (!light || !volumetric) return
+
+            const material = new SpotLightMaterial()
+            //@ts-ignore
+            material.lightColor = light.color
+            //@ts-ignore
+            material.anglePower = 5
+
+            const cone = new Mesh(coneGeometry, material)
+            this.outerObject3d.add(cone)
+
+            const handle = onBeforeRender(() => {
+                const scaleY = (cone.scale.y = this.distance * CM2M)
+                cone.position.y = -scaleY * 0.5
+                cone.scale.x = cone.scale.z =
+                    2 * Math.tan(this.angle * deg2Rad) * scaleY
+                //@ts-ignore
+                material.attenuation = light.distance
+                //@ts-ignore
+                material.spotPosition.copy(getWorldPosition(this.outerObject3d))
+            })
+            return () => {
+                material.dispose()
+                this.outerObject3d.remove(cone)
+                handle.cancel()
+            }
+        }, [this.lightState.get, this.volumetricState.get])
     }
 
     public get angle() {
@@ -86,5 +128,13 @@ export default class SpotLight
                 (light) => light && (light.distance = val * CM2M)
             )
         )
+    }
+
+    private volumetricState = new Reactive(false)
+    public get volumetric() {
+        return this.volumetricState.get()
+    }
+    public set volumetric(val) {
+        this.volumetricState.set(val)
     }
 }
