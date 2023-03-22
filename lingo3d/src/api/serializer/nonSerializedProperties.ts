@@ -6,7 +6,6 @@ export default [
     "velocity",
     "target",
     "proxy",
-    "gridHelper",
-    "stats",
-    "paused"
+    "grid",
+    "stats"
 ]

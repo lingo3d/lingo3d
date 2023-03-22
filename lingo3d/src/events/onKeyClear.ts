@@ -1,6 +1,5 @@
 import { event } from "@lincode/events"
 import { throttleTrailing } from "@lincode/utils"
-import { getPaused } from "../states/usePaused"
 
 const [_emitKeyClear, onKeyClear] = event()
 export { onKeyClear }
@@ -10,7 +9,6 @@ const emitKeyClear = throttleTrailing(_emitKeyClear)
 window.addEventListener("blur", () => emitKeyClear())
 window.addEventListener("focus", () => emitKeyClear())
 document.addEventListener("visibilitychange", () => emitKeyClear())
-getPaused(() => emitKeyClear())
 
 const shiftMetaPressed = new Set<string>()
 onKeyClear(() => shiftMetaPressed.clear())

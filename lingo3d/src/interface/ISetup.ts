@@ -16,7 +16,7 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     defaultLight: Boolean,
     environment: String,
     skybox: [String, Array],
-    gridHelper: Boolean,
+    grid: Boolean,
     stats: Boolean,
     antiAlias: [Boolean, String],
     pixelRatio: Number,

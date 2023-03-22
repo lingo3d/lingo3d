@@ -59,7 +59,7 @@ createEffect(() => {
 
         const keyLowerCase = e.key.toLocaleLowerCase()
         if (keyLowerCase === "g") {
-            settings.gridHelper = !settings.gridHelper
+            settings.grid = !settings.grid
             return
         }
 

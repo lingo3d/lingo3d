@@ -7,7 +7,6 @@ import InfoScreen from "./InfoScreen"
 import useSyncState from "../hooks/useSyncState"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getLoadingUnpkgCount } from "../../states/useLoadingUnpkgCount"
-import { getPaused } from "../../states/usePaused"
 import useInitEditor from "../hooks/useInitEditor"
 import { overlayContainer } from "../../engine/renderLoop/renderSetup"
 
@@ -17,7 +16,6 @@ const HUD = () => {
 
     const cameraRendered = useSyncState(getCameraRendered)
     const loadingUnpkgCount = useSyncState(getLoadingUnpkgCount)
-    const paused = useSyncState(getPaused)
 
     return createPortal(
         <div
@@ -27,13 +25,6 @@ const HUD = () => {
             <InfoScreen mounted={!!loadingUnpkgCount}>
                 <Spinner size={14} />
                 loading remote data
-            </InfoScreen>
-            <InfoScreen
-                mounted={paused}
-                style={{ background: "rgba(18, 19, 22, 0.75)" }}
-                fadeIn
-            >
-                paused
             </InfoScreen>
             {cameraRendered === mainCamera && (
                 <div style={{ opacity: 0.5 }}>

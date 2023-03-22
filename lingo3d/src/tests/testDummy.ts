@@ -10,7 +10,7 @@ import {
     Cube
 } from ".."
 
-settings.gridHelper = true
+settings.grid = true
 
 const reflector = new Reflector()
 reflector.scale = 100

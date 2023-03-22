@@ -17,15 +17,15 @@ createEffect(() => {
     setEditorCamera(mainCamera)
     setWorldPlay(false)
 
-    settings.gridHelper = ![...appendableRoot].some((item) => {
+    settings.grid = ![...appendableRoot].some((item) => {
         const { componentName } = item
         return componentName !== "setup" && componentName !== "defaultSkyLight"
     })
-    const handle = onLoadFile(() => (settings.gridHelper = false))
+    const handle = onLoadFile(() => (settings.grid = false))
 
     return () => {
         setEditorCamera(undefined)
-        settings.gridHelper = false
+        settings.grid = false
         setWorldPlay(true)
         handle.cancel()
     }

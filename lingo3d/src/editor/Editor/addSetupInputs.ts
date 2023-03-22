@@ -12,10 +12,7 @@ export default (
 ) => {
     const handle = new Cancellable()
     const [params, manager] = createParams(targetSetup, includeKeys, true)
-    const [editorParams, editorRest] = splitObject(params, [
-        "gridHelper",
-        "stats"
-    ])
+    const [editorParams, editorRest] = splitObject(params, ["grid", "stats"])
     addInputs(handle, pane, "editor", manager, editorParams)
 
     const [rendererParams, rendererRest] = splitObject(editorRest, [

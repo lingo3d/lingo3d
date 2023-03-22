@@ -19,7 +19,7 @@ import {
 } from "../states/useBloomThreshold"
 import { getDefaultLight, setDefaultLight } from "../states/useDefaultLight"
 import { getExposure, setExposure } from "../states/useExposure"
-import { getGridHelper, setGridHelper } from "../states/useGridHelper"
+import { getGrid, setGrid } from "../states/useGrid"
 import { getOutlineColor, setOutlineColor } from "../states/useOutlineColor"
 import {
     getOutlineHiddenColor,
@@ -83,11 +83,11 @@ export default {
         defaultSkybox.texture = value
     },
 
-    get gridHelper() {
-        return getGridHelper()
+    get grid() {
+        return getGrid()
     },
-    set gridHelper(value) {
-        setGridHelper(value)
+    set grid(value) {
+        setGrid(value)
     },
 
     get stats() {
