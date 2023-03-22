@@ -34,6 +34,7 @@ createEffect(() => {
         mipmapBlur: true,
         luminanceSmoothing: 0.3
     })
+    effect.ignoreBackground = true
     setSelectiveBloomEffect(effect)
 
     for (const object of objectSet) effect.selection.add(object)
