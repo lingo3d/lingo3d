@@ -22,15 +22,15 @@ import { assertExhaustive } from "@lincode/utils"
 import renderSystemWithData from "../../utils/renderSystemWithData"
 import { positionChanged } from "../utils/trackObject"
 
-const updateLightDirection = (self: SkyLight, csm: CSM) => {
-    csm.lightDirection = self.position.clone().normalize().multiplyScalar(-1)
-    csm.update()
-}
+const updateLightDirection = (self: SkyLight, csm: CSM) =>
+    (csm.lightDirection = self.position.clone().normalize().multiplyScalar(-1))
 
 const [addLightSystem, deleteLightSystem] = renderSystemWithData(
-    (self: SkyLight, data: { csm: CSM }) =>
+    (self: SkyLight, data: { csm: CSM }) => {
         positionChanged(self.outerObject3d) &&
-        updateLightDirection(self, data.csm)
+            updateLightDirection(self, data.csm)
+        data.csm.update()
+    }
 )
 
 const mapCSMOptions = (
