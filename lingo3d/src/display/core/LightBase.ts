@@ -60,21 +60,14 @@ export default abstract class LightBase<T extends typeof Light>
                 light.shadow.bias = SHADOW_BIAS
 
                 light.shadow.mapSize.setScalar(
-                    mapShadowResolution(
-                        this.shadowResolutionState.get() ??
-                            getShadowResolution()
-                    )
+                    mapShadowResolution(getShadowResolution())
                 )
             }
             return () => {
                 this.object3d.remove(light)
                 light.dispose()
             }
-        }, [
-            this.castShadowState.get,
-            this.shadowResolutionState.get,
-            getShadowResolution
-        ])
+        }, [this.castShadowState.get, getShadowResolution])
 
         this.createEffect(() => {
             const light = this.lightState.get()
@@ -127,16 +120,6 @@ export default abstract class LightBase<T extends typeof Light>
     }
     public set castShadow(val) {
         this.castShadowState.set(val)
-    }
-
-    protected shadowResolutionState = new Reactive<
-        ShadowResolution | undefined
-    >(undefined)
-    public get shadowResolution() {
-        return this.shadowResolutionState.get()
-    }
-    public set shadowResolution(val) {
-        this.shadowResolutionState.set(val)
     }
 
     public get color() {

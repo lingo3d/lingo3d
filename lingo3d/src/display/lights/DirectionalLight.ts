@@ -1,5 +1,4 @@
 import { mapRange } from "@lincode/math"
-import { Reactive } from "@lincode/reactivity"
 import { assertExhaustive } from "@lincode/utils"
 import { DirectionalLight as ThreeDirectionalLight } from "three"
 import { getManager } from "../../api/utils/getManager"
@@ -77,23 +76,12 @@ export default class DirectionalLight
 
             const shadowCamera = light.shadow.camera
             shadowCamera.zoom =
-                500 /
-                offset /
-                mapShadowDistance(
-                    this.shadowDistanceState.get() ?? getShadowDistance()
-                )
+                500 / offset / mapShadowDistance(getShadowDistance())
             shadowCamera.updateProjectionMatrix()
             light.shadow.mapSize.setScalar(
-                mapShadowResolution(
-                    this.shadowResolutionState.get() ?? getShadowResolution()
-                )
+                mapShadowResolution(getShadowResolution())
             )
-        }, [
-            this.lightState.get,
-            this.shadowDistanceState.get,
-            getShadowDistance,
-            getCameraRendered
-        ])
+        }, [this.lightState.get, getShadowDistance, getCameraRendered])
 
         this.createEffect(() => {
             const light = this.lightState.get()
@@ -102,45 +90,24 @@ export default class DirectionalLight
             light.shadow.bias =
                 SHADOW_BIAS *
                 mapRange(
-                    mapShadowDistance(
-                        this.shadowDistanceState.get() ?? getShadowDistance()
-                    ),
+                    mapShadowDistance(getShadowDistance()),
                     3000,
                     10000,
                     0.05,
                     0.15
                 ) *
                 mapRange(
-                    mapShadowResolution(
-                        this.shadowResolutionState.get() ??
-                            getShadowResolution()
-                    ),
+                    mapShadowResolution(getShadowResolution()),
                     1024,
                     256,
                     1,
                     4,
                     true
                 )
-        }, [
-            this.lightState.get,
-            this.shadowDistanceState.get,
-            getShadowDistance,
-            this.shadowResolutionState.get,
-            getShadowResolution
-        ])
+        }, [this.lightState.get, getShadowDistance, getShadowResolution])
     }
 
     public override get worldPosition() {
         return vec2Point(getWorldPosition(this.outerObject3d))
-    }
-
-    private shadowDistanceState = new Reactive<ShadowDistance | undefined>(
-        undefined
-    )
-    public get shadowDistance() {
-        return this.shadowDistanceState.get()
-    }
-    public set shadowDistance(val) {
-        this.shadowDistanceState.set(val)
     }
 }

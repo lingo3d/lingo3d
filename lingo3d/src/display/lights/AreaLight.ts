@@ -8,8 +8,6 @@ import { lazy } from "@lincode/utils"
 import ObjectManager from "../core/ObjectManager"
 import scene from "../../engine/scene"
 import { Reactive } from "@lincode/reactivity"
-import { ShadowResolution } from "../../states/useShadowResolution"
-import Nullable from "../../interface/utils/Nullable"
 import { ssrExcludeSet } from "../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
 import selectionCandidates, {
     additionalSelectionCandidates
@@ -78,8 +76,6 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
             }, [this.helperState.get, getEditorHelper])
         })
     }
-
-    public shadowResolution: Nullable<ShadowResolution>
 
     private helperState = new Reactive(true)
     public get helper() {

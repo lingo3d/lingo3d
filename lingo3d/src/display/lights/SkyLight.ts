@@ -89,10 +89,7 @@ export default class SkyLight
             }
             const intensity = this.intensityState.get()
             const csm = new CSM({
-                ...mapCSMOptions(
-                    this.shadowDistanceState.get() ?? getShadowDistance(),
-                    this.shadowResolutionState.get() ?? getShadowResolution()
-                ),
+                ...mapCSMOptions(getShadowDistance(), getShadowResolution()),
                 cascades: 1,
                 parent: scene,
                 camera: getCameraRendered(),
@@ -112,21 +109,10 @@ export default class SkyLight
             }
         }, [
             this.castShadowState.get,
-            this.shadowDistanceState.get,
             this.intensityState.get,
             getShadowDistance,
             getShadowResolution
         ])
-    }
-
-    private shadowDistanceState = new Reactive<ShadowDistance | undefined>(
-        undefined
-    )
-    public get shadowDistance() {
-        return this.shadowDistanceState.get()
-    }
-    public set shadowDistance(val) {
-        this.shadowDistanceState.set(val)
     }
 
     public get groundColor() {
