@@ -1,12 +1,12 @@
-import IObjectManager, {
-    objectManagerDefaults,
-    objectManagerSchema
-} from "./IObjectManager"
+import ISimpleObjectManager, {
+    simpleObjectManagerDefaults,
+    simpleObjectManagerSchema
+} from "./ISimpleObjectManager"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
 
-export default interface ILightBase extends IObjectManager {
+export default interface ILightBase extends ISimpleObjectManager {
     color: string
     intensity: number
     castShadow: boolean
@@ -15,7 +15,7 @@ export default interface ILightBase extends IObjectManager {
 }
 
 export const lightBaseSchema: Required<ExtractProps<ILightBase>> = {
-    ...objectManagerSchema,
+    ...simpleObjectManagerSchema,
     enabled: Boolean,
     helper: Boolean,
     color: String,
@@ -24,7 +24,7 @@ export const lightBaseSchema: Required<ExtractProps<ILightBase>> = {
 }
 
 export const lightBaseDefaults = extendDefaults<ILightBase>(
-    [objectManagerDefaults],
+    [simpleObjectManagerDefaults],
     {
         color: "#ffffff",
         intensity: 1,

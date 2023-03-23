@@ -5,7 +5,7 @@ import IAreaLight, {
     areaLightSchema
 } from "../../interface/IAreaLight"
 import { lazy } from "@lincode/utils"
-import ObjectManager from "../core/ObjectManager"
+import SimpleObjectManager from "../core/SimpleObjectManager"
 import scene from "../../engine/scene"
 import { Reactive } from "@lincode/reactivity"
 import { ssrExcludeSet } from "../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
@@ -13,7 +13,6 @@ import selectionCandidates, {
     additionalSelectionCandidates
 } from "../core/utils/raycast/selectionCandidates"
 import { setManager } from "../../api/utils/getManager"
-import { CM2M } from "../../globals"
 import { getEditorHelper } from "../../states/useEditorHelper"
 
 const lazyInit = lazy(async () => {
@@ -23,7 +22,10 @@ const lazyInit = lazy(async () => {
     RectAreaLightUniformsLib.init()
 })
 
-export default class AreaLight extends ObjectManager implements IAreaLight {
+export default class AreaLight
+    extends SimpleObjectManager
+    implements IAreaLight
+{
     public static componentName = "areaLight"
     public static defaults = areaLightDefaults
     public static schema = areaLightSchema
@@ -39,8 +41,8 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
             const light = (this.light = new RectAreaLight(
                 this._color,
                 this._intensity,
-                this.width * this.scaleX * CM2M,
-                this.height * this.scaleY * CM2M
+                this.scaleX,
+                this.scaleY
             ))
             this.object3d.add(light)
 
@@ -103,31 +105,13 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
         this.light && (this.light.intensity = val)
     }
 
-    private _width?: number
-    public override get width() {
-        return this._width ?? 100
-    }
-    public override set width(val) {
-        this._width = val
-        this.light && (this.light.width = val * this.scaleX * CM2M)
-    }
-
-    private _height?: number
-    public override get height() {
-        return this._height ?? 100
-    }
-    public override set height(val) {
-        this._height = val
-        this.light && (this.light.height = val * this.scaleY * CM2M)
-    }
-
     private _scaleX?: number
     public override get scaleX() {
         return this._scaleX ?? 1
     }
     public override set scaleX(val) {
         this._scaleX = val
-        this.light && (this.light.width = val * this.width * CM2M)
+        this.light && (this.light.width = val)
     }
 
     private _scaleY?: number
@@ -136,13 +120,9 @@ export default class AreaLight extends ObjectManager implements IAreaLight {
     }
     public override set scaleY(val) {
         this._scaleY = val
-        this.light && (this.light.height = val * this.height * CM2M)
+        this.light && (this.light.height = val)
     }
 
-    public override get depth() {
-        return 0
-    }
-    public override set depth(_) {}
     public override get scaleZ() {
         return 0
     }

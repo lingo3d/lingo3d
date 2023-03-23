@@ -1,6 +1,5 @@
 import { Object3D, PropertyBinding } from "three"
 import { deg2Rad, rad2Deg } from "@lincode/math"
-import scene from "../../engine/scene"
 import IObjectManager from "../../interface/IObjectManager"
 import FoundManager from "./FoundManager"
 import { getManager, setManager } from "../../api/utils/getManager"
@@ -27,10 +26,9 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     implements IObjectManager
 {
     public constructor(object3d = new Object3D() as T, unmounted?: boolean) {
-        super(new Object3D() as T)
+        super(new Object3D() as T, unmounted)
         this.object3d = object3d
         setManager(object3d, this)
-        !unmounted && scene.add(this.outerObject3d)
         this.outerObject3d.add(object3d)
     }
 

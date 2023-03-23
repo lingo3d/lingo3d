@@ -13,7 +13,7 @@ import { eraseAppendable } from "../../api/core/collections"
 import renderSystemWithData from "../../utils/renderSystemWithData"
 import { positionChanged } from "../utils/trackObject"
 import { vector3 } from "../utils/reusables"
-import ObjectManager from "../core/ObjectManager"
+import SimpleObjectManager from "../core/SimpleObjectManager"
 import AmbientLight from "./AmbientLight"
 
 const updateLightDirection = (self: SkyLight, csm: CSM) =>
@@ -38,7 +38,7 @@ const [addBackLightSystem, deleteBackLightSystem] = renderSystemWithData(
         updateBackLight(self, data.backLight)
 )
 
-export default class SkyLight extends ObjectManager implements ISkyLight {
+export default class SkyLight extends SimpleObjectManager implements ISkyLight {
     public static componentName = "skyLight"
     public static defaults = skyLightDefaults
     public static schema = skyLightSchema

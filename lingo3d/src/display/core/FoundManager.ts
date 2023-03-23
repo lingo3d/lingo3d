@@ -24,7 +24,7 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         mesh: Object3D | StandardMesh,
         public owner: MeshAppendable
     ) {
-        super(mesh)
+        super(mesh, true)
         appendableRoot.delete(this)
 
         if (!("material" in mesh)) return
