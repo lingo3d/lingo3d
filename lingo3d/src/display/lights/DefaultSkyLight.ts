@@ -25,7 +25,6 @@ export default class DefaultSkyLight
         super()
         this.y = FAR
         this.z = FAR
-        this.intensity = 0.5
         defaultSkyLight?.dispose()
         defaultSkyLight = this
     }
