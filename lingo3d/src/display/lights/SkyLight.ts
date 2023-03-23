@@ -63,12 +63,13 @@ export default class SkyLight extends ObjectManager implements ISkyLight {
             ambientLight.dispose()
         })
 
+        const shadowResolution = getShadowResolution()
         this.createEffect(() => {
             const intensity = this.intensityState.get()
             const csm = new CSM({
                 maxFar: 100,
-                shadowMapSize: mapShadowResolution(getShadowResolution()) * 4,
-                shadowBias: -0.0001,
+                shadowMapSize: mapShadowResolution(shadowResolution) * 4,
+                shadowBias: shadowResolution === "low" ? -0.00003 : -0.0001,
                 cascades: 1,
                 parent: scene,
                 camera: getCameraRendered(),
