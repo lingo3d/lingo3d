@@ -1,7 +1,6 @@
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import ISkyLight, { skyLightDefaults, skyLightSchema } from "./ISkyLight"
-import { FAR } from "../globals"
 
 export default interface IDefaultSkyLight extends ISkyLight {}
 
@@ -11,5 +10,5 @@ export const defaultSkyLightSchema: Required<ExtractProps<IDefaultSkyLight>> = {
 
 export const defaultSkyLightDefaults = extendDefaults<IDefaultSkyLight>(
     [skyLightDefaults],
-    { y: FAR, z: FAR }
+    { x: 500, y: 1000, z: 1000 }
 )

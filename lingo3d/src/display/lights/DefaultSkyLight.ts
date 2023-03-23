@@ -1,5 +1,4 @@
 import { throttleTrailing } from "@lincode/utils"
-import { FAR } from "../../globals"
 import IDefaultSkyLight, {
     defaultSkyLightDefaults,
     defaultSkyLightSchema
@@ -23,8 +22,9 @@ export default class DefaultSkyLight
 
     public constructor() {
         super()
-        this.y = FAR
-        this.z = FAR
+        this.x = 500
+        this.y = 1000
+        this.z = 1000
         defaultSkyLight?.dispose()
         defaultSkyLight = this
     }

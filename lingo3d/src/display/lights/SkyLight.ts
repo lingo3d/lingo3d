@@ -12,13 +12,13 @@ import DirectionalLight from "./DirectionalLight"
 import { eraseAppendable } from "../../api/core/collections"
 import renderSystemWithData from "../../utils/renderSystemWithData"
 import { positionChanged } from "../utils/trackObject"
-import { vector3 } from "../utils/reusables"
 import SimpleObjectManager from "../core/SimpleObjectManager"
 import AmbientLight from "./AmbientLight"
 
 const updateLightDirection = (self: SkyLight, csm: CSM) =>
-    (csm.lightDirection = self.position.clone().normalize().multiplyScalar(-1))
-
+    csm.lightDirection.copy(
+        self.position.clone().normalize().multiplyScalar(-1)
+    )
 const [addLightSystem, deleteLightSystem] = renderSystemWithData(
     (self: SkyLight, data: { csm: CSM }) => {
         positionChanged(self.outerObject3d) &&
@@ -26,12 +26,9 @@ const [addLightSystem, deleteLightSystem] = renderSystemWithData(
         data.csm.update()
     }
 )
+const updateBackLight = (self: SkyLight, backLight: DirectionalLight) =>
+    backLight.position.copy(self.position.clone().multiplyScalar(-1))
 
-const updateBackLight = (self: SkyLight, backLight: DirectionalLight) => {
-    backLight.position.copy(
-        self.position.clone().multiply(vector3.set(-1, 1, -1))
-    )
-}
 const [addBackLightSystem, deleteBackLightSystem] = renderSystemWithData(
     (self: SkyLight, data: { backLight: DirectionalLight }) =>
         positionChanged(self.outerObject3d) &&
