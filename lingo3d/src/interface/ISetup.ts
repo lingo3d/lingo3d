@@ -22,7 +22,6 @@ export const setupSchema: Required<ExtractProps<ISetup>> = {
     gravity: Number,
     exposure: Number,
     shadowResolution: String,
-    shadowDistance: String,
     bloom: Boolean,
     bloomIntensity: Number,
     bloomThreshold: Number,
@@ -58,11 +57,6 @@ export const setupDefaults = extendDefaults<ISetup>(
             low: "low",
             medium: "medium",
             high: "high"
-        }),
-        shadowDistance: new Choices({
-            near: "near",
-            medium: "medium",
-            far: "far"
         }),
         bokehScale: new Range(0, 20),
         bloomIntensity: new Range(0, 10),

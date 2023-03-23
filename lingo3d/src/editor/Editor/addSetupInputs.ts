@@ -32,8 +32,7 @@ export default (
         "skybox",
         "texture",
         "color",
-        "shadowResolution",
-        "shadowDistance"
+        "shadowResolution"
     ])
     addInputs(handle, pane, "lighting & environment", manager, sceneParams)
 

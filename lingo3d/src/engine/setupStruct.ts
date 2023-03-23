@@ -42,10 +42,6 @@ import { getSSAO, setSSAO } from "../states/useSSAO"
 import { getSSAOIntensity, setSSAOIntensity } from "../states/useSSAOIntensity"
 import { getBloomRadius, setBloomRadius } from "../states/useBloomRadius"
 import {
-    getShadowDistance,
-    setShadowDistance
-} from "../states/useShadowDistance"
-import {
     getShadowResolution,
     setShadowResolution
 } from "../states/useShadowResolution"
@@ -137,13 +133,6 @@ export default {
     },
     set shadowResolution(value) {
         setShadowResolution(value)
-    },
-
-    get shadowDistance() {
-        return getShadowDistance()
-    },
-    set shadowDistance(value) {
-        setShadowDistance(value)
     },
 
     get bokehScale() {

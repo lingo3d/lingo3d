@@ -7,17 +7,9 @@ import { Reactive } from "@lincode/reactivity"
 import { CSM } from "three/examples/jsm/csm/CSM"
 import scene from "../../engine/scene"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import {
-    getShadowDistance,
-    ShadowDistance
-} from "../../states/useShadowDistance"
-import {
-    getShadowResolution,
-    ShadowResolution
-} from "../../states/useShadowResolution"
+import { getShadowResolution } from "../../states/useShadowResolution"
 import DirectionalLight from "./DirectionalLight"
 import { eraseAppendable } from "../../api/core/collections"
-import { assertExhaustive } from "@lincode/utils"
 import renderSystemWithData from "../../utils/renderSystemWithData"
 import { positionChanged } from "../utils/trackObject"
 import { vector3 } from "../utils/reusables"
@@ -45,34 +37,6 @@ const [addBackLightSystem, deleteBackLightSystem] = renderSystemWithData(
         positionChanged(self.outerObject3d) &&
         updateBackLight(self, data.backLight)
 )
-
-const mapCSMOptions = (
-    shadowDistance: ShadowDistance,
-    shadowResolution: ShadowResolution
-) => {
-    switch (shadowDistance) {
-        case "near":
-            return {
-                maxFar: 10,
-                shadowMapSize: mapShadowResolution(shadowResolution) * 2,
-                shadowBias: -0.00003
-            }
-        case "medium":
-            return {
-                maxFar: 30,
-                shadowMapSize: mapShadowResolution(shadowResolution) * 2,
-                shadowBias: -0.0001
-            }
-        case "far":
-            return {
-                maxFar: 100,
-                shadowMapSize: mapShadowResolution(shadowResolution) * 2,
-                shadowBias: -0.0001
-            }
-        default:
-            assertExhaustive(shadowDistance)
-    }
-}
 
 export default class SkyLight extends ObjectManager implements ISkyLight {
     public static componentName = "skyLight"
@@ -102,7 +66,9 @@ export default class SkyLight extends ObjectManager implements ISkyLight {
         this.createEffect(() => {
             const intensity = this.intensityState.get()
             const csm = new CSM({
-                ...mapCSMOptions(getShadowDistance(), getShadowResolution()),
+                maxFar: 100,
+                shadowMapSize: mapShadowResolution(getShadowResolution()) * 4,
+                shadowBias: -0.0001,
                 cascades: 1,
                 parent: scene,
                 camera: getCameraRendered(),
@@ -122,7 +88,7 @@ export default class SkyLight extends ObjectManager implements ISkyLight {
                     scene.remove(light)
                 }
             }
-        }, [this.intensityState.get, getShadowDistance, getShadowResolution])
+        }, [this.intensityState.get, getShadowResolution])
     }
 
     private intensityState = new Reactive(1)
