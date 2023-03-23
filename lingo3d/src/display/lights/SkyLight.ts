@@ -1,5 +1,4 @@
-import { Color, HemisphereLight } from "three"
-import LightBase, { mapShadowResolution } from "../core/LightBase"
+import { mapShadowResolution } from "../core/LightBase"
 import ISkyLight, {
     skyLightDefaults,
     skyLightSchema
@@ -21,6 +20,9 @@ import { eraseAppendable } from "../../api/core/collections"
 import { assertExhaustive } from "@lincode/utils"
 import renderSystemWithData from "../../utils/renderSystemWithData"
 import { positionChanged } from "../utils/trackObject"
+import { vector3 } from "../utils/reusables"
+import ObjectManager from "../core/ObjectManager"
+import AmbientLight from "./AmbientLight"
 
 const updateLightDirection = (self: SkyLight, csm: CSM) =>
     (csm.lightDirection = self.position.clone().normalize().multiplyScalar(-1))
@@ -31,6 +33,17 @@ const [addLightSystem, deleteLightSystem] = renderSystemWithData(
             updateLightDirection(self, data.csm)
         data.csm.update()
     }
+)
+
+const updateBackLight = (self: SkyLight, backLight: DirectionalLight) => {
+    backLight.position.copy(
+        self.position.clone().multiply(vector3.set(-1, 1, -1))
+    )
+}
+const [addBackLightSystem, deleteBackLightSystem] = renderSystemWithData(
+    (self: SkyLight, data: { backLight: DirectionalLight }) =>
+        positionChanged(self.outerObject3d) &&
+        updateBackLight(self, data.backLight)
 )
 
 const mapCSMOptions = (
@@ -61,32 +74,32 @@ const mapCSMOptions = (
     }
 }
 
-export default class SkyLight
-    extends LightBase<typeof HemisphereLight>
-    implements ISkyLight
-{
+export default class SkyLight extends ObjectManager implements ISkyLight {
     public static componentName = "skyLight"
     public static defaults = skyLightDefaults
     public static schema = skyLightSchema
 
     public constructor() {
-        super(HemisphereLight)
-        this.ambientIntensity = 0.5
+        super()
+
+        const backLight = new DirectionalLight()
+        backLight.helper = false
+        backLight.intensity = 0.25
+        eraseAppendable(backLight)
+        addBackLightSystem(this, { backLight })
+
+        const ambientLight = new AmbientLight()
+        ambientLight.helper = false
+        ambientLight.intensity = 0.25
+        eraseAppendable(ambientLight)
+
+        this.then(() => {
+            deleteBackLightSystem(this)
+            backLight.dispose()
+            ambientLight.dispose()
+        })
 
         this.createEffect(() => {
-            if (!this.castShadowState.get()) {
-                const directionalLight = new DirectionalLight()
-                directionalLight.intensity = 0.5
-                this.append(directionalLight)
-                eraseAppendable(directionalLight)
-                const handle = this.helperState.get(
-                    (val) => (directionalLight.helper = val)
-                )
-                return () => {
-                    directionalLight.dispose()
-                    handle.cancel()
-                }
-            }
             const intensity = this.intensityState.get()
             const csm = new CSM({
                 ...mapCSMOptions(getShadowDistance(), getShadowResolution()),
@@ -96,6 +109,8 @@ export default class SkyLight
                 lightIntensity: Math.max(0.1, intensity)
             })
             updateLightDirection(this, csm)
+            updateBackLight(this, backLight)
+
             addLightSystem(this, { csm })
             const handle = getCameraRendered((val) => (csm.camera = val))
             return () => {
@@ -107,40 +122,14 @@ export default class SkyLight
                     scene.remove(light)
                 }
             }
-        }, [
-            this.castShadowState.get,
-            this.intensityState.get,
-            getShadowDistance,
-            getShadowResolution
-        ])
+        }, [this.intensityState.get, getShadowDistance, getShadowResolution])
     }
 
-    public get groundColor() {
-        const light = this.lightState.get()
-        if (!light) return "#ffffff"
-
-        return "#" + light.groundColor.getHexString()
-    }
-    public set groundColor(val) {
-        this.cancelHandle("groundColor", () =>
-            this.lightState.get(
-                (light) => light && (light.groundColor = new Color(val))
-            )
-        )
-    }
-
-    private intensityState = new Reactive(0.5)
-    public override get intensity() {
+    private intensityState = new Reactive(1)
+    public get intensity() {
         return this.intensityState.get()
     }
-    public override set intensity(val) {
+    public set intensity(val) {
         this.intensityState.set(val)
-    }
-
-    public get ambientIntensity() {
-        return super.intensity
-    }
-    public set ambientIntensity(val) {
-        super.intensity = val
     }
 }
