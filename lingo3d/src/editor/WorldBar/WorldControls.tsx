@@ -10,10 +10,15 @@ const WorldControls = () => {
     return (
         <div style={{ display: "flex", gap: 10 }}>
             <div style={{ display: "flex" }}>
-                <IconButton disabled={play} onClick={() => setWorldPlay(true)}>
+                <IconButton
+                    fill
+                    disabled={play}
+                    onClick={() => setWorldPlay(true)}
+                >
                     <PlayIcon />
                 </IconButton>
                 <IconButton
+                    fill
                     disabled={!play}
                     onClick={() => setWorldPlay(false)}
                 >

@@ -8,6 +8,7 @@ type IconButtonProps = {
     disabled?: boolean
     label?: string
     borderless?: boolean
+    fill?: boolean
 }
 
 const IconButton = ({
@@ -15,7 +16,8 @@ const IconButton = ({
     onClick,
     disabled,
     label,
-    borderless
+    borderless,
+    fill
 }: IconButtonProps) => {
     return (
         <div
@@ -25,13 +27,14 @@ const IconButton = ({
             style={{
                 minWidth: APPBAR_HEIGHT,
                 height: APPBAR_HEIGHT - 4,
-                opacity: disabled ? 0.1 : 0.75,
+                opacity: disabled ? 0.1 : 1,
                 cursor: disabled ? undefined : "pointer",
-                background: !borderless
-                    ? "rgba(255, 255, 255, 0.1)"
-                    : undefined,
+                background:
+                    !borderless && fill
+                        ? "rgba(255, 255, 255, 0.1)"
+                        : undefined,
                 border: !borderless
-                    ? "1px solid rgba(255, 255, 255, 0.2)"
+                    ? "1px solid rgba(255, 255, 255, 0.25)"
                     : undefined
             }}
         >
