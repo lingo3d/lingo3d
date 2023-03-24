@@ -31,16 +31,18 @@ export default async () => {
             plugins: [parser]
         }
     )
-    const fileHandle = await fileSave(
-        new Blob([code], { type: "text/plain" }),
-        {
-            fileName: "scene.json",
-            startIn: f.directoryHandle as any
-        }
-    )
+    const fileHandle = await fileSave(new Blob([code], { type: "text/json" }), {
+        fileName: "scene.json",
+        startIn: f.directoryHandle as any
+    })
     const file = await fileHandle?.getFile()
     if (!file) return
 
+    Object.defineProperty(file, "webkitRelativePath", {
+        get() {
+            return dir + "/" + file.name
+        }
+    })
     unsafeSetValue(file, "handle", fileHandle)
 
     files.push(file)
