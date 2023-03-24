@@ -105,6 +105,7 @@ const Editor = () => {
                         ).filter((key) => key.toLowerCase().includes(val))
                     )
                 }}
+                clearOnChange={selectedSignal.value.at(-1)}
             />
             <div
                 style={{

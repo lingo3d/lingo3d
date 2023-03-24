@@ -5,11 +5,12 @@ import AppBar from "../component/bars/AppBar"
 import Tab from "../component/tabs/Tab"
 import useInitEditor from "../hooks/useInitEditor"
 import SearchBox from "../component/SearchBox"
-import { useMemo, useState } from "preact/hooks"
+import { useEffect, useMemo, useState } from "preact/hooks"
 import { GameObjectType } from "../../api/serializer/types"
 import { stopPropagation } from "../utils/stopPropagation"
 import Templates from "./Templates"
 import { librarySignal } from "./librarySignal"
+import { getSelectionTarget } from "../../states/useSelectionTarget"
 
 const objectNames = [
     { gameGraph: "joystick" },
@@ -62,6 +63,14 @@ const Library = ({ onDragStart, onDragEnd }: Props) => {
     useInitEditor()
 
     const [search, setSearch] = useState<string>()
+    const [deselect, setDeselect] = useState({})
+
+    useEffect(() => {
+        const handle = getSelectionTarget((val) => !val && setDeselect({}))
+        return () => {
+            handle.cancel()
+        }
+    }, [])
 
     const names = useMemo(
         () =>
@@ -89,7 +98,10 @@ const Library = ({ onDragStart, onDragEnd }: Props) => {
                     templates
                 </Tab>
             </AppBar>
-            <SearchBox onChange={(val) => setSearch(val.toLowerCase())} />
+            <SearchBox
+                onChange={(val) => setSearch(val.toLowerCase())}
+                clearOnChange={deselect}
+            />
             <div style={{ padding: 10, overflowY: "scroll", flexGrow: 1 }}>
                 {librarySignal.value.at(-1) === "components" && (
                     <Components
