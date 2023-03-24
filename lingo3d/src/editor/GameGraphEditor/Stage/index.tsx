@@ -13,8 +13,8 @@ import useBoundingClientRect from "../../hooks/useBoundingClientRect"
 import usePan from "../../hooks/usePan"
 import useSyncState from "../../hooks/useSyncState"
 import Connection from "../Connection"
-import stageMenuSignal from "../StageContextMenu/stageMenuSignal"
 import Node from "../Node"
+import { stageContextMenuSignal } from "../StageContextMenu"
 import {
     zoomSignal,
     boundsSignal,
@@ -120,7 +120,7 @@ const Stage = ({ onEdit }: Props) => {
                 })
             }}
             onContextMenu={(e) =>
-                (stageMenuSignal.value = { x: e.clientX, y: e.clientY })
+                (stageContextMenuSignal.value = { x: e.clientX, y: e.clientY })
             }
         >
             <div

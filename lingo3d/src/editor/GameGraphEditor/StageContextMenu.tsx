@@ -1,23 +1,28 @@
-import createObject from "../../../api/serializer/createObject"
-import { GameObjectType } from "../../../api/serializer/types"
-import { getGameGraph } from "../../../states/useGameGraph"
-import ContextMenu from "../../component/ContextMenu"
-import MenuButton from "../../component/MenuButton"
-import { getStagePosition } from "../Stage/stageSignals"
-import stageMenuSignal from "./stageMenuSignal"
+import { Point } from "@lincode/math"
+import { Signal, signal } from "@preact/signals"
+import createObject from "../../api/serializer/createObject"
+import { GameObjectType } from "../../api/serializer/types"
+import { getGameGraph } from "../../states/useGameGraph"
+import ContextMenu from "../component/ContextMenu"
+import MenuButton from "../component/MenuButton"
+import { getStagePosition } from "./Stage/stageSignals"
+
+export const stageContextMenuSignal: Signal<
+    (Point & { create?: boolean }) | undefined
+> = signal(undefined)
 
 const StageContextMenu = () => {
     return (
         <ContextMenu
-            positionSignal={stageMenuSignal}
+            positionSignal={stageContextMenuSignal}
             input={
-                stageMenuSignal.value?.create && {
+                stageContextMenuSignal.value?.create && {
                     label: "Node name",
                     onInput: (value) => {
                         const gameGraph = getGameGraph()!
                         const manager = createObject(value as GameObjectType)
                         gameGraph.append(manager)
-                        const { x, y } = stageMenuSignal.value!
+                        const { x, y } = stageContextMenuSignal.value!
                         gameGraph.mergeData({
                             [manager.uuid]: {
                                 type: "node",
@@ -41,9 +46,9 @@ const StageContextMenu = () => {
         >
             <MenuButton
                 onClick={() => {
-                    stageMenuSignal.value = {
-                        x: stageMenuSignal.value?.x ?? 0,
-                        y: stageMenuSignal.value?.y ?? 0,
+                    stageContextMenuSignal.value = {
+                        x: stageContextMenuSignal.value?.x ?? 0,
+                        y: stageContextMenuSignal.value?.y ?? 0,
                         create: true
                     }
                 }}

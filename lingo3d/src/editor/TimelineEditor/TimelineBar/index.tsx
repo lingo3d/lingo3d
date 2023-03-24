@@ -3,7 +3,7 @@ import Button from "./Button"
 import useSyncState from "../../hooks/useSyncState"
 import { getTimeline } from "../../../states/useTimeline"
 import AddIcon from "../icons/AddIcon"
-import timelineMenuSignal from "../TimelineContextMenu/timelineMenuSignal"
+import { timelineContextMenuSignal } from "../TimelineContextMenu"
 
 const TimelineBar = () => {
     const timeline = useSyncState(getTimeline)
@@ -12,7 +12,7 @@ const TimelineBar = () => {
         <AppBar>
             <Button
                 onClick={(e) =>
-                    (timelineMenuSignal.value = {
+                    (timelineContextMenuSignal.value = {
                         x: e.clientX,
                         y: e.clientY,
                         create: "timeline"
@@ -25,7 +25,7 @@ const TimelineBar = () => {
             <Button
                 disabled={!timeline}
                 onClick={(e) =>
-                    (timelineMenuSignal.value = {
+                    (timelineContextMenuSignal.value = {
                         x: e.clientX,
                         y: e.clientY,
                         create: "audio"

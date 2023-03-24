@@ -19,7 +19,7 @@ import FrameGrid from "./FrameGrid"
 import FrameIndicator, { highlightFrame } from "./FrameIndicator"
 import FrameTweenRow from "./FrameTweenRow"
 import { framesWidthPtr, maxFramePtr, minFramePtr } from "./Ruler"
-import timelineMenuSignal from "./TimelineContextMenu/timelineMenuSignal"
+import { timelineContextMenuSignal } from "./TimelineContextMenu"
 import { timelineScrollHeightSignal } from "./timelineScrollHeightSignal"
 import { timelineScrollLeftSignal } from "./timelineScrollLeftSignal"
 import useSyncScrollTop from "./useSyncScrollTop"
@@ -108,7 +108,10 @@ const Scroller = () => {
                 })
             }}
             onContextMenu={(e) =>
-                (timelineMenuSignal.value = { x: e.clientX, y: e.clientY })
+                (timelineContextMenuSignal.value = {
+                    x: e.clientX,
+                    y: e.clientY
+                })
             }
         >
             <div

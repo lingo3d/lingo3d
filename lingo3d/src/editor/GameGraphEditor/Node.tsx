@@ -23,7 +23,7 @@ import getDisplayName from "../utils/getDisplayName"
 import { stopPropagation } from "../utils/stopPropagation"
 import Bezier from "./Bezier"
 import GearIcon from "./icons/GearIcon"
-import nodeMenuSignal from "./NodeContextMenu/nodeMenuSignal"
+import { nodeContexMenuSignal } from "./NodeContextMenu"
 import { getStagePosition, zoomSignal } from "./Stage/stageSignals"
 import convertToTemplateNodes from "./utils/convertToTemplateNodes"
 import createConnector from "./utils/createConnector"
@@ -128,7 +128,7 @@ const Node = memo(
         }, [pane, refresh])
 
         const handleContextMenu = (e: MouseEvent) => {
-            nodeMenuSignal.value = new Point(e.clientX, e.clientY)
+            nodeContexMenuSignal.value = new Point(e.clientX, e.clientY)
             emitSelectionTarget(manager, true)
         }
 

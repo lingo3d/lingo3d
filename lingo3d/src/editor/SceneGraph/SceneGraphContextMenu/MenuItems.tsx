@@ -30,11 +30,11 @@ import MenuButton from "../../component/MenuButton"
 import useSyncState from "../../hooks/useSyncState"
 import selectAllJointed from "./selectAllJointed"
 import CreateJointItems from "./CreateJointItems"
-import sceneGraphMenuSignal from "./sceneGraphMenuSignal"
 import Template from "../../../display/Template"
 import VisibleObjectManager from "../../../display/core/VisibleObjectManager"
 import { librarySignal } from "../../Library/librarySignal"
 import { selectTab } from "../../component/tabs/Tab"
+import { sceneGraphContextMenuSignal } from "."
 
 type Props = {
     selectionTarget: Appendable | MeshAppendable | undefined
@@ -49,7 +49,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionFocus = useSyncState(getSelectionFocus)
 
-    if (sceneGraphMenuSignal.value?.createJoint) return <CreateJointItems />
+    if (sceneGraphContextMenuSignal.value?.createJoint) return <CreateJointItems />
 
     const children: Array<ComponentChild> = []
     if (multipleSelectionTargets.size)
@@ -60,9 +60,9 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                     onClick={() => {
                         // createJoint("d6Joint")
                         // setPosition(undefined)
-                        sceneGraphMenuSignal.value = {
-                            x: sceneGraphMenuSignal.value?.x ?? 0,
-                            y: sceneGraphMenuSignal.value?.y ?? 0,
+                        sceneGraphContextMenuSignal.value = {
+                            x: sceneGraphContextMenuSignal.value?.x ?? 0,
+                            y: sceneGraphContextMenuSignal.value?.y ?? 0,
                             createJoint: true
                         }
                     }}
@@ -83,7 +83,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 disabled={selectionTarget === timeline}
                 onClick={() => {
                     setTimeline(selectionTarget)
-                    sceneGraphMenuSignal.value = undefined
+                    sceneGraphContextMenuSignal.value = undefined
                 }}
             >
                 {selectionTarget === timeline
@@ -97,7 +97,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 disabled={selectionTarget === gameGraph}
                 onClick={() => {
                     setGameGraph(selectionTarget)
-                    sceneGraphMenuSignal.value = undefined
+                    sceneGraphContextMenuSignal.value = undefined
                 }}
             >
                 {selectionTarget === gameGraph
@@ -116,7 +116,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                             "spriteSheet.png",
                             selectionTarget.toBlob()
                         )
-                        sceneGraphMenuSignal.value = undefined
+                        sceneGraphContextMenuSignal.value = undefined
                     }}
                 >
                     Save image
@@ -127,9 +127,9 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 children.push(
                     <MenuButton
                         onClick={() =>
-                            (sceneGraphMenuSignal.value = {
-                                x: sceneGraphMenuSignal.value?.x ?? 0,
-                                y: sceneGraphMenuSignal.value?.y ?? 0,
+                            (sceneGraphContextMenuSignal.value = {
+                                x: sceneGraphContextMenuSignal.value?.x ?? 0,
+                                y: sceneGraphContextMenuSignal.value?.y ?? 0,
                                 search: true
                             })
                         }
@@ -142,7 +142,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                             const template = new Template()
                             template.source = selectionTarget
                             selectTab(librarySignal, "templates")
-                            sceneGraphMenuSignal.value = undefined
+                            sceneGraphContextMenuSignal.value = undefined
                         }}
                     >
                         Convert to Template
@@ -156,7 +156,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                                     : selectionTarget
                             )
                             emitSelectionTarget(undefined)
-                            sceneGraphMenuSignal.value = undefined
+                            sceneGraphContextMenuSignal.value = undefined
                         }}
                     >
                         {selectionFocus === selectionTarget
@@ -177,7 +177,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                                         ? selectionTarget
                                         : undefined
                                 )
-                                sceneGraphMenuSignal.value = undefined
+                                sceneGraphContextMenuSignal.value = undefined
                             }}
                         >
                             Select all jointed
@@ -190,7 +190,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                         selectionFrozen.has(selectionTarget)
                             ? removeSelectionFrozen(selectionTarget)
                             : addSelectionFrozen(selectionTarget)
-                        sceneGraphMenuSignal.value = undefined
+                        sceneGraphContextMenuSignal.value = undefined
                     }}
                 >
                     {selectionFrozen.has(selectionTarget)
@@ -206,7 +206,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                     timeline?.mergeData({
                         [selectionTarget.uuid]: {}
                     })
-                    sceneGraphMenuSignal.value = undefined
+                    sceneGraphContextMenuSignal.value = undefined
                 }}
             >
                 {timelineData && selectionTarget.uuid in timelineData
@@ -221,7 +221,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 disabled={!selectionFrozen.size}
                 onClick={() => {
                     clearSelectionFrozen()
-                    sceneGraphMenuSignal.value = undefined
+                    sceneGraphContextMenuSignal.value = undefined
                 }}
             >
                 Unfreeze all
@@ -232,7 +232,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 onClick={() => {
                     setSelectionFocus(undefined)
                     emitSelectionTarget(undefined)
-                    sceneGraphMenuSignal.value = undefined
+                    sceneGraphContextMenuSignal.value = undefined
                 }}
             >
                 Exit all
@@ -244,7 +244,7 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
                 disabled={!selectionTarget}
                 onClick={() => {
                     deleteSelected()
-                    sceneGraphMenuSignal.value = undefined
+                    sceneGraphContextMenuSignal.value = undefined
                 }}
             >
                 Delete selected

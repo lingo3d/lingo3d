@@ -7,7 +7,16 @@ import search from "./search"
 import { getSelectionNativeTarget } from "../../../states/useSelectionNativeTarget"
 import { rightClickPtr } from "../../../api/mouse"
 import MenuItems from "./MenuItems"
-import sceneGraphMenuSignal from "./sceneGraphMenuSignal"
+import { Point } from "@lincode/math"
+import { Signal, signal } from "@preact/signals"
+
+export const sceneGraphContextMenuSignal: Signal<
+    | (Point & {
+          search?: boolean
+          createJoint?: boolean
+      })
+    | undefined
+> = signal(undefined)
 
 const SceneGraphContextMenu = () => {
     const selectionTarget = useSyncState(getSelectionTarget)
@@ -15,7 +24,7 @@ const SceneGraphContextMenu = () => {
 
     useEffect(() => {
         const handle = onSelectionTarget(
-            () => (sceneGraphMenuSignal.value = rightClickPtr[0])
+            () => (sceneGraphContextMenuSignal.value = rightClickPtr[0])
         )
         return () => {
             handle.cancel()
@@ -33,13 +42,13 @@ const SceneGraphContextMenu = () => {
         }
     }, [selectionTarget, nativeTarget])
 
-    if (!sceneGraphMenuSignal.value || !ready) return null
+    if (!sceneGraphContextMenuSignal.value || !ready) return null
 
     return (
         <ContextMenu
-            positionSignal={sceneGraphMenuSignal}
+            positionSignal={sceneGraphContextMenuSignal}
             input={
-                sceneGraphMenuSignal.value.search &&
+                sceneGraphContextMenuSignal.value.search &&
                 selectionTarget && {
                     label: "Child name",
                     onInput: (value) => search(value, selectionTarget)

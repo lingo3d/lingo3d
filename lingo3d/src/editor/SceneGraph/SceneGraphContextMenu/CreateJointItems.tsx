@@ -1,6 +1,6 @@
+import { sceneGraphContextMenuSignal } from "."
 import MenuButton from "../../component/MenuButton"
 import createJoint from "./createJoint"
-import sceneGraphMenuSignal from "./sceneGraphMenuSignal"
 
 const CreateJointItems = () => {
     return (
@@ -8,7 +8,7 @@ const CreateJointItems = () => {
             <MenuButton
                 onClick={() => {
                     createJoint("fixedJoint")
-                    sceneGraphMenuSignal.value = undefined
+                    sceneGraphContextMenuSignal.value = undefined
                 }}
             >
                 Fixed joint
@@ -16,7 +16,7 @@ const CreateJointItems = () => {
             <MenuButton
                 onClick={() => {
                     createJoint("sphericalJoint")
-                    sceneGraphMenuSignal.value = undefined
+                    sceneGraphContextMenuSignal.value = undefined
                 }}
             >
                 Spherical joint
@@ -24,7 +24,7 @@ const CreateJointItems = () => {
             <MenuButton
                 onClick={() => {
                     createJoint("revoluteJoint")
-                    sceneGraphMenuSignal.value = undefined
+                    sceneGraphContextMenuSignal.value = undefined
                 }}
             >
                 Revolute joint
@@ -32,7 +32,7 @@ const CreateJointItems = () => {
             <MenuButton
                 onClick={() => {
                     createJoint("prismaticJoint")
-                    sceneGraphMenuSignal.value = undefined
+                    sceneGraphContextMenuSignal.value = undefined
                 }}
             >
                 Prismatic joint
@@ -40,7 +40,7 @@ const CreateJointItems = () => {
             <MenuButton
                 onClick={() => {
                     createJoint("d6Joint")
-                    sceneGraphMenuSignal.value = undefined
+                    sceneGraphContextMenuSignal.value = undefined
                 }}
             >
                 D6 joint
