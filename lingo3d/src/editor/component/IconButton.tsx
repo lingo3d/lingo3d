@@ -25,6 +25,7 @@ const IconButton = ({
             onClick={disabled ? undefined : onClick}
             className="lingo3d-flexcenter"
             style={{
+                pointerEvents: disabled ? "none" : undefined,
                 minWidth: APPBAR_HEIGHT,
                 height: APPBAR_HEIGHT - 4,
                 opacity: disabled ? 0.1 : 1,
@@ -39,7 +40,11 @@ const IconButton = ({
             }}
         >
             {label && children && <div style={{ width: 10 }} />}
-            {children}
+            {children && (
+                <div className="lingo3d-flexcenter" style={{ opacity: 0.75 }}>
+                    {children}
+                </div>
+            )}
             {label && (
                 <div style={{ paddingLeft: 10, paddingRight: 10 }}>{label}</div>
             )}
