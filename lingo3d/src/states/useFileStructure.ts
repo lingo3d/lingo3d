@@ -1,8 +1,9 @@
 import store from "@lincode/reactivity"
 import { set, traverse } from "@lincode/utils"
-import pathMap from "../editor/FileBrowser/pathMap"
 import { setFileBrowserDir } from "./useFileBrowserDir"
 import { getFiles } from "./useFiles"
+
+export const pathMap = new WeakMap<Record<string, any>, string>()
 
 interface FileStructure {
     [key: string]: FileStructure | File

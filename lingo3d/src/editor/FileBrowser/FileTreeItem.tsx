@@ -5,7 +5,7 @@ import {
     setFileBrowserDir
 } from "../../states/useFileBrowserDir"
 import FolderIcon from "./icons/FolderIcon"
-import pathMap from "./pathMap"
+import { pathMap } from "../../states/useFileStructure"
 
 type FileTreeItemProps = {
     fileStructure: any
