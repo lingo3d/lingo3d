@@ -23,7 +23,7 @@ export const createObjectURL = (
         return url
     })
 
-const pathFileMap = new Map<string, File>()
+export const pathFileMap = new Map<string, File>()
 
 createEffect(() => {
     const files = getFiles()
