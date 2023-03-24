@@ -36,7 +36,7 @@ const Editor = () => {
     const [pane, setContainer] = usePane()
 
     const selectionTarget = useSyncState(getSelectionTarget)
-    const selectedSignal = useSignal<string | undefined>(undefined)
+    const selectedSignal = useSignal<Array<string>>([])
 
     const [includeKeys, setIncludeKeys] = useState<Array<string>>()
     const [refresh, setRefresh] = useState({})
@@ -51,7 +51,7 @@ const Editor = () => {
     useLayoutEffect(() => {
         if (!pane || getMultipleSelectionTargets()[0].size) return
         if (
-            selectedSignal.value === "Settings" ||
+            selectedSignal.value.at(-1) === "Settings" ||
             !selectionTarget ||
             selectionTarget instanceof Setup
         ) {

@@ -16,7 +16,7 @@ const GameGraphEditor = () => {
     useInitCSS()
     useInitEditor()
 
-    const selectedSignal = useSignal<string | undefined>(undefined)
+    const selectedSignal = useSignal<Array<string>>([])
     const targetSignal = useSignal<Appendable | undefined>(undefined)
 
     return (

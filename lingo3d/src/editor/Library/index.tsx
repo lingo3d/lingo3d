@@ -91,14 +91,14 @@ const Library = ({ onDragStart, onDragEnd }: Props) => {
             </AppBar>
             <SearchBox onChange={(val) => setSearch(val.toLowerCase())} />
             <div style={{ padding: 10, overflowY: "scroll", flexGrow: 1 }}>
-                {librarySignal.value === "components" && (
+                {librarySignal.value.at(-1) === "components" && (
                     <Components
                         names={names}
                         onDragStart={onDragStart}
                         onDragEnd={onDragEnd}
                     />
                 )}
-                {librarySignal.value === "templates" && <Templates />}
+                {librarySignal.value.at(-1) === "templates" && <Templates />}
             </div>
         </div>
     )

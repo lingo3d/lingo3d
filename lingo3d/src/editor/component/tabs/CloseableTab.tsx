@@ -1,12 +1,11 @@
 import CloseIcon from "../icons/CloseIcon"
-import { TabProps } from "./Tab"
+import { selectTab, TabProps } from "./Tab"
 import IconButton from "../IconButton"
-import { Signal } from "@preact/signals"
-import { useEffect, useLayoutEffect } from "preact/hooks"
+import { useEffect } from "preact/hooks"
+import useLatest from "../../hooks/useLatest"
 
 type CloseableTabProps = TabProps & {
-    onClose?: (selected: boolean) => void
-    selectedSignal: Signal<string | undefined>
+    onClose?: () => void
 }
 
 const CloseableTab = ({
@@ -17,13 +16,24 @@ const CloseableTab = ({
     disabled,
     id = children
 }: CloseableTabProps) => {
-    useLayoutEffect(() => {
-        if (children && !selectedSignal.value) selectedSignal.value = children
-    }, [children])
+    useEffect(() => {
+        if ((selected || !selectedSignal.value[0]) && id)
+            selectTab(selectedSignal, id)
+    }, [selected])
 
     useEffect(() => {
-        if (selected) selectedSignal.value = children
-    }, [selected, children])
+        if (!id) return
+
+        return () => {
+            const isSelected = selectedSignal.value.at(-1) === id
+            selectedSignal.value = selectedSignal.value.filter(
+                (val) => val !== id
+            )
+            if (!isSelected) return
+            const lastTab = selectedSignal.value.at(-1)
+            lastTab && selectTab(selectedSignal, lastTab)
+        }
+    }, [id])
 
     return (
         <div
@@ -36,11 +46,15 @@ const CloseableTab = ({
                 height: 20,
                 paddingLeft: 12,
                 background:
-                    selectedSignal.value === id
-                        ? "rgba(255, 255, 255, 0.05)"
-                        : "rgba(255, 255, 255, 0.02)"
+                    selectedSignal.value.at(-1) === id
+                        ? "rgba(255, 255, 255, 0.1)"
+                        : "rgba(255, 255, 255, 0.05)"
             }}
-            onClick={disabled ? undefined : () => (selectedSignal.value = id)}
+            onClick={
+                disabled || !id
+                    ? undefined
+                    : () => selectTab(selectedSignal, id)
+            }
         >
             <div
                 style={{
@@ -55,10 +69,7 @@ const CloseableTab = ({
                 {children}
             </div>
             <div style={{ width: 4 }} />
-            <IconButton
-                disabled={!onClose}
-                onClick={() => onClose?.(selectedSignal.value === id)}
-            >
+            <IconButton disabled={!onClose} onClick={onClose}>
                 <CloseIcon />
             </IconButton>
         </div>

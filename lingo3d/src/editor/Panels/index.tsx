@@ -12,6 +12,7 @@ import useSyncState from "../hooks/useSyncState"
 import { getFileBrowser, setFileBrowser } from "../../states/useFileBrowser"
 import useInitEditor from "../hooks/useInitEditor"
 import FileBrowserControls from "../FileBrowser/FileBrowserControls"
+import { selectTab } from "../component/tabs/Tab"
 
 const Panels = () => {
     useInitCSS()
@@ -19,17 +20,15 @@ const Panels = () => {
 
     const fileBrowser = useSyncState(getFileBrowser)
     const timeline = useSyncState(getTimeline)
-    const selectedSignal = useSignal<string | undefined>(undefined)
+    const selectedSignal = useSignal<Array<string>>([])
 
     useEffect(() => {
-        if (fileBrowser) selectedSignal.value = "files"
+        fileBrowser && selectTab(selectedSignal, "files")
     }, [fileBrowser])
 
     useEffect(() => {
-        if (timeline) selectedSignal.value = "timeline"
+        timeline && selectTab(selectedSignal, "timeline")
     }, [timeline])
-
-    // if (!fileBrowser && !timeline) return null
 
     return (
         <div
@@ -40,7 +39,6 @@ const Panels = () => {
                 <AppBar style={{ width: 200 }}>
                     <CloseableTab
                         selectedSignal={selectedSignal}
-                        disabled={!timeline}
                         onClose={() => setTimeline(undefined)}
                     >
                         timeline
@@ -54,7 +52,7 @@ const Panels = () => {
                     </CloseableTab>
                 </AppBar>
                 <div style={{ flexGrow: 1 }}>
-                    {selectedSignal.value === "files" ? (
+                    {selectedSignal.value.at(-1) === "files" ? (
                         <FileBrowserControls />
                     ) : (
                         <TimelineControls />
@@ -62,7 +60,7 @@ const Panels = () => {
                 </div>
             </div>
             <div style={{ flexGrow: 1 }}>
-                {selectedSignal.value === "files" ? (
+                {selectedSignal.value.at(-1) === "files" ? (
                     <FileBrowser />
                 ) : (
                     <TimelineEditor />

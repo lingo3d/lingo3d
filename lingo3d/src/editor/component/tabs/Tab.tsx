@@ -1,13 +1,22 @@
+import { pull } from "@lincode/utils"
 import { Signal } from "@preact/signals"
 import { useEffect } from "preact/hooks"
 
 export type TabProps = {
     children?: string
     selected?: boolean
-    selectedSignal: Signal<string | undefined>
+    selectedSignal: Signal<Array<string>>
     disabled?: boolean
     half?: boolean
     id?: string
+}
+
+export const selectTab = (
+    selectedSignal: Signal<Array<string>>,
+    id: string
+) => {
+    pull(selectedSignal.value, id)
+    selectedSignal.value = [...selectedSignal.value, id]
 }
 
 const Tab = ({
@@ -19,12 +28,9 @@ const Tab = ({
     id = children
 }: TabProps) => {
     useEffect(() => {
-        if (children && !selectedSignal.value) selectedSignal.value = children
-    }, [children])
-
-    useEffect(() => {
-        if (selected) selectedSignal.value = children
-    }, [selected, children])
+        if ((selected || !selectedSignal.value[0]) && id)
+            selectTab(selectedSignal, id)
+    }, [selected, id])
 
     return (
         <div
@@ -35,11 +41,15 @@ const Tab = ({
                 height: 20,
                 padding: half ? undefined : 12,
                 background:
-                    selectedSignal.value === id
+                    selectedSignal.value.at(-1) === id
                         ? "rgba(255, 255, 255, 0.1)"
                         : undefined
             }}
-            onClick={disabled ? undefined : () => (selectedSignal.value = id)}
+            onClick={
+                disabled || !id
+                    ? undefined
+                    : () => selectTab(selectedSignal, id)
+            }
         >
             <div style={{ marginTop: -2 }}>{children}</div>
         </div>

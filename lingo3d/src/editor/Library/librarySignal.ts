@@ -1,4 +1,5 @@
 import { Signal, signal } from "@preact/signals"
 
-export const librarySignal: Signal<"components" | "templates"> =
-    signal("components")
+export const librarySignal: Signal<Array<"components" | "templates">> = signal([
+    "components"
+])
