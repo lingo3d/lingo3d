@@ -13,12 +13,11 @@ const FileBrowserControls = () => {
     return (
         <AppBar style={{ gap: 4 }}>
             <IconButton
-                label="create"
+                label="add"
                 onClick={(e) =>
                     (fileBrowserContextMenuSignal.value = {
                         x: e.clientX,
-                        y: e.clientY,
-                        create: true
+                        y: e.clientY
                     })
                 }
             >

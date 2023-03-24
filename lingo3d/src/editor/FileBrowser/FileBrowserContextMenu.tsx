@@ -21,15 +21,22 @@ const FileBrowserContextMenu = () => {
             }
         >
             <MenuButton
-                onClick={() => {
-                    fileBrowserContextMenuSignal.value = {
+                onClick={() =>
+                    (fileBrowserContextMenuSignal.value = {
                         x: fileBrowserContextMenuSignal.value?.x ?? 0,
                         y: fileBrowserContextMenuSignal.value?.y ?? 0,
                         create: true
-                    }
+                    })
+                }
+            >
+                New scene
+            </MenuButton>
+            <MenuButton
+                onClick={() => {
+                    fileBrowserContextMenuSignal.value = undefined
                 }}
             >
-                Scene
+                Existing files
             </MenuButton>
         </ContextMenu>
     )
