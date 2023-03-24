@@ -19,7 +19,7 @@ import {
 import { addSelectionHelper } from "./utils/raycast/selectionCandidates"
 import HelperSprite from "./utils/HelperSprite"
 import { addUpdateSystem, deleteUpdateSystem } from "./utils/updateSystem"
-import SimpleObjectManager from "./SimpleObjectManager"
+import ObjectManager from "./ObjectManager"
 
 export const mapShadowResolution = (val: ShadowResolution) => {
     switch (val) {
@@ -35,7 +35,7 @@ export const mapShadowResolution = (val: ShadowResolution) => {
 }
 
 export default abstract class LightBase<T extends typeof Light>
-    extends SimpleObjectManager<Group>
+    extends ObjectManager<Group>
     implements ILightBase
 {
     protected lightState = new Reactive<InstanceType<T> | undefined>(undefined)
