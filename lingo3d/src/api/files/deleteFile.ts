@@ -1,4 +1,4 @@
-import { getFileCurrent, setFileCurrent } from "../../states/useFileCurrent"
+import { getFileCurrent } from "../../states/useFileCurrent"
 import { getFiles } from "../../states/useFiles"
 import {
     getFileStructure,
@@ -8,6 +8,7 @@ import { pull, unset } from "@lincode/utils"
 import { pathFileMap } from "../../display/core/utils/objectURL"
 import { getFileSelected } from "../../states/useFileSelected"
 import unsafeGetValue from "../../utils/unsafeGetValue"
+import { unloadFile } from "./loadFile"
 
 export default async () => {
     const file = getFileSelected()
@@ -24,5 +25,5 @@ export default async () => {
     unset(fileStructure, file.webkitRelativePath.split("/"))
     setFileStructure({ ...fileStructure })
 
-    file === getFileCurrent() && setFileCurrent(undefined)
+    file === getFileCurrent() && unloadFile()
 }

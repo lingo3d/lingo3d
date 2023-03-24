@@ -1,6 +1,5 @@
 import dirPath from "../path/dirPath"
 import { getFileBrowserDir } from "../../states/useFileBrowserDir"
-import { setFileCurrent } from "../../states/useFileCurrent"
 import { getFiles } from "../../states/useFiles"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { VERSION } from "../../globals"
@@ -11,6 +10,7 @@ import {
 } from "../../states/useFileStructure"
 import { set } from "@lincode/utils"
 import { pathFileMap } from "../../display/core/utils/objectURL"
+import loadFile from "./loadFile"
 
 export default async () => {
     const files = getFiles()
@@ -53,5 +53,5 @@ export default async () => {
     setPathMap(fileStructure)
     mergeFileStructure(fileStructure)
 
-    setFileCurrent(file)
+    loadFile(file)
 }
