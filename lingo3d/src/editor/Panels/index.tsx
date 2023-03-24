@@ -9,22 +9,22 @@ import { getTimeline, setTimeline } from "../../states/useTimeline"
 import { useSignal } from "@preact/signals"
 import TimelineControls from "../TimelineEditor/TimelineControls"
 import useSyncState from "../hooks/useSyncState"
-import { getFileBrowser, setFileBrowser } from "../../states/useFileBrowser"
 import useInitEditor from "../hooks/useInitEditor"
 import FileBrowserControls from "../FileBrowser/FileBrowserControls"
 import { selectTab } from "../component/tabs/Tab"
+import { getFiles } from "../../states/useFiles"
 
 const Panels = () => {
     useInitCSS()
     useInitEditor()
 
-    const fileBrowser = useSyncState(getFileBrowser)
+    const files = useSyncState(getFiles)
     const timeline = useSyncState(getTimeline)
     const selectedSignal = useSignal<Array<string>>([])
 
     useEffect(() => {
-        fileBrowser && selectTab(selectedSignal, "files")
-    }, [fileBrowser])
+        files && selectTab(selectedSignal, "files")
+    }, [files])
 
     useEffect(() => {
         timeline && selectTab(selectedSignal, "timeline")
@@ -45,8 +45,7 @@ const Panels = () => {
                     </CloseableTab>
                     <CloseableTab
                         selectedSignal={selectedSignal}
-                        disabled={!fileBrowser}
-                        onClose={() => setFileBrowser(false)}
+                        disabled={!files}
                     >
                         files
                     </CloseableTab>
