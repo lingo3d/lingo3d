@@ -49,7 +49,8 @@ const MenuItems = ({ selectionTarget, nativeTarget }: Props) => {
     const [multipleSelectionTargets] = useSyncState(getMultipleSelectionTargets)
     const selectionFocus = useSyncState(getSelectionFocus)
 
-    if (sceneGraphContextMenuSignal.value?.createJoint) return <CreateJointItems />
+    if (sceneGraphContextMenuSignal.value?.createJoint)
+        return <CreateJointItems />
 
     const children: Array<ComponentChild> = []
     if (multipleSelectionTargets.size)
