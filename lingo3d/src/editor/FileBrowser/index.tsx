@@ -16,7 +16,7 @@ const FileBrowser = () => {
     useInitEditor()
 
     const fileBrowserDir = useSyncState(getFileBrowserDir)
-    const { fileStructure, firstFolderName } = useSyncState(getFileStructure)
+    const fileStructure = useSyncState(getFileStructure)
 
     const filteredFiles = useMemo(() => {
         const currentFolder = get(fileStructure, fileBrowserDir.split("/"))
@@ -39,10 +39,7 @@ const FileBrowser = () => {
                 }}
             >
                 <div style={{ overflow: "scroll", width: 200 }}>
-                    <FileTreeItem
-                        fileStructure={fileStructure}
-                        firstFolderName={firstFolderName}
-                    />
+                    <FileTreeItem fileStructure={fileStructure} />
                 </div>
                 <div style={{ flexGrow: 1 }}>
                     <div

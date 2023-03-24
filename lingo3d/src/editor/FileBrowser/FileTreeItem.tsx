@@ -5,22 +5,24 @@ import {
     setFileBrowserDir
 } from "../../states/useFileBrowserDir"
 import FolderIcon from "./icons/FolderIcon"
-import { pathMap } from "../../states/useFileStructure"
+import { firstFolderNamePtr, pathMap } from "../../states/useFileStructure"
+import { useMemo } from "preact/hooks"
 
 type FileTreeItemProps = {
     fileStructure: any
-    firstFolderName: string
     folderName?: string
     myPath?: string
 }
 
 const FileTreeItem = ({
     fileStructure,
-    firstFolderName,
     folderName,
     myPath
 }: FileTreeItemProps) => {
-    const fileEntries = Object.entries<any>(fileStructure)
+    const fileEntries = useMemo(
+        () => Object.entries<any>(fileStructure),
+        [fileStructure]
+    )
     const fileBrowserDir = useSyncState(getFileBrowserDir)
 
     const children = () =>
@@ -29,9 +31,8 @@ const FileTreeItem = ({
                 <FileTreeItem
                     key={name}
                     fileStructure={fileOrFolder}
-                    firstFolderName={firstFolderName}
                     folderName={name}
-                    myPath={firstFolderName + pathMap.get(fileOrFolder)}
+                    myPath={firstFolderNamePtr[0] + pathMap.get(fileOrFolder)}
                 />
             )
         )

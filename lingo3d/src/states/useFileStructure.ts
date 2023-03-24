@@ -4,28 +4,23 @@ import { setFileBrowserDir } from "./useFileBrowserDir"
 import { getFiles } from "./useFiles"
 
 export const pathMap = new WeakMap<Record<string, any>, string>()
+export const firstFolderNamePtr = [""]
 
 interface FileStructure {
     [key: string]: FileStructure | File
 }
 
-export const [setFileStructure, getFileStructure] = store<{
-    fileStructure: FileStructure
-    firstFolderName: string
-}>({
-    fileStructure: {},
-    firstFolderName: ""
-})
+export const [setFileStructure, getFileStructure] = store<FileStructure>({})
 
 getFiles((files) => {
     const fileStructure: FileStructure = {}
-    let firstFolderName = ""
+    firstFolderNamePtr[0] = ""
 
     if (files) {
         for (const file of files)
             set(fileStructure, file.webkitRelativePath.split("/"), file)
 
-        firstFolderName = Object.keys(fileStructure)[0]
+        firstFolderNamePtr[0] = Object.keys(fileStructure)[0]
 
         traverse(fileStructure, (key, child, parent) => {
             let path = ""
@@ -33,6 +28,6 @@ getFiles((files) => {
             typeof child === "object" && pathMap.set(child, path)
         })
     }
-    setFileBrowserDir(firstFolderName)
-    setFileStructure({ fileStructure, firstFolderName })
+    setFileBrowserDir(firstFolderNamePtr[0])
+    setFileStructure(fileStructure)
 })
