@@ -7,7 +7,7 @@ import TimelineEditor from "../TimelineEditor"
 import { PANELS_HEIGHT } from "../../globals"
 import { getTimeline, setTimeline } from "../../states/useTimeline"
 import { useSignal } from "@preact/signals"
-import Controls from "../TimelineEditor/Controls"
+import TimelineControls from "../TimelineEditor/TimelineControls"
 import useSyncState from "../hooks/useSyncState"
 import { getFileBrowser, setFileBrowser } from "../../states/useFileBrowser"
 import useInitEditor from "../hooks/useInitEditor"
@@ -53,7 +53,7 @@ const Panels = () => {
                     </CloseableTab>
                 </AppBar>
                 <div style={{ flexGrow: 1 }}>
-                    {selectedSignal.value !== "files" && <Controls />}
+                    {selectedSignal.value !== "files" && <TimelineControls />}
                 </div>
             </div>
             <div style={{ flexGrow: 1 }}>

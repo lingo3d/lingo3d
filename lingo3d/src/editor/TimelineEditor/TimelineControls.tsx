@@ -24,7 +24,7 @@ import { getTimelineMute, setTimelineMute } from "../../states/useTimelineMute"
 import MuteIcon from "./icons/MuteIcon"
 import { highlightFrame } from "./FrameIndicator"
 
-const Controls = () => {
+const TimelineControls = () => {
     const timeline = useSyncState(getTimeline)
     const paused = useSyncState(getTimelinePaused)
     const record = useSyncState(getTimelineRecord)
@@ -128,4 +128,4 @@ const Controls = () => {
     )
 }
 
-export default Controls
+export default TimelineControls
