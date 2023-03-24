@@ -1,6 +1,6 @@
 import AppBar from "../component/bars/AppBar"
 import useInitCSS from "../hooks/useInitCSS"
-import Controls from "./Controls"
+import WorldControls from "./WorldControls"
 import useInitEditor from "../hooks/useInitEditor"
 import { useLayoutEffect, useRef } from "preact/hooks"
 import { getManager } from "../../api/utils/getManager"
@@ -86,7 +86,7 @@ const Tabs = () => {
                     onChange={(val) => setUILayer(val)}
                 />
                 <div style={{ flexGrow: 1, minWidth: 4 }} />
-                <Controls />
+                <WorldControls />
             </AppBar>
         </div>
     )

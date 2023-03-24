@@ -4,7 +4,7 @@ import PauseIcon from "../component/icons/PauseIcon"
 import useSyncState from "../hooks/useSyncState"
 import { getWorldPlay, setWorldPlay } from "../../states/useWorldPlay"
 
-const Controls = () => {
+const WorldControls = () => {
     const play = useSyncState(getWorldPlay)
 
     return (
@@ -28,4 +28,4 @@ const Controls = () => {
         </div>
     )
 }
-export default Controls
+export default WorldControls
