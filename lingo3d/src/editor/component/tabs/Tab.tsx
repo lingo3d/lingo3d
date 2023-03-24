@@ -51,7 +51,7 @@ const Tab = ({
                     : () => selectTab(selectedSignal, id)
             }
         >
-            <div style={{ marginTop: -2 }}>{children}</div>
+            {children}
         </div>
     )
 }

@@ -2,7 +2,6 @@ import CloseIcon from "../icons/CloseIcon"
 import { selectTab, TabProps } from "./Tab"
 import IconButton from "../IconButton"
 import { useEffect } from "preact/hooks"
-import useLatest from "../../hooks/useLatest"
 
 type CloseableTabProps = TabProps & {
     onClose?: () => void
@@ -58,7 +57,6 @@ const CloseableTab = ({
         >
             <div
                 style={{
-                    marginTop: -2,
                     minWidth: 30,
                     maxWidth: 100,
                     whiteSpace: "nowrap",

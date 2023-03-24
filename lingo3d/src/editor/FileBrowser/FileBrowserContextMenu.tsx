@@ -1,51 +1,38 @@
-export {}
+import { Point } from "@lincode/math"
+import { Signal, signal } from "@preact/signals"
+import ContextMenu from "../component/ContextMenu"
+import MenuButton from "../component/MenuButton"
 
-// const FileBrowserContextmenu = () => {
-//     return (
-//         <ContextMenu
-//             positionSignal={stageMenuSignal}
-//             input={
-//                 stageMenuSignal.value?.create && {
-//                     label: "Node name",
-//                     onInput: (value) => {
-//                         const gameGraph = getGameGraph()!
-//                         const manager = createObject(value as GameObjectType)
-//                         gameGraph.append(manager)
-//                         const { x, y } = stageMenuSignal.value!
-//                         gameGraph.mergeData({
-//                             [manager.uuid]: {
-//                                 type: "node",
-//                                 ...getStagePosition(x, y)
-//                             }
-//                         })
-//                     },
-//                     options: [
-//                         "mathNode",
-//                         "numberNode",
-//                         "addNode",
-//                         "projectionNode",
-//                         "spawnNode",
-//                         "loopNode",
-//                         "mouse",
-//                         "keyboard",
-//                         "joystick"
-//                     ] satisfies Array<GameObjectType>
-//                 }
-//             }
-//         >
-//             <MenuButton
-//                 onClick={() => {
-//                     stageMenuSignal.value = {
-//                         x: stageMenuSignal.value?.x ?? 0,
-//                         y: stageMenuSignal.value?.y ?? 0,
-//                         create: true
-//                     }
-//                 }}
-//             >
-//                 Create node
-//             </MenuButton>
-//         </ContextMenu>
-//     )
-// }
+export const fileBrowserContextMenuSignal: Signal<
+    (Point & { create?: boolean }) | undefined
+> = signal(undefined)
 
-// export default FileBrowserContextmenu
+const FileBrowserContextMenu = () => {
+    return (
+        <ContextMenu
+            positionSignal={fileBrowserContextMenuSignal}
+            input={
+                fileBrowserContextMenuSignal.value?.create && {
+                    label: "File name",
+                    onInput: (value) => {
+                        console.log(value)
+                    }
+                }
+            }
+        >
+            <MenuButton
+                onClick={() => {
+                    fileBrowserContextMenuSignal.value = {
+                        x: fileBrowserContextMenuSignal.value?.x ?? 0,
+                        y: fileBrowserContextMenuSignal.value?.y ?? 0,
+                        create: true
+                    }
+                }}
+            >
+                Scene
+            </MenuButton>
+        </ContextMenu>
+    )
+}
+
+export default FileBrowserContextMenu

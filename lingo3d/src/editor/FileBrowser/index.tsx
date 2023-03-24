@@ -13,6 +13,7 @@ import {
     setFileBrowserDir
 } from "../../states/useFileBrowserDir"
 import useInitEditor from "../hooks/useInitEditor"
+import FileBrowserContextMenu from "./FileBrowserContextMenu"
 
 interface FileStructure {
     [key: string]: FileStructure | File
@@ -57,36 +58,39 @@ const FileBrowser = () => {
     }, [fileStructure, fileBrowserDir])
 
     return (
-        <div
-            className="lingo3d-ui lingo3d-bg lingo3d-panels"
-            style={{
-                height: PANELS_HEIGHT - APPBAR_HEIGHT,
-                width: "100%",
-                display: "flex"
-            }}
-        >
-            <div style={{ overflow: "scroll", width: 200 }}>
-                <FileTreeItem
-                    fileStructure={fileStructure}
-                    firstFolderName={firstFolderName}
-                />
-            </div>
-            <div style={{ flexGrow: 1 }}>
-                <div
-                    className="lingo3d-absfull"
-                    style={{
-                        overflow: "scroll",
-                        display: "flex",
-                        flexWrap: "wrap"
-                    }}
-                    onMouseDown={() => setFileSelected(undefined)}
-                >
-                    {filteredFiles?.map((file) => (
-                        <FileButton key={file.name} file={file} />
-                    ))}
+        <>
+            <div
+                className="lingo3d-ui lingo3d-bg lingo3d-panels"
+                style={{
+                    height: PANELS_HEIGHT - APPBAR_HEIGHT,
+                    width: "100%",
+                    display: "flex"
+                }}
+            >
+                <div style={{ overflow: "scroll", width: 200 }}>
+                    <FileTreeItem
+                        fileStructure={fileStructure}
+                        firstFolderName={firstFolderName}
+                    />
+                </div>
+                <div style={{ flexGrow: 1 }}>
+                    <div
+                        className="lingo3d-absfull"
+                        style={{
+                            overflow: "scroll",
+                            display: "flex",
+                            flexWrap: "wrap"
+                        }}
+                        onMouseDown={() => setFileSelected(undefined)}
+                    >
+                        {filteredFiles?.map((file) => (
+                            <FileButton key={file.name} file={file} />
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
+            <FileBrowserContextMenu />
+        </>
     )
 }
 export default FileBrowser
