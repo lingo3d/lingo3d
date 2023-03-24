@@ -2,7 +2,7 @@ import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
 import ContextMenu from "../component/ContextMenu"
 import MenuButton from "../component/MenuButton"
-import createFile from "../../api/files/createFile"
+import createJSON from "../../api/files/createJSON"
 
 export const fileBrowserContextMenuSignal: Signal<Point | undefined> =
     signal(undefined)
@@ -12,7 +12,7 @@ const FileBrowserContextMenu = () => {
         <ContextMenu positionSignal={fileBrowserContextMenuSignal}>
             <MenuButton
                 onClick={() => {
-                    createFile()
+                    createJSON()
                     fileBrowserContextMenuSignal.value = undefined
                 }}
             >

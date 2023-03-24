@@ -5,14 +5,14 @@ import RenameIcon from "./icons/RenameIcon"
 import DeleteIcon from "./icons/DeleteIcon"
 import useSyncState from "../hooks/useSyncState"
 import { getFileSelected } from "../../states/useFileSelected"
-import createFile from "../../api/files/createFile"
+import createJSON from "../../api/files/createJSON"
 
 const FileBrowserControls = () => {
     const fileSelected = useSyncState(getFileSelected)
 
     return (
         <AppBar style={{ gap: 4 }}>
-            <IconButton label="add" onClick={createFile}>
+            <IconButton label="add" onClick={createJSON}>
                 <AddIcon />
             </IconButton>
             <IconButton label="rename" disabled={!fileSelected}>

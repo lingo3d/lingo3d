@@ -4,7 +4,7 @@ import { setFileCurrent } from "../../states/useFileCurrent"
 import { getFiles } from "../../states/useFiles"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 
-export default async () => {
+const createJSON = async () => {
     const dir = getFileBrowserDir()
     const f = getFiles()?.find((f) => dirPath(f.webkitRelativePath) === dir)
     if (!f) return
@@ -21,3 +21,5 @@ export default async () => {
     unsafeSetValue(file, "handle", fileHandle)
     setFileCurrent(file)
 }
+
+export default createJSON
