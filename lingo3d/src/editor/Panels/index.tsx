@@ -11,6 +11,7 @@ import TimelineControls from "../TimelineEditor/TimelineControls"
 import useSyncState from "../hooks/useSyncState"
 import { getFileBrowser, setFileBrowser } from "../../states/useFileBrowser"
 import useInitEditor from "../hooks/useInitEditor"
+import FileBrowserControls from "../FileBrowser/FileBrowserControls"
 
 const Panels = () => {
     useInitCSS()
@@ -53,7 +54,11 @@ const Panels = () => {
                     </CloseableTab>
                 </AppBar>
                 <div style={{ flexGrow: 1 }}>
-                    {selectedSignal.value !== "files" && <TimelineControls />}
+                    {selectedSignal.value === "files" ? (
+                        <FileBrowserControls />
+                    ) : (
+                        <TimelineControls />
+                    )}
                 </div>
             </div>
             <div style={{ flexGrow: 1 }}>

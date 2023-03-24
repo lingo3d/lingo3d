@@ -10,7 +10,7 @@ type IconButtonProps = {
     fill?: boolean
 }
 
-const AppBarButton = ({
+const IconButton = ({
     children,
     onClick,
     disabled,
@@ -42,4 +42,4 @@ const AppBarButton = ({
     )
 }
 
-export default AppBarButton
+export default IconButton

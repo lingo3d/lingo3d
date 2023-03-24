@@ -12,7 +12,7 @@ import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTa
 import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import TitleBar from "../component/bars/TitleBar"
-import AppBarButton from "../component/AppBarButton"
+import IconButton from "../component/IconButton"
 import EmptyTreeItem from "../component/treeItems/EmptyTreeItem"
 import deleteSelected from "../../engine/hotkeys/deleteSelected"
 import useSyncState from "../hooks/useSyncState"
@@ -49,21 +49,21 @@ const AccordionSceneGraph = () => {
     return (
         <div className="lingo3d-absfull lingo3d-flexcol">
             <TitleBar title="scenegraph">
-                <AppBarButton disabled={!nativeTarget} onClick={handleFind}>
+                <IconButton disabled={!nativeTarget} onClick={handleFind}>
                     <FindIcon />
-                </AppBarButton>
-                <AppBarButton
+                </IconButton>
+                <IconButton
                     disabled={!multipleSelectionTargets.size}
                     onClick={emitEditorGroupItems}
                 >
                     <GroupIcon />
-                </AppBarButton>
-                <AppBarButton
+                </IconButton>
+                <IconButton
                     disabled={!selectionTarget}
                     onClick={deleteSelected}
                 >
                     <DeleteIcon />
-                </AppBarButton>
+                </IconButton>
             </TitleBar>
             <div style={{ overflow: "scroll", flexGrow: 1 }}>
                 {appendables.map((appendable) =>
