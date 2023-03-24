@@ -16,6 +16,7 @@ import fpsAlpha from "../utils/fpsAlpha"
 import { groundedControllerManagers } from "../core/PhysicsObjectManager/physx/physxLoop"
 import { DUMMY_URL, YBOT_URL } from "../../api/assetsPath"
 import renderSystemWithData from "../../utils/renderSystemWithData"
+import dirPath from "../../api/path/dirPath"
 
 const [addGroundedSystem, deleteGroundedSystem] = renderSystemWithData(
     (self: Dummy, data: { poseService: { send: (val: string) => void } }) => {
@@ -92,9 +93,7 @@ export default class Dummy extends Model implements IDummy {
             const prefix = preset === "rifle" ? "rifle-" : ""
 
             const src = this.srcState.get() || YBOT_URL()
-            const parts = src.split("/")
-            parts.pop()
-            let url = parts.join("/") + "/"
+            let url = dirPath(src) + "/"
 
             if (type === "readyplayerme") url = DUMMY_URL() + "readyplayerme/"
             else if (src !== YBOT_URL()) {
