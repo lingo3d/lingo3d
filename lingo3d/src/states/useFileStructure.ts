@@ -10,9 +10,7 @@ export interface FileStructure {
     [key: string]: FileStructure | File
 }
 
-const [setFileStructure, getFileStructure] = store<FileStructure>({})
-export { getFileStructure }
-
+export const [setFileStructure, getFileStructure] = store<FileStructure>({})
 export const mergeFileStructure = merge(setFileStructure, getFileStructure)
 
 export const setPathMap = (fileStructure: FileStructure) =>
