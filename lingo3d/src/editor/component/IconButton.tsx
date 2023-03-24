@@ -6,16 +6,16 @@ type IconButtonProps = {
     children?: ComponentChildren
     onClick?: () => void
     disabled?: boolean
-    outline?: boolean
-    fill?: boolean
+    label?: string
+    borderless?: boolean
 }
 
 const IconButton = ({
     children,
     onClick,
     disabled,
-    outline,
-    fill
+    label,
+    borderless
 }: IconButtonProps) => {
     return (
         <div
@@ -23,21 +23,23 @@ const IconButton = ({
             onClick={disabled ? undefined : onClick}
             className="lingo3d-flexcenter"
             style={{
-                width: APPBAR_HEIGHT,
+                minWidth: APPBAR_HEIGHT,
                 height: APPBAR_HEIGHT - 4,
-                marginRight: outline ? 8 : 2,
-                opacity: disabled ? 0.1 : 0.5,
+                opacity: disabled ? 0.1 : 0.75,
                 cursor: disabled ? undefined : "pointer",
-                background:
-                    outline || fill
-                        ? `rgba(255, 255, 255, ${fill ? 0.2 : 0.1})`
-                        : undefined,
-                border: outline
+                background: !borderless
+                    ? "rgba(255, 255, 255, 0.1)"
+                    : undefined,
+                border: !borderless
                     ? "1px solid rgba(255, 255, 255, 0.2)"
                     : undefined
             }}
         >
+            {label && children && <div style={{ width: 10 }} />}
             {children}
+            {label && (
+                <div style={{ paddingLeft: 10, paddingRight: 10 }}>{label}</div>
+            )}
         </div>
     )
 }

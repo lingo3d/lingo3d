@@ -1,17 +1,15 @@
 import IconButton from "../component/IconButton"
-import PlayIcon from "../component/icons/PlayIcon"
-import PauseIcon from "../component/icons/PauseIcon"
 import AppBar from "../component/bars/AppBar"
+import AddIcon from "./icons/AddIcon"
 
 const FileBrowserControls = () => {
     return (
-        <AppBar noPadding>
-            <IconButton fill>
-                <PlayIcon />
+        <AppBar style={{ gap: 4 }}>
+            <IconButton label="create">
+                <AddIcon />
             </IconButton>
-            <IconButton fill>
-                <PauseIcon />
-            </IconButton>
+            <IconButton label="rename" />
+            <IconButton label="delete" />
         </AppBar>
     )
 }

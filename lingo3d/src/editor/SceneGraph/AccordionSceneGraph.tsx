@@ -49,16 +49,22 @@ const AccordionSceneGraph = () => {
     return (
         <div className="lingo3d-absfull lingo3d-flexcol">
             <TitleBar title="scenegraph">
-                <IconButton disabled={!nativeTarget} onClick={handleFind}>
+                <IconButton
+                    borderless
+                    disabled={!nativeTarget}
+                    onClick={handleFind}
+                >
                     <FindIcon />
                 </IconButton>
                 <IconButton
+                    borderless
                     disabled={!multipleSelectionTargets.size}
                     onClick={emitEditorGroupItems}
                 >
                     <GroupIcon />
                 </IconButton>
                 <IconButton
+                    borderless
                     disabled={!selectionTarget}
                     onClick={deleteSelected}
                 >

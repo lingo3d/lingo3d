@@ -69,7 +69,7 @@ const CloseableTab = ({
                 {children}
             </div>
             <div style={{ width: 4 }} />
-            <IconButton disabled={!onClose} onClick={onClose}>
+            <IconButton disabled={!onClose} onClick={onClose} borderless>
                 <CloseIcon />
             </IconButton>
         </div>

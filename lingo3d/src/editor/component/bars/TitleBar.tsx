@@ -11,7 +11,7 @@ const TitleBar = ({ title, children }: TitleBarProps) => {
         <AppBar style={{ paddingLeft: 12 }}>
             <div style={{ marginTop: -2 }}>{title}</div>
             <div style={{ flexGrow: 1, minWidth: 4 }} />
-            {children}
+            <div style={{ display: "flex", opacity: 0.5 }}>{children}</div>
         </AppBar>
     )
 }
