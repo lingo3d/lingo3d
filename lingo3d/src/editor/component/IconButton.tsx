@@ -4,7 +4,7 @@ import { stopPropagation } from "../utils/stopPropagation"
 
 type IconButtonProps = {
     children?: ComponentChildren
-    onClick?: () => void
+    onClick?: (e: MouseEvent) => void
     disabled?: boolean
     label?: string
     borderless?: boolean
@@ -22,7 +22,7 @@ const IconButton = ({
     return (
         <div
             ref={stopPropagation}
-            onClick={disabled ? undefined : onClick}
+            onClick={onClick}
             className="lingo3d-flexcenter"
             style={{
                 pointerEvents: disabled ? "none" : undefined,
