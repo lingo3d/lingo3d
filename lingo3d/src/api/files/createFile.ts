@@ -1,8 +1,8 @@
-import dirPath from "../../../api/path/dirPath"
-import { getFileBrowserDir } from "../../../states/useFileBrowserDir"
-import { setFileCurrent } from "../../../states/useFileCurrent"
-import { getFiles } from "../../../states/useFiles"
-import unsafeSetValue from "../../../utils/unsafeSetValue"
+import dirPath from "../path/dirPath"
+import { getFileBrowserDir } from "../../states/useFileBrowserDir"
+import { setFileCurrent } from "../../states/useFileCurrent"
+import { getFiles } from "../../states/useFiles"
+import unsafeSetValue from "../../utils/unsafeSetValue"
 
 export default async () => {
     const dir = getFileBrowserDir()

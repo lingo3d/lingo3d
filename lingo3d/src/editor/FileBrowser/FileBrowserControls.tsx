@@ -5,22 +5,14 @@ import RenameIcon from "./icons/RenameIcon"
 import DeleteIcon from "./icons/DeleteIcon"
 import useSyncState from "../hooks/useSyncState"
 import { getFileSelected } from "../../states/useFileSelected"
-import { fileBrowserContextMenuSignal } from "./FileBrowserContextMenu"
+import createFile from "../../api/files/createFile"
 
 const FileBrowserControls = () => {
     const fileSelected = useSyncState(getFileSelected)
 
     return (
         <AppBar style={{ gap: 4 }}>
-            <IconButton
-                label="add"
-                onClick={(e) =>
-                    (fileBrowserContextMenuSignal.value = {
-                        x: e.clientX,
-                        y: e.clientY
-                    })
-                }
-            >
+            <IconButton label="add" onClick={createFile}>
                 <AddIcon />
             </IconButton>
             <IconButton label="rename" disabled={!fileSelected}>
