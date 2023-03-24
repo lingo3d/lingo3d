@@ -31,10 +31,9 @@ const TimelineControls = () => {
     const mute = useSyncState(getTimelineMute)
 
     return (
-        <AppBar noPadding>
+        <AppBar noPadding style={{ gap: 4 }}>
             {paused ? (
                 <IconButton
-                    outline
                     disabled={!timeline}
                     onClick={
                         timeline
@@ -51,7 +50,6 @@ const TimelineControls = () => {
                 </IconButton>
             ) : (
                 <IconButton
-                    outline
                     disabled={!timeline}
                     onClick={
                         timeline
@@ -66,37 +64,20 @@ const TimelineControls = () => {
                 </IconButton>
             )}
 
-            <IconButton
-                outline
-                disabled={!timeline}
-                onClick={decreaseTimelineFrame}
-            >
+            <IconButton disabled={!timeline} onClick={decreaseTimelineFrame}>
                 <PrevFrameIcon />
             </IconButton>
-            <IconButton
-                outline
-                disabled={!timeline}
-                onClick={increaseTimelineFrame}
-            >
+            <IconButton disabled={!timeline} onClick={increaseTimelineFrame}>
                 <NextFrameIcon />
             </IconButton>
 
-            <IconButton
-                outline
-                disabled={!timeline}
-                onClick={firstTimelineFrame}
-            >
+            <IconButton disabled={!timeline} onClick={firstTimelineFrame}>
                 <FirstFrameIcon />
             </IconButton>
-            <IconButton
-                outline
-                disabled={!timeline}
-                onClick={lastTimelineFrame}
-            >
+            <IconButton disabled={!timeline} onClick={lastTimelineFrame}>
                 <LastFrameIcon />
             </IconButton>
             <IconButton
-                outline
                 disabled={!timeline}
                 onClick={
                     timeline
@@ -118,7 +99,6 @@ const TimelineControls = () => {
                 />
             </IconButton>
             <IconButton
-                outline
                 disabled={!timeline}
                 onClick={() => setTimelineMute(!mute)}
             >
