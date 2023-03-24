@@ -47,7 +47,7 @@ const CloseableTab = ({
                 background:
                     selectedSignal.value.at(-1) === id
                         ? "rgba(255, 255, 255, 0.1)"
-                        : "rgba(255, 255, 255, 0.05)"
+                        : undefined
             }}
             onClick={
                 disabled || !id
