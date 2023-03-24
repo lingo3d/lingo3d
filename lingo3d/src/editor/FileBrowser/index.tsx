@@ -1,51 +1,22 @@
 import { useMemo } from "preact/hooks"
-import { get, set, traverse } from "@lincode/utils"
+import { get } from "@lincode/utils"
 import FileButton from "./FileButton"
 import FileTreeItem from "./FileTreeItem"
-import pathMap from "./pathMap"
 import useInitCSS from "../hooks/useInitCSS"
 import { APPBAR_HEIGHT, PANELS_HEIGHT } from "../../globals"
 import { setFileSelected } from "../../states/useFileSelected"
 import useSyncState from "../hooks/useSyncState"
-import { getFiles } from "../../states/useFiles"
-import {
-    getFileBrowserDir,
-    setFileBrowserDir
-} from "../../states/useFileBrowserDir"
+import { getFileBrowserDir } from "../../states/useFileBrowserDir"
 import useInitEditor from "../hooks/useInitEditor"
 import FileBrowserContextMenu from "./FileBrowserContextMenu"
-
-interface FileStructure {
-    [key: string]: FileStructure | File
-}
+import { getFileStructure } from "../../states/useFileStructure"
 
 const FileBrowser = () => {
     useInitCSS()
     useInitEditor()
 
-    const files = useSyncState(getFiles)
     const fileBrowserDir = useSyncState(getFileBrowserDir)
-
-    const [fileStructure, firstFolderName] = useMemo(() => {
-        const fileStructure: FileStructure = {}
-        let firstFolderName = ""
-
-        if (files) {
-            for (const file of files)
-                set(fileStructure, file.webkitRelativePath.split("/"), file)
-
-            firstFolderName = Object.keys(fileStructure)[0]
-
-            traverse(fileStructure, (key, child, parent) => {
-                let path = ""
-                if (pathMap.has(parent)) path = pathMap.get(parent) + "/" + key
-                typeof child === "object" && pathMap.set(child, path)
-            })
-        }
-        setFileBrowserDir(firstFolderName)
-
-        return [fileStructure, firstFolderName]
-    }, [files])
+    const { fileStructure, firstFolderName } = useSyncState(getFileStructure)
 
     const filteredFiles = useMemo(() => {
         const currentFolder = get(fileStructure, fileBrowserDir.split("/"))
