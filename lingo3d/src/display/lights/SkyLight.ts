@@ -64,7 +64,7 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
         this.createEffect(() => {
             const intensity = this.intensityState.get()
             const csm = new CSM({
-                maxFar: 100,
+                maxFar: 50,
                 shadowMapSize: mapShadowResolution(shadowResolution) * 4,
                 shadowBias: shadowResolution === "low" ? -0.00003 : -0.0001,
                 cascades: 1,

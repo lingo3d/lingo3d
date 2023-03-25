@@ -1,5 +1,5 @@
 import { rad2Deg } from "@lincode/math"
-import { Color, MeshStandardMaterial } from "three"
+import { MeshStandardMaterial } from "three"
 import { equalsDefaultValue } from "../../../../interface/utils/getDefaultValue"
 import throttleSystem from "../../../../utils/throttleSystem"
 import {
@@ -10,8 +10,7 @@ import createMap from "../../../core/mixins/utils/createMap"
 import TextureManager from "../../../core/TextureManager"
 import createInstancePool from "../../../core/utils/createInstancePool"
 import Model from "../../../Model"
-
-const blackColor = new Color("black")
+import { blackColor } from "../../reusables"
 
 export default (standardMaterial: MeshStandardMaterial) => {
     const defaults = {

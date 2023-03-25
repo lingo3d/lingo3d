@@ -17,7 +17,7 @@ export const MIN_POLAR_ANGLE = 5
 export const MAX_POLAR_ANGLE = 175
 export const ORTHOGRAPHIC_FRUSTUM = 5.7
 export const NEAR = 0.1
-export const FAR = 1000
+export const FAR = 200
 export const SHADOW_BIAS = -0.0055
 
 export const DEBUG = false
