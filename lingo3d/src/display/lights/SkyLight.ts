@@ -1,4 +1,3 @@
-import { mapShadowResolution } from "../core/LightBase"
 import ISkyLight, {
     skyLightDefaults,
     skyLightSchema
@@ -7,24 +6,20 @@ import { Reactive } from "@lincode/reactivity"
 import { CSM } from "three/examples/jsm/csm/CSM"
 import scene from "../../engine/scene"
 import { getCameraRendered } from "../../states/useCameraRendered"
-import { getShadowResolution } from "../../states/useShadowResolution"
 import DirectionalLight from "./DirectionalLight"
 import { eraseAppendable } from "../../api/core/collections"
 import renderSystemWithData from "../../utils/renderSystemWithData"
-import { positionChanged } from "../utils/trackObject"
 import SimpleObjectManager from "../core/SimpleObjectManager"
 import AmbientLight from "./AmbientLight"
-import { CSM_FAR } from "../../globals"
 
 const updateLightDirection = (self: SkyLight, csm: CSM) =>
     csm.lightDirection.copy(
         self.position.clone().normalize().multiplyScalar(-1)
     )
 const [addLightSystem, deleteLightSystem] = renderSystemWithData(
-    (self: SkyLight, data: { csm: CSM }) => {
-        positionChanged(self.outerObject3d) &&
-            updateLightDirection(self, data.csm)
-        data.csm.update()
+    (csm: CSM, { self }: { self: SkyLight }) => {
+        updateLightDirection(self, csm)
+        csm.update()
     }
 )
 const updateBackLight = (self: SkyLight, backLight: DirectionalLight) =>
@@ -32,7 +27,6 @@ const updateBackLight = (self: SkyLight, backLight: DirectionalLight) =>
 
 const [addBackLightSystem, deleteBackLightSystem] = renderSystemWithData(
     (self: SkyLight, data: { backLight: DirectionalLight }) =>
-        positionChanged(self.outerObject3d) &&
         updateBackLight(self, data.backLight)
 )
 
@@ -61,33 +55,50 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
             ambientLight.dispose()
         })
 
-        const shadowResolution = getShadowResolution()
         this.createEffect(() => {
+            const cam = getCameraRendered()
             const intensity = this.intensityState.get()
+
             const csm = new CSM({
-                maxFar: CSM_FAR,
-                shadowMapSize: mapShadowResolution(shadowResolution) * 4,
-                shadowBias: shadowResolution === "low" ? -0.00003 : -0.0001,
+                maxFar: 100,
+                shadowMapSize: 512,
+                shadowBias: -0.001,
                 cascades: 1,
                 parent: scene,
-                camera: getCameraRendered(),
-                lightIntensity: Math.max(0.1, intensity)
+                camera: cam,
+                lightIntensity: intensity * 0.5
+            })
+            const csm2 = new CSM({
+                maxFar: 50,
+                shadowMapSize: 2048,
+                shadowBias: -0.0001,
+                cascades: 1,
+                parent: scene,
+                camera: cam,
+                lightIntensity: intensity * 0.5
             })
             updateLightDirection(this, csm)
+            updateLightDirection(this, csm2)
             updateBackLight(this, backLight)
 
-            addLightSystem(this, { csm })
-            const handle = getCameraRendered((val) => (csm.camera = val))
+            addLightSystem(csm, { self: this })
+            addLightSystem(csm2, { self: this })
+            const handle = getCameraRendered((val) => {
+                csm.camera = val
+                csm2.camera = val
+            })
             return () => {
-                deleteLightSystem(this)
+                deleteLightSystem(csm)
+                deleteLightSystem(csm2)
                 handle.cancel()
                 csm.dispose()
-                for (const light of csm.lights) {
+                csm2.dispose()
+                for (const light of [...csm.lights, ...csm2.lights]) {
                     light.dispose()
                     scene.remove(light)
                 }
             }
-        }, [this.intensityState.get, getShadowResolution])
+        }, [this.intensityState.get])
     }
 
     private intensityState = new Reactive(1)
