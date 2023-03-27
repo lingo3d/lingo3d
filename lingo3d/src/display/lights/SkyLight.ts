@@ -54,20 +54,28 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
         })
 
         this.createEffect(() => {
-            const cam = getCameraRendered()
             const intensity = this.intensityState.get()
 
             updateBackLight(this, backLight)
             backLight.intensity = intensity * 0.25
             ambientLight.intensity = intensity * 0.25
 
+            if (!this.castShadowState.get()) {
+                const light = new DirectionalLight()
+                eraseAppendable(light)
+                light.intensity = intensity
+                this.append(light)
+                return () => {
+                    light.dispose()
+                }
+            }
             const csm = new CSM({
                 maxFar: 50,
                 shadowMapSize: 2048,
                 shadowBias: -0.0002,
                 cascades: 1,
                 parent: scene,
-                camera: cam,
+                camera: getCameraRendered(),
                 lightIntensity:
                     intensity * (this.cascadeShadowState.get() ? 0.5 : 1)
             })
@@ -84,13 +92,15 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
                     scene.remove(light)
                 }
             }
-        }, [this.intensityState.get, this.cascadeShadowState.get])
+        }, [
+            this.intensityState.get,
+            this.cascadeShadowState.get,
+            this.castShadowState.get
+        ])
 
         this.createEffect(() => {
-            if (!this.cascadeShadowState.get()) return
-
-            const cam = getCameraRendered()
-            const intensity = this.intensityState.get()
+            if (!this.cascadeShadowState.get() || !this.castShadowState.get())
+                return
 
             const csm = new CSM({
                 maxFar: 100,
@@ -98,8 +108,8 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
                 shadowBias: -0.0005,
                 cascades: 1,
                 parent: scene,
-                camera: cam,
-                lightIntensity: intensity * 0.5
+                camera: getCameraRendered(),
+                lightIntensity: this.intensityState.get() * 0.5
             })
             updateLightDirection(this, csm)
 
@@ -114,7 +124,11 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
                     scene.remove(light)
                 }
             }
-        }, [this.intensityState.get, this.cascadeShadowState.get])
+        }, [
+            this.intensityState.get,
+            this.cascadeShadowState.get,
+            this.castShadowState.get
+        ])
     }
 
     private intensityState = new Reactive(1)
@@ -123,6 +137,14 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
     }
     public set intensity(val) {
         this.intensityState.set(Math.max(val, 0.1))
+    }
+
+    private castShadowState = new Reactive(true)
+    public get castShadow() {
+        return this.castShadowState.get()
+    }
+    public set castShadow(val) {
+        this.castShadowState.set(val)
     }
 
     private cascadeShadowState = new Reactive(false)
