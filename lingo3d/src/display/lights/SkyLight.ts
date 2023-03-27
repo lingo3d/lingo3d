@@ -40,13 +40,11 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
 
         const backLight = new DirectionalLight()
         backLight.helper = false
-        backLight.intensity = 0.25
         eraseAppendable(backLight)
         addBackLightSystem(this, { backLight })
 
         const ambientLight = new AmbientLight()
         ambientLight.helper = false
-        ambientLight.intensity = 0.25
         eraseAppendable(ambientLight)
 
         this.then(() => {
@@ -59,10 +57,14 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
             const cam = getCameraRendered()
             const intensity = this.intensityState.get()
 
+            updateBackLight(this, backLight)
+            backLight.intensity = intensity * 0.25
+            ambientLight.intensity = intensity * 0.25
+
             const csm = new CSM({
                 maxFar: 50,
                 shadowMapSize: 2048,
-                shadowBias: -0.0001,
+                shadowBias: -0.0002,
                 cascades: 1,
                 parent: scene,
                 camera: cam,
@@ -70,7 +72,6 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
                     intensity * (this.cascadeShadowState.get() ? 0.5 : 1)
             })
             updateLightDirection(this, csm)
-            updateBackLight(this, backLight)
 
             addLightSystem(csm, { self: this })
             const handle = getCameraRendered((val) => (csm.camera = val))
@@ -101,7 +102,6 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
                 lightIntensity: intensity * 0.5
             })
             updateLightDirection(this, csm)
-            updateBackLight(this, backLight)
 
             addLightSystem(csm, { self: this })
             const handle = getCameraRendered((val) => (csm.camera = val))
@@ -122,7 +122,7 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
         return this.intensityState.get()
     }
     public set intensity(val) {
-        this.intensityState.set(val)
+        this.intensityState.set(Math.max(val, 0.1))
     }
 
     private cascadeShadowState = new Reactive(false)
