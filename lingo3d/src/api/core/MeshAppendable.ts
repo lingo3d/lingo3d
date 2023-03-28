@@ -3,14 +3,19 @@ import getWorldDirection from "../../display/utils/getWorldDirection"
 import getWorldPosition from "../../display/utils/getWorldPosition"
 import { ray, vector3 } from "../../display/utils/reusables"
 import { vec2Point } from "../../display/utils/vec2Point"
+import { onAfterRender } from "../../events/onAfterRender"
 import { CM2M } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
-import { addClearAfterRenderSystem } from "../../utils/clearAfterRenderSystem"
+import renderSystemAutoClear from "../../utils/renderSystemAutoClear"
 import { setManager } from "../utils/getManager"
 import Appendable from "./Appendable"
 
-export const transformedManagerSet = new Set<MeshAppendable>()
-addClearAfterRenderSystem(transformedManagerSet)
+const [addTransformSystem, deleteTransformSystem] = renderSystemAutoClear(
+    (manager: MeshAppendable) => {
+        console.log(manager)
+    },
+    onAfterRender
+)
 
 export default class MeshAppendable<T extends Object3D = Object3D>
     extends Appendable
@@ -37,7 +42,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
             get: () => this.matrixWorldNeedsUpdate,
             set: (val) => {
                 this.matrixWorldNeedsUpdate = val
-                val && transformedManagerSet.add(this)
+                val && addTransformSystem(this)
             }
         })
     }
@@ -66,6 +71,7 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     protected override disposeNode() {
         super.disposeNode()
         this.outerObject3d.parent?.remove(this.outerObject3d)
+        deleteTransformSystem(this)
     }
 
     public override get name() {

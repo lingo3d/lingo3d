@@ -59,7 +59,7 @@ const AccordionSceneGraph = () => {
                 <IconButton
                     borderless
                     disabled={!multipleSelectionTargets.size}
-                    onClick={emitEditorGroupItems}
+                    onClick={() => emitEditorGroupItems()}
                 >
                     <GroupIcon />
                 </IconButton>

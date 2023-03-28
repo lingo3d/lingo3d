@@ -1,5 +1,7 @@
-import throttleSystem from "./throttleSystem"
+import { onAfterRender } from "../events/onAfterRender"
+import renderSystemAutoClear from "./renderSystemAutoClear"
 
-export default throttleSystem((collection: Map<any, any> | Set<any>) =>
-    collection.clear()
+export const [addClearSystem] = renderSystemAutoClear(
+    (collection: Map<any, any> | Set<any>) => collection.clear(),
+    onAfterRender
 )

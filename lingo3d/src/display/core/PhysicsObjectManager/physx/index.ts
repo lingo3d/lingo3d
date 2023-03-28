@@ -12,7 +12,7 @@ import {
 } from "./pxMaps"
 import PhysicsObjectManager from ".."
 import { getGravity } from "../../../../states/useGravity"
-import clearSystem from "../../../../utils/clearSystem"
+import { addClearSystem } from "../../../../utils/clearSystem"
 ;(async () => {
     const simdSupported = await simd()
 
@@ -246,7 +246,7 @@ import clearSystem from "../../../../utils/clearSystem"
             Set<PhysicsObjectManager>
         )
         contacts.add(manager)
-        clearSystem(contacts)
+        addClearSystem(contacts)
     }
 
     //create simulation event callback

@@ -1,4 +1,4 @@
-import clearSystem from "./clearSystem"
+import { addClearSystem } from "./clearSystem"
 
 export default <Item extends object, Return>(
     cb: (item: Item) => Return,
@@ -16,7 +16,7 @@ export default <Item extends object, Return>(
             const result = cb(item)
             //@ts-ignore
             cache.set(item, result.clone())
-            clearSystem(cache)
+            addClearSystem(cache)
             //@ts-ignore
             return result.clone()
         }
@@ -25,7 +25,7 @@ export default <Item extends object, Return>(
         if (cache.has(item)) return cache.get(item)!
         const result = cb(item)
         cache.set(item, result)
-        clearSystem(cache)
+        addClearSystem(cache)
         return result
     }
 }
