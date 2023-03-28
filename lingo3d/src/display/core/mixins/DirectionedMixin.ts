@@ -1,36 +1,17 @@
 import { rad2Deg, deg2Rad, Point3d } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
-import { Object3D, Quaternion } from "three"
+import { Object3D } from "three"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { M2CM } from "../../../globals"
 import IDirectioned from "../../../interface/IDirectioned"
-import renderSystemWithData from "../../../utils/renderSystemWithData"
-import fpsAlpha from "../../utils/fpsAlpha"
+import {
+    addLookToSystem,
+    deleteLookToSystem
+} from "../../../systems/lookToSystem"
 import getWorldDirection from "../../utils/getWorldDirection"
 import getWorldPosition from "../../utils/getWorldPosition"
 import { point2Vec } from "../../utils/vec2Point"
 import PositionedMixin from "./PositionedMixin"
-
-const [addLookSystem, deleteLookSystem] = renderSystemWithData(
-    (
-        self: DirectionedMixin,
-        data: { quaternion: Quaternion; quaternionNew: Quaternion; a1?: number }
-    ) => {
-        const { quaternion, quaternionNew, a1 } = data
-        quaternion.slerp(quaternionNew, fpsAlpha(a1 ?? 0.05))
-
-        const x = Math.abs(quaternion.x - quaternionNew.x)
-        const y = Math.abs(quaternion.y - quaternionNew.y)
-        const z = Math.abs(quaternion.z - quaternionNew.z)
-        const w = Math.abs(quaternion.w - quaternionNew.w)
-        if (x + y + z + w < 0.001) {
-            self.cancelHandle("lookTo", undefined)
-            self.onLookToEnd?.()
-
-            quaternion.copy(quaternionNew)
-        }
-    }
-)
 
 const getY = (manager: PositionedMixin | DirectionedMixin) =>
     "position" in manager ? manager.position.y : 0
@@ -115,8 +96,8 @@ export default abstract class DirectionedMixin<T extends Object3D = Object3D>
         quaternion.copy(quaternionOld)
 
         this.cancelHandle("lookTo", () => {
-            addLookSystem(this, { quaternion, quaternionNew, a1 })
-            return new Cancellable(() => deleteLookSystem(this))
+            addLookToSystem(this, { quaternion, quaternionNew, a1 })
+            return new Cancellable(() => deleteLookToSystem(this))
         })
     }
 

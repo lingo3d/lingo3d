@@ -1,10 +1,4 @@
-import {
-    Point,
-    Point3d,
-    quadrant,
-    rotatePoint,
-    vertexAngle
-} from "@lincode/math"
+import { Point3d, quadrant } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import { Object3D, Quaternion, Vector3 } from "three"
 import { getAppendablesById } from "../../../api/core/Appendable"
@@ -17,88 +11,26 @@ import {
 import { M2CM, CM2M } from "../../../globals"
 import IPositioned from "../../../interface/IPositioned"
 import Nullable from "../../../interface/utils/Nullable"
-import renderSystemWithData from "../../../utils/renderSystemWithData"
+import {
+    addLerpToSystem,
+    deleteLerpToSystem
+} from "../../../systems/lerpToSystem"
+import {
+    addMoveToSystem,
+    deleteMoveToSystem
+} from "../../../systems/moveToSystem"
+import {
+    addOnMoveSystem,
+    deleteOnMoveSystem
+} from "../../../systems/onMoveSystem"
 import SpawnPoint from "../../SpawnPoint"
-import fpsAlpha from "../../utils/fpsAlpha"
 import getActualScale from "../../utils/getActualScale"
 import getCenter from "../../utils/getCenter"
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import { vector3 } from "../../utils/reusables"
-import { positionChanged } from "../../utils/trackObject"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import worldToCanvas from "../../utils/worldToCanvas"
-
-const [addTrackingSystem, deleteTrackingSystem] = renderSystemWithData(
-    (item: Object3D, data: { cb: () => void }) => {
-        positionChanged(item) && data.cb()
-    }
-)
-
-const [addLerpSystem, deleteLerpSystem] = renderSystemWithData(
-    (
-        self: PositionedMixin,
-        data: {
-            from: Vector3
-            to: Vector3
-            alpha: number
-            onFrame?: () => void
-        }
-    ) => {
-        const { x, y, z } = data.from.lerp(data.to, fpsAlpha(data.alpha))
-
-        if (
-            Math.abs(self.x - x) < 0.1 &&
-            Math.abs(self.y - y) < 0.1 &&
-            Math.abs(self.z - z) < 0.1
-        ) {
-            self.cancelHandle("lerpTo", undefined)
-            self.onMoveToEnd?.()
-        }
-        self.x = x
-        self.y = y
-        self.z = z
-
-        data.onFrame?.()
-    }
-)
-
-const [addMoveSystem, deleteMoveSystem] = renderSystemWithData(
-    (
-        self: PositionedMixin,
-        data: {
-            sx: number
-            sy: number
-            sz: number
-            x: number
-            y: number | undefined
-            z: number
-            quad: number
-            onFrame?: () => void
-        }
-    ) => {
-        self.x += data.sx * fpsRatioPtr[0]
-        if (data.y !== undefined) self.y += data.sy * fpsRatioPtr[0]
-        self.z += data.sz * fpsRatioPtr[0]
-
-        const angle = vertexAngle(
-            new Point(self.x, self.z),
-            new Point(data.x, data.z),
-            new Point(self.x, data.z)
-        )
-        const rotated = rotatePoint(
-            new Point(data.x, data.z),
-            new Point(self.x, self.z),
-            data.quad === 1 || data.quad === 4 ? angle : -angle
-        )
-
-        if (data.z > rotated.y) {
-            self.cancelHandle("lerpTo", undefined)
-            self.onMoveToEnd?.()
-        }
-        data.onFrame?.()
-    }
-)
 
 export default abstract class PositionedMixin<T extends Object3D = Object3D>
     extends MeshAppendable<T>
@@ -147,9 +79,9 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
             "onMove",
             cb &&
                 (() => {
-                    addTrackingSystem(this.outerObject3d, { cb })
+                    addOnMoveSystem(this.outerObject3d, { cb })
                     return new Cancellable(() =>
-                        deleteTrackingSystem(this.outerObject3d)
+                        deleteOnMoveSystem(this.outerObject3d)
                     )
                 })
         )
@@ -224,8 +156,8 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
         const to = new Vector3(x, y, z)
 
         this.cancelHandle("lerpTo", () => {
-            addLerpSystem(this, { from, to, alpha, onFrame })
-            return new Cancellable(() => deleteLerpSystem(this))
+            addLerpToSystem(this, { from, to, alpha, onFrame })
+            return new Cancellable(() => deleteLerpToSystem(this))
         })
     }
 
@@ -255,8 +187,8 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
         const quad = quadrant(x, z, this.x, this.z)
 
         this.cancelHandle("lerpTo", () => {
-            addMoveSystem(this, { sx, sy, sz, x, y, z, quad, onFrame })
-            return new Cancellable(() => deleteMoveSystem(this))
+            addMoveToSystem(this, { sx, sy, sz, x, y, z, quad, onFrame })
+            return new Cancellable(() => deleteMoveToSystem(this))
         })
     }
 }
