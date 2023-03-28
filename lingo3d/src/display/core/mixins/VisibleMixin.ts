@@ -1,5 +1,4 @@
 import { Cancellable } from "@lincode/promiselikes"
-import { forceGetInstance } from "@lincode/utils"
 import { Frustum, Matrix3, Object3D } from "three"
 import { OBB } from "three/examples/jsm/math/OBB"
 import MeshAppendable from "../../../api/core/MeshAppendable"
@@ -15,7 +14,6 @@ import { LingoMouseEvent } from "../../../interface/IMouse"
 import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"
 import { getCameraRendered } from "../../../states/useCameraRendered"
-import renderSystem from "../../../utils/renderSystem"
 import throttleFrameLeading from "../../../utils/throttleFrameLeading"
 import getCenter from "../../utils/getCenter"
 import getWorldPosition from "../../utils/getWorldPosition"
@@ -29,7 +27,10 @@ import {
     mouseMoveSet
 } from "../utils/raycast/sets"
 import "../utils/raycast"
-import { getAppendables } from "../../../api/core/Appendable"
+import {
+    addHitTestSystem,
+    deleteHitTestSystem
+} from "../../../systems/hitTestSystem"
 
 export const reflectionVisibleSet = new Set<MeshAppendable>()
 
@@ -46,27 +47,6 @@ const updateFrustum = throttleFrameLeading(() => {
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
-
-const hitCache = new WeakMap<VisibleMixin, WeakSet<VisibleMixin>>()
-const [addHitTestSystem, deleteHitTestSystem] = renderSystem(
-    (manager: VisibleMixin) => {
-        for (const target of getAppendables(manager.hitTarget!)) {
-            if (!("object3d" in target!)) return
-            const cache = forceGetInstance(hitCache, manager, WeakSet)
-            if (manager.hitTest(target)) {
-                if (!cache.has(target)) {
-                    cache.add(target)
-                    manager.onHitStart?.(new HitEvent(target))
-                }
-                manager.onHit?.(new HitEvent(target))
-                continue
-            }
-            if (!cache.has(target)) continue
-            cache.delete(target)
-            manager.onHitEnd?.(new HitEvent(target))
-        }
-    }
-)
 
 export default abstract class VisibleMixin<T extends Object3D = Object3D>
     extends MeshAppendable<T>

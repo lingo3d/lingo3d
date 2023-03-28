@@ -7,24 +7,11 @@ import ITexturedStandard, {
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import { color, standardMaterial } from "../../utils/reusables"
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import renderSystemAutoClear from "../../../utils/renderSystemAutoClear"
 import {
     allocateDefaultMaterial,
-    decreaseMaterial,
-    increaseMaterial,
     MaterialParams
 } from "../../../pools/materialPool"
-
-const [addRefreshParamsSystem] = renderSystemAutoClear(
-    (target: TexturedStandardMixin) => {
-        if (target.materialParamString)
-            decreaseMaterial(target.materialParamString)
-        else target.then(() => decreaseMaterial(target.materialParamString!))
-        const paramString = JSON.stringify(target.materialParams)
-        target.material = increaseMaterial(target.materialParams, paramString)
-        target.materialParamString = paramString
-    }
-)
+import { addRefreshTexturedStandardSystem } from "../../../systems/refreshTexturedStandardSystem"
 
 export const standardDefaults = Object.fromEntries(
     Object.entries(texturedStandardSchema).map(([key]) => [
@@ -67,7 +54,7 @@ export default abstract class TexturedStandardMixin
         this.materialParams[0] = val
             ? "#" + color.set(val).getHexString()
             : standardDefaults.color
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get opacity() {
@@ -75,7 +62,7 @@ export default abstract class TexturedStandardMixin
     }
     public set opacity(val: number | undefined) {
         this.materialParams[1] = val ?? standardDefaults.opacity
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get texture() {
@@ -83,7 +70,7 @@ export default abstract class TexturedStandardMixin
     }
     public set texture(val: string | undefined) {
         this.materialParams[2] = val ?? standardDefaults.texture
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get alphaMap() {
@@ -91,7 +78,7 @@ export default abstract class TexturedStandardMixin
     }
     public set alphaMap(val: string | undefined) {
         this.materialParams[3] = val ?? standardDefaults.alphaMap
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get textureRepeat() {
@@ -99,7 +86,7 @@ export default abstract class TexturedStandardMixin
     }
     public set textureRepeat(val: number | Point | undefined) {
         this.materialParams[4] = val ?? standardDefaults.textureRepeat
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get textureFlipY() {
@@ -107,7 +94,7 @@ export default abstract class TexturedStandardMixin
     }
     public set textureFlipY(val: boolean | undefined) {
         this.materialParams[5] = val ?? standardDefaults.textureFlipY
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get textureRotation() {
@@ -115,7 +102,7 @@ export default abstract class TexturedStandardMixin
     }
     public set textureRotation(val: number | undefined) {
         this.materialParams[6] = val ?? standardDefaults.textureRotation
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get wireframe() {
@@ -123,7 +110,7 @@ export default abstract class TexturedStandardMixin
     }
     public set wireframe(val: boolean | undefined) {
         this.materialParams[7] = val ?? standardDefaults.wireframe
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get envMap() {
@@ -131,7 +118,7 @@ export default abstract class TexturedStandardMixin
     }
     public set envMap(val: string | undefined) {
         this.materialParams[8] = val ?? standardDefaults.envMap
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get envMapIntensity() {
@@ -139,7 +126,7 @@ export default abstract class TexturedStandardMixin
     }
     public set envMapIntensity(val: number | undefined) {
         this.materialParams[9] = val ?? standardDefaults.envMapIntensity
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get aoMap() {
@@ -147,7 +134,7 @@ export default abstract class TexturedStandardMixin
     }
     public set aoMap(val: string | undefined) {
         this.materialParams[10] = val ?? standardDefaults.aoMap
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get aoMapIntensity() {
@@ -155,7 +142,7 @@ export default abstract class TexturedStandardMixin
     }
     public set aoMapIntensity(val: number | undefined) {
         this.materialParams[11] = val ?? standardDefaults.aoMapIntensity
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get bumpMap() {
@@ -163,7 +150,7 @@ export default abstract class TexturedStandardMixin
     }
     public set bumpMap(val: string | undefined) {
         this.materialParams[12] = val ?? standardDefaults.bumpMap
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get bumpScale() {
@@ -171,7 +158,7 @@ export default abstract class TexturedStandardMixin
     }
     public set bumpScale(val: number | undefined) {
         this.materialParams[13] = val ?? standardDefaults.bumpScale
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get displacementMap() {
@@ -179,7 +166,7 @@ export default abstract class TexturedStandardMixin
     }
     public set displacementMap(val: string | undefined) {
         this.materialParams[14] = val ?? standardDefaults.displacementMap
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get displacementScale() {
@@ -187,7 +174,7 @@ export default abstract class TexturedStandardMixin
     }
     public set displacementScale(val: number | undefined) {
         this.materialParams[15] = val ?? standardDefaults.displacementScale
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get displacementBias() {
@@ -195,7 +182,7 @@ export default abstract class TexturedStandardMixin
     }
     public set displacementBias(val: number | undefined) {
         this.materialParams[16] = val ?? standardDefaults.displacementBias
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get emissive() {
@@ -203,7 +190,7 @@ export default abstract class TexturedStandardMixin
     }
     public set emissive(val: boolean | undefined) {
         this.materialParams[17] = val ?? standardDefaults.emissive
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get emissiveIntensity() {
@@ -211,7 +198,7 @@ export default abstract class TexturedStandardMixin
     }
     public set emissiveIntensity(val: number | undefined) {
         this.materialParams[18] = val ?? standardDefaults.emissiveIntensity
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get lightMap() {
@@ -219,7 +206,7 @@ export default abstract class TexturedStandardMixin
     }
     public set lightMap(val: string | undefined) {
         this.materialParams[19] = val ?? standardDefaults.lightMap
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get lightMapIntensity() {
@@ -227,7 +214,7 @@ export default abstract class TexturedStandardMixin
     }
     public set lightMapIntensity(val: number | undefined) {
         this.materialParams[20] = val ?? standardDefaults.lightMapIntensity
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get metalnessMap() {
@@ -235,7 +222,7 @@ export default abstract class TexturedStandardMixin
     }
     public set metalnessMap(val: string | undefined) {
         this.materialParams[21] = val ?? standardDefaults.metalnessMap
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get metalness() {
@@ -243,7 +230,7 @@ export default abstract class TexturedStandardMixin
     }
     public set metalness(val: number | undefined) {
         this.materialParams[22] = val ?? standardDefaults.metalness
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get roughnessMap() {
@@ -251,7 +238,7 @@ export default abstract class TexturedStandardMixin
     }
     public set roughnessMap(val: string | undefined) {
         this.materialParams[23] = val ?? standardDefaults.roughnessMap
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get roughness() {
@@ -259,7 +246,7 @@ export default abstract class TexturedStandardMixin
     }
     public set roughness(val: number | undefined) {
         this.materialParams[24] = val ?? standardDefaults.roughness
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get normalMap() {
@@ -267,7 +254,7 @@ export default abstract class TexturedStandardMixin
     }
     public set normalMap(val: string | undefined) {
         this.materialParams[25] = val ?? standardDefaults.normalMap
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get normalScale() {
@@ -275,7 +262,7 @@ export default abstract class TexturedStandardMixin
     }
     public set normalScale(val: number | undefined) {
         this.materialParams[26] = val ?? standardDefaults.normalScale
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 
     public get depthTest() {
@@ -283,6 +270,6 @@ export default abstract class TexturedStandardMixin
     }
     public set depthTest(val: boolean | undefined) {
         this.materialParams[27] = val ?? standardDefaults.depthTest
-        addRefreshParamsSystem(this)
+        addRefreshTexturedStandardSystem(this)
     }
 }
