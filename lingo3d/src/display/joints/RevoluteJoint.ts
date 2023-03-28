@@ -1,55 +1,16 @@
-import { deg2Rad } from "@lincode/math"
 import IRevoluteJoint, {
     revoluteJointDefaults,
     revoluteJointSchema
 } from "../../interface/IRevoluteJoint"
-import renderSystemAutoClear from "../../utils/renderSystemAutoClear"
+import { addConfigRevoluteJointSystem } from "../../systems/configRevoluteJointSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
-import destroy from "../core/PhysicsObjectManager/physx/destroy"
 import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
 
 const createRevolute = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     const { physics, Px } = physxPtr[0]
     return Px.RevoluteJointCreate(physics, actor0, pose0, actor1, pose1)
 }
-
-const [addConfigJointSystem] = renderSystemAutoClear(
-    (target: RevoluteJoint) => {
-        const {
-            pxJoint,
-            limited,
-            limitLow,
-            limitHigh,
-            stiffness,
-            damping,
-            driveVelocity
-        } = target
-        if (!pxJoint) return
-
-        const { PxJointAngularLimitPair, PxRevoluteJointFlagEnum } = physxPtr[0]
-
-        if (limited) {
-            const limitPair = new PxJointAngularLimitPair(
-                limitLow * deg2Rad,
-                limitHigh * deg2Rad
-            )
-            limitPair.stiffness = stiffness
-            limitPair.damping = damping
-            pxJoint.setLimit(limitPair)
-            destroy(limitPair)
-        }
-        pxJoint.setRevoluteJointFlag(
-            PxRevoluteJointFlagEnum.eLIMIT_ENABLED(),
-            limited
-        )
-        pxJoint.setDriveVelocity(driveVelocity)
-        pxJoint.setRevoluteJointFlag(
-            PxRevoluteJointFlagEnum.eDRIVE_ENABLED(),
-            driveVelocity > 0
-        )
-    }
-)
 
 export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     public static componentName = "revoluteJoint"
@@ -62,7 +23,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
         fromManager: PhysicsObjectManager,
         toManager: PhysicsObjectManager
     ) {
-        addConfigJointSystem(this)
+        addConfigRevoluteJointSystem(this)
         return createRevolute(
             fromManager.actor,
             fromPxTransform,
@@ -76,7 +37,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set limited(val) {
         this._limited = val
-        addConfigJointSystem(this)
+        addConfigRevoluteJointSystem(this)
     }
 
     private _limitLow?: number
@@ -85,7 +46,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set limitLow(val) {
         this._limitLow = val
-        addConfigJointSystem(this)
+        addConfigRevoluteJointSystem(this)
     }
 
     private _limitHigh?: number
@@ -94,7 +55,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set limitHigh(val) {
         this._limitHigh = val
-        addConfigJointSystem(this)
+        addConfigRevoluteJointSystem(this)
     }
 
     private _stiffness?: number
@@ -103,7 +64,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set stiffness(val) {
         this._stiffness = val
-        addConfigJointSystem(this)
+        addConfigRevoluteJointSystem(this)
     }
 
     private _damping?: number
@@ -112,7 +73,7 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set damping(val) {
         this._damping = val
-        addConfigJointSystem(this)
+        addConfigRevoluteJointSystem(this)
     }
 
     private _driveVelocity?: number
@@ -121,6 +82,6 @@ export default class RevoluteJoint extends JointBase implements IRevoluteJoint {
     }
     public set driveVelocity(val) {
         this._driveVelocity = val
-        addConfigJointSystem(this)
+        addConfigRevoluteJointSystem(this)
     }
 }
