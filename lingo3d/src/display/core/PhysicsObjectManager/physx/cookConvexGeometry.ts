@@ -14,7 +14,7 @@ export default (typeSrc: string, manager: PhysicsObjectManager) => {
     return increasePhysxConvexGeometry(
         params,
         (manager.convexParamString = paramString),
-        { manager }
+        manager
     )
 }
 

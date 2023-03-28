@@ -1,3 +1,5 @@
+import MeshAppendable from "../api/core/MeshAppendable"
+import Loaded from "../display/core/Loaded"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import computePxVertices from "../display/core/PhysicsObjectManager/physx/computePxVertices"
 import destroy from "../display/core/PhysicsObjectManager/physx/destroy"
@@ -12,42 +14,43 @@ export type PhysxConvexGeometryParams = [
 ]
 
 export const [increasePhysxConvexGeometry, decreasePhysxConvexGeometry] =
-    createInstancePool<PhysicsObjectManager, PhysxConvexGeometryParams>(
-        (params, context) => {
-            const {
-                getConvexFlags,
-                getCooking,
-                getInsertionCallback,
-                PxConvexMeshDesc,
-                PxConvexMeshGeometry,
-                PxSphereGeometry,
-                PxBoxGeometry
-            } = physxPtr[0]
+    createInstancePool<
+        PhysicsObjectManager,
+        PhysxConvexGeometryParams,
+        MeshAppendable | Loaded
+    >((params, manager) => {
+        const {
+            getConvexFlags,
+            getCooking,
+            getInsertionCallback,
+            PxConvexMeshDesc,
+            PxConvexMeshGeometry,
+            PxSphereGeometry,
+            PxBoxGeometry
+        } = physxPtr[0]
 
-            const [typeSrc, x, y, z] = params
-            if (!context?.manager || typeSrc === "cube")
-                return new PxBoxGeometry(x * 0.5, y * 0.5, z * 0.5)
-            if (typeSrc === "sphere" && x === y && x === z)
-                return new PxSphereGeometry(x * 0.5)
+        const [typeSrc, x, y, z] = params
+        if (!manager || typeSrc === "cube")
+            return new PxBoxGeometry(x * 0.5, y * 0.5, z * 0.5)
+        if (typeSrc === "sphere" && x === y && x === z)
+            return new PxSphereGeometry(x * 0.5)
 
-            const [vec3Vector, count] = computePxVertices(context.manager)
-            const desc = new PxConvexMeshDesc()
-            desc.flags = getConvexFlags()
-            desc.points.count = count
-            desc.points.stride = 12
-            desc.points.data = vec3Vector.data()
+        const [vec3Vector, count] = computePxVertices(manager)
+        const desc = new PxConvexMeshDesc()
+        desc.flags = getConvexFlags()
+        desc.points.count = count
+        desc.points.stride = 12
+        desc.points.data = vec3Vector.data()
 
-            const convexMesh = getCooking().createConvexMesh(
-                desc,
-                getInsertionCallback()
-            )
-            const pxGeometry = new PxConvexMeshGeometry(convexMesh)
+        const convexMesh = getCooking().createConvexMesh(
+            desc,
+            getInsertionCallback()
+        )
+        const pxGeometry = new PxConvexMeshGeometry(convexMesh)
 
-            destroy(desc)
-            vec3Vector.clear()
-            destroy(vec3Vector)
+        destroy(desc)
+        vec3Vector.clear()
+        destroy(vec3Vector)
 
-            return pxGeometry
-        },
-        destroy
-    )
+        return pxGeometry
+    }, destroy)

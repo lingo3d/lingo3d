@@ -1,12 +1,7 @@
-import MeshAppendable from "../../../api/core/MeshAppendable"
-import Loaded from "../Loaded"
-
 export default <
     Type,
     Params = Array<any> | ReadonlyArray<any>,
-    Context extends { manager?: MeshAppendable | Loaded } = {
-        manager?: MeshAppendable | Loaded
-    }
+    Context extends Record<string, any> = {}
 >(
     factory: (params: Params, context?: Context) => Type,
     dispose: (instance: Type) => void
