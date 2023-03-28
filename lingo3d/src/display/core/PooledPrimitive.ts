@@ -1,18 +1,6 @@
 import { BufferGeometry } from "three"
-import renderSystemAutoClear from "../../utils/renderSystemAutoClear"
+import { deleteRefreshPooledPrimitiveSystem } from "../../systems/refreshPooledPrimitiveSystem"
 import Primitive from "./Primitive"
-
-export const [
-    addRefreshPooledPrimitiveSystem,
-    deleteRefreshPooledPrimitiveSystem
-] = renderSystemAutoClear((target: PooledPrimitve) => {
-    target.decreaseGeometry(target.paramString)
-    const params = target.getParams()
-    target.object3d.geometry = target.increaseGeometry(
-        params,
-        (target.paramString = JSON.stringify(params))
-    )
-})
 
 export default abstract class PooledPrimitve extends Primitive {
     public constructor(

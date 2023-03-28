@@ -6,9 +6,8 @@ import {
     decreaseTorusGeometry,
     increaseTorusGeometry
 } from "../../pools/torusGeometryPool"
-import PooledPrimitve, {
-    addRefreshPooledPrimitiveSystem
-} from "../core/PooledPrimitive"
+import { addRefreshPooledPrimitiveSystem } from "../../systems/refreshPooledPrimitiveSystem"
+import PooledPrimitve from "../core/PooledPrimitive"
 
 const defaultParams = <const>[0.5, 0.1, 16, 32, PI2]
 const defaultParamString = JSON.stringify(defaultParams)

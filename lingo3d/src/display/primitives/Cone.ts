@@ -5,9 +5,8 @@ import {
     decreaseConeGeometry,
     increaseConeGeometry
 } from "../../pools/coneGeometryPool"
-import PooledPrimitve, {
-    addRefreshPooledPrimitiveSystem
-} from "../core/PooledPrimitive"
+import { addRefreshPooledPrimitiveSystem } from "../../systems/refreshPooledPrimitiveSystem"
+import PooledPrimitve from "../core/PooledPrimitive"
 
 const defaultParams = <const>[0.5, 1, 32, 1, false, 0, PI2]
 const defaultParamString = JSON.stringify(defaultParams)
