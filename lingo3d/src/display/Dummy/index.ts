@@ -13,17 +13,12 @@ import Model from "../Model"
 import { euler } from "../utils/reusables"
 import poseMachine from "./poseMachine"
 import fpsAlpha from "../utils/fpsAlpha"
-import { groundedControllerManagers } from "../core/PhysicsObjectManager/physx/physxLoop"
 import { DUMMY_URL, YBOT_URL } from "../../api/assetsPath"
-import renderSystemWithData from "../../utils/renderSystemWithData"
 import dirPath from "../../api/path/dirPath"
-
-const [addGroundedSystem, deleteGroundedSystem] = renderSystemWithData(
-    (self: Dummy, data: { poseService: { send: (val: string) => void } }) => {
-        groundedControllerManagers.has(self) &&
-            data.poseService.send("JUMP_STOP")
-    }
-)
+import {
+    addDummyGroundedSystem,
+    deleteDummyGroundedSystem
+} from "../../systems/dummyGroundedSystem"
 
 export default class Dummy extends Model implements IDummy {
     public static override componentName = "dummy"
@@ -130,9 +125,9 @@ export default class Dummy extends Model implements IDummy {
             if (pose !== "jumping") return
 
             this.velocityY = this.jumpHeight
-            addGroundedSystem(this, { poseService })
+            addDummyGroundedSystem(this, { poseService })
             return () => {
-                deleteGroundedSystem(this)
+                deleteDummyGroundedSystem(this)
             }
         }, [getPose])
 

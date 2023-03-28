@@ -1,12 +1,9 @@
 import { createEffect } from "@lincode/reactivity"
 import { BoxHelper } from "three"
-import {
-    addUpdateSystem,
-    deleteUpdateSystem
-} from "../display/core/utils/updateSystem"
 import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { getSelectionNativeTarget } from "../states/useSelectionNativeTarget"
 import { getSelectionTarget } from "../states/useSelectionTarget"
+import { addUpdateSystem, deleteUpdateSystem } from "../systems/updateSystem"
 import scene from "./scene"
 
 createEffect(() => {

@@ -18,8 +18,8 @@ import {
 } from "../../states/useShadowResolution"
 import { addSelectionHelper } from "./utils/raycast/selectionCandidates"
 import HelperSprite from "./utils/HelperSprite"
-import { addUpdateSystem, deleteUpdateSystem } from "./utils/updateSystem"
 import ObjectManager from "./ObjectManager"
+import { addUpdateSystem, deleteUpdateSystem } from "../../systems/updateSystem"
 
 export const mapShadowResolution = (val: ShadowResolution) => {
     switch (val) {
