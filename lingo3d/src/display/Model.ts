@@ -20,7 +20,6 @@ import {
 } from "../states/useLoadingCount"
 import { forceGet } from "@lincode/utils"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
-import throttleSystem from "../utils/throttleSystem"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import { M2CM, NEAR } from "../globals"
 import TextureManager from "./core/TextureManager"
@@ -35,6 +34,7 @@ import getWorldPosition from "./utils/getWorldPosition"
 import renderSystemWithLifeCycleAndData from "../utils/renderSystemWithLifeCycleAndData"
 import { uuidMap } from "../api/core/collections"
 import Primitive from "./core/Primitive"
+import renderSystemAutoClear from "../utils/renderSystemAutoClear"
 
 const [addReflectionSystem, deleteReflectionSystem] =
     renderSystemWithLifeCycleAndData(
@@ -85,7 +85,7 @@ const reflectionChangedSet = new WeakSet<Model>()
 const reflectionDataMap = new WeakMap<Model, [Texture, Cancellable]>()
 const supported = new Set(["fbx", "glb", "gltf"])
 
-const refreshFactorsSystem = throttleSystem((model: Model) => {
+const [addRefreshFactorsSystem] = renderSystemAutoClear((model: Model) => {
     const {
         metalnessFactor,
         roughnessFactor,
@@ -329,7 +329,7 @@ export default class Model extends Loaded<Group> implements IModel {
 
     private refreshFactors() {
         this.cancelHandle("refreshFactors", () =>
-            this.loaded.then(() => refreshFactorsSystem(this))
+            this.loaded.then(() => addRefreshFactorsSystem(this))
         )
     }
 

@@ -18,13 +18,13 @@ import getWorldDirection from "../../utils/getWorldDirection"
 import { addSelectionHelper } from "../utils/raycast/selectionCandidates"
 import HelperSprite from "../utils/HelperSprite"
 import { setManager } from "../../../api/utils/getManager"
-import throttleSystem from "../../../utils/throttleSystem"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { getEditorHelper } from "../../../states/useEditorHelper"
 import { getCameraRendered } from "../../../states/useCameraRendered"
+import renderSystemAutoClear from "../../../utils/renderSystemAutoClear"
 
-export const updateAngleSystem = throttleSystem((target: CameraBase) =>
-    target.gyrate(0, 0)
+export const [addUpdateAngleSystem] = renderSystemAutoClear(
+    (target: CameraBase) => target.gyrate(0, 0)
 )
 
 export default abstract class CameraBase<
@@ -179,7 +179,7 @@ export default abstract class CameraBase<
     }
     public set minPolarAngle(val) {
         this._minPolarAngle = val
-        updateAngleSystem(this)
+        addUpdateAngleSystem(this)
     }
 
     private _maxPolarAngle = MAX_POLAR_ANGLE
@@ -188,7 +188,7 @@ export default abstract class CameraBase<
     }
     public set maxPolarAngle(val) {
         this._maxPolarAngle = val
-        updateAngleSystem(this)
+        addUpdateAngleSystem(this)
     }
 
     private _minAzimuthAngle = -Infinity
@@ -197,7 +197,7 @@ export default abstract class CameraBase<
     }
     public set minAzimuthAngle(val) {
         this._minAzimuthAngle = val
-        updateAngleSystem(this)
+        addUpdateAngleSystem(this)
     }
 
     private _maxAzimuthAngle = Infinity
@@ -206,7 +206,7 @@ export default abstract class CameraBase<
     }
     public set maxAzimuthAngle(val) {
         this._maxAzimuthAngle = val
-        updateAngleSystem(this)
+        addUpdateAngleSystem(this)
     }
 
     public setPolarAngle(angle: number) {

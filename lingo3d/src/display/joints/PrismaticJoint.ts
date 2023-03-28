@@ -3,7 +3,7 @@ import IPrismaticJoint, {
     prismaticJointDefaults,
     prismaticJointSchema
 } from "../../interface/IPrismaticJoint"
-import throttleSystem from "../../utils/throttleSystem"
+import renderSystemAutoClear from "../../utils/renderSystemAutoClear"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
@@ -14,27 +14,30 @@ const createPrismatic = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     return Px.PrismaticJointCreate(physics, actor0, pose0, actor1, pose1)
 }
 
-const configJointSystem = throttleSystem((target: PrismaticJoint) => {
-    const { pxJoint, limited, limitLow, limitHigh, stiffness, damping } = target
-    if (!pxJoint) return
+const [addConfigJointSystem] = renderSystemAutoClear(
+    (target: PrismaticJoint) => {
+        const { pxJoint, limited, limitLow, limitHigh, stiffness, damping } =
+            target
+        if (!pxJoint) return
 
-    const { PxJointLinearLimitPair, PxPrismaticJointFlagEnum } = physxPtr[0]
+        const { PxJointLinearLimitPair, PxPrismaticJointFlagEnum } = physxPtr[0]
 
-    if (limited) {
-        const linearLimit = new PxJointLinearLimitPair(
-            limitLow * CM2M,
-            limitHigh * CM2M
+        if (limited) {
+            const linearLimit = new PxJointLinearLimitPair(
+                limitLow * CM2M,
+                limitHigh * CM2M
+            )
+            linearLimit.stiffness = stiffness
+            linearLimit.damping = damping
+            pxJoint.setLimit(linearLimit)
+            destroy(linearLimit)
+        }
+        pxJoint.setPrismaticJointFlag(
+            PxPrismaticJointFlagEnum.eLIMIT_ENABLED(),
+            limited
         )
-        linearLimit.stiffness = stiffness
-        linearLimit.damping = damping
-        pxJoint.setLimit(linearLimit)
-        destroy(linearLimit)
     }
-    pxJoint.setPrismaticJointFlag(
-        PxPrismaticJointFlagEnum.eLIMIT_ENABLED(),
-        limited
-    )
-})
+)
 
 export default class PrismaticJoint
     extends JointBase
@@ -50,7 +53,7 @@ export default class PrismaticJoint
         fromManager: PhysicsObjectManager,
         toManager: PhysicsObjectManager
     ) {
-        configJointSystem(this)
+        addConfigJointSystem(this)
         return createPrismatic(
             fromManager.actor,
             fromPxTransform,
@@ -65,7 +68,7 @@ export default class PrismaticJoint
     }
     public set limited(val) {
         this._limited = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _limitLow?: number
@@ -74,7 +77,7 @@ export default class PrismaticJoint
     }
     public set limitLow(val) {
         this._limitLow = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _limitHigh?: number
@@ -83,7 +86,7 @@ export default class PrismaticJoint
     }
     public set limitHigh(val) {
         this._limitHigh = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _stiffness?: number
@@ -92,7 +95,7 @@ export default class PrismaticJoint
     }
     public set stiffness(val) {
         this._stiffness = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _damping?: number
@@ -101,6 +104,6 @@ export default class PrismaticJoint
     }
     public set damping(val) {
         this._damping = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 }

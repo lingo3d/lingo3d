@@ -6,7 +6,7 @@ import ID6Joint, {
     d6JointSchema,
     D6MotionOptions
 } from "../../interface/ID6Joint"
-import throttleSystem from "../../utils/throttleSystem"
+import renderSystemAutoClear from "../../utils/renderSystemAutoClear"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import destroy from "../core/PhysicsObjectManager/physx/destroy"
@@ -31,7 +31,7 @@ const getMotion = (val: D6MotionOptions) => {
     }
 }
 
-const configJointSystem = throttleSystem((target: D6Joint) => {
+const [addConfigJointSystem] = renderSystemAutoClear((target: D6Joint) => {
     const { pxJoint } = target
     if (!pxJoint) return
 
@@ -142,7 +142,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
         fromManager: PhysicsObjectManager,
         toManager: PhysicsObjectManager
     ) {
-        configJointSystem(this)
+        addConfigJointSystem(this)
         return createD6(
             fromManager.actor,
             fromPxTransform,
@@ -157,7 +157,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearX(val) {
         this._linearX = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearLimitXLow?: number
@@ -166,7 +166,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearLimitXLow(val) {
         this._linearLimitXLow = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearLimitXHigh?: number
@@ -175,7 +175,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearLimitXHigh(val) {
         this._linearLimitXHigh = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearStiffnessX?: number
@@ -184,7 +184,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearStiffnessX(val) {
         this._linearStiffnessX = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearDampingX?: number
@@ -193,7 +193,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearDampingX(val) {
         this._linearDampingX = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearY?: D6MotionOptions
@@ -202,7 +202,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearY(val) {
         this._linearY = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearLimitYLow?: number
@@ -211,7 +211,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearLimitYLow(val) {
         this._linearLimitYLow = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearLimitYHigh?: number
@@ -220,7 +220,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearLimitYHigh(val) {
         this._linearLimitYHigh = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearStiffnessY?: number
@@ -229,7 +229,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearStiffnessY(val) {
         this._linearStiffnessY = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearDampingY?: number
@@ -238,7 +238,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearDampingY(val) {
         this._linearDampingY = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearZ?: D6MotionOptions
@@ -247,7 +247,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearZ(val) {
         this._linearZ = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearLimitZLow?: number
@@ -256,7 +256,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearLimitZLow(val) {
         this._linearLimitZLow = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearLimitZHigh?: number
@@ -265,7 +265,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearLimitZHigh(val) {
         this._linearLimitZHigh = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearStiffnessZ?: number
@@ -274,7 +274,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearStiffnessZ(val) {
         this._linearStiffnessZ = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _linearDampingZ?: number
@@ -283,7 +283,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set linearDampingZ(val) {
         this._linearDampingZ = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _twistX?: D6MotionOptions
@@ -292,7 +292,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set twistX(val) {
         this._twistX = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _twistLimitLow?: number
@@ -301,7 +301,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set twistLimitLow(val) {
         this._twistLimitLow = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _twistLimitHigh?: number
@@ -310,7 +310,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set twistLimitHigh(val) {
         this._twistLimitHigh = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _twistStiffness?: number
@@ -319,7 +319,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set twistStiffness(val) {
         this._twistStiffness = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _twistDamping?: number
@@ -328,7 +328,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set twistDamping(val) {
         this._twistDamping = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _swingY?: D6MotionOptions
@@ -337,7 +337,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set swingY(val) {
         this._swingY = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _swingZ?: D6MotionOptions
@@ -346,7 +346,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set swingZ(val) {
         this._swingZ = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _swingStiffness?: number
@@ -355,7 +355,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set swingStiffness(val) {
         this._swingStiffness = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _swingDamping?: number
@@ -364,7 +364,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set swingDamping(val) {
         this._swingDamping = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _swingLimitY?: number
@@ -373,7 +373,7 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set swingLimitY(val) {
         this._swingLimitY = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 
     private _swingLimitZ?: number
@@ -382,6 +382,6 @@ export default class D6Joint extends JointBase implements ID6Joint {
     }
     public set swingLimitZ(val) {
         this._swingLimitZ = val
-        configJointSystem(this)
+        addConfigJointSystem(this)
     }
 }

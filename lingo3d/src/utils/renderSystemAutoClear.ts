@@ -7,7 +7,7 @@ export default <T>(cb: (target: T) => void, ticker = onBeforeRender) => {
         queued.clear()
     })
     return <const>[
-        (item: T) => queued.add(item),
-        (item: T) => queued.delete(item)
+        (item: T) => void queued.add(item),
+        (item: T) => void queued.delete(item)
     ]
 }
