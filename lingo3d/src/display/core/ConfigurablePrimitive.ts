@@ -1,20 +1,16 @@
 import { BufferGeometry } from "three"
+import {
+    decreaseGeometryCount,
+    increaseGeometryCount
+} from "../../pools/geometryPool"
 import renderSystemAutoClear from "../../utils/renderSystemAutoClear"
 import Primitive from "./Primitive"
-import createInstancePool from "./utils/createInstancePool"
-
-const [increaseCount, decreaseCount, allocateDefaultInstance] =
-    createInstancePool<BufferGeometry>(
-        (ClassVal, params) => new ClassVal(...params),
-        (geometry) => geometry.dispose()
-    )
-export { allocateDefaultInstance }
 
 export const [addRefreshParamsSystem] = renderSystemAutoClear(
     (target: ConfigurablePrimitive<any>) => {
         const { Geometry } = target
-        decreaseCount(Geometry, target.params)
-        target.object3d.geometry = increaseCount(
+        decreaseGeometryCount(Geometry, target.params)
+        target.object3d.geometry = increaseGeometryCount(
             Geometry,
             (target.params = target.getParams())
         )
@@ -36,6 +32,6 @@ export default abstract class ConfigurablePrimitive<
 
     protected override disposeNode() {
         super.disposeNode()
-        decreaseCount(this.Geometry, this.params)
+        decreaseGeometryCount(this.Geometry, this.params)
     }
 }

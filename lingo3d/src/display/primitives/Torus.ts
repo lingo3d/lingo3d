@@ -2,13 +2,13 @@ import { deg2Rad } from "@lincode/math"
 import { TorusGeometry } from "three"
 import { PI2 } from "../../globals"
 import ITorus, { torusDefaults, torusSchema } from "../../interface/ITorus"
+import { allocateDefaultGeometry } from "../../pools/geometryPool"
 import ConfigurablePrimitive, {
-    allocateDefaultInstance,
     addRefreshParamsSystem
 } from "../core/ConfigurablePrimitive"
 
 const defaultParams = <const>[0.5, 0.1, 16, 32, PI2]
-const geometry = allocateDefaultInstance(
+const geometry = allocateDefaultGeometry(
     TorusGeometry,
     defaultParams
 ) as TorusGeometry

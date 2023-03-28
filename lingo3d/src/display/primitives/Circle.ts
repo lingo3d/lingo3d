@@ -2,13 +2,13 @@ import { CircleGeometry } from "three"
 import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 import { deg2Rad } from "@lincode/math"
 import ConfigurablePrimitive, {
-    allocateDefaultInstance,
     addRefreshParamsSystem
 } from "../core/ConfigurablePrimitive"
 import { PI2 } from "../../globals"
+import { allocateDefaultGeometry } from "../../pools/geometryPool"
 
 const defaultParams = <const>[0.5, 32, 0, PI2]
-const geometry = allocateDefaultInstance(
+const geometry = allocateDefaultGeometry(
     CircleGeometry,
     defaultParams
 ) as CircleGeometry

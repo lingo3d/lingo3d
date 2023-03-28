@@ -4,13 +4,13 @@ import ICylinder, {
     cylinderDefaults,
     cylinderSchema
 } from "../../interface/ICylinder"
+import { allocateDefaultGeometry } from "../../pools/geometryPool"
 import ConfigurablePrimitive, {
-    allocateDefaultInstance,
     addRefreshParamsSystem
 } from "../core/ConfigurablePrimitive"
 
 const defaultParams = <const>[0.5, 0.5, 1, 32, 1, false, 0, PI2]
-export const cylinderGeometry = allocateDefaultInstance(
+export const cylinderGeometry = allocateDefaultGeometry(
     CylinderGeometry,
     defaultParams
 ) as CylinderGeometry

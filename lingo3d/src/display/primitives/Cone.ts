@@ -1,13 +1,13 @@
 import { ConeGeometry } from "three"
 import { PI2 } from "../../globals"
 import ICone, { coneDefaults, coneSchema } from "../../interface/ICone"
+import { allocateDefaultGeometry } from "../../pools/geometryPool"
 import ConfigurablePrimitive, {
-    allocateDefaultInstance,
     addRefreshParamsSystem
 } from "../core/ConfigurablePrimitive"
 
 const defaultParams = <const>[0.5, 1, 32, 1, false, 0, PI2]
-const geometry = allocateDefaultInstance(
+const geometry = allocateDefaultGeometry(
     ConeGeometry,
     defaultParams
 ) as ConeGeometry
