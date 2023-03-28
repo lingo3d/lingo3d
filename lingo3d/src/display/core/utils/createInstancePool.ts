@@ -8,9 +8,11 @@ const makeTuple = () =>
 export default <
     T,
     Params = Array<any> | ReadonlyArray<any>,
-    Manager extends MeshAppendable = MeshAppendable | Loaded
+    Context extends { manager?: MeshAppendable | Loaded } = {
+        manager?: MeshAppendable | Loaded
+    }
 >(
-    factory: (ClassVal: Class<T>, params: Params, manager?: Manager) => T,
+    factory: (ClassVal: Class<T>, params: Params, context?: Context) => T,
     dispose: (instance: T) => void
 ) => {
     const classMapsMap = new WeakMap<
@@ -35,7 +37,7 @@ export default <
         ClassVal: Class<T>,
         params: Params,
         paramString = JSON.stringify(params),
-        manager?: Manager
+        context?: Context
     ): T => {
         const defaultTuple = classDefaultParamsInstanceMap.get(ClassVal)
         if (defaultTuple && paramString === defaultTuple[0])
@@ -50,7 +52,7 @@ export default <
             (paramCountRecord[paramString] =
                 (paramCountRecord[paramString] ?? 0) + 1) === 1
         ) {
-            const result = factory(ClassVal, params, manager)
+            const result = factory(ClassVal, params, context)
             paramsInstanceMap.set(paramString, result)
             return result
         }
