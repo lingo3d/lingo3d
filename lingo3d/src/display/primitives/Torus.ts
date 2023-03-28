@@ -4,7 +4,7 @@ import { PI2 } from "../../globals"
 import ITorus, { torusDefaults, torusSchema } from "../../interface/ITorus"
 import ConfigurablePrimitive, {
     allocateDefaultInstance,
-    refreshParamsSystem
+    addRefreshParamsSystem
 } from "../core/ConfigurablePrimitive"
 
 const defaultParams = <const>[0.5, 0.1, 16, 32, PI2]
@@ -41,7 +41,7 @@ export default class Torus
     }
     public set segments(val) {
         this._segments = val
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 
     private _thickness?: number
@@ -50,7 +50,7 @@ export default class Torus
     }
     public set thickness(val) {
         this._thickness = val
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 
     private _theta?: number
@@ -59,6 +59,6 @@ export default class Torus
     }
     public set theta(val) {
         this._theta = val
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 }

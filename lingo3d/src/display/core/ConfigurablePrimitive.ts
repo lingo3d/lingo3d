@@ -1,5 +1,5 @@
 import { BufferGeometry } from "three"
-import throttleSystem from "../../utils/throttleSystem"
+import renderSystemAutoClear from "../../utils/renderSystemAutoClear"
 import Primitive from "./Primitive"
 import createInstancePool from "./utils/createInstancePool"
 
@@ -10,10 +10,8 @@ const [increaseCount, decreaseCount, allocateDefaultInstance] =
     )
 export { allocateDefaultInstance }
 
-export const refreshParamsSystem = throttleSystem(
-    <GeometryClass extends typeof BufferGeometry>(
-        target: ConfigurablePrimitive<GeometryClass>
-    ) => {
+export const [addRefreshParamsSystem] = renderSystemAutoClear(
+    (target: ConfigurablePrimitive<any>) => {
         const { Geometry } = target
         decreaseCount(Geometry, target.params)
         target.object3d.geometry = increaseCount(

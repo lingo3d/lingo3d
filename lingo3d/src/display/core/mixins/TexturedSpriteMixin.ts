@@ -6,12 +6,12 @@ import ITexturedBasic, {
     texturedBasicSchema
 } from "../../../interface/ITexturedBasic"
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
-import throttleSystem from "../../../utils/throttleSystem"
 import { color } from "../../utils/reusables"
 import createInstancePool from "../utils/createInstancePool"
 import filterNotDefault from "./utils/filterNotDefault"
 import createMap from "./utils/createMap"
 import MeshAppendable from "../../../api/core/MeshAppendable"
+import renderSystemAutoClear from "../../../utils/renderSystemAutoClear"
 
 type Params = [
     color: string,
@@ -50,21 +50,23 @@ const [increaseCount, decreaseCount] = createInstancePool<
     (material) => material.dispose()
 )
 
-const refreshParamsSystem = throttleSystem((target: TexturedSpriteMixin) => {
-    if (target.materialParamString)
-        decreaseCount(SpriteMaterial, target.materialParamString)
-    else
-        target.then(() =>
-            decreaseCount(SpriteMaterial, target.materialParamString!)
+const [addRefreshParamsSystem] = renderSystemAutoClear(
+    (target: TexturedSpriteMixin) => {
+        if (target.materialParamString)
+            decreaseCount(SpriteMaterial, target.materialParamString)
+        else
+            target.then(() =>
+                decreaseCount(SpriteMaterial, target.materialParamString!)
+            )
+        const paramString = JSON.stringify(target.materialParams)
+        target.material = increaseCount(
+            SpriteMaterial,
+            target.materialParams,
+            paramString
         )
-    const paramString = JSON.stringify(target.materialParams)
-    target.material = increaseCount(
-        SpriteMaterial,
-        target.materialParams,
-        paramString
-    )
-    target.materialParamString = paramString
-})
+        target.materialParamString = paramString
+    }
+)
 
 const defaults = Object.fromEntries(
     Object.entries(texturedBasicSchema).map(([key]) => [
@@ -99,7 +101,7 @@ export default abstract class TexturedSpriteMixin
         this.materialParams[0] = val
             ? "#" + color.set(val).getHexString()
             : defaults.color
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 
     public get opacity() {
@@ -107,7 +109,7 @@ export default abstract class TexturedSpriteMixin
     }
     public set opacity(val: number | undefined) {
         this.materialParams[1] = val ?? defaults.opacity
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 
     public get texture() {
@@ -115,7 +117,7 @@ export default abstract class TexturedSpriteMixin
     }
     public set texture(val: string | undefined) {
         this.materialParams[2] = val ?? defaults.texture
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 
     public get alphaMap() {
@@ -123,7 +125,7 @@ export default abstract class TexturedSpriteMixin
     }
     public set alphaMap(val: string | undefined) {
         this.materialParams[3] = val ?? defaults.alphaMap
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 
     public get textureRepeat() {
@@ -131,7 +133,7 @@ export default abstract class TexturedSpriteMixin
     }
     public set textureRepeat(val: number | Point | undefined) {
         this.materialParams[4] = val ?? defaults.textureRepeat
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 
     public get textureFlipY() {
@@ -139,7 +141,7 @@ export default abstract class TexturedSpriteMixin
     }
     public set textureFlipY(val: boolean | undefined) {
         this.materialParams[5] = val ?? defaults.textureFlipY
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 
     public get textureRotation() {
@@ -147,6 +149,6 @@ export default abstract class TexturedSpriteMixin
     }
     public set textureRotation(val: number | undefined) {
         this.materialParams[6] = val ?? defaults.textureRotation
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 }

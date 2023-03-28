@@ -3,7 +3,7 @@ import ICircle, { circleDefaults, circleSchema } from "../../interface/ICircle"
 import { deg2Rad } from "@lincode/math"
 import ConfigurablePrimitive, {
     allocateDefaultInstance,
-    refreshParamsSystem
+    addRefreshParamsSystem
 } from "../core/ConfigurablePrimitive"
 import { PI2 } from "../../globals"
 
@@ -36,7 +36,7 @@ export default class Circle
     }
     public set theta(val) {
         this._theta = val
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 
     private _segments?: number
@@ -45,7 +45,7 @@ export default class Circle
     }
     public set segments(val) {
         this._segments = val
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 
     public override get depth() {

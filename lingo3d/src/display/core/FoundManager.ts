@@ -11,7 +11,11 @@ import { setManager } from "../../api/utils/getManager"
 import TextureManager from "./TextureManager"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { appendableRoot } from "../../api/core/collections"
-import { StandardMesh } from "./mixins/TexturedStandardMixin"
+import {
+    standardDefaultParams,
+    standardDefaults,
+    StandardMesh
+} from "./mixins/TexturedStandardMixin"
 import MixinType from "./mixins/utils/MixinType"
 import { Cancellable } from "@lincode/promiselikes"
 
@@ -27,12 +31,16 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         super(mesh, true)
         appendableRoot.delete(this)
 
-        if (!("material" in mesh)) return
-        const { defaults, defaultParams, refreshParamSystem } =
-            mesh.material.userData.TextureManager
+        if (!("material" in mesh)) {
+            this.defaults = standardDefaults
+            this.defaultParams = standardDefaultParams
+            return
+        }
+        const { defaults, defaultParams, addRefreshParamsSystem } = mesh
+            .material.userData.TextureManager as typeof TextureManager
         this.defaults = defaults
         this.defaultParams = defaultParams
-        this.refreshParamsSystem = refreshParamSystem
+        this.addRefreshParamsSystem = addRefreshParamsSystem
     }
 
     public model?: Model

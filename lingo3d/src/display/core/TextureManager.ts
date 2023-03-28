@@ -11,7 +11,11 @@ import {
 export default abstract class TextureManager implements ITexturedStandard {
     public defaults = standardDefaults
     public defaultParams = standardDefaultParams
-    public refreshParamsSystem(_: TextureManager) {}
+    public addRefreshParamsSystem(_: TextureManager) {}
+
+    public static defaults = standardDefaults
+    public static defaultParams = standardDefaultParams
+    public static addRefreshParamsSystem(_: TextureManager) {}
 
     public get material() {
         //@ts-ignore
@@ -36,7 +40,7 @@ export default abstract class TextureManager implements ITexturedStandard {
         this.materialParams[0] = val
             ? "#" + color.set(val).getHexString()
             : this.defaults.color
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get opacity() {
@@ -44,7 +48,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set opacity(val: number | undefined) {
         this.materialParams[1] = val ?? this.defaults.opacity
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get texture() {
@@ -52,7 +56,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set texture(val: string | undefined) {
         this.materialParams[2] = val ?? this.defaults.texture
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get alphaMap() {
@@ -60,7 +64,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set alphaMap(val: string | undefined) {
         this.materialParams[3] = val ?? this.defaults.alphaMap
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get textureRepeat() {
@@ -68,7 +72,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set textureRepeat(val: number | Point | undefined) {
         this.materialParams[4] = val ?? this.defaults.textureRepeat
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get textureFlipY() {
@@ -76,7 +80,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set textureFlipY(val: boolean | undefined) {
         this.materialParams[5] = val ?? this.defaults.textureFlipY
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get textureRotation() {
@@ -84,7 +88,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set textureRotation(val: number | undefined) {
         this.materialParams[6] = val ?? this.defaults.textureRotation
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get wireframe() {
@@ -92,7 +96,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set wireframe(val: boolean | undefined) {
         this.materialParams[7] = val ?? this.defaults.wireframe
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get envMap() {
@@ -100,7 +104,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set envMap(val: string | undefined) {
         this.materialParams[8] = val ?? this.defaults.envMap
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get envMapIntensity() {
@@ -108,7 +112,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set envMapIntensity(val: number | undefined) {
         this.materialParams[9] = val ?? this.defaults.envMapIntensity
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get aoMap() {
@@ -116,7 +120,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set aoMap(val: string | undefined) {
         this.materialParams[10] = val ?? this.defaults.aoMap
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get aoMapIntensity() {
@@ -124,7 +128,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set aoMapIntensity(val: number | undefined) {
         this.materialParams[11] = val ?? this.defaults.aoMapIntensity
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get bumpMap() {
@@ -132,7 +136,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set bumpMap(val: string | undefined) {
         this.materialParams[12] = val ?? this.defaults.bumpMap
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get bumpScale() {
@@ -140,7 +144,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set bumpScale(val: number | undefined) {
         this.materialParams[13] = val ?? this.defaults.bumpScale
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get displacementMap() {
@@ -148,7 +152,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set displacementMap(val: string | undefined) {
         this.materialParams[14] = val ?? this.defaults.displacementMap
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get displacementScale() {
@@ -156,7 +160,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set displacementScale(val: number | undefined) {
         this.materialParams[15] = val ?? this.defaults.displacementScale
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get displacementBias() {
@@ -164,7 +168,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set displacementBias(val: number | undefined) {
         this.materialParams[16] = val ?? this.defaults.displacementBias
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get emissive() {
@@ -172,7 +176,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set emissive(val: boolean | undefined) {
         this.materialParams[17] = val ?? this.defaults.emissive
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get emissiveIntensity() {
@@ -180,7 +184,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set emissiveIntensity(val: number | undefined) {
         this.materialParams[18] = val ?? this.defaults.emissiveIntensity
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get lightMap() {
@@ -188,7 +192,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set lightMap(val: string | undefined) {
         this.materialParams[19] = val ?? this.defaults.lightMap
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get lightMapIntensity() {
@@ -196,7 +200,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set lightMapIntensity(val: number | undefined) {
         this.materialParams[20] = val ?? this.defaults.lightMapIntensity
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get metalnessMap() {
@@ -204,7 +208,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set metalnessMap(val: string | undefined) {
         this.materialParams[21] = val ?? this.defaults.metalnessMap
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get metalness() {
@@ -212,7 +216,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set metalness(val: number | undefined) {
         this.materialParams[22] = val ?? this.defaults.metalness
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get roughnessMap() {
@@ -220,7 +224,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set roughnessMap(val: string | undefined) {
         this.materialParams[23] = val ?? this.defaults.roughnessMap
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get roughness() {
@@ -228,7 +232,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set roughness(val: number | undefined) {
         this.materialParams[24] = val ?? this.defaults.roughness
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get normalMap() {
@@ -236,7 +240,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set normalMap(val: string | undefined) {
         this.materialParams[25] = val ?? this.defaults.normalMap
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get normalScale() {
@@ -244,7 +248,7 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set normalScale(val: number | undefined) {
         this.materialParams[26] = val ?? this.defaults.normalScale
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 
     public get depthTest() {
@@ -252,6 +256,6 @@ export default abstract class TextureManager implements ITexturedStandard {
     }
     public set depthTest(val: boolean | undefined) {
         this.materialParams[27] = val ?? this.defaults.depthTest
-        this.refreshParamsSystem(this)
+        this.addRefreshParamsSystem(this)
     }
 }

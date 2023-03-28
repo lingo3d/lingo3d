@@ -3,7 +3,7 @@ import { PI2 } from "../../globals"
 import ICone, { coneDefaults, coneSchema } from "../../interface/ICone"
 import ConfigurablePrimitive, {
     allocateDefaultInstance,
-    refreshParamsSystem
+    addRefreshParamsSystem
 } from "../core/ConfigurablePrimitive"
 
 const defaultParams = <const>[0.5, 1, 32, 1, false, 0, PI2]
@@ -34,6 +34,6 @@ export default class Cone
     }
     public set segments(val) {
         this._segments = val
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 }

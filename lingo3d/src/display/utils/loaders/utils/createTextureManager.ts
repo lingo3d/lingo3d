@@ -1,7 +1,7 @@
 import { rad2Deg } from "@lincode/math"
 import { MeshStandardMaterial } from "three"
 import { equalsDefaultValue } from "../../../../interface/utils/getDefaultValue"
-import throttleSystem from "../../../../utils/throttleSystem"
+import renderSystemAutoClear from "../../../../utils/renderSystemAutoClear"
 import {
     StandardMesh,
     StandardParams
@@ -158,21 +158,26 @@ export default (standardMaterial: MeshStandardMaterial) => {
         standardMaterial
     )
 
-    const refreshParamsSystem = throttleSystem((target: MyTextureManager) => {
-        if (target.materialParamString)
-            decreaseCount(MeshStandardMaterial, target.materialParamString)
-        else
-            target.owner.then(() =>
-                decreaseCount(MeshStandardMaterial, target.materialParamString!)
+    const [addRefreshParamsSystem] = renderSystemAutoClear(
+        (target: MyTextureManager) => {
+            if (target.materialParamString)
+                decreaseCount(MeshStandardMaterial, target.materialParamString)
+            else
+                target.owner.then(() =>
+                    decreaseCount(
+                        MeshStandardMaterial,
+                        target.materialParamString!
+                    )
+                )
+            const paramString = JSON.stringify(target.materialParams)
+            target.material = increaseCount(
+                MeshStandardMaterial,
+                target.materialParams,
+                paramString
             )
-        const paramString = JSON.stringify(target.materialParams)
-        target.material = increaseCount(
-            MeshStandardMaterial,
-            target.materialParams,
-            paramString
-        )
-        target.materialParamString = paramString
-    })
+            target.materialParamString = paramString
+        }
+    )
 
     class MyTextureManager extends TextureManager {
         public constructor(public object3d: StandardMesh, public owner: Model) {
@@ -181,11 +186,11 @@ export default (standardMaterial: MeshStandardMaterial) => {
 
         public override defaults = defaults
         public override defaultParams = defaultParams
-        public override refreshParamsSystem = refreshParamsSystem
+        public override addRefreshParamsSystem = addRefreshParamsSystem
 
-        public static defaults = defaults
-        public static defaultParams = defaultParams
-        public static refreshParamSystem = refreshParamsSystem
+        public static override defaults = defaults
+        public static override defaultParams = defaultParams
+        public static override addRefreshParamsSystem = addRefreshParamsSystem
     }
 
     return MyTextureManager

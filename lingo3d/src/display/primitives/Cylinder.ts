@@ -6,7 +6,7 @@ import ICylinder, {
 } from "../../interface/ICylinder"
 import ConfigurablePrimitive, {
     allocateDefaultInstance,
-    refreshParamsSystem
+    addRefreshParamsSystem
 } from "../core/ConfigurablePrimitive"
 
 const defaultParams = <const>[0.5, 0.5, 1, 32, 1, false, 0, PI2]
@@ -46,7 +46,7 @@ export default class Cylinder
     }
     public set segments(val) {
         this._segments = val
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 
     private _radiusTop?: number
@@ -55,7 +55,7 @@ export default class Cylinder
     }
     public set radiusTop(val) {
         this._radiusTop = val
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 
     private _radiusBottom?: number
@@ -64,6 +64,6 @@ export default class Cylinder
     }
     public set radiusBottom(val) {
         this._radiusBottom = val
-        refreshParamsSystem(this)
+        addRefreshParamsSystem(this)
     }
 }
