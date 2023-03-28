@@ -30,7 +30,7 @@ export const [increasePhysxConvexGeometry, decreasePhysxConvexGeometry] =
         } = physxPtr[0]
 
         const [typeSrc, x, y, z] = params
-        if (!manager || typeSrc === "cube")
+        if (typeSrc === "cube")
             return new PxBoxGeometry(x * 0.5, y * 0.5, z * 0.5)
         if (typeSrc === "sphere" && x === y && x === z)
             return new PxSphereGeometry(x * 0.5)

@@ -1,9 +1,9 @@
 export default <
     Type,
     Params = Array<any> | ReadonlyArray<any>,
-    Context extends Record<string, any> = {}
+    Context extends object | void = void
 >(
-    factory: (params: Params, context?: Context) => Type,
+    factory: (params: Params, context: Context) => Type,
     dispose: (instance: Type) => void
 ) => {
     const paramsInstanceMap = new Map<string, Type>()
@@ -12,7 +12,7 @@ export default <
 
     const allocateDefaultInstance = (
         params: Params,
-        instance = factory(params)
+        instance = factory(params, undefined as Context)
     ) => {
         defaultParamsInstanceMap.set(JSON.stringify(params), instance)
         return instance
@@ -21,7 +21,7 @@ export default <
     const increaseCount = (
         params: Params,
         paramString = JSON.stringify(params),
-        context?: Context
+        context: Context
     ): Type => {
         const defaultInstance = defaultParamsInstanceMap.get(paramString)
         if (defaultInstance) return defaultInstance

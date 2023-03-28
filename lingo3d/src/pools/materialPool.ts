@@ -42,8 +42,7 @@ export const [
         MyTextureManager: Class<TextureManager>
     }
 >(
-    (params, context) => {
-        const { referenceMaterial, defaults, MyTextureManager } = context!
+    (params, { referenceMaterial, defaults, MyTextureManager }) => {
         const material = referenceMaterial.clone()
         material.userData.TextureManager = MyTextureManager
 
