@@ -1,11 +1,11 @@
 import MeshAppendable from "../api/core/MeshAppendable"
-import { addUpdateAngleSystem } from "../display/core/CameraBase"
 import CharacterCamera from "../display/core/CharacterCamera"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import { euler, quaternion } from "../display/utils/reusables"
 import { positionChangedXZ } from "../display/utils/trackObject"
 import { PI } from "../globals"
 import renderSystemWithData from "../utils/renderSystemWithData"
+import { addGyrateResetSystem } from "./gyrateResetSystem"
 
 export const followTargetRotation = (
     self: CharacterCamera,
@@ -20,7 +20,7 @@ export const followTargetRotation = (
         self.midObject3d.quaternion.slerp(quaternion, fpsAlpha(0.1))
     } else self.midObject3d.setRotationFromEuler(euler)
 
-    addUpdateAngleSystem(self)
+    addGyrateResetSystem(self)
 }
 
 const rotateTarget = (

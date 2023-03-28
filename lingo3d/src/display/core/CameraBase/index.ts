@@ -21,11 +21,7 @@ import { setManager } from "../../../api/utils/getManager"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { getEditorHelper } from "../../../states/useEditorHelper"
 import { getCameraRendered } from "../../../states/useCameraRendered"
-import renderSystemAutoClear from "../../../utils/renderSystemAutoClear"
-
-export const [addUpdateAngleSystem] = renderSystemAutoClear(
-    (target: CameraBase) => target.gyrate(0, 0)
-)
+import { addGyrateResetSystem } from "../../../systems/gyrateResetSystem"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -179,7 +175,7 @@ export default abstract class CameraBase<
     }
     public set minPolarAngle(val) {
         this._minPolarAngle = val
-        addUpdateAngleSystem(this)
+        addGyrateResetSystem(this)
     }
 
     private _maxPolarAngle = MAX_POLAR_ANGLE
@@ -188,7 +184,7 @@ export default abstract class CameraBase<
     }
     public set maxPolarAngle(val) {
         this._maxPolarAngle = val
-        addUpdateAngleSystem(this)
+        addGyrateResetSystem(this)
     }
 
     private _minAzimuthAngle = -Infinity
@@ -197,7 +193,7 @@ export default abstract class CameraBase<
     }
     public set minAzimuthAngle(val) {
         this._minAzimuthAngle = val
-        addUpdateAngleSystem(this)
+        addGyrateResetSystem(this)
     }
 
     private _maxAzimuthAngle = Infinity
@@ -206,7 +202,7 @@ export default abstract class CameraBase<
     }
     public set maxAzimuthAngle(val) {
         this._maxAzimuthAngle = val
-        addUpdateAngleSystem(this)
+        addGyrateResetSystem(this)
     }
 
     public setPolarAngle(angle: number) {
