@@ -9,27 +9,27 @@ import { color } from "../../utils/reusables"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import renderSystemAutoClear from "../../../utils/renderSystemAutoClear"
 import {
-    decreaseTexturedSpriteCount,
-    increaseTexturedSpriteCount,
+    decreaseTexturedSprite,
+    increaseTexturedSprite,
     TexturedSpriteParams
 } from "../../../pools/texturedSpritePool"
 
 const [addRefreshParamsSystem] = renderSystemAutoClear(
     (target: TexturedSpriteMixin) => {
         if (target.materialParamString)
-            decreaseTexturedSpriteCount(
+            decreaseTexturedSprite(
                 SpriteMaterial,
                 target.materialParamString
             )
         else
             target.then(() =>
-                decreaseTexturedSpriteCount(
+                decreaseTexturedSprite(
                     SpriteMaterial,
                     target.materialParamString!
                 )
             )
         const paramString = JSON.stringify(target.materialParams)
-        target.material = increaseTexturedSpriteCount(
+        target.material = increaseTexturedSprite(
             SpriteMaterial,
             target.materialParams,
             paramString

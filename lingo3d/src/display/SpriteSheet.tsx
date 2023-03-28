@@ -12,8 +12,8 @@ import {
     deleteSpriteSheetSystem
 } from "../systems/spriteSheetSystem"
 import {
-    decreaseSpriteSheetCount,
-    increaseSpriteSheetCount,
+    decreaseSpriteSheet,
+    increaseSpriteSheet,
     SpriteSheetParams
 } from "../pools/spriteSheetPool"
 
@@ -79,7 +79,7 @@ export default class SpriteSheet
                 const handle = new Cancellable()
                 const params: SpriteSheetParams = [_textureStart, _textureEnd]
                 const paramString = JSON.stringify(params)
-                increaseSpriteSheetCount(Promise, params, paramString).then(
+                increaseSpriteSheet(Promise, params, paramString).then(
                     ([url, columns, length, blob]) => {
                         this.blob = blob
                         loadSpriteSheet(material, url, columns, length)
@@ -93,7 +93,7 @@ export default class SpriteSheet
                     }
                 )
                 return () => {
-                    decreaseSpriteSheetCount(Promise, paramString)
+                    decreaseSpriteSheet(Promise, paramString)
                     handle.cancel()
                 }
             }

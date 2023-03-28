@@ -30,66 +30,65 @@ const scanSerial = (_textureStart: string) => {
 
 export type SpriteSheetParams = [textureStart: string, textureEnd: string]
 
-export const [increaseSpriteSheetCount, decreaseSpriteSheetCount] =
-    createInstancePool<
-        Promise<[string, number, number, Blob | undefined]>,
-        SpriteSheetParams
-    >(
-        async (_, [textureStart, textureEnd]) => {
-            const [serialStart, start, end] = scanSerial(textureStart)
-            if (!serialStart) return ["", 0, 0, undefined]
+export const [increaseSpriteSheet, decreaseSpriteSheet] = createInstancePool<
+    Promise<[string, number, number, Blob | undefined]>,
+    SpriteSheetParams
+>(
+    async (_, [textureStart, textureEnd]) => {
+        const [serialStart, start, end] = scanSerial(textureStart)
+        if (!serialStart) return ["", 0, 0, undefined]
 
-            const [serialEnd] = scanSerial(textureEnd)
-            if (!serialEnd) return ["", 0, 0, undefined]
+        const [serialEnd] = scanSerial(textureEnd)
+        if (!serialEnd) return ["", 0, 0, undefined]
 
-            const serialStrings: Array<string> = []
+        const serialStrings: Array<string> = []
 
-            const iMax = Number(serialEnd)
-            if (serialStart[0] === "0")
-                for (let i = Number(serialStart); i <= iMax; ++i)
-                    serialStrings.push((i + "").padStart(serialEnd.length, "0"))
-            else
-                for (let i = Number(serialStart); i <= iMax; ++i)
-                    serialStrings.push(i + "")
+        const iMax = Number(serialEnd)
+        if (serialStart[0] === "0")
+            for (let i = Number(serialStart); i <= iMax; ++i)
+                serialStrings.push((i + "").padStart(serialEnd.length, "0"))
+        else
+            for (let i = Number(serialStart); i <= iMax; ++i)
+                serialStrings.push(i + "")
 
-            const imagePromises = serialStrings.map(
-                (serial) =>
-                    new Promise<HTMLImageElement>((resolve) => {
-                        const image = new Image()
-                        image.onload = () => resolve(image)
-                        image.src = start + serial + end
-                    })
-            )
-            const images = await Promise.all(imagePromises)
-            const [{ naturalWidth, naturalHeight }] = images
+        const imagePromises = serialStrings.map(
+            (serial) =>
+                new Promise<HTMLImageElement>((resolve) => {
+                    const image = new Image()
+                    image.onload = () => resolve(image)
+                    image.src = start + serial + end
+                })
+        )
+        const images = await Promise.all(imagePromises)
+        const [{ naturalWidth, naturalHeight }] = images
 
-            const columns = 5
-            const rows = Math.ceil(imagePromises.length / columns)
-            const canvas = document.createElement("canvas")
-            canvas.width = naturalWidth * columns
-            canvas.height = rows * naturalHeight
-            const ctx = canvas.getContext("2d")!
+        const columns = 5
+        const rows = Math.ceil(imagePromises.length / columns)
+        const canvas = document.createElement("canvas")
+        canvas.width = naturalWidth * columns
+        canvas.height = rows * naturalHeight
+        const ctx = canvas.getContext("2d")!
 
-            let x = 0
-            let y = 0
-            for (const image of images) {
-                ctx.drawImage(image, x * naturalWidth, y * naturalHeight)
-                if (++x === columns) {
-                    x = 0
-                    ++y
-                }
+        let x = 0
+        let y = 0
+        for (const image of images) {
+            ctx.drawImage(image, x * naturalWidth, y * naturalHeight)
+            if (++x === columns) {
+                x = 0
+                ++y
             }
-            return new Promise<[string, number, number, Blob | undefined]>(
-                (resolve) =>
-                    canvas.toBlob((blob) =>
-                        resolve([
-                            URL.createObjectURL(blob!),
-                            columns,
-                            imagePromises.length,
-                            blob!
-                        ])
-                    )
-            )
-        },
-        (promise) => promise.then(([url]) => URL.revokeObjectURL(url))
-    )
+        }
+        return new Promise<[string, number, number, Blob | undefined]>(
+            (resolve) =>
+                canvas.toBlob((blob) =>
+                    resolve([
+                        URL.createObjectURL(blob!),
+                        columns,
+                        imagePromises.length,
+                        blob!
+                    ])
+                )
+        )
+    },
+    (promise) => promise.then(([url]) => URL.revokeObjectURL(url))
+)

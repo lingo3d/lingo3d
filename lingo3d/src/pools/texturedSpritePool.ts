@@ -15,7 +15,7 @@ export type TexturedSpriteParams = [
     textureRotation: number
 ]
 
-export const [increaseTexturedSpriteCount, decreaseTexturedSpriteCount] =
+export const [increaseTexturedSprite, decreaseTexturedSprite] =
     createInstancePool<SpriteMaterial, TexturedSpriteParams>(
         (_, params) =>
             new SpriteMaterial(
