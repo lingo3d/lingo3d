@@ -1,18 +1,16 @@
 import { forceGetInstance, lazy, omit, pull } from "@lincode/utils"
-import { downPtr, FolderApi, InputBindingApi, Pane } from "./tweakpane"
+import { downPtr, FolderApi, Pane } from "./tweakpane"
 import resetIcon from "./icons/resetIcon"
 import { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue, {
-    equalsDefaultValue,
-    equalsValue
+    equalsDefaultValue
 } from "../../interface/utils/getDefaultValue"
 import { Cancellable } from "@lincode/promiselikes"
 import { emitEditorEdit } from "../../events/onEditorEdit"
 import connectorInIcon from "./icons/connectorInIcon"
 import connectorOutIcon from "./icons/connectorOutIcon"
-import renderSystemWithData from "../../utils/renderSystemWithData"
 import Appendable from "../../api/core/Appendable"
-import { getRuntimeValue, setRuntimeValue } from "../../utils/getRuntimeValue"
+import { setRuntimeValue } from "../../utils/getRuntimeValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { render } from "preact"
 import { unmountComponentAtNode } from "preact/compat"
@@ -34,6 +32,11 @@ import { emitEditorRefresh } from "../../events/onEditorRefresh"
 import { isTemplateNode } from "../../visualScripting/TemplateNode"
 import { uuidMap } from "../../api/core/collections"
 import SpawnNode from "../../visualScripting/SpawnNode"
+import {
+    skipChangeSet,
+    addRefreshInputSystem,
+    deleteRefreshInputSystem
+} from "../../systems/refreshInputSystem"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -52,28 +55,6 @@ export type ConnectionDraggingItem = {
     xyz?: "x" | "y" | "z"
 }
 let draggingItem: ConnectionDraggingItem | undefined
-
-const skipChangeSet = new WeakSet<InputBindingApi>()
-const [addRefreshSystem, deleteRefreshSystem] = renderSystemWithData(
-    (
-        input: InputBindingApi,
-        {
-            key,
-            params,
-            target
-        }: {
-            key: string
-            params: any
-            target: Appendable
-        }
-    ) => {
-        const val = getRuntimeValue(target, key)
-        if (equalsValue(target, val, params[key], key)) return
-        params[key] = val
-        skipChangeSet.add(input)
-        input.refresh()
-    }
-)
 
 export type Connection = {
     onDragStart?: (e: DragEvent) => void
@@ -243,7 +224,7 @@ export default async (
                     key,
                     optionsOmitted?.[key]
                 )
-                addRefreshSystem(input, { key, params, target })
+                addRefreshInputSystem(input, { key, params, target })
 
                 const resetButton = resetIcon.cloneNode(true) as HTMLElement
                 input.element.prepend(resetButton)
@@ -354,7 +335,7 @@ export default async (
     )
     handle.then(() => {
         for (const input of Object.values(result)) {
-            deleteRefreshSystem(input)
+            deleteRefreshInputSystem(input)
             input.dispose()
         }
     })
