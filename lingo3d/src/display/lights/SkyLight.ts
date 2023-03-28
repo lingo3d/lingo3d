@@ -8,27 +8,18 @@ import scene from "../../engine/scene"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import DirectionalLight from "./DirectionalLight"
 import { eraseAppendable } from "../../api/core/collections"
-import renderSystemWithData from "../../utils/renderSystemWithData"
 import SimpleObjectManager from "../core/SimpleObjectManager"
 import AmbientLight from "./AmbientLight"
-
-const updateLightDirection = (self: SkyLight, csm: CSM) =>
-    csm.lightDirection.copy(
-        self.position.clone().normalize().multiplyScalar(-1)
-    )
-const [addLightSystem, deleteLightSystem] = renderSystemWithData(
-    (csm: CSM, { self }: { self: SkyLight }) => {
-        updateLightDirection(self, csm)
-        csm.update()
-    }
-)
-const updateBackLight = (self: SkyLight, backLight: DirectionalLight) =>
-    backLight.position.copy(self.position.clone().multiplyScalar(-1))
-
-const [addBackLightSystem, deleteBackLightSystem] = renderSystemWithData(
-    (self: SkyLight, data: { backLight: DirectionalLight }) =>
-        updateBackLight(self, data.backLight)
-)
+import {
+    updateLightDirection,
+    addSkyLightSystem,
+    deleteSkyLightSystem
+} from "../../systems/skyLightSystem"
+import {
+    addSkyBackLightSystem,
+    deleteSkyBackLightSystem,
+    updateBackLight
+} from "../../systems/skyBackLightSystem"
 
 export default class SkyLight extends SimpleObjectManager implements ISkyLight {
     public static componentName = "skyLight"
@@ -41,14 +32,14 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
         const backLight = new DirectionalLight()
         backLight.helper = false
         eraseAppendable(backLight)
-        addBackLightSystem(this, { backLight })
+        addSkyBackLightSystem(this, { backLight })
 
         const ambientLight = new AmbientLight()
         ambientLight.helper = false
         eraseAppendable(ambientLight)
 
         this.then(() => {
-            deleteBackLightSystem(this)
+            deleteSkyBackLightSystem(this)
             backLight.dispose()
             ambientLight.dispose()
         })
@@ -81,10 +72,10 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
             })
             updateLightDirection(this, csm)
 
-            addLightSystem(csm, { self: this })
+            addSkyLightSystem(csm, { self: this })
             const handle = getCameraRendered((val) => (csm.camera = val))
             return () => {
-                deleteLightSystem(csm)
+                deleteSkyLightSystem(csm)
                 handle.cancel()
                 csm.dispose()
                 for (const light of csm.lights) {
@@ -113,10 +104,10 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
             })
             updateLightDirection(this, csm)
 
-            addLightSystem(csm, { self: this })
+            addSkyLightSystem(csm, { self: this })
             const handle = getCameraRendered((val) => (csm.camera = val))
             return () => {
-                deleteLightSystem(csm)
+                deleteSkyLightSystem(csm)
                 handle.cancel()
                 csm.dispose()
                 for (const light of csm.lights) {

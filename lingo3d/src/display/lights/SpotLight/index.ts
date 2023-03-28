@@ -13,22 +13,13 @@ import { CM2M, M2CM, SHADOW_BIAS } from "../../../globals"
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
 import { SpotLightMaterial } from "./SpotLightMaterial"
-import getWorldPosition from "../../utils/getWorldPosition"
 import { ssrExcludeSet } from "../../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
-import renderSystemWithData from "../../../utils/renderSystemWithData"
+import {
+    addVolumetricSpotLightSystem,
+    deleteVolumetricSpotLightSystem
+} from "../../../systems/volumetricSpotLightSystem"
 
 const coneGeometry = new ConeGeometry(0.5, 1, 256)
-
-const [addVolumetricSystem, deleteVolumetricSystem] = renderSystemWithData(
-    (cone: Mesh, { light, material }: { light: SpotLight; material: any }) => {
-        cone.scale.y = light.distance * CM2M * light.volumetricDistance
-        cone.position.y = -cone.scale.y * 0.5
-        cone.scale.x = cone.scale.z =
-            2 * Math.tan(light.angle * deg2Rad) * cone.scale.y
-        material.attenuation = cone.scale.y
-        material.spotPosition.copy(getWorldPosition(light.outerObject3d))
-    }
-)
 
 export default class SpotLight
     extends LightBase<typeof ThreeSpotLight>
@@ -73,12 +64,12 @@ export default class SpotLight
             this.outerObject3d.add(cone)
             ssrExcludeSet.add(cone)
 
-            addVolumetricSystem(cone, { light: this, material })
+            addVolumetricSpotLightSystem(cone, { light: this, material })
             return () => {
                 material.dispose()
                 this.outerObject3d.remove(cone)
                 ssrExcludeSet.delete(cone)
-                deleteVolumetricSystem(cone)
+                deleteVolumetricSpotLightSystem(cone)
             }
         }, [this.lightState.get, this.volumetricState.get])
     }
