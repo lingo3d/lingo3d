@@ -5,7 +5,7 @@ import createMap from "../display/core/mixins/utils/createMap"
 import filterNotDefault from "../display/core/mixins/utils/filterNotDefault"
 import createInstancePool from "../display/core/utils/createInstancePool"
 
-export type TexturedSpriteParams = [
+export type SpriteMaterialParams = [
     color: string,
     opacity: number,
     texture: string,
@@ -15,8 +15,8 @@ export type TexturedSpriteParams = [
     textureRotation: number
 ]
 
-export const [increaseTexturedSprite, decreaseTexturedSprite] =
-    createInstancePool<SpriteMaterial, TexturedSpriteParams>(
+export const [increaseSpriteMaterial, decreaseSpriteMaterial] =
+    createInstancePool<SpriteMaterial, SpriteMaterialParams>(
         (params) =>
             new SpriteMaterial(
                 filter(

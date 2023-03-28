@@ -9,21 +9,21 @@ import { color } from "../../utils/reusables"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import renderSystemAutoClear from "../../../utils/renderSystemAutoClear"
 import {
-    decreaseTexturedSprite,
-    increaseTexturedSprite,
-    TexturedSpriteParams
-} from "../../../pools/texturedSpritePool"
+    decreaseSpriteMaterial,
+    increaseSpriteMaterial,
+    SpriteMaterialParams
+} from "../../../pools/spriteMaterialPool"
 
 const [addRefreshParamsSystem] = renderSystemAutoClear(
     (target: TexturedSpriteMixin) => {
         if (target.materialParamString)
-            decreaseTexturedSprite(target.materialParamString)
+            decreaseSpriteMaterial(target.materialParamString)
         else
             target.then(() =>
-                decreaseTexturedSprite(target.materialParamString!)
+                decreaseSpriteMaterial(target.materialParamString!)
             )
         const paramString = JSON.stringify(target.materialParams)
-        target.material = increaseTexturedSprite(
+        target.material = increaseSpriteMaterial(
             target.materialParams,
             paramString
         )
@@ -37,7 +37,7 @@ const defaults = Object.fromEntries(
         structuredClone(getDefaultValue(texturedBasicDefaults, key, true))
     ])
 )
-const defaultParams = Object.values(defaults) as TexturedSpriteParams
+const defaultParams = Object.values(defaults) as SpriteMaterialParams
 
 export default abstract class TexturedSpriteMixin
     extends MeshAppendable<Sprite>
@@ -50,11 +50,11 @@ export default abstract class TexturedSpriteMixin
         this.object3d.material = val
     }
 
-    private _materialParams?: TexturedSpriteParams
+    private _materialParams?: SpriteMaterialParams
     public get materialParams() {
         return (this._materialParams ??= Object.values(
             defaultParams
-        ) as TexturedSpriteParams)
+        ) as SpriteMaterialParams)
     }
 
     public materialParamString?: string
