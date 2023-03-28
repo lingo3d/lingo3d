@@ -10,14 +10,9 @@ import {
     controllerManagerMap,
     managerContactMap
 } from "./pxMaps"
-import throttleSystem from "../../../../utils/throttleSystem"
 import PhysicsObjectManager from ".."
 import { getGravity } from "../../../../states/useGravity"
-
-const clearControllerContactMapSystem = throttleSystem(
-    (contacts: Set<PhysicsObjectManager>) => contacts.clear()
-)
-
+import clearSystem from "../../../../utils/clearSystem"
 ;(async () => {
     const simdSupported = await simd()
 
@@ -251,7 +246,7 @@ const clearControllerContactMapSystem = throttleSystem(
             Set<PhysicsObjectManager>
         )
         contacts.add(manager)
-        clearControllerContactMapSystem(contacts)
+        clearSystem(contacts)
     }
 
     //create simulation event callback

@@ -5,8 +5,12 @@ import { ray, vector3 } from "../../display/utils/reusables"
 import { vec2Point } from "../../display/utils/vec2Point"
 import { CM2M } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
+import { addClearAfterRenderSystem } from "../../utils/clearAfterRenderSystem"
 import { setManager } from "../utils/getManager"
 import Appendable from "./Appendable"
+
+export const transformedManagerSet = new Set<MeshAppendable>()
+addClearAfterRenderSystem(transformedManagerSet)
 
 export default class MeshAppendable<T extends Object3D = Object3D>
     extends Appendable
@@ -20,10 +24,22 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     public constructor(public outerObject3d: T = new Object3D() as T) {
         super()
         setManager(outerObject3d, this)
+        this.initTransformDetector()
         this.object3d = outerObject3d
         this.position = outerObject3d.position
         this.quaternion = outerObject3d.quaternion
         this.userData = outerObject3d.userData
+    }
+
+    private matrixWorldNeedsUpdate?: boolean
+    protected initTransformDetector() {
+        Object.defineProperty(this.outerObject3d, "matrixWorldNeedsUpdate", {
+            get: () => this.matrixWorldNeedsUpdate,
+            set: (val) => {
+                this.matrixWorldNeedsUpdate = val
+                val && transformedManagerSet.add(this)
+            }
+        })
     }
 
     public declare parent?: MeshAppendable
