@@ -5,81 +5,15 @@ import ICharacterCamera, {
     characterCameraSchema,
     LockTargetRotationValue
 } from "../../interface/ICharacterCamera"
-import { euler, quaternion } from "../utils/reusables"
-import { FAR, NEAR, PI } from "../../globals"
-import fpsAlpha from "../utils/fpsAlpha"
-import { positionChangedXZ } from "../utils/trackObject"
-import CameraBase, { addUpdateAngleSystem } from "./CameraBase"
+import { FAR, NEAR } from "../../globals"
+import CameraBase from "./CameraBase"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import renderSystem from "../../utils/renderSystem"
-import getWorldPosition from "../utils/getWorldPosition"
-import getWorldQuaternion from "../utils/getWorldQuaternion"
-import renderSystemWithData from "../../utils/renderSystemWithData"
 import { isPositionedManager } from "./PositionedManager"
-
-export const [addCharacterCameraSystem, deleteCharacterCameraSystem] =
-    renderSystem((self: CharacterCamera) => {
-        self.camera.position.copy(getWorldPosition(self.object3d))
-        self.camera.quaternion.copy(getWorldQuaternion(self.object3d))
-    })
-
-const rotateTarget = (
-    self: CharacterCamera,
-    target: MeshAppendable,
-    slerp: boolean
-) => {
-    euler.setFromQuaternion(self.midObject3d.quaternion)
-    euler.x = 0
-    euler.z = 0
-    euler.y += PI
-
-    if (slerp) {
-        quaternion.setFromEuler(euler)
-        target.quaternion.slerp(quaternion, fpsAlpha(0.1))
-        return
-    }
-    target.outerObject3d.setRotationFromEuler(euler)
-}
-
-const followTargetRotation = (
-    self: CharacterCamera,
-    target: MeshAppendable,
-    slerp: boolean
-) => {
-    euler.setFromQuaternion(target.quaternion)
-    euler.y += PI
-
-    if (slerp) {
-        quaternion.setFromEuler(euler)
-        self.midObject3d.quaternion.slerp(quaternion, fpsAlpha(0.1))
-    } else self.midObject3d.setRotationFromEuler(euler)
-
-    addUpdateAngleSystem(self)
-}
-
-const [addCameraSystem, deleteCameraSystem] = renderSystemWithData(
-    (self: CharacterCamera, { found }: { found: MeshAppendable }) => {
-        self.position.copy(found.position)
-
-        if (!self.lockTargetRotation) return
-
-        if (self.lockTargetRotation === "follow") {
-            followTargetRotation(self, found, false)
-            return
-        }
-        if (self.lockTargetRotation === "dynamic-lock") {
-            positionChangedXZ(found.outerObject3d) &&
-                rotateTarget(self, found, true)
-            return
-        }
-        if (self.lockTargetRotation === "dynamic-follow") {
-            positionChangedXZ(found.outerObject3d) &&
-                followTargetRotation(self, found, true)
-            return
-        }
-        rotateTarget(self, found, false)
-    }
-)
+import {
+    addCharacterCameraFollowSystem,
+    deleteCharacterCameraFollowSystem,
+    followTargetRotation
+} from "../../systems/characterCameraFollowSystem"
 
 export default class CharacterCamera
     extends CameraBase
@@ -111,9 +45,9 @@ export default class CharacterCamera
 
             followTargetRotation(this, found, false)
 
-            addCameraSystem(this, { found })
+            addCharacterCameraFollowSystem(this, { found })
             return () => {
-                deleteCameraSystem(this)
+                deleteCharacterCameraFollowSystem(this)
             }
         }, [this.firstChildState.get])
 

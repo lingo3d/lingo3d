@@ -1,9 +1,10 @@
-import CharacterCamera, {
-    addCharacterCameraSystem,
-    deleteCharacterCameraSystem
-} from "../core/CharacterCamera"
+import CharacterCamera from "../core/CharacterCamera"
 import { Reactive } from "@lincode/reactivity"
 import ObjectManager from "../core/ObjectManager"
+import {
+    addCharacterCameraSystem,
+    deleteCharacterCameraSystem
+} from "../../systems/characterCameraSystem"
 
 export default class FirstPersonCamera extends CharacterCamera {
     public static componentName = "firstPersonCamera"

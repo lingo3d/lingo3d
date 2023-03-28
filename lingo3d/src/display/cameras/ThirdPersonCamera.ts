@@ -2,15 +2,16 @@ import IThirdPersonCamera, {
     thirdPersonCameraDefaults,
     thirdPersonCameraSchema
 } from "../../interface/IThirdPersonCamera"
-import CharacterCamera, {
-    addCharacterCameraSystem,
-    deleteCharacterCameraSystem
-} from "../core/CharacterCamera"
+import CharacterCamera from "../core/CharacterCamera"
 import {
     addThirdCameraSystem,
     deleteThirdCameraSystem
 } from "../../systems/thirdPersonCameraSystem"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import {
+    addCharacterCameraSystem,
+    deleteCharacterCameraSystem
+} from "../../systems/characterCameraSystem"
 
 export default class ThirdPersonCamera
     extends CharacterCamera
