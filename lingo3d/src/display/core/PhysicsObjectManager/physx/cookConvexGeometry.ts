@@ -12,7 +12,6 @@ export default (typeSrc: string, manager: PhysicsObjectManager) => {
     const paramString = JSON.stringify(params)
     decreaseConvexGeometryCount(manager)
     return increasePhysxConvexGeometry(
-        PhysicsObjectManager,
         params,
         (manager.convexParamString = paramString),
         { manager }
@@ -21,4 +20,4 @@ export default (typeSrc: string, manager: PhysicsObjectManager) => {
 
 export const decreaseConvexGeometryCount = (manager: PhysicsObjectManager) =>
     manager.convexParamString &&
-    decreasePhysxConvexGeometry(PhysicsObjectManager, manager.convexParamString)
+    decreasePhysxConvexGeometry(manager.convexParamString)

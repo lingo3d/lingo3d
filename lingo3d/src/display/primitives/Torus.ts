@@ -1,31 +1,34 @@
 import { deg2Rad } from "@lincode/math"
-import { TorusGeometry } from "three"
 import { PI2 } from "../../globals"
 import ITorus, { torusDefaults, torusSchema } from "../../interface/ITorus"
-import { allocateDefaultGeometry } from "../../pools/geometryPool"
-import ConfigurablePrimitive, {
-    addRefreshParamsSystem
-} from "../core/ConfigurablePrimitive"
+import {
+    allocateDefaultTorusGeometry,
+    decreaseTorusGeometry,
+    increaseTorusGeometry
+} from "../../pools/torusGeometryPool"
+import PooledPrimitve, {
+    addRefreshPooledPrimitiveSystem
+} from "../core/PooledPrimitive"
 
 const defaultParams = <const>[0.5, 0.1, 16, 32, PI2]
-const geometry = allocateDefaultGeometry(
-    TorusGeometry,
-    defaultParams
-) as TorusGeometry
+const defaultParamString = JSON.stringify(defaultParams)
+const geometry = allocateDefaultTorusGeometry(defaultParams)
 
-export default class Torus
-    extends ConfigurablePrimitive<typeof TorusGeometry>
-    implements ITorus
-{
+export default class Torus extends PooledPrimitve implements ITorus {
     public static componentName = "torus"
     public static override defaults = torusDefaults
     public static override schema = torusSchema
 
     public constructor() {
-        super(TorusGeometry, defaultParams, geometry)
+        super(
+            geometry,
+            defaultParamString,
+            decreaseTorusGeometry,
+            increaseTorusGeometry
+        )
     }
 
-    public override getParams() {
+    public getParams() {
         return <const>[
             0.5,
             this.thickness,
@@ -41,7 +44,7 @@ export default class Torus
     }
     public set segments(val) {
         this._segments = val
-        addRefreshParamsSystem(this)
+        addRefreshPooledPrimitiveSystem(this)
     }
 
     private _thickness?: number
@@ -50,7 +53,7 @@ export default class Torus
     }
     public set thickness(val) {
         this._thickness = val
-        addRefreshParamsSystem(this)
+        addRefreshPooledPrimitiveSystem(this)
     }
 
     private _theta?: number
@@ -59,6 +62,6 @@ export default class Torus
     }
     public set theta(val) {
         this._theta = val
-        addRefreshParamsSystem(this)
+        addRefreshPooledPrimitiveSystem(this)
     }
 }

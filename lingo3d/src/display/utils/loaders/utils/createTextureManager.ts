@@ -76,7 +76,7 @@ export default (referenceMaterial: MeshStandardMaterial) => {
 
     const [increaseCount, decreaseCount, allocateDefaultInstance] =
         createInstancePool<MeshStandardMaterial, TexturedStandardParams>(
-            (_, params) => {
+            (params) => {
                 const material = referenceMaterial.clone()
                 material.userData.TextureManager = MyTextureManager
 
@@ -173,29 +173,18 @@ export default (referenceMaterial: MeshStandardMaterial) => {
             (material) => material.dispose()
         )
 
-    allocateDefaultInstance(
-        MeshStandardMaterial,
-        defaultParams,
-        referenceMaterial
-    )
+    allocateDefaultInstance(defaultParams, referenceMaterial)
 
     const [addRefreshParamsSystem] = renderSystemAutoClear(
         (target: MyTextureManager) => {
             if (target.materialParamString)
-                decreaseCount(MeshStandardMaterial, target.materialParamString)
+                decreaseCount(target.materialParamString)
             else
                 target.owner.then(() =>
-                    decreaseCount(
-                        MeshStandardMaterial,
-                        target.materialParamString!
-                    )
+                    decreaseCount(target.materialParamString!)
                 )
             const paramString = JSON.stringify(target.materialParams)
-            target.material = increaseCount(
-                MeshStandardMaterial,
-                target.materialParams,
-                paramString
-            )
+            target.material = increaseCount(target.materialParams, paramString)
             target.materialParamString = paramString
         }
     )

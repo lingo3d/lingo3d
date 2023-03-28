@@ -79,7 +79,7 @@ export default class SpriteSheet
                 const handle = new Cancellable()
                 const params: SpriteSheetParams = [_textureStart, _textureEnd]
                 const paramString = JSON.stringify(params)
-                increaseSpriteSheet(Promise, params, paramString).then(
+                increaseSpriteSheet(params, paramString).then(
                     ([url, columns, length, blob]) => {
                         this.blob = blob
                         loadSpriteSheet(material, url, columns, length)
@@ -93,7 +93,7 @@ export default class SpriteSheet
                     }
                 )
                 return () => {
-                    decreaseSpriteSheet(Promise, paramString)
+                    decreaseSpriteSheet(paramString)
                     handle.cancel()
                 }
             }

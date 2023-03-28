@@ -13,7 +13,7 @@ export type PhysxConvexGeometryParams = [
 
 export const [increasePhysxConvexGeometry, decreasePhysxConvexGeometry] =
     createInstancePool<PhysicsObjectManager, PhysxConvexGeometryParams>(
-        (_, params, context) => {
+        (params, context) => {
             const {
                 getConvexFlags,
                 getCooking,

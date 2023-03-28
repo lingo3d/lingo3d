@@ -17,7 +17,7 @@ export type TexturedSpriteParams = [
 
 export const [increaseTexturedSprite, decreaseTexturedSprite] =
     createInstancePool<SpriteMaterial, TexturedSpriteParams>(
-        (_, params) =>
+        (params) =>
             new SpriteMaterial(
                 filter(
                     {

@@ -41,7 +41,7 @@ export const [
     decreaseTexturedStandard,
     allocateDefaultTexturedStandard
 ] = createInstancePool<MeshStandardMaterial, TexturedStandardParams>(
-    (_, params) =>
+    (params) =>
         new MeshStandardMaterial(
             filter(
                 {

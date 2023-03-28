@@ -1,81 +1,59 @@
-import { Class, forceGet } from "@lincode/utils"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import Loaded from "../Loaded"
 
-const makeTuple = () =>
-    <const>[new Map<string, any>(), {} as Record<string, number>]
-
 export default <
-    T,
+    Type,
     Params = Array<any> | ReadonlyArray<any>,
     Context extends { manager?: MeshAppendable | Loaded } = {
         manager?: MeshAppendable | Loaded
     }
 >(
-    factory: (ClassVal: Class<T>, params: Params, context?: Context) => T,
-    dispose: (instance: T) => void
+    factory: (params: Params, context?: Context) => Type,
+    dispose: (instance: Type) => void
 ) => {
-    const classMapsMap = new WeakMap<
-        Class<T>,
-        [Map<string, unknown>, Record<string, number>]
-    >()
-    const classDefaultParamsInstanceMap = new WeakMap<Class<T>, [string, any]>()
+    const paramsInstanceMap = new Map<string, Type>()
+    const paramsCountRecord: Record<string, number> = {}
+    const defaultParamsInstanceMap = new Map<string, Type>()
 
     const allocateDefaultInstance = (
-        ClassVal: Class<T>,
         params: Params,
-        instance = factory(ClassVal, params)
+        instance = factory(params)
     ) => {
-        classDefaultParamsInstanceMap.set(ClassVal, [
-            JSON.stringify(params),
-            instance
-        ])
+        defaultParamsInstanceMap.set(JSON.stringify(params), instance)
         return instance
     }
 
     const increaseCount = (
-        ClassVal: Class<T>,
         params: Params,
         paramString = JSON.stringify(params),
         context?: Context
-    ): T => {
-        const defaultTuple = classDefaultParamsInstanceMap.get(ClassVal)
-        if (defaultTuple && paramString === defaultTuple[0])
-            return defaultTuple[1]
+    ): Type => {
+        const defaultInstance = defaultParamsInstanceMap.get(paramString)
+        if (defaultInstance) return defaultInstance
 
-        const [paramsInstanceMap, paramCountRecord] = forceGet(
-            classMapsMap,
-            ClassVal,
-            makeTuple
-        )
         if (
-            (paramCountRecord[paramString] =
-                (paramCountRecord[paramString] ?? 0) + 1) === 1
+            (paramsCountRecord[paramString] =
+                (paramsCountRecord[paramString] ?? 0) + 1) === 1
         ) {
-            const result = factory(ClassVal, params, context)
+            const result = factory(params, context)
             paramsInstanceMap.set(paramString, result)
             return result
         }
-        return paramsInstanceMap.get(paramString)
+        return paramsInstanceMap.get(paramString)!
     }
 
-    const decreaseCount = (ClassVal: Class<T>, params: Params | string) => {
-        const [paramsInstanceMap, paramCountRecord] = forceGet(
-            classMapsMap,
-            ClassVal,
-            makeTuple
-        )
+    const decreaseCount = (params: Params | string) => {
         const paramString =
             typeof params === "string" ? params : JSON.stringify(params)
-        const count = (paramCountRecord[paramString] ?? 0) - 1
+        const count = (paramsCountRecord[paramString] ?? 0) - 1
         if (count === -1) return
         if (count === 0) {
-            dispose(paramsInstanceMap.get(paramString))
+            dispose(paramsInstanceMap.get(paramString)!)
             paramsInstanceMap.delete(paramString)
-            delete paramCountRecord[paramString]
+            delete paramsCountRecord[paramString]
             return
         }
-        paramCountRecord[paramString] = count
+        paramsCountRecord[paramString] = count
     }
 
     return <const>[increaseCount, decreaseCount, allocateDefaultInstance]

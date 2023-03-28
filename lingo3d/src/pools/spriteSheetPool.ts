@@ -34,7 +34,7 @@ export const [increaseSpriteSheet, decreaseSpriteSheet] = createInstancePool<
     Promise<[string, number, number, Blob | undefined]>,
     SpriteSheetParams
 >(
-    async (_, [textureStart, textureEnd]) => {
+    async ([textureStart, textureEnd]) => {
         const [serialStart, start, end] = scanSerial(textureStart)
         if (!serialStart) return ["", 0, 0, undefined]
 

@@ -18,20 +18,13 @@ import {
 const [addRefreshParamsSystem] = renderSystemAutoClear(
     (target: TexturedStandardMixin) => {
         if (target.materialParamString)
-            decreaseTexturedStandard(
-                MeshStandardMaterial,
-                target.materialParamString
-            )
+            decreaseTexturedStandard(target.materialParamString)
         else
             target.then(() =>
-                decreaseTexturedStandard(
-                    MeshStandardMaterial,
-                    target.materialParamString!
-                )
+                decreaseTexturedStandard(target.materialParamString!)
             )
         const paramString = JSON.stringify(target.materialParams)
         target.material = increaseTexturedStandard(
-            MeshStandardMaterial,
             target.materialParams,
             paramString
         )
@@ -49,11 +42,7 @@ export const standardDefaultParams = Object.values(
     standardDefaults
 ) as TexturedStandardParams
 
-allocateDefaultTexturedStandard(
-    MeshStandardMaterial,
-    standardDefaultParams,
-    standardMaterial
-)
+allocateDefaultTexturedStandard(standardDefaultParams, standardMaterial)
 
 export type StandardMesh = Mesh<BufferGeometry, MeshStandardMaterial>
 

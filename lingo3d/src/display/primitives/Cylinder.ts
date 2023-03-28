@@ -1,33 +1,36 @@
-import { CylinderGeometry } from "three"
 import { PI2 } from "../../globals"
 import ICylinder, {
     cylinderDefaults,
     cylinderSchema
 } from "../../interface/ICylinder"
-import { allocateDefaultGeometry } from "../../pools/geometryPool"
-import ConfigurablePrimitive, {
-    addRefreshParamsSystem
-} from "../core/ConfigurablePrimitive"
+import {
+    allocateDefaultCylinderGeometry,
+    decreaseCylinderGeometry,
+    increaseCylinderGeometry
+} from "../../pools/cylinderGeometryPool"
+import PooledPrimitve, {
+    addRefreshPooledPrimitiveSystem
+} from "../core/PooledPrimitive"
 
 const defaultParams = <const>[0.5, 0.5, 1, 32, 1, false, 0, PI2]
-export const cylinderGeometry = allocateDefaultGeometry(
-    CylinderGeometry,
-    defaultParams
-) as CylinderGeometry
+const defaultParamString = JSON.stringify(defaultParams)
+export const cylinderGeometry = allocateDefaultCylinderGeometry(defaultParams)
 
-export default class Cylinder
-    extends ConfigurablePrimitive<typeof CylinderGeometry>
-    implements ICylinder
-{
+export default class Cylinder extends PooledPrimitve implements ICylinder {
     public static componentName = "cylinder"
     public static override defaults = cylinderDefaults
     public static override schema = cylinderSchema
 
     public constructor() {
-        super(CylinderGeometry, defaultParams, cylinderGeometry)
+        super(
+            cylinderGeometry,
+            defaultParamString,
+            decreaseCylinderGeometry,
+            increaseCylinderGeometry
+        )
     }
 
-    public override getParams() {
+    public getParams() {
         return <const>[
             this.radiusTop,
             this.radiusBottom,
@@ -46,7 +49,7 @@ export default class Cylinder
     }
     public set segments(val) {
         this._segments = val
-        addRefreshParamsSystem(this)
+        addRefreshPooledPrimitiveSystem(this)
     }
 
     private _radiusTop?: number
@@ -55,7 +58,7 @@ export default class Cylinder
     }
     public set radiusTop(val) {
         this._radiusTop = val
-        addRefreshParamsSystem(this)
+        addRefreshPooledPrimitiveSystem(this)
     }
 
     private _radiusBottom?: number
@@ -64,6 +67,6 @@ export default class Cylinder
     }
     public set radiusBottom(val) {
         this._radiusBottom = val
-        addRefreshParamsSystem(this)
+        addRefreshPooledPrimitiveSystem(this)
     }
 }

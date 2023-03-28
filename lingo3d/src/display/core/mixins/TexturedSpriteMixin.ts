@@ -1,5 +1,5 @@
 import { Point } from "@lincode/math"
-import { Sprite, SpriteMaterial } from "three"
+import { Sprite } from "three"
 import ITexturedBasic, {
     texturedBasicDefaults,
     texturedBasicSchema
@@ -17,20 +17,13 @@ import {
 const [addRefreshParamsSystem] = renderSystemAutoClear(
     (target: TexturedSpriteMixin) => {
         if (target.materialParamString)
-            decreaseTexturedSprite(
-                SpriteMaterial,
-                target.materialParamString
-            )
+            decreaseTexturedSprite(target.materialParamString)
         else
             target.then(() =>
-                decreaseTexturedSprite(
-                    SpriteMaterial,
-                    target.materialParamString!
-                )
+                decreaseTexturedSprite(target.materialParamString!)
             )
         const paramString = JSON.stringify(target.materialParams)
         target.material = increaseTexturedSprite(
-            SpriteMaterial,
             target.materialParams,
             paramString
         )

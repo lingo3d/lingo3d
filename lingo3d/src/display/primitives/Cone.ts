@@ -1,30 +1,33 @@
-import { ConeGeometry } from "three"
 import { PI2 } from "../../globals"
 import ICone, { coneDefaults, coneSchema } from "../../interface/ICone"
-import { allocateDefaultGeometry } from "../../pools/geometryPool"
-import ConfigurablePrimitive, {
-    addRefreshParamsSystem
-} from "../core/ConfigurablePrimitive"
+import {
+    allocateDefaultConeGeometry,
+    decreaseConeGeometry,
+    increaseConeGeometry
+} from "../../pools/coneGeometryPool"
+import PooledPrimitve, {
+    addRefreshPooledPrimitiveSystem
+} from "../core/PooledPrimitive"
 
 const defaultParams = <const>[0.5, 1, 32, 1, false, 0, PI2]
-const geometry = allocateDefaultGeometry(
-    ConeGeometry,
-    defaultParams
-) as ConeGeometry
+const defaultParamString = JSON.stringify(defaultParams)
+const geometry = allocateDefaultConeGeometry(defaultParams)
 
-export default class Cone
-    extends ConfigurablePrimitive<typeof ConeGeometry>
-    implements ICone
-{
+export default class Cone extends PooledPrimitve implements ICone {
     public static componentName = "cone"
     public static override defaults = coneDefaults
     public static override schema = coneSchema
 
     public constructor() {
-        super(ConeGeometry, defaultParams, geometry)
+        super(
+            geometry,
+            defaultParamString,
+            decreaseConeGeometry,
+            increaseConeGeometry
+        )
     }
 
-    public override getParams() {
+    public getParams() {
         return <const>[0.5, 1, this.segments, 1, false, 0, PI2]
     }
 
@@ -34,6 +37,6 @@ export default class Cone
     }
     public set segments(val) {
         this._segments = val
-        addRefreshParamsSystem(this)
+        addRefreshPooledPrimitiveSystem(this)
     }
 }
