@@ -4,8 +4,8 @@ import IThirdPersonCamera, {
 } from "../../interface/IThirdPersonCamera"
 import CharacterCamera from "../core/CharacterCamera"
 import {
-    addThirdCameraSystem,
-    deleteThirdCameraSystem
+    addThirdPersonCameraSystem,
+    deleteThirdPersonCameraSystem
 } from "../../systems/thirdPersonCameraSystem"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import {
@@ -34,9 +34,9 @@ export default class ThirdPersonCamera
                     deleteCharacterCameraSystem(this)
                 }
             }
-            addThirdCameraSystem(this, { found, lerpCount: 0 })
+            addThirdPersonCameraSystem(this, { found, lerpCount: 0 })
             return () => {
-                deleteThirdCameraSystem(this)
+                deleteThirdPersonCameraSystem(this)
             }
         }, [this.firstChildState.get])
     }

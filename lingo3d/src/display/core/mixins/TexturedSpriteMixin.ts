@@ -7,29 +7,8 @@ import ITexturedBasic, {
 import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import { color } from "../../utils/reusables"
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import renderSystemAutoClear from "../../../utils/renderSystemAutoClear"
-import {
-    decreaseSpriteMaterial,
-    increaseSpriteMaterial,
-    SpriteMaterialParams
-} from "../../../pools/spriteMaterialPool"
-
-const [addRefreshParamsSystem] = renderSystemAutoClear(
-    (target: TexturedSpriteMixin) => {
-        if (target.materialParamString)
-            decreaseSpriteMaterial(target.materialParamString)
-        else
-            target.then(() =>
-                decreaseSpriteMaterial(target.materialParamString!)
-            )
-        const paramString = JSON.stringify(target.materialParams)
-        target.material = increaseSpriteMaterial(
-            target.materialParams,
-            paramString
-        )
-        target.materialParamString = paramString
-    }
-)
+import { SpriteMaterialParams } from "../../../pools/spriteMaterialPool"
+import { addRefreshTexturedSpriteSystem } from "../../../systems/refreshTexturedSpriteSystem"
 
 const defaults = Object.fromEntries(
     Object.entries(texturedBasicSchema).map(([key]) => [
@@ -66,7 +45,7 @@ export default abstract class TexturedSpriteMixin
         this.materialParams[0] = val
             ? "#" + color.set(val).getHexString()
             : defaults.color
-        addRefreshParamsSystem(this)
+        addRefreshTexturedSpriteSystem(this)
     }
 
     public get opacity() {
@@ -74,7 +53,7 @@ export default abstract class TexturedSpriteMixin
     }
     public set opacity(val: number | undefined) {
         this.materialParams[1] = val ?? defaults.opacity
-        addRefreshParamsSystem(this)
+        addRefreshTexturedSpriteSystem(this)
     }
 
     public get texture() {
@@ -82,7 +61,7 @@ export default abstract class TexturedSpriteMixin
     }
     public set texture(val: string | undefined) {
         this.materialParams[2] = val ?? defaults.texture
-        addRefreshParamsSystem(this)
+        addRefreshTexturedSpriteSystem(this)
     }
 
     public get alphaMap() {
@@ -90,7 +69,7 @@ export default abstract class TexturedSpriteMixin
     }
     public set alphaMap(val: string | undefined) {
         this.materialParams[3] = val ?? defaults.alphaMap
-        addRefreshParamsSystem(this)
+        addRefreshTexturedSpriteSystem(this)
     }
 
     public get textureRepeat() {
@@ -98,7 +77,7 @@ export default abstract class TexturedSpriteMixin
     }
     public set textureRepeat(val: number | Point | undefined) {
         this.materialParams[4] = val ?? defaults.textureRepeat
-        addRefreshParamsSystem(this)
+        addRefreshTexturedSpriteSystem(this)
     }
 
     public get textureFlipY() {
@@ -106,7 +85,7 @@ export default abstract class TexturedSpriteMixin
     }
     public set textureFlipY(val: boolean | undefined) {
         this.materialParams[5] = val ?? defaults.textureFlipY
-        addRefreshParamsSystem(this)
+        addRefreshTexturedSpriteSystem(this)
     }
 
     public get textureRotation() {
@@ -114,6 +93,6 @@ export default abstract class TexturedSpriteMixin
     }
     public set textureRotation(val: number | undefined) {
         this.materialParams[6] = val ?? defaults.textureRotation
-        addRefreshParamsSystem(this)
+        addRefreshTexturedSpriteSystem(this)
     }
 }

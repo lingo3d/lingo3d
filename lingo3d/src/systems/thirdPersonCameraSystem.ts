@@ -15,7 +15,7 @@ import { vector3_ } from "../display/utils/reusables"
 import { fpsPtr } from "../states/useFps"
 import renderSystemWithData from "../utils/renderSystemWithData"
 
-export const [addThirdCameraSystem, deleteThirdCameraSystem] =
+export const [addThirdPersonCameraSystem, deleteThirdPersonCameraSystem] =
     renderSystemWithData(
         (
             self: ThirdPersonCamera,
