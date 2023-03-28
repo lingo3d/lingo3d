@@ -3,19 +3,10 @@ import getWorldDirection from "../../display/utils/getWorldDirection"
 import getWorldPosition from "../../display/utils/getWorldPosition"
 import { ray, vector3 } from "../../display/utils/reusables"
 import { vec2Point } from "../../display/utils/vec2Point"
-import { onAfterRender } from "../../events/onAfterRender"
 import { CM2M } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
-import renderSystemAutoClear from "../../utils/renderSystemAutoClear"
 import { setManager } from "../utils/getManager"
 import Appendable from "./Appendable"
-
-const [addTransformSystem, deleteTransformSystem] = renderSystemAutoClear(
-    (manager: MeshAppendable) => {
-        console.log(manager)
-    },
-    onAfterRender
-)
 
 export default class MeshAppendable<T extends Object3D = Object3D>
     extends Appendable
@@ -29,22 +20,10 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     public constructor(public outerObject3d: T = new Object3D() as T) {
         super()
         setManager(outerObject3d, this)
-        this.initTransformDetector()
         this.object3d = outerObject3d
         this.position = outerObject3d.position
         this.quaternion = outerObject3d.quaternion
         this.userData = outerObject3d.userData
-    }
-
-    private matrixWorldNeedsUpdate?: boolean
-    protected initTransformDetector() {
-        Object.defineProperty(this.outerObject3d, "matrixWorldNeedsUpdate", {
-            get: () => this.matrixWorldNeedsUpdate,
-            set: (val) => {
-                this.matrixWorldNeedsUpdate = val
-                val && addTransformSystem(this)
-            }
-        })
     }
 
     public declare parent?: MeshAppendable
@@ -71,7 +50,6 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     protected override disposeNode() {
         super.disposeNode()
         this.outerObject3d.parent?.remove(this.outerObject3d)
-        deleteTransformSystem(this)
     }
 
     public override get name() {
