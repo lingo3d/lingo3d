@@ -25,7 +25,6 @@ export default <
     ): Type => {
         const defaultInstance = defaultParamsInstanceMap.get(paramString)
         if (defaultInstance) return defaultInstance
-
         if (
             (paramsCountRecord[paramString] =
                 (paramsCountRecord[paramString] ?? 0) + 1) === 1
