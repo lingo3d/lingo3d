@@ -1,9 +1,10 @@
 import store, { createEffect } from "@lincode/reactivity"
-import Timeline from "../display/Timeline"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
-import renderSystem from "../utils/renderSystem"
+import {
+    addSyncFrameSystem,
+    deleteSyncFrameSystem
+} from "../systems/syncFrameSystem"
 import { getTimeline } from "./useTimeline"
-import { setTimelineFrame } from "./useTimelineFrame"
 
 const [setTimelinePaused, getTimelinePaused] = store(true)
 export { getTimelinePaused }
@@ -18,17 +19,6 @@ createEffect(() => {
         setTimelinePaused(true)
     }
 }, [getTimeline])
-
-const [addSyncFrameSystem, deleteSyncFrameSystem] = renderSystem(
-    (timeline: Timeline) => {
-        let { frame, totalFrames } = timeline
-        if (frame >= totalFrames) {
-            frame = timeline.frame = totalFrames
-            timeline.paused = true
-        }
-        setTimelineFrame(frame)
-    }
-)
 
 createEffect(() => {
     const timeline = getTimeline()
