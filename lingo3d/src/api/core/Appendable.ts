@@ -4,21 +4,15 @@ import { GetGlobalState, createEffect, Reactive } from "@lincode/reactivity"
 import { forceGetInstance } from "@lincode/utils"
 import { nanoid } from "nanoid"
 import getStaticProperties from "../../display/utils/getStaticProperties"
-import { dtPtr, timer } from "../../engine/eventLoop"
+import { timer } from "../../engine/eventLoop"
 import { emitDispose } from "../../events/onDispose"
-import { onLoop } from "../../events/onLoop"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import IAppendable from "../../interface/IAppendable"
 import Nullable from "../../interface/utils/Nullable"
-import renderSystem from "../../utils/renderSystem"
+import { addLoopSystem, deleteLoopSystem } from "../../systems/loopSystem"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { appendableRoot, uuidMap } from "./collections"
 import type MeshAppendable from "./MeshAppendable"
-
-const [addLoopSystem, deleteLoopSystem] = renderSystem(
-    (cb: (dt: number) => void) => cb(dtPtr[0]),
-    onLoop
-)
 
 const userIdMap = new Map<string, Set<Appendable | MeshAppendable>>()
 

@@ -1,15 +1,8 @@
-import {
-    CubeCamera,
-    Group,
-    HalfFloatType,
-    Object3D,
-    Texture,
-    WebGLCubeRenderTarget
-} from "three"
+import { Group } from "three"
 import fit from "./utils/fit"
 import Loaded from "./core/Loaded"
 import IModel, { modelDefaults, modelSchema } from "../interface/IModel"
-import { Cancellable, Resolvable } from "@lincode/promiselikes"
+import { Resolvable } from "@lincode/promiselikes"
 import FoundManager from "./core/FoundManager"
 import { Reactive } from "@lincode/reactivity"
 import measure from "./utils/measure"
@@ -18,126 +11,17 @@ import {
     decreaseLoadingCount,
     increaseLoadingCount
 } from "../states/useLoadingCount"
-import { forceGet } from "@lincode/utils"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
-import unsafeSetValue from "../utils/unsafeSetValue"
-import { M2CM, NEAR } from "../globals"
-import TextureManager from "./core/TextureManager"
-import { uuidTextureMap } from "./core/mixins/utils/createMap"
-import { StandardMesh } from "./core/mixins/TexturedStandardMixin"
-import MeshAppendable from "../api/core/MeshAppendable"
-import scene from "../engine/scene"
-import { onRenderHalfRate } from "../events/onRenderHalfRate"
-import { rendererPtr } from "../states/useRenderer"
-import { reflectionVisibleSet } from "./core/mixins/VisibleMixin"
-import getWorldPosition from "./utils/getWorldPosition"
-import renderSystemWithLifeCycleAndData from "../utils/renderSystemWithLifeCycleAndData"
+import { M2CM } from "../globals"
 import { uuidMap } from "../api/core/collections"
 import Primitive from "./core/Primitive"
-import renderSystemAutoClear from "../utils/renderSystemAutoClear"
+import {
+    addRefreshFactorsSystem,
+    reflectionChangedSet,
+    reflectionDataMap
+} from "../systems/refreshFactorsSystem"
 
-const [addReflectionSystem, deleteReflectionSystem] =
-    renderSystemWithLifeCycleAndData(
-        (
-            manager: MeshAppendable,
-            data: {
-                cubeCamera: CubeCamera
-                cubeRenderTarget: WebGLCubeRenderTarget
-            }
-        ) => {
-            data.cubeCamera.position.copy(
-                getWorldPosition(manager.outerObject3d)
-            )
-            data.cubeRenderTarget.clear(rendererPtr[0], false, true, false)
-            data.cubeCamera.update(rendererPtr[0], scene)
-        },
-        (queued) => {
-            for (const manager of reflectionVisibleSet)
-                manager.outerObject3d.visible = true
-            for (const manager of queued.keys())
-                manager.outerObject3d.visible = false
-        },
-        (queued) => {
-            for (const manager of reflectionVisibleSet)
-                manager.outerObject3d.visible = false
-            for (const manager of queued.keys())
-                manager.outerObject3d.visible = true
-        },
-        onRenderHalfRate
-    )
-
-const modelTextureManagersMap = new WeakMap<Model, Array<TextureManager>>()
-
-const setFactor = (
-    factor: number | undefined,
-    textureManager: TextureManager,
-    key: string
-) =>
-    unsafeSetValue(
-        textureManager,
-        key,
-        factor === undefined
-            ? textureManager.defaults[key]
-            : Math.max(textureManager.defaults[key], 0.25) * factor
-    )
-
-const reflectionChangedSet = new WeakSet<Model>()
-const reflectionDataMap = new WeakMap<Model, [Texture, Cancellable]>()
 const supported = new Set(["fbx", "glb", "gltf"])
-
-const [addRefreshFactorsSystem] = renderSystemAutoClear((model: Model) => {
-    const {
-        metalnessFactor,
-        roughnessFactor,
-        opacityFactor,
-        envFactor,
-        reflection
-    } = model
-
-    if (reflectionChangedSet.has(model)) {
-        reflectionChangedSet.delete(model)
-
-        reflectionDataMap.get(model)?.[1].cancel()
-        reflectionDataMap.delete(model)
-
-        if (reflection) {
-            const reflectionHandle = new Cancellable()
-            const cubeRenderTarget = new WebGLCubeRenderTarget(
-                reflection ? 128 : 16
-            )
-            const { texture: reflectionTexture } = cubeRenderTarget
-            reflectionTexture.type = HalfFloatType
-            reflectionDataMap.set(model, [reflectionTexture, reflectionHandle])
-            const cubeCamera = new CubeCamera(NEAR, 10, cubeRenderTarget)
-
-            addReflectionSystem(model, { cubeCamera, cubeRenderTarget })
-            uuidTextureMap.set(reflectionTexture.uuid, reflectionTexture)
-
-            reflectionHandle.then(() => {
-                cubeRenderTarget.dispose()
-                deleteReflectionSystem(model)
-                uuidTextureMap.delete(reflectionTexture.uuid)
-            })
-        }
-    }
-    const textureManagers = forceGet(modelTextureManagersMap, model, () => {
-        const result: Array<TextureManager> = []
-        model.outerObject3d.traverse((child: Object3D | StandardMesh) => {
-            if (!("material" in child)) return
-            const { TextureManager } = child.material.userData
-            TextureManager && result.push(new TextureManager(child, model))
-        })
-        return result
-    })
-    const reflectionTexture = reflectionDataMap.get(model)?.[0]
-    for (const textureManager of textureManagers) {
-        setFactor(metalnessFactor, textureManager, "metalness")
-        setFactor(roughnessFactor, textureManager, "roughness")
-        setFactor(opacityFactor, textureManager, "opacity")
-        setFactor(envFactor, textureManager, "envMapIntensity")
-        textureManager.envMap = reflectionTexture?.uuid
-    }
-})
 
 export default class Model extends Loaded<Group> implements IModel {
     public static componentName = "model"

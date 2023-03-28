@@ -7,8 +7,11 @@ import ISpriteSheet, {
     spriteSheetDefaults,
     spriteSheetSchema
 } from "../interface/ISpriteSheet"
-import renderSystemWithData from "../utils/renderSystemWithData"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
+import {
+    addSpriteSheetSystem,
+    deleteSpriteSheetSystem
+} from "../systems/spriteSheetSystem"
 
 const numbers = new Set("01234567890".split(""))
 
@@ -116,32 +119,6 @@ const loadSpriteSheet = (
     return map
 }
 
-const [addPlaySystem, deletePlaySystem] = renderSystemWithData(
-    (
-        material: SpriteMaterial,
-        data: {
-            x: number
-            y: number
-            columns: number
-            rows: number
-            frame: number
-            length: number
-            loop: boolean | undefined
-        }
-    ) => {
-        material.map!.offset.set(data.x / data.columns, data.y / data.rows)
-        if (++data.x === data.columns) {
-            data.x = 0
-            --data.y
-        }
-        if (++data.frame < data.length) return
-        data.frame = 0
-        data.x = 0
-        data.y = data.rows - 1
-        !data.loop && deletePlaySystem(material)
-    }
-)
-
 const playSpriteSheet = (
     material: SpriteMaterial,
     columns: number,
@@ -151,7 +128,7 @@ const playSpriteSheet = (
 ) => {
     material.visible = true
     const rows = Math.ceil(length / columns)
-    addPlaySystem(material, {
+    addSpriteSheetSystem(material, {
         x: 0,
         y: rows - 1,
         columns,
@@ -160,7 +137,7 @@ const playSpriteSheet = (
         length,
         loop
     })
-    handle.then(() => deletePlaySystem(material))
+    handle.then(() => deleteSpriteSheetSystem(material))
 }
 
 export default class SpriteSheet

@@ -9,7 +9,7 @@ import { euler, quaternion } from "../utils/reusables"
 import { FAR, NEAR, PI } from "../../globals"
 import fpsAlpha from "../utils/fpsAlpha"
 import { positionChangedXZ } from "../utils/trackObject"
-import CameraBase, { updateAngleSystem } from "./CameraBase"
+import CameraBase, { addUpdateAngleSystem } from "./CameraBase"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import renderSystem from "../../utils/renderSystem"
 import getWorldPosition from "../utils/getWorldPosition"
@@ -54,7 +54,7 @@ const followTargetRotation = (
         self.midObject3d.quaternion.slerp(quaternion, fpsAlpha(0.1))
     } else self.midObject3d.setRotationFromEuler(euler)
 
-    updateAngleSystem(self)
+    addUpdateAngleSystem(self)
 }
 
 const [addCameraSystem, deleteCameraSystem] = renderSystemWithData(
