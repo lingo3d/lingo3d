@@ -1,10 +1,10 @@
 import { rad2Deg } from "@lincode/math"
 import { MeshStandardMaterial } from "three"
 import {
-    allocateDefaultMaterial,
-    decreaseMaterialCount,
-    increaseMaterialCount
-} from "../../../../pools/materialPool"
+    allocateDefaultReferenceMaterial,
+    decreaseReferenceMaterial,
+    increaseReferenceMaterial
+} from "../../../../pools/referenceMaterialPool"
 import { TexturedStandardParams } from "../../../../pools/texturedStandardPool"
 import renderSystemAutoClear from "../../../../utils/renderSystemAutoClear"
 import { StandardMesh } from "../../../core/mixins/TexturedStandardMixin"
@@ -51,18 +51,18 @@ const makeDefaults = (referenceMaterial: MeshStandardMaterial) => {
 
 export default (referenceMaterial: MeshStandardMaterial) => {
     const [defaults, defaultParams] = makeDefaults(referenceMaterial)
-    allocateDefaultMaterial(defaultParams, referenceMaterial)
+    allocateDefaultReferenceMaterial(defaultParams, referenceMaterial)
 
     const [addRefreshParamsSystem] = renderSystemAutoClear(
         (target: MyTextureManager) => {
             if (target.materialParamString)
-                decreaseMaterialCount(target.materialParamString)
+                decreaseReferenceMaterial(target.materialParamString)
             else
                 target.owner.then(() =>
-                    decreaseMaterialCount(target.materialParamString!)
+                    decreaseReferenceMaterial(target.materialParamString!)
                 )
             const paramString = JSON.stringify(target.materialParams)
-            target.material = increaseMaterialCount(
+            target.material = increaseReferenceMaterial(
                 target.materialParams,
                 paramString,
                 { referenceMaterial, defaults, MyTextureManager }

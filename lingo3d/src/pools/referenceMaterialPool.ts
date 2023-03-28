@@ -30,9 +30,9 @@ const setMaterial = (
 }
 
 export const [
-    increaseMaterialCount,
-    decreaseMaterialCount,
-    allocateDefaultMaterial
+    increaseReferenceMaterial,
+    decreaseReferenceMaterial,
+    allocateDefaultReferenceMaterial
 ] = createInstancePool<
     MeshStandardMaterial,
     TexturedStandardParams,
