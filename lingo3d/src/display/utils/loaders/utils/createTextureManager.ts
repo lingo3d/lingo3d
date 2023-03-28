@@ -1,11 +1,9 @@
 import { rad2Deg } from "@lincode/math"
 import { MeshStandardMaterial } from "three"
 import { equalsDefaultValue } from "../../../../interface/utils/getDefaultValue"
+import { TexturedStandardParams } from "../../../../pools/texturedStandardPool"
 import renderSystemAutoClear from "../../../../utils/renderSystemAutoClear"
-import {
-    StandardMesh,
-    StandardParams
-} from "../../../core/mixins/TexturedStandardMixin"
+import { StandardMesh } from "../../../core/mixins/TexturedStandardMixin"
 import createMap from "../../../core/mixins/utils/createMap"
 import TextureManager from "../../../core/TextureManager"
 import createInstancePool from "../../../core/utils/createInstancePool"
@@ -45,7 +43,7 @@ export default (standardMaterial: MeshStandardMaterial) => {
         normalScale: standardMaterial.normalScale?.x ?? 1,
         depthTest: standardMaterial.depthTest
     }
-    const defaultParams = Object.values(defaults) as StandardParams
+    const defaultParams = Object.values(defaults) as TexturedStandardParams
 
     const setMaterial = (material: any, key: string, value: any) => {
         if (value == undefined) return
@@ -66,7 +64,7 @@ export default (standardMaterial: MeshStandardMaterial) => {
     }
 
     const [increaseCount, decreaseCount, allocateDefaultInstance] =
-        createInstancePool<MeshStandardMaterial, StandardParams>(
+        createInstancePool<MeshStandardMaterial, TexturedStandardParams>(
             (_, params) => {
                 const material = standardMaterial.clone()
                 material.userData.TextureManager = MyTextureManager

@@ -1,11 +1,11 @@
 import { Point } from "@lincode/math"
 import { MeshStandardMaterial } from "three"
 import ITexturedStandard from "../../interface/ITexturedStandard"
+import { TexturedStandardParams } from "../../pools/texturedStandardPool"
 import { color } from "../utils/reusables"
 import {
     standardDefaultParams,
-    standardDefaults,
-    StandardParams
+    standardDefaults
 } from "./mixins/TexturedStandardMixin"
 
 export default abstract class TextureManager implements ITexturedStandard {
@@ -26,7 +26,7 @@ export default abstract class TextureManager implements ITexturedStandard {
         this.object3d.material = val
     }
 
-    public get materialParams(): StandardParams {
+    public get materialParams(): TexturedStandardParams {
         //@ts-ignore
         return (this._materialParams ??= Object.values(this.defaultParams))
     }
