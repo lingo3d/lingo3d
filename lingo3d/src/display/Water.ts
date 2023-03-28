@@ -2,20 +2,12 @@ import { Reactive } from "@lincode/reactivity"
 import { planeGeometry } from "./primitives/Plane"
 import { sphereGeometry } from "./primitives/Sphere"
 import loadTexture from "./utils/loaders/loadTexture"
-import { dtPtr } from "../engine/eventLoop"
 import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "./core/VisibleObjectManager"
 import { setManager } from "../api/utils/getManager"
 import { WATERNORMALS_URL } from "../api/assetsPath"
-import renderSystemWithData from "../utils/renderSystemWithData"
-import type { Water as ThreeWater } from "three/examples/jsm/objects/Water"
-
-const [addWaterSystem, deleteWaterSystem] = renderSystemWithData(
-    (water: ThreeWater, data: { speed: number }) => {
-        water.material.uniforms["time"].value += dtPtr[0] * data.speed
-    }
-)
+import { addWaterSystem, deleteWaterSystem } from "../systems/waterSystem"
 
 export default class Water extends VisibleObjectManager implements IWater {
     public static componentName = "water"

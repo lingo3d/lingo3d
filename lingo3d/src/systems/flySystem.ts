@@ -1,0 +1,35 @@
+import ObjectManager from "../display/core/ObjectManager"
+import getWorldPosition from "../display/utils/getWorldPosition"
+import { vec2Point } from "../display/utils/vec2Point"
+import renderSystemWithData from "../utils/renderSystemWithData"
+
+export const [addFlySystem, deleteFlySystem] = renderSystemWithData(
+    (manager: ObjectManager, { downSet }: { downSet: Set<string> }) => {
+        if (downSet.has("Meta") || downSet.has("Control")) return
+
+        const speed = downSet.has("Shift") ? 50 : 10
+
+        if (downSet.has("w")) manager.translateZ(-speed)
+        else if (downSet.has("s")) manager.translateZ(speed)
+
+        if (downSet.has("a") || downSet.has("ArrowLeft"))
+            manager.moveRight(-speed)
+        else if (downSet.has("d") || downSet.has("ArrowRight"))
+            manager.moveRight(speed)
+
+        if (
+            downSet.has("w") ||
+            downSet.has("s") ||
+            downSet.has("a") ||
+            downSet.has("d")
+        ) {
+            const worldPos = vec2Point(getWorldPosition(manager.object3d))
+            manager.innerZ = 0
+            manager.placeAt(worldPos)
+        }
+        if (downSet.has("Meta") || downSet.has("Control")) return
+
+        if (downSet.has("ArrowDown")) manager.y -= speed
+        else if (downSet.has("ArrowUp")) manager.y += speed
+    }
+)

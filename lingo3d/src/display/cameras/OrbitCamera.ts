@@ -9,56 +9,16 @@ import { onKeyClear } from "../../events/onKeyClear"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { Cancellable } from "@lincode/promiselikes"
 import { PerspectiveCamera } from "three"
-import { vec2Point } from "../utils/vec2Point"
-import getWorldPosition from "../utils/getWorldPosition"
-import getCenter from "../utils/getCenter"
 import { FAR, NEAR } from "../../globals"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import CameraBase from "../core/CameraBase"
-import renderSystemWithData from "../../utils/renderSystemWithData"
 import { getHotKeysEnabled } from "../../states/useHotKeysEnabled"
-
-const [addPlaceAtSystem, deletePlaceAtSystem] = renderSystemWithData(
-    (cam: OrbitCamera, data: { found: MeshAppendable }) => {
-        cam.placeAt(vec2Point(getCenter(data.found.object3d)))
-    }
-)
-
-const [addGyrateSystem, deleteGyrateSystem] = renderSystemWithData(
-    (cam: OrbitCamera, data: { speed: number }) => {
-        cam.gyrate(data.speed, 0, true)
-    }
-)
-
-const [addFlySystem, deleteFlySystem] = renderSystemWithData(
-    (cam: OrbitCamera, { downSet }: { downSet: Set<string> }) => {
-        if (downSet.has("Meta") || downSet.has("Control")) return
-
-        const speed = downSet.has("Shift") ? 50 : 10
-
-        if (downSet.has("w")) cam.translateZ(-speed)
-        else if (downSet.has("s")) cam.translateZ(speed)
-
-        if (downSet.has("a") || downSet.has("ArrowLeft")) cam.moveRight(-speed)
-        else if (downSet.has("d") || downSet.has("ArrowRight"))
-            cam.moveRight(speed)
-
-        if (
-            downSet.has("w") ||
-            downSet.has("s") ||
-            downSet.has("a") ||
-            downSet.has("d")
-        ) {
-            const worldPos = vec2Point(getWorldPosition(cam.object3d))
-            cam.innerZ = 0
-            cam.placeAt(worldPos)
-        }
-        if (downSet.has("Meta") || downSet.has("Control")) return
-
-        if (downSet.has("ArrowDown")) cam.y -= speed
-        else if (downSet.has("ArrowUp")) cam.y += speed
-    }
-)
+import {
+    addPlaceAtSystem,
+    deletePlaceAtSystem
+} from "../../systems/placeAtSysytem"
+import { addGyrateSystem, deleteGyrateSystem } from "../../systems/gyrateSystem"
+import { addFlySystem, deleteFlySystem } from "../../systems/flySystem"
 
 export default class OrbitCamera extends CameraBase implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -78,7 +38,7 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
             const found = this.firstChildState.get()
             if (!(found instanceof MeshAppendable)) return
 
-            addPlaceAtSystem(this, { found })
+            addPlaceAtSystem(this, { target: found })
             return () => {
                 deletePlaceAtSystem(this)
             }
