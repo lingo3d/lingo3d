@@ -4,7 +4,7 @@ import createMap from "../display/core/mixins/utils/createMap"
 import TextureManager from "../display/core/TextureManager"
 import createInstancePool from "../display/core/utils/createInstancePool"
 import { equalsDefaultValue } from "../interface/utils/getDefaultValue"
-import { TexturedStandardParams } from "./texturedStandardPool"
+import { MaterialParams } from "./materialPool"
 
 const setMaterial = (
     material: any,
@@ -35,7 +35,7 @@ export const [
     allocateDefaultReferenceMaterial
 ] = createInstancePool<
     MeshStandardMaterial,
-    TexturedStandardParams,
+    MaterialParams,
     {
         referenceMaterial: MeshStandardMaterial
         defaults: Record<string, any>

@@ -9,25 +9,19 @@ import { color, standardMaterial } from "../../utils/reusables"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import renderSystemAutoClear from "../../../utils/renderSystemAutoClear"
 import {
-    allocateDefaultTexturedStandard,
-    decreaseTexturedStandard,
-    increaseTexturedStandard,
-    TexturedStandardParams
-} from "../../../pools/texturedStandardPool"
+    allocateDefaultMaterial,
+    decreaseMaterial,
+    increaseMaterial,
+    MaterialParams
+} from "../../../pools/materialPool"
 
 const [addRefreshParamsSystem] = renderSystemAutoClear(
     (target: TexturedStandardMixin) => {
         if (target.materialParamString)
-            decreaseTexturedStandard(target.materialParamString)
-        else
-            target.then(() =>
-                decreaseTexturedStandard(target.materialParamString!)
-            )
+            decreaseMaterial(target.materialParamString)
+        else target.then(() => decreaseMaterial(target.materialParamString!))
         const paramString = JSON.stringify(target.materialParams)
-        target.material = increaseTexturedStandard(
-            target.materialParams,
-            paramString
-        )
+        target.material = increaseMaterial(target.materialParams, paramString)
         target.materialParamString = paramString
     }
 )
@@ -40,9 +34,9 @@ export const standardDefaults = Object.fromEntries(
 )
 export const standardDefaultParams = Object.values(
     standardDefaults
-) as TexturedStandardParams
+) as MaterialParams
 
-allocateDefaultTexturedStandard(standardDefaultParams, standardMaterial)
+allocateDefaultMaterial(standardDefaultParams, standardMaterial)
 
 export type StandardMesh = Mesh<BufferGeometry, MeshStandardMaterial>
 
@@ -57,11 +51,11 @@ export default abstract class TexturedStandardMixin
         this.object3d.material = val
     }
 
-    private _materialParams?: TexturedStandardParams
+    private _materialParams?: MaterialParams
     public get materialParams() {
         return (this._materialParams ??= Object.values(
             standardDefaultParams
-        ) as TexturedStandardParams)
+        ) as MaterialParams)
     }
 
     public materialParamString?: string

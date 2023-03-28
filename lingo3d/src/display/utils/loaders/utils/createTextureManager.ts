@@ -5,7 +5,7 @@ import {
     decreaseReferenceMaterial,
     increaseReferenceMaterial
 } from "../../../../pools/referenceMaterialPool"
-import { TexturedStandardParams } from "../../../../pools/texturedStandardPool"
+import { MaterialParams } from "../../../../pools/materialPool"
 import renderSystemAutoClear from "../../../../utils/renderSystemAutoClear"
 import { StandardMesh } from "../../../core/mixins/TexturedStandardMixin"
 import TextureManager from "../../../core/TextureManager"
@@ -45,7 +45,7 @@ const makeDefaults = (referenceMaterial: MeshStandardMaterial) => {
         normalScale: referenceMaterial.normalScale?.x ?? 1,
         depthTest: referenceMaterial.depthTest
     }
-    const defaultParams = Object.values(defaults) as TexturedStandardParams
+    const defaultParams = Object.values(defaults) as MaterialParams
     return <const>[defaults, defaultParams]
 }
 
