@@ -64,7 +64,6 @@ export default class Curve extends MeshAppendable implements ICurve {
             geometry.setAttribute("position", bufferAttribute)
             const material = new LineBasicMaterial({ color: 0xff0000 })
             const curveMesh = new Line(geometry, material)
-            curveMesh.frustumCulled = false
             this.outerObject3d.add(curveMesh)
 
             if (this._points.length < 2)

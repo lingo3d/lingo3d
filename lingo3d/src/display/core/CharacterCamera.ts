@@ -35,12 +35,6 @@ export default class CharacterCamera
 
         this.createEffect(() => {
             const found = this.firstChildState.get()
-            if (!found) return
-            if ("frustumCulled" in found) found.frustumCulled = false
-        }, [this.firstChildState.get])
-
-        this.createEffect(() => {
-            const found = this.firstChildState.get()
             if (!(found instanceof MeshAppendable)) return
 
             followTargetRotation(this, found, false)

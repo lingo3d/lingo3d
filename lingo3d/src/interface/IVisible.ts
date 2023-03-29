@@ -22,7 +22,6 @@ export default interface IVisible {
 
     visible: Nullable<boolean>
     reflectionVisible: Nullable<boolean>
-    frustumCulled: boolean
     castShadow: Nullable<boolean>
     receiveShadow: Nullable<boolean>
 
@@ -47,7 +46,6 @@ export const visibleSchema: Required<ExtractProps<IVisible>> = {
 
     visible: Boolean,
     reflectionVisible: Boolean,
-    frustumCulled: Boolean,
     castShadow: Boolean,
     receiveShadow: Boolean,
 
@@ -70,7 +68,6 @@ export const visibleDefaults = extendDefaults<IVisible>([], {
 
     visible: nullableDefault(true),
     reflectionVisible: nullableDefault(false),
-    frustumCulled: true,
     castShadow: nullableDefault(true),
     receiveShadow: nullableDefault(true),
 

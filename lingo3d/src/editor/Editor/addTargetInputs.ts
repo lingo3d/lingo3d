@@ -140,7 +140,6 @@ export default (
     const [displayParams, displayRest] = splitObject(animationRest, [
         "visible",
         "innerVisible",
-        "frustumCulled",
         "castShadow",
         "receiveShadow"
     ])

@@ -100,14 +100,6 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         )
     }
 
-    public get frustumCulled() {
-        return this.outerObject3d.frustumCulled
-    }
-    public set frustumCulled(val) {
-        this.outerObject3d.frustumCulled = val
-        this.outerObject3d.traverse((child) => (child.frustumCulled = val))
-    }
-
     public get frustumVisible() {
         updateFrustum()
         return frustum.containsPoint(getCenter(this.object3d))
