@@ -4,8 +4,6 @@ import getWorldPosition from "./getWorldPosition"
 import getWorldQuaternion from "./getWorldQuaternion"
 
 export const positionChanged = computePerFrame((target: Object3D) => {
-    if (!target.matrixWorldNeedsUpdate) return
-
     const { userData } = target
     const position = getWorldPosition(target)
     const result = userData.positionOld
@@ -16,8 +14,6 @@ export const positionChanged = computePerFrame((target: Object3D) => {
 }, false)
 
 export const positionChangedXZ = computePerFrame((target: Object3D) => {
-    if (!target.matrixWorldNeedsUpdate) return
-
     const { userData } = target
     const position = getWorldPosition(target)
     const result = userData.positionOldXZ
@@ -29,8 +25,6 @@ export const positionChangedXZ = computePerFrame((target: Object3D) => {
 }, false)
 
 export const quaternionChanged = computePerFrame((target: Object3D) => {
-    if (!target.matrixWorldNeedsUpdate) return
-
     const { userData } = target
     const quaternion = getWorldQuaternion(target)
     const result = userData.quaternionOld
