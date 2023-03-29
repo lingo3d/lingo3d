@@ -8,6 +8,7 @@ import IConnector, {
     connectorSchema
 } from "../interface/IConnector"
 import NullableCallback from "../interface/utils/NullableCallback"
+import { addRefreshStateSystem } from "../systems/autoClear/refreshStateSystem"
 import getReactive from "../utils/getReactive"
 import { setRuntimeValue } from "../utils/getRuntimeValue"
 import { PointType } from "../utils/isPoint"
@@ -97,11 +98,11 @@ export default class Connector extends GameGraphChild implements IConnector {
             )
             const handle1 = fromManager.propertyChangedEvent.on(
                 "runtimeSchema",
-                () => this.refreshState.set({})
+                () => addRefreshStateSystem(this.refreshState)
             )
             const handle2 = toManager.propertyChangedEvent.on(
                 "runtimeSchema",
-                () => this.refreshState.set({})
+                () => addRefreshStateSystem(this.refreshState)
             )
             return () => {
                 handle0.cancel()
@@ -120,7 +121,7 @@ export default class Connector extends GameGraphChild implements IConnector {
     }
     public set to(val) {
         this._to = val
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     private _from?: string
@@ -129,7 +130,7 @@ export default class Connector extends GameGraphChild implements IConnector {
     }
     public set from(val) {
         this._from = val
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     private _fromProp?: string
@@ -138,7 +139,7 @@ export default class Connector extends GameGraphChild implements IConnector {
     }
     public set fromProp(val) {
         this._fromProp = val
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     private _toProp?: string
@@ -147,7 +148,7 @@ export default class Connector extends GameGraphChild implements IConnector {
     }
     public set toProp(val) {
         this._toProp = val
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     private _xyz?: "x" | "y" | "z"
@@ -156,6 +157,6 @@ export default class Connector extends GameGraphChild implements IConnector {
     }
     public set xyz(val) {
         this._xyz = val
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 }

@@ -1,9 +1,7 @@
-import { distance3d, mapRange } from "@lincode/math"
+import { mapRange } from "@lincode/math"
 import { Reactive } from "@lincode/reactivity"
 import {
     WebGLRenderTarget,
-    MeshBasicMaterial,
-    Mesh,
     PerspectiveCamera,
     SpriteMaterial,
     Sprite
@@ -14,6 +12,7 @@ import { onBeforeRender } from "../events/onBeforeRender"
 import { NEAR, FAR } from "../globals"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { rendererPtr } from "../states/useRenderer"
+import { addRefreshStateSystem } from "../systems/autoClear/refreshStateSystem"
 import VisibleObjectManager from "./core/VisibleObjectManager"
 import getWorldPosition from "./utils/getWorldPosition"
 import getWorldQuaternion from "./utils/getWorldQuaternion"
@@ -98,7 +97,7 @@ export default class Portal extends VisibleObjectManager {
     }
     public override set width(val) {
         super.width = val
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     public override get height() {
@@ -106,7 +105,7 @@ export default class Portal extends VisibleObjectManager {
     }
     public override set height(val) {
         super.height = val
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     public override get depth() {

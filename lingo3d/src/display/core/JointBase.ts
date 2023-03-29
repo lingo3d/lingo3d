@@ -20,6 +20,7 @@ import PositionedDirectionedManager from "./PositionedDirectionedManager"
 import { addSelectionHelper } from "./utils/raycast/selectionCandidates"
 import HelperSphere from "./utils/HelperSphere"
 import { getAppendables } from "../../api/core/Appendable"
+import { addRefreshStateSystem } from "../../systems/autoClear/refreshStateSystem"
 
 export const joints = new Set<JointBase>()
 
@@ -121,18 +122,18 @@ export default abstract class JointBase
             const handle0 = fromManager.refreshPhysicsState!.get(() => {
                 if (fromPhysics === fromManager.physics) return
                 fromPhysics = fromManager.physics
-                this.refreshState.set({})
+                addRefreshStateSystem(this.refreshState)
             })
             let toPhysics = toManager.physics
             const handle1 = toManager.refreshPhysicsState!.get(() => {
                 if (toPhysics === toManager.physics) return
                 toPhysics = toManager.physics
-                this.refreshState.set({})
+                addRefreshStateSystem(this.refreshState)
             })
 
-            const cb = (phase: TransformControlsPhase) => {
-                if (phase === "end") this.refreshState.set({})
-            }
+            const cb = (phase: TransformControlsPhase) =>
+                phase === "end" && addRefreshStateSystem(this.refreshState)
+
             const fromCaller = (fromManager.onTransformControls =
                 extendFunction(fromManager.onTransformControls, cb))
             const toCaller = (toManager.onTransformControls = extendFunction(
@@ -196,7 +197,7 @@ export default abstract class JointBase
         this.fromQuat && fromManager.quaternion.copy(this.fromQuat)
         this.toQuat && toManager.quaternion.copy(this.toQuat)
 
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
         fromManager.updatePhysics()
         toManager.updatePhysics()
     }
@@ -209,7 +210,7 @@ export default abstract class JointBase
     }
     public set to(val) {
         this._to = val
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     private _from?: string | PhysicsObjectManager
@@ -218,13 +219,13 @@ export default abstract class JointBase
     }
     public set from(val) {
         this._from = val
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     private manualPosition?: boolean
     private setManualPosition() {
         this.manualPosition = true
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     public override get x() {

@@ -16,6 +16,7 @@ import {
     increaseSpriteSheet,
     SpriteSheetParams
 } from "../pools/spriteSheetPool"
+import { addRefreshStateSystem } from "../systems/autoClear/refreshStateSystem"
 
 const loadSpriteSheet = (
     material: SpriteMaterial,
@@ -124,7 +125,7 @@ export default class SpriteSheet
     }
     public set textureStart(value) {
         this._textureStart = value
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     private _textureEnd?: string
@@ -133,7 +134,7 @@ export default class SpriteSheet
     }
     public set textureEnd(value) {
         this._textureEnd = value
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     private _texture?: string
@@ -142,7 +143,7 @@ export default class SpriteSheet
     }
     public set texture(value) {
         this._texture = value
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     private _columns?: number
@@ -151,7 +152,7 @@ export default class SpriteSheet
     }
     public set columns(value) {
         this._columns = value
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     private _length?: number
@@ -160,7 +161,7 @@ export default class SpriteSheet
     }
     public set length(value) {
         this._length = value
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     private _loop?: boolean
@@ -169,7 +170,7 @@ export default class SpriteSheet
     }
     public set loop(value) {
         this._loop = value
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     public override get depth() {

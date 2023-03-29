@@ -10,6 +10,7 @@ import { overrideSelectionCandidates } from "./core/utils/raycast/selectionCandi
 import HelperSphere from "./core/utils/HelperSphere"
 import MeshAppendable from "../api/core/MeshAppendable"
 import { getEditorHelper } from "../states/useEditorHelper"
+import { addRefreshStateSystem } from "../systems/autoClear/refreshStateSystem"
 
 const createFor = <Result, Data>(
     dataList: Array<Data>,
@@ -97,7 +98,7 @@ export default class Curve extends MeshAppendable implements ICurve {
                         if (mode !== "translate") return
                         move = true
                         Object.assign(pt, helper.worldPosition)
-                        this.refreshState.set({})
+                        addRefreshStateSystem(this.refreshState)
                     }
                     cleanup.then(() => {
                         helper.dispose()
@@ -130,7 +131,7 @@ export default class Curve extends MeshAppendable implements ICurve {
     }
     public set subdivide(val) {
         this._subdivide = val
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     private _points: Array<Point3d> = []
@@ -139,11 +140,11 @@ export default class Curve extends MeshAppendable implements ICurve {
     }
     public set points(val) {
         this._points = val
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 
     public addPoint(pt: Point3d) {
         this._points.push(pt)
-        this.refreshState.set({})
+        addRefreshStateSystem(this.refreshState)
     }
 }
