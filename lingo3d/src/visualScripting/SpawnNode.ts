@@ -1,10 +1,9 @@
 import { omit } from "@lincode/utils"
 import Appendable from "../api/core/Appendable"
 import { eraseAppendable } from "../api/core/collections"
-import createObject from "../api/serializer/createObject"
+import type { GameObjectTypeWithoutTemplate } from "../api/serializer/createObjectWithoutTemplate"
 import nonSerializedProperties from "../api/serializer/nonSerializedProperties"
-import { serializeAppendable } from "../api/serializer/serialize"
-import { AppendableNode, GameObjectType } from "../api/serializer/types"
+import { AppendableNode } from "../api/serializer/types"
 import ISpawnNode, {
     spawnNodeDefaults,
     spawnNodeSchema
@@ -12,7 +11,9 @@ import ISpawnNode, {
 import Connector, { findConnected, managerConnectorsMap } from "./Connector"
 import GameGraphChild from "./GameGraphChild"
 
-type CacheData = Array<[Appendable, GameObjectType, Partial<AppendableNode>]>
+type CacheData = Array<
+    [Appendable, GameObjectTypeWithoutTemplate, Partial<AppendableNode>]
+>
 type Cache = { data: CacheData; connectors: Set<Connector> }
 
 const spawnConnectors = (
@@ -31,12 +32,18 @@ const spawnConnectors = (
         )
 }
 
-const spawnCached = (cache: Cache, patch: Map<string, Record<string, any>>) => {
+const spawnCached = async (
+    cache: Cache,
+    patch: Map<string, Record<string, any>>
+) => {
     const { data, connectors } = cache
     const connectedUUIDs = new Map<string, string>()
+    const { default: createObjectWithoutTemplate } = await import(
+        "../api/serializer/createObjectWithoutTemplate"
+    )
     for (const [connected, type, properties] of data) {
         const manager = Object.assign(
-            createObject(type),
+            createObjectWithoutTemplate(type),
             properties,
             patch.get(connected.uuid)
         )
@@ -55,20 +62,28 @@ export default class SpawnNode extends GameGraphChild implements ISpawnNode {
     private cache?: Cache
     public patch = new Map<string, Record<string, any>>()
 
-    public spawn() {
+    public async spawn() {
         if (this.cache) return spawnCached(this.cache, this.patch)
         this.cache = { data: [], connectors: new Set<Connector>() }
 
         const { data, connectors } = this.cache
         const connectedUUIDs = new Map<string, string>()
+        const { default: createObjectWithoutTemplate } = await import(
+            "../api/serializer/createObjectWithoutTemplate"
+        )
+        const { serializeAppendable } = await import(
+            "../api/serializer/serialize"
+        )
         for (const connected of findConnected(this)) {
             for (const connector of managerConnectorsMap.get(connected) ?? [])
                 connectors.add(connector)
 
             const node = serializeAppendable(connected)
+            if (node.type === "template") continue
+
             const properties = omit(node, nonSerializedProperties)
             const manager = Object.assign(
-                createObject(node.type),
+                createObjectWithoutTemplate(node.type),
                 properties,
                 this.patch.get(connected.uuid)
             )

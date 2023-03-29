@@ -1,6 +1,7 @@
 import Appendable from "../api/core/Appendable"
-import createObject from "../api/serializer/createObject"
-import { GameObjectType } from "../api/serializer/types"
+import createObjectWithoutTemplate, {
+    GameObjectTypeWithoutTemplate
+} from "../api/serializer/createObjectWithoutTemplate"
 import { unselectableSet } from "./core/utils/raycast/selectionCandidates"
 
 export const templateSet = new WeakSet<Template>()
@@ -13,8 +14,9 @@ export default class Template extends Appendable {
         unselectableSet.add(this)
     }
 
-    public set source(type: GameObjectType | Appendable) {
-        const target = typeof type === "string" ? createObject(type) : type
+    public set source(type: GameObjectTypeWithoutTemplate | Appendable) {
+        const target =
+            typeof type === "string" ? createObjectWithoutTemplate(type) : type
         target.dispose()
         this.children = target.children
         this._name = target.name
