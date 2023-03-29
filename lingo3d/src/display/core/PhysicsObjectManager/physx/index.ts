@@ -1,7 +1,6 @@
 import { forceGetInstance, lazy } from "@lincode/utils"
 import { setPhysXLoaded } from "../../../../states/usePhysXLoaded"
 import { destroyPtr } from "./destroy"
-import "./physxLoop"
 import { physxPtr } from "./physxPtr"
 import { simd } from "wasm-feature-detect"
 import {
@@ -248,8 +247,7 @@ import { addClearSystem } from "../../../../systems/autoClear/clearSystem"
         contacts.add(manager)
         addClearSystem(contacts)
     }
-    controllerHitCallback.onControllerHit = (h: any) => {
-    }
+    controllerHitCallback.onControllerHit = (h: any) => {}
 
     //create simulation event callback
     const simulationEventCallback = new PxSimulationEventCallbackImpl()
