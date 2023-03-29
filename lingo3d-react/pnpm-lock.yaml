@@ -17,8 +17,8 @@ dependencies:
     specifier: 0.149.0
     version: 0.149.0
   lingo3d:
-    specifier: 2.0.32
-    version: 2.0.32
+    specifier: 2.0.33
+    version: 2.0.33
   nanoid:
     specifier: ^4.0.2
     version: 4.0.2
@@ -850,8 +850,8 @@ packages:
     resolution: {integrity: sha512-s0KcCYw64Eix0mr3qSq1lFIGdZVdDSoU2OdUpzA9eN39/XYE3/6eu8xTX5ZwRqAi97O1xwGEjIpXd05MwEowgg==}
     dev: false
 
-  /lingo3d@2.0.32:
-    resolution: {integrity: sha512-z4wP0hKiCcYP5gj6snK94/XlxfOFhPsaUccfUi/+yXeQLBdWPjsK86Y4NqExy9i/yUyoqI7TCBZYCiOqCImDUg==}
+  /lingo3d@2.0.33:
+    resolution: {integrity: sha512-8mqyYJlRbz9Zo870wmzLo3HFxCN76Aaxl+kgo1lL5r04RFQaord0lOWymkk+GrcngGl/DgiFgYaa9D6/XOxVcg==}
     dependencies:
       '@lincode/events': 1.0.32
       '@lincode/filetypes': 1.0.3
