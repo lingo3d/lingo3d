@@ -3,8 +3,8 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 
 export default <T, Data extends Record<string, any>>(
     cb: (target: T, data: Data) => void,
-    init: (queued: Map<T, Data>) => void,
-    finish: (queued: Map<T, Data>) => void,
+    onEnterTick: (queued: Map<T, Data>) => void,
+    onExitTick: (queued: Map<T, Data>) => void,
     ticker = onBeforeRender
 ) => {
     const queued = new Map<T, Data>()
@@ -12,9 +12,9 @@ export default <T, Data extends Record<string, any>>(
     let handle: Cancellable | undefined
     const start = () => {
         handle = ticker(() => {
-            init(queued)
+            onEnterTick(queued)
             for (const [target, data] of queued) cb(target, data)
-            finish(queued)
+            onExitTick(queued)
         })
     }
     return <const>[
