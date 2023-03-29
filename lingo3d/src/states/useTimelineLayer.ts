@@ -1,6 +1,5 @@
 import store from "@lincode/reactivity"
 import { getSelectionTarget } from "./useSelectionTarget"
-import { getTimelineData } from "./useTimelineData"
 
 const [_setTimelineLayer, getTimelineLayer] = store<string | undefined>(
     undefined
@@ -16,12 +15,13 @@ export const setTimelineLayer = (val?: string) => {
     timeout = setTimeout(() => (blocked = false), 10)
 }
 
-getSelectionTarget((selectionTarget) => {
+getSelectionTarget(async (selectionTarget) => {
     if (blocked) return
     if (!selectionTarget) {
         _setTimelineLayer(undefined)
         return
     }
+    const { getTimelineData } = await import("./useTimelineData")
     const [timelineData] = getTimelineData()
     if (!timelineData || !(selectionTarget.uuid in timelineData)) {
         _setTimelineLayer(undefined)
