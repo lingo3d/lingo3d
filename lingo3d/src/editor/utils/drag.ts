@@ -1,6 +1,6 @@
 import Appendable from "../../api/core/Appendable"
 import TexturedStandardMixin from "../../display/core/mixins/TexturedStandardMixin"
-import { container } from "../../engine/renderLoop/renderSetup"
+import { container } from "../../engine/renderLoop/containers"
 import { setEditorDragEvent } from "../../states/useEditorDragEvent"
 import treeContext from "../component/treeItems/treeContext"
 

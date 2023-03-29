@@ -8,7 +8,7 @@ import useSyncState from "../hooks/useSyncState"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getLoadingUnpkgCount } from "../../states/useLoadingUnpkgCount"
 import useInitEditor from "../hooks/useInitEditor"
-import { overlayContainer } from "../../engine/renderLoop/renderSetup"
+import { overlayContainer } from "../../engine/renderLoop/containers"
 
 const HUD = () => {
     useInitCSS()

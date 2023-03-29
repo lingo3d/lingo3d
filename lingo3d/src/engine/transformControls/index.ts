@@ -7,7 +7,6 @@ import {
 } from "../../events/onTransformControls"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import { getTransformControlsSnap } from "../../states/useTransformControlsSnap"
-import { container } from "../renderLoop/renderSetup"
 import scene from "../scene"
 import { lazy } from "@lincode/utils"
 import { Cancellable } from "@lincode/promiselikes"
@@ -20,6 +19,7 @@ import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { CM2M } from "../../globals"
 import { deg2Rad } from "@lincode/math"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
+import { container } from "../renderLoop/containers"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")

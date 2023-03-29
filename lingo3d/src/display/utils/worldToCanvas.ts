@@ -1,5 +1,5 @@
 import { Object3D } from "three"
-import { container } from "../../engine/renderLoop/renderSetup"
+import { container } from "../../engine/renderLoop/containers"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import computePerFrame from "../../utils/computePerFrame"
 import getCenter from "./getCenter"

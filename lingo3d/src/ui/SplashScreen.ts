@@ -1,5 +1,5 @@
 import Appendable from "../api/core/Appendable"
-import { uiContainer } from "../engine/renderLoop/renderSetup"
+import { uiContainer } from "../engine/renderLoop/containers"
 import ISplashScreen, {
     splashScreenDefaults,
     splashScreenSchema

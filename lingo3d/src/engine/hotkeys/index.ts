@@ -15,13 +15,13 @@ import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import mainCamera from "../mainCamera"
 import copySelected from "./copySelected"
 import { setTransformControlsSnap } from "../../states/useTransformControlsSnap"
-import { container } from "../renderLoop/renderSetup"
 import { getUILayer, setUILayer } from "../../states/useUILayer"
 import {
     getHotKeysEnabled,
     setHotKeysEnabled
 } from "../../states/useHotKeysEnabled"
 import settings from "../../api/settings"
+import { container } from "../renderLoop/containers"
 
 const enabledSet = new Set<HTMLElement>()
 export const enableHotKeysOnElement = (el: HTMLElement) => {

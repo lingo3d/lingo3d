@@ -1,5 +1,4 @@
 import { Reactive } from "@lincode/reactivity"
-import { container } from "../../engine/renderLoop/renderSetup"
 import IOrbitCamera, {
     orbitCameraDefaults,
     orbitCameraSchema
@@ -19,6 +18,7 @@ import {
 } from "../../systems/placeAtSysytem"
 import { addGyrateSystem, deleteGyrateSystem } from "../../systems/gyrateSystem"
 import { addFlySystem, deleteFlySystem } from "../../systems/flySystem"
+import { container } from "../../engine/renderLoop/containers"
 
 export default class OrbitCamera extends CameraBase implements IOrbitCamera {
     public static componentName = "orbitCamera"

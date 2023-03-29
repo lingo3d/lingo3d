@@ -9,8 +9,8 @@ import createElement from "../utils/createElement"
 import store, { Reactive } from "@lincode/reactivity"
 import { onBeforeRender } from "../events/onBeforeRender"
 import Appendable from "../api/core/Appendable"
-import { uiContainer } from "../engine/renderLoop/renderSetup"
 import { onResize } from "../events/onResize"
+import { uiContainer } from "../engine/renderLoop/containers"
 
 export default class Joystick extends Appendable implements IJoystick {
     public static componentName = "joystick"

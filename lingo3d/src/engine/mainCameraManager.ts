@@ -1,4 +1,3 @@
-import { container } from "./renderLoop/renderSetup"
 import { createEffect } from "@lincode/reactivity"
 import mainCamera from "./mainCamera"
 import OrbitCamera from "../display/cameras/OrbitCamera"
@@ -9,6 +8,7 @@ import getActualScale from "../display/utils/getActualScale"
 import { appendableRoot } from "../api/core/collections"
 import { M2CM } from "../globals"
 import { getEditorBehavior } from "../states/useEditorBehavior"
+import { container } from "./renderLoop/containers"
 
 const mainCameraManager = new OrbitCamera(mainCamera)
 export default mainCameraManager

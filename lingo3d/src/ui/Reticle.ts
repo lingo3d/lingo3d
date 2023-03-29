@@ -1,7 +1,7 @@
 import { Reactive } from "@lincode/reactivity"
 import { TEXTURES_URL } from "../api/assetsPath"
 import Appendable from "../api/core/Appendable"
-import { uiContainer } from "../engine/renderLoop/renderSetup"
+import { uiContainer } from "../engine/renderLoop/containers"
 import IReticle, { reticleDefaults, reticleSchema } from "../interface/IReticle"
 import createElement from "../utils/createElement"
 

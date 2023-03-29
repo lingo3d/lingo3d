@@ -1,8 +1,8 @@
 import { createPortal, useLayoutEffect, useRef } from "preact/compat"
-import { overlayContainer } from "../../engine/renderLoop/renderSetup"
 import { onAfterRender } from "../../events/onAfterRender"
 import { onBeforeRender } from "../../events/onBeforeRender"
 import StatsJS from "stats.js"
+import { overlayContainer } from "../../engine/renderLoop/containers"
 
 type StatsProps = {
     mode?: "fps" | "time" | "memory"

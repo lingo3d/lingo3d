@@ -1,5 +1,4 @@
 import CameraBase from "."
-import { container } from "../../../engine/renderLoop/renderSetup"
 import {
     getCameraPointerLock,
     setCameraPointerLock
@@ -8,6 +7,7 @@ import { mouseEvents } from "../../../api/mouse"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import isMobile from "../../../api/utils/isMobile"
 import { getWorldPlayComputed } from "../../../states/useWorldPlayComputed"
+import { container } from "../../../engine/renderLoop/containers"
 
 export default function (this: CameraBase) {
     if (this.done) return

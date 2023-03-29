@@ -8,40 +8,12 @@ import { VRButton } from "./VRButton"
 import { getAutoMount } from "../../states/useAutoMount"
 import { debounce } from "@lincode/utils"
 import { getPixelRatio } from "../../states/usePixelRatio"
-import createElement from "../../utils/createElement"
 import { getUILayer } from "../../states/useUILayer"
 import { getSplitView } from "../../states/useSplitView"
 import { getTimelinePaused } from "../../states/useTimelinePaused"
 import { emitResize } from "../../events/onResize"
+import { container, uiContainer, overlayContainer } from "./containers"
 
-const style = createElement(`
-    <style>
-        .lingo3d-container {
-            position: absolute !important;
-            top: 0px;
-            left: 0px;
-            width: 100%;
-            height: 100%;
-        }
-        .lingo3d-uicontainer {
-            pointer-events: none;
-        }
-        .lingo3d-uicontainer > * {
-            pointer-events: auto;
-        }
-    </style>
-`)
-document.head.appendChild(style)
-
-export const container = createElement<HTMLDivElement>(
-    `<div class="lingo3d-container"></div>`
-)
-export const uiContainer = createElement<HTMLDivElement>(
-    `<div class="lingo3d-container lingo3d-uicontainer"></div>`
-)
-export const overlayContainer = createElement<HTMLDivElement>(
-    `<div class="lingo3d-container lingo3d-uicontainer"></div>`
-)
 container.appendChild(uiContainer)
 uiContainer.appendChild(overlayContainer)
 container.addEventListener("touchstart", (e) => e.preventDefault())
