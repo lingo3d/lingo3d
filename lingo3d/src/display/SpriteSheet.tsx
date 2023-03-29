@@ -1,56 +1,13 @@
-import { Reactive } from "@lincode/reactivity"
 import { Sprite, SpriteMaterial } from "three"
-import loadTexture from "./utils/loaders/loadTexture"
-import { Cancellable } from "@lincode/promiselikes"
 import ISpriteSheet, {
     spriteSheetDefaults,
     spriteSheetSchema
 } from "../interface/ISpriteSheet"
 import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import {
-    addSpriteSheetSystem,
-    deleteSpriteSheetSystem
-} from "../systems/spriteSheetSystem"
-import {
-    decreaseSpriteSheet,
-    increaseSpriteSheet,
-    SpriteSheetParams
-} from "../pools/spriteSheetPool"
-import { addRefreshStateSystem } from "../systems/autoClear/refreshStateSystem"
-
-const loadSpriteSheet = (
-    material: SpriteMaterial,
-    url: string,
-    columns: number,
-    length: number
-) => {
-    const map = (material.map = loadTexture(url, () => {
-        const rows = Math.ceil(length / columns)
-        map.repeat.set(1 / columns, 1 / rows)
-    }))
-    return map
-}
-
-const playSpriteSheet = (
-    material: SpriteMaterial,
-    columns: number,
-    length: number,
-    loop: boolean | undefined,
-    handle: Cancellable
-) => {
-    material.visible = true
-    const rows = Math.ceil(length / columns)
-    addSpriteSheetSystem(material, {
-        x: 0,
-        y: rows - 1,
-        columns,
-        rows,
-        frame: 0,
-        length,
-        loop
-    })
-    handle.then(() => deleteSpriteSheetSystem(material))
-}
+    addConfigSpriteSheetSystem,
+    deleteConfigSpriteSheetSystem
+} from "../systems/autoClear/configSpriteSheetSystem"
 
 export default class SpriteSheet
     extends PhysicsObjectManager
@@ -60,64 +17,26 @@ export default class SpriteSheet
     public static defaults = spriteSheetDefaults
     public static schema = spriteSheetSchema
 
+    public material: SpriteMaterial
+
     public constructor() {
         const material = new SpriteMaterial({
             transparent: true,
             visible: false
         })
         super(new Sprite(material))
-
-        this.createEffect(() => {
-            const {
-                _textureStart,
-                _textureEnd,
-                _texture,
-                _columns,
-                _length,
-                _loop
-            } = this
-            if (_textureStart && _textureEnd) {
-                const handle = new Cancellable()
-                const params: SpriteSheetParams = [_textureStart, _textureEnd]
-                const paramString = JSON.stringify(params)
-                increaseSpriteSheet(params, paramString).then(
-                    ([url, columns, length, blob]) => {
-                        this.blob = blob
-                        loadSpriteSheet(material, url, columns, length)
-                        playSpriteSheet(
-                            material,
-                            columns,
-                            length,
-                            _loop,
-                            handle
-                        )
-                    }
-                )
-                return () => {
-                    decreaseSpriteSheet(paramString)
-                    handle.cancel()
-                }
-            }
-            if (!_texture || !_columns || !_length) return
-
-            const handle = new Cancellable()
-            loadSpriteSheet(material, _texture, _columns, _length)
-            const timeout = setTimeout(() => {
-                playSpriteSheet(material, _columns, _length, _loop, handle)
-            }, 300)
-            return () => {
-                clearTimeout(timeout)
-                handle.cancel()
-            }
-        }, [this.refreshState.get])
+        this.material = material
     }
 
-    private blob: Blob | undefined
+    protected override disposeNode() {
+        super.disposeNode()
+        deleteConfigSpriteSheetSystem(this)
+    }
+
+    public blob: Blob | undefined
     public toBlob() {
         return this.blob
     }
-
-    private refreshState = new Reactive({})
 
     private _textureStart?: string
     public get textureStart() {
@@ -125,7 +44,7 @@ export default class SpriteSheet
     }
     public set textureStart(value) {
         this._textureStart = value
-        addRefreshStateSystem(this.refreshState)
+        addConfigSpriteSheetSystem(this)
     }
 
     private _textureEnd?: string
@@ -134,7 +53,7 @@ export default class SpriteSheet
     }
     public set textureEnd(value) {
         this._textureEnd = value
-        addRefreshStateSystem(this.refreshState)
+        addConfigSpriteSheetSystem(this)
     }
 
     private _texture?: string
@@ -143,7 +62,7 @@ export default class SpriteSheet
     }
     public set texture(value) {
         this._texture = value
-        addRefreshStateSystem(this.refreshState)
+        addConfigSpriteSheetSystem(this)
     }
 
     private _columns?: number
@@ -152,7 +71,7 @@ export default class SpriteSheet
     }
     public set columns(value) {
         this._columns = value
-        addRefreshStateSystem(this.refreshState)
+        addConfigSpriteSheetSystem(this)
     }
 
     private _length?: number
@@ -161,7 +80,7 @@ export default class SpriteSheet
     }
     public set length(value) {
         this._length = value
-        addRefreshStateSystem(this.refreshState)
+        addConfigSpriteSheetSystem(this)
     }
 
     private _loop?: boolean
@@ -170,7 +89,7 @@ export default class SpriteSheet
     }
     public set loop(value) {
         this._loop = value
-        addRefreshStateSystem(this.refreshState)
+        addConfigSpriteSheetSystem(this)
     }
 
     public override get depth() {
