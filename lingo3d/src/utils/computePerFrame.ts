@@ -1,4 +1,4 @@
-import { addClearSystem } from "../systems/clearSystem"
+import { addClearSystem } from "../systems/autoClear/clearSystem"
 
 export default <Item extends object, Return>(
     cb: (item: Item) => Return,

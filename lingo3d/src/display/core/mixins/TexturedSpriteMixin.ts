@@ -8,7 +8,7 @@ import getDefaultValue from "../../../interface/utils/getDefaultValue"
 import { color } from "../../utils/reusables"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { SpriteMaterialParams } from "../../../pools/spriteMaterialPool"
-import { addRefreshTexturedSpriteSystem } from "../../../systems/refreshTexturedSpriteSystem"
+import { addRefreshTexturedSpriteSystem } from "../../../systems/autoClear/refreshTexturedSpriteSystem"
 
 const defaults = Object.fromEntries(
     Object.entries(texturedBasicSchema).map(([key]) => [

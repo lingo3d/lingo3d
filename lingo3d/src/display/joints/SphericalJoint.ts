@@ -2,7 +2,7 @@ import ISphericalJoint, {
     sphericalJointDefaults,
     sphericalJointSchema
 } from "../../interface/ISphericalJoint"
-import { addConfigSphericalJointSystem } from "../../systems/configSphericalJointSystem"
+import { addConfigSphericalJointSystem } from "../../systems/autoClear/configSphericalJointSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"

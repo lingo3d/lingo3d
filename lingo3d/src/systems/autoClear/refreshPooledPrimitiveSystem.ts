@@ -1,5 +1,5 @@
-import PooledPrimitve from "../display/core/PooledPrimitive"
-import renderSystemAutoClear from "./utils/renderSystemAutoClear"
+import PooledPrimitve from "../../display/core/PooledPrimitive"
+import renderSystemAutoClear from "../utils/renderSystemAutoClear"
 
 export const [
     addRefreshPooledPrimitiveSystem,

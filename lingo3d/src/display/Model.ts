@@ -19,7 +19,7 @@ import {
     addRefreshFactorsSystem,
     reflectionChangedSet,
     reflectionDataMap
-} from "../systems/refreshFactorsSystem"
+} from "../systems/autoClear/refreshFactorsSystem"
 
 const supported = new Set(["fbx", "glb", "gltf"])
 

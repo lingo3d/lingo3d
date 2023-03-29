@@ -12,7 +12,7 @@ import {
 } from "./pxMaps"
 import PhysicsObjectManager from ".."
 import { getGravity } from "../../../../states/useGravity"
-import { addClearSystem } from "../../../../systems/clearSystem"
+import { addClearSystem } from "../../../../systems/autoClear/clearSystem"
 ;(async () => {
     const simdSupported = await simd()
 

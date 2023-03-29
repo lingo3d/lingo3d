@@ -1,9 +1,9 @@
-import TexturedSpriteMixin from "../display/core/mixins/TexturedSpriteMixin"
+import TexturedSpriteMixin from "../../display/core/mixins/TexturedSpriteMixin"
 import {
     decreaseSpriteMaterial,
     increaseSpriteMaterial
-} from "../pools/spriteMaterialPool"
-import renderSystemAutoClear from "./utils/renderSystemAutoClear"
+} from "../../pools/spriteMaterialPool"
+import renderSystemAutoClear from "../utils/renderSystemAutoClear"
 
 export const [addRefreshTexturedSpriteSystem] = renderSystemAutoClear(
     (target: TexturedSpriteMixin) => {

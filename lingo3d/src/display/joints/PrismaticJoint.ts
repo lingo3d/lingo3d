@@ -2,7 +2,7 @@ import IPrismaticJoint, {
     prismaticJointDefaults,
     prismaticJointSchema
 } from "../../interface/IPrismaticJoint"
-import { addConfigPrismaticJointSystem } from "../../systems/configPrismaticJointSystem"
+import { addConfigPrismaticJointSystem } from "../../systems/autoClear/configPrismaticJointSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"

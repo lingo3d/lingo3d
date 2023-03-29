@@ -5,7 +5,7 @@ import { euler, quaternion } from "../display/utils/reusables"
 import { positionChangedXZ } from "../display/utils/trackObject"
 import { PI } from "../globals"
 import renderSystemWithData from "./utils/renderSystemWithData"
-import { addGyrateResetSystem } from "./gyrateResetSystem"
+import { addGyrateResetSystem } from "./autoClear/gyrateResetSystem"
 
 export const followTargetRotation = (
     self: CharacterCamera,

@@ -1,6 +1,6 @@
-import TexturedStandardMixin from "../display/core/mixins/TexturedStandardMixin"
-import { decreaseMaterial, increaseMaterial } from "../pools/materialPool"
-import renderSystemAutoClear from "./utils/renderSystemAutoClear"
+import TexturedStandardMixin from "../../display/core/mixins/TexturedStandardMixin"
+import { decreaseMaterial, increaseMaterial } from "../../pools/materialPool"
+import renderSystemAutoClear from "../utils/renderSystemAutoClear"
 
 export const [addRefreshTexturedStandardSystem] = renderSystemAutoClear(
     (target: TexturedStandardMixin) => {
