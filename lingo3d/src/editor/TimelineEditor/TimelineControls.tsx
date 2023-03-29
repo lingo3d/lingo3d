@@ -22,7 +22,7 @@ import {
 import AudioIcon from "./icons/AudioIcon"
 import { getTimelineMute, setTimelineMute } from "../../states/useTimelineMute"
 import MuteIcon from "./icons/MuteIcon"
-import { highlightFrame } from "./FrameIndicator"
+import { emitTimelineHighlightFrame } from "../../events/onTimelineHighlightFrame"
 
 const TimelineControls = () => {
     const timeline = useSyncState(getTimeline)
@@ -40,7 +40,7 @@ const TimelineControls = () => {
                             ? () => {
                                   if (timeline.frame >= timeline.totalFrames)
                                       timeline.frame = 0
-                                  highlightFrame()
+                                  emitTimelineHighlightFrame(undefined)
                                   timeline.paused = false
                               }
                             : undefined
@@ -54,7 +54,7 @@ const TimelineControls = () => {
                     onClick={
                         timeline
                             ? () => {
-                                  highlightFrame()
+                                  emitTimelineHighlightFrame(undefined)
                                   timeline.paused = true
                               }
                             : undefined
@@ -83,7 +83,7 @@ const TimelineControls = () => {
                     timeline
                         ? () => {
                               setTimelineRecord(!record)
-                              highlightFrame()
+                              emitTimelineHighlightFrame(undefined)
                               timeline.paused = true
                           }
                         : undefined

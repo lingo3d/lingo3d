@@ -1,6 +1,6 @@
 import store from "@lincode/reactivity"
 import Timeline from "../display/Timeline"
-import { highlightFrame } from "../editor/TimelineEditor/FrameIndicator"
+import { emitTimelineHighlightFrame } from "../events/onTimelineHighlightFrame"
 import { emitTimelineSeekScrollLeft } from "../events/onTimelineSeekScrollLeft"
 import { getTimeline } from "./useTimeline"
 
@@ -15,8 +15,8 @@ export const userSetTimelineFrame = (
     setTimelineFrame(
         (timeline.frame = typeof frame === "function" ? frame(timeline) : frame)
     )
-    highlightFrame()
     timeline.paused = true
+    emitTimelineHighlightFrame(undefined)
     emitTimelineSeekScrollLeft()
 }
 

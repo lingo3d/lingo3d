@@ -1,6 +1,7 @@
 import { createEffect } from "@lincode/reactivity"
 import { useEffect } from "preact/hooks"
 import { uuidMap } from "../../api/core/collections"
+import { emitTimelineHighlightFrame } from "../../events/onTimelineHighlightFrame"
 import { onTimelineSeekScrollLeft } from "../../events/onTimelineSeekScrollLeft"
 import { FRAME_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
 import { getTimeline } from "../../states/useTimeline"
@@ -16,7 +17,7 @@ import { getTimelinePaused } from "../../states/useTimelinePaused"
 import useSyncState from "../hooks/useSyncState"
 import handleTreeItemClick from "../utils/handleTreeItemClick"
 import FrameGrid from "./FrameGrid"
-import FrameIndicator, { highlightFrame } from "./FrameIndicator"
+import FrameIndicator from "./FrameIndicator"
 import FrameTweenRow from "./FrameTweenRow"
 import { framesWidthPtr, maxFramePtr, minFramePtr } from "./Ruler"
 import { timelineContextMenuSignal } from "./TimelineContextMenu"
@@ -102,7 +103,7 @@ const Scroller = () => {
 
                 const frame = Math.floor(relX / FRAME_WIDTH)
                 userSetTimelineFrame(frame)
-                highlightFrame({
+                emitTimelineHighlightFrame({
                     x: frame * FRAME_WIDTH,
                     y: Math.floor(relY / FRAME_HEIGHT) * FRAME_HEIGHT
                 })
