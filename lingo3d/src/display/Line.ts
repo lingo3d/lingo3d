@@ -1,8 +1,16 @@
 import { Point3d } from "@lincode/math"
 import Appendable from "../api/core/Appendable"
-import { addConfigLineSystem } from "../systems/autoClear/configLineSystem"
+import {
+    addConfigLineSystem,
+    deleteConfigLineSystem
+} from "../systems/autoClear/configLineSystem"
 
 export default class Line extends Appendable {
+    protected override disposeNode() {
+        super.disposeNode()
+        deleteConfigLineSystem(this)
+    }
+
     private _bloom?: boolean
     public get bloom() {
         return this._bloom
