@@ -4,7 +4,6 @@ import { GetGlobalState, createEffect, Reactive } from "@lincode/reactivity"
 import { forceGetInstance } from "@lincode/utils"
 import { nanoid } from "nanoid"
 import getStaticProperties from "../../display/utils/getStaticProperties"
-import { timer } from "../../engine/eventLoop"
 import { emitDispose } from "../../events/onDispose"
 import { emitSceneGraphChange } from "../../events/onSceneGraphChange"
 import IAppendable from "../../interface/IAppendable"
@@ -188,18 +187,6 @@ export default class Appendable extends Disposable implements IAppendable {
         this._proxy && unsafeSetValue(this._proxy, "__target", undefined)
         this._proxy = val
         val && unsafeSetValue(val, "__target", this)
-    }
-
-    public timer(time: number, repeat: number, cb: () => void) {
-        return this.watch(timer(time, repeat, cb))
-    }
-
-    public queueMicrotask(cb: () => void) {
-        queueMicrotask(() => !this.done && cb())
-    }
-
-    protected cancellable(cb?: () => void) {
-        return this.watch(new Cancellable(cb))
     }
 
     protected createEffect(

@@ -208,7 +208,8 @@ export default abstract class CameraBase<
     public setPolarAngle(angle: number) {
         const { _minPolarAngle, _maxPolarAngle } = this
         this.minPolarAngle = this.maxPolarAngle = angle
-        this.queueMicrotask(() => {
+        queueMicrotask(() => {
+            if (this.done) return
             this.minPolarAngle = _minPolarAngle
             this.maxPolarAngle = _maxPolarAngle
         })
@@ -217,7 +218,8 @@ export default abstract class CameraBase<
     public setAzimuthAngle(angle: number) {
         const { _minAzimuthAngle, _maxAzimuthAngle } = this
         this.minAzimuthAngle = this.maxAzimuthAngle = angle
-        this.queueMicrotask(() => {
+        queueMicrotask(() => {
+            if (this.done) return
             this.minAzimuthAngle = _minAzimuthAngle
             this.maxAzimuthAngle = _maxAzimuthAngle
         })
