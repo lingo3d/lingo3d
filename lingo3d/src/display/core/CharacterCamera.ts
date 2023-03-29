@@ -11,8 +11,7 @@ import MeshAppendable from "../../api/core/MeshAppendable"
 import { isPositionedManager } from "./PositionedManager"
 import {
     addCharacterCameraFollowSystem,
-    deleteCharacterCameraFollowSystem,
-    followTargetRotation
+    deleteCharacterCameraFollowSystem
 } from "../../systems/characterCameraFollowSystem"
 
 export default class CharacterCamera
@@ -36,8 +35,6 @@ export default class CharacterCamera
         this.createEffect(() => {
             const found = this.firstChildState.get()
             if (!(found instanceof MeshAppendable)) return
-
-            followTargetRotation(this, found, false)
 
             addCharacterCameraFollowSystem(this, { found })
             return () => {

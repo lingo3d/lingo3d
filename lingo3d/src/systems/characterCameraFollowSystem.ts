@@ -7,7 +7,7 @@ import { PI } from "../globals"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import { addGyrateResetSystem } from "./autoClear/gyrateResetSystem"
 
-export const followTargetRotation = (
+const followTargetRotation = (
     self: CharacterCamera,
     target: MeshAppendable,
     slerp: boolean
