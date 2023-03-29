@@ -3,7 +3,7 @@ import { Mesh } from "three"
 import SpotLight from "../display/lights/SpotLight"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import { CM2M } from "../globals"
-import renderSystemWithData from "../utils/renderSystemWithData"
+import renderSystemWithData from "./utils/renderSystemWithData"
 
 export const [addVolumetricSpotLightSystem, deleteVolumetricSpotLightSystem] =
     renderSystemWithData(

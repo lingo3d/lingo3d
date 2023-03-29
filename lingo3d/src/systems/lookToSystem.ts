@@ -1,7 +1,7 @@
 import { Quaternion } from "three"
 import DirectionedMixin from "../display/core/mixins/DirectionedMixin"
 import fpsAlpha from "../display/utils/fpsAlpha"
-import renderSystemWithData from "../utils/renderSystemWithData"
+import renderSystemWithData from "./utils/renderSystemWithData"
 
 export const [addLookToSystem, deleteLookToSystem] = renderSystemWithData(
     (

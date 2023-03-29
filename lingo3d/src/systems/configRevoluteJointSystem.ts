@@ -2,7 +2,7 @@ import { deg2Rad } from "@lincode/math"
 import destroy from "../display/core/PhysicsObjectManager/physx/destroy"
 import { physxPtr } from "../display/core/PhysicsObjectManager/physx/physxPtr"
 import RevoluteJoint from "../display/joints/RevoluteJoint"
-import renderSystemAutoClear from "../utils/renderSystemAutoClear"
+import renderSystemAutoClear from "./utils/renderSystemAutoClear"
 
 export const [addConfigRevoluteJointSystem] = renderSystemAutoClear(
     (target: RevoluteJoint) => {

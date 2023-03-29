@@ -2,7 +2,7 @@ import { InputBindingApi } from "tweakpane"
 import Appendable from "../api/core/Appendable"
 import { equalsValue } from "../interface/utils/getDefaultValue"
 import { getRuntimeValue } from "../utils/getRuntimeValue"
-import renderSystemWithData from "../utils/renderSystemWithData"
+import renderSystemWithData from "./utils/renderSystemWithData"
 
 export const skipChangeSet = new WeakSet<InputBindingApi>()
 

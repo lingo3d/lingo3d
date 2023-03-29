@@ -13,7 +13,7 @@ import getWorldPosition from "../display/utils/getWorldPosition"
 import getWorldQuaternion from "../display/utils/getWorldQuaternion"
 import { vector3_ } from "../display/utils/reusables"
 import { fpsPtr } from "../states/useFps"
-import renderSystemWithData from "../utils/renderSystemWithData"
+import renderSystemWithData from "./utils/renderSystemWithData"
 
 export const [addThirdPersonCameraSystem, deleteThirdPersonCameraSystem] =
     renderSystemWithData(

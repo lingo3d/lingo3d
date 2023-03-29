@@ -12,7 +12,7 @@ import { uuidTextureMap } from "../display/core/mixins/utils/createMap"
 import TextureManager from "../display/core/TextureManager"
 import type Model from "../display/Model"
 import { NEAR } from "../globals"
-import renderSystemAutoClear from "../utils/renderSystemAutoClear"
+import renderSystemAutoClear from "./utils/renderSystemAutoClear"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import { addReflectionSystem, deleteReflectionSystem } from "./reflectionSystem"
 

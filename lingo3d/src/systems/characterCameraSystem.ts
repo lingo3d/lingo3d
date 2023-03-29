@@ -1,7 +1,7 @@
 import CharacterCamera from "../display/core/CharacterCamera"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import getWorldQuaternion from "../display/utils/getWorldQuaternion"
-import renderSystem from "../utils/renderSystem"
+import renderSystem from "./utils/renderSystem"
 
 export const [addCharacterCameraSystem, deleteCharacterCameraSystem] =
     renderSystem((self: CharacterCamera) => {

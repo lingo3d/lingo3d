@@ -1,7 +1,7 @@
 import { vertexAngle, Point, rotatePoint } from "@lincode/math"
 import PositionedMixin from "../display/core/mixins/PositionedMixin"
 import { fpsRatioPtr } from "../engine/eventLoop"
-import renderSystemWithData from "../utils/renderSystemWithData"
+import renderSystemWithData from "./utils/renderSystemWithData"
 
 export const [addMoveToSystem, deleteMoveToSystem] = renderSystemWithData(
     (

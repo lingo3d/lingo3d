@@ -1,4 +1,4 @@
-import { onBeforeRender } from "../events/onBeforeRender"
+import { onBeforeRender } from "../../events/onBeforeRender"
 
 export default <T>(cb: (target: T) => void, ticker = onBeforeRender) => {
     const queued = new Set<T>()

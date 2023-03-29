@@ -6,7 +6,7 @@ import {
     increaseReferenceMaterial
 } from "../../../../pools/referenceMaterialPool"
 import { MaterialParams } from "../../../../pools/materialPool"
-import renderSystemAutoClear from "../../../../utils/renderSystemAutoClear"
+import renderSystemAutoClear from "../../../../systems/utils/renderSystemAutoClear"
 import { StandardMesh } from "../../../core/mixins/TexturedStandardMixin"
 import TextureManager from "../../../core/TextureManager"
 import Model from "../../../Model"

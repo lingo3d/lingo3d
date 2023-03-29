@@ -1,4 +1,4 @@
-import { addClearSystem } from "./clearSystem"
+import { addClearSystem } from "../systems/clearSystem"
 
 export default <Item extends object, Return>(
     cb: (item: Item) => Return,

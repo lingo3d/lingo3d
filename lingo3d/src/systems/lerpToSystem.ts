@@ -1,7 +1,7 @@
 import { Vector3 } from "three"
 import PositionedMixin from "../display/core/mixins/PositionedMixin"
 import fpsAlpha from "../display/utils/fpsAlpha"
-import renderSystemWithData from "../utils/renderSystemWithData"
+import renderSystemWithData from "./utils/renderSystemWithData"
 
 export const [addLerpToSystem, deleteLerpToSystem] = renderSystemWithData(
     (

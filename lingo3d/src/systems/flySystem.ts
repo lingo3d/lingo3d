@@ -1,7 +1,7 @@
 import ObjectManager from "../display/core/ObjectManager"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import { vec2Point } from "../display/utils/vec2Point"
-import renderSystemWithData from "../utils/renderSystemWithData"
+import renderSystemWithData from "./utils/renderSystemWithData"
 
 export const [addFlySystem, deleteFlySystem] = renderSystemWithData(
     (manager: ObjectManager, { downSet }: { downSet: Set<string> }) => {

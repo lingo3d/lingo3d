@@ -2,7 +2,7 @@ import { forceGetInstance } from "@lincode/utils"
 import { getAppendables } from "../api/core/Appendable"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { HitEvent } from "../interface/IVisible"
-import renderSystem from "../utils/renderSystem"
+import renderSystem from "./utils/renderSystem"
 
 const hitCache = new WeakMap<VisibleMixin, WeakSet<VisibleMixin>>()
 export const [addHitTestSystem, deleteHitTestSystem] = renderSystem(

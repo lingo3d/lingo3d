@@ -1,5 +1,5 @@
 import { SpriteMaterial } from "three"
-import renderSystemWithData from "../utils/renderSystemWithData"
+import renderSystemWithData from "./utils/renderSystemWithData"
 
 export const [addSpriteSheetSystem, deleteSpriteSheetSystem] =
     renderSystemWithData(

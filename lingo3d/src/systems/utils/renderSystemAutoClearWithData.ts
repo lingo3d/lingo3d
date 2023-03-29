@@ -1,4 +1,4 @@
-import { onBeforeRender } from "../events/onBeforeRender"
+import { onBeforeRender } from "../../events/onBeforeRender"
 
 export default <T, Data extends Record<string, any>>(
     cb: (target: T, data: Data) => void,
