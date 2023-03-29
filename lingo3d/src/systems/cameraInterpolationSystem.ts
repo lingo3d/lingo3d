@@ -2,8 +2,8 @@ import { PerspectiveCamera, Vector3, Quaternion } from "three"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import getWorldQuaternion from "../display/utils/getWorldQuaternion"
+import updateCameraAspect from "../display/utils/updateCameraAspect"
 import interpolationCamera from "../engine/interpolationCamera"
-import { updateCameraAspect } from "../states/useCameraRendered"
 import renderSystemWithData from "../utils/renderSystemWithData"
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t

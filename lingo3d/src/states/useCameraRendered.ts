@@ -1,42 +1,20 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { Camera, OrthographicCamera, PerspectiveCamera } from "three"
+import { PerspectiveCamera } from "three"
 import interpolationCamera from "../engine/interpolationCamera"
 import mainCamera from "../engine/mainCamera"
-import { getResolution } from "./useResolution"
-import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import getWorldQuaternion from "../display/utils/getWorldQuaternion"
-import { getWebXR } from "./useWebXR"
 import { getSplitView } from "./useSplitView"
 import { getCameraComputed } from "./useCameraComputed"
 import {
     addCameraInterpolationSystem,
     deleteCameraInterpolationSystem
 } from "../systems/cameraInterpolationSystem"
+import updateCameraAspect from "../display/utils/updateCameraAspect"
 
 const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
 export { getCameraRendered }
-
-export const updateCameraAspect = (camera: Camera) => {
-    const [resX, resY] = getResolution()
-    const aspect = resX / resY
-
-    if (camera instanceof PerspectiveCamera && !getWebXR()) {
-        camera.aspect = aspect
-        camera.updateProjectionMatrix()
-    } else if (camera instanceof OrthographicCamera) {
-        ;[camera.left, camera.right, camera.top, camera.bottom] = [
-            aspect * ORTHOGRAPHIC_FRUSTUM * -0.5,
-            aspect * ORTHOGRAPHIC_FRUSTUM * 0.5,
-            ORTHOGRAPHIC_FRUSTUM * 0.5,
-            ORTHOGRAPHIC_FRUSTUM * -0.5
-        ]
-        camera.updateProjectionMatrix()
-    }
-
-    return [resX, resY, aspect]
-}
 
 let cameraLast: PerspectiveCamera | undefined
 
