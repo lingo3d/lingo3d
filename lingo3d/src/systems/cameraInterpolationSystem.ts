@@ -2,7 +2,6 @@ import { PerspectiveCamera, Vector3, Quaternion } from "three"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import getWorldQuaternion from "../display/utils/getWorldQuaternion"
-import updateCameraAspect from "../display/utils/updateCameraAspect"
 import interpolationCamera from "../engine/interpolationCamera"
 import renderSystemWithData from "./utils/renderSystemWithData"
 
@@ -18,7 +17,7 @@ export const [addCameraInterpolationSystem, deleteCameraInterpolationSystem] =
                 cameraFrom: PerspectiveCamera
                 ratio: number
                 diffMax: number
-                setCameraRendered: (camera: PerspectiveCamera) => void
+                onFinish: () => void
             }
         ) => {
             const { positionFrom, quaternionFrom, cameraFrom, ratio, diffMax } =
@@ -47,10 +46,6 @@ export const [addCameraInterpolationSystem, deleteCameraInterpolationSystem] =
             interpolationCamera.updateProjectionMatrix()
 
             data.ratio = Math.min((1 - ratio) * fpsAlpha(0.1), diffMax) + ratio
-            if (data.ratio < 0.9999) return
-
-            data.setCameraRendered(cameraTo)
-            updateCameraAspect(cameraTo)
-            deleteCameraInterpolationSystem(cameraTo)
+            data.ratio > 0.9999 && data.onFinish()
         }
     )

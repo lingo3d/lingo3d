@@ -1,5 +1,5 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { PerspectiveCamera } from "three"
+import { OrthographicCamera, PerspectiveCamera } from "three"
 import interpolationCamera from "../engine/interpolationCamera"
 import mainCamera from "../engine/mainCamera"
 import getWorldPosition from "../display/utils/getWorldPosition"
@@ -10,7 +10,9 @@ import {
     addCameraInterpolationSystem,
     deleteCameraInterpolationSystem
 } from "../systems/cameraInterpolationSystem"
-import updateCameraAspect from "../display/utils/updateCameraAspect"
+import { getResolution } from "./useResolution"
+import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
+import { getWebXR } from "./useWebXR"
 
 const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
@@ -47,7 +49,6 @@ createEffect(() => {
 
     interpolationCamera.zoom = cameraFrom.zoom
     interpolationCamera.fov = cameraFrom.fov
-    updateCameraAspect(interpolationCamera)
 
     let ratio = 0
     const diffMax = typeof transition === "number" ? transition : Infinity
@@ -57,9 +58,28 @@ createEffect(() => {
         cameraFrom,
         ratio,
         diffMax,
-        setCameraRendered
+        onFinish: () => setCameraRendered(cameraTo)
     })
     return () => {
         deleteCameraInterpolationSystem(cameraTo)
     }
 }, [getSplitView, getCameraComputed])
+
+createEffect(() => {
+    const camera = getCameraRendered() as PerspectiveCamera | OrthographicCamera
+    const [resX, resY] = getResolution()
+    const aspect = resX / resY
+
+    if (camera instanceof PerspectiveCamera && !getWebXR()) {
+        camera.aspect = aspect
+        camera.updateProjectionMatrix()
+        return
+    }
+    if (camera instanceof OrthographicCamera) {
+        camera.left = aspect * ORTHOGRAPHIC_FRUSTUM * -0.5
+        camera.right = aspect * ORTHOGRAPHIC_FRUSTUM * 0.5
+        camera.top = ORTHOGRAPHIC_FRUSTUM * 0.5
+        camera.bottom = ORTHOGRAPHIC_FRUSTUM * -0.5
+        camera.updateProjectionMatrix()
+    }
+}, [getCameraRendered, getResolution])
