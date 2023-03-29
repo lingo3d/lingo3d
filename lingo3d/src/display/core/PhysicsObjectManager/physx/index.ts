@@ -248,6 +248,8 @@ import { addClearSystem } from "../../../../systems/clearSystem"
         contacts.add(manager)
         addClearSystem(contacts)
     }
+    controllerHitCallback.onControllerHit = (h: any) => {
+    }
 
     //create simulation event callback
     const simulationEventCallback = new PxSimulationEventCallbackImpl()
