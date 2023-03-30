@@ -2,7 +2,7 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 
 export default <T>(
     cb: (target: T) => void,
-    ticker: typeof onBeforeRender | typeof queueMicrotask = onBeforeRender
+    ticker: typeof onBeforeRender | typeof queueMicrotask = queueMicrotask
 ) => {
     const queued = new Set<T>()
 
