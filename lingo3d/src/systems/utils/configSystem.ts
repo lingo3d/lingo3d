@@ -1,6 +1,9 @@
 import { onBeforeRender } from "../../events/onBeforeRender"
 
-export default <T>(cb: (target: T) => void, ticker = onBeforeRender) => {
+export default <T>(
+    cb: (target: T) => void,
+    ticker: typeof onBeforeRender | typeof queueMicrotask = onBeforeRender
+) => {
     const queued = new Set<T>()
 
     let started = false

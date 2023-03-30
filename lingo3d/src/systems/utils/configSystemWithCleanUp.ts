@@ -2,7 +2,7 @@ import { onBeforeRender } from "../../events/onBeforeRender"
 
 export default <T extends object>(
     cb: (target: T) => void | (() => void),
-    ticker = onBeforeRender
+    ticker: typeof onBeforeRender | typeof queueMicrotask = onBeforeRender
 ) => {
     const queued = new Set<T>()
     const cleanupMap = new WeakMap<T, () => void>()

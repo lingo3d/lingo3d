@@ -85,4 +85,4 @@ export const [addConfigSpriteSheetSystem, deleteConfigSpriteSheetSystem] =
             clearTimeout(timeout)
             handle.cancel()
         }
-    })
+    }, queueMicrotask)
