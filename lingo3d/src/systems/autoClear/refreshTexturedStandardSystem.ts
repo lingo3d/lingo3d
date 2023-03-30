@@ -1,8 +1,8 @@
 import TexturedStandardMixin from "../../display/core/mixins/TexturedStandardMixin"
 import { decreaseMaterial, increaseMaterial } from "../../pools/materialPool"
-import renderSystemAutoClear from "../utils/renderSystemAutoClear"
+import configSystem from "../utils/configSystem"
 
-export const [addRefreshTexturedStandardSystem] = renderSystemAutoClear(
+export const [addRefreshTexturedStandardSystem] = configSystem(
     (target: TexturedStandardMixin) => {
         if (target.materialParamString)
             decreaseMaterial(target.materialParamString)

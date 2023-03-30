@@ -1,6 +1,6 @@
 import MeshAppendable from "../../api/core/MeshAppendable"
-import renderSystemAutoClear from "../utils/renderSystemAutoClear"
+import configSystem from "../utils/configSystem"
 
-export const [addTransformChangedSystem] = renderSystemAutoClear(
+export const [addTransformChangedSystem] = configSystem(
     (target: MeshAppendable) => {}
 )

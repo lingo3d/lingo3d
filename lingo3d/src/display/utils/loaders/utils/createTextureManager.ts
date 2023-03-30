@@ -6,11 +6,11 @@ import {
     increaseReferenceMaterial
 } from "../../../../pools/referenceMaterialPool"
 import { MaterialParams } from "../../../../pools/materialPool"
-import renderSystemAutoClear from "../../../../systems/utils/renderSystemAutoClear"
 import { StandardMesh } from "../../../core/mixins/TexturedStandardMixin"
 import TextureManager from "../../../core/TextureManager"
 import Model from "../../../Model"
 import { blackColor } from "../../reusables"
+import configSystem from "../../../../systems/utils/configSystem"
 
 const makeDefaults = (referenceMaterial: MeshStandardMaterial) => {
     const defaults = {
@@ -53,7 +53,7 @@ export default (referenceMaterial: MeshStandardMaterial) => {
     const [defaults, defaultParams] = makeDefaults(referenceMaterial)
     allocateDefaultReferenceMaterial(defaultParams, referenceMaterial)
 
-    const [addRefreshParamsSystem] = renderSystemAutoClear(
+    const [addRefreshParamsSystem] = configSystem(
         (target: MyTextureManager) => {
             if (target.materialParamString)
                 decreaseReferenceMaterial(target.materialParamString)

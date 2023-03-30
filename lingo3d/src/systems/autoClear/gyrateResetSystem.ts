@@ -1,6 +1,6 @@
 import CameraBase from "../../display/core/CameraBase"
-import renderSystemAutoClear from "../utils/renderSystemAutoClear"
+import configSystem from "../utils/configSystem"
 
-export const [addGyrateResetSystem] = renderSystemAutoClear(
-    (target: CameraBase) => target.gyrate(0, 0)
+export const [addGyrateResetSystem] = configSystem((target: CameraBase) =>
+    target.gyrate(0, 0)
 )

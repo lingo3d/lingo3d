@@ -3,9 +3,9 @@ import {
     decreaseSpriteMaterial,
     increaseSpriteMaterial
 } from "../../pools/spriteMaterialPool"
-import renderSystemAutoClear from "../utils/renderSystemAutoClear"
+import configSystem from "../utils/configSystem"
 
-export const [addRefreshTexturedSpriteSystem] = renderSystemAutoClear(
+export const [addRefreshTexturedSpriteSystem] = configSystem(
     (target: TexturedSpriteMixin) => {
         if (target.materialParamString)
             decreaseSpriteMaterial(target.materialParamString)

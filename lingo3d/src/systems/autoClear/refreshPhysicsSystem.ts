@@ -1,6 +1,6 @@
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
-import renderSystemAutoClearWithCleanUp from "../utils/renderSystemAutoClearWithCleanUp"
+import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 
-export const [addRefreshPhysicsSystem] = renderSystemAutoClearWithCleanUp(
+export const [addRefreshPhysicsSystem] = configSystemWithCleanUp(
     (self: PhysicsObjectManager) => {}
 )

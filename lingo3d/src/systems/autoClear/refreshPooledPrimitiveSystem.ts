@@ -1,10 +1,10 @@
 import PooledPrimitve from "../../display/core/PooledPrimitive"
-import renderSystemAutoClear from "../utils/renderSystemAutoClear"
+import configSystem from "../utils/configSystem"
 
 export const [
     addRefreshPooledPrimitiveSystem,
     deleteRefreshPooledPrimitiveSystem
-] = renderSystemAutoClear((target: PooledPrimitve) => {
+] = configSystem((target: PooledPrimitve) => {
     target.decreaseGeometry(target.paramString)
     const params = target.getParams()
     target.object3d.geometry = target.increaseGeometry(

@@ -11,7 +11,7 @@ import {
     addSpriteSheetSystem,
     deleteSpriteSheetSystem
 } from "../spriteSheetSystem"
-import renderSystemAutoClearWithCleanUp from "../utils/renderSystemAutoClearWithCleanUp"
+import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 
 const loadSpriteSheet = (
     material: SpriteMaterial,
@@ -48,7 +48,7 @@ const playSpriteSheet = (
 }
 
 export const [addConfigSpriteSheetSystem, deleteConfigSpriteSheetSystem] =
-    renderSystemAutoClearWithCleanUp((self: SpriteSheet) => {
+    configSystemWithCleanUp((self: SpriteSheet) => {
         const {
             textureStart,
             textureEnd,

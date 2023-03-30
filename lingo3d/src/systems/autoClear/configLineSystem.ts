@@ -8,10 +8,10 @@ import {
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import scene from "../../engine/scene"
 import { CM2M } from "../../globals"
-import renderSystemAutoClearWithCleanUp from "../utils/renderSystemAutoClearWithCleanUp"
+import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
 
 export const [addConfigLineSystem, deleteConfigLineSystem] =
-    renderSystemAutoClearWithCleanUp((self: Line) => {
+    configSystemWithCleanUp((self: Line) => {
         const { from, to, bloom, thickness } = self
         if (!from || !to) return
 
