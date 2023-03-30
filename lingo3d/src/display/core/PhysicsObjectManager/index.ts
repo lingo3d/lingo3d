@@ -37,7 +37,6 @@ import {
     increaseLoadingUnpkgCount
 } from "../../../states/useLoadingUnpkgCount"
 import VisibleObjectManager from "../VisibleObjectManager"
-import { addRefreshStateSystem } from "../../../systems/autoClear/refreshStateSystem"
 
 const importPhysX = lazy(async () => {
     increaseLoadingUnpkgCount()
@@ -188,7 +187,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     private refreshShapeState?: Reactive<{}>
     public refreshPhysics() {
         if (this.refreshPhysicsState) {
-            addRefreshStateSystem(this.refreshPhysicsState)
+            this.refreshPhysicsState.set({})
             return
         }
         this.refreshPhysicsState = new Reactive({})
@@ -300,8 +299,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.actor && pxUpdateSet.add(this)
     }
     public updatePhysicsShape() {
-        this.refreshPhysicsState &&
-            addRefreshStateSystem(this.refreshPhysicsState)
+        this.refreshPhysicsState && this.refreshPhysicsState.set({})
     }
 
     //@ts-ignore

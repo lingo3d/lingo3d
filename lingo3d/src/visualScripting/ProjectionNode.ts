@@ -4,7 +4,6 @@ import IProjectionNode, {
     projectionNodeDefaults,
     projectionNodeSchema
 } from "../interface/IProjectionNode"
-import { addRefreshStateSystem } from "../systems/autoClear/refreshStateSystem"
 import GameGraphChild from "./GameGraphChild"
 
 export default class ProjectionNode
@@ -24,7 +23,7 @@ export default class ProjectionNode
     }
     public set x(value) {
         this._x = value
-        addRefreshStateSystem(this.refreshState)
+        this.refreshState.set({})
     }
 
     private _y = 0
@@ -33,7 +32,7 @@ export default class ProjectionNode
     }
     public set y(value) {
         this._y = value
-        addRefreshStateSystem(this.refreshState)
+        this.refreshState.set({})
     }
 
     private _distance = 500
@@ -42,7 +41,7 @@ export default class ProjectionNode
     }
     public set distance(value) {
         this._distance = value
-        addRefreshStateSystem(this.refreshState)
+        this.refreshState.set({})
     }
 
     public outX = 0

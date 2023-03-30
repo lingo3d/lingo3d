@@ -20,7 +20,6 @@ import PositionedDirectionedManager from "./PositionedDirectionedManager"
 import { addSelectionHelper } from "./utils/raycast/selectionCandidates"
 import HelperSphere from "./utils/HelperSphere"
 import { getAppendables } from "../../api/core/Appendable"
-import { addRefreshStateSystem } from "../../systems/autoClear/refreshStateSystem"
 
 export const joints = new Set<JointBase>()
 
@@ -122,17 +121,17 @@ export default abstract class JointBase
             const handle0 = fromManager.refreshPhysicsState!.get(() => {
                 if (fromPhysics === fromManager.physics) return
                 fromPhysics = fromManager.physics
-                addRefreshStateSystem(this.refreshState)
+                this.refreshState.set({})
             })
             let toPhysics = toManager.physics
             const handle1 = toManager.refreshPhysicsState!.get(() => {
                 if (toPhysics === toManager.physics) return
                 toPhysics = toManager.physics
-                addRefreshStateSystem(this.refreshState)
+                this.refreshState.set({})
             })
 
             const cb = (phase: TransformControlsPhase) =>
-                phase === "end" && addRefreshStateSystem(this.refreshState)
+                phase === "end" && this.refreshState.set({})
 
             const fromCaller = (fromManager.onTransformControls =
                 extendFunction(fromManager.onTransformControls, cb))
@@ -197,7 +196,7 @@ export default abstract class JointBase
         this.fromQuat && fromManager.quaternion.copy(this.fromQuat)
         this.toQuat && toManager.quaternion.copy(this.toQuat)
 
-        addRefreshStateSystem(this.refreshState)
+        this.refreshState.set({})
         fromManager.updatePhysics()
         toManager.updatePhysics()
     }
@@ -210,7 +209,7 @@ export default abstract class JointBase
     }
     public set to(val) {
         this._to = val
-        addRefreshStateSystem(this.refreshState)
+        this.refreshState.set({})
     }
 
     private _from?: string | PhysicsObjectManager
@@ -219,13 +218,13 @@ export default abstract class JointBase
     }
     public set from(val) {
         this._from = val
-        addRefreshStateSystem(this.refreshState)
+        this.refreshState.set({})
     }
 
     private manualPosition?: boolean
     private setManualPosition() {
         this.manualPosition = true
-        addRefreshStateSystem(this.refreshState)
+        this.refreshState.set({})
     }
 
     public override get x() {

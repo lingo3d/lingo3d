@@ -12,7 +12,6 @@ import { onBeforeRender } from "../events/onBeforeRender"
 import { NEAR, FAR } from "../globals"
 import { getCameraRendered } from "../states/useCameraRendered"
 import { rendererPtr } from "../states/useRenderer"
-import { addRefreshStateSystem } from "../systems/autoClear/refreshStateSystem"
 import VisibleObjectManager from "./core/VisibleObjectManager"
 import getWorldPosition from "./utils/getWorldPosition"
 import getWorldQuaternion from "./utils/getWorldQuaternion"
@@ -97,7 +96,7 @@ export default class Portal extends VisibleObjectManager {
     }
     public override set width(val) {
         super.width = val
-        addRefreshStateSystem(this.refreshState)
+        this.refreshState.set({})
     }
 
     public override get height() {
@@ -105,7 +104,7 @@ export default class Portal extends VisibleObjectManager {
     }
     public override set height(val) {
         super.height = val
-        addRefreshStateSystem(this.refreshState)
+        this.refreshState.set({})
     }
 
     public override get depth() {
