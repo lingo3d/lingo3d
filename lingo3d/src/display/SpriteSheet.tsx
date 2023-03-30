@@ -7,7 +7,7 @@ import PhysicsObjectManager from "./core/PhysicsObjectManager"
 import {
     addConfigSpriteSheetSystem,
     deleteConfigSpriteSheetSystem
-} from "../systems/autoClear/configSpriteSheetSystem"
+} from "../systems/configSystems/configSpriteSheetSystem"
 
 export default class SpriteSheet
     extends PhysicsObjectManager

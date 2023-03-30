@@ -21,7 +21,7 @@ import { setManager } from "../../../api/utils/getManager"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { getEditorHelper } from "../../../states/useEditorHelper"
 import { getCameraRendered } from "../../../states/useCameraRendered"
-import { addGyrateResetSystem } from "../../../systems/autoClear/gyrateResetSystem"
+import { addGyrateResetSystem } from "../../../systems/configSystems/gyrateResetSystem"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera

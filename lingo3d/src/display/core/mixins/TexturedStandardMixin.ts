@@ -11,7 +11,7 @@ import {
     allocateDefaultMaterial,
     MaterialParams
 } from "../../../pools/materialPool"
-import { addRefreshTexturedStandardSystem } from "../../../systems/autoClear/refreshTexturedStandardSystem"
+import { addRefreshTexturedStandardSystem } from "../../../systems/configSystems/refreshTexturedStandardSystem"
 
 export const standardDefaults = Object.fromEntries(
     Object.entries(texturedStandardSchema).map(([key]) => [

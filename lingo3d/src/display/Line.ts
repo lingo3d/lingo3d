@@ -3,7 +3,7 @@ import Appendable from "../api/core/Appendable"
 import {
     addConfigLineSystem,
     deleteConfigLineSystem
-} from "../systems/autoClear/configLineSystem"
+} from "../systems/configSystems/configLineSystem"
 
 export default class Line extends Appendable {
     protected override disposeNode() {

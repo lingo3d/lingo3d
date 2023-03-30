@@ -1,5 +1,5 @@
 import { BufferGeometry } from "three"
-import { deleteRefreshPooledPrimitiveSystem } from "../../systems/autoClear/refreshPooledPrimitiveSystem"
+import { deleteRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import Primitive from "./Primitive"
 
 export default abstract class PooledPrimitve extends Primitive {

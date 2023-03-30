@@ -7,7 +7,7 @@ import {
 } from "../../pools/circleGeometryPool"
 import { deg2Rad } from "@lincode/math"
 import PooledPrimitve from "../core/PooledPrimitive"
-import { addRefreshPooledPrimitiveSystem } from "../../systems/autoClear/refreshPooledPrimitiveSystem"
+import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 
 const defaultParams = <const>[0.5, 32, 0, PI2]
 const defaultParamString = JSON.stringify(defaultParams)

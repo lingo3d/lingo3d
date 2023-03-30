@@ -3,7 +3,7 @@ import ID6Joint, {
     d6JointSchema,
     D6MotionOptions
 } from "../../interface/ID6Joint"
-import { addConfigD6JointSystem } from "../../systems/autoClear/configD6JointSystem"
+import { addConfigD6JointSystem } from "../../systems/configSystems/configD6JointSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"

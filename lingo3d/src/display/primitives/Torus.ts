@@ -6,7 +6,7 @@ import {
     decreaseTorusGeometry,
     increaseTorusGeometry
 } from "../../pools/torusGeometryPool"
-import { addRefreshPooledPrimitiveSystem } from "../../systems/autoClear/refreshPooledPrimitiveSystem"
+import { addRefreshPooledPrimitiveSystem } from "../../systems/configSystems/refreshPooledPrimitiveSystem"
 import PooledPrimitve from "../core/PooledPrimitive"
 
 const defaultParams = <const>[0.5, 0.1, 16, 32, PI2]
