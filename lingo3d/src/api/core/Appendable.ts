@@ -142,9 +142,15 @@ export default class Appendable extends Disposable implements IAppendable {
         return false
     }
 
-    protected _propertyChangedEvent?: Events<void, "name" | "runtimeSchema">
+    private _propertyChangedEvent?: Events<
+        void,
+        "name" | "runtimeSchema" | "physics"
+    >
     public get propertyChangedEvent() {
         return (this._propertyChangedEvent ??= new Events())
+    }
+    public emitPropertyChangedEvent(key: "name" | "runtimeSchema" | "physics") {
+        this._propertyChangedEvent?.emit(key)
     }
 
     protected _name?: string

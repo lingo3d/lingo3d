@@ -117,18 +117,12 @@ export default abstract class JointBase
             fromManager.jointCount++
             toManager.jointCount++
 
-            let fromPhysics = fromManager.physics
-            const handle0 = fromManager.refreshPhysicsState!.get(() => {
-                if (fromPhysics === fromManager.physics) return
-                fromPhysics = fromManager.physics
+            const handle0 = fromManager.propertyChangedEvent.on("physics", () =>
                 this.refreshState.set({})
-            })
-            let toPhysics = toManager.physics
-            const handle1 = toManager.refreshPhysicsState!.get(() => {
-                if (toPhysics === toManager.physics) return
-                toPhysics = toManager.physics
+            )
+            const handle1 = toManager.propertyChangedEvent.on("physics", () =>
                 this.refreshState.set({})
-            })
+            )
 
             const cb = (phase: TransformControlsPhase) =>
                 phase === "end" && this.refreshState.set({})

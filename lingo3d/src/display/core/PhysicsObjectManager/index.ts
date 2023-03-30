@@ -1,22 +1,15 @@
 import { Object3D } from "three"
-import { deg2Rad, Point3d } from "@lincode/math"
+import { Point3d } from "@lincode/math"
 import IPhysicsObjectManager, {
     PhysicsOptions
 } from "../../../interface/IPhysicsObjectManager"
-import getActualScale from "../../utils/getActualScale"
-import { Reactive, store } from "@lincode/reactivity"
 import {
     actorPtrManagerMap,
     controllerManagerContactMap,
-    controllerManagerMap,
-    managerActorMap,
     managerActorPtrMap,
-    managerContactMap,
-    managerControllerMap
+    managerContactMap
 } from "./physx/pxMaps"
-import scene from "../../../engine/scene"
-import destroy from "./physx/destroy"
-import { assignPxTransform, setPxVec, setPxVec_ } from "./physx/pxMath"
+import { setPxVec, setPxVec_ } from "./physx/pxMath"
 import SpawnPoint from "../../SpawnPoint"
 import {
     pxUpdateSet,
@@ -30,13 +23,13 @@ import cookConvexGeometry, {
     decreaseConvexGeometryCount
 } from "./physx/cookConvexGeometry"
 import { physxPtr } from "./physx/physxPtr"
-import { getPhysXLoaded } from "../../../states/usePhysXLoaded"
 import { lazy } from "@lincode/utils"
 import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount
 } from "../../../states/useLoadingUnpkgCount"
 import VisibleObjectManager from "../VisibleObjectManager"
+import { addRefreshPhysicsSystem } from "../../../systems/configSystems/refreshPhysicsSystem"
 
 const importPhysX = lazy(async () => {
     increaseLoadingUnpkgCount()
@@ -155,7 +148,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.actor?.addTorque(setPxVec(x, y, z))
     }
 
-    private initActor(actor: any) {
+    public initActor(actor: any) {
         this.actor = actor
         const { _mass } = this
         if (_mass !== undefined) actor.mass = _mass
@@ -169,7 +162,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         super.disposeNode()
         decreaseConvexGeometryCount(this)
     }
-    protected getPxShape(_: PhysicsOptions, actor: any) {
+    public getPxShape(_: PhysicsOptions, actor: any) {
         const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
             physxPtr[0]
 
@@ -183,98 +176,8 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         return shape
     }
 
-    public refreshPhysicsState?: Reactive<{}>
-    private refreshShapeState?: Reactive<{}>
     public refreshPhysics() {
-        if (this.refreshPhysicsState) {
-            this.refreshPhysicsState.set({})
-            return
-        }
-        this.refreshPhysicsState = new Reactive({})
-        this.refreshShapeState = new Reactive({})
-
-        importPhysX()
-
-        const [setMode, getMode] = store<PhysicsOptions>(false)
-        this.createEffect(() => {
-            setMode(this._physics || !!this._jointCount)
-        }, [this.refreshPhysicsState.get])
-
-        this.createEffect(() => {
-            const mode = getMode()
-            const {
-                physics,
-                pxScene,
-                PxCapsuleControllerDesc,
-                PxCapsuleClimbingModeEnum,
-                PxControllerNonWalkableModeEnum,
-                material,
-                getPxControllerManager,
-                controllerHitCallback
-            } = physxPtr[0]
-            if (!physics || !mode) return
-
-            const ogParent = this.outerObject3d.parent
-            ogParent !== scene && scene.attach(this.outerObject3d)
-
-            if (mode === "character") {
-                const desc = new PxCapsuleControllerDesc()
-                const { x, y } = getActualScale(this).multiplyScalar(0.5)
-                this.capsuleHeight = y * 2
-                desc.height = y * 1.2
-                desc.radius = x
-                Object.assign(desc.position, this.position)
-                desc.climbingMode = PxCapsuleClimbingModeEnum.eEASY()
-                desc.nonWalkableMode =
-                    PxControllerNonWalkableModeEnum.ePREVENT_CLIMBING()
-                desc.slopeLimit = Math.cos(45 * deg2Rad)
-                desc.material = material
-                desc.contactOffset = 0.1
-                // desc.stepOffset = y * 0.4
-                // desc.maxJumpHeight = 0.1
-
-                desc.reportCallback = controllerHitCallback
-                // desc.behaviorCallback = behaviorCallback.callback
-                const controller =
-                    getPxControllerManager().createController(desc)
-                destroy(desc)
-
-                const actor = this.initActor(controller.getActor())
-                managerControllerMap.set(this, controller)
-                controllerManagerMap.set(controller, this)
-
-                return () => {
-                    actorPtrManagerMap.delete(actor.ptr)
-                    destroy(controller)
-                    managerControllerMap.delete(this)
-                    controllerManagerMap.delete(controller)
-                    pxUpdateSet.delete(this)
-                    this.actor = undefined
-                }
-            }
-
-            const pxTransform = assignPxTransform(this)
-            const isStatic = mode === "map" || mode === "static"
-            const actor = this.initActor(
-                isStatic
-                    ? physics.createRigidStatic(pxTransform)
-                    : physics.createRigidDynamic(pxTransform)
-            )
-
-            this.getPxShape(mode, actor)
-            pxScene.addActor(actor)
-            managerActorMap.set(this, actor)
-
-            return () => {
-                pxScene.removeActor(actor)
-                destroy(actor)
-
-                actorPtrManagerMap.delete(actor.ptr)
-                managerActorMap.delete(this)
-                pxUpdateSet.delete(this)
-                this.actor = undefined
-            }
-        }, [getMode, getPhysXLoaded, this.refreshShapeState.get])
+        importPhysX().then(() => addRefreshPhysicsSystem(this))
     }
 
     private _physics?: PhysicsOptions
@@ -299,7 +202,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.actor && pxUpdateSet.add(this)
     }
     public updatePhysicsShape() {
-        this.refreshPhysicsState && this.refreshPhysicsState.set({})
+        this.actor && addRefreshPhysicsSystem(this)
     }
 
     //@ts-ignore

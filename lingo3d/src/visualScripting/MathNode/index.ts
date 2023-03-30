@@ -26,7 +26,7 @@ export default class MathNode extends GameGraphChild implements IMathNode {
         this.runtimeIncludeKeys = runtimeIncludeKeys
         if (!runtimeSchema) {
             this.runtimeData = undefined
-            this._propertyChangedEvent?.emit("runtimeSchema")
+            this.emitPropertyChangedEvent("runtimeSchema")
             return
         }
         const runtimeData = (this.runtimeData ??= { out: 0 })
@@ -51,7 +51,7 @@ export default class MathNode extends GameGraphChild implements IMathNode {
         runtimeSchema.out = Number
         runtimeDefaults!.out = 0
         runtimeIncludeKeys!.add("out")
-        this._propertyChangedEvent?.emit("runtimeSchema")
+        this.emitPropertyChangedEvent("runtimeSchema")
     }
 
     private compiled?: string
