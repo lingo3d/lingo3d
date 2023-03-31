@@ -191,8 +191,8 @@ export default abstract class JointBase
         this.toQuat && toManager.quaternion.copy(this.toQuat)
 
         this.refreshState.set({})
-        fromManager.updatePhysics()
-        toManager.updatePhysics()
+        fromManager.updatePhysicsTransform()
+        toManager.updatePhysicsTransform()
     }
 
     protected refreshState = new Reactive({})

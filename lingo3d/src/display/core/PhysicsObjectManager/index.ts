@@ -206,7 +206,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.refreshPhysics()
     }
 
-    public updatePhysics() {
+    public updatePhysicsTransform() {
         this.actor && pxUpdateSet.add(this)
     }
     public updatePhysicsShape() {
@@ -216,13 +216,13 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     //@ts-ignore
     public override moveForward(distance: number) {
         super.moveForward(distance)
-        this.updatePhysics()
+        this.updatePhysicsTransform()
     }
 
     //@ts-ignore
     public override moveRight(distance: number) {
         super.moveRight(distance)
-        this.updatePhysics()
+        this.updatePhysicsTransform()
     }
 
     //@ts-ignore
@@ -230,12 +230,12 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         target: string | Point3d | MeshAppendable | SpawnPoint
     ) {
         super.placeAt(target)
-        this.updatePhysics()
+        this.updatePhysicsTransform()
     }
 
     //@ts-ignore
     public override lerpTo(x: number, y: number, z: number, alpha?: number) {
-        super.lerpTo(x, y, z, alpha, () => this.updatePhysics())
+        super.lerpTo(x, y, z, alpha, () => this.updatePhysicsTransform())
     }
 
     //@ts-ignore
@@ -245,7 +245,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         z: number,
         speed?: number
     ) {
-        super.moveTo(x, y, z, speed, () => this.updatePhysics())
+        super.moveTo(x, y, z, speed, () => this.updatePhysicsTransform())
     }
 
     public override get x() {
@@ -253,7 +253,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set x(val) {
         super.x = val
-        this.updatePhysics()
+        this.updatePhysicsTransform()
     }
 
     public override get y() {
@@ -261,7 +261,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set y(val) {
         super.y = val
-        this.updatePhysics()
+        this.updatePhysicsTransform()
     }
 
     public override get z() {
@@ -269,7 +269,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set z(val) {
         super.z = val
-        this.updatePhysics()
+        this.updatePhysicsTransform()
     }
 
     public override get rotationX() {
@@ -277,7 +277,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set rotationX(val) {
         super.rotationX = val
-        this.updatePhysics()
+        this.updatePhysicsTransform()
     }
 
     public override get rotationY() {
@@ -285,7 +285,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set rotationY(val) {
         super.rotationY = val
-        this.updatePhysics()
+        this.updatePhysicsTransform()
     }
 
     public override get rotationZ() {
@@ -293,7 +293,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public override set rotationZ(val) {
         super.rotationZ = val
-        this.updatePhysics()
+        this.updatePhysicsTransform()
     }
 
     public override get scaleX() {

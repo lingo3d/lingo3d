@@ -23,12 +23,12 @@ onTransformControls((phase) => {
 
     if (getEditorMode() === "scale") {
         for (const target of targets) {
-            if (!("updatePhysics" in target)) continue
-            target.updatePhysics()
+            if (!("updatePhysicsTransform" in target)) continue
+            target.updatePhysicsTransform()
             target.updatePhysicsShape()
         }
         return
     }
     for (const target of targets)
-        "updatePhysics" in target && target.updatePhysics()
+        "updatePhysicsTransform" in target && target.updatePhysicsTransform()
 })
