@@ -2,15 +2,15 @@ import { Vector3 } from "three"
 import PositionedMixin from "../display/core/mixins/PositionedMixin"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import renderSystemWithData from "./utils/renderSystemWithData"
+import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 
 export const [addLerpToSystem, deleteLerpToSystem] = renderSystemWithData(
     (
-        self: PositionedMixin,
+        self: PositionedMixin | PhysicsObjectManager,
         data: {
             from: Vector3
             to: Vector3
             alpha: number
-            onFrame?: () => void
         }
     ) => {
         const { x, y, z } = data.from.lerp(data.to, fpsAlpha(data.alpha))
@@ -26,7 +26,6 @@ export const [addLerpToSystem, deleteLerpToSystem] = renderSystemWithData(
         self.x = x
         self.y = y
         self.z = z
-
-        data.onFrame?.()
+        "updatePhysicsTransform" in self && self.updatePhysicsTransform()
     }
 )

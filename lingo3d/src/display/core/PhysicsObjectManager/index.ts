@@ -233,21 +233,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.updatePhysicsTransform()
     }
 
-    //@ts-ignore
-    public override lerpTo(x: number, y: number, z: number, alpha?: number) {
-        super.lerpTo(x, y, z, alpha, () => this.updatePhysicsTransform())
-    }
-
-    //@ts-ignore
-    public override moveTo(
-        x: number,
-        y: number | undefined,
-        z: number,
-        speed?: number
-    ) {
-        super.moveTo(x, y, z, speed, () => this.updatePhysicsTransform())
-    }
-
     public override get x() {
         return super.x
     }

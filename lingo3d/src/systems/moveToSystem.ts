@@ -2,10 +2,11 @@ import { vertexAngle, Point, rotatePoint } from "@lincode/math"
 import PositionedMixin from "../display/core/mixins/PositionedMixin"
 import { fpsRatioPtr } from "../engine/eventLoop"
 import renderSystemWithData from "./utils/renderSystemWithData"
+import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 
 export const [addMoveToSystem, deleteMoveToSystem] = renderSystemWithData(
     (
-        self: PositionedMixin,
+        self: PositionedMixin | PhysicsObjectManager,
         data: {
             sx: number
             sy: number
@@ -14,7 +15,6 @@ export const [addMoveToSystem, deleteMoveToSystem] = renderSystemWithData(
             y: number | undefined
             z: number
             quad: number
-            onFrame?: () => void
         }
     ) => {
         self.x += data.sx * fpsRatioPtr[0]
@@ -36,6 +36,6 @@ export const [addMoveToSystem, deleteMoveToSystem] = renderSystemWithData(
             self.cancelHandle("lerpTo", undefined)
             self.onMoveToEnd?.()
         }
-        data.onFrame?.()
+        "updatePhysicsTransform" in self && self.updatePhysicsTransform()
     }
 )

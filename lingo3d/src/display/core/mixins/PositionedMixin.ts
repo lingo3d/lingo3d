@@ -145,29 +145,17 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
 
     public onMoveToEnd: Nullable<() => void>
 
-    public lerpTo(
-        x: number,
-        y: number,
-        z: number,
-        alpha = 0.05,
-        onFrame?: () => void
-    ) {
+    public lerpTo(x: number, y: number, z: number, alpha = 0.05) {
         const from = new Vector3(this.x, this.y, this.z)
         const to = new Vector3(x, y, z)
 
         this.cancelHandle("lerpTo", () => {
-            addLerpToSystem(this, { from, to, alpha, onFrame })
+            addLerpToSystem(this, { from, to, alpha })
             return new Cancellable(() => deleteLerpToSystem(this))
         })
     }
 
-    public moveTo(
-        x: number,
-        y: number | undefined,
-        z: number,
-        speed = 5,
-        onFrame?: () => void
-    ) {
+    public moveTo(x: number, y: number | undefined, z: number, speed = 5) {
         if (x === this.x) x += 0.01
         if (z === this.z) z += 0.01
 
@@ -187,7 +175,7 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
         const quad = quadrant(x, z, this.x, this.z)
 
         this.cancelHandle("lerpTo", () => {
-            addMoveToSystem(this, { sx, sy, sz, x, y, z, quad, onFrame })
+            addMoveToSystem(this, { sx, sy, sz, x, y, z, quad })
             return new Cancellable(() => deleteMoveToSystem(this))
         })
     }
