@@ -235,6 +235,7 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
+    //@ts-ignore
     public override placeAt(object: MeshAppendable | Point3d | string) {
         this.cancelHandle("placeAt", () =>
             this.loaded.then(() => void super.placeAt(object))

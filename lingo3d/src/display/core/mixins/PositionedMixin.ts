@@ -31,6 +31,7 @@ import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import { vector3 } from "../../utils/reusables"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import worldToCanvas from "../../utils/worldToCanvas"
+import { addTransformChangedSystem } from "../../../systems/configSystems/transformChangedSystem"
 
 export default abstract class PositionedMixin<T extends Object3D = Object3D>
     extends MeshAppendable<T>
@@ -41,6 +42,7 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
     }
     public set x(val) {
         this.position.x = val * CM2M
+        addTransformChangedSystem(this)
     }
 
     public get y() {
@@ -48,6 +50,7 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
     }
     public set y(val) {
         this.position.y = val * CM2M
+        addTransformChangedSystem(this)
     }
 
     public get z() {
@@ -55,6 +58,7 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
     }
     public set z(val) {
         this.position.z = val * CM2M
+        addTransformChangedSystem(this)
     }
 
     public get worldPosition() {
@@ -103,14 +107,17 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
 
     public translateX(val: number) {
         this.outerObject3d.translateX(val * CM2M * fpsRatioPtr[0])
+        addTransformChangedSystem(this)
     }
 
     public translateY(val: number) {
         this.outerObject3d.translateY(val * CM2M * fpsRatioPtr[0])
+        addTransformChangedSystem(this)
     }
 
     public translateZ(val: number) {
         this.outerObject3d.translateZ(val * CM2M * fpsRatioPtr[0])
+        addTransformChangedSystem(this)
     }
 
     public placeAt(target: MeshAppendable | Point3d | SpawnPoint | string) {
@@ -124,23 +131,22 @@ export default abstract class PositionedMixin<T extends Object3D = Object3D>
                 target.object3d.position.y = getActualScale(this).y * 0.5
             this.position.copy(getCenter(target.object3d))
             "quaternion" in this &&
-                (this.quaternion as Quaternion).copy(
-                    getWorldQuaternion(target.outerObject3d)
-                )
-            return
-        }
-        this.position.copy(point2Vec(target))
+                this.quaternion.copy(getWorldQuaternion(target.outerObject3d))
+        } else this.position.copy(point2Vec(target))
+        addTransformChangedSystem(this)
     }
 
     public moveForward(distance: number) {
         vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
         vector3.crossVectors(this.outerObject3d.up, vector3)
         this.position.addScaledVector(vector3, distance * CM2M * fpsRatioPtr[0])
+        addTransformChangedSystem(this)
     }
 
     public moveRight(distance: number) {
         vector3.setFromMatrixColumn(this.outerObject3d.matrix, 0)
         this.position.addScaledVector(vector3, distance * CM2M * fpsRatioPtr[0])
+        addTransformChangedSystem(this)
     }
 
     public onMoveToEnd: Nullable<() => void>

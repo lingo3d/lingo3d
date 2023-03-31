@@ -5,6 +5,7 @@ import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import { getEditorMode } from "../states/useEditorMode"
 import { getMultipleSelectionTargets } from "../states/useMultipleSelectionTargets"
 import { getSelectionTarget } from "../states/useSelectionTarget"
+import { addTransformChangedSystem } from "../systems/configSystems/transformChangedSystem"
 
 export type TransformControlsPhase = "start" | "end" | "move"
 export type TransformControlsMode = "translate" | "rotate" | "scale"
@@ -23,12 +24,12 @@ onTransformControls((phase) => {
 
     if (getEditorMode() === "scale") {
         for (const target of targets) {
-            if (!("updatePhysicsTransform" in target)) continue
-            target.updatePhysicsTransform()
-            target.updatePhysicsShape()
+            if (!("object3d" in target)) continue
+            target.userData.updatePhysicsShape = true
+            addTransformChangedSystem(target)
         }
         return
     }
     for (const target of targets)
-        "updatePhysicsTransform" in target && target.updatePhysicsTransform()
+        "object3d" in target && addTransformChangedSystem(target)
 })

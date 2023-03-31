@@ -6,6 +6,7 @@ import PositionedMixin from "./mixins/PositionedMixin"
 import DirectionedMixin from "./mixins/DirectionedMixin"
 import MixinType from "./mixins/utils/MixinType"
 import scene from "../../engine/scene"
+import { addTransformChangedSystem } from "../../systems/configSystems/transformChangedSystem"
 
 class SimpleObjectManager<T extends Object3D = Object3D>
     extends AnimatedObjectManager<T>
@@ -21,6 +22,8 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
     public set scaleX(val) {
         this.outerObject3d.scale.x = val
+        this.userData.updatePhysicsShape = true
+        addTransformChangedSystem(this)
     }
 
     public get scaleY() {
@@ -28,6 +31,8 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
     public set scaleY(val) {
         this.outerObject3d.scale.y = val
+        this.userData.updatePhysicsShape = true
+        addTransformChangedSystem(this)
     }
 
     public get scaleZ() {
@@ -35,6 +40,8 @@ class SimpleObjectManager<T extends Object3D = Object3D>
     }
     public set scaleZ(val) {
         this.outerObject3d.scale.z = val
+        this.userData.updatePhysicsShape = true
+        addTransformChangedSystem(this)
     }
 
     public get scale() {

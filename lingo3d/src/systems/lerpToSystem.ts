@@ -3,6 +3,7 @@ import PositionedMixin from "../display/core/mixins/PositionedMixin"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
+import { addTransformChangedSystem } from "./configSystems/transformChangedSystem"
 
 export const [addLerpToSystem, deleteLerpToSystem] = renderSystemWithData(
     (
@@ -26,6 +27,6 @@ export const [addLerpToSystem, deleteLerpToSystem] = renderSystemWithData(
         self.x = x
         self.y = y
         self.z = z
-        "updatePhysicsTransform" in self && self.updatePhysicsTransform()
+        addTransformChangedSystem(self)
     }
 )

@@ -6,6 +6,7 @@ import { getManager, setManager } from "../../api/utils/getManager"
 import { CM2M, M2CM } from "../../globals"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import SimpleObjectManager from "./SimpleObjectManager"
+import { addTransformChangedSystem } from "../../systems/configSystems/transformChangedSystem"
 
 export const getFoundManager = (
     child: Object3D,
@@ -86,6 +87,8 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     }
     public set width(val) {
         this.object3d.scale.x = val * CM2M
+        this.userData.updatePhysicsShape = true
+        addTransformChangedSystem(this)
     }
 
     public get height() {
@@ -93,6 +96,8 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     }
     public set height(val) {
         this.object3d.scale.y = val * CM2M
+        this.userData.updatePhysicsShape = true
+        addTransformChangedSystem(this)
     }
 
     public get depth() {
@@ -100,6 +105,8 @@ export default abstract class ObjectManager<T extends Object3D = Object3D>
     }
     public set depth(val) {
         this.object3d.scale.z = val * CM2M
+        this.userData.updatePhysicsShape = true
+        addTransformChangedSystem(this)
     }
 
     public find(

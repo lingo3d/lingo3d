@@ -12,6 +12,7 @@ import getWorldDirection from "../../utils/getWorldDirection"
 import getWorldPosition from "../../utils/getWorldPosition"
 import { point2Vec } from "../../utils/vec2Point"
 import PositionedMixin from "./PositionedMixin"
+import { addTransformChangedSystem } from "../../../systems/configSystems/transformChangedSystem"
 
 const getY = (manager: PositionedMixin | DirectionedMixin) =>
     "position" in manager ? manager.position.y : 0
@@ -25,6 +26,7 @@ export default abstract class DirectionedMixin<T extends Object3D = Object3D>
     }
     public set rotationX(val) {
         this.outerObject3d.rotation.x = val * deg2Rad
+        addTransformChangedSystem(this)
     }
 
     public get rotationY() {
@@ -32,6 +34,7 @@ export default abstract class DirectionedMixin<T extends Object3D = Object3D>
     }
     public set rotationY(val) {
         this.outerObject3d.rotation.y = val * deg2Rad
+        addTransformChangedSystem(this)
     }
 
     public get rotationZ() {
@@ -39,6 +42,7 @@ export default abstract class DirectionedMixin<T extends Object3D = Object3D>
     }
     public set rotationZ(val) {
         this.outerObject3d.rotation.z = val * deg2Rad
+        addTransformChangedSystem(this)
     }
 
     public get rotation() {

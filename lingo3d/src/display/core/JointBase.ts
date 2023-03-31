@@ -20,6 +20,7 @@ import PositionedDirectionedManager from "./PositionedDirectionedManager"
 import { addSelectionHelper } from "./utils/raycast/selectionCandidates"
 import HelperSphere from "./utils/HelperSphere"
 import { getAppendables } from "../../api/core/Appendable"
+import { addTransformChangedSystem } from "../../systems/configSystems/transformChangedSystem"
 
 export const joints = new Set<JointBase>()
 
@@ -191,8 +192,8 @@ export default abstract class JointBase
         this.toQuat && toManager.quaternion.copy(this.toQuat)
 
         this.refreshState.set({})
-        fromManager.updatePhysicsTransform()
-        toManager.updatePhysicsTransform()
+        addTransformChangedSystem(fromManager)
+        addTransformChangedSystem(toManager)
     }
 
     protected refreshState = new Reactive({})

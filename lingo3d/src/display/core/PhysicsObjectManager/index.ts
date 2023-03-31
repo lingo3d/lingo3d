@@ -1,5 +1,4 @@
 import { Object3D } from "three"
-import { Point3d } from "@lincode/math"
 import IPhysicsObjectManager, {
     PhysicsOptions
 } from "../../../interface/IPhysicsObjectManager"
@@ -10,7 +9,6 @@ import {
     managerContactMap
 } from "./physx/pxMaps"
 import { setPxVec, setPxVec_ } from "./physx/pxMath"
-import SpawnPoint from "../../SpawnPoint"
 import {
     pxUpdateSet,
     pxVXUpdateMap,
@@ -211,98 +209,6 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
     public updatePhysicsShape() {
         this.actor && addRefreshPhysicsSystem(this, true)
-    }
-
-    //@ts-ignore
-    public override moveForward(distance: number) {
-        super.moveForward(distance)
-        this.updatePhysicsTransform()
-    }
-
-    //@ts-ignore
-    public override moveRight(distance: number) {
-        super.moveRight(distance)
-        this.updatePhysicsTransform()
-    }
-
-    //@ts-ignore
-    public override placeAt(
-        target: string | Point3d | MeshAppendable | SpawnPoint
-    ) {
-        super.placeAt(target)
-        this.updatePhysicsTransform()
-    }
-
-    public override get x() {
-        return super.x
-    }
-    public override set x(val) {
-        super.x = val
-        this.updatePhysicsTransform()
-    }
-
-    public override get y() {
-        return super.y
-    }
-    public override set y(val) {
-        super.y = val
-        this.updatePhysicsTransform()
-    }
-
-    public override get z() {
-        return super.z
-    }
-    public override set z(val) {
-        super.z = val
-        this.updatePhysicsTransform()
-    }
-
-    public override get rotationX() {
-        return super.rotationX
-    }
-    public override set rotationX(val) {
-        super.rotationX = val
-        this.updatePhysicsTransform()
-    }
-
-    public override get rotationY() {
-        return super.rotationY
-    }
-    public override set rotationY(val) {
-        super.rotationY = val
-        this.updatePhysicsTransform()
-    }
-
-    public override get rotationZ() {
-        return super.rotationZ
-    }
-    public override set rotationZ(val) {
-        super.rotationZ = val
-        this.updatePhysicsTransform()
-    }
-
-    public override get scaleX() {
-        return super.scaleX
-    }
-    public override set scaleX(val) {
-        super.scaleX = val
-        this.updatePhysicsShape()
-    }
-
-    public override get scaleY() {
-        return super.scaleY
-    }
-    public override set scaleY(val) {
-        super.scaleY = val
-        this.updatePhysicsShape()
-    }
-
-    public override get scaleZ() {
-        return super.scaleZ
-    }
-    public override set scaleZ(val) {
-        super.scaleZ = val
-        this.updatePhysicsShape()
     }
 
     //@ts-ignore
