@@ -17,6 +17,8 @@ import configMemoSystemWithCleanUpAndData from "../utils/configMemoSystemWithCle
 export const [addRefreshPhysicsSystem] = configMemoSystemWithCleanUpAndData(
     (self: PhysicsObjectManager) => {
         const mode = self.physics || !!self.jointCount
+        if (!mode) return
+
         const {
             physics,
             pxScene,
@@ -89,16 +91,10 @@ export const [addRefreshPhysicsSystem] = configMemoSystemWithCleanUpAndData(
             self.emitPropertyChangedEvent("physics")
         }
     },
-    (self, data: { updateShape?: boolean }) => {
+    (self) => {
         const mode = self.physics || !!self.jointCount
-        if (!mode) return false
-        if (
-            self.userData.refreshPhysicsSystemMode === mode &&
-            !data.updateShape
-        )
-            return false
-
-        self.userData.refreshPhysicsSystemMode = mode
+        if (self.userData.physicsMode === mode) return false
+        self.userData.physicsMode = mode
         return true
     }
 )

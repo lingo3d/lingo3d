@@ -1,11 +1,11 @@
 import { onBeforeRender } from "../../events/onBeforeRender"
 
-export default <T extends object, Data extends Record<string, any>>(
-    cb: (target: T, data: Data) => void | (() => void),
-    check: (target: T, data: Data) => boolean,
+export default <T extends object>(
+    cb: (target: T) => void | (() => void),
+    check: (target: T) => boolean,
     ticker: typeof onBeforeRender | typeof queueMicrotask = queueMicrotask
 ) => {
-    const queued = new Map<T, Data>()
+    const queued = new Set<T>()
     const cleanupMap = new WeakMap<T, () => void>()
 
     let started = false
@@ -13,13 +13,13 @@ export default <T extends object, Data extends Record<string, any>>(
         if (started) return
         started = true
         ticker(() => {
-            for (const [target, data] of queued) {
+            for (const target of queued) {
                 const prevCleanup = cleanupMap.get(target)
                 if (prevCleanup) {
                     prevCleanup()
                     cleanupMap.delete(target)
                 }
-                const cleanup = cb(target, data)
+                const cleanup = cb(target)
                 cleanup && cleanupMap.set(target, cleanup)
             }
             queued.clear()
@@ -28,10 +28,10 @@ export default <T extends object, Data extends Record<string, any>>(
     }
 
     return <const>[
-        (item: T, data: Data) => {
-            if (!check(item, data)) return
+        (item: T, skipCheck?: boolean) => {
+            if (!skipCheck && !check(item)) return
             start()
-            queued.set(item, data)
+            queued.add(item)
         },
         (item: T) => {
             const prevCleanup = cleanupMap.get(item)
