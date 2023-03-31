@@ -30,10 +30,18 @@ import {
 } from "../../../states/useLoadingUnpkgCount"
 import VisibleObjectManager from "../VisibleObjectManager"
 import { addRefreshPhysicsSystem } from "../../../systems/configSystems/refreshPhysicsSystem"
+import { getPhysXLoaded } from "../../../states/usePhysXLoaded"
 
 const importPhysX = lazy(async () => {
     increaseLoadingUnpkgCount()
     await import("./physx")
+    await new Promise<void>((resolve) =>
+        getPhysXLoaded((loaded, handle) => {
+            if (!loaded) return
+            handle.cancel()
+            resolve()
+        })
+    )
     decreaseLoadingUnpkgCount()
 })
 
