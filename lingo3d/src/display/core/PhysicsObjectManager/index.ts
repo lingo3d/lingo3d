@@ -185,7 +185,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     }
 
     public refreshPhysics() {
-        importPhysX().then(() => addRefreshPhysicsSystem(this))
+        importPhysX().then(() => addRefreshPhysicsSystem(this, {}))
     }
 
     private _physics?: PhysicsOptions
@@ -210,7 +210,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
         this.actor && pxUpdateSet.add(this)
     }
     public updatePhysicsShape() {
-        this.actor && addRefreshPhysicsSystem(this)
+        this.actor && addRefreshPhysicsSystem(this, { updateShape: true })
     }
 
     //@ts-ignore

@@ -12,13 +12,11 @@ import {
 import { assignPxTransform } from "../../display/core/PhysicsObjectManager/physx/pxMath"
 import getActualScale from "../../display/utils/getActualScale"
 import scene from "../../engine/scene"
-import configSystemWithCleanUp from "../utils/configSystemWithCleanUp"
+import configMemoSystemWithCleanUpAndData from "../utils/configMemoSystemWithCleanUpAndData"
 
-export const [addRefreshPhysicsSystem] = configSystemWithCleanUp(
+export const [addRefreshPhysicsSystem] = configMemoSystemWithCleanUpAndData(
     (self: PhysicsObjectManager) => {
         const mode = self.physics || !!self.jointCount
-        if (!mode) return
-
         const {
             physics,
             pxScene,
@@ -90,5 +88,17 @@ export const [addRefreshPhysicsSystem] = configSystemWithCleanUp(
             self.actor = undefined
             self.emitPropertyChangedEvent("physics")
         }
+    },
+    (self, data: { updateShape?: boolean }) => {
+        const mode = self.physics || !!self.jointCount
+        if (!mode) return false
+        if (
+            self.userData.refreshPhysicsSystemMode === mode &&
+            !data.updateShape
+        )
+            return false
+
+        self.userData.refreshPhysicsSystemMode = mode
+        return true
     }
 )
