@@ -13,4 +13,4 @@ ground.scaleX = 1000
 ground.scaleZ = 1000
 
 const spotLight = new SpotLight()
-
+spotLight.castShadow = true
