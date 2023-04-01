@@ -1,10 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
 import "../../../../engine/eventLoop"
-import {
-    managerActorMap,
-    managerControllerMap,
-    managerShapeLinkMap
-} from "./pxMaps"
 import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
 import { dtPtr } from "../../../../engine/eventLoop"
@@ -21,7 +16,10 @@ import {
     pxVXUpdateMap,
     pxVZUpdateMap,
     pxUpdateSet,
-    groundedControllerManagers
+    groundedControllerManagers,
+    managerActorMap,
+    managerControllerMap,
+    managerShapeLinkMap
 } from "../../../../collections/pxCollections"
 
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()

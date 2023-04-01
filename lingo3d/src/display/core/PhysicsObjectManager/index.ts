@@ -2,12 +2,6 @@ import { Object3D } from "three"
 import IPhysicsObjectManager, {
     PhysicsOptions
 } from "../../../interface/IPhysicsObjectManager"
-import {
-    actorPtrManagerMap,
-    controllerManagerContactMap,
-    managerActorPtrMap,
-    managerContactMap
-} from "./physx/pxMaps"
 import { setPxVec, setPxVec_ } from "./physx/pxMath"
 import Nullable from "../../../interface/utils/Nullable"
 import MeshAppendable from "../../../api/core/MeshAppendable"
@@ -27,7 +21,11 @@ import {
     pxVXUpdateMap,
     pxVYUpdateMap,
     pxVZUpdateMap,
-    pxUpdateSet
+    pxUpdateSet,
+    actorPtrManagerMap,
+    controllerManagerContactMap,
+    managerActorPtrMap,
+    managerContactMap
 } from "../../../collections/pxCollections"
 
 const importPhysX = lazy(async () => {

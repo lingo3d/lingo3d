@@ -3,15 +3,15 @@ import { setPhysXLoaded } from "../../../../states/usePhysXLoaded"
 import { destroyPtr } from "./destroy"
 import { physxPtr } from "./physxPtr"
 import { simd } from "wasm-feature-detect"
+import PhysicsObjectManager from ".."
+import { getGravity } from "../../../../states/useGravity"
+import { addClearSystem } from "../../../../systems/configSystems/clearSystem"
 import {
     actorPtrManagerMap,
     controllerManagerContactMap,
     controllerManagerMap,
     managerContactMap
-} from "./pxMaps"
-import PhysicsObjectManager from ".."
-import { getGravity } from "../../../../states/useGravity"
-import { addClearSystem } from "../../../../systems/configSystems/clearSystem"
+} from "../../../../collections/pxCollections"
 ;(async () => {
     const simdSupported = await simd()
 

@@ -13,11 +13,11 @@ import { pt3d0 } from "../../../utils/reusables"
 import { vec2Point } from "../../../utils/vec2Point"
 import VisibleMixin from "../../mixins/VisibleMixin"
 import { physxPtr } from "../../PhysicsObjectManager/physx/physxPtr"
-import { actorPtrManagerMap } from "../../PhysicsObjectManager/physx/pxMaps"
 import {
     assignPxVec,
     assignPxVec_
 } from "../../PhysicsObjectManager/physx/pxMath"
+import { actorPtrManagerMap } from "../../../../collections/pxCollections"
 
 const raycaster = new Raycaster()
 

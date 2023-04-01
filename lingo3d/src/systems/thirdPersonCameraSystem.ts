@@ -2,7 +2,6 @@ import { mapRange } from "@lincode/math"
 import MeshAppendable from "../api/core/MeshAppendable"
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import { physxPtr } from "../display/core/PhysicsObjectManager/physx/physxPtr"
-import { managerActorPtrMap } from "../display/core/PhysicsObjectManager/physx/pxMaps"
 import {
     assignPxVec,
     assignPxVec_
@@ -14,6 +13,7 @@ import getWorldQuaternion from "../display/utils/getWorldQuaternion"
 import { vector3_ } from "../display/utils/reusables"
 import { fpsPtr } from "../states/useFps"
 import renderSystemWithData from "./utils/renderSystemWithData"
+import { managerActorPtrMap } from "../collections/pxCollections"
 
 export const [addThirdPersonCameraSystem, deleteThirdPersonCameraSystem] =
     renderSystemWithData(
