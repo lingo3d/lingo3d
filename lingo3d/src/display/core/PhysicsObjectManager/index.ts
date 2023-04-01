@@ -9,12 +9,6 @@ import {
     managerContactMap
 } from "./physx/pxMaps"
 import { setPxVec, setPxVec_ } from "./physx/pxMath"
-import {
-    pxUpdateSet,
-    pxVXUpdateMap,
-    pxVYUpdateMap,
-    pxVZUpdateMap
-} from "./physx/physxLoop"
 import Nullable from "../../../interface/utils/Nullable"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import cookConvexGeometry, {
@@ -29,6 +23,12 @@ import {
 import VisibleObjectManager from "../VisibleObjectManager"
 import { addRefreshPhysicsSystem } from "../../../systems/configSystems/refreshPhysicsSystem"
 import { getPhysXLoaded } from "../../../states/usePhysXLoaded"
+import {
+    pxVXUpdateMap,
+    pxVYUpdateMap,
+    pxVZUpdateMap,
+    pxUpdateSet
+} from "../../../collections/pxCollections"
 
 const importPhysX = lazy(async () => {
     increaseLoadingUnpkgCount()

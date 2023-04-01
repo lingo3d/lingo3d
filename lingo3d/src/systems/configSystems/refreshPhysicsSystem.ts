@@ -1,7 +1,6 @@
 import { deg2Rad } from "@lincode/math"
 import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import destroy from "../../display/core/PhysicsObjectManager/physx/destroy"
-import { pxUpdateSet } from "../../display/core/PhysicsObjectManager/physx/physxLoop"
 import { physxPtr } from "../../display/core/PhysicsObjectManager/physx/physxPtr"
 import {
     managerControllerMap,
@@ -13,6 +12,7 @@ import { assignPxTransform } from "../../display/core/PhysicsObjectManager/physx
 import getActualScale from "../../display/utils/getActualScale"
 import scene from "../../engine/scene"
 import configMemoSystemWithCleanUpAndData from "../utils/configMemoSystemWithCleanUpAndData"
+import { pxUpdateSet } from "../../collections/pxCollections"
 
 export const [addRefreshPhysicsSystem] = configMemoSystemWithCleanUpAndData(
     (self: PhysicsObjectManager) => {

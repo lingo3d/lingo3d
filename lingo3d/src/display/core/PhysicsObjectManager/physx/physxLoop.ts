@@ -16,11 +16,12 @@ import { physxPtr } from "./physxPtr"
 import { getPhysXLoaded } from "../../../../states/usePhysXLoaded"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
 import { gravityPtr } from "../../../../states/useGravity"
-
-export const pxUpdateSet = new Set<PhysicsObjectManager>()
-export const pxVXUpdateMap = new WeakMap<PhysicsObjectManager, number>()
-export const pxVYUpdateMap = new WeakMap<PhysicsObjectManager, number>()
-export const pxVZUpdateMap = new WeakMap<PhysicsObjectManager, number>()
+import {
+    pxVYUpdateMap,
+    pxVXUpdateMap,
+    pxVZUpdateMap,
+    pxUpdateSet
+} from "../../../../collections/pxCollections"
 
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
 const vyMap = new WeakMap<PhysicsObjectManager, number>()
