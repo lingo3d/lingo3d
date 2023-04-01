@@ -4,7 +4,7 @@ import IVisibleObjectManager from "../../../interface/IVisibleObjectManager"
 import MixinType from "../mixins/utils/MixinType"
 import VisibleMixin from "../mixins/VisibleMixin"
 import ObjectManager from "../ObjectManager"
-import { nonStaticSet } from "../../../collections/pxCollections"
+import { nonStaticSet } from "../../../collections/nonStaticSet"
 
 abstract class VisibleObjectManager<T extends Object3D = Object3D>
     extends ObjectManager<T>

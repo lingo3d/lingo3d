@@ -1,6 +1,5 @@
 import MeshAppendable from "../api/core/MeshAppendable"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
-import VisibleMixin from "../display/core/mixins/VisibleMixin"
 
 export const pxUpdateSet = new Set<PhysicsObjectManager>()
 export const pxVXUpdateMap = new WeakMap<PhysicsObjectManager, number>()
@@ -21,4 +20,3 @@ export const controllerManagerContactMap = new WeakMap<
     PhysicsObjectManager,
     Set<PhysicsObjectManager>
 >()
-export const nonStaticSet = new Set<VisibleMixin>()

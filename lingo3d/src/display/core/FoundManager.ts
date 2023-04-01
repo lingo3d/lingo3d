@@ -18,7 +18,7 @@ import {
 import MixinType from "./mixins/utils/MixinType"
 import { Cancellable } from "@lincode/promiselikes"
 import { appendableRoot } from "../../collections/appendableRoot"
-import { nonStaticSet } from "../../collections/pxCollections"
+import { nonStaticSet } from "../../collections/nonStaticSet"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"

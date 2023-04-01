@@ -11,9 +11,9 @@ import {
     controllerManagerMap,
     managerActorMap,
     managerControllerMap,
-    nonStaticSet,
     pxUpdateSet
 } from "../../collections/pxCollections"
+import { nonStaticSet } from "../../collections/nonStaticSet"
 
 export const [addRefreshPhysicsSystem] = configMemoSystemWithCleanUpAndData(
     (self: PhysicsObjectManager) => {
