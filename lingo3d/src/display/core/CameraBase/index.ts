@@ -15,13 +15,13 @@ import {
 import getWorldPosition from "../../utils/getWorldPosition"
 import getWorldQuaternion from "../../utils/getWorldQuaternion"
 import getWorldDirection from "../../utils/getWorldDirection"
-import { addSelectionHelper } from "../utils/raycast/selectionCandidates"
 import HelperSprite from "../utils/HelperSprite"
 import { setManager } from "../../../api/utils/getManager"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { getEditorHelper } from "../../../states/useEditorHelper"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { addGyrateResetSystem } from "../../../systems/configSystems/gyrateResetSystem"
+import { addSelectionHelper } from "../utils/raycast/addSelectionHelper"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera

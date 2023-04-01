@@ -24,7 +24,7 @@ import {
 } from "../../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
 import pickable from "./pickable"
-import { getSelectionCandidates } from "./selectionCandidates"
+import { getSelectionCandidates } from "./getSelectionCandidates"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { hiddenAppendables } from "../../../../collections/hiddenAppendables"
 import { selectionCandidates } from "../../../../collections/selectionCollections"

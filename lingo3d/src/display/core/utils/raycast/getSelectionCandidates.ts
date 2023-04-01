@@ -1,4 +1,3 @@
-import { Cancellable } from "@lincode/promiselikes"
 import { throttleTrailing } from "@lincode/utils"
 import { Object3D } from "three"
 import Appendable from "../../../../api/core/Appendable"
@@ -8,8 +7,6 @@ import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { getSelectionFrozen } from "../../../../states/useSelectionFrozen"
 import { StandardMesh } from "../../mixins/TexturedStandardMixin"
 import VisibleMixin from "../../mixins/VisibleMixin"
-import HelperPrimitive from "../HelperPrimitive"
-import HelperSprite from "../HelperSprite"
 import { appendableRoot } from "../../../../collections/appendableRoot"
 import {
     additionalSelectionCandidates,
@@ -17,22 +14,6 @@ import {
     selectionCandidates,
     overrideSelectionCandidates
 } from "../../../../collections/selectionCollections"
-
-export const addSelectionHelper = (
-    helper: HelperSprite | HelperPrimitive,
-    manager: MeshAppendable
-) => {
-    helper.target = manager
-    helper.userData.selectionPointer = manager
-
-    manager.outerObject3d.add(helper.outerObject3d)
-    additionalSelectionCandidates.add(helper.object3d)
-
-    return new Cancellable(() => {
-        helper.dispose()
-        additionalSelectionCandidates.delete(helper.object3d)
-    })
-}
 
 const traverse = (
     targets: Array<Appendable | VisibleMixin> | Set<Appendable | VisibleMixin>,

@@ -3,10 +3,10 @@ import { AudioListener, PositionalAudio } from "three"
 import PositionedManager from "./core/PositionedManager"
 import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
 import { getCameraRendered } from "../states/useCameraRendered"
-import { addSelectionHelper } from "./core/utils/raycast/selectionCandidates"
 import HelperSprite from "./core/utils/HelperSprite"
 import loadAudio from "./utils/loaders/loadAudio"
 import { getEditorHelper } from "../states/useEditorHelper"
+import { addSelectionHelper } from "./core/utils/raycast/addSelectionHelper"
 
 const [setAudioListener, getAudioListener] = store<AudioListener | undefined>(
     undefined

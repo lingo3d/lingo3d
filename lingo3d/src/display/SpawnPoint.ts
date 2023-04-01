@@ -6,9 +6,9 @@ import ISpawnPoint, {
 import ObjectManager from "./core/ObjectManager"
 import SimpleObjectManager from "./core/SimpleObjectManager"
 import scene from "../engine/scene"
-import { addSelectionHelper } from "./core/utils/raycast/selectionCandidates"
 import HelperCylinder from "./core/utils/HelperCylinder"
 import { getEditorHelper } from "../states/useEditorHelper"
+import { addSelectionHelper } from "./core/utils/raycast/addSelectionHelper"
 
 export default class SpawnPoint extends ObjectManager implements ISpawnPoint {
     public static componentName = "spawnPoint"

@@ -15,11 +15,11 @@ import {
     getShadowResolution,
     ShadowResolution
 } from "../../states/useShadowResolution"
-import { addSelectionHelper } from "./utils/raycast/selectionCandidates"
 import HelperSprite from "./utils/HelperSprite"
 import ObjectManager from "./ObjectManager"
 import { addUpdateSystem, deleteUpdateSystem } from "../../systems/updateSystem"
 import { Cancellable } from "@lincode/promiselikes"
+import { addSelectionHelper } from "./utils/raycast/addSelectionHelper"
 
 export const mapShadowResolution = (val: ShadowResolution) => {
     switch (val) {

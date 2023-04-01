@@ -6,9 +6,9 @@ import IHTMLMesh, {
 import createElement from "../../utils/createElement"
 import { Cancellable } from "@lincode/promiselikes"
 import VisibleObjectManager from "../core/VisibleObjectManager"
-import { addSelectionHelper } from "../core/utils/raycast/selectionCandidates"
 import HelperCube from "../core/utils/HelperCube"
 import { setManager } from "../../api/utils/getManager"
+import { addSelectionHelper } from "../core/utils/raycast/addSelectionHelper"
 
 const elementContainerTemplate = createElement(`
     <div style="position: absolute; visibility: hidden; pointer-events: none;"></div>

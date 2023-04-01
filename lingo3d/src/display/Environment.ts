@@ -10,9 +10,9 @@ import IEnvironment, {
 } from "../interface/IEnvironment"
 import PositionedManager from "./core/PositionedManager"
 import { Reactive } from "@lincode/reactivity"
-import { addSelectionHelper } from "./core/utils/raycast/selectionCandidates"
 import HelperSprite from "./core/utils/HelperSprite"
 import { getEditorHelper } from "../states/useEditorHelper"
+import { addSelectionHelper } from "./core/utils/raycast/addSelectionHelper"
 
 export default class Environment
     extends PositionedManager
