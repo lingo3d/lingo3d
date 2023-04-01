@@ -1,13 +1,11 @@
 import { assert } from "@lincode/utils"
 import Appendable from "../../../api/core/Appendable"
 import { getGameGraph } from "../../../states/useGameGraph"
-import Connector, {
-    findConnected,
-    managerConnectorsMap
-} from "../../../visualScripting/Connector"
+import Connector, { findConnected } from "../../../visualScripting/Connector"
 import SpawnNode from "../../../visualScripting/SpawnNode"
 import TemplateNode from "../../../visualScripting/TemplateNode"
 import createConnector from "./createConnector"
+import { managerConnectorsMap } from "../../../collections/managerConnectorsMap"
 
 export default (manager: Appendable, spawnNode: SpawnNode) => {
     const gameGraph = getGameGraph()!

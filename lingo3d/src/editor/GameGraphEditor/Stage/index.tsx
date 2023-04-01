@@ -4,9 +4,7 @@ import { onDispose } from "../../../events/onDispose"
 import { emitSelectionTarget } from "../../../events/onSelectionTarget"
 import { getGameGraph } from "../../../states/useGameGraph"
 import { getGameGraphData } from "../../../states/useGameGraphData"
-import Connector, {
-    managerConnectorsMap
-} from "../../../visualScripting/Connector"
+import Connector from "../../../visualScripting/Connector"
 import treeContext from "../../component/treeItems/treeContext"
 import mergeRefs from "../../hooks/mergeRefs"
 import useBoundingClientRect from "../../hooks/useBoundingClientRect"
@@ -23,6 +21,7 @@ import {
     originSignal,
     getStagePosition
 } from "./stageSignals"
+import { managerConnectorsMap } from "../../../collections/managerConnectorsMap"
 
 type Props = {
     onEdit?: (manager: Appendable) => void

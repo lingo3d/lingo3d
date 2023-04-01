@@ -14,9 +14,9 @@ import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import GameGraphChild from "./GameGraphChild"
 import { uuidMap } from "../collections/uuidCollections"
+import { managerConnectorsMap } from "../collections/managerConnectorsMap"
 
 const connectedMap = new WeakMap<Appendable, Set<Appendable>>()
-export const managerConnectorsMap = new WeakMap<Appendable, Set<Connector>>()
 
 export const findConnected = (
     manager: Appendable,

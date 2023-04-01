@@ -7,9 +7,10 @@ import ISpawnNode, {
     spawnNodeDefaults,
     spawnNodeSchema
 } from "../interface/ISpawnNode"
-import Connector, { findConnected, managerConnectorsMap } from "./Connector"
+import Connector, { findConnected } from "./Connector"
 import GameGraphChild from "./GameGraphChild"
 import { eraseAppendable } from "../display/utils/eraseAppendable"
+import { managerConnectorsMap } from "../collections/managerConnectorsMap"
 
 type CacheData = Array<
     [Appendable, GameObjectTypeWithoutTemplate, Partial<AppendableNode>]
