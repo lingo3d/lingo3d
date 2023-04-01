@@ -1,5 +1,5 @@
 import { Cancellable } from "@lincode/promiselikes"
-import { Frustum, Matrix3, Object3D } from "three"
+import { Matrix3, Object3D } from "three"
 import { OBB } from "three/examples/jsm/math/OBB"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import {
@@ -13,11 +13,8 @@ import {
 import { LingoMouseEvent } from "../../../interface/IMouse"
 import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"
-import { getCameraRendered } from "../../../states/useCameraRendered"
-import throttleFrameLeading from "../../../utils/throttleFrameLeading"
-import getCenter from "../../utils/getCenter"
 import getWorldPosition from "../../utils/getWorldPosition"
-import { matrix4, vector3_1 } from "../../utils/reusables"
+import { vector3_1 } from "../../utils/reusables"
 import {
     clickSet,
     mouseDownSet,
@@ -33,17 +30,6 @@ import {
 } from "../../../systems/hitTestSystem"
 
 export const reflectionVisibleSet = new Set<MeshAppendable>()
-
-const frustum = new Frustum()
-const updateFrustum = throttleFrameLeading(() => {
-    const camera = getCameraRendered()
-    frustum.setFromProjectionMatrix(
-        matrix4.multiplyMatrices(
-            camera.projectionMatrix,
-            camera.matrixWorldInverse
-        )
-    )
-})
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
@@ -98,11 +84,6 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
                     })
                 })
         )
-    }
-
-    public get frustumVisible() {
-        updateFrustum()
-        return frustum.containsPoint(getCenter(this.object3d))
     }
 
     protected _castShadow?: boolean

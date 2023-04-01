@@ -14,7 +14,7 @@ const getIncludeRecord = computePerFrame((manager: Appendable) => {
     const result: Record<string, boolean> = {}
     for (const key of includeKeys) result[key] = true
     return result
-}, false)
+})
 
 const Toggle = memo(
     ({ manager, property }: ToggleProps) => {

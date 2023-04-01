@@ -11,7 +11,7 @@ export const positionChanged = computePerFrame((target: Object3D) => {
         : false
     userData.positionOld = position
     return result
-}, false)
+})
 
 export const positionChangedXZ = computePerFrame((target: Object3D) => {
     const { userData } = target
@@ -22,7 +22,7 @@ export const positionChangedXZ = computePerFrame((target: Object3D) => {
         : false
     userData.positionOldXZ = position
     return result
-}, false)
+})
 
 export const quaternionChanged = computePerFrame((target: Object3D) => {
     const { userData } = target
@@ -32,4 +32,4 @@ export const quaternionChanged = computePerFrame((target: Object3D) => {
         : false
     userData.quaternionOld = quaternion
     return result
-}, false)
+})

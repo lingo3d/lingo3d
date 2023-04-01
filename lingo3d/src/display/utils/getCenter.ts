@@ -1,9 +1,9 @@
 import { Object3D } from "three"
-import computePerFrame from "../../utils/computePerFrame"
 import getWorldPosition from "./getWorldPosition"
 import { box3, vector3 } from "./reusables"
+import computeClonePerFrame from "../../utils/computeClonePerFrame"
 
-export default computePerFrame((target: Object3D) => {
+export default computeClonePerFrame((target: Object3D) => {
     if ("isBone" in target) return getWorldPosition(target)
     target.updateWorldMatrix(true, false)
     box3.setFromObject(target)
