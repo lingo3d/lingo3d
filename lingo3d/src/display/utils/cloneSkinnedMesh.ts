@@ -1,7 +1,6 @@
 import { Object3D } from "three"
 import { clone } from "three/examples/jsm/utils/SkeletonUtils"
-
-export const skinnedMeshSet = new WeakSet<Object3D>()
+import { skinnedMeshSet } from "../../collections/skinnedMeshSet"
 
 export default <T extends Object3D>(
     target: T,

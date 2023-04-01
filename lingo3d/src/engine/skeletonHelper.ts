@@ -1,10 +1,10 @@
 import { createEffect } from "@lincode/reactivity"
 import { SkeletonHelper } from "three"
 import Loaded from "../display/core/Loaded"
-import { skinnedMeshSet } from "../display/utils/cloneSkinnedMesh"
 import { getEditorHelper } from "../states/useEditorHelper"
 import { getSelectionTarget } from "../states/useSelectionTarget"
 import scene from "./scene"
+import { skinnedMeshSet } from "../collections/skinnedMeshSet"
 
 createEffect(() => {
     const target = getSelectionTarget()
