@@ -2,8 +2,8 @@ import store, { merge } from "@lincode/reactivity"
 import { set, traverse } from "@lincode/utils"
 import { setFileBrowserDir } from "./useFileBrowserDir"
 import { getFiles } from "./useFiles"
+import { pathObjMap } from "../collections/pathCollections"
 
-export const pathMap = new WeakMap<Record<string, any>, string>()
 export const firstFolderNamePtr = [""]
 
 export interface FileStructure {
@@ -16,8 +16,8 @@ export const mergeFileStructure = merge(setFileStructure, getFileStructure)
 export const setPathMap = (fileStructure: FileStructure) =>
     traverse(fileStructure, (key, child, parent) => {
         let path = ""
-        if (pathMap.has(parent)) path = pathMap.get(parent) + "/" + key
-        typeof child === "object" && pathMap.set(child, path)
+        if (pathObjMap.has(parent)) path = pathObjMap.get(parent) + "/" + key
+        typeof child === "object" && pathObjMap.set(child, path)
     })
 
 getFiles((files) => {

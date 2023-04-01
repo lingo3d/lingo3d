@@ -10,7 +10,7 @@ import {
 } from "../../states/useFileStructure"
 import { set } from "@lincode/utils"
 import loadFile from "./loadFile"
-import { pathFileMap } from "../../collections/pathFileMap"
+import { pathFileMap } from "../../collections/pathCollections"
 
 export default async () => {
     const files = getFiles()

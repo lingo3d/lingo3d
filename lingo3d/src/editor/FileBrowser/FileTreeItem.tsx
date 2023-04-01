@@ -5,8 +5,9 @@ import {
     setFileBrowserDir
 } from "../../states/useFileBrowserDir"
 import FolderIcon from "./icons/FolderIcon"
-import { firstFolderNamePtr, pathMap } from "../../states/useFileStructure"
+import { firstFolderNamePtr } from "../../states/useFileStructure"
 import { useMemo } from "preact/hooks"
+import { pathObjMap } from "../../collections/pathCollections"
 
 type FileTreeItemProps = {
     fileStructure: any
@@ -32,7 +33,9 @@ const FileTreeItem = ({
                     key={name}
                     fileStructure={fileOrFolder}
                     folderName={name}
-                    myPath={firstFolderNamePtr[0] + pathMap.get(fileOrFolder)}
+                    myPath={
+                        firstFolderNamePtr[0] + pathObjMap.get(fileOrFolder)
+                    }
                 />
             )
         )
