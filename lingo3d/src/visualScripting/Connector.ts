@@ -13,7 +13,7 @@ import { PointType } from "../utils/isPoint"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import GameGraphChild from "./GameGraphChild"
-import { uuidMap } from "../collections/uuidMap"
+import { uuidMap } from "../collections/uuidCollections"
 
 const connectedMap = new WeakMap<Appendable, Set<Appendable>>()
 export const managerConnectorsMap = new WeakMap<Appendable, Set<Connector>>()

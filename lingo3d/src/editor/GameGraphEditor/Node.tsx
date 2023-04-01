@@ -26,7 +26,7 @@ import { nodeContexMenuSignal } from "./NodeContextMenu"
 import { getStagePosition, zoomSignal } from "./Stage/stageSignals"
 import convertToTemplateNodes from "./utils/convertToTemplateNodes"
 import createConnector from "./utils/createConnector"
-import { uuidMap } from "../../collections/uuidMap"
+import { uuidMap } from "../../collections/uuidCollections"
 
 let panningUUID: string | undefined
 

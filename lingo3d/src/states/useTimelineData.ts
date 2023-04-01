@@ -10,7 +10,7 @@ import unsafeGetValue from "../utils/unsafeGetValue"
 import { keyframesPtr } from "./useTimelineKeyframeEntries"
 import { getTimelineRecord } from "./useTimelineRecord"
 import { onEditorChanges } from "../events/onEditorChanges"
-import { uuidMap } from "../collections/uuidMap"
+import { uuidMap } from "../collections/uuidCollections"
 
 const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([
     undefined

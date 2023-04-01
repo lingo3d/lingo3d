@@ -16,7 +16,7 @@ import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { getTimelineLayer } from "../../states/useTimelineLayer"
 import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
-import { uuidMap } from "../../collections/uuidMap"
+import { uuidMap } from "../../collections/uuidCollections"
 
 export const timelineContextMenuSignal: Signal<
     | (Point & {

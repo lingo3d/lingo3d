@@ -5,7 +5,7 @@ import ITimeline, {
     timelineSchema
 } from "../interface/ITimeline"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
-import { uuidMap } from "../collections/uuidMap"
+import { uuidMap } from "../collections/uuidCollections"
 
 const findNode = PropertyBinding.findNode
 PropertyBinding.findNode = (root, nodeName) => {

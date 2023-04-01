@@ -15,7 +15,7 @@ import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import { M2CM } from "../globals"
 import Primitive from "./core/Primitive"
 import { addRefreshFactorsSystem } from "../systems/configSystems/refreshFactorsSystem"
-import { uuidMap } from "../collections/uuidMap"
+import { uuidMap } from "../collections/uuidCollections"
 import {
     reflectionDataMap,
     reflectionChangedSet

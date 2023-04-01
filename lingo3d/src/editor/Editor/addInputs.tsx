@@ -28,7 +28,7 @@ import {
     addRefreshInputSystem,
     deleteRefreshInputSystem
 } from "../../systems/refreshInputSystem"
-import { uuidMap } from "../../collections/uuidMap"
+import { uuidMap } from "../../collections/uuidCollections"
 import {
     isDefaultMethodArg,
     isNullableCallbackParam,

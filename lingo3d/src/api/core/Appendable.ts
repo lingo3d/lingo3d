@@ -12,7 +12,7 @@ import { addLoopSystem, deleteLoopSystem } from "../../systems/loopSystem"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import type MeshAppendable from "./MeshAppendable"
 import { appendableRoot } from "../../collections/appendableRoot"
-import { uuidMap } from "../../collections/uuidMap"
+import { uuidMap } from "../../collections/uuidCollections"
 
 const userIdMap = new Map<string, Set<Appendable | MeshAppendable>>()
 

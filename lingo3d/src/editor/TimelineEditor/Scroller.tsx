@@ -23,7 +23,7 @@ import { timelineContextMenuSignal } from "./TimelineContextMenu"
 import { timelineScrollHeightSignal } from "./timelineScrollHeightSignal"
 import { timelineScrollLeftSignal } from "./timelineScrollLeftSignal"
 import useSyncScrollTop from "./useSyncScrollTop"
-import { uuidMap } from "../../collections/uuidMap"
+import { uuidMap } from "../../collections/uuidCollections"
 
 const Scroller = () => {
     const scrollRef = useSyncScrollTop()

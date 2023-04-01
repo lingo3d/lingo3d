@@ -10,7 +10,7 @@ import useSyncState from "../hooks/useSyncState"
 import Bezier from "./Bezier"
 import { onNodeMove } from "./Node"
 import { getStagePosition } from "./Stage/stageSignals"
-import { uuidMap } from "../../collections/uuidMap"
+import { uuidMap } from "../../collections/uuidCollections"
 
 type ConnectionProps = {
     uuid: string

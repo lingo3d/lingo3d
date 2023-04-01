@@ -7,7 +7,6 @@ import {
     Object3D
 } from "three"
 import { StandardMesh } from "../../display/core/mixins/TexturedStandardMixin"
-import { uuidTextureMap } from "../../display/core/mixins/utils/createMap"
 import TextureManager from "../../display/core/TextureManager"
 import type Model from "../../display/Model"
 import { NEAR } from "../../globals"
@@ -21,6 +20,7 @@ import {
     reflectionChangedSet,
     reflectionDataMap
 } from "../../collections/reflectionCollections"
+import { uuidTextureMap } from "../../collections/uuidCollections"
 
 const modelTextureManagersMap = new WeakMap<Model, Array<TextureManager>>()
 

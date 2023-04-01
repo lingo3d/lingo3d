@@ -28,7 +28,7 @@ import { INVERSE_STANDARD_FRAME, STANDARD_FRAME } from "../../../globals"
 import TimelineAudio from "../../TimelineAudio"
 import { Cancellable } from "@lincode/promiselikes"
 import { nonSerializedAppendables } from "../../../collections/nonSerializedAppendables"
-import { uuidMap } from "../../../collections/uuidMap"
+import { uuidMap } from "../../../collections/uuidCollections"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()
