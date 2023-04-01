@@ -12,12 +12,12 @@ import ISpotLight, {
 import { CM2M, M2CM } from "../../../globals"
 import { deg2Rad, rad2Deg } from "@lincode/math"
 import { SpotLightMaterial } from "./SpotLightMaterial"
-import { ssrExcludeSet } from "../../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
 import {
     addVolumetricSpotLightSystem,
     deleteVolumetricSpotLightSystem
 } from "../../../systems/volumetricSpotLightSystem"
 import { Cancellable } from "@lincode/promiselikes"
+import { ssrExcludeSet } from "../../../collections/ssrExcludeSet"
 
 const coneGeometry = new ConeGeometry(0.5, 1, 256)
 

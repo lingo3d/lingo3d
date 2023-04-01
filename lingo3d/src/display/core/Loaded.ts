@@ -18,7 +18,7 @@ import MeshAppendable from "../../api/core/MeshAppendable"
 import { physxPtr } from "./PhysicsObjectManager/physx/physxPtr"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import { boxGeometry } from "../primitives/Cube"
-import { ssrExcludeSet } from "../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
+import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 
 const material = new MeshStandardMaterial({ visible: false })
 

@@ -1,7 +1,6 @@
-import { Color, Object3D, Texture } from "three"
+import { Color, Texture } from "three"
 import scene from "../../../scene"
-
-export const ssrExcludeSet = new Set<Object3D>()
+import { ssrExcludeSet } from "../../../../collections/ssrExcludeSet"
 
 let sceneBackground: Color | Texture | null
 export const beforeRenderSSR = () => {

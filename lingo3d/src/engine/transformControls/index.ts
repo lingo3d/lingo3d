@@ -14,12 +14,12 @@ import { setTransformControlsDragging } from "../../states/useTransformControlsD
 import { getTransformControlsSpaceComputed } from "../../states/useTransformControlsSpaceComputed"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { getSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
-import { ssrExcludeSet } from "../renderLoop/effectComposer/ssrEffect/renderSetup"
 import { getEditorModeComputed } from "../../states/useEditorModeComputed"
 import { CM2M } from "../../globals"
 import { deg2Rad } from "@lincode/math"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { container } from "../renderLoop/containers"
+import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")

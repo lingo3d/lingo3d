@@ -2,9 +2,9 @@ import { createEffect } from "@lincode/reactivity"
 import { getEditorBehavior } from "../../states/useEditorBehavior"
 import { getGrid } from "../../states/useGrid"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
-import { ssrExcludeSet } from "../renderLoop/effectComposer/ssrEffect/renderSetup"
 import scene from "../scene"
 import InfiniteGridHelper from "./InfiniteGridHelper"
+import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
 
 createEffect(() => {
     if (!getGrid() || !getEditorBehavior() || getWorldPlayComputed()) return
