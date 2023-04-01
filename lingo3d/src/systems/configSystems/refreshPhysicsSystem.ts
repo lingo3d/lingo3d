@@ -11,12 +11,15 @@ import {
     controllerManagerMap,
     managerActorMap,
     managerControllerMap,
+    nonStaticSet,
     pxUpdateSet
 } from "../../collections/pxCollections"
 
 export const [addRefreshPhysicsSystem] = configMemoSystemWithCleanUpAndData(
     (self: PhysicsObjectManager) => {
         const mode = self.physics || !!self.jointCount
+        if (mode === "static" || mode === "map") nonStaticSet.delete(self)
+        else nonStaticSet.add(self)
         if (!mode) return
 
         const {

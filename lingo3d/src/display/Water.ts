@@ -4,12 +4,12 @@ import { sphereGeometry } from "./primitives/Sphere"
 import loadTexture from "./utils/loaders/loadTexture"
 import IWater, { waterDefaults, waterSchema } from "../interface/IWater"
 import { Cancellable } from "@lincode/promiselikes"
-import VisibleObjectManager from "./core/VisibleObjectManager"
 import { setManager } from "../api/utils/getManager"
 import { WATERNORMALS_URL } from "../api/assetsPath"
 import { addWaterSystem, deleteWaterSystem } from "../systems/waterSystem"
+import PhysicsObjectManager from "./core/PhysicsObjectManager"
 
-export default class Water extends VisibleObjectManager implements IWater {
+export default class Water extends PhysicsObjectManager implements IWater {
     public static componentName = "water"
     public static defaults = waterDefaults
     public static schema = waterSchema

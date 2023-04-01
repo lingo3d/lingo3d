@@ -1,13 +1,13 @@
-import IVisibleObjectManager, {
-    visibleObjectManagerDefaults,
-    visibleObjectManagerSchema
-} from "./IVisibleObjectManager"
 import { ExtractProps } from "./utils/extractProps"
 import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
 import Nullable from "./utils/Nullable"
+import IPhysicsObjectManager, {
+    physicsObjectManagerDefaults,
+    physicsObjectManagerSchema
+} from "./IPhysicsObjectManager"
 
-export default interface IWater extends IVisibleObjectManager {
+export default interface IWater extends IPhysicsObjectManager {
     shape: "plane" | "sphere"
     normalMap: Nullable<string>
     resolution: number
@@ -15,7 +15,7 @@ export default interface IWater extends IVisibleObjectManager {
 }
 
 export const waterSchema: Required<ExtractProps<IWater>> = {
-    ...visibleObjectManagerSchema,
+    ...physicsObjectManagerSchema,
     shape: String,
     normalMap: String,
     resolution: Number,
@@ -23,7 +23,7 @@ export const waterSchema: Required<ExtractProps<IWater>> = {
 }
 
 export const waterDefaults = extendDefaults<IWater>(
-    [visibleObjectManagerDefaults],
+    [physicsObjectManagerDefaults],
     {
         shape: "plane",
         normalMap: undefined,
