@@ -1,4 +1,4 @@
-import { joints } from "../../../api/core/collections"
+import { joints } from "../../../collections/joints"
 import PhysicsObjectManager from "../../../display/core/PhysicsObjectManager"
 import { addMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
 

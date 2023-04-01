@@ -7,7 +7,6 @@ import { CSM } from "three/examples/jsm/csm/CSM"
 import scene from "../../engine/scene"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import DirectionalLight from "./DirectionalLight"
-import { eraseAppendable } from "../../api/core/collections"
 import SimpleObjectManager from "../core/SimpleObjectManager"
 import AmbientLight from "./AmbientLight"
 import {
@@ -20,6 +19,7 @@ import {
     deleteSkyBackLightSystem,
     updateBackLight
 } from "../../systems/skyBackLightSystem"
+import { eraseAppendable } from "../utils/eraseAppendable"
 
 export default class SkyLight extends SimpleObjectManager implements ISkyLight {
     public static componentName = "skyLight"

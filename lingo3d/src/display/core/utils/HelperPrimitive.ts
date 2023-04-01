@@ -1,5 +1,4 @@
 import { BufferGeometry } from "three"
-import { eraseAppendable } from "../../../api/core/collections"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import {
     TransformControlsMode,
@@ -10,6 +9,7 @@ import {
     positionedSchema
 } from "../../../interface/IPositioned"
 import Primitive from "../Primitive"
+import { eraseAppendable } from "../../utils/eraseAppendable"
 
 //@ts-ignore
 export default abstract class HelperPrimitive extends Primitive {

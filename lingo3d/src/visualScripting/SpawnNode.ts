@@ -1,6 +1,5 @@
 import { omit } from "@lincode/utils"
 import Appendable from "../api/core/Appendable"
-import { eraseAppendable } from "../api/core/collections"
 import type { GameObjectTypeWithoutTemplate } from "../api/serializer/createObjectWithoutTemplate"
 import nonSerializedProperties from "../api/serializer/nonSerializedProperties"
 import { AppendableNode } from "../api/serializer/types"
@@ -10,6 +9,7 @@ import ISpawnNode, {
 } from "../interface/ISpawnNode"
 import Connector, { findConnected, managerConnectorsMap } from "./Connector"
 import GameGraphChild from "./GameGraphChild"
+import { eraseAppendable } from "../display/utils/eraseAppendable"
 
 type CacheData = Array<
     [Appendable, GameObjectTypeWithoutTemplate, Partial<AppendableNode>]

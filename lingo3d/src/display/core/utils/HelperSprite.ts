@@ -1,5 +1,4 @@
 import { EDITOR_URL } from "../../../api/assetsPath"
-import { eraseAppendable } from "../../../api/core/collections"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import {
     TransformControlsMode,
@@ -10,6 +9,7 @@ import {
     positionedSchema
 } from "../../../interface/IPositioned"
 import Sprite from "../../Sprite"
+import { eraseAppendable } from "../../utils/eraseAppendable"
 
 //@ts-ignore
 export default class HelperSprite extends Sprite {

@@ -21,7 +21,7 @@ import { addSelectionHelper } from "./utils/raycast/selectionCandidates"
 import HelperSphere from "./utils/HelperSphere"
 import { getAppendables } from "../../api/core/Appendable"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
-import { joints } from "../../api/core/collections"
+import { joints } from "../../collections/joints"
 
 const getRelativeTransform = (
     thisObject: Object3D,

@@ -4,13 +4,13 @@ import PositionedManager, {
 } from "../display/core/PositionedManager"
 import { onDispose } from "../events/onDispose"
 import { Object3D } from "three"
-import { eraseAppendable } from "../api/core/collections"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
 import { box3, vector3 } from "../display/utils/reusables"
 import scene from "../engine/scene"
 import { onEditorGroupItems } from "../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 import { setSelectionTarget } from "./useSelectionTarget"
+import { eraseAppendable } from "../display/utils/eraseAppendable"
 
 const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store([
     new Set<PositionedManager>()

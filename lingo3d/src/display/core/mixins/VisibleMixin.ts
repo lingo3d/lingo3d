@@ -28,7 +28,7 @@ import {
     addHitTestSystem,
     deleteHitTestSystem
 } from "../../../systems/hitTestSystem"
-import { reflectionVisibleSet } from "../../../api/core/collections"
+import { reflectionVisibleSet } from "../../../collections/reflectionVisibleSet"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()
