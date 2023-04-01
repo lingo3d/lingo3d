@@ -10,11 +10,11 @@ import pointerToWorld from "../display/utils/pointerToWorld"
 import store from "@lincode/reactivity"
 import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
-import { appendableRoot } from "./core/collections"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import Appendable from "./core/Appendable"
 import { Point } from "@lincode/math"
 import { container } from "../engine/renderLoop/containers"
+import { appendableRoot } from "../collections/appendableRoot"
 
 export type MouseEventName = "click" | "rightClick" | "move" | "down" | "up"
 export const mouseEvents = new Events<LingoMouseEvent, MouseEventName>()

@@ -47,12 +47,12 @@ import {
 } from "../states/useShadowResolution"
 import { getEnvironment, setEnvironment } from "../states/useEnvironment"
 import { getStats, setStats } from "../states/useStats"
-import { appendableRoot } from "../api/core/collections"
 import { getBokeh, setBokeh } from "../states/useBokeh"
 import { getBokehScale, setBokehScale } from "../states/useBokehScale"
 import { getVignette, setVignette } from "../states/useVignette"
 import { getGravity, setGravity } from "../states/useGravity"
 import { getSSRJitter, setSSRJitter } from "../states/useSSRJitter"
+import { appendableRoot } from "../collections/appendableRoot"
 
 const defaultSkybox = new Skybox()
 appendableRoot.delete(defaultSkybox)

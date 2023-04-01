@@ -2,7 +2,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import { throttleTrailing } from "@lincode/utils"
 import { Object3D } from "three"
 import Appendable from "../../../../api/core/Appendable"
-import { appendableRoot } from "../../../../api/core/collections"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
 import { emitSelectionTarget } from "../../../../events/onSelectionTarget"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
@@ -11,6 +10,7 @@ import { StandardMesh } from "../../mixins/TexturedStandardMixin"
 import VisibleMixin from "../../mixins/VisibleMixin"
 import HelperPrimitive from "../HelperPrimitive"
 import HelperSprite from "../HelperSprite"
+import { appendableRoot } from "../../../../collections/appendableRoot"
 
 const selectionCandidates = new Set<Object3D>()
 export default selectionCandidates

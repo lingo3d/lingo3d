@@ -1,5 +1,5 @@
 import Appendable from "../api/core/Appendable"
-import { hiddenAppendables } from "../api/core/collections"
+import { hiddenAppendables } from "../collections/hiddenAppendables"
 import setupStruct from "../engine/setupStruct"
 import ISetup, { setupDefaults, setupSchema } from "../interface/ISetup"
 import unsafeGetValue from "../utils/unsafeGetValue"

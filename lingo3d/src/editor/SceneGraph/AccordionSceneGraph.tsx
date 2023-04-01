@@ -1,5 +1,4 @@
 import { useMemo } from "preact/hooks"
-import { appendableRoot, hiddenAppendables } from "../../api/core/collections"
 import ObjectManager, {
     getFoundManager
 } from "../../display/core/ObjectManager"
@@ -23,6 +22,8 @@ import ModelTreeItem from "./ModelTreeItem"
 import TreeItem from "./TreeItem"
 import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
 import { isTemplate } from "../../display/Template"
+import { appendableRoot } from "../../collections/appendableRoot"
+import { hiddenAppendables } from "../../collections/hiddenAppendables"
 
 const AccordionSceneGraph = () => {
     const refresh = useSceneGraphRefresh()

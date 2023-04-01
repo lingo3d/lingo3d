@@ -3,7 +3,7 @@ import Appendable from "../core/Appendable"
 import toFixed, { toFixedPoint } from "./toFixed"
 import { AppendableNode, SceneGraphNode } from "./types"
 import { VERSION } from "../../globals"
-import { nonSerializedAppendables, appendableRoot } from "../core/collections"
+import { nonSerializedAppendables } from "../core/collections"
 import { isPoint } from "../../utils/isPoint"
 import nonSerializedProperties from "./nonSerializedProperties"
 import unsafeGetValue from "../../utils/unsafeGetValue"
@@ -11,6 +11,7 @@ import Model from "../../display/Model"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { isTemplateNode } from "../../visualScripting/TemplateNode"
 import { isTemplate } from "../../display/Template"
+import { appendableRoot } from "../../collections/appendableRoot"
 
 const serialize = (
     children: Array<Appendable | Model> | Set<Appendable | Model>,

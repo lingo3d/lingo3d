@@ -5,10 +5,10 @@ import { getTransformControlsDragging } from "../states/useTransformControlsDrag
 import { onEditorCenterView } from "../events/onEditorCenterView"
 import { getCameraRendered } from "../states/useCameraRendered"
 import getActualScale from "../display/utils/getActualScale"
-import { appendableRoot } from "../api/core/collections"
 import { M2CM } from "../globals"
 import { getEditorBehavior } from "../states/useEditorBehavior"
 import { container } from "./renderLoop/containers"
+import { appendableRoot } from "../collections/appendableRoot"
 
 const mainCameraManager = new OrbitCamera(mainCamera)
 export default mainCameraManager

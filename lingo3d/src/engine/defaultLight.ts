@@ -6,9 +6,9 @@ import { environmentPreset } from "../interface/IEnvironment"
 import { getEnvironment } from "../states/useEnvironment"
 import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import scene from "./scene"
-import { appendableRoot } from "../api/core/collections"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import { TEXTURES_URL } from "../api/assetsPath"
+import { appendableRoot } from "../collections/appendableRoot"
 import("../display/lights/DefaultSkyLight")
 
 const defaultEnvironment = new Environment()

@@ -1,5 +1,5 @@
+import { joints } from "../../../api/core/collections"
 import PhysicsObjectManager from "../../../display/core/PhysicsObjectManager"
-import { joints } from "../../../display/core/JointBase"
 import { addMultipleSelectionTargets } from "../../../states/useMultipleSelectionTargets"
 
 const findAllJointed = (

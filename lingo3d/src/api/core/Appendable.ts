@@ -10,8 +10,9 @@ import IAppendable from "../../interface/IAppendable"
 import Nullable from "../../interface/utils/Nullable"
 import { addLoopSystem, deleteLoopSystem } from "../../systems/loopSystem"
 import unsafeSetValue from "../../utils/unsafeSetValue"
-import { appendableRoot, uuidMap } from "./collections"
+import { uuidMap } from "./collections"
 import type MeshAppendable from "./MeshAppendable"
+import { appendableRoot } from "../../collections/appendableRoot"
 
 const userIdMap = new Map<string, Set<Appendable | MeshAppendable>>()
 

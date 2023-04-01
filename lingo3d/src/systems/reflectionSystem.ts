@@ -1,11 +1,11 @@
 import { CubeCamera, WebGLCubeRenderTarget } from "three"
 import MeshAppendable from "../api/core/MeshAppendable"
-import { reflectionVisibleSet } from "../display/core/mixins/VisibleMixin"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import scene from "../engine/scene"
 import { onRenderHalfRate } from "../events/onRenderHalfRate"
 import { rendererPtr } from "../states/useRenderer"
 import renderSystemWithLifeCycleAndData from "./utils/renderSystemWithLifeCycleAndData"
+import { reflectionVisibleSet } from "../api/core/collections"
 
 export const [addReflectionSystem, deleteReflectionSystem] =
     renderSystemWithLifeCycleAndData(

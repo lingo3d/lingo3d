@@ -1,8 +1,9 @@
 import { useMemo } from "preact/hooks"
-import { appendableRoot, hiddenAppendables } from "../../api/core/collections"
 import Template, { isTemplate } from "../../display/Template"
 import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
 import TemplatesTreeItem from "./TemplatesTreeItem"
+import { appendableRoot } from "../../collections/appendableRoot"
+import { hiddenAppendables } from "../../collections/hiddenAppendables"
 
 const Templates = () => {
     const refresh = useSceneGraphRefresh()

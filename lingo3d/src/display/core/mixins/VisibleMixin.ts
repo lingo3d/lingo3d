@@ -28,8 +28,7 @@ import {
     addHitTestSystem,
     deleteHitTestSystem
 } from "../../../systems/hitTestSystem"
-
-export const reflectionVisibleSet = new Set<MeshAppendable>()
+import { reflectionVisibleSet } from "../../../api/core/collections"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()

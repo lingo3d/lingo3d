@@ -7,7 +7,6 @@ import { getSelectionTarget } from "../../states/useSelectionTarget"
 import getDisplayName from "../utils/getDisplayName"
 import BaseTreeItem from "../component/treeItems/BaseTreeItem"
 import CubeIcon from "./icons/CubeIcon"
-import { hiddenAppendables } from "../../api/core/collections"
 import AnimationManager from "../../display/core/AnimatedObjectManager/AnimationManager"
 import PlayIcon from "./icons/PlayIcon"
 import useSyncState from "../hooks/useSyncState"
@@ -18,6 +17,7 @@ import {
 } from "../../states/useSceneGraphExpanded"
 import handleTreeItemClick from "../utils/handleTreeItemClick"
 import MeshAppendable from "../../api/core/MeshAppendable"
+import { hiddenAppendables } from "../../collections/hiddenAppendables"
 
 export type TreeItemProps = {
     appendable: Appendable | MeshAppendable

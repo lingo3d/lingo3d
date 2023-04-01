@@ -8,9 +8,9 @@ import { createEffect } from "@lincode/reactivity"
 import { onKeyClear } from "../events/onKeyClear"
 import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
-import { appendableRoot } from "./core/collections"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import Appendable from "./core/Appendable"
+import { appendableRoot } from "../collections/appendableRoot"
 
 const [emitDown, onDown] = event<string>()
 const [emitUp, onUp] = event<string>()

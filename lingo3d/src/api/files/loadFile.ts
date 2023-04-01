@@ -1,8 +1,8 @@
 import { FileWithDirectoryAndFileHandle } from "browser-fs-access"
 import mainCameraManager from "../../engine/mainCameraManager"
 import { setFileCurrent } from "../../states/useFileCurrent"
-import { appendableRoot } from "../core/collections"
 import deserialize from "../serializer/deserialize"
+import { appendableRoot } from "../../collections/appendableRoot"
 
 export default async (file: FileWithDirectoryAndFileHandle) => {
     if (!file.name.toLowerCase().endsWith(".json")) return false

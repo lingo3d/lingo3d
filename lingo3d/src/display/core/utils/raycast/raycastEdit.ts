@@ -3,7 +3,6 @@ import {
     createNestedEffect,
     createRef
 } from "@lincode/reactivity"
-import { hiddenAppendables } from "../../../../api/core/collections"
 import { isPositionedManager } from "../../PositionedManager"
 import { mouseEvents, rightClickPtr } from "../../../../api/mouse"
 import { onSceneGraphChange } from "../../../../events/onSceneGraphChange"
@@ -29,6 +28,7 @@ import selectionCandidates, {
     getSelectionCandidates
 } from "./selectionCandidates"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
+import { hiddenAppendables } from "../../../../collections/hiddenAppendables"
 
 createEffect(() => {
     const multipleSelection = getMultipleSelection()

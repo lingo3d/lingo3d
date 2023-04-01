@@ -10,7 +10,6 @@ import SimpleObjectManager from "./SimpleObjectManager"
 import { setManager } from "../../api/utils/getManager"
 import TextureManager from "./TextureManager"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import { appendableRoot } from "../../api/core/collections"
 import {
     standardDefaultParams,
     standardDefaults,
@@ -18,6 +17,7 @@ import {
 } from "./mixins/TexturedStandardMixin"
 import MixinType from "./mixins/utils/MixinType"
 import { Cancellable } from "@lincode/promiselikes"
+import { appendableRoot } from "../../collections/appendableRoot"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
