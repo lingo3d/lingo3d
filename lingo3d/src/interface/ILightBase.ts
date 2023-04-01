@@ -7,10 +7,12 @@ import { extendDefaults } from "./utils/Defaults"
 import Range from "./utils/Range"
 import Choices from "./utils/Choices"
 
+export type CastShadow = boolean | "static"
+
 export default interface ILightBase extends IObjectManager {
     color: string
     intensity: number
-    castShadow: boolean | "static"
+    castShadow: CastShadow
     enabled: boolean
     helper: boolean
 }

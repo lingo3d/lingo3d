@@ -9,7 +9,7 @@ import {
 import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper"
 import scene from "../../engine/scene"
 import { SHADOW_BIAS } from "../../globals"
-import ILightBase from "../../interface/ILightBase"
+import ILightBase, { CastShadow } from "../../interface/ILightBase"
 import { getEditorHelper } from "../../states/useEditorHelper"
 import {
     getShadowResolution,
@@ -19,6 +19,7 @@ import { addSelectionHelper } from "./utils/raycast/selectionCandidates"
 import HelperSprite from "./utils/HelperSprite"
 import ObjectManager from "./ObjectManager"
 import { addUpdateSystem, deleteUpdateSystem } from "../../systems/updateSystem"
+import { Cancellable } from "@lincode/promiselikes"
 
 export const mapShadowResolution = (val: ShadowResolution) => {
     switch (val) {
@@ -91,23 +92,38 @@ export default abstract class LightBase<T extends Light>
     }
 
     protected shadowBiasCoeff = 1
+    private _castShadow: CastShadow = false
     public get castShadow() {
-        return this.object3d.castShadow
+        return this._castShadow
     }
     public set castShadow(val) {
-        const light = this.object3d
-        if (!light || !light.shadow) return
+        this._castShadow = val
 
-        light.castShadow = val
+        const light = this.object3d
+        light.castShadow = !!val
         light.shadow.bias = SHADOW_BIAS * this.shadowBiasCoeff
 
         this.cancelHandle(
             "castShadow",
-            val &&
-                (() =>
-                    getShadowResolution((res) =>
-                        light.shadow.mapSize.setScalar(mapShadowResolution(res))
-                    ))
+            val === true
+                ? () =>
+                      getShadowResolution((res) =>
+                          light.shadow.mapSize.setScalar(
+                              mapShadowResolution(res)
+                          )
+                      )
+                : val === "static"
+                ? () => {
+                      const handle = getShadowResolution((res) =>
+                          light.shadow.mapSize.setScalar(
+                              mapShadowResolution(res)
+                          )
+                      )
+                      return new Cancellable(() => {
+                          handle.cancel()
+                      })
+                  }
+                : undefined
         )
     }
 

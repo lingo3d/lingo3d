@@ -86,12 +86,10 @@ export default abstract class VisibleMixin<T extends Object3D = Object3D>
         )
     }
 
-    protected _castShadow?: boolean
     public get castShadow() {
-        return this._castShadow
+        return this.outerObject3d.castShadow
     }
     public set castShadow(val) {
-        this._castShadow = val
         const bool = !!val
         this.outerObject3d.traverse((child) => (child.castShadow = bool))
     }
