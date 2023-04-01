@@ -1,6 +1,6 @@
 import { Point3d, quadrant } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
-import { Object3D, Quaternion, Vector3 } from "three"
+import { Object3D, Vector3 } from "three"
 import { getAppendablesById } from "../../../api/core/Appendable"
 import MeshAppendable from "../../../api/core/MeshAppendable"
 import { fpsRatioPtr } from "../../../engine/eventLoop"
