@@ -1,6 +1,6 @@
 import { onBeforeRender } from "../../events/onBeforeRender"
 
-export default <T>(
+export default <T extends object>(
     cb: (target: T) => void,
     ticker: typeof onBeforeRender | typeof queueMicrotask = queueMicrotask,
     queued = new Set<T>()
@@ -10,7 +10,11 @@ export default <T>(
         if (started) return
         started = true
         ticker(() => {
-            for (const target of queued) cb(target)
+            for (const target of queued) {
+                //@ts-ignore
+                if (target.done) continue
+                cb(target)
+            }
             queued.clear()
             started = false
         }, true)

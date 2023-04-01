@@ -19,6 +19,8 @@ export default <T extends object>(
                     prevCleanup()
                     cleanupMap.delete(target)
                 }
+                //@ts-ignore
+                if (target.done) continue
                 const cleanup = cb(target)
                 cleanup && cleanupMap.set(target, cleanup)
             }
