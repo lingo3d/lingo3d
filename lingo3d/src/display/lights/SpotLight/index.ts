@@ -9,15 +9,15 @@ import ISpotLight, {
     spotLightDefaults,
     spotLightSchema
 } from "../../../interface/ISpotLight"
-import { CM2M, M2CM, SHADOW_BIAS } from "../../../globals"
+import { CM2M, M2CM } from "../../../globals"
 import { deg2Rad, rad2Deg } from "@lincode/math"
-import { Reactive } from "@lincode/reactivity"
 import { SpotLightMaterial } from "./SpotLightMaterial"
 import { ssrExcludeSet } from "../../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
 import {
     addVolumetricSpotLightSystem,
     deleteVolumetricSpotLightSystem
 } from "../../../systems/volumetricSpotLightSystem"
+import { Cancellable } from "@lincode/promiselikes"
 
 const coneGeometry = new ConeGeometry(0.5, 1, 256)
 
@@ -41,29 +41,6 @@ export default class SpotLight
         this.outerObject3d.add(light.target)
         light.position.y = 0
         light.target.position.y = -0.1
-
-        this.createEffect(() => {
-            const volumetric = this.volumetricState.get()
-            if (!light || !volumetric) return
-
-            const material = new SpotLightMaterial()
-            //@ts-ignore
-            material.lightColor = light.color
-            //@ts-ignore
-            material.anglePower = 2
-
-            const cone = new Mesh(coneGeometry, material)
-            this.outerObject3d.add(cone)
-            ssrExcludeSet.add(cone)
-
-            addVolumetricSpotLightSystem(cone, { light: this, material })
-            return () => {
-                material.dispose()
-                this.outerObject3d.remove(cone)
-                ssrExcludeSet.delete(cone)
-                deleteVolumetricSpotLightSystem(cone)
-            }
-        }, [this.volumetricState.get])
     }
 
     public get angle() {
@@ -94,12 +71,38 @@ export default class SpotLight
         this.object3d.distance = val * CM2M
     }
 
-    private volumetricState = new Reactive(false)
+    private _volumetric = false
     public get volumetric() {
-        return this.volumetricState.get()
+        return this._volumetric
     }
     public set volumetric(val) {
-        this.volumetricState.set(val)
+        this._volumetric = val
+
+        this.cancelHandle(
+            "volumetric",
+            val &&
+                (() => {
+                    const material = new SpotLightMaterial()
+                    //@ts-ignore
+                    material.lightColor = this.object3d.color
+                    //@ts-ignore
+                    material.anglePower = 2
+
+                    const cone = new Mesh(coneGeometry, material)
+                    this.outerObject3d.add(cone)
+                    ssrExcludeSet.add(cone)
+                    addVolumetricSpotLightSystem(cone, {
+                        light: this,
+                        material
+                    })
+                    return new Cancellable(() => {
+                        material.dispose()
+                        this.outerObject3d.remove(cone)
+                        ssrExcludeSet.delete(cone)
+                        deleteVolumetricSpotLightSystem(cone)
+                    })
+                })
+        )
     }
 
     public volumetricDistance = 1
