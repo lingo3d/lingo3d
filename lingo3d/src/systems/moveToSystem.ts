@@ -3,7 +3,7 @@ import PositionedMixin from "../display/core/mixins/PositionedMixin"
 import { fpsRatioPtr } from "../engine/eventLoop"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
-import { addTransformChangedSystem } from "./configSystems/transformChangedSystem"
+import { addUpdatePhysicsSystem } from "./configSystems/updatePhysicsSystem"
 
 export const [addMoveToSystem, deleteMoveToSystem] = renderSystemWithData(
     (
@@ -37,6 +37,6 @@ export const [addMoveToSystem, deleteMoveToSystem] = renderSystemWithData(
             self.cancelHandle("lerpTo", undefined)
             self.onMoveToEnd?.()
         }
-        addTransformChangedSystem(self)
+        addUpdatePhysicsSystem(self)
     }
 )
