@@ -15,14 +15,8 @@ import unsafeSetValue from "../../utils/unsafeSetValue"
 import { render } from "preact"
 import { unmountComponentAtNode } from "preact/compat"
 import Toggle from "./Toggle"
-import {
-    isNullableCallbackParam,
-    isNullableCallbackParamInstance
-} from "../../interface/utils/NullableCallback"
-import {
-    isDefaultMethodArg,
-    isDefaultMethodArgInstance
-} from "../../interface/utils/DefaultMethod"
+import { isNullableCallbackParamInstance } from "../../interface/utils/NullableCallback"
+import { isDefaultMethodArgInstance } from "../../interface/utils/DefaultMethod"
 import { isPoint } from "../../utils/isPoint"
 import executeIcon from "./icons/executeIcon"
 import { getOriginalInstance, PassthroughCallback } from "./createParams"
@@ -36,7 +30,11 @@ import {
     deleteRefreshInputSystem
 } from "../../systems/refreshInputSystem"
 import { uuidMap } from "../../collections/uuidMap"
-import { isTemplateNode } from "../../collections/typeGuards"
+import {
+    isDefaultMethodArg,
+    isNullableCallbackParam,
+    isTemplateNode
+} from "../../collections/typeGuards"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {

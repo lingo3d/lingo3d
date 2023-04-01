@@ -8,17 +8,17 @@ import unsafeGetValue from "../../utils/unsafeGetValue"
 import unsafeSetValue from "../../utils/unsafeSetValue"
 import { extendFunction, omitFunction } from "@lincode/utils"
 import NullableCallback, {
-    isNullableCallbackParam,
-    nullableCallbackParams,
     NullableCallbackParamType
 } from "../../interface/utils/NullableCallback"
-import {
-    defaultMethodArgs,
-    DefaultMethodArgType,
-    isDefaultMethodArg
-} from "../../interface/utils/DefaultMethod"
+import { DefaultMethodArgType } from "../../interface/utils/DefaultMethod"
 import { Cancellable } from "@lincode/promiselikes"
 import getStaticProperties from "../../display/utils/getStaticProperties"
+import {
+    isDefaultMethodArg,
+    defaultMethodArgs,
+    isNullableCallbackParam,
+    nullableCallbackParams
+} from "../../collections/typeGuards"
 
 export class PassthroughCallback {
     public constructor(

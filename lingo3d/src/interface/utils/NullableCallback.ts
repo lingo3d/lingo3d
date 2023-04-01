@@ -4,6 +4,10 @@ import { INVERSE_STANDARD_FRAME } from "../../globals"
 import { LingoKeyboardEvent } from "../IKeyboard"
 import { LingoMouseEvent, SimpleMouseEvent } from "../IMouse"
 import { HitEvent } from "../IVisible"
+import {
+    isNullableCallbackParam,
+    nullableCallbackParams
+} from "../../collections/typeGuards"
 
 export class NullableCallbackParam {
     public constructor(
@@ -30,11 +34,6 @@ export const nullableCallbackDtParam = new NullableCallbackParam(
     false
 )
 export const nullableCallbackPtParam = Object.freeze(new Point(0, 0))
-
-export const nullableCallbackParams = new WeakSet<NullableCallbackParamType>()
-export const isNullableCallbackParam = (
-    value: any
-): value is NullableCallbackParamType => nullableCallbackParams.has(value)
 
 export const isNullableCallbackParamInstance = (
     value: any
