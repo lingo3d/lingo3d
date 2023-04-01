@@ -3,8 +3,7 @@ import Appendable from "../api/core/Appendable"
 import { equalsValue } from "../interface/utils/getDefaultValue"
 import { getRuntimeValue } from "../utils/getRuntimeValue"
 import renderSystemWithData from "./utils/renderSystemWithData"
-
-export const skipChangeSet = new WeakSet<InputBindingApi>()
+import { inputSkipChangeSet } from "../collections/inputSkipChangeSet"
 
 export const [addRefreshInputSystem, deleteRefreshInputSystem] =
     renderSystemWithData(
@@ -23,7 +22,7 @@ export const [addRefreshInputSystem, deleteRefreshInputSystem] =
             const val = getRuntimeValue(target, key)
             if (equalsValue(target, val, params[key], key)) return
             params[key] = val
-            skipChangeSet.add(input)
+            inputSkipChangeSet.add(input)
             input.refresh()
         }
     )

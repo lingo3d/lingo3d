@@ -25,7 +25,6 @@ import { stopPropagation } from "../utils/stopPropagation"
 import { emitEditorRefresh } from "../../events/onEditorRefresh"
 import SpawnNode from "../../visualScripting/SpawnNode"
 import {
-    skipChangeSet,
     addRefreshInputSystem,
     deleteRefreshInputSystem
 } from "../../systems/refreshInputSystem"
@@ -35,6 +34,7 @@ import {
     isNullableCallbackParam,
     isTemplateNode
 } from "../../collections/typeGuards"
+import { inputSkipChangeSet } from "../../collections/inputSkipChangeSet"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -207,7 +207,7 @@ export default async (
                         // so that when the callback is called, inputs will be refreshed
                         new PassthroughCallback((val) => {
                             params[key] = val
-                            skipChangeSet.add(input)
+                            inputSkipChangeSet.add(input)
                             input.refresh()
                         }, handle)
                     )
@@ -247,8 +247,8 @@ export default async (
 
                 input.on("change", ({ value }: any) => {
                     updateResetButton()
-                    if (skipChangeSet.has(input)) {
-                        skipChangeSet.delete(input)
+                    if (inputSkipChangeSet.has(input)) {
+                        inputSkipChangeSet.delete(input)
                         return
                     }
                     if (value === "custom" && options) {
