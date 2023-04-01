@@ -30,13 +30,13 @@ import getStaticProperties from "../../display/utils/getStaticProperties"
 import { stopPropagation } from "../utils/stopPropagation"
 import { emitEditorRefresh } from "../../events/onEditorRefresh"
 import { isTemplateNode } from "../../visualScripting/TemplateNode"
-import { uuidMap } from "../../api/core/collections"
 import SpawnNode from "../../visualScripting/SpawnNode"
 import {
     skipChangeSet,
     addRefreshInputSystem,
     deleteRefreshInputSystem
 } from "../../systems/refreshInputSystem"
+import { uuidMap } from "../../collections/uuidMap"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {

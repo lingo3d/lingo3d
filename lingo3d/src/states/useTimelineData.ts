@@ -1,5 +1,4 @@
 import store, { createEffect } from "@lincode/reactivity"
-import { uuidMap } from "../api/core/collections"
 import { getTimelineFrame } from "./useTimelineFrame"
 import { merge, unset } from "@lincode/utils"
 import { onTimelineClearKeyframe } from "../events/onTimelineClearKeyframe"
@@ -11,6 +10,7 @@ import unsafeGetValue from "../utils/unsafeGetValue"
 import { keyframesPtr } from "./useTimelineKeyframeEntries"
 import { getTimelineRecord } from "./useTimelineRecord"
 import { onEditorChanges } from "../events/onEditorChanges"
+import { uuidMap } from "../collections/uuidMap"
 
 const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([
     undefined

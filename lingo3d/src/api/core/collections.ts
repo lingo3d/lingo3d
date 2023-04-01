@@ -1,12 +1,9 @@
 import { hiddenAppendables } from "../../collections/hiddenAppendables"
+import { nonSerializedAppendables } from "../../collections/nonSerializedAppendables"
 import JointBase from "../../display/core/JointBase"
 import Appendable from "./Appendable"
 import MeshAppendable from "./MeshAppendable"
 
-export const nonSerializedAppendables = new WeakSet<
-    Appendable | MeshAppendable
->()
-export const uuidMap = new Map<string, Appendable | MeshAppendable>()
 export const joints = new Set<JointBase>()
 export const reflectionVisibleSet = new Set<MeshAppendable>()
 

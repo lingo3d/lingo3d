@@ -1,7 +1,6 @@
 import { Reactive } from "@lincode/reactivity"
 import { extendFunction, forceGetInstance, omitFunction } from "@lincode/utils"
 import Appendable from "../api/core/Appendable"
-import { uuidMap } from "../api/core/collections"
 import getStaticProperties from "../display/utils/getStaticProperties"
 import IConnector, {
     connectorDefaults,
@@ -14,6 +13,7 @@ import { PointType } from "../utils/isPoint"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import unsafeSetValue from "../utils/unsafeSetValue"
 import GameGraphChild from "./GameGraphChild"
+import { uuidMap } from "../collections/uuidMap"
 
 const connectedMap = new WeakMap<Appendable, Set<Appendable>>()
 export const managerConnectorsMap = new WeakMap<Appendable, Set<Connector>>()

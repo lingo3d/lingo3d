@@ -1,4 +1,3 @@
-import { uuidMap } from "../../../api/core/collections"
 import { FRAME_HEIGHT } from "../../../globals"
 import BaseTreeItem from "../../component/treeItems/BaseTreeItem"
 import useSyncState from "../../hooks/useSyncState"
@@ -7,6 +6,7 @@ import {
     setTimelineLayer
 } from "../../../states/useTimelineLayer"
 import handleTreeItemClick from "../../utils/handleTreeItemClick"
+import { uuidMap } from "../../../collections/uuidMap"
 
 type PropertyTreeItemProps = {
     property: string

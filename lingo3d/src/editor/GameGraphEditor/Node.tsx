@@ -3,7 +3,6 @@ import { Point } from "@lincode/math"
 import { memo } from "preact/compat"
 import { useEffect, useMemo, useState } from "preact/hooks"
 import Appendable from "../../api/core/Appendable"
-import { uuidMap } from "../../api/core/collections"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { EDITOR_WIDTH } from "../../globals"
 import { GameGraphNode } from "../../interface/IGameGraph"
@@ -27,6 +26,7 @@ import { nodeContexMenuSignal } from "./NodeContextMenu"
 import { getStagePosition, zoomSignal } from "./Stage/stageSignals"
 import convertToTemplateNodes from "./utils/convertToTemplateNodes"
 import createConnector from "./utils/createConnector"
+import { uuidMap } from "../../collections/uuidMap"
 
 let panningUUID: string | undefined
 

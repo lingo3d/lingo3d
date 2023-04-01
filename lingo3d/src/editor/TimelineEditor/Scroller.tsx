@@ -1,6 +1,5 @@
 import { createEffect } from "@lincode/reactivity"
 import { useEffect } from "preact/hooks"
-import { uuidMap } from "../../api/core/collections"
 import { emitTimelineHighlightFrame } from "../../events/onTimelineHighlightFrame"
 import { onTimelineSeekScrollLeft } from "../../events/onTimelineSeekScrollLeft"
 import { FRAME_HEIGHT, FRAME_MAX, FRAME_WIDTH } from "../../globals"
@@ -24,6 +23,7 @@ import { timelineContextMenuSignal } from "./TimelineContextMenu"
 import { timelineScrollHeightSignal } from "./timelineScrollHeightSignal"
 import { timelineScrollLeftSignal } from "./timelineScrollLeftSignal"
 import useSyncScrollTop from "./useSyncScrollTop"
+import { uuidMap } from "../../collections/uuidMap"
 
 const Scroller = () => {
     const scrollRef = useSyncScrollTop()

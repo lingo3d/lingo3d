@@ -1,6 +1,5 @@
 import { ComponentChildren } from "preact"
 import { useLayoutEffect, useMemo, useState } from "preact/hooks"
-import { uuidMap } from "../../../api/core/collections"
 import { FRAME_HEIGHT } from "../../../globals"
 import BaseTreeItem from "../../component/treeItems/BaseTreeItem"
 import useSyncState from "../../hooks/useSyncState"
@@ -14,6 +13,7 @@ import {
 } from "../../../states/useTimelineLayer"
 import getDisplayName from "../../utils/getDisplayName"
 import handleTreeItemClick from "../../utils/handleTreeItemClick"
+import { uuidMap } from "../../../collections/uuidMap"
 
 type LayerTreeItemProps = {
     children: ComponentChildren

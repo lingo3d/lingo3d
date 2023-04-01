@@ -15,10 +15,6 @@ import { onBeforeRender } from "../../../events/onBeforeRender"
 import { dtPtr } from "../../../engine/eventLoop"
 import { GetGlobalState, Reactive } from "@lincode/reactivity"
 import { EventFunctions } from "@lincode/events"
-import {
-    nonSerializedAppendables,
-    uuidMap
-} from "../../../api/core/collections"
 import IAnimationManager, {
     AnimationData,
     animationManagerDefaults,
@@ -31,6 +27,8 @@ import FoundManager from "../FoundManager"
 import { INVERSE_STANDARD_FRAME, STANDARD_FRAME } from "../../../globals"
 import TimelineAudio from "../../TimelineAudio"
 import { Cancellable } from "@lincode/promiselikes"
+import { nonSerializedAppendables } from "../../../collections/nonSerializedAppendables"
+import { uuidMap } from "../../../collections/uuidMap"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()

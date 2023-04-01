@@ -13,13 +13,13 @@ import {
 } from "../states/useLoadingCount"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import { M2CM } from "../globals"
-import { uuidMap } from "../api/core/collections"
 import Primitive from "./core/Primitive"
 import {
     addRefreshFactorsSystem,
     reflectionChangedSet,
     reflectionDataMap
 } from "../systems/configSystems/refreshFactorsSystem"
+import { uuidMap } from "../collections/uuidMap"
 
 const supported = new Set(["fbx", "glb", "gltf"])
 

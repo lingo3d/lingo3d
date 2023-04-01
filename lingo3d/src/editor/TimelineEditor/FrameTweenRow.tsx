@@ -1,11 +1,11 @@
 import { memo } from "preact/compat"
 import { useMemo } from "preact/hooks"
-import { uuidMap } from "../../api/core/collections"
 import TimelineAudio from "../../display/TimelineAudio"
 import { FRAME_HEIGHT } from "../../globals"
 import diffProps from "../utils/diffProps"
 import AudioRow from "./AudioRow"
 import FrameTween from "./FrameTween"
+import { uuidMap } from "../../collections/uuidMap"
 
 type FrameTweenRowProps = {
     frames: Record<number, true>

@@ -1,11 +1,11 @@
 import { Reactive } from "@lincode/reactivity"
 import { PropertyBinding } from "three"
-import { uuidMap } from "../api/core/collections"
 import ITimeline, {
     timelineDefaults,
     timelineSchema
 } from "../interface/ITimeline"
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
+import { uuidMap } from "../collections/uuidMap"
 
 const findNode = PropertyBinding.findNode
 PropertyBinding.findNode = (root, nodeName) => {

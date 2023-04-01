@@ -1,7 +1,6 @@
 import { getExtensionType } from "@lincode/filetypes"
 import { get, set } from "@lincode/utils"
 import { useState } from "preact/hooks"
-import { uuidMap } from "../../api/core/collections"
 import Timeline from "../../display/Timeline"
 import TimelineAudio from "../../display/TimelineAudio"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
@@ -17,6 +16,7 @@ import { getTimelineFrame } from "../../states/useTimelineFrame"
 import { getTimelineLayer } from "../../states/useTimelineLayer"
 import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
+import { uuidMap } from "../../collections/uuidMap"
 
 export const timelineContextMenuSignal: Signal<
     | (Point & {
