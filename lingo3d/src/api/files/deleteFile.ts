@@ -5,10 +5,10 @@ import {
     setFileStructure
 } from "../../states/useFileStructure"
 import { pull, unset } from "@lincode/utils"
-import { pathFileMap } from "../../display/core/utils/objectURL"
 import { getFileSelected } from "../../states/useFileSelected"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import { unloadFile } from "./loadFile"
+import { pathFileMap } from "../../collections/pathFileMap"
 
 export default async () => {
     const file = getFileSelected()

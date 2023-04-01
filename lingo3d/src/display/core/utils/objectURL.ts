@@ -6,6 +6,7 @@ import joinPaths from "../../../api/path/joinPaths"
 import { getFileCurrent } from "../../../states/useFileCurrent"
 import { getFiles } from "../../../states/useFiles"
 import setURLModifier from "../../utils/loaders/utils/setURLModifier"
+import { pathFileMap } from "../../../collections/pathFileMap"
 
 const objectURLExtensionMap = new Map<string, string>()
 const fileObjectURLMap = new Map<File, string>()
@@ -22,8 +23,6 @@ export const createObjectURL = (
         extension && objectURLExtensionMap.set(url, extension)
         return url
     })
-
-export const pathFileMap = new Map<string, File>()
 
 createEffect(() => {
     const files = getFiles()
