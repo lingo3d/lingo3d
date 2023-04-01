@@ -8,10 +8,9 @@ import nonSerializedProperties from "./nonSerializedProperties"
 import unsafeGetValue from "../../utils/unsafeGetValue"
 import Model from "../../display/Model"
 import getStaticProperties from "../../display/utils/getStaticProperties"
-import { isTemplateNode } from "../../visualScripting/TemplateNode"
-import { isTemplate } from "../../display/Template"
 import { appendableRoot } from "../../collections/appendableRoot"
 import { nonSerializedAppendables } from "../../collections/nonSerializedAppendables"
+import { isTemplate, isTemplateNode } from "../../collections/typeGuards"
 
 const serialize = (
     children: Array<Appendable | Model> | Set<Appendable | Model>,

@@ -29,7 +29,6 @@ import { getOriginalInstance, PassthroughCallback } from "./createParams"
 import getStaticProperties from "../../display/utils/getStaticProperties"
 import { stopPropagation } from "../utils/stopPropagation"
 import { emitEditorRefresh } from "../../events/onEditorRefresh"
-import { isTemplateNode } from "../../visualScripting/TemplateNode"
 import SpawnNode from "../../visualScripting/SpawnNode"
 import {
     skipChangeSet,
@@ -37,6 +36,7 @@ import {
     deleteRefreshInputSystem
 } from "../../systems/refreshInputSystem"
 import { uuidMap } from "../../collections/uuidMap"
+import { isTemplateNode } from "../../collections/typeGuards"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {

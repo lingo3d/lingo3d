@@ -3,9 +3,7 @@ import createObjectWithoutTemplate, {
     GameObjectTypeWithoutTemplate
 } from "../api/serializer/createObjectWithoutTemplate"
 import { unselectableSet } from "../collections/selectionCollections"
-
-export const templateSet = new WeakSet<Template>()
-export const isTemplate = (val: any): val is Template => templateSet.has(val)
+import { templateSet } from "../collections/typeGuards"
 
 export default class Template extends Appendable {
     public constructor() {

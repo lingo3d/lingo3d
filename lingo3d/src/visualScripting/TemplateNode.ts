@@ -3,10 +3,7 @@ import createObject from "../api/serializer/createObject"
 import { GameObjectType } from "../api/serializer/types"
 import { unselectableSet } from "../collections/selectionCollections"
 import GameGraphChild from "./GameGraphChild"
-
-const templateNodeSet = new WeakSet<TemplateNode>()
-export const isTemplateNode = (val: any): val is TemplateNode =>
-    templateNodeSet.has(val)
+import { templateNodeSet } from "../collections/typeGuards"
 
 export default class TemplateNode extends GameGraphChild {
     public spawnNode!: string

@@ -21,9 +21,9 @@ import GroupIcon from "./icons/GroupIcon"
 import ModelTreeItem from "./ModelTreeItem"
 import TreeItem from "./TreeItem"
 import useSceneGraphRefresh from "../hooks/useSceneGraphRefresh"
-import { isTemplate } from "../../display/Template"
 import { appendableRoot } from "../../collections/appendableRoot"
 import { hiddenAppendables } from "../../collections/hiddenAppendables"
+import { isTemplate } from "../../collections/typeGuards"
 
 const AccordionSceneGraph = () => {
     const refresh = useSceneGraphRefresh()
