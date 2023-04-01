@@ -6,7 +6,7 @@ import IAmbientLight, {
 } from "../../interface/IAmbientLight"
 
 export default class AmbientLight
-    extends LightBase<typeof ThreeAmbientLight>
+    extends LightBase<ThreeAmbientLight>
     implements IAmbientLight
 {
     public static componentName = "ambientLight"
@@ -14,6 +14,6 @@ export default class AmbientLight
     public static schema = ambientLightSchema
 
     public constructor() {
-        super(ThreeAmbientLight)
+        super(new ThreeAmbientLight())
     }
 }

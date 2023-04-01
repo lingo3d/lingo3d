@@ -5,11 +5,9 @@ import IDirectionalLight, {
     directionalLightSchema
 } from "../../interface/IDirectionalLight"
 import LightBase from "../core/LightBase"
-import getWorldPosition from "../utils/getWorldPosition"
-import { vec2Point } from "../utils/vec2Point"
 
 export default class DirectionalLight
-    extends LightBase<typeof ThreeDirectionalLight>
+    extends LightBase<ThreeDirectionalLight>
     implements IDirectionalLight
 {
     public static componentName = "directionalLight"
@@ -17,21 +15,12 @@ export default class DirectionalLight
     public static schema = directionalLightSchema
 
     public constructor() {
-        super(ThreeDirectionalLight)
-
-        this.createEffect(() => {
-            const light = this.lightState.get()
-            if (!light) return
-
-            scene.add(light.target)
-
-            return () => {
-                scene.remove(light.target)
-            }
-        }, [this.lightState.get])
+        super(new ThreeDirectionalLight())
+        scene.add(this.object3d.target)
     }
 
-    public override get worldPosition() {
-        return vec2Point(getWorldPosition(this.outerObject3d))
+    public override disposeNode() {
+        super.disposeNode()
+        scene.remove(this.object3d.target)
     }
 }

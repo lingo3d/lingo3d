@@ -2,7 +2,6 @@ import { Reactive } from "@lincode/reactivity"
 import { assertExhaustive } from "@lincode/utils"
 import {
     DirectionalLightHelper,
-    Group,
     Light,
     PointLightHelper,
     SpotLightHelper
@@ -34,44 +33,22 @@ export const mapShadowResolution = (val: ShadowResolution) => {
     }
 }
 
-export default abstract class LightBase<T extends typeof Light>
-    extends ObjectManager<Group>
+export default abstract class LightBase<T extends Light>
+    extends ObjectManager<T>
     implements ILightBase
 {
-    protected lightState = new Reactive<InstanceType<T> | undefined>(undefined)
-
     public constructor(
-        Light: T,
+        light: T,
         Helper?:
             | typeof DirectionalLightHelper
             | typeof SpotLightHelper
             | typeof PointLightHelper
             | typeof RectAreaLightHelper
     ) {
-        super()
+        super(light)
 
         this.createEffect(() => {
-            const light = new Light()
-            this.lightState.set(light as InstanceType<T>)
-            this.object3d.add(light)
-
-            if (light.shadow && this.castShadowState.get()) {
-                light.castShadow = true
-                light.shadow.bias = SHADOW_BIAS
-
-                light.shadow.mapSize.setScalar(
-                    mapShadowResolution(getShadowResolution())
-                )
-            }
-            return () => {
-                this.object3d.remove(light)
-                light.dispose()
-            }
-        }, [this.castShadowState.get, getShadowResolution])
-
-        this.createEffect(() => {
-            const light = this.lightState.get()
-            if (!getEditorHelper() || !this.helperState.get() || !light) return
+            if (!getEditorHelper() || !this.helperState.get()) return
 
             const sprite = new HelperSprite("light")
             const handle = addSelectionHelper(sprite, this)
@@ -79,7 +56,6 @@ export default abstract class LightBase<T extends typeof Light>
                 const helper = new Helper(light as any)
                 scene.add(helper)
                 helper.add(sprite.outerObject3d)
-
                 "update" in helper && addUpdateSystem(helper)
 
                 handle.then(() => {
@@ -91,19 +67,19 @@ export default abstract class LightBase<T extends typeof Light>
             return () => {
                 handle.cancel()
             }
-        }, [getEditorHelper, this.helperState.get, this.lightState.get])
+        }, [getEditorHelper, this.helperState.get])
+    }
+
+    protected override disposeNode() {
+        super.disposeNode()
+        this.object3d.dispose()
     }
 
     public get enabled() {
-        const light = this.lightState.get()
-        if (!light) return true
-
-        return light.visible
+        return this.object3d.visible
     }
     public set enabled(val) {
-        this.cancelHandle("enabled", () =>
-            this.lightState.get((light) => light && (light.visible = val))
-        )
+        this.object3d.visible = val
     }
 
     protected helperState = new Reactive(true)
@@ -114,35 +90,38 @@ export default abstract class LightBase<T extends typeof Light>
         this.helperState.set(val)
     }
 
-    protected castShadowState = new Reactive(false)
+    protected shadowBiasCoeff = 1
     public get castShadow() {
-        return this.castShadowState.get()
+        return this.object3d.castShadow
     }
     public set castShadow(val) {
-        this.castShadowState.set(val)
+        const light = this.object3d
+        if (!light || !light.shadow) return
+
+        light.castShadow = val
+        light.shadow.bias = SHADOW_BIAS * this.shadowBiasCoeff
+
+        this.cancelHandle(
+            "castShadow",
+            val &&
+                (() =>
+                    getShadowResolution((res) =>
+                        light.shadow.mapSize.setScalar(mapShadowResolution(res))
+                    ))
+        )
     }
 
     public get color() {
-        const light = this.lightState.get()
-        if (!light) return "#ffffff"
-
-        return "#" + light.color.getHexString()
+        return "#" + this.object3d.color.getHexString()
     }
     public set color(val) {
-        this.cancelHandle("color", () =>
-            this.lightState.get((light) => light?.color.set(val))
-        )
+        this.object3d.color.set(val)
     }
 
     public get intensity() {
-        const light = this.lightState.get()
-        if (!light) return 1
-
-        return light.intensity
+        return this.object3d.intensity
     }
     public set intensity(val) {
-        this.cancelHandle("intensity", () =>
-            this.lightState.get((light) => light && (light.intensity = val))
-        )
+        this.object3d.intensity = val
     }
 }

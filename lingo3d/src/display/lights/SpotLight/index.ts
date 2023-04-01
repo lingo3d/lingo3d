@@ -22,35 +22,27 @@ import {
 const coneGeometry = new ConeGeometry(0.5, 1, 256)
 
 export default class SpotLight
-    extends LightBase<typeof ThreeSpotLight>
+    extends LightBase<ThreeSpotLight>
     implements ISpotLight
 {
     public static componentName = "spotLight"
     public static defaults = spotLightDefaults
     public static schema = spotLightSchema
 
+    protected override shadowBiasCoeff = 1.5
+
     public constructor() {
-        super(ThreeSpotLight, SpotLightHelper)
+        super(new ThreeSpotLight(), SpotLightHelper)
         this.distance = 1000
         this.angle = 45
         this.penumbra = 0.2
 
-        this.createEffect(() => {
-            const light = this.lightState.get()
-            if (!light) return
-
-            this.outerObject3d.add(light.target)
-            light.position.y = 0
-            light.target.position.y = -0.1
-            light.shadow.bias = SHADOW_BIAS * 1.5
-
-            return () => {
-                this.outerObject3d.remove(light.target)
-            }
-        }, [this.lightState.get])
+        const light = this.object3d
+        this.outerObject3d.add(light.target)
+        light.position.y = 0
+        light.target.position.y = -0.1
 
         this.createEffect(() => {
-            const light = this.lightState.get()
             const volumetric = this.volumetricState.get()
             if (!light || !volumetric) return
 
@@ -71,59 +63,35 @@ export default class SpotLight
                 ssrExcludeSet.delete(cone)
                 deleteVolumetricSpotLightSystem(cone)
             }
-        }, [this.lightState.get, this.volumetricState.get])
+        }, [this.volumetricState.get])
     }
 
     public get angle() {
-        const light = this.lightState.get()
-        if (!light) return 45
-
-        return light.angle * rad2Deg
+        return this.object3d.angle * rad2Deg
     }
     public set angle(val) {
-        this.cancelHandle("angle", () =>
-            this.lightState.get(
-                (light) => light && (light.angle = val * deg2Rad)
-            )
-        )
+        this.object3d.angle = val * deg2Rad
     }
 
     public get penumbra() {
-        const light = this.lightState.get()
-        if (!light) return 0.2
-
-        return light.penumbra
+        return this.object3d.penumbra
     }
     public set penumbra(val) {
-        this.cancelHandle("penumbra", () =>
-            this.lightState.get((light) => light && (light.penumbra = val))
-        )
+        this.object3d.penumbra = val
     }
 
     public get decay() {
-        const light = this.lightState.get()
-        if (!light) return 1
-
-        return light.decay
+        return this.object3d.decay
     }
     public set decay(val) {
-        this.cancelHandle("decay", () =>
-            this.lightState.get((light) => light && (light.decay = val))
-        )
+        this.object3d.decay = val
     }
 
     public get distance() {
-        const light = this.lightState.get()
-        if (!light) return 1000
-
-        return light.distance * M2CM
+        return this.object3d.distance * M2CM
     }
     public set distance(val) {
-        this.cancelHandle("distance", () =>
-            this.lightState.get(
-                (light) => light && (light.distance = val * CM2M)
-            )
-        )
+        this.object3d.distance = val * CM2M
     }
 
     private volumetricState = new Reactive(false)
