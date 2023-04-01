@@ -9,12 +9,13 @@ import ObjectManager from "../core/ObjectManager"
 import scene from "../../engine/scene"
 import { Reactive } from "@lincode/reactivity"
 import { ssrExcludeSet } from "../../engine/renderLoop/effectComposer/ssrEffect/renderSetup"
-import selectionCandidates, {
-    additionalSelectionCandidates
-} from "../core/utils/raycast/selectionCandidates"
 import { setManager } from "../../api/utils/getManager"
 import { CM2M } from "../../globals"
 import { getEditorHelper } from "../../states/useEditorHelper"
+import {
+    selectionCandidates,
+    additionalSelectionCandidates
+} from "../../collections/selectionCollections"
 
 const lazyInit = lazy(async () => {
     const { RectAreaLightUniformsLib } = await import(

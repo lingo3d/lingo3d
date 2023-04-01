@@ -12,7 +12,7 @@ import {
     getSelectionTarget,
     setSelectionTarget
 } from "../../../../states/useSelectionTarget"
-import { overrideSelectionCandidates } from "./selectionCandidates"
+import { overrideSelectionCandidates } from "../../../../collections/selectionCollections"
 
 createEffect(() => {
     if (getEditorModeComputed() !== "curve") return

@@ -3,9 +3,6 @@ import store, { createEffect, createMemo, createRef } from "@lincode/reactivity"
 import Appendable from "../api/core/Appendable"
 import VisibleMixin from "../display/core/mixins/VisibleMixin"
 import { raycast } from "../display/core/utils/raycast/pickable"
-import selectionCandidates, {
-    unselectableSet
-} from "../display/core/utils/raycast/selectionCandidates"
 import HelperSphere from "../display/core/utils/HelperSphere"
 import clientToWorld from "../display/utils/clientToWorld"
 import normalizeClientPosition from "../display/utils/normalizeClientPosition"
@@ -14,6 +11,10 @@ import { Mesh, PlaneGeometry } from "three"
 import { standardMaterial } from "../display/utils/reusables"
 import scene from "../engine/scene"
 import { getGrid } from "./useGrid"
+import {
+    unselectableSet,
+    selectionCandidates
+} from "../collections/selectionCollections"
 
 export const [setEditorDragEvent, getEditorDragEvent] = store<
     | DragEvent

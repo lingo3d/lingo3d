@@ -11,13 +11,12 @@ import VisibleMixin from "../../mixins/VisibleMixin"
 import HelperPrimitive from "../HelperPrimitive"
 import HelperSprite from "../HelperSprite"
 import { appendableRoot } from "../../../../collections/appendableRoot"
-
-const selectionCandidates = new Set<Object3D>()
-export default selectionCandidates
-
-export const unselectableSet = new WeakSet<Appendable>()
-export const additionalSelectionCandidates = new Set<Object3D>()
-export const overrideSelectionCandidates = new Set<Object3D>()
+import {
+    additionalSelectionCandidates,
+    unselectableSet,
+    selectionCandidates,
+    overrideSelectionCandidates
+} from "../../../../collections/selectionCollections"
 
 export const addSelectionHelper = (
     helper: HelperSprite | HelperPrimitive,

@@ -2,7 +2,7 @@ import { Point3d } from "@lincode/math"
 import { forceGet } from "@lincode/utils"
 import { Sphere } from "../.."
 import IPrimitive from "../../interface/IPrimitive"
-import { unselectableSet } from "../core/utils/raycast/selectionCandidates"
+import { unselectableSet } from "../../collections/selectionCollections"
 
 const sphereMap = new Map<string, Sphere>()
 

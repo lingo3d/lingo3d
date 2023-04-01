@@ -6,10 +6,10 @@ import { point2Vec } from "./utils/vec2Point"
 import ICurve, { curveDefaults, curveSchema } from "../interface/ICurve"
 import { createMemo, createNestedEffect, Reactive } from "@lincode/reactivity"
 import { Cancellable } from "@lincode/promiselikes"
-import { overrideSelectionCandidates } from "./core/utils/raycast/selectionCandidates"
 import HelperSphere from "./core/utils/HelperSphere"
 import MeshAppendable from "../api/core/MeshAppendable"
 import { getEditorHelper } from "../states/useEditorHelper"
+import { overrideSelectionCandidates } from "../collections/selectionCollections"
 
 const createFor = <Result, Data>(
     dataList: Array<Data>,

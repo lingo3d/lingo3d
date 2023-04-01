@@ -2,7 +2,7 @@ import Appendable from "../api/core/Appendable"
 import createObjectWithoutTemplate, {
     GameObjectTypeWithoutTemplate
 } from "../api/serializer/createObjectWithoutTemplate"
-import { unselectableSet } from "./core/utils/raycast/selectionCandidates"
+import { unselectableSet } from "../collections/selectionCollections"
 
 export const templateSet = new WeakSet<Template>()
 export const isTemplate = (val: any): val is Template => templateSet.has(val)

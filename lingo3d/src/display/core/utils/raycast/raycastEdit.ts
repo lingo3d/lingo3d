@@ -24,11 +24,10 @@ import {
 } from "../../../../states/useSelectionTarget"
 import { getTransformControlsDragging } from "../../../../states/useTransformControlsDragging"
 import pickable from "./pickable"
-import selectionCandidates, {
-    getSelectionCandidates
-} from "./selectionCandidates"
+import { getSelectionCandidates } from "./selectionCandidates"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { hiddenAppendables } from "../../../../collections/hiddenAppendables"
+import { selectionCandidates } from "../../../../collections/selectionCollections"
 
 createEffect(() => {
     const multipleSelection = getMultipleSelection()
