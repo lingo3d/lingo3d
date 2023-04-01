@@ -1,4 +1,4 @@
-import { groundedControllerManagers } from "../display/core/PhysicsObjectManager/physx/physxLoop"
+import { groundedControllerManagers } from "../collections/pxCollections"
 import Dummy from "../display/Dummy"
 import renderSystemWithData from "./utils/renderSystemWithData"
 

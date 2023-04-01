@@ -15,20 +15,20 @@ import IVisible, { HitEvent } from "../../../interface/IVisible"
 import Nullable from "../../../interface/utils/Nullable"
 import getWorldPosition from "../../utils/getWorldPosition"
 import { vector3_1 } from "../../utils/reusables"
-import {
-    clickSet,
-    mouseDownSet,
-    mouseUpSet,
-    mouseOverSet,
-    mouseOutSet,
-    mouseMoveSet
-} from "../utils/raycast/sets"
 import "../utils/raycast"
 import {
     addHitTestSystem,
     deleteHitTestSystem
 } from "../../../systems/hitTestSystem"
 import { reflectionVisibleSet } from "../../../collections/reflectionVisibleSet"
+import {
+    clickSet,
+    mouseDownSet,
+    mouseMoveSet,
+    mouseOutSet,
+    mouseOverSet,
+    mouseUpSet
+} from "../../../collections/mouseSets"
 
 const thisOBB = new OBB()
 const targetOBB = new OBB()

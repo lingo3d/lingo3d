@@ -20,7 +20,8 @@ import {
     pxVYUpdateMap,
     pxVXUpdateMap,
     pxVZUpdateMap,
-    pxUpdateSet
+    pxUpdateSet,
+    groundedControllerManagers
 } from "../../../../collections/pxCollections"
 
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
@@ -36,8 +37,6 @@ const lockHit = (manager: MeshAppendable, lock: boolean) => {
     }
     return false
 }
-
-export const groundedControllerManagers = new Set<PhysicsObjectManager>()
 
 createEffect(() => {
     const { pxScene, pxControllerFilters, pxRaycast, PxShapeExt } = physxPtr[0]

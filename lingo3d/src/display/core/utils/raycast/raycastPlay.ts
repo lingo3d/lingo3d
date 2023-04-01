@@ -7,6 +7,7 @@ import {
     setSelectionTarget
 } from "../../../../states/useSelectionTarget"
 import pickable from "./pickable"
+import VisibleMixin from "../../mixins/VisibleMixin"
 import {
     clickSet,
     mouseDownSet,
@@ -14,8 +15,7 @@ import {
     mouseOverSet,
     mouseOutSet,
     mouseMoveSet
-} from "./sets"
-import VisibleMixin from "../../mixins/VisibleMixin"
+} from "../../../../collections/mouseSets"
 
 createEffect(() => {
     if (!getWorldPlayComputed()) return
