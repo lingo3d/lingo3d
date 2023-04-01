@@ -5,7 +5,7 @@ import scene from "../engine/scene"
 import { onRenderHalfRate } from "../events/onRenderHalfRate"
 import { rendererPtr } from "../states/useRenderer"
 import renderSystemWithLifeCycleAndData from "./utils/renderSystemWithLifeCycleAndData"
-import { reflectionVisibleSet } from "../collections/reflectionVisibleSet"
+import { reflectionVisibleSet } from "../collections/reflectionCollections"
 
 export const [addReflectionSystem, deleteReflectionSystem] =
     renderSystemWithLifeCycleAndData(

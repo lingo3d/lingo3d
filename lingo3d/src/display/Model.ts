@@ -14,12 +14,12 @@ import {
 import AnimationManager from "./core/AnimatedObjectManager/AnimationManager"
 import { M2CM } from "../globals"
 import Primitive from "./core/Primitive"
-import {
-    addRefreshFactorsSystem,
-    reflectionChangedSet,
-    reflectionDataMap
-} from "../systems/configSystems/refreshFactorsSystem"
+import { addRefreshFactorsSystem } from "../systems/configSystems/refreshFactorsSystem"
 import { uuidMap } from "../collections/uuidMap"
+import {
+    reflectionDataMap,
+    reflectionChangedSet
+} from "../collections/reflectionCollections"
 
 const supported = new Set(["fbx", "glb", "gltf"])
 

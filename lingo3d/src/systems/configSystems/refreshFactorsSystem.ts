@@ -4,8 +4,7 @@ import {
     WebGLCubeRenderTarget,
     HalfFloatType,
     CubeCamera,
-    Object3D,
-    Texture
+    Object3D
 } from "three"
 import { StandardMesh } from "../../display/core/mixins/TexturedStandardMixin"
 import { uuidTextureMap } from "../../display/core/mixins/utils/createMap"
@@ -18,6 +17,10 @@ import {
     deleteReflectionSystem
 } from "../reflectionSystem"
 import configSystem from "../utils/configSystem"
+import {
+    reflectionChangedSet,
+    reflectionDataMap
+} from "../../collections/reflectionCollections"
 
 const modelTextureManagersMap = new WeakMap<Model, Array<TextureManager>>()
 
@@ -33,9 +36,6 @@ const setFactor = (
             ? textureManager.defaults[key]
             : Math.max(textureManager.defaults[key], 0.25) * factor
     )
-
-export const reflectionChangedSet = new WeakSet<Model>()
-export const reflectionDataMap = new WeakMap<Model, [Texture, Cancellable]>()
 
 export const [addRefreshFactorsSystem] = configSystem((model: Model) => {
     const {

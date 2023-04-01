@@ -20,7 +20,7 @@ import {
     addHitTestSystem,
     deleteHitTestSystem
 } from "../../../systems/hitTestSystem"
-import { reflectionVisibleSet } from "../../../collections/reflectionVisibleSet"
+import { reflectionVisibleSet } from "../../../collections/reflectionCollections"
 import {
     clickSet,
     mouseDownSet,

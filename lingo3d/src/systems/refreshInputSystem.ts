@@ -1,9 +1,9 @@
-import { InputBindingApi } from "tweakpane"
 import Appendable from "../api/core/Appendable"
 import { equalsValue } from "../interface/utils/getDefaultValue"
 import { getRuntimeValue } from "../utils/getRuntimeValue"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import { inputSkipChangeSet } from "../collections/inputSkipChangeSet"
+import { InputBindingApi } from "../editor/Editor/tweakpane"
 
 export const [addRefreshInputSystem, deleteRefreshInputSystem] =
     renderSystemWithData(
