@@ -1,7 +1,6 @@
 import { forceGetInstance, lazy, omit, pull } from "@lincode/utils"
 import { downPtr, FolderApi, Pane } from "./tweakpane"
 import resetIcon from "./icons/resetIcon"
-import { defaultsOptionsMap } from "../../interface/utils/Defaults"
 import getDefaultValue, {
     equalsDefaultValue
 } from "../../interface/utils/getDefaultValue"
@@ -35,6 +34,7 @@ import {
     isTemplateNode
 } from "../../collections/typeGuards"
 import { inputSkipChangeSet } from "../../collections/inputSkipChangeSet"
+import { defaultsOptionsMap } from "../../collections/defaultsCollections"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {

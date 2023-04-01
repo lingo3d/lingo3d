@@ -2,11 +2,11 @@ import { Cancellable } from "@lincode/promiselikes"
 import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import getStaticProperties from "../../display/utils/getStaticProperties"
-import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
 import addInputs, { Connection } from "./addInputs"
 import createParams from "./createParams"
 import splitObject from "./splitObject"
 import { Pane } from "./tweakpane"
+import { defaultsOwnKeysRecordMap } from "../../collections/defaultsCollections"
 
 export default (
     pane: Pane,

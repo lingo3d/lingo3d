@@ -3,6 +3,10 @@ import DefaultMethod from "./DefaultMethod"
 import NullableCallback from "./NullableCallback"
 import NullableDefault from "./NullableDefault"
 import Options from "./Options"
+import {
+    defaultsOptionsMap,
+    defaultsOwnKeysRecordMap
+} from "../../collections/defaultsCollections"
 
 type Defaults<T> = {
     [key in keyof T]:
@@ -13,12 +17,6 @@ type Defaults<T> = {
         | (() => T[key])
 }
 export default Defaults
-
-export const defaultsOptionsMap = new WeakMap<Defaults<any>, Options<any>>()
-export const defaultsOwnKeysRecordMap = new WeakMap<
-    Defaults<any>,
-    Partial<Record<string, true>>
->()
 
 const makeRecord = () => ({})
 const inheritOptions = <T>(

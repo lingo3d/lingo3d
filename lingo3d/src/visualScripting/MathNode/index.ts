@@ -1,8 +1,8 @@
+import { defaultsOwnKeysRecordMap } from "../../collections/defaultsCollections"
 import IMathNode, {
     mathNodeDefaults,
     mathNodeSchema
 } from "../../interface/IMathNode"
-import { defaultsOwnKeysRecordMap } from "../../interface/utils/Defaults"
 import GameGraphChild from "../GameGraphChild"
 import { extractParenthesisTree, compile } from "./compile"
 import functions from "./functions"
