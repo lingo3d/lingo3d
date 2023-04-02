@@ -7,7 +7,7 @@ import { CM2M, M2CM } from "../../globals"
 import IMeshAppendable from "../../interface/IMeshAppendable"
 import { setManager } from "../utils/getManager"
 import Appendable, { getAppendablesById } from "./Appendable"
-import { Point3d, quadrant } from "@lincode/math"
+import { Point3d, deg2Rad, quadrant, rad2Deg } from "@lincode/math"
 import { Cancellable } from "@lincode/promiselikes"
 import SpawnPoint from "../../display/SpawnPoint"
 import getActualScale from "../../display/utils/getActualScale"
@@ -24,6 +24,7 @@ import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysic
 import { addLerpToSystem, deleteLerpToSystem } from "../../systems/lerpToSystem"
 import { addMoveToSystem, deleteMoveToSystem } from "../../systems/moveToSystem"
 import { addOnMoveSystem, deleteOnMoveSystem } from "../../systems/onMoveSystem"
+import { addLookToSystem, deleteLookToSystem } from "../../systems/lookToSystem"
 
 export default class MeshAppendable<T extends Object3D = Object3D>
     extends Appendable
@@ -236,5 +237,91 @@ export default class MeshAppendable<T extends Object3D = Object3D>
 
     public pointAt(distance: number) {
         return vec2Point(this.getRay().at(distance * CM2M, vector3))
+    }
+
+    public get rotationX() {
+        return this.outerObject3d.rotation.x * rad2Deg
+    }
+    public set rotationX(val) {
+        this.outerObject3d.rotation.x = val * deg2Rad
+        addUpdatePhysicsSystem(this)
+    }
+
+    public get rotationY() {
+        return this.outerObject3d.rotation.y * rad2Deg
+    }
+    public set rotationY(val) {
+        this.outerObject3d.rotation.y = val * deg2Rad
+        addUpdatePhysicsSystem(this)
+    }
+
+    public get rotationZ() {
+        return this.outerObject3d.rotation.z * rad2Deg
+    }
+    public set rotationZ(val) {
+        this.outerObject3d.rotation.z = val * deg2Rad
+        addUpdatePhysicsSystem(this)
+    }
+
+    public get rotation() {
+        return this.rotationZ
+    }
+    public set rotation(val) {
+        this.rotationZ = val
+    }
+
+    public lookAt(target: MeshAppendable | Point3d): void
+    public lookAt(x: number, y: number | undefined, z: number): void
+    public lookAt(
+        a0: MeshAppendable | Point3d | number,
+        a1?: number,
+        a2?: number
+    ) {
+        if (typeof a0 === "number") {
+            this.lookAt(new Point3d(a0, a1 === undefined ? this.y : a1, a2!))
+            return
+        }
+        if ("outerObject3d" in a0)
+            this.outerObject3d.lookAt(getWorldPosition(a0.object3d))
+        else this.outerObject3d.lookAt(point2Vec(a0))
+    }
+
+    public onLookToEnd: (() => void) | undefined
+
+    public lookTo(target: MeshAppendable | Point3d, alpha?: number): void
+    public lookTo(
+        x: number,
+        y: number | undefined,
+        z: number,
+        alpha?: number
+    ): void
+    public lookTo(
+        a0: MeshAppendable | Point3d | number,
+        a1: number | undefined,
+        a2?: number,
+        a3?: number
+    ) {
+        if (typeof a0 === "number") {
+            this.lookTo(
+                new Point3d(a0, a1 === undefined ? this.y : a1, a2!),
+                a3
+            )
+            return
+        }
+        const { quaternion } = this.outerObject3d
+        const quaternionOld = quaternion.clone()
+        this.lookAt(a0)
+        const quaternionNew = quaternion.clone()
+
+        quaternion.copy(quaternionOld)
+
+        this.cancelHandle("lookTo", () => {
+            addLookToSystem(this, { quaternion, quaternionNew, a1 })
+            return new Cancellable(() => deleteLookToSystem(this))
+        })
+    }
+
+    public get worldDirection() {
+        return getWorldDirection(this.object3d)
     }
 }

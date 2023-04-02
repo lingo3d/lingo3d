@@ -13,12 +13,12 @@ import PhysicsObjectManager from "./PhysicsObjectManager"
 import destroy from "../../engine/physx/destroy"
 import { physxPtr } from "../../pointers/physxPtr"
 import { setPxTransform_, setPxTransform__ } from "../../engine/physx/pxMath"
-import PositionedDirectionedManager from "./PositionedDirectionedManager"
 import HelperSphere from "./utils/HelperSphere"
 import { getAppendables } from "../../api/core/Appendable"
 import { addUpdatePhysicsSystem } from "../../systems/configSystems/updatePhysicsSystem"
 import { joints } from "../../collections/joints"
 import { addSelectionHelper } from "./utils/raycast/addSelectionHelper"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
 const getRelativeTransform = (
     thisObject: Object3D,
@@ -44,7 +44,7 @@ const getRelativeTransform = (
 }
 
 export default abstract class JointBase
-    extends PositionedDirectionedManager
+    extends MeshAppendable
     implements IJointBase
 {
     public fromManager?: PhysicsObjectManager

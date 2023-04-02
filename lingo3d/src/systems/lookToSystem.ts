@@ -1,11 +1,11 @@
 import { Quaternion } from "three"
-import DirectionedMixin from "../display/core/mixins/DirectionedMixin"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import renderSystemWithData from "./utils/renderSystemWithData"
+import MeshAppendable from "../api/core/MeshAppendable"
 
 export const [addLookToSystem, deleteLookToSystem] = renderSystemWithData(
     (
-        self: DirectionedMixin,
+        self: MeshAppendable,
         data: { quaternion: Quaternion; quaternionNew: Quaternion; a1?: number }
     ) => {
         const { quaternion, quaternionNew, a1 } = data
