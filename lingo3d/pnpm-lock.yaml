@@ -34,12 +34,6 @@ dependencies:
   browser-fs-access:
     specifier: 0.33.0
     version: 0.33.0
-  lingo3d-facade:
-    specifier: ^1.0.0
-    version: 1.0.0
-  lingo3d-forest:
-    specifier: ^1.0.0
-    version: 1.0.0
   nanoid:
     specifier: ^4.0.2
     version: 4.0.2
@@ -96,6 +90,12 @@ devDependencies:
   lil-gui:
     specifier: ^0.18.1
     version: 0.18.1
+  lingo3d-facade:
+    specifier: ^1.0.0
+    version: 1.0.0
+  lingo3d-forest:
+    specifier: ^1.0.0
+    version: 1.0.0
   object-sizeof:
     specifier: ^2.6.1
     version: 2.6.1
@@ -1019,11 +1019,11 @@ packages:
 
   /lingo3d-facade@1.0.0:
     resolution: {integrity: sha512-EHuHllbFseTq3JLlsF9mk9UzF54mF3J/D6dSJRio2DTpyO5SVqadAWLG15zIrwXOVTWyhJy7tfXiwqp2iCGKiw==}
-    dev: false
+    dev: true
 
   /lingo3d-forest@1.0.0:
     resolution: {integrity: sha512-s0KcCYw64Eix0mr3qSq1lFIGdZVdDSoU2OdUpzA9eN39/XYE3/6eu8xTX5ZwRqAi97O1xwGEjIpXd05MwEowgg==}
-    dev: false
+    dev: true
 
   /lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}

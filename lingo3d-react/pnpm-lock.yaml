@@ -17,8 +17,8 @@ dependencies:
     specifier: 0.149.0
     version: 0.149.0
   lingo3d:
-    specifier: 2.0.36
-    version: 2.0.36
+    specifier: 2.0.37
+    version: 2.0.37
   nanoid:
     specifier: ^4.0.2
     version: 4.0.2
@@ -571,12 +571,12 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /@pmndrs/vanilla@1.3.1(three@0.151.2):
+  /@pmndrs/vanilla@1.3.1(three@0.150.1):
     resolution: {integrity: sha512-QmbkJEJoS2tZmqeDaKvir7CxKav/Jsy+rQ2Tf+lGqaRf3hEMiBG4vOCgeGbBuRSMpIdvzeqmEb4F+L2OvXnang==}
     peerDependencies:
       three: '>=0.137'
     dependencies:
-      three: 0.151.2
+      three: 0.150.1
     dev: false
 
   /@preact/signals-core@1.2.3:
@@ -842,16 +842,8 @@ packages:
     hasBin: true
     dev: true
 
-  /lingo3d-facade@1.0.0:
-    resolution: {integrity: sha512-EHuHllbFseTq3JLlsF9mk9UzF54mF3J/D6dSJRio2DTpyO5SVqadAWLG15zIrwXOVTWyhJy7tfXiwqp2iCGKiw==}
-    dev: false
-
-  /lingo3d-forest@1.0.0:
-    resolution: {integrity: sha512-s0KcCYw64Eix0mr3qSq1lFIGdZVdDSoU2OdUpzA9eN39/XYE3/6eu8xTX5ZwRqAi97O1xwGEjIpXd05MwEowgg==}
-    dev: false
-
-  /lingo3d@2.0.36:
-    resolution: {integrity: sha512-nVCGRg7fkkUTdvIGTrq+dlO0a45sYc/14npJYBvbOOpOJTnR1wSnsNekpL1xnmiEQiqJcttqkRI8SWRiKIQR6w==}
+  /lingo3d@2.0.37:
+    resolution: {integrity: sha512-FeKv9S71tj7LjcXUb9IvkohaLFlGVnOBgbvXt02otyaK+VCv87CBL7VTmqVNv/+Au/rprzibB6QEGV8BrCMXjA==}
     dependencies:
       '@lincode/events': 1.0.32
       '@lincode/filetypes': 1.0.3
@@ -859,21 +851,19 @@ packages:
       '@lincode/promiselikes': 1.0.25
       '@lincode/reactivity': 1.0.86
       '@lincode/utils': 1.3.19
-      '@pmndrs/vanilla': 1.3.1(three@0.151.2)
+      '@pmndrs/vanilla': 1.3.1(three@0.150.1)
       '@preact/signals': 1.1.3(preact@10.13.2)
       '@types/three': 0.149.0
       '@ungap/structured-clone': 1.0.2
       browser-fs-access: 0.33.0
-      lingo3d-facade: 1.0.0
-      lingo3d-forest: 1.0.0
       nanoid: 4.0.2
       nipplejs: 0.10.1
-      postprocessing: 6.30.2(three@0.151.2)
+      postprocessing: 6.30.2(three@0.150.1)
       preact: 10.13.2
       preact-compat: 3.19.0(preact@10.13.2)
       prettier: 2.8.7
       stats.js: 0.17.0
-      three: 0.151.2
+      three: 0.150.1
       wasm-feature-detect: 1.5.1
       wavesurfer.js: 6.6.2
       xstate: 4.37.1
@@ -957,13 +947,13 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing@6.30.2(three@0.151.2):
+  /postprocessing@6.30.2(three@0.150.1):
     resolution: {integrity: sha512-Vt77s5DkHyUOV4bmk10J46DHJLglBfIo9ARPI0o62UIAx9omANfuPJTKiLVoYlC1ApkV9y3ldBDipF3IldB7YA==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
       three: '>= 0.138.0 < 0.152.0'
     dependencies:
-      three: 0.151.2
+      three: 0.150.1
     dev: false
 
   /preact-compat@3.19.0(preact@10.13.2):
@@ -1116,8 +1106,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /three@0.151.2:
-    resolution: {integrity: sha512-tGaLRP2H6++tj2JumHD25slhFAx0C619rl6G6Utjq7JTrDGJwDxpu+J2XpnYIUMfEmhNvIFDQJfp79JtKmNBWw==}
+  /three@0.150.1:
+    resolution: {integrity: sha512-5C1MqKUWaHYo13BX0Q64qcdwImgnnjSOFgBscOzAo8MYCzEtqfQqorEKMcajnA3FHy1yVlIe9AmaMQ0OQracNA==}
     dev: false
 
   /to-fast-properties@2.0.0:
