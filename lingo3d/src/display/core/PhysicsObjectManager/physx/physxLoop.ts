@@ -16,8 +16,7 @@ import {
     pxUpdateSet,
     groundedControllerManagers,
     managerActorMap,
-    managerControllerMap,
-    managerShapeLinkMap
+    managerControllerMap
 } from "../../../../collections/pxCollections"
 import { dtPtr } from "../../../../pointers/dtPtr"
 import { gravityPtr } from "../../../../pointers/gravityPtr"
@@ -37,7 +36,7 @@ const lockHit = (manager: MeshAppendable, lock: boolean) => {
 }
 
 createEffect(() => {
-    const { pxScene, pxControllerFilters, pxRaycast, PxShapeExt } = physxPtr[0]
+    const { pxScene, pxControllerFilters, pxRaycast } = physxPtr[0]
     if (!pxScene || !getWorldPlayComputed() || !getFirstLoad()) return
 
     const handle = onPhysXLoop(() => {
@@ -120,11 +119,6 @@ createEffect(() => {
             position.lerp(p, fpsAlpha(hitMap.get(manager) ? 0.3 : 1))
             position.x = p.x
             position.z = p.z
-        }
-        for (const [manager, [shape, link]] of managerShapeLinkMap) {
-            const { p, q } = PxShapeExt.prototype.getGlobalPose(shape, link)
-            manager.position.copy(p)
-            manager.quaternion.copy(q)
         }
     })
     return () => {
