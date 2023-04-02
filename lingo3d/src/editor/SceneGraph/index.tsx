@@ -3,7 +3,7 @@ import SceneGraphContextMenu from "./SceneGraphContextMenu"
 import useInitCSS from "../hooks/useInitCSS"
 import AccordionSceneGraph from "./AccordionSceneGraph"
 import useInitEditor from "../hooks/useInitEditor"
-import { toggleRightClickPtr } from "../../api/mouse"
+import { toggleRightClick } from "../../api/mouse"
 import { stopPropagation } from "../utils/stopPropagation"
 import mergeRefs from "../hooks/mergeRefs"
 import { enableHotKeysOnElement } from "../../engine/hotkeys"
@@ -19,7 +19,7 @@ const SceneGraph = () => {
                 className="lingo3d-ui lingo3d-bg lingo3d-scenegraph"
                 onClick={() => emitSelectionTarget(undefined)}
                 onContextMenu={(e) => {
-                    toggleRightClickPtr(e.clientX, e.clientY)
+                    toggleRightClick(e.clientX, e.clientY)
                     emitSelectionTarget(undefined)
                 }}
                 style={{ width: 200, height: "100%" }}

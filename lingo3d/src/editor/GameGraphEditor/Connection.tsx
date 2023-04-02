@@ -1,7 +1,7 @@
 import { memo } from "preact/compat"
 import { useEffect, useLayoutEffect, useMemo, useState } from "preact/hooks"
 import { getAppendables } from "../../api/core/Appendable"
-import { toggleRightClickPtr } from "../../api/mouse"
+import { toggleRightClick } from "../../api/mouse"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import unsafeGetValue from "../../utils/unsafeGetValue"
@@ -99,7 +99,7 @@ const Connection = memo(
                 onMouseOut={() => setOver(false)}
                 onMouseDown={() => emitSelectionTarget(manager, true)}
                 onContextMenu={(e) => {
-                    toggleRightClickPtr(e.clientX, e.clientY)
+                    toggleRightClick(e.clientX, e.clientY)
                     emitSelectionTarget(manager, true)
                 }}
             />
