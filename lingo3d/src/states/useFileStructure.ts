@@ -3,8 +3,7 @@ import { set, traverse } from "@lincode/utils"
 import { setFileBrowserDir } from "./useFileBrowserDir"
 import { getFiles } from "./useFiles"
 import { pathObjMap } from "../collections/pathCollections"
-
-export const firstFolderNamePtr = [""]
+import { firstFolderNamePtr } from "../pointers/firstFolderNamePtr"
 
 export interface FileStructure {
     [key: string]: FileStructure | File

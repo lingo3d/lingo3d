@@ -5,9 +5,9 @@ import {
     setFileBrowserDir
 } from "../../states/useFileBrowserDir"
 import FolderIcon from "./icons/FolderIcon"
-import { firstFolderNamePtr } from "../../states/useFileStructure"
 import { useMemo } from "preact/hooks"
 import { pathObjMap } from "../../collections/pathCollections"
+import { firstFolderNamePtr } from "../../pointers/firstFolderNamePtr"
 
 type FileTreeItemProps = {
     fileStructure: any
