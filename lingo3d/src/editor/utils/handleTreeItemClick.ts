@@ -1,10 +1,10 @@
 import { Object3D } from "three"
 import Appendable from "../../api/core/Appendable"
-import { toggleRightClick } from "../../api/mouse"
 import { handleStopPropagation } from "../../engine/hotkeys"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { setSelectionNativeTarget } from "../../states/useSelectionNativeTarget"
 import { setWorldPlay } from "../../states/useWorldPlay"
+import { toggleRightClick } from "../../engine/mouse"
 
 export default (
     e: MouseEvent,

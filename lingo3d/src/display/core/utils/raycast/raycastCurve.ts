@@ -1,6 +1,5 @@
 import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
-import { mouseEvents } from "../../../../api/mouse"
 import { onSelectionTarget } from "../../../../events/onSelectionTarget"
 import { setEditorMode } from "../../../../states/useEditorMode"
 import { getEditorModeComputed } from "../../../../states/useEditorModeComputed"
@@ -13,6 +12,7 @@ import {
     setSelectionTarget
 } from "../../../../states/useSelectionTarget"
 import { overrideSelectionCandidates } from "../../../../collections/selectionCollections"
+import { onMouseClick } from "../../../../events/onMouseClick"
 
 createEffect(() => {
     if (getEditorModeComputed() !== "curve") return
@@ -32,7 +32,7 @@ createEffect(() => {
         })
 
         handle0.watch(
-            mouseEvents.on("click", (e) => {
+            onMouseClick((e) => {
                 const selected = getSelectionTarget()
                 setTimeout(() => {
                     if (handle0.done || getSelectionTarget() || selected) return

@@ -1,73 +1,19 @@
-import Events from "@lincode/events"
 import IMouse, {
-    LingoMouseEvent,
     mouseDefaults,
     mouseSchema,
     SimpleMouseEvent
 } from "../interface/IMouse"
-import { throttle } from "@lincode/utils"
-import pointerToWorld from "../display/utils/pointerToWorld"
 import store from "@lincode/reactivity"
 import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import Appendable from "./core/Appendable"
-import { Point } from "@lincode/math"
-import { container } from "../engine/renderLoop/containers"
 import { appendableRoot } from "../collections/appendableRoot"
-import { rightClickPtr } from "../pointers/rightClickPtr"
-
-export type MouseEventName = "click" | "rightClick" | "move" | "down" | "up"
-export const mouseEvents = new Events<LingoMouseEvent, MouseEventName>()
-
-let downTime = 0
-let downX = 0
-let downY = 0
-let rightClick = false
-
-container.addEventListener("contextmenu", () => (rightClick = true))
-
-mouseEvents.on("down", (e) => {
-    downTime = Date.now()
-    downX = e.x
-    downY = e.y
-})
-mouseEvents.on("up", (e) => {
-    const upTime = Date.now()
-
-    const deltaTime = upTime - downTime
-    const deltaX = Math.abs(e.x - downX)
-    const deltaY = Math.abs(e.y - downY)
-
-    downTime = upTime
-    downX = e.x
-    downY = e.y
-
-    if (deltaTime < 300 && deltaX < 5 && deltaY < 5)
-        mouseEvents.emit(rightClick ? "rightClick" : "click", e)
-
-    rightClick = false
-})
-
-const computeMouse = throttle(pointerToWorld, 0, "leading")
-
-container.addEventListener("pointermove", (ev) => {
-    mouseEvents.emit("move", computeMouse(ev))
-})
-let down = false
-container.addEventListener("pointerdown", (ev) => {
-    down = true
-    const payload = computeMouse(ev)
-    mouseEvents.emit("down", payload)
-    mouseEvents.emit("move", payload)
-})
-const handleUp = (ev: PointerEvent) => {
-    down && mouseEvents.emit("up", computeMouse(ev))
-    down = false
-}
-container.addEventListener("pointerup", handleUp)
-container.addEventListener("pointercancel", handleUp)
-container.addEventListener("pointerleave", handleUp)
+import { onMouseDown } from "../events/onMouseDown"
+import { onMouseUp } from "../events/onMouseUp"
+import { onMouseRightClick } from "../events/onMouseRightClick"
+import { onMouseClick } from "../events/onMouseClick"
+import { onMouseMove } from "../events/onMouseMove"
 
 export class Mouse extends Appendable implements IMouse {
     public static componentName = "mouse"
@@ -101,24 +47,24 @@ export class Mouse extends Appendable implements IMouse {
         this.createEffect(() => {
             if (!getWorldPlayComputed()) return
 
-            const handle0 = mouseEvents.on("move", (e) => {
+            const handle0 = onMouseMove((e) => {
                 this.onMouseMove?.(e)
                 currentPayload = e
             })
-            const handle1 = mouseEvents.on("click", (e) => {
+            const handle1 = onMouseClick((e) => {
                 this.onClick?.(e)
                 currentPayload = e
             })
-            const handle2 = mouseEvents.on("rightClick", (e) => {
+            const handle2 = onMouseRightClick((e) => {
                 this.onRightClick?.(e)
                 currentPayload = e
             })
-            const handle3 = mouseEvents.on("down", (e) => {
+            const handle3 = onMouseDown((e) => {
                 this.onMouseDown?.(e)
                 currentPayload = e
                 setDown(true)
             })
-            const handle4 = mouseEvents.on("up", (e) => {
+            const handle4 = onMouseUp((e) => {
                 this.onMouseUp?.(e)
                 currentPayload = e
                 setDown(false)
@@ -139,9 +85,3 @@ const mouse = new Mouse()
 appendableRoot.delete(mouse)
 
 export default mouse
-
-export const toggleRightClick = (x: number, y: number) => {
-    rightClickPtr[0] = new Point(x, y)
-    setTimeout(() => (rightClickPtr[0] = undefined), 10)
-}
-mouseEvents.on("rightClick", (e) => toggleRightClick(e.clientX, e.clientY))

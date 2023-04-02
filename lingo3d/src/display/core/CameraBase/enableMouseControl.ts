@@ -3,12 +3,13 @@ import {
     getCameraPointerLock,
     setCameraPointerLock
 } from "../../../states/useCameraPointerLock"
-import { mouseEvents } from "../../../api/mouse"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import isMobile from "../../../api/utils/isMobile"
 import { getWorldPlayComputed } from "../../../states/useWorldPlayComputed"
 import { container } from "../../../engine/renderLoop/containers"
 import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
+import { onMouseDown } from "../../../events/onMouseDown"
+import { onMouseUp } from "../../../events/onMouseUp"
 
 export default function (this: CameraBase) {
     if (this.done) return
@@ -97,8 +98,8 @@ export default function (this: CameraBase) {
             }
         }
 
-        const handle0 = mouseEvents.on("down", handleDown)
-        const handle1 = mouseEvents.on("up", handleUp)
+        const handle0 = onMouseDown(handleDown)
+        const handle1 = onMouseUp(handleUp)
         container.addEventListener("mousemove", handleMove)
 
         return () => {

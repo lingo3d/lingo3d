@@ -9,6 +9,7 @@ import "./renderLoop"
 import "./background"
 import "./defaultLight"
 import "./hotkeys"
+import "./mouse"
 import { VERSION } from "../globals"
 
 const w = window as any

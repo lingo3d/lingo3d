@@ -1,5 +1,4 @@
 import { createEffect } from "@lincode/reactivity"
-import { mouseEvents } from "../../../../api/mouse"
 import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
 import { clearMultipleSelectionTargets } from "../../../../states/useMultipleSelectionTargets"
 import {
@@ -16,6 +15,10 @@ import {
     mouseOutSet,
     mouseMoveSet
 } from "../../../../collections/mouseSets"
+import { onMouseClick } from "../../../../events/onMouseClick"
+import { onMouseDown } from "../../../../events/onMouseDown"
+import { onMouseUp } from "../../../../events/onMouseUp"
+import { onMouseMove } from "../../../../events/onMouseMove"
 
 createEffect(() => {
     if (!getWorldPlayComputed()) return
@@ -25,28 +28,32 @@ createEffect(() => {
     clearMultipleSelectionTargets()
     setSelectionTarget(undefined)
 
-    const handle0 = pickable("click", clickSet, (obj, e) => obj.onClick?.(e))
-    const handle1 = pickable("down", mouseDownSet, (obj, e) =>
+    const handle0 = pickable(onMouseClick, clickSet, (obj, e) =>
+        obj.onClick?.(e)
+    )
+    const handle1 = pickable(onMouseDown, mouseDownSet, (obj, e) =>
         obj.onMouseDown?.(e)
     )
-    const handle2 = pickable("up", mouseUpSet, (obj, e) => obj.onMouseUp?.(e))
+    const handle2 = pickable(onMouseUp, mouseUpSet, (obj, e) =>
+        obj.onMouseUp?.(e)
+    )
 
     let moveSet = new Set<VisibleMixin>()
     let moveSetOld = new Set<VisibleMixin>()
 
-    const handle3 = pickable("move", mouseOverSet, (obj, e) => {
+    const handle3 = pickable(onMouseMove, mouseOverSet, (obj, e) => {
         moveSet.add(obj)
         obj.userData.eMove = e
     })
-    const handle4 = pickable("move", mouseOutSet, (obj, e) => {
+    const handle4 = pickable(onMouseMove, mouseOutSet, (obj, e) => {
         moveSet.add(obj)
         obj.userData.eMove = e
     })
-    const handle5 = pickable("move", mouseMoveSet, (obj, e) => {
+    const handle5 = pickable(onMouseMove, mouseMoveSet, (obj, e) => {
         moveSet.add(obj)
         obj.userData.eMove = e
     })
-    const handle6 = mouseEvents.on("move", () => {
+    const handle6 = onMouseMove(() => {
         for (const obj of moveSet) {
             if (!moveSetOld.has(obj)) obj.onMouseOver?.(obj.userData.eMove)
 

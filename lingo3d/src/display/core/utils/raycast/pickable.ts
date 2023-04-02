@@ -1,6 +1,5 @@
 import { Point3d } from "@lincode/math"
 import { Raycaster, Object3D } from "three"
-import { MouseEventName, mouseEvents } from "../../../../api/mouse"
 import { getManager } from "../../../../api/utils/getManager"
 import { emitSelectionTarget } from "../../../../events/onSelectionTarget"
 import { FAR, M2CM } from "../../../../globals"
@@ -18,6 +17,7 @@ import {
 } from "../../PhysicsObjectManager/physx/pxMath"
 import { actorPtrManagerMap } from "../../../../collections/pxCollections"
 import { cameraRenderedPtr } from "../../../../pointers/cameraRenderedPtr"
+import { onMouseDown } from "../../../../events/onMouseDown"
 
 const raycaster = new Raycaster()
 
@@ -74,11 +74,11 @@ export const raycast = (
 type Then = (obj: VisibleMixin, e: LingoMouseEvent) => void
 
 export default (
-    name: MouseEventName | Array<MouseEventName>,
+    onEvent: typeof onMouseDown,
     candidates: Set<Object3D>,
     then: Then
 ) =>
-    mouseEvents.on(name, (e) => {
+    onEvent((e) => {
         const result = raycast(e.xNorm, e.yNorm, candidates)
         if (!result) return
 

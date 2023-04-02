@@ -3,10 +3,10 @@ import SceneGraphContextMenu from "./SceneGraphContextMenu"
 import useInitCSS from "../hooks/useInitCSS"
 import AccordionSceneGraph from "./AccordionSceneGraph"
 import useInitEditor from "../hooks/useInitEditor"
-import { toggleRightClick } from "../../api/mouse"
 import { stopPropagation } from "../utils/stopPropagation"
 import mergeRefs from "../hooks/mergeRefs"
 import { enableHotKeysOnElement } from "../../engine/hotkeys"
+import { toggleRightClick } from "../../engine/mouse"
 
 const SceneGraph = () => {
     useInitCSS()

@@ -1,7 +1,6 @@
 import { memo } from "preact/compat"
 import { useEffect, useLayoutEffect, useMemo, useState } from "preact/hooks"
 import { getAppendables } from "../../api/core/Appendable"
-import { toggleRightClick } from "../../api/mouse"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import { getSelectionTarget } from "../../states/useSelectionTarget"
 import unsafeGetValue from "../../utils/unsafeGetValue"
@@ -11,6 +10,7 @@ import Bezier from "./Bezier"
 import { onNodeMove } from "./Node"
 import { getStagePosition } from "./Stage/stageSignals"
 import { uuidMap } from "../../collections/uuidCollections"
+import { toggleRightClick } from "../../engine/mouse"
 
 type ConnectionProps = {
     uuid: string

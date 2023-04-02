@@ -4,7 +4,6 @@ import {
     createRef
 } from "@lincode/reactivity"
 import { isPositionedManager } from "../../PositionedManager"
-import { mouseEvents } from "../../../../api/mouse"
 import { onSceneGraphChange } from "../../../../events/onSceneGraphChange"
 import {
     emitSelectionTarget,
@@ -29,6 +28,8 @@ import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { hiddenAppendables } from "../../../../collections/hiddenAppendables"
 import { selectionCandidates } from "../../../../collections/selectionCollections"
 import { rightClickPtr } from "../../../../pointers/rightClickPtr"
+import { onMouseClick } from "../../../../events/onMouseClick"
+import { onMouseRightClick } from "../../../../events/onMouseRightClick"
 
 createEffect(() => {
     const multipleSelection = getMultipleSelection()
@@ -42,18 +43,15 @@ createEffect(() => {
 
     getSelectionCandidates()
     const handle0 = onSceneGraphChange(() => getSelectionCandidates())
-    const handle1 = mouseEvents.on("click", () =>
-        emitSelectionTarget(undefined)
+    const handle1 = onMouseClick(() => emitSelectionTarget(undefined))
+    const handle2 = onMouseRightClick(() => emitSelectionTarget(undefined))
+    const handle3 = pickable(onMouseClick, selectionCandidates, (target) =>
+        emitSelectionTarget(target)
     )
-    const handle2 = mouseEvents.on("rightClick", () =>
-        emitSelectionTarget(undefined)
+    const handle4 = pickable(onMouseRightClick, selectionCandidates, (target) =>
+        emitSelectionTarget(target)
     )
-    const handle3 = pickable(
-        ["click", "rightClick"],
-        selectionCandidates,
-        (target) => emitSelectionTarget(target)
-    )
-    const handle4 = onSelectionTarget(({ target, noDeselect }) => {
+    const handle5 = onSelectionTarget(({ target, noDeselect }) => {
         if (multipleSelection) {
             if (!isPositionedManager(target) || rightClickPtr[0]) return
 
@@ -89,6 +87,7 @@ createEffect(() => {
         handle2.cancel()
         handle3.cancel()
         handle4.cancel()
+        handle5.cancel()
     }
 }, [
     getWorldPlayComputed,
