@@ -21,6 +21,7 @@ import {
 } from "../../systems/skyBackLightSystem"
 import { eraseAppendable } from "../utils/eraseAppendable"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
+import { Color } from "three"
 
 export default class SkyLight extends SimpleObjectManager implements ISkyLight {
     public static componentName = "skyLight"
@@ -47,15 +48,19 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
 
         this.createEffect(() => {
             const intensity = this.intensityState.get()
+            const color = this.colorState.get()
 
             updateBackLight(this, backLight)
             backLight.intensity = intensity * 0.25
             ambientLight.intensity = intensity * 0.25
+            backLight.color = color
+            ambientLight.color = color
 
             if (!this.castShadowState.get()) {
                 const light = new DirectionalLight()
                 eraseAppendable(light)
                 light.intensity = intensity
+                light.color = color
                 this.append(light)
                 return () => {
                     light.dispose()
@@ -70,6 +75,7 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
                 camera: cameraRenderedPtr[0],
                 lightIntensity: intensity
             })
+            for (const light of csm.lights) light.color = new Color(color)
             updateLightDirection(this, csm)
 
             addSkyLightSystem(csm, { self: this })
@@ -83,7 +89,11 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
                     scene.remove(light)
                 }
             }
-        }, [this.intensityState.get, this.castShadowState.get])
+        }, [
+            this.intensityState.get,
+            this.colorState.get,
+            this.castShadowState.get
+        ])
     }
 
     private intensityState = new Reactive(1)
@@ -92,6 +102,14 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
     }
     public set intensity(val) {
         this.intensityState.set(Math.max(val, 0.1))
+    }
+
+    private colorState = new Reactive("#ffffff")
+    public get color() {
+        return this.colorState.get()
+    }
+    public set color(val) {
+        this.colorState.set(val)
     }
 
     private castShadowState = new Reactive(true)
