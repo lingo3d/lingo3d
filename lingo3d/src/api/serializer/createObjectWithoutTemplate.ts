@@ -7,8 +7,6 @@ import Joystick from "../../ui/Joystick"
 import Reticle from "../../ui/Reticle"
 import SplashScreen from "../../ui/SplashScreen"
 import Text from "../../ui/Text"
-import { Mouse } from "../mouse"
-import { Keyboard } from "../keyboard"
 import Reflector from "../../display/Reflector"
 import Water from "../../display/Water"
 import Curve from "../../display/Curve"
@@ -58,6 +56,8 @@ import PrismaticJoint from "../../display/joints/PrismaticJoint"
 import D6Joint from "../../display/joints/D6Joint"
 import Audio from "../../display/Audio"
 import Appendable from "../core/Appendable"
+import Keyboard from "../../display/Keyboard"
+import Mouse from "../../display/Mouse"
 
 export type GameObjectTypeWithoutTemplate = Exclude<GameObjectType, "template">
 

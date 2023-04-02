@@ -1,9 +1,9 @@
-import keyboard from "../api/keyboard"
 import Model from "../display/Model"
 import Sky from "../display/Sky"
 import Cube from "../display/primitives/Cube"
 import FirstPersonCamera from "../display/cameras/FirstPersonCamera"
 import { setWebXR } from "../states/useWebXR"
+import { keyboard } from ".."
 
 setWebXR(true)
 

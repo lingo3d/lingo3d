@@ -52,10 +52,10 @@ import { getBokehScale, setBokehScale } from "../states/useBokehScale"
 import { getVignette, setVignette } from "../states/useVignette"
 import { getGravity, setGravity } from "../states/useGravity"
 import { getSSRJitter, setSSRJitter } from "../states/useSSRJitter"
-import { appendableRoot } from "../collections/appendableRoot"
+import { eraseAppendable } from "../display/utils/eraseAppendable"
 
 const defaultSkybox = new Skybox()
-appendableRoot.delete(defaultSkybox)
+eraseAppendable(defaultSkybox)
 
 export default {
     get defaultLight() {

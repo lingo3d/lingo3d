@@ -1,4 +1,4 @@
-import keyboard from "../api/keyboard"
+import keyboard from "../display/Keyboard"
 import PointLight from "../display/lights/PointLight"
 import Model from "../display/Model"
 

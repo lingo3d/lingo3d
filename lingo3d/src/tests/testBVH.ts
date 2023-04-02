@@ -3,8 +3,8 @@ import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import Dummy from "../display/Dummy"
 import stateMachine from "./stateMachine"
 import { interpret } from "xstate"
-import keyboard from "../api/keyboard"
 import { createEffect, store } from "@lincode/reactivity"
+import { keyboard } from ".."
 
 //create map model
 const map = new Model()

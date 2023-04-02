@@ -4,14 +4,13 @@ import IKeyboard, {
     LingoKeyboardEvent
 } from "../interface/IKeyboard"
 import Nullable from "../interface/utils/Nullable"
-import Appendable from "./core/Appendable"
-import { appendableRoot } from "../collections/appendableRoot"
+import Appendable from "../api/core/Appendable"
 import { onKeyDown } from "../events/onKeyDown"
 import { onKeyPress } from "../events/onKeyPress"
 import { onKeyUp } from "../events/onKeyUp"
 import { keyPressSet } from "../collections/keyPressSet"
 
-export class Keyboard extends Appendable implements IKeyboard {
+export default class Keyboard extends Appendable implements IKeyboard {
     public static componentName = "keyboard"
     public static defaults = keyboardDefaults
     public static schema = keyboardSchema
@@ -45,8 +44,3 @@ export class Keyboard extends Appendable implements IKeyboard {
         )
     }
 }
-
-const keyboard = new Keyboard()
-appendableRoot.delete(keyboard)
-
-export default keyboard

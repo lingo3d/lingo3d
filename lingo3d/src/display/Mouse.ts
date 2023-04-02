@@ -7,15 +7,14 @@ import store from "@lincode/reactivity"
 import Nullable from "../interface/utils/Nullable"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
-import Appendable from "./core/Appendable"
-import { appendableRoot } from "../collections/appendableRoot"
+import Appendable from "../api/core/Appendable"
 import { onMouseDown } from "../events/onMouseDown"
 import { onMouseUp } from "../events/onMouseUp"
 import { onMouseRightClick } from "../events/onMouseRightClick"
 import { onMouseClick } from "../events/onMouseClick"
 import { onMouseMove } from "../events/onMouseMove"
 
-export class Mouse extends Appendable implements IMouse {
+export default class Mouse extends Appendable implements IMouse {
     public static componentName = "mouse"
     public static defaults = mouseDefaults
     public static schema = mouseSchema
@@ -80,8 +79,3 @@ export class Mouse extends Appendable implements IMouse {
         }, [getWorldPlayComputed])
     }
 }
-
-const mouse = new Mouse()
-appendableRoot.delete(mouse)
-
-export default mouse

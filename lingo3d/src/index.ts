@@ -65,9 +65,8 @@ import Reticle from "./ui/Reticle"
 import SplashScreen from "./ui/SplashScreen"
 import Text from "./ui/Text"
 
-import keyboard, { Keyboard } from "./api/keyboard"
-import mouse, { Mouse } from "./api/mouse"
-import gamepad from "./api/gamepad"
+import Keyboard from "./display/Keyboard"
+import Mouse from "./display/Mouse"
 import createProxy from "./api/createProxy"
 import settings from "./api/settings"
 import preload from "./api/preload"
@@ -100,6 +99,12 @@ import clientToWorld from "./display/utils/clientToWorld"
 import { SimpleMouseEvent, LingoMouseEvent } from "./interface/IMouse"
 import { LingoKeyboardEvent } from "./interface/IKeyboard"
 import { HitEvent } from "./interface/IVisible"
+import { eraseAppendable } from "./display/utils/eraseAppendable"
+
+const keyboard = new Keyboard()
+const mouse = new Mouse()
+eraseAppendable(keyboard)
+eraseAppendable(mouse)
 
 export {
     Cube,
@@ -164,7 +169,6 @@ export {
     Keyboard,
     mouse,
     Mouse,
-    gamepad,
     createProxy,
     settings,
     preload,

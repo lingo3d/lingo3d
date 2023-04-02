@@ -1,4 +1,4 @@
-import mouse from "../api/mouse"
+import { mouse } from ".."
 import Cube from "../display/primitives/Cube"
 import clientToWorld from "../display/utils/clientToWorld"
 
