@@ -1,4 +1,4 @@
-export const destroyPtr: [any] = [undefined]
+import { destroyPtr } from "../../../../pointers/destroyPtr"
 
 export default (target: any) => {
     if ("release" in target) {

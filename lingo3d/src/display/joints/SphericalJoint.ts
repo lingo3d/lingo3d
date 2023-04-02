@@ -5,7 +5,7 @@ import ISphericalJoint, {
 import { addConfigSphericalJointSystem } from "../../systems/configSystems/configSphericalJointSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
-import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "../../pointers/physxPtr"
 
 const createSpherical = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     const { physics, Px } = physxPtr[0]

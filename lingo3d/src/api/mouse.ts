@@ -15,6 +15,7 @@ import Appendable from "./core/Appendable"
 import { Point } from "@lincode/math"
 import { container } from "../engine/renderLoop/containers"
 import { appendableRoot } from "../collections/appendableRoot"
+import { rightClickPtr } from "../pointers/rightClickPtr"
 
 export type MouseEventName = "click" | "rightClick" | "move" | "down" | "up"
 export const mouseEvents = new Events<LingoMouseEvent, MouseEventName>()
@@ -139,7 +140,6 @@ appendableRoot.delete(mouse)
 
 export default mouse
 
-export const rightClickPtr: [Point | undefined] = [undefined]
 export const toggleRightClickPtr = (x: number, y: number) => {
     rightClickPtr[0] = new Point(x, y)
     setTimeout(() => (rightClickPtr[0] = undefined), 10)

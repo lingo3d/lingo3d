@@ -5,10 +5,10 @@ import useSyncState from "../../hooks/useSyncState"
 import { getSelectionTarget } from "../../../states/useSelectionTarget"
 import search from "./search"
 import { getSelectionNativeTarget } from "../../../states/useSelectionNativeTarget"
-import { rightClickPtr } from "../../../api/mouse"
 import MenuItems from "./MenuItems"
 import { Point } from "@lincode/math"
 import { Signal, signal } from "@preact/signals"
+import { rightClickPtr } from "../../../pointers/rightClickPtr"
 
 export const sceneGraphContextMenuSignal: Signal<
     | (Point & {

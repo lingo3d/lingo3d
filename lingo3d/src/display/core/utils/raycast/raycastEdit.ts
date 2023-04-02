@@ -4,7 +4,7 @@ import {
     createRef
 } from "@lincode/reactivity"
 import { isPositionedManager } from "../../PositionedManager"
-import { mouseEvents, rightClickPtr } from "../../../../api/mouse"
+import { mouseEvents } from "../../../../api/mouse"
 import { onSceneGraphChange } from "../../../../events/onSceneGraphChange"
 import {
     emitSelectionTarget,
@@ -28,6 +28,7 @@ import { getSelectionCandidates } from "./getSelectionCandidates"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { hiddenAppendables } from "../../../../collections/hiddenAppendables"
 import { selectionCandidates } from "../../../../collections/selectionCollections"
+import { rightClickPtr } from "../../../../pointers/rightClickPtr"
 
 createEffect(() => {
     const multipleSelection = getMultipleSelection()

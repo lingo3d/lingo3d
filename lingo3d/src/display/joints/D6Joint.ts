@@ -6,7 +6,7 @@ import ID6Joint, {
 import { addConfigD6JointSystem } from "../../systems/configSystems/configD6JointSystem"
 import JointBase from "../core/JointBase"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
-import { physxPtr } from "../core/PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "../../pointers/physxPtr"
 
 const createD6 = (actor0: any, pose0: any, actor1: any, pose1: any) => {
     const { physics, Px } = physxPtr[0]

@@ -5,14 +5,13 @@ import { getManager } from "../../../../api/utils/getManager"
 import { emitSelectionTarget } from "../../../../events/onSelectionTarget"
 import { FAR, M2CM } from "../../../../globals"
 import { LingoMouseEvent } from "../../../../interface/IMouse"
-import { getCameraRendered } from "../../../../states/useCameraRendered"
 import { sceneGraphExpand } from "../../../../states/useSceneGraphExpanded"
 import { getSelectionFocus } from "../../../../states/useSelectionFocus"
 import { setSelectionNativeTarget } from "../../../../states/useSelectionNativeTarget"
 import { pt3d0 } from "../../../utils/reusables"
 import { vec2Point } from "../../../utils/vec2Point"
 import VisibleMixin from "../../mixins/VisibleMixin"
-import { physxPtr } from "../../PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "../../../../pointers/physxPtr"
 import {
     assignPxVec,
     assignPxVec_

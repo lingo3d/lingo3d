@@ -8,7 +8,7 @@ import MeshAppendable from "../../../api/core/MeshAppendable"
 import cookConvexGeometry, {
     decreaseConvexGeometryCount
 } from "./physx/cookConvexGeometry"
-import { physxPtr } from "./physx/physxPtr"
+import { physxPtr } from "../../../pointers/physxPtr"
 import { lazy } from "@lincode/utils"
 import {
     decreaseLoadingUnpkgCount,

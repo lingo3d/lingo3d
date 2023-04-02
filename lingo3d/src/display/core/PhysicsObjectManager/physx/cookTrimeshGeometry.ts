@@ -1,6 +1,6 @@
 import destroy from "./destroy"
 import computeMergedPxVertices from "./computeMergedPxVertices"
-import { physxPtr } from "./physxPtr"
+import { physxPtr } from "../../../../pointers/physxPtr"
 import cookConvexGeometry from "./cookConvexGeometry"
 import PhysicsObjectManager from ".."
 

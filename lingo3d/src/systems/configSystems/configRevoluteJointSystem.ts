@@ -1,6 +1,6 @@
 import { deg2Rad } from "@lincode/math"
 import destroy from "../../display/core/PhysicsObjectManager/physx/destroy"
-import { physxPtr } from "../../display/core/PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "../../pointers/physxPtr"
 import RevoluteJoint from "../../display/joints/RevoluteJoint"
 import configSystem from "../utils/configSystem"
 

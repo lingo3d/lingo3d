@@ -11,7 +11,7 @@ import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import destroy from "./PhysicsObjectManager/physx/destroy"
-import { physxPtr } from "./PhysicsObjectManager/physx/physxPtr"
+import { physxPtr } from "../../pointers/physxPtr"
 import {
     setPxTransform_,
     setPxTransform__
