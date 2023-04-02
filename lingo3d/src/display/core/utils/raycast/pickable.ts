@@ -11,10 +11,7 @@ import { pt3d0 } from "../../../utils/reusables"
 import { vec2Point } from "../../../utils/vec2Point"
 import VisibleMixin from "../../mixins/VisibleMixin"
 import { physxPtr } from "../../../../pointers/physxPtr"
-import {
-    assignPxVec,
-    assignPxVec_
-} from "../../PhysicsObjectManager/physx/pxMath"
+import { assignPxVec, assignPxVec_ } from "../../../../engine/physx/pxMath"
 import { actorPtrManagerMap } from "../../../../collections/pxCollections"
 import { cameraRenderedPtr } from "../../../../pointers/cameraRenderedPtr"
 import { onMouseDown } from "../../../../events/onMouseDown"

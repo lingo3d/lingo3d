@@ -1,7 +1,7 @@
 import { Object3D, BufferGeometry, Mesh, BufferAttribute } from "three"
-import MeshAppendable from "../../../../api/core/MeshAppendable"
-import Loaded from "../../Loaded"
-import { physxPtr } from "../../../../pointers/physxPtr"
+import MeshAppendable from "../../api/core/MeshAppendable"
+import Loaded from "../../display/core/Loaded"
+import { physxPtr } from "../../pointers/physxPtr"
 
 export default (manager: MeshAppendable | Loaded): [any, number] => {
     const { Vector_PxVec3 } = physxPtr[0]

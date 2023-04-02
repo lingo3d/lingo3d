@@ -10,12 +10,9 @@ import { flushMultipleSelectionTargets } from "../../states/useMultipleSelection
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
 import PhysicsObjectManager from "./PhysicsObjectManager"
-import destroy from "./PhysicsObjectManager/physx/destroy"
+import destroy from "../../engine/physx/destroy"
 import { physxPtr } from "../../pointers/physxPtr"
-import {
-    setPxTransform_,
-    setPxTransform__
-} from "./PhysicsObjectManager/physx/pxMath"
+import { setPxTransform_, setPxTransform__ } from "../../engine/physx/pxMath"
 import PositionedDirectionedManager from "./PositionedDirectionedManager"
 import HelperSphere from "./utils/HelperSphere"
 import { getAppendables } from "../../api/core/Appendable"
@@ -69,8 +66,6 @@ export default abstract class JointBase
 
     public constructor() {
         super()
-        import("./PhysicsObjectManager/physx")
-
         joints.add(this)
 
         this.createEffect(() => {

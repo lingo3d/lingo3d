@@ -21,7 +21,7 @@ dependencies:
     version: 1.3.19
   '@pmndrs/vanilla':
     specifier: ^1.3.1
-    version: 1.3.1(three@0.151.2)
+    version: 1.3.1(three@0.150.1)
   '@preact/signals':
     specifier: ^1.1.3
     version: 1.1.3(preact@10.13.2)
@@ -48,7 +48,7 @@ dependencies:
     version: 0.10.1
   postprocessing:
     specifier: ^6.30.2
-    version: 6.30.2(three@0.151.2)
+    version: 6.30.2(three@0.150.1)
   preact:
     specifier: ^10.13.2
     version: 10.13.2
@@ -62,8 +62,8 @@ dependencies:
     specifier: ^0.17.0
     version: 0.17.0
   three:
-    specifier: 0.151.2
-    version: 0.151.2
+    specifier: 0.150.1
+    version: 0.150.1
   wasm-feature-detect:
     specifier: ^1.5.1
     version: 1.5.1
@@ -640,12 +640,12 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /@pmndrs/vanilla@1.3.1(three@0.151.2):
+  /@pmndrs/vanilla@1.3.1(three@0.150.1):
     resolution: {integrity: sha512-QmbkJEJoS2tZmqeDaKvir7CxKav/Jsy+rQ2Tf+lGqaRf3hEMiBG4vOCgeGbBuRSMpIdvzeqmEb4F+L2OvXnang==}
     peerDependencies:
       three: '>=0.137'
     dependencies:
-      three: 0.151.2
+      three: 0.150.1
     dev: false
 
   /@preact/preset-vite@2.5.0(@babel/core@7.21.4)(preact@10.13.2)(vite@4.2.1):
@@ -1116,13 +1116,13 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing@6.30.2(three@0.151.2):
+  /postprocessing@6.30.2(three@0.150.1):
     resolution: {integrity: sha512-Vt77s5DkHyUOV4bmk10J46DHJLglBfIo9ARPI0o62UIAx9omANfuPJTKiLVoYlC1ApkV9y3ldBDipF3IldB7YA==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
       three: '>= 0.138.0 < 0.152.0'
     dependencies:
-      three: 0.151.2
+      three: 0.150.1
     dev: false
 
   /preact-compat@3.19.0(preact@10.13.2):
@@ -1247,8 +1247,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /three@0.151.2:
-    resolution: {integrity: sha512-tGaLRP2H6++tj2JumHD25slhFAx0C619rl6G6Utjq7JTrDGJwDxpu+J2XpnYIUMfEmhNvIFDQJfp79JtKmNBWw==}
+  /three@0.150.1:
+    resolution: {integrity: sha512-5C1MqKUWaHYo13BX0Q64qcdwImgnnjSOFgBscOzAo8MYCzEtqfQqorEKMcajnA3FHy1yVlIe9AmaMQ0OQracNA==}
     dev: false
 
   /to-fast-properties@2.0.0:

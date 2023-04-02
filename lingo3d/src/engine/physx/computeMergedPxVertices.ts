@@ -1,8 +1,8 @@
 import { Object3D, BufferGeometry, Mesh, BufferAttribute } from "three"
 import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils"
-import MeshAppendable from "../../../../api/core/MeshAppendable"
-import Loaded from "../../Loaded"
-import { physxPtr } from "../../../../pointers/physxPtr"
+import MeshAppendable from "../../api/core/MeshAppendable"
+import Loaded from "../../display/core/Loaded"
+import { physxPtr } from "../../pointers/physxPtr"
 
 export default (
     manager: MeshAppendable | Loaded

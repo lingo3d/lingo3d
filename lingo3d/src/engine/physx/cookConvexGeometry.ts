@@ -1,10 +1,10 @@
-import getActualScale from "../../../utils/getActualScale"
-import PhysicsObjectManager from ".."
+import getActualScale from "../../display/utils/getActualScale"
+import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 import {
     decreasePhysxConvexGeometry,
     increasePhysxConvexGeometry,
     PhysxConvexGeometryParams
-} from "../../../../pools/physxConvexGeometryPool"
+} from "../../pools/physxConvexGeometryPool"
 
 export default (typeSrc: string, manager: PhysicsObjectManager) => {
     const { x, y, z } = getActualScale(manager)

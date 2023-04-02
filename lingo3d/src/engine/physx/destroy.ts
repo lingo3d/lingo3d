@@ -1,4 +1,4 @@
-import { destroyPtr } from "../../../../pointers/destroyPtr"
+import { destroyPtr } from "../../pointers/destroyPtr"
 
 export default (target: any) => {
     if ("release" in target) {

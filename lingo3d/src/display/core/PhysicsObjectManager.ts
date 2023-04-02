@@ -1,22 +1,22 @@
 import { Object3D } from "three"
 import IPhysicsObjectManager, {
     PhysicsOptions
-} from "../../../interface/IPhysicsObjectManager"
-import { setPxVec, setPxVec_ } from "./physx/pxMath"
-import Nullable from "../../../interface/utils/Nullable"
-import MeshAppendable from "../../../api/core/MeshAppendable"
+} from "../../interface/IPhysicsObjectManager"
+import { setPxVec, setPxVec_ } from "../../engine/physx/pxMath"
+import Nullable from "../../interface/utils/Nullable"
+import MeshAppendable from "../../api/core/MeshAppendable"
 import cookConvexGeometry, {
     decreaseConvexGeometryCount
-} from "./physx/cookConvexGeometry"
-import { physxPtr } from "../../../pointers/physxPtr"
+} from "../../engine/physx/cookConvexGeometry"
+import { physxPtr } from "../../pointers/physxPtr"
 import { lazy } from "@lincode/utils"
 import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount
-} from "../../../states/useLoadingUnpkgCount"
-import VisibleObjectManager from "../VisibleObjectManager"
-import { addRefreshPhysicsSystem } from "../../../systems/configSystems/refreshPhysicsSystem"
-import { getPhysXLoaded } from "../../../states/usePhysXLoaded"
+} from "../../states/useLoadingUnpkgCount"
+import VisibleObjectManager from "./VisibleObjectManager"
+import { addRefreshPhysicsSystem } from "../../systems/configSystems/refreshPhysicsSystem"
+import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import {
     pxVXUpdateMap,
     pxVYUpdateMap,
@@ -26,11 +26,11 @@ import {
     controllerManagerContactMap,
     managerActorPtrMap,
     managerContactMap
-} from "../../../collections/pxCollections"
+} from "../../collections/pxCollections"
 
 const importPhysX = lazy(async () => {
     increaseLoadingUnpkgCount()
-    await import("./physx")
+    await import("../../engine/physx")
     await new Promise<void>((resolve) =>
         getPhysXLoaded((loaded, handle) => {
             if (!loaded) return

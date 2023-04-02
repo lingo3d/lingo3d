@@ -1,8 +1,8 @@
 import destroy from "./destroy"
 import computeMergedPxVertices from "./computeMergedPxVertices"
-import { physxPtr } from "../../../../pointers/physxPtr"
+import { physxPtr } from "../../pointers/physxPtr"
 import cookConvexGeometry from "./cookConvexGeometry"
-import PhysicsObjectManager from ".."
+import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 
 const pxGeometryCache = new Map<string, any>()
 

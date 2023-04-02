@@ -1,14 +1,14 @@
 import { createEffect } from "@lincode/reactivity"
-import "../../../../engine/eventLoop"
-import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
-import { getFirstLoad } from "../../../../states/useFirstLoad"
+import "../eventLoop"
+import { getWorldPlayComputed } from "../../states/useWorldPlayComputed"
+import { getFirstLoad } from "../../states/useFirstLoad"
 import { assignPxTransform, setPxVec, setPxVec_ } from "./pxMath"
-import PhysicsObjectManager from ".."
-import fpsAlpha from "../../../utils/fpsAlpha"
-import { onPhysXLoop } from "../../../../events/onPhysXLoop"
-import { physxPtr } from "../../../../pointers/physxPtr"
-import { getPhysXLoaded } from "../../../../states/usePhysXLoaded"
-import MeshAppendable from "../../../../api/core/MeshAppendable"
+import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
+import fpsAlpha from "../../display/utils/fpsAlpha"
+import { onPhysXLoop } from "../../events/onPhysXLoop"
+import { physxPtr } from "../../pointers/physxPtr"
+import { getPhysXLoaded } from "../../states/usePhysXLoaded"
+import MeshAppendable from "../../api/core/MeshAppendable"
 import {
     pxVYUpdateMap,
     pxVXUpdateMap,
@@ -17,9 +17,9 @@ import {
     groundedControllerManagers,
     managerActorMap,
     managerControllerMap
-} from "../../../../collections/pxCollections"
-import { dtPtr } from "../../../../pointers/dtPtr"
-import { gravityPtr } from "../../../../pointers/gravityPtr"
+} from "../../collections/pxCollections"
+import { dtPtr } from "../../pointers/dtPtr"
+import { gravityPtr } from "../../pointers/gravityPtr"
 
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
 const vyMap = new WeakMap<PhysicsObjectManager, number>()

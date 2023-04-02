@@ -1,8 +1,8 @@
-import { WASM_URL } from "../../../../api/assetsPath"
+import { WASM_URL } from "../../api/assetsPath"
 import {
     decreaseLoadingUnpkgCount,
     increaseLoadingUnpkgCount
-} from "../../../../states/useLoadingUnpkgCount"
+} from "../../states/useLoadingUnpkgCount"
 
 var PhysX = (() => {
     var _scriptDir =
@@ -5439,7 +5439,7 @@ var PhysX = (() => {
         }
 
         var wasmBinaryFile
-        wasmBinaryFile = WASM_URL() + "physx-simd.wasm"
+        wasmBinaryFile = WASM_URL() + "physx.wasm"
         if (!isDataURI(wasmBinaryFile)) {
             wasmBinaryFile = locateFile(wasmBinaryFile)
         }
@@ -5640,7 +5640,7 @@ var PhysX = (() => {
         // === Body ===
 
         var ASM_CONSTS = {
-            202730: ($0, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10) => {
+            367234: ($0, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10) => {
                 var self = Module["getCache"](
                     Module["PassThroughFilterShaderImpl"]
                 )[$0]
@@ -5659,7 +5659,7 @@ var PhysX = (() => {
                     $10
                 )
             },
-            203023: ($0, $1, $2) => {
+            367527: ($0, $1, $2) => {
                 var self = Module["getCache"](
                     Module["PxControllerBehaviorCallbackImpl"]
                 )[$0]
@@ -5667,7 +5667,7 @@ var PhysX = (() => {
                     throw "a JSImplementation must implement all functions, you forgot PxControllerBehaviorCallbackImpl::getShapeBehaviorFlags."
                 return self["getShapeBehaviorFlags"]($1, $2)
             },
-            203328: ($0, $1) => {
+            367832: ($0, $1) => {
                 var self = Module["getCache"](
                     Module["PxControllerBehaviorCallbackImpl"]
                 )[$0]
@@ -5675,7 +5675,7 @@ var PhysX = (() => {
                     throw "a JSImplementation must implement all functions, you forgot PxControllerBehaviorCallbackImpl::getControllerBehaviorFlags."
                 return self["getControllerBehaviorFlags"]($1)
             },
-            203645: ($0, $1) => {
+            368149: ($0, $1) => {
                 var self = Module["getCache"](
                     Module["PxControllerBehaviorCallbackImpl"]
                 )[$0]
@@ -5683,7 +5683,7 @@ var PhysX = (() => {
                     throw "a JSImplementation must implement all functions, you forgot PxControllerBehaviorCallbackImpl::getObstacleBehaviorFlags."
                 return self["getObstacleBehaviorFlags"]($1)
             },
-            203956: ($0, $1, $2) => {
+            368460: ($0, $1, $2) => {
                 var self = Module["getCache"](
                     Module["PxControllerFilterCallbackImpl"]
                 )[$0]
@@ -5691,13 +5691,13 @@ var PhysX = (() => {
                     throw "a JSImplementation must implement all functions, you forgot PxControllerFilterCallbackImpl::filter."
                 return self["filter"]($1, $2)
             },
-            204212: ($0, $1, $2, $3, $4) => {
+            368716: ($0, $1, $2, $3, $4) => {
                 var self = Module["getCache"](Module["PxErrorCallbackImpl"])[$0]
                 if (!self.hasOwnProperty("reportError"))
                     throw "a JSImplementation must implement all functions, you forgot PxErrorCallbackImpl::reportError."
                 self["reportError"]($1, $2, $3, $4)
             },
-            204460: ($0, $1, $2, $3, $4) => {
+            368964: ($0, $1, $2, $3, $4) => {
                 var self = Module["getCache"](
                     Module["PxQueryFilterCallbackImpl"]
                 )[$0]
@@ -5705,7 +5705,7 @@ var PhysX = (() => {
                     throw "a JSImplementation must implement all functions, you forgot PxQueryFilterCallbackImpl::simplePreFilter."
                 return self["simplePreFilter"]($1, $2, $3, $4)
             },
-            204739: ($0, $1, $2) => {
+            369243: ($0, $1, $2) => {
                 var self = Module["getCache"](
                     Module["PxQueryFilterCallbackImpl"]
                 )[$0]
@@ -5713,7 +5713,7 @@ var PhysX = (() => {
                     throw "a JSImplementation must implement all functions, you forgot PxQueryFilterCallbackImpl::simplePostFilter."
                 return self["simplePostFilter"]($1, $2)
             },
-            205015: ($0, $1, $2) => {
+            369519: ($0, $1, $2) => {
                 var self = Module["getCache"](
                     Module["PxSimulationEventCallbackImpl"]
                 )[$0]
@@ -5721,7 +5721,7 @@ var PhysX = (() => {
                     throw "a JSImplementation must implement all functions, you forgot PxSimulationEventCallbackImpl::onConstraintBreak."
                 self["onConstraintBreak"]($1, $2)
             },
-            205295: ($0, $1, $2) => {
+            369799: ($0, $1, $2) => {
                 var self = Module["getCache"](
                     Module["PxSimulationEventCallbackImpl"]
                 )[$0]
@@ -5729,7 +5729,7 @@ var PhysX = (() => {
                     throw "a JSImplementation must implement all functions, you forgot PxSimulationEventCallbackImpl::onWake."
                 self["onWake"]($1, $2)
             },
-            205542: ($0, $1, $2) => {
+            370046: ($0, $1, $2) => {
                 var self = Module["getCache"](
                     Module["PxSimulationEventCallbackImpl"]
                 )[$0]
@@ -5737,7 +5737,7 @@ var PhysX = (() => {
                     throw "a JSImplementation must implement all functions, you forgot PxSimulationEventCallbackImpl::onSleep."
                 self["onSleep"]($1, $2)
             },
-            205792: ($0, $1, $2, $3) => {
+            370296: ($0, $1, $2, $3) => {
                 var self = Module["getCache"](
                     Module["PxSimulationEventCallbackImpl"]
                 )[$0]
@@ -5745,7 +5745,7 @@ var PhysX = (() => {
                     throw "a JSImplementation must implement all functions, you forgot PxSimulationEventCallbackImpl::onContact."
                 self["onContact"]($1, $2, $3)
             },
-            206051: ($0, $1, $2) => {
+            370555: ($0, $1, $2) => {
                 var self = Module["getCache"](
                     Module["PxSimulationEventCallbackImpl"]
                 )[$0]
@@ -5753,7 +5753,7 @@ var PhysX = (() => {
                     throw "a JSImplementation must implement all functions, you forgot PxSimulationEventCallbackImpl::onTrigger."
                 self["onTrigger"]($1, $2)
             },
-            206307: ($0, $1) => {
+            370811: ($0, $1) => {
                 var self = Module["getCache"](
                     Module["PxUserControllerHitReportImpl"]
                 )[$0]
@@ -5761,7 +5761,7 @@ var PhysX = (() => {
                     throw "a JSImplementation must implement all functions, you forgot PxUserControllerHitReportImpl::onShapeHit."
                 self["onShapeHit"]($1)
             },
-            206563: ($0, $1) => {
+            371067: ($0, $1) => {
                 var self = Module["getCache"](
                     Module["PxUserControllerHitReportImpl"]
                 )[$0]
@@ -5769,7 +5769,7 @@ var PhysX = (() => {
                     throw "a JSImplementation must implement all functions, you forgot PxUserControllerHitReportImpl::onControllerHit."
                 self["onControllerHit"]($1)
             },
-            206834: ($0, $1) => {
+            371338: ($0, $1) => {
                 var self = Module["getCache"](
                     Module["PxUserControllerHitReportImpl"]
                 )[$0]
@@ -34979,12 +34979,16 @@ var PhysX = (() => {
             createExportWrapper("__cxa_is_pointer_type"))
 
         /** @type {function(...*):?} */
-        var dynCall_iijii = (Module["dynCall_iijii"] =
-            createExportWrapper("dynCall_iijii"))
-
-        /** @type {function(...*):?} */
         var dynCall_ji = (Module["dynCall_ji"] =
             createExportWrapper("dynCall_ji"))
+
+        /** @type {function(...*):?} */
+        var dynCall_vij = (Module["dynCall_vij"] =
+            createExportWrapper("dynCall_vij"))
+
+        /** @type {function(...*):?} */
+        var dynCall_iijii = (Module["dynCall_iijii"] =
+            createExportWrapper("dynCall_iijii"))
 
         /** @type {function(...*):?} */
         var dynCall_vifijiif = (Module["dynCall_vifijiif"] =
@@ -34993,10 +34997,6 @@ var PhysX = (() => {
         /** @type {function(...*):?} */
         var dynCall_viij = (Module["dynCall_viij"] =
             createExportWrapper("dynCall_viij"))
-
-        /** @type {function(...*):?} */
-        var dynCall_vij = (Module["dynCall_vij"] =
-            createExportWrapper("dynCall_vij"))
 
         /** @type {function(...*):?} */
         var dynCall_iij = (Module["dynCall_iij"] =
@@ -35030,8 +35030,8 @@ var PhysX = (() => {
         var dynCall_jiji = (Module["dynCall_jiji"] =
             createExportWrapper("dynCall_jiji"))
 
-        var ___start_em_js = (Module["___start_em_js"] = 202632)
-        var ___stop_em_js = (Module["___stop_em_js"] = 202730)
+        var ___start_em_js = (Module["___start_em_js"] = 367136)
+        var ___stop_em_js = (Module["___stop_em_js"] = 367234)
 
         // === Auto-generated postamble setup entry stuff ===
 

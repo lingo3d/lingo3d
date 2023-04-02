@@ -2,10 +2,7 @@ import { mapRange } from "@lincode/math"
 import MeshAppendable from "../api/core/MeshAppendable"
 import ThirdPersonCamera from "../display/cameras/ThirdPersonCamera"
 import { physxPtr } from "../pointers/physxPtr"
-import {
-    assignPxVec,
-    assignPxVec_
-} from "../display/core/PhysicsObjectManager/physx/pxMath"
+import { assignPxVec, assignPxVec_ } from "../engine/physx/pxMath"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import getWorldDirection from "../display/utils/getWorldDirection"
 import getWorldPosition from "../display/utils/getWorldPosition"

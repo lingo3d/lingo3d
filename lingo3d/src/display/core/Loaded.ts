@@ -12,7 +12,7 @@ import {
     deleteSelectiveBloom
 } from "../../engine/renderLoop/effectComposer/selectiveBloomEffect"
 import { PhysicsOptions } from "../../interface/IPhysicsObjectManager"
-import cookTrimeshGeometry from "./PhysicsObjectManager/physx/cookTrimeshGeometry"
+import cookTrimeshGeometry from "../../engine/physx/cookTrimeshGeometry"
 import { StandardMesh } from "./mixins/TexturedStandardMixin"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import { physxPtr } from "../../pointers/physxPtr"

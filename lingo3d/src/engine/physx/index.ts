@@ -1,17 +1,17 @@
 import { forceGetInstance, lazy } from "@lincode/utils"
-import { setPhysXLoaded } from "../../../../states/usePhysXLoaded"
-import { physxPtr } from "../../../../pointers/physxPtr"
+import { setPhysXLoaded } from "../../states/usePhysXLoaded"
+import { physxPtr } from "../../pointers/physxPtr"
 import { simd } from "wasm-feature-detect"
-import PhysicsObjectManager from ".."
-import { getGravity } from "../../../../states/useGravity"
-import { addClearSystem } from "../../../../systems/configSystems/clearSystem"
+import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
+import { getGravity } from "../../states/useGravity"
+import { addClearSystem } from "../../systems/configSystems/clearSystem"
 import {
     actorPtrManagerMap,
     controllerManagerContactMap,
     controllerManagerMap,
     managerContactMap
-} from "../../../../collections/pxCollections"
-import { destroyPtr } from "../../../../pointers/destroyPtr"
+} from "../../collections/pxCollections"
+import { destroyPtr } from "../../pointers/destroyPtr"
 import "./physxLoop"
 ;(async () => {
     const simdSupported = await simd()
