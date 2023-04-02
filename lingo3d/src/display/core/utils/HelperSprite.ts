@@ -9,7 +9,7 @@ import {
     positionedSchema
 } from "../../../interface/IPositioned"
 import Sprite from "../../Sprite"
-import { eraseAppendable } from "../../utils/eraseAppendable"
+import { hideManager } from "../../utils/hideManager"
 
 //@ts-ignore
 export default class HelperSprite extends Sprite {
@@ -25,7 +25,7 @@ export default class HelperSprite extends Sprite {
         this.scale = 0.5
         this.castShadow = false
         this.receiveShadow = false
-        eraseAppendable(this)
+        hideManager(this)
     }
 
     public override get onTransformControls() {

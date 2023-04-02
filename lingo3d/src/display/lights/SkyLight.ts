@@ -19,7 +19,7 @@ import {
     deleteSkyBackLightSystem,
     updateBackLight
 } from "../../systems/skyBackLightSystem"
-import { eraseAppendable } from "../utils/eraseAppendable"
+import { hideManager } from "../utils/hideManager"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 import { Color } from "three"
 
@@ -33,12 +33,12 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
 
         const backLight = new DirectionalLight()
         backLight.helper = false
-        eraseAppendable(backLight)
+        hideManager(backLight)
         addSkyBackLightSystem(this, { backLight })
 
         const ambientLight = new AmbientLight()
         ambientLight.helper = false
-        eraseAppendable(ambientLight)
+        hideManager(ambientLight)
 
         this.then(() => {
             deleteSkyBackLightSystem(this)
@@ -58,7 +58,7 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
 
             if (!this.castShadowState.get()) {
                 const light = new DirectionalLight()
-                eraseAppendable(light)
+                hideManager(light)
                 light.intensity = intensity
                 light.color = color
                 this.append(light)

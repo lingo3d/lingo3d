@@ -10,7 +10,7 @@ import scene from "../engine/scene"
 import { onEditorGroupItems } from "../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 import { setSelectionTarget } from "./useSelectionTarget"
-import { eraseAppendable } from "../display/utils/eraseAppendable"
+import { hideManager } from "../display/utils/hideManager"
 import { multipleSelectionTargetsFlushingPtr } from "../pointers/multipleSelectionTargetsFlushingPtr"
 
 const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store([
@@ -66,7 +66,7 @@ createEffect(() => {
     scene.add(group)
 
     const groupManager = new SimpleObjectManager(group)
-    eraseAppendable(groupManager)
+    hideManager(groupManager)
     setSelectionTarget(groupManager)
 
     const parentEntries: Array<[Object3D, Object3D]> = []

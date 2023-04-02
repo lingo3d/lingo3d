@@ -8,13 +8,13 @@ import { getEnvironmentStack } from "../states/useEnvironmentStack"
 import scene from "./scene"
 import unsafeGetValue from "../utils/unsafeGetValue"
 import { TEXTURES_URL } from "../api/assetsPath"
-import { eraseAppendable } from "../display/utils/eraseAppendable"
+import { appendableRoot } from "../collections/appendableRoot"
 import("../display/lights/DefaultSkyLight")
 
 const defaultEnvironment = new Environment()
 defaultEnvironment.texture = undefined
 defaultEnvironment.helper = false
-eraseAppendable(defaultEnvironment)
+appendableRoot.delete(defaultEnvironment)
 
 export const environmentToUrl = (value: string) =>
     value in environmentPreset

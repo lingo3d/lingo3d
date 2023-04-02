@@ -9,7 +9,7 @@ import {
     positionedSchema
 } from "../../../interface/IPositioned"
 import Primitive from "../Primitive"
-import { eraseAppendable } from "../../utils/eraseAppendable"
+import { hideManager } from "../../utils/hideManager"
 
 //@ts-ignore
 export default abstract class HelperPrimitive extends Primitive {
@@ -21,7 +21,7 @@ export default abstract class HelperPrimitive extends Primitive {
 
     public constructor(geometry: BufferGeometry) {
         super(geometry)
-        eraseAppendable(this)
+        hideManager(this)
         this.opacity = 0.5
         this.castShadow = false
         this.receiveShadow = false

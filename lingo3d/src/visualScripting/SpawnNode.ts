@@ -9,7 +9,7 @@ import ISpawnNode, {
 } from "../interface/ISpawnNode"
 import Connector, { findConnected } from "./Connector"
 import GameGraphChild from "./GameGraphChild"
-import { eraseAppendable } from "../display/utils/eraseAppendable"
+import { hideManager } from "../display/utils/hideManager"
 import { managerConnectorsMap } from "../collections/managerConnectorsMap"
 
 type CacheData = Array<
@@ -22,7 +22,7 @@ const spawnConnectors = (
     connectedUUIDs: Map<string, string>
 ) => {
     for (const { from, to, fromProp, toProp, xyz } of connectors)
-        eraseAppendable(
+        hideManager(
             Object.assign(new Connector(), {
                 from: connectedUUIDs.get(from!),
                 fromProp,
@@ -48,7 +48,7 @@ const spawnCached = async (
             properties,
             patch.get(connected.uuid)
         )
-        eraseAppendable(manager)
+        hideManager(manager)
         connectedUUIDs.set(connected.uuid, manager.uuid)
     }
     spawnConnectors(connectors, connectedUUIDs)
@@ -88,7 +88,7 @@ export default class SpawnNode extends GameGraphChild implements ISpawnNode {
                 properties,
                 this.patch.get(connected.uuid)
             )
-            eraseAppendable(manager)
+            hideManager(manager)
             connectedUUIDs.set(connected.uuid, manager.uuid)
             data.push([connected, node.type, properties])
         }
