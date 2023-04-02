@@ -12,7 +12,6 @@ import {
     merge
 } from "@lincode/utils"
 import { onBeforeRender } from "../../../events/onBeforeRender"
-import { dtPtr } from "../../../engine/eventLoop"
 import { GetGlobalState, Reactive } from "@lincode/reactivity"
 import { EventFunctions } from "@lincode/events"
 import IAnimationManager, {
@@ -29,6 +28,7 @@ import TimelineAudio from "../../TimelineAudio"
 import { Cancellable } from "@lincode/promiselikes"
 import { nonSerializedAppendables } from "../../../collections/nonSerializedAppendables"
 import { uuidMap } from "../../../collections/uuidCollections"
+import { dtPtr } from "../../../pointers/dtPtr"
 
 const targetMixerMap = new WeakMap<object, AnimationMixer>()
 const mixerActionMap = new WeakMap<AnimationMixer, AnimationAction>()

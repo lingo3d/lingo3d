@@ -18,12 +18,16 @@ import handleTreeItemClick from "../utils/handleTreeItemClick"
 import FrameGrid from "./FrameGrid"
 import FrameIndicator from "./FrameIndicator"
 import FrameTweenRow from "./FrameTweenRow"
-import { framesWidthPtr, maxFramePtr, minFramePtr } from "./Ruler"
 import { timelineContextMenuSignal } from "./TimelineContextMenu"
 import { timelineScrollHeightSignal } from "./timelineScrollHeightSignal"
 import { timelineScrollLeftSignal } from "./timelineScrollLeftSignal"
 import useSyncScrollTop from "./useSyncScrollTop"
 import { uuidMap } from "../../collections/uuidCollections"
+import {
+    maxFramePtr,
+    minFramePtr,
+    framesWidthPtr
+} from "../../pointers/timelineRulerPointers"
 
 const Scroller = () => {
     const scrollRef = useSyncScrollTop()

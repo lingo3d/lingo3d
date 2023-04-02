@@ -1,6 +1,6 @@
 import { Water } from "three/examples/jsm/objects/Water"
-import { dtPtr } from "../engine/eventLoop"
 import renderSystemWithData from "./utils/renderSystemWithData"
+import { dtPtr } from "../pointers/dtPtr"
 
 export const [addWaterSystem, deleteWaterSystem] = renderSystemWithData(
     (water: Water, data: { speed: number }) =>

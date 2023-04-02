@@ -5,14 +5,16 @@ import { useEffect, useMemo } from "preact/hooks"
 import { CSSProperties, memo } from "preact/compat"
 import diffProps from "../utils/diffProps"
 import { timelineScrollLeftSignal } from "./timelineScrollLeftSignal"
+import {
+    maxFramePtr,
+    minFramePtr,
+    framesWidthPtr
+} from "../../pointers/timelineRulerPointers"
 
 type RulerProps = {
     width: number
 }
 
-export const maxFramePtr = [Infinity]
-export const minFramePtr = [0]
-export const framesWidthPtr = [0]
 const renderedFrames: Record<number, true> = {}
 
 const getMinMaxFrames = () => {

@@ -9,6 +9,8 @@ import { emitRenderHalfRate } from "../events/onRenderHalfRate"
 import { STANDARD_FRAME } from "../globals"
 import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import { onAfterRender } from "../events/onAfterRender"
+import { dtPtr } from "../pointers/dtPtr"
+import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
 
 let firstRender = false
 const handle = onAfterRender(() => {
@@ -38,10 +40,6 @@ const callbacks = new Set<() => void>()
 
 const clock = new Clock()
 let delta = 0
-
-export const fpsRatioPtr = [1]
-export const dtPtr = [0]
-
 let renderSlowCount = 0
 
 createEffect(() => {

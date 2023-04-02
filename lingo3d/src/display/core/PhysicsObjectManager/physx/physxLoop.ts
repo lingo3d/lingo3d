@@ -2,7 +2,6 @@ import { createEffect } from "@lincode/reactivity"
 import "../../../../engine/eventLoop"
 import { getWorldPlayComputed } from "../../../../states/useWorldPlayComputed"
 import { getFirstLoad } from "../../../../states/useFirstLoad"
-import { dtPtr } from "../../../../engine/eventLoop"
 import { assignPxTransform, setPxVec, setPxVec_ } from "./pxMath"
 import PhysicsObjectManager from ".."
 import fpsAlpha from "../../../utils/fpsAlpha"
@@ -21,6 +20,7 @@ import {
     managerControllerMap,
     managerShapeLinkMap
 } from "../../../../collections/pxCollections"
+import { dtPtr } from "../../../../pointers/dtPtr"
 
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
 const vyMap = new WeakMap<PhysicsObjectManager, number>()

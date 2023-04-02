@@ -4,7 +4,7 @@ import { emitBeforeRender } from "../../events/onBeforeRender"
 import { getRenderer } from "../../states/useRenderer"
 import { getResolution } from "../../states/useResolution"
 import { getWebXR } from "../../states/useWebXR"
-import { dtPtr, loop } from "../eventLoop"
+import { loop } from "../eventLoop"
 import scene from "../scene"
 import { getCameraRendered } from "../../states/useCameraRendered"
 import { emitRender } from "../../events/onRender"
@@ -14,6 +14,7 @@ import { getCameraComputed } from "../../states/useCameraComputed"
 import { emitPhysXLoop } from "../../events/onPhysXLoop"
 import { emitLoop } from "../../events/onLoop"
 import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
+import { dtPtr } from "../../pointers/dtPtr"
 
 createEffect(() => {
     const renderer = getRenderer()

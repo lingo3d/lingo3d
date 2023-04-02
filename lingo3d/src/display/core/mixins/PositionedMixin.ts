@@ -3,7 +3,6 @@ import { Cancellable } from "@lincode/promiselikes"
 import { Object3D, Vector3 } from "three"
 import { getAppendablesById } from "../../../api/core/Appendable"
 import MeshAppendable from "../../../api/core/MeshAppendable"
-import { fpsRatioPtr } from "../../../engine/eventLoop"
 import {
     TransformControlsMode,
     TransformControlsPhase
@@ -32,6 +31,7 @@ import { vector3 } from "../../utils/reusables"
 import { point2Vec, vec2Point } from "../../utils/vec2Point"
 import worldToCanvas from "../../utils/worldToCanvas"
 import { addUpdatePhysicsSystem } from "../../../systems/configSystems/updatePhysicsSystem"
+import { fpsRatioPtr } from "../../../pointers/fpsRatioPtr"
 
 export default abstract class PositionedMixin<T extends Object3D = Object3D>
     extends MeshAppendable<T>
