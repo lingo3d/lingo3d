@@ -3,9 +3,9 @@ import MeshAppendable from "../api/core/MeshAppendable"
 import getWorldPosition from "../display/utils/getWorldPosition"
 import scene from "../engine/scene"
 import { onRenderHalfRate } from "../events/onRenderHalfRate"
-import { rendererPtr } from "../states/useRenderer"
 import renderSystemWithLifeCycleAndData from "./utils/renderSystemWithLifeCycleAndData"
 import { reflectionVisibleSet } from "../collections/reflectionCollections"
+import { rendererPtr } from "../pointers/rendererPtr"
 
 export const [addReflectionSystem, deleteReflectionSystem] =
     renderSystemWithLifeCycleAndData(

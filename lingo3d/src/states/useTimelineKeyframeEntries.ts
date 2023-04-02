@@ -1,12 +1,10 @@
 import store, { createEffect } from "@lincode/reactivity"
 import { getTimelineExpandedUUIDs } from "./useTimelineExpandedUUIDs"
+import { keyframesPtr } from "../pointers/keyframesPtr"
 
 export const [setTimelineKeyframeEntries, getTimelineKeyframeEntries] = store<
     Array<[string, Record<number, true>]>
 >([])
-
-type Keyframes = Record<string, Record<number, true>>
-export const keyframesPtr: [Keyframes] = [{}]
 
 import("./useTimelineData").then(({ getTimelineData }) => {
     createEffect(() => {
@@ -16,7 +14,8 @@ import("./useTimelineData").then(({ getTimelineData }) => {
             setTimelineKeyframeEntries([])
             return
         }
-        const keyframes: Keyframes = (keyframesPtr[0] = {})
+        keyframesPtr[0] = {}
+        const [keyframes] = keyframesPtr
         for (const [uuid, data] of Object.entries(timelineData)) {
             const frameRecord: Record<string, true> = (keyframes[uuid] = {})
             for (const frames of Object.values(data))

@@ -1,5 +1,5 @@
 import { onAfterRender } from "../events/onAfterRender"
-import { rendererPtr } from "../states/useRenderer"
+import { rendererPtr } from "../pointers/rendererPtr"
 
 export default {
     toBlob: async () => {

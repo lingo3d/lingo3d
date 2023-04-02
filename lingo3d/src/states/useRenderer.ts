@@ -1,11 +1,10 @@
 import store, { createEffect } from "@lincode/reactivity"
 import { PCFSoftShadowMap, WebGLRenderer } from "three"
 import { getBackgroundColor } from "./useBackgroundColor"
+import { rendererPtr } from "../pointers/rendererPtr"
 
 const [setRenderer, getRenderer] = store<WebGLRenderer | undefined>(undefined)
 export { getRenderer }
-
-export const rendererPtr: [WebGLRenderer] = [undefined as any]
 
 createEffect(() => {
     const renderer = new WebGLRenderer({

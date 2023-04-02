@@ -11,12 +11,12 @@ import scene from "../engine/scene"
 import { onBeforeRender } from "../events/onBeforeRender"
 import { NEAR, FAR } from "../globals"
 import { getCameraRendered } from "../states/useCameraRendered"
-import { rendererPtr } from "../states/useRenderer"
 import VisibleObjectManager from "./core/VisibleObjectManager"
 import getWorldPosition from "./utils/getWorldPosition"
 import getWorldQuaternion from "./utils/getWorldQuaternion"
 import { complementQuaternion, diffQuaternions } from "./utils/quaternions"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
+import { rendererPtr } from "../pointers/rendererPtr"
 
 export default class Portal extends VisibleObjectManager {
     public constructor() {

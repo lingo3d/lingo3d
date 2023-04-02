@@ -7,10 +7,10 @@ import { AnimationData } from "../interface/IAnimationManager"
 import { getTimeline } from "./useTimeline"
 import { onDispose } from "../events/onDispose"
 import unsafeGetValue from "../utils/unsafeGetValue"
-import { keyframesPtr } from "./useTimelineKeyframeEntries"
 import { getTimelineRecord } from "./useTimelineRecord"
 import { onEditorChanges } from "../events/onEditorChanges"
 import { uuidMap } from "../collections/uuidCollections"
+import { keyframesPtr } from "../pointers/keyframesPtr"
 
 const [setTimelineData, getTimelineData] = store<[AnimationData | undefined]>([
     undefined
