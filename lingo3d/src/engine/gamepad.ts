@@ -1,8 +1,5 @@
+import toFixed from "../api/serializer/toFixed"
 import { onBeforeRender } from "../events/onBeforeRender"
-import toFixed from "./serializer/toFixed"
-
-const gamepad = {}
-export default gamepad
 
 "getGamepads" in navigator &&
     onBeforeRender(() => {
