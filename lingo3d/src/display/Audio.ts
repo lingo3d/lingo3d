@@ -1,6 +1,5 @@
 import store, { createEffect, Reactive } from "@lincode/reactivity"
 import { AudioListener, PositionalAudio } from "three"
-import PositionedManager from "./core/PositionedManager"
 import IAudio, { audioDefaults, audioSchema } from "../interface/IAudio"
 import { getCameraRendered } from "../states/useCameraRendered"
 import HelperSprite from "./core/utils/HelperSprite"
@@ -8,6 +7,7 @@ import loadAudio from "./utils/loaders/loadAudio"
 import { getEditorHelper } from "../states/useEditorHelper"
 import { addSelectionHelper } from "./core/utils/raycast/addSelectionHelper"
 import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
+import MeshAppendable from "../api/core/MeshAppendable"
 
 const [setAudioListener, getAudioListener] = store<AudioListener | undefined>(
     undefined
@@ -26,7 +26,7 @@ createEffect(() => {
 }, [getCameraRendered, getAudioListener])
 
 export default class Audio
-    extends PositionedManager<PositionalAudio>
+    extends MeshAppendable<PositionalAudio>
     implements IAudio
 {
     public static componentName = "audio"

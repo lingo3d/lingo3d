@@ -1,5 +1,5 @@
 import { event } from "@lincode/events"
-import PositionedManager from "../display/core/PositionedManager"
+import MeshAppendable from "../api/core/MeshAppendable"
 
 export const [emitEditorCenterView, onEditorCenterView] =
-    event<PositionedManager>()
+    event<MeshAppendable>()

@@ -4,19 +4,10 @@ import {
     TransformControlsMode,
     TransformControlsPhase
 } from "../../../events/onTransformControls"
-import {
-    positionedDefaults,
-    positionedSchema
-} from "../../../interface/IPositioned"
 import Primitive from "../Primitive"
 import { hideManager } from "../../utils/hideManager"
 
-//@ts-ignore
 export default abstract class HelperPrimitive extends Primitive {
-    public static componentName = "helper"
-    public static override defaults = positionedDefaults
-    public static override schema = positionedSchema
-
     public target?: MeshAppendable
 
     public constructor(geometry: BufferGeometry) {

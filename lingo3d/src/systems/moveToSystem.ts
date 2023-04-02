@@ -1,13 +1,13 @@
 import { vertexAngle, Point, rotatePoint } from "@lincode/math"
-import PositionedMixin from "../display/core/mixins/PositionedMixin"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import { addUpdatePhysicsSystem } from "./configSystems/updatePhysicsSystem"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
+import MeshAppendable from "../api/core/MeshAppendable"
 
 export const [addMoveToSystem, deleteMoveToSystem] = renderSystemWithData(
     (
-        self: PositionedMixin | PhysicsObjectManager,
+        self: MeshAppendable | PhysicsObjectManager,
         data: {
             sx: number
             sy: number

@@ -1,7 +1,4 @@
 import store, { add, createEffect, remove, clear } from "@lincode/reactivity"
-import PositionedManager, {
-    isPositionedManager
-} from "../display/core/PositionedManager"
 import { onDispose } from "../events/onDispose"
 import { Object3D } from "three"
 import SimpleObjectManager from "../display/core/SimpleObjectManager"
@@ -12,9 +9,10 @@ import { emitSelectionTarget } from "../events/onSelectionTarget"
 import { setSelectionTarget } from "./useSelectionTarget"
 import { hideManager } from "../display/utils/hideManager"
 import { multipleSelectionTargetsFlushingPtr } from "../pointers/multipleSelectionTargetsFlushingPtr"
+import MeshAppendable from "../api/core/MeshAppendable"
 
 const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store([
-    new Set<PositionedManager>()
+    new Set<MeshAppendable>()
 ])
 export { getMultipleSelectionTargets }
 export const addMultipleSelectionTargets = add(
@@ -31,9 +29,7 @@ export const clearMultipleSelectionTargets = clear(
 )
 
 export const flushMultipleSelectionTargets = async (
-    onFlush: (
-        targets: Array<PositionedManager>
-    ) => Array<PositionedManager> | void,
+    onFlush: (targets: Array<MeshAppendable>) => Array<MeshAppendable> | void,
     deselect?: boolean
 ) => {
     multipleSelectionTargetsFlushingPtr[0] = true
@@ -112,7 +108,7 @@ createEffect(() => {
 
     const handle = onDispose(
         (item) =>
-            isPositionedManager(item) &&
+            item instanceof MeshAppendable &&
             targets.has(item) &&
             deleteMultipleSelectionTargets(item)
     )

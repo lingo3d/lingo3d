@@ -1,12 +1,12 @@
-import IPositioned, {
-    positionedDefaults,
-    positionedSchema
-} from "./IPositioned"
+import IMeshAppendable, {
+    meshAppendableDefaults,
+    meshAppendableSchema
+} from "./IMeshAppendable"
 import { extendDefaults } from "./utils/Defaults"
 import { ExtractProps } from "./utils/extractProps"
 import Nullable from "./utils/Nullable"
 
-export default interface IAudio extends IPositioned {
+export default interface IAudio extends IMeshAppendable {
     src: Nullable<string>
     autoplay: boolean
     paused: boolean
@@ -21,7 +21,7 @@ export default interface IAudio extends IPositioned {
 }
 
 export const audioSchema: Required<ExtractProps<IAudio>> = {
-    ...positionedSchema,
+    ...meshAppendableSchema,
     src: String,
     autoplay: Boolean,
     paused: Boolean,
@@ -35,7 +35,7 @@ export const audioSchema: Required<ExtractProps<IAudio>> = {
     rolloffFactor: Number
 }
 
-export const audioDefaults = extendDefaults<IAudio>([positionedDefaults], {
+export const audioDefaults = extendDefaults<IAudio>([meshAppendableDefaults], {
     src: undefined,
     autoplay: false,
     paused: false,

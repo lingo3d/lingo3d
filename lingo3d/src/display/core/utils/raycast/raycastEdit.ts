@@ -3,7 +3,6 @@ import {
     createNestedEffect,
     createRef
 } from "@lincode/reactivity"
-import { isPositionedManager } from "../../PositionedManager"
 import { onSceneGraphChange } from "../../../../events/onSceneGraphChange"
 import {
     emitSelectionTarget,
@@ -30,6 +29,7 @@ import { selectionCandidates } from "../../../../collections/selectionCollection
 import { rightClickPtr } from "../../../../pointers/rightClickPtr"
 import { onMouseClick } from "../../../../events/onMouseClick"
 import { onMouseRightClick } from "../../../../events/onMouseRightClick"
+import MeshAppendable from "../../../../api/core/MeshAppendable"
 
 createEffect(() => {
     const multipleSelection = getMultipleSelection()
@@ -53,11 +53,11 @@ createEffect(() => {
     )
     const handle5 = onSelectionTarget(({ target, noDeselect }) => {
         if (multipleSelection) {
-            if (!isPositionedManager(target) || rightClickPtr[0]) return
+            if (!(target instanceof MeshAppendable) || rightClickPtr[0]) return
 
             if (firstMultipleSelection.current) {
                 const currentTarget = getSelectionTarget()
-                isPositionedManager(currentTarget) &&
+                currentTarget instanceof MeshAppendable &&
                     !hiddenAppendables.has(currentTarget) &&
                     addMultipleSelectionTargets(currentTarget)
             }

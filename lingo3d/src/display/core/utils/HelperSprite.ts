@@ -4,19 +4,10 @@ import {
     TransformControlsMode,
     TransformControlsPhase
 } from "../../../events/onTransformControls"
-import {
-    positionedDefaults,
-    positionedSchema
-} from "../../../interface/IPositioned"
 import Sprite from "../../Sprite"
 import { hideManager } from "../../utils/hideManager"
 
-//@ts-ignore
 export default class HelperSprite extends Sprite {
-    public static override componentName = "helper"
-    public static override defaults = positionedDefaults
-    public static override schema = positionedSchema
-
     public target?: MeshAppendable
 
     public constructor(type: "camera" | "light" | "audio") {

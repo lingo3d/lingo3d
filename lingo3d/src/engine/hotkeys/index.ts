@@ -2,7 +2,6 @@ import { createEffect } from "@lincode/reactivity"
 import openFolder from "../../api/files/openFolder"
 import saveJSON from "../../api/files/saveJSON"
 import { redo, undo } from "../../api/undoStack"
-import { isPositionedManager } from "../../display/core/PositionedManager"
 import deleteSelected from "./deleteSelected"
 import { emitEditorCenterView } from "../../events/onEditorCenterView"
 import { onKeyClear } from "../../events/onKeyClear"
@@ -22,6 +21,7 @@ import {
 } from "../../states/useHotKeysEnabled"
 import settings from "../../api/settings"
 import { container } from "../renderLoop/containers"
+import MeshAppendable from "../../api/core/MeshAppendable"
 
 const enabledSet = new Set<HTMLElement>()
 export const enableHotKeysOnElement = (el: HTMLElement) => {
@@ -106,7 +106,7 @@ createEffect(() => {
         } else if (keyLowerCase === "c") {
             setEditorCamera(mainCamera)
             setUILayer(false)
-            isPositionedManager(target) && emitEditorCenterView(target)
+            target instanceof MeshAppendable && emitEditorCenterView(target)
         } else if (keyLowerCase === "escape")
             target && emitSelectionTarget(undefined)
     }

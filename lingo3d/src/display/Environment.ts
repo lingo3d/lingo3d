@@ -8,14 +8,14 @@ import IEnvironment, {
     EnvironmentPreset,
     environmentSchema
 } from "../interface/IEnvironment"
-import PositionedManager from "./core/PositionedManager"
 import { Reactive } from "@lincode/reactivity"
 import HelperSprite from "./core/utils/HelperSprite"
 import { getEditorHelper } from "../states/useEditorHelper"
 import { addSelectionHelper } from "./core/utils/raycast/addSelectionHelper"
+import MeshAppendable from "../api/core/MeshAppendable"
 
 export default class Environment
-    extends PositionedManager
+    extends MeshAppendable
     implements IEnvironment
 {
     public static componentName = "environment"

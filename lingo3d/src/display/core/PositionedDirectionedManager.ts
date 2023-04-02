@@ -3,7 +3,6 @@ import scene from "../../engine/scene"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import DirectionedMixin from "./mixins/DirectionedMixin"
 import { applyMixins } from "@lincode/utils"
-import PositionedMixin from "./mixins/PositionedMixin"
 import IPositionedDirectionedManager from "../../interface/IPositionedDirectionedManager"
 
 abstract class PositionedDirectionedManager<T extends Object3D = Object3D>
@@ -17,7 +16,6 @@ abstract class PositionedDirectionedManager<T extends Object3D = Object3D>
 }
 interface PositionedDirectionedManager<T extends Object3D = Object3D>
     extends MeshAppendable<T>,
-        DirectionedMixin<T>,
-        PositionedMixin<T> {}
-applyMixins(PositionedDirectionedManager, [PositionedMixin, DirectionedMixin])
+        DirectionedMixin<T> {}
+applyMixins(PositionedDirectionedManager, [DirectionedMixin])
 export default PositionedDirectionedManager

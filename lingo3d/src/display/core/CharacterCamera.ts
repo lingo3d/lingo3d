@@ -8,7 +8,6 @@ import ICharacterCamera, {
 import { FAR, NEAR } from "../../globals"
 import CameraBase from "./CameraBase"
 import MeshAppendable from "../../api/core/MeshAppendable"
-import { isPositionedManager } from "./PositionedManager"
 import {
     addCharacterCameraFollowSystem,
     deleteCharacterCameraFollowSystem
@@ -44,7 +43,7 @@ export default class CharacterCamera
 
         this.createEffect(() => {
             const found = this.firstChildState.get()
-            if (!isPositionedManager(found)) return
+            if (!(found instanceof MeshAppendable)) return
 
             let { lockTargetRotation } = this
             found.onTransformControls = (phase, mode) => {

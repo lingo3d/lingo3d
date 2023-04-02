@@ -1,7 +1,6 @@
 import Appendable from "../../api/core/Appendable"
 import MeshAppendable from "../../api/core/MeshAppendable"
 import spawn from "../../api/spawn"
-import PositionedManager from "../../display/core/PositionedManager"
 import { emitSelectionTarget } from "../../events/onSelectionTarget"
 import {
     getMultipleSelectionTargets,
@@ -20,7 +19,7 @@ export default () => {
     const [targets] = getMultipleSelectionTargets()
     if (targets.size) {
         flushMultipleSelectionTargets((targets) => {
-            const newTargets: Array<PositionedManager> = []
+            const newTargets: Array<MeshAppendable> = []
             for (const target of targets) newTargets.push(copy(target))
             return newTargets
         })

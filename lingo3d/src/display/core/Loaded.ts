@@ -19,6 +19,7 @@ import { physxPtr } from "../../pointers/physxPtr"
 import PhysicsObjectManager from "./PhysicsObjectManager"
 import { boxGeometry } from "../primitives/Cube"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
+import SpawnPoint from "../SpawnPoint"
 
 const material = new MeshStandardMaterial({ visible: false })
 
@@ -234,10 +235,11 @@ export default abstract class Loaded<T = Object3D>
         )
     }
 
-    //@ts-ignore
-    public override placeAt(object: MeshAppendable | Point3d | string) {
+    public override placeAt(
+        target: MeshAppendable | Point3d | SpawnPoint | string
+    ) {
         this.cancelHandle("placeAt", () =>
-            this.loaded.then(() => void super.placeAt(object))
+            this.loaded.then(() => void super.placeAt(target))
         )
     }
 

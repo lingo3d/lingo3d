@@ -11,10 +11,9 @@ import {
 import getWorldDirection from "../../utils/getWorldDirection"
 import getWorldPosition from "../../utils/getWorldPosition"
 import { point2Vec } from "../../utils/vec2Point"
-import PositionedMixin from "./PositionedMixin"
 import { addUpdatePhysicsSystem } from "../../../systems/configSystems/updatePhysicsSystem"
 
-const getY = (manager: PositionedMixin | DirectionedMixin) =>
+const getY = (manager: MeshAppendable | DirectionedMixin) =>
     "position" in manager ? manager.position.y : 0
 
 export default abstract class DirectionedMixin<T extends Object3D = Object3D>

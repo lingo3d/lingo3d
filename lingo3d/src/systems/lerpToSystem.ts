@@ -1,13 +1,13 @@
 import { Vector3 } from "three"
-import PositionedMixin from "../display/core/mixins/PositionedMixin"
 import fpsAlpha from "../display/utils/fpsAlpha"
 import renderSystemWithData from "./utils/renderSystemWithData"
 import PhysicsObjectManager from "../display/core/PhysicsObjectManager"
 import { addUpdatePhysicsSystem } from "./configSystems/updatePhysicsSystem"
+import MeshAppendable from "../api/core/MeshAppendable"
 
 export const [addLerpToSystem, deleteLerpToSystem] = renderSystemWithData(
     (
-        self: PositionedMixin | PhysicsObjectManager,
+        self: MeshAppendable | PhysicsObjectManager,
         data: {
             from: Vector3
             to: Vector3
