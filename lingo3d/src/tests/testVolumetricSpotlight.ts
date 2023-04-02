@@ -11,6 +11,7 @@ const ground = new Cube()
 ground.y = -300
 ground.scaleX = 1000
 ground.scaleZ = 1000
+ground.physics = "map"
 
 const light = new PointLight()
 light.castShadow = true
@@ -20,3 +21,4 @@ light.castShadow = true
 
 const cube = new Cube()
 cube.y = -100
+cube.physics = "static"
