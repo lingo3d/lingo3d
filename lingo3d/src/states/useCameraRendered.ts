@@ -18,6 +18,9 @@ const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
 export { getCameraRendered }
 
+export const cameraRenderedPtr = [getCameraRendered()]
+getCameraRendered((cam) => (cameraRenderedPtr[0] = cam))
+
 let cameraLast: PerspectiveCamera | undefined
 
 createEffect(() => {

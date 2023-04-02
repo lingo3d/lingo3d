@@ -67,8 +67,7 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
                 cascades: 1,
                 parent: scene,
                 camera: getCameraRendered(),
-                lightIntensity:
-                    intensity * (this.cascadeShadowState.get() ? 0.5 : 1)
+                lightIntensity: intensity
             })
             updateLightDirection(this, csm)
 
@@ -83,43 +82,7 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
                     scene.remove(light)
                 }
             }
-        }, [
-            this.intensityState.get,
-            this.cascadeShadowState.get,
-            this.castShadowState.get
-        ])
-
-        this.createEffect(() => {
-            if (!this.cascadeShadowState.get() || !this.castShadowState.get())
-                return
-
-            const csm = new CSM({
-                maxFar: 100,
-                shadowMapSize: 512,
-                shadowBias: -0.0005,
-                cascades: 1,
-                parent: scene,
-                camera: getCameraRendered(),
-                lightIntensity: this.intensityState.get() * 0.5
-            })
-            updateLightDirection(this, csm)
-
-            addSkyLightSystem(csm, { self: this })
-            const handle = getCameraRendered((val) => (csm.camera = val))
-            return () => {
-                deleteSkyLightSystem(csm)
-                handle.cancel()
-                csm.dispose()
-                for (const light of csm.lights) {
-                    light.dispose()
-                    scene.remove(light)
-                }
-            }
-        }, [
-            this.intensityState.get,
-            this.cascadeShadowState.get,
-            this.castShadowState.get
-        ])
+        }, [this.intensityState.get, this.castShadowState.get])
     }
 
     private intensityState = new Reactive(1)
@@ -136,13 +99,5 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
     }
     public set castShadow(val) {
         this.castShadowState.set(val)
-    }
-
-    private cascadeShadowState = new Reactive(false)
-    public get cascadeShadow() {
-        return this.cascadeShadowState.get()
-    }
-    public set cascadeShadow(val) {
-        this.cascadeShadowState.set(val)
     }
 }

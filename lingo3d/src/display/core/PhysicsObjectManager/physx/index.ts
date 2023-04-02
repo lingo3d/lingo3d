@@ -54,6 +54,7 @@ import {
         PxCapsuleControllerDesc,
         PxControllerFilters,
         PxRaycastBuffer10,
+        PxOverlapBuffer10,
         PxJointLimitCone,
         PxJointAngularLimitPair,
         PxJointLinearLimit,
@@ -67,6 +68,7 @@ import {
         PxContactPair,
         PxContactPairHeader,
         PxControllerShapeHit,
+        PxQueryFilterData,
 
         _emscripten_enum_PxMeshPreprocessingFlagEnum_eDISABLE_CLEAN_MESH,
         _emscripten_enum_PxMeshPreprocessingFlagEnum_eDISABLE_ACTIVE_EDGES_PRECOMPUTE,
@@ -180,7 +182,10 @@ import {
         _emscripten_enum_PxD6DriveEnum_eZ,
         _emscripten_enum_PxD6DriveEnum_eSWING,
         _emscripten_enum_PxD6DriveEnum_eTWIST,
-        _emscripten_enum_PxD6DriveEnum_eSLERP
+        _emscripten_enum_PxD6DriveEnum_eSLERP,
+
+        _emscripten_enum_PxQueryFlagEnum_eDYNAMIC,
+        _emscripten_enum_PxQueryFlagEnum_eSTATIC
     } = PhysX
 
     destroyPtr[0] = destroy
@@ -320,7 +325,7 @@ import {
     const pxFilterData = new PxFilterData(1, 1, 0, 0)
     const pxQuat = new PxQuat(0, 0, 0, 1)
 
-    // create raycaster
+    // create raycast query
     const raycastResult = new PxRaycastBuffer10()
     const pxRaycast = (
         origin: any,
@@ -341,6 +346,17 @@ import {
             hitDistMin = hit
         }
         return hitDistMin
+    }
+
+    // create overlap query
+    const overlapResult = new PxOverlapBuffer10()
+    const pxOverlap = (shape: any, transform: any) => {
+        if (!pxScene.overlap(shape, transform, overlapResult)) return
+        const iMax = overlapResult.getNbAnyHits()
+        for (let i = 0; i < iMax; ++i) {
+            const hit = overlapResult.getAnyHit(i)
+            return hit
+        }
     }
 
     // create PxController
