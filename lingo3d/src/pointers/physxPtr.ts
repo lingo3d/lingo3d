@@ -10,6 +10,7 @@ type PhysX = {
         maxDistance: number,
         excludePtr?: number
     ) => any
+    pxOverlap?: (shape: any, transform: any) => Array<any>
     pxQuat: any
     pxVec: any
     pxVec_: any

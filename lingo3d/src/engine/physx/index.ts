@@ -352,12 +352,14 @@ import "./physxLoop"
     // create overlap query
     const overlapResult = new PxOverlapBuffer10()
     const pxOverlap = (shape: any, transform: any) => {
-        if (!pxScene.overlap(shape, transform, overlapResult)) return
+        if (!pxScene.overlap(shape, transform, overlapResult)) return []
+        const hits = []
         const iMax = overlapResult.getNbAnyHits()
         for (let i = 0; i < iMax; ++i) {
             const hit = overlapResult.getAnyHit(i)
-            return hit
+            hits.push(hit)
         }
+        return hits
     }
 
     // create PxController
@@ -600,6 +602,7 @@ import "./physxLoop"
         material,
         shapeFlags,
         pxRaycast,
+        pxOverlap,
         pxQuat,
         pxVec,
         pxVec_,
