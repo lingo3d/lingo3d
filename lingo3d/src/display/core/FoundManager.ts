@@ -18,7 +18,6 @@ import {
 import MixinType from "./mixins/utils/MixinType"
 import { Cancellable } from "@lincode/promiselikes"
 import { appendableRoot } from "../../collections/appendableRoot"
-import { nonStaticSet } from "../../collections/nonStaticSet"
 
 class FoundManager extends SimpleObjectManager implements IFoundManager {
     public static componentName = "find"
@@ -31,7 +30,6 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
     ) {
         super(mesh, true)
         appendableRoot.delete(this)
-        nonStaticSet.add(this)
 
         if (!("material" in mesh)) {
             this.defaults = standardDefaults
@@ -43,11 +41,6 @@ class FoundManager extends SimpleObjectManager implements IFoundManager {
         this.defaults = defaults
         this.defaultParams = defaultParams
         this.addRefreshParamsSystem = addRefreshParamsSystem
-    }
-
-    protected override disposeNode() {
-        super.disposeNode()
-        nonStaticSet.delete(this)
     }
 
     public model?: Model

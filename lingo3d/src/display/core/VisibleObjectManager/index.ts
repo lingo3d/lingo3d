@@ -4,22 +4,11 @@ import IVisibleObjectManager from "../../../interface/IVisibleObjectManager"
 import MixinType from "../mixins/utils/MixinType"
 import VisibleMixin from "../mixins/VisibleMixin"
 import ObjectManager from "../ObjectManager"
-import { nonStaticSet } from "../../../collections/nonStaticSet"
 
 abstract class VisibleObjectManager<T extends Object3D = Object3D>
     extends ObjectManager<T>
     implements IVisibleObjectManager
 {
-    public constructor(object3d?: T, unmounted?: boolean) {
-        super(object3d, unmounted)
-        nonStaticSet.add(this)
-    }
-
-    protected override disposeNode() {
-        super.disposeNode()
-        nonStaticSet.delete(this)
-    }
-
     public get innerVisible() {
         return this.object3d.visible
     }
