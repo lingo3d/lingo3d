@@ -8,13 +8,14 @@ import { getCameraRendered } from "../../../states/useCameraRendered"
 import isMobile from "../../../api/utils/isMobile"
 import { getWorldPlayComputed } from "../../../states/useWorldPlayComputed"
 import { container } from "../../../engine/renderLoop/containers"
+import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 
 export default function (this: CameraBase) {
     if (this.done) return
 
     this.createEffect(() => {
         if (
-            getCameraRendered() !== this.camera ||
+            cameraRenderedPtr[0] !== this.camera ||
             !this.mouseControlState.get()
         )
             return
@@ -110,7 +111,7 @@ export default function (this: CameraBase) {
     }, [this.mouseControlState.get, getCameraRendered, getCameraPointerLock])
 
     this.createEffect(() => {
-        const camera = getCameraRendered()
+        const [camera] = cameraRenderedPtr
         if (
             this.mouseControlState.get() !== true ||
             camera !== this.camera ||

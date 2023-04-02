@@ -16,6 +16,7 @@ import VisibleObjectManager from "./core/VisibleObjectManager"
 import getWorldPosition from "./utils/getWorldPosition"
 import getWorldQuaternion from "./utils/getWorldQuaternion"
 import { complementQuaternion, diffQuaternions } from "./utils/quaternions"
+import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 
 export default class Portal extends VisibleObjectManager {
     public constructor() {
@@ -38,7 +39,7 @@ export default class Portal extends VisibleObjectManager {
             const target = this.targetState.get()
             if (!target) return
 
-            const cameraRendererd = getCameraRendered()
+            const [cameraRendererd] = cameraRenderedPtr
 
             camera.position.copy(getWorldPosition(target.outerObject3d))
             camera.quaternion.copy(getWorldQuaternion(target.outerObject3d))

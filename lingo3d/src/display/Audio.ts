@@ -7,6 +7,7 @@ import HelperSprite from "./core/utils/HelperSprite"
 import loadAudio from "./utils/loaders/loadAudio"
 import { getEditorHelper } from "../states/useEditorHelper"
 import { addSelectionHelper } from "./core/utils/raycast/addSelectionHelper"
+import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 
 const [setAudioListener, getAudioListener] = store<AudioListener | undefined>(
     undefined
@@ -16,7 +17,7 @@ createEffect(() => {
     const audioListener = getAudioListener()
     if (!audioListener) return
 
-    const cam = getCameraRendered()
+    const [cam] = cameraRenderedPtr
     cam.add(audioListener)
 
     return () => {

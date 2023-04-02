@@ -18,6 +18,7 @@ import {
     assignPxVec_
 } from "../../PhysicsObjectManager/physx/pxMath"
 import { actorPtrManagerMap } from "../../../../collections/pxCollections"
+import { cameraRenderedPtr } from "../../../../pointers/cameraRenderedPtr"
 
 const raycaster = new Raycaster()
 
@@ -34,7 +35,7 @@ export const raycast = (
     candidates: Set<Object3D>,
     additionalCandidate?: Object3D
 ): RaycastResult | undefined => {
-    raycaster.setFromCamera({ x, y }, getCameraRendered())
+    raycaster.setFromCamera({ x, y }, cameraRenderedPtr[0])
     const candidateArray = [...candidates]
     additionalCandidate && candidateArray.push(additionalCandidate)
     const intersection = raycaster.intersectObjects(candidateArray, false)[0]

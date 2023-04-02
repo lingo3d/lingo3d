@@ -20,11 +20,12 @@ import { deg2Rad } from "@lincode/math"
 import { getMultipleSelectionTargets } from "../../states/useMultipleSelectionTargets"
 import { container } from "../renderLoop/containers"
 import { ssrExcludeSet } from "../../collections/ssrExcludeSet"
+import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 
 const lazyTransformControls = lazy(async () => {
     const { TransformControls } = await import("./TransformControls")
     const transformControls = new TransformControls(
-        getCameraRendered(),
+        cameraRenderedPtr[0],
         container
     )
     //@ts-ignore

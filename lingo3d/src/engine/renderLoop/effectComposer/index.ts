@@ -13,6 +13,7 @@ import { getSelectiveBloomEffect } from "./selectiveBloomEffect"
 import { getSSAOEffect } from "./ssaoEffect"
 import { getSSREffect } from "./ssrEffect"
 import { getVignetteEffect } from "./vignetteEffect"
+import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 
 const effectComposer = new EffectComposer()
 getRenderer((renderer) => renderer && effectComposer.setRenderer(renderer))
@@ -21,7 +22,7 @@ export default effectComposer
 effectComposer.multisampling = 4
 
 createEffect(() => {
-    const renderPass = new RenderPass(scene, getCameraRendered())
+    const renderPass = new RenderPass(scene, cameraRenderedPtr[0])
     effectComposer.addPass(renderPass, 0)
     return () => {
         effectComposer.removePass(renderPass)
@@ -43,7 +44,7 @@ createEffect(() => {
     normalPass && effectComposer.addPass(normalPass)
 
     const effectPass = new EffectPass(
-        getCameraRendered(),
+        cameraRenderedPtr[0],
         ...[
             getBloomEffect(),
             getSelectiveBloomEffect(),

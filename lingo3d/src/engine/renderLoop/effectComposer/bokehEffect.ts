@@ -3,6 +3,7 @@ import { DepthOfFieldEffect } from "postprocessing"
 import { getBokeh } from "../../../states/useBokeh"
 import { getBokehScale } from "../../../states/useBokehScale"
 import { getCameraRendered } from "../../../states/useCameraRendered"
+import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 
 const [setBokehEffect, getBokehEffect] = store<DepthOfFieldEffect | undefined>(
     undefined
@@ -12,7 +13,7 @@ export { getBokehEffect }
 createEffect(() => {
     if (!getBokeh()) return
 
-    const effect = new DepthOfFieldEffect(getCameraRendered(), {
+    const effect = new DepthOfFieldEffect(cameraRenderedPtr[0], {
         focusDistance: 0.0,
         focalLength: 0.048,
         bokehScale: getBokehScale(),

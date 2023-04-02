@@ -10,6 +10,7 @@ import { getCameraRendered } from "../../states/useCameraRendered"
 import { getRenderer } from "../../states/useRenderer"
 import PhysicsObjectManager from "../core/PhysicsObjectManager"
 import { planeGeometry } from "../primitives/Plane"
+import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 
 export default class Reflector
     extends PhysicsObjectManager
@@ -34,7 +35,7 @@ export default class Reflector
                     const renderer = getRenderer()
                     if (!renderer || this.done) return
 
-                    const camera = getCameraRendered()
+                    const [camera] = cameraRenderedPtr
                     const mat = (mesh.material = new MeshReflectorMaterial(
                         renderer,
                         camera,

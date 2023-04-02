@@ -11,6 +11,7 @@ import { getOutlinePulse } from "../../../states/useOutlinePulse"
 import { getOutlineStrength } from "../../../states/useOutlineStrength"
 import unsafeSetValue from "../../../utils/unsafeSetValue"
 import scene from "../../scene"
+import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 
 const [setOutlineEffect, getOutlineEffect] = store<OutlineEffect | undefined>(
     undefined
@@ -28,7 +29,7 @@ export const deleteOutline = (target: Object3D) => objectSet.delete(target)
 createEffect(() => {
     if (!getOutline()) return
 
-    const effect = new OutlineEffect(scene, getCameraRendered())
+    const effect = new OutlineEffect(scene, cameraRenderedPtr[0])
     setOutlineEffect(effect)
 
     for (const object of objectSet) effect.selection.add(object)

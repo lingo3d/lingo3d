@@ -11,6 +11,7 @@ import {
 } from "../../../states/useSelectiveBloom"
 import unsafeGetValue from "../../../utils/unsafeGetValue"
 import scene from "../../scene"
+import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 
 let objectSet = new Set<Object3D>()
 export const addSelectiveBloom = (target: Object3D) => {
@@ -29,7 +30,7 @@ export { getSelectiveBloomEffect }
 createEffect(() => {
     if (!getSelectiveBloom()) return
 
-    const effect = new SelectiveBloomEffect(scene, getCameraRendered(), {
+    const effect = new SelectiveBloomEffect(scene, cameraRenderedPtr[0], {
         blendFunction: BlendFunction.ADD,
         mipmapBlur: true,
         luminanceSmoothing: 0.3

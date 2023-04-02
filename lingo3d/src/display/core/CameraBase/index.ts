@@ -22,6 +22,7 @@ import { getEditorHelper } from "../../../states/useEditorHelper"
 import { getCameraRendered } from "../../../states/useCameraRendered"
 import { addGyrateResetSystem } from "../../../systems/configSystems/gyrateResetSystem"
 import { addSelectionHelper } from "../utils/raycast/addSelectionHelper"
+import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 
 export default abstract class CameraBase<
         T extends PerspectiveCamera = PerspectiveCamera
@@ -43,7 +44,7 @@ export default abstract class CameraBase<
         })
 
         this.createEffect(() => {
-            if (!getEditorHelper() || getCameraRendered() === camera) return
+            if (!getEditorHelper() || cameraRenderedPtr[0] === camera) return
 
             const helper = new CameraHelper(camera)
             scene.add(helper)

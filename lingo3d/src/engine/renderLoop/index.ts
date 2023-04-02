@@ -13,12 +13,13 @@ import { getSplitView } from "../../states/useSplitView"
 import { getCameraComputed } from "../../states/useCameraComputed"
 import { emitPhysXLoop } from "../../events/onPhysXLoop"
 import { emitLoop } from "../../events/onLoop"
+import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 
 createEffect(() => {
     const renderer = getRenderer()
     if (!renderer) return
 
-    const camera = getCameraRendered()
+    const [camera] = cameraRenderedPtr
 
     if (getSplitView()) {
         const [resX, resY] = getResolution()

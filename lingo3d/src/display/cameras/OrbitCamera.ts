@@ -19,6 +19,7 @@ import {
 import { addGyrateSystem, deleteGyrateSystem } from "../../systems/gyrateSystem"
 import { addFlySystem, deleteFlySystem } from "../../systems/flySystem"
 import { container } from "../../engine/renderLoop/containers"
+import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 
 export default class OrbitCamera extends CameraBase implements IOrbitCamera {
     public static componentName = "orbitCamera"
@@ -46,7 +47,7 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
 
         this.createEffect(() => {
             const autoRotate = this.autoRotateState.get()
-            if (getCameraRendered() !== camera || !autoRotate) return
+            if (cameraRenderedPtr[0] !== camera || !autoRotate) return
 
             addGyrateSystem(this, {
                 speed: typeof autoRotate === "number" ? autoRotate : 2
@@ -60,7 +61,7 @@ export default class OrbitCamera extends CameraBase implements IOrbitCamera {
             if (
                 !getHotKeysEnabled() ||
                 getTransformControlsDragging() ||
-                getCameraRendered() !== camera ||
+                cameraRenderedPtr[0] !== camera ||
                 !this.mouseControlState.get()
             )
                 return

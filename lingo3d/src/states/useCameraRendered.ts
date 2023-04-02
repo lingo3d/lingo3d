@@ -13,12 +13,12 @@ import {
 import { getResolution } from "./useResolution"
 import { ORTHOGRAPHIC_FRUSTUM } from "../globals"
 import { getWebXR } from "./useWebXR"
+import { cameraRenderedPtr } from "../pointers/cameraRenderedPtr"
 
 const [setCameraRendered, getCameraRendered] =
     store<PerspectiveCamera>(mainCamera)
 export { getCameraRendered }
 
-export const cameraRenderedPtr = [getCameraRendered()]
 getCameraRendered((cam) => (cameraRenderedPtr[0] = cam))
 
 let cameraLast: PerspectiveCamera | undefined
@@ -29,7 +29,7 @@ createEffect(() => {
         return
     }
     const cameraFrom =
-        getCameraRendered() === interpolationCamera
+        cameraRenderedPtr[0] === interpolationCamera
             ? interpolationCamera
             : cameraLast
 
@@ -69,7 +69,9 @@ createEffect(() => {
 }, [getSplitView, getCameraComputed])
 
 createEffect(() => {
-    const camera = getCameraRendered() as PerspectiveCamera | OrthographicCamera
+    const camera = cameraRenderedPtr[0] as
+        | PerspectiveCamera
+        | OrthographicCamera
     const [resX, resY] = getResolution()
     const aspect = resX / resY
 

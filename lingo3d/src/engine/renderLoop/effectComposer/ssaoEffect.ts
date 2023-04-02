@@ -4,6 +4,7 @@ import { getCameraRendered } from "../../../states/useCameraRendered"
 import { getSSAO } from "../../../states/useSSAO"
 import { getSSAOIntensity } from "../../../states/useSSAOIntensity"
 import { getNormalPass } from "./normalPass"
+import { cameraRenderedPtr } from "../../../pointers/cameraRenderedPtr"
 
 const [setSSAOEffect, getSSAOEffect] = store<SSAOEffect | undefined>(undefined)
 export { getSSAOEffect }
@@ -12,7 +13,7 @@ createEffect(() => {
     const normalPass = getNormalPass()
     if (!getSSAO() || !normalPass) return
 
-    const effect = new SSAOEffect(getCameraRendered(), normalPass.texture)
+    const effect = new SSAOEffect(cameraRenderedPtr[0], normalPass.texture)
     setSSAOEffect(effect)
 
     const { uniforms } = effect.ssaoMaterial

@@ -20,6 +20,7 @@ import {
     updateBackLight
 } from "../../systems/skyBackLightSystem"
 import { eraseAppendable } from "../utils/eraseAppendable"
+import { cameraRenderedPtr } from "../../pointers/cameraRenderedPtr"
 
 export default class SkyLight extends SimpleObjectManager implements ISkyLight {
     public static componentName = "skyLight"
@@ -66,7 +67,7 @@ export default class SkyLight extends SimpleObjectManager implements ISkyLight {
                 shadowBias: -0.0002,
                 cascades: 1,
                 parent: scene,
-                camera: getCameraRendered(),
+                camera: cameraRenderedPtr[0],
                 lightIntensity: intensity
             })
             updateLightDirection(this, csm)
