@@ -9,7 +9,6 @@ import { onPhysXLoop } from "../../../../events/onPhysXLoop"
 import { physxPtr } from "../../../../pointers/physxPtr"
 import { getPhysXLoaded } from "../../../../states/usePhysXLoaded"
 import MeshAppendable from "../../../../api/core/MeshAppendable"
-import { gravityPtr } from "../../../../states/useGravity"
 import {
     pxVYUpdateMap,
     pxVXUpdateMap,
@@ -21,6 +20,7 @@ import {
     managerShapeLinkMap
 } from "../../../../collections/pxCollections"
 import { dtPtr } from "../../../../pointers/dtPtr"
+import { gravityPtr } from "../../../../pointers/gravityPtr"
 
 const hitMap = new WeakMap<PhysicsObjectManager, boolean>()
 const vyMap = new WeakMap<PhysicsObjectManager, number>()

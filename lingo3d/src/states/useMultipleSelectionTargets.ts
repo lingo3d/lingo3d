@@ -11,6 +11,7 @@ import { onEditorGroupItems } from "../events/onEditorGroupItems"
 import { emitSelectionTarget } from "../events/onSelectionTarget"
 import { setSelectionTarget } from "./useSelectionTarget"
 import { eraseAppendable } from "../display/utils/eraseAppendable"
+import { multipleSelectionTargetsFlushingPtr } from "../pointers/multipleSelectionTargetsFlushingPtr"
 
 const [setMultipleSelectionTargets, getMultipleSelectionTargets] = store([
     new Set<PositionedManager>()
@@ -28,8 +29,6 @@ export const clearMultipleSelectionTargets = clear(
     setMultipleSelectionTargets,
     getMultipleSelectionTargets
 )
-
-export const multipleSelectionTargetsFlushingPtr = [false]
 
 export const flushMultipleSelectionTargets = async (
     onFlush: (

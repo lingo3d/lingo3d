@@ -2,7 +2,7 @@ import { Cancellable } from "@lincode/promiselikes"
 import { createEffect } from "@lincode/reactivity"
 import { Clock } from "three"
 import { getRenderer } from "../states/useRenderer"
-import { fpsPtr, getFps } from "../states/useFps"
+import { getFps } from "../states/useFps"
 import { getFirstLoad } from "../states/useFirstLoad"
 import { getFirstLoadBeforeRender } from "../states/useFirstLoadBeforeRender"
 import { emitRenderHalfRate } from "../events/onRenderHalfRate"
@@ -11,6 +11,7 @@ import { getWorldPlayComputed } from "../states/useWorldPlayComputed"
 import { onAfterRender } from "../events/onAfterRender"
 import { dtPtr } from "../pointers/dtPtr"
 import { fpsRatioPtr } from "../pointers/fpsRatioPtr"
+import { fpsPtr } from "../pointers/fpsPtr"
 
 let firstRender = false
 const handle = onAfterRender(() => {

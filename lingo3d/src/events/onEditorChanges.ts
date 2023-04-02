@@ -6,7 +6,6 @@ import getChangedProperties, {
 } from "../display/utils/getChangedProperties"
 import { getEditorBehavior } from "../states/useEditorBehavior"
 import {
-    multipleSelectionTargetsFlushingPtr,
     getMultipleSelectionTargets,
     flushMultipleSelectionTargets
 } from "../states/useMultipleSelectionTargets"
@@ -15,6 +14,7 @@ import { onEditorEdit } from "./onEditorEdit"
 import { onTransformControls } from "./onTransformControls"
 import { event } from "@lincode/events"
 import { throttleTrailing } from "@lincode/utils"
+import { multipleSelectionTargetsFlushingPtr } from "../pointers/multipleSelectionTargetsFlushingPtr"
 
 export type Changes = Array<readonly [Appendable, ChangedProperties]>
 
