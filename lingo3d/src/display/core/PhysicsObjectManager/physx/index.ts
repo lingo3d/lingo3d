@@ -12,6 +12,7 @@ import {
     managerContactMap
 } from "../../../../collections/pxCollections"
 import { destroyPtr } from "../../../../pointers/destroyPtr"
+import "./physxLoop"
 ;(async () => {
     const simdSupported = await simd()
 

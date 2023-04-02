@@ -10,6 +10,7 @@ import "./background"
 import "./defaultLight"
 import "./hotkeys"
 import "./mouse"
+import "./keyboard"
 import { VERSION } from "../globals"
 
 const w = window as any
