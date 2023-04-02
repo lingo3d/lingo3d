@@ -1,5 +1,5 @@
 import { forceGetInstance, lazy, omit, pull } from "@lincode/utils"
-import { downPtr, FolderApi, Pane } from "./tweakpane"
+import { FolderApi, Pane } from "./tweakpane"
 import resetIcon from "./icons/resetIcon"
 import getDefaultValue, {
     equalsDefaultValue
@@ -35,6 +35,7 @@ import {
 } from "../../collections/typeGuards"
 import { inputSkipChangeSet } from "../../collections/inputSkipChangeSet"
 import { defaultsOptionsMap } from "../../collections/defaultsCollections"
+import { tweakpaneDownPtr } from "../../pointers/tweanpaneDownPtr"
 
 const processValue = (value: any) => {
     if (typeof value === "string") {
@@ -258,7 +259,7 @@ export default async (
                         emitEditorRefresh()
                         return
                     }
-                    !downPtr[0] && emitEditorEdit("start")
+                    !tweakpaneDownPtr[0] && emitEditorEdit("start")
                     const processed = processValue(value)
                     setRuntimeValue(target, defaults, key, processed)
                     if (isTemplateNode(instance)) {
@@ -275,7 +276,7 @@ export default async (
                             processed
                         )
                     }
-                    !downPtr[0] && emitEditorEdit("end")
+                    !tweakpaneDownPtr[0] && emitEditorEdit("end")
                 })
             }
 
