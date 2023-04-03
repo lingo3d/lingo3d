@@ -26,6 +26,9 @@ import { addMoveToSystem, deleteMoveToSystem } from "../../systems/moveToSystem"
 import { addOnMoveSystem, deleteOnMoveSystem } from "../../systems/onMoveSystem"
 import { addLookToSystem, deleteLookToSystem } from "../../systems/lookToSystem"
 import { physxPtr } from "../../pointers/physxPtr"
+import { assignPxTransform } from "../../engine/physx/pxMath"
+import { actorPtrManagerMap } from "../../collections/pxCollections"
+import PhysicsObjectManager from "../../display/core/PhysicsObjectManager"
 
 export default class MeshAppendable<T extends Object3D = Object3D>
     extends Appendable
@@ -327,18 +330,16 @@ export default class MeshAppendable<T extends Object3D = Object3D>
     }
 
     public queryNearby(radius: number) {
-        // assignPxVec(raycaster.ray.origin),
-        //     assignPxVec_(raycaster.ray.direction),
-        //     FAR
-
         const { PxSphereGeometry, pxOverlap, destroy } = physxPtr[0]
         if (!PxSphereGeometry) return []
 
-        const sphere = new PxSphereGeometry(radius)
-
-        // const pxHit = pxOverlap(
-        //     sphere
-        // )
+        const sphere = new PxSphereGeometry(radius * CM2M)
+        const pxHit = pxOverlap(sphere, assignPxTransform(this))
         destroy(sphere)
+
+        const result: Array<PhysicsObjectManager> = []
+        for (const item of pxHit)
+            result.push(actorPtrManagerMap.get(item.actor.ptr)!)
+        return result
     }
 }

@@ -5,13 +5,13 @@ type PhysX = {
     physics: any
     material: any
     shapeFlags: any
-    pxRaycast?: (
+    pxRaycast: (
         origin: any,
         direction: any,
         maxDistance: number,
         excludePtr?: number
     ) => any
-    pxOverlap?: (shape: any, transform: any) => Array<any>
+    pxOverlap: (shape: any, transform: any) => Array<any>
     pxQuat: any
     pxVec: any
     pxVec_: any

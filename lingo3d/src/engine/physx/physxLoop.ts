@@ -55,7 +55,7 @@ createEffect(() => {
             if (manager.gravity !== false) {
                 const hit = lockHit(manager, vyUpdate !== undefined)
                     ? false
-                    : !!pxRaycast!(
+                    : !!pxRaycast(
                           setPxVec(px, py, pz),
                           setPxVec_(0, -1, 0),
                           manager.capsuleHeight!,

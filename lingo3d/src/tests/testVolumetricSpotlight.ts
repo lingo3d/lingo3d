@@ -22,3 +22,7 @@ light.castShadow = true
 const cube = new Cube()
 cube.y = -100
 cube.physics = "static"
+
+light.onLoop = () => {
+    light.queryNearby(100)
+}
