@@ -1,4 +1,4 @@
-import { PointLight, settings, SpotLight } from ".."
+import { onBeforeRender, PointLight, settings, SpotLight } from ".."
 import Cube from "../display/primitives/Cube"
 
 // const updateVolumeGeometry = (light, mesh, radiusTop) => {
@@ -23,6 +23,6 @@ const cube = new Cube()
 cube.y = -100
 cube.physics = "static"
 
-light.onLoop = () => {
+onBeforeRender(() => {
     light.queryNearby(100)
-}
+})

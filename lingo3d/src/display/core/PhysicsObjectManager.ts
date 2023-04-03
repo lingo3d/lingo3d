@@ -15,7 +15,10 @@ import {
     increaseLoadingUnpkgCount
 } from "../../states/useLoadingUnpkgCount"
 import VisibleObjectManager from "./VisibleObjectManager"
-import { addRefreshPhysicsSystem } from "../../systems/configSystems/refreshPhysicsSystem"
+import {
+    addRefreshPhysicsSystem,
+    deleteRefreshPhysicsSystem
+} from "../../systems/configSystems/refreshPhysicsSystem"
 import { getPhysXLoaded } from "../../states/usePhysXLoaded"
 import {
     pxVXUpdateMap,
@@ -165,6 +168,7 @@ export default class PhysicsObjectManager<T extends Object3D = Object3D>
     protected override disposeNode() {
         super.disposeNode()
         decreaseConvexGeometryCount(this)
+        deleteRefreshPhysicsSystem(this)
     }
     public getPxShape(_: PhysicsOptions, actor: any) {
         const { material, shapeFlags, PxRigidActorExt, pxFilterData } =
